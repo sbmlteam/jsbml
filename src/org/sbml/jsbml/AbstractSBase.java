@@ -751,26 +751,13 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 */
 	@Override
 	public void fireNodeRemovedEvent() {
-		if (isSetMetaId() || !isLeaf()) {
-			// update the set of meta identifiers within the SBMLDocument.
-			SBMLDocument doc = getSBMLDocument();
-			if (doc != null) {
-				/*
-				 * Recursively remove pointers to this element's and all
-				 * sub-element's meta identifiers from the SBMLDocument.
-				 */
-				doc.registerMetaIds(this, true, true);
-			}
+		
+		TreeNode parent = getParent();
+		
+		if (parent != null && parent instanceof SBase) {
+			((SBase) parent).unregister(this);
 		}
-		if ((this instanceof NamedSBase) || (getChildCount() > 0)) {
-			/*
-			 * Do the same for all identifiers below this element.
-			 */
-			Model model = getModel();
-			if (model != null) {
-				model.registerIds(getParent(), this, true, true);
-			}
-		}
+		
 		super.fireNodeRemovedEvent();
 	}
 
@@ -1238,6 +1225,16 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	      doc.registerMetaIds(sbase, (sbase.getSBMLDocument() == null)
 	        && (sbase instanceof AbstractSBase), false);
 	    }
+	    if (sbase instanceof LocalParameter) {
+	    	
+	    	TreeNode klTreeNode = this.getParent(); 
+	    	
+	    	if (klTreeNode != null && klTreeNode instanceof KineticLaw) {
+	    		KineticLaw kineticLaw = (KineticLaw) klTreeNode;
+	    		kineticLaw.registerLocalParameter((LocalParameter) sbase, false);
+	    	}
+	    }
+	    
 	    Model model = getModel();
 	    /*
 	     * Check if the model to which this node is assigned equals the one to
@@ -1279,13 +1276,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	    }
 
 	    /*
-	     * Now, we cann add all previous listeners. The next change will
+	     * Now, we can add all previous listeners. The next change will
 	     * be fired after registering all ids.
 	     */
 	    sbase.addAllChangeListeners(listeners); 
 
 	    // Add all TreeNodeChangeListeners from this current node also to the new SBase:
-	    sbase.addAllChangeListeners(getListOfTreeNodeChangeListeners());
+	    sbase.addAllChangeListeners(getListOfTreeNodeChangeListeners());	    
+	    
 	    // Notify all listeners that a new node has been added to this subtree:
 	    sbase.fireNodeAddedEvent();
 	  }
@@ -1295,6 +1293,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * @see org.sbml.jsbml.SBase#unregisterChild(org.sbml.jsbml.SBase)
 	 */
 	public void unregister(SBase sbase)  {
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("unregister called !! " + sbase.getElementName() + " " 
+					+ (sbase instanceof NamedSBase ? ((NamedSBase) sbase).getId() : ""));
+		}
+		
 		if ((sbase != null)) {
 			SBMLDocument doc = getSBMLDocument();
 
@@ -1303,10 +1307,21 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 				doc.registerMetaIds(sbase, true, true);
 			}
 			
-			Model model = getModel();
+			if (sbase instanceof LocalParameter) {
+		    	
+		    	TreeNode klTreeNode = this.getParent(); 
+		    	
+		    	if (klTreeNode != null && klTreeNode instanceof KineticLaw) {
 
-			// remove all changeListeners
-			sbase.removeAllTreeNodeChangeListeners();
+		    		logger.debug("Unregister LP");
+		    		
+		    		KineticLaw kineticLaw = (KineticLaw) klTreeNode;
+		    		kineticLaw.registerLocalParameter((LocalParameter) sbase, true);
+		    		sbase.setParentSBML(this);
+		    	}
+		    }
+			
+			Model model = getModel();
 
 			// If possible, recursively unregister all ids of the SBase in our model:
 			if ((model != null)
@@ -1315,8 +1330,10 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 						sbase.getElementName()));
 			}
 
-			// Notify all listeners that a new node has been added to this subtree:
-			sbase.fireNodeRemovedEvent();
+			// fireNodeRemovedEvent is calling this method - sbase.fireNodeRemovedEvent();
+
+			// remove all changeListeners
+			sbase.removeAllTreeNodeChangeListeners();
 		}
 	}
 
