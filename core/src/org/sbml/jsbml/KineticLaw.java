@@ -645,6 +645,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	 * @return
 	 */
 	boolean registerLocalParameter(LocalParameter parameter, boolean delete) {
+		
 		boolean success = false;
 		if (parameter.isSetId()) {
 			String id = parameter.getId();
@@ -669,6 +670,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 				logger.debug(String.format("registered id=%s in %s", id, toString()));
 			}
 		}
+		
 		return success;
 	}
 
@@ -759,12 +761,36 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	public void setListOfLocalParameters(ListOf<LocalParameter> listOfLocalParameters) {
 		unsetListOfLocalParameters();
 		this.listOfLocalParameters = listOfLocalParameters;
-    if (this.listOfLocalParameters != null) {
-      if (this.listOfLocalParameters.getSBaseListType() != ListOf.Type.listOfLocalParameters) {
-        this.listOfLocalParameters.setSBaseListType(ListOf.Type.listOfLocalParameters);
-      }
-      registerChild(this.listOfLocalParameters);
-    }
+		if (this.listOfLocalParameters != null) {
+			if (this.listOfLocalParameters.getSBaseListType() != ListOf.Type.listOfLocalParameters) {
+				this.listOfLocalParameters.setSBaseListType(ListOf.Type.listOfLocalParameters);
+			}
+
+			// In this case, we have to register by hand the localParameters to the kineticLaw as registerChild
+			// will not do it as we pass the listOf instead of directly the LocalParameters
+			for (LocalParameter lp : listOfLocalParameters) {
+				try 
+				{
+					registerLocalParameter(lp, false);
+				}
+				catch (IllegalArgumentException e) {
+					
+					// The parent of the listOf is not set yet, so we have to unregister the parameters by hand
+					for (LocalParameter lp2 : listOfLocalParameters) {
+						this.registerLocalParameter(lp2, true);
+					}
+					
+					// The listOf is wrong so we unset all the local parameters
+					unsetListOfLocalParameters();
+					
+					logger.error(String.format("The list of local parameters will not be set as some ids are duplicated."));
+					throw e;
+				}
+			}
+
+			registerChild(this.listOfLocalParameters);
+			
+		}
 		if (isSetMath()) {
 			getMath().updateVariables();
 		}

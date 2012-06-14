@@ -360,8 +360,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.List#add(int, java.lang.Object)
 	 */
 	public void add(int index, T element) {
+	    registerChild(element);
 		listOf.add(index, element);
-    registerChild(element);
 	}
 
 	/* (non-Javadoc) @see java.util.List#add(java.lang.Object)
@@ -425,11 +425,10 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @see java.util.List#clear()
 	 */
 	public void clear() {
-		List<T> removedElements = listOf;
-		listOf.clear();
-		for (T element : removedElements) {
-		  ((TreeNodeWithChangeSupport) element).fireNodeRemovedEvent();
+		for (T element : listOf) {
+			((TreeNodeWithChangeSupport) element).fireNodeRemovedEvent();
 		}
+		listOf.clear();
 	}
 
 	/* (non-Javadoc)
@@ -777,9 +776,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public boolean removeAll(Collection<?> c) {
 		boolean success = listOf.removeAll(c);
-		if(success){
+		if(success){ // TODO : a success does not mean that all elements from c have been removed from the listOf
 			 for(Iterator<?> i = c.iterator(); i.hasNext();){
-				 TreeNodeWithChangeSupport element = (TreeNodeWithChangeSupport) i.next();
+				 SBase element = (SBase) i.next();
 				 element.fireNodeRemovedEvent();
 			 }
 		}
@@ -909,6 +908,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	@Override
 	public String toString() {
+		
+		// TODO : replace the code below by log4j debug message ?
+		
 		if (DEBUG_MODE) {
 			return listOf.toString();
 		}
