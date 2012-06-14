@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.IdentifierException;
 import org.sbml.jsbml.KineticLaw;
+import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Reaction;
@@ -178,8 +179,11 @@ public class UnregisterTests {
 		}
 
 		try {
-			model.addSpecies(s3);
-			fail("We should not be able to register twice the same metaid.");
+			boolean speciesAdded = model.addSpecies(s3);
+			
+			if (speciesAdded) {
+				fail("We should not be able to register twice the same metaid.");
+			} 
 		} catch (IllegalArgumentException e) {
 			assertTrue(true);
 			// success
@@ -192,6 +196,7 @@ public class UnregisterTests {
 	@Test public void testRegister3() {
 		
 		Reaction r2 = new Reaction(2,4);
+		r2.setId("R2");
 		KineticLaw k = r2.createKineticLaw();
 		
 		k.createLocalParameter("LP1");
@@ -202,11 +207,43 @@ public class UnregisterTests {
 			// fail("We should not be able to add a local parameter with the same id as an other local parameter in the same kineticLaw.");
 		} catch (IdentifierException e) {
 			// success
+		} catch (IllegalArgumentException e) {
+			// success (this the exception returned often, IdentifierException would be better)
 		}
 
 		assertTrue(k.getLocalParameterCount() == 1);
 		
+		try {
+			model.addReaction(r2);
+		} catch (IllegalArgumentException e) {
+			// failure
+			e.printStackTrace();
+		}			
+		
+		assertTrue(model.getReactionCount() == 2);
+		
 	}
+
+	
+	/**
+	 * 
+	 */
+	@Test public void testRegister3_1() {
+		
+		// Creating a new reaction without id
+		Reaction r2 = model.createReaction();
+
+		assertTrue(model.getReactionCount() == 2);
+
+		KineticLaw k = r2.createKineticLaw();
+		
+		k.createLocalParameter("LP1"); // Not possible at the moment to add a local parameter if the reaction has no id
+		
+		assertTrue(k.getLocalParameterCount() == 1);
+		
+		assertTrue(model.findLocalParameters("LP1").size() == 2);
+	}
+
 
 	/**
 	 * 
@@ -214,7 +251,7 @@ public class UnregisterTests {
 	@Test public void testRegister4() {
 		
 		assertTrue(model.getId().equals("model"));
-		assertTrue(model.getNumSpecies() == 2);
+		assertTrue(model.getSpeciesCount() == 2);
 		
 		// We should be allowed to change an id !
 		model.setId("newModelID");
@@ -228,7 +265,226 @@ public class UnregisterTests {
 		assertTrue(model.getId().equals("newModelID"));
 		
 	}
+
 	
+	/**
+	 * 
+	 
+	@Test public void testRegister5() {
+		
+		Species s3 = new Species();
+		s3.setId("S3");
+		
+		MultiSpecies mS3 = new MultiSpecies(s3);
+		
+		s3.addExtension("any", mS3);
+		
+		// Setting the same id as an existing Species		
+		mS3.createSpeciesTypeInstance("S1");
+		
+		// Setting the parent by hand !!
+		s3.setParentSBML(model);
+
+		try {
+			boolean speciesAdded = model.addSpecies(s3);
+			
+			fail("We should not be able to register twice the same id.");
+		} catch (IllegalArgumentException e) {
+			assertTrue(true);
+			// success
+		}
+	}
+	*/
+
+	/**
+	 * 
+	 
+	@Test public void testRegister5_1() {
+		
+		Species s3 = new Species();
+		s3.setId("S3");
+		
+		MultiSpecies mS3 = new MultiSpecies(s3);
+		
+		s3.addExtension("any", mS3);
+		
+		// Setting the same id as an existing Species		
+		mS3.createSpeciesTypeInstance("S1");
+		
+		try {
+			model.addSpecies(s3);
+			
+			fail("We should not be able to register twice the same id.");
+		} catch (IllegalArgumentException e) {
+			assertTrue(true);
+			// success
+		}
+	}
+	*/
+
+	/**
+	 * 
+	 */
+	@Test public void testRegister5_2() {
+		
+		Reaction r2 = new Reaction();
+		r2.setId("R2");
+		
+		// Setting the same id as an existing Species		
+		r2.createReactant("S1");
+		
+		try {
+			model.addReaction(r2);
+			
+			fail("We should not be able to register twice the same id.");
+		} catch (IllegalArgumentException e) {
+			assertTrue(true);
+			// success
+		}
+	}
+
+	/**
+	 * 
+	 */
+	@Test public void testRegister5_3() {
+		
+		Reaction r2 = new Reaction();
+		r2.setId("R2");
+		
+		// Setting the same id as an existing Species		
+		r2.createReactant("S1");
+		
+		// Setting the parent by hand !!  // TODO : should we limit the access of SBase.setParentSBML and TreeNode.setParent (should be possible) ??		
+		r2.setParentSBML(new ListOf<Reaction>(2, 4));
+		r2.getParent().setParentSBML(model); // This will make the registration of the reaction non recursive
+		
+		try {
+			model.addReaction(r2);
+			
+			fail("We should not be able to register twice the same id.");
+		} catch (IllegalArgumentException e) {
+			assertTrue(true);
+			// success
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	@Test public void testRegister6() {
+		
+		Species s3 = new Species();
+		s3.setId("S3");
+		
+		try {
+			model.addSpecies(s3);
+			
+			// calling the registerChild by hand !! // TODO : should we limit the access of SBase.registerChild ??
+			model.registerChild(s3);
+			
+			fail("We should not be able to register twice the same id.");
+		} catch (IllegalArgumentException e) {
+			assertTrue(true);
+			// success
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	@Test public void testRegister7() {
+		
+		Reaction r2 = model.createReaction("R2");
+		
+		r2.createReactant("SR3");
+		
+		r2.createKineticLaw().createLocalParameter("LP1");
+		
+		Reaction clonedR2 = r2.clone();
+
+		assertTrue(clonedR2.getKineticLaw().getLocalParameterCount() == 1);
+
+		try {
+			clonedR2.getKineticLaw().createLocalParameter("LP1");
+			
+			fail("We should not be able to register twice the same id.");
+		} catch (IllegalArgumentException e) {
+			assertTrue(true);
+			// success
+		}
+
+		try {
+			clonedR2.getKineticLaw().createLocalParameter("LP2");
+			assertTrue(true);
+			// success			
+		} catch (IllegalArgumentException e) {
+			fail("We should be able to register a new local parameter on a cloned reaction.");
+		}
+		
+		assertTrue(clonedR2.getKineticLaw().getLocalParameterCount() == 2);
+	}
+
+	/**
+	 * 
+	 */
+	@Test public void testRegister8() {
+		
+		Reaction r2 = model.createReaction("R2");
+		
+		KineticLaw kl = r2.createKineticLaw();
+
+		ListOf<LocalParameter> listOfLP = new ListOf<LocalParameter>(2, 4);
+		listOfLP.add(new LocalParameter("LP1"));
+		listOfLP.add(new LocalParameter("LP2"));
+		listOfLP.add(new LocalParameter("LP3"));
+		listOfLP.add(new LocalParameter("LP1"));
+		
+		try {
+			
+			kl.setListOfLocalParameters(listOfLP);
+			
+			fail("We should not be able to register twice the same local parameter id.");
+		} catch(IllegalArgumentException e) {
+			// success
+		}
+		
+		assertTrue(kl.getLocalParameterCount() == 0);
+		assertTrue(model.findLocalParameters("LP1").size() == 1);
+		assertTrue(model.findLocalParameters("LP2").size() == 0);
+				
+		// listOfLP.remove(3); // TODO : at the moment the list of local parameter is emptied if there is an error !! Should we clone the listOf
+		// when using the setListOf methods ??
+
+		listOfLP.clear();
+		listOfLP.add(new LocalParameter("LP1"));
+		listOfLP.add(new LocalParameter("LP2"));
+		listOfLP.add(new LocalParameter("LP3"));
+
+		try {
+			
+			kl.setListOfLocalParameters(listOfLP);
+			
+		} catch(IllegalArgumentException e) {
+			fail("We should be able to set a valid list of local parameters.");
+		}
+
+		assertTrue(kl.getLocalParameterCount() == 3);
+		assertTrue(model.findLocalParameters("LP1").size() == 2);
+		assertTrue(model.findLocalParameters("LP2").size() == 1);
+	
+		kl.removeLocalParameter("LP2");
+		kl.removeLocalParameter(1);
+		
+		assertTrue(kl.getLocalParameterCount() == 1);		
+		assertTrue(model.findLocalParameters("LP2").size() == 0);		
+		assertTrue(model.findLocalParameters("LP3").size() == 0);
+		
+		kl.createLocalParameter("LP2");
+
+		assertTrue(kl.getLocalParameterCount() == 2);		
+		assertTrue(model.findLocalParameters("LP2").size() == 1);
+	}
+
 	
 	/**
 	 * 
@@ -289,5 +545,45 @@ public class UnregisterTests {
 
 		assertTrue(model.findNamedSBase("LP1") == null);
 	}
+
 	
+	/**
+	 * 
+	 */
+	@Test public void testUnRegister3() {
+				
+		model.unsetListOfReactions();
+		
+		assertTrue(model.getReaction("R1") == null);		
+		assertTrue(model.getReaction(0) == null);
+		assertTrue(model.findNamedSBase("SP1") == null);
+		assertTrue(model.findNamedSBase("SP2") == null);
+		// assertTrue(model.findNamedSBase("LP1") == null);
+		assertTrue(doc.findSBase("SP1") == null);
+		assertTrue(doc.findSBase("R1") == null);
+		assertTrue(doc.findSBase("LP1") == null);
+		
+		Species s3 = new Species();
+		
+		// Setting the same id as a removed SpeciesReference
+		s3.setId("SP1");
+
+		// Setting the same metaid as a removed LocalParameter
+		try {
+			s3.setMetaId("LP1");
+			assertTrue(true);
+		} catch (IdentifierException e) {
+			fail("We should be able to put any metaId to a Species not linked to a model.");
+		}
+
+		try {
+			model.addSpecies(s3);
+			assertTrue(true);
+		} catch (IllegalArgumentException e) {
+			fail("We should be able to register an id or metaid from a removed element.");
+			// success
+		}
+		
+	}
+
 }
