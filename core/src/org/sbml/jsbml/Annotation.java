@@ -670,11 +670,11 @@ public class Annotation extends AnnotationElement {
 	 */
 	public boolean isSetAnnotation() {
 		if ((getNonRDFannotation() == null) && getListOfCVTerms().isEmpty()
-				&& getHistory().isEmpty()) 
+				&& !isSetHistory()) 
 		{
 			return false;
 			
-		} else if ((getNonRDFannotation() == null) && getHistory().isEmpty()
+		} else if ((getNonRDFannotation() == null) && !isSetHistory()
 				&& !getListOfCVTerms().isEmpty()) 
 		{
 
