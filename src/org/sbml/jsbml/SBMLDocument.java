@@ -194,8 +194,8 @@ public class SBMLDocument extends AbstractSBase {
 	 * @param URI
 	 */
 	public void addNamespace(String namespaceName, String prefix, String URI) {
-		if (prefix != null && prefix.trim().length() > 0) {
-			this.SBMLDocumentNamespaces.put(prefix + ":" + namespaceName, URI);
+		if ((prefix != null) && (prefix.trim().length() > 0)) {
+			this.SBMLDocumentNamespaces.put(prefix + ':' + namespaceName, URI);
 
 		} else {
 			this.SBMLDocumentNamespaces.put(namespaceName, URI);
@@ -739,7 +739,7 @@ public class SBMLDocument extends AbstractSBase {
 				setVersion(StringTools.parseSBMLInt(value));
 			}
 			if (prefix != null && prefix.trim().length() > 0) {
-				getSBMLDocumentAttributes().put(prefix + ":" + attributeName, value);
+				getSBMLDocumentAttributes().put(prefix + ':' + attributeName, value);
 			} else {
 				getSBMLDocumentAttributes().put(attributeName, value);
 			}
