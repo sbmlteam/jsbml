@@ -25,6 +25,7 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.Reaction;
 
 /**
@@ -211,6 +212,16 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 	 */
 	public String getReaction() {
 		return getNamedSBase();
+	}
+	
+	/**
+	 * Note that the return type of this method is {@link NamedSBase} because it
+	 * could be possible to link some element from other packages to this glyph.
+	 * 
+	 * @return
+	 */
+	public NamedSBase getReactionInstance() {
+	  return getNamedSBaseInstance();
 	}
 	
 	/**

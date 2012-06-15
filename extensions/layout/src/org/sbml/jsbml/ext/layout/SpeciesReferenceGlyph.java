@@ -23,6 +23,8 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SimpleSpeciesReference;
 
@@ -186,6 +188,18 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	public String getSpeciesGlyph() {
 		return speciesGlyph;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public SpeciesGlyph getSpeciesGlyphInstance() {
+	  if (!isSetSpeciesGlyph()) {
+	    return null;
+	  }
+	  Model model = getModel();
+	  return (model != null) ? (SpeciesGlyph) model.findNamedSBase(getSpeciesGlyph()) : null;
+	}
 
 	/**
 	 * 
@@ -193,6 +207,16 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	 */
 	public String getSpeciesReference() {
 		return getNamedSBase();
+	}
+
+  /**
+   * Note that the return type of this method is {@link NamedSBase} because it
+   * could be possible to link some element from other packages to this glyph.
+   * 
+   * @return
+   */
+	public NamedSBase getSpeciesReferenceInstance() {
+	  return getNamedSBaseInstance();
 	}
 	
 	/**
