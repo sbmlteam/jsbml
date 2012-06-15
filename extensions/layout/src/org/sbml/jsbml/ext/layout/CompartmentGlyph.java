@@ -22,6 +22,7 @@ package org.sbml.jsbml.ext.layout;
 import java.util.Map;
 
 import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
@@ -93,6 +94,16 @@ public class CompartmentGlyph extends NamedSBaseGlyph {
 	 */
 	public String getCompartment() {
 		return getNamedSBase();
+	}
+	
+	/**
+	 * Note that the return type of this method is {@link NamedSBase} because it
+	 * could be possible to link some element from other packages to this glyph.
+	 * 
+	 * @return
+	 */
+	public NamedSBase getCompartmentInstance() {
+	  return getNamedSBaseInstance();
 	}
 
 	/**

@@ -630,7 +630,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 				libDoc.delete();
 			} else if (node instanceof ListOf<?>) {
 				// make recursion and remove all elements in the list
-				for(Object o : (ListOf<?>)node ) {
+				for (Object o : (ListOf<?>) node) {
 					TreeNode newNode = new DefaultMutableTreeNode(o);
 					nodeRemoved(new TreeNodeRemovedEvent(newNode, node));
 				}

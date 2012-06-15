@@ -153,6 +153,14 @@ public class TextGlyph extends NamedSBaseGlyph {
 	 * 
 	 * @return
 	 */
+	public NamedSBase getOriginOfTextInstance() {
+	  return getNamedSBaseInstance();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getText() {
 		return text;
 	}

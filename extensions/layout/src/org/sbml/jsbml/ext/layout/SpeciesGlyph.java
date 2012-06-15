@@ -21,6 +21,7 @@ package org.sbml.jsbml.ext.layout;
 
 import java.util.Map;
 
+import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
@@ -94,6 +95,16 @@ public class SpeciesGlyph extends NamedSBaseGlyph {
 	 */
 	public String getSpecies() {
 		return getNamedSBase();
+	}
+	
+	/**
+	 * Note that the return type of this method is {@link NamedSBase} because it
+	 * could be possible to link some element from other packages to this glyph.
+	 * 
+	 * @return
+	 */
+	public NamedSBase getSpeciesInstance() {
+	  return getNamedSBaseInstance();
 	}
 
 	/**
