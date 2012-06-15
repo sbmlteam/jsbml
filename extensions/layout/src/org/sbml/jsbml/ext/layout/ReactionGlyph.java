@@ -127,15 +127,28 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 	}
 
 	/**
-	 * 
-	 * @param id
-	 * @return
+	 * Creates and adds a new {@link SpeciesReferenceGlyph}
+	 * @param id the identifier for the {@link SpeciesReferenceGlyph} to be created.
+	 * @return a new {@link SpeciesReferenceGlyph}.
 	 */
 	public SpeciesReferenceGlyph createSpeciesReferenceGlyph(String id) {
 		SpeciesReferenceGlyph glyph = new SpeciesReferenceGlyph(id, getLevel(), getVersion());
 		addSpeciesReferenceGlyph(glyph);
 		return glyph;
 	}
+	
+  /**
+   * Creates and adds a new {@link SpeciesReferenceGlyph}
+   * 
+   * @param id the identifier for the {@link SpeciesReferenceGlyph} to be created.
+   * @param speciesGlyph corresponding {@link SpeciesGlyph} ID.
+   * @return a new {@link SpeciesReferenceGlyph} that points to the given <code>speciesGlyph</code>.
+   */
+  public SpeciesReferenceGlyph createSpeciesReferenceGlyph(String id, String speciesGlyph) {
+    SpeciesReferenceGlyph glyph = createSpeciesReferenceGlyph(id);
+    glyph.setSpeciesGlyph(speciesGlyph);
+    return glyph;
+  }
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildAt(int)
