@@ -20,26 +20,22 @@
  */ 
 package org.sbml.jsbml.xml.parsers;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-
-import javax.swing.tree.TreeNode;
-
-import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.ListOf.Type;
-import org.sbml.jsbml.Model;
-import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.ext.SBasePlugin;
-import org.sbml.jsbml.ext.layout.Layout;
-import org.sbml.jsbml.ext.qual.FunctionTerm;
-import org.sbml.jsbml.ext.qual.QualConstant;
-import org.sbml.jsbml.ext.qual.QualitativeModel;
+import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.layout.BoundingBox;
+import org.sbml.jsbml.ext.render.ColorDefinition;
+import org.sbml.jsbml.ext.render.Curve;
+import org.sbml.jsbml.ext.render.GlobalRenderInformation;
+import org.sbml.jsbml.ext.render.GradientBase;
+import org.sbml.jsbml.ext.render.GradientStop;
+import org.sbml.jsbml.ext.render.Group;
+import org.sbml.jsbml.ext.render.LineEnding;
+import org.sbml.jsbml.ext.render.LocalRenderInformation;
+import org.sbml.jsbml.ext.render.Polygon;
 import org.sbml.jsbml.ext.render.RenderConstants;
-import org.sbml.jsbml.ext.render.RenderLayoutPlugin;
-import org.sbml.jsbml.ext.render.RenderModelPlugin;
-import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
+import org.sbml.jsbml.ext.render.RenderInformationBase;
+import org.sbml.jsbml.ext.render.RenderPoint;
+import org.sbml.jsbml.ext.render.Style;
 
 
 /**
@@ -52,47 +48,206 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * @date 04.06.2012
  */
 public class RenderParser extends AbstractReaderWriter {
-  
-  /**
-   * The logger for this RenderParser
-   */
-  private Logger logger = Logger.getLogger(RenderParser.class);
+
+	/**
+	 * The logger for this RenderParser
+	 */
+	//private Logger logger = Logger.getLogger(RenderParser.class);
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getShortLabel()
+	 */
+	@Override
+	public String getShortLabel() {
+		return RenderConstants.shortLabel;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
+	 */
+	@Override
+	public String getNamespaceURI() {
+		return RenderConstants.namespaceURI;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processStartElement(java.lang.String, java.lang.String, boolean, boolean, java.lang.Object)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public Object processStartElement(String elementName, String prefix,
+			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
+
+		if (contextObject instanceof RenderInformationBase) {
+			RenderInformationBase renderInformation = (RenderInformationBase) contextObject;
+			SBase newElement = null;
+
+			if (elementName.equals(RenderConstants.listOfGradientDefinitions)) {
+				newElement = renderInformation.getListOfGradientDefintions();
+			}
+			if (elementName.equals(RenderConstants.listOfColorDefinitions)) {
+				newElement = renderInformation.getListOfColorDefinitions();
+			}
+			if (elementName.equals(RenderConstants.listOfLineEndings)) {
+				newElement = renderInformation.getListOfLineEndings();
+			}
+
+			if (renderInformation instanceof GlobalRenderInformation) {
+				GlobalRenderInformation globalRenderInformation = 
+						(GlobalRenderInformation) renderInformation;
+				if (elementName.equals(RenderConstants.listOfStyles)) {
+					newElement = globalRenderInformation.getListOfStyles();
+				}
+			}
+
+			if (renderInformation instanceof LocalRenderInformation) {
+				LocalRenderInformation localRenderInformation = 
+						(LocalRenderInformation) renderInformation;
+				if (elementName.equals(RenderConstants.listOfLocalStyles)) {
+					newElement = localRenderInformation.getListOfLocalStyles();
+				}
+			}
 
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processStartElement(java.lang.String, java.lang.String, boolean, boolean, java.lang.Object)
-   */
-  @Override
-  public Object processStartElement(String elementName, String prefix,
-    boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
-    // TODO Auto-generated method stub
-    return null;
-  }
+			if (newElement != null) {
+				renderInformation.registerChild(newElement);
+				return newElement;
+			}
+		}
+		/*
+		 * not shure if this is necessary:
+		 * 
+		if (contextObject instanceof RenderLayoutPlugin) {
+			RenderLayoutPlugin renderLayoutPlugin = (RenderLayoutPlugin) contextObject;
+			SBase newElement = null;
+			if (elementName.equals(RenderConstants.listOfLocalRenderInformation)) {
+				newElement = renderLayoutPlugin.getListOfLocalRenderInformation();
+			}
+			if (newElement != null) {
+				renderLayoutPlugin.registerChild(newElement);
+				return newElement;
+			}
+		}
+		if (contextObject instanceof RenderModelPlugin) {
+			RenderModelPlugin renderModelPlugin = (RenderModelPlugin) contextObject;
+			SBase newElement = null;
+			if (elementName.equals(RenderConstants.listOfLocalRenderInformation)) {
+				newElement = renderModelPlugin.getListOfGlobalRenderInformation();
+			}
+			if (newElement != null) {
+				renderModelPlugin.registerChild(newElement);
+				return newElement;
+			}
+		}
+		*/
+		else if (contextObject instanceof Style) {
+			Style style = (Style) contextObject;
+			if (elementName.equals(RenderConstants.group)) {
+				Group g = new Group();
+				style.setGroup(g);
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processEndElement(java.lang.String, java.lang.String, boolean, java.lang.Object)
-   */
-  @Override
-  public boolean processEndElement(String elementName, String prefix,
-    boolean isNested, Object contextObject) {
-    // TODO Auto-generated method stub
-    return super.processEndElement(elementName, prefix, isNested, contextObject);
-  }
-  
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getShortLabel()
-   */
-  @Override
-  public String getShortLabel() {
-    return RenderConstants.shortLabel;
-  }
+				return g;
+			}
+		}
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
-   */
-  @Override
-  public String getNamespaceURI() {
-    return RenderConstants.namespaceURI;
-  }
-  
+		else if (contextObject instanceof Polygon) {
+			Polygon polygon = (Polygon) contextObject;
+			SBase newElement = null;
+			if (elementName.equals(RenderConstants.listOfElements)) {
+				newElement = polygon.getListOfElements();
+			}
+			if (newElement != null) {
+				polygon.registerChild(newElement);
+				return newElement;
+			}
+		}
+
+		else if (contextObject instanceof LineEnding) {
+			LineEnding lineEnding = (LineEnding) contextObject;
+			if (elementName.equals(RenderConstants.boundingBox)) {
+				BoundingBox bbox = new BoundingBox();
+				lineEnding.setBoundingBox(bbox);
+
+				return bbox;
+			}
+			else if (elementName.equals(RenderConstants.group)) {
+				Group g = new Group();
+				lineEnding.setGroup(g);
+
+				return g;
+			}
+		}
+		
+		else if (contextObject instanceof Curve) {
+			Curve curve = (Curve) contextObject;
+			SBase newElement = null;
+			
+			if (elementName.equals(RenderConstants.listOfElements)) {
+				newElement = curve.getListOfElements();
+			}
+			
+			if (newElement != null) {
+				curve.registerChild(newElement);
+				return newElement;
+			}
+		}
+		
+		else if (contextObject instanceof GradientBase) {
+			GradientBase gradientBase = (GradientBase) contextObject;
+			SBase newElement = null;
+			
+			if (elementName.equals(RenderConstants.listOfGradientStops)) {
+				newElement = gradientBase.getListOfGradientStops();
+			}
+			
+			if (newElement != null) {
+				gradientBase.registerChild(newElement);
+				return newElement;
+			}
+		}
+		/**
+		 * parsing lists
+		 */
+		 else if (contextObject instanceof ListOf<?>) {
+			 ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
+			 SBase newElement = null;
+
+
+			 if (elementName.equals(RenderConstants.renderPoint)) {
+				 newElement = new RenderPoint();
+			 }
+			 else if (elementName.equals(RenderConstants.style)) {
+				 newElement = new Style();
+			 }
+			 else if (elementName.equals(RenderConstants.gradientStop)) {
+				 newElement = new GradientStop();
+			 }
+			 else if (elementName.equals(RenderConstants.colorDefiniton)) {
+				 newElement = new ColorDefinition();
+			 }
+			 else if (elementName.equals(RenderConstants.gradientBase)) {
+				 newElement = new GradientBase();
+			 }
+			 else if (elementName.equals(RenderConstants.lineEnding)) {
+				 newElement = new LineEnding();
+			 }
+			 else if (elementName.equals(RenderConstants.localRenderInformation)) {
+				 newElement = new LocalRenderInformation();
+			 }
+			 else if (elementName.equals(RenderConstants.globalRenderInformation)) {
+				 newElement = new GlobalRenderInformation();
+			 }
+
+
+			 if (newElement != null) {
+				 listOf.registerChild(newElement);
+				 listOf.add(newElement);
+			 }
+
+			 return newElement;
+		 }
+		return contextObject;
+	}
+
+
 }

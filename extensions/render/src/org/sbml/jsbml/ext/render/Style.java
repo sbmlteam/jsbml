@@ -47,7 +47,16 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
   protected String[] roleList;
   protected String[] typeList;
 
-
+  /**
+   * Creates a Style instance with a group
+   * 
+   * @param group
+   */
+  public Style() {
+    super();
+    initDefaults();
+  }
+  
   /**
    * Creates a Style instance with a group
    * 
