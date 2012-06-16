@@ -35,7 +35,6 @@ public interface RenderConstants {
   public static final int MIN_SBML_VERSION = 1;
 
   public static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/render/version1";
-
   public static final String shortLabel = "render";
 
   public static final String fontFamily = "font-family";
@@ -116,4 +115,20 @@ public interface RenderConstants {
   public static final String backgroundColor = "backgroundColor";
   public static final String idList = "idList";
   public static final String renderInformation = "renderInformation";
+// added while working on RenderParser
+public static final String listOfStyles = "listOfStyles";
+public static final String listOfGradientDefinitions = "listOfGradientDefinitions";
+public static final String listOfLineEndings = "listOfLineEndings";
+public static final String listOfColorDefinitions = "listOfColorDefinitions";
+public static final String listOfLocalStyles = "listOfLocalStyles";
+public static final String renderPoint = "renderPoint";
+public static final String style = "style";
+public static final String gradientStop = "gradientStop";
+public static final String colorDefiniton = "colorDefinition";
+public static final String gradientBase = "gradientBase";
+public static final String lineEnding = "lineEnding";
+public static final String localRenderInformation = "localRenderInformation";
+public static final String globalRenderInformation = "globalRenderInformation";
+public static final String listOfGradientStops = "listOfGradientStops";
+public static final Object listOfLocalRenderInformation = "listOfLocalRenderInformation";
 }

@@ -87,6 +87,10 @@ public class GradientStop extends AbstractSBase {
 		this.stopColor = obj.stopColor;
 	}
 
+	public GradientStop() {
+		super();
+	}
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
