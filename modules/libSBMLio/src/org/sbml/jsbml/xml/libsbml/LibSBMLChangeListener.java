@@ -21,7 +21,6 @@ package org.sbml.jsbml.xml.libsbml;
 
 import java.beans.PropertyChangeEvent;
 
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Level;
@@ -87,6 +86,7 @@ import org.sbml.libsbml.XMLNode;
  * @version $Rev$
  * @since 0.8
  */
+
 @SuppressWarnings("deprecation")
 public class LibSBMLChangeListener implements TreeNodeChangeListener {
 
@@ -139,8 +139,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 					if (udef.isSetListOfUnits()) {
 						for (org.sbml.jsbml.Unit u : udef.getListOfUnits()) {
 							//makes a recursion for every unit u in the list of units
-							DefaultMutableTreeNode newnode = new DefaultMutableTreeNode(u);
-							nodeAdded(newnode);
+							nodeAdded(u);
 						}
 					}
 				} else if (node instanceof Model) {
@@ -160,28 +159,24 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 						libReac.setFast(reac.getFast());
 					}
 					if (reac.isSetKineticLaw()) {
-						DefaultMutableTreeNode kinlawnode = new DefaultMutableTreeNode(reac.getKineticLaw());
-						nodeAdded(kinlawnode);
+						nodeAdded(reac.getKineticLaw());
 					}
 					if (reac.isSetListOfModifiers()) {
 						// makes a recursion for all modifiers in the list
 						for (ModifierSpeciesReference modi : reac.getListOfModifiers()) {
-							DefaultMutableTreeNode modinode = new DefaultMutableTreeNode(modi);
-							nodeAdded(modinode);
+							nodeAdded(modi);
 						}
 					}
 					if (reac.isSetListOfProducts()) {
 						// makes a recursion for all products in the list
 						for (SpeciesReference product : reac.getListOfProducts()) {
-							DefaultMutableTreeNode productnode = new DefaultMutableTreeNode(product);
-							nodeAdded(productnode);
+							nodeAdded(product);
 						}
 					}
 					if (reac.isSetListOfReactants()) {
 						// makes a recursion for all reactants in the list
 						for (SpeciesReference reactant : reac.getListOfReactants()) {
-							DefaultMutableTreeNode reactantnode = new DefaultMutableTreeNode(reactant);
-							nodeAdded(reactantnode);
+							nodeAdded(reactant);
 						}
 					}
 					if (reac.isSetReversible()) {
@@ -229,8 +224,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 						}
 						if (event.isSetListOfEventAssignments()) {
 							for (EventAssignment eventassign : event.getListOfEventAssignments()) {
-								DefaultMutableTreeNode eventassignnode = new DefaultMutableTreeNode(eventassign);
-								nodeAdded(eventassignnode);
+								nodeAdded(eventassign);
 							}
 						}
 						if (event.isSetPriority()) {
@@ -244,8 +238,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 							libEvent.setTimeUnits(event.getTimeUnits());
 						}
 						if (event.isSetTrigger()) {
-							DefaultMutableTreeNode triggerNode = new DefaultMutableTreeNode(event.getTrigger());
-							nodeAdded(triggerNode);
+							nodeAdded(event.getTrigger());
 						}
 						// this case can be dropped, because the units were already set with the case of TimoUnits above
 						// if (event.isSetUnits());
@@ -296,7 +289,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 									libS.setBoundaryCondition(spec.getBoundaryCondition());
 								}
 								if (spec.isSetCharge()) {
-									libS.setCharge(spec.getCharge());
+									libS.setCharge(spec.getCharge()); 
 								}
 								if (spec.isSetCompartment()) {
 									libS.setCompartment(spec.getCompartment());
@@ -371,8 +364,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 				// I don't have to ask what type of list the node is, 
 				// because of the recursion you get always the right case for every element in the list
 				for (SBase sb : (ListOf<?>) node) {
-					DefaultMutableTreeNode sbasenode = new DefaultMutableTreeNode(sb);
-					nodeAdded(sbasenode);
+					nodeAdded(sb);
 				}	
 
 			} else if (node instanceof AbstractMathContainer) {
@@ -389,8 +381,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 					if (kinLaw.isSetListOfLocalParameters()) {
 						//makes a recursion 
 						for (LocalParameter locParam : kinLaw.getListOfLocalParameters()) {
-							DefaultMutableTreeNode locParamnode = new DefaultMutableTreeNode(locParam);
-							nodeAdded(locParamnode);
+							nodeAdded(locParam);
 						}
 					}
 					if (kinLaw.isSetSubstanceUnits()) {
@@ -407,7 +398,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 					org.sbml.libsbml.InitialAssignment libInitAssign = libDoc.getModel().createInitialAssignment();
 					LibSBMLUtils.transferMathContainerProperties(initAssign, libInitAssign);
 					if (initAssign.isSetSymbol()) {
-						libInitAssign.setSymbol(initAssign.getSymbol());
+						libInitAssign.setSymbol(initAssign.getVariable());
 					}
 					//this case can be dropped, because the Symbol is the same as the Variable in this object
 					//if (initAssign.isSetVariable());
@@ -520,8 +511,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 						}
 						if (annot.isSetListOfCVTerms()) {
 							for (CVTerm term : annot.getListOfCVTerms()) {
-								libSBase.addCVTerm(LibSBMLUtils
-										.convertCVTerm(term));
+								libSBase.addCVTerm(LibSBMLUtils.convertCVTerm(term));
 							}
 						}
 						if (annot.isSetNonRDFannotation()) {
@@ -583,12 +573,14 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 				} else if (node instanceof SimpleSpeciesReference) {
 					if (node instanceof ModifierSpeciesReference) {
 						//get the corresponding reaction-ID
+						@SuppressWarnings("unchecked")
 						String reacID = ((Reaction) ((ListOf<ModifierSpeciesReference>) parent).getParentSBMLObject()).getId();
 						// search the corresponding reaction and remove the modifier
 						libModel.getReaction(reacID).removeModifier(((ModifierSpeciesReference) node).getId());
 					}
 					if (node instanceof SpeciesReference) {
 						SpeciesReference specRef = (SpeciesReference) node;
+						@SuppressWarnings("unchecked")
 						ListOf<SpeciesReference> parentSBML = (ListOf<SpeciesReference>) parent;
 						String reacID = ((Reaction) parentSBML.getParentSBMLObject()).getId();
 						if (parentSBML.getSBaseListType().equals(Type.listOfProducts)) {
@@ -622,7 +614,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 			} else if (node instanceof Unit) {
 				// search corresponding UnitDefinition and remove the unit
 				Unit unit = (Unit) node;
-				UnitDefinition udef = (UnitDefinition) ((ListOf<Unit>) parent).getParentSBMLObject();
+				UnitDefinition udef = (UnitDefinition) ((ListOf<Unit>) unit.getParent()).getParentSBMLObject();
 				// search the index of this Unit object and remove it
 				int index = LibSBMLUtils.getUnitIndex(unit, udef);
 				libModel.getUnitDefinition(udef.getId()).removeUnit(index);
@@ -630,9 +622,8 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 				libDoc.delete();
 			} else if (node instanceof ListOf<?>) {
 				// make recursion and remove all elements in the list
-				for (Object o : (ListOf<?>) node) {
-					TreeNode newNode = new DefaultMutableTreeNode(o);
-					nodeRemoved(new TreeNodeRemovedEvent(newNode, node));
+				for (SBase sb : (ListOf<?>) node) {
+					nodeRemoved(new TreeNodeRemovedEvent(sb, node));
 				}
 			} else if (node instanceof AbstractMathContainer) {
 				if (node instanceof FunctionDefinition) {
@@ -646,11 +637,12 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 				else if (node instanceof InitialAssignment) {
 					// get the InitialAssignment object based on the symbol and delete it
 					InitialAssignment initAssign = (InitialAssignment) node;
-					libModel.removeInitialAssignment(initAssign.getSymbol());
+					libModel.removeInitialAssignment(initAssign.getVariable());
 				}
 				else if (node instanceof EventAssignment) {
+					EventAssignment ea = (EventAssignment) node;
 					// search corresponding event and remove the EventAssignment indicated by the variable
-					Event event = (Event) (((ListOf<EventAssignment>) parent).getParentSBMLObject());
+					Event event = (Event) (((ListOf<EventAssignment>) ea.getParent()).getParentSBMLObject());
 					libModel.getEvent(event.getId()).removeEventAssignment(((EventAssignment) node).getVariable());
 				}
 				else if (node instanceof StoichiometryMath) {
@@ -680,7 +672,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 				}
 				else if (node instanceof Constraint) {
 					Constraint con = (Constraint) node;
-					ListOf<Constraint> parentSBML = (ListOf<Constraint>) parent;
+					ListOf<Constraint> parentSBML = (ListOf<Constraint>) con.getParent();
 					// find the index of this Constraint
 					for (int k = 0; k < parentSBML.size(); k++) {
 						Constraint c = con.getParent().get(k);
@@ -692,13 +684,11 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 				}
 				else if (node instanceof Delay) {
 					// find corresponding Event and delete it's Delay
-					Delay delay = (Delay) node;
 					Event parentSBML = (Event) parent;
 					libModel.getEvent(parentSBML.getId()).unsetDelay();
 				}
 				else if (node instanceof Priority) {
 					//find the corresponding Event and delete it's Priority
-					Priority prio = (Priority) node;
 					Event prioEvent = (Event) parent;
 					libModel.getEvent(prioEvent.getId()).unsetPriority();		
 				}
@@ -707,7 +697,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 			if (node instanceof CVTerm) {
 				//search index of CVTerm object
 				CVTerm cvTerm = (CVTerm) node;
-				for(int k=0; k<doc.getNumCVTerms();k++) {
+				for(int k=0; k<doc.getCVTermCount(); k++) {
 					CVTerm cv = doc.getCVTerm(k);
 					if(cv.equals(cvTerm)) {
 						libDoc.getModel().getCVTerms().remove(k);
@@ -1041,7 +1031,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 			CVTerm cvt = (CVTerm) evtSrc;
 			// convert evtSrc to a libSBML-CVTerm to compare the attributes and save the changes
 			org.sbml.libsbml.CVTerm myLibCvt = LibSBMLUtils.convertCVTerm(cvt);
-			for(int k=0; k<doc.getNumCVTerms();k++) {
+			for(int k=0; k<doc.getCVTermCount();k++) {
 				CVTerm cv = doc.getCVTerm(k);
 				if(cv.equals(cvt)) {
 					org.sbml.libsbml.CVTerm libCvt = libDoc.getCVTerm(k);
@@ -1240,7 +1230,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 		} else if (prop.equals(TreeNodeChangeEvent.volume)) {
 			if (evtSrc instanceof Compartment) {
 				Compartment comp = (Compartment) evtSrc;
-				libDoc.getModel().getCompartment(comp.getId()).setVolume(comp.getVolume());
+				libDoc.getModel().getCompartment(comp.getId()).setVolume(comp.getSize());
 			}
 		} else if (prop.equals(TreeNodeChangeEvent.volumeUnits)) {
 			if (evtSrc instanceof Model) {
@@ -1390,7 +1380,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 				} else if (evtSrc instanceof InitialAssignment) {
 					InitialAssignment initAssign = (InitialAssignment) evtSrc;
 					if (initAssign.isSetSymbol()) {
-						return libDoc.getModel().getInitialAssignment(initAssign.getSymbol());
+						return libDoc.getModel().getInitialAssignment(initAssign.getVariable());
 					} else {
 						logger.log(Level.DEBUG, String.format("Couldn't find the %s in the libSBML-Document", evtSrc.getClass().getSimpleName()));
 					}
