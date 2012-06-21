@@ -263,6 +263,29 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     if (model.isSetListOfEvents()) {
       setListOfEvents((ListOf<Event>) model.getListOfEvents().clone());
     }
+    
+    // L3 attributes
+    if (model.isSetAreaUnits()) {
+    	setAreaUnits(model.getAreaUnits());
+    }
+    if (model.isSetConversionFactor()) {
+    	setConversionFactor(model.getConversionFactor());
+    }
+    if (model.isSetExtentUnits()) {
+    	setExtentUnits(model.getExtentUnits());
+    }
+    if (model.isSetLengthUnits()) {
+    	setLengthUnits(model.getLengthUnits());
+    }
+    if (model.isSetSubstanceUnits()) {
+    	setSubstanceUnits(model.getSubstanceUnits());
+    }
+    if (model.isSetTimeUnits()) {
+    	setTimeUnits(model.getTimeUnits());
+    }
+    if (model.isSetVolumeUnits()) {
+    	setVolumeUnits(model.getVolumeUnits());
+    }
   }
   
   /**
