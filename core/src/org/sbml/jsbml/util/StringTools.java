@@ -524,18 +524,72 @@ public class StringTools {
 	 *   &lt;body xmlns="http://www.w3.org/1999/xhtml"&gt;
 	 *     &lt;p&gt;the original notes&lt;/p&gt;
 	 *   &lt;/body&gt;
+	 * &lt;/notes&gt;  
 	 * </pre>
 	 * 
 	 *         If the given argument already suffices the definition of XML
 	 *         {@link String}s in SBML, nothing will be changed.
 	 */
 	public static String toXMLNotesString(String notes) {
+		return toXMLString(notes, "notes");
+	}
+
+	/**
+	 * Checks whether a given {@link String} fits into the definition of the XML
+	 * message {@link String} in SBML. If not, this method will surround the given
+	 * {@link String} with the minimal definition of a valid message
+	 * {@link String}.
+	 * 
+	 * @param message
+	 *            the {@link String} to be checked and possibly modified.
+	 * @return A {@link String} that will be surrounded by the XML definition of
+	 *         a notes {@link String} in SBML, i.e.,
+	 * 
+	 *         <pre>
+	 * &lt;message&gt;
+	 *   &lt;body xmlns="http://www.w3.org/1999/xhtml"&gt;
+	 *     &lt;p&gt;the original message&lt;/p&gt;
+	 *   &lt;/body&gt;
+	 * &lt;/message&gt;  
+	 * </pre>
+	 * 
+	 *         If the given argument already suffices the definition of XML
+	 *         {@link String}s in SBML, nothing will be changed.
+	 */
+	public static String toXMLMessageString(String message) {
+		return toXMLString(message, "message");
+	}
+
+	/**
+	 * Checks whether a given {@link String} contain the given surrounding tag.
+	 * If not, this method will surround the given
+	 * {@link String} with the minimal definition of a valid XML
+	 * {@link String}.
+	 * 
+	 * @param notes
+	 *            the {@link String} to be checked and possibly modified.
+	 * @return A {@link String} that will be surrounded by the XML definition of
+	 *         a notes {@link String} in SBML, i.e.,
+	 * 
+	 *         <pre>
+	 * &lt;tag&gt;
+	 *   &lt;body xmlns="http://www.w3.org/1999/xhtml"&gt;
+	 *     &lt;p&gt;the original notes&lt;/p&gt;
+	 *   &lt;/body&gt;
+	 * &lt;/tag&gt;  
+	 * </pre>
+	 * 
+	 *         If the given argument already suffices the definition of XML
+	 *         {@link String}s in SBML, nothing will be changed.
+	 */
+	private static String toXMLString(String notes, String surroundingTagName) {
 		// TODO : We need to perform plenty of check to see of which form are the notes given to this method
 		// and perform the necessary conversion to append or set the notes correctly.
-				
+		// If we need more checks, we should define which one into trackers/stories
+
 		if (!notes.trim().startsWith("<")) { // we assume that this is free text
 			StringBuilder sb = new StringBuilder();
-			sb.append("<notes>\n");
+			sb.append("<").append(surroundingTagName).append(">\n");
 			sb.append("  <body xmlns=\"");
 			sb.append(JSBML.URI_XHTML_DEFINITION);
 			sb.append("\">\n ");
@@ -543,14 +597,14 @@ public class StringTools {
 			sb.append(notes);
 			sb.append("</p>\n");
 			sb.append("  </body>\n");
-			sb.append("</notes>");
+			sb.append("</").append(surroundingTagName).append(">\n");
 			return sb.toString();
-		} else if (!notes.trim().startsWith("<notes")) { 
-			// we assume the <notes> XML tag is missing
+		} else if (!notes.trim().startsWith("<" + surroundingTagName)) { 
+			// we assume the surrounding XML tag is missing
 			StringBuilder sb = new StringBuilder();
-			sb.append("<notes>\n  ");
+			sb.append("<").append(surroundingTagName).append(">\n");
 			sb.append(notes);
-			sb.append("\n</notes>");
+			sb.append("\n</").append(surroundingTagName).append(">\n");
 			return sb.toString();
 		} 
 		return notes;

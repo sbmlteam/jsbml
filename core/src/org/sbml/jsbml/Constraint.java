@@ -22,6 +22,7 @@ package org.sbml.jsbml;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.xml.XMLNode;
 
@@ -180,10 +181,7 @@ public class Constraint extends AbstractMathContainer {
 	 *            : the message to set
 	 */
 	public void setMessage(String message) {
-		XMLNode oldMessage = this.message;
-		this.message = XMLNode.convertStringToXMLNode(message);
-		firePropertyChange(TreeNodeChangeEvent.message, oldMessage, message);
-		this.message.setParent(this);
+		setMessage(XMLNode.convertStringToXMLNode(StringTools.toXMLMessageString(message)));
 	}
 
 	/**
