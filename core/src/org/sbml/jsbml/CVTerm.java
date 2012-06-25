@@ -599,6 +599,13 @@ public class CVTerm extends AnnotationElement {
 	}
 
 	/**
+	 * @return
+	 */
+	public boolean isSetModelQualifierType() {
+		return getModelQualifierType() != null;
+	}
+
+	/**
 	 * Checks whether or not the {@link Qualifier} has been set for this
 	 * {@link CVTerm}.
 	 * 
@@ -858,6 +865,40 @@ public class CVTerm extends AnnotationElement {
 			buffer.append(uri);
 		}
 		return buffer.toString();
+	}
+
+	
+	/**
+	 * Unsets the biological qualifier if it is set.
+	 * 
+	 */
+	public void unsetBiologicalQualifierType() {
+		if (type == Type.BIOLOGICAL_QUALIFIER) {
+			firePropertyChange(TreeNodeChangeEvent.qualifier, qualifier, null);
+			qualifier = null;
+		}
+	}
+
+	/**
+	 * Unsets the model qualifier if it is set.
+	 * 
+	 */
+	public void unsetModelQualifierType() {
+		if (type == Type.MODEL_QUALIFIER) {
+			firePropertyChange(TreeNodeChangeEvent.qualifier, qualifier, null);
+			qualifier = null;
+		}
+	}
+
+	/**
+	 * Unsets the qualifier type if it is set.
+	 * 
+	 */
+	public void unsetQualifierType() {
+		if (isSetQualifierType()) {
+			firePropertyChange(TreeNodeChangeEvent.qualifier, type, null);
+			type = null;
+		}
 	}
 
 	/**
