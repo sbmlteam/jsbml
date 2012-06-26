@@ -131,4 +131,5 @@ public static final String localRenderInformation = "localRenderInformation";
 public static final String globalRenderInformation = "globalRenderInformation";
 public static final String listOfGradientStops = "listOfGradientStops";
 public static final Object listOfLocalRenderInformation = "listOfLocalRenderInformation";
+public static final Object listOfGlobalRenderInformation = "listOfGlobalRenderInformation";
 }
