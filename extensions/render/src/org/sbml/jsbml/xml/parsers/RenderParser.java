@@ -20,18 +20,9 @@
  */ 
 package org.sbml.jsbml.xml.parsers;
 
-import static org.sbml.jsbml.ext.layout.LayoutConstants.dimensions;
-import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfAdditionalGraphicalObjects;
-import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfCompartmentGlyphs;
-import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfReactionGlyphs;
-import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfSpeciesGlyphs;
-import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfTextGlyphs;
-
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.layout.BoundingBox;
-import org.sbml.jsbml.ext.layout.Dimensions;
 import org.sbml.jsbml.ext.layout.ExtendedLayoutModel;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.render.ColorDefinition;
