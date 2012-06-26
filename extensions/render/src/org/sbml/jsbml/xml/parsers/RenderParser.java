@@ -20,9 +20,20 @@
  */ 
 package org.sbml.jsbml.xml.parsers;
 
+import static org.sbml.jsbml.ext.layout.LayoutConstants.dimensions;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfAdditionalGraphicalObjects;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfCompartmentGlyphs;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfReactionGlyphs;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfSpeciesGlyphs;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfTextGlyphs;
+
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.layout.BoundingBox;
+import org.sbml.jsbml.ext.layout.Dimensions;
+import org.sbml.jsbml.ext.layout.ExtendedLayoutModel;
+import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.render.ColorDefinition;
 import org.sbml.jsbml.ext.render.Curve;
 import org.sbml.jsbml.ext.render.GlobalRenderInformation;
@@ -34,6 +45,8 @@ import org.sbml.jsbml.ext.render.LocalRenderInformation;
 import org.sbml.jsbml.ext.render.Polygon;
 import org.sbml.jsbml.ext.render.RenderConstants;
 import org.sbml.jsbml.ext.render.RenderInformationBase;
+import org.sbml.jsbml.ext.render.RenderLayoutPlugin;
+import org.sbml.jsbml.ext.render.RenderModelPlugin;
 import org.sbml.jsbml.ext.render.RenderPoint;
 import org.sbml.jsbml.ext.render.Style;
 
@@ -77,8 +90,39 @@ public class RenderParser extends AbstractReaderWriter {
 	@Override
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
-
-		if (contextObject instanceof RenderInformationBase) {
+		System.out.println("logger called, " + prefix + " : " + elementName + " in context of: " + contextObject.toString());
+		if (contextObject instanceof ExtendedLayoutModel) {
+			ExtendedLayoutModel layoutModel = (ExtendedLayoutModel) contextObject;
+			// TODO not sure if necessary to check if listOfLayouts != null
+			ListOf<Layout> listOfLayouts = layoutModel.getListOfLayouts();
+			SBase newElement = null;
+			
+			if (elementName.equals(RenderConstants.listOfGlobalRenderInformation)) {
+				RenderModelPlugin renderPlugin = new RenderModelPlugin(listOfLayouts);
+				listOfLayouts.addExtension(RenderConstants.namespaceURI, renderPlugin);
+				newElement = renderPlugin.getListOfGlobalRenderInformation();
+			}
+			
+			if (newElement != null) {
+				listOfLayouts.registerChild(newElement);
+				return newElement;
+			}
+		}
+		else if (contextObject instanceof Layout) {
+			Layout layout = (Layout) contextObject;
+			SBase newElement = null; 
+			
+			if (elementName.equals(RenderConstants.listOfLocalRenderInformation)) {
+				RenderLayoutPlugin renderPlugin = new RenderLayoutPlugin(layout);
+				layout.addExtension(RenderConstants.namespaceURI, renderPlugin);
+				newElement = renderPlugin.getListOfLocalRenderInformation();
+			}
+			if (newElement != null) {
+				layout.registerChild(newElement);
+				return newElement;
+			}
+		} 
+		else if (contextObject instanceof RenderInformationBase) {
 			RenderInformationBase renderInformation = (RenderInformationBase) contextObject;
 			SBase newElement = null;
 
@@ -114,32 +158,7 @@ public class RenderParser extends AbstractReaderWriter {
 				return newElement;
 			}
 		}
-		/*
-		 * not shure if this is necessary:
-		 * 
-		if (contextObject instanceof RenderLayoutPlugin) {
-			RenderLayoutPlugin renderLayoutPlugin = (RenderLayoutPlugin) contextObject;
-			SBase newElement = null;
-			if (elementName.equals(RenderConstants.listOfLocalRenderInformation)) {
-				newElement = renderLayoutPlugin.getListOfLocalRenderInformation();
-			}
-			if (newElement != null) {
-				renderLayoutPlugin.registerChild(newElement);
-				return newElement;
-			}
-		}
-		if (contextObject instanceof RenderModelPlugin) {
-			RenderModelPlugin renderModelPlugin = (RenderModelPlugin) contextObject;
-			SBase newElement = null;
-			if (elementName.equals(RenderConstants.listOfLocalRenderInformation)) {
-				newElement = renderModelPlugin.getListOfGlobalRenderInformation();
-			}
-			if (newElement != null) {
-				renderModelPlugin.registerChild(newElement);
-				return newElement;
-			}
-		}
-		*/
+		
 		else if (contextObject instanceof Style) {
 			Style style = (Style) contextObject;
 			if (elementName.equals(RenderConstants.group)) {
@@ -211,7 +230,6 @@ public class RenderParser extends AbstractReaderWriter {
 		 else if (contextObject instanceof ListOf<?>) {
 			 ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
 			 SBase newElement = null;
-
 
 			 if (elementName.equals(RenderConstants.renderPoint)) {
 				 newElement = new RenderPoint();

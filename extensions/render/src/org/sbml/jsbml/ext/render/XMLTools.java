@@ -118,19 +118,27 @@ public class XMLTools {
     int g = value.getGreen();
     int b = value.getBlue();
     int a = value.getAlpha();
-    return ("#" + Integer.toHexString(r) +
-        Integer.toHexString(g) + Integer.toHexString(b) + Integer.toHexString(a)).toUpperCase();
+    return ("#" + toHexString(r) +
+        toHexString(g) + toHexString(b) + toHexString(a)).toUpperCase();
   }
   
-  public static Color decodeStringToColor(String value) {
-	int r = Integer.parseInt(value.substring(1, 3));
-	int g = Integer.parseInt(value.substring(3, 5));
-	int b = Integer.parseInt(value.substring(5, 7));
+  /**
+   * @param a
+   * @return
+   */
+  private static String toHexString(int a) {
+	  String h = Integer.toHexString(a);
+	  return h.length() == 1 ? "0" + h : h;
+  }
+
+public static Color decodeStringToColor(String value) {
+	int r = Integer.parseInt(value.substring(1, 3), 16);
+	int g = Integer.parseInt(value.substring(3, 5), 16);
+	int b = Integer.parseInt(value.substring(5, 7), 16);
 	int a = 255;
 	if(value.length() == 9) {
-		a = Integer.parseInt(value.substring(7, 9));
+		a = Integer.parseInt(value.substring(7, 9), 16);
 	}
-	  
 	return new Color(r, g, b, a); 
   }
 
