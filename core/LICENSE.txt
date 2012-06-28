@@ -1,6 +1,6 @@
            Licensing and Distribution Terms for JSBML
 
-Copyright (C) 2009-2011 jointly by the following organizations:
+Copyright (C) 2009-2012 jointly by the following organizations:
  1. The University of Tuebingen, Germany
  2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  3. The California Institute of Technology, Pasadena, CA, USA
@@ -83,3 +83,37 @@ also included in the JSBML subdirectory licenses/lib-licenses/.
   [checked 2010-12-16]
   Copyright (C) Apache Software Foundation
   Distributed under the Apache License 2.0.
+
+
+	Additional third-party software incorporated into
+		    JSBML example applications
+
+The example applications provided with JSBML also include the
+following additional third-party software libraries; these are
+distributed along with JSBML and placed in the examples/ code
+repository.  The license statements for these third-party software
+libraries can be found at the web addresses noted below.  For your
+convenience, copies of the license files are also included in the
+JSBML subdirectory licenses/lib-licenses/.
+
+9.  JFreeChart 1.0.14 and JCommon 1.0.17
+    [checked 2012-03-31] 
+    Copyright (C) 2000-2011, by Object Refinery Limited and Contributors
+    Distributed under the LGPL version 2.1.
+
+10. Swing-Layout 1.0.3
+    [checked 2012-03-31]
+    Copyright (C) 2005-2006 Sun Microsystems, Inc.
+    Distributed under the LGPL 2.1.
+
+11. GNU getopt Java port
+    [checked 2012-03-31]
+    http://www.urbanophile.com/arenn/hacking/download.html
+    Copyright (C) 1998-2012 Aaron M. Renn.
+    Distributed under the LGPL 2.1.
+
+12. Jar-in-Jar Classloader
+    [checked 2012-04-03]
+    https://bugs.eclipse.org/bugs/show_bug.cgi?id=219530
+    Copyright (C) Ferenc Hechler.
+    Distributed under the Eclipse Public License v1.0.
