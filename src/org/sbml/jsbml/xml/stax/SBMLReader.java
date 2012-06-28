@@ -50,6 +50,7 @@ import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.Creator;
 import org.sbml.jsbml.JSBML;
+import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Species;
@@ -90,6 +91,14 @@ public class SBMLReader {
 	 * Contains all the initialized parsers.
 	 */
 	private Map<String, ReadingParser> initializedParsers = new HashMap<String, ReadingParser>();
+
+
+	/**
+	 * The parent of the mathML we are parsing through the readMathML methods.
+	 * It allow to parse properly the FunctionDefinition contained in the mathML.
+	 * 
+	 */
+	private MathContainer astNodeParent;
 	
 	/**
 	 * Initialize a static instance of the core parser.
@@ -412,7 +421,31 @@ public class SBMLReader {
 		}		
 		return null;
 	}
-	
+
+	/**
+	 * Reads a mathML String into an {@link ASTNode}.
+	 * 
+	 * @param mathML
+	 * @param listener
+	 * @param parent the parent {@link MathContainer} of the mathML to parse 
+	 * @return an {@link ASTNode} representing the given mathML String.
+	 * @throws XMLStreamException
+	 */
+	public ASTNode readMathML(String mathML, TreeNodeChangeListener listener, MathContainer parent)
+		throws XMLStreamException	
+	{
+		this.astNodeParent = parent;
+		
+		Object object = readXMLFromString(mathML, listener);		
+		if (object != null && object instanceof Constraint) {
+			ASTNode math = ((Constraint) object).getMath();			
+			if (math != null) {
+				return math;
+			}
+		}		
+		return null;
+	}
+
 	/**
 	 * 
 	 * @param mathML
@@ -593,28 +626,37 @@ public class SBMLReader {
 						}
 					}
 					sbmlElements.push(sbmlDocument);
-				} else if (lastElement == null) {
+				}
+				else if (lastElement == null) // We are probably reading some 'free' XML, mathML or HTML
+				{
 					// We put a fake Constraint element in the stack that can take either math, notes or message.
 					// This a hack to be able to read some mathMl or notes by themselves.
-
-					if (currentNode.getLocalPart().equals("notes") || currentNode.getLocalPart().equals("message")) {
-						// Initializing the core parser again and again is a hughe bottleneck
-					  // when appending notes!
+					// If the parent container is set in this SBMLReader, we use it instead.
+					
+					if (currentNode.getLocalPart().equals("notes") || currentNode.getLocalPart().equals("message")) 
+					{
 						initializedParsers.put("", sbmlCoreParser);
 						
-					} else if (currentNode.getLocalPart().equals("math")) {
+					} else if (currentNode.getLocalPart().equals("math")) 
+					{
 						initializedParsers.put("", new MathMLStaxParser());
 						initializedParsers.put(ASTNode.URI_MATHML_DEFINITION, new MathMLStaxParser());
-						currentNode = new QName(ASTNode.URI_MATHML_DEFINITION, "math");
-						
+						currentNode = new QName(ASTNode.URI_MATHML_DEFINITION, "math");						
 					}
 					
 					// TODO : will not work with arbitrary SBML part
 					// TODO : we need to be able, somehow, to set the Model element in the Constraint
 					// to be able to have a fully functional parsing. Without it the functionDefinition, for examples, are
 					// not properly recognized.
-					Constraint constraint = new Constraint(3,1);
-					sbmlElements.push(constraint);
+					if (astNodeParent != null) 
+					{
+						sbmlElements.push(astNodeParent);
+					}
+					else 
+					{
+						Constraint constraint = new Constraint(3,1);
+						sbmlElements.push(constraint);
+					}
 					
 				} else if (currentNode.getLocalPart().equals("annotation")) {
 
