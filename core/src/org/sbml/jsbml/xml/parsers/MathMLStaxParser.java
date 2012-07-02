@@ -59,6 +59,10 @@ public class MathMLStaxParser implements ReadingParser {
 	private boolean omitXMLDeclaration;
 
 	private transient Logger logger = Logger.getLogger(MathMLStaxParser.class);
+
+	private boolean lastElementWasApply;
+
+	private boolean isFunctionDefinition;
 	
 	/**
 	 * 
@@ -162,14 +166,21 @@ public class MathMLStaxParser implements ReadingParser {
 		try {
 			functionDef = astNode.getParentSBMLObject().getModel().getFunctionDefinition(characters.trim());
 		} catch(NullPointerException e) {
-			// TODO : this does not work when we do not set the model object when reading a mathML XML String by it's own. 
-			// It should not happen in theory but when reading only a mathML block, it is happening and
-			// functionDefinition are not properly recognized
-			logger.warn("WARNING : cannot recognize properly functionDefinition in mathML block !!!");
+			
+			logger.debug("WARNING : cannot recognize properly functionDefinition in mathML block !!!");
 		}
 
-		if (functionDef != null) {
+		if (isFunctionDefinition) 
+		{
 			logger.debug("MathMLStaxParser : processCharactersOf : function found !!");
+			
+			logger.debug("Model : " + astNode.getParentSBMLObject().getModel() + ", functionDef = " + functionDef);
+			
+			if (astNode.getParentSBMLObject().getModel() != null && functionDef == null) 
+			{
+				logger.warn("Cannot recognize functionDefinition with id '" + characters.trim() + "'");
+			}
+			
 			astNode.setType(Type.FUNCTION);
 		}
 
@@ -282,10 +293,30 @@ public class MathMLStaxParser implements ReadingParser {
 		
 		if (elementName.equals("math") || elementName.equals("apply") || elementName.equals("sep") 
 				|| elementName.equals("piece") || elementName.equals("otherwise") 
-				|| elementName.equals("bvar") || elementName.equals("degree") || elementName.equals("logbase")) {
+				|| elementName.equals("bvar") || elementName.equals("degree") || elementName.equals("logbase"))
+		{
+			if (elementName.equals("apply")) 
+			{
+				lastElementWasApply = true;
+			}
+			else
+			{
+				lastElementWasApply = false;
+			}
+			
 			// we do nothing
 			return null;
 		}
+		
+		if (lastElementWasApply && elementName.equals("ci"))
+		{
+			isFunctionDefinition = true;
+		}
+		else 
+		{
+			isFunctionDefinition = false;
+		}
+		lastElementWasApply = false;
 		
 		MathContainer mathContainer = null;
 		ASTNode parentASTNode = null;
