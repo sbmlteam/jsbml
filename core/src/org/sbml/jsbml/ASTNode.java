@@ -1044,6 +1044,7 @@ public class ASTNode extends AbstractTreeNode {
 	 * @param parent the parent
 	 */
 	static void setParentSBMLObject(ASTNode node, MathContainer parent) {
+		node.setParent(parent);
 		setParentSBMLObject(node, parent, 0);
 	}
 
@@ -1791,18 +1792,18 @@ public class ASTNode extends AbstractTreeNode {
 							.warn("ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
 									+ getName()
 									+ ", "
-									+ getParentSBMLObject()
+									+ getParentSBMLObject().getElementName()
 									+ ")");
 					throw new SBMLException(
 							"ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
-									+ getName() + ", " + getParentSBMLObject()
+									+ getName() + ", " + getParentSBMLObject().getElementName()
 									+ ")");
 					// value = compiler.compile(variable);
 				}
 			} else {
 				logger.warn(String.format(
 					"ASTNode of type FUNCTION but the variable is null: (%s, %s)! Check that your object is linked to a Model.",
-					getName(), getParentSBMLObject()));
+					getName(), getParentSBMLObject().getElementName()));
 				value = compiler.function(getName(), getChildren());
 			}
 			break;
@@ -2277,8 +2278,8 @@ public class ASTNode extends AbstractTreeNode {
 	 * @see javax.swing.tree.TreeNode#getParent()
 	 */
 	@Override
-	public ASTNode getParent() {
-		return (ASTNode) parent;
+	public TreeNode getParent() {
+		return parent;
 	}
 
 	/**
