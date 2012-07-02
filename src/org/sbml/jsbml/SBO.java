@@ -29,6 +29,7 @@ import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.biojava.bio.Annotation;
 import org.biojava.ontology.Ontology;
 import org.biojava.ontology.Synonym;
@@ -627,13 +628,21 @@ public class SBO {
 	public static boolean checkTerm(String sboTerm) {
 		boolean correct = sboTerm.length() == 11;
 		correct &= sboTerm.startsWith(prefix);
-		if (correct)
+		
+		if (correct) {
 			try {
 				int sbo = Integer.parseInt(sboTerm.substring(4));
 				correct &= checkTerm(sbo);
 			} catch (NumberFormatException nfe) {
 				correct = false;
 			}
+		}
+		
+		if (!correct) {
+			Logger logger = Logger.getLogger(SBO.class);
+			logger.warn("The SBO term '" + sboTerm + "' does not seem to be valid.");
+		}
+		
 		return correct;
 	}
 
