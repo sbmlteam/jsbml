@@ -130,7 +130,7 @@ public class GroupModel extends AbstractSBasePlugin {
 		if ((this.listOfGroups != null) && (this.listOfGroups.getSBaseListType() != ListOf.Type.other)) {
 			this.listOfGroups.setSBaseListType(ListOf.Type.other);
 		}
-		listOfGroups.setParentSBMLObject(model);
+		model.registerChild(listOfGroups);
 	}
 
 	/**
