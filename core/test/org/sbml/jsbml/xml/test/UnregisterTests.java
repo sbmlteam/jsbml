@@ -3,6 +3,8 @@ package org.sbml.jsbml.xml.test;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.HashSet;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -237,14 +239,59 @@ public class UnregisterTests {
 
 		KineticLaw k = r2.createKineticLaw();
 		
-		k.createLocalParameter("LP1"); // Not possible at the moment to add a local parameter if the reaction has no id
+		k.createLocalParameter("LP1");
+		
+		k.getLocalParameter("LP1").setMetaId("LP1_2");
+		k.getLocalParameter(0).setName("LP1_2");
 		
 		assertTrue(k.getLocalParameterCount() == 1);
 		
 		assertTrue(model.findLocalParameters("LP1").size() == 2);
+		assertTrue(model.findReactionsForLocalParameter("LP1").size() == 1);
+		
+		r2.setId("R2");
+		
+		assertTrue(model.findReactionsForLocalParameter("LP1").size() == 2);
+		
+		assertTrue(doc.findSBase("LP1_2") != null);
+	
+		r2.unsetKineticLaw();
+
+		assertTrue(doc.findSBase("LP1_2") == null);
+
+		assertTrue(model.findLocalParameters("LP1").size() == 1);
+		
+		assertTrue(model.findReactionsForLocalParameter("LP1").size() == 1);
 	}
 
+	
+	@Test public void testRegister3_2() {
+		
+		// Using a List instead of a Set to store the Reaction associated with a local Parameter as
+		// if the object HashCode change, it is not possible anymore to remove the element !!!
+		
+		// http://stackoverflow.com/questions/254441/hashset-remove-and-iterator-remove-not-working
 
+		Reaction r2 = model.createReaction("R2");
+		Reaction r3 = model.createReaction("R3");
+		
+		HashSet<Reaction> reactionSet = new HashSet<Reaction>();
+		
+		reactionSet.add(r2);
+		reactionSet.add(r3);
+		
+		KineticLaw kl = r2.createKineticLaw();
+		kl.createLocalParameter("LP1");
+		
+		reactionSet.remove(r2); // unsuccessful as the hashCode of r2 has changed since we added it to the HashSet !!
+		// The javadoc is misleading on this case as it just says that the equals method will be used
+		// They probably use the hashcode as the key for the underlying HashMap.
+		
+		// We cannot use HashSet for object that change over time !!
+		assertTrue(reactionSet.size() == 2);
+		
+	}
+	
 	/**
 	 * 
 	 */
@@ -267,35 +314,6 @@ public class UnregisterTests {
 	}
 
 	
-	/**
-	 * 
-	 
-	@Test public void testRegister5() {
-		
-		Species s3 = new Species();
-		s3.setId("S3");
-		
-		MultiSpecies mS3 = new MultiSpecies(s3);
-		
-		s3.addExtension("any", mS3);
-		
-		// Setting the same id as an existing Species		
-		mS3.createSpeciesTypeInstance("S1");
-		
-		// Setting the parent by hand !!
-		s3.setParentSBML(model);
-
-		try {
-			boolean speciesAdded = model.addSpecies(s3);
-			
-			fail("We should not be able to register twice the same id.");
-		} catch (IllegalArgumentException e) {
-			assertTrue(true);
-			// success
-		}
-	}
-	*/
-
 	/**
 	 * 
 	 
@@ -355,8 +373,8 @@ public class UnregisterTests {
 		r2.createReactant("S1");
 		
 		// Setting the parent by hand !!  // TODO : should we limit the access of SBase.setParentSBML and TreeNode.setParent (should be possible) ??		
-		r2.setParentSBML(new ListOf<Reaction>(2, 4));
-		r2.getParent().setParentSBML(model); // This will make the registration of the reaction non recursive
+		// r2.setParentSBML(new ListOf<Reaction>(2, 4));
+		// r2.getParent().setParentSBML(model); // This will make the registration of the reaction non recursive
 		
 		try {
 			model.addReaction(r2);
@@ -376,17 +394,11 @@ public class UnregisterTests {
 		Species s3 = new Species();
 		s3.setId("S3");
 		
-		try {
-			model.addSpecies(s3);
-			
-			// calling the registerChild by hand !! // TODO : should we limit the access of SBase.registerChild ??
-			model.registerChild(s3);
-			
-			fail("We should not be able to register twice the same id.");
-		} catch (IllegalArgumentException e) {
-			assertTrue(true);
-			// success
-		}
+		model.addSpecies(s3);
+
+		// calling the registerChild by hand !! 
+		model.registerChild(s3);// This call does nothing if the parent of the SBase we try to register is already defined
+		// a warning is displayed on the shell
 	}
 	
 	/**
@@ -544,6 +556,9 @@ public class UnregisterTests {
 		assertTrue(r1.getReactant("SP1") != null);
 
 		assertTrue(model.findNamedSBase("LP1") == null);
+		
+		// creating a product with the same id as a species
+		r1.createProduct("S1");
 	}
 
 	
