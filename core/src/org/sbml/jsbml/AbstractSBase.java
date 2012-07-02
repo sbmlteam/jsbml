@@ -1214,7 +1214,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#registerChild(org.sbml.jsbml.SBase)
 	 */
-	public void registerChild(SBase sbase) throws LevelVersionError {
+	public void registerChild(SBase sbase) throws LevelVersionError 
+	{
+		if (sbase != null && sbase.getParent() != null)
+		{
+			logger.warn(MessageFormat.format("Trying to register an SBase, {0}, that is already associated with a Model !!", sbase));
+			return;
+		}
+		
 	  if ((sbase != null) && checkLevelAndVersionCompatibility(sbase)) {
 	    SBMLDocument doc = getSBMLDocument();
 	    if (doc != null) {
@@ -1331,6 +1338,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
 			// fireNodeRemovedEvent is calling this method - sbase.fireNodeRemovedEvent();
 
+			// TODO : do we need to remove the link to the parent here ???
+			
 			// remove all changeListeners
 			sbase.removeAllTreeNodeChangeListeners();
 		}

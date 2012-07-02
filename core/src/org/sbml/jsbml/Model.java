@@ -160,9 +160,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   
   /**
    * A mapping between the identifiers of {@link LocalParameter}s and the
-   * identifiers of containing {@link Reaction} objects.
+   * containing {@link Reaction} objects.
    */
-  private Map<String, SortedSet<String>> mapOfLocalParameters;
+  private Map<String, List<Reaction>> mapOfLocalParameters;
   
   /**
    * For internal computation: a mapping between their identifiers and
@@ -1448,22 +1448,25 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         given name or identifier. This {@link List} can be empty, but never
    *         <code>null</code>.
    */
-  public List<LocalParameter> findLocalParameters(String id) {
+  public List<LocalParameter> findLocalParameters(String id) 
+  {
     List<LocalParameter> list = new LinkedList<LocalParameter>();
-    SortedSet<String> rList = findReactionsForLocalParameter(id);
+    List<Reaction> rList = mapOfLocalParameters.get(id);
+    
     if ((rList == null) || rList.isEmpty()) {
       return list;
     }
-    LocalParameter p;
-    Reaction r;
-    for (String rId : rList) {
-      r = getReaction(rId);
+    
+    for (Reaction r : rList) 
+    {
       // This must always be true, otherwise there is an error elsewhere:
       if (r.isSetKineticLaw()) {
-        p = r.getKineticLaw().getLocalParameter(id);
+    	LocalParameter p = r.getKineticLaw().getLocalParameter(id);
         if (p != null) {
           list.add(p);
         }
+      } else {
+    	  logger.warn("A reaction that is supposed to have a local parameter defined has no kineticLaw !!!");
       }
     }
     return list;
@@ -1593,8 +1596,31 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         or <code>null</code> if no such element with this 'id' can be
    *         found.
    */
-  public SortedSet<String> findReactionsForLocalParameter(String id) {
-    return mapOfLocalParameters == null ? null : mapOfLocalParameters.get(id);
+  public SortedSet<String> findReactionsForLocalParameter(String id) 
+  {
+	  List<Reaction> reactionList = mapOfLocalParameters.get(id);
+	  SortedSet<String> reactionIdSet = null;
+	  
+	  if (reactionList != null && reactionList.size() > 0)
+	  {
+		  reactionIdSet = new TreeSet<String>();
+		  
+		  for (Reaction reaction : reactionList)
+		  {
+			  if (reaction.isSetId()) 
+			  {
+				  reactionIdSet.add(reaction.getId());
+			  }
+		  }
+		  
+		  if (reactionIdSet.size() != reactionList.size())
+		  {
+			  logger.warn(MessageFormat.format("Some of the reactions containing the local" +
+			  		" parameter {0} have no id defined !!", id));
+		  }
+	  }
+	  
+	  return reactionIdSet;
   }
   
   /**
@@ -3805,17 +3831,18 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
 
       logger.debug("registerIds (LP) : reaction = " + r + " (r.isSetId = " + r.isSetId() + ")");
 
-      if ((r != null) && r.isSetId()) 
+      if ((r != null)) 
       {
         if (delete) 
         {
           if (mapOfLocalParameters != null) {
-            SortedSet<String> reactionSet = mapOfLocalParameters.get(pId);
+            List<Reaction> reactionList = mapOfLocalParameters.get(pId);
 
-            if (reactionSet != null) {
-              reactionSet.remove(r.getId());
+            if (reactionList != null) 
+            {
+            	reactionList.remove(r);
 
-              if (reactionSet.isEmpty()) {
+              if (reactionList.isEmpty()) {
                 mapOfLocalParameters.remove(pId);
               }
             }
@@ -3826,12 +3853,12 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
         {
           // add new key or reaction for this local parameter.
           if (mapOfLocalParameters == null) {
-            mapOfLocalParameters = new HashMap<String, SortedSet<String>>();
+            mapOfLocalParameters = new HashMap<String, List<Reaction>>();
           }
           if (!mapOfLocalParameters.containsKey(pId)) {
-            mapOfLocalParameters.put(pId, new TreeSet<String>());
+            mapOfLocalParameters.put(pId, new ArrayList<Reaction>());
           }
-          mapOfLocalParameters.get(pId).add(r.getId());
+          mapOfLocalParameters.get(pId).add(r);
           
           return true;          
         }        
