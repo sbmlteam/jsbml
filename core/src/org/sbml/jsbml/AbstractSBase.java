@@ -1258,16 +1258,16 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	     * before (recursively) registering all ids:
 	     */
 	    TreeNode oldParent = sbase.getParent(); // Memorize the old parent (may be null).
-	    sbase.setParentSBML(this);
+	    ((AbstractSBase) sbase).setParentSBML(this);
 
 	    // If possible, recursively register all ids of the SBase in our model:
 	    if ((model != null)
 	        && !model.registerIds(this, sbase, recursively, false)) {
 	      // Something went wrong: We have to restore the previous state:
 	      if (oldParent == null) {
-	        sbase.setParentSBML(null);
+	    	  ((AbstractSBase) sbase).setParentSBML(null);
 	      } else if (oldParent instanceof SBase) {
-	        sbase.setParentSBML((SBase) oldParent);
+	    	  ((AbstractSBase) sbase).setParentSBML((SBase) oldParent);
 	      }
 	      sbase.addAllChangeListeners(listeners);
 
@@ -1317,7 +1317,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		    		
 		    		KineticLaw kineticLaw = (KineticLaw) klTreeNode;
 		    		kineticLaw.registerLocalParameter((LocalParameter) sbase, true);
-		    		sbase.setParentSBML(this);
 		    	}
 		    }
 			
@@ -1456,7 +1455,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setParentSBML(org.sbml.jsbml.SBase)
 	 */
-	public void setParentSBML(SBase parent) {
+	protected void setParentSBML(SBase parent) {
 		SBase oldParent = getParent();
 		this.parent = parent;
 		firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldParent, parent);
@@ -1479,7 +1478,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 *         differs from the one of this {@link SBase}.
 	 * @see {@link #setParentSBML(SBase)}
 	 */
-	public void setParentSBMLObject(SBase sbase) throws LevelVersionError {
+	protected void setParentSBMLObject(SBase sbase) throws LevelVersionError {
 		if (sbase instanceof AbstractSBase) {
 			((AbstractSBase) sbase).checkLevelAndVersionCompatibility(this);
 		}
