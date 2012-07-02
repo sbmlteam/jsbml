@@ -724,7 +724,6 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 						model.setLevel(sbmlDocument.getLevel());
 						model.setVersion(sbmlDocument.getVersion());
 						model.initDefaults();
-						model.setParentSBML(sbmlDocument);
 						sbmlDocument.setModel(model);
 
 						return model;
