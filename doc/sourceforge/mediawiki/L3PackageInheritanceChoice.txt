@@ -1,0 +1,483 @@
+__TOC__
+
+
+
+= L3 package elements are allowed to inherit basic SBML core elements =
+
+This choice make the implementation a bit more complicated but we should be able to find a way that
+should work in a robust way.
+
+== Advantages ==
+
+Each extension element would provide all the methods of the element that it is extending. However, calls to, i.e., manipulate the metaId of some element, would be redirected to the actual extended element. This approach is in fact a wrapper approach, in which each extension would wrap the extended element.
+
+== Disadvantages ==
+
+* This approach tries to reflect the UML diagrams and inheritance relationships defined by the SBML core specification and the package specifications, but it does, in fact not [yes, it does !!! Nico]: Each wrapper element would just provide one extension element [That's what we want, we don't want to implement all the extensions ourselves in one Class. And all the other proposal are working the same way. Nico]. The combination of multiple packages would be mirrored using multiple such wrappers, hence, there would be no single element providing all the get/set methods for all extensions of an element.
+
+* This approach is different from the libSBML approach [Only in the interface of the Warper Object the API will be the same as in proposal 2 and libSBML. Nico].
+
+* The SBML representation of the elements in memory would not be a real tree anymore due to cross pointers between all extension elements, notes, annotations. The getParentSBMLObject() methods would not return the real parent in the hierarchical representation of the in-memory objects, but mimic the SBML tree in the SBML specifications. [The cross pointers would be the same for all the proposals. Nico]
+
+* It is not clear what the advantage would be to be able to do something like
+
+<pre>
+  species.getExtension("<spatial namespace>").setMetaid("foo");
+</pre>
+
+instead of simply saying
+
+<pre>
+  species.setMetaid("foo");
+</pre>
+
+[
+lol, that's an example I did not think about !!!
+The advantages is when you are developing library that provides methods that expect a certain type of Class.
+* If you have some utilities methods that take a list of Species, you could pass to it a list of SpatialSpecies and it would work the same.
+* If you are in a utility method that manipulate SpatialSpecies only, you can use the standard species attributes and the extended attributes of the Spatial extension on the same object, you don't need to do spatialSpecies.getParent().getName() to display the name of a spatialSpecies, you just do spatialSpecies.getName()
+Nico
+]
+
+
+Hence, this approach is complicated and redirects calls to the properties of the actual element.
+
+== Impact on the compatibility with libSBML ==
+
+This approach has some similarity to the libSBML approach by using something like the plugin structure, but here the plugins are actually wrappers of the actual element that these are extending.
+
+== Pseudo code example ==
+ 
+
+<pre>
+
+public class Species extends Symbol {
+
+  /* The Species class as defined in JSBML currently, most of the methods are untouched */
+
+  ......
+
+  /*
+     Some methods would have to be adapted though to take into account the possibles additional attributes to the class
+
+     So all the methods below (and probably some others) would have to be modified so that they do what they are doing 
+     now but in addition, they will loop over all the package objects, if they are some, and call the equivalents methods 
+     on the package objects.
+
+     This would work the same whatever choice we are making for the class inheritance of the packages classes.
+
+     We have to list all the different methods that should behave this way and see how to make it work.
+
+ */
+
+  public hascode() {
+
+      ....
+
+      for all extended objects :
+          object.hashcodeContribution() is added to the core species hashcode()
+
+  }
+
+  public equals() {
+
+     .... 
+
+      for all extended objects :
+          equals &= object.equalscontribution()
+
+  }
+
+
+  /*  */
+
+  public Enumeration<TreeNode> children() {
+
+     ....
+
+      for all extended objects :
+          children.addAll(object.childrenContribution());
+
+  }
+
+  public int getChildCount() {
+
+     ....
+
+      for all extended objects :
+          childCount += object.getChildCountContribution();
+
+  }
+
+}
+
+</pre>
+
+<pre>
+
+/**
+ * Any L3 package that extend Species would be required to extends this Class instead of directly Species.
+ *
+ */
+public class SpeciesAdapter extends Species {
+
+  /* Most of the methods from the class Species are overwritten to be sure that all classes extending this class
+     manipulate the basic Species attributes on the same java object
+
+     the final keyword here is to make sure that classes inheriting from SpeciesAdapter are not allowed to overwrite the methods 
+   */
+
+  public final hashCode() {
+     super.hashcode();
+  }
+  
+  public final equals() {
+     super.equals();
+  }
+
+   public final String getMetaId() {
+     return adaptor.getMetaId();
+   }
+
+   public final boolean isSetMetaId() {
+     return adaptor.isSetMetaId();
+   }
+
+   public final boolean getMetaId() {
+     return adaptor.getMetaId();
+   }
+
+   ....
+
+
+  /* Some methods are declared abstract to force classes inheriting it to implement them */
+
+  /*
+     In both below methods extended object are only taking care of their their specific attributes
+     Could be also done with a method with a different name, like for the equals or hashCode ?
+  */
+  public abstract boolean readAttributeContribution(String attributeName, String prefix, String value);
+
+  public abstract Map<String, String> writeXMLAttributesContribution();
+
+  public abstract Enumeration<TreeNode> childrenContribution();
+
+  public abstract int getChildCountContribution();
+
+  public abstract equalsContribution();
+  public abstract hashCodeContribution();
+
+}
+
+
+</pre>
+
+<pre>
+
+/**
+ * Class containing the extended attributes from the spatial package
+ *
+ */
+public class SpatialSpecies extends SpeciesAdapter {
+
+
+
+  /* */
+
+  public boolean readAttributeContribution(String attributeName, String prefix, String value) {
+     ....
+  }
+
+  /**
+     method to compare only the extended attributes
+     this will be added/used in the global species equals methods
+  */
+  public boolean equalsContribution() {
+
+  }
+
+  ...
+
+
+</pre>
+
+= L3 package elements are NOT allowed to inherit basic SBML core elements =
+
+This option make the implementation a bit easier but we loose the class relationship between Species and SpatialSpecies.
+
+== Advantages ==
+
+This implementation would follow the implementation style of libSBML. There would be a kind of pseudo-child for each extension that does not extend SBase, but that encapsulates all new additional features. However, an extension element would be derived from TreeNode in order to provide recursive methods [No, there is not need for that, they are not part of the tree as in proposal 1, only the basic Species implement the TreeNode interface and with the helper methods defined in all package objects (in all 3 proposals), it will make the recursive methods go through all children elements, including packages objects. Nico].
+
+== Disadvantages ==
+
+The creation of pseudo-children in the SBML tree does not reflect the UML diagrams in the SBML core specification, neither does it reflect the UML diagrams in the extension package specifications. Pseudo-child means that there would be another object as a child of, e.g., species, encapsulating extension properties and providing getters and setters, which would be a child in the in-memory tree representation of the SBML data structure, but that is not defined in any SBML specifications.
+
+== Impact on the compatibility with libSBML ==
+
+This would be fully compliant to libSBML.
+
+== Pseudo code example ==
+
+
+<pre>
+
+public class Species extends Symbol {
+
+  /* The Species class as defined in JSBML currently, most of the methods are untouched */
+
+  ......
+
+  /*
+     Some methods would have to be adapted though to take into account the possibles additional attributes to the class
+
+     So all the methods below (and probably some others) would have to be modified so that they do what they are doing 
+     now but in addition, they will loop over all the package objects, if they are some, and call the equivalents methods 
+     on the package objects.
+
+     This would work the same whatever choice we are making for the class inheritance of the packages classes.
+
+     We have to list all the different methods that should behave this way and see how to make it work.
+
+ */
+
+  public hascode() {
+
+      ....
+
+      for all extended objects :
+          object.hashcode() is added to the core species hashcode()
+
+  }
+
+  public equals() {
+
+     .... 
+
+      for all extended objects :
+          equals &= object.equals()
+
+  }
+
+
+  /*  */
+
+  public Enumeration<TreeNode> children() {
+
+     ....
+
+      for all extended objects :
+          children.addAll(object.children());
+
+  }
+
+  public int getChildCount() {
+
+     ....
+
+      for all extended objects :
+          childCount += object.getChildCount();
+
+  }
+
+}
+
+</pre>
+
+<pre>
+
+/**
+ * Any L3 package that extend Species (or any other core element) would be required to extends this Class.
+ *
+ */
+public interface SBasePlugin {
+
+  /* 
+    We have to define all the methods that will be necessary
+
+   */
+
+
+  public boolean readAttribute(String attributeName, String prefix, String value);
+
+  public Map<String, String> writeXMLAttributes();
+
+  public abstract Enumeration<TreeNode> children();
+
+  public abstract int getChildCount();
+
+  public abstract equals();
+  public abstract hashCode();
+
+  ....
+}
+
+
+</pre>
+
+<pre>
+
+/**
+ * Class containing the extended attributes from the spatial package
+ *
+ */
+public class SpatialSpecies extends SBasePlugin {
+
+
+
+  /* */
+
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+     ....
+  }
+
+  public boolean equals() {
+
+  }
+
+  ...
+
+
+</pre>
+
+= L3 package elements are included into SBML core elements using Hashes and Checkers =
+
+In this proposal, the abstract SBase class maintains two hashes, one for the mapping between additional attribute/value pairs and another one for additional child elements.
+
+The first hash has maps Strings to Objects, i.e., any kind of attribute/value pair can be represented. The second hash would be a mapping between Strings and instances of SBase that are declared by the package to be implemented.
+
+In addition, a PackageChecker is implemented for each package that provides an enumeration of possible attribute names and facilitates querying both hashes. For each package and each extended element, there would be one corresponding checker implementation. The checkers would be stored in a list of package checkers. Get/remove/add methods would be available to access or manipulate a checker for a given namespace.
+
+== Advantages ==
+
+* The implementation and maintenance of the code is very simple because it would only be required to maintain a list of valid attributes and to check if their corresponding value satisfies a certain range constraint. This would be done in a checker class that does not extend SBase.
+
+* There would be no contradition in any way to any UML diagram in the SBML core specification, nor any other UML diagram in extension package proposals.
+
+== Disadvantages ==
+
+Access to extension attributes/child elements via hashes only. For instance, to access the attribute ''isSpatial'' in the ''spatial'' extension of ''species'' we would type something like
+
+<pre>
+  boolean isSpatial = ((Boolean) species.getExtAttrib("isSpatial")).booleanValue();
+</pre>
+
+because the hash could only return an instance of Object. However, it would be possible to provide more convenient methods within the checker class.
+
+== Impact on compatibility to libSBML ==
+
+This solution would be different from the implementation in libSBML because all attribute/value pairs of an extended element would be stored directly in that element; there would be no plugin pseudo child.
+
+
+== Pseudo code example ==
+
+<pre>
+public class AbstractSBase {
+
+  /* The Species class as defined in JSBML currently, most of the methods are untouched */
+
+  /*
+     Some methods would have to be adapted though to take into account the possibles additional attributes to the class
+
+     So all the methods below (and probably some others) would have to be modified so that they do what they are doing 
+     now but in addition, they will loop over all the package objects, if they are some, and call the equivalents methods 
+     on the package objects.
+
+     This would work the same whatever choice we are making for the class inheritance of the packages classes.
+
+     We have to list all the different methods that should behave this way and see how to make it work.
+
+ */
+
+  ......
+
+  /*
+     The mapping between additional attribute-name/attribute-value pairs as defined
+     by the individual packages.
+   */
+  private Map<String, Object> extensionAttributes = new HashMap<String, Object>();
+
+  /*
+     A set of helper classes, one for each enabled package, e.g., layout, multi...
+   */
+  private Set<PackageChecker> extensions = new HashSet<PackageChecker>();
+
+  /*
+    The mapping between their names and the additional child elements themselve,
+    i.e., more complex sub-elements of this Species. Again, the PackageCheckers
+    allow to check if an entry in this element is allowable.
+   */
+  private Map<String, SBase> extensionChildren = new HashMap<String, SBase>();
+
+
+  public hascode() {
+
+      ....
+
+      for all extended attributes :
+          object.hashcode() is added to the core sbase hashcode()
+      for all extended children : 
+          object.hashcode() is added to the core sbase hashcode()
+  }
+
+  public equals() {
+
+     .... 
+
+      for all extended attributes :
+          equals &= attribute.equals()
+      for all extended children : 
+          equals &= child.equals()
+  }
+
+
+  /*  */
+
+  public Enumeration<TreeNode> children() {
+
+     ....
+
+      for all extended children :
+          children.addAll(object.children());
+
+  }
+
+  public int getChildCount() {
+
+     ....
+
+      for all extended children :
+          childCount += object.getChildCount();
+
+  }
+
+}
+</pre>
+
+
+<pre>
+/**
+ * For each supported package an instance of this checker is implemented.
+ */
+public interface PackageChecker {
+  
+  public Enum<?> getExtensionAttributes();
+  
+  public boolean isExtensionAttribute(String attribute);
+
+  public boolean isChildAttribute(String attribute);
+
+  public SBase getChild(String attribute);
+
+  public <T> getValue(String attribute);
+
+  public boolean readAttribute(String attributeName, String prefix, String value);
+
+  public Map<String, String> writeXMLAttributes();
+
+  public String getPackagePrefix();
+
+  public Class<Parser> getPackageParser();
+
+}
+</pre>
