@@ -1,68 +1,70 @@
+% -*- TeX-master: "User_guide"; fill-column: 75 -*-
+
 For questions regarding SBML, please see the SBML FAQ at
 \url{http://sbml.org/Documents/FAQ}.
+
 \begin{description}
-\item[\parbox{\textwidth}{Why does the class \texttt{LocalParameter} not inherit
-from \texttt{Parameter}?}]
-\index{parameter!\texttt{LocalParameter}}
-\index{parameter!\texttt{Parameter}}
-The reason is the Boolean
-\index{Boolean}
-attribute \texttt{constant}, which is present in
-\index{constant}
-\index{parameter!\texttt{constant}}
-\texttt{Parameter} and can be set to \texttt{false}. A parameter in the meaning
-of SBML is not a constant, it might be some system variable
-\index{JSBML!variable@\texttt{Variable}}
-and can therefore be the subject of \texttt{Rule}s,
-\index{rule}
-\texttt{Event}s\index{event!\texttt{Event}}, \texttt{InitialAssignment}s
-\index{InitialAssignment@\texttt{InitialAssignment}}
-and so on, i.e., all instances of \texttt{Assignment},
-\index{JSBML!assignment@\texttt{Assignment}}
-whereas a \texttt{LocalParameter} is defined as a constant quantity that never
-changes its value during the evaluation of a model\index{model}. It would
-therefore only be possible to let \texttt{Parameter} inherit from
-\texttt{LocalParameter} but this could lead to a semantic misinterpretation.
 
-\item[\parbox{\textwidth}{Does JSBML depend on SWING or any particular graphical
-user interface implementation?}]
-Although all classes in JSBML implement the \texttt{TreeNode} interface, which
-is located in the package \texttt{javax.swing.tree}, all classes in JSBML are
-entirely independent from any graphical user interface, such as the
-SWING\index{graphical user interface!swing@\texttt{swing}} implementation. When
-loading the \texttt{TreeNode} interface, no other class from SWING will be
-initialized or loaded; hence JSBML can also be used on computers that do not
-provide any graphical system without the necessity of catching a
-\texttt{HeadlessException}. The \texttt{TreeNode} interface only defines
-methods and properties that all recursive tree data structures have to
-implement anyway. Letting JSBML classes extend this interface makes JSBML
-compatible with many other Java classes and methods that make use of the
-standard \texttt{TreeNode} interface, hence ensuring a high compatibility with
-other Java libraries. Since the SWING package belongs to the standard
-Java\texttrademark{} distribution, the \texttt{TreeNode} interface should
-always be localized by the Java Virtual Machine, independent from the specific
-hardware or system. Android\index{Android} systems might be an exceptional case,
-which do not provide any parts from the SWING package of Java. Therefore, the JSBML
-team is currently developing a specialized \texttt{android} compatibility
-module for JSBML. You can obtain this module by checking out the repository
-\url{https://jsbml.svn.sourceforge.net/svnroot/jsbml/modules/android} or by
-downloading this as a binary from the download page of JSBML.
+\item[\parbox{\textwidth}{Why does the class \LocalParameter not inherit
+    from \Parameter?}]
 
-\item[\parbox{\textwidth}{Does the usage of the the \texttt{java.beans} package
-for the \texttt{TreeNodeChangeListener} lead to an incompatibility with light-weight
-Java installations?}]
-With the \texttt{java.beans} package being part of the standard Java
-distribution, such an incompatibility will not occur. Extending existing
-standard Java classes leads to a higher compatibility with other libraries and
-should therefore be the preferred way to go in the development of JSBML.
+  The reason is the \Boolean attribute \code{constant}, which is present
+  in \index{constant} \index{parameter!\code{constant}}
+  \Parameter and can be set to \code{false}. A parameter in the meaning of
+  SBML is not always a constant, it might be some system variable \Variable
+  and can therefore be the subject of \code{Rule}s, \index{rule} \Event{}s,
+  \InitialAssignment{}s and so on, i.e., all instances of
+  \code{Assignment}, whereas a \LocalParameter is defined as a constant
+  quantity that never changes its value during the evaluation of a
+  model\index{model}. It would therefore only be possible to let \Parameter
+  inherit from \LocalParameter but this could lead to a semantic
+  misinterpretation.
+
+\item[\parbox{\textwidth}{Does JSBML depend on SWING or any particular
+    graphical user interface implementation?}]
+
+  Although all classes implement the \TreeNode interface (defined in
+  the package \code{javax.swing.tree}), all classes in JSBML are entirely
+  independent from any graphical user interface, such as the
+  SWING\index{graphical user interface!swing@\code{swing}}
+  implementation. When loading the \TreeNode interface, no other
+  class from SWING will be initialized or loaded; hence JSBML can also be
+  used on computers that do not provide any graphical system without the
+  necessity of catching a \HeadlessException. The \TreeNode
+  interface only defines methods and properties that all recursive tree data
+  structures have to implement anyway. Letting JSBML classes extend this
+  interface makes JSBML compatible with many other Java classes and methods
+  that make use of the standard \TreeNode interface, hence ensuring a
+  high compatibility with other Java libraries. Since the SWING package
+  belongs to the standard Java distribution, the
+  \TreeNode interface should always be localized by the Java Virtual
+  Machine, independent from the specific hardware or
+  system. Android\index{Android} systems might be an exceptional case, which
+  do not provide any parts from the SWING package of Java. Therefore, the
+  JSBML team is currently developing a specialized \code{android}
+  compatibility module for JSBML. As discussed in \vref{sec:jsbml-modules},
+  you can obtain this module by checking out the repository
+  \url{https://jsbml.svn.sourceforge.net/svnroot/jsbml/modules/android} or by
+  downloading this as a binary from the download page of JSBML.
+
+\item[\parbox{\textwidth}{Does the usage of the the \code{java.beans}
+    package for the \code{TreeNodeChangeListener} lead to an
+    incompatibility with light-weight Java installations?}]
+
+  With the \code{java.beans} package being part of the standard Java
+  distribution, such an incompatibility will not occur. Extending existing
+  standard Java classes leads to a higher compatibility with other
+  libraries and should therefore be the preferred way to go in the
+  development of JSBML.
 
 \item[\parbox{\textwidth}{Does JSBML support SBML extension packages?}]
-In version 0.8, JSBML did not provide an abstract programming interface for
-extension packages.%
-\index{extension packages}
-Since version 1.0 the JSBML community has actively developed extension packages
-for the following SBML extensions: \texttt{fba}, \texttt{groups}, \texttt{layout},
-\texttt{multi}, \texttt{qual}, and \texttt{spatial}. These packages can be used
-with the latest release of JSBML.
+
+  In version 0.8, JSBML did not provide an abstract programming interface
+  for extension packages.%
+  \index{extension packages} Since then, the JSBML community has
+  actively developed extension packages for the following SBML extensions:
+  \code{fbc}, \code{groups}, \code{layout}, \code{multi},
+  \code{qual}, and \code{spatial}. These packages can be used with the
+  version 1.0 or later of JSBML.
 
 \end{description}

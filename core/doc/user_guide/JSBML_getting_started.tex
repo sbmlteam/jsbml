@@ -23,6 +23,8 @@ it to your Java build and/or class path in order to use JSBML.
 \subsection{The JSBML archive without dependencies}
 
 \begin{table}[b]
+  \caption{List of other, third-party libraries needed by JSBML.}
+  \label{tab:dependencies}
   \centering
   \rowcolors{2}{sbmlrowgray}{}
   \renewcommand{\arraystretch}{1.1}
@@ -37,8 +39,8 @@ it to your Java build and/or class path in order to use JSBML.
     & \href{http://biojava.org}{biojava.org} \\
 
     junit-4.8.jar
-    & Unit-test support library; only needed if you intend to
-    the tests in the \code{tests} folder.
+    & Unit-test support library; only needed if you \mbox{intend} to
+    run the tests in the \code{tests} folder.
     & \href{http://www.junit.org}{www.junit.org} \\
 
     stax2-api-3.0.3.jar
@@ -74,8 +76,6 @@ it to your Java build and/or class path in order to use JSBML.
 
     \bottomrule
   \end{tabular}
-  \caption{List of other, third-party libraries needed by JSBML.}
-  \label{tab:dependencies}
 \end{table}
 
 The version of the JSBML archive that excludes dependencies is a JAR file
@@ -104,7 +104,7 @@ folder on your computer named after the distribution version; for
 example, this may be ``\code{jsbml-1.0}''.  Next, you will need to compile
 the Java source code.  JSBML comes with a \emph{build file} (i.e., scripted
 instructions in a specialized format) for Apache Ant~\citep{ApacheAnt};
-you can use other approaches for compiling fthe JSBML classes and
+you can use other approaches for compiling the JSBML classes and
 performing other tasks, but Ant provides an especially convenient approach.
 For the rest of the instructions below, we use Ant.  Here is an example of
 how to compile the JSBML class files after you have unpacked the source
@@ -159,7 +159,7 @@ located in the folder ``\dirname\code{/lib}''.
 
 
 \subsection{Optional extensions, modules and examples available for JSBML}
-\index{sec:dependencies}
+\label{sec:dependencies}
 
 JSBML provides a number of additional extensions, modules and example
 programs that you may find useful in your work.  The \emph{extensions} are
@@ -171,8 +171,9 @@ allow CellDesigner~\cite{Funahashi2003} plugins to use JSBML.  Finally, the
 JSBML \emph{examples} are full-fledged applications that demonstrate the
 use of JSBML in actual running software.  Each of these optional components
 of JSBML are available from the project's code repository (and in some
-cases, from the download area on SourceForge).  In the subsections below, we
-explain how to obtain copies of them from the repository.
+cases, from the download area on SourceForge~\cite{JSBMLdownload}).  In the
+subsections below, we explain how to obtain copies of them from the
+repository.
 
 
 \subsubsection{JSBML Extensions}
@@ -185,11 +186,11 @@ retrieve a copy of each extension separately, or obtain the complete
 First, find a suitable location on your computer where you would like to
 place the JSBML extensions folder.  (We suggest placing it side-by-side at
 the same level as your JSBML core folder, e.g., next to the folder
-``\code{jsbml-1.0}'' discussed above.)  Then, perform the following step:
+``\dirname'' discussed above.)  Then, perform the following step:
 
 \begin{example}[style=bash, title={Downloading the latest JSBML extensions
     source folder from the project's Subversion repository.}] 
-svn co https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/core extensions
+svn co https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/extensions extensions
 \end{example}
 
 Each of the extensions has its own Ant build script, located in a file
@@ -204,6 +205,7 @@ ant compile
 
 
 \subsubsection{JSBML Modules}
+\label{sec:jsbml-modules}
 
 JSBML currently provides five additional modules.  Each provides features
 for task-specific purposes. Binary versions of the modules can be found at
@@ -216,7 +218,7 @@ tested.)
 First, find a suitable location on your computer where you would like to
 place the JSBML extensions folder.  We suggest creating a folder named
 ``\code{modules}'' placed side-by-side at the same level as your JSBML core
-folder, e.g., next to the folder ``\code{jsbml-1.0}'' discussed above.
+folder, e.g., next to the folder ``\dirname'' discussed above.
 
 \begin{example}[style=bash, title={Creating a folder for the modules.}]
 mkdir modules
@@ -234,26 +236,28 @@ svn co https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/modules/|\modulenam
 \end{example}
 
 (In other words, if you would like to obtain both the Android and libSBML
-modules, execute the command above twice, once with \code{Android} in place
+modules, execute the command above twice, once with \code{android} in place
 of \modulename and a second time with \code{libSBMLcompat} in place of
 \modulename.)  Once they're downloaded, please check inside each module
 directory for information about how to use them.
 
 \begin{table}[bh]
+  \caption{JSBML modules available today.}
+  \label{tab:jsbml-modules}
   \centering
   \rowcolors{2}{sbmlrowgray}{}
   \begin{tabular}{>{\ttfamily}lp{5.25in}}
     \toprule
     \textbf{\sffamily Module name} & \textbf{Purpose} \\
     \midrule
-    Android
+    android
     & Support for writing JSBML-based programs for Android OS.
     \\
-    CellDesigner
+    celldesigner
     & A bridge module that supports writing JSBML-based
     plugins for CellDesigner~\cite{Funahashi2003}
     \\
-    Compare
+    compare
     & Facilities for drawing comparisons between libSBML and JSBML
     \\
     libSBMLcompat
@@ -265,8 +269,6 @@ directory for information about how to use them.
     \\
     \bottomrule
   \end{tabular}
-  \caption{JSBML modules available today.}
-  \label{tab:jsbml-modules}
 \end{table}
 
 

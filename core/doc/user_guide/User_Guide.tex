@@ -1,6 +1,8 @@
-\documentclass{JSBMLdoc}
-\usepackage{makeidx}
+\documentclass[draftdoc]{JSBMLdoc}
 \usepackage{dirtree}
+\usepackage{makeidx}
+\usepackage[font=small,totoc]{idxlayout}
+
 \makeindex
 
 \input{../common/tex/macros.tex}
@@ -32,6 +34,7 @@
 \begin{document}
 
 \title{User Guide for JSBML}
+\version{1.0.0 (preview)}
 
 \newcommand{\where}[1]{\,\textsuperscript{#1}}
 \newcommand{\divider}[1]{\multicolumn{3}{c}{\emph{#1}:}}
@@ -45,7 +48,7 @@
     Florian Mittag\where{a}   & Michael Hucka\where{c}     & \\[2em]
     \divider{Principal investigators}\\[0.75em]
     Nicolas Le Nov\`ere\where{b} & Andreas Zell\where{a}   & Michael Hucka\where{c} \\[2em]
-    \divider{Institutional whereiliations}\\[0.45em]
+    \divider{Institutional affiliations}\\[0.45em]
   \end{tabular}
   \\
   \where{a\,}Center for Bioinformatics Tuebingen\\
@@ -90,8 +93,7 @@
 
 JSBML is a Java\TTra library that will help you to read, write and
 manipulate SBML files~\cite{Draeger2011a, Draeger2011b}. This chapter
-provides information for quickly getting started with using JSBML
-version~1.0.
+provides information for quickly getting started with using JSBML.
 
 Before you can use JSBML, you will need to obtain a copy of the library.
 \Vref{sec:obtaining-jsbml} below describes different ways of doing
@@ -150,12 +152,14 @@ to use and work with JSBML.
 \input{JSBML_open_tasks}
 
 
-
 \clearpage
+
+\thispagestyle{plain}
+\pagestyle{plain}
 \bibliography{../common/tex/literature}
 
 % Index
-\small
+\setindexprenote{\vspace*{0.1ex}}
 \printindex
 
 \end{document}
