@@ -42,7 +42,7 @@
 
 \newif\if@draftdoc
 \DeclareOption{draftdoc}{\global\let\if@draftdoc\iftrue}
-\DeclareOption{finalspec}{\global\let\if@draftdoc\iffalse}
+\DeclareOption{finaldoc}{\global\let\if@draftdoc\iffalse}
 
 \newif\if@notoc
 \DeclareOption{toc}{\global\let\if@notoc\iffalse}
@@ -90,6 +90,7 @@
 \RequirePackage{framed}
 \RequirePackage[section]{placeins}
 \RequirePackage[square,numbers,sort]{natbib}
+\RequirePackage{tocloft}
 
 % We use the "optional" package to indicate whether to generate a grayscale
 % vs a color version of the document without having to alter the .tex file
@@ -184,7 +185,6 @@
 
 \RequirePackage{overpic}
 
-
 %% ----------------------------------------------------------------------------
 %% Font selection.
 %% ----------------------------------------------------------------------------
@@ -266,13 +266,11 @@
      <-> ssub * txtt/b/sl%
 }{}
 
-
 % Adjustments due to quirks of the combination of fourier and amsmath:
 
 % Make the \big( braces regular height (default is too short):
 \delimiterfactor=1000
 \delimitershortfall=1pt
-
 
 %% ----------------------------------------------------------------------------
 %% Main code.
@@ -311,8 +309,7 @@
   \newcommand{\sbmlchangedcolor}{Maroon}
 \fi
 
-
-% Macros for making consistent font, color, and other selections.
+% Macros for making consistent font, color, and other selections:
 
 \newcommand{\normaltextcolor}{almostblack}
 
@@ -335,14 +332,14 @@
   \newcommand{\absDefRef}[2]{\abstractclass{\hyperref[#2]{#1}}\xspace}
 \fi
 
-% Hyperref extras.
+% Hyperref extras:
 
 \newcommand{\link}[2]{\literalFont{\href{#1}{#2}}}
 \newcommand{\mailto}[1]{\link{mailto:#1}{#1}}
 
 % 'lineno' package adjustments.
 % The BeginAccSupp business causes the line numbers to be ignored for
-% copy-paste operations in the PDF output
+% copy-paste operations in the PDF output.
 
 \setlength{\linenumbersep}{2.2em}
 \renewcommand{\thelinenumber}{%
@@ -351,7 +348,7 @@
   \EndAccSupp{}%
 }
 
-% 'booktabs' package adjustments.
+% 'booktabs' package adjustments:
 
 \setlength{\cmidrulewidth}{0.3 pt}
 \setlength{\lightrulewidth}{0.3 pt}
@@ -386,19 +383,36 @@
 
 \setlength{\oddsidemargin}{0 pt}
 \setlength{\evensidemargin}{0 pt}
-\setlength{\topmargin}{-8 ex}
-\setlength{\voffset}{0 in}
+\setlength{\topmargin}{1.5 ex}
+\setlength{\headsep}{2em}
+\setlength{\footskip}{3em}
+\setlength{\voffset}{-0.75 in}
 \setlength{\hoffset}{0 in}
+\setlength{\headheight}{18pt}
 \setlength{\textwidth}{6.5 in}
-\setlength{\textheight}{9 in}
+\setlength{\textheight}{9.25 in}
 
-% Set the table of contents depth
+% Change the style of the table of contents.
+% Much of this is from the 'tocloft' package.
 
+\renewcommand{\cfttoctitlefont}{\LARGE\bfseries\sffamily}
+\renewcommand{\cftchapfont}{\bfseries\sffamily\normalsize}
+\renewcommand{\cftsecfont}{\sffamily\small}
+\renewcommand{\cftsubsecfont}{\sffamily\small}
+\renewcommand{\cftsubsubsecfont}{\sffamily\small}
+\renewcommand{\cftchappagefont}{\bfseries\sffamily}
+\renewcommand{\cftsecpagefont}{\sffamily}
+\renewcommand{\cftsubsecpagefont}{\sffamily}
+\renewcommand{\cftsubsubsecpagefont}{\sffamily}
+\setlength{\cftaftertoctitleskip}{0.5em}
+\setlength{\cftbeforechapskip}{0.5em}
 \setcounter{tocdepth}{2}
 
 % Title page macros.  Severly hacked from originals in LaTeX's article.cls.
 
 \def\frontNotice#1{\gdef\@frontNotice{#1}}
+
+\def\version#1{\gdef\@version{#1}}
 
 \def\@puttitle{%
   \scalebox{1}[0.9]{%
@@ -418,14 +432,9 @@
   \if@notoc
   \else
     \begingroup
-      \small%
       % Tighten spacing between lines within an entry.
       % This assumes 10 pt font!
-      \setlength{\baselineskip}{10pt}%
-      % Now adjust inter-entry spacing.
-
-      \addtolength{\parindent}{1ex}%
-      \addtolength{\parskip}{-1.35 ex}%
+      \setlength{\baselineskip}{9.75pt}%
       \if@twocolumntoc
         \setlength{\columnsep}{16pt}%
         \begin{multicols}{2}
@@ -434,7 +443,6 @@
       \if@twocolumntoc
         \end{multicols}
       \fi
-      \normalsize%
       \addtolength{\parskip}{1.45 ex}%
     \endgroup
     \clearpage
@@ -535,6 +543,8 @@
   \begin{center}%
     \let \footnote \thanks
     \@puttitle
+    \vskip 0.5em%
+    {\large Version: \@version}%
     \vskip 3em%
     {\lineskip .5em%
       \@putauthorinfo
@@ -578,21 +588,42 @@
 \graphicspath{{./logo/}{../logo/}{../../logo/}{../common/logo/}{../../common/logo/}{../tex/logo/}{../project/tex/logos/}{../../project/tex/logos/}{../../../project/tex/logos/}{../../../../project/tex/logos/}}
 
 
-% Define page styles with headers and footers.
-% \lfoot{\raisebox{-6pt}{\includegraphics[width=0.6in]{\JSBMLlogoSmall}}}%
+% Definition of page styles with headers and footers.
 
-\pagestyle{fancy}
 \fancyhf{}
-\lhead{}
-\rhead{}
-\renewcommand{\headrulewidth}{0pt}
-\cfoot{\small{Page \thepage\ of \pageref*{LastPage}}}
-\rfoot{\small{\nouppercase{\truncate[{\,[\ldots]}]{2.5in}{\rightmark}}}}
-\if@draftdoc%
-  \lfoot{\small{\nouppercase{\leftmark} (DRAFT)}}
-\else
-  \lfoot{\small{\nouppercase{\leftmark}}}
-\fi
+
+\newcommand{\footchpsection}{\@title ~~$\blacksquare$~ \nouppercase{\leftmark}}
+\newcommand{\footpage}{Page \thepage\ of \pageref*{LastPage}}
+
+\renewcommand{\footrule}{\color{sbmlblue}\footnotesize{\hbox to\headwidth{\dotfill}}\vskip-2ex}
+
+\fancypagestyle{headerandfooter}{%
+  \renewcommand{\headrulewidth}{0.25pt}
+  \renewcommand{\headrule}{\vskip-1ex\color{sbmlblue}\footnotesize{\hbox to\headwidth{\dotfill}}}
+  \lhead{}%
+  \rhead{\color{darkgray}\small\textsf{Section \nouppercase{\rightmark}}}%
+  \cfoot{}%
+  \lfoot{\color{darkgray}\small\textsf{\footchpsection}}%
+  \rfoot{\color{darkgray}\small\textsf{\footpage}}%
+}
+
+\fancypagestyle{footeronly}{%
+  \renewcommand{\headrule}{}%
+  \lhead{}%
+  \rhead{}%
+  \lfoot{\color{darkgray}\small\textsf{\footchpsection}}%
+  \rfoot{\color{darkgray}\small\textsf{\footpage}}%
+}
+
+\fancypagestyle{plain}{%
+  \renewcommand{\headrule}{}%
+  \lhead{}%
+  \rhead{}%
+  \lfoot{}%
+  \rfoot{\color{darkgray}\small\textsf{\footpage}}%
+}
+
+\pagestyle{headerandfooter}
 
 
 % Definition of paragraph style.
@@ -615,7 +646,8 @@
 
 \renewcommand{\chapter}{\@startsection%
   {chapter}{0}{0pt \@plus 1ex}{-3ex \@plus -1ex \@minus -.2ex}%
-  {1.2ex}{\clearpage\hspace*{-24.25pt}\color{specialblue}{\rule[1.8em]{6.84in}{0.6em}}\color{\normaltextcolor}%
+  {1.2ex}{\clearpage\thispagestyle{footeronly}%
+    \hspace*{-24.25pt}\color{specialblue}{\rule[1.8em]{6.84in}{0.6em}}\color{\normaltextcolor}%
     \hspace*{-6.84in}\color{specialblue}{\rule[-0.8em]{6.84in}{0.1em}}\color{\normaltextcolor}%
     \hspace*{-0.57in}\raisebox{-4pt}{\includegraphics[width=0.6in]{\JSBMLlogoSmall}}%
     \hspace*{-0.03in}\noindent\normalfont\LARGE\bfseries\sffamily\hspace*{-6.84in}}}
@@ -637,9 +669,11 @@
 
 \bibliographystyle{siam}
 
-\renewenvironment{thebibliography}[1]%
-{\chapter*{References}%
-  \addcontentsline{toc}{section}{\protect\numberline{\normalsize\refname}}%
+\renewenvironment{thebibliography}[1]{%
+  \chapter*{References}%
+  \markboth{References}{References}%
+  \pagestyle{plain}%
+  \addcontentsline{toc}{chapter}{\protect\numberline{\normalsize\refname}}%
   \list{\@biblabel{\@arabic\c@enumiv}}%
   {\settowidth\labelwidth{\@biblabel{#1}}%
     \leftmargin\labelwidth
@@ -662,75 +696,8 @@
   {0.8ex}{\hspace*{-41.1pt}\colorbox{sbmlgray}{\hspace*{6.99in}}\nopagebreak\\%
   \hspace*{-20pt}\normalfont\Large\bfseries\sffamily}}
 
-% Adjustments to the table of contents.
-% The following are modified versions of macros from article.cls.
-% It adjusts the vertical spacing in TOC for section lines.
-
-\renewcommand*\l@chapter[2]{%
-  \ifnum \c@tocdepth >\m@ne
-    \addpenalty{-\@highpenalty}%
-    \vskip 0.75em \@plus\p@
-    \setlength\@tempdima{2 em}%
-    \begingroup
-      \parindent \z@ \rightskip \@pnumwidth
-      \parfillskip -\@pnumwidth
-      \leavevmode \normalsize\bfseries\sffamily
-      \advance\leftskip\@tempdima
-      \color{sbmlblue}\rule[-0.5em]{6.28in}{0.1em}\hspace*{-6.28in}%
-      \vspace*{0.25em}%
-      \hskip -\leftskip
-      #1\color{\normaltextcolor}\nobreak\hfil \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
-      \penalty\@highpenalty
-    \endgroup
-  \fi}
-
-\renewcommand*\l@section[2]{%
-  \ifnum \c@tocdepth >\z@
-    \addpenalty\@secpenalty
-    \addvspace{0.2ex \@plus\p@}%
-    \setlength\@tempdima{2 em}%
-    \begingroup
-      \parindent \z@ \rightskip \@pnumwidth
-      \parfillskip -\@pnumwidth
-      \leavevmode \bfseries\sffamily
-      \advance\leftskip\@tempdima
-      \hskip -\leftskip
-      #1\nobreak\hfil \nobreak\hb@xt@\@pnumwidth{\hss #2}\par
-    \endgroup
-  \fi}
-
-% Args are, in order: level, indent, numwidth
-
-\renewcommand*\l@subsection{\@dottedtocline{2}{2em}{3 em}}
-\renewcommand*\l@subsubsection{\@dottedtocline{3}{7.0em}{4.1em}}
-
-\def\@dottedtocline#1#2#3#4#5{%
-  \ifnum #1>\c@tocdepth \else
-    \vskip \z@ \@plus.2\p@
-    {\if@twocolumntoc\else
-      \leftskip #2
-     \fi
-     \relax \rightskip \@tocrmarg \parfillskip -\rightskip
-     \if@twocolumntoc\else
-       \parindent #2
-     \fi
-     \relax\@afterindenttrue
-     \interlinepenalty\@M
-     \leavevmode
-     \@tempdima #3\relax
-     \advance\leftskip \@tempdima \null\nobreak\hskip -\leftskip
-     {\sffamily #4}\nobreak
-     \leaders\hbox{$\m@th
-        \mkern \@dotsep mu\hbox{.}\mkern \@dotsep
-        mu$}\hfill
-     \nobreak
-     \hb@xt@\@pnumwidth{\hfil\normalfont\sffamily #5}%
-     \par}%
-  \fi}
-
-
 % Redefine table & figure to use smaller font, sans serif,
-% and to center contents by default.
+% and to center contents by default:
 
 \renewenvironment{table}[1][]  {\@float{table}[#1]\small\sffamily\centering}    {\end@float}
 \renewenvironment{table*}[1][] {\@dblfloat{table}[#1]\small\sffamily\centering} {\end@dblfloat}
@@ -748,6 +715,9 @@
 \newcommand{\captionlabelfont}{\captionsize\bfseries\slshape}
 \newlength{\captionmargin}
 \setlength{\captionmargin}{6ex}
+
+\setlength{\belowcaptionskip}{1ex \@plus 0.5ex}
+\setlength{\abovecaptionskip}{1.5ex \@plus 0.5ex}
 
 \newsavebox{\as@captionbox}
 \newlength{\as@captionwidth}
@@ -893,10 +863,21 @@
 \fi
 
 
-% Cross-references.  Use \vref{...} for everything and it will insert
-% Figure~X, Table~Y, Section~Z, etc., as appropriate for the reference.
-% Use \Vref*{...} at the beginning of a paragraph (and ONLY there), and
-% \vref*{...} if the reference is in parentheses, like "(\vref*{...})".
+% Cross-references.  This uses the nameref package.  Usage is as follows:
+%
+% * Use \vref{...} for everything and it will insert Figure~X, Table~Y,
+%   Section~Z, etc., as appropriate for the reference.  You do not need to
+%   add the object name; in other words, don't write "Section~\vref{foo}",
+%   write just "vref{foo}".
+%
+% * Use \vref*{...} if the reference is in parentheses, like "(\vref*{...})".
+%
+% * At the beginning of a paragraph (and ONLY there), use \Vref*{...}.
+%
+% * For a range, use \vrefrange{startlabel}{endlabel}.
+%
+% To see actual examples of using this, grep for "vref" in *.tex in the
+% JSBML User Guide directory.
 
 \labelformat{chapter}{Chapter~#1}
 \labelformat{section}{Section~#1}

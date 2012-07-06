@@ -23,19 +23,24 @@ elaborate programs.
 \end{figure}
 
 \Vref*{fig:JSBMLvisualizer-source} shows the listing of a very simple
-program called ``\code{JSBMLvisualizer}''. When it is run, it expects to be
-given the pathname of a valid SBML file as \index{SBML!XML file} its sole
-argument. The program uses the method \code{readSBML()} defined by the
-JSBML object class \SBMLReader to read the file; \SBMLReader returns an
-object of class \SBMLDocument, the main SBML document container in JSBML.
-Next, the program constructs a new \code{JSBMLvisualizer} object, which is
-derived from the standard Java \JFrame class. It invokes the class
-constructor (line 9) with the identifier of the model in the SBML file,
-obtained by calling \code{getModel().getId()} on the \SBMLDocument object;
-this sets the \JFrame's title to the identifier of the model. Since JSBML's
-\SBase object (and all objects derived from it) implement the \TreeNode
-interface, it is possible to create a \JTree directly from the information
-in an \SBMLDocument object instance.
+program called ``\code{JSBMLvisualizer}''. When it is run, it expects to
+be given the pathname of a valid SBML file as \index{SBML!XML file} its
+sole argument. The program uses the static method \code{read()} defined
+by the JSBML object class \SBMLReader to read the file; \SBMLReader
+returns an object of class \SBMLDocument, the main SBML document
+container in JSBML.  Next, the program constructs a new
+\code{JSBMLvisualizer} object, which is derived from the standard Java
+\JFrame class. It invokes the class constructor (line 9) with the
+identifier of the model in the SBML file, obtained by calling
+\code{getModel().getId()} on the \SBMLDocument object; this sets the
+\JFrame's title to the identifier of the model. Since JSBML's \SBase
+object (and all objects derived from it) implement the \TreeNode
+interface, it is possible to create a \JTree directly from the
+information in an \SBMLDocument object instance.  (To keep our example
+short and focused on the essentials of using JSBML, we have omitted
+error checking steps.  A real application program should guard against
+various situations, such as \code{getModel()} returning \code{null}, and
+take steps to deal with them appropriately.)
 
 To compile and execute ``\code{JSBMLvisualizer}'', you would need to do
 the following sequence of commands:
@@ -107,8 +112,10 @@ then attaches a \Model object to it, and then to the \Model adds one
 contents to a file named ``\code{test.xml}'', the program uses a static
 method on the JSBML class \SBMLWriter.
 
-\begin{figure}[b]
+\begin{figure}[bht]
+  \vspace*{-1ex}
   \exampleFile{src/JSBMLexample.java}
+  \vspace*{-1.5ex}
   \caption{Creating a new \code{SBMLDocument} object and writing its content
     into a file.}
   \label{fig:JSBMLexample-source}

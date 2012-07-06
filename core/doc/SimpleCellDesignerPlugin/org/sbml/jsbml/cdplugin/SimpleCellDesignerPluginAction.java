@@ -28,5 +28,4 @@ public class SimpleCellDesignerPluginAction extends PluginAction {
 					.getSource().getClass().getName());
 		}
 	}
-
 }
