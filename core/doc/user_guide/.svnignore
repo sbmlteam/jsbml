@@ -1,6 +1,8 @@
 *.blg
 *.out
 *.idx
+*.ilg
+*.ind
 *.log
 *.toc
 *.aux
