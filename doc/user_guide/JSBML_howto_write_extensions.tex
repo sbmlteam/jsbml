@@ -23,8 +23,8 @@ corresponding SBML short name for the \SBMLthree package; for example,
 Layout package, and so on.  The source directories for the extensions
 follow some basic conventions for their organization and contents.
 
-\begin{wrapfigure}[23]{r}{2.31in}
-  \vspace*{-2ex}
+\begin{wrapfigure}[23]{r}{2.05in}
+  \vspace*{-3ex}
   \dirtree{%
     .1 /.
     .2 build.xml.
@@ -48,22 +48,22 @@ follow some basic conventions for their organization and contents.
     repository.}
   \label{fig:extension-src-structure}
 \end{wrapfigure}
-As part of creating a new extension for JSBML, please follow the same
-conventions as those used in the existing extension directories.  These
-conventions are illustrated in \vref{fig:extension-src-structure}.
-There should be a build script in a file named ``\code{build.xml}'' for use
-with Ant~\citep{ApacheAnt}, and several subdirectories.  The \code{doc}
-subdirectory should contain documentation about the extension, preferrably
-with a subdirectory of its own, \code{img}, containing a UML diagram of the
-type hierarchy of the package.  This can be in the form of, for instance, a
-Graphviz~\cite{graphvizWebsite} file \code{type\_hierarchy.dot}, so that
-the diagram can be generated in different image formats.  The extension
-directory should also contain a \code{lib} subdirectory where any
-package-specific, third-party libraries are located; a \code{resources}
-subdirectory for any non-source files that may be required by the extension
-code; an \code{src} subdirectory for the Java source code comprising the
-extension; and finally, a \code{test} subdirectory containing tests for the
-extension code, preferrably in JUnit~\cite{junitWebsite} format.
+When creating a new extension for JSBML, please follow the conventions used
+in the existing extension directories.  These conventions are illustrated in
+\vref{fig:extension-src-structure}.  There should be a build script in a file
+named ``\code{build.xml}'' for use with Ant~\citep{ApacheAnt}, and several
+subdirectories.  The \code{doc} subdirectory should contain documentation
+about the extension, preferrably with a subdirectory of its own, \code{img},
+containing at least a UML diagram of the type hierarchy of the package.  This
+can be in the form of, for instance, a Graphviz~\cite{graphvizWebsite} file
+\code{type\_hierarchy.dot}, so that the diagram can be generated in different
+image formats.  The extension directory should also contain a \code{lib}
+subdirectory where any package-specific, third-party libraries are located; a
+\code{resources} subdirectory for any non-source files that may be required
+by the extension code; an \code{src} subdirectory for the Java source code
+comprising the extension; and finally, a \code{test} subdirectory containing
+tests for the extension code, preferrably in JUnit~\cite{junitWebsite}
+format.
 
 Note the structure of the \code{src} subdirectory. A JSBML extension needs
 to define at least two packages: \code{org.sbml.jsbml.ext.NAME}, for the
@@ -174,17 +174,17 @@ public boolean unsetBar() {
   \label{lst:DefaultModelExtFooBar}
 \end{figure}
 
-A few points about the code of \vref{lst:DefaultModelExtFooBar} are
-worth mentioning.  The identifiers on SBML components are often required to
-be unique; for many components, the scope of uniqueness is the entire set
-of main SBML components (e.g., \Species, \Compartment{}s, etc.), but some
-have uniqueness requirements that are limited to some subset of entities
-(e.g., unit names).  For the purposes of this example, we assume that the
+A few points about the code of \vref{lst:DefaultModelExtFooBar} are worth
+mentioning.  The identifiers on SBML components are often required to be
+unique; for many components, the scope of uniqueness is the entire set of
+main SBML components (e.g., \Species, \Compartment{}s, etc.), but some have
+uniqueness requirements that are limited to some subset of entities (e.g.,
+unit identifiers).  For the purposes of this example, we assume that the
 identifiers of \emph{Foo} objects in a model must be unique across all
-identifiers in the model.  All entities that have such uniqueness
-constraints should implement the JSBML interface \UniqueNamedSBase; in our
-example, this is taken care of by the abstract superclasses, so nothing
-needs to be done explicitly here.
+identifiers in the model.  All entities that have such uniqueness constraints
+should implement the JSBML interface \UniqueNamedSBase; in our example, this
+is taken care of by the abstract superclasses, so nothing needs to be done
+explicitly here.
 
 The code in \vref{lst:DefaultModelExtFooBar} also illustrates
 another point, the need call to \code{firePropertyChange()} in set and
@@ -192,7 +192,7 @@ unset methods.  This is needed in order to ensure that all listeners are
 notified about changes to the objects.  Finally, note that in cases that
 the return type is a Java base type, such as \code{int} or \code{boolean},
 but the corresponding internal element (e.g., \code{Integer} or
-\code{Boolean}) is set to \code{null}, the program must throw 
+\code{Boolean}) is set to \code{null}, the program must throw a
 \code{PropertyUndefineError} in the get method to prevent incorrect
 results (see line~8).
 
@@ -225,7 +225,7 @@ public Foo(String id, int level, int version) {
   this(id, null, level, version);
 }
 
-public Foo(String id, String name, int level, int version) {
+public Foo(String id, String name, int level, int version) throws LevelVersionError {
   super(id, name, level, version);
   if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
     throw new LevelVersionError(getElementName(), level, version);
@@ -259,7 +259,7 @@ class definitions, confusing code, and excessive maintenance costs, so it
 is better to decide which combinations of arguments are the most common and
 focus on them.  In \vref{lst:ModelExtFooConstructors}, we show a
 recommended selection of constructors.  They include a constructor that
-takes an identifier onely, another that takes SBML Level and Version values
+takes an identifier only, another that takes SBML Level and Version values
 only, and another that takes all arguments together.  If you delegate the
 constructor call to the super class, you have to take care of the
 initialization of your custom attributes yourself (by calling a method like
@@ -284,10 +284,7 @@ of the methods that would be added to \Model to handle
 \begin{figure}[b]
   \begin{example}[numbers=left]
 public boolean isSetListOfFoos() {
-  if ((listOfFoos == null) || listOfFoos.isEmpty()) {
-    return false;
-  }
-  return true;
+  return (listOfFoos != null) && !listOfFoos.isEmpty();
 }
 
 public ListOf<Foo> getListOfFoos() {
@@ -298,7 +295,7 @@ public ListOf<Foo> getListOfFoos() {
     listOfFoos.setSBaseListType(ListOf.Type.other);
     m.registerChild(listOfFoos);
   }
-  return ListOfFoos;
+  return this.listOfFoos;
 }
 
 public void setListOfFoos(ListOf<Foo> listOfFoos) {
@@ -308,7 +305,7 @@ public void setListOfFoos(ListOf<Foo> listOfFoos) {
 }
 
 public boolean unsetListOfFoos() {
-  if(isSetListOfFoos()) {
+  if (isSetListOfFoos()) {
     ListOf<Foos> oldFoos = this.listOfFoos;
     this.listOfFoos = null;
     oldFoos.fireNodeRemovedEvent();
@@ -335,20 +332,17 @@ public boolean addFoo(Foo foo) {
 }
 
 public boolean removeFoo(Foo foo) {
-  if (isSetListOfFoos()) {
-    return getListOfFoos().remove(foo);
-  }
-  return false;
+  return isSetListOfFoos() ? getListOfFoos().remove(foo) : false;
 }
 
-public void removeFoo(int i) {
+public boolean removeFoo(int i) {
   if (!isSetListOfFoos()) {
     throw new IndexOutOfBoundsException(Integer.toString(i));
   }
-  listOfFoos.remove(i);
+  return listOfFoos.remove(i);
 }
 
-// If the ID is mandatory for Foo objects, one should also add the following:
+// If the object class has an id, one should also add the following:
 public void removeFoo(String id) {
   return getListOfFoos().removeFirst(new NameFilter(id));
 }\end{example}
@@ -365,9 +359,10 @@ public boolean getAllowsChildren() {
 
 public int getChildCount() {
   int count = 0;
-  if (isSetListOfFoos())
+  if (isSetListOfFoos()) {
     count++;
-  return count;  // same for each additional ListOf* in this extension
+  }
+  return count;  // Same for each additional ListOf* or other subelement in this package.
 }
 
 public SBase getChildAt(int childIndex) {
@@ -375,13 +370,16 @@ public SBase getChildAt(int childIndex) {
     throw new IndexOutOfBoundsException(childIndex + " < 0");
   }
 
+  // Important: there must be an index shift according to the number of child elements in the superclass.
+
   int pos = 0;
   if (isSetListOfFoos()) {
-    if (pos == childIndex)
+    if (pos == childIndex) {
       return getListOfFoos();
+    }
     pos++;
   }
-  // same for each additional ListOf* in this extension
+  // Same for each additional ListOf* or other subelements in this package.
   throw new IndexOutOfBoundsException(MessageFormat.format(
     "Index {0,number,integer} >= {1,number,integer}", childIndex, +((int) Math.min(pos, 0))));
 }\end{example}
@@ -399,7 +397,7 @@ because they vary with the number of non-empty \code{ListOf}s.  So, for
 every non-empty \code{ListOf} child of our model extension, we increase the
 counter by one.  (Note also that if callers access list entries by index
 number, they will need to take into account the possibility that a given
-object's index may shift.)
+object's index may shift. )
 
 
 \subsection{Methods for creating new objects}
@@ -408,7 +406,7 @@ Since a newly created instance of type \code{Foo} is not part of the model
 unless it is added to it, \code{create*} methods should be provided that
 take care of all that (see \vref{lst:ModelExtCreateMethods}).
 These create methods should be part of the model to which the \code{Foo}
-instance should be added, in this case \code{ExampleModel}.
+instance is to be added, in this case \code{ExampleModel}.
 
 \begin{figure}[thb]
   \begin{example}[numbers=left]
@@ -422,7 +420,7 @@ public class ExampleModel extends AbstractSBasePlugin {
   }
 
   public Foo createFoo(String id) {
-    Foo foo = new Foo(id, getModel().getLevel(), getModel().getVersion());
+    Foo foo = new Foo(id, getLevel(), getVersion());
     addFoo(foo);
     return foo;
   }
@@ -442,8 +440,9 @@ public class ExampleModel extends AbstractSBasePlugin {
 
 There are three more methods which should be implemented in an extension
 class: \code{equals}, \code{hashCode} and \code{clone}.  This is not
-different than whne implementing any other Java class, but because mistakes
-here can lead to bugs that are very hard to find, we describe the process.
+different than when implementing any other Java class, but because mistakes
+here can lead to bugs that are very hard to find, we describe the process in
+detail.
 
 Whenever two objects \code{o1} and \code{o2} should be regarded as equal,
 i.e., all their attributes are equal, the \code{o1.equals(o2)} and the
@@ -474,6 +473,8 @@ public boolean equals(Object object) {
     Foo foo = (Foo) object;
     equals &= foo.isSetBar() == isSetBar();
     if (equals && isSetBar()) {
+      // Note: strictly speaking, this is only possible if the return type is some Object. For simple data types,
+      // such as boolean, int, short, etc., the corresponding wrapper classes should be called instead.
       equals &= (foo.getBar().equals(getBar()));
     }
     // ...
@@ -510,15 +511,20 @@ the \code{clone()} method is delegated to a constructor of that class that
 takes an instance of itself as argument.  There, all the elements of the
 class must be copied, which may require recursive cloning.
 
+Although JSBML defines all SBML elements in a hierarchical data structure, it
+is still not possible to recursively clone child elements within the
+constructor of some abstract superclasses because these can be of various
+types and they cannot simply be organized as a list of children.
+
 \begin{figure}[htb]
   \begin{example}[numbers=left]
-public ExampleModel clone() {
+@Override public ExampleModel clone() {
   return new ExampleModel(this);
 }
 
 public ExampleModel(ExampleModel model) {
-  super();
-  // deep cloning of all elements:
+  super(model);  This step is critical!
+  // Deep cloning of all elements:
   if (model.isSetListOfFoos()) {
     listOfFoos = model.listOfFoos.clone();
   }
@@ -529,12 +535,12 @@ public ExampleModel(ExampleModel model) {
 
 \begin{figure}[htb]
   \begin{example}[numbers=left]
-public Foo clone() {
+@Override public Foo clone() {
   return new Foo(this);
 }
 
 public Foo(Foo f) {
-  super();
+  super(f);  // This step is critical!
 
   // Integer objects are immutable, so it is sufficient to copy the pointer
   bar = f.bar;
@@ -557,7 +563,7 @@ start with two members and two simple methods, as shown in
 \subsection{Reading}
 
 As can be seen from this code snippet, an additional class
-\code{ExampleConstant} and an enum \code{ExampleList} are used.
+\code{ExampleConstants} and an enum \code{ExampleListType} are used.
 
 \emph{\textbf{... TODO ...}}
 
@@ -571,23 +577,23 @@ public class ExampleParser extends AbstractReaderWriter {
   private Logger logger = Logger.getLogger(ExampleParser.class);
 
   /**
-   * The ExampleList enum which represents the name of the list this parser is
+   * The ExampleListType enum which represents the name of the list this parser is
    * currently reading.
    */
-  private ExampleList groupList = ExampleList.none;
+  private ExampleListType groupList = ExampleListType.none;
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getShortLabel()
    */
   public String getShortLabel() {
-    return ExampleConstant.shortLabel;
+    return ExampleConstants.shortLabel;
   }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
    */
   public String getNamespaceURI() {
-    return ExampleConstant.namespaceURI;
+    return ExampleConstants.namespaceURI;
   }
 
 }\end{example}
@@ -612,15 +618,14 @@ are three classes of objects that need to be distinguished:
 
 TODO: SBMLDocument.
 
-After that we need to check if the current object is extendable using our extension.
-In our example extension, a \Model{} can be extended using ExampleModel to also
-have a list of Foos as children.
-In Java, this ListOfFoos is not a children of the original model, but of the
-example model.
-The example model, on the other hand, is just an SBasePlugin, which is not an
-\SBase{} and also not a children of the original model.
-To ``inject'' the ListOfFoos in the right place, all children of the example
-model in Java become direct children of the original model in XML.
+After that we need to check if the current object is extendable using our
+extension.  In our example extension, a \Model{} can be extended using
+ExampleModel to also have a list of Foos as children.  In Java, this
+\code{ListOfFoos} is not a child of the original model, but of the example
+model.  The example model, on the other hand, is just an \SBasePlugin, which
+is not an \SBase{} and also not a child of the original model.  To ``inject''
+the ListOfFoos in the right place, all children of the example model in Java
+become direct children of the original model in XML.
 
 All other objects that implement \SBase{} also implement \TreeNode, so we just add
 all of their children to the list of elements to write.
@@ -635,13 +640,15 @@ public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
 
   ArrayList<Object> listOfElementsToWrite = new ArrayList<Object>();
 
+  Enumeration<TreeNode> children = null;
+
   if (sbase instanceof SBMLDocument) {
     // nothing to do
     // TODO : the 'required' attribute is written even if there is no plugin class for the SBMLDocument, 
     // so I am not totally sure how this is done.
   }
   else if (sbase instanceof Model) {
-    ExampleModel modelGE = (ExampleModel) ((Model) sbase).getExtension(ExampleConstant.namespaceURI);
+    ExampleModel modelGE = (ExampleModel) ((Model) sbase).getExtension(ExampleConstants.namespaceURI);
 
     Enumeration<TreeNode> children = modelGE.children();
 
@@ -729,26 +736,25 @@ is easier to call the \code{addFoo()} method on it.
 
 \begin{figure}[htb]
   \begin{example}[numbers=left]
-// Create the proper object and link it to his parent.
+// Create the proper object and link it to its parent.
 public Object processStartElement(String elementName, String prefix,
-    boolean hasAttributes, boolean hasNamespaces, Object contextObject)
-{
+    boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 
   if (contextObject instanceof Model) {
     Model model = (Model) contextObject;
     ExampleModel exModel = null;
 
-    if (model.getExtension(ExampleConstant.namespaceURI) != null) {
-      exModel = (ExampleModel) model.getExtension(ExampleConstant.namespaceURI);
+    if (model.getExtension(ExampleConstants.namespaceURI) != null) {
+      exModel = (ExampleModel) model.getExtension(ExampleConstants.namespaceURI);
     } else {
       exModel = new ExampleModel(model);
-      model.addExtension(ExampleConstant.namespaceURI, exModel);
+      model.addExtension(ExampleConstants.namespaceURI, exModel);
     }
 
     if (elementName.equals("listOfFoos")) {
 
       ListOf<Foos> listOfFoos = exModel.getListOfFoos();
-      this.groupList = QualList.listOfFoos;
+      this.groupList = ExampleListType.listOfFoos;
       return listOfFoos;
     }
   } else if (contextObject instanceof Foo) {
@@ -757,13 +763,12 @@ public Object processStartElement(String elementName, String prefix,
     // if Foo would have children, that would go here
 
   }
-  else if (contextObject instanceof ListOf<?>)
-  {
+  else if (contextObject instanceof ListOf<?>) {
     ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
 
-    if (elementName.equals("foo") && this.groupList.equals(QualList.listOfFoos)) {
+    if (elementName.equals("foo") && this.groupList.equals(ExampleListType.listOfFoos)) {
       Model model = (Model) listOf.getParentSBMLObject();
-      ExampleModel exModel = (ExampleModel) model.getExtension(ExampleConstant.namespaceURI);
+      ExampleModel exModel = (ExampleModel) model.getExtension(ExampleConstants.namespaceURI);
 
       Foo foo = new Foo();
       exModel.addFoo(foo);
@@ -776,22 +781,21 @@ public Object processStartElement(String elementName, String prefix,
   \label{lst:ModelExtParserStartElement}
 \end{figure}
 
-The processEndElement() method is called whenever a closing tag is
-encountered.  The groupList attribute needs to be updated to reflect the
-step up in the tree of nested elements.  In this example, if the end of
+The \code{processEndElement()} method is called whenever a closing tag is
+encountered.  The groupList attribute needs to be updated to reflect the step
+up in the tree of nested elements.  In this example, if the end of
 \code{</listOfFoos>} is reached, we certainly are inside the model tags
 again, which is denoted by \emph{none}.  Of course, more complicated
-extensions with lots of nested lists need a more elaborate handling here,
-but it should still be straight-forward.
+extensions with nested lists will require more elaborate handling, but it
+should still be straightforward.
 
 \begin{figure}[htb]
   \begin{example}[numbers=left]
 public boolean processEndElement(String elementName, String prefix,
   boolean isNested, Object contextObject) {
 
-  if (elementName.equals("listOfFoos")
-  {
-    this.groupList = QualList.none;
+  if (elementName.equals("listOfFoos") {
+    this.groupList = ExampleListType.none;
   }
 
   return true;
@@ -815,7 +819,7 @@ public boolean readAttribute(String attributeName, String prefix, String value) 
   if (!isAttributeRead) {
     isAttributeRead = true;
 
-    if (attributeName.equals(ExampleConstant.bar)) {
+    if (attributeName.equals(ExampleConstants.bar)) {
       setBar(StringTools.parseSBMLInt(value));
     } else {
       isAttributeRead = false;

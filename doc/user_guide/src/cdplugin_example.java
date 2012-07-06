@@ -19,6 +19,7 @@ public class SimpleCellDesignerPlugin extends CellDesignerPlugin {
             SimpleCellDesignerPluginAction action = new SimpleCellDesignerPluginAction(this);
             PluginMenu menu = new PluginMenu(APPLICATION_NAME);
             PluginMenuItem menuItem = new PluginMenuItem(ACTION, action);
+            menuItem.setName("some_id");
             menu.add(menuItem);
             addCellDesignerPluginMenu(menu);
         } catch (Exception exc) {
@@ -28,11 +29,14 @@ public class SimpleCellDesignerPlugin extends CellDesignerPlugin {
 
     /** This method is to be called by our CellDesignerPluginAction. */
     public void startPlugin() {
-        PluginSBMLReader reader = new PluginSBMLReader(getSelectedModel(), SBO
-                                                       .getDefaultPossibleEnzymes());
+        PluginSBMLReader reader
+            = new PluginSBMLReader(getSelectedModel(), SBO.getDefaultPossibleEnzymes());
+
+        // In CellDesigner, the SBMLDocument object is not accessible, so we must create a new one
+        // after obtaining the model from the reader.
+
         Model model = reader.getModel();
-        SBMLDocument doc = new SBMLDocument(model.getLevel(), model
-                                            .getVersion());
+        SBMLDocument doc = new SBMLDocument(model.getLevel(), model.getVersion());
         doc.setModel(model);
         new JSBMLvisualizer(doc);
     }
