@@ -1216,9 +1216,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 */
 	public void registerChild(SBase sbase) throws LevelVersionError 
 	{
-		if (sbase != null && sbase.getParent() != null)
-		{
-			logger.warn(MessageFormat.format("Trying to register an SBase, {0}, that is already associated with a Model !!", sbase));
+		if ((sbase != null) && (sbase.getParent() != null)) {
+			logger.warn(MessageFormat.format("Trying to register an SBase, {0}, that is already associated with a Model!", sbase));
 			return;
 		}
 		
@@ -1271,10 +1270,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	    if ((model != null)
 	        && !model.registerIds(this, sbase, recursively, false)) {
 	      // Something went wrong: We have to restore the previous state:
-	      if (oldParent == null) {
-	    	  ((AbstractSBase) sbase).setParentSBML(null);
-	      } else if (oldParent instanceof SBase) {
-	    	  ((AbstractSBase) sbase).setParentSBML((SBase) oldParent);
+	      if (sbase instanceof AbstractSBase) {
+	        if (oldParent == null) {
+	          ((AbstractSBase) sbase).setParentSBML(null);
+	        } else if (oldParent instanceof SBase) {
+	          ((AbstractSBase) sbase).setParentSBML((SBase) oldParent);
+	        }
 	      }
 	      sbase.addAllChangeListeners(listeners);
 
