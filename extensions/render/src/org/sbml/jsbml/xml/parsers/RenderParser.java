@@ -20,6 +20,7 @@
  */ 
 package org.sbml.jsbml.xml.parsers;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.layout.BoundingBox;
@@ -52,11 +53,11 @@ import org.sbml.jsbml.ext.render.Style;
  * @date 04.06.2012
  */
 public class RenderParser extends AbstractReaderWriter {
-
+  
 	/**
 	 * The logger for this RenderParser
 	 */
-	//private Logger logger = Logger.getLogger(RenderParser.class);
+	private static final Logger logger = Logger.getLogger(RenderParser.class);
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getShortLabel()
@@ -81,7 +82,7 @@ public class RenderParser extends AbstractReaderWriter {
 	@Override
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
-		System.out.println("logger called, " + prefix + " : " + elementName + " in context of: " + contextObject.toString());
+		logger.debug("logger called, " + prefix + " : " + elementName + " in context of: " + contextObject.toString());
 		if (contextObject instanceof ExtendedLayoutModel) {
 			ExtendedLayoutModel layoutModel = (ExtendedLayoutModel) contextObject;
 			// TODO not sure if necessary to check if listOfLayouts != null

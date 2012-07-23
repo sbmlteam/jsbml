@@ -303,4 +303,13 @@ public class Dimensions extends AbstractNamedSBase {
 		return attributes;
 	}
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return super.toString() + " [depth=" + depth + ", height=" + height + ", width="
+      + width + ']';
+  }
+
 }
