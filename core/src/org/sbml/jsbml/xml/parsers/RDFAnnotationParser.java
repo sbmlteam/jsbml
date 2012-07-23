@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml.xml.parsers;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 
 import org.apache.log4j.Logger;
@@ -187,7 +188,7 @@ public class RDFAnnotationParser implements ReadingParser {
 		Model model = sbmlDocument.getModel();
 
 		if (!model.hasValidAnnotation()){
-			logger.warn(String.format("The model element with metaid = '%s' has an invalid rdf:about = '%s' inside his annotation.", model.getMetaId(), model.getAnnotation().getAbout()));	
+			logger.warn(MessageFormat.format("The model element with metaid = \"{0}\" has an invalid rdf:about = \"{1}\" inside his annotation.", model.getMetaId(), model.getAnnotation().getAbout()));	
 			setRDFAbout(model);
 		}
 

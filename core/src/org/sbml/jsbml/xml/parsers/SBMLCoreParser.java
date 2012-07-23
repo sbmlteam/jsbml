@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml.xml.parsers;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -109,11 +110,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 				sbmlCoreElements);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object
-	 * sbase)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
@@ -354,8 +352,9 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 		}
 
 		if (!isAttributeRead) {
-			log4jLogger.warn(String.format(
-					"Could not recognize the attribute '%s' on the element %s. Please check the SBML specifications.",
+		  // TODO: Here we should add a hint which SBML Level/Version combination is used.
+			log4jLogger.warn(MessageFormat.format(
+					"Could not recognize the attribute \"{0}\" on the element {1}. Please check the specification for SBML.", // Level {2,number,integer} Version {3,number,integer}
 					attributeName, elementName));
 			//  Log the error to the ErrorLog object ??
 		}
@@ -374,23 +373,20 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 		
 		// TODO : we have to check if we are in the context of a Notes or an Annotation
 		
-		if (elementName != null && elementName.equals("notes")) {
+		if ((elementName != null) && elementName.equals("notes")) {
 			
-		} else if (characters != null && characters.trim().length() != 0) {
+		} else if ((characters != null) && (characters.trim().length() != 0)) {
 			// log4jLogger.warn("The SBML core XML element should not have any content, everything should be stored as attribute.");
 			// log4jLogger.warn("The Characters are : @" + characters.trim() + "@");
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument
-	 * sbmlDocument)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument sbmlDocument)
 	 */
 	public void processEndDocument(SBMLDocument sbmlDocument) {
 
-		log4jLogger.debug("SBMLCoreParser : processEndDocument");
+		log4jLogger.debug("SBMLCoreParser: processEndDocument");
 		
 		if (sbmlDocument.isSetModel()) {
 			Model model = sbmlDocument.getModel();

@@ -863,11 +863,10 @@ public class PluginSBMLReader implements SBMLInputConverter {
 		return para;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBMLReader#readModel(java.lang.Object)
 	 */
+	// @Override
 	public Model convertModel(Object model) {
 		if (!(model instanceof PluginModel)) {
 			throw new IllegalArgumentException("model" + error
@@ -1056,9 +1055,10 @@ public class PluginSBMLReader implements SBMLInputConverter {
 	 * @return
 	 */
 	private Species readSpecies(Object species) {
-		if (!(species instanceof PluginSpecies))
+		if (!(species instanceof PluginSpecies)) {
 			throw new IllegalArgumentException("species" + error
 					+ "PluginSpecies");
+		}
 		PluginSpecies spec = (PluginSpecies) species;
 		Species s = new Species(spec.getId(), level, version);
 		copyNamedSBaseProperties(s, spec);
@@ -1068,34 +1068,40 @@ public class PluginSBMLReader implements SBMLInputConverter {
 		if (alias.getType().equals(PluginSpeciesSymbolType.PROTEIN))
 			type = alias.getProtein().getType();
 		sbo = SBO.convertAlias2SBO(type);
-		if (SBO.checkTerm(sbo))
+		if (SBO.checkTerm(sbo)) {
 			s.setSBOTerm(sbo);
+		}
 		s.setBoundaryCondition(spec.getBoundaryCondition());
-		if (spec.getCompartment().length() > 0)
+		if (spec.getCompartment().length() > 0) {
 			s.setCompartment(model.getCompartment(spec.getCompartment()));
+		}
 		s.setCharge(spec.getCharge());
 		s.setConstant(spec.getConstant());
 		s.setHasOnlySubstanceUnits(spec.getHasOnlySubstanceUnits());
-		if (spec.isSetInitialAmount())
+		if (spec.isSetInitialAmount()) {
 			s.setInitialAmount(spec.getInitialAmount());
-		else if (spec.isSetInitialConcentration())
+		} else if (spec.isSetInitialConcentration()) {
 			s.setInitialConcentration(spec.getInitialConcentration());
+		}
 		// before L2V3...
 		spec.getSpatialSizeUnits();
-		if (spec.getSpeciesType().length() > 0)
+		if (spec.getSpeciesType().length() > 0) {
 			s.setSpeciesType(model.getSpeciesType(spec.getSpeciesType()));
+		}
 		if (spec.getSubstanceUnits().length() > 0) {
 			String substance = spec.getSubstanceUnits();
-			if (model.getUnitDefinition(substance) != null)
+			if (model.getUnitDefinition(substance) != null) {
 				s.setSubstanceUnits(model.getUnitDefinition(substance));
-			else
+			} else {
 				s.setSubstanceUnits(Unit.Kind.valueOf(substance.toUpperCase()));
+			}
 		} else if (spec.getUnits().length() > 0) {
 			String substance = spec.getUnits();
-			if (model.getUnitDefinition(substance) != null)
+			if (model.getUnitDefinition(substance) != null) {
 				s.setSubstanceUnits(model.getUnitDefinition(substance));
-			else
+			} else {
 				s.setSubstanceUnits(Unit.Kind.valueOf(substance.toUpperCase()));
+			}
 		}
 		addAllSBaseChangeListenersTo(s);
 		return s;
@@ -1300,7 +1306,7 @@ public class PluginSBMLReader implements SBMLInputConverter {
 	u.setMultiplier(libUnit.getMultiplier());
 	u.setScale(libUnit.getScale());
 	if (u.isSetOffset()) {
-	    u.setOffset(libUnit.getOffset());
+	  u.setOffset(libUnit.getOffset());
 	}
 	addAllSBaseChangeListenersTo(u);
 	return u;
@@ -1312,15 +1318,18 @@ public class PluginSBMLReader implements SBMLInputConverter {
 	 * @return
 	 */
 	private UnitDefinition readUnitDefinition(Object unitDefinition) {
-		if (!(unitDefinition instanceof PluginUnitDefinition))
+		if (!(unitDefinition instanceof PluginUnitDefinition)) {
 			throw new IllegalArgumentException("unitDefinition" + error
 					+ "PluginUnitDefinition");
+		}
 		PluginUnitDefinition libUD = (PluginUnitDefinition) unitDefinition;
 		UnitDefinition ud = new UnitDefinition(libUD.getId(), level, version);
 		copyNamedSBaseProperties(ud, libUD);
-		for (int i = 0; i < libUD.getNumUnits(); i++)
+		for (int i = 0; i < libUD.getNumUnits(); i++) {
 			ud.addUnit(readUnit(libUD.getUnit(i)));
+		}
 		addAllSBaseChangeListenersTo(ud);
 		return ud;
 	}
+
 }

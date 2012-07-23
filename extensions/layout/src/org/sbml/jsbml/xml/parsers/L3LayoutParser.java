@@ -308,7 +308,6 @@ public class L3LayoutParser extends AbstractReaderWriter {
 			}
 			
 			if (newElement != null) {
-				listOf.registerChild(newElement);
 				listOf.add(newElement);
 			}
 			

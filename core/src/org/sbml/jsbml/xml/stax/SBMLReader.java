@@ -28,6 +28,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Stack;
@@ -943,14 +944,14 @@ public class SBMLReader {
 					{
 						parser = initializedParsers.get("anyAnnotation");
 					}
-					else if (annotationDeepness > 0 && elementNamespace.startsWith("http://www.sbml.org/sbml/level")) 
+					else if ((annotationDeepness > 0) && elementNamespace.startsWith("http://www.sbml.org/sbml/level")) 
 					{
 						// This is probably a mistake in the annotation
 						// Sending it to the any parser
 						parser = initializedParsers.get("anyAnnotation");
 					}
 					
-					if (annotationDeepness > 0 && elementNamespace.equals(JSBML.URI_XHTML_DEFINITION)) {
+					if ((annotationDeepness > 0) && elementNamespace.equals(JSBML.URI_XHTML_DEFINITION)) {
 						parser = initializedParsers.get("anyAnnotation");
 					}
 					
@@ -1078,11 +1079,11 @@ public class SBMLReader {
 				{
 					attributeParser = initializedParsers.get("anyAnnotation");
 				} 
-				else if (annotationDeepness > 0 && attributeNamespaceURI.equals(JSBML.URI_XHTML_DEFINITION)) 
+				else if ((annotationDeepness > 0) && attributeNamespaceURI.equals(JSBML.URI_XHTML_DEFINITION)) 
 				{
 					attributeParser = initializedParsers.get("anyAnnotation");
 				}
-				else if (annotationDeepness > 0 && attributeNamespaceURI.startsWith("http://www.sbml.org/sbml/level")) 
+				else if ((annotationDeepness > 0) && attributeNamespaceURI.startsWith("http://www.sbml.org/sbml/level")) 
 				{
 					// This is probably a mistake in the annotation
 					// Sending it to the any parser
@@ -1217,7 +1218,7 @@ public class SBMLReader {
 						SBMLDocument sbmlDocument = (SBMLDocument) sbmlElements.peek();
 						
 						Iterator<Entry<String, ReadingParser>> iterator = initializedParsers.entrySet().iterator();						
-						ArrayList<String> readingParserClasses = new ArrayList<String>();
+						List<String> readingParserClasses = new ArrayList<String>();
 
 						// Calling endDocument for all parsers						
 						while (iterator.hasNext()) {
@@ -1247,9 +1248,9 @@ public class SBMLReader {
 						// SBMLDocument instance.
 						// Otherwise, there is a syntax error in the
 						// SBML document
-						logger.warn("!!! event.isEndElement : there is a problem in your SBML file !!!!");
+						logger.warn("!!! event.isEndElement: there is a problem in your SBML file !!!!");
 						logger.warn("Found an element '" + sbmlElements.peek().getClass().getCanonicalName() + 
-								"', expected org.sbml.jsbml.SBMLDocument");
+								"', expected " + SBMLDocument.class.getCanonicalName());
 					}
 				}
 			} else {
