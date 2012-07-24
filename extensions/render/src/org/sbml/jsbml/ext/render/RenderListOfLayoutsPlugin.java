@@ -34,7 +34,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @since 1.0
  * @date 16.05.2012
  */
-public class RenderModelPlugin extends AbstractRenderPlugin {
+public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
 
   /**
    *
@@ -49,7 +49,7 @@ public class RenderModelPlugin extends AbstractRenderPlugin {
   /**
    * Creates an RenderModelPlugin instance
    */
-  public RenderModelPlugin(ListOf<Layout> listOfLayouts) {
+  public RenderListOfLayoutsPlugin(ListOf<Layout> listOfLayouts) {
     super(listOfLayouts);
     initDefaults();
   }
@@ -57,7 +57,7 @@ public class RenderModelPlugin extends AbstractRenderPlugin {
   /**
    * Clone constructor
    */
-  public RenderModelPlugin(RenderModelPlugin obj) {
+  public RenderListOfLayoutsPlugin(RenderListOfLayoutsPlugin obj) {
     super(obj);
   }
 
@@ -72,8 +72,8 @@ public class RenderModelPlugin extends AbstractRenderPlugin {
    * @see org.sbml.jsbml.ext.render.AbstractRenderPlugin#clone()
    */
   @Override
-  public RenderModelPlugin clone() {
-    return new RenderModelPlugin(this);
+  public RenderListOfLayoutsPlugin clone() {
+    return new RenderListOfLayoutsPlugin(this);
   }
 
   /**

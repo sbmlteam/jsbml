@@ -20,7 +20,16 @@
 
 /**
  * <p>
- * Provides classes for the render package.
+ * Provides classes for the render package, see the specification at <a
+ * href="http://sbml.org/Community/Wiki/SBML_Level_3_Proposals/Rendering"
+ * >sbml.org</a>. The rendering extension itself extends the layout extension.
+ * Note that this extension can therefore not be used without having also a
+ * layout defined in an SBML file.
+ * </p>
+ * <p>
+ * Note that the rendering extension has been defined before the release of
+ * SBML Level 3. Hence it is possible to write the extension in the annotation
+ * section of the layout extension.
  * </p>
  * <p>
  * The first version of this package was implemented as part of the software
