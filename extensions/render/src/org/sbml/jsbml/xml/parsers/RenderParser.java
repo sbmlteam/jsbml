@@ -38,7 +38,7 @@ import org.sbml.jsbml.ext.render.Polygon;
 import org.sbml.jsbml.ext.render.RenderConstants;
 import org.sbml.jsbml.ext.render.RenderInformationBase;
 import org.sbml.jsbml.ext.render.RenderLayoutPlugin;
-import org.sbml.jsbml.ext.render.RenderModelPlugin;
+import org.sbml.jsbml.ext.render.RenderListOfLayoutsPlugin;
 import org.sbml.jsbml.ext.render.RenderPoint;
 import org.sbml.jsbml.ext.render.Style;
 
@@ -90,7 +90,7 @@ public class RenderParser extends AbstractReaderWriter {
 			SBase newElement = null;
 			
 			if (elementName.equals(RenderConstants.listOfGlobalRenderInformation)) {
-				RenderModelPlugin renderPlugin = new RenderModelPlugin(listOfLayouts);
+				RenderListOfLayoutsPlugin renderPlugin = new RenderListOfLayoutsPlugin(listOfLayouts);
 				listOfLayouts.addExtension(RenderConstants.namespaceURI, renderPlugin);
 				newElement = renderPlugin.getListOfGlobalRenderInformation();
 			}
