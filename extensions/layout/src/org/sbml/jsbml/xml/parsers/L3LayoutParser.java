@@ -194,7 +194,8 @@ public class L3LayoutParser extends AbstractReaderWriter {
 				return bbox;
 			} 
 
-			if (graphicalObject instanceof ReactionGlyph) {
+			if (graphicalObject instanceof ReactionGlyph) 
+			{
 				ReactionGlyph reactionGlyph = (ReactionGlyph) graphicalObject;
 				
 				if (elementName.equals(curve)) {
@@ -203,24 +204,26 @@ public class L3LayoutParser extends AbstractReaderWriter {
 					
 					return curve;
 				}
-				else if (elementName.equals(listOfSpeciesReferenceGlyphs)) {
+				else if (elementName.equals(listOfSpeciesReferenceGlyphs)) 
+				{
 					ListOf<SpeciesReferenceGlyph> list = reactionGlyph.getListOfSpeciesReferenceGlyphs();
 					reactionGlyph.registerChild(list);
 					return list;
 				}
 				
-			}
-		}
-		else if (contextObject instanceof SpeciesReferenceGlyph) {
-			SpeciesReferenceGlyph speciesRefGlyph = (SpeciesReferenceGlyph) contextObject;
-			
-			if (elementName.equals(curve)) {
-				Curve curve = new Curve();
-				speciesRefGlyph.setCurve(curve);
+			} 
+			else if (graphicalObject instanceof SpeciesReferenceGlyph) 
+			{
+				SpeciesReferenceGlyph speciesRefGlyph = (SpeciesReferenceGlyph) contextObject;
 				
-				return curve;
-			}
+				if (elementName.equals(curve)) {
+					Curve curve = new Curve();
+					speciesRefGlyph.setCurve(curve);
+					
+					return curve;
+				}
 
+			}
 		}
 		else if (contextObject instanceof BoundingBox) {
 			BoundingBox bbox = (BoundingBox) contextObject;
