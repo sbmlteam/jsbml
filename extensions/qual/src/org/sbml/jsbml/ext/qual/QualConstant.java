@@ -52,7 +52,6 @@ public class QualConstant  extends PropertyChangeEvent {
    */
   private static final long serialVersionUID = 944717095818356337L;
   
-  public static final String boundaryCondition   = "boundaryCondition";
   public static final String compartment         = "compartment";
   public static final String constant            = "constant";
   public static final String initialLevel        = "initialLevel";
@@ -62,14 +61,9 @@ public class QualConstant  extends PropertyChangeEvent {
   public static final String qualitativeSpecies  = "qualitativeSpecies";
   public static final String rank                = "rank";
   public static final String resultLevel         = "resultLevel";
-  public static final String resultSymbol        = "resultSymbol";
   public static final String sign                = "sign";
-  public static final String temporisationMath   = "temporisationMath";
-  public static final String temporisationType   = "temporisationType";
-  public static final String temporisationValue  = "temporisationValue";
   public static final String transitionEffect    = "transitionEffect";
   public static final String thresholdLevel      = "thresholdLevel";
-  public static final String thresholdSymbol     = "thresholdSymbol";
 
 
 

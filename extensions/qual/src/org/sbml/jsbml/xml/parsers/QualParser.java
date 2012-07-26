@@ -36,8 +36,6 @@ import org.sbml.jsbml.ext.qual.QualConstant;
 import org.sbml.jsbml.ext.qual.QualList;
 import org.sbml.jsbml.ext.qual.QualitativeModel;
 import org.sbml.jsbml.ext.qual.QualitativeSpecies;
-import org.sbml.jsbml.ext.qual.SymbolicValue;
-import org.sbml.jsbml.ext.qual.TemporisationMath;
 import org.sbml.jsbml.ext.qual.Transition;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
@@ -189,24 +187,6 @@ public class QualParser extends AbstractReaderWriter {
 				this.groupList = QualList.listOfFunctionTerms;
 				return listOfFunctionTerms;
 			}
-		} else if (contextObject instanceof QualitativeSpecies) {
-			QualitativeSpecies qualSpecies = (QualitativeSpecies) contextObject;
-		
-			if (elementName.equals("listOfSymbolicValues")) {				
-				ListOf<SymbolicValue> listOfSymbolicValues = qualSpecies.getListOfSymbolicValues();
-				this.groupList = QualList.listOfSymbolicValues;
-				return listOfSymbolicValues;
-			}
-		} else if (contextObject instanceof FunctionTerm) {
-			
-			if (elementName.equals("temporisationMath")) {
-
-				FunctionTerm qualSpecies = (FunctionTerm) contextObject;
-
-				TemporisationMath temporisationMath = new TemporisationMath();
-				qualSpecies.setTemporisationMath(temporisationMath);
-				return temporisationMath;
-			}
 		}
 		else if (contextObject instanceof ListOf<?>) 
 		{
@@ -256,13 +236,6 @@ public class QualParser extends AbstractReaderWriter {
 				functionTerm.setDefaultTerm(true);
 				transition.addFunctionTerm(functionTerm);
 				return functionTerm;
-				
-			} else if (elementName.equals("symbolicValue") && this.groupList.equals(QualList.listOfSymbolicValues)) {
-				QualitativeSpecies qualSpecies = (QualitativeSpecies) listOf.getParentSBMLObject();
-				
-				SymbolicValue symbolicValue = new SymbolicValue();
-				qualSpecies.addSymbolicValue(symbolicValue);
-				return symbolicValue;
 				
 			}
 		}

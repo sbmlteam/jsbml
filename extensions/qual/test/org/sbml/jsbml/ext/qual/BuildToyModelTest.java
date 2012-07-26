@@ -68,33 +68,32 @@ public static void main(String[] args) {
     comp1.setConstant(true);
     
     // ListOfQualitativeSpecies
-    QualitativeSpecies g0 = qModel.createQualitativeSpecies("G0", true, comp1.getId(), false);
+    QualitativeSpecies g0 = qModel.createQualitativeSpecies("G0", comp1.getId(), false);
     g0.setMaxLevel(1);
     g0.setInitialLevel(0);
     
     g0.getAnnotation().addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "urn:miriam:obo.go:GO%3A1234567"));
     g0.setNotes("<notes>\n\t<body xmlns=\"http://www.w3.org/1999/xhtml\">\n\t\t<p>TestNotes parsing &#285; &#65;</p>\n\t</body>\n</notes>");
     
-    QualitativeSpecies g1 = qModel.createQualitativeSpecies("G1", false, comp1.getId(), false);
+    QualitativeSpecies g1 = qModel.createQualitativeSpecies("G1", comp1.getId(), false);
     g1.setName("G1 name");
     g1.setMaxLevel(3);
     g1.setInitialLevel(1);
 
 
-    QualitativeSpecies g2 = qModel.createQualitativeSpecies("G2", false, comp1.getId(), false);
+    QualitativeSpecies g2 = qModel.createQualitativeSpecies("G2", comp1.getId(), false);
     g2.setMaxLevel(2);
     g2.setInitialLevel(2);
 
     g2.getAnnotation().addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "urn:miriam:obo.go:GO%3A1234567"));
     g2.getHistory().addModifiedDate(Calendar.getInstance().getTime());
     
-    QualitativeSpecies g3 = qModel.createQualitativeSpecies("G3", false, comp1.getId(), true);
+    QualitativeSpecies g3 = qModel.createQualitativeSpecies("G3", comp1.getId(), true);
     g3.setMaxLevel(1);
     g3.setInitialLevel(1);
 
     // ListOfTransitions
     Transition tr_g1 = qModel.createTransition("tr_G1");
-    tr_g1.setTemporisationType(TemporisationType.priority);
     
     //// ListOfInputs
     Input in0 = tr_g1.createInput("in0", g0, InputTransitionEffect.consumption);
@@ -118,8 +117,6 @@ public static void main(String[] args) {
     try {
     	mathNode = ASTNode.parseFormula("G0 > 2");
         ft1.setMath(mathNode);
-        ft1.setTemporisationMath(new TemporisationMath());
-        ft1.getTemporisationMath().setMath(ASTNode.parseFormula("G0 == 1"));
     } catch (ParseException e) {
     	e.printStackTrace();
     }

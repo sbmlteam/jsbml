@@ -27,8 +27,6 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
@@ -45,10 +43,6 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    * Generated serial version identifier.
    */
   private static final long    serialVersionUID = 8343744362262634585L;
-  /**
-   * 
-   */
-  private TemporisationType    temporisationType;
   /**
    * 
    */
@@ -116,7 +110,6 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   public Transition(Transition t) {
     super(t);
     
-    temporisationType = t.temporisationType;
     if (t.isSetListOfFunctionTerms()) {
       listOfFunctionTerms = t.listOfFunctionTerms.clone();
     }
@@ -133,7 +126,6 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public void initDefaults() {
     addNamespace(QualConstant.namespaceURI);
-    temporisationType = null;
     listOfFunctionTerms = null;
     listOfInputs = null;
     listOfOutputs = null;
@@ -209,63 +201,6 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return false
    */
   public boolean isIdMandatory() {
-    return false;
-  }
-
-
-  /**
-   * @return false
-   */
-  public boolean isTemporisationTypeMandatory() {
-    return false;
-  }
-
-
-  /**
-   * 
-   * @return
-   */
-  public boolean isSetTemporisationType() {
-    return temporisationType != null;
-  }
-
-
-  /**
-   * @return the temporisationType
-   */
-  public TemporisationType getTemporisationType() {
-    if (isSetTemporisationType()) {
-      return temporisationType;
-    } else {
-      throw new PropertyUndefinedError(QualConstant.temporisationType, this);
-    }
-  }
-
-
-  /**
-   * @param temporisationType
-   *        the temporisationType to set
-   */
-  public void setTemporisationType(TemporisationType temporisationType) {
-    TemporisationType oldType = this.temporisationType;
-    this.temporisationType = temporisationType;
-    firePropertyChange(QualConstant.temporisationType, oldType,
-      this.temporisationType);
-  }
-
-
-  /**
-   * 
-   * @return
-   */
-  public boolean unsetTemporisationType() {
-    if (isSetTemporisationType()) {
-      TemporisationType oldType = this.temporisationType;
-      this.temporisationType = null;
-      firePropertyChange(QualConstant.initialLevel, oldType,
-        this.temporisationType);
-      return true;
-    }
     return false;
   }
 
@@ -593,13 +528,6 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   @Override
   public boolean equals(Object object) {
     boolean equals = super.equals(object);
-    if (equals) {
-      Transition t = (Transition) object;
-      equals &= t.isSetTemporisationType() == isSetTemporisationType();
-      if (equals && isSetTemporisationType()) {
-        equals &= (t.getTemporisationType().equals(getTemporisationType()));
-      }
-    }
     return equals;
   }
 
@@ -609,11 +537,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   @Override
   public int hashCode() {
-    final int prime = 977;
     int hashCode = super.hashCode();
-    if (isSetTemporisationType()) {
-      hashCode += prime * getTemporisationType().hashCode();
-    }
     return hashCode;
   }
 
@@ -625,23 +549,6 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
 		  String value) 
   {
 	  boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-
-	  if (!isAttributeRead) {
-		  isAttributeRead = true;
-		  
-		  if (attributeName.equals(QualConstant.temporisationType)){
-			  try {
-				  setTemporisationType(TemporisationType.valueOf(value));
-			  } catch (Exception e) {
-				  throw new SBMLException("Could not recognized the value '" + value
-						  + "' for the attribute " + QualConstant.temporisationType
-						  + " on the 'transition' element.");
-			  }
-		  } else {
-		    isAttributeRead = false;
-		  }
-	  }	  
-	  
 	  return isAttributeRead;
 	  
   }
@@ -661,10 +568,6 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
 		  attributes.remove("name");
 		  attributes.put(QualConstant.shortLabel+ ":name", getName());
 	  }
-	  if (isSetTemporisationType()) {
-		  attributes.put(QualConstant.shortLabel+ ":"+QualConstant.temporisationType, getTemporisationType().toString());
-	  }
-
 	  
 	  return attributes;
   }
