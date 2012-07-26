@@ -58,10 +58,6 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
   /**
    * 
    */
-  private String                thresholdSymbol;
-  /**
-   * 
-   */
   private Sign                  sign;
 
 
@@ -140,9 +136,6 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
     if (in.isSetThresholdLevel()) {
       setThresholdLevel(in.getThresholdLevel());
     }
-    if (in.isSetThresholdSymbol()) {
-      setThresholdSymbol(in.getThresholdSymbol());
-    }
     if (in.isSetTransitionEffect()) {
       setTransitionEffect(in.getTransitionEffect());
     }
@@ -156,7 +149,6 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
     qualitativeSpecies = null;
     transitionEffect = null;
     thresholdLevel = null;
-    thresholdSymbol = null;
     sign = null;
   }
 
@@ -380,55 +372,6 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
     }
   }
 
-
-  /**
-   * @return false
-   */
-  public boolean isThresholdSymbolMandatory() {
-    return false;
-  }
-
-
-  /**
-   * @return if thresholdSymbol attribute is set
-   */
-  public boolean isSetThresholdSymbol() {
-    return thresholdSymbol != null;
-  }
-
-
-  /**
-   * @return the thresholdSymbol
-   */
-  public String getThresholdSymbol() {
-    return isSetThresholdSymbol() ? thresholdSymbol : "";
-  }
-
-
-  /**
-   * @param thresholdSymbol
-   *        the thresholdSymbol to set
-   */
-  public void setThresholdSymbol(String thresholdSymbol) {
-    String oldSymbol = this.thresholdSymbol;
-    this.thresholdSymbol = thresholdSymbol;
-    firePropertyChange(QualConstant.thresholdSymbol, oldSymbol,
-      this.thresholdSymbol);
-  }
-
-
-  /**
-   * @return true if the unset of the thresholdSymbol attribute was successful
-   */
-  public boolean unsetThresholdSymbol() {
-    if (isSetThresholdSymbol()) {
-      setThresholdSymbol(null);
-      return true;
-    }
-    return false;
-  }
-
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
    */
@@ -448,10 +391,6 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
       equals &= i.isSetThresholdLevel() == isSetThresholdLevel();
       if (equals && isSetThresholdLevel()) {
         equals &= i.getThresholdLevel() == getThresholdLevel();
-      }
-      equals &= i.isSetThresholdSymbol() == isSetThresholdSymbol();
-      if (equals && isSetThresholdSymbol()) {
-        equals &= i.getThresholdSymbol().equals(getThresholdSymbol());
       }
       equals &= i.isSetSign() == isSetSign();
       if (equals && isSetSign()) {
@@ -478,9 +417,6 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
     if (isSetThresholdLevel()) {
       hashCode += prime * getThresholdLevel();
     }
-    if (isSetThresholdSymbol()) {
-      hashCode += prime * getThresholdSymbol().hashCode();
-    }
     if (isSetSign()) {
       hashCode += prime * getSign().hashCode();
     }
@@ -500,8 +436,6 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
         setQualitativeSpecies(value);
       } else if (attributeName.equals(QualConstant.thresholdLevel)) {
         setThresholdLevel(StringTools.parseSBMLInt(value));
-      } else if (attributeName.equals(QualConstant.thresholdSymbol)) {
-        setThresholdSymbol(value);
       } else if (attributeName.equals(QualConstant.sign)) {
     	  try {
     		  setSign(Sign.valueOf(value));
@@ -546,10 +480,6 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase{
     if (isSetThresholdLevel()) {
       attributes.put(QualConstant.shortLabel + ":"
         + QualConstant.thresholdLevel, Integer.toString(getThresholdLevel()));
-    }
-    if (isSetThresholdSymbol()) {
-      attributes.put(QualConstant.shortLabel + ":"
-        + QualConstant.thresholdSymbol, getThresholdSymbol());
     }
     if (isSetTransitionEffect()) {
       attributes.put(QualConstant.shortLabel + ":"

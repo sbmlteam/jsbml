@@ -212,16 +212,15 @@ public class QualitativeModel extends AbstractSBasePlugin {
    *        the id of the new element to create
    * @return the {@link QualitativeSpecies} object created
    */
-  public QualitativeSpecies createQualitativeSpecies(String id, boolean boundaryCondition, String compartment, boolean constant) {
+  public QualitativeSpecies createQualitativeSpecies(String id, String compartment, boolean constant) {
     QualitativeSpecies species = new QualitativeSpecies(id,
       getModel().getLevel(), getModel().getVersion());
-    species.setBoundaryCondition(boundaryCondition);
     species.setCompartment(compartment);
     species.setConstant(constant);
     addSpecies(species);
     return species;
   }
-  
+
   /**
    * Creates a new {@link QualitativeSpecies}, based on an existing {@link Species},
    * adds it to this {@link QualitativeModel} and returns it.

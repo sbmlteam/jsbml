@@ -50,18 +50,6 @@ public class FunctionTerm extends AbstractMathContainer {
 	 * 
 	 */
 	private Integer resultLevel;
-	/**
-	 * 
-	 */
-	private String resultSymbol;
-    /**
-     * 
-     */
-	private Double temporisationValue;
-	/**
-	 * 
-	 */
-	private TemporisationMath temporisationMath;
     /**
      * 
      */
@@ -108,15 +96,6 @@ public class FunctionTerm extends AbstractMathContainer {
 		setDefaultTerm(ft.isDefaultTerm());
 		if (ft.isSetResultLevel()) {
 			setResultLevel(ft.getResultLevel());
-		}
-		if (ft.isSetResultSymbol()) {
-			setResultSymbol(ft.getResultSymbol());
-		}
-		if (ft.isSetTemporisationMath()) {
-			setTemporisationMath(ft.getTemporisationMath().clone());
-		}
-		if (ft.isSetTemporisationValue()) {
-			setTemporisationValue(ft.getTemporisationValue());
 		}
 	}
 	
@@ -190,230 +169,6 @@ public class FunctionTerm extends AbstractMathContainer {
 	  }
   }
 
-  /**
-   * Returns true.
-   * 
-   * @return true
-   */
-  public boolean isResultSymbolMandatory(){
-    return true;
-  }
-  
-  /**
-   * Returns true if resultSymbol is set.
-   * 
-   * @return true if resultSymbol is set.
-   */
-  public boolean isSetResultSymbol() {
-    return resultSymbol != null;
-  }
-
-
-  /**
-   * Returns the resultSymbol.
-   * 
-   * @return the resultSymbol
-   */
-  public String getResultSymbol() {
-    return isSetResultSymbol() ? resultSymbol : "";
-  }
-
-
-  /**
-   * Sets the resultSymbol.
-   * 
-   * @param resultSymbol
-   *        the resultSymbol to set
-   */
-  public void setResultSymbol(String resultSymbol) {
-    String oldresultSymbol = this.resultSymbol;
-    if ((resultSymbol == null) || (resultSymbol.length() == 0)) {
-      this.resultSymbol = null;
-    } else {
-      this.resultSymbol = resultSymbol;
-    }
-    firePropertyChange(QualConstant.resultSymbol, oldresultSymbol,
-      this.resultSymbol);
-  }
-
-
-  /**
-   * Unset the resultSymbol.
-   * 
-   * @return true if the unset of the resultSymbol attribute was successful
-   */
-  public boolean unsetResultSymbol() {
-    if (resultSymbol != null) {
-      setResultSymbol(null);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Returns false, temporisationValue is not mandatory.
-   * 
-   * @return false
-   */
-  public boolean isTemporisationValueMandatory(){
-    return false;
-  }
-  
-  /**
-   * Returns true if the temporisationValue is set.
-   * 
-   * @return true if the temporisationValue is set
-   */
-  public boolean isSetTemporisationValue(){
-	  return this.temporisationValue!= null;
-  }
-
-  /**
-   * Returns the temporisationValue.
-   * 
-   * @return the temporisationValue.
-   */
-  public double getTemporisationValue() {
-    if (isSetTemporisationValue()) {
-      return temporisationValue.doubleValue();
-    } else {
-      throw new PropertyUndefinedError(QualConstant.temporisationValue, this);
-    }
-  }
-
-
-  /**
-   * Sets the temporisationValue.
-   * 
-   * @param tempValue
-   *        the temporisationValue to set
-   */
-  public void setTemporisationValue(double tempValue) {
-    Double oldTempValue = this.temporisationValue;
-    this.temporisationValue = tempValue;
-    firePropertyChange(QualConstant.temporisationValue, oldTempValue, this.temporisationValue);
-  }
-
-
-  /**
-   * Unsets the temporisationValue.
-   * 
-   * @return true if the temporisationValue is unset.
-   */
-  public boolean unsetTemporisationValue() {
-	  if (isSetTemporisationValue()) {
-		  Double oldTempValue = this.temporisationValue;
-		  this.temporisationValue = null;
-		  firePropertyChange(QualConstant.temporisationValue, oldTempValue, this.temporisationValue);
-		  return true;
-	  } else {
-		  return false;
-	  }
-  }
-	
-  /**
-   * Returns false, temporisationMath is not mandatory.
-   * 
-   * @return false
-   */
-  public boolean isTemporisationMathMandatory(){
-    return false;
-  }
-  
-  /**
-   * Returns true is temporisationMath is set.
-   * 
-   * @return true is temporisationMath is set.
-   */
-  public boolean isSetTemporisationMath(){
-	  return this.temporisationMath!=null;
-  }
-
-  /**
-   * Returns the temporisationMath. 
-   * 
-   * @return the temporisationMath
-   */
-  public TemporisationMath getTemporisationMath() {
-	  if(isSetTemporisationMath()){
-		  return temporisationMath;
-	  } else{
-		  throw new PropertyUndefinedError(QualConstant.temporisationMath, this);
-	  }
-  }
-
-	/**
-	 * Sets the temporisationMath 
-	 * 
-	 * @param temporisationMath the temporisationMath to set
-	 */
-	public void setTemporisationMath(TemporisationMath temporisationMath) {
-		TemporisationMath oldTM = this.temporisationMath;
-	  this.temporisationMath = temporisationMath;
-	  firePropertyChange(QualConstant.temporisationMath, oldTM, this.temporisationMath);
-	  registerChild(temporisationMath);
-	}
-
-	/**
-	 * Unset the temporisationMath.
-	 *  
-	 * @return true if the unset of the attribute temporisationMath was successful
-	 */
-	public boolean unsetTemporisationMath(){
-	  if(isSetTemporisationMath()){
-	    setTemporisationMath(null);
-	    return true;
-	  } else {
-	    return false;
-	  }
-	  
-	}
-
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-	 */
-	@Override
-	public TreeNode getChildAt(int index) {
-		if (index < 0) {
-			throw new IndexOutOfBoundsException(index + " < 0");
-		}
-
-		int count = super.getChildCount();
-		int pos = 0;
-
-		if (index < count) {
-			return super.getChildAt(index);
-		} else {
-			index -= count;
-		}
-
-		if (isSetTemporisationMath()) {
-			if (pos == index) {
-				return temporisationMath;
-			}
-			pos++;
-		}
-		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
-				index, +((int) Math.min(pos, 0))));
-	}
-
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
-	 */
-	@Override
-	public int getChildCount() {
-		int count = super.getChildCount();;
-
-		if (isSetTemporisationMath()) {
-			count++;
-		}
-
-		return count;
-	}
-
-
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
 	 */
@@ -426,18 +181,6 @@ public class FunctionTerm extends AbstractMathContainer {
 			equals &= ft.isSetResultLevel() == isSetResultLevel();
 			if (equals && isSetResultLevel()) {
 				equals &= (ft.getResultLevel() == getResultLevel());
-			}
-			equals &= ft.isSetResultSymbol() == isSetResultSymbol();
-			if (equals && isSetResultSymbol()) {
-				equals &= (ft.getResultSymbol().equals(getResultSymbol()));
-			}
-			equals &= ft.isSetTemporisationValue() == isSetTemporisationValue();
-			if (equals && isSetTemporisationValue()) {
-				equals &= (ft.getTemporisationValue() == getTemporisationValue());
-			}
-			equals &= ft.isSetTemporisationMath() == isSetTemporisationMath();
-			if (equals && isSetTemporisationMath()) {
-				equals &= (ft.getTemporisationMath().equals(getTemporisationMath()));
 			}
 		}
 		return equals;
@@ -455,15 +198,6 @@ public class FunctionTerm extends AbstractMathContainer {
 		}
 		if (isSetResultLevel()) {
 			hashCode += prime * resultLevel.hashCode();
-		}
-		if (isSetResultSymbol()) {
-			hashCode += prime * resultSymbol.hashCode();
-		}
-		if (isSetTemporisationValue()) {
-			hashCode += prime * temporisationValue.hashCode();
-		}
-		if (isSetTemporisationMath()) {
-			hashCode += prime * temporisationMath.hashCode();
 		}
 		return hashCode;
 	}
@@ -511,10 +245,6 @@ public class FunctionTerm extends AbstractMathContainer {
 
 			if (attributeName.equals(QualConstant.resultLevel)) {
 				setResultLevel(StringTools.parseSBMLInt(value));
-			} else if (attributeName.equals(QualConstant.resultSymbol)) {
-				setResultSymbol(value);
-			} else if (attributeName.equals(QualConstant.temporisationValue)) {
-				setTemporisationValue(StringTools.parseSBMLDouble(value));
 			} else {
 				isAttributeRead = false;
 			}
@@ -533,13 +263,6 @@ public class FunctionTerm extends AbstractMathContainer {
 		if (isSetResultLevel()) {
 			attributes.put(QualConstant.shortLabel + ":"+QualConstant.resultLevel, Integer.toString(getResultLevel()));
 		}	  
-		if (isSetResultSymbol()) {
-			attributes.put(QualConstant.shortLabel + ":"+QualConstant.resultSymbol, getResultSymbol());
-		}
-		if (isSetTemporisationValue()) {
-			attributes.put(QualConstant.shortLabel+ ":"+QualConstant.temporisationValue, Double.toString(getTemporisationValue()));
-		}
-
 		return attributes;
 	}
 	

@@ -33,11 +33,6 @@ public enum OutputTransitionEffect {
    */
   assignmentLevel,
   /**
-   * The symbol associated to the {@link QualitativeSpecies} is set to the resultSymbol
-   * of the selected term.
-   */
-  assignmentSymbol,
-  /**
    * The level of the {@link QualitativeSpecies} is increased by the resultLevel of the
    * selected term possibly modified by the level of the {@link Output}.
    */
