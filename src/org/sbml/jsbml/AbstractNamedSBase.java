@@ -211,7 +211,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		if (equals) {
 			NamedSBase nsb = (NamedSBase) object;
 			equals &= nsb.isSetId() == isSetId();
-			if (nsb.isSetId() && isSetId()) {
+			if (equals && isSetId()) {
 				equals &= nsb.getId().equals(getId());
 			}
 			equals &= nsb.isSetName() == isSetName();
