@@ -56,6 +56,4 @@ public class Start extends Point {
     return new Start(this);
   }
 
-   
- 
 }

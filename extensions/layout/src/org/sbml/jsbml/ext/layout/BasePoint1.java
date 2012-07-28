@@ -34,16 +34,26 @@ public class BasePoint1 extends Point {
    */
   private static final long serialVersionUID = -7544027003069685943L;
 
+  /**
+   * 
+   */
   public BasePoint1() {
-	super();
+    super();
   }
   
+  /**
+   * 
+   * @param point
+   */
   public BasePoint1(Point point) {
 	  super(point);
 	  clonePointAttributes(point, this);
 	}
 
-@Override
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.Point#clone()
+   */
+  @Override
   public BasePoint1 clone() {
 	return new BasePoint1(this);
   }

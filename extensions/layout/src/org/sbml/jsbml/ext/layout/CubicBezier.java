@@ -48,7 +48,7 @@ public class CubicBezier extends LineSegment {
 	 * 
 	 */
 	public CubicBezier() {
-		
+		super();
 	}
 	
 	/**
@@ -57,10 +57,10 @@ public class CubicBezier extends LineSegment {
 	public CubicBezier(CubicBezier cubicBezier) {
 		super(cubicBezier);
 		if (cubicBezier.isSetBasePoint1()) {
-			basePoint1 = cubicBezier.getBasePoint1();
+			this.basePoint1 = cubicBezier.getBasePoint1();
 		}
 		if (cubicBezier.isSetBasePoint2()) {
-			basePoint2 = cubicBezier.getBasePoint2();
+		  this.basePoint2 = cubicBezier.getBasePoint2();
 		}
 	}
 
@@ -73,8 +73,7 @@ public class CubicBezier extends LineSegment {
 		super(level, version);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.LineSegment#clone()
 	 */
 	@Override
@@ -83,13 +82,89 @@ public class CubicBezier extends LineSegment {
 	}
 	
 	/**
+	 * Creates, sets and returns a {@link Point}
+	 *
+	 * @return new {@link Point} object.
+	 */
+	public Point createBasePoint1() {
+		Point p = new BasePoint1();
+		setBasePoint1(p);
+		return p;
+	}
+  
+  /**
+	 * Creates, sets and returns a {@link Point} based on the
+	 * given values.
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return new {@link Point} object.
+	 */
+	public Point createBasePoint1(double x, double y, double z) {
+		Point p = new BasePoint1();
+		p.setX(x);
+		p.setY(y);
+		p.setZ(z);
+		setBasePoint1(p);
+		return p;
+	}
+	
+	/**
+	 * Creates, sets and returns a {@link Point}
+	 *
+	 * @return new {@link Point} object.
+	 */
+	public Point createBasePoint2() {
+		Point p = new BasePoint2();
+		setBasePoint2(p);
+		return p;
+	}
+	
+	/**
+	 * Creates, sets and returns a {@link Point} based on the
+	 * given values.
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return new {@link Point} object.
+	 */
+	public Point createBasePoint2(double x, double y, double z) {
+		Point p = new BasePoint2();
+		p.setX(x);
+		p.setY(y);
+		p.setZ(z);
+		setBasePoint2(p);
+		return p;
+	}
+	
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    boolean equals = super.equals(object);
+    if (equals) {
+      CubicBezier cb = (CubicBezier) object;
+      equals &= cb.isSetBasePoint1() == isSetBasePoint1();
+      if (equals && isSetBasePoint1()) {
+        equals &= cb.getBasePoint1().equals(getBasePoint1());
+      }
+      equals &= cb.isSetBasePoint2() == isSetBasePoint2();
+      if (equals && cb.isSetBasePoint2()) {
+        equals &= cb.getBasePoint2().equals(getBasePoint2());
+      }
+    }
+    return equals;
+  }
+	
+	/**
 	 * 
 	 * @return
 	 */
 	public Point getBasePoint1() {
 		return basePoint1;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -97,9 +172,8 @@ public class CubicBezier extends LineSegment {
 	public Point getBasePoint2() {
 		return basePoint2;
 	}
-	
-	/*
-	 * (non-Javadoc)
+
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.LineSegment#getChildAt(int)
 	 */
 	@Override
@@ -129,8 +203,7 @@ public class CubicBezier extends LineSegment {
 				index, +((int) Math.min(pos, 0))));
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.LineSegment#getChildCount()
 	 */
 	@Override
@@ -144,6 +217,22 @@ public class CubicBezier extends LineSegment {
 		}
 		return count;
 	}
+	
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 919;
+    int hashCode = super.hashCode();
+    if (isSetBasePoint1()) {
+      hashCode += prime * getBasePoint1().hashCode();
+    }
+    if (isSetBasePoint2()) {
+      hashCode += prime * getBasePoint2().hashCode();
+    }
+    return hashCode;
+  }
 
 	/**
 	 * @return
@@ -151,14 +240,14 @@ public class CubicBezier extends LineSegment {
 	public boolean isSetBasePoint1() {
 		return basePoint1 != null;
 	}
-
+	
 	/**
 	 * @return
 	 */
 	public boolean isSetBasePoint2() {
 		return basePoint2 != null;
 	}
-	
+
 	/**
 	 * 
 	 * @param basePoint1
@@ -192,62 +281,5 @@ public class CubicBezier extends LineSegment {
 		this.basePoint2 = basePoint2;
 		registerChild(this.basePoint2);
 	}
-
-	/**
-	 * Creates, sets and returns a {@link Point}
-	 *
-	 * @return new {@link Point} object.
-	 */
-	public Point createBasePoint1() {
-		Point p = new BasePoint1();
-		setBasePoint1(p);
-		return p;
-	}
-	
-	/**
-	 * Creates, sets and returns a {@link Point} based on the
-	 * given values.
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return new {@link Point} object.
-	 */
-	public Point createBasePoint1(double x, double y, double z) {
-		Point p = new BasePoint1();
-		p.setX(x);
-		p.setY(y);
-		p.setZ(z);
-		setBasePoint1(p);
-		return p;
-	}
-
-	/**
-	 * Creates, sets and returns a {@link Point}
-	 *
-	 * @return new {@link Point} object.
-	 */
-	public Point createBasePoint2() {
-		Point p = new BasePoint2();
-		setBasePoint2(p);
-		return p;
-	}
-	
-	/**
-	 * Creates, sets and returns a {@link Point} based on the
-	 * given values.
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return new {@link Point} object.
-	 */
-	public Point createBasePoint2(double x, double y, double z) {
-		Point p = new BasePoint2();
-		p.setX(x);
-		p.setY(y);
-		p.setZ(z);
-		setBasePoint2(p);
-		return p;
-	}
-
 	
 }

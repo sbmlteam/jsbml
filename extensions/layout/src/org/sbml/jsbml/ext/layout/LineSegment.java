@@ -50,7 +50,7 @@ public class LineSegment extends AbstractNamedSBase {
 	 * 
 	 */
 	public LineSegment() {
-
+	  super();
 	}
 
 	/**
@@ -83,6 +83,82 @@ public class LineSegment extends AbstractNamedSBase {
 		return new LineSegment(this);
 	}
 	
+	/**
+	 * Creates, sets and returns a {@link Point}
+	 *
+	 * @return new {@link Point} object.
+	 */
+	public Point createEnd() {
+		Point p = new End();
+		setStart(p);
+		return p;
+	}
+
+	/**
+	 * Creates, sets and returns a {@link Point} based on the
+	 * given values.
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return new {@link Point} object.
+	 */
+	public Point createEnd(double x, double y, double z) {
+		Point p = new End();
+		p.setX(x);
+		p.setY(y);
+		p.setZ(z);
+		setEnd(p);
+		return p;
+	}
+
+	/**
+	 * Creates, sets and returns a {@link Point}
+	 *
+	 * @return new {@link Point} object.
+	 */
+	public Point createStart() {
+		Point p = new Start();
+		setStart(p);
+		return p;
+	}
+
+	/**
+	 * Creates, sets and returns a {@link Point} based on the
+	 * given values.
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return new {@link Point} object.
+	 */
+	public Point createStart(double x, double y, double z) {
+		Point p = new Start();
+		p.setX(x);
+		p.setY(y);
+		p.setZ(z);
+		setStart(p);
+		return p;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object object) {
+	  boolean equals = super.equals(object);
+    if (equals) {
+      LineSegment lineSegment = (LineSegment) object;
+      equals &= lineSegment.isSetStart() == isSetStart();
+      if (equals && isSetStart()) {
+        equals &= lineSegment.getStart().equals(getStart());
+      }
+      equals &= lineSegment.isSetEnd() == isSetEnd();
+      if (equals && lineSegment.isSetEnd()) {
+        equals &= lineSegment.getEnd().equals(getEnd());
+      }
+    }
+    return equals;
+	}
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
@@ -112,7 +188,7 @@ public class LineSegment extends AbstractNamedSBase {
 		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
 				index, +((int) Math.min(pos, 0))));
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
 	 */
@@ -127,7 +203,7 @@ public class LineSegment extends AbstractNamedSBase {
 		}
 		return count;
 	}
-
+	
 	/**
 	 * 
 	 * @return
@@ -136,7 +212,7 @@ public class LineSegment extends AbstractNamedSBase {
 		return end;
 	}
 
-	/**
+  /**
 	 * 
 	 * @return
 	 */
@@ -145,12 +221,29 @@ public class LineSegment extends AbstractNamedSBase {
 	}
 
 	/* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 911;
+    int hashCode = super.hashCode();
+    if (isSetStart()) {
+      hashCode += prime * getStart().hashCode();
+    }
+    if (isSetEnd()) {
+      hashCode += prime * getEnd().hashCode();
+    }
+    return hashCode;
+  }
+	
+	/* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
   public boolean isIdMandatory() {
     return false;
   }
 
+	
 	/**
 	 * @return
 	 */
@@ -180,7 +273,7 @@ public class LineSegment extends AbstractNamedSBase {
 		registerChild(this.end);
 	}
 
-  /**
+	/**
 	 * 
 	 * @param start
 	 */
@@ -193,64 +286,6 @@ public class LineSegment extends AbstractNamedSBase {
 		}
 		this.start = start;
 		registerChild(this.start);
-	}
-
-	/**
-	 * Creates, sets and returns a {@link Point}
-	 *
-	 * @return new {@link Point} object.
-	 */
-	public Point createStart() {
-		Point p = new Start();
-		setStart(p);
-		return p;
-	}
-	
-	/**
-	 * Creates, sets and returns a {@link Point} based on the
-	 * given values.
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return new {@link Point} object.
-	 */
-	public Point createStart(double x, double y, double z) {
-		Point p = new Start();
-		p.setX(x);
-		p.setY(y);
-		p.setZ(z);
-		setStart(p);
-		return p;
-	}
-
-	
-	/**
-	 * Creates, sets and returns a {@link Point}
-	 *
-	 * @return new {@link Point} object.
-	 */
-	public Point createEnd() {
-		Point p = new End();
-		setStart(p);
-		return p;
-
-	}
-
-	/**
-	 * Creates, sets and returns a {@link Point} based on the
-	 * given values.
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return new {@link Point} object.
-	 */
-	public Point createEnd(double x, double y, double z) {
-		Point p = new End();
-		p.setX(x);
-		p.setY(y);
-		p.setZ(z);
-		setEnd(p);
-		return p;
 	}
 
 }

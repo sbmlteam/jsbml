@@ -117,10 +117,6 @@ public class TextGlyph extends NamedSBaseGlyph {
 		boolean equals = super.equals(object);
 		if (equals) {
 			TextGlyph t = (TextGlyph) object;
-			equals &= t.isSetOriginOfText() == isSetOriginOfText();
-			if (equals && isSetOriginOfText()) {
-				equals &= t.getOriginOfText().equals(getOriginOfText());
-			}
 			equals &= t.isSetText() == isSetText();
 			if (equals && isSetText()) {
 				equals &= t.getText().equals(getText());
@@ -172,9 +168,6 @@ public class TextGlyph extends NamedSBaseGlyph {
 	public int hashCode() {
 		final int prime = 967;
 		int hashCode = super.hashCode();
-		if (isSetOriginOfText()) {
-			hashCode += prime * getOriginOfText().hashCode();
-		}
 		if (isSetText()) {
 			hashCode += prime * getText().hashCode();
 		}

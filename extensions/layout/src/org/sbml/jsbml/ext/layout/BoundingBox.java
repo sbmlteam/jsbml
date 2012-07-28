@@ -73,9 +73,7 @@ public class BoundingBox extends AbstractNamedSBase {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	@Override
@@ -83,8 +81,7 @@ public class BoundingBox extends AbstractNamedSBase {
 		return new BoundingBox(this);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
 	@Override
@@ -111,8 +108,7 @@ public class BoundingBox extends AbstractNamedSBase {
 		return equals;
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
 	@Override
@@ -142,8 +138,7 @@ public class BoundingBox extends AbstractNamedSBase {
 				index, +((int) Math.min(pos, 0))));
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
 	 */
 	@Override
@@ -175,8 +170,7 @@ public class BoundingBox extends AbstractNamedSBase {
 		return position;
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
 	 */
 	@Override
@@ -241,7 +235,9 @@ public class BoundingBox extends AbstractNamedSBase {
 	  }
 	}
 
-		
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();

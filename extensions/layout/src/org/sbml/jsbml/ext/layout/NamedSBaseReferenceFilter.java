@@ -21,7 +21,6 @@
 package org.sbml.jsbml.ext.layout;
 
 import org.sbml.jsbml.NamedSBase;
-import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.util.filters.NameFilter;
 import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
 
