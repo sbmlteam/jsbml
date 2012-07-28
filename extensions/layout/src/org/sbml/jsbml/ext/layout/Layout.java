@@ -401,6 +401,38 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  return glyph;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    boolean equals = super.equals(object);
+    if (equals) {
+      Layout layout = (Layout) object;
+      equals &= layout.isSetDimensions() == isSetDimensions();
+      if (equals && isSetDimensions()) {
+        equals &= layout.getDimensions().equals(getDimensions());
+      }
+      equals &= layout.isSetListOfAdditionalGraphicalObjects() == isSetListOfAdditionalGraphicalObjects();
+      if (equals && isSetListOfAdditionalGraphicalObjects()) {
+        equals &= layout.getListOfAdditionalGraphicalObjects().equals(getListOfAdditionalGraphicalObjects());
+      }
+      if (equals && isSetListOfCompartmentGlyphs()) {
+        equals &= layout.getListOfCompartmentGlyphs().equals(getListOfCompartmentGlyphs());
+      }
+      if (equals && isSetListOfReactionGlyphs()) {
+        equals &= layout.getListOfReactionGlyphs().equals(getListOfReactionGlyphs());
+      }
+      if (equals && isSetListOfSpeciesGlyphs()) {
+        equals &= layout.getListOfSpeciesGlyphs().equals(getListOfSpeciesGlyphs());
+      }
+      if (equals && isSetListOfTextGlyphs()) {
+        equals &= layout.getListOfTextGlyphs().equals(getListOfTextGlyphs());
+      }
+    }
+    return equals;
+  }
+  
   /**
    * Searches all instances of {@link CompartmentGlyph} within this {@link Layout} that
    * refer to the {@link Compartment} with the given id.
@@ -428,7 +460,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  }
 	  return new ArrayList<T>(0);
   }
-  
+
   /**
    * Searches all instances of {@link ReactionGlyph} within this {@link Layout} that
    * refer to the {@link Reaction} with the given id.
@@ -440,7 +472,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public List<ReactionGlyph> findReactionGlyphs(String reactionID) {
 	  return findGlyphs(listOfReactionGlyphs, reactionID);
   }
-	
+  
   /**
    * Searches all instances of {@link SpeciesGlyph} within this {@link Layout} that
    * refer to the {@link Species} with the given id.
@@ -452,7 +484,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public List<SpeciesGlyph> findSpeciesGlyphs(String speciesID) {
 	 return findGlyphs(listOfSpeciesGlyphs, speciesID);
   }
-
+	
   /**
    * Searches within the {@link #listOfTextGlyphs} for {@link TextGlyph}s whose
    * {@link TextGlyph#getOriginOfText()} points to the given id.
@@ -465,7 +497,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public List<TextGlyph> findTextGlyphs(String id) {
     return findGlyphs(listOfTextGlyphs, id);
   }
-  
+
   /**
    * 
    * @param i
@@ -478,7 +510,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  }
 	  return null;
   }
-	
+  
   /**
    * 
    * @return
@@ -486,7 +518,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getAdditionalGraphicalObjectCount() {
     return isSetListOfAdditionalGraphicalObjects() ? listOfAdditionalGraphicalObjects.size() : 0;
   }
-  
+	
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
    */
@@ -539,7 +571,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
 			  index, +((int) Math.min(pos, 0))));
   }
-
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildCount()
    */
@@ -566,7 +598,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  }
 	  return count;
   }
-	
+
   /**
    * 
    * @param i
@@ -575,7 +607,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public CompartmentGlyph getCompartmentGlyph(int i) {
     return getListOfCompartmentGlyphs().get(i);
   }
-  
+	
   /**
    * 
    * @param id
@@ -603,8 +635,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public Dimensions getDimensions() {
 	  return dimensions;
   }
- 
-
+  
   /**
    * 
    * @return
@@ -616,7 +647,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
     }
 	  return listOfAdditionalGraphicalObjects;
   }
-	
+ 
+
   /**
    * 
    * @return
@@ -628,7 +660,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  }
 	  return listOfCompartmentGlyphs;
   }
-
+	
   /**
    * 
    * @return
@@ -685,7 +717,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  }
 	  return null;
   }
-  
+
   /**
    * 
    * @return
@@ -714,7 +746,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  }
 	  return null;
   }
-	
+  
   /**
    * 
    * @return
@@ -722,7 +754,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getSpeciesGlyphCount() {
     return isSetListOfSpeciesGlyphs() ? listOfSpeciesGlyphs.size() : 0;
   }
-
+	
   /**
    * 
    * @param i
@@ -731,7 +763,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public TextGlyph getTextGlyph(int i) {
     return getListOfTextGlyphs().get(i);
   }
-	
+
   /**
    * 
    * @param id
@@ -743,13 +775,41 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return null;
   }
-
+	
   /**
    * 
    * @return
    */
   public int getTextGlyphCount() {
     return isSetListOfTextGlyphs() ? listOfTextGlyphs.size() : 0;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 947;
+    int hashCode = super.hashCode();
+    if (isSetDimensions()) {
+      hashCode += prime * getDimensions().hashCode();
+    }
+    if (isSetListOfAdditionalGraphicalObjects()) {
+      hashCode += prime * getListOfAdditionalGraphicalObjects().hashCode();
+    }
+    if (isSetListOfCompartmentGlyphs()) {
+      hashCode += prime * getListOfCompartmentGlyphs().hashCode();
+    }
+    if (isSetListOfReactionGlyphs()) {
+      hashCode += prime * getListOfReactionGlyphs().hashCode();
+    }
+    if (isSetListOfSpeciesGlyphs()) {
+      hashCode += prime * getListOfSpeciesGlyphs().hashCode();
+    }
+    if (isSetListOfTextGlyphs()) {
+      hashCode += prime * getListOfTextGlyphs().hashCode();
+    }
+    return hashCode;
   }
 	
   /**

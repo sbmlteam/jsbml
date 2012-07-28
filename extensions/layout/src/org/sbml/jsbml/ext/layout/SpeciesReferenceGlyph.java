@@ -115,6 +115,18 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 		return new SpeciesReferenceGlyph(this);
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
+	public Curve createCurve() {
+	  if (isSetCurve()) {
+	    unsetCurve();
+	  }
+	  setCurve(new Curve(getLevel(), getVersion()));
+	  return getCurve();
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
@@ -159,7 +171,7 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
 				index, +((int) Math.min(pos, 0))));
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildCount()
 	 */
@@ -172,7 +184,7 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 
 		return count;
 	}
-
+	
 	/**
 	 * 
 	 * @return
@@ -188,8 +200,8 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	public String getSpeciesGlyph() {
 		return speciesGlyph;
 	}
-	
-	/**
+
+  /**
 	 * 
 	 * @return
 	 */
@@ -200,7 +212,7 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	  Model model = getModel();
 	  return (model != null) ? (SpeciesGlyph) model.findNamedSBase(getSpeciesGlyph()) : null;
 	}
-
+	
 	/**
 	 * 
 	 * @return
@@ -209,7 +221,7 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 		return getNamedSBase();
 	}
 
-  /**
+	/**
    * Note that the return type of this method is {@link NamedSBase} because it
    * could be possible to link some element from other packages to this glyph.
    * 
@@ -218,14 +230,14 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	public NamedSBase getSpeciesReferenceInstance() {
 	  return getNamedSBaseInstance();
 	}
-	
-	/**
+
+  /**
 	 * @return
 	 */
 	public SpeciesReferenceRole getSpeciesReferenceRole() {
 		return role;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
 	 */
@@ -255,14 +267,14 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	public boolean isSetSpeciesGlyph() {
 		return speciesGlyph != null;
 	}
-	
+
 	/**
 	 * @return
 	 */
 	public boolean isSetSpeciesReference() {
 		return isSetNamedSBase();
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -320,7 +332,7 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 		firePropertyChange(LayoutConstants.curve, oldCurve, this.role);
 		registerChild(this.curve);
 	}
-	
+
 	/**
 	 * 
 	 * @param valueOf
@@ -348,7 +360,7 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	public void setSpeciesReference(SimpleSpeciesReference speciesReference) {
 		setSpeciesReference(speciesReference.getId());
 	}
-
+	
 	/**
 	 * 
 	 * @param speciesReference
@@ -356,6 +368,20 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	public void setSpeciesReference(String speciesReference) {
 		setNamedSBase(speciesReference, LayoutConstants.speciesReference);
 	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean unsetCurve() {
+	  if (isSetCurve()) {
+	    Curve oldCurve = getCurve();
+	    this.curve = null;
+	    oldCurve.fireNodeRemovedEvent();
+	    return true;
+	  }
+    return false;
+  }
 	
 	/**
 	 * 

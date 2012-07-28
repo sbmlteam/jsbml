@@ -30,5 +30,10 @@
  * href="http://otto.bioquant.uni-heidelberg.de/sbml/">Layout proposal by Gauges
  * et al.</a> as an annotation in SBMl level 2
  * </p>
+ * 
+ * @author Nicolas Rodriguez
+ * @author Sebastian Fr&ouml;hlich
+ * @author Andreas Dr&auml;ger
+ * @author Clemens Wrzodek
  */
 package org.sbml.jsbml.ext.layout;

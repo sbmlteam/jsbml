@@ -33,15 +33,25 @@ public class Position extends Point {
    */
   private static final long serialVersionUID = 2969810879942863084L;
 
+  /**
+   * 
+   */
   public Position() {
-	super();
+    super();
   }
   
+  /**
+   * 
+   * @param point
+   */
   public Position(Point point) {
 	  super(point);
 	  clonePointAttributes(point, this);
 	}
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.Point#clone()
+   */
   @Override
   public Position clone() {
     return new Position(this);

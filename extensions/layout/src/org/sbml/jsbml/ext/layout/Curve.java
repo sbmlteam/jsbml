@@ -40,10 +40,19 @@ public class Curve extends AbstractNamedSBase {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -5435135643993920570L;
+
 	/**
 	 * 
 	 */
 	ListOf<CurveSegment> listOfCurveSegments = new ListOf<CurveSegment>();
+
+	/**
+	 * 
+	 */
+	public Curve() {
+		super();
+		initDefaults();
+	}
 
 	/**
 	 * @param curve
@@ -58,19 +67,23 @@ public class Curve extends AbstractNamedSBase {
 
 	/**
 	 * 
+	 * @param level
+	 * @param version
 	 */
-	public Curve() {
-		super();
-		addNamespace(LayoutConstants.namespaceURI);
-		
-		listOfCurveSegments.addNamespace(LayoutConstants.namespaceURI);
-		listOfCurveSegments.setSBaseListType(ListOf.Type.other);
-		registerChild(listOfCurveSegments);
+	public Curve(int level, int version) {
+	  super(level, version);
+	  initDefaults();
 	}
-
-	/*
-	 * (non-Javadoc)
+	
+	/**
 	 * 
+	 * @param curveSegment
+	 */
+	public boolean addCurveSegment(CurveSegment curveSegment) {
+    return getListOfCurveSegments().add(curveSegment);
+  }
+
+  /* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	@Override
@@ -78,8 +91,33 @@ public class Curve extends AbstractNamedSBase {
 		return new Curve(this);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * 
+	 * @return
+	 */
+	public CurveSegment createCurveSegment() {
+	  CurveSegment cs = new CurveSegment(getLevel(), getVersion());
+	  addCurveSegment(cs);
+	  return cs;
+	}
+
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    boolean equals = super.equals(object);
+    if (equals) {
+      Curve curve = (Curve) object;
+      equals &= curve.isSetListOfCurveSegments() == isSetListOfCurveSegments();
+      if (equals && isSetListOfCurveSegments()) {
+        equals &= curve.getListOfCurveSegments().equals(getListOfCurveSegments());
+      }
+    }
+    return equals;
+  }
+
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
 	@Override
@@ -102,9 +140,8 @@ public class Curve extends AbstractNamedSBase {
 		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
 				index, +((int) Math.min(pos, 0))));
 	}
-
-	/*
-	 * (non-Javadoc)
+	
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
 	 */
 	@Override
@@ -115,7 +152,7 @@ public class Curve extends AbstractNamedSBase {
 		}
 		return count;
 	}
-
+	
 	/**
 	 * 
 	 * @return
@@ -125,12 +162,35 @@ public class Curve extends AbstractNamedSBase {
 	}
 	
 	/* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 929;
+    int hashCode = super.hashCode();
+    if (isSetListOfCurveSegments()) {
+      hashCode += prime * getListOfCurveSegments().hashCode();
+    }
+    return hashCode;
+  }
+	
+  /**
+	 * 
+	 */
+	private void initDefaults() {
+	  addNamespace(LayoutConstants.namespaceURI);
+    listOfCurveSegments.addNamespace(LayoutConstants.namespaceURI);
+    listOfCurveSegments.setSBaseListType(ListOf.Type.other);
+    registerChild(listOfCurveSegments);
+  }
+  
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
   public boolean isIdMandatory() {
     return false;
   }
-	
+  
 	/**
 	 * 
 	 * @return
@@ -138,8 +198,8 @@ public class Curve extends AbstractNamedSBase {
 	public boolean isSetListOfCurveSegments() {
 		return (listOfCurveSegments != null) && (listOfCurveSegments.size() > 0);
 	}
-	
-	/**
+
+  /**
 	 * 
 	 * @param listOfCurveSegments
 	 */
@@ -169,4 +229,5 @@ public class Curve extends AbstractNamedSBase {
 		}
 		return false;
 	}
+
 }

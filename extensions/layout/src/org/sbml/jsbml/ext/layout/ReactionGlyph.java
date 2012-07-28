@@ -150,7 +150,27 @@ public class ReactionGlyph extends NamedSBaseGlyph {
     return glyph;
   }
 
-	/* (non-Javadoc)
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    boolean equals = super.equals(object);
+    if (equals) {
+      ReactionGlyph reactionGlyph = (ReactionGlyph) object;
+      equals &= reactionGlyph.isSetCurve() == isSetCurve();
+      if (equals && isSetCurve()) {
+        equals &= reactionGlyph.getCurve().equals(getCurve());
+      }
+      equals &= reactionGlyph.isSetListOfSpeciesReferencesGlyph() == isSetListOfSpeciesReferencesGlyph();
+      if (equals && isSetListOfSpeciesReferencesGlyph()) {
+        equals &= reactionGlyph.getListOfSpeciesReferenceGlyphs().equals(getListOfSpeciesReferenceGlyphs());
+      }
+    }
+    return equals;
+  }
+
+  /* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildAt(int)
 	 */
 	@Override
@@ -179,7 +199,7 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
 				index, +((int) Math.min(pos, 0))));
 	}
-	
+  
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildCount()
 	 */
@@ -194,7 +214,7 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 		}
 		return count;
 	}
-
+	
 	/**
 	 * 
 	 * @return
@@ -226,7 +246,7 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 	public String getReaction() {
 		return getNamedSBase();
 	}
-	
+
 	/**
 	 * Note that the return type of this method is {@link NamedSBase} because it
 	 * could be possible to link some element from other packages to this glyph.
@@ -236,6 +256,22 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 	public NamedSBase getReactionInstance() {
 	  return getNamedSBaseInstance();
 	}
+	
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 953;
+    int hashCode = super.hashCode();
+    if (isSetCurve()) {
+      hashCode += prime * getCurve().hashCode();
+    }
+    if (isSetListOfSpeciesReferencesGlyph()) {
+      hashCode += prime * getListOfSpeciesReferenceGlyphs().hashCode();
+    }
+    return hashCode;
+  }
 	
 	/**
 	 * @return

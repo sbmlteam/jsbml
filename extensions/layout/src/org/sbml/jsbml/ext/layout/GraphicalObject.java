@@ -62,7 +62,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 		super(graphicalObject);
 		setBoundingBox(graphicalObject.getBoundingBox());
 	}
-
+	
 	/**
 	 * 
 	 * @param level
@@ -72,15 +72,16 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 		super(level, version);
 		addNamespace(LayoutConstants.namespaceURI);
 	}
-	
-	/**
+
+  /**
 	 * @param id
 	 */
 	public GraphicalObject(String id) {
 		super(id);
 		addNamespace(LayoutConstants.namespaceURI);
 	}
-	
+
+
 	/**
 	 * 
 	 * @param id
@@ -91,7 +92,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 		super(id, level, version);
 		addNamespace(LayoutConstants.namespaceURI);
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
@@ -99,7 +100,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 	public GraphicalObject clone() {
 		return new GraphicalObject(this);
 	}
-
+	
 	/**
 	 * Creates and sets a {@link BoundingBox} for this object.
 	 * @return {@link BoundingBox}.
@@ -109,7 +110,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 	  setBoundingBox(bb);
 	  return bb;
 	}
-		
+
 	/**
 	 * 
 	 * @param dimensions
@@ -134,7 +135,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 		bb.createDimensions(width, height, depth);
 		return bb;
 	}
-
+		
 	/**
 	 * Creates and sets a {@link BoundingBox} for this object, with the
 	 * given parameters for {@link Dimensions} and {@link Point}.
@@ -152,7 +153,23 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 	  bb.createPosition(x, y, z);
 	  return bb;
 	}
-	
+
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    boolean equals = super.equals(object);
+    if (equals) {
+      GraphicalObject graphicalObject = (GraphicalObject) object;
+      equals &= graphicalObject.isSetBoundingBox() == isSetBoundingBox();
+      if (equals && isSetBoundingBox()) {
+        equals &= graphicalObject.getBoundingBox().equals(getBoundingBox());
+      }
+    }
+    return equals;
+  }
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
 	 */
@@ -192,7 +209,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
 				index, +((int) Math.min(pos, 0))));
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
 	 */
@@ -204,6 +221,19 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 		}
 		return count;
 	}
+
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 941;
+    int hashCode = super.hashCode();
+    if (isSetBoundingBox()) {
+      hashCode += prime * getBoundingBox().hashCode();
+    }
+    return hashCode;
+  }
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.NamedSBase#isIdMandatory()

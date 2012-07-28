@@ -39,42 +39,50 @@ public class CurveSegment extends CubicBezier {
 	/**
 	 * 
 	 */
-	private String type;
+	private Logger logger = Logger.getLogger(CurveSegment.class);
 
 	/**
 	 * 
 	 */
-	private Logger logger = Logger.getLogger(CurveSegment.class);
+	private String type;
 
 	/**
 	 * 
 	 */
 	public CurveSegment() {
 	  super();
-	  addNamespace(LayoutConstants.namespaceURI);
+	  initDefaults();
+	}
+
+  /**
+	 * 
+	 * @param curveSegment
+	 */
+	public CurveSegment(CurveSegment curveSegment) {
+		super(curveSegment);
+		if (curveSegment.isSetStart()) {
+			this.start = curveSegment.getStart().clone();
+		}
+		if (curveSegment.isSetEnd()) {
+			this.end = curveSegment.getEnd().clone();
+		}
+		if (curveSegment.isSetType()) {
+			this.type = curveSegment.getType();
+		}
+		// Note: basePoints 1 & 2 are already copied in super.
 	}
 
 	/**
 	 * 
-	 * @param lineSegment
+	 * @param level
+	 * @param version
 	 */
-	public CurveSegment(CurveSegment lineSegment) {
-		super(lineSegment);
-		if (lineSegment.isSetStart()) {
-			this.start = lineSegment.getStart().clone();
-		}
-		if (lineSegment.isSetEnd()) {
-			this.end = lineSegment.getEnd().clone();
-		}
-		if (lineSegment.isSetType()) {
-			this.type = lineSegment.getType();
-		}
-		// TODO : basePoint1 and basePoint2 
-	}
+	public CurveSegment(int level, int version) {
+    super(level, version);
+    initDefaults();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	@Override
@@ -82,6 +90,21 @@ public class CurveSegment extends CubicBezier {
 		return new CurveSegment(this);
 	}
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    boolean equals = super.equals(object);
+    if (equals) {
+      CurveSegment curveSegment = (CurveSegment) object;
+      equals &= curveSegment.isSetType() == isSetType();
+      if (equals && isSetType()) {
+        equals &= curveSegment.getType().equals(getType());
+      }
+    }
+    return equals;
+  }
 
 	/**
 	 * 
@@ -91,21 +114,31 @@ public class CurveSegment extends CubicBezier {
 		return type;
 	}
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 937;
+    int hashCode = super.hashCode();
+    if (isSetType()) {
+      hashCode += prime * getType().hashCode();
+    }
+    return hashCode;
+  }
+
+
 	/**
 	 * 
-	 * @param type
 	 */
-	public void setType(String type) {
-		String oldType = this.type;
-		this.type = type;
-		firePropertyChange(TreeNodeChangeEvent.type, oldType, this.type);
-	}
+	private void initDefaults() {
+	  addNamespace(LayoutConstants.namespaceURI);
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
 	 */
+	@Override
 	public boolean isIdMandatory() {
 		return false;
 	}
@@ -118,11 +151,8 @@ public class CurveSegment extends CubicBezier {
 		return type != null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.AbstractMathContainer#readAttribute(java.lang.String,
-	 * java.lang.String, java.lang.String)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractMathContainer#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
@@ -142,8 +172,17 @@ public class CurveSegment extends CubicBezier {
 		return isAttributeRead;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * 
+	 * @param type
+	 */
+	public void setType(String type) {
+		String oldType = this.type;
+		this.type = type;
+		firePropertyChange(TreeNodeChangeEvent.type, oldType, this.type);
+	}
+
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
 	 */
 	@Override
