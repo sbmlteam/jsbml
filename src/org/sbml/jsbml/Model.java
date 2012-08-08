@@ -3822,15 +3822,18 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     	kl.registerLocalParameter(lp, delete);
     }
     
-    logger.debug("registerIds (LP) : id = " + lp.getId());
+    if (logger.isDebugEnabled()) {
+    	logger.debug((delete ? "un" : "") + "registerIds (LP) : id = " + lp.getId() + "");
+    }
 
     if (lp.isSetId()) 
     {
       Reaction r = kl.getParentSBMLObject();      
       String pId = lp.getId();
 
-      logger.debug("registerIds (LP) : reaction = " + r + " (r.isSetId = " + r.isSetId() + ")");
-
+      if (logger.isDebugEnabled()) {
+    	  logger.debug("registerIds (LP) : reaction = " + r + " (r.isSetId = " + r.isSetId() + ")");
+      }
       if ((r != null)) 
       {
         if (delete) 
@@ -3840,8 +3843,14 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
 
             if (reactionList != null) 
             {
-            	reactionList.remove(r);
+            	
+            	boolean removed = reactionList.remove(r);
 
+            	if (!removed && logger.isDebugEnabled()) 
+            	{
+            		logger.debug("Reaction '" + r + "' was not removed from the mapOfLocalParameters");
+            	}
+            	
               if (reactionList.isEmpty()) {
                 mapOfLocalParameters.remove(pId);
               }
