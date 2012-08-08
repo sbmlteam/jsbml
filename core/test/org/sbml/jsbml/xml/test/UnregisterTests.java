@@ -262,6 +262,11 @@ public class UnregisterTests {
 		assertTrue(model.findLocalParameters("LP1").size() == 1);
 		
 		assertTrue(model.findReactionsForLocalParameter("LP1").size() == 1);
+		
+		model.getReaction(0).getKineticLaw().removeLocalParameter(0);
+		
+		assertTrue(model.findLocalParameters("LP1").size() == 0);
+		assertTrue(model.findReactionsForLocalParameter("LP1") == null);
 	}
 
 	
@@ -291,6 +296,69 @@ public class UnregisterTests {
 		assertTrue(reactionSet.size() == 2);
 		
 	}
+	
+	/**
+	 * 
+	 */
+	@Test public void testRegister3_3() {
+		
+		// Creating a new reaction without id
+		Reaction r2 = model.createReaction();
+
+		assertTrue(model.getReactionCount() == 2);
+
+		KineticLaw k = r2.createKineticLaw();
+		
+		// Creating a new local parameter without id 
+		LocalParameter lp = k.createLocalParameter();
+		
+		lp.setMetaId("LP1_2");
+		lp.setName("LP1_2");
+		lp.setId("LP1");
+		
+		assertTrue(k.getLocalParameterCount() == 1);
+		
+		assertTrue(doc.findSBase("LP1_2") != null);
+
+		assertTrue(k.getLocalParameter("LP1") != null);
+		assertTrue(model.findLocalParameters("LP1").size() == 2);
+		assertTrue(model.findReactionsForLocalParameter("LP1").size() == 1); // because r2 has no ID yet !!
+		
+		lp.setId("LP1_2"); // changing the id of the localParameter !!
+		
+		assertTrue(k.getLocalParameter("LP1") == null);
+		assertTrue(k.getLocalParameter("LP1_2") != null);
+		
+		assertTrue(model.findLocalParameters("LP1_2").size() == 1);
+		
+		assertTrue(model.findLocalParameters("LP1").size() == 1);
+		
+		assertTrue(model.findReactionsForLocalParameter("LP1_2").size() == 0);  // because r2 has no ID yet !!
+
+		r2.setId("R2");
+		
+		assertTrue(model.findReactionsForLocalParameter("LP1_2").size() == 1);
+		assertTrue(model.findReactionsForLocalParameter("LP1").size() == 1);
+		
+		assertTrue(doc.findSBase("LP1_2") != null);
+		assertTrue(model.getReaction("R2") != null);
+		assertTrue(model.findNamedSBase("R2") != null);
+		
+		r2.unsetKineticLaw();
+
+		assertTrue(doc.findSBase("LP1_2") == null);
+
+		assertTrue(model.findLocalParameters("LP1_2").size() == 0);
+		
+		assertTrue(model.findReactionsForLocalParameter("LP1").size() == 1);
+		assertTrue(model.findReactionsForLocalParameter("LP1_2") == null);
+		
+		model.getReaction(0).getKineticLaw().removeLocalParameter(0);
+		
+		assertTrue(model.findLocalParameters("LP1").size() == 0);
+		assertTrue(model.findReactionsForLocalParameter("LP1") == null);
+	}
+
 	
 	/**
 	 * 
