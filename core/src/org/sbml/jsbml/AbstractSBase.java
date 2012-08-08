@@ -1231,6 +1231,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	      doc.registerMetaIds(sbase, (sbase.getSBMLDocument() == null)
 	        && (sbase instanceof AbstractSBase), false);
 	    }
+	    
+	    // Test added to be able to register localParameter in the kineticLaw,
+	    // even if the model is not available (the KL or reaction was not yet added to a model)
 	    if (sbase instanceof LocalParameter) {
 	    	
 	    	TreeNode klTreeNode = this.getParent(); 
