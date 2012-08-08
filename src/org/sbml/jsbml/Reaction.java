@@ -140,6 +140,9 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 		} else {
 			reversible = reaction.reversible == null ? null : new Boolean(reaction.reversible.booleanValue());
 		}
+		if (reaction.isSetCompartment()) {
+			setCompartment(reaction.getCompartment());
+		}
 	}
 	
 	/**

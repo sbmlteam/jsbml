@@ -808,7 +808,7 @@ public class Species extends Symbol {
 	 * 
 	 * @param boundaryCondition
 	 */
-	public void setBoundaryCondition(Boolean boundaryCondition) {
+	public void setBoundaryCondition(boolean boundaryCondition) {
 		Boolean oldBoundaryCondition = this.boundaryCondition;
 		this.boundaryCondition = boundaryCondition;
 		isSetBoundaryCondition = true;

@@ -162,7 +162,7 @@ public class Annotation extends AnnotationElement {
 			getListOfCVTerms().add(term.clone());
 		}
 		if (annotation.isSetHistory()) {
-			this.history = annotation.getHistory().clone();
+			setHistory(annotation.getHistory().clone());
 		}
 	}
 
@@ -670,16 +670,16 @@ public class Annotation extends AnnotationElement {
 	 */
 	public boolean isSetAnnotation() {
 		if ((getNonRDFannotation() == null) && getListOfCVTerms().isEmpty()
-				&& (!isSetHistory())) 
+				&& !isSetHistory()) 
 		{
 			return false;
 			
-		} else if ((getNonRDFannotation() == null) && (!isSetHistory())
+		} else if ((getNonRDFannotation() == null) && !isSetHistory()
 				&& !getListOfCVTerms().isEmpty()) 
 		{
 
 			for (int i = 0; i < getListOfCVTerms().size(); i++) {
-				if (getCVTerm(i) != null) {
+				if (getCVTerm(i) != null && getCVTerm(i).getResourceCount() > 0) {
 					return true;
 				}
 			}
@@ -693,7 +693,7 @@ public class Annotation extends AnnotationElement {
 	 * @return true if the {@link History} is initialised
 	 */
 	public boolean isSetHistory() {
-		return history != null;
+		return history != null && !history.isEmpty();
 	}
 
 	

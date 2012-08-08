@@ -653,7 +653,8 @@ public class SBMLReader {
 					logger.debug("startElement : isRDFSBMLSpecificAnnotation = " + isRDFSBMLSpecificAnnotation);
 				}
 
-				parser = processStartElement(startElement, currentNode, isHTML,	sbmlElements, annotationDeepness, isRDFSBMLSpecificAnnotation);
+				parser = processStartElement(startElement, currentNode, isHTML,	sbmlElements, 
+						isInsideNotes, annotationDeepness, isRDFSBMLSpecificAnnotation);
 				lastElement = sbmlElements.peek();
 
 			}
@@ -753,7 +754,8 @@ public class SBMLReader {
 				}
 
 				SBMLDocument sbmlDocument = processEndElement(currentNode, isNested, isText, isHTML, 
-						level, version, parser, sbmlElements, annotationDeepness, isRDFSBMLSpecificAnnotation);
+						level, version, parser, sbmlElements, isInsideNotes, annotationDeepness,
+						isRDFSBMLSpecificAnnotation);
 				
 				if (sbmlDocument != null) {
 					return sbmlDocument;
@@ -833,7 +835,8 @@ public class SBMLReader {
 	 * @return
 	 */
 	private ReadingParser processStartElement(StartElement startElement, QName currentNode, 
-			Boolean isHTML, Stack<Object> sbmlElements, int annotationDeepness, boolean isRDFSBMLspecificAnnotation) 
+			Boolean isHTML, Stack<Object> sbmlElements, boolean isInsideNotes, 
+			int annotationDeepness, boolean isRDFSBMLspecificAnnotation) 
 	{		
 		Logger logger = Logger.getLogger(SBMLReader.class);		
 		ReadingParser parser = null;
@@ -897,6 +900,13 @@ public class SBMLReader {
 						parser = initializedParsers.get("anyAnnotation");
 					}
 					
+					// Whatever is the namespace, if we are inside notes
+					// we send the element to the HTML parser.
+					// This allow to read some invalid notes correctly, so that
+					// we can correct them.
+					if (isInsideNotes) { 
+						parser = initializedParsers.get(JSBML.URI_XHTML_DEFINITION);
+					}
 					// All the subNodes of SBML are processed.
 					if (!currentNode.getLocalPart().equals("sbml")) {
 						Object processedElement = parser.processStartElement(currentNode.getLocalPart(), 
@@ -914,7 +924,8 @@ public class SBMLReader {
 					processNamespaces(nam, currentNode,sbmlElements, parser, hasAttributes);
 					
 					// Process the attributes
-					processAttributes(att, currentNode, sbmlElements, parser, hasAttributes, annotationDeepness, isRDFSBMLspecificAnnotation);
+					processAttributes(att, currentNode, sbmlElements, parser, hasAttributes, isInsideNotes, 
+							annotationDeepness, isRDFSBMLspecificAnnotation);
 
 				} else {
 					logger.warn(String.format("Cannot find a parser for the %s namespace", elementNamespace));				
@@ -989,7 +1000,7 @@ public class SBMLReader {
 	 */
 	private void processAttributes(Iterator<Attribute> att, QName currentNode, 
 			Stack<Object> sbmlElements, ReadingParser parser, boolean hasAttributes, 
-			int annotationDeepness, boolean isRDFSBMLSpecificAnnotation) 
+			boolean isInsideNotes, int annotationDeepness, boolean isRDFSBMLSpecificAnnotation) 
 	{
 		Logger logger = Logger.getLogger(SBMLReader.class);
 		ReadingParser attributeParser = null;
@@ -1021,7 +1032,11 @@ public class SBMLReader {
 				{
 					// This is probably a mistake in the annotation
 					// Sending it to the any parser
-					parser = initializedParsers.get("anyAnnotation");
+					attributeParser = initializedParsers.get("anyAnnotation");
+				}
+				else if (isInsideNotes) 
+				{
+					attributeParser = initializedParsers.get(JSBML.URI_XHTML_DEFINITION);
 				}
 				else 
 				{
@@ -1061,7 +1076,9 @@ public class SBMLReader {
 	 */
 	private SBMLDocument processEndElement(QName currentNode, Boolean isNested, Boolean isText, 
 			Boolean isHTML, int level, int version, ReadingParser parser, 			
-			Stack<Object> sbmlElements, int annotationDeepness, boolean isRDFSBMLSpecificAnnotation) {
+			Stack<Object> sbmlElements, boolean isInsideNotes, int annotationDeepness,
+			boolean isRDFSBMLSpecificAnnotation) 
+	{
 		Logger logger = Logger.getLogger(SBMLReader.class);
 		
 		if (logger.isDebugEnabled()) {
@@ -1100,6 +1117,10 @@ public class SBMLReader {
 			{
 				parser = initializedParsers.get("anyAnnotation");
 			}
+			if (isInsideNotes) { 
+				parser = initializedParsers.get(JSBML.URI_XHTML_DEFINITION);
+			}
+
 			// if the current node is a notes or message element and
 			// the matching ReadingParser is a StringParser, we need
 			// to reset the typeOfNotes variable of the

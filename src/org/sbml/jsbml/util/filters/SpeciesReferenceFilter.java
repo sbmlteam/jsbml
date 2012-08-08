@@ -22,9 +22,10 @@ package org.sbml.jsbml.util.filters;
 
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
+import org.sbml.jsbml.SpeciesReference;
 
 /**
- * This is a special {@link NameFilter} that allows to search for a
+ * This is a special {@link NameFilter} that allows users to search for a
  * {@link SimpleSpeciesReference} that refers to a {@link Species} with the
  * given identifier attribute. The boolean switch {@link #filterForSpecies} that
  * can be changed using the {@link #setFilterForSpecies(boolean)} method decides
@@ -47,32 +48,51 @@ public class SpeciesReferenceFilter extends NameFilter {
 	private boolean filterForSpecies = false;
 
 	/**
-	 * 
+	 * Creates a new {@link SpeciesReferenceFilter} with undefined properties.
 	 */
 	public SpeciesReferenceFilter() {
 		super();
 	}
 
 	/**
+	 * Creates a new {@link SpeciesReferenceFilter} that only accepts instances of
+	 * {@link SpeciesReference} pointing to the id of the given {@link Species}.
 	 * 
+	 * @param species
+	 *        the {@link Species} of interest.
+	 */
+	public SpeciesReferenceFilter(Species species) {
+		this(species.getId(), species.getName());
+		setFilterForSpecies(true);
+	}
+
+	/**
 	 * @param id
+	 *        the identifier of a {@link Species} or {@link SpeciesReference} we
+	 *        are interested in. Whether we accept the id of a {@link Species} or
+	 *        a {@link SpeciesReference} depends on the flag that can be defined
+	 *        with {@link #setFilterForSpecies(boolean)}.
+	 * @see #setFilterForSpecies(boolean)
 	 */
 	public SpeciesReferenceFilter(String id) {
 		super(id);
 	}
 
 	/**
-	 * 
 	 * @param id
+	 *        the identifier of a {@link Species} or {@link SpeciesReference} we
+	 *        are interested in. Whether we accept the id of a {@link Species} or
+	 *        a {@link SpeciesReference} depends on the flag that can be defined
+	 *        with {@link #setFilterForSpecies(boolean)}.
 	 * @param name
+	 *        the name of the element we are interested in.
+	 * @see #setFilterForSpecies(boolean)
 	 */
 	public SpeciesReferenceFilter(String id, String name) {
 		super(id, name);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.filters.Filter#accepts(java.lang.Object)
 	 */
 	@Override

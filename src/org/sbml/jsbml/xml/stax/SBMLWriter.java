@@ -883,11 +883,18 @@ public class SBMLWriter {
 		String rdfPrefix = rdfNamespaces.get(Annotation.URI_RDF_SYNTAX_NS);
 		String whiteSpace = createIndentationString(indent);
 
-		for (int i = 0; i < listOfCVTerms.size(); i++) {
+		for (int i = 0; i < listOfCVTerms.size(); i++)
+		{
 			CVTerm cvTerm = listOfCVTerms.get(i);
 			String namespaceURI = null;
 			String prefix = null;
 			String elementName = null;
+		
+			if (cvTerm == null || cvTerm.getResourceCount() == 0) 
+			{
+				// No need to write a CVTerm without any resources/uris
+				continue;
+			}
 			
 			if (cvTerm.getQualifierType().equals(CVTerm.Type.BIOLOGICAL_QUALIFIER)) {
 				namespaceURI = CVTerm.Type.BIOLOGICAL_QUALIFIER.getNamespaceURI();

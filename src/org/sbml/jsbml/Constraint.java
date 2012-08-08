@@ -22,6 +22,7 @@ package org.sbml.jsbml;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.xml.XMLNode;
 
@@ -76,7 +77,7 @@ public class Constraint extends AbstractMathContainer {
 	public Constraint(Constraint sb) {
 		super(sb);
 		if (sb.isSetMessage()) {
-			this.message = new XMLNode(sb.getMessage());
+			setMessage(sb.getMessage().clone());
 		}
 	}
 
@@ -153,7 +154,7 @@ public class Constraint extends AbstractMathContainer {
 	 * @return  the message of this {@link Constraint} as an XML {@link String}.
 	 */
 	public String getMessageString() {
-		return message.toXMLString();
+		return isSetMessage() ? message.toXMLString() : "";
 	}
 
 	/*
@@ -182,9 +183,7 @@ public class Constraint extends AbstractMathContainer {
 	 *            : the message to set
 	 */
 	public void setMessage(String message) {
-		XMLNode oldMessage = this.message;
-		this.message = XMLNode.convertStringToXMLNode(message);
-		firePropertyChange(TreeNodeChangeEvent.message, oldMessage, message);
+		setMessage(XMLNode.convertStringToXMLNode(StringTools.toXMLMessageString(message)));
 	}
 
 	/**
@@ -197,6 +196,7 @@ public class Constraint extends AbstractMathContainer {
 		XMLNode oldMessage = this.message;
 		this.message = message;
 		firePropertyChange(TreeNodeChangeEvent.message, oldMessage, message);
+		this.message.setParent(this);
 	}
 
 	/**

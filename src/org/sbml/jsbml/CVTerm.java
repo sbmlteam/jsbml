@@ -70,6 +70,10 @@ public class CVTerm extends AnnotationElement {
 		 */
 		BQB_HAS_PROPERTY,
 		/**
+		 * Represents the MIRIAM biological qualifier 'hasTaxon'.
+		 */
+		BQB_HAS_TAXON,
+		/**
 		 * Represents the MIRIAM biological qualifier 'hasVersion'.
 		 */
 		BQB_HAS_VERSION,
@@ -141,6 +145,8 @@ public class CVTerm extends AnnotationElement {
 				return "hasVersion";
 			case BQB_HAS_PROPERTY:
 				return "hasProperty";
+			case BQB_HAS_TAXON:
+				return "hasTaxon";
 			case BQB_IS_PROPERTY_OF:
 				return "isPropertyOf";
 			case BQB_IS:
@@ -575,6 +581,13 @@ public class CVTerm extends AnnotationElement {
 	}
 
 	/**
+	 * @return
+	 */
+	public boolean isSetModelQualifierType() {
+		return getModelQualifierType() != null;
+	}
+
+	/**
 	 * Checks whether or not the {@link Qualifier} has been set for this
 	 * {@link CVTerm}.
 	 * 
@@ -823,6 +836,40 @@ public class CVTerm extends AnnotationElement {
 			buffer.append(uri);
 		}
 		return buffer.toString();
+	}
+
+	
+	/**
+	 * Unsets the biological qualifier if it is set.
+	 * 
+	 */
+	public void unsetBiologicalQualifierType() {
+		if (type == Type.BIOLOGICAL_QUALIFIER) {
+			firePropertyChange(TreeNodeChangeEvent.qualifier, qualifier, null);
+			qualifier = null;
+		}
+	}
+
+	/**
+	 * Unsets the model qualifier if it is set.
+	 * 
+	 */
+	public void unsetModelQualifierType() {
+		if (type == Type.MODEL_QUALIFIER) {
+			firePropertyChange(TreeNodeChangeEvent.qualifier, qualifier, null);
+			qualifier = null;
+		}
+	}
+
+	/**
+	 * Unsets the qualifier type if it is set.
+	 * 
+	 */
+	public void unsetQualifierType() {
+		if (isSetQualifierType()) {
+			firePropertyChange(TreeNodeChangeEvent.qualifier, type, null);
+			type = null;
+		}
 	}
 
 	/**
