@@ -133,7 +133,7 @@ public class SBMLDocument extends AbstractSBase {
 		this.model = null;
 		SBMLDocumentAttributes = new HashMap<String, String>();
 		SBMLDocumentNamespaces = new HashMap<String, String>();
-		setParentSBML(this);
+		// setParentSBML(this);
 		checkConsistencyParameters.put(CHECK_CATEGORY.UNITS_CONSISTENCY.name(), false);
 	}
 	
@@ -182,7 +182,7 @@ public class SBMLDocument extends AbstractSBase {
 			entry = entryIterator.next();
 			this.SBMLDocumentNamespaces.put(entry.getKey(), entry.getValue());
 		}
-		setParentSBML(this);
+		// setParentSBML(this);
 		checkConsistencyParameters.put(CHECK_CATEGORY.UNITS_CONSISTENCY.name(), Boolean.valueOf(false));
 	}
 

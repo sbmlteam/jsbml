@@ -313,14 +313,14 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 		Model model = getModel();
     if ((oldId != null) && (model != null)) {
       // Delete previous identifier only if defined.
-      model.registerId(this, false);
+      model.registerIds(this.getParent(), this, false, true);
     }
     if ((id == null) || (id.trim().length() == 0)) {
       this.id = null;
     } else if (checkIdentifier(id)) {
       this.id = id;
     }
-		if ((model != null) && !model.registerId(this, true)) {
+		if ((model != null) && !model.registerIds(this.getParent(), this, false, false)) {
         IdentifierException exc = new IdentifierException(this, this.id);
         this.id = oldId; // restore the previous setting!
         throw new IllegalArgumentException(exc);

@@ -890,7 +890,7 @@ public class SBMLWriter {
 			String prefix = null;
 			String elementName = null;
 		
-			if (cvTerm == null || cvTerm.getResourceCount() == 0) 
+			if (cvTerm == null || cvTerm.getNumResources() == 0) 
 			{
 				// No need to write a CVTerm without any resources/uris
 				continue;

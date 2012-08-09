@@ -21,6 +21,7 @@
 
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -156,9 +157,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   
   /**
    * A mapping between the identifiers of {@link LocalParameter}s and the
-   * identifiers of containing {@link Reaction} objects.
+   * containing {@link Reaction} objects.
    */
-  private Map<String, SortedSet<String>> mapOfLocalParameters;
+  private Map<String, List<Reaction>> mapOfLocalParameters;
   
   /**
    * For internal computation: a mapping between their identifiers and
@@ -1388,22 +1389,29 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         given name or identifier. This {@link List} can be empty, but never
    *         null.
    */
-  public List<LocalParameter> findLocalParameters(String id) {
+  public List<LocalParameter> findLocalParameters(String id) 
+  {
+	  if (mapOfLocalParameters == null) {
+		  mapOfLocalParameters = new HashMap<String, List<Reaction>>();
+	  }
+	  
     List<LocalParameter> list = new LinkedList<LocalParameter>();
-    SortedSet<String> rList = findReactionsForLocalParameter(id);
+    List<Reaction> rList = mapOfLocalParameters.get(id);
+    
     if ((rList == null) || rList.isEmpty()) {
       return list;
     }
-    LocalParameter p;
-    Reaction r;
-    for (String rId : rList) {
-      r = getReaction(rId);
+    
+    for (Reaction r : rList) 
+    {
       // This must always be true, otherwise there is an error elsewhere:
       if (r.isSetKineticLaw()) {
-        p = r.getKineticLaw().getLocalParameter(id);
+    	LocalParameter p = r.getKineticLaw().getLocalParameter(id);
         if (p != null) {
           list.add(p);
         }
+      } else {
+    	  logger.warn("A reaction that is supposed to have a local parameter defined has no kineticLaw !!!");
       }
     }
     return list;
@@ -1548,8 +1556,35 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         or <code>null</code> if no such element with this 'id' can be
    *         found.
    */
-  public SortedSet<String> findReactionsForLocalParameter(String id) {
-    return mapOfLocalParameters == null ? null : mapOfLocalParameters.get(id);
+  public SortedSet<String> findReactionsForLocalParameter(String id) 
+  {
+	  if (mapOfLocalParameters == null) {
+          mapOfLocalParameters = new HashMap<String, List<Reaction>>();
+        }
+	  
+	  List<Reaction> reactionList = mapOfLocalParameters.get(id);
+	  SortedSet<String> reactionIdSet = null;
+	  
+	  if (reactionList != null && reactionList.size() > 0)
+	  {
+		  reactionIdSet = new TreeSet<String>();
+		  
+		  for (Reaction reaction : reactionList)
+		  {
+			  if (reaction.isSetId()) 
+			  {
+				  reactionIdSet.add(reaction.getId());
+			  }
+		  }
+		  
+		  if (reactionIdSet.size() != reactionList.size())
+		  {
+			  logger.warn(MessageFormat.format("Some of the reactions containing the local" +
+			  		" parameter {0} have no id defined !!", id));
+		  }
+	  }
+	  
+	  return reactionIdSet;
   }
   
   /**
@@ -3328,44 +3363,65 @@ public int getNumLocalParameters() {
   private boolean registerId(KineticLaw kl, LocalParameter lp, boolean delete, boolean alreadyRegisteredInKL) {
     if (!alreadyRegisteredInKL) {
         // Register local parameter within its kinetic law first.
+    	logger.debug("registerIds (LP) : calling kineticLaw.registerLocalParameter !");
+    	// should never be called from the model in fact
+    	
     	kl.registerLocalParameter(lp, delete);
     }
-    if (lp.isSetId()) {
-      Reaction r = kl.getParentSBMLObject();
+    
+    if (logger.isDebugEnabled()) {
+    	logger.debug((delete ? "un" : "") + "registerIds (LP) : id = " + lp.getId() + "");
+    }
+
+    if (lp.isSetId()) 
+    {
+      Reaction r = kl.getParentSBMLObject();      
       String pId = lp.getId();
-      if ((r != null) && r.isSetId()) {
-        if (delete) {
-        	// Check if this method was called by some cloned object.
-        	// In this case we must not delete the references to the objects
-        	// within this model.
-        	Reaction rTest = getReaction(r.getId());
-        	if ((rTest == null) || (rTest != r) || !rTest.isSetKineticLaw()
-        			|| (rTest.getKineticLaw().getLocalParameter(lp.getId()) == null)) {
-        		return false;
-        	}
-        	if (mapOfLocalParameters != null) {
-        		SortedSet<String> reactionSet = mapOfLocalParameters.get(pId);
-        		if (reactionSet != null) {
-        			reactionSet.remove(r.getId());
-        			if (reactionSet.isEmpty()) {
-        				mapOfLocalParameters.remove(pId);
-        			}
-        		}
-        	}
+
+      if (logger.isDebugEnabled()) {
+    	  logger.debug("registerIds (LP) : reaction = " + r + " (r.isSetId = " + r.isSetId() + ")");
+      }
+      if ((r != null)) 
+      {
+        if (delete) 
+        {
+          if (mapOfLocalParameters != null) {
+            List<Reaction> reactionList = mapOfLocalParameters.get(pId);
+
+            if (reactionList != null) 
+            {
+            	
+            	boolean removed = reactionList.remove(r);
+
+            	if (!removed && logger.isDebugEnabled()) 
+            	{
+            		logger.debug("Reaction '" + r + "' was not removed from the mapOfLocalParameters");
+            	}
+            	
+              if (reactionList.isEmpty()) {
+                mapOfLocalParameters.remove(pId);
+              }
+            }
+          }
+
           return true;
-        } else {
+        }
+        else // register 
+        {
           // add new key or reaction for this local parameter.
           if (mapOfLocalParameters == null) {
-            mapOfLocalParameters = new HashMap<String, SortedSet<String>>();
+            mapOfLocalParameters = new HashMap<String, List<Reaction>>();
           }
           if (!mapOfLocalParameters.containsKey(pId)) {
-            mapOfLocalParameters.put(pId, new TreeSet<String>());
+            mapOfLocalParameters.put(pId, new ArrayList<Reaction>());
           }
-          mapOfLocalParameters.get(pId).add(r.getId());
+          mapOfLocalParameters.get(pId).add(r);
+          
           return true;          
         }        
       }      
     }
+    
     return false;
   }
   
@@ -3393,13 +3449,9 @@ public int getNumLocalParameters() {
    * @param delete
    * @return
    */
-  private boolean registerId(UniqueNamedSBase unsb, boolean recursively, boolean delete) {
+  private boolean registerId(UniqueNamedSBase unsb, boolean delete) {
     String id = unsb.getId();
     if (delete && (mapOfUniqueNamedSBases != null)) {
-    	// Check if this method was called from some cloned element that is not part of this model:
-    	if (mapOfUniqueNamedSBases.get(id) != unsb) {
-    		return false;
-    	}
       mapOfUniqueNamedSBases.remove(id);
       if (logger.isDebugEnabled()) {
     	  logger.debug(String.format("removed id=%s from model%s",
@@ -3410,18 +3462,10 @@ public int getNumLocalParameters() {
         mapOfUniqueNamedSBases = new HashMap<String, UniqueNamedSBase>();
       }
       /*
-       * Three reasons for non acceptance:
+       * Two reasons for non acceptance:
        * (1) another UniqueNamedSBase is already registered with the identical id.
        * 
-       * No need to test this case (2) some Reaction refers to a LocalParameter
-       *  with this id, but LV >= 2.3 and the
-       *     overridden element is not an instance of Species, Compartment, or Parameter.
-       *            
-         || ((0 < unsb.getLevelAndVersion().compareTo(Integer.valueOf(2), Integer.valueOf(2)))
-          && (mapOfLocalParameters != null)
-          && mapOfLocalParameters.containsKey(id) && !(unsb instanceof Symbol))
-
-       * (3) In Level 1 UnitDefinitions and UniqueNamedSBases use the same namespace.
+       * (2) In Level 1 UnitDefinitions and UniqueNamedSBases use the same namespace.
        */
       if ((mapOfUniqueNamedSBases.containsKey(id) && 
           (mapOfUniqueNamedSBases.get(id) != unsb))
@@ -3440,17 +3484,8 @@ public int getNumLocalParameters() {
     			  id, (isSetId() ? " " + getId() : "")));
       }
     }
-    boolean success = true;
-    if (recursively) {
-      TreeNode child;
-      for (int i = 0; i < unsb.getChildCount(); i++) {
-        child = unsb.getChildAt(i);
-        if (child instanceof SBase) {
-          success &= registerIds(unsb, (SBase) child, recursively, delete);
-        }
-      }
-    }
-    return success;
+
+    return true;
   }
   
   /**
@@ -3470,11 +3505,7 @@ public int getNumLocalParameters() {
     if (add) {
       return mapOfUnitDefinitions.put(ud.getId(), ud) == null;
     }
-    // Check if the element to be removed is part of this model or maybe a clone:
-    UnitDefinition unitDef = mapOfUnitDefinitions.get(ud);
-    if ((unitDef != null) && (unitDef != ud)) {
-      return false;
-    }
+    
     return mapOfUnitDefinitions.remove(ud.getId()) != null;    
   }
   
@@ -3488,53 +3519,80 @@ public int getNumLocalParameters() {
    * @return <code>true</code> if this operation was successfully performed,
    *         <code>false</code> otherwise.
    */
-  boolean registerIds(SBase parent, SBase newElem, boolean recursively,
-                      boolean delete) {
+  boolean registerIds(SBase parent, SBase newElem, boolean recursively, boolean delete) 
+  {
+      /*
+       * the default return value is true to be able to register successfully objects that are
+       * not NamedSBase when the recursive boolean is set to false (happen with listOf objects for example).
+       * For these, the AbstractSBase.registerChild(SBase) method was throwing an exception although there was no problem.
+       */
       boolean success = true;
 
-      if (newElem instanceof NamedSBase) {
-      NamedSBase newNsb = (NamedSBase) newElem;
-      if (newNsb.isSetId()) {
-        if (newNsb instanceof UniqueNamedSBase) {
-        	success &= registerId((UniqueNamedSBase) newNsb, recursively, delete);
-        } else if ((newNsb instanceof LocalParameter)
-                   && (parent.getParent() != null)) {
-        	success &= registerId((KineticLaw) parent.getParent(),
-                            (LocalParameter) newNsb, delete, false);
-        } else if (newNsb instanceof UnitDefinition) {
-        	success &= registerId((UnitDefinition) newNsb, !delete);
-        } else {                                                                                                                                                              
-                // in L3 packages we might have different id namespaces                                                                                                        
-                logger.error("registerIds : the object " + newNsb.getClass().getCanonicalName() + " is neither " +                                                             
-                                "a UniqueNamedSBase, a LocalParameter or a UnitDefinition so its id will not be registered in the Model.");                                   
-         } 
-      } else if (!newNsb.isIdMandatory()) {
-        // do nothing
+      logger.debug("registerIds (main) : newElem = " + newElem.getElementName() + " (recursive = " + recursively + ")");
+
+      if (newElem instanceof NamedSBase) 
+      {
+    	  NamedSBase newNsb = (NamedSBase) newElem;
+    	
+    	  if (newNsb.isSetId()) 
+    	  {
+    		  if (newNsb instanceof UniqueNamedSBase) 
+    		  {
+    			  success &= registerId((UniqueNamedSBase) newNsb, delete);
+    		  }
+    		  else if ((newNsb instanceof LocalParameter) && (parent.getParent() != null)) 
+    		  {
+    			  success &= registerId((KineticLaw) parent.getParent(), (LocalParameter) newNsb, delete, true);
+    		  }
+    		  else if (newNsb instanceof UnitDefinition) 
+    		  {
+    			  success &= registerId((UnitDefinition) newNsb, !delete);
+    		  }
+    		  else 
+    		  {
+    			  // in L3 packages we might have different id namespaces
+    			  logger.error(MessageFormat.format(
+    					  "registerIds: the object {0} is neither a UniqueNamedSBase, a LocalParameter or a UnitDefinition so its id will not be registered in the Model.",
+    					  newNsb.getClass().getCanonicalName()));
+    		  }
+    	  } else if (!newNsb.isIdMandatory()) {
+    		  // do nothing
+    	  }
+      } 
+      
+      logger.debug("registerIds (main) : success = " + success);
+      
+      if (recursively) {
+    	  for (int i = 0; (i < newElem.getChildCount()) && success; i++) {
+    		  TreeNode child = newElem.getChildAt(i);
+    		  if (child instanceof SBase) {
+    			  if (child instanceof LocalParameter) {
+    				  // The local parameter have already been registered in the KineticLaw in this case
+    				  logger.debug("registerIds (main) : registering a LocalParameter.");
+    				  success &= registerId((KineticLaw) parent, (LocalParameter) child, delete, true);
+    				  
+    				  // we still need to register recursively the children of a LocalParameter
+    				  if (child.getChildCount() > 0) {
+    					  for (int j = 0; (j < child.getChildCount()) && success; j++) {
+    			    		  TreeNode lpChild = child.getChildAt(j);
+    			    		  
+    			    		  if (lpChild instanceof SBase) {
+    			    			  success &= registerIds((SBase) child, (SBase) lpChild, recursively, delete);
+    			    		  }
+    					  }
+    				  }
+    			  } else {
+    				  success &= registerIds(newElem, (SBase) child, recursively, delete);
+    			  }
+    		  }
+    	  }
+    	  
+    	  logger.debug("registerIds (main) : success after recursion = " + success);
       }
-    } 
-    if (recursively) {
-      for (int i=0; i<newElem.getChildCount() && success; i++) {
-        TreeNode child = newElem.getChildAt(i);
-        if (child instanceof SBase) {
-          if ((parent instanceof KineticLaw) && (child instanceof LocalParameter)) {
-        	  // The local parameter have already been registered in the KineticLaw in this case
-            success &= registerId((KineticLaw) parent, (LocalParameter) child, delete, true);
-            // TODO : we still need to register recursively the children of a LocalParameter
-          } else {
-            success &= registerIds(newElem, (SBase) child, recursively, delete);
-          }
-        }
-      }
+
       return success;
-    }
-    /*
-     * the default return value is true to be able to register successfully objects that are
-     * not NamedSBase when the recursive boolean is set to false (happen with listOf objects for example).
-     * For these, the AbstractSBase.registerChild(SBase) method was throwing an exception although there was no problem.
-     */
-    return success;
   }
-  
+
   /**
    * Removes the i-th {@link Compartment} of the {@link Model}.
    * 

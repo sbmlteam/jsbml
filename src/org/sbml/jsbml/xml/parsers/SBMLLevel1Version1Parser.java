@@ -436,7 +436,6 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 					SBMLDocument sbmlDocument = (SBMLDocument) contextObject;
 					if (elementName.equals("model")) {
 						Model model = (Model) newContextObject;
-						model.setParentSBML(sbmlDocument);
 						sbmlDocument.setModel(model);
 
 						return model;

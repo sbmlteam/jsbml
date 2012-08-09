@@ -473,11 +473,9 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	 */
 	public void setNotes(XMLNode notesXMLNode);
 
-	/**
-	 * 
-	 * @param parent
-	 */
-	public void setParentSBML(SBase parent);
+
+	// This method is protected now
+	// public void setParentSBML(SBase parent);
 
 	/**
 	 * Sets the value of the 'sboTerm' attribute.

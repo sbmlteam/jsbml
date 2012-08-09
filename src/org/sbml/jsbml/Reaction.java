@@ -1208,32 +1208,8 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	public void setKineticLaw(KineticLaw kineticLaw) {
 		unsetKineticLaw();
 		this.kineticLaw = kineticLaw;
-		if (this.kineticLaw.isSetListOfLocalParameters()) {
-			/*
-			 * Before we can register the new kineticLaw as a child of this
-			 * reaction, we first have to clear the mapping from the kineticLaw 
-			 * to its local parameters (if there are any). Local parameters are 
-			 * registered at the level of the kineticLaw, i.e., besides all maps 
-			 * on the level of the model, kineticLaw contains its own map. 
-			 * Clearing this map is required because the registerChild method 
-			 * would recursively find all elements that have an id and try to 
-			 * the mapping. However, since all these local parameters have been 
-			 * existing already, this would cause an exception. The reason is 
-			 * that we could not distinguish between already correctly registered 
-			 * local parameters and new local parameters with an identical 
-			 * identifier.
-			 */
-			for (LocalParameter lp : this.kineticLaw.getListOfLocalParameters()) {
-				this.kineticLaw.registerLocalParameter(lp, true);
-			}
-		}
 		registerChild(this.kineticLaw);
-		if (this.kineticLaw.isSetListOfLocalParameters()) {
-	          for (LocalParameter lp : this.kineticLaw.getListOfLocalParameters()) {
-	            this.kineticLaw.registerLocalParameter(lp, false);
-	          }
-	        }
-	}
+	 }
 
 	/**
 	 * Sets the listOfModifiers of this {@link Reaction}. Automatically sets the

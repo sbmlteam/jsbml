@@ -258,9 +258,40 @@ public class LocalParameter extends QuantityWithUnit {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	public void setId(String newId) 
+	{
+		// getting the kineticLaw if it exist
+		KineticLaw kl = null;
+		
+		if (parent != null && parent.getParent() != null)
+		{
+			try 
+			{
+				kl = (KineticLaw) parent.getParent();
+			}
+			catch (ClassCastException e)
+			{
+				// Should never happen
+				throw new SBMLException(e);
+			}
+		}
+		
+		if (isSetId() && kl != null) 
+		{
+			// unregistering the actual id in the kineticLaw
+			kl.registerLocalParameter(this, true);
+		}
+		
+		super.setId(newId);
+		
+		if (kl != null) 
+		{
+			// registering the new id in the kineticLaw
+			kl.registerLocalParameter(this, false);
+		}
+	}
+	
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Symbol#writeXMLAttributes()
 	 */
 	@Override
