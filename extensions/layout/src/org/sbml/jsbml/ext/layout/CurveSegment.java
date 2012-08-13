@@ -162,13 +162,13 @@ public class CurveSegment extends CubicBezier {
 		logger.debug("reading CurveSegment: " + prefix + " : " + attributeName);
 
 		if (!isAttributeRead) {
-			isAttributeRead = true;
-			if ((prefix.equals("xsi") || prefix.equals(""))
-					&& attributeName.equals("type")) {
+			
+			if (attributeName.equals("type")) {
 				setType(value);
 				return true;
 			}
 		}
+
 		return isAttributeRead;
 	}
 
@@ -188,10 +188,12 @@ public class CurveSegment extends CubicBezier {
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
+		
 		logger.debug("process attributes of CurveSegment");
 		logger.debug("isSetType: " + isSetType());
+		
 		if (isSetType()) {
-			attributes.put("xsi:type", getType());
+			attributes.put(LayoutConstants.shortLabel + ":type", getType());
 		}
 		return attributes;
 	}

@@ -32,7 +32,7 @@ public class TestSpeciesReferenceGlyphCurve {
 		srg1.setRole(SpeciesReferenceRole.SUBSTRATE);
 		srg2.setRole(SpeciesReferenceRole.PRODUCT);
 
-		assert(model.findNamedSBase("srg_r1_s1") != null);
+		assert(model.findNamedSBase("srg_r1_s1") == null);
 		
 		BoundingBox bbRg = rg.createBoundingBox(10.0, 10.0, 0.0);
 		bbRg.setPosition(new Point(100.0, 0.0, 0.0));
@@ -40,6 +40,10 @@ public class TestSpeciesReferenceGlyphCurve {
 		CurveSegment cs1 = new CurveSegment();
 		cs1.setStart(new Point(35.0, 10.0, 0.0));
 		cs1.setEnd(new Point(100.0, 10.0, 0.0));
+		cs1.setBasePoint1(new Point(25, 35, 45));
+		cs1.setBasePoint2(new Point(55, 65, 75));
+		cs1.setType("LineSegment");
+		
 		Curve c = new Curve();
 		ListOf<CurveSegment> csList = new ListOf<CurveSegment>();
 		csList.add(cs1);
@@ -60,7 +64,9 @@ public class TestSpeciesReferenceGlyphCurve {
 		bbSrg2.setDimensions(new Dimensions(200.0, 10.0, 0, model.getLevel(), model.getVersion()));
 			
 		layout.addReactionGlyph(rg);
-		
+
+		assert(model.findNamedSBase("srg_r1_s1") != null);
+
 		String writtenDocument = JSBML.writeSBMLToString(d);
 		
 		System.out.println(writtenDocument);
@@ -78,6 +84,17 @@ public class TestSpeciesReferenceGlyphCurve {
 		assert(cs1Bis.getStart().getX() == 35);
 		assert(cs1Bis.getStart().getZ() == 0);
 		assert(cs1Bis.getEnd().getY() == 10);
+		assert(cs1Bis.getBasePoint1().getY() == 35);
+		assert(cs1Bis.getBasePoint1().getZ() == 45);
+		assert(cs1Bis.getBasePoint2().getX() == 55);
+		assert cs1Bis.getBasePoint2().getZ() == 75 : "BasePoint2.Z is not read properly !!!";
+		assert cs1Bis.getType().equals("LineSegment") : "BasePoint2.type is not read properly !!!";
+		
+		System.out.println("CurveSegment.basePoint2.Z = " + cs1Bis.getBasePoint2().getZ());
+		
+		writtenDocument = JSBML.writeSBMLToString(d);
+		
+		System.out.println(writtenDocument);
 	}
 
 }
