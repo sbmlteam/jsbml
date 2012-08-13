@@ -56,11 +56,12 @@ public class CubicBezier extends LineSegment {
 	 */
 	public CubicBezier(CubicBezier cubicBezier) {
 		super(cubicBezier);
+		
 		if (cubicBezier.isSetBasePoint1()) {
-			this.basePoint1 = cubicBezier.getBasePoint1();
+			setBasePoint1(cubicBezier.getBasePoint1().clone());
 		}
 		if (cubicBezier.isSetBasePoint2()) {
-		  this.basePoint2 = cubicBezier.getBasePoint2();
+			setBasePoint2(cubicBezier.getBasePoint2().clone());
 		}
 	}
 
@@ -275,7 +276,7 @@ public class CubicBezier extends LineSegment {
 			this.basePoint2 = null;
 			oldValue.fireNodeRemovedEvent();
 		}
-		if (!(basePoint2 instanceof BasePoint1)) {
+		if (!(basePoint2 instanceof BasePoint2)) {
 			basePoint2 = new BasePoint2(basePoint2);
 		}
 		this.basePoint2 = basePoint2;
