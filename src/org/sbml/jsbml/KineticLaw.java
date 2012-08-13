@@ -772,7 +772,17 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	 * 
 	 * @param listOfLocalParameters
 	 */
-	public void setListOfLocalParameters(ListOf<LocalParameter> listOfLocalParameters) {
+	public void setListOfLocalParameters(ListOf<LocalParameter> listOfLocalParameters) 
+	{
+		boolean updateMathVariables = false;
+		
+		if (getLocalParameterCount() > 0 || listOfLocalParameters.size() > 0) 
+		{
+			// We need to update the math only if there was already some local parameters
+			// or if the new listOf contain some parameters
+			updateMathVariables = true;
+		}
+		
 		unsetListOfLocalParameters();
 		this.listOfLocalParameters = listOfLocalParameters;
 
@@ -806,8 +816,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 			registerChild(this.listOfLocalParameters);
 			
 		}
-
-		if (isSetMath()) {
+		if (isSetMath() && updateMathVariables) {
 			getMath().updateVariables();
 		}
 	}
