@@ -24,7 +24,7 @@ elaborate programs.
 
 \Vref*{fig:JSBMLvisualizer-source} shows the listing of a very simple
 program called ``\code{JSBMLvisualizer}''. When it is run, it expects to
-be given the pathname of a valid SBML file as \index{SBML!XML file} its
+be given the path name of a valid SBML file as \index{SBML!XML file} its
 sole argument. The program uses the static method \code{read()} defined
 by the JSBML object class \SBMLReader to read the file; \SBMLReader
 returns an object of class \SBMLDocument, the main SBML document
@@ -36,11 +36,12 @@ identifier of the model in the SBML file, obtained by calling
 \JFrame's title to the identifier of the model. Since JSBML's \SBase
 object (and all objects derived from it) implement the \TreeNode
 interface, it is possible to create a \JTree directly from the
-information in an \SBMLDocument object instance.  (To keep our example
+information in an \SBMLDocument object instance.  (To keep our examples
 short and focused on the essentials of using JSBML, we have omitted
 error checking steps.  A real application program should guard against
-various situations, such as \code{getModel()} returning \code{null}, and
-take steps to deal with them appropriately.)
+various situations, such as \code{getModel()} or \code{getId()} returning \code{null}, and
+take steps to deal with them appropriately. You might also like to read SBML files 
+in a separate thread and monitor the progress of reading the file in some progress bar.)
 
 To compile and execute ``\code{JSBMLvisualizer}'', you would need to do
 the following sequence of commands:
@@ -110,7 +111,15 @@ and write it to a file. The program first creates an \SBMLDocument object,
 then attaches a \Model object to it, and then to the \Model adds one
 \Compartment, two \Species, and one \Reaction objects. To write the
 contents to a file named ``\code{test.xml}'', the program uses a static
-method on the JSBML class \SBMLWriter.
+method on the JSBML class \SBMLWriter. 
+
+This program illustrate also the preferred way to create JSBML object instances. 
+The only constructor you should need to use is the constructor of the \SBMLDocument, specifying
+the SBML level and version you want to use. Then each JSBML class should have some 
+\code{createXXX} methods where 'XXX' is the children class name. 
+For example, \code{model.createSpecies(String)}, \code{model.createReaction(String)}
+or \code{reaction.createReactant()}. These methods will guaranty that you are creating a proper
+representation of the SBML model.  
 
 \begin{figure}[bht]
   \vspace*{-1ex}
@@ -122,10 +131,12 @@ method on the JSBML class \SBMLWriter.
 \end{figure}
 
 
-\subsection{More examples}
+\section{More examples}
 
 \Vref*{lst:LibSBMLio} shows how to convert libSBML data structures into
 JSBML data objects. \Vref{lst:PluginAction} demonstrates the implementation
 of CellDesigner's abstract class \code{PluginAction} and \vref{lst:Plugin}
 gives a complete example for writing CellDesigner plugins with
-JSBML. \index{CellDesigner}
+JSBML \index{CellDesigner} (See \vref{sec:jsbml-modules-details} to learn more
+on JSBML Modules in general). Some more complex examples are available from the JSBML 
+SourceForge repository, see \vref{sec:jsbml-repo-examples} to know how to obtain them.

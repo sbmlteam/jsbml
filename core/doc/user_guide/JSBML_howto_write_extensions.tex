@@ -8,7 +8,8 @@ for JSBML to support an \SBMLthree package.  We use a concrete (though
 artificial) example to illustrate various points.  This example extension
 is named, very cleverly, \emph{Example}, and while it does not actually do
 anything significant, we hope it will help make the explanations more
-understandable.
+understandable. This chapter apply to JSBML version 1.0 only.
+The 0.8 branch does not support any extension packages.
 
 
 \section{Organizing the source code}
@@ -53,7 +54,7 @@ in the existing extension directories.  These conventions are illustrated in
 \vref{fig:extension-src-structure}.  There should be a build script in a file
 named ``\code{build.xml}'' for use with Ant~\citep{ApacheAnt}, and several
 subdirectories.  The \code{doc} subdirectory should contain documentation
-about the extension, preferrably with a subdirectory of its own, \code{img},
+about the extension, preferably with a subdirectory of its own, \code{img},
 containing at least a UML diagram of the type hierarchy of the package.  This
 can be in the form of, for instance, a Graphviz~\cite{graphvizWebsite} file
 \code{type\_hierarchy.dot}, so that the diagram can be generated in different
@@ -62,7 +63,7 @@ subdirectory where any package-specific, third-party libraries are located; a
 \code{resources} subdirectory for any non-source files that may be required
 by the extension code; an \code{src} subdirectory for the Java source code
 comprising the extension; and finally, a \code{test} subdirectory containing
-tests for the extension code, preferrably in JUnit~\cite{junitWebsite}
+tests for the extension code, preferably in JUnit~\cite{junitWebsite}
 format.
 
 Note the structure of the \code{src} subdirectory. A JSBML extension needs
@@ -76,6 +77,7 @@ the nested structure shown in \vref{fig:extension-src-structure}.
 
 
 \section{Creating the object hierarchy}
+\label{sec:creating-obj-hierarchy}
 
 A JSBML extension may need to do different things depending on the details
 of the \SBMLthree package that it implements.  In this section, we discuss
@@ -100,7 +102,7 @@ public class ExampleModel extends AbstractSBasePlugin {
 
   // Returns the model.
   public Model getModel() {
-    return (Model) getExtendedSBase;
+    return (Model) getExtendedSBase();
   }
 }\end{example}
   \caption{How to extending \AbstractSBasePlugin to create an extended
@@ -112,7 +114,7 @@ public class ExampleModel extends AbstractSBasePlugin {
 a class named \code{ExampleModel} that extends the plain SBML
 \Model. Technically, an extension really only needs to implement the
 \SBasePlugin interface, but because the abstract class \AbstractSBasePlugin
-implements important and useful methods, it is generally preferrable to
+implements important and useful methods, it is generally preferable to
 extend that one instead.  In this example, our constructor for
 \code{ExampleModel} accepts an object that is a \Model, because that is
 what we want to extend.  The call to the super constructor will save the
@@ -343,7 +345,7 @@ public boolean removeFoo(int i) {
 }
 
 // If the object class has an id, one should also add the following:
-public void removeFoo(String id) {
+public boolean removeFoo(String id) {
   return getListOfFoos().removeFirst(new NameFilter(id));
 }\end{example}
   \caption{Implementation of \code{ListOf} methods \code{addFoo(Foo foo)},
@@ -474,7 +476,8 @@ public boolean equals(Object object) {
     equals &= foo.isSetBar() == isSetBar();
     if (equals && isSetBar()) {
       // Note: strictly speaking, this is only possible if the return type is some Object. For simple data types,
-      // such as boolean, int, short, etc., the corresponding wrapper classes should be called instead.
+      // such as boolean, int, short, etc., the corresponding wrapper classes should be called instead
+      // or a direct comparison should be performed.
       equals &= (foo.getBar().equals(getBar()));
     }
     // ...
@@ -523,7 +526,7 @@ types and they cannot simply be organized as a list of children.
 }
 
 public ExampleModel(ExampleModel model) {
-  super(model);  This step is critical!
+  super(model);  // This step is critical!
   // Deep cloning of all elements:
   if (model.isSetListOfFoos()) {
     listOfFoos = model.listOfFoos.clone();
@@ -550,22 +553,19 @@ public Foo(Foo f) {
 \end{figure}
 
 
-\section{Implementing the parser and writer for an SBML package}
+\section{Implementing the reader and writer for an SBML package}
 
 One last thing is missing to be able to properly read and write SBML files
-using the new extension: a parser and a writer. An easy way to do that is
-to extend the \AbstractReaderWriter and implement the required methods. To
-implement the parser, in this case the \code{ExamplePaser}, one should
+using the new extension: a \code{ReadingParser} and a \code{WritingParser}. An easy way to do that is
+to extend the \AbstractReaderWriter that extends both interfaces and implement some of 
+the required methods in a generic way. To
+implement the parser, in this case the \code{ExampleParser}, one should
 start with two members and two simple methods, as shown in
-\vref{lst:ModelExtParserClass}.
-
-
-\subsection{Reading}
-
-As can be seen from this code snippet, an additional class
-\code{ExampleConstants} and an enum \code{ExampleListType} are used.
-
-\emph{\textbf{... TODO ...}}
+\vref{lst:ModelExtParserClass}. As you can see from this code snippet, an additional class
+\code{ExampleConstants} and an enum \code{ExampleListType} are used. The class \code{ExampleConstants}
+is used to keep track of all the static \String{}s used in the extension so that we are sure 
+that the same value is used everywhere. The enum  \code{ExampleListType} can be used to keep
+track of which \code{ListOf} we are in while reading an XML file.
 
 \begin{figure}[htb]
   \begin{example}[numbers=left]
@@ -602,112 +602,12 @@ public class ExampleParser extends AbstractReaderWriter {
 \end{figure}
 
 
-\subsection{Writing}
+\subsection{Reading}
 
-The method \code{getListOfSBMLElementsToWrite()} (see
-\vref{lst:ModelExtParserListSBMLToWrite}) has to return a list of all
-objects that have to be written because of the passed object.  In this way,
-the writer can traverse the XML tree to write all nodes.  Basically, there
-are three classes of objects that need to be distinguished:
-
-\begin{itemize}
- \item \code{SBMLDocument}
- \item extended classes
- \item \code{TreeNode}
-\end{itemize}
-
-TODO: SBMLDocument.
-
-After that we need to check if the current object is extendable using our
-extension.  In our example extension, a \Model{} can be extended using
-ExampleModel to also have a list of Foos as children.  In Java, this
-\code{ListOfFoos} is not a child of the original model, but of the example
-model.  The example model, on the other hand, is just an \SBasePlugin, which
-is not an \SBase{} and also not a child of the original model.  To ``inject''
-the ListOfFoos in the right place, all children of the example model in Java
-become direct children of the original model in XML.
-
-All other objects that implement \SBase{} also implement \TreeNode, so we just add
-all of their children to the list of elements to write.
-
-\begin{figure}[htb]
-  \begin{example}[numbers=left]
-public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
-
-  if (logger.isDebugEnabled()) {
-    logger.debug("getListOfSBMLElementsToWrite : " + sbase.getClass().getCanonicalName());
-  }
-
-  ArrayList<Object> listOfElementsToWrite = new ArrayList<Object>();
-
-  Enumeration<TreeNode> children = null;
-
-  if (sbase instanceof SBMLDocument) {
-    // nothing to do
-    // TODO : the 'required' attribute is written even if there is no plugin class for the SBMLDocument, 
-    // so I am not totally sure how this is done.
-  }
-  else if (sbase instanceof Model) {
-    ExampleModel modelGE = (ExampleModel) ((Model) sbase).getExtension(ExampleConstants.namespaceURI);
-
-    Enumeration<TreeNode> children = modelGE.children();
-
-    while (children.hasMoreElements()) {
-      listOfElementsToWrite.add(children.nextElement());
-    }
-  }
-  else if (sbase instanceof TreeNode) {
-    Enumeration<TreeNode> children = ((TreeNode) sbase).children();
-
-    while (children.hasMoreElements()) {
-      listOfElementsToWrite.add(children.nextElement());
-    }
-  }
-
-  if (listOfElementsToWrite.isEmpty()) {
-    listOfElementsToWrite = null;
-  } else if (logger.isDebugEnabled()) {
-    logger.debug("getListOfSBMLElementsToWrite size = " + listOfElementsToWrite.size());
-  }
-
-  return listOfElementsToWrite;
-}\end{example}
-  \caption{Extension parser: \code{getListOfSBMLElementsToWrite()}.}
-  \label{lst:ModelExtParserListSBMLToWrite}
-\end{figure}
-
-In some cases it may be necessary to modify the \code{writeElement()}
-method.  For example, this can happen when the same Java class is mapped to
-different XML tags, e.g., a default element and multiple additional tags.
-If this would be represented not via an attribute, but by using different
-tags, one could alter the name of the XML object in this method.
-
-The actual writing of XML attributes must be implemented in each of the
-classes in the \code{writeXMLAttributes()}.  An example is shown in 
-\vref{lst:ModelExtCreateXMLAttributes} for the class \code{Foo}.
-
-\begin{figure}[htb]
-  \begin{example}[numbers=left]
-public class Foo extends AbstractNamedSBase {
-  ...
-
-  public Map<String, String> writeXMLAttributes() {
-    Map<String, String> attributes = super.writeXMLAttributes();
-    if (isSetBar()) {
-      attributes.remove("bar");
-      attributes.put(Foo.shortLabel + ":bar", getBar());
-    }
-
-    // ...
-    // further class attributes
-  }
-}\end{example}
-  \caption{Method to write the XML attributes.}
-  \label{lst:ModelExtCreateXMLAttributes}
-\end{figure}
-
-
-\subsubsection{Parsing}
+The class \code{AbstractReaderWriter} provide more or less all the necessary
+code to read the XML file for your extension, you just need to implement one
+method from the \code{Reader} interface. In future version of JSBML, this method
+might be implemented in a generic way using the java reflection API.
 
 The \code{processStartElement()} method is responsible for handling start
 elements, such as \code{<listOfFoos>}, and creating the appropriate
@@ -728,7 +628,7 @@ the corresponding enum value is assigned to that variable.  Due to Java's
 type erasure, the context object inside a listOfFoos tag is of type
 \code{ListOf<?>} and a correctly set \code{groupList} variable is the only
 way of knowing where we are.  If we have checked that we are, in fact,
-inside a \code{listOfFoos} node and encounter a \code{foo} tag, we create
+inside a \code{listOfFoos} node and encounter a \code{foo} tag, we create a
 \code{Foo} object and add it to the example model.  Technically, it is
 added to the \code{ListOfFoos} of the example model, but since
 \code{ExampleModel} provides convenience methods for managing its lists, it
@@ -781,13 +681,16 @@ public Object processStartElement(String elementName, String prefix,
   \label{lst:ModelExtParserStartElement}
 \end{figure}
 
-The \code{processEndElement()} method is called whenever a closing tag is
+The \code{processEndElement()} (see \vref{lst:ModelExtParserEndElement}) 
+method is called whenever a closing tag is
 encountered.  The groupList attribute needs to be updated to reflect the step
 up in the tree of nested elements.  In this example, if the end of
 \code{</listOfFoos>} is reached, we certainly are inside the model tags
 again, which is denoted by \emph{none}.  Of course, more complicated
 extensions with nested lists will require more elaborate handling, but it
-should still be straightforward.
+should still be straightforward. If you don't use an enum or something else to
+keep track of which \code{ListOf} we are in and if you don't need to do other
+things when a closing XML element is encountered, you don't need to implement this method.
 
 \begin{figure}[htb]
   \begin{example}[numbers=left]
@@ -804,10 +707,11 @@ public boolean processEndElement(String elementName, String prefix,
   \label{lst:ModelExtParserEndElement}
 \end{figure}
 
-Attributes of a tag are read into the corresponding object via the
+The attributes of an XML element are read into the corresponding object via the
 \code{readAttributes()} method that must be implemented for each class.  An
 example is shown in \vref{lst:ModelExtReadAttributes} for the class
-\code{Foo}.
+\code{Foo}. The \code{AbstractReaderWriter} will use these methods to set the 
+attribute values into the java objects.
 
 \begin{figure}[htb]
   \begin{example}[numbers=left]
@@ -833,6 +737,52 @@ public boolean readAttribute(String attributeName, String prefix, String value) 
 \end{figure}
 
 
+
+\subsection{Writing}
+
+The method \code{getListOfSBMLElementsToWrite()}  has to return a list of all
+objects that have to be written because of the passed object.  In this way,
+the writer can traverse the XML tree to write all nodes. If the classes of the
+extension follow the structured advice in \vref{sec:creating-obj-hierarchy} this
+method does not need to be implement and the basic implementation from \code{AbstractReaderWriter}
+can be used. This basic implementation make use of the \code{TreeNode.children()} method
+to find the list of children to write.
+
+In some cases it may be necessary to modify the \code{writeElement()}
+method.  For example, this can happen when the same Java class is mapped to
+different XML tags, e.g., a default element and multiple additional tags.
+If this would be represented not via an attribute, but by using different
+tags, one could alter the name of the XML object in this method.
+
+The actual writing of XML attributes must be implemented in each of the
+classes in the \code{writeXMLAttributes()}.  An example is shown in 
+\vref{lst:ModelExtCreateXMLAttributes} for the class \code{Foo}.
+Then the \code{AbstractReaderWriter} class will use these methods to write
+the attributes.
+
+\begin{figure}[htb]
+  \begin{example}[numbers=left]
+public class Foo extends AbstractNamedSBase {
+  ...
+
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetBar()) {
+      attributes.remove("bar");
+      attributes.put(Foo.shortLabel + ":bar", getBar());
+    }
+
+    // ...
+    // further class attributes
+  }
+}\end{example}
+  \caption{Method to write the XML attributes.}
+  \label{lst:ModelExtCreateXMLAttributes}
+\end{figure}
+
+
+
+
 \section{Implementation checklist}
 
 \Vref*{fig:checklist} presents a checklist summarizing the different
@@ -854,9 +804,7 @@ aspects of an extension that need to be implemented.
         
       \item \code{get\barname()}
         
-      \item \code{is\barname{}Mandatory()}
-        
-      \item \code{isSet\barname{}\fooname()} (only required if the attribute is an id)
+      \item \code{isSet\barname{}} 
         
       \item \code{set\barname(int value)}
         
@@ -879,6 +827,8 @@ aspects of an extension that need to be implemented.
         
       \item \code{setListOf\fooname{}s(ListOf<\fooname{}> listOf\fooname{}s)}
         
+      \item \code{create\fooname()}
+        
       \item \code{add\fooname(\fooname{} foo)}
         
       \item \code{remove\fooname(\fooname{} foo)}
@@ -888,6 +838,8 @@ aspects of an extension that need to be implemented.
       \item \code{getAllowsChildren()}
         
       \item \code{getChildCount()}
+      
+      \item \code{getChildAt(int i)}
 
       \end{itemize}
 
@@ -908,9 +860,11 @@ aspects of an extension that need to be implemented.
     \item Implement the \code{writeXMLAttribute()} method (see 
       \vref{lst:ModelExtCreateXMLAttributes}).
 
-    \item Implement the parser/writer method (see 
+	\item Implement the \code{readAttribute(String, String, String)} method (see 
+      \vref{lst:ModelExtReadAttributes}).
+      
+    \item Implement the reader/writer method (see 
       \vref{lst:ModelExtParserClass},
-      \vref{lst:ModelExtParserListSBMLToWrite},
       \vref{lst:ModelExtParserStartElement}, and
       \vref{lst:ModelExtParserEndElement}).
     \end{itemize}
@@ -918,3 +872,18 @@ aspects of an extension that need to be implemented.
   \caption{Implementation checklist for JSBML extension authors.}
   \label{fig:checklist}
 \end{figure}
+
+\section{Eclipse code templates}
+
+We created a set of Eclipse templates that would ease a lot the creation of all 
+the methods described in the previous section of this chapter. These templates
+can be downloaded from the JSBML sources repository at 
+\url{https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/dev/eclipse/}.
+
+The file JSBML\_templates.xml define some code templates to autogenerate some code, following the
+checklist define in the previous section.
+It can be included in "Java" -> "Editor" -> "Templates".
+
+To use these templates while programming write "JSBML" and press "CTR + tab". Then all 
+available JSBML code templates are listed. Then select the desired template by pressing 
+"enter". If you have several fields to rename use "tab" to rename them all in one go.

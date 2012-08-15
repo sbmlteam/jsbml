@@ -2,6 +2,7 @@ import java.beans.PropertyChangeEvent;
 import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.*;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
+import org.sbml.jsbml.util.TreeNodeRemovedEvent;
 
 /** Creates an {@link SBMLDocument} and writes its contents to a file. **/ 
 public class JSBMLexample implements TreeNodeChangeListener {
@@ -17,10 +18,9 @@ public class JSBMLexample implements TreeNodeChangeListener {
         compartment.setSize(1d);
 
         // Create a model history object and add author information to it.
-        History hist = new History();
+        History hist = model.getHistory(); // Will create the History, if it does not exist
         Creator creator = new Creator("Given Name", "Family Name", "Organisation", "My@EMail.com");
         hist.addCreator(creator);
-        model.setHistory(hist);
     
         // Create some sample content in the SBML model.
         Species specOne = model.createSpecies("test_spec1", compartment);
@@ -33,8 +33,11 @@ public class JSBMLexample implements TreeNodeChangeListener {
         SpeciesReference prod = sbReaction.createProduct(specTwo);
         prod.setSBOTerm(11);
     
-        // Write the SBML document to a file.  For brevity, THIS DOES NOT PERFORM ERROR CHECKING, but should.
-        SBMLWriter.write(doc, "test.xml", "JSBMLexample", "0.1");
+        // For brevity, WE DO NOT PERFORM ERROR CHECKING, but you should,
+        // using the method doc.checkConsistency() and then checking the error log.         
+        
+        // Write the SBML document to a file.
+        SBMLWriter.write(doc, "test.xml", "JSBMLexample", "1.0");
     }
   
     /** Main routine.  This does not take any arguments. */
@@ -47,11 +50,12 @@ public class JSBMLexample implements TreeNodeChangeListener {
         System.out.println("[ADD] " + sb);
     }
 
-    public void nodeRemoved(TreeNode sb) {
-        System.out.println("[RMV] " + sb);
-    }
+	public void nodeRemoved(TreeNodeRemovedEvent evt) {
+        System.out.println("[RMV] " + evt.getSource());
+	}
 
     public void propertyChange(PropertyChangeEvent ev) {
         System.out.println("[CHG] " + ev);
     }
+
 }

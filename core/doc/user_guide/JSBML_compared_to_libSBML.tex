@@ -4,13 +4,13 @@
 \label{sec:jsbml-design-goals}
 
 In developing a pure Java Application Programming Interface (API) for
-working with SBML, our intention was not to simply reimplement the Java API
+working with SBML, our intention was not to simply re-implement the Java API
 already provided by libSBML~\citep{Bornstein2008}.
 \index{application programming interface!libSBML}
 We took the opportunity to rethink the API
 \index{application programming interface!JSBML} from the ground up to
 produce something more natural for Java programmers; moreover, we
-benefitted from being able to take a fresh look at today's entire set of
+benefited from being able to take a fresh look at today's entire set of
 SBML specifications~\citep{Hucka2003, Hucka2008, Hucka2010a}
 \index{SBML!specification} and redesign, for example, JSBML's type
 hierarchy without the constraints of backwards compatibility that libSBML
@@ -33,7 +33,7 @@ application for modeling and simulation in systems biology. Finally, JSBML
 (like libSBML before it) hides some of the differences and inconsistencies
 in SBML \index{SBML!differences between Levels} that grew into the language
 over the years as it evolved from Level to Level and Version to Version;
-this makes it considerabily easier for developers to support multiple
+this makes it considerably easier for developers to support multiple
 Levels/Versions of SBML transparently.
 
 Where possible, we maintained many of libSBML's naming conventions for
@@ -190,28 +190,6 @@ SBML components before they are hooked into \SBMLDocument, which again
 requires that individual objects know the SBML Level and Version for which
 they were created.
 
-In libSBML, the Level and Version information is recorded as individual
-integers; by contrast, in JSBML it is stored in a generic object, \ValuePair,
-stored within an \AbstractSBase instance. The class \ValuePair implements the
-Java interface \Comparable and takes two values of any type that both also
-implement \Comparable.  Storing the information in this way allows users to
-check for a specific Level/Version combination more naturally, as the example
-in \vref{fig:LevelVersionCheck} demonstrates. Method
-\code{getLevelAndVersion()} in \AbstractSBase delivers an instance of
-\ValuePair with the Level and Version combination for the respective element.
-
-\begin{figure}[bh]%
-  \begin{example}
-if (mySBase.getLevelAndVersion().compareTo(Integer.valueOf(2), Integer.valueOf(2)) < 0) {
-  throw new IllegalArgumentException(MessageFormat.format(
-          "Cannot create a {0} with Level = {1,number,integer} and Version = {1,number,integer}.",
-          mySBase.getElementName(), getLevel(), getVersion()));
-}\end{example}
-  \vspace*{-1ex}
-  \caption{Example program fragment showing how to check for a minimal
-    expected SBML Level/Version combination.}
-  \label{fig:LevelVersionCheck}
-\end{figure}
 
 
 \subsection{Interface for SBML components with identifiers: \codeNC{NamedSBase}}
@@ -369,7 +347,7 @@ hierarchy surrounding the \Assignment interface in more detail.
 \section{Differences between the APIs of JSBML and libSBML}
 \label{sec:api-differences}
 
-We have strived to make JSBML be closely compatible with libSBML. However,
+We have striven to make JSBML be closely compatible with libSBML. However,
 because of the differences in the programming languages used to implement
 these two libraries, some differences are simply impossible to overcome.
 In other cases, a direct translation from libSBML's C and C++ \index{C}
@@ -382,6 +360,30 @@ In this section, we discuss the most important differences in the APIs of
 JSBML \index{application programming interface!JSBML} and libSBML.
 \index{application programming interface!libSBML} We also provide some
 examples of how the classes and methods in JSBML may be used.
+
+\subsection{Level and Version \ValuePair}
+
+In libSBML, the Level and Version information is recorded as individual
+integers; by contrast, in JSBML it is stored in a generic object, \ValuePair,
+stored within an \AbstractSBase instance. The class \ValuePair implements the
+Java interface \Comparable and takes two values of any type that both also
+implement \Comparable.  Storing the information in this way allows users to
+check for a specific Level/Version combination more naturally, as the example
+in \vref{fig:LevelVersionCheck} demonstrates. The method
+\code{getLevelAndVersion()} in \AbstractSBase delivers an instance of
+\ValuePair with the Level and Version combination for the respective element.
+
+\begin{figure}[bh]%
+  \begin{example}
+if (mySBase.getLevelAndVersion().compareTo(Integer.valueOf(2), Integer.valueOf(2)) < 0) {
+  throw new IllegalArgumentException("Cannot create a " + mySBase.getElementName() + 
+  		" with Level = " + getLevel() + " and Version = " + getVersion() + ".");
+}\end{example}
+  \vspace*{-1ex}
+  \caption{Example program fragment showing how to check for a minimal
+    expected SBML Level/Version combination.}
+  \label{fig:LevelVersionCheck}
+\end{figure}
 
 
 \subsection{Abstract syntax trees for mathematical formulas}
@@ -519,7 +521,8 @@ returns \code{double} values. In libSBML, \code{getExponent()} always
 returns \code{int}, and there is an additional method,
 \code{getExponentAsDouble()}, to handle the cases with \code{double}
 values.  JSBML provides \code{getExponentAsDouble()} for compatibility with
-libSBML, but it is a redundant method in JSBML's case.
+libSBML, but it is a redundant method in JSBML's case and therefore is marked
+as deprecated.
 \index{unit!getExponent()@\code{getExponent()}}%
 \index{unit!getExponentAsDouble()@\code{getExponentAsDouble()}}%
 
@@ -577,7 +580,7 @@ different ways:
 \begin{description}[font=\normalfont]
 
 \item[\code{getUnit()}:] This method returns a \String representation of
-  the unit kind or the unit definition in the model \index{model} that has
+  the unit kind or the identifier of a unit definition in the model \index{model} that has
   been directly set by the user during the life time of the element. If
   nothing has been declared, this method returns an empty \String.
 
@@ -646,15 +649,17 @@ elements must not be copied when cloning:
   subtree will have a \code{null} value as its parent. All subelements will
   point to their correct parent element.
 
-\item The list of \TreeNodeChangeListener objects is needed in all other
+\item The list of \TreeNodeChangeListener objects is used in all other
   \code{setXX()} methods. Copying pointers to these might lead to strange and
   unexpected behavior, because when doing a deep cloning, the listeners of
   the old object would suddenly be informed about all value changes within
   this new object.  Since we are cloning, all values of all child elements
   have to be touched, i.e., all listeners would be informed many times, but
-  each time receive the identical value as it was before. Since it is totally
-  unclear of which type listeners are, a deep cloning of these is not
-  possible.
+  each time receive the identical value as it was before. Since they do not
+  extends the \Cloneable interface, we cannot clone them either and so the cloned
+  object has no \TreeNodeChangeListener attached to it. The user is responsible
+  to add again some \TreeNodeChangeListener on the cloned object if we want to be
+  notify of any changes happening to it.
 
 \item Since release 1.0, JSBML supports storing user objects in any object
   derived from \AbstractTreeNode.  These user objects are organized in a map
@@ -771,7 +776,7 @@ In its place, there is a class named \code{JSBML}.
 \index{JSBML!JSBML@\code{JSBML}} This class provides some methods similar
 to the ones provided in libSBML's \code{libSBML}, such as
 \code{getJSBMLDottedVersion()} \index{JSBML!version}%
-to obtain the current version of the JSBML library, which is 1.0.* at the
+to obtain the current version of the JSBML library, which is 0.8 or 1.0-a* at the
 time of writing this document. However, many other methods that you might
 expect to find there, if you are used to libSBML, are located in the actual
 classes that are related with the function. 
@@ -787,7 +792,7 @@ Unit.Kind myKind = Unit.Kind.valueOf(myString);
 \end{example}
 
 Analogous to the above, the \ASTNode class provides a method to parse
-C-like infix formula \String according to the specification of SBML
+C-like infix formula {\String}s according to the specification of SBML
 Level~1~\citep{Hucka2003}\index{SBML!Level~1} into an abstract syntax
 tree. Therefore, in contrast to the \code{libSBML} class, the class
 \code{JSBML}\index{JSBML!JSBML@\code{JSBML}} contains only a few methods.
@@ -859,13 +864,15 @@ instead. For cases like this, JSBML provides alternative methods and marks
 these methods that originate from libSBML as deprecated.
 
 
-\section{Additional features provided by JSBML}
-\label{sec:additional-jsbml-features}
+\chapter{Additional features provided by JSBML}
+\label{chp:additional-jsbml-features}
+
+% TODO : describe previous chapter as well to remind that it describe many API features of JSBML
 
 The JSBML library also provides some features that cannot be found in libSBML.
-This section briefly introduces its most important additional capabilities.
+This chapter briefly introduces its most important additional capabilities.
 
-\subsection{Change listeners}
+\section{Change listeners}
 
 JSBML offers the ability to listen to change events in the life of an SBML
 document. To benefit from this facility, simply let your class implement
@@ -881,18 +888,20 @@ methods:
   to the \SBMLDocument, i.e., it has a valid parent that in turn points to
   the given node.
 
-\item[\code{nodeRemoved(TreeNode node)}:] This method notifies the listener
-  that the given \TreeNode instance has just been removed, and therefore is
-  no longer be a part of the \SBMLDocument.  (For details, see
-  \vref{sec:howToExtension}.) The entire \SBMLDocument will not contain any
-  pointers to this node anymore; however, the node itself will still contain
-  a pointer to its former parent. (This makes it possible to recognize where
+\item[\code{nodeRemoved(TreeNodeRemoveEvent evt)}:] This method notifies the listener
+  that a \TreeNode has just been removed, and therefore is
+  no longer be a part of the \SBMLDocument. The deleted element can be accessed 
+  using the \code{getSource()} method of the given event object. The entire 
+  \SBMLDocument will not contain any
+  pointers to this node anymore; however, the event object contains
+  a pointer to its former parent that can be accessed by calling \code{getPreviousParent}
+  on the event object. (This makes it possible to recognize where
   in the tree this node was located and even to revert the deletion of the
   node.)
 
 \item[\code{propertyChange(PropertyChangeEvent evt)}:] This method
   provides detailed information about the change in a value within the
-  \SBMLDocument.  The object passed to this method is an
+  \SBMLDocument.  The object passed to this method is a
   \TreeNodeChangeEvent, which provides information about which \TreeNode
   has been changed, which of its properties has been changed (as a
   \String representation of the name of the property), the previous value,
@@ -905,10 +914,10 @@ doing at any given time.  Furthermore, these features can be very useful in
 a graphical user interface\index{graphical user interface}, where, for
 example, the user might need to be asked if he or she really wants to
 delete some element or to approve changes before making these
-persistent. Another way this can be used this for writing log
+persistent. Another way this can be used is for writing log
 files\index{logging!log file} of the model-building \index{model} process
 automatically. To this end, JSBML already provides the implementation
-\SimpleTreeNodeChangeListener which notifies a logger about each change.
+\SimpleTreeNodeChangeListener{}  which notifies a logger about each change.
 
 Note that the class \TreeNodeChangeEvent extends the class
 \code{java.beans.Property\-Change\-Event},
@@ -932,7 +941,7 @@ track of changes in instances of \SBase, but also changes inside of, e.g.,
 \CVTerm or \History.
 
 
-\subsection{Determination of the variable in \codeNC{AlgebraicRule}s}
+\section{Determination of the variable in \codeNC{AlgebraicRule}s}
 
 JSBML's \OverdeterminationValidator provides methods to determine if a given
 model\index{model!over determination} is overdetermined; it uses the
@@ -942,7 +951,7 @@ algorithm of Hopcroft and Karp~\cite{Hopcroft1973}.
 each \AlgebraicRule if possible. The class \AlgebraicRule also provides a
 convenience method, \code{getDerivedVariable()}, to compute and return this
 free variable.  However, we do not recommend calling this method except in
-limited circumstances, beause each call invokes the matching algorithm---an
+limited circumstances, because each call invokes the matching algorithm---an
 operation that may be expensive for large models. JSBML does not store the
 results of applying the matching algorithm, because a change in the model's
 structure could also change these results and lead to an inconsistency.  For
@@ -952,7 +961,7 @@ efficient to compute the matching once by invoking
 for more details.
 
 
-\subsection{The \codeNC{find*} methods}
+\section{The \codeNC{find*} methods}
 \label{sec:find-methods}
 
 JSBML provides developers with a number of \code{find*} methods
@@ -974,7 +983,7 @@ subelements for a given \code{metaid}. Such a search can be performed in
 logarithmic runtime, i.e., $O(\,\log_2 n)$.
 
 
-\subsection{Other utility classes provided by JSBML}
+\section{Other utility classes provided by JSBML}
 
 JSBML also provides additional utility classes besides those mentioned
 above. In the paragraphs below, we describe some of these classes in more
@@ -982,7 +991,7 @@ detail.  All of them are gathered in the package
 \code{org.sbml.jsbml.util}, where you can also find a growing number of
 additional helpful classes.
 
-\subsubsection{Pre-implemented mathematical functions and constants}
+\subsection{Pre-implemented mathematical functions and constants}
 
 The class \code{org.sbml.jsbml.util.Maths}
 \index{JSBML!Maths@\code{Maths}}%
@@ -998,7 +1007,7 @@ In this way, the functions and constants implemented in class \code{Maths}
 complement standard Java with methods and numbers required by the SBML
 specifications~\citep{Hucka2003, Hucka2008, Hucka2010a}.
 
-\subsubsection{Some tools for \codeNC{String} manipulation}
+\subsection{Some tools for \codeNC{String} manipulation}
 
 The JSBML class \StringTools provides several methods for convenient
 \String manipulation. These methods are particularly useful when parsing or
@@ -1009,7 +1018,7 @@ using corresponding HTML codes, efficiently concatenate \String{}s, or
 deliver the operating system-dependent new line character.
 
 
-\subsection{Logging facilities}
+\section{Logging facilities}
 \index{logging}%
 
 % log4j: \url{http://logging.apache.org/log4j/}
@@ -1020,7 +1029,7 @@ project~\citep{log4j}.  Log4j allows us to use six levels of logging
 \code{FATAL}) but internally, JSBML mainly uses \code{ERROR}, \code{WARN},
 and \code{DEBUG}. The default configuration of log4j used in JSBML can be
 found in the folder \code{resources} with the name \code{log4j.properties}.
-In this file, you will found some documentation of which JSBML classes do
+In this file, you will find some documentation of which JSBML classes do
 some logging and at which levels.
  
 If a software package using JSBML does not change the default settings, all
@@ -1028,9 +1037,8 @@ the log messages, starting at the info level (meaning info, warn, error and
 fatal), will be printed on the console.  Some of these messages might be
 useful to warn end-users that something has gone wrong.
 
-% TODO : should we changed the default to print in the jsbml.log file ???
 
-\subsubsection{Changing the log4j configuration}
+\subsection{Changing the log4j configuration}
 
 % \url{http://logging.apache.org/log4j/1.2/manual.html}
 
@@ -1049,14 +1057,14 @@ systems have analogous facilities):
 \end{example}
 
 
-\subsubsection{Some example configurations}
+\subsection{Some example configurations}
 \ifthenelse{\boolean{includeCodeExample}}{}{\index{logging!configuration}}%
 
 \Vref*{fig:log4j-simple-example} gives a short example of a log4j
 configuration file.  The effect of this particular configuration is to
 change the threshold of all loggers in the \code{org.sbml.jsbml.util}
 package to \code{DEBUG}, which results in all changes that happen to SBML
-elements to be logged. The class \SimpleTreeNodeChangeListener will then
+elements to be logged. The class \SimpleTreeNodeChangeListener{}  will then
 output the old value and the new value whenever a setter methods is used on
 the SBML elements.
 
@@ -1097,7 +1105,8 @@ some of the freely-available software for log
 viewing~\cite{logViewersWebpage} to work with the log files.
 
 
-\subsection{JSBML modules}
+\section{JSBML modules}
+\label{sec:jsbml-modules-details}
 
 JSBML modules extend the functionality of JSBML and are provided as
 separate libraries (packaged as JAR files). With the help of the current
@@ -1111,7 +1120,7 @@ language interface. In the rest of this section, we provide examples of how
 to use these modules.
 
 
-\subsubsection{The \codeNC{libSBMLio} module: using libSBML for parsing
+\subsection{The \codeNC{libSBMLio} module: using libSBML for parsing
   SBML into JSBML data structures}
 
 The capabilities of the SBML validator\index{SBML!validator} constitutes one
@@ -1124,12 +1133,12 @@ SBML models using libSBML in conjunction with JSBML.
 
 To facilitate this, the module \code{libSBMLio} provides classes
 \LibSBMLReader and \LibSBMLWriter.  \Vref{lst:LibSBMLio} provides a short
-code example illustring the use of \LibSBMLReader.  The program displays the
+code example illustrating the use of \LibSBMLReader.  The program displays the
 content of an SBML file in a \JTree, similar to what is shown in
 \vref{fig:JSBMLvisualizer-output}.
 
 As of version 1.0 of JSBML, the \code{libSBMLio} module also contains
-specialized \TreeNodeChangeListener{}s that synchronize any change in the
+specialized \TreeNodeChangeListener{}s that synchronizes any change in the
 JSBML data structure with corresponding libSBML data structures.
 
 \begin{figure}[htb]
@@ -1146,7 +1155,7 @@ JSBML data structure with corresponding libSBML data structures.
 \end{figure}
 
 
-\subsubsection{The \codeNC{CellDesigner} module: turning a JSBML-based
+\subsection{The \codeNC{CellDesigner} module: turning a JSBML-based
   application into a CellDesigner plugin}
 
 Once an application has been implemented based on JSBML, it can easily be
@@ -1155,7 +1164,7 @@ this, it is necessary to extend two classes that are defined in
 CellDesigner's plugin API. \index{application programming
   interface!CellDesigner} \vrefrange{lst:PluginAction}{lst:Plugin}
 show a simple example of (1) how to pass a model\index{model!CellDesigner}
-data structure in a CelLDesigner plugin to the translator in JSBML, and (2)
+data structure in a CellDesigner plugin to the translator in JSBML, and (2)
 \index{CellDesigner!plugin} \index{CellDesigner!\code{PluginAction}}%
 creating a plugin for CellDesigner which displays the SBML data structure
 in a tree, like the example in \vref{fig:JSBMLvisualizer-output}.
@@ -1187,7 +1196,7 @@ As of JSBML version 1.0, this module also contains a specialized
 implementation of the \TreeNodeChangeListener{} interface for
 synchronization of changes in JSBML's data structures with CellDesigner.
 
-\subsubsection{The \codeNC{libSBMLcompat} module: a JSBML compatibility
+\subsection{The \codeNC{libSBMLcompat} module: a JSBML compatibility
   module for libSBML}
 
 The goal of the libSBML compatibility module in JSBML is to provide the
@@ -1197,7 +1206,7 @@ to switch an existing application from libSBML to JSBML or the other way
 around without changing any code.  \index{libSBML!compatibility module}%
 
 
-\subsubsection{The \codeNC{android} module: a compatibility module for
+\subsection{The \codeNC{android} module: a compatibility module for
   Android systems}
 \index{Android}
 
