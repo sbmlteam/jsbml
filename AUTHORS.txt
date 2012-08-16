@@ -10,13 +10,23 @@
 
                            -- Contributors --
 
+         Finja Buechel, University of Tuebingen, Germany
+         Alexander Diamantikos, University of Tuebingen, Germany
          Alexander Doerr, University of Tuebingen, Germany
-         Sebastian Froehlich, IKP Gatersleben, Germany
+         Johannes Eichner, University of Tuebingen, Germany
          Michael Hucka, California Institute of Technology, USA
+         Jakob Matthes, University of Tuebingen, Germany
+         Florian Mittag, University of Tuebingen, Germany
+         Eugen Netz, University of Tuebingen, Germany
+         Alexander Peltzer, University of Tuebingen, Germany
+         Jan Rudolph, University of Tuebingen, Germany
          Clemens Wrzodek, University of Tuebingen, Germany
          
                                -- Alumni --
          
+         Meike Aichele, University of Tuebingen, Germany
          Marine Dumousseau, European Bioinformatics Institute, UK
+         Sebastian Froehlich, IKP Gatersleben, Germany
          Sarah Rachel Mueller vom Hagen, University of Tuebingen, Germany
          Simon Schaefer, University of Tuebingen, Germany
+         
