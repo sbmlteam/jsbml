@@ -434,9 +434,7 @@
 		</copy>
 
 		<copy todir="${dist.dir}/doc">
-			<fileset dir="${basedir}/doc" includes="**/*.pdf **/*.jpg **/*.java" excludes="posters/** publications/** templates/**">
-
-			</fileset>
+			<fileset dir="${basedir}/doc" includes="**/*.pdf **/*.jpg **/*.java" excludes="posters/** publications/** templates/** tutorials/** sourceforge/**"/>
 		</copy>
 
 		<!-- create the modules files -->
