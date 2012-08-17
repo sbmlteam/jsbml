@@ -434,7 +434,7 @@
     \begingroup
       % Tighten spacing between lines within an entry.
       % This assumes 10 pt font!
-      \setlength{\baselineskip}{9.75pt}%
+      \setlength{\baselineskip}{10.5pt}%
       \if@twocolumntoc
         \setlength{\columnsep}{16pt}%
         \begin{multicols}{2}
