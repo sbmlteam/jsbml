@@ -14,7 +14,6 @@ public class JSBMLvisualizer extends JFrame {
 
     /**
      * Main routine. Note: this does not perform any error checking, but should. It is an illustration only.
-     * 
      * @param args Expects a valid path to an SBML file.
      */
     public static void main(String[] args) throws Exception {
