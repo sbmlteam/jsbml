@@ -167,7 +167,7 @@
   \RequirePackage[rgb,dvipsnames,svgnames,hyperref,table]{xcolor}
 \fi
 
-% The following are best loaded after hyperref.
+% The remaining packages are best loaded after hyperref.
 
 \RequirePackage{nameref}
 
