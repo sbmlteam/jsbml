@@ -2434,14 +2434,14 @@ public class ASTNode extends AbstractTreeNode {
 
 	/**
 	 * Returns the variable of this node. This function should be called only
-	 * when {@link #isString()} == <code>true</code>, otherwise and Exception is thrown.
+	 * when {@link #isVariable()} == <code>true</code>, otherwise an Exception is thrown.
 	 * 
 	 * @return the variable of this node
 	 * @throws IllegalArgumentException
-	 *             if {@link #isString()} returns false.
+	 *             if {@link #isVariable()} returns false.
 	 */
 	public CallableSBase getVariable() {
-		if ((type == Type.NAME) || (type == Type.FUNCTION)) {
+		if (isVariable()) {
 			if ((variable == null) && (getParentSBMLObject() != null)) {
 				if (getParentSBMLObject() instanceof KineticLaw) {
 					variable = ((KineticLaw) getParentSBMLObject())
@@ -2965,6 +2965,15 @@ public class ASTNode extends AbstractTreeNode {
 	 */
 	public boolean isUnknown() {
 		return type == Type.UNKNOWN;
+	}
+
+	/**
+	 * Returns true if this node represents a {@link Variable}.
+	 * 
+	 * @return true if this node represents a {@link Variable}.
+	 */
+	public boolean isVariable() {
+		return type == Type.NAME || type == Type.FUNCTION;
 	}
 
 	/**
