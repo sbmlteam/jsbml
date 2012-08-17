@@ -24,7 +24,7 @@ corresponding SBML short name for the \SBMLthree package; for example,
 Layout package, and so on.  The source directories for the extensions
 follow some basic conventions for their organization and contents.
 
-\begin{wrapfigure}[22]{r}{2.05in}
+\begin{wrapfigure}[22]{r}{2.07in}
   \vspace*{-3.5ex}
   \dirtree{%
     .1 /.
@@ -43,7 +43,7 @@ follow some basic conventions for their organization and contents.
     .7 parsers/.
     .2 test/.
   }
-  \caption{Typical structure of the source directory for a JSBML extension.
+  \caption{Typical structure of the source directory for a JSBML 1.0 extension.
     The root of the tree shown here is the \code{extensions/NAME} subdirectory,
     which is located within the \code{trunk} subdirectory of the JSBML SVN
     repository.}
@@ -383,7 +383,7 @@ public SBase getChildAt(int childIndex) {
   }
   // Same for each additional ListOf* or other subelements in this package.
   throw new IndexOutOfBoundsException(MessageFormat.format(
-    "Index {0,number,integer} >= {1,number,integer}", childIndex, +((int) Math.min(pos, 0))));
+    "Index {0,number,integer} >= {1,number,integer}", childIndex + ((int) Math.min(pos, 0))));
 }\end{example}
   \caption{Methods which need to be implemented to make the children
     available in the extended model.}
@@ -440,7 +440,7 @@ public class ExampleModel extends AbstractSBasePlugin {
 
 \subsection{The methods \codeNC{equals}, \codeNC{hashCode}, and \codeNC{clone}}
 
-There are three more methods which should be implemented in an extension
+Three more methods should be implemented in an extension
 class: \code{equals}, \code{hashCode} and \code{clone}.  This is not
 different than when implementing any other Java class, but because mistakes
 here can lead to bugs that are very hard to find, we describe the process in
@@ -493,8 +493,8 @@ public boolean equals(Object object) {
   \begin{example}[numbers=left]
 @Override 
 public int hashCode() {
-  final int prime = 491;
-  int hashCode = super.hashCode();    // recursively checks all children
+  final int prime = 491;              // Some arbitrarily large prime number.
+  int hashCode = super.hashCode();    // Recursively checks all children.
   if (isSetBar()) {
     hashCode += prime * getBar().hashCode();
   }
@@ -763,12 +763,18 @@ the attributes.
   \begin{example}[numbers=left]
 public class Foo extends AbstractNamedSBase {
   ...
-
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetBar()) {
       attributes.remove("bar");
       attributes.put(Foo.shortLabel + ":bar", getBar());
+
+      // Note that in case of double values, the user's locale needs to be taken into account in
+      // order to prevent the Writer from numbers in the wrong format. Even in the case of Integer it
+      // can be important, because in some languages very strange number symbols are used (e.g., Thai
+      // or Chinese) and hence, the UTF-8 encoding of XML in SBML will lead to SBML files that cannot
+      // be parsed again. SBML only accepts English doubles. Since bar represents an integer, less
+      // errors are to be expected.
     }
 
     // ...
@@ -782,93 +788,88 @@ public class Foo extends AbstractNamedSBase {
 
 \section{Implementation checklist}
 
-\Vref*{fig:checklist} presents a checklist summarizing the different
-aspects of an extension that need to be implemented.
+The following is a checklist summarizing the different aspects of an
+extension that need to be implemented.
 
 \newcommand{\fooname}{\code{\emph{\underline{\color{winered}Foo}}}}
 \newcommand{\barname}{\code{\emph{\underline{\color{winered}Bar}}}}
 
-\begin{figure}[htb]
-  \begin{framed}
-    \begin{itemize}[label=$\Box$,leftmargin=2em]
+\begin{itemize}[leftmargin=2em]
 
-    \item Add the extension to an existing model (see
-      \vref{lst:ModelExtClass}).
+\item Add the extension to an existing model (see
+  \vref{lst:ModelExtClass}).
 
-    \item Add the five necessary methods for each class attribute:
+\item Add the five necessary methods for each class attribute:
 
-      \begin{itemize}[label=$\Box$]
-        
-      \item \code{get\barname()}
-        
-      \item \code{isSet\barname{}} 
-        
-      \item \code{set\barname(int value)}
-        
-      \item \code{unset\barname()}
+  \begin{itemize}
+    
+  \item \code{get\barname()}
+    
+  \item \code{isSet\barname{}} 
+    
+  \item \code{set\barname(int value)}
+    
+  \item \code{unset\barname()}
 
-      \end{itemize}
+  \end{itemize}
 
-    \item Add the default constructors (see \vref{lst:ModelExtFooConstructors}).
+\item Add the default constructors (see \vref{lst:ModelExtFooConstructors}).
 
-    \item If the class has children, check if all list methods are implemented
-      (see the program fragments in \ref{lst:ModelExtChildren},
-      \ref{lst:ModelExtListOfFoosBasic}, \ref{lst:ModelExtAddRemoveFoos},
-      \ref{lst:ModelExtChildren}):
+\item If the class has children, check if all list methods are implemented
+  (see the program fragments in \ref{lst:ModelExtChildren},
+  \ref{lst:ModelExtListOfFoosBasic}, \ref{lst:ModelExtAddRemoveFoos},
+  \ref{lst:ModelExtChildren}):
 
-      \begin{itemize}[label=$\Box$]
-        
-      \item \code{isSetListOf\fooname{}s()}
-        
-      \item \code{getListOf\fooname{}s()}
-        
-      \item \code{setListOf\fooname{}s(ListOf<\fooname{}> listOf\fooname{}s)}
-        
-      \item \code{create\fooname()}
-        
-      \item \code{add\fooname(\fooname{} foo)}
-        
-      \item \code{remove\fooname(\fooname{} foo)}
-        
-      \item \code{remove\fooname(int i)}
-        
-      \item \code{getAllowsChildren()}
-        
-      \item \code{getChildCount()}
-      
-      \item \code{getChildAt(int i)}
+  \begin{itemize}
+    
+  \item \code{isSetListOf\fooname{}s()}
+    
+  \item \code{getListOf\fooname{}s()}
+    
+  \item \code{setListOf\fooname{}s(ListOf<\fooname{}> listOf\fooname{}s)}
+    
+  \item \code{create\fooname()}
+    
+  \item \code{add\fooname(\fooname{} foo)}
+    
+  \item \code{remove\fooname(\fooname{} foo)}
+    
+  \item \code{remove\fooname(int i)}
+    
+  \item \code{getAllowsChildren()}
+    
+  \item \code{getChildCount()}
+    
+  \item \code{getChildAt(int i)}
 
-      \end{itemize}
+  \end{itemize}
 
-    \item All necessary create methods are implemented (see 
-      \vref{lst:ModelExtCreateMethods}).
+\item All necessary create methods are implemented (see 
+  \vref{lst:ModelExtCreateMethods}).
 
-    \item Implement the \code{equals()} method (see 
-      \vref{lst:ModelExtEquals}).
+\item Implement the \code{equals()} method (see 
+  \vref{lst:ModelExtEquals}).
 
-    \item Implement the \code{hashCode()} method (see 
-      \vref{lst:ModelExtHashCode}).
+\item Implement the \code{hashCode()} method (see 
+  \vref{lst:ModelExtHashCode}).
 
-    \item Implement the \code{clone()} method (see 
-      \vref{lst:ModelExtClone} and \vref{lst:ModelExtCloneFoo}).
+\item Implement the \code{clone()} method (see 
+  \vref{lst:ModelExtClone} and \vref{lst:ModelExtCloneFoo}).
 
-    \item Implement the \code{toString()} method.
+\item Implement the \code{toString()} method.
 
-    \item Implement the \code{writeXMLAttribute()} method (see 
-      \vref{lst:ModelExtCreateXMLAttributes}).
+\item Implement the \code{writeXMLAttribute()} method (see 
+  \vref{lst:ModelExtCreateXMLAttributes}).
 
-	\item Implement the \code{readAttribute(String, String, String)} method (see 
-      \vref{lst:ModelExtReadAttributes}).
-      
-    \item Implement the reader/writer method (see 
-      \vref{lst:ModelExtParserClass},
-      \vref{lst:ModelExtParserStartElement}, and
-      \vref{lst:ModelExtParserEndElement}).
-    \end{itemize}
-  \end{framed}
-  \caption{Implementation checklist for JSBML extension authors.}
-  \label{fig:checklist}
-\end{figure}
+\item Implement the \code{readAttribute(String, String, String)} method (see 
+  \vref{lst:ModelExtReadAttributes}).
+  
+\item Implement the reader/writer method (see 
+  \vref{lst:ModelExtParserClass},
+  \vref{lst:ModelExtParserStartElement}, and
+  \vref{lst:ModelExtParserEndElement}).
+\end{itemize}
+
 
 \section{Eclipse code templates}
 

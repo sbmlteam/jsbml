@@ -195,14 +195,17 @@ they were created.
 
 Some classes of objects derived from \SBase in SBML contain an identifier,
 colloquially often simply called the \emph{id}. JSBML gathers all elements
-that have SBML identifiers under the common interface \NamedSBase. The JSBML class
-\AbstractNamedSBase extends \AbstractSBase and implements this interface.
-The interface \UniqueNamedSBase is shared by those elements whose identifiers
-must be unique within the model. The identifiers of all instances of
-\UniqueNamedSBase of the same group, such as all \UnitDefinition instances,
-must be unique if these are defined. The Boolean method
-\code{isIdMandatory()} in \NamedSBase indicates if an identifier must be
-defined for an element in order to create a valid SBML data structure. The
+that have SBML identifiers under the common interface \NamedSBase. The JSBML
+class \AbstractNamedSBase extends \AbstractSBase and implements this
+interface.  The interface \UniqueNamedSBase is shared by those elements whose
+identifiers must be unique within the model. The identifiers of all instances
+of \NamedSBase that do not implement \UniqueNamedSBase but belong to the same
+group, such as all \UnitDefinition instances, must be unique if these are
+defined. The Boolean method \code{isIdMandatory()} in \NamedSBase indicates
+if an identifier must be defined for an element in order to create a valid
+SBML data structure.  This is require because in JSBML, the \Model object
+stores direct pointers in the form of a hash from the identifier of the
+corresponding object if \code{isIdMandatory()} returns \code{true}. The
 only two elements with non-unique identifiers are \UnitDefinition, whose
 identifiers exist in a separate namespace, and \LocalParameter, whose
 identifiers may shadow the identifiers of global elements. (However, within a
@@ -227,17 +230,17 @@ type hierarchy in more detail.
   \centering
   \includegraphics[width=\textwidth]{../common/img/Symbol.pdf}
   % Symbol.pdf: 596x587 pixel, 72dpi, 21.03x20.71 cm, bb=0 0 596 587
-  \caption[The interface \Variable]{Part of JSBML's type hierarchy focusing
-    on the interface \Variable.  In JSBML, those components of a model that
-    may change their value during a simulation are referred to as
-    \emph{variables}. The class \Symbol serves as the abstract superclass for
-    variables that have units of measurement associated with them. Instances
-    of \Parameter do not contain any additional fields. In \Species, a
-    Boolean switch decides whether its value is to be interpreted as an
-    initial amount or as an initial concentration. In contrast to
-    \Variable{}s, \LocalParameter{}s represent constant unit-value pairs that
-    can only be accessed within their declaring
-    \KineticLaw. \index{SBML!variable}}
+  \caption[The interface \SBaseWithDerivedUnit]{Part of JSBML's type
+    hierarchy focusing on the interface \SBaseWithDerivedUnit.  In JSBML,
+    those components of a model that may change their value during a
+    simulation are referred to as \emph{variables}. The class \Symbol serves
+    as the abstract superclass for variables that have units of measurement
+    associated with them. Instances of \Parameter do not contain any
+    additional fields. In \Species, a Boolean switch decides whether its
+    value is to be interpreted as an initial amount or as an initial
+    concentration. In contrast to \Variable{}s, \LocalParameter{}s represent
+    constant unit-value pairs that can only be accessed within their
+    declaring \KineticLaw. \index{SBML!variable}}
  \label{fig:Variable}
 \end{figure}
 
@@ -357,6 +360,7 @@ In this section, we discuss the most important differences in the APIs of
 JSBML \index{application programming interface!JSBML} and libSBML.
 \index{application programming interface!libSBML} We also provide some
 examples of how the classes and methods in JSBML may be used.
+
 
 \subsection{Level and Version \codeNC{ValuePair}}
 
@@ -887,7 +891,7 @@ methods:
   no longer part of the \SBMLDocument. The deleted element can be accessed 
   using the \code{getSource()} method of the given event object. The 
   \SBMLDocument will no longer contain
-  pointers to this node; however, the event object will still contain
+  pointers to this node; however, the event object will contain
   a pointer to its former parent, and it can be accessed by calling \code{getPreviousParent}
   on the event object. (This makes it possible to recognize where
   in the tree this node was located and even to revert the deletion of the
