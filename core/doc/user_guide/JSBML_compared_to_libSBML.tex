@@ -4,7 +4,7 @@
 \label{sec:jsbml-design-goals}
 
 In developing a pure Java Application Programming Interface (API) for
-working with SBML, our intention was not to simply re-implement the Java API
+working with SBML, our intention was not to simply reimplement the Java API
 already provided by libSBML~\citep{Bornstein2008}.
 \index{application programming interface!libSBML}
 We took the opportunity to rethink the API
@@ -347,7 +347,7 @@ hierarchy surrounding the \Assignment interface in more detail.
 \section{Differences between the APIs of JSBML and libSBML}
 \label{sec:api-differences}
 
-We have striven to make JSBML be closely compatible with libSBML. However,
+We strove to make JSBML be closely compatible with libSBML. However,
 because of the differences in the programming languages used to implement
 these two libraries, some differences are simply impossible to overcome.
 In other cases, a direct translation from libSBML's C and C++ \index{C}
@@ -650,16 +650,16 @@ elements must not be copied when cloning:
   point to their correct parent element.
 
 \item The list of \TreeNodeChangeListener objects is used in all other
-  \code{setXX()} methods. Copying pointers to these might lead to strange and
-  unexpected behavior, because when doing a deep cloning, the listeners of
-  the old object would suddenly be informed about all value changes within
-  this new object.  Since we are cloning, all values of all child elements
-  have to be touched, i.e., all listeners would be informed many times, but
-  each time receive the identical value as it was before. Since they do not
-  extends the \Cloneable interface, we cannot clone them either and so the cloned
-  object has no \TreeNodeChangeListener attached to it. The user is responsible
-  to add again some \TreeNodeChangeListener on the cloned object if we want to be
-  notify of any changes happening to it.
+  \code{setXX()} methods. Copying pointers to these may lead to
+  unexpected behaviors, because during deep cloning, the listeners of
+  the old object will suddenly be informed about all changes to values within
+  the new object.  In cloning, all values of all child elements
+  will be touched, i.e., all listeners will have to be informed many times, but
+  each time they will receive the same value. Since they do not
+  extend the \Cloneable interface, we cannot clone them either; for this reason, the cloned
+  object has no \TreeNodeChangeListener object attached to it. The user is responsible
+  for adding \TreeNodeChangeListener{}s on the cloned object if they want to be
+  notified of any changes to it.
 
 \item Since release 1.0, JSBML supports storing user objects in any object
   derived from \AbstractTreeNode.  These user objects are organized in a map
@@ -890,11 +890,11 @@ methods:
 
 \item[\code{nodeRemoved(TreeNodeRemoveEvent evt)}:] This method notifies the listener
   that a \TreeNode has just been removed, and therefore is
-  no longer be a part of the \SBMLDocument. The deleted element can be accessed 
-  using the \code{getSource()} method of the given event object. The entire 
-  \SBMLDocument will not contain any
-  pointers to this node anymore; however, the event object contains
-  a pointer to its former parent that can be accessed by calling \code{getPreviousParent}
+  no longer part of the \SBMLDocument. The deleted element can be accessed 
+  using the \code{getSource()} method of the given event object. The 
+  \SBMLDocument will no longer contain
+  pointers to this node; however, the event object will still contain
+  a pointer to its former parent, and it can be accessed by calling \code{getPreviousParent}
   on the event object. (This makes it possible to recognize where
   in the tree this node was located and even to revert the deletion of the
   node.)
@@ -917,7 +917,7 @@ delete some element or to approve changes before making these
 persistent. Another way this can be used is for writing log
 files\index{logging!log file} of the model-building \index{model} process
 automatically. To this end, JSBML already provides the implementation
-\SimpleTreeNodeChangeListener{}  which notifies a logger about each change.
+\SimpleTreeNodeChangeListener which notifies a logger about each change.
 
 Note that the class \TreeNodeChangeEvent extends the class
 \code{java.beans.Property\-Change\-Event},
@@ -991,7 +991,7 @@ detail.  All of them are gathered in the package
 \code{org.sbml.jsbml.util}, where you can also find a growing number of
 additional helpful classes.
 
-\subsection{Pre-implemented mathematical functions and constants}
+\subsection{Mathematical functions and constants}
 
 The class \code{org.sbml.jsbml.util.Maths}
 \index{JSBML!Maths@\code{Maths}}%
@@ -1138,7 +1138,7 @@ content of an SBML file in a \JTree, similar to what is shown in
 \vref{fig:JSBMLvisualizer-output}.
 
 As of version 1.0 of JSBML, the \code{libSBMLio} module also contains
-specialized \TreeNodeChangeListener{}s that synchronizes any change in the
+specialized \TreeNodeChangeListener{}s that synchronize any change in the
 JSBML data structure with corresponding libSBML data structures.
 
 \begin{figure}[htb]

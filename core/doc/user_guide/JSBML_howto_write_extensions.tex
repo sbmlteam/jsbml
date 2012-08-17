@@ -8,8 +8,8 @@ for JSBML to support an \SBMLthree package.  We use a concrete (though
 artificial) example to illustrate various points.  This example extension
 is named, very cleverly, \emph{Example}, and while it does not actually do
 anything significant, we hope it will help make the explanations more
-understandable. This chapter apply to JSBML version 1.0 only.
-The 0.8 branch does not support any extension packages.
+understandable. This chapter applies to JSBML version 1.0 only;
+the 0.8 branch of JSBML does not support extension packages.
 
 
 \section{Organizing the source code}
@@ -555,13 +555,13 @@ public Foo(Foo f) {
 
 \section{Implementing the reader and writer for an SBML package}
 
-One last thing is missing to be able to properly read and write SBML files
+One last thing is missing to be able to read and write SBML files properly
 using the new extension: a \code{ReadingParser} and a \code{WritingParser}. An easy way to do that is
-to extend the \AbstractReaderWriter that extends both interfaces and implement some of 
+to extend the \AbstractReaderWriter that extends both interfaces and then implement some of 
 the required methods in a generic way. To
 implement the parser, in this case the \code{ExampleParser}, one should
 start with two members and two simple methods, as shown in
-\vref{lst:ModelExtParserClass}. As you can see from this code snippet, an additional class
+\vref{lst:ModelExtParserClass}. As this code fragment shows, an additional class
 \code{ExampleConstants} and an enum \code{ExampleListType} are used. The class \code{ExampleConstants}
 is used to keep track of all the static \String{}s used in the extension so that we are sure 
 that the same value is used everywhere. The enum  \code{ExampleListType} can be used to keep
@@ -605,18 +605,18 @@ public class ExampleParser extends AbstractReaderWriter {
 \subsection{Reading}
 
 The class \code{AbstractReaderWriter} provide more or less all the necessary
-code to read the XML file for your extension, you just need to implement one
-method from the \code{Reader} interface. In future version of JSBML, this method
-might be implemented in a generic way using the java reflection API.
+code to read the XML file for your extension---you just need to implement one
+method from the \code{Reader} interface. In a future version of JSBML, this method
+may be implemented in a generic way using the java reflection API.
 
 The \code{processStartElement()} method is responsible for handling start
 elements, such as \code{<listOfFoos>}, and creating the appropriate
-objects.  The \code{contextObject} is the object representing the parent
+objects.  The \code{contextObject} is the object that represents the parent
 node of the tag the parser just encountered.  First, you need to check for
 every class that may be a parent node of the classes in your extension.  In
 this case, those are objects of the classes \Model, \code{Foo} and
-\code{ListOf}.  Note, that the \code{ExampleModel} has no corresponding XML
-tag and the core model is already handled by the core parser.  This also
+\code{ListOf}.  Note that the \code{ExampleModel} has no corresponding XML
+tag and the core model is handled by the core parser.  This also
 means that the context object of a ListOfFoos is not of the type
 \code{ExampleModel}, but of type \Model.  But since the \code{ListOfFoos}
 can only be added to an \code{ExampleModel}, the extension is retrieved or
@@ -625,7 +625,7 @@ created on the fly.
 The \code{groupList} variable is used to keep track of where we are in
 nested structures.  If the \code{listOfFoos} starting tag is encountered,
 the corresponding enum value is assigned to that variable.  Due to Java's
-type erasure, the context object inside a listOfFoos tag is of type
+type erasure, the context object inside a \code{listOfFoos} tag is of type
 \code{ListOf<?>} and a correctly set \code{groupList} variable is the only
 way of knowing where we are.  If we have checked that we are, in fact,
 inside a \code{listOfFoos} node and encounter a \code{foo} tag, we create a
@@ -683,7 +683,7 @@ public Object processStartElement(String elementName, String prefix,
 
 The \code{processEndElement()} (see \vref{lst:ModelExtParserEndElement}) 
 method is called whenever a closing tag is
-encountered.  The groupList attribute needs to be updated to reflect the step
+encountered.  The \code{groupList} attribute needs to be updated to reflect the step
 up in the tree of nested elements.  In this example, if the end of
 \code{</listOfFoos>} is reached, we certainly are inside the model tags
 again, which is denoted by \emph{none}.  Of course, more complicated
@@ -737,15 +737,14 @@ public boolean readAttribute(String attributeName, String prefix, String value) 
 \end{figure}
 
 
-
 \subsection{Writing}
 
-The method \code{getListOfSBMLElementsToWrite()}  has to return a list of all
+The method \code{getListOfSBMLElementsToWrite()}  must return a list of all
 objects that have to be written because of the passed object.  In this way,
 the writer can traverse the XML tree to write all nodes. If the classes of the
-extension follow the structured advice in \vref{sec:creating-obj-hierarchy} this
+extension follow the structured advice in \vref{sec:creating-obj-hierarchy}, this
 method does not need to be implement and the basic implementation from \code{AbstractReaderWriter}
-can be used. This basic implementation make use of the \code{TreeNode.children()} method
+can be used. This basic implementation makes use of the method \code{TreeNode.children()}
 to find the list of children to write.
 
 In some cases it may be necessary to modify the \code{writeElement()}
@@ -779,8 +778,6 @@ public class Foo extends AbstractNamedSBase {
   \caption{Method to write the XML attributes.}
   \label{lst:ModelExtCreateXMLAttributes}
 \end{figure}
-
-
 
 
 \section{Implementation checklist}
