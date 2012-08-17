@@ -191,17 +191,14 @@ requires that individual objects know the SBML Level and Version for which
 they were created.
 
 
-
 \subsection{Interface for SBML components with identifiers: \codeNC{NamedSBase}}
 
 Some classes of objects derived from \SBase in SBML contain an identifier,
-colloquially often simply called the \emph{id} after the attribute name used
-in the SBML specifications. JSBML gathers all elements that have SBML
-identifiers under the common interface \NamedSBase. The class
-\AbstractNamedSBase, which extends \AbstractSBase, implements this interface.
-The interface \UniqueNamedSBase is shared by those elements whose identifier
-must be unique within the model, i.e., for which no other element within the
-model may have the same identifier. The identifiers of all instances of
+colloquially often simply called the \emph{id}. JSBML gathers all elements
+that have SBML identifiers under the common interface \NamedSBase. The JSBML class
+\AbstractNamedSBase extends \AbstractSBase and implements this interface.
+The interface \UniqueNamedSBase is shared by those elements whose identifiers
+must be unique within the model. The identifiers of all instances of
 \UniqueNamedSBase of the same group, such as all \UnitDefinition instances,
 must be unique if these are defined. The Boolean method
 \code{isIdMandatory()} in \NamedSBase indicates if an identifier must be
@@ -253,7 +250,7 @@ the entity will further implement the interface \CallableSBase, a special
 case of \code{NamedSBaseWithDerivedUnit}.  When a component can be assigned
 a unit explicitly, in JSBML the \SBaseWithUnit serves as its superclass.
 JSBML further defines the convenience class \AbstractNamedSBaseWithUnit; it
-extends \AbstractNamedSBase and implements both interfaces \SBaseWithUnit
+extends \AbstractNamedSBase and implements interfaces \SBaseWithUnit
 and \NamedSBaseWithDerivedUnit.  All elements derived from this abstract
 class may therefore declare a unit and can be addressed using an
 unambiguous SBML identifier.
@@ -348,12 +345,12 @@ hierarchy surrounding the \Assignment interface in more detail.
 \label{sec:api-differences}
 
 We strove to make JSBML be closely compatible with libSBML. However,
-because of the differences in the programming languages used to implement
-these two libraries, some differences are simply impossible to overcome.
-In other cases, a direct translation from libSBML's C and C++ \index{C}
-code to Java would be inelegant and too unnatural for Java users; this
-would conflict with another important goal of JSBML, which is is to provide
-a Java API \index{application programming interface!Java} whose classes and
+because of the different programming languages used,
+some differences are impossible to overcome.
+In other cases, an exact translation from libSBML's C/C++ \index{C}
+code to Java would be inelegant and unnatural for Java users,
+conflicting with another important goal of JSBML: to provide
+an API \index{application programming interface!Java} whose classes and
 methods behave, and are organized like, those in other Java libraries.
 
 In this section, we discuss the most important differences in the APIs of
@@ -379,7 +376,6 @@ if (mySBase.getLevelAndVersion().compareTo(Integer.valueOf(2), Integer.valueOf(2
   throw new IllegalArgumentException("Cannot create a " + mySBase.getElementName() + 
   		" with Level = " + getLevel() + " and Version = " + getVersion() + ".");
 }\end{example}
-  \vspace*{-1ex}
   \caption{Example program fragment showing how to check for a minimal
     expected SBML Level/Version combination.}
   \label{fig:LevelVersionCheck}
@@ -405,7 +401,7 @@ SBML specifies that mathematical formulas may contain references to the
 following kinds of components in a model: \Parameter{}s,
 \LocalParameter{}s, \FunctionDefinition{}s, \Reaction{}s, \Compartment{}s,
 \Species, and in \SBMLthree, \SpeciesReference{}s.  In JSBML, all of these
-object classes implement a common interface, \CallableSBase, which extends
+classes implement a common interface, \CallableSBase, which extends
 the interface \NamedSBaseWithDerivedUnit. This organization ensures that
 only identifiers of these particular SBML components can be set in
 instances of \ASTNode.
@@ -444,7 +440,7 @@ public static ASTNode pow(MathContainer container,
 
 In contrast to the static \code{ASTNode.sum} function at the beginning of
 this section, the \code{frac} and the \code{pow} methods above take instances
-of \CallableSBase as their arguments instead of \ASTNode objects. Hence, the
+of \CallableSBase as their arguments instead of \ASTNode objects. Consequently, the
 parent \MathContainer must be passed to the methods in order to ensure that
 valid data structures are created. (In case of methods that take \ASTNode
 objects as arguments, such as the static \code{ASTNode.sum}, the parent
@@ -759,12 +755,10 @@ JSBML does not contain an equivalent to libSBML's
 in a more natural Java fashion, \index{constant!\code{enum}}%
 using the Java construct \code{enum}. For instance, all the fields starting
 with the prefix \ASTTypePrefix{} have a corresponding field in the \ASTNode
-class itself. There you can find the enumeration \ASTType.  Instead of typing
-\code{libSBMLConstants.AST\_TYPE\_PLUS}, you would therefore type
-\code{ASTNode.Type.PLUS}.
-
-The same holds true for \code{Unit.Kind.*} corresponding to the
-\code{libSBMLConstants.UNIT\_KIND\_*}
+class itself.   There you can find the enumeration \ASTType.  Thus, instead of typing
+\code{libSBMLConstants.AST\_TYPE\_PLUS}, you type
+\code{ASTNode.Type.PLUS}.  The same holds true for \code{Unit.Kind.*}
+corresponding to the \code{libSBMLConstants.UNIT\_KIND\_*}
 \index{unit!UNIT\_KIND\_*@\code{UNIT\_KIND\_*}}%
 fields.
 

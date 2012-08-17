@@ -24,8 +24,8 @@ corresponding SBML short name for the \SBMLthree package; for example,
 Layout package, and so on.  The source directories for the extensions
 follow some basic conventions for their organization and contents.
 
-\begin{wrapfigure}[23]{r}{2.05in}
-  \vspace*{-3ex}
+\begin{wrapfigure}[22]{r}{2.05in}
+  \vspace*{-3.5ex}
   \dirtree{%
     .1 /.
     .2 build.xml.
@@ -66,12 +66,12 @@ comprising the extension; and finally, a \code{test} subdirectory containing
 tests for the extension code, preferably in JUnit~\cite{junitWebsite}
 format.
 
-Note the structure of the \code{src} subdirectory. A JSBML extension needs
-to define at least two packages: \code{org.sbml.jsbml.ext.NAME}, for the
+Note the structure of the \code{src} subdirectory. A JSBML extension must
+define at least two packages: \code{org.sbml.jsbml.ext.NAME}, for the
 data structures and code for defining and manipulating the SBML components
 specified by the extension, and \code{org.sbml.jsbml.xml.parsers}, for the
-parsing code for reading and writing SBML files with the extension
-constructs.  As per Java conventions, these source subdirectories are
+code that reads and writes SBML files with the extension
+constructs.  Per Java conventions, these source subdirectories are
 organized hierarchically based on the package components, which leads to
 the nested structure shown in \vref{fig:extension-src-structure}.
 
@@ -188,7 +188,7 @@ should implement the JSBML interface \UniqueNamedSBase; in our example, this
 is taken care of by the abstract superclasses, so nothing needs to be done
 explicitly here.
 
-The code in \vref{lst:DefaultModelExtFooBar} also illustrates
+The code in \vref{lst:DefaultModelExtFooBar} illustrates
 another point, the need call to \code{firePropertyChange()} in set and
 unset methods.  This is needed in order to ensure that all listeners are
 notified about changes to the objects.  Finally, note that in cases that
@@ -475,8 +475,8 @@ public boolean equals(Object object) {
     Foo foo = (Foo) object;
     equals &= foo.isSetBar() == isSetBar();
     if (equals && isSetBar()) {
-      // Note: strictly speaking, this is only possible if the return type is some Object. For simple data types,
-      // such as boolean, int, short, etc., the corresponding wrapper classes should be called instead
+      // Note: strictly speaking, this is only possible if the return type is some Object. For simple data
+      // types, such as boolean, int, short, etc., the corresponding wrapper classes should be called instead
       // or a direct comparison should be performed.
       equals &= (foo.getBar().equals(getBar()));
     }
@@ -604,8 +604,8 @@ public class ExampleParser extends AbstractReaderWriter {
 
 \subsection{Reading}
 
-The class \code{AbstractReaderWriter} provide more or less all the necessary
-code to read the XML file for your extension---you just need to implement one
+The class \code{AbstractReaderWriter} provides more or less all the 
+features needed to read the XML file for your extension---you just need to implement one
 method from the \code{Reader} interface. In a future version of JSBML, this method
 may be implemented in a generic way using the java reflection API.
 
