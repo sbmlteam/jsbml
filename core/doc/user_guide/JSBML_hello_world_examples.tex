@@ -113,12 +113,12 @@ then attaches a \Model object to it, and then to the \Model adds one
 contents to a file named ``\code{test.xml}'', the program uses a static
 method on the JSBML class \SBMLWriter. 
 
-This program illustrate also the preferred way to create JSBML object instances. 
+This program also illustrates the preferred approach to the creation of JSBML object instances. 
 The only constructor you should need to use is the constructor of the \SBMLDocument, specifying
-the SBML level and version you want to use. Then each JSBML class should have some 
-\code{createXXX} methods where 'XXX' is the children class name. 
-For example, \code{model.createSpecies(String)}, \code{model.createReaction(String)}
-or \code{reaction.createReactant()}. These methods will guaranty that you are creating a proper
+the SBML Level and Version you want to use. Each JSBML class should have  
+\code{create\emph{XYZ}} methods, where \code{\emph{XYZ}} is the subclass name. 
+For example, you may have \code{model.createSpecies(String)}, \code{model.createReaction(String)}
+or \code{reaction.createReactant()}. These methods will guarantee that callers create a proper
 representation of the SBML model.  
 
 \begin{figure}[bht]
@@ -133,10 +133,10 @@ representation of the SBML model.
 
 \section{More examples}
 
-\Vref*{lst:LibSBMLio} shows how to convert libSBML data structures into
+\Vref*{lst:LibSBMLio} illustrates the conversion of libSBML data structures into
 JSBML data objects. \Vref{lst:PluginAction} demonstrates the implementation
 of CellDesigner's abstract class \code{PluginAction} and \vref{lst:Plugin}
 gives a complete example for writing CellDesigner plugins with
 JSBML \index{CellDesigner} (See \vref{sec:jsbml-modules-details} to learn more
 on JSBML Modules in general). Some more complex examples are available from the JSBML 
-SourceForge repository, see \vref{sec:jsbml-repo-examples} to know how to obtain them.
+SourceForge repository, see \vref{sec:jsbml-repo-examples} for information about how to obtain them.
