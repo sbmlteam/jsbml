@@ -383,7 +383,7 @@ public SBase getChildAt(int childIndex) {
   }
   // Same for each additional ListOf* or other subelements in this package.
   throw new IndexOutOfBoundsException(MessageFormat.format(
-    "Index {0,number,integer} >= {1,number,integer}", childIndex + ((int) Math.min(pos, 0))));
+    "Index {0,number,integer} >= {1,number,integer}", childIndex, ((int) Math.min(pos, 0))));
 }\end{example}
   \caption{Methods which need to be implemented to make the children
     available in the extended model.}
@@ -555,9 +555,9 @@ public Foo(Foo f) {
 
 \section{Implementing the reader and writer for an SBML package}
 
-One last thing is missing to be able to read and write SBML files properly
-using the new extension: a \code{ReadingParser} and a \code{WritingParser}. An easy way to do that is
-to extend the \AbstractReaderWriter that extends both interfaces and then implement some of 
+One last thing is missing in order to be able to read and write SBML files properly
+using the new extension: a \code{ReadingParser} and a \code{WritingParser}. An easy way to provide that is
+to extend the \AbstractReaderWriter that extends both interfaces, and then implement some of 
 the required methods in a generic way. To
 implement the parser, in this case the \code{ExampleParser}, one should
 start with two members and two simple methods, as shown in
