@@ -5,22 +5,23 @@ For questions regarding SBML, please see the SBML FAQ at
 
 \begin{description}
 
-\item[\parbox{\textwidth}{Why does the class \LocalParameter not inherit
+\item[\parbox{\textwidth-5pt}{Why does the class \LocalParameter not inherit
     from \Parameter?}]
 
-  The reason is the \Boolean attribute \code{constant}, which is present
-  in \index{constant} \index{parameter!\code{constant}}
-  \Parameter and can be set to \code{false}. A parameter in the meaning of
-  SBML is not always a constant, it might be some system variable \Variable
-  and can therefore be the subject of \code{Rule}s, \index{rule} \Event{}s,
-  \InitialAssignment{}s and so on, i.e., all instances of
-  \code{Assignment}, whereas a \LocalParameter is defined as a constant
-  quantity that never changes its value during the evaluation of a
+  The reason is the \Boolean attribute \code{constant},%
+  \index{constant}\index{parameter!\code{constant}}
+  which is present
+  in the \Parameter object class and can be set to \code{false}. A parameter in
+  the meaning of SBML is not always a constant, it might be some system
+  variable \Variable and can therefore be the subject of \code{Rule}s,
+  \index{rule} \Event{}s, \InitialAssignment{}s and so on, i.e., all
+  instances of \code{Assignment}, whereas a \LocalParameter is defined as a
+  constant quantity that never changes its value during the evaluation of a
   model\index{model}. It would therefore only be possible to let \Parameter
   inherit from \LocalParameter but this could lead to a semantic
   misinterpretation.
 
-\item[\parbox{\textwidth}{Does JSBML depend on SWING or any particular
+\item[\parbox{\textwidth-5pt}{Does JSBML depend on SWING or any particular
     graphical user interface implementation?}]
 
   Although all classes implement the \TreeNode interface (defined in
@@ -47,7 +48,7 @@ For questions regarding SBML, please see the SBML FAQ at
   \url{https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/modules/android} or by
   downloading this as a binary from the download page of JSBML.
 
-\item[\parbox{\textwidth}{Does the usage of the the \code{java.beans}
+\item[\parbox{\textwidth-5pt}{Does the usage of the the \code{java.beans}
     package for the \code{TreeNodeChangeListener} lead to an
     incompatibility with light-weight Java installations?}]
 
@@ -57,7 +58,7 @@ For questions regarding SBML, please see the SBML FAQ at
   libraries and should therefore be the preferred way to go in the
   development of JSBML.
 
-\item[\parbox{\textwidth}{Does JSBML support SBML extension packages?}]
+\item[\parbox{\textwidth-5pt}{Does JSBML support SBML extension packages?}]
 
   In version 0.8, JSBML did not provide an abstract programming interface
   for extension packages.%
