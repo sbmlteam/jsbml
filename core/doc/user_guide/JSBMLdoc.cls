@@ -544,7 +544,11 @@
     \let \footnote \thanks
     \@puttitle
     \vskip 0.5em%
+    \ifx\@version\undefined
+    \relax
+    \else
     {\large Version: \@version}%
+    \fi
     \vskip 3em%
     {\lineskip .5em%
       \@putauthorinfo
