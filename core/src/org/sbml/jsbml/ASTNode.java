@@ -1186,7 +1186,7 @@ public class ASTNode extends AbstractTreeNode {
 	/**
 	 * Child nodes.
 	 */
-	private LinkedList<ASTNode> listOfNodes;
+	private LinkedList<ASTNode> listOfNodes; // TODO : for jsbml 1.0, we should replace that by a simple ArrayList that is much quicker ??
 
 	/**
 	 * A {@link Logger} for this class.
@@ -1266,9 +1266,9 @@ public class ASTNode extends AbstractTreeNode {
 	  this.exponent = astNode.exponent;
 	  this.mantissa = astNode.mantissa;
 	  this.name = astNode.name == null ? null : new String(astNode.name);
-	  this.variable = astNode.variable;
+	  this.variable = astNode.variable; // TODO : should we clone the variable
 	  this.numerator = astNode.numerator;
-	  this.parent = astNode.getParent();
+	  this.parent = astNode.getParent(); // This should not be done is the parent is not of the class ASTNode, I think ?
 	  this.unitId = astNode.unitId == null ? null : new String(astNode.unitId);
 
 	  for (ASTNode child : astNode.listOfNodes) {
@@ -1476,6 +1476,7 @@ public class ASTNode extends AbstractTreeNode {
 	public void addChild(ASTNode child) {
 		listOfNodes.add(child);
 		child.parent = this;
+		setParentSBMLObject(child, parentSBMLObject, 0);
 		child.fireNodeAddedEvent();
 	}
 	
@@ -1503,6 +1504,8 @@ public class ASTNode extends AbstractTreeNode {
 			}
 			if (!(astnode.isOne() && (operator == Type.TIMES || operator == Type.DIVIDE))) {
 				ASTNode swap = new ASTNode(type, getParentSBMLObject());
+				// TODO : We should do a clone of the ASTNode of the ASTNode here ?? That would guaranty that everything is duplicated properly
+				// here userObjects are not for example, I think, not entirely sure if they should
 				swap.denominator = denominator;
 				swap.exponent = exponent;
 				swap.mantissa = mantissa;
@@ -1803,7 +1806,7 @@ public class ASTNode extends AbstractTreeNode {
 			} else {
 				logger.warn(String.format(
 					"ASTNode of type FUNCTION but the variable is null: (%s, %s)! Check that your object is linked to a Model.",
-					getName(), getParentSBMLObject().getElementName()));
+					getName(), (getParentSBMLObject() != null ? getParentSBMLObject().getElementName() : null)));
 				value = compiler.function(getName(), getChildren());
 			}
 			break;
@@ -2456,12 +2459,18 @@ public class ASTNode extends AbstractTreeNode {
 							// different kinetic law.
 							variable = null;
 						} else if (variable == null) {
+							// Could be any L3 package elements
+							// that is not a CallableSBase
+							// variable = m.findNamedSBase(getName());
+							
 							/*
 							 * Possibly the name is just from the argument list
 							 * of some function definition. Hence, it won't be
 							 * possible to determine an element with the same
 							 * identifier within the model. In this case, this
 							 * warning is kind of senseless.
+							 * 
+							 * TODO : we could test if the parent is a FunctionDefinition or not to print a warning or nothing ?
 							 */
 							logger.debug(String.format(
 								"This ASTNode with name '%s' is not linked to the model, the variable attribute is left to null!",
@@ -2476,7 +2485,7 @@ public class ASTNode extends AbstractTreeNode {
 			}
 			return variable;
 		}
-		throw new IllegalArgumentException("getVariable() should be called only when isName() == true.");
+		throw new IllegalArgumentException("getVariable() should be called only when isVariable() == true.");
 	}
 
 	/* (non-Javadoc)
@@ -2562,7 +2571,7 @@ public class ASTNode extends AbstractTreeNode {
 		if (listOfNodes == null) {
 			listOfNodes = new LinkedList<ASTNode>();
 		} else {
-			listOfNodes.clear();
+			listOfNodes.clear(); // TODO : send a nodeRemove event for each child ? We should set parent and parentSBMLObject to null as well ?
 		}
 		variable = null;
 		mantissa = Double.NaN;
@@ -2581,6 +2590,8 @@ public class ASTNode extends AbstractTreeNode {
 	 */
 	public void insertChild(int n, ASTNode newChild) {
 		listOfNodes.add(n, newChild);
+		newChild.parent = this;
+		setParentSBMLObject(newChild, parentSBMLObject, 0);
 		newChild.fireNodeAddedEvent();
 	}
 
@@ -3129,6 +3140,8 @@ public class ASTNode extends AbstractTreeNode {
 	 */
 	public void prependChild(ASTNode child) {
 		listOfNodes.addLast(child);
+		child.parent = this;
+		setParentSBMLObject(child, parentSBMLObject, 0);
 		child.fireNodeAddedEvent();
 	}
 
@@ -3187,6 +3200,7 @@ public class ASTNode extends AbstractTreeNode {
 	 */
 	// TODO : should we return an exception to tell people that the method is
 	// not complete ?
+	// So Exception or not for this method ??? This is called from #arithmeticOperation (called by some public methods) and multiplyWith (this one is public)
 	private void reduceToBinary() {
 		if (getChildCount() > 2) {
 			int i;
@@ -3280,6 +3294,7 @@ public class ASTNode extends AbstractTreeNode {
 	public boolean removeChild(int n) {
 		if ((listOfNodes.size() > n) && (n >= 0)) {
 			ASTNode removed = listOfNodes.remove(n);
+			removed.parentSBMLObject = null;
 			removed.fireNodeRemovedEvent();
 			return true;
 		}
@@ -3320,6 +3335,8 @@ public class ASTNode extends AbstractTreeNode {
 	 * @return the element previously at the specified position
 	 */
 	public ASTNode replaceChild(int n, ASTNode newChild) {
+		// TODO : we should probably remove the previous child properly before and fire 2 events ??
+		
 		setParentSBMLObject(newChild, parentSBMLObject, 0);
 		newChild.parent = this;
 		return listOfNodes.set(n, newChild);
@@ -3426,7 +3443,7 @@ public class ASTNode extends AbstractTreeNode {
 	// TODO : javadoc not synchronized with the code, we are not using
 	// isOperator() or isNumber() but may be we should.
 	public void setName(String name) {
-		String oldValue = this.name;
+		String oldValue = this.name; // TODO : if oldValue != null ==> set variable = null or update it ??
 		this.name = name;
 		this.firePropertyChange(TreeNodeChangeEvent.name, oldValue, name);
 		if ((!type.toString().startsWith("NAME")) && type != Type.FUNCTION
@@ -3690,9 +3707,13 @@ public class ASTNode extends AbstractTreeNode {
 	 *            node's children
 	 */
 	public void swapChildren(ASTNode that) {
+		// TODO : not sure that the parent/parentSBMLObject will be set properly after this call
+		// What about nodeRemove, nodeAdded events ??
+		// The method is public, so could be called with an ASTNode coming from anywhere !! 
+		
 		LinkedList<ASTNode> swap = that.listOfNodes;
 		that.listOfNodes = listOfNodes;
-		listOfNodes = swap;
+		listOfNodes = swap;		
 		this.firePropertyChange(TreeNodeChangeEvent.childNode, that.listOfNodes, this.listOfNodes); 
 		that.firePropertyChange(TreeNodeChangeEvent.childNode, this.listOfNodes, that.listOfNodes); 
 	}
