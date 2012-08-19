@@ -22,10 +22,12 @@ package org.sbml.jsbml.ext.qual;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.UniqueNamedSBase;
+import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -36,7 +38,7 @@ import org.sbml.jsbml.util.StringTools;
  * @since 1.0
  * @date $Date$
  */
-public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
+public class Output extends AbstractNamedSBase implements UniqueNamedSBase, CallableSBase{
 
   /**
    * Generated serial version identifier.
@@ -417,5 +419,18 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase{
 
 	  return attributes;
   }
+
+  public boolean containsUndeclaredUnits() {
+		return false;
+	}
+
+	public UnitDefinition getDerivedUnitDefinition() {
+		return null; // return Dimensionless here ??
+		// TODO : ask Sarah if the qual specs say anything about that
+	}
+
+	public String getDerivedUnits() {
+		return null; // see comment above
+	}
   
 }
