@@ -20,6 +20,7 @@
  */ 
 package org.sbml.jsbml.util;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -175,8 +176,9 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 				}
 			}
 		}
-		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
-				childIndex, getChildCount()));
+		throw new IndexOutOfBoundsException(MessageFormat.format(
+			"Index {0,number,integer} >= {1,number,integer}",
+			childIndex, getChildCount()));
 	}
 
 	/* (non-Javadoc)

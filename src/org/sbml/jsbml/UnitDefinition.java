@@ -266,8 +266,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 				kind = Kind.valueOf(id.toUpperCase());
 			} catch (IllegalArgumentException exc) {
 			  logger.warn(MessageFormat.format(
-			    "No such unit kind {0} in SBML Level {1,number,integer} Version {1,number,integer}", id,
-			    level, version));
+			    "No such unit kind {0} in SBML Level {1,number,integer} Version {2,number,integer}",
+			    id, level, version));
 				return null;
 			}
 			u.setKind(kind);
@@ -275,7 +275,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		if ((level > 1) && (version > 1)) {
 			String resource = u.getKind().getUnitOntologyResource();
 			if (resource != null) {
-			  // metaid will be created upon nessesity.
+			  // metaid will be created upon necessity.
 				u.addCVTerm(new CVTerm(Qualifier.BQB_IS, resource));
 			}
 		}

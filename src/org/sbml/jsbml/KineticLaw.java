@@ -259,8 +259,9 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 			}
 			pos++;
 		}
-		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
-				index, +((int) Math.min(pos, 0))));
+		throw new IndexOutOfBoundsException(MessageFormat.format(
+		  "Index {0,number,integer} >= {1,number,integer}",
+			index, +((int) Math.min(pos, 0))));
 	}
 
 	/* (non-Javadoc)

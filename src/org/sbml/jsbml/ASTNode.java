@@ -1270,7 +1270,7 @@ public class ASTNode extends AbstractTreeNode {
 	  this.numerator = astNode.numerator;
 	  this.unitId = astNode.unitId == null ? null : new String(astNode.unitId);
 
-	  if (getChildCount() > 0) {
+	  if (astNode.getChildCount() > 0) {
 	    for (ASTNode child : astNode.listOfNodes) {
 	      ASTNode c = child.clone();
 	      c.parent = this;
@@ -1617,8 +1617,8 @@ public class ASTNode extends AbstractTreeNode {
 		case DIVIDE:
 			int childCount = getChildCount();
 			if (childCount != 2) {
-				throw new SBMLException(String.format(
-					"Fractions must have one numerator and one denominator, here %s elements are given.",
+				throw new SBMLException(MessageFormat.format(
+					"Fractions must have one numerator and one denominator, here {0,number,integer} elements are given.",
 					childCount));
 			}
 			value = compiler.frac(getLeftChild(), getRightChild());
@@ -1824,8 +1824,8 @@ public class ASTNode extends AbstractTreeNode {
 					// value = compiler.compile(variable);
 				}
 			} else {
-				logger.warn(String.format(
-					"ASTNode of type FUNCTION but the variable is null: (%s, %s)! Check that your object is linked to a Model.",
+				logger.warn(MessageFormat.format(
+					"ASTNode of type FUNCTION but the variable is null: ({0}, {1})! Check that your object is linked to a Model.",
 					getName(), (getParentSBMLObject() != null ? getParentSBMLObject().getElementName() : null)));
 				value = compiler.function(getName(), getChildren());
 			}
