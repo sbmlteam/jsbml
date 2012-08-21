@@ -1192,8 +1192,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 */
 	public void registerChild(SBase sbase) throws LevelVersionError 
 	{
-		if ((sbase != null) && (sbase.getParent() != null)) {
-			logger.warn(MessageFormat.format("Trying to register an SBase, {0}, that is already associated with a Model!", sbase));
+		if ((sbase != null) && (sbase.getParent() != null) && (sbase.getParent() == this)) {
+			// The last check is required because the given SBase could originate from a different model or parent.
+			logger.warn(MessageFormat.format("Trying to register SBase {0}, that is already associated with this model!", sbase));
 			return;
 		}
 		
