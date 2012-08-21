@@ -19,6 +19,8 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
+import java.text.MessageFormat;
+
 import javax.swing.tree.TreeNode;
 
 /**
@@ -102,9 +104,9 @@ public class SpatialParameter extends SpatialCallableSBase {
 			}
 			pos++;
 		}
-		throw new IndexOutOfBoundsException(isLeaf() ? String.format(
-				"Node %s has no children.", getElementName()) : String.format(
-				"Index %d >= %d", childIndex, +((int) Math.min(pos, 0))));
+		throw new IndexOutOfBoundsException(isLeaf() ? MessageFormat.format(
+				"Node {0} has no children.", getElementName()) : MessageFormat.format(
+				  "Index {0,number,integer} >= {1,number,integer}", childIndex, +((int) Math.min(pos, 0))));
 	}
 
 	/* (non-Javadoc)

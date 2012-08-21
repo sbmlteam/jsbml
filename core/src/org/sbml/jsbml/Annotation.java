@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -459,8 +460,9 @@ public class Annotation extends AnnotationElement {
 //			}
 //			pos++;
 //		}
-		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
-				childIndex, +((int) Math.min(pos, 0))));
+		throw new IndexOutOfBoundsException(MessageFormat.format(
+		  "Index {0,number,integer} >= {1,number,integer}",
+			childIndex, +((int) Math.min(pos, 0))));
 	}
 
 	/* (non-Javadoc)

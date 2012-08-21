@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -374,8 +375,9 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 			}
 			pos++;
 		}
-		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
-				index, +((int) Math.min(pos, 0))));
+		throw new IndexOutOfBoundsException(MessageFormat.format(
+		  "Index {0,number,integer} >= {1,number,integer}",
+			index, +((int) Math.min(pos, 0))));
 	}
 
 	/* (non-Javadoc)

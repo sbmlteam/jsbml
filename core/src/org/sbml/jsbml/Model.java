@@ -555,7 +555,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Adds an UnitDefinition instance to the listOfUnitDefinitions of this Model.
+   * Adds an {@link UnitDefinition} instance to the {@link #listOfUnitDefinitions} of this {@link Model}.
    * 
    * @param unitDefinition
    * @return {@code true} if the {@link #listOfUnitDefinitions} was changed
@@ -1845,8 +1845,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       }
       pos++;
     }
-    throw new IndexOutOfBoundsException(String.format("Index %d >= %d", index,
-      +((int) Math.min(pos, 0))));
+    throw new IndexOutOfBoundsException(MessageFormat.format("Index {0,number,integer} >= {1,number,integer}", 
+      index, +((int) Math.min(pos, 0))));
   }
 
   /* (non-Javadoc)
