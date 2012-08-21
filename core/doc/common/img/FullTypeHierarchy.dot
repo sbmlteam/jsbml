@@ -1,7 +1,12 @@
 #!/usr/local/bin/dot
 #
+# Usage in Linux:
 # dot -Tpdf FullTypeHierarchy.dot -oFullTypeHierarchy.pdf && acroread FullTypeHierarchy.pdf &
 # dot -Tpng FullTypeHierarchy.dot -oFullTypeHierarchy.png
+#
+# Usage for Mac OS (starting Acrobat):
+# dot -Tpdf FullTypeHierarchy.dot -oFullTypeHierarchy.pdf && open -a 'Adobe Reader' FullTypeHierarchy.pdf &
+#
 
 /*
  * Overview of the core type hierarchy
@@ -42,6 +47,7 @@ strict digraph G{
 
     // Interfaces
     Cloneable                              [label="<<interface>>\nCloneable"];
+    EventListener                          [label="<<interface>>\nEvent\nListener"];
     List                                   [label="<<interface>>\nList"];
     PropertyChangeListener                 [label="<<interface>>\nProperty\nChangeListener"];
     Serializable                           [label="<<interface>>\nSerializable"];
@@ -49,7 +55,10 @@ strict digraph G{
 
     // Objects
     Object                                 [label="Object"];
+    EventObject                            [label="Event\nObject"];
     PropertyChangeEvent                    [label="Property\nChangeEvent"];
+    
+    {rank="same"; Object; EventObject; PropertyChangeEvent; EventListener; PropertyChangeListener}
   }
 
   /*
@@ -65,7 +74,7 @@ strict digraph G{
   SBaseWithDerivedUnit                     [label="<<interface>>\nSBase\nWithDerivedUnit", style="filled", fillcolor="#F0F8FF"];
   SBaseWithUnit                            [label="<<interface>>\nSBaseWithUnit", style="filled", fillcolor="#F0F8FF"];
   SBase                                    [label="<<interface>>\nSBase"];
-  SBasePlugin                              [label="<<interface>>\nSBase\nPlugin"];
+  SBasePlugin                              [label="<<interface>>\nSBase\nPlugin", color="firebrick", style="setlinewidth(2)"];
   TreeNodeChangeListener                   [label="<<interface>>\nTreeNode\nChangeListener", style="filled", fillcolor="#F0F8FF"];
   TreeNodeWithChangeSupport                [label="<<interface>>\nTreeNode\nWithChangeSupport", style="filled", fillcolor="#F0F8FF"];
   UniqueNamedSBase                         [label="<<interface>>\nUnique\nNamedSBase", style="filled", fillcolor="#F0F8FF"];
@@ -79,7 +88,7 @@ strict digraph G{
   AbstractNamedSBase                       [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase</font>>, style="filled", fillcolor="#F0F8FF"];
   AbstractNamedSBaseWithUnit               [label=<<font face="Helvetica-Oblique">Abstract<br/>NamedSBase<br/>WithUnit</font>>, style="filled", fillcolor="#F0F8FF"];
   AbstractSBase                            [label=<<font face="Helvetica-Oblique">Abstract<br/>SBase</font>>, style="filled", fillcolor="#F0F8FF"];
-  AbstractSBasePlugin                      [label=<<font face="Helvetica-Oblique">AbstractSBase<br/>Plugin</font>>, style="filled", fillcolor="#F0F8FF"];
+  AbstractSBasePlugin                      [label=<<font face="Helvetica-Oblique">AbstractSBase<br/>Plugin</font>>, style="filled,setlinewidth(2)", fillcolor="#F0F8FF", color="firebrick"];
   AbstractTreeNode                         [label=<<font face="Helvetica-Oblique">Abstract<br/>TreeNode</font>>, style="filled", fillcolor="#F0F8FF"];
   AnnotationElement                        [label=<<font face="Helvetica-Oblique">Annotation<br/>Element</font>>, style="filled", fillcolor="#F0F8FF"];
   ExplicitRule                             [label=<<font face="Helvetica-Oblique">Explicit<br/>Rule</font>>, style="filled", fillcolor="#F0F8FF"];
@@ -176,6 +185,9 @@ strict digraph G{
   CallableSBase              -> FunctionDefinition           [dir=back,arrowtail=empty,style=dashed];
   CallableSBase              -> Reaction                     [dir=back,arrowtail=empty,style=dashed];
   Cloneable                  -> TreeNodeWithChangeSupport    [dir=back,arrowtail=empty,style=dashed];
+  EventObject                -> PropertyChangeEvent          [dir=back,arrowtail=empty];
+  EventListener              -> PropertyChangeEvent          [style=invis]; // Helper for better layout
+  EventListener              -> PropertyChangeListener       [dir=back,arrowtail=empty,style=dashed];
   ExplicitRule               -> AssignmentRule               [dir=back,arrowtail=empty];
   ExplicitRule               -> RateRule                     [dir=back,arrowtail=empty];
   List                       -> ListOf                       [dir=back,arrowtail=empty,style=dashed];
@@ -187,6 +199,8 @@ strict digraph G{
   NamedSBaseWithDerivedUnit  -> AbstractNamedSBaseWithUnit   [dir=back,arrowtail=empty,style=dashed];
   NamedSBaseWithDerivedUnit  -> CallableSBase                [dir=back,arrowtail=empty,style=dashed];
   Object                     -> AbstractTreeNode             [dir=back,arrowtail=empty];
+  Object                     -> EventObject                  [dir=back,arrowtail=empty];
+  Object                     -> SimpleTreeNodeChangeListener [dir=back,arrowtail=empty];
   PropertyChangeEvent        -> TreeNodeChangeEvent          [dir=back,arrowtail=empty];
   PropertyChangeListener     -> TreeNodeChangeListener       [dir=back,arrowtail=empty,style=dashed];
   Quantity                   -> QuantityWithUnit             [dir=back,arrowtail=empty,style=dashed];

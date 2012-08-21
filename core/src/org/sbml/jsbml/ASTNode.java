@@ -457,7 +457,7 @@ public class ASTNode extends AbstractTreeNode {
 				return RELATIONAL_LEQ;
 			}
 
-			// token : cn, ci, csymbol, sep
+			// token: cn, ci, csymbol, sep
 			// for ci, we have to check if it is a functionDefinition
 			// for cn, we pass the type attribute to this function to determine the
 			// proper astNode type
@@ -486,7 +486,7 @@ public class ASTNode extends AbstractTreeNode {
 				return NAME_AVOGADRO;
 			}
 
-			// general : apply, piecewise, piece, otherwise, lambda, bvar
+			// general: apply, piecewise, piece, otherwise, lambda, bvar
 			else if (type.equals("lambda")) {
 				return LAMBDA;
 			} else if (type.equals("bvar")) {
@@ -499,14 +499,14 @@ public class ASTNode extends AbstractTreeNode {
 				// nothing to do, node ignore when parsing
 			}
 
-			// qualifiers : degree, logbase
+			// qualifiers: degree, logbase
 			else if (type.equals("degree")) {
 				// nothing to do, node ignore when parsing
 			} else if (type.equals("logbase")) {
 				// nothing to do, node ignore when parsing
 			}
 
-			// constants : true, false, notanumber, pi, infinity, exponentiale
+			// constants: true, false, notanumber, pi, infinity, exponentiale
 			else if (type.equals("true")) {
 				return CONSTANT_TRUE;
 			} else if (type.equals("false")) {
@@ -521,7 +521,7 @@ public class ASTNode extends AbstractTreeNode {
 				return CONSTANT_E;
 			}
 
-			// TODO : possible annotations : semantics, annotation, annotation-xml
+			// TODO: possible annotations: semantics, annotation, annotation-xml
 
 			return UNKNOWN;
 		}
@@ -570,7 +570,7 @@ public class ASTNode extends AbstractTreeNode {
 	 */
 	public static final transient String URI_MATHML_DEFINITION = "http://www.w3.org/1998/Math/MathML";
 	
-	// TODO : check how we set the math in level 1
+	// TODO: check how we set the math in level 1
 
 	/**
 	 * URI prefix for the definition of MathML, it will be used to write the sbml file
@@ -587,7 +587,7 @@ public class ASTNode extends AbstractTreeNode {
 	 * of the given double value.
 	 * 
 	 * @param d a double value
-	 * @param parent the parent ASTNode
+	 * @param parent the parent {@link ASTNode}
 	 * @return an {@link ASTNode} that computes the absolute value
 	 * of the given double value.
 	 */
@@ -602,7 +602,7 @@ public class ASTNode extends AbstractTreeNode {
 	 * of the given integer value.
 	 * 
 	 * @param integer an integer value
-	 * @param parent  the parent ASTNode
+	 * @param parent  the parent {@link ASTNode}
 	 * @return an {@link ASTNode} that computes the absolute value
 	 * of the given integer value.
 	 */
@@ -613,11 +613,11 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Creates a new ASTNode of type <code>operator</code> and adds the given nodes as children.
+	 * Creates a new {@link ASTNode} of type <code>operator</code> and adds the given nodes as children.
 	 * 
 	 * @param operator the type of arithmetic operation
 	 * @param ast the children of the new ASTNode
-	 * @return a new ASTNode of type <code>operator</code> and adds the given nodes as children.
+	 * @return a new {@link ASTNode} of type <code>operator</code> and adds the given nodes as children.
 	 */
 	private static ASTNode arithmethicOperation(Type operator, ASTNode... ast) {
 	  LinkedList<ASTNode> astList = new LinkedList<ASTNode>();
@@ -655,32 +655,32 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Creates a new ASTNode of type MINUS and adds the given nodes as children
+	 * Creates a new {@link ASTNode} of type MINUS and adds the given nodes as children
 	 * 
 	 * @param ast the children of the new ASTNode
-	 * @return a new ASTNode of type MINUS and adds the given nodes as children
+	 * @return a new {@link ASTNode} of type MINUS and adds the given nodes as children
 	 */
 	public static ASTNode diff(ASTNode... ast) {
 		return arithmethicOperation(Type.MINUS, ast);
 	}
 
 	/**
-	 * Creates a new ASTNode of type RELATIONAL_EQ.
+	 * Creates a new {@link ASTNode} of type RELATIONAL_EQ.
 	 * 
 	 * @param left the left child.
 	 * @param right the right child.
-	 * @return a new ASTNode of type RELATIONAL_EQ.
+	 * @return a new {@link ASTNode} of type RELATIONAL_EQ.
 	 */
 	public static ASTNode eq(ASTNode left, ASTNode right) {
 		return relational(Type.RELATIONAL_EQ, left, right);
 	}
 
 	/**
-	 * Returns a new ASTNode that represents Euler's constant raised by the
+	 * Returns a new {@link ASTNode} that represents Euler's constant raised by the
 	 * power of the given exponent.
 	 * 
 	 * @param exponent the exponent
-	 * @return a new ASTNode that represents Euler's constant raised by the
+	 * @return a new {@link ASTNode} that represents Euler's constant raised by the
 	 * power of the given exponent.
 	 */
 	public static ASTNode exp(ASTNode exponent) {
@@ -708,23 +708,23 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Creates a new ASTNode of type DIVIDE with the given nodes as children.
+	 * Creates a new {@link ASTNode} of type DIVIDE with the given nodes as children.
 	 * 
 	 * @param numerator the numerator
 	 * @param denominator the denominator
-	 * @return a new ASTNode of type DIVIDE with the given nodes as children.
+	 * @return a new {@link ASTNode} of type DIVIDE with the given nodes as children.
 	 */
 	public static ASTNode frac(ASTNode numerator, ASTNode denominator) {
 		return numerator.divideBy(denominator);
 	}
 
 	/**
-	 * Creates a new ASTNode that of type DIVIDE with the given numerator and
+	 * Creates a new {@link ASTNode} that of type DIVIDE with the given numerator and
 	 * denominator.
 	 * 
 	 * @param numerator the numerator
 	 * @param denominator the denominator
-	 * @return a new ASTNode that of type DIVIDE with the given numerator and
+	 * @return a new {@link ASTNode} that of type DIVIDE with the given numerator and
 	 * denominator.
 	 */
 	public static ASTNode frac(int numerator, ASTNode denominator) {
@@ -733,12 +733,12 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Creates a new ASTNode that divides two named sbase objects.
+	 * Creates a new {@link ASTNode} that divides two {@link CallableSBase} objects.
 	 * 
 	 * @param container the parent object
 	 * @param numerator the numerator
 	 * @param denominator the denominator
-	 * @return a new ASTNode that divides two named sbase objects.
+	 * @return a new {@link ASTNode} that divides two {@link CallableSBase} objects.
 	 */
 	public static ASTNode frac(MathContainer container,
 			CallableSBase numerator,
@@ -748,12 +748,12 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns a new ASTNode that of type DIVIDE with the two entities as numerator and denominator.
+	 * Returns a new {@link ASTNode} that of type DIVIDE with the two entities as numerator and denominator.
 	 * 
 	 * @param container the parent object
 	 * @param numeratorId the numerator
 	 * @param denominatorId the numerator
-	 * @return a new ASTNode that of type DIVIDE with the two entities as numerator and denominator.
+	 * @return a new {@link ASTNode} that of type DIVIDE with the two entities as numerator and denominator.
 	 */
 	public static ASTNode frac(MathContainer container, String numeratorId,
 			String denominatorId) {
@@ -1049,11 +1049,11 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Sets the Parent of the node and its children to the given value
+	 * Sets the parent of the node and its children to the given value
 	 * 
 	 * @param node the orphan node
 	 * @param parent the parent
-	 * @param depth the current depth in the ASTNode tree.
+	 * @param depth the current depth in the {@link ASTNode} tree.
 	 *            It is just here for testing purposes to track the depth in the tree
 	 *            during the process.
 	 */
@@ -1076,10 +1076,10 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Creates a new ASTNode of type Plus with the given nodes as children.
+	 * Creates a new {@link ASTNode} of type Plus with the given nodes as children.
 	 * 
 	 * @param ast the children nodes.
-	 * @return a new ASTNode of type Plus with the given nodes as children.
+	 * @return a new {@link ASTNode} of type Plus with the given nodes as children.
 	 */
 	public static ASTNode sum(ASTNode... ast) {
 		return arithmethicOperation(Type.PLUS, ast);
@@ -1127,11 +1127,11 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Creates a new ASTNode that has exactly one child and which is of type
+	 * Creates a new {@link ASTNode} that has exactly one child and which is of type
 	 * minus, i.e., this negates what is encoded in ast.
 	 * 
 	 * @param ast
-	 * @return a new ASTNode that has exactly one child and which is of type
+	 * @return a new {@link ASTNode} that has exactly one child and which is of type
 	 * minus, i.e., this negates what is encoded in ast.
 	 */
 	public static ASTNode uMinus(ASTNode ast) {
@@ -1141,12 +1141,12 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Creates a new ASTNode that has exactly one child and which is of type
+	 * Creates a new {@link ASTNode} that has exactly one child and which is of type
 	 * minus, i.e., this negates what is encoded in ast.
 	 * 
 	 * @param container
 	 * @param sbase
-	 * @return a new ASTNode that has exactly one child and which is of type
+	 * @return a new {@link ASTNode} that has exactly one child and which is of type
 	 * minus, i.e., this negates what is encoded in ast.
 	 */
 	public static ASTNode uMinus(MathContainer container,
@@ -1186,7 +1186,7 @@ public class ASTNode extends AbstractTreeNode {
 	/**
 	 * Child nodes.
 	 */
-	private LinkedList<ASTNode> listOfNodes; // TODO : for jsbml 1.0, we should replace that by a simple ArrayList that is much quicker ??
+	private List<ASTNode> listOfNodes; // TODO: for jsbml 1.0, we should replace that by a simple ArrayList that is much quicker ??
 
 	/**
 	 * A {@link Logger} for this class.
@@ -1208,8 +1208,8 @@ public class ASTNode extends AbstractTreeNode {
 	private String name;
 
 	/**
-	 * This value stores the numerator if this.isRational() is true, or the
-	 * value of an integer if this.isInteger() is true.
+	 * This value stores the numerator if this.isRational() is {@code true}, or the
+	 * value of an integer if this.isInteger() is {@code true}.
 	 */
 	private int numerator;
 
@@ -1252,29 +1252,30 @@ public class ASTNode extends AbstractTreeNode {
 	 * Copy constructor; Creates a deep copy of the given {@link ASTNode}.
 	 * 
 	 * @param astNode
-	 *            the ASTNode to be copied.
+	 *            the {@link ASTNode} to be copied.
 	 */
 	public ASTNode(ASTNode astNode) {
 	  super(astNode);
 	  this.parentSBMLObject = null;
 	  this.initDefaults();
 
-	  logger.debug("Clone constructor : Origin type = " + astNode.type);
+	  logger.debug("Clone constructor: Origin type = " + astNode.type);
 
 	  setType(astNode.getType());		
 	  this.denominator = astNode.denominator;
 	  this.exponent = astNode.exponent;
 	  this.mantissa = astNode.mantissa;
 	  this.name = astNode.name == null ? null : new String(astNode.name);
-	  this.variable = astNode.variable; // TODO : should we clone the variable
+	  this.variable = astNode.variable; // Do not clone the variable. This is just a pointer for convenient access! Cloning would duplicate the element!
 	  this.numerator = astNode.numerator;
-	  this.parent = astNode.getParent(); // This should not be done is the parent is not of the class ASTNode, I think ?
 	  this.unitId = astNode.unitId == null ? null : new String(astNode.unitId);
 
-	  for (ASTNode child : astNode.listOfNodes) {
-	    ASTNode c = child.clone();
-	    c.parent = this;
-	    this.listOfNodes.add(c);
+	  if (getChildCount() > 0) {
+	    for (ASTNode child : astNode.listOfNodes) {
+	      ASTNode c = child.clone();
+	      c.parent = this;
+	      this.listOfNodes.add(c);
+	    }
 	  }
 	}
 
@@ -1455,7 +1456,7 @@ public class ASTNode extends AbstractTreeNode {
 	}
 	
 	/**
-	 * Creates and returns a new ASTNode.
+	 * Creates and returns a new {@link ASTNode}.
 	 * 
 	 * @param type
 	 *            the type of the ASTNode to create.
@@ -1479,40 +1480,59 @@ public class ASTNode extends AbstractTreeNode {
 		setParentSBMLObject(child, parentSBMLObject, 0);
 		child.fireNodeAddedEvent();
 	}
-	
-	/**
-	 * Creates a new node with the type of this node, moves all children of this
-	 * node to this new node, sets the type of this node to the given operator,
-	 * adds the new node as left child of this node and the given astnode as the
-	 * right child of this node. The parentSBMLObject of the whole resulting
-	 * ASTNode is then set to the parent of this node.
-	 * 
-	 * @param operator
-	 *            The new type of this node. This has to be one of the
-	 *            following: PLUS, MINUS, TIMES, DIVIDE, or POWER. Otherwise a
-	 *            runtime error is thrown.
-	 * @param astnode
-	 *            The new right child of this node
-	 */
+
+  
+  /**
+   * Creates a new node with the type of this node, moves all children of this
+   * node to this new node, sets the type of this node to the given operator,
+   * adds the new node as left child of this node and the given {@link ASTNode} as the
+   * right child of this node. The parentSBMLObject of the whole resulting
+   * {@link ASTNode} is then set to the parent of this node.
+   * 
+   * @param operator
+   *        The new type of this node. This has to be one of the
+   *        following: {@link Type#PLUS}, {@link Type#MINUS}, {@link Type#TIMES},
+   *        {@link Type#DIVIDE}, {@link Type#POWER},
+   *        {@link Type#FUNCTION_ROOT}. Otherwise an
+   *        {@link IllegalArgumentException} is thrown.
+   * @param astnode
+   *        The new right child of this node
+   * @throws IllegalArgumentException
+   *         if
+   *         <ul>
+   *         <li>this {@link ASTNode} is zero ({@link #isZero()}) and the given
+   *         operator is {@link Type#DIVIDE}</li>
+   *         <li>the operator is not one of the following: {@link Type#PLUS},
+   *         {@link Type#MINUS}, {@link Type#TIMES}, {@link Type#DIVIDE},
+   *         {@link Type#POWER}, {@link Type#FUNCTION_ROOT}</li>
+   *         </ul>
+   */
 	private void arithmeticOperation(Type operator, ASTNode astnode) {
-		if (operator == Type.PLUS || operator == Type.MINUS
-				|| operator == Type.TIMES || operator == Type.DIVIDE
-				|| operator == Type.POWER || operator == Type.FUNCTION_ROOT) {
-			if (astnode.isZero() && operator == Type.DIVIDE) {
-				throw new RuntimeException(new IllegalArgumentException(
-						"Cannot divide by zero."));
+		if ((operator == Type.PLUS) || (operator == Type.MINUS)
+				|| (operator == Type.TIMES) || (operator == Type.DIVIDE)
+				|| (operator == Type.POWER) || (operator == Type.FUNCTION_ROOT)) {
+			if (astnode.isZero() && (operator == Type.DIVIDE)) {
+				throw new IllegalArgumentException("Cannot divide by zero.");
 			}
-			if (!(astnode.isOne() && (operator == Type.TIMES || operator == Type.DIVIDE))) {
-				ASTNode swap = new ASTNode(type, getParentSBMLObject());
-				// TODO : We should do a clone of the ASTNode of the ASTNode here ?? That would guaranty that everything is duplicated properly
-				// here userObjects are not for example, I think, not entirely sure if they should
-				swap.denominator = denominator;
-				swap.exponent = exponent;
-				swap.mantissa = mantissa;
-				swap.name = name;
-				swap.numerator = numerator;
-				swap.variable = variable;
-				swap.unitId = unitId;
+			if (!(astnode.isOne() && ((operator == Type.TIMES) || (operator == Type.DIVIDE)))) {
+			  /* 
+			   * Here we want to restructure the tree by making an equivalent of the current node
+			   * being a child of the current node. This node will then become of some different type.
+			   * 
+			   * In order to avoid deep-cloning we save a pointer to the children, remove all
+			   * children, clone this current node, and add all children to the copy. At the end,
+			   * the copied node will become some child of the current node
+			   */
+			  List<ASTNode> children = listOfNodes;
+			  listOfNodes = null;
+			  ASTNode swap = clone(); // only clones the current node, no children
+				listOfNodes = children;
+				
+        /*
+         * TODO: What should be done to userObjects? Actually it can be assumed
+         * that these apply to the swap node only and maybe all user objects
+         * should be removed from the current node?
+         */
 				swapChildren(swap);
 				setType(operator);
 				if (operator == Type.FUNCTION_ROOT) {
@@ -1869,17 +1889,17 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns <code>true</code> or <code>false</code> depending on whether this
+	 * Returns {@code true} or {@code false} depending on whether this
 	 * {@link ASTNode} refers to elements such as parameters or numbers with
 	 * undeclared units.
 	 * 
-	 * A return value of true indicates that the <code>UnitDefinition</code>
+	 * A return value of {@code true} indicates that the <code>UnitDefinition</code>
 	 * returned by {@link Variable#getDerivedUnitDefinition()} may not accurately
 	 * represent the units of the expression.
 	 * 
-	 * @return <code>true</code> if the math expression of this {@link ASTNode}
+	 * @return {@code true} if the math expression of this {@link ASTNode}
 	 *         includes parameters/numbers with undeclared units,
-	 *         <code>false</code> otherwise.
+	 *         {@code false} otherwise.
 	 */
 	public boolean containsUndeclaredUnits() {
 		if (isLeaf()) {
@@ -2245,7 +2265,7 @@ public class ASTNode extends AbstractTreeNode {
 
 	/**
 	 * Gets the name of this node. This method may be called on nodes that are
-	 * not operators (isOperator() == false) or numbers (isNumber() == false).
+	 * not operators ({@code isOperator() == false}) or numbers ({@code isNumber() == false}).
 	 * 
 	 * @return the name of this node.
 	 * @throws IllegalArgumentException
@@ -2299,7 +2319,7 @@ public class ASTNode extends AbstractTreeNode {
 
 	/**
 	 * Gets the real-numbered value of this node. This function should be called
-	 * only when isReal() == true, otherwise and Exception is thrown.
+	 * only when {@code isReal() == true}, otherwise and Exception is thrown.
 	 * 
 	 * This function performs the necessary arithmetic if the node type is
 	 * REAL_E (mantissa^exponent) or RATIONAL (numerator / denominator).
@@ -2318,7 +2338,7 @@ public class ASTNode extends AbstractTreeNode {
 				return mantissa;
 			case REAL_E:{
 				//  mantissa * Math.pow(10, getExponent())) ==> this formula does not give exact values.
-				// for example : mantissa = 3.0, exponent = -17 ==> 2.9999999999999994E-17 instead of 3.0E-17
+				// for example: mantissa = 3.0, exponent = -17 ==> 2.9999999999999994E-17 instead of 3.0E-17
 				return Double.parseDouble(mantissa + "E" + getExponent());
 			}
 			case RATIONAL:
@@ -2371,7 +2391,7 @@ public class ASTNode extends AbstractTreeNode {
 	 *         <code>getListOfNodes().getLast()</code>.
 	 */
 	public ASTNode getRightChild() {
-		return listOfNodes.getLast();
+		return listOfNodes.get(listOfNodes.size() - 1);
 	}
 
 	/**
@@ -2437,55 +2457,70 @@ public class ASTNode extends AbstractTreeNode {
 
 	/**
 	 * Returns the variable of this node. This function should be called only
-	 * when {@link #isVariable()} == <code>true</code>, otherwise an Exception is thrown.
+	 * when {@code isVariable()} == true}, otherwise an Exception is thrown.
 	 * 
 	 * @return the variable of this node
-	 * @throws IllegalArgumentException
-	 *             if {@link #isVariable()} returns false.
+	 * @throws RuntimeException
+	 *             if {@link #isVariable()} returns {@code false}.
 	 */
 	public CallableSBase getVariable() {
 		if (isVariable()) {
-			if ((variable == null) && (getParentSBMLObject() != null)) {
-				if (getParentSBMLObject() instanceof KineticLaw) {
-					variable = ((KineticLaw) getParentSBMLObject())
-							.getLocalParameter(getName());
-				}
-				if (variable == null) {
-					Model m = getParentSBMLObject().getModel();
-					if (m != null) {
-						variable = m.findCallableSBase(getName());
-						if (variable instanceof LocalParameter) {
-							// in this case the parameter originates from a
-							// different kinetic law.
-							variable = null;
-						} else if (variable == null) {
-							// Could be any L3 package elements
-							// that is not a CallableSBase
-							// variable = m.findNamedSBase(getName());
-							
-							/*
-							 * Possibly the name is just from the argument list
-							 * of some function definition. Hence, it won't be
-							 * possible to determine an element with the same
-							 * identifier within the model. In this case, this
-							 * warning is kind of senseless.
-							 * 
-							 * TODO : we could test if the parent is a FunctionDefinition or not to print a warning or nothing ?
-							 */
-							logger.debug(String.format(
-								"This ASTNode with name '%s' is not linked to the model, the variable attribute is left to null!",
-								getName()));
-						}
-					} else {
-						logger.debug(String.format(
-							"This ASTNode is not yet linked to a model and can therefore not determine its variable '%s'.",
-							getName()));
-					}
-				}
-			}
+      if (variable == null) {
+        /*
+         * Possibly the name is just from the argument list
+         * of some function definition. Hence, it won't be
+         * possible to determine an element with the same
+         * identifier within the model. In this case, this
+         * warning is kind of senseless.
+         */
+        ASTNode parent = (ASTNode) getParent();
+        if (parent != null) {
+          if ((parent.getType() == Type.LAMBDA) && (parent.getRightChild() != this)) {
+            /*
+             * The second condition is important, because the argument list
+             * comprises only the first n children. Child n + 1 is the
+             * expression for the function.
+             */
+            logger.debug(MessageFormat.format(
+              "The name \"{0}\" represented by this node is an argument in a function call, i.e., a placeholder for some other element. No corresponding CallableSBase exists in the model",
+              getName()));
+            return variable;
+          }
+        }
+        if (getParentSBMLObject() != null) {
+          if (getParentSBMLObject() instanceof KineticLaw) {
+            variable = ((KineticLaw) getParentSBMLObject()).getLocalParameter(getName());
+          }
+          if (variable == null) {
+            Model m = getParentSBMLObject().getModel();
+            if (m != null) {
+              variable = m.findCallableSBase(getName());
+              if (variable instanceof LocalParameter) {
+                // in this case the parameter originates from a
+                // different kinetic law.
+                variable = null;
+              } else if (variable == null) {
+                // Could be any L3 package elements
+                // that is not a CallableSBase
+                // TODO: Actually, if something can be addressed in an ASTNode,
+                // it MUST implement CallableSBase, no matter in which extension
+                // package.
+                // variable = m.findNamedSBase(getName());
+                logger.debug(MessageFormat.format(
+                  "Cannot find any element with id \"{0}\" in the model.",
+                  getName()));
+              }
+            } else {
+              logger.debug(MessageFormat.format(
+                "This ASTNode is not yet linked to a model and can therefore not determine its variable \"{0}\".",
+                getName()));
+            }
+          }
+        }
+      }
 			return variable;
 		}
-		throw new IllegalArgumentException("getVariable() should be called only when isVariable() == true.");
+		throw new RuntimeException("getVariable() should be called only when isVariable() == true.");
 	}
 
 	/* (non-Javadoc)
@@ -2524,10 +2559,10 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns true if the current ASTNode or any of his descendant has a unit
+	 * Returns {@code true} if the current ASTNode or any of his descendant has a unit
 	 * defined.
 	 * 
-	 * @return true if the current ASTNode or any of his descendant has a unit
+	 * @return {@code true} if the current ASTNode or any of his descendant has a unit
 	 *         defined.
 	 */
 	public boolean hasUnits() {
@@ -2547,7 +2582,6 @@ public class ASTNode extends AbstractTreeNode {
 
 	/**
 	 * Initializes the default values/attributes of the node.
-	 * 
 	 */
 	private void initDefaults() {
 		ASTNode old = this;
@@ -2571,7 +2605,10 @@ public class ASTNode extends AbstractTreeNode {
 		if (listOfNodes == null) {
 			listOfNodes = new LinkedList<ASTNode>();
 		} else {
-			listOfNodes.clear(); // TODO : send a nodeRemove event for each child ? We should set parent and parentSBMLObject to null as well ?
+			for (int i = listOfNodes.size() - 1; i >= 0; i--) {
+			  // This also removes the pointer from the previous child to this object, i.e., its previous parent node.
+			  listOfNodes.remove(i).fireNodeRemovedEvent();
+			}
 		}
 		variable = null;
 		mantissa = Double.NaN;
@@ -2579,14 +2616,14 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Inserts the given ASTNode at point n in the list of children of this
-	 * ASTNode. Inserting a child within an ASTNode may result in an inaccurate
+	 * Inserts the given {@link ASTNode} at point n in the list of children of this
+	 * {@link ASTNode}. Inserting a child within an {@link ASTNode} may result in an inaccurate
 	 * representation.
 	 * 
 	 * @param n
-	 *            long the index of the ASTNode being added
+	 *            long the index of the {@link ASTNode} being added
 	 * @param newChild
-	 *            ASTNode to insert as the nth child
+	 *            {@link ASTNode} to insert as the n<sup>th</sup> child
 	 */
 	public void insertChild(int n, ASTNode newChild) {
 		listOfNodes.add(n, newChild);
@@ -2596,10 +2633,10 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns true if this node has a boolean type (a logical operator, a
-	 * relational operator, or the constants true or false).
+	 * Returns {@code true} if this node has a boolean type (a logical operator, a
+	 * relational operator, or the constants {@code true} or {@code false}).
 	 * 
-	 * @return true if this ASTNode is a boolean, false otherwise.
+	 * @return {@code true} if this ASTNode is a boolean, {@code false} otherwise.
 	 */
 	public boolean isBoolean() {
 		return type == Type.CONSTANT_FALSE || type == Type.CONSTANT_TRUE
@@ -2607,9 +2644,9 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns true if this node represents a MathML constant (e.g., true, Pi).
+	 * Returns {@code true} if this node represents a MathML constant (e.g., {@code true}, Pi).
 	 * 
-	 * @return true if this ASTNode is a MathML constant, false otherwise.
+	 * @return {@code true} if this ASTNode is a MathML constant, {@code false} otherwise.
 	 */
 	public boolean isConstant() {
 		return type.toString().startsWith("CONSTANT")
@@ -2619,7 +2656,7 @@ public class ASTNode extends AbstractTreeNode {
 	/**
 	 * Checks if this {@link ASTNode} represents a difference.
 	 * 
-	 * @return true if this {@link ASTNode} represents a difference, false
+	 * @return {@code true} if this {@link ASTNode} represents a difference, {@code false}
 	 *         otherwise.
 	 */
 	public boolean isDifference() {
@@ -2627,25 +2664,25 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns true if this node represents a function. In this context, the
+	 * Returns {@code true} if this node represents a function. In this context, the
 	 * term function means pre-defined functions such as "ceil", "abs" or "sin"
 	 * or whether this {@link ASTNode} refers to a user-defined
 	 * {@link FunctionDefinition} object. Without having a valid reference to
 	 * the {@link MathContainer} that owns this {@link ASTNode} it is impossible
 	 * to identify the referenced {@link FunctionDefinition}.
 	 * 
-	 * @return true if this {@link ASTNode} is a function, false otherwise.
+	 * @return {@code true} if this {@link ASTNode} is a function, {@code false} otherwise.
 	 */
 	public boolean isFunction() {
 		return type.toString().startsWith("FUNCTION");
 	}
 
 	/**
-	 * Returns true if this node represents the special IEEE 754 value infinity,
-	 * false otherwise.
+	 * Returns {@code true} if this node represents the special IEEE 754 value infinity,
+	 * {@code false} otherwise.
 	 * 
-	 * @return true if this ASTNode is the special IEEE 754 value infinity,
-	 *         false otherwise.
+	 * @return {@code true} if this ASTNode is the special IEEE 754 value infinity,
+	 *         {@code false} otherwise.
 	 */
 	public boolean isInfinity() {
 		if (isReal()) {
@@ -2656,30 +2693,30 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns true if this node contains an integer value, false otherwise.
+	 * Returns {@code true} if this node contains an integer value, {@code false} otherwise.
 	 * 
-	 * @return true if this ASTNode is of type INTEGER, false otherwise.
+	 * @return {@code true} if this ASTNode is of type INTEGER, {@code false} otherwise.
 	 */
 	public boolean isInteger() {
 		return type == Type.INTEGER;
 	}
 
 	/**
-	 * Returns true if this node is a MathML &lt;lambda&gt;, false otherwise.
+	 * Returns {@code true} if this node is a MathML &lt;lambda&gt;, {@code false} otherwise.
 	 * 
-	 * @return true if this ASTNode is of type LAMBDA, false otherwise.
+	 * @return {@code true} if this ASTNode is of type LAMBDA, {@code false} otherwise.
 	 */
 	public boolean isLambda() {
 		return type == Type.LAMBDA;
 	}
 
 	/**
-	 * Returns true if this node represents a log10() function, false otherwise.
-	 * More precisely, this predicate returns true if the node type is
+	 * Returns {@code true} if this node represents a log10() function, {@code false} otherwise.
+	 * More precisely, this predicate returns {@code true} if the node type is
 	 * FUNCTION_LOG with two children, the first of which is an INTEGER equal to
 	 * 10.
 	 * 
-	 * @return true if the given ASTNode represents a log10() function, false
+	 * @return {@code true} if the given ASTNode represents a log10() function, {@code false}
 	 *         otherwise.
 	 */
 	public boolean isLog10() {
@@ -2689,33 +2726,33 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns true if this node is a MathML logical operator (i.e., and, or,
+	 * Returns {@code true} if this node is a MathML logical operator (i.e., and, or,
 	 * not, xor).
 	 * 
-	 * @return true if this ASTNode is a MathML logical operator.
+	 * @return {@code true} if this ASTNode is a MathML logical operator.
 	 */
 	public boolean isLogical() {
 		return type.toString().startsWith("LOGICAL_");
 	}
 
 	/**
-	 * Returns true if this astnode represents the number minus one (either as
+	 * Returns {@code true} if this astnode represents the number minus one (either as
 	 * integer or as real value).
 	 * 
-	 * @return true if this astnode represents the number minus one (either as
+	 * @return {@code true} if this astnode represents the number minus one (either as
 	 * integer or as real value).
 	 */
 	public boolean isMinusOne() {
-		return (isReal() && getReal() == -1d)
-				|| (isInteger() && getInteger() == -1);
+		return (isReal() && (getReal() == -1d))
+				|| (isInteger() && (getInteger() == -1));
 	}
 
 	/**
-	 * Returns <code>true</code> if this node is a user-defined {@link Variable} name in SBML L1, L2
+	 * Returns {@code true} if this node is a user-defined {@link Variable} name in SBML L1, L2
 	 * (MathML), or the special symbols delay or time. The predicate returns
-	 * <code>false</code> otherwise.
+	 * {@code false} otherwise.
 	 * 
-	 * @return <code>true</code> if this {@link ASTNode} is a user-defined variable name in SBML L1,
+	 * @return {@code true} if this {@link ASTNode} is a user-defined variable name in SBML L1,
 	 *         L2 (MathML) or the special symbols time or Avogadro.
 	 */
 	public boolean isName() {
@@ -2724,20 +2761,20 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns true if this node is a type Real and represents the special IEEE
-	 * 754 value 'not a number' {@link Double#NaN}, false otherwise.
+	 * Returns {@code true} if this node is a type Real and represents the special IEEE
+	 * 754 value 'not a number' {@link Double#NaN}, {@code false} otherwise.
 	 * 
-	 * @return true if this ASTNode is the {@link Double#NaN}
+	 * @return {@code true} if this ASTNode is the {@link Double#NaN}
 	 */
 	public boolean isNaN() {
 		return isReal() && Double.isNaN(getReal());
 	}
 
 	/**
-	 * Returns true if this node represents the special IEEE 754 value 'negative
-	 * infinity' {@link Double#NEGATIVE_INFINITY}, false otherwise.
+	 * Returns {@code true} if this node represents the special IEEE 754 value 'negative
+	 * infinity' {@link Double#NEGATIVE_INFINITY}, {@code false} otherwise.
 	 * 
-	 * @return true if this ASTNode is {@link Double#NEGATIVE_INFINITY}, false
+	 * @return {@code true} if this ASTNode is {@link Double#NEGATIVE_INFINITY}, {@code false}
 	 *         otherwise.
 	 */
 	public boolean isNegInfinity() {
@@ -2749,24 +2786,24 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns true if this node contains a number, false otherwise. This is
+	 * Returns {@code true} if this node contains a number, {@code false} otherwise. This is
 	 * functionally equivalent to the following code:
 	 * 
 	 * <pre>
 	 * isInteger() || isReal()
 	 * </pre>
 	 * 
-	 * @return true if this ASTNode is a number, false otherwise.
+	 * @return {@code true} if this ASTNode is a number, {@code false} otherwise.
 	 */
 	public boolean isNumber() {
 		return isInteger() || isReal();
 	}
 
 	/**
-	 * Returns true if this {@link ASTNode} represents the number one (either as
+	 * Returns {@code true} if this {@link ASTNode} represents the number one (either as
 	 * integer or as real value).
 	 * 
-	 * @return true if this {@link ASTNode} represents the number one.
+	 * @return {@code true} if this {@link ASTNode} represents the number one.
 	 */
 	public boolean isOne() {
 		return (isReal() && getReal() == 1d)
@@ -2774,10 +2811,10 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns true if this node is a mathematical operator, meaning, +, -, *, /
+	 * Returns {@code true} if this node is a mathematical operator, meaning, +, -, *, /
 	 * or ^ (power).
 	 * 
-	 * @return true if this ASTNode is an operator.
+	 * @return {@code true} if this ASTNode is an operator.
 	 */
 	public boolean isOperator() {
 		return type == Type.PLUS || type == Type.MINUS || type == Type.TIMES
@@ -2785,31 +2822,31 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns true if this node is the MathML &lt;piecewise&gt; construct,
-	 * false otherwise.
+	 * Returns {@code true} if this node is the MathML &lt;piecewise&gt; construct,
+	 * {@code false} otherwise.
 	 * 
-	 * @return true if this ASTNode is a MathML piecewise function
+	 * @return {@code true} if this ASTNode is a MathML piecewise function
 	 */
 	public boolean isPiecewise() {
 		return type == Type.FUNCTION_PIECEWISE;
 	}
 
 	/**
-	 * Returns true if this node represents a rational number, false otherwise.
+	 * Returns {@code true} if this node represents a rational number, {@code false} otherwise.
 	 * 
-	 * @return true if this ASTNode is of type {@link Type#RATIONAL}.
+	 * @return {@code true} if this ASTNode is of type {@link Type#RATIONAL}.
 	 */
 	public boolean isRational() {
 		return type == Type.RATIONAL;
 	}
 
 	/**
-	 * Returns true if this node can represent a real number, false otherwise.
+	 * Returns {@code true} if this node can represent a real number, {@code false} otherwise.
 	 * More precisely, this node must be of one of the following types: REAL,
 	 * REAL_E or RATIONAL.
 	 * 
-	 * @return true if the value of this ASTNode can represented a real number,
-	 *         false otherwise.
+	 * @return {@code true} if the value of this ASTNode can represented a real number,
+	 *         {@code false} otherwise.
 	 */
 	public boolean isReal() {
 		return type == Type.REAL || type == Type.REAL_E
@@ -2817,10 +2854,10 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns true if this node is a MathML relational operator, meaning ==,
+	 * Returns {@code true} if this node is a MathML relational operator, meaning ==,
 	 * >=, >, <, and !=.
 	 * 
-	 * @return true if this ASTNode is a MathML relational operator, false
+	 * @return {@code true} if this ASTNode is a MathML relational operator, {@code false}
 	 *         otherwise.
 	 */
 	public boolean isRelational() {
@@ -2865,9 +2902,9 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns true if the number type is set.
+	 * Returns {@code true} if the number type is set.
 	 * 
-	 * @return  true if the number type is set. 
+	 * @return {@code true} if the number type is set. 
 	 */
 	public boolean isSetNumberType() {
 		return isSetNumberType;
@@ -2891,23 +2928,23 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns true if a unit is defined on this node.
+	 * Returns {@code true} if a unit is defined on this node.
 	 * 
-	 * @return true if a unit is defined on this node.
+	 * @return {@code true} if a unit is defined on this node.
 	 */
 	public boolean isSetUnits() {
 		return unitId != null;
 	}
 
 	/**
-	 * Returns true if this node represents a square root function, false
+	 * Returns {@code true} if this node represents a square root function, {@code false}
 	 * otherwise.
 	 * 
 	 * More precisely, the node type must be {@link Type#FUNCTION_ROOT} with two
 	 * children, the first of which is an {@link Type#INTEGER} node having value
 	 * equal to 2.
 	 * 
-	 * @return true if the given ASTNode represents a sqrt() function, false
+	 * @return {@code true} if the given ASTNode represents a sqrt() function, {@code false}
 	 *         otherwise.
 	 */
 	public boolean isSqrt() {
@@ -2917,10 +2954,10 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns <code>true</code> if this node is a name or refers to a
+	 * Returns {@code true} if this node is a name or refers to a
 	 * {@link FunctionDefinition}.
 	 * 
-	 * @return true if this {@link ASTNode} is a user-defined variable name in SBML L1,
+	 * @return {@code true} if this {@link ASTNode} is a user-defined variable name in SBML L1,
 	 *         L2 (MathML) or the special symbols time or Avogadro.
 	 * @see #isName()
 	 */
@@ -2931,14 +2968,14 @@ public class ASTNode extends AbstractTreeNode {
 	/**
 	 * Checks if this {@link ASTNode} represents a sum.
 	 * 
-	 * @return true if this {@link ASTNode} represents a sum, false otherwise.
+	 * @return {@code true} if this {@link ASTNode} represents a sum, {@code false} otherwise.
 	 */
 	public boolean isSum() {
 		return type == Type.PLUS;
 	}
 
 	/**
-	 * Returns true if this node is a unary minus operator, false otherwise. A
+	 * Returns {@code true} if this node is a unary minus operator, {@code false} otherwise. A
 	 * node is defined as a unary minus node if it is of type MINUS and has
 	 * exactly one child.
 	 * 
@@ -2947,7 +2984,7 @@ public class ASTNode extends AbstractTreeNode {
 	 * minus nodes for symbols (NAMES) cannot be 'collapsed', so this predicate
 	 * function is necessary.
 	 * 
-	 * @return true if this ASTNode is a unary minus, false otherwise.
+	 * @return {@code true} if this ASTNode is a unary minus, {@code false} otherwise.
 	 */
 	public boolean isUMinus() {
 		return (type == Type.MINUS) && (getChildCount() == 1);
@@ -2956,14 +2993,14 @@ public class ASTNode extends AbstractTreeNode {
 	/**
 	 * Checks whether the number of child nodes is exactly one.
 	 * 
-	 * @return true if the number of child nodes is exactly one.
+	 * @return {@code true} if the number of child nodes is exactly one.
 	 */
 	public boolean isUnary() {
 		return getChildCount() == 1;
 	}
 
 	/**
-	 * Returns true if this node has an unknown type.
+	 * Returns {@code true} if this node has an unknown type.
 	 * 
 	 * 'Unknown' nodes have the type UNKNOWN. Nodes with unknown types will not
 	 * appear in an ASTNode tree returned by libSBML based upon valid SBML
@@ -2972,26 +3009,26 @@ public class ASTNode extends AbstractTreeNode {
 	 * constructor. Callers creating nodes should endeavor to set the type to a
 	 * valid node type as soon as possible after creating new nodes.
 	 * 
-	 * @return true if this ASTNode is of type UNKNOWN, false otherwise.
+	 * @return {@code true} if this ASTNode is of type UNKNOWN, {@code false} otherwise.
 	 */
 	public boolean isUnknown() {
 		return type == Type.UNKNOWN;
 	}
 
 	/**
-	 * Returns true if this node represents a {@link Variable}.
+	 * Returns {@code true} if this node represents a {@link Variable}.
 	 * 
-	 * @return true if this node represents a {@link Variable}.
+	 * @return {@code true} if this node represents a {@link Variable}.
 	 */
 	public boolean isVariable() {
 		return type == Type.NAME || type == Type.FUNCTION;
 	}
 
 	/**
-	 * Returns true if this node represents the number zero (either as integer
+	 * Returns {@code true} if this node represents the number zero (either as integer
 	 * or as real value).
 	 * 
-	 * @return true if this node represents the number zero.
+	 * @return {@code true} if this node represents the number zero.
 	 */
 	public boolean isZero() {
 		return (isReal() && getReal() == 0d)
@@ -3139,7 +3176,7 @@ public class ASTNode extends AbstractTreeNode {
 	 *            an <code>ASTNode</code>
 	 */
 	public void prependChild(ASTNode child) {
-		listOfNodes.addLast(child);
+		listOfNodes.add(child);
 		child.parent = this;
 		setParentSBMLObject(child, parentSBMLObject, 0);
 		child.fireNodeAddedEvent();
@@ -3191,16 +3228,19 @@ public class ASTNode extends AbstractTreeNode {
 		return this;
 	}
 
-	/**
-	 * Reduces this ASTNode to a binary tree, e.g., if the formula in this
-	 * ASTNode is and(x, y, z) then the formula of the reduced node would be
-	 * and(and(x, y), z)
-	 * 
-	 * NotYetImplemented
-	 */
-	// TODO : should we return an exception to tell people that the method is
-	// not complete ?
-	// So Exception or not for this method ??? This is called from #arithmeticOperation (called by some public methods) and multiplyWith (this one is public)
+  /**
+   * <p>
+   * Reduces this {@link ASTNode} to a binary tree, e.g., if the formula in this
+   * {@link ASTNode} is and(x, y, z) then the formula of the reduced node would
+   * be and(and(x, y), z).
+   * </p>
+   * <p>
+   * This method is not yet completed. Currently, only {@link Type#PLUS},
+   * {@link Type#TIMES}, {@link Type#LOGICAL_AND}, {@link Type#LOGICAL_OR} are
+   * touched by the method. All other nodes are left unchanged, but it traverses
+   * the entire tree rooted at this node.
+   * </p>
+   */
 	private void reduceToBinary() {
 		if (getChildCount() > 2) {
 			int i;
@@ -3214,6 +3254,7 @@ public class ASTNode extends AbstractTreeNode {
 				break;
 			case MINUS:
 				// TODO
+			  logger.debug(MessageFormat.format("MINUS node with {0,number,integer} children left unchanged", getChildCount()));
 				break;
 			case TIMES:
 				ASTNode times = new ASTNode(Type.TIMES, parentSBMLObject);
@@ -3228,6 +3269,7 @@ public class ASTNode extends AbstractTreeNode {
 				break;
 			case DIVIDE:
 				// TODO
+			  logger.debug(MessageFormat.format("DIVIDE node with {0,number,integer} children left unchanged", getChildCount()));
 				break;
 			case LOGICAL_AND:
 				ASTNode and = new ASTNode(Type.LOGICAL_AND, parentSBMLObject);
@@ -3245,12 +3287,15 @@ public class ASTNode extends AbstractTreeNode {
 				break;
 			case LOGICAL_NOT:
 				// TODO
+			  logger.debug(MessageFormat.format("NOT node with {0,number,integer} children left unchanged", getChildCount()));
 				break;
 			case LOGICAL_XOR:
 				// TODO
+			  logger.debug(MessageFormat.format("XOR node with {0,number,integer} children left unchanged", getChildCount()));
 				break;
 			default:
 				// TODO
+			  logger.debug(MessageFormat.format("{0} node with {1,number,integer} children left unchanged", getType(), getChildCount()));
 				break;
 			}
 		}
@@ -3261,14 +3306,14 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns true if this node or one of its descendants contains some
+	 * Returns {@code true} if this node or one of its descendants contains some
 	 * identifier with the given id. This method can be used to scan a formula
 	 * for a specific parameter or species and detect whether this component is
 	 * used by this formula. This search is done using a DFS.
 	 * 
 	 * @param id
 	 *            the id of an SBML element.
-	 * @return true if this node or one of its descendants contains the given
+	 * @return {@code true} if this node or one of its descendants contains the given
 	 *         id.
 	 */
 	public boolean refersTo(String id) {
@@ -3326,20 +3371,21 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Replaces the nth child of this ASTNode with the given ASTNode.
+	 * Replaces the n<sup>th</sup> child of this ASTNode with the given ASTNode.
 	 * 
 	 * @param n
 	 *            long the index of the child to replace
 	 * @param newChild
-	 *            ASTNode to replace the nth child
+	 *            {@link ASTNode} to replace the n<sup>th</sup> child
 	 * @return the element previously at the specified position
 	 */
 	public ASTNode replaceChild(int n, ASTNode newChild) {
-		// TODO : we should probably remove the previous child properly before and fire 2 events ??
-		
+	  ASTNode oldChild = listOfNodes.remove(n);
+	  oldChild.fireNodeRemovedEvent();
 		setParentSBMLObject(newChild, parentSBMLObject, 0);
 		newChild.parent = this;
-		return listOfNodes.set(n, newChild);
+		listOfNodes.add(n, newChild);
+		return newChild;
 	}
 
 	/**
@@ -3432,18 +3478,18 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Sets the value of this ASTNode to the given name.
+	 * Sets the value of this {@link ASTNode} to the given name.
 	 * 
-	 * The node type will be set (to NAME) only if the ASTNode was previously an
-	 * operator (isOperator(node) == true) or number (isNumber(node) == true).
-	 * This allows names to be set for FUNCTIONs and the like.
+	 * The node type will be set (to {@link Type#NAME}) only if the {@link ASTNode} was previously an
+	 * operator ({@code isOperator(node) == true}) or number ({@code isNumber(node) == true}).
+	 * This allows names to be set for {@link Type#FUNCTION}s and the like.
 	 * 
 	 * @param name
 	 */
-	// TODO : javadoc not synchronized with the code, we are not using
+	// TODO: javadoc not synchronized with the code, we are not using
 	// isOperator() or isNumber() but may be we should.
 	public void setName(String name) {
-		String oldValue = this.name; // TODO : if oldValue != null ==> set variable = null or update it ??
+		String oldValue = this.name; // TODO: if oldValue != null ==> set variable = null or update it ??
 		this.name = name;
 		this.firePropertyChange(TreeNodeChangeEvent.name, oldValue, name);
 		if ((!type.toString().startsWith("NAME")) && type != Type.FUNCTION
@@ -3456,7 +3502,7 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Sets the style of the mathML element represented by this ASTNode.
+	 * Sets the style of the mathML element represented by this {@link ASTNode}.
 	 * 
 	 * @param style
 	 *            the style.
@@ -3498,26 +3544,26 @@ public class ASTNode extends AbstractTreeNode {
 	 * @param type
 	 *            the type to which this node should be set
 	 */
-	// TODO : javadoc not synchronized, we are not reseting previously stored
+	// TODO: javadoc not synchronized, we are not reseting previously stored
 	// values but we are modifying the name.
-	// TODO : we should probably simplify the code to avoid future problems
+	// TODO: we should probably simplify the code to avoid future problems
 	public void setType(Type type) {
 
-		// TODO : check that the calls to initDefaults() do not delete anything
+		// TODO: check that the calls to initDefaults() do not delete anything
 		// important when reading the XML file, see MathMLStaxParser.java
 		// System.out.println("ASTNode : setType(Type) called : type = " +
 		// type);
 
 		String sType = type.toString();
 		
-		logger.debug("setType called : typeBefore = " + this.type + " typeAfter= " + sType);
+		logger.debug("setType called: typeBefore = " + this.type + " typeAfter= " + sType);
 		
 		if (sType.startsWith("NAME") || sType.startsWith("CONSTANT")) {
-			// TODO : check, a user might have set some values before calling
+			// TODO: check, a user might have set some values before calling
 			// the setType()
 			initDefaults();
 		}
-		// TODO : setting the name should not be necessary and a user could have
+		// TODO: setting the name should not be necessary and a user could have
 		// set a name before calling setType
 		if (type == Type.NAME_TIME) {
 			name = "time";
@@ -3694,28 +3740,51 @@ public class ASTNode extends AbstractTreeNode {
 	 * @return the current node for convenience.
 	 */
 	public ASTNode sqrt() {
-		arithmeticOperation(Type.FUNCTION_ROOT, new ASTNode(2,
-				getParentSBMLObject()));
+		arithmeticOperation(Type.FUNCTION_ROOT, new ASTNode(2, getParentSBMLObject()));
 		return this;
 	}
 
-	/**
-	 * Swaps the children of this ASTNode with the children of that ASTNode.
-	 * 
-	 * @param that
-	 *            the other node whose children should be used to replace this
-	 *            node's children
-	 */
+  /**
+   * <p>
+   * Swaps the children of this {@link ASTNode} with the children of that
+   * {@link ASTNode}.
+   * </p>
+   * <p>
+   * Unfortunately, when swapping child nodes, we have to recursively traverse
+   * the entire subtrees in order to make sure that all pointers to the parent
+   * SBML object are correct. However, this must only be done if the parent SBML
+   * object of that differs from the one surrounding this node.
+   * </p>
+   * <p>
+   * In any case, the pointer from each sub-node to its parent must be changed.
+   * In contrast to other SBML elements, {@link ASTNode}s have sub-nodes as
+   * direct children, i.e., there is no child called 'ListOfNodes'. The
+   * {@code setParent} method is also not recursive.
+   * </p>
+   * <p>
+   * However, this might cause many calls to listeners.
+   * </p>
+   * 
+   * @param that
+   *        the other node whose children should be used to replace this
+   *        node's children
+   */
 	public void swapChildren(ASTNode that) {
-		// TODO : not sure that the parent/parentSBMLObject will be set properly after this call
-		// What about nodeRemove, nodeAdded events ??
-		// The method is public, so could be called with an ASTNode coming from anywhere !! 
-		
-		LinkedList<ASTNode> swap = that.listOfNodes;
+		List<ASTNode> swap = that.listOfNodes;
 		that.listOfNodes = listOfNodes;
-		listOfNodes = swap;		
-		this.firePropertyChange(TreeNodeChangeEvent.childNode, that.listOfNodes, this.listOfNodes); 
-		that.firePropertyChange(TreeNodeChangeEvent.childNode, this.listOfNodes, that.listOfNodes); 
+		listOfNodes = swap;
+		for (ASTNode child : that.listOfNodes) {
+		  child.setParent(that);
+		  if (that.getParentSBMLObject() != getParentSBMLObject()) {
+		    setParentSBMLObject(child, that.getParentSBMLObject(), 0);
+		  }
+		}
+		for (ASTNode child : listOfNodes) {
+      child.setParent(this);
+      if (that.getParentSBMLObject() != getParentSBMLObject()) {
+        setParentSBMLObject(child, getParentSBMLObject(), 0);
+      }
+    }
 	}
 
 	/**
@@ -3767,7 +3836,7 @@ public class ASTNode extends AbstractTreeNode {
 			return MathMLXMLStreamCompiler.toMathML(this);
 		} catch (RuntimeException e) {
 			// added to prevent a crash when we cannot create the mathML
-			// TODO : log the exception
+			// TODO: log the exception
 			// e.printStackTrace();
 		}
 		return "";
@@ -3779,7 +3848,7 @@ public class ASTNode extends AbstractTreeNode {
 	@Override
 	public String toString() {
 		String formula = "";
-		String errorMsg = "Could not compile ASTNode to formula : ";
+		String errorMsg = "Could not compile ASTNode to formula: ";
 		try {
 			formula = compile(new FormulaCompiler()).toString();
 		} catch (SBMLException e) {
@@ -3789,7 +3858,7 @@ public class ASTNode extends AbstractTreeNode {
 			if (logger.isDebugEnabled()) {
 				logger.error(errorMsg, e);
 			} else {
-				// TODO : Do not print this message if parsing the file !!! Or remove it
+				// TODO: Do not print this message if parsing the file !!! Or remove it
 				logger.warn(errorMsg + e.getMessage());
 			}
 		} catch (RuntimeException e) {
@@ -3812,7 +3881,7 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * For a better performance ASTNodes can store a direct pointer to a
+	 * For a better performance {@link ASTNode}s can store a direct pointer to a
 	 * variable element. This is particularly useful when performing more
 	 * complex computation on these data structures. However, if the model is
 	 * changed, it may happen that these pointer become invalid. For instance, a
