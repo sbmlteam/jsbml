@@ -74,7 +74,10 @@ around the corresponding JSBML methods.
     derived from \TreeNodeWithChangeSupport; thus, they (and all their
     subclasses) share many common methods and attributes, which makes them
     easy to use when wherever instances of \TreeNode or operations across
-    hierarchies of objects are needed.}
+    hierarchies of objects are needed. In order to support SBML extension
+    packages, the new interface \SBasePlugin and its abstract implementation
+    \AbstractSBasePlugin have been added to JSBML in version 1.0 (both types
+    are marked with a red border).}
   \label{fig:TypeHierarchy}
 \end{sidewaysfigure}
 
