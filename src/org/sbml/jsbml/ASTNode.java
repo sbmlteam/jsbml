@@ -21,6 +21,7 @@
 package org.sbml.jsbml;
 
 import java.io.StringReader;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -1271,10 +1272,12 @@ public class ASTNode extends AbstractTreeNode {
 		this.parent = astNode.getParent();
 		this.unitId = astNode.unitId == null ? null : new String(astNode.unitId);
 		
-		for (ASTNode child : astNode.listOfNodes) {
-			ASTNode c = child.clone();
-			c.parent = this;
-			this.listOfNodes.add(c);
+		if (astNode.getChildCount() > 0) {
+			for (ASTNode child : astNode.listOfNodes) {
+				ASTNode c = child.clone();
+				c.parent = this;
+				this.listOfNodes.add(c);
+			}
 		}
 	}
 
@@ -1502,14 +1505,18 @@ public class ASTNode extends AbstractTreeNode {
 						"Cannot divide by zero."));
 			}
 			if (!(astnode.isOne() && (operator == Type.TIMES || operator == Type.DIVIDE))) {
-				ASTNode swap = new ASTNode(type, getParentSBMLObject());
-				swap.denominator = denominator;
-				swap.exponent = exponent;
-				swap.mantissa = mantissa;
-				swap.name = name;
-				swap.numerator = numerator;
-				swap.variable = variable;
-				swap.unitId = unitId;
+				/* 
+				 * Here we want to restructure the tree by making an equivalent of the current node
+				 * being a child of the current node. This node will then become of some different type.
+				 * 
+				 * In order to avoid deep-cloning we save a pointer to the children, remove all
+				 * children, clone this current node, and add all children to the copy. At the end,
+				 * the copied node will become some child of the current node
+				 */
+				LinkedList<ASTNode> children = listOfNodes;
+				listOfNodes = null;
+				ASTNode swap = clone(); // only clones the current node, no children
+				listOfNodes = children;
 				swapChildren(swap);
 				setType(operator);
 				if (operator == Type.FUNCTION_ROOT) {
@@ -2581,7 +2588,10 @@ public class ASTNode extends AbstractTreeNode {
 		if (listOfNodes == null) {
 			listOfNodes = new LinkedList<ASTNode>();
 		} else {
-			listOfNodes.clear();
+			for (int i = listOfNodes.size() - 1; i >= 0; i--) {
+				// This also removes the pointer from the previous child to this object, i.e., its previous parent node.
+				listOfNodes.remove(i).fireNodeRemovedEvent();
+			}
 		}
 		variable = null;
 		mantissa = Double.NaN;
@@ -3197,14 +3207,18 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Reduces this ASTNode to a binary tree, e.g., if the formula in this
-	 * ASTNode is and(x, y, z) then the formula of the reduced node would be
-	 * and(and(x, y), z)
-	 * 
-	 * NotYetImplemented
+	 * <p>
+	 * Reduces this {@link ASTNode} to a binary tree, e.g., if the formula in this
+	 * {@link ASTNode} is and(x, y, z) then the formula of the reduced node would
+	 * be and(and(x, y), z).
+	 * </p>
+	 * <p>
+	 * This method is not yet completed. Currently, only {@link Type#PLUS},
+	 * {@link Type#TIMES}, {@link Type#LOGICAL_AND}, {@link Type#LOGICAL_OR} are
+	 * touched by the method. All other nodes are left unchanged, but it traverses
+	 * the entire tree rooted at this node.
+	 * </p>
 	 */
-	// TODO : should we return an exception to tell people that the method is
-	// not complete ?
 	private void reduceToBinary() {
 		if (getChildCount() > 2) {
 			int i;
@@ -3218,6 +3232,7 @@ public class ASTNode extends AbstractTreeNode {
 				break;
 			case MINUS:
 				// TODO
+				logger.debug(MessageFormat.format("MINUS node with {0,number,integer} children left unchanged", getChildCount()));
 				break;
 			case TIMES:
 				ASTNode times = new ASTNode(Type.TIMES, parentSBMLObject);
@@ -3232,6 +3247,7 @@ public class ASTNode extends AbstractTreeNode {
 				break;
 			case DIVIDE:
 				// TODO
+				logger.debug(MessageFormat.format("DIVIDE node with {0,number,integer} children left unchanged", getChildCount()));
 				break;
 			case LOGICAL_AND:
 				ASTNode and = new ASTNode(Type.LOGICAL_AND, parentSBMLObject);
@@ -3249,12 +3265,15 @@ public class ASTNode extends AbstractTreeNode {
 				break;
 			case LOGICAL_NOT:
 				// TODO
+				logger.debug(MessageFormat.format("NOT node with {0,number,integer} children left unchanged", getChildCount()));
 				break;
 			case LOGICAL_XOR:
 				// TODO
+				logger.debug(MessageFormat.format("XOR node with {0,number,integer} children left unchanged", getChildCount()));
 				break;
 			default:
 				// TODO
+				logger.debug(MessageFormat.format("{0} node with {1,number,integer} children left unchanged", getType(), getChildCount()));
 				break;
 			}
 		}
@@ -3338,10 +3357,13 @@ public class ASTNode extends AbstractTreeNode {
 	 * @return the element previously at the specified position
 	 */
 	public ASTNode replaceChild(int n, ASTNode newChild) {
-    setParentSBMLObject(newChild, parentSBMLObject, 0);
-    newChild.parent = this;
-    return listOfNodes.set(n, newChild);
-  }
+		ASTNode oldChild = listOfNodes.remove(n);
+		oldChild.fireNodeRemovedEvent();
+		setParentSBMLObject(newChild, parentSBMLObject, 0);
+		newChild.parent = this;
+		listOfNodes.add(n, newChild);
+		return newChild;
+	}
 
 	/**
 	 * Sets the value of this ASTNode to the given character. If character is
@@ -3696,18 +3718,46 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Swaps the children of this ASTNode with the children of that ASTNode.
+	 * <p>
+	 * Swaps the children of this {@link ASTNode} with the children of that
+	 * {@link ASTNode}.
+	 * </p>
+	 * <p>
+	 * Unfortunately, when swapping child nodes, we have to recursively traverse
+	 * the entire subtrees in order to make sure that all pointers to the parent
+	 * SBML object are correct. However, this must only be done if the parent SBML
+	 * object of that differs from the one surrounding this node.
+	 * </p>
+	 * <p>
+	 * In any case, the pointer from each sub-node to its parent must be changed.
+	 * In contrast to other SBML elements, {@link ASTNode}s have sub-nodes as
+	 * direct children, i.e., there is no child called 'ListOfNodes'. The
+	 * {@code setParent} method is also not recursive.
+	 * </p>
+	 * <p>
+	 * However, this might cause many calls to listeners.
+	 * </p>
 	 * 
 	 * @param that
-	 *            the other node whose children should be used to replace this
-	 *            node's children
+	 *        the other node whose children should be used to replace this
+	 *        node's children
 	 */
 	public void swapChildren(ASTNode that) {
 		LinkedList<ASTNode> swap = that.listOfNodes;
 		that.listOfNodes = listOfNodes;
 		listOfNodes = swap;
-		this.firePropertyChange(TreeNodeChangeEvent.childNode, that.listOfNodes, this.listOfNodes); 
-		that.firePropertyChange(TreeNodeChangeEvent.childNode, this.listOfNodes, that.listOfNodes); 
+		for (ASTNode child : that.listOfNodes) {
+			child.setParent(that);
+			if (that.getParentSBMLObject() != getParentSBMLObject()) {
+				setParentSBMLObject(child, that.getParentSBMLObject(), 0);
+			}
+		}
+		for (ASTNode child : listOfNodes) {
+			child.setParent(this);
+			if (that.getParentSBMLObject() != getParentSBMLObject()) {
+				setParentSBMLObject(child, getParentSBMLObject(), 0);
+			}
+		}
 	}
 
 	/**
