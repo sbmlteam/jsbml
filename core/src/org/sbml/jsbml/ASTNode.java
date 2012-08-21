@@ -1102,21 +1102,21 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Creates an ASTNode of type times and adds the given nodes as children.
+	 * Creates an {@link ASTNode} of type times and adds the given nodes as children.
 	 * 
 	 * @param ast
-	 * @return an ASTNode of type times and adds the given nodes as children.
+	 * @return an {@link ASTNode} of type times and adds the given nodes as children.
 	 */
 	public static ASTNode times(ASTNode... ast) {
 		return arithmethicOperation(Type.TIMES, ast);
 	}
 
 	/**
-	 * Multiplies several NamedSBase objects.
+	 * Multiplies several {@link CallableSBase} objects.
 	 * 
 	 * @param parent
 	 * @param sbase
-	 * @return the multiplication of several NamedSBase objects.
+	 * @return the multiplication of several {@link CallableSBase} objects.
 	 */
 	public static ASTNode times(MathContainer parent,
 			CallableSBase... sbase) {
@@ -3206,7 +3206,7 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Raises this ASTNode by the power of the given number.
+	 * Raises this {@link ASTNode} by the power of the given number.
 	 * 
 	 * @param exponent
 	 *            a double number.
