@@ -1,5 +1,6 @@
 package org.sbml.jsbml.ext.multi;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -44,6 +45,11 @@ import org.sbml.jsbml.util.filters.NameFilter;
 public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNamedSBase {
 
 	/**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -6077584873497214754L;
+
+  /**
 	 * 
 	 */
 	ListOf<StateFeature> listOfStateFeatures;
@@ -224,8 +230,9 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
 			pos++;
 		}
 
-		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
-				index, +((int) Math.min(pos, 0))));
+		throw new IndexOutOfBoundsException(MessageFormat.format(
+		  "Index {0,number,integer} >= {1,number,integer}",
+			index, +((int) Math.min(pos, 0))));
 	}
 
 

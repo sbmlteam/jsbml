@@ -19,13 +19,15 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
+import java.text.MessageFormat;
+
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBaseWithUnit;
 import org.sbml.jsbml.Unit;
-import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Unit.Kind;
+import org.sbml.jsbml.UnitDefinition;
 
 /**
  * @author Andreas Dr&auml;ger
@@ -169,9 +171,9 @@ public class CoordinateComponent extends NamedSpatialElement implements
 			}
 			pos++;
 		}
-		throw new IndexOutOfBoundsException(isLeaf() ? String.format(
-				"Node %s has no children.", getElementName()) : String.format(
-				"Index %d >= %d", childIndex, +((int) Math.min(pos, 0))));
+		throw new IndexOutOfBoundsException(isLeaf() ? MessageFormat.format(
+				"Node {0} has no children.", getElementName()) : MessageFormat.format(
+				  "Index {0,number,integer} >= {1,number,integer}", childIndex, +((int) Math.min(pos, 0))));
 	}
 
 	/* (non-Javadoc)

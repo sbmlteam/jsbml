@@ -23,6 +23,7 @@ package org.sbml.jsbml;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.text.MessageFormat;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -44,7 +45,7 @@ import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
  * Represents the 'sbml' root node of a SBML file.
  * 
  * @author Andreas Dr&auml;ger
- * @author marine
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */
@@ -380,11 +381,11 @@ public class SBMLDocument extends AbstractSBase {
 	 */
 	private void checkMetaId(String metaId) {
 		if (containsMetaId(metaId)) {
-      logger.error(String.format(
-        "An element with the metaid '%s' is already present in the SBML document. The new element will not get added to it.",
+      logger.error(MessageFormat.format(
+        "An element with the metaid \"{0}\" is already present in the SBML document. The new element will not get added to it.",
         metaId));
-			throw new IllegalArgumentException(String.format(
-					"Cannot set duplicate meta identifier '%s'.", metaId));
+			throw new IllegalArgumentException(MessageFormat.format(
+					"Cannot set duplicate meta identifier \"{0}\".", metaId));
 		}
 	}
 
@@ -397,7 +398,7 @@ public class SBMLDocument extends AbstractSBase {
 
 	/**
 	 * Collects all meta identifiers of this {@link AbstractSBase} and all of
-	 * its sub-elements if recursively is <code>true</code>.
+	 * its sub-elements if recursively is {@code true}.
 	 * 
 	 * @param metaIds
 	 *        the {@link Map} that gathers the result.
@@ -406,10 +407,10 @@ public class SBMLDocument extends AbstractSBase {
 	 *        and from which we maybe have to recursively go through all
 	 *        of its children.
 	 * @param recursively
-	 *        if <code>true</code>, this method will also consider all
+	 *        if {@code true}, this method will also consider all
 	 *        sub-elements of this {@link AbstractSBase}.
 	 * @param delete
-	 *        if <code>true</code> this method will not check if
+	 *        if {@code true} this method will not check if
 	 *        the meta identifier can be added to the {@link SBMLDocument}.
 	 * @throws IllegalArgumentException
 	 *         However, duplications are not legal and an
@@ -539,7 +540,7 @@ public class SBMLDocument extends AbstractSBase {
 				return getModel();
 			}
 		}
-		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
+		throw new IndexOutOfBoundsException(MessageFormat.format("Index {0,number,integer} >= {1,number,integer}",
 				index, +((int) Math.min(pos, 0))));
 	}
 
@@ -754,17 +755,17 @@ public class SBMLDocument extends AbstractSBase {
 	 * @param sbase
 	 *        the element whose meta identifier is to be registered (if it is set).
 	 * @param add
-	 *        if <code>true</code> this will add the given meta identifier
+	 *        if {@code true} this will add the given meta identifier
 	 *        to this {@link SBMLDocument}'s {@link #mappingFromMetaId2SBase}.
 	 *        Otherwise, the given identifier will be removed from this set.
 	 * @return <ul>
-	 *         <li>if add is <code>true</code>, then this method returns
-	 *         <code>true</code> if this set did not already contain the specified
-	 *         element, <code>false</code> otherwise.</li>
-	 *         <li>if add is not <code>true</code>, this method returns
-	 *         <code>true</code> if this set contained the specified element,
-	 *         <code>false</code> otherwise.</li>
-	 *         <li>This method also returns <code>false</code> if the given
+	 *         <li>if add is {@code true}, then this method returns
+	 *         {@code true} if this set did not already contain the specified
+	 *         element, {@code false} otherwise.</li>
+	 *         <li>if add is not {@code true}, this method returns
+	 *         {@code true} if this set contained the specified element,
+	 *         {@code false} otherwise.</li>
+	 *         <li>This method also returns {@code false} if the given
 	 *         {@link SBase} does not have a defined metaId</li>
 	 *         </ul>
 	 * @throws IllegalArgumentException
@@ -792,7 +793,7 @@ public class SBMLDocument extends AbstractSBase {
 
 	/**
 	 * Collects all meta identifiers of this {@link AbstractSBase} and all of
-	 * its sub-elements if recursively is <code>true</code>. It can also be used
+	 * its sub-elements if recursively is {@code true}. It can also be used
 	 * to delete meta identifiers from the given {@link Set}.
 	 * 
 	 * @param sbase
@@ -800,10 +801,10 @@ public class SBMLDocument extends AbstractSBase {
 	 *            and from which we maybe have to recursively go through all
 	 *            of its children.
 	 * @param recursively
-	 *            if <code>true</code>, this method will also consider all
+	 *            if {@code true}, this method will also consider all
 	 *            sub-elements of this {@link AbstractSBase}.
 	 * @param delete
-	 *            if <code>true</code> the purpose of this method will be to
+	 *            if {@code true} the purpose of this method will be to
 	 *            delete the meta identifier from the given {@link Set}.
 	 *            Otherwise, it will try to add it to the set.
 	 * @throws IllegalArgumentException
@@ -834,12 +835,12 @@ public class SBMLDocument extends AbstractSBase {
 	 * set of all possible checks that {@link SBMLDocument#checkConsistency()} knows
 	 * how to perform.  This method may need to be called multiple times in
 	 * order to achieve the desired combination of checks.  The first
-	 * argument (<code>category</code>) in a call to this method indicates the category
+	 * argument ({@code category}) in a call to this method indicates the category
 	 * of consistency/error checks that are to be turned on or off, and the
-	 * second argument (<code>apply</code>, a boolean) indicates whether to turn it on
-	 * (value of <code>true</code>) or off (value of <code>false</code>).
+	 * second argument ({@code apply}, a boolean) indicates whether to turn it on
+	 * (value of {@code true}) or off (value of {@code false}).
 	 * <p>
-	 * * The possible categories (values to the argument <code>category</code>) are the
+	 * * The possible categories (values to the argument {@code category}) are the
 	 * set of values from the {@link CHECK_CATEGORYH} enumeration.
 	 * The following are the possible choices:
 	 * <p>
@@ -902,7 +903,7 @@ public class SBMLDocument extends AbstractSBase {
 	 * consistency checking/validation to be turned on or off
 	 * <p>
 	 * @param apply a boolean indicating whether the checks indicated by
-	 * <code>category</code> should be applied or not.
+	 * {@code category} should be applied or not.
 	 * <p>
 	 * @see SBMLDocument#checkConsistency()
 	 */
@@ -1009,7 +1010,7 @@ public class SBMLDocument extends AbstractSBase {
 	 * Sets the {@link Model} of this {@link SBMLDocument} to null and notifies
 	 * all {@link TreeNodeChangeListener} about changes.
 	 * 
-	 * @return <code>true</code> if calling this method changed the properties
+	 * @return {@code true} if calling this method changed the properties
 	 *         of this element.
 	 */
 	public boolean unsetModel() {

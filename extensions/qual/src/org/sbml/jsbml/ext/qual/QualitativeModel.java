@@ -19,6 +19,7 @@
  */
 package org.sbml.jsbml.ext.qual;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import org.sbml.jsbml.Compartment;
@@ -120,8 +121,9 @@ public class QualitativeModel extends AbstractSBasePlugin {
 		  }
 		  pos++;
 	  }
-	  throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
-			  childIndex, +((int) Math.min(pos, 0))));	  
+	  throw new IndexOutOfBoundsException(MessageFormat.format(
+	    "Index {0,number,integer} >= {1,number,integer}",
+			childIndex, +((int) Math.min(pos, 0))));	  
   }
 
   /* (non-Javadoc)

@@ -19,6 +19,7 @@
  */
 package org.sbml.jsbml.ext.layout;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -568,8 +569,9 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 			  return getListOfAdditionalGraphicalObjects();
 		  }
 	  }
-	  throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
-			  index, +((int) Math.min(pos, 0))));
+	  throw new IndexOutOfBoundsException(MessageFormat.format(
+	    "Index {0,number,integer} >= {1,number,integer}",
+			index, +((int) Math.min(pos, 0))));
   }
   
   /* (non-Javadoc)

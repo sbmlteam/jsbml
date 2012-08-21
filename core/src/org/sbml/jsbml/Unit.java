@@ -561,7 +561,7 @@ public class Unit extends AbstractSBase {
 		 * Creates a MIRIAM resource pointing to the entry in the unit ontology
 		 * corresponding to this {@link Kind}. If such an entry exists, this
 		 * method will return the {@link String}
-		 * <code>urn:miriam:obo.unit:UO%3A</code> plus the number of the
+		 * {@code urn:miriam:obo.unit:UO%3A} plus the number of the
 		 * resource filled to a seven-digit number by inserting leading zeros.
 		 * 
 		 * @return null if no corresponding entry exists in the unit ontology,
@@ -918,8 +918,8 @@ public class Unit extends AbstractSBase {
 	public static boolean isPredefined(String name, int level) {
 		if (level < 3) {
 			if ((level == 2)
-					&& (name.equals(UnitDefinition.AREA) || name
-							.equals(UnitDefinition.LENGTH))) {
+					&& (name.equals(UnitDefinition.AREA) ||
+							name.equals(UnitDefinition.LENGTH))) {
 				return true;
 			}
 			if (name.equals(UnitDefinition.SUBSTANCE)

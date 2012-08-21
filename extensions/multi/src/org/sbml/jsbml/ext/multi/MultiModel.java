@@ -1,12 +1,12 @@
 package org.sbml.jsbml.ext.multi;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
-import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
@@ -20,6 +20,10 @@ import org.sbml.jsbml.util.filters.NameFilter;
 public class MultiModel extends AbstractSBasePlugin {
 
 	/**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -2875299722787282885L;
+  /**
 	 * 
 	 */
 	ListOf<SpeciesType> listOfSpeciesTypes;
@@ -320,8 +324,9 @@ public class MultiModel extends AbstractSBasePlugin {
 			}
 			pos++;
 		}
-		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
-				childIndex, +((int) Math.min(pos, 0))));	  
+		throw new IndexOutOfBoundsException(MessageFormat.format(
+		  "Index {0,number,integer} >= {1,number,integer}",
+			childIndex, +((int) Math.min(pos, 0))));	  
 	}
 
 	/* (non-Javadoc)

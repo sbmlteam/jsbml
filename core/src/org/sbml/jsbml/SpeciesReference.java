@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Map;
 
@@ -258,8 +259,9 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 			}
 			pos++;
 		}
-		throw new IndexOutOfBoundsException(String.format("Index %d >= %d",
-				index, +((int) Math.min(pos, 0))));
+		throw new IndexOutOfBoundsException(MessageFormat.format(
+		  "Index {0,number,integer} >= {1,number,integer}",
+			index, +((int) Math.min(pos, 0))));
 	}
 
 	/* (non-Javadoc)
@@ -416,17 +418,19 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		return denominator != null;
 	}
 
-	/**
-	 * 
-	 * @return true if the stoichiometry of this SpeciesReference is not null.
-	 */
+  /**
+   * @return {@code true} if the stoichiometry of this {@link SpeciesReference}
+   *         has been
+   *         explicitly set, {@code false} if it is not set at all or only a
+   *         default value is available.
+   */
 	public boolean isSetStoichiometry() {
 		return isSetStoichiometry;
 	}
 
 	/**
 	 * 
-	 * @return true if the stoichiometryMath of this SpeciesReference is not
+	 * @return true if the {@link StoichiometryMath} of this {@link SpeciesReference} is not
 	 *         null.
 	 */
 	public boolean isSetStoichiometryMath() {
