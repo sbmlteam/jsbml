@@ -23,5 +23,8 @@
  * Pure Java implementation of the data structures to represent all SBML
  * constructs.
  * </p>
+ * @author Nicolas Rodriguez
+ * @author Andreas Dr&auml;ger
+ * @author Clemens Wrzodek
  */
 package org.sbml.jsbml;

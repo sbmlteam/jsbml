@@ -24,5 +24,7 @@
  * All these classes are generated automatically using JavaCC. The JSBML
  * source code distribution contains the grammar specification necessary
  * for this in the files folder (FormulaParser.jj).
+ * 
+ * @author Alexander D&ouml;rr
  */
 package org.sbml.jsbml.text.parser;
