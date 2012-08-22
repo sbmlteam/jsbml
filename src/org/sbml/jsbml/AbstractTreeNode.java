@@ -470,6 +470,9 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 	protected void setParent(TreeNode parent) {
 		TreeNode oldValue = this.parent;
 		this.parent = parent;
+		if (parent instanceof TreeNodeWithChangeSupport) {
+			this.addAllChangeListeners(((TreeNodeWithChangeSupport) parent).getListOfTreeNodeChangeListeners());
+		}
 		this.firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldValue, this.parent);
 	}
 
