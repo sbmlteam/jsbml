@@ -570,7 +570,6 @@ track of which \code{ListOf} we are in while reading an XML file.
 \begin{figure}[htb]
   \begin{example}[numbers=left]
 public class ExampleParser extends AbstractReaderWriter {
-
   /**
    * The logger for this parser
    */
@@ -595,7 +594,6 @@ public class ExampleParser extends AbstractReaderWriter {
   public String getNamespaceURI() {
     return ExampleConstants.namespaceURI;
   }
-
 }\end{example}
  \caption{The first part of the parser for the extension.}
  \label{lst:ModelExtParserClass}
@@ -622,19 +620,19 @@ means that the context object of a ListOfFoos is not of the type
 can only be added to an \code{ExampleModel}, the extension is retrieved or
 created on the fly.
 
-The \code{groupList} variable is used to keep track of where we are in
+The \code{groupList} variable keeps track of where we are in
 nested structures.  If the \code{listOfFoos} starting tag is encountered,
 the corresponding enum value is assigned to that variable.  Due to Java's
 type erasure, the context object inside a \code{listOfFoos} tag is of type
 \code{ListOf<?>} and a correctly set \code{groupList} variable is the only
 way of knowing where we are.  If we have checked that we are, in fact,
-inside a \code{listOfFoos} node and encounter a \code{foo} tag, we create a
+inside a \code{listOfFoos} node, and encounter a \code{foo} tag, we create a
 \code{Foo} object and add it to the example model.  Technically, it is
-added to the \code{ListOfFoos} of the example model, but since
+added to the \code{ListOfFoos} of the example model, but because
 \code{ExampleModel} provides convenience methods for managing its lists, it
 is easier to call the \code{addFoo()} method on it.
 
-\begin{figure}[htb]
+\begin{figure}[tb]
   \begin{example}[numbers=left]
 // Create the proper object and link it to its parent.
 public Object processStartElement(String elementName, String prefix,
@@ -682,15 +680,15 @@ public Object processStartElement(String elementName, String prefix,
 \end{figure}
 
 The \code{processEndElement()} (see \vref{lst:ModelExtParserEndElement}) 
-method is called whenever a closing tag is
+method is called when a closing tag is
 encountered.  The \code{groupList} attribute needs to be updated to reflect the step
 up in the tree of nested elements.  In this example, if the end of
 \code{</listOfFoos>} is reached, we certainly are inside the model tags
 again, which is denoted by \emph{none}.  Of course, more complicated
 extensions with nested lists will require more elaborate handling, but it
-should still be straightforward. If you don't use an enum or something else to
-keep track of which \code{ListOf} we are in and if you don't need to do other
-things when a closing XML element is encountered, you don't need to implement this method.
+should remain straightforward. If you do not use an enum or something else to
+keep track of which \code{ListOf} you are in, and if you do not need to do other
+things when a closing XML tag is encountered, you do not need to implement this method.
 
 \begin{figure}[htb]
   \begin{example}[numbers=left]
@@ -707,11 +705,11 @@ public boolean processEndElement(String elementName, String prefix,
   \label{lst:ModelExtParserEndElement}
 \end{figure}
 
-The attributes of an XML element are read into the corresponding object via the
-\code{readAttributes()} method that must be implemented for each class.  An
-example is shown in \vref{lst:ModelExtReadAttributes} for the class
-\code{Foo}. The \code{AbstractReaderWriter} will use these methods to set the 
-attribute values into the java objects.
+The attributes of an XML element are read into the corresponding object via
+the \code{readAttributes()} method that must be implemented for each class.
+An example is shown in \vref{lst:ModelExtReadAttributes} for the example class
+\code{Foo}. The \code{AbstractReaderWriter} will use these methods to set
+the attribute values into the java objects.
 
 \begin{figure}[htb]
   \begin{example}[numbers=left]
@@ -747,8 +745,7 @@ method does not need to be implement and the basic implementation from \code{Abs
 can be used. This basic implementation makes use of the method \code{TreeNode.children()}
 to find the list of children to write.
 
-In some cases it may be necessary to modify the \code{writeElement()}
-method.  For example, this can happen when the same Java class is mapped to
+In some cases, it may be necessary to modify \code{writeElement()}.  For example, this can happen when the same class is mapped to
 different XML tags, e.g., a default element and multiple additional tags.
 If this would be represented not via an attribute, but by using different
 tags, one could alter the name of the XML object in this method.
@@ -760,6 +757,7 @@ Then the \code{AbstractReaderWriter} class will use these methods to write
 the attributes.
 
 \begin{figure}[htb]
+  \vspace*{-1ex}
   \begin{example}[numbers=left]
 public class Foo extends AbstractNamedSBase {
   ...
@@ -769,16 +767,14 @@ public class Foo extends AbstractNamedSBase {
       attributes.remove("bar");
       attributes.put(Foo.shortLabel + ":bar", getBar());
 
-      // Note that in case of double values, the user's locale needs to be taken into account in
-      // order to prevent the Writer from numbers in the wrong format. Even in the case of Integer it
-      // can be important, because in some languages very strange number symbols are used (e.g., Thai
-      // or Chinese) and hence, the UTF-8 encoding of XML in SBML will lead to SBML files that cannot
-      // be parsed again. SBML only accepts English doubles. Since bar represents an integer, less
-      // errors are to be expected.
+      // Note that in case of double values, the user's locale needs to be taken into account in order to
+      // prevent the Writer from numbers in the wrong format. Even in the case of Integer it can be important, 
+      // because in some languages very strange number symbols are used (e.g., Thai or Chinese) and hence, the
+      // UTF-8 encoding of XML in SBML will lead to SBML files that cannot be parsed again. SBML only accepts 
+      // English doubles. Since bar represents an integer, less errors are to be expected.
     }
 
-    // ...
-    // further class attributes
+    // ... Handling of other class attributes ...
   }
 }\end{example}
   \caption{Method to write the XML attributes.}
