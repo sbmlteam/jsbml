@@ -67,17 +67,17 @@ around the corresponding JSBML methods.
     but offer more powerful capabilities for Java programmers. By making
     \SBase extend the interface \TreeNodeWithChangeSupport (another class
     defined by JSBML), which in turn extends the Java interfaces
-    \code{Cloneable}, \code{Serializable}, and \TreeNode.  All subclasses
+    \code{Cloneable}, \code{Serializable}, and \TreeNode. All subclasses
     of \code{SBase} also provide the functionality of these classes and
-    interfaces.  In JSBML, even SBML components that are not defined by
+    interfaces. In JSBML, even SBML components that are not defined by
     SBML as actually being derived from \code{SBase} are nevertheless
     derived from \TreeNodeWithChangeSupport; thus, they (and all their
     subclasses) share many common methods and attributes, which makes them
     easy to use when wherever instances of \TreeNode or operations across
-    hierarchies of objects are needed. In order to support SBML extension
-    packages, the new interface \SBasePlugin and its abstract implementation
-    \AbstractSBasePlugin have been added to JSBML in version 1.0 (both types
-    are marked with a red border).}
+    hierarchies of objects are needed. In order to support SBML Level~3
+    packages, JSBML version 1.0 adds the interface \SBasePlugin and its
+    abstract implementation \AbstractSBasePlugin (shown marked
+    with a red border in this diagram).} 
   \label{fig:TypeHierarchy}
 \end{sidewaysfigure}
 
@@ -205,39 +205,39 @@ interface.
 The interface \UniqueNamedSBase is shared by those elements whose
 identifiers must be unique within the model. The identifiers of all instances
 of \NamedSBase that do not implement \UniqueNamedSBase but belong to the same
-group, such as all \UnitDefinition instances, must be unique if these are
-defined. The Boolean method \code{isIdMandatory()} in \NamedSBase indicates
+group, such as all \UnitDefinition instances, must be unique if these identifiers are
+defined. The Boolean method \code{isIdMandatory()} on \NamedSBase indicates
 if an identifier must be defined for an element in order to create a valid
-SBML data structure.  This is required in JSBML, because the \Model object
+SBML data structure.  This is required in JSBML because the \Model object
 stores direct pointers in the form of a hash from the identifier of the
 corresponding object if \code{isIdMandatory()} returns \code{true}. 
 The method decides if registering an element for its identifier has been a
 success even if no identifier has been defined for this element. It is
 necessary to have the method \code{isIdMandatory()}, because even if something
-implements \UniqueNamedSBase the identifier might be optional, as this is the
+implements \UniqueNamedSBase, the identifier might be optional, as is the
 case with \SimpleSpeciesReference. But the \Model class has to decide if and
 where to store the identifier-to-element mapping in its hash. For details, see
 the \Model class, where you can find some methods named \code{registerIds}, in
 which the Boolean method is called.
 
-The only two elements with non-unique identifiers are \UnitDefinition, whose
+The only elements with non-unique identifiers are \UnitDefinition, whose
 identifiers exist in a separate namespace, and \LocalParameter, whose
 identifiers may shadow the identifiers of global elements. (However, within a
 given list of \UnitDefinition objects or list of \LocalParameter objects,
 duplicate identifiers are not allowed.)
 
 Internally, JSBML only uses the attribute \emph{id} for unique identifiers.
-If you work with SBML Level~1, where the specifications only define names, but
-no identifiers for the elements, and call \code{setName(String)} the call will
-be redirected to \code{setId(String)}. For all other Levels the \emph{name} can
-be specified in addition to the \emph{id} and does not have to be unique at
-all. In contrast to the identifier, there is no syntax check on the name,
-because it can consist of any UTF-8 character. The class where to look for code
-that manipulates identifiers and names is \AbstractNamedSBase. All JSBML classes
-that have identifiers and names (either optionally or mandatory) are derived
-from \AbstractNamedSBase. Accordingly, the \code{getName()} method also returns
-the identifier if working with SBML Level~1. In this case, the call of the
-\code{getName()} method is redirected to \code{getId()}. For all other Levels,
+When you work with SBML Level~1, where the SBML specifications only define
+name attributes (i.e., no identifiers) for elements, calls to
+\code{setName(String)} are redirected to \code{setId(String)}. For all other
+SBML Levels, an SBML element's \emph{name} can be specified separately from
+the \emph{id} and does not have to be unique. In contrast to the identifier,
+there is no syntax check on the name because it can consist of any UTF-8
+character. The class that manipulates identifiers and names is
+\AbstractNamedSBase; all classes with identifiers and names (optional
+or mandatory) are derived from \AbstractNamedSBase. Accordingly,
+\code{getName()} returns the identifier if working with SBML Level~1, but
+internally it is redirected to \code{getId()}. For all other Levels,
 \code{getName()} and \code{getId()} may yield different values, depending on
 what is set for the class.
 
