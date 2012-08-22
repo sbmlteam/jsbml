@@ -2472,9 +2472,10 @@ public class ASTNode extends AbstractTreeNode {
          * identifier within the model. In this case, this
          * warning is kind of senseless.
          */
-        ASTNode parent = (ASTNode) getParent();
-        if (parent != null) {
-          if ((parent.getType() == Type.LAMBDA) && (parent.getRightChild() != this)) {
+        TreeNode parent = getParent();
+        if ((parent != null) && (parent instanceof ASTNode)) {
+          ASTNode parentNode = (ASTNode) parent;
+          if ((parentNode.getType() == Type.LAMBDA) && (parentNode.getRightChild() != this)) {
             /*
              * The second condition is important, because the argument list
              * comprises only the first n children. Child n + 1 is the
