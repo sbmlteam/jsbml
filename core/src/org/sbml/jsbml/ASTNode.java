@@ -1476,9 +1476,8 @@ public class ASTNode extends AbstractTreeNode {
 	 */
 	public void addChild(ASTNode child) {
 		listOfNodes.add(child);
-		child.parent = this;
 		setParentSBMLObject(child, parentSBMLObject, 0);
-		child.fireNodeAddedEvent();
+		child.setParent(this);
 	}
 
   
@@ -2627,9 +2626,8 @@ public class ASTNode extends AbstractTreeNode {
 	 */
 	public void insertChild(int n, ASTNode newChild) {
 		listOfNodes.add(n, newChild);
-		newChild.parent = this;
 		setParentSBMLObject(newChild, parentSBMLObject, 0);
-		newChild.fireNodeAddedEvent();
+		newChild.setParent(this);
 	}
 
 	/**
@@ -3177,9 +3175,8 @@ public class ASTNode extends AbstractTreeNode {
 	 */
 	public void prependChild(ASTNode child) {
 		listOfNodes.add(child);
-		child.parent = this;
 		setParentSBMLObject(child, parentSBMLObject, 0);
-		child.fireNodeAddedEvent();
+		child.setParent(this);
 	}
 
 	/**
@@ -3385,6 +3382,8 @@ public class ASTNode extends AbstractTreeNode {
 		setParentSBMLObject(newChild, parentSBMLObject, 0);
 		newChild.parent = this;
 		listOfNodes.add(n, newChild);
+		newChild.addAllChangeListeners(getListOfTreeNodeChangeListeners());
+		newChild.fireNodeAddedEvent();
 		return newChild;
 	}
 
@@ -3770,21 +3769,23 @@ public class ASTNode extends AbstractTreeNode {
    *        node's children
    */
 	public void swapChildren(ASTNode that) {
-		List<ASTNode> swap = that.listOfNodes;
-		that.listOfNodes = listOfNodes;
-		listOfNodes = swap;
-		for (ASTNode child : that.listOfNodes) {
-		  child.setParent(that);
-		  if (that.getParentSBMLObject() != getParentSBMLObject()) {
-		    setParentSBMLObject(child, that.getParentSBMLObject(), 0);
-		  }
-		}
-		for (ASTNode child : listOfNodes) {
-      child.setParent(this);
-      if (that.getParentSBMLObject() != getParentSBMLObject()) {
-        setParentSBMLObject(child, getParentSBMLObject(), 0);
-      }
-    }
+	  List<ASTNode> swap = that.listOfNodes;
+	  that.listOfNodes = listOfNodes;
+	  listOfNodes = swap;
+	  for (ASTNode child : that.listOfNodes) {
+	    if (that.getParentSBMLObject() != getParentSBMLObject()) {
+	      setParentSBMLObject(child, that.getParentSBMLObject(), 0);
+	    }
+	    child.fireNodeRemovedEvent();
+	    child.setParent(that);
+	  }
+	  for (ASTNode child : listOfNodes) {
+	    if (that.getParentSBMLObject() != getParentSBMLObject()) {
+	      setParentSBMLObject(child, getParentSBMLObject(), 0);
+	    }
+	    child.fireNodeRemovedEvent();
+	    child.setParent(this);
+	  }
 	}
 
 	/**
