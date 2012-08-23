@@ -1,7 +1,7 @@
 	       JSBML NEWS -- History of user-visible changes
 
 ======================================================================
-Version 0.8 (17-08-2012)
+Version 0.8 (24-08-2012)
 ======================================================================
 
 * New Features:
@@ -15,6 +15,14 @@ Version 0.8 (17-08-2012)
     existing code.
 
 * Bug Fixes:
+
+  - When cloning ASTNodes the direct pointer to referenced variables 
+    (instances of CallableSBase) are set to null in the cloned object.
+    However, we have to keep the identifier of the variable. Otherwise
+    it might happen that the cloned Tree completely looses its
+    meaningfulness. So far, when calling setVariable with an instance of
+    CallableSBase only the pointer to the object was stored, but not the
+    id. This has been corrected now.
 	       
   - There is now a rounding correction for multipliers when merging units
     that tries to shift multipliers to the scale of a unit. This can only
