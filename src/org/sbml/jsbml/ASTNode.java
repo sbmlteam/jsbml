@@ -1267,9 +1267,8 @@ public class ASTNode extends AbstractTreeNode {
 		this.exponent = astNode.exponent;
 		this.mantissa = astNode.mantissa;
 		this.name = astNode.name == null ? null : new String(astNode.name);
-		this.variable = astNode.variable;
+		this.variable = null;
 		this.numerator = astNode.numerator;
-		this.parent = astNode.getParent();
 		this.unitId = astNode.unitId == null ? null : new String(astNode.unitId);
 		
 		if (astNode.getChildCount() > 0) {
@@ -1813,7 +1812,7 @@ public class ASTNode extends AbstractTreeNode {
 			} else {
 				logger.warn(String.format(
 					"ASTNode of type FUNCTION but the variable is null: (%s, %s)! Check that your object is linked to a Model.",
-					getName(), getParentSBMLObject().getElementName()));
+					getName(), (getParentSBMLObject() != null ? getParentSBMLObject().getElementName() : null)));
 				value = compiler.function(getName(), getChildren());
 			}
 			break;
@@ -2460,14 +2459,14 @@ public class ASTNode extends AbstractTreeNode {
 
 	/**
 	 * Returns the variable of this node. This function should be called only
-	 * when {@link #isString()} == <code>true</code>, otherwise and Exception is thrown.
+	 * when {@link #isVariable()} == <code>true</code>, otherwise an Exception is thrown.
 	 * 
 	 * @return the variable of this node
 	 * @throws IllegalArgumentException
-	 *             if {@link #isString()} returns false.
+	 *             if {@link #isVariable()} returns false.
 	 */
 	public CallableSBase getVariable() {
-		if ((type == Type.NAME) || (type == Type.FUNCTION)) {
+		if (isVariable()) {
 			if ((variable == null) && (getParentSBMLObject() != null)) {
 				if (getParentSBMLObject() instanceof KineticLaw) {
 					variable = ((KineticLaw) getParentSBMLObject())
@@ -2590,7 +2589,9 @@ public class ASTNode extends AbstractTreeNode {
 		} else {
 			for (int i = listOfNodes.size() - 1; i >= 0; i--) {
 				// This also removes the pointer from the previous child to this object, i.e., its previous parent node.
-				listOfNodes.remove(i).fireNodeRemovedEvent();
+				ASTNode removed = listOfNodes.remove(i);
+				resetParentSBMLObject(removed);
+			    removed.fireNodeRemovedEvent();
 			}
 		}
 		variable = null;
@@ -3006,6 +3007,15 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
+	 * Returns true if this node represents a {@link Variable}.
+	 * 
+	 * @return true if this node represents a {@link Variable}.
+	 */
+	public boolean isVariable() {
+		return type == Type.NAME || type == Type.FUNCTION;
+	}
+
+	/**
 	 * Returns true if this node represents the number zero (either as integer
 	 * or as real value).
 	 * 
@@ -3157,7 +3167,7 @@ public class ASTNode extends AbstractTreeNode {
 	 *            an <code>ASTNode</code>
 	 */
 	public void prependChild(ASTNode child) {
-		listOfNodes.addLast(child);
+		listOfNodes.addFirst(child);
 		setParentSBMLObject(child, parentSBMLObject, 0);
 		child.setParent(this);
 	}
@@ -3319,6 +3329,7 @@ public class ASTNode extends AbstractTreeNode {
 	public boolean removeChild(int n) {
 		if ((listOfNodes.size() > n) && (n >= 0)) {
 			ASTNode removed = listOfNodes.remove(n);
+			resetParentSBMLObject(removed);
 			removed.fireNodeRemovedEvent();
 			return true;
 		}
@@ -3360,6 +3371,7 @@ public class ASTNode extends AbstractTreeNode {
 	 */
 	public ASTNode replaceChild(int n, ASTNode newChild) {
 		ASTNode oldChild = listOfNodes.remove(n);
+		resetParentSBMLObject(oldChild);
 		oldChild.fireNodeRemovedEvent();
 		setParentSBMLObject(newChild, parentSBMLObject, 0);
 		newChild.parent = this;
@@ -3367,6 +3379,19 @@ public class ASTNode extends AbstractTreeNode {
 		newChild.addAllChangeListeners(getListOfTreeNodeChangeListeners());
 		newChild.fireNodeAddedEvent();
 		return newChild;
+	}
+
+	/**
+	 * Resets the parentSBMLObject to null recursively.
+	 * 
+	 * @param removed
+	 */
+	private void resetParentSBMLObject(ASTNode node) {
+
+		node.parentSBMLObject = null;
+		for (ASTNode child : node.listOfNodes) {
+			resetParentSBMLObject(child);
+		}		
 	}
 
 	/**
