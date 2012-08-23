@@ -1266,7 +1266,7 @@ public class ASTNode extends AbstractTreeNode {
 	  this.exponent = astNode.exponent;
 	  this.mantissa = astNode.mantissa;
 	  this.name = astNode.name == null ? null : new String(astNode.name);
-	  this.variable = astNode.variable; // Do not clone the variable. This is just a pointer for convenient access! Cloning would duplicate the element!
+	  this.variable = null; // the clone is not linked anymore to any model so we cannot have any 'variable' set
 	  this.numerator = astNode.numerator;
 	  this.unitId = astNode.unitId == null ? null : new String(astNode.unitId);
 
@@ -2606,8 +2606,10 @@ public class ASTNode extends AbstractTreeNode {
 			listOfNodes = new LinkedList<ASTNode>();
 		} else {
 			for (int i = listOfNodes.size() - 1; i >= 0; i--) {
-			  // This also removes the pointer from the previous child to this object, i.e., its previous parent node.
-			  listOfNodes.remove(i).fireNodeRemovedEvent();
+			    // This also removes the pointer from the previous child to this object, i.e., its previous parent node.
+				ASTNode removed = listOfNodes.remove(i);
+				resetParentSBMLObject(removed);
+			    removed.fireNodeRemovedEvent();
 			}
 		}
 		variable = null;
@@ -2999,16 +3001,16 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns {@code true} if this node has an unknown type.
+	 * Returns {@code true} if this node has an {@link Type#UNKNOWN} type.
 	 * 
-	 * 'Unknown' nodes have the type UNKNOWN. Nodes with unknown types will not
-	 * appear in an ASTNode tree returned by libSBML based upon valid SBML
+	 * 'Unknown' nodes have the type {@link Type#UNKNOWN}. Nodes with unknown types will not
+	 * appear in an ASTNode tree returned by JSBML based upon valid SBML
 	 * input; the only situation in which a node with type UNKNOWN may appear is
-	 * immediately after having create a new, untyped node using the ASTNode
+	 * immediately after having created a new, untyped node using the ASTNode
 	 * constructor. Callers creating nodes should endeavor to set the type to a
 	 * valid node type as soon as possible after creating new nodes.
 	 * 
-	 * @return {@code true} if this ASTNode is of type UNKNOWN, {@code false} otherwise.
+	 * @return {@code true} if this ASTNode is of type {@link Type#UNKNOWN}, {@code false} otherwise.
 	 */
 	public boolean isUnknown() {
 		return type == Type.UNKNOWN;
@@ -3175,7 +3177,7 @@ public class ASTNode extends AbstractTreeNode {
 	 *            an <code>ASTNode</code>
 	 */
 	public void prependChild(ASTNode child) {
-		listOfNodes.add(child);
+		listOfNodes.add(0, child);
 		setParentSBMLObject(child, parentSBMLObject, 0);
 		child.setParent(this);
 	}
@@ -3337,7 +3339,7 @@ public class ASTNode extends AbstractTreeNode {
 	public boolean removeChild(int n) {
 		if ((listOfNodes.size() > n) && (n >= 0)) {
 			ASTNode removed = listOfNodes.remove(n);
-			removed.parentSBMLObject = null;
+			resetParentSBMLObject(removed);
 			removed.fireNodeRemovedEvent();
 			return true;
 		}
@@ -3378,14 +3380,31 @@ public class ASTNode extends AbstractTreeNode {
 	 * @return the element previously at the specified position
 	 */
 	public ASTNode replaceChild(int n, ASTNode newChild) {
-	  ASTNode oldChild = listOfNodes.remove(n);
-	  oldChild.fireNodeRemovedEvent();
+		// Removing the node at position n
+		ASTNode oldChild = listOfNodes.remove(n);
+		resetParentSBMLObject(oldChild);
+		oldChild.fireNodeRemovedEvent();
+		
+		// Adding the new child at position n
 		setParentSBMLObject(newChild, parentSBMLObject, 0);
 		newChild.parent = this;
 		listOfNodes.add(n, newChild);
 		newChild.addAllChangeListeners(getListOfTreeNodeChangeListeners());
 		newChild.fireNodeAddedEvent();
 		return newChild;
+	}
+
+	/**
+	 * Resets the parentSBMLObject to null recursively.
+	 * 
+	 * @param removed
+	 */
+	private void resetParentSBMLObject(ASTNode node) {
+
+		node.parentSBMLObject = null;
+		for (ASTNode child : node.listOfNodes) {
+			resetParentSBMLObject(child);
+		}		
 	}
 
 	/**
