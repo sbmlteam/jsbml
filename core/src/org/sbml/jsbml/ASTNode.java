@@ -3747,7 +3747,10 @@ public class ASTNode extends AbstractTreeNode {
 		} else {
 			type = Type.NAME;
 		}
-			
+		if (variable.isSetId()) {
+		  // Although we memorize a direct pointer to the variable, we also have to store its id. Otherwise, this knowledge will got lost when cloning this node.
+		  this.name = variable.getId();
+		}
 		this.variable = variable;
 		this.firePropertyChange(TreeNodeChangeEvent.variable, oldValue, variable);
 	}
