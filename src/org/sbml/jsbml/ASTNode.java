@@ -1479,6 +1479,7 @@ public class ASTNode extends AbstractTreeNode {
 		listOfNodes.add(child);
 		setParentSBMLObject(child, parentSBMLObject, 0);
 		child.setParent(this);
+		child.fireNodeAddedEvent();
 	}
 	
 	/**
@@ -3783,14 +3784,18 @@ public class ASTNode extends AbstractTreeNode {
 		      setParentSBMLObject(child, that.getParentSBMLObject(), 0);
 		    }
 		    child.fireNodeRemovedEvent();
+		    child.getListOfTreeNodeChangeListeners().removeAll(that.getListOfTreeNodeChangeListeners());
 		    child.setParent(that);
+		    child.fireNodeAddedEvent();
 		  }
 		  for (ASTNode child : listOfNodes) {
 		    if (that.getParentSBMLObject() != getParentSBMLObject()) {
 		      setParentSBMLObject(child, getParentSBMLObject(), 0);
 		    }
 		    child.fireNodeRemovedEvent();
+		    child.getListOfTreeNodeChangeListeners().removeAll(getListOfTreeNodeChangeListeners());
 		    child.setParent(this);
+		    child.fireNodeAddedEvent();
 		  }
 	}
 
