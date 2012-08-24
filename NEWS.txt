@@ -20,9 +20,12 @@ Version 0.8 (24-08-2012)
     been corrected to setup correctly the parentSBMLObject in the added 
     ASTNode tree. Thanks to Jason Stevens who reported the problem. 
   
-  - When creating an ASTNode with a direct pointer to a CallableSBase,
-    no reference to the id of the SBase has been stored.
+  - When creating an ASTNode with a CallableSBase or using the setVariable
+    method, the reference to the id of the CallableSBase was not stored.
 	       
+  - When creating an ASTNode with a CallableSBase or using the setVariable
+    method, the reference to the id of the CallableSBase was not stored.
+
   - There is now a rounding correction for multipliers when merging units
     that tries to shift multipliers to the scale of a unit. This can only
     be done if the logarithm to the base 10 of the multiplier is nearly
