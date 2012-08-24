@@ -191,7 +191,10 @@ Version 0.8.0 (24-08-2012)
     it might happen that the cloned Tree completely looses its
     meaningfulness. So far, when calling setVariable with an instance of
     CallableSBase only the pointer to the object was stored, but not the
-    id. This has been corrected now.       
+    id. This has been corrected now.
+    
+  - When creating an ASTNode with a direct pointer to a CallableSBase,
+    no reference to the id of the SBase has been stored.   
   
   - There is now a rounding correction for multipliers when merging units
     that tries to shift multipliers to the scale of a unit. This can only

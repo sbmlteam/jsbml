@@ -576,8 +576,8 @@
 \fi
 
 \ifpdf
-  \newcommand{\JSBMLlogo}{\logoBaseFile.png}%
-  \newcommand{\JSBMLlogoSmall}{\logoBaseFileSmall.png}%
+  \newcommand{\JSBMLlogo}{\logoBaseFile.pdf}%
+  \newcommand{\JSBMLlogoSmall}{JSBML_shaddow.pdf}%{\logoBaseFileSmall.png}%
 \else%
   \newcommand{\JSBMLlogo}{\logoBaseFile.eps}%
   \newcommand{\JSBMLlogoSmall}{\logoBaseFileSmall.eps}%
