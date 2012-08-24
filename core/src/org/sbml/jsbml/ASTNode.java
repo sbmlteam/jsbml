@@ -1478,6 +1478,7 @@ public class ASTNode extends AbstractTreeNode {
 		listOfNodes.add(child);
 		setParentSBMLObject(child, parentSBMLObject, 0);
 		child.setParent(this);
+		child.fireNodeAddedEvent();
 	}
 
   
@@ -3735,11 +3736,17 @@ public class ASTNode extends AbstractTreeNode {
 		this.denominator = denominator;
 		this.firePropertyChange(TreeNodeChangeEvent.denominator, oldDenominator, denominator);
 	}
-
-	/**
-	 * 
-	 * @param variable
-	 */
+	
+  /**
+   * Allows you to directly set an instance of {@link CallableSBase} as the
+   * variable of this {@link ASTNode}. Note that if the given variable
+   * does not have a declared {@code id} field, the pointer to this variable
+   * will get lost when cloning this node. Only references to identifiers are
+   * permanently stored. The pointer can also not be written to an SBML file
+   * without a valid identifier.
+   * 
+   * @param variable a pointer to a {@link CallableSBase}.
+   */
 	public void setVariable(CallableSBase variable) {
 		CallableSBase oldValue = this.variable;
 		if (variable instanceof FunctionDefinition) {
@@ -3748,7 +3755,11 @@ public class ASTNode extends AbstractTreeNode {
 			type = Type.NAME;
 		}
 		if (variable.isSetId()) {
-		  // Although we memorize a direct pointer to the variable, we also have to store its id. Otherwise, this knowledge will got lost when cloning this node.
+      /*
+       * Although we memorize a direct pointer to the variable, we also have to
+       * store its id. Otherwise, this knowledge will got lost when cloning this
+       * node.
+       */
 		  this.name = variable.getId();
 		}
 		this.variable = variable;
@@ -3800,14 +3811,18 @@ public class ASTNode extends AbstractTreeNode {
 	      setParentSBMLObject(child, that.getParentSBMLObject(), 0);
 	    }
 	    child.fireNodeRemovedEvent();
+	    child.getListOfTreeNodeChangeListeners().removeAll(that.getListOfTreeNodeChangeListeners());
 	    child.setParent(that);
+	    child.fireNodeAddedEvent();
 	  }
 	  for (ASTNode child : listOfNodes) {
 	    if (that.getParentSBMLObject() != getParentSBMLObject()) {
 	      setParentSBMLObject(child, getParentSBMLObject(), 0);
 	    }
 	    child.fireNodeRemovedEvent();
+	    child.getListOfTreeNodeChangeListeners().removeAll(getListOfTreeNodeChangeListeners());
 	    child.setParent(this);
+	    child.fireNodeAddedEvent();
 	  }
 	}
 
