@@ -16,13 +16,9 @@ Version 0.8 (24-08-2012)
 
 * Bug Fixes:
 
-  - When cloning ASTNodes the direct pointer to referenced variables 
-    (instances of CallableSBase) are set to null in the cloned object.
-    However, we have to keep the identifier of the variable. Otherwise
-    it might happen that the cloned Tree completely looses its
-    meaningfulness. So far, when calling setVariable with an instance of
-    CallableSBase only the pointer to the object was stored, but not the
-    id. This has been corrected now.
+  - The ASTNode methods insertChild, replaceChild, prependChild have
+    been corrected to setup correctly the parentSBMLObject in the added 
+    ASTNode tree. Thanks to Jason Stevens who reported the problem.
 	       
   - There is now a rounding correction for multipliers when merging units
     that tries to shift multipliers to the scale of a unit. This can only
@@ -34,8 +30,8 @@ Version 0.8 (24-08-2012)
     speciesType attribute. Thanks to Thomas Bernard who noticed and reported
     the problem.
 
-  - The units attribute on ASTNode was sometime not written out and the sbml
-    namespace was sometime missing from the mathML. It should be fine now.
+  - The units attribute on ASTNode was sometimes not written out and the SBML
+    namespace was sometimes missing from the MathML. It should be fine now.
 
   - Improved the registration/un-registration of elements in particular for 
     local parameters.
@@ -45,10 +41,11 @@ Version 0.8 (24-08-2012)
     
   - Corrected several other clone methods. The Reaction clone constructor 
     was not cloning the compartment attribute. The Model clone was not 
-    cloning the new L3 attributes. The Constraint.clone() was not cloning
-    properly the Message.
+    cloning the new L3 attributes. The Constraint.clone() was not properly
+    cloning the Message. When cloning ASTNodes, the direct pointer to
+    referenced variables (instances of CallableSBase) are set to null.
   
-  - An other small API change : the species.setBoundaryCondition method was
+  - An other small API change: the species.setBoundaryCondition method was
     expecting a Boolean instead of a boolean, this has been modified. It
     should not break any existing code as the JVM will autocast the Boolean.
     
