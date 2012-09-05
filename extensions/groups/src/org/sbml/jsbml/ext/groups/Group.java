@@ -46,7 +46,12 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	/**
 	 * 
 	 */
-	protected ListOf<Member> listOfMembers = null; 
+	protected ListOf<Member> listOfMembers = null;
+	
+	/**
+	 * Defined in version 3 of the groups proposal.
+	 */
+	private GroupKind kind = null;
 
 	/**
 	 * 
@@ -70,6 +75,9 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 		  for (Member m : group.listOfMembers) {
 			  addMember(m.clone());
 		  }
+		}
+		if (group.isSetKind()) {
+		  setKind(group.getKind());
 		}
 	}
 	
@@ -139,6 +147,30 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 		}
 		return true;
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetKind() {
+	  return kind!=null;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public GroupKind getKind() {
+	  return kind;
+	}
+	
+	/**
+	 * 
+	 * @param kind
+	 */
+	public void setKind(GroupKind kind) {
+	  this.kind = kind;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -147,10 +179,13 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * String prefix, String value)
 	 */
 	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
+	public boolean readAttribute(String attributeName, String prefix, String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+		
+		if (!isAttributeRead && attributeName.equals("kind")) {
+      this.setKind(GroupKind.valueOf(value));
+      isAttributeRead = true;
+		}
 		
 		return isAttributeRead;
 	}
@@ -161,7 +196,8 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   @Override
   public String toString() {
-    return "Group [id=" + getId() + ", name=" + getName()
+    return "Group [id=" + getId() + ", name=" + getName() 
+        + (isSetKind()?", kind=" + getKind():"")
         + ", listOfMembers=" + listOfMembers + "]";
   }
 
@@ -199,6 +235,10 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 			attributes.remove("name");
 			attributes.put(GroupsParser.shortLabel+ ":name", getName());
 		}
+    if (isSetKind()) {
+      attributes.remove("kind");
+      attributes.put(GroupsParser.shortLabel+ ":kind", getKind().toString());
+    }
 		
 		return attributes;
 	}
