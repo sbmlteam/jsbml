@@ -388,7 +388,17 @@ public class ASTNodeValue {
 	 * @param unit
 	 */
 	public void setUnits(UnitDefinition unit) {
-		this.unitDef = (unit != null) ? unit.simplify() : unit;
+		unitDef = unit;
+		if (unit != null) {
+			/*
+			 * This is important to avoid unnecessary calls to change listeners or to
+			 * avoid that the actual model is modified due to this operation.
+			 */
+			if ((unit.getParent() != null) || (unit.getTreeNodeChangeListenerCount() > 0)) {
+				unitDef = unitDef.clone();
+			}
+			unitDef = unitDef.simplify();
+		}
 	}
 
 	/**

@@ -2080,6 +2080,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<Compartment> getListOfCompartments() {
     if (listOfCompartments == null) {
       listOfCompartments = ListOf.newInstance(this, Compartment.class);
+      registerChild(listOfCompartments);
     }
     return listOfCompartments;
   }
@@ -2094,6 +2095,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<CompartmentType> getListOfCompartmentTypes() {
     if (listOfCompartmentTypes == null) {
       listOfCompartmentTypes = ListOf.newInstance(this, CompartmentType.class);
+      registerChild(listOfCompartmentTypes);
     }
     return listOfCompartmentTypes;
   }
@@ -2106,6 +2108,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<Constraint> getListOfConstraints() {
     if (listOfConstraints == null) {
       listOfConstraints = ListOf.newInstance(this, Constraint.class);
+      registerChild(listOfConstraints);
     }
     return listOfConstraints;
   }
@@ -2118,6 +2121,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<Event> getListOfEvents() {
     if (listOfEvents == null) {
       listOfEvents = ListOf.newInstance(this, Event.class);
+      registerChild(listOfEvents);
     }
     return listOfEvents;
   }
@@ -2131,6 +2135,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     if (listOfFunctionDefinitions == null) {
       listOfFunctionDefinitions = ListOf.newInstance(this,
         FunctionDefinition.class);
+      registerChild(listOfFunctionDefinitions);
     }
     return listOfFunctionDefinitions;
   }
@@ -2144,6 +2149,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     if (listOfInitialAssignments == null) {
       listOfInitialAssignments = ListOf.newInstance(this,
         InitialAssignment.class);
+      registerChild(listOfInitialAssignments);
     }
     return listOfInitialAssignments;
   }
@@ -2156,6 +2162,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<Parameter> getListOfParameters() {
     if (listOfParameters == null) {
       listOfParameters = ListOf.newInstance(this, Parameter.class);
+      registerChild(listOfParameters);
     }
     return listOfParameters;
   }
@@ -2177,6 +2184,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<Reaction> getListOfReactions() {
     if (listOfReactions == null) {
       listOfReactions = ListOf.newInstance(this, Reaction.class);
+      registerChild(listOfReactions);
     }
     return listOfReactions;
   }
@@ -2189,6 +2197,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<Rule> getListOfRules() {
     if (listOfRules == null) {
       listOfRules = ListOf.newInstance(this, Rule.class);
+      registerChild(listOfRules);
     }
     return listOfRules;
   }
@@ -2201,6 +2210,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<Species> getListOfSpecies() {
     if (listOfSpecies == null) {
       listOfSpecies = ListOf.newInstance(this, Species.class);
+      registerChild(listOfSpecies);
     }
     return listOfSpecies;
   }
@@ -2215,6 +2225,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<SpeciesType> getListOfSpeciesTypes() {
     if (listOfSpeciesTypes == null) {
       listOfSpeciesTypes = ListOf.newInstance(this, SpeciesType.class);
+      registerChild(listOfSpeciesTypes);
     }
     return listOfSpeciesTypes;
   }
@@ -2227,6 +2238,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public ListOf<UnitDefinition> getListOfUnitDefinitions() {
     if (listOfUnitDefinitions == null) {
       listOfUnitDefinitions = ListOf.newInstance(this, UnitDefinition.class);
+      registerChild(listOfUnitDefinitions);
     }
     return listOfUnitDefinitions;
   }

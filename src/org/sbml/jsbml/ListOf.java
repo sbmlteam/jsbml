@@ -28,6 +28,7 @@ import java.util.ListIterator;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.util.filters.Filter;
@@ -44,6 +45,11 @@ import org.sbml.jsbml.util.filters.Filter;
  * @version $Rev$
  */
 public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
+	
+	/**
+	 * A {@link Logger} for this class.
+	 */
+	private static final Logger logger = Logger.getLogger(ListOf.class);
 	
 	/**
 	 * This enum lists all the possible names of the listXXX components. If the
@@ -271,9 +277,12 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 			list.setVersion(parent.getVersion());
 		}
 		list.setSBaseListType(type);
-		if (parent instanceof AbstractSBase) {
-			((AbstractSBase) parent).setThisAsParentSBMLObject(list);
-		}
+		/* Note:
+		 * It is not possible to register the list as a child of the given parent at this position.
+		 * If we would do this here, a nodeAdded-Event would be triggered before there is a pointer
+		 * from the parent to the new child. Hence, callers must make sure that the created ListOf
+		 * object will be registered as a child of the parent.
+		 */
 		return list;
 	}
 
@@ -299,6 +308,10 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public static <T extends SBase> ListOf<T> newInstance(SBase parent,
 			Class<T> clazz) {
+		/*
+		 * Again, note that the created element cannot be registered as a child in
+		 * this position. See the comment in the called method for details.
+		 */
 		return initListOf(parent, new ListOf<T>(), ListOf.Type.valueOf(clazz));
 	}
 
@@ -374,17 +387,24 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
     /*
      * (non-Javadoc) @see java.util.List#add(java.lang.Object)
      */
-    public boolean add(T e) {
-        
-        /*
-         * Calling the method setThisAsParentSBMLObject (registerChild) before adding the object to the list
-         * as it can throw an Exception if the metaid or id is not unique in the
-         * model; it also checks if the given element has the same Level/Version
-         * configuration as this listOf* element and will throw an exception if
-         * this is not the case.
-         */
-    	setThisAsParentSBMLObject(e);
-        return listOf.add(e);
+    public boolean add(T e) throws LevelVersionError {
+  	  /*
+  	   * In order to ensure that listeners are notified correctly, the element
+  	   * must be added to the list before registering it as a child. However, if
+  	   * something goes wrong, we have to revert this action.
+  	   */
+  	  try {
+  	    boolean success = listOf.add(e);
+  	    registerChild(e);
+  	    return success;
+  	  } catch (Throwable exc) {
+  	    listOf.remove(e);
+  	    if (exc instanceof LevelVersionError) {
+  	      throw (LevelVersionError) exc;
+  	    }
+  	    logger.debug(exc);
+  	  }
+  	  return false;
    }
 
 	/*

@@ -288,6 +288,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	public ListOf<LocalParameter> getListOfLocalParameters() {
 		if (listOfLocalParameters == null) {
 			listOfLocalParameters = ListOf.newInstance(this, LocalParameter.class);
+			registerChild(listOfLocalParameters);
 		}
 		return listOfLocalParameters;
 	}

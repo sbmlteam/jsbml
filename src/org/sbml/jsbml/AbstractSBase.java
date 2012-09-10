@@ -1318,12 +1318,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 						sbase.getElementName()));
 			}
 
-			// fireNodeRemovedEvent is calling this method - sbase.fireNodeRemovedEvent();
-
-			// TODO : do we need to remove the link to the parent here ???
-			
-			// remove all changeListeners
-			sbase.removeAllTreeNodeChangeListeners();
+			/* 
+			 * Do not remove ChangeListeners from the sbase here, this will be done
+			 * in the super class. It is important to keep the change listeners for now, 
+			 * because otherwise the listeners won't be informed that we are going to
+			 * delete something from the model.
+			 */
 		}
 	}
 

@@ -48,11 +48,29 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
   public void removeAllTreeNodeChangeListeners();
   
   /**
-   * Removes recursively the given change listener from this element.
+   * Removes recursively the given change listener from this element. A call to
+   * this method
+   * is equivalent to calling
+   * {@link #removeTreeNodeChangeListener(TreeNodeChangeListener, boolean)}
+   * where the second argument is {@code true}.
    * 
-   * @param l the listener to remove.
+   * @param listener
+   *        the listener to remove.
+   * @see #removeTreeNodeChangeListener(TreeNodeChangeListener, boolean)
    */
-  public void removeTreeNodeChangeListener(TreeNodeChangeListener l);
+  public void removeTreeNodeChangeListener(TreeNodeChangeListener listener);
+
+  /**
+   * Removes the given change listener from this element.
+   * 
+   * @param listener
+   *        the listener to remove.
+   * @param recursive
+   *        switch to decide whether or not the given listener should be removed
+   *        in a recursive manner.
+   * @see #removeTreeNodeChangeListener(TreeNodeChangeListener)
+   */
+  public void removeTreeNodeChangeListener(TreeNodeChangeListener listener, boolean recursive);
     
   /**
    * Returns all {@link TreeNodeChangeListener}s that are assigned to this
@@ -94,13 +112,56 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
   public void fireNodeAddedEvent();
   
   /**
-   * Adds recursively a listener to the {@link AbstractTreeNode} object and
-   * all of its sub-elements.
+   * Adds recursively a listener to the {@link TreeNodeWithChangeSupport} object and
+   * all of its sub-elements. Calling this method is effectively identical to
+   * the call
+   * {@link #addTreeNodeChangeListener(TreeNodeChangeListener, boolean)} where
+   * {@code recursively = true}.
    * 
    * @param listener
-   *            the listener to add
+   *        the listener to add
+   * @see #addTreeNodeChangeListener(TreeNodeChangeListener, boolean)
    */
   public void addTreeNodeChangeListener(TreeNodeChangeListener listener);
+  
+  /**
+   * Adds a listener to this {@link TreeNodeWithChangeSupport} object and
+   * optionally also to all of its child nodes.
+   * 
+   * @param listener
+   *        the listener to add
+   * @param recursive
+   *        if {@code true} the given listener will be added to this node and
+   *        also recursively to all of its child nodes. If {@code false}, the
+   *        listener will only be added to the current node.
+   * @see #addTreeNodeChangeListener(TreeNodeChangeListener)
+   */
+  public void addTreeNodeChangeListener(TreeNodeChangeListener listener, boolean recursive);
+  
+  /**
+   * @return the number of {@link TreeNodeChangeListener}s currently assigned to
+   *         this {@link TreeNodeWithChangeSupport}
+   */
+  public abstract int getTreeNodeChangeListenerCount();
+  
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetParent();
+  
+  /**
+   * Opposite of {@link #isSetParent()}.
+   * 
+   * Returns {@code true} if this {@link AbstractTreeNode} is the root
+   * node of a tree, {@code false} otherwise.
+   * 
+   * @return {@code true} if this {@link AbstractTreeNode} is the root
+   *         node of a tree, {@code false} otherwise.
+   * 
+   * @see #isSetParent()
+   */
+  public abstract boolean isRoot();
   
   /**
    * Adds recursively all given {@link TreeNodeChangeListener} instances to

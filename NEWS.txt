@@ -1,4 +1,19 @@
 	       JSBML NEWS -- History of user-visible changes
+======================================================================
+Version 0.8.1 (xx-xx-2012)
+======================================================================
+
+* New Features:
+  
+  - Some additional methods for more convenient working with tree data
+    structures in TreeNodeWithChangeSupport.
+  
+* Bug Fixes:
+
+  - Several improvements and corrections in the work with 
+    TreeNodeChangeListeners. In many cases listeners were notified too
+    early or sometimes even not at all because of inconsistent
+    notification mechanisms.
 
 ======================================================================
 Version 0.8 (24-08-2012)

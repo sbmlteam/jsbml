@@ -605,6 +605,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	public ListOf<ModifierSpeciesReference> getListOfModifiers() {
 		if (listOfModifiers == null) {
 			listOfModifiers = ListOf.newInstance(this, ModifierSpeciesReference.class);
+			registerChild(listOfModifiers);
 		}
 		return listOfModifiers;
 	}
@@ -618,6 +619,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 		if (listOfProducts == null) {
 			listOfProducts = ListOf.initListOf(this,
 					new ListOf<SpeciesReference>(), ListOf.Type.listOfProducts);
+			registerChild(listOfProducts);
 		}
 		return listOfProducts;
 	}
@@ -631,6 +633,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 		if (listOfReactants == null) {
 			listOfReactants = ListOf.initListOf(this, new ListOf<SpeciesReference>(),
 							ListOf.Type.listOfReactants);
+			registerChild(listOfReactants);
 		}
 		return listOfReactants;
 	}
