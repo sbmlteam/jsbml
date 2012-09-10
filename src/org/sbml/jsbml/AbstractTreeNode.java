@@ -100,7 +100,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
   /**
    * Creates an empty {@link AbstractTreeNode} without child nodes and an
    * empty list of {@link TreeNodeChangeListener}s. The pointer to the parent
-   * of this node is set to <code>null</code>.
+   * of this node is set to {@code null}.
    */
   public AbstractTreeNode() {
     super();
@@ -113,10 +113,10 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    * {@link #parent} and {@link #listOfListeners}. Both of them are not cloned
    * by this method, for two reasons:
    * <ul>
-   * <li>The {@link #parent} is not cloned and is left as <code>null</code>
+   * <li>The {@link #parent} is not cloned and is left as {@code null}
    * because the new {@link AbstractTreeNode} will get a parent set as soon as
    * it is added/linked again to a {@link Model}. Note that only the top-level
-   * element of the cloned sub-tree will have a <code>null</code> value as its
+   * element of the cloned sub-tree will have a {@code null} value as its
    * parent. All sub-element will point to their correct parent element.</li>
    * <li>{@link #listOfListeners} is needed in all other setXX() methods.
    * Cloning these might lead to strange and unexpected behavior, because when
@@ -179,14 +179,24 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    */
   //@Override
   public void addTreeNodeChangeListener(TreeNodeChangeListener listener) {
+    addTreeNodeChangeListener(listener, true);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#addTreeNodeChangeListener(org.sbml.jsbml.util.TreeNodeChangeListener, boolean)
+   */
+  //@Override
+  public void addTreeNodeChangeListener(TreeNodeChangeListener listener, boolean recursive) {
     if (!listOfListeners.contains(listener)) {
       listOfListeners.add(listener);
     }
-    Enumeration<TreeNode> children = children();
-    while (children.hasMoreElements()) {
-      TreeNode node = children.nextElement();
-      if (node instanceof TreeNodeWithChangeSupport) {
-        ((TreeNodeWithChangeSupport) node).addTreeNodeChangeListener(listener);
+    if (recursive) {
+      Enumeration<TreeNode> children = children();
+      while (children.hasMoreElements()) {
+        TreeNode node = children.nextElement();
+        if (node instanceof TreeNodeWithChangeSupport) {
+          ((TreeNodeWithChangeSupport) node).addTreeNodeChangeListener(listener);
+        }
       }
     }
   }
@@ -330,8 +340,8 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    */
   //@Override
   public void fireNodeAddedEvent() {
-    for (TreeNodeChangeListener listener : listOfListeners) {
-      listener.nodeAdded(this);
+    for (int i = listOfListeners.size() - 1; i >= 0; i--) {
+      listOfListeners.get(i).nodeAdded(this);
     }
   }
 
@@ -342,8 +352,16 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
   public void fireNodeRemovedEvent() {
     TreeNode previousParent = getParent();
     parent = null;
-    for (TreeNodeChangeListener listener : listOfListeners) {
-      listener.nodeRemoved(new TreeNodeRemovedEvent(this, previousParent));
+    
+    if (getTreeNodeChangeListenerCount() > 0) {
+      // memorize all listeners before deleting them from this object.
+      List<TreeNodeChangeListener> listOfTreeNodeChangeListeners = new LinkedList<TreeNodeChangeListener>(listOfListeners);
+      // remove all changeListeners
+      removeAllTreeNodeChangeListeners();
+
+      for (TreeNodeChangeListener listener : listOfTreeNodeChangeListeners) {
+        listener.nodeRemoved(new TreeNodeRemovedEvent(this, previousParent));
+      }
     }
   }
 
@@ -407,7 +425,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
   public List<TreeNodeChangeListener> getListOfTreeNodeChangeListeners() {
     return listOfListeners;
   }
-
+  
   /**
    * Returns the number of child elements of this {@link TreeNode}.
    * 
@@ -425,6 +443,32 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
   //@Override
   public TreeNode getParent() {
     return parent;
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#getRoot()
+   */
+  //@Override
+  public TreeNode getRoot() {
+    if (isRoot()) {
+      return this;
+    }
+    TreeNode parent = getParent();
+    if (parent instanceof TreeNodeWithChangeSupport) {
+      return ((TreeNodeWithChangeSupport) parent).getRoot();
+    }
+    while (parent.getParent() != null) {
+      parent = parent.getParent();
+    }
+    return parent;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#getTreeNodeChangeListenerCount()
+   */
+  //@Override
+  public int getTreeNodeChangeListenerCount() {
+    return listOfListeners != null ? listOfListeners.size() : 0;
   }
 
   /* (non-Javadoc)
@@ -476,25 +520,18 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
     return getChildCount() == 0;
   }
 
-  /**
-   * Opposite of {@link #isSetParent()}.
-   * 
-   * Returns <code>true</code> if this {@link AbstractTreeNode} is the root
-   * node of a tree, <code>false</code> otherwise.
-   * 
-   * @return <code>True</code> if this {@link AbstractTreeNode} is the root
-   *         node of a tree, <code>false</code> otherwise.
-   * 
-   * @see #isSetParent()
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#isRoot()
    */
+  //@Override
   public boolean isRoot() {
     return !isSetParent();
   }
 
-  /**
-   * 
-   * @return
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#isSetParent()
    */
+  //@Override
   public boolean isSetParent() {
     return parent != null;
   }
@@ -545,13 +582,23 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeTreeNodeChangeListener(org.sbml.jsbml.util.TreeNodeChangeListener)
    */
   //@Override
-  public void removeTreeNodeChangeListener(TreeNodeChangeListener l) {
-    listOfListeners.remove(l);
-    Enumeration<TreeNode> children = children();
-    while (children.hasMoreElements()) {
-      TreeNode node = children.nextElement();
-      if (node instanceof TreeNodeWithChangeSupport) {
-        ((TreeNodeWithChangeSupport) node).removeTreeNodeChangeListener(l);
+  public void removeTreeNodeChangeListener(TreeNodeChangeListener listener) {
+    removeTreeNodeChangeListener(listener, true);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeTreeNodeChangeListener(org.sbml.jsbml.util.TreeNodeChangeListener, boolean)
+   */
+  //@Override
+  public void removeTreeNodeChangeListener(TreeNodeChangeListener listener, boolean recursive) {
+    listOfListeners.remove(listener);
+    if (recursive) {
+      Enumeration<TreeNode> children = children();
+      while (children.hasMoreElements()) {
+        TreeNode node = children.nextElement();
+        if (node instanceof TreeNodeWithChangeSupport) {
+          ((TreeNodeWithChangeSupport) node).removeTreeNodeChangeListener(listener);
+        }
       }
     }
   }

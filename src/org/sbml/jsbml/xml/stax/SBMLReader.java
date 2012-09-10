@@ -180,7 +180,7 @@ public class SBMLReader {
 	 * 
 	 * @param namespaceURI
 	 * @param startElement
-	 *            : the StartElement instance representing the SBMLDocument
+	 *            the StartElement instance representing the SBMLDocument
 	 *            element.
 	 * @return <code>true</code> if the package represented by the namespace URI
 	 *         is required to read the SBML file. If there is no 'required'
@@ -196,7 +196,7 @@ public class SBMLReader {
 
 			if (attribute.getName().getNamespaceURI().equals(namespaceURI)) {
 				
-				// TODO : we have to check that the attribute name is really required !!!! :-)
+				// TODO: we have to check that the attribute name is really required !!!! :-)
 				
 				if (attribute.getValue().toLowerCase().equals("true")) {
 					return true;
@@ -369,7 +369,7 @@ public class SBMLReader {
 	 * instance.
 	 * 
 	 * @param fileName
-	 *            : name of the SBML file to read.
+	 *         name of the SBML file to read.
 	 * @return the initialised SBMLDocument.
 	 * @throws XMLStreamException
 	 * @throws IOException 
@@ -645,8 +645,8 @@ public class SBMLReader {
 						currentNode = new QName(ASTNode.URI_MATHML_DEFINITION, "math");						
 					}
 					
-					// TODO : will not work with arbitrary SBML part
-					// TODO : we need to be able, somehow, to set the Model element in the Constraint
+					// TODO: will not work with arbitrary SBML part
+					// TODO: we need to be able, somehow, to set the Model element in the Constraint
 					// to be able to have a fully functional parsing. Without it the functionDefinition, for examples, are
 					// not properly recognized.
 					if (astNodeParent != null) 
@@ -702,10 +702,10 @@ public class SBMLReader {
 				}
 
 				if (isInsideAnnotation && logger.isDebugEnabled()) {
-					logger.debug("startElement : local part = " + currentNode.getLocalPart());
-					logger.debug("startElement : annotation deepness = " + annotationDeepness);
-					logger.debug("startElement : rdf description index = " + rdfDescriptionIndex);
-					logger.debug("startElement : isRDFSBMLSpecificAnnotation = " + isRDFSBMLSpecificAnnotation);
+					logger.debug("startElement: local part = " + currentNode.getLocalPart());
+					logger.debug("startElement: annotation deepness = " + annotationDeepness);
+					logger.debug("startElement: rdf description index = " + rdfDescriptionIndex);
+					logger.debug("startElement: isRDFSBMLSpecificAnnotation = " + isRDFSBMLSpecificAnnotation);
 				}
 
 				parser = processStartElement(startElement, currentNode, isHTML,	sbmlElements, 
@@ -741,7 +741,7 @@ public class SBMLReader {
 					
 					if (currentNode != null) {
 						
-						// logger.debug("isCharacter : elementName = " + currentNode.getLocalPart());
+						// logger.debug("isCharacter: elementName = " + currentNode.getLocalPart());
 						
 						parser.processCharactersOf(currentNode.getLocalPart(),
 								characters.getData(), sbmlElements.peek());
@@ -756,7 +756,7 @@ public class SBMLReader {
 						if (sbmlElements.isEmpty()) {
 							logger.debug("The Object Stack is empty !!!");
 						} else {
-							logger.debug("The current Object in the stack is : " + sbmlElements.peek());
+							logger.debug("The current Object in the stack is: " + sbmlElements.peek());
 						}
 					}
 
@@ -827,9 +827,9 @@ public class SBMLReader {
 		// so we are probably parsing some math or notes String.
 		
 		if (logger.isDebugEnabled()) {
-			logger.debug("no more XMLEvent : stack.size = " + sbmlElements.size());
+			logger.debug("no more XMLEvent: stack.size = " + sbmlElements.size());
 		
-			logger.debug("no more XMLEvent : stack = " + sbmlElements);
+			logger.debug("no more XMLEvent: stack = " + sbmlElements);
 		}
 		
 		initializedParsers.remove("");
@@ -899,7 +899,7 @@ public class SBMLReader {
 		String elementNamespace = currentNode.getNamespaceURI();
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("processStartElement : " + currentNode.getLocalPart() + ", " + elementNamespace);
+			logger.debug("processStartElement: " + currentNode.getLocalPart() + ", " + elementNamespace);
 		}
 		
 		// To be able to parse all the SBML file, the sbml node
@@ -993,7 +993,7 @@ public class SBMLReader {
 		return parser;
 	}
 
-	// TODO : the attributes hasAttributes, hasNamespace, isLastAttribute and  isLastNamespace are probably not needed for XML reading.
+	// TODO: the attributes hasAttributes, hasNamespace, isLastAttribute and  isLastNamespace are probably not needed for XML reading.
 	
 	/**
 	 * Process Namespaces of the current element on the stack.
@@ -1015,7 +1015,7 @@ public class SBMLReader {
 			boolean isLastNamespace = !nam.hasNext();
 			namespaceParser = initializedParsers.get(namespace.getNamespaceURI());
 			
-			logger.debug("processNamespaces : " + namespace.getNamespaceURI());
+			logger.debug("processNamespaces: " + namespace.getNamespaceURI());
 			
 			// Calling the currentNode parser to store all the declared namespaces
 			parser.processNamespace(currentNode.getLocalPart(),
@@ -1028,7 +1028,7 @@ public class SBMLReader {
 			// Calling each corresponding parser, in case they want to initialize things for the currentNode
 			if ((namespaceParser != null) && !namespaceParser.getClass().equals(parser.getClass())) {
 				
-				logger.debug("processNamespaces 2e parser : " + namespaceParser);
+				logger.debug("processNamespaces 2e parser: " + namespaceParser);
 				
 				namespaceParser.processNamespace(currentNode.getLocalPart(),
 						namespace.getNamespaceURI(),
@@ -1137,12 +1137,12 @@ public class SBMLReader {
 		Logger logger = Logger.getLogger(SBMLReader.class);
 		
 		if (logger.isDebugEnabled()) {
-			logger.debug("event.isEndElement : stack.size = " + sbmlElements.size());
-			logger.debug("event.isEndElement : element name = " + currentNode.getLocalPart());
+			logger.debug("event.isEndElement: stack.size = " + sbmlElements.size());
+			logger.debug("event.isEndElement: element name = " + currentNode.getLocalPart());
 			
 			if (currentNode.getLocalPart().equals("kineticLaw") || currentNode.getLocalPart().startsWith("listOf")
 					|| currentNode.getLocalPart().equals("math")) {
-				logger.debug("event.isEndElement : stack = " + sbmlElements);
+				logger.debug("event.isEndElement: stack = " + sbmlElements);
 			}
 		}		
 		// check that the stack did not increase before and after an element ?
@@ -1162,13 +1162,13 @@ public class SBMLReader {
 			{
 				parser = initializedParsers.get("anyAnnotation");
 			}
-			else if (annotationDeepness > 0 && elementNamespaceURI.startsWith("http://www.sbml.org/sbml/level")) 
+			else if ((annotationDeepness > 0) && elementNamespaceURI.startsWith("http://www.sbml.org/sbml/level")) 
 			{
 				// This is probably a mistake in the annotation
 				// Sending it to the any parser
 				parser = initializedParsers.get("anyAnnotation");
 			}
-			else if (annotationDeepness > 0 && elementNamespaceURI.equals(JSBML.URI_XHTML_DEFINITION)) 
+			else if ((annotationDeepness > 0) && elementNamespaceURI.equals(JSBML.URI_XHTML_DEFINITION)) 
 			{
 				parser = initializedParsers.get("anyAnnotation");
 			}
@@ -1192,7 +1192,7 @@ public class SBMLReader {
 			if (!sbmlElements.isEmpty() && (parser != null)) {
 
 				if (logger.isDebugEnabled()) {
-					logger.debug("event.isEndElement : calling parser.processEndElement " + parser.getClass());
+					logger.debug("event.isEndElement: calling parser.processEndElement " + parser.getClass());
 				}
 
 				boolean popElementFromTheStack = parser.processEndElement(currentNode.getLocalPart(),
@@ -1205,12 +1205,12 @@ public class SBMLReader {
 						sbmlElements.pop();
 					}
 
-					// System.out.println("SBMLReader : event.isEndElement : new stack.size = "
+					// System.out.println("SBMLReader: event.isEndElement: new stack.size = "
 					// + SBMLElements.size());
 
 				} else {
 					
-					logger.debug("event.isEndElement : sbml element found");
+					logger.debug("event.isEndElement: sbml element found");
 					
 					// process the end of the document and return
 					// the final SBMLDocument
@@ -1229,7 +1229,7 @@ public class SBMLReader {
 
 								readingParserClasses.add(sbmlParser.getClass().getCanonicalName());
 
-								logger.debug("event.isEndElement : EndDocument found : parser = " + sbmlParser.getClass());
+								logger.debug("event.isEndElement: EndDocument found: parser = " + sbmlParser.getClass());
 
 								sbmlParser.processEndDocument(sbmlDocument);
 
@@ -1238,7 +1238,7 @@ public class SBMLReader {
 							}
 						}
 						
-						logger.debug("event.isEndElement : EndDocument returned.");
+						logger.debug("event.isEndElement: EndDocument returned.");
 						
 						return sbmlDocument;
 						
@@ -1258,7 +1258,7 @@ public class SBMLReader {
 				// error in the SBMLDocument
 				// If parser == null => there is no parser for
 				// the namespace of this element
-				logger.warn("!!! event.isEndElement : there is a problem in your SBML file !!!!");
+				logger.warn("!!! event.isEndElement: there is a problem in your SBML file !!!!");
 				logger.warn("This should never happen, there is probably a problem with the parsers used." +
 						"\n Try to check if one needed parser is missing or if you are using a parser in development.");
 			}
