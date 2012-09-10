@@ -773,11 +773,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 			unifyUnits(value, compiledvalues[j]);
 			value.setValue(Double.valueOf(value.toDouble()
 					- compiledvalues[j].toNumber().doubleValue()));
-
 		}
 
 		return value;
-
 	}
 
 	/* (non-Javadoc)

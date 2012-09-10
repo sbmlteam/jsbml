@@ -51,20 +51,38 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
    * 
    * @param listeners
    *            the set of listeners to add
-   * @return <code>true</code> if the set of listeners is added with success.
+   * @return {@code true} if the set of listeners is added with success.
    * 
    */
   public boolean addAllChangeListeners(
       Collection<TreeNodeChangeListener> listeners);
   
   /**
-   * Adds recursively a listener to the {@link AbstractTreeNode} object and
-   * all of its sub-elements.
+   * Adds recursively a listener to the {@link TreeNodeWithChangeSupport} object and
+   * all of its sub-elements. Calling this method is effectively identical to
+   * the call
+   * {@link #addTreeNodeChangeListener(TreeNodeChangeListener, boolean)} where
+   * {@code recursively = true}.
    * 
    * @param listener
-   *            the listener to add
+   *        the listener to add
+   * @see #addTreeNodeChangeListener(TreeNodeChangeListener, boolean)
    */
-  public void addTreeNodeChangeListener(TreeNodeChangeListener listener); 
+  public void addTreeNodeChangeListener(TreeNodeChangeListener listener);
+  
+  /**
+   * Adds a listener to this {@link TreeNodeWithChangeSupport} object and
+   * optionally also to all of its child nodes.
+   * 
+   * @param listener
+   *        the listener to add
+   * @param recursive
+   *        if {@code true} the given listener will be added to this node and
+   *        also recursively to all of its child nodes. If {@code false}, the
+   *        listener will only be added to the current node.
+   * @see #addTreeNodeChangeListener(TreeNodeChangeListener)
+   */
+  public void addTreeNodeChangeListener(TreeNodeChangeListener listener, boolean recursive);
   
   /**
    * Removes all of the mappings from the map of user objects (optional operation). The map
@@ -129,7 +147,7 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
   
   /**
    * All {@link TreeNodeChangeListener}s are informed about the change in this
-   * {@link AbstractTreeNode}.
+   * {@link TreeNodeWithChangeSupport}.
    * 
    * @param propertyName
    *            Tells the {@link TreeNodeChangeListener} the name of the
@@ -153,15 +171,46 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
   public List<TreeNodeChangeListener> getListOfTreeNodeChangeListeners();
 
   /**
+   * @return A {@link TreeNode} without parent, which is the top-most ancestor
+   *         of this node.
+   */
+  public TreeNode getRoot();
+
+  /**
+   * @return the number of {@link TreeNodeChangeListener}s currently assigned to
+   *         this {@link TreeNodeWithChangeSupport}
+   */
+  public abstract int getTreeNodeChangeListenerCount();
+  
+  /**
    * @return the userObject
    */
   public abstract Object getUserObject(Object key);
 
   /**
+   * Opposite of {@link #isSetParent()}.
+   * 
+   * Returns {@code true} if this {@link AbstractTreeNode} is the root
+   * node of a tree, {@code false} otherwise.
+   * 
+   * @return {@code true} if this {@link AbstractTreeNode} is the root
+   *         node of a tree, {@code false} otherwise.
+   * 
+   * @see #isSetParent()
+   */
+  public abstract boolean isRoot();
+
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetParent();
+
+  /**
    * Checks whether any user-defined key-value pairs have been attached
    * to this object.
    * 
-   * @return <code>true</code> if at least one user-defined key-value pair has
+   * @return {@code true} if at least one user-defined key-value pair has
    *         been attached to this object.
    */
   public abstract boolean isSetUserObjects();
@@ -179,11 +228,29 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
   public void removeAllTreeNodeChangeListeners();
 
   /**
-   * Removes recursively the given change listener from this element.
+   * Removes recursively the given change listener from this element. A call to
+   * this method
+   * is equivalent to calling
+   * {@link #removeTreeNodeChangeListener(TreeNodeChangeListener, boolean)}
+   * where the second argument is {@code true}.
    * 
-   * @param l the listener to remove.
+   * @param listener
+   *        the listener to remove.
+   * @see #removeTreeNodeChangeListener(TreeNodeChangeListener, boolean)
    */
-  public void removeTreeNodeChangeListener(TreeNodeChangeListener l);
+  public void removeTreeNodeChangeListener(TreeNodeChangeListener listener);
+
+  /**
+   * Removes the given change listener from this element.
+   * 
+   * @param listener
+   *        the listener to remove.
+   * @param recursive
+   *        switch to decide whether or not the given listener should be removed
+   *        in a recursive manner.
+   * @see #removeTreeNodeChangeListener(TreeNodeChangeListener)
+   */
+  public void removeTreeNodeChangeListener(TreeNodeChangeListener listener, boolean recursive);
 
   /**
    * 
@@ -191,7 +258,7 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
    * @return
    */
   public abstract Object removeUserObject(Object key);
-
+  
   /**
    * @return
    * @see Map#keySet()
