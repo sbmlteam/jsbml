@@ -6,6 +6,9 @@ Version 1.0-rc1 (xx-xx-2012)
 
 * New Features:
 
+  - Some additional methods for more convenient working with tree data
+    structures in TreeNodeWithChangeSupport.
+
   - SBasePlugin has now also become a TreeNodeWithChangeSupport and
     AbstractSBasePlugin in turn extends AbstractTreeNode. 
 
@@ -59,6 +62,11 @@ Version 1.0-rc1 (xx-xx-2012)
 
 
 * Bug Fixes:
+
+  - Several improvements and corrections in the work with 
+    TreeNodeChangeListeners. In many cases listeners were notified too
+    early or sometimes even not at all because of inconsistent
+    notification mechanisms.
 
   - SBML Layout extension contained bugs that caused endless recursion when
     trying to access referenced instances of NamedSBase from a glyph (such

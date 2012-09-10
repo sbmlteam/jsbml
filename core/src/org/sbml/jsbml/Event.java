@@ -447,6 +447,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 	public ListOf<EventAssignment> getListOfEventAssignments() {
 		if (listOfEventAssignments == null) {
 			listOfEventAssignments = ListOf.newInstance(this, EventAssignment.class);
+			registerChild(listOfEventAssignments);
 		}
 		return listOfEventAssignments;
 	}

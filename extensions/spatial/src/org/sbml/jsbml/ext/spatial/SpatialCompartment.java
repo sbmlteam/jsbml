@@ -132,8 +132,8 @@ public class SpatialCompartment extends SpatialCallableSBase {
 	 */
 	public ListOf<CompartmentMapping> getListOfCompartmentMappings() {
 		if (listOfCompartmentMappings == null) {
-			listOfCompartmentMappings = ListOf.newInstance(this,
-					CompartmentMapping.class);
+			listOfCompartmentMappings = ListOf.newInstance(this, CompartmentMapping.class);
+			registerChild(listOfCompartmentMappings);
 		}
 		return listOfCompartmentMappings;
 	}

@@ -147,7 +147,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	 * in this KineticLaw.
 	 * 
 	 * @param parameter
-	 * @return <code>true</code> if the {@link #listOfLocalParameters} was
+	 * @return {@code true} if the {@link #listOfLocalParameters} was
 	 *         changed as a result of this call.
 	 */
 	public boolean addLocalParameter(LocalParameter parameter) {
@@ -165,7 +165,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	 * in this KineticLaw.
 	 * 
 	 * @param p
-	 * @return <code>true</code> if the {@link #listOfLocalParameters} was
+	 * @return {@code true} if the {@link #listOfLocalParameters} was
 	 *         changed as a result of this call.
 	 * @deprecated use {@link #addLocalParameter(LocalParameter)}.
 	 */
@@ -284,6 +284,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	public ListOf<LocalParameter> getListOfLocalParameters() {
 		if (listOfLocalParameters == null) {
 			listOfLocalParameters = ListOf.newInstance(this, LocalParameter.class);
+			registerChild(listOfLocalParameters);
 		}
 		return listOfLocalParameters;
 	}
@@ -1008,7 +1009,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	 * Removes the {@link #listOfLocalParameters} from this {@link KineticLaw} and notifies
 	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
-	 * @return <code>true</code> if calling this method lead to a change in this
+	 * @return {@code true} if calling this method lead to a change in this
 	 *         data structure.
 	 */
 	public boolean unsetListOfLocalParameters() {

@@ -688,7 +688,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public ListOf<Unit> getListOfUnits() {
 		if (listOfUnits == null) {
 			listOfUnits = ListOf.newInstance(this, Unit.class);
-			listOfUnits.fireNodeAddedEvent();
+			registerChild(listOfUnits);
 		}
 		return listOfUnits;
 	}

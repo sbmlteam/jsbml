@@ -154,6 +154,7 @@ public class Geometry extends AbstractSBase {
 	public ListOf<AdjacentDomains> getListOfAdjacentDomains() {
 		if (listOfAdjacentDomains == null) {
 			listOfAdjacentDomains = ListOf.newInstance(this, AdjacentDomains.class);
+			registerChild(listOfAdjacentDomains);
 		}
 		return listOfAdjacentDomains;
 	}
@@ -164,6 +165,7 @@ public class Geometry extends AbstractSBase {
 	public ListOf<CoordinateComponent> getListOfCoordinateComponents() {
 		if (listOfCoordinateComponents == null) {
 			listOfCoordinateComponents = ListOf.newInstance(this, CoordinateComponent.class);
+			registerChild(listOfCoordinateComponents);
 		}
 		return listOfCoordinateComponents;
 	}
@@ -174,6 +176,7 @@ public class Geometry extends AbstractSBase {
 	public ListOf<Domain> getListOfDomains() {
 		if (listOfDomains == null) {
 			listOfDomains = ListOf.newInstance(this, Domain.class);
+			registerChild(listOfDomains);
 		}
 		return listOfDomains;
 	}
@@ -184,6 +187,7 @@ public class Geometry extends AbstractSBase {
 	public ListOf<DomainType> getListOfDomainTypes() {
 		if (listOfDomainTypes == null) {
 			listOfDomainTypes = ListOf.newInstance(this, DomainType.class);
+			registerChild(listOfDomainTypes);
 		}
 		return listOfDomainTypes;
 	}
@@ -194,6 +198,7 @@ public class Geometry extends AbstractSBase {
 	public ListOf<GeometryDefinition> getListOfGeometryDefinitions() {
 		if (listOfGeometryDefinitions == null) {
 			listOfGeometryDefinitions = ListOf.newInstance(this, GeometryDefinition.class);
+			registerChild(listOfGeometryDefinitions);
 		}
 		return listOfGeometryDefinitions;
 	}
