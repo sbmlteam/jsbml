@@ -147,7 +147,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	 * @param sID
 	 *            the identifier to be checked. If null or an invalid
 	 *            identifier, an exception will be thrown.
-	 * @return <code>true</code> only if the sID is a valid identifier.
+	 * @return {@code true} only if the sID is a valid identifier.
 	 *         Otherwise this method throws an {@link IllegalArgumentException}.
 	 *         This is an intended behavior.
 	 * @throws IllegalArgumentException

@@ -54,7 +54,7 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 
 	/**
 	 * Initializes a new object of type {@link AbstractNamedSBaseWithUnit} whose
-	 * identifier and name are set to <code>null</code> and whose level and
+	 * identifier and name are set to {@code null} and whose level and
 	 * version are set to -1 each.
 	 */
 	public AbstractNamedSBaseWithUnit() {

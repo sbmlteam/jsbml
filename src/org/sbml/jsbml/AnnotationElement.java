@@ -40,7 +40,7 @@ public abstract class AnnotationElement extends AbstractTreeNode {
 	/**
 	 * Creates a new empty {@link AnnotationElement} without any children, an
 	 * empty list of {@link TreeNodeChangeListener}s, and a parent that is
-	 * <code>null</code>.
+	 * {@code null}.
 	 */
 	public AnnotationElement() {
 		super();

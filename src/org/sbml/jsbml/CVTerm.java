@@ -181,9 +181,9 @@ public class CVTerm extends AnnotationElement {
 		}
 
 		/**
-		 * Returns <code>true</code> if this qualifier is a biological qualifier.
+		 * Returns {@code true} if this qualifier is a biological qualifier.
 		 * 
-		 * @return <code>true</code> if this qualifier is a biological qualifier,
+		 * @return {@code true} if this qualifier is a biological qualifier,
 		 *         false otherwise.
 		 */
 		public boolean isBiologicalQualifier() {
@@ -191,10 +191,10 @@ public class CVTerm extends AnnotationElement {
 		}
 
 		/**
-		 * Returns <code>true</code> if this qualifier is a model qualifier.
+		 * Returns {@code true} if this qualifier is a model qualifier.
 		 * 
-		 * @return <code>true</code> if this qualifier is a model qualifier,
-		 *         <code>false</code> otherwise.
+		 * @return {@code true} if this qualifier is a model qualifier,
+		 *         {@code false} otherwise.
 		 */
 		public boolean isModelQualifier() {
 			return toString().startsWith("BQM_");
@@ -378,7 +378,7 @@ public class CVTerm extends AnnotationElement {
 	 * @param urn
 	 *            string representing the resource; e.g.,
 	 *            'urn:miriam:kegg.reaction:R00351'
-	 * @return <code>true</code> as specified in {@link Collection#add(Object)}
+	 * @return {@code true} as specified in {@link Collection#add(Object)}
 	 */
 	public boolean addResource(String urn) {
 		boolean contains = resourceURIs.contains(urn);
@@ -394,7 +394,7 @@ public class CVTerm extends AnnotationElement {
 	 * 
 	 * @param resources a list of strings representing the resources; e.g.,
 	 *            'urn:miriam:kegg.reaction:R00351'
-	 * @return <code>true</code> if all the resources have been added properly.
+	 * @return {@code true} if all the resources have been added properly.
 	 */
 	public boolean addResources(String... resources) {
 		boolean success = true;
@@ -413,7 +413,7 @@ public class CVTerm extends AnnotationElement {
 	 *            string representing the resource; e.g.,
 	 *            'urn:miriam:kegg.reaction:R00351'
 	 *            
-	 * @return <code>true</code> if 'uri' has been added to the list of resourceURI of this
+	 * @return {@code true} if 'uri' has been added to the list of resourceURI of this
 	 *         CVTerm.
 	 */
 	public boolean addResourceURI(String uri) {
@@ -572,20 +572,20 @@ public class CVTerm extends AnnotationElement {
 	}
 
 	/**
-	 * Returns <code>true</code> if this qualifier is a biological qualifier.
+	 * Returns {@code true} if this qualifier is a biological qualifier.
 	 * 
-	 * @return <code>true</code> if this qualifier is a biological qualifier,
-	 *         <code>false</code> otherwise.
+	 * @return {@code true} if this qualifier is a biological qualifier,
+	 *         {@code false} otherwise.
 	 */
 	public boolean isBiologicalQualifier() {
 		return type.equals(Type.BIOLOGICAL_QUALIFIER);
 	}
 
 	/**
-	 * Returns <code>true</code> if this qualifier is a model qualifier.
+	 * Returns {@code true} if this qualifier is a model qualifier.
 	 * 
-	 * @return <code>true</code> if this qualifier is a model qualifier,
-	 *         <code>false</code> otherwise.
+	 * @return {@code true} if this qualifier is a model qualifier,
+	 *         {@code false} otherwise.
 	 */
 	public boolean isModelQualifier() {
 		return type.equals(Type.MODEL_QUALIFIER);
@@ -616,19 +616,19 @@ public class CVTerm extends AnnotationElement {
 	}
 
 	/**
-	 * Returns <code>true</code> if the Type of this CVTerm is set.
+	 * Returns {@code true} if the Type of this CVTerm is set.
 	 * 
-	 * @return <code>true</code> if the Type of this CVTerm is set.
+	 * @return {@code true} if the Type of this CVTerm is set.
 	 */
 	public boolean isSetType() {
 		return (type != null) && !type.equals(Type.UNKNOWN_QUALIFIER);
 	}
 
 	/**
-	 * Returns <code>true</code> if the {@link Qualifier} of this {@link CVTerm}
+	 * Returns {@code true} if the {@link Qualifier} of this {@link CVTerm}
 	 * is set.
 	 * 
-	 * @return <code>true</code> if the {@link Qualifier} of this {@link CVTerm}
+	 * @return {@code true} if the {@link Qualifier} of this {@link CVTerm}
 	 *         is set.
 	 */
 	public boolean isSetTypeQualifier() {
