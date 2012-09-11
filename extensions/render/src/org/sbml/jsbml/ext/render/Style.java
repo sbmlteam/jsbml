@@ -223,8 +223,8 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Unsets the variable group
    * 
-   * @return <code>true</code>, if group was set before,
-   *         otherwise <code>false</code>
+   * @return {@code true}, if group was set before,
+   *         otherwise {@code false}
    */
   public boolean unsetGroup() {
     if (isSetGroup()) {
@@ -299,8 +299,8 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Unsets the variable typeList 
-   * @return <code>true</code>, if typeList was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if typeList was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetTypeList() {
     if (isSetTypeList()) {
@@ -315,8 +315,8 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Unsets the variable roleList 
-   * @return <code>true</code>, if roleList was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if roleList was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetRoleList() {
     if (isSetRoleList()) {

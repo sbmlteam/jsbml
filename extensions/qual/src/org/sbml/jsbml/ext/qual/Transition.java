@@ -364,8 +364,8 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * @param functionTerm
-   *            <code>true</code> if the {@link FunctionTerm} was added to the
-   *            list or <code>false</code> if adding the new
+   *            {@code true} if the {@link FunctionTerm} was added to the
+   *            list or {@code false} if adding the new
    *            {@link FunctionTerm} was not successful.
    */
   public boolean addFunctionTerm(FunctionTerm functionTerm) {
@@ -378,10 +378,10 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Creates a new instance of {@link FunctionTerm} and adds it to this
    * {@link Transition}'s {@link #listOfFunctionTerms}. In case that this
-   * operation fails, <code>null</code> will be returned. In case of success,
+   * operation fails, {@code null} will be returned. In case of success,
    * this method will return the newly created {@link FunctionTerm}.
    * 
-   * @return the newly created {@link FunctionTerm} or <code>null</code> if
+   * @return the newly created {@link FunctionTerm} or {@code null} if
    *         adding the new {@link FunctionTerm} was not successful.
    * @see #createFunctionTerm(ASTNode)
    */
@@ -393,12 +393,12 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    * Creates a new instance of {@link FunctionTerm} with the given
    * mathematical expression (encoded in an {@link ASTNode}) and adds it to
    * this {@link Transition}'s {@link #listOfFunctionTerms}. In case that this
-   * operation fails, <code>null</code> will be returned. In case of success,
+   * operation fails, {@code null} will be returned. In case of success,
    * this method will return the newly created {@link FunctionTerm}.
    * 
    * @param math
    *            The mathematical expression for the new {@link FunctionTerm}.
-   * @return newly created {@link FunctionTerm} or <code>null</code> if adding
+   * @return newly created {@link FunctionTerm} or {@code null} if adding
    *         the new {@link FunctionTerm} was not successful.
    */
   public FunctionTerm createFunctionTerm(ASTNode math) {

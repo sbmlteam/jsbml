@@ -315,7 +315,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/**
 	 * Allows you to influence the behavior of the {@link #toString()} method.
-	 * If set to <code>true</code>, the whole content of this {@link ListOf} is
+	 * If set to {@code true}, the whole content of this {@link ListOf} is
 	 * displayed by the {@link #toString()} method, just like it is done in
 	 * other {@link List} implementations. The default for JSBML, however, is,
 	 * to only display the {@link Type} of this list.

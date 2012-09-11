@@ -77,8 +77,8 @@ public class XMLTriple {
 	 * @param sb a reference to an object to which the current object
 	 * instance will be compared
 	 *
-	 * @return <code>true</code> if <code>sb</code> refers to the same underlying 
-	 * native object as this one, <code>false</code> otherwise
+	 * @return {@code true} if <code>sb</code> refers to the same underlying 
+	 * native object as this one, {@code false} otherwise
 	 */
 	public boolean equals(Object sb)
 	{
@@ -262,10 +262,10 @@ public class XMLTriple {
 
 
 	/**
-	 * Predicate returning <code>true</code> or <code>false</code> depending on whether 
+	 * Predicate returning {@code true} or {@code false} depending on whether 
 	 * this {@link XMLTriple} is empty.
 	 * <p>
-	 * @return <code>true</code> if this {@link XMLTriple} is empty, <code>false</code> otherwise.
+	 * @return {@code true} if this {@link XMLTriple} is empty, {@code false} otherwise.
 		   <p>
 	 * @deprecated libSBML internal
 	 */

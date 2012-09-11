@@ -245,7 +245,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
    * Adds a {@link QualitativeSpecies} instance to the listOfSpecies of this Model.
    * 
    * @param spec
-   * @return <code>true</code> if the {@link QualitativeSpecies} was added successfully.
+   * @return {@code true} if the {@link QualitativeSpecies} was added successfully.
    */
   public boolean addSpecies(QualitativeSpecies spec) {
     return getListOfQualitativeSpecies().add(spec);

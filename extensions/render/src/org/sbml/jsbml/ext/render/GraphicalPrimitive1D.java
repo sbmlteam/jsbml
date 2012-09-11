@@ -79,8 +79,8 @@ public class GraphicalPrimitive1D extends Transformation2D {
 
   /**
    * Unsets the variable strokeDashArray 
-   * @return <code>true</code>, if strokeDashArray was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if strokeDashArray was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetStrokeDashArray() {
     if (isSetStrokeDashArray()) {
@@ -211,8 +211,8 @@ public class GraphicalPrimitive1D extends Transformation2D {
 
   /**
    * Unsets the variable stroke 
-   * @return <code>true</code>, if stroke was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if stroke was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetStroke() {
     if (isSetStroke()) {
@@ -226,8 +226,8 @@ public class GraphicalPrimitive1D extends Transformation2D {
 
   /**
    * Unsets the variable strokeWidth 
-   * @return <code>true</code>, if strokeWidth was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if strokeWidth was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetStrokeWidth() {
     if (isSetStrokeWidth()) {

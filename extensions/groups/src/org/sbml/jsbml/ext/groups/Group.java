@@ -205,7 +205,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * Removes the {@link #listOfMembers} from this {@link Model} and notifies
 	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
-	 * @return <code>true</code> if calling this method lead to a change in this
+	 * @return {@code true} if calling this method lead to a change in this
 	 *         data structure.
 	 */
 	public boolean unsetListOfMembers() {

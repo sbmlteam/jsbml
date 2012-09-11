@@ -140,8 +140,8 @@ public class LineEnding extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable boundingBox 
-	 * @return <code>true</code>, if boundingBox was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if boundingBox was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetBoundingBox() {
 		if (isSetBoundingBox()) {
@@ -182,8 +182,8 @@ public class LineEnding extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable group 
-	 * @return <code>true</code>, if group was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if group was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetGroup() {
 		if (isSetGroup()) {
@@ -224,8 +224,8 @@ public class LineEnding extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable {@link #enableRotationMapping} 
-	 * @return <code>true</code>, if enableRotationMapping was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if enableRotationMapping was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetEnableRotationMapping() {
 		if (isSetEnableRotationMapping()) {

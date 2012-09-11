@@ -432,12 +432,12 @@ public class Species extends Symbol {
 	 * corresponding {@link UnitDefinition} from the {@link Model} to which this
 	 * {@link Species} belongs will be returned. Otherwise, the size unit from
 	 * the surrounding {@link Compartment} of this {@link Species} will be
-	 * returned. If this also fails, <code>null</code> will be returned.
+	 * returned. If this also fails, {@code null} will be returned.
 	 * 
 	 * @return The {@link UnitDefinition} instance which as the
 	 *         {@link #spatialSizeUnitsID} of this {@link Species} as id or the
 	 *         size unit of the surrounding {@link Compartment}.
-	 *         <code>Null</code> if it doesn't exist.
+	 *         {@code null} if it doesn't exist.
 	 * @deprecated Only valid for SBML Level 2 Versions 1 and 2.
 	 */
 	@Deprecated
@@ -655,8 +655,8 @@ public class Species extends Symbol {
 	}
 
   /**
-   * @return <code>true</code> if the spatialSizeUnits of this {@link Species}
-   *         is not <code>null</code>.
+   * @return {@code true} if the spatialSizeUnits of this {@link Species}
+   *         is not {@code null}.
    * @deprecated Only valid for SBML Level 2 Versions 1 and 2.
    */
 	@Deprecated
@@ -665,9 +665,9 @@ public class Species extends Symbol {
 	}
 
   /**
-   * @return <code>true</code> if the {@link UnitDefinition} which has the
+   * @return {@code true} if the {@link UnitDefinition} which has the
    *         spatialSizeUnitsID of
-   *         this {@link Species} as id is not <code>null</code>.
+   *         this {@link Species} as id is not {@code null}.
    * @deprecated Only valid for SBML Level 2 Versions 1 and 2.
    */
 	@Deprecated
@@ -971,7 +971,7 @@ public class Species extends Symbol {
 	 *         for inapropriate Level/Version combinations.
 	 * @throws SBMLException
 	 *         in case that {@link #hasOnlySubstanceUnits()} is set to
-	 *         <code>true</code> or the spatial dimensions of the surrounding
+	 *         {@code true} or the spatial dimensions of the surrounding
 	 *         compartment are zero.
 	 */
 	@Deprecated
@@ -1020,7 +1020,7 @@ public class Species extends Symbol {
 	 *         for inapropriate Level/Version combinations.
 	 * @throws SBMLException
 	 *         in case that {@link #hasOnlySubstanceUnits()} is set to
-	 *         <code>true</code> or the spatial dimensions of the surrounding
+	 *         {@code true} or the spatial dimensions of the surrounding
 	 *         compartment are zero.
 	 */
 	@Deprecated

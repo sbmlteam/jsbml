@@ -130,8 +130,8 @@ public class GlobalRenderInformation extends RenderInformationBase {
   
   
   /**
-   * @return <code>true</code>, if listOfStyles contains at least one element, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if listOfStyles contains at least one element, 
+   *         otherwise {@code false}
    */
   public boolean isSetListOfStyles() {
     if ((listOfStyles == null) || listOfStyles.isEmpty()) {
@@ -166,8 +166,8 @@ public class GlobalRenderInformation extends RenderInformationBase {
 
 
   /**
-   * @return <code>true</code>, if listOfStyles contained at least one element, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if listOfStyles contained at least one element, 
+   *         otherwise {@code false}
    */
   public boolean unsetListOfStyles() {
     if (isSetListOfStyles()) {

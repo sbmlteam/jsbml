@@ -45,8 +45,8 @@ public interface FontRenderStyle {
 
   /**
    * Unsets the variable fontFamily 
-   * @return <code>true</code>, if fontFamily was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if fontFamily was set before, 
+   *         otherwise {@code false}
    */
   public abstract boolean unsetFontFamily();
 
@@ -67,8 +67,8 @@ public interface FontRenderStyle {
 
   /**
    * Unsets the variable fontSize 
-   * @return <code>true</code>, if fontSize was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if fontSize was set before, 
+   *         otherwise {@code false}
    */
   public abstract boolean unsetFontSize();
 
@@ -89,8 +89,8 @@ public interface FontRenderStyle {
 
   /**
    * Unsets the variable fontWeightBold 
-   * @return <code>true</code>, if fontWeightBold was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if fontWeightBold was set before, 
+   *         otherwise {@code false}
    */
   public abstract boolean unsetFontWeightBold();
 
@@ -111,8 +111,8 @@ public interface FontRenderStyle {
 
   /**
    * Unsets the variable fontStyleItalic 
-   * @return <code>true</code>, if fontStyleItalic was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if fontStyleItalic was set before, 
+   *         otherwise {@code false}
    */
   public abstract boolean unsetFontStyleItalic();
 
@@ -133,8 +133,8 @@ public interface FontRenderStyle {
 
   /**
    * Unsets the variable textAnchor 
-   * @return <code>true</code>, if textAnchor was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if textAnchor was set before, 
+   *         otherwise {@code false}
    */
   public abstract boolean unsetTextAnchor();
 
@@ -155,8 +155,8 @@ public interface FontRenderStyle {
 
   /**
    * Unsets the variable VTextAnchor 
-   * @return <code>true</code>, if VTextAnchor was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if VTextAnchor was set before, 
+   *         otherwise {@code false}
    */
   public abstract boolean unsetVTextAnchor();
 

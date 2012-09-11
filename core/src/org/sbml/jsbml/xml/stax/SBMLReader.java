@@ -175,16 +175,16 @@ public class SBMLReader {
 	}
 
 	/**
-	 * Returns <code>true</code> if there is no 'required' attribute for this
+	 * Returns {@code true} if there is no 'required' attribute for this
 	 * namespace URI, false otherwise.
 	 * 
 	 * @param namespaceURI
 	 * @param startElement
 	 *            the StartElement instance representing the SBMLDocument
 	 *            element.
-	 * @return <code>true</code> if the package represented by the namespace URI
+	 * @return {@code true} if the package represented by the namespace URI
 	 *         is required to read the SBML file. If there is no 'required'
-	 *         attribute for this namespace URI, return <code>false</code>.
+	 *         attribute for this namespace URI, return {@code false}.
 	 */
 	private boolean isPackageRequired(String namespaceURI,
 			StartElement startElement) {

@@ -107,8 +107,8 @@ public class Curve extends GraphicalPrimitive1D {
 
 	/**
 	 * Unsets the variable startHead 
-	 * @return <code>true</code>, if startHead was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if startHead was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetStartHead() {
 		if (isSetStartHead()) {
@@ -150,8 +150,8 @@ public class Curve extends GraphicalPrimitive1D {
 
 	/**
 	 * Unsets the variable endHead 
-	 * @return <code>true</code>, if endHead was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if endHead was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetEndHead() {
 		if (isSetEndHead()) {
@@ -165,8 +165,8 @@ public class Curve extends GraphicalPrimitive1D {
 	
 	
 	/**
-	 * @return <code>true</code>, if listOfElements contains at least one element, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if listOfElements contains at least one element, 
+	 *         otherwise {@code false}
 	 */
 	public boolean isSetListOfElements() {
 		if ((listOfElements == null) || listOfElements.isEmpty()) {
@@ -198,8 +198,8 @@ public class Curve extends GraphicalPrimitive1D {
 	}
 
 	/**
-	 * @return <code>true</code>, if listOfElements contained at least one element, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if listOfElements contained at least one element, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetListOfElements() {
 		if (isSetListOfElements()) {

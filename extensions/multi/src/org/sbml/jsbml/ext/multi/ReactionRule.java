@@ -105,7 +105,7 @@ public class ReactionRule extends AbstractNamedSBase {
 	 * Sets the {@link KineticLaw} of this {@link ReactionRule} to null and notifies
 	 * all {@link TreeNodeChangeListener} about changes.
 	 * 
-	 * @return <code>true</code> if calling this method changed the properties
+	 * @return {@code true} if calling this method changed the properties
 	 *         of this element.
 	 */
 	public boolean unsetKineticLaw() {

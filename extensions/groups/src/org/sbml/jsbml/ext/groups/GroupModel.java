@@ -137,7 +137,7 @@ public class GroupModel extends AbstractSBasePlugin {
 	 * Removes the {@link #listOfGroups} from this {@link Model} and notifies
 	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
-	 * @return <code>true</code> if calling this method lead to a change in this
+	 * @return {@code true} if calling this method lead to a change in this
 	 *         data structure.
 	 */
 	public boolean unsetListOfGroups() {
@@ -246,7 +246,7 @@ public class GroupModel extends AbstractSBasePlugin {
    * Gets the {@link Group} that has the given id.
    * 
    * @param sbmlID
-   * @return the {@link Group} that has the given id or <code>NULL</code> if no
+   * @return the {@link Group} that has the given id or {@code null} if no
    *         {@link Group} is found that matches <code>sbmlID</code>.
    */
   public SBase getGroup(String sbmlID) {

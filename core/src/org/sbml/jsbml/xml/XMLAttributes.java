@@ -51,8 +51,8 @@ public class XMLAttributes {
    * @param sb a reference to an object to which the current object
    * instance will be compared
    *
-   * @return <code>true</code> if <code>sb</code> refers to the same underlying 
-   * native object as this one, <code>false</code> otherwise
+   * @return {@code true} if <code>sb</code> refers to the same underlying 
+   * native object as this one, {@code false} otherwise
    */
   public boolean equals(Object sb)
   {
@@ -653,13 +653,13 @@ public class XMLAttributes {
 
   
   /**
-   * Returns <code>true</code> or <code>false</code> depending on whether
+   * Returns {@code true} or {@code false} depending on whether
    * an attribute with the given index exists in this {@link XMLAttributes}.
    * <p>
    * @param index an integer, the position of the attribute.
    * <p>
-   * @return <code>true</code> if an attribute with the given index exists in this
-   * {@link XMLAttributes}, <code>false</code> otherwise.
+   * @return {@code true} if an attribute with the given index exists in this
+   * {@link XMLAttributes}, {@code false} otherwise.
    */
  public boolean hasAttribute(int index) {
     
@@ -673,15 +673,15 @@ public class XMLAttributes {
 
   
   /**
-   * Returns <code>true</code> or <code>false</code> depending on whether
+   * Returns {@code true} or {@code false} depending on whether
    * an attribute with the given local name and namespace URI exists in this 
    * {@link XMLAttributes}.
    * <p>
    * @param name a string, the local name of the attribute.
    * @param uri  a string, the namespace URI of the attribute.
    * <p>
-   * @return <code>true</code> if an attribute with the given local name and namespace 
-   * URI exists in this {@link XMLAttributes}, <code>false</code> otherwise.
+   * @return {@code true} if an attribute with the given local name and namespace 
+   * URI exists in this {@link XMLAttributes}, {@code false} otherwise.
    */
  public boolean hasAttribute(String name, String uri) {
     
@@ -699,14 +699,14 @@ public class XMLAttributes {
 
   
   /**
-   * Returns <code>true</code> or <code>false</code> depending on whether
+   * Returns {@code true} or {@code false} depending on whether
    * an attribute with the given local name exists in this 
    * {@link XMLAttributes}.
    * <p>
    * @param name a string, the local name of the attribute.
    * <p>
-   * @return <code>true</code> if an attribute with the given local name
-   *  exists in this {@link XMLAttributes}, <code>false</code> otherwise.
+   * @return {@code true} if an attribute with the given local name
+   *  exists in this {@link XMLAttributes}, {@code false} otherwise.
    */
  public boolean hasAttribute(String name) {
     
@@ -724,13 +724,13 @@ public class XMLAttributes {
 
   
   /**
-   * Returns <code>true</code> or <code>false</code> depending on whether
+   * Returns {@code true} or {@code false} depending on whether
    * an attribute with the given XML triple exists in this {@link XMLAttributes}.
    * <p>
    * @param triple an {@link XMLTriple}, the XML triple of the attribute 
    * <p>
-   * @return <code>true</code> if an attribute with the given XML triple exists in this
-   * {@link XMLAttributes}, <code>false</code> otherwise.
+   * @return {@code true} if an attribute with the given XML triple exists in this
+   * {@link XMLAttributes}, {@code false} otherwise.
    * <p>
    */
  public boolean hasAttribute(XMLTriple triple) {
@@ -747,10 +747,10 @@ public class XMLAttributes {
 
   
   /**
-   * Returns <code>true</code> or <code>false</code> depending on whether 
+   * Returns {@code true} or {@code false} depending on whether 
    * this {@link XMLAttributes} set is empty.
    * <p>
-   * @return <code>true</code> if this {@link XMLAttributes} set is empty, <code>false</code> otherwise.
+   * @return {@code true} if this {@link XMLAttributes} set is empty, {@code false} otherwise.
    */
  public boolean isEmpty() {
     

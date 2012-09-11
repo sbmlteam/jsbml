@@ -159,8 +159,8 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
   }
 
   /**
-   * @return <code>true</code>, if listOfGlobalRenderInformation contains at least one element,
-   *         otherwise <code>false</code>
+   * @return {@code true}, if listOfGlobalRenderInformation contains at least one element,
+   *         otherwise {@code false}
    */
   public boolean isSetListOfGlobalRenderInformation() {
     if ((listOfGlobalRenderInformation == null) || listOfGlobalRenderInformation.isEmpty()) {
@@ -208,8 +208,8 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
   }
 
   /**
-   * @return <code>true</code>, if listOfGlobalRenderInformation contained at least one element,
-   *         otherwise <code>false</code>
+   * @return {@code true}, if listOfGlobalRenderInformation contained at least one element,
+   *         otherwise {@code false}
    */
   public boolean unsetListOfGlobalRenderInformation() {
     if (isSetListOfGlobalRenderInformation()) {

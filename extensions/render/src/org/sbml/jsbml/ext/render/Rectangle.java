@@ -77,8 +77,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Unsets the variable rx 
-   * @return <code>true</code>, if rx was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if rx was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetRx() {
     if (isSetRx()) {
@@ -149,8 +149,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Unsets the variable absoluteX 
-   * @return <code>true</code>, if absoluteX was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteX was set before, 
+   *         otherwise {@code false}
    */
   //@Override
   public boolean unsetAbsoluteX() {
@@ -195,8 +195,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Unsets the variable absoluteY 
-   * @return <code>true</code>, if absoluteY was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteY was set before, 
+   *         otherwise {@code false}
    */
   //@Override
   public boolean unsetAbsoluteY() {
@@ -241,8 +241,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Unsets the variable absoluteZ 
-   * @return <code>true</code>, if absoluteZ was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteZ was set before, 
+   *         otherwise {@code false}
    */
   //@Override
   public boolean unsetAbsoluteZ() {
@@ -284,8 +284,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Unsets the variable absoluteRx 
-   * @return <code>true</code>, if absoluteRx was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteRx was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetAbsoluteRx() {
     if (isSetAbsoluteRx()) {
@@ -326,8 +326,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Unsets the variable absoluteRy 
-   * @return <code>true</code>, if absoluteRy was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteRy was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetAbsoluteRy() {
     if (isSetAbsoluteRy()) {
@@ -368,8 +368,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Unsets the variable absoluteHeight 
-   * @return <code>true</code>, if absoluteHeight was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteHeight was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetAbsoluteHeight() {
     if (isSetAbsoluteHeight()) {
@@ -410,8 +410,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Unsets the variable absoluteWidth 
-   * @return <code>true</code>, if absoluteWidth was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteWidth was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetAbsoluteWidth() {
     if (isSetAbsoluteWidth()) {
@@ -425,8 +425,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Unsets the variable ry 
-   * @return <code>true</code>, if ry was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if ry was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetRy() {
     if (isSetRy()) {
@@ -470,8 +470,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Unsets the variable x 
-   * @return <code>true</code>, if x was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if x was set before, 
+   *         otherwise {@code false}
    */
   //@Override
   public boolean unsetX() {
@@ -516,8 +516,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Unsets the variable y 
-   * @return <code>true</code>, if y was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if y was set before, 
+   *         otherwise {@code false}
    */
   //@Override
   public boolean unsetY() {
@@ -562,8 +562,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Unsets the variable z 
-   * @return <code>true</code>, if z was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if z was set before, 
+   *         otherwise {@code false}
    */
   //@Override
   public boolean unsetZ() {
@@ -605,8 +605,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Unsets the variable height 
-   * @return <code>true</code>, if height was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if height was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetHeight() {
     if (isSetHeight()) {
@@ -647,8 +647,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Unsets the variable width 
-   * @return <code>true</code>, if width was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if width was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetWidth() {
     if (isSetWidth()) {

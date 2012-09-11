@@ -440,7 +440,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param compartmentID
    * @return a {@link List} containing all identified elements. It can be
-   *         empty but not <code>null</code>.
+   *         empty but not {@code null}.
    */
   public List<CompartmentGlyph> findCompartmentGlyphs(String compartmentID) {
 	  return findGlyphs(listOfCompartmentGlyphs, compartmentID);
@@ -468,7 +468,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param reactionID
    * @return a {@link List} containing all identified elements. It can be
-   *         empty but not <code>null</code>.
+   *         empty but not {@code null}.
    */
   public List<ReactionGlyph> findReactionGlyphs(String reactionID) {
 	  return findGlyphs(listOfReactionGlyphs, reactionID);
@@ -480,7 +480,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param speciesID
    * @return a {@link List} containing all identified elements. It can be
-   *         empty but not <code>null</code>.
+   *         empty but not {@code null}.
    */
   public List<SpeciesGlyph> findSpeciesGlyphs(String speciesID) {
 	 return findGlyphs(listOfSpeciesGlyphs, speciesID);
@@ -1003,7 +1003,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * Removes the {@link #listOfAdditionalGraphicalObjects} from this {@link Model} and notifies
    * all registered instances of {@link TreeNodeChangeListener}.
    * 
-   * @return <code>true</code> if calling this method lead to a change in this
+   * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
   public boolean unsetListOfAdditionalGraphicalObjects() {
@@ -1020,7 +1020,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * Removes the {@link #listOfCompartmentGlyphs} from this {@link Model} and notifies
    * all registered instances of {@link TreeNodeChangeListener}.
    * 
-   * @return <code>true</code> if calling this method lead to a change in this
+   * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
   public boolean unsetListOfCompartmentGlyphs() {
@@ -1037,7 +1037,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * Removes the {@link #listOfReactionGlyphs} from this {@link Model} and notifies
    * all registered instances of {@link TreeNodeChangeListener}.
    * 
-   * @return <code>true</code> if calling this method lead to a change in this
+   * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
   public boolean unsetListOfReactionGlyphs() {
@@ -1054,7 +1054,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * Removes the {@link #listOfSpeciesGlyphs} from this {@link Model} and notifies
    * all registered instances of {@link TreeNodeChangeListener}.
    * 
-   * @return <code>true</code> if calling this method lead to a change in this
+   * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
   public boolean unsetListOfSpeciesGlyphs() {
@@ -1071,7 +1071,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * Removes the {@link #listOfTextGlyphs} from this {@link Model} and notifies
    * all registered instances of {@link TreeNodeChangeListener}.
    * 
-   * @return <code>true</code> if calling this method lead to a change in this
+   * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
   public boolean unsetListOfTextGlyphs() {

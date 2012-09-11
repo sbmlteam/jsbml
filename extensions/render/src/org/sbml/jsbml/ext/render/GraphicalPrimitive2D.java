@@ -108,8 +108,8 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
 
   /**
    * Unsets the variable fill 
-   * @return <code>true</code>, if fill was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if fill was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetFill() {
     if (isSetFill()) {
@@ -150,8 +150,8 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
 
   /**
    * Unsets the variable fillRule 
-   * @return <code>true</code>, if fillRule was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if fillRule was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetFillRule() {
     if (isSetFillRule()) {

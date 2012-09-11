@@ -72,8 +72,8 @@ public class Ellipse extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable cx 
-	 * @return <code>true</code>, if cx was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if cx was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetCx() {
 		if (isSetCx()) {
@@ -114,8 +114,8 @@ public class Ellipse extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable cy 
-	 * @return <code>true</code>, if cy was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if cy was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetCy() {
 		if (isSetCy()) {
@@ -156,8 +156,8 @@ public class Ellipse extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable cz 
-	 * @return <code>true</code>, if cz was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if cz was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetCz() {
 		if (isSetCz()) {
@@ -198,8 +198,8 @@ public class Ellipse extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable rx 
-	 * @return <code>true</code>, if rx was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if rx was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetRx() {
 		if (isSetRx()) {
@@ -240,8 +240,8 @@ public class Ellipse extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable ry 
-	 * @return <code>true</code>, if ry was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if ry was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetRy() {
 		if (isSetRy()) {
@@ -282,8 +282,8 @@ public class Ellipse extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable absoluteCx 
-	 * @return <code>true</code>, if absoluteCx was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if absoluteCx was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetAbsoluteCx() {
 		if (isSetAbsoluteCx()) {
@@ -324,8 +324,8 @@ public class Ellipse extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable absoluteCy 
-	 * @return <code>true</code>, if absoluteCy was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if absoluteCy was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetAbsoluteCy() {
 		if (isSetAbsoluteCy()) {
@@ -366,8 +366,8 @@ public class Ellipse extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable absoluteCz 
-	 * @return <code>true</code>, if absoluteCz was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if absoluteCz was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetAbsoluteCz() {
 		if (isSetAbsoluteCz()) {
@@ -409,8 +409,8 @@ public class Ellipse extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable absoluteRx 
-	 * @return <code>true</code>, if absoluteRx was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if absoluteRx was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetAbsoluteRx() {
 		if (isSetAbsoluteRx()) {
@@ -452,8 +452,8 @@ public class Ellipse extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable absoluteRy 
-	 * @return <code>true</code>, if absoluteRy was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if absoluteRy was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetAbsoluteRy() {
 		if (isSetAbsoluteRy()) {

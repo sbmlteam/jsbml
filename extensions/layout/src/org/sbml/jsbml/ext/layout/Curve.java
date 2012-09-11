@@ -220,7 +220,7 @@ public class Curve extends AbstractNamedSBase {
 	 * Removes the {@link #listOfLineSegments} from this {@link Model} and notifies
 	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
-	 * @return <code>true</code> if calling this method lead to a change in this
+	 * @return {@code true} if calling this method lead to a change in this
 	 *         data structure.
 	 */
 	public boolean unsetListOfCurveSegments() {

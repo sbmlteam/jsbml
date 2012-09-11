@@ -2428,7 +2428,7 @@ public class ASTNode extends AbstractTreeNode {
 	 * {@link Kind}, the created {@link UnitDefinition} will not be part of the
 	 * model, it is just a container for the {@link Kind}.
 	 * 
-	 * @return A {@link UnitDefinition} or <code>null</code>.
+	 * @return A {@link UnitDefinition} or {@code null}.
 	 */
 	public UnitDefinition getUnitsInstance() {
 	  MathContainer parent = getParentSBMLObject();

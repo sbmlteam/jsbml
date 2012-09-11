@@ -96,7 +96,7 @@ public class StringTools {
 	/**
 	 * This method concatenates two or more {@link Object} {@link String}s
 	 * (obtained by calling {@link Object#toString()} if the current
-	 * {@link Object} is not <code>null</code>) into a new {@link StringBuffer}.
+	 * {@link Object} is not {@code null}) into a new {@link StringBuffer}.
 	 * 
 	 * @param things
 	 *        to be concatenated
@@ -116,7 +116,7 @@ public class StringTools {
 	/**
 	 * This method concatenates two or more {@link Object} {@link String}s
 	 * (obtained by calling {@link Object#toString()} if the current
-	 * {@link Object} is not <code>null</code>) into a new {@link StringBuilder}.
+	 * {@link Object} is not {@code null}) into a new {@link StringBuilder}.
 	 * 
 	 * @param things
 	 *        to be concatenated

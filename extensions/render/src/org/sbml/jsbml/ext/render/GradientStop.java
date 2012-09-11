@@ -185,8 +185,8 @@ public class GradientStop extends AbstractSBase {
 
 	/**
 	 * Unsets the variable offset 
-	 * @return <code>true</code>, if offset was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if offset was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetOffset() {
 		if (isSetOffset()) {
@@ -200,8 +200,8 @@ public class GradientStop extends AbstractSBase {
 
 	/**
 	 * Unsets the variable stopColor 
-	 * @return <code>true</code>, if stopColor was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if stopColor was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetStopColor() {
 		if (isSetStopColor()) {

@@ -117,7 +117,7 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 *            Flag to indicate whether the output should be indented or not.
 	 * @throws NullPointerException
 	 *             If <code>node</code> or <code>characterStream</code> are
-	 *             <code>null</code>.
+	 *             {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (transformer configuration errors,
 	 *             transformer errors).
@@ -169,7 +169,7 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 *         content.
 	 * @throws SAXException
 	 * @throws NullPointerException
-	 *             If <code>byteStream</code> is <code>null</code>.
+	 *             If <code>byteStream</code> is {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (parser configuration errors, I/O errors,
 	 *             SAX parsing errors).
@@ -211,14 +211,14 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 *            instances containing the abstract pathnames, or of
 	 *            <code>java.io.String</code> instances containing the URIs,
 	 *            pointing to the schemas to use in the validation process. If
-	 *            set to <code>null</code>, the schemas defined in the data set
-	 *            will be used. If set to <code>null</code> and no schemas are
+	 *            set to {@code null}, the schemas defined in the data set
+	 *            will be used. If set to {@code null} and no schemas are
 	 *            found in the data set, an
 	 *            <code>org.xml.sax.SAXParseException</code> is thrown.
 	 * @param handler
 	 *            The error handler to be used to report errors occurred while
 	 *            parsing the <code>byteStream</code> XML content. Setting this
-	 *            to <code>null</code> will result in the underlying
+	 *            to {@code null} will result in the underlying
 	 *            implementation using it's own default implementation and
 	 *            behavior.
 	 * @return The <code>org.w3c.dom.Document</code> instance representing the
@@ -226,7 +226,7 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 *         content.
 	 * @throws SAXException
 	 * @throws NullPointerException
-	 *             If <code>byteStream</code> is <code>null</code>.
+	 *             If <code>byteStream</code> is {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (parser configuration errors, I/O errors,
 	 *             SAX parsing errors).
@@ -282,7 +282,7 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 *         XML content.
 	 * @throws SAXException
 	 * @throws NullPointerException
-	 *             If <code>characterStream</code> is <code>null</code>.
+	 *             If <code>characterStream</code> is {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (parser configuration errors, I/O errors,
 	 *             SAX parsing errors).
@@ -324,21 +324,21 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 *            instances containing the abstract pathnames, or of
 	 *            <code>java.io.String</code> instances containing the URIs,
 	 *            pointing to the schemas to use in the validation process. If
-	 *            set to <code>null</code>, the schemas defined in the data set
-	 *            will be used. If set to <code>null</code> and no schemas are
+	 *            set to {@code null}, the schemas defined in the data set
+	 *            will be used. If set to {@code null} and no schemas are
 	 *            found in the data set, an
 	 *            <code>org.xml.sax.SAXParseException</code> is thrown.
 	 * @param handler
 	 *            The error handler to be used to report errors occurred while
 	 *            parsing the <code>characterStream</code> XML content. Setting
-	 *            this to <code>null</code> will result in the underlying
+	 *            this to {@code null} will result in the underlying
 	 *            implementation using it's own default implementation and
 	 *            behavior.
 	 * @return The <code>org.w3c.dom.Document</code> instance representing the
 	 *         XML DOM document created from the <code>characterStream</code>
 	 *         XML content.
 	 * @throws NullPointerException
-	 *             If <code>characterStream</code> is <code>null</code>.
+	 *             If <code>characterStream</code> is {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (parser configuration errors, I/O errors,
 	 *             SAX parsing errors).
@@ -393,7 +393,7 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 *            namespaces or not.
 	 * @throws NullPointerException
 	 *             If <code>byteStream</code> or <code>handler</code> are
-	 *             <code>null</code>.
+	 *             {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (parser configuration errors, I/O errors,
 	 *             SAX parsing errors).
@@ -441,13 +441,13 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 *            instances containing the abstract pathnames, or of
 	 *            <code>java.io.String</code> instances containing the URIs,
 	 *            pointing to the schemas to use in the validation process. If
-	 *            set to <code>null</code>, the schemas defined in the data set
-	 *            will be used. If set to <code>null</code> and no schemas are
+	 *            set to {@code null}, the schemas defined in the data set
+	 *            will be used. If set to {@code null} and no schemas are
 	 *            found in the data set, an
 	 *            <code>org.xml.sax.SAXParseException</code> is thrown.
 	 * @throws NullPointerException
 	 *             If <code>byteStream</code> or <code>handler</code> are
-	 *             <code>null</code>.
+	 *             {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (parser configuration errors, I/O errors,
 	 *             SAX parsing errors).
@@ -503,7 +503,7 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 *            namespaces or not.
 	 * @throws NullPointerException
 	 *             If <code>characterStream</code> or <code>handler</code> are
-	 *             <code>null</code>.
+	 *             {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (parser configuration errors, I/O errors,
 	 *             SAX parsing errors).
@@ -552,13 +552,13 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 *            instances containing the abstract pathnames, or of
 	 *            <code>java.io.String</code> instances containing the URIs,
 	 *            pointing to the schemas to use in the validation process. If
-	 *            set to <code>null</code>, the schemas defined in the data set
-	 *            will be used. If set to <code>null</code> and no schemas are
+	 *            set to {@code null}, the schemas defined in the data set
+	 *            will be used. If set to {@code null} and no schemas are
 	 *            found in the data set, an
 	 *            <code>org.xml.sax.SAXParseException</code> is thrown.
 	 * @throws NullPointerException
 	 *             If <code>characterStream</code> or <code>handler</code> are
-	 *             <code>null</code>.
+	 *             {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (parser configuration errors, I/O errors,
 	 *             SAX parsing errors).
@@ -612,7 +612,7 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 *            Flag to indicate whether the output should be indented or not.
 	 * @throws NullPointerException
 	 *             If <code>node</code> or <code>byteStream</code> are
-	 *             <code>null</code>.
+	 *             {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (transformer configuration errors,
 	 *             transformer errors).
@@ -640,7 +640,7 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 *            Flag to indicate whether the output should be indented or not.
 	 * @throws NullPointerException
 	 *             If <code>node</code> or <code>byteStream</code> are
-	 *             <code>null</code>.
+	 *             {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (transformer configuration errors,
 	 *             transformer errors).
@@ -681,7 +681,7 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 *            Flag to indicate whether the output should be indented or not.
 	 * @throws NullPointerException
 	 *             If <code>node</code> or <code>characterStream</code> are
-	 *             <code>null</code>.
+	 *             {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (transformer configuration errors,
 	 *             transformer errors).

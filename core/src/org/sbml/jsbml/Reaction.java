@@ -173,7 +173,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	 * Adds a {@link ModifierSpeciesReference} instance to this {@link Reaction}.
 	 * 
 	 * @param modspecref
-	 * @return <code>true</code> if the {@link #listOfModifiers} was
+	 * @return {@code true} if the {@link #listOfModifiers} was
 	 *         changed as a result of this call.
 	 */
 	public boolean addModifier(ModifierSpeciesReference modspecref) {
@@ -184,7 +184,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	 * Adds a {@link SpeciesReference} instance to the listOfProducts of this {@link Reaction}.
 	 * 
 	 * @param specref
-	 * @return <code>true</code> if the {@link #listOfProducts} was
+	 * @return {@code true} if the {@link #listOfProducts} was
 	 *         changed as a result of this call.
 	 */
 	public boolean addProduct(SpeciesReference specref) {
@@ -195,7 +195,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	 * Adds a {@link SpeciesReference} instance to the listOfReactants of this {@link Reaction}.
 	 * 
 	 * @param specref
-	 * @return <code>true</code> if the {@link #listOfReactants} was
+	 * @return {@code true} if the {@link #listOfReactants} was
 	 *         changed as a result of this call.
 	 */
 	public boolean addReactant(SpeciesReference specref) {
@@ -1293,7 +1293,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	 * Sets the {@link KineticLaw} of this {@link Reaction} to null and notifies
 	 * all {@link TreeNodeChangeListener} about changes.
 	 * 
-	 * @return <code>true</code> if calling this method changed the properties
+	 * @return {@code true} if calling this method changed the properties
 	 *         of this element.
 	 */
 	public boolean unsetKineticLaw() {
@@ -1310,7 +1310,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	 * Removes the {@link #listOfModifiers} from this {@link Reaction} and notifies
 	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
-	 * @return <code>true</code> if calling this method lead to a change in this
+	 * @return {@code true} if calling this method lead to a change in this
 	 *         data structure.
 	 */
 	public boolean unsetListOfModifiers() {
@@ -1327,7 +1327,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	 * Removes the {@link #listOfProducts} from this {@link Reaction} and notifies
 	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
-	 * @return <code>true</code> if calling this method lead to a change in this
+	 * @return {@code true} if calling this method lead to a change in this
 	 *         data structure.
 	 */
 	public boolean unsetListOfProducts() {
@@ -1344,7 +1344,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	 * Removes the {@link #listOfReactants} from this {@link Reaction} and notifies
 	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
-	 * @return <code>true</code> if calling this method lead to a change in this
+	 * @return {@code true} if calling this method lead to a change in this
 	 *         data structure.
 	 */
 	public boolean unsetListOfReactants() {

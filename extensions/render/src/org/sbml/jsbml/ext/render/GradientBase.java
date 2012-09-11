@@ -197,8 +197,8 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
 
   /**
    * Unsets the variable spreadMethod 
-   * @return <code>true</code>, if spreadMethod was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if spreadMethod was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetSpreadMethod() {
     if (isSetSpreadMethod()) {
@@ -220,8 +220,8 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
 	}
 
   /**
-   * @return <code>true</code>, if listOfGradientStops contains at least one element, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if listOfGradientStops contains at least one element, 
+   *         otherwise {@code false}
    */
   public boolean isSetListOfGradientStops() {
     if ((listOfGradientStops == null) || listOfGradientStops.isEmpty()) {
@@ -253,8 +253,8 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
   }
 
   /**
-   * @return <code>true</code>, if listOfGradientStops contained at least one element, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if listOfGradientStops contained at least one element, 
+   *         otherwise {@code false}
    */
   public boolean unsetListOfGradientStops() {
     if (isSetListOfGradientStops()) {

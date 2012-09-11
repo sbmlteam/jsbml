@@ -97,12 +97,12 @@ public class SBMLErrorLog {
 	 * number of items in the log by using the
 	 * {@link #getNumErrors()} method.
 	 * Attempts to use an error index number that exceeds the actual number
-	 * of errors in the log will result in a <code>null</code> being returned.
+	 * of errors in the log will result in a {@code null} being returned.
 	 * <p>
 	 * @param n the index number of the error to retrieve (with 0 being the
 	 * first error).
 	 * <p>
-	 * @return the <i>n</i>th {@link SBMLError} in this log, or <code>null</code> if <code>n</code> is
+	 * @return the <i>n</i>th {@link SBMLError} in this log, or {@code null} if <code>n</code> is
 	 * greater than or equal to {@link #getNumErrors()}.
 	 * <p>
 	 * @see #getNumErrors()
