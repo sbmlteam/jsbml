@@ -127,8 +127,8 @@ public class LocalRenderInformation extends RenderInformationBase {
   }
   
   /**
-   * @return <code>true</code>, if listOfLocalStyles contains at least one element, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if listOfLocalStyles contains at least one element, 
+   *         otherwise {@code false}
    */
   public boolean isSetListOfLocalStyles() {
     if ((listOfLocalStyles == null) || listOfLocalStyles.isEmpty()) {
@@ -160,8 +160,8 @@ public class LocalRenderInformation extends RenderInformationBase {
   }
 
   /**
-   * @return <code>true</code>, if listOfLocalStyles contained at least one element, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if listOfLocalStyles contained at least one element, 
+   *         otherwise {@code false}
    */
   public boolean unsetListOfLocalStyles() {
     if (isSetListOfLocalStyles()) {

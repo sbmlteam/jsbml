@@ -201,8 +201,8 @@ public class Group extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable id 
-	 * @return <code>true</code>, if id was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if id was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetId() {
 		if (isSetId()) {
@@ -243,8 +243,8 @@ public class Group extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable fontFamily 
-	 * @return <code>true</code>, if fontFamily was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if fontFamily was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetFontFamily() {
 		if (isSetFontFamily()) {
@@ -285,8 +285,8 @@ public class Group extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable fontSize 
-	 * @return <code>true</code>, if fontSize was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if fontSize was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetFontSize() {
 		if (isSetFontSize()) {
@@ -327,8 +327,8 @@ public class Group extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable fontWeightBold 
-	 * @return <code>true</code>, if fontWeightBold was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if fontWeightBold was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetFontWeightBold() {
 		if (isSetFontWeightBold()) {
@@ -369,8 +369,8 @@ public class Group extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable fontStyleItalic 
-	 * @return <code>true</code>, if fontStyleItalic was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if fontStyleItalic was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetFontStyleItalic() {
 		if (isSetFontStyleItalic()) {
@@ -411,8 +411,8 @@ public class Group extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable startHead 
-	 * @return <code>true</code>, if startHead was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if startHead was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetStartHead() {
 		if (isSetStartHead()) {
@@ -453,8 +453,8 @@ public class Group extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable endHead 
-	 * @return <code>true</code>, if endHead was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if endHead was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetEndHead() {
 		if (isSetEndHead()) {
@@ -495,8 +495,8 @@ public class Group extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable textAnchor 
-	 * @return <code>true</code>, if textAnchor was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if textAnchor was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetTextAnchor() {
 		if (isSetTextAnchor()) {
@@ -537,8 +537,8 @@ public class Group extends GraphicalPrimitive2D {
 
 	/**
 	 * Unsets the variable vTextAnchor 
-	 * @return <code>true</code>, if vTextAnchor was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if vTextAnchor was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetVTextAnchor() {
 		if (isSetVTextAnchor()) {

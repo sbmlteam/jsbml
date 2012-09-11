@@ -86,7 +86,7 @@ class VerifiableFile
      * Creates a new <code>VerifiableFile</code> instance from a parent
      * pathname string and a child pathname string.
      * <p>
-     * If <code>parent</code> is <code>null</code>, then the new
+     * If <code>parent</code> is {@code null}, then the new
      * <code>VerifiableFile</code> instance is created as if by invoking the
      * single-argument <code>VerifiableFile</code> constructor on the given
      * <code>child</code> pathname string. 
@@ -105,7 +105,7 @@ class VerifiableFile
      * @param parent The parent pathname string.
      * @param child The child pathname string.
      * @throws  NullPointerException
-     *          If <code>child</code> is <code>null</code>.
+     *          If <code>child</code> is {@code null}.
      **/
     public VerifiableFile(String parent, String child)
     {
@@ -117,7 +117,7 @@ class VerifiableFile
      * Creates a new <code>VerifiableFile</code> instance from a parent
      * abstract pathname and a child pathname string.
      * <p>
-     * If <code>parent</code> is <code>null</code>, then the new
+     * If <code>parent</code> is {@code null}, then the new
      * <code>VerifiableFile</code> instance is created as if by invoking the
      * single-argument <code>VerifiableFile</code> constructor on the given
      * <code>child</code> pathname string. 
@@ -136,7 +136,7 @@ class VerifiableFile
      * @param parent The parent pathname string.
      * @param child The child pathname string.
      * @throws  NullPointerException
-     *          If <code>child</code> is <code>null</code>.
+     *          If <code>child</code> is {@code null}.
      **/
     public VerifiableFile(File parent, String child)
     {
@@ -148,8 +148,8 @@ class VerifiableFile
      * Predicate to test that a file is not a directory, that it exists,
      * and that it is readable to the invoking process.
      * 
-     * @return <code>true</code> if this file is verified to be an existing
-     * file, <code>false</code> otherwise
+     * @return {@code true} if this file is verified to be an existing
+     * file, {@code false} otherwise
      **/
     public boolean isVerifiedFile()
     {
@@ -181,8 +181,8 @@ class VerifiableFile
      * Predicate to test that a diretory is not a file, that it exists,
      * and that it is readable to the invoking process.
      * 
-     * @return <code>true</code> if this file is verified to be a
-     * directory, <code>false</code> otherwise
+     * @return {@code true} if this file is verified to be a
+     * directory, {@code false} otherwise
      **/
     public boolean isVerifiedDirectory()
     {

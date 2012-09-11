@@ -326,7 +326,7 @@ public class Unit extends AbstractSBase {
 		 *            the SBML level.
 		 * @param version
 		 *            the SBML version.
-		 * @return <code>true</code> if the given string is valid for the
+		 * @return {@code true} if the given string is valid for the
 		 *         particular SBML level and version, false otherwise.
 		 * @see Unit#isPredefined(String, int)
 		 */
@@ -888,9 +888,9 @@ public class Unit extends AbstractSBase {
 	 *            the Level of SBML for which the determination should be made.
 	 *            This is necessary because there are a few small differences in
 	 *            allowed units between SBML Level 1 and Level 2.
-	 * @return <code>true</code>, if name is one of the five SBML predefined
+	 * @return {@code true}, if name is one of the five SBML predefined
 	 *         unit identifiers ('substance', 'volume', 'area', 'length' or
-	 *         'time'), <code>false</code> otherwise. The predefined unit
+	 *         'time'), {@code false} otherwise. The predefined unit
 	 *         identifiers 'length' and 'area' were added in Level 2 Version 1
 	 * @deprecated use {@link #isPredefined(String, int)}
 	 */
@@ -910,9 +910,9 @@ public class Unit extends AbstractSBase {
 	 *            the Level of SBML for which the determination should be made.
 	 *            This is necessary because there are a few small differences in
 	 *            allowed units between SBML Level 1 and Level 2.
-	 * @return <code>true</code>, if name is one of the five SBML predefined
+	 * @return {@code true}, if name is one of the five SBML predefined
 	 *         unit identifiers ('substance', 'volume', 'area', 'length' or
-	 *         'time'), <code>false</code> otherwise. The predefined unit
+	 *         'time'), {@code false} otherwise. The predefined unit
 	 *         identifiers 'length' and 'area' were added in Level 2 Version 1
 	 */
 	public static boolean isPredefined(String name, int level) {
@@ -929,6 +929,22 @@ public class Unit extends AbstractSBase {
 			}
 		}
 		return false;
+	}
+
+  /**
+   * Tests whether the given {@link UnitDefinition} belongs to the predefined
+   * SBML units.
+   * 
+   * @param ud
+   *        the {@link UnitDefinition} to test.
+   * @return {@code true}, if name is one of the five SBML predefined
+   *         unit identifiers ('substance', 'volume', 'area', 'length' or
+   *         'time'), {@code false} otherwise. The predefined unit
+   *         identifiers 'length' and 'area' were added in Level 2 Version 1
+   * @see #isPredefined(String, int)
+   */
+	public static boolean isPredefined(UnitDefinition ud) {
+	  return isPredefined(ud.getId(), ud.getLevel());
 	}
 
 	/**

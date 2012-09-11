@@ -69,14 +69,14 @@ public interface DocumentFactory {
 	 *            instances containing the abstract pathnames, or of
 	 *            <code>java.io.String</code> instances containing the URIs,
 	 *            pointing to the schemas to use in the validation process. If
-	 *            set to <code>null</code>, the schemas defined in the data set
-	 *            will be used. If set to <code>null</code> and no schemas are
+	 *            set to {@code null}, the schemas defined in the data set
+	 *            will be used. If set to {@code null} and no schemas are
 	 *            found in the data set, an exception is most likely to be
 	 *            thrown by the underlying implementation.
 	 * @param handler
 	 *            The error handler to be used to report errors occurred while
 	 *            parsing the <code>byteStream</code> XML content. Setting this
-	 *            to <code>null</code> will result in the underlying
+	 *            to {@code null} will result in the underlying
 	 *            implementation using it's own default implementation and
 	 *            behavior.
 	 * @return The <code>org.w3c.dom.Document</code> instance representing the
@@ -120,14 +120,14 @@ public interface DocumentFactory {
 	 *            instances containing the abstract pathnames, or of
 	 *            <code>java.io.String</code> instances containing the URIs,
 	 *            pointing to the schemas to use in the validation process. If
-	 *            set to <code>null</code>, the schemas defined in the data set
-	 *            will be used. If set to <code>null</code> and no schemas are
+	 *            set to {@code null}, the schemas defined in the data set
+	 *            will be used. If set to {@code null} and no schemas are
 	 *            found in the data set, an exception is most likely to be
 	 *            thrown by the underlying implementation.
 	 * @param handler
 	 *            The error handler to be used to report errors occurred while
 	 *            parsing the <code>characterStream</code> XML content. Setting
-	 *            this to <code>null</code> will result in the underlying
+	 *            this to {@code null} will result in the underlying
 	 *            implementation using it's own default implementation and
 	 *            behavior.
 	 * @return The <code>org.w3c.dom.Document</code> instance representing the

@@ -486,8 +486,8 @@ public class RadialGradient extends GradientBase {
   
   /**
    * Unsets the variable absoluteCx 
-   * @return <code>true</code>, if absoluteCx was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteCx was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetAbsoluteCx() {
     if (isSetAbsoluteCx()) {
@@ -501,8 +501,8 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Unsets the variable absoluteCy 
-   * @return <code>true</code>, if absoluteCy was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteCy was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetAbsoluteCy() {
     if (isSetAbsoluteCy()) {
@@ -516,8 +516,8 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Unsets the variable absoluteCz 
-   * @return <code>true</code>, if absoluteCz was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteCz was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetAbsoluteCz() {
     if (isSetAbsoluteCz()) {
@@ -531,8 +531,8 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Unsets the variable absoluteFx 
-   * @return <code>true</code>, if absoluteFx was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteFx was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetAbsoluteFx() {
     if (isSetAbsoluteFx()) {
@@ -546,8 +546,8 @@ public class RadialGradient extends GradientBase {
   
   /**
    * Unsets the variable absoluteFy 
-   * @return <code>true</code>, if absoluteFy was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteFy was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetAbsoluteFy() {
     if (isSetAbsoluteFy()) {
@@ -561,8 +561,8 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Unsets the variable absoluteFz 
-   * @return <code>true</code>, if absoluteFz was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteFz was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetAbsoluteFz() {
     if (isSetAbsoluteFz()) {
@@ -576,8 +576,8 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Unsets the variable absoluteR 
-   * @return <code>true</code>, if absoluteR was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteR was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetAbsoluteR() {
     if (isSetAbsoluteR()) {
@@ -591,8 +591,8 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Unsets the variable cx 
-   * @return <code>true</code>, if cx was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if cx was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetCx() {
     if (isSetCx()) {
@@ -606,8 +606,8 @@ public class RadialGradient extends GradientBase {
   
   /**
    * Unsets the variable cy 
-   * @return <code>true</code>, if cy was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if cy was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetCy() {
     if (isSetCy()) {
@@ -621,8 +621,8 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Unsets the variable cz 
-   * @return <code>true</code>, if cz was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if cz was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetCz() {
     if (isSetCz()) {
@@ -636,8 +636,8 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Unsets the variable fx 
-   * @return <code>true</code>, if fx was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if fx was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetFx() {
     if (isSetFx()) {
@@ -651,8 +651,8 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Unsets the variable fy 
-   * @return <code>true</code>, if fy was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if fy was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetFy() {
     if (isSetFy()) {
@@ -666,8 +666,8 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Unsets the variable fz 
-   * @return <code>true</code>, if fz was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if fz was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetFz() {
     if (isSetFz()) {
@@ -681,8 +681,8 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Unsets the variable r 
-   * @return <code>true</code>, if r was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if r was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetR() {
     if (isSetR()) {

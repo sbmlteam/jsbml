@@ -212,8 +212,8 @@ public class ColorDefinition extends AbstractNamedSBase {
 
   /**
    * Unsets the variable value 
-   * @return <code>true</code>, if value was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if value was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetValue() {
     if (isSetValue()) {

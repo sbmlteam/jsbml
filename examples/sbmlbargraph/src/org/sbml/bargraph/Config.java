@@ -229,7 +229,7 @@ public class Config
      * Predicate for testing whether SBML Bar Graph is currently on a version of
      * MS Windows.
      *
-     * @return <code>true</code> if Windows, <code>false</code> if other OS
+     * @return {@code true} if Windows, {@code false} if other OS
      **/
     public static final boolean runningWindows()
     {
@@ -241,7 +241,7 @@ public class Config
      * Predicate for testing whether SBML Bar Graph is currently on a version of
      * Unix (including Darwin) or Linux.
      *
-     * @return <code>true</code> if Unix, <code>false</code> if other OS
+     * @return {@code true} if Unix, {@code false} if other OS
      */
     public static final boolean runningUnix()
     {
@@ -254,7 +254,7 @@ public class Config
      * Apple MacOS.  Note that MacOS X (Darwin) will produce a true
      * result here as well as with {@link #runningUnix()}.
      *
-     * @return <code>true</code> if MacOS, <code>false</code> if other OS
+     * @return {@code true} if MacOS, {@code false} if other OS
      */
     public static final boolean runningMac()
     {

@@ -448,8 +448,8 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Unsets the variable absoluteX1 
-   * @return <code>true</code>, if absoluteX1 was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteX1 was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetAbsoluteX1() {
     if (isSetAbsoluteX1()) {
@@ -463,8 +463,8 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Unsets the variable absoluteX2 
-   * @return <code>true</code>, if absoluteX2 was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteX2 was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetAbsoluteX2() {
     if (isSetAbsoluteX2()) {
@@ -478,8 +478,8 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Unsets the variable absoluteY1 
-   * @return <code>true</code>, if absoluteY1 was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteY1 was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetAbsoluteY1() {
     if (isSetAbsoluteY1()) {
@@ -493,8 +493,8 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Unsets the variable absoluteY2 
-   * @return <code>true</code>, if absoluteY2 was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteY2 was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetAbsoluteY2() {
     if (isSetAbsoluteY2()) {
@@ -508,8 +508,8 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Unsets the variable absoluteZ1 
-   * @return <code>true</code>, if absoluteZ1 was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteZ1 was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetAbsoluteZ1() {
     if (isSetAbsoluteZ1()) {
@@ -523,8 +523,8 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Unsets the variable absoluteZ2 
-   * @return <code>true</code>, if absoluteZ2 was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteZ2 was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetAbsoluteZ2() {
     if (isSetAbsoluteZ2()) {
@@ -538,8 +538,8 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Unsets the variable x1 
-   * @return <code>true</code>, if x1 was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if x1 was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetX1() {
     if (isSetX1()) {
@@ -553,8 +553,8 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Unsets the variable x2 
-   * @return <code>true</code>, if x2 was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if x2 was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetX2() {
     if (isSetX2()) {
@@ -568,8 +568,8 @@ public class RenderCubicBezier extends RenderPoint {
   
   /**
    * Unsets the variable y1 
-   * @return <code>true</code>, if y1 was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if y1 was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetY1() {
     if (isSetY1()) {
@@ -583,8 +583,8 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Unsets the variable y2 
-   * @return <code>true</code>, if y2 was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if y2 was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetY2() {
     if (isSetY2()) {
@@ -598,8 +598,8 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Unsets the variable z1 
-   * @return <code>true</code>, if z1 was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if z1 was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetZ1() {
     if (isSetZ1()) {
@@ -613,8 +613,8 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Unsets the variable z2 
-   * @return <code>true</code>, if z2 was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if z2 was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetZ2() {
     if (isSetZ2()) {

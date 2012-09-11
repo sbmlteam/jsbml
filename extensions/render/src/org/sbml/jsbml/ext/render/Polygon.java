@@ -156,8 +156,8 @@ public class Polygon extends GraphicalPrimitive2D {
 
   /**
    * Unsets the variable listOfElements 
-   * @return <code>true</code>, if listOfElements was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if listOfElements was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetListOfElements() {
     if (isSetListOfElements()) {

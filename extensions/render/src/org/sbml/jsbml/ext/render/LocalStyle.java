@@ -106,8 +106,8 @@ public class LocalStyle extends Style {
 
   /**
    * Unsets the variable idList 
-   * @return <code>true</code>, if idList was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if idList was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetIDList() {
     if (isSetIDList()) {

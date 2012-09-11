@@ -267,7 +267,7 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 	 * Removes the {@link #listOfLayouts} from this {@link Model} and notifies
 	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
-	 * @return <code>true</code> if calling this method lead to a change in this
+	 * @return {@code true} if calling this method lead to a change in this
 	 *         data structure.
 	 */
 	public boolean unsetListOfLayouts() {

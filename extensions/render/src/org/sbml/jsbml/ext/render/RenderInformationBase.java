@@ -177,8 +177,8 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 
 	/**
 	 * Unsets the variable programmName 
-	 * @return <code>true</code>, if programmName was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if programmName was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetProgramName() {
 		if (isSetProgramName()) {
@@ -219,8 +219,8 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 
 	/**
 	 * Unsets the variable programVersion 
-	 * @return <code>true</code>, if programVersion was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if programVersion was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetProgramVersion() {
 		if (isSetProgramVersion()) {
@@ -261,8 +261,8 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 
 	/**
 	 * Unsets the variable referenceRenderInformation 
-	 * @return <code>true</code>, if referenceRenderInformation was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if referenceRenderInformation was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetReferenceRenderInformation() {
 		if (isSetReferenceRenderInformation()) {
@@ -303,8 +303,8 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 
 	/**
 	 * Unsets the variable backgroundColor 
-	 * @return <code>true</code>, if backgroundColor was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if backgroundColor was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetBackgroundColor() {
 		if (isSetBackgroundColor()) {
@@ -317,8 +317,8 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 	}
 
 	/**
-	 * @return <code>true</code>, if listOfColorDefinitions contains at least one element, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if listOfColorDefinitions contains at least one element, 
+	 *         otherwise {@code false}
 	 */
 	public boolean isSetListOfColorDefinitions() {
 		if ((this.listOfColorDefinitions == null) || listOfColorDefinitions.isEmpty()) {
@@ -350,8 +350,8 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 	}
 
 	/**
-	 * @return <code>true</code>, if listOfColorDefinitions contained at least one element, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if listOfColorDefinitions contained at least one element, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetListOfColorDefinitions() {
 		if (isSetListOfColorDefinitions()) {
@@ -400,8 +400,8 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 
 
 	/**
-	 * @return <code>true</code>, if listOfGradientDefintions contains at least one element, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if listOfGradientDefintions contains at least one element, 
+	 *         otherwise {@code false}
 	 */
 	public boolean isSetListOfGradientDefintions() {
 		if ((listOfGradientDefintions == null) || listOfGradientDefintions.isEmpty()) {
@@ -433,8 +433,8 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 	}
 
 	/**
-	 * @return <code>true</code>, if listOfGradientDefintions contained at least one element, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if listOfGradientDefintions contained at least one element, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetListOfGradientDefintions() {
 		if (isSetListOfGradientDefintions()) {
@@ -535,8 +535,8 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   
   
   /**
-   * @return <code>true</code>, if listOfLineEndings contains at least one element, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if listOfLineEndings contains at least one element, 
+   *         otherwise {@code false}
    */
   public boolean isSetListOfLineEndings() {
     if ((listOfLineEndings == null) || listOfLineEndings.isEmpty()) {
@@ -571,8 +571,8 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 
 
   /**
-   * @return <code>true</code>, if listOfLineEndings contained at least one element, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if listOfLineEndings contained at least one element, 
+   *         otherwise {@code false}
    */
   public boolean unsetListOfLineEndings() {
     if (isSetListOfLineEndings()) {

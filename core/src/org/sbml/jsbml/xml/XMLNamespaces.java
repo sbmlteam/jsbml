@@ -71,8 +71,8 @@ public class XMLNamespaces {
    * @param sb a reference to an object to which the current object
    * instance will be compared
    *
-   * @return <code>true</code> if <code>sb</code> refers to the same underlying 
-   * native object as this one, <code>false</code> otherwise
+   * @return {@code true} if <code>sb</code> refers to the same underlying 
+   * native object as this one, {@code false} otherwise
    */
   public boolean equals(Object sb)
   {
@@ -487,10 +487,10 @@ public class XMLNamespaces {
 
   
   /**
-   * Returns <code>true</code> or <code>false</code> depending on whether this
+   * Returns {@code true} or {@code false} depending on whether this
    * {@link XMLNamespaces} list is empty.
    * <p>
-   * @return <code>true</code> if this {@link XMLNamespaces} list is empty, <code>false</code> otherwise.
+   * @return {@code true} if this {@link XMLNamespaces} list is empty, {@code false} otherwise.
    */
  public boolean isEmpty() {
 
@@ -500,13 +500,13 @@ public class XMLNamespaces {
 
   
   /**
-   * Returns <code>true</code> or <code>false</code> depending on whether an XML
+   * Returns {@code true} or {@code false} depending on whether an XML
    * Namespace with the given URI is contained in this {@link XMLNamespaces} list.
    * <p>
    * @param uri a string, the uri for the namespace
    * <p>
-   * @return <code>true</code> if an XML Namespace with the given URI is contained in
-   * this {@link XMLNamespaces} list, <code>false</code> otherwise.
+   * @return {@code true} if an XML Namespace with the given URI is contained in
+   * this {@link XMLNamespaces} list, {@code false} otherwise.
    */
  public boolean hasURI(String uri) {
 
@@ -516,14 +516,14 @@ public class XMLNamespaces {
 
   
   /**
-   * Returns <code>true</code> or <code>false</code> depending on whether an XML
+   * Returns {@code true} or {@code false} depending on whether an XML
    * Namespace with the given prefix is contained in this {@link XMLNamespaces}
    * list.
    * <p>
    * @param prefix a string, the prefix for the namespace
    * <p>
-   * @return <code>true</code> if an XML Namespace with the given URI is contained in
-   * this {@link XMLNamespaces} list, <code>false</code> otherwise.
+   * @return {@code true} if an XML Namespace with the given URI is contained in
+   * this {@link XMLNamespaces} list, {@code false} otherwise.
    */
  public boolean hasPrefix(String prefix) {
 
@@ -533,15 +533,15 @@ public class XMLNamespaces {
 
   
   /**
-   * Returns <code>true</code> or <code>false</code> depending on whether an XML
+   * Returns {@code true} or {@code false} depending on whether an XML
    * Namespace with the given URI and prefix pair is contained in this
    * {@link XMLNamespaces} list.
    * <p>
    * @param uri a string, the URI for the namespace
    * @param prefix a string, the prefix for the namespace
    * <p>
-   * @return <code>true</code> if an XML Namespace with the given uri/prefix pair is
-   * contained in this {@link XMLNamespaces} list, <code>false</code> otherwise.
+   * @return {@code true} if an XML Namespace with the given uri/prefix pair is
+   * contained in this {@link XMLNamespaces} list, {@code false} otherwise.
    */
  public boolean hasNS(String uri, String prefix) {
 

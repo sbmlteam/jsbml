@@ -146,8 +146,8 @@ public class LinearGradient extends GradientBase {
 
 	/**
 	 * Unsets the variable x1 
-	 * @return <code>true</code>, if x1 was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if x1 was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetX1() {
 		if (isSetX1()) {
@@ -188,8 +188,8 @@ public class LinearGradient extends GradientBase {
 
 	/**
 	 * Unsets the variable x2 
-	 * @return <code>true</code>, if x2 was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if x2 was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetX2() {
 		if (isSetX2()) {
@@ -230,8 +230,8 @@ public class LinearGradient extends GradientBase {
 
 	/**
 	 * Unsets the variable y1 
-	 * @return <code>true</code>, if y1 was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if y1 was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetY1() {
 		if (isSetY1()) {
@@ -272,8 +272,8 @@ public class LinearGradient extends GradientBase {
 
 	/**
 	 * Unsets the variable y2 
-	 * @return <code>true</code>, if y2 was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if y2 was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetY2() {
 		if (isSetY2()) {
@@ -314,8 +314,8 @@ public class LinearGradient extends GradientBase {
 
 	/**
 	 * Unsets the variable z1 
-	 * @return <code>true</code>, if z1 was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if z1 was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetZ1() {
 		if (isSetZ1()) {
@@ -356,8 +356,8 @@ public class LinearGradient extends GradientBase {
 
 	/**
 	 * Unsets the variable z2 
-	 * @return <code>true</code>, if z2 was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if z2 was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetZ2() {
 		if (isSetZ2()) {

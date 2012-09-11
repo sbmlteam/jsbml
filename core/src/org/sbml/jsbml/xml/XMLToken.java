@@ -1000,14 +1000,14 @@ public abstract class XMLToken extends AbstractTreeNode {
 
 
 	/**
-	 * Returns <code>true</code> or <code>false</code> depending on whether
+	 * Returns {@code true} or {@code false} depending on whether
 	 * an attribute with the given index exists in the attribute set in this 
 	 * {@link XMLToken}.
 	 * <p>
 	 * @param index an integer, the position of the attribute.
 	 * <p>
-	 * @return <code>true</code> if an attribute with the given index exists in the attribute 
-	 * set in this {@link XMLToken}, <code>false</code> otherwise.
+	 * @return {@code true} if an attribute with the given index exists in the attribute 
+	 * set in this {@link XMLToken}, {@code false} otherwise.
 	 */
 	public boolean hasAttr(int index) {
 		return attributes.hasAttribute(index);
@@ -1015,14 +1015,14 @@ public abstract class XMLToken extends AbstractTreeNode {
 
 
 	/**
-	 * Returns <code>true</code> or <code>false</code> depending on whether
+	 * Returns {@code true} or {@code false} depending on whether
 	 * an attribute with the given local name exists 
 	 * in the attribute set in this {@link XMLToken}.
 	 * <p>
 	 * @param name a string, the local name of the attribute.
 	 * <p>
-	 * @return <code>true</code> if an attribute with the given local name
-	 *  exists in the attribute set in this {@link XMLToken}, <code>false</code> otherwise.
+	 * @return {@code true} if an attribute with the given local name
+	 *  exists in the attribute set in this {@link XMLToken}, {@code false} otherwise.
 	 */
 	public boolean hasAttr(String name) {
 		return attributes.hasAttribute(name);
@@ -1030,15 +1030,15 @@ public abstract class XMLToken extends AbstractTreeNode {
 
 
 	/**
-	 * Returns <code>true</code> or <code>false</code> depending on whether
+	 * Returns {@code true} or {@code false} depending on whether
 	 * an attribute with the given local name and namespace URI exists 
 	 * in the attribute set in this {@link XMLToken}.
 	 * <p>
 	 * @param name a string, the local name of the attribute.
 	 * @param uri  a string, the namespace URI of the attribute.
 	 * <p>
-	 * @return <code>true</code> if an attribute with the given local name and namespace 
-	 * URI exists in the attribute set in this {@link XMLToken}, <code>false</code> otherwise.
+	 * @return {@code true} if an attribute with the given local name and namespace 
+	 * URI exists in the attribute set in this {@link XMLToken}, {@code false} otherwise.
 	 */
 	public boolean hasAttr(String name, String uri) {
 		return attributes.hasAttribute(name, uri);
@@ -1046,14 +1046,14 @@ public abstract class XMLToken extends AbstractTreeNode {
 
 
 	/**
-	 * Returns <code>true</code> or <code>false</code> depending on whether
+	 * Returns {@code true} or {@code false} depending on whether
 	 * an attribute with the given XML triple exists in the attribute set in 
 	 * this {@link XMLToken} 
 	 * <p>
 	 * @param triple an {@link XMLTriple}, the XML triple of the attribute 
 	 * <p>
-	 * @return <code>true</code> if an attribute with the given XML triple exists
-	 * in the attribute set in this {@link XMLToken}, <code>false</code> otherwise.
+	 * @return {@code true} if an attribute with the given XML triple exists
+	 * in the attribute set in this {@link XMLToken}, {@code false} otherwise.
 	 * <p>
 	 */
 	public boolean hasAttr(XMLTriple triple) {
@@ -1087,15 +1087,15 @@ public abstract class XMLToken extends AbstractTreeNode {
 
 
 	/**
-	 * Returns <code>true</code> or <code>false</code> depending on whether 
+	 * Returns {@code true} or {@code false} depending on whether 
 	 * an XML Namespace with the given uri/prefix pair is contained in the 
 	 * {@link XMLNamespaces} of this {@link XMLToken}.
 	 * <p>
 	 * @param uri a string, the uri for the namespace
 	 * @param prefix a string, the prefix for the namespace
 	 * <p>
-	 * @return <code>true</code> if an XML Namespace with the given uri/prefix pair is 
-	 * contained in the {@link XMLNamespaces} of this {@link XMLToken},  <code>false</code> otherwise.
+	 * @return {@code true} if an XML Namespace with the given uri/prefix pair is 
+	 * contained in the {@link XMLNamespaces} of this {@link XMLToken},  {@code false} otherwise.
 	 */
 	public boolean hasNamespaceNS(String uri, String prefix) {
 		return namespaces.hasNS(uri, prefix);
@@ -1103,14 +1103,14 @@ public abstract class XMLToken extends AbstractTreeNode {
 
 
 	/**
-	 * Returns <code>true</code> or <code>false</code> depending on whether 
+	 * Returns {@code true} or {@code false} depending on whether 
 	 * an XML Namespace with the given prefix is contained in the {@link XMLNamespaces} of
 	 * this {@link XMLToken}.
 	 * <p>
 	 * @param prefix a string, the prefix for the namespace
 	 * <p>
-	 * @return <code>true</code> if an XML Namespace with the given URI is contained in the
-	 * {@link XMLNamespaces} of this {@link XMLToken}, <code>false</code> otherwise.
+	 * @return {@code true} if an XML Namespace with the given URI is contained in the
+	 * {@link XMLNamespaces} of this {@link XMLToken}, {@code false} otherwise.
 	 */
 	public boolean hasNamespacePrefix(String prefix) {
 		return namespaces.hasPrefix(prefix);
@@ -1118,14 +1118,14 @@ public abstract class XMLToken extends AbstractTreeNode {
 
 
 	/**
-	 * Returns <code>true</code> or <code>false</code> depending on whether 
+	 * Returns {@code true} or {@code false} depending on whether 
 	 * an XML Namespace with the given URI is contained in the {@link XMLNamespaces} of
 	 * this {@link XMLToken}.
 	 * <p>
 	 * @param uri a string, the uri for the namespace
 	 * <p>
-	 * @return <code>true</code> if an XML Namespace with the given URI is contained in the
-	 * {@link XMLNamespaces} of this {@link XMLToken},  <code>false</code> otherwise.
+	 * @return {@code true} if an XML Namespace with the given URI is contained in the
+	 * {@link XMLNamespaces} of this {@link XMLToken},  {@code false} otherwise.
 	 */
 	public boolean hasNamespaceURI(String uri) {
 		return namespaces.hasURI(uri);
@@ -1133,11 +1133,11 @@ public abstract class XMLToken extends AbstractTreeNode {
 
 
 	/**
-	 * Returns <code>true</code> or <code>false</code> depending on whether 
+	 * Returns {@code true} or {@code false} depending on whether 
 	 * the attribute set in this {@link XMLToken} set is empty.
 	 * <p>
-	 * @return <code>true</code> if the attribute set in this {@link XMLToken} is empty, 
-	 * <code>false</code> otherwise.
+	 * @return {@code true} if the attribute set in this {@link XMLToken} is empty, 
+	 * {@code false} otherwise.
 	 */
 	public boolean isAttributesEmpty() {
 		return attributes.isEmpty();
@@ -1145,10 +1145,10 @@ public abstract class XMLToken extends AbstractTreeNode {
 
 
 	/**
-	 * Returns <code>true</code> or <code>false</code> depending on whether 
+	 * Returns {@code true} or {@code false} depending on whether 
 	 * this {@link XMLToken} is an XML element.
 	 * <p>
-	 * @return <code>true</code> if this {@link XMLToken} is an XML element, <code>false</code> otherwise.
+	 * @return {@code true} if this {@link XMLToken} is an XML element, {@code false} otherwise.
 	 */
 	public boolean isElement() {
 		return !isText;
@@ -1156,10 +1156,10 @@ public abstract class XMLToken extends AbstractTreeNode {
 
 
 	/**
-	 * Returns <code>true</code> or <code>false</code> depending on whether 
+	 * Returns {@code true} or {@code false} depending on whether 
 	 * this {@link XMLToken} is an XML end element.
 	 * <p>
-	 * @return <code>true</code> if this {@link XMLToken} is an XML end element, <code>false</code> otherwise.
+	 * @return {@code true} if this {@link XMLToken} is an XML end element, {@code false} otherwise.
 	 */
 	public boolean isEnd() {
 		return isEndElement;
@@ -1167,13 +1167,13 @@ public abstract class XMLToken extends AbstractTreeNode {
 
 
 	/**
-	 * Returns <code>true</code> or <code>false</code> depending on whether 
+	 * Returns {@code true} or {@code false} depending on whether 
 	 * this {@link XMLToken} is an XML end element for the given start element.
 	 * <p>
 	 * @param element {@link XMLToken}, element for which query is made.
 	 * <p>
-	 * @return <code>true</code> if this {@link XMLToken} is an XML end element for the given
-	 * {@link XMLToken} start element, <code>false</code> otherwise.
+	 * @return {@code true} if this {@link XMLToken} is an XML end element for the given
+	 * {@link XMLToken} start element, {@code false} otherwise.
 	 */
 	public boolean isEndFor(XMLToken element) {
 		return isEnd() && element.isStart() && element.getName() == getName()
@@ -1182,10 +1182,10 @@ public abstract class XMLToken extends AbstractTreeNode {
 
 
 	/**
-	 * Returns <code>true</code> or <code>false</code> depending on whether 
+	 * Returns {@code true} or {@code false} depending on whether 
 	 * this {@link XMLToken} is an end of file marker.
 	 * <p>
-	 * @return <code>true</code> if this {@link XMLToken} is an end of file (input) marker, <code>false</code>
+	 * @return {@code true} if this {@link XMLToken} is an end of file (input) marker, {@code false}
 	 * otherwise.
 	 */
 	public boolean isEOF() {
@@ -1194,11 +1194,11 @@ public abstract class XMLToken extends AbstractTreeNode {
 
 
 	/**
-	 * Returns <code>true</code> or <code>false</code> depending on whether 
+	 * Returns {@code true} or {@code false} depending on whether 
 	 * the {@link XMLNamespaces} of this {@link XMLToken} is empty.
 	 * <p>
-	 * @return <code>true</code> if the {@link XMLNamespaces} of this {@link XMLToken} is empty, 
-	 * <code>false</code> otherwise.
+	 * @return {@code true} if the {@link XMLNamespaces} of this {@link XMLToken} is empty, 
+	 * {@code false} otherwise.
 	 */
 	public boolean isNamespacesEmpty() {
 		return namespaces == null ? true : namespaces.isEmpty();
@@ -1206,10 +1206,10 @@ public abstract class XMLToken extends AbstractTreeNode {
 
 
 	/**
-	 * Returns <code>true</code> or <code>false</code> depending on whether 
+	 * Returns {@code true} or {@code false} depending on whether 
 	 * this {@link XMLToken} is an XML start element.
 	 * <p>
-	 * @return <code>true</code> if this {@link XMLToken} is an XML start element, <code>false</code> otherwise.
+	 * @return {@code true} if this {@link XMLToken} is an XML start element, {@code false} otherwise.
 	 */
 	public boolean isStart() {
 		return isStartElement;
@@ -1217,10 +1217,10 @@ public abstract class XMLToken extends AbstractTreeNode {
 
 
 	/**
-	 * Returns <code>true</code> or <code>false</code> depending on whether 
+	 * Returns {@code true} or {@code false} depending on whether 
 	 * this {@link XMLToken} is an XML text element.
 	 * <p>
-	 * @return <code>true</code> if this {@link XMLToken} is an XML text element, <code>false</code> otherwise.
+	 * @return {@code true} if this {@link XMLToken} is an XML text element, {@code false} otherwise.
 	 */
 	public boolean isText() {
 		return isText;

@@ -108,7 +108,7 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 	 * {@link #listOfSpeciesReferencesGlyph}.
 	 * 
 	 * @param glyph
-	 * @return <code>true</code> (as specified by {@link Collection#add(E)})
+	 * @return {@code true} (as specified by {@link Collection#add(E)})
 	 * @throws NullPointerException
 	 *             if the specified element is null and this list does not
 	 *             permit null elements

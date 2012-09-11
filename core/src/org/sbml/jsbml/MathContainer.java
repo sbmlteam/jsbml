@@ -112,7 +112,7 @@ public interface MathContainer extends SBaseWithDerivedUnit {
 	
 	/**
 	 * Sets the current {@link ASTNode} math element of this
-	 * {@link MathContainer} to <code>null</code> and notifies all
+	 * {@link MathContainer} to {@code null} and notifies all
 	 * {@link TreeNodeChangeListener}s assigned to this object about this
 	 * change.
 	 */

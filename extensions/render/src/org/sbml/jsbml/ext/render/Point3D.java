@@ -120,43 +120,43 @@ public interface Point3D {
 
   /**
    * Unsets the variable absoluteX 
-   * @return <code>true</code>, if absoluteX was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteX was set before, 
+   *         otherwise {@code false}
    */
   public abstract boolean unsetAbsoluteX();
 
   /**
    * Unsets the variable absoluteY 
-   * @return <code>true</code>, if absoluteY was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteY was set before, 
+   *         otherwise {@code false}
    */
   public abstract boolean unsetAbsoluteY();
 
   /**
    * Unsets the variable absoluteZ 
-   * @return <code>true</code>, if absoluteZ was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if absoluteZ was set before, 
+   *         otherwise {@code false}
    */
   public abstract boolean unsetAbsoluteZ();
 
   /**
    * Unsets the variable x 
-   * @return <code>true</code>, if x was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if x was set before, 
+   *         otherwise {@code false}
    */
   public abstract boolean unsetX();
 
   /**
    * Unsets the variable y 
-   * @return <code>true</code>, if y was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if y was set before, 
+   *         otherwise {@code false}
    */
   public abstract boolean unsetY();
 
   /**
    * Unsets the variable z 
-   * @return <code>true</code>, if z was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if z was set before, 
+   *         otherwise {@code false}
    */
   public abstract boolean unsetZ();
 

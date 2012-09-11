@@ -148,8 +148,8 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 
 	/**
 	 * Unsets the variable versionMinor
-	 * @return <code>true</code>, if versionMinor was set before,
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if versionMinor was set before,
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetVersionMinor() {
 		if (isSetVersionMinor()) {
@@ -192,8 +192,8 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 
 	/**
 	 * Unsets the variable versionMajor
-	 * @return <code>true</code>, if versionMajor was set before,
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if versionMajor was set before,
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetVersionMajor() {
 		if (isSetVersionMajor()) {
@@ -236,8 +236,8 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 
 	/**
 	 * Unsets the variable renderInformation
-	 * @return <code>true</code>, if renderInformation was set before,
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if renderInformation was set before,
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetRenderInformation() {
 		if (isSetRenderInformation()) {

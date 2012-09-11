@@ -115,8 +115,8 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
   }
 
   /**
-   * @return <code>true</code>, if listOfLocalRenderInformation contains at least one element,
-   *         otherwise <code>false</code>
+   * @return {@code true}, if listOfLocalRenderInformation contains at least one element,
+   *         otherwise {@code false}
    */
   public boolean isSetListOfLocalRenderInformation() {
     if ((listOfLocalRenderInformation == null) || listOfLocalRenderInformation.isEmpty()) {
@@ -158,8 +158,8 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
   }
 
   /**
-   * @return <code>true</code>, if listOfLocalRenderInformation contained at least one element,
-   *         otherwise <code>false</code>
+   * @return {@code true}, if listOfLocalRenderInformation contained at least one element,
+   *         otherwise {@code false}
    */
   public boolean unsetListOfLocalRenderInformation() {
     if (isSetListOfLocalRenderInformation()) {

@@ -102,8 +102,8 @@ public class Transformation2D extends Transformation {
 
   /**
    * Unsets the variable transform 
-   * @return <code>true</code>, if transform was set before, 
-   *         otherwise <code>false</code>
+   * @return {@code true}, if transform was set before, 
+   *         otherwise {@code false}
    */
   public boolean unsetTransform() {
     if (isSetTransform()) {

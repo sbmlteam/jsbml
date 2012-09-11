@@ -160,8 +160,8 @@ public class Image extends Transformation2D {
 
 	/**
 	 * Unsets the variable absoluteHeight 
-	 * @return <code>true</code>, if absoluteHeight was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if absoluteHeight was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetAbsoluteHeight() {
 		if (isSetAbsoluteHeight()) {
@@ -202,8 +202,8 @@ public class Image extends Transformation2D {
 
 	/**
 	 * Unsets the variable absoluteWidth 
-	 * @return <code>true</code>, if absoluteWidth was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if absoluteWidth was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetAbsoluteWidth() {
 		if (isSetAbsoluteWidth()) {
@@ -244,8 +244,8 @@ public class Image extends Transformation2D {
 
 	/**
 	 * Unsets the variable absoluteX 
-	 * @return <code>true</code>, if absoluteX was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if absoluteX was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetAbsoluteX() {
 		if (isSetAbsoluteX()) {
@@ -286,8 +286,8 @@ public class Image extends Transformation2D {
 
 	/**
 	 * Unsets the variable absoluteY 
-	 * @return <code>true</code>, if absoluteY was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if absoluteY was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetAbsoluteY() {
 		if (isSetAbsoluteY()) {
@@ -328,8 +328,8 @@ public class Image extends Transformation2D {
 
 	/**
 	 * Unsets the variable absoluteZ 
-	 * @return <code>true</code>, if absoluteZ was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if absoluteZ was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetAbsoluteZ() {
 		if (isSetAbsoluteZ()) {
@@ -370,8 +370,8 @@ public class Image extends Transformation2D {
 
 	/**
 	 * Unsets the variable height 
-	 * @return <code>true</code>, if height was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if height was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetHeight() {
 		if (isSetHeight()) {
@@ -412,8 +412,8 @@ public class Image extends Transformation2D {
 
 	/**
 	 * Unsets the variable href 
-	 * @return <code>true</code>, if href was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if href was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetHref() {
 		if (isSetHref()) {
@@ -454,8 +454,8 @@ public class Image extends Transformation2D {
 
 	/**
 	 * Unsets the variable width 
-	 * @return <code>true</code>, if width was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if width was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetWidth() {
 		if (isSetWidth()) {
@@ -496,8 +496,8 @@ public class Image extends Transformation2D {
 
 	/**
 	 * Unsets the variable x 
-	 * @return <code>true</code>, if x was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if x was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetX() {
 		if (isSetX()) {
@@ -538,8 +538,8 @@ public class Image extends Transformation2D {
 
 	/**
 	 * Unsets the variable y 
-	 * @return <code>true</code>, if y was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if y was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetY() {
 		if (isSetY()) {
@@ -580,8 +580,8 @@ public class Image extends Transformation2D {
 
 	/**
 	 * Unsets the variable z 
-	 * @return <code>true</code>, if z was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if z was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetZ() {
 		if (isSetZ()) {

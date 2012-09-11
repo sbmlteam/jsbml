@@ -746,7 +746,7 @@ public class SubModel {
      * @param model the original model from which a sub-model is to be created.
      * @param reactsIds the list of {@link Reaction}s selected by the user to create a sub-model
      * @param speciesIds the list of {@link Species} selected by the user to create a sub-model
-     * @return an array of related {@link Reaction}s id or <code>null</code> if no related reactions are found.
+     * @return an array of related {@link Reaction}s id or {@code null} if no related reactions are found.
      */
     public static String[] getRelatedReactions(
             Model model,
