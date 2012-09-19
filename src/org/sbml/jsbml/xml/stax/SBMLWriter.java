@@ -73,7 +73,6 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
-import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.JAXPFacade;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
@@ -147,12 +146,12 @@ public class SBMLWriter {
 			System.out.printf("Reading done\n");
 			System.out.println(Calendar.getInstance().getTime());
 			afterRead = Calendar.getInstance().getTimeInMillis();
-			
+
 			// testDocument.checkConsistency(); 
-			
+
 			System.out.printf("Starting writing\n");
 			
-			new SBMLWriter().write(testDocument, jsbmlWriteFileName);
+			new SBMLWriter().write(testDocument.clone(), jsbmlWriteFileName);
 		} catch (XMLStreamException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -556,6 +555,30 @@ public class SBMLWriter {
 			}
 		}
 
+		if (sbmlDocument.getDeclaredNamespaces().size() > 0) {
+					
+			logger.debug(" SBML declared namespaces size = "
+					+ sbmlDocument.getDeclaredNamespaces().size());
+
+			xmlObject.addAttributes(sbmlDocument.getDeclaredNamespaces());
+			
+			for (String prefix : sbmlDocument.getDeclaredNamespaces().keySet()) {
+
+				if (!prefix.equals("xmlns")) {
+
+					String namespaceURI = sbmlDocument.getDeclaredNamespaces().get(prefix);
+
+					logger.debug(" SBML name spaces: " + prefix + " = " + namespaceURI);
+
+					String namespacePrefix = prefix.substring(prefix.indexOf(":") + 1);
+
+					streamWriter.setPrefix(namespacePrefix, namespaceURI);
+
+					logger.debug(" SBML namespaces: " + namespacePrefix + " = " + namespaceURI);
+				}
+			}
+		}
+
 		it = xmlObject.getAttributes().entrySet().iterator();
 		while (it.hasNext()) {
 			Entry<String, String> entry = it.next();
@@ -839,7 +862,7 @@ public class SBMLWriter {
 		String rdfPrefix = rdfNamespaces.get(Annotation.URI_RDF_SYNTAX_NS);
 		String whiteSpace = createIndentationString(indent);
 
-		for (int i = 0; i < listOfCVTerms.size(); i++)
+		for (int i = 0; i < listOfCVTerms.size(); i++) 
 		{
 			CVTerm cvTerm = listOfCVTerms.get(i);
 			String namespaceURI = null;

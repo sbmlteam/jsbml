@@ -271,6 +271,13 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * 
 	 */
 	public void addDeclaredNamespace(String prefix, String namespace) {
+
+		if (!prefix.startsWith("xmlns:")) {
+			if (prefix.indexOf(":") != -1) {
+				throw new IllegalArgumentException("The only allowed prefix for a namespace is 'xmlns:'.");
+			}
+			prefix = "xmlns:" + prefix;
+		}
 		this.declaredNamespaces.put(prefix, namespace);
 		firePropertyChange(TreeNodeChangeEvent.addDeclaredNamespace, null, namespace);
 	}
