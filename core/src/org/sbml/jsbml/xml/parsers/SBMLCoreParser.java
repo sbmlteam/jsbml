@@ -1281,11 +1281,18 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	 * xmlObject, Object sbmlElementToWrite)
 	 */
 	public void writeNamespaces(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
+			Object sbmlElementToWrite) 
+	{
 		if (sbmlElementToWrite instanceof SBase) {
 			SBase sbase = (SBase) sbmlElementToWrite;
 
+			if (sbase.getDeclaredNamespaces().size() > 0) 
+			{
+				xmlObject.addAttributes(sbase.getDeclaredNamespaces());
+			}
+			
 			if (sbase instanceof SBMLDocument) {
+				
 				SBMLDocument sbmlDocument = (SBMLDocument) sbmlElementToWrite;
 
 				xmlObject.addAttributes(sbmlDocument
