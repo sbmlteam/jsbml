@@ -180,7 +180,6 @@ public class L3LayoutParser extends AbstractReaderWriter {
 			} 
 			
 			if (newElement != null) {
-				layout.registerChild(newElement);
 				return newElement;
 			}
 		} 
@@ -207,7 +206,6 @@ public class L3LayoutParser extends AbstractReaderWriter {
 				else if (elementName.equals(listOfSpeciesReferenceGlyphs)) 
 				{
 					ListOf<SpeciesReferenceGlyph> list = reactionGlyph.getListOfSpeciesReferenceGlyphs();
-					reactionGlyph.registerChild(list);
 					return list;
 				}
 				
