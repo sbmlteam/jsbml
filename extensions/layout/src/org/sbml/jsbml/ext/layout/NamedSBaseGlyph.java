@@ -132,9 +132,9 @@ public abstract class NamedSBaseGlyph extends GraphicalObject {
 	@Override
 	public int hashCode() {
 		final int prime = 983;
-		int result = super.hashCode();
-		result = prime * result + (isSetNamedSBase() ? 0 : sbaseID.hashCode());
-		return result;
+		int hashCode = super.hashCode();
+		hashCode += prime * (isSetNamedSBase() ? sbaseID.hashCode() : 0);
+		return hashCode;
 	}
 
 	/**

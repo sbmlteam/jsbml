@@ -65,7 +65,7 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
 	//@Override
 	public void nodeAdded(TreeNode sb) {
 	  if (logger.isDebugEnabled()) {
-	    logger.debug(MessageFormat.format("[ADD]\t{0}", sb));		
+	    logger.debug(MessageFormat.format("[ADD]\t{0}", sb));
 	  }
 	}
 
