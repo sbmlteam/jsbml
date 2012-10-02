@@ -63,19 +63,24 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
 	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeAdded(javax.swing.tree.TreeNode)
 	 */
 	//@Override
-	public void nodeAdded(TreeNode sb) {
+	public void nodeAdded(TreeNode treeNode) {
 	  if (logger.isDebugEnabled()) {
-	    logger.debug(MessageFormat.format("[ADD]\t{0}", sb));
+	    logger.debug(MessageFormat.format("[ADD]\t{0}", saveToString(treeNode)));
 	  }
 	}
 
-	/* (non-Javadoc)
+  /* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeRemoved(org.sbml.jsbml.util.TreeNodeRemovedEvent)
 	 */
 	//@Override
 	public void nodeRemoved(TreeNodeRemovedEvent evt) {
 	  if (logger.isDebugEnabled()) {
-	    logger.debug(MessageFormat.format("[DEL]\t{0}", evt.getSource()));
+	    String element = "null", prevParent = "null";
+	    if (evt != null) {
+	      element = saveToString(evt.getSource());
+	      prevParent = saveToString(evt.getPreviousParent());
+	    }
+	    logger.debug(MessageFormat.format("[DEL]\t{0} from {1}", element, prevParent));
 	  }
 	}
 
@@ -83,10 +88,29 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
 	//@Override
-	public void propertyChange(PropertyChangeEvent ev) {		
+	public void propertyChange(PropertyChangeEvent evt) {		
 	  if (logger.isDebugEnabled()) {
-	    logger.debug(MessageFormat.format("[CHG]\t{0}", ev));
+	    logger.debug(MessageFormat.format("[CHG]\t{0}", saveToString(evt)));
 	  }
 	}
+
+	/**
+   * Tries to call the {@link #toString()} method on the given object. If the
+   * argument is {@code null}, it returns "null". In case that the call of
+   * {@link #toString()} fails, the simple class name of the object is returned.
+   * 
+   * @param object
+   * @return some {@link String} representation of the given object.
+   */
+  private String saveToString(Object object) {
+    if (object == null) {
+      return "null";
+    }
+    try {
+      return object.toString();
+    } catch (Throwable t) {
+      return object.getClass().getSimpleName();
+    }
+  }
 
 }
