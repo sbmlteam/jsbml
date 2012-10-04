@@ -1430,6 +1430,11 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	  if ((metaId != null) && (getLevel() == 1)) {
 	    throw new PropertyNotAvailableException(TreeNodeChangeEvent.metaId, this);
 	  }
+	  // Meta-ids must follow the same restrictions as Ids and are defined since Level 2 (checked above).
+	  if ((metaId == null) || !AbstractNamedSBase.isValidId(metaId, getLevel(), getVersion())) {
+      throw new IllegalArgumentException(MessageFormat.format(
+        "\"{0}\" is not a valid meta-identifier for this {1}.", metaId, getElementName()));
+    }
 	  SBMLDocument doc = getSBMLDocument();
 	  String oldMetaId = this.metaId;
 	  if (doc != null) {

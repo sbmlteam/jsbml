@@ -6,6 +6,8 @@ Version 1.0-rc1 (xx-xx-2012)
 
 * New Features:
 
+  - Syntax check for metaids in the setMetaId method.
+
   - Some additional methods for more convenient working with tree data
     structures in TreeNodeWithChangeSupport.
 
@@ -62,6 +64,9 @@ Version 1.0-rc1 (xx-xx-2012)
 
 
 * Bug Fixes:
+
+  - The method nextMetaId in SBMLDocument sometimes created metaIds containing
+    the invalid character '-', but only underscores are allowed there.
 
   - Several improvements and corrections in the work with 
     TreeNodeChangeListeners. In many cases listeners were notified too

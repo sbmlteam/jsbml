@@ -693,26 +693,34 @@ public class SBMLDocument extends AbstractSBase {
 	}
 
 	/**
-	 * @return true if the model of this SBMLDocument is not null.
+	 * @return true if the {@link Model} of this {@link SBMLDocument} is not {@code null}.
 	 */
 	public boolean isSetModel() {
 		return model != null;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
+  /**
+   * Randomly creates a new {@link String} that can be used as a metaid, i.e., a
+   * String that is a valid metaid and that is not yet used by any other element
+   * within this {@link SBMLDocument}.
+   * 
+   * @return
+   */
 	public String nextMetaId() {
 	  String idOne;
 	  do {
-	    idOne = '_' + UUID.randomUUID().toString();
+	    idOne = UUID.randomUUID().toString().replace('-', '_');
+	    if (Character.isDigit(idOne.charAt(0))) {
+	      // Add an underscore at the beginning of the new metaid only if necessary.
+	      idOne = '_' + idOne;
+	    }
 	  } while (containsMetaId(idOne));
 	  return idOne;
 	}
 
 	/**
 	 * 
+	 * @param stream
 	 */
 	public void printErrors(PrintStream stream) {
 		int nbErrors = listOfErrors.getErrorCount();
