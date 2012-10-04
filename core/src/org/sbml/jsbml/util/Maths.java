@@ -74,7 +74,11 @@ public class Maths {
 	 */
   public static final double arccot(double x) {
     if (x == 0) {
-      return Math.PI/2;
+      if (String.valueOf(x).contains("-")) {
+        return -Math.PI / 2;
+      } else {
+        return Math.PI / 2;
+      }
     }
     return Math.atan(1 / x);
   }
