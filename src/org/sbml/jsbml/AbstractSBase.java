@@ -626,7 +626,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * 
 	 * @param sbase
 	 *            the element to be checked.
-	 * @return <code>true</code> if the given <code>sbase</code> and this object
+	 * @return {@code true} if the given <code>sbase</code> and this object
 	 *         have the same L/V configuration.
 	 * @throws LevelVersionError
 	 *             In case the given {@link SBase} has a different, but defined

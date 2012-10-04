@@ -188,13 +188,13 @@ public class LocalParameter extends QuantityWithUnit {
 	 * parameter represents a constant {@link Quantity}. However, per
 	 * definition, each local parameter has always been constant no matter if
 	 * its XML representation contains the <code>constant</code> attribute or
-	 * not. Hence, this attribute could set to <code>true</code> only. This
+	 * not. Hence, this attribute could set to {@code true} only. This
 	 * method checks if for this {@link LocalParameter} an explicit
 	 * <code>constant</code> flag has been set.
 	 * 
-	 * @return the isExplicitlySetConstant <code>true</code> if this
+	 * @return the isExplicitlySetConstant {@code true} if this
 	 *         {@link LocalParameter} contains an explicit <code>constant</code>
-	 *         flag, <code>false</code> otherwise.
+	 *         flag, {@code false} otherwise.
 	 */
 	public boolean isExplicitlySetConstant() {
 		return isExplicitlySetConstant;
@@ -233,7 +233,7 @@ public class LocalParameter extends QuantityWithUnit {
 	/**
 	 * This method allows users to explicitly manipulate the
 	 * <code>constant</code> attribute of this {@link LocalParameter}. This
-	 * attribute can set to <code>true</code> only. Therefore, this method does
+	 * attribute can set to {@code true} only. Therefore, this method does
 	 * just decide whether or not the <code>constant</code> attribute should
 	 * occur in generated SBML code when serializing this {@link LocalParameter}
 	 * . Since this object always represents a constant {@link Quantity} this

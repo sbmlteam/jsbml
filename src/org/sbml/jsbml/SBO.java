@@ -1376,40 +1376,40 @@ public class SBO {
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isAntisenseRNA(int sboTerm) {
 		return isChildOf(sboTerm, getAntisenseRNA());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isBindingActivator(int sboTerm) {
 		return isChildOf(sboTerm, getBindingActivator());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isCatalyst(int sboTerm) {
 		return isChildOf(sboTerm, getCatalyst());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isCatalyticActivator(int sboTerm) {
 		return isChildOf(sboTerm, getCatalyticActivator());
@@ -1463,30 +1463,30 @@ public class SBO {
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isCompetetiveInhibitor(int sboTerm) {
 		return isChildOf(sboTerm, getCompetetiveInhibitor());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isCompleteInhibitor(int sboTerm) {
 		return isChildOf(sboTerm, getCompleteInhibitor());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isComplex(int sboTerm) {
 		return isChildOf(sboTerm, getComplex());
@@ -1523,20 +1523,20 @@ public class SBO {
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isDrug(int sboTerm) {
 		return isChildOf(sboTerm, getDrug());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isEmptySet(int sboTerm) {
 		return isChildOf(sboTerm, getEmptySet());
@@ -1553,20 +1553,20 @@ public class SBO {
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isEnzymaticCatalysis(int sboTerm) {
 		return isChildOf(sboTerm, getEnzymaticCatalysis());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isEssentialActivator(int sboTerm) {
 		return isChildOf(sboTerm, getEssentialActivator());
@@ -1603,10 +1603,10 @@ public class SBO {
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isGene(int sboTerm) {
 		return isChildOf(sboTerm, getGene());
@@ -1637,30 +1637,30 @@ public class SBO {
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isGeneric(int sboTerm) {
 		return isChildOf(sboTerm, getGeneric());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isHillEquation(int sboTerm) {
 		return isChildOf(sboTerm, getHillEquation());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isInhibitor(int sboTerm) {
 		return isChildOf(sboTerm, getInhibitor());
@@ -1677,20 +1677,20 @@ public class SBO {
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isIon(int sboTerm) {
 		return isChildOf(sboTerm, getIon());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isIonChannel(int sboTerm) {
 		return isChildOf(sboTerm, getIonChannel());
@@ -1737,10 +1737,10 @@ public class SBO {
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isMessengerRNA(int sboTerm) {
 		return isChildOf(sboTerm, getMessengerRNA());
@@ -1767,20 +1767,20 @@ public class SBO {
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isNonCompetetiveInhibitor(int sboTerm) {
 		return isChildOf(sboTerm, getNonCompetetiveInhibitor());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isNonEssentialActivator(int sboTerm) {
 		return isChildOf(sboTerm, getNonEssentialActivator());
@@ -1797,10 +1797,10 @@ public class SBO {
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isPartialInhibitor(int sboTerm) {
 		return isChildOf(sboTerm, getPartialInhibitor());
@@ -1828,20 +1828,20 @@ public class SBO {
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isPhenotype(int sboTerm) {
 		return isChildOf(sboTerm, getPhenotype());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isPhysicalCompartment(int sboTerm) {
 		return isChildOf(sboTerm, getPhysicalCompartment());
@@ -1869,10 +1869,10 @@ public class SBO {
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isProtein(int sboTerm) {
 		return isChildOf(sboTerm, getProtein());
@@ -1909,60 +1909,60 @@ public class SBO {
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isReceptor(int sboTerm) {
 		return isChildOf(sboTerm, getReceptor());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isRNA(int sboTerm) {
 		return isChildOf(sboTerm, getRNA());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isRNAOrMessengerRNA(int sboTerm) {
 		return isRNA(sboTerm) || isMessengerRNA(sboTerm);
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isSimpleMolecule(int sboTerm) {
 		return isChildOf(sboTerm, getSimpleMolecule());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isSpecificActivator(int sboTerm) {
 		return isChildOf(sboTerm, getSpecificActivator());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isStateTransition(int sboTerm) {
 		return isChildOf(sboTerm, getStateTransition());
@@ -1979,130 +1979,130 @@ public class SBO {
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isStimulator(int sboTerm) {
 		return isChildOf(sboTerm, getStimulator());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isTranscription(int sboTerm) {
 		return isChildOf(sboTerm, getTranscription());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isTranscriptionalActivation(int sboTerm) {
 		return isChildOf(sboTerm, getTranscriptionalActivation());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isTranscriptionalInhibitor(int sboTerm) {
 		return isChildOf(sboTerm, getTranscriptionalInhibitor());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isTransitionOmitted(int sboTerm) {
 		return isChildOf(sboTerm, getTransitionOmitted());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isTranslation(int sboTerm) {
 		return isChildOf(sboTerm, getTranslation());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isTranslationalActivation(int sboTerm) {
 		return isChildOf(sboTerm, getTranslationalActivation());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isTranslationalInhibitor(int sboTerm) {
 		return isChildOf(sboTerm, getTranslationalInhibitor());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isTransport(int sboTerm) {
 		return isChildOf(sboTerm, getTransport());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isTrigger(int sboTerm) {
 		return isChildOf(sboTerm, getTrigger());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isTruncated(int sboTerm) {
 		return isChildOf(sboTerm, getTruncated());
 	}
 
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isUnknownMolecule(int sboTerm) {
 		return isChildOf(sboTerm, getUnknownMolecule());
 	}
 	
 	/**
-	 * Returns <code>true</code> if the given term identifier comes from the stated branch of SBO.
+	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
 	 * @param sboTerm
-	 * @return <code>true</code> if <code>term</code> is-a SBO <em>'product'</em>, <code>false</code> otherwise.
+	 * @return {@code true} if <code>term</code> is-a SBO <em>'product'</em>, {@code false} otherwise.
 	 */
 	public static boolean isUnknownTransition(int sboTerm) {
 		return isChildOf(sboTerm, getUnknownTransition());

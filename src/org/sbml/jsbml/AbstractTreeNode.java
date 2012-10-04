@@ -99,10 +99,10 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 	 * by this method, for two reasons:
 	 * <ul>
 	 * <li>
-	 * The {@link #parent} is not cloned and is left as <code>null</code>
+	 * The {@link #parent} is not cloned and is left as {@code null}
 	 * because the new {@link AbstractTreeNode} will get a parent set as soon as
 	 * it is added/linked again to a {@link Model}. Note that only the top-level
-   * element of the cloned sub-tree will have a <code>null</code> value as its
+   * element of the cloned sub-tree will have a {@code null} value as its
    * parent. All sub-element will point to their correct parent element..</li>
 	 * <li>{@link #listOfListeners} is needed in all other setXX() methods.
 	 * Cloning these might lead to strange and unexpected behavior, because when

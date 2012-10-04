@@ -167,7 +167,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 	 * Event.
 	 * 
 	 * @param eventass
-	 * @return <code>true</code> if the {@link #listOfEventAssignments} was
+	 * @return {@code true} if the {@link #listOfEventAssignments} was
 	 *         changed as a result of this call.
 	 */
 	public boolean addEventAssignment(EventAssignment eventass) {
@@ -951,7 +951,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 	 * Removes the {@link #listOfEventAssignments} from this {@link Model} and
 	 * notifies all registered instances of {@link TreeNodeChangeListener}.
 	 * 
-	 * @return <code>true</code> if calling this method lead to a change in this
+	 * @return {@code true} if calling this method lead to a change in this
 	 *         data structure.
 	 */
 	public boolean unsetListOfEventAssignments() {

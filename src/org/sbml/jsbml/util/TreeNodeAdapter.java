@@ -228,7 +228,7 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 	 * {@link #isSetUserObject()}) and if so if it belongs to those elements
 	 * returned by the method {@link #getChildAt(int)}.
 	 * 
-	 * @return <code>true</code> if the user's object has been defined and
+	 * @return {@code true} if the user's object has been defined and
 	 *         belongs to those classes that are returned by the method
 	 *         {@link #getChildAt(int)}.
 	 * @see #getChildAt(int)

@@ -169,7 +169,7 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
    * 
    * @param listeners
    *            the set of listeners to add
-   * @return <code>true</code> if the set of listeners is added with success.
+   * @return {@code true} if the set of listeners is added with success.
    * 
    */
   public boolean addAllChangeListeners(

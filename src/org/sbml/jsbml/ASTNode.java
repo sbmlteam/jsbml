@@ -1876,7 +1876,7 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns <code>true</code> or <code>false</code> depending on whether this
+	 * Returns {@code true} or {@code false} depending on whether this
 	 * {@link ASTNode} refers to elements such as parameters or numbers with
 	 * undeclared units.
 	 * 
@@ -1884,9 +1884,9 @@ public class ASTNode extends AbstractTreeNode {
 	 * returned by {@link Variable#getDerivedUnitDefinition()} may not accurately
 	 * represent the units of the expression.
 	 * 
-	 * @return <code>true</code> if the math expression of this {@link ASTNode}
+	 * @return {@code true} if the math expression of this {@link ASTNode}
 	 *         includes parameters/numbers with undeclared units,
-	 *         <code>false</code> otherwise.
+	 *         {@code false} otherwise.
 	 */
 	public boolean containsUndeclaredUnits() {
 		if (isLeaf()) {
@@ -2460,7 +2460,7 @@ public class ASTNode extends AbstractTreeNode {
 
 	/**
 	 * Returns the variable of this node. This function should be called only
-	 * when {@link #isVariable()} == <code>true</code>, otherwise an Exception is thrown.
+	 * when {@link #isVariable()} == {@code true}, otherwise an Exception is thrown.
 	 * 
 	 * @return the variable of this node
 	 * @throws IllegalArgumentException
@@ -2732,11 +2732,11 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns <code>true</code> if this node is a user-defined {@link Variable} name in SBML L1, L2
+	 * Returns {@code true} if this node is a user-defined {@link Variable} name in SBML L1, L2
 	 * (MathML), or the special symbols delay or time. The predicate returns
-	 * <code>false</code> otherwise.
+	 * {@code false} otherwise.
 	 * 
-	 * @return <code>true</code> if this {@link ASTNode} is a user-defined variable name in SBML L1,
+	 * @return {@code true} if this {@link ASTNode} is a user-defined variable name in SBML L1,
 	 *         L2 (MathML) or the special symbols time or Avogadro.
 	 */
 	public boolean isName() {
@@ -2946,7 +2946,7 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Returns <code>true</code> if this node is a name or refers to a
+	 * Returns {@code true} if this node is a name or refers to a
 	 * {@link FunctionDefinition}.
 	 * 
 	 * @return true if this {@link ASTNode} is a user-defined variable name in SBML L1,

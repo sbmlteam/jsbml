@@ -312,7 +312,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Adds a Compartment instance to the listOfCompartments of this Model.
    * 
    * @param compartment
-   * @return <code>true</code> if the {@link #listOfCompartments} was changed as
+   * @return {@code true} if the {@link #listOfCompartments} was changed as
    *         a result of this call.
    */
   public boolean addCompartment(Compartment compartment) {
@@ -324,7 +324,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Model.
    * 
    * @param compartmentType
-   * @return <code>true</code> if the {@link #listOfCompartmentTypes} was
+   * @return {@code true} if the {@link #listOfCompartmentTypes} was
    *         changed as a result of this call.
    * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
@@ -338,7 +338,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * {@link Model}.
    * 
    * @param constraint
-   * @return <code>true</code> if the {@link #listOfConstraints} was changed as
+   * @return {@code true} if the {@link #listOfConstraints} was changed as
    *         a result of this call.
    */
   public boolean addConstraint(Constraint constraint) {
@@ -349,7 +349,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * Adds an {@link Event} instance to the listOfEvents of this Model.
 	 * 
 	 * @param event
-	 * @return <code>true</code> if the {@link #listOfEvents} was changed as a
+	 * @return {@code true} if the {@link #listOfEvents} was changed as a
 	 *         result of this call.
 	 * @throws PropertyNotAvailableException
 	 *             for inappropriate Level/Version combinations.
@@ -366,7 +366,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * of this {@link Model}.
    * 
    * @param functionDefinition
-   * @return <code>true</code> if the {@link #listOfFunctionDefinitions} was
+   * @return {@code true} if the {@link #listOfFunctionDefinitions} was
    *         changed as a result of this call.
    */
   public boolean addFunctionDefinition(FunctionDefinition functionDefinition) {
@@ -378,7 +378,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Model.
    * 
    * @param initialAssignment
-   * @return <code>true</code> if the {@link #listOfInitialAssignments} was
+   * @return {@code true} if the {@link #listOfInitialAssignments} was
    *         changed as a result of this call.
    */
   public boolean addInitialAssignment(InitialAssignment initialAssignment) {
@@ -389,7 +389,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Adds a Parameter instance to the listOfParameters of this Model.
    * 
    * @param parameter
-   * @return <code>true</code> if the {@link #listOfParameters} was changed as a
+   * @return {@code true} if the {@link #listOfParameters} was changed as a
    *         result of this call.
    */
   public boolean addParameter(Parameter parameter) {
@@ -509,7 +509,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Adds a Reaction instance to the listOfReactions of this Model.
    * 
    * @param reaction
-   * @return <code>true</code> if the {@link #listOfReactions} was changed as a
+   * @return {@code true} if the {@link #listOfReactions} was changed as a
    *         result of this call.
    */
   public boolean addReaction(Reaction reaction) {
@@ -520,7 +520,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Adds a Rule instance to the listOfRules of this Model.
    * 
    * @param rule
-   * @return <code>true</code> if the {@link #listOfRules} was changed as a
+   * @return {@code true} if the {@link #listOfRules} was changed as a
    *         result of this call.
    */
   public boolean addRule(Rule rule) {
@@ -531,7 +531,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Adds a Species instance to the listOfSpecies of this Model.
    * 
    * @param spec
-   * @return <code>true</code> if the {@link #listOfSpecies} was changed as a
+   * @return {@code true} if the {@link #listOfSpecies} was changed as a
    *         result of this call.
    */
   public boolean addSpecies(Species spec) {
@@ -542,7 +542,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Adds a SpeciesType instance to the listOfSpeciesTypes of this Model.
    * 
    * @param speciesType
-   * @return <code>true</code> if the {@link #listOfSpeciesTypes} was changed as
+   * @return {@code true} if the {@link #listOfSpeciesTypes} was changed as
    *         a result of this call.
    * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
    */
@@ -555,7 +555,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Adds an UnitDefinition instance to the listOfUnitDefinitions of this Model.
    * 
    * @param unitDefinition
-   * @return <code>true</code> if the {@link #listOfUnitDefinitions} was changed
+   * @return {@code true} if the {@link #listOfUnitDefinitions} was changed
    *         as a result of this call.
    */
   public boolean addUnitDefinition(UnitDefinition unitDefinition) {
@@ -635,11 +635,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns <code>true</code> if this {@link Model} contains a reference to the given
+   * Returns {@code true} if this {@link Model} contains a reference to the given
    * {@link Quantity}.
    * 
    * @param quantity
-   * @return <code>true</code> if this {@link Model} contains a reference to the given
+   * @return {@code true} if this {@link Model} contains a reference to the given
    *         {@link Quantity}.
    */
   public boolean containsQuantity(Quantity quantity) {
@@ -651,11 +651,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns <code>true</code> if this {@link Model} contains a reference to the given
+   * Returns {@code true} if this {@link Model} contains a reference to the given
    * {@link Species}.
    * 
    * @param id
-   * @return <code>true</code> if this {@link Model} contains a reference to the given
+   * @return {@code true} if this {@link Model} contains a reference to the given
    *         {@link Species}.
    */
   public boolean containsSpecies(String id) {
@@ -663,11 +663,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns <code>true</code> if this {@link Model} contains a reference to the given
+   * Returns {@code true} if this {@link Model} contains a reference to the given
    * {@link UniqueNamedSBase}.
    * 
    * @param units
-   * @return <code>true</code> if this {@link Model} contains a reference to the given
+   * @return {@code true} if this {@link Model} contains a reference to the given
    *         {@link UniqueNamedSBase}.
    */
   public boolean containsUniqueNamedSBase(String id) {
@@ -675,11 +675,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns <code>true</code> if this {@link Model} contains a reference to the given
+   * Returns {@code true} if this {@link Model} contains a reference to the given
    * {@link UnitDefinition}.
    * 
    * @param units
-   * @return <code>true</code> if this {@link Model} contains a reference to the given
+   * @return {@code true} if this {@link Model} contains a reference to the given
    *         {@link UnitDefinition}.
    */
   public boolean containsUnitDefinition(String units) {
@@ -1427,7 +1427,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *        referred to by the {@link ModifierSpeciesReference}.
    * @return the {@link ModifierSpeciesReference} out of all {@link Reaction}s
    *         which has 'id' as id (or name depending on level and version).
-   *         <code>null</code> if it doesn't exist.
+   *         {@code null} if it doesn't exist.
    */
   public ModifierSpeciesReference findModifierSpeciesReference(String id) {
     SimpleSpeciesReference ssr = findSimpleSpeciesReference(id);
@@ -1444,7 +1444,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param id
    *        an id indicating an element of the model.
    * @return a {@link NamedSBase} element of the model that has the given 'id'
-   *         as id or <code>null</code> if no element is found.
+   *         as id or {@code null} if no element is found.
    */
   public NamedSBase findNamedSBase(String id) {
     if (id.equals(getId())) { return this; }
@@ -1544,7 +1544,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns a {@link SortedSet} of identifiers of all {@link Reaction} elements
    * within
    * this {@link Model} whose {@link KineticLaw}s contain a
-   * {@link LocalParameter} that has the given 'id' or <code>null</code> if no
+   * {@link LocalParameter} that has the given 'id' or {@code null} if no
    * element cannot be found.
    * 
    * @param id
@@ -1553,7 +1553,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return a {@link SortedSet} of the identifiers of all {@link Reaction}
    *         elements within this {@link Model} whose {@link KineticLaw}
    *         contains a {@link LocalParameter} that has the given 'id' as id 
-   *         or <code>null</code> if no such element with this 'id' can be
+   *         or {@code null} if no such element with this 'id' can be
    *         found.
    */
   public SortedSet<String> findReactionsForLocalParameter(String id) 
@@ -1597,7 +1597,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *        referred to by the {@link SimpleSpeciesReference}.
    * @return the {@link SimpleSpeciesReference} out of all {@link Reaction}s
    *         which has 'id' as id (or name depending on level and version).
-   *         <code>null</code> if it doesn't exist.
+   *         {@code null} if it doesn't exist.
    */
   public SimpleSpeciesReference findSimpleSpeciesReference(String id) {
     UniqueNamedSBase found = findUniqueNamedSBase(id);
@@ -1617,7 +1617,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *        referred to by the {@link SpeciesReference}.
    * @return the {@link SpeciesReference} out of all {@link Reaction}s
    *         which has 'id' as id (or name depending on level and version).
-   *         <code>null</code> if it doesn't exist.
+   *         {@code null} if it doesn't exist.
    */
   public SpeciesReference findSpeciesReference(String id) {
     SimpleSpeciesReference ssr = findSimpleSpeciesReference(id);
@@ -1651,13 +1651,13 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   
   /**
    * Returns a {@link UniqueNamedSBase} element that has the given 'id' within
-   * this {@link Model} or <code>null</code> if no such element can be found.
+   * this {@link Model} or {@code null} if no such element can be found.
    * 
    * @param id
    *        an id indicating an {@link UniqueNamedSBase} element of the
    *        {@link Model}.
    * @return a {@link UniqueNamedSBase} element of the {@link Model} that has
-   *         the given 'id' as id or <code>null</code> if no element with this
+   *         the given 'id' as id or {@code null} if no element with this
    *         'id' can be found.
    */
   public UniqueNamedSBase findUniqueNamedSBase(String id) {
@@ -1666,13 +1666,13 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   
   /**
    * Returns a {@link UnitDefinition} element that has the given 'id' within
-   * this {@link Model} or <code>null</code> if no such element can be found.
+   * this {@link Model} or {@code null} if no such element can be found.
    * 
    * @param id
    *        an id indicating an {@link UnitDefinition} element of the
    *        {@link Model}.
    * @return a {@link UniqueNamedSBase} element of the {@link Model} that has
-   *         the given 'id' as id or <code>null</code> if no such element with
+   *         the given 'id' as id or {@code null} if no such element with
    *         this 'id' can be found.
    */
   public UnitDefinition findUnitDefinition(String id) {
@@ -2704,7 +2704,7 @@ public int getNumLocalParameters() {
    * 
    * @param id
    * @return the {@link Reaction} of the {@link #listOfReactions} which has 'id' as id
-   *         (or name depending on the level and version). <code>null</code> if it doesn't
+   *         (or name depending on the level and version). {@code null} if it doesn't
    *         exist.
    */
   public Reaction getReaction(String id) {
@@ -2787,7 +2787,7 @@ public int getNumLocalParameters() {
    * 
    * @param id
    * @return the {@link SpeciesType} of the {@link #listOfSpeciesTypes} which has 'id' as
-   *         id (or name depending on the level and version). <code>null</code> if it doesn't
+   *         id (or name depending on the level and version). {@code null} if it doesn't
    *         exist.
    */
   @Deprecated
@@ -3370,7 +3370,7 @@ public int getNumLocalParameters() {
    * @param lp
    *        the {@link LocalParameter} whose identifier is to be registered.
    * @param delete
-   * @return <code>true</code> in case of success, otherwise <code>false</code>.
+   * @return {@code true} in case of success, otherwise {@code false}.
    */
   private boolean registerId(KineticLaw kl, LocalParameter lp, boolean delete, boolean alreadyRegisteredInKL) {
     if (!alreadyRegisteredInKL) {
@@ -3444,11 +3444,11 @@ public int getNumLocalParameters() {
    * @param nsb
    *        the element, whose identifier is to be registered.
    * @param add
-   *        If <code>true</code> the identifier of the given {@link NamedSBase}
+   *        If {@code true} the identifier of the given {@link NamedSBase}
    *        will be registered in this {@link Model} Otherwise, the given
    *        identifier will be removed from this {@link Model}'s hash.
-   * @return <code>true</code> if this operation was successfully performed,
-   *         <code>false</code> otherwise.
+   * @return {@code true} if this operation was successfully performed,
+   *         {@code false} otherwise.
    */
   boolean registerId(NamedSBase nsb, boolean add) {
     return registerIds(nsb.getParentSBMLObject(), nsb, true, !add);
@@ -3528,8 +3528,8 @@ public int getNumLocalParameters() {
    * @param newElem
    * @param recursively
    * @param delete
-   * @return <code>true</code> if this operation was successfully performed,
-   *         <code>false</code> otherwise.
+   * @return {@code true} if this operation was successfully performed,
+   *         {@code false} otherwise.
    */
   boolean registerIds(SBase parent, SBase newElem, boolean recursively, boolean delete) 
   {
@@ -4349,7 +4349,7 @@ public int getNumLocalParameters() {
    * Removes the {@link #listOfCompartments} from this {@link Model} and
    * notifies all registered instances of {@link TreeNodeChangeListener}.
    * 
-   * @return <code>true</code> if calling this method lead to a change in this
+   * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
   public boolean unsetListOfCompartments() {
@@ -4366,7 +4366,7 @@ public int getNumLocalParameters() {
    * Removes the {@link #listOfCompartmentTypes} from this {@link Model} and
    * notifies all registered instances of {@link TreeNodeChangeListener}.
    * 
-   * @return <code>true</code> if calling this method lead to a change in this
+   * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    * @deprecated
    */
@@ -4385,7 +4385,7 @@ public int getNumLocalParameters() {
    * Removes the {@link #listOfConstraints} from this {@link Model} and notifies
    * all registered instances of {@link TreeNodeChangeListener}.
    * 
-   * @return <code>true</code> if calling this method lead to a change in this
+   * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
   public boolean unsetListOfConstraints() {
@@ -4402,7 +4402,7 @@ public int getNumLocalParameters() {
    * Removes the {@link #listOfEvents} from this {@link Model} and notifies all
    * registered instances of {@link TreeNodeChangeListener}.
    * 
-   * @return <code>true</code> if calling this method lead to a change in this
+   * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
   public boolean unsetListOfEvents() {
@@ -4419,7 +4419,7 @@ public int getNumLocalParameters() {
    * Removes the {@link #listOfFunctionDefinitions} from this {@link Model} and
    * notifies all registered instances of {@link TreeNodeChangeListener}.
    * 
-   * @return <code>true</code> if calling this method lead to a change in this
+   * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
   public boolean unsetListOfFunctionDefinitions() {
@@ -4436,7 +4436,7 @@ public int getNumLocalParameters() {
    * Removes the {@link #listOfInitialAssignments} from this {@link Model} and
    * notifies all registered instances of {@link TreeNodeChangeListener}.
    * 
-   * @return <code>true</code> if calling this method lead to a change in this
+   * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
   public boolean unsetListOfInitialAssignments() {
@@ -4453,7 +4453,7 @@ public int getNumLocalParameters() {
    * Removes the {@link #listOfParameters} from this {@link Model} and notifies
    * all registered instances of {@link TreeNodeChangeListener}.
    * 
-   * @return <code>true</code> if calling this method lead to a change in this
+   * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
   public boolean unsetListOfParameters() {
@@ -4470,7 +4470,7 @@ public int getNumLocalParameters() {
    * Removes the {@link #listOfReactions} from this {@link Model} and notifies
    * all registered instances of {@link TreeNodeChangeListener}.
    * 
-   * @return <code>true</code> if calling this method lead to a change in this
+   * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
   public boolean unsetListOfReactions() {
@@ -4487,7 +4487,7 @@ public int getNumLocalParameters() {
    * Removes the {@link #listOfRules} from this {@link Model} and notifies all
    * registered instances of {@link TreeNodeChangeListener}.
    * 
-   * @return <code>true</code> if calling this method lead to a change in this
+   * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
   public boolean unsetListOfRules() {
@@ -4504,7 +4504,7 @@ public int getNumLocalParameters() {
    * Removes the {@link #listOfSpecies} from this {@link Model} and notifies all
    * registered instances of {@link TreeNodeChangeListener}.
    * 
-   * @return <code>true</code> if calling this method lead to a change in this
+   * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
   public boolean unsetListOfSpecies() {
@@ -4521,7 +4521,7 @@ public int getNumLocalParameters() {
    * Removes the {@link #listOfSpeciesTypes} from this {@link Model} and
    * notifies all registered instances of {@link TreeNodeChangeListener}.
    * 
-   * @return <code>true</code> if calling this method lead to a change in this
+   * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    * @deprecated
    */
@@ -4540,7 +4540,7 @@ public int getNumLocalParameters() {
    * Removes the {@link #listOfUnitDefinitions} from this {@link Model} and
    * notifies all registered instances of {@link TreeNodeChangeListener}.
    * 
-   * @return <code>true</code> if calling this method lead to a change in this
+   * @return {@code true} if calling this method lead to a change in this
    *         data structure.
    */
   public boolean unsetListOfUnitDefinitions() {
@@ -4563,7 +4563,7 @@ public int getNumLocalParameters() {
   }
   
   /**
-   * Sets the {@link #substanceUnitsID} of this {@link Model} to <code>null</code>.
+   * Sets the {@link #substanceUnitsID} of this {@link Model} to {@code null}.
    */
   public void unsetSubstanceUnits() {
     setSubstanceUnits((String) null);

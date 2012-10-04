@@ -42,7 +42,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	
   /**
    * @param term
-   * @return <code>true</code> if a {@link CVTerm} instance has been added to
+   * @return {@code true} if a {@link CVTerm} instance has been added to
    *         the list of {@link CVTerm} of this object.
    */
 	public boolean addCVTerm(CVTerm term);
@@ -307,7 +307,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	public boolean hasValidAnnotation();
 
 	/**
-	 * Predicate returning <code>true</code> or false depending on whether this object's
+	 * Predicate returning {@code true} or false depending on whether this object's
 	 * level/version and name space values correspond to a valid SBML
 	 * specification.
 	 * 
@@ -339,10 +339,10 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	public boolean isSetLevel();
 
 	/**
-	 * Returns <code>true</code> if both, Level and Version are set for this
+	 * Returns {@code true} if both, Level and Version are set for this
 	 * {@link SBase}.
 	 * 
-	 * @return <code>true</code> if {@link #isSetLevel()} and
+	 * @return {@code true} if {@link #isSetLevel()} and
 	 *         {@link #isSetVersion()}.
 	 */
 	public boolean isSetLevelAndVersion();
@@ -367,8 +367,8 @@ public interface SBase extends TreeNodeWithChangeSupport {
 	 * Check whether this {@link SBase} has been linked to a parent within the
 	 * hierarchical SBML data structure.
 	 * 
-	 * @return <code>true</code> if this {@link SBase} has a parent SBML object,
-	 *         <code>false</code> otherwise.
+	 * @return {@code true} if this {@link SBase} has a parent SBML object,
+	 *         {@code false} otherwise.
 	 * @see #getParentSBMLObject()
 	 */
 	public boolean isSetParentSBMLObject();

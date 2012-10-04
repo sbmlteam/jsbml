@@ -38,7 +38,7 @@ public interface Assignment extends MathContainer {
 	public static final String ILLEGAL_VARIABLE_EXCEPTION_MSG = "Cannot set SpeciesReference %s as the Variable in %s for SBML Level < 3";
 	/**
 	 * Error message to be displayed in case that a {@link Variable} with
-	 * constant property set to <code>true</code> is to be assigned to this
+	 * constant property set to {@code true} is to be assigned to this
 	 * {@link Assignment}.
 	 */
 	public static final String ILLEGAL_CONSTANT_VARIABLE_MSG = "Cannot set the constant variable %s as the target of this %s.";

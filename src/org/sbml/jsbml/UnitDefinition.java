@@ -86,7 +86,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 	/**
 	 * <p>
-	 * Predicate returning <code>true</code> or <code>false</code> depending on
+	 * Predicate returning {@code true} or {@code false} depending on
 	 * whether two UnitDefinition objects are compatible.
 	 * </p>
 	 * <p>
@@ -101,8 +101,8 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 *            the first {@link UnitDefinition} object to compare
 	 * @param ud2
 	 *            the second {@link UnitDefinition} object to compare
-	 * @return <code>true</code> if all the {@link Unit} objects in ud1 are
-	 *         compatible to the {@link Unit} objects in ud2, <code>false</code>
+	 * @return {@code true} if all the {@link Unit} objects in ud1 are
+	 *         compatible to the {@link Unit} objects in ud2, {@code false}
 	 *         otherwise.
 	 * @see #areIdentical(UnitDefinition, UnitDefinition)
 	 * @see Unit#areEquivalent(Unit, Unit)
@@ -939,9 +939,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * Convenience function for testing if a given unit definition is a variant
 	 * of the predefined unit identifier 'time'.
 	 * 
-	 * @return <code>true</code> if this {@link UnitDefinition} is a variant of
+	 * @return {@code true} if this {@link UnitDefinition} is a variant of
 	 *         the predefined unit time, meaning second with only arbitrary
-	 *         variations in scale or multiplier values; <code>false</code>
+	 *         variations in scale or multiplier values; {@code false}
 	 *         otherwise.
 	 */
 	public boolean isVariantOfTime() {
@@ -958,10 +958,10 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * Convenience function for testing if a given unit definition is a variant
 	 * of the predefined unit identifier 'volume'.
 	 * 
-	 * @return <code>true</code> if this {@link UnitDefinition} is a variant of
+	 * @return {@code true} if this {@link UnitDefinition} is a variant of
 	 *         the predefined unit volume, meaning litre or cubic metre with
 	 *         only arbitrary variations in scale or multiplier values;
-	 *         <code>false</code> otherwise.
+	 *         {@code false} otherwise.
 	 */
 	public boolean isVariantOfVolume() {
 		if (isSetListOfUnits()) {
@@ -1179,7 +1179,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * Removes the {@link #listOfUnits} from this {@link UnitDefinition} and
 	 * notifies all registered instances of {@link TreeNodeChangeListener}.
 	 * 
-	 * @return <code>true</code> if calling this method lead to a change in this
+	 * @return {@code true} if calling this method lead to a change in this
 	 *         data structure.
 	 */
 	public boolean unsetListOfUnits() {

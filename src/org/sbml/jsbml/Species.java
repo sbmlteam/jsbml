@@ -433,12 +433,12 @@ public class Species extends Symbol {
 	 * corresponding {@link UnitDefinition} from the {@link Model} to which this
 	 * {@link Species} belongs will be returned. Otherwise, the size unit from
 	 * the surrounding {@link Compartment} of this {@link Species} will be
-	 * returned. If this also fails, <code>null</code> will be returned.
+	 * returned. If this also fails, {@code null} will be returned.
 	 * 
 	 * @return The {@link UnitDefinition} instance which as the
 	 *         {@link #spatialSizeUnitsID} of this {@link Species} as id or the
 	 *         size unit of the surrounding {@link Compartment}.
-	 *         <code>Null</code> if it doesn't exist.
+	 *         {@code null} if it doesn't exist.
 	 */
 	public UnitDefinition getSpatialSizeUnitsInstance() {
 		if (isSetSpatialSizeUnits()) {

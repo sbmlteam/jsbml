@@ -34,7 +34,7 @@ package org.sbml.jsbml;
 public interface SBaseWithDerivedUnit extends SBase {
 
 	/**
-	 * Returns <code>true</code> or <code>false</code> depending on whether this
+	 * Returns {@code true} or {@code false} depending on whether this
 	 * {@link SBaseWithDerivedUnit} refers to elements such as parameters or
 	 * numbers with undeclared units.
 	 * 
@@ -42,9 +42,9 @@ public interface SBaseWithDerivedUnit extends SBase {
 	 * returned by {@see getDerivedUnitDefinition()} may not accurately
 	 * represent the units of the expression.
 	 * 
-	 * @return <code>true</code> if the math expression of this {@link SBaseWithDerivedUnit}
+	 * @return {@code true} if the math expression of this {@link SBaseWithDerivedUnit}
 	 *         includes parameters/numbers with undeclared units,
-	 *         <code>false</code> otherwise.
+	 *         {@code false} otherwise.
 	 */
 	public boolean containsUndeclaredUnits();
 

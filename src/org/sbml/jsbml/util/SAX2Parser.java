@@ -66,8 +66,8 @@ public interface SAX2Parser {
 	 *            instances containing the abstract pathnames, or of
 	 *            <code>java.io.String</code> instances containing the URIs,
 	 *            pointing to the schemas to use in the validation process. If
-	 *            set to <code>null</code>, the schemas defined in the data set
-	 *            will be used. If set to <code>null</code> and no schemas are
+	 *            set to {@code null}, the schemas defined in the data set
+	 *            will be used. If set to {@code null} and no schemas are
 	 *            found in the data set, an exception is most likely to be
 	 *            thrown by the underlying implementation.
 	 * 
@@ -108,8 +108,8 @@ public interface SAX2Parser {
 	 *            instances containing the abstract pathnames, or of
 	 *            <code>java.io.String</code> instances containing the URIs,
 	 *            pointing to the schemas to use in the validation process. If
-	 *            set to <code>null</code>, the schemas defined in the data set
-	 *            will be used. If set to <code>null</code> and no schemas are
+	 *            set to {@code null}, the schemas defined in the data set
+	 *            will be used. If set to {@code null} and no schemas are
 	 *            found in the data set, an exception is most likely to be
 	 *            thrown by the underlying implementation.
 	 * 
