@@ -50,7 +50,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	private static final String idChar = "[" + letter + digit + underscore + "]";
 	private static final String SIdL2 = "^[" + letter + underscore + "]" + idChar + '*';
 	private static final Pattern SIdL2Pattern = Pattern.compile(SIdL2);
-		
+
 	/**
 	 * Checks whether the given idCandidate is a valid identifier according to
 	 * the SBML specifications.
@@ -300,8 +300,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	 * @see org.sbml.jsbml.NamedSBase#setId(java.lang.String)
 	 */
 	public void setId(String id) {
-		String property = getLevel() == 1 ? TreeNodeChangeEvent.name
-				: TreeNodeChangeEvent.id;
+		String property = getLevel() == 1 ? TreeNodeChangeEvent.name : TreeNodeChangeEvent.id;
 		String oldId = this.id;
 		Model model = getModel();
     if ((oldId != null) && (model != null)) {
