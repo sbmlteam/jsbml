@@ -354,6 +354,8 @@ public class LayoutDirector<P> implements Runnable {
 			if (layoutModel.getLayoutCount() > layoutIndex) {
 				buildLayout(layoutModel.getLayout(layoutIndex));
 			}
+		} else {
+			//TODO: throw exception or a logger answer
 		}
 	}
 	
