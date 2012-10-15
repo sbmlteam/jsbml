@@ -294,6 +294,18 @@ public class QualitativeModel extends AbstractSBasePlugin {
 	  }
 	  return listOfTransitions;
   }
+  
+  /**
+   * @param transition
+   *        to remove from the listOfTransitions
+   * @return {@code TRUE} if the operation was successful
+   */
+  public boolean removeTransition(Transition transition) {
+    if (isSetListOfTransitions()) {
+      return listOfTransitions.remove(transition);
+    }
+    return false;
+  }
 
   /**
    * Returns the {@link Model}
