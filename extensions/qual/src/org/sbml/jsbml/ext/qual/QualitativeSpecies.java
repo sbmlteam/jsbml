@@ -21,12 +21,9 @@ package org.sbml.jsbml.ext.qual;
 
 import java.util.Map;
 
-import javax.swing.tree.TreeNode;
-
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.LevelVersionError;
-import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.UniqueNamedSBase;
@@ -186,7 +183,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   }
   
   /**
-   * @return if boundaryCondition attribute is set
+   * @return if compartment attribute is set
    */
   public boolean isSetCompartment() {
     return compartment != null;
@@ -247,7 +244,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
    * @return true
    */
   public boolean isBoundaryConditionMandatory() {
-    return true;
+    return false;
   }
 
   /**
