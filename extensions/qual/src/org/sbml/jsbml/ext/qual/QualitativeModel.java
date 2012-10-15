@@ -308,6 +308,18 @@ public class QualitativeModel extends AbstractSBasePlugin {
   }
 
   /**
+   * @param QualitativeSpecies
+   *        to remove from the listOfQualitativeSpecies
+   * @return {@code TRUE} if the operation was successful
+   */
+  public boolean removeQualitativeSpecies(QualitativeSpecies qualitativeSpecies) {
+    if (isSetListOfQualitativeSpecies()) {
+      return listOfQualitativeSpecies.remove(qualitativeSpecies);
+    }
+    return false;
+  }
+  
+  /**
    * Returns the {@link Model}
    * 
    * @return the {@link Model}
