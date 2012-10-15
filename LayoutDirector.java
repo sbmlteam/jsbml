@@ -120,10 +120,12 @@ public class LayoutDirector<P> implements Runnable {
 	
 	/**
 	 * algorithm to go through all reactions of the model and get all
-	 * compartments, reactants, products and modifiers
+	 * compartments, reactants, products and modifiers and parse them into 
+	 * TikZ-code.
 	 * 
 	 * @param layout the layout to be used
 	 */
+	@SuppressWarnings("unchecked")
 	private void buildLayout(Layout layout) {
 		
 		algorithm.setLayout(layout);
@@ -132,6 +134,7 @@ public class LayoutDirector<P> implements Runnable {
 			layout.setDimensions(algorithm.createLayoutDimension());
 		}
 		
+		//write the head of the LaTeX-document
 		builder.builderStart(layout);
 		
 		ListOf<CompartmentGlyph> compartmentGlyphList = layout.getListOfCompartmentGlyphs();
@@ -161,7 +164,8 @@ public class LayoutDirector<P> implements Runnable {
 			// layout.findCompartmentGlyphs(compartment.getId());
 			
 			if (!compartmentGlyph.isSetBoundingBox()) {
-				compartmentGlyph.setBoundingBox(algorithm.createCompartmentGlyphBoundingBox(previousCompartmentGlyph));
+				compartmentGlyph.setBoundingBox(algorithm.createGlyphBoundingBox(previousCompartmentGlyph, null));
+//				compartmentGlyph.setBoundingBox(algorithm.createCompartmentGlyphBoundingBox(previousCompartmentGlyph));
 			} else {
 				BoundingBox boundingBox = compartmentGlyph.getBoundingBox();
 				if (!boundingBox.isSetDimensions()) {
@@ -183,7 +187,8 @@ public class LayoutDirector<P> implements Runnable {
 		
 		for (ReactionGlyph rg : reactionGlyphList) {
 			if (!rg.isSetBoundingBox()) {
-				rg.setBoundingBox(algorithm.createReactionGlyphBoundingBox(rg));
+				rg.setBoundingBox(algorithm.createGlyphBoundingBox(rg, null));
+//				rg.setBoundingBox(algorithm.createReactionGlyphBoundingBox(rg));
 			} else {
 				BoundingBox boundingBox = rg.getBoundingBox();
 				if (!boundingBox.isSetDimensions()) {
@@ -236,7 +241,8 @@ public class LayoutDirector<P> implements Runnable {
 				if (srg.isSetSpeciesGlyph()) {
 					SpeciesGlyph speciesGlyph = srg.getSpeciesGlyphInstance();
 					if (!speciesGlyph.isSetBoundingBox()) {
-						speciesGlyph.setBoundingBox(algorithm.createSpeciesGlyphBoundingBox(speciesGlyph,srg));
+						speciesGlyph.setBoundingBox(algorithm.createGlyphBoundingBox(speciesGlyph,srg));
+//						speciesGlyph.setBoundingBox(algorithm.createSpeciesGlyphBoundingBox(speciesGlyph,srg));
 					} else {
 						BoundingBox boundingBox = speciesGlyph.getBoundingBox();
 						if (!boundingBox.isSetDimensions()) {
@@ -283,7 +289,8 @@ public class LayoutDirector<P> implements Runnable {
 			}
 			
 			if (!sg.isSetBoundingBox()) {
-				sg.setBoundingBox(algorithm.createSpeciesGlyphBoundingBox(sg));
+				sg.setBoundingBox(algorithm.createGlyphBoundingBox(sg, null));
+//				sg.setBoundingBox(algorithm.createSpeciesGlyphBoundingBox(sg));
 			} else {
 				BoundingBox boundingBox = sg.getBoundingBox();
 				if (!boundingBox.isSetDimensions()) {
@@ -302,7 +309,8 @@ public class LayoutDirector<P> implements Runnable {
 		ListOf<TextGlyph> textGlyphList = layout.getListOfTextGlyphs();
 		for (TextGlyph textGlyph : textGlyphList) {
 			if (!textGlyph.isSetBoundingBox()) {
-				textGlyph.setBoundingBox(algorithm.createTextGlyphBoundingBox(textGlyph));
+				textGlyph.setBoundingBox(algorithm.createGlyphBoundingBox(textGlyph, null));
+//				textGlyph.setBoundingBox(algorithm.createTextGlyphBoundingBox(textGlyph));
 			} else {
 				BoundingBox boundingBox = textGlyph.getBoundingBox();
 				if (!boundingBox.isSetDimensions()) {
@@ -324,6 +332,7 @@ public class LayoutDirector<P> implements Runnable {
 	 * 
 	 * @param listOfNamedSBaseGlyphs
 	 */
+	@SuppressWarnings("unchecked")
 	private void createLayoutLinks(ListOf<? extends NamedSBaseGlyph> listOfNamedSBaseGlyphs) {
 		for (NamedSBaseGlyph glyph : listOfNamedSBaseGlyphs) {
 			if (glyph.isSetNamedSBase()) {
@@ -340,7 +349,7 @@ public class LayoutDirector<P> implements Runnable {
 	
 	/*
 	 * method that builds the layout and thus starts the actual drawing of the
-	 * components
+	 * components when there is a layout information in this model.
 	 * 
 	 * (non-Javadoc)
 	 * 
@@ -403,6 +412,7 @@ public class LayoutDirector<P> implements Runnable {
 	 * 
 	 * @return a LinkedList<Compartment> with the compartments sorted from outside to inside
 	 */
+	@SuppressWarnings("unchecked")
 	private List<CompartmentGlyph> getSortedCompartmentGlyphList() {
 		createCompartmentLinks();
 		List<CompartmentGlyph> sortedGlyphList = new ArrayList<CompartmentGlyph>();
@@ -429,6 +439,7 @@ public class LayoutDirector<P> implements Runnable {
 	 * @return a LinkedList<Compartments> with the compartments the given
 	 *         compartment contains
 	 */
+	@SuppressWarnings("unchecked")
 	private LinkedList<CompartmentGlyph> getContainedCompartmentGlyphs(Compartment compartment) {
 		LinkedList<CompartmentGlyph> containedList = new LinkedList<CompartmentGlyph>();
 		Object userObject = compartment.getUserObject(COMPARTMENT_LINK);
@@ -448,6 +459,7 @@ public class LayoutDirector<P> implements Runnable {
 	 * user object with the key COMPARTMENT_LINK, helping method to sort the
 	 * compartments from outside to inside
 	 */
+	@SuppressWarnings("unchecked")
 	private void createCompartmentLinks() {
 		ListOf<Compartment> compartmentList = model.getListOfCompartments();
 		for (Compartment compartment : compartmentList) {

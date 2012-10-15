@@ -22,6 +22,7 @@ import org.sbml.jsbml.ext.layout.CompartmentGlyph;
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.layout.Dimensions;
 import org.sbml.jsbml.ext.layout.Layout;
+import org.sbml.jsbml.ext.layout.NamedSBaseGlyph;
 import org.sbml.jsbml.ext.layout.Position;
 import org.sbml.jsbml.ext.layout.ReactionGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
@@ -270,4 +271,11 @@ public interface LayoutAlgorithm {
 	 */
 	public double calculateReactionGlyphRotationAngle(ReactionGlyph reactionGlyph);
 	
+	/**
+	 * method to create a {@link BoundingBox} for every kind of {@link NamedSBaseGlyph}.
+	 * @param glyph
+	 * @param specRefGlyph
+	 * @return
+	 */
+	public BoundingBox createGlyphBoundingBox(NamedSBaseGlyph glyph, SpeciesReferenceGlyph specRefGlyph);
 }
