@@ -22,9 +22,9 @@ package de.zbit.sbml.layout;
  * nodes have to implement
  * 
  * @author Mirjam Gutekunst
- * @version $Rev: 132 $
+ * @version $Rev$
  */
-public abstract class SimpleChemical implements SBGNNode {
+public abstract class SimpleChemical<T> implements SBGNNode<T> {
 	
 	private boolean cloneMarker = false;
 	

@@ -18,12 +18,25 @@
 package de.zbit.sbml.layout;
 
 /**
- * interface all the different graphical representations for catalysis arcs have
- * to implement
- * 
- * @author Mirjam Gutekunst
+ * @author Jakob Matthes
  * @version $Rev$
  */
-public interface Catalysis<T> extends SBGNArc<T> {
+public abstract class Compartment<T> implements SBGNNode<T> {
+
+	// final because compartments never have clone markers	
+	private final boolean cloneMarker = false;
+	
+	/* (non-Javadoc)
+	 * @see de.zbit.sbml.layout.SBGNNode#setCloneMarker()
+	 */
+	public void setCloneMarker() {
+	}
+	
+	/* (non-Javadoc)
+	 * @see de.zbit.sbml.layout.SBGNNode#isSetCloneMarker()
+	 */
+	public boolean isSetCloneMarker() {
+		return cloneMarker;
+	}
 
 }

@@ -22,9 +22,9 @@ package de.zbit.sbml.layout;
  * have to implement
  * 
  * @author Mirjam Gutekunst
- * @version $Rev: 135 $
+ * @version $Rev$
  */
-public abstract class SourceSink implements SBGNNode {
+public abstract class SourceSink<T> implements SBGNNode<T> {
 	
 	//final because source or sink never have clone markers	
 	private final boolean cloneMarker = false;

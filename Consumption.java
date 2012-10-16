@@ -22,8 +22,8 @@ package de.zbit.sbml.layout;
  * have to implement
  * 
  * @author Mirjam Gutekunst
- * @version $Rev: 132 $
+ * @version $Rev$
  */
-public interface Consumption extends SBGNArc {
+public interface Consumption<T> extends SBGNArc<T> {
 
 }

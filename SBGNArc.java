@@ -18,6 +18,7 @@
 package de.zbit.sbml.layout;
 
 import org.sbml.jsbml.ext.layout.CurveSegment;
+import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 
 /**
  * interface for the different types of connecting arcs
@@ -29,16 +30,16 @@ import org.sbml.jsbml.ext.layout.CurveSegment;
  * </ul>
  * 
  * @author Mirjam Gutekunst
- * @version $Rev: 138 $
+ * @version $Rev$
  */
-public interface SBGNArc {
+public interface SBGNArc<T> {
 	
 	/**
 	 * method for drawing the connecting arc, with appropriate line ending
 	 * 
 	 * @param curveSegment a {@link CurveSegment} of the {@link Curve} of the {@link SpeciesReferenceGlyph} 
-	 * @return String with the commands to draw the arc
+	 * @return T as a graphical representation of any form
 	 */
-	public String draw(CurveSegment curveSegment);
+	public T draw(CurveSegment curveSegment);
 	
 }
