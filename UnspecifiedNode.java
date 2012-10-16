@@ -22,9 +22,9 @@ package de.zbit.sbml.layout;
  * pool nodes have to implement
  * 
  * @author Mirjam Gutekunst
- * @version $Rev: 132 $
+ * @version $Rev$
  */
-abstract public class UnspecifiedNode implements SBGNNode {
+abstract public class UnspecifiedNode<T> implements SBGNNode<T> {
 	
 	private boolean cloneMarker = false;
 	

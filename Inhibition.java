@@ -22,8 +22,10 @@ package de.zbit.sbml.layout;
  * have to implement
  * 
  * @author Mirjam Gutekunst
- * @version $Rev: 132 $
+ * @version $Rev$
+ * @param <T>
+ * @param <T>
  */
-public interface Inhibition extends SBGNArc {
+public interface Inhibition<T> extends SBGNArc<T> {
 
 }

@@ -17,6 +17,8 @@
 
 package de.zbit.sbml.layout;
 
+import org.sbml.jsbml.ext.layout.BoundingBox;
+
 /**
  * interface for the different types of entity pool nodes
  * - unspecified entity
@@ -25,9 +27,10 @@ package de.zbit.sbml.layout;
  * - source/sink
  * 
  * @author Mirjam Gutekunst
- * @version $Rev: 136 $
+ * @version $Rev$
+ * @param <T>
  */
-public interface SBGNNode {
+public interface SBGNNode<T> {
 	
 	/**
 	 * method for drawing an entity pool node with the specified position and
@@ -39,9 +42,9 @@ public interface SBGNNode {
 	 * @param width of a BoundingBox
 	 * @param height of a BoundingBox
 	 * @param depth of a BoundingBox
-	 * @return String with the commands to draw the node
+	 * @return T as a graphical representation of any form
 	 */
-	public String draw(double x, double y, double z,
+	public T draw(double x, double y, double z,
 			double width, double height, double depth);
 	
 	/**

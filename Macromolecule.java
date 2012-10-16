@@ -23,9 +23,9 @@ package de.zbit.sbml.layout;
  * 
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev: 132 $
+ * @version $Rev$
  */
-public abstract class Macromolecule implements SBGNNode {
+public abstract class Macromolecule<T> implements SBGNNode<T> {
 	
 	private boolean cloneMarker = false;
 	
