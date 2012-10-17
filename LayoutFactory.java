@@ -48,6 +48,11 @@ public interface LayoutFactory<T> {
 	public SimpleChemical<T> createSimpleChemical();
 	
 	/**
+	 * @return a {@link Compartment}
+	 */
+	public Compartment<T> createCompartment();
+	
+	/**
 	 * @return a {@link Production}
 	 */
 	public Production<T> createProduction();
