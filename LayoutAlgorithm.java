@@ -47,6 +47,7 @@ public interface LayoutAlgorithm {
 	public Dimensions createLayoutDimension();
 	
 	/**
+	 * Please use {@link LayoutAlgorithm#createGlyphBoundingBox} instead.
 	 * method to create a {@link BoundingBox} for a {@link CompartmentGlyph} if
 	 * it was missing in the layout model, should invoke
 	 * {@link LayoutAlgorithm#createCompartmentGlyphDimension(CompartmentGlyph)}
@@ -57,6 +58,7 @@ public interface LayoutAlgorithm {
 	 *          the {@link CompartmentGlyph} that is missing a {@link BoundingBox}
 	 * @return a {@link BoundingBox}
 	 */
+	@Deprecated
 	public BoundingBox createCompartmentGlyphBoundingBox(CompartmentGlyph previousCompartmentGlyph);
 	
 	/**
@@ -82,6 +84,8 @@ public interface LayoutAlgorithm {
 	public Position createCompartmentGlyphPosition(CompartmentGlyph previousCompartmentGlyph);
 	
 	/**
+	 * Please use {@link LayoutAlgorithm#createGlyphBoundingBox} instead.
+	 * 
 	 * method to create a {@link BoundingBox} for a {@link SpeciesGlyph} if it
 	 * was missing in the layout model, should invoke {@link LayoutAlgorithm#createSpeciesGlyphDimension()}
 	 * and {@link LayoutAlgorithm#createSpeciesGlyphPosition(SpeciesGlyph)}
@@ -89,9 +93,12 @@ public interface LayoutAlgorithm {
 	 * @param speciesGlyph for which the {@link BoundingBox} is missing
 	 * @return a {@link BoundingBox}
 	 */
+	@Deprecated
 	public BoundingBox createSpeciesGlyphBoundingBox(SpeciesGlyph speciesGlyph);
 	
 	/**
+	 * Please use {@link LayoutAlgorithm#createGlyphBoundingBox} instead.
+	 * 
 	 * method to create a {@link BoundingBox} for a {@link SpeciesGlyph} if it
 	 * was missing in the layout model and if the {@link SpeciesGlyph} can be
 	 * associated with a {@link SpeciesReferenceGlyph}, should invoke
@@ -102,6 +109,7 @@ public interface LayoutAlgorithm {
 	 * @param speciesReferenceGlyph that points to the given {@link SpeciesGlyph}
 	 * @return a {@link BoundingBox}
 	 */
+	@Deprecated
 	public BoundingBox createSpeciesGlyphBoundingBox(SpeciesGlyph speciesGlyph,
 										SpeciesReferenceGlyph speciesReferenceGlyph);
 	
@@ -146,14 +154,17 @@ public interface LayoutAlgorithm {
 						SpeciesReferenceGlyph speciesReferenceGlyph);
 	
 	/**
-	 * method to create a {@link BoundingBox} for a {@link TextGlyph} if it was
+	 * Please use {@link LayoutAlgorithm#createGlyphBoundingBox} instead.
+	 * 
+	 * Method to create a {@link BoundingBox} for a {@link TextGlyph} if it was
 	 * missing in the layout model, should invoke
 	 * {@link LayoutAlgorithm#createTextGlyphDimension(TextGlyph)} and
-	 * {@link LayoutAlgorithm#createTextGlyphPosition(TextGlyph)}
+	 * {@link LayoutAlgorithm#createTextGlyphPosition(TextGlyph)}.
 	 * 
 	 * @param textGlyph for which the {@link BoundingBox} is missing
 	 * @return a {@link BoundingBox}
 	 */
+	@Deprecated
 	public BoundingBox createTextGlyphBoundingBox(TextGlyph textGlyph);
 	
 	/**
@@ -175,6 +186,8 @@ public interface LayoutAlgorithm {
 	public Position createTextGlyphPosition(TextGlyph textGlyph);
 	
 	/**
+	 * Please use {@link LayoutAlgorithm#createGlyphBoundingBox} instead.
+	 * 
 	 * method to create a {@link BoundingBox} for a {@link ReactionGlyph} if it
 	 * was missing in the layout model should invoke
 	 * {@link LayoutAlgorithm#createReactionGlyphDimension(ReactionGlyph)} and
@@ -183,6 +196,7 @@ public interface LayoutAlgorithm {
 	 * @param reactionGlyph for which the {@link BoundingBox} is missing
 	 * @return a {@link BoundingBox}
 	 */
+	@Deprecated
 	public BoundingBox createReactionGlyphBoundingBox(ReactionGlyph reactionGlyph);
 	
 	/**
@@ -204,6 +218,8 @@ public interface LayoutAlgorithm {
 	public Position createReactionGlyphPosition(ReactionGlyph reactionGlyph);
 	
 	/**
+	 * Please use {@link LayoutAlgorithm#createGlyphBoundingBox} instead.
+	 * 
 	 * method to create a {@link BoundingBox} for a {@link SpeciesReferenceGlyph}
 	 * if it was missing in the layout model,
 	 * should invoke
@@ -217,6 +233,7 @@ public interface LayoutAlgorithm {
 	 *            for which the {@link BoundingBox} is missing
 	 * @return a {@link BoundingBox}
 	 */
+	@Deprecated
 	public BoundingBox createSpeciesReferenceGlyphBoundingBox(
 			ReactionGlyph reactionGlyph,
 			SpeciesReferenceGlyph speciesReferenceGlyph);
