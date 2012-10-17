@@ -77,6 +77,11 @@ public abstract class AbstractLayoutBuilder<P,T> implements LayoutBuilder<P>, La
 			return createUnspecifiedNode();
 		}
 		
+		// physical compartment, 290
+		if (SBO.isChildOf(sboTerm, SBO.getCompartment())) {
+			return createCompartment();
+		}
+		
 		//default type of the entity pool node is an unspecified node
 		//if the SBO term does not match any of the above numbers
 		return createUnspecifiedNode();
