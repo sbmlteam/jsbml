@@ -38,7 +38,7 @@
   <entry key="http://www.sbml.org/sbml/level3/version1/groups/version1">org.sbml.jsbml.xml.parsers.GroupsParser</entry>
   <entry key="http://projects.eml.org/bcb/sbml/level2">org.sbml.jsbml.xml.parsers.LayoutParser</entry>
   <entry key="http://www.sbml.org/sbml/level3/version1/groups/version1">org.sbml.jsbml.xml.parsers.GroupsParser</entry>
-  <entry key="http://www.sbml.org/sbml/level3/version1/fbc/version1">org.sbml.jsbml.xml.parsers.FBAParser</entry>
+  <entry key="http://www.sbml.org/sbml/level3/version1/fbc/version1">org.sbml.jsbml.xml.parsers.FBCParser</entry>
   <entry key="http://www.sbml.org/sbml/level3/version1/qual/version1">org.sbml.jsbml.xml.parsers.QualParser</entry>
   <entry key="http://www.sbml.org/sbml/level3/version1/layout/version1">org.sbml.jsbml.xml.parsers.L3LayoutParser</entry>
   <entry key="http://www.sbml.org/sbml/level3/version1/multi/version1">org.sbml.jsbml.xml.parsers.MultiParser</entry>
