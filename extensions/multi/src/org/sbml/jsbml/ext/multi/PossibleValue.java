@@ -18,7 +18,13 @@ import org.sbml.jsbml.UniqueNamedSBase;
  */
 public class PossibleValue extends AbstractNamedSBase  implements UniqueNamedSBase {
 
-	public PossibleValue() {
+	/**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -8059031235221209834L;
+
+
+  public PossibleValue() {
 		super();
 		initDefaults();
 	}

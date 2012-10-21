@@ -6,7 +6,11 @@ import org.sbml.jsbml.AbstractSBase;
 
 public class StateFeatureValue extends AbstractSBase {
 
-	private String possibleValue;
+	/**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 3920699098046832296L;
+  private String possibleValue;
 
 	public StateFeatureValue() {
 		super();

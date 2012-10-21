@@ -6,7 +6,11 @@ public class ProductSpeciesReference extends SpeciesReference {
 
 	// TODO : check if it is a new element or a plugin to speciesReference
 	
-	private String correspondingReactant;
+	/**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 5789882023489183232L;
+  private String correspondingReactant;
 
 	/**
 	 * Returns the corresponding reactant.

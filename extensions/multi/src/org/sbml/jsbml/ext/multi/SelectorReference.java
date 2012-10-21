@@ -4,7 +4,12 @@ import org.sbml.jsbml.AbstractSBase;
 
 public class SelectorReference extends AbstractSBase {
 
-	private boolean negation;
+	/**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 8313057744716585955L;
+
+  private boolean negation;
 	
 	private String selector;
 	

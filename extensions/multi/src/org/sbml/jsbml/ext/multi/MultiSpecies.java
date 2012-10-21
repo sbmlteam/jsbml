@@ -32,7 +32,7 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
  * 
- * @author rodrigue
+ * @author Nicolas Rodriguez
  * @author Marine Dumousseau
  * @since 1.0
  * @version $Rev$

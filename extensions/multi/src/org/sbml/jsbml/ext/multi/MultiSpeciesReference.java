@@ -10,7 +10,11 @@ import org.sbml.jsbml.ext.SBasePlugin;
 
 public class MultiSpeciesReference extends AbstractSBasePlugin {
 
-	ListOf<SpeciesTypeRestriction> listOfSpeciesTypeRestrictions;
+	/**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 3171952386462646205L;
+  ListOf<SpeciesTypeRestriction> listOfSpeciesTypeRestrictions;
 	
 	
 	/**

@@ -6,7 +6,12 @@ import org.sbml.jsbml.AbstractSBase;
 
 public class ContainedSpeciesType extends AbstractSBase {
 
-	private String speciesTypeState;
+	/**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 6818715002582655076L;
+
+  private String speciesTypeState;
 	
 	public ContainedSpeciesType() {
 		super();
