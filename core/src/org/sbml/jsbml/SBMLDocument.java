@@ -245,21 +245,21 @@ public class SBMLDocument extends AbstractSBase {
 		try {
 			new SBMLWriter().writeSBML(this, tmpFile);
 		} catch (IOException e) {
-			logger.error("There was an error creating a temporary file :" + e.getMessage());
+			logger.error("There was an error creating a temporary file: " + e.getMessage());
 
 			if (logger.isDebugEnabled()) {
 				e.printStackTrace();
 			}
 			return -1;
 		} catch (XMLStreamException e) {
-			logger.error("There was an error creating a temporary file :" + e.getMessage());
+			logger.error("There was an error creating a temporary file: " + e.getMessage());
 
 			if (logger.isDebugEnabled()) {
 				e.printStackTrace();
 			}
 			return -1;
 		} catch (SBMLException e) {
-			logger.error("There was an error creating a temporary file :" + e.getMessage());
+			logger.error("There was an error creating a temporary file: " + e.getMessage());
 
 			if (logger.isDebugEnabled()) {
 				e.printStackTrace();

@@ -17,7 +17,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.ext.fba;
+package org.sbml.jsbml.ext.fbc;
 
 /**
  * 
@@ -26,7 +26,7 @@ package org.sbml.jsbml.ext.fba;
  * @since 1.0
  * @date 27.10.2011
  */
-public enum FBAList {
+public enum FBCList {
   /**
    * 
    */

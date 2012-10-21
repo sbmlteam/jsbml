@@ -17,7 +17,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.ext.fba;
+package org.sbml.jsbml.ext.fbc;
 
 import java.util.Map;
 
@@ -27,7 +27,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.UniqueNamedSBase;
-import org.sbml.jsbml.xml.parsers.FBAParser;
+import org.sbml.jsbml.xml.parsers.FBCParser;
 
 /**
  * 
@@ -129,11 +129,11 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (type != null) {
-			attributes.put(FBAParser.shortLabel+ ":type", getType());			
+			attributes.put(FBCParser.shortLabel+ ":type", getType());			
 		}
 		if (isSetId()) {
 			attributes.remove("id");
-			attributes.put(FBAParser.shortLabel+ ":id", getId());
+			attributes.put(FBCParser.shortLabel+ ":id", getId());
 		}
 		
 		return attributes;

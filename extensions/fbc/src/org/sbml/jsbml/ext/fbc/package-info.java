@@ -21,4 +21,4 @@
 /**
  * 
  */
-package org.sbml.jsbml.ext.fba;
+package org.sbml.jsbml.ext.fbc;
