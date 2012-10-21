@@ -17,7 +17,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.ext.fba;
+package org.sbml.jsbml.ext.fbc;
 
 import java.util.Map;
 
@@ -35,7 +35,7 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  * @since 1.0
  * @date 27.10.2011
  */
-public class FBAModel extends AbstractSBasePlugin {
+public class FBCModel extends AbstractSBasePlugin {
 
 	/**
    * Generated serial version identifier.
@@ -46,7 +46,7 @@ public class FBAModel extends AbstractSBasePlugin {
 	
 	private Model model;
 	
-	public FBAModel(Model model) {
+	public FBCModel(Model model) {
 		this.model = model;
 	}
 	
@@ -54,7 +54,7 @@ public class FBAModel extends AbstractSBasePlugin {
 	 * (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
-	public FBAModel clone() {
+	public FBCModel clone() {
 		// TODO 
 		return null;
 	}
@@ -109,7 +109,6 @@ public class FBAModel extends AbstractSBasePlugin {
 	 * @param listOfFluxBounds the listOfFluxBounds to set
 	 */
 	public void addFluxBound(FluxBound fluxBound) {
-		model.setThisAsParentSBMLObject(fluxBound);
 		this.listOfFluxBounds.add(fluxBound);
 	}
 
@@ -144,7 +143,6 @@ public class FBAModel extends AbstractSBasePlugin {
 	 * @param listOfObjectives the listOfObjectives to set
 	 */
 	public void addObjective(Objective objective) {
-		model.setThisAsParentSBMLObject(objective);
 		this.listOfObjectives.add(objective);
 	}
 

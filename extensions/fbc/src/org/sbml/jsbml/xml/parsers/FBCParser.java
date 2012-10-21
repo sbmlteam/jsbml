@@ -1,6 +1,6 @@
 /*
- * $Id: FBAParser.java 835 2011-10-24 13:32:22Z niko-rodrigue $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/extensions/groups/src/org/sbml/jsbml/xml/parsers/FBAParser.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -31,30 +31,30 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.SBasePlugin;
-import org.sbml.jsbml.ext.fba.FBAList;
-import org.sbml.jsbml.ext.fba.FBAModel;
-import org.sbml.jsbml.ext.fba.FluxBound;
-import org.sbml.jsbml.ext.fba.FluxObjective;
-import org.sbml.jsbml.ext.fba.Objective;
+import org.sbml.jsbml.ext.fbc.FBCList;
+import org.sbml.jsbml.ext.fbc.FBCModel;
+import org.sbml.jsbml.ext.fbc.FluxBound;
+import org.sbml.jsbml.ext.fbc.FluxObjective;
+import org.sbml.jsbml.ext.fbc.Objective;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
- * This class is used to parse the fba extension package elements and
+ * This class is used to parse the fbc extension package elements and
  * attributes. The namespaceURI URI of this parser is
- * "http://www.sbml.org/sbml/level3/version1/fba/version1". This parser is
- * able to read and write elements of the fba package (implements
+ * "http://www.sbml.org/sbml/level3/version1/fbc/version1". This parser is
+ * able to read and write elements of the fbc package (implements
  * ReadingParser and WritingParser).
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
  * @version $Rev: 835 $
  */
-public class FBAParser implements ReadingParser, WritingParser {
+public class FBCParser implements ReadingParser, WritingParser {
 
 	/**
 	 * The namespace URI of this parser.
 	 */
-	// private static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/fba/version1";
+	// private static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/fbc/version1";
 	private static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/fbc/version1";
 	
 	public static final String shortLabel = "fbc";
@@ -69,13 +69,13 @@ public class FBAParser implements ReadingParser, WritingParser {
 	}
 
 	/**
-	 * The FBAList enum which represents the name of the list this parser is
+	 * The {@link FBCList} enum which represents the name of the list this parser is
 	 * currently reading.
 	 * 
 	 */
-	private FBAList groupList = FBAList.none;
+	private FBCList groupList = FBCList.none;
 	
-	private Logger logger = Logger.getLogger(FBAParser.class);
+	private Logger logger = Logger.getLogger(FBCParser.class);
 
 	/*
 	 * (non-Javadoc)
@@ -95,11 +95,11 @@ public class FBAParser implements ReadingParser, WritingParser {
 			// TODO : the 'required' attribute is written even if there is no plugin class for the SBMLDocument, so I am not totally sure how this is done.
 		} 
 		else if (sbase instanceof Model) {
-			FBAModel modelGE = (FBAModel) ((Model) sbase).getExtension(namespaceURI);
+			FBCModel modelGE = (FBCModel) ((Model) sbase).getExtension(namespaceURI);
 
 			if (modelGE != null && modelGE.isSetListOfFluxBounds()) {
 				listOfElementsToWrite.add(modelGE.getListOfFluxBounds());
-				groupList = FBAList.listOfFluxBounds;
+				groupList = FBCList.listOfFluxBounds;
 			}
 			if (modelGE != null && modelGE.isSetListOfObjectives()) {
 				listOfElementsToWrite.add(modelGE.getListOfObjectives());
@@ -171,9 +171,9 @@ public class FBAParser implements ReadingParser, WritingParser {
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
 		
-		// TODO : the basic fba elements don't have any text. SBML syntax
+		// TODO : the basic fbc elements don't have any text. SBML syntax
 		// error, throw an exception, log en error ?
-		logger.debug("processCharactersOf : the basic FBA elements don't have any text. " +
+		logger.debug("processCharactersOf : the basic FBC elements don't have any text. " +
 				"SBML syntax error. characters lost = " + characters);
 	}
 
@@ -198,7 +198,7 @@ public class FBAParser implements ReadingParser, WritingParser {
 		if (elementName.equals("listOfFluxBounds")
 				|| elementName.equals("listOfObjectives")) 
 		{
-			this.groupList = FBAList.none;
+			this.groupList = FBCList.none;
 		}
 		
 		return true;
@@ -230,31 +230,31 @@ public class FBAParser implements ReadingParser, WritingParser {
 	{
 		if (contextObject instanceof Model) {
 			Model model = (Model) contextObject;
-			FBAModel fbaModel = null;
+			FBCModel fbcModel = null;
 			
 			if (model.getExtension(namespaceURI) != null) {
-				fbaModel = (FBAModel) model.getExtension(namespaceURI);
+				fbcModel = (FBCModel) model.getExtension(namespaceURI);
 			} else {
-				fbaModel = new FBAModel(model);
-				model.addExtension(namespaceURI, fbaModel);
+				fbcModel = new FBCModel(model);
+				model.addExtension(namespaceURI, fbcModel);
 			}
 
 			if (elementName.equals("listOfFluxBounds")) {
 					
-				ListOf<FluxBound> listOfFluxBounds = fbaModel.getListOfFluxBounds();
+				ListOf<FluxBound> listOfFluxBounds = fbcModel.getListOfFluxBounds();
 				listOfFluxBounds.setSBaseListType(ListOf.Type.other);
 				listOfFluxBounds.addNamespace(namespaceURI);
-				model.setThisAsParentSBMLObject(listOfFluxBounds);
-				this.groupList = FBAList.listOfFluxBounds;
+				model.registerChild(listOfFluxBounds);
+				this.groupList = FBCList.listOfFluxBounds;
 				return listOfFluxBounds;
 			} 
 			else if (elementName.equals("listOfObjectives")) {
 
-				ListOf<Objective> listOfObjectives = fbaModel.getListOfObjectives();
+				ListOf<Objective> listOfObjectives = fbcModel.getListOfObjectives();
 				listOfObjectives.setSBaseListType(ListOf.Type.other);
 				listOfObjectives.addNamespace(namespaceURI);
-				model.setThisAsParentSBMLObject(listOfObjectives);
-				this.groupList = FBAList.listOfObjectives;
+				model.registerChild(listOfObjectives);
+				this.groupList = FBCList.listOfObjectives;
 				return listOfObjectives;
 			}
 		} else if (contextObject instanceof Objective) {
@@ -263,8 +263,8 @@ public class FBAParser implements ReadingParser, WritingParser {
 				ListOf<FluxObjective> listOfFluxObjectives = objective.getListOfFluxObjectives();
 				listOfFluxObjectives.setSBaseListType(ListOf.Type.other);
 				listOfFluxObjectives.addNamespace(namespaceURI);
-				objective.setThisAsParentSBMLObject(listOfFluxObjectives);
-				this.groupList = FBAList.listOfFluxObjectives;
+				objective.registerChild(listOfFluxObjectives);
+				this.groupList = FBCList.listOfFluxObjectives;
 				return listOfFluxObjectives;
 			}
 		}
@@ -273,9 +273,9 @@ public class FBAParser implements ReadingParser, WritingParser {
 			ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
 
 			if (elementName.equals("fluxBound")
-					&& this.groupList.equals(FBAList.listOfFluxBounds)) {
+					&& this.groupList.equals(FBCList.listOfFluxBounds)) {
 				Model model = (Model) listOf.getParentSBMLObject();
-				FBAModel extendeModel = (FBAModel) model.getExtension(namespaceURI); 
+				FBCModel extendeModel = (FBCModel) model.getExtension(namespaceURI); 
 				
 				FluxBound fluxBound = new FluxBound();
 				fluxBound.addNamespace(namespaceURI);
@@ -283,9 +283,9 @@ public class FBAParser implements ReadingParser, WritingParser {
 				return fluxBound;
 				
 			} else if (elementName.equals("objective")
-					&& this.groupList.equals(FBAList.listOfObjectives)) {
+					&& this.groupList.equals(FBCList.listOfObjectives)) {
 				Model model = (Model) listOf.getParentSBMLObject();
-				FBAModel extendeModel = (FBAModel) model.getExtension(namespaceURI); 
+				FBCModel extendeModel = (FBCModel) model.getExtension(namespaceURI); 
 
 				Objective objective = new Objective();
 				objective.addNamespace(namespaceURI);
@@ -293,7 +293,7 @@ public class FBAParser implements ReadingParser, WritingParser {
 
 				return objective;
 			} else if (elementName.equals("fluxObjective")
-					&& this.groupList.equals(FBAList.listOfFluxObjectives)) {
+					&& this.groupList.equals(FBCList.listOfFluxObjectives)) {
 				Objective objective = (Objective) listOf.getParentSBMLObject();
 
 				FluxObjective fluxObjective = new FluxObjective();
@@ -342,7 +342,7 @@ public class FBAParser implements ReadingParser, WritingParser {
 	public void writeElement(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) {
 
-		logger.debug("FBAParser : writeElement");
+		logger.debug("FBCParser : writeElement");
 
 		if (sbmlElementToWrite instanceof SBase) {
 			SBase sbase = (SBase) sbmlElementToWrite;
@@ -353,11 +353,11 @@ public class FBAParser implements ReadingParser, WritingParser {
 					
 					if (listOf.size() > 0) {
 						if (listOf.get(0) instanceof FluxBound) {
-							xmlObject.setName(FBAList.listOfFluxBounds.toString());
+							xmlObject.setName(FBCList.listOfFluxBounds.toString());
 						} else if (listOf.get(0) instanceof Objective) {
-							xmlObject.setName(FBAList.listOfObjectives.toString());
+							xmlObject.setName(FBCList.listOfObjectives.toString());
 						} else if (listOf.get(0) instanceof FluxObjective) {
-							xmlObject.setName(FBAList.listOfFluxObjectives.toString());
+							xmlObject.setName(FBCList.listOfFluxObjectives.toString());
 						}
 					}
 				} else {

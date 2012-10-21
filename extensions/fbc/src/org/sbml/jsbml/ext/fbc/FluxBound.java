@@ -17,13 +17,15 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.ext.fba;
+package org.sbml.jsbml.ext.fbc;
 
 import java.util.Map;
 
+import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.xml.parsers.FBAParser;
+import org.sbml.jsbml.xml.parsers.FBCParser;
 
 /**
  * 
@@ -32,56 +34,86 @@ import org.sbml.jsbml.xml.parsers.FBAParser;
  * @since 1.0
  * @date 27.10.2011
  */
-public class FluxObjective extends AbstractSBase {
+public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
 
+	
 	/**
    * 
    */
-  private static final long serialVersionUID = 246449689493121713L;
-  
+  private static final long serialVersionUID = -8885319163985464653L;
   private String reaction;
-	private double coefficient;
+	private String operation;
+	private double value;
 	
-	private boolean isSetCoefficient = false;
+	private boolean isSetValue = false;
 	
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#clone()
+	 */
 	public AbstractSBase clone() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 	/**
-	 * @return the reaction
+	 * Returns the reaction id
+	 * 
+	 * @return the reaction id
 	 */
 	public String getReaction() {
 		return reaction;
 	}
+
 	/**
-	 * @param reaction the reaction to set
+	 * Sets the the reaction id
+	 * 
+	 * @param reaction the reaction id to set
 	 */
 	public void setReaction(String reaction) {
 		this.reaction = reaction;
 	}
+
 	/**
-	 * @return the coefficient
+	 * Returns the operation
+	 * 
+	 * @return the operation
 	 */
-	public double getCoefficient() {
-		return coefficient;
+	public String getOperation() {
+		return operation;
 	}
+
 	/**
-	 * @param coefficient the coefficient to set
+	 * @param operation the operation to set
 	 */
-	public void setCoefficient(double coefficient) {
-		this.coefficient = coefficient;
-		isSetCoefficient = true;
+	public void setOperation(String operation) {
+		this.operation = operation;
+	}
+
+	/**
+	 * Returns the value
+	 * 
+	 * @return the value
+	 */
+	public double getValue() {
+		return value;
+	}
+
+	/**
+	 * @param value the value to set
+	 */
+	public void setValue(double value) {
+		this.value = value;
+		isSetValue = true;
 	}
 	
-	public boolean isSetCoefficient() {
-		return isSetCoefficient;
+	public boolean isSetValue() {
+		return isSetValue;
+	}
+	
+
+	public boolean isIdMandatory() {
+		return false;
 	}
 	
 	/*
@@ -100,8 +132,10 @@ public class FluxObjective extends AbstractSBase {
 
 			if (attributeName.equals("reaction")) {
 				setReaction(value);
-			} else if (attributeName.equals("coefficient")) {
-				setCoefficient(StringTools.parseSBMLDouble(value));
+			} else if (attributeName.equals("operation")) {
+				 setOperation(value);
+			} else if (attributeName.equals("value")) {
+				setValue(StringTools.parseSBMLDouble(value));
 			} else {
 				isAttributeRead = false;
 			}
@@ -122,13 +156,22 @@ public class FluxObjective extends AbstractSBase {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (reaction != null) {
-			attributes.put(FBAParser.shortLabel+ ":reaction", getReaction());			
+			attributes.put(FBCParser.shortLabel+ ":reaction", getReaction());			
 		}
-		if (isSetCoefficient()) {
-			attributes.put(FBAParser.shortLabel+ ":coefficient", StringTools.toString(getCoefficient()));
+		if (operation != null) {
+			attributes.put(FBCParser.shortLabel+ ":operation", getOperation());
+		}
+		if (isSetValue()) {
+			attributes.put(FBCParser.shortLabel+ ":value", StringTools.toString(getValue()));
+		}
+		if (isSetId()) {
+			attributes.remove("id");
+			attributes.put(FBCParser.shortLabel+ ":id", getId());
 		}
 		
 		return attributes;
 	}
 
+
+	
 }

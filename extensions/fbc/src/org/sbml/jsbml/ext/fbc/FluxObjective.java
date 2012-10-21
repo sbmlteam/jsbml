@@ -17,15 +17,13 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.ext.fba;
+package org.sbml.jsbml.ext.fbc;
 
 import java.util.Map;
 
-import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
-import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.xml.parsers.FBAParser;
+import org.sbml.jsbml.xml.parsers.FBCParser;
 
 /**
  * 
@@ -34,86 +32,56 @@ import org.sbml.jsbml.xml.parsers.FBAParser;
  * @since 1.0
  * @date 27.10.2011
  */
-public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
+public class FluxObjective extends AbstractSBase {
 
-	
 	/**
    * 
    */
-  private static final long serialVersionUID = -8885319163985464653L;
+  private static final long serialVersionUID = 246449689493121713L;
+  
   private String reaction;
-	private String operation;
-	private double value;
+	private double coefficient;
 	
-	private boolean isSetValue = false;
+	private boolean isSetCoefficient = false;
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#clone()
-	 */
+	@Override
 	public AbstractSBase clone() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	/**
-	 * Returns the reaction id
-	 * 
-	 * @return the reaction id
+	 * @return the reaction
 	 */
 	public String getReaction() {
 		return reaction;
 	}
-
 	/**
-	 * Sets the the reaction id
-	 * 
-	 * @param reaction the reaction id to set
+	 * @param reaction the reaction to set
 	 */
 	public void setReaction(String reaction) {
 		this.reaction = reaction;
 	}
-
 	/**
-	 * Returns the operation
-	 * 
-	 * @return the operation
+	 * @return the coefficient
 	 */
-	public String getOperation() {
-		return operation;
+	public double getCoefficient() {
+		return coefficient;
 	}
-
 	/**
-	 * @param operation the operation to set
+	 * @param coefficient the coefficient to set
 	 */
-	public void setOperation(String operation) {
-		this.operation = operation;
-	}
-
-	/**
-	 * Returns the value
-	 * 
-	 * @return the value
-	 */
-	public double getValue() {
-		return value;
-	}
-
-	/**
-	 * @param value the value to set
-	 */
-	public void setValue(double value) {
-		this.value = value;
-		isSetValue = true;
+	public void setCoefficient(double coefficient) {
+		this.coefficient = coefficient;
+		isSetCoefficient = true;
 	}
 	
-	public boolean isSetValue() {
-		return isSetValue;
-	}
-	
-
-	public boolean isIdMandatory() {
-		return false;
+	public boolean isSetCoefficient() {
+		return isSetCoefficient;
 	}
 	
 	/*
@@ -132,10 +100,8 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
 
 			if (attributeName.equals("reaction")) {
 				setReaction(value);
-			} else if (attributeName.equals("operation")) {
-				 setOperation(value);
-			} else if (attributeName.equals("value")) {
-				setValue(StringTools.parseSBMLDouble(value));
+			} else if (attributeName.equals("coefficient")) {
+				setCoefficient(StringTools.parseSBMLDouble(value));
 			} else {
 				isAttributeRead = false;
 			}
@@ -156,22 +122,13 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (reaction != null) {
-			attributes.put(FBAParser.shortLabel+ ":reaction", getReaction());			
+			attributes.put(FBCParser.shortLabel+ ":reaction", getReaction());			
 		}
-		if (operation != null) {
-			attributes.put(FBAParser.shortLabel+ ":operation", getOperation());
-		}
-		if (isSetValue()) {
-			attributes.put(FBAParser.shortLabel+ ":value", StringTools.toString(getValue()));
-		}
-		if (isSetId()) {
-			attributes.remove("id");
-			attributes.put(FBAParser.shortLabel+ ":id", getId());
+		if (isSetCoefficient()) {
+			attributes.put(FBCParser.shortLabel+ ":coefficient", StringTools.toString(getCoefficient()));
 		}
 		
 		return attributes;
 	}
 
-
-	
 }
