@@ -4,7 +4,11 @@ import org.sbml.jsbml.AbstractSBase;
 
 public class SpeciesTypeRestrictionReference extends AbstractSBase {
 
-	private String speciesTypeRestriction;
+	/**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -8803949492166466113L;
+  private String speciesTypeRestriction;
 	
 	
 	/**

@@ -12,7 +12,12 @@ public class Bond extends AbstractSBase {
 
 	// TODO : store the BindingSiteReference in a list and test that there are no more than two of them.
 	
-	public enum BOND_OCCURRENCE_TYPE {prohibited, allowed, required};
+	/**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -8781651881389720582L;
+
+  public enum BOND_OCCURRENCE_TYPE {prohibited, allowed, required};
 	
 	private BOND_OCCURRENCE_TYPE occurence;
 	

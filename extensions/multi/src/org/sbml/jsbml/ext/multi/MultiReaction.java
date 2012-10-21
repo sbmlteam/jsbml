@@ -10,7 +10,11 @@ import org.sbml.jsbml.ext.SBasePlugin;
 
 public class MultiReaction extends AbstractSBasePlugin {
 
-	ListOf<ReactionRule> listOfReactionRules;
+	/**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 7392764563567861115L;
+  ListOf<ReactionRule> listOfReactionRules;
 	
 	
 	/**

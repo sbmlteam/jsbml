@@ -5,7 +5,11 @@ import org.sbml.jsbml.AbstractMathContainer;
 public class SpeciesTypeInstanceChange extends AbstractMathContainer {
 
 	
-	private String speciesTypeInstance;
+	/**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 6354095852211081835L;
+  private String speciesTypeInstance;
 	
 	@Override
 	public AbstractMathContainer clone() {

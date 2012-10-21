@@ -5,11 +5,15 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
-import org.sbml.jsbml.ext.SBasePlugin;
 
 public class MultiEventAssignment extends AbstractSBasePlugin {
 
-	// TODO : should probably be a listOf here
+	/**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -5524105017747151889L;
+ 
+  // TODO : should probably be a listOf here
 	private SpeciesTypeInstanceChange speciesTypeInstanceChange;
 	
 	public boolean readAttribute(String attributeName, String prefix,
