@@ -31,7 +31,7 @@ import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
  * @since 1.0
  * @version $Rev$
  */
-public abstract class AbstractLayoutBuilder<P,T> implements LayoutBuilder<P>, LayoutFactory<T> {
+public abstract class AbstractLayoutBuilder<P,NodeT,ArcT> implements LayoutBuilder<P>, LayoutFactory<NodeT,ArcT> {
 	
 	private static HashMap<SpeciesReferenceRole, Integer> RoleToSBOTerm = filledReferenceMap();
 			
@@ -55,7 +55,7 @@ public abstract class AbstractLayoutBuilder<P,T> implements LayoutBuilder<P>, La
 	 * @param sboTerm of the corresponding species
 	 * @return correct SBGNNode
 	 */
-	public SBGNNode<T> getSBGNNode(int sboTerm) {
+	public SBGNNode<NodeT> getSBGNNode(int sboTerm) {
 		
 		// simple chemical, 247
 		if (SBO.isChildOf(sboTerm, SBO.getSimpleMolecule())) {
@@ -95,7 +95,7 @@ public abstract class AbstractLayoutBuilder<P,T> implements LayoutBuilder<P>, La
 	 * @param sboTerm of the corresponding connecting arc
 	 * @return correct arc
 	 */
-	public SBGNArc<T> getSBGNArc(int sboTerm) {
+	public SBGNArc<ArcT> getSBGNArc(int sboTerm) {
 		
 		// consumption, 394
 		if (SBO.isChildOf(sboTerm, 394)) {
@@ -123,7 +123,7 @@ public abstract class AbstractLayoutBuilder<P,T> implements LayoutBuilder<P>, La
 		
 	}
 	
-	public SBGNArc<T> getSBGNArc(SpeciesReferenceRole referenceRole){
+	public SBGNArc<ArcT> getSBGNArc(SpeciesReferenceRole referenceRole){
 		return getSBGNArc(RoleToSBOTerm.get(referenceRole));		
 	}
 	

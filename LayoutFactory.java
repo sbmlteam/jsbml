@@ -25,51 +25,51 @@ package de.zbit.sbml.layout;
  * @since 1.0
  * @version $Rev$
  */
-public interface LayoutFactory<T> {
+public interface LayoutFactory<NodeT,ArcT> {
 		
 	/**
 	 * @return a {@link Macromolecule}
 	 */
-	public Macromolecule<T> createMacromolecule();
+	public Macromolecule<NodeT> createMacromolecule();
 	
 	/**
 	 * @return a {@link SourceSink}
 	 */
-	public SourceSink<T> createSourceSink();
+	public SourceSink<NodeT> createSourceSink();
 	
 	/**
 	 * @return a {@link UnspecifiedNode}
 	 */
-	public UnspecifiedNode<T> createUnspecifiedNode();
+	public UnspecifiedNode<NodeT> createUnspecifiedNode();
 	
 	/**
 	 * @return a {@link SimpleChemical}
 	 */
-	public SimpleChemical<T> createSimpleChemical();
+	public SimpleChemical<NodeT> createSimpleChemical();
 	
 	/**
 	 * @return a {@link Compartment}
 	 */
-	public Compartment<T> createCompartment();
+	public Compartment<NodeT> createCompartment();
 	
 	/**
 	 * @return a {@link Production}
 	 */
-	public Production<T> createProduction();
+	public Production<ArcT> createProduction();
 	
 	/**
 	 * @return a {@link Consumption}
 	 */
-	public Consumption<T> createConsumption();
+	public Consumption<ArcT> createConsumption();
 	
 	/**
 	 * @return a {@link Catalysis}
 	 */
-	public Catalysis<T> createCatalysis();
+	public Catalysis<ArcT> createCatalysis();
 	
 	/**
 	 * @return a {@link Inhibition}
 	 */
-	public Inhibition<T> createInhibition();
+	public Inhibition<ArcT> createInhibition();
 	
 }
