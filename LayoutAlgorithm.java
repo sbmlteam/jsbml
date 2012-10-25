@@ -46,7 +46,6 @@ public interface LayoutAlgorithm {
 	 */
 	public Dimensions createLayoutDimension();
 	
-	
 	/**
 	 * method to create a {@link Dimensions} for a {@link CompartmentGlyph} if
 	 * it was missing in the layout model
@@ -68,8 +67,6 @@ public interface LayoutAlgorithm {
 	 * @return a {@link Position}
 	 */
 	public Position createCompartmentGlyphPosition(CompartmentGlyph previousCompartmentGlyph);
-	
-	
 	
 	/**
 	 * method to create a {@link Dimensions} for a {@link SpeciesGlyph} if it
@@ -129,7 +126,6 @@ public interface LayoutAlgorithm {
 	 */
 	public Position createTextGlyphPosition(TextGlyph textGlyph);
 	
-	
 	/**
 	 * method to create a {@link Dimensions} for a {@link ReactionGlyph} if it
 	 * was missing in the layout model
@@ -147,7 +143,6 @@ public interface LayoutAlgorithm {
 	 * @return a {@link Position}
 	 */
 	public Position createReactionGlyphPosition(ReactionGlyph reactionGlyph);
-	
 	
 	/**
 	 * method to create a {@link Dimensions} for a {@link SpeciesReferenceGlyph}
@@ -207,6 +202,4 @@ public interface LayoutAlgorithm {
 	 * @return the rotation angle in degrees
 	 */
 	public double calculateReactionGlyphRotationAngle(ReactionGlyph reactionGlyph);
-	
-	
 }
