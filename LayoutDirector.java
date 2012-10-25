@@ -242,7 +242,6 @@ public class LayoutDirector<P> implements Runnable {
 					SpeciesGlyph speciesGlyph = srg.getSpeciesGlyphInstance();
 					if (!speciesGlyph.isSetBoundingBox()) {
 						speciesGlyph.setBoundingBox(algorithm.createGlyphBoundingBox(speciesGlyph,srg));
-//						speciesGlyph.setBoundingBox(algorithm.createSpeciesGlyphBoundingBox(speciesGlyph,srg));
 					} else {
 						BoundingBox boundingBox = speciesGlyph.getBoundingBox();
 						if (!boundingBox.isSetDimensions()) {
