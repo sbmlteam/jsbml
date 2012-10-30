@@ -17,10 +17,13 @@
 
 package de.zbit.sbml.layout;
 
+import java.util.Set;
+
 import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.layout.Dimensions;
+import org.sbml.jsbml.ext.layout.GraphicalObject;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.NamedSBaseGlyph;
 import org.sbml.jsbml.ext.layout.Position;
@@ -66,6 +69,7 @@ public interface LayoutAlgorithm {
 	 *          the {@link CompartmentGlyph} that is missing a {@link Position}
 	 * @return a {@link Position}
 	 */
+	@Deprecated
 	public Position createCompartmentGlyphPosition(CompartmentGlyph previousCompartmentGlyph);
 	
 	/**
@@ -83,6 +87,7 @@ public interface LayoutAlgorithm {
 	 * @param speciesGlyph for which the {@link Position} is missing
 	 * @return a {@link Position}
 	 */
+	@Deprecated
 	public Position createSpeciesGlyphPosition(SpeciesGlyph speciesGlyph);
 	
 	/**
@@ -94,6 +99,7 @@ public interface LayoutAlgorithm {
 	 * @param speciesReferenceGlyph that points to the given {@link SpeciesGlyph}
 	 * @return a {@link Position}
 	 */
+	@Deprecated
 	public Position createSpeciesGlyphPosition(SpeciesGlyph speciesGlyph,
 								SpeciesReferenceGlyph specieReferenceGlyph);
 	
@@ -124,6 +130,7 @@ public interface LayoutAlgorithm {
 	 * @param textGlyph for which the {@link Position} is missing
 	 * @return a {@link Position}
 	 */
+	@Deprecated
 	public Position createTextGlyphPosition(TextGlyph textGlyph);
 	
 	/**
@@ -142,6 +149,7 @@ public interface LayoutAlgorithm {
 	 * @param reactionGlyph for which the {@link Position} is missing
 	 * @return a {@link Position}
 	 */
+	@Deprecated
 	public Position createReactionGlyphPosition(ReactionGlyph reactionGlyph);
 	
 	/**
@@ -166,6 +174,7 @@ public interface LayoutAlgorithm {
 	 *            for which the {@link Position} is missing
 	 * @return a {@link Position}
 	 */
+	@Deprecated
 	public Position createSpeciesReferenceGlyphPosition(
 			ReactionGlyph reactionGlyph,
 			SpeciesReferenceGlyph speciesReferenceGlyph);
@@ -202,4 +211,22 @@ public interface LayoutAlgorithm {
 	 * @return the rotation angle in degrees
 	 */
 	public double calculateReactionGlyphRotationAngle(ReactionGlyph reactionGlyph);
+	
+	/**
+	 * Add a fully layouted glyph (i.e. glyph with boundingbox, dimensions and
+	 * position) to the input of the algorithm.
+	 */
+	public void addLayoutedGlyph(GraphicalObject glyph);
+	
+	/**
+	 * Add a glyph with missing layout information (i.e. no dimensions or no
+	 * position specified) to the input of the algorithm.
+	 */
+	public void addUnlayoutedGlyph(GraphicalObject glyph);
+	
+	/**
+	 * Returns the input set of unlayouted glyphs with completed layout
+	 * information.
+	 */
+	public Set<GraphicalObject> getAutolayoutedGlyphs();
 }
