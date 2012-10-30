@@ -194,8 +194,28 @@ public class LayoutDirector<P> implements Runnable {
 	 */
 	public static boolean glyphIsLayouted(GraphicalObject glyph) {
 		return glyph.isSetBoundingBox() &&
-		glyph.getBoundingBox().isSetDimensions() &&
-		glyph.getBoundingBox().isSetPosition();
+			glyph.getBoundingBox().isSetDimensions() &&
+			glyph.getBoundingBox().isSetPosition();
+	}
+	
+	/**
+	 * Check if glyph has dimensions.
+	 * @param glyph
+	 * @return
+	 */
+	public static boolean glyphHasDimensions(GraphicalObject glyph) {
+		return glyph.isSetBoundingBox() &&
+			glyph.getBoundingBox().isSetDimensions();
+	}
+	
+	/**
+	 * Check if glyph has a position.
+	 * @param glyph
+	 * @return
+	 */
+	public static boolean glyphHasPosition(GraphicalObject glyph) {
+		return glyph.isSetBoundingBox() &&
+			glyph.getBoundingBox().isSetPosition();
 	}
 	
 	/**
