@@ -23,7 +23,9 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
 import javax.xml.stream.XMLStreamException;
+
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
@@ -129,62 +131,108 @@ public class LayoutDirector<P> implements Runnable {
 	private void buildLayout(Layout layout) {
 		
 		algorithm.setLayout(layout);
-		
+
+		// TODO should be last step
 		if (!layout.isSetDimensions()) {
 			layout.setDimensions(algorithm.createLayoutDimension());
 		}
 		
-		//write the head of the LaTeX-document
 		builder.builderStart(layout);
-		
+
+		// Compartment glyphs
 		ListOf<CompartmentGlyph> compartmentGlyphList = layout.getListOfCompartmentGlyphs();
 		createLayoutLinks(compartmentGlyphList);
-		
 		List<CompartmentGlyph> sortedCompartmentGlyphList = getSortedCompartmentGlyphList();
-		CompartmentGlyph previousCompartmentGlyph = null;
-		for (int i = 0; i < sortedCompartmentGlyphList.size(); i++) {
-			CompartmentGlyph compartmentGlyph = sortedCompartmentGlyphList.get(i);
-			if (previousCompartmentGlyph != null &&
-					previousCompartmentGlyph.isSetNamedSBase() &&
-					compartmentGlyph.isSetNamedSBase()) {
-				Compartment previousCompartment = (Compartment) previousCompartmentGlyph.getNamedSBaseInstance();
-				if (previousCompartment.getUserObject(COMPARTMENT_LINK) instanceof List<?>) {
-					List<Compartment> containedCompartments =
-							(List<Compartment>) previousCompartment.getUserObject(COMPARTMENT_LINK);
-					if (!containedCompartments.contains(compartmentGlyph.getNamedSBaseInstance())) {
-						previousCompartment = null;
-					}
-				}
-			}
-			
-			// if(layout.containsGlyph(compartment))
-			//
-			// CompartmentGlyph compartmentGlyph = layout.getCompartmentGlyph(compartment.getId());
-			//
-			// layout.findCompartmentGlyphs(compartment.getId());
-			
-			if (!compartmentGlyph.isSetBoundingBox()) {
-				compartmentGlyph.setBoundingBox(algorithm.createGlyphBoundingBox(previousCompartmentGlyph, null));
-//				compartmentGlyph.setBoundingBox(algorithm.createCompartmentGlyphBoundingBox(previousCompartmentGlyph));
-			} else {
-				BoundingBox boundingBox = compartmentGlyph.getBoundingBox();
-				if (!boundingBox.isSetDimensions()) {
-					boundingBox.setDimensions(algorithm.createCompartmentGlyphDimension(previousCompartmentGlyph));
-				}
-				if (!boundingBox.isSetPosition()) {
-					boundingBox.setPosition(algorithm.createCompartmentGlyphPosition(previousCompartmentGlyph));
-				}
-				compartmentGlyph.setBoundingBox(boundingBox);
-			}
-			
-			builder.buildCompartment(compartmentGlyph);
-			
-			previousCompartmentGlyph = compartmentGlyph;
-		}
-		
+		handleCompartmentGlyphs(sortedCompartmentGlyphList);
+
+		// Reaction glyphs
 		ListOf<ReactionGlyph> reactionGlyphList = layout.getListOfReactionGlyphs();
 		createLayoutLinks(reactionGlyphList);
+		handleReactionGlyphs(reactionGlyphList);
 		
+		// Species glyphs
+		ListOf<SpeciesGlyph> speciesGlyphList = layout.getListOfSpeciesGlyphs();
+		createLayoutLinks(speciesGlyphList);
+		handleSpeciesGlyphs(speciesGlyphList);
+		
+		// Text glyphs
+		ListOf<TextGlyph> textGlyphList = layout.getListOfTextGlyphs();
+		handleTextGlyphs(textGlyphList);
+		builder.builderEnd();
+	}
+
+	/**
+	 * @param textGlyphList
+	 */
+	private void handleTextGlyphs(ListOf<TextGlyph> textGlyphList) {
+		for (TextGlyph textGlyph : textGlyphList) {
+			if (!textGlyph.isSetBoundingBox()) {
+				textGlyph.setBoundingBox(algorithm.createGlyphBoundingBox(textGlyph, null));
+			} else {
+				BoundingBox boundingBox = textGlyph.getBoundingBox();
+				if (!boundingBox.isSetDimensions()) {
+					boundingBox.setDimensions(algorithm.createTextGlyphDimension(textGlyph));
+				}
+				if (!boundingBox.isSetPosition()) {
+					boundingBox.setPosition(algorithm.createTextGlyphPosition(textGlyph));
+				}
+				textGlyph.setBoundingBox(boundingBox);
+			}
+			
+			builder.buildTextGlyph(textGlyph);
+		}
+	}
+
+	/**
+	 * @param speciesGlyphList
+	 */
+	private void handleSpeciesGlyphs(ListOf<SpeciesGlyph> speciesGlyphList) {
+		for (SpeciesGlyph sg : speciesGlyphList) {
+			
+			boolean cloneMarker = false;
+			
+			if (sg.isSetNamedSBase()) {
+				NamedSBase species = sg.getNamedSBaseInstance();
+				
+				if (!species.isSetSBOTerm()) {
+					sg.setSBOTerm(SBO.getUnknownMolecule());
+				} else {
+					sg.setSBOTerm(species.getSBOTerm());
+				}
+				
+				List<NamedSBaseGlyph> glyphList = new ArrayList<NamedSBaseGlyph>();
+				if (species.getUserObject(LAYOUT_LINK) instanceof List<?>) {
+					glyphList = (List<NamedSBaseGlyph>) species.getUserObject(LAYOUT_LINK);
+				}
+				if (glyphList.size() > 1) {
+					cloneMarker = true;
+				}
+				
+			}
+			
+			if (!sg.isSetBoundingBox()) {
+				sg.setBoundingBox(algorithm.createGlyphBoundingBox(sg, null));
+//				sg.setBoundingBox(algorithm.createSpeciesGlyphBoundingBox(sg));
+			} else {
+				BoundingBox boundingBox = sg.getBoundingBox();
+				if (!boundingBox.isSetDimensions()) {
+					boundingBox.setDimensions(algorithm.createSpeciesGlyphDimension());
+				}
+				if (!boundingBox.isSetPosition()) {
+					boundingBox.setPosition(algorithm.createSpeciesGlyphPosition(sg));
+				}
+				sg.setBoundingBox(boundingBox);
+			}
+			
+			builder.buildEntityPoolNode(sg, cloneMarker);
+			
+		}
+	}
+
+	/**
+	 * @param reactionGlyphList
+	 */
+	private void handleReactionGlyphs(ListOf<ReactionGlyph> reactionGlyphList) {
 		for (ReactionGlyph rg : reactionGlyphList) {
 			if (!rg.isSetBoundingBox()) {
 				rg.setBoundingBox(algorithm.createGlyphBoundingBox(rg, null));
@@ -260,70 +308,53 @@ public class LayoutDirector<P> implements Runnable {
 			builder.buildProcessNode(rg,rgRotationAngle);
 			
 		}
-		
-		ListOf<SpeciesGlyph> speciesGlyphList = layout.getListOfSpeciesGlyphs();
-		createLayoutLinks(speciesGlyphList);
-		
-		for (SpeciesGlyph sg : speciesGlyphList) {
-			
-			boolean cloneMarker = false;
-			
-			if (sg.isSetNamedSBase()) {
-				NamedSBase species = sg.getNamedSBaseInstance();
-				
-				if (!species.isSetSBOTerm()) {
-					sg.setSBOTerm(SBO.getUnknownMolecule());
-				} else {
-					sg.setSBOTerm(species.getSBOTerm());
+	}
+
+	/**
+	 * @param compartmentGlyphList
+	 */
+	private void handleCompartmentGlyphs(
+			List<CompartmentGlyph> compartmentGlyphList) {
+		CompartmentGlyph previousCompartmentGlyph = null;
+		for (int i = 0; i < compartmentGlyphList.size(); i++) {
+			CompartmentGlyph compartmentGlyph = compartmentGlyphList.get(i);
+			if (previousCompartmentGlyph != null &&
+					previousCompartmentGlyph.isSetNamedSBase() &&
+					compartmentGlyph.isSetNamedSBase()) {
+				Compartment previousCompartment = (Compartment) previousCompartmentGlyph.getNamedSBaseInstance();
+				if (previousCompartment.getUserObject(COMPARTMENT_LINK) instanceof List<?>) {
+					List<Compartment> containedCompartments =
+							(List<Compartment>) previousCompartment.getUserObject(COMPARTMENT_LINK);
+					if (!containedCompartments.contains(compartmentGlyph.getNamedSBaseInstance())) {
+						previousCompartment = null;
+					}
 				}
-				
-				List<NamedSBaseGlyph> glyphList = new ArrayList<NamedSBaseGlyph>();
-				if (species.getUserObject(LAYOUT_LINK) instanceof List<?>) {
-					glyphList = (List<NamedSBaseGlyph>) species.getUserObject(LAYOUT_LINK);
-				}
-				if (glyphList.size() > 1) {
-					cloneMarker = true;
-				}
-				
 			}
 			
-			if (!sg.isSetBoundingBox()) {
-				sg.setBoundingBox(algorithm.createGlyphBoundingBox(sg, null));
-//				sg.setBoundingBox(algorithm.createSpeciesGlyphBoundingBox(sg));
+			// if(layout.containsGlyph(compartment))
+			//
+			// CompartmentGlyph compartmentGlyph = layout.getCompartmentGlyph(compartment.getId());
+			//
+			// layout.findCompartmentGlyphs(compartment.getId());
+			
+			if (!compartmentGlyph.isSetBoundingBox()) {
+				compartmentGlyph.setBoundingBox(algorithm.createGlyphBoundingBox(previousCompartmentGlyph, null));
+//				compartmentGlyph.setBoundingBox(algorithm.createCompartmentGlyphBoundingBox(previousCompartmentGlyph));
 			} else {
-				BoundingBox boundingBox = sg.getBoundingBox();
+				BoundingBox boundingBox = compartmentGlyph.getBoundingBox();
 				if (!boundingBox.isSetDimensions()) {
-					boundingBox.setDimensions(algorithm.createSpeciesGlyphDimension());
+					boundingBox.setDimensions(algorithm.createCompartmentGlyphDimension(previousCompartmentGlyph));
 				}
 				if (!boundingBox.isSetPosition()) {
-					boundingBox.setPosition(algorithm.createSpeciesGlyphPosition(sg));
+					boundingBox.setPosition(algorithm.createCompartmentGlyphPosition(previousCompartmentGlyph));
 				}
-				sg.setBoundingBox(boundingBox);
+				compartmentGlyph.setBoundingBox(boundingBox);
 			}
 			
-			builder.buildEntityPoolNode(sg, cloneMarker);
+			builder.buildCompartment(compartmentGlyph);
 			
+			previousCompartmentGlyph = compartmentGlyph;
 		}
-		
-		ListOf<TextGlyph> textGlyphList = layout.getListOfTextGlyphs();
-		for (TextGlyph textGlyph : textGlyphList) {
-			if (!textGlyph.isSetBoundingBox()) {
-				textGlyph.setBoundingBox(algorithm.createGlyphBoundingBox(textGlyph, null));
-//				textGlyph.setBoundingBox(algorithm.createTextGlyphBoundingBox(textGlyph));
-			} else {
-				BoundingBox boundingBox = textGlyph.getBoundingBox();
-				if (!boundingBox.isSetDimensions()) {
-					boundingBox.setDimensions(algorithm.createTextGlyphDimension(textGlyph));
-				}
-				if (!boundingBox.isSetPosition()) {
-					boundingBox.setPosition(algorithm.createTextGlyphPosition(textGlyph));
-				}
-				textGlyph.setBoundingBox(boundingBox);
-			}
-			
-			builder.buildTextGlyph(textGlyph);
-		}
-		builder.builderEnd();
 	}
 	
 	/**
