@@ -180,13 +180,13 @@ public interface LayoutAlgorithm {
 			SpeciesReferenceGlyph speciesReferenceGlyph);
 	
 	/**
-	 * method to create a {@link BoundingBox} for every kind of {@link NamedSBaseGlyph}.
+	 * method to create a {@link BoundingBox} for every kind of {@link GraphicalObject}.
 	 * 
 	 * @param glyph
 	 * @param specRefGlyph
 	 * @return
 	 */
-	public BoundingBox createGlyphBoundingBox(NamedSBaseGlyph glyph, SpeciesReferenceGlyph specRefGlyph);
+	public BoundingBox createGlyphBoundingBox(GraphicalObject glyph, SpeciesReferenceGlyph specRefGlyph);
 	
 	/**
 	 * @param layout the {@link Layout} to be set for this LayoutAlgorithm
