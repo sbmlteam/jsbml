@@ -854,25 +854,32 @@ public class SubModel {
 
     	Logger debugLogger = Logger.getLogger(SubModel.class);
 
-        debugLogger.debug("getRelatedFunctions ");
-        debugLogger.debug("getRelatedFunctions : math = " + mathNode);
-        
-    	if (mathNode == null) {
+    	debugLogger.debug("getRelatedFunctions ");
+    	debugLogger.debug("getRelatedFunctions : math = " + mathNode);
+
+    	if (mathNode == null) 
+    	{
     		return;
     	}
+
+    	if ((mathNode.isName() || mathNode.isFunction())
+    			&& mathNode.getName() != null
+    			&& allFunctionsIdSet.contains(mathNode.getName().trim())
+    			&& !relatedFunctionsSet.contains(mathNode.getName().trim())) 
+    	{
+    		relatedFunctionsSet.add(mathNode.getName().trim());
+    	}
+
+    	if (debugLogger.isDebugEnabled()
+    			&& (mathNode.isName() || mathNode.isFunction())
+    			&& mathNode.getName() == null)
+    	{
+    		debugLogger.debug("getRelatedFunctions : mathNode.getName() == null !!! - type = " + mathNode.getType());
+    	}
     	
-      if ((mathNode.isName() || mathNode.isFunction())
-          && allFunctionsIdSet.contains(mathNode.getName().trim())
-          && !relatedFunctionsSet.contains(mathNode.getName().trim())) {
-
-        relatedFunctionsSet.add(mathNode.getName().trim());
-
-        return;
-      }
-
-      for (int i = 0; i < mathNode.getChildCount(); i++) {
-        getRelatedFunctions(relatedFunctionsSet, allFunctionsIdSet, mathNode.getChild(i));
-      }
+    	for (int i = 0; i < mathNode.getChildCount(); i++) {
+    		getRelatedFunctions(relatedFunctionsSet, allFunctionsIdSet, mathNode.getChild(i));
+    	}
     }
 
 }
