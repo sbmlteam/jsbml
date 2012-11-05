@@ -25,7 +25,6 @@ import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.layout.Dimensions;
 import org.sbml.jsbml.ext.layout.GraphicalObject;
 import org.sbml.jsbml.ext.layout.Layout;
-import org.sbml.jsbml.ext.layout.NamedSBaseGlyph;
 import org.sbml.jsbml.ext.layout.Position;
 import org.sbml.jsbml.ext.layout.ReactionGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
@@ -228,5 +227,17 @@ public interface LayoutAlgorithm {
 	 * Returns the input set of unlayouted glyphs with completed layout
 	 * information.
 	 */
-	public Set<GraphicalObject> getAutolayoutedGlyphs();
+	public Set<GraphicalObject> completeGlyphs();
+
+	/**
+	 * @param srg
+	 * @param rg
+	 */
+	public void addLayoutedEdge(SpeciesReferenceGlyph srg, ReactionGlyph rg);
+
+	/**
+	 * @param srg
+	 * @param rg
+	 */
+	public void addUnlayoutedEdge(SpeciesReferenceGlyph srg, ReactionGlyph rg);
 }
