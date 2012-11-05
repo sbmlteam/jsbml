@@ -17,6 +17,7 @@
 
 package de.zbit.sbml.layout;
 
+import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
 import org.sbml.jsbml.ext.layout.CubicBezier;
 import org.sbml.jsbml.ext.layout.Layout;
@@ -25,6 +26,7 @@ import org.sbml.jsbml.ext.layout.ReactionGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 import org.sbml.jsbml.ext.layout.TextGlyph;
+
 import de.zbit.util.progressbar.AbstractProgressBar;
 
 /**
@@ -122,5 +124,11 @@ public interface LayoutBuilder<P> {
 	 * @return true, if product is not empty, else false
 	 */
 	public boolean isProductReady();
+
+	/**
+	 * @param srg
+	 * @param rg
+	 */
+	public void buildConnectingArc(SpeciesReferenceGlyph srg, ReactionGlyph rg);
 	
 }

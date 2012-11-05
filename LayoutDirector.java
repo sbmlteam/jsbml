@@ -47,7 +47,6 @@ import org.sbml.jsbml.ext.layout.NamedSBaseGlyph;
 import org.sbml.jsbml.ext.layout.ReactionGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
-import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
 import org.sbml.jsbml.ext.layout.TextGlyph;
 
 /**
@@ -151,32 +150,34 @@ public class LayoutDirector<P> implements Runnable {
 		createLayoutLinks(compartmentGlyphList);
 		List<CompartmentGlyph> sortedCompartmentGlyphList = getSortedCompartmentGlyphList();
 
-		// Reaction glyphs
-		ListOf<ReactionGlyph> reactionGlyphList = layout.getListOfReactionGlyphs();
-		createLayoutLinks(reactionGlyphList);
-
 		// Species glyphs
 		ListOf<SpeciesGlyph> speciesGlyphList = layout.getListOfSpeciesGlyphs();
 		createLayoutLinks(speciesGlyphList);
 
+		// Reaction glyphs
+		ListOf<ReactionGlyph> reactionGlyphList = layout.getListOfReactionGlyphs();
+		createLayoutLinks(reactionGlyphList);
+
 		// Text glyphs
 		ListOf<TextGlyph> textGlyphList = layout.getListOfTextGlyphs();
+		
+		ListOf<GraphicalObject> allGlyphs;
 
 		handleCompartmentGlyphs(sortedCompartmentGlyphList);
-		handleReactionGlyphs(reactionGlyphList);
 		handleSpeciesGlyphs(speciesGlyphList);
+		handleReactionGlyphs(reactionGlyphList);
 		handleTextGlyphs(textGlyphList);
 
-		Set<GraphicalObject> autolayoutedGlyphs = algorithm.getAutolayoutedGlyphs();
-		for (GraphicalObject glyph : autolayoutedGlyphs) {
+		Set<GraphicalObject> completedGlyphs = algorithm.completeGlyphs();		
+		for (GraphicalObject glyph : completedGlyphs) {
 			if (glyph instanceof CompartmentGlyph) {
 				// handleCompartmentGlyph((CompartmentGlyph) glyph);
 			}
-			else if (glyph instanceof ReactionGlyph) {
-				handleReactionGlyph((ReactionGlyph) glyph);
-			}
 			else if (glyph instanceof SpeciesGlyph) {
 				handleSpeciesGlyph((SpeciesGlyph) glyph);
+			}
+			else if (glyph instanceof ReactionGlyph) {
+				handleReactionGlyph((ReactionGlyph) glyph);
 			}
 			else if (glyph instanceof TextGlyph) {
 				handleTextGlyph((TextGlyph) glyph);
@@ -266,94 +267,6 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * @param reactionGlyphList
-	 */
-	private void handleReactionGlyphs(ListOf<ReactionGlyph> reactionGlyphList) {
-		for (ReactionGlyph rg : reactionGlyphList) {
-			handleReactionGlyph(rg);
-
-		}
-	}
-
-	/**
-	 * @param rg
-	 */
-	private void handleReactionGlyph(ReactionGlyph rg) {
-		if (!rg.isSetBoundingBox()) {
-			rg.setBoundingBox(algorithm.createGlyphBoundingBox(rg, null));
-			//				rg.setBoundingBox(algorithm.createReactionGlyphBoundingBox(rg));
-		} else {
-			BoundingBox boundingBox = rg.getBoundingBox();
-			if (!boundingBox.isSetDimensions()) {
-				boundingBox.setDimensions(algorithm.createReactionGlyphDimension(rg));
-			}
-			if (!boundingBox.isSetPosition()) {
-				boundingBox.setPosition(algorithm.createReactionGlyphPosition(rg));
-			}
-			rg.setBoundingBox(boundingBox);
-		}
-
-		ListOf<SpeciesReferenceGlyph> speciesReferenceGlyphList = rg.getListOfSpeciesReferenceGlyphs();
-
-		ListOf<SpeciesReferenceGlyph> substrateProductList = new ListOf<SpeciesReferenceGlyph>();
-		ListOf<SpeciesReferenceGlyph> otherList = new ListOf<SpeciesReferenceGlyph>();
-
-		for(SpeciesReferenceGlyph speciesReferenceGlyph : speciesReferenceGlyphList){
-			if(speciesReferenceGlyph.isSetSpeciesReferenceRole() &&
-					(speciesReferenceGlyph.getSpeciesReferenceRole().equals(SpeciesReferenceRole.PRODUCT) ||
-							speciesReferenceGlyph.getSpeciesReferenceRole().equals(SpeciesReferenceRole.SUBSTRATE))){
-				substrateProductList.add(speciesReferenceGlyph);
-			} else {
-				otherList.add(speciesReferenceGlyph);
-			}
-		}
-
-		for(SpeciesReferenceGlyph substrateProductSRG : substrateProductList){
-			if (!substrateProductSRG.isSetCurve()) {
-				substrateProductSRG.setCurve(algorithm.createCurve(rg, substrateProductSRG));
-			}
-		}
-
-		for(SpeciesReferenceGlyph otherSRG : otherList){
-			if (!otherSRG.isSetCurve()) {
-				otherSRG.setCurve(algorithm.createCurve(rg, otherSRG));
-			}
-		}
-
-		for (SpeciesReferenceGlyph srg : speciesReferenceGlyphList) {
-			SpeciesReference speciesReference = (SpeciesReference) srg.getNamedSBaseInstance();
-			if (speciesReference == null || !speciesReference.isSetSBOTerm()) {
-				if (!srg.isSetSpeciesReferenceRole()) {
-					// sets consumption (straight line as default)
-					srg.setSBOTerm(394);
-				}
-			} else {
-				srg.setSBOTerm(speciesReference.getSBOTerm());
-			}
-
-			if (srg.isSetSpeciesGlyph()) {
-				SpeciesGlyph speciesGlyph = srg.getSpeciesGlyphInstance();
-				if (!speciesGlyph.isSetBoundingBox()) {
-					speciesGlyph.setBoundingBox(algorithm.createGlyphBoundingBox(speciesGlyph,srg));
-				} else {
-					BoundingBox boundingBox = speciesGlyph.getBoundingBox();
-					if (!boundingBox.isSetDimensions()) {
-						boundingBox.setDimensions(algorithm.createSpeciesGlyphDimension());
-					}
-					if (!boundingBox.isSetPosition()) {
-						boundingBox.setPosition(algorithm.createSpeciesGlyphPosition(speciesGlyph,srg));
-					}
-				}
-			}
-
-			builder.buildConnectingArc(srg);
-		}
-
-		double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(rg);
-		builder.buildProcessNode(rg,rgRotationAngle);
-	}
-
-	/**
 	 * @param speciesGlyphList
 	 */
 	private void handleSpeciesGlyphs(ListOf<SpeciesGlyph> speciesGlyphList) {
@@ -369,22 +282,22 @@ public class LayoutDirector<P> implements Runnable {
 	private void handleSpeciesGlyph(SpeciesGlyph speciesGlyph) {
 		if (glyphIsLayouted(speciesGlyph)) {
 			boolean cloneMarker = false;
-
+	
 			if (speciesGlyph.isSetNamedSBase()) {
 				NamedSBase species = speciesGlyph.getNamedSBaseInstance();
-
+	
 				if (!species.isSetSBOTerm()) {
 					speciesGlyph.setSBOTerm(SBO.getUnknownMolecule());
 				} else {
 					speciesGlyph.setSBOTerm(species.getSBOTerm());
 				}
-
+	
 				List<NamedSBaseGlyph> glyphList = new ArrayList<NamedSBaseGlyph>();
 				if (species.getUserObject(LAYOUT_LINK) instanceof List<?>) {
 					glyphList = (List<NamedSBaseGlyph>) species.getUserObject(LAYOUT_LINK);
 				}
 				cloneMarker = glyphList.size() > 1;
-
+	
 			}
 			
 			algorithm.addLayoutedGlyph(speciesGlyph);
@@ -393,6 +306,91 @@ public class LayoutDirector<P> implements Runnable {
 		else {
 			algorithm.addUnlayoutedGlyph(speciesGlyph);
 		}
+	}
+
+	/**
+	 * @param reactionGlyphList
+	 */
+	private void handleReactionGlyphs(ListOf<ReactionGlyph> reactionGlyphList) {
+		for (ReactionGlyph rg : reactionGlyphList) {
+			handleReactionGlyph(rg);
+		}
+	}
+
+	/**
+	 * @param rg
+	 */
+	private void handleReactionGlyph(ReactionGlyph rg) {
+		/*
+		if (!rg.isSetBoundingBox()) {
+			rg.setBoundingBox(algorithm.createGlyphBoundingBox(rg, null));
+		} else {
+			BoundingBox boundingBox = rg.getBoundingBox();
+			if (!boundingBox.isSetDimensions()) {
+				boundingBox.setDimensions(algorithm.createReactionGlyphDimension(rg));
+			}
+			if (!boundingBox.isSetPosition()) {
+				boundingBox.setPosition(algorithm.createReactionGlyphPosition(rg));
+			}
+			rg.setBoundingBox(boundingBox);
+		}
+		*/
+		
+		ListOf<SpeciesReferenceGlyph> speciesReferenceGlyphList =
+			rg.getListOfSpeciesReferenceGlyphs();
+
+		/*
+		for(SpeciesReferenceGlyph speciesReferenceGlyph : speciesReferenceGlyphList){
+			if (!speciesReferenceGlyph.isSetCurve()) {
+				speciesReferenceGlyph.setCurve(algorithm.createCurve(rg, speciesReferenceGlyph));
+			}
+		}
+		*/
+		
+		builder.buildProcessNode(rg, 0.0);
+
+		for (SpeciesReferenceGlyph srg : speciesReferenceGlyphList) {
+			// copy SBO term of species reference to species reference glyph
+			SpeciesReference speciesReference = (SpeciesReference) srg.getNamedSBaseInstance();
+			if (speciesReference == null || !speciesReference.isSetSBOTerm()) {
+				if (!srg.isSetSpeciesReferenceRole()) {
+					// sets consumption (straight line as default)
+					srg.setSBOTerm(394);
+				}
+			} else {
+				srg.setSBOTerm(speciesReference.getSBOTerm());
+			}
+
+			// TODO species glyphs are handled separately -- unnecessary?
+			// think about order of handle* function calls
+			/*
+			if (srg.isSetSpeciesGlyph()) {
+				SpeciesGlyph speciesGlyph = srg.getSpeciesGlyphInstance();
+				if (!speciesGlyph.isSetBoundingBox()) {
+					speciesGlyph.setBoundingBox(algorithm.createGlyphBoundingBox(speciesGlyph,srg));
+				} else {
+					BoundingBox boundingBox = speciesGlyph.getBoundingBox();
+					if (!boundingBox.isSetDimensions()) {
+						boundingBox.setDimensions(algorithm.createSpeciesGlyphDimension());
+					}
+					if (!boundingBox.isSetPosition()) {
+						boundingBox.setPosition(algorithm.createSpeciesGlyphPosition(speciesGlyph,srg));
+					}
+				}
+			}
+			*/
+
+			if (srg.isSetCurve()) {
+				algorithm.addLayoutedEdge(srg, rg);
+				builder.buildConnectingArc(srg, rg);
+			}
+			else {
+				algorithm.addUnlayoutedEdge(srg, rg);
+			}
+		}
+
+//		double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(rg);
+//		builder.buildProcessNode(rg, rgRotationAngle);
 	}
 
 	/**

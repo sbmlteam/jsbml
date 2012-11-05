@@ -17,6 +17,7 @@
 
 package de.zbit.sbml.layout;
 
+import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.layout.CurveSegment;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 
@@ -42,4 +43,10 @@ public interface SBGNArc<T> {
 	 */
 	public T draw(CurveSegment curveSegment);
 	
+	/**
+	 * Draw a whole curve consisting of multiple curve segments.
+	 * @param curve the {@link Curve} to draw
+	 * @return T graphical representation of the curve
+	 */
+	public T draw(Curve curve);
 }
