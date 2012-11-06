@@ -222,12 +222,6 @@ public interface LayoutAlgorithm {
 	 * position specified) to the input of the algorithm.
 	 */
 	public void addUnlayoutedGlyph(GraphicalObject glyph);
-	
-	/**
-	 * Returns the input set of unlayouted glyphs with completed layout
-	 * information.
-	 */
-	public Set<GraphicalObject> completeGlyphs();
 
 	/**
 	 * @param srg
@@ -240,4 +234,10 @@ public interface LayoutAlgorithm {
 	 * @param rg
 	 */
 	public void addUnlayoutedEdge(SpeciesReferenceGlyph srg, ReactionGlyph rg);
+	
+	/**
+	 * Returns the input set of unlayouted glyphs with completed layout
+	 * information.
+	 */
+	public Set<GraphicalObject> completeGlyphs();
 }
