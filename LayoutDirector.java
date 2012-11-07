@@ -160,27 +160,37 @@ public class LayoutDirector<P> implements Runnable {
 		for (SpeciesGlyph speciesGlyph : speciesGlyphList) {
 			if (glyphIsLayouted(speciesGlyph)) {
 				algorithm.addLayoutedGlyph(speciesGlyph);
-			}
-			else {
+			} else {
 				algorithm.addUnlayoutedGlyph(speciesGlyph);
 			}
 		}
 		for (TextGlyph textGlyph : textGlyphList) {
 			if (glyphIsLayouted(textGlyph)) {
 				algorithm.addLayoutedGlyph(textGlyph);
-			}
-			else {
+			} else {
 				algorithm.addUnlayoutedGlyph(textGlyph);
 			}
 		}
 		
 		// reaction glyphs: create edges (srg, rg)
 		for (ReactionGlyph reactionGlyph : reactionGlyphList) {
-			// TODO add reaction glyph to algorithm input
+			// add reaction glyph to algorithm input
+			if (glyphIsLayouted(reactionGlyph)) {
+				algorithm.addLayoutedGlyph(reactionGlyph);
+			} else {
+				algorithm.addUnlayoutedGlyph(reactionGlyph);
+			}
 			if (reactionGlyph.isSetListOfSpeciesReferencesGlyph()) {
 				ListOf<SpeciesReferenceGlyph> speciesReferenceGlyphs =
 					reactionGlyph.getListOfSpeciesReferenceGlyphs();
-				// TODO add all (srg, rg) pairs to algorithm input
+				// add all (srg, rg) pairs to algorithm input
+				for(SpeciesReferenceGlyph srg : speciesReferenceGlyphs) {
+					if (edgeIsLayouted(reactionGlyph, srg)) {
+						algorithm.addLayoutedEdge(srg, reactionGlyph);
+					} else {
+						algorithm.addUnlayoutedEdge(srg, reactionGlyph);
+					}
+				}
 			}
 		}
 		
@@ -200,6 +210,19 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
+	 * Check if the incoming edge between the {@link ReactionGlyph} and the {@link SpeciesReferenceGlyph}
+	 * is layouted.
+	 * @param reactionGlyph
+	 * @param srg
+	 * @return
+	 */
+	public static boolean edgeIsLayouted(ReactionGlyph reactionGlyph,
+			SpeciesReferenceGlyph srg) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/**
 	 * Check if a glyph as complete layout information (i.e. both dimensions
 	 * and position).
 	 * @param glyph
@@ -210,6 +233,7 @@ public class LayoutDirector<P> implements Runnable {
 			glyph.getBoundingBox().isSetDimensions() &&
 			glyph.getBoundingBox().isSetPosition();
 	}
+	
 	
 	/**
 	 * Check if glyph has dimensions.
