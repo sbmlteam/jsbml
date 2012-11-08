@@ -21,7 +21,6 @@ import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
 import org.sbml.jsbml.ext.layout.CubicBezier;
 import org.sbml.jsbml.ext.layout.Layout;
-import org.sbml.jsbml.ext.layout.LineSegment;
 import org.sbml.jsbml.ext.layout.ReactionGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
@@ -67,13 +66,6 @@ public interface LayoutBuilder<P> {
 	 * @param speciesReferenceGlyph that defines the connecting arc 
 	 */
 	public void buildConnectingArc(SpeciesReferenceGlyph speciesReferenceGlyph);
-	
-	/**
-	 * method to draw a line between the start and the end point of the given {@link LineSegment}
-	 * 
-	 * @param lineSegment
-	 */
-	public void buildLineSegment(LineSegment lineSegment);
 
 	/**
 	 * method to draw an arc between the two base points of the given {@link CubicBezier}
@@ -96,7 +88,7 @@ public interface LayoutBuilder<P> {
 	 * the {@link BoundingBox} of the given {@link ReactionGlyph}
 	 * 
 	 * @param rotationAngle by which the lines from the reaction box are rotated
-	 * @param reactionGlyph
+	 * @param reactionGlyph the glyph for the process node to be drawn
 	 */
 	public void buildProcessNode(ReactionGlyph reactionGlyph, double rotationAngle);
 	
