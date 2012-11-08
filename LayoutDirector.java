@@ -36,7 +36,6 @@ import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ext.SBasePlugin;
-import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
 import org.sbml.jsbml.ext.layout.ExtendedLayoutModel;
 import org.sbml.jsbml.ext.layout.GraphicalObject;
@@ -194,7 +193,14 @@ public class LayoutDirector<P> implements Runnable {
 			}
 		}
 		
-		// TODO compartments
+		// compartment glyphs
+		for(CompartmentGlyph compartmentGlyph : compartmentGlyphList) {
+			if (glyphIsLayouted(compartmentGlyph)) {
+				algorithm.addLayoutedGlyph(compartmentGlyph);
+			} else {
+				algorithm.addUnlayoutedGlyph(compartmentGlyph);
+			}
+		}
 		
 		
 		// 2. let algorithm complete all glyphs
@@ -268,6 +274,7 @@ public class LayoutDirector<P> implements Runnable {
 					compartmentGlyph.isSetNamedSBase()) {
 				Compartment previousCompartment = (Compartment) previousCompartmentGlyph.getNamedSBaseInstance();
 				if (previousCompartment.getUserObject(COMPARTMENT_LINK) instanceof List<?>) {
+					@SuppressWarnings("unchecked")
 					List<Compartment> containedCompartments =
 						(List<Compartment>) previousCompartment.getUserObject(COMPARTMENT_LINK);
 					if (!containedCompartments.contains(compartmentGlyph.getNamedSBaseInstance())) {
@@ -281,20 +288,6 @@ public class LayoutDirector<P> implements Runnable {
 			// CompartmentGlyph compartmentGlyph = layout.getCompartmentGlyph(compartment.getId());
 			//
 			// layout.findCompartmentGlyphs(compartment.getId());
-
-			if (!compartmentGlyph.isSetBoundingBox()) {
-				compartmentGlyph.setBoundingBox(algorithm.createGlyphBoundingBox(previousCompartmentGlyph, null));
-				//				compartmentGlyph.setBoundingBox(algorithm.createCompartmentGlyphBoundingBox(previousCompartmentGlyph));
-			} else {
-				BoundingBox boundingBox = compartmentGlyph.getBoundingBox();
-				if (!boundingBox.isSetDimensions()) {
-					boundingBox.setDimensions(algorithm.createCompartmentGlyphDimension(previousCompartmentGlyph));
-				}
-				if (!boundingBox.isSetPosition()) {
-					boundingBox.setPosition(algorithm.createCompartmentGlyphPosition(previousCompartmentGlyph));
-				}
-				compartmentGlyph.setBoundingBox(boundingBox);
-			}
 
 			builder.buildCompartment(compartmentGlyph);
 
@@ -334,7 +327,6 @@ public class LayoutDirector<P> implements Runnable {
 			cloneMarker = glyphList.size() > 1;
 
 		}
-
 		builder.buildEntityPoolNode(speciesGlyph, cloneMarker);
 	}
 
@@ -480,7 +472,7 @@ public class LayoutDirector<P> implements Runnable {
 				buildLayout(layoutModel.getLayout(layoutIndex));
 			}
 		} else {
-			//TODO: throw exception or a logger answer
+			logger.log(logger.getLevel(), "method run failed: No model extension available for $s .", model.getId());
 		}
 	}
 
