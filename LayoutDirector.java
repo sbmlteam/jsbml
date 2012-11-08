@@ -376,8 +376,8 @@ public class LayoutDirector<P> implements Runnable {
 			}
 		}
 		*/
-		
-		builder.buildProcessNode(rg, 0.0);
+		double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(rg);
+		builder.buildProcessNode(rg, rgRotationAngle);
 
 		for (SpeciesReferenceGlyph srg : speciesReferenceGlyphList) {
 			// copy SBO term of species reference to species reference glyph

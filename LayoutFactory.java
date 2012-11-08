@@ -48,6 +48,11 @@ public interface LayoutFactory<NodeT,ArcT> {
 	public SimpleChemical<NodeT> createSimpleChemical();
 	
 	/**
+	 * @return a {@link ProcessNode}
+	 */
+	public ProcessNode<NodeT> createProcessNode();
+	
+	/**
 	 * @return a {@link Compartment}
 	 */
 	public Compartment<NodeT> createCompartment();
