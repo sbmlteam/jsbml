@@ -41,7 +41,7 @@ public interface SBGNArc<T> {
 	 * @param curveSegment a {@link CurveSegment} of the {@link Curve} of the {@link SpeciesReferenceGlyph} 
 	 * @return T as a graphical representation of any form
 	 */
-	public T draw(CurveSegment curveSegment);
+	public T draw(CurveSegment curveSegment, double width);
 	
 	/**
 	 * Draw a whole curve consisting of multiple curve segments.

@@ -65,7 +65,7 @@ public interface LayoutBuilder<P> {
 	 * 
 	 * @param speciesReferenceGlyph that defines the connecting arc 
 	 */
-	public void buildConnectingArc(SpeciesReferenceGlyph speciesReferenceGlyph);
+	public void buildConnectingArc(SpeciesReferenceGlyph speciesReferenceGlyph, double curveWidth);
 
 	/**
 	 * method to draw an arc between the two base points of the given {@link CubicBezier}
@@ -90,7 +90,7 @@ public interface LayoutBuilder<P> {
 	 * @param rotationAngle by which the lines from the reaction box are rotated
 	 * @param reactionGlyph the glyph for the process node to be drawn
 	 */
-	public void buildProcessNode(ReactionGlyph reactionGlyph, double rotationAngle);
+	public void buildProcessNode(ReactionGlyph reactionGlyph, double rotationAngle, double curveWidth);
 	
 	/**
 	 * method for drawing/writing the given {@link TextGlyph}
@@ -121,6 +121,6 @@ public interface LayoutBuilder<P> {
 	 * @param srg
 	 * @param rg
 	 */
-	public void buildConnectingArc(SpeciesReferenceGlyph srg, ReactionGlyph rg);
+	public void buildConnectingArc(SpeciesReferenceGlyph srg, ReactionGlyph rg, double curveWidth);
 	
 }

@@ -21,8 +21,10 @@ import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.xml.stream.XMLStreamException;
@@ -47,6 +49,9 @@ import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 import org.sbml.jsbml.ext.layout.TextGlyph;
 
+import de.zbit.gui.csv.CSVImporterV2;
+import de.zbit.io.CSVReader;
+
 /**
  * @navhas - - - LayoutBuilder
  * @navhas - - - LayoutAlgorithm
@@ -58,6 +63,7 @@ import org.sbml.jsbml.ext.layout.TextGlyph;
  */
 public class LayoutDirector<P> implements Runnable {
 
+	public static final String KEY_FOR_FLUX_VALUES = "fluxValue";
 	private static Logger logger = Logger.getLogger(LayoutDirector.class.toString());
 	public static final String LAYOUT_LINK = "LAYOUT_LINK";
 	public static final String COMPARTMENT_LINK = "COMPARTMENT_LINK";
@@ -65,6 +71,7 @@ public class LayoutDirector<P> implements Runnable {
 	private Model model;
 	private int layoutIndex;
 	private LayoutAlgorithm algorithm;
+	private Map<String,Double> mapOfFluxes;
 
 
 	/**
@@ -77,6 +84,27 @@ public class LayoutDirector<P> implements Runnable {
 	throws XMLStreamException, IOException {
 
 		this(SBMLReader.read(inputFile), builder, algorithm);
+	}
+
+	/**
+	 * 
+	 * @param inputFile
+	 * @param builder
+	 * @param algorithm
+	 * @param fluxFile
+	 * @throws XMLStreamException
+	 * @throws IOException
+	 */
+	public LayoutDirector(File inputFile, LayoutBuilder<P> builder, LayoutAlgorithm algorithm, File fluxFile) 
+	throws XMLStreamException, IOException {
+		this(SBMLReader.read(inputFile), builder, algorithm);
+		mapOfFluxes = new HashMap<String, Double>();
+		
+		CSVReader csvReader = new CSVReader(fluxFile.getAbsolutePath());
+		String[][] data = csvReader.read();
+		for (int i = 0; i < data.length; i++) {
+			mapOfFluxes.put(data[i][0], Double.parseDouble(data[i][1]));
+		}
 	}
 
 	/**
@@ -138,7 +166,7 @@ public class LayoutDirector<P> implements Runnable {
 		}
 
 		builder.builderStart(layout);
-		
+
 		// Compartment glyphs
 		ListOf<CompartmentGlyph> compartmentGlyphList = layout.getListOfCompartmentGlyphs();
 		createLayoutLinks(compartmentGlyphList);
@@ -154,7 +182,7 @@ public class LayoutDirector<P> implements Runnable {
 
 		// Text glyphs
 		ListOf<TextGlyph> textGlyphList = layout.getListOfTextGlyphs();
-		
+
 		// 1. add all glyphs to algorithm input
 		for (SpeciesGlyph speciesGlyph : speciesGlyphList) {
 			if (glyphIsLayouted(speciesGlyph)) {
@@ -170,7 +198,7 @@ public class LayoutDirector<P> implements Runnable {
 				algorithm.addUnlayoutedGlyph(textGlyph);
 			}
 		}
-		
+
 		// reaction glyphs: create edges (srg, rg)
 		for (ReactionGlyph reactionGlyph : reactionGlyphList) {
 			// add reaction glyph to algorithm input
@@ -192,7 +220,7 @@ public class LayoutDirector<P> implements Runnable {
 				}
 			}
 		}
-		
+
 		// compartment glyphs
 		for(CompartmentGlyph compartmentGlyph : compartmentGlyphList) {
 			if (glyphIsLayouted(compartmentGlyph)) {
@@ -201,11 +229,11 @@ public class LayoutDirector<P> implements Runnable {
 				algorithm.addUnlayoutedGlyph(compartmentGlyph);
 			}
 		}
-		
-		
+
+
 		// 2. let algorithm complete all glyphs
 		algorithm.completeGlyphs();
-		
+
 		// 3. build all glyphs
 		handleCompartmentGlyphs(sortedCompartmentGlyphList);
 		handleSpeciesGlyphs(speciesGlyphList);
@@ -236,11 +264,11 @@ public class LayoutDirector<P> implements Runnable {
 	 */
 	public static boolean glyphIsLayouted(GraphicalObject glyph) {
 		return glyph.isSetBoundingBox() &&
-			glyph.getBoundingBox().isSetDimensions() &&
-			glyph.getBoundingBox().isSetPosition();
+		glyph.getBoundingBox().isSetDimensions() &&
+		glyph.getBoundingBox().isSetPosition();
 	}
-	
-	
+
+
 	/**
 	 * Check if glyph has dimensions.
 	 * @param glyph
@@ -248,9 +276,9 @@ public class LayoutDirector<P> implements Runnable {
 	 */
 	public static boolean glyphHasDimensions(GraphicalObject glyph) {
 		return glyph.isSetBoundingBox() &&
-			glyph.getBoundingBox().isSetDimensions();
+		glyph.getBoundingBox().isSetDimensions();
 	}
-	
+
 	/**
 	 * Check if glyph has a position.
 	 * @param glyph
@@ -258,9 +286,9 @@ public class LayoutDirector<P> implements Runnable {
 	 */
 	public static boolean glyphHasPosition(GraphicalObject glyph) {
 		return glyph.isSetBoundingBox() &&
-			glyph.getBoundingBox().isSetPosition();
+		glyph.getBoundingBox().isSetPosition();
 	}
-	
+
 	/**
 	 * @param compartmentGlyphList
 	 */
@@ -343,33 +371,18 @@ public class LayoutDirector<P> implements Runnable {
 	 * @param rg
 	 */
 	private void handleReactionGlyph(ReactionGlyph rg) {
-		/*
-		if (!rg.isSetBoundingBox()) {
-			rg.setBoundingBox(algorithm.createGlyphBoundingBox(rg, null));
-		} else {
-			BoundingBox boundingBox = rg.getBoundingBox();
-			if (!boundingBox.isSetDimensions()) {
-				boundingBox.setDimensions(algorithm.createReactionGlyphDimension(rg));
-			}
-			if (!boundingBox.isSetPosition()) {
-				boundingBox.setPosition(algorithm.createReactionGlyphPosition(rg));
-			}
-			rg.setBoundingBox(boundingBox);
-		}
-		*/
-		
+
+		//TODO: change String to global variable
+		double curveWidth = 1d;
+		if (rg.isSetUserObjects()) {
+			curveWidth = (Double) rg.getUserObject(KEY_FOR_FLUX_VALUES);
+		} 
+
 		ListOf<SpeciesReferenceGlyph> speciesReferenceGlyphList =
 			rg.getListOfSpeciesReferenceGlyphs();
 
-		/*
-		for(SpeciesReferenceGlyph speciesReferenceGlyph : speciesReferenceGlyphList){
-			if (!speciesReferenceGlyph.isSetCurve()) {
-				speciesReferenceGlyph.setCurve(algorithm.createCurve(rg, speciesReferenceGlyph));
-			}
-		}
-		*/
 		double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(rg);
-		builder.buildProcessNode(rg, rgRotationAngle);
+		builder.buildProcessNode(rg, rgRotationAngle, curveWidth);
 
 		for (SpeciesReferenceGlyph srg : speciesReferenceGlyphList) {
 			// copy SBO term of species reference to species reference glyph
@@ -400,13 +413,10 @@ public class LayoutDirector<P> implements Runnable {
 					}
 				}
 			}
-			*/
+			 */
 
-			builder.buildConnectingArc(srg, rg);
+			builder.buildConnectingArc(srg, rg, curveWidth);
 		}
-
-//		double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(rg);
-//		builder.buildProcessNode(rg, rgRotationAngle);
 	}
 
 	/**
@@ -424,15 +434,15 @@ public class LayoutDirector<P> implements Runnable {
 	private void handleTextGlyph(TextGlyph textGlyph) {
 		builder.buildTextGlyph(textGlyph);
 	}
-	
+
 	/**
 	 * Check if a text glyph represents an indepentend text (not associated with
 	 * any other graphical object or species.
 	 */
 	public static boolean textGlyphIsIndependent(TextGlyph textGlyph) {
 		return textGlyph.isSetText() &&
-			!textGlyph.isSetGraphicalObject() &&
-			!textGlyph.isSetOriginOfText();
+		!textGlyph.isSetGraphicalObject() &&
+		!textGlyph.isSetOriginOfText();
 	}
 
 	/**
@@ -469,6 +479,13 @@ public class LayoutDirector<P> implements Runnable {
 		if (extension != null) {
 			ExtendedLayoutModel layoutModel = (ExtendedLayoutModel) extension;
 			if (layoutModel.getLayoutCount() > layoutIndex) {
+				if (mapOfFluxes != null) {
+					//Set the flux values as user object if they're present.
+					for (String reactionID : mapOfFluxes.keySet()) {
+						ReactionGlyph reactionGlyph = layoutModel.getLayout(layoutIndex).getReactionGlyph(reactionID);
+						reactionGlyph.putUserObject(KEY_FOR_FLUX_VALUES, mapOfFluxes.get(reactionID));
+					}
+				}
 				buildLayout(layoutModel.getLayout(layoutIndex));
 			}
 		} else {
