@@ -28,6 +28,8 @@ public abstract class ProcessNode<T> implements SBGNNode<T> {
 	// process nodes do not have a clone marker
 	private final boolean cloneMarker = false;
 	
+	private double lineWidth;
+	
 	/**
 	 *  Position where the curve of the substrate ends at the process node
 	 */
@@ -37,6 +39,8 @@ public abstract class ProcessNode<T> implements SBGNNode<T> {
 	 * Position where the curve to the product begins at the process node
 	 */
 	private Point pointOfContactToProduct;
+	
+	
 	
 	/* (non-Javadoc)
 	 * @see de.zbit.sbml.layout.SBGNNode#setCloneMarker()
@@ -103,5 +107,14 @@ public abstract class ProcessNode<T> implements SBGNNode<T> {
 		return pointOfContactToProduct;
 	}
 
+	/**
+	 * @return the lineWidth
+	 */
+	public abstract double getLineWidth();
+
+	/**
+	 * @param lineWidth the lineWidth to set
+	 */
+	public abstract void setLineWidth(double lineWidth);
 	
 }
