@@ -28,8 +28,6 @@ public abstract class ProcessNode<T> implements SBGNNode<T> {
 	// process nodes do not have a clone marker
 	private final boolean cloneMarker = false;
 	
-	private double lineWidth;
-	
 	/**
 	 *  Position where the curve of the substrate ends at the process node
 	 */

@@ -49,7 +49,6 @@ import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 import org.sbml.jsbml.ext.layout.TextGlyph;
 
-import de.zbit.gui.csv.CSVImporterV2;
 import de.zbit.io.CSVReader;
 
 /**
@@ -63,8 +62,9 @@ import de.zbit.io.CSVReader;
  */
 public class LayoutDirector<P> implements Runnable {
 
-	public static final String KEY_FOR_FLUX_VALUES = "fluxValue";
 	private static Logger logger = Logger.getLogger(LayoutDirector.class.toString());
+	
+	public static final String KEY_FOR_FLUX_VALUES = "fluxValue";
 	public static final String LAYOUT_LINK = "LAYOUT_LINK";
 	public static final String COMPARTMENT_LINK = "COMPARTMENT_LINK";
 	private LayoutBuilder<P> builder;
@@ -372,7 +372,6 @@ public class LayoutDirector<P> implements Runnable {
 	 */
 	private void handleReactionGlyph(ReactionGlyph rg) {
 
-		//TODO: change String to global variable
 		double curveWidth = 1d;
 		if (rg.isSetUserObjects()) {
 			curveWidth = (Double) rg.getUserObject(KEY_FOR_FLUX_VALUES);
