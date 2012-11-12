@@ -49,7 +49,7 @@ import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 import org.sbml.jsbml.ext.layout.TextGlyph;
 
-import de.zbit.io.CSVReader;
+import de.zbit.io.csv.CSVReader;
 
 /**
  * @navhas - - - LayoutBuilder
