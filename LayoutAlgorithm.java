@@ -80,29 +80,6 @@ public interface LayoutAlgorithm {
 	public Dimensions createSpeciesGlyphDimension();
 	
 	/**
-	 * method to create a {@link Position} for a {@link SpeciesGlyph} if it was
-	 * missing in the layout model
-	 * 
-	 * @param speciesGlyph for which the {@link Position} is missing
-	 * @return a {@link Position}
-	 */
-	@Deprecated
-	public Position createSpeciesGlyphPosition(SpeciesGlyph speciesGlyph);
-	
-	/**
-	 * method to create a {@link Position} for a {@link SpeciesGlyph} if it
-	 * was missing in the layout model and if the {@link SpeciesGlyph} can be
-	 * associated with a {@link SpeciesReferenceGlyph}
-	 * 
-	 * @param speciesGlyph for which the {@link Position} is missing
-	 * @param speciesReferenceGlyph that points to the given {@link SpeciesGlyph}
-	 * @return a {@link Position}
-	 */
-	@Deprecated
-	public Position createSpeciesGlyphPosition(SpeciesGlyph speciesGlyph,
-								SpeciesReferenceGlyph specieReferenceGlyph);
-	
-	/**
 	 * method to create the {@link Curve} of a {@link SpeciesReferenceGlyph},
 	 * starting or ending at the given {@link ReactionGlyph}
 	 * 
@@ -123,16 +100,6 @@ public interface LayoutAlgorithm {
 	public Dimensions createTextGlyphDimension(TextGlyph textGlyph);
 	
 	/**
-	 * method to create a {@link Position} for a {@link TextGlyph} if it was
-	 * missing in the layout model
-	 * 
-	 * @param textGlyph for which the {@link Position} is missing
-	 * @return a {@link Position}
-	 */
-	@Deprecated
-	public Position createTextGlyphPosition(TextGlyph textGlyph);
-	
-	/**
 	 * method to create a {@link Dimensions} for a {@link ReactionGlyph} if it
 	 * was missing in the layout model
 	 * 
@@ -140,16 +107,6 @@ public interface LayoutAlgorithm {
 	 * @return a {@link Dimensions}
 	 */
 	public Dimensions createReactionGlyphDimension(ReactionGlyph reactionGlyph);
-	
-	/**
-	 * method to create a {@link Position} for a {@link ReactionGlyph} if it was
-	 * missing in the layout model
-	 * 
-	 * @param reactionGlyph for which the {@link Position} is missing
-	 * @return a {@link Position}
-	 */
-	@Deprecated
-	public Position createReactionGlyphPosition(ReactionGlyph reactionGlyph);
 	
 	/**
 	 * method to create a {@link Dimensions} for a {@link SpeciesReferenceGlyph}
@@ -160,21 +117,6 @@ public interface LayoutAlgorithm {
 	 * @return a {@link Dimensions}
 	 */
 	public Dimensions createSpeciesReferenceGlyphDimension(
-			ReactionGlyph reactionGlyph,
-			SpeciesReferenceGlyph speciesReferenceGlyph);
-	
-	/**
-	 * method to create a {@link Position} for a {@link SpeciesReferenceGlyph}
-	 * if it was missing in the layout model
-	 * 
-	 * @param reactionGlyph
-	 *            from which the {@link SpeciesReferenceGlyph} is drawn
-	 * @param speciesReferenceGlyph
-	 *            for which the {@link Position} is missing
-	 * @return a {@link Position}
-	 */
-	@Deprecated
-	public Position createSpeciesReferenceGlyphPosition(
 			ReactionGlyph reactionGlyph,
 			SpeciesReferenceGlyph speciesReferenceGlyph);
 	

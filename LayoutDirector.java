@@ -34,7 +34,9 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
+import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ext.SBasePlugin;
@@ -160,7 +162,7 @@ public class LayoutDirector<P> implements Runnable {
 
 		algorithm.setLayout(layout);
 
-		// TODO should be last step
+		// TODO should be last step, bit TikZ needs to know dimensions in the beginning?
 		if (!layout.isSetDimensions()) {
 			layout.setDimensions(algorithm.createLayoutDimension());
 		}
@@ -240,6 +242,10 @@ public class LayoutDirector<P> implements Runnable {
 		handleReactionGlyphs(reactionGlyphList);
 		handleTextGlyphs(textGlyphList);
 
+		// 4. set layout dimensions
+		// TODO this is the second call (see above)
+		layout.setDimensions(algorithm.createLayoutDimension());
+		
 		builder.builderEnd();
 	}
 
@@ -485,7 +491,18 @@ public class LayoutDirector<P> implements Runnable {
 						reactionGlyph.putUserObject(KEY_FOR_FLUX_VALUES, mapOfFluxes.get(reactionID));
 					}
 				}
+				// write resulting SBMLDocument to stdout
 				buildLayout(layoutModel.getLayout(layoutIndex));
+				SBMLWriter writer = new SBMLWriter();
+				try {
+					writer.write(model.getSBMLDocument(), System.out);
+				} catch (SBMLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (XMLStreamException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		} else {
 			logger.log(logger.getLevel(), "method run failed: No model extension available for $s .", model.getId());
