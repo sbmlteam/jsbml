@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.stream.XMLStreamException;
@@ -509,7 +510,7 @@ public class LayoutDirector<P> implements Runnable {
 				}
 			}
 		} else {
-			logger.log(logger.getLevel(), "method run failed: No model extension available for $s .", model.getId());
+			logger.log(Level.INFO, "method run failed: No model extension available for this model.");
 		}
 	}
 
