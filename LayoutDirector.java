@@ -65,7 +65,7 @@ import de.zbit.io.csv.CSVReader;
 public class LayoutDirector<P> implements Runnable {
 
 	private static Logger logger = Logger.getLogger(LayoutDirector.class.toString());
-	
+
 	public static final String KEY_FOR_FLUX_VALUES = "fluxValue";
 	public static final String LAYOUT_LINK = "LAYOUT_LINK";
 	public static final String COMPARTMENT_LINK = "COMPARTMENT_LINK";
@@ -101,7 +101,7 @@ public class LayoutDirector<P> implements Runnable {
 	throws XMLStreamException, IOException {
 		this(SBMLReader.read(inputFile), builder, algorithm);
 		mapOfFluxes = new HashMap<String, Double>();
-		
+
 		CSVReader csvReader = new CSVReader(fluxFile.getAbsolutePath());
 		String[][] data = csvReader.read();
 		for (int i = 0; i < data.length; i++) {
@@ -488,7 +488,11 @@ public class LayoutDirector<P> implements Runnable {
 					//Set the flux values as user object if they're present.
 					for (String reactionID : mapOfFluxes.keySet()) {
 						ReactionGlyph reactionGlyph = layoutModel.getLayout(layoutIndex).getReactionGlyph(reactionID);
-						reactionGlyph.putUserObject(KEY_FOR_FLUX_VALUES, mapOfFluxes.get(reactionID));
+						if (reactionGlyph != null) {
+							reactionGlyph.putUserObject(KEY_FOR_FLUX_VALUES, mapOfFluxes.get(reactionID));
+						} else {
+							throw new IllegalArgumentException(reactionID + " is no legal ReactionGlyph ID for this model.");
+						}
 					}
 				}
 				// write resulting SBMLDocument to stdout
