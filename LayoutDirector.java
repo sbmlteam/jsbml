@@ -510,7 +510,7 @@ public class LayoutDirector<P> implements Runnable {
 				}
 			}
 		} else {
-			logger.log(Level.INFO, "method run failed: No model extension available for this model.");
+			logger.log(Level.INFO, "Method run failed: No model extension available for this model.");
 		}
 	}
 
