@@ -77,4 +77,14 @@ public interface LayoutFactory<NodeT,ArcT> {
 	 */
 	public Inhibition<ArcT> createInhibition();
 	
+	/**
+	 * @return a {@link Modulation}
+	 */
+	public Modulation<ArcT> createModulation();
+	
+	/**
+	 * @return a {@link NecessaryStimulation}
+	 */
+	public NecessaryStimulation<ArcT> createNecessaryStimulation();
+	
 }
