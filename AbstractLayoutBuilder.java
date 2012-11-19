@@ -67,6 +67,12 @@ public abstract class AbstractLayoutBuilder<P,NodeT,ArcT> implements LayoutBuild
 			return createMacromolecule();
 		}
 		
+		// nucleic acid features
+		// TODO not only genes are nucleic acid features
+		if (SBO.isChildOf(sboTerm, SBO.getGene())) {
+			return createNucleicAcidFeature();
+		}
+		
 		// source or sink, 291
 		if (SBO.isChildOf(sboTerm, SBO.getEmptySet())) {
 			return createSourceSink();
@@ -81,6 +87,8 @@ public abstract class AbstractLayoutBuilder<P,NodeT,ArcT> implements LayoutBuild
 		if (SBO.isChildOf(sboTerm, SBO.getCompartment())) {
 			return createCompartment();
 		}
+		
+		// TODO perturbing agent is missing as it is not included in the SBO implementation
 		
 		//default type of the entity pool node is an unspecified node
 		//if the SBO term does not match any of the above numbers
@@ -115,6 +123,16 @@ public abstract class AbstractLayoutBuilder<P,NodeT,ArcT> implements LayoutBuild
 		// inhibition, 169
 		if (SBO.isChildOf(sboTerm, 169)) {
 			return createInhibition();
+		}
+		
+		// modulation, 168
+		if (SBO.isChildOf(sboTerm, 168)) {
+			return createModulation();
+		}
+		
+		// necessary stimulation, 171
+		if (SBO.isChildOf(sboTerm, 171)) {
+			return createNecessaryStimulation();
 		}
 		
 		//default type of the connecting arc is a consumption, a line without special line ending

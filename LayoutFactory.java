@@ -48,6 +48,16 @@ public interface LayoutFactory<NodeT,ArcT> {
 	public SimpleChemical<NodeT> createSimpleChemical();
 	
 	/**
+	 * @return a {@link PerturbingAgent}
+	 */
+	public PerturbingAgent<NodeT> createPerturbingAgent();
+	
+	/**
+	 * @return a {@link NucleicAcidFeature}
+	 */
+	public NucleicAcidFeature<NodeT> createNucleicAcidFeature();
+	
+	/**
 	 * @return a {@link ProcessNode}
 	 */
 	public ProcessNode<NodeT> createProcessNode();
