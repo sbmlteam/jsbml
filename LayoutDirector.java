@@ -35,9 +35,7 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
-import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ext.SBasePlugin;
@@ -496,18 +494,18 @@ public class LayoutDirector<P> implements Runnable {
 						}
 					}
 				}
-				// write resulting SBMLDocument to stdout
 				buildLayout(layoutModel.getLayout(layoutIndex));
-				SBMLWriter writer = new SBMLWriter();
-				try {
-					writer.write(model.getSBMLDocument(), System.out);
-				} catch (SBMLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (XMLStreamException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				// write resulting SBMLDocument to stdout
+//				SBMLWriter writer = new SBMLWriter();
+//				try {
+//					writer.write(model.getSBMLDocument(), System.out);
+//				} catch (SBMLException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				} catch (XMLStreamException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 			}
 		} else {
 			logger.log(Level.INFO, "Method run failed: No model extension available for this model.");
