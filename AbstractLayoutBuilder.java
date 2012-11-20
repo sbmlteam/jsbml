@@ -93,7 +93,7 @@ public abstract class AbstractLayoutBuilder<P,NodeT,ArcT> implements LayoutBuild
 		//default type of the entity pool node is an unspecified node
 		//if the SBO term does not match any of the above numbers
 		return createUnspecifiedNode();
-		
+
 	}
 	
 	/**
@@ -133,6 +133,11 @@ public abstract class AbstractLayoutBuilder<P,NodeT,ArcT> implements LayoutBuild
 		// necessary stimulation, 171
 		if (SBO.isChildOf(sboTerm, 171)) {
 			return createNecessaryStimulation();
+		}
+		
+		// stimulation, 170
+		if (SBO.isChildOf(sboTerm, 170)) {
+			return createStimulation();
 		}
 		
 		//default type of the connecting arc is a consumption, a line without special line ending
