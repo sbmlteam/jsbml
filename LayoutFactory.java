@@ -93,6 +93,11 @@ public interface LayoutFactory<NodeT,ArcT> {
 	public Modulation<ArcT> createModulation();
 	
 	/**
+	 * @return a {@link Stimulation}
+	 */
+	public Stimulation<ArcT> createStimulation();
+	
+	/**
 	 * @return a {@link NecessaryStimulation}
 	 */
 	public NecessaryStimulation<ArcT> createNecessaryStimulation();
