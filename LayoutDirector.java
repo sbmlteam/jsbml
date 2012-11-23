@@ -83,7 +83,6 @@ public class LayoutDirector<P> implements Runnable {
 	 */
 	public LayoutDirector(File inputFile, LayoutBuilder<P> builder, LayoutAlgorithm algorithm)
 	throws XMLStreamException, IOException {
-
 		this(SBMLReader.read(inputFile), builder, algorithm);
 	}
 
