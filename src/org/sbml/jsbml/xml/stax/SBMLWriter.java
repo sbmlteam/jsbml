@@ -1491,16 +1491,6 @@ public class SBMLWriter {
 								elementIsNested = true;
 							}
 						}
-						if (nextObjectToWrite instanceof Constraint) {
-							Constraint constraint = (Constraint) nextObjectToWrite;
-							if (constraint.isSetMessage()) {
-								writeMessage(constraint, newOutPutElement,
-										streamWriter, newOutPutElement
-												.getNamespace().getURI(),
-										indent + indentCount);
-								elementIsNested = true;
-							}
-						}
 						if (nextObjectToWrite instanceof MathContainer) {
 							MathContainer mathContainer = (MathContainer) nextObjectToWrite;
 							if (mathContainer.getLevel() > 1) {
@@ -1511,6 +1501,16 @@ public class SBMLWriter {
 								elementIsNested = false;
 							}
 							isClosedMathContainer = true;
+						}
+						if (nextObjectToWrite instanceof Constraint) {
+							Constraint constraint = (Constraint) nextObjectToWrite;
+							if (constraint.isSetMessage()) {
+								writeMessage(constraint, newOutPutElement,
+										streamWriter, newOutPutElement
+												.getNamespace().getURI(),
+										indent + indentCount);
+								elementIsNested = true;
+							}
 						}
 						if (!elementIsNested
 								&& ((nextObjectToWrite instanceof Model) || (nextObjectToWrite instanceof UnitDefinition))) {
