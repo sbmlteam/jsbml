@@ -182,4 +182,5 @@ public interface LayoutAlgorithm {
 	 * information.
 	 */
 	public Set<GraphicalObject> completeGlyphs();
+
 }
