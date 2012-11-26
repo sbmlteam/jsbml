@@ -289,18 +289,18 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * @param speciesRefGlyphList
 	 * @return the central point
 	 */
-	protected Point calculateCenter(SpeciesGlyph speciesGlyph) {
+	protected Point calculateCenter(GraphicalObject glyph) {
 
 		Point middle = new Point(layout.getLevel(), layout.getVersion());
 		double x = 0;
 		double y = 0;
 		double z = 0;
 
-		if (speciesGlyph.isSetBoundingBox() && speciesGlyph.getBoundingBox().isSetPosition()) {
-			Point position = speciesGlyph.getBoundingBox().getPosition();
-			x = position.getX() + (speciesGlyph.getBoundingBox().getDimensions().getWidth() / 2d);
-			y = position.getY() + (speciesGlyph.getBoundingBox().getDimensions().getHeight() / 2d);
-			z = position.getZ() + (speciesGlyph.getBoundingBox().getDimensions().getDepth() / 2d);
+		if (glyph.isSetBoundingBox() && glyph.getBoundingBox().isSetPosition()) {
+			Point position = glyph.getBoundingBox().getPosition();
+			x = position.getX() + (glyph.getBoundingBox().getDimensions().getWidth() / 2d);
+			y = position.getY() + (glyph.getBoundingBox().getDimensions().getHeight() / 2d);
+			z = position.getZ() + (glyph.getBoundingBox().getDimensions().getDepth() / 2d);
 		}
 		// set the new coordinates
 		middle.setX(x);
@@ -361,41 +361,86 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		Point dockingPointToProduct = new Point(layout.getLevel(), layout.getVersion());
 		Point dockingPointOther = new Point(layout.getLevel(), layout.getVersion());
 
-		Point reactionPosition = reacGlyph.getBoundingBox().getPosition();
+		Point reactionCenterPosition = calculateCenter(reacGlyph);
 
+		double rotationAngle_new = correctRotationAngle(rotationAngle);
+		
 		// the legs of the triangle build by the reaction glyph and it's arms
-		double b = Math.abs(Math.cos(rotationAngle) * 10);
-		double a = Math.abs(Math.sin(rotationAngle) * 10);
-		//		double otherA = Math.sin(rotationAngle) * 5;
-		//		double otherB = Math.cos(rotationAngle) * 5;
+		double c = reacGlyph.getBoundingBox().getDimensions().getWidth()/2d;
+		double b = Math.abs(Math.cos(rotationAngle_new) * c);
+		double a = Math.abs(Math.sin(rotationAngle_new) * c);
+		//		double otherA = Math.sin(rotationAngle) * reacGlyph.getBoundingBox().getDimensions().getHight();
+		//		double otherB = Math.cos(rotationAngle) * reacGlyph.getBoundingBox().getDimensions().getHight();
 
-		if(rotationAngle <= 180) {
-			dockingPointToSubstrate.setX(reactionPosition.getX() - b);
-			dockingPointToSubstrate.setY(reactionPosition.getY() - a);
-			dockingPointToSubstrate.setZ(reactionPosition.getZ());
-			dockingPointToProduct.setX(reactionPosition.getX() + b);
-			dockingPointToProduct.setY(reactionPosition.getX() + a);
-			dockingPointToProduct.setZ(reactionPosition.getZ());
+		if (rotationAngle >= 0 && rotationAngle < 90) {
+			// b is the width and a the height
+			dockingPointToSubstrate.setX(reactionCenterPosition.getX() - b);
+			dockingPointToSubstrate.setY(reactionCenterPosition.getY() - a);
+			dockingPointToSubstrate.setZ(reactionCenterPosition.getZ());
+			
+			dockingPointToProduct.setX(reactionCenterPosition.getX() + b);
+			dockingPointToProduct.setY(reactionCenterPosition.getY() + a);
+			dockingPointToProduct.setZ(reactionCenterPosition.getZ());
+		} else if (rotationAngle >= 90 && rotationAngle <180) {
+			// a is the width and b the height
+			dockingPointToSubstrate.setX(reactionCenterPosition.getX() + a);
+			dockingPointToSubstrate.setY(reactionCenterPosition.getY() - b);
+			dockingPointToSubstrate.setZ(reactionCenterPosition.getZ());
+			
+			dockingPointToProduct.setX(reactionCenterPosition.getX() - a);
+			dockingPointToProduct.setY(reactionCenterPosition.getY() + b);
+			dockingPointToProduct.setZ(reactionCenterPosition.getZ());
+		} else if (rotationAngle >= 180 && rotationAngle <270) {
+			// b is the width and a the height
+			dockingPointToSubstrate.setX(reactionCenterPosition.getX() + b);
+			dockingPointToSubstrate.setY(reactionCenterPosition.getY() + a);
+			dockingPointToSubstrate.setZ(reactionCenterPosition.getZ());
+			
+			dockingPointToProduct.setX(reactionCenterPosition.getX() - b);
+			dockingPointToProduct.setY(reactionCenterPosition.getY() - a);
+			dockingPointToProduct.setZ(reactionCenterPosition.getZ());
 		} else {
-			dockingPointToSubstrate.setX(reactionPosition.getX()+ b);
-			dockingPointToSubstrate.setY(reactionPosition.getY() + a);
-			dockingPointToSubstrate.setZ(reactionPosition.getZ());
-			dockingPointToProduct.setX(reactionPosition.getX() - b);
-			dockingPointToProduct.setY(reactionPosition.getX() - a);
-			dockingPointToProduct.setZ(reactionPosition.getZ());
+			// a is the width and b the height
+			dockingPointToSubstrate.setX(reactionCenterPosition.getX() - a);
+			dockingPointToSubstrate.setY(reactionCenterPosition.getY() + b);
+			dockingPointToSubstrate.setZ(reactionCenterPosition.getZ());
+			
+			dockingPointToProduct.setX(reactionCenterPosition.getX() + a);
+			dockingPointToProduct.setY(reactionCenterPosition.getY() - b);
+			dockingPointToProduct.setZ(reactionCenterPosition.getZ());
 		}
 
+		/*
+		 * Check which docking position is needed to be returned
+		 */
 		if (specRefRole.equals(SpeciesReferenceRole.SUBSTRATE) ||
 				specRefRole.equals(SpeciesReferenceRole.SIDESUBSTRATE)) {
 			return dockingPointToSubstrate;
 		} else if (specRefRole.equals(SpeciesReferenceRole.PRODUCT) ||
 				specRefRole.equals(SpeciesReferenceRole.SIDEPRODUCT)){ 
-			return dockingPointToSubstrate;
-		} else {
+			return dockingPointToProduct;
+		} else { // Species docks at the ReactionGlyph directly
 			return dockingPointOther;
 		}
 	}
 	
+	/**
+	 * 
+	 */
+	protected double correctRotationAngle(double rotationAngle) {
+		double correctedAngle = 0;
+		if (rotationAngle < 90) {
+			correctedAngle = rotationAngle;
+		} else if (rotationAngle >= 90 && rotationAngle < 180) {
+			correctedAngle = rotationAngle -90;
+		} else if (rotationAngle >= 180 && rotationAngle < 270) {
+			correctedAngle = rotationAngle -180;
+		} else if (rotationAngle >= 270) {
+			correctedAngle = rotationAngle - 270;
+		}
+		return correctedAngle;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -717,10 +762,14 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 					a = startX - endX; //width
 					rotationAngle = Math.toDegrees(Math.asin(a / c)) + 90;
 				} else { //startY == endY
-					rotationAngle = 0;
+					rotationAngle = 180;
 				}
 			} else { //startX == endX
-				rotationAngle = 90;
+				if (startY > endY) {
+					rotationAngle = 270;
+				} else {
+					rotationAngle = 90;
+				}
 			}
 		}
 		return rotationAngle;
