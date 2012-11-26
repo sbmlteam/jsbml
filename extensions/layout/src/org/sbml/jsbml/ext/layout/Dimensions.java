@@ -308,8 +308,7 @@ public class Dimensions extends AbstractNamedSBase {
    */
   @Override
   public String toString() {
-    return super.toString() + " [depth=" + depth + ", height=" + height + ", width="
-      + width + ']';
+    return super.toString() + " [width=" + width + ", height=" + height + ", depth=" + depth + ']';
   }
 
 }

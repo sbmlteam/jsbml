@@ -21,6 +21,7 @@ package org.sbml.jsbml.ext.layout;
 
 import java.util.Map;
 
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
 
 
@@ -135,6 +136,24 @@ public class TextGlyph extends NamedSBaseGlyph {
 	 */
 	public String getGraphicalObject() {
 		return graphicalObject;
+	}
+	
+	/**
+	 * Direct access to the {@link GraphicalObject} linked to this
+	 * {@link TextGlyph}.
+	 */
+	public GraphicalObject getGraphicalObjectInstance() {
+		Model model = getModel();
+		return (GraphicalObject) (isSetGraphicalObject() && (model != null) ? model.findNamedSBase(getGraphicalObject()) : null);
+	}
+	
+	/**
+	 * Method to test if an instance of a {@link GraphicalObject} with the id
+	 * given by {@link #getGraphicalObject()} can be found in the {@link Model}.
+	 */
+	public boolean isSetGraphicalObjectInstance() {
+		Model model = getModel();
+		return isSetGraphicalObject() && (model != null) && (model.findNamedSBase(getGraphicalObject()) != null);
 	}
 	
 	/**

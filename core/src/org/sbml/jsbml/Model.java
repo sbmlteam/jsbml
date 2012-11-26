@@ -2915,7 +2915,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns a UnitDefinition representing one of the predefined units of SBML,
+   * Returns a {@link UnitDefinition} representing one of the predefined units of SBML,
    * returns {@code null} if the given unit kind is not a valid one for the SBML level
    * and version of this {@link Model}.
    * 
@@ -2954,7 +2954,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the number of {@link Quantity}s of this {@link Model}.
    */
   public int getQuantityCount() {
-    return getNumVariables() + getLocalParameterCount();
+    return getVariableCount() + getLocalParameterCount();
   }
   
   /**
@@ -2963,7 +2963,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the number of {@link QuantityWithUnit}s of this {@link Model}.
    */
   public int getQuantityWithUnitCount() {
-    return getNumSymbols() + getLocalParameterCount();
+    return getSymbolCount() + getLocalParameterCount();
   }
   
   /**
