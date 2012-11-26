@@ -292,6 +292,38 @@ public class LayoutDirector<P> implements Runnable {
 		return glyph.isSetBoundingBox() &&
 				glyph.getBoundingBox().isSetPosition();
 	}
+	
+	/**
+	 * Check if a species reference glyph is a substrate.
+	 */
+	public static boolean isSubstrate(SpeciesReferenceGlyph speciesReferenceGlyph) {
+		if (speciesReferenceGlyph.isSetSBOTerm()) {
+			return SBO.isChildOf(speciesReferenceGlyph.getSBOTerm(), 394);
+		}
+		// TODO handle roles
+		// else if (speciesReferenceGlyph.isSetSpeciesReferenceRole()) {
+			// RoleToSBOTerm.get(speciesReferenceGlyph.getSpeciesReferenceRole());
+		// }
+		else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Check if a species reference glyph is a production.
+	 */
+	public static boolean isProduct(SpeciesReferenceGlyph speciesReferenceGlyph) {
+		if (speciesReferenceGlyph.isSetSBOTerm()) {
+			return SBO.isChildOf(speciesReferenceGlyph.getSBOTerm(), 393);
+		}
+		// TODO handle roles
+		// else if (speciesReferenceGlyph.isSetSpeciesReferenceRole()) {
+			// RoleToSBOTerm.get(speciesReferenceGlyph.getSpeciesReferenceRole());
+		// }
+		else {
+			return false;
+		}
+	}
 
 	/**
 	 * @param compartmentGlyphList
@@ -381,7 +413,8 @@ public class LayoutDirector<P> implements Runnable {
 			curveWidth = (Double) rg.getUserObject(KEY_FOR_FLUX_VALUES);
 		} 
 
-		double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(rg);
+//		double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(rg);
+		double rgRotationAngle = 0d;
 		builder.buildProcessNode(rg, rgRotationAngle, curveWidth);
 
 		for (SpeciesReferenceGlyph srg : rg.getListOfSpeciesReferenceGlyphs()) {
