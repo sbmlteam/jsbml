@@ -18,6 +18,7 @@ package de.zbit.sbml.layout;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
@@ -85,6 +86,19 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		 */
 		UNDEFINED;
 	}
+	
+	/**
+	 * Logger
+	 */
+	private static Logger logger = Logger.getLogger(SimpleLayoutAlgorithm.class.toString());
+
+	/**
+	 * 
+	 */
+	public SimpleLayoutAlgorithm() {
+		this.setOfLayoutedGlyphs = new HashSet<GraphicalObject>();
+		this.setOfUnlayoutedGlyphs = new HashSet<GraphicalObject>();
+	}
 
 	/**
 	 * method calculates the relative position of the second bounding box with
@@ -103,6 +117,8 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		double startY = startGlyphBB.getPosition().getY();
 		double endX = endGlyphBB.getPosition().getX();
 		double endY = endGlyphBB.getPosition().getY();
+		
+		logger.info(startGlyphBB + " " + endGlyphBB);
 
 		if (endX < startX) { // the start point is right, above or below the end point
 			if (endY > startY || endY == startY) {
@@ -153,6 +169,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			} else if (endY < startY){
 				return RelativePosition.ABOVE;
 			} else { // then endX == startX && endY == startY
+				logger.warning("could not compute relative position");
 				return RelativePosition.UNDEFINED;
 			}
 		}
@@ -173,14 +190,6 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 */
 	protected Set<GraphicalObject> setOfUnlayoutedGlyphs;
 	
-	/**
-	 * 
-	 */
-	public SimpleLayoutAlgorithm() {
-		this.setOfLayoutedGlyphs = new HashSet<GraphicalObject>();
-		this.setOfUnlayoutedGlyphs = new HashSet<GraphicalObject>();
-	}
-
 	/**
 	 * This method calculates the average position of a curve at the direction of the reaction glyph,
 	 * if the role of a species reference glyph is PRODUCT, the start point of the curve is at the
@@ -298,9 +307,10 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 
 		if (glyph.isSetBoundingBox() && glyph.getBoundingBox().isSetPosition()) {
 			Point position = glyph.getBoundingBox().getPosition();
-			x = position.getX() + (glyph.getBoundingBox().getDimensions().getWidth() / 2d);
-			y = position.getY() + (glyph.getBoundingBox().getDimensions().getHeight() / 2d);
-			z = position.getZ() + (glyph.getBoundingBox().getDimensions().getDepth() / 2d);
+			Dimensions dimensions = glyph.getBoundingBox().getDimensions();
+			x = position.getX() + (dimensions.getWidth() / 2d);
+			y = position.getY() + (dimensions.getHeight() / 2d);
+			z = position.getZ() + (dimensions.getDepth() / 2d);
 		}
 		// set the new coordinates
 		middle.setX(x);
@@ -529,22 +539,69 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		return new Position(new Point(x, y, z, layout.getLevel(), layout.getVersion()));
 	}
 	
+	/**
+	 * @param reactionGlyph
+	 * @return
+	 */
+	protected Position createReactionGlyphPositionNew(ReactionGlyph reactionGlyph) {
+		Set<SpeciesGlyph> positionSpecifyingGlyphs = new HashSet<SpeciesGlyph>();
+		boolean substrateFound = false, productFound = false;
+		
+		for (SpeciesReferenceGlyph srg : reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
+			if (srg.getSpeciesReferenceRole() == SpeciesReferenceRole.SUBSTRATE
+					&& !substrateFound) {
+				positionSpecifyingGlyphs.add(srg.getSpeciesGlyphInstance());
+				substrateFound = true;
+			}
+			else if (srg.getSpeciesReferenceRole() == SpeciesReferenceRole.PRODUCT &&
+					!productFound) {
+				positionSpecifyingGlyphs.add(srg.getSpeciesGlyphInstance());
+				productFound = true;
+			}
+			if (substrateFound && productFound) break;
+		}
+		
+		assert positionSpecifyingGlyphs.size() == 2;
+		
+		double xsum = 0d, ysum = 0d, zsum = 0d;
+
+		for (SpeciesGlyph speciesGlyph : positionSpecifyingGlyphs) {
+			Point center = calculateCenter(speciesGlyph);
+			xsum += center.getX();
+			ysum += center.getY();
+			zsum += center.getZ();
+		}
+		// xsum / count, ysum / count are the center coordinates
+		// subtract half of the width/height/depth to get upper left coordinates
+		int count = 2;
+		Dimensions dimensions = reactionGlyph.getBoundingBox().getDimensions();
+		double x = xsum/count - dimensions.getWidth()/2d;
+		double y = ysum/count - dimensions.getHeight()/2d;
+		double z = zsum/count - dimensions.getDepth()/2d;
+		return new Position(new Point(x, y, z, level, version));
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see de.zbit.sbml.layout.LayoutAlgorithm#createReactionGlyphPositon(ReactionGlyph reactionGlyph)
 	 */
 	protected Position createReactionGlyphPosition(ReactionGlyph reactionGlyph) {
-
 		double x = 0;
 		double y = 0;
 		double z = 0;
 
+		// TODO remove curve handling, not useful?
+		
 		ListOf<SpeciesReferenceGlyph> curveList = new ListOf<SpeciesReferenceGlyph>();
 		ListOf<SpeciesReferenceGlyph> speciesGlyphList = new ListOf<SpeciesReferenceGlyph>();
 
 		ListOf<SpeciesReferenceGlyph> speciesReferenceGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
 		for (SpeciesReferenceGlyph specRefGlyph : speciesReferenceGlyphList) {
+			curveList.add(specRefGlyph);
+			speciesGlyphList.add(specRefGlyph);
+			
+			/*
 			if (specRefGlyph.isSetCurve()) {
 				curveList.add(specRefGlyph);
 			} else {
@@ -552,20 +609,20 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 					speciesGlyphList.add(specRefGlyph);
 				}
 			}
+			*/
 		}
 
 		Point substratePosition;
 		Point productPosition;
 		BoundingBox helpingBB1 = new BoundingBox();
 		BoundingBox helpingBB2 = new BoundingBox();
-		int layoutLevel = layout.getLevel();
-		int layoutVersion = layout.getVersion();
 
-		helpingBB1.setLevel(layoutLevel);
-		helpingBB1.setVersion(layoutVersion);
-		helpingBB2.setLevel(layoutLevel);
-		helpingBB2.setVersion(layoutVersion);
-		Dimensions helpingDimension = new Dimensions(10, 10, 0, layoutLevel, layoutVersion);
+		helpingBB1.setLevel(level);
+		helpingBB1.setVersion(version);
+		helpingBB2.setLevel(level);
+		helpingBB2.setVersion(version);
+		
+		Dimensions helpingDimension = new Dimensions(10, 10, 0, level, version);
 		helpingBB1.setDimensions(helpingDimension);
 		helpingBB2.setDimensions(helpingDimension);
 		Dimensions reacGlyphDimension;
@@ -583,15 +640,18 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		helpingBB2.setPosition(productPosition);
 		RelativePosition relativeProductPosition = getRelativePosition(helpingBB1, helpingBB2);
 		RelativePosition relativeSubstratePosition = getRelativePosition(helpingBB2, helpingBB1);
+		
 
 		SpeciesGlyph product = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.PRODUCT);
 		SpeciesGlyph substrate = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.SUBSTRATE);
-
+		
 		Point substratePointOfMiddle = calculateCenter(substrate);
 		Point productPointOfMiddle = calculateCenter(product);
 
-		Position dockingPositionProduct = calculateSpeciesGlyphDockingPosition(productPointOfMiddle ,relativeProductPosition, product);
+		Position dockingPositionProduct = calculateSpeciesGlyphDockingPosition(productPointOfMiddle, relativeProductPosition, product);
 		Position dockingPositionSubstrate = calculateSpeciesGlyphDockingPosition(substratePointOfMiddle, relativeSubstratePosition, substrate);
+		assert dockingPositionProduct != null;
+		assert dockingPositionSubstrate != null;
 
 		if (curveList.size() >= speciesGlyphList.size()) {
 			if (relativeProductPosition.equals(RelativePosition.ABOVE)) {
@@ -615,7 +675,8 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			}
 		} else {
 			// the computation of the position is equal for every relativePosition (left,right,above,below and undefined)
-			x = ((Math.max(dockingPositionProduct.getX(), dockingPositionSubstrate.getX()) - Math.min(dockingPositionProduct.getX(), dockingPositionSubstrate.getX())) 
+			x = ((Math.max(dockingPositionProduct.getX(), dockingPositionSubstrate.getX())
+					- Math.min(dockingPositionProduct.getX(), dockingPositionSubstrate.getX())) 
 					/ 2d) + Math.min(dockingPositionProduct.getX(), dockingPositionSubstrate.getX()) - (reacGlyphDimension.getWidth() / 2d);
 			y = ((Math.max(dockingPositionProduct.getY(), dockingPositionSubstrate.getY()) - Math.min(dockingPositionProduct.getY(), dockingPositionSubstrate.getY()))
 					/ 2d) + Math.min(dockingPositionProduct.getY(), dockingPositionSubstrate.getY()) - (reacGlyphDimension.getHeight() / 2d);
@@ -623,7 +684,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 					/ 2d) + Math.min(dockingPositionProduct.getZ(), dockingPositionSubstrate.getZ()) - (reacGlyphDimension.getDepth() / 2d);
 		}
 
-		return new Position(new Point(x, y, z, layoutLevel, layoutVersion));
+		return new Position(new Point(x, y, z, level, version));
 	}
 	
 	/*
@@ -636,8 +697,6 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		double width = 30;
 		double height = 30;
 		double depth = 0;
-		int layoutLevel = layout.getLevel();
-		int layoutVersion = layout.getVersion();
 
 		ListOf<SpeciesReferenceGlyph> curveList = new ListOf<SpeciesReferenceGlyph>();
 		ListOf<SpeciesReferenceGlyph> speciesGlyphList = new ListOf<SpeciesReferenceGlyph>();
@@ -658,11 +717,11 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		BoundingBox helpingBB1 = new BoundingBox();
 		BoundingBox helpingBB2 = new BoundingBox();
 
-		helpingBB1.setLevel(layoutLevel);
-		helpingBB1.setVersion(layoutVersion);
-		helpingBB2.setLevel(layoutLevel);
-		helpingBB2.setVersion(layoutVersion);
-		Dimensions helpingDimension = new Dimensions(10, 10, 0, layoutLevel, layoutVersion);
+		helpingBB1.setLevel(level);
+		helpingBB1.setVersion(version);
+		helpingBB2.setLevel(level);
+		helpingBB2.setVersion(version);
+		Dimensions helpingDimension = new Dimensions(10, 10, 0, level, version);
 		helpingBB1.setDimensions(helpingDimension);
 		helpingBB2.setDimensions(helpingDimension);
 
@@ -688,7 +747,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			}
 		}
 
-		return new Dimensions(width, height, depth, layoutLevel, layoutVersion);
+		return new Dimensions(width, height, depth, level, version);
 	}
 	
 	/*
@@ -786,8 +845,6 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			SpeciesGlyph specGlyph) {
 
 		Position dockingPosition = null;
-		int level = layout.getLevel();
-		int version = layout.getVersion();
 
 		// the coordinates of the species glyph
 		double x = middleOfSpecies.getX();
