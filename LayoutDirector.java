@@ -211,7 +211,7 @@ public class LayoutDirector<P> implements Runnable {
 				ListOf<SpeciesReferenceGlyph> speciesReferenceGlyphs =
 					reactionGlyph.getListOfSpeciesReferenceGlyphs();
 				// add all (srg, rg) pairs to algorithm input
-				for(SpeciesReferenceGlyph srg : speciesReferenceGlyphs) {
+				for (SpeciesReferenceGlyph srg : speciesReferenceGlyphs) {
 					if (edgeIsLayouted(reactionGlyph, srg)) {
 						algorithm.addLayoutedEdge(srg, reactionGlyph);
 					} else {
@@ -222,7 +222,7 @@ public class LayoutDirector<P> implements Runnable {
 		}
 
 		// compartment glyphs
-		for(CompartmentGlyph compartmentGlyph : compartmentGlyphList) {
+		for (CompartmentGlyph compartmentGlyph : compartmentGlyphList) {
 			if (glyphIsLayouted(compartmentGlyph)) {
 				algorithm.addLayoutedGlyph(compartmentGlyph);
 			} else {
@@ -268,8 +268,8 @@ public class LayoutDirector<P> implements Runnable {
 	 */
 	public static boolean glyphIsLayouted(GraphicalObject glyph) {
 		return glyph.isSetBoundingBox() &&
-		glyph.getBoundingBox().isSetDimensions() &&
-		glyph.getBoundingBox().isSetPosition();
+				glyph.getBoundingBox().isSetDimensions() &&
+				glyph.getBoundingBox().isSetPosition();
 	}
 
 
@@ -290,7 +290,7 @@ public class LayoutDirector<P> implements Runnable {
 	 */
 	public static boolean glyphHasPosition(GraphicalObject glyph) {
 		return glyph.isSetBoundingBox() &&
-		glyph.getBoundingBox().isSetPosition();
+				glyph.getBoundingBox().isSetPosition();
 	}
 
 	/**
@@ -301,7 +301,7 @@ public class LayoutDirector<P> implements Runnable {
 		CompartmentGlyph previousCompartmentGlyph = null;
 		for (int i = 0; i < compartmentGlyphList.size(); i++) {
 			CompartmentGlyph compartmentGlyph = compartmentGlyphList.get(i);
-			if (previousCompartmentGlyph != null &&
+			if ((previousCompartmentGlyph != null) &&
 					previousCompartmentGlyph.isSetNamedSBase() &&
 					compartmentGlyph.isSetNamedSBase()) {
 				Compartment previousCompartment = (Compartment) previousCompartmentGlyph.getNamedSBaseInstance();
@@ -381,16 +381,13 @@ public class LayoutDirector<P> implements Runnable {
 			curveWidth = (Double) rg.getUserObject(KEY_FOR_FLUX_VALUES);
 		} 
 
-		ListOf<SpeciesReferenceGlyph> speciesReferenceGlyphList =
-			rg.getListOfSpeciesReferenceGlyphs();
-
 		double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(rg);
 		builder.buildProcessNode(rg, rgRotationAngle, curveWidth);
 
-		for (SpeciesReferenceGlyph srg : speciesReferenceGlyphList) {
+		for (SpeciesReferenceGlyph srg : rg.getListOfSpeciesReferenceGlyphs()) {
 			// copy SBO term of species reference to species reference glyph
 			SpeciesReference speciesReference = (SpeciesReference) srg.getNamedSBaseInstance();
-			if (speciesReference == null || !speciesReference.isSetSBOTerm()) {
+			if ((speciesReference == null) || !speciesReference.isSetSBOTerm()) {
 				if (!srg.isSetSpeciesReferenceRole()) {
 					// sets consumption (straight line as default)
 					srg.setSBOTerm(394);
@@ -458,12 +455,19 @@ public class LayoutDirector<P> implements Runnable {
 		for (NamedSBaseGlyph glyph : listOfNamedSBaseGlyphs) {
 			if (glyph.isSetNamedSBase()) {
 				NamedSBase correspondingSBase = glyph.getNamedSBaseInstance();
-				List<NamedSBaseGlyph> listOfGlyphs = new ArrayList<NamedSBaseGlyph>();
-				if (correspondingSBase.getUserObject(LAYOUT_LINK) instanceof List<?>) {
-					listOfGlyphs = (List<NamedSBaseGlyph>) correspondingSBase.getUserObject(LAYOUT_LINK);
+				if (correspondingSBase == null) {
+					logger.warning(MessageFormat.format(
+						"Removing incorrect link from glyph {0} to an non existing element {1}",
+						glyph, glyph.getNamedSBase()));
+					glyph.unsetNamedSBase();
+				} else {
+					List<NamedSBaseGlyph> listOfGlyphs = new ArrayList<NamedSBaseGlyph>();
+					if (correspondingSBase.getUserObject(LAYOUT_LINK) instanceof List<?>) {
+						listOfGlyphs = (List<NamedSBaseGlyph>) correspondingSBase.getUserObject(LAYOUT_LINK);
+					}
+					listOfGlyphs.add(glyph);
+					correspondingSBase.putUserObject(LAYOUT_LINK, listOfGlyphs);
 				}
-				listOfGlyphs.add(glyph);
-				correspondingSBase.putUserObject(LAYOUT_LINK, listOfGlyphs);
 			}
 		}
 	}
