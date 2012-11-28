@@ -51,8 +51,6 @@ import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 import org.sbml.jsbml.ext.layout.TextGlyph;
 
 import de.zbit.io.csv.CSVReader;
-import de.zbit.sbml.layout.y.YLayoutAlgorithm;
-import de.zbit.sbml.layout.y.YLayoutBuilder;
 
 /**
  * @navhas - - - LayoutBuilder
@@ -127,7 +125,7 @@ public class LayoutDirector<P> implements Runnable {
 	 * @param algorithm
 	 */
 	public LayoutDirector(Layout layout, LayoutBuilder<P> builder,
-		YLayoutAlgorithm algorithm) {
+		LayoutAlgorithm algorithm) {
 		this(layout.getModel().getSBMLDocument(), builder, algorithm);
 	}
 
