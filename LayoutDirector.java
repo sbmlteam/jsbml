@@ -425,8 +425,7 @@ public class LayoutDirector<P> implements Runnable {
 			curveWidth = (Double) rg.getUserObject(KEY_FOR_FLUX_VALUES);
 		} 
 
-//		double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(rg);
-		double rgRotationAngle = 0d;
+		double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(rg);
 		builder.buildProcessNode(rg, rgRotationAngle, curveWidth);
 
 		for (SpeciesReferenceGlyph srg : rg.getListOfSpeciesReferenceGlyphs()) {
@@ -548,10 +547,8 @@ public class LayoutDirector<P> implements Runnable {
 //				try {
 //					writer.write(model.getSBMLDocument(), System.out);
 //				} catch (SBMLException e) {
-//					// TODO Auto-generated catch block
 //					e.printStackTrace();
 //				} catch (XMLStreamException e) {
-//					// TODO Auto-generated catch block
 //					e.printStackTrace();
 //				}
 			}

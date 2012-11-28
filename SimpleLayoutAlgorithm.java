@@ -374,7 +374,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		
 		Point reactionCenterPosition = calculateCenter(reacGlyph);
 		
-		RelativePosition modifierPosition = getRelativePosition(reacGlyph.getBoundingBox(), specRef.getBoundingBox());
+		RelativePosition modifierPosition = getRelativePosition(reacGlyph.getBoundingBox(), specRef.getSpeciesGlyphInstance().getBoundingBox());
 
 		double rotationAngle_new = correctRotationAngle(rotationAngle);
 
@@ -382,8 +382,8 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		double c = reacGlyph.getBoundingBox().getDimensions().getWidth()/2d;
 		double b = Math.abs(Math.cos(Math.toRadians(rotationAngle_new)) * c);
 		double a = Math.abs(Math.sin(Math.toRadians(rotationAngle_new)) * c);
-		double otherA = Math.abs(Math.sin(Math.toRadians(90 - rotationAngle_new))) * (reacGlyph.getBoundingBox().getDimensions().getHeight()/2d);
-		double otherB = Math.abs(Math.cos(Math.toRadians(90 - rotationAngle_new))) * (reacGlyph.getBoundingBox().getDimensions().getHeight()/2d);
+		double otherA = Math.abs(Math.sin(Math.toRadians(90 - rotationAngle_new))) * (12/2d);
+		double otherB = Math.abs(Math.cos(Math.toRadians(90 - rotationAngle_new))) * (12/2d);
 
 		//TODO
 		
@@ -433,12 +433,12 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			dockingPointToProduct.setY(reactionCenterPosition.getY() - a);
 			dockingPointToProduct.setZ(reactionCenterPosition.getZ());
 			
-			dockingPointOtherLeft.setX(reactionCenterPosition.getX() - otherA);
-			dockingPointOtherLeft.setY(reactionCenterPosition.getY() + otherB);
+			dockingPointOtherLeft.setX(reactionCenterPosition.getX() - otherB);
+			dockingPointOtherLeft.setY(reactionCenterPosition.getY() - otherA);
 			dockingPointOtherLeft.setZ(reactionCenterPosition.getZ());
 			
-			dockingPointOtherRight.setX(reactionCenterPosition.getX() + otherA);
-			dockingPointOtherRight.setY(reactionCenterPosition.getY() - otherB);
+			dockingPointOtherRight.setX(reactionCenterPosition.getX() + otherB);
+			dockingPointOtherRight.setY(reactionCenterPosition.getY() + otherA);
 			dockingPointOtherRight.setZ(reactionCenterPosition.getZ());
 			
 		} else {
@@ -451,12 +451,12 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			dockingPointToProduct.setY(reactionCenterPosition.getY() - b);
 			dockingPointToProduct.setZ(reactionCenterPosition.getZ());
 			
-			dockingPointOtherLeft.setX(reactionCenterPosition.getX() - otherA);
-			dockingPointOtherLeft.setY(reactionCenterPosition.getY() + otherB);
+			dockingPointOtherLeft.setX(reactionCenterPosition.getX() + otherA);
+			dockingPointOtherLeft.setY(reactionCenterPosition.getY() - otherB);
 			dockingPointOtherLeft.setZ(reactionCenterPosition.getZ());
 			
-			dockingPointOtherRight.setX(reactionCenterPosition.getX() + otherA);
-			dockingPointOtherRight.setY(reactionCenterPosition.getY() - otherB);
+			dockingPointOtherRight.setX(reactionCenterPosition.getX() - otherA);
+			dockingPointOtherRight.setY(reactionCenterPosition.getY() + otherB);
 			dockingPointOtherRight.setZ(reactionCenterPosition.getZ());
 			
 		}
@@ -645,10 +645,10 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 
 		ListOf<SpeciesReferenceGlyph> speciesReferenceGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
 		for (SpeciesReferenceGlyph specRefGlyph : speciesReferenceGlyphList) {
-			curveList.add(specRefGlyph);
-			speciesGlyphList.add(specRefGlyph);
 			
-			/*
+			// is useful, because of the cases below: if the curve is set or not
+			// you have to draw the curve if its set and if not you have to figure out
+			// where you have to draw the curve.
 			if (specRefGlyph.isSetCurve()) {
 				curveList.add(specRefGlyph);
 			} else {
@@ -656,7 +656,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 					speciesGlyphList.add(specRefGlyph);
 				}
 			}
-			*/
+			
 		}
 
 		Point substratePosition;
