@@ -16,6 +16,7 @@
  */
 package de.zbit.sbml.layout;
 
+import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -118,8 +119,6 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		double endX = endGlyphBB.getPosition().getX();
 		double endY = endGlyphBB.getPosition().getY();
 		
-		logger.info(startGlyphBB + " " + endGlyphBB);
-
 		if (endX < startX) { // the start point is right, above or below the end point
 			if (endY > startY || endY == startY) {
 				if ((startX - endX) >= (endY - startY) || endY == startY) {
@@ -838,46 +837,15 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * @return the rotation angle in degrees
 	 */
 	public double calculateRotationAngle(Point startPoint, Point endPoint) {
-
 		double rotationAngle = 0;
 
-		double a = 0;
-		double c = calculateLength(startPoint, endPoint);
-
-		double startX = startPoint.getX();
-		double startY = startPoint.getY();
-		double endX = endPoint.getX();
-		double endY = endPoint.getY();
-
-		if (c != 0) {
-			if (startX < endX) {
-				if (startY > endY) {
-					a = endX - startX; //width
-					rotationAngle = Math.toDegrees(Math.asin(a / c)) + 270;
-				} else if (startY < endY){
-					a = endY - startY; //height
-					rotationAngle = Math.toDegrees(Math.asin(a / c));
-				} else { //startY == endY
-					rotationAngle = 0;
-				}
-			} else if (startX > endX) {
-				if (startY > endY) {
-					a = startY - endY; //height
-					rotationAngle = Math.toDegrees(Math.asin(a / c)) + 180;
-				} else if (startY < endY){
-					a = startX - endX; //width
-					rotationAngle = Math.toDegrees(Math.asin(a / c)) + 90;
-				} else { //startY == endY
-					rotationAngle = 180;
-				}
-			} else { //startX == endX
-				if (startY > endY) {
-					rotationAngle = 270;
-				} else {
-					rotationAngle = 90;
-				}
-			}
-		}
+		double x = endPoint.getX() - startPoint.getX();
+		double y = endPoint.getY() - startPoint.getY();
+		rotationAngle = Math.toDegrees(Math.atan(y/x));
+		
+		logger.info(MessageFormat.format("start: {0} end: {1} deltaX: {2} deltaY: {3} rotation: {4}",
+				startPoint, endPoint, x, y, rotationAngle));
+		
 		return rotationAngle;
 	}
 

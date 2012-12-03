@@ -245,9 +245,9 @@ public class LayoutDirector<P> implements Runnable {
 		algorithm.completeGlyphs();
 
 		// 3. build all glyphs
-		handleCompartmentGlyphs(sortedCompartmentGlyphList);
 		handleSpeciesGlyphs(speciesGlyphList);
 		handleReactionGlyphs(reactionGlyphList);
+		handleCompartmentGlyphs(sortedCompartmentGlyphList);
 		handleTextGlyphs(textGlyphList);
 
 		// 4. set layout dimensions
@@ -437,25 +437,6 @@ public class LayoutDirector<P> implements Runnable {
 			} else {
 				srg.setSBOTerm(speciesReference.getSBOTerm());
 			}
-
-			// TODO species glyphs are handled separately -- unnecessary?
-			// think about order of handle* function calls
-			/*
-			if (srg.isSetSpeciesGlyph()) {
-				SpeciesGlyph speciesGlyph = srg.getSpeciesGlyphInstance();
-				if (!speciesGlyph.isSetBoundingBox()) {
-					speciesGlyph.setBoundingBox(algorithm.createGlyphBoundingBox(speciesGlyph,srg));
-				} else {
-					BoundingBox boundingBox = speciesGlyph.getBoundingBox();
-					if (!boundingBox.isSetDimensions()) {
-						boundingBox.setDimensions(algorithm.createSpeciesGlyphDimension());
-					}
-					if (!boundingBox.isSetPosition()) {
-						boundingBox.setPosition(algorithm.createSpeciesGlyphPosition(speciesGlyph,srg));
-					}
-				}
-			}
-			 */
 
 			builder.buildConnectingArc(srg, rg, curveWidth);
 		}
