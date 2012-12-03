@@ -193,7 +193,18 @@ public class LayoutDirector<P> implements Runnable {
 		// Text glyphs
 		ListOf<TextGlyph> textGlyphList = layout.getListOfTextGlyphs();
 
-		// 1. add all glyphs to algorithm input
+		// add all glyphs to algorithm input
+		
+		// 1. compartment glyphs
+		for (CompartmentGlyph compartmentGlyph : compartmentGlyphList) {
+			if (glyphIsLayouted(compartmentGlyph)) {
+				algorithm.addLayoutedGlyph(compartmentGlyph);
+			} else {
+				algorithm.addUnlayoutedGlyph(compartmentGlyph);
+			}
+		}
+		
+		// 2. species glyphs + texts
 		for (SpeciesGlyph speciesGlyph : speciesGlyphList) {
 			if (glyphIsLayouted(speciesGlyph)) {
 				algorithm.addLayoutedGlyph(speciesGlyph);
@@ -209,7 +220,7 @@ public class LayoutDirector<P> implements Runnable {
 			}
 		}
 
-		// reaction glyphs: create edges (srg, rg)
+		// 3. reaction glyphs: create edges (srg, rg)
 		for (ReactionGlyph reactionGlyph : reactionGlyphList) {
 			// add reaction glyph to algorithm input
 			if (glyphIsLayouted(reactionGlyph)) {
@@ -231,14 +242,6 @@ public class LayoutDirector<P> implements Runnable {
 			}
 		}
 
-		// compartment glyphs
-		for (CompartmentGlyph compartmentGlyph : compartmentGlyphList) {
-			if (glyphIsLayouted(compartmentGlyph)) {
-				algorithm.addLayoutedGlyph(compartmentGlyph);
-			} else {
-				algorithm.addUnlayoutedGlyph(compartmentGlyph);
-			}
-		}
 
 
 		// 2. let algorithm complete all glyphs
