@@ -103,7 +103,7 @@ public class GlyphCreator {
 	public String nextId() {
 	  String idOne;
 	  do {
-	    idOne = UUID.randomUUID().toString();
+	    idOne = UUID.randomUUID().toString().replace("-", "_");
 	    if (Character.isDigit(idOne.charAt(0))) {
 	      // Add an underscore at the beginning of the new id only if necessary.
 	      idOne = '_' + idOne;
