@@ -7,13 +7,23 @@ Version 0.8.1 (xx-xx-2012)
   
   - Some additional methods for more convenient working with tree data
     structures in TreeNodeWithChangeSupport.
+    
+  - A method removeNamespace has been added to AbstractSBase.
   
 * Bug Fixes:
+
+  - When trying to unset a non-RDF annotation, a NullPointerException
+    occurred.
+    
+  - Removed unnecessary import of JOptionPane in SBMLWriter.
 
   - Several improvements and corrections in the work with 
     TreeNodeChangeListeners. In many cases listeners were notified too
     early or sometimes even not at all because of inconsistent
     notification mechanisms.
+    
+  - The method nextMetaid in SBMLDocument could create identifiers
+    that contain dashes, but only underscores are allowed.
 
 ======================================================================
 Version 0.8 (24-08-2012)

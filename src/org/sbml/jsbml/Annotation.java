@@ -904,8 +904,7 @@ public class Annotation extends AnnotationElement {
 		}
 		if (isSetNonRDFannotation()) {	
 			nonRDFannotation = null;
-			firePropertyChange(TreeNodeChangeEvent.nonRDFAnnotation,
-					oldNonRDFAnnotation, nonRDFannotation.toString());
+			firePropertyChange(TreeNodeChangeEvent.nonRDFAnnotation, oldNonRDFAnnotation, null);
 		}
 	}
 

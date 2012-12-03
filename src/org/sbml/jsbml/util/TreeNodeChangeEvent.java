@@ -141,7 +141,9 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
 	/*
 	 * ASTNode
 	 */
-	public static String userObject = "userObject";
+	public static final String userObject = "userObject";
+
+	public static final String removeNamespace = "removeNamespace";
 	
 	public static final String email = "email";
 	public static final String familyName = "familyName";

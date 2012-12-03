@@ -42,7 +42,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.swing.JOptionPane;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -134,7 +133,7 @@ public class SBMLWriter {
 		// JOptionPane.showMessageDialog(null, "Eggs are not supposed to be green.");
 		
 		File file = new File(args[0]);
-		ArrayList<String> fileNames = new ArrayList<String>();
+		List<String> fileNames = new ArrayList<String>();
 		
 		if (file.isDirectory()) {
 			for (File f : file.listFiles(new FilenameFilter() {
@@ -268,7 +267,7 @@ public class SBMLWriter {
 	 * @param sbmlParser
 	 * @param namespace
 	 */
-	private void addWritingParser(ArrayList<WritingParser> sbmlParsers,
+	private void addWritingParser(List<WritingParser> sbmlParsers,
 			WritingParser sbmlParser, String namespace) 
 	{
 		if (sbmlParser == null) {
@@ -325,7 +324,7 @@ public class SBMLWriter {
 	 * @param namespace
 	 * @return all the writing parsers necessary to write this element.
 	 */
-	private ArrayList<WritingParser> getWritingParsers(Object object, String namespace) {
+	private List<WritingParser> getWritingParsers(Object object, String namespace) {
 		
 		Set<String> packageNamespaces = null;
 
@@ -341,7 +340,7 @@ public class SBMLWriter {
 			logger.warn("getInitializedParsers : I don't know what to do with " + object);
 		}
 		
-		ArrayList<WritingParser> sbmlParsers = new ArrayList<WritingParser>();
+		List<WritingParser> sbmlParsers = new ArrayList<WritingParser>();
 		
 		if (packageNamespaces != null) {
 			
@@ -1358,7 +1357,7 @@ public class SBMLWriter {
 		String whiteSpaces = createIndentationString(indent);
 
 		// Get the list of parsers to use.
-		ArrayList<WritingParser> listOfPackages = getWritingParsers(
+		List<WritingParser> listOfPackages = getWritingParsers(
 				objectToWrite, smOutputParentElement.getNamespace().getURI());
 
 		if (logger.isDebugEnabled()) {
