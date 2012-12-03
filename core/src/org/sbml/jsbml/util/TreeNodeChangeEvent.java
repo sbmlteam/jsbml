@@ -150,6 +150,8 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
 
 	public static final String text = "text";
 
+	public static final String removeNamespace = "removeNamespace";
+
 	/**
 	 * @param source
 	 * @param newValue

@@ -301,6 +301,24 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		this.usedNamespaces.add(namespace);
 		firePropertyChange(TreeNodeChangeEvent.addNamespace, null, namespace);
 	}
+	
+	/**
+	 * 
+	 * @param namespace
+	 * @return if operation was a success.
+	 */
+	public boolean removeNamespace(String namespace) {
+		boolean success = false;
+		if (usedNamespaces.contains(namespace)) {
+			success = usedNamespaces.remove(namespace);
+			if (success) {
+				firePropertyChange(TreeNodeChangeEvent.removeNamespace, namespace, null);
+			}
+		} else {
+			logger.debug("Namespace " + namespace + " not assigned to this element " + toString());
+		}
+		return success;
+	}
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jlibsbml.SBase#appendNotes(java.lang.String)
