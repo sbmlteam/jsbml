@@ -245,9 +245,9 @@ public class LayoutDirector<P> implements Runnable {
 		algorithm.completeGlyphs();
 
 		// 3. build all glyphs
+		handleCompartmentGlyphs(sortedCompartmentGlyphList);
 		handleSpeciesGlyphs(speciesGlyphList);
 		handleReactionGlyphs(reactionGlyphList);
-		handleCompartmentGlyphs(sortedCompartmentGlyphList);
 		handleTextGlyphs(textGlyphList);
 
 		// 4. set layout dimensions
