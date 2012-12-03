@@ -22,6 +22,7 @@ package org.sbml.jsbml.ext.layout;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
@@ -1082,6 +1083,25 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 		  return true;
 	  }
 	  return false;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+	  Map<String, String> attributes = super.writeXMLAttributes();
+
+	  if (isSetId()) {
+		  attributes.remove("id");
+		  attributes.put(LayoutConstants.shortLabel + ":id", getId());
+	  }
+	  if (isSetName()) {
+		  attributes.remove("name");
+		  attributes.put(LayoutConstants.shortLabel + ":name", getName());
+	  } 
+
+	  return attributes;
   }
 
 }
