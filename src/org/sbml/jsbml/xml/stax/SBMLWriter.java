@@ -230,7 +230,7 @@ public class SBMLWriter {
 	 * @param sbmlParser
 	 * @param namespace
 	 */
-	private void addWritingParser(ArrayList<WritingParser> sbmlParsers,
+	private void addWritingParser(List<WritingParser> sbmlParsers,
 			WritingParser sbmlParser, String namespace) 
 	{
 		if (sbmlParser == null) {
@@ -283,7 +283,7 @@ public class SBMLWriter {
 	 * @param namespace
 	 * @return all the writing parsers necessary to write this element.
 	 */
-	private ArrayList<WritingParser> getWritingParsers(Object object, String namespace) {
+	private List<WritingParser> getWritingParsers(Object object, String namespace) {
 		
 		Set<String> packageNamespaces = null;
 
@@ -299,7 +299,7 @@ public class SBMLWriter {
 			logger.warn("getInitializedParsers: I don't know what to do with " + object);
 		}
 		
-		ArrayList<WritingParser> sbmlParsers = new ArrayList<WritingParser>();
+		List<WritingParser> sbmlParsers = new ArrayList<WritingParser>();
 		
 		if (packageNamespaces != null) {
 			
