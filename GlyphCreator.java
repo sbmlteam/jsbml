@@ -72,14 +72,14 @@ public class GlyphCreator {
 		for (int index = 0; index < model.getCompartmentCount(); index++) {
 			// starting at index 1 to ignore assumed default compartment at position 0
 			Compartment c = model.getListOfCompartments().get(index);
-			CompartmentGlyph compartmentGlyph = layout.createCompartmentGlyph(nextId());
+			CompartmentGlyph compartmentGlyph = layout.createCompartmentGlyph(nextId(), c.getId());
 			TextGlyph textGlyph = layout.createTextGlyph(nextId());
 			textGlyph.setOriginOfText(c.getId());
 			textGlyph.setGraphicalObject(compartmentGlyph.getId());
 		}
 		
 		for (Reaction r : model.getListOfReactions()) {
-			ReactionGlyph rGlyph = layout.createReactionGlyph(nextId());
+			ReactionGlyph rGlyph = layout.createReactionGlyph(nextId(), r.getId());
 			for(ModifierSpeciesReference ref : r.getListOfModifiers()) {
 				SpeciesReferenceRole modifier = SpeciesReferenceRole.MODIFIER;
 				if (ref.isSetSBOTerm()) {
