@@ -38,8 +38,6 @@ public abstract class ProcessNode<T> implements SBGNNode<T> {
 	 */
 	private Point pointOfContactToProduct;
 	
-	
-	
 	/* (non-Javadoc)
 	 * @see de.zbit.sbml.layout.SBGNNode#setCloneMarker()
 	 */
@@ -74,7 +72,7 @@ public abstract class ProcessNode<T> implements SBGNNode<T> {
 	 * @param rotationCenter
 	 * @return
 	 */
-	public abstract String draw(double x, double y, double z, double width, 
+	public abstract T draw(double x, double y, double z, double width, 
 			double height, double depth, double rotationAngle, Point rotationCenter);
 
 	/**
