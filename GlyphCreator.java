@@ -64,13 +64,14 @@ public class GlyphCreator {
 		for (Species s : model.getListOfSpecies()) {
 			SpeciesGlyph speciesGlyph = layout.createSpeciesGlyph(genId(rand, s), s.getId());
 			s.putUserObject("GLYPH", speciesGlyph.getId());
+			// do not label source or sink glyphs
+			if (SBO.isChildOf(s.getSBOTerm(), SBO.getEmptySet())) continue;
 			TextGlyph textGlyph = layout.createTextGlyph(nextId());
 			textGlyph.setOriginOfText(s.getId());
 			textGlyph.setGraphicalObject(speciesGlyph.getId());
 		}
 
 		for (int index = 0; index < model.getCompartmentCount(); index++) {
-			// starting at index 1 to ignore assumed default compartment at position 0
 			Compartment c = model.getListOfCompartments().get(index);
 			CompartmentGlyph compartmentGlyph = layout.createCompartmentGlyph(nextId(), c.getId());
 			TextGlyph textGlyph = layout.createTextGlyph(nextId());
