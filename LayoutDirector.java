@@ -170,10 +170,10 @@ public class LayoutDirector<P> implements Runnable {
 
 		algorithm.setLayout(layout);
 
-		// TODO should be last step, bit TikZ needs to know dimensions in the beginning?
-		if (!layout.isSetDimensions()) {
-			layout.setDimensions(algorithm.createLayoutDimension());
-		}
+		// TODO should be last step, but TikZ needs to know dimensions in the beginning?
+//		if (!layout.isSetDimensions()) {
+//			layout.setDimensions(algorithm.createLayoutDimension());
+//		}
 
 		builder.builderStart(layout);
 
