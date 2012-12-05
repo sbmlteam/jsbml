@@ -22,8 +22,10 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.layout.BoundingBox;
+import org.sbml.jsbml.ext.layout.CompartmentGlyph;
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.layout.CurveSegment;
 import org.sbml.jsbml.ext.layout.Dimensions;
@@ -35,6 +37,7 @@ import org.sbml.jsbml.ext.layout.ReactionGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
+import org.sbml.jsbml.ext.layout.TextGlyph;
 
 /**
  * @author Andreas Dr&auml;ger
@@ -843,6 +846,12 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		double y = endPoint.getY() - startPoint.getY();
 		rotationAngle = Math.toDegrees(Math.atan(y/x));
 		
+		if(endPoint.getX() < startPoint.getX()) {
+			rotationAngle += 180;
+		} else if(endPoint.getY() < startPoint.getY()) {
+			rotationAngle += 360;
+		}
+		
 		logger.info(MessageFormat.format("start: {0} end: {1} deltaX: {2} deltaY: {3} rotation: {4}",
 				startPoint, endPoint, x, y, rotationAngle));
 		
@@ -969,4 +978,38 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		this.version = layout.getVersion();
 	}
 
+	/**
+	 * This method gets a layouted glyph and checks if the dimensions
+	 * fit to the glyph. If not this method corrects the layout informations.
+	 * @param glyph
+	 */
+	public void correctDimensions(GraphicalObject glyph) {
+		//TODO doesn't work
+		double width = glyph.getBoundingBox().getDimensions().getWidth();
+		double height = glyph.getBoundingBox().getDimensions().getHeight();
+		if(glyph instanceof SpeciesGlyph) {
+			if(glyph.getSBOTerm()==SBO.getSimpleMolecule() || glyph.getSBOTerm()==SBO.getEmptySet()) {
+				// the glyph is a circle: height==width
+				if(width != height) {
+					glyph.getBoundingBox().getDimensions().setWidth(height);
+				}
+			} else  { 
+				// height must be bigger or equal the width
+				if(width < height) {
+					// change the both values
+					glyph.getBoundingBox().getDimensions().setWidth(height);
+					glyph.getBoundingBox().getDimensions().setHeight(width);
+				}
+			}
+		} else if(glyph instanceof ReactionGlyph) {
+			if(width != height) {
+				glyph.getBoundingBox().getDimensions().setWidth(height);
+			}
+		} else if(glyph instanceof CompartmentGlyph) {
+			
+		} else if(glyph instanceof TextGlyph) {
+			
+		}
+	}
+	
 }
