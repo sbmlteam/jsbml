@@ -249,7 +249,6 @@ public class L3LayoutParser extends AbstractReaderWriter {
 			}
 			
 			if (newElement != null) {
-				curve.registerChild(newElement);
 				return newElement;
 			}
 		}
