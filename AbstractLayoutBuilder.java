@@ -88,7 +88,9 @@ public abstract class AbstractLayoutBuilder<P,NodeT,ArcT> implements LayoutBuild
 			return createCompartment();
 		}
 		
-		// TODO perturbing agent is missing as it is not included in the SBO implementation
+		if (SBO.isChildOf(sboTerm, SBO.getPertubingAgent())) {
+			return createPerturbingAgent();
+		}
 		
 		//default type of the entity pool node is an unspecified node
 		//if the SBO term does not match any of the above numbers
