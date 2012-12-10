@@ -984,7 +984,6 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * @param glyph
 	 */
 	public void correctDimensions(GraphicalObject glyph) {
-		//TODO doesn't work
 		double width = glyph.getBoundingBox().getDimensions().getWidth();
 		double height = glyph.getBoundingBox().getDimensions().getHeight();
 		if(glyph instanceof SpeciesGlyph) {
