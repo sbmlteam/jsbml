@@ -17,7 +17,9 @@
 package de.zbit.sbml.layout;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -202,7 +204,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * @return a Position
 	 */
 	protected Position calculateAverageCurvePosition(SpeciesReferenceRole specRefRole,
-			ListOf<SpeciesReferenceGlyph> specRefGlyphList) {
+			List<SpeciesReferenceGlyph> specRefGlyphList) {
 		double x = 0;
 		double y = 0;
 		double z = 0;
@@ -260,7 +262,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * @return a Position
 	 */
 	protected Position calculateAverageSpeciesPosition(SpeciesReferenceRole specRefRole, 
-			ListOf<SpeciesReferenceGlyph> specRefGlyphList) {
+			List<SpeciesReferenceGlyph> specRefGlyphList) {
 		double x = 0d;
 		double y = 0d;
 		double z = 0d;
@@ -642,8 +644,8 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 
 		// TODO remove curve handling, not useful?
 		
-		ListOf<SpeciesReferenceGlyph> curveList = new ListOf<SpeciesReferenceGlyph>();
-		ListOf<SpeciesReferenceGlyph> speciesGlyphList = new ListOf<SpeciesReferenceGlyph>();
+		List<SpeciesReferenceGlyph> curveList = new ArrayList<SpeciesReferenceGlyph>();
+		List<SpeciesReferenceGlyph> speciesGlyphList = new ArrayList<SpeciesReferenceGlyph>();
 
 		ListOf<SpeciesReferenceGlyph> speciesReferenceGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
 		for (SpeciesReferenceGlyph specRefGlyph : speciesReferenceGlyphList) {
@@ -673,7 +675,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		
 		Dimensions helpingDimension = new Dimensions(10, 10, 0, level, version);
 		helpingBB1.setDimensions(helpingDimension);
-		helpingBB2.setDimensions(helpingDimension);
+		helpingBB2.setDimensions(helpingDimension.clone());
 		Dimensions reacGlyphDimension;
 
 		if (reactionGlyph.isSetBoundingBox() && reactionGlyph.getBoundingBox().isSetDimensions()) {
@@ -701,6 +703,8 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		Position dockingPositionSubstrate = calculateSpeciesGlyphDockingPosition(substratePointOfMiddle, relativeSubstratePosition, substrate);
 		assert dockingPositionProduct != null;
 		assert dockingPositionSubstrate != null;
+		logger.info(MessageFormat.format("dock pos product: {0} dock pos substrate: {0}",
+				dockingPositionProduct, dockingPositionSubstrate));
 
 		if (curveList.size() >= speciesGlyphList.size()) {
 			if (relativeProductPosition.equals(RelativePosition.ABOVE)) {
@@ -941,7 +945,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * @return SpeciesGlyph
 	 */
 	protected SpeciesGlyph getProductOrSubstrateSpeciesGlyph(
-			ListOf<SpeciesReferenceGlyph> specRefGlyphList,
+			List<SpeciesReferenceGlyph> specRefGlyphList,
 			SpeciesReferenceRole role) {
 		SpeciesGlyph specGlyph = null;
 
