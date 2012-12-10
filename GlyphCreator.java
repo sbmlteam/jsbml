@@ -60,6 +60,7 @@ public class GlyphCreator {
 		ExtendedLayoutModel extLayout = new ExtendedLayoutModel(model);
 		model.addExtension(LayoutConstants.getNamespaceURI(model.getLevel(), model.getVersion()), extLayout);
 		Layout layout = extLayout.createLayout(nextId());
+		layout.setName("auto_layout");
 		
 		for (Species s : model.getListOfSpecies()) {
 			SpeciesGlyph speciesGlyph = layout.createSpeciesGlyph(genId(rand, s), s.getId());

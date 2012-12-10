@@ -121,6 +121,20 @@ public class LayoutDirector<P> implements Runnable {
 		this.algorithm = algorithm;
 		this.layoutIndex = 0;
 	}
+	
+	/**
+	 * @param doc
+	 * @param builder
+	 * @param algorithm
+	 * @param index
+	 */
+	public LayoutDirector(SBMLDocument doc, LayoutBuilder<P> builder,
+		LayoutAlgorithm algorithm, int index) {
+	this.model = doc.getModel();
+	this.builder = builder;
+	this.algorithm = algorithm;
+	this.layoutIndex = index;
+}
 
 	/**
 	 * @param layout
@@ -129,7 +143,12 @@ public class LayoutDirector<P> implements Runnable {
 	 */
 	public LayoutDirector(Layout layout, LayoutBuilder<P> builder,
 		LayoutAlgorithm algorithm) {
-		this(layout.getModel().getSBMLDocument(), builder, algorithm);
+		Model model = layout.getModel();
+		ExtendedLayoutModel ext = (ExtendedLayoutModel) model.getExtension(LayoutConstants.getNamespaceURI(layout.getLevel(), layout.getVersion()));
+		this.model = model;
+		this.builder = builder;
+		this.algorithm = algorithm;
+		this.layoutIndex = ext.getListOfLayouts().indexOf(layout);
 	}
 
 	/**
