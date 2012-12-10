@@ -41,12 +41,12 @@ public class BoundingBox extends AbstractNamedSBase {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -6371039558611201798L;
-	
+
 	/**
 	 * 
 	 */
 	private Dimensions dimensions;
-	
+
 	/**
 	 * 
 	 */
@@ -56,7 +56,8 @@ public class BoundingBox extends AbstractNamedSBase {
 	 * 
 	 */
 	public BoundingBox() {
-		addNamespace(LayoutConstants.namespaceURI);
+		super();
+		init();
 	}
 
 	/**
@@ -68,18 +69,103 @@ public class BoundingBox extends AbstractNamedSBase {
 		if (boundingBox.isSetDimensions()) {
 			this.dimensions = boundingBox.getDimensions().clone();
 		}
-
 		if (boundingBox.isSetPosition()) {
 			this.position = boundingBox.getPosition().clone();
 		}
 	}
 
+	/**
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public BoundingBox(int level, int version) {
+		super(level, version);
+		init();
+	}
+
+	/**
+	 * 
+	 * @param id
+	 */
+	public BoundingBox(String id) {
+		super(id);
+		init();
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @param level
+	 * @param version
+	 */
+	public BoundingBox(String id, int level, int version) {
+		super(id, level, version);
+		init();
+	}
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
-	@Override
+	//@Override
 	public BoundingBox clone() {
 		return new BoundingBox(this);
+	}
+
+	/**
+	 * Creates, sets and returns a {@link Dimensions}
+	 *	
+	 * @return new {@link Dimensions} object.
+	 */
+	public Dimensions createDimensions() {
+		Dimensions d = new Dimensions();
+		setDimensions(d);
+		return d;
+	}
+
+	/**
+	 * Creates, sets and returns {@link Dimensions} based on the
+	 * given values.
+	 * @param width
+	 * @param height
+	 * @param depth
+	 * @return new {@link Dimensions} object.
+	 */
+	public Dimensions createDimensions(double width, double height, double depth) {
+		Dimensions d = new Dimensions();
+		d.setWidth(width);
+		d.setHeight(height);
+		d.setDepth(depth);
+		setDimensions(d);
+		return d;
+	}
+
+	/**
+	 * Creates, sets and returns a {@link Position}
+	 * 
+	 * @return new {@link Position} object.
+	 */
+	public Position createPosition() {
+		Position p = new Position();
+		setPosition(p);
+		return p;
+	}
+
+	/**
+	 * Creates, sets and returns a {@link Position} based on the
+	 * given values.
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return new {@link Position} object.
+	 */
+	public Position createPosition(double x, double y, double z) {
+		Position p = new Position();
+		p.setX(x);
+		p.setY(y);
+		p.setZ(z);
+		setPosition(p);
+		return p;
 	}
 
 	/* (non-Javadoc)
@@ -99,7 +185,7 @@ public class BoundingBox extends AbstractNamedSBase {
 			if (equals && isSetPosition()) {
 				equals &=  bb.getPosition().equals(getPosition());
 			}
-			
+
 			equals &= bb.isSetDimensions() == isSetDimensions();
 			if (equals && isSetDimensions()) {
 				equals &=  bb.getDimensions().equals(getDimensions());
@@ -108,7 +194,7 @@ public class BoundingBox extends AbstractNamedSBase {
 		}
 		return equals;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
@@ -136,8 +222,8 @@ public class BoundingBox extends AbstractNamedSBase {
 			pos++;
 		}
 		throw new IndexOutOfBoundsException(MessageFormat.format(
-		  "Index {0,number,integer} >= {1,number,integer}",
-			index, +((int) Math.min(pos, 0))));
+				"Index {0,number,integer} >= {1,number,integer}",
+				index, +((int) Math.min(pos, 0))));
 	}
 
 	/* (non-Javadoc)
@@ -163,7 +249,6 @@ public class BoundingBox extends AbstractNamedSBase {
 		return dimensions;
 	}
 
-	
 	/**
 	 * 
 	 * @return
@@ -171,7 +256,7 @@ public class BoundingBox extends AbstractNamedSBase {
 	public Point getPosition() {
 		return position;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
 	 */
@@ -182,14 +267,21 @@ public class BoundingBox extends AbstractNamedSBase {
 		hashCode += prime * getId().hashCode();
 		return hashCode;
 	}
-	
+
+	/**
+	 * 
+	 */
+	private void init() {
+		addNamespace(LayoutConstants.namespaceURI);
+	}
+
 	/* (non-Javadoc)
-   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
-   */
-  public boolean isIdMandatory() {
-    return false;
-  }
-	
+	 * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+	 */
+	public boolean isIdMandatory() {
+		return false;
+	}
+
 	/**
 	 * @return
 	 */
@@ -203,7 +295,6 @@ public class BoundingBox extends AbstractNamedSBase {
 	public boolean isSetPosition() {
 		return position != null;
 	}
-
 
 	/**
 	 * 
@@ -219,22 +310,57 @@ public class BoundingBox extends AbstractNamedSBase {
 		registerChild(this.dimensions);
 	}
 
+
 	/**
 	 * 
 	 * @param point
 	 */
 	public void setPosition(Point point) {
-	  Point oldValue = this.position;
-	  this.position = point;
-	  if(oldValue != null){
-	    oldValue.fireNodeRemovedEvent();
-	  }
-	  if(this.position != null){
-	    if (! (this.position instanceof Position)) {
-	      this.position = new Position(this.position);
-	    }
-	    this.position.fireNodeAddedEvent();
-	  }
+		Point oldValue = this.position;
+		this.position = point;
+		if(oldValue != null){
+			oldValue.fireNodeRemovedEvent();
+		}
+		if(this.position != null){
+			if (! (this.position instanceof Position)) {
+				this.position = new Position(this.position);
+			}
+			this.position.fireNodeAddedEvent();
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuffer builder = new StringBuffer();
+		builder.append("BoundingBox [");
+		if (isSetId()) {
+			builder.append("id=");
+			builder.append(getId());
+		}
+		if (isSetName()) {
+			if (isSetId()) {
+				builder.append(", ");
+			}
+			builder.append("name=");
+			builder.append(getName());
+			if (isSetPosition() || isSetDimensions()) {
+				builder.append(", ");
+			}
+		}
+		if (isSetPosition()) {
+			builder.append(position);
+			if (isSetDimensions()) {
+				builder.append(", ");
+			}
+		}
+		if (isSetDimensions()) {
+			builder.append(dimensions);
+		}
+		builder.append("]");
+		return builder.toString();
 	}
 
 	/* (non-Javadoc)
@@ -255,99 +381,8 @@ public class BoundingBox extends AbstractNamedSBase {
 			attributes.remove("name");
 			// attributes.put(LayoutConstant.shortLabel + ":name", getName());
 		} 
-		
+
 		return attributes;
 	}
-
-  /**
-   * Creates, sets and returns {@link Dimensions} based on the
-   * given values.
-   * @param width
-   * @param height
-   * @param depth
-   * @return new {@link Dimensions} object.
-   */
-  public Dimensions createDimensions(double width, double height, double depth) {
-    Dimensions d = new Dimensions();
-    d.setWidth(width);
-    d.setHeight(height);
-    d.setDepth(depth);
-    setDimensions(d);
-    return d;
-  }
-
-  /**
-   * Creates, sets and returns a {@link Dimensions}
-   *	
-   * @return new {@link Dimensions} object.
-   */
-  public Dimensions createDimensions() {
-    Dimensions d = new Dimensions();
-    setDimensions(d);
-    return d;
-  }
-
-  
-  /**
-   * Creates, sets and returns a {@link Position} based on the
-   * given values.
-   * @param x
-   * @param y
-   * @param z
-   * @return new {@link Position} object.
-   */
-  public Position createPosition(double x, double y, double z) {
-    Position p = new Position();
-    p.setX(x);
-    p.setY(y);
-    p.setZ(z);
-    setPosition(p);
-    return p;
-  }
-
-  /**
-   * Creates, sets and returns a {@link Position}
-   * 
-   * @return new {@link Position} object.
-   */
-  public Position createPosition() {
-    Position p = new Position();
-    setPosition(p);
-    return p;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-	  StringBuffer builder = new StringBuffer();
-	  builder.append("BoundingBox [");
-	  if (isSetId()) {
-		  builder.append("id=");
-		  builder.append(getId());
-	  }
-	  if (isSetName()) {
-		  if (isSetId()) {
-			  builder.append(", ");
-		  }
-		  builder.append("name=");
-		  builder.append(getName());
-		  if (isSetPosition() || isSetDimensions()) {
-			  builder.append(", ");
-		  }
-	  }
-	  if (isSetPosition()) {
-		  builder.append(position);
-		  if (isSetDimensions()) {
-			  builder.append(", ");
-		  }
-	  }
-	  if (isSetDimensions()) {
-		  builder.append(dimensions);
-	  }
-	  builder.append("]");
-	  return builder.toString();
-  }
 
 }
