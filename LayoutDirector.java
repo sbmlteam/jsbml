@@ -155,7 +155,7 @@ public class LayoutDirector<P> implements Runnable {
 		if ((extension != null) &&
 				(layoutIndex >= ((ExtendedLayoutModel) extension).getLayoutCount())) {
 			throw new IndexOutOfBoundsException(MessageFormat.format(
-					"{0,number,integer} > {1,number,ingeger}", layoutIndex,
+					"{0,number,integer} > {1,number,integer}", layoutIndex,
 					((ExtendedLayoutModel) extension).getLayoutCount()));
 		}
 
