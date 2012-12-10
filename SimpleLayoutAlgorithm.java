@@ -364,7 +364,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	}
 
 	/**
-	 * TODO: Docking points for modifiers
+	 * c
 	 * @param reacGlyph
 	 * @param rotationAngle
 	 * @param specRef
@@ -988,10 +988,12 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		double width = glyph.getBoundingBox().getDimensions().getWidth();
 		double height = glyph.getBoundingBox().getDimensions().getHeight();
 		if(glyph instanceof SpeciesGlyph) {
-			if(glyph.getSBOTerm()==SBO.getSimpleMolecule() || glyph.getSBOTerm()==SBO.getEmptySet()) {
+			int sboterm = ((SpeciesGlyph) glyph).getSpeciesInstance().getSBOTerm();
+			if(SBO.isChildOf(sboterm, SBO.getSimpleMolecule()) ||SBO.isChildOf(sboterm, SBO.getEmptySet())) {
 				// the glyph is a circle: height==width
 				if(width != height) {
-					glyph.getBoundingBox().getDimensions().setWidth(height);
+//					glyph.getBoundingBox().getDimensions().setWidth(height);
+					glyph.getBoundingBox().createDimensions(height, height, 0);
 				}
 			} else  { 
 				// height must be bigger or equal the width
