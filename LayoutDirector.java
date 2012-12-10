@@ -68,6 +68,9 @@ public class LayoutDirector<P> implements Runnable {
 	public static final String KEY_FOR_FLUX_VALUES = "fluxValue";
 	public static final String LAYOUT_LINK = "LAYOUT_LINK";
 	public static final String COMPARTMENT_LINK = "COMPARTMENT_LINK";
+	public static final String PN_RELATIVE_DOCKING_POINT = "PN_RELATIVE_DOCKING_POINT";
+	public static final String SPECIES_RELATIVE_DOCKING_POINT = "SPECIES_RELATIVE_DOCKING_POINT";
+
 	private LayoutBuilder<P> builder;
 	private Model model;
 	private int layoutIndex;
@@ -422,8 +425,9 @@ public class LayoutDirector<P> implements Runnable {
 	private void handleReactionGlyph(ReactionGlyph rg) {
 
 		double curveWidth = 1d;
-		if (rg.isSetUserObjects()) {
-			curveWidth = (Double) rg.getUserObject(KEY_FOR_FLUX_VALUES);
+		Object userObject = rg.getUserObject(KEY_FOR_FLUX_VALUES);
+		if (userObject != null) {
+			curveWidth = (Double) userObject;
 		} 
 
 		double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(rg);
