@@ -839,7 +839,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * @param speciesReferenceGlyph for which the rotation angle shall be calculated
 	 * @return the rotation angle in degrees
 	 */
-	public double calculateRotationAngle(Point startPoint, Point endPoint) {
+	public static double calculateRotationAngle(Point startPoint, Point endPoint) {
 		double rotationAngle = 0;
 
 		double x = endPoint.getX() - startPoint.getX();
