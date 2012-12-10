@@ -173,7 +173,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			} else if (endY < startY){
 				return RelativePosition.ABOVE;
 			} else { // then endX == startX && endY == startY
-				logger.warning("could not compute relative position");
+				logger.warning("could not compute relative position for bounding boxes " + startGlyphBB + " and " + endGlyphBB);
 				return RelativePosition.UNDEFINED;
 			}
 		}
@@ -647,7 +647,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		List<SpeciesReferenceGlyph> curveList = new ArrayList<SpeciesReferenceGlyph>();
 		List<SpeciesReferenceGlyph> speciesGlyphList = new ArrayList<SpeciesReferenceGlyph>();
 
-		ListOf<SpeciesReferenceGlyph> speciesReferenceGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
+		List<SpeciesReferenceGlyph> speciesReferenceGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
 		for (SpeciesReferenceGlyph specRefGlyph : speciesReferenceGlyphList) {
 			
 			// is useful, because of the cases below: if the curve is set or not
@@ -665,14 +665,9 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 
 		Point substratePosition;
 		Point productPosition;
-		BoundingBox helpingBB1 = new BoundingBox();
-		BoundingBox helpingBB2 = new BoundingBox();
+		BoundingBox helpingBB1 = new BoundingBox(level, version);
+		BoundingBox helpingBB2 = new BoundingBox(level, version);
 
-		helpingBB1.setLevel(level);
-		helpingBB1.setVersion(version);
-		helpingBB2.setLevel(level);
-		helpingBB2.setVersion(version);
-		
 		Dimensions helpingDimension = new Dimensions(10, 10, 0, level, version);
 		helpingBB1.setDimensions(helpingDimension);
 		helpingBB2.setDimensions(helpingDimension.clone());
@@ -691,7 +686,8 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		helpingBB2.setPosition(productPosition);
 		RelativePosition relativeProductPosition = getRelativePosition(helpingBB1, helpingBB2);
 		RelativePosition relativeSubstratePosition = getRelativePosition(helpingBB2, helpingBB1);
-		
+		assert relativeProductPosition != RelativePosition.UNDEFINED;
+		assert relativeSubstratePosition != RelativePosition.UNDEFINED;
 
 		SpeciesGlyph product = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.PRODUCT);
 		SpeciesGlyph substrate = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.SUBSTRATE);
@@ -703,7 +699,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		Position dockingPositionSubstrate = calculateSpeciesGlyphDockingPosition(substratePointOfMiddle, relativeSubstratePosition, substrate);
 		assert dockingPositionProduct != null;
 		assert dockingPositionSubstrate != null;
-		logger.info(MessageFormat.format("dock pos product: {0} dock pos substrate: {0}",
+		logger.fine(MessageFormat.format("dock pos product: {0} dock pos substrate: {0}",
 				dockingPositionProduct, dockingPositionSubstrate));
 
 		if (curveList.size() >= speciesGlyphList.size()) {
@@ -856,7 +852,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			rotationAngle += 360;
 		}
 		
-		logger.info(MessageFormat.format("start: {0} end: {1} deltaX: {2} deltaY: {3} rotation: {4}",
+		logger.fine(MessageFormat.format("start: {0} end: {1} deltaX: {2} deltaY: {3} rotation: {4}",
 				startPoint, endPoint, x, y, rotationAngle));
 		
 		return rotationAngle;
