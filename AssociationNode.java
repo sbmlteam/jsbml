@@ -1,6 +1,6 @@
 /*
  * $Id: AssociationNode.java 15:40:20 Meike Aichele$
- * $URL: AssociationNode.java $
+ * $URL$
  * ---------------------------------------------------------------------
  * This file is part of the SysBio API library.
  *
