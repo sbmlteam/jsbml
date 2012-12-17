@@ -932,30 +932,35 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * @param z
 	 * @param c
 	 * @param rotationAngle
+	 * @param specRole 
 	 * @return
 	 */
 	public Point calculateDockingForRoundSpecies(double x, double y, double z, double c,
-			double rotationAngle) {
+			double rotationAngle, SpeciesReferenceRole specRole) {
 		double xCoordinate = 0;
 		double yCoordinate = 0;
 		
-		rotationAngle = correctRotationAngle(rotationAngle);
-		double a = c * Math.sin(Math.toRadians(rotationAngle));
-		double b = c * Math.cos(Math.toRadians(rotationAngle));
-		//TODO: not working
+		double rotationAngleCorrected = correctRotationAngle(rotationAngle);
+		if (specRole.equals(SpeciesReferenceRole.PRODUCT) ||
+				specRole.equals(SpeciesReferenceRole.SIDEPRODUCT)) {
+			c = -c ;
+		}
 		
-		if (rotationAngle >= 0 && rotationAngle < 90 && rotationAngle == 360) {
+		double a = c * Math.abs(Math.sin(Math.toRadians(rotationAngleCorrected)));
+		double b = c * Math.abs(Math.cos(Math.toRadians(rotationAngleCorrected)));
+		//TODO
+		if (rotationAngle >= 0 && rotationAngle < 90) {
 			xCoordinate = x + b;
 			yCoordinate = y + a;
 		} else if (rotationAngle >= 90 && rotationAngle <180) {
-			xCoordinate = x - b;
-			yCoordinate = y + a;
+			xCoordinate = x - a;
+			yCoordinate = y + b;
 		} else if (rotationAngle >= 180 && rotationAngle <270) {
 			xCoordinate = x - b;
-			yCoordinate = y + a;
+			yCoordinate = y - a;
 		} else {
-			xCoordinate = x - b;
-			yCoordinate = y + a;
+			xCoordinate = x + a;
+			yCoordinate = y - b;
 		}
 		return new Point(xCoordinate, yCoordinate, z, level, version);
 	}
