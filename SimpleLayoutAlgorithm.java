@@ -384,10 +384,11 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 
 		// the legs of the triangle build by the reaction glyph and it's arms
 		double c = reacGlyph.getBoundingBox().getDimensions().getWidth()/2d;
+		double h = reacGlyph.getBoundingBox().getDimensions().getHeight()/2d;
 		double b = Math.abs(Math.cos(Math.toRadians(rotationAngle_new)) * c);
 		double a = Math.abs(Math.sin(Math.toRadians(rotationAngle_new)) * c);
-		double otherA = Math.abs(Math.sin(Math.toRadians(90 - rotationAngle_new))) * (12/2d);
-		double otherB = Math.abs(Math.cos(Math.toRadians(90 - rotationAngle_new))) * (12/2d);
+		double otherA = Math.abs(Math.sin(Math.toRadians(90 - rotationAngle_new))) * h;
+		double otherB = Math.abs(Math.cos(Math.toRadians(90 - rotationAngle_new))) * h;
 
 		//TODO
 		
@@ -489,17 +490,8 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * 
 	 */
 	protected double correctRotationAngle(double rotationAngle) {
-		double correctedAngle = 0;
-		if (rotationAngle < 90) {
-			correctedAngle = rotationAngle;
-		} else if (rotationAngle >= 90 && rotationAngle < 180) {
-			correctedAngle = rotationAngle -90;
-		} else if (rotationAngle >= 180 && rotationAngle < 270) {
-			correctedAngle = rotationAngle -180;
-		} else if (rotationAngle >= 270) {
-			correctedAngle = rotationAngle - 270;
-		}
-		return correctedAngle;
+		double correctedAngle = rotationAngle % 90;
+		return correctedAngle < 0 ? correctedAngle + 90d : correctedAngle;
 	}
 
 	/*
@@ -635,12 +627,18 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		SpeciesGlyph substrate = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.SUBSTRATE);
 		Point substrateCenter = calculateCenter(substrate);
 		Point productCenter = calculateCenter(product);
+		Dimensions rgDimensions = reactionGlyph.getBoundingBox().getDimensions();
 		
 		Point center = calculateCenterOfPoints(substrateCenter, productCenter);
-		logger.info("substrate center is " + substrateCenter.toString());
-		logger.info("product center is " + productCenter.toString());
-		logger.info("center is " + center.toString());
-		return center;
+		Point upperLeft = new Point(center.getX() - rgDimensions.getWidth()/2,
+				center.getY() - rgDimensions.getHeight()/2,
+				center.getZ() - rgDimensions.getDepth()/2,
+				level, version);
+		logger.fine("substrate center is " + substrateCenter.toString());
+		logger.fine("product center is " + productCenter.toString());
+		logger.fine("center is " + center.toString());
+		logger.fine("upper left is " + upperLeft.toString());
+		return upperLeft;
 	}
 	
 	/**
@@ -842,12 +840,12 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			Point productCentralPoint = calculateCenter(product);
 
 			// get the relative positions
-			RelativePosition productRelativePosition = getRelativePosition(substrate.getBoundingBox(), product.getBoundingBox());
-			RelativePosition substrateRelativePosition = getRelativePosition(product.getBoundingBox(), substrate.getBoundingBox());
+//			RelativePosition productRelativePosition = getRelativePosition(substrate.getBoundingBox(), product.getBoundingBox());
+//			RelativePosition substrateRelativePosition = getRelativePosition(product.getBoundingBox(), substrate.getBoundingBox());
 
 			// compute the docking positions and give them in the calculation of the rotation angle
-			Point substrateDockingPoint = calculateSpeciesGlyphDockingPosition(substrateCentralPoint, substrateRelativePosition, substrate);
-			Point productDockingPoint = calculateSpeciesGlyphDockingPosition(productCentralPoint, productRelativePosition, product);
+//			Point substrateDockingPoint = calculateSpeciesGlyphDockingPosition(substrateCentralPoint, substrateRelativePosition, substrate);
+//			Point productDockingPoint = calculateSpeciesGlyphDockingPosition(productCentralPoint, productRelativePosition, product);
 
 //			rotationAngle = calculateRotationAngle(substrateDockingPoint, productDockingPoint);
 			rotationAngle = calculateRotationAngle(substrateCentralPoint, productCentralPoint);
@@ -877,7 +875,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			rotationAngle += 360;
 		}
 		
-		logger.info(MessageFormat.format("start: {0} end: {1} deltaX: {2} deltaY: {3} rotation: {4}",
+		logger.fine(MessageFormat.format("start: {0} end: {1} deltaX: {2} deltaY: {3} rotation: {4}",
 				startPoint, endPoint, x, y, rotationAngle));
 		
 		return rotationAngle;
