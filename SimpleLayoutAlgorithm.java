@@ -925,6 +925,40 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		return dockingPosition;
 	}
 
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param c
+	 * @param rotationAngle
+	 * @return
+	 */
+	public Point calculateDockingForRoundSpecies(double x, double y, double z, double c,
+			double rotationAngle) {
+		double xCoordinate = 0;
+		double yCoordinate = 0;
+		
+		rotationAngle = correctRotationAngle(rotationAngle);
+		double a = c * Math.sin(Math.toRadians(rotationAngle));
+		double b = c * Math.cos(Math.toRadians(rotationAngle));
+		//TODO: not working
+		
+		if (rotationAngle >= 0 && rotationAngle < 90 && rotationAngle == 360) {
+			xCoordinate = x + b;
+			yCoordinate = y + a;
+		} else if (rotationAngle >= 90 && rotationAngle <180) {
+			xCoordinate = x - b;
+			yCoordinate = y + a;
+		} else if (rotationAngle >= 180 && rotationAngle <270) {
+			xCoordinate = x - b;
+			yCoordinate = y + a;
+		} else {
+			xCoordinate = x - b;
+			yCoordinate = y + a;
+		}
+		return new Point(xCoordinate, yCoordinate, z, level, version);
+	}
 
 	/**
 	 * Creates a {@link BoundingBox} with the level and version of this layout.
