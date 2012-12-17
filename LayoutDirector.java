@@ -63,6 +63,11 @@ import de.zbit.io.csv.CSVReader;
  */
 public class LayoutDirector<P> implements Runnable {
 
+	/**
+	 * 
+	 */
+	private static final double DEFAULT_CURVE_WIDTH = 1d;
+
 	private static Logger logger = Logger.getLogger(LayoutDirector.class.toString());
 
 	public static final String KEY_FOR_FLUX_VALUES = "fluxValue";
@@ -382,15 +387,8 @@ public class LayoutDirector<P> implements Runnable {
 				}
 			}
 
-			// if(layout.containsGlyph(compartment))
-			//
-			// CompartmentGlyph compartmentGlyph = layout.getCompartmentGlyph(compartment.getId());
-			//
-			// layout.findCompartmentGlyphs(compartment.getId());
-
-			builder.buildCompartment(compartmentGlyph);
-
 			previousCompartmentGlyph = compartmentGlyph;
+			builder.buildCompartment(compartmentGlyph);
 		}
 	}
 
@@ -443,7 +441,7 @@ public class LayoutDirector<P> implements Runnable {
 	 */
 	private void handleReactionGlyph(ReactionGlyph rg) {
 
-		double curveWidth = 1d;
+		double curveWidth = DEFAULT_CURVE_WIDTH;
 		Object userObject = rg.getUserObject(KEY_FOR_FLUX_VALUES);
 		if (userObject != null) {
 			curveWidth = (Double) userObject;

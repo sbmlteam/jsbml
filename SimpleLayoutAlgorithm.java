@@ -594,8 +594,8 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * @param reactionGlyph
 	 * @return
 	 */
-	protected Position createReactionGlyphPositionNew(ReactionGlyph reactionGlyph) {
-		Set<SpeciesGlyph> positionSpecifyingGlyphs = new HashSet<SpeciesGlyph>();
+	protected Point createReactionGlyphPositionNew(ReactionGlyph reactionGlyph) {
+		/*Set<SpeciesGlyph> positionSpecifyingGlyphs = new HashSet<SpeciesGlyph>();
 		boolean substrateFound = false, productFound = false;
 		
 		for (SpeciesReferenceGlyph srg : reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
@@ -629,9 +629,33 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		double x = xsum/count - dimensions.getWidth()/2d;
 		double y = ysum/count - dimensions.getHeight()/2d;
 		double z = zsum/count - dimensions.getDepth()/2d;
-		return new Position(new Point(x, y, z, level, version));
+		return new Position(new Point(x, y, z, level, version));*/
+		List<SpeciesReferenceGlyph> speciesReferenceGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
+		SpeciesGlyph product = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.PRODUCT);
+		SpeciesGlyph substrate = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.SUBSTRATE);
+		Point substrateCenter = calculateCenter(substrate);
+		Point productCenter = calculateCenter(product);
+		
+		Point center = calculateCenterOfPoints(substrateCenter, productCenter);
+		logger.info("substrate center is " + substrateCenter.toString());
+		logger.info("product center is " + productCenter.toString());
+		logger.info("center is " + center.toString());
+		return center;
 	}
 	
+	/**
+	 * @param substrateCenter
+	 * @param productCenter
+	 * @return
+	 */
+	private Point calculateCenterOfPoints(Point p1, Point p2) {
+		Point p = new Point(level, version);
+		p.setX((p1.getX() + p2.getX()) / 2);
+		p.setY((p1.getY() + p2.getY()) / 2);
+		p.setZ((p1.getZ() + p2.getZ()) / 2);
+		return p;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -825,7 +849,8 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			Point substrateDockingPoint = calculateSpeciesGlyphDockingPosition(substrateCentralPoint, substrateRelativePosition, substrate);
 			Point productDockingPoint = calculateSpeciesGlyphDockingPosition(productCentralPoint, productRelativePosition, product);
 
-			rotationAngle = calculateRotationAngle(substrateDockingPoint, productDockingPoint);
+//			rotationAngle = calculateRotationAngle(substrateDockingPoint, productDockingPoint);
+			rotationAngle = calculateRotationAngle(substrateCentralPoint, productCentralPoint);
 		}
 		return rotationAngle;
 	}
@@ -852,7 +877,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			rotationAngle += 360;
 		}
 		
-		logger.fine(MessageFormat.format("start: {0} end: {1} deltaX: {2} deltaY: {3} rotation: {4}",
+		logger.info(MessageFormat.format("start: {0} end: {1} deltaX: {2} deltaY: {3} rotation: {4}",
 				startPoint, endPoint, x, y, rotationAngle));
 		
 		return rotationAngle;
