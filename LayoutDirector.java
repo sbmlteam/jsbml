@@ -196,12 +196,6 @@ public class LayoutDirector<P> implements Runnable {
 	private void buildLayout(Layout layout) {
 
 		algorithm.setLayout(layout);
-
-		// TODO should be last step, but TikZ needs to know dimensions in the beginning?
-//		if (!layout.isSetDimensions()) {
-//			layout.setDimensions(algorithm.createLayoutDimension());
-//		}
-
 		builder.builderStart(layout);
 
 		// Compartment glyphs
@@ -483,7 +477,7 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * Check if a text glyph represents an indepentend text (not associated with
+	 * Check if a text glyph represents an independent text (not associated with
 	 * any other graphical object or species.
 	 */
 	public static boolean textGlyphIsIndependent(TextGlyph textGlyph) {
@@ -545,15 +539,6 @@ public class LayoutDirector<P> implements Runnable {
 					}
 				}
 				buildLayout(layoutModel.getLayout(layoutIndex));
-				// write resulting SBMLDocument to stdout
-//				SBMLWriter writer = new SBMLWriter();
-//				try {
-//					writer.write(model.getSBMLDocument(), System.out);
-//				} catch (SBMLException e) {
-//					e.printStackTrace();
-//				} catch (XMLStreamException e) {
-//					e.printStackTrace();
-//				}
 			}
 		} else {
 			logger.log(Level.INFO, "Method run failed: No model extension available for this model.");
