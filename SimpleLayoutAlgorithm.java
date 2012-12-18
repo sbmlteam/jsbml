@@ -587,44 +587,16 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * @return
 	 */
 	protected Point createReactionGlyphPositionNew(ReactionGlyph reactionGlyph) {
-		/*Set<SpeciesGlyph> positionSpecifyingGlyphs = new HashSet<SpeciesGlyph>();
-		boolean substrateFound = false, productFound = false;
-		
-		for (SpeciesReferenceGlyph srg : reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
-			if (srg.getSpeciesReferenceRole() == SpeciesReferenceRole.SUBSTRATE
-					&& !substrateFound) {
-				positionSpecifyingGlyphs.add(srg.getSpeciesGlyphInstance());
-				substrateFound = true;
-			}
-			else if (srg.getSpeciesReferenceRole() == SpeciesReferenceRole.PRODUCT &&
-					!productFound) {
-				positionSpecifyingGlyphs.add(srg.getSpeciesGlyphInstance());
-				productFound = true;
-			}
-			if (substrateFound && productFound) break;
-		}
-		
-		assert positionSpecifyingGlyphs.size() == 2;
-		
-		double xsum = 0d, ysum = 0d, zsum = 0d;
-
-		for (SpeciesGlyph speciesGlyph : positionSpecifyingGlyphs) {
-			Point center = calculateCenter(speciesGlyph);
-			xsum += center.getX();
-			ysum += center.getY();
-			zsum += center.getZ();
-		}
-		// xsum / count, ysum / count are the center coordinates
-		// subtract half of the width/height/depth to get upper left coordinates
-		int count = 2;
-		Dimensions dimensions = reactionGlyph.getBoundingBox().getDimensions();
-		double x = xsum/count - dimensions.getWidth()/2d;
-		double y = ysum/count - dimensions.getHeight()/2d;
-		double z = zsum/count - dimensions.getDepth()/2d;
-		return new Position(new Point(x, y, z, level, version));*/
 		List<SpeciesReferenceGlyph> speciesReferenceGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
 		SpeciesGlyph product = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.PRODUCT);
 		SpeciesGlyph substrate = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.SUBSTRATE);
+		if (product == null || substrate==null) {
+			logger.warning("Cannot find product or substrate in list of species reference glyphs for reaction glyph "
+					+ reactionGlyph.getId());
+			// TODO fall back to another positioning mechanism
+			return new Position(new Point(0, 0, 0, level, version));
+		}
+		
 		Point substrateCenter = calculateCenter(substrate);
 		Point productCenter = calculateCenter(product);
 		Dimensions rgDimensions = reactionGlyph.getBoundingBox().getDimensions();
@@ -663,8 +635,6 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		double x = 0;
 		double y = 0;
 		double z = 0;
-
-		// TODO remove curve handling, not useful?
 		
 		List<SpeciesReferenceGlyph> curveList = new ArrayList<SpeciesReferenceGlyph>();
 		List<SpeciesReferenceGlyph> speciesGlyphList = new ArrayList<SpeciesReferenceGlyph>();
@@ -713,6 +683,12 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 
 		SpeciesGlyph product = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.PRODUCT);
 		SpeciesGlyph substrate = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.SUBSTRATE);
+		if (product == null || substrate==null) {
+			logger.warning("Cannot find product or substrate in list of species reference glyphs for reaction glyph "
+					+ reactionGlyph.getId());
+			// TODO fall back to another positioning mechanism
+			return new Position(new Point(x, y, z, level, version));
+		}
 		
 		Point substratePointOfMiddle = calculateCenter(substrate);
 		Point productPointOfMiddle = calculateCenter(product);
@@ -835,19 +811,16 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			SpeciesGlyph substrate = getProductOrSubstrateSpeciesGlyph(speciesRefGlyphList, SpeciesReferenceRole.SUBSTRATE);
 			SpeciesGlyph product = getProductOrSubstrateSpeciesGlyph(speciesRefGlyphList, SpeciesReferenceRole.PRODUCT);
 
-			//compute the central points
+			if (substrate == null || product == null) {
+				logger.warning("Cannot find product or substrate in list of species reference glyphs for reaction glyph "
+						+ reactionGlyph.getId());
+				return rotationAngle;
+			}
+			
+			// compute the central points
 			Point substrateCentralPoint = calculateCenter(substrate);
 			Point productCentralPoint = calculateCenter(product);
 
-			// get the relative positions
-//			RelativePosition productRelativePosition = getRelativePosition(substrate.getBoundingBox(), product.getBoundingBox());
-//			RelativePosition substrateRelativePosition = getRelativePosition(product.getBoundingBox(), substrate.getBoundingBox());
-
-			// compute the docking positions and give them in the calculation of the rotation angle
-//			Point substrateDockingPoint = calculateSpeciesGlyphDockingPosition(substrateCentralPoint, substrateRelativePosition, substrate);
-//			Point productDockingPoint = calculateSpeciesGlyphDockingPosition(productCentralPoint, productRelativePosition, product);
-
-//			rotationAngle = calculateRotationAngle(substrateDockingPoint, productDockingPoint);
 			rotationAngle = calculateRotationAngle(substrateCentralPoint, productCentralPoint);
 		}
 		return rotationAngle;
