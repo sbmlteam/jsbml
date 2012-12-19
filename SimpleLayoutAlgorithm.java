@@ -119,14 +119,28 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * @return RelativePosition
 	 */
 	protected static RelativePosition getRelativePosition(BoundingBox startGlyphBB, BoundingBox endGlyphBB) {
-		double startX = startGlyphBB.getPosition().getX();
-		double startY = startGlyphBB.getPosition().getY();
-		double endX = endGlyphBB.getPosition().getX();
-		double endY = endGlyphBB.getPosition().getY();
+		double startX = 0d, startY = 0d;
+		double endX = 0d, endY = 0d;
+		
+		Point posStart = startGlyphBB.getPosition();
+		Point posEnd = endGlyphBB.getPosition();
+		String error = "No coordinates given for the position of {0} bounding box ";
+		if (posStart != null) {
+			startX = posStart.getX();
+			startY = posStart.getY();
+		} else {
+			logger.warning(MessageFormat.format(error, "start"));
+		}
+		if (posEnd != null) {
+			endX = posEnd.getX();
+			endY = posEnd.getY();
+		} else {
+			logger.warning(MessageFormat.format(error, "end"));
+		}
 		
 		if (endX < startX) { // the start point is right, above or below the end point
-			if (endY > startY || endY == startY) {
-				if ((startX - endX) >= (endY - startY) || endY == startY) {
+			if ((endY > startY) || (endY == startY)) {
+				if ((startX - endX) >= (endY - startY) || (endY == startY)) {
 					// there is a triangle spanned by the start point, the end-point 
 					// and the point P where X- and Y-parallels throw the start and end point crosses
 					// (in case of endY != startY).
@@ -590,7 +604,8 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		List<SpeciesReferenceGlyph> speciesReferenceGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
 		SpeciesGlyph product = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.PRODUCT);
 		SpeciesGlyph substrate = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.SUBSTRATE);
-		if (product == null || substrate==null) {
+
+		if ((product == null) || (substrate == null)) {
 			logger.warning("Cannot find product or substrate in list of species reference glyphs for reaction glyph "
 					+ reactionGlyph.getId());
 			// TODO fall back to another positioning mechanism
@@ -603,9 +618,9 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		
 		Point center = calculateCenterOfPoints(substrateCenter, productCenter);
 		Point upperLeft = new Point(center.getX() - rgDimensions.getWidth()/2,
-				center.getY() - rgDimensions.getHeight()/2,
-				center.getZ() - rgDimensions.getDepth()/2,
-				level, version);
+			center.getY() - rgDimensions.getHeight()/2,
+			center.getZ() - rgDimensions.getDepth()/2,
+			level, version);
 		logger.fine("substrate center is " + substrateCenter.toString());
 		logger.fine("product center is " + productCenter.toString());
 		logger.fine("center is " + center.toString());
@@ -808,19 +823,30 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			ListOf<SpeciesReferenceGlyph> speciesRefGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
 
 			// get the substrate and the product of this reaction
+			// FIXME: NullPointerExceptions if Roles are not set!
 			SpeciesGlyph substrate = getProductOrSubstrateSpeciesGlyph(speciesRefGlyphList, SpeciesReferenceRole.SUBSTRATE);
 			SpeciesGlyph product = getProductOrSubstrateSpeciesGlyph(speciesRefGlyphList, SpeciesReferenceRole.PRODUCT);
 
-			if (substrate == null || product == null) {
-				logger.warning("Cannot find product or substrate in list of species reference glyphs for reaction glyph "
-						+ reactionGlyph.getId());
+			if ((substrate == null) || (product == null)) {
+				logger.warning(MessageFormat.format(
+					"Cannot find product or substrate in list of species reference glyphs for reaction glyph {0}",
+					reactionGlyph.getId()));
 				return rotationAngle;
 			}
 			
 			// compute the central points
 			Point substrateCentralPoint = calculateCenter(substrate);
 			Point productCentralPoint = calculateCenter(product);
-
+			
+			// get the relative positions
+			//			RelativePosition productRelativePosition = getRelativePosition(substrate.getBoundingBox(), product.getBoundingBox());
+			//			RelativePosition substrateRelativePosition = getRelativePosition(product.getBoundingBox(), substrate.getBoundingBox());
+			
+			// compute the docking positions and give them in the calculation of the rotation angle
+			//			Point substrateDockingPoint = calculateSpeciesGlyphDockingPosition(substrateCentralPoint, substrateRelativePosition, substrate);
+			//			Point productDockingPoint = calculateSpeciesGlyphDockingPosition(productCentralPoint, productRelativePosition, product);
+			
+			//			rotationAngle = calculateRotationAngle(substrateDockingPoint, productDockingPoint);
 			rotationAngle = calculateRotationAngle(substrateCentralPoint, productCentralPoint);
 		}
 		return rotationAngle;
