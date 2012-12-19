@@ -37,7 +37,7 @@ import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBO;
-import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
 import org.sbml.jsbml.ext.layout.ExtendedLayoutModel;
@@ -446,7 +446,7 @@ public class LayoutDirector<P> implements Runnable {
 
 		for (SpeciesReferenceGlyph srg : rg.getListOfSpeciesReferenceGlyphs()) {
 			// copy SBO term of species reference to species reference glyph
-			SpeciesReference speciesReference = (SpeciesReference) srg.getNamedSBaseInstance();
+			SimpleSpeciesReference speciesReference = (SimpleSpeciesReference) srg.getNamedSBaseInstance();
 			if ((speciesReference == null) || !speciesReference.isSetSBOTerm()) {
 				if (!srg.isSetSpeciesReferenceRole()) {
 					// sets consumption (straight line as default)
