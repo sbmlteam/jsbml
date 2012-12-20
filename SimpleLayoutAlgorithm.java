@@ -33,6 +33,7 @@ import org.sbml.jsbml.ext.layout.CurveSegment;
 import org.sbml.jsbml.ext.layout.Dimensions;
 import org.sbml.jsbml.ext.layout.GraphicalObject;
 import org.sbml.jsbml.ext.layout.Layout;
+import org.sbml.jsbml.ext.layout.NamedSBaseGlyph;
 import org.sbml.jsbml.ext.layout.Point;
 import org.sbml.jsbml.ext.layout.Position;
 import org.sbml.jsbml.ext.layout.ReactionGlyph;
@@ -868,9 +869,9 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		double y = endPoint.getY() - startPoint.getY();
 		rotationAngle = Math.toDegrees(Math.atan(y/x));
 		
-		if(endPoint.getX() < startPoint.getX()) {
+		if (endPoint.getX() < startPoint.getX()) {
 			rotationAngle += 180;
-		} else if(endPoint.getY() < startPoint.getY()) {
+		} else if (endPoint.getY() < startPoint.getY()) {
 			rotationAngle += 360;
 		}
 		
@@ -1045,31 +1046,37 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * @param glyph
 	 */
 	public void correctDimensions(GraphicalObject glyph) {
-		double width = glyph.getBoundingBox().getDimensions().getWidth();
-		double height = glyph.getBoundingBox().getDimensions().getHeight();
-		if(glyph instanceof SpeciesGlyph) {
-			int sboterm = ((SpeciesGlyph) glyph).getSpeciesInstance().getSBOTerm();
-			if(SBO.isChildOf(sboterm, SBO.getSimpleMolecule()) ||SBO.isChildOf(sboterm, SBO.getEmptySet())) {
+		BoundingBox bb = glyph.getBoundingBox();
+		Dimensions dimension = bb.getDimensions();
+		double width = dimension.getWidth();
+		double height = dimension.getHeight();
+		if (glyph instanceof NamedSBaseGlyph) {
+			NamedSBaseGlyph nsbGlyph = (NamedSBaseGlyph) glyph; 
+			int sboTerm = -1;
+			if (nsbGlyph.isSetNamedSBase()) {
+				sboTerm = nsbGlyph.getNamedSBaseInstance().getSBOTerm();
+			}
+			if (SBO.isChildOf(sboTerm, SBO.getSimpleMolecule()) ||SBO.isChildOf(sboTerm, SBO.getEmptySet())) {
 				// the glyph is a circle: height==width
-				if(width != height) {
-//					glyph.getBoundingBox().getDimensions().setWidth(height);
-					glyph.getBoundingBox().createDimensions(height, height, 0);
+				if (width != height) {
+//					dimension.setWidth(height);
+					bb.createDimensions(height, height, 0);
 				}
 			} else  { 
 				// height must be bigger or equal the width
-				if(width < height) {
+				if (width < height) {
 					// change the both values
-					glyph.getBoundingBox().getDimensions().setWidth(height);
-					glyph.getBoundingBox().getDimensions().setHeight(width);
+					dimension.setWidth(height);
+					dimension.setHeight(width);
 				}
 			}
-		} else if(glyph instanceof ReactionGlyph) {
-			if(width != height) {
-				glyph.getBoundingBox().getDimensions().setWidth(height);
+		} else if (glyph instanceof ReactionGlyph) {
+			if (width != height) {
+				dimension.setWidth(height);
 			}
-		} else if(glyph instanceof CompartmentGlyph) {
+		} else if (glyph instanceof CompartmentGlyph) {
 			
-		} else if(glyph instanceof TextGlyph) {
+		} else if (glyph instanceof TextGlyph) {
 			
 		}
 	}
