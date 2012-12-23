@@ -36,24 +36,33 @@ import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 public interface SBGNArc<T> {
 	
 	/**
-	 * method for drawing the connecting arc, with appropriate line ending and the given line width
+	 * Method for drawing the connecting arc, with appropriate line ending and the
+	 * given line width
 	 * 
-	 * @param curveSegment a {@link CurveSegment} of the {@link Curve} of the {@link SpeciesReferenceGlyph} 
+	 * @param curveSegment
+	 *        a {@link CurveSegment} of the {@link Curve} of the
+	 *        {@link SpeciesReferenceGlyph}
 	 * @return T as a graphical representation of any form
 	 */
 	public T draw(CurveSegment curveSegment, double lineWidth);
 	
 	/**
-	 * Draw a whole curve consisting of multiple curve segments with the given line width.
-	 * @param curve the {@link Curve} to draw
+	 * Draw a whole curve consisting of multiple curve segments with the given
+	 * line width.
+	 * 
+	 * @param curve
+	 *        the {@link Curve} to draw
 	 * @return T graphical representation of the curve
 	 */
 	public T draw(Curve curve, double lineWidth);
 	
 	/**
 	 * Draw a whole curve consisting of multiple curve segments.
-	 * @param curve the {@link Curve} to draw
+	 * 
+	 * @param curve
+	 *        the {@link Curve} to draw
 	 * @return T graphical representation of the curve
 	 */
 	public T draw(Curve curve);
+
 }
