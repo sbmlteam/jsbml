@@ -39,7 +39,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -2582985174711830815L;
-	
+
 	/**
 	 * 
 	 */
@@ -49,7 +49,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 	 * 
 	 */
 	private String text;
-	
+
 	/**
 	 * 
 	 */
@@ -64,10 +64,10 @@ public class TextGlyph extends NamedSBaseGlyph {
 	 * @param version
 	 */
 	public TextGlyph(int level, int version) {
-	  super(level, version);
-	  addNamespace(LayoutConstants.namespaceURI);
+		super(level, version);
+		addNamespace(LayoutConstants.namespaceURI);
 	}
-	
+
 	/**
 	 * 
 	 * @param id
@@ -76,7 +76,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 		super(id);
 		addNamespace(LayoutConstants.namespaceURI);
 	}
-	
+
 	/**
 	 * 
 	 * @param id
@@ -84,8 +84,8 @@ public class TextGlyph extends NamedSBaseGlyph {
 	 * @param version
 	 */
 	public TextGlyph(String id, int level, int version) {
-	  super(id, level, version);
-	  addNamespace(LayoutConstants.namespaceURI);
+		super(id, level, version);
+		addNamespace(LayoutConstants.namespaceURI);
 	}
 
 	/**
@@ -95,10 +95,10 @@ public class TextGlyph extends NamedSBaseGlyph {
 	public TextGlyph(TextGlyph textGlyph) {
 		super(textGlyph);
 		if (textGlyph.isSetGraphicalObject()) {
-		  this.graphicalObject = new String(textGlyph.getGraphicalObject());
+			this.graphicalObject = new String(textGlyph.getGraphicalObject());
 		}
 		if (textGlyph.isSetText()) {
-		  this.text = new String(textGlyph.getText());
+			this.text = new String(textGlyph.getText());
 		}
 	}
 
@@ -109,7 +109,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 	public TextGlyph clone() {
 		return new TextGlyph(this);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
@@ -129,7 +129,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 		}
 		return equals;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -137,7 +137,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 	public String getGraphicalObject() {
 		return graphicalObject;
 	}
-	
+
 	/**
 	 * Direct access to the {@link GraphicalObject} linked to this
 	 * {@link TextGlyph}.
@@ -146,7 +146,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 		Model model = getModel();
 		return (GraphicalObject) (isSetGraphicalObject() && (model != null) ? model.findNamedSBase(getGraphicalObject()) : null);
 	}
-	
+
 	/**
 	 * Method to test if an instance of a {@link GraphicalObject} with the id
 	 * given by {@link #getGraphicalObject()} can be found in the {@link Model}.
@@ -155,7 +155,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 		Model model = getModel();
 		return isSetGraphicalObject() && (model != null) && (model.findNamedSBase(getGraphicalObject()) != null);
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -163,15 +163,15 @@ public class TextGlyph extends NamedSBaseGlyph {
 	public String getOriginOfText() {
 		return getNamedSBase();
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public NamedSBase getOriginOfTextInstance() {
-	  return getNamedSBaseInstance();
+		return getNamedSBaseInstance();
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -179,7 +179,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 	public String getText() {
 		return text;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
 	 */
@@ -193,7 +193,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 		if (isSetGraphicalObject()) {
 			hashCode += prime * getGraphicalObject().hashCode();
 		}
-		
+
 		return hashCode;
 	}
 
@@ -227,18 +227,18 @@ public class TextGlyph extends NamedSBaseGlyph {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
 
-		if(!isAttributeRead)
+		if (!isAttributeRead)
 		{
-		
-			if(attributeName.equals(LayoutConstants.graphicalObject))
+
+			if (attributeName.equals(LayoutConstants.graphicalObject))
 			{	
 				setGraphicalObject(value);
 			}
-			else if(attributeName.equals(LayoutConstants.text))
+			else if (attributeName.equals(LayoutConstants.text))
 			{	
 				setText(value);
 			}
-			else if(attributeName.equals(LayoutConstants.originOfText))
+			else if (attributeName.equals(LayoutConstants.originOfText))
 			{	
 				setOriginOfText(value);
 			}
@@ -246,10 +246,10 @@ public class TextGlyph extends NamedSBaseGlyph {
 			{
 				return false;
 			}
-		
+
 			return true;
 		}
-		
+
 		return isAttributeRead;
 	}
 
@@ -257,9 +257,9 @@ public class TextGlyph extends NamedSBaseGlyph {
 	 * 
 	 * @param graphicalObject
 	 */
-  public void setGraphicalObject(GraphicalObject graphicalObject) {
-    setGraphicalObject(graphicalObject.getId());
-  }
+	public void setGraphicalObject(GraphicalObject graphicalObject) {
+		setGraphicalObject(graphicalObject.getId());
+	}
 
 	/**
 	 * 
@@ -270,13 +270,13 @@ public class TextGlyph extends NamedSBaseGlyph {
 		this.graphicalObject = graphicalObject;
 		firePropertyChange(LayoutConstants.graphicalObject, oldValue, this.graphicalObject);
 	}
-	
+
 	/**
 	 * 
 	 * @param originOfText
 	 */
 	public void setOriginOfText(NamedSBase originOfText) {
-	  setNamedSBase(originOfText);
+		setNamedSBase(originOfText);
 	}
 
 	/**
@@ -303,7 +303,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
-		
+
 		if (isSetGraphicalObject()) {
 			attributes.put(LayoutConstants.shortLabel + ':'
 					+ LayoutConstants.graphicalObject, graphicalObject);
@@ -318,6 +318,28 @@ public class TextGlyph extends NamedSBaseGlyph {
 		}
 
 		return attributes;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.NamedSBaseGlyph#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(getElementName());
+		sb.append(" [");
+		if (isSetText()) {
+			sb.append(getText());
+		} else if (isSetOriginOfText()) {
+			NamedSBase orig = getOriginOfTextInstance();
+			if (orig == null) {
+				sb.append(getOriginOfText());
+			} else {
+				sb.append(orig.toString());
+			}
+		}
+		sb.append(']');
+		return sb.toString();
 	}
 
 }
