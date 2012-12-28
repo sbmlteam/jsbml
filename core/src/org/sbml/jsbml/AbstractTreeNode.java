@@ -20,6 +20,7 @@
  */ 
 package org.sbml.jsbml;
 
+import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -401,11 +402,12 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
         changeType = 2; // real property change
       }
       if (-1 < changeType) {
+      	boolean userObjectChange = propertyName.equals(TreeNodeChangeEvent.userObject);
         boolean newValTreeNode = newValue instanceof TreeNodeWithChangeSupport;
         boolean oldValTreeNode = oldValue instanceof TreeNodeWithChangeSupport;
-        if ((changeType == 0) && newValTreeNode) {
+        if ((changeType == 0) && newValTreeNode && !userObjectChange) {
           ((TreeNodeWithChangeSupport) newValue).fireNodeAddedEvent();
-        } else if ((changeType == 1) && oldValTreeNode) {
+        } else if ((changeType == 1) && oldValTreeNode && !userObjectChange) {
           ((TreeNodeWithChangeSupport) oldValue).fireNodeRemovedEvent();
         } else {
           // TODO: check if notifying and updating the metaId is necessary
@@ -587,7 +589,10 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
       userObjects = new HashMap<Object, Object>();
     }
     Object oldObject = userObjects.put(key, userObject);
-    firePropertyChange(key.toString(), oldObject, userObject);
+    // Avoid that by mistake a nodeAdded event is generated!
+    Map.Entry<Object, Object> oldEntry = new AbstractMap.SimpleImmutableEntry<Object, Object>(key, oldObject);
+    Map.Entry<Object, Object> newEntry = new AbstractMap.SimpleImmutableEntry<Object, Object>(key, userObject);
+    firePropertyChange(TreeNodeChangeEvent.userObject, oldEntry, newEntry);
   }
 
   /* (non-Javadoc)

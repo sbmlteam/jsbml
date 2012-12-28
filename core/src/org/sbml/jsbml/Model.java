@@ -2325,9 +2325,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns the listOfParameters of this {@link Model}.
+   * Returns the {@link #listOfParameters} of this {@link Model}.
    * 
-   * @return the listOfParameters of this {@link Model}.
+   * @return the {@link #listOfParameters} of this {@link Model}.
    */
   public ListOf<Parameter> getListOfParameters() {
     if (listOfParameters == null) {
@@ -2886,15 +2886,19 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * Returns the {@link Parameter} of the listOfParameters which has 'id' as id
+   * Returns the {@link Parameter} of the {@link #listOfParameters} which has 'id' as id
    * 
    * @param id
-   * @return the {@link Parameter} of the listOfParameters which has 'id' as id
+   * @return the {@link Parameter} of the {@link #listOfParameters} which has 'id' as id
    *         (or name depending on the level and version). {@code null} if it doesn't
    *         exist.
    */
   public Parameter getParameter(String id) {
-    return getListOfParameters().firstHit(new NameFilter(id));
+	  UniqueNamedSBase found = findUniqueNamedSBase(id);
+	  if ((found != null) && (found instanceof Parameter)) {
+		  return (Parameter) found;
+	  }
+	  return null;
   }
   
   /**
