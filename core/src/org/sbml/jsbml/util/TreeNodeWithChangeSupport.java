@@ -58,14 +58,14 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
       Collection<TreeNodeChangeListener> listeners);
   
   /**
-   * Adds recursively a listener to the {@link TreeNodeWithChangeSupport} object and
-   * all of its sub-elements. Calling this method is effectively identical to
-   * the call
+   * Adds recursively a listener to the {@link TreeNodeWithChangeSupport}
+   * object and all of its sub-elements. Calling this method is effectively
+   * identical to the call
    * {@link #addTreeNodeChangeListener(TreeNodeChangeListener, boolean)} where
    * {@code recursively = true}.
    * 
    * @param listener
-   *        the listener to add
+   *            the listener to add
    * @see #addTreeNodeChangeListener(TreeNodeChangeListener, boolean)
    */
   public void addTreeNodeChangeListener(TreeNodeChangeListener listener);
@@ -85,8 +85,9 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
   public void addTreeNodeChangeListener(TreeNodeChangeListener listener, boolean recursive);
   
   /**
-   * Removes all of the mappings from the map of user objects (optional operation). The map
-   * will be empty after this call returns.
+   * Removes all of the mappings from the map of user objects (optional
+   * operation). The map will be empty after this call returns.
+   * 
    * @see Map#clear()
    */
   public abstract void clearUserObjects();
@@ -120,16 +121,44 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
    * satisfy the filter criterion should still be retained in the result list.
    * 
    * @param filter
-   *        A criterion to select a sub-set of nodes of this tree.
+   *            A criterion to select a sub-set of nodes of this tree.
    * @param retainInternalNodes
-   *        Decides if internal nodes should also be included in the resulting
-   *        {@link List} if they do not by themselves satisfy the {@link Filter}
-   *        but if these do have child elements that do so. This might be useful
-   *        in order to obtain a complete tree path to interesting sub-elements.
-   * @return
+   *            Decides if internal nodes should also be included in the
+   *            resulting {@link List} if they do not by themselves satisfy
+   *            the {@link Filter} but if these do have child elements that do
+   *            so. This might be useful in order to obtain a complete tree
+   *            path to interesting sub-elements.
+   * @return A {@link List} representing a subset of {@link TreeNode}s that
+   *         satisfy the {@link Filter}'s criterion, or whose child nodes do
+   *         so.
    * @see #filter(Filter)
    */
-  public List<TreeNode> filter(Filter filter, boolean retainInternalNodes);
+  public List<? extends TreeNode> filter(Filter filter, boolean retainInternalNodes);
+  
+  /**
+   * Filters this tree data structure recursively and returns a list of all
+   * {@link TreeNode}s that are accepted by the {@link Filter}. The two
+   * boolean switches let you decide if internal nodes that do not by
+   * themselves satisfy the filter criterion should be retained in the list,
+   * and if the recursion should be aborted as soon as the first hit is
+   * discovered.
+   * 
+   * @param filter
+   * @param retainInternalNodes
+   *            decides whether or not internal nodes should be added to the
+   *            list of results even though these might not by themselves
+   *            satisfy the filter's criterion, but whose children do. This
+   *            feature can be useful, e.g., in order to keep the full tree
+   *            path to nodes of interest
+   * @param prune
+   *            if this argument is {@code true}, the recursive search is
+   *            aborted upon the discovery of the first hit.
+   * @return A {@link List} representing a subset of {@link TreeNode}s that
+   *         satisfy the {@link Filter}'s criterion, or whose child nodes do
+   *         so.
+   * @see #filter(Filter, boolean)
+   */
+  public List<? extends TreeNode> filter(Filter filter, boolean retainInternalNodes, boolean prune);
   
   /**
    * All {@link TreeNodeChangeListener} instances linked to this
@@ -216,7 +245,9 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
   public abstract boolean isSetUserObjects();
 
   /**
-   * @param key some user-defined key under which the given userObject can be found.
+   * @param key
+   *            some user-defined key under which the given userObject can be
+   *            found.
    * @param userObject
    *            the userObject to set
    */

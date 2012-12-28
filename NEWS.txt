@@ -6,6 +6,11 @@ Version 1.0-rc1 (xx-xx-2012)
 
 * New Features:
 
+  - A new filter method has been added to TreeNodeWithChangeSupport to
+    search for elements in the SBML tree that satisfy a certain filter
+    criterion. The new method can prune the search to the first occurrence of
+    a hit and hence save running time. 
+
   - Syntax check for metaids in the setMetaId method.
 
   - Some additional methods for more convenient working with tree data
