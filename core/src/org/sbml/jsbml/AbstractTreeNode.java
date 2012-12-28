@@ -313,26 +313,46 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#filter(org.sbml.jsbml.util.filters.Filter, boolean)
    */
   //@Override
-  public List<TreeNode> filter(Filter filter, boolean retainInternalNodes) {
-    List<TreeNode> list = new LinkedList<TreeNode>(), childList;
-    TreeNode child;
-    boolean accepts = filter.accepts(this);
-    if (accepts) {
-      list.add(this);
-    }
-    for (int i = 0; i < getChildCount(); i++) {
-      child = getChildAt(i);
-      if (child instanceof TreeNodeWithChangeSupport) {
-        childList = ((TreeNodeWithChangeSupport) child).filter(filter, retainInternalNodes);
-        if (!accepts && retainInternalNodes && (childList.size() > 0)) {
-          list.add(this);
-          // prevent adding the current node more often than once:
-          accepts = true;
-        }
-        list.addAll(childList);
-      }
-    }
-    return list;
+  public List<? extends TreeNode> filter(Filter filter, boolean retainInternalNodes) {
+    return filter(filter, retainInternalNodes, false);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#filter(org.sbml.jsbml.util.filters.Filter, boolean, boolean)
+   */
+  //@Override
+  public List<? extends TreeNode> filter(Filter filter, boolean retainInternalNodes, boolean prune) {
+	  List<TreeNode> list = new LinkedList<TreeNode>();
+	  boolean accepts = filter.accepts(this);
+	  if (accepts) {
+		  list.add(this);
+		  if (prune) {
+			  return list;
+		  }
+	  }
+	  
+	  List<? extends TreeNode> childList;
+	  TreeNode child;
+	  for (int i = 0; i < getChildCount(); i++) {
+		  child = getChildAt(i);
+		  if (child instanceof TreeNodeWithChangeSupport) {
+			  childList = ((TreeNodeWithChangeSupport) child).filter(filter, retainInternalNodes, prune);
+			  if (childList.size() > 0) {
+				  // Somewhere in the subtree rooted at this child is an interesting node.
+				  if (!accepts && retainInternalNodes) {
+					  list.add(this);
+					  // prevent adding the current node more often than once:
+					  accepts = true;
+				  }
+				  list.addAll(childList);
+				  if (prune) {
+					  // Since we found at least one hit, we are done.
+					  return list;
+				  }
+			  }
+		  }
+	  }
+	  return list;
   }
 
   /* (non-Javadoc)
