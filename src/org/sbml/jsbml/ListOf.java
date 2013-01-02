@@ -29,6 +29,7 @@ import java.util.ListIterator;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.util.filters.Filter;
@@ -133,9 +134,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		 */
 		none,
 		/**
-		 * For instance, it is not possible to decide between reactants and products
-		 * because both elements are of the same type. Also in the extension packages
-		 * this type is required.
+		 * For instance, it is not possible to decide between reactants and
+		 * products because both elements are of the same type. Also in the
+		 * extension packages this type is required.
 		 */
 		other;
 
@@ -621,11 +622,19 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	@Override
 	public String getElementName() {
 		if ((getLevel() < 3)
-				&& (getSBaseListType() == ListOf.Type.listOfLocalParameters)) {
-			return "listOfParameters";
+				&& (listType == Type.listOfLocalParameters)) {
+			return Type.listOfParameters.toString();
 		}
-		return (getSBaseListType() != null ? getSBaseListType().toString()
-				: Type.none.toString());
+		if ((listType == Type.other) && (listOf.size() > 0)) {
+			// Important for extension packages:
+			String className = getFirst().getClass().getSimpleName();
+
+			return StringTools.firstLetterLowerCase(getClass().getSimpleName())
+					+ className
+					+ ((className.endsWith("s") || className.toLowerCase()
+							.endsWith("information")) ? "" : "s");
+		}
+		return (listType != null) ? listType.toString() : Type.none.toString();
 	}
 
 	/**
@@ -931,29 +940,20 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	@Override
 	public String toString() {
-		
+
 		// TODO : replace the code below by log4j debug message ?
-		
+
 		if (DEBUG_MODE) {
 			return listOf.toString();
 		}
-		
+
 		if (listType == null) {
 			// Can happen in the clone constructor when using the SimpleSBaseChangeListener
 			// The super constructor is called before listType is initialized and
 			// it is using the toString() method
 			return Type.none.toString();
 		}
-		
-		if (listType.equals(Type.other) && size() > 0) {
-			String className = get(0).getClass().getSimpleName();
-			
-      return "listOf" + className
-        + ((className.endsWith("s") || className.toLowerCase().endsWith(
-          "information")) ? "" : "s");
-		}
-		
-		return listType.toString();
+		return getElementName();
 	}
 
 	/**
