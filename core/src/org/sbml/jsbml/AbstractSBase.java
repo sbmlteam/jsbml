@@ -30,6 +30,7 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
 
 import javax.swing.tree.TreeNode;
 
@@ -75,14 +76,36 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	};
 	
 	/**
+	 * Pattern to recognize valid meta-identifier strings for SBML elements.
+	 */
+	private static final Pattern IdPattern;
+
+	/**
 	 * A logger for this class.
 	 */
 	private static final Logger logger = Logger.getLogger(AbstractSBase.class);
-
+	
 	/**
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = 8781459818293592636L;
+	
+	static {
+		/* Build the pattern for metaIds according to the definition in SBML 
+		 * L2V2R1 p. 12, Section 3.1.6 and the definition of the corresponding
+		 * symbols at http://www.w3.org/TR/2000/REC-xml-20001006#NT-CombiningChar:
+		 */
+		String underscore = "_";
+		String dash = "\\-";
+		String dot = ".";
+		String letter = "a-zA-Z";
+		String digit = "0-9";
+		String combiningChar = "[\u0300-\u0345]|[\u0360-\u0361]|[\u0483-\u0486]|[\u0591-\u05A1]|[\u05A3-\u05B9]|[\u05BB-\u05BD]|\u05BF|[\u05C1-\u05C2]|\u05C4|[\u064B-\u0652]|\u0670|[\u06D6-\u06DC]|[\u06DD-\u06DF]|[\u06E0-\u06E4]|[\u06E7-\u06E8]|[\u06EA-\u06ED]|[\u0901-\u0903]|\u093C|[\u093E-\u094C]|\u094D|[\u0951-\u0954]|[\u0962-\u0963]|[\u0981-\u0983]|\u09BC|\u09BE|\u09BF|[\u09C0-\u09C4]|[\u09C7-\u09C8]|[\u09CB-\u09CD]|\u09D7|[\u09E2-\u09E3]|\u0A02|\u0A3C|\u0A3E|\u0A3F|[\u0A40-\u0A42]|[\u0A47-\u0A48]|[\u0A4B-\u0A4D]|[\u0A70-\u0A71]|[\u0A81-\u0A83]|\u0ABC|[\u0ABE-\u0AC5]|[\u0AC7-\u0AC9]|[\u0ACB-\u0ACD]|[\u0B01-\u0B03]|\u0B3C|[\u0B3E-\u0B43]|[\u0B47-\u0B48]|[\u0B4B-\u0B4D]|[\u0B56-\u0B57]|[\u0B82-\u0B83]|[\u0BBE-\u0BC2]|[\u0BC6-\u0BC8]|[\u0BCA-\u0BCD]|\u0BD7|[\u0C01-\u0C03]|[\u0C3E-\u0C44]|[\u0C46-\u0C48]|[\u0C4A-\u0C4D]|[\u0C55-\u0C56]|[\u0C82-\u0C83]|[\u0CBE-\u0CC4]|[\u0CC6-\u0CC8]|[\u0CCA-\u0CCD]|[\u0CD5-\u0CD6]|[\u0D02-\u0D03]|[\u0D3E-\u0D43]|[\u0D46-\u0D48]|[\u0D4A-\u0D4D]|\u0D57|\u0E31|[\u0E34-\u0E3A]|[\u0E47-\u0E4E]|\u0EB1|[\u0EB4-\u0EB9]|[\u0EBB-\u0EBC]|[\u0EC8-\u0ECD]|[\u0F18-\u0F19]|\u0F35|\u0F37|\u0F39|\u0F3E|\u0F3F|[\u0F71-\u0F84]|[\u0F86-\u0F8B]|[\u0F90-\u0F95]|\u0F97|[\u0F99-\u0FAD]|[\u0FB1-\u0FB7]|\u0FB9|[\u20D0-\u20DC]|\u20E1|[\u302A-\u302F]|\u3099|\u309A";
+		String extender = "\u00B7|\u02D0|\u02D1|\u0387|\u0640|\u0E46|\u0EC6|\u3005|[\u3031-\u3035]|[\u309D-\u309E]|[\u30FC-\u30FE]";
+		String ncNameChar = '[' + letter + digit + dot + dash + underscore + combiningChar + extender + ']';
+		String ID = "^[" + letter + underscore + ']' + ncNameChar + '*';
+		IdPattern = Pattern.compile(ID);
+	}
 	
 	/**
 	 * Returns true is the level and version combination is a valid one, false otherwise.
@@ -103,6 +126,15 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		default:
 			return false;
 		}
+	}
+	
+	/**
+	 *
+	 * @param idCandidate
+	 * @return
+	 */
+	public static final boolean isValidMetaId(String idCandidate) {
+		return IdPattern.matcher(idCandidate).matches();
 	}
 	
 	/**
@@ -133,7 +165,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * element in a SBML file.
 	 */
 	private String metaId;
-	
+
 	/**
 	 * notes of the SBML component. Matches the notes XML node in a SBML file.
 	 *
@@ -145,12 +177,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * element in a SBML file.
 	 */
 	private int sboTerm;
-	
+
 	/**
 	 * Contains all the namespaces used by this SBase element.
 	 */
-	private SortedSet<String> usedNamespaces;
-
+	private SortedSet<String> usedNamespaces; 
+	
 	/**
 	 * Creates an AbstractSBase instance. 
 	 * 
@@ -302,24 +334,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		firePropertyChange(TreeNodeChangeEvent.addNamespace, null, namespace);
 	}
 	
-	/**
-	 * 
-	 * @param namespace
-	 * @return if operation was a success.
-	 */
-	public boolean removeNamespace(String namespace) {
-		boolean success = false;
-		if (usedNamespaces.contains(namespace)) {
-			success = usedNamespaces.remove(namespace);
-			if (success) {
-				firePropertyChange(TreeNodeChangeEvent.removeNamespace, namespace, null);
-			}
-		} else {
-			logger.debug("Namespace " + namespace + " not assigned to this element " + toString());
-		}
-		return success;
-	}
-
 	/* (non-Javadoc)
 	 * @see org.sbml.jlibsbml.SBase#appendNotes(java.lang.String)
 	 */
@@ -694,13 +708,13 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 		throw new LevelVersionError(this, sbase);
 	}
-	
-	
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
 	public abstract AbstractSBase clone();
-
+	
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
 	 */
@@ -741,7 +755,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	public List<CVTerm> filterCVTerms(CVTerm.Qualifier qualifier) {
 		return getAnnotation().filterCVTerms(qualifier);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier, java.lang.String)
 	 */
@@ -752,7 +766,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 		return l;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier, java.lang.String, boolean)
 	 */
@@ -890,6 +904,13 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	}
 
 	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#getCVTermCount()
+	 */
+	public int getCVTermCount() {
+	  return isSetAnnotation() ? annotation.getListOfCVTerms().size() : 0;
+	}
+
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#getCVTerms()
 	 */
 	public List<CVTerm> getCVTerms() {
@@ -1004,13 +1025,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		return getCVTermCount();
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.SBase#getCVTermCount()
-	 */
-	public int getCVTermCount() {
-	  return isSetAnnotation() ? annotation.getListOfCVTerms().size() : 0;
-	}
-
 	/**
 	 * This is equivalent to calling {@link #getParentSBMLObject()}, but this
 	 * method is needed for {@link TreeNode}.
@@ -1077,7 +1091,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 		return hashCode + prime * getLevelAndVersion().hashCode();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#hasValidAnnotation()
 	 */
@@ -1107,7 +1121,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 		return true;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#hasValidLevelVersionNamespaceCombination()
 	 */
@@ -1235,7 +1249,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		}
 		return false;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#registerChild(org.sbml.jsbml.SBase)
 	 */
@@ -1327,54 +1341,23 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	    sbase.fireNodeAddedEvent();
 	  }
 	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.SBase#unregisterChild(org.sbml.jsbml.SBase)
+	
+	/**
+	 * 
+	 * @param namespace
+	 * @return if operation was a success.
 	 */
-	public void unregister(SBase sbase)  {
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("unregister called !! " + sbase.getElementName() + " " 
-					+ (sbase instanceof NamedSBase ? ((NamedSBase) sbase).getId() : ""));
-		}
-		
-		if ((sbase != null)) {
-			SBMLDocument doc = getSBMLDocument();
-
-			if (doc != null) {
-				// unregister recursively all metaIds.
-				doc.registerMetaIds(sbase, true, true);
+	public boolean removeNamespace(String namespace) {
+		boolean success = false;
+		if (usedNamespaces.contains(namespace)) {
+			success = usedNamespaces.remove(namespace);
+			if (success) {
+				firePropertyChange(TreeNodeChangeEvent.removeNamespace, namespace, null);
 			}
-			
-			if (sbase instanceof LocalParameter) {
-		    	
-		    	TreeNode klTreeNode = this.getParent(); 
-		    	
-		    	if (klTreeNode != null && klTreeNode instanceof KineticLaw) {
-
-		    		logger.debug("Unregister LP");
-		    		
-		    		KineticLaw kineticLaw = (KineticLaw) klTreeNode;
-		    		kineticLaw.registerLocalParameter((LocalParameter) sbase, true);
-		    	}
-		    }
-			
-			Model model = getModel();
-
-			// If possible, recursively unregister all ids of the SBase in our model:
-			if ((model != null)
-					&& !model.registerIds(this, sbase, true, true)) {
-				throw new IllegalArgumentException(MessageFormat.format("Cannot unregister {0}.",
-						sbase.getElementName()));
-			}
-			
-			/* 
-			 * Do not remove ChangeListeners from the sbase here, this will be done
-			 * in the super class. It is important to keep the change listeners for now, 
-			 * because otherwise the listeners won't be informed that we are going to
-			 * delete something from the model.
-			 */
+		} else {
+			logger.debug("Namespace " + namespace + " not assigned to this element " + toString());
 		}
+		return success;
 	}
 
 	/* (non-Javadoc)
@@ -1448,8 +1431,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	  if (metaId != null) {
 	    if (getLevel() == 1) {
 	      throw new PropertyNotAvailableException(TreeNodeChangeEvent.metaId, this);
-	    } else if (!AbstractNamedSBase.isValidId(metaId, getLevel(), getVersion())) {
-	      // Meta-ids must follow the same restrictions as Ids and are defined since Level 2 (checked above).
+	    } else if (!isValidMetaId(metaId)) {
 	      throw new IllegalArgumentException(MessageFormat.format(
 	        "\"{0}\" is not a valid meta-identifier for this {1}.", metaId, getElementName()));
 	    }
@@ -1533,7 +1515,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		fireNodeAddedEvent();
 		setParentSBML(sbase);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setSBOTerm(int)
 	 */
@@ -1551,14 +1533,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		sboTerm = term;
 		firePropertyChange(TreeNodeChangeEvent.sboTerm, oldTerm, sboTerm);
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jlibsbml.SBase#setSBOTerm(java.lang.String)
 	 */
 	public void setSBOTerm(String sboid) {
 		setSBOTerm(SBO.stringToInt(sboid));
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setThisAsParentSBMLObject(org.sbml.jsbml.SBase)
 	 */
@@ -1566,7 +1548,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	public void setThisAsParentSBMLObject(SBase sbase) throws LevelVersionError {
 	  registerChild(sbase);
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setVersion(int)
 	 */
@@ -1588,6 +1570,55 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 */
 	@Override
 	public abstract String toString();
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#unregisterChild(org.sbml.jsbml.SBase)
+	 */
+	public void unregister(SBase sbase)  {
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("unregister called !! " + sbase.getElementName() + " " 
+					+ (sbase instanceof NamedSBase ? ((NamedSBase) sbase).getId() : ""));
+		}
+		
+		if ((sbase != null)) {
+			SBMLDocument doc = getSBMLDocument();
+
+			if (doc != null) {
+				// unregister recursively all metaIds.
+				doc.registerMetaIds(sbase, true, true);
+			}
+			
+			if (sbase instanceof LocalParameter) {
+		    	
+		    	TreeNode klTreeNode = this.getParent(); 
+		    	
+		    	if (klTreeNode != null && klTreeNode instanceof KineticLaw) {
+
+		    		logger.debug("Unregister LP");
+		    		
+		    		KineticLaw kineticLaw = (KineticLaw) klTreeNode;
+		    		kineticLaw.registerLocalParameter((LocalParameter) sbase, true);
+		    	}
+		    }
+			
+			Model model = getModel();
+
+			// If possible, recursively unregister all ids of the SBase in our model:
+			if ((model != null)
+					&& !model.registerIds(this, sbase, true, true)) {
+				throw new IllegalArgumentException(MessageFormat.format("Cannot unregister {0}.",
+						sbase.getElementName()));
+			}
+			
+			/* 
+			 * Do not remove ChangeListeners from the sbase here, this will be done
+			 * in the super class. It is important to keep the change listeners for now, 
+			 * because otherwise the listeners won't be informed that we are going to
+			 * delete something from the model.
+			 */
+		}
+	}
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#unsetAnnotation()
