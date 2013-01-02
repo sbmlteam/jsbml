@@ -707,15 +707,15 @@ public class SBMLDocument extends AbstractSBase {
    * @return
    */
 	public String nextMetaId() {
-	  String idOne;
+	  String currId;
 	  do {
-	    idOne = UUID.randomUUID().toString().replace('-', '_');
-	    if (Character.isDigit(idOne.charAt(0))) {
+	    currId = UUID.randomUUID().toString();
+	    if (Character.isDigit(currId.charAt(0))) {
 	      // Add an underscore at the beginning of the new metaid only if necessary.
-	      idOne = '_' + idOne;
+	      currId = '_' + currId;
 	    }
-	  } while (containsMetaId(idOne));
-	  return idOne;
+	  } while (containsMetaId(currId));
+	  return currId;
 	}
 
 	/**
