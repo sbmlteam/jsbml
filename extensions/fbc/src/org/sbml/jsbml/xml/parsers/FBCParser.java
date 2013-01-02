@@ -21,6 +21,7 @@ package org.sbml.jsbml.xml.parsers;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
@@ -77,18 +78,15 @@ public class FBCParser implements ReadingParser, WritingParser {
 	
 	private Logger logger = Logger.getLogger(FBCParser.class);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object
-	 * sbase)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
 	 */
 	@SuppressWarnings("unchecked")
-	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
+	public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
 
 		logger.debug("getListOfSBMLElementsToWrite : " + sbase.getClass().getCanonicalName());
 
-		ArrayList<Object> listOfElementsToWrite = new ArrayList<Object>();
+		List<Object> listOfElementsToWrite = new ArrayList<Object>();
 
 		if (sbase instanceof SBMLDocument) {
 			// nothing to do
@@ -164,8 +162,7 @@ public class FBCParser implements ReadingParser, WritingParser {
 		}
 	}
 
-	/*
-	 * 	(non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.stax.ReadingParser#processCharactersOf(java.lang.String, java.lang.String, java.lang.Object)
 	 */
 	public void processCharactersOf(String elementName, String characters,

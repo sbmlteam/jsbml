@@ -36,6 +36,7 @@ import static org.sbml.jsbml.ext.multi.MultiConstant.shortLabel;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
@@ -59,7 +60,7 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * able to read and write elements of the multi package (implements
  * ReadingParser and WritingParser).
  * 
- * @author rodrigue
+ * @author Nicolas Rodriguez
  * @since 1.0
  * @version $Rev$
  */
@@ -80,20 +81,17 @@ public class MultiParser extends AbstractReaderWriter {
 		return shortLabel;
 	}
 
-
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
-	 * 
 	 */
-	public ArrayList<Object> getListOfSBMLElementsToWrite(Object treeNode) {
+	@Override
+	public List<Object> getListOfSBMLElementsToWrite(Object treeNode) {
 
 		if (logger.isDebugEnabled()) {
 			logger.debug("getListOfSBMLElementsToWrite : " + treeNode.getClass().getCanonicalName());
 		}	
 		
-		ArrayList<Object> listOfElementsToWrite = new ArrayList<Object>();
+		List<Object> listOfElementsToWrite = new ArrayList<Object>();
 		
 		// test if this treeNode is an extended SBase.
 		if (treeNode instanceof SBase && ((SBase) treeNode).getExtension(getNamespaceURI()) != null) {
@@ -111,9 +109,7 @@ public class MultiParser extends AbstractReaderWriter {
 	}
 
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String
 	 * elementName, String prefix, boolean hasAttributes, boolean hasNamespaces,
 	 * Object contextObject)
@@ -288,6 +284,7 @@ public class MultiParser extends AbstractReaderWriter {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
 	 */
+	@Override
 	public void writeElement(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) 
 	{

@@ -198,7 +198,7 @@ public class SBMLReader {
 				
 				// TODO: we have to check that the attribute name is really required !!!! :-)
 				
-				if (attribute.getValue().toLowerCase().equals("true")) {
+				if (Boolean.parseBoolean(attribute.getValue())) {
 					return true;
 				}
 				return false;

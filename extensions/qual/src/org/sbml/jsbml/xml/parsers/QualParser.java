@@ -21,6 +21,7 @@ package org.sbml.jsbml.xml.parsers;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
@@ -67,13 +68,13 @@ public class QualParser extends AbstractReaderWriter {
 	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
 	 */
 	@SuppressWarnings("unchecked")
-	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
+	public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
 
 		if (logger.isDebugEnabled()) {
 			logger.debug("getListOfSBMLElementsToWrite : " + sbase.getClass().getCanonicalName());
 		}
 		
-		ArrayList<Object> listOfElementsToWrite = new ArrayList<Object>();
+		List<Object> listOfElementsToWrite = new ArrayList<Object>();
 
 		if (sbase instanceof SBMLDocument) {
 			// nothing to do

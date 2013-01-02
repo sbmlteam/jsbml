@@ -22,6 +22,7 @@ package org.sbml.jsbml.xml.parsers;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
@@ -43,10 +44,12 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  */
 public abstract class AbstractReaderWriter implements ReadingParser, WritingParser {
 
+	/**
+	 * A {@link Logger} for this class.
+	 */
 	private Logger logger = Logger.getLogger(AbstractReaderWriter.class);
 	
-	/*
-	 *  (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processAttribute(String
 	 *      elementName, String attributeName, String value, String prefix,
 	 *      boolean isLastAttribute, Object contextObject)
@@ -90,8 +93,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 		}
 	}
 
-	/*
-	 * 	(non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.stax.ReadingParser#processCharactersOf(java.lang.String, java.lang.String, java.lang.Object)
 	 */
 	public void processCharactersOf(String elementName, String characters,
@@ -137,18 +139,15 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 	public abstract Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject);
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
-	 * 
 	 */
 	@SuppressWarnings("unchecked")
-	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
+	public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
 
 		logger.debug("getListOfSBMLElementsToWrite : " + sbase.getClass().getCanonicalName());
 		
-		ArrayList<Object> listOfElementsToWrite = new ArrayList<Object>();
+		List<Object> listOfElementsToWrite = new ArrayList<Object>();
 		Enumeration<TreeNode> children = null;
 		
 		if (sbase instanceof SBMLDocument) {
@@ -186,10 +185,8 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 	}
 
 	
-	/*
-	 *  (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeAttributes(SBMLObjectForXML
-	 *      xmlObject, Object sbmlElementToWrite)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeAttributes(SBMLObjectForXML xmlObject, Object sbmlElementToWrite)
 	 */
 	public void writeAttributes(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) {
@@ -201,8 +198,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 
 	}
 
-	/*
-	 *  (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeCharacters(SBMLObjectForXML
 	 *      xmlObject, Object sbmlElementToWrite)
 	 */
@@ -213,8 +209,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 	}
 
 
-	/*
-	 *  (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeElement(SBMLObjectForXML
 	 *      xmlObject, Object sbmlElementToWrite)
 	 */
@@ -260,8 +255,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 	}
 
 
-	/*
-	 *  (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeNamespaces(SBMLObjectForXML
 	 *      xmlObject, Object sbmlElementToWrite)
 	 */

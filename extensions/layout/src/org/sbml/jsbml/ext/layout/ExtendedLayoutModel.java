@@ -52,7 +52,7 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 	 * 
 	 */
 	private Model model;
-	
+
 	/**
 	 * 
 	 * @param elm
@@ -64,7 +64,7 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		}
 	}
 
-  /**
+	/**
 	 * 
 	 */
 	public ExtendedLayoutModel(Model model) {
@@ -101,35 +101,35 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 	}
 
 	/**
-   * Creates a new layout and adds it to the current list of layouts.
-   * @return new layout.
-   */
-  public Layout createLayout() {
-    return createLayout(null);
-  }
+	 * Creates a new layout and adds it to the current list of layouts.
+	 * @return new layout.
+	 */
+	public Layout createLayout() {
+		return createLayout(null);
+	}
 
 	/**
-   * 
-   * @param id
-   * @return
-   */
-  public Layout createLayout(String id) {
-    Layout layout = new Layout(id, model.getLevel(), model.getVersion());
-    addLayout(layout);
-    return layout;
-  }
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Layout createLayout(String id) {
+		Layout layout = new Layout(id, model.getLevel(), model.getVersion());
+		addLayout(layout);
+		return layout;
+	}
 
 	/**
-   * Creates a new list of layout
-   */
-  private void createListOfLayout() {
-    listOfLayouts = new ListOf<Layout>();
+	 * Creates a new list of layout
+	 */
+	private void createListOfLayout() {
+		listOfLayouts = new ListOf<Layout>();
 		listOfLayouts.addNamespace(LayoutConstants.namespaceURI);
 		listOfLayouts.setSBaseListType(ListOf.Type.other);
 		model.registerChild(listOfLayouts);
-  }
+	}
 
-  /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Model#equals(java.lang.Object)
 	 */
 	@Override
@@ -148,24 +148,23 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		}
 		return equals;
 	}
-	
+
 	/* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#getAllowsChildren()
-   */
-  public boolean getAllowsChildren() {
-    return true;
-  }
-	
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
+	public boolean getAllowsChildren() {
+		return true;
+	}
+
 	/* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getChildAt(int)
-   */
+	 * @see org.sbml.jsbml.ext.SBasePlugin#getChildAt(int)
+	 */
 	public SBase getChildAt(int index) {
 		if (isSetListOfLayouts() && (index == getChildCount() - 1)) {
 			return getListOfLayouts();
 		}
 		return null;
 	}
-
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.SBasePlugin#getChildCount()
@@ -177,8 +176,7 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		}
 		return count;
 	}
-	
-	
+
 	/**
 	 * 
 	 * @param i
@@ -187,34 +185,38 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 	public Layout getLayout(int i) {
 		return listOfLayouts.get(i);
 	}
-	
+
 	/**
-   * 
-   * @return
-   */
-  public int getLayoutCount() {
-    return isSetListOfLayouts() ? listOfLayouts.size() : 0;
-  }
+	 * 
+	 * @return
+	 */
+	public int getLayoutCount() {
+		return isSetListOfLayouts() ? listOfLayouts.size() : 0;
+	}
 
 	/**
 	 * 
 	 * @return
 	 */
 	public ListOf<Layout> getListOfLayouts() {
-	  if (listOfLayouts == null) {
-	    createListOfLayout();
-	  }
-	  return listOfLayouts;
+		if (listOfLayouts == null) {
+			createListOfLayout();
+		}
+		return listOfLayouts;
 	}
 
 	/**
-   * 
-   * @return
-   */
-  public Model getModel() {
-    return (Model) extendedSBase;
-  }
+	 * 
+	 * @return
+	 */
+	public Model getModel() {
+		return (Model) extendedSBase;
+	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractTreeNode#getParent()
+	 */
+	@Override
 	public Model getParent() {
 		return model;
 	}
@@ -232,12 +234,15 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 				: true;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
 		return false;
 	}
 
-  /**
+	/**
 	 * 
 	 * @param listOfLayouts
 	 */
@@ -254,7 +259,7 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		model.registerChild(listOfLayouts);
 	}
 
-  /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -262,8 +267,8 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		// TODO Auto-generated method stub
 		return null;
 	}
-  
-  /**
+
+	/**
 	 * Removes the {@link #listOfLayouts} from this {@link Model} and notifies
 	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
@@ -280,10 +285,10 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		return false;
 	}
 
-  /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
 	 */
-  public Map<String, String> writeXMLAttributes() {
+	public Map<String, String> writeXMLAttributes() {
 		return null;
 	}
 

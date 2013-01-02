@@ -20,6 +20,7 @@
 package org.sbml.jsbml.xml.parsers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
@@ -52,17 +53,14 @@ public class GroupsParser extends AbstractReaderWriter {
 
 	private Logger logger = Logger.getLogger(GroupsParser.class);
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
-	 * 
 	 */
-	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
+	public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
 
 		logger.debug("getListOfSBMLElementsToWrite : " + sbase.getClass().getCanonicalName());
 		
-		ArrayList<Object> listOfElementsToWrite = new ArrayList<Object>();
+		List<Object> listOfElementsToWrite = new ArrayList<Object>();
 		
 		if (sbase instanceof Model) {
 			SBasePlugin modelPlugin = (SBasePlugin) ((Model) sbase).getExtension(getNamespaceURI());
