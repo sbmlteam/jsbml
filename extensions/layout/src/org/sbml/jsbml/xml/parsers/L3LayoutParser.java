@@ -45,6 +45,7 @@ import static org.sbml.jsbml.ext.layout.LayoutConstants.start;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.textGlyph;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
@@ -99,19 +100,16 @@ public class L3LayoutParser extends AbstractReaderWriter {
 
 	private Logger logger = Logger.getLogger(L3LayoutParser.class);
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
-	 * 
 	 */
-	public ArrayList<Object> getListOfSBMLElementsToWrite(Object sbase) {
+	public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
 
 		if (logger.isDebugEnabled()) {
 			logger.debug("getListOfSBMLElementsToWrite : " + sbase.getClass().getCanonicalName());
 		}
 		
-		ArrayList<Object> listOfElementsToWrite = new ArrayList<Object>();
+		List<Object> listOfElementsToWrite = new ArrayList<Object>();
 		
 		if (sbase instanceof Model) {
 			SBasePlugin modelPlugin = (SBasePlugin) ((Model) sbase).getExtension(getNamespaceURI());
@@ -126,11 +124,8 @@ public class L3LayoutParser extends AbstractReaderWriter {
 		return listOfElementsToWrite;
 	}
 
-	/**
-	 * 
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processStartElement(String
-	 *      elementName, String prefix, boolean hasAttributes, boolean
-	 *      hasNamespaces, Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processStartElement(java.lang.String, java.lang.String, boolean, boolean, java.lang.Object)
 	 */
 	// Create the proper object and link it to his parent.
 	@SuppressWarnings("unchecked")
@@ -316,8 +311,5 @@ public class L3LayoutParser extends AbstractReaderWriter {
 		}
 		return contextObject;
 	}
-
-	
-
 	
 }
