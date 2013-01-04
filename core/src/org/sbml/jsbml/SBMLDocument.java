@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2012 jointly by the following organizations:
+ * Copyright (C) 2009-2013 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -120,7 +120,7 @@ public class SBMLDocument extends AbstractSBase {
 	 * Contains all the namespaces of the sbml XML node and their prefixes.
 	 */
 	private Map<String, String> SBMLDocumentNamespaces;
-	
+
 	/**
 	 * Creates a {@link SBMLDocument} instance. By default, the parent SBML object of
 	 * this object is itself. The model is null. The SBMLDocumentAttributes and
@@ -167,7 +167,7 @@ public class SBMLDocument extends AbstractSBase {
 		this.SBMLDocumentAttributes = new HashMap<String, String>();
 		this.SBMLDocumentNamespaces = new HashMap<String, String>();
 		if (sb.isSetModel()) {
-		  // This will also cause that all metaIds are registered correctly.
+			// This will also cause that all metaIds are registered correctly.
 			setModel(sb.getModel().clone());
 		} else {
 			this.model = null;
@@ -368,7 +368,7 @@ public class SBMLDocument extends AbstractSBase {
 
 		return listOfErrors.getErrorCount();
 	}
-	
+
 	/**
 	 * Checks if the given meta identifier can be added in this {@link SBMLDocument} 
 	 * 's {@link #mappingFromMetaId2SBase}.
@@ -381,9 +381,9 @@ public class SBMLDocument extends AbstractSBase {
 	 */
 	private void checkMetaId(String metaId) {
 		if (containsMetaId(metaId)) {
-      logger.error(MessageFormat.format(
-        "An element with the metaid \"{0}\" is already present in the SBML document. The new element will not get added to it.",
-        metaId));
+			logger.error(MessageFormat.format(
+					"An element with the metaid \"{0}\" is already present in the SBML document. The new element will not get added to it.",
+					metaId));
 			throw new IllegalArgumentException(MessageFormat.format(
 					"Cannot set duplicate meta identifier \"{0}\".", metaId));
 		}
@@ -633,13 +633,13 @@ public class SBMLDocument extends AbstractSBase {
 	public int getNumErrors() {
 		return getErrorCount();
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public int getErrorCount() {
-	  return isSetListOfErrors() ? listOfErrors.getErrorCount() : 0;
+		return isSetListOfErrors() ? listOfErrors.getErrorCount() : 0;
 	}
 
 	/**
@@ -699,23 +699,23 @@ public class SBMLDocument extends AbstractSBase {
 		return model != null;
 	}
 
-  /**
-   * Randomly creates a new {@link String} that can be used as a metaid, i.e., a
-   * String that is a valid metaid and that is not yet used by any other element
-   * within this {@link SBMLDocument}.
-   * 
-   * @return
-   */
+	/**
+	 * Randomly creates a new {@link String} that can be used as a metaid, i.e., a
+	 * String that is a valid metaid and that is not yet used by any other element
+	 * within this {@link SBMLDocument}.
+	 * 
+	 * @return
+	 */
 	public String nextMetaId() {
-	  String currId;
-	  do {
-	    currId = UUID.randomUUID().toString();
-	    if (Character.isDigit(currId.charAt(0))) {
-	      // Add an underscore at the beginning of the new metaid only if necessary.
-	      currId = '_' + currId;
-	    }
-	  } while (containsMetaId(currId));
-	  return currId;
+		String currId;
+		do {
+			currId = UUID.randomUUID().toString();
+			if (Character.isDigit(currId.charAt(0))) {
+				// Add an underscore at the beginning of the new metaid only if necessary.
+				currId = '_' + currId;
+			}
+		} while (containsMetaId(currId));
+		return currId;
 	}
 
 	/**
@@ -785,14 +785,14 @@ public class SBMLDocument extends AbstractSBase {
 			if (add) {
 				return mappingFromMetaId2SBase.put(sbase.getMetaId(), sbase) == null;
 			} else {
-			  SBase old = mappingFromMetaId2SBase.get(sbase.getMetaId());
-			  if ((old != null) && (old != sbase)) {
-			    /* This check is needed because the given SBase might originate from a 
-			     * different Document or could be a clone of some other SBase registered
-			     * here.
-			     */
-			    return mappingFromMetaId2SBase.remove(sbase.getMetaId()) != null;
-			  }
+				SBase old = mappingFromMetaId2SBase.get(sbase.getMetaId());
+				if ((old != null) && (old != sbase)) {
+					/* This check is needed because the given SBase might originate from a 
+					 * different Document or could be a clone of some other SBase registered
+					 * here.
+					 */
+					return mappingFromMetaId2SBase.remove(sbase.getMetaId()) != null;
+				}
 			}
 		}
 		return false;
@@ -827,9 +827,9 @@ public class SBMLDocument extends AbstractSBase {
 		collectMetaIds(metaIds, sbase, recursively, delete);
 
 		if (delete) {
-      for (String key : metaIds.keySet()) {
-        mappingFromMetaId2SBase.remove(key);
-      }
+			for (String key : metaIds.keySet()) {
+				mappingFromMetaId2SBase.remove(key);
+			}
 		} else {
 			mappingFromMetaId2SBase.putAll(metaIds);
 		}		
@@ -1036,7 +1036,7 @@ public class SBMLDocument extends AbstractSBase {
 	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
-	  Map<String, String> attributes = super.writeXMLAttributes();
+		Map<String, String> attributes = super.writeXMLAttributes();
 
 		attributes.putAll(SBMLDocumentAttributes);
 
