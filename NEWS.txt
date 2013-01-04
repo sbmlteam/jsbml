@@ -1,7 +1,7 @@
 	       JSBML NEWS -- History of user-visible changes
 
 ======================================================================
-Version 1.0-rc1 (xx-xx-2012)
+Version 1.0-rc1 (xx-xx-2013)
 ======================================================================
 
 * New Features:
@@ -190,7 +190,7 @@ Version 1.0-rc1 (xx-xx-2012)
     map between ids and local parameters, instead of the remove method.
 
 ======================================================================
-Version 0.8.1 (xx-xx-2012)
+Version 0.8.1 (xx-xx-2013)
 ======================================================================
 
 * New Features:
