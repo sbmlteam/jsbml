@@ -62,6 +62,11 @@ public abstract class AbstractLayoutBuilder<P,NodeT,ArcT> implements LayoutBuild
 			return createSimpleChemical();
 		}
 		
+		// ion
+		if (SBO.isChildOf(sboTerm, SBO.getIon())) {
+			return createSimpleChemical();
+		}
+		
 		// macromolecule, 245
 		if (SBO.isChildOf(sboTerm, SBO.getMacromolecule())) {
 			return createMacromolecule();
