@@ -1056,7 +1056,9 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			if (nsbGlyph.isSetNamedSBase()) {
 				sboTerm = nsbGlyph.getNamedSBaseInstance().getSBOTerm();
 			}
-			if (SBO.isChildOf(sboTerm, SBO.getSimpleMolecule()) ||SBO.isChildOf(sboTerm, SBO.getEmptySet())) {
+			if (SBO.isChildOf(sboTerm, SBO.getSimpleMolecule()) ||
+					SBO.isChildOf(sboTerm, SBO.getIon()) ||
+					SBO.isChildOf(sboTerm, SBO.getEmptySet())) {
 				// the glyph is a circle: height==width
 				if (width != height) {
 //					dimension.setWidth(height);
@@ -1071,9 +1073,9 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 				}
 			}
 		} else if (glyph instanceof ReactionGlyph) {
-			if (width != height) {
-				dimension.setWidth(height);
-			}
+//			if (width != height) {
+//				dimension.setWidth(height);
+//			}
 		} else if (glyph instanceof CompartmentGlyph) {
 			
 		} else if (glyph instanceof TextGlyph) {
