@@ -93,7 +93,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		 */
 		UNDEFINED;
 	}
-	
+
 	/**
 	 * Logger
 	 */
@@ -122,7 +122,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	protected static RelativePosition getRelativePosition(BoundingBox startGlyphBB, BoundingBox endGlyphBB) {
 		double startX = 0d, startY = 0d;
 		double endX = 0d, endY = 0d;
-		
+
 		Point posStart = startGlyphBB.getPosition();
 		Point posEnd = endGlyphBB.getPosition();
 		String error = "No coordinates given for the position of {0} bounding box ";
@@ -138,7 +138,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		} else {
 			logger.warning(MessageFormat.format(error, "end"));
 		}
-		
+
 		if (endX < startX) { // the start point is right, above or below the end point
 			if ((endY > startY) || (endY == startY)) {
 				if ((startX - endX) >= (endY - startY) || (endY == startY)) {
@@ -385,14 +385,18 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * @param specRef
 	 * @return
 	 */
-	protected Point calculateReactionGlyphDockingPointForSpecies(ReactionGlyph reacGlyph, double rotationAngle, SpeciesReferenceGlyph specRef) {
+	protected Point calculateReactionGlyphDockingPoint(ReactionGlyph reacGlyph, double rotationAngle, SpeciesReferenceGlyph specRef) {
 		Point dockingPointToSubstrate = new Point(layout.getLevel(), layout.getVersion());
 		Point dockingPointToProduct = new Point(layout.getLevel(), layout.getVersion());
 		Point dockingPointOtherLeft = new Point(layout.getLevel(), layout.getVersion());
 		Point dockingPointOtherRight = new Point(layout.getLevel(), layout.getVersion());
-		
+
 		Point reactionCenterPosition = calculateCenter(reacGlyph);
-		
+		if(reacGlyph.getReactionInstance().getId().equals("r1088")) {
+			System.out.println(); //TODO
+		}
+		correctDimensions(reacGlyph);
+
 		RelativePosition modifierPosition = getRelativePosition(reacGlyph.getBoundingBox(), specRef.getSpeciesGlyphInstance().getBoundingBox());
 
 		double rotationAngle_new = correctRotationAngle(rotationAngle);
@@ -406,7 +410,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		double otherB = Math.abs(Math.cos(Math.toRadians(90 - rotationAngle_new))) * h;
 
 		//TODO
-		
+
 		if (rotationAngle >= 0 && rotationAngle < 90) {
 			// b is the width and a the height
 			dockingPointToSubstrate.setX(reactionCenterPosition.getX() - b);
@@ -416,15 +420,15 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			dockingPointToProduct.setX(reactionCenterPosition.getX() + b);
 			dockingPointToProduct.setY(reactionCenterPosition.getY() + a);
 			dockingPointToProduct.setZ(reactionCenterPosition.getZ());
-			
+
 			dockingPointOtherLeft.setX(reactionCenterPosition.getX() - otherA);
 			dockingPointOtherLeft.setY(reactionCenterPosition.getY() + otherB);
 			dockingPointOtherLeft.setZ(reactionCenterPosition.getZ());
-			
+
 			dockingPointOtherRight.setX(reactionCenterPosition.getX() + otherA);
 			dockingPointOtherRight.setY(reactionCenterPosition.getY() - otherB);
 			dockingPointOtherRight.setZ(reactionCenterPosition.getZ());
-			
+
 		} else if (rotationAngle >= 90 && rotationAngle <180) {
 			// a is the width and b the height
 			dockingPointToSubstrate.setX(reactionCenterPosition.getX() + a);
@@ -434,15 +438,15 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			dockingPointToProduct.setX(reactionCenterPosition.getX() - a);
 			dockingPointToProduct.setY(reactionCenterPosition.getY() + b);
 			dockingPointToProduct.setZ(reactionCenterPosition.getZ());
-			
+
 			dockingPointOtherLeft.setX(reactionCenterPosition.getX() - otherA);
 			dockingPointOtherLeft.setY(reactionCenterPosition.getY() + otherB);
 			dockingPointOtherLeft.setZ(reactionCenterPosition.getZ());
-			
+
 			dockingPointOtherRight.setX(reactionCenterPosition.getX() + otherA);
 			dockingPointOtherRight.setY(reactionCenterPosition.getY() - otherB);
 			dockingPointOtherRight.setZ(reactionCenterPosition.getZ());
-			
+
 		} else if (rotationAngle >= 180 && rotationAngle <270) {
 			// b is the width and a the height
 			dockingPointToSubstrate.setX(reactionCenterPosition.getX() + b);
@@ -452,15 +456,15 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			dockingPointToProduct.setX(reactionCenterPosition.getX() - b);
 			dockingPointToProduct.setY(reactionCenterPosition.getY() - a);
 			dockingPointToProduct.setZ(reactionCenterPosition.getZ());
-			
+
 			dockingPointOtherLeft.setX(reactionCenterPosition.getX() - otherB);
 			dockingPointOtherLeft.setY(reactionCenterPosition.getY() - otherA);
 			dockingPointOtherLeft.setZ(reactionCenterPosition.getZ());
-			
+
 			dockingPointOtherRight.setX(reactionCenterPosition.getX() + otherB);
 			dockingPointOtherRight.setY(reactionCenterPosition.getY() + otherA);
 			dockingPointOtherRight.setZ(reactionCenterPosition.getZ());
-			
+
 		} else {
 			// a is the width and b the height
 			dockingPointToSubstrate.setX(reactionCenterPosition.getX() - a);
@@ -470,22 +474,22 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			dockingPointToProduct.setX(reactionCenterPosition.getX() + a);
 			dockingPointToProduct.setY(reactionCenterPosition.getY() - b);
 			dockingPointToProduct.setZ(reactionCenterPosition.getZ());
-			
+
 			dockingPointOtherLeft.setX(reactionCenterPosition.getX() + otherA);
 			dockingPointOtherLeft.setY(reactionCenterPosition.getY() - otherB);
 			dockingPointOtherLeft.setZ(reactionCenterPosition.getZ());
-			
+
 			dockingPointOtherRight.setX(reactionCenterPosition.getX() - otherA);
 			dockingPointOtherRight.setY(reactionCenterPosition.getY() + otherB);
 			dockingPointOtherRight.setZ(reactionCenterPosition.getZ());
-			
+
 		}
 
 		/*
 		 * Check which docking position is needed to be returned
 		 */
 		SpeciesReferenceRole specRefRole = specRef.getSpeciesReferenceRole();
-		
+
 		if (specRefRole.equals(SpeciesReferenceRole.SUBSTRATE) ||
 				specRefRole.equals(SpeciesReferenceRole.SIDESUBSTRATE)) {
 			return dockingPointToSubstrate;
@@ -612,23 +616,23 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			// TODO fall back to another positioning mechanism
 			return new Position(new Point(0, 0, 0, level, version));
 		}
-		
+
 		Point substrateCenter = calculateCenter(substrate);
 		Point productCenter = calculateCenter(product);
 		Dimensions rgDimensions = reactionGlyph.getBoundingBox().getDimensions();
-		
+
 		Point center = calculateCenterOfPoints(substrateCenter, productCenter);
 		Point upperLeft = new Point(center.getX() - rgDimensions.getWidth()/2,
-			center.getY() - rgDimensions.getHeight()/2,
-			center.getZ() - rgDimensions.getDepth()/2,
-			level, version);
+				center.getY() - rgDimensions.getHeight()/2,
+				center.getZ() - rgDimensions.getDepth()/2,
+				level, version);
 		logger.fine("substrate center is " + substrateCenter.toString());
 		logger.fine("product center is " + productCenter.toString());
 		logger.fine("center is " + center.toString());
 		logger.fine("upper left is " + upperLeft.toString());
 		return upperLeft;
 	}
-	
+
 	/**
 	 * @param substrateCenter
 	 * @param productCenter
@@ -651,13 +655,13 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		double x = 0;
 		double y = 0;
 		double z = 0;
-		
+
 		List<SpeciesReferenceGlyph> curveList = new ArrayList<SpeciesReferenceGlyph>();
 		List<SpeciesReferenceGlyph> speciesGlyphList = new ArrayList<SpeciesReferenceGlyph>();
 
 		List<SpeciesReferenceGlyph> speciesReferenceGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
 		for (SpeciesReferenceGlyph specRefGlyph : speciesReferenceGlyphList) {
-			
+
 			// is useful, because of the cases below: if the curve is set or not
 			// you have to draw the curve if its set and if not you have to figure out
 			// where you have to draw the curve.
@@ -668,7 +672,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 					speciesGlyphList.add(specRefGlyph);
 				}
 			}
-			
+
 		}
 
 		Point substratePosition;
@@ -705,16 +709,9 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			// TODO fall back to another positioning mechanism
 			return new Position(new Point(x, y, z, level, version));
 		}
-		
+
 		Point substratePointOfMiddle = calculateCenter(substrate);
 		Point productPointOfMiddle = calculateCenter(product);
-
-		Position dockingPositionProduct = calculateSpeciesGlyphDockingPosition(productPointOfMiddle, relativeProductPosition, product);
-		Position dockingPositionSubstrate = calculateSpeciesGlyphDockingPosition(substratePointOfMiddle, relativeSubstratePosition, substrate);
-		assert dockingPositionProduct != null;
-		assert dockingPositionSubstrate != null;
-		logger.fine(MessageFormat.format("dock pos product: {0} dock pos substrate: {0}",
-				dockingPositionProduct, dockingPositionSubstrate));
 
 		if (curveList.size() >= speciesGlyphList.size()) {
 			if (relativeProductPosition.equals(RelativePosition.ABOVE)) {
@@ -738,13 +735,13 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			}
 		} else {
 			// the computation of the position is equal for every relativePosition (left,right,above,below and undefined)
-			x = ((Math.max(dockingPositionProduct.getX(), dockingPositionSubstrate.getX())
-					- Math.min(dockingPositionProduct.getX(), dockingPositionSubstrate.getX())) 
-					/ 2d) + Math.min(dockingPositionProduct.getX(), dockingPositionSubstrate.getX()) - (reacGlyphDimension.getWidth() / 2d);
-			y = ((Math.max(dockingPositionProduct.getY(), dockingPositionSubstrate.getY()) - Math.min(dockingPositionProduct.getY(), dockingPositionSubstrate.getY()))
-					/ 2d) + Math.min(dockingPositionProduct.getY(), dockingPositionSubstrate.getY()) - (reacGlyphDimension.getHeight() / 2d);
-			z = ((Math.max(dockingPositionProduct.getZ(), dockingPositionSubstrate.getZ()) - Math.min(dockingPositionProduct.getZ(), dockingPositionSubstrate.getZ()))
-					/ 2d) + Math.min(dockingPositionProduct.getZ(), dockingPositionSubstrate.getZ()) - (reacGlyphDimension.getDepth() / 2d);
+			x = ((Math.max(productPointOfMiddle.getX(), substratePointOfMiddle.getX())
+					- Math.min(productPointOfMiddle.getX(), substratePointOfMiddle.getX())) 
+					/ 2d) + Math.min(productPointOfMiddle.getX(), substratePointOfMiddle.getX()) - (reacGlyphDimension.getWidth() / 2d);
+			y = ((Math.max(productPointOfMiddle.getY(), substratePointOfMiddle.getY()) - Math.min(productPointOfMiddle.getY(), substratePointOfMiddle.getY()))
+					/ 2d) + Math.min(productPointOfMiddle.getY(), substratePointOfMiddle.getY()) - (reacGlyphDimension.getHeight() / 2d);
+			z = ((Math.max(productPointOfMiddle.getZ(), substratePointOfMiddle.getZ()) - Math.min(productPointOfMiddle.getZ(), substratePointOfMiddle.getZ()))
+					/ 2d) + Math.min(productPointOfMiddle.getZ(), substratePointOfMiddle.getZ()) - (reacGlyphDimension.getDepth() / 2d);
 		}
 
 		return new Position(new Point(x, y, z, level, version));
@@ -830,25 +827,21 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 
 			if ((substrate == null) || (product == null)) {
 				logger.warning(MessageFormat.format(
-					"Cannot find product or substrate in list of species reference glyphs for reaction glyph {0}",
-					reactionGlyph.getId()));
+						"Cannot find product or substrate in list of species reference glyphs for reaction glyph {0}",
+						reactionGlyph.getId()));
 				return rotationAngle;
 			}
-			
-			// compute the central points
-			Point substrateCentralPoint = calculateCenter(substrate);
-			Point productCentralPoint = calculateCenter(product);
-			
-			// get the relative positions
-			//			RelativePosition productRelativePosition = getRelativePosition(substrate.getBoundingBox(), product.getBoundingBox());
-			//			RelativePosition substrateRelativePosition = getRelativePosition(product.getBoundingBox(), substrate.getBoundingBox());
-			
-			// compute the docking positions and give them in the calculation of the rotation angle
-			//			Point substrateDockingPoint = calculateSpeciesGlyphDockingPosition(substrateCentralPoint, substrateRelativePosition, substrate);
-			//			Point productDockingPoint = calculateSpeciesGlyphDockingPosition(productCentralPoint, productRelativePosition, product);
-			
-			//			rotationAngle = calculateRotationAngle(substrateDockingPoint, productDockingPoint);
-			rotationAngle = calculateRotationAngle(substrateCentralPoint, productCentralPoint);
+
+			/*
+			 * compute the central points:
+			 * If you change the first Point (firstCentralPoint) into substrate central point
+			 * you get a false angle when the user wants a specific position 
+			 * for the reaction
+			 */
+			Point firstCentralPoint = calculateCenter(reactionGlyph); 
+			Point secondCentralPoint = calculateCenter(product);
+
+			rotationAngle = calculateRotationAngle(firstCentralPoint, secondCentralPoint);
 		}
 		return rotationAngle;
 	}
@@ -868,16 +861,16 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		double x = endPoint.getX() - startPoint.getX();
 		double y = endPoint.getY() - startPoint.getY();
 		rotationAngle = Math.toDegrees(Math.atan(y/x));
-		
+
 		if (endPoint.getX() < startPoint.getX()) {
 			rotationAngle += 180;
 		} else if (endPoint.getY() < startPoint.getY()) {
 			rotationAngle += 360;
 		}
-		
+
 		logger.fine(MessageFormat.format("start: {0} end: {1} deltaX: {2} deltaY: {3} rotation: {4}",
 				startPoint, endPoint, x, y, rotationAngle));
-		
+
 		return rotationAngle;
 	}
 
@@ -939,16 +932,16 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			double rotationAngle, SpeciesReferenceRole specRole) {
 		double xCoordinate = 0;
 		double yCoordinate = 0;
-		
+
 		double rotationAngleCorrected = correctRotationAngle(rotationAngle);
 		if (specRole.equals(SpeciesReferenceRole.PRODUCT) ||
 				specRole.equals(SpeciesReferenceRole.SIDEPRODUCT)) {
 			c = -c ;
 		}
-		
+
 		double a = c * Math.abs(Math.sin(Math.toRadians(rotationAngleCorrected)));
 		double b = c * Math.abs(Math.cos(Math.toRadians(rotationAngleCorrected)));
-		//TODO
+
 		if (rotationAngle >= 0 && rotationAngle < 90) {
 			xCoordinate = x + b;
 			yCoordinate = y + a;
@@ -1051,36 +1044,39 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		double width = dimension.getWidth();
 		double height = dimension.getHeight();
 		if (glyph instanceof NamedSBaseGlyph) {
-			NamedSBaseGlyph nsbGlyph = (NamedSBaseGlyph) glyph; 
-			int sboTerm = -1;
-			if (nsbGlyph.isSetNamedSBase()) {
-				sboTerm = nsbGlyph.getNamedSBaseInstance().getSBOTerm();
-			}
-			if (SBO.isChildOf(sboTerm, SBO.getSimpleMolecule()) ||
-					SBO.isChildOf(sboTerm, SBO.getIon()) ||
-					SBO.isChildOf(sboTerm, SBO.getEmptySet())) {
-				// the glyph is a circle: height==width
+			if (glyph instanceof ReactionGlyph) {
 				if (width != height) {
-//					dimension.setWidth(height);
-					bb.createDimensions(height, height, 0);
+					Dimensions dim = createReactionGlyphDimension((ReactionGlyph) glyph);
+					dimension.setWidth(dim.getWidth());
+					dimension.setHeight(dim.getHeight());
 				}
-			} else  { 
-				// height must be bigger or equal the width
-				if (width < height) {
-					// change the both values
-					dimension.setWidth(height);
-					dimension.setHeight(width);
+			} else if (glyph instanceof CompartmentGlyph) {
+
+			} else if (glyph instanceof TextGlyph) {
+
+			} else {
+				NamedSBaseGlyph nsbGlyph = (NamedSBaseGlyph) glyph; 
+				int sboTerm = -1;
+				if (nsbGlyph.isSetNamedSBase()) {
+					sboTerm = nsbGlyph.getNamedSBaseInstance().getSBOTerm();
+				}
+				if (SBO.isChildOf(sboTerm, SBO.getSimpleMolecule()) ||
+						SBO.isChildOf(sboTerm, SBO.getIon()) ||
+						SBO.isChildOf(sboTerm, SBO.getEmptySet())) {
+					// the glyph is a circle: height==width
+					if (width != height) {
+						//					dimension.setWidth(height);
+						bb.createDimensions(height, height, 0);
+					}
+				} else  { 
+					// height must be bigger or equal the width
+					if (width < height) {
+						// change the both values
+						dimension.setWidth(height);
+						dimension.setHeight(width);
+					}
 				}
 			}
-		} else if (glyph instanceof ReactionGlyph) {
-//			if (width != height) {
-//				dimension.setWidth(height);
-//			}
-		} else if (glyph instanceof CompartmentGlyph) {
-			
-		} else if (glyph instanceof TextGlyph) {
-			
 		}
 	}
-	
 }
