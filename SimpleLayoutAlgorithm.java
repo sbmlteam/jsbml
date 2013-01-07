@@ -392,9 +392,6 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		Point dockingPointOtherRight = new Point(layout.getLevel(), layout.getVersion());
 
 		Point reactionCenterPosition = calculateCenter(reacGlyph);
-		if(reacGlyph.getReactionInstance().getId().equals("r1088")) {
-			System.out.println(); //TODO
-		}
 		correctDimensions(reacGlyph);
 
 		RelativePosition modifierPosition = getRelativePosition(reacGlyph.getBoundingBox(), specRef.getSpeciesGlyphInstance().getBoundingBox());
