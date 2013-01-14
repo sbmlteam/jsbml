@@ -16,6 +16,7 @@
  */
 package de.zbit.sbml.layout;
 
+import org.sbml.jsbml.ext.layout.LineSegment;
 import org.sbml.jsbml.ext.layout.Point;
 
 /**
@@ -39,6 +40,16 @@ public abstract class AssociationNode<T> implements SBGNNode<T> {
 	public abstract T draw(double x, double y, double z, double width, double height,
 			double depth);
 
+	
+	/**
+	 * Method to draw a short line from the {@link AssociationNode} to the product
+	 * or the substrate. For both lines you have to call this method twice.
+	 * @param segment
+	 * @return
+	 */
+	public abstract String drawLineSegment(LineSegment lineSegment, double rotationAngle, Point rotationCenter);
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * @see de.zbit.sbml.layout.SBGNNode#setCloneMarker()
