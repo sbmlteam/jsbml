@@ -1,6 +1,6 @@
 /*
  * $Id: DissociationNode.java 15:43:53 Meike Aichele$
- * $URL: https://rarepos.cs.uni-tuebingen.de/svn-path/SysBio/trunk/src/de/zbit/sbml/layout/DissociationNode.java $
+ * $URL$
  * ---------------------------------------------------------------------
  * This file is part of the SysBio API library.
  *

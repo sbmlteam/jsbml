@@ -1,6 +1,6 @@
 /*
  * $Id: UncertainProcessNode.java 15:44:17 Meike Aichele$
- * $URL: https://rarepos.cs.uni-tuebingen.de/svn-path/SysBio/trunk/src/de/zbit/sbml/layout/UncertainProcessNode.java $
+ * $URL$
  * ---------------------------------------------------------------------
  * This file is part of the SysBio API library.
  *
