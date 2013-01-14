@@ -406,7 +406,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		double otherA = Math.abs(Math.sin(Math.toRadians(90 - rotationAngle_new))) * h;
 		double otherB = Math.abs(Math.cos(Math.toRadians(90 - rotationAngle_new))) * h;
 
-		//TODO
+		//TODO: make it shorter
 
 		if (rotationAngle >= 0 && rotationAngle < 90) {
 			// b is the width and a the height
@@ -955,6 +955,66 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		return new Point(xCoordinate, yCoordinate, z, level, version);
 	}
 
+
+	/**
+	 * 
+	 * @param specGlyph 
+	 * @param middleOfSpecies 
+	 * @param reactionPosition
+	 * @return
+	 */
+	public Point calculateDockingForQuadraticSpecies(Point middleOfSpecies, 
+			SpeciesGlyph specGlyph, Point reactionPosition) {
+		
+		Point dockingPoint = new Point(level, version);
+		
+		double reacX = reactionPosition.getX();
+		double reacY = reactionPosition.getY();
+		double specX = middleOfSpecies.getX();
+		double specY = middleOfSpecies.getY();
+		double width = specGlyph.getBoundingBox().getDimensions().getWidth();
+		double height = specGlyph.getBoundingBox().getDimensions().getHeight();
+		
+		if(((specY + (height/2)) >= reacY ||
+				(specY - (height/2)) >= reacY) && specX != reacX) {
+			//the reactionGlyph is left or right of the species
+			double b = (width/2); 
+			double a = (Math.abs(specY - reacY) * b) / Math.abs(specX - reacX);
+			if(specX == reacX){
+				a=0;
+			}
+			if(specX < reacX) {
+				// reac is right
+				dockingPoint.setX(specX + b);
+			} else {
+				// reac is left
+				dockingPoint.setX(specX - b);
+			}
+			if (specY <= reacY) {
+				dockingPoint.setY(specY + a); 
+			} else {
+				dockingPoint.setY(specY - a); 
+			}
+		} else {
+			//the reactionGlyph is above or below the species
+			double a = (height/2);
+			double b = (Math.abs(specY - reacY) * Math.abs(specX - reacX)) / a;
+			if(specY < reacY) {
+				// spec is above
+				dockingPoint.setY(specY + a);
+			} else {
+				dockingPoint.setY(specY - a);
+			}
+			if (specX <= reacX) {
+				dockingPoint.setX(specX + b);
+			} else {
+				dockingPoint.setX(specX - b);
+			}
+		}
+		dockingPoint.setZ(0.0);
+		return dockingPoint;
+	}
+	
 	/**
 	 * Creates a {@link BoundingBox} with the level and version of this layout.
 	 * @return BoundingBox
