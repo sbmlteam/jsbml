@@ -945,7 +945,14 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		double height = specGlyph.getBoundingBox().getDimensions().getHeight();
 		int sboTerm = specGlyph.getSpeciesInstance().getSBOTerm();
 		
-		double t = calculateReactionGlyphRotationAngle(reactionGlyph);
+		// computing angle
+		double t = 0;
+		if(specRefRole.equals(SpeciesReferenceRole.PRODUCT) ||
+				specRefRole.equals(SpeciesReferenceRole.SIDEPRODUCT)) {
+			t = calculateRotationAngle(calculateCenter(reactionGlyph), middleOfSpecies);
+		} else {
+			t = calculateRotationAngle(middleOfSpecies, calculateCenter(reactionGlyph));
+		}
 		
 		if(SBO.isChildOf(sboTerm, SBO.getUnknownMolecule()) ||
 				!specGlyph.getSpeciesInstance().isSetSBOTerm()) {
