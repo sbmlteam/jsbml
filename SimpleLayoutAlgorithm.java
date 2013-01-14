@@ -110,11 +110,12 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	/**
 	 * method calculates the relative position of the second bounding box with
 	 * respect to the first bounding box
-	 * - ABOVE: middle of the second bounding box is directly above the middle of the first bounding box
-	 * - BELOW: middle of the second bounding box is directly below the middle of the first bounding box
-	 * - LEFT: middle of the second bounding box is directly left of the middle of the first bounding box
-	 * - RIGHT: middle of the second bounding box is directly right of the middle of the first bounding box
-	 * 
+	 * <ul>
+	 * <li> ABOVE: middle of the second bounding box is directly above the middle of the first bounding box </li>
+	 * <li> BELOW: middle of the second bounding box is directly below the middle of the first bounding box </li>
+	 * <li> LEFT: middle of the second bounding box is directly left of the middle of the first bounding box </li>
+	 * <li> RIGHT: middle of the second bounding box is directly right of the middle of the first bounding box </li>
+	 * </ul>
 	 * @param startGlyphBB
 	 * @param endGlyphBB
 	 * @return RelativePosition
@@ -872,13 +873,18 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	}
 
 	/**
+	 * Attention: We changed the dockingPoints, now it's not only left, right, above and below, so
+	 * please use {@link SimpleLayoutAlgorithm#calculateSpeciesGlyphDockingPosition} instead.
+	 * <br>
+	 * <br>
 	 * Computes the position of the {@link SpeciesGlyph} of interest and gives back the docking {@link Position} for the curve.
 	 * @param positionOfInterest 
 	 * @param relativeSpeciesGlyphPosition
 	 * @param specGlyph
 	 * @return Position
 	 */
-	protected Position calculateSpeciesGlyphDockingPosition(Point middleOfSpecies, RelativePosition relativeSpeciesGlyphPosition,
+	@Deprecated
+	protected Position calculateOldSpeciesGlyphDockingPosition(Point middleOfSpecies, RelativePosition relativeSpeciesGlyphPosition,
 			SpeciesGlyph specGlyph) {
 
 		Position dockingPosition = null;
@@ -915,8 +921,63 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		return dockingPosition;
 	}
 
+	
+
+
 	/**
-	 * 
+	 * Computes the position of the {@link SpeciesGlyph} of interest and gives back the docking {@link Point} for the curve.
+	 * @param middleOfSpecies
+	 * @param reactionGlyph
+	 * @param relativeSpeciesGlyphPosition
+	 * @param specGlyph
+	 * @return dockingPoint
+	 */
+	protected Point calculateSpeciesGlyphDockingPosition(Point middleOfSpecies,
+			ReactionGlyph reactionGlyph, SpeciesReferenceRole specRefRole, SpeciesGlyph specGlyph) {
+		Point dockingPoint = null;
+		
+
+		// the coordinates of the species glyph
+		double x = middleOfSpecies.getX();
+		double y = middleOfSpecies.getY();
+		double z = middleOfSpecies.getZ();
+		double width = specGlyph.getBoundingBox().getDimensions().getWidth();
+		double height = specGlyph.getBoundingBox().getDimensions().getHeight();
+		int sboTerm = specGlyph.getSpeciesInstance().getSBOTerm();
+		
+		double t = calculateReactionGlyphRotationAngle(reactionGlyph);
+		
+		if(SBO.isChildOf(sboTerm, SBO.getUnknownMolecule()) ||
+				!specGlyph.getSpeciesInstance().isSetSBOTerm()) {
+			// species is an ellipse
+			double xCoordinate = 0;
+			double yCoordinate = 0;
+			double tant = (Math.tan(t) * (width/2d)) / (height/2d);
+			double phi = Math.atan(tant);
+			if (specRefRole.equals(SpeciesReferenceRole.PRODUCT) ||
+					specRefRole.equals(SpeciesReferenceRole.SIDEPRODUCT)) {
+				xCoordinate = x - Math.cos(Math.toRadians(phi)) * (width/2d) ;
+				yCoordinate = y - Math.sin(Math.toRadians(phi)) * (height/2d) ;
+			} else {
+				xCoordinate = x + Math.cos(Math.toRadians(phi)) * (width/2d) ;
+				yCoordinate = y + Math.sin(Math.toRadians(phi)) * (height/2d) ;
+			}
+			dockingPoint = new Point(xCoordinate, yCoordinate, z, level, version);
+		} else if (SBO.isChildOf(sboTerm, SBO.getSimpleMolecule()) || 
+				SBO.isChildOf(sboTerm, SBO.getEmptySet())) {
+			//species is round
+			double c = height/2d;
+			dockingPoint = calculateDockingForRoundSpecies(x, y, z, c, t, specRefRole);
+		} else {
+			// species is not round or an ellipse
+			dockingPoint = calculateDockingForQuadraticSpecies(middleOfSpecies, specGlyph, calculateCenter(reactionGlyph));
+		}
+		return new Position(dockingPoint);
+	}
+	
+	
+	/**
+	 * Calculates the docking position/ point for round species
 	 * @param x
 	 * @param y
 	 * @param z
@@ -957,11 +1018,11 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 
 
 	/**
-	 * 
+	 * Calculates the docking position for quadratic species with the equation of Thales.
 	 * @param specGlyph 
 	 * @param middleOfSpecies 
 	 * @param reactionPosition
-	 * @return
+	 * @return dockingPoint
 	 */
 	public Point calculateDockingForQuadraticSpecies(Point middleOfSpecies, 
 			SpeciesGlyph specGlyph, Point reactionPosition) {
