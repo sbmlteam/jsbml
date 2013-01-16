@@ -1,0 +1,330 @@
+package org.sbml.jsbml.ext.comp;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.tree.TreeNode;
+
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.ext.AbstractSBasePlugin;
+
+public class CompSBMLDocumentPlugin extends AbstractSBasePlugin {
+
+	
+	// TODO : add listOfExternalModelDefinitions
+	
+	// TODO : add listOfModelDefinitions
+	
+	/**
+	 * Returns {@code true}, if listOfExternalModelDefinitions contains at least one element.
+	 *
+	 * @return {@code true}, if listOfExternalModelDefinitions contains at least one element, 
+	 *         otherwise {@code false}
+	 */
+	public boolean isSetListOfExternalModelDefinitions() {
+		if ((listOfExternalModelDefinitions == null) || listOfExternalModelDefinitions.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Returns the listOfExternalModelDefinitions. Creates it if it is not already existing.
+	 *
+	 * @return the listOfExternalModelDefinitions
+	 */
+	public ListOf<ExternalModelDefinition> getListOfExternalModelDefinitions() {
+		if (!isSetListOfExternalModelDefinitions()) {
+			listOfExternalModelDefinitions = new ListOf<ExternalModelDefinition>(extendedSBase.getLevel(),
+					extendedSBase.getVersion());
+			listOfExternalModelDefinitions.addNamespace(CompConstant.namespaceURI);
+			listOfExternalModelDefinitions.setSBaseListType(ListOf.Type.other);
+			extendedSBase.registerChild(listOfExternalModelDefinitions);
+		}
+		return listOfExternalModelDefinitions;
+	}
+
+	/**
+	 * Sets the given {@code ListOf<ExternalModelDefinition>}. If listOfExternalModelDefinitions
+	 * was defined before and contains some elements, they are all unset.
+	 *
+	 * @param listOfExternalModelDefinitions
+	 */
+	public void setListOfExternalModelDefinitions(ListOf<ExternalModelDefinition> listOfExternalModelDefinitions) {
+		unsetListOfExternalModelDefinitions();
+		this.listOfExternalModelDefinitions = listOfExternalModelDefinitions;
+		extendedSBase.registerChild(this.listOfExternalModelDefinitions);
+	}
+
+	/**
+	 * Returns {@code true}, if listOfExternalModelDefinitions contain at least one element, 
+	 *         otherwise {@code false}
+	 *
+	 * @return {@code true}, if listOfExternalModelDefinitions contain at least one element, 
+	 *         otherwise {@code false}
+	 */
+	public boolean unsetListOfExternalModelDefinitions() {
+		if (isSetListOfExternalModelDefinitions()) {
+			ListOf<ExternalModelDefinition> oldExternalModelDefinitions = this.listOfExternalModelDefinitions;
+			this.listOfExternalModelDefinitions = null;
+			oldExternalModelDefinitions.fireNodeRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Adds a new {@link ExternalModelDefinition} to the listOfExternalModelDefinitions.
+	 * <p>The listOfExternalModelDefinitions is initialized if necessary.
+	 *
+	 * @param externalModelDefinition the element to add to the list
+	 * @return true (as specified by {@link Collection.add})
+	 */
+	public boolean addExternalModelDefinition(ExternalModelDefinition externalModelDefinition) {
+		return getListOfExternalModelDefinitions().add(externalModelDefinition);
+	}
+
+	/**
+	 * Removes an element from the listOfExternalModelDefinitions.
+	 *
+	 * @param externalModelDefinition the element to be removed from the list
+	 * @return true if the list contained the specified element
+	 * @see List#remove(Object)
+	 */
+	public boolean removeExternalModelDefinition(ExternalModelDefinition externalModelDefinition) {
+		if (isSetListOfExternalModelDefinitions()) {
+			return getListOfExternalModelDefinitions().remove(externalModelDefinition);
+		}
+		return false;
+	}
+
+	/**
+	 * Removes an element from the listOfExternalModelDefinitions at the given index.
+	 *
+	 * @param i the index where to remove the {@link ExternalModelDefinition}
+	 * @throws IndexOutOfBoundsException if the listOf is not set or
+	 * if the index is out of bound (index < 0 || index > list.size)
+	 */
+	public void removeExternalModelDefinition(int i) {
+		if (!isSetListOfExternalModelDefinitions()) {
+			throw new IndexOutOfBoundsException(Integer.toString(i));
+		}
+		getListOfExternalModelDefinitions().remove(i);
+	}
+
+	/**
+	 * TODO: if the ID is mandatory for ExternalModelDefinition objects, 
+	 * one should also add this methods
+	 */
+	//public void removeExternalModelDefinition(String id) {
+	//  getListOfExternalModelDefinitions().removeFirst(new NameFilter(id));
+	//}
+
+	/**
+	 * Creates a new ExternalModelDefinition element and adds it to the ListOfExternalModelDefinitions list
+	 */
+	public ExternalModelDefinition createExternalModelDefinition() {
+		return createExternalModelDefinition(null);
+	}
+
+	/**
+	 * Creates a new {@link ExternalModelDefinition} element and adds it to the ListOfExternalModelDefinitions list
+	 *
+	 * @return a new {@link ExternalModelDefinition} element
+	 */
+	public ExternalModelDefinition createExternalModelDefinition(String id) {
+		ExternalModelDefinition externalModelDefinition = new ExternalModelDefinition(id, extendedSBase.getLevel(), extendedSBase.getVersion());
+		addExternalModelDefinition(externalModelDefinition);
+		return externalModelDefinition;
+	}
+
+	/**
+	 * TODO: optionally, create additional create methods with more
+	 * variables, for instance "bar" variable
+	 */
+	// public ExternalModelDefinition createExternalModelDefinition(String id, int bar) {
+	//   ExternalModelDefinition externalModelDefinition = createExternalModelDefinition(id);
+	//   externalModelDefinition.setBar(bar);
+	//   return externalModelDefinition;
+	// }
+
+	
+	/**
+	 * Returns {@code true}, if listOfModelDefinitions contains at least one element.
+	 *
+	 * @return {@code true}, if listOfModelDefinitions contains at least one element, 
+	 *         otherwise {@code false}
+	 */
+	public boolean isSetListOfModelDefinitions() {
+		if ((listOfModelDefinitions == null) || listOfModelDefinitions.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Returns the listOfModelDefinitions. Creates it if it is not already existing.
+	 *
+	 * @return the listOfModelDefinitions
+	 */
+	public ListOf<Model> getListOfModelDefinitions() {
+		if (!isSetListOfModelDefinitions()) {
+			listOfModelDefinitions = new ListOf<Model>(extendedSBase.getLevel(),
+					extendedSBase.getVersion());
+			listOfModelDefinitions.addNamespace(CompConstant.namespaceURI);
+			listOfModelDefinitions.setSBaseListType(ListOf.Type.other);
+			extendedSBase.registerChild(listOfModelDefinitions);
+		}
+		return listOfModelDefinitions;
+	}
+
+	/**
+	 * Sets the given {@code ListOf<ModelDefinition>}. If listOfModelDefinitions
+	 * was defined before and contains some elements, they are all unset.
+	 *
+	 * @param listOfModelDefinitions
+	 */
+	public void setListOfModelDefinitions(ListOf<Model> listOfModelDefinitions) {
+		unsetListOfModelDefinitions();
+		this.listOfModelDefinitions = listOfModelDefinitions;
+		extendedSBase.registerChild(this.listOfModelDefinitions);
+	}
+
+	/**
+	 * Returns {@code true}, if listOfModelDefinitions contain at least one element, 
+	 *         otherwise {@code false}
+	 *
+	 * @return {@code true}, if listOfModelDefinitions contain at least one element, 
+	 *         otherwise {@code false}
+	 */
+	public boolean unsetListOfModelDefinitions() {
+		if (isSetListOfModelDefinitions()) {
+			ListOf<Model> oldModelDefinitions = this.listOfModelDefinitions;
+			this.listOfModelDefinitions = null;
+			oldModelDefinitions.fireNodeRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Adds a new {@link ModelDefinition} to the listOfModelDefinitions.
+	 * <p>The listOfModelDefinitions is initialized if necessary.
+	 *
+	 * @param modelDefinition the element to add to the list
+	 * @return true (as specified by {@link Collection.add})
+	 */
+	public boolean addModelDefinition(Model modelDefinition) {
+		return getListOfModelDefinitions().add(modelDefinition);
+	}
+
+	/**
+	 * Removes an element from the listOfModelDefinitions.
+	 *
+	 * @param modelDefinition the element to be removed from the list
+	 * @return true if the list contained the specified element
+	 * @see List#remove(Object)
+	 */
+	public boolean removeModelDefinition(Model modelDefinition) {
+		if (isSetListOfModelDefinitions()) {
+			return getListOfModelDefinitions().remove(modelDefinition);
+		}
+		return false;
+	}
+
+	/**
+	 * Removes an element from the listOfModelDefinitions at the given index.
+	 *
+	 * @param i the index where to remove the {@link ModelDefinition}
+	 * @throws IndexOutOfBoundsException if the listOf is not set or
+	 * if the index is out of bound (index < 0 || index > list.size)
+	 */
+	public void removeModelDefinition(int i) {
+		if (!isSetListOfModelDefinitions()) {
+			throw new IndexOutOfBoundsException(Integer.toString(i));
+		}
+		getListOfModelDefinitions().remove(i);
+	}
+
+	/**
+	 * TODO: if the ID is mandatory for ModelDefinition objects, 
+	 * one should also add this methods
+	 */
+	//public void removeModelDefinition(String id) {
+	//  getListOfModelDefinitions().removeFirst(new NameFilter(id));
+	//}
+
+	/**
+	 * Creates a new ModelDefinition element and adds it to the ListOfModelDefinitions list
+	 */
+	public Model createModelDefinition() {
+		return createModelDefinition(null);
+	}
+
+	/**
+	 * Creates a new {@link ModelDefinition} element and adds it to the ListOfModelDefinitions list
+	 *
+	 * @return a new {@link ModelDefinition} element
+	 */
+	public Model createModelDefinition(String id) {
+		Model modelDefinition = new Model(id, extendedSBase.getLevel(), extendedSBase.getVersion());
+		addModelDefinition(modelDefinition);
+		return modelDefinition;
+	}
+
+	/**
+	 * TODO: optionally, create additional create methods with more
+	 * variables, for instance "bar" variable
+	 */
+	// public ModelDefinition createModelDefinition(String id, int bar) {
+	//   ModelDefinition modelDefinition = createModelDefinition(id);
+	//   modelDefinition.setBar(bar);
+	//   return modelDefinition;
+	// }
+
+	/**
+	 * 
+	 */
+	private ListOf<Model> listOfModelDefinitions;
+	
+	/**
+	 * 
+	 */
+	private ListOf<ExternalModelDefinition> listOfExternalModelDefinitions;
+	
+	
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public Map<String, String> writeXMLAttributes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public TreeNode getChildAt(int childIndex) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int getChildCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public boolean getAllowsChildren() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public AbstractSBasePlugin clone() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
