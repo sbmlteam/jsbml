@@ -1,0 +1,471 @@
+package org.sbml.jsbml.ext.comp;
+
+import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.tree.TreeNode;
+
+import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.filters.NameFilter;
+
+public class Submodel extends AbstractNamedSBase {
+
+	private String modelRef;
+	
+	private String timeConversionFactor;
+	
+	private String extentConversionFactor;
+	
+	private ListOf<Deletion> listOfDeletions;
+	
+	/**
+	 * Creates an Submodel instance 
+	 */
+	public Submodel() {
+		super();
+		initDefaults();
+	}
+
+	/**
+	 * Creates a Submodel instance with an id. 
+	 * 
+	 * @param id
+	 */
+	public Submodel(String id) {
+		super(id);
+		initDefaults();
+	}
+
+	/**
+	 * Creates a Submodel instance with a level and version. 
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public Submodel(int level, int version) {
+		this(null, null, level, version);
+	}
+
+	/**
+	 * Creates a Submodel instance with an id, level, and version. 
+	 * 
+	 * @param id
+	 * @param level
+	 * @param version
+	 */
+	public Submodel(String id, int level, int version) {
+		this(id, null, level, version);
+	}
+
+	/**
+	 * Creates a Submodel instance with an id, name, level, and version. 
+	 * 
+	 * @param id
+	 * @param name
+	 * @param level
+	 * @param version
+	 */
+	public Submodel(String id, String name, int level, int version) {
+		super(id, name, level, version);
+		if (getLevelAndVersion().compareTo(
+				Integer.valueOf(CompConstant.MIN_SBML_LEVEL),
+				Integer.valueOf(CompConstant.MIN_SBML_VERSION)) < 0) {
+			throw new LevelVersionError(getElementName(), level, version);
+		}
+		initDefaults();
+	}
+
+	/**
+	 * Clone constructor
+	 */
+	public Submodel(Submodel obj) {
+		super(obj);
+
+		// TODO: copy all class attributes, e.g.:
+		// bar = obj.bar;
+	}
+
+	// TODO : equals, hashCode
+	
+	/**
+	 * clones this class
+	 */
+	public Submodel clone() {
+		return new Submodel(this);
+	}
+
+	/**
+	 * Initializes the default values using the namespace.
+	 */
+	public void initDefaults() {
+		addNamespace(CompConstant.namespaceURI);
+	}
+
+
+	public boolean isIdMandatory() {
+		return true;
+	}
+
+
+	
+	/**
+	 * Returns the value of modelRef
+	 *
+	 * @return the value of modelRef
+	 */
+	public String getModelRef() {
+
+		if (isSetModelRef()) {
+			return modelRef;
+		}
+		// This is necessary if we cannot return null here.
+		throw new PropertyUndefinedError(CompConstant.modelRef, this);
+	}
+
+	/**
+	 * Returns whether modelRef is set 
+	 *
+	 * @return whether modelRef is set 
+	 */
+	public boolean isSetModelRef() {
+		return this.modelRef != null;
+	}
+
+	/**
+	 * Sets the value of modelRef
+	 */
+	public void setModelRef(String modelRef) {
+		String oldModelRef = this.modelRef;
+		this.modelRef = modelRef;
+		firePropertyChange(CompConstant.modelRef, oldModelRef, this.modelRef);
+	}
+
+	/**
+	 * Unsets the variable modelRef 
+	 *
+	 * @return {@code true}, if modelRef was set before, 
+	 *         otherwise {@code false}
+	 */
+	public boolean unsetModelRef() {
+		if (isSetModelRef()) {
+			String oldModelRef = this.modelRef;
+			this.modelRef = null;
+			firePropertyChange(CompConstant.modelRef, oldModelRef, this.modelRef);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * Returns the value of timeConversionFactor
+	 *
+	 * @return the value of timeConversionFactor
+	 */
+	public String getTimeConversionFactor() {
+
+		if (isSetTimeConversionFactor()) {
+			return timeConversionFactor;
+		}
+		// This is necessary if we cannot return null here.
+		throw new PropertyUndefinedError(CompConstant.timeConversionFactor, this);
+	}
+
+	/**
+	 * Returns whether timeConversionFactor is set 
+	 *
+	 * @return whether timeConversionFactor is set 
+	 */
+	public boolean isSetTimeConversionFactor() {
+		return this.timeConversionFactor != null;
+	}
+
+	/**
+	 * Sets the value of timeConversionFactor
+	 */
+	public void setTimeConversionFactor(String timeConversionFactor) {
+		String oldTimeConversionFactor = this.timeConversionFactor;
+		this.timeConversionFactor = timeConversionFactor;
+		firePropertyChange(CompConstant.timeConversionFactor, oldTimeConversionFactor, this.timeConversionFactor);
+	}
+
+	/**
+	 * Unsets the variable timeConversionFactor 
+	 *
+	 * @return {@code true}, if timeConversionFactor was set before, 
+	 *         otherwise {@code false}
+	 */
+	public boolean unsetTimeConversionFactor() {
+		if (isSetTimeConversionFactor()) {
+			String oldTimeConversionFactor = this.timeConversionFactor;
+			this.timeConversionFactor = null;
+			firePropertyChange(CompConstant.timeConversionFactor, oldTimeConversionFactor, this.timeConversionFactor);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * Returns the value of extentConversionFactor
+	 *
+	 * @return the value of extentConversionFactor
+	 */
+	public String getExtentConversionFactor() {
+
+		if (isSetExtentConversionFactor()) {
+			return extentConversionFactor;
+		}
+		// This is necessary if we cannot return null here.
+		throw new PropertyUndefinedError(CompConstant.extentConversionFactor, this);
+	}
+
+	/**
+	 * Returns whether extentConversionFactor is set 
+	 *
+	 * @return whether extentConversionFactor is set 
+	 */
+	public boolean isSetExtentConversionFactor() {
+		return this.extentConversionFactor != null;
+	}
+
+	/**
+	 * Sets the value of extentConversionFactor
+	 */
+	public void setExtentConversionFactor(String extentConversionFactor) {
+		String oldExtentConversionFactor = this.extentConversionFactor;
+		this.extentConversionFactor = extentConversionFactor;
+		firePropertyChange(CompConstant.extentConversionFactor, oldExtentConversionFactor, this.extentConversionFactor);
+	}
+
+	/**
+	 * Unsets the variable extentConversionFactor 
+	 *
+	 * @return {@code true}, if extentConversionFactor was set before, 
+	 *         otherwise {@code false}
+	 */
+	public boolean unsetExtentConversionFactor() {
+		if (isSetExtentConversionFactor()) {
+			String oldExtentConversionFactor = this.extentConversionFactor;
+			this.extentConversionFactor = null;
+			firePropertyChange(CompConstant.extentConversionFactor, oldExtentConversionFactor, this.extentConversionFactor);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	/**
+	 * Returns {@code true}, if listOfDeletions contains at least one element.
+	 *
+	 * @return {@code true}, if listOfDeletions contains at least one element, 
+	 *         otherwise {@code false}
+	 */
+	public boolean isSetListOfDeletions() {
+		if ((listOfDeletions == null) || listOfDeletions.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Returns the listOfDeletions. Creates it if it is not already existing.
+	 *
+	 * @return the listOfDeletions
+	 */
+	public ListOf<Deletion> getListOfDeletions() {
+		if (!isSetListOfDeletions()) {
+			listOfDeletions = new ListOf<Deletion>(getLevel(), getVersion());
+			listOfDeletions.addNamespace(CompConstant.namespaceURI);
+			listOfDeletions.setSBaseListType(ListOf.Type.other);
+			registerChild(listOfDeletions);
+		}
+		return listOfDeletions;
+	}
+
+	/**
+	 * Sets the given {@code ListOf<Deletion>}. If listOfDeletions
+	 * was defined before and contains some elements, they are all unset.
+	 *
+	 * @param listOfDeletions
+	 */
+	public void setListOfDeletions(ListOf<Deletion> listOfDeletions) {
+		unsetListOfDeletions();
+		this.listOfDeletions = listOfDeletions;
+		registerChild(this.listOfDeletions);
+	}
+
+	/**
+	 * Returns {@code true}, if listOfDeletions contain at least one element, 
+	 *         otherwise {@code false}
+	 *
+	 * @return {@code true}, if listOfDeletions contain at least one element, 
+	 *         otherwise {@code false}
+	 */
+	public boolean unsetListOfDeletions() {
+		if (isSetListOfDeletions()) {
+			ListOf<Deletion> oldDeletions = this.listOfDeletions;
+			this.listOfDeletions = null;
+			oldDeletions.fireNodeRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Adds a new {@link Deletion} to the listOfDeletions.
+	 * <p>The listOfDeletions is initialized if necessary.
+	 *
+	 * @param deletion the element to add to the list
+	 * @return true (as specified by {@link Collection.add})
+	 */
+	public boolean addDeletion(Deletion deletion) {
+		return getListOfDeletions().add(deletion);
+	}
+
+	/**
+	 * Removes an element from the listOfDeletions.
+	 *
+	 * @param deletion the element to be removed from the list
+	 * @return true if the list contained the specified element
+	 * @see List#remove(Object)
+	 */
+	public boolean removeDeletion(Deletion deletion) {
+		if (isSetListOfDeletions()) {
+			return getListOfDeletions().remove(deletion);
+		}
+		return false;
+	}
+
+	/**
+	 * Removes an element from the listOfDeletions at the given index.
+	 *
+	 * @param i the index where to remove the {@link Deletion}
+	 * @throws IndexOutOfBoundsException if the listOf is not set or
+	 * if the index is out of bound (index < 0 || index > list.size)
+	 */
+	public void removeDeletion(int i) {
+		if (!isSetListOfDeletions()) {
+			throw new IndexOutOfBoundsException(Integer.toString(i));
+		}
+		getListOfDeletions().remove(i);
+	}
+
+	/**
+	 * Removes an element from the listOfDeletions with the given id.
+	 *
+	 * @param i the id of the {@link Deletion} element to remove. 
+	 */
+	public void removeDeletion(String id) {
+	  getListOfDeletions().removeFirst(new NameFilter(id));
+	}
+
+	/**
+	 * Creates a new Deletion element and adds it to the ListOfDeletions list
+	 */
+	public Deletion createDeletion() {
+		return createDeletion(null);
+	}
+
+	/**
+	 * Creates a new {@link Deletion} element and adds it to the ListOfDeletions list
+	 *
+	 * @return a new {@link Deletion} element
+	 */
+	public Deletion createDeletion(String id) {
+		Deletion deletion = new Deletion(id, getLevel(), getVersion());
+		addDeletion(deletion);
+		return deletion;
+	}
+
+	
+
+	@Override
+	public boolean getAllowsChildren() {
+		return true;
+	}
+
+	public int getChildCount() {
+		int count = super.getChildCount();
+
+		 if (isSetListOfDeletions()) {
+		  count++;
+		 }
+
+		return count;
+	}
+
+	public TreeNode getChildAt(int index) {
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(index + " < 0");
+		}
+
+		int count = super.getChildCount(), pos = 0;
+
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
+		}
+
+		 if (isSetListOfDeletions()) {
+		   if (pos == index) {
+		     return getListOfDeletions();
+		   }
+		   pos++;
+		 }
+
+		throw new IndexOutOfBoundsException(MessageFormat.format(
+				"Index {0,number,integer} >= {1,number,integer}", index,
+				+((int) Math.min(pos, 0))));
+	}
+	
+	
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
+
+		if (isSetModelRef()) {
+			attributes.put(CompConstant.shortLabel + ":" + CompConstant.modelRef, getModelRef());
+		}
+		if (isSetTimeConversionFactor()) {
+			attributes.put(CompConstant.shortLabel + ":" + CompConstant.timeConversionFactor, getTimeConversionFactor());
+		}
+		if (isSetExtentConversionFactor()) {
+			attributes.put(CompConstant.shortLabel + ":" + CompConstant.extentConversionFactor, getExtentConversionFactor());
+		}
+
+		return attributes;
+	}
+
+	public boolean readAttribute(String attributeName, String prefix,
+			String value) {
+
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+				value);
+
+		if (!isAttributeRead) {
+			isAttributeRead = true;
+
+			if (attributeName.equals(CompConstant.modelRef)) {
+				setModelRef(value);
+			}
+			else if (attributeName.equals(CompConstant.timeConversionFactor)) {
+				setTimeConversionFactor(value);
+			}
+			else if (attributeName.equals(CompConstant.extentConversionFactor)) {
+				setExtentConversionFactor(value);
+			}
+			else {
+				isAttributeRead = false;
+			}
+		}
+
+		return isAttributeRead;
+	}
+	
+}
