@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.junit.internal.matchers.SubstringMatcher;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SBase;
@@ -1242,33 +1241,6 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 						dimension.setHeight(width);
 					}
 				}
-			}
-		}
-	}
-	
-	/**
-	 * 
-	 * @param reactionGlyph
-	 * @param specRefGylph
-	 */
-	protected void correctCurvePoints(ReactionGlyph reactionGlyph, double rotationAngle) {
-		SpeciesReferenceGlyph substrate = null;
-		SpeciesReferenceGlyph product = null;
-		for(SpeciesReferenceGlyph specRefGlyph : reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
-			if (LayoutDirector.isSubstrate(specRefGlyph)) {
-				substrate = specRefGlyph;
-			}
-			if (LayoutDirector.isProduct(specRefGlyph)) {
-				product = specRefGlyph;
-			}
-		}
-		
-		Point dockingPoint1 = calculateReactionGlyphDockingPoint(reactionGlyph, rotationAngle, substrate);
-		Point dockingPoint2 = calculateReactionGlyphDockingPoint(reactionGlyph, rotationAngle, product);
-		
-		if (reactionGlyph.isSetCurve() && reactionGlyph.getCurve().isSetListOfCurveSegments()) {
-			for (CurveSegment curveSegment : reactionGlyph.getCurve().getListOfCurveSegments()) {
-				
 			}
 		}
 	}
