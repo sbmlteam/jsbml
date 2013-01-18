@@ -16,6 +16,7 @@
  */
 package de.zbit.sbml.layout;
 
+import org.sbml.jsbml.ext.layout.LineSegment;
 import org.sbml.jsbml.ext.layout.Point;
 
 /**
@@ -82,5 +83,31 @@ public abstract class UncertainProcessNode<T> implements SBGNNode<T> {
 	 * @param lineWidth the lineWidth to set
 	 */
 	public abstract void setLineWidth(double lineWidth);
+
+	/**
+	 * 
+	 * @param segment
+	 * @param rotationAngle
+	 * @param rotationCenter
+	 * @return
+	 */
+	public abstract T drawLineSegment(LineSegment segment, double rotationAngle,
+			Point rotationCenter);
+
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param width
+	 * @param height
+	 * @param depth
+	 * @param rotationAngle
+	 * @param rotationPoint
+	 * @return
+	 */
+	public abstract T draw(double x, double y, double z, double width,
+			double height, double depth, double rotationAngle,
+			Point rotationPoint);
 	
 }

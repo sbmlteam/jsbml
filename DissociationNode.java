@@ -16,6 +16,7 @@
  */
 package de.zbit.sbml.layout;
 
+import org.sbml.jsbml.ext.layout.LineSegment;
 import org.sbml.jsbml.ext.layout.Point;
 
 /**
@@ -31,11 +32,28 @@ public abstract class DissociationNode<T> implements SBGNNode<T> {
 	
 	private Point pointOfContactToSubstrate;
 	
-	
+	/*
+	 * (non-Javadoc)
+	 * @see de.zbit.sbml.layout.SBGNNode#draw(double, double, double, double, double, double)
+	 */
 	@Override
 	public abstract T draw(double x, double y, double z, double width, double height,
 			double depth);
 
+	/**
+	 * 
+	 * @param line1
+	 * @param rotationAngle
+	 * @param rotationPoint
+	 * @return
+	 */
+	public abstract T drawLineSegment(LineSegment line1, double rotationAngle,
+			Point rotationPoint);
+	
+	/*
+	 * (non-Javadoc)
+	 * @see de.zbit.sbml.layout.SBGNNode#setCloneMarker()
+	 */
 	@Override
 	public void setCloneMarker() {
 		// do nothing because process nodes have no clone marker
@@ -83,6 +101,8 @@ public abstract class DissociationNode<T> implements SBGNNode<T> {
 	 * @param lineWidth the lineWidth to set
 	 */
 	public abstract void setLineWidth(double lineWidth);
+
+
 
 	
 }
