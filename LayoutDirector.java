@@ -282,16 +282,14 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * Check if the incoming edge between the {@link ReactionGlyph} and the {@link SpeciesReferenceGlyph}
-	 * is layouted.
+	 * Check if the incoming edge is layouted.
 	 * @param reactionGlyph
 	 * @param srg
 	 * @return
 	 */
 	public static boolean edgeIsLayouted(ReactionGlyph reactionGlyph,
 			SpeciesReferenceGlyph srg) {
-		// TODO Auto-generated method stub
-		return false;
+		return reactionGlyph.isSetCurve() && srg.isSetCurve();
 	}
 
 	/**
