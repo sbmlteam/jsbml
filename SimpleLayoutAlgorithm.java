@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import org.junit.internal.matchers.SubstringMatcher;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SBase;
@@ -609,10 +610,19 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		SpeciesGlyph substrate = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.SUBSTRATE);
 
 		if ((product == null) || (substrate == null)) {
-			logger.warning("Cannot find product or substrate in list of species reference glyphs for reaction glyph "
-					+ reactionGlyph.getId());
-			// TODO fall back to another positioning mechanism
-			return new Position(new Point(0, 0, 0, level, version));
+			for(SpeciesReferenceGlyph specRef : speciesReferenceGlyphList) {
+				if (LayoutDirector.isSubstrate(specRef)) {
+					substrate = specRef.getSpeciesGlyphInstance();
+				} else if (LayoutDirector.isProduct(specRef)) {
+					product = specRef.getSpeciesGlyphInstance();
+				}
+			}
+			if ((product == null) || (substrate == null)) {
+				logger.warning("Cannot find product or substrate in list of species reference glyphs for reaction glyph "
+						+ reactionGlyph.getId());
+				// TODO fall back to another positioning mechanism
+				return new Position(new Point(0, 0, 0, level, version));
+			}
 		}
 
 		Point substrateCenter = calculateCenter(substrate);
@@ -702,45 +712,54 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		SpeciesGlyph product = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.PRODUCT);
 		SpeciesGlyph substrate = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.SUBSTRATE);
 		if (product == null || substrate==null) {
-			logger.warning("Cannot find product or substrate in list of species reference glyphs for reaction glyph "
-					+ reactionGlyph.getId());
-			// TODO fall back to another positioning mechanism
-			return new Position(new Point(x, y, z, level, version));
+			for(SpeciesReferenceGlyph specRef : speciesReferenceGlyphList) {
+				if (LayoutDirector.isSubstrate(specRef)) {
+					substrate = specRef.getSpeciesGlyphInstance();
+				} else if (LayoutDirector.isProduct(specRef)) {
+					product = specRef.getSpeciesGlyphInstance();
+				}
+			}
+			if (product == null || substrate==null) {
+				logger.warning("Cannot find product or substrate in list of species reference glyphs for reaction glyph "
+						+ reactionGlyph.getId());
+				// TODO fall back to another positioning mechanism
+				return new Position(new Point(x, y, z, level, version));
+			}
 		}
 
 		Point substratePointOfMiddle = calculateCenter(substrate);
 		Point productPointOfMiddle = calculateCenter(product);
 
-		if (curveList.size() >= speciesGlyphList.size()) {
-			if (relativeProductPosition.equals(RelativePosition.ABOVE)) {
-				x = productPosition.getX() + (reacGlyphDimension.getWidth() / 2d);
-				y = productPosition.getY();
-			}
-
-			if (relativeProductPosition.equals(RelativePosition.BELOW)) {
-				x = substratePosition.getX() + (reacGlyphDimension.getWidth() / 2d);
-				y = substratePosition.getY();
-			}
-
-			if (relativeProductPosition.equals(RelativePosition.LEFT)) {
-				x = productPosition.getX();
-				y = productPosition.getY() + (reacGlyphDimension.getWidth() / 2d);
-			}
-
-			if (relativeProductPosition.equals(RelativePosition.RIGHT)) {
-				x = substratePosition.getX();
-				y = substratePosition.getY() - (reacGlyphDimension.getWidth() / 2d);
-			}
-		} else {
-			// the computation of the position is equal for every relativePosition (left,right,above,below and undefined)
-			x = ((Math.max(productPointOfMiddle.getX(), substratePointOfMiddle.getX())
-					- Math.min(productPointOfMiddle.getX(), substratePointOfMiddle.getX())) 
-					/ 2d) + Math.min(productPointOfMiddle.getX(), substratePointOfMiddle.getX()) - (reacGlyphDimension.getWidth() / 2d);
-			y = ((Math.max(productPointOfMiddle.getY(), substratePointOfMiddle.getY()) - Math.min(productPointOfMiddle.getY(), substratePointOfMiddle.getY()))
-					/ 2d) + Math.min(productPointOfMiddle.getY(), substratePointOfMiddle.getY()) - (reacGlyphDimension.getHeight() / 2d);
-			z = ((Math.max(productPointOfMiddle.getZ(), substratePointOfMiddle.getZ()) - Math.min(productPointOfMiddle.getZ(), substratePointOfMiddle.getZ()))
-					/ 2d) + Math.min(productPointOfMiddle.getZ(), substratePointOfMiddle.getZ()) - (reacGlyphDimension.getDepth() / 2d);
-		}
+		//		if (curveList.size() >= speciesGlyphList.size()) {
+		//			if (relativeProductPosition.equals(RelativePosition.ABOVE)) {
+		//				x = productPosition.getX() + (reacGlyphDimension.getWidth() / 2d);
+		//				y = productPosition.getY();
+		//			}
+		//
+		//			if (relativeProductPosition.equals(RelativePosition.BELOW)) {
+		//				x = substratePosition.getX() + (reacGlyphDimension.getWidth() / 2d);
+		//				y = substratePosition.getY();
+		//			}
+		//
+		//			if (relativeProductPosition.equals(RelativePosition.LEFT)) {
+		//				x = productPosition.getX();
+		//				y = productPosition.getY() + (reacGlyphDimension.getWidth() / 2d);
+		//			}
+		//
+		//			if (relativeProductPosition.equals(RelativePosition.RIGHT)) {
+		//				x = substratePosition.getX();
+		//				y = substratePosition.getY() - (reacGlyphDimension.getWidth() / 2d);
+		//			}
+		//		} else {
+		// the computation of the position is equal for every relativePosition (left,right,above,below and undefined)
+		x = ((Math.max(productPointOfMiddle.getX(), substratePointOfMiddle.getX())
+				- Math.min(productPointOfMiddle.getX(), substratePointOfMiddle.getX())) 
+				/ 2d) + Math.min(productPointOfMiddle.getX(), substratePointOfMiddle.getX()) - (reacGlyphDimension.getWidth() / 2d);
+		y = ((Math.max(productPointOfMiddle.getY(), substratePointOfMiddle.getY()) - Math.min(productPointOfMiddle.getY(), substratePointOfMiddle.getY()))
+				/ 2d) + Math.min(productPointOfMiddle.getY(), substratePointOfMiddle.getY()) - (reacGlyphDimension.getHeight() / 2d);
+		z = ((Math.max(productPointOfMiddle.getZ(), substratePointOfMiddle.getZ()) - Math.min(productPointOfMiddle.getZ(), substratePointOfMiddle.getZ()))
+				/ 2d) + Math.min(productPointOfMiddle.getZ(), substratePointOfMiddle.getZ()) - (reacGlyphDimension.getDepth() / 2d);
+		//		}
 
 		return new Position(new Point(x, y, z, level, version));
 	}
@@ -824,10 +843,19 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			SpeciesGlyph product = getProductOrSubstrateSpeciesGlyph(speciesRefGlyphList, SpeciesReferenceRole.PRODUCT);
 
 			if ((substrate == null) || (product == null)) {
-				logger.warning(MessageFormat.format(
-						"Cannot find product or substrate in list of species reference glyphs for reaction glyph {0}",
-						reactionGlyph.getId()));
-				return rotationAngle;
+				for(SpeciesReferenceGlyph specRef : speciesRefGlyphList) {
+					if (LayoutDirector.isSubstrate(specRef)) {
+						substrate = specRef.getSpeciesGlyphInstance();
+					} else if (LayoutDirector.isProduct(specRef)) {
+						product = specRef.getSpeciesGlyphInstance();
+					}
+				}
+				if ((substrate == null) || (product == null)) {
+					logger.warning(MessageFormat.format(
+							"Cannot find product or substrate in list of species reference glyphs for reaction glyph {0}",
+							reactionGlyph.getId()));
+					return rotationAngle;
+				}
 			}
 
 			/*
@@ -836,8 +864,21 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			 * you get a false angle when the user wants a specific position 
 			 * for the reaction
 			 */
-			Point firstCentralPoint = calculateCenter(reactionGlyph); 
+			Point firstCentralPoint = calculateCenter(substrate); 
 			Point secondCentralPoint = calculateCenter(product);
+
+			if(reactionGlyph.isSetCurve()) {
+				Curve curve = reactionGlyph.getCurve();
+				if(curve.isSetListOfCurveSegments()) {
+					for(CurveSegment curveSegment : curve.getListOfCurveSegments()) {
+						if(!curveSegment.isSetBasePoint1() || !curveSegment.isSetBasePoint2()) {
+							break;
+						} else {
+							//TODO: compute here the points for rotation calculation and use the base points
+						}
+					}
+				}
+			}
 
 			rotationAngle = calculateRotationAngle(firstCentralPoint, secondCentralPoint);
 		}
@@ -921,7 +962,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		return dockingPosition;
 	}
 
-	
+
 
 
 	/**
@@ -935,7 +976,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	protected Point calculateSpeciesGlyphDockingPosition(Point middleOfSpecies,
 			ReactionGlyph reactionGlyph, SpeciesReferenceRole specRefRole, SpeciesGlyph specGlyph) {
 		Point dockingPoint = null;
-		
+
 
 		// the coordinates of the species glyph
 		double x = middleOfSpecies.getX();
@@ -944,7 +985,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		double width = specGlyph.getBoundingBox().getDimensions().getWidth();
 		double height = specGlyph.getBoundingBox().getDimensions().getHeight();
 		int sboTerm = specGlyph.getSpeciesInstance().getSBOTerm();
-		
+
 		// computing angle
 		double t = 0;
 		if(specRefRole.equals(SpeciesReferenceRole.PRODUCT) ||
@@ -953,7 +994,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		} else {
 			t = calculateRotationAngle(middleOfSpecies, calculateCenter(reactionGlyph));
 		}
-		
+
 		if(SBO.isChildOf(sboTerm, SBO.getUnknownMolecule()) ||
 				!specGlyph.getSpeciesInstance().isSetSBOTerm()) {
 			// species is an ellipse
@@ -981,8 +1022,8 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		}
 		return new Position(dockingPoint);
 	}
-	
-	
+
+
 	/**
 	 * Calculates the docking position/ point for round species
 	 * @param x
@@ -1033,16 +1074,16 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 */
 	public Point calculateDockingForQuadraticSpecies(Point middleOfSpecies, 
 			SpeciesGlyph specGlyph, Point reactionPosition) {
-		
+
 		Point dockingPoint = new Point(level, version);
-		
+
 		double reacX = reactionPosition.getX();
 		double reacY = reactionPosition.getY();
 		double specX = middleOfSpecies.getX();
 		double specY = middleOfSpecies.getY();
 		double width = specGlyph.getBoundingBox().getDimensions().getWidth();
 		double height = specGlyph.getBoundingBox().getDimensions().getHeight();
-		
+
 		if(((specY + (height/2)) >= reacY ||
 				(specY - (height/2)) >= reacY) && specX != reacX) {
 			//the reactionGlyph is left or right of the species
@@ -1082,7 +1123,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		dockingPoint.setZ(0.0);
 		return dockingPoint;
 	}
-	
+
 	/**
 	 * Creates a {@link BoundingBox} with the level and version of this layout.
 	 * @return BoundingBox
@@ -1201,6 +1242,33 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 						dimension.setHeight(width);
 					}
 				}
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param reactionGlyph
+	 * @param specRefGylph
+	 */
+	protected void correctCurvePoints(ReactionGlyph reactionGlyph, double rotationAngle) {
+		SpeciesReferenceGlyph substrate = null;
+		SpeciesReferenceGlyph product = null;
+		for(SpeciesReferenceGlyph specRefGlyph : reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
+			if (LayoutDirector.isSubstrate(specRefGlyph)) {
+				substrate = specRefGlyph;
+			}
+			if (LayoutDirector.isProduct(specRefGlyph)) {
+				product = specRefGlyph;
+			}
+		}
+		
+		Point dockingPoint1 = calculateReactionGlyphDockingPoint(reactionGlyph, rotationAngle, substrate);
+		Point dockingPoint2 = calculateReactionGlyphDockingPoint(reactionGlyph, rotationAngle, product);
+		
+		if (reactionGlyph.isSetCurve() && reactionGlyph.getCurve().isSetListOfCurveSegments()) {
+			for (CurveSegment curveSegment : reactionGlyph.getCurve().getListOfCurveSegments()) {
+				
 			}
 		}
 	}
