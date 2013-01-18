@@ -63,6 +63,26 @@ public interface LayoutFactory<NodeT,ArcT> {
 	public ProcessNode<NodeT> createProcessNode();
 	
 	/**
+	 * @return a {@link OmittedProcessNode}
+	 */
+	public OmittedProcessNode<NodeT> createOmittedProcessNode();
+	
+	/**
+	 * @return an {@link AssociationNode}
+	 */
+	public AssociationNode<NodeT> createAssociationNode();
+	
+	/**
+	 * @return a {@link DissociationNode}
+	 */
+	public DissociationNode<NodeT> createDissociationNode();
+	
+	/**
+	 * @return an {@link UncertainProcessNode}
+	 */
+	public UncertainProcessNode<NodeT> createUncertainProcessNode();
+	
+	/**
 	 * @return a {@link Compartment}
 	 */
 	public Compartment<NodeT> createCompartment();
