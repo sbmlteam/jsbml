@@ -1,6 +1,6 @@
 /*
  * $Id: SBGNReactionNode.java 15:00:04 Meike Aichele$
- * $URL: SBGNReactionNode.java $
+ * $URL$
  * ---------------------------------------------------------------------
  * This file is part of the SysBio API library.
  *
