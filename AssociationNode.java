@@ -23,7 +23,7 @@ import org.sbml.jsbml.ext.layout.Point;
  * @author Meike Aichele
  *
  */
-public abstract class AssociationNode<T> implements SBGNNode<T> {
+public abstract class AssociationNode<T> implements SBGNReactionNode<T> {
 
 	// association nodes do not have a clone marker
 	private final boolean cloneMarker = false;
@@ -41,13 +41,11 @@ public abstract class AssociationNode<T> implements SBGNNode<T> {
 			double depth);
 
 	
-	/**
-	 * Method to draw a short line from the {@link AssociationNode} to the product
-	 * or the substrate. For both lines you have to call this method twice.
-	 * @param segment
-	 * @return
+	/*
+	 * (non-Javadoc)
+	 * @see de.zbit.sbml.layout.SBGNReactionNode#drawLineSegment(org.sbml.jsbml.ext.layout.LineSegment, double, org.sbml.jsbml.ext.layout.Point)
 	 */
-	public abstract String drawLineSegment(LineSegment lineSegment, double rotationAngle, Point rotationCenter);
+	public abstract T drawLineSegment(LineSegment lineSegment, double rotationAngle, Point rotationCenter);
 	
 	
 	/*
@@ -68,41 +66,47 @@ public abstract class AssociationNode<T> implements SBGNNode<T> {
 		return cloneMarker;
 	}
 	
-	/**
-	 * @param pointOfContactToSubstrate the pointOfContactToSubstrate to set
+	/*
+	 * (non-Javadoc)
+	 * @see de.zbit.sbml.layout.SBGNReactionNode#setPointOfContactToSubstrate(org.sbml.jsbml.ext.layout.Point)
 	 */
 	public void setPointOfContactToSubstrate(Point pointOfContactToSubstrate) {
 		this.pointOfContactToSubstrate = pointOfContactToSubstrate;
 	}
 
-	/**
-	 * @return the pointOfContactToSubstrate
+	/*
+	 * (non-Javadoc)
+	 * @see de.zbit.sbml.layout.SBGNReactionNode#getPointOfContactToSubstrate()
 	 */
 	public Point getPointOfContactToSubstrate() {
 		return pointOfContactToSubstrate;
 	}
 
-	/**
-	 * @param pointOfContactToProduct the pointOfContactToProduct to set
+	/*
+	 * (non-Javadoc)
+	 * @see de.zbit.sbml.layout.SBGNReactionNode#setPointOfContactToProduct(org.sbml.jsbml.ext.layout.Point)
 	 */
 	public void setPointOfContactToProduct(Point pointOfContactToProduct) {
 		this.pointOfContactToProduct = pointOfContactToProduct;
 	}
 
-	/**
-	 * @return the pointOfContactToProduct
+	/*
+	 * (non-Javadoc)
+	 * @see de.zbit.sbml.layout.SBGNReactionNode#getPointOfContactToProduct()
 	 */
 	public Point getPointOfContactToProduct() {
 		return pointOfContactToProduct;
 	}
 	
-	/**
-	 * @return the lineWidth
+	/*
+	 * (non-Javadoc)
+	 * @see de.zbit.sbml.layout.SBGNReactionNode#getLineWidth()
 	 */
 	public abstract double getLineWidth();
 
-	/**
-	 * @param lineWidth the lineWidth to set
+	/*
+	 * (non-Javadoc)
+	 * @see de.zbit.sbml.layout.SBGNReactionNode#setLineWidth(double)
 	 */
 	public abstract void setLineWidth(double lineWidth);
 

@@ -94,43 +94,6 @@ public interface LayoutBuilder<P> {
 	
 	
 	/**
-	 * method for the drawing of a association node with the size and position of
-	 * the {@link BoundingBox} of the given {@link ReactionGlyph}
-	 * 
-	 * @param rotationAngle by which the lines from the reaction box are rotated
-	 * @param reactionGlyph the glyph for the process node to be drawn
-	 */
-	public void buildAssociationNode(ReactionGlyph reactionGlyph, double rotationAngle, double curveWidth);
-	
-	/**
-	 * method for the drawing of a dissociation node with the size and position of
-	 * the {@link BoundingBox} of the given {@link ReactionGlyph}
-	 * 
-	 * @param rotationAngle by which the lines from the reaction box are rotated
-	 * @param reactionGlyph the glyph for the process node to be drawn
-	 */
-	public void buildDissociationNode(ReactionGlyph reactionGlyph, double rotationAngle, double curveWidth);
-	
-	/**
-	 * method for the drawing of an omitted process node with the size and position of
-	 * the {@link BoundingBox} of the given {@link ReactionGlyph}
-	 * 
-	 * @param rotationAngle by which the lines from the reaction box are rotated
-	 * @param reactionGlyph the glyph for the process node to be drawn
-	 */
-	public void buildOmittedProcessNode(ReactionGlyph reactionGlyph, double rotationAngle, double curveWidth);
-	
-	/**
-	 * method for the drawing of an uncertain process node with the size and position of
-	 * the {@link BoundingBox} of the given {@link ReactionGlyph}
-	 * 
-	 * @param rotationAngle by which the lines from the reaction box are rotated
-	 * @param reactionGlyph the glyph for the process node to be drawn
-	 */
-	public void buildUncertainProcessNode(ReactionGlyph reactionGlyph, double rotationAngle, double curveWidth);
-	
-	
-	/**
 	 * method for drawing/writing the given {@link TextGlyph}
 	 * 
 	 * @param textGlyph
