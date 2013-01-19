@@ -61,7 +61,7 @@ public abstract class AbstractLayoutBuilder<P,NodeT,ArcT> implements LayoutBuild
 		if (SBO.isChildOf(sboTerm, SBO.getSimpleMolecule())) {
 			return createSimpleChemical();
 		}
-		
+
 		// ion
 		if (SBO.isChildOf(sboTerm, SBO.getIon())) {
 			return createSimpleChemical();
@@ -155,6 +155,39 @@ public abstract class AbstractLayoutBuilder<P,NodeT,ArcT> implements LayoutBuild
 	
 	public SBGNArc<ArcT> getSBGNArc(SpeciesReferenceRole referenceRole){
 		return getSBGNArc(RoleToSBOTerm.get(referenceRole));		
+	}
+	
+	
+	/**
+	 * helping method that creates the correct node depending on the sbo term of
+	 * the corresponding reaction
+	 * 
+	 * @param sboTerm of the reaction
+	 * @return SBGNNode
+	 */
+	public SBGNReactionNode<NodeT> getSBGNReactionNode(int sboTerm) {
+		// reaction is an omitted process
+		if (SBO.isChildOf(sboTerm, 397)){
+			return createOmittedProcessNode();
+		}
+		
+		// reaction is an uncertain process
+		if (SBO.isChildOf(sboTerm, 396)) {
+			return createUncertainProcessNode();
+		}
+		
+		// reaction is a dissociation
+		if (SBO.isChildOf(sboTerm, 180)) {
+			return createDissociationNode();
+		}
+		
+		//reaction is an association / non-covalent binding
+		if (SBO.isChildOf(sboTerm, 177)) {
+			return createAssociationNode();
+		}
+		
+		// default is the process node
+		return createProcessNode();
 	}
 	
 }

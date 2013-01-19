@@ -770,9 +770,22 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 */
 	public Dimensions createReactionGlyphDimension(ReactionGlyph reactionGlyph) {
 
-		double width = 30;
-		double height = 30;
+		double width = 20;
+		double height = 20;
 		double depth = 0;
+		
+		for (ReactionGlyph reacGlyph : layout.getListOfReactionGlyphs()) {
+			if (reacGlyph.isSetBoundingBox()) {
+				if (reacGlyph.getBoundingBox().isSetDimensions()) {
+					double rWidth = reacGlyph.getBoundingBox().getDimensions().getWidth();
+					double rHeight = reacGlyph.getBoundingBox().getDimensions().getHeight();
+					width = Math.max(rHeight, rWidth);
+					height = Math.max(rHeight, rWidth);
+					//TODO: min or max
+				}
+			}
+		}
+		
 
 		ListOf<SpeciesReferenceGlyph> curveList = new ListOf<SpeciesReferenceGlyph>();
 		ListOf<SpeciesReferenceGlyph> speciesGlyphList = new ListOf<SpeciesReferenceGlyph>();
@@ -1211,14 +1224,15 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		if (glyph instanceof NamedSBaseGlyph) {
 			if (glyph instanceof ReactionGlyph) {
 				if (width != height) {
-					Dimensions dim = createReactionGlyphDimension((ReactionGlyph) glyph);
-					dimension.setWidth(dim.getWidth());
-					dimension.setHeight(dim.getHeight());
+//					Dimensions dim = createReactionGlyphDimension((ReactionGlyph) glyph);
+					double min = Math.max(width, height);
+					dimension.setWidth(min);
+					dimension.setHeight(min);
 				}
 			} else if (glyph instanceof CompartmentGlyph) {
-
+				//do nothing?
 			} else if (glyph instanceof TextGlyph) {
-
+				//do nothing?
 			} else {
 				NamedSBaseGlyph nsbGlyph = (NamedSBaseGlyph) glyph; 
 				int sboTerm = -1;
