@@ -120,12 +120,12 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * @param endGlyphBB
 	 * @return RelativePosition
 	 */
-	protected static RelativePosition getRelativePosition(BoundingBox startGlyphBB, BoundingBox endGlyphBB) {
+	protected static RelativePosition getRelativePosition(Point startGlyph, Point endGlyph) {
 		double startX = 0d, startY = 0d;
 		double endX = 0d, endY = 0d;
 
-		Point posStart = startGlyphBB.getPosition();
-		Point posEnd = endGlyphBB.getPosition();
+		Point posStart = startGlyph;
+		Point posEnd = endGlyph;
 		String error = "No coordinates given for the position of {0} bounding box ";
 		if (posStart != null) {
 			startX = posStart.getX();
@@ -189,7 +189,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			} else if (endY < startY){
 				return RelativePosition.ABOVE;
 			} else { // then endX == startX && endY == startY
-				logger.warning("could not compute relative position for bounding boxes " + startGlyphBB + " and " + endGlyphBB);
+				logger.warning("could not compute relative position for points " + startGlyph + " and " + endGlyph);
 				return RelativePosition.UNDEFINED;
 			}
 		}
@@ -395,7 +395,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		Point reactionCenterPosition = calculateCenter(reacGlyph);
 		correctDimensions(reacGlyph);
 
-		RelativePosition modifierPosition = getRelativePosition(reacGlyph.getBoundingBox(), specRef.getSpeciesGlyphInstance().getBoundingBox());
+		RelativePosition modifierPosition = getRelativePosition(reacGlyph.getBoundingBox().getPosition(), specRef.getSpeciesGlyphInstance().getBoundingBox().getPosition());
 
 		double rotationAngle_new = correctRotationAngle(rotationAngle);
 
@@ -703,8 +703,8 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		helpingBB1.setPosition(substratePosition);
 		productPosition = calculateAverageSpeciesPosition(SpeciesReferenceRole.PRODUCT, speciesGlyphList);
 		helpingBB2.setPosition(productPosition);
-		RelativePosition relativeProductPosition = getRelativePosition(helpingBB1, helpingBB2);
-		RelativePosition relativeSubstratePosition = getRelativePosition(helpingBB2, helpingBB1);
+		RelativePosition relativeProductPosition = getRelativePosition(substratePosition, productPosition);
+		RelativePosition relativeSubstratePosition = getRelativePosition(productPosition, substratePosition);
 		assert relativeProductPosition != RelativePosition.UNDEFINED;
 		assert relativeSubstratePosition != RelativePosition.UNDEFINED;
 
@@ -779,9 +779,9 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 				if (reacGlyph.getBoundingBox().isSetDimensions()) {
 					double rWidth = reacGlyph.getBoundingBox().getDimensions().getWidth();
 					double rHeight = reacGlyph.getBoundingBox().getDimensions().getHeight();
-					width = Math.max(rHeight, rWidth);
-					height = Math.max(rHeight, rWidth);
-					//TODO: min or max
+					// Compute the minimum because the bounding box of the reaction glyph is always wider than higher
+					width = Math.min(rHeight, rWidth);
+					height = Math.min(rHeight, rWidth);
 				}
 			}
 		}
@@ -820,7 +820,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			helpingBB1.setPosition(substratePosition);
 			productPosition = calculateAverageCurvePosition(SpeciesReferenceRole.PRODUCT, curveList);
 			helpingBB2.setPosition(productPosition);
-			RelativePosition relativePosition = getRelativePosition(helpingBB1, helpingBB2);
+			RelativePosition relativePosition = getRelativePosition(substratePosition, productPosition);
 
 			if (relativePosition.equals(RelativePosition.ABOVE)) {
 				height = substratePosition.getY() - productPosition.getY();
@@ -879,16 +879,43 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			Point firstCentralPoint = calculateCenter(substrate); 
 			Point secondCentralPoint = calculateCenter(product);
 
+			/*
+			 * if there are base points set, the rotation has to be assimilated to the base points
+			 * and not to the centers of substrate and product.
+			 */
 			if(reactionGlyph.isSetCurve()) {
 				Curve curve = reactionGlyph.getCurve();
 				if(curve.isSetListOfCurveSegments()) {
+					Point reacCenter = calculateCenter(reactionGlyph);
+					double minLengthFirst = calculateLength(calculateCenter(reactionGlyph), firstCentralPoint);
+					double minLengthSecond = calculateLength(calculateCenter(reactionGlyph), secondCentralPoint);
 					for(CurveSegment curveSegment : curve.getListOfCurveSegments()) {
-						if(!curveSegment.isSetBasePoint1() || !curveSegment.isSetBasePoint2()) {
-							break;
-						} else {
-							//TODO: compute here the points for rotation calculation and use the base points
+						if (curveSegment.isSetBasePoint1() && curveSegment.isSetBasePoint2()) {
+						Point startPoint = curveSegment.getBasePoint1();
+						Point endPoint = curveSegment.getBasePoint2();
+						double currentLengthStart = calculateLength(reacCenter, startPoint);
+						double currentLengthEnd = calculateLength(reacCenter, endPoint);
+						RelativePosition relativePositionEnd = getRelativePosition(reacCenter, endPoint);
+						RelativePosition relativePositionStart = getRelativePosition(reacCenter, startPoint);
+						if (minLengthFirst > currentLengthStart && (relativePositionStart.equals(RelativePosition.ABOVE) ||
+								relativePositionStart.equals(RelativePosition.LEFT))) {
+							firstCentralPoint = startPoint;
+						} 
+						if (minLengthFirst > currentLengthEnd && (relativePositionEnd.equals(RelativePosition.ABOVE) ||
+								relativePositionEnd.equals(RelativePosition.LEFT))) {
+							firstCentralPoint = endPoint;
 						}
+						if (minLengthSecond > currentLengthStart && (relativePositionStart.equals(RelativePosition.BELOW) ||
+								relativePositionStart.equals(RelativePosition.RIGHT))) {
+							secondCentralPoint = startPoint;
+						} 
+						if (minLengthSecond > currentLengthEnd && (relativePositionEnd.equals(RelativePosition.BELOW) ||
+								relativePositionEnd.equals(RelativePosition.RIGHT))) {
+							secondCentralPoint = endPoint;
+						}
+						//TODO: look if it computation is correct
 					}
+				}
 				}
 			}
 
@@ -1224,8 +1251,8 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		if (glyph instanceof NamedSBaseGlyph) {
 			if (glyph instanceof ReactionGlyph) {
 				if (width != height) {
-//					Dimensions dim = createReactionGlyphDimension((ReactionGlyph) glyph);
-					double min = Math.max(width, height);
+					// Compute the minimum because the bounding box of the reaction glyph is always wider than higher
+					double min = Math.min(width, height);
 					dimension.setWidth(min);
 					dimension.setHeight(min);
 				}
