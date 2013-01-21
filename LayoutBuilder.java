@@ -63,9 +63,11 @@ public interface LayoutBuilder<P> {
 	 * method for the drawing of a connecting arc or line with the size and
 	 * position specified by the given SpeciesReferenceGlyph
 	 * 
-	 * @param speciesReferenceGlyph that defines the connecting arc 
+	 * @param srg species reference glyph that defines the connecting arc 
+	 * @param rg associated reaction glyph
+	 * @param curveWidth line width of the arc
 	 */
-	public void buildConnectingArc(SpeciesReferenceGlyph speciesReferenceGlyph, double curveWidth);
+	public void buildConnectingArc(SpeciesReferenceGlyph srg, ReactionGlyph rg, double curveWidth);
 
 	/**
 	 * method to draw an arc between the two base points of the given {@link CubicBezier}
@@ -117,11 +119,5 @@ public interface LayoutBuilder<P> {
 	 * @return true, if product is not empty, else false
 	 */
 	public boolean isProductReady();
-
-	/**
-	 * @param srg
-	 * @param rg
-	 */
-	public void buildConnectingArc(SpeciesReferenceGlyph srg, ReactionGlyph rg, double curveWidth);
 	
 }
