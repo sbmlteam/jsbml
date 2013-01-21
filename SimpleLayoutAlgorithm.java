@@ -1108,29 +1108,26 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * Calculates the docking position for quadratic species with the equation of Thales.
 	 * @param specGlyph 
 	 * @param middleOfSpecies 
-	 * @param reactionPosition
+	 * @param middleOfReaction
 	 * @return dockingPoint
 	 */
 	public Point calculateDockingForQuadraticSpecies(Point middleOfSpecies, 
-			SpeciesGlyph specGlyph, Point reactionPosition) {
+			SpeciesGlyph specGlyph, Point middleOfReaction) {
 
 		Point dockingPoint = new Point(level, version);
 
-		double reacX = reactionPosition.getX();
-		double reacY = reactionPosition.getY();
+		double reacX = middleOfReaction.getX();
+		double reacY = middleOfReaction.getY();
 		double specX = middleOfSpecies.getX();
 		double specY = middleOfSpecies.getY();
 		double width = specGlyph.getBoundingBox().getDimensions().getWidth();
 		double height = specGlyph.getBoundingBox().getDimensions().getHeight();
 
-		if(((specY + (height/2)) >= reacY ||
-				(specY - (height/2)) >= reacY) && specX != reacX) {
+		if((Math.abs(specY - reacY) <= (height/2)) && specX != reacX) {
 			//the reactionGlyph is left or right of the species
 			double b = (width/2); 
 			double a = (Math.abs(specY - reacY) * b) / Math.abs(specX - reacX);
-			if(specX == reacX){
-				a=0;
-			}
+			
 			if(specX < reacX) {
 				// reac is right
 				dockingPoint.setX(specX + b);
@@ -1138,7 +1135,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 				// reac is left
 				dockingPoint.setX(specX - b);
 			}
-			if (specY <= reacY) {
+			if (specY == reacY || specY < reacY) {
 				dockingPoint.setY(specY + a); 
 			} else {
 				dockingPoint.setY(specY - a); 
@@ -1146,14 +1143,18 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		} else {
 			//the reactionGlyph is above or below the species
 			double a = (height/2);
-			double b = (Math.abs(specY - reacY) * Math.abs(specX - reacX)) / a;
+			double b = (Math.abs(specX - reacX) * a) / Math.abs(specX - reacX);
+			if (specX == reacX) {
+				b= 0;
+			}
+			
 			if(specY < reacY) {
 				// spec is above
 				dockingPoint.setY(specY + a);
 			} else {
 				dockingPoint.setY(specY - a);
 			}
-			if (specX <= reacX) {
+			if (specX < reacX) {
 				dockingPoint.setX(specX + b);
 			} else {
 				dockingPoint.setX(specX - b);
