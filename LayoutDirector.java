@@ -194,10 +194,11 @@ public class LayoutDirector<P> implements Runnable {
 	 * @param layout the layout to be used
 	 */
 	private void buildLayout(Layout layout) {
-
+		
 		algorithm.setLayout(layout);
 		builder.builderStart(layout);
 
+		
 		// Compartment glyphs
 		ListOf<CompartmentGlyph> compartmentGlyphList = layout.getListOfCompartmentGlyphs();
 		createLayoutLinks(compartmentGlyphList);
@@ -246,6 +247,7 @@ public class LayoutDirector<P> implements Runnable {
 			// add reaction glyph to algorithm input
 			if (glyphIsLayouted(reactionGlyph)) {
 				algorithm.addLayoutedGlyph(reactionGlyph);
+				reactionGlyph.putUserObject("SPECIAL_ROTATION_NEEDED", reactionGlyph);
 			} else {
 				algorithm.addUnlayoutedGlyph(reactionGlyph);
 			}
@@ -289,7 +291,7 @@ public class LayoutDirector<P> implements Runnable {
 	 */
 	public static boolean edgeIsLayouted(ReactionGlyph reactionGlyph,
 			SpeciesReferenceGlyph srg) {
-		return reactionGlyph.isSetCurve() && srg.isSetCurve();
+		return srg.isSetCurve();
 	}
 
 	/**
@@ -441,7 +443,6 @@ public class LayoutDirector<P> implements Runnable {
 
 		double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(rg);
 		builder.buildProcessNode(rg, rgRotationAngle, curveWidth);
-		// TODO: Which ProcessNode to choose? Make some if-branches for Association,...
 		
 		for (SpeciesReferenceGlyph srg : rg.getListOfSpeciesReferenceGlyphs()) {
 			// copy SBO term of species reference to species reference glyph
