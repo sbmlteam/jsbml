@@ -26,6 +26,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.tree.TreeNode;
+
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.AlgebraicRule;
@@ -113,171 +115,21 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
 	 */
-	@SuppressWarnings("unchecked")
-	public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
+	public List<Object> getListOfSBMLElementsToWrite(Object sbase) 
+	{
 		ArrayList<Object> listOfElementsToWrite = null;
-		if (sbase instanceof SBase) {
-			if (sbase instanceof SBMLDocument) {
-				SBMLDocument sbmlDocument = (SBMLDocument) sbase;
-				if (sbmlDocument.isSetModel()) {
-					listOfElementsToWrite = new ArrayList<Object>();
-					listOfElementsToWrite.add(sbmlDocument.getModel());
-				}
-			} else if (sbase instanceof Model) {
 
-				Model model = (Model) sbase;
-				listOfElementsToWrite = new ArrayList<Object>();
-				if (model.isSetListOfFunctionDefinitions()) {
-					listOfElementsToWrite.add(model
-							.getListOfFunctionDefinitions());
-				}
-				if (model.isSetListOfUnitDefinitions()) {
-					listOfElementsToWrite.add(model.getListOfUnitDefinitions());
-				}
-				if (model.isSetListOfCompartmentTypes()) {
-					listOfElementsToWrite
-							.add(model.getListOfCompartmentTypes());
-				}
-				if (model.isSetListOfSpeciesTypes()) {
-					listOfElementsToWrite.add(model.getListOfSpeciesTypes());
-				}
-				if (model.isSetListOfCompartments()) {
-					listOfElementsToWrite.add(model.getListOfCompartments());
-				}
-				if (model.isSetListOfSpecies()) {
-					listOfElementsToWrite.add(model.getListOfSpecies());
-				}
-				if (model.isSetListOfParameters()) {
-					listOfElementsToWrite.add(model.getListOfParameters());
-				}
-				if (model.isSetListOfInitialAssignments()) {
-					listOfElementsToWrite.add(model
-							.getListOfInitialAssignments());
-				}
-				if (model.isSetListOfRules()) {
-					listOfElementsToWrite.add(model.getListOfRules());
-				}
-				if (model.isSetListOfConstraints()) {
-					listOfElementsToWrite.add(model.getListOfConstraints());
-				}
-				if (model.isSetListOfReactions()) {
-					listOfElementsToWrite.add(model.getListOfReactions());
-				}
-				if (model.isSetListOfEvents()) {
-					listOfElementsToWrite.add(model.getListOfEvents());
-				}
-
-				if (listOfElementsToWrite.isEmpty()) {
-					listOfElementsToWrite = null;
-				}
-			} else if (sbase instanceof ListOf<?>) {
-				ListOf<SBase> listOf = (ListOf<SBase>) sbase;
-
-				if (!listOf.isEmpty()) {
-					listOfElementsToWrite = new ArrayList<Object>();
-					for (int i = 0; i < listOf.size(); i++) {
-						SBase element = listOf.get(i);
-
-						if (element != null) {
-							boolean add = true;
-							if (element instanceof UnitDefinition) {
-								UnitDefinition ud = (UnitDefinition) element;
-								if (ud.isPredefined()) {
-									add = false;
-								}
-							}
-							if (add) {
-								listOfElementsToWrite.add(element);
-							}
-						}
-					}
-					if (listOfElementsToWrite.isEmpty()) {
-						listOfElementsToWrite = null;
-					}
-				}
-			} else if (sbase instanceof UnitDefinition) {
-				UnitDefinition unitDefinition = (UnitDefinition) sbase;
-
-				if (unitDefinition.isSetListOfUnits()) {
-					listOfElementsToWrite = new ArrayList<Object>();
-					listOfElementsToWrite.add(unitDefinition.getListOfUnits());
-				}
-			} else if (sbase instanceof Reaction) {
-				Reaction reaction = (Reaction) sbase;
+		if (sbase instanceof TreeNode) {
+			TreeNode treeNode = (TreeNode) sbase; 
+			int nbChild = treeNode.getChildCount();
+			
+			if (nbChild > 0) {
 				listOfElementsToWrite = new ArrayList<Object>();
 
-				if (reaction.isSetListOfReactants()) {
-					listOfElementsToWrite.add(reaction.getListOfReactants());
-				}
-				if (reaction.isSetListOfProducts()) {
-					listOfElementsToWrite.add(reaction.getListOfProducts());
-				}
-				if (reaction.isSetListOfModifiers()) {
-					listOfElementsToWrite.add(reaction.getListOfModifiers());
-				}
-				if (reaction.isSetKineticLaw()) {
-					listOfElementsToWrite.add(reaction.getKineticLaw());
-				}
-
-				if (listOfElementsToWrite.isEmpty()) {
-					listOfElementsToWrite = null;
-				}
-			} else if (sbase instanceof KineticLaw) {
-				KineticLaw kineticLaw = (KineticLaw) sbase;
-
-				if (kineticLaw.isSetListOfLocalParameters()) {
-					listOfElementsToWrite = new ArrayList<Object>();
-					listOfElementsToWrite.add(kineticLaw.getListOfLocalParameters());
-				}
-			} else if (sbase instanceof SpeciesReference) {
-				SpeciesReference speciesReference = (SpeciesReference) sbase;
-
-				if (speciesReference.isSetStoichiometryMath()) {
-					listOfElementsToWrite = new ArrayList<Object>();
-					listOfElementsToWrite.add(speciesReference.getStoichiometryMath());
-				}
-			} else if (sbase instanceof Event) {
-				Event event = (Event) sbase;
-				listOfElementsToWrite = new ArrayList<Object>();
-
-				if (event.isSetTrigger()) {
-					listOfElementsToWrite.add(event.getTrigger());
-				}
-				if (event.isSetPriority()) {
-					listOfElementsToWrite.add(event.getPriority());
-				}
-				if (event.isSetDelay()) {
-					listOfElementsToWrite.add(event.getDelay());
-				}
-				if (event.isSetListOfEventAssignments()) {
-					listOfElementsToWrite.add(event.getListOfEventAssignments());
-				}
-
-				if (listOfElementsToWrite.isEmpty()) {
-					listOfElementsToWrite = null;
+				for (int i = 0; i < nbChild; i++) {
+					listOfElementsToWrite.add(treeNode.getChildAt(i));
 				}
 			}
-
-			/*
-			 * // Level 3 packages support 
-			 * HashMap<String, SBase> extentionObjects = ((SBase)
-			 * sbase).getExtensionPackages();
-			 * 
-			 * if (extentionObjects != null && extentionObjects.size() > 0) {
-			 * 
-			 * for (String namespace : extentionObjects.keySet()) {
-			 * 
-			 * // System.out.println();
-			 * 
-			 * WritingParser parser = null; try { parser =
-			 * SBMLWriter.getWritingPackageParsers(namespace).newInstance(); }
-			 * catch (InstantiationException e) { //  Auto-generated catch
-			 * block e.printStackTrace(); } catch (IllegalAccessException e) {
-			 * //  Auto-generated catch block e.printStackTrace(); } SBase
-			 * extendedSBase = extentionObjects.get(namespace);
-			 * listOfElementsToWrite
-			 * .addAll(parser.getListOfSBMLElementsToWrite(extendedSBase)); } }
-			 */
 		}
 
 		return listOfElementsToWrite;
@@ -1264,10 +1116,14 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	 * @see org.sbml.jsbml.xml.WritingParser#writeElement(SBMLObjectForXML
 	 * xmlObject, Object sbmlElementToWrite)
 	 */
-	public void writeElement(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
+	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) 
+	{
+		
 		if (sbmlElementToWrite instanceof SBase) {
 			SBase sbase = (SBase) sbmlElementToWrite;
+			
+			log4jLogger.debug("writeElement : " + sbase.getElementName());
+
 			if (!xmlObject.isSetName()) {
 				xmlObject.setName(sbase.getElementName());
 			}
@@ -1300,6 +1156,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 			}
 
 			xmlObject.setPrefix("");
+			xmlObject.setNamespace(JSBML.getNamespaceFrom(sbase.getLevel(), sbase.getVersion()));
 		}
 	}
 }

@@ -2909,15 +2909,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getParameterCount() {
     return isSetListOfParameters() ? listOfParameters.size() : 0;
   }
-  
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#getParent()
-   */
-  @Override
-  public SBMLDocument getParent() {
-    return (SBMLDocument) super.getParent();
-  }
-  
+    
   /**
    * Returns a {@link UnitDefinition} representing one of the predefined units of SBML,
    * returns {@code null} if the given unit kind is not a valid one for the SBML level
