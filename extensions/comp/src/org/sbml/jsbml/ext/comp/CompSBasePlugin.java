@@ -93,7 +93,19 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 	public void setReplacedBy(ReplacedBy replacedBy) {
 		ReplacedBy oldReplacedBy = this.replacedBy;
 		this.replacedBy = replacedBy;
+		extendedSBase.registerChild(replacedBy);
 		firePropertyChange(CompConstant.replacedBy, oldReplacedBy, this.replacedBy);
+	}
+
+	/**
+	 * Creates a new {@link ReplacedBy} element and sets it in this {@link CompSBasePlugin}.
+	 *
+	 * @return a new {@link ReplacedBy} element.
+	 */
+	public ReplacedBy createReplacedBy() {
+		ReplacedBy replacedBy = new ReplacedBy(extendedSBase.getLevel(), extendedSBase.getVersion());
+		setReplacedBy(replacedBy);
+		return replacedBy;
 	}
 
 	/**

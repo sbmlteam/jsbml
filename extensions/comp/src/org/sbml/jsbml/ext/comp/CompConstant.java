@@ -29,6 +29,20 @@ public class CompConstant {
 
 	public static final String timeConversionFactor = "timeConversionFactor";
 	public static final String extentConversionFactor = "extentConversionFactor";
+
+	public static final String listOfSubmodels = "listOfSubmodels";
+
+	public static final String listOfPorts = "listOfPorts";
+
+	public static final String listOfExternalModelDefinitions = "listOfExternalModelDefinitions";
+
+	public static final String listOfModelDefinitions = "listOfModelDefinitions";
+
+	public static final String listOfDeletions = "listOfDeletions";
+
+	public static final String listOfReplacedElements = "listOfReplacedElements";
+
+	public static final String replacedElement = "replacedElement";
 	
 	
 }
