@@ -221,11 +221,11 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 		if (sbmlElementToWrite instanceof SBase) {
 			SBase sbase = (SBase) sbmlElementToWrite;
 
-			logger.debug("writeElement : sbase.namespaces size = " + sbase.getNamespaces().size());
-			logger.debug("writeElement : sbase.namespaces = " + sbase.getNamespaces());
-			
 		      if (!sbase.getNamespaces().contains(getNamespaceURI())) {
-		    	  logger.debug("writeElement : rejected element");
+		    	  logger.debug("writeElement : rejected an element as it does not seems to have the good namespace definition");
+		    	  logger.debug("writeElement : sbase.namespaces size = " + sbase.getNamespaces().size());
+		    	  logger.debug("writeElement : sbase.namespaces = " + sbase.getNamespaces());
+					
 		    	  return;
 		      }
 
@@ -264,9 +264,19 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 	{
 		if (sbmlElementToWrite instanceof SBase) {
 			xmlObject.setPrefix(getShortLabel());
-		}
+			xmlObject.setNamespace(getNamespaceURI());
+			
+			SBase sbase = (SBase) sbmlElementToWrite;
 
-		// TODO : write all namespaces
+			if (sbase.getDeclaredNamespaces().size() > 0) 
+			{
+				// writing all declared namespaces
+				// TODO : check that the prefix start with xmlns 
+				
+				xmlObject.addAttributes(sbase.getDeclaredNamespaces());
+			}
+
+		}
 	}
 
 	/**
