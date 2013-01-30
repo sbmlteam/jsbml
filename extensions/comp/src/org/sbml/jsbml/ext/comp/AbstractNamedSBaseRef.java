@@ -279,15 +279,16 @@ public abstract class AbstractNamedSBaseRef extends SBaseRef implements NamedSBa
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
+		
 		if (isSetId()) {
 			if (getLevel() != 1) {
-				attributes.put("id", getId());
+				attributes.put(CompConstant.shortLabel + ":id", getId());
 			} else {
 				attributes.put("name", getId());
 			}
 		}
 		if (isSetName()) {
-			attributes.put("name", getName());
+			attributes.put(CompConstant.shortLabel + ":name", getName());
 		}
 		return attributes;
 	}

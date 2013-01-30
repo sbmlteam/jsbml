@@ -66,8 +66,12 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 	public ExternalModelDefinition(ExternalModelDefinition obj) {
 		super(obj);
 
-		// TODO: copy all class attributes, e.g.:
-		// bar = obj.bar;
+		if (obj.isSetSource()) {
+			setSource(obj.getSource());
+		}
+		if (obj.isSetModelRef()) {
+			setModelRef(obj.getModelRef());
+		}
 	}
 
 	/**
@@ -194,7 +198,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 			  attributes.put(CompConstant.shortLabel + ":" + CompConstant.source, getSource());
 		  }
 		  if (isSetModelRef()) {
-			  attributes.put(CompConstant.shortLabel + ":" + CompConstant.modelRef, getName());
+			  attributes.put(CompConstant.shortLabel + ":" + CompConstant.modelRef, getModelRef());
 		  }
 
 		  return attributes;

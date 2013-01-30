@@ -1,5 +1,6 @@
 package org.sbml.jsbml.ext.comp;
 
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -8,15 +9,44 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.ext.AbstractSBasePlugin;
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.util.filters.NameFilter;
 
-public class CompSBMLDocumentPlugin extends AbstractSBasePlugin {
+public class CompSBMLDocumentPlugin extends CompSBasePlugin {
 
 	
-	// TODO : add listOfExternalModelDefinitions
+	/**
+	 * 
+	 */
+	private ListOf<ModelDefinition> listOfModelDefinitions;
 	
-	// TODO : add listOfModelDefinitions
+	/**
+	 * 
+	 */
+	private ListOf<ExternalModelDefinition> listOfExternalModelDefinitions;
 	
+	
+	public CompSBMLDocumentPlugin(SBMLDocument doc) {
+		super(doc);
+	}
+
+	public CompSBMLDocumentPlugin(CompSBMLDocumentPlugin compSBMLDocumentPlugin) 
+	{
+		super(compSBMLDocumentPlugin);
+		
+		if (compSBMLDocumentPlugin.isSetListOfExternalModelDefinitions()) {
+			setListOfExternalModelDefinitions(compSBMLDocumentPlugin.getListOfExternalModelDefinitions().clone());
+		}
+		if (compSBMLDocumentPlugin.isSetListOfModelDefinitions()) {
+			setListOfModelDefinitions(compSBMLDocumentPlugin.getListOfModelDefinitions().clone());
+		}
+	}
+
+	@Override
+	public CompSBMLDocumentPlugin clone() {
+		return new CompSBMLDocumentPlugin(this);
+	}
+
 	/**
 	 * Returns {@code true}, if listOfExternalModelDefinitions contains at least one element.
 	 *
@@ -115,12 +145,13 @@ public class CompSBMLDocumentPlugin extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * TODO: if the ID is mandatory for ExternalModelDefinition objects, 
-	 * one should also add this methods
+	 * Removes an element from the listOfExternalModelDefinitions with the given id.
+	 *
+	 * @param id the id of the {@link ExternalModelDefinition} to remove 
 	 */
-	//public void removeExternalModelDefinition(String id) {
-	//  getListOfExternalModelDefinitions().removeFirst(new NameFilter(id));
-	//}
+	public void removeExternalModelDefinition(String id) {
+		getListOfExternalModelDefinitions().removeFirst(new NameFilter(id));
+	}
 
 	/**
 	 * Creates a new ExternalModelDefinition element and adds it to the ListOfExternalModelDefinitions list
@@ -139,16 +170,6 @@ public class CompSBMLDocumentPlugin extends AbstractSBasePlugin {
 		addExternalModelDefinition(externalModelDefinition);
 		return externalModelDefinition;
 	}
-
-	/**
-	 * TODO: optionally, create additional create methods with more
-	 * variables, for instance "bar" variable
-	 */
-	// public ExternalModelDefinition createExternalModelDefinition(String id, int bar) {
-	//   ExternalModelDefinition externalModelDefinition = createExternalModelDefinition(id);
-	//   externalModelDefinition.setBar(bar);
-	//   return externalModelDefinition;
-	// }
 
 	
 	/**
@@ -169,9 +190,9 @@ public class CompSBMLDocumentPlugin extends AbstractSBasePlugin {
 	 *
 	 * @return the listOfModelDefinitions
 	 */
-	public ListOf<Model> getListOfModelDefinitions() {
+	public ListOf<ModelDefinition> getListOfModelDefinitions() {
 		if (!isSetListOfModelDefinitions()) {
-			listOfModelDefinitions = new ListOf<Model>(extendedSBase.getLevel(),
+			listOfModelDefinitions = new ListOf<ModelDefinition>(extendedSBase.getLevel(),
 					extendedSBase.getVersion());
 			listOfModelDefinitions.addNamespace(CompConstant.namespaceURI);
 			listOfModelDefinitions.setSBaseListType(ListOf.Type.other);
@@ -186,7 +207,7 @@ public class CompSBMLDocumentPlugin extends AbstractSBasePlugin {
 	 *
 	 * @param listOfModelDefinitions
 	 */
-	public void setListOfModelDefinitions(ListOf<Model> listOfModelDefinitions) {
+	public void setListOfModelDefinitions(ListOf<ModelDefinition> listOfModelDefinitions) {
 		unsetListOfModelDefinitions();
 		this.listOfModelDefinitions = listOfModelDefinitions;
 		extendedSBase.registerChild(this.listOfModelDefinitions);
@@ -201,7 +222,7 @@ public class CompSBMLDocumentPlugin extends AbstractSBasePlugin {
 	 */
 	public boolean unsetListOfModelDefinitions() {
 		if (isSetListOfModelDefinitions()) {
-			ListOf<Model> oldModelDefinitions = this.listOfModelDefinitions;
+			ListOf<ModelDefinition> oldModelDefinitions = this.listOfModelDefinitions;
 			this.listOfModelDefinitions = null;
 			oldModelDefinitions.fireNodeRemovedEvent();
 			return true;
@@ -216,7 +237,7 @@ public class CompSBMLDocumentPlugin extends AbstractSBasePlugin {
 	 * @param modelDefinition the element to add to the list
 	 * @return true (as specified by {@link Collection.add})
 	 */
-	public boolean addModelDefinition(Model modelDefinition) {
+	public boolean addModelDefinition(ModelDefinition modelDefinition) {
 		return getListOfModelDefinitions().add(modelDefinition);
 	}
 
@@ -227,7 +248,7 @@ public class CompSBMLDocumentPlugin extends AbstractSBasePlugin {
 	 * @return true if the list contained the specified element
 	 * @see List#remove(Object)
 	 */
-	public boolean removeModelDefinition(Model modelDefinition) {
+	public boolean removeModelDefinition(ModelDefinition modelDefinition) {
 		if (isSetListOfModelDefinitions()) {
 			return getListOfModelDefinitions().remove(modelDefinition);
 		}
@@ -249,12 +270,13 @@ public class CompSBMLDocumentPlugin extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * TODO: if the ID is mandatory for ModelDefinition objects, 
-	 * one should also add this methods
+	 * Removes an element from the listOfModelDefinitions with the given id.
+	 *
+	 * @param id the id of the {@link ModelDefinition} to remove 
 	 */
-	//public void removeModelDefinition(String id) {
-	//  getListOfModelDefinitions().removeFirst(new NameFilter(id));
-	//}
+	public void removeModelDefinition(String id) {
+	  getListOfModelDefinitions().removeFirst(new NameFilter(id));
+	}
 
 	/**
 	 * Creates a new ModelDefinition element and adds it to the ListOfModelDefinitions list
@@ -269,62 +291,61 @@ public class CompSBMLDocumentPlugin extends AbstractSBasePlugin {
 	 * @return a new {@link ModelDefinition} element
 	 */
 	public Model createModelDefinition(String id) {
-		Model modelDefinition = new Model(id, extendedSBase.getLevel(), extendedSBase.getVersion());
+		ModelDefinition modelDefinition = new ModelDefinition(id, extendedSBase.getLevel(), extendedSBase.getVersion());
 		addModelDefinition(modelDefinition);
 		return modelDefinition;
 	}
 
-	/**
-	 * TODO: optionally, create additional create methods with more
-	 * variables, for instance "bar" variable
-	 */
-	// public ModelDefinition createModelDefinition(String id, int bar) {
-	//   ModelDefinition modelDefinition = createModelDefinition(id);
-	//   modelDefinition.setBar(bar);
-	//   return modelDefinition;
-	// }
-
-	/**
-	 * 
-	 */
-	private ListOf<Model> listOfModelDefinitions;
 	
-	/**
-	 * 
-	 */
-	private ListOf<ExternalModelDefinition> listOfExternalModelDefinitions;
-	
-	
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		// TODO Auto-generated method stub
+	public boolean readAttribute(String attributeName, String prefix, String value) 
+	{
 		return false;
 	}
 
-	public Map<String, String> writeXMLAttributes() {
-		// TODO Auto-generated method stub
+	public Map<String, String> writeXMLAttributes() 
+	{
 		return null;
 	}
 
 	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
+		  if (childIndex < 0) {
+			  throw new IndexOutOfBoundsException(childIndex + " < 0");
+		  }
+
+		  int pos = 0;
+		  if (isSetListOfExternalModelDefinitions()) {
+			  if (pos == childIndex) {
+				  return getListOfExternalModelDefinitions();
+			  }
+			  pos++;
+		  }
+		  if (isSetListOfModelDefinitions()) {
+			  if (pos == childIndex) {
+				  return getListOfModelDefinitions();
+			  }
+			  pos++;
+		  }
+		  throw new IndexOutOfBoundsException(MessageFormat.format(
+		    "Index {0,number,integer} >= {1,number,integer}",
+				childIndex, +((int) Math.min(pos, 0))));	  
 	}
 
 	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		int count = 0;
+		
+		if (isSetListOfExternalModelDefinitions()) {
+			count++;
+		}
+		if (isSetListOfModelDefinitions()) {
+			count++;
+		}
+		
+		return count;
 	}
 
 	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
-	@Override
-	public AbstractSBasePlugin clone() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

@@ -11,9 +11,10 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.filters.NameFilter;
 
-public class Submodel extends AbstractNamedSBase {
+public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 
 	private String modelRef;
 	
@@ -429,6 +430,14 @@ public class Submodel extends AbstractNamedSBase {
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
+		if (isSetId()) {
+			attributes.remove("id");
+			attributes.put(CompConstant.shortLabel + ":id", getId());
+		}
+		if (isSetName()) {
+			attributes.remove("name");
+			attributes.put(CompConstant.shortLabel + ":name", getName());
+		}
 		if (isSetModelRef()) {
 			attributes.put(CompConstant.shortLabel + ":" + CompConstant.modelRef, getModelRef());
 		}

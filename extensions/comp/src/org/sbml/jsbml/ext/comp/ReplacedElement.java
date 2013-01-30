@@ -2,8 +2,6 @@ package org.sbml.jsbml.ext.comp;
 
 import java.util.Map;
 
-import org.sbml.jsbml.AbstractSBase;
-
 public class ReplacedElement extends SBaseRef {
 
 	private String submodelRef;
@@ -12,23 +10,66 @@ public class ReplacedElement extends SBaseRef {
 	
 	private String conversionFactor;
 
-	
+	/**
+	 * Creates an ReplacedElement instance 
+	 */
+	public ReplacedElement() {
+		super();
+		initDefaults();
+	}
+
+	/**
+	 * Creates a ReplacedElement instance with a level and version. -
+	 * 
+	 * @param level
+	 * @param version
+	 */
 	public ReplacedElement(int level, int version) {
 		super(level, version);
-		// TODO Auto-generated constructor stub
+		initDefaults();
 	}
 
 
-	@Override
-	public AbstractSBase clone() {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Clone constructor
+	 */
+	public ReplacedElement(ReplacedElement obj) {
+		super(obj);
+
+		if (obj.isSetSubmodelRef()) {
+			setSubmodelRef(obj.getSubmodelRef());
+		}
+		if (obj.isSetDeletion()) {
+			setDeletion(obj.getDeletion());
+		}
+		if (obj.isSetConversionFactor()) {
+			setConversionFactor(obj.getConversionFactor());
+		}
 	}
 
+	/**
+	 * clones this class
+	 */
+	public ReplacedElement clone() {
+		return new ReplacedElement(this);
+	}
+
+	/**
+	 * Initializes the default values using the namespace.
+	 */
+	public void initDefaults() {
+		addNamespace(CompConstant.namespaceURI);
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return "ReplacedElement [submodelRef=" + submodelRef + ", deletion="
+				+ deletion + ", conversionFactor=" + conversionFactor + "]";
 	}
 
 	/**

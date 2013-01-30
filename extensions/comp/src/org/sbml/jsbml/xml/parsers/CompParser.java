@@ -28,11 +28,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.SBasePlugin;
-
+import org.sbml.jsbml.ext.comp.CompConstant;
+import org.sbml.jsbml.ext.comp.CompModelPlugin;
+import org.sbml.jsbml.ext.comp.CompSBMLDocumentPlugin;
+import org.sbml.jsbml.ext.comp.CompSBasePlugin;
+import org.sbml.jsbml.ext.comp.SBaseRef;
+import org.sbml.jsbml.ext.comp.Submodel;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
@@ -76,8 +83,8 @@ public class CompParser extends AbstractReaderWriter {
 		List<Object> listOfElementsToWrite = new ArrayList<Object>();
 		
 		// test if this treeNode is an extended SBase.
-		if (treeNode instanceof SBase && ((SBase) treeNode).getExtension(getNamespaceURI()) != null) {
-			SBasePlugin sbasePlugin = (SBasePlugin) ((Model) treeNode).getExtension(getNamespaceURI());
+		if (treeNode instanceof SBase && (! (treeNode instanceof Model)) && ((SBase) treeNode).getExtension(getNamespaceURI()) != null) {
+			SBasePlugin sbasePlugin = (SBasePlugin) ((SBase) treeNode).getExtension(getNamespaceURI());
 			
 			if (sbasePlugin != null) {
 				listOfElementsToWrite = super.getListOfSBMLElementsToWrite(sbasePlugin);
@@ -87,6 +94,20 @@ public class CompParser extends AbstractReaderWriter {
 			listOfElementsToWrite = super.getListOfSBMLElementsToWrite(treeNode);
 		}
 
+		if (treeNode instanceof Model) {
+			String sbmlNamespace = JSBML.getNamespaceFrom(((Model) treeNode).getLevel(), ((Model) treeNode).getVersion());
+			
+			((Model) treeNode).addNamespace(sbmlNamespace);
+			
+			for (Object child : listOfElementsToWrite) {
+				if (child instanceof SBase && ((SBase) child).getNamespaces().size() == 0) {
+					SBase sbase = (SBase) child;
+					System.out.println("Found one suspect Model child : " + sbase.getElementName());
+					sbase.addNamespace(sbmlNamespace);
+				}
+			}
+		}
+		
 		return listOfElementsToWrite;
 	}
 
@@ -101,105 +122,98 @@ public class CompParser extends AbstractReaderWriter {
 
 		// TODO : make it generic by using reflection on the contextObject
 		
-		
-		if (contextObject instanceof Model) 
+		if (contextObject instanceof SBMLDocument) 
 		{
-			Model model = (Model) contextObject;
-			MultiModel multiModel = null;
+			SBMLDocument sbmlDoc = (SBMLDocument) contextObject;
+			CompSBMLDocumentPlugin compSBMLDoc = null;
 			
-			if (model.getExtension(namespaceURI) != null) {
-				multiModel = (MultiModel) model.getExtension(namespaceURI);
+			if (sbmlDoc.getExtension(namespaceURI) != null) {
+				compSBMLDoc = (CompSBMLDocumentPlugin) sbmlDoc.getExtension(namespaceURI);
 			} else {
-				multiModel = new MultiModel(model);
-				model.addExtension(namespaceURI, multiModel);
+				compSBMLDoc = new CompSBMLDocumentPlugin(sbmlDoc);
+				sbmlDoc.addExtension(namespaceURI, compSBMLDoc);
 			}
 
-			if (elementName.equals(listOfSpeciesTypes)) 
+			if (elementName.equals(CompConstant.listOfExternalModelDefinitions)) 
 			{
-				return multiModel.getListOfSpeciesTypes();
+				return compSBMLDoc.getListOfExternalModelDefinitions();
 			} 
-			else if (elementName.equals(listOfSelectors)) 
+			else if (elementName.equals(CompConstant.listOfModelDefinitions)) 
 			{
-				return multiModel.getListOfSelectors();
+				return compSBMLDoc.getListOfModelDefinitions();
+			}
+		} // end SBMLDocument		
+		else if (contextObject instanceof Model) 
+		{
+			Model model = (Model) contextObject;
+			CompModelPlugin compModel = null;
+			
+			if (model.getExtension(namespaceURI) != null) {
+				compModel = (CompModelPlugin) model.getExtension(namespaceURI);
+			} else {
+				compModel = new CompModelPlugin(model);
+				model.addExtension(namespaceURI, compModel);
+			}
+
+			if (elementName.equals(CompConstant.listOfSubmodels)) 
+			{
+				return compModel.getListOfSubmodels();
+			} 
+			else if (elementName.equals(CompConstant.listOfPorts)) 
+			{
+				return compModel.getListOfPorts();
 			}
 		} // end Model
-		/*
-		else if (contextObject instanceof SpeciesType)
+		else if (contextObject instanceof Submodel)
 		{
-			SpeciesType speciesType = (SpeciesType) contextObject;
+			Submodel submodel = (Submodel) contextObject;
 			
-			if (elementName.equals(listOfStateFeatures)) {
-				return speciesType.getListOfStateFeatures();
+			if (elementName.equals(CompConstant.listOfDeletions)) {
+				return submodel.getListOfDeletions();
 			}			
-		} // end SpeciesType
-		else if (contextObject instanceof StateFeature)
+		} // end Submodel
+		else if (contextObject instanceof SBaseRef)
 		{
-			StateFeature stateFeature = (StateFeature) contextObject;
+			SBaseRef speciesType = (SBaseRef) contextObject;
 			
-			if (elementName.equals(listOfPossibleValues)) {
-				return stateFeature.getListOfPossibleValues();
+			if (elementName.equalsIgnoreCase(CompConstant.sBaseRef)) {
+				return speciesType.getSBaseRef();
 			}			
-		} // end StateFeature
-		else if (contextObject instanceof Selector)
-		{
-			Selector selector = (Selector) contextObject;
-			
-			if (elementName.equals(listOfSpeciesTypeStates)) 
-			{
-				return selector.getListOfSpeciesTypeStates();
-			}
-			else if (elementName.equals(listOfBonds)) 
-			{
-				return selector.getListOfBonds();
-			} 
-			else if (elementName.equals(listOfUnboundBindingSites)) 
-			{
-				return selector.getListOfUnboundBindingSites();
-			} 
-		} // end Selector
-		else if (contextObject instanceof SpeciesTypeState)
-		{
-			SpeciesTypeState speciesTypeState = (SpeciesTypeState) contextObject;
-			
-			if (elementName.equals(listOfStateFeatureInstances)) 
-			{
-				return speciesTypeState.getListOfStateFeatureInstances();
-			}			
-			else if (elementName.equals(listOfContainedSpeciesTypes)) 
-			{
-				return speciesTypeState.getListOfContainedSpeciesTypes();
-			} 
-		} // end SpeciesTypeState
-		else if (contextObject instanceof StateFeatureInstance)
-		{
-			StateFeatureInstance stateFeatureInstance = (StateFeatureInstance) contextObject;
-			
-			if (elementName.equals(listOfStateFeatureValues)) {
-				return stateFeatureInstance.getListOfStateFeatureValues();
-			}			
-		} // end StateFeatureInstance
-		else if (contextObject instanceof Bond)
-		{
-			Bond bond = (Bond) contextObject;
-			
-			if (elementName.equals(bindingSiteReference)) 
-			{
-				BindingSiteReference bindingSiteReference = new BindingSiteReference();
-				bond.addBindingSiteReference(bindingSiteReference);
-				return bindingSiteReference;
-			} 
-		} // end Bond
-		*/
+		} // end SBaseRef
 		else if (contextObject instanceof ListOf<?>) 
 		{
 			ListOf<?> listOf = (ListOf<?>) contextObject;
 			
 			Object newElement = createListOfChild(listOf, elementName);
 			
-			return newElement;
-			
-			// TODO : SpeciesTypeInstance, SelectorReference, ....
+			if (newElement != null) {
+				return newElement;
+			}			
 		}
+		
+		// If not other elements recognized the new element to read, it might be
+		// on of the extended SBase children
+		if (contextObject instanceof SBase) 
+		{
+			SBase sbase = (SBase) contextObject;
+			CompSBasePlugin compSBase = null;
+			
+			if (sbase.getExtension(namespaceURI) != null) {
+				compSBase = (CompSBasePlugin) sbase.getExtension(namespaceURI);
+			} else {
+				compSBase = new CompSBasePlugin(sbase);
+				sbase.addExtension(namespaceURI, compSBase);
+			}
+
+			if (elementName.equals(CompConstant.listOfReplacedElements)) 
+			{
+				return compSBase.getListOfReplacedElements();
+			} 
+			else if (elementName.equals(CompConstant.replacedBy)) 
+			{				
+				return compSBase.createReplacedBy();
+			}
+		} 
 		
 		
 		return contextObject;
@@ -217,10 +231,15 @@ public class CompParser extends AbstractReaderWriter {
 		
 		if (parentSBase == null) {
 			return null;
-		} else if (parentSBase instanceof Model) {
-			parentSBase = ((Model) parentSBase).getExtension(namespaceURI);
+		} else if (parentSBase instanceof Model || parentSBase instanceof SBMLDocument) {
+			parentSBase = ((SBase) parentSBase).getExtension(namespaceURI);
 		}
 
+		// dealing with the extendedSBase		
+		if (elementName.equals(CompConstant.replacedBy) || elementName.equals(CompConstant.replacedElement)) {
+			parentSBase = ((SBase) parentSBase).getExtension(namespaceURI);
+		}
+		
 		String createMethodName = "create" + elementName.substring(0, 1).toUpperCase() + elementName.substring(1);  
 		Method createMethod = null;
 
@@ -272,6 +291,14 @@ public class CompParser extends AbstractReaderWriter {
 			Object sbmlElementToWrite) 
 	{
 		super.writeElement(xmlObject, sbmlElementToWrite);
+		
+		if (sbmlElementToWrite instanceof Model && (! (((Model) sbmlElementToWrite).getParent() instanceof SBMLDocument))) 
+		{
+			xmlObject.setName("modelDefinition");
+		}
+		else if (xmlObject.getName() != null && xmlObject.getName().equals("listOfModels")) {
+			xmlObject.setName(CompConstant.listOfModelDefinitions);
+		}
 		
 		if (logger.isDebugEnabled()) {
 			logger.debug("writeElement : " + sbmlElementToWrite.getClass().getSimpleName());

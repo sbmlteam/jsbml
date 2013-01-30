@@ -1,5 +1,6 @@
 package org.sbml.jsbml.ext.comp;
 
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -7,9 +8,9 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.ext.AbstractSBasePlugin;
+import org.sbml.jsbml.Model;
 
-public class CompModelPlugin extends AbstractSBasePlugin {
+public class CompModelPlugin extends CompSBasePlugin {
 
 	/**
 	 * 
@@ -22,6 +23,10 @@ public class CompModelPlugin extends AbstractSBasePlugin {
 	private ListOf<Submodel> listOfSubmodels;
 	
 	
+	public CompModelPlugin(Model model) {
+		super(model);
+	}
+
 	/**
 	 * Returns {@code true}, if listOfSubmodels contains at least one element.
 	 *
@@ -290,34 +295,59 @@ public class CompModelPlugin extends AbstractSBasePlugin {
 	// }
 
 	
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		// TODO Auto-generated method stub
+	public boolean readAttribute(String attributeName, String prefix, String value) {
 		return false;
 	}
 
 	public Map<String, String> writeXMLAttributes() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
+
+		  if (childIndex < 0) {
+			  throw new IndexOutOfBoundsException(childIndex + " < 0");
+		  }
+
+		  int pos = 0;
+		  if (isSetListOfSubmodels()) {
+			  if (pos == childIndex) {
+				  return getListOfSubmodels();
+			  }
+			  pos++;
+		  }
+		  if (isSetListOfPorts()) {
+			  if (pos == childIndex) {
+				  return getListOfPorts();
+			  }
+			  pos++;
+		  }
+		  throw new IndexOutOfBoundsException(MessageFormat.format(
+		    "Index {0,number,integer} >= {1,number,integer}",
+				childIndex, +((int) Math.min(pos, 0))));	  
+
 	}
 
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getChildCount() 
+	{
+		int count = 0;
+		
+		if (isSetListOfSubmodels()) {
+			count++;
+		}
+		if (isSetListOfPorts()) {
+			count++;
+		}
+		
+		return count;
 	}
 
 	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
-	public AbstractSBasePlugin clone() {
+	public CompModelPlugin clone() {
 		// TODO Auto-generated method stub
 		return null;
 	}
