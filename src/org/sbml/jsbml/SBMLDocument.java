@@ -201,7 +201,7 @@ public class SBMLDocument extends AbstractSBase {
 		} else {
 			this.SBMLDocumentNamespaces.put(namespaceName, URI);
 		}
-		this.addNamespace(URI);
+		// this.addNamespace(URI);
 		this.firePropertyChange(TreeNodeChangeEvent.addNamespace, null, URI);
 	}
 

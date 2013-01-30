@@ -34,6 +34,7 @@
      data structures has been included into the Java build path.  
   -->
   
+  <entry key="http://www.sbml.org/sbml/level3/version1/comp/version1">org.sbml.jsbml.xml.parsers.CompParser</entry>
   <entry key="http://www.sbml.org/sbml/level3/version1/multi/version1">org.sbml.jsbml.xml.parsers.MultiParser</entry>
   <entry key="http://www.sbml.org/sbml/level3/version1/groups/version1">org.sbml.jsbml.xml.parsers.GroupsParser</entry>
   <entry key="http://projects.eml.org/bcb/sbml/level2">org.sbml.jsbml.xml.parsers.LayoutParser</entry>
