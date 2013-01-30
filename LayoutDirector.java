@@ -48,6 +48,7 @@ import org.sbml.jsbml.ext.layout.NamedSBaseGlyph;
 import org.sbml.jsbml.ext.layout.ReactionGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
+import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
 import org.sbml.jsbml.ext.layout.TextGlyph;
 
 import de.zbit.io.csv.CSVReader;
@@ -126,7 +127,7 @@ public class LayoutDirector<P> implements Runnable {
 		this.algorithm = algorithm;
 		this.layoutIndex = 0;
 	}
-	
+
 	/**
 	 * @param doc
 	 * @param builder
@@ -134,12 +135,12 @@ public class LayoutDirector<P> implements Runnable {
 	 * @param index
 	 */
 	public LayoutDirector(SBMLDocument doc, LayoutBuilder<P> builder,
-		LayoutAlgorithm algorithm, int index) {
-	this.model = doc.getModel();
-	this.builder = builder;
-	this.algorithm = algorithm;
-	this.layoutIndex = index;
-}
+			LayoutAlgorithm algorithm, int index) {
+		this.model = doc.getModel();
+		this.builder = builder;
+		this.algorithm = algorithm;
+		this.layoutIndex = index;
+	}
 
 	/**
 	 * @param layout
@@ -147,7 +148,7 @@ public class LayoutDirector<P> implements Runnable {
 	 * @param algorithm
 	 */
 	public LayoutDirector(Layout layout, LayoutBuilder<P> builder,
-		LayoutAlgorithm algorithm) {
+			LayoutAlgorithm algorithm) {
 		Model model = layout.getModel();
 		ExtendedLayoutModel ext = (ExtendedLayoutModel) model.getExtension(LayoutConstants.getNamespaceURI(layout.getLevel(), layout.getVersion()));
 		this.model = model;
@@ -194,11 +195,11 @@ public class LayoutDirector<P> implements Runnable {
 	 * @param layout the layout to be used
 	 */
 	private void buildLayout(Layout layout) {
-		
+
 		algorithm.setLayout(layout);
 		builder.builderStart(layout);
 
-		
+
 		// Compartment glyphs
 		ListOf<CompartmentGlyph> compartmentGlyphList = layout.getListOfCompartmentGlyphs();
 		createLayoutLinks(compartmentGlyphList);
@@ -216,7 +217,7 @@ public class LayoutDirector<P> implements Runnable {
 		ListOf<TextGlyph> textGlyphList = layout.getListOfTextGlyphs();
 
 		// add all glyphs to algorithm input
-		
+
 		// 1. compartment glyphs
 		for (CompartmentGlyph compartmentGlyph : compartmentGlyphList) {
 			if (glyphIsLayouted(compartmentGlyph)) {
@@ -225,7 +226,7 @@ public class LayoutDirector<P> implements Runnable {
 				algorithm.addUnlayoutedGlyph(compartmentGlyph);
 			}
 		}
-		
+
 		// 2. species glyphs + texts
 		for (SpeciesGlyph speciesGlyph : speciesGlyphList) {
 			if (glyphIsLayouted(speciesGlyph)) {
@@ -279,7 +280,7 @@ public class LayoutDirector<P> implements Runnable {
 		// 4. set layout dimensions
 		// TODO this is the second call (see above)
 		layout.setDimensions(algorithm.createLayoutDimension());
-		
+
 		builder.builderEnd();
 	}
 
@@ -302,8 +303,8 @@ public class LayoutDirector<P> implements Runnable {
 	 */
 	public static boolean glyphIsLayouted(GraphicalObject glyph) {
 		return glyph.isSetBoundingBox() &&
-				glyph.getBoundingBox().isSetDimensions() &&
-				glyph.getBoundingBox().isSetPosition();
+		glyph.getBoundingBox().isSetDimensions() &&
+		glyph.getBoundingBox().isSetPosition();
 	}
 
 
@@ -324,9 +325,9 @@ public class LayoutDirector<P> implements Runnable {
 	 */
 	public static boolean glyphHasPosition(GraphicalObject glyph) {
 		return glyph.isSetBoundingBox() &&
-				glyph.getBoundingBox().isSetPosition();
+		glyph.getBoundingBox().isSetPosition();
 	}
-	
+
 	/**
 	 * Check if a species reference glyph is a substrate.
 	 */
@@ -334,15 +335,21 @@ public class LayoutDirector<P> implements Runnable {
 		if (speciesReferenceGlyph.isSetSBOTerm()) {
 			return SBO.isChildOf(speciesReferenceGlyph.getSBOTerm(), 394);
 		}
-		// TODO handle roles
-		// else if (speciesReferenceGlyph.isSetSpeciesReferenceRole()) {
-			// RoleToSBOTerm.get(speciesReferenceGlyph.getSpeciesReferenceRole());
-		// }
+		// handle roles
+		else if (speciesReferenceGlyph.isSetSpeciesReferenceRole()) {
+			//RoleToSBOTerm.get(speciesReferenceGlyph.getSpeciesReferenceRole());
+			SpeciesReferenceRole role = speciesReferenceGlyph.getSpeciesReferenceRole();
+			if (role.equals(SpeciesReferenceRole.SUBSTRATE)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 		else {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Check if a species reference glyph is a production.
 	 */
@@ -350,16 +357,23 @@ public class LayoutDirector<P> implements Runnable {
 		if (speciesReferenceGlyph.isSetSBOTerm()) {
 			return SBO.isChildOf(speciesReferenceGlyph.getSBOTerm(), 393);
 		}
-		// TODO handle roles
-		// else if (speciesReferenceGlyph.isSetSpeciesReferenceRole()) {
-			// RoleToSBOTerm.get(speciesReferenceGlyph.getSpeciesReferenceRole());
-		// }
+		// handle roles
+		else if (speciesReferenceGlyph.isSetSpeciesReferenceRole()) {
+			//RoleToSBOTerm.get(speciesReferenceGlyph.getSpeciesReferenceRole());
+			SpeciesReferenceRole role = speciesReferenceGlyph.getSpeciesReferenceRole();
+			if (role.equals(SpeciesReferenceRole.PRODUCT)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 		else {
 			return false;
 		}
 	}
 
 	/**
+	 * Method calls the builder and the corresponding method {@link LayoutBuilder#buildCompartment}.
 	 * @param compartmentGlyphList
 	 */
 	private void handleCompartmentGlyphs(
@@ -387,6 +401,8 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
+	 * Method calls {@link LayoutDirector#handleSpeciesGlyph} for every {@link SpeciesGlyph}
+	 * of the incoming list.
 	 * @param speciesGlyphList
 	 */
 	private void handleSpeciesGlyphs(ListOf<SpeciesGlyph> speciesGlyphList) {
@@ -396,6 +412,7 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
+	 * Method calls the builder and the corresponding method {@link LayoutBuilder#buildEntityPoolNode}.
 	 * @param speciesGlyph
 	 */
 	@SuppressWarnings("unchecked")
@@ -422,6 +439,8 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
+	 * Method calls {@link LayoutDirector#handleReactionGlyph} for every {@link ReactionGlyph}
+	 * of the incoming list.
 	 * @param reactionGlyphList
 	 */
 	private void handleReactionGlyphs(ListOf<ReactionGlyph> reactionGlyphList) {
@@ -431,20 +450,22 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * @param rg
+	 * Method calls the builder and the corresponding method {@link LayoutBuilder#buildProcessNode} and
+	 * {@link LayoutBuilder#buildConnectingArc}.
+	 * @param reactionGlyph
 	 */
-	private void handleReactionGlyph(ReactionGlyph rg) {
+	private void handleReactionGlyph(ReactionGlyph reactionGlyph) {
 
 		double curveWidth = DEFAULT_CURVE_WIDTH;
-		Object userObject = rg.getUserObject(KEY_FOR_FLUX_VALUES);
+		Object userObject = reactionGlyph.getUserObject(KEY_FOR_FLUX_VALUES);
 		if (userObject != null) {
 			curveWidth = (Double) userObject;
 		} 
 
-		double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(rg);
-		builder.buildProcessNode(rg, rgRotationAngle, curveWidth);
-		
-		for (SpeciesReferenceGlyph srg : rg.getListOfSpeciesReferenceGlyphs()) {
+		double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(reactionGlyph);
+		builder.buildProcessNode(reactionGlyph, rgRotationAngle, curveWidth);
+
+		for (SpeciesReferenceGlyph srg : reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
 			// copy SBO term of species reference to species reference glyph
 			SimpleSpeciesReference speciesReference = (SimpleSpeciesReference) srg.getNamedSBaseInstance();
 			if ((speciesReference == null) || !speciesReference.isSetSBOTerm()) {
@@ -456,11 +477,13 @@ public class LayoutDirector<P> implements Runnable {
 				srg.setSBOTerm(speciesReference.getSBOTerm());
 			}
 
-			builder.buildConnectingArc(srg, rg, curveWidth);
+			builder.buildConnectingArc(srg, reactionGlyph, curveWidth);
 		}
 	}
 
 	/**
+	 * Method calls {@link LayoutDirector#handleTextGlyph} for every {@link TextGlyph}
+	 * of the incoming list.
 	 * @param textGlyphList
 	 */
 	private void handleTextGlyphs(ListOf<TextGlyph> textGlyphList) {
@@ -470,6 +493,7 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
+	 * Method calls the builder and the corresponding method {@link LayoutBuilder#buildTextGlyph}.
 	 * @param textGlyph
 	 */
 	private void handleTextGlyph(TextGlyph textGlyph) {
@@ -498,8 +522,8 @@ public class LayoutDirector<P> implements Runnable {
 				NamedSBase correspondingSBase = glyph.getNamedSBaseInstance();
 				if (correspondingSBase == null) {
 					logger.warning(MessageFormat.format(
-						"Removing incorrect link from glyph {0} to an non existing element {1}",
-						glyph, glyph.getNamedSBase()));
+							"Removing incorrect link from glyph {0} to an non existing element {1}",
+							glyph, glyph.getNamedSBase()));
 					glyph.unsetNamedSBase();
 				} else {
 					List<NamedSBaseGlyph> listOfGlyphs = new ArrayList<NamedSBaseGlyph>();

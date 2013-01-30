@@ -985,9 +985,14 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		double x = middleOfSpecies.getX();
 		double y = middleOfSpecies.getY();
 		double z = middleOfSpecies.getZ();
+		int sboTerm = -1;
 		double width = specGlyph.getBoundingBox().getDimensions().getWidth();
 		double height = specGlyph.getBoundingBox().getDimensions().getHeight();
-		int sboTerm = specGlyph.getSpeciesInstance().getSBOTerm();
+		if (specGlyph.isSetSpecies()) {
+			sboTerm = specGlyph.getSpeciesInstance().getSBOTerm();
+		} else if (specGlyph.isSetSBOTerm()) {
+			sboTerm = specGlyph.getSBOTerm();
+		}
 
 		// computing angle
 		double t = 0;
@@ -999,7 +1004,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		}
 
 		if(SBO.isChildOf(sboTerm, SBO.getUnknownMolecule()) ||
-				!specGlyph.getSpeciesInstance().isSetSBOTerm()) {
+				sboTerm == -1) {
 			// species is an ellipse
 			double xCoordinate = 0;
 			double yCoordinate = 0;
