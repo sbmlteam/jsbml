@@ -70,11 +70,11 @@ public interface LayoutBuilder<P> {
 	public void buildConnectingArc(SpeciesReferenceGlyph srg, ReactionGlyph rg, double curveWidth);
 
 	/**
-	 * method to draw an arc between the two base points of the given {@link CubicBezier}
-	 * 
+	 * method to draw an arc between the two base points of the given {@link CubicBezier}.
 	 * @param cubicBezier
+	 * @param lineWidth
 	 */
-	public void buildCubicBezier(CubicBezier cubicBezier);
+	public void buildCubicBezier(CubicBezier cubicBezier, double lineWidth);
 	
 	/**
 	 * method for the drawing of an entity pool node with the given size and
