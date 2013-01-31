@@ -241,10 +241,7 @@
 	<target name="test" depends="jar">
 
 
-		<echo message="This first and second tests should have NO failures or errors."/>
-		<echo message=""/>
-		<echo message="This third test should report only failures and errors corresponding to the API differences with libsbml"/>
-		<echo message="If there is one test that succeed, it means one of the API differences as been removed."/>
+		<echo message="There should be NO failures or errors."/>
 		<echo message=""/>
 		<echo message="You can see a details of the tests on the two files : jsbmlTestResults.txt and libsbmlCompatibilityTestResults.txt"/>
 		<echo message=""/>
@@ -281,8 +278,8 @@
 		</junit>
 		<echo message=""/>
 
+		<!--
 		<junit printsummary="yes" >
-			<!-- showoutput="yes" -->
 			<jvmarg value="-DDATA_FOLDER=${build.dest}/org/sbml/jsbml/xml/test/data/"/>
 			<sysproperty key="DATA_FOLDER" value="${build.dest}/org/sbml/jsbml/xml/test/data"/>
 
@@ -295,7 +292,8 @@
 				<pathelement location="${build.dir}/${name}-${version}.jar"/>
 			</classpath>
 		</junit>
-
+	-->
+		
 	</target>
 
 	<!-- =================================================================== -->
