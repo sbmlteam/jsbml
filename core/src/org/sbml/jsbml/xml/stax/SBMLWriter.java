@@ -1068,7 +1068,7 @@ public class SBMLWriter {
 		if (history.isSetCreatedDate()) {
 			creationDate = DateParser.getIsoDateNoMillis(history.getCreatedDate());
 			writeCreationDate = true;
-		} else if (isModelHistory && JSBML.AUTOMATICALLY_ADD_CREATION_DATE) { // We need to add a creation date
+		} else if (isModelHistory) { // We need to add a creation date
 			writeCreationDate = true;
 		}
 		
@@ -1086,7 +1086,7 @@ public class SBMLWriter {
 						rdfPrefix);
 			}
 		}
-		if (isModelHistory && JSBML.AUTOMATICALLY_ADD_MODIFICATION_DATE) {
+		if (isModelHistory) {
 			// We need to add a new modified date
 			writeW3CDate(writer, indent, now, "modified", dctermPrefix, rdfPrefix);
 		}
