@@ -17,7 +17,6 @@
 package de.zbit.sbml.layout;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -663,27 +662,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		double y = 0;
 		double z = 0;
 
-		List<SpeciesReferenceGlyph> curveList = new ArrayList<SpeciesReferenceGlyph>();
-		List<SpeciesReferenceGlyph> speciesGlyphList = new ArrayList<SpeciesReferenceGlyph>();
-
 		List<SpeciesReferenceGlyph> speciesReferenceGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
-		for (SpeciesReferenceGlyph specRefGlyph : speciesReferenceGlyphList) {
-
-			// is useful, because of the cases below: if the curve is set or not
-			// you have to draw the curve if its set and if not you have to figure out
-			// where you have to draw the curve.
-			if (specRefGlyph.isSetCurve()) {
-				curveList.add(specRefGlyph);
-			} else {
-				if (specRefGlyph.isSetSpeciesGlyph()) {
-					speciesGlyphList.add(specRefGlyph);
-				}
-			}
-
-		}
-
-		Point substratePosition;
-		Point productPosition;
 		Dimensions reacGlyphDimension;
 
 		if (reactionGlyph.isSetBoundingBox() && reactionGlyph.getBoundingBox().isSetDimensions()) {
@@ -691,14 +670,6 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		} else {
 			reacGlyphDimension = createReactionGlyphDimension(reactionGlyph);
 		}
-
-		// position of the curve at the point towards the reaction glyph
-		substratePosition = calculateAverageSpeciesPosition(SpeciesReferenceRole.SUBSTRATE, speciesGlyphList);
-		productPosition = calculateAverageSpeciesPosition(SpeciesReferenceRole.PRODUCT, speciesGlyphList);
-		RelativePosition relativeProductPosition = getRelativePosition(substratePosition, productPosition);
-		RelativePosition relativeSubstratePosition = getRelativePosition(productPosition, substratePosition);
-		assert relativeProductPosition != RelativePosition.UNDEFINED;
-		assert relativeSubstratePosition != RelativePosition.UNDEFINED;
 
 		SpeciesGlyph product = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.PRODUCT);
 		SpeciesGlyph substrate = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.SUBSTRATE);
@@ -1067,7 +1038,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * @param specRole 
 	 * @return
 	 */
-	public Point calculateDockingForRoundSpecies(double x, double y, double z, double c,
+	private Point calculateDockingForRoundSpecies(double x, double y, double z, double c,
 			double rotationAngle, SpeciesReferenceRole specRole) {
 		double xCoordinate = 0;
 		double yCoordinate = 0;
@@ -1105,7 +1076,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * @param middleOfReaction
 	 * @return dockingPoint
 	 */
-	public Point calculateDockingForQuadraticSpecies(Point middleOfSpecies, 
+	private Point calculateDockingForQuadraticSpecies(Point middleOfSpecies, 
 			SpeciesGlyph specGlyph, Point middleOfReaction) {
 
 		Point dockingPoint = new Point(level, version);
