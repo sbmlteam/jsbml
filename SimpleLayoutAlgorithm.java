@@ -980,7 +980,6 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			ReactionGlyph reactionGlyph, SpeciesReferenceRole specRefRole, SpeciesGlyph specGlyph) {
 		Point dockingPoint = null;
 
-
 		// the coordinates of the species glyph
 		double x = middleOfSpecies.getX();
 		double y = middleOfSpecies.getY();
@@ -1006,19 +1005,8 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		if(SBO.isChildOf(sboTerm, SBO.getUnknownMolecule()) ||
 				sboTerm == -1) {
 			// species is an ellipse
-			double xCoordinate = 0;
-			double yCoordinate = 0;
-			double tant = (Math.tan(t) * (width/2d)) / (height/2d);
-			double phi = Math.atan(tant);
-			if (specRefRole.equals(SpeciesReferenceRole.PRODUCT) ||
-					specRefRole.equals(SpeciesReferenceRole.SIDEPRODUCT)) {
-				xCoordinate = x - Math.cos(Math.toRadians(phi)) * (width/2d) ;
-				yCoordinate = y - Math.sin(Math.toRadians(phi)) * (height/2d) ;
-			} else {
-				xCoordinate = x + Math.cos(Math.toRadians(phi)) * (width/2d) ;
-				yCoordinate = y + Math.sin(Math.toRadians(phi)) * (height/2d) ;
-			}
-			dockingPoint = new Point(xCoordinate, yCoordinate, z, level, version);
+			dockingPoint = calculateDockingForEllipseSpecies(x, y, z, width, height, t, calculateRotationAngle(middleOfSpecies, calculateCenter(reactionGlyph)));
+			System.out.println(specGlyph.getNamedSBase() + "   " + reactionGlyph.getId());
 		} else if (SBO.isChildOf(sboTerm, SBO.getSimpleMolecule()) || 
 				SBO.isChildOf(sboTerm, SBO.getEmptySet())) {
 			//species is round
@@ -1031,6 +1019,43 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		return new Position(dockingPoint);
 	}
 
+
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param width
+	 * @param height
+	 * @param t
+	 * @return
+	 */
+	private Point calculateDockingForEllipseSpecies(double x, double y,
+			double z, double width, double height, double t, double angle) {
+		
+		double xCoordinate = 0;
+		double yCoordinate = 0;
+		t = correctRotationAngle(angle);
+		double tant = (Math.tan(Math.toDegrees(t)) * (width/2d)) / (height/2d);
+		double new_width = ((width/2d) * Math.cos(tant));
+		double new_height = ((height/2d) * Math.sin(tant));
+		
+		if (angle >= 0 && angle < 90) {
+			xCoordinate = x + new_width;
+			yCoordinate= y - new_height;
+		} else if (angle >= 90 && angle <180){
+			xCoordinate = x - new_width;
+			yCoordinate = y - new_height;
+		} else if (angle >= 180 && angle <270) {
+			xCoordinate = x - new_width;
+			yCoordinate = y + new_height;
+		} else {
+			xCoordinate = x + new_width;
+			yCoordinate = y + new_height;
+		}
+		
+		return new Point(xCoordinate, yCoordinate, z, level, version);
+	}
 
 	/**
 	 * Calculates the docking position/ point for round species
