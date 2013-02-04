@@ -824,6 +824,9 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 					}
 					if(curve.isSetListOfCurveSegments()) {
 						Point reacCenter = calculateCenter(reactionGlyph);
+						/*
+						 * TODO: search startPoint from reaction glyph to product with calling the start of the first segment in curves of product
+						 */
 						Point endPoint = getNearestPointOfCurve(curve, reacCenter);
 						firstCentralPoint = endPoint;
 						secondCentralPoint = reacCenter;
