@@ -1005,8 +1005,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		if(SBO.isChildOf(sboTerm, SBO.getUnknownMolecule()) ||
 				sboTerm == -1) {
 			// species is an ellipse
-			dockingPoint = calculateDockingForEllipseSpecies(x, y, z, width, height, t, calculateRotationAngle(middleOfSpecies, calculateCenter(reactionGlyph)));
-			System.out.println(specGlyph.getNamedSBase() + "   " + reactionGlyph.getId());
+			dockingPoint = calculateDockingForEllipseSpecies(x, y, z, width, height, calculateRotationAngle(middleOfSpecies, calculateCenter(reactionGlyph)));
 		} else if (SBO.isChildOf(sboTerm, SBO.getSimpleMolecule()) || 
 				SBO.isChildOf(sboTerm, SBO.getEmptySet())) {
 			//species is round
@@ -1021,21 +1020,22 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 
 
 	/**
-	 * 
+	 * Method computes the docking points for ellipses like computing the cut
+	 * of an ellipse and a line. In the end the computed docking point is returned.
 	 * @param x
 	 * @param y
 	 * @param z
 	 * @param width
 	 * @param height
-	 * @param t
+	 * @param angle
 	 * @return
 	 */
 	private Point calculateDockingForEllipseSpecies(double x, double y,
-			double z, double width, double height, double t, double angle) {
+			double z, double width, double height, double angle) {
 		
 		double xCoordinate = 0;
 		double yCoordinate = 0;
-		t = correctRotationAngle(angle);
+		double t = correctRotationAngle(angle);
 		double tant = (Math.tan(Math.toDegrees(t)) * (width/2d)) / (height/2d);
 		double new_width = ((width/2d) * Math.cos(tant));
 		double new_height = ((height/2d) * Math.sin(tant));
