@@ -63,7 +63,7 @@ public class SBML_L2V1Test {
 	public static String DATA_FOLDER = null;
 	
 	static {
-		
+
 		if (DATA_FOLDER == null) {
 			DATA_FOLDER = System.getenv("DATA_FOLDER"); 
 		}
@@ -71,8 +71,8 @@ public class SBML_L2V1Test {
 			DATA_FOLDER = System.getProperty("DATA_FOLDER"); 
 		}
 		if (DATA_FOLDER == null) {
-      DATA_FOLDER = System.getProperty("user.dir") + "/test/org/sbml/jsbml/xml/test/data";
-    }
+			DATA_FOLDER = System.getProperty("user.dir") + "/core/test/org/sbml/jsbml/xml/test/data";
+		}
 	}
 	
 	@BeforeClass public static void initialSetUp() {

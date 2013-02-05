@@ -17,9 +17,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.ext.comp;
-
-import org.sbml.jsbml.Model;
 
 /**
  * 
@@ -27,40 +24,4 @@ import org.sbml.jsbml.Model;
  * @version $Rev$
  * @since 1.0
  */
-public class ModelDefinition extends Model {
-
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 11908580298395050L;
-
-	public ModelDefinition() {
-		super();
-		init();
-	}
-
-	public ModelDefinition(int level, int version) {
-		super(level, version);
-		init();
-	}
-
-	public ModelDefinition(Model model) {
-		super(model);
-		init();
-	}
-
-	public ModelDefinition(String id) {
-		super(id);
-		init();
-	}
-
-	public ModelDefinition(String id, int level, int version) {
-		super(id, level, version);
-		init();
-	}
-
-	public void init()
-	{
-		addNamespace(CompConstant.namespaceURI);
-	}
-}
+package org.sbml.jsbml.ext.comp;
