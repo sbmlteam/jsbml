@@ -51,8 +51,8 @@ public class CheckConsistencyTests {
 			DATA_FOLDER = System.getProperty("DATA_FOLDER"); 
 		}
 		if (DATA_FOLDER == null) {
-      DATA_FOLDER = System.getProperty("user.dir") + "/test/org/sbml/jsbml/xml/test/data";
-    }
+			DATA_FOLDER = System.getProperty("user.dir") + "/core/test/org/sbml/jsbml/xml/test/data";
+		}
 	}
 
 	/**
