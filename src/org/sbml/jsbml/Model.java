@@ -64,7 +64,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Error message to indicate that an element could not be created.
    */
-  private static final String COULD_NOT_CREATE_ELEMENT_MSG = "Could not create %s because no %s have been defined yet.";
+  private static final String COULD_NOT_CREATE_ELEMENT_MSG = "Could not create {0} because no {1} have been defined yet.";
   
   /**
    * A {@link Logger} for this class.
@@ -943,8 +943,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
     
     if (lastReaction == null) {
-      logger.warn(String.format(COULD_NOT_CREATE_ELEMENT_MSG, "KineticLaw",
-        "reactions"));
+      logger.warn(MessageFormat.format(COULD_NOT_CREATE_ELEMENT_MSG, 
+    	"KineticLaw", "reactions"));
       return null;
     }
     
@@ -989,7 +989,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     KineticLaw lastKineticLaw = null;
     
     if (lastReaction == null) {
-      logger.warn(String.format(COULD_NOT_CREATE_ELEMENT_MSG,
+      logger.warn(MessageFormat.format(COULD_NOT_CREATE_ELEMENT_MSG,
         "LocalParameter for KineticLaw", "reactions"));
       return null;
     } else {
@@ -1097,8 +1097,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
     
     if (lastReaction == null) {
-      logger.warn(String.format(COULD_NOT_CREATE_ELEMENT_MSG, "Product",
-        "reactions"));
+      logger.warn(MessageFormat.format(COULD_NOT_CREATE_ELEMENT_MSG,
+    	"Product", "reactions"));
       return null;
     }
     
@@ -1153,8 +1153,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public SpeciesReference createReactant(String id) {
     Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
     if (lastReaction == null) {
-      logger.warn(String.format(COULD_NOT_CREATE_ELEMENT_MSG, "Reactant",
-        "reactions"));
+      logger.warn(MessageFormat.format(COULD_NOT_CREATE_ELEMENT_MSG, 
+    	"Reactant", "reactions"));
       return null;
     }
     SpeciesReference reactant = lastReaction.createReactant(id);
@@ -1615,8 +1615,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
 		  
 		  if (reactionIdSet.size() != reactionList.size())
 		  {
-			  logger.warn(MessageFormat.format("Some of the reactions containing the local" +
-			  		" parameter {0} have no id defined !!", id));
+			  logger.warn(MessageFormat.format(
+				"Some of the reactions containing the local parameter {0} have no id defined!", 
+				id));
 		  }
 	  }
 	  
@@ -1845,7 +1846,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       }
       pos++;
     }
-    throw new IndexOutOfBoundsException(MessageFormat.format("Index {0,number,integer} >= {1,number,integer}", 
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}", 
       index, +((int) Math.min(pos, 0))));
   }
 
@@ -3934,15 +3936,15 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
         || ((unsb.getLevel() == 1) && (mapOfUnitDefinitions != null) && 
             (mapOfUnitDefinitions.containsKey(id)))) 
       {
-        logger.error(String.format(
-          "An element with the id '%s' is already present in this model%s. The new element will not be added to the model.",
+        logger.error(MessageFormat.format(
+          "An element with the id \"{0}\" is already present in this model {1}. The new element will not be added to the model.",
           id, (isSetId() ? " " + getId() : "")));
         return false;
       }
       mapOfUniqueNamedSBases.put(id, unsb);
 
       if (logger.isDebugEnabled()) {      
-    	  logger.debug(String.format("registered id=%s in model%s",
+    	  logger.debug(MessageFormat.format("registered id={0} in model {1}",
     			  id, (isSetId() ? " " + getId() : "")));
       }
     }
