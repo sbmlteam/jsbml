@@ -397,6 +397,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	    if (exc instanceof LevelVersionError) {
 	      throw (LevelVersionError) exc;
 	    }
+        if (exc instanceof RuntimeException) {
+            throw (RuntimeException) exc;
+        }
 	    logger.debug(exc);
 	  }
 	  return false;
@@ -490,7 +493,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	}
 
 	/**
-	 * Returns a new {@link ListOf} that contains only those elements that
+	 * Returns a new {@link List} that contains only those elements that
 	 * satisfy a certain filter criterion.
 	 * 
 	 * @param f
@@ -499,7 +502,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 * @return A new list that can be empty if no element fulfills the filter
 	 *         criterion.
 	 */
-	public ListOf<T> filterList(Filter f) {
+	public List<T> filterList(Filter f) {
 		/*
 		 * The new list should not be linked to the model or SBMLDocument
 		 * as otherwise, it will try to register elements that are 
@@ -511,7 +514,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	  
 	  for (T sbase : this) {
 	    if (f.accepts(sbase)) {
-	      list.add(sbase);
+	      list.listOf.add(sbase);
 	    }
 	  }
 	  list.parent = parent;
