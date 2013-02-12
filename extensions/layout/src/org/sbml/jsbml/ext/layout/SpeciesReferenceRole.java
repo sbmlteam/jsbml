@@ -57,5 +57,33 @@ public enum SpeciesReferenceRole {
 	/**
 	 * 
 	 */
-	UNDEFINED
+	UNDEFINED;
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public int getCorrespondingSBOTerm() {
+		switch (this) {
+		case ACTIVATOR:
+			return 459; // stimulator
+		case INHIBITOR:
+			return 20; // inhibitor
+		case MODIFIER:
+			return 19; // modifier
+		case PRODUCT:
+			return 11; // product
+		case SIDEPRODUCT:
+			return -1; // ??
+		case SIDESUBSTRATE:
+			return -1; // ??
+		case SUBSTRATE:
+			return 10; // reactant
+		case UNDEFINED:
+			return 3; // participant role
+		default:
+			return -1; // invalid
+		}
+	}
+
 }
