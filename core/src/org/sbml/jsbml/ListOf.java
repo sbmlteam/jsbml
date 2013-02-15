@@ -20,6 +20,7 @@
 
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -285,7 +286,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	}
 
 	/**
-	 * If this method returns true, the {@link #toString()} method of this
+	 * If this method returns {@code true}, the {@link #toString()} method of this
 	 * {@link ListOf} displays the whole content of the list. Otherwise, only
 	 * the {@link Type} is shown.
 	 * 
@@ -382,36 +383,40 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
 	/* (non-Javadoc) @see java.util.List#add(java.lang.Object)
 	 */
-	public boolean add(T e) throws LevelVersionError {
+	public boolean add(T element) throws LevelVersionError {
 	  /*
 	   * In order to ensure that listeners are notified correctly, the element
 	   * must be added to the list before registering it as a child. However, if
 	   * something goes wrong, we have to revert this action.
 	   */
 	  try {
-	    boolean success = listOf.add(e);
-	    registerChild(e);
+	    boolean success = listOf.add(element);
+	    registerChild(element);
 	    return success;
-	  } catch (Throwable exc) {
-	    listOf.remove(e);
-	    if (exc instanceof LevelVersionError) {
-	      throw (LevelVersionError) exc;
-	    }
-        if (exc instanceof RuntimeException) {
-            throw (RuntimeException) exc;
-        }
-	    logger.debug(exc);
+	  } catch (RuntimeException exc) {
+		logger.debug(MessageFormat.format(
+				"Reverting change: removing element {0} from internal list",
+				element));
+	    listOf.remove(element);
+	    throw exc;
 	  }
-	  return false;
 	}
 
 	/* (non-Javadoc)
 	 * @see java.util.List#addAll(java.util.Collection)
 	 */
-	public boolean addAll(Collection<? extends T> c) {
+	public boolean addAll(Collection<? extends T> c) throws LevelVersionError {
 		if (listOf.addAll(c)) {
 			for (T element : c) {
-			  registerChild(element);
+				try {
+					registerChild(element);
+				} catch (RuntimeException exc) {
+					logger.debug(MessageFormat.format(
+							"Reverting change: removing all elements from collection {0} from internal list",
+							c));
+					listOf.removeAll(c);
+					throw exc;
+				}
 			}
 			return true;
 		}
@@ -421,10 +426,18 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	/* (non-Javadoc)
 	 * @see java.util.List#addAll(int, java.util.Collection)
 	 */
-	public boolean addAll(int index, Collection<? extends T> c) {
-		if (listOf.addAll(index, c)) {
-			for (T element : c) {
-				registerChild(element);
+	public boolean addAll(int index, Collection<? extends T> collection) throws LevelVersionError {
+		if (listOf.addAll(index, collection)) {
+			for (T element : collection) {
+				try {
+					registerChild(element);
+				} catch (RuntimeException exc) {
+					logger.debug(MessageFormat.format(
+							"Reverting change: removing all elements from collection {0} from internal list",
+							collection));
+					listOf.removeAll(collection);
+					throw exc;
+				}
 			}
 			return true;
 		}
@@ -432,20 +445,20 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	}
 
 	/**
-	 * Adds item to the end of this ListOf.
+	 * Adds item to the end of this {@link ListOf}.
 	 * 
 	 * This variant of the method makes a clone of the item handed to it. This
-	 * means that when the {@link ListOf} is destroyed, the original items will not be
-	 * destroyed.
+	 * means that when the {@link ListOf} is destroyed, the original items will
+	 * not be destroyed.
 	 * 
-	 * @param e
+	 * @param element
 	 *            the item to be added to the list.
-	 * @return true if this could be successfully appended.
+	 * @return {@code true} if this could be successfully appended.
 	 * @see #add(T)
 	 */
 	@SuppressWarnings("unchecked")
-	public boolean append(T e) {
-		return add((T) e.clone());
+	public boolean append(T element) throws LevelVersionError {
+		return add((T) element.clone());
 	}
 
 	/* (non-Javadoc)
@@ -863,13 +876,21 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	/* (non-Javadoc)
 	 * @see java.util.List#set(int, java.lang.Object)
 	 */
-	public T set(int index, T element) {
+	public T set(int index, T element) throws LevelVersionError {
 		T prevElem = listOf.set(index, element);
 		// TODO: this should rather be a firePropertyChangedEvent, as the 
 		// element is first removed and then added again. But the method
 		// registerChild fires a NodeAddedEvent
 		((TreeNodeWithChangeSupport) element).fireNodeRemovedEvent();
-		registerChild(element);
+		try {
+			registerChild(element);
+		} catch (RuntimeException exc) {
+			logger.debug(MessageFormat.format(
+					"Reverting change: removing element {0} from internal list",
+					element));
+			listOf.remove(index);
+			throw exc;
+		}
 		return prevElem;
 	}
 
