@@ -25,7 +25,6 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.xml.parsers.FBCParser;
 
 /**
  * 
@@ -156,17 +155,17 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (reaction != null) {
-			attributes.put(FBCParser.shortLabel+ ":reaction", getReaction());			
+			attributes.put(FBCConstant.shortLabel+ ":reaction", getReaction());			
 		}
 		if (operation != null) {
-			attributes.put(FBCParser.shortLabel+ ":operation", getOperation());
+			attributes.put(FBCConstant.shortLabel+ ":operation", getOperation());
 		}
 		if (isSetValue()) {
-			attributes.put(FBCParser.shortLabel+ ":value", StringTools.toString(getValue()));
+			attributes.put(FBCConstant.shortLabel+ ":value", StringTools.toString(getValue()));
 		}
 		if (isSetId()) {
 			attributes.remove("id");
-			attributes.put(FBCParser.shortLabel+ ":id", getId());
+			attributes.put(FBCConstant.shortLabel+ ":id", getId());
 		}
 		
 		return attributes;

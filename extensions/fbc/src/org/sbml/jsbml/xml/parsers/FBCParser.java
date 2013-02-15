@@ -32,6 +32,7 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.ext.fbc.FBCConstant;
 import org.sbml.jsbml.ext.fbc.FBCList;
 import org.sbml.jsbml.ext.fbc.FBCModel;
 import org.sbml.jsbml.ext.fbc.FluxBound;
@@ -53,20 +54,11 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 public class FBCParser implements ReadingParser, WritingParser {
 
 	/**
-	 * The namespace URI of this parser.
-	 */
-	// private static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/fbc/version1";
-	private static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/fbc/version1";
-	
-	public static final String shortLabel = "fbc";
-	
-	
-	/**
 	 * 
 	 * @return the namespaceURI of this parser.
 	 */
 	public static String getNamespaceURI() {
-		return namespaceURI;
+		return FBCConstant.namespaceURI;
 	}
 
 	/**
@@ -93,7 +85,7 @@ public class FBCParser implements ReadingParser, WritingParser {
 			// TODO : the 'required' attribute is written even if there is no plugin class for the SBMLDocument, so I am not totally sure how this is done.
 		} 
 		else if (sbase instanceof Model) {
-			FBCModel modelGE = (FBCModel) ((Model) sbase).getExtension(namespaceURI);
+			FBCModel modelGE = (FBCModel) ((Model) sbase).getExtension(FBCConstant.namespaceURI);
 
 			if (modelGE != null && modelGE.isSetListOfFluxBounds()) {
 				listOfElementsToWrite.add(modelGE.getListOfFluxBounds());
@@ -229,18 +221,18 @@ public class FBCParser implements ReadingParser, WritingParser {
 			Model model = (Model) contextObject;
 			FBCModel fbcModel = null;
 			
-			if (model.getExtension(namespaceURI) != null) {
-				fbcModel = (FBCModel) model.getExtension(namespaceURI);
+			if (model.getExtension(FBCConstant.namespaceURI) != null) {
+				fbcModel = (FBCModel) model.getExtension(FBCConstant.namespaceURI);
 			} else {
 				fbcModel = new FBCModel(model);
-				model.addExtension(namespaceURI, fbcModel);
+				model.addExtension(FBCConstant.namespaceURI, fbcModel);
 			}
 
 			if (elementName.equals("listOfFluxBounds")) {
 					
 				ListOf<FluxBound> listOfFluxBounds = fbcModel.getListOfFluxBounds();
 				listOfFluxBounds.setSBaseListType(ListOf.Type.other);
-				listOfFluxBounds.addNamespace(namespaceURI);
+				listOfFluxBounds.addNamespace(FBCConstant.namespaceURI);
 				model.registerChild(listOfFluxBounds);
 				this.groupList = FBCList.listOfFluxBounds;
 				return listOfFluxBounds;
@@ -249,7 +241,7 @@ public class FBCParser implements ReadingParser, WritingParser {
 
 				ListOf<Objective> listOfObjectives = fbcModel.getListOfObjectives();
 				listOfObjectives.setSBaseListType(ListOf.Type.other);
-				listOfObjectives.addNamespace(namespaceURI);
+				listOfObjectives.addNamespace(FBCConstant.namespaceURI);
 				model.registerChild(listOfObjectives);
 				this.groupList = FBCList.listOfObjectives;
 				return listOfObjectives;
@@ -259,7 +251,7 @@ public class FBCParser implements ReadingParser, WritingParser {
 			if (elementName.equals("listOfFluxes")) {				
 				ListOf<FluxObjective> listOfFluxObjectives = objective.getListOfFluxObjectives();
 				listOfFluxObjectives.setSBaseListType(ListOf.Type.other);
-				listOfFluxObjectives.addNamespace(namespaceURI);
+				listOfFluxObjectives.addNamespace(FBCConstant.namespaceURI);
 				objective.registerChild(listOfFluxObjectives);
 				this.groupList = FBCList.listOfFluxObjectives;
 				return listOfFluxObjectives;
@@ -272,20 +264,20 @@ public class FBCParser implements ReadingParser, WritingParser {
 			if (elementName.equals("fluxBound")
 					&& this.groupList.equals(FBCList.listOfFluxBounds)) {
 				Model model = (Model) listOf.getParentSBMLObject();
-				FBCModel extendeModel = (FBCModel) model.getExtension(namespaceURI); 
+				FBCModel extendeModel = (FBCModel) model.getExtension(FBCConstant.namespaceURI); 
 				
 				FluxBound fluxBound = new FluxBound();
-				fluxBound.addNamespace(namespaceURI);
+				fluxBound.addNamespace(FBCConstant.namespaceURI);
 				extendeModel.addFluxBound(fluxBound);
 				return fluxBound;
 				
 			} else if (elementName.equals("objective")
 					&& this.groupList.equals(FBCList.listOfObjectives)) {
 				Model model = (Model) listOf.getParentSBMLObject();
-				FBCModel extendeModel = (FBCModel) model.getExtension(namespaceURI); 
+				FBCModel extendeModel = (FBCModel) model.getExtension(FBCConstant.namespaceURI); 
 
 				Objective objective = new Objective();
-				objective.addNamespace(namespaceURI);
+				objective.addNamespace(FBCConstant.namespaceURI);
 				extendeModel.addObjective(objective);
 
 				return objective;
@@ -294,7 +286,7 @@ public class FBCParser implements ReadingParser, WritingParser {
 				Objective objective = (Objective) listOf.getParentSBMLObject();
 
 				FluxObjective fluxObjective = new FluxObjective();
-				fluxObjective.addNamespace(namespaceURI);
+				fluxObjective.addNamespace(FBCConstant.namespaceURI);
 				objective.addFluxObjective(fluxObjective);
 
 				return fluxObjective;
@@ -362,9 +354,9 @@ public class FBCParser implements ReadingParser, WritingParser {
 				}
 			}
 			if (!xmlObject.isSetPrefix()) {
-				xmlObject.setPrefix(shortLabel);
+				xmlObject.setPrefix(FBCConstant.shortLabel);
 			}
-			xmlObject.setNamespace(namespaceURI);
+			xmlObject.setNamespace(FBCConstant.namespaceURI);
 
 		}
 
@@ -381,7 +373,7 @@ public class FBCParser implements ReadingParser, WritingParser {
 		if (sbmlElementToWrite instanceof SBase) {
 			// SBase sbase = (SBase) sbmlElementToWrite;
 
-			xmlObject.setPrefix(shortLabel);
+			xmlObject.setPrefix(FBCConstant.shortLabel);
 		}
 		// TODO : write all namespaces
 	}

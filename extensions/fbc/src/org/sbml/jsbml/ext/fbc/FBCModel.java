@@ -42,7 +42,7 @@ public class FBCModel extends AbstractSBasePlugin {
    */
   private static final long serialVersionUID = -7451190347195219863L;
   private ListOf<FluxBound> listOfFluxBounds = new ListOf<FluxBound>();
-	private ListOf<Objective> listOfObjectives = new ListOf<Objective>();
+  private ListOfObjectives listOfObjectives = new ListOfObjectives();
 	
 	private Model model;
 	
@@ -68,10 +68,10 @@ public class FBCModel extends AbstractSBasePlugin {
 	}
 
 	public SBase getChildAt(int childIndex) {
-		return null;
+		return null; // TODO 
 	}
 	public int getChildCount() {
-		return 0;
+		return 0; // TODO
 	}
 	public TreeNode getParent() {
 		return model;
@@ -150,9 +150,28 @@ public class FBCModel extends AbstractSBasePlugin {
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
   public boolean getAllowsChildren() {
-    // TODO Auto-generated method stub
+    // TODO
     return false;
   }
+  
+  public String getActiveObjective()
+  {
+	  if (listOfObjectives != null && listOfObjectives.isSetActiveObjective())
+	  {
+		  return listOfObjectives.getActiveObjective();
+	  }
+	  
+	  return "";
+  }
 	
-	// TODO : implement !!
+  public void setActiveObjective(String activeObjective)
+  {
+	  if (listOfObjectives == null)
+	  {
+	  }
+	  
+	  listOfObjectives.setActiveObjective(activeObjective);
+  }
+  
+  // TODO : implement / check !!
 }

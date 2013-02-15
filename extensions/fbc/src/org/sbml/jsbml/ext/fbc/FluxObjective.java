@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.xml.parsers.FBCParser;
 
 /**
  * 
@@ -122,10 +121,10 @@ public class FluxObjective extends AbstractSBase {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (reaction != null) {
-			attributes.put(FBCParser.shortLabel+ ":reaction", getReaction());			
+			attributes.put(FBCConstant.shortLabel+ ":reaction", getReaction());			
 		}
 		if (isSetCoefficient()) {
-			attributes.put(FBCParser.shortLabel+ ":coefficient", StringTools.toString(getCoefficient()));
+			attributes.put(FBCConstant.shortLabel+ ":coefficient", StringTools.toString(getCoefficient()));
 		}
 		
 		return attributes;

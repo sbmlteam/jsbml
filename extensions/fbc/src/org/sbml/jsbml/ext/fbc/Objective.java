@@ -27,7 +27,6 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.UniqueNamedSBase;
-import org.sbml.jsbml.xml.parsers.FBCParser;
 
 /**
  * 
@@ -129,11 +128,11 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (type != null) {
-			attributes.put(FBCParser.shortLabel+ ":type", getType());			
+			attributes.put(FBCConstant.shortLabel+ ":type", getType());			
 		}
 		if (isSetId()) {
 			attributes.remove("id");
-			attributes.put(FBCParser.shortLabel+ ":id", getId());
+			attributes.put(FBCConstant.shortLabel+ ":id", getId());
 		}
 		
 		return attributes;
