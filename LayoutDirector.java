@@ -465,6 +465,18 @@ public class LayoutDirector<P> implements Runnable {
 		double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(reactionGlyph);
 		builder.buildProcessNode(reactionGlyph, rgRotationAngle, curveWidth);
 
+//		if (reactionGlyph.isSetReaction() 
+//				&& ((Reaction) reactionGlyph.getReactionInstance()).isReversible()) {
+//			//TODO: change the order of the specref list
+//			int lastIndex = reactionGlyph.getListOfSpeciesReferenceGlyphs().size() - 1;
+//			for (int i = 0; i < reactionGlyph.getListOfSpeciesReferenceGlyphs().size(); i++) {
+//				SpeciesReferenceGlyph specRefGlyph = reactionGlyph.getListOfSpeciesReferenceGlyphs().getLast();
+//				reactionGlyph.getListOfSpeciesReferenceGlyphs().remove(specRefGlyph);
+//				reactionGlyph.getListOfSpeciesReferenceGlyphs().add(i, specRefGlyph);
+//				lastIndex--;
+//			}
+//		}
+		
 		for (SpeciesReferenceGlyph srg : reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
 			// copy SBO term of species reference to species reference glyph
 			SimpleSpeciesReference speciesReference = (SimpleSpeciesReference) srg.getNamedSBaseInstance();
