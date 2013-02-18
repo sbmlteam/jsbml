@@ -818,18 +818,26 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 					if (specRefGlyph.isSetCurve()) {
 						curve = specRefGlyph.getCurve();
 					} else if (reactionGlyph.isSetCurve()) {
+						// TODO check case
 						curve = reactionGlyph.getCurve();
 					} else {
 						break;
 					}
-					if(curve.isSetListOfCurveSegments()) {
-						Point reacCenter = calculateCenter(reactionGlyph);
-						/*
-						 * TODO: search startPoint from reaction glyph to product with calling the start of the first segment in curves of product
-						 */
-						Point endPoint = getNearestPointOfCurve(curve, reacCenter);
-						firstCentralPoint = endPoint;
-						secondCentralPoint = reacCenter;
+
+					// First point: the end point from the last curve segment of the substrate
+					if (specRefGlyph.isSetSpeciesReferenceRole()
+							&& specRefGlyph.getSpeciesReferenceRole().equals(SpeciesReferenceRole.SUBSTRATE)) {
+						if(curve.isSetListOfCurveSegments()) {
+							firstCentralPoint = curve.getListOfCurveSegments().getLast().getEnd();
+						}
+					}
+					
+					// Second point: the start point from the first curve segment of the product
+					if (specRefGlyph.isSetSpeciesReferenceRole()
+							&& specRefGlyph.getSpeciesReferenceRole().equals(SpeciesReferenceRole.PRODUCT)) {
+						if(curve.isSetListOfCurveSegments()) {
+							secondCentralPoint = curve.getListOfCurveSegments().getFirst().getStart();
+						}
 					}
 				}
 			}
