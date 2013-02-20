@@ -17,36 +17,20 @@
 
 package de.zbit.sbml.layout;
 
-import java.util.HashMap;
-
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
 
 /**
- * abstract class combines the interfaces LayoutBuilder and LayoutFactory and
- * implements two methods for getting node or arc object of a specific type
- * corresponding to a given sbo term
+ * This abstract class combines the interfaces {@link LayoutBuilder} and
+ * {@link LayoutFactory}. It implements the methods getSBGNNode and getSBGNArc
+ * to get the node/arc for a specific SBO term or a specific species reference
+ * role.
  * 
  * @author Andreas Dr&auml;ger
  * @since 1.0
  * @version $Rev$
  */
 public abstract class AbstractLayoutBuilder<P,NodeT,ArcT> implements LayoutBuilder<P>, LayoutFactory<NodeT,ArcT> {
-	
-	private static HashMap<SpeciesReferenceRole, Integer> RoleToSBOTerm = filledReferenceMap();
-			
-	private static HashMap<SpeciesReferenceRole, Integer> filledReferenceMap(){
-		HashMap<SpeciesReferenceRole, Integer> referenceMap = new HashMap<SpeciesReferenceRole, Integer>();
-		referenceMap.put(SpeciesReferenceRole.SUBSTRATE, 394);
-		referenceMap.put(SpeciesReferenceRole.SIDESUBSTRATE, 394);
-		referenceMap.put(SpeciesReferenceRole.UNDEFINED, 394);
-		referenceMap.put(SpeciesReferenceRole.PRODUCT, 393);
-		referenceMap.put(SpeciesReferenceRole.SIDEPRODUCT, 393);
-		referenceMap.put(SpeciesReferenceRole.ACTIVATOR, 172);
-		referenceMap.put(SpeciesReferenceRole.MODIFIER, 172);
-		referenceMap.put(SpeciesReferenceRole.INHIBITOR, 169);
-		return referenceMap;
-	}
 
 	/**
 	 * helping method that creates the correct node depending on the sbo term of
@@ -154,7 +138,7 @@ public abstract class AbstractLayoutBuilder<P,NodeT,ArcT> implements LayoutBuild
 	}
 	
 	public SBGNArc<ArcT> getSBGNArc(SpeciesReferenceRole referenceRole){
-		return getSBGNArc(RoleToSBOTerm.get(referenceRole));		
+		return getSBGNArc(RoleToSBO.getSBO(referenceRole));		
 	}
 	
 	

@@ -64,7 +64,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * RIGHT, LEFT, ABOVE, BELOW and UNDEFINED
 	 * 
 	 * @author Mirjam Gutekunst
-	 * @version $Rev: 189 $
+	 * @version $Rev$
 	 */
 	public static enum RelativePosition {
 		/**

@@ -33,10 +33,10 @@ import org.sbml.jsbml.ext.layout.TextGlyph;
 
 /**
  * Interface for defining an algorithm to create bounding boxes, dimensions and
- * points missing in the layout
+ * points missing in the layout.
  * 
  * @author Mirjam Gutekunst
- * @version $Rev: 142 $
+ * @version $Rev$
  */
 public interface LayoutAlgorithm {
 	
@@ -166,19 +166,23 @@ public interface LayoutAlgorithm {
 	public void addUnlayoutedGlyph(GraphicalObject glyph);
 
 	/**
-	 * @param srg
-	 * @param rg
+	 * Add a layouted edge to the input of the algorithm.
+	 * 
+	 * @param srg species node of the edge
+	 * @param rg process node of the edge
 	 */
 	public void addLayoutedEdge(SpeciesReferenceGlyph srg, ReactionGlyph rg);
 
 	/**
-	 * @param srg
-	 * @param rg
+	 * Add an unlayouted edge to the input of the algorithm.
+	 * 
+	 * @param srg species node of the edge
+	 * @param rg process node of the edge
 	 */
 	public void addUnlayoutedEdge(SpeciesReferenceGlyph srg, ReactionGlyph rg);
-	
+
 	/**
-	 * Returns the input set of unlayouted glyphs with completed layout
+	 * Return the input set of unlayouted glyphs with completed layout
 	 * information.
 	 */
 	public Set<GraphicalObject> completeGlyphs();
