@@ -929,8 +929,6 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	}
 
 
-
-
 	/**
 	 * Computes the position of the {@link SpeciesGlyph} of interest and gives back the docking {@link Point} for the curve.
 	 * @param middleOfSpecies
