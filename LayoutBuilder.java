@@ -29,14 +29,16 @@ import org.sbml.jsbml.ext.layout.TextGlyph;
 import de.zbit.util.progressbar.AbstractProgressBar;
 
 /**
+ * LayoutBuilder provides methods to build graphical representations for
+ * all glyph types.
+ * 
  * @author Mirjam Gutekunst
- * @version $Rev: 142 $
+ * @version $Rev$
  * @since 1.0
  * @param <P> Type of the product.
  */
 public interface LayoutBuilder<P> {
 	
-	// TODO
 	/**
 	 * 
 	 * @param progress
