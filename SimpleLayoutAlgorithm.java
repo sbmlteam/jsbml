@@ -779,7 +779,6 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			ListOf<SpeciesReferenceGlyph> speciesRefGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
 
 			// get the substrate and the product of this reaction
-			// FIXME: NullPointerExceptions if Roles are not set!
 			SpeciesGlyph substrate = getProductOrSubstrateSpeciesGlyph(speciesRefGlyphList, SpeciesReferenceRole.SUBSTRATE);
 			SpeciesGlyph product = getProductOrSubstrateSpeciesGlyph(speciesRefGlyphList, SpeciesReferenceRole.PRODUCT);
 
@@ -841,34 +840,17 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 					}
 				}
 			}
-
-			rotationAngle = calculateRotationAngle(firstCentralPoint, secondCentralPoint);
+			if(firstCentralPoint.getX() == secondCentralPoint.getX() && firstCentralPoint.getY() == secondCentralPoint.getY()) {
+				secondCentralPoint = calculateCenter(reactionGlyph);
+				logger.warning(MessageFormat.format("The two points for computing rotation are equal for reaction glyph {0}",
+				reactionGlyph.getId()));
+			} else {
+				rotationAngle = calculateRotationAngle(firstCentralPoint, secondCentralPoint);
+			}
 		}
 		return rotationAngle;
 	}
 
-	/**
-	 * Returns the nearest Point of all curve segments to the incoming {@link Point}.
-	 * @param curve
-	 * @param reacCenter
-	 * @return
-	 */
-	private Point getNearestPointOfCurve(Curve curve, Point reacCenter) {
-		double min = Double.MAX_VALUE;
-		Point nearestPoint = null;
-		for(CurveSegment curveSegment : curve.getListOfCurveSegments()) {
-			double l1 = calculateLength(reacCenter, curveSegment.getStart());
-			double l2 = calculateLength(reacCenter, curveSegment.getEnd());
-			if (l1 <= min) {
-				min = l1;
-				nearestPoint = curveSegment.getStart();
-			} else if (l2 <= min) {
-				min = l2;
-				nearestPoint = curveSegment.getEnd();
-			}
-		}
-		return nearestPoint;
-	}
 
 	/**
 	 * method to calculate the rotation angle of the {@link Curve} of the given {@link SpeciesReferenceGlyph},
@@ -894,7 +876,6 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 
 		logger.fine(MessageFormat.format("start: {0} end: {1} deltaX: {2} deltaY: {3} rotation: {4}",
 				startPoint, endPoint, x, y, rotationAngle));
-
 		return rotationAngle;
 	}
 
