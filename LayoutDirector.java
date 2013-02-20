@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.stream.XMLStreamException;
@@ -55,13 +54,17 @@ import org.sbml.jsbml.ext.layout.TextGlyph;
 import de.zbit.io.csv.CSVReader;
 
 /**
- * @navhas - - - LayoutBuilder
- * @navhas - - - LayoutAlgorithm
+ * LayoutDirector produces a graphical representation of a layout of a SBML
+ * document. It uses two components:
+ * - LayoutAlgorithm: to determine dimensions and positions of unlayouted
+ *   elements
+ * - LayoutBuilder: to actually produce the graphical representation of the 
+ *   layout
  * 
  * @param <P> Type of the product.
  * 
  * @author Mirjam Gutekunst
- * @version $Rev: 142 $
+ * @version $Rev$
  */
 public class LayoutDirector<P> implements Runnable {
 
@@ -80,35 +83,55 @@ public class LayoutDirector<P> implements Runnable {
 	public static final String PN_RELATIVE_DOCKING_POINT = "PN_RELATIVE_DOCKING_POINT";
 	public static final String SPECIES_RELATIVE_DOCKING_POINT = "SPECIES_RELATIVE_DOCKING_POINT";
 
-	private LayoutBuilder<P> builder;
-	private Model model;
-	private int layoutIndex;
+	/**
+	 * LayoutAlgorithm instance to compute missing information
+	 */
 	private LayoutAlgorithm algorithm;
-	private Map<String,Double> mapOfFluxes;
+	
+	/**
+	 * LayoutBuilder instance to build the layout
+	 */
+	private LayoutBuilder<P> builder;
+	
+	/**
+	 * SBML model of the given document
+	 */
+	private Model model;
+	
+	/**
+	 * index of the layout for which to produce the graphical representation
+	 */
+	private int layoutIndex;
+	
+	/**
+	 * map of fluxes for the given SBML document
+	 */
+	private Map<String, Double> mapOfFluxes;
 
 
 	/**
-	 * @param inputFile
-	 * @param outputFile
+	 * @param inputFile file containing the SBML document
+	 * @param builder LayoutBuilder instance for producing the output
+	 * @param algorithm LayoutAlgorithm instance for layouting elements
 	 * @throws XMLStreamException
 	 * @throws IOException
 	 */
-	public LayoutDirector(File inputFile, LayoutBuilder<P> builder, LayoutAlgorithm algorithm)
-	throws XMLStreamException, IOException {
+	public LayoutDirector(File inputFile, LayoutBuilder<P> builder,
+			LayoutAlgorithm algorithm) throws XMLStreamException, IOException {
 		this(SBMLReader.read(inputFile), builder, algorithm);
 	}
 
 	/**
-	 * 
-	 * @param inputFile
-	 * @param builder
-	 * @param algorithm
-	 * @param fluxFile
+	 * @param inputFile file containing the SBML document
+	 * @param builder LayoutBuilder instance for producing the output
+	 * @param algorithm LayoutAlgorithm instance for layouting elements
+	 * @param fluxFile file containting the flux information
 	 * @throws XMLStreamException
 	 * @throws IOException
 	 */
-	public LayoutDirector(File inputFile, LayoutBuilder<P> builder, LayoutAlgorithm algorithm, File fluxFile) 
-	throws XMLStreamException, IOException {
+	public LayoutDirector(File inputFile, LayoutBuilder<P> builder,
+			LayoutAlgorithm algorithm, File fluxFile)
+			throws XMLStreamException, IOException {
 		this(SBMLReader.read(inputFile), builder, algorithm);
 		mapOfFluxes = new HashMap<String, Double>();
 
@@ -120,8 +143,9 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * @param doc
-	 * @param builder
+	 * @param doc the SBMLdocument
+	 * @param builder LayoutBuilder instance for producing the output
+	 * @param algorithm LayoutAlgorithm instance for layouting elements
 	 */
 	public LayoutDirector(SBMLDocument doc, LayoutBuilder<P> builder,
 			LayoutAlgorithm algorithm) {
@@ -132,10 +156,10 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * @param doc
-	 * @param builder
-	 * @param algorithm
-	 * @param index
+	 * @param doc the SBMLdocument
+	 * @param builder LayoutBuilder instance for producing the output
+	 * @param algorithm LayoutAlgorithm instance for layouting elements
+	 * @param index the index of the layout for which to produce the ouput
 	 */
 	public LayoutDirector(SBMLDocument doc, LayoutBuilder<P> builder,
 			LayoutAlgorithm algorithm, int index) {
@@ -146,9 +170,9 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * @param layout
-	 * @param builder
-	 * @param algorithm
+	 * @param layout the SBML layout for which to produce the output
+	 * @param builder LayoutBuilder instance for producing the output
+	 * @param algorithm LayoutAlgorithm instance for layouting elements
 	 */
 	public LayoutDirector(Layout layout, LayoutBuilder<P> builder,
 			LayoutAlgorithm algorithm) {
@@ -168,7 +192,7 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * @param layoutIndex the layoutIndex to be set
+	 * @param layoutIndex the index of the layout to be set
 	 */
 	public void setLayoutIndex(int layoutIndex) {
 
@@ -191,17 +215,18 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * algorithm to go through all reactions of the model and get all
-	 * compartments, reactants, products and modifiers and parse them into 
-	 * TikZ-code.
+	 * Builds the product for the specified layout:
+	 * 1. All glyphs are added to the input of the layout algorithm.
+	 * 2. The layout algorithm completes all missing information.
+	 * 3. All glyphs are built with the layout builder.
+	 * 4. The dimensions of the whole layout are computed.
 	 * 
-	 * @param layout the layout to be used
+	 * @param layout the layout for which to produce the output
 	 */
 	private void buildLayout(Layout layout) {
 
 		algorithm.setLayout(layout);
 		builder.builderStart(layout);
-
 
 		// Compartment glyphs
 		ListOf<CompartmentGlyph> compartmentGlyphList = layout.getListOfCompartmentGlyphs();
@@ -290,110 +315,109 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * Method that checks if there are {@link CurveSegment}s given for the incoming {@link ReactionGlyph}.
+	 * Check if there are {@link CurveSegment}s given for any of the species
+	 * reference glyphs of the given {@link ReactionGlyph}.
+	 * 
 	 * @param reactionGlyph
-	 * @return
+	 * @return whether there exists a curve
 	 */
 	private boolean reactionGlyphHasCurves(ReactionGlyph reactionGlyph) {
 		boolean hasCurves = false;
-		for(SpeciesReferenceGlyph srg : reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
-			if(srg.isSetCurve()) {
+		for(SpeciesReferenceGlyph speciesReferenceGlyph :
+			reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
+			if(speciesReferenceGlyph.isSetCurve()) {
 				hasCurves = true;
+				break;
 			}
 		}
 		return hasCurves;
 	}
 
 	/**
-	 * Check if the incoming edge is layouted.
-	 * @param reactionGlyph
-	 * @param srg
-	 * @return
+	 * Check if the incoming edge is layouted, i.e. if it has a curve.
+	 * 
+	 * @param reactionGlyph process node of the edge
+	 * @param speciesReferenceGlyph species node of the edge
+	 * @return whether the edge is layouted
 	 */
 	public static boolean edgeIsLayouted(ReactionGlyph reactionGlyph,
-			SpeciesReferenceGlyph srg) {
-		return srg.isSetCurve();
+			SpeciesReferenceGlyph speciesReferenceGlyph) {
+		return speciesReferenceGlyph.isSetCurve();
 	}
 
 	/**
-	 * Check if a glyph as complete layout information (i.e. both dimensions
-	 * and position).
+	 * Check if a glyph as complete layout information (i.e. if it as both
+	 * dimensions and position).
+	 * 
 	 * @param glyph
 	 * @return
 	 */
 	public static boolean glyphIsLayouted(GraphicalObject glyph) {
-		return glyph.isSetBoundingBox() &&
-		glyph.getBoundingBox().isSetDimensions() &&
-		glyph.getBoundingBox().isSetPosition();
+		return glyph.isSetBoundingBox()
+				&& glyph.getBoundingBox().isSetDimensions()
+				&& glyph.getBoundingBox().isSetPosition();
 	}
 
-
 	/**
-	 * Check if glyph has dimensions.
+	 * Check if a glyph has dimensions.
+	 * 
 	 * @param glyph
 	 * @return
 	 */
 	public static boolean glyphHasDimensions(GraphicalObject glyph) {
-		return glyph.isSetBoundingBox() &&
-		glyph.getBoundingBox().isSetDimensions();
+		return glyph.isSetBoundingBox()
+				&& glyph.getBoundingBox().isSetDimensions();
 	}
 
 	/**
-	 * Check if glyph has a position.
+	 * Check if a glyph has a position.
+	 * 
 	 * @param glyph
 	 * @return
 	 */
 	public static boolean glyphHasPosition(GraphicalObject glyph) {
-		return glyph.isSetBoundingBox() &&
-		glyph.getBoundingBox().isSetPosition();
+		return glyph.isSetBoundingBox()
+				&& glyph.getBoundingBox().isSetPosition();
 	}
 
 	/**
-	 * Check if a species reference glyph is a substrate.
+	 * Check if a species reference glyph is a substrate. Both species reference
+	 * roles (higher priority) and SBO terms are used.
+	 * 
+	 * @param speciesReferenceGlyph
+	 * @return
 	 */
 	public static boolean isSubstrate(SpeciesReferenceGlyph speciesReferenceGlyph) {
-		if (speciesReferenceGlyph.isSetSBOTerm()) {
+		if (speciesReferenceGlyph.isSetSpeciesReferenceRole()) {
+			return speciesReferenceGlyph.getSpeciesReferenceRole().equals(
+					SpeciesReferenceRole.SUBSTRATE);
+		} else if (speciesReferenceGlyph.isSetSBOTerm()) {
 			return SBO.isChildOf(speciesReferenceGlyph.getSBOTerm(), 394);
 		}
-		// handle roles
-		else if (speciesReferenceGlyph.isSetSpeciesReferenceRole()) {
-			//RoleToSBOTerm.get(speciesReferenceGlyph.getSpeciesReferenceRole());
-			SpeciesReferenceRole role = speciesReferenceGlyph.getSpeciesReferenceRole();
-			if (role.equals(SpeciesReferenceRole.SUBSTRATE)) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-		else {
-			return false;
-		}
+		return false;
 	}
 
 	/**
-	 * Check if a species reference glyph is a production.
+	 * Check if a species reference glyph is a product. Both species reference
+	 * roles (higher priority) and SBO terms are used.
+	 * 
+	 * @param speciesReferenceGlyph
+	 * @return
 	 */
 	public static boolean isProduct(SpeciesReferenceGlyph speciesReferenceGlyph) {
-		if (speciesReferenceGlyph.isSetSBOTerm()) {
+		if (speciesReferenceGlyph.isSetSpeciesReferenceRole()) {
+			return speciesReferenceGlyph.getSpeciesReferenceRole().equals(
+					SpeciesReferenceRole.PRODUCT);
+		} else if (speciesReferenceGlyph.isSetSBOTerm()) {
 			return SBO.isChildOf(speciesReferenceGlyph.getSBOTerm(), 393);
 		}
-		// handle roles
-		else if (speciesReferenceGlyph.isSetSpeciesReferenceRole()) {
-			//RoleToSBOTerm.get(speciesReferenceGlyph.getSpeciesReferenceRole());
-			SpeciesReferenceRole role = speciesReferenceGlyph.getSpeciesReferenceRole();
-			if (role.equals(SpeciesReferenceRole.PRODUCT)) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-		else {
-			return false;
-		}
+		return false;
 	}
 
 	/**
-	 * Method calls the builder and the corresponding method {@link LayoutBuilder#buildCompartment}.
+	 * Method calls the corresponding method
+	 * {@link LayoutBuilder#buildCompartment} of the builder.
+	 * 
 	 * @param compartmentGlyphList
 	 */
 	private void handleCompartmentGlyphs(
@@ -421,8 +445,10 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * Method calls {@link LayoutDirector#handleSpeciesGlyph} for every {@link SpeciesGlyph}
-	 * of the incoming list.
+	 * Handle a list of species glyphs. Method calls
+	 * {@link LayoutDirector#handleSpeciesGlyph} for every {@link SpeciesGlyph}
+	 * of the given list.
+	 * 
 	 * @param speciesGlyphList
 	 */
 	private void handleSpeciesGlyphs(ListOf<SpeciesGlyph> speciesGlyphList) {
@@ -432,7 +458,9 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * Method calls the builder and the corresponding method {@link LayoutBuilder#buildEntityPoolNode}.
+	 * Build a species glyph. Method calls the corresponding method
+	 * {@link LayoutBuilder#buildEntityPoolNode} of the builder.
+	 * 
 	 * @param speciesGlyph
 	 */
 	@SuppressWarnings("unchecked")
@@ -459,8 +487,10 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * Method calls {@link LayoutDirector#handleReactionGlyph} for every {@link ReactionGlyph}
-	 * of the incoming list.
+	 * Handle a list of reaction glyphs. Method calls
+	 * {@link LayoutDirector#handleReactionGlyph} for every
+	 * {@link ReactionGlyph} of the given list.
+	 * 
 	 * @param reactionGlyphList
 	 */
 	private void handleReactionGlyphs(ListOf<ReactionGlyph> reactionGlyphList) {
@@ -470,8 +500,10 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * Method calls the builder and the corresponding method {@link LayoutBuilder#buildProcessNode} and
-	 * {@link LayoutBuilder#buildConnectingArc}.
+	 * Build a species glyph. Method calls the corresponding methods
+	 * {@link LayoutBuilder#buildProcessNode} and
+	 * {@link LayoutBuilder#buildConnectingArc} of the builder.
+	 * 
 	 * @param reactionGlyph
 	 */
 	private void handleReactionGlyph(ReactionGlyph reactionGlyph) {
@@ -502,8 +534,10 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * Method calls {@link LayoutDirector#handleTextGlyph} for every {@link TextGlyph}
-	 * of the incoming list.
+	 * Handle a list of text glyphs. Method calls
+	 * {@link LayoutDirector#handleTextGlyph} for every {@link TextGlyph} of the
+	 * given list.
+	 * 
 	 * @param textGlyphList
 	 */
 	private void handleTextGlyphs(ListOf<TextGlyph> textGlyphList) {
@@ -513,7 +547,9 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * Method calls the builder and the corresponding method {@link LayoutBuilder#buildTextGlyph}.
+	 * Build a text glyph. Method calls the corresponding method
+	 * {@link LayoutBuilder#buildTextGlyph} of the builder.
+	 * 
 	 * @param textGlyph
 	 */
 	private void handleTextGlyph(TextGlyph textGlyph) {
@@ -521,8 +557,11 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * Check if a text glyph represents an independent text (not associated with
-	 * any other graphical object or species.
+	 * Check whether a text glyph represents an independent text (i.e. it is not
+	 * associated with any other graphical object or species.
+	 * 
+	 * @param textGlyph
+	 * @return
 	 */
 	public static boolean textGlyphIsIndependent(TextGlyph textGlyph) {
 		return textGlyph.isSetText() &&
@@ -531,9 +570,11 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * helping method to connect a component with its corresponding glyph
+	 * Connect a component with its corresponding glyph. It creates an user
+	 * object with key LAYOUT_LINK for every species of the given list of
+	 * species glyphs.
 	 * 
-	 * @param listOfNamedSBaseGlyphs
+	 * @param listOfNamedSBaseGlyphs list of species glyphs
 	 */
 	@SuppressWarnings("unchecked")
 	private void createLayoutLinks(ListOf<? extends NamedSBaseGlyph> listOfNamedSBaseGlyphs) {
@@ -558,13 +599,13 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/*
-	 * method that builds the layout and thus starts the actual drawing of the
-	 * components when there is a layout information in this model.
+	 * Build the layout and start the actual drawing of the elements.
 	 * 
 	 * (non-Javadoc)
 	 * 
 	 * @see java.lang.Runnable#run()
 	 */
+	@Override
 	public void run() {
 		SBasePlugin extension = model.getExtension(LayoutConstants
 				.getNamespaceURI(model.getLevel(), model.getVersion()));
@@ -572,20 +613,24 @@ public class LayoutDirector<P> implements Runnable {
 			ExtendedLayoutModel layoutModel = (ExtendedLayoutModel) extension;
 			if (layoutModel.getLayoutCount() > layoutIndex) {
 				if (mapOfFluxes != null) {
-					//Set the flux values as user object if they're present.
-					for (String reactionID : mapOfFluxes.keySet()) {
-						ReactionGlyph reactionGlyph = layoutModel.getLayout(layoutIndex).getReactionGlyph(reactionID);
+					// If flux values are present, set the flux values as an
+					// user object of the reaction glyph.
+					for (String reactionId : mapOfFluxes.keySet()) {
+						ReactionGlyph reactionGlyph = layoutModel.getLayout(layoutIndex).getReactionGlyph(reactionId);
 						if (reactionGlyph != null) {
-							reactionGlyph.putUserObject(KEY_FOR_FLUX_VALUES, mapOfFluxes.get(reactionID));
+							reactionGlyph.putUserObject(KEY_FOR_FLUX_VALUES,
+									mapOfFluxes.get(reactionId));
 						} else {
-							throw new IllegalArgumentException(reactionID + " is no legal ReactionGlyph ID for this model.");
+							throw new IllegalArgumentException(MessageFormat.
+									format("{0} is no legal ReactionGlyph ID for this model.",
+											reactionId));
 						}
 					}
 				}
 				buildLayout(layoutModel.getLayout(layoutIndex));
 			}
 		} else {
-			logger.log(Level.INFO, "Method run failed: No model extension available for this model.");
+			logger.info("Method LayoutDirector.run failed: No model extension available for this model.");
 		}
 	}
 
@@ -618,6 +663,8 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
+	 * Return the product of the building process.
+	 * 
 	 * @return the product
 	 */
 	public P getProduct() {
@@ -628,10 +675,10 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * method determines the order of the compartments of the model, from
-	 * outside to inside
+	 * Order of the compartments from outside to inside.
 	 * 
-	 * @return a LinkedList<Compartment> with the compartments sorted from outside to inside
+	 * @return a List<CompartmentGlyph> with the compartment glyphs ordered from
+	 *         outside to inside
 	 */
 	@SuppressWarnings("unchecked")
 	private List<CompartmentGlyph> getSortedCompartmentGlyphList() {
@@ -653,15 +700,15 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * method that gets the contained compartments of a compartment from its
-	 * user object with the key COMPARTMENT_LINK
+	 * Find the contained compartments of a compartment using its user object
+	 * with the key COMPARTMENT_LINK.
 	 * 
-	 * @param compartment
-	 * @return a LinkedList<Compartments> with the compartments the given
-	 *         compartment contains
+	 * @param compartment for which to find the contained compartments
+	 * @return a List<Compartments> with the compartments the given compartment
+	 *         contains
 	 */
 	@SuppressWarnings("unchecked")
-	private LinkedList<CompartmentGlyph> getContainedCompartmentGlyphs(Compartment compartment) {
+	private List<CompartmentGlyph> getContainedCompartmentGlyphs(Compartment compartment) {
 		LinkedList<CompartmentGlyph> containedList = new LinkedList<CompartmentGlyph>();
 		Object userObject = compartment.getUserObject(COMPARTMENT_LINK);
 		if (userObject instanceof LinkedList<?>) {
@@ -676,9 +723,8 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * method sets a list of the compartments that a compartment contains as
-	 * user object with the key COMPARTMENT_LINK, helping method to sort the
-	 * compartments from outside to inside
+	 * Create a list of contained compartments for every compartment and set it
+	 * as a user object with the key COMPARTMENT_LINK.
 	 */
 	@SuppressWarnings("unchecked")
 	private void createCompartmentLinks() {
