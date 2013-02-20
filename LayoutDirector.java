@@ -40,6 +40,7 @@ import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
+import org.sbml.jsbml.ext.layout.CurveSegment;
 import org.sbml.jsbml.ext.layout.ExtendedLayoutModel;
 import org.sbml.jsbml.ext.layout.GraphicalObject;
 import org.sbml.jsbml.ext.layout.Layout;
@@ -63,6 +64,8 @@ import de.zbit.io.csv.CSVReader;
  * @version $Rev: 142 $
  */
 public class LayoutDirector<P> implements Runnable {
+
+	public static final String SPECIAL_ROTATION_NEEDED = "SPECIAL_ROTATION_NEEDED";
 
 	/**
 	 * 
@@ -248,7 +251,9 @@ public class LayoutDirector<P> implements Runnable {
 			// add reaction glyph to algorithm input
 			if (glyphIsLayouted(reactionGlyph)) {
 				algorithm.addLayoutedGlyph(reactionGlyph);
-				reactionGlyph.putUserObject("SPECIAL_ROTATION_NEEDED", reactionGlyph);
+				if (reactionGlyphHasCurves(reactionGlyph)) {
+					reactionGlyph.putUserObject(SPECIAL_ROTATION_NEEDED, reactionGlyph);
+				}
 			} else {
 				algorithm.addUnlayoutedGlyph(reactionGlyph);
 			}
@@ -282,6 +287,21 @@ public class LayoutDirector<P> implements Runnable {
 		layout.setDimensions(algorithm.createLayoutDimension());
 
 		builder.builderEnd();
+	}
+
+	/**
+	 * Method that checks if there are {@link CurveSegment}s given for the incoming {@link ReactionGlyph}.
+	 * @param reactionGlyph
+	 * @return
+	 */
+	private boolean reactionGlyphHasCurves(ReactionGlyph reactionGlyph) {
+		boolean hasCurves = false;
+		for(SpeciesReferenceGlyph srg : reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
+			if(srg.isSetCurve()) {
+				hasCurves = true;
+			}
+		}
+		return hasCurves;
 	}
 
 	/**
@@ -464,18 +484,6 @@ public class LayoutDirector<P> implements Runnable {
 
 		double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(reactionGlyph);
 		builder.buildProcessNode(reactionGlyph, rgRotationAngle, curveWidth);
-
-//		if (reactionGlyph.isSetReaction() 
-//				&& ((Reaction) reactionGlyph.getReactionInstance()).isReversible()) {
-//			//TODO: change the order of the specref list
-//			int lastIndex = reactionGlyph.getListOfSpeciesReferenceGlyphs().size() - 1;
-//			for (int i = 0; i < reactionGlyph.getListOfSpeciesReferenceGlyphs().size(); i++) {
-//				SpeciesReferenceGlyph specRefGlyph = reactionGlyph.getListOfSpeciesReferenceGlyphs().getLast();
-//				reactionGlyph.getListOfSpeciesReferenceGlyphs().remove(specRefGlyph);
-//				reactionGlyph.getListOfSpeciesReferenceGlyphs().add(i, specRefGlyph);
-//				lastIndex--;
-//			}
-//		}
 		
 		for (SpeciesReferenceGlyph srg : reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
 			// copy SBO term of species reference to species reference glyph
