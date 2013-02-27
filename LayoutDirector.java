@@ -137,6 +137,7 @@ public class LayoutDirector<P> implements Runnable {
 
 		CSVReader csvReader = new CSVReader(fluxFile.getAbsolutePath());
 		String[][] data = csvReader.read();
+		csvReader.close();
 		for (int i = 0; i < data.length; i++) {
 			mapOfFluxes.put(data[i][0], Double.parseDouble(data[i][1]));
 		}
