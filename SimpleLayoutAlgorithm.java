@@ -487,18 +487,20 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		 */
 		SpeciesReferenceRole specRefRole = specRef.getSpeciesReferenceRole();
 
-		if (specRefRole.equals(SpeciesReferenceRole.SUBSTRATE) ||
-				specRefRole.equals(SpeciesReferenceRole.SIDESUBSTRATE)) {
-			return dockingPointToSubstrate;
-		} else if (specRefRole.equals(SpeciesReferenceRole.PRODUCT) ||
-				specRefRole.equals(SpeciesReferenceRole.SIDEPRODUCT)){ 
-			return dockingPointToProduct;
-		} else { // Species docks at the ReactionGlyph directly
-			if (modifierPosition.equals(RelativePosition.LEFT)) {
-				return dockingPointOtherLeft;
-			} else {
-				return dockingPointOtherRight;
+		if (specRefRole != null) {
+			if (specRefRole.equals(SpeciesReferenceRole.SUBSTRATE)
+					|| specRefRole.equals(SpeciesReferenceRole.SIDESUBSTRATE)) {
+				return dockingPointToSubstrate;
+			} else if (specRefRole.equals(SpeciesReferenceRole.PRODUCT)
+					|| specRefRole.equals(SpeciesReferenceRole.SIDEPRODUCT)) {
+				return dockingPointToProduct;
 			}
+		}
+		// Species docks at the ReactionGlyph directly
+		if (modifierPosition.equals(RelativePosition.LEFT)) {
+			return dockingPointOtherLeft;
+		} else {
+			return dockingPointOtherRight;
 		}
 	}
 
