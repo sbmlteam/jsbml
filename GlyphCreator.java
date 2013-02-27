@@ -39,9 +39,10 @@ import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
 import org.sbml.jsbml.ext.layout.TextGlyph;
 
 /**
- * This class is supposed to be called to prepare a model without
- * Layout information for auto layout by LayoutDirector by creating
- * glyphs missing any coordinates.
+ * This class creates a SBML layout for a model without layout information. It
+ * adds glyphs for every species including text labels, reaction and
+ * compartment.
+ * 
  * @author Jan Rudolph
  * @version $Rev$
  */
@@ -53,7 +54,14 @@ public class GlyphCreator {
 	}
 	
 	/**
-	 * compartment, species, reactions, textglph 
+	 * compartment, species, reactions, textglyph
+	 * 
+	 *  TODO
+	 *  - do not create one glyph per species, instead create exactly one glyph
+	 *    for each species that acts as a main substrate and product and create
+	 *    multiple glyphs for all species that act as sidesubstrates or
+	 *    side products
+	 *  - this produces a far more useful graph
 	 */
 	public void create() {
 		Random rand = new Random();
@@ -72,8 +80,8 @@ public class GlyphCreator {
 			textGlyph.setGraphicalObject(speciesGlyph.getId());
 		}
 
-		for (int index = 0; index < model.getCompartmentCount(); index++) {
-			Compartment c = model.getListOfCompartments().get(index);
+		// TODO possibly implement logic to detect the outmost compartment
+		for (Compartment c : model.getListOfCompartments()) {
 			CompartmentGlyph compartmentGlyph = layout.createCompartmentGlyph(nextId(), c.getId());
 			TextGlyph textGlyph = layout.createTextGlyph(nextId());
 			textGlyph.setOriginOfText(c.getId());
@@ -102,16 +110,21 @@ public class GlyphCreator {
 		}
 	}
 
+	/**
+	 * Generate a valid SBML identifier using UUID.
+	 * @return
+	 */
 	public String nextId() {
-	  String idOne;
-	  do {
-	    idOne = UUID.randomUUID().toString().replace("-", "_");
-	    if (Character.isDigit(idOne.charAt(0))) {
-	      // Add an underscore at the beginning of the new id only if necessary.
-	      idOne = '_' + idOne;
-	    }
-	  } while (model.findNamedSBase(idOne) != null);
-	  return idOne;
+		String idOne;
+		do {
+			idOne = UUID.randomUUID().toString().replace("-", "_");
+			if (Character.isDigit(idOne.charAt(0))) {
+				// Add an underscore at the beginning of the new id only if
+				// necessary.
+				idOne = '_' + idOne;
+			}
+		} while (model.findNamedSBase(idOne) != null);
+		return idOne;
 	}
 
 	/**
