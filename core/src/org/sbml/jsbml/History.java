@@ -122,9 +122,7 @@ public class History extends AnnotationElement {
 		setModifiedDate(date);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
 	@Override

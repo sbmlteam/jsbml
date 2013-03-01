@@ -47,15 +47,15 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * 
    */
+  private ListOf<FunctionTerm> listOfFunctionTerms;
+  /**
+   * 
+   */
   private ListOf<Input>        listOfInputs;
   /**
    * 
    */
   private ListOf<Output>       listOfOutputs;
-  /**
-   * 
-   */
-  private ListOf<FunctionTerm> listOfFunctionTerms;
 
   /**
    * 
@@ -67,20 +67,20 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   
   /**
    * 
-   * @param id
-   */
-  public Transition(String id) {
-    super(id);
-    initDefaults();
-  }
-  
-  /**
-   * 
    * @param level
    * @param version
    */
   public Transition(int level, int version){
     this(null, null, level, version);
+  }
+  
+  /**
+   * 
+   * @param id
+   */
+  public Transition(String id) {
+    super(id);
+    initDefaults();
   }
   
   /**
@@ -123,23 +123,183 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   }
   
   /**
-   * 
+   * @param functionTerm
+   *            {@code true} if the {@link FunctionTerm} was added to the
+   *            list or {@code false} if adding the new
+   *            {@link FunctionTerm} was not successful.
    */
-  public void initDefaults() {
-    addNamespace(QualConstant.namespaceURI);
-    listOfFunctionTerms = null;
-    listOfInputs = null;
-    listOfOutputs = null;
+  public boolean addFunctionTerm(FunctionTerm functionTerm) {
+    if (getListOfFunctionTerms().add(functionTerm)) {
+      return true;
+    }
+    return false;
   }
   
-  /*
-   * (non-Javadoc)
+  /**
+   * @param input
+   *        the input to add
+   */
+  public boolean addInput(Input input) {
+      return getListOfInputs().add(input);
+  }
+
+
+  /**
+   * @param output
+   *        the output to add
+   */
+  public boolean addOutput(Output output) {
+      return getListOfOutputs().add(output);
+  }
+
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
   public Transition clone() {
     return new Transition(this);
   }
 
+
+  /**
+   * Creates a new instance of {@link FunctionTerm} and adds it to this
+   * {@link Transition}'s {@link #listOfFunctionTerms}. In case that this
+   * operation fails, {@code null} will be returned. In case of success,
+   * this method will return the newly created {@link FunctionTerm}.
+   * 
+   * @return the newly created {@link FunctionTerm} or {@code null} if
+   *         adding the new {@link FunctionTerm} was not successful.
+   * @see #createFunctionTerm(ASTNode)
+   */
+  public FunctionTerm createFunctionTerm() {
+	  return createFunctionTerm(null);
+  }
+
+
+  /**
+   * Creates a new instance of {@link FunctionTerm} with the given
+   * mathematical expression (encoded in an {@link ASTNode}) and adds it to
+   * this {@link Transition}'s {@link #listOfFunctionTerms}. In case that this
+   * operation fails, {@code null} will be returned. In case of success,
+   * this method will return the newly created {@link FunctionTerm}.
+   * 
+   * @param math
+   *            The mathematical expression for the new {@link FunctionTerm}.
+   * @return newly created {@link FunctionTerm} or {@code null} if adding
+   *         the new {@link FunctionTerm} was not successful.
+   */
+  public FunctionTerm createFunctionTerm(ASTNode math) {
+	  FunctionTerm ft = new FunctionTerm(math, getLevel(), getVersion());
+	  return addFunctionTerm(ft) ? ft : null;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public Input createInput() {
+    return createInput(null);
+  }
+
+
+  /**
+   * 
+   * @param id
+   * @return
+   */
+  public Input createInput(String id) {
+    Input input = new Input(id, getModel().getLevel(), getModel().getVersion());
+    addInput(input);
+    return input;
+  }
+
+
+  /**
+   * 
+   * @param id
+   * @param qualitativeSpecies
+   * @param transitionEffect
+   * @return
+   */
+  public Input createInput(String id, QualitativeSpecies qualitativeSpecies,
+    InputTransitionEffect transitionEffect) {
+    return createInput(id, qualitativeSpecies.getId(), transitionEffect);
+  }
+
+
+  /**
+   * 
+   * @param id
+   * @param input_species_id
+   * @param transitionEffect
+   * @return
+   */
+  public Input createInput(String id, String input_species_id,
+    InputTransitionEffect transitionEffect) {
+    Input input = createInput(id);
+    input.setQualitativeSpecies(input_species_id);
+    input.setTransitionEffect(transitionEffect);
+    return input;
+  }
+
+
+  /**
+   * 
+   * @return
+   */
+  public Output createOutput() {
+    return createOutput(null);
+  }
+
+
+  /**
+   * 
+   * @param id
+   * @return
+   */
+  public Output createOutput(String id) {
+    Output output = new Output(id, getModel().getLevel(), getModel().getVersion());
+    addOutput(output);
+    return output;
+  }
+
+
+  /**
+   * 
+   * @param id
+   * @param qualitativeSpecies
+   * @param transitionEffect
+   * @return
+   */
+  public Output createOutput(String id, QualitativeSpecies qualitativeSpecies,
+      OutputTransitionEffect transitionEffect) {
+    return createOutput(id, qualitativeSpecies.getId(), transitionEffect);
+  }
+
+
+  /**
+   * 
+   * @param id
+   * @param output_species_id
+   * @param transitionEffect
+   * @return
+   */
+  public Output createOutput(String id, String output_species_id,
+    OutputTransitionEffect transitionEffect) {
+    Output Output = createOutput(id);
+    Output.setQualitativeSpecies(output_species_id);
+    Output.setTransitionEffect(transitionEffect);
+    return Output;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    boolean equals = super.equals(object);
+    return equals;
+  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
@@ -179,7 +339,6 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
       index, +((int) Math.min(pos, 0))));
   }
 
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildCount()
    */
@@ -198,156 +357,21 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     return count;
   }
 
-
   /**
-   * @return false
+   * 
+   * @return
    */
-  public boolean isIdMandatory() {
-    return false;
+  public int getFunctionTermCount() {
+	  return isSetListOfFunctionTerms() ? getListOfFunctionTerms().size() : 0;
   }
-
-
-  /**
-   * @return false
-   */
-  public boolean isSignMandatory() {
-    return false;
-  }
-
-  /**
-   * @return true
-   */
-  public boolean isListOfOutputsMandatory() {
-    return true;
-  }
-
 
   /**
    * 
    * @return
    */
-  public boolean isSetListOfOutputs() {
-    return listOfOutputs != null;
+  public int getInputCount() {
+	  return isSetListOfInputs() ? getListOfInputs().size() : 0;
   }
-
-
-  /**
-   * 
-   * @param loo
-   */
-  public void setListOfOutputs(ListOf<Output> loo) {
-    unsetListOfOutputs();
-    this.listOfOutputs = loo;
-    registerChild(this.listOfOutputs);
-  }
-
-
-  /**
-   * 
-   * @return
-   */
-  public boolean unsetListOfOutputs() {
-    if (isSetListOfOutputs()) {
-      ListOf<Output> oldLoo = this.listOfOutputs;
-      this.listOfOutputs = null;
-      oldLoo.fireNodeRemovedEvent();
-      return true;
-    }
-    return false;
-  }
-
-
-  /**
-   * @return the listOfOutputs
-   */
-  public ListOf<Output> getListOfOutputs() {
-    if (!isSetListOfOutputs()) {
-      listOfOutputs = new ListOf<Output>(getLevel(), getVersion());
-      listOfOutputs.setSBaseListType(ListOf.Type.other);
-      listOfOutputs.addNamespace(QualConstant.namespaceURI);
-      registerChild(listOfOutputs);
-    }
-    return listOfOutputs;
-  }
-
-
-  /**
-   * @param output
-   *        the output to add
-   */
-  public boolean addOutput(Output output) {
-      return getListOfOutputs().add(output);
-  }
-
-
-  /**
-   * @param output
-   *        to remove from the listOfOutputs
-   * @return true if the operation was successful
-   */
-  public boolean removeOutput(Output output) {
-    if (isSetListOfOutputs()) {
-      return listOfOutputs.remove(output);
-    }
-    return false;
-  }
-
-
-  /**
-   * @param i position
-   *        in the listOfOutputs which should be deleted
-   * @throws IndexOutOfBoundsException if the index is not valid
-   */
-  public void removeOutput(int i) {
-    if (!isSetListOfOutputs()) {
-      throw new IndexOutOfBoundsException(Integer.toString(i));
-    }
-    listOfOutputs.remove(i);
-  }
-
-
-  /**
-   * @return false
-   */
-  public boolean isListOfFunctionTermsMandatory() {
-    return false;
-  }
-
-
-  /**
-   * 
-   * @return
-   */
-  public boolean isSetListOfFunctionTerms() {
-    return listOfFunctionTerms != null;
-  }
-
-
-  /**
-   * 
-   * @param loft
-   */
-  public void setListOfFunctionTerms(ListOf<FunctionTerm> loft) {
-    unsetListOfFunctionTerms();
-    this.listOfFunctionTerms = loft;
-    registerChild(this.listOfFunctionTerms);
-  }
-
-
-  /**
-   * 
-   * @return
-   */
-  public boolean unsetListOfFunctionTerms() {
-    if (isSetListOfFunctionTerms()) {
-      ListOf<FunctionTerm> oldLoft = this.listOfFunctionTerms;
-      this.listOfFunctionTerms = null;
-      oldLoft.fireNodeRemovedEvent();
-      return true;
-    }
-    return false;
-  }
-
 
   /**
    * @return the listOfFunctionTerms
@@ -363,47 +387,128 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * @param functionTerm
-   *            {@code true} if the {@link FunctionTerm} was added to the
-   *            list or {@code false} if adding the new
-   *            {@link FunctionTerm} was not successful.
+   * @return the listOfInputs
    */
-  public boolean addFunctionTerm(FunctionTerm functionTerm) {
-    if (getListOfFunctionTerms().add(functionTerm)) {
-      return true;
+  public ListOf<Input> getListOfInputs() {
+    if (!isSetListOfInputs()) {
+      listOfInputs = new ListOf<Input>(getLevel(), getVersion());
+      listOfInputs.setSBaseListType(ListOf.Type.other);
+      listOfInputs.addNamespace(QualConstant.namespaceURI);
+      registerChild(listOfInputs);
     }
+    return listOfInputs;
+  }
+  
+  /**
+   * @return the listOfOutputs
+   */
+  public ListOf<Output> getListOfOutputs() {
+    if (!isSetListOfOutputs()) {
+      listOfOutputs = new ListOf<Output>(getLevel(), getVersion());
+      listOfOutputs.setSBaseListType(ListOf.Type.other);
+      listOfOutputs.addNamespace(QualConstant.namespaceURI);
+      registerChild(listOfOutputs);
+    }
+    return listOfOutputs;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public int getOutputCount() {
+	  return isSetListOfOutputs() ? getListOfOutputs().size() : 0;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    int hashCode = super.hashCode();
+    return hashCode;
+  }
+
+
+  /**
+   * 
+   */
+  public void initDefaults() {
+    addNamespace(QualConstant.namespaceURI);
+    listOfFunctionTerms = null;
+    listOfInputs = null;
+    listOfOutputs = null;
+  }
+
+  /**
+   * @return false
+   */
+  public boolean isIdMandatory() {
     return false;
   }
 
   /**
-   * Creates a new instance of {@link FunctionTerm} and adds it to this
-   * {@link Transition}'s {@link #listOfFunctionTerms}. In case that this
-   * operation fails, {@code null} will be returned. In case of success,
-   * this method will return the newly created {@link FunctionTerm}.
-   * 
-   * @return the newly created {@link FunctionTerm} or {@code null} if
-   *         adding the new {@link FunctionTerm} was not successful.
-   * @see #createFunctionTerm(ASTNode)
+   * @return {@code false}
    */
-  public FunctionTerm createFunctionTerm() {
-	  return createFunctionTerm(null);
+  public boolean isListOfFunctionTermsMandatory() {
+    return false;
   }
-  
+
   /**
-   * Creates a new instance of {@link FunctionTerm} with the given
-   * mathematical expression (encoded in an {@link ASTNode}) and adds it to
-   * this {@link Transition}'s {@link #listOfFunctionTerms}. In case that this
-   * operation fails, {@code null} will be returned. In case of success,
-   * this method will return the newly created {@link FunctionTerm}.
-   * 
-   * @param math
-   *            The mathematical expression for the new {@link FunctionTerm}.
-   * @return newly created {@link FunctionTerm} or {@code null} if adding
-   *         the new {@link FunctionTerm} was not successful.
+   * @return {@code false}
    */
-  public FunctionTerm createFunctionTerm(ASTNode math) {
-	  FunctionTerm ft = new FunctionTerm(math, getLevel(), getVersion());
-	  return addFunctionTerm(ft) ? ft : null;
+  public boolean isListOfInputsMandatory() {
+    return false;
+  }
+
+  /**
+   * @return {@code true}
+   */
+  public boolean isListOfOutputsMandatory() {
+    return true;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetListOfFunctionTerms() {
+    return listOfFunctionTerms != null;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetListOfInputs() {
+    return listOfInputs != null;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetListOfOutputs() {
+    return listOfOutputs != null;
+  }
+
+  /**
+   * @return {@code false}
+   */
+  public boolean isSignMandatory() {
+    return false;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix,
+		  String value) 
+  {
+	  boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+	  return isAttributeRead;
+	  
   }
 
   /**
@@ -418,7 +523,6 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     return false;
   }
 
-
   /**
    * @param i position
    *        in the listOfFunctionTerms which should be deleted
@@ -431,24 +535,64 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     listOfFunctionTerms.remove(i);
   }
 
-
   /**
-   * @return false
+   * @param input
+   *        to remove from the listOfInputs
+   * @return true if the operation was successful
    */
-  public boolean isListOfInputsMandatory() {
+  public boolean removeInput(Input input) {
+    if (isSetListOfInputs()) {
+      return listOfInputs.remove(input);
+    }
+    return false;
+  }
+  
+  /**
+   * @param i position
+   *        in the listOfInputs which should be deleted
+   * @throws IndexOutOfBoundsException if the index is invalid.
+   */
+  public void removeInput(int i) {
+    if (!isSetListOfInputs()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    listOfInputs.remove(i);
+  }
+  
+  /**
+   * @param i position
+   *        in the listOfOutputs which should be deleted
+   * @throws IndexOutOfBoundsException if the index is not valid
+   */
+  public void removeOutput(int i) {
+    if (!isSetListOfOutputs()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    listOfOutputs.remove(i);
+  }
+  
+  /**
+   * @param output
+   *        to remove from the listOfOutputs
+   * @return true if the operation was successful
+   */
+  public boolean removeOutput(Output output) {
+    if (isSetListOfOutputs()) {
+      return listOfOutputs.remove(output);
+    }
     return false;
   }
 
-
   /**
    * 
-   * @return
+   * @param loft
    */
-  public boolean isSetListOfInputs() {
-    return listOfInputs != null;
+  public void setListOfFunctionTerms(ListOf<FunctionTerm> loft) {
+    unsetListOfFunctionTerms();
+    this.listOfFunctionTerms = loft;
+    registerChild(this.listOfFunctionTerms);
   }
-
-
+  
   /**
    * 
    * @param loi
@@ -458,7 +602,30 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     this.listOfInputs = loi;
     registerChild(this.listOfInputs);
   }
+  
+  /**
+   * 
+   * @param loo
+   */
+  public void setListOfOutputs(ListOf<Output> loo) {
+    unsetListOfOutputs();
+    this.listOfOutputs = loo;
+    registerChild(this.listOfOutputs);
+  }
 
+  /**
+   * 
+   * @return
+   */
+  public boolean unsetListOfFunctionTerms() {
+    if (isSetListOfFunctionTerms()) {
+      ListOf<FunctionTerm> oldLoft = this.listOfFunctionTerms;
+      this.listOfFunctionTerms = null;
+      oldLoft.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
 
   /**
    * 
@@ -473,86 +640,19 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return false;
   }
-
-
+  
   /**
-   * @return the listOfInputs
+   * 
+   * @return
    */
-  public ListOf<Input> getListOfInputs() {
-    if (!isSetListOfInputs()) {
-      listOfInputs = new ListOf<Input>(getLevel(), getVersion());
-      listOfInputs.setSBaseListType(ListOf.Type.other);
-      listOfInputs.addNamespace(QualConstant.namespaceURI);
-      registerChild(listOfInputs);
-    }
-    return listOfInputs;
-  }
-
-
-  /**
-   * @param input
-   *        the input to add
-   */
-  public boolean addInput(Input input) {
-      return getListOfInputs().add(input);
-  }
-
-
-  /**
-   * @param input
-   *        to remove from the listOfInputs
-   * @return true if the operation was successful
-   */
-  public boolean removeInput(Input input) {
-    if (isSetListOfInputs()) {
-      return listOfInputs.remove(input);
+  public boolean unsetListOfOutputs() {
+    if (isSetListOfOutputs()) {
+      ListOf<Output> oldLoo = this.listOfOutputs;
+      this.listOfOutputs = null;
+      oldLoo.fireNodeRemovedEvent();
+      return true;
     }
     return false;
-  }
-
-
-  /**
-   * @param i position
-   *        in the listOfInputs which should be deleted
-   * @throws IndexOutOfBoundsException if the index is invalid.
-   */
-  public void removeInput(int i) {
-    if (!isSetListOfInputs()) {
-      throw new IndexOutOfBoundsException(Integer.toString(i));
-    }
-    listOfInputs.remove(i);
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
-   */
-  @Override
-  public boolean equals(Object object) {
-    boolean equals = super.equals(object);
-    return equals;
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#hashCode()
-   */
-  @Override
-  public int hashCode() {
-    int hashCode = super.hashCode();
-    return hashCode;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-   */
-  @Override
-  public boolean readAttribute(String attributeName, String prefix,
-		  String value) 
-  {
-	  boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-	  return isAttributeRead;
-	  
   }
 
   /* (non-Javadoc)
@@ -574,97 +674,4 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
 	  return attributes;
   }
 
-
-  /**
-   * 
-   * @return
-   */
-  public Output createOutput() {
-    return createOutput(null);
-  }
-  
-  /**
-   * 
-   * @param id
-   * @return
-   */
-  public Output createOutput(String id) {
-    Output output = new Output(id, getModel().getLevel(), getModel().getVersion());
-    addOutput(output);
-    return output;
-  }
-  
-  /**
-   * 
-   * @param id
-   * @param qualitativeSpecies
-   * @param transitionEffect
-   * @return
-   */
-  public Output createOutput(String id, QualitativeSpecies qualitativeSpecies,
-      OutputTransitionEffect transitionEffect) {
-    return createOutput(id, qualitativeSpecies.getId(), transitionEffect);
-  }
-  
-  /**
-   * 
-   * @param id
-   * @param output_species_id
-   * @param transitionEffect
-   * @return
-   */
-  public Output createOutput(String id, String output_species_id,
-    OutputTransitionEffect transitionEffect) {
-    Output Output = createOutput(id);
-    Output.setQualitativeSpecies(output_species_id);
-    Output.setTransitionEffect(transitionEffect);
-    return Output;
-  }
-
-  /**
-   * 
-   * @return
-   */
-  public Input createInput() {
-    return createInput(null);
-  }
-  
-  /**
-   * 
-   * @param id
-   * @return
-   */
-  public Input createInput(String id) {
-    Input input = new Input(id, getModel().getLevel(), getModel().getVersion());
-    addInput(input);
-    return input;
-  }
-  
-  /**
-   * 
-   * @param id
-   * @param qualitativeSpecies
-   * @param transitionEffect
-   * @return
-   */
-  public Input createInput(String id, QualitativeSpecies qualitativeSpecies,
-    InputTransitionEffect transitionEffect) {
-    return createInput(id, qualitativeSpecies.getId(), transitionEffect);
-  }
-
-  /**
-   * 
-   * @param id
-   * @param input_species_id
-   * @param transitionEffect
-   * @return
-   */
-  public Input createInput(String id, String input_species_id,
-    InputTransitionEffect transitionEffect) {
-    Input input = createInput(id);
-    input.setQualitativeSpecies(input_species_id);
-    input.setTransitionEffect(transitionEffect);
-    return input;
-  }
-  
 }

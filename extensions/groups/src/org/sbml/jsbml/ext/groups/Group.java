@@ -43,11 +43,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = 2361503116934849753L;
-	/**
-	 * 
-	 */
-	protected ListOf<Member> listOfMembers = null;
-	
+
 	/**
 	 * Defined in version 3 of the groups proposal.
 	 */
@@ -56,13 +52,14 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	/**
 	 * 
 	 */
+	protected ListOf<Member> listOfMembers = null;
+
+	/**
+	 * 
+	 */
 	public Group() {
 		super();
 		initDefaults();
-	}
-	
-	private void initDefaults() {
-		addNamespace(GroupsParser.namespaceURI);		
 	}
 
 	/**
@@ -72,15 +69,15 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	public Group(Group group) {
 		super(group);
 		if (group.isSetListOfMembers()) {
-		  for (Member m : group.listOfMembers) {
-			  addMember(m.clone());
-		  }
+			for (Member m : group.listOfMembers) {
+				addMember(m.clone());
+			}
 		}
 		if (group.isSetKind()) {
-		  setKind(group.getKind());
+			setKind(group.getKind());
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param level
@@ -90,12 +87,64 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 		super(level, version);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * 
+	 */
+	public boolean addMember(Member member) {
+		return getListOfMembers().add(member);
+	}
+
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	public Group clone() {
 		return new Group(this);
+	}
+
+	/**
+	 * @param symbol
+	 * @return
+	 */
+	public Member createMember(String symbol) {
+		Member m = new Member();
+		m.setSymbol(symbol);
+		addMember(m);
+		return m;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+	 */
+	@Override
+	public TreeNode getChildAt(int index) {
+		if (index < 0 || index >= 1) {
+			return null;
+		}
+
+		if (isSetListOfMembers()) {
+			return listOfMembers;
+		}
+
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+	 */
+	@Override
+	public int getChildCount() {
+		if (isSetListOfMembers()) {
+			return 1;
+		}
+		return 0;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public GroupKind getKind() {
+		return kind;
 	}
 
 	/**
@@ -122,20 +171,37 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 		if (i >= 0 && i < getListOfMembers().size()) {
 			return getListOfMembers().get(i);
 		}
-		
+
 		return null;
 	}
-	
-	public boolean addMember(Member member) {
-		return getListOfMembers().add(member);
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getMemberCount() {
+		return isSetListOfMembers() ? getListOfMembers().size() : 0;
 	}
-	
+
+	private void initDefaults() {
+		addNamespace(GroupsParser.namespaceURI);		
+	}
+
 	/* (non-Javadoc)
-   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
-   */
-  public boolean isIdMandatory() {
-    return false;
-  }
+	 * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+	 */
+	public boolean isIdMandatory() {
+		return false;
+	}
+
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSetKind() {
+		return kind!=null;
+	}
 
 	/**
 	 * 
@@ -147,61 +213,41 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 		}
 		return true;
 	}
-	
-	/**
-	 * 
-	 * @return
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
 	 */
-	public boolean isSetKind() {
-	  return kind!=null;
+	@Override
+	public boolean readAttribute(String attributeName, String prefix, String value) {
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+
+		if (!isAttributeRead && attributeName.equals("kind")) {
+			this.setKind(GroupKind.valueOf(value));
+			isAttributeRead = true;
+		}
+
+		return isAttributeRead;
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public GroupKind getKind() {
-	  return kind;
-	}
-	
+
 	/**
 	 * 
 	 * @param kind
 	 */
 	public void setKind(GroupKind kind) {
-	  this.kind = kind;
+		this.kind = kind;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
 	 */
 	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-		
-		if (!isAttributeRead && attributeName.equals("kind")) {
-      this.setKind(GroupKind.valueOf(value));
-      isAttributeRead = true;
-		}
-		
-		return isAttributeRead;
+	public String toString() {
+		return "Group [id=" + getId() + ", name=" + getName() 
+				+ (isSetKind()?", kind=" + getKind():"")
+				+ ", listOfMembers=" + listOfMembers + "]";
 	}
 
-	
-	/* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "Group [id=" + getId() + ", name=" + getName() 
-        + (isSetKind()?", kind=" + getKind():"")
-        + ", listOfMembers=" + listOfMembers + "]";
-  }
-
-  /**
+	/**
 	 * Removes the {@link #listOfMembers} from this {@link Model} and notifies
 	 * all registered instances of {@link TreeNodeChangeListener}.
 	 * 
@@ -218,9 +264,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 		return false;
 	}
 
-  /*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
@@ -235,43 +279,12 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 			attributes.remove("name");
 			attributes.put(GroupsParser.shortLabel+ ":name", getName());
 		}
-    if (isSetKind()) {
-      attributes.remove("kind");
-      attributes.put(GroupsParser.shortLabel+ ":kind", getKind().toString());
-    }
-		
+		if (isSetKind()) {
+			attributes.remove("kind");
+			attributes.put(GroupsParser.shortLabel+ ":kind", getKind().toString());
+		}
+
 		return attributes;
 	}
-	
-	public int getChildCount() {
-		if (isSetListOfMembers()) {
-			return 1;
-		}
-		return 0;
-	}
-	
-	public TreeNode getChildAt(int index) {
-		if (index < 0 || index >= 1) {
-			return null;
-		}
-		
-		if (isSetListOfMembers()) {
-			return listOfMembers;
-		}
-		
-		return null;
-	}
 
-  /**
-   * @param symbol
-   * @return
-   */
-	public Member createMember(String symbol) {
-	  Member m = new Member();
-	  m.setSymbol(symbol);
-	  addMember(m);
-	  return m;
-	}
-	
-	
 }
