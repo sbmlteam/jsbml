@@ -434,7 +434,9 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
 	 */
 	public StringBuilder brackets(Object formula) {
 		StringBuilder buffer = new StringBuilder("\\left(");
-		buffer.append(formula);
+		if (formula != null) {
+			buffer.append(formula);
+		}
 		buffer.append("\\right)");
 		return buffer;
 	}
@@ -748,11 +750,13 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
 		StringBuffer value = new StringBuffer();
 		int length;
 		if (fun != null) {
-			value.append(mathtt(LaTeXCompiler.maskSpecialChars(fun.getId())));
+			value.append(mathtt(LaTeXCompiler.maskSpecialChars(
+			  fun.isSetName() && printNameIfAvailable ? fun.getName() : fun.getId())));
 			length = args.size();
 		} else if (args.size() == 1) {
 			length = 0;
-			value.append("\\lambda\\left(\\right)");
+			value.append("\\lambda");
+			value.append(brackets(null));
 		} else {
 			value.append("\\lambda");
 			length = args.size() - 1;

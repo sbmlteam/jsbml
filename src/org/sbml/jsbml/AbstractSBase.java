@@ -732,6 +732,19 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	public abstract AbstractSBase clone();
 
 
+	/**
+	 * Creates a new {@link History} and associates it with the annotation of
+	 * this element. If no {@link Annotation} exists, a new such element is
+	 * created as well.
+	 * 
+	 * @return A new {@link History} instance that is directly associated with
+	 *         this element.
+	 * @see #getHistory()
+	 */
+	public History createHistory() {
+		return getHistory();
+	}
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
 	 */
@@ -1390,7 +1403,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		this.annotation.parent = this;
 		firePropertyChange(TreeNodeChangeEvent.setAnnotation, oldAnnotation, this.annotation);
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBase#setHistory(org.sbml.jsbml.History)
 	 */
@@ -1725,7 +1738,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 							"Some annotations would get lost because there was no metaid defined on {0}. To avoid this, an automatic metaid '{0}' as been generated.",
 							getElementName(), getMetaId()));
 					// Setting the new metaid in the RDF about attribute.
-					getAnnotation().setAbout("#" + getMetaId());
+					getAnnotation().setAbout('#' + getMetaId());
 				} else {
 					logger.warn(MessageFormat.format(
 							"Some annotations can get lost because no metaid is defined on {0}.",
