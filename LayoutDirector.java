@@ -125,7 +125,7 @@ public class LayoutDirector<P> implements Runnable {
 	 * @param inputFile file containing the SBML document
 	 * @param builder LayoutBuilder instance for producing the output
 	 * @param algorithm LayoutAlgorithm instance for layouting elements
-	 * @param fluxFile file containting the flux information
+	 * @param fluxFile file containing the flux information
 	 * @throws XMLStreamException
 	 * @throws IOException
 	 */
@@ -150,10 +150,7 @@ public class LayoutDirector<P> implements Runnable {
 	 */
 	public LayoutDirector(SBMLDocument doc, LayoutBuilder<P> builder,
 			LayoutAlgorithm algorithm) {
-		this.model = doc.getModel();
-		this.builder = builder;
-		this.algorithm = algorithm;
-		this.layoutIndex = 0;
+		this(doc, builder, algorithm, 0);
 	}
 
 	/**
@@ -164,10 +161,9 @@ public class LayoutDirector<P> implements Runnable {
 	 */
 	public LayoutDirector(SBMLDocument doc, LayoutBuilder<P> builder,
 			LayoutAlgorithm algorithm, int index) {
-		this.model = doc.getModel();
-		this.builder = builder;
-		this.algorithm = algorithm;
-		this.layoutIndex = index;
+		this(((ExtendedLayoutModel) doc.getModel().getExtension(
+			LayoutConstants.getNamespaceURI(doc.getLevel(), doc.getVersion())))
+				.getLayout(index), builder, algorithm);
 	}
 
 	/**
@@ -177,12 +173,15 @@ public class LayoutDirector<P> implements Runnable {
 	 */
 	public LayoutDirector(Layout layout, LayoutBuilder<P> builder,
 			LayoutAlgorithm algorithm) {
-		Model model = layout.getModel();
-		ExtendedLayoutModel ext = (ExtendedLayoutModel) model.getExtension(LayoutConstants.getNamespaceURI(layout.getLevel(), layout.getVersion()));
-		this.model = model;
+		this.model = layout.getModel();
 		this.builder = builder;
 		this.algorithm = algorithm;
-		this.layoutIndex = ext.getListOfLayouts().indexOf(layout);
+		ExtendedLayoutModel ext = (ExtendedLayoutModel) model.getExtension(LayoutConstants.getNamespaceURI(layout.getLevel(), layout.getVersion()));
+		if ((ext != null) && (ext.isSetListOfLayouts())) {
+			this.layoutIndex = ext.getListOfLayouts().indexOf(layout);
+		} else {
+			this.layoutIndex = -1;
+		}
 	}
 
 	/**
@@ -230,83 +229,108 @@ public class LayoutDirector<P> implements Runnable {
 		builder.builderStart(layout);
 
 		// Compartment glyphs
-		ListOf<CompartmentGlyph> compartmentGlyphList = layout.getListOfCompartmentGlyphs();
-		createLayoutLinks(compartmentGlyphList);
-		List<CompartmentGlyph> sortedCompartmentGlyphList = getSortedCompartmentGlyphList();
-
+		ListOf<CompartmentGlyph> compartmentGlyphList = null;
+		List<CompartmentGlyph> sortedCompartmentGlyphList = null;
+		if (layout.isSetListOfCompartmentGlyphs()) {
+			compartmentGlyphList = layout.getListOfCompartmentGlyphs();
+			createLayoutLinks(compartmentGlyphList);
+			sortedCompartmentGlyphList = getSortedCompartmentGlyphList();
+		}
 		// Species glyphs
-		ListOf<SpeciesGlyph> speciesGlyphList = layout.getListOfSpeciesGlyphs();
-		createLayoutLinks(speciesGlyphList);
+		ListOf<SpeciesGlyph> speciesGlyphList = null;
+		if (layout.isSetListOfSpeciesGlyphs()) {
+			speciesGlyphList = layout.getListOfSpeciesGlyphs();
+			createLayoutLinks(speciesGlyphList);
+		}
 
 		// Reaction glyphs
-		ListOf<ReactionGlyph> reactionGlyphList = layout.getListOfReactionGlyphs();
-		createLayoutLinks(reactionGlyphList);
+		ListOf<ReactionGlyph> reactionGlyphList = null;
+		if (layout.isSetListOfReactionGlyphs()) {
+			reactionGlyphList = layout.getListOfReactionGlyphs();
+			createLayoutLinks(reactionGlyphList);
+		}
 
 		// Text glyphs
-		ListOf<TextGlyph> textGlyphList = layout.getListOfTextGlyphs();
+		ListOf<TextGlyph> textGlyphList = layout.isSetListOfTextGlyphs() ?
+			textGlyphList = layout.getListOfTextGlyphs() : null;
 
 		// add all glyphs to algorithm input
 
 		// 1. compartment glyphs
-		for (CompartmentGlyph compartmentGlyph : compartmentGlyphList) {
-			if (glyphIsLayouted(compartmentGlyph)) {
-				algorithm.addLayoutedGlyph(compartmentGlyph);
-			} else {
-				algorithm.addUnlayoutedGlyph(compartmentGlyph);
+		if (compartmentGlyphList != null) {
+			for (CompartmentGlyph compartmentGlyph : compartmentGlyphList) {
+				if (glyphIsLayouted(compartmentGlyph)) {
+					algorithm.addLayoutedGlyph(compartmentGlyph);
+				} else {
+					algorithm.addUnlayoutedGlyph(compartmentGlyph);
+				}
 			}
 		}
 
 		// 2. species glyphs + texts
-		for (SpeciesGlyph speciesGlyph : speciesGlyphList) {
-			if (glyphIsLayouted(speciesGlyph)) {
-				algorithm.addLayoutedGlyph(speciesGlyph);
-			} else {
-				algorithm.addUnlayoutedGlyph(speciesGlyph);
+		if (speciesGlyphList != null) {
+			for (SpeciesGlyph speciesGlyph : speciesGlyphList) {
+				if (glyphIsLayouted(speciesGlyph)) {
+					algorithm.addLayoutedGlyph(speciesGlyph);
+				} else {
+					algorithm.addUnlayoutedGlyph(speciesGlyph);
+				}
 			}
 		}
-		for (TextGlyph textGlyph : textGlyphList) {
-			if (glyphIsLayouted(textGlyph)) {
-				algorithm.addLayoutedGlyph(textGlyph);
-			} else {
-				algorithm.addUnlayoutedGlyph(textGlyph);
+		if (textGlyphList != null) {
+			for (TextGlyph textGlyph : textGlyphList) {
+				if (glyphIsLayouted(textGlyph)) {
+					algorithm.addLayoutedGlyph(textGlyph);
+				} else {
+					algorithm.addUnlayoutedGlyph(textGlyph);
+				}
 			}
 		}
 
 		// 3. reaction glyphs: create edges (srg, rg)
-		for (ReactionGlyph reactionGlyph : reactionGlyphList) {
-			// add reaction glyph to algorithm input
-			if (glyphIsLayouted(reactionGlyph)) {
-				algorithm.addLayoutedGlyph(reactionGlyph);
-				if (reactionGlyphHasCurves(reactionGlyph)) {
-					reactionGlyph.putUserObject(SPECIAL_ROTATION_NEEDED, reactionGlyph);
+		if (reactionGlyphList != null) {
+			for (ReactionGlyph reactionGlyph : reactionGlyphList) {
+				// add reaction glyph to algorithm input
+				if (glyphIsLayouted(reactionGlyph)) {
+					algorithm.addLayoutedGlyph(reactionGlyph);
+					if (reactionGlyphHasCurves(reactionGlyph)) {
+						reactionGlyph.putUserObject(SPECIAL_ROTATION_NEEDED, reactionGlyph);
+					}
+				} else {
+					algorithm.addUnlayoutedGlyph(reactionGlyph);
 				}
-			} else {
-				algorithm.addUnlayoutedGlyph(reactionGlyph);
-			}
-			if (reactionGlyph.isSetListOfSpeciesReferencesGlyph()) {
-				ListOf<SpeciesReferenceGlyph> speciesReferenceGlyphs =
-					reactionGlyph.getListOfSpeciesReferenceGlyphs();
-				// add all (srg, rg) pairs to algorithm input
-				for (SpeciesReferenceGlyph srg : speciesReferenceGlyphs) {
-					if (edgeIsLayouted(reactionGlyph, srg)) {
-						algorithm.addLayoutedEdge(srg, reactionGlyph);
-					} else {
-						algorithm.addUnlayoutedEdge(srg, reactionGlyph);
+				if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
+					ListOf<SpeciesReferenceGlyph> speciesReferenceGlyphs =
+							reactionGlyph.getListOfSpeciesReferenceGlyphs();
+					// add all (srg, rg) pairs to algorithm input
+					for (SpeciesReferenceGlyph srg : speciesReferenceGlyphs) {
+						if (edgeIsLayouted(reactionGlyph, srg)) {
+							algorithm.addLayoutedEdge(srg, reactionGlyph);
+						} else {
+							algorithm.addUnlayoutedEdge(srg, reactionGlyph);
+						}
 					}
 				}
 			}
 		}
 
 
-
 		// 2. let algorithm complete all glyphs
 		algorithm.completeGlyphs();
 
 		// 3. build all glyphs
-		handleCompartmentGlyphs(sortedCompartmentGlyphList);
-		handleSpeciesGlyphs(speciesGlyphList);
-		handleReactionGlyphs(reactionGlyphList);
-		handleTextGlyphs(textGlyphList);
+		if (sortedCompartmentGlyphList != null) {
+			handleCompartmentGlyphs(sortedCompartmentGlyphList);
+		}
+		if (speciesGlyphList != null) {
+			handleSpeciesGlyphs(speciesGlyphList);
+		}
+		if (reactionGlyphList != null) {
+			handleReactionGlyphs(reactionGlyphList);
+		}
+		if (textGlyphList != null) {
+			handleTextGlyphs(textGlyphList);
+		}
 
 		// 4. set layout dimensions
 		// TODO this is the second call (see above)
@@ -324,11 +348,13 @@ public class LayoutDirector<P> implements Runnable {
 	 */
 	private boolean reactionGlyphHasCurves(ReactionGlyph reactionGlyph) {
 		boolean hasCurves = false;
-		for(SpeciesReferenceGlyph speciesReferenceGlyph :
-			reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
-			if(speciesReferenceGlyph.isSetCurve()) {
-				hasCurves = true;
-				break;
+		if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) { 
+			for (SpeciesReferenceGlyph speciesReferenceGlyph :
+				reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
+				if (speciesReferenceGlyph.isSetCurve()) {
+					hasCurves = true;
+					break;
+				}
 			}
 		}
 		return hasCurves;
@@ -518,19 +544,26 @@ public class LayoutDirector<P> implements Runnable {
 		double rgRotationAngle = algorithm.calculateReactionGlyphRotationAngle(reactionGlyph);
 		builder.buildProcessNode(reactionGlyph, rgRotationAngle, curveWidth);
 		
-		for (SpeciesReferenceGlyph srg : reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
-			// copy SBO term of species reference to species reference glyph
-			SimpleSpeciesReference speciesReference = (SimpleSpeciesReference) srg.getNamedSBaseInstance();
-			if ((speciesReference == null) || !speciesReference.isSetSBOTerm()) {
-				if (!srg.isSetSpeciesReferenceRole()) {
-					// sets consumption (straight line as default)
-					srg.setSBOTerm(394);
+		if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
+			for (SpeciesReferenceGlyph srg : reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
+				try {
+					// copy SBO term of species reference to species reference glyph
+					SimpleSpeciesReference speciesReference = (SimpleSpeciesReference) srg.getNamedSBaseInstance();
+					if ((speciesReference == null) || !speciesReference.isSetSBOTerm()) {
+						if (!srg.isSetSpeciesReferenceRole()) {
+							// sets consumption (straight line as default)
+							srg.setSBOTerm(394);
+						}
+					} else {
+						srg.setSBOTerm(speciesReference.getSBOTerm());
+					}
+					
+					builder.buildConnectingArc(srg, reactionGlyph, curveWidth);
+				} catch (ClassCastException exc) {
+					logger.fine("tried to access object wiht id = " + srg.getNamedSBase());
+					throw exc;
 				}
-			} else {
-				srg.setSBOTerm(speciesReference.getSBOTerm());
 			}
-
-			builder.buildConnectingArc(srg, reactionGlyph, curveWidth);
 		}
 	}
 
@@ -685,18 +718,18 @@ public class LayoutDirector<P> implements Runnable {
 	private List<CompartmentGlyph> getSortedCompartmentGlyphList() {
 		createCompartmentLinks();
 		List<CompartmentGlyph> sortedGlyphList = new ArrayList<CompartmentGlyph>();
-
-		for (Compartment compartment : model.getListOfCompartments()) {
-			List<CompartmentGlyph> compartmentGlyphList = new ArrayList<CompartmentGlyph>();
-			if (compartment.getUserObject(LAYOUT_LINK) instanceof List<?>) {
-				compartmentGlyphList = (List<CompartmentGlyph>) compartment.getUserObject(LAYOUT_LINK);
-			}
-			if (!compartment.isSetOutside()) {
-				sortedGlyphList.addAll(compartmentGlyphList);
-				sortedGlyphList.addAll(getContainedCompartmentGlyphs(compartment));
+		if (model.isSetListOfCompartments()) {
+			for (Compartment compartment : model.getListOfCompartments()) {
+				List<CompartmentGlyph> compartmentGlyphList = new ArrayList<CompartmentGlyph>();
+				if (compartment.getUserObject(LAYOUT_LINK) instanceof List<?>) {
+					compartmentGlyphList = (List<CompartmentGlyph>) compartment.getUserObject(LAYOUT_LINK);
+				}
+				if (!compartment.isSetOutside()) {
+					sortedGlyphList.addAll(compartmentGlyphList);
+					sortedGlyphList.addAll(getContainedCompartmentGlyphs(compartment));
+				}
 			}
 		}
-
 		return sortedGlyphList;
 	}
 
@@ -729,16 +762,18 @@ public class LayoutDirector<P> implements Runnable {
 	 */
 	@SuppressWarnings("unchecked")
 	private void createCompartmentLinks() {
-		ListOf<Compartment> compartmentList = model.getListOfCompartments();
-		for (Compartment compartment : compartmentList) {
-			if (compartment.isSetOutsideInstance()) {
-				Compartment outside = compartment.getOutsideInstance();
-				LinkedList<Compartment> userObject = new LinkedList<Compartment>();
-				if (outside.getUserObject(COMPARTMENT_LINK) instanceof LinkedList<?>) {
-					userObject = (LinkedList<Compartment>) outside.getUserObject(COMPARTMENT_LINK);
+		if (model.isSetListOfCompartments()) {
+			ListOf<Compartment> compartmentList = model.getListOfCompartments();
+			for (Compartment compartment : compartmentList) {
+				if (compartment.isSetOutsideInstance()) {
+					Compartment outside = compartment.getOutsideInstance();
+					LinkedList<Compartment> userObject = new LinkedList<Compartment>();
+					if (outside.getUserObject(COMPARTMENT_LINK) instanceof LinkedList<?>) {
+						userObject = (LinkedList<Compartment>) outside.getUserObject(COMPARTMENT_LINK);
+					}
+					userObject.add(compartment);
+					outside.putUserObject(COMPARTMENT_LINK, userObject);
 				}
-				userObject.add(compartment);
-				outside.putUserObject(COMPARTMENT_LINK, userObject);
 			}
 		}
 	}

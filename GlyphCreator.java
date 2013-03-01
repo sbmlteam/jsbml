@@ -70,42 +70,56 @@ public class GlyphCreator {
 		Layout layout = extLayout.createLayout(nextId());
 		layout.setName("auto_layout");
 		
-		for (Species s : model.getListOfSpecies()) {
-			SpeciesGlyph speciesGlyph = layout.createSpeciesGlyph(genId(rand, s), s.getId());
-			s.putUserObject("GLYPH", speciesGlyph.getId());
-			// do not label source or sink glyphs
-			if (SBO.isChildOf(s.getSBOTerm(), SBO.getEmptySet())) continue;
-			TextGlyph textGlyph = layout.createTextGlyph(nextId());
-			textGlyph.setOriginOfText(s.getId());
-			textGlyph.setGraphicalObject(speciesGlyph.getId());
+		if (model.isSetListOfSpecies()) {
+			for (Species s : model.getListOfSpecies()) {
+				SpeciesGlyph speciesGlyph = layout.createSpeciesGlyph(genId(rand, s), s.getId());
+				s.putUserObject("GLYPH", speciesGlyph.getId());
+				// do not label source or sink glyphs
+				if (SBO.isChildOf(s.getSBOTerm(), SBO.getEmptySet())) {
+					continue;
+				}
+				TextGlyph textGlyph = layout.createTextGlyph(nextId());
+				textGlyph.setOriginOfText(s.getId());
+				textGlyph.setGraphicalObject(speciesGlyph.getId());
+			}
 		}
 
 		// TODO possibly implement logic to detect the outmost compartment
-		for (Compartment c : model.getListOfCompartments()) {
-			CompartmentGlyph compartmentGlyph = layout.createCompartmentGlyph(nextId(), c.getId());
-			TextGlyph textGlyph = layout.createTextGlyph(nextId());
-			textGlyph.setOriginOfText(c.getId());
-			textGlyph.setGraphicalObject(compartmentGlyph.getId());
+		if (model.isSetListOfCompartments()) {
+			for (Compartment c : model.getListOfCompartments()) {
+				CompartmentGlyph compartmentGlyph = layout.createCompartmentGlyph(nextId(), c.getId());
+				TextGlyph textGlyph = layout.createTextGlyph(nextId());
+				textGlyph.setOriginOfText(c.getId());
+				textGlyph.setGraphicalObject(compartmentGlyph.getId());
+			}
 		}
 		
-		for (Reaction r : model.getListOfReactions()) {
-			ReactionGlyph rGlyph = layout.createReactionGlyph(nextId(), r.getId());
-			for(ModifierSpeciesReference ref : r.getListOfModifiers()) {
-				SpeciesReferenceRole modifier = SpeciesReferenceRole.MODIFIER;
-				if (ref.isSetSBOTerm()) {
-					if (SBO.isInhibitor(ref.getSBOTerm())) {
-						modifier = SpeciesReferenceRole.INHIBITOR;
-					} else if (SBO.isStimulator(ref.getSBOTerm())) {
-						modifier = SpeciesReferenceRole.ACTIVATOR;
+		if (model.isSetListOfReactions()) {
+			for (Reaction r : model.getListOfReactions()) {
+				ReactionGlyph rGlyph = layout.createReactionGlyph(nextId(), r.getId());
+				if (r.isSetListOfModifiers()) {
+					for (ModifierSpeciesReference ref : r.getListOfModifiers()) {
+						SpeciesReferenceRole modifier = SpeciesReferenceRole.MODIFIER;
+						if (ref.isSetSBOTerm()) {
+							if (SBO.isInhibitor(ref.getSBOTerm())) {
+								modifier = SpeciesReferenceRole.INHIBITOR;
+							} else if (SBO.isStimulator(ref.getSBOTerm())) {
+								modifier = SpeciesReferenceRole.ACTIVATOR;
+							}
+						}
+						createSpeciesReferenceGlyph(rand, rGlyph, ref, modifier);
 					}
 				}
-				createSpeciesReferenceGlyph(rand, rGlyph, ref, modifier);
-			}
-			for(SpeciesReference ref : r.getListOfProducts()) {
-				createSpeciesReferenceGlyph(rand, rGlyph, ref, SpeciesReferenceRole.PRODUCT);
-			}
-			for(SpeciesReference ref : r.getListOfReactants()) {
-				createSpeciesReferenceGlyph(rand, rGlyph, ref, SpeciesReferenceRole.SUBSTRATE);
+				if (r.isSetListOfProducts()) {
+					for (SpeciesReference ref : r.getListOfProducts()) {
+						createSpeciesReferenceGlyph(rand, rGlyph, ref, SpeciesReferenceRole.PRODUCT);
+					}
+				}
+				if (r.isSetListOfReactants()) {
+					for (SpeciesReference ref : r.getListOfReactants()) {
+						createSpeciesReferenceGlyph(rand, rGlyph, ref, SpeciesReferenceRole.SUBSTRATE);
+					}
+				}
 			}
 		}
 	}
