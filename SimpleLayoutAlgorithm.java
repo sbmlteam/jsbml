@@ -18,6 +18,7 @@ package de.zbit.sbml.layout;
 
 import java.text.MessageFormat;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -229,26 +230,28 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		for (SpeciesReferenceGlyph specRefGlyph : specRefGlyphList) {
 			if (specRefGlyph.isSetCurve()) {
 				Curve curve = specRefGlyph.getCurve();
-				for (CurveSegment curveSegment : curve.getListOfCurveSegments()) {
-					if (specRefGlyph.isSetSpeciesReferenceRole()
-							&& specRefGlyph.getSpeciesReferenceRole().equals(specRefRole)) {
-						if (specRefRole.equals(SpeciesReferenceRole.PRODUCT) || specRefRole.equals(SpeciesReferenceRole.SIDEPRODUCT)) {
-							//the start point is the reaction glyph
-							if (curveSegment.isSetStart()) {
-								Point startPoint = curveSegment.getStart();
-								x = x + startPoint.getX();
-								y = y + startPoint.getY();
-								z = z + startPoint.getZ();
-								count++;
-							}
-						} else {
-							//SpeciesReference is a reactant, so the start is the SpeciesReference and the end is the reaction glyph
-							if (curveSegment.isSetEnd()) {
-								Point endPoint = curveSegment.getEnd();
-								x = x + endPoint.getX();
-								y = y + endPoint.getY();
-								z = z + endPoint.getZ();
-								count++;
+				if (curve.isSetListOfCurveSegments()) {
+					for (CurveSegment curveSegment : curve.getListOfCurveSegments()) {
+						if (specRefGlyph.isSetSpeciesReferenceRole()
+								&& specRefGlyph.getSpeciesReferenceRole().equals(specRefRole)) {
+							if (specRefRole.equals(SpeciesReferenceRole.PRODUCT) || specRefRole.equals(SpeciesReferenceRole.SIDEPRODUCT)) {
+								//the start point is the reaction glyph
+								if (curveSegment.isSetStart()) {
+									Point startPoint = curveSegment.getStart();
+									x = x + startPoint.getX();
+									y = y + startPoint.getY();
+									z = z + startPoint.getZ();
+									count++;
+								}
+							} else {
+								//SpeciesReference is a reactant, so the start is the SpeciesReference and the end is the reaction glyph
+								if (curveSegment.isSetEnd()) {
+									Point endPoint = curveSegment.getEnd();
+									x = x + endPoint.getX();
+									y = y + endPoint.getY();
+									z = z + endPoint.getZ();
+									count++;
+								}
 							}
 						}
 					}
@@ -529,74 +532,75 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			curve = createCurve(reactionGlyph, specRefGlyph);
 		}
 
-		for (CurveSegment curveSegment : curve.getListOfCurveSegments()) {
-			Point startPoint = curveSegment.getStart();
-			Point endPoint = curveSegment.getEnd();
-			double startX = startPoint.getX();
-			double startY = startPoint.getY();
-			double startZ = startPoint.getZ();
-			double endX = endPoint.getX();
-			double endY = endPoint.getY();
-			double endZ = endPoint.getZ();
-
-			if (curveSegment.isSetBasePoint1() && curveSegment.isSetBasePoint2()) {
-
-				Point basePoint1 = curveSegment.getBasePoint1();
-				Point basePoint2 = curveSegment.getBasePoint2();
-
-				double minX = Math.min(startX, endX);
-				minX = Math.min(minX, basePoint1.getX());
-				minX = Math.min(minX, basePoint2.getX());
-				x = minX;
-
-				double minY = Math.min(startY, endY);
-				minY = Math.min(minY, basePoint1.getY());
-				minY = Math.min(minY, basePoint2.getY());
-				y = minY;
-
-				double minZ = Math.min(startZ, endZ);
-				minZ = Math.min(minZ, basePoint1.getZ());
-				minZ = Math.min(minZ, basePoint2.getZ());
-				z = minZ;
-
-			} else {
-
-				if (startX == endX) {
-					// line is vertical,
-					// bounding box starts at the given x, minus half of the width of the bounding box
-					double width = 5; // default width of vertical boundingBox is 10pt
-					if (specRefGlyph.isSetBoundingBox() && specRefGlyph.getBoundingBox().isSetDimensions()) {
-						width = specRefGlyph.getBoundingBox().getDimensions().getWidth() / 2d;
-					}
-					x = startX - width;
+		if (curve.isSetListOfCurveSegments()) {
+			for (CurveSegment curveSegment : curve.getListOfCurveSegments()) {
+				Point startPoint = curveSegment.getStart();
+				Point endPoint = curveSegment.getEnd();
+				double startX = startPoint.getX();
+				double startY = startPoint.getY();
+				double startZ = startPoint.getZ();
+				double endX = endPoint.getX();
+				double endY = endPoint.getY();
+				double endZ = endPoint.getZ();
+				
+				if (curveSegment.isSetBasePoint1() && curveSegment.isSetBasePoint2()) {
+					
+					Point basePoint1 = curveSegment.getBasePoint1();
+					Point basePoint2 = curveSegment.getBasePoint2();
+					
+					double minX = Math.min(startX, endX);
+					minX = Math.min(minX, basePoint1.getX());
+					minX = Math.min(minX, basePoint2.getX());
+					x = minX;
+					
+					double minY = Math.min(startY, endY);
+					minY = Math.min(minY, basePoint1.getY());
+					minY = Math.min(minY, basePoint2.getY());
+					y = minY;
+					
+					double minZ = Math.min(startZ, endZ);
+					minZ = Math.min(minZ, basePoint1.getZ());
+					minZ = Math.min(minZ, basePoint2.getZ());
+					z = minZ;
+					
 				} else {
-					x = Math.min(startX, endX);
-				}
-
-				if (startY == endY) {
-					// line is horizontal,
-					// bounding box starts at the given y, minus half of the height of the bounding box
-					double height = 5; // default height of horizontal bounding box is 10pt
-					if (specRefGlyph.isSetBoundingBox() && specRefGlyph.getBoundingBox().isSetDimensions()) {
-						height = specRefGlyph.getBoundingBox().getDimensions().getHeight() / 2d;
+					
+					if (startX == endX) {
+						// line is vertical,
+						// bounding box starts at the given x, minus half of the width of the bounding box
+						double width = 5; // default width of vertical boundingBox is 10pt
+						if (specRefGlyph.isSetBoundingBox() && specRefGlyph.getBoundingBox().isSetDimensions()) {
+							width = specRefGlyph.getBoundingBox().getDimensions().getWidth() / 2d;
+						}
+						x = startX - width;
+					} else {
+						x = Math.min(startX, endX);
 					}
-					y = startY - height;
-				} else {
-					y = Math.min(startY, endY);
-				}
-
-				if (startZ == endZ) {
-					double depth = 5;
-					if (specRefGlyph.isSetBoundingBox() && specRefGlyph.getBoundingBox().isSetDimensions()) {
-						depth = specRefGlyph.getBoundingBox().getDimensions().getDepth() / 2d;
+					
+					if (startY == endY) {
+						// line is horizontal,
+						// bounding box starts at the given y, minus half of the height of the bounding box
+						double height = 5; // default height of horizontal bounding box is 10pt
+						if (specRefGlyph.isSetBoundingBox() && specRefGlyph.getBoundingBox().isSetDimensions()) {
+							height = specRefGlyph.getBoundingBox().getDimensions().getHeight() / 2d;
+						}
+						y = startY - height;
+					} else {
+						y = Math.min(startY, endY);
 					}
-					z = startZ - depth;
-				} else {
-					z = Math.min(startZ, endZ);
+					
+					if (startZ == endZ) {
+						double depth = 5;
+						if (specRefGlyph.isSetBoundingBox() && specRefGlyph.getBoundingBox().isSetDimensions()) {
+							depth = specRefGlyph.getBoundingBox().getDimensions().getDepth() / 2d;
+						}
+						z = startZ - depth;
+					} else {
+						z = Math.min(startZ, endZ);
+					}
 				}
 			}
 		}
-
 		return new Position(new Point(x, y, z, layout.getLevel(), layout.getVersion()));
 	}
 
@@ -605,16 +609,22 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * @return
 	 */
 	protected Point createReactionGlyphPositionNew(ReactionGlyph reactionGlyph) {
-		List<SpeciesReferenceGlyph> speciesReferenceGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
-		SpeciesGlyph product = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.PRODUCT);
-		SpeciesGlyph substrate = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.SUBSTRATE);
+		List<SpeciesReferenceGlyph> speciesReferenceGlyphList = null;
+		if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
+			speciesReferenceGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
+		}
+		// TODO: Use a filter here!
+		SpeciesGlyph product = findSpeciesGlyphByRole(speciesReferenceGlyphList, SpeciesReferenceRole.PRODUCT);
+		SpeciesGlyph substrate = findSpeciesGlyphByRole(speciesReferenceGlyphList, SpeciesReferenceRole.SUBSTRATE);
 
 		if ((product == null) || (substrate == null)) {
-			for(SpeciesReferenceGlyph specRef : speciesReferenceGlyphList) {
-				if (LayoutDirector.isSubstrate(specRef)) {
-					substrate = specRef.getSpeciesGlyphInstance();
-				} else if (LayoutDirector.isProduct(specRef)) {
-					product = specRef.getSpeciesGlyphInstance();
+			if (speciesReferenceGlyphList != null) {
+				for (SpeciesReferenceGlyph specRef : speciesReferenceGlyphList) {
+					if (LayoutDirector.isSubstrate(specRef)) {
+						substrate = specRef.getSpeciesGlyphInstance();
+					} else if (LayoutDirector.isProduct(specRef)) {
+						product = specRef.getSpeciesGlyphInstance();
+					}
 				}
 			}
 			if ((product == null) || (substrate == null)) {
@@ -654,17 +664,18 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		return p;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see de.zbit.sbml.layout.LayoutAlgorithm#createReactionGlyphPositon(ReactionGlyph reactionGlyph)
 	 */
 	protected Position createReactionGlyphPosition(ReactionGlyph reactionGlyph) {
-		double x = 0;
-		double y = 0;
-		double z = 0;
+		double x = 0d;
+		double y = 0d;
+		double z = 0d;
 
-		List<SpeciesReferenceGlyph> speciesReferenceGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
+		List<SpeciesReferenceGlyph> speciesReferenceGlyphList = null;
+		if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
+			speciesReferenceGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
+		}
 		Dimensions reacGlyphDimension;
 
 		if (reactionGlyph.isSetBoundingBox() && reactionGlyph.getBoundingBox().isSetDimensions()) {
@@ -673,17 +684,19 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			reacGlyphDimension = createReactionGlyphDimension(reactionGlyph);
 		}
 
-		SpeciesGlyph product = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.PRODUCT);
-		SpeciesGlyph substrate = getProductOrSubstrateSpeciesGlyph(speciesReferenceGlyphList, SpeciesReferenceRole.SUBSTRATE);
-		if (product == null || substrate==null) {
-			for(SpeciesReferenceGlyph specRef : speciesReferenceGlyphList) {
-				if (LayoutDirector.isSubstrate(specRef)) {
-					substrate = specRef.getSpeciesGlyphInstance();
-				} else if (LayoutDirector.isProduct(specRef)) {
-					product = specRef.getSpeciesGlyphInstance();
+		SpeciesGlyph product = findSpeciesGlyphByRole(speciesReferenceGlyphList, SpeciesReferenceRole.PRODUCT);
+		SpeciesGlyph substrate = findSpeciesGlyphByRole(speciesReferenceGlyphList, SpeciesReferenceRole.SUBSTRATE);
+		if ((product == null) || (substrate == null)) {
+			if (speciesReferenceGlyphList != null) {
+				for (SpeciesReferenceGlyph specRef : speciesReferenceGlyphList) {
+					if (LayoutDirector.isSubstrate(specRef)) {
+						substrate = specRef.getSpeciesGlyphInstance();
+					} else if (LayoutDirector.isProduct(specRef)) {
+						product = specRef.getSpeciesGlyphInstance();
+					}
 				}
 			}
-			if (product == null || substrate==null) {
+			if ((product == null) || (substrate == null)) {
 				logger.warning("Cannot find product or substrate in list of species reference glyphs for reaction glyph "
 						+ reactionGlyph.getId());
 				// TODO fall back to another positioning mechanism
@@ -706,40 +719,40 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		return new Position(new Point(x, y, z, level, version));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see de.zbit.sbml.layout.LayoutAlgorithm#createReactionGlyphDimension(ReactionGlyph reactionGlyph)
 	 */
 	public Dimensions createReactionGlyphDimension(ReactionGlyph reactionGlyph) {
 
-		double width = 20;
-		double height = 10;
-		double depth = 0;
+		double width = 20d;
+		double height = 10d;
+		double depth = 0d;
 
-		for (ReactionGlyph reacGlyph : layout.getListOfReactionGlyphs()) {
-			if (reacGlyph.isSetBoundingBox()) {
-				if (reacGlyph.getBoundingBox().isSetDimensions()) {
-					double rWidth = reacGlyph.getBoundingBox().getDimensions().getWidth();
-					double rHeight = reacGlyph.getBoundingBox().getDimensions().getHeight();
-					// Compute the minimum/maximum because the bounding box of the reaction glyph is always wider than higher
-					width = Math.max(rHeight, rWidth);
-					height = Math.min(rHeight, rWidth);
+		if (layout.isSetListOfReactionGlyphs()) {
+			for (ReactionGlyph reacGlyph : layout.getListOfReactionGlyphs()) {
+				if (reacGlyph.isSetBoundingBox()) {
+					if (reacGlyph.getBoundingBox().isSetDimensions()) {
+						double rWidth = reacGlyph.getBoundingBox().getDimensions().getWidth();
+						double rHeight = reacGlyph.getBoundingBox().getDimensions().getHeight();
+						// Compute the minimum/maximum because the bounding box of the reaction glyph is always wider than higher
+						width = Math.max(rHeight, rWidth);
+						height = Math.min(rHeight, rWidth);
+					}
 				}
 			}
 		}
 
+		List<SpeciesReferenceGlyph> curveList = new LinkedList<SpeciesReferenceGlyph>();
+		List<SpeciesReferenceGlyph> speciesGlyphList = new LinkedList<SpeciesReferenceGlyph>();
 
-		ListOf<SpeciesReferenceGlyph> curveList = new ListOf<SpeciesReferenceGlyph>();
-		ListOf<SpeciesReferenceGlyph> speciesGlyphList = new ListOf<SpeciesReferenceGlyph>();
-
-		ListOf<SpeciesReferenceGlyph> speciesReferenceGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
-		for (SpeciesReferenceGlyph specRefGlyph : speciesReferenceGlyphList) {
-			if (specRefGlyph.isSetCurve()) {
-				curveList.add(specRefGlyph);
-			} else {
-				if (specRefGlyph.isSetSpeciesGlyph()) {
-					speciesGlyphList.add(specRefGlyph);
+		if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
+			for (SpeciesReferenceGlyph specRefGlyph : reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
+				if (specRefGlyph.isSetCurve()) {
+					curveList.add(specRefGlyph);
+				} else {
+					if (specRefGlyph.isSetSpeciesGlyph()) {
+						speciesGlyphList.add(specRefGlyph);
+					}
 				}
 			}
 		}
@@ -775,17 +788,17 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * @see de.zbit.sbml.layout.LayoutAlgorithm#calculateReactionGlyphRotationAngle(org.sbml.jsbml.ext.layout.ReactionGlyph)
 	 */
 	public double calculateReactionGlyphRotationAngle(ReactionGlyph reactionGlyph) {
-		double rotationAngle = 0;
+		double rotationAngle = 0d;
 
-		if (reactionGlyph.isSetListOfSpeciesReferencesGlyph()) {
+		if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
 			ListOf<SpeciesReferenceGlyph> speciesRefGlyphList = reactionGlyph.getListOfSpeciesReferenceGlyphs();
 
 			// get the substrate and the product of this reaction
-			SpeciesGlyph substrate = getProductOrSubstrateSpeciesGlyph(speciesRefGlyphList, SpeciesReferenceRole.SUBSTRATE);
-			SpeciesGlyph product = getProductOrSubstrateSpeciesGlyph(speciesRefGlyphList, SpeciesReferenceRole.PRODUCT);
+			SpeciesGlyph substrate = findSpeciesGlyphByRole(speciesRefGlyphList, SpeciesReferenceRole.SUBSTRATE);
+			SpeciesGlyph product = findSpeciesGlyphByRole(speciesRefGlyphList, SpeciesReferenceRole.PRODUCT);
 
 			if ((substrate == null) || (product == null)) {
-				for(SpeciesReferenceGlyph specRef : speciesRefGlyphList) {
+				for (SpeciesReferenceGlyph specRef : speciesRefGlyphList) {
 					if (LayoutDirector.isSubstrate(specRef)) {
 						substrate = specRef.getSpeciesGlyphInstance();
 					} else if (LayoutDirector.isProduct(specRef)) {
@@ -814,7 +827,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			 * and not to the centers of substrate and product.
 			 */
 			if (reactionGlyph.isSetUserObjects() && reactionGlyph.getUserObject("SPECIAL_ROTATION_NEEDED")!=null) {
-				for(SpeciesReferenceGlyph specRefGlyph : speciesRefGlyphList) {
+				for (SpeciesReferenceGlyph specRefGlyph : speciesRefGlyphList) {
 					Curve curve = null;
 					if (specRefGlyph.isSetCurve()) {
 						curve = specRefGlyph.getCurve();
@@ -828,7 +841,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 					// First point: the end point from the last curve segment of the substrate
 					if (specRefGlyph.isSetSpeciesReferenceRole()
 							&& specRefGlyph.getSpeciesReferenceRole().equals(SpeciesReferenceRole.SUBSTRATE)) {
-						if(curve.isSetListOfCurveSegments()) {
+						if (curve.isSetListOfCurveSegments()) {
 							firstCentralPoint = curve.getListOfCurveSegments().getLast().getEnd();
 						}
 					}
@@ -836,13 +849,13 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 					// Second point: the start point from the first curve segment of the product
 					if (specRefGlyph.isSetSpeciesReferenceRole()
 							&& specRefGlyph.getSpeciesReferenceRole().equals(SpeciesReferenceRole.PRODUCT)) {
-						if(curve.isSetListOfCurveSegments()) {
+						if (curve.isSetListOfCurveSegments()) {
 							secondCentralPoint = curve.getListOfCurveSegments().getFirst().getStart();
 						}
 					}
 				}
 			}
-			if(firstCentralPoint.getX() == secondCentralPoint.getX() && firstCentralPoint.getY() == secondCentralPoint.getY()) {
+			if (firstCentralPoint.getX() == secondCentralPoint.getX() && firstCentralPoint.getY() == secondCentralPoint.getY()) {
 				secondCentralPoint = calculateCenter(reactionGlyph);
 				logger.warning(MessageFormat.format("The two points for computing rotation are equal for reaction glyph {0}",
 				reactionGlyph.getId()));
@@ -958,14 +971,14 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 
 		// computing angle
 		double t = 0;
-		if(specRefRole.equals(SpeciesReferenceRole.PRODUCT) ||
+		if (specRefRole.equals(SpeciesReferenceRole.PRODUCT) ||
 				specRefRole.equals(SpeciesReferenceRole.SIDEPRODUCT)) {
 			t = calculateRotationAngle(calculateCenter(reactionGlyph), middleOfSpecies);
 		} else {
 			t = calculateRotationAngle(middleOfSpecies, calculateCenter(reactionGlyph));
 		}
 
-		if(SBO.isChildOf(sboTerm, SBO.getUnknownMolecule()) ||
+		if (SBO.isChildOf(sboTerm, SBO.getUnknownMolecule()) ||
 				sboTerm == -1) {
 			// species is an ellipse
 			dockingPoint = calculateDockingForEllipseSpecies(x, y, z, width, height, calculateRotationAngle(middleOfSpecies, calculateCenter(reactionGlyph)));
@@ -1080,12 +1093,12 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		double width = specGlyph.getBoundingBox().getDimensions().getWidth();
 		double height = specGlyph.getBoundingBox().getDimensions().getHeight();
 
-		if((Math.abs(specY - reacY) <= (height/2)) && specX != reacX) {
+		if ((Math.abs(specY - reacY) <= (height/2)) && specX != reacX) {
 			//the reactionGlyph is left or right of the species
 			double b = (width/2); 
 			double a = (Math.abs(specY - reacY) * b) / Math.abs(specX - reacX);
 
-			if(specX < reacX) {
+			if (specX < reacX) {
 				// reac is right
 				dockingPoint.setX(specX + b);
 			} else {
@@ -1105,7 +1118,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 				b= 0;
 			}
 
-			if(specY < reacY) {
+			if (specY < reacY) {
 				// spec is above
 				dockingPoint.setY(specY + a);
 			} else {
@@ -1158,18 +1171,19 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	 * @param role
 	 * @return SpeciesGlyph
 	 */
-	protected SpeciesGlyph getProductOrSubstrateSpeciesGlyph(
+	protected SpeciesGlyph findSpeciesGlyphByRole(
 			List<SpeciesReferenceGlyph> specRefGlyphList,
 			SpeciesReferenceRole role) {
 		SpeciesGlyph specGlyph = null;
-
-		for (SpeciesReferenceGlyph specRefGlyph : specRefGlyphList) {
-			if (specRefGlyph.isSetSpeciesGlyph()) {
-				SpeciesGlyph speciesGlyph = specRefGlyph.getSpeciesGlyphInstance();
-				if (speciesGlyph.isSetBoundingBox() && speciesGlyph.getBoundingBox().isSetPosition()) {
-					if (specRefGlyph.isSetSpeciesReferenceRole()
-							&& specRefGlyph.getSpeciesReferenceRole().equals(role)) {
-						specGlyph = speciesGlyph;
+		if (specRefGlyphList != null) {
+			for (SpeciesReferenceGlyph specRefGlyph : specRefGlyphList) {
+				if (specRefGlyph.isSetSpeciesGlyph()) {
+					SpeciesGlyph speciesGlyph = specRefGlyph.getSpeciesGlyphInstance();
+					if (speciesGlyph.isSetBoundingBox() && speciesGlyph.getBoundingBox().isSetPosition()) {
+						if (specRefGlyph.isSetSpeciesReferenceRole()
+								&& specRefGlyph.getSpeciesReferenceRole().equals(role)) {
+							specGlyph = speciesGlyph;
+						}
 					}
 				}
 			}
