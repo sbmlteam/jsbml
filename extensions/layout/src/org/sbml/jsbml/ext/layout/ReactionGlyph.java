@@ -79,7 +79,7 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 		if (reactionGlyph.isSetCurve()) {
 			this.curve = reactionGlyph.getCurve().clone();
 		}
-		if (reactionGlyph.isSetListOfSpeciesReferencesGlyph()) {
+		if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
 			this.listOfSpeciesReferencesGlyph = reactionGlyph
 					.getListOfSpeciesReferenceGlyphs().clone();
 		}
@@ -163,8 +163,8 @@ public class ReactionGlyph extends NamedSBaseGlyph {
       if (equals && isSetCurve()) {
         equals &= reactionGlyph.getCurve().equals(getCurve());
       }
-      equals &= reactionGlyph.isSetListOfSpeciesReferencesGlyph() == isSetListOfSpeciesReferencesGlyph();
-      if (equals && isSetListOfSpeciesReferencesGlyph()) {
+      equals &= reactionGlyph.isSetListOfSpeciesReferencesGlyphs() == isSetListOfSpeciesReferencesGlyphs();
+      if (equals && isSetListOfSpeciesReferencesGlyphs()) {
         equals &= reactionGlyph.getListOfSpeciesReferenceGlyphs().equals(getListOfSpeciesReferenceGlyphs());
       }
     }
@@ -191,7 +191,7 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 			}
 			pos++;
 		}
-		if (isSetListOfSpeciesReferencesGlyph()) {
+		if (isSetListOfSpeciesReferencesGlyphs()) {
 			if (pos == index) {
 				return getListOfSpeciesReferenceGlyphs();
 			}
@@ -211,7 +211,7 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 		if (isSetCurve()) {
 			count++;
 		}
-		if (isSetListOfSpeciesReferencesGlyph()) {
+		if (isSetListOfSpeciesReferencesGlyphs()) {
 			count++;
 		}
 		return count;
@@ -232,7 +232,7 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 	 * @return the {@link #listOfSpeciesReferencesGlyph}
 	 */
 	public ListOf<SpeciesReferenceGlyph> getListOfSpeciesReferenceGlyphs() {
-		if (!isSetListOfSpeciesReferencesGlyph()) {
+		if (!isSetListOfSpeciesReferencesGlyphs()) {
 			listOfSpeciesReferencesGlyph = new ListOf<SpeciesReferenceGlyph>();
 			listOfSpeciesReferencesGlyph.addNamespace(LayoutConstants.namespaceURI);
 			listOfSpeciesReferencesGlyph.setSBaseListType(ListOf.Type.other);
@@ -269,7 +269,7 @@ public class ReactionGlyph extends NamedSBaseGlyph {
     if (isSetCurve()) {
       hashCode += prime * getCurve().hashCode();
     }
-    if (isSetListOfSpeciesReferencesGlyph()) {
+    if (isSetListOfSpeciesReferencesGlyphs()) {
       hashCode += prime * getListOfSpeciesReferenceGlyphs().hashCode();
     }
     return hashCode;
@@ -285,7 +285,7 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 	/**
 	 * @return
 	 */
-	public boolean isSetListOfSpeciesReferencesGlyph() {
+	public boolean isSetListOfSpeciesReferencesGlyphs() {
 		return listOfSpeciesReferencesGlyph != null;
 	}
 

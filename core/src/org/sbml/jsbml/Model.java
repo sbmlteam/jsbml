@@ -2482,10 +2482,12 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public Set<ModifierSpeciesReference> getModifierSpeciesReferences() {
     Set<ModifierSpeciesReference> listOfModifiers = new HashSet<ModifierSpeciesReference>();
-    for (Reaction r : getListOfReactions()) {
-      if (r.isSetListOfModifiers()) {
-        listOfModifiers.addAll( r.getListOfModifiers() );
-      }
+    if (isSetListOfReactions()) {
+    	for (Reaction r : getListOfReactions()) {
+    		if (r.isSetListOfModifiers()) {
+    			listOfModifiers.addAll(r.getListOfModifiers());
+    		}
+    	}
     }
     return listOfModifiers;
   }
