@@ -75,7 +75,10 @@ public class LayoutDirector<P> implements Runnable {
 	 */
 	private static final double DEFAULT_CURVE_WIDTH = 1d;
 
-	private static Logger logger = Logger.getLogger(LayoutDirector.class.toString());
+	/**
+	 * A {@link Logger} for this class
+	 */
+	private static Logger logger = Logger.getLogger(LayoutDirector.class.getName());
 
 	public static final String KEY_FOR_FLUX_VALUES = "fluxValue";
 	public static final String LAYOUT_LINK = "LAYOUT_LINK";
@@ -632,11 +635,7 @@ public class LayoutDirector<P> implements Runnable {
 		}
 	}
 
-	/*
-	 * Build the layout and start the actual drawing of the elements.
-	 * 
-	 * (non-Javadoc)
-	 * 
+	/* Build the layout and start the actual drawing of the elements. (non-Javadoc)
 	 * @see java.lang.Runnable#run()
 	 */
 	@Override
@@ -655,9 +654,9 @@ public class LayoutDirector<P> implements Runnable {
 							reactionGlyph.putUserObject(KEY_FOR_FLUX_VALUES,
 									mapOfFluxes.get(reactionId));
 						} else {
-							throw new IllegalArgumentException(MessageFormat.
-									format("{0} is no legal ReactionGlyph ID for this model.",
-											reactionId));
+							throw new IllegalArgumentException(MessageFormat.format(
+								"{0} is no legal ReactionGlyph ID for this model.",
+								reactionId));
 						}
 					}
 				}
@@ -734,12 +733,13 @@ public class LayoutDirector<P> implements Runnable {
 	}
 
 	/**
-	 * Find the contained compartments of a compartment using its user object
-	 * with the key COMPARTMENT_LINK.
+	 * Find the contained compartments of a compartment using its user object with
+	 * the key COMPARTMENT_LINK.
 	 * 
-	 * @param compartment for which to find the contained compartments
-	 * @return a List<Compartments> with the compartments the given compartment
-	 *         contains
+	 * @param compartment
+	 *        for which to find the contained compartments
+	 * @return a {@code List<CompartmentGlyph>} with the compartments the given
+	 *         compartment contains
 	 */
 	@SuppressWarnings("unchecked")
 	private List<CompartmentGlyph> getContainedCompartmentGlyphs(Compartment compartment) {
