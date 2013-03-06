@@ -186,8 +186,8 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * @return the {@link SpeciesTypeState} that has the given id or null if
 	 * no {@link SpeciesTypeState} are found that match <code>id</code>.
 	 */
-	public SpeciesTypeState getSpeciesTypeState(String id){
-		if(isSetListOfSpeciesTypeStates()) {
+	public SpeciesTypeState getSpeciesTypeState(String id) {
+		if (isSetListOfSpeciesTypeStates()) {
 			return listOfSpeciesTypeStates.firstHit(new NameFilter(id));	    
 		} 
 		return null;
@@ -210,8 +210,8 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * 
 	 * @return true is successful
 	 */
-	public boolean unsetListOfSpeciesTypeStates(){
-		if(isSetListOfSpeciesTypeStates()) {
+	public boolean unsetListOfSpeciesTypeStates() {
+		if (isSetListOfSpeciesTypeStates()) {
 			// unregister the ids if needed.			  
 			this.listOfSpeciesTypeStates.fireNodeRemovedEvent();
 			this.listOfSpeciesTypeStates = null;
@@ -276,8 +276,8 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * @return the {@link Bond} that has the given id or null if
 	 * no {@link Bond} are found that match <code>id</code>.
 	 */
-	public Bond getBond(String id){
-		if(isSetListOfBonds()) {
+	public Bond getBond(String id) {
+		if (isSetListOfBonds()) {
 			return listOfBonds.firstHit(new NameFilter(id));	    
 		} 
 		return null;
@@ -300,8 +300,8 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * 
 	 * @return true is successful
 	 */
-	public boolean unsetListOfBonds(){
-		if(isSetListOfBonds()) {
+	public boolean unsetListOfBonds() {
+		if (isSetListOfBonds()) {
 			// unregister the ids if needed.			  
 			this.listOfBonds.fireNodeRemovedEvent();
 			this.listOfBonds = null;
@@ -369,8 +369,8 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * @return the {@link BindingSiteReference} that has the given speciesTypeState id or null if
 	 * no {@link BindingSiteReference} are found that match <code>id</code>.
 	 */
-	public BindingSiteReference getUnboundBindingSite(final String id){
-		if(isSetListOfUnboundBindingSites()) {
+	public BindingSiteReference getUnboundBindingSite(final String id) {
+		if (isSetListOfUnboundBindingSites()) {
 			return listOfUnboundBindingSites.firstHit(new Filter() {
 
 				public boolean accepts(Object o) {
@@ -402,8 +402,8 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * 
 	 * @return true is successful
 	 */
-	public boolean unsetListOfUnboundBindingSites(){
-		if(isSetListOfUnboundBindingSites()) {
+	public boolean unsetListOfUnboundBindingSites() {
+		if (isSetListOfUnboundBindingSites()) {
 			// unregister the ids if needed.			  
 			this.listOfUnboundBindingSites.fireNodeRemovedEvent();
 			this.listOfUnboundBindingSites = null;

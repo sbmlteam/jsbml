@@ -136,7 +136,7 @@ public static Color decodeStringToColor(String value) {
 	int g = Integer.parseInt(value.substring(3, 5), 16);
 	int b = Integer.parseInt(value.substring(5, 7), 16);
 	int a = 255;
-	if(value.length() == 9) {
+	if (value.length() == 9) {
 		a = Integer.parseInt(value.substring(7, 9), 16);
 	}
 	return new Color(r, g, b, a); 
@@ -162,7 +162,7 @@ public static Color decodeStringToColor(String value) {
 	  String s = "";
 	  
 	  for (int i = 0; i < array.length; i++) {
-		  if(!s.isEmpty()){
+		  if (!s.isEmpty()) {
 			  s+=", ";
 		  }
 		  s+= StringTools.toString(Locale.ENGLISH, array[i]);
@@ -185,7 +185,7 @@ public static Color decodeStringToColor(String value) {
 	  String s = "";
 	  
 	  for (int i = 0; i < array.length; i++) {
-		  if(!s.isEmpty()){
+		  if (!s.isEmpty()) {
 			  s+=", ";
 		  }
 		  s+= Short.toString(array[i]);

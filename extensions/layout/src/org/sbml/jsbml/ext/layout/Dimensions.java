@@ -218,19 +218,19 @@ public class Dimensions extends AbstractNamedSBase {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
 
-		if(!isAttributeRead)
+		if (!isAttributeRead)
 		{
 		
 			//isAttributeRead = true;			
-			if(attributeName.equals(LayoutConstants.width))
+			if (attributeName.equals(LayoutConstants.width))
 			{	
 				setWidth(StringTools.parseSBMLDouble(value));
 			}
-			else if(attributeName.equals(LayoutConstants.height))
+			else if (attributeName.equals(LayoutConstants.height))
 			{	
 				setHeight(StringTools.parseSBMLDouble(value));
 			}
-			else if(attributeName.equals(LayoutConstants.depth))
+			else if (attributeName.equals(LayoutConstants.depth))
 			{	
 				setDepth(StringTools.parseSBMLDouble(value));
 			} 

@@ -111,7 +111,7 @@ public class FunctionTerm extends AbstractMathContainer {
 	 * 
 	 * @return false
 	 */
-	public boolean isResultLevelMandatory(){
+	public boolean isResultLevelMandatory() {
 	  return false;
 	}
 	
@@ -120,7 +120,7 @@ public class FunctionTerm extends AbstractMathContainer {
 	 * 
 	 * @return true if resultLevel is set.
 	 */
-	public boolean isSetResultLevel(){
+	public boolean isSetResultLevel() {
 	  return this.resultLevel!= null;
 	}
 	

@@ -238,11 +238,11 @@ public class Point extends AbstractNamedSBase {
 			if (attributeName.equals(LayoutConstants.x)) {
 				setX(StringTools.parseSBMLDouble(value));
 			}
-			else if(attributeName.equals(LayoutConstants.y))
+			else if (attributeName.equals(LayoutConstants.y))
 			{
 				setY(StringTools.parseSBMLDouble(value));
 			}
-			else if(attributeName.equals(LayoutConstants.z))
+			else if (attributeName.equals(LayoutConstants.z))
 			{
 				setZ(StringTools.parseSBMLDouble(value));
 			}

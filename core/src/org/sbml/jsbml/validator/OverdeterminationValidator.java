@@ -702,7 +702,7 @@ public class OverdeterminationValidator {
 				variable = variableHash.get(((AssignmentRule) r)
 						.getVariableInstance());
 				// link
-				if(variable!=null) {
+				if (variable!=null) {
           equations.add(equation);
           variable.addNode(equation);
           equation.addNode(variable);
@@ -870,10 +870,10 @@ public class OverdeterminationValidator {
 			if (!node.isConstant()) {				
 				if (param == null) {
 				  SBase variable=node.getVariable();
-				  if(level==1) {
+				  if (level==1) {
 				    int insertingPosition=0;
 				    for(SBase element:variables) {
-				      if(!(element instanceof Parameter) || (!((Parameter)element).isSetValue())) {
+				      if (!(element instanceof Parameter) || (!((Parameter)element).isSetValue())) {
 				        insertingPosition++;
 				      }
 				    }
@@ -885,10 +885,10 @@ public class OverdeterminationValidator {
 				} else {
 					if (!param.contains(node.getVariable())) {
 					  SBase variable=node.getVariable();
-	          if(level==1) {
+	          if (level==1) {
 	            int insertingPosition=0;
 	            for(SBase element:variables) {
-	              if(!(element instanceof Parameter) || (!((Parameter)element).isSetValue())) {
+	              if (!(element instanceof Parameter) || (!((Parameter)element).isSetValue())) {
 	                insertingPosition++;
 	              }
 	            }

@@ -123,7 +123,7 @@ public class SpeciesGlyph extends NamedSBaseGlyph {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
 
-		if(!isAttributeRead)
+		if (!isAttributeRead)
 		{
 			if (attributeName.equals("species")) {
 				setSpecies(value);

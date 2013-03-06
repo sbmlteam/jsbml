@@ -40,7 +40,7 @@ public class LibSBMLChangeListenerTest {
 	static org.sbml.libsbml.SBMLDocument libDoc = null;
 
 	@BeforeClass
-	public static void beforeTesting(){
+	public static void beforeTesting() {
 		try {
 			// Load LibSBML:
 			System.loadLibrary("sbmlj");

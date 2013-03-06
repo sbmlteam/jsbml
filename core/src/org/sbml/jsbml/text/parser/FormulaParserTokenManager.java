@@ -538,14 +538,14 @@ private final int[] jjrounds = new int[59];
 private final int[] jjstateSet = new int[118];
 protected char curChar;
 /** Constructor. */
-public FormulaParserTokenManager(SimpleCharStream stream){
+public FormulaParserTokenManager(SimpleCharStream stream) {
    if (SimpleCharStream.staticFlag)
       throw new Error("ERROR: Cannot use a static CharStream class with a non-static lexical analyzer.");
    input_stream = stream;
 }
 
 /** Constructor. */
-public FormulaParserTokenManager(SimpleCharStream stream, int lexState){
+public FormulaParserTokenManager(SimpleCharStream stream, int lexState) {
    this(stream);
    SwitchTo(lexState);
 }

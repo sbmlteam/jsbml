@@ -2219,4 +2219,13 @@ public class SBO {
 		return 405;
 	}
 
+	/**
+	 * Consumption
+	 * 
+	 * @return
+	 */
+	public static int getConsumption() {
+		return 394;
+	}
+
 }

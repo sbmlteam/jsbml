@@ -47,7 +47,7 @@ public class SimpleCellDesignerPluginAction extends PluginAction{
 	 * @see jp.sbi.celldesigner.plugin.PluginActionListener#myActionPerformed(java.awt.event.ActionEvent)
 	 */
 	public void myActionPerformed(ActionEvent ae) {
-		if (ae.getSource() instanceof JMenuItem){
+		if (ae.getSource() instanceof JMenuItem) {
 			String itemText = ((JMenuItem) ae.getSource()).getText();
 			if (itemText.equals(CDPluginTester.ACTION)) {
 				plugin.startPlugin();

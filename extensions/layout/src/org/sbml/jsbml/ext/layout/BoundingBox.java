@@ -301,7 +301,7 @@ public class BoundingBox extends AbstractNamedSBase {
 	 * @param dimensions
 	 */
 	public void setDimensions(Dimensions dimensions) {
-		if(this.dimensions != null){
+		if (this.dimensions != null) {
 			Dimensions oldValue = this.dimensions;
 			this.dimensions = null;
 			oldValue.fireNodeRemovedEvent();
@@ -318,10 +318,10 @@ public class BoundingBox extends AbstractNamedSBase {
 	public void setPosition(Point point) {
 		Point oldValue = this.position;
 		this.position = point;
-		if(oldValue != null){
+		if (oldValue != null) {
 			oldValue.fireNodeRemovedEvent();
 		}
-		if(this.position != null){
+		if (this.position != null) {
 			if (! (this.position instanceof Position)) {
 				this.position = new Position(this.position);
 			}

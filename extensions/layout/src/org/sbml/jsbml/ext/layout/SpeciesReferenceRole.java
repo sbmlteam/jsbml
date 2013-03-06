@@ -19,6 +19,8 @@
  */
 package org.sbml.jsbml.ext.layout;
 
+import org.sbml.jsbml.SBO;
+
 /**
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
@@ -84,6 +86,31 @@ public enum SpeciesReferenceRole {
 		default:
 			return -1; // invalid
 		}
+	}
+
+	/**
+	 * 
+	 * @param sboTerm
+	 * @return the {@link SpeciesReferenceRole} for the given SBO term
+	 *         identifier.
+	 */
+	public static SpeciesReferenceRole valueOf(int sboTerm) {
+		if (SBO.isChildOf(sboTerm, ACTIVATOR.getCorrespondingSBOTerm())) {
+			return ACTIVATOR;
+		} else if (SBO.isChildOf(sboTerm, INHIBITOR.getCorrespondingSBOTerm())) {
+			return INHIBITOR;
+		} else if (SBO.isChildOf(sboTerm, MODIFIER.getCorrespondingSBOTerm())) {
+			return MODIFIER;
+		} else if (SBO.isChildOf(sboTerm, PRODUCT.getCorrespondingSBOTerm())) {
+			return PRODUCT;
+		} else if (SBO.isChildOf(sboTerm, SIDEPRODUCT.getCorrespondingSBOTerm())) {
+			return SIDEPRODUCT;
+		} else if (SBO.isChildOf(sboTerm, SIDESUBSTRATE.getCorrespondingSBOTerm())) {
+			return SIDESUBSTRATE;
+		} else if (SBO.isChildOf(sboTerm, SUBSTRATE.getCorrespondingSBOTerm())) {
+			return SUBSTRATE;
+		}
+		return UNDEFINED;
 	}
 
 }

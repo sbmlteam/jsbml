@@ -266,7 +266,7 @@ public class LineSegment extends AbstractNamedSBase {
 	 * @param end
 	 */
 	public void setEnd(Point end) {
-		if(this.end != null){
+		if (this.end != null) {
 			this.end.fireNodeRemovedEvent();
 		}
 		if (!(end instanceof End)) {
@@ -281,7 +281,7 @@ public class LineSegment extends AbstractNamedSBase {
 	 * @param start
 	 */
 	public void setStart(Point start) {
-		if(this.start != null){
+		if (this.start != null) {
 			this.start.fireNodeRemovedEvent();
 		}
 		if (!(start instanceof Start)) {

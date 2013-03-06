@@ -250,12 +250,12 @@ public class GraphicalPrimitive1D extends Transformation2D {
     	attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.strokeWidth,
     			getStroke());
     }
-    if (isSetStrokeDashArray()){
+    if (isSetStrokeDashArray()) {
     	attributes.remove(RenderConstants.strokeDashArray);
         attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.strokeWidth,
         		XMLTools.encodeArrayShortToString(getStrokeDashArray()));
     }
-    if (isSetStrokeWidth()){
+    if (isSetStrokeWidth()) {
     	attributes.remove(RenderConstants.strokeWidth);
         attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.strokeWidth,
           getStrokeWidth().toString().toLowerCase());

@@ -427,7 +427,7 @@ public abstract class XMLToken extends AbstractTreeNode {
 		}
 		
 		String oldUri = null;
-		if(namespaces.hasURI(uri)){
+		if (namespaces.hasURI(uri)) {
 			oldUri = uri;
 		}
 		
@@ -461,9 +461,9 @@ public abstract class XMLToken extends AbstractTreeNode {
 			return JSBML.OPERATION_FAILED;
 		}
 		String oldUri = null;
-		if(namespaces.hasURI(uri)){
+		if (namespaces.hasURI(uri)) {
 			oldUri = uri;
-		}else if(namespaces.hasPrefix(prefix)){
+		}else if (namespaces.hasPrefix(prefix)) {
 			oldUri = namespaces.getURI(prefix);
 		}
 		
@@ -508,7 +508,7 @@ public abstract class XMLToken extends AbstractTreeNode {
 		
 		int success = attributes.clear();
 		
-		for(int i=0; i < this.attributes.getLength(); i++){
+		for(int i=0; i < this.attributes.getLength(); i++) {
 			this.firePropertyChange(oldNames.get(i).getName(), oldValues.get(i), null);
 		}	
 		return success;
@@ -535,7 +535,7 @@ public abstract class XMLToken extends AbstractTreeNode {
 		
 		int success = namespaces.clear();
 		
-		for(int i=0; i < this.attributes.getLength(); i++){
+		for(int i=0; i < this.attributes.getLength(); i++) {
 			this.firePropertyChange(TreeNodeChangeEvent.namespace, oldValues.getURI(i), null);
 		}	
 		return success;
@@ -1405,14 +1405,14 @@ public abstract class XMLToken extends AbstractTreeNode {
 		
 		ArrayList<XMLTriple> names = this.attributes.attributeNames;
 		ArrayList<String> values = this.attributes.attributeValues;
-		for(int i=0; i < this.attributes.getLength(); i++){
+		for(int i=0; i < this.attributes.getLength(); i++) {
 			this.firePropertyChange(names.get(i).getName(), values.get(i), null);
 		}	
 		this.attributes = attributes;
 
 		names = attributes.attributeNames;
 		values = attributes.attributeValues;
-		for(int i=0; i < attributes.getLength(); i++){
+		for(int i=0; i < attributes.getLength(); i++) {
 			this.firePropertyChange(names.get(i).getName(), null, values.get(i));
 		}	
 		return JSBML.OPERATION_SUCCESS;
@@ -1484,14 +1484,14 @@ public abstract class XMLToken extends AbstractTreeNode {
 		}
 		
 		XMLNamespaces values = this.namespaces;
-		for(int i=0; i < this.attributes.getLength(); i++){
+		for(int i=0; i < this.attributes.getLength(); i++) {
 			this.firePropertyChange(TreeNodeChangeEvent.namespace, values.getURI(i), null);
 		}
 		
 		this.namespaces = namespaces;
 		
 		values = this.namespaces;
-		for(int i=0; i < this.attributes.getLength(); i++){
+		for(int i=0; i < this.attributes.getLength(); i++) {
 			this.firePropertyChange(TreeNodeChangeEvent.namespace, null, values.getURI(i));
 		}
 		return JSBML.OPERATION_SUCCESS;

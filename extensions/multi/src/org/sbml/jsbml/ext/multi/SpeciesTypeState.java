@@ -299,8 +299,8 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 	 * @return the {@link StateFeatureInstance} that has the given id or null if
 	 * no {@link StateFeatureInstance} are found that match <code>id</code>.
 	 */
-	public StateFeatureInstance getStateFeatureInstance(String id){
-		if(isSetListOfStateFeatureInstances()) {
+	public StateFeatureInstance getStateFeatureInstance(String id) {
+		if (isSetListOfStateFeatureInstances()) {
 			return listOfStateFeatureInstances.firstHit(new NameFilter(id));	    
 		} 
 		return null;
@@ -323,8 +323,8 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 	 * 
 	 * @return true is successful
 	 */
-	public boolean unsetListOfStateFeatureInstances(){
-		if(isSetListOfStateFeatureInstances()) {
+	public boolean unsetListOfStateFeatureInstances() {
+		if (isSetListOfStateFeatureInstances()) {
 			// unregister the ids if needed.			  
 			this.listOfStateFeatureInstances.fireNodeRemovedEvent();
 			this.listOfStateFeatureInstances = null;
@@ -389,8 +389,8 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 	 * @return the {@link ContainedSpeciesType} that has the given speciesTypeState id or null if
 	 * no {@link ContainedSpeciesType} are found that match <code>id</code>.
 	 */
-	public ContainedSpeciesType getContainedSpeciesType(final String id){
-		if(isSetListOfContainedSpeciesTypes()) {
+	public ContainedSpeciesType getContainedSpeciesType(final String id) {
+		if (isSetListOfContainedSpeciesTypes()) {
 			return listOfContainedSpeciesTypes.firstHit(new Filter() {
 
 				public boolean accepts(Object o) {
@@ -422,8 +422,8 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 	 * 
 	 * @return true is successful
 	 */
-	public boolean unsetListOfContainedSpeciesTypes(){
-		if(isSetListOfContainedSpeciesTypes()) {
+	public boolean unsetListOfContainedSpeciesTypes() {
+		if (isSetListOfContainedSpeciesTypes()) {
 			// unregister the ids if needed.			  
 			this.listOfContainedSpeciesTypes.fireNodeRemovedEvent();
 			this.listOfContainedSpeciesTypes = null;
@@ -502,15 +502,15 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 		if (!isAttributeRead) {
 			isAttributeRead = true;
 
-			if (attributeName.equals(MultiConstant.minOccur)){
+			if (attributeName.equals(MultiConstant.minOccur)) {
 				setMinOccur(StringTools.parseSBMLInt(value));
-			} else if (attributeName.equals(MultiConstant.maxOccur)){
+			} else if (attributeName.equals(MultiConstant.maxOccur)) {
 				setMaxOccur(StringTools.parseSBMLInt(value));
-			} else if (attributeName.equals(MultiConstant.connex)){
+			} else if (attributeName.equals(MultiConstant.connex)) {
 				setConnex(StringTools.parseSBMLBoolean(value));
-			} else if (attributeName.equals(MultiConstant.saturated)){
+			} else if (attributeName.equals(MultiConstant.saturated)) {
 				setSaturated(StringTools.parseSBMLBoolean(value));
-			} else if (attributeName.equals(MultiConstant.speciesType)){
+			} else if (attributeName.equals(MultiConstant.speciesType)) {
 				setSpeciesType(value);
 			} else {
 				isAttributeRead = false;
@@ -537,19 +537,19 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 			attributes.put(MultiConstant.shortLabel+ ":name", getName());
 		}
 
-		if (isSetMinOccur()){
+		if (isSetMinOccur()) {
 			attributes.put(MultiConstant.shortLabel + ":" + MultiConstant.minOccur, Integer.toString(getMinOccur()));
 		}
-		if (isSetMaxOccur()){
+		if (isSetMaxOccur()) {
 			attributes.put(MultiConstant.shortLabel + ":" + MultiConstant.maxOccur, Integer.toString(getMaxOccur()));
 		}
-		if (isSetConnex()){
+		if (isSetConnex()) {
 			attributes.put(MultiConstant.shortLabel + ":" + MultiConstant.connex, Boolean.toString(isConnex()));
 		}
-		if (isSetSaturated()){
+		if (isSetSaturated()) {
 			attributes.put(MultiConstant.shortLabel + ":" + MultiConstant.saturated, Boolean.toString(isSaturated()));
 		}
-		if (isSetSpeciesType()){
+		if (isSetSpeciesType()) {
 			attributes.put(MultiConstant.shortLabel + ":" + MultiConstant.speciesType, getSpeciesType());
 		} 
 

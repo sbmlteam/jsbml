@@ -257,7 +257,7 @@ public class CubicBezier extends LineSegment {
 	 * @param basePoint1
 	 */
 	public void setBasePoint1(Point basePoint1) {
-		if(this.basePoint1 != null){
+		if (this.basePoint1 != null) {
 			Point oldValue = this.basePoint1;
 			this.basePoint1 = null;
 			oldValue.fireNodeRemovedEvent();
@@ -274,7 +274,7 @@ public class CubicBezier extends LineSegment {
 	 * @param basePoint2
 	 */
 	public void setBasePoint2(Point basePoint2) {
-		if(this.basePoint2 != null){
+		if (this.basePoint2 != null) {
 			Point oldValue = this.basePoint2;
 			this.basePoint2 = null;
 			oldValue.fireNodeRemovedEvent();

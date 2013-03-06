@@ -156,7 +156,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 		public static Type valueOf(Class<? extends SBase> type) {
 			if (type.equals(Compartment.class)) {
 				return listOfCompartments;
-			} else if(type.equals(CompartmentType.class)) {
+			} else if (type.equals(CompartmentType.class)) {
 				return listOfCompartmentTypes;
 			} else if (type.equals(Constraint.class)) {
 				return listOfConstraints;
@@ -824,8 +824,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public boolean removeAll(Collection<?> c) {
 		boolean success = listOf.removeAll(c);
-		if(success){ // TODO : a success does not mean that all elements from c have been removed from the listOf
-			 for(Iterator<?> i = c.iterator(); i.hasNext();){
+		if (success) { // TODO : a success does not mean that all elements from c have been removed from the listOf
+			 for(Iterator<?> i = c.iterator(); i.hasNext();) {
 				 SBase element = (SBase) i.next();
 				 element.fireNodeRemovedEvent();
 			 }
@@ -863,7 +863,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public boolean retainAll(Collection<?> c) {
 		boolean modified = false;
-		for(T element : listOf){
+		for(T element : listOf) {
 			if (!c.contains(element)) {
 				listOf.remove(element);
 				((TreeNodeWithChangeSupport) element).fireNodeRemovedEvent();

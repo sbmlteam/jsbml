@@ -557,7 +557,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 * @see org.sbml.jsbml.Variable#unsetConstant()
 	 */
 	public void unsetConstant() {
-		if(this.constant != null){
+		if (this.constant != null) {
 			Boolean oldConstant = this.constant;
 			this.constant = null;
 			isSetConstant = false;
@@ -570,7 +570,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	 * Unsets the stoichiometry property of this element.
 	 */
 	public void unsetStoichiometry() {
-		if(this.stoichiometry != null){
+		if (this.stoichiometry != null) {
 			Double oldStoichiometry = this.stoichiometry;
 			this.stoichiometry = null;
 			isSetStoichiometry = false;

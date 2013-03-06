@@ -156,8 +156,8 @@ public class MultiModel extends AbstractSBasePlugin {
 	 * @return the {@link SpeciesType} that has the given id or null if
 	 * no {@link SpeciesType} are found that match <code>id</code>.
 	 */
-	public SpeciesType getSpeciesType(String id){
-		if(isSetListOfSpeciesTypes()) {
+	public SpeciesType getSpeciesType(String id) {
+		if (isSetListOfSpeciesTypes()) {
 			return listOfSpeciesTypes.firstHit(new NameFilter(id));	    
 		} 
 		return null;
@@ -180,8 +180,8 @@ public class MultiModel extends AbstractSBasePlugin {
 	 * 
 	 * @return true is successful
 	 */
-	public boolean unsetListOfSpeciesTypes(){
-		if(isSetListOfSpeciesTypes()) {
+	public boolean unsetListOfSpeciesTypes() {
+		if (isSetListOfSpeciesTypes()) {
 			// TODO : unregister the ids if needed.			  
 			// getModel().unregisterChild(this.listOfSpeciesTypes);
 			this.listOfSpeciesTypes = null;
@@ -263,8 +263,8 @@ public class MultiModel extends AbstractSBasePlugin {
 	 * @return the {@link Selector} that has the given id or null if
 	 * no {@link Selector} are found that match <code>id</code>.
 	 */
-	public Selector getSelector(String id){
-		if(isSetListOfSelectors()) {
+	public Selector getSelector(String id) {
+		if (isSetListOfSelectors()) {
 			return listOfSelectors.firstHit(new NameFilter(id));	    
 		} 
 		return null;
@@ -287,8 +287,8 @@ public class MultiModel extends AbstractSBasePlugin {
 	 * 
 	 * @return true is successful
 	 */
-	public boolean unsetListOfSelectors(){
-		if(isSetListOfSelectors()) {
+	public boolean unsetListOfSelectors() {
+		if (isSetListOfSelectors()) {
 			// TODO : unregister the ids if needed for SBasePlugin.			  
 			// fireNodeRemoved(this.listOfSelectors);
 			this.listOfSelectors = null;

@@ -720,13 +720,13 @@ public class SBMLReaderTest {
 				loggerErr.warning("Event " + eventId + " : trigger.isSetPersistent differ !!");
 			}
 			
-		} else if (jsbmlEvent.isSetTrigger() != libSbmlEvent.isSetTrigger()){
+		} else if (jsbmlEvent.isSetTrigger() != libSbmlEvent.isSetTrigger()) {
 			loggerErr.warning("Event " + eventId + " : isSetTrigger differ !!");
 		}
 		// delay
 		if (jsbmlEvent.isSetDelay() && libSbmlEvent.isSetDelay()) {
 			compareMathContainer(jsbmlEvent.getDelay(), libSbmlEvent.getDelay().getMath());
-		} else if (jsbmlEvent.isSetDelay() != libSbmlEvent.isSetDelay()){
+		} else if (jsbmlEvent.isSetDelay() != libSbmlEvent.isSetDelay()) {
 			loggerErr.warning("Event " + eventId + " : isSetDelay differ !!");
 		}
 
@@ -756,7 +756,7 @@ public class SBMLReaderTest {
 		// priority
 		if (jsbmlEvent.isSetPriority() && libSbmlEvent.isSetPriority()) {
 			compareMathContainer(jsbmlEvent.getPriority(), libSbmlEvent.getPriority().getMath());
-		} else if (jsbmlEvent.isSetPriority() != libSbmlEvent.isSetPriority()){
+		} else if (jsbmlEvent.isSetPriority() != libSbmlEvent.isSetPriority()) {
 			loggerErr.warning("Event " + eventId + " : isSetPriority differ !!");
 		}
 		

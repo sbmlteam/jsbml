@@ -78,7 +78,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
    * @param transition
    */
   public void addTransition(Transition transition) {
-	  if (!getListOfTransitions().contains(transition)){
+	  if (!getListOfTransitions().contains(transition)) {
 		  getListOfTransitions().add(transition);
 	  }
   }
@@ -347,7 +347,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
    * @return the {@link QualitativeSpecies} that has the given id or null if
    * no {@link QualitativeSpecies} are found that match <code>id</code>.
    */
-  public QualitativeSpecies getQualitativeSpecies(String id){
+  public QualitativeSpecies getQualitativeSpecies(String id) {
 	  if (isSetListOfQualitativeSpecies()) {
 		  return listOfQualitativeSpecies.firstHit(new NameFilter(id));	    
 	  } 
@@ -360,7 +360,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
    * @param qs
    * @return true if <code>qs</code> is already part of this {@link QualitativeModel}
    */
-  public boolean containsQualitativeSpecies(QualitativeSpecies qs){
+  public boolean containsQualitativeSpecies(QualitativeSpecies qs) {
 	  return isSetListOfQualitativeSpecies()
 			  && listOfQualitativeSpecies.contains(qs);
   }
@@ -457,7 +457,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
    * 
    * @return true is successful
    */
-  public boolean unsetListOfTransitions(){
+  public boolean unsetListOfTransitions() {
 	  if (isSetListOfTransitions()) {
 		  // unregister the ids.
 		  listOfTransitions.unregister(this.listOfTransitions);

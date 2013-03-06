@@ -119,7 +119,7 @@ public class SBMLDocument extends org.sbml.jsbml.SBMLDocument {
 	 * 
 	 * @return the model of this SBMLDocument. Can be null if it is not set.
 	 */
-	public Model getModel(){
+	public Model getModel() {
 		return model;
 	}
 

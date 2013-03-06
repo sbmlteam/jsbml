@@ -266,7 +266,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 	 * 
 	 */
 	public void unsetBoundingBox() {
-		if(isSetBoundingBox()){
+		if (isSetBoundingBox()) {
 			BoundingBox oldValue = this.boundingBox;
 			this.boundingBox = null;
 			oldValue.fireNodeRemovedEvent();

@@ -129,8 +129,8 @@ public class StateFeatureInstance extends AbstractNamedSBase {
 	 * @return the {@link StateFeatureValue} that has the given id or null if
 	 * no {@link StateFeatureValue} are found that match <code>id</code>.
 	 */
-	public StateFeatureValue getStateFeatureValue(String id){
-		if(isSetListOfStateFeatureValues()) {
+	public StateFeatureValue getStateFeatureValue(String id) {
+		if (isSetListOfStateFeatureValues()) {
 			return listOfStateFeatureValues.firstHit(new NameFilter(id));	    
 		} 
 		return null;
@@ -153,8 +153,8 @@ public class StateFeatureInstance extends AbstractNamedSBase {
 	 * 
 	 * @return true is successful
 	 */
-	public boolean unsetListOfStateFeatureValues(){
-		if(isSetListOfStateFeatureValues()) {
+	public boolean unsetListOfStateFeatureValues() {
+		if (isSetListOfStateFeatureValues()) {
 			// unregister the ids if needed.			  
 			this.listOfStateFeatureValues.fireNodeRemovedEvent();
 			this.listOfStateFeatureValues = null;
@@ -223,7 +223,7 @@ public class StateFeatureInstance extends AbstractNamedSBase {
 
 		if (!isAttributeRead) {
 
-			if (attributeName.equals(MultiConstant.stateFeature)){
+			if (attributeName.equals(MultiConstant.stateFeature)) {
 				setStateFeature(value);
 				isAttributeRead = true;
 			} 

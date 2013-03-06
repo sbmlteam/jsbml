@@ -403,7 +403,7 @@ public class History extends AnnotationElement {
 	 */
 	public Creator removeCreator(int i) {
 		Creator c = listOfCreators.remove(i);
-		if(c != null){
+		if (c != null) {
 			firePropertyChange(TreeNodeChangeEvent.creator, c, null);
 		}
 		return c;
@@ -425,7 +425,7 @@ public class History extends AnnotationElement {
 				}
 			}
 			Date d = listOfModification.remove(i);
-			if(d != null){
+			if (d != null) {
 				firePropertyChange(TreeNodeChangeEvent.modified, d, null);
 			}
 			return d;
@@ -466,7 +466,7 @@ public class History extends AnnotationElement {
 	 * Sets the created of this {@link History} to null.
 	 */
 	public void unsetCreatedDate() {
-		if(this.creation != null){
+		if (this.creation != null) {
 			Date oldValue = this.creation;
 			creation = null;
 			firePropertyChange(TreeNodeChangeEvent.created, oldValue, creation);
@@ -477,7 +477,7 @@ public class History extends AnnotationElement {
 	 * Sets the created of this {@link History} to null.
 	 */
 	public void unsetListOfModifiedDates() {
-		if(this.modified != null){
+		if (this.modified != null) {
 			modified = null;
 		}
 		if (listOfModification != null) {			

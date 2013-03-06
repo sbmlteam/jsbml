@@ -51,7 +51,7 @@ public class Compartment {
 	 * 
 	 * @param compartment
 	 */
-	public Compartment(org.sbml.jsbml.Compartment compartment){
+	public Compartment(org.sbml.jsbml.Compartment compartment) {
 		this.compartment = compartment;
 	}
 	
@@ -59,7 +59,7 @@ public class Compartment {
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.Species#clone()
 	 */
-	public org.sbml.jsbml.Compartment clone(){
+	public org.sbml.jsbml.Compartment clone() {
 		return compartment.clone();
 	}
 

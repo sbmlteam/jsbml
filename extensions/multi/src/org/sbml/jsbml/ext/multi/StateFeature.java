@@ -119,8 +119,8 @@ public class StateFeature extends AbstractNamedSBase implements UniqueNamedSBase
 	 * @return the {@link PossibleValue} that has the given id or null if
 	 * no {@link PossibleValue} are found that match <code>id</code>.
 	 */
-	public PossibleValue getPossibleValue(String id){
-		if(isSetListOfPossibleValues()) {
+	public PossibleValue getPossibleValue(String id) {
+		if (isSetListOfPossibleValues()) {
 			return listOfPossibleValues.firstHit(new NameFilter(id));	    
 		} 
 		return null;
@@ -143,8 +143,8 @@ public class StateFeature extends AbstractNamedSBase implements UniqueNamedSBase
 	 * 
 	 * @return true is successful
 	 */
-	public boolean unsetListOfPossibleValues(){
-		if(isSetListOfPossibleValues()) {
+	public boolean unsetListOfPossibleValues() {
+		if (isSetListOfPossibleValues()) {
 			// unregister the ids if needed.			  
 			this.listOfPossibleValues.fireNodeRemovedEvent();
 			this.listOfPossibleValues = null;
