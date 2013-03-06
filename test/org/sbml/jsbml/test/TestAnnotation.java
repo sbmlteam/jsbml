@@ -80,14 +80,14 @@ public class TestAnnotation {
 	    CVTerm cvTerm = new CVTerm(Qualifier.BQB_IS);
 	    cvTerm.setQualifierType(Type.BIOLOGICAL_QUALIFIER);
 	    
-	    if(urn_id.startsWith("C"))
+	    if (urn_id.startsWith("C"))
 	    {
 	    cvTerm.addResource("urn:miriam:kegg.compound:" + urn_id);
 	    annotation.addCVTerm(cvTerm);
 	    annotation.appendNoRDFAnnotation("http://www.genome.jp/dbget-bin/www_bget?cpd:"+urn_id);
 	    }
 	    
-	    if(urn_id.startsWith("G"))
+	    if (urn_id.startsWith("G"))
 	    {
 	    cvTerm.addResource("urn:miriam:kegg.glycan:" + urn_id);
 	    annotation.addCVTerm(cvTerm);

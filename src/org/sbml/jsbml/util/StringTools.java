@@ -303,7 +303,7 @@ public class StringTools {
     Arrays.fill(ret, symbol);
     
     // Copy previous content at the end of the array
-    if(sb.length()>0) {
+    if (sb.length()>0) {
       char[] sbArray = sb.toString().toCharArray();
       System.arraycopy(sbArray, 0, ret, length-sb.length(), sbArray.length);
     }

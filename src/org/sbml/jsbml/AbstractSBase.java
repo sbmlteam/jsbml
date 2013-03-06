@@ -375,7 +375,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 */
 	public void appendNotes(XMLNode notes) {
 
-		if(notes == null) 
+		if (notes == null) 
 		{
 			return;
 		}

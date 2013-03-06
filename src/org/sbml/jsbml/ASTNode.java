@@ -3937,7 +3937,7 @@ public class ASTNode extends AbstractTreeNode {
 				variable = null;
 				variable = getVariable();
 				this.firePropertyChange(TreeNodeChangeEvent.variable, oldValue, variable);
-			} else if ((type != Type.NAME_TIME) && (type != Type.NAME_AVOGADRO)){
+			} else if ((type != Type.NAME_TIME) && (type != Type.NAME_AVOGADRO)) {
 				// Try to register a direct link to the variable (if the name represent one).
 				variable = getVariable();
 			}

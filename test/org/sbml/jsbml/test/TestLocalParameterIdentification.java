@@ -65,7 +65,7 @@ public class TestLocalParameterIdentification {
     ASTNode node = ASTNode.readMathMLFromString("<math xmlns=\"http://www.w3.org/1998/Math/MathML\"> <apply><times/><ci> k </ci><ci> S1 </ci></apply></math>");
     kl.setMath(node);
     
-    if(!(kl.getMath().getChild(0).getVariable() instanceof LocalParameter)) {
+    if (!(kl.getMath().getChild(0).getVariable() instanceof LocalParameter)) {
       System.out.println("The local parameter k is not found!");
     }
     
@@ -73,7 +73,7 @@ public class TestLocalParameterIdentification {
     doc = new SBMLReader().readSBML("core/files/test-models/00733-sbml-l2v4.xml");
     r = doc.getModel().getReaction("reaction1");
     kl = r.getKineticLaw();
-    if(!(kl.getMath().getChild(1).getVariable() instanceof LocalParameter)) {
+    if (!(kl.getMath().getChild(1).getVariable() instanceof LocalParameter)) {
       System.out.println("The local parameter k is not found!");
     }
   }
