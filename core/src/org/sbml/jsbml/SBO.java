@@ -686,16 +686,21 @@ public class SBO {
 	}
 
 	/**
+	 * Modification of the velocity of a reaction by lowering the energy of the
+	 * transition state.
 	 * 
-	 * @return
+	 * @return 172
 	 */
 	public static int getCatalysis() {
-		return 13;
+		return 172;
 	}
 
 	/**
+	 * Substance that accelerates the velocity of a chemical reaction without
+	 * itself being consumed or transformed. This effect is achieved by lowering
+	 * the free energy of the transition state.
 	 * 
-	 * @return
+	 * @return the SBO id corresponding to the alias 'CATALYSIS'
 	 */
 	public static int getCatalyst() {
 		return convertAlias2SBO("CATALYSIS");
@@ -896,8 +901,10 @@ public class SBO {
 	}
 
 	/**
+	 * Substance that decreases the probability of a chemical reaction without
+	 * itself being consumed or transformed by the reaction.
 	 * 
-	 * @return
+	 * @return the SBO id corresponding to the alias 'INHIBITION'
 	 */
 	public static int getInhibitor() {
 		return convertAlias2SBO("INHIBITION");
@@ -984,8 +991,10 @@ public class SBO {
 	}
 
 	/**
+	 * Substance that changes the velocity of a process without itself being
+	 * consumed or transformed by the reaction.
 	 * 
-	 * @return
+	 * @return the SBO id corresponding to the alias 'MODULATION'
 	 */
 	public static int getModifier() {
 		return convertAlias2SBO("MODULATION");
@@ -1041,8 +1050,10 @@ public class SBO {
 	}
 
 	/**
+	 * The function of a physical or conceptual entity, that is its role, in the
+	 * execution of an event or process.
 	 * 
-	 * @return
+	 * @return 3
 	 */
 	public static int getParticipantRole() {
 		return 3;
@@ -1088,11 +1099,15 @@ public class SBO {
 	}
 
 	/**
+	 * Substance that is produced in a reaction. In a chemical equation the
+	 * Products are the elements or compounds on the right hand side of the
+	 * reaction equation. A product can be produced and consumed by the same
+	 * reaction, its global quantity remaining unchanged.
 	 * 
-	 * @return
+	 * @return the SBO id corresponding to the alias 'product'
 	 */
 	public static int getProduct() {
-		return 11;
+		return convertAlias2SBO("product");
 	}
 
 	/**
@@ -1120,11 +1135,16 @@ public class SBO {
 	}
 
 	/**
+	 * Substance consumed by a chemical reaction. Reactants react with each
+	 * other to form the products of a chemical reaction. In a chemical equation
+	 * the Reactants are the elements or compounds on the left hand side of the
+	 * reaction equation. A reactant can be consumed and produced by the same
+	 * reaction, its global quantity remaining unchanged.
 	 * 
-	 * @return
+	 * @return the SBO id corresponding to the alias 'reactant'
 	 */
 	public static int getReactant() {
-		return 10;
+		return convertAlias2SBO("reactant");
 	}
 
 	/**
@@ -2220,12 +2240,57 @@ public class SBO {
 	}
 
 	/**
-	 * Consumption
+	 * Decrease in amount of a material or conceptual entity. 
 	 * 
-	 * @return
+	 * @return 394
 	 */
 	public static int getConsumption() {
 		return 394;
+	}
+
+	/**
+	 * Negative modulation of the execution of a process.
+	 * 
+	 * @return 169
+	 */
+	public static int getInhibition() {
+		return 169;
+	}
+
+	/**
+	 * Modification of the execution of an event or a process.
+	 * 
+	 * @return 168
+	 */
+	public static int getModulation() {
+		return 168;
+	}
+
+	/**
+	 * Control that is necessary to the execution of a process.
+	 * 
+	 * @return 171
+	 */
+	public static int getNecessaryStimulation() {
+		return 171;
+	}
+
+	/**
+	 * Positive modulation of the execution of a process.
+	 * 
+	 * @return 170
+	 */
+	public static int getStimulation() {
+		return 170;
+	}
+
+	/**
+	 * Generation of a material or conceptual entity. 
+	 * 
+	 * @return 393
+	 */
+	public static int getProduction() {
+		return 393;
 	}
 
 }

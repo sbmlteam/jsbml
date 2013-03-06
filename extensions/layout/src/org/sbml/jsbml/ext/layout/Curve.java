@@ -85,6 +85,15 @@ public class Curve extends AbstractNamedSBase {
 		return getListOfCurveSegments().add(curveSegment);
 	}
 
+	/**
+	 * 
+	 * @param index
+	 * @param element
+	 */
+	public void addCurveSegment(int index, CurveSegment element) {
+		getListOfCurveSegments().add(index, element);
+	}
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
@@ -217,6 +226,15 @@ public class Curve extends AbstractNamedSBase {
 	 */
 	public boolean isSetListOfCurveSegments() {
 		return (listOfCurveSegments != null) && (listOfCurveSegments.size() > 0);
+	}
+
+	/**
+	 * 
+	 * @param cs
+	 * @return
+	 */
+	public boolean removeCurveSegment(CurveSegment cs) {
+		return getListOfCurveSegments().remove(cs);
 	}
 
 	/**
