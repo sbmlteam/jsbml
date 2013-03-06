@@ -70,7 +70,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param level
    * @param version
    */
-  public Transition(int level, int version){
+  public Transition(int level, int version) {
     this(null, null, level, version);
   }
   

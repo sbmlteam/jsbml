@@ -45,7 +45,7 @@ public class CDPluginTester extends CellDesignerPlugin {
 	 * Constructor for Creating the PluginClass
 	 */
 	
-	public CDPluginTester(){
+	public CDPluginTester() {
 		super();
 		try {
 			System.out.printf("\n\nLoading_%s\n\n", APPLICATION_NAME);

@@ -145,8 +145,8 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
 	 * @return the {@link StateFeature} that has the given id or null if
 	 * no {@link StateFeature} are found that match <code>id</code>.
 	 */
-	public StateFeature getStateFeature(String id){
-		if(isSetListOfStateFeatures()) {
+	public StateFeature getStateFeature(String id) {
+		if (isSetListOfStateFeatures()) {
 			return listOfStateFeatures.firstHit(new NameFilter(id));	    
 		} 
 		return null;
@@ -169,8 +169,8 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
 	 * 
 	 * @return true is successful
 	 */
-	public boolean unsetListOfStateFeatures(){
-		if(isSetListOfStateFeatures()) {
+	public boolean unsetListOfStateFeatures() {
+		if (isSetListOfStateFeatures()) {
 			// unregister the ids if needed.			  
 			this.listOfStateFeatures.fireNodeRemovedEvent();
 			this.listOfStateFeatures = null;
@@ -262,7 +262,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
 		if (!isAttributeRead) {
 			isAttributeRead = true;
 
-			if (attributeName.equals(MultiConstant.bindingSite)){
+			if (attributeName.equals(MultiConstant.bindingSite)) {
 				setBindingSite(StringTools.parseSBMLBoolean(value));
 			} else {
 				isAttributeRead = false;

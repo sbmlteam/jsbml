@@ -194,7 +194,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 				PluginSpecies plugSpecies = plugModel.getSpecies(spec.getId());
 				plugSpecies.setCompartment(spec.getCompartment());
 				plugin.notifySBaseChanged(plugSpecies);
-			} else if(eventsource instanceof Reaction) {
+			} else if (eventsource instanceof Reaction) {
 				logger.log(Level.DEBUG, String.format("Changing %s in the Model only supported with SBML version > 3.", eventsource.getClass().getSimpleName()));
 			}
 		} else if (prop.equals(TreeNodeChangeEvent.compartmentType)) {
@@ -319,7 +319,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 			PluginUnitDefinition plugUnDef = plugModel.getUnitDefinition(unitDef.getId());
 			PluginUnit plugUnit = plugUnDef.getUnit(index);
 			//the new value can be either a string or an integer ==> therefore this separation is necessary
-			if(event.getNewValue() instanceof String) {
+			if (event.getNewValue() instanceof String) {
 				plugUnit.setKind((String) event.getNewValue());
 			} else {
 				plugUnit.setKind((Integer) event.getNewValue());
@@ -1684,7 +1684,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 		Enumeration<TreeNode> e = c.children();
 		TreeNode currNode = null;
 		while ((currNode = e.nextElement()) != null) {
-			if(n.equals(currNode)) {
+			if (n.equals(currNode)) {
 				return counter;
 			} else {
 				counter++;

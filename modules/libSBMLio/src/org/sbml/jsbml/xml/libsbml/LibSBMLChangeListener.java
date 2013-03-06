@@ -128,7 +128,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 					if (ct.isSetNotes()) {
 						libCt.setNotes(ct.getNotesString());
 					}
-				} else if (node instanceof SpeciesType){
+				} else if (node instanceof SpeciesType) {
 					SpeciesType specType = (SpeciesType) node;
 					org.sbml.libsbml.SpeciesType LibSpecType = libDoc.getModel().createSpeciesType();
 					LibSBMLUtils.transferNamedSBaseProperties(specType, LibSpecType);
@@ -562,7 +562,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 			if (node instanceof org.sbml.jsbml.AbstractNamedSBase) {
 				if (node instanceof CompartmentType) {
 					libModel.removeCompartmentType(((CompartmentType) node).getId());
-				} else if (node instanceof SpeciesType){
+				} else if (node instanceof SpeciesType) {
 					libModel.removeSpeciesType(((SpeciesType) node).getId());
 				} else if (node instanceof UnitDefinition) {
 					libModel.removeUnitDefinition(((UnitDefinition) node).getId());
@@ -699,7 +699,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 				CVTerm cvTerm = (CVTerm) node;
 				for(int k=0; k<doc.getCVTermCount(); k++) {
 					CVTerm cv = doc.getCVTerm(k);
-					if(cv.equals(cvTerm)) {
+					if (cv.equals(cvTerm)) {
 						libDoc.getModel().getCVTerms().remove(k);
 						break;
 					}
@@ -1033,7 +1033,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 			org.sbml.libsbml.CVTerm myLibCvt = LibSBMLUtils.convertCVTerm(cvt);
 			for(int k=0; k<doc.getCVTermCount();k++) {
 				CVTerm cv = doc.getCVTerm(k);
-				if(cv.equals(cvt)) {
+				if (cv.equals(cvt)) {
 					org.sbml.libsbml.CVTerm libCvt = libDoc.getCVTerm(k);
 					if (myLibCvt.getQualifierType() != libCvt.getQualifierType())
 						libCvt.setQualifierType(myLibCvt.getQualifierType());
@@ -1116,7 +1116,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 				libDoc.getModel().setSubstanceUnits(((Model) evtSrc).getSubstanceUnits());
 			}
 		} else if (prop.equals(TreeNodeChangeEvent.symbol)) {
-			if(evtSrc instanceof InitialAssignment) {
+			if (evtSrc instanceof InitialAssignment) {
 				libDoc.getModel().getInitialAssignment(((InitialAssignment) evtSrc).getVariable()).setSymbol(((InitialAssignment) evtSrc).getSymbol());
 			}
 		} else if (prop.equals(TreeNodeChangeEvent.text)) {
@@ -1178,7 +1178,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 			if (evtSrc instanceof ASTNode) {
 				ASTNode node = (ASTNode) evtSrc;
 				logger.log(Level.DEBUG, String.format("Couldn't change the %s in the libSBML-Document", node.getClass().getSimpleName()));
-			} else if (evtSrc instanceof QuantityWithUnit){
+			} else if (evtSrc instanceof QuantityWithUnit) {
 				if (evtSrc instanceof Parameter) {
 					Parameter param = (Parameter) evtSrc;
 					libDoc.getModel().getParameter(param.getId()).setValue(param.getValue());
@@ -1189,7 +1189,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 					} else {
 						libDoc.getModel().getSpecies(spec.getId()).setInitialConcentration(spec.getInitialConcentration());
 					}
-				} else if (evtSrc instanceof Compartment){
+				} else if (evtSrc instanceof Compartment) {
 					Compartment comp = (Compartment) evtSrc;
 					libDoc.getModel().getCompartment(comp.getId()).setSize(comp.getSize());
 				} else if (evtSrc instanceof LocalParameter) {
@@ -1205,7 +1205,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 				org.sbml.libsbml.Event libev = libDoc.getModel().getEvent(parentEvAssign.getId());
 				if (evt.getOldValue() != null) {
 					libev.getEventAssignment((String)evt.getOldValue()).setVariable(evAssign.getVariable());
-				} else if (libev.getListOfEventAssignments().size() == 1){
+				} else if (libev.getListOfEventAssignments().size() == 1) {
 					libev.getEventAssignment(0).setVariable(evAssign.getVariable());
 				} else {
 					// there is no way to find the EventAssignment
@@ -1264,7 +1264,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 					return libDoc.getModel().getReaction(reac.getId());
 				} else if (evtSrc instanceof SimpleSpeciesReference) {
 					if (evtSrc instanceof ModifierSpeciesReference) {
-						if (((ModifierSpeciesReference) evtSrc).isSetParent() && ((ModifierSpeciesReference) evtSrc).getParent().isSetParentSBMLObject()){
+						if (((ModifierSpeciesReference) evtSrc).isSetParent() && ((ModifierSpeciesReference) evtSrc).getParent().isSetParentSBMLObject()) {
 							String reacID =((Reaction) ((ModifierSpeciesReference)evtSrc).getParentSBMLObject().getParentSBMLObject()).getId();
 							return libDoc.getModel().getReaction(reacID).getModifier(((ModifierSpeciesReference) evtSrc).getId());
 						}
@@ -1281,9 +1281,9 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 					else if (evtSrc instanceof QuantityWithUnit) {
 						if (evtSrc instanceof LocalParameter) {
 							LocalParameter locParam = (LocalParameter) evtSrc;
-							if (locParam.isSetParent() && locParam.getParent().isSetParent()){
+							if (locParam.isSetParent() && locParam.getParent().isSetParent()) {
 								KineticLaw kinLaw = (KineticLaw) locParam.getParentSBMLObject().getParentSBMLObject();
-								if (kinLaw.isSetParent()){
+								if (kinLaw.isSetParent()) {
 									Reaction reac = kinLaw.getParentSBMLObject();
 									return libDoc.getModel().getReaction(reac.getId()).getKineticLaw().getLocalParameter(locParam.getId());
 								}
@@ -1327,24 +1327,24 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 				} else if (listType.equals(Type.listOfInitialAssignments)) {
 					return libDoc.getModel().getListOfInitialAssignments();
 				} else if (listType.equals(Type.listOfLocalParameters)) {
-					if(((ListOf<?>) evtSrc).getParentSBMLObject() != null) {
+					if (((ListOf<?>) evtSrc).getParentSBMLObject() != null) {
 						KineticLaw kinLaw = (KineticLaw) ((ListOf<?>) evtSrc).getParentSBMLObject();
 						return libDoc.getModel().getReaction(kinLaw.getParentSBMLObject().getId()).getKineticLaw().getListOfLocalParameters();
 					}
 				} else if (listType.equals(Type.listOfModifiers)) {
-					if(((ListOf<?>) evtSrc).getParentSBMLObject() != null) {
+					if (((ListOf<?>) evtSrc).getParentSBMLObject() != null) {
 						Reaction reac = (Reaction) ((ListOf<?>) evtSrc).getParentSBMLObject();
 						return libDoc.getModel().getReaction(reac.getId()).getListOfModifiers();
 					}
 				} else if (listType.equals(Type.listOfParameters)) {
 					return libDoc.getModel().getListOfParameters();
 				} else if (listType.equals(Type.listOfProducts)) {
-					if(((ListOf<?>) evtSrc).getParentSBMLObject() != null) {
+					if (((ListOf<?>) evtSrc).getParentSBMLObject() != null) {
 						Reaction reac = (Reaction) ((ListOf<?>) evtSrc).getParentSBMLObject();
 						return libDoc.getModel().getReaction(reac.getId()).getListOfProducts();
 					}
 				} else if (listType.equals(Type.listOfReactants)) {
-					if(((ListOf<?>) evtSrc).getParentSBMLObject() != null) {
+					if (((ListOf<?>) evtSrc).getParentSBMLObject() != null) {
 						Reaction reac = (Reaction) ((ListOf<?>) evtSrc).getParentSBMLObject();
 						return libDoc.getModel().getReaction(reac.getId()).getListOfReactants();
 					}
@@ -1359,7 +1359,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 				} else if (listType.equals(Type.listOfUnitDefinitions)) {
 					return libDoc.getModel().getListOfUnitDefinitions();
 				} else if (listType.equals(Type.listOfUnits)) {
-					if(((ListOf<?>) evtSrc).getParentSBMLObject() != null) {
+					if (((ListOf<?>) evtSrc).getParentSBMLObject() != null) {
 						UnitDefinition udef = (UnitDefinition) ((ListOf<?>) evtSrc).getParentSBMLObject();
 						return libDoc.getModel().getUnitDefinition(udef.getId()).getListOfUnits();
 					}

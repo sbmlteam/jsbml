@@ -223,7 +223,7 @@ public class Bond extends AbstractSBase {
 
 		if (!isAttributeRead) {
 
-			if (attributeName.equals(MultiConstant.occurrence)){
+			if (attributeName.equals(MultiConstant.occurrence)) {
 				try {
 					setOccurence(BOND_OCCURRENCE_TYPE.valueOf(value));
 					isAttributeRead = true;

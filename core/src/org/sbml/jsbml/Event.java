@@ -985,7 +985,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 	 * Sets the useValuesFromTriggerTime of this Event to null.
 	 */
 	public void unsetUseValuesFromTriggerTime() {
-		if(this.useValuesFromTriggerTime != null){
+		if (this.useValuesFromTriggerTime != null) {
 			Boolean oldUseValuesFromTriggerTime = useValuesFromTriggerTime;
 			this.useValuesFromTriggerTime = null;
 			isSetUseValuesFromTriggerTime = false;

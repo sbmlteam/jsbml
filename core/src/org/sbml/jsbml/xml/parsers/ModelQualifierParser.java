@@ -62,14 +62,14 @@ public class ModelQualifierParser implements ReadingParser {
 	/**
 	 * Creates a ModelQualifierParser instance and initialises the modelQualifierMap.
 	 */
-	public ModelQualifierParser(){
+	public ModelQualifierParser() {
 		initialisesModelQualifierMap();
 	}
 
 	/**
 	 * Initialises the modelQualifierMap of this parser.
 	 */
-	private void initialisesModelQualifierMap(){
+	private void initialisesModelQualifierMap() {
 		// TODO maybe loading from a file would be better.
 		
 		for (CVTerm.Qualifier qualifier : CVTerm.Qualifier.values()) {
@@ -138,7 +138,7 @@ public class ModelQualifierParser implements ReadingParser {
 		
 		// The namespace of this parser should be declared in the RDF subnode of the annotation.
 		// Adds the namespace to the RDFAnnotationNamespaces HashMap of annotation.
-		if (elementName.equals("RDF") && contextObject instanceof Annotation){
+		if (elementName.equals("RDF") && contextObject instanceof Annotation) {
 			Annotation annotation = (Annotation) contextObject;
 			
 			annotation.addRDFAnnotationNamespace(localName, prefix, URI);
@@ -157,14 +157,14 @@ public class ModelQualifierParser implements ReadingParser {
 			Object contextObject) {
 
 		// A ModelQualifierParser can only modify a contextObject which is an instance of Annotation.
-		if (contextObject instanceof Annotation){
+		if (contextObject instanceof Annotation) {
 			Annotation annotation = (Annotation) contextObject;
 			
 			// This parser can parse only model Miriam qualifiers. This element should not have attributes or namespace declarations. 
 			// Creates a new CVTerm and 
 			// sets the qualifierType and modelQualifierType of this CVTerm. Then, adds the 
 			// initialised CVTerm to annotation.
-			if (modelQualifierMap.containsKey(elementName) && !hasNamespaces && !hasAttributes){
+			if (modelQualifierMap.containsKey(elementName) && !hasNamespaces && !hasAttributes) {
 				CVTerm cvTerm = new CVTerm();
 				cvTerm.setQualifierType(Type.MODEL_QUALIFIER);
 				cvTerm.setModelQualifierType(modelQualifierMap.get(elementName));

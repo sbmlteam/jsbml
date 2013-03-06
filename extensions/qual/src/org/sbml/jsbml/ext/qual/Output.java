@@ -88,7 +88,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
    * @param level
    * @param version
    */
-  public Output(int level, int version){
+  public Output(int level, int version) {
 	  this(null, null, level, version);
   }
 
@@ -352,7 +352,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
     if (isSetQualitativeSpecies()) {
       hashCode += prime * getQualitativeSpecies().hashCode();
     }
-    if (isSetTransitionEffect()){
+    if (isSetTransitionEffect()) {
       hashCode += prime * getTransitionEffect().hashCode();
     }
     if (isSetOutputLevel()) {

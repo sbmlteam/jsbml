@@ -305,7 +305,7 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
 
-		if(!isAttributeRead) {
+		if (!isAttributeRead) {
 
 			isAttributeRead = true;			
 			if (attributeName.equals("reaction")) {				
@@ -323,7 +323,7 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 	 * @param curve
 	 */
 	public void setCurve(Curve curve) {
-		if(this.curve != null) {
+		if (this.curve != null) {
 			Curve oldValue = this.curve;
 			this.curve = null;
 			oldValue.fireNodeRemovedEvent();

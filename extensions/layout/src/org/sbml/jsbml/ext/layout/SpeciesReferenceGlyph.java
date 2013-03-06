@@ -42,12 +42,12 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -8810905237933499989L;
-	
+
 	/**
 	 * 
 	 */
 	private Curve curve;
-	
+
 	/**
 	 * 
 	 */
@@ -57,14 +57,14 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	 * 
 	 */
 	private String speciesGlyph;
-	
+
 	/**
 	 * 
 	 */
 	public SpeciesReferenceGlyph() {
 		super();
 	}
-	
+
 	/**
 	 * 
 	 * @param level
@@ -90,7 +90,7 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 			this.speciesGlyph = new String(speciesReferenceGlyph.getSpeciesGlyph());
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param id
@@ -98,7 +98,7 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	public SpeciesReferenceGlyph(String id) {
 		super(id);
 	}
-	
+
 	/**
 	 * 
 	 * @param id
@@ -115,19 +115,19 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	public SpeciesReferenceGlyph clone() {
 		return new SpeciesReferenceGlyph(this);
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public Curve createCurve() {
-	  if (isSetCurve()) {
-	    unsetCurve();
-	  }
-	  setCurve(new Curve(getLevel(), getVersion()));
-	  return getCurve();
+		if (isSetCurve()) {
+			unsetCurve();
+		}
+		setCurve(new Curve(getLevel(), getVersion()));
+		return getCurve();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
 	 */
@@ -147,7 +147,7 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 		}
 		return equals;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildAt(int)
 	 */
@@ -170,8 +170,8 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 		}
 
 		throw new IndexOutOfBoundsException(MessageFormat.format(
-		  "Index {0,number,integer} >= {1,number,integer}",
-			index, +((int) Math.min(pos, 0))));
+				"Index {0,number,integer} >= {1,number,integer}",
+				index, +((int) Math.min(pos, 0))));
 	}
 
 	/* (non-Javadoc)
@@ -186,7 +186,7 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 
 		return count;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -203,18 +203,18 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 		return speciesGlyph;
 	}
 
-  /**
+	/**
 	 * 
 	 * @return
 	 */
 	public SpeciesGlyph getSpeciesGlyphInstance() {
-	  if (!isSetSpeciesGlyph()) {
-	    return null;
-	  }
-	  Model model = getModel();
-	  return (model != null) ? (SpeciesGlyph) model.findNamedSBase(getSpeciesGlyph()) : null;
+		if (!isSetSpeciesGlyph()) {
+			return null;
+		}
+		Model model = getModel();
+		return (model != null) ? (SpeciesGlyph) model.findNamedSBase(getSpeciesGlyph()) : null;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -224,22 +224,22 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	}
 
 	/**
-   * Note that the return type of this method is {@link NamedSBase} because it
-   * could be possible to link some element from other packages to this glyph.
-   * 
-   * @return
-   */
+	 * Note that the return type of this method is {@link NamedSBase} because it
+	 * could be possible to link some element from other packages to this glyph.
+	 * 
+	 * @return
+	 */
 	public NamedSBase getSpeciesReferenceInstance() {
-	  return getNamedSBaseInstance();
+		return getNamedSBaseInstance();
 	}
 
-  /**
+	/**
 	 * @return
 	 */
 	public SpeciesReferenceRole getSpeciesReferenceRole() {
 		return role;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
 	 */
@@ -276,7 +276,7 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	public boolean isSetSpeciesReference() {
 		return isSetNamedSBase();
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -292,35 +292,35 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 			String value) {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
-		
-		if(!isAttributeRead) {
-		
+
+		if (!isAttributeRead) {
+
 			isAttributeRead = true;
-			
-			if(attributeName.equals(LayoutConstants.speciesReference))
+
+			if (attributeName.equals(LayoutConstants.speciesReference))
 			{				
 				setSpeciesReference(value);
 			}
-			else if(attributeName.equals(LayoutConstants.speciesGlyph))
+			else if (attributeName.equals(LayoutConstants.speciesGlyph))
 			{
 				setSpeciesGlyph(value);
 			}
-			else if(attributeName.equals(LayoutConstants.role))
+			else if (attributeName.equals(LayoutConstants.role))
 			{
-		    	  try {
-		    		  setRole(SpeciesReferenceRole.valueOf(value.toUpperCase()));
-		    	  } catch (Exception e) {
-		    		  throw new SBMLException("Could not recognized the value '" + value
-		    				  + "' for the attribute " + LayoutConstants.role
-		    				  + " on the 'SpeciesReferenceGlyph' element.");
-		    	  }
+				try {
+					setRole(SpeciesReferenceRole.valueOf(value.toUpperCase()));
+				} catch (Exception e) {
+					throw new SBMLException("Could not recognized the value '" + value
+							+ "' for the attribute " + LayoutConstants.role
+							+ " on the 'SpeciesReferenceGlyph' element.");
+				}
 			}
 			else
 			{
 				return false;
 			}
 		}
-		
+
 		return isAttributeRead;
 	}
 
@@ -344,7 +344,7 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 		this.role = valueOf;
 		firePropertyChange(LayoutConstants.role, oldRole, this.role);
 	}
-	
+
 	/**
 	 * 
 	 * @param speciesGlyph
@@ -354,7 +354,7 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 		this.speciesGlyph = speciesGlyph;
 		firePropertyChange(LayoutConstants.speciesGlyph, oldValue, this.speciesGlyph);
 	}
-	
+
 	/**
 	 * 
 	 * @param speciesReference
@@ -362,7 +362,7 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	public void setSpeciesReference(SimpleSpeciesReference speciesReference) {
 		setSpeciesReference(speciesReference.getId());
 	}
-	
+
 	/**
 	 * 
 	 * @param speciesReference
@@ -376,15 +376,15 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	 * @return
 	 */
 	public boolean unsetCurve() {
-	  if (isSetCurve()) {
-	    Curve oldCurve = getCurve();
-	    this.curve = null;
-	    oldCurve.fireNodeRemovedEvent();
-	    return true;
-	  }
-    return false;
-  }
-	
+		if (isSetCurve()) {
+			Curve oldCurve = getCurve();
+			this.curve = null;
+			oldCurve.fireNodeRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * 
 	 */
@@ -398,7 +398,7 @@ public class SpeciesReferenceGlyph extends NamedSBaseGlyph {
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
-		
+
 		if (isSetSpeciesGlyph()) {
 			attributes.put(LayoutConstants.shortLabel + ':'
 					+ LayoutConstants.speciesGlyph, speciesGlyph);

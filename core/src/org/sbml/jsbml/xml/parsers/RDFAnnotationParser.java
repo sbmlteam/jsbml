@@ -98,14 +98,14 @@ public class RDFAnnotationParser implements ReadingParser {
 
 		// A RDFAnnotationParser can modify a contextObject which is an Annotation instance.
 		// The annotation element can contain other attributes. Try to read them.
-		if (contextObject instanceof Annotation){
+		if (contextObject instanceof Annotation) {
 			Annotation modelAnnotation = (Annotation) contextObject;
 			isReadAttribute = modelAnnotation.readAttribute(attributeName, prefix, value);
 		}
 		// A RDFAnnotationParser can modify a contextObject which is an ModelHistory instance.
 		// When this parser is parsing the model history, some rdf attributes can appear. Try to
 		// read them.
-		else if (contextObject instanceof History){
+		else if (contextObject instanceof History) {
 			History modelHistory = (History) contextObject;
 			isReadAttribute = modelHistory.readAttribute(elementName, attributeName, prefix, value);
 		}
@@ -114,8 +114,8 @@ public class RDFAnnotationParser implements ReadingParser {
 		// 'li' subelement of the 'Bag' subelement of the 'creator' node.
 		// When this parser is parsing the model history, some rdf attributes can appear. Try to
 		// read them.
-		else if (contextObject instanceof Creator && previousElements.containsKey("creator")){
-			if (previousElements.get("creator").equals("li")){
+		else if (contextObject instanceof Creator && previousElements.containsKey("creator")) {
+			if (previousElements.get("creator").equals("li")) {
 				Creator modelCreator = (Creator) contextObject;
 				isReadAttribute = modelCreator.readAttribute(elementName, attributeName, prefix, value);
 			}
@@ -125,14 +125,14 @@ public class RDFAnnotationParser implements ReadingParser {
 		// 'li' subelement of the 'Bag' subelement of the 'Miriam-Qualifier' node.
 		// When this parser is parsing the rdf annotation, some rdf attributes can appear. Try to
 		// read them.
-		else if (contextObject instanceof CVTerm && previousElements.containsKey("CVTerm")){
-			if (previousElements.get("CVTerm").equals("li")){
+		else if (contextObject instanceof CVTerm && previousElements.containsKey("CVTerm")) {
+			if (previousElements.get("CVTerm").equals("li")) {
 				CVTerm cvterm = (CVTerm) contextObject;
 				isReadAttribute = cvterm.readAttribute(elementName, attributeName, prefix, value);
 			}
 		}
 		
-		if (!isReadAttribute){
+		if (!isReadAttribute) {
 			logger.warn("RDFAnnotationParser : processAttribute : found an unknown attribute '" + 
 					attributeName + "', the attribute is ignored (elementName = " + elementName + ").");
 		}
@@ -180,39 +180,39 @@ public class RDFAnnotationParser implements ReadingParser {
 	 */
 	public void processEndDocument(SBMLDocument sbmlDocument) {
 		
-		if (!sbmlDocument.hasValidAnnotation()){
+		if (!sbmlDocument.hasValidAnnotation()) {
 			logger.warn("The SBMLDocument element has an invalid rdf:about inside his annotation.");
 			setRDFAbout(sbmlDocument);
 		}
 
 		Model model = sbmlDocument.getModel();
 
-		if (!model.hasValidAnnotation()){
+		if (!model.hasValidAnnotation()) {
 			logger.warn(MessageFormat.format("The model element with metaid = \"{0}\" has an invalid rdf:about = \"{1}\" inside his annotation.", model.getMetaId(), model.getAnnotation().getAbout()));	
 			setRDFAbout(model);
 		}
 
-		if (model.isSetListOfFunctionDefinitions()){
-			for (FunctionDefinition functionDefinition : model.getListOfFunctionDefinitions()){
-				if (!functionDefinition.hasValidAnnotation()){
+		if (model.isSetListOfFunctionDefinitions()) {
+			for (FunctionDefinition functionDefinition : model.getListOfFunctionDefinitions()) {
+				if (!functionDefinition.hasValidAnnotation()) {
 					logger.warn("The functionDefinition element '" + functionDefinition.getMetaId() + "' has an invalid rdf:about inside his annotation.");
 					setRDFAbout(functionDefinition);
 				}
 			}
 		}
 		
-		if (model.isSetListOfCompartments()){
-			for (Compartment compartment : model.getListOfCompartments()){
-				if (!compartment.hasValidAnnotation()){
+		if (model.isSetListOfCompartments()) {
+			for (Compartment compartment : model.getListOfCompartments()) {
+				if (!compartment.hasValidAnnotation()) {
 					logger.warn("The compartment '" + compartment.getId() + "' has an invalid rdf:about inside his annotation.");
 					setRDFAbout(compartment);
 				}
 			}
 		}
 		
-		if (model.isSetListOfCompartmentTypes()){
-			for (CompartmentType compartmentType : model.getListOfCompartmentTypes()){
-				if (!compartmentType.hasValidAnnotation()){
+		if (model.isSetListOfCompartmentTypes()) {
+			for (CompartmentType compartmentType : model.getListOfCompartmentTypes()) {
+				if (!compartmentType.hasValidAnnotation()) {
 					logger.warn("The compartmentType '" + compartmentType.getId() + "' has an invalid rdf:about inside his annotation.");
 					setRDFAbout(compartmentType);
 				}
@@ -222,37 +222,37 @@ public class RDFAnnotationParser implements ReadingParser {
 		logger.debug("compartments checked");
 		
 		
-		if (model.isSetListOfConstraints()){
-			for (Constraint constraint : model.getListOfConstraints()){
-				if (!constraint.hasValidAnnotation()){
+		if (model.isSetListOfConstraints()) {
+			for (Constraint constraint : model.getListOfConstraints()) {
+				if (!constraint.hasValidAnnotation()) {
 					logger.warn("The constraint element '" + constraint.getMetaId() + "' has an invalid rdf:about inside his annotation.");
 					setRDFAbout(constraint);
 				}
 			}
 		}
 		
-		if (model.isSetListOfEvents()){
-			for (Event event : model.getListOfEvents()){
-				if (!event.hasValidAnnotation()){
+		if (model.isSetListOfEvents()) {
+			for (Event event : model.getListOfEvents()) {
+				if (!event.hasValidAnnotation()) {
 					logger.warn("The event element '" + event.getMetaId() + "' has an invalid rdf:about inside his annotation.");
 					setRDFAbout(event);
 				}
-				if (event.isSetDelay()){
-					if (! event.getDelay().hasValidAnnotation()){
+				if (event.isSetDelay()) {
+					if (! event.getDelay().hasValidAnnotation()) {
 						logger.warn("The delay element '" + event.getDelay().getMetaId() + "' has an invalid rdf:about inside his annotation.");
 						setRDFAbout(event.getDelay());
 					}
 				}
-				if (event.isSetListOfEventAssignments()){
-					for (EventAssignment eventAssignment : event.getListOfEventAssignments()){
-						if (!eventAssignment.hasValidAnnotation()){
+				if (event.isSetListOfEventAssignments()) {
+					for (EventAssignment eventAssignment : event.getListOfEventAssignments()) {
+						if (!eventAssignment.hasValidAnnotation()) {
 							logger.warn("The eventAssignment element '" + eventAssignment.getMetaId() + "' has an invalid rdf:about inside his annotation.");
 							setRDFAbout(eventAssignment);
 						}
 					}
 				}
-				if (event.isSetTrigger()){
-					if (! event.getTrigger().hasValidAnnotation()){
+				if (event.isSetTrigger()) {
+					if (! event.getTrigger().hasValidAnnotation()) {
 						logger.warn("The trigger element '" + event.getTrigger().getMetaId() + "' has an invalid rdf:about inside his annotation.");
 						setRDFAbout(event.getTrigger());
 					}
@@ -262,18 +262,18 @@ public class RDFAnnotationParser implements ReadingParser {
 		
 		logger.debug("events checked");
 		
-		if (model.isSetListOfInitialAssignments()){
-			for (InitialAssignment initAssgnt : model.getListOfInitialAssignments()){
-				if (!initAssgnt.hasValidAnnotation()){
+		if (model.isSetListOfInitialAssignments()) {
+			for (InitialAssignment initAssgnt : model.getListOfInitialAssignments()) {
+				if (!initAssgnt.hasValidAnnotation()) {
 					logger.warn("The initialAssignment element '" + initAssgnt.getMetaId() + "' has an invalid rdf:about inside his annotation.");
 					setRDFAbout(initAssgnt);
 				}
 			}
 		}
 		
-		if (model.isSetListOfParameters()){
-			for (Parameter parameter : model.getListOfParameters()){
-				if (!parameter.hasValidAnnotation()){
+		if (model.isSetListOfParameters()) {
+			for (Parameter parameter : model.getListOfParameters()) {
+				if (!parameter.hasValidAnnotation()) {
 					logger.warn("The parameter element '" + parameter.getId() + "' has an invalid rdf:about inside his annotation.");
 					setRDFAbout(parameter);
 				}
@@ -282,25 +282,25 @@ public class RDFAnnotationParser implements ReadingParser {
 		
 		logger.debug("parameters checked");
 		
-		if (model.isSetListOfReactions()){
-			for (Reaction reaction : model.getListOfReactions()){
+		if (model.isSetListOfReactions()) {
+			for (Reaction reaction : model.getListOfReactions()) {
 
-				if (!reaction.hasValidAnnotation()){
+				if (!reaction.hasValidAnnotation()) {
 					logger.warn("The reaction element '" + reaction.getId() + "' has an invalid rdf:about inside his annotation.");
 					setRDFAbout(reaction);
 				}
 
-				if (reaction.isSetKineticLaw()){
+				if (reaction.isSetKineticLaw()) {
 					KineticLaw kineticLaw = reaction.getKineticLaw();
 
-					if (!kineticLaw.hasValidAnnotation()){
+					if (!kineticLaw.hasValidAnnotation()) {
 						logger.warn("The kineticLaw element '" + kineticLaw.getMetaId() + "' has an invalid rdf:about inside his annotation.");
 						setRDFAbout(kineticLaw);
 					}
 
-					if (kineticLaw.isSetListOfLocalParameters()){
-						for (LocalParameter parameter : kineticLaw.getListOfLocalParameters()){
-							if (!parameter.hasValidAnnotation()){
+					if (kineticLaw.isSetListOfLocalParameters()) {
+						for (LocalParameter parameter : kineticLaw.getListOfLocalParameters()) {
+							if (!parameter.hasValidAnnotation()) {
 								logger.warn("The local parameter element '" + parameter.getId() + "' has an invalid rdf:about inside his annotation.");
 								setRDFAbout(parameter);
 							}
@@ -308,25 +308,25 @@ public class RDFAnnotationParser implements ReadingParser {
 					}					
 				}
 
-				if (reaction.isSetListOfReactants()){
-					for (SpeciesReference reactant : reaction.getListOfReactants()){
-						if (!reactant.hasValidAnnotation()){
+				if (reaction.isSetListOfReactants()) {
+					for (SpeciesReference reactant : reaction.getListOfReactants()) {
+						if (!reactant.hasValidAnnotation()) {
 							logger.warn("The reactant element '" + reactant.getMetaId() + "' has an invalid rdf:about inside his annotation.");
 							setRDFAbout(reactant);
 						}
 					}
 				}
-				if (reaction.isSetListOfProducts()){
-					for (SpeciesReference product : reaction.getListOfProducts()){
-						if (!product.hasValidAnnotation()){
+				if (reaction.isSetListOfProducts()) {
+					for (SpeciesReference product : reaction.getListOfProducts()) {
+						if (!product.hasValidAnnotation()) {
 							logger.warn("The product element '" + product.getMetaId() + "' has an invalid rdf:about inside his annotation.");
 							setRDFAbout(product);
 						}
 					}
 				}
-				if (reaction.isSetListOfModifiers()){
-					for (ModifierSpeciesReference modifier : reaction.getListOfModifiers()){
-						if (!modifier.hasValidAnnotation()){
+				if (reaction.isSetListOfModifiers()) {
+					for (ModifierSpeciesReference modifier : reaction.getListOfModifiers()) {
+						if (!modifier.hasValidAnnotation()) {
 							logger.warn("The modifier element '" + modifier.getMetaId() + "' has an invalid rdf:about inside his annotation.");
 							setRDFAbout(modifier);
 						}
@@ -337,25 +337,25 @@ public class RDFAnnotationParser implements ReadingParser {
 
 		logger.debug("reactions checked");
 		
-		if (model.isSetListOfRules()){
-			for (Rule rule : model.getListOfRules()){
-				if (!rule.hasValidAnnotation()){
+		if (model.isSetListOfRules()) {
+			for (Rule rule : model.getListOfRules()) {
+				if (!rule.hasValidAnnotation()) {
 					logger.warn("The rule element '" + rule.getMetaId() + "' has an invalid rdf:about inside his annotation.");
 					setRDFAbout(rule);
 				}
 			}
 		}
-		if (model.isSetListOfSpecies()){
-			for (Species species : model.getListOfSpecies()){
-				if (!species.hasValidAnnotation()){
+		if (model.isSetListOfSpecies()) {
+			for (Species species : model.getListOfSpecies()) {
+				if (!species.hasValidAnnotation()) {
 					logger.warn("The species element '" + species.getId() + "' has an invalid rdf:about inside his annotation.");
 					setRDFAbout(species);
 				}
 			}
 		}
-		if (model.isSetListOfSpeciesTypes()){
-			for (Species speciesType : model.getListOfSpecies()){
-				if (!speciesType.hasValidAnnotation()){
+		if (model.isSetListOfSpeciesTypes()) {
+			for (Species speciesType : model.getListOfSpecies()) {
+				if (!speciesType.hasValidAnnotation()) {
 					logger.warn("The speciesType element '" + speciesType.getId() + "' has an invalid rdf:about inside his annotation.");
 					setRDFAbout(speciesType);
 				}
@@ -364,16 +364,16 @@ public class RDFAnnotationParser implements ReadingParser {
 		
 		logger.debug("species checked");
 
-		if (model.isSetListOfUnitDefinitions()){
-			for (UnitDefinition unitDefinition : model.getListOfUnitDefinitions()){			
+		if (model.isSetListOfUnitDefinitions()) {
+			for (UnitDefinition unitDefinition : model.getListOfUnitDefinitions()) {			
 
-				if (!unitDefinition.hasValidAnnotation()){
+				if (!unitDefinition.hasValidAnnotation()) {
 					logger.warn("The unitDefinition element '" + unitDefinition.getId() + "' has an invalid rdf:about inside his annotation.");
 					setRDFAbout(unitDefinition);
 				}
-				if (unitDefinition.isSetListOfUnits()){
-					for (Unit unit : unitDefinition.getListOfUnits()){
-						if (!unit.hasValidAnnotation()){
+				if (unitDefinition.isSetListOfUnits()) {
+					for (Unit unit : unitDefinition.getListOfUnits()) {
+						if (!unit.hasValidAnnotation()) {
 							logger.warn("The unit element '" + unit.getMetaId() + "' has an invalid rdf:about inside his annotation.");
 							setRDFAbout(unit);
 						}
@@ -394,33 +394,33 @@ public class RDFAnnotationParser implements ReadingParser {
 		
 		// If the contextObject is a ModelCreator, the current element should be included into a 'creator'
 		// element.
-		if (contextObject instanceof Creator){
+		if (contextObject instanceof Creator) {
 			// If it is a ending Bag element, there is no other creators to parse in the 'creator' node, we can reinitialise the
 			// previousElements HashMap of this parser and remove the Entry which has 'creator' as key.
-			if (elementName.equals("Bag")){
+			if (elementName.equals("Bag")) {
 				previousElements.remove("creator");
 			}
 			// If it is a ending li element, we can reinitialise the
 			// previousElements HashMap of this parser and set the value of the 'creator' key to 'Bag'.
-			else if (elementName.equals("li")){
+			else if (elementName.equals("li")) {
 				previousElements.put("creator", "Bag");
 			}
 		}
-		else if (contextObject instanceof CVTerm){
+		else if (contextObject instanceof CVTerm) {
 			// If it is a ending Bag element, there is no other resource URI to parse for this CVTerm, we can reinitialise the
 			// previousElements HashMap of this parser and remove the Entry which has 'CVTerm' as key.
-			if (elementName.equals("Bag")){
+			if (elementName.equals("Bag")) {
 				previousElements.remove("CVTerm");
 			}
 			// If it is a ending li element, we can reinitialise the
 			// previousElements HashMap of this parser and set the value of the 'CVTerm' key to 'Bag'.
-			else if (elementName.equals("li")){
+			else if (elementName.equals("li")) {
 				previousElements.put("CVTerm", "Bag");
 			}
 		}
 		
 		// If it is the end of a RDF element, we can clear the previousElements HashMap of this parser.
-		if (elementName.equals("RDF")){
+		if (elementName.equals("RDF")) {
 			this.previousElements.clear();
 		}
 		
@@ -455,15 +455,15 @@ public class RDFAnnotationParser implements ReadingParser {
 			Object contextObject) 
 	{
 		// A RDFAnnotationParser can modify a ContextObject which is an Annotation instance.
-		if (contextObject instanceof Annotation){
+		if (contextObject instanceof Annotation) {
 			
 			// If the node is a RDF node, adds ("RDF", null) to the previousElements of this parser.
-			if (elementName.equals("RDF")){
+			if (elementName.equals("RDF")) {
 				this.previousElements.put(elementName, null);
 			}
 			// The Description element should be the first child node of a RDF element.
 			// If the SBML specifications are respected, sets the value of the 'RDF' key to 'Description'.
-			else if(elementName.equals("Description") && previousElements.containsKey("RDF"))
+			else if (elementName.equals("Description") && previousElements.containsKey("RDF"))
 			{
 				this.previousElements.put("RDF", "Description");
 			} 
@@ -475,18 +475,18 @@ public class RDFAnnotationParser implements ReadingParser {
 		}
 		// If the contextObject is not an Annotation instance, we should be into the Description subNode of the RDF element.
 		else if (this.previousElements.containsKey("RDF")) {
-			if (this.previousElements.get("RDF") != null){
+			if (this.previousElements.get("RDF") != null) {
 				// The Description subNode of RDF has been read.
-				if (this.previousElements.get("RDF").equals("Description")){
+				if (this.previousElements.get("RDF").equals("Description")) {
 					// A RDFAnnotation can modify a contextObject which is a CVTerm instance.
-					if (contextObject instanceof CVTerm){
+					if (contextObject instanceof CVTerm) {
 						// The first element of the 'miriam-qualifier' node (the CVTerm) should be a Bag element.
-						if (elementName.equals("Bag")){
+						if (elementName.equals("Bag")) {
 							this.previousElements.put("CVTerm", "Bag");
 						}
 						// If a 'Bag' subNode has been read and if the current element is a 'li' subNode
-						else if (elementName.equals("li") && previousElements.containsKey("CVTerm")){
-							if (this.previousElements.get("CVTerm").equals("Bag")){
+						else if (elementName.equals("li") && previousElements.containsKey("CVTerm")) {
+							if (this.previousElements.get("CVTerm").equals("Bag")) {
 								this.previousElements.put("CVTerm", "li");
 							}
 							else {
@@ -498,17 +498,17 @@ public class RDFAnnotationParser implements ReadingParser {
 						}
 					}
 					// A RDFAnnotation can modify a contextObject which is a ModelHistory instance.
-					else if (contextObject instanceof History){
+					else if (contextObject instanceof History) {
 						History modelHistory = (History) contextObject;
 						// we should be into a 'creator' node and the first element should be a Bag element.
-						if (elementName.equals("Bag")){
+						if (elementName.equals("Bag")) {
 							this.previousElements.put("creator", "Bag");
 						}
 						// After the 'Bag' node of the 'creator' element, it should be a 'li' node.
 						// If the SBML specifications are respected, a new ModelCreator will be created
 						// and added to the listOfCreators of modelHistory. In this case, it will return the new ModelCreator instance.
-						else if (elementName.equals("li") && previousElements.containsKey("creator")){
-							if (previousElements.get("creator").equals("Bag")){
+						else if (elementName.equals("li") && previousElements.containsKey("creator")) {
+							if (previousElements.get("creator").equals("Bag")) {
 								this.previousElements.put("creator", "li");
 								Creator modelCreator = new Creator();
 								modelHistory.addCreator(modelCreator);	

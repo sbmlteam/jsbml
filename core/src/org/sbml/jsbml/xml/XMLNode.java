@@ -558,7 +558,7 @@ public class XMLNode extends XMLToken {
 
 		List<XMLNode> removedChildren = childrenElements;
 		childrenElements.clear();
-		for(XMLNode child : removedChildren){
+		for(XMLNode child : removedChildren) {
 			child.fireNodeRemovedEvent();
 		}
 		

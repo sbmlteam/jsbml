@@ -78,7 +78,7 @@ public class StateFeatureValue extends AbstractSBase {
 
 		if (!isAttributeRead) {
 
-			if (attributeName.equals(MultiConstant.possibleValue)){
+			if (attributeName.equals(MultiConstant.possibleValue)) {
 				setPossibleValue(value);
 				isAttributeRead = true;
 			} 

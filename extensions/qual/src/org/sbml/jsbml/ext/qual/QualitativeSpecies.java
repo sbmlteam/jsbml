@@ -83,7 +83,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
    * @param level
    * @param version
    */
-  public QualitativeSpecies(int level, int version){
+  public QualitativeSpecies(int level, int version) {
     this(null, null, level, version);
   }
 
@@ -178,7 +178,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
    * 
    * @return true
    */
-  public boolean isCompartmentMandatory(){
+  public boolean isCompartmentMandatory() {
     return true;
   }
   

@@ -77,7 +77,7 @@ public class ContainedSpeciesType extends AbstractSBase {
 
 		if (!isAttributeRead) {
 
-			if (attributeName.equals(MultiConstant.speciesTypeState)){
+			if (attributeName.equals(MultiConstant.speciesTypeState)) {
 				setSpeciesTypeState(value);
 				isAttributeRead = true;
 			} 

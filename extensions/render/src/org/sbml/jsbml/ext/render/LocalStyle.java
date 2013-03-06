@@ -47,7 +47,7 @@ public class LocalStyle extends Style {
    *
    * @param group
    */
-	public LocalStyle(Group group){
+	public LocalStyle(Group group) {
 	  super(group);
 	}
 
@@ -69,7 +69,7 @@ public class LocalStyle extends Style {
    * @param version
    * @param group
    */
-	public LocalStyle(String id, int level, int version, Group group){
+	public LocalStyle(String id, int level, int version, Group group) {
 	  super(id, level, version, group);
 	}
 	

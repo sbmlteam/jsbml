@@ -490,7 +490,7 @@ public class LibSBMLUtils {
 				if (nothingSet)
 					contains = false;
 			}
-			if (!contains){
+			if (!contains) {
 				mo.getListCreators().remove(i);
 			}
 		}
@@ -506,19 +506,19 @@ public class LibSBMLUtils {
 	 */
 	public static ModelCreator convertToModelCreator(Creator c) {
 		org.sbml.libsbml.ModelCreator mc = new org.sbml.libsbml.ModelCreator();
-		if (c.isSetEmail()){
+		if (c.isSetEmail()) {
 			mc.setEmail(c.getEmail());
 		}
-		if (c.isSetFamilyName()){
+		if (c.isSetFamilyName()) {
 			mc.setFamilyName(c.getFamilyName());
 		}
-		if (c.isSetGivenName()){
+		if (c.isSetGivenName()) {
 			mc.setGivenName(c.getGivenName());
 		}
-		if (c.isSetOrganisation()){
+		if (c.isSetOrganisation()) {
 			mc.setOrganisation(c.getOrganisation());
 		}
-		if (c.isSetOrganization()){
+		if (c.isSetOrganization()) {
 			mc.setOrganization(c.getOrganization());
 		}
 		return mc;
@@ -532,9 +532,9 @@ public class LibSBMLUtils {
 	 */
 	public static int getContraintIndex(Constraint con, org.sbml.jsbml.SBMLDocument doc) {
 		int index = 0;
-		for (int k = 0; k < doc.getModel().getListOfConstraints().size(); k++){
+		for (int k = 0; k < doc.getModel().getListOfConstraints().size(); k++) {
 			Constraint c = doc.getModel().getConstraint(k);
-			if (c.equals(con)){
+			if (c.equals(con)) {
 				index = k;
 				break;
 			}
@@ -551,12 +551,12 @@ public class LibSBMLUtils {
 	@SuppressWarnings("deprecation")
 	public static org.sbml.libsbml.AlgebraicRule getCorrespondingAlgRule(
 			SBMLDocument libDoc, AlgebraicRule algRule) {
-		if (libDoc.getModel().getListOfRules() != null){
-			for (int i=0; i<libDoc.getModel().getListOfRules().size(); i++){
+		if (libDoc.getModel().getListOfRules() != null) {
+			for (int i=0; i<libDoc.getModel().getListOfRules().size(); i++) {
 				org.sbml.libsbml.Rule r = libDoc.getModel().getListOfRules().get(i);
-				if (r.isAlgebraic()){
+				if (r.isAlgebraic()) {
 					org.sbml.libsbml.AlgebraicRule ar = (org.sbml.libsbml.AlgebraicRule) r;
-					if (ar.getFormula().equals(algRule.getFormula())){
+					if (ar.getFormula().equals(algRule.getFormula())) {
 						return ar;
 					}
 				}
@@ -573,9 +573,9 @@ public class LibSBMLUtils {
 	 */
 	public static long getCreatorIndex(Creator creator, org.sbml.jsbml.SBMLDocument doc) {
 		int index = 0;
-		for (int k = 0; k < doc.getHistory().getCreatorCount(); k++){
+		for (int k = 0; k < doc.getHistory().getCreatorCount(); k++) {
 			Creator c = doc.getHistory().getCreator(k);
-			if (c.equals(creator)){
+			if (c.equals(creator)) {
 				index = k;
 				break;
 			}
@@ -591,9 +591,9 @@ public class LibSBMLUtils {
 	 */
 	public static int getUnitIndex(Unit unit, UnitDefinition udef) {
 		int index = 0;
-		for (int k = 0; k < udef.getListOfUnits().size();k++){
+		for (int k = 0; k < udef.getListOfUnits().size();k++) {
 			Unit u = udef.getUnit(k);
-			if (u.equals(unit)){
+			if (u.equals(unit)) {
 				index = k;
 				break;
 			}
@@ -728,28 +728,28 @@ public class LibSBMLUtils {
 	 * @param mathCont
 	 * @param libMathCont
 	 */
-	public static void transferMathContainerProperties(MathContainer mathCont, org.sbml.libsbml.SBase libMathCont){
+	public static void transferMathContainerProperties(MathContainer mathCont, org.sbml.libsbml.SBase libMathCont) {
 		LibSBMLUtils.transferSBaseProperties(mathCont, libMathCont);
-		if (mathCont.isSetMath()){
-			if (libMathCont instanceof org.sbml.libsbml.FunctionDefinition){
+		if (mathCont.isSetMath()) {
+			if (libMathCont instanceof org.sbml.libsbml.FunctionDefinition) {
 				((org.sbml.libsbml.FunctionDefinition) libMathCont).setMath(convertASTNode(mathCont.getMath()));
-			}else if (libMathCont instanceof org.sbml.libsbml.KineticLaw){
+			}else if (libMathCont instanceof org.sbml.libsbml.KineticLaw) {
 				((org.sbml.libsbml.KineticLaw) libMathCont).setMath(convertASTNode(mathCont.getMath()));
-			}else if (libMathCont instanceof org.sbml.libsbml.Rule){
+			}else if (libMathCont instanceof org.sbml.libsbml.Rule) {
 				((org.sbml.libsbml.Rule) libMathCont).setMath(convertASTNode(mathCont.getMath()));
-			}else if (libMathCont instanceof org.sbml.libsbml.StoichiometryMath){
+			}else if (libMathCont instanceof org.sbml.libsbml.StoichiometryMath) {
 				((org.sbml.libsbml.StoichiometryMath) libMathCont).setMath(convertASTNode(mathCont.getMath()));
-			}else if (libMathCont instanceof org.sbml.libsbml.Trigger){
+			}else if (libMathCont instanceof org.sbml.libsbml.Trigger) {
 				((org.sbml.libsbml.Trigger) libMathCont).setMath(convertASTNode(mathCont.getMath()));
-			}else if (libMathCont instanceof org.sbml.libsbml.EventAssignment){
+			}else if (libMathCont instanceof org.sbml.libsbml.EventAssignment) {
 				((org.sbml.libsbml.EventAssignment) libMathCont).setMath(convertASTNode(mathCont.getMath()));
-			}else if (libMathCont instanceof org.sbml.libsbml.InitialAssignment){
+			}else if (libMathCont instanceof org.sbml.libsbml.InitialAssignment) {
 				((org.sbml.libsbml.InitialAssignment) libMathCont).setMath(convertASTNode(mathCont.getMath()));
-			}else if (libMathCont instanceof org.sbml.libsbml.Constraint){
+			}else if (libMathCont instanceof org.sbml.libsbml.Constraint) {
 				((org.sbml.libsbml.Constraint) libMathCont).setMath(convertASTNode(mathCont.getMath()));
-			}else if (libMathCont instanceof org.sbml.libsbml.Delay){
+			}else if (libMathCont instanceof org.sbml.libsbml.Delay) {
 				((org.sbml.libsbml.Delay) libMathCont).setMath(convertASTNode(mathCont.getMath()));
-			}else if (libMathCont instanceof org.sbml.libsbml.Priority){
+			}else if (libMathCont instanceof org.sbml.libsbml.Priority) {
 				((org.sbml.libsbml.Priority) libMathCont).setMath(convertASTNode(mathCont.getMath()));
 			}
 		}
@@ -762,11 +762,11 @@ public class LibSBMLUtils {
 	 * @param sbase
 	 * @param libSBase
 	 */
-	public static void transferNamedSBaseProperties(SBase sbase, org.sbml.libsbml.SBase libSBase){
-		if (((org.sbml.jsbml.NamedSBase) sbase).isSetName()){
+	public static void transferNamedSBaseProperties(SBase sbase, org.sbml.libsbml.SBase libSBase) {
+		if (((org.sbml.jsbml.NamedSBase) sbase).isSetName()) {
 			libSBase.setName(((org.sbml.jsbml.NamedSBase) sbase).getName());
 		}
-		if (((org.sbml.jsbml.NamedSBase) sbase).isSetId()){
+		if (((org.sbml.jsbml.NamedSBase) sbase).isSetId()) {
 			libSBase.setId(((org.sbml.jsbml.NamedSBase) sbase).getId());
 		}
 		LibSBMLUtils.transferSBaseProperties(sbase, libSBase);
@@ -789,7 +789,7 @@ public class LibSBMLUtils {
 		if (sbase.isSetNotes()) {
 			libSBase.setNotes(libSBase.getNotesString());
 		}
-		if (sbase.isSetAnnotation()){
+		if (sbase.isSetAnnotation()) {
 			libSBase.setAnnotation(sbase.getAnnotationString());
 		}
 	}
@@ -800,8 +800,8 @@ public class LibSBMLUtils {
 	 * @param sbase
 	 * @param libSBase
 	 */
-	public static void transferSimpleSpeciesReferenceProperties(SBase sbase, org.sbml.libsbml.SBase libSBase){
-		if (((SimpleSpeciesReference) sbase).isSetSpecies()){
+	public static void transferSimpleSpeciesReferenceProperties(SBase sbase, org.sbml.libsbml.SBase libSBase) {
+		if (((SimpleSpeciesReference) sbase).isSetSpecies()) {
 			((org.sbml.libsbml.SimpleSpeciesReference) libSBase).setSpecies(((SimpleSpeciesReference) sbase).getSpecies());
 		}
 		transferNamedSBaseProperties(sbase, libSBase);

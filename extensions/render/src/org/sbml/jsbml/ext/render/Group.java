@@ -556,7 +556,7 @@ public class Group extends GraphicalPrimitive2D {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
-    if(isSetId()){
+    if (isSetId()) {
       attributes.remove(RenderConstants.id);
       attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.id,
         getId());

@@ -241,7 +241,7 @@ public class LocalParameter extends QuantityWithUnit {
 	 */
 	@Deprecated
 	public void setExplicitlyConstant(boolean isExplicitlySetConstant) {
-		if(this.isExplicitlySetConstant != isExplicitlySetConstant){
+		if (this.isExplicitlySetConstant != isExplicitlySetConstant) {
 			Boolean oldValue = this.isExplicitlySetConstant;
 			this.isExplicitlySetConstant = Boolean.valueOf(isExplicitlySetConstant);
 			firePropertyChange(TreeNodeChangeEvent.isExplicitlySetConstant, 
