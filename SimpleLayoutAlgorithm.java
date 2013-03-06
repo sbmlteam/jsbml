@@ -126,7 +126,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 
 		Point posStart = startGlyph;
 		Point posEnd = endGlyph;
-		String error = "No coordinates given for the position of {0} bounding box ";
+		String error = "No coordinates given for the position of {0} bounding box.";
 		if (posStart != null) {
 			startX = posStart.getX();
 			startY = posStart.getY();
@@ -189,7 +189,10 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			} else if (endY < startY){
 				return RelativePosition.ABOVE;
 			} else { // then endX == startX && endY == startY
-				logger.warning("could not compute relative position for points " + startGlyph + " and " + endGlyph);
+				logger.warning(MessageFormat.format(
+					"Could not compute relative position from {0} to {1}.",
+					startGlyph,
+					endGlyph));
 				return RelativePosition.UNDEFINED;
 			}
 		}
@@ -402,8 +405,9 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		double rotationAngle_new = correctRotationAngle(rotationAngle);
 
 		// the legs of the triangle build by the reaction glyph and it's arms
-		double c = reacGlyph.getBoundingBox().getDimensions().getWidth()/2d;
-		double h = reacGlyph.getBoundingBox().getDimensions().getHeight()/2d;
+		BoundingBox bbox = reacGlyph.getBoundingBox();
+		double c = bbox.getDimensions().getWidth() / 2d;
+		double h = bbox.getDimensions().getHeight() / 2d;
 		double b = Math.abs(Math.cos(Math.toRadians(rotationAngle_new)) * c);
 		double a = Math.abs(Math.sin(Math.toRadians(rotationAngle_new)) * c);
 		double otherA = Math.abs(Math.sin(Math.toRadians(90 - rotationAngle_new))) * h;
@@ -411,7 +415,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 
 		//TODO: make it shorter
 
-		if (rotationAngle >= 0 && rotationAngle < 90) {
+		if ((rotationAngle >= 0) && (rotationAngle < 90)) {
 			// b is the width and a the height
 			dockingPointToSubstrate.setX(reactionCenterPosition.getX() - b);
 			dockingPointToSubstrate.setY(reactionCenterPosition.getY() - a);
@@ -429,7 +433,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			dockingPointOtherRight.setY(reactionCenterPosition.getY() - otherB);
 			dockingPointOtherRight.setZ(reactionCenterPosition.getZ());
 
-		} else if (rotationAngle >= 90 && rotationAngle <180) {
+		} else if ((rotationAngle >= 90) && (rotationAngle < 180)) {
 			// a is the width and b the height
 			dockingPointToSubstrate.setX(reactionCenterPosition.getX() + a);
 			dockingPointToSubstrate.setY(reactionCenterPosition.getY() - b);
@@ -447,7 +451,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			dockingPointOtherRight.setY(reactionCenterPosition.getY() - otherB);
 			dockingPointOtherRight.setZ(reactionCenterPosition.getZ());
 
-		} else if (rotationAngle >= 180 && rotationAngle <270) {
+		} else if ((rotationAngle >= 180) && (rotationAngle < 270)) {
 			// b is the width and a the height
 			dockingPointToSubstrate.setX(reactionCenterPosition.getX() + b);
 			dockingPointToSubstrate.setY(reactionCenterPosition.getY() + a);
@@ -482,7 +486,6 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			dockingPointOtherRight.setX(reactionCenterPosition.getX() - otherA);
 			dockingPointOtherRight.setY(reactionCenterPosition.getY() + otherB);
 			dockingPointOtherRight.setZ(reactionCenterPosition.getZ());
-
 		}
 
 		/*
@@ -1222,7 +1225,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		double height = dimension.getHeight();
 		if (glyph instanceof NamedSBaseGlyph) {
 			if (glyph instanceof ReactionGlyph) {
-				if (width < height || width != height*2d) {
+				if ((width < height) || (width != height * 2d)) {
 					// Compute the minimum because the bounding box of the reaction glyph is always wider than higher
 					double max = Math.max(width, height);
 					dimension.setWidth(max);

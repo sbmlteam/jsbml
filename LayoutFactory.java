@@ -17,6 +17,7 @@
 
 package de.zbit.sbml.layout;
 
+
 /**
  * Interface that defines methods to create and return the different types of
  * nodes and arcs.
@@ -96,6 +97,12 @@ public interface LayoutFactory<NodeT,ArcT> {
 	 * @return a {@link Consumption}
 	 */
 	public Consumption<ArcT> createConsumption();
+	
+	/**
+	 * 
+	 * @return a {@link Consumption}
+	 */
+	public ReversibleConsumption<ArcT> createReversibleConsumption();
 
 	/**
 	 * @return a {@link Inhibition}
