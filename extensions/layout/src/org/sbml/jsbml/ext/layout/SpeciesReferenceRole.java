@@ -65,24 +65,24 @@ public enum SpeciesReferenceRole {
 	 * 
 	 * @return
 	 */
-	public int getCorrespondingSBOTerm() {
+	public int toSBOterm() {
 		switch (this) {
 		case ACTIVATOR:
-			return 459; // stimulator
+			return 459; // 459 = stimulator
 		case INHIBITOR:
-			return 20; // inhibitor
+			return SBO.getInhibitor(); // 20 = inhibitor
 		case MODIFIER:
-			return 19; // modifier
+			return SBO.getModifier(); // 19 = modifier
 		case PRODUCT:
-			return 11; // product
+			return SBO.getProduct(); // 11 = product
 		case SIDEPRODUCT:
 			return -1; // ??
 		case SIDESUBSTRATE:
 			return -1; // ??
 		case SUBSTRATE:
-			return 10; // reactant
+			return SBO.getReactant(); // 10 = reactant
 		case UNDEFINED:
-			return 3; // participant role
+			return SBO.getParticipantRole(); // 3 = participant role
 		default:
 			return -1; // invalid
 		}
@@ -95,19 +95,19 @@ public enum SpeciesReferenceRole {
 	 *         identifier.
 	 */
 	public static SpeciesReferenceRole valueOf(int sboTerm) {
-		if (SBO.isChildOf(sboTerm, ACTIVATOR.getCorrespondingSBOTerm())) {
+		if (SBO.isChildOf(sboTerm, ACTIVATOR.toSBOterm())) {
 			return ACTIVATOR;
-		} else if (SBO.isChildOf(sboTerm, INHIBITOR.getCorrespondingSBOTerm())) {
+		} else if (SBO.isChildOf(sboTerm, INHIBITOR.toSBOterm())) {
 			return INHIBITOR;
-		} else if (SBO.isChildOf(sboTerm, MODIFIER.getCorrespondingSBOTerm())) {
+		} else if (SBO.isChildOf(sboTerm, MODIFIER.toSBOterm())) {
 			return MODIFIER;
-		} else if (SBO.isChildOf(sboTerm, PRODUCT.getCorrespondingSBOTerm())) {
-			return PRODUCT;
-		} else if (SBO.isChildOf(sboTerm, SIDEPRODUCT.getCorrespondingSBOTerm())) {
+		} else if (SBO.isChildOf(sboTerm, SIDEPRODUCT.toSBOterm())) {
 			return SIDEPRODUCT;
-		} else if (SBO.isChildOf(sboTerm, SIDESUBSTRATE.getCorrespondingSBOTerm())) {
+		} else if (SBO.isChildOf(sboTerm, PRODUCT.toSBOterm())) {
+			return PRODUCT;
+		} else if (SBO.isChildOf(sboTerm, SIDESUBSTRATE.toSBOterm())) {
 			return SIDESUBSTRATE;
-		} else if (SBO.isChildOf(sboTerm, SUBSTRATE.getCorrespondingSBOTerm())) {
+		} else if (SBO.isChildOf(sboTerm, SUBSTRATE.toSBOterm())) {
 			return SUBSTRATE;
 		}
 		return UNDEFINED;
