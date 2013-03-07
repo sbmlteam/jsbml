@@ -56,10 +56,12 @@ import de.zbit.io.csv.CSVReader;
 /**
  * LayoutDirector produces a graphical representation of a layout of a SBML
  * document. It uses two components:
- * - LayoutAlgorithm: to determine dimensions and positions of unlayouted
- *   elements
- * - LayoutBuilder: to actually produce the graphical representation of the 
- *   layout
+ * <ul>
+ * <li>{@link LayoutAlgorithm}: to determine dimensions and positions of unlayouted
+ *   elements</li>
+ * <li>{@link LayoutBuilder}: to actually produce the graphical representation of the 
+ *   layout</li>
+ * </ul>
  * 
  * @param <P> Type of the product.
  * 

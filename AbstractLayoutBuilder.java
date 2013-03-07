@@ -50,7 +50,7 @@ public abstract class AbstractLayoutBuilder<P, NodeT, ArcT> implements LayoutBui
 	 * @param reactionGlyph
 	 * @return
 	 */
-	public SBGNArc<ArcT> identifyArcType(SpeciesReferenceGlyph srg,
+	public SBGNArc<ArcT> createArc(SpeciesReferenceGlyph srg,
 		ReactionGlyph reactionGlyph) {
 		logger.fine(MessageFormat.format("building arc from srgId={0} to rgId={1}", srg.getId(), reactionGlyph.getId()));
 		int sboTerm = -1;
@@ -163,7 +163,7 @@ public abstract class AbstractLayoutBuilder<P, NodeT, ArcT> implements LayoutBui
 			return createModulation();
 		} else if (SBO.isChildOf(sboTerm, SBO.getNecessaryStimulation()) || SBO.isChildOf(sboTerm, SBO.getTrigger())) {
 			return createNecessaryStimulation();
-		} else if (SBO.isChildOf(sboTerm, SBO.getStimulation()) || SBO.isChildOf(sboTerm, SBO.getStimulator())) {
+		} else if (SBO.isChildOf(sboTerm, SBO.getStimulation()) || SBO.isChildOf(sboTerm, SBO.getStimulator()) || SBO.isChildOf(sboTerm, SpeciesReferenceRole.ACTIVATOR.toSBOterm())) {
 			return createStimulation();
 		}
 		//default type of the connecting arc is a consumption, a line without special line ending
