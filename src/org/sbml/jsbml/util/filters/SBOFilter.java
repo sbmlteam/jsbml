@@ -37,54 +37,54 @@ public class SBOFilter implements Filter {
 	/**
 	 * The SBO term of interest.
 	 */
-	private int term;
+	private int terms[];
 
 	/**
-	 * Generates a new Filter for SBO terms but with an invalid SBO term as
-	 * filter criterion.
+	 * Generates a new {@link Filter} for SBO terms but with an invalid SBO term
+	 * as filter criterion.
 	 */
 	public SBOFilter() {
-		this(-1);
+		this(null);
 	}
 
 	/**
 	 * Creates an SBO term filter with the given term as filter criterion.
 	 * 
-	 * @param term
-	 *            The term of interest.
+	 * @param terms
+	 *            The terms of interest.
 	 */
-	public SBOFilter(int term) {
-		this.term = term;
+	public SBOFilter(int... terms) {
+		this.terms = terms;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.Filter#accepts(java.lang.Object)
 	 */
 	public boolean accepts(Object o) {
-		if (o instanceof SBase) {
+		if ((terms != null) && (terms.length > 0) && (o instanceof SBase)) {
 			SBase sbase = (SBase) o;
-			if (sbase.isSetSBOTerm() && (SBO.isChildOf(sbase.getSBOTerm(), term))) {
-				return true;
+			for (int i = 0; sbase.isSetSBOTerm() && (i < terms.length); i++) {
+				if (SBO.isChildOf(sbase.getSBOTerm(), terms[i])) {
+					return true;
+				}
 			}
 		}
 		return false;
 	}
 
 	/**
-	 * @return the term
+	 * @return the terms
 	 */
-	public int getTerm() {
-		return term;
+	public int[] getTerms() {
+		return terms;
 	}
 
 	/**
-	 * @param term
-	 *            the term to set
+	 * @param terms
+	 *            the terms to set
 	 */
-	public void setTerm(int term) {
-		this.term = term;
+	public void setTerms(int... terms) {
+		this.terms = terms;
 	}
 
 }
