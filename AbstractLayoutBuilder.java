@@ -29,7 +29,7 @@ import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
 
 /**
  * This abstract class combines the interfaces {@link LayoutBuilder} and
- * {@link LayoutFactory}. It implements the methods getSBGNNode and getSBGNArc
+ * {@link LayoutFactory}. It implements the methods {@link #getSBGNNode(int)} and {@link #getSBGNArc(int)}
  * to get the node/arc for a specific SBO term or a specific species reference
  * role.
  * 
@@ -43,6 +43,11 @@ public abstract class AbstractLayoutBuilder<P, NodeT, ArcT> implements LayoutBui
 	 * A {@link Logger} for this class.
 	 */
 	private static final transient Logger logger = Logger.getLogger(AbstractLayoutBuilder.class.getName());
+	
+	/**
+	 * Indicates whether graph generation has finished or not.
+	 */
+	protected boolean terminated = false;
 	
 	/**
 	 * 
@@ -180,7 +185,6 @@ public abstract class AbstractLayoutBuilder<P, NodeT, ArcT> implements LayoutBui
 		return getSBGNArc(referenceRole.toSBOterm());		
 	}
 	
-	
 	/**
 	 * helping method that creates the correct node depending on the sbo term of
 	 * the corresponding reaction
@@ -211,6 +215,13 @@ public abstract class AbstractLayoutBuilder<P, NodeT, ArcT> implements LayoutBui
 		
 		// default is the process node
 		return createProcessNode();
+	}
+
+	/* (non-Javadoc)
+	 * @see de.zbit.sbml.layout.LayoutBuilder#isProductReady()
+	 */
+	public boolean isProductReady() {
+		return terminated;
 	}
 	
 }

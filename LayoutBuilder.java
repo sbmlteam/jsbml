@@ -47,7 +47,7 @@ public interface LayoutBuilder<P> {
 	
 	/**
 	 * method for preparations that have to be done at the beginning of the
-	 * builder e.g. the commands at the beginning of a LaTeX document
+	 * builder, e.g., the commands at the beginning of a LaTeX document
 	 * 
 	 * @param layout
 	 */
@@ -118,7 +118,7 @@ public interface LayoutBuilder<P> {
 	/**
 	 * method to check if the builder has produced a complete product
 	 * 
-	 * @return true, if product is not empty, else false
+	 * @return {@code true}, if product is not empty, else {@code false}
 	 */
 	public boolean isProductReady();
 	

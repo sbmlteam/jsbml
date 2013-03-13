@@ -40,7 +40,7 @@ import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
 import org.sbml.jsbml.ext.layout.CurveSegment;
-import org.sbml.jsbml.ext.layout.ExtendedLayoutModel;
+import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.ext.layout.GraphicalObject;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
@@ -54,16 +54,17 @@ import org.sbml.jsbml.ext.layout.TextGlyph;
 import de.zbit.io.csv.CSVReader;
 
 /**
- * LayoutDirector produces a graphical representation of a layout of a SBML
- * document. It uses two components:
+ * {@link LayoutDirector} produces a graphical representation of a layout of an
+ * {@link SBMLDocument}. It uses two components:
  * <ul>
- * <li>{@link LayoutAlgorithm}: to determine dimensions and positions of unlayouted
- *   elements</li>
- * <li>{@link LayoutBuilder}: to actually produce the graphical representation of the 
- *   layout</li>
+ * <li>{@link LayoutAlgorithm}: to determine dimensions and positions of
+ * unlayouted elements</li>
+ * <li>{@link LayoutBuilder}: to actually produce the graphical representation
+ * of the layout</li>
  * </ul>
  * 
- * @param <P> Type of the product.
+ * @param <P>
+ *        Type of the product.
  * 
  * @author Mirjam Gutekunst
  * @version $Rev$
@@ -166,7 +167,7 @@ public class LayoutDirector<P> implements Runnable {
 	 */
 	public LayoutDirector(SBMLDocument doc, LayoutBuilder<P> builder,
 			LayoutAlgorithm algorithm, int index) {
-		this(((ExtendedLayoutModel) doc.getModel().getExtension(
+		this(((LayoutModelPlugin) doc.getModel().getExtension(
 			LayoutConstants.getNamespaceURI(doc.getLevel(), doc.getVersion())))
 				.getLayout(index), builder, algorithm);
 	}
@@ -181,7 +182,7 @@ public class LayoutDirector<P> implements Runnable {
 		this.model = layout.getModel();
 		this.builder = builder;
 		this.algorithm = algorithm;
-		ExtendedLayoutModel ext = (ExtendedLayoutModel) model.getExtension(LayoutConstants.getNamespaceURI(layout.getLevel(), layout.getVersion()));
+		LayoutModelPlugin ext = (LayoutModelPlugin) model.getExtension(LayoutConstants.getNamespaceURI(layout.getLevel(), layout.getVersion()));
 		if ((ext != null) && (ext.isSetListOfLayouts())) {
 			this.layoutIndex = ext.getListOfLayouts().indexOf(layout);
 		} else {
@@ -210,10 +211,10 @@ public class LayoutDirector<P> implements Runnable {
 				.getNamespaceURI(model.getLevel(), model.getVersion()));
 
 		if ((extension != null) &&
-				(layoutIndex >= ((ExtendedLayoutModel) extension).getLayoutCount())) {
+				(layoutIndex >= ((LayoutModelPlugin) extension).getLayoutCount())) {
 			throw new IndexOutOfBoundsException(MessageFormat.format(
 					"{0,number,integer} > {1,number,integer}", layoutIndex,
-					((ExtendedLayoutModel) extension).getLayoutCount()));
+					((LayoutModelPlugin) extension).getLayoutCount()));
 		}
 
 		this.layoutIndex = layoutIndex;
@@ -645,7 +646,7 @@ public class LayoutDirector<P> implements Runnable {
 		SBasePlugin extension = model.getExtension(LayoutConstants
 				.getNamespaceURI(model.getLevel(), model.getVersion()));
 		if (extension != null) {
-			ExtendedLayoutModel layoutModel = (ExtendedLayoutModel) extension;
+			LayoutModelPlugin layoutModel = (LayoutModelPlugin) extension;
 			if (layoutModel.getLayoutCount() > layoutIndex) {
 				if (mapOfFluxes != null) {
 					// If flux values are present, set the flux values as an

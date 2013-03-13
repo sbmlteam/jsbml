@@ -29,7 +29,7 @@ import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
-import org.sbml.jsbml.ext.layout.ExtendedLayoutModel;
+import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.ReactionGlyph;
@@ -65,7 +65,7 @@ public class GlyphCreator {
 	 */
 	public void create() {
 		Random rand = new Random();
-		ExtendedLayoutModel extLayout = new ExtendedLayoutModel(model);
+		LayoutModelPlugin extLayout = new LayoutModelPlugin(model);
 		model.addExtension(LayoutConstants.getNamespaceURI(model.getLevel(), model.getVersion()), extLayout);
 		Layout layout = extLayout.createLayout(nextId());
 		layout.setName("auto_layout");
