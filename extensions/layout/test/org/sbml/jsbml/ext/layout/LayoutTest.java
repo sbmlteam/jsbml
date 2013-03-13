@@ -33,8 +33,6 @@ import org.junit.Ignore;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
-import org.sbml.jsbml.ext.layout.ExtendedLayoutModel;
-import org.sbml.jsbml.ext.layout.Layout;
 
 /**
  * @author Andreas Dr&auml;ger
@@ -53,7 +51,7 @@ public class LayoutTest {
 	public static void main(String[] args) throws XMLStreamException, IOException {
 		SBMLDocument doc = SBMLReader.read(new File(args[0]));
 		Model model = doc.getModel();
-		ExtendedLayoutModel sbase = (ExtendedLayoutModel) model.getExtension("http://www.sbml.org/sbml/level3/version1/layout/version1");
+		LayoutModelPlugin sbase = (LayoutModelPlugin) model.getExtension("http://www.sbml.org/sbml/level3/version1/layout/version1");
 //		Layout layout = sbase.getListOfLayouts().get(0);
 //		layout.getDimensions();
 		try {

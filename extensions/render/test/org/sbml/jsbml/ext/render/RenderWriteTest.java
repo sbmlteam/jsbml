@@ -26,9 +26,9 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLWriter;
-import org.sbml.jsbml.ext.layout.ExtendedLayoutModel;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
+import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 
 
 /**
@@ -48,7 +48,7 @@ public class RenderWriteTest {
   public static void main(String[] args) throws SBMLException, XMLStreamException {
     SBMLDocument doc = new SBMLDocument(3, 1);
     Model m = doc.createModel("m1");
-    ExtendedLayoutModel elm = new ExtendedLayoutModel(m);
+    LayoutModelPlugin elm = new LayoutModelPlugin(m);
     m.addExtension(LayoutConstants.getNamespaceURI(m.getLevel(), m.getVersion()), elm);
     Layout l1 = elm.createLayout("l1");
     l1.createCompartmentGlyph("test");

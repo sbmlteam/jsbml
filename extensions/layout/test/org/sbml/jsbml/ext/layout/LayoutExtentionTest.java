@@ -44,7 +44,7 @@ public class LayoutExtentionTest {
   /**
    * 
    */
-	static final ExtendedLayoutModel layoutModel;
+	static final LayoutModelPlugin layoutModel;
 	
 	/**
 	 * 
@@ -63,7 +63,7 @@ public class LayoutExtentionTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		layoutModel = (ExtendedLayoutModel) doc.getModel().getExtension(
+		layoutModel = (LayoutModelPlugin) doc.getModel().getExtension(
 				LAYOUT_NS);
 	}
 

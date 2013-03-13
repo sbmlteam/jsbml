@@ -40,7 +40,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.ext.layout.ExtendedLayoutModel;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.xml.stax.SBMLReader;
@@ -112,7 +111,7 @@ public class TestL3Layout {
 		Model model = doc.getModel();
 		
 		System.out.println("Model extension objects : " + model.getExtension(LAYOUT_NAMESPACE));
-		ExtendedLayoutModel extendedModel = (ExtendedLayoutModel) model.getExtension(LAYOUT_NAMESPACE);
+		LayoutModelPlugin extendedModel = (LayoutModelPlugin) model.getExtension(LAYOUT_NAMESPACE);
 		
 		System.out.println("Nb Layouts = " + extendedModel.getListOfLayouts().size());
 		
