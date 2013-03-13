@@ -44,8 +44,8 @@ import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.layout.CurveSegment;
 import org.sbml.jsbml.ext.layout.Dimensions;
 import org.sbml.jsbml.ext.layout.End;
-import org.sbml.jsbml.ext.layout.ExtendedLayoutModel;
 import org.sbml.jsbml.ext.layout.Layout;
+import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.ext.layout.Point;
 import org.sbml.jsbml.ext.layout.ReactionGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
@@ -143,7 +143,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
       // plugin class for the SBMLDocument, so I am not totally sure how
       // this is done.
     } else if (sbase instanceof Model) {
-      ExtendedLayoutModel layoutModel = (ExtendedLayoutModel) ((Model) sbase)
+    	LayoutModelPlugin layoutModel = (LayoutModelPlugin) ((Model) sbase)
           .getExtension(namespaceURI);
 
       if (layoutModel != null && layoutModel.isSetListOfLayouts()) {
@@ -344,13 +344,13 @@ public class LayoutParser implements ReadingParser, WritingParser {
           Annotation annotation = (Annotation) contextObject;
 
           Model model = (Model) annotation.getParent();
-          ExtendedLayoutModel layoutModel = null;
+          LayoutModelPlugin layoutModel = null;
 
           if (model.getExtension(namespaceURI) != null) {
-            layoutModel = (ExtendedLayoutModel) model
+            layoutModel = (LayoutModelPlugin) model
                 .getExtension(namespaceURI);
           } else {
-            layoutModel = new ExtendedLayoutModel(model);
+            layoutModel = new LayoutModelPlugin(model);
             model.addExtension(namespaceURI, layoutModel);
           }
         }
@@ -365,7 +365,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
             listOfLayouts.addNamespace(namespaceURI);
             this.groupList = LayoutList.listOfLayouts;
             Model model = (Model) annotation.getParent();
-            ExtendedLayoutModel layoutModel = (ExtendedLayoutModel) model
+            LayoutModelPlugin layoutModel = (LayoutModelPlugin) model
                 .getExtension(namespaceURI);
             layoutModel.setListOfLayouts(listOfLayouts);
             return listOfLayouts;

@@ -60,10 +60,10 @@ import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.layout.CurveSegment;
 import org.sbml.jsbml.ext.layout.Dimensions;
 import org.sbml.jsbml.ext.layout.End;
-import org.sbml.jsbml.ext.layout.ExtendedLayoutModel;
 import org.sbml.jsbml.ext.layout.GraphicalObject;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
+import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.ext.layout.Position;
 import org.sbml.jsbml.ext.layout.ReactionGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
@@ -137,7 +137,7 @@ public class L3LayoutParser extends AbstractReaderWriter {
 			
 			if (elementName.equals(listOfLayouts)) {
 
-				ExtendedLayoutModel layoutModel = new ExtendedLayoutModel(model);
+				LayoutModelPlugin layoutModel = new LayoutModelPlugin(model);
 				model.addExtension(namespaceURI, layoutModel);
 
 				return layoutModel.getListOfLayouts();

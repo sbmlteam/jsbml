@@ -20,7 +20,7 @@ public class TestSpeciesReferenceGlyphCurve {
 		SBMLDocument d = new SBMLDocument(3,1);
 		Model model = d.createModel("testLayoutWriting");
 		
-		ExtendedLayoutModel lModel = new ExtendedLayoutModel(model);
+		LayoutModelPlugin lModel = new LayoutModelPlugin(model);
 		Layout layout = lModel.createLayout("layout");
 		
 		model.addExtension(LayoutConstants.namespaceURI, lModel);

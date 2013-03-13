@@ -27,6 +27,7 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 
+
 /**
  * 
  * @author Nicolas Rodriguez
@@ -34,15 +35,18 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  * @author Clemens Wrzodek
  * @since 1.0
  * @version $Rev$
+ * @deprecated use LayoutModelPlugin.
  */
+@Deprecated
 public class ExtendedLayoutModel extends AbstractSBasePlugin {
 
 	// TODO : need to be adapted to the new way of dealing with L3 packages
 
 	/**
-	 * Generated serial version identifier.
+	 * 
 	 */
-	private static final long serialVersionUID = -6666014348571697514L;
+	private static final long serialVersionUID = 4507170457817702658L;
+	
 	/**
 	 * 
 	 */
@@ -56,8 +60,11 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 	/**
 	 * 
 	 * @param elm
+	 * @deprecated use {@link LayoutModelPlugin}
 	 */
+	@Deprecated
 	public ExtendedLayoutModel(ExtendedLayoutModel elm) {
+		super();
 		// We don't clone the pointer to the containing model.
 		if (elm.listOfLayouts != null) {
 			this.listOfLayouts = elm.listOfLayouts.clone();
@@ -66,13 +73,16 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 
 	/**
 	 * 
+	 * @param model
+	 * @deprecated use {@link LayoutModelPlugin}
 	 */
+	@Deprecated
 	public ExtendedLayoutModel(Model model) {
 		super(model);
-
 		this.model = model;
 		createListOfLayout();
 	}
+
 
 	/**
 	 * 
@@ -90,14 +100,6 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 		if (layout != null) {
 			getListOfLayouts().add(layout);
 		}
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.Model#clone()
-	 */
-	@Override
-	public ExtendedLayoutModel clone() {
-		return new ExtendedLayoutModel(this);
 	}
 
 	/**
@@ -136,7 +138,7 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 	public boolean equals(Object object) {
 		boolean equals = super.equals(object);
 		if (equals) {
-			// ExtendedLayoutModel elm = (ExtendedLayoutModel) object;
+			// LayoutModelPlugin elm = (LayoutModelPlugin) object;
 			// An equals call on the model would cause a cyclic check!
 			// Actually, I'm not sure if we should compare the model
 			// here at all because this would be like checking a pointer
@@ -230,8 +232,7 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 	 * @return
 	 */
 	public boolean isSetListOfLayouts() {
-		return ((listOfLayouts == null) || listOfLayouts.isEmpty()) ? false
-				: true;
+		return (listOfLayouts != null) && !listOfLayouts.isEmpty();
 	}
 
 	/* (non-Javadoc)
@@ -264,8 +265,7 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 	 */
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
+		return getClass().getSimpleName() + " [listOfLayouts=" + listOfLayouts + "]";
 	}
 
 	/**
@@ -290,6 +290,14 @@ public class ExtendedLayoutModel extends AbstractSBasePlugin {
 	 */
 	public Map<String, String> writeXMLAttributes() {
 		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
+	 */
+	@Override
+	public ExtendedLayoutModel clone() {
+		return new ExtendedLayoutModel(this);
 	}
 
 }
