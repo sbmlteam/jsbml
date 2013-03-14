@@ -164,12 +164,12 @@ public abstract class AbstractLayoutBuilder<P, NodeT, ArcT> implements LayoutBui
 			return createCatalysis();
 		} else if (SBO.isChildOf(sboTerm, SBO.getInhibition()) || SBO.isChildOf(sboTerm, SBO.getInhibitor())) {
 			return createInhibition();
-		} else if (SBO.isChildOf(sboTerm, SBO.getModulation()) || SBO.isChildOf(sboTerm, SBO.getModifier())) {
-			return createModulation();
 		} else if (SBO.isChildOf(sboTerm, SBO.getNecessaryStimulation()) || SBO.isChildOf(sboTerm, SBO.getTrigger())) {
 			return createNecessaryStimulation();
 		} else if (SBO.isChildOf(sboTerm, SBO.getStimulation()) || SBO.isChildOf(sboTerm, SBO.getStimulator()) || SBO.isChildOf(sboTerm, SpeciesReferenceRole.ACTIVATOR.toSBOterm())) {
 			return createStimulation();
+		} else if (SBO.isChildOf(sboTerm, SBO.getModulation()) || SBO.isChildOf(sboTerm, SBO.getModifier())) {
+			return createModulation();
 		}
 		//default type of the connecting arc is a consumption, a line without special line ending
 		//if the SBO term does not match any of the above numbers
