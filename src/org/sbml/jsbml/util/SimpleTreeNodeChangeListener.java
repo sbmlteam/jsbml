@@ -21,6 +21,7 @@
 package org.sbml.jsbml.util;
 
 import java.beans.PropertyChangeEvent;
+import java.text.MessageFormat;
 
 import javax.swing.tree.TreeNode;
 
@@ -37,9 +38,9 @@ import org.apache.log4j.Logger;
  */
 public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
 
-  /**
-   * 
-   */
+	/**
+	 * A {@link Logger} for this class. 
+	 */
 	private Logger logger;
 
 	/**
@@ -47,8 +48,8 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
 	 * standard output.
 	 */
 	public SimpleTreeNodeChangeListener() {
-	  super();
-	  logger = Logger.getLogger(SimpleTreeNodeChangeListener.class);
+		super();
+		logger = Logger.getLogger(SimpleTreeNodeChangeListener.class);
 	}
 
 	/**
@@ -58,14 +59,14 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
 		return logger;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeAdded(javax.swing.tree.TreeNode)
 	 */
-	public void nodeAdded(TreeNode sb) {
-            if (logger.isDebugEnabled()) {
-		logger.debug(String.format("[ADD]\t%s", sb));		
-            }
+	//@Override
+	public void nodeAdded(TreeNode treeNode) {
+		if (logger.isDebugEnabled()) {
+			logger.debug(MessageFormat.format("[ADD]\t{0}", saveToString(treeNode)));
+		}
 	}
 
 	/* (non-Javadoc)
@@ -73,19 +74,43 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
 	 */
 	//@Override
 	public void nodeRemoved(TreeNodeRemovedEvent evt) {
-	  if (logger.isDebugEnabled()) {
-	    logger.debug(String.format("[DEL]\t%s", evt.getSource()));
-	  }
+		if (logger.isDebugEnabled()) {
+			String element = "null", prevParent = "null";
+			if (evt != null) {
+				element = saveToString(evt.getSource());
+				prevParent = saveToString(evt.getPreviousParent());
+			}
+			logger.debug(MessageFormat.format("[DEL]\t{0} from {1}", element, prevParent));
+		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
-	public void propertyChange(PropertyChangeEvent ev) {		
-            if (logger.isDebugEnabled()) {
-		logger.debug(String.format("[CHG]\t%s", ev));
-            }
+	//@Override
+	public void propertyChange(PropertyChangeEvent evt) {		
+		if (logger.isDebugEnabled()) {
+			logger.debug(MessageFormat.format("[CHG]\t{0}", saveToString(evt)));
+		}
+	}
+
+	/**
+	 * Tries to call the {@link #toString()} method on the given object. If the
+	 * argument is {@code null}, it returns "null". In case that the call of
+	 * {@link #toString()} fails, the simple class name of the object is returned.
+	 * 
+	 * @param object
+	 * @return some {@link String} representation of the given object.
+	 */
+	private String saveToString(Object object) {
+		if (object == null) {
+			return "null";
+		}
+		try {
+			return object.toString();
+		} catch (Throwable t) {
+			return object.getClass().getSimpleName();
+		}
 	}
 
 }
