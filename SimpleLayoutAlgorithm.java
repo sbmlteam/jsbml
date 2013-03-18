@@ -318,21 +318,20 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	}
 
 	/**
-	 * Compute the Coordinates of the central point of a {@link SpeciesReferenceGlyph}.
-	 * @param specRefRole
-	 * @param speciesRefGlyphList
-	 * @return the central point
+	 * Compute the coordinates of the central point of a {@link GraphicalObject}.
+	 * 
+	 * @param graphicalObject the {@link GraphicalObject} for which to calculate the center
+	 * @return the center {@link Point} of the graphical object
 	 */
-	protected Point calculateCenter(GraphicalObject glyph) {
-
+	protected Point calculateCenter(GraphicalObject graphicalObject) {
 		Point middle = new Point(layout.getLevel(), layout.getVersion());
 		double x = 0;
 		double y = 0;
 		double z = 0;
 
-		if (glyph.isSetBoundingBox() && glyph.getBoundingBox().isSetPosition()) {
-			Point position = glyph.getBoundingBox().getPosition();
-			Dimensions dimensions = glyph.getBoundingBox().getDimensions();
+		if (graphicalObject.isSetBoundingBox() && graphicalObject.getBoundingBox().isSetPosition()) {
+			Point position = graphicalObject.getBoundingBox().getPosition();
+			Dimensions dimensions = graphicalObject.getBoundingBox().getDimensions();
 			x = position.getX() + (dimensions.getWidth() / 2d);
 			y = position.getY() + (dimensions.getHeight() / 2d);
 			z = position.getZ() + (dimensions.getDepth() / 2d);
@@ -511,7 +510,12 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	}
 
 	/**
+	 * Normalize a given rotation angle, i.e. express the angle in the range from
+	 * 0° to 90° (excluding 90°).
 	 * 
+	 * @param rotationAngle
+	 *          in degrees
+	 * @return the normalized rotation angle in degrees
 	 */
 	protected double correctRotationAngle(double rotationAngle) {
 		double correctedAngle = rotationAngle % 90;
@@ -655,9 +659,11 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	}
 
 	/**
-	 * @param substrateCenter
-	 * @param productCenter
-	 * @return
+	 * Calculate the center of two {@link Point}s.
+	 * 
+	 * @param p1 the first {@link Point}
+	 * @param p2 the second {@link Point}
+	 * @return the center {@link Point} of the two points
 	 */
 	private Point calculateCenterOfPoints(Point p1, Point p2) {
 		Point p = new Point(level, version);
@@ -667,7 +673,10 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		return p;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * TODO describe calculation
+	 * 
+	 * (non-Javadoc)
 	 * @see de.zbit.sbml.layout.LayoutAlgorithm#createReactionGlyphPositon(ReactionGlyph reactionGlyph)
 	 */
 	protected Position createReactionGlyphPosition(ReactionGlyph reactionGlyph) {
@@ -787,6 +796,8 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 	}
 
 	/*
+	 * TODO describe calculation
+	 * 
 	 * (non-Javadoc)
 	 * @see de.zbit.sbml.layout.LayoutAlgorithm#calculateReactionGlyphRotationAngle(org.sbml.jsbml.ext.layout.ReactionGlyph)
 	 */
@@ -871,10 +882,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 
 
 	/**
-	 * method to calculate the rotation angle of the {@link Curve} of the given {@link SpeciesReferenceGlyph},
-	 * with Pythagoras' theorem, rotation angle alpha = arcossin(a / c),
-	 * supposes rectangular triangle between the start point and the end point of the {@link Curve},
-	 * in degrees
+	 * Calculate the rotation angle for a line determined by two {@link Point}s.
 	 * 
 	 * @param speciesReferenceGlyph for which the rotation angle shall be calculated
 	 * @return the rotation angle in degrees
@@ -1139,33 +1147,25 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 
 	/**
 	 * Creates a {@link BoundingBox} with the level and version of this layout.
-	 * @return BoundingBox
+	 * 
+	 * @return a {@link BoundingBox} with the level and version of the layout
 	 */
 	protected BoundingBox createBoundingBoxWithLevelAndVersion() {
-		BoundingBox boundingBox = new BoundingBox();
-		boundingBox.setLevel(layout.getLevel());
-		boundingBox.setVersion(layout.getVersion());
-		return boundingBox;
+		return new BoundingBox(layout.getLevel(), layout.getVersion());
 	}
 
 	/**
+	 * Find the {@link Layout} to which the given {@link GraphicalObject} belongs.
 	 * 
-	 * @param go
-	 * @return
+	 * @param graphicalObject {@link GraphicalObject} for which to find the layout
+	 * @return the layout which contains the {@link GraphicalObject}
 	 */
-	public Layout findLayout(GraphicalObject go) {
+	public Layout findLayout(GraphicalObject graphicalObject) {
 		SBase parent = null;
 		do {
-			parent = go.getParent();
+			parent = graphicalObject.getParent();
 		} while ((parent != null) && !(parent instanceof Layout));
 		return (Layout) parent;
-	}
-
-	/* (non-Javadoc)
-	 * @see de.zbit.sbml.layout.LayoutAlgorithm#getLayout()
-	 */
-	public Layout getLayout() {
-		return this.layout;
 	}
 
 	/**
@@ -1194,19 +1194,27 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		return specGlyph;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.zbit.sbml.layout.LayoutAlgorithm#getLayout()
+	 */
+	public Layout getLayout() {
+		return this.layout;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see de.zbit.sbml.layout.LayoutAlgorithm#isSetLayout()
 	 */
+	@Override
 	public boolean isSetLayout() {
 		return (layout != null);
 	}
 
-
 	/* (non-Javadoc)
 	 * @see de.zbit.sbml.layout.LayoutAlgorithm#setModel(Model model)
 	 */
+	@Override
 	public void setLayout(Layout layout) {
 		this.layout = layout;
 		this.level = layout.getLevel();

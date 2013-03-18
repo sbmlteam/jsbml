@@ -16,13 +16,16 @@
  */
 
 /**
- * This package contains the interfaces for all types of SBGN nodes and SBGN arcs.
- * There are specific interfaces for simple chemical, macromolecule, source or
- * sink and unspecified entity pool nodes and also for consumption, production,
- * inhibition and catalysis arcs.
- * The package also contains the interfaces LayoutFactory and LayoutBuilder,
+ * <p>This package contains the interfaces for all types of SBGN nodes and SBGN arcs.</p>
+ * 
+ * <p>There are specific interfaces for all entity pool nodes and for all arcs.</p>
+ * 
+ * <p>The package also contains the interfaces LayoutFactory and LayoutBuilder,
  * giving the methods necessary to create a graphical representation of a SBML model.
- * AbstarctLayoutBuilder and LayoutDirector are used to start and direct the drawing.
+ * AbstractLayoutBuilder and LayoutDirector are used to start and direct the drawing.</p>
+ * 
+ * @version $Rev$
  */
 
 package de.zbit.sbml.layout;
+
