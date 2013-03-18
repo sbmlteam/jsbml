@@ -38,9 +38,9 @@ import org.apache.log4j.Logger;
  */
 public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
 
-  /**
-   * A {@link Logger} for this class. 
-   */
+	/**
+	 * A {@link Logger} for this class. 
+	 */
 	private Logger logger;
 
 	/**
@@ -48,8 +48,8 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
 	 * standard output.
 	 */
 	public SimpleTreeNodeChangeListener() {
-	  super();
-	  logger = Logger.getLogger(SimpleTreeNodeChangeListener.class);
+		super();
+		logger = Logger.getLogger(SimpleTreeNodeChangeListener.class);
 	}
 
 	/**
@@ -64,24 +64,24 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
 	 */
 	//@Override
 	public void nodeAdded(TreeNode treeNode) {
-	  if (logger.isDebugEnabled()) {
-	    logger.debug(MessageFormat.format("[ADD]\t{0}", saveToString(treeNode)));
-	  }
+		if (logger.isDebugEnabled()) {
+			logger.debug(MessageFormat.format("[ADD]\t{0}", saveToString(treeNode)));
+		}
 	}
 
-  /* (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeRemoved(org.sbml.jsbml.util.TreeNodeRemovedEvent)
 	 */
 	//@Override
 	public void nodeRemoved(TreeNodeRemovedEvent evt) {
-	  if (logger.isDebugEnabled()) {
-	    String element = "null", prevParent = "null";
-	    if (evt != null) {
-	      element = saveToString(evt.getSource());
-	      prevParent = saveToString(evt.getPreviousParent());
-	    }
-	    logger.debug(MessageFormat.format("[DEL]\t{0} from {1}", element, prevParent));
-	  }
+		if (logger.isDebugEnabled()) {
+			String element = "null", prevParent = "null";
+			if (evt != null) {
+				element = saveToString(evt.getSource());
+				prevParent = saveToString(evt.getPreviousParent());
+			}
+			logger.debug(MessageFormat.format("[DEL]\t{0} from {1}", element, prevParent));
+		}
 	}
 
 	/* (non-Javadoc)
@@ -89,28 +89,28 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
 	 */
 	//@Override
 	public void propertyChange(PropertyChangeEvent evt) {		
-	  if (logger.isDebugEnabled()) {
-	    logger.debug(MessageFormat.format("[CHG]\t{0}", saveToString(evt)));
-	  }
+		if (logger.isDebugEnabled()) {
+			logger.debug(MessageFormat.format("[CHG]\t{0}", saveToString(evt)));
+		}
 	}
 
 	/**
-   * Tries to call the {@link #toString()} method on the given object. If the
-   * argument is {@code null}, it returns "null". In case that the call of
-   * {@link #toString()} fails, the simple class name of the object is returned.
-   * 
-   * @param object
-   * @return some {@link String} representation of the given object.
-   */
-  private String saveToString(Object object) {
-    if (object == null) {
-      return "null";
-    }
-    try {
-      return object.toString();
-    } catch (Throwable t) {
-      return object.getClass().getSimpleName();
-    }
-  }
+	 * Tries to call the {@link #toString()} method on the given object. If the
+	 * argument is {@code null}, it returns "null". In case that the call of
+	 * {@link #toString()} fails, the simple class name of the object is returned.
+	 * 
+	 * @param object
+	 * @return some {@link String} representation of the given object.
+	 */
+	private String saveToString(Object object) {
+		if (object == null) {
+			return "null";
+		}
+		try {
+			return object.toString();
+		} catch (Throwable t) {
+			return object.getClass().getSimpleName();
+		}
+	}
 
 }
