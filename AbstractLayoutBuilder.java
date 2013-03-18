@@ -29,9 +29,10 @@ import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
 
 /**
  * This abstract class combines the interfaces {@link LayoutBuilder} and
- * {@link LayoutFactory}. It implements the methods {@link #getSBGNNode(int)}
- * and {@link #getSBGNArc(int)} to get the node/arc for a specific SBO term or a
- * specific species reference role.
+ * {@link LayoutFactory}. It implements the methods {@link #getSBGNNode},
+ * {@link #getSBGNArc} and {@link #getSBGNReactionNode(int)} to get the node,
+ * arc or process node for a specific SBO term or a specific species reference
+ * role.
  * 
  * @author Andreas Dr&auml;ger
  * @since 1.0
@@ -50,10 +51,15 @@ public abstract class AbstractLayoutBuilder<P, NodeT, ArcT> implements LayoutBui
 	protected boolean terminated = false;
 	
 	/**
+	 * Create a {@link SBGNArc} for the given {@link SpeciesReferenceGlyph} and
+	 * {@link ReactionGlyph}.
 	 * 
-	 * @param srg
-	 * @param reactionGlyph
-	 * @return
+	 * The decision which arc to produce is based on the role (priority) or the
+	 * SBO term of the {@link SpeciesReferenceGlyph}.
+	 * 
+	 * @param srg the {@link SpeciesReferenceGlyph} of the arc
+	 * @param reactionGlyph the {@link ReactionGlyph} of the arc
+	 * @return a {@link SBGNArc} for the two given objects
 	 */
 	public SBGNArc<ArcT> createArc(SpeciesReferenceGlyph srg,
 		ReactionGlyph reactionGlyph) {
@@ -94,11 +100,10 @@ public abstract class AbstractLayoutBuilder<P, NodeT, ArcT> implements LayoutBui
 	}
 	
 	/**
-	 * helping method that creates the correct node depending on the sbo term of
-	 * the corresponding species
+	 * Create the correct {@link SBGNNode} according to the given SBO term.
 	 * 
 	 * @param sboTerm of the corresponding species
-	 * @return correct SBGNNode
+	 * @return correct {@link SBGNNode} according to the SBO term
 	 */
 	public SBGNNode<NodeT> getSBGNNode(int sboTerm) {
 		
@@ -149,48 +154,60 @@ public abstract class AbstractLayoutBuilder<P, NodeT, ArcT> implements LayoutBui
 	}
 	
 	/**
-	 * helping method that creates the correct arc depending on the sbo term of
-	 * the connection
+	 * Creates the correct {@link SBGNArc} according to the given SBO term.
 	 * 
 	 * @param sboTerm of the corresponding connecting arc
-	 * @return correct arc
+	 * @return correct {@link SBGNArc} according to the SBO term
 	 */
 	public SBGNArc<ArcT> getSBGNArc(int sboTerm) {
-		if (SBO.isChildOf(sboTerm, SBO.getConsumption()) || SBO.isChildOf(sboTerm, SBO.getReactant())) {
+		if (SBO.isChildOf(sboTerm, SBO.getConsumption()) ||
+				SBO.isChildOf(sboTerm, SBO.getReactant())) {
 			return createConsumption();
-		} else if (SBO.isChildOf(sboTerm, SBO.getProduction()) || SBO.isChildOf(sboTerm, SBO.getProduct())) {
+		} else if (SBO.isChildOf(sboTerm, SBO.getProduction()) ||
+				SBO.isChildOf(sboTerm, SBO.getProduct())) {
 			return createProduction();
-		} else if (SBO.isChildOf(sboTerm, SBO.getCatalysis()) || SBO.isChildOf(sboTerm, SBO.getCatalyst())) {
+		} else if (SBO.isChildOf(sboTerm, SBO.getCatalysis()) ||
+				SBO.isChildOf(sboTerm, SBO.getCatalyst())) {
 			return createCatalysis();
-		} else if (SBO.isChildOf(sboTerm, SBO.getInhibition()) || SBO.isChildOf(sboTerm, SBO.getInhibitor())) {
+		} else if (SBO.isChildOf(sboTerm, SBO.getInhibition()) ||
+				SBO.isChildOf(sboTerm, SBO.getInhibitor())) {
 			return createInhibition();
-		} else if (SBO.isChildOf(sboTerm, SBO.getNecessaryStimulation()) || SBO.isChildOf(sboTerm, SBO.getTrigger())) {
+		} else if (SBO.isChildOf(sboTerm, SBO.getNecessaryStimulation()) ||
+				SBO.isChildOf(sboTerm, SBO.getTrigger())) {
 			return createNecessaryStimulation();
-		} else if (SBO.isChildOf(sboTerm, SBO.getStimulation()) || SBO.isChildOf(sboTerm, SBO.getStimulator()) || SBO.isChildOf(sboTerm, SpeciesReferenceRole.ACTIVATOR.toSBOterm())) {
+		} else if (SBO.isChildOf(sboTerm, SBO.getStimulation()) ||
+				SBO.isChildOf(sboTerm, SBO.getStimulator()) ||
+				SBO.isChildOf(sboTerm, SpeciesReferenceRole.ACTIVATOR.toSBOterm())) {
 			return createStimulation();
-		} else if (SBO.isChildOf(sboTerm, SBO.getModulation()) || SBO.isChildOf(sboTerm, SBO.getModifier())) {
+		} else if (SBO.isChildOf(sboTerm, SBO.getModulation()) ||
+				SBO.isChildOf(sboTerm, SBO.getModifier())) {
 			return createModulation();
 		}
-		//default type of the connecting arc is a consumption, a line without special line ending
-		//if the SBO term does not match any of the above numbers
+		
+		// default type of the connecting arc is a consumption, a line without
+		// special line ending
 		return createConsumption();
 	}
-	
+
 	/**
+	 * Creates the correct {@link SBGNArc} according to the given
+	 * {@link SpeciesReferenceRole}. The conversion of
+	 * {@link SpeciesReferenceRole} to SBO term is performed by the class
+	 * {@link SpeciesReferenceRole}.
 	 * 
-	 * @param referenceRole
-	 * @return
+	 * @param speciesReferenceRole of the corresponding connecting arc
+	 * @return correct {@link SBGNArc} according to the SBO term
 	 */
-	public SBGNArc<ArcT> getSBGNArc(SpeciesReferenceRole referenceRole) {
-		return getSBGNArc(referenceRole.toSBOterm());		
+	public SBGNArc<ArcT> getSBGNArc(SpeciesReferenceRole speciesReferenceRole) {
+		return getSBGNArc(speciesReferenceRole.toSBOterm());		
 	}
-	
+
 	/**
-	 * helping method that creates the correct node depending on the sbo term of
-	 * the corresponding reaction
+	 * Create the correct process node according to the SBO term of the
+	 * reaction.
 	 * 
 	 * @param sboTerm of the reaction
-	 * @return SBGNNode
+	 * @return correct {@link SBGNReactionNode} for the process
 	 */
 	public SBGNReactionNode<NodeT> getSBGNReactionNode(int sboTerm) {
 		// reaction is an omitted process
@@ -204,14 +221,12 @@ public abstract class AbstractLayoutBuilder<P, NodeT, ArcT> implements LayoutBui
 		}
 		
 		// reaction is a dissociation
-		// TODO SBO class has no dissociation?
-		if (SBO.isChildOf(sboTerm, 180)) {
+		if (SBO.isChildOf(sboTerm, SBO.getDissociation())) {
 			return createDissociationNode();
 		}
 		
 		// reaction is an association / non-covalent binding
-		// TODO SBO class has no association? 
-		if (SBO.isChildOf(sboTerm, 177)) {
+		if (SBO.isChildOf(sboTerm, SBO.getAssociation())) {
 			return createAssociationNode();
 		}
 		
