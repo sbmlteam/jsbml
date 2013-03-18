@@ -209,7 +209,7 @@ public class SBO {
 	 * @see org.biojava.ontology.Term
 	 */
 	public static class Term implements Cloneable, Comparable<Term>, Serializable {
-		
+
 		/**
 		 * Generated serial version identifier.
 		 */
@@ -246,12 +246,12 @@ public class SBO {
 			}
 			return sb.toString();
 		}
-		
+
 		/**
 		 * The base properties of this {@link Term}.
 		 */
 		private String id, name, def;
-		
+
 		/**
 		 * The underlying BioJava {@link org.biojava.ontology.Term}.
 		 */
@@ -266,9 +266,9 @@ public class SBO {
 			if (term == null) {
 				throw new NullPointerException("Term must not be null.");
 			}
-			
+
 			this.term = term;
-			
+
 			id = name = def = null;
 		}
 
@@ -300,6 +300,23 @@ public class SBO {
 		}
 
 		/**
+		 * Returns a set of all the children Term.
+		 * 
+		 * @return  a set of all the children Term.
+		 */
+		public Set<Term> getChildren() {
+
+			Set<Triple> childrenRelationShip = SBO.getTriples(null, SBO.getTerm("is_a"), this);
+			Set<Term> children = new HashSet<Term>();
+
+			for (Triple triple : childrenRelationShip) {
+				children.add(triple.getSubject());
+			}
+
+			return children;
+		}
+
+		/**
 		 * Returns the definition of this {@link Term}, which is stored in the
 		 * corresponding OBO file under the key {@code def}.
 		 * 
@@ -312,10 +329,10 @@ public class SBO {
 				annotation = this.term.getAnnotation();
 				definition = (annotation != null)
 						&& (annotation.keys().size() > 0) ? annotation
-						.getProperty("def") : null;
-				def = definition != null ? definition.toString() : "";
-				def = def.replace("\\n", "\n").replace("\\t", "\t").replace("\\", "");
-				def = def.trim();
+								.getProperty("def") : null;
+								def = definition != null ? definition.toString() : "";
+								def = def.replace("\\n", "\n").replace("\\t", "\t").replace("\\", "");
+								def = def.trim();
 			}
 			return def;
 		}
@@ -348,6 +365,7 @@ public class SBO {
 			return name;
 		}
 
+
 		/**
 		 * Returns the parent Terms.
 		 * 
@@ -358,30 +376,12 @@ public class SBO {
 
 			Set<Triple> parentRelationShip = SBO.getTriples(this, SBO.getTerm("is_a"), null);
 			Set<Term> parents = new HashSet<Term>();
-			
+
 			for (Triple triple : parentRelationShip) {
 				parents.add(triple.getObject());
 			}
-			
-			return parents;
-		}
 
-		
-		/**
-		 * Returns a set of all the children Term.
-		 * 
-		 * @return  a set of all the children Term.
-		 */
-		public Set<Term> getChildren() {
-			
-			Set<Triple> childrenRelationShip = SBO.getTriples(null, SBO.getTerm("is_a"), this);
-			Set<Term> children = new HashSet<Term>();
-			
-			for (Triple triple : childrenRelationShip) {
-				children.add(triple.getSubject());
-			}
-			
-			return children;
+			return parents;
 		}
 
 		/**
@@ -444,12 +444,12 @@ public class SBO {
 	 * @see org.biojava.ontology.Triple
 	 */
 	public static class Triple implements Cloneable, Comparable<Triple>, Serializable {
-		
+
 		/**
 		 * Generated serial version identifier.
 		 */
 		private static final long serialVersionUID = 7289048361260650338L;
-		
+
 		/**
 		 * The BioJava {@link org.biojava.ontology.Triple}.
 		 */
@@ -467,7 +467,7 @@ public class SBO {
 			}
 			this.triple = triple;
 		}
-		
+
 		/* (non-Javadoc)
 		 * @see java.lang.Object#clone()
 		 */
@@ -483,23 +483,23 @@ public class SBO {
 			String subject = getSubject() != null ? getSubject().toString() : "";
 			String predicate = getPredicate() != null ? getPredicate()
 					.toString() : "";
-			String object = getObject() != null ? getObject().toString() : "";
-			String tSub = triple.getSubject() != null ? triple.getSubject()
-					.toString() : "";
-			String tPred = triple.getPredicate() != null ? triple
-					.getPredicate().toString() : "";
-			String tObj = triple.getObject() != null ? triple.getObject()
-					.toString() : "";
-			int compare = subject.compareTo(tSub);
-			if (compare != 0) {
-				return compare;
-			}
-			compare = predicate.compareTo(tPred);
-			if (compare != 0) {
-				return compare;
-			}
-			compare = object.compareTo(tObj);
-			return compare;
+					String object = getObject() != null ? getObject().toString() : "";
+					String tSub = triple.getSubject() != null ? triple.getSubject()
+							.toString() : "";
+							String tPred = triple.getPredicate() != null ? triple
+									.getPredicate().toString() : "";
+									String tObj = triple.getObject() != null ? triple.getObject()
+											.toString() : "";
+											int compare = subject.compareTo(tSub);
+											if (compare != 0) {
+												return compare;
+											}
+											compare = predicate.compareTo(tPred);
+											if (compare != 0) {
+												return compare;
+											}
+											compare = object.compareTo(tObj);
+											return compare;
 		}
 
 		/* (non-Javadoc)
@@ -571,17 +571,17 @@ public class SBO {
 	 * the prefix of all SBO ids.
 	 */
 	private static final String prefix = "SBO:";
-	
+
 	/**
 	 * 
 	 */
 	private static Ontology sbo;
-	
+
 	/**
 	 * 
 	 */
 	private static Properties sbo2alias;
-	
+
 	/**
 	 * 
 	 */
@@ -628,7 +628,7 @@ public class SBO {
 	public static boolean checkTerm(String sboTerm) {
 		boolean correct = sboTerm.length() == 11;
 		correct &= sboTerm.startsWith(prefix);
-		
+
 		if (correct) {
 			try {
 				int sbo = Integer.parseInt(sboTerm.substring(4));
@@ -637,12 +637,12 @@ public class SBO {
 				correct = false;
 			}
 		}
-		
+
 		if (!correct) {
 			Logger logger = Logger.getLogger(SBO.class);
 			logger.warn("The SBO term '" + sboTerm + "' does not seem to be valid.");
 		}
-		
+
 		return correct;
 	}
 
@@ -678,8 +678,20 @@ public class SBO {
 	}
 
 	/**
+	 * Interaction between several biochemical entities that results in the
+	 * formation of a non-covalent complex
 	 * 
-	 * @return
+	 * @return 177
+	 */
+	public static int getAssociation() {
+		return 177;
+	}
+
+	/**
+	 * An essential activator that affects the apparent value of the Michaelis
+	 * constant(s).
+	 * 
+	 * @return 535
 	 */
 	public static int getBindingActivator() {
 		return 535;
@@ -714,15 +726,15 @@ public class SBO {
 		return 534;
 	}
 
-  /**
-   * Physical compartment.
-   * 
-   * @return
-   */
-  public static int getCompartment() {
-    return 290;
-  }
-	
+	/**
+	 * Physical compartment.
+	 * 
+	 * @return
+	 */
+	public static int getCompartment() {
+		return 290;
+	}
+
 	/**
 	 * 
 	 * @return
@@ -753,6 +765,15 @@ public class SBO {
 	 */
 	public static int getConservationLaw() {
 		return 355;
+	}
+
+	/**
+	 * Decrease in amount of a material or conceptual entity. 
+	 * 
+	 * @return 394
+	 */
+	public static int getConsumption() {
+		return 394;
 	}
 
 	/**
@@ -796,19 +817,29 @@ public class SBO {
 	}
 
 	/**
+	 * Transformation of a non-covalent complex that results in the formation of
+	 * several independent biochemical entities.
+	 * 
+	 * @return 180
+	 */
+	public static int getDissociation() {
+		return 180;
+	}
+
+	/**
 	 * 
 	 * @return
 	 */
 	public static int getDrug() {
 		return convertAlias2SBO("DRUG");
 	}
-	
-  /**
-   * Empty set is used to represent the source of a creation process or the
-   * result of a degradation process.
-   * 
-   * @return
-   */
+
+	/**
+	 * Empty set is used to represent the source of a creation process or the
+	 * result of a degradation process.
+	 * 
+	 * @return
+	 */
 	public static int getEmptySet() {
 		return convertAlias2SBO("DEGRADED");
 	}
@@ -864,12 +895,12 @@ public class SBO {
 	/**
 	 * A gene is an informational molecule segment.
 	 * 
-   * The Nucleic acid feature construct in SBGN is meant to represent a fragment
-   * of a macro- molecule carrying genetic information. A common use for this
-   * construct is to represent a gene or transcript. The label of this EPN and
-   * its units of information are often important for making the purpose clear
-   * to the reader of a map.
-   * 
+	 * The Nucleic acid feature construct in SBGN is meant to represent a fragment
+	 * of a macro- molecule carrying genetic information. A common use for this
+	 * construct is to represent a gene or transcript. The label of this EPN and
+	 * its units of information are often important for making the purpose clear
+	 * to the reader of a map.
+	 * 
 	 * @return
 	 */
 	public static int getGene() {
@@ -898,6 +929,15 @@ public class SBO {
 	 */
 	public static int getHillEquation() {
 		return 192;
+	}
+
+	/**
+	 * Negative modulation of the execution of a process.
+	 * 
+	 * @return 169
+	 */
+	public static int getInhibition() {
+		return 169;
 	}
 
 	/**
@@ -955,9 +995,9 @@ public class SBO {
 	 * @return
 	 */
 	public static int getMacromolecule() {
-	  return 245;
+		return 245;
 	}
-	  
+
 	/**
 	 * 
 	 * @return
@@ -1001,6 +1041,24 @@ public class SBO {
 	}
 
 	/**
+	 * Modification of the execution of an event or a process.
+	 * 
+	 * @return 168
+	 */
+	public static int getModulation() {
+		return 168;
+	}
+
+	/**
+	 * Control that is necessary to the execution of a process.
+	 * 
+	 * @return 171
+	 */
+	public static int getNecessaryStimulation() {
+		return 171;
+	}
+
+	/**
 	 * 
 	 * @return
 	 */
@@ -1009,13 +1067,13 @@ public class SBO {
 	}
 
 	/**
-   * 
-   * @return
-   */
-  public static int getNonCovalentComplex() {
-    return 253;
-  }
-  
+	 * 
+	 * @return
+	 */
+	public static int getNonCovalentComplex() {
+		return 253;
+	}
+
 	/**
 	 * 
 	 * @return
@@ -1058,7 +1116,16 @@ public class SBO {
 	public static int getParticipantRole() {
 		return 3;
 	}
-	
+
+	/**
+	 * Perturbing agent.
+	 * 
+	 * @return
+	 */
+	public static int getPertubingAgent() {
+		return 405;
+	}
+
 	/**
 	 * 
 	 * @return
@@ -1108,6 +1175,15 @@ public class SBO {
 	 */
 	public static int getProduct() {
 		return convertAlias2SBO("product");
+	}
+
+	/**
+	 * Generation of a material or conceptual entity. 
+	 * 
+	 * @return 393
+	 */
+	public static int getProduction() {
+		return 393;
 	}
 
 	/**
@@ -1164,6 +1240,15 @@ public class SBO {
 	}
 
 	/**
+	 * Returns the root element of the SBO Ontology (SBO:0000000).
+	 * 
+	 * @return the root element of the SBO Ontology (SBO:0000000).
+	 */
+	public static Term getSBORoot() {
+		return getTerm("SBO:0000000");
+	}
+
+	/**
 	 * 
 	 * @return
 	 */
@@ -1193,6 +1278,15 @@ public class SBO {
 	 */
 	public static int getSteadyStateExpression() {
 		return 391;
+	}
+
+	/**
+	 * Positive modulation of the execution of a process.
+	 * 
+	 * @return 170
+	 */
+	public static int getStimulation() {
+		return 170;
 	}
 
 	/**
@@ -1232,15 +1326,6 @@ public class SBO {
 	}
 
 	/**
-	 * Returns the root element of the SBO Ontology (SBO:0000000).
-	 * 
-	 * @return the root element of the SBO Ontology (SBO:0000000).
-	 */
-	public static Term getSBORoot() {
-		return getTerm("SBO:0000000");
-	}
-	
-	/**
 	 * Return the set of terms of the SBO Ontology.
 	 * 
 	 * <p> This methods return only Term object and no Triple object that represent the
@@ -1253,7 +1338,7 @@ public class SBO {
 	public static Set<Term> getTerms() {
 		if (terms.size() < sbo.getTerms().size()) {
 			for (org.biojava.ontology.Term term : sbo.getTerms()) {
-				
+
 				if (term instanceof org.biojava.ontology.Triple) {					
 					// does nothing
 				} else if (term instanceof org.biojava.ontology.Term) {
@@ -1370,13 +1455,13 @@ public class SBO {
 		Set<Triple> triples = new HashSet<Triple>();
 		for (org.biojava.ontology.Triple triple : sbo.getTriples(
 				subject != null ? subject.getTerm() : null,
-				object != null ? object.getTerm() : null,
-				predicate != null ? predicate.getTerm() : null)) {
+						object != null ? object.getTerm() : null,
+								predicate != null ? predicate.getTerm() : null)) {
 			triples.add(new Triple(triple));
 		}
 		return triples;
 	}
-	
+
 	/**
 	 * Returns the SBO id corresponding to the alias 'TRUNCATED'
 	 * 
@@ -2092,6 +2177,7 @@ public class SBO {
 		return isChildOf(sboTerm, getTranslationalActivation());
 	}
 
+
 	/**
 	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
@@ -2141,7 +2227,7 @@ public class SBO {
 	public static boolean isUnknownMolecule(int sboTerm) {
 		return isChildOf(sboTerm, getUnknownMolecule());
 	}
-	
+
 	/**
 	 * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
 	 * <p>
@@ -2151,7 +2237,7 @@ public class SBO {
 	public static boolean isUnknownTransition(int sboTerm) {
 		return isChildOf(sboTerm, getUnknownTransition());
 	}
-		
+
 	/**
 	 * Tests method.
 	 * 
@@ -2167,25 +2253,24 @@ public class SBO {
 			}
 		}
 		System.out.println("\nThere is " + i + " terms in the SBO ontology.");
-		
+
 		System.out.println("\nPrinting the SBO ontology tree :");
 		Term sboRoot = SBO.getSBORoot();
-		
+
 		for (Term term : sboRoot.getChildren()) {
 			System.out.println("   " + term.getId() + " - " + term.getName());
-			
+
 			printChildren(term, "   ");
 		}
-		
+
 		System.out.println("ANTISENSE_RNA = " + SBO.getAntisenseRNA());
-		
+
 		// TODO : Shall we catch the exception thrown by the biojava getTerm() method or let it like that ??
 		System.out.println("Search null Term : " + SBO.getTerm(null));
 		System.out.println("Search invalid id Term : " + SBO.getTerm("SBO:004"));
 		System.out.println("Search invalid id Term : " + SBO.getTerm("0000004"));
 	}
 
-	
 	/**
 	 * Prints to the console all the sub-tree of terms, starting from the children
 	 * of the given parent term.
@@ -2199,7 +2284,7 @@ public class SBO {
 			printChildren(term, indent + "   ");
 		}		
 	}
-	
+
 	/**
 	 * Creates and returns a 7 digit SBO number for the given {@link Term} identifier (if
 	 * this is a valid identifier). The returned {@link String} will not contain the
@@ -2217,7 +2302,7 @@ public class SBO {
 		}
 		return StringTools.leadingZeros(7, sboTerm);
 	}
-	
+
 	/**
 	 * Returns the string as a correctly formatted SBO integer portion.
 	 * 
@@ -2228,69 +2313,6 @@ public class SBO {
 	 */
 	public static int stringToInt(String sboTerm) {
 		return checkTerm(sboTerm) ? Integer.parseInt(sboTerm.substring(4)) : -1;
-	}
-
-	/**
-	 * Perturbing agent.
-	 * 
-	 * @return
-	 */
-	public static int getPertubingAgent() {
-		return 405;
-	}
-
-	/**
-	 * Decrease in amount of a material or conceptual entity. 
-	 * 
-	 * @return 394
-	 */
-	public static int getConsumption() {
-		return 394;
-	}
-
-	/**
-	 * Negative modulation of the execution of a process.
-	 * 
-	 * @return 169
-	 */
-	public static int getInhibition() {
-		return 169;
-	}
-
-	/**
-	 * Modification of the execution of an event or a process.
-	 * 
-	 * @return 168
-	 */
-	public static int getModulation() {
-		return 168;
-	}
-
-	/**
-	 * Control that is necessary to the execution of a process.
-	 * 
-	 * @return 171
-	 */
-	public static int getNecessaryStimulation() {
-		return 171;
-	}
-
-	/**
-	 * Positive modulation of the execution of a process.
-	 * 
-	 * @return 170
-	 */
-	public static int getStimulation() {
-		return 170;
-	}
-
-	/**
-	 * Generation of a material or conceptual entity. 
-	 * 
-	 * @return 393
-	 */
-	public static int getProduction() {
-		return 393;
 	}
 
 }
