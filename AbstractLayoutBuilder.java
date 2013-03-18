@@ -29,9 +29,9 @@ import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
 
 /**
  * This abstract class combines the interfaces {@link LayoutBuilder} and
- * {@link LayoutFactory}. It implements the methods {@link #getSBGNNode(int)} and {@link #getSBGNArc(int)}
- * to get the node/arc for a specific SBO term or a specific species reference
- * role.
+ * {@link LayoutFactory}. It implements the methods {@link #getSBGNNode(int)}
+ * and {@link #getSBGNArc(int)} to get the node/arc for a specific SBO term or a
+ * specific species reference role.
  * 
  * @author Andreas Dr&auml;ger
  * @since 1.0
@@ -194,21 +194,23 @@ public abstract class AbstractLayoutBuilder<P, NodeT, ArcT> implements LayoutBui
 	 */
 	public SBGNReactionNode<NodeT> getSBGNReactionNode(int sboTerm) {
 		// reaction is an omitted process
-		if (SBO.isChildOf(sboTerm, 397)){
+		if (SBO.isChildOf(sboTerm, SBO.getTransitionOmitted())){
 			return createOmittedProcessNode();
 		}
 		
 		// reaction is an uncertain process
-		if (SBO.isChildOf(sboTerm, 396)) {
+		if (SBO.isChildOf(sboTerm, SBO.getUnknownTransition())) {
 			return createUncertainProcessNode();
 		}
 		
 		// reaction is a dissociation
+		// TODO SBO class has no dissociation?
 		if (SBO.isChildOf(sboTerm, 180)) {
 			return createDissociationNode();
 		}
 		
-		//reaction is an association / non-covalent binding
+		// reaction is an association / non-covalent binding
+		// TODO SBO class has no association? 
 		if (SBO.isChildOf(sboTerm, 177)) {
 			return createAssociationNode();
 		}

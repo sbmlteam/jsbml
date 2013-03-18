@@ -25,6 +25,7 @@ import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
  * interface for the different types of connecting arcs
  * <ul>
  * <li>consumption</li>
+ * <li>reversible consumption</li>
  * <li>production</li>
  * <li>catalysis</li>
  * <li>inhibition</li>

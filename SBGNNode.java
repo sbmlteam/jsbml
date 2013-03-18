@@ -21,10 +21,12 @@ import org.sbml.jsbml.ext.layout.BoundingBox;
 
 /**
  * interface for the different types of entity pool nodes
- * - unspecified entity
- * - simple chemical
- * - macromolecule
- * - source/sink
+ * <ul>
+ * <li>unspecified entity</li>
+ * <li>simple chemical</li>
+ * <li>macromolecule</li>
+ * <li>source/sink</li>
+ * </ul>
  * 
  * @author Mirjam Gutekunst
  * @version $Rev$
