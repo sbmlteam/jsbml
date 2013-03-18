@@ -79,16 +79,23 @@ import de.zbit.io.csv.CSVReader;
  * 
  * <h3>Design Notes</h3>
  * 
- * <p>
+ * <ul>
+ * <li>
  * Regarding the order of steps: To create a useful layout, the layouting
  * algorithm has to know about <emph>all</emph> glyphs, i.e. layouted and
- * unlayouted glyph. A sequential querying of position or dimension (as it was
+ * unlayouted glyphs. A sequential querying of position or dimension (as it was
  * introduced in the original implementation) is not reasonable, because the
- * layout has to be determined from all glpyhs.
- * </p>
+ * layout has to be determined from all glpyhs.</li>
+ * <li>
+ * The current implementation of {@link LayoutDirector} can read in map of
+ * fluxes. This is a special application for the modification of a layout and
+ * should not be defined here. The product of {@link LayoutDirector} is a
+ * layout. further modification of the layout should be performed separately.
+ * </li>
+ * </ul>
  * 
  * @param <P>
- *          Type of the product.
+ *            Type of the product.
  * 
  * @author Mirjam Gutekunst
  * @version $Rev$
@@ -107,10 +114,36 @@ public class LayoutDirector<P> implements Runnable {
 	 */
 	private static Logger logger = Logger.getLogger(LayoutDirector.class.getName());
 
+	/**
+	 * Constant for use as the key for flux values.
+	 */
 	public static final String KEY_FOR_FLUX_VALUES = "fluxValue";
+
+	/**
+	 * Constant for use as the key for layout links. A layout link connects a
+	 * core object (e.g. a species) with a all of its glyphs in the given
+	 * layout.
+	 */
 	public static final String LAYOUT_LINK = "LAYOUT_LINK";
+
+	/**
+	 * Constant for use as the key for compartment links, also see
+	 * {@link #LAYOUT_LINK}.
+	 */
 	public static final String COMPARTMENT_LINK = "COMPARTMENT_LINK";
+
+	/**
+	 * Constant for use as the key for relative docking points. A relative
+	 * docking point is a property stored in the user objects of a
+	 * {@link ReactionGlyph} to denote the relative docking position of the
+	 * connecting arcs.
+	 */
 	public static final String PN_RELATIVE_DOCKING_POINT = "PN_RELATIVE_DOCKING_POINT";
+	
+	/**
+	 * Constant for use as the key for relative docking points for a species,
+	 * also see {@link #PN_RELATIVE_DOCKING_POINT}.
+	 */
 	public static final String SPECIES_RELATIVE_DOCKING_POINT = "SPECIES_RELATIVE_DOCKING_POINT";
 
 	/**
@@ -137,7 +170,6 @@ public class LayoutDirector<P> implements Runnable {
 	 * map of fluxes for the given SBML document
 	 */
 	private Map<String, Double> mapOfFluxes;
-
 
 	/**
 	 * @param inputFile file containing the SBML document
