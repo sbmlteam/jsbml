@@ -16,16 +16,19 @@
  */
 
 /**
- * <p>This package contains the interfaces for all types of SBGN nodes and SBGN arcs.</p>
- * 
- * <p>There are specific interfaces for all entity pool nodes and for all arcs.</p>
- * 
- * <p>The package also contains the interfaces LayoutFactory and LayoutBuilder,
- * giving the methods necessary to create a graphical representation of a SBML model.
- * AbstractLayoutBuilder and LayoutDirector are used to start and direct the drawing.</p>
+ * This package contains the interfaces for all types of SBGN nodes and SBGN
+ * arcs.
+ * <p>
+ * There are specific interfaces for all entity pool nodes and for all arcs.
+ * <p>
+ * The package also contains the interfaces
+ * {@link de.zbit.sbml.layout.LayoutFactory} and
+ * {@link de.zbit.sbml.layout.LayoutBuilder}, giving the methods necessary to
+ * create a graphical representation of a SBML model.
+ * {@link de.zbit.sbml.layout.AbstractLayoutBuilder} and
+ * {@link de.zbit.sbml.layout.LayoutDirector} are used to start and direct the
+ * drawing.
  * 
  * @version $Rev$
  */
-
 package de.zbit.sbml.layout;
-
