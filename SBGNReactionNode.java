@@ -20,8 +20,15 @@ import org.sbml.jsbml.ext.layout.LineSegment;
 import org.sbml.jsbml.ext.layout.Point;
 
 /**
+ * Interface for all SBGN specified process nodes.
+ * 
+ * <p>
+ * This interface defines the {@link #draw} methods to draw the process node,
+ * it allows to set the line width and to calculate the contact points at
+ * the process node.
+ * 
  * @author Meike Aichele
- *
+ * @version $Rev$
  */
 public interface SBGNReactionNode<T> extends SBGNNode<T> {
 

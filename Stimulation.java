@@ -17,6 +17,11 @@
 package de.zbit.sbml.layout;
 
 /**
+ * Interface for the SBGN specified stimulation arc.
+ * 
+ * <p>
+ * The arrow of the stimulation arc is an unfilled triangle.
+ * 
  * @author Jakob Matthes
  * @version $Rev$
  */

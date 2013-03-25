@@ -17,6 +17,11 @@
 package de.zbit.sbml.layout;
 
 /**
+ * Interface for the SBGN specified modulation arc.
+ * 
+ * <p>
+ * The arrow of a modulation arc is an unfilled diamond.
+ * 
  * @author Jakob Matthes
  * @version $Rev$
  */
