@@ -54,45 +54,8 @@ import org.sbml.jsbml.ext.layout.TextGlyph;
 import de.zbit.io.csv.CSVReader;
 
 /**
- * <p>
  * {@link LayoutDirector} produces a graphical representation of a layout of an
- * {@link SBMLDocument}. It uses two components:
- * </p>
- * 
- * <ul>
- * <li>{@link LayoutAlgorithm}: to determine dimensions and positions of
- * unlayouted elements</li>
- * <li>{@link LayoutBuilder}: to actually produce the graphical representation
- * of the layout</li>
- * </ul>
- * 
- * <p>
- * The method {@link #buildLayout} builds the product. This procedure consists
- * of four steps:
- * </p>
- * <ol>
- * <li>All glyphs are added to the input of the {@link LayoutAlgorithm}.</li>
- * <li>The {@link LayoutAlgorithm} completes all missing information.</li>
- * <li>All glyphs are built with the {@link LayoutBuilder}.</li>
- * <li>The dimensions of the whole layout are computed.</li>
- * </ol>
- * 
- * <h3>Design Notes</h3>
- * 
- * <ul>
- * <li>
- * Regarding the order of steps: To create a useful layout, the layouting
- * algorithm has to know about <emph>all</emph> glyphs, i.e. layouted and
- * unlayouted glyphs. A sequential querying of position or dimension (as it was
- * introduced in the original implementation) is not reasonable, because the
- * layout has to be determined from all glpyhs.</li>
- * <li>
- * The current implementation of {@link LayoutDirector} can read in map of
- * fluxes. This is a special application for the modification of a layout and
- * should not be defined here. The product of {@link LayoutDirector} is a
- * layout. further modification of the layout should be performed separately.
- * </li>
- * </ul>
+ * {@link SBMLDocument}.
  * 
  * @param <P>
  *            Type of the product.
