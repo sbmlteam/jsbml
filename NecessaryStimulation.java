@@ -17,6 +17,12 @@
 package de.zbit.sbml.layout;
 
 /**
+ * Interface for the SBGN specified necessary stimulation arc. 
+ * 
+ * <p>
+ * The arrow of a necessary stimulation arc is an vertical dash followed
+ * by an unfilled triangle.
+ * 
  * @author Jakob Matthes
  * @version $Rev$
  */
