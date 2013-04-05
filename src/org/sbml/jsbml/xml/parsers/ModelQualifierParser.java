@@ -80,12 +80,8 @@ public class ModelQualifierParser implements ReadingParser {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String ElementName, String AttributeName,
-			String value, String prefix, boolean isLastAttribute,
-			Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String ElementName, String AttributeName, String value, String prefix, boolean isLastAttribute, Object contextObject)
 	 */
 	public void processAttribute(String ElementName, String AttributeName,
 			String value, String prefix, boolean isLastAttribute,
@@ -94,11 +90,8 @@ public class ModelQualifierParser implements ReadingParser {
 		// Throw an error?
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processCharactersOf(String elementName, String characters,
-			Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processCharactersOf(String elementName, String characters, Object contextObject)
 	 */
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {	
@@ -106,31 +99,22 @@ public class ModelQualifierParser implements ReadingParser {
 		// Throw an error?
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument sbmlDocument)
 	 */
 	public void processEndDocument(SBMLDocument sbmlDocument) {		
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String ElementName, String prefix,
-			boolean isNested, Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String ElementName, String prefix, boolean isNested, Object contextObject)
 	 */
 	public boolean processEndElement(String ElementName, String prefix,
 			boolean isNested, Object contextObject) {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean hasAttributes, boolean isLastNamespace,
-			Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String elementName, String URI, String prefix, String localName, boolean hasAttributes, boolean isLastNamespace, Object contextObject)
 	 */
 	public void processNamespace(String elementName, String URI, String prefix,
 			String localName, boolean hasAttributes, boolean isLastNamespace,
@@ -145,13 +129,10 @@ public class ModelQualifierParser implements ReadingParser {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String elementName, String prefix,
-			boolean hasAttributes, boolean hasNamespaces,
-			Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String elementName, String prefix, boolean hasAttributes, boolean hasNamespaces, Object contextObject)
 	 */
+	//@Override
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces,
 			Object contextObject) {
