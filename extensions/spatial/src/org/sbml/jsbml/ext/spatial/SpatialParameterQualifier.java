@@ -29,11 +29,5 @@ import org.sbml.jsbml.SBase;
  * @version $Rev$
  */
 public interface SpatialParameterQualifier extends SBase {
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.SBase#clone()
-	 */
-	public SpatialParameterQualifier clone();
 	
 }

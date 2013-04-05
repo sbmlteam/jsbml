@@ -329,8 +329,7 @@ public class LibSBMLUtils {
 				libCVt.setModelQualifierType(libsbmlConstants.BQM_IS);
 				break;
 			case BQM_IS_DESCRIBED_BY:
-				libCVt
-				.setModelQualifierType(libsbmlConstants.BQM_IS_DESCRIBED_BY);
+				libCVt.setModelQualifierType(libsbmlConstants.BQM_IS_DESCRIBED_BY);
 				break;
 			case BQM_UNKNOWN:
 				libCVt.setModelQualifierType(libsbmlConstants.BQM_UNKNOWN);
@@ -346,39 +345,31 @@ public class LibSBMLUtils {
 				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_ENCODES);
 				break;
 			case BQB_HAS_PART:
-				libCVt
-				.setBiologicalQualifierType(libsbmlConstants.BQB_HAS_PART);
+				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_HAS_PART);
 				break;
 			case BQB_HAS_VERSION:
-				libCVt
-				.setBiologicalQualifierType(libsbmlConstants.BQB_HAS_VERSION);
+				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_HAS_VERSION);
 				break;
 			case BQB_IS:
 				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_IS);
 				break;
 			case BQB_IS_DESCRIBED_BY:
-				libCVt
-				.setBiologicalQualifierType(libsbmlConstants.BQB_IS_DESCRIBED_BY);
+				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_IS_DESCRIBED_BY);
 				break;
 			case BQB_IS_ENCODED_BY:
-				libCVt
-				.setBiologicalQualifierType(libsbmlConstants.BQB_IS_ENCODED_BY);
+				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_IS_ENCODED_BY);
 				break;
 			case BQB_IS_HOMOLOG_TO:
-				libCVt
-				.setBiologicalQualifierType(libsbmlConstants.BQB_IS_HOMOLOG_TO);
+				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_IS_HOMOLOG_TO);
 				break;
 			case BQB_IS_PART_OF:
-				libCVt
-				.setBiologicalQualifierType(libsbmlConstants.BQB_IS_PART_OF);
+				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_IS_PART_OF);
 				break;
 			case BQB_IS_VERSION_OF:
-				libCVt
-				.setBiologicalQualifierType(libsbmlConstants.BQB_IS_VERSION_OF);
+				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_IS_VERSION_OF);
 				break;
 			case BQB_OCCURS_IN:
-				libCVt
-				.setBiologicalQualifierType(libsbmlConstants.BQB_OCCURS_IN);
+				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_OCCURS_IN);
 				break;
 			case BQB_UNKNOWN:
 				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_UNKNOWN);

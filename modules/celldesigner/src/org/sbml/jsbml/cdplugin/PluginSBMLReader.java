@@ -882,8 +882,7 @@ public class PluginSBMLReader implements SBMLInputConverter {
 							.getFunctionDefinition(i)));
 		}
 		for (i = 0; i < originalmodel.getNumUnitDefinitions(); i++) {
-			this.model.addUnitDefinition(readUnitDefinition(originalmodel
-					.getUnitDefinition(i)));
+			this.model.addUnitDefinition(readUnitDefinition(originalmodel.getUnitDefinition(i)));
 		}
 		for (i = 0; i < originalmodel.getNumCompartmentTypes(); i++) {
 			this.model.addCompartmentType(readCompartmentType(originalmodel

@@ -241,8 +241,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 			return null;
 		} else if (!(isPredefined(id, level) || (Unit.isUnitKind(id, level, version)))) {
 		  logger.warn(MessageFormat.format(
-		    "No such predefined unit {0} in SBML Level {1,number,integer}.", id, level));
-			
+		    "No such predefined unit ''{0}'' in SBML Level {1,number,integer}.", id, level));
 			return null;
 		}
 
@@ -265,7 +264,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 				kind = Kind.valueOf(id.toUpperCase());
 			} catch (IllegalArgumentException exc) {
 			  logger.warn(MessageFormat.format(
-			    "No such unit kind {0} in SBML Level {1,number,integer} Version {2,number,integer}",
+			    "No such unit kind ''{0}'' in SBML Level {1,number,integer} Version {2,number,integer}",
 			    id, level, version));
 				return null;
 			}

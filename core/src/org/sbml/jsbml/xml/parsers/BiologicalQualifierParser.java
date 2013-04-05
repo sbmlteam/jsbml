@@ -21,13 +21,14 @@
 package org.sbml.jsbml.xml.parsers;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.CVTerm;
-import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.CVTerm.Type;
+import org.sbml.jsbml.SBMLDocument;
 
 /**
  * A BiologicalQualifierParser is used to parse the XML elements and attributes
@@ -55,10 +56,10 @@ public class BiologicalQualifierParser implements ReadingParser {
 	}
 
 	/**
-	 * The map containing all the relationships Miriam qualifier String <=>
-	 * Miriam qualifier Qualifier.
+	 * The map containing all the relationships MIRIAM qualifier String <=>
+	 * MIRIAM qualifier Qualifier.
 	 */
-	private HashMap<String, Qualifier> biologicalQualifierMap = new HashMap<String, Qualifier>();
+	private Map<String, Qualifier> biologicalQualifierMap = new HashMap<String, Qualifier>();
 
 	/**
 	 * Creates a BiologicalQualifierParser instance and initialises the
@@ -84,12 +85,8 @@ public class BiologicalQualifierParser implements ReadingParser {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String
-	 * ElementName, String AttributeName, String value, String prefix, boolean
-	 * isLastAttribute, Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String ElementName, String AttributeName, String value, String prefix, boolean isLastAttribute, Object contextObject)
 	 */
 	public void processAttribute(String ElementName, String AttributeName,
 			String value, String prefix, boolean isLastAttribute,
@@ -99,11 +96,8 @@ public class BiologicalQualifierParser implements ReadingParser {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processCharactersOf(String
-	 * elementName, String characters, Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processCharactersOf(String elementName, String characters, Object contextObject)
 	 */
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
@@ -111,32 +105,22 @@ public class BiologicalQualifierParser implements ReadingParser {
 		// SBML syntax error, log the error ?
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument
-	 * sbmlDocument)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument sbmlDocument)
 	 */
 	public void processEndDocument(SBMLDocument sbmlDocument) {
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String
-	 * ElementName, String prefix, boolean isNested, Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String ElementName, String prefix, boolean isNested, Object contextObject)
 	 */
 	public boolean processEndElement(String ElementName, String prefix,
 			boolean isNested, Object contextObject) {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String
-	 * elementName, String URI, String prefix, String localName, boolean
-	 * hasAttributes, boolean isLastNamespace, Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String elementName, String URI, String prefix, String localName, boolean hasAttributes, boolean isLastNamespace, Object contextObject)
 	 */
 	public void processNamespace(String elementName, String URI, String prefix,
 			String localName, boolean hasAttributes, boolean isLastNamespace,
@@ -153,12 +137,8 @@ public class BiologicalQualifierParser implements ReadingParser {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String
-	 * elementName, String prefix, boolean hasAttributes, boolean hasNamespaces,
-	 * Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String elementName, String prefix, boolean hasAttributes, boolean hasNamespaces, Object contextObject)
 	 */
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
@@ -169,7 +149,7 @@ public class BiologicalQualifierParser implements ReadingParser {
 		if (contextObject instanceof Annotation) {
 			Annotation annotation = (Annotation) contextObject;
 
-			// This parser can parse only biological Miriam qualifiers. This
+			// This parser can parse only biological MIRIAM qualifiers. This
 			// element should not have attributes or namespace declarations.
 			// Creates a new CVTerm and
 			// sets the qualifierType and biologicalQualifierType of this

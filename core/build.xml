@@ -328,7 +328,10 @@
 	<!-- =================================================================== -->
 	<!-- Updates the SBO Ontology file                                       -->
 	<!-- =================================================================== -->
-	<target name="update-sbo">
+	<target
+	 name="update-sbo"
+	 description="Updates the SBO Ontology file"
+	>
 
 		<get src="http://www.ebi.ac.uk/sbo/exports/Main/SBO_OBO.obo" dest="${basedir}/resources/org/sbml/jsbml/resources/cfg/SBO_OBO.obo" verbose="on"/>
 

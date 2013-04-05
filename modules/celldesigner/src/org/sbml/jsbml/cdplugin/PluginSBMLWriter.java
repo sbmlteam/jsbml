@@ -1992,9 +1992,10 @@ public class PluginSBMLWriter implements SBMLOutputConverter {
 	 */
 	private boolean saveReactionProperties(Reaction r, Object reaction)
 			throws SBMLException {
-		if (!(reaction instanceof PluginReaction))
+		if (!(reaction instanceof PluginReaction)) {
 			throw new IllegalArgumentException("reaction" + error
 					+ "PluginReaction.");
+		}
 		PluginReaction ro = (PluginReaction) reaction;
 		boolean changed = saveNamedSBaseProperties(r, ro);
 		if (r.getFast() != ro.getFast()) {
@@ -2005,16 +2006,18 @@ public class PluginSBMLWriter implements SBMLOutputConverter {
 			ro.setReversible(r.getReversible());
 			changed = true;
 		}
-		if (saveListOfProperties(r.getListOfReactants(), ro, (short) 0))
+		if (saveListOfProperties(r.getListOfReactants(), ro, (short) 0)) {
 			plugin.notifySBaseChanged(ro.getListOfReactants());
-		if (saveListOfProperties(r.getListOfProducts(), ro, (short) 1))
+		}
+		if (saveListOfProperties(r.getListOfProducts(), ro, (short) 1)) {
 			plugin.notifySBaseChanged(ro.getListOfProducts());
-		if (saveListOfProperties(r.getListOfModifiers(), ro, (short) 2))
+		}
+		if (saveListOfProperties(r.getListOfModifiers(), ro, (short) 2)) {
 			plugin.notifySBaseChanged(ro.getListOfModifiers());
+		}
 		if (r.isSetKineticLaw()) {
 			if (ro.getKineticLaw() == null) {
-				PluginKineticLaw plukin = writeKineticLaw(r.getKineticLaw(),
-						(PluginReaction) reaction);
+				PluginKineticLaw plukin = writeKineticLaw(r.getKineticLaw(), ro);
 				ro.setKineticLaw(plukin);
 				plugin.notifySBaseAdded(plukin);
 			} else {
@@ -2038,8 +2041,9 @@ public class PluginSBMLWriter implements SBMLOutputConverter {
 	 * @param sb
 	 */
 	private boolean saveSBaseProperties(SBase s, Object sb) {
-		if (!(sb instanceof PluginSBase))
+		if (!(sb instanceof PluginSBase)) {
 			throw new IllegalArgumentException("sb" + error + "PluginSBase");
+		}
 		boolean change = false;
 		PluginSBase po = (PluginSBase) sb;
 		if (!po.getNotesString().equals(s.getNotesString())) {
@@ -2051,11 +2055,10 @@ public class PluginSBMLWriter implements SBMLOutputConverter {
 			int contains = -1;
 			for (int i = 0; i < po.getNumCVTerms() && contains < 0; i++) {
 				org.sbml.libsbml.CVTerm cvo = po.getCVTerm(i);
-				boolean equal = cvo.getNumResources() == cvt.getNumResources();
+				boolean equal = cvo.getNumResources() == cvt.getResourceCount();
 				if (equal) {
 					for (int j = 0; j < cvo.getNumResources(); j++) {
-						equal &= cvo.getResourceURI(j).equals(
-								cvt.getResourceURI(j));
+						equal &= cvo.getResourceURI(j).equals(cvt.getResourceURI(j));
 					}
 				}
 				if (equal) {
@@ -2072,13 +2075,12 @@ public class PluginSBMLWriter implements SBMLOutputConverter {
 		for (int i = po.getNumCVTerms() - 1; i >= 0; i--) {
 			int contains = -1;
 			org.sbml.libsbml.CVTerm cvo = po.getCVTerm(i);
-			for (int j = 0; j < s.getNumCVTerms() && contains < 0; j++) {
+			for (int j = 0; j < s.getCVTermCount() && contains < 0; j++) {
 				CVTerm cvt = s.getCVTerm(j);
-				boolean equal = cvo.getNumResources() == cvt.getNumResources();
+				boolean equal = cvo.getNumResources() == cvt.getResourceCount();
 				if (equal) {
 					for (int k = 0; k < cvo.getNumResources(); k++) {
-						equal &= cvo.getResourceURI(k).equals(
-								cvt.getResourceURI(k));
+						equal &= cvo.getResourceURI(k).equals(cvt.getResourceURI(k));
 					}
 				}
 				if (equal) {
@@ -2284,6 +2286,7 @@ public class PluginSBMLWriter implements SBMLOutputConverter {
 	 */
 	private org.sbml.libsbml.CVTerm writeCVTerm(CVTerm t) {
 		org.sbml.libsbml.CVTerm libCVt = new org.sbml.libsbml.CVTerm();
+		System.out.println(getClass().getName() + "\twriteCVTerm\t" + t);
 		switch (t.getQualifierType()) {
 		case MODEL_QUALIFIER:
 			libCVt.setQualifierType(libsbmlConstants.MODEL_QUALIFIER);
@@ -2292,8 +2295,7 @@ public class PluginSBMLWriter implements SBMLOutputConverter {
 				libCVt.setModelQualifierType(libsbmlConstants.BQM_IS);
 				break;
 			case BQM_IS_DESCRIBED_BY:
-				libCVt
-						.setModelQualifierType(libsbmlConstants.BQM_IS_DESCRIBED_BY);
+				libCVt.setModelQualifierType(libsbmlConstants.BQM_IS_DESCRIBED_BY);
 				break;
 			case BQM_UNKNOWN:
 				libCVt.setModelQualifierType(libsbmlConstants.BQM_UNKNOWN);
@@ -2309,39 +2311,31 @@ public class PluginSBMLWriter implements SBMLOutputConverter {
 				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_ENCODES);
 				break;
 			case BQB_HAS_PART:
-				libCVt
-						.setBiologicalQualifierType(libsbmlConstants.BQB_HAS_PART);
+				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_HAS_PART);
 				break;
 			case BQB_HAS_VERSION:
-				libCVt
-						.setBiologicalQualifierType(libsbmlConstants.BQB_HAS_VERSION);
+				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_HAS_VERSION);
 				break;
 			case BQB_IS:
 				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_IS);
 				break;
 			case BQB_IS_DESCRIBED_BY:
-				libCVt
-						.setBiologicalQualifierType(libsbmlConstants.BQB_IS_DESCRIBED_BY);
+				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_IS_DESCRIBED_BY);
 				break;
 			case BQB_IS_ENCODED_BY:
-				libCVt
-						.setBiologicalQualifierType(libsbmlConstants.BQB_IS_ENCODED_BY);
+				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_IS_ENCODED_BY);
 				break;
 			case BQB_IS_HOMOLOG_TO:
-				libCVt
-						.setBiologicalQualifierType(libsbmlConstants.BQB_IS_HOMOLOG_TO);
+				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_IS_HOMOLOG_TO);
 				break;
 			case BQB_IS_PART_OF:
-				libCVt
-						.setBiologicalQualifierType(libsbmlConstants.BQB_IS_PART_OF);
+				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_IS_PART_OF);
 				break;
 			case BQB_IS_VERSION_OF:
-				libCVt
-						.setBiologicalQualifierType(libsbmlConstants.BQB_IS_VERSION_OF);
+				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_IS_VERSION_OF);
 				break;
 			case BQB_OCCURS_IN:
-				libCVt
-						.setBiologicalQualifierType(libsbmlConstants.BQB_OCCURS_IN);
+				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_OCCURS_IN);
 				break;
 			case BQB_UNKNOWN:
 				libCVt.setBiologicalQualifierType(libsbmlConstants.BQB_UNKNOWN);
@@ -2353,7 +2347,7 @@ public class PluginSBMLWriter implements SBMLOutputConverter {
 		default:
 			break;
 		}
-		for (int j = 0; j < t.getNumResources(); j++) {
+		for (int j = 0; j < t.getResourceCount(); j++) {
 			libCVt.addResource(t.getResourceURI(j));
 		}
 		return libCVt;
@@ -2439,9 +2433,9 @@ public class PluginSBMLWriter implements SBMLOutputConverter {
 	 */
 	private PluginKineticLaw writeKineticLaw(KineticLaw kineticLaw,
 			Object... parent) throws SBMLException {
-		if (parent.length != 1 || !(parent[0] instanceof PluginReaction))
-			throw new IllegalArgumentException("parent" + error
-					+ "PluginReaction");
+		if ((parent.length != 1) || !(parent[0] instanceof PluginReaction)) {
+			throw new IllegalArgumentException("parent" + error + "PluginReaction");
+		}
 		PluginKineticLaw k = new PluginKineticLaw((PluginReaction) parent[0]);
 		saveKineticLawProperties(kineticLaw, k);
 		return k;
@@ -2469,10 +2463,10 @@ public class PluginSBMLWriter implements SBMLOutputConverter {
 	 */
 	private PluginModifierSpeciesReference writeModifierSpeciesReference(
 			ModifierSpeciesReference modifierSpeciesReference, Object... parent) {
-		if (parent.length != 2 || !(parent[0] instanceof PluginReaction)
-				|| !(parent[1] instanceof PluginModel))
-			throw new IllegalArgumentException(
-					"a PluginReaction and a PluginModel must be provided");
+		if ((parent.length != 2) || !(parent[0] instanceof PluginReaction)
+				|| !(parent[1] instanceof PluginModel)) {
+			throw new IllegalArgumentException("a PluginReaction and a PluginModel must be provided");
+		}
 		PluginReaction pluReac = (PluginReaction) parent[0];
 		PluginModel pluMod = (PluginModel) parent[1];
 		String modificationType;
@@ -2630,10 +2624,11 @@ public class PluginSBMLWriter implements SBMLOutputConverter {
 	private PluginSpeciesReference writeSpeciesReference(
 			SpeciesReference speciesReference, Object... parent)
 			throws SBMLException {
-		if (parent.length != 2 || !(parent[0] instanceof PluginReaction)
-				|| !(parent[1] instanceof String))
+		if ((parent.length != 2) || !(parent[0] instanceof PluginReaction)
+				|| !(parent[1] instanceof String)) {
 			throw new IllegalArgumentException("parent" + error
 					+ "PluginReaction and type (String) must be given");
+		}
 		PluginSpeciesReference sr = new PluginSpeciesReference(
 				(PluginReaction) parent[0], new PluginSpeciesAlias(pluginModel
 						.getSpecies(speciesReference.getSpecies()), parent[1]
