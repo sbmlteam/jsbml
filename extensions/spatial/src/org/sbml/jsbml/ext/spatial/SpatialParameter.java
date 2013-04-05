@@ -61,7 +61,7 @@ public class SpatialParameter extends SpatialCallableSBase {
 	public SpatialParameter(SpatialParameter sb) {
 		super(sb);
 		if (sb.isSetQualifier()) {
-			this.qualifier = sb.getQualifier().clone();
+			this.qualifier = (SpatialParameterQualifier) sb.getQualifier().clone();
 		}
 	}
 

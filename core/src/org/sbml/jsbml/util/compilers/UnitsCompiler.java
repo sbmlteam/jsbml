@@ -1173,12 +1173,14 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 * @see org.sbml.jsbml.ASTNodeCompiler#symbolTime(java.lang.String)
 	 */
 	public ASTNodeValue symbolTime(String time) {
-		UnitDefinition ud = UnitDefinition.time(level, version);
-		if ((ud == null) && (model != null)) {
+		UnitDefinition ud;
+		if (model != null) {
 			ud = model.getTimeUnitsInstance();
 			if (ud == null) {
 				ud = model.getUnitDefinition(time);
 			}
+		} else {
+			ud = UnitDefinition.time(level, version);
 		}
 		if (ud == null) {
 			ud = invalid().getUnits();

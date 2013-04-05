@@ -1265,12 +1265,8 @@ public class LibSBMLWriter implements SBMLOutputConverter {
 			comp.setConstant(c.getConstant());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jlibsbml.SBMLWriter#saveCVTermProperties(org.sbml.jlibsbml.CVTerm
-	 * , java.lang.Object)
+	/* (non-Javadoc)
+	 * @see org.sbml.jlibsbml.SBMLWriter#saveCVTermProperties(org.sbml.jlibsbml.CVTerm, java.lang.Object)
 	 */
 	private void saveCVTermProperties(CVTerm cvt, Object term) {
 		if (!(term instanceof org.sbml.libsbml.CVTerm))
@@ -1278,13 +1274,15 @@ public class LibSBMLWriter implements SBMLOutputConverter {
 					"term must be an instance of org.sbml.libsbml.CVTerm.");
 		org.sbml.libsbml.CVTerm t = (org.sbml.libsbml.CVTerm) term;
 		org.sbml.libsbml.CVTerm myTerm = LibSBMLUtils.convertCVTerm(cvt);
-		if (myTerm.getQualifierType() != t.getQualifierType())
+		if (myTerm.getQualifierType() != t.getQualifierType()) {
 			t.setQualifierType(myTerm.getQualifierType());
-		if (myTerm.getBiologicalQualifierType() != t
-				.getBiologicalQualifierType())
+		}
+		if (myTerm.getBiologicalQualifierType() != t.getBiologicalQualifierType()) {
 			t.setBiologicalQualifierType(myTerm.getBiologicalQualifierType());
-		if (myTerm.getModelQualifierType() != t.getModelQualifierType())
+		}
+		if (myTerm.getModelQualifierType() != t.getModelQualifierType()) {
 			t.setModelQualifierType(myTerm.getModelQualifierType());
+		}
 		// add missing resources
 		for (int i = 0; i < myTerm.getNumResources(); i++) {
 			boolean contains = false;
@@ -1292,26 +1290,26 @@ public class LibSBMLWriter implements SBMLOutputConverter {
 				if (myTerm.getResourceURI(i).equals(t.getResourceURI(j)))
 					contains = true;
 			}
-			if (!contains)
+			if (!contains) {
 				t.addResource(myTerm.getResourceURI(i));
+			}
 		}
 		// remove old resources
 		for (long i = t.getNumResources() - 1; i >= 0; i--) {
 			boolean contains = false;
-			for (int j = 0; j < myTerm.getNumResources() && !contains; j++)
-				if (myTerm.getResourceURI(j).equals(t.getResourceURI(i)))
+			for (int j = 0; j < myTerm.getNumResources() && !contains; j++) {
+				if (myTerm.getResourceURI(j).equals(t.getResourceURI(i))) {
 					contains = true;
-			if (!contains)
+				}
+			}
+			if (!contains) {
 				t.removeResource(t.getResourceURI(i));
+			}
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.sbml.jlibsbml.SBMLWriter#saveEventProperties(org.sbml.jlibsbml.Event,
-	 * java.lang.Object)
+	/* (non-Javadoc)
+	 * @see org.sbml.jlibsbml.SBMLWriter#saveEventProperties(org.sbml.jlibsbml.Event, java.lang.Object)
 	 */
 	private void saveEventProperties(Event ev, Object event)
 			throws SBMLException {

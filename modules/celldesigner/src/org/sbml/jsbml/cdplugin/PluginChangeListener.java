@@ -33,7 +33,6 @@ import jp.sbi.celldesigner.plugin.PluginEventAssignment;
 import jp.sbi.celldesigner.plugin.PluginFunctionDefinition;
 import jp.sbi.celldesigner.plugin.PluginInitialAssignment;
 import jp.sbi.celldesigner.plugin.PluginKineticLaw;
-import jp.sbi.celldesigner.plugin.PluginListOf;
 import jp.sbi.celldesigner.plugin.PluginModel;
 import jp.sbi.celldesigner.plugin.PluginModifierSpeciesReference;
 import jp.sbi.celldesigner.plugin.PluginParameter;
@@ -115,8 +114,8 @@ import org.sbml.libsbml.libsbmlConstants;
 public class PluginChangeListener implements TreeNodeChangeListener {
 
 	/**
-   * 
-   */
+	 * 
+	 */
 	private CellDesignerPlugin plugin;
 
 	/**
@@ -152,20 +151,22 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 	public void propertyChange(PropertyChangeEvent event) {
 		Object eventsource = event.getSource();
 		String prop = event.getPropertyName();
+		System.out.println(getClass().getName() + "\tpropertyChange\t" + event.toString());
 		if (prop.equals(TreeNodeChangeEvent.addCVTerm)) {
 			Annotation anno = (Annotation) eventsource;
 			CVTerm term = event.getNewValue() != null? (CVTerm) event.getNewValue(): null;
-			anno.addCVTerm(term);
+			// TODO: add CVTerm to Plugin element
+			//anno.addCVTerm(term);
 		} else if (prop.equals(TreeNodeChangeEvent.addExtension)) {
-			logger.log(Level.DEBUG, String.format("Couldn't change the %s in the Model", eventsource.getClass().getSimpleName()));
+			logger.log(Level.DEBUG, MessageFormat.format("Couldn't change the {0} in the Model", eventsource.getClass().getSimpleName()));
 		} else if (prop.equals(TreeNodeChangeEvent.addNamespace)) {
-			logger.log(Level.DEBUG, String.format("Couldn't change the %s in the Model", eventsource.getClass().getSimpleName()));
+			logger.log(Level.DEBUG, MessageFormat.format("Couldn't change the {0} in the Model", eventsource.getClass().getSimpleName()));
 		} else if (prop.equals(TreeNodeChangeEvent.annotation)) {
-			logger.log(Level.DEBUG, String.format("Couldn't change the %s in the Model", eventsource.getClass().getSimpleName()));
+			logger.log(Level.DEBUG, MessageFormat.format("Couldn't change the {0} in the Model", eventsource.getClass().getSimpleName()));
 		} else if (prop.equals(TreeNodeChangeEvent.annotationNameSpaces)) {
-			logger.log(Level.DEBUG, String.format("Couldn't change the %s in the Model", eventsource.getClass().getSimpleName()));
+			logger.log(Level.DEBUG, MessageFormat.format("Couldn't change the {0} in the Model", eventsource.getClass().getSimpleName()));
 		} else if (prop.equals(TreeNodeChangeEvent.areaUnits)) {
-			logger.log(Level.DEBUG, String.format("Changing %s in the Model only supported with SBML version > 3.", eventsource.getClass().getSimpleName()));
+			logger.log(Level.DEBUG, MessageFormat.format("Changing {0} in the Model only supported with SBML version > 3.", eventsource.getClass().getSimpleName()));
 		} else if (prop.equals(TreeNodeChangeEvent.baseListType)) {
 			//Method is only called in creating a new List, which means we don't need to update anything here.
 		} else if (prop.equals(TreeNodeChangeEvent.boundaryCondition)) {
@@ -404,16 +405,16 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 			pevt.setTrigger(PluginUtils.convert(evt.getTrigger().getMath()));
 			plugin.notifySBaseChanged(pevt);
 		} else if (prop.equals(TreeNodeChangeEvent.priority)) {
-			logger.log(Level.DEBUG, String.format("Changing %s in the Model not supported.", eventsource.getClass().getSimpleName()));
+			logger.log(Level.DEBUG, MessageFormat.format("Changing {0} in the Model not supported.", eventsource.getClass().getSimpleName()));
 		} else if (prop.equals(TreeNodeChangeEvent.qualifier)) {
 			CVTerm cv = (CVTerm) eventsource;
-			cv.setQualifierType((Integer) event.getNewValue());
+			cv.setQualifierType(((Integer) event.getNewValue()).intValue());
 			PluginSBase base = getCorrespondingElementInJSBML(cv.getParent());
 			plugin.notifySBaseChanged(base);
 		} else if (prop.equals(TreeNodeChangeEvent.rdfAnnotationNamespaces)) {
-			logger.log(Level.DEBUG, String.format("Changing %s in the Model not supported.", eventsource.getClass().getSimpleName()));
+			logger.log(Level.DEBUG, MessageFormat.format("Changing {0} in the Model not supported.", eventsource.getClass().getSimpleName()));
 		} else if (prop.equals(TreeNodeChangeEvent.resource)) {
-			logger.log(Level.DEBUG, String.format("Unused method %s in the model.", eventsource.getClass().getSimpleName()));
+			logger.log(Level.DEBUG, MessageFormat.format("Unused method {0} in the model.", eventsource.getClass().getSimpleName()));
 		} else if (prop.equals(TreeNodeChangeEvent.reversible)) {
 			Reaction r = (Reaction) event.getSource();
 			PluginReaction plugR = plugModel.getReaction(r.getId());
@@ -478,11 +479,11 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 			plugReac.getKineticLaw().setSubstanceUnits(klaw.getSubstanceUnits());
 			plugin.notifySBaseChanged(plugReac);
 		} else if (prop.equals(TreeNodeChangeEvent.symbol)) {
-			logger.log(Level.DEBUG, String.format("Cannot fire propertychange %s", event.getClass().getSimpleName()));
+			logger.log(Level.DEBUG, MessageFormat.format("Cannot fire propertychange {0}", event.getClass().getSimpleName()));
 		} else if (prop.equals(TreeNodeChangeEvent.SBMLDocumentAttributes)) {
-			logger.log(Level.DEBUG, String.format("Cannot fire propertychange %s", event.getClass().getSimpleName()));
+			logger.log(Level.DEBUG, MessageFormat.format("Cannot fire propertychange {0}", event.getClass().getSimpleName()));
 		} else if (prop.equals(TreeNodeChangeEvent.text)) {
-			logger.log(Level.DEBUG, String.format("Cannot fire propertychange %s", event.getClass().getSimpleName()));
+			logger.log(Level.DEBUG, MessageFormat.format("Cannot fire propertychange {0}", event.getClass().getSimpleName()));
 		} else if (prop.equals(TreeNodeChangeEvent.timeUnits)) {
 			if (eventsource instanceof Event) {
 				Event evt = (Event) eventsource;
@@ -530,11 +531,11 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 				plugin.notifySBaseChanged(psb);
 			}
 		} else if (prop.equals(TreeNodeChangeEvent.userObject)) {
-		  // NO user objects in CellDesigner.
-//			ASTNode n = (ASTNode) eventsource;
-//			n.setUserObject(event.getNewValue());
-//			MathContainer mc = n.getParentSBMLObject();
-//			plugin.notifySBaseChanged(getCorrespondingElementInJSBML(mc));
+			// NO user objects in CellDesigner.
+			//			ASTNode n = (ASTNode) eventsource;
+			//			n.setUserObject(event.getNewValue());
+			//			MathContainer mc = n.getParentSBMLObject();
+			//			plugin.notifySBaseChanged(getCorrespondingElementInJSBML(mc));
 		} else if (prop.equals(TreeNodeChangeEvent.useValuesFromTriggerTime)) {
 			Event evt = (Event) event.getSource();
 			PluginEvent plugEvt = plugModel.getEvent(evt.getId());
@@ -644,7 +645,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 		} else if (mathcontainer instanceof Rule) {
 			if (mathcontainer instanceof AlgebraicRule) {
 				//TODO AlgebraicRules are not accessible that easily. How to do that ?
-				
+
 			} else if (mathcontainer instanceof ExplicitRule) {
 				if (mathcontainer instanceof RateRule) {
 					//TODO RateRules are not accessible that easily. How to do that ?
@@ -679,7 +680,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 				plugPriority.setMath(PluginUtils.convert(p.getMath()));
 				plugin.notifySBaseChanged(plugEvent);
 			} else {
-				logger.log(Level.DEBUG, String.format("Couldn't save math properties of %s", p.getClass().getSimpleName()));
+				logger.log(Level.DEBUG, MessageFormat.format("Couldn't save math properties of {0}", p.getClass().getSimpleName()));
 			}
 		}
 	}
@@ -746,8 +747,8 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 							// use "unknown"
 							int sbo = 285;
 							type = SBO.convertSBO2Alias(sbo);
-							logger.log(Level.DEBUG, String.format(
-									"No SBO term defined for %s, using %d",
+							logger.log(Level.DEBUG, MessageFormat.format(
+									"No SBO term defined for {0}, using {1,number,integer}",
 									simspec.getElementName(), sbo));
 						}
 						if (simspec.isSetSpecies()) {
@@ -755,7 +756,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 									plugModel.getSpecies(simspec.getSpecies()),
 									type);
 							PluginModifierSpeciesReference plugModRef = new PluginModifierSpeciesReference(
-									(PluginReaction) simspec.getParent(), alias);
+									plugModel.getReaction(((Reaction) simspec.getParent()).getId()), alias);
 							plugin.notifySBaseAdded(plugModRef);
 						} else {
 							logger.log(Level.DEBUG,
@@ -778,7 +779,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 									plugModel.getSpecies(simspec.getSpecies()),
 									type);
 							PluginSpeciesReference plugspecRef = new PluginSpeciesReference(
-									(PluginReaction) simspec.getParent(), alias);
+									plugModel.getReaction(((Reaction) simspec.getParent()).getId()), alias);
 							plugin.notifySBaseAdded(plugspecRef);
 						} else {
 							logger.log(Level.DEBUG,
@@ -809,12 +810,12 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 								if (p.isSetUnits()
 										&& !Unit.isUnitKind(p.getUnits(),
 												p.getLevel(), p.getVersion())
-										&& plugModel.getUnitDefinition(p
-												.getUnits()) == null) {
+												&& plugModel.getUnitDefinition(p
+														.getUnits()) == null) {
 									PluginUnitDefinition plugUnitDefinition = new PluginUnitDefinition(
 											p.getUnitsInstance().getId());
 									plugModel
-											.addUnitDefinition(plugUnitDefinition);
+									.addUnitDefinition(plugUnitDefinition);
 									plugin.notifySBaseAdded(plugUnitDefinition);
 								}
 							}
@@ -850,7 +851,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 								if (param.getParent() instanceof KineticLaw) {
 									PluginParameter plugparam = new PluginParameter(
 											(PluginKineticLaw) param
-													.getParent());
+											.getParent());
 									if (param.isSetName()
 											&& !param.getName().equals(
 													plugparam.getName())) {
@@ -861,7 +862,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 												Level.DEBUG,
 												"Cannot add node"
 														+ node.getClass()
-																.getSimpleName());
+														.getSimpleName());
 									}
 								} else if (param.getParent() instanceof Model) {
 									PluginParameter plugparam = new PluginParameter(
@@ -876,7 +877,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 												Level.DEBUG,
 												"Cannot add node"
 														+ node.getClass()
-																.getSimpleName());
+														.getSimpleName());
 									}
 								}
 							}
@@ -1010,9 +1011,8 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 						+ node.getClass().getSimpleName());
 			} else if (node instanceof ListOf<?>) {
 				ListOf<?> listOf = (ListOf<?>) node;
-				PluginListOf pluli = new PluginListOf();
-				PluginReaction ro = (PluginReaction) listOf
-						.getParentSBMLObject();
+				//PluginListOf pluli = new PluginListOf();
+				//PluginReaction ro = plugModel.getReaction(((Reaction) listOf.getParentSBMLObject()).getId());
 				switch (listOf.getSBaseListType()) {
 				//TODO This has to be fixed somehow, the usual way like in PluginSBMLWriter does not work at all....
 				case listOfCompartments:
@@ -1098,7 +1098,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 				} else if (node instanceof StoichiometryMath) {
 					logger.log(Level.DEBUG, String.format(
 							"No counter class for %s in CellDesigner.", node
-									.getClass().getSimpleName()));
+							.getClass().getSimpleName()));
 				} else if (node instanceof Trigger) {
 					Trigger trig = (Trigger) node;
 					PluginEvent plugEvent = new PluginEvent(trig.getParent()
@@ -1121,14 +1121,14 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 				} else if (node instanceof Priority) {
 					logger.log(Level.DEBUG, String.format(
 							"No counter class for %s in CellDesigner.", node
-									.getClass().getSimpleName()));
+							.getClass().getSimpleName()));
 				} else if (node instanceof Rule) {
 					if (node instanceof AlgebraicRule) {
 						AlgebraicRule alrule = (AlgebraicRule) node;
 						PluginAlgebraicRule plugalrule = new PluginAlgebraicRule(
 								plugModel);
 						plugalrule
-								.setMath(PluginUtils.convert(alrule.getMath()));
+						.setMath(PluginUtils.convert(alrule.getMath()));
 						plugin.notifySBaseAdded(plugalrule);
 					} else if (node instanceof ExplicitRule) {
 						if (node instanceof RateRule) {
@@ -1151,9 +1151,9 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 							plugassignRule.setMath(PluginUtils
 									.convert(assignRule.getMath()));
 							plugassignRule
-									.setVariable(assignRule.getVariable());
+							.setVariable(assignRule.getVariable());
 							plugassignRule
-									.setNotes(assignRule.getNotesString());
+							.setNotes(assignRule.getNotesString());
 							plugin.notifySBaseAdded(plugassignRule);
 						}
 					} else {
@@ -1170,12 +1170,12 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 				if (node instanceof XMLNode) {
 					logger.log(Level.DEBUG, String.format(
 							"Parsing of node %s not successful.", node
-									.getClass().getSimpleName()));
+							.getClass().getSimpleName()));
 				}
 			} else if (node instanceof ASTNode) {
 				logger.log(Level.DEBUG, String.format(
 						"Parsing of node %s not successful.", node.getClass()
-								.getSimpleName()));
+						.getSimpleName()));
 			} else if (node instanceof AnnotationElement) {
 				if (node instanceof CVTerm) {
 					//TODO this has to be done using libsbml - I couldn't get libsbml to run on my machine however :/
@@ -1198,8 +1198,8 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 	 */
 	//@Override
 	public void nodeRemoved(TreeNodeRemovedEvent evt) {
-	  TreeNode node = evt.getSource();
-	  TreeNode parent = evt.getPreviousParent();
+		TreeNode node = evt.getSource();
+		TreeNode parent = evt.getPreviousParent();
 		if (node instanceof AbstractSBase) {
 			if (node instanceof AbstractNamedSBase) {
 				if (node instanceof CompartmentType) {
@@ -1365,14 +1365,14 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 				} else if (node instanceof StoichiometryMath) {
 					logger.log(Level.DEBUG, String.format(
 							"No counter class for %s in CellDesigner.", node
-									.getClass().getSimpleName()));
+							.getClass().getSimpleName()));
 				} else if (node instanceof Trigger) {
 					Trigger trig = (Trigger) node;
 					PluginEvent plugEvent = plugModel.getEvent(((Event) parent).getId());
 					logger.log(
 							Level.DEBUG,
-							String.format(
-									"Trying to remove trigger from event %s, but there is no remove method. Please check the result.",
+							MessageFormat.format(
+									"Trying to remove trigger from event {0}, but there is no remove method. Please check the result.",
 									plugEvent.getId()));
 					plugEvent.setTrigger((org.sbml.libsbml.Trigger) null);
 					plugin.notifySBaseChanged(plugEvent);
@@ -1391,7 +1391,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 				} else if (node instanceof Priority) {
 					logger.log(Level.DEBUG, String.format(
 							"No counter class for %s in CellDesigner.", node
-									.getClass().getSimpleName()));
+							.getClass().getSimpleName()));
 				} else if (node instanceof Rule) {
 					if (node instanceof AlgebraicRule) {
 						AlgebraicRule alrule = (AlgebraicRule) node;
@@ -1412,12 +1412,12 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 				if (node instanceof XMLNode) {
 					logger.log(Level.DEBUG, String.format(
 							"Parsing of node %s not successful.", node
-									.getClass().getSimpleName()));
+							.getClass().getSimpleName()));
 				}
 			} else if (node instanceof ASTNode) {
 				logger.log(Level.DEBUG, String.format(
 						"Parsing of node %s not successful.", node.getClass()
-								.getSimpleName()));
+						.getSimpleName()));
 			} else if (node instanceof AnnotationElement) {
 				if (node instanceof CVTerm) {
 					CVTerm term = (CVTerm) node;
@@ -1464,8 +1464,8 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 						}
 					} else if (evtSrc instanceof SpeciesReference) {
 						SpeciesReference specRef = (SpeciesReference) evtSrc;
-						
-						if (specRef.isSetParent() &&specRef.getParentSBMLObject().isSetParentSBMLObject()) {
+
+						if (specRef.isSetParent() && specRef.getParentSBMLObject().isSetParentSBMLObject()) {
 							String rID = ((Reaction) specRef.getParentSBMLObject().getParentSBMLObject()).getId();
 						}
 					}
@@ -1506,7 +1506,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 					UnitDefinition ut = (UnitDefinition) u.getParent().getParent();
 					return plugModel.getUnitDefinition(ut.getId()).getUnit(getUnitIndex(ut, u));
 				}
-				
+
 			} else if (evtSrc instanceof SBMLDocument) {
 				return plugModel;
 			} else if (evtSrc instanceof ListOf<?>) {
@@ -1530,7 +1530,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 						return plugModel
 								.getReaction(
 										kinLaw.getParentSBMLObject().getId())
-								.getKineticLaw().getListOfParameters();
+										.getKineticLaw().getListOfParameters();
 					}
 				} else if (listType.equals(Type.listOfModifiers)) {
 					if (((ListOf<?>) evtSrc).getParentSBMLObject() != null) {
@@ -1583,18 +1583,18 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 					if (r != null) {
 						return plugModel.getReaction(r.getId()).getKineticLaw();
 					} else {
-						logger.log(Level.DEBUG, String.format(
-								"Couldn't find node %s", evtSrc.getClass()
-										.getSimpleName()));
+						logger.log(Level.DEBUG, MessageFormat.format(
+								"Couldn't find node {0}", evtSrc.getClass()
+								.getSimpleName()));
 					}
 				} else if (evtSrc instanceof InitialAssignment) {
 					InitialAssignment ia = (InitialAssignment) evtSrc;
 					if (ia.isSetSymbol()) {
 						return plugModel.getInitialAssignment(ia.getSymbol());
 					} else {
-						logger.log(Level.DEBUG, String.format(
-								"Couldn't find node %s", evtSrc.getClass()
-										.getSimpleName()));
+						logger.log(Level.DEBUG, MessageFormat.format(
+								"Couldn't find node {0}", evtSrc.getClass()
+								.getSimpleName()));
 					}
 				} else if (evtSrc instanceof EventAssignment) {
 					EventAssignment ea = (EventAssignment) evtSrc;
@@ -1612,7 +1612,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 					} else {
 						logger.log(Level.DEBUG, String.format(
 								"Couldn't find node %s", evtSrc.getClass()
-										.getSimpleName()));
+								.getSimpleName()));
 					}
 				} else if (evtSrc instanceof Trigger) {
 					Trigger t = (Trigger) evtSrc;
@@ -1622,7 +1622,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 					} else {
 						logger.log(Level.DEBUG, String.format(
 								"Couldn't find node %s", evtSrc.getClass()
-										.getSimpleName()));
+								.getSimpleName()));
 					}
 				} else if (evtSrc instanceof Rule) {
 					if (evtSrc instanceof AlgebraicRule) {
@@ -1634,7 +1634,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 						} else {
 							logger.log(Level.DEBUG, String.format(
 									"Couldn't find node %s", evtSrc.getClass()
-											.getSimpleName()));
+									.getSimpleName()));
 						}
 					} else if (evtSrc instanceof Constraint) {
 						Constraint c = (Constraint) evtSrc;
@@ -1643,7 +1643,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 						} else {
 							logger.log(Level.DEBUG, String.format(
 									"Couldn't find node %s", evtSrc.getClass()
-											.getSimpleName()));
+									.getSimpleName()));
 						}
 					} else if (evtSrc instanceof Delay) {
 						Delay d = (Delay) evtSrc;
@@ -1653,7 +1653,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 						} else {
 							logger.log(Level.DEBUG, String.format(
 									"Couldn't find node %s", evtSrc.getClass()
-											.getSimpleName()));
+									.getSimpleName()));
 						}
 					} else if (evtSrc instanceof Priority) {
 						Priority p = (Priority) evtSrc;
@@ -1664,7 +1664,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 						} else {
 							logger.log(Level.DEBUG, String.format(
 									"Couldn't find node %s", evtSrc.getClass()
-											.getSimpleName()));
+									.getSimpleName()));
 						}
 					}
 				}
@@ -1672,7 +1672,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Searches a mathcontainer object for a specific ASTNode n and returns its index
 	 * @param c
@@ -1692,7 +1692,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 		}
 		return 0;
 	}
-	
+
 	/**
 	 * Searches a kineticlaw and returns the index of a specific localparameter p
 	 * @param k
@@ -1713,7 +1713,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 		}
 		return temp;
 	}
-	
+
 	/**
 	 * Searches a reaction and returns the index of a specific modifierspeciesreference m
 	 * @param r
@@ -1732,10 +1732,10 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 				continue;
 			}
 		}
-		
+
 		return temp;
 	}
-	
+
 	/**
 	 * Searches an UnitDefinition and returns the index of a specific unit u
 	 * @param ud
@@ -1756,15 +1756,15 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 		return temp;
 	}
 
-  /**
-   * Searches through an {@link Event}'s {@link ListOf}&lt;
-   * {@link EventAssignment}&gt; and returns the index of an
-   * {@link EventAssignment} ea
-   * 
-   * @param e
-   * @param ea
-   * @return
-   */
+	/**
+	 * Searches through an {@link Event}'s {@link ListOf}&lt;
+	 * {@link EventAssignment}&gt; and returns the index of an
+	 * {@link EventAssignment} ea
+	 * 
+	 * @param e
+	 * @param ea
+	 * @return
+	 */
 	public int getEventAssignmentIndex(Event e, EventAssignment ea) {
 		ListOf<EventAssignment> lea = e.getListOfEventAssignments();
 		int temp = 0;

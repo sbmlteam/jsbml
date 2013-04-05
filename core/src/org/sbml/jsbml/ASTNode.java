@@ -1903,7 +1903,10 @@ public class ASTNode extends AbstractTreeNode {
 	 */
 	public boolean containsUndeclaredUnits() {
 		if (isLeaf()) {
-			if (isNumber() || isRational() || isUnknown()) {
+			if ((isNumber() || isRational() || isUnknown()) && 
+				(!isSetUnits() || (isSetParentSBMLObject() && 
+					(-1 < getParentSBMLObject().getLevel()) && 
+					(getParentSBMLObject().getLevel() < 3)))) {
 				return true;
 			}
 			if (isString()) {
@@ -1944,7 +1947,15 @@ public class ASTNode extends AbstractTreeNode {
 			level = container.getLevel();
 			version = container.getVersion();
 		}
-		return compile(new UnitsCompiler(level, version)).getUnits().simplify();
+		UnitsCompiler compiler = null;
+		if (isSetParentSBMLObject()) {
+			Model model = getParentSBMLObject().getModel();
+			compiler = new UnitsCompiler(model);
+		}
+		if (compiler == null) {
+			compiler = new UnitsCompiler(level, version);
+		}
+		return compile(compiler).getUnits().simplify();
 	}
 
 	/**

@@ -697,7 +697,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 			if (node instanceof CVTerm) {
 				//search index of CVTerm object
 				CVTerm cvTerm = (CVTerm) node;
-				for(int k=0; k<doc.getCVTermCount(); k++) {
+				for (int k=0; k<doc.getCVTermCount(); k++) {
 					CVTerm cv = doc.getCVTerm(k);
 					if (cv.equals(cvTerm)) {
 						libDoc.getModel().getCVTerms().remove(k);
@@ -1031,16 +1031,19 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 			CVTerm cvt = (CVTerm) evtSrc;
 			// convert evtSrc to a libSBML-CVTerm to compare the attributes and save the changes
 			org.sbml.libsbml.CVTerm myLibCvt = LibSBMLUtils.convertCVTerm(cvt);
-			for(int k=0; k<doc.getCVTermCount();k++) {
+			for (int k = 0; k < doc.getCVTermCount(); k++) {
 				CVTerm cv = doc.getCVTerm(k);
 				if (cv.equals(cvt)) {
 					org.sbml.libsbml.CVTerm libCvt = libDoc.getCVTerm(k);
-					if (myLibCvt.getQualifierType() != libCvt.getQualifierType())
+					if (myLibCvt.getQualifierType() != libCvt.getQualifierType()) {
 						libCvt.setQualifierType(myLibCvt.getQualifierType());
-					if (myLibCvt.getBiologicalQualifierType() != libCvt.getBiologicalQualifierType())
+					}
+					if (myLibCvt.getBiologicalQualifierType() != libCvt.getBiologicalQualifierType()) {
 						libCvt.setBiologicalQualifierType(myLibCvt.getBiologicalQualifierType());
-					if (myLibCvt.getModelQualifierType() != libCvt.getModelQualifierType())
+					}
+					if (myLibCvt.getModelQualifierType() != libCvt.getModelQualifierType()) {
 						libCvt.setModelQualifierType(myLibCvt.getModelQualifierType());
+					}
 					break;
 				}
 			}
