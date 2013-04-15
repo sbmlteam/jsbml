@@ -182,18 +182,26 @@ public class AnnotationParser implements ReadingParser {
 		logger.debug("processNamespace : namespace uri = " + URI);
 		logger.debug("processNamespace : namespace prefix = " + prefix);
 		logger.debug("processNamespace : namespace localName = " + localName);				
-		
-		if (elementName.equals("annotation")) {
-			// The namespaces are store using the SBMLCoreParser for the annotation element
-			return;
-		}
-		
+		logger.debug("processNamespace : hasAttributes = " + hasAttributes);
+		logger.debug("processNamespace : isLastNamespace = " + isLastNamespace);
+				
 		// If the element is an annotation and the contextObject is an
 		// Annotation instance,
 		// we need to add the namespace to the 'annotationNamespaces' HashMap of
 		// annotation.
 		if (contextObject instanceof Annotation) {
 			Annotation annotation = (Annotation) contextObject;
+
+			if (elementName.equals("annotation") && (!annotation.getNonRDFannotation().contains("layout"))) {
+				// Hack added to be able to parse properly the render annotation that are
+				// stored inside : '<annotation xmlns="http://www.sbml.org/sbml/level2">'
+				// It would make problem for models that contain the work layout in the nor RDF annotation part as well as some namespace
+				// declared on the top level annotation element... !!
+				// The problem will go away as soon as the new annotation parsing is in place.
+				
+				// The namespaces are store using the SBMLCoreParser for the annotation element
+				return;
+			}
 
 			if (prefix.trim().length() == 0) {
 				annotation.appendNoRDFAnnotation(" " + localName + "=\"" + URI + "\"");
