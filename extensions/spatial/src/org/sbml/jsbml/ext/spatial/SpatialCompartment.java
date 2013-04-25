@@ -171,6 +171,6 @@ public class SpatialCompartment extends SpatialCallableSBase {
 	public void setListOfCompartmentMappings(
 			ListOf<CompartmentMapping> listOfCompartmentMappings) {
 		this.listOfCompartmentMappings = listOfCompartmentMappings;
-		setThisAsParentSBMLObject(listOfCompartmentMappings);
+		registerChild(listOfCompartmentMappings);
 	}
 }

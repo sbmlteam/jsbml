@@ -58,7 +58,7 @@ public class SpatialSymbolReference extends NamedSpatialElement implements
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
-	@Override
+	//@Override
 	public SpatialSymbolReference clone() {
 		return new SpatialSymbolReference(this);
 	}

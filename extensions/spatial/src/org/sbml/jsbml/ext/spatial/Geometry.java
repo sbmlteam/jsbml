@@ -265,7 +265,7 @@ public class Geometry extends AbstractSBase {
 	public void setListOfAdjacentDomains(
 			ListOf<AdjacentDomains> listOfAdjacentDomains) {
 		this.listOfAdjacentDomains = listOfAdjacentDomains;
-		setThisAsParentSBMLObject(this.listOfAdjacentDomains);
+		registerChild(this.listOfAdjacentDomains);
 	}
 	
 	
@@ -276,7 +276,7 @@ public class Geometry extends AbstractSBase {
 	public void setListOfCoordinateComponents(
 			ListOf<CoordinateComponent> listOfCoordinateComponents) {
 		this.listOfCoordinateComponents = listOfCoordinateComponents;
-		setThisAsParentSBMLObject(this.listOfCoordinateComponents);
+		registerChild(this.listOfCoordinateComponents);
 	}
 
 	/**
@@ -284,7 +284,7 @@ public class Geometry extends AbstractSBase {
 	 */
 	public void setListOfDomains(ListOf<Domain> listOfDomains) {
 		this.listOfDomains = listOfDomains;
-		setThisAsParentSBMLObject(this.listOfDomains);
+		registerChild(this.listOfDomains);
 	}
 
 	/**
@@ -292,7 +292,7 @@ public class Geometry extends AbstractSBase {
 	 */
 	public void setListOfDomainTypes(ListOf<DomainType> listOfDomainTypes) {
 		this.listOfDomainTypes = listOfDomainTypes;
-		setThisAsParentSBMLObject(this.listOfDomainTypes);
+		registerChild(this.listOfDomainTypes);
 	}
 
 	/**
@@ -301,7 +301,7 @@ public class Geometry extends AbstractSBase {
 	public void setListOfGeometryDefinitions(
 			ListOf<GeometryDefinition> listOfGeometryDefinitions) {
 		this.listOfGeometryDefinitions = listOfGeometryDefinitions;
-		setThisAsParentSBMLObject(this.listOfGeometryDefinitions);
+		registerChild(this.listOfGeometryDefinitions);
 	}
 
 	/* (non-Javadoc)

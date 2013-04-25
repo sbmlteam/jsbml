@@ -34,12 +34,12 @@ public class SpatialParser implements ReadingParser, WritingParser {
 	/**
 	 * The namespace URI of this parser.
 	 */
-	private static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/spatial/version1";
+	public static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/spatial/version1";
 	
 	/**
 	 * The name space of required elements.
 	 */
-	private static final String namespaceURIrequired = "http://www.sbml.org/sbml/level3/version1/requiredElements/version1";
+	public static final String namespaceURIrequired = "http://www.sbml.org/sbml/level3/version1/requiredElements/version1";
 	
 	/**
 	 * 
