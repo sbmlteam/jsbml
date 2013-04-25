@@ -126,7 +126,7 @@ public class CompartmentMapping extends NamedSpatialElement {
 	 * @return
 	 */
 	public DomainType getDomainTypeInstance() {
-		Model m = getModel();
+		//Model m = getModel();
 		// TODO
 		return null;
 	}
