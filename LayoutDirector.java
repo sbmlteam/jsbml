@@ -84,7 +84,7 @@ public class LayoutDirector<P> implements Runnable {
 
 	/**
 	 * Constant for use as the key for layout links. A layout link connects a
-	 * core object (e.g. a species) with a all of its glyphs in the given
+	 * core object (e.g., a species) with a all of its glyphs in the given
 	 * layout.
 	 */
 	public static final String LAYOUT_LINK = "LAYOUT_LINK";

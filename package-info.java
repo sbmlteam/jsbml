@@ -56,9 +56,9 @@
  * drawing. It uses two components:
  * 
  * <ul>
- * <li>{@link LayoutAlgorithm}: to determine dimensions and positions of
+ * <li>{@link de.zbit.sbml.layout.LayoutAlgorithm}: to determine dimensions and positions of
  * unlayouted elements
- * <li>{@link LayoutBuilder}: to actually produce the graphical representation
+ * <li>{@link de.zbit.sbml.layout.LayoutBuilder}: to actually produce the graphical representation
  * of the layout
  * </ul>
  * 
@@ -67,9 +67,9 @@
  * product. This procedure consists of four steps:
  * 
  * <ol>
- * <li>All glyphs are added to the input of the {@link LayoutAlgorithm}.
- * <li>The {@link LayoutAlgorithm} completes all missing information.
- * <li>All glyphs are built with the {@link LayoutBuilder}.
+ * <li>All glyphs are added to the input of the {@link de.zbit.sbml.layout.LayoutAlgorithm}.
+ * <li>The {@link de.zbit.sbml.layout.LayoutAlgorithm} completes all missing information.
+ * <li>All glyphs are built with the {@link de.zbit.sbml.layout.LayoutBuilder}.
  * <li>The dimensions of the whole layout are computed.
  * </ol>
  * 
@@ -115,9 +115,9 @@
  * introduced in the original implementation) is not reasonable, because the
  * layout has to be determined from all glpyhs.
  * <li>
- * The current implementation of {@link LayoutDirector} can read in map of
+ * The current implementation of {@link de.zbit.sbml.layout.LayoutDirector} can read in map of
  * fluxes. This is a special application for the modification of a layout and
- * should not be defined here. The product of {@link LayoutDirector} is a
+ * should not be defined here. The product of {@link de.zbit.sbml.layout.LayoutDirector} is a
  * layout. further modification of the layout should be performed separately.
  * </ul>
  * 
