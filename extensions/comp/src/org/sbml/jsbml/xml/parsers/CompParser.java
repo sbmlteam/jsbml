@@ -102,7 +102,7 @@ public class CompParser extends AbstractReaderWriter {
 			for (Object child : listOfElementsToWrite) {
 				if (child instanceof SBase && ((SBase) child).getNamespaces().size() == 0) {
 					SBase sbase = (SBase) child;
-					System.out.println("Found one suspect Model child : " + sbase.getElementName());
+					logger.debug("Found one suspect Model child : " + sbase.getElementName() + ". Setting the SBML namespace to it.");
 					sbase.addNamespace(sbmlNamespace);
 				}
 			}
@@ -117,7 +117,7 @@ public class CompParser extends AbstractReaderWriter {
 	 * elementName, String prefix, boolean hasAttributes, boolean hasNamespaces,
 	 * Object contextObject)
 	 */
-	public Object processStartElement(String elementName, String prefix,
+	public Object processStartElement(String elementName, String uri, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 
 		// TODO : make it generic by using reflection on the contextObject
@@ -174,10 +174,10 @@ public class CompParser extends AbstractReaderWriter {
 		} // end Submodel
 		else if (contextObject instanceof SBaseRef)
 		{
-			SBaseRef speciesType = (SBaseRef) contextObject;
+			SBaseRef sBaseRef = (SBaseRef) contextObject;
 			
 			if (elementName.equalsIgnoreCase(CompConstant.sBaseRef)) {
-				return speciesType.getSBaseRef();
+				return sBaseRef.createSBaseRef();
 			}			
 		} // end SBaseRef
 		else if (contextObject instanceof ListOf<?>) 
@@ -291,14 +291,6 @@ public class CompParser extends AbstractReaderWriter {
 			Object sbmlElementToWrite) 
 	{
 		super.writeElement(xmlObject, sbmlElementToWrite);
-		
-		if (sbmlElementToWrite instanceof Model && (! (((Model) sbmlElementToWrite).getParent() instanceof SBMLDocument))) 
-		{
-			xmlObject.setName("modelDefinition");
-		}
-		else if (xmlObject.getName() != null && xmlObject.getName().equals("listOfModels")) {
-			xmlObject.setName(CompConstant.listOfModelDefinitions);
-		}
 		
 		if (logger.isDebugEnabled()) {
 			logger.debug("writeElement : " + sbmlElementToWrite.getClass().getSimpleName());
