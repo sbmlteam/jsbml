@@ -13,8 +13,8 @@
 
 		<property name="Name" value="JSBML Layout L3 package"/>
 		<property name="name" value="jsbml-layout"/>
-		<property name="version" value="0.9-a1"/>
-		<property name="api.version" value="0.9"/>
+		<property name="version" value="1.0-b1"/>
+		<property name="api.version" value="1.0"/>
 
 		<property name="year" value="${YEAR}"/>
 

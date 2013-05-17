@@ -39,7 +39,7 @@ import org.sbml.jsbml.AbstractSBase;
  * @version $Rev$
  * @since 1.0
  */
-public abstract class SBaseRef extends AbstractSBase {
+public class SBaseRef extends AbstractSBase {
 
 	/**
 	 * Generated serial version identifier.
@@ -85,7 +85,7 @@ public abstract class SBaseRef extends AbstractSBase {
 	
 	
 	/**
-	 * Creates a SBaseRef instance with a level and version. 
+	 * Creates a SBaseRef instance. 
 	 * 
 	 * @param level
 	 * @param version
@@ -124,7 +124,12 @@ public abstract class SBaseRef extends AbstractSBase {
 		}
 	}
 
+	@Override
+	public SBaseRef clone() {
+		return new SBaseRef(this);
+	}
 	
+
 	/**
 	 * Returns the value of portRef
 	 * 
@@ -317,7 +322,19 @@ public abstract class SBaseRef extends AbstractSBase {
 		return false;
 	}
 	
-	
+	/**
+	 * Creates a new {@link SBaseRef} instance and add it to this {@link SBaseRef} 
+	 * 
+	 * @return a new {@link SBaseRef} instance (added to this {@link SBaseRef})
+	 */
+	public SBaseRef createSBaseRef() 
+	{
+		setSBaseRef(new SBaseRef());
+		
+		return sBaseRef;
+	}
+
+
 	/**
 	 * Returns the value of sBaseRef
 	 * 
@@ -348,6 +365,7 @@ public abstract class SBaseRef extends AbstractSBase {
 		SBaseRef oldSBaseRef = this.sBaseRef;
 		this.sBaseRef = sBaseRef;
 		firePropertyChange(CompConstant.sBaseRef, oldSBaseRef, this.sBaseRef);
+		// TODO : need to register the new sBaseRef in the model/document
 	}
 
 	/**
@@ -520,6 +538,6 @@ public abstract class SBaseRef extends AbstractSBase {
 			return false;
 		return true;
 	}
-	
+
 	
 }

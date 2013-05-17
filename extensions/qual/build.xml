@@ -18,7 +18,7 @@
 			used to develop the package.
 			See http://sbml.org/Community/Wiki/SBML_Level_3_Proposals/Qualitative_Models
 		-->
-		<property name="version" value="2.1-a1"/>  
+		<property name="version" value="2.1-b1"/>  
 		<property name="api.version" value="2.1"/>
 
 		<property name="year" value="${YEAR}"/>
