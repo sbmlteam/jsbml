@@ -19,9 +19,15 @@
  */
 package org.sbml.jsbml.xml.parsers;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.sbml.jsbml.SBMLDocument;
+import org.apache.log4j.Logger;
+import org.sbml.jsbml.JSBML;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.ext.spatial.SpatialConstant;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
@@ -29,122 +35,90 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * @since 1.0
  * @version $Rev$
  */
-public class SpatialParser implements ReadingParser, WritingParser {
+public class SpatialParser extends AbstractReaderWriter {
 
-	/**
-	 * The namespace URI of this parser.
-	 */
-	public static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/spatial/version1";
+	private Logger logger = Logger.getLogger(SpatialParser.class);
 	
 	/**
 	 * The name space of required elements.
 	 */
-	public static final String namespaceURIrequired = "http://www.sbml.org/sbml/level3/version1/requiredElements/version1";
+	public static final String namespaceURIrequired = "http://www.sbml.org/sbml/level3/version1/req/version1";
 	
-	/**
-	 * 
-	 */
-	public SpatialParser() {
-		// TODO Auto-generated constructor stub
+
+
+	@Override
+	public String getShortLabel() {
+		return "spatial";
+	}
+
+	@Override
+	public String getNamespaceURI() {
+		return SpatialConstant.namespaceURI;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.parsers.WritingParser#getListOfSBMLElementsToWrite(java.lang.Object)
 	 */
-	public List<Object> getListOfSBMLElementsToWrite(Object objectToWrite) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Object> getListOfSBMLElementsToWrite(Object treeNode)
+	{
+		if (logger.isDebugEnabled()) {
+			logger.debug("getListOfSBMLElementsToWrite : " + treeNode.getClass().getCanonicalName());
+		}	
+		
+		List<Object> listOfElementsToWrite = new ArrayList<Object>();
+		
+		// test if this treeNode is an extended SBase.
+		if (treeNode instanceof SBase && (! (treeNode instanceof Model)) && ((SBase) treeNode).getExtension(getNamespaceURI()) != null) {
+			SBasePlugin sbasePlugin = (SBasePlugin) ((SBase) treeNode).getExtension(getNamespaceURI());
+			
+			if (sbasePlugin != null) {
+				listOfElementsToWrite = super.getListOfSBMLElementsToWrite(sbasePlugin);
+				logger.debug("getListOfSBMLElementsToWrite : nb children = " + sbasePlugin.getChildCount());
+			}
+		} else {
+			listOfElementsToWrite = super.getListOfSBMLElementsToWrite(treeNode);
+		}
+
+		if (treeNode instanceof Model) {
+			String sbmlNamespace = JSBML.getNamespaceFrom(((Model) treeNode).getLevel(), ((Model) treeNode).getVersion());
+			
+			((Model) treeNode).addNamespace(sbmlNamespace);
+			
+			for (Object child : listOfElementsToWrite) {
+				if (child instanceof SBase && ((SBase) child).getNamespaces().size() == 0) {
+					SBase sbase = (SBase) child;
+					logger.debug("Found one suspect Model child : " + sbase.getElementName() + ". Setting the SBML namespace to it.");
+					sbase.addNamespace(sbmlNamespace);
+				}
+			}
+		}
+		
+		return listOfElementsToWrite;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeAttributes(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
-	 */
-	public void writeAttributes(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeCharacters(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
-	 */
-	public void writeCharacters(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
-
-	}
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
 	 */
 	public void writeElement(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
-
+			Object sbmlElementToWrite) 
+	{
+		super.writeElement(xmlObject, sbmlElementToWrite);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("writeElement : " + sbmlElementToWrite.getClass().getSimpleName());
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeNamespaces(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
-	 */
-	public void writeNamespaces(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		// TODO Auto-generated method stub
 
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processAttribute(java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, java.lang.Object)
-	 */
-	public void processAttribute(String elementName, String attributeName,
-			String value, String prefix, boolean isLastAttribute,
-			Object contextObject) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processCharactersOf(java.lang.String, java.lang.String, java.lang.Object)
-	 */
-	public void processCharactersOf(String elementName, String characters,
-			Object contextObject) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processEndDocument(org.sbml.jsbml.SBMLDocument)
-	 */
-	public void processEndDocument(SBMLDocument sbmlDocument) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processEndElement(java.lang.String, java.lang.String, boolean, java.lang.Object)
-	 */
-	public boolean processEndElement(String elementName, String prefix,
-			boolean isNested, Object contextObject) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processNamespace(java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, boolean, java.lang.Object)
-	 */
-	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean hasAttributes, boolean isLastNamespace,
-			Object contextObject) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processStartElement(java.lang.String, java.lang.String, boolean, boolean, java.lang.Object)
-	 */
-	public Object processStartElement(String elementName, String prefix,
-			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
+	@Override
+	public Object processStartElement(String elementName, String URI,
+			String prefix, boolean hasAttributes, boolean hasNamespaces,
+			Object contextObject) 
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

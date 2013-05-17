@@ -1,6 +1,6 @@
 /*
- * $Id$
- * $URL$
+ * $Id: SpatialParameterPlugin.java 1473 2013-04-25 16:25:26Z andreas-draeger $
+ * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/extensions/spatial/src/org/sbml/jsbml/ext/spatial/SpatialParameterPlugin.java $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -26,9 +26,9 @@ import javax.swing.tree.TreeNode;
 /**
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev$
+ * @version $Rev: 1473 $
  */
-public class SpatialParameter extends SpatialCallableSBase {
+public class SpatialParameterPlugin extends SpatialCallableSBase {
 
 	/**
 	 * Generated serial version identifier.
@@ -43,7 +43,7 @@ public class SpatialParameter extends SpatialCallableSBase {
 	/**
 	 * 
 	 */
-	public SpatialParameter() {
+	public SpatialParameterPlugin() {
 		super();
 	}
 	
@@ -51,14 +51,14 @@ public class SpatialParameter extends SpatialCallableSBase {
 	 * @param level
 	 * @param version
 	 */
-	public SpatialParameter(int level, int version) {
+	public SpatialParameterPlugin(int level, int version) {
 		super(level, version);
 	}
 	
 	/**
 	 * @param sb
 	 */
-	public SpatialParameter(SpatialParameter sb) {
+	public SpatialParameterPlugin(SpatialParameterPlugin sb) {
 		super(sb);
 		if (sb.isSetQualifier()) {
 			this.qualifier = (SpatialParameterQualifier) sb.getQualifier().clone();
@@ -69,8 +69,8 @@ public class SpatialParameter extends SpatialCallableSBase {
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	//@Override
-	public SpatialParameter clone() {
-		return new SpatialParameter(this);
+	public SpatialParameterPlugin clone() {
+		return new SpatialParameterPlugin(this);
 	}
 
 	/* (non-Javadoc)
@@ -80,7 +80,7 @@ public class SpatialParameter extends SpatialCallableSBase {
 	public boolean equals(Object object) {
 		boolean equals = super.equals(object);
 		if (equals) {
-			SpatialParameter sp = (SpatialParameter) object;
+			SpatialParameterPlugin sp = (SpatialParameterPlugin) object;
 			equals &= sp.isSetQualifier() == isSetQualifier();
 			if (equals && isSetQualifier()) {
 				equals &= sp.getQualifier().equals(getQualifier());

@@ -1,6 +1,6 @@
 /*
- * $Id$
- * $URL$
+ * $Id: SpatialReactionPlugin.java 1445 2013-01-04 08:54:54Z andreas-draeger $
+ * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/extensions/spatial/src/org/sbml/jsbml/ext/spatial/SpatialReactionPlugin.java $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -23,52 +23,58 @@ package org.sbml.jsbml.ext.spatial;
 /**
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev$
+ * @version $Rev: 1445 $
  */
-public class SpatialSpecies extends SpatialCallableSBase {
+public class SpatialReactionPlugin extends SpatialCallableSBase {
 
 	/**
 	 * Generated serial version identifier.
 	 */
-	private static final long serialVersionUID = 1636970127352490380L;
+	private static final long serialVersionUID = -2154884901226244123L;
 
 	/**
 	 * 
 	 */
-	private Boolean isSpatial;
+	private Boolean isLocal;
 	
 	/**
 	 * 
 	 */
-	public SpatialSpecies() {
-		// TODO Auto-generated constructor stub
+	public SpatialReactionPlugin() {
+		super();
 	}
 
 	/**
 	 * @param level
 	 * @param version
 	 */
-	public SpatialSpecies(int level, int version) {
+	public SpatialReactionPlugin(int level, int version) {
 		super(level, version);
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**
-	 * @param sb
+	 * @param sr
 	 */
-	public SpatialSpecies(SpatialSpecies sb) {
-		super(sb);
-		if (sb.isSetIsSpatial()) {
-			this.isSpatial = Boolean.valueOf(sb.isSpatial());
+	public SpatialReactionPlugin(SpatialReactionPlugin sr) {
+		super(sr);
+		if (sr.isSetIsLocal()) {
+			this.isLocal = Boolean.valueOf(sr.getIsLocal());
 		}
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isSetIsLocal() {
+		return isLocal != null;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	@Override
-	public SpatialSpecies clone() {
-		return new SpatialSpecies(this);
+	public SpatialReactionPlugin clone() {
+		return new SpatialReactionPlugin(this);
 	}
 
 	/* (non-Javadoc)
@@ -78,56 +84,40 @@ public class SpatialSpecies extends SpatialCallableSBase {
 	public boolean equals(Object object) {
 		boolean equal = super.equals(object);
 		if (equal) {
-			SpatialSpecies ss = (SpatialSpecies) object;
-			equal &= ss.isSetIsSpatial() == isSetIsSpatial();
-			if (equal && isSetIsSpatial()) {
-				equal &= ss.isSpatial() == isSpatial();
+			SpatialReactionPlugin sr = (SpatialReactionPlugin) object;
+			equal &= sr.isSetIsLocal() == isSetIsLocal();
+			if (equal && isSetIsLocal()) {
+				equal &= sr.getIsLocal() == getIsLocal();
 			}
 		}
 		return equal;
 	}
 
 	/**
-	 * @return the isSpatial
+	 * @return the isLocal
 	 */
-	public boolean getIsSpatial() {
-		return isSpatial;
+	public Boolean getIsLocal() {
+		return isLocal;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 997;
+		final int prime = 953;
 		int hashCode = super.hashCode();
-		if (isSetIsSpatial()) {
-			hashCode += prime * isSpatial.hashCode();
+		if (isSetIsLocal()) {
+			hashCode += prime * isLocal.hashCode();
 		}
 		return hashCode;
 	}
 	
 	/**
-	 * @return
+	 * @param isLocal the isLocal to set
 	 */
-	public boolean isSetIsSpatial() {
-		return isSpatial != null;
-	}
-
-	/**
-	 * 
-	 * @return
-	 * @see #getIsSpatial()
-	 */
-	public boolean isSpatial() {
-		return getIsSpatial();
-	}
-	
-	/**
-	 * @param isSpatial the isSpatial to set
-	 */
-	public void setIsSpatial(boolean isSpatial) {
-		this.isSpatial = Boolean.valueOf(isSpatial);
+	public void setIsLocal(Boolean isLocal) {
+		this.isLocal = isLocal;
 	}
 
 }
