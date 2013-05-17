@@ -30,6 +30,16 @@ import org.sbml.jsbml.AbstractMathContainer;
  */
 public class AnalyticVolume extends AbstractMathContainer {
 
+	
+	 // TODO : ??private String spatialId;
+	 // TODO : ?? private String shapeId;
+	private String domainType;
+	private String functionType;
+	private int ordinal;
+
+
+	private boolean  isSetOrdinal;
+	  
 	/**
 	 * Generated serial version identifier.
 	 */
@@ -48,6 +58,11 @@ public class AnalyticVolume extends AbstractMathContainer {
 	public AnalyticVolume(AnalyticVolume node) {
 		super(node);
 		// TODO Auto-generated constructor stub
+	}
+
+	public AnalyticVolume(String id, int level, int version) 
+	{
+		super(level, version); // TODO : set the id
 	}
 
 	/* (non-Javadoc)

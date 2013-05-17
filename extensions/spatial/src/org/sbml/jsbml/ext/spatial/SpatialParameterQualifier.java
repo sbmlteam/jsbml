@@ -22,7 +22,7 @@ package org.sbml.jsbml.ext.spatial;
 import org.sbml.jsbml.SBase;
 
 /**
- * This object unifies all possible child elements of {@link SpatialParameter}.
+ * This object unifies all possible child elements of {@link SpatialParameterPlugin}.
  * 
  * @author Andreas Dr&auml;ger
  * @since 1.0

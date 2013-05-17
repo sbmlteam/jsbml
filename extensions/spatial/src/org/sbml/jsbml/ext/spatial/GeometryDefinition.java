@@ -30,6 +30,8 @@ import org.sbml.jsbml.AbstractSBase;
  */
 public class GeometryDefinition extends AbstractSBase {
 
+	// TODO : extend something with an id
+	
 	/**
 	 * Generated serial version identifier.
 	 */

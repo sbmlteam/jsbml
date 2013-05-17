@@ -30,6 +30,17 @@ import org.sbml.jsbml.AbstractTreeNode;
  */
 public class SpatialPoint extends AbstractTreeNode {
 
+	// private String spatialId;
+	private String domain;
+	  
+	private double coord1;
+	private double coord2;
+	private double coord3;
+
+	private boolean  isSetCoord1;
+	private boolean  isSetCoord2;
+	private boolean  isSetCoord3;
+
 	/**
 	 * Generated serial version identifier.
 	 */
