@@ -185,4 +185,13 @@ public class MultiSpecies extends AbstractSBasePlugin {
 		return null;
 	}
 
+
+  public SpeciesTypeInstance createSpeciesTypeInstance(String id) {
+	SpeciesTypeInstance sti = new SpeciesTypeInstance();
+	sti.setId(id);
+	addSpeciesTypeInstance(sti);
+	
+	return sti;
+}
+
 }
