@@ -45,5 +45,5 @@ public class SpeciesTypeRestriction extends AbstractNamedSBase {
 		// TODO
 		return null;
 	}
-
+		
 }

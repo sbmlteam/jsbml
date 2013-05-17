@@ -43,6 +43,7 @@ public class MultiConstant {
 	
 	// bond
 	public static final String occurrence = "occurrence";
-	
+
+	public static String speciesTypeRestriction = "speciesTypeRestriction";
 	
 }
