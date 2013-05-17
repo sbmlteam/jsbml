@@ -141,7 +141,7 @@ public class ReplacedBy extends SBaseRef {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		  if (isSetSubmodelRef()) {
-		    attributes.put(CompConstant.shortLabel + "" + CompConstant.submodelRef, getSubmodelRef());
+		    attributes.put(CompConstant.shortLabel + ":" + CompConstant.submodelRef, getSubmodelRef());
 		  }
 
 		  return attributes;
