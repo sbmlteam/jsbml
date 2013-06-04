@@ -192,10 +192,10 @@ public class AnnotationParser implements ReadingParser {
 		if (contextObject instanceof Annotation) {
 			Annotation annotation = (Annotation) contextObject;
 
-			if (elementName.equals("annotation") && (!annotation.getNonRDFannotation().contains("layout"))) {
+			if (elementName.equals("annotation") && (annotation.getNonRDFannotation() != null) && (!annotation.getNonRDFannotation().contains("layout"))) {
 				// Hack added to be able to parse properly the render annotation that are
 				// stored inside : '<annotation xmlns="http://www.sbml.org/sbml/level2">'
-				// It would make problem for models that contain the work layout in the nor RDF annotation part as well as some namespace
+				// It would make problem for models that contain the word layout in the non RDF annotation part as well as some namespace
 				// declared on the top level annotation element... !!
 				// The problem will go away as soon as the new annotation parsing is in place.
 				
