@@ -571,6 +571,10 @@ public class XMLNode extends XMLToken {
 	 * @return a string derived from this {@link XMLNode}.
 	 */
 	public String toXMLString() {
+		if (isText() && getChildCount() == 0)
+		{
+			return getCharacters();
+		}
 		return XMLNodeWriter.toXML(this);
 	}
 
