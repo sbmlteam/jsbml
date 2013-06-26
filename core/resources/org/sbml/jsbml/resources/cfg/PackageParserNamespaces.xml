@@ -42,6 +42,7 @@
   <entry key="http://www.sbml.org/sbml/level3/version1/fbc/version1">org.sbml.jsbml.xml.parsers.FBCParser</entry>
   <entry key="http://www.sbml.org/sbml/level3/version1/qual/version1">org.sbml.jsbml.xml.parsers.QualParser</entry>
   <entry key="http://www.sbml.org/sbml/level3/version1/layout/version1">org.sbml.jsbml.xml.parsers.L3LayoutParser</entry>
+  <entry key="http://www.w3.org/2001/XMLSchema-instance">org.sbml.jsbml.xml.parsers.L3LayoutParser</entry>
   <entry key="http://www.sbml.org/sbml/level3/version1/multi/version1">org.sbml.jsbml.xml.parsers.MultiParser</entry>
   <entry key="http://www.sbml.org/sbml/level3/version1/render/version1">org.sbml.jsbml.xml.parsers.RenderParser</entry>
 

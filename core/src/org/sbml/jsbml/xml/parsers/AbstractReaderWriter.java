@@ -32,6 +32,7 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.util.ListOfWithName;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
@@ -221,18 +222,23 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 		if (sbmlElementToWrite instanceof SBase) {
 			SBase sbase = (SBase) sbmlElementToWrite;
 
-		      if (!sbase.getNamespaces().contains(getNamespaceURI())) {
-		    	  logger.debug("writeElement : rejected an element as it does not seems to have the good namespace definition");
-		    	  logger.debug("writeElement : sbase.namespaces size = " + sbase.getNamespaces().size());
-		    	  logger.debug("writeElement : sbase.namespaces = " + sbase.getNamespaces());
-					
-		    	  return;
-		      }
+			if (!sbase.getNamespaces().contains(getNamespaceURI())) {
+				logger.debug("writeElement : rejected an element as it does not seems to have the good namespace definition");
+				logger.debug("writeElement : sbase.namespaces size = " + sbase.getNamespaces().size());
+				logger.debug("writeElement : sbase.namespaces = " + sbase.getNamespaces());
 
+				return;
+			}
+
+			if (sbase instanceof ListOfWithName<?>) 
+			{
+				xmlObject.setName(sbase.getElementName());
+			}
+			
 			if (!xmlObject.isSetName()) {
 				if (sbase instanceof ListOf<?>) {
 					ListOf<?> listOf = (ListOf<?>) sbase;
-					
+
 					if (listOf.size() > 0) {
 						String listOfName = "listOf" + listOf.get(0).getClass().getSimpleName();
 						if (!listOfName.endsWith("s") && !listOfName.toLowerCase().endsWith("information")) {
@@ -240,7 +246,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 						}
 						xmlObject.setName(listOfName);
 					}
-					
+
 				} else {
 					xmlObject.setName(sbase.getElementName());
 				}
