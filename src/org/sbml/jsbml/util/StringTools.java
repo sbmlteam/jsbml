@@ -374,7 +374,7 @@ public class StringTools {
 				value = Double.NEGATIVE_INFINITY;
 			} else {
 				Logger logger = Logger.getLogger(StringTools.class);
-				logger.warn("Could not create a double from the string " + valueAsStr);
+				logger.warn("Could not create a double from the string '" + valueAsStr + "'");
 			}
 		}
 
