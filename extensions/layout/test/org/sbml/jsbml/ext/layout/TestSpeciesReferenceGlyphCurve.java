@@ -37,17 +37,20 @@ public class TestSpeciesReferenceGlyphCurve {
 		BoundingBox bbRg = rg.createBoundingBox(10.0, 10.0, 0.0);
 		bbRg.setPosition(new Point(100.0, 0.0, 0.0));
 
-		CubicBezier cs1 = new CubicBezier();
+//		Curve c = new Curve(3, 1);
+		Curve c = srg1.createCurve();
+//		CurveSegmentImpl cs1 = (CurveSegmentImpl) c.createCurveSegment();
+//		CubicBezier cs1 = new CubicBezier();
+		CubicBezier cs1 = c.createCubicBezier();
 		cs1.setStart(new Point(35.0, 10.0, 0.0));
 		cs1.setEnd(new Point(100.0, 10.0, 0.0));
 		cs1.setBasePoint1(new Point(25, 35, 45));
 		cs1.setBasePoint2(new Point(55, 65, 75));
 		
-		Curve c = new Curve();
-		ListOf<CurveSegment> csList = new ListOf<CurveSegment>();
-		csList.add(cs1);
-		c.setListOfCurveSegments(csList);
-		srg1.setCurve(c);
+//		ListOf<CurveSegment> csList = new ListOf<CurveSegment>();
+//		csList.add(cs1);
+//		c.setListOfCurveSegments(csList);
+//		srg1.setCurve(c);
 				
 		LineSegment cs2 = new LineSegment();
 		cs2.createStart(110.0, 10.0, 0.0);

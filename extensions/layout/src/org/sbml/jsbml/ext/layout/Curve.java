@@ -121,6 +121,7 @@ public class Curve extends AbstractNamedSBase {
 	 */
 	public LineSegment createLineSegment() {
 		LineSegment cs = new LineSegment(getLevel(), getVersion());
+		addCurveSegment(cs);
 		return cs;
 	}
 
@@ -131,6 +132,7 @@ public class Curve extends AbstractNamedSBase {
 	 */
 	public CubicBezier createCubicBezier() {
 		CubicBezier cs = new CubicBezier(getLevel(), getVersion());
+		addCurveSegment(cs);
 		return cs;
 	}
 
