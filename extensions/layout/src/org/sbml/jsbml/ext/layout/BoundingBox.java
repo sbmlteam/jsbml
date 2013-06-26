@@ -25,6 +25,7 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
  * 
@@ -35,7 +36,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
  * @since 1.0
  * @version $Rev$
  */
-public class BoundingBox extends AbstractNamedSBase {
+public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase {
 
 	/**
 	 * Generated serial version identifier.

@@ -105,6 +105,10 @@ public class TestL3Layout {
    */
   @Test public void test_L3_Layout_read1() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException
   {
+	  if (DATA_FOLDER == null)
+	  {
+		  DATA_FOLDER = System.getProperty("user.dir") + "/extensions/layout/test/org/sbml/jsbml/xml/test/data";
+	  }
 		String fileName = DATA_FOLDER + "/layout/GlycolysisLayout_small.xml";
 		
 		SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);

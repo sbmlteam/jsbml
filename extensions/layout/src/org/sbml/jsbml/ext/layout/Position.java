@@ -46,7 +46,6 @@ public class Position extends Point {
    */
   public Position(Point point) {
 	  super(point);
-	  clonePointAttributes(point, this);
 	}
 
   /* (non-Javadoc)

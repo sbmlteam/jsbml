@@ -23,6 +23,8 @@ import java.util.Map;
 
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.NamedSBase;
+import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
@@ -32,20 +34,22 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @since 1.0
  * @version $Rev$
  */
-public class CompartmentGlyph extends NamedSBaseGlyph {
-
+public class CompartmentGlyph extends AbstractReferenceGlyph {
+	
 	/**
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -831178362695634919L;
 
+	private Double order;
+	
 	/**
 	 * 
 	 */
 	public CompartmentGlyph() {
 		super();
 	}
-	
+
 	/**
 	 * 
 	 * @param compartmentGlyph
@@ -53,7 +57,7 @@ public class CompartmentGlyph extends NamedSBaseGlyph {
 	public CompartmentGlyph(CompartmentGlyph compartmentGlyph) {
 		super(compartmentGlyph);
 	}
-	
+
 	/**
 	 * 
 	 * @param level
@@ -93,7 +97,7 @@ public class CompartmentGlyph extends NamedSBaseGlyph {
 	 * @return
 	 */
 	public String getCompartment() {
-		return getNamedSBase();
+		return getReference();
 	}
 	
 	/**
@@ -110,7 +114,7 @@ public class CompartmentGlyph extends NamedSBaseGlyph {
 	 * @return
 	 */
 	public boolean isSetCompartment() {
-		return isSetNamedSBase();
+		return isSetReference();
 	}
 	
 	/* (non-Javadoc)
@@ -124,9 +128,16 @@ public class CompartmentGlyph extends NamedSBaseGlyph {
 		
 		if (!isAttributeRead) {
 		
-			if (attributeName.equals(LayoutConstants.compartment)) {	
+			if (attributeName.equals(LayoutConstants.compartment)) 
+			{	
 				setCompartment(value);
-			} else {
+			}
+			else if (attributeName.equals(LayoutConstants.order)) 
+			{	
+				setOrder(StringTools.parseSBMLDouble(value));
+			}
+			else			
+			{
 				return false;
 			}
 		
@@ -149,14 +160,14 @@ public class CompartmentGlyph extends NamedSBaseGlyph {
 	 * @param compartment
 	 */
 	public void setCompartment(String compartment) {
-		setNamedSBase(compartment, TreeNodeChangeEvent.compartment);
+		setReference(compartment, TreeNodeChangeEvent.compartment);
 	}
 	
 	/**
 	 * 
 	 */
 	public void unsetCompartment() {
-		unsetNamedSBase();
+		unsetReference();
 	}
 
 	/* (non-Javadoc)
@@ -170,8 +181,60 @@ public class CompartmentGlyph extends NamedSBaseGlyph {
 			attributes.put(LayoutConstants.shortLabel + ":"
 					+ LayoutConstants.compartment, getCompartment());
 		}
+		if (isSetOrder()) {
+			attributes.put(LayoutConstants.shortLabel + ":"
+					+ LayoutConstants.order, order.toString());
+		}
 
 		return attributes;
 	}
 
+	
+	/**
+	 * Returns the value of order
+	 *
+	 * @return the value of order
+	 */
+	public double getOrder() 
+	{
+		if (isSetOrder()) {
+			return order;
+		}
+		// This is necessary if we cannot return null here.
+		throw new PropertyUndefinedError(LayoutConstants.order, this);
+	}
+
+	/**
+	 * Returns whether order is set 
+	 *
+	 * @return whether order is set 
+	 */
+	public boolean isSetOrder() {
+		return this.order != null;
+	}
+
+	/**
+	 * Sets the value of order
+	 */
+	public void setOrder(double order) {
+		double oldOrder = this.order;
+		this.order = order;
+		firePropertyChange(LayoutConstants.order, oldOrder, this.order);
+	}
+
+	/**
+	 * Unsets the variable order 
+	 *
+	 * @return {@code true}, if order was set before, 
+	 *         otherwise {@code false}
+	 */
+	public boolean unsetOrder() {
+		if (isSetOrder()) {
+			double oldOrder = this.order;
+			this.order = null;
+			firePropertyChange(LayoutConstants.order, oldOrder, this.order);
+			return true;
+		}
+		return false;
+	}
 }

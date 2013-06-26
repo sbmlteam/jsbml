@@ -35,9 +35,10 @@ import org.sbml.jsbml.SBMLReader;
 /**
  * 
  * @author Sebastian Fr&ouml;hlich
+ * @author rodrigue
  * @version $Rev$
  * @since 1.0
- * @date 21.11.2011
+ * 
  */
 public class LayoutExtentionTest {
   
@@ -63,8 +64,7 @@ public class LayoutExtentionTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		layoutModel = (LayoutModelPlugin) doc.getModel().getExtension(
-				LAYOUT_NS);
+		layoutModel = (LayoutModelPlugin) doc.getModel().getExtension(LAYOUT_NS);
 	}
 
 	/**
@@ -72,6 +72,7 @@ public class LayoutExtentionTest {
 	 */
 	@Test
 	public void testLayoutAttributes() {
+
 		assertEquals("Layout_1", layoutModel.getLayout(0).getId());
 	}
 
@@ -107,7 +108,7 @@ public class LayoutExtentionTest {
 		ReactionGlyph reactionGlyph = reactionGlyphs.get(0);
 		Curve curve = reactionGlyph.getCurve();
 		assertEquals(1, curve.getListOfCurveSegments().size());
-		CurveSegment lineSegment = curve.getListOfCurveSegments().get(0);
+		LineSegment lineSegment = (LineSegment) curve.getListOfCurveSegments().get(0);
 		Point start = lineSegment.getStart();
 		assertEquals("165.0", Double.toString(start.getX()));
 		assertEquals("105.0", Double.toString(start.getY()));
@@ -122,25 +123,23 @@ public class LayoutExtentionTest {
     assertEquals("SpeciesReference_1",
       speciesReferenceGlyph.getSpeciesReference());
 		assertEquals("SpeciesReferenceGlyph_1", speciesReferenceGlyph.getId());
-		assertEquals("substrate",
+		assertEquals(SpeciesReferenceRole.SUBSTRATE,
 				speciesReferenceGlyph.getSpeciesReferenceRole());
 		assertEquals(2, reactionGlyph.getListOfSpeciesReferenceGlyphs().size());
 		curve = speciesReferenceGlyph.getCurve();
-		ListOf<CurveSegment> listOfCurveSegments = curve
-				.getListOfCurveSegments();
+		ListOf<? extends CurveSegment> listOfCurveSegments = curve.getListOfCurveSegments();
 		assertEquals(1, listOfCurveSegments.size());
-		CurveSegment curveSegment = listOfCurveSegments.get(0);
-		CubicBezier cubicBezir = (CubicBezier) curveSegment;
-		assertEquals("165.0", Double.toString(cubicBezir.getStart().getX()));
-		assertEquals("205.0", Double.toString(cubicBezir.getStart().getY()));
-		assertEquals("195.0", Double.toString(cubicBezir.getEnd().getX()));
-		assertEquals("60.0", Double.toString(cubicBezir.getEnd().getY()));
+		CubicBezier cubicBezier = (CubicBezier) listOfCurveSegments.get(0);
+		assertEquals("165.0", Double.toString(cubicBezier.getStart().getX()));
+		assertEquals("205.0", Double.toString(cubicBezier.getStart().getY()));
+		assertEquals("195.0", Double.toString(cubicBezier.getEnd().getX()));
+		assertEquals("60.0", Double.toString(cubicBezier.getEnd().getY()));
 		assertEquals("165.0",
-				Double.toString(cubicBezir.getBasePoint1().getX()));
-		assertEquals("90.0", Double.toString(cubicBezir.getBasePoint1().getY()));
+				Double.toString(cubicBezier.getBasePoint1().getX()));
+		assertEquals("90.0", Double.toString(cubicBezier.getBasePoint1().getY()));
 		assertEquals("168.0",
-				Double.toString(cubicBezir.getBasePoint2().getX()));
-		assertEquals("95.0", Double.toString(cubicBezir.getBasePoint2().getY()));
+				Double.toString(cubicBezier.getBasePoint2().getX()));
+		assertEquals("95.0", Double.toString(cubicBezier.getBasePoint2().getY()));
 	}
 
 	/**

@@ -34,6 +34,7 @@ import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.UniqueNamedSBase;
+import org.sbml.jsbml.util.ListOfWithName;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.filters.NameFilter;
 
@@ -61,7 +62,6 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	/**
 	 * 
 	 */
-	// TODO: Why are there methods called addGraphicalObjects and additionalGraphicalObjects?
 	private ListOf<GraphicalObject> listOfAdditionalGraphicalObjects;
 	/**
 	 * 
@@ -138,27 +138,23 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
     initDefault();
   }
 
-  /**
-   * 
-   * @param reactionGlyph
-   */
-  public void add(ReactionGlyph reactionGlyph) {
-    addReactionGlyph(reactionGlyph);
-  }
-
-	/**
-	 * 
-	 * @param speciesGlyph
-	 */
-	public void add(SpeciesGlyph speciesGlyph) {
-		addSpeciesGlyph(speciesGlyph);
-	}
 	
 	 /**
-	   * Add an arbitrary additional graphical object.
+	   * Adds an arbitrary additional {@link GraphicalObject}.
 	   * @param object
 	   */
-	  public void addAdditionalGraphical(GraphicalObject object) {
+	  public void addGraphicalObject(GraphicalObject object) {
+	    if (object != null) {
+	      getListOfAdditionalGraphicalObjects().add(object);
+	    }
+	  }
+
+	  /**
+	   * Adds a {@link GeneralGlyph} object.
+	   * 
+	   * @param object
+	   */
+	  public void addGeneralGlyph(GeneralGlyph object) {
 	    if (object != null) {
 	      getListOfAdditionalGraphicalObjects().add(object);
 	    }
@@ -175,7 +171,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 	
   /**
-   * 
+   * Adds a {@link ReactionGlyph} to this layout
+   *  
    * @param reactionGlyph
    */
   public void addReactionGlyph(ReactionGlyph reactionGlyph) {
@@ -228,7 +225,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param nsb
    * @return
    */
-  private <T extends NamedSBaseGlyph> boolean containsGlyph(ListOf<T> listOfGlyphs,
+  private <T extends AbstractReferenceGlyph> boolean containsGlyph(ListOf<T> listOfGlyphs,
 		  NamedSBase nsb) {
 	  if ((nsb != null) && (listOfGlyphs != null) && !listOfGlyphs.isEmpty()) {
 		  NamedSBaseReferenceFilter filter = new NamedSBaseReferenceFilter(nsb.getId());
@@ -344,6 +341,35 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  ReactionGlyph glyph = new ReactionGlyph(id, getLevel(), getVersion());
 	  glyph.setReaction(reaction);
 	  addReactionGlyph(glyph);
+	  return glyph;
+  }
+
+  
+  /**
+   * Creates and adds a new {@link GeneralGlyph}.
+   * 
+   * @param id
+   *        the identifier of the {@link GeneralGlyph} to be created.
+   * @return a new {@link GeneralGlyph}.
+   * @see #createGeneralGlyph(String, String)
+   */
+  public GeneralGlyph createGeneralGlyph(String id) {
+    return createGeneralGlyph(id, null);
+  }
+
+  /**
+   * Creates and adds a new {@link GeneralGlyph}.
+   * 
+   * @param id
+   *        the identifier of the {@link GeneralGlyph} to be created.
+   * @param reference 
+   *        the identifier of an element in the model that this GeneralGlyph will represent.
+   * @return a new {@link GeneralGlyph}.
+   */
+  public GeneralGlyph createGeneralGlyph(String id, String reference) {
+	  GeneralGlyph glyph = new GeneralGlyph(id, getLevel(), getVersion());
+	  glyph.setReference(reference);
+	  addGeneralGlyph(glyph);
 	  return glyph;
   }
   
@@ -541,6 +567,12 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 		  }
 		  pos++;
 	  }
+	  if (isSetAddGraphicalObjects()) {
+		  if (index == pos) {
+			  return getListOfAdditionalGraphicalObjects();
+		  }
+		  pos++;
+	  }
 	  if (isSetListOfCompartmentGlyphs()) {
 		  if (index == pos) {
 			  return getListOfCompartmentGlyphs();
@@ -562,12 +594,6 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  if (isSetListOfTextGlyphs()) {
 		  if (index == pos) {
 			  return getListOfTextGlyphs();
-		  }
-		  pos++;
-	  }
-	  if (isSetAddGraphicalObjects()) {
-		  if (index == pos) {
-			  return getListOfAdditionalGraphicalObjects();
 		  }
 	  }
 	  throw new IndexOutOfBoundsException(MessageFormat.format(
@@ -645,7 +671,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public ListOf<GraphicalObject> getListOfAdditionalGraphicalObjects() {
     if (!isSetListOfAdditionalGraphicalObjects()) {
-      listOfAdditionalGraphicalObjects = ListOf.newInstance(this, GraphicalObject.class);
+      listOfAdditionalGraphicalObjects = new ListOfWithName<GraphicalObject>(LayoutConstants.listOfAdditionalGraphicalObjects);
+      listOfAdditionalGraphicalObjects.setSBaseListType(ListOf.Type.other);
       listOfAdditionalGraphicalObjects.addNamespace(LayoutConstants.namespaceURI);
       registerChild(listOfAdditionalGraphicalObjects);
     }
@@ -927,11 +954,13 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param AdditionalGraphicalObjects
    */
-  public void setListOfAdditionalGraphicalObjects(ListOf<GraphicalObject> additionalGraphicalObjects) {
+  public void setListOfAdditionalGraphicalObjects(ListOf<GraphicalObject> additionalGraphicalObjects) 
+  {
 	  unsetListOfAdditionalGraphicalObjects();
-	  this.listOfAdditionalGraphicalObjects = additionalGraphicalObjects;
-	  if (this.listOfAdditionalGraphicalObjects != null) {
-		  this.listOfAdditionalGraphicalObjects.setSBaseListType(ListOf.Type.other);
+	  
+	  if (additionalGraphicalObjects != null) {
+		  this.listOfAdditionalGraphicalObjects = getListOfAdditionalGraphicalObjects(); // initializing a new ListOfWithName with the proper settings
+		  this.listOfAdditionalGraphicalObjects.addAll(additionalGraphicalObjects);
 		  registerChild(this.listOfAdditionalGraphicalObjects);
 	  }
   }

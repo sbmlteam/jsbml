@@ -23,6 +23,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -32,7 +33,7 @@ import org.sbml.jsbml.util.StringTools;
  * @since 1.0
  * @version $Rev$
  */
-public class Dimensions extends AbstractNamedSBase {
+public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
 
 	/**
 	 * Generated serial version identifier.
@@ -56,6 +57,7 @@ public class Dimensions extends AbstractNamedSBase {
 	 */
 	public Dimensions() {
 	  addNamespace(LayoutConstants.namespaceURI);
+	  depth = height = width = Double.NaN;
 	}
 	
 	/**
@@ -64,14 +66,22 @@ public class Dimensions extends AbstractNamedSBase {
 	 */
 	public Dimensions(Dimensions dimensions) {
 		super(dimensions);
+		depth = height = width = Double.NaN;
+		
 		if (dimensions.isSetDepth()) {
 			this.depth = dimensions.getDepth();
+		} else {
+			this.depth = Double.NaN;
 		}
 		if (dimensions.isSetHeight()) {
 			this.height = dimensions.getHeight();
+		} else {
+			this.height = Double.NaN;
 		}
 		if (dimensions.isSetWidth()) {
 			this.width = dimensions.getWidth();
+		} else {
+			this.width = Double.NaN;
 		}
 	}
 
@@ -98,6 +108,7 @@ public class Dimensions extends AbstractNamedSBase {
   public Dimensions(int level, int version) {
 	  super(level, version);
 	  addNamespace(LayoutConstants.namespaceURI);
+	  depth = height = width = Double.NaN;
 	}
   
   /**
@@ -109,6 +120,7 @@ public class Dimensions extends AbstractNamedSBase {
   public Dimensions(String id, int level, int version) {
     super(id, level, version);
     addNamespace(LayoutConstants.namespaceURI);
+    depth = height = width = Double.NaN;
   }
 	
 	/* (non-Javadoc)
