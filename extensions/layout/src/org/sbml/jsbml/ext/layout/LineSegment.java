@@ -23,15 +23,13 @@ import java.text.MessageFormat;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.AbstractNamedSBase;
-
 /**
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
  * @since 1.0
  * @version $Rev$
  */
-public class LineSegment extends AbstractNamedSBase {
+public class LineSegment extends CurveSegment {
 
 	/**
 	 * Generated serial version identifier.
@@ -52,7 +50,8 @@ public class LineSegment extends AbstractNamedSBase {
 	 * 
 	 */
 	public LineSegment() {
-	  super();
+		super();
+		setType(Type.LINE_SEGMENT);
 	}
 
 	/**
@@ -62,6 +61,7 @@ public class LineSegment extends AbstractNamedSBase {
 	 */
 	public LineSegment(int level, int version) {
 		super(level, version);
+		setType(Type.LINE_SEGMENT);
 	}
 
 	/**
@@ -69,6 +69,20 @@ public class LineSegment extends AbstractNamedSBase {
 	 * @param lineSegment
 	 */
 	public LineSegment(LineSegment lineSegment) {
+		super(lineSegment);
+		if (lineSegment.isSetStart()) {
+			this.start = lineSegment.getStart().clone();
+		}
+		if (lineSegment.isSetEnd()) {
+			this.end = lineSegment.getEnd().clone();
+		}
+	}
+
+	/**
+	 * 
+	 * @param lineSegment
+	 */
+	public LineSegment(CurveSegmentImpl lineSegment) {
 		super(lineSegment);
 		if (lineSegment.isSetStart()) {
 			this.start = lineSegment.getStart().clone();

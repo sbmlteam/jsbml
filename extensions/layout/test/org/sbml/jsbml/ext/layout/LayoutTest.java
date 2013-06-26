@@ -51,7 +51,7 @@ public class LayoutTest {
 	public static void main(String[] args) throws XMLStreamException, IOException {
 		SBMLDocument doc = SBMLReader.read(new File(args[0]));
 		Model model = doc.getModel();
-		LayoutModelPlugin sbase = (LayoutModelPlugin) model.getExtension("http://www.sbml.org/sbml/level3/version1/layout/version1");
+		ExtendedLayoutModel sbase = (ExtendedLayoutModel) model.getExtension("http://www.sbml.org/sbml/level3/version1/layout/version1");
 //		Layout layout = sbase.getListOfLayouts().get(0);
 //		layout.getDimensions();
 		try {

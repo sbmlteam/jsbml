@@ -1,6 +1,6 @@
 /*
- * $Id$
- * $URL$
+ * $Id: AbstractReferenceGlyph.java 1445 2013-01-04 08:54:54Z andreas-draeger $
+ * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/extensions/layout/src/org/sbml/jsbml/ext/layout/AbstractReferenceGlyph.java $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -28,9 +28,9 @@ import org.sbml.jsbml.NamedSBase;
  * 
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev$
+ * @version $Rev: 1445 $
  */
-public abstract class NamedSBaseGlyph extends GraphicalObject {
+public abstract class AbstractReferenceGlyph extends GraphicalObject {
 
 	/**
 	 * Generated serial version identifier.
@@ -41,12 +41,12 @@ public abstract class NamedSBaseGlyph extends GraphicalObject {
 	 * The identifier of the {@link NamedSBase} represented by this
 	 * {@link GraphicalObject}.
 	 */
-	private String sbaseID;
+	private String reference;
 	
 	/**
 	 * 
 	 */
-	public NamedSBaseGlyph() {
+	public AbstractReferenceGlyph() {
 		super();
 	}
 
@@ -55,7 +55,7 @@ public abstract class NamedSBaseGlyph extends GraphicalObject {
 	 * @param level
 	 * @param version
 	 */
-	public NamedSBaseGlyph(int level, int version) {
+	public AbstractReferenceGlyph(int level, int version) {
 		super(level, version);
 	}
 
@@ -63,17 +63,17 @@ public abstract class NamedSBaseGlyph extends GraphicalObject {
 	 * 
 	 * @param glyp
 	 */
-	public NamedSBaseGlyph(NamedSBaseGlyph glyph) {
+	public AbstractReferenceGlyph(AbstractReferenceGlyph glyph) {
 		super(glyph);
-		if (glyph.isSetNamedSBase()) {
-			setName(glyph.getNamedSBase());
+		if (glyph.isSetReference()) {
+			setName(glyph.getReference());
 		}
 	}
 	
 	/**
 	 * @param id
 	 */
-	public NamedSBaseGlyph(String id) {
+	public AbstractReferenceGlyph(String id) {
 		super(id);
 	}
 	
@@ -83,7 +83,7 @@ public abstract class NamedSBaseGlyph extends GraphicalObject {
 	 * @param level
 	 * @param version
 	 */
-	public NamedSBaseGlyph(String id, int level, int version) {
+	public AbstractReferenceGlyph(String id, int level, int version) {
 		super(id, level, version);
 	}
 
@@ -91,7 +91,7 @@ public abstract class NamedSBaseGlyph extends GraphicalObject {
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
 	 */
 	@Override
-	public abstract NamedSBaseGlyph clone();
+	public abstract AbstractReferenceGlyph clone();
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
@@ -100,10 +100,10 @@ public abstract class NamedSBaseGlyph extends GraphicalObject {
 	public boolean equals(Object object) {
 		boolean equal = super.equals(object);
 		if (equal) {
-			NamedSBaseGlyph nsg = (NamedSBaseGlyph) object;
-			equal &= isSetNamedSBase() == nsg.isSetNamedSBase();
-			if (equal && isSetNamedSBase()) {
-				equal &= getNamedSBase().equals(nsg.getNamedSBase());
+			AbstractReferenceGlyph nsg = (AbstractReferenceGlyph) object;
+			equal &= isSetReference() == nsg.isSetReference();
+			if (equal && isSetReference()) {
+				equal &= getReference().equals(nsg.getReference());
 			}
 		}
 		return equal;
@@ -113,8 +113,8 @@ public abstract class NamedSBaseGlyph extends GraphicalObject {
 	 * 
 	 * @return
 	 */
-	public String getNamedSBase() {
-		return isSetNamedSBase() ? sbaseID : "";
+	public String getReference() {
+		return isSetReference() ? reference : "";
 	}
 	
 	/**
@@ -123,7 +123,7 @@ public abstract class NamedSBaseGlyph extends GraphicalObject {
 	 */
 	public NamedSBase getNamedSBaseInstance() {
 		Model model = getModel();
-		return isSetNamedSBase() && (model != null) ? model.findNamedSBase(getNamedSBase()) : null;
+		return isSetReference() && (model != null) ? model.findNamedSBase(getReference()) : null;
 	}
 	
 	/* (non-Javadoc)
@@ -133,7 +133,7 @@ public abstract class NamedSBaseGlyph extends GraphicalObject {
 	public int hashCode() {
 		final int prime = 983;
 		int hashCode = super.hashCode();
-		hashCode += prime * (isSetNamedSBase() ? sbaseID.hashCode() : 0);
+		hashCode += prime * (isSetReference() ? reference.hashCode() : 0);
 		return hashCode;
 	}
 
@@ -141,8 +141,8 @@ public abstract class NamedSBaseGlyph extends GraphicalObject {
 	 * 
 	 * @return
 	 */
-	public boolean isSetNamedSBase() {
-		return (sbaseID != null) && (sbaseID.length() > 0);
+	public boolean isSetReference() {
+		return (reference != null) && (reference.length() > 0);
 	}
 	
 	/**
@@ -150,15 +150,15 @@ public abstract class NamedSBaseGlyph extends GraphicalObject {
 	 * @param namedSBase
 	 */
 	public void setNamedSBase(NamedSBase namedSBase) {
-	  setNamedSBase(namedSBase.getId());
+	  setReference(namedSBase.getId());
 	}
 
 	/**
 	 * 
 	 * @param sbase
 	 */
-	public void setNamedSBase(String sbase) {
-		setNamedSBase(sbase, "namedSBase");
+	public void setReference(String sbase) {
+		setReference(sbase, "reference");
 	}
 
 	/**
@@ -166,10 +166,10 @@ public abstract class NamedSBaseGlyph extends GraphicalObject {
 	 * @param sbase
 	 * @param type
 	 */
-	void setNamedSBase(String sbase, String type) {
-		String oldSBase = this.sbaseID;
-		this.sbaseID = sbase;
-		firePropertyChange(type, oldSBase, this.sbaseID);
+	void setReference(String sbase, String type) {
+		String oldSBase = this.reference;
+		this.reference = sbase;
+		firePropertyChange(type, oldSBase, this.reference);
 	}
 
 	/* (non-Javadoc)
@@ -177,14 +177,15 @@ public abstract class NamedSBaseGlyph extends GraphicalObject {
 	 */
 	@Override
 	public String toString() {
-		return getElementName() + " [" + (isSetNamedSBase() ? getNamedSBase() : "") + ']';
+		return getElementName() + " [" + (isSetReference() ? getReference() : "") + ']';
 	}
 	
 	/**
 	 * 
 	 */
-	public void unsetNamedSBase() {
-		setNamedSBase((String) null);
+	public void unsetReference() {
+		setReference((String) null);
 	}
-
+	
+	
 }

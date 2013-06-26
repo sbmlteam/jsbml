@@ -1,6 +1,6 @@
 /*
- * $Id$
- * $URL$
+ * $Id: SpeciesReferenceGlyph.java 1464 2013-03-06 10:52:43Z andreas-draeger $
+ * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/extensions/layout/src/org/sbml/jsbml/ext/layout/SpeciesReferenceGlyph.java $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -24,19 +24,14 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.Model;
-import org.sbml.jsbml.NamedSBase;
-import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.SimpleSpeciesReference;
-
 /**
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev$
+ * @version $Rev: 1464 $
  */
-public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
+public class ReferenceGlyph extends AbstractReferenceGlyph {
 
 	/**
 	 * Generated serial version identifier.
@@ -51,17 +46,17 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
 	/**
 	 * 
 	 */
-	private SpeciesReferenceRole role;
+	private String role;
 
 	/**
 	 * 
 	 */
-	private String speciesGlyph;
+	private String glyph;
 
 	/**
 	 * 
 	 */
-	public SpeciesReferenceGlyph() {
+	public ReferenceGlyph() {
 		super();
 	}
 
@@ -70,7 +65,7 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
 	 * @param level
 	 * @param version
 	 */
-	public SpeciesReferenceGlyph(int level, int version) {
+	public ReferenceGlyph(int level, int version) {
 		super(level, version);
 	}
 
@@ -78,16 +73,16 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
 	 * 
 	 * @param speciesReferenceGlyph
 	 */
-	public SpeciesReferenceGlyph(SpeciesReferenceGlyph speciesReferenceGlyph) {
+	public ReferenceGlyph(ReferenceGlyph speciesReferenceGlyph) {
 		super(speciesReferenceGlyph);
 		if (speciesReferenceGlyph.isSetCurve()) {
 			this.curve = speciesReferenceGlyph.getCurve().clone();
 		}
-		if (speciesReferenceGlyph.isSetSpeciesReferenceRole()) {
-			this.role = SpeciesReferenceRole.valueOf(speciesReferenceGlyph.getSpeciesReferenceRole().toString());
+		if (speciesReferenceGlyph.isSetRole()) {
+			this.role = speciesReferenceGlyph.getRole();
 		}
-		if (speciesReferenceGlyph.isSetSpeciesGlyph()) {
-			this.speciesGlyph = new String(speciesReferenceGlyph.getSpeciesGlyph());
+		if (speciesReferenceGlyph.isSetGlyph()) {
+			this.glyph = new String(speciesReferenceGlyph.getGlyph());
 		}
 	}
 
@@ -95,7 +90,7 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
 	 * 
 	 * @param id
 	 */
-	public SpeciesReferenceGlyph(String id) {
+	public ReferenceGlyph(String id) {
 		super(id);
 	}
 
@@ -105,15 +100,15 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
 	 * @param level
 	 * @param version
 	 */
-	public SpeciesReferenceGlyph(String id, int level, int version) {
+	public ReferenceGlyph(String id, int level, int version) {
 		super(id, level, version);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
 	 */
-	public SpeciesReferenceGlyph clone() {
-		return new SpeciesReferenceGlyph(this);
+	public ReferenceGlyph clone() {
+		return new ReferenceGlyph(this);
 	}
 
 	/**
@@ -135,14 +130,14 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
 	public boolean equals(Object object) {
 		boolean equals = super.equals(object);
 		if (equals) {
-			SpeciesReferenceGlyph s = (SpeciesReferenceGlyph) object;
-			equals &= s.isSetSpeciesReferenceRole() && isSetSpeciesReferenceRole();
-			if (equals && isSetSpeciesReferenceRole()) {
-				equals &= s.getSpeciesReferenceRole().equals(getSpeciesReferenceRole());
+			ReferenceGlyph s = (ReferenceGlyph) object;
+			equals &= s.isSetRole() && isSetRole();
+			if (equals && isSetRole()) {
+				equals &= s.getRole().equals(getRole());
 			}
-			equals &= s.isSetSpeciesGlyph() == isSetSpeciesGlyph();
-			if (equals && isSetSpeciesGlyph()) {
-				equals &= s.getSpeciesGlyph().equals(getSpeciesGlyph());
+			equals &= s.isSetGlyph() == isSetGlyph();
+			if (equals && isSetGlyph()) {
+				equals &= s.getGlyph().equals(getGlyph());
 			}
 		}
 		return equals;
@@ -199,44 +194,15 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
 	 * 
 	 * @return
 	 */
-	public String getSpeciesGlyph() {
-		return speciesGlyph;
+	public String getGlyph() {
+		return glyph;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public SpeciesGlyph getSpeciesGlyphInstance() {
-		if (!isSetSpeciesGlyph()) {
-			return null;
-		}
-		Model model = getModel();
-		return (model != null) ? (SpeciesGlyph) model.findNamedSBase(getSpeciesGlyph()) : null;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public String getSpeciesReference() {
-		return getReference();
-	}
-
-	/**
-	 * Note that the return type of this method is {@link NamedSBase} because it
-	 * could be possible to link some element from other packages to this glyph.
-	 * 
-	 * @return
-	 */
-	public NamedSBase getSpeciesReferenceInstance() {
-		return getNamedSBaseInstance();
-	}
 
 	/**
 	 * @return
 	 */
-	public SpeciesReferenceRole getSpeciesReferenceRole() {
+	public String getRole() {
 		return role;
 	}
 
@@ -247,11 +213,11 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
 	public int hashCode() {
 		final int prime = 953;
 		int hashCode = super.hashCode();
-		if (isSetSpeciesReferenceRole()) {
-			hashCode += prime * getSpeciesReferenceRole().hashCode();
+		if (isSetRole()) {
+			hashCode += prime * getRole().hashCode();
 		}
-		if (isSetSpeciesGlyph()) {
-			hashCode += prime * getSpeciesGlyph().hashCode();
+		if (isSetGlyph()) {
+			hashCode += prime * getGlyph().hashCode();
 		}
 		return hashCode;
 	}
@@ -266,24 +232,18 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
 	/**
 	 * @return
 	 */
-	public boolean isSetSpeciesGlyph() {
-		return speciesGlyph != null;
+	public boolean isSetGlyph() {
+		return glyph != null;
 	}
 
 	/**
 	 * @return
 	 */
-	public boolean isSetSpeciesReference() {
-		return isSetReference();
-	}
-
-	/**
-	 * @return
-	 */
-	public boolean isSetSpeciesReferenceRole() {
+	public boolean isSetRole() {
 		return role != null;
 	}
 
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
@@ -297,23 +257,17 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
 
 			isAttributeRead = true;
 
-			if (attributeName.equals(LayoutConstants.speciesReference))
+			if (attributeName.equals(LayoutConstants.reference))
 			{				
-				setSpeciesReference(value);
+				setReference(value);
 			}
-			else if (attributeName.equals(LayoutConstants.speciesGlyph))
+			else if (attributeName.equals(LayoutConstants.glyph))
 			{
-				setSpeciesGlyph(value);
+				setGlyph(value);
 			}
 			else if (attributeName.equals(LayoutConstants.role))
 			{
-				try {
-					setRole(SpeciesReferenceRole.valueOf(value.toUpperCase()));
-				} catch (Exception e) {
-					throw new SBMLException("Could not recognized the value '" + value
-							+ "' for the attribute " + LayoutConstants.role
-							+ " on the 'SpeciesReferenceGlyph' element.");
-				}
+					setRole(value);
 			}
 			else
 			{
@@ -337,38 +291,31 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
 
 	/**
 	 * 
-	 * @param valueOf
+	 * @param role
 	 */
-	public void setRole(SpeciesReferenceRole valueOf) {
-		SpeciesReferenceRole oldRole = this.role;
-		this.role = valueOf;
+	public void setRole(String role) {
+		String oldRole = this.role;
+		this.role = role;
 		firePropertyChange(LayoutConstants.role, oldRole, this.role);
 	}
 
 	/**
 	 * 
-	 * @param speciesGlyph
+	 * @param glyph
 	 */
-	public void setSpeciesGlyph(String speciesGlyph) {
-		String oldValue = this.speciesGlyph;
-		this.speciesGlyph = speciesGlyph;
-		firePropertyChange(LayoutConstants.speciesGlyph, oldValue, this.speciesGlyph);
+	public void setGlyph(String glyph) {
+		String oldValue = this.glyph;
+		this.glyph = glyph;
+		firePropertyChange(LayoutConstants.speciesGlyph, oldValue, this.glyph);
 	}
+
 
 	/**
 	 * 
-	 * @param speciesReference
+	 * @param reference
 	 */
-	public void setSpeciesReference(SimpleSpeciesReference speciesReference) {
-		setSpeciesReference(speciesReference.getId());
-	}
-
-	/**
-	 * 
-	 * @param speciesReference
-	 */
-	public void setSpeciesReference(String speciesReference) {
-		setReference(speciesReference, LayoutConstants.speciesReference);
+	public void setReference(String reference) {
+		setReference(reference, LayoutConstants.reference);
 	}
 
 	/**
@@ -385,13 +332,6 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
 		return false;
 	}
 
-	/**
-	 * 
-	 */
-	public void unsetSpeciesReference() {
-		unsetReference();
-	}
-
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()
 	 */
@@ -399,17 +339,17 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
-		if (isSetSpeciesGlyph()) {
+		if (isSetGlyph()) {
 			attributes.put(LayoutConstants.shortLabel + ':'
-					+ LayoutConstants.speciesGlyph, speciesGlyph);
+					+ LayoutConstants.glyph, glyph);
 		}
-		if (isSetSpeciesReference()) {
+		if (isSetReference()) {
 			attributes.put(LayoutConstants.shortLabel + ':'
-					+ LayoutConstants.speciesReference, getSpeciesReference());
+					+ LayoutConstants.reference, getReference());
 		}
-		if (isSetSpeciesReferenceRole()) {
+		if (isSetRole()) {
 			attributes.put(LayoutConstants.shortLabel + ':'
-					+ LayoutConstants.role, role.toString().toLowerCase());
+					+ LayoutConstants.role, role);
 		}
 
 		return attributes;

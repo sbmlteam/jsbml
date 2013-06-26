@@ -27,18 +27,22 @@ import static org.sbml.jsbml.ext.layout.LayoutConstants.curve;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.curveSegment;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.dimensions;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.end;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.generalGlyph;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.layout;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfAdditionalGraphicalObjects;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfCompartmentGlyphs;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfCurveSegments;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfLayouts;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfReactionGlyphs;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfReferenceGlyphs;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfSpeciesGlyphs;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfSpeciesReferenceGlyphs;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfSubGlyphs;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfTextGlyphs;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.namespaceURI;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.position;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.reactionGlyph;
+import static org.sbml.jsbml.ext.layout.LayoutConstants.referenceGlyph;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.speciesGlyph;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.speciesReferenceGlyph;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.start;
@@ -47,29 +51,39 @@ import static org.sbml.jsbml.ext.layout.LayoutConstants.textGlyph;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.tree.TreeNode;
+
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.layout.BasePoint1;
 import org.sbml.jsbml.ext.layout.BasePoint2;
 import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
+import org.sbml.jsbml.ext.layout.CubicBezier;
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.layout.CurveSegment;
+import org.sbml.jsbml.ext.layout.CurveSegmentImpl;
 import org.sbml.jsbml.ext.layout.Dimensions;
 import org.sbml.jsbml.ext.layout.End;
+import org.sbml.jsbml.ext.layout.GeneralGlyph;
 import org.sbml.jsbml.ext.layout.GraphicalObject;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
+import org.sbml.jsbml.ext.layout.LineSegment;
 import org.sbml.jsbml.ext.layout.Position;
 import org.sbml.jsbml.ext.layout.ReactionGlyph;
+import org.sbml.jsbml.ext.layout.ReferenceGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 import org.sbml.jsbml.ext.layout.Start;
 import org.sbml.jsbml.ext.layout.TextGlyph;
+import org.sbml.jsbml.util.filters.Filter;
+import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
  * This class is used to parse the layout extension package elements and
@@ -217,8 +231,43 @@ public class L3LayoutParser extends AbstractReaderWriter {
 				}
 
 			}
+			else if (graphicalObject instanceof GeneralGlyph) 
+			{
+				GeneralGlyph generalGlyph = (GeneralGlyph) graphicalObject;
+				
+				if (elementName.equals(curve)) {
+					Curve curve = new Curve();
+					generalGlyph.setCurve(curve);
+					
+					return curve;
+				}
+				else if (elementName.equals(listOfSubGlyphs)) 
+				{
+					ListOf<GraphicalObject> list = generalGlyph.getListOfSubGlyphs();
+					return list;
+				}
+				else if (elementName.equals(listOfReferenceGlyphs)) 
+				{
+					ListOf<ReferenceGlyph> list = generalGlyph.getListOfReferenceGlyphs();
+					return list;
+				}
+				
+			}
+			else if (graphicalObject instanceof ReferenceGlyph) 
+			{
+				ReferenceGlyph refGlyph = (ReferenceGlyph) contextObject;
+				
+				if (elementName.equals(curve)) {
+					Curve curve = new Curve();
+					refGlyph.setCurve(curve);
+					
+					return curve;
+				}
+			}
+			
 		}
-		else if (contextObject instanceof BoundingBox) {
+		else if (contextObject instanceof BoundingBox) 
+		{
 			BoundingBox bbox = (BoundingBox) contextObject;
 
 			if (elementName.equals(position)) {
@@ -247,8 +296,8 @@ public class L3LayoutParser extends AbstractReaderWriter {
 				return newElement;
 			}
 		}
-		else if (contextObject instanceof CurveSegment) {
-			CurveSegment curveSegment = (CurveSegment) contextObject;
+		else if (contextObject instanceof CurveSegmentImpl) {
+			CurveSegmentImpl curveSegment = (CurveSegmentImpl) contextObject;
 
 			if (elementName.equals(start)) {
 				Start point = new Start();
@@ -295,13 +344,21 @@ public class L3LayoutParser extends AbstractReaderWriter {
 			else if (elementName.equals(textGlyph)) {
 				newElement = new TextGlyph();
 			}
-			else if (elementName.equals(curveSegment)) {
-				newElement = new CurveSegment();
+			else if (elementName.equals(curveSegment) || elementName.equals("cubicBezier")
+					|| elementName.equals("lineSegment")) // to allow reading of not properly written XML, we add  "cubicBezier" and "lineSegment" here.
+			{
+				newElement = new CurveSegmentImpl();
 			}
 			else if (elementName.equals(speciesReferenceGlyph)) {
 				newElement = new SpeciesReferenceGlyph();
 			}
-			
+			else if (elementName.equals(referenceGlyph)) {
+				newElement = new ReferenceGlyph();
+			}
+			else if (elementName.equals(generalGlyph)) {
+				newElement = new GeneralGlyph();
+			}
+
 			if (newElement != null) {
 				listOf.add(newElement);
 			}
@@ -312,4 +369,97 @@ public class L3LayoutParser extends AbstractReaderWriter {
 		return contextObject;
 	}
 	
+	@Override
+	public void processEndDocument(SBMLDocument sbmlDocument) 
+	{
+		if (sbmlDocument.isSetModel() && sbmlDocument.getModel().getExtension(namespaceURI) != null) 
+		{
+			// going through the document to find all Curve objects
+			// filtering only on the ListOfLayouts
+			List<? extends TreeNode> curveElements = sbmlDocument.getModel().getExtension(namespaceURI).filter(new Filter() {
+
+				public boolean accepts(Object o) 
+				{
+					if (o instanceof Curve)
+					{
+						return true;
+					}
+
+					return false;
+				}
+			});
+
+			for (TreeNode curveNode : curveElements)
+			{
+				Curve curve = (Curve) curveNode;
+
+				// transform the CurveSegmentImpl into LineSegment or CubicBezier
+				int i = 0;				
+				for (CurveSegment curveSegment : curve.getListOfCurveSegments().clone()) 
+				{
+					if (curveSegment instanceof CurveSegmentImpl) 
+					{
+						CurveSegment realCurveSegment;
+
+						if (! curveSegment.isSetType())
+						{
+							if (((CurveSegmentImpl) curveSegment).isSetBasePoint1() || ((CurveSegmentImpl) curveSegment).isSetBasePoint2())
+							{
+								curveSegment.setType(CurveSegment.Type.CUBIC_BEZIER);
+							}
+							else 
+							{
+								curveSegment.setType(CurveSegment.Type.LINE_SEGMENT);
+							}
+						}
+						
+						if (curveSegment.getType().equals(CurveSegment.Type.LINE_SEGMENT)) 
+						{
+							realCurveSegment = new LineSegment((CurveSegmentImpl) curveSegment);
+							logger.debug("Transformed CurveSegmentImpl : " + curveSegment + " into LineSegment.");
+						}
+						else if (curveSegment.getType().equals(CurveSegment.Type.CUBIC_BEZIER))
+						{
+							realCurveSegment = new CubicBezier((CurveSegmentImpl) curveSegment);
+							logger.debug("Transformed CurveSegmentImpl : " + curveSegment + " into RateRule.");
+						}
+						else
+						{
+							throw new IllegalArgumentException("");
+						}
+
+						logger.debug("Transformed CurveSegmentImpl : realRule = " + realCurveSegment);
+
+						curve.getListOfCurveSegments().remove(i);
+						curve.getListOfCurveSegments().add(i, realCurveSegment);
+					}
+					i++;
+				}
+			}
+		}
+	}
+	
+	
+	@Override
+	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) 
+	{
+		super.writeElement(xmlObject, sbmlElementToWrite);
+		
+		String name = xmlObject.getName();
+		
+		if (name.equals("lineSegment") || name.equals("cubicBezier") || name.equals("curveSegmentImpl"))
+		{
+			xmlObject.setName(LayoutConstants.curveSegment); 
+		}
+		
+		if (name.equals("listOfLineSegments") || name.equals("listOfCubicBeziers"))
+		{
+			xmlObject.setName(LayoutConstants.listOfCurveSegments);
+		}
+		
+		if (name.equals(listOfLayouts))
+		{
+			xmlObject.getAttributes().put("xmlns:" + LayoutConstants.xsiShortLabel, LayoutConstants.xsiNamespace);
+		}
+	}
 }

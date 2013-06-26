@@ -36,7 +36,7 @@ import org.sbml.jsbml.Reaction;
  * @since 1.0
  * @version $Rev$
  */
-public class ReactionGlyph extends NamedSBaseGlyph {
+public class ReactionGlyph extends AbstractReferenceGlyph {
 
 	/**
 	 * Generated serial version identifier.
@@ -58,7 +58,6 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 	 */
 	public ReactionGlyph() {
 	  super();
-	  addNamespace(LayoutConstants.namespaceURI);
 	}
 
 	/**
@@ -246,7 +245,7 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 	 * @return
 	 */
 	public String getReaction() {
-		return getNamedSBase();
+		return getReference();
 	}
 
 	/**
@@ -293,7 +292,7 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 	 * @return
 	 */
 	public boolean isSetReaction() {
-		return isSetNamedSBase();
+		return isSetReference();
 	}
 
 	/* (non-Javadoc)
@@ -356,7 +355,7 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 	 * @param reaction
 	 */
 	public void setReaction(String reaction) {
-		setNamedSBase(reaction, LayoutConstants.reaction);
+		setReference(reaction, LayoutConstants.reaction);
 	}
 	
 	/**
@@ -374,7 +373,7 @@ public class ReactionGlyph extends NamedSBaseGlyph {
 	 * 
 	 */
 	public void unsetReaction() {
-		unsetNamedSBase();
+		unsetReference();
 	}
 	
 	/* (non-Javadoc)

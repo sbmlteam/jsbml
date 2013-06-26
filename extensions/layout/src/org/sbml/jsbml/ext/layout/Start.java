@@ -45,7 +45,6 @@ public class Start extends Point {
    */
   public Start(Point point) {
 	  super(point);
-	  clonePointAttributes(point, this);
   }
 
   /* (non-Javadoc)

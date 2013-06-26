@@ -37,12 +37,11 @@ public class TestSpeciesReferenceGlyphCurve {
 		BoundingBox bbRg = rg.createBoundingBox(10.0, 10.0, 0.0);
 		bbRg.setPosition(new Point(100.0, 0.0, 0.0));
 
-		CurveSegment cs1 = new CurveSegment();
+		CubicBezier cs1 = new CubicBezier();
 		cs1.setStart(new Point(35.0, 10.0, 0.0));
 		cs1.setEnd(new Point(100.0, 10.0, 0.0));
 		cs1.setBasePoint1(new Point(25, 35, 45));
 		cs1.setBasePoint2(new Point(55, 65, 75));
-		cs1.setType("LineSegment");
 		
 		Curve c = new Curve();
 		ListOf<CurveSegment> csList = new ListOf<CurveSegment>();
@@ -50,7 +49,7 @@ public class TestSpeciesReferenceGlyphCurve {
 		c.setListOfCurveSegments(csList);
 		srg1.setCurve(c);
 				
-		CurveSegment cs2 = new CurveSegment();
+		LineSegment cs2 = new LineSegment();
 		cs2.createStart(110.0, 10.0, 0.0);
 		cs2.createEnd(235.0, 10.0, 0.0);
 		Curve c2 = new Curve();
@@ -79,8 +78,9 @@ public class TestSpeciesReferenceGlyphCurve {
 
 		assert(testSRG1.getCurve().getListOfCurveSegments().size() == 1);
 
-		CurveSegment cs1Bis = testSRG1.getCurve().getListOfCurveSegments().getFirst(); 
-				
+		CurveSegment cs1BisCS = testSRG1.getCurve().getListOfCurveSegments().getFirst(); 
+		CubicBezier cs1Bis = (CubicBezier) cs1BisCS; 	
+		
 		assert(cs1Bis.getStart().getX() == 35);
 		assert(cs1Bis.getStart().getZ() == 0);
 		assert(cs1Bis.getEnd().getY() == 10);
@@ -88,9 +88,9 @@ public class TestSpeciesReferenceGlyphCurve {
 		assert(cs1Bis.getBasePoint1().getZ() == 45);
 		assert(cs1Bis.getBasePoint2().getX() == 55);
 		assert cs1Bis.getBasePoint2().getZ() == 75 : "BasePoint2.Z is not read properly !!!";
-		assert cs1Bis.getType().equals("LineSegment") : "BasePoint2.type is not read properly !!!";
+		assert cs1Bis.getType().equals(CurveSegment.Type.CUBIC_BEZIER) : "BasePoint2.type is not read properly !!!";
 		
-		System.out.println("CurveSegment.basePoint2.Z = " + cs1Bis.getBasePoint2().getZ());
+		System.out.println("CurveSegmentImpl.basePoint2.Z = " + cs1Bis.getBasePoint2().getZ());
 		
 		writtenDocument = JSBML.writeSBMLToString(d);
 		

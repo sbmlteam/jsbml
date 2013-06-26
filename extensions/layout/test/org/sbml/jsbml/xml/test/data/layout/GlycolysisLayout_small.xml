@@ -1,190 +1,179 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:layout="http://www.sbml.org/sbml/level3/version1/layout/version1" level="3" version="1" layout:required="false" >
   <model id="Glycolysis">
-  <layout:listOfLayouts>
-    <layout:layout id="Glycolysis_Layout">
-      <layout:dimensions width="800" height="1600">
-      </layout:dimensions>
-      <layout:listOfSpeciesGlyphs>
-        <layout:speciesGlyph id="glyph_Gluc" species="Glucose">
-          <layout:boundingBox id="bb_01">
-            <layout:point x="105" y="20">
-            </layout:point>
-            <layout:dimensions width="130" height="20">
-            </layout:dimensions>
-          </layout:boundingBox>
-        </layout:speciesGlyph>
-        <layout:speciesGlyph id="glyph_ATP_1" species="ATP">
-          <layout:boundingBox id="bb_02">
-            <layout:point x="270" y="70">
-            </layout:point>
-            <layout:dimensions width="80" height="20">
-            </layout:dimensions>
-          </layout:boundingBox>
-        </layout:speciesGlyph>
-        <layout:speciesGlyph id="glyph_ADP_1" species="ADP">
-          <layout:boundingBox id="bb_03">
-            <layout:point x="270" y="140">
-            </layout:point>
-            <layout:dimensions width="80" height="20">
-            </layout:dimensions>
-          </layout:boundingBox>
-        </layout:speciesGlyph>
-        <layout:speciesGlyph id="glyph_H_1" species="H+">
-          <layout:boundingBox id="bb_04">
-            <layout:point x="380" y="140">
-            </layout:point>
-            <layout:dimensions width="60" height="20">
-            </layout:dimensions>
-          </layout:boundingBox>
-        </layout:speciesGlyph>
-        <layout:speciesGlyph id="glyph_G6P" species="Glucose-6-phosphate">
-          <layout:boundingBox id="bb_05">
-            <layout:point x="50" y="190">
-            </layout:point>
-            <layout:dimensions width="270" height="20">
-            </layout:dimensions>
-          </layout:boundingBox>
-        </layout:speciesGlyph>
-      </layout:listOfSpeciesGlyphs>
-      <layout:listOfReactionGlyphs>
-        <layout:reactionGlyph id="glyph_Hexokinase" reaction="Hexokinase">
-          <layout:curve>
-            <layout:listOfCurveSegments>
-              <layout:lineSegment>
-                <layout:start x="170" y="100">
-                </layout:start>
-                <layout:end x="170" y="130">
-                </layout:end>
-              </layout:lineSegment>
-            </layout:listOfCurveSegments>
-          </layout:curve>
+  <listOfLayouts xmlns="http://www.sbml.org/sbml/level3/version1/layout/version1" >
+    <layout id="Glycolysis_Layout">
+      <dimensions width="800" height="1600">
+      </dimensions>
+      <listOfSpeciesGlyphs>
+        <speciesGlyph id="glyph_Gluc" species="Glucose">
+          <boundingBox id="bb_01">
+            <position x="105" y="20"/>
+            <dimensions width="130" height="20"/>
+          </boundingBox>
+        </speciesGlyph>
+        <speciesGlyph id="glyph_ATP_1" species="ATP">
+          <boundingBox id="bb_02">
+            <position x="270" y="70"/>
+            <dimensions width="80" height="20"/>
+          </boundingBox>
+        </speciesGlyph>
+        <speciesGlyph id="glyph_ADP_1" species="ADP">
+          <boundingBox id="bb_03">
+            <position x="270" y="140"/>
+            <dimensions width="80" height="20"/>
+          </boundingBox>
+        </speciesGlyph>
+        <speciesGlyph id="glyph_H_1" species="H+">
+          <boundingBox id="bb_04">
+            <position x="380" y="140"/>
+            <dimensions width="60" height="20"/>
+          </boundingBox>
+        </speciesGlyph>
+        <speciesGlyph id="glyph_G6P" species="Glucose-6-phosphate">
+          <boundingBox id="bb_05">
+            <position x="50" y="190"/>
+            <dimensions width="270" height="20"/>
+          </boundingBox>
+        </speciesGlyph>
+      </listOfSpeciesGlyphs>
+      <listOfReactionGlyphs>
+        <reactionGlyph id="glyph_Hexokinase" reaction="Hexokinase">
+          <curve>
+            <listOfCurveSegments>
+              <lineSegment>
+                <start x="170" y="100">
+                </start>
+                <end x="170" y="130">
+                </end>
+              </lineSegment>
+            </listOfCurveSegments>
+          </curve>
           <listOfSpeciesReferenceGlyphs>
-            <speciesReferenceGlyph id="SpeciesReferenceGlyph_01" speciesReference="ref_Gluc" layout:speciesGlyph="glyph_Gluc" role="1">
-              <layout:curve>
-                <layout:listOfCurveSegments>
-                  <layout:lineSegment>
-                    <layout:start x="170" y="100">
-                    </layout:start>
-                    <layout:end x="170" y="50">
-                    </layout:end>
-                  </layout:lineSegment>
-                </layout:listOfCurveSegments>
-              </layout:curve>
+            <speciesReferenceGlyph id="SpeciesReferenceGlyph_01" speciesReference="ref_Gluc" speciesGlyph="glyph_Gluc" role="1">
+              <curve>
+                <listOfCurveSegments>
+                  <lineSegment>
+                    <start x="170" y="100">
+                    </start>
+                    <end x="170" y="50">
+                    </end>
+                  </lineSegment>
+                </listOfCurveSegments>
+              </curve>
             </speciesReferenceGlyph>
-            <speciesReferenceGlyph id="SpeciesReferenceGlyph_11" speciesReference="ref_G6P_1" layout:speciesGlyph="glyph_G6P" role="2">
-              <layout:curve>
-                <layout:listOfCurveSegments>
-                  <layout:lineSegment>
-                    <layout:start x="170" y="130">
-                    </layout:start>
-                    <layout:end x="170" y="180">
-                    </layout:end>
-                  </layout:lineSegment>
-                </layout:listOfCurveSegments>
-              </layout:curve>
+            <speciesReferenceGlyph id="SpeciesReferenceGlyph_11" speciesReference="ref_G6P_1" speciesGlyph="glyph_G6P" role="2">
+              <curve>
+                <listOfCurveSegments>
+                  <lineSegment>
+                    <start x="170" y="130">
+                    </start>
+                    <end x="170" y="180">
+                    </end>
+                  </lineSegment>
+                </listOfCurveSegments>
+              </curve>
             </speciesReferenceGlyph>
-            <speciesReferenceGlyph id="SpeciesReferenceGlyph_22" speciesReference="ref_ATP_1" layout:speciesGlyph="glyph_ATP_1" role="3">
-              <layout:curve>
-                <layout:listOfCurveSegments>
-                  <layout:cubicBezier>
-                    <layout:start x="170" y="100">
-                    </layout:start>
-                    <layout:end x="260" y="80">
-                    </layout:end>
-                    <layout:basePoint1 x="170" y="80">
-                    </layout:basePoint1>
-                    <layout:basePoint2 x="170" y="80">
-                    </layout:basePoint2>
-                  </layout:cubicBezier>
-                </layout:listOfCurveSegments>
-              </layout:curve>
+            <speciesReferenceGlyph id="SpeciesReferenceGlyph_22" speciesReference="ref_ATP_1" speciesGlyph="glyph_ATP_1" role="3">
+              <curve>
+                <listOfCurveSegments>
+                  <cubicBezier>
+                    <start x="170" y="100">
+                    </start>
+                    <end x="260" y="80">
+                    </end>
+                    <basePoint1 x="170" y="80">
+                    </basePoint1>
+                    <basePoint2 x="170" y="80">
+                    </basePoint2>
+                  </cubicBezier>
+                </listOfCurveSegments>
+              </curve>
             </speciesReferenceGlyph>
-            <speciesReferenceGlyph id="SpeciesReferenceGlyph_23" speciesReference="ref_ADP_1" layout:speciesGlyph="glyph_ADP_1" role="4">
-              <layout:curve>
-                <layout:listOfCurveSegments>
-                  <layout:cubicBezier>
-                    <layout:start x="170" y="130">
-                    </layout:start>
-                    <layout:end x="260" y="150">
-                    </layout:end>
-                    <layout:basePoint1 x="170" y="150">
-                    </layout:basePoint1>
-                    <layout:basePoint2 x="170" y="150">
-                    </layout:basePoint2>
-                  </layout:cubicBezier>
-                </layout:listOfCurveSegments>
-              </layout:curve>
+            <speciesReferenceGlyph id="SpeciesReferenceGlyph_23" speciesReference="ref_ADP_1" speciesGlyph="glyph_ADP_1" role="4">
+              <curve>
+                <listOfCurveSegments>
+                  <cubicBezier>
+                    <start x="170" y="130">
+                    </start>
+                    <end x="260" y="150">
+                    </end>
+                    <basePoint1 x="170" y="150">
+                    </basePoint1>
+                    <basePoint2 x="170" y="150">
+                    </basePoint2>
+                  </cubicBezier>
+                </listOfCurveSegments>
+              </curve>
             </speciesReferenceGlyph>
           </listOfSpeciesReferenceGlyphs>
-        </layout:reactionGlyph>
-        <layout:reactionGlyph id="glyph_PGIsomerase" reaction="Phosphoglucoseisomerase">
-          <layout:curve>
-            <layout:listOfCurveSegments>
-              <layout:lineSegment>
-                <layout:start x="170" y="270">
-                </layout:start>
-                <layout:end x="170" y="300">
-                </layout:end>
-              </layout:lineSegment>
-            </layout:listOfCurveSegments>
-          </layout:curve>
+        </reactionGlyph>
+        <reactionGlyph id="glyph_PGIsomerase" reaction="Phosphoglucoseisomerase">
+          <curve>
+            <listOfCurveSegments>
+              <lineSegment>
+                <start x="170" y="270">
+                </start>
+                <end x="170" y="300">
+                </end>
+              </lineSegment>
+            </listOfCurveSegments>
+          </curve>
           <listOfSpeciesReferenceGlyphs>
-            <speciesReferenceGlyph id="SpeciesReferenceGlyph_02" speciesReference="ref_G6P_2" layout:speciesGlyph="glyph_G6P" role="1">
-              <layout:curve>
-                <layout:listOfCurveSegments>
-                  <layout:lineSegment>
-                    <layout:start x="170" y="270">
-                    </layout:start>
-                    <layout:end x="170" y="220">
-                    </layout:end>
-                  </layout:lineSegment>
-                </layout:listOfCurveSegments>
-              </layout:curve>
+            <speciesReferenceGlyph id="SpeciesReferenceGlyph_02" speciesReference="ref_G6P_2" speciesGlyph="glyph_G6P" role="1">
+              <curve>
+                <listOfCurveSegments>
+                  <lineSegment>
+                    <start x="170" y="270">
+                    </start>
+                    <end x="170" y="220">
+                    </end>
+                  </lineSegment>
+                </listOfCurveSegments>
+              </curve>
             </speciesReferenceGlyph>
-            <speciesReferenceGlyph id="SpeciesReferenceGlyph_12" speciesReference="ref_F6P_1" layout:speciesGlyph="glyph_F6P" role="2">
-              <layout:curve>
-                <layout:listOfCurveSegments>
-                  <layout:lineSegment>
-                    <layout:start x="170" y="300">
-                    </layout:start>
-                    <layout:end x="170" y="350">
-                    </layout:end>
-                  </layout:lineSegment>
-                </layout:listOfCurveSegments>
-              </layout:curve>
+            <speciesReferenceGlyph id="SpeciesReferenceGlyph_12" speciesReference="ref_F6P_1" speciesGlyph="glyph_F6P" role="2">
+              <curve>
+                <listOfCurveSegments>
+                  <lineSegment>
+                    <start x="170" y="300">
+                    </start>
+                    <end x="170" y="350">
+                    </end>
+                  </lineSegment>
+                </listOfCurveSegments>
+              </curve>
             </speciesReferenceGlyph>
           </listOfSpeciesReferenceGlyphs>
-        </layout:reactionGlyph>
-      </layout:listOfReactionGlyphs>
-      <layout:listOfTextGlyphs>
-        <layout:textGlyph id="TextGlyph_01" graphicalObject="glyph_Gluc" originOfText="Glucose">
-          <layout:boundingBox id="bbT_01">
-            <layout:point x="115" y="20">
-            </layout:point>
-            <layout:dimensions width="110" height="20">
-            </layout:dimensions>
-          </layout:boundingBox>
-        </layout:textGlyph>
-        <layout:textGlyph id="TextGlyph_02" graphicalObject="glyph_ATP_1" originOfText="ATP">
-          <layout:boundingBox id="bbT_02">
-            <layout:point x="280" y="70">
-            </layout:point>
-            <layout:dimensions width="60" height="20">
-            </layout:dimensions>
-          </layout:boundingBox>
-        </layout:textGlyph>
-        <layout:textGlyph id="TextGlyph_03" graphicalObject="glyph_ADP_1" originOfText="ADP">
-          <layout:boundingBox id="bbT_03">
-            <layout:point x="280" y="140">
-            </layout:point>
-            <layout:dimensions width="60" height="20">
-            </layout:dimensions>
-          </layout:boundingBox>
-        </layout:textGlyph>
-      </layout:listOfTextGlyphs>
-    </layout:layout>
-  </layout:listOfLayouts>
+        </reactionGlyph>
+      </listOfReactionGlyphs>
+      <listOfTextGlyphs>
+        <textGlyph id="TextGlyph_01" graphicalObject="glyph_Gluc" originOfText="Glucose">
+          <boundingBox id="bbT_01">
+            <position x="115" y="20">
+            </position>
+            <dimensions width="110" height="20">
+            </dimensions>
+          </boundingBox>
+        </textGlyph>
+        <textGlyph id="TextGlyph_02" graphicalObject="glyph_ATP_1" originOfText="ATP">
+          <boundingBox id="bbT_02">
+            <position x="280" y="70"/>
+            <dimensions width="60" height="20">
+            </dimensions>
+          </boundingBox>
+        </textGlyph>
+        <textGlyph id="TextGlyph_03" graphicalObject="glyph_ADP_1" originOfText="ADP">
+          <boundingBox id="bbT_03">
+            <position x="280" y="140">
+            </position>
+            <dimensions width="60" height="20">
+            </dimensions>
+          </boundingBox>
+        </textGlyph>
+      </listOfTextGlyphs>
+    </layout>
+  </listOfLayouts>
     <listOfCompartments>
       <compartment id="Yeast"/>
     </listOfCompartments>

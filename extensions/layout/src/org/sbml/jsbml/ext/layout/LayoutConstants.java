@@ -35,6 +35,9 @@ public class LayoutConstants {
 	
 	public static final String shortLabel = "layout";
 
+	public static final String xsiShortLabel = "xsi";
+	public static final String xsiNamespace = "http://www.w3.org/2001/XMLSchema-instance";
+	
 	public static final String listOfLayouts = "listOfLayouts";
 	public static final String listOfCompartmentGlyphs = "listOfCompartmentGlyphs";
 	public static final String listOfSpeciesGlyphs = "listOfSpeciesGlyphs";
@@ -43,6 +46,10 @@ public class LayoutConstants {
 	public static final String listOfAdditionalGraphicalObjects = "listOfAdditionalGraphicalObjects";
 	public static final String listOfCurveSegments = "listOfCurveSegments";
 	public static final String listOfSpeciesReferenceGlyphs = "listOfSpeciesReferenceGlyphs";
+	public static final String listOfGeneralGlyphs = "listOfGeneralGlyphs";
+	public static final String listOfSubGlyphs = "listOfSubGlyphs";
+	public static final String listOfReferenceGlyphs = "listOfReferenceGlyphs";
+	
 
 	public static final String layout = "layout";
 	public static final String compartmentGlyph = "compartmentGlyph";
@@ -50,6 +57,8 @@ public class LayoutConstants {
 	public static final String reactionGlyph = "reactionGlyph";
 	public static final String textGlyph = "textGlyph";
 	public static final String speciesReferenceGlyph = "speciesReferenceGlyph";
+	public static final String referenceGlyph = "referenceGlyph";
+	public static final String generalGlyph = "generalGlyph";
 	public static final String boundingBox = "boundingBox";
 	public static final String position = "position";
 	public static final String dimensions = "dimensions";
@@ -57,6 +66,9 @@ public class LayoutConstants {
 	public static final String end = "end";
 	public static final String curve = "curve";
 	public static final String curveSegment = "curveSegment";
+
+	// Attribute names of the GraphicalObject XML type
+	public static final String metaidRef = "metaidRef";
 
 	// Attribute names of the Point XML type
 	public static final String x = "x";
@@ -70,6 +82,7 @@ public class LayoutConstants {
 	
 	// Attribute names of the CompartmentGlyph XML type
 	public static final String compartment = "compartment";
+	public static final String order = "order";
 
 	// Attribute names of the speciesGlyph XML type
 	public static final String species = "species";
@@ -87,7 +100,12 @@ public class LayoutConstants {
 	public static final String basePoint1 = "basePoint1";
 	public static final String basePoint2 = "basePoint2";
 	public static final String reaction = "reaction";
-	
+
+	// Attribute names of the ReferenceGlyph XML type
+	public static final String reference = "reference";
+	public static final String glyph = "glyph";
+	public static final String type = "type";
+
 	/**
 	 * 
 	 * @param level

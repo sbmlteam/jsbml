@@ -26,11 +26,11 @@ import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
 
 /**
  * This is a special {@link NameFilter} that allows users to search for a
- * {@link NamedSBaseGlyph} that refers to a {@link NamedSBase} with the
+ * {@link AbstractReferenceGlyph} that refers to a {@link NamedSBase} with the
  * given identifier attribute. The boolean switch {@link #filterForReference} that
  * can be changed using the {@link #setFilterForReference(boolean)} method decides
  * whether this {@link NamedSBaseReferenceFilter} should use the given identifier
- * to filter for the actual {@link NamedSBaseGlyph} or for the referenced
+ * to filter for the actual {@link AbstractReferenceGlyph} or for the referenced
  * {@link NamedSBase}.
  * 
  * @author Andreas Dr&auml;ger
@@ -43,7 +43,7 @@ public class NamedSBaseReferenceFilter extends NameFilter {
 	/**
 	 * Decides whether to filter for the identifier of the referenced
 	 * {@link NamedSBase} or if to use id and name to filter for the instance of
-	 * {@link NamedSBaseGlyph} itself.
+	 * {@link AbstractReferenceGlyph} itself.
 	 */
 	private boolean filterForReference = false;
 
@@ -56,7 +56,7 @@ public class NamedSBaseReferenceFilter extends NameFilter {
 
 	/**
 	 * Creates a new {@link NamedSBaseReferenceFilter} that only accepts instances of
-	 * {@link NamedSBaseGlyph} pointing to the id of the given {@link NamedSBase}.
+	 * {@link AbstractReferenceGlyph} pointing to the id of the given {@link NamedSBase}.
 	 * 
 	 * @param glyph
 	 *        the {@link NamedSBase} of interest.
@@ -68,9 +68,9 @@ public class NamedSBaseReferenceFilter extends NameFilter {
 
 	/**
 	 * @param id
-	 *        the identifier of a {@link NamedSBase} or {@link NamedSBaseGlyph} we
+	 *        the identifier of a {@link NamedSBase} or {@link AbstractReferenceGlyph} we
 	 *        are interested in. Whether we accept the id of a {@link NamedSBase} or
-	 *        a {@link NamedSBaseGlyph} depends on the flag that can be defined
+	 *        a {@link AbstractReferenceGlyph} depends on the flag that can be defined
 	 *        with {@link #setFilterForReference(boolean)}.
 	 * @see #setFilterForReference(boolean)
 	 */
@@ -80,9 +80,9 @@ public class NamedSBaseReferenceFilter extends NameFilter {
 
 	/**
 	 * @param id
-	 *        the identifier of a {@link NamedSBase} or {@link NamedSBaseGlyph} we
+	 *        the identifier of a {@link NamedSBase} or {@link AbstractReferenceGlyph} we
 	 *        are interested in. Whether we accept the id of a {@link NamedSBase} or
-	 *        a {@link NamedSBaseGlyph} depends on the flag that can be defined
+	 *        a {@link AbstractReferenceGlyph} depends on the flag that can be defined
 	 *        with {@link #setFilterForReference(boolean)}.
 	 * @param name
 	 *        the name of the element we are interested in.
@@ -100,11 +100,11 @@ public class NamedSBaseReferenceFilter extends NameFilter {
 		if (!filterForReference) {
 			return super.accepts(o);
 		}
-		if (o instanceof NamedSBaseGlyph) {
-		  NamedSBaseGlyph specRef = (NamedSBaseGlyph) o;
+		if (o instanceof AbstractReferenceGlyph) {
+		  AbstractReferenceGlyph specRef = (AbstractReferenceGlyph) o;
 			String id = getId();
-			if (specRef.isSetNamedSBase() && (id != null)
-					&& specRef.getNamedSBase().equals(id)) {
+			if (specRef.isSetReference() && (id != null)
+					&& specRef.getReference().equals(id)) {
 				return true;
 			}
 		}

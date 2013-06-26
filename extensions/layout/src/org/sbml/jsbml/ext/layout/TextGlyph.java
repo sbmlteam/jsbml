@@ -33,7 +33,7 @@ import org.sbml.jsbml.NamedSBase;
  * @since 1.0
  * @version $Rev$
  */
-public class TextGlyph extends NamedSBaseGlyph {
+public class TextGlyph extends AbstractReferenceGlyph {
 
 	/**
 	 * Generated serial version identifier.
@@ -161,7 +161,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 	 * @return
 	 */
 	public String getOriginOfText() {
-		return getNamedSBase();
+		return getReference();
 	}
 
 	/**
@@ -208,7 +208,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 	 * @return
 	 */
 	public boolean isSetOriginOfText() {
-		return isSetNamedSBase();
+		return isSetReference();
 	}
 
 	/**
@@ -284,7 +284,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 	 * @param originOfText
 	 */
 	public void setOriginOfText(String originOfText) {
-		setNamedSBase(originOfText);
+		setReference(originOfText);
 	}
 
 	/**
@@ -321,7 +321,7 @@ public class TextGlyph extends NamedSBaseGlyph {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.NamedSBaseGlyph#toString()
+	 * @see org.sbml.jsbml.ext.layout.AbstractReferenceGlyph#toString()
 	 */
 	@Override
 	public String toString() {

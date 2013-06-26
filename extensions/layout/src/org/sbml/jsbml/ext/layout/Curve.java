@@ -103,14 +103,37 @@ public class Curve extends AbstractNamedSBase {
 	}
 
 	/**
+	 * Creates a new {@link CurveSegmentImpl} instance, adds it to this {@link Curve} and returns it.
+	 * You need to set the type properly to produce valid xml.
 	 * 
-	 * @return
+	 * @return the new {@link CurveSegmentImpl} instance
 	 */
 	public CurveSegment createCurveSegment() {
-		CurveSegment cs = new CurveSegment(getLevel(), getVersion());
+		CurveSegmentImpl cs = new CurveSegmentImpl(getLevel(), getVersion());
 		addCurveSegment(cs);
 		return cs;
 	}
+
+	/**
+	 * Creates a new {@link LineSegment} instance, adds it to this {@link Curve} and returns it.
+	 * 
+	 * @return the new {@link LineSegment} instance
+	 */
+	public LineSegment createLineSegment() {
+		LineSegment cs = new LineSegment(getLevel(), getVersion());
+		return cs;
+	}
+
+	/**
+	 * Creates a new {@link CubicBezier} instance, adds it to this {@link Curve} and returns it.
+	 * 
+	 * @return the new {@link CubicBezier} instance
+	 */
+	public CubicBezier createCubicBezier() {
+		CubicBezier cs = new CubicBezier(getLevel(), getVersion());
+		return cs;
+	}
+
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
@@ -233,7 +256,7 @@ public class Curve extends AbstractNamedSBase {
 	 * @param cs
 	 * @return
 	 */
-	public boolean removeCurveSegment(CurveSegment cs) {
+	public boolean removeCurveSegment(CurveSegmentImpl cs) {
 		return getListOfCurveSegments().remove(cs);
 	}
 

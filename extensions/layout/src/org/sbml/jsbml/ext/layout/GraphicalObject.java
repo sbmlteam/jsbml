@@ -25,7 +25,9 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.UniqueNamedSBase;
+import org.sbml.jsbml.util.StringTools;
 
 /**
  * 
@@ -46,6 +48,8 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 	 * 
 	 */
 	private BoundingBox boundingBox;
+	
+	private String metaidRef;
 
 	/**
 	 * 
@@ -284,8 +288,87 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 			attributes.remove("id");
 			attributes.put(LayoutConstants.shortLabel + ":id", getId());
 		}
+		if (isSetName())
+		{
+			attributes.remove("name"); // name is not part of the layout specs for now
+		}
+		if (isSetMetaidRef())
+		{
+			attributes.put(LayoutConstants.shortLabel + ":" + LayoutConstants.metaidRef, getMetaidRef());
+		}
 		
 		return attributes;
 	}
 
+	
+	/**
+	 * Returns the value of metaidRef
+	 *
+	 * @return the value of metaidRef
+	 */
+	public String getMetaidRef() 
+	{
+		if (isSetMetaidRef()) {
+			return metaidRef;
+		}
+
+		return "";
+	}
+
+	/**
+	 * Returns whether metaidRef is set 
+	 *
+	 * @return whether metaidRef is set 
+	 */
+	public boolean isSetMetaidRef() {
+		return this.metaidRef != null;
+	}
+
+	/**
+	 * Sets the value of metaidRef
+	 */
+	public void setMetaidRef(String metaidRef) {
+		String oldMetaidRef = this.metaidRef;
+		this.metaidRef = metaidRef;
+		firePropertyChange(LayoutConstants.metaidRef, oldMetaidRef, this.metaidRef);
+	}
+
+	/**
+	 * Unsets the variable metaidRef 
+	 *
+	 * @return {@code true}, if metaidRef was set before, 
+	 *         otherwise {@code false}
+	 */
+	public boolean unsetMetaidRef() {
+		if (isSetMetaidRef()) {
+			String oldMetaidRef = this.metaidRef;
+			this.metaidRef = null;
+			firePropertyChange(LayoutConstants.metaidRef, oldMetaidRef, this.metaidRef);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	public boolean readAttribute(String attributeName, String prefix, String value) 
+	{
+		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+		
+		if (!isAttributeRead) {
+			isAttributeRead = true;
+
+			if (attributeName.equals(LayoutConstants.metaidRef)) 
+			{
+				setMetaidRef(value);
+			}
+			else
+			{
+				isAttributeRead = false;
+			}
+		}
+
+		return isAttributeRead;
+	}
 }
+
+

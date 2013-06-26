@@ -23,6 +23,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -33,7 +34,7 @@ import org.sbml.jsbml.util.StringTools;
  * @since 1.0
  * @version $Rev$
  */
-public class Point extends AbstractNamedSBase {
+public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
 
 	/**
 	 * 
@@ -61,6 +62,19 @@ public class Point extends AbstractNamedSBase {
 		x = y = z = Double.NaN;
 	}
 	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
+	public Point(double x, double y) {
+		this();
+		this.x = x;
+		this.y = y;
+		this.z = Double.NaN;
+	}
+
 	/**
 	 * 
 	 * @param x
@@ -95,9 +109,9 @@ public class Point extends AbstractNamedSBase {
 	 * @param version
 	 */
 	public Point(int level, int version) {
-	  super(level, version);
-	  addNamespace(LayoutConstants.namespaceURI);
-    x = y = z = Double.NaN;
+		super(level, version);
+		addNamespace(LayoutConstants.namespaceURI);
+		x = y = z = Double.NaN;
 	}
 
 	/**
@@ -124,12 +138,18 @@ public class Point extends AbstractNamedSBase {
 	protected void clonePointAttributes(Point point, Point cloned) {
 		if (point.isSetX()) {
 			cloned.setX(point.getX());
+		} else {
+			cloned.setX(Double.NaN);
 		}
 		if (point.isSetY()) {
 			cloned.setY(point.getY());
+		} else {
+			cloned.setY(Double.NaN);
 		}
 		if (point.isSetZ()) {
 			cloned.setZ(point.getZ());
+		} else {
+			cloned.setZ(Double.NaN);
 		}
 	}
 

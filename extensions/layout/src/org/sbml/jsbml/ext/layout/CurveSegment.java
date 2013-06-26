@@ -22,14 +22,62 @@ package org.sbml.jsbml.ext.layout;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * @author Sebastian Fr&oum;hlich
+ * @author rodrigue
  * @since 1.0
  * @version $Rev$
  */
-public class CurveSegment extends CubicBezier {
+public abstract class CurveSegment extends AbstractNamedSBase {
+
+	public enum Type
+	{
+		LINE_SEGMENT("LineSegment"), 
+		CUBIC_BEZIER("CubicBezier");
+		
+		private final String xmlString;
+		
+		/**
+		 * Returns the xmlString
+		 *
+		 * @return the xmlString
+		 */
+		public String getXmlString() {
+			return xmlString;
+		}
+
+		private Type(String xmlString)
+		{
+			this.xmlString = xmlString;
+		}
+		
+		@Override
+		public String toString() {
+			return xmlString;
+		}
+		
+		public static Type fromString(String value)
+		{
+			if (value == null)
+			{
+				throw new IllegalArgumentException();
+			}
+			
+			for(Type v : values())
+			{
+				if(value.equalsIgnoreCase(v.getXmlString()))
+				{
+					return v;
+				}
+			}
+			throw new IllegalArgumentException();
+
+		}
+	}
 
 	/**
 	 * Generated serial version identifier.
@@ -44,8 +92,10 @@ public class CurveSegment extends CubicBezier {
 	/**
 	 * 
 	 */
-	private String type;
+	private Type type;
 
+	
+	
 	/**
 	 * 
 	 */
@@ -60,16 +110,10 @@ public class CurveSegment extends CubicBezier {
 	 */
 	public CurveSegment(CurveSegment curveSegment) {
 		super(curveSegment);
-		if (curveSegment.isSetStart()) {
-			this.start = curveSegment.getStart().clone();
-		}
-		if (curveSegment.isSetEnd()) {
-			this.end = curveSegment.getEnd().clone();
-		}
+
 		if (curveSegment.isSetType()) {
-			this.type = curveSegment.getType();
+			setType(curveSegment.getType());
 		}
-		// Note: basePoints 1 & 2 are already copied in super.
 	}
 
 	/**
@@ -78,26 +122,19 @@ public class CurveSegment extends CubicBezier {
 	 * @param version
 	 */
 	public CurveSegment(int level, int version) {
-    super(level, version);
-    initDefaults();
-  }
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#clone()
-	 */
-	@Override
-	public CurveSegment clone() {
-		return new CurveSegment(this);
+		super(level, version);
+		initDefaults();
 	}
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
-   */
-  @Override
-  public boolean equals(Object object) {
-    boolean equals = super.equals(object);
-    if (equals) {
-      CurveSegment curveSegment = (CurveSegment) object;
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object object) {
+		boolean equals = super.equals(object);
+		if (equals) {
+			CurveSegment curveSegment = (CurveSegment) object;
       equals &= curveSegment.isSetType() == isSetType();
       if (equals && isSetType()) {
         equals &= curveSegment.getType().equals(getType());
@@ -110,7 +147,7 @@ public class CurveSegment extends CubicBezier {
 	 * 
 	 * @return
 	 */
-	public String getType() {
+	public Type getType() {
 		return type;
 	}
 
@@ -135,13 +172,6 @@ public class CurveSegment extends CubicBezier {
 	  addNamespace(LayoutConstants.namespaceURI);
   }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
-	 */
-	@Override
-	public boolean isIdMandatory() {
-		return false;
-	}
 
 	/**
 	 * 
@@ -159,12 +189,21 @@ public class CurveSegment extends CubicBezier {
 			String value) {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
-		logger.debug("reading CurveSegment: " + prefix + " : " + attributeName);
+		logger.debug("reading CurveSegmentImpl: " + prefix + " : " + attributeName);
 
 		if (!isAttributeRead) {
 			
 			if (attributeName.equals("type")) {
-				setType(value);
+				try 
+				{
+					setType(Type.fromString(value));
+				}
+				catch (Exception e) 
+				{
+					throw new SBMLException("Could not recognized the value '" + value
+							+ "' for the attribute " + LayoutConstants.type
+							+ " on the 'curveSegment' element.");
+				}
 				return true;
 			}
 		}
@@ -176,8 +215,9 @@ public class CurveSegment extends CubicBezier {
 	 * 
 	 * @param type
 	 */
-	public void setType(String type) {
-		String oldType = this.type;
+	public void setType(Type type) 
+	{
+		Type oldType = this.type;
 		this.type = type;
 		firePropertyChange(TreeNodeChangeEvent.type, oldType, this.type);
 	}
@@ -189,13 +229,22 @@ public class CurveSegment extends CubicBezier {
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
 		
-		logger.debug("process attributes of CurveSegment");
-		logger.debug("isSetType: " + isSetType());
+		if (logger.isDebugEnabled())
+		{
+			logger.debug("process attributes of CurveSegmentImpl");
+			logger.debug("isSetType: " + isSetType());
+			logger.debug("Type = " + type);
+		}
 		
 		if (isSetType()) {
-			attributes.put(LayoutConstants.shortLabel + ":type", getType());
+			attributes.put(LayoutConstants.xsiShortLabel + ":type", getType().toString());
 		}
+		
 		return attributes;
+	}
+
+	public boolean isIdMandatory() {
+		return false;
 	}
 
 }

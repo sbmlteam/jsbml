@@ -33,7 +33,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @since 1.0
  * @version $Rev$
  */
-public class SpeciesGlyph extends NamedSBaseGlyph {
+public class SpeciesGlyph extends AbstractReferenceGlyph {
 
 	/**
 	 * Generated serial version identifier.
@@ -83,7 +83,7 @@ public class SpeciesGlyph extends NamedSBaseGlyph {
 	}
 	
 	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.NamedSBaseGlyph#clone()
+	 * @see org.sbml.jsbml.ext.layout.AbstractReferenceGlyph#clone()
 	 */
 	public SpeciesGlyph clone() {
 		return new SpeciesGlyph(this);
@@ -94,7 +94,7 @@ public class SpeciesGlyph extends NamedSBaseGlyph {
 	 * @return
 	 */
 	public String getSpecies() {
-		return getNamedSBase();
+		return getReference();
 	}
 	
 	/**
@@ -111,7 +111,7 @@ public class SpeciesGlyph extends NamedSBaseGlyph {
 	 * @return the {@link #speciesId}
 	 */
 	public boolean isSetSpecies() {
-		return isSetNamedSBase();
+		return isSetReference();
 	}
 
 	/* (non-Javadoc)
@@ -125,7 +125,7 @@ public class SpeciesGlyph extends NamedSBaseGlyph {
 
 		if (!isAttributeRead)
 		{
-			if (attributeName.equals("species")) {
+			if (attributeName.equals(LayoutConstants.species)) {
 				setSpecies(value);
 			}
 			else
@@ -149,14 +149,14 @@ public class SpeciesGlyph extends NamedSBaseGlyph {
 	 * @param species
 	 */
 	public void setSpecies(String species) {
-		setNamedSBase(species, TreeNodeChangeEvent.species);
+		setReference(species, TreeNodeChangeEvent.species);
 	}
 	
 	/**
 	 * 
 	 */
 	public void unsetSpecies() {
-		unsetNamedSBase();
+		unsetReference();
 	}
 
 	/* (non-Javadoc)
@@ -166,12 +166,8 @@ public class SpeciesGlyph extends NamedSBaseGlyph {
 	public Map<String, String> writeXMLAttributes() {
 	  Map<String, String> attributes = super.writeXMLAttributes();
 	  
-	  if (isSetId()) {
-	    attributes.remove("id");
-	    attributes.put(LayoutConstants.shortLabel + ":id", getId());
-	  }
 	  if (isSetSpecies()) {
-	    attributes.put(LayoutConstants.shortLabel + ":species", getSpecies());
+	    attributes.put(LayoutConstants.shortLabel + ":" + LayoutConstants.species, getSpecies());
 	  } 
 	  
 	  return attributes;
