@@ -51,6 +51,10 @@ public class AnnotationParser implements ReadingParser {
 			String value, String prefix, boolean isLastAttribute,
 			Object contextObject) {
 
+		if (logger.isDebugEnabled()) {
+			logger.debug("processAttribute (element name = " + elementName + ", attributeName = " + attributeName + ", value = " + value);
+		}
+		
 		// an AnnotationParser can only be used for the annotations of a SBML
 		// component. If the contextObject is not
 		// an Annotation instance, this parser doesn't process any XML

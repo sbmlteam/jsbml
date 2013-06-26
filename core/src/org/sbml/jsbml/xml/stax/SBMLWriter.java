@@ -1363,7 +1363,7 @@ public class SBMLWriter {
 		}
 		
 		if (logger.isDebugEnabled()) {
-			logger.debug("/nwriteSBMLElements: parentXmlObject = " + parentXmlObject);
+			logger.debug("\nwriteSBMLElements: parentXmlObject = " + parentXmlObject);
 			logger.debug("writeSBMLElements: parentElement = "
 					+ smOutputParentElement.getLocalName() + ", "
 					+ smOutputParentElement.getNamespace().getURI());
