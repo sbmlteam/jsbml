@@ -405,11 +405,12 @@ public class L3LayoutParser extends AbstractReaderWriter {
 						{
 							if (((CurveSegmentImpl) curveSegment).isSetBasePoint1() || ((CurveSegmentImpl) curveSegment).isSetBasePoint2())
 							{
-								curveSegment.setType(CurveSegment.Type.CUBIC_BEZIER);
+								 // trick to set the 'type' attribute, although the setType method is not visible.
+								curveSegment.readAttribute("type", "", CurveSegment.Type.CUBIC_BEZIER.toString());
 							}
 							else 
 							{
-								curveSegment.setType(CurveSegment.Type.LINE_SEGMENT);
+								curveSegment.readAttribute("type", "", CurveSegment.Type.LINE_SEGMENT.toString());
 							}
 						}
 						

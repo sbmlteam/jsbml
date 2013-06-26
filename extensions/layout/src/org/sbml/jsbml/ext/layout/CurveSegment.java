@@ -215,7 +215,7 @@ public abstract class CurveSegment extends AbstractNamedSBase {
 	 * 
 	 * @param type
 	 */
-	public void setType(Type type) 
+	void setType(Type type) 
 	{
 		Type oldType = this.type;
 		this.type = type;
