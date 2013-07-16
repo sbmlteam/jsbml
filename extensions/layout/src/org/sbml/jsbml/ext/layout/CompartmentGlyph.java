@@ -237,4 +237,5 @@ public class CompartmentGlyph extends AbstractReferenceGlyph {
 		}
 		return false;
 	}
+	
 }
