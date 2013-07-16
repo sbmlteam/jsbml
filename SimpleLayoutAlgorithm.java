@@ -27,14 +27,16 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.layout.AbstractReferenceGlyph;
 import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
+import org.sbml.jsbml.ext.layout.CubicBezier;
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.layout.CurveSegment;
 import org.sbml.jsbml.ext.layout.Dimensions;
 import org.sbml.jsbml.ext.layout.GraphicalObject;
 import org.sbml.jsbml.ext.layout.Layout;
-import org.sbml.jsbml.ext.layout.NamedSBaseGlyph;
+import org.sbml.jsbml.ext.layout.LineSegment;
 import org.sbml.jsbml.ext.layout.Point;
 import org.sbml.jsbml.ext.layout.Position;
 import org.sbml.jsbml.ext.layout.ReactionGlyph;
@@ -288,12 +290,13 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 				Curve curve = specRefGlyph.getCurve();
 				if (curve.isSetListOfCurveSegments()) {
 					for (CurveSegment curveSegment : curve.getListOfCurveSegments()) {
+						LineSegment ls = (LineSegment) curveSegment;
 						if (specRefGlyph.isSetSpeciesReferenceRole()
 								&& specRefGlyph.getSpeciesReferenceRole().equals(specRefRole)) {
 							if (specRefRole.equals(SpeciesReferenceRole.PRODUCT) || specRefRole.equals(SpeciesReferenceRole.SIDEPRODUCT)) {
 								//the start point is the reaction glyph
-								if (curveSegment.isSetStart()) {
-									Point startPoint = curveSegment.getStart();
+								if (ls.isSetStart()) {
+									Point startPoint = ls.getStart();
 									x = x + startPoint.getX();
 									y = y + startPoint.getY();
 									z = z + startPoint.getZ();
@@ -301,8 +304,8 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 								}
 							} else {
 								//SpeciesReference is a reactant, so the start is the SpeciesReference and the end is the reaction glyph
-								if (curveSegment.isSetEnd()) {
-									Point endPoint = curveSegment.getEnd();
+								if (ls.isSetEnd()) {
+									Point endPoint = ls.getEnd();
 									x = x + endPoint.getX();
 									y = y + endPoint.getY();
 									z = z + endPoint.getZ();
@@ -549,8 +552,9 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 
 		if (curve.isSetListOfCurveSegments()) {
 			for (CurveSegment curveSegment : curve.getListOfCurveSegments()) {
-				Point startPoint = curveSegment.getStart();
-				Point endPoint = curveSegment.getEnd();
+				LineSegment ls = (LineSegment) curveSegment;
+				Point startPoint = ls.getStart();
+				Point endPoint = ls.getEnd();
 				double startX = startPoint.getX();
 				double startY = startPoint.getY();
 				double startZ = startPoint.getZ();
@@ -558,10 +562,11 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 				double endY = endPoint.getY();
 				double endZ = endPoint.getZ();
 				
-				if (curveSegment.isSetBasePoint1() && curveSegment.isSetBasePoint2()) {
+				if (curveSegment instanceof CubicBezier) {
+					CubicBezier cb = (CubicBezier) curveSegment;
 					
-					Point basePoint1 = curveSegment.getBasePoint1();
-					Point basePoint2 = curveSegment.getBasePoint2();
+					Point basePoint1 = cb.getBasePoint1();
+					Point basePoint2 = cb.getBasePoint2();
 					
 					double minX = Math.min(startX, endX);
 					minX = Math.min(minX, basePoint1.getX());
@@ -867,7 +872,8 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 					if (specRefGlyph.isSetSpeciesReferenceRole()
 							&& specRefGlyph.getSpeciesReferenceRole().equals(SpeciesReferenceRole.SUBSTRATE)) {
 						if (curve.isSetListOfCurveSegments()) {
-							firstCentralPoint = curve.getListOfCurveSegments().getLast().getEnd();
+							LineSegment ls = (LineSegment) curve.getListOfCurveSegments().getLast();
+							firstCentralPoint = ls.getEnd();
 						}
 					}
 					
@@ -875,7 +881,8 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 					if (specRefGlyph.isSetSpeciesReferenceRole()
 							&& specRefGlyph.getSpeciesReferenceRole().equals(SpeciesReferenceRole.PRODUCT)) {
 						if (curve.isSetListOfCurveSegments()) {
-							secondCentralPoint = curve.getListOfCurveSegments().getFirst().getStart();
+							LineSegment ls = (LineSegment) curve.getListOfCurveSegments().getFirst();
+							secondCentralPoint = ls.getStart();
 						}
 					}
 				}
@@ -1265,7 +1272,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		Dimensions dimension = bb.getDimensions();
 		double width = dimension.getWidth();
 		double height = dimension.getHeight();
-		if (glyph instanceof NamedSBaseGlyph) {
+		if (glyph instanceof AbstractReferenceGlyph) {
 			if (glyph instanceof ReactionGlyph) {
 				if ((width < height) || (width != height * 2d)) {
 					// Compute the minimum because the bounding box of the reaction glyph is always wider than higher
@@ -1278,9 +1285,9 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			} else if (glyph instanceof TextGlyph) {
 				// do nothing
 			} else {
-				NamedSBaseGlyph nsbGlyph = (NamedSBaseGlyph) glyph; 
+				AbstractReferenceGlyph nsbGlyph = (AbstractReferenceGlyph) glyph; 
 				int sboTerm = -1;
-				if (nsbGlyph.isSetNamedSBase()) {
+				if (nsbGlyph.isSetReference()) {
 					sboTerm = nsbGlyph.getNamedSBaseInstance().getSBOTerm();
 				}
 				if (SBO.isChildOf(sboTerm, SBO.getSimpleMolecule()) ||

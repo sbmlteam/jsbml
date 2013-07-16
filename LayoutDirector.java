@@ -38,13 +38,13 @@ import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.ext.layout.AbstractReferenceGlyph;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
 import org.sbml.jsbml.ext.layout.CurveSegment;
 import org.sbml.jsbml.ext.layout.GraphicalObject;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
-import org.sbml.jsbml.ext.layout.NamedSBaseGlyph;
 import org.sbml.jsbml.ext.layout.ReactionGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
@@ -478,14 +478,14 @@ public class LayoutDirector<P> implements Runnable {
 		for (int i = 0; i < compartmentGlyphList.size(); i++) {
 			CompartmentGlyph compartmentGlyph = compartmentGlyphList.get(i);
 			if ((previousCompartmentGlyph != null) &&
-					previousCompartmentGlyph.isSetNamedSBase() &&
-					compartmentGlyph.isSetNamedSBase()) {
-				Compartment previousCompartment = (Compartment) previousCompartmentGlyph.getNamedSBaseInstance();
+					previousCompartmentGlyph.isSetReference() &&
+					compartmentGlyph.isSetReference()) {
+				Compartment previousCompartment = (Compartment) previousCompartmentGlyph.getReferenceInstance();
 				if (previousCompartment.getUserObject(COMPARTMENT_LINK) instanceof List<?>) {
 					@SuppressWarnings("unchecked")
 					List<Compartment> containedCompartments =
 						(List<Compartment>) previousCompartment.getUserObject(COMPARTMENT_LINK);
-					if (!containedCompartments.contains(compartmentGlyph.getNamedSBaseInstance())) {
+					if (!containedCompartments.contains(compartmentGlyph.getReferenceInstance())) {
 						previousCompartment = null;
 					}
 				}
@@ -519,8 +519,8 @@ public class LayoutDirector<P> implements Runnable {
 	private void handleSpeciesGlyph(SpeciesGlyph speciesGlyph) {
 		boolean cloneMarker = false;
 
-		if (speciesGlyph.isSetNamedSBase()) {
-			NamedSBase species = speciesGlyph.getNamedSBaseInstance();
+		if (speciesGlyph.isSetReference()) {
+			NamedSBase species = speciesGlyph.getReferenceInstance();
 
 			if (!species.isSetSBOTerm()) {
 				speciesGlyph.setSBOTerm(SBO.getUnknownMolecule());
@@ -528,9 +528,9 @@ public class LayoutDirector<P> implements Runnable {
 				speciesGlyph.setSBOTerm(species.getSBOTerm());
 			}
 
-			List<NamedSBaseGlyph> glyphList = new ArrayList<NamedSBaseGlyph>();
+			List<AbstractReferenceGlyph> glyphList = new ArrayList<AbstractReferenceGlyph>();
 			if (species.getUserObject(LAYOUT_LINK) instanceof List<?>) {
-				glyphList = (List<NamedSBaseGlyph>) species.getUserObject(LAYOUT_LINK);
+				glyphList = (List<AbstractReferenceGlyph>) species.getUserObject(LAYOUT_LINK);
 			}
 			cloneMarker = glyphList.size() > 1;
 
@@ -573,7 +573,7 @@ public class LayoutDirector<P> implements Runnable {
 			for (SpeciesReferenceGlyph srg : reactionGlyph.getListOfSpeciesReferenceGlyphs()) {
 				try {
 					// copy SBO term of species reference to species reference glyph
-					SimpleSpeciesReference speciesReference = (SimpleSpeciesReference) srg.getNamedSBaseInstance();
+					SimpleSpeciesReference speciesReference = (SimpleSpeciesReference) srg.getReferenceInstance();
 					if ((speciesReference == null) || !speciesReference.isSetSBOTerm()) {
 						if (!srg.isSetSpeciesReferenceRole()) {
 							// sets consumption (straight line as default)
@@ -585,7 +585,7 @@ public class LayoutDirector<P> implements Runnable {
 					
 					builder.buildConnectingArc(srg, reactionGlyph, curveWidth);
 				} catch (ClassCastException exc) {
-					logger.fine("tried to access object wiht id = " + srg.getNamedSBase());
+					logger.fine("tried to access object wiht id = " + srg.getReference());
 					throw exc;
 				}
 			}
@@ -633,22 +633,22 @@ public class LayoutDirector<P> implements Runnable {
 	 * object with key LAYOUT_LINK for every species of the given list of
 	 * species glyphs.
 	 * 
-	 * @param listOfNamedSBaseGlyphs list of species glyphs
+	 * @param listOfAbstractReferenceGlyphs list of species glyphs
 	 */
 	@SuppressWarnings("unchecked")
-	private void createLayoutLinks(ListOf<? extends NamedSBaseGlyph> listOfNamedSBaseGlyphs) {
-		for (NamedSBaseGlyph glyph : listOfNamedSBaseGlyphs) {
-			if (glyph.isSetNamedSBase()) {
-				NamedSBase correspondingSBase = glyph.getNamedSBaseInstance();
+	private void createLayoutLinks(ListOf<? extends AbstractReferenceGlyph> listOfAbstractReferenceGlyphs) {
+		for (AbstractReferenceGlyph glyph : listOfAbstractReferenceGlyphs) {
+			if (glyph.isSetReference()) {
+				NamedSBase correspondingSBase = glyph.getReferenceInstance();
 				if (correspondingSBase == null) {
 					logger.warning(MessageFormat.format(
 							"Removing incorrect link from glyph {0} to an non existing element {1}",
-							glyph, glyph.getNamedSBase()));
-					glyph.unsetNamedSBase();
+							glyph, glyph.getReference()));
+					glyph.unsetReference();
 				} else {
-					List<NamedSBaseGlyph> listOfGlyphs = new ArrayList<NamedSBaseGlyph>();
+					List<AbstractReferenceGlyph> listOfGlyphs = new ArrayList<AbstractReferenceGlyph>();
 					if (correspondingSBase.getUserObject(LAYOUT_LINK) instanceof List<?>) {
-						listOfGlyphs = (List<NamedSBaseGlyph>) correspondingSBase.getUserObject(LAYOUT_LINK);
+						listOfGlyphs = (List<AbstractReferenceGlyph>) correspondingSBase.getUserObject(LAYOUT_LINK);
 					}
 					listOfGlyphs.add(glyph);
 					correspondingSBase.putUserObject(LAYOUT_LINK, listOfGlyphs);
@@ -772,7 +772,7 @@ public class LayoutDirector<P> implements Runnable {
 			containedList.addAll(directlyContainedCompartmentGlyphs);
 			for (CompartmentGlyph containedCompartmentGlyph : directlyContainedCompartmentGlyphs) {
 				containedList.addAll(getContainedCompartmentGlyphs(
-						(Compartment)containedCompartmentGlyph.getNamedSBaseInstance()));
+						(Compartment) containedCompartmentGlyph.getReferenceInstance()));
 			}
 		}
 		return containedList;
