@@ -256,7 +256,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 			// the start point is either above or below the end point
 			if (endY > startY) {
 				return RelativePosition.BELOW;
-			} else if (endY < startY){
+			} else if (endY < startY) {
 				return RelativePosition.ABOVE;
 			} else { // then endX == startX && endY == startY
 				logger.warning(MessageFormat.format(
@@ -1068,7 +1068,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
 		if (angle >= 0 && angle < 90) {
 			xCoordinate = x + new_width;
 			yCoordinate= y - new_height;
-		} else if (angle >= 90 && angle <180){
+		} else if (angle >= 90 && angle <180) {
 			xCoordinate = x - new_width;
 			yCoordinate = y - new_height;
 		} else if (angle >= 180 && angle <270) {

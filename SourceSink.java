@@ -33,7 +33,7 @@ public abstract class SourceSink<T> implements SBGNNode<T> {
 	 * @see de.zbit.sbml.layout.SBGNNode#setCloneMarker()
 	 */
 	//does nothing
-	public void setCloneMarker(){}
+	public void setCloneMarker() {}
 	
 	/* (non-Javadoc)
 	 * @see de.zbit.sbml.layout.SBGNNode#isSetCloneMarker()
