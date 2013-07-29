@@ -45,7 +45,8 @@
   <entry key="http://www.w3.org/2001/XMLSchema-instance">org.sbml.jsbml.xml.parsers.L3LayoutParser</entry>
   <entry key="http://www.sbml.org/sbml/level3/version1/multi/version1">org.sbml.jsbml.xml.parsers.MultiParser</entry>
   <entry key="http://www.sbml.org/sbml/level3/version1/render/version1">org.sbml.jsbml.xml.parsers.RenderParser</entry>
-
+  <entry key="http://projects.eml.org/bcb/sbml/render/level2">org.sbml.jsbml.xml.parsers.RenderParser</entry>
+  
   <!-- Core parsers
   
        Changes in the following lines may cause that JSBML cannot parse valid SBML files anymore, so
