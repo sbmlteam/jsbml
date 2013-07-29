@@ -181,6 +181,22 @@ public abstract class CurveSegment extends AbstractNamedSBase {
 		return type != null;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isLineSegment() {
+		return type != null && type.equals(Type.LINE_SEGMENT);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isCubicBezier() {
+		return type != null && type.equals(Type.CUBIC_BEZIER);
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractMathContainer#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
@@ -246,5 +262,85 @@ public abstract class CurveSegment extends AbstractNamedSBase {
 	public boolean isIdMandatory() {
 		return false;
 	}
+	
+	/**
+	 * Creates, sets and returns an empty {@link Point}.
+	 *
+	 * @return a new {@link Point} object.
+	 */
+	abstract public Point createEnd();
 
+	/**
+	 * Creates, sets and returns a {@link Point} based on the
+	 * given values.
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return a new {@link Point} object.
+	 */
+	abstract public Point createEnd(double x, double y, double z);
+
+	/**
+	 * Creates, sets and returns an empty {@link Point}.
+	 *
+	 * @return a new {@link Point} object.
+	 */
+	abstract public Point createStart();
+
+	/**
+	 * Creates, sets and returns a {@link Point} based on the
+	 * given values.
+	 * 
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return a new {@link Point} object.
+	 */
+	abstract public Point createStart(double x, double y, double z);
+
+	
+	/**
+	 * Returns the {@code Start} {@link Point} of this {@link CurveSegment}.
+	 * 
+	 * @return the {@code Start} {@link Point} of this {@link CurveSegment}.
+	 */
+	abstract public Point getStart();
+	
+	/**
+	 * Sets the {@code Start} {@link Point} of this {@link CurveSegment}.
+	 * 
+	 * @param start the {@code Start} {@link Point} to set
+	 */
+	abstract public void setStart(Point start);
+	
+	/**
+	 * Returns {@code true} if the {@code Start} {@link Point} is set.
+	 * 
+	 * @return {@code true} if the {@code Start} {@link Point} is set.
+	 */
+	abstract public boolean isSetStart();
+
+	/**
+	 * Returns the {@code End} {@link Point} of this {@link CurveSegment}.
+	 * 
+	 * @return the {@code End} {@link Point} of this {@link CurveSegment}.
+	 */
+	abstract public Point getEnd();
+
+	/**
+	 * Sets the {@code End} {@link Point} of this {@link CurveSegment}.
+	 * 
+	 * @param start the {@code End} {@link Point} to set
+	 */
+	abstract public void setEnd(Point end);
+
+	/**
+	 * Returns {@code true} if the {@code End} {@link Point} is set.
+	 * 
+	 * @return {@code true} if the {@code End} {@link Point} is set.
+	 */
+	abstract public boolean isSetEnd();
+	
+	
 }

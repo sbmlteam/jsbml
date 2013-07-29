@@ -102,17 +102,6 @@ public class Curve extends AbstractNamedSBase {
 		return new Curve(this);
 	}
 
-	/**
-	 * Creates a new {@link CurveSegmentImpl} instance, adds it to this {@link Curve} and returns it.
-	 * You need to set the type properly to produce valid xml.
-	 * 
-	 * @return the new {@link CurveSegmentImpl} instance
-	 */
-	public CurveSegment createCurveSegment() {
-		CurveSegmentImpl cs = new CurveSegmentImpl(getLevel(), getVersion());
-		addCurveSegment(cs);
-		return cs;
-	}
 
 	/**
 	 * Creates a new {@link LineSegment} instance, adds it to this {@link Curve} and returns it.
@@ -258,7 +247,7 @@ public class Curve extends AbstractNamedSBase {
 	 * @param cs
 	 * @return
 	 */
-	public boolean removeCurveSegment(CurveSegmentImpl cs) {
+	public boolean removeCurveSegment(CurveSegment cs) {
 		return getListOfCurveSegments().remove(cs);
 	}
 
