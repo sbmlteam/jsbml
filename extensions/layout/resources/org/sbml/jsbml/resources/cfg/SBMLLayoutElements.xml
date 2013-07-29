@@ -29,9 +29,10 @@
   <entry key="basePoint2">org.sbml.jsbml.ext.layout.BasePoint2</entry>
   <entry key="boundingBox">org.sbml.jsbml.ext.layout.BoundingBox</entry>
   <entry key="compartmentGlyph">org.sbml.jsbml.ext.layout.CompartmentGlyph</entry>
-  <entry key="cubicBezier">org.sbml.jsbml.ext.layout.CubicBezier</entry>
+  <entry key="cubicBezier">org.sbml.jsbml.ext.layout.CubicBezier</entry> <!-- in case the XML was not properly created -->
+  <entry key="lineSegment">org.sbml.jsbml.ext.layout.LineSegment</entry> <!-- in case the XML was not properly created -->
   <entry key="curve">org.sbml.jsbml.ext.layout.Curve</entry>
-  <entry key="curveSegment">org.sbml.jsbml.ext.layout.CurveSegment</entry>
+  <entry key="curveSegment">org.sbml.jsbml.ext.layout.CubicBezier</entry> <!-- we always create a CubicBezier instance when parsing and transform back the LineSegment at the end -->
   <entry key="dimensions">org.sbml.jsbml.ext.layout.Dimensions</entry>
   <entry key="end">org.sbml.jsbml.ext.layout.End</entry>
   <entry key="layout">org.sbml.jsbml.ext.layout.Layout</entry>  

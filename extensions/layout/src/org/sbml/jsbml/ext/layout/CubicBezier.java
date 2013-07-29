@@ -68,19 +68,6 @@ public class CubicBezier extends LineSegment {
 		}
 	}
 
-	/**
-	 * @param cubicBezier
-	 */
-	public CubicBezier(CurveSegmentImpl cubicBezier) {
-		super(cubicBezier);
-		
-		if (cubicBezier.isSetBasePoint1()) {
-			setBasePoint1(cubicBezier.getBasePoint1().clone());
-		}
-		if (cubicBezier.isSetBasePoint2()) {
-			setBasePoint2(cubicBezier.getBasePoint2().clone());
-		}
-	}
 
 	/**
 	 * 

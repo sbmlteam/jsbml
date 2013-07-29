@@ -82,7 +82,7 @@ public class LineSegment extends CurveSegment {
 	 * 
 	 * @param lineSegment
 	 */
-	public LineSegment(CurveSegmentImpl lineSegment) {
+	public LineSegment(CurveSegment lineSegment) {
 		super(lineSegment);
 		if (lineSegment.isSetStart()) {
 			this.start = lineSegment.getStart().clone();
@@ -206,9 +206,6 @@ public class LineSegment extends CurveSegment {
 			index, +((int) Math.min(pos, 0))));
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
-	 */
 	@Override
 	public int getChildCount() {
 		int count = super.getChildCount();
@@ -221,18 +218,11 @@ public class LineSegment extends CurveSegment {
 		return count;
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
 	public Point getEnd() {
 		return end;
 	}
 
-  /**
-	 * 
-	 * @return
-	 */
+
 	public Point getStart() {
 		return start;
 	}
@@ -253,32 +243,15 @@ public class LineSegment extends CurveSegment {
     return hashCode;
   }
 	
-	/* (non-Javadoc)
-   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
-   */
-  public boolean isIdMandatory() {
-    return false;
-  }
-
 	
-	/**
-	 * @return
-	 */
 	public boolean isSetEnd() {
 		return end != null;
 	}
 	
-	/**
-	 * @return
-	 */
 	public boolean isSetStart() {
 		return start != null;
 	}
 	
-	/**
-	 * 
-	 * @param end
-	 */
 	public void setEnd(Point end) {
 		if (this.end != null) {
 			this.end.fireNodeRemovedEvent();
@@ -290,10 +263,6 @@ public class LineSegment extends CurveSegment {
 		registerChild(this.end);
 	}
 
-	/**
-	 * 
-	 * @param start
-	 */
 	public void setStart(Point start) {
 		if (this.start != null) {
 			this.start.fireNodeRemovedEvent();

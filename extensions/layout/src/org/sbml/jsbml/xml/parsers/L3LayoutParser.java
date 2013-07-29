@@ -66,7 +66,6 @@ import org.sbml.jsbml.ext.layout.CompartmentGlyph;
 import org.sbml.jsbml.ext.layout.CubicBezier;
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.layout.CurveSegment;
-import org.sbml.jsbml.ext.layout.CurveSegmentImpl;
 import org.sbml.jsbml.ext.layout.Dimensions;
 import org.sbml.jsbml.ext.layout.End;
 import org.sbml.jsbml.ext.layout.GeneralGlyph;
@@ -296,8 +295,8 @@ public class L3LayoutParser extends AbstractReaderWriter {
 				return newElement;
 			}
 		}
-		else if (contextObject instanceof CurveSegmentImpl) {
-			CurveSegmentImpl curveSegment = (CurveSegmentImpl) contextObject;
+		else if (contextObject instanceof CurveSegment) {
+			CubicBezier curveSegment = (CubicBezier) contextObject;
 
 			if (elementName.equals(start)) {
 				Start point = new Start();
@@ -347,7 +346,7 @@ public class L3LayoutParser extends AbstractReaderWriter {
 			else if (elementName.equals(curveSegment) || elementName.equals("cubicBezier")
 					|| elementName.equals("lineSegment")) // to allow reading of not properly written XML, we add  "cubicBezier" and "lineSegment" here.
 			{
-				newElement = new CurveSegmentImpl();
+				newElement = new CubicBezier(); //Always creating a CubicBezier instance until we know the exact 'type' of the curveElement !!
 			}
 			else if (elementName.equals(speciesReferenceGlyph)) {
 				newElement = new SpeciesReferenceGlyph();
@@ -393,47 +392,36 @@ public class L3LayoutParser extends AbstractReaderWriter {
 			{
 				Curve curve = (Curve) curveNode;
 
-				// transform the CurveSegmentImpl into LineSegment or CubicBezier
+				// transform the CubicBezier into LineSegment when needed
 				int i = 0;				
 				for (CurveSegment curveSegment : curve.getListOfCurveSegments().clone()) 
 				{
-					if (curveSegment instanceof CurveSegmentImpl) 
+					if (! curveSegment.isSetType())
 					{
-						CurveSegment realCurveSegment;
+						if (((CubicBezier) curveSegment).isSetBasePoint1() || ((CubicBezier) curveSegment).isSetBasePoint2())
+						{
+							// trick to set the 'type' attribute, although the setType method is not visible.
+							curveSegment.readAttribute("type", "", CurveSegment.Type.CUBIC_BEZIER.toString());
+						}
+						else 
+						{
+							curveSegment.readAttribute("type", "", CurveSegment.Type.LINE_SEGMENT.toString());
+						}
+					}
 
-						if (! curveSegment.isSetType())
-						{
-							if (((CurveSegmentImpl) curveSegment).isSetBasePoint1() || ((CurveSegmentImpl) curveSegment).isSetBasePoint2())
-							{
-								 // trick to set the 'type' attribute, although the setType method is not visible.
-								curveSegment.readAttribute("type", "", CurveSegment.Type.CUBIC_BEZIER.toString());
-							}
-							else 
-							{
-								curveSegment.readAttribute("type", "", CurveSegment.Type.LINE_SEGMENT.toString());
-							}
-						}
-						
-						if (curveSegment.getType().equals(CurveSegment.Type.LINE_SEGMENT)) 
-						{
-							realCurveSegment = new LineSegment((CurveSegmentImpl) curveSegment);
-							logger.debug("Transformed CurveSegmentImpl : " + curveSegment + " into LineSegment.");
-						}
-						else if (curveSegment.getType().equals(CurveSegment.Type.CUBIC_BEZIER))
-						{
-							realCurveSegment = new CubicBezier((CurveSegmentImpl) curveSegment);
-							logger.debug("Transformed CurveSegmentImpl : " + curveSegment + " into RateRule.");
-						}
-						else
-						{
-							throw new IllegalArgumentException("");
-						}
-
-						logger.debug("Transformed CurveSegmentImpl : realRule = " + realCurveSegment);
-
+					if (curveSegment.getType().equals(CurveSegment.Type.LINE_SEGMENT)) 
+					{
+						LineSegment realCurveSegment = new LineSegment(curveSegment);
+						logger.debug("Transformed CubicBezier : " + curveSegment + " into a LineSegment.");
 						curve.getListOfCurveSegments().remove(i);
 						curve.getListOfCurveSegments().add(i, realCurveSegment);
 					}
+
+					if (logger.isDebugEnabled())
+					{
+						logger.debug("CurveSegment = " + curve.getListOfCurveSegments().get(i));
+					}
+
 					i++;
 				}
 			}
@@ -448,7 +436,7 @@ public class L3LayoutParser extends AbstractReaderWriter {
 		
 		String name = xmlObject.getName();
 		
-		if (name.equals("lineSegment") || name.equals("cubicBezier") || name.equals("curveSegmentImpl"))
+		if (name.equals("lineSegment") || name.equals("cubicBezier"))
 		{
 			xmlObject.setName(LayoutConstants.curveSegment); 
 		}
