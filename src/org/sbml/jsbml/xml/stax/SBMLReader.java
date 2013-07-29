@@ -534,7 +534,7 @@ public class SBMLReader {
 			throws XMLStreamException {
 		WstxInputFactory inputFactory = new WstxInputFactory();
 		XMLEventReader xmlEventReader = inputFactory.createXMLEventReader(stream);
-		return readXMLFromXMLEventReader(xmlEventReader, listener);		
+		return readXMLFromXMLEventReader(xmlEventReader, listener);
 	}
 	
 		
