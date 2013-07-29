@@ -25,7 +25,7 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.Layout;
-import org.sbml.jsbml.ext.layout.ExtendedLayoutModel;
+import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.ext.render.ColorDefinition;
 import org.sbml.jsbml.ext.render.Curve;
 import org.sbml.jsbml.ext.render.GlobalRenderInformation;
@@ -83,8 +83,8 @@ public class RenderParser extends AbstractReaderWriter {
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 		logger.debug("logger called, " + prefix + " : " + elementName + " in context of: " + contextObject.toString());
-		if (contextObject instanceof ExtendedLayoutModel) {
-			ExtendedLayoutModel layoutModel = (ExtendedLayoutModel) contextObject;
+		if (contextObject instanceof LayoutModelPlugin) {
+			LayoutModelPlugin layoutModel = (LayoutModelPlugin) contextObject;
 			// TODO not sure if necessary to check if listOfLayouts != null
 			ListOf<Layout> listOfLayouts = layoutModel.getListOfLayouts();
 			SBase newElement = null;

@@ -1,6 +1,6 @@
 format-version: 1.2
-date: 25:04:2013 07:00
-data-version: 05:09:2012 10:10
+date: 29:07:2013 07:00
+data-version: 15:05:2013 15:39
 saved-by: SBO community
 auto-generated-by: SBO Browser (http://www.ebi.ac.uk/sbo/)
 default-namespace: sbo
@@ -4070,6 +4070,20 @@ name: logical parameter
 def: "A parameter that takes only logical values." [src_code:NR]
 comment: created in response to \[SF req #3564480\]
 is_a: SBO:0000546 ! qualitative systems description parameter
+
+[Term]
+id: SBO:0000603
+name: side product
+def: "A substance that is produced in a chemical reaction but is not itself the primary product or focus of that reaction. Examples include, but are not limited to, currency compounds such as ATP, NADPH and protons." [src_code:NR]
+comment: created in response to \[SF req #3604202\].
+is_a: SBO:0000011 ! product
+
+[Term]
+id: SBO:0000604
+name: side substrate
+def: "A substance that is consumed in a chemical reaction but is not itself the primary substrate or focus of that reaction. Examples include, but are not limited to, currency compounds such as ATP, NADPH and protons." [src_code:NR]
+comment: created in response to \[SF req #3604202\].
+is_a: SBO:0000015 ! substrate
 
 [Typedef]
 id: is_a
