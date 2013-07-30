@@ -19,6 +19,8 @@
  */
 package org.sbml.jsbml.xml.parsers;
 
+import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfLayouts;
+
 import java.text.MessageFormat;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -162,10 +164,10 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
     if (sbase instanceof SBase) {
       SBase elem = (SBase) sbase;
-      log4jLogger.info("add to write: " + elem.getElementName()
+      log4jLogger.debug("add to write: " + elem.getElementName()
           + " namespace: " + elem.getNamespaces().toString());
       if (sbase instanceof ListOf<?>) {
-        log4jLogger.info("process a ListOf instance");
+        log4jLogger.debug("process a ListOf instance");
         ListOf<SBase> listOf = (ListOf<SBase>) sbase;
         if (!listOf.isEmpty()) {
           listOfElementsToWrite = new LinkedList<Object>();
@@ -183,8 +185,8 @@ public class LayoutParser implements ReadingParser, WritingParser {
           listOfElementsToWrite.add(layout.getListOfSpeciesGlyphs());
           ListOf<SpeciesGlyph> listOfSpeciesGlyph = layout
               .getListOfSpeciesGlyphs();
-          log4jLogger.info("found list of species glyph");
-          log4jLogger.info("list of species glyph: "
+          log4jLogger.debug("found list of species glyph");
+          log4jLogger.debug("list of species glyph: "
               + listOfSpeciesGlyph.getElementName());
         } else if (layout.isSetListOfCompartmentGlyphs()) {
           listOfElementsToWrite.add(layout
@@ -232,24 +234,40 @@ public class LayoutParser implements ReadingParser, WritingParser {
    * @see org.sbml.jsbml.xml.parsers.WritingParser#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
    */
   public void writeElement(SBMLObjectForXML xmlObject,
-      Object sbmlElementToWrite) {
-    log4jLogger.warn(MessageFormat.format("{0} : writeElement", getClass()
-        .getSimpleName()));
-
+      Object sbmlElementToWrite) 
+  {
     if (sbmlElementToWrite instanceof SBase) {
       SBase sbase = (SBase) sbmlElementToWrite;
-      log4jLogger.info(MessageFormat.format("{0} ", sbase.getElementName()));
+      
+      if (log4jLogger.isDebugEnabled())
+	  {
+    	  log4jLogger.debug(MessageFormat.format("{0} ", sbase.getElementName()));
+	  }
+      
       if (!xmlObject.isSetName()) {
-        if (sbase instanceof ListOf<?>) {
-          xmlObject.setName(LayoutList.listOfLayouts.toString());
-        } else {
-          xmlObject.setName(sbase.getElementName());
-        }
+    	  xmlObject.setName(sbase.getElementName());
       }
       if (!xmlObject.isSetPrefix()) {
         xmlObject.setPrefix("layout");
       }
       xmlObject.setNamespace(namespaceURI);
+
+      String name = xmlObject.getName();
+      
+      if (name.equals("lineSegment") || name.equals("cubicBezier"))
+      {
+    	  xmlObject.setName(LayoutConstants.curveSegment); 
+      }
+
+      if (name.equals("listOfLineSegments") || name.equals("listOfCubicBeziers"))
+      {
+    	  xmlObject.setName(LayoutConstants.listOfCurveSegments);
+      }
+
+      if (xmlObject.getName().equals(listOfLayouts))
+      {
+    	  xmlObject.getAttributes().put("xmlns:" + LayoutConstants.xsiShortLabel, LayoutConstants.xsiNamespace);
+      }
 
     }
 
@@ -351,6 +369,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
 					if (curveSegment.getType().equals(CurveSegment.Type.LINE_SEGMENT)) 
 					{
 						LineSegment realCurveSegment = new LineSegment(curveSegment);
+						setNamespace(realCurveSegment, namespaceURI);
 						logger.debug("Transformed CubicBezier : " + curveSegment + " into LineSegment.");
 						curve.getListOfCurveSegments().remove(i);
 						curve.getListOfCurveSegments().add(i, realCurveSegment);
@@ -386,8 +405,8 @@ public class LayoutParser implements ReadingParser, WritingParser {
     }
     if (sbmlLayoutElements.containsKey(elementName)) {
       try {
-        Object newContextObject = sbmlLayoutElements.get(elementName)
-            .newInstance();
+        Object newContextObject = sbmlLayoutElements.get(elementName).newInstance();
+        
         if (contextObject instanceof Annotation) {
           Annotation annotation = (Annotation) contextObject;
 
@@ -410,6 +429,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
           Annotation annotation = (Annotation) contextObject;
           if (elementName.equals("listOfLayouts")) {
             ListOf<Layout> listOfLayouts = (ListOf<Layout>) newContextObject;
+            listOfLayouts.setSBaseListType(ListOf.Type.other);
             setNamespace(listOfLayouts, namespaceURI);
             this.groupList = LayoutList.listOfLayouts;
             Model model = (Model) annotation.getParent();
@@ -438,6 +458,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
               ListOf<CompartmentGlyph> listOfCompartmentGlyph = (ListOf<CompartmentGlyph>) contextObject;
               CompartmentGlyph compartmentGlyph = (CompartmentGlyph) newContextObject;
               setNamespace(listOfCompartmentGlyph, namespaceURI);
+              setNamespace(compartmentGlyph, namespaceURI);
               listOfCompartmentGlyph.add(compartmentGlyph);
               this.groupList = LayoutList.listOfCompartmentGlyphs;
               return compartmentGlyph;
@@ -446,6 +467,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
               ListOf<TextGlyph> listOfTextGlyph = (ListOf<TextGlyph>) contextObject;
               TextGlyph textGlyph = (TextGlyph) newContextObject;
               setNamespace(listOfTextGlyph, namespaceURI);
+              setNamespace(textGlyph, namespaceURI);
               listOfTextGlyph.add(textGlyph);
               this.groupList = LayoutList.listOfTextGlyphs;
               return textGlyph;
@@ -454,6 +476,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
               ListOf<SpeciesGlyph> listOfSpeciesGlyph = (ListOf<SpeciesGlyph>) contextObject;
               SpeciesGlyph speciesGlyph = (SpeciesGlyph) newContextObject;
               setNamespace(listOfSpeciesGlyph, namespaceURI);
+              setNamespace(speciesGlyph, namespaceURI);
               listOfSpeciesGlyph.add(speciesGlyph);
               this.groupList = LayoutList.listOfSpeciesGlyphs;
               return speciesGlyph;
@@ -461,6 +484,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
                 && this.groupList.equals(LayoutList.listOfReactionGlyphs)) {
               ListOf<ReactionGlyph> listOfReactionGlyph = (ListOf<ReactionGlyph>) contextObject;
               ReactionGlyph reactionGlyph = (ReactionGlyph) newContextObject;
+              setNamespace(listOfReactionGlyph, namespaceURI);
               setNamespace(reactionGlyph, namespaceURI);
               listOfReactionGlyph.add(reactionGlyph);
               this.groupList = LayoutList.listOfReactionGlyphs;
@@ -477,6 +501,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
             if (elementName.equals("speciesReferenceGlyph")
                 && this.groupList.equals(LayoutList.listOfSpeciesReferenceGlyphs)) {
               SpeciesReferenceGlyph speciesReferenceGlyph = (SpeciesReferenceGlyph) newContextObject;
+              setNamespace(speciesReferenceGlyph, namespaceURI);
               ListOf<SpeciesReferenceGlyph> listOfSpeciesReferenceGlyph = (ListOf<SpeciesReferenceGlyph>) contextObject;
               listOfSpeciesReferenceGlyph
                   .add(speciesReferenceGlyph);
@@ -515,24 +540,28 @@ public class LayoutParser implements ReadingParser, WritingParser {
           } else if (elementName.equals("listOfCompartmentGlyphs")
               && this.groupList.equals(LayoutList.listOfLayouts)) {
             ListOf<CompartmentGlyph> listOfCompartmentGlyphs = (ListOf<CompartmentGlyph>) newContextObject;
+            listOfCompartmentGlyphs.setSBaseListType(ListOf.Type.other);
             layout.setListOfCompartmentGlyphs(listOfCompartmentGlyphs);
             this.groupList = LayoutList.listOfCompartmentGlyphs;
             return listOfCompartmentGlyphs;
           } else if (elementName.equals("listOfSpeciesGlyphs")
               && this.groupList.equals(LayoutList.listOfLayouts)) {
             ListOf<SpeciesGlyph> listofSpeciesGlyph = (ListOf<SpeciesGlyph>) newContextObject;
+            listofSpeciesGlyph.setSBaseListType(ListOf.Type.other);
             layout.setListOfSpeciesGlyphs(listofSpeciesGlyph);
             this.groupList = LayoutList.listOfSpeciesGlyphs;
             return listofSpeciesGlyph;
           } else if (elementName.equals("listOfReactionGlyphs")
               && this.groupList.equals(LayoutList.listOfLayouts)) {
             ListOf<ReactionGlyph> listOfReactionGlyphs = (ListOf<ReactionGlyph>) newContextObject;
+            listOfReactionGlyphs.setSBaseListType(ListOf.Type.other);
             layout.setListOfReactionGlyphs(listOfReactionGlyphs);
             this.groupList = LayoutList.listOfReactionGlyphs;
             return listOfReactionGlyphs;
           } else if (elementName.equals("listOfTextGlyphs")
               && this.groupList.equals(LayoutList.listOfLayouts)) {
             ListOf<TextGlyph> listOfTextGlyphs = (ListOf<TextGlyph>) newContextObject;
+            listOfTextGlyphs.setSBaseListType(ListOf.Type.other);
             layout.setListOfTextGlyphs(listOfTextGlyphs);
             this.groupList = LayoutList.listOfTextGlyphs;
             return listOfTextGlyphs;
@@ -549,8 +578,8 @@ public class LayoutParser implements ReadingParser, WritingParser {
               .equals("listOfSpeciesReferenceGlyphs")
               && this.groupList.equals(LayoutList.listOfReactionGlyphs)) {
             ListOf<SpeciesReferenceGlyph> listOfSpeciesReferenceGlyphs = (ListOf<SpeciesReferenceGlyph>) newContextObject;
-            reactionGlyph
-                .setListOfSpeciesReferencesGlyph(listOfSpeciesReferenceGlyphs);
+            listOfSpeciesReferenceGlyphs.setSBaseListType(ListOf.Type.other);
+            reactionGlyph.setListOfSpeciesReferencesGlyph(listOfSpeciesReferenceGlyphs);
             this.groupList = LayoutList.listOfSpeciesReferenceGlyphs;
             return listOfSpeciesReferenceGlyphs;
           } else if (elementName.equals("boundingBox")) {
@@ -590,6 +619,8 @@ public class LayoutParser implements ReadingParser, WritingParser {
               && this.groupList.equals(LayoutList.listOfReactionGlyphs)) {
             Curve curve = (Curve) contextObject;
             ListOf<CurveSegment> listOfCurveSegments = (ListOf<CurveSegment>) newContextObject;
+            listOfCurveSegments.setSBaseListType(ListOf.Type.other);
+            setNamespace(listOfCurveSegments, namespaceURI);
             curve.setListOfCurveSegments(listOfCurveSegments);
             this.groupList = LayoutList.listOfReactionGlyphs;
             return listOfCurveSegments;
@@ -597,6 +628,8 @@ public class LayoutParser implements ReadingParser, WritingParser {
               && this.groupList.equals(LayoutList.listOfSpeciesReferenceGlyphs)) {
             Curve curve = (Curve) contextObject;
             ListOf<CurveSegment> listOfCurveSegments = (ListOf<CurveSegment>) newContextObject;
+            listOfCurveSegments.setSBaseListType(ListOf.Type.other);
+            setNamespace(listOfCurveSegments, namespaceURI);
             curve.setListOfCurveSegments(listOfCurveSegments);
             this.groupList = LayoutList.listOfSpeciesReferenceGlyphs;
             return listOfCurveSegments;
@@ -605,10 +638,12 @@ public class LayoutParser implements ReadingParser, WritingParser {
           BoundingBox boundingBox = (BoundingBox) contextObject;
           if (elementName.equals("position")) {
             Point point = (Point) newContextObject;
+            setNamespace(point, namespaceURI);
             boundingBox.setPosition(point);
             return point;
           } else if (elementName.equals("dimensions")) {
             Dimensions dimensions = (Dimensions) newContextObject;
+            setNamespace(dimensions, namespaceURI);
             boundingBox.setDimensions(dimensions);
             return dimensions;
           }
