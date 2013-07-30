@@ -159,11 +159,16 @@ public class SBMLWriter {
 			System.out.printf("Starting writing\n");
 			
 			new SBMLWriter().write(testDocument.clone(), jsbmlWriteFileName);
-		} catch (XMLStreamException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} 
+		catch (XMLStreamException e) 
+		{
 			e.printStackTrace();
 		}
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+		
 		System.out.println(Calendar.getInstance().getTime());
 		long end = Calendar.getInstance().getTimeInMillis();
 		long nbSecondes = (end - init)/1000;
@@ -1400,6 +1405,10 @@ public class SBMLWriter {
 
 				if (listOfChildPackages.size() > 1) {
 					logger.warn("An SBML element should only be associated with one package !!!");
+				
+					if (logger.isDebugEnabled()) {
+						logger.debug("List of associated namespace : " + listOfChildPackages);
+					}
 				}
 				WritingParser childParser = listOfChildPackages.get(0);
 				
