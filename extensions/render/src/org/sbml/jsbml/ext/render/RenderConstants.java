@@ -36,6 +36,9 @@ public interface RenderConstants {
 
   public static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/render/version1";
   public static final String shortLabel = "render";
+  
+  public static final String namespaceURI_L2 = "http://projects.eml.org/bcb/sbml/render/level2";
+
 
   public static final String fontFamily = "font-family";
   public static final String fontSize = "font-size";
