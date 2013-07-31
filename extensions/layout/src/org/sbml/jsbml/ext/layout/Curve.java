@@ -258,7 +258,6 @@ public class Curve extends AbstractNamedSBase {
 	public void setListOfCurveSegments(ListOf<CurveSegment> listOfCurveSegments) {
 		unsetListOfCurveSegments();
 		this.listOfCurveSegments = listOfCurveSegments;
-		listOfCurveSegments.addNamespace(LayoutConstants.namespaceURI);
 		if ((this.listOfCurveSegments != null) && (this.listOfCurveSegments.getSBaseListType() != ListOf.Type.other)) {
 			this.listOfCurveSegments.setSBaseListType(ListOf.Type.other);
 		}
