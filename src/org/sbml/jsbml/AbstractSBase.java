@@ -254,9 +254,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	}
 
 	/**
-	 * Creates an AbstractSBase instance from a given AbstractSBase.
+	 * Creates an {@link AbstractSBase} instance from a given {@link AbstractSBase}.
 	 * 
-	 * @param sb an <code>AbstractSBase</code> object to clone
+	 * @param sb an {@link AbstractSBase} object to clone
 	 */
 	public AbstractSBase(SBase sb) {
 		super(sb);
