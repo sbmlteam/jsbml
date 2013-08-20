@@ -10,5 +10,5 @@
         <relativePath>../</relativePath>
     </parent>
 
-    <artifactId>layout</artifactId>
+    <artifactId>qual</artifactId>
 </project>
