@@ -6,6 +6,9 @@ Version 1.0-rc1 (xx-xx-2013)
 
 * New Features:
 
+  - The MAVEN support has been improved. Thanks to Aurélien Naldi for providing
+    several POM.xml files for JSBML.
+
   - A new filter method has been added to TreeNodeWithChangeSupport to
     search for elements in the SBML tree that satisfy a certain filter
     criterion. The new method can prune the search to the first occurrence of

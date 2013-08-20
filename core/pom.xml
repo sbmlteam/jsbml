@@ -1,9 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.sbml</groupId>
+  <groupId>org.sbml.jsbml</groupId>
   <artifactId>jsbml</artifactId>
-  <version>0.8-SNAPSHOT</version>
+  <version>1.0-SNAPSHOT</version>
   <description>JSBML</description>
+  <packaging>jar</packaging>
 
   <build>
 		<directory>dist</directory>
@@ -36,6 +37,7 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<configuration>
+                        <skipTests>true</skipTests>
 						<testFailureIgnore>false</testFailureIgnore>
 						<argLine>-Dfile.encoding=UTF-8 -DDATA_FOLDER=${project.basedir}/test/org/sbml/jsbml/xml/test/data/ -ea</argLine>
 					</configuration>
@@ -111,5 +113,11 @@
 		</dependency>
 	</dependencies>
 	
+   <distributionManagement>
+       <repository>
+           <id>local.repository</id>
+           <url>${local.repository.url}</url>
+       </repository>
+   </distributionManagement>
 	
 </project>

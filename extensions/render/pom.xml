@@ -10,5 +10,14 @@
         <relativePath>../</relativePath>
     </parent>
 
-    <artifactId>layout</artifactId>
+    <artifactId>render</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.sbml.jsbml</groupId>
+            <artifactId>layout</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+ 
 </project>
