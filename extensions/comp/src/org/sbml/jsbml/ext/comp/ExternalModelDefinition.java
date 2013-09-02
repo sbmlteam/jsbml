@@ -41,7 +41,8 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 
 	private String source;
 	private String modelRef;
-
+	private String md5;
+	
 	/**
 	 * Creates an ExternalModelDefinition instance 
 	 */
@@ -102,6 +103,9 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 		if (obj.isSetModelRef()) {
 			setModelRef(obj.getModelRef());
 		}
+		if (obj.isSetMd5()) {
+			setMd5(obj.getMd5());
+		}
 	}
 
 	/**
@@ -121,7 +125,9 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 
 
 	/**
-	 * @return the value of source
+	 * Returns the value of source or an empty {@link String} if it is not set.
+	 * 
+	 * @return the value of source or an empty {@link String} if it is not set.
 	 */
 	public String getSource() {
 
@@ -133,6 +139,8 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 	}
 
 	/**
+	 * Returns whether source is set
+	 * 
 	 * @return whether source is set 
 	 */
 	public boolean isSetSource() {
@@ -140,7 +148,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 	}
 
 	/**
-	 * Set the value of source
+	 * Sets the value of source
 	 */
 	public void setSource(String source) {
 		String oldSource = this.source;
@@ -165,7 +173,9 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 	
 	
 	/**
-	 * @return the value of modelRef
+	 * Returns the value of modelRef or an empty {@link String} if it is not set.
+	 *  
+	 * @return the value of modelRef or an empty {@link String} if it is not set.
 	 */
 	public String getModelRef() {
 
@@ -177,6 +187,8 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 	}
 
 	/**
+	 * Returns whether modelRef is set 
+	 * 
 	 * @return whether modelRef is set 
 	 */
 	public boolean isSetModelRef() {
@@ -184,7 +196,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 	}
 
 	/**
-	 * Set the value of modelRef
+	 * Sets the value of modelRef
 	 */
 	public void setModelRef(String modelRef) {
 		String oldModelRef = this.modelRef;
@@ -212,6 +224,58 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 	}
 	
 	
+	/**
+	 * Returns the value of md5 or an empty {@link String} if it is not set.
+	 *
+	 * @return the value of md5 or an empty {@link String} if it is not set.
+	 */
+	public String getMd5() {
+
+		if (isSetMd5()) {
+			return md5;
+		}
+
+		return "";
+	}
+
+	/**
+	 * Returns whether md5 is set 
+	 *
+	 * @return whether md5 is set 
+	 */
+	public boolean isSetMd5() {
+		return this.md5 != null;
+	}
+
+	/**
+	 * Sets the value of md5
+	 */
+	public void setMd5(String md5) {
+		String oldMd5 = this.md5;
+		
+		if (md5 != null && md5.trim().length() == 0) {
+			md5 = null;
+		}
+		
+		this.md5 = md5;
+		firePropertyChange(CompConstant.md5, oldMd5, this.md5);
+	}
+
+	/**
+	 * Unsets the variable md5 
+	 *
+	 * @return {@code true}, if md5 was set before, 
+	 *         otherwise {@code false}
+	 */
+	public boolean unsetMd5() {
+		if (isSetMd5()) {
+			String oldMd5 = this.md5;
+			this.md5 = null;
+			firePropertyChange(CompConstant.md5, oldMd5, this.md5);
+			return true;
+		}
+		return false;
+	}
 	
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
@@ -230,6 +294,9 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 		  if (isSetModelRef()) {
 			  attributes.put(CompConstant.shortLabel + ":" + CompConstant.modelRef, getModelRef());
 		  }
+		  if (isSetMd5()) {
+			  attributes.put(CompConstant.shortLabel + ":" + CompConstant.md5, getMd5());
+		  }
 
 		  return attributes;
 	}
@@ -246,6 +313,8 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 				setSource(value);
 			} else if (attributeName.equals(CompConstant.modelRef)) {
 				setModelRef(value);
+			} else if (attributeName.equals(CompConstant.md5)) {
+				setMd5(value);
 			}
 			else {
 				isAttributeRead = false;

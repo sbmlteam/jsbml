@@ -68,6 +68,8 @@ public class CompConstant {
 	public static final String listOfReplacedElements = "listOfReplacedElements";
 
 	public static final String replacedElement = "replacedElement";
+
+	public static final String md5 = "md5";
 	
 	
 }
