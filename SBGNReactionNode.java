@@ -81,10 +81,11 @@ public interface SBGNReactionNode<T> extends SBGNNode<T> {
 	/**
 	 * @return the lineWidth
 	 */
-	public abstract double getLineWidth();
+	public double getLineWidth();
 
 	/**
 	 * @param lineWidth the lineWidth to set
 	 */
-	public abstract void setLineWidth(double lineWidth);
+	public void setLineWidth(double lineWidth);
+
 }

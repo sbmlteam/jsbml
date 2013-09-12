@@ -17,7 +17,6 @@
 package de.zbit.sbml.layout;
 
 import java.util.Random;
-import java.util.UUID;
 
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
@@ -29,14 +28,16 @@ import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
-import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
+import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.ext.layout.ReactionGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
 import org.sbml.jsbml.ext.layout.TextGlyph;
+
+import de.zbit.sbml.util.SBMLtools;
 
 /**
  * This class creates a SBML layout for a model without layout information. It
@@ -47,8 +48,16 @@ import org.sbml.jsbml.ext.layout.TextGlyph;
  * @version $Rev$
  */
 public class GlyphCreator {
+  
+  /**
+   * 
+   */
 	private Model model;
 	
+	/**
+	 * 
+	 * @param model
+	 */
 	public GlyphCreator(Model model) {
 		this.model = model;
 	}
@@ -57,17 +66,19 @@ public class GlyphCreator {
 	 * compartment, species, reactions, textglyph
 	 * 
 	 *  TODO
-	 *  - do not create one glyph per species, instead create exactly one glyph
+	 *  <ul>
+	 *  <li> do not create one glyph per species, instead create exactly one glyph
 	 *    for each species that acts as a main substrate and product and create
 	 *    multiple glyphs for all species that act as sidesubstrates or
 	 *    side products
-	 *  - this produces a far more useful graph
+	 *  <li> this produces a far more useful graph
+	 *  </ul>
 	 */
 	public void create() {
 		Random rand = new Random();
 		LayoutModelPlugin extLayout = new LayoutModelPlugin(model);
 		model.addExtension(LayoutConstants.getNamespaceURI(model.getLevel(), model.getVersion()), extLayout);
-		Layout layout = extLayout.createLayout(nextId());
+		Layout layout = extLayout.createLayout(SBMLtools.nextId(model));
 		layout.setName("auto_layout");
 		
 		if (model.isSetListOfSpecies()) {
@@ -78,7 +89,7 @@ public class GlyphCreator {
 				if (SBO.isChildOf(s.getSBOTerm(), SBO.getEmptySet())) {
 					continue;
 				}
-				TextGlyph textGlyph = layout.createTextGlyph(nextId());
+				TextGlyph textGlyph = layout.createTextGlyph(SBMLtools.nextId(model));
 				textGlyph.setOriginOfText(s.getId());
 				textGlyph.setGraphicalObject(speciesGlyph.getId());
 			}
@@ -87,8 +98,8 @@ public class GlyphCreator {
 		// TODO possibly implement logic to detect the outmost compartment
 		if (model.isSetListOfCompartments()) {
 			for (Compartment c : model.getListOfCompartments()) {
-				CompartmentGlyph compartmentGlyph = layout.createCompartmentGlyph(nextId(), c.getId());
-				TextGlyph textGlyph = layout.createTextGlyph(nextId());
+				CompartmentGlyph compartmentGlyph = layout.createCompartmentGlyph(SBMLtools.nextId(model), c.getId());
+				TextGlyph textGlyph = layout.createTextGlyph(SBMLtools.nextId(model));
 				textGlyph.setOriginOfText(c.getId());
 				textGlyph.setGraphicalObject(compartmentGlyph.getId());
 			}
@@ -96,7 +107,7 @@ public class GlyphCreator {
 		
 		if (model.isSetListOfReactions()) {
 			for (Reaction r : model.getListOfReactions()) {
-				ReactionGlyph rGlyph = layout.createReactionGlyph(nextId(), r.getId());
+				ReactionGlyph rGlyph = layout.createReactionGlyph(SBMLtools.nextId(model), r.getId());
 				if (r.isSetListOfModifiers()) {
 					for (ModifierSpeciesReference ref : r.getListOfModifiers()) {
 						SpeciesReferenceRole modifier = SpeciesReferenceRole.MODIFIER;
@@ -125,23 +136,6 @@ public class GlyphCreator {
 	}
 
 	/**
-	 * Generate a valid SBML identifier using UUID.
-	 * @return
-	 */
-	public String nextId() {
-		String idOne;
-		do {
-			idOne = UUID.randomUUID().toString().replace("-", "_");
-			if (Character.isDigit(idOne.charAt(0))) {
-				// Add an underscore at the beginning of the new id only if
-				// necessary.
-				idOne = '_' + idOne;
-			}
-		} while (model.findNamedSBase(idOne) != null);
-		return idOne;
-	}
-
-	/**
 	 * @param rand
 	 * @param rGlyph
 	 * @param ref
@@ -161,4 +155,5 @@ public class GlyphCreator {
 	private String genId(Random rand, NamedSBase ref) {
 		return ref.getId() + "_glyph" + rand.nextInt(100000);
 	}
+
 }
