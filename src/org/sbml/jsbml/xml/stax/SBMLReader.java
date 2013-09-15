@@ -783,7 +783,7 @@ public class SBMLReader {
 							isSBMLelement = false;
 						}
 					}
-					
+
 					if (currentNode.getLocalPart().equals("annotation")) {
 						
 						if (isSBMLelement) {
@@ -815,7 +815,10 @@ public class SBMLReader {
 				if (sbmlDocument != null) {
 					return sbmlDocument;
 				}
-				
+
+				if (currentNode != null && currentNode.getLocalPart().equals("RDF")) {
+					isRDFSBMLSpecificAnnotation = false;
+				}
 
 				currentNode = null;
 				isNested = false;
