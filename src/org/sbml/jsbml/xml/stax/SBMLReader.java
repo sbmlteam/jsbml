@@ -139,19 +139,16 @@ public class SBMLReader {
 	 * Associates any unknown namespaces with the {@link AnnotationParser}.
 	 * 
 	 */
-	private void addAnnotationParsers(StartElement startElement) 
-	{
-		@SuppressWarnings("unchecked")
-		Iterator<Namespace> namespacesIterator = startElement.getNamespaces();
-		
-		while (namespacesIterator.hasNext()) {
-			String namespaceURI = namespacesIterator.next().getNamespaceURI();
-			
-			if (initializedParsers.get(namespaceURI) == null) {
-				initializedParsers.put(namespaceURI, new AnnotationParser());
-			}
-		}
-	}
+  private void addAnnotationParsers(StartElement startElement) {
+    @SuppressWarnings("unchecked")
+    Iterator<Namespace> namespacesIterator = startElement.getNamespaces();
+    while (namespacesIterator.hasNext()) {
+      String namespaceURI = namespacesIterator.next().getNamespaceURI();
+      if (initializedParsers.get(namespaceURI) == null) {
+        initializedParsers.put(namespaceURI, new AnnotationParser());
+      }
+    }
+  }
 	
 
 	/**

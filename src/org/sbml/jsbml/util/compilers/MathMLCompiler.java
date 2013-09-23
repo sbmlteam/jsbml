@@ -71,7 +71,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 
 	/**
 	 * 
-	 * @throws ParserConfigurationException
+	 * @throws XMLStreamException
 	 */
 	public MathMLCompiler() throws XMLStreamException {
 		init();
@@ -88,17 +88,14 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		ast.compile(this);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ASTNodeCompiler#abs(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue abs(ASTNode value) throws DOMException, SBMLException {
 		return createApplyNode("abs", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#and(java.util.List)
 	 */
 	public ASTNodeValue and(List<ASTNode> values) throws DOMException,
@@ -110,8 +107,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 				"Cannot create a node for empty element list");
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccos(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arccos(ASTNode value) throws DOMException,
@@ -119,8 +115,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("arccos", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccosh(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arccosh(ASTNode value) throws DOMException,
@@ -128,8 +123,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("arccosh", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccot(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arccot(ASTNode value) throws DOMException,
@@ -137,8 +131,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("arccot", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccoth(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arccoth(ASTNode value) throws DOMException,
@@ -146,8 +139,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("arccoth", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccsc(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arccsc(ASTNode value) throws DOMException,
@@ -155,8 +147,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("arccsc", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arccsch(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arccsch(ASTNode value) throws DOMException,
@@ -164,8 +155,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("arccsch", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arcsec(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arcsec(ASTNode value) throws DOMException,
@@ -173,8 +163,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("arcsec", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arcsech(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arcsech(ASTNode value) throws DOMException,
@@ -182,8 +171,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("arcsech", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arcsin(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arcsin(ASTNode value) throws DOMException,
@@ -191,8 +179,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("arcsin", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arcsinh(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arcsinh(ASTNode value) throws DOMException,
@@ -200,8 +187,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("arcsinh", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arctan(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arctan(ASTNode value) throws DOMException,
@@ -209,8 +195,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("arctan", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#arctanh(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue arctanh(ASTNode value) throws DOMException,
@@ -218,8 +203,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("arctanh", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#ceiling(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue ceiling(ASTNode value) throws DOMException,
@@ -227,16 +211,14 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("ceiling", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(org.sbml.jsbml.Compartment)
 	 */
 	public ASTNodeValue compile(Compartment c) {
 		return compile((CallableSBase) c);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(double, int, java.lang.String)
 	 */
 	public ASTNodeValue compile(double mantissa, int exponent, String units) {
@@ -244,8 +226,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 				this);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(double, java.lang.String)
 	 */
 	public ASTNodeValue compile(double real, String units) {
@@ -253,8 +234,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 				this);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(int, java.lang.String)
 	 */
 	public ASTNodeValue compile(int integer, String units) {
@@ -262,8 +242,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 				createCnElement(Integer.valueOf(integer), units), this);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(org.sbml.jsbml.CallableSBase)
 	 */
 	public ASTNodeValue compile(CallableSBase variable) {
@@ -271,40 +250,35 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return compile(variable.getId());
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(java.lang.String)
 	 */
 	public ASTNodeValue compile(String name) {
 		return createCiElement(name);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#cos(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue cos(ASTNode value) throws DOMException, SBMLException {
 		return createApplyNode("cos", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#cosh(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue cosh(ASTNode value) throws DOMException, SBMLException {
 		return createApplyNode("cosh", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#cot(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue cot(ASTNode value) throws DOMException, SBMLException {
 		return createApplyNode("cot", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#coth(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue coth(ASTNode value) throws DOMException, SBMLException {
@@ -436,7 +410,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * @param mantissa
 	 * @param exponent
 	 * @param units
-	 *            Can be null.
+	 *            Can be {@code null}.
 	 * @return
 	 */
 	private Element createCnElement(double mantissa, int exponent, String units) {
@@ -458,7 +432,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 * 
 	 * @param value
 	 * @param units
-	 *            Can be null.
+	 *            Can be {@code null}.
 	 * @return
 	 */
 	private Element createCnElement(Number value, String units) {
@@ -499,24 +473,21 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return lastElementCreated;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#csc(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue csc(ASTNode value) throws DOMException, SBMLException {
 		return createApplyNode("csc", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#csch(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue csch(ASTNode value) throws DOMException, SBMLException {
 		return createApplyNode("csch", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#delay(java.lang.String, org.sbml.jsbml.ASTNode, double, java.lang.String)
 	 */
 	public ASTNodeValue delay(String delayName, ASTNode x, ASTNode delay,
@@ -526,8 +497,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 				.getDefinitionURIdelay()), compile(x.toString()), compile(delay.toString()));
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#eq(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue eq(ASTNode left, ASTNode right) throws DOMException,
@@ -535,16 +505,14 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("eq", left, right);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#exp(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue exp(ASTNode value) throws DOMException, SBMLException {
 		return createApplyNode("exp", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#factorial(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue factorial(ASTNode value) throws DOMException,
@@ -552,16 +520,14 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("factorial", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#floor(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue floor(ASTNode value) throws DOMException, SBMLException {
 		return createApplyNode("floor", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#frac(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue frac(ASTNode numerator, ASTNode denominator)
@@ -569,8 +535,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("divide", numerator, denominator);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#frac(int, int)
 	 */
 	public ASTNodeValue frac(int numerator, int denominator)
@@ -579,8 +544,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 				denominator, null));
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#function(org.sbml.jsbml.FunctionDefinition, java.util.List)
 	 */
 	public ASTNodeValue function(FunctionDefinition functionDefinition,
@@ -588,15 +552,15 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode(compile(functionDefinition).toNode(), args);
 	}
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#function(java.lang.String, java.util.List)
+   */
 	public ASTNodeValue function(String functionDefinitionName,
-			List<ASTNode> args) throws SBMLException 
-	{
+			List<ASTNode> args) throws SBMLException {
 		return createApplyNode(compile(functionDefinitionName).toNode(), args);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#geq(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue geq(ASTNode left, ASTNode right) throws DOMException,
@@ -604,8 +568,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("geq", left, right);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#getConstantAvogadro(java.lang.String)
 	 */
 	public ASTNodeValue getConstantAvogadro(String name) {
@@ -613,32 +576,28 @@ public class MathMLCompiler implements ASTNodeCompiler {
 				.getDefinitionURIavogadro()), this);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#getConstantE()
 	 */
 	public ASTNodeValue getConstantE() {
 		return createConstant("exponentiale");
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#getConstantFalse()
 	 */
 	public ASTNodeValue getConstantFalse() {
 		return createConstant(Boolean.FALSE.toString());
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#getConstantPi()
 	 */
 	public ASTNodeValue getConstantPi() {
 		return createConstant("pi");
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#getConstantTrue()
 	 */
 	public ASTNodeValue getConstantTrue() {
@@ -660,8 +619,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return level;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#getNegativeInfinity()
 	 */
 	public ASTNodeValue getNegativeInfinity() throws DOMException,
@@ -669,16 +627,14 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return uMinus(getPositiveInfinity());
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#getPositiveInfinity()
 	 */
 	public ASTNodeValue getPositiveInfinity() {
 		return createConstant("infinity");
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#gt(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue gt(ASTNode left, ASTNode right) throws DOMException,
@@ -709,8 +665,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#lambda(java.util.List)
 	 */
 	public ASTNodeValue lambda(List<ASTNode> values) throws DOMException,
@@ -730,10 +685,8 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		}
 		return new ASTNodeValue(lastElementCreated, this);
 	}
-	
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#leq(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue leq(ASTNode left, ASTNode right) throws DOMException,
@@ -741,24 +694,21 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("leq", left, right);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#ln(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue ln(ASTNode value) throws DOMException, SBMLException {
 		return createApplyNode("ln", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#log(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue log(ASTNode value) throws DOMException, SBMLException {
 		return log(null, value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#log(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue log(ASTNode base, ASTNode value) throws DOMException,
@@ -773,8 +723,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#lt(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue lt(ASTNode left, ASTNode right) throws DOMException,
@@ -782,8 +731,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("lt", left, right);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#minus(java.util.List)
 	 */
 	public ASTNodeValue minus(List<ASTNode> values) throws DOMException,
@@ -791,8 +739,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("minus", values);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#neq(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue neq(ASTNode left, ASTNode right) throws DOMException,
@@ -800,16 +747,14 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("neq", left, right);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#not(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue not(ASTNode value) throws DOMException, SBMLException {
 		return createApplyNode("not", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#or(java.util.List)
 	 */
 	public ASTNodeValue or(List<ASTNode> values) throws DOMException,
@@ -817,8 +762,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("or", values);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#piecewise(java.util.List)
 	 */
 	public ASTNodeValue piecewise(List<ASTNode> values) throws DOMException,
@@ -847,8 +791,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 				"Cannot create piecewise function with empty argument list");
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#plus(java.util.List)
 	 */
 	public ASTNodeValue plus(List<ASTNode> values) throws DOMException,
@@ -856,8 +799,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("plus", values);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#pow(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue pow(ASTNode base, ASTNode exponent)
@@ -876,8 +818,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		init();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#root(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue root(ASTNode rootExponent, ASTNode radiant)
@@ -909,8 +850,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#root(double, org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue root(double rootExponent, ASTNode radiant)
@@ -926,16 +866,14 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return root(exponent, radiant);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#sec(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue sec(ASTNode value) throws DOMException, SBMLException {
 		return createApplyNode("sec", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#sech(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue sech(ASTNode value) throws DOMException, SBMLException {
@@ -957,32 +895,28 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		this.level = level;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#sin(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue sin(ASTNode value) throws DOMException, SBMLException {
 		return createApplyNode("sin", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#sinh(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue sinh(ASTNode value) throws DOMException, SBMLException {
 		return createApplyNode("sinh", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#sqrt(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue sqrt(ASTNode value) throws DOMException, SBMLException {
 		return root(2, value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#symbolTime(java.lang.String)
 	 */
 	public ASTNodeValue symbolTime(String time) {
@@ -990,16 +924,14 @@ public class MathMLCompiler implements ASTNodeCompiler {
 				.getDefinitionURItime()), this);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#tan(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue tan(ASTNode value) throws DOMException, SBMLException {
 		return createApplyNode("tan", value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#tanh(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue tanh(ASTNode value) throws DOMException, SBMLException {
@@ -1019,8 +951,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("times", values);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#times(java.util.List)
 	 */
 	public ASTNodeValue times(List<ASTNode> values) throws DOMException,
@@ -1043,8 +974,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 				indenting, indent);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#uMinus(org.sbml.jsbml.ASTNode)
 	 */
 	public ASTNodeValue uMinus(ASTNode value) throws DOMException,
@@ -1068,8 +998,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 				: Unit.Kind.DIMENSIONLESS.toString().toLowerCase()), value);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#unknownValue()
 	 */
 	public ASTNodeValue unknownValue() throws SBMLException {
@@ -1091,12 +1020,12 @@ public class MathMLCompiler implements ASTNodeCompiler {
 				name.toString().trim(), Character.toString(' ')).toString();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#xor(java.util.List)
 	 */
 	public ASTNodeValue xor(List<ASTNode> values) throws DOMException,
 			SBMLException {
 		return createApplyNode("xor", values);
 	}
+
 }

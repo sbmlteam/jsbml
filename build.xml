@@ -340,7 +340,11 @@
 	<!-- =================================================================== -->
 	<!-- Creates the API documentation                                       -->
 	<!-- =================================================================== -->
-	<target name="javadoc" depends="prepare-src">
+	<target
+	  name="javadoc"
+	  depends="prepare-src"
+	  description="Creates the API documentation"
+	>
 		<mkdir dir="${build.javadocs}"/>
 		<javadoc packagenames="org.*"
     		 excludepackagenames="org.sbml.jsbml.test.*, org.sbml.jsbml.xml.test.*"
