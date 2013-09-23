@@ -19,6 +19,6 @@
  */
 
 /**
- * 
+ * @author Nicolas Rodriguez
  */
 package org.sbml.jsbml.ext.fbc;

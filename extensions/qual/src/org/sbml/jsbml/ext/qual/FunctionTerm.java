@@ -21,8 +21,6 @@ package org.sbml.jsbml.ext.qual;
 
 import java.util.Map;
 
-import javax.swing.tree.TreeNode;
-
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.AbstractMathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
@@ -261,7 +259,7 @@ public class FunctionTerm extends AbstractMathContainer {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetResultLevel()) {
-			attributes.put(QualConstant.shortLabel + ":"+QualConstant.resultLevel, Integer.toString(getResultLevel()));
+			attributes.put(QualConstant.shortLabel + ':' + QualConstant.resultLevel, Integer.toString(getResultLevel()));
 		}	  
 		return attributes;
 	}

@@ -30,12 +30,12 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
 /**
  * 
- * @author 
+ * @author Nicolas Rodriguez
  * @version $Rev$
  * @since 1.0
  * @date 27.10.2011
  */
-public class FBCModel extends AbstractSBasePlugin {
+public class FBCModelPlugin extends AbstractSBasePlugin {
 
 	/**
    * Generated serial version identifier.
@@ -46,38 +46,58 @@ public class FBCModel extends AbstractSBasePlugin {
 	
 	private Model model;
 	
-	public FBCModel(Model model) {
+	public FBCModelPlugin(Model model) {
 		this.model = model;
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
-	public FBCModel clone() {
+	public FBCModelPlugin clone() {
 		// TODO 
 		return null;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	public boolean readAttribute(String attributeName, String prefix, String value) {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
+	 */
 	public Map<String, String> writeXMLAttributes() {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildAt(int)
+	 */
 	public SBase getChildAt(int childIndex) {
 		return null; // TODO 
 	}
+	
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
 	public int getChildCount() {
 		return 0; // TODO
 	}
+	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractTreeNode#getParent()
+	 */
+	@Override
 	public TreeNode getParent() {
 		return model;
 	}
-
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isSetListOfFluxBounds() {
 		if ((listOfFluxBounds == null) || listOfFluxBounds.isEmpty()) {
 			return false;			
@@ -112,6 +132,10 @@ public class FBCModel extends AbstractSBasePlugin {
 		this.listOfFluxBounds.add(fluxBound);
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isSetListOfObjectives() {
 		if ((listOfObjectives == null) || listOfObjectives.isEmpty()) {
 			return false;			
@@ -135,7 +159,6 @@ public class FBCModel extends AbstractSBasePlugin {
 		if ((i >= 0) && (i < listOfObjectives.size())) {
 			return listOfObjectives.get(i);
 		}
-		
 		return null;
 	}
 
@@ -154,6 +177,10 @@ public class FBCModel extends AbstractSBasePlugin {
     return false;
   }
   
+  /**
+   * 
+   * @return
+   */
   public String getActiveObjective()
   {
 	  if (listOfObjectives != null && listOfObjectives.isSetActiveObjective())
@@ -164,6 +191,10 @@ public class FBCModel extends AbstractSBasePlugin {
 	  return "";
   }
 	
+  /**
+   * 
+   * @param activeObjective
+   */
   public void setActiveObjective(String activeObjective)
   {
 	  if (listOfObjectives == null)

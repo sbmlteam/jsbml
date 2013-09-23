@@ -24,8 +24,9 @@ import java.util.Map;
 import org.sbml.jsbml.ListOf;
 
 /**
- * @author rodrigue
- *
+ * @author Nicolas Rodriguez
+ * @since 1.0
+ * @version $Rev$
  */
 public class ListOfObjectives extends ListOf<Objective> {
 
@@ -90,7 +91,7 @@ public class ListOfObjectives extends ListOf<Objective> {
 	public void setActiveObjective(String activeObjective) {
 		String oldActiveObjective = this.activeObjective;
 		this.activeObjective = activeObjective;
-		firePropertyChange(FBCConstant.activeObjective, oldActiveObjective, this.activeObjective);
+		firePropertyChange(FBCConstants.activeObjective, oldActiveObjective, this.activeObjective);
 	}
 
 	/**
@@ -103,7 +104,7 @@ public class ListOfObjectives extends ListOf<Objective> {
 		if (isSetActiveObjective()) {
 			String oldActiveObjective = this.activeObjective;
 			this.activeObjective = null;
-			firePropertyChange(FBCConstant.activeObjective, oldActiveObjective, this.activeObjective);
+			firePropertyChange(FBCConstants.activeObjective, oldActiveObjective, this.activeObjective);
 			return true;
 		}
 		return false;
@@ -119,7 +120,7 @@ public class ListOfObjectives extends ListOf<Objective> {
 
 		if (isSetActiveObjective()) 
 		{
-			attributes.put(FBCConstant.shortLabel + ":" + FBCConstant.activeObjective, getActiveObjective());
+			attributes.put(FBCConstants.shortLabel + ":" + FBCConstants.activeObjective, getActiveObjective());
 		}
 		
 		return attributes;
@@ -137,7 +138,7 @@ public class ListOfObjectives extends ListOf<Objective> {
 		{
 			isAttributeRead = true;
 
-			if (attributeName.equals(FBCConstant.activeObjective)) {
+			if (attributeName.equals(FBCConstants.activeObjective)) {
 				setActiveObjective(value);
 			}
 			else {

@@ -19,28 +19,38 @@
  */
 package org.sbml.jsbml.ext.fbc;
 
+import static org.junit.Assert.fail;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLReader;
+import org.sbml.jsbml.SBMLWriter;
+
+
 /**
- * 
- * @author Nicolas Rodriguez
- * @version $Rev$
+ * @author Andreas Dr&auml;ger
  * @since 1.0
- * @date 27.10.2011
+ * @version $Rev$
  */
-public enum FBCList {
+public class FBCWritingTest {
+
   /**
-   * 
+   * @throws java.lang.Exception
    */
-	listOfFluxBounds,
-	/**
-	 * 
-	 */
-	listOfFluxObjectives,
-	/**
-	 * 
-	 */
-	listOfObjectives,
-	/**
-	 * 
-	 */
-	none;
+  @Before
+  public void setUp() throws Exception {
+    SBMLDocument doc = SBMLReader.read(FBCWritingTest.class.getResourceAsStream("../../xml/test/data/fbc/MODEL_01186.xml"));
+    SBMLWriter.write(doc, System.out, ' ', (short) 2);
+  }
+
+
+  /**
+   * Test method for {@link org.sbml.jsbml.xml.parsers.FBCParser#writeAttributes(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)}.
+   */
+  @Test
+  public void testWriteAttributes() {
+    fail("Not yet implemented"); // TODO
+  }
+
 }

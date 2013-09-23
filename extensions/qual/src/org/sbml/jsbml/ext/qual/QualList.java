@@ -53,5 +53,5 @@ public enum QualList {
 	/**
 	 * 
 	 */
-	none
+	none;
 }

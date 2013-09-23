@@ -22,25 +22,20 @@ package org.sbml.jsbml.ext.fbc;
 /**
  * 
  * @author Nicolas Rodriguez
- * @version $Rev$
  * @since 1.0
- * @date 27.10.2011
+ * @version $Rev$
  */
-public enum FBCList {
-  /**
-   * 
-   */
-	listOfFluxBounds,
+public class FBCConstants {
+
+	public static final String activeObjective = "activeObjective";
+	/**
+	 * The namespace URI of this parser.
+	 */
+	public static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/fbc/version1";
+	
 	/**
 	 * 
 	 */
-	listOfFluxObjectives,
-	/**
-	 * 
-	 */
-	listOfObjectives,
-	/**
-	 * 
-	 */
-	none;
+	public static final String shortLabel = "fbc";
+
 }
