@@ -30,7 +30,7 @@ import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
  * 
- * @author
+ * @author Nicolas Rodriguez
  * @version $Rev$
  * @since 1.0
  * @date 27.10.2011
@@ -128,11 +128,11 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (type != null) {
-			attributes.put(FBCConstant.shortLabel+ ":type", getType());			
+			attributes.put(FBCConstants.shortLabel + ":type", getType());			
 		}
 		if (isSetId()) {
 			attributes.remove("id");
-			attributes.put(FBCConstant.shortLabel+ ":id", getId());
+			attributes.put(FBCConstants.shortLabel + ":id", getId());
 		}
 		
 		return attributes;

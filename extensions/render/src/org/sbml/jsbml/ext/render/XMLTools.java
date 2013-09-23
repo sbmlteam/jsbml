@@ -65,7 +65,7 @@ public class XMLTools {
    * @param fontWeightBold
    * @return
    */
-//Returns "italic" if fontStyleBold is true, else "normal"
+  //Returns "italic" if fontStyleBold is true, else "normal"
   public static String fontWeightBoldToString(boolean fontWeightBold) {
     return (fontWeightBold ?
       RenderConstants.fontWeightBoldTrue : RenderConstants.fontWeightBoldFalse);
@@ -131,15 +131,20 @@ public class XMLTools {
 	  return h.length() == 1 ? "0" + h : h;
   }
 
-public static Color decodeStringToColor(String value) {
-	int r = Integer.parseInt(value.substring(1, 3), 16);
-	int g = Integer.parseInt(value.substring(3, 5), 16);
-	int b = Integer.parseInt(value.substring(5, 7), 16);
-	int a = 255;
-	if (value.length() == 9) {
-		a = Integer.parseInt(value.substring(7, 9), 16);
-	}
-	return new Color(r, g, b, a); 
+  /**
+   * 
+   * @param value
+   * @return
+   */
+  public static Color decodeStringToColor(String value) {
+    int r = Integer.parseInt(value.substring(1, 3), 16);
+    int g = Integer.parseInt(value.substring(3, 5), 16);
+    int b = Integer.parseInt(value.substring(5, 7), 16);
+    int a = 255;
+    if (value.length() == 9) {
+      a = Integer.parseInt(value.substring(7, 9), 16);
+    }
+    return new Color(r, g, b, a); 
   }
 
   /**
@@ -157,21 +162,29 @@ public static Color decodeStringToColor(String value) {
     return output;
   }
    
+  /**
+   * 
+   * @param array
+   * @return
+   */
   public static String encodeArrayDoubleToString(Double[] array) {
-	
 	  String s = "";
 	  
 	  for (int i = 0; i < array.length; i++) {
 		  if (!s.isEmpty()) {
-			  s+=", ";
+			  s +=", ";
 		  }
-		  s+= StringTools.toString(Locale.ENGLISH, array[i]);
+		  s += StringTools.toString(Locale.ENGLISH, array[i]);
 	  }
 	  return s;
   }
 
+  /**
+   * 
+   * @param value
+   * @return
+   */
   public static Double[] decodeStringToArrayDouble(String value) {
-	
 	  String[] array = value.split(", ");
 	  Double[] temp = new Double[array.length];
 	  for (int i = 0; i < array.length; i++) {
@@ -180,21 +193,29 @@ public static Color decodeStringToColor(String value) {
 	  return temp;
   }
 
-  
+  /**
+   * 
+   * @param array
+   * @return
+   */
   public static String encodeArrayShortToString(Short[] array) {
 	  String s = "";
 	  
 	  for (int i = 0; i < array.length; i++) {
 		  if (!s.isEmpty()) {
-			  s+=", ";
+			  s += ", ";
 		  }
-		  s+= Short.toString(array[i]);
+		  s += Short.toString(array[i]);
 	  }
 	  return s;
   }
   
+  /**
+   * 
+   * @param value
+   * @return
+   */
   public static Short[] decodeStringToArrayShort(String value) {
-	
 	  String[] array = value.split(", ");
 	  Short[] temp = new Short[array.length];
 	  for (int i = 0; i < array.length; i++) {

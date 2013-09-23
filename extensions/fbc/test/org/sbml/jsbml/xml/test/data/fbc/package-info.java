@@ -17,30 +17,8 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.ext.fbc;
 
 /**
- * 
- * @author Nicolas Rodriguez
- * @version $Rev$
- * @since 1.0
- * @date 27.10.2011
+ * @author Andreas Dr&auml;ger
  */
-public enum FBCList {
-  /**
-   * 
-   */
-	listOfFluxBounds,
-	/**
-	 * 
-	 */
-	listOfFluxObjectives,
-	/**
-	 * 
-	 */
-	listOfObjectives,
-	/**
-	 * 
-	 */
-	none;
-}
+package org.sbml.jsbml.xml.test.data.fbc;

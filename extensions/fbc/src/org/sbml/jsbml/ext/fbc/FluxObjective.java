@@ -26,7 +26,7 @@ import org.sbml.jsbml.util.StringTools;
 
 /**
  * 
- * @author
+ * @author Nicolas Rodriguez
  * @version $Rev$
  * @since 1.0
  * @date 27.10.2011
@@ -121,10 +121,10 @@ public class FluxObjective extends AbstractSBase {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (reaction != null) {
-			attributes.put(FBCConstant.shortLabel+ ":reaction", getReaction());			
+			attributes.put(FBCConstants.shortLabel+ ":reaction", getReaction());			
 		}
 		if (isSetCoefficient()) {
-			attributes.put(FBCConstant.shortLabel+ ":coefficient", StringTools.toString(getCoefficient()));
+			attributes.put(FBCConstants.shortLabel+ ":coefficient", StringTools.toString(getCoefficient()));
 		}
 		
 		return attributes;

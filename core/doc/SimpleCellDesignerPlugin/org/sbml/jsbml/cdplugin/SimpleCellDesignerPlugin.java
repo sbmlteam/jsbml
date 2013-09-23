@@ -5,7 +5,7 @@ import javax.swing.*;
 import jp.sbi.celldesigner.plugin.*;
 
 import org.sbml.jsbml.*;
-import org.sbml.jsbml.test.gui.JTreeOfSBML;
+import org.sbml.jsbml.test.gui.JSBMLvisualizer;
 
 public class SimpleCellDesignerPlugin extends CellDesignerPlugin {
 
@@ -16,8 +16,8 @@ public class SimpleCellDesignerPlugin extends CellDesignerPlugin {
 		super();
 		System.out.printf("\n\nLoading %s\n\n", APPLICATION_NAME);
 		try {
-			SimpleCellDesignerPluginAction action = new SimpleCellDesignerPluginAction(
-					this);
+			SimpleCellDesignerPluginAction action = 
+			    new SimpleCellDesignerPluginAction(this);
 			PluginMenu menu = new PluginMenu(APPLICATION_NAME);
 			PluginMenuItem menuItem = new PluginMenuItem(ACTION, action);
 			menu.add(menuItem);
@@ -50,16 +50,16 @@ public class SimpleCellDesignerPlugin extends CellDesignerPlugin {
 	}
 
 	public void startPlugin() {
-		PluginSBMLReader reader = new PluginSBMLReader(getSelectedModel(), SBO
-				.getDefaultPossibleEnzymes());
+		PluginSBMLReader reader = new PluginSBMLReader(getSelectedModel(),
+		  SBO.getDefaultPossibleEnzymes());
 		Model model = reader.getModel();
-		SBMLDocument doc = new SBMLDocument(model.getLevel(), model
-				.getVersion());
+		SBMLDocument doc = new SBMLDocument(model.getLevel(), model.getVersion());
 		doc.setModel(model);
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception exc) {
 		}
-		new JSBMLvisualizer(APPLICATION_NAME);
+		new JSBMLvisualizer(doc);
 	}
+
 }

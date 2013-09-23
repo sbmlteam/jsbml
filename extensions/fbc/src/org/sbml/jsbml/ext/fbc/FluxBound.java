@@ -155,17 +155,17 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (reaction != null) {
-			attributes.put(FBCConstant.shortLabel+ ":reaction", getReaction());			
+			attributes.put(FBCConstants.shortLabel + ":reaction", getReaction());			
 		}
 		if (operation != null) {
-			attributes.put(FBCConstant.shortLabel+ ":operation", getOperation());
+			attributes.put(FBCConstants.shortLabel + ":operation", getOperation());
 		}
 		if (isSetValue()) {
-			attributes.put(FBCConstant.shortLabel+ ":value", StringTools.toString(getValue()));
+			attributes.put(FBCConstants.shortLabel + ":value", StringTools.toString(getValue()));
 		}
 		if (isSetId()) {
 			attributes.remove("id");
-			attributes.put(FBCConstant.shortLabel+ ":id", getId());
+			attributes.put(FBCConstants.shortLabel + ":id", getId());
 		}
 		
 		return attributes;

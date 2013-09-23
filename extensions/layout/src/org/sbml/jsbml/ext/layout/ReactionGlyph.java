@@ -258,6 +258,15 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
 	  return getNamedSBaseInstance();
 	}
 	
+	/**
+	 * 
+	 * @param i
+	 * @return
+	 */
+  public SpeciesReferenceGlyph getSpeciesReferenceGlyph(int i) {
+    return getListOfSpeciesReferenceGlyphs().get(i);
+  }
+	
 	/* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#hashCode()
    */
@@ -273,7 +282,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
     }
     return hashCode;
   }
-	
+
 	/**
 	 * @return
 	 */
@@ -330,7 +339,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
 		this.curve = curve;
 		registerChild(this.curve);
 	}
-
+	
 	/**
 	 * 
 	 * @param listOfSpeciesReferencesGlyph
@@ -357,7 +366,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
 	public void setReaction(String reaction) {
 		setReference(reaction, LayoutConstants.reaction);
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -368,14 +377,14 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
 			oldValue.fireNodeRemovedEvent();
 		}
 	}
-
+	
 	/**
 	 * 
 	 */
 	public void unsetReaction() {
 		unsetReference();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()
 	 */
