@@ -24,7 +24,7 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.UniqueNamedSBase;
 
@@ -41,17 +41,94 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    */
   private static final long serialVersionUID = -3466570440778373634L;
-  private String type;
+  private String type; // TODO make it an Enumeration
 	private ListOf<FluxObjective> listOfFluxObjectives = new ListOf<FluxObjective>();
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#clone()
+
+	/**
+	 * Creates an Objective instance 
 	 */
-	public AbstractSBase clone() {
-		// TODO Auto-generated method stub
-		return null;
+	public Objective() {
+		super();
+		initDefaults();
 	}
+
+	/**
+	 * Creates a Objective instance with an id. 
+	 * 
+	 * @param id
+	 */
+	public Objective(String id) {
+		super(id);
+		initDefaults();
+	}
+
+	/**
+	 * Creates a Objective instance with a level and version. 
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public Objective(int level, int version) {
+		this(null, null, level, version);
+	}
+
+	/**
+	 * Creates a Objective instance with an id, level, and version. 
+	 * 
+	 * @param id
+	 * @param level
+	 * @param version
+	 */
+	public Objective(String id, int level, int version) {
+		this(id, null, level, version);
+	}
+
+	/**
+	 * Creates a Objective instance with an id, name, level, and version. 
+	 * 
+	 * @param id
+	 * @param name
+	 * @param level
+	 * @param version
+	 */
+	public Objective(String id, String name, int level, int version) {
+		super(id, name, level, version);
+		if (getLevelAndVersion().compareTo(
+				Integer.valueOf(FBCConstants.MIN_SBML_LEVEL),
+				Integer.valueOf(FBCConstants.MIN_SBML_VERSION)) < 0) {
+			throw new LevelVersionError(getElementName(), level, version);
+		}
+		initDefaults();
+	}
+
+	/**
+	 * Clone constructor
+	 */
+	public Objective(Objective obj) {
+		super(obj);
+
+		// TODO: copy all class attributes, e.g.:
+		// bar = obj.bar;
+	}
+
+	/**
+	 * clones this class
+	 */
+	public Objective clone() {
+		return new Objective(this);
+	}
+
+	/**
+	 * Initializes the default values using the namespace.
+	 */
+	public void initDefaults() {
+		addNamespace(FBCConstants.namespaceURI);
+		// TODO: init default values here if necessary, e.g.:
+		// bar = null;
+	}
+
+
 
 	/**
 	 * Returns the type.
@@ -87,9 +164,8 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 		this.listOfFluxObjectives.add(fluxObjective);
 	}
 
-	// TODO : not sure why, but I had to make both Objective and FluxBound without mandatory ID, otherwise the parsing would fail !!!
 	public boolean isIdMandatory() {
-		return false;
+		return true;
 	}
 	
 	/*
@@ -134,6 +210,7 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 			attributes.remove("id");
 			attributes.put(FBCConstants.shortLabel + ":id", getId());
 		}
+		// TODO: take care of id and name properly
 		
 		return attributes;
 	}

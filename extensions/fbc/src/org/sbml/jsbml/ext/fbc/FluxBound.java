@@ -22,7 +22,7 @@ package org.sbml.jsbml.ext.fbc;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
 
@@ -41,19 +41,93 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   private static final long serialVersionUID = -8885319163985464653L;
   private String reaction;
-	private String operation;
+	private String operation; // TODO: make it an Enumeration
 	private double value;
 	
 	private boolean isSetValue = false;
 	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#clone()
+	/**
+	 * Creates an FluxBound instance 
 	 */
-	public AbstractSBase clone() {
-		// TODO Auto-generated method stub
-		return null;
+	public FluxBound() {
+		super();
+		initDefaults();
 	}
+
+	/**
+	 * Creates a FluxBound instance with an id. 
+	 * 
+	 * @param id
+	 */
+	public FluxBound(String id) {
+		super(id);
+		initDefaults();
+	}
+
+	/**
+	 * Creates a FluxBound instance with a level and version. 
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public FluxBound(int level, int version) {
+		this(null, null, level, version);
+	}
+
+	/**
+	 * Creates a FluxBound instance with an id, level, and version. 
+	 * 
+	 * @param id
+	 * @param level
+	 * @param version
+	 */
+	public FluxBound(String id, int level, int version) {
+		this(id, null, level, version);
+	}
+
+	/**
+	 * Creates a FluxBound instance with an id, name, level, and version. 
+	 * 
+	 * @param id
+	 * @param name
+	 * @param level
+	 * @param version
+	 */
+	public FluxBound(String id, String name, int level, int version) {
+		super(id, name, level, version);
+		if (getLevelAndVersion().compareTo(
+				Integer.valueOf(FBCConstants.MIN_SBML_LEVEL),
+				Integer.valueOf(FBCConstants.MIN_SBML_VERSION)) < 0) {
+			throw new LevelVersionError(getElementName(), level, version);
+		}
+		initDefaults();
+	}
+
+	/**
+	 * Clone constructor
+	 */
+	public FluxBound(FluxBound obj) {
+		super(obj);
+
+		// TODO: copy all class attributes, e.g.:
+		// bar = obj.bar;
+	}
+
+	/**
+	 * clones this class
+	 */
+	public FluxBound clone() {
+		return new FluxBound(this);
+	}
+
+	/**
+	 * Initializes the default values using the namespace.
+	 */
+	public void initDefaults() {
+		addNamespace(FBCConstants.namespaceURI);
+	}
+
+	// TODO: re-write the getters and setters using the new template to get the change events launched.
 
 	/**
 	 * Returns the reaction id

@@ -21,7 +21,9 @@ package org.sbml.jsbml.ext.fbc;
 
 import java.util.Map;
 
-import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -31,7 +33,7 @@ import org.sbml.jsbml.util.StringTools;
  * @since 1.0
  * @date 27.10.2011
  */
-public class FluxObjective extends AbstractSBase {
+public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBase {
 
 	/**
    * 
@@ -43,16 +45,97 @@ public class FluxObjective extends AbstractSBase {
 	
 	private boolean isSetCoefficient = false;
 	
-	@Override
-	public AbstractSBase clone() {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Creates an FluxObjective instance 
+	 */
+	public FluxObjective() {
+		super();
+		initDefaults();
 	}
+
+	/**
+	 * Creates a FluxObjective instance with an id. 
+	 * 
+	 * @param id
+	 */
+	public FluxObjective(String id) {
+		super(id);
+		initDefaults();
+	}
+
+	/**
+	 * Creates a FluxObjective instance with a level and version. 
+	 * 
+	 * @param level
+	 * @param version
+	 */
+	public FluxObjective(int level, int version) {
+		this(null, null, level, version);
+	}
+
+	/**
+	 * Creates a FluxObjective instance with an id, level, and version. 
+	 * 
+	 * @param id
+	 * @param level
+	 * @param version
+	 */
+	public FluxObjective(String id, int level, int version) {
+		this(id, null, level, version);
+	}
+
+	/**
+	 * Creates a FluxObjective instance with an id, name, level, and version. 
+	 * 
+	 * @param id
+	 * @param name
+	 * @param level
+	 * @param version
+	 */
+	public FluxObjective(String id, String name, int level, int version) {
+		super(id, name, level, version);
+		if (getLevelAndVersion().compareTo(
+				Integer.valueOf(FBCConstants.MIN_SBML_LEVEL),
+				Integer.valueOf(FBCConstants.MIN_SBML_VERSION)) < 0) {
+			throw new LevelVersionError(getElementName(), level, version);
+		}
+		initDefaults();
+	}
+
+	/**
+	 * Clone constructor
+	 */
+	public FluxObjective(FluxObjective obj) {
+		super(obj);
+
+		// TODO: copy all class attributes, e.g.:
+		// bar = obj.bar;
+	}
+
+	/**
+	 * clones this class
+	 */
+	public FluxObjective clone() {
+		return new FluxObjective(this);
+	}
+
+	/**
+	 * Initializes the default values using the namespace.
+	 */
+	public void initDefaults() {
+		addNamespace(FBCConstants.namespaceURI);
+	}
+
+
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	// TODO: re-write the getters and setters
+	
 	/**
 	 * @return the reaction
 	 */
@@ -126,8 +209,13 @@ public class FluxObjective extends AbstractSBase {
 		if (isSetCoefficient()) {
 			attributes.put(FBCConstants.shortLabel+ ":coefficient", StringTools.toString(getCoefficient()));
 		}
+		// TODO: take care of id and name properly
 		
 		return attributes;
+	}
+	@Override
+	public boolean isIdMandatory() {
+		return true;
 	}
 
 }

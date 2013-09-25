@@ -37,5 +37,11 @@ public class FBCConstants {
 	 * 
 	 */
 	public static final String shortLabel = "fbc";
+	
+	public static final String chemicalFormula = "chemicalFormula";
+	public static final String charge = "charge";
+	public static final int MIN_SBML_LEVEL = 3;
+	public static final int MIN_SBML_VERSION = 1;
+	
 
 }
