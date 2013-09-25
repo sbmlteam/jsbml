@@ -20,6 +20,8 @@
  */ 
 package org.sbml.jsbml;
 
+import org.sbml.jsbml.ext.SBasePlugin;
+
 /**
  * This is an error of an undefined property or value for a propterty in some
  * instance of {@link SBase}.
@@ -64,6 +66,11 @@ public abstract class PropertyException extends SBMLError {
 				.valueOf(sbase.getVersion()));
 	}
 	
+	static String createMessage(String baseMessage,	String property, SBasePlugin sbasePlugin) {
+		return String.format(baseMessage, property, sbasePlugin.getExtendedSBase().getElementName(),
+				Integer.valueOf(sbasePlugin.getExtendedSBase().getLevel()), Integer.valueOf(sbasePlugin.getExtendedSBase().getVersion()));
+	}
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBMLError#toString()
 	 */

@@ -20,6 +20,8 @@
  */ 
 package org.sbml.jsbml;
 
+import org.sbml.jsbml.ext.SBasePlugin;
+
 /**
  * This {@link PropertyException} indicates that the value belonging to a mandatory
  * property, for which there is no default value, has not been declared by the
@@ -49,6 +51,11 @@ public class PropertyUndefinedError extends PropertyException {
 	 */
 	public PropertyUndefinedError(String property, SBase sbase) {
 		super(createMessage(PROPERTY_UNDEFINED_EXCEPTION_MSG, property, sbase));
+	}
+
+	public PropertyUndefinedError(String property, SBasePlugin sbasePlugin) {
+		// TODO : change to include package short name or namespace ??
+		super(createMessage(PROPERTY_UNDEFINED_EXCEPTION_MSG, property, sbasePlugin));
 	}
 
 }
