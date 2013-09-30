@@ -766,7 +766,7 @@ public class LayoutDirector<P> implements Runnable {
 	@SuppressWarnings("unchecked")
 	private List<CompartmentGlyph> getContainedCompartmentGlyphs(Compartment compartment) {
 		LinkedList<CompartmentGlyph> containedList = new LinkedList<CompartmentGlyph>();
-		Object userObject = compartment.getUserObject(COMPARTMENT_LINK);
+		Object userObject = compartment.getUserObject(LAYOUT_LINK);
 		if (userObject instanceof LinkedList<?>) {
 			LinkedList<CompartmentGlyph> directlyContainedCompartmentGlyphs = (LinkedList<CompartmentGlyph>) userObject;
 			containedList.addAll(directlyContainedCompartmentGlyphs);
