@@ -39,159 +39,158 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  */
 public class MultiSpecies extends AbstractSBasePlugin {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -5396837209115412420L;
-	/**
-	 * 
-	 */
-	private ListOf<SpeciesTypeInstance> listOfSpeciesTypeInstances;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -5396837209115412420L;
+  /**
+   * 
+   */
+  private ListOf<SpeciesTypeInstance> listOfSpeciesTypeInstances;
 
-	private Species species; // Do we need this anymore ?
-	
-	/**
-	 * 
-	 * @param species
-	 */
-	public MultiSpecies(Species species) {
-		this.species = species;
-	}
+  private Species species; // Do we need this anymore ?
+
+  /**
+   * 
+   * @param species
+   */
+  public MultiSpecies(Species species) {
+    this.species = species;
+  }
 
 
-	public MultiSpecies clone() {
-		// TODO
-		return null;
-	}
+  public MultiSpecies clone() {
+    // TODO
+    return null;
+  }
 
-	/* (non-Javadoc)
+  /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
   public boolean getAllowsChildren() {
     return true;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getChildAt(int)
    */
-	public SBase getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  public SBase getChildAt(int childIndex) {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+  public int getChildCount() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
 
-	public TreeNode getParent() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  public TreeNode getParent() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-	/**
-	 * 
-	 * @param speciesTypeInstance
-	 */
-	public void addSpeciesTypeInstance(SpeciesTypeInstance speciesTypeInstance) {
-		getListOfSpeciesTypeInstances().add(speciesTypeInstance);		
-	}
+  /**
+   * 
+   * @param speciesTypeInstance
+   */
+  public void addSpeciesTypeInstance(SpeciesTypeInstance speciesTypeInstance) {
+    getListOfSpeciesTypeInstances().add(speciesTypeInstance);		
+  }
 
-	/**
-	 * 
-	 * @param n
-	 * @return
-	 */
-	public SpeciesTypeInstance getSpeciesTypeInstance(int n) {
-		return getListOfSpeciesTypeInstances().get(n);
-	}
-	
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public SpeciesTypeInstance getInitialSpeciesInstance(String id) {
-		if (isSetListOfSpeciesInstances()) {
-			for (SpeciesTypeInstance comp : listOfSpeciesTypeInstances) {
-				if (comp.getId().equals(id)) {
-					return comp;
-				}
-			}
-		}
-		return null;
-	}
+  /**
+   * 
+   * @param n
+   * @return
+   */
+  public SpeciesTypeInstance getSpeciesTypeInstance(int n) {
+    return getListOfSpeciesTypeInstances().get(n);
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public ListOf<SpeciesTypeInstance> getListOfSpeciesTypeInstances() {
-		if (listOfSpeciesTypeInstances == null) {
-			this.listOfSpeciesTypeInstances = new ListOf<SpeciesTypeInstance>();
-		}
+  /**
+   * 
+   * @param id
+   * @return
+   */
+  public SpeciesTypeInstance getInitialSpeciesInstance(String id) {
+    if (isSetListOfSpeciesInstances()) {
+      for (SpeciesTypeInstance comp : listOfSpeciesTypeInstances) {
+        if (comp.getId().equals(id)) {
+          return comp;
+        }
+      }
+    }
+    return null;
+  }
 
-		return listOfSpeciesTypeInstances;
-	}
+  /**
+   * 
+   * @return
+   */
+  public ListOf<SpeciesTypeInstance> getListOfSpeciesTypeInstances() {
+    if (listOfSpeciesTypeInstances == null) {
+      this.listOfSpeciesTypeInstances = new ListOf<SpeciesTypeInstance>();
+    }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isSetListOfSpeciesInstances() {
-		return (listOfSpeciesTypeInstances != null)
-				&& (listOfSpeciesTypeInstances.size() > 0); // TODO : should we do that or not (and in general for other listOf that should not be empty) ?
-	}
+    return listOfSpeciesTypeInstances;
+  }
 
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		// TODO 
-		return false;
-	}
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetListOfSpeciesInstances() {
+    return (listOfSpeciesTypeInstances != null)
+        && (listOfSpeciesTypeInstances.size() > 0); // TODO : should we do that or not (and in general for other listOf that should not be empty) ?
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#toString()
-	 */
-	public String toString() {
-		return getClass().getSimpleName();
-	}
+  public boolean readAttribute(String attributeName, String prefix,
+    String value) {
+    // TODO 
+    return false;
+  }
 
-	/**
-	 * Removes the {@link #listOfSpeciesTypeInstances} from this {@link Model} and notifies
-	 * all registered instances of {@link TreeNodeChangeListener}.
-	 * 
-	 * @return {@code true} if calling this method lead to a change in this
-	 *         data structure.
-	 */
-	public boolean unsetListOfInitialSpeciesInstances() {
-		// TODO : check if we need to do any additional call to have everything properly unregistered
-		if (this.listOfSpeciesTypeInstances != null) {
-			ListOf<SpeciesTypeInstance> oldListOfInitialSpeciesInstances = this.listOfSpeciesTypeInstances;
-			this.listOfSpeciesTypeInstances = null;
-			oldListOfInitialSpeciesInstances.fireNodeRemovedEvent();
-			return true;
-		}
-		return false;
-	}
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#toString()
+   */
+  public String toString() {
+    return getClass().getSimpleName();
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
-	 */
+  /**
+   * Removes the {@link #listOfSpeciesTypeInstances} from this {@link Model} and notifies
+   * all registered instances of {@link TreeNodeChangeListener}.
+   * 
+   * @return {@code true} if calling this method lead to a change in this
+   *         data structure.
+   */
+  public boolean unsetListOfInitialSpeciesInstances() {
+    // TODO : check if we need to do any additional call to have everything properly unregistered
+    if (this.listOfSpeciesTypeInstances != null) {
+      ListOf<SpeciesTypeInstance> oldListOfInitialSpeciesInstances = this.listOfSpeciesTypeInstances;
+      this.listOfSpeciesTypeInstances = null;
+      oldListOfInitialSpeciesInstances.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
+   */
   public Map<String, String> writeXMLAttributes() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    // TODO Auto-generated method stub
+    return null;
+  }
 
 
   public SpeciesTypeInstance createSpeciesTypeInstance(String id) {
-	SpeciesTypeInstance sti = new SpeciesTypeInstance();
-	sti.setId(id);
-	addSpeciesTypeInstance(sti);
-	
-	return sti;
-}
+    SpeciesTypeInstance sti = new SpeciesTypeInstance();
+    sti.setId(id);
+    addSpeciesTypeInstance(sti);
+
+    return sti;
+  }
 
 }
