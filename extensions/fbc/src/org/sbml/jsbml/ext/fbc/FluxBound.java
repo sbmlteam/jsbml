@@ -28,223 +28,231 @@ import org.sbml.jsbml.util.StringTools;
 
 /**
  * 
- * @author
+ * @author Nicolas Rodriguez
  * @version $Rev$
  * @since 1.0
  * @date 27.10.2011
  */
 public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
 
-	
-	/**
+
+  /**
    * 
    */
   private static final long serialVersionUID = -8885319163985464653L;
   private String reaction;
-	private String operation; // TODO: make it an Enumeration
-	private double value;
-	
-	private boolean isSetValue = false;
-	
-	/**
-	 * Creates an FluxBound instance 
-	 */
-	public FluxBound() {
-		super();
-		initDefaults();
-	}
+  private String operation; // TODO: make it an Enumeration
+  private double value;
 
-	/**
-	 * Creates a FluxBound instance with an id. 
-	 * 
-	 * @param id
-	 */
-	public FluxBound(String id) {
-		super(id);
-		initDefaults();
-	}
+  private boolean isSetValue = false;
 
-	/**
-	 * Creates a FluxBound instance with a level and version. 
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public FluxBound(int level, int version) {
-		this(null, null, level, version);
-	}
+  /**
+   * 
+   * @param fb
+   */
+  public FluxBound(FluxBound fb) {
+    super(fb);
+    this.operation = new String(fb.getOperation());
+    this.reaction = new String(fb.getReaction());
+    this.value = fb.getValue();
+    this.isSetValue = fb.isSetValue();
+  }
 
-	/**
-	 * Creates a FluxBound instance with an id, level, and version. 
-	 * 
-	 * @param id
-	 * @param level
-	 * @param version
-	 */
-	public FluxBound(String id, int level, int version) {
-		this(id, null, level, version);
-	}
+  /**
+   * Creates an instance of FluxBound.
+   */
+  public FluxBound() {
+    super();
+    initDefaults();
+  }
 
-	/**
-	 * Creates a FluxBound instance with an id, name, level, and version. 
-	 * 
-	 * @param id
-	 * @param name
-	 * @param level
-	 * @param version
-	 */
-	public FluxBound(String id, String name, int level, int version) {
-		super(id, name, level, version);
-		if (getLevelAndVersion().compareTo(
-				Integer.valueOf(FBCConstants.MIN_SBML_LEVEL),
-				Integer.valueOf(FBCConstants.MIN_SBML_VERSION)) < 0) {
-			throw new LevelVersionError(getElementName(), level, version);
-		}
-		initDefaults();
-	}
+  /**
+   * Creates a FluxBound instance with an id. 
+   * 
+   * @param id
+   */
+  public FluxBound(String id) {
+    super(id);
+    initDefaults();
+  }
 
-	/**
-	 * Clone constructor
-	 */
-	public FluxBound(FluxBound obj) {
-		super(obj);
+  /**
+   * Creates a FluxBound instance with a level and version. 
+   * 
+   * @param level
+   * @param version
+   */
+  public FluxBound(int level, int version) {
+    this(null, null, level, version);
+  }
 
-		// TODO: copy all class attributes, e.g.:
-		// bar = obj.bar;
-	}
+  /**
+   * Creates a FluxBound instance with an id, level, and version. 
+   * 
+   * @param id
+   * @param level
+   * @param version
+   */
+  public FluxBound(String id, int level, int version) {
+    this(id, null, level, version);
+  }
 
-	/**
-	 * clones this class
-	 */
-	public FluxBound clone() {
-		return new FluxBound(this);
-	}
+  /**
+   * Creates a FluxBound instance with an id, name, level, and version. 
+   * 
+   * @param id
+   * @param name
+   * @param level
+   * @param version
+   */
+  public FluxBound(String id, String name, int level, int version) {
+    super(id, name, level, version);
+    if (getLevelAndVersion().compareTo(
+      Integer.valueOf(FBCConstants.MIN_SBML_LEVEL),
+      Integer.valueOf(FBCConstants.MIN_SBML_VERSION)) < 0) {
+      throw new LevelVersionError(getElementName(), level, version);
+    }
+    initDefaults();
+  }
 
-	/**
-	 * Initializes the default values using the namespace.
-	 */
-	public void initDefaults() {
-		addNamespace(FBCConstants.namespaceURI);
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
+  public FluxBound clone() {
+    return new FluxBound(this);
+  }
 
-	// TODO: re-write the getters and setters using the new template to get the change events launched.
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    addNamespace(FBCConstants.namespaceURI);
+  }
 
-	/**
-	 * Returns the reaction id
-	 * 
-	 * @return the reaction id
-	 */
-	public String getReaction() {
-		return reaction;
-	}
+  // TODO: re-write the getters and setters using the new template to get the change events launched.
 
-	/**
-	 * Sets the the reaction id
-	 * 
-	 * @param reaction the reaction id to set
-	 */
-	public void setReaction(String reaction) {
-		this.reaction = reaction;
-	}
+  /**
+   * Returns the reaction id
+   * 
+   * @return the reaction id
+   */
+  public String getReaction() {
+    return reaction;
+  }
 
-	/**
-	 * Returns the operation
-	 * 
-	 * @return the operation
-	 */
-	public String getOperation() {
-		return operation;
-	}
+  /**
+   * Sets the the reaction id
+   * 
+   * @param reaction the reaction id to set
+   */
+  public void setReaction(String reaction) {
+    this.reaction = reaction;
+  }
 
-	/**
-	 * @param operation the operation to set
-	 */
-	public void setOperation(String operation) {
-		this.operation = operation;
-	}
+  /**
+   * Returns the operation
+   * 
+   * @return the operation
+   */
+  public String getOperation() {
+    return operation;
+  }
 
-	/**
-	 * Returns the value
-	 * 
-	 * @return the value
-	 */
-	public double getValue() {
-		return value;
-	}
+  /**
+   * @param operation the operation to set
+   */
+  public void setOperation(String operation) {
+    this.operation = operation;
+  }
 
-	/**
-	 * @param value the value to set
-	 */
-	public void setValue(double value) {
-		this.value = value;
-		isSetValue = true;
-	}
-	
-	public boolean isSetValue() {
-		return isSetValue;
-	}
-	
+  /**
+   * Returns the value
+   * 
+   * @return the value
+   */
+  public double getValue() {
+    return value;
+  }
 
-	public boolean isIdMandatory() {
-		return false;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
-		
-		if (!isAttributeRead) {
-			isAttributeRead = true;
+  /**
+   * @param value the value to set
+   */
+  public void setValue(double value) {
+    this.value = value;
+    isSetValue = true;
+  }
 
-			if (attributeName.equals("reaction")) {
-				setReaction(value);
-			} else if (attributeName.equals("operation")) {
-				 setOperation(value);
-			} else if (attributeName.equals("value")) {
-				setValue(StringTools.parseSBMLDouble(value));
-			} else {
-				isAttributeRead = false;
-			}
-			
-		}
-		
-		return isAttributeRead;
-	}
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetValue() {
+    return isSetValue;
+  }
 
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
-	 */
-	@Override
-	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    return false;
+  }
 
-		if (reaction != null) {
-			attributes.put(FBCConstants.shortLabel + ":reaction", getReaction());			
-		}
-		if (operation != null) {
-			attributes.put(FBCConstants.shortLabel + ":operation", getOperation());
-		}
-		if (isSetValue()) {
-			attributes.put(FBCConstants.shortLabel + ":value", StringTools.toString(getValue()));
-		}
-		if (isSetId()) {
-			attributes.remove("id");
-			attributes.put(FBCConstants.shortLabel + ":id", getId());
-		}
-		
-		return attributes;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+      value);
 
+    if (!isAttributeRead) {
+      isAttributeRead = true;
 
-	
+      if (attributeName.equals("reaction")) {
+        setReaction(value);
+      } else if (attributeName.equals("operation")) {
+        setOperation(value);
+      } else if (attributeName.equals("value")) {
+        setValue(StringTools.parseSBMLDouble(value));
+      } else {
+        isAttributeRead = false;
+      }
+
+    }
+
+    return isAttributeRead;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (reaction != null) {
+      attributes.put(FBCConstants.shortLabel + ":reaction", getReaction());			
+    }
+    if (operation != null) {
+      attributes.put(FBCConstants.shortLabel + ":operation", getOperation());
+    }
+    if (isSetValue()) {
+      attributes.put(FBCConstants.shortLabel + ":value", StringTools.toString(getValue()));
+    }
+    if (isSetId()) {
+      attributes.remove("id");
+      attributes.put(FBCConstants.shortLabel + ":id", getId());
+    }
+
+    return attributes;
+  }
+
+  /**
+   * 
+   * @param operation
+   */
+  public void setOperation(Operation operation) {
+    setOperation(operation.name());
+  }
+
 }

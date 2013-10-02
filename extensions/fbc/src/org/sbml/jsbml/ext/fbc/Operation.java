@@ -20,52 +20,21 @@
 package org.sbml.jsbml.ext.fbc;
 
 /**
- * 
- * @author Nicolas Rodriguez
+ * @author Andreas Dr&auml;ger
  * @since 1.0
  * @version $Rev$
  */
-public class FBCConstants {
-
-	public static final String activeObjective = "activeObjective";
-	/**
-	 * The namespace URI of this parser.
-	 */
-	public static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/fbc/version1";
-	
-	/**
-	 * 
-	 */
-	public static final String shortLabel = "fbc";
-	
-	/**
-	 * 
-	 */
-	public static final String chemicalFormula = "chemicalFormula";
-	
-	/**
-	 * 
-	 */
-	public static final String charge = "charge";
-	
-	/**
-	 * 
-	 */
-	public static final int MIN_SBML_LEVEL = 3;
-	
-	/**
-	 * 
-	 */
-	public static final int MIN_SBML_VERSION = 1;
-	
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 * @return
-	 */
-  public static String getNamespaceURI(int level, int version) {
-    return namespaceURI;
-  }
-
+public enum Operation {
+  /**
+   * 
+   */
+  lessEqual,
+  /**
+   * 
+   */
+  greaterEqual,
+  /**
+   * 
+   */
+  equal;
 }

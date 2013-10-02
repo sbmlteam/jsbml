@@ -35,187 +35,184 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBase {
 
-	/**
+  /**
    * 
    */
   private static final long serialVersionUID = 246449689493121713L;
-  
+
   private String reaction;
-	private double coefficient;
-	
-	private boolean isSetCoefficient = false;
-	
-	/**
-	 * Creates an FluxObjective instance 
-	 */
-	public FluxObjective() {
-		super();
-		initDefaults();
-	}
+  private double coefficient;
 
-	/**
-	 * Creates a FluxObjective instance with an id. 
-	 * 
-	 * @param id
-	 */
-	public FluxObjective(String id) {
-		super(id);
-		initDefaults();
-	}
+  private boolean isSetCoefficient = false;
 
-	/**
-	 * Creates a FluxObjective instance with a level and version. 
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public FluxObjective(int level, int version) {
-		this(null, null, level, version);
-	}
+  /**
+   * Creates an FluxObjective instance 
+   */
+  public FluxObjective() {
+    super();
+    initDefaults();
+  }
 
-	/**
-	 * Creates a FluxObjective instance with an id, level, and version. 
-	 * 
-	 * @param id
-	 * @param level
-	 * @param version
-	 */
-	public FluxObjective(String id, int level, int version) {
-		this(id, null, level, version);
-	}
+  /**
+   * Creates a FluxObjective instance with an id. 
+   * 
+   * @param id
+   */
+  public FluxObjective(String id) {
+    super(id);
+    initDefaults();
+  }
 
-	/**
-	 * Creates a FluxObjective instance with an id, name, level, and version. 
-	 * 
-	 * @param id
-	 * @param name
-	 * @param level
-	 * @param version
-	 */
-	public FluxObjective(String id, String name, int level, int version) {
-		super(id, name, level, version);
-		if (getLevelAndVersion().compareTo(
-				Integer.valueOf(FBCConstants.MIN_SBML_LEVEL),
-				Integer.valueOf(FBCConstants.MIN_SBML_VERSION)) < 0) {
-			throw new LevelVersionError(getElementName(), level, version);
-		}
-		initDefaults();
-	}
+  /**
+   * Creates a FluxObjective instance with a level and version. 
+   * 
+   * @param level
+   * @param version
+   */
+  public FluxObjective(int level, int version) {
+    this(null, null, level, version);
+  }
 
-	/**
-	 * Clone constructor
-	 */
-	public FluxObjective(FluxObjective obj) {
-		super(obj);
+  /**
+   * Creates a FluxObjective instance with an id, level, and version. 
+   * 
+   * @param id
+   * @param level
+   * @param version
+   */
+  public FluxObjective(String id, int level, int version) {
+    this(id, null, level, version);
+  }
 
-		// TODO: copy all class attributes, e.g.:
-		// bar = obj.bar;
-	}
+  /**
+   * Creates a FluxObjective instance with an id, name, level, and version. 
+   * 
+   * @param id
+   * @param name
+   * @param level
+   * @param version
+   */
+  public FluxObjective(String id, String name, int level, int version) {
+    super(id, name, level, version);
+    if (getLevelAndVersion().compareTo(
+      Integer.valueOf(FBCConstants.MIN_SBML_LEVEL),
+      Integer.valueOf(FBCConstants.MIN_SBML_VERSION)) < 0) {
+      throw new LevelVersionError(getElementName(), level, version);
+    }
+    initDefaults();
+  }
 
-	/**
-	 * clones this class
-	 */
-	public FluxObjective clone() {
-		return new FluxObjective(this);
-	}
+  /**
+   * Clone constructor
+   */
+  public FluxObjective(FluxObjective obj) {
+    super(obj);
 
-	/**
-	 * Initializes the default values using the namespace.
-	 */
-	public void initDefaults() {
-		addNamespace(FBCConstants.namespaceURI);
-	}
+    // TODO: copy all class attributes, e.g.:
+    // bar = obj.bar;
+  }
+
+  /**
+   * clones this class
+   */
+  public FluxObjective clone() {
+    return new FluxObjective(this);
+  }
+
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    addNamespace(FBCConstants.namespaceURI);
+  }
 
 
 
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	// TODO: re-write the getters and setters
-	
-	/**
-	 * @return the reaction
-	 */
-	public String getReaction() {
-		return reaction;
-	}
-	/**
-	 * @param reaction the reaction to set
-	 */
-	public void setReaction(String reaction) {
-		this.reaction = reaction;
-	}
-	/**
-	 * @return the coefficient
-	 */
-	public double getCoefficient() {
-		return coefficient;
-	}
-	/**
-	 * @param coefficient the coefficient to set
-	 */
-	public void setCoefficient(double coefficient) {
-		this.coefficient = coefficient;
-		isSetCoefficient = true;
-	}
-	
-	public boolean isSetCoefficient() {
-		return isSetCoefficient;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
-		
-		if (!isAttributeRead) {
-			isAttributeRead = true;
+  @Override
+  public String toString() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-			if (attributeName.equals("reaction")) {
-				setReaction(value);
-			} else if (attributeName.equals("coefficient")) {
-				setCoefficient(StringTools.parseSBMLDouble(value));
-			} else {
-				isAttributeRead = false;
-			}
-			
-		}
-		
-		return isAttributeRead;
-	}
+  // TODO: re-write the getters and setters
 
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
-	 */
-	@Override
-	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+  /**
+   * @return the reaction
+   */
+  public String getReaction() {
+    return reaction;
+  }
+  /**
+   * @param reaction the reaction to set
+   */
+  public void setReaction(String reaction) {
+    this.reaction = reaction;
+  }
+  /**
+   * @return the coefficient
+   */
+  public double getCoefficient() {
+    return coefficient;
+  }
+  /**
+   * @param coefficient the coefficient to set
+   */
+  public void setCoefficient(double coefficient) {
+    this.coefficient = coefficient;
+    isSetCoefficient = true;
+  }
 
-		if (reaction != null) {
-			attributes.put(FBCConstants.shortLabel+ ":reaction", getReaction());			
-		}
-		if (isSetCoefficient()) {
-			attributes.put(FBCConstants.shortLabel+ ":coefficient", StringTools.toString(getCoefficient()));
-		}
-		// TODO: take care of id and name properly
-		
-		return attributes;
-	}
-	@Override
-	public boolean isIdMandatory() {
-		return true;
-	}
+  public boolean isSetCoefficient() {
+    return isSetCoefficient;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+      value);
+
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+
+      if (attributeName.equals("reaction")) {
+        setReaction(value);
+      } else if (attributeName.equals("coefficient")) {
+        setCoefficient(StringTools.parseSBMLDouble(value));
+      } else {
+        isAttributeRead = false;
+      }
+
+    }
+
+    return isAttributeRead;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (reaction != null) {
+      attributes.put(FBCConstants.shortLabel+ ":reaction", getReaction());			
+    }
+    if (isSetCoefficient()) {
+      attributes.put(FBCConstants.shortLabel+ ":coefficient", StringTools.toString(getCoefficient()));
+    }
+    // TODO: take care of id and name properly
+
+    return attributes;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    return true;
+  }
 
 }
