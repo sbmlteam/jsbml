@@ -123,7 +123,7 @@ public class SBMLDocument extends AbstractSBase {
 
 	/**
 	 * Creates a {@link SBMLDocument} instance. By default, the parent SBML object of
-	 * this object is itself. The model is null. The SBMLDocumentAttributes and
+	 * this object is itself. The model is {@code null}. The SBMLDocumentAttributes and
 	 * the SBMLDocumentNamespaces are empty.
 	 * 
 	 * @param sb

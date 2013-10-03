@@ -4,15 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.sbml.jsbml.ext</groupId>
-        <artifactId>ext</artifactId>
+        <groupId>org.sbml.jsbml.modules</groupId>
+        <artifactId>modules</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>org.sbml.jsbml.ext.adapter</groupId>
-    <artifactId>jsbml_ext_adapter</artifactId>
+    <groupId>org.sbml.jsbml.modules.libSBMLcompat</groupId>
+    <artifactId>jsbml_modules_libSBMLcompat</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    
 </project>
