@@ -259,6 +259,19 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
   public void removeAllTreeNodeChangeListeners();
 
   /**
+   * Removes itself from its parent. This will remove the element from its
+   * parent and remove the pointer from the element to its parent. If the
+   * element is a member of a {@link List}, it is simply cleared.
+   * Will fail (and not delete itself) if it has no parent object. This function
+   * will work for all objects whose parent is of type {@link List} and most
+   * instances of {@link TreeNode}.
+   * 
+   * @return {@code false} if this element is a root node, {@code true}
+   *         otherwise.
+   */
+  public abstract boolean removeFromParent();
+
+  /**
    * Removes recursively the given change listener from this element. A call to
    * this method
    * is equivalent to calling
@@ -282,14 +295,15 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
    * @see #removeTreeNodeChangeListener(TreeNodeChangeListener)
    */
   public void removeTreeNodeChangeListener(TreeNodeChangeListener listener, boolean recursive);
-
+  
   /**
    * 
    * @param key
    * @return
    */
   public abstract Object removeUserObject(Object key);
-  
+
+
   /**
    * @return
    * @see Map#keySet()
