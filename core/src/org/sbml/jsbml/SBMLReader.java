@@ -49,11 +49,10 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  * <p>
  * In the case of failures (such as if the SBML contains errors), the errors 
  * will be recorded with the {@link SBMLErrorLog}
- * object kept in the {@link SBMLDocument} returned by {@link SBMLReader}.  Consequently,
- * immediately after calling a method on {@link SBMLReader}, callers should always
- * check for errors and warnings using the methods for this purpose
- * provided by {@link SBMLDocument}.
- * <p>
+ * object kept in the {@link SBMLDocument} returned by {@link SBMLReader}.
+ * Consequently, immediately after calling a method on {@link SBMLReader},
+ * callers should always check for errors and warnings using the methods for
+ * this purpose provided by {@link SBMLDocument}.
  * 
  * @author Andreas Dr&auml;ger
  * @author Nicolas Rodriguez
@@ -66,6 +65,13 @@ public class SBMLReader implements Cloneable, Serializable {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -3313609137341424804L;
+	
+	/**
+	 * The singleton actual reader. This should speed up loading required classes,
+	 * because the initialization is done only once if using the static read
+	 * methods.
+	 */
+	private static final SBMLReader reader = new SBMLReader();
 
 	/**
 	 * Factory method for reading SBML from a given {@link File}.
@@ -89,7 +95,7 @@ public class SBMLReader implements Cloneable, Serializable {
    * @throws IOException if the file does not exist or cannot be read.
    */
   public static SBMLDocument read(File file, TreeNodeChangeListener listener) throws XMLStreamException, IOException {
-    return new SBMLReader().readSBML(file, listener);
+    return reader.readSBML(file, listener);
   }
 
 	/**
@@ -112,7 +118,7 @@ public class SBMLReader implements Cloneable, Serializable {
 	 */
 	public static SBMLDocument read(InputStream stream)
 			throws XMLStreamException {
-		return new SBMLReader().readSBMLFromStream(stream);
+		return reader.readSBMLFromStream(stream);
 	}
 
 	/**
@@ -124,7 +130,7 @@ public class SBMLReader implements Cloneable, Serializable {
 	 * @throws XMLStreamException
 	 */
 	public static SBMLDocument read(String xml) throws XMLStreamException {
-		return new SBMLReader().readSBMLFromString(xml);
+		return reader.readSBMLFromString(xml);
 	}
 
 	/**

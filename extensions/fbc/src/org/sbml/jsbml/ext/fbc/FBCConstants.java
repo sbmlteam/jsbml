@@ -58,6 +58,10 @@ public class FBCConstants {
 	 */
 	public static final int MIN_SBML_VERSION = 1;
 	
+  public static final String operation = "operation";
+  public static final String reaction = "reaction";
+  public static final String value = "value";
+	
 	/**
 	 * 
 	 * @param level

@@ -608,7 +608,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 	 * This method is designed to be overridden for non-independent child nodes 
 	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeFromParent()
 	 */
-  public boolean removeFromParent() throws UnsupportedOperationException {
+  public boolean removeFromParent() {
     
     // Check if this is a root node, return false if it is root
 	  if (isRoot()) { 
@@ -616,11 +616,17 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		}
 		
 		// Check if the object's parent is a list, then clear from list
-		if (parent instanceof List) {
+		if (parent instanceof List<?>) {
 		  List<?> parentList = (List<?>) parent;
 		  parentList.remove(this);
+		  if (!(parentList instanceof TreeNodeWithChangeSupport)) {
+	      // avoid redoing it twice.
+		    fireNodeRemovedEvent();
+		  }
 		} else {
-		  // If the object's parent is not a list, mimic "unset" methods using reflection
+		  /* If the object's parent is not a list, mimic "unset" methods using
+		   * reflection
+		   */
 		  Class<?> clazz = parent.getClass();
 		  Field fields[] = clazz.getDeclaredFields();
 		  for (Field field : fields) {
@@ -638,15 +644,13 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		        // reset original state
 		        field.setAccessible(isAccessible);  
 		      }
-		    } catch (IllegalAccessException e) {
+		    } catch (IllegalAccessException exc) {
 		      // ignore
 		    }
 		  }
-		}
-		if (!(parent instanceof ListOf<?>)) {
-		  // avoid redoing it again.
 		  fireNodeRemovedEvent();
 		}
+		
 		return true;
 	}
   

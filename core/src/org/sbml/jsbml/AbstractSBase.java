@@ -1463,11 +1463,18 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 */
 	public void setMetaId(String metaId) {
 		if (metaId != null) {
-			if (getLevel() == 1) {
+		  if (isSetMetaId() && getMetaId().equals(metaId)) {
+		    /* Do nothing if the identical metaId has already been assigned to this
+		     * object. In this case, the metaId must have been checked for validity
+		     * already and also the level must be appropriate.
+		     */
+		    return;
+		  } else if (getLevel() == 1) {
 				throw new PropertyNotAvailableException(TreeNodeChangeEvent.metaId, this);
 			} else if (!isValidMetaId(metaId)) {
 				throw new IllegalArgumentException(MessageFormat.format(
-						"\"{0}\" is not a valid meta-identifier for this {1}.", metaId, getElementName()));
+						"\"{0}\" is not a valid meta-identifier for this {1}.",
+						metaId, getElementName()));
 			}
 		}
 		SBMLDocument doc = getSBMLDocument();
@@ -1754,6 +1761,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 				}
 			}
 		}
+		
+		// Add all additional attributes from extension packages if there are any:
+		if ((extensions != null) && (extensions.size() > 0)) {
+		  for (Map.Entry<String, SBasePlugin> entry : extensions.entrySet()) {
+		    attributes.putAll(entry.getValue().writeXMLAttributes());
+		  }
+		}
+		
 		return attributes;
 	}
 

@@ -41,8 +41,8 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    */
   private static final long serialVersionUID = -3466570440778373634L;
-  private String type; // TODO make it an Enumeration
-	private ListOf<FluxObjective> listOfFluxObjectives = new ListOf<FluxObjective>();
+  private ListOf<FluxObjective> listOfFluxObjectives;
+	private String type; // TODO make it an Enumeration
 	
 
 	/**
@@ -54,16 +54,6 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 	}
 
 	/**
-	 * Creates a Objective instance with an id. 
-	 * 
-	 * @param id
-	 */
-	public Objective(String id) {
-		super(id);
-		initDefaults();
-	}
-
-	/**
 	 * Creates a Objective instance with a level and version. 
 	 * 
 	 * @param level
@@ -71,6 +61,26 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 	 */
 	public Objective(int level, int version) {
 		this(null, null, level, version);
+	}
+
+	/**
+	 * Clone constructor
+	 */
+	public Objective(Objective obj) {
+		super(obj);
+
+		// TODO: copy all class attributes, e.g.:
+		// bar = obj.bar;
+	}
+
+	/**
+	 * Creates a Objective instance with an id. 
+	 * 
+	 * @param id
+	 */
+	public Objective(String id) {
+		super(id);
+		initDefaults();
 	}
 
 	/**
@@ -103,13 +113,10 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 	}
 
 	/**
-	 * Clone constructor
+	 * @param listOfFluxObjectives the listOfFluxObjectives to set
 	 */
-	public Objective(Objective obj) {
-		super(obj);
-
-		// TODO: copy all class attributes, e.g.:
-		// bar = obj.bar;
+	public void addFluxObjective(FluxObjective fluxObjective) {
+		getListOfFluxObjectives().add(fluxObjective);
 	}
 
 	/**
@@ -119,16 +126,39 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 		return new Objective(this);
 	}
 
-	/**
-	 * Initializes the default values using the namespace.
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
-	public void initDefaults() {
-		addNamespace(FBCConstants.namespaceURI);
-		// TODO: init default values here if necessary, e.g.:
-		// bar = null;
+	@Override
+	public TreeNode getChildAt(int index) {
+		if ((index == 0) && isSetListOfFluxObjectives()) {
+			return listOfFluxObjectives;
+		}
+		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+	 */
+	@Override
+	public int getChildCount() {
+		return isSetListOfFluxObjectives() ? 1 : 0;
+	}
 
+	/**
+	 * Returns the listOfFluxObjectives
+	 * 
+	 * @return the listOfFluxObjectives
+	 */
+	public ListOf<FluxObjective> getListOfFluxObjectives() {
+	  if (!isSetListOfFluxObjectives()) {
+	    listOfFluxObjectives = new ListOf<FluxObjective>(getLevel(), getVersion());
+	    listOfFluxObjectives.addNamespace(FBCConstants.namespaceURI);
+	    listOfFluxObjectives.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfFluxObjectives);
+    }
+		return listOfFluxObjectives;
+	}
 
 	/**
 	 * Returns the type.
@@ -139,40 +169,29 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 		return type;
 	}
 
-	/**
-	 * Sets the type.
-	 * 
-	 * @param type the type to set
+  /**
+	 * Initializes the default values using the namespace.
 	 */
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	/**
-	 * Returns the listOfFluxObjectives
-	 * 
-	 * @return the listOfFluxObjectives
-	 */
-	public ListOf<FluxObjective> getListOfFluxObjectives() {
-		return listOfFluxObjectives;
-	}
-
-	/**
-	 * @param listOfFluxObjectives the listOfFluxObjectives to set
-	 */
-	public void addFluxObjective(FluxObjective fluxObjective) {
-		this.listOfFluxObjectives.add(fluxObjective);
+	public void initDefaults() {
+		addNamespace(FBCConstants.namespaceURI);
+		// TODO: init default values here if necessary, e.g.:
+		// bar = null;
 	}
 
 	public boolean isIdMandatory() {
 		return true;
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName,
-	 * String prefix, String value)
+	 * @return
+	 */
+	public boolean isSetListOfFluxObjectives() {
+    return (listOfFluxObjectives != null) && (listOfFluxObjectives.size() > 0);
+  }
+	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value) {
@@ -193,10 +212,16 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 		return isAttributeRead;
 	}
 
-	
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Sets the type.
 	 * 
+	 * @param type the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
@@ -214,32 +239,5 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 		
 		return attributes;
 	}
-
-	/**
-	 * @param index
-	 * @return
-	 * @see org.sbml.jsbml.ListOf#getChildAt(int)
-	 */
-	public TreeNode getChildAt(int index) {
-		if (index == 0 && listOfFluxObjectives.size() > 0) {
-			return listOfFluxObjectives;
-		}
-		
-		return null;
-	}
-
-	/**
-	 * @return
-	 * @see org.sbml.jsbml.ListOf#getChildCount()
-	 */
-	public int getChildCount() {
-		if (listOfFluxObjectives.size() > 0) {
-			return 1;
-		}
-		
-		return 0;
-	}
-
-	
 	
 }

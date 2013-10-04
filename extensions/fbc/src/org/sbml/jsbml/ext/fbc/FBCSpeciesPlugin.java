@@ -60,19 +60,6 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
   private boolean isSetCharge;
 
   /**
-   * Creates an FBCSpeciesPlugin instance 
-   */
-  public FBCSpeciesPlugin(Species species) {
-    super(species);		
-    initDefaults();
-
-    if (species == null) {
-      throw new IllegalArgumentException("The value of the species argument cannot be null.");
-    }
-  }
-
-
-  /**
    * Clone constructor
    */
   public FBCSpeciesPlugin(FBCSpeciesPlugin obj) {
@@ -88,6 +75,19 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
 
   }
 
+
+  /**
+   * Creates an FBCSpeciesPlugin instance 
+   */
+  public FBCSpeciesPlugin(Species species) {
+    super(species);		
+    initDefaults();
+
+    if (species == null) {
+      throw new IllegalArgumentException("The value of the species argument must not be null.");
+    }
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
    */
@@ -95,58 +95,13 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
     return new FBCSpeciesPlugin(this);
   }
 
-  /**
-   * Initializes the default values.
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
-  public void initDefaults() {}
-
-
-
-  /**
-   * Returns the value of chemicalFormula
-   *
-   * @return the value of chemicalFormula
-   */
-  public String getChemicalFormula() {
-    if (isSetChemicalFormula()) {
-      return chemicalFormula;
-    }
-    return null;
-  }
-
-  /**
-   * Returns whether chemicalFormula is set 
-   *
-   * @return whether chemicalFormula is set 
-   */
-  public boolean isSetChemicalFormula() {
-    return this.chemicalFormula != null;
-  }
-
-  /**
-   * Sets the value of chemicalFormula
-   */
-  public void setChemicalFormula(String chemicalFormula) {
-    String oldChemicalFormula = this.chemicalFormula;
-    this.chemicalFormula = chemicalFormula;
-    firePropertyChange(FBCConstants.chemicalFormula, oldChemicalFormula, this.chemicalFormula);
-  }
-
-  /**
-   * Unsets the variable chemicalFormula 
-   *
-   * @return {@code true}, if chemicalFormula was set before, 
-   *         otherwise {@code false}
-   */
-  public boolean unsetChemicalFormula() {
-    if (isSetChemicalFormula()) {
-      String oldChemicalFormula = this.chemicalFormula;
-      this.chemicalFormula = null;
-      firePropertyChange(FBCConstants.chemicalFormula, oldChemicalFormula, this.chemicalFormula);
-      return true;
-    }
+  public boolean getAllowsChildren() {
     return false;
   }
+
 
 
   /**
@@ -163,12 +118,69 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
   }
 
   /**
+   * Returns the value of chemicalFormula
+   *
+   * @return the value of chemicalFormula
+   */
+  public String getChemicalFormula() {
+    if (isSetChemicalFormula()) {
+      return chemicalFormula;
+    }
+    return null;
+  }
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildAt(int)
+   */
+  public TreeNode getChildAt(int childIndex) {
+    return null;
+  }
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildCount()
+   */
+  public int getChildCount() {
+    return 0;
+  }
+
+
+  /**
+   * Initializes the default values.
+   */
+  public void initDefaults() {}
+
+  /**
    * Returns whether charge is set 
    *
    * @return whether charge is set 
    */
   public boolean isSetCharge() {
     return isSetCharge;
+  }
+
+  /**
+   * Returns whether chemicalFormula is set 
+   *
+   * @return whether chemicalFormula is set 
+   */
+  public boolean isSetChemicalFormula() {
+    return this.chemicalFormula != null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+
+    if (attributeName.equals(FBCConstants.charge)) {
+      setCharge(StringTools.parseSBMLInt(value));
+      return true;
+    } else if (attributeName.equals(FBCConstants.chemicalFormula)) {
+      setChemicalFormula(value);
+      return true;		
+    }
+
+    return false;
   }
 
   /**
@@ -179,6 +191,15 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
     this.charge = charge;
     isSetCharge = true;
     firePropertyChange(FBCConstants.charge, oldCharge, this.charge);
+  }
+
+  /**
+   * Sets the value of chemicalFormula
+   */
+  public void setChemicalFormula(String chemicalFormula) {
+    String oldChemicalFormula = this.chemicalFormula;
+    this.chemicalFormula = chemicalFormula;
+    firePropertyChange(FBCConstants.chemicalFormula, oldChemicalFormula, this.chemicalFormula);
   }
 
   /**
@@ -198,19 +219,19 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+  /**
+   * Unsets the variable chemicalFormula 
+   *
+   * @return {@code true} if chemicalFormula was set before, 
+   *         otherwise {@code false}
    */
-  public boolean readAttribute(String attributeName, String prefix, String value) {
-
-    if (attributeName.equals(FBCConstants.charge)) {
-      setCharge(StringTools.parseSBMLInt(value));
+  public boolean unsetChemicalFormula() {
+    if (isSetChemicalFormula()) {
+      String oldChemicalFormula = this.chemicalFormula;
+      this.chemicalFormula = null;
+      firePropertyChange(FBCConstants.chemicalFormula, oldChemicalFormula, this.chemicalFormula);
       return true;
-    } else if (attributeName.equals(FBCConstants.chemicalFormula)) {
-      setChemicalFormula(value);
-      return true;		
     }
-
     return false;
   }
 
@@ -218,38 +239,16 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
    * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
    */
   public Map<String, String> writeXMLAttributes() {
-    Map<String, String> attributes = new HashMap<String, String>();;
-
+    Map<String, String> attributes = new HashMap<String, String>();
 
     if (isSetCharge) {
-      attributes.put(FBCConstants.shortLabel + ":" + FBCConstants.charge, Integer.toString(getCharge()));
+      attributes.put(FBCConstants.shortLabel + ':' + FBCConstants.charge, Integer.toString(getCharge()));
     }
     if (isSetChemicalFormula()) {
-      attributes.put(FBCConstants.shortLabel + ":" + FBCConstants.chemicalFormula, getChemicalFormula());
+      attributes.put(FBCConstants.shortLabel + ':' + FBCConstants.chemicalFormula, getChemicalFormula());
     }
 
     return attributes;
-  }
-
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#getChildAt(int)
-   */
-  public TreeNode getChildAt(int childIndex) {
-    return null;
-  }
-
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#getChildCount()
-   */
-  public int getChildCount() {
-    return 0;
-  }
-
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#getAllowsChildren()
-   */
-  public boolean getAllowsChildren() {
-    return false;
   }
 
 }
