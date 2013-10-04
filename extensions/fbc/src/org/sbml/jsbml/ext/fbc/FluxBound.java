@@ -35,28 +35,59 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
 
+  /**
+   * Allowable operations for flux bounds.
+   * 
+   * @author Andreas Dr&auml;ger
+   * @since 1.0
+   * @version $Rev$
+   */
+  public enum Operation {
+    /**
+     * lessEqual
+     */
+    LESS_EQUAL("lessEqual"),
+    /**
+     * greaterEqual
+     */
+    GREATER_EQUAL("greaterEqual"),
+    /**
+     * equal
+     */
+    EQUAL("equal");
+    
+    /**
+     * SBML attribute name.
+     */
+    private String id;
+    
+    /**
+     * Memorize the SBML attribute name as id.
+     * 
+     * @param id
+     */
+    private Operation(String id) {
+      this.id = id;
+    }
+    
+    /* (non-Javadoc)
+     * @see java.lang.Enum#toString()
+     */
+    @Override
+    public String toString() {
+      return id;
+    }
+  }
 
   /**
-   * 
+   * Generated serial version identifier.
    */
   private static final long serialVersionUID = -8885319163985464653L;
-  private String reaction;
-  private String operation; // TODO: make it an Enumeration
-  private double value;
-
   private boolean isSetValue = false;
-
-  /**
-   * 
-   * @param fb
-   */
-  public FluxBound(FluxBound fb) {
-    super(fb);
-    this.operation = new String(fb.getOperation());
-    this.reaction = new String(fb.getReaction());
-    this.value = fb.getValue();
-    this.isSetValue = fb.isSetValue();
-  }
+  private Operation operation;
+  private String reaction;
+  private Double value;
+  
 
   /**
    * Creates an instance of FluxBound.
@@ -67,13 +98,15 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * Creates a FluxBound instance with an id. 
    * 
-   * @param id
+   * @param fb
    */
-  public FluxBound(String id) {
-    super(id);
-    initDefaults();
+  public FluxBound(FluxBound fb) {
+    super(fb);
+    this.operation = fb.getOperation();
+    this.reaction = new String(fb.getReaction());
+    this.value = fb.isSetValue() ? new Double(fb.getValue()) : null;
+    this.isSetValue = fb.isSetValue();
   }
 
   /**
@@ -87,7 +120,17 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * Creates a FluxBound instance with an id, level, and version. 
+   * Creates a FluxBound instance with an id. 
+   * 
+   * @param id
+   */
+  public FluxBound(String id) {
+    super(id);
+    initDefaults();
+  }
+
+  /**
+   * Creates a {@link FluxBound} instance with an id, level, and version. 
    * 
    * @param id
    * @param level
@@ -123,10 +166,12 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * Initializes the default values using the namespace.
+   * Returns the operation
+   * 
+   * @return the operation
    */
-  public void initDefaults() {
-    addNamespace(FBCConstants.namespaceURI);
+  public Operation getOperation() {
+    return operation;
   }
 
   // TODO: re-write the getters and setters using the new template to get the change events launched.
@@ -141,45 +186,26 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * Sets the the reaction id
-   * 
-   * @param reaction the reaction id to set
-   */
-  public void setReaction(String reaction) {
-    this.reaction = reaction;
-  }
-
-  /**
-   * Returns the operation
-   * 
-   * @return the operation
-   */
-  public String getOperation() {
-    return operation;
-  }
-
-  /**
-   * @param operation the operation to set
-   */
-  public void setOperation(String operation) {
-    this.operation = operation;
-  }
-
-  /**
    * Returns the value
    * 
    * @return the value
    */
   public double getValue() {
-    return value;
+    return isSetValue() ? value : Double.valueOf(0d);
   }
 
   /**
-   * @param value the value to set
+   * Initializes the default values using the namespace.
    */
-  public void setValue(double value) {
-    this.value = value;
-    isSetValue = true;
+  public void initDefaults() {
+    addNamespace(FBCConstants.namespaceURI);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    return false;
   }
 
   /**
@@ -188,13 +214,6 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public boolean isSetValue() {
     return isSetValue;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
-   */
-  public boolean isIdMandatory() {
-    return false;
   }
 
   /* (non-Javadoc)
@@ -208,11 +227,11 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
     if (!isAttributeRead) {
       isAttributeRead = true;
 
-      if (attributeName.equals("reaction")) {
+      if (attributeName.equals(FBCConstants.reaction)) {
         setReaction(value);
-      } else if (attributeName.equals("operation")) {
-        setOperation(value);
-      } else if (attributeName.equals("value")) {
+      } else if (attributeName.equals(FBCConstants.operation)) {
+        setOperation(Operation.valueOf(value));
+      } else if (attributeName.equals(FBCConstants.value)) {
         setValue(StringTools.parseSBMLDouble(value));
       } else {
         isAttributeRead = false;
@@ -223,6 +242,37 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
     return isAttributeRead;
   }
 
+  /**
+   * 
+   * @param operation  the operation to set
+   */
+  public void setOperation(Operation operation) {
+    Operation oldOperation = this.operation;
+    this.operation = operation;
+    firePropertyChange(FBCConstants.operation, oldOperation, operation);
+  }
+
+  /**
+   * Sets the the reaction id
+   * 
+   * @param reaction the reaction id to set
+   */
+  public void setReaction(String reaction) {
+    String oldReaction = this.reaction;
+    this.reaction = reaction;
+    firePropertyChange(FBCConstants.reaction, oldReaction, reaction);
+  }
+
+  /**
+   * @param value the value to set
+   */
+  public void setValue(double value) {
+    Double oldValue = this.value;
+    this.value = value;
+    isSetValue = true;
+    firePropertyChange(FBCConstants.value, oldValue, this.value);
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
    */
@@ -231,13 +281,13 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
     Map<String, String> attributes = super.writeXMLAttributes();
 
     if (reaction != null) {
-      attributes.put(FBCConstants.shortLabel + ":reaction", getReaction());			
+      attributes.put(FBCConstants.shortLabel + ':' + FBCConstants.reaction, getReaction());			
     }
     if (operation != null) {
-      attributes.put(FBCConstants.shortLabel + ":operation", getOperation());
+      attributes.put(FBCConstants.shortLabel + ':' + FBCConstants.operation, getOperation().toString());
     }
     if (isSetValue()) {
-      attributes.put(FBCConstants.shortLabel + ":value", StringTools.toString(getValue()));
+      attributes.put(FBCConstants.shortLabel + ':' + FBCConstants.value, StringTools.toString(getValue()));
     }
     if (isSetId()) {
       attributes.remove("id");
@@ -245,14 +295,6 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
     }
 
     return attributes;
-  }
-
-  /**
-   * 
-   * @param operation
-   */
-  public void setOperation(Operation operation) {
-    setOperation(operation.name());
   }
 
 }

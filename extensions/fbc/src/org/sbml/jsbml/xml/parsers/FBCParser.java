@@ -295,18 +295,15 @@ public class FBCParser implements ReadingParser, WritingParser {
 			Object sbmlElementToWrite) {
 		if (sbmlElementToWrite instanceof SBase) {
 			SBase sbase = (SBase) sbmlElementToWrite;
-
 			xmlObject.addAttributes(sbase.writeXMLAttributes());
 		}
-
 	}
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeCharacters(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
 	 */
 	public void writeCharacters(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) 
-	{
+			Object sbmlElementToWrite) {
 		logger.error("writeCharacters: Group elements do not have any characters!");
 	}
 
@@ -351,8 +348,7 @@ public class FBCParser implements ReadingParser, WritingParser {
 	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeNamespaces(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
 	 */
 	public void writeNamespaces(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) 
-	{
+			Object sbmlElementToWrite) {
 		if (sbmlElementToWrite instanceof SBase) {
 			// SBase sbase = (SBase) sbmlElementToWrite;
 

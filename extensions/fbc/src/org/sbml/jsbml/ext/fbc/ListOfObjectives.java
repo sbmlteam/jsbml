@@ -30,13 +30,20 @@ import org.sbml.jsbml.ListOf;
  */
 public class ListOfObjectives extends ListOf<Objective> {
 
-	private String activeObjective; 
+	/**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 8684683156123793632L;
+  
+  /**
+   * 
+   */
+  private String activeObjective; 
 	
 	/**
 	 * 
 	 */
-	public ListOfObjectives() 
-	{
+	public ListOfObjectives() {
 		super();
 	}
 
@@ -44,8 +51,7 @@ public class ListOfObjectives extends ListOf<Objective> {
 	 * @param level
 	 * @param version
 	 */
-	public ListOfObjectives(int level, int version) 
-	{
+	public ListOfObjectives(int level, int version) {
 		super(level, version);
 	}
 
@@ -56,8 +62,7 @@ public class ListOfObjectives extends ListOf<Objective> {
 		super(listOf);
 
 		// copy attribute
-		if (listOf.isSetActiveObjective())
-		{
+		if (listOf.isSetActiveObjective()) {
 			setActiveObjective(listOf.getActiveObjective());
 		}
 	}
@@ -114,8 +119,8 @@ public class ListOfObjectives extends ListOf<Objective> {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
 	 */
-	public Map<String, String> writeXMLAttributes() 
-	{
+	@Override
+	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetActiveObjective()) 
@@ -129,9 +134,9 @@ public class ListOfObjectives extends ListOf<Objective> {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ListOf#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
+	@Override
 	public boolean readAttribute(String attributeName, String prefix,
-			String value) 
-	{
+			String value) {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 		
 		if (!isAttributeRead) 
@@ -148,4 +153,5 @@ public class ListOfObjectives extends ListOf<Objective> {
 
 		return isAttributeRead;
 	}
+
 }
