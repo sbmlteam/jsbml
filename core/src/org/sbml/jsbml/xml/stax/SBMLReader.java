@@ -54,6 +54,7 @@ import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.util.SimpleTreeNodeChangeListener;
 import org.sbml.jsbml.util.StringTools;
@@ -678,10 +679,16 @@ public class SBMLReader {
 				else if (currentNode.getLocalPart().equals("notes")) 
 				{
 					// get the sbml namespace as some element can have similar names in different namespaces
-					SBMLDocument sbmlDoc = (SBMLDocument) sbmlElements.firstElement();
-					String sbmlNamespace = sbmlDoc.getSBMLDocumentNamespaces().get("xmlns");
+					SBase firstElement = (SBase) sbmlElements.firstElement();
+					
+					if (firstElement instanceof SBMLDocument) {
+						SBMLDocument sbmlDoc = (SBMLDocument) firstElement;
+						String sbmlNamespace = sbmlDoc.getSBMLDocumentNamespaces().get("xmlns");
 
-					if (currentNode.getNamespaceURI().equals(sbmlNamespace)) {
+						if (currentNode.getNamespaceURI().equals(sbmlNamespace)) {
+							isInsideNotes = true;
+						}
+					} else if (firstElement instanceof Constraint) { // we are reading a partial document from SBMLReader#readNotes for example
 						isInsideNotes = true;
 					}
 				}
