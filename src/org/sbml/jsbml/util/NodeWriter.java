@@ -40,10 +40,10 @@ public interface NodeWriter {
 	 * Writes an XML DOM node to a byte stream.
 	 * 
 	 * @param node
-	 *            The <code>org.w3c.dom.Node</code> instance representing the
-	 *            XML DOM node to be written to <code>byteStream</code>.
+	 *            The {@code org.w3c.dom.Node} instance representing the
+	 *            XML DOM node to be written to {@code byteStream}.
 	 * @param byteStream
-	 *            The byte stream where <code>node</code> is to be written.
+	 *            The byte stream where {@code node} is to be written.
 	 * @param indent
 	 *            Flag to indicate whether the output should be indented or not.
 	 * 
@@ -55,10 +55,10 @@ public interface NodeWriter {
 	 * Writes an XML DOM node to a character stream.
 	 * 
 	 * @param node
-	 *            The <code>org.w3c.dom.Node</code> instance representing the
-	 *            XML DOM node to be written to <code>characterStream</code>.
+	 *            The {@code org.w3c.dom.Node} instance representing the
+	 *            XML DOM node to be written to {@code characterStream}.
 	 * @param characterStream
-	 *            The character stream where <code>node</code> is to be written.
+	 *            The character stream where {@code node} is to be written.
 	 * @param indent
 	 *            Flag to indicate whether the output should be indented or not.
 	 * 

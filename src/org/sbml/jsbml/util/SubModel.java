@@ -735,12 +735,12 @@ public class SubModel {
     //
     
     /**
-     * Returns an array of reaction id related to the <code>reactsIds</code> or <code>speciesIds</code>.
+     * Returns an array of reaction id related to the {@code reactsIds} or {@code speciesIds}.
      * 
-     * All the reactions in <code>reactsIds</code> should be part of the result if 
+     * All the reactions in {@code reactsIds} should be part of the result if 
      * the function is called properly with valid reacionId.
      * <br>
-     * The {@link Reaction}s, where the {@link Species} in the <code>speciesIds</code> array are involved as reactant, 
+     * The {@link Reaction}s, where the {@link Species} in the {@code speciesIds} array are involved as reactant, 
      * product or modifier, are added in the returned reaction id array.
      * 
      * @param model the original model from which a sub-model is to be created.

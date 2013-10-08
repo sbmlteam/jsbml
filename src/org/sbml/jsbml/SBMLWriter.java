@@ -31,18 +31,16 @@ import javax.xml.stream.XMLStreamException;
 /**
  * Provides methods for writing SBML to files, text strings or streams.
  * <p>
- * This {@link SBMLWriter} is just a wrapper for the actual implementation
- * in {@link org.sbml.jsbml.xml.stax.SBMLWriter}.
+ * This {@link SBMLWriter} is just a wrapper for the actual implementation in
+ * {@link org.sbml.jsbml.xml.stax.SBMLWriter}.
  * <p>
- * This class is
- * provided for compatibility with libSBML and to avoid problems if the 
- * internal of jsbml change, so it is preferable to use it instead of directly 
- * using {@link org.sbml.jsbml.xml.stax.SBMLWriter}.
- * 
- * The {@link SBMLWriter} class is the converse of {@link SBMLReader}, and provides the
- * main interface for serializing SBML models into XML and writing the
- * result to files and text strings.  The methods for writing SBML all take
- * an {@link SBMLDocument} object and a destination.
+ * This class is provided for compatibility with libSBML and to avoid problems
+ * if the internal of jsbml change, so it is preferable to use it instead of
+ * directly using {@link org.sbml.jsbml.xml.stax.SBMLWriter}. The
+ * {@link SBMLWriter} class is the converse of {@link SBMLReader}, and provides
+ * the main interface for serializing SBML models into XML and writing the
+ * result to files and text strings. The methods for writing SBML all take an
+ * {@link SBMLDocument} object and a destination.
  * 
  * @author Andreas Dr&auml;ger
  * @author Nicolas Rodriguez

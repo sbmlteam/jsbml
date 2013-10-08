@@ -91,9 +91,9 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 
 	/**
 	 * 
-	 * Creates and returns a new <code>JAXPFacade</code>.
+	 * Creates and returns a new {@code JAXPFacade}.
 	 * 
-	 * @return A new <code>JAXPFacade</code>.
+	 * @return A new {@code JAXPFacade}.
 	 * 
 	 */
 	public static JAXPFacade getInstance() {
@@ -103,20 +103,20 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	/**
 	 * 
 	 * Writes an XML DOM node to the specified character stream, using a
-	 * <code>javax.xml.transform.Transformer</code> instance created from
-	 * <code>streamSource</code>.
+	 * {@code javax.xml.transform.Transformer} instance created from
+	 * {@code streamSource}.
 	 * 
 	 * @param node
-	 *            The <code>org.w3c.dom.Node</code> instance representing the
-	 *            XML DOM node to be written to <code>characterStream</code>.
+	 *            The {@code org.w3c.dom.Node} instance representing the
+	 *            XML DOM node to be written to {@code characterStream}.
 	 * @param characterStream
-	 *            The character stream where <code>node</code> is to be written.
+	 *            The character stream where {@code node} is to be written.
 	 * @param streamSource
 	 *            An object that holds an URI, input stream, etc.
 	 * @param indent
 	 *            Flag to indicate whether the output should be indented or not.
 	 * @throws NullPointerException
-	 *             If <code>node</code> or <code>characterStream</code> are
+	 *             If {@code node} or {@code characterStream} are
 	 *             {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (transformer configuration errors,
@@ -164,12 +164,12 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 * @param namespaceAware
 	 *            A flag to indicate whether the parser should know about
 	 *            namespaces or not.
-	 * @return The <code>org.w3c.dom.Document</code> instance representing the
-	 *         XML DOM document created from the <code>byteStream</code> XML
+	 * @return The {@code org.w3c.dom.Document} instance representing the
+	 *         XML DOM document created from the {@code byteStream} XML
 	 *         content.
 	 * @throws SAXException
 	 * @throws NullPointerException
-	 *             If <code>byteStream</code> is {@code null}.
+	 *             If {@code byteStream} is {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (parser configuration errors, I/O errors,
 	 *             SAX parsing errors).
@@ -207,26 +207,26 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 *            The byte stream whose content is parsed as XML to create the
 	 *            XML DOM document.
 	 * @param schemas
-	 *            An optional array of either <code>java.io.File</code>
+	 *            An optional array of either {@code java.io.File}
 	 *            instances containing the abstract pathnames, or of
-	 *            <code>java.io.String</code> instances containing the URIs,
+	 *            {@code java.io.String} instances containing the URIs,
 	 *            pointing to the schemas to use in the validation process. If
 	 *            set to {@code null}, the schemas defined in the data set
 	 *            will be used. If set to {@code null} and no schemas are
 	 *            found in the data set, an
-	 *            <code>org.xml.sax.SAXParseException</code> is thrown.
+	 *            {@code org.xml.sax.SAXParseException} is thrown.
 	 * @param handler
 	 *            The error handler to be used to report errors occurred while
-	 *            parsing the <code>byteStream</code> XML content. Setting this
+	 *            parsing the {@code byteStream} XML content. Setting this
 	 *            to {@code null} will result in the underlying
 	 *            implementation using it's own default implementation and
 	 *            behavior.
-	 * @return The <code>org.w3c.dom.Document</code> instance representing the
-	 *         XML DOM document created from the <code>byteStream</code> XML
+	 * @return The {@code org.w3c.dom.Document} instance representing the
+	 *         XML DOM document created from the {@code byteStream} XML
 	 *         content.
 	 * @throws SAXException
 	 * @throws NullPointerException
-	 *             If <code>byteStream</code> is {@code null}.
+	 *             If {@code byteStream} is {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (parser configuration errors, I/O errors,
 	 *             SAX parsing errors).
@@ -277,12 +277,12 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 * @param namespaceAware
 	 *            A flag to indicate whether the parser should know about
 	 *            namespaces or not.
-	 * @return The <code>org.w3c.dom.Document</code> instance representing the
-	 *         XML DOM document created from the <code>characterStream</code>
+	 * @return The {@code org.w3c.dom.Document} instance representing the
+	 *         XML DOM document created from the {@code characterStream}
 	 *         XML content.
 	 * @throws SAXException
 	 * @throws NullPointerException
-	 *             If <code>characterStream</code> is {@code null}.
+	 *             If {@code characterStream} is {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (parser configuration errors, I/O errors,
 	 *             SAX parsing errors).
@@ -320,25 +320,25 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 *            The character stream whose content is parsed as XML to create
 	 *            the XML DOM document.
 	 * @param schemas
-	 *            An optional array of either <code>java.io.File</code>
+	 *            An optional array of either {@code java.io.File}
 	 *            instances containing the abstract pathnames, or of
-	 *            <code>java.io.String</code> instances containing the URIs,
+	 *            {@code java.io.String} instances containing the URIs,
 	 *            pointing to the schemas to use in the validation process. If
 	 *            set to {@code null}, the schemas defined in the data set
 	 *            will be used. If set to {@code null} and no schemas are
 	 *            found in the data set, an
-	 *            <code>org.xml.sax.SAXParseException</code> is thrown.
+	 *            {@code org.xml.sax.SAXParseException} is thrown.
 	 * @param handler
 	 *            The error handler to be used to report errors occurred while
-	 *            parsing the <code>characterStream</code> XML content. Setting
+	 *            parsing the {@code characterStream} XML content. Setting
 	 *            this to {@code null} will result in the underlying
 	 *            implementation using it's own default implementation and
 	 *            behavior.
-	 * @return The <code>org.w3c.dom.Document</code> instance representing the
-	 *         XML DOM document created from the <code>characterStream</code>
+	 * @return The {@code org.w3c.dom.Document} instance representing the
+	 *         XML DOM document created from the {@code characterStream}
 	 *         XML content.
 	 * @throws NullPointerException
-	 *             If <code>characterStream</code> is {@code null}.
+	 *             If {@code characterStream} is {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (parser configuration errors, I/O errors,
 	 *             SAX parsing errors).
@@ -387,12 +387,12 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 *            The byte stream which content has to be parsed as XML.
 	 * @param handler
 	 *            The SAX2 default event handler to use for parsing
-	 *            <code>byteStream</code>.
+	 *            {@code byteStream}.
 	 * @param namespaceAware
 	 *            A flag to indicate whether the parser should know about
 	 *            namespaces or not.
 	 * @throws NullPointerException
-	 *             If <code>byteStream</code> or <code>handler</code> are
+	 *             If {@code byteStream} or {@code handler} are
 	 *             {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (parser configuration errors, I/O errors,
@@ -435,18 +435,18 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 *            The byte stream which content has to be parsed as XML.
 	 * @param handler
 	 *            The SAX2 default event handler to use for parsing
-	 *            <code>byteStream</code>.
+	 *            {@code byteStream}.
 	 * @param schemas
-	 *            An optional array of either <code>java.io.File</code>
+	 *            An optional array of either {@code java.io.File}
 	 *            instances containing the abstract pathnames, or of
-	 *            <code>java.io.String</code> instances containing the URIs,
+	 *            {@code java.io.String} instances containing the URIs,
 	 *            pointing to the schemas to use in the validation process. If
 	 *            set to {@code null}, the schemas defined in the data set
 	 *            will be used. If set to {@code null} and no schemas are
 	 *            found in the data set, an
-	 *            <code>org.xml.sax.SAXParseException</code> is thrown.
+	 *            {@code org.xml.sax.SAXParseException} is thrown.
 	 * @throws NullPointerException
-	 *             If <code>byteStream</code> or <code>handler</code> are
+	 *             If {@code byteStream} or {@code handler} are
 	 *             {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (parser configuration errors, I/O errors,
@@ -497,12 +497,12 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 *            The character stream which content has to be parsed as XML.
 	 * @param handler
 	 *            The SAX2 default event handler to use for parsing
-	 *            <code>characterStream</code>.
+	 *            {@code characterStream}.
 	 * @param namespaceAware
 	 *            A flag to indicate whether the parser should know about
 	 *            namespaces or not.
 	 * @throws NullPointerException
-	 *             If <code>characterStream</code> or <code>handler</code> are
+	 *             If {@code characterStream} or {@code handler} are
 	 *             {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (parser configuration errors, I/O errors,
@@ -546,18 +546,18 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 *            The character stream which content has to be parsed as XML.
 	 * @param handler
 	 *            The SAX2 default event handler to use for parsing
-	 *            <code>characterStream</code>.
+	 *            {@code characterStream}.
 	 * @param schemas
-	 *            An optional array of either <code>java.io.File</code>
+	 *            An optional array of either {@code java.io.File}
 	 *            instances containing the abstract pathnames, or of
-	 *            <code>java.io.String</code> instances containing the URIs,
+	 *            {@code java.io.String} instances containing the URIs,
 	 *            pointing to the schemas to use in the validation process. If
 	 *            set to {@code null}, the schemas defined in the data set
 	 *            will be used. If set to {@code null} and no schemas are
 	 *            found in the data set, an
-	 *            <code>org.xml.sax.SAXParseException</code> is thrown.
+	 *            {@code org.xml.sax.SAXParseException} is thrown.
 	 * @throws NullPointerException
-	 *             If <code>characterStream</code> or <code>handler</code> are
+	 *             If {@code characterStream} or {@code handler} are
 	 *             {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (parser configuration errors, I/O errors,
@@ -604,14 +604,14 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 * Writes an XML DOM node to the specified byte stream.
 	 * 
 	 * @param node
-	 *            The <code>org.w3c.dom.Node</code> instance representing the
-	 *            XML DOM node to be written to <code>byteStream</code>.
+	 *            The {@code org.w3c.dom.Node} instance representing the
+	 *            XML DOM node to be written to {@code byteStream}.
 	 * @param byteStream
-	 *            The byte stream where <code>node</code> is to be written.
+	 *            The byte stream where {@code node} is to be written.
 	 * @param indent
 	 *            Flag to indicate whether the output should be indented or not.
 	 * @throws NullPointerException
-	 *             If <code>node</code> or <code>byteStream</code> are
+	 *             If {@code node} or {@code byteStream} are
 	 *             {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (transformer configuration errors,
@@ -626,20 +626,20 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	/**
 	 * 
 	 * Writes an XML DOM node to the specified byte stream, using a
-	 * <code>javax.xml.transform.Transformer</code> instance created from
-	 * <code>streamSource</code>.
+	 * {@code javax.xml.transform.Transformer} instance created from
+	 * {@code streamSource}.
 	 * 
 	 * @param node
-	 *            The <code>org.w3c.dom.Node</code> instance representing the
-	 *            XML DOM node to be written to <code>byteStream</code>.
+	 *            The {@code org.w3c.dom.Node} instance representing the
+	 *            XML DOM node to be written to {@code byteStream}.
 	 * @param byteStream
-	 *            The byte stream where <code>node</code> is to be written.
+	 *            The byte stream where {@code node} is to be written.
 	 * @param streamSource
 	 *            An object that holds an URI, input stream, etc.
 	 * @param indent
 	 *            Flag to indicate whether the output should be indented or not.
 	 * @throws NullPointerException
-	 *             If <code>node</code> or <code>byteStream</code> are
+	 *             If {@code node} or {@code byteStream} are
 	 *             {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (transformer configuration errors,
@@ -673,14 +673,14 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
 	 * Writes an XML DOM node to the specified character stream.
 	 * 
 	 * @param node
-	 *            The <code>org.w3c.dom.Node</code> instance representing the
-	 *            XML DOM node to be written to <code>characterStream</code>.
+	 *            The {@code org.w3c.dom.Node} instance representing the
+	 *            XML DOM node to be written to {@code characterStream}.
 	 * @param characterStream
-	 *            The character stream where <code>node</code> is to be written.
+	 *            The character stream where {@code node} is to be written.
 	 * @param indent
 	 *            Flag to indicate whether the output should be indented or not.
 	 * @throws NullPointerException
-	 *             If <code>node</code> or <code>characterStream</code> are
+	 *             If {@code node} or {@code characterStream} are
 	 *             {@code null}.
 	 * @throws RuntimeException
 	 *             If any error occurs (transformer configuration errors,

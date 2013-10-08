@@ -62,7 +62,7 @@ public class StringTools {
 	public static final String SCIENTIFIC_FORMAT = "#.###########################################E0";
 	
 	/**
-	 * The {@link Character} <code>'_'</code> as a {@link String}.
+	 * The {@link Character} {@code '_'} as a {@link String}.
 	 */
 	public static final String underscore = Character.valueOf('_').toString();
 
@@ -284,10 +284,10 @@ public class StringTools {
   }
 
 	/**
-	 * Ensures a minimum size of <code>length</code> for the given
-	 * <code>stringBuilder</code>. Therefore, the given
-	 * <code>symbol</code> will be put at the beginning of the
-	 * string, until it reaches the given <code>length</code>.
+	 * Ensures a minimum size of {@code length} for the given
+	 * {@code stringBuilder}. Therefore, the given
+	 * {@code symbol} will be put at the beginning of the
+	 * string, until it reaches the given {@code length}.
    * @param length
    * @param symbol
    * @param stringBuilder

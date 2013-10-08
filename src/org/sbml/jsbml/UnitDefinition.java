@@ -46,12 +46,12 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 	/**
 	 * Identifier of the (for SBML Level 2) predefined {@link UnitDefinition}
-	 * <code>area</code>.
+	 * {@code area}.
 	 */
 	public static final String AREA = "area";
 	/**
 	 * Identifier of the (for SBML Level 2) predefined {@link UnitDefinition}
-	 * <code>length</code>.
+	 * {@code length}.
 	 */
 	public static final String LENGTH = "length";
 	/**
@@ -64,17 +64,17 @@ public class UnitDefinition extends AbstractNamedSBase {
 	public static final long serialVersionUID = -4705380036260408123L;
 	/**
 	 * Identifier of the (for the SBML Levels 1 and 2) predefined
-	 * {@link UnitDefinition} <code>substance</code>.
+	 * {@link UnitDefinition} {@code substance}.
 	 */
 	public static final String SUBSTANCE = "substance";
 	/**
 	 * Identifier of the (for the SBML Levels 1 and 2) predefined
-	 * {@link UnitDefinition} <code>time</code>.
+	 * {@link UnitDefinition} {@code time}.
 	 */
 	public static final String TIME = "time";
 	/**
 	 * Identifier of the (for some SBML Levels 1 and 2) predefined
-	 * {@link UnitDefinition} <code>volume</code>.
+	 * {@link UnitDefinition} {@code volume}.
 	 */
 	public static final String VOLUME = "volume";
 

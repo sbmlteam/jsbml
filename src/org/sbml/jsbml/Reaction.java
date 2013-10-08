@@ -267,7 +267,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	
 	/**
 	 * Creates a new {@link ModifierSpeciesReference} with the given
-	 * <code>id</code> as its identifier, which points to the given
+	 * {@code id} as its identifier, which points to the given
 	 * {@link Species}, adds it to this {@link Reaction}'s
 	 * {@link #listOfModifiers}, and returns a pointer to it.
 	 * 
@@ -286,8 +286,8 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 
 	/**
 	 * Creates a new {@link ModifierSpeciesReference} with the given
-	 * <code>id</code> as its identifier, which points to the {@link Species}
-	 * with the given <code>id</code>, adds it to this {@link Reaction}'s
+	 * {@code id} as its identifier, which points to the {@link Species}
+	 * with the given {@code id}, adds it to this {@link Reaction}'s
 	 * {@link #listOfModifiers}, and returns a pointer to it.
 	 * 
 	 * @param id
@@ -344,7 +344,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	}
 	
 	/**
-	 * Creates a new {@link SpeciesReference} with the given <code>id</code> as
+	 * Creates a new {@link SpeciesReference} with the given {@code id} as
 	 * its identifier, which points to the given {@link Species}, adds it to
 	 * this {@link Reaction}'s {@link #listOfProducts} and returns a pointer to
 	 * it.
@@ -413,7 +413,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	}
 
 	/**
-	 * Creates a new {@link SpeciesReference} with the given <code>id</code> as
+	 * Creates a new {@link SpeciesReference} with the given {@code id} as
 	 * identifier, which points to the given {@link Species} and adds it to the
 	 * {@link #listOfReactants}.
 	 * 

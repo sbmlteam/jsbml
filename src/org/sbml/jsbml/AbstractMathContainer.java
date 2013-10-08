@@ -66,7 +66,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	/**
 	 * Creates a MathContainer instance from a given MathContainer.
 	 * 
-	 * @param sb an <code>AbstractMathContainer</code> object to clone
+	 * @param sb an {@code AbstractMathContainer} object to clone
 	 */
 	public AbstractMathContainer(AbstractMathContainer sb) {
 		super(sb);

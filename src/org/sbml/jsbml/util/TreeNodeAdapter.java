@@ -39,13 +39,13 @@ import org.sbml.jsbml.ListOf;
  * into a tree data structure as represented by {@link AbstractTreeNode}, but
  * that might by itself not be an instance of {@link TreeNode}, i.e., not
  * compatible with the remaining tree data structure. In analogy to
- * {@link MutableTreeNode} we call this {@link Object} <code>userObject</code>
+ * {@link MutableTreeNode} we call this {@link Object} {@code userObject}
  * (see {@link #getUserObject()} and {@link #setUserObject(Object)}).
  * </p>
  * <p>
  * This wrapper distinguishes the following special cases depending on the type
- * of <code>userObject</code> when accessing the i-th child of this
- * {@link TreeNode}. The <code>userObject</code> is an instance of
+ * of {@code userObject} when accessing the i-th child of this
+ * {@link TreeNode}. The {@code userObject} is an instance of
  * <ul>
  * <li>{@link TreeNode}: recursive operations are continued at this element</li>
  * <li>{@link Collection}: recursion leads to the i-th element in the
