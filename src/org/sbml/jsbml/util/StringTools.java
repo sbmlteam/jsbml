@@ -602,7 +602,14 @@ public class StringTools {
 		} else if (!notes.trim().startsWith("<" + surroundingTagName)) { 
 			// we assume the surrounding XML tag is missing
 			StringBuilder sb = new StringBuilder();
-			sb.append("<").append(surroundingTagName).append(">\n");
+			sb.append("<").append(surroundingTagName);
+			
+			if (surroundingTagName.equals("notes")) {
+				// hack to add a frequently used html namespace declaration
+				// Should not hurt if it is declared as well in the notes
+				sb.append(" xmlns:html=\"http://www.w3.org/1999/xhtml\"");
+			}
+			sb.append(">\n");
 			sb.append(notes);
 			sb.append("\n</").append(surroundingTagName).append(">\n");
 			return sb.toString();
