@@ -124,28 +124,33 @@ public class XMLNode extends XMLToken {
 	 */
 	private static SBMLReader notesReader = new SBMLReader();
 	
-	/**
-	 * Returns an {@link XMLNode} which is derived from a string containing XML
-	 * content.
-	 * <p>
-	 * The XML namespace must be defined using argument <code>xmlns</code> if the
-	 * corresponding XML namespace attribute is not part of the string of the
-	 * first argument.
-	 * <p>
-	 * @param xmlstr string to be converted to a XML node.
-	 * @param xmlns {@link XMLNamespaces} the namespaces to set (default value is NULL).
-	 * <p>
-	 * @jsbml.note The caller owns the returned {@link XMLNode} and is reponsible for deleting it.
-	 * The returned {@link XMLNode} object is a dummy root (container) {@link XMLNode} if the top-level 
-	 * element in the given XML string is NOT <code>html</code>, <code>body</code>, <code>annotation</code>, <code>notes</code>.
-	 * In the dummy root node, each top-level element in the given XML string is contained
-	 * as a child {@link XMLNode}. XMLToken.isEOF() can be used to identify if the returned {@link XMLNode} 
-	 * object is a dummy node.
-	 * <p>
-	 * @return a {@link XMLNode} which is converted from string <code>xmlstr</code>. NULL is returned
-	 * if the conversion failed. 
-	 * 
-	 */
+
+  /**
+   * Returns an {@link XMLNode} which is derived from a {@link String} 
+   * containing XML content.
+   * <p>
+   * The XML namespace must be defined using argument {@code xmlns} if the
+   * corresponding XML namespace attribute is not part of the {@link String} of
+   * the first argument.
+   * 
+   * @param xmlstr
+   *        {@link String} to be converted to a XML node.
+   * @param xmlns
+   *        {@link XMLNamespaces} the namespaces to set (default value is
+   *        {@code null}).
+   * @jsbml.note The caller owns the returned {@link XMLNode} and is responsible
+   *             for deleting it.
+   *             The returned {@link XMLNode} object is a dummy root (container)
+   *             {@link XMLNode} if the top-level element in the given XML
+   *             {@link String} is NOT {@code html}, {@code body},
+   *             {@code annotation}, {@code notes}.
+   *             In the dummy root node, each top-level element in the given XML
+   *             string is contained as a child {@link XMLNode}.
+   *             {@link XMLToken#isEOF()} can be used to identify if the
+   *             returned {@link XMLNode} object is a dummy node.
+   * @return a {@link XMLNode} which is converted from string {@code xmlstr}.
+   *         {@code null} is returned if the conversion failed.
+   */
 	public static XMLNode convertStringToXMLNode(String xmlstr) {
 		try {
 		  /* Initializing the SBMLReader again and again
@@ -164,21 +169,21 @@ public class XMLNode extends XMLToken {
 	 * Returns an {@link XMLNode} which is derived from a string containing XML
 	 * content.
 	 * <p>
-	 * The XML namespace must be defined using argument <code>xmlns</code> if the
+	 * The XML namespace must be defined using argument {@code xmlns} if the
 	 * corresponding XML namespace attribute is not part of the string of the
 	 * first argument.
 	 * <p>
 	 * @param xmlstr string to be converted to a XML node.
-	 * @param xmlns {@link XMLNamespaces} the namespaces to set (default value is NULL). This argument is ignored at the moment.
+	 * @param xmlns {@link XMLNamespaces} the namespaces to set (default value is {@code null}). This argument is ignored at the moment.
 	 * <p>
 	 * @jsbml.note The caller owns the returned {@link XMLNode} and is reponsible for deleting it.
 	 * The returned {@link XMLNode} object is a dummy root (container) {@link XMLNode} if the top-level 
-	 * element in the given XML string is NOT <code>html</code>, <code>body</code>, <code>annotation</code>, <code>notes</code>.
+	 * element in the given XML string is NOT {@code html}, {@code body}, {@code annotation}, {@code notes}.
 	 * In the dummy root node, each top-level element in the given XML string is contained
 	 * as a child {@link XMLNode}. XMLToken.isEOF() can be used to identify if the returned {@link XMLNode} 
 	 * object is a dummy node.
 	 * <p>
-	 * @return a {@link XMLNode} which is converted from string <code>xmlstr</code>. NULL is returned
+	 * @return a {@link XMLNode} which is converted from string {@code xmlstr}. {@code null} is returned
 	 * if the conversion failed. 
 	 * 
 	 */
@@ -200,7 +205,7 @@ public class XMLNode extends XMLToken {
 	 * <p>
 	 * @param node the {@link XMLNode} to be represented as a string
 	 * <p>
-	 * @return a string-form representation of <code>node</code>
+	 * @return a string-form representation of {@code node}
 	 */
 	public static String convertXMLNodeToString(XMLNode node) {
 		return node.toXMLString();
@@ -423,7 +428,7 @@ public class XMLNode extends XMLToken {
 	/**
 	 * Adds a child to this {@link XMLNode}.
 	 * <p>
-	 * The given <code>node</code> is added at the end of the list of children.
+	 * The given {@code node} is added at the end of the list of children.
 	 * <p>
 	 * @param node the {@link XMLNode} to be added as child.
 	 * <p>
@@ -489,17 +494,17 @@ public class XMLNode extends XMLToken {
 	}
 
 	/**
-	 * Inserts a node as the <code>n</code>th child of this
+	 * Inserts a node as the {@code n}th child of this
 	 * {@link XMLNode}.
 	 * <p>
-	 * If the given index <code>n</code> is out of range for this {@link XMLNode} instance,
-	 * the <code>node</code> is added at the end of the list of children.  Even in
+	 * If the given index {@code n} is out of range for this {@link XMLNode} instance,
+	 * the {@code node} is added at the end of the list of children.  Even in
 	 * that situation, this method does not throw an error.
 	 * <p>
 	 * @param n an integer, the index at which the given node is inserted
-	 * @param node an {@link XMLNode} to be inserted as <code>n</code>th child.
+	 * @param node an {@link XMLNode} to be inserted as {@code n}th child.
 	 * <p>
-	 * @return a reference to the newly-inserted child <code>node</code>
+	 * @return a reference to the newly-inserted child {@code node}
 	 */
 	public XMLNode insertChild(int n, XMLNode node) {
 		if (node == null) {
@@ -522,18 +527,18 @@ public class XMLNode extends XMLToken {
 	}
 
 	/**
-	 * Removes the <code>n</code>th child of this {@link XMLNode} and returns the
+	 * Removes the {@code n}th child of this {@link XMLNode} and returns the
 	 * removed node.
 	 * <p>
 	 * It is important to keep in mind that a given {@link XMLNode} may have more
 	 * than one child.  Calling this method erases all existing references to
-	 * child nodes <em>after</em> the given position <code>n</code>.  If the index <code>n</code> is
+	 * child nodes <em>after</em> the given position {@code n}.  If the index {@code n} is
 	 * greater than the number of child nodes in this {@link XMLNode}, this method
-	 * takes no action (and returns NULL).
+	 * takes no action (and returns {@code null}).
 	 * <p>
 	 * @param n an integer, the index of the node to be removed
 	 * <p>
-	 * @return the removed child, or NULL if <code>n</code> is greater than the number
+	 * @return the removed child, or {@code null} if {@code n} is greater than the number
 	 * of children in this node
 	 * <p>
 	 * @jsbml.note The caller owns the returned node and is responsible for deleting it.

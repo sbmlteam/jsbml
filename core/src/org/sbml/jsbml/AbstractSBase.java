@@ -339,12 +339,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		firePropertyChange(TreeNodeChangeEvent.addExtension, null, sbase);
 	}
 
-	/**
-	 * Adds an additional namespace to the set of namespaces of this
-	 * {@link SBase} if the given namespace is not yet present within this
-	 * {@link SortedSet}.
-	 * 
-	 * @param namespace the namespace to add
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBase#addNamespace(java.lang.String)
 	 */
 	public void addNamespace(String namespace) {
 		this.usedNamespaces.add(namespace);
@@ -697,12 +693,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	/**
 	 * Checks whether or not the given {@link SBase} has the same level and
 	 * version configuration than this element. If the L/V combination for the
-	 * given <code>sbase</code> is not yet defined, this method sets it to the
+	 * given {@code sbase} is not yet defined, this method sets it to the
 	 * identical values as it is for the current object.
 	 * 
 	 * @param sbase
 	 *            the element to be checked.
-	 * @return {@code true} if the given <code>sbase</code> and this object
+	 * @return {@code true} if the given {@code sbase} and this object
 	 *         have the same L/V configuration.
 	 * @throws LevelVersionError
 	 *             In case the given {@link SBase} has a different, but defined
@@ -1032,12 +1028,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	}
 
 	/**
-	 * Returns an <code>XMLNode</code> object that represent the notes of this element.
+	 * Returns an {@code XMLNode} object that represent the notes of this element.
 	 * 
-	 * @return an <code>XMLNode</code> object that represent the notes of this element.
+	 * @return an {@code XMLNode} object that represent the notes of this element.
 	 */
 	public XMLNode getNotes() {
-		return notesXMLNode;
+	  return notesXMLNode;
 	}
 
 	/* (non-Javadoc)
@@ -1764,8 +1760,17 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		
 		// Add all additional attributes from extension packages if there are any:
 		if ((extensions != null) && (extensions.size() > 0)) {
-		  for (Map.Entry<String, SBasePlugin> entry : extensions.entrySet()) {
-		    attributes.putAll(entry.getValue().writeXMLAttributes());
+		  for (String key : extensions.keySet()) {
+		    SBasePlugin plugin = extensions.get(key);
+		    if (plugin != null) {
+		      Map<String, String> pluginAttributes = plugin.writeXMLAttributes();
+		      if (pluginAttributes != null) {
+		        attributes.putAll(pluginAttributes);
+		      }
+		    } else {
+		      logger.warn(MessageFormat.format(
+		        "Plugin for namespace {0} is null!", key));
+		    }
 		  }
 		}
 		

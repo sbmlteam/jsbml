@@ -1003,7 +1003,7 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * Returns true if the <code>unit</code> is a valid unit kind name or an
+	 * Returns true if the {@code unit} is a valid unit kind name or an
 	 * identifier of an existing {@link UnitDefinition}.
 	 * 
 	 * If either the unit or model are null, it will return false.
@@ -1013,7 +1013,7 @@ public class Unit extends AbstractSBase {
 	 *            {@link Unit.Kind} identifier for the current level/version
 	 *            combination of the model.
 	 * @param model
-	 *            the model where to look for the <code>unit</code>.
+	 *            the model where to look for the {@code unit}.
 	 * 
 	 * @return true if the unit is a valid unit kind name or an identifier of an
 	 *         existing {@link UnitDefinition}.
@@ -1493,8 +1493,8 @@ public class Unit extends AbstractSBase {
    *         for instance, "m" for milli, i.e., if the scale is -3. In case
    *         that the {@link #scale} equals zero, an empty {@link String} is
    *         returned. If no defined prefix exists for the current {@link #scale},
-   *         the {@link String} <code>10^(%d)</code> is returned, where 
-   *         <code>%d</code>  denotes the {@link #scale}.
+   *         the {@link String} {@code 10^(%d)} is returned, where 
+   *         {@code %d}  denotes the {@link #scale}.
    * @see #getPrefixAsWord()
    */
 	public String getPrefix() {
@@ -1553,8 +1553,8 @@ public class Unit extends AbstractSBase {
 	 * @return the prefix of this {@link Unit}, for instance, "milli" if the {@link #scale} is -3.
 	 *         In case that the {@link #scale} equals zero, an empty {@link String} is
 	 *         returned. If no defined prefix exists for the current {@link #scale},
-	 *         the {@link String} <code>10^(%d)</code> is returned, where 
-	 *         <code>%d</code>  denotes the {@link #scale}.
+	 *         the {@link String} {@code 10^(%d)} is returned, where 
+	 *         {@code %d}  denotes the {@link #scale}.
 	 * @see #getPrefix()
 	 */
 	public String getPrefixAsWord() {
@@ -2256,7 +2256,7 @@ public class Unit extends AbstractSBase {
 	 * 
 	 * @param multiplier
 	 * @throws PropertyNotAvailableException
-	 *             if Level < 2 and the given <code>multiplier != 1</code>.
+	 *             if Level < 2 and the given {@code multiplier != 1}.
 	 */
 	public void setMultiplier(double multiplier) {
 		if ((getLevel() < 2) && (multiplier != 1d)) { 

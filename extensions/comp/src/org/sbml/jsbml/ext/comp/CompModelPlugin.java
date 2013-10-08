@@ -21,6 +21,7 @@ package org.sbml.jsbml.ext.comp;
 
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -324,15 +325,25 @@ public class CompModelPlugin extends CompSBasePlugin {
 	//   return port;
 	// }
 
-	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.comp.CompSBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value) {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.comp.CompSBasePlugin#writeXMLAttributes()
+	 */
 	public Map<String, String> writeXMLAttributes() {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.comp.CompSBasePlugin#getChildAt(int)
+	 */
+	@Override
 	public TreeNode getChildAt(int childIndex) {
 
 		  if (childIndex < 0) {
@@ -358,6 +369,10 @@ public class CompModelPlugin extends CompSBasePlugin {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.comp.CompSBasePlugin#getChildCount()
+	 */
+	@Override
 	public int getChildCount() 
 	{
 		int count = 0;
@@ -372,6 +387,10 @@ public class CompModelPlugin extends CompSBasePlugin {
 		return count;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.comp.CompSBasePlugin#getAllowsChildren()
+	 */
+	@Override
 	public boolean getAllowsChildren() {
 		return true;
 	}

@@ -210,8 +210,8 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 
 	/**
 	 * Unsets the variable modelRef 
-	 * @return <code>true</code>, if modelRef was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if modelRef was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetModelRef() {
 		if (isSetModelRef()) {
@@ -277,6 +277,9 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 		return false;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+	 */
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
@@ -301,6 +304,10 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 		  return attributes;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
 

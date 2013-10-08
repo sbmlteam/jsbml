@@ -93,7 +93,7 @@ public class SBMLErrorLog {
 	/**
 	 * Returns the <i>n</i>th {@link SBMLError} object in this log.
 	 * <p>
-	 * Index <code>n</code> is counted from 0.  Callers should first inquire about the
+	 * Index {@code n} is counted from 0.  Callers should first inquire about the
 	 * number of items in the log by using the
 	 * {@link #getNumErrors()} method.
 	 * Attempts to use an error index number that exceeds the actual number
@@ -102,7 +102,7 @@ public class SBMLErrorLog {
 	 * @param n the index number of the error to retrieve (with 0 being the
 	 * first error).
 	 * <p>
-	 * @return the <i>n</i>th {@link SBMLError} in this log, or {@code null} if <code>n</code> is
+	 * @return the <i>n</i>th {@link SBMLError} in this log, or {@code null} if {@code n} is
 	 * greater than or equal to {@link #getNumErrors()}.
 	 * <p>
 	 * @see #getNumErrors()

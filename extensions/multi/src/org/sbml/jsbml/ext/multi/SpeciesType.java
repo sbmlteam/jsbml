@@ -44,257 +44,257 @@ import org.sbml.jsbml.util.filters.NameFilter;
 @SuppressWarnings("deprecation")
 public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNamedSBase {
 
-	/**
+  /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = -6077584873497214754L;
 
   /**
-	 * 
-	 */
-	ListOf<StateFeature> listOfStateFeatures;
-	
-	/**
-	 * 
-	 */
-	Boolean bindingSite;
+   * 
+   */
+  ListOf<StateFeature> listOfStateFeatures;
 
-	public SpeciesType() {
-		super();
-		initDefaults();
-	}
-	
-	public boolean isIdMandatory() {
-		return false;
-	}
+  /**
+   * 
+   */
+  Boolean bindingSite;
 
-	@Override
-	public SpeciesType clone() {
-		// TODO
-		return null;
-	}
+  public SpeciesType() {
+    super();
+    initDefaults();
+  }
 
-	/**
-	 * Returns the listOfStateFeatures
-	 * 
-	 * @return the listOfStateFeatures
-	 */
-	public ListOf<StateFeature> getListOfStateFeatures() {
-		if (listOfStateFeatures == null) {
-			listOfStateFeatures = new ListOf<StateFeature>();
-			listOfStateFeatures.addNamespace(MultiConstant.namespaceURI);
-			this.registerChild(listOfStateFeatures);
-			listOfStateFeatures.setSBaseListType(ListOf.Type.other);
-		}
-		
-		return listOfStateFeatures;
-	}
+  public boolean isIdMandatory() {
+    return false;
+  }
 
-	/**
-	 * Adds a StateFeature.
-	 * 
-	 * @param stateFeature the stateFeature to add
-	 */
-	public void addStateFeature(StateFeature stateFeature) {
-		getListOfStateFeatures().add(stateFeature);
-	}
-	
-	/**
-	 * Creates a new {@link StateFeature} inside this {@link SpeciesType} and returns it.
-	 * <p>
-	 * 
-	 * @return the {@link StateFeature} object created
-	 *         <p>
-	 * @see #addStateFeature(StateFeature r)
-	 */
-	public StateFeature createStateFeature() {
-		return createStateFeature(null);
-	}
+  @Override
+  public SpeciesType clone() {
+    // TODO
+    return null;
+  }
 
-	/**
-	 * Creates a new {@link StateFeature} inside this {@link SpeciesType} and returns it.
-	 * 
-	 * @param id
-	 *        the id of the new element to create
-	 * @return the {@link StateFeature} object created
-	 */
-	public StateFeature createStateFeature(String id) {
-		StateFeature stateFeature = new StateFeature();
-		stateFeature.setId(id);
-		addStateFeature(stateFeature);
+  /**
+   * Returns the listOfStateFeatures
+   * 
+   * @return the listOfStateFeatures
+   */
+  public ListOf<StateFeature> getListOfStateFeatures() {
+    if (listOfStateFeatures == null) {
+      listOfStateFeatures = new ListOf<StateFeature>();
+      listOfStateFeatures.addNamespace(MultiConstant.namespaceURI);
+      this.registerChild(listOfStateFeatures);
+      listOfStateFeatures.setSBaseListType(ListOf.Type.other);
+    }
 
-		return stateFeature;
-	}
+    return listOfStateFeatures;
+  }
 
-	/**
-	 * Gets the ith {@link StateFeature}.
-	 * 
-	 * @param i
-	 * 
-	 * @return the ith {@link StateFeature}
-	 * @throws IndexOutOfBoundsException if the index is invalid.
-	 */
-	public StateFeature getStateFeature(int i) {
-		return getListOfStateFeatures().get(i);
-	}
+  /**
+   * Adds a StateFeature.
+   * 
+   * @param stateFeature the stateFeature to add
+   */
+  public void addStateFeature(StateFeature stateFeature) {
+    getListOfStateFeatures().add(stateFeature);
+  }
 
-	/**
-	 * Gets the {@link StateFeature} that has the given id. 
-	 * 
-	 * @param id
-	 * @return the {@link StateFeature} that has the given id or null if
-	 * no {@link StateFeature} are found that match <code>id</code>.
-	 */
-	public StateFeature getStateFeature(String id) {
-		if (isSetListOfStateFeatures()) {
-			return listOfStateFeatures.firstHit(new NameFilter(id));	    
-		} 
-		return null;
-	}
+  /**
+   * Creates a new {@link StateFeature} inside this {@link SpeciesType} and returns it.
+   * <p>
+   * 
+   * @return the {@link StateFeature} object created
+   *         <p>
+   * @see #addStateFeature(StateFeature r)
+   */
+  public StateFeature createStateFeature() {
+    return createStateFeature(null);
+  }
 
-	/**
-	 * Returns true if the listOfStateFeature is set.
-	 * 
-	 * @return true if the listOfStateFeature is set.
-	 */
-	public boolean isSetListOfStateFeatures() {
-		if ((listOfStateFeatures == null) || listOfStateFeatures.isEmpty()) {
-			return false;			
-		}		
-		return true;
-	}
-	
-	/**
-	 * Sets the listOfStateFeatures to null
-	 * 
-	 * @return true is successful
-	 */
-	public boolean unsetListOfStateFeatures() {
-		if (isSetListOfStateFeatures()) {
-			// unregister the ids if needed.			  
-			this.listOfStateFeatures.fireNodeRemovedEvent();
-			this.listOfStateFeatures = null;
-			return true;
-		}
-		return false;
-	}
+  /**
+   * Creates a new {@link StateFeature} inside this {@link SpeciesType} and returns it.
+   * 
+   * @param id
+   *        the id of the new element to create
+   * @return the {@link StateFeature} object created
+   */
+  public StateFeature createStateFeature(String id) {
+    StateFeature stateFeature = new StateFeature();
+    stateFeature.setId(id);
+    addStateFeature(stateFeature);
 
+    return stateFeature;
+  }
 
-	/**
-	 * @return the bindingSite
-	 */
-	public boolean isBindingSite() {
-		return bindingSite;
-	}
+  /**
+   * Gets the ith {@link StateFeature}.
+   * 
+   * @param i
+   * 
+   * @return the ith {@link StateFeature}
+   * @throws IndexOutOfBoundsException if the index is invalid.
+   */
+  public StateFeature getStateFeature(int i) {
+    return getListOfStateFeatures().get(i);
+  }
 
-	/**
-	 * 
-	 */
-	public boolean isSetBindingSite() {
-		return bindingSite != null;
-	}
-	
-	/**
-	 * @param bindingSite the bindingSite to set
-	 */
-	public void setBindingSite(boolean bindingSite) {
-		this.bindingSite = bindingSite;
-	}
+  /**
+   * Gets the {@link StateFeature} that has the given id. 
+   * 
+   * @param id
+   * @return the {@link StateFeature} that has the given id or null if
+   * no {@link StateFeature} are found that match {@code id}.
+   */
+  public StateFeature getStateFeature(String id) {
+    if (isSetListOfStateFeatures()) {
+      return listOfStateFeatures.firstHit(new NameFilter(id));	    
+    } 
+    return null;
+  }
 
-	/**
-	 * 
-	 */
-	public void initDefaults() {
-		addNamespace(MultiConstant.namespaceURI);
-	}
+  /**
+   * Returns true if the listOfStateFeature is set.
+   * 
+   * @return true if the listOfStateFeature is set.
+   */
+  public boolean isSetListOfStateFeatures() {
+    if ((listOfStateFeatures == null) || listOfStateFeatures.isEmpty()) {
+      return false;			
+    }		
+    return true;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-	 */
-	@Override
-	public TreeNode getChildAt(int index) {
-		if (index < 0) {
-			throw new IndexOutOfBoundsException(index + " < 0");
-		}
-
-		int count = super.getChildCount(), pos = 0;
-		if (index < count) {
-			return super.getChildAt(index);
-		} else {
-			index -= count;
-		}
-		if (isSetListOfStateFeatures()) {
-			if (pos == index) {
-				return getListOfStateFeatures();
-			}
-			pos++;
-		}
-
-		throw new IndexOutOfBoundsException(MessageFormat.format(
-		  "Index {0,number,integer} >= {1,number,integer}",
-			index, +((int) Math.min(pos, 0))));
-	}
+  /**
+   * Sets the listOfStateFeatures to null
+   * 
+   * @return true is successful
+   */
+  public boolean unsetListOfStateFeatures() {
+    if (isSetListOfStateFeatures()) {
+      // unregister the ids if needed.			  
+      this.listOfStateFeatures.fireNodeRemovedEvent();
+      this.listOfStateFeatures = null;
+      return true;
+    }
+    return false;
+  }
 
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
-	 */
-	@Override
-	public int getChildCount() {
-		int count = super.getChildCount();
+  /**
+   * @return the bindingSite
+   */
+  public boolean isBindingSite() {
+    return bindingSite;
+  }
 
-		if (isSetListOfStateFeatures()) {
-			count++;
-		}
+  /**
+   * 
+   */
+  public boolean isSetBindingSite() {
+    return bindingSite != null;
+  }
 
-		return count;
-	}
+  /**
+   * @param bindingSite the bindingSite to set
+   */
+  public void setBindingSite(boolean bindingSite) {
+    this.bindingSite = bindingSite;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) 
-	{
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+  /**
+   * 
+   */
+  public void initDefaults() {
+    addNamespace(MultiConstant.namespaceURI);
+  }
 
-		if (!isAttributeRead) {
-			isAttributeRead = true;
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+   */
+  @Override
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(index + " < 0");
+    }
 
-			if (attributeName.equals(MultiConstant.bindingSite)) {
-				setBindingSite(StringTools.parseSBMLBoolean(value));
-			} else {
-				isAttributeRead = false;
-			}
-		}	  
+    int count = super.getChildCount(), pos = 0;
+    if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
+    }
+    if (isSetListOfStateFeatures()) {
+      if (pos == index) {
+        return getListOfStateFeatures();
+      }
+      pos++;
+    }
 
-		return isAttributeRead;
-
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
-	 */
-	@Override
-	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
-
-		if (isSetId()) {
-			attributes.remove("id");
-			attributes.put(MultiConstant.shortLabel+ ":id", getId());
-		}
-		if (isSetName()) {
-			attributes.remove("name");
-			attributes.put(MultiConstant.shortLabel+ ":name", getName());
-		}
-		if (isSetBindingSite()) {
-			attributes.put(MultiConstant.shortLabel+ ":"+MultiConstant.bindingSite, Boolean.toString(isBindingSite()));
-		}
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}",
+      index, +((int) Math.min(pos, 0))));
+  }
 
 
-		return attributes;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    int count = super.getChildCount();
 
-	// TODO : equals, hashCode, toString, more constructors, ...
+    if (isSetListOfStateFeatures()) {
+      count++;
+    }
+
+    return count;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix,
+    String value) 
+  {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+
+      if (attributeName.equals(MultiConstant.bindingSite)) {
+        setBindingSite(StringTools.parseSBMLBoolean(value));
+      } else {
+        isAttributeRead = false;
+      }
+    }	  
+
+    return isAttributeRead;
+
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (isSetId()) {
+      attributes.remove("id");
+      attributes.put(MultiConstant.shortLabel+ ":id", getId());
+    }
+    if (isSetName()) {
+      attributes.remove("name");
+      attributes.put(MultiConstant.shortLabel+ ":name", getName());
+    }
+    if (isSetBindingSite()) {
+      attributes.put(MultiConstant.shortLabel + ':' + MultiConstant.bindingSite,
+        Boolean.toString(isBindingSite()));
+    }
+
+    return attributes;
+  }
+
+  // TODO : equals, hashCode, toString, more constructors, ...
 }

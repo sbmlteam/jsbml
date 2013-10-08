@@ -30,128 +30,127 @@ import org.sbml.jsbml.ListOf;
  */
 public class ListOfObjectives extends ListOf<Objective> {
 
-	/**
+  /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 8684683156123793632L;
-  
+
   /**
    * 
    */
   private String activeObjective; 
-	
-	/**
-	 * 
-	 */
-	public ListOfObjectives() {
-		super();
-	}
 
-	/**
-	 * @param level
-	 * @param version
-	 */
-	public ListOfObjectives(int level, int version) {
-		super(level, version);
-	}
+  /**
+   * 
+   */
+  public ListOfObjectives() {
+    super();
+  }
 
-	/**
-	 * @param listOf
-	 */
-	public ListOfObjectives(ListOfObjectives listOf) {
-		super(listOf);
+  /**
+   * @param level
+   * @param version
+   */
+  public ListOfObjectives(int level, int version) {
+    super(level, version);
+  }
 
-		// copy attribute
-		if (listOf.isSetActiveObjective()) {
-			setActiveObjective(listOf.getActiveObjective());
-		}
-	}
+  /**
+   * @param listOf
+   */
+  public ListOfObjectives(ListOfObjectives listOf) {
+    super(listOf);
+
+    // copy attribute
+    if (listOf.isSetActiveObjective()) {
+      setActiveObjective(listOf.getActiveObjective());
+    }
+  }
+
+  /**
+   * Returns the value of activeObjective
+   *
+   * @return the value of activeObjective
+   */
+  public String getActiveObjective() {
+    if (isSetActiveObjective()) {
+      return activeObjective;
+    }
+
+    return null;
+  }
+
+  /**
+   * Returns whether activeObjective is set 
+   *
+   * @return whether activeObjective is set 
+   */
+  public boolean isSetActiveObjective() {
+    return this.activeObjective != null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ListOf#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix,
+    String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+
+    if (!isAttributeRead) 
+    {
+      isAttributeRead = true;
+
+      if (attributeName.equals(FBCConstants.activeObjective)) {
+        setActiveObjective(value);
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+
+    return isAttributeRead;
+  }
+
+  /**
+   * Sets the value of activeObjective
+   */
+  public void setActiveObjective(String activeObjective) {
+    String oldActiveObjective = this.activeObjective;
+    this.activeObjective = activeObjective;
+    firePropertyChange(FBCConstants.activeObjective, oldActiveObjective, this.activeObjective);
+  }
 
 
-	/**
-	 * Returns the value of activeObjective
-	 *
-	 * @return the value of activeObjective
-	 */
-	public String getActiveObjective() {
-		if (isSetActiveObjective()) {
-			return activeObjective;
-		}
+  /**
+   * Unsets the variable activeObjective 
+   *
+   * @return {@code true}, if activeObjective was set before, 
+   *         otherwise {@code false}
+   */
+  public boolean unsetActiveObjective() {
+    if (isSetActiveObjective()) {
+      String oldActiveObjective = this.activeObjective;
+      this.activeObjective = null;
+      firePropertyChange(FBCConstants.activeObjective, oldActiveObjective, this.activeObjective);
+      return true;
+    }
+    return false;
+  }
 
-		return null;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
 
-	/**
-	 * Returns whether activeObjective is set 
-	 *
-	 * @return whether activeObjective is set 
-	 */
-	public boolean isSetActiveObjective() {
-		return this.activeObjective != null;
-	}
+    if (isSetActiveObjective()) {
+      attributes.put(FBCConstants.shortLabel + ':' +
+        FBCConstants.activeObjective, getActiveObjective());
+    }
 
-	/**
-	 * Sets the value of activeObjective
-	 */
-	public void setActiveObjective(String activeObjective) {
-		String oldActiveObjective = this.activeObjective;
-		this.activeObjective = activeObjective;
-		firePropertyChange(FBCConstants.activeObjective, oldActiveObjective, this.activeObjective);
-	}
-
-	/**
-	 * Unsets the variable activeObjective 
-	 *
-	 * @return {@code true}, if activeObjective was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetActiveObjective() {
-		if (isSetActiveObjective()) {
-			String oldActiveObjective = this.activeObjective;
-			this.activeObjective = null;
-			firePropertyChange(FBCConstants.activeObjective, oldActiveObjective, this.activeObjective);
-			return true;
-		}
-		return false;
-	}
-	
-	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
-	 */
-	@Override
-	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
-
-		if (isSetActiveObjective()) 
-		{
-			attributes.put(FBCConstants.shortLabel + ":" + FBCConstants.activeObjective, getActiveObjective());
-		}
-		
-		return attributes;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ListOf#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-		
-		if (!isAttributeRead) 
-		{
-			isAttributeRead = true;
-
-			if (attributeName.equals(FBCConstants.activeObjective)) {
-				setActiveObjective(value);
-			}
-			else {
-				isAttributeRead = false;
-			}
-		}
-
-		return isAttributeRead;
-	}
+    return attributes;
+  }
 
 }

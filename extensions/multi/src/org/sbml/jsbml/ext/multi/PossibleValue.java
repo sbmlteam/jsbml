@@ -51,7 +51,6 @@ public class PossibleValue extends AbstractNamedSBase  implements UniqueNamedSBa
 		addNamespace(MultiConstant.namespaceURI);
 	}
 
-
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
 	 */

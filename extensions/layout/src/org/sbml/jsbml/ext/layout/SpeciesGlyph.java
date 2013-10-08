@@ -167,7 +167,7 @@ public class SpeciesGlyph extends AbstractReferenceGlyph {
 	  Map<String, String> attributes = super.writeXMLAttributes();
 	  
 	  if (isSetSpecies()) {
-	    attributes.put(LayoutConstants.shortLabel + ":" + LayoutConstants.species, getSpecies());
+	    attributes.put(LayoutConstants.shortLabel + ':' + LayoutConstants.species, getSpecies());
 	  } 
 	  
 	  return attributes;

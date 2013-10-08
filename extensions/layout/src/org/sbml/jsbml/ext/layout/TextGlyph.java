@@ -148,15 +148,6 @@ public class TextGlyph extends AbstractReferenceGlyph {
 	}
 
 	/**
-	 * Method to test if an instance of a {@link GraphicalObject} with the id
-	 * given by {@link #getGraphicalObject()} can be found in the {@link Model}.
-	 */
-	public boolean isSetGraphicalObjectInstance() {
-		Model model = getModel();
-		return isSetGraphicalObject() && (model != null) && (model.findNamedSBase(getGraphicalObject()) != null);
-	}
-
-	/**
 	 * 
 	 * @return
 	 */
@@ -202,6 +193,15 @@ public class TextGlyph extends AbstractReferenceGlyph {
 	 */
 	public boolean isSetGraphicalObject() {
 		return graphicalObject != null;
+	}
+
+	/**
+	 * Method to test if an instance of a {@link GraphicalObject} with the id
+	 * given by {@link #getGraphicalObject()} can be found in the {@link Model}.
+	 */
+	public boolean isSetGraphicalObjectInstance() {
+		Model model = getModel();
+		return isSetGraphicalObject() && (model != null) && (model.findNamedSBase(getGraphicalObject()) != null);
 	}
 
 	/**
@@ -298,6 +298,28 @@ public class TextGlyph extends AbstractReferenceGlyph {
 	}
 
 	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.AbstractReferenceGlyph#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(getElementName());
+		sb.append(" [");
+		if (isSetText()) {
+			sb.append(getText());
+		} else if (isSetOriginOfText()) {
+			NamedSBase orig = getOriginOfTextInstance();
+			if (orig == null) {
+				sb.append(getOriginOfText());
+			} else {
+				sb.append(orig.toString());
+			}
+		}
+		sb.append(']');
+		return sb.toString();
+	}
+
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()
 	 */
 	@Override
@@ -318,28 +340,6 @@ public class TextGlyph extends AbstractReferenceGlyph {
 		}
 
 		return attributes;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.AbstractReferenceGlyph#toString()
-	 */
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(getElementName());
-		sb.append(" [");
-		if (isSetText()) {
-			sb.append(getText());
-		} else if (isSetOriginOfText()) {
-			NamedSBase orig = getOriginOfTextInstance();
-			if (orig == null) {
-				sb.append(getOriginOfText());
-			} else {
-				sb.append(orig.toString());
-			}
-		}
-		sb.append(']');
-		return sb.toString();
 	}
 
 }

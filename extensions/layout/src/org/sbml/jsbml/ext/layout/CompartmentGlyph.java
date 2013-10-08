@@ -19,6 +19,7 @@
  */
 package org.sbml.jsbml.ext.layout;
 
+import java.util.Locale;
 import java.util.Map;
 
 import org.sbml.jsbml.Compartment;
@@ -111,10 +112,33 @@ public class CompartmentGlyph extends AbstractReferenceGlyph {
 	}
 
 	/**
+	 * Returns the value of order
+	 *
+	 * @return the value of order
+	 */
+	public double getOrder() 
+	{
+		if (isSetOrder()) {
+			return order;
+		}
+		// This is necessary if we cannot return null here.
+		throw new PropertyUndefinedError(LayoutConstants.order, this);
+	}
+	
+	/**
 	 * @return
 	 */
 	public boolean isSetCompartment() {
 		return isSetReference();
+	}
+	
+	/**
+	 * Returns whether order is set 
+	 *
+	 * @return whether order is set 
+	 */
+	public boolean isSetOrder() {
+		return this.order != null;
 	}
 	
 	/* (non-Javadoc)
@@ -154,7 +178,7 @@ public class CompartmentGlyph extends AbstractReferenceGlyph {
 	public void setCompartment(Compartment compartment) {
 		setCompartment(compartment.getId());
 	}
-	
+
 	/**
 	 * 
 	 * @param compartment
@@ -164,62 +188,19 @@ public class CompartmentGlyph extends AbstractReferenceGlyph {
 	}
 	
 	/**
-	 * 
-	 */
-	public void unsetCompartment() {
-		unsetReference();
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()
-	 */
-	@Override
-	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
-		
-		if (isSetCompartment()) {
-			attributes.put(LayoutConstants.shortLabel + ":"
-					+ LayoutConstants.compartment, getCompartment());
-		}
-		if (isSetOrder()) {
-			attributes.put(LayoutConstants.shortLabel + ":"
-					+ LayoutConstants.order, order.toString());
-		}
-
-		return attributes;
-	}
-
-	
-	/**
-	 * Returns the value of order
-	 *
-	 * @return the value of order
-	 */
-	public double getOrder() 
-	{
-		if (isSetOrder()) {
-			return order;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(LayoutConstants.order, this);
-	}
-
-	/**
-	 * Returns whether order is set 
-	 *
-	 * @return whether order is set 
-	 */
-	public boolean isSetOrder() {
-		return this.order != null;
-	}
-
-	/**
 	 * Sets the value of order
 	 */
 	public void setOrder(double order) {
 		double oldOrder = this.order;
 		this.order = order;
 		firePropertyChange(LayoutConstants.order, oldOrder, this.order);
+	}
+
+	/**
+	 * 
+	 */
+	public void unsetCompartment() {
+		unsetReference();
 	}
 
 	/**
@@ -236,6 +217,25 @@ public class CompartmentGlyph extends AbstractReferenceGlyph {
 			return true;
 		}
 		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()
+	 */
+	@Override
+	public Map<String, String> writeXMLAttributes() {
+		Map<String, String> attributes = super.writeXMLAttributes();
+		
+		if (isSetCompartment()) {
+			attributes.put(LayoutConstants.shortLabel + ':'
+					+ LayoutConstants.compartment, getCompartment());
+		}
+		if (isSetOrder()) {
+			attributes.put(LayoutConstants.shortLabel + ':' + LayoutConstants.order,
+			  StringTools.toString(Locale.ENGLISH, order.doubleValue()));
+		}
+
+		return attributes;
 	}
 	
 }

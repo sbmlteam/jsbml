@@ -20,7 +20,7 @@
 package org.sbml.jsbml.ext.groups;
 
 /**
- * This is a collection of possible values for the <code>kind</code> attribute within
+ * This is a collection of possible values for the {@code kind} attribute within
  * a {@link Group}. It has been defined in version 3 of the Groups proposal.
  * 
  * @author Clemens Wrzodek

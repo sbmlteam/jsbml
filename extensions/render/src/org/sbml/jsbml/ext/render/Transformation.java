@@ -121,7 +121,7 @@ public class Transformation extends AbstractSBase {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetTransform()) {
     	attributes.remove(RenderConstants.transform);
-        attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.transform,
+        attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.transform,
         	XMLTools.encodeArrayDoubleToString(transform)); 
     }
     return attributes;

@@ -47,7 +47,7 @@ defined in SBML.
 &lt;/annotation&gt;
 </pre></div>
  * there is one namespace declaration.  Its URI is
- * <code>urn:lsid:mysim.org</code> and its prefix is <code>mysim</code>.
+ * {@code urn:lsid:mysim.org} and its prefix is {@code mysim}.
  * This pair could be stored as one item in an {@link XMLNamespaces} list.
  * <p>
  * {@link XMLNamespaces} provides various methods for manipulating the list of
@@ -71,7 +71,7 @@ public class XMLNamespaces {
    * @param sb a reference to an object to which the current object
    * instance will be compared
    *
-   * @return {@code true} if <code>sb</code> refers to the same underlying 
+   * @return {@code true} if {@code sb} refers to the same underlying 
    * native object as this one, {@code false} otherwise
    */
   public boolean equals(Object sb)
@@ -144,9 +144,9 @@ public class XMLNamespaces {
    * declarations.
    * <p>
    * An XMLNamespace object stores a list of pairs of namespaces and their
-   * prefixes.  If there is an XML namespace with the given <code>uri</code> prefix
+   * prefixes.  If there is an XML namespace with the given {@code uri} prefix
    * in this list, then its corresponding URI will be overwritten by the
-   * new <code>uri</code>.  Calling programs could use one of the other {@link XMLNamespaces}
+   * new {@code uri}.  Calling programs could use one of the other {@link XMLNamespaces}
    * methods, such as
    * {@link XMLNamespaces#hasPrefix(String)}  and 
    * {@link XMLNamespaces#hasURI(String)}  to
@@ -175,9 +175,9 @@ public class XMLNamespaces {
    * declarations.
    * <p>
    * An XMLNamespace object stores a list of pairs of namespaces and their
-   * prefixes.  If there is an XML namespace with the given <code>uri</code> prefix
+   * prefixes.  If there is an XML namespace with the given {@code uri} prefix
    * in this list, then its corresponding URI will be overwritten by the
-   * new <code>uri</code>.  Calling programs could use one of the other {@link XMLNamespaces}
+   * new {@code uri}.  Calling programs could use one of the other {@link XMLNamespaces}
    * methods, such as
    * {@link XMLNamespaces#hasPrefix(String)}  and 
    * {@link XMLNamespaces#hasURI(String)}  to
@@ -277,11 +277,11 @@ public class XMLNamespaces {
    * <p>
    * An XMLNamespace object stores a list of pairs of namespaces and their
    * prefixes.  If this {@link XMLNamespaces} object contains a pair with the given
-   * URI <code>uri</code>, this method returns its index in the list.
+   * URI {@code uri}, this method returns its index in the list.
    * <p>
    * @param uri a string, the URI of the sought-after namespace.
    * <p>
-   * @return the index of the given declaration, or <code>-1</code> if not
+   * @return the index of the given declaration, or {@code -1} if not
    * present.
    */
  public int getIndex(String uri) {
@@ -307,12 +307,12 @@ public class XMLNamespaces {
    * <p>
    * An XMLNamespace object stores a list of pairs of namespaces and their
    * prefixes.  If this {@link XMLNamespaces} object contains a pair with the given
-   * prefix <code>prefix</code>, this method returns its index in the list.
+   * prefix {@code prefix}, this method returns its index in the list.
    * <p>
    * @param prefix a string, the prefix string of the sought-after
    * namespace
    * <p>
-   * @return the index of the given declaration, or <code>-1</code> if not
+   * @return the index of the given declaration, or {@code -1} if not
    * present.
    */
  public int getIndexByPrefix(String prefix) {
@@ -350,7 +350,7 @@ public class XMLNamespaces {
    * Gets the prefix of an XML namespace declaration by its position.
    * <p>
    * An XMLNamespace object stores a list of pairs of namespaces and their
-   * prefixes.  This method returns the prefix of the <code>n</code>th
+   * prefixes.  This method returns the prefix of the {@code n}th
    * element in that list (if it exists).  Callers should use
    * XMLAttributes.getLength() first to find out how many namespaces are
    * stored in the list.
@@ -358,7 +358,7 @@ public class XMLNamespaces {
    * @param index an integer, position of the sought-after prefix
    * <p>
    * @return the prefix of an XML namespace declaration in this list (by
-   * position), or an empty string if the <code>index</code> is out of range
+   * position), or an empty string if the {@code index} is out of range
    * <p>
    * @see #getLength()
    */
@@ -382,12 +382,12 @@ public class XMLNamespaces {
    * <p>
    * An XMLNamespace object stores a list of pairs of namespaces and their
    * prefixes.  This method returns the prefix for a pair that has the
-   * given <code>uri</code>.
+   * given {@code uri}.
    * <p>
    * @param uri a string, the URI of the prefix being sought
    * <p>
    * @return the prefix of an XML namespace declaration given its URI, or
-   * an empty string if no such <code>uri</code> exists in this {@link XMLNamespaces} object
+   * an empty string if no such {@code uri} exists in this {@link XMLNamespaces} object
    */
  public String getPrefix(String uri) {
 
@@ -406,7 +406,7 @@ public class XMLNamespaces {
    * Gets the URI of an XML namespace declaration by its position.
    * <p>
    * An XMLNamespace object stores a list of pairs of namespaces and their
-   * prefixes.  This method returns the URI of the <code>n</code>th element
+   * prefixes.  This method returns the URI of the {@code n}th element
    * in that list (if it exists).  Callers should use
    * XMLAttributes.getLength() first to find out how many namespaces are
    * stored in the list.
@@ -414,7 +414,7 @@ public class XMLNamespaces {
    * @param index an integer, position of the required URI.
    * <p>
    * @return the URI of an XML namespace declaration in this list (by
-   * position), or an empty string if the <code>index</code> is out of range.
+   * position), or an empty string if the {@code index} is out of range.
    * <p>
    * @see #getLength()
    */
@@ -437,12 +437,12 @@ public class XMLNamespaces {
    * <p>
    * An XMLNamespace object stores a list of pairs of namespaces and their
    * prefixes.  This method returns the namespace URI for a pair that has
-   * the given <code>prefix</code>.
+   * the given {@code prefix}.
    * <p>
    * @param prefix a string, the prefix of the required URI
    * <p>
    * @return the URI of an XML namespace declaration having the given 
-   * <code>prefix</code>, or an empty string if no such prefix-and-URI pair exists
+   * {@code prefix}, or an empty string if no such prefix-and-URI pair exists
    * in this {@link XMLNamespaces} object
    * 
    * @see #getURI()
@@ -465,10 +465,10 @@ public class XMLNamespaces {
    * <p>
    * An XMLNamespace object stores a list of pairs of namespaces and their
    * prefixes.  This method returns the namespace URI for a pair that has
-   * the empty <code>prefix</code>.
+   * the empty {@code prefix}.
    * <p>
    * @return the URI of an XML namespace declaration having the empty 
-   * <code>prefix</code>, or an empty string if no such prefix-and-URI pair exists
+   * {@code prefix}, or an empty string if no such prefix-and-URI pair exists
    * in this {@link XMLNamespaces} object
    * 
    * @see #getURI()

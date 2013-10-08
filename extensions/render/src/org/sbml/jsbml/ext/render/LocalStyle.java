@@ -128,7 +128,7 @@ public class LocalStyle extends Style {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetIDList()) {
       attributes.remove(RenderConstants.idList);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.idList,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.idList,
         XMLTools.arrayToWhitespaceSeparatedString(getIDList()));
     }
     return attributes;

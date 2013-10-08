@@ -292,7 +292,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 		}
 		if (isSetMetaidRef())
 		{
-			attributes.put(LayoutConstants.shortLabel + ":" + LayoutConstants.metaidRef, getMetaidRef());
+		  attributes.put(LayoutConstants.shortLabel + ':' + LayoutConstants.metaidRef, getMetaidRef());
 		}
 		
 		return attributes;

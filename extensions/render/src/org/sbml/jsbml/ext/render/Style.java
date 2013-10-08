@@ -329,8 +329,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
    */
   @Override
@@ -338,22 +337,19 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetRoleList()) {
       attributes.remove(RenderConstants.roleList);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.roleList,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.roleList,
         XMLTools.arrayToWhitespaceSeparatedString(getRoleList()));
     }
     if (isSetTypeList()) {
       attributes.remove(RenderConstants.typeList);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.typeList,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.typeList,
         XMLTools.arrayToWhitespaceSeparatedString(getTypeList()));
     }
     return attributes;
   }
 
-
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String,
-   * java.lang.String, java.lang.String)
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {

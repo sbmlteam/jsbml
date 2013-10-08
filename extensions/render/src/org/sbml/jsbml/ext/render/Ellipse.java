@@ -474,27 +474,27 @@ public class Ellipse extends GraphicalPrimitive2D {
 
     if (isSetCx()) {
       attributes.remove(RenderConstants.cx);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.cx,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.cx,
         XMLTools.positioningToString(getCx(), isAbsoluteCx()));
     }
     if (isSetCy()) {
       attributes.remove(RenderConstants.cy);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.cy,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.cy,
         XMLTools.positioningToString(getCy(), isAbsoluteCy()));
     }
     if (isSetCz()) {
       attributes.remove(RenderConstants.cz);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.cz,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.cz,
         XMLTools.positioningToString(getCz(), isAbsoluteCz()));
     }
     if (isSetRx()) {
       attributes.remove(RenderConstants.rx);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.rx,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.rx,
         XMLTools.positioningToString(getRx(), isAbsoluteRx()));
     }
     if (isSetRy()) {
       attributes.remove(RenderConstants.ry);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.ry,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.ry,
         XMLTools.positioningToString(getRy(), isAbsoluteRy()));
     }
     

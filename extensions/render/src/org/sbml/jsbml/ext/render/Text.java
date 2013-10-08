@@ -584,37 +584,37 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetFontFamily()) {
       attributes.remove(RenderConstants.fontFamily);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.fontFamily,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fontFamily,
         getFontFamily().toString().toLowerCase());
     }
     if (isSetTextAnchor()) {
       attributes.remove(RenderConstants.textAnchor);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.textAnchor,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.textAnchor,
         getTextAnchor().toString().toLowerCase());
     }
     if (isSetVTextAnchor()) {
       attributes.remove(RenderConstants.vTextAnchor);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.vTextAnchor,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.vTextAnchor,
         getVTextAnchor().toString().toLowerCase());
     }
     if (isSetFontSize()) {
       attributes.remove(RenderConstants.fontSize);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.fontSize,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fontSize,
         Short.toString(getFontSize()));
     }
     if (isSetX()) {
       attributes.remove(RenderConstants.x);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.x,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x,
         XMLTools.positioningToString(getX(), isAbsoluteX()));
     }
     if (isSetY()) {
       attributes.remove(RenderConstants.y);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.y,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.y,
         XMLTools.positioningToString(getY(), isAbsoluteY()));
     }
     if (isSetZ()) {
       attributes.remove(RenderConstants.z);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.z,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.z,
         XMLTools.positioningToString(getZ(), isAbsoluteZ()));
     }
     if (isSetFontStyleItalic()) {

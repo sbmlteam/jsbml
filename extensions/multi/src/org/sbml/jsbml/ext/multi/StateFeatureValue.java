@@ -96,7 +96,8 @@ public class StateFeatureValue extends AbstractSBase {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetPossibleValue()) {
-			attributes.put(MultiConstant.shortLabel + ":" + MultiConstant.possibleValue, getPossibleValue());
+			attributes.put(MultiConstant.shortLabel + ':' + MultiConstant.possibleValue,
+			  getPossibleValue());
 		} 
 
 		return attributes;

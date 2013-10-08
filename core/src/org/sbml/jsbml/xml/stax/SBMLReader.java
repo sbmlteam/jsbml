@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -343,8 +344,8 @@ public class SBMLReader {
 		if (readObject instanceof SBMLDocument) {
 			return (SBMLDocument) readObject;
 		}
-		throw new XMLStreamException(String.format(
-				"JSBML could not properly read file %s. Please check if it contains valid SBML. If you think it is valid, please submit a bug report to the bug tracker of JSBML.",
+		throw new XMLStreamException(MessageFormat.format(
+				"JSBML could not properly read file {0}. Please check if it contains valid SBML. If you think it is valid, please submit a bug report to the bug tracker of JSBML.",
 				(file.getPath() == null) ? "null" : file.getAbsolutePath()));
 	}
 
@@ -422,12 +423,12 @@ public class SBMLReader {
 	}
 
 	/**
-	 * Reads a mathML String into an {@link ASTNode}.
+	 * Reads a mathML {@link String} into an {@link ASTNode}.
 	 * 
 	 * @param mathML
 	 * @param listener
 	 * @param parent the parent {@link MathContainer} of the mathML to parse 
-	 * @return an {@link ASTNode} representing the given mathML String.
+	 * @return an {@link ASTNode} representing the given mathML {@link String}.
 	 * @throws XMLStreamException
 	 */
 	public ASTNode readMathML(String mathML, TreeNodeChangeListener listener, MathContainer parent)
@@ -456,11 +457,11 @@ public class SBMLReader {
 	}
 
 	/**
-	 * Reads a notes XML String into an {@link XMLNode}.
+	 * Reads a notes XML {@link String} into an {@link XMLNode}.
 	 * 
 	 * @param notesXHTML
 	 * @param listener 
-	 * @return an {@link XMLNode} representing the given notes String.
+	 * @return an {@link XMLNode} representing the given notes {@link String}.
 	 * @throws XMLStreamException
 	 */
 	public XMLNode readNotes(String notesXHTML, TreeNodeChangeListener listener)
@@ -495,7 +496,7 @@ public class SBMLReader {
 	}
 
 	/**
-	 * Reads a SBML document from the given <code>stream</code>. 
+	 * Reads a SBML document from the given {@code stream}. 
 	 * 
 	 * @param stream
 	 * @param listener 
@@ -520,7 +521,7 @@ public class SBMLReader {
 	}
 
 	/**
-	 * Reads a XML document from the given <code>stream</code>. It need to be a self contain part of
+	 * Reads a XML document from the given {@code stream}. It need to be a self contain part of
 	 * an SBML document. 
 	 * 
 	 * @param stream
@@ -544,7 +545,7 @@ public class SBMLReader {
 	 * 
 	 * @param xmlEventReader
 	 * @param listener 
-	 * @return an <code>Object</code> representing the given XML.
+	 * @return an {@code Object} representing the given XML.
 	 * @throws XMLStreamException
 	 */
 	private Object readXMLFromXMLEventReader(XMLEventReader xmlEventReader, TreeNodeChangeListener listener)  throws XMLStreamException {
@@ -754,11 +755,11 @@ public class SBMLReader {
 								sbmlElements.peek());
 					}
 				} else if (isText) {
-					logger.warn(String.format("Some characters cannot be read: %s", characters.getData()));
+					logger.warn(MessageFormat.format("Some characters cannot be read: {0}", characters.getData()));
 					if (logger.isDebugEnabled()) {
 						logger.debug("Parser = " + parser);
 						if (sbmlElements.isEmpty()) {
-							logger.debug("The Object Stack is empty !!!");
+							logger.debug("The Object Stack is empty!");
 						} else {
 							logger.debug("The current Object in the stack is: " + sbmlElements.peek());
 						}
@@ -874,7 +875,7 @@ public class SBMLReader {
 	}
 
 	/**
-	 * Reads an XML String that should the part of a SBML model.
+	 * Reads an XML {@link String} that should the part of a SBML model.
 	 * 
 	 * @param xml
 	 * @param listener 
@@ -990,10 +991,10 @@ public class SBMLReader {
 							annotationDeepness, isRDFSBMLspecificAnnotation);
 
 				} else {
-					logger.warn(String.format("Cannot find a parser for the %s namespace", elementNamespace));				
+					logger.warn(MessageFormat.format("Cannot find a parser for the {0} namespace", elementNamespace));				
 				}
 			} else {
-				logger.warn(String.format("Cannot find a parser for the %s namespace", elementNamespace));			
+				logger.warn(MessageFormat.format("Cannot find a parser for the {0} namespace", elementNamespace));			
 			}
 		}
 		
@@ -1044,7 +1045,7 @@ public class SBMLReader {
 						hasAttributes, isLastNamespace,
 						sbmlElements.peek());
 			} else if (namespaceParser == null) {
-				logger.warn(String.format("Cannot find a parser for the %s namespace", namespace.getNamespaceURI()));
+				logger.warn(MessageFormat.format("Cannot find a parser for the {0} namespace", namespace.getNamespaceURI()));
 			}
 		}
 

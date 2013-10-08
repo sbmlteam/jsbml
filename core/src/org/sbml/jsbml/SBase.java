@@ -40,573 +40,573 @@ import org.sbml.jsbml.xml.XMLNode;
  * @version $Rev$
  */
 public interface SBase extends TreeNodeWithChangeSupport {
-	
-	/**
-	 * @param term
-	 * @return {@code true} if a {@link CVTerm} instance has been added to
-	 *         the list of {@link CVTerm} of this object.
-	 */
-	public boolean addCVTerm(CVTerm term);
-	
-	/**
-	 * Adds an additional name space to the set of declared namespaces of this
-	 * {@link SBase}.
-	 * 
-	 * @param prefix the prefix of the namespace to add
-	 * @param namespace the namespace to add
-	 * 
-	 */
-	public void addDeclaredNamespace(String prefix, String namespace);
-	
-	/**
-	 * add a SBase extension object 'sbase' associated with a name space
-	 * 'namespace'.
-	 * 
-	 * @param namespace
-	 * @param sbase
-	 */
-	public void addExtension(String namespace, SBasePlugin sbase);
-	
-	/**
-	 * Adds an additional name space to the set of name spaces of this
-	 * {@link SBase} if the given name space is not yet present within this
-	 * {@link SortedSet}.
-	 * 
-	 * @param namespace the namespace to add
-	 */
-	public void addNamespace(String namespace);
 
-	/**
-	 * Appends 'notes' to the notes String of this object.
-	 *  
-	 * @param notes
-	 */
-	public void appendNotes(String notes);
+  /**
+   * @param term
+   * @return {@code true} if a {@link CVTerm} instance has been added to
+   *         the list of {@link CVTerm} of this object.
+   */
+  public boolean addCVTerm(CVTerm term);
 
-	/**
-	 * Appends 'notes' to the notes of this object.
-	 * 
-	 * @param notes
-	 */
-	public void appendNotes(XMLNode notes);
+  /**
+   * Adds an additional name space to the set of declared namespaces of this
+   * {@link SBase}.
+   * 
+   * @param prefix the prefix of the namespace to add
+   * @param namespace the namespace to add
+   * 
+   */
+  public void addDeclaredNamespace(String prefix, String namespace);
 
-	/**
-	 * 
-	 * Creates a copy of this object, i.e., e new {@link SBase} with the same properties
-	 * like this one and returns a pointer to it.
-	 * 
-	 * @return
-	 */
-	public SBase clone();
+  /**
+   * add a SBase extension object 'sbase' associated with a name space
+   * 'namespace'.
+   * 
+   * @param namespace
+   * @param sbase
+   */
+  public void addExtension(String namespace, SBasePlugin sbase);
 
-	/**
-	 * Returns {@code true} if and only if the given {@link SBase} has exactly the same
-	 * properties like this {@link SBase} instance.
-	 * 
-	 * @param sbase
-	 * @return {@code true} if and only if the given {@link Object} is an instance of
-	 *         {@link SBase} that has exactly the same properties like this
-	 *         SBase instance.
-	 */
-	public boolean equals(Object sbase);
+  /**
+   * Adds an additional name space to the set of name spaces of this
+   * {@link SBase} if the given name space is not yet present within this
+   * {@link SortedSet}.
+   * 
+   * @param namespace the namespace to add
+   */
+  public void addNamespace(String namespace);
 
-	/**
-	 * This method returns a list of all qualifiers of the given type.
-	 * 
-	 * @param qualifier
-	 * @return
-	 */
-	public List<CVTerm> filterCVTerms(Qualifier qualifier);
+  /**
+   * Appends 'notes' to the notes String of this object.
+   *  
+   * @param notes
+   */
+  public void appendNotes(String notes);
 
-	/**
-	 * Queries the list of controlled vocabulary terms for those terms whose
-	 * qualifier is of the given type and selects only those resources from
-	 * these terms that contain the given pattern.
-	 * 
-	 * @param qualifier
-	 * @param pattern
-	 *            for instance, 'kegg' or 'chebi'.
-	 * @return
-	 */
-	public List<String> filterCVTerms(Qualifier qualifier, String pattern);
+  /**
+   * Appends 'notes' to the notes of this object.
+   * 
+   * @param notes
+   */
+  public void appendNotes(XMLNode notes);
 
-	/**
-	 * A recursive implementation of {@link #filterCVTerms(Qualifier, String)}
-	 * that considers all child elements of the current instance of
-	 * {@link SBase} as well.
-	 * 
-	 * @param qualifier
-	 * @param pattern
-	 * @param recursive
-	 *            decides whether or not considering all child elements of this
-	 *            {@link SBase} and collecting the matching {@link CVTerm}s of
-	 *            all children recursively. If this argument is <code>false</false>, the
-	 *            behavior of the method will be equivalent to calling
-	 *            {@link #filterCVTerms(Qualifier, String)}.
-	 * @return
-	 * @see #filterCVTerms(Qualifier, String)
-	 */
-	public List<String> filterCVTerms(Qualifier qualifier, String pattern,
-			boolean recursive);
+  /**
+   * 
+   * Creates a copy of this object, i.e., e new {@link SBase} with the same properties
+   * like this one and returns a pointer to it.
+   * 
+   * @return
+   */
+  public SBase clone();
 
-	/**
-	 * Returns the content of the 'annotation' sub-element of this object as an
-	 *         {@link Annotation} instance.
-	 *         
-	 * @return the content of the 'annotation' sub-element of this object as an
-	 *         {@link Annotation} instance.
-	 */
-	public Annotation getAnnotation();
+  /**
+   * Returns {@code true} if and only if the given {@link SBase} has exactly the same
+   * properties like this {@link SBase} instance.
+   * 
+   * @param sbase
+   * @return {@code true} if and only if the given {@link Object} is an instance of
+   *         {@link SBase} that has exactly the same properties like this
+   *         SBase instance.
+   */
+  public boolean equals(Object sbase);
 
-	/**
-	 * Returns the content of the 'annotation' sub-element of this object as a
-	 * String.
-	 * 
-	 * @return the content of the 'annotation' sub-element of this object as a
-	 * String.
-	 */
-	public String getAnnotationString();
+  /**
+   * This method returns a list of all qualifiers of the given type.
+   * 
+   * @param qualifier
+   * @return
+   */
+  public List<CVTerm> filterCVTerms(Qualifier qualifier);
 
-	/**
-	 * 
-	 * @param index
-	 * @return the {@link CVTerm} instance at the position 'index' in the list of
-	 *         {@link CVTerm}s of this object.
-	 */
-	public CVTerm getCVTerm(int index);
+  /**
+   * Queries the list of controlled vocabulary terms for those terms whose
+   * qualifier is of the given type and selects only those resources from
+   * these terms that contain the given pattern.
+   * 
+   * @param qualifier
+   * @param pattern
+   *            for instance, 'kegg' or 'chebi'.
+   * @return
+   */
+  public List<String> filterCVTerms(Qualifier qualifier, String pattern);
 
-	/**
-	 * 
-	 * @return the list of {@link CVTerm}s of this object. If not yet set, this method
-	 *         initializes the annotation and returns an empty list.
-	 */
-	public List<CVTerm> getCVTerms();
-	
-	/**
-	 * Returns all the namespaces declared on this object. These will be written on the
-	 * resulting XML element.
-	 * 
-	 * @return all the namespaces declared on this object. These will be written on the
-	 * resulting XML element.
-	 */
-	public Map<String, String> getDeclaredNamespaces();
+  /**
+   * A recursive implementation of {@link #filterCVTerms(Qualifier, String)}
+   * that considers all child elements of the current instance of
+   * {@link SBase} as well.
+   * 
+   * @param qualifier
+   * @param pattern
+   * @param recursive
+   *            decides whether or not considering all child elements of this
+   *            {@link SBase} and collecting the matching {@link CVTerm}s of
+   *            all children recursively. If this argument is {@code false}, the
+   *            behavior of the method will be equivalent to calling
+   *            {@link #filterCVTerms(Qualifier, String)}.
+   * @return
+   * @see #filterCVTerms(Qualifier, String)
+   */
+  public List<String> filterCVTerms(Qualifier qualifier, String pattern,
+    boolean recursive);
 
-	/**
-	 * 
-	 * @return the XML element name of this object.
-	 */
-	public String getElementName();
+  /**
+   * Returns the content of the 'annotation' sub-element of this object as an
+   *         {@link Annotation} instance.
+   *         
+   * @return the content of the 'annotation' sub-element of this object as an
+   *         {@link Annotation} instance.
+   */
+  public Annotation getAnnotation();
 
-	/**
-	 * 
-	 * @param namespace
-	 * @return the SBase extension object which matches this name space.
-	 */
-	public SBasePlugin getExtension(String namespace);
+  /**
+   * Returns the content of the 'annotation' sub-element of this object as a
+   * String.
+   * 
+   * @return the content of the 'annotation' sub-element of this object as a
+   * String.
+   */
+  public String getAnnotationString();
 
-	/**
-	 * 
-	 * @return the map containing all the extension objects of this object.
-	 */
-	public Map<String, SBasePlugin> getExtensionPackages();
+  /**
+   * 
+   * @param index
+   * @return the {@link CVTerm} instance at the position 'index' in the list of
+   *         {@link CVTerm}s of this object.
+   */
+  public CVTerm getCVTerm(int index);
 
-	/**
-	 * 
-	 * @return the {@link History} instance of this object.
-	 */
-	public History getHistory();
+  /**
+   * 
+   * @return the list of {@link CVTerm}s of this object. If not yet set, this method
+   *         initializes the annotation and returns an empty list.
+   */
+  public List<CVTerm> getCVTerms();
 
-	/**
-	 * Returns the SBML Level of the overall SBML document. Returns -1 if it is
-	 * not set.
-	 * 
-	 * @return the SBML level of this SBML object.
-	 * @see getVersion()
-	 */
-	public int getLevel();
+  /**
+   * Returns all the namespaces declared on this object. These will be written on the
+   * resulting XML element.
+   * 
+   * @return all the namespaces declared on this object. These will be written on the
+   * resulting XML element.
+   */
+  public Map<String, String> getDeclaredNamespaces();
 
-	/**
-	 * Returns the Level and Version combination of this {@link SBase}.
-	 * 
-	 * @return A {@link ValuePair} with the Level and Version of this
-	 *         {@link SBase}. Note that the returned {@link ValuePair} is never
-	 *         <code>null</false>, but if undeclared it may contain elements set to -1.
-	 */
-	public ValuePair<Integer, Integer> getLevelAndVersion();
+  /**
+   * 
+   * @return the XML element name of this object.
+   */
+  public String getElementName();
 
-	/**
-	 * 
-	 * @return the metaid of this element.
-	 */
-	public String getMetaId();
+  /**
+   * 
+   * @param namespace
+   * @return the SBase extension object which matches this name space.
+   */
+  public SBasePlugin getExtension(String namespace);
 
-	/**
-	 * Returns the {@link Model} object in which the current {@link SBase} is located.
-	 * 
-	 * @return
-	 */
-	public Model getModel();
-	
-	/**
-	 * Returns all the namespaces of all the packages which are currently
-	 *         extending this object.
-	 *         
-	 * @return all the name spaces of all the packages which are currently
-	 *         extending this object.
-	 */
-	public SortedSet<String> getNamespaces();
+  /**
+   * 
+   * @return the map containing all the extension objects of this object.
+   */
+  public Map<String, SBasePlugin> getExtensionPackages();
 
-	/**
-	 * Returns the <code>XMLNode</code> containing the notes sub-element of
-	 * this object.
-	 * 
-	 * @return the <code>XMLNode</code> containing the notes sub-element of
-	 *         this object.
-	 */
-	public XMLNode getNotes();
+  /**
+   * 
+   * @return the {@link History} instance of this object.
+   */
+  public History getHistory();
 
-	/**
-	 * 
-	 * @return the notes sub-element of this object as a {@link String}. If no
-	 *         notes are set, an empty {@link String} will be returned.
-	 */
-	public String getNotesString();
+  /**
+   * Returns the SBML Level of the overall SBML document. Returns -1 if it is
+   * not set.
+   * 
+   * @return the SBML level of this SBML object.
+   * @see getVersion()
+   */
+  public int getLevel();
 
-	/**
-	 * 
-	 * @return the number of {@link CVTerm}s of this {@link SBase}.
-	 * @deprecated use {@link #getCVTermCount()}
-	 */
-	@Deprecated
-	public int getNumCVTerms();
-	
-	/**
-	 * 
-	 * @return the number of {@link CVTerm}s of this {@link SBase}.
-	 */
-	public int getCVTermCount();
+  /**
+   * Returns the Level and Version combination of this {@link SBase}.
+   * 
+   * @return A {@link ValuePair} with the Level and Version of this
+   *         {@link SBase}. Note that the returned {@link ValuePair} is never
+   *         {@code null}, but if undeclared it may contain elements set to -1.
+   */
+  public ValuePair<Integer, Integer> getLevelAndVersion();
 
-	/**
-	 * This method is convenient when holding an object nested inside other
-	 * objects in an SBML model. It allows direct access to the &lt;model&gt;
-	 * 
-	 * element containing it.
-	 * 
-	 * @return Returns the parent SBML object.
-	 * @see #getParent()
-	 */
-	public SBase getParentSBMLObject();
+  /**
+   * 
+   * @return the metaid of this element.
+   */
+  public String getMetaId();
 
-	/**
-	 * Returns the parent {@link SBMLDocument} object.
-	 * 
-	 * LibSBML uses the class {@link SBMLDocument} as a top-level container for storing
-	 * SBML content and data associated with it (such as warnings and error
-	 * messages). An SBML model in libSBML is contained inside an {@link SBMLDocument}
-	 * object. {@link SBMLDocument} corresponds roughly to the class 'sbml' defined in the
-	 * SBML Level 2 specification, but it does not have a direct correspondence
-	 * in SBML Level 1. (But, it is created by libSBML no matter whether the
-	 * model is Level 1 or Level 2.)
-	 * 
-	 * This method allows the {@link SBMLDocument} for the current object to be
-	 * retrieved.
-	 * 
-	 * @return the parent {@link SBMLDocument} object of this SBML object.
-	 */
-	public SBMLDocument getSBMLDocument();
+  /**
+   * Returns the {@link Model} object in which the current {@link SBase} is located.
+   * 
+   * @return
+   */
+  public Model getModel();
 
-	/**
-	 * Grants access to the Systems Biology Ontology (SBO) term associated with
-	 * this {@link SBase}.
-	 * 
-	 * @return the SBOTerm attribute of this element.
-	 * @see SBO
-	 */
-	public int getSBOTerm();
+  /**
+   * Returns all the namespaces of all the packages which are currently
+   *         extending this object.
+   *         
+   * @return all the name spaces of all the packages which are currently
+   *         extending this object.
+   */
+  public SortedSet<String> getNamespaces();
 
-	/**
-	 * Grants access to the Systems Biology Ontology (SBO) term associated with
-	 * this {@link SBase}.
-	 * 
-	 * @return the SBO term ID of this element.
-	 * @see SBO
-	 */
-	public String getSBOTermID();
+  /**
+   * Returns the {@code XMLNode} containing the notes sub-element of
+   * this object.
+   * 
+   * @return the {@code XMLNode} containing the notes sub-element of
+   *         this object.
+   */
+  public XMLNode getNotes();
 
-	/**
-	 * Returns the Version within the SBML Level of the overall SBML document.
-	 * Return -1 if it is not set.
-	 * 
-	 * @return the SBML version of this SBML object.
-	 * @see getLevel()
-	 */
-	public int getVersion();
+  /**
+   * 
+   * @return the notes sub-element of this object as a {@link String}. If no
+   *         notes are set, an empty {@link String} will be returned.
+   */
+  public String getNotesString();
 
-	/**
-	 * 
-	 * @return
-	 * @see Object#hashCode()
-	 */
-	public int hashCode();
+  /**
+   * 
+   * @return the number of {@link CVTerm}s of this {@link SBase}.
+   * @deprecated use {@link #getCVTermCount()}
+   */
+  @Deprecated
+  public int getNumCVTerms();
 
-	/**
-	 * 
-	 * @return {@code true} if the {@link Annotation} 'about' {@link String} of this
-	 *         object matches the metaid of this object.
-	 */
-	public boolean hasValidAnnotation();
+  /**
+   * 
+   * @return the number of {@link CVTerm}s of this {@link SBase}.
+   */
+  public int getCVTermCount();
 
-	/**
-	 * Predicate returning {@code true} or <code>false</false> depending on whether this object's
-	 * level/version and name space values correspond to a valid SBML
-	 * specification.
-	 * 
-	 * @return
-	 */
-	public boolean hasValidLevelVersionNamespaceCombination();
+  /**
+   * This method is convenient when holding an object nested inside other
+   * objects in an SBML model. It allows direct access to the &lt;model&gt;
+   * 
+   * element containing it.
+   * 
+   * @return Returns the parent SBML object.
+   * @see #getParent()
+   */
+  public SBase getParentSBMLObject();
 
-	/**
-	 * 
-	 * @return {@code true} if this object is extended by other packages.
-	 */
-	public boolean isExtendedByOtherPackages();
+  /**
+   * Returns the parent {@link SBMLDocument} object.
+   * 
+   * LibSBML uses the class {@link SBMLDocument} as a top-level container for storing
+   * SBML content and data associated with it (such as warnings and error
+   * messages). An SBML model in libSBML is contained inside an {@link SBMLDocument}
+   * object. {@link SBMLDocument} corresponds roughly to the class 'sbml' defined in the
+   * SBML Level 2 specification, but it does not have a direct correspondence
+   * in SBML Level 1. (But, it is created by libSBML no matter whether the
+   * model is Level 1 or Level 2.)
+   * 
+   * This method allows the {@link SBMLDocument} for the current object to be
+   * retrieved.
+   * 
+   * @return the parent {@link SBMLDocument} object of this SBML object.
+   */
+  public SBMLDocument getSBMLDocument();
 
-	/**
-	 * Predicate returning {@code true} or <code>false</false> depending on whether this object's
-	 * 'annotation' sub-element exists and has content.
-	 * 
-	 * @return {@code true} if the {@link Annotation} instance of this object is not
-	 *         <code>null</false> and contains at least one {@link CVTerm} or one
-	 *         {@link String} containing other annotations than RDF or a
-	 *         {@link History} instance.
-	 */
-	public boolean isSetAnnotation();
+  /**
+   * Grants access to the Systems Biology Ontology (SBO) term associated with
+   * this {@link SBase}.
+   * 
+   * @return the SBOTerm attribute of this element.
+   * @see SBO
+   */
+  public int getSBOTerm();
 
-	/**
-	 * 
-	 * @return {@code true} if the {@link Annotation} instance of this object
-	 */
-	public boolean isSetHistory();
+  /**
+   * Grants access to the Systems Biology Ontology (SBO) term associated with
+   * this {@link SBase}.
+   * 
+   * @return the SBO term ID of this element.
+   * @see SBO
+   */
+  public String getSBOTermID();
 
-	/**
-	 * 
-	 * @return {@code true} if the level is not <code>null</false>.
-	 */
-	public boolean isSetLevel();
+  /**
+   * Returns the Version within the SBML Level of the overall SBML document.
+   * Return -1 if it is not set.
+   * 
+   * @return the SBML version of this SBML object.
+   * @see getLevel()
+   */
+  public int getVersion();
 
-	/**
-	 * Returns {@code true} if both, Level and Version are set for this
-	 * {@link SBase}.
-	 * 
-	 * @return {@code true} if {@link #isSetLevel()} and
-	 *         {@link #isSetVersion()}.
-	 */
-	public boolean isSetLevelAndVersion();
+  /**
+   * 
+   * @return
+   * @see Object#hashCode()
+   */
+  public int hashCode();
 
-	/**
-	 * Predicate returning {@code true} or <code>false</false> depending on whether this object's
-	 * 'metaid' attribute has been set.
-	 * 
-	 * @return {@code true} if the metaid is not <code>null</false>.
-	 */
-	public boolean isSetMetaId();
+  /**
+   * 
+   * @return {@code true} if the {@link Annotation} 'about' {@link String} of this
+   *         object matches the metaid of this object.
+   */
+  public boolean hasValidAnnotation();
 
-	/**
-	 * Predicate returning {@code true} or <code>false</false> depending on whether this object's
-	 * 'notes' sub-element exists and has content.
-	 * 
-	 * @return {@code true} if the notes {@link String} is not <code>null</false>.
-	 */
-	public boolean isSetNotes();
+  /**
+   * Predicate returning {@code true} or {@code false} depending on whether this object's
+   * level/version and name space values correspond to a valid SBML
+   * specification.
+   * 
+   * @return
+   */
+  public boolean hasValidLevelVersionNamespaceCombination();
 
-	/**
-	 * Check whether this {@link SBase} has been linked to a parent within the
-	 * hierarchical SBML data structure.
-	 * 
-	 * @return {@code true} if this {@link SBase} has a parent SBML object,
-	 *         {@code false} otherwise.
-	 * @see #getParentSBMLObject()
-	 */
-	public boolean isSetParentSBMLObject();
+  /**
+   * 
+   * @return {@code true} if this object is extended by other packages.
+   */
+  public boolean isExtendedByOtherPackages();
 
-	/**
-	 * 
-	 * @return {@code true} if the SBOTerm is not -1.
-	 * @see SBO
-	 */
-	public boolean isSetSBOTerm();
+  /**
+   * Predicate returning {@code true} or {@code false} depending on whether this object's
+   * 'annotation' sub-element exists and has content.
+   * 
+   * @return {@code true} if the {@link Annotation} instance of this object is not
+   *         {@code null} and contains at least one {@link CVTerm} or one
+   *         {@link String} containing other annotations than RDF or a
+   *         {@link History} instance.
+   */
+  public boolean isSetAnnotation();
 
-	/**
-	 * 
-	 * @return {@code true} if the version is not <code>null</false>.
-	 */
-	public boolean isSetVersion();
+  /**
+   * 
+   * @return {@code true} if the {@link Annotation} instance of this object
+   */
+  public boolean isSetHistory();
 
-	/**
-	 * If the attribute is an id or name attribute, it will set the id or name
-	 * of this object with the value of the XML attribute ('value').
-	 * 
-	 * @param attributeName
-	 *            : localName of the XML attribute
-	 * @param prefix
-	 *            : prefix of the XML attribute
-	 * @param value
-	 *            : value of the XML attribute
-	 * @return {@code true} if the attribute has been successfully read.
-	 */
-	public boolean readAttribute(String attributeName, String prefix,
-			String value);
+  /**
+   * 
+   * @return {@code true} if the level is not {@code null}.
+   */
+  public boolean isSetLevel();
 
-	/**
-	 * Sets this object as SBML parent of 'sbase'. Check if the level and version
-	 * of sbase are set, otherwise sets the level and version of 'sbase' with
-	 * those of this object. This method should actually not be called by any tool 
-	 * as it is used internally within JSBML to maintain the hierarchical document
-	 * structure.
-	 * 
-	 * If the level and version of sbase are set but not valid, an {@link Exception} is
-	 * thrown.
-	 */
-	public void registerChild(SBase sbase) throws LevelVersionError;
+  /**
+   * Returns {@code true} if both, Level and Version are set for this
+   * {@link SBase}.
+   * 
+   * @return {@code true} if {@link #isSetLevel()} and
+   *         {@link #isSetVersion()}.
+   */
+  public boolean isSetLevelAndVersion();
 
-	/**
-	 * Unregisters recursively the given SBase from the {@link Model}
-	 * and {@link SBMLDocument}.
-	 * 
-	 */
-	public void unregister(SBase sbase);
+  /**
+   * Predicate returning {@code true} or {@code false} depending on whether this object's
+   * 'metaid' attribute has been set.
+   * 
+   * @return {@code true} if the metaid is not {@code null}.
+   */
+  public boolean isSetMetaId();
 
-	/**
-	 * Removes the given {@link TreeNodeChangeListener} from this element.
-	 * 
-	 * @param l
-	 */
-	public void removeTreeNodeChangeListener(TreeNodeChangeListener l);
+  /**
+   * Predicate returning {@code true} or {@code false} depending on whether this object's
+   * 'notes' sub-element exists and has content.
+   * 
+   * @return {@code true} if the notes {@link String} is not {@code null}.
+   */
+  public boolean isSetNotes();
 
-	/**
-	 * Sets the value of the 'annotation' sub-element of this SBML object to a
-	 * copy of annotation given as an {@link Annotation} instance.
-	 * 
-	 * @param annotation
-	 */
-	public void setAnnotation(Annotation annotation);
+  /**
+   * Check whether this {@link SBase} has been linked to a parent within the
+   * hierarchical SBML data structure.
+   * 
+   * @return {@code true} if this {@link SBase} has a parent SBML object,
+   *         {@code false} otherwise.
+   * @see #getParentSBMLObject()
+   */
+  public boolean isSetParentSBMLObject();
 
-	/**
-	 * 
-	 * @return the {@link History} instance of this object.
-	 */
-	public void setHistory(History history);
+  /**
+   * 
+   * @return {@code true} if the SBOTerm is not -1.
+   * @see SBO
+   */
+  public boolean isSetSBOTerm();
 
-	/**
-	 * Sets the level of this object with 'level'. If the SBML parent of this
-	 * object is set and 'level' is different with the SBML parent level, an
-	 * {@link Exception} is thrown.
-	 * 
-	 * @param level
-	 */
-	public void setLevel(int level);
+  /**
+   * 
+   * @return {@code true} if the version is not {@code null}.
+   */
+  public boolean isSetVersion();
 
-	/**
-	 * Sets the metaid value with 'metaid'.
-	 * 
-	 * @param metaid
-	 * @throws PropertyNotAvailableException
-	 *             in Level 1.
-	 */
-	public void setMetaId(String metaid);
+  /**
+   * If the attribute is an id or name attribute, it will set the id or name
+   * of this object with the value of the XML attribute ('value').
+   * 
+   * @param attributeName
+   *            : localName of the XML attribute
+   * @param prefix
+   *            : prefix of the XML attribute
+   * @param value
+   *            : value of the XML attribute
+   * @return {@code true} if the attribute has been successfully read.
+   */
+  public boolean readAttribute(String attributeName, String prefix,
+    String value);
 
-	/**
-	 * Sets the notes with 'notes'.
-	 * 
-	 * @param notes
-	 */
-	public void setNotes(String notes);
+  /**
+   * Sets this object as SBML parent of 'sbase'. Check if the level and version
+   * of sbase are set, otherwise sets the level and version of 'sbase' with
+   * those of this object. This method should actually not be called by any tool 
+   * as it is used internally within JSBML to maintain the hierarchical document
+   * structure.
+   * 
+   * If the level and version of sbase are set but not valid, an {@link Exception} is
+   * thrown.
+   */
+  public void registerChild(SBase sbase) throws LevelVersionError;
 
-	/**
-	 * Sets the <code>XMLNode</code> containing the notes sub-element of
-	 * this object.
-	 * 
-	 */
-	public void setNotes(XMLNode notesXMLNode);
-	
+  /**
+   * Unregisters recursively the given SBase from the {@link Model}
+   * and {@link SBMLDocument}.
+   * 
+   */
+  public void unregister(SBase sbase);
 
-	// This method is protected now
-	// public void setParentSBML(SBase parent);
-	
-	/**
-	 * Sets the value of the 'sboTerm' attribute.
-	 * 
-	 * @param term
-	 * @see SBO
-	 * @throws PropertyNotAvailableException in Level 1.
-	 */
-	public void setSBOTerm(int term);
+  /**
+   * Removes the given {@link TreeNodeChangeListener} from this element.
+   * 
+   * @param l
+   */
+  public void removeTreeNodeChangeListener(TreeNodeChangeListener l);
 
-	/**
-	 * Sets the value of the 'sboTerm' attribute.
-	 * 
-	 * @param sboid
-	 * @see SBO
-	 */
-	public void setSBOTerm(String sboid);
+  /**
+   * Sets the value of the 'annotation' sub-element of this SBML object to a
+   * copy of annotation given as an {@link Annotation} instance.
+   * 
+   * @param annotation
+   */
+  public void setAnnotation(Annotation annotation);
 
-	/**
-	 * Sets this object as SBML parent of 'sbase'. Check if the level and version
-	 * of sbase are set, otherwise sets the level and version of 'sbase' with
-	 * those of this object. This method should actually not be called by any tool 
-	 * as it is used internally within JSBML to maintain the hierarchical document
-	 * structure.
-	 * 
-	 * If the level and version of sbase are set but not valid, an {@link Exception} is
-	 * thrown.
-	 * 
-	 * @deprecated use {@link #registerChild(SBase)}
-	 */
-	@Deprecated
-	public void setThisAsParentSBMLObject(SBase sbase) throws LevelVersionError;
+  /**
+   * 
+   * @return the {@link History} instance of this object.
+   */
+  public void setHistory(History history);
 
-	/**
-	 * Sets the version of this object with 'version'. If the SBML parent of this
-	 * object is set and 'version' is different with the SBMLparent version, an
-	 * {@link Exception} is thrown.
-	 * 
-	 * @param level
-	 */
-	public void setVersion(int version);
+  /**
+   * Sets the level of this object with 'level'. If the SBML parent of this
+   * object is set and 'level' is different with the SBML parent level, an
+   * {@link Exception} is thrown.
+   * 
+   * @param level
+   */
+  public void setLevel(int level);
 
-	/**
-	 * Unsets the value of the 'annotation' sub-element of this SBML object.
-	 */
-	public void unsetAnnotation();
+  /**
+   * Sets the metaid value with 'metaid'.
+   * 
+   * @param metaid
+   * @throws PropertyNotAvailableException
+   *             in Level 1.
+   */
+  public void setMetaId(String metaid);
 
-	/**
-	 * Unsets the list of {@link CVTerm} of this object.
-	 */
-	public void unsetCVTerms();
+  /**
+   * Sets the notes with 'notes'.
+   * 
+   * @param notes
+   */
+  public void setNotes(String notes);
 
-	/**
-	 * Unsets the {@link History} of this object.
-	 */
-	public void unsetHistory();
+  /**
+   * Sets the {@code XMLNode} containing the notes sub-element of
+   * this object.
+   * 
+   */
+  public void setNotes(XMLNode notesXMLNode);
 
-	/**
-	 * Unsets the value of the 'metaid' attribute of this SBML object.
-	 */
-	public void unsetMetaId();
 
-	/**
-	 * Unsets the value of the 'notes' sub-element of this SBML object.
-	 */
-	public void unsetNotes();
+  // This method is protected now
+  // public void setParentSBML(SBase parent);
 
-	/**
-	 * Unsets the value of the 'sboTerm' attribute of this SBML object.
-	 */
-	public void unsetSBOTerm();
+  /**
+   * Sets the value of the 'sboTerm' attribute.
+   * 
+   * @param term
+   * @see SBO
+   * @throws PropertyNotAvailableException in Level 1.
+   */
+  public void setSBOTerm(int term);
 
-	/**
-	 * @return a {@link Map} containing the XML attributes of this object.
-	 */
-	public Map<String, String> writeXMLAttributes();
+  /**
+   * Sets the value of the 'sboTerm' attribute.
+   * 
+   * @param sboid
+   * @see SBO
+   */
+  public void setSBOTerm(String sboid);
+
+  /**
+   * Sets this object as SBML parent of 'sbase'. Check if the level and version
+   * of sbase are set, otherwise sets the level and version of 'sbase' with
+   * those of this object. This method should actually not be called by any tool 
+   * as it is used internally within JSBML to maintain the hierarchical document
+   * structure.
+   * 
+   * If the level and version of sbase are set but not valid, an {@link Exception} is
+   * thrown.
+   * 
+   * @deprecated use {@link #registerChild(SBase)}
+   */
+  @Deprecated
+  public void setThisAsParentSBMLObject(SBase sbase) throws LevelVersionError;
+
+  /**
+   * Sets the version of this object with 'version'. If the SBML parent of this
+   * object is set and 'version' is different with the SBMLparent version, an
+   * {@link Exception} is thrown.
+   * 
+   * @param level
+   */
+  public void setVersion(int version);
+
+  /**
+   * Unsets the value of the 'annotation' sub-element of this SBML object.
+   */
+  public void unsetAnnotation();
+
+  /**
+   * Unsets the list of {@link CVTerm} of this object.
+   */
+  public void unsetCVTerms();
+
+  /**
+   * Unsets the {@link History} of this object.
+   */
+  public void unsetHistory();
+
+  /**
+   * Unsets the value of the 'metaid' attribute of this SBML object.
+   */
+  public void unsetMetaId();
+
+  /**
+   * Unsets the value of the 'notes' sub-element of this SBML object.
+   */
+  public void unsetNotes();
+
+  /**
+   * Unsets the value of the 'sboTerm' attribute of this SBML object.
+   */
+  public void unsetSBOTerm();
+
+  /**
+   * @return a {@link Map} containing the XML attributes of this object.
+   */
+  public Map<String, String> writeXMLAttributes();
 
 }

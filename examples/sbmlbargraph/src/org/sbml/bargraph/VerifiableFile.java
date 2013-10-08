@@ -26,7 +26,7 @@ import java.util.Stack;
 
 
 /**
- * Extension of <code>java.io.file</code> that adds methods for easily
+ * Extension of {@link java.io.File} that adds methods for easily
  * testing whether a given file or directory exists and is accessible.
  * <p>
  * Usage:
@@ -38,13 +38,13 @@ import java.util.Stack;
  *          ... do something else;
  * </pre>
  *
- * Note: The two-argument <code>VerifiableFile</code> constructors do not
+ * Note: The two-argument {@link VerifiableFile} constructors do not
  * interpret an empty parent abstract pathname as the current user
  * directory.  An empty parent instead causes the child to be resolved
  * against the system-dependent directory defined by the
- * <code>FileSystem.getDefaultParent</code> method.  On Unix this default
- * is <code>"/"</code>, while on Win32 it is <code>"\\"</code>.  This is
- * the behavior documented in the <code>java.io.File</code> classes.
+ * {@code FileSystem.getDefaultParent} method.  On Unix this default
+ * is {@code "/"}, while on Win32 it is {@code "\\"}.  This is
+ * the behavior documented in the {@code java.io.File} classes.
  */
 class VerifiableFile
     extends File
@@ -54,7 +54,7 @@ class VerifiableFile
     //
 
     /**
-     * Creates a new <code>VerifiableFile</code> instance by converting the
+     * Creates a new {@code VerifiableFile} instance by converting the
      * given pathname string into an abstract pathname.
      * 
      * @param pathname A pathname string.
@@ -66,8 +66,8 @@ class VerifiableFile
 
 
     /**
-     * Creates a new <code>VerifiableFile</code> instance by converting the
-     * given <code>File</code> parameter into an abstract pathname.
+     * Creates a new {@code VerifiableFile} instance by converting the
+     * given {@code File} parameter into an abstract pathname.
      * 
      * @param file A file.
      **/
@@ -83,21 +83,21 @@ class VerifiableFile
 
 
     /**
-     * Creates a new <code>VerifiableFile</code> instance from a parent
+     * Creates a new {@code VerifiableFile} instance from a parent
      * pathname string and a child pathname string.
      * <p>
-     * If <code>parent</code> is {@code null}, then the new
-     * <code>VerifiableFile</code> instance is created as if by invoking the
-     * single-argument <code>VerifiableFile</code> constructor on the given
-     * <code>child</code> pathname string. 
+     * If {@code parent} is {@code null}, then the new
+     * {@code VerifiableFile} instance is created as if by invoking the
+     * single-argument {@code VerifiableFile} constructor on the given
+     * {@code child} pathname string. 
      * <p>
-     * Otherwise, the <code>parent</code> pathname string is taken to denote
-     * a directory, and the <code>child</code> pathname string is taken to
-     * denote either a directory or a file.  If the <code>child</code> pathname
+     * Otherwise, the {@code parent} pathname string is taken to denote
+     * a directory, and the {@code child} pathname string is taken to
+     * denote either a directory or a file.  If the {@code child} pathname
      * string is absolute then it is converted into a relative pathname in a
-     * system-dependent way.  If <code>parent</code> is the empty string then
-     * the new <code>VerifiableFile</code> instance is created by converting
-     * <code>child</code> into an abstract pathname and resolving the result
+     * system-dependent way.  If {@code parent} is the empty string then
+     * the new {@code VerifiableFile} instance is created by converting
+     * {@code child} into an abstract pathname and resolving the result
      * against a system-dependent default directory.  Otherwise, each pathname
      * string is converted into an abstract pathname and the child abstract
      * pathname is resolved against the parent.
@@ -105,7 +105,7 @@ class VerifiableFile
      * @param parent The parent pathname string.
      * @param child The child pathname string.
      * @throws  NullPointerException
-     *          If <code>child</code> is {@code null}.
+     *          If {@code child} is {@code null}.
      **/
     public VerifiableFile(String parent, String child)
     {
@@ -114,21 +114,21 @@ class VerifiableFile
 
 
     /**
-     * Creates a new <code>VerifiableFile</code> instance from a parent
+     * Creates a new {@code VerifiableFile} instance from a parent
      * abstract pathname and a child pathname string.
      * <p>
-     * If <code>parent</code> is {@code null}, then the new
-     * <code>VerifiableFile</code> instance is created as if by invoking the
-     * single-argument <code>VerifiableFile</code> constructor on the given
-     * <code>child</code> pathname string. 
+     * If {@code parent} is {@code null}, then the new
+     * {@code VerifiableFile} instance is created as if by invoking the
+     * single-argument {@code VerifiableFile} constructor on the given
+     * {@code child} pathname string. 
      * <p>
-     * Otherwise, the <code>parent</code> abstract pathname is taken to denote
-     * a directory, and the <code>child</code> pathname string is taken to
-     * denote either a directory or a file.  If the <code>child</code> pathname
+     * Otherwise, the {@code parent} abstract pathname is taken to denote
+     * a directory, and the {@code child} pathname string is taken to
+     * denote either a directory or a file.  If the {@code child} pathname
      * string is absolute then it is converted into a relative pathname in a
-     * system-dependent way.  If <code>parent</code> is empty, then
-     * the new <code>VerifiableFile</code> instance is created by converting
-     * <code>child</code> into an abstract pathname and resolving the result
+     * system-dependent way.  If {@code parent} is empty, then
+     * the new {@code VerifiableFile} instance is created by converting
+     * {@code child} into an abstract pathname and resolving the result
      * against a system-dependent default directory.  Otherwise, each pathname
      * string is converted into an abstract pathname and the child abstract
      * pathname is resolved against the parent.
@@ -136,7 +136,7 @@ class VerifiableFile
      * @param parent The parent pathname string.
      * @param child The child pathname string.
      * @throws  NullPointerException
-     *          If <code>child</code> is {@code null}.
+     *          If {@code child} is {@code null}.
      **/
     public VerifiableFile(File parent, String child)
     {

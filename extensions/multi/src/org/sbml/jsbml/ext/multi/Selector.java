@@ -184,7 +184,7 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * 
 	 * @param id
 	 * @return the {@link SpeciesTypeState} that has the given id or null if
-	 * no {@link SpeciesTypeState} are found that match <code>id</code>.
+	 * no {@link SpeciesTypeState} are found that match {@code id}.
 	 */
 	public SpeciesTypeState getSpeciesTypeState(String id) {
 		if (isSetListOfSpeciesTypeStates()) {
@@ -274,7 +274,7 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * 
 	 * @param id
 	 * @return the {@link Bond} that has the given id or null if
-	 * no {@link Bond} are found that match <code>id</code>.
+	 * no {@link Bond} are found that match {@code id}.
 	 */
 	public Bond getBond(String id) {
 		if (isSetListOfBonds()) {
@@ -367,7 +367,7 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * 
 	 * @param id
 	 * @return the {@link BindingSiteReference} that has the given speciesTypeState id or null if
-	 * no {@link BindingSiteReference} are found that match <code>id</code>.
+	 * no {@link BindingSiteReference} are found that match {@code id}.
 	 */
 	public BindingSiteReference getUnboundBindingSite(final String id) {
 		if (isSetListOfUnboundBindingSites()) {

@@ -59,7 +59,7 @@ public class CVTerm extends AnnotationElement {
 	// any time.
 
 	/**
-	 * This <code>enum</code> list all the possible MIRIAM qualifiers.
+	 * This {@code enum} list all the possible MIRIAM qualifiers.
 	 * 
 	 */
 	public static enum Qualifier {

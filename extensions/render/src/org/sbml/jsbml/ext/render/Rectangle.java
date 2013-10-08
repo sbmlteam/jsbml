@@ -747,37 +747,37 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
     if (isSetX()) {
       attributes.remove(RenderConstants.x);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.x,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x,
         XMLTools.positioningToString(getX(), isAbsoluteX()));
     }
     if (isSetY()) {
       attributes.remove(RenderConstants.y);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.y,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.y,
         XMLTools.positioningToString(getY(), isAbsoluteY()));
     }
     if (isSetZ()) {
       attributes.remove(RenderConstants.z);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.z,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.z,
         XMLTools.positioningToString(getZ(), isAbsoluteZ()));
     }
     if (isSetWidth()) {
       attributes.remove(RenderConstants.width);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.width,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.width,
         XMLTools.positioningToString(getWidth(), isAbsoluteWidth()));
     }
     if (isSetHeight()) {
       attributes.remove(RenderConstants.height);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.height,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.height,
         XMLTools.positioningToString(getHeight(), isAbsoluteHeight()));
     }
     if (isSetRx()) {
       attributes.remove(RenderConstants.rx);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.rx,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.rx,
         XMLTools.positioningToString(getRx(), isAbsoluteRx()));
     }
     if (isSetRy()) {
       attributes.remove(RenderConstants.ry);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.ry,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.ry,
         XMLTools.positioningToString(getRy(), isAbsoluteRy()));
     }
     

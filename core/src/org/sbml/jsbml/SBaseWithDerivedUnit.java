@@ -38,7 +38,7 @@ public interface SBaseWithDerivedUnit extends SBase {
 	 * {@link SBaseWithDerivedUnit} refers to elements such as parameters or
 	 * numbers with undeclared units.
 	 * 
-	 * A return value of true indicates that the <code>UnitDefinition</code>
+	 * A return value of true indicates that the {@code UnitDefinition}
 	 * returned by {@see getDerivedUnitDefinition()} may not accurately
 	 * represent the units of the expression.
 	 * 

@@ -113,7 +113,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   
   /**
    * Copy constructor that clones all values from the input
-   * <code>species</code> that are also available in
+   * {@code species} that are also available in
    * {@link QualitativeSpecies}.
    * <p>You should consider setting a new id and meta_id afterwards
    * to avoid duplicate identifiers.
@@ -137,7 +137,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   
   /**
    * Copy constructor that clones all variables of
-   * <code>qualSpecies</code>.
+   * {@code qualSpecies}.
    * @param qualSpecies
    */
   public QualitativeSpecies(QualitativeSpecies qualSpecies) {
@@ -506,16 +506,16 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
 		  attributes.put(QualConstant.shortLabel+ ":name", getName());
 	  }
 	  if (isSetConstant()) {
-		  attributes.put(QualConstant.shortLabel+ ":"+QualConstant.constant, Boolean.toString(getConstant()));
+		  attributes.put(QualConstant.shortLabel+ ':' + QualConstant.constant, Boolean.toString(getConstant()));
 	  }
 	  if (isSetCompartment()) {
-		  attributes.put(QualConstant.shortLabel+ ":"+QualConstant.compartment, getCompartment());
+		  attributes.put(QualConstant.shortLabel+ ':' + QualConstant.compartment, getCompartment());
 	  }
 	  if (isSetInitialLevel()) {
-		  attributes.put(QualConstant.shortLabel+ ":"+QualConstant.initialLevel, Integer.toString(getInitialLevel()));
+		  attributes.put(QualConstant.shortLabel+ ':' + QualConstant.initialLevel, Integer.toString(getInitialLevel()));
 	  }	  
 	  if (isSetMaxLevel()) {
-		  attributes.put(QualConstant.shortLabel+ ":"+QualConstant.maxLevel, Integer.toString(getMaxLevel()));
+		  attributes.put(QualConstant.shortLabel+ ':' + QualConstant.maxLevel, Integer.toString(getMaxLevel()));
 	  }
 
 	  return attributes;

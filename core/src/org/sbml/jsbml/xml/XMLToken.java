@@ -904,7 +904,7 @@ public abstract class XMLToken extends AbstractTreeNode {
 	 * <p>
 	 * @return the prefix of an XML namespace declaration given its URI.  
 	 * <p>
-	 * @jsbml.note If <code>uri</code> does not exist, an empty string will be returned.
+	 * @jsbml.note If {@code uri} does not exist, an empty string will be returned.
 	 */
 	public String getNamespacePrefix(String uri) {
 		return namespaces.getPrefix(uri);
@@ -937,7 +937,7 @@ public abstract class XMLToken extends AbstractTreeNode {
 	 * <p>
 	 * @return the URI of an XML namespace declaration for the empty prefix.
 	 * <p>
-	 * @jsbml.note If <code>prefix</code> does not exist, an empty string will be returned.
+	 * @jsbml.note If {@code prefix} does not exist, an empty string will be returned.
 	 */
 	public String getNamespaceURI() {
 		return namespaces.getURI();
@@ -952,7 +952,7 @@ public abstract class XMLToken extends AbstractTreeNode {
 	 * @return the URI of an XML namespace declaration in the {@link XMLNamespaces}
 	 * (by position).  
 	 * <p>
-	 * @jsbml.note If <code>index</code> is out of range, an empty string will be
+	 * @jsbml.note If {@code index} is out of range, an empty string will be
 	 * returned.
 	 * <p>
 	 * @see #getNamespacesLength()
@@ -969,7 +969,7 @@ public abstract class XMLToken extends AbstractTreeNode {
 	 * <p>
 	 * @return the URI of an XML namespace declaration given its prefix.  
 	 * <p>
-	 * @jsbml.note If <code>prefix</code> does not exist, an empty string will be returned.
+	 * @jsbml.note If {@code prefix} does not exist, an empty string will be returned.
 	 */
 	public String getNamespaceURI(String prefix) {
 		return namespaces.getURI(prefix);

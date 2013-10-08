@@ -45,10 +45,10 @@ package org.sbml.jsbml.xml;
  * <p>
  * <li> The XML namespace prefix (if any) of the attribute.  For example,
  * in the following fragment of XML, the namespace prefix is the string
- * <code>mysim</code> and it appears on both the element
- * <code>someelement</code> and the attribute <code>attribA</code>.  When
+ * {@code mysim} and it appears on both the element
+ * {@code someelement} and the attribute {@code attribA}.  When
  * both the element and the attribute are stored as {@link XMLTriple} objects,
- * their <i>prefix</i> is <code>mysim</code>.
+ * their <i>prefix</i> is {@code mysim}.
  * <div class='fragment'><pre>
 		&lt;mysim:someelement mysim:attribA='value' /&gt;
 		</pre></div>
@@ -77,7 +77,7 @@ public class XMLTriple {
 	 * @param sb a reference to an object to which the current object
 	 * instance will be compared
 	 *
-	 * @return {@code true} if <code>sb</code> refers to the same underlying 
+	 * @return {@code true} if {@code sb} refers to the same underlying 
 	 * native object as this one, {@code false} otherwise
 	 */
 	public boolean equals(Object sb)
@@ -119,8 +119,8 @@ public class XMLTriple {
 
 
 	/**
-	 * Creates a new {@link XMLTriple} with the given <code>name</code>, <code>uri</code> and and 
-	 * <code>prefix</code>.
+	 * Creates a new {@link XMLTriple} with the given {@code name}, {@code uri} and and 
+	 * {@code prefix}.
 	 * <p>
 	 * @param name a string, name for the {@link XMLTriple}.
 	 * @param uri a string, URI of the {@link XMLTriple}.
@@ -143,8 +143,8 @@ public class XMLTriple {
 
 
 	/**
-	 * Creates a new {@link XMLTriple} by splitting the given <code>triplet</code> on the
-	 * separator character <code>sepchar</code>.
+	 * Creates a new {@link XMLTriple} by splitting the given {@code triplet} on the
+	 * separator character {@code sepchar}.
 	 * <p>
 	 * Triplet may be in one of the following formats:
 	 * <ul>
@@ -182,7 +182,7 @@ public class XMLTriple {
 
 
 	/**
-	 * Creates a new {@link XMLTriple} by splitting the given <code>triplet</code> 
+	 * Creates a new {@link XMLTriple} by splitting the given {@code triplet} 
 	 * separated by space.
 	 * <p>
 	 * Triplet may be in one of the following formats:
