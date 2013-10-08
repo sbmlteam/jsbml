@@ -136,7 +136,9 @@ public class ReplacedBy extends SBaseRef {
 		return "ReplacedBy [submodelRef=" + submodelRef + "]";
 	}
 	
-	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.comp.SBaseRef#writeXMLAttributes()
+	 */
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
@@ -147,6 +149,10 @@ public class ReplacedBy extends SBaseRef {
 		  return attributes;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.comp.SBaseRef#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) 
 	{

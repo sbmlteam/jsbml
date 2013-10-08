@@ -43,8 +43,8 @@ public class SpeciesTypeRestrictionReference extends AbstractSBase {
 
 	/**
 	 * Unsets the variable speciesTypeRestriction 
-	 * @return <code>true</code>, if speciesTypeRestriction was set before, 
-	 *         otherwise <code>false</code>
+	 * @return {@code true}, if speciesTypeRestriction was set before, 
+	 *         otherwise {@code false}
 	 */
 	public boolean unsetSpeciesTypeRestriction() {
 		if (isSetSpeciesTypeRestriction()) {
@@ -63,18 +63,24 @@ public class SpeciesTypeRestrictionReference extends AbstractSBase {
 		return null;
 	}
 	
-	
-
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+	 */
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetSpeciesTypeRestriction()) {
-			attributes.put(MultiConstant.shortLabel + ":speciesTypeRestriction", getSpeciesTypeRestriction());
+			attributes.put(MultiConstant.shortLabel + ":speciesTypeRestriction",
+			  getSpeciesTypeRestriction());
 		}
 
 		return attributes;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value) {
 
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);

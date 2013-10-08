@@ -79,7 +79,7 @@ public class Annotation extends AnnotationElement {
 	/**
 	 * Returns a {@link String} which represents the given {@link Qualifier}.
 	 * 
-	 * @param qualifier a <code>Qualifier</code>
+	 * @param qualifier a {@code Qualifier}
 	 * @return a {@link String} which represents the given {@link Qualifier}.
 	 */
 	public static String getElementNameEquivalentToQualifier(Qualifier qualifier) {

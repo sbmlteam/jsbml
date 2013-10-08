@@ -19,6 +19,7 @@
  */
 package org.sbml.jsbml.ext.fbc;
 
+import java.util.Locale;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
@@ -40,10 +41,18 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
    */
   private static final long serialVersionUID = 246449689493121713L;
 
-  private String reaction;
+  /**
+   * 
+   */
   private double coefficient;
-
+  /**
+   * 
+   */
   private boolean isSetCoefficient = false;
+  /**
+   * 
+   */
+  private String reaction;
 
   /**
    * Creates an FluxObjective instance 
@@ -54,13 +63,13 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   }
 
   /**
-   * Creates a FluxObjective instance with an id. 
-   * 
-   * @param id
+   * Clone constructor
    */
-  public FluxObjective(String id) {
-    super(id);
-    initDefaults();
+  public FluxObjective(FluxObjective obj) {
+    super(obj);
+
+    // TODO: copy all class attributes, e.g.:
+    // bar = obj.bar;
   }
 
   /**
@@ -71,6 +80,16 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
    */
   public FluxObjective(int level, int version) {
     this(null, null, level, version);
+  }
+
+  /**
+   * Creates a FluxObjective instance with an id. 
+   * 
+   * @param id
+   */
+  public FluxObjective(String id) {
+    super(id);
+    initDefaults();
   }
 
   /**
@@ -103,16 +122,6 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   }
 
   /**
-   * Clone constructor
-   */
-  public FluxObjective(FluxObjective obj) {
-    super(obj);
-
-    // TODO: copy all class attributes, e.g.:
-    // bar = obj.bar;
-  }
-
-  /**
    * clones this class
    */
   public FluxObjective clone() {
@@ -120,21 +129,11 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   }
 
   /**
-   * Initializes the default values using the namespace.
+   * @return the coefficient
    */
-  public void initDefaults() {
-    addNamespace(FBCConstants.namespaceURI);
+  public double getCoefficient() {
+    return coefficient;
   }
-
-
-
-  @Override
-  public String toString() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  // TODO: re-write the getters and setters
 
   /**
    * @return the reaction
@@ -142,30 +141,24 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   public String getReaction() {
     return reaction;
   }
-  /**
-   * @param reaction the reaction to set
-   */
-  public void setReaction(String reaction) {
-    this.reaction = reaction;
-  }
-  /**
-   * @return the coefficient
-   */
-  public double getCoefficient() {
-    return coefficient;
-  }
-  /**
-   * @param coefficient the coefficient to set
-   */
-  public void setCoefficient(double coefficient) {
-    this.coefficient = coefficient;
-    isSetCoefficient = true;
-  }
 
+  // TODO: re-write the getters and setters
+
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    addNamespace(FBCConstants.namespaceURI);
+  }
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  public boolean isIdMandatory() {
+    return true;
+  }
   public boolean isSetCoefficient() {
     return isSetCoefficient;
   }
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
    */
@@ -190,6 +183,30 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
     return isAttributeRead;
   }
 
+  /**
+   * @param coefficient the coefficient to set
+   */
+  public void setCoefficient(double coefficient) {
+    this.coefficient = coefficient;
+    isSetCoefficient = true;
+  }
+
+  /**
+   * @param reaction the reaction to set
+   */
+  public void setReaction(String reaction) {
+    this.reaction = reaction;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#toString()
+   */
+  @Override
+  public String toString() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
    */
@@ -201,18 +218,12 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
       attributes.put(FBCConstants.shortLabel+ ":reaction", getReaction());			
     }
     if (isSetCoefficient()) {
-      attributes.put(FBCConstants.shortLabel+ ":coefficient", StringTools.toString(getCoefficient()));
+      attributes.put(FBCConstants.shortLabel+ ":coefficient",
+        StringTools.toString(Locale.ENGLISH, getCoefficient()));
     }
     // TODO: take care of id and name properly
 
     return attributes;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
-   */
-  public boolean isIdMandatory() {
-    return true;
   }
 
 }

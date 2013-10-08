@@ -225,20 +225,26 @@ public class AdjacentDomains extends AbstractSBase {
 				+ "]";
 	}
 
-	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+	 */
 	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+	  Map<String, String> attributes = super.writeXMLAttributes();
 
-		  if (isSetDomain1()) {
-		    attributes.put(SpatialConstant.shortLabel + ":domain1", getDomain1());
-		  }
-		  if (isSetDomain2()) {
-			    attributes.put(SpatialConstant.shortLabel + ":domain2", getDomain2());
-			  }
+	  if (isSetDomain1()) {
+	    attributes.put(SpatialConstant.shortLabel + ":domain1", getDomain1());
+	  }
+	  if (isSetDomain2()) {
+	    attributes.put(SpatialConstant.shortLabel + ":domain2", getDomain2());
+	  }
 
-		  return attributes;
+	  return attributes;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
 

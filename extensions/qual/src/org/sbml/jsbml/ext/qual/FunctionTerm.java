@@ -86,7 +86,7 @@ public class FunctionTerm extends AbstractMathContainer {
 	/**
 	 * Creates a FunctionTerm instance from a given FunctionTerm.
 	 * 
-	 * @param ft an <code>FunctionTerm</code> object to clone
+	 * @param ft an {@code FunctionTerm} object to clone
 	 */
 	public FunctionTerm(FunctionTerm ft) {
 		super(ft);
@@ -259,7 +259,8 @@ public class FunctionTerm extends AbstractMathContainer {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetResultLevel()) {
-			attributes.put(QualConstant.shortLabel + ':' + QualConstant.resultLevel, Integer.toString(getResultLevel()));
+			attributes.put(QualConstant.shortLabel + ':' + QualConstant.resultLevel,
+			  Integer.toString(getResultLevel()));
 		}	  
 		return attributes;
 	}

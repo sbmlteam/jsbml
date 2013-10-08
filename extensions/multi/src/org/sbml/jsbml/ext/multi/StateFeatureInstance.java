@@ -127,7 +127,7 @@ public class StateFeatureInstance extends AbstractNamedSBase {
 	 * 
 	 * @param id
 	 * @return the {@link StateFeatureValue} that has the given id or null if
-	 * no {@link StateFeatureValue} are found that match <code>id</code>.
+	 * no {@link StateFeatureValue} are found that match {@code id}.
 	 */
 	public StateFeatureValue getStateFeatureValue(String id) {
 		if (isSetListOfStateFeatureValues()) {
@@ -249,7 +249,7 @@ public class StateFeatureInstance extends AbstractNamedSBase {
 			attributes.put(MultiConstant.shortLabel+ ":name", getName());
 		}
 		if (isSetStateFeature()) {
-			attributes.put(MultiConstant.shortLabel + ":" + MultiConstant.stateFeature, getStateFeature());
+			attributes.put(MultiConstant.shortLabel + ':' + MultiConstant.stateFeature, getStateFeature());
 		} 
 
 		return attributes;

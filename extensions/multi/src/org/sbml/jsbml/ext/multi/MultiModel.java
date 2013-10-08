@@ -154,7 +154,7 @@ public class MultiModel extends AbstractSBasePlugin {
 	 * 
 	 * @param id
 	 * @return the {@link SpeciesType} that has the given id or null if
-	 * no {@link SpeciesType} are found that match <code>id</code>.
+	 * no {@link SpeciesType} are found that match {@code id}.
 	 */
 	public SpeciesType getSpeciesType(String id) {
 		if (isSetListOfSpeciesTypes()) {
@@ -261,7 +261,7 @@ public class MultiModel extends AbstractSBasePlugin {
 	 * 
 	 * @param id
 	 * @return the {@link Selector} that has the given id or null if
-	 * no {@link Selector} are found that match <code>id</code>.
+	 * no {@link Selector} are found that match {@code id}.
 	 */
 	public Selector getSelector(String id) {
 		if (isSetListOfSelectors()) {

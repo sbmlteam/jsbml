@@ -38,111 +38,114 @@ import org.sbml.jsbml.Reaction;
  */
 public class ReactionGlyph extends AbstractReferenceGlyph {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 8770691813350594995L;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 8770691813350594995L;
 
-	/**
-	 * 
-	 */
-	private Curve curve;
-	
-	/**
-	 * 
-	 */
-	private ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyph;
+  /**
+   * 
+   */
+  private Curve curve;
 
-	/**
-	 * 
-	 */
-	public ReactionGlyph() {
-	  super();
-	}
+  /**
+   * 
+   */
+  private ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyph;
 
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public ReactionGlyph(int level, int version) {
-		super(level, version);
-	}
-	
-	/**
-	 * 
-	 * @param reactionGlyph
-	 */
-	public ReactionGlyph(ReactionGlyph reactionGlyph) {
-		super(reactionGlyph);
-		if (reactionGlyph.isSetCurve()) {
-			this.curve = reactionGlyph.getCurve().clone();
-		}
-		if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
-			this.listOfSpeciesReferencesGlyph = reactionGlyph
-					.getListOfSpeciesReferenceGlyphs().clone();
-		}
-	}
-	
-	/**
-	 * 
-	 * @param id
-	 */
-	public ReactionGlyph(String id) {
-		super(id);
-	}
-	
-	/**
-	 * 
-	 * @param id
-	 * @param level
-	 * @param version
-	 */
-	public ReactionGlyph(String id, int level, int version) {
-		super(id, level, version);
-	}
+  /**
+   * 
+   */
+  public ReactionGlyph() {
+    super();
+  }
 
-	/**
-	 * Appends the specified element to the end of the
-	 * {@link #listOfSpeciesReferencesGlyph}.
-	 * 
-	 * @param glyph
-	 * @return {@code true} (as specified by {@link Collection#add(E)})
-	 * @throws NullPointerException
-	 *             if the specified element is null and this list does not
-	 *             permit null elements
-	 * @throws IllegalArgumentException
-	 *             if some property of this element prevents it from being added
-	 *             to this list
-	 */
-	public boolean addSpeciesReferenceGlyph(SpeciesReferenceGlyph glyph) {
-		return getListOfSpeciesReferenceGlyphs().add(glyph);
-	}
+  /**
+   * 
+   * @param level
+   * @param version
+   */
+  public ReactionGlyph(int level, int version) {
+    super(level, version);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
-	 */
-	public ReactionGlyph clone() {
-		return new ReactionGlyph(this);
-	}
+  /**
+   * 
+   * @param reactionGlyph
+   */
+  public ReactionGlyph(ReactionGlyph reactionGlyph) {
+    super(reactionGlyph);
+    if (reactionGlyph.isSetCurve()) {
+      this.curve = reactionGlyph.getCurve().clone();
+    }
+    if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
+      this.listOfSpeciesReferencesGlyph = reactionGlyph
+          .getListOfSpeciesReferenceGlyphs().clone();
+    }
+  }
 
-	/**
-	 * Creates and adds a new {@link SpeciesReferenceGlyph}
-	 * @param id the identifier for the {@link SpeciesReferenceGlyph} to be created.
-	 * @return a new {@link SpeciesReferenceGlyph}.
-	 */
-	public SpeciesReferenceGlyph createSpeciesReferenceGlyph(String id) {
-		SpeciesReferenceGlyph glyph = new SpeciesReferenceGlyph(id, getLevel(), getVersion());
-		addSpeciesReferenceGlyph(glyph);
-		return glyph;
-	}
-	
+  /**
+   * 
+   * @param id
+   */
+  public ReactionGlyph(String id) {
+    super(id);
+  }
+
+  /**
+   * 
+   * @param id
+   * @param level
+   * @param version
+   */
+  public ReactionGlyph(String id, int level, int version) {
+    super(id, level, version);
+  }
+
+  /**
+   * Appends the specified element to the end of the
+   * {@link #listOfSpeciesReferencesGlyph}.
+   * 
+   * @param glyph
+   * @return {@code true} (as specified by {@link Collection#add(E)})
+   * @throws NullPointerException
+   *             if the specified element is null and this list does not
+   *             permit null elements
+   * @throws IllegalArgumentException
+   *             if some property of this element prevents it from being added
+   *             to this list
+   */
+  public boolean addSpeciesReferenceGlyph(SpeciesReferenceGlyph glyph) {
+    return getListOfSpeciesReferenceGlyphs().add(glyph);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
+   */
+  public ReactionGlyph clone() {
+    return new ReactionGlyph(this);
+  }
+
+  /**
+   * Creates and adds a new {@link SpeciesReferenceGlyph}
+   * @param id the identifier for the {@link SpeciesReferenceGlyph} to be created.
+   * @return a new {@link SpeciesReferenceGlyph}.
+   */
+  public SpeciesReferenceGlyph createSpeciesReferenceGlyph(String id) {
+    SpeciesReferenceGlyph glyph = new SpeciesReferenceGlyph(id, getLevel(), getVersion());
+    addSpeciesReferenceGlyph(glyph);
+    return glyph;
+  }
+
   /**
    * Creates and adds a new {@link SpeciesReferenceGlyph}
    * 
-   * @param id the identifier for the {@link SpeciesReferenceGlyph} to be created.
-   * @param speciesGlyph corresponding {@link SpeciesGlyph} ID.
-   * @return a new {@link SpeciesReferenceGlyph} that points to the given <code>speciesGlyph</code>.
+   * @param id
+   *        the identifier for the {@link SpeciesReferenceGlyph} to be created.
+   * @param speciesGlyph
+   *        corresponding {@link SpeciesGlyph} ID.
+   * @return a new {@link SpeciesReferenceGlyph} that points to the given
+   *         {@code speciesGlyph}.
    */
   public SpeciesReferenceGlyph createSpeciesReferenceGlyph(String id, String speciesGlyph) {
     SpeciesReferenceGlyph glyph = createSpeciesReferenceGlyph(id);
@@ -171,103 +174,103 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   }
 
   /* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildAt(int)
-	 */
-	@Override
-	public TreeNode getChildAt(int index) {
-		if (index < 0) {
-			throw new IndexOutOfBoundsException(Integer.toString(index));
-		}
-		int count = super.getChildCount(), pos = 0;
-		if (index < count) {
-			return super.getChildAt(index);
-		} else {
-			index -= count;
-		}
-		if (isSetCurve()) {
-			if (pos == index) {
-				return getCurve();
-			}
-			pos++;
-		}
-		if (isSetListOfSpeciesReferencesGlyphs()) {
-			if (pos == index) {
-				return getListOfSpeciesReferenceGlyphs();
-			}
-			pos++;
-		}
-		throw new IndexOutOfBoundsException(MessageFormat.format(
-		  "Index {0,number,integer} >= {1,number,integer}",
-			index, +((int) Math.min(pos, 0))));
-	}
-  
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildCount()
-	 */
-	@Override
-	public int getChildCount() {
-		int count = super.getChildCount();
-		if (isSetCurve()) {
-			count++;
-		}
-		if (isSetListOfSpeciesReferencesGlyphs()) {
-			count++;
-		}
-		return count;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public Curve getCurve() {
-		return curve;
-	}
+   * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildAt(int)
+   */
+  @Override
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(Integer.toString(index));
+    }
+    int count = super.getChildCount(), pos = 0;
+    if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
+    }
+    if (isSetCurve()) {
+      if (pos == index) {
+        return getCurve();
+      }
+      pos++;
+    }
+    if (isSetListOfSpeciesReferencesGlyphs()) {
+      if (pos == index) {
+        return getListOfSpeciesReferenceGlyphs();
+      }
+      pos++;
+    }
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}",
+      index, +((int) Math.min(pos, 0))));
+  }
 
-	/**
-	 * If the {@link #listOfSpeciesReferencesGlyph} has not yet been initialized, this
-	 * will be done by this method.
-	 * 
-	 * @return the {@link #listOfSpeciesReferencesGlyph}
-	 */
-	public ListOf<SpeciesReferenceGlyph> getListOfSpeciesReferenceGlyphs() {
-		if (!isSetListOfSpeciesReferencesGlyphs()) {
-			listOfSpeciesReferencesGlyph = new ListOf<SpeciesReferenceGlyph>();
-			listOfSpeciesReferencesGlyph.addNamespace(LayoutConstants.namespaceURI);
-			listOfSpeciesReferencesGlyph.setSBaseListType(ListOf.Type.other);
-			registerChild(listOfSpeciesReferencesGlyph);
-		}
-		return listOfSpeciesReferencesGlyph;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    int count = super.getChildCount();
+    if (isSetCurve()) {
+      count++;
+    }
+    if (isSetListOfSpeciesReferencesGlyphs()) {
+      count++;
+    }
+    return count;
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public String getReaction() {
-		return getReference();
-	}
+  /**
+   * 
+   * @return
+   */
+  public Curve getCurve() {
+    return curve;
+  }
 
-	/**
-	 * Note that the return type of this method is {@link NamedSBase} because it
-	 * could be possible to link some element from other packages to this glyph.
-	 * 
-	 * @return
-	 */
-	public NamedSBase getReactionInstance() {
-	  return getNamedSBaseInstance();
-	}
-	
-	/**
-	 * 
-	 * @param i
-	 * @return
-	 */
+  /**
+   * If the {@link #listOfSpeciesReferencesGlyph} has not yet been initialized, this
+   * will be done by this method.
+   * 
+   * @return the {@link #listOfSpeciesReferencesGlyph}
+   */
+  public ListOf<SpeciesReferenceGlyph> getListOfSpeciesReferenceGlyphs() {
+    if (!isSetListOfSpeciesReferencesGlyphs()) {
+      listOfSpeciesReferencesGlyph = new ListOf<SpeciesReferenceGlyph>();
+      listOfSpeciesReferencesGlyph.addNamespace(LayoutConstants.namespaceURI);
+      listOfSpeciesReferencesGlyph.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfSpeciesReferencesGlyph);
+    }
+    return listOfSpeciesReferencesGlyph;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public String getReaction() {
+    return getReference();
+  }
+
+  /**
+   * Note that the return type of this method is {@link NamedSBase} because it
+   * could be possible to link some element from other packages to this glyph.
+   * 
+   * @return
+   */
+  public NamedSBase getReactionInstance() {
+    return getNamedSBaseInstance();
+  }
+
+  /**
+   * 
+   * @param i
+   * @return
+   */
   public SpeciesReferenceGlyph getSpeciesReferenceGlyph(int i) {
     return getListOfSpeciesReferenceGlyphs().get(i);
   }
-	
-	/* (non-Javadoc)
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#hashCode()
    */
   @Override
@@ -283,121 +286,121 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
     return hashCode;
   }
 
-	/**
-	 * @return
-	 */
-	public boolean isSetCurve() {
-		return curve != null;
-	}
+  /**
+   * @return
+   */
+  public boolean isSetCurve() {
+    return curve != null;
+  }
 
-	/**
-	 * @return
-	 */
-	public boolean isSetListOfSpeciesReferencesGlyphs() {
-		return listOfSpeciesReferencesGlyph != null;
-	}
+  /**
+   * @return
+   */
+  public boolean isSetListOfSpeciesReferencesGlyphs() {
+    return listOfSpeciesReferencesGlyph != null;
+  }
 
-	/**
-	 * @return
-	 */
-	public boolean isSetReaction() {
-		return isSetReference();
-	}
+  /**
+   * @return
+   */
+  public boolean isSetReaction() {
+    return isSetReference();
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix,
+    String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+      value);
 
-		if (!isAttributeRead) {
+    if (!isAttributeRead) {
 
-			isAttributeRead = true;			
-			if (attributeName.equals("reaction")) {				
-				setReaction(value);
-			} else {
-				return false;
-			}
-		}
+      isAttributeRead = true;			
+      if (attributeName.equals("reaction")) {				
+        setReaction(value);
+      } else {
+        return false;
+      }
+    }
 
-		return isAttributeRead;
-	}
+    return isAttributeRead;
+  }
 
-	/**
-	 * 
-	 * @param curve
-	 */
-	public void setCurve(Curve curve) {
-		if (this.curve != null) {
-			Curve oldValue = this.curve;
-			this.curve = null;
-			oldValue.fireNodeRemovedEvent();
-		}
-		this.curve = curve;
-		registerChild(this.curve);
-	}
-	
-	/**
-	 * 
-	 * @param listOfSpeciesReferencesGlyph
-	 */
-	public void setListOfSpeciesReferencesGlyph(
-			ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyph) {
-		unsetListOfSpeciesReferencesGlyph();
-		this.listOfSpeciesReferencesGlyph = listOfSpeciesReferencesGlyph;
-		registerChild(this.listOfSpeciesReferencesGlyph);
-	}
-	
-	/**
-	 * 
-	 * @param reaction
-	 */
-	public void setReaction(Reaction reaction) {
-		setReaction(reaction.getId());
-	}
-	
-	/**
-	 * 
-	 * @param reaction
-	 */
-	public void setReaction(String reaction) {
-		setReference(reaction, LayoutConstants.reaction);
-	}
+  /**
+   * 
+   * @param curve
+   */
+  public void setCurve(Curve curve) {
+    if (this.curve != null) {
+      Curve oldValue = this.curve;
+      this.curve = null;
+      oldValue.fireNodeRemovedEvent();
+    }
+    this.curve = curve;
+    registerChild(this.curve);
+  }
 
-	/**
-	 * 
-	 */
-	private void unsetListOfSpeciesReferencesGlyph() {
-		if (this.listOfSpeciesReferencesGlyph != null) {
-			ListOf<SpeciesReferenceGlyph> oldValue = this.listOfSpeciesReferencesGlyph;
-			this.listOfSpeciesReferencesGlyph = null;
-			oldValue.fireNodeRemovedEvent();
-		}
-	}
-	
-	/**
-	 * 
-	 */
-	public void unsetReaction() {
-		unsetReference();
-	}
+  /**
+   * 
+   * @param listOfSpeciesReferencesGlyph
+   */
+  public void setListOfSpeciesReferencesGlyph(
+    ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyph) {
+    unsetListOfSpeciesReferencesGlyph();
+    this.listOfSpeciesReferencesGlyph = listOfSpeciesReferencesGlyph;
+    registerChild(this.listOfSpeciesReferencesGlyph);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()
-	 */
-	@Override
-	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
-		
-		if (isSetReaction()) {
-			attributes.put(LayoutConstants.shortLabel + ':'
-					+ LayoutConstants.reaction, getReaction());
-		}
+  /**
+   * 
+   * @param reaction
+   */
+  public void setReaction(Reaction reaction) {
+    setReaction(reaction.getId());
+  }
 
-		return attributes;
-	}
+  /**
+   * 
+   * @param reaction
+   */
+  public void setReaction(String reaction) {
+    setReference(reaction, LayoutConstants.reaction);
+  }
+
+  /**
+   * 
+   */
+  private void unsetListOfSpeciesReferencesGlyph() {
+    if (this.listOfSpeciesReferencesGlyph != null) {
+      ListOf<SpeciesReferenceGlyph> oldValue = this.listOfSpeciesReferencesGlyph;
+      this.listOfSpeciesReferencesGlyph = null;
+      oldValue.fireNodeRemovedEvent();
+    }
+  }
+
+  /**
+   * 
+   */
+  public void unsetReaction() {
+    unsetReference();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (isSetReaction()) {
+      attributes.put(LayoutConstants.shortLabel + ':'
+        + LayoutConstants.reaction, getReaction());
+    }
+
+    return attributes;
+  }
 
 }

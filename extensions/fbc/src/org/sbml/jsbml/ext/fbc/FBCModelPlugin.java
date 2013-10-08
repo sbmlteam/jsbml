@@ -412,7 +412,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
    */
   public Map<String, String> writeXMLAttributes() {
-    return new HashMap<String, String>();
+    return null;
   }
 
 }

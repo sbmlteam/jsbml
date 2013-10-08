@@ -65,7 +65,7 @@ public interface SBaseWithUnit extends SBaseWithDerivedUnit {
 	public boolean isSetUnits();
 
 	/**
-	 * Checks whether the element referenced by the <code>unitsID</code>
+	 * Checks whether the element referenced by the {@code unitsID}
 	 * attribute of this {@link SBaseWithUnit} is either an existing base
 	 * {@link Unit}, i.e., a simple {@link Unit} that can directly be addressed
 	 * via its {@link Kind} element, or the identifier of an existing
@@ -73,10 +73,10 @@ public interface SBaseWithUnit extends SBaseWithDerivedUnit {
 	 * {@link SBaseWithUnit} belongs.
 	 * 
 	 * @return true if either a {@link UnitDefinition}, which has the
-	 *         <code>unitsID</code> of this {@link SBaseWithUnit}, can be
+	 *         {@code unitsID} of this {@link SBaseWithUnit}, can be
 	 *         found in the {@link Model} to which this
 	 *         {@link SBaseWithUnit} belongs, or if this element's
-	 *         <code>unitsID</code> as a corresponding base {@link Unit} for the
+	 *         {@code unitsID} as a corresponding base {@link Unit} for the
 	 *         given Level/Version combination.
 	 */
 	public boolean isSetUnitsInstance();

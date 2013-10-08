@@ -117,7 +117,7 @@ public class StateFeature extends AbstractNamedSBase implements UniqueNamedSBase
 	 * 
 	 * @param id
 	 * @return the {@link PossibleValue} that has the given id or null if
-	 * no {@link PossibleValue} are found that match <code>id</code>.
+	 * no {@link PossibleValue} are found that match {@code id}.
 	 */
 	public PossibleValue getPossibleValue(String id) {
 		if (isSetListOfPossibleValues()) {

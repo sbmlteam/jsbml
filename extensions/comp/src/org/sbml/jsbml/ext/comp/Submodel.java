@@ -456,7 +456,9 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 				+((int) Math.min(pos, 0))));
 	}
 	
-	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+	 */
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
@@ -481,6 +483,10 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 		return attributes;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
 

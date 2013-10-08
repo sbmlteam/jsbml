@@ -558,37 +558,37 @@ public class Group extends GraphicalPrimitive2D {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetId()) {
       attributes.remove(RenderConstants.id);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.id,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.id,
         getId());
     }
     if (isSetFontFamily()) {
       attributes.remove(RenderConstants.fontFamily);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.fontFamily,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fontFamily,
         getFontFamily().toString().toLowerCase());
     }
     if (isSetTextAnchor()) {
       attributes.remove(RenderConstants.textAnchor);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.textAnchor,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.textAnchor,
         getTextAnchor().toString().toLowerCase());
     }
     if (isSetVTextAnchor()) {
       attributes.remove(RenderConstants.vTextAnchor);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.vTextAnchor,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.vTextAnchor,
         getVTextAnchor().toString().toLowerCase());
     }
     if (isSetFontSize()) {
       attributes.remove(RenderConstants.fontSize);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.fontSize,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fontSize,
         Short.toString(getFontSize()));
     }
     if (isSetStartHead()) {
       attributes.remove(RenderConstants.startHead);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.startHead,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.startHead,
         getStartHead());
     }
     if (isSetEndHead()) {
       attributes.remove(RenderConstants.endHead);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.endHead,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.endHead,
         getEndHead());
     }
     if (isSetFontStyleItalic()) {

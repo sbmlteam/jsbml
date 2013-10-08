@@ -265,12 +265,12 @@ public class Curve extends GraphicalPrimitive1D {
 	  Map<String, String> attributes = super.writeXMLAttributes();
 	  if (isSetStartHead()) {
 	    attributes.remove(RenderConstants.startHead);
-	    attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.startHead,
+	    attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.startHead,
 	        getStartHead());
 	  }
 	  if (isSetEndHead()) {
 	    attributes.remove(RenderConstants.endHead);
-	    attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.endHead,
+	    attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.endHead,
 	        getEndHead());
 	  }
 	  return attributes;

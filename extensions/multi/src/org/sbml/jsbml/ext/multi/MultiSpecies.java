@@ -175,8 +175,7 @@ public class MultiSpecies extends AbstractSBasePlugin {
     return false;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
    */
   public Map<String, String> writeXMLAttributes() {

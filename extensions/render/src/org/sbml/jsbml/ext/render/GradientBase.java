@@ -318,7 +318,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetSpreadMethod()) {
       attributes.remove(RenderConstants.spreadMethod);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.spreadMethod,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.spreadMethod,
         getSpreadMethod().toString().toLowerCase());
     }
     return attributes;

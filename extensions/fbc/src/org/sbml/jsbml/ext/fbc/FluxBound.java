@@ -19,6 +19,7 @@
  */
 package org.sbml.jsbml.ext.fbc;
 
+import java.util.Locale;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
@@ -281,13 +282,16 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
     Map<String, String> attributes = super.writeXMLAttributes();
 
     if (reaction != null) {
-      attributes.put(FBCConstants.shortLabel + ':' + FBCConstants.reaction, getReaction());			
+      attributes.put(FBCConstants.shortLabel + ':' + FBCConstants.reaction,
+        getReaction());			
     }
     if (operation != null) {
-      attributes.put(FBCConstants.shortLabel + ':' + FBCConstants.operation, getOperation().toString());
+      attributes.put(FBCConstants.shortLabel + ':' + FBCConstants.operation,
+        getOperation().toString());
     }
     if (isSetValue()) {
-      attributes.put(FBCConstants.shortLabel + ':' + FBCConstants.value, StringTools.toString(getValue()));
+      attributes.put(FBCConstants.shortLabel + ':' + FBCConstants.value,
+        StringTools.toString(Locale.ENGLISH, getValue()));
     }
     if (isSetId()) {
       attributes.remove("id");

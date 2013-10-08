@@ -408,18 +408,21 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
 		  attributes.put(QualConstant.shortLabel+ ":name", getName());
 	  }
 	  if (isSetQualitativeSpecies()) {
-		  attributes.put(QualConstant.shortLabel+ ":"+QualConstant.qualitativeSpecies, getQualitativeSpecies());
+		  attributes.put(QualConstant.shortLabel+ ':' + QualConstant.qualitativeSpecies, getQualitativeSpecies());
 	  }
 	  if (isSetOutputLevel()) {
-		  attributes.put(QualConstant.shortLabel+ ":"+QualConstant.outputLevel, Integer.toString(getOutputLevel()));
+		  attributes.put(QualConstant.shortLabel+ ':' + QualConstant.outputLevel, Integer.toString(getOutputLevel()));
 	  }	  
 	  if (isSetTransitionEffect()) {
-		  attributes.put(QualConstant.shortLabel+ ":"+QualConstant.transitionEffect, getTransitionEffect().toString());
+		  attributes.put(QualConstant.shortLabel+ ':' + QualConstant.transitionEffect, getTransitionEffect().toString());
 	  }
 
 	  return attributes;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBaseWithDerivedUnit#containsUndeclaredUnits()
+   */
   public boolean containsUndeclaredUnits() {
 		return false;
 	}

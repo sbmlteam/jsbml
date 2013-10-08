@@ -378,32 +378,32 @@ public class LinearGradient extends GradientBase {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetX1()) {
       attributes.remove(RenderConstants.x1);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.x1,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x1,
         XMLTools.positioningToString(getX1(), false));
     }
     if (isSetX2()) {
       attributes.remove(RenderConstants.x2);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.x2,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x2,
         XMLTools.positioningToString(getX1(), false));
     }
     if (isSetY1()) {
       attributes.remove(RenderConstants.y1);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.y1,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.y1,
         XMLTools.positioningToString(getX1(), false));
     }
     if (isSetY2()) {
       attributes.remove(RenderConstants.y2);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.y2,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.y2,
         XMLTools.positioningToString(getX1(), false));
     }
     if (isSetZ1()) {
       attributes.remove(RenderConstants.z1);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.z1,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.z1,
         XMLTools.positioningToString(getX1(), false));
     }
     if (isSetZ2()) {
       attributes.remove(RenderConstants.z2);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.z2,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.z2,
         XMLTools.positioningToString(getX1(), false));
     }
     return attributes;

@@ -19,6 +19,7 @@
  */
 package org.sbml.jsbml.ext.groups;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.sbml.jsbml.ListOf;
@@ -150,8 +151,7 @@ public class GroupModel extends AbstractSBasePlugin {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
 	 */
 	public GroupModel clone() {
@@ -167,8 +167,7 @@ public class GroupModel extends AbstractSBasePlugin {
         + "]";
   }
   
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public boolean readAttribute(String attributeName, String prefix, String value) {
@@ -176,8 +175,7 @@ public class GroupModel extends AbstractSBasePlugin {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
 	 */
 	public Map<String, String> writeXMLAttributes() {
@@ -185,8 +183,7 @@ public class GroupModel extends AbstractSBasePlugin {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.SBasePlugin#getChildAt(int)
 	 */
 	public SBase getChildAt(int childIndex) {
@@ -196,8 +193,7 @@ public class GroupModel extends AbstractSBasePlugin {
 		return listOfGroups;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.SBasePlugin#getChildCount()
 	 */
 	public int getChildCount() {		
@@ -206,8 +202,6 @@ public class GroupModel extends AbstractSBasePlugin {
 		}
 		return 0;
 	}
-
-
 
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
@@ -247,7 +241,7 @@ public class GroupModel extends AbstractSBasePlugin {
    * 
    * @param sbmlID
    * @return the {@link Group} that has the given id or {@code null} if no
-   *         {@link Group} is found that matches <code>sbmlID</code>.
+   *         {@link Group} is found that matches {@code sbmlID}.
    */
   public SBase getGroup(String sbmlID) {
     if (isSetListOfGroups()) {

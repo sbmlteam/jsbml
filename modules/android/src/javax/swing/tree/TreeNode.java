@@ -1,4 +1,7 @@
-
+/*
+ * Copyright (c) 1997, 2005, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ */
 package javax.swing.tree;
 
 import java.util.Enumeration;
@@ -15,25 +18,25 @@ import java.util.Enumeration;
  */
 public interface TreeNode {
   /**
-   * Returns the child <code>TreeNode</code> at index 
-   * <code>childIndex</code>.
+   * Returns the child {@code TreeNode} at index 
+   * {@code childIndex}.
    */
   TreeNode getChildAt(int childIndex);
   
   /**
-   * Returns the number of children <code>TreeNode</code>s the receiver
+   * Returns the number of children {@code TreeNode}s the receiver
    * contains.
    */
   int getChildCount();
   
   /**
-   * Returns the parent <code>TreeNode</code> of the receiver.
+   * Returns the parent {@code TreeNode} of the receiver.
    */
   TreeNode getParent();
   
   /**
-   * Returns the index of <code>node</code> in the receivers children.
-   * If the receiver does not contain <code>node</code>, -1 will be
+   * Returns the index of {@code node} in the receivers children.
+   * If the receiver does not contain {@code node}, -1 will be
    * returned.
    */
   int getIndex(TreeNode node);
@@ -49,7 +52,7 @@ public interface TreeNode {
   boolean isLeaf();
   
   /**
-   * Returns the children of the receiver as an <code>Enumeration</code>.
+   * Returns the children of the receiver as an {@code Enumeration}.
    */
   @SuppressWarnings("rawtypes")
   Enumeration children();  

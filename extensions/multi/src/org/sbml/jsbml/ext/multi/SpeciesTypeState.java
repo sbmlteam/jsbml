@@ -297,7 +297,7 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 	 * 
 	 * @param id
 	 * @return the {@link StateFeatureInstance} that has the given id or null if
-	 * no {@link StateFeatureInstance} are found that match <code>id</code>.
+	 * no {@link StateFeatureInstance} are found that match {@code id}.
 	 */
 	public StateFeatureInstance getStateFeatureInstance(String id) {
 		if (isSetListOfStateFeatureInstances()) {
@@ -387,7 +387,7 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 	 * 
 	 * @param id
 	 * @return the {@link ContainedSpeciesType} that has the given speciesTypeState id or null if
-	 * no {@link ContainedSpeciesType} are found that match <code>id</code>.
+	 * no {@link ContainedSpeciesType} are found that match {@code id}.
 	 */
 	public ContainedSpeciesType getContainedSpeciesType(final String id) {
 		if (isSetListOfContainedSpeciesTypes()) {
@@ -538,20 +538,20 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 		}
 
 		if (isSetMinOccur()) {
-			attributes.put(MultiConstant.shortLabel + ":" + MultiConstant.minOccur, Integer.toString(getMinOccur()));
+			attributes.put(MultiConstant.shortLabel + ':' + MultiConstant.minOccur, Integer.toString(getMinOccur()));
 		}
 		if (isSetMaxOccur()) {
-			attributes.put(MultiConstant.shortLabel + ":" + MultiConstant.maxOccur, Integer.toString(getMaxOccur()));
+			attributes.put(MultiConstant.shortLabel + ':' + MultiConstant.maxOccur, Integer.toString(getMaxOccur()));
 		}
 		if (isSetConnex()) {
-			attributes.put(MultiConstant.shortLabel + ":" + MultiConstant.connex, Boolean.toString(isConnex()));
+			attributes.put(MultiConstant.shortLabel + ':' + MultiConstant.connex, Boolean.toString(isConnex()));
 		}
 		if (isSetSaturated()) {
-			attributes.put(MultiConstant.shortLabel + ":" + MultiConstant.saturated, Boolean.toString(isSaturated()));
+			attributes.put(MultiConstant.shortLabel + ':' + MultiConstant.saturated, Boolean.toString(isSaturated()));
 		}
 		if (isSetSpeciesType()) {
-			attributes.put(MultiConstant.shortLabel + ":" + MultiConstant.speciesType, getSpeciesType());
-		} 
+			attributes.put(MultiConstant.shortLabel + ':' + MultiConstant.speciesType, getSpeciesType());
+		}
 
 
 		return attributes;

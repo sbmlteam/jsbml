@@ -24,7 +24,7 @@ package org.sbml.jsbml;
  * The interface {@link CallableSBase} represents an {@link SBase} that can be
  * called in mathematical expressions, i.e., {@link ASTNode}, via its
  * identifier. In terms of serialized SBML files, the identifiers of instances
- * of {@link CallableSBase} can be used in <code>ci</code> elements within
+ * of {@link CallableSBase} can be used in {@code ci} elements within
  * MathML expressions. All these elements can be found in the specification of
  * SBML Level 3 Version 1 Core, Table 1 on page 21. Furthermore,
  * {@link LocalParameter} also belongs to these elements.

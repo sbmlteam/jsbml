@@ -428,26 +428,32 @@ public class SBaseRef extends AbstractSBase {
 				+((int) Math.min(pos, 0))));
 	}
 	
-	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+	 */
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		  if (isSetPortRef()) {
-		    attributes.put(CompConstant.shortLabel + ":" + CompConstant.portRef, getPortRef());
+		    attributes.put(CompConstant.shortLabel + ':' + CompConstant.portRef, getPortRef());
 		  }
 		  if (isSetIdRef()) {
-			  attributes.put(CompConstant.shortLabel + ":" + CompConstant.idRef, getIdRef());
+			  attributes.put(CompConstant.shortLabel + ':' + CompConstant.idRef, getIdRef());
 		  }
 		  if (isSetUnitRef()) {
-			  attributes.put(CompConstant.shortLabel + ":" + CompConstant.unitRef, getUnitRef());
+			  attributes.put(CompConstant.shortLabel + ':' + CompConstant.unitRef, getUnitRef());
 		  }
 		  if (isSetMetaIdRef()) {
-			  attributes.put(CompConstant.shortLabel + ":" + CompConstant.metaIdRef, getMetaIdRef());
+			  attributes.put(CompConstant.shortLabel + ':' + CompConstant.metaIdRef, getMetaIdRef());
 		  }
 
 		  return attributes;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
 

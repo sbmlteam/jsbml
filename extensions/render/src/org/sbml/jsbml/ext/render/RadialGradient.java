@@ -703,37 +703,37 @@ public class RadialGradient extends GradientBase {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetR()) {
       attributes.remove(RenderConstants.r);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.r,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.r,
         XMLTools.positioningToString(getR(), isAbsoluteR()));
     }
     if (isSetCx()) {
       attributes.remove(RenderConstants.cx);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.cx,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.cx,
         XMLTools.positioningToString(getCx(), isAbsoluteCx()));
     }
     if (isSetCy()) {
       attributes.remove(RenderConstants.cy);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.cy,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.cy,
         XMLTools.positioningToString(getCy(), isAbsoluteCy()));
     }
     if (isSetCz()) {
       attributes.remove(RenderConstants.cz);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.cz,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.cz,
         XMLTools.positioningToString(getCz(), isAbsoluteCz()));
     }
     if (isSetFx()) {
       attributes.remove(RenderConstants.fx);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.fx,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fx,
         XMLTools.positioningToString(getFx(), isAbsoluteFx()));
     }
     if (isSetFy()) {
       attributes.remove(RenderConstants.fy);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.fy,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fy,
         XMLTools.positioningToString(getFy(), isAbsoluteFy()));
     }
     if (isSetFz()) {
       attributes.remove(RenderConstants.fz);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.fz,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fz,
         XMLTools.positioningToString(getFz(), isAbsoluteFz()));
     }
     return attributes;

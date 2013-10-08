@@ -45,7 +45,7 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
 
 	/**
 	 * Requires LaTeX package booktabs. Produces a fancy line at the bottom of a
-	 * table. This variable also includes the <code>end{longtable}</code>
+	 * table. This variable also includes the {@code end{longtable}}
 	 * command and a new line.
 	 */
 	public static final String bottomrule = "\\bottomrule\\end{longtable}"
@@ -688,7 +688,7 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
 	}
 
 	/**
-	 * This method returns a <code>StringBuffer</code> representing a properly
+	 * This method returns a {@link StringBuffer} representing a properly
 	 * LaTeX formatted number.
 	 * 
 	 * @param value

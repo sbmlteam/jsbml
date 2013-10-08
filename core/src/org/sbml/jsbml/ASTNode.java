@@ -613,11 +613,11 @@ public class ASTNode extends AbstractTreeNode {
 	}
 
 	/**
-	 * Creates a new {@link ASTNode} of type <code>operator</code> and adds the given nodes as children.
+	 * Creates a new {@link ASTNode} of type {@code operator} and adds the given nodes as children.
 	 * 
 	 * @param operator the type of arithmetic operation
 	 * @param ast the children of the new ASTNode
-	 * @return a new {@link ASTNode} of type <code>operator</code> and adds the given nodes as children.
+	 * @return a new {@link ASTNode} of type {@code operator} and adds the given nodes as children.
 	 */
 	private static ASTNode arithmethicOperation(Type operator, ASTNode... ast) {
 		LinkedList<ASTNode> astList = new LinkedList<ASTNode>();
@@ -697,8 +697,8 @@ public class ASTNode extends AbstractTreeNode {
 	 *            the root of the ASTNode formula expression tree
 	 * @return the formula from the given AST as an SBML Level 1 text-string
 	 *         mathematical formula. The caller owns the returned string and is
-	 *         responsible for freeing it when it is no longer needed. NULL is
-	 *         returned if the given argument is NULL.
+	 *         responsible for freeing it when it is no longer needed. {@code null} is
+	 *         returned if the given argument is {@code null}.
 	 * @throws SBMLException
 	 * @see #toFormula()
 	 * 
@@ -1893,7 +1893,7 @@ public class ASTNode extends AbstractTreeNode {
 	 * {@link ASTNode} refers to elements such as parameters or numbers with
 	 * undeclared units.
 	 * 
-	 * A return value of {@code true} indicates that the <code>UnitDefinition</code>
+	 * A return value of {@code true} indicates that the {@code UnitDefinition}
 	 * returned by {@link Variable#getDerivedUnitDefinition()} may not accurately
 	 * represent the units of the expression.
 	 * 
@@ -2399,7 +2399,7 @@ public class ASTNode extends AbstractTreeNode {
 	 * Returns the last child in the list of children of this node.
 	 * 
 	 * @return This is equivalent to calling
-	 *         <code>getListOfNodes().getLast()</code>.
+	 *         {@code getListOfNodes().getLast()}.
 	 */
 	public ASTNode getRightChild() {
 		return listOfNodes.get(listOfNodes.size() - 1);
@@ -3052,7 +3052,7 @@ public class ASTNode extends AbstractTreeNode {
 	 * Subtracts the given ASTNode from this node.
 	 * 
 	 * @param ast
-	 *            an <code>ASTNode</code>
+	 *            an {@code ASTNode}
 	 * @return the current node for convenience.
 	 */
 	public ASTNode minus(ASTNode ast) {
@@ -3098,7 +3098,7 @@ public class ASTNode extends AbstractTreeNode {
 	 * Multiplies this ASTNode with the given node
 	 * 
 	 * @param ast
-	 *            an <code>ASTNode</code>
+	 *            an {@code ASTNode}
 	 * @return the current node for convenience.
 	 */
 	public ASTNode multiplyWith(ASTNode ast) {
@@ -3111,7 +3111,7 @@ public class ASTNode extends AbstractTreeNode {
 	 * be children of this node, whose type will be set to {@link Type#TIMES}.
 	 * 
 	 * @param nodes
-	 *            some <code>ASTNode</code>
+	 *            some {@code ASTNode}
 	 * @return The current node for convenience.
 	 */
 	public ASTNode multiplyWith(ASTNode... nodes) {
@@ -3137,7 +3137,7 @@ public class ASTNode extends AbstractTreeNode {
 	 * Adds a given node to this node.
 	 * 
 	 * @param ast
-	 *            an <code>ASTNode</code>
+	 *            an {@code ASTNode}
 	 * @return the current node for convenience.
 	 */
 	public ASTNode plus(ASTNode ast) {
@@ -3186,7 +3186,7 @@ public class ASTNode extends AbstractTreeNode {
 	 * nodes from right to left.
 	 * 
 	 * @param child
-	 *            an <code>ASTNode</code>
+	 *            an {@code ASTNode}
 	 */
 	public void prependChild(ASTNode child) {
 		listOfNodes.add(0, child);
@@ -3198,7 +3198,7 @@ public class ASTNode extends AbstractTreeNode {
 	 * Raises this ASTNode by the power of the value of the given node.
 	 * 
 	 * @param exponent
-	 *            an <code>ASTNode</code>
+	 *            an {@code ASTNode}
 	 * @return the current node for convenience.
 	 */
 	public ASTNode raiseByThePowerOf(ASTNode exponent) {
@@ -3630,7 +3630,7 @@ public class ASTNode extends AbstractTreeNode {
 	 * @param unitId
 	 * @throws IllegalArgumentException
 	 *             if the ASTNode is not a kind of numbers (&lt;cn&gt; in mathml) or
-	 *             if the <code>unitId</code> is not a valid unit kind or the id
+	 *             if the {@code unitId} is not a valid unit kind or the id
 	 *             of a unit definition.
 	 */
 	public void setUnits(String unitId) {
@@ -3864,8 +3864,8 @@ public class ASTNode extends AbstractTreeNode {
 	 * 
 	 * @return the formula from the given AST as an SBML Level 1 text-string
 	 *         mathematical formula. The caller owns the returned string and is
-	 *         responsible for freeing it when it is no longer needed. NULL is
-	 *         returned if the given argument is NULL.
+	 *         responsible for freeing it when it is no longer needed. {@code null} is
+	 *         returned if the given argument is {@code null}.
 	 * @throws SBMLException
 	 *             if there is a problem in the ASTNode tree.
 	 */

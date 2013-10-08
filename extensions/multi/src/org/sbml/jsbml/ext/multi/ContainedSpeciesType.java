@@ -95,7 +95,7 @@ public class ContainedSpeciesType extends AbstractSBase {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetSpeciesTypeState()) {
-			attributes.put(MultiConstant.shortLabel + ":" + MultiConstant.speciesTypeState, getSpeciesTypeState());
+			attributes.put(MultiConstant.shortLabel + ':' + MultiConstant.speciesTypeState, getSpeciesTypeState());
 		}
 
 		return attributes;

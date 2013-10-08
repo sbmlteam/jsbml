@@ -345,7 +345,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
    * 
    * @param id
    * @return the {@link QualitativeSpecies} that has the given id or null if
-   * no {@link QualitativeSpecies} are found that match <code>id</code>.
+   * no {@link QualitativeSpecies} are found that match {@code id}.
    */
   public QualitativeSpecies getQualitativeSpecies(String id) {
 	  if (isSetListOfQualitativeSpecies()) {
@@ -355,10 +355,10 @@ public class QualitativeModel extends AbstractSBasePlugin {
   }
 
   /**
-   * Returns true if <code>qs</code> is already part of this {@link QualitativeModel}
+   * Returns true if {@code qs} is already part of this {@link QualitativeModel}
    * 
    * @param qs
-   * @return true if <code>qs</code> is already part of this {@link QualitativeModel}
+   * @return true if {@code qs} is already part of this {@link QualitativeModel}
    */
   public boolean containsQualitativeSpecies(QualitativeSpecies qs) {
 	  return isSetListOfQualitativeSpecies()
@@ -381,7 +381,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
    * 
    * @param id
    * @return the {@link Transition} that has the given id or null if
-   * no {@link Transition} are found that match <code>id</code>.
+   * no {@link Transition} are found that match {@code id}.
    */
   public Transition getTransition(String id) {
 	  if (isSetListOfTransitions()) {

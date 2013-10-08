@@ -247,7 +247,7 @@ public class Bond extends AbstractSBase {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetOccurence()) {
-			attributes.put(MultiConstant.shortLabel + ":" + MultiConstant.occurrence, getOccurence().toString());
+			attributes.put(MultiConstant.shortLabel + ':' + MultiConstant.occurrence, getOccurence().toString());
 		}
 
 		return attributes;

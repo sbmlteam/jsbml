@@ -171,12 +171,12 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetFill()) {
       attributes.remove(RenderConstants.fill);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.fill,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fill,
           getFill());
     }
     if (isSetFillRule()) {
       attributes.remove(RenderConstants.fillRule);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.fillRule,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fillRule,
           getFillRule().toString().toLowerCase());
     }
     return attributes;

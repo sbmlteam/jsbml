@@ -280,18 +280,25 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 		return false; // no new attributes defined
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
+	 */
 	public Map<String, String> writeXMLAttributes()
 	{
 		// no new attributes defined
 		return new TreeMap<String, String>();
 	}
 
-	
-
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
+	 */
 	public boolean getAllowsChildren() {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.tree.TreeNode#getChildCount()
+	 */
 	public int getChildCount() {
 		int count = 0;
 

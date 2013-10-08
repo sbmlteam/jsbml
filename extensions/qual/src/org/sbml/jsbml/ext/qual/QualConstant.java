@@ -68,7 +68,7 @@ public class QualConstant  extends PropertyChangeEvent {
 
 
   /**
-   * Constructs a new <code>PropertyChangeEvent</code>.
+   * Constructs a new {@code PropertyChangeEvent}.
    *
    * @param source  The bean that fired the event.
    * @param propertyName  The programmatic name of the property
@@ -82,8 +82,8 @@ public class QualConstant  extends PropertyChangeEvent {
   }
 
   /**
-   * Constructs a new <code>PropertyChangeEvent</code>, cloned from 
-   * the given <code>qualChangeEvent</code>.
+   * Constructs a new {@link PropertyChangeEvent}, cloned from 
+   * the given {@code qualChangeEvent}.
    * 
    * @param qualChangeEvent the event to clone.
    */

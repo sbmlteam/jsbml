@@ -254,17 +254,6 @@ public class GlobalRenderInformation extends RenderInformationBase {
       "Index {0,number,integer} >= {1,number,integer}", childIndex,
       +Math.min(pos, 0)));
   }
-  
-  
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.RenderInformationBase#writeXMLAttributes()
-   */
-  @Override
-  public Map<String, String> writeXMLAttributes() {
-    Map<String, String> attributes = super.writeXMLAttributes();
-    return attributes;
-  }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderInformationBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)

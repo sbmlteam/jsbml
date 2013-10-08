@@ -42,7 +42,7 @@ public interface SAX2Parser {
 	 *            The byte stream which content has to be parsed as XML.
 	 * @param handler
 	 *            The SAX2 default event handler to use for parsing
-	 *            <code>byteStream</code>.
+	 *            {@code byteStream}.
 	 * @param namespaceAware
 	 *            A flag to indicate whether the parser should know about
 	 *            namespaces or not.
@@ -60,11 +60,11 @@ public interface SAX2Parser {
 	 *            The byte stream which content has to be parsed as XML.
 	 * @param handler
 	 *            The SAX2 default event handler to use for parsing
-	 *            <code>byteStream</code>.
+	 *            {@code byteStream}.
 	 * @param schemas
-	 *            An optional array of either <code>java.io.File</code>
+	 *            An optional array of either {@code java.io.File}
 	 *            instances containing the abstract pathnames, or of
-	 *            <code>java.io.String</code> instances containing the URIs,
+	 *            {@code java.io.String} instances containing the URIs,
 	 *            pointing to the schemas to use in the validation process. If
 	 *            set to {@code null}, the schemas defined in the data set
 	 *            will be used. If set to {@code null} and no schemas are
@@ -84,7 +84,7 @@ public interface SAX2Parser {
 	 *            The character stream which content has to be parsed as XML.
 	 * @param handler
 	 *            The SAX2 default event handler to use for parsing
-	 *            <code>characterStream</code>.
+	 *            {@code characterStream}.
 	 * @param namespaceAware
 	 *            A flag to indicate whether the parser should know about
 	 *            namespaces or not.
@@ -102,11 +102,11 @@ public interface SAX2Parser {
 	 *            The character stream which content has to be parsed as XML.
 	 * @param handler
 	 *            The SAX2 default event handler to use for parsing
-	 *            <code>characterStream</code>.
+	 *            {@code characterStream}.
 	 * @param schemas
-	 *            An optional array of either <code>java.io.File</code>
+	 *            An optional array of either {@code java.io.File}
 	 *            instances containing the abstract pathnames, or of
-	 *            <code>java.io.String</code> instances containing the URIs,
+	 *            {@code java.io.String} instances containing the URIs,
 	 *            pointing to the schemas to use in the validation process. If
 	 *            set to {@code null}, the schemas defined in the data set
 	 *            will be used. If set to {@code null} and no schemas are

@@ -183,13 +183,13 @@ public class LocalParameter extends QuantityWithUnit {
 	 * In SBML prior to Level 3 it was possible to explicitly state that a local
 	 * parameter represents a constant {@link Quantity}. However, per
 	 * definition, each local parameter has always been constant no matter if
-	 * its XML representation contains the <code>constant</code> attribute or
+	 * its XML representation contains the {@code constant} attribute or
 	 * not. Hence, this attribute could set to {@code true} only. This
 	 * method checks if for this {@link LocalParameter} an explicit
-	 * <code>constant</code> flag has been set.
+	 * {@code constant} flag has been set.
 	 * 
 	 * @return the isExplicitlySetConstant {@code true} if this
-	 *         {@link LocalParameter} contains an explicit <code>constant</code>
+	 *         {@link LocalParameter} contains an explicit {@code constant}
 	 *         flag, {@code false} otherwise.
 	 */
 	public boolean isExplicitlySetConstant() {
@@ -223,19 +223,19 @@ public class LocalParameter extends QuantityWithUnit {
 
 	/**
 	 * This method allows users to explicitly manipulate the
-	 * <code>constant</code> attribute of this {@link LocalParameter}. This
+	 * {@code constant} attribute of this {@link LocalParameter}. This
 	 * attribute can set to {@code true} only. Therefore, this method does
-	 * just decide whether or not the <code>constant</code> attribute should
+	 * just decide whether or not the {@code constant} attribute should
 	 * occur in generated SBML code when serializing this {@link LocalParameter}
 	 * . Since this object always represents a constant {@link Quantity} this
 	 * method does only decide whether or not the resulting SBML code should
-	 * contain the attribute/value pair <code>constant = true</code>, it does
+	 * contain the attribute/value pair {@code constant = true}, it does
 	 * not decide on whether or not this object should be constant.
 	 * 
 	 * @param isExplicitlySetConstant
 	 *            the isExplicitlySetConstant to set
 	 * @deprecated Since SBML Level 3 it is no longer possible to explicitly set
-	 *             a {@link LocalParameter} to <code>constant = true</code>
+	 *             a {@link LocalParameter} to {@code constant = true}
 	 *             because {@link LocalParameter} instances always represent
 	 *             constant a {@link Quantity}.
 	 */

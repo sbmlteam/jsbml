@@ -240,18 +240,18 @@ public class SBMLError extends XMLException {
 	}
 
 	/**
-	 * Returns true is the {@link SBMLError} category is of type <code>internal</code>
+	 * Returns true is the {@link SBMLError} category is of type {@code internal}
 	 * 
-	 * @return true is the {@link SBMLError} category is of type <code>internal</code>
+	 * @return true is the {@link SBMLError} category is of type {@code internal}
 	 */
 	public boolean isInternal() {
 		return category != null && category.equalsIgnoreCase("Internal");
 	}
 
 	/**
-	 * Returns true is the {@link SBMLError} category is of type <code>system</code>
+	 * Returns true is the {@link SBMLError} category is of type {@code system}
 	 * 
-	 * @return true is the {@link SBMLError} category is of type <code>system</code>
+	 * @return true is the {@link SBMLError} category is of type {@code system}
 	 */
 	public boolean isSystem() {
 		return category != null && category.equalsIgnoreCase("System");
@@ -259,9 +259,9 @@ public class SBMLError extends XMLException {
 
 
 	/**
-	 * Returns true is the {@link SBMLError} category is of type <code>xml</code>
+	 * Returns true is the {@link SBMLError} category is of type {@code xml}
 	 * 
-	 * @return true is the {@link SBMLError} category is of type <code>xml</code>
+	 * @return true is the {@link SBMLError} category is of type {@code xml}
 	 */
 	public boolean isXML() {
 		return category != null && category.equalsIgnoreCase("xml");

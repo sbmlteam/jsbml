@@ -476,19 +476,19 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
       attributes.put(QualConstant.shortLabel + ":name", getName());
     }
     if (isSetQualitativeSpecies()) {
-      attributes.put(QualConstant.shortLabel + ":"
+      attributes.put(QualConstant.shortLabel + ':'
         + QualConstant.qualitativeSpecies, getQualitativeSpecies());
     }
     if (isSetThresholdLevel()) {
-      attributes.put(QualConstant.shortLabel + ":"
+      attributes.put(QualConstant.shortLabel + ':'
         + QualConstant.thresholdLevel, Integer.toString(getThresholdLevel()));
     }
     if (isSetTransitionEffect()) {
-      attributes.put(QualConstant.shortLabel + ":"
+      attributes.put(QualConstant.shortLabel + ':'
         + QualConstant.transitionEffect, getTransitionEffect().toString());
     }
     if (isSetSign()) {
-      attributes.put(QualConstant.shortLabel + ":"
+      attributes.put(QualConstant.shortLabel + ':'
         + QualConstant.sign, getSign().toString());
     }
     return attributes;

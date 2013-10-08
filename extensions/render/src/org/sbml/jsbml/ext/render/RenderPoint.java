@@ -397,17 +397,17 @@ public class RenderPoint extends AbstractSBase implements Point3D {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetX()) {
       attributes.remove(RenderConstants.x);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.x,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x,
         XMLTools.positioningToString(getX(), isAbsoluteX()));
     }
     if (isSetY()) {
       attributes.remove(RenderConstants.y);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.y,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.y,
         XMLTools.positioningToString(getY(), isAbsoluteY()));
     }
     if (isSetZ()) {
       attributes.remove(RenderConstants.z);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.z,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.z,
         XMLTools.positioningToString(getZ(), isAbsoluteZ()));
     }
     return attributes;

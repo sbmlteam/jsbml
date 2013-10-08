@@ -48,8 +48,8 @@ public interface DocumentFactory {
 	 * @param namespaceAware
 	 *            A flag to indicate whether the parser should know about
 	 *            namespaces or not.
-	 * @return The <code>org.w3c.dom.Document</code> instance representing the
-	 *         XML DOM document created from the <code>byteStream</code> XML
+	 * @return The {@code org.w3c.dom.Document} instance representing the
+	 *         XML DOM document created from the {@code byteStream} XML
 	 *         content.
 	 * @throws SAXException 
 	 * 
@@ -65,9 +65,9 @@ public interface DocumentFactory {
 	 *            The byte stream whose content is parsed as XML to create the
 	 *            XML DOM document.
 	 * @param schemas
-	 *            An optional array of either <code>java.io.File</code>
+	 *            An optional array of either {@code java.io.File}
 	 *            instances containing the abstract pathnames, or of
-	 *            <code>java.io.String</code> instances containing the URIs,
+	 *            {@code java.io.String} instances containing the URIs,
 	 *            pointing to the schemas to use in the validation process. If
 	 *            set to {@code null}, the schemas defined in the data set
 	 *            will be used. If set to {@code null} and no schemas are
@@ -75,12 +75,12 @@ public interface DocumentFactory {
 	 *            thrown by the underlying implementation.
 	 * @param handler
 	 *            The error handler to be used to report errors occurred while
-	 *            parsing the <code>byteStream</code> XML content. Setting this
+	 *            parsing the {@code byteStream} XML content. Setting this
 	 *            to {@code null} will result in the underlying
 	 *            implementation using it's own default implementation and
 	 *            behavior.
-	 * @return The <code>org.w3c.dom.Document</code> instance representing the
-	 *         XML DOM document created from the <code>byteStream</code> XML
+	 * @return The {@code org.w3c.dom.Document} instance representing the
+	 *         XML DOM document created from the {@code byteStream} XML
 	 *         content.
 	 * @throws SAXException 
 	 * 
@@ -99,8 +99,8 @@ public interface DocumentFactory {
 	 * @param namespaceAware
 	 *            A flag to indicate whether the parser should know about
 	 *            namespaces or not.
-	 * @return The <code>org.w3c.dom.Document</code> instance representing the
-	 *         XML DOM document created from the <code>characterStream</code>
+	 * @return The {@code org.w3c.dom.Document} instance representing the
+	 *         XML DOM document created from the {@code characterStream}
 	 *         XML content.
 	 * @throws SAXException 
 	 * 
@@ -116,9 +116,9 @@ public interface DocumentFactory {
 	 *            The character stream whose content is parsed as XML to create
 	 *            the XML DOM document.
 	 * @param schemas
-	 *            An optional array of either <code>java.io.File</code>
+	 *            An optional array of either {@code java.io.File}
 	 *            instances containing the abstract pathnames, or of
-	 *            <code>java.io.String</code> instances containing the URIs,
+	 *            {@code java.io.String} instances containing the URIs,
 	 *            pointing to the schemas to use in the validation process. If
 	 *            set to {@code null}, the schemas defined in the data set
 	 *            will be used. If set to {@code null} and no schemas are
@@ -126,12 +126,12 @@ public interface DocumentFactory {
 	 *            thrown by the underlying implementation.
 	 * @param handler
 	 *            The error handler to be used to report errors occurred while
-	 *            parsing the <code>characterStream</code> XML content. Setting
+	 *            parsing the {@code characterStream} XML content. Setting
 	 *            this to {@code null} will result in the underlying
 	 *            implementation using it's own default implementation and
 	 *            behavior.
-	 * @return The <code>org.w3c.dom.Document</code> instance representing the
-	 *         XML DOM document created from the <code>characterStream</code>
+	 * @return The {@code org.w3c.dom.Document} instance representing the
+	 *         XML DOM document created from the {@code characterStream}
 	 *         XML content.
 	 * 
 	 */

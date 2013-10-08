@@ -236,7 +236,7 @@ public class GradientStop extends AbstractSBase {
 	  }
 	  if (isSetStopColor()) {
 	    attributes.remove(RenderConstants.stopColor);
-	    attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.stopColor,
+	    attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.stopColor,
 	      getStopColor());
 	  }
 	  return attributes;

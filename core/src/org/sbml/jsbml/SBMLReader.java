@@ -162,7 +162,7 @@ public class SBMLReader implements Cloneable, Serializable {
 	 */
 	@Override
 	public boolean equals(Object o) {
-		return (o instanceof SBMLReader) ? true : false;
+		return o instanceof SBMLReader;
 	}
 	
 	/**
@@ -171,7 +171,7 @@ public class SBMLReader implements Cloneable, Serializable {
 	 * This method is identical to {@link SBMLReader#readSBMLFromFile(String filename)} 
 	 * or {@link SBMLReader#readSBML(String filename)}.
 	 * <p>
-	 * If the {@link File} named <code>file</code> does not exist or its content is not
+	 * If the {@link File} named {@code file} does not exist or its content is not
 	 * valid SBML, one {@link Exception} will be thrown.
 	 * <p>
 	 * This methods is not part of the libSBML SBMLReader API.
@@ -193,7 +193,7 @@ public class SBMLReader implements Cloneable, Serializable {
 	 * This method is identical to {@link SBMLReader#readSBMLFromFile(String filename)} 
 	 * or {@link SBMLReader#readSBML(File file)}.
 	 * <p>
-	 * If the file named <code>filename</code> does not exist or its content is not
+	 * If the file named {@code filename} does not exist or its content is not
 	 * valid SBML, one {@link Exception} will be thrown.
 	 * <p>
 	 * @param fileName  the name or full pathname of the file to be read.
@@ -213,7 +213,7 @@ public class SBMLReader implements Cloneable, Serializable {
 	 * This method is identical to {@link SBMLReader#readSBML(String filename)} 
 	 * or {@link SBMLReader#readSBML(File file)}.
 	 * <p>
-	 * If the file named <code>filename</code> does not exist or its content is not
+	 * If the file named {@code filename} does not exist or its content is not
 	 * valid SBML, one {@link Exception} will be thrown.
 	 * <p>
 	 * @param filename  the name or full pathname of the file to be read.

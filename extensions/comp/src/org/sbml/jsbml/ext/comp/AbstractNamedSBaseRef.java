@@ -62,7 +62,7 @@ public abstract class AbstractNamedSBaseRef extends SBaseRef implements NamedSBa
 	/**
 	 * Creates an {@link AbstractNamedSBase} from a given {@link AbstractNamedSBase}.
 	 * 
-	 * @param nsb an <code>AbstractNamedSBase</code> object to clone
+	 * @param nsb an {@code AbstractNamedSBase} object to clone
 	 */
 	public AbstractNamedSBaseRef(AbstractNamedSBaseRef nsb) {
 		super(nsb);
@@ -90,7 +90,7 @@ public abstract class AbstractNamedSBaseRef extends SBaseRef implements NamedSBa
 	 * the SBML data structure. Without level and version, it may not be
 	 * possible to serialize this class to SBML.
 	 * 
-	 * @param id the id of this <code>AbstractNamedSBase</code>
+	 * @param id the id of this {@code AbstractNamedSBase}
 	 */
 	public AbstractNamedSBaseRef(String id) {
 		this();
@@ -100,7 +100,7 @@ public abstract class AbstractNamedSBaseRef extends SBaseRef implements NamedSBa
 	/**
 	 * Creates an AbctractNamedSBase from an id, level and version.
 	 * 
-	 * @param id the id of this <code>AbstractNamedSBase</code>
+	 * @param id the id of this {@code AbstractNamedSBase}
 	 * @param level the SBML level
 	 * @param version the SBML version
 	 */
@@ -111,8 +111,8 @@ public abstract class AbstractNamedSBaseRef extends SBaseRef implements NamedSBa
 	/**
 	 * Creates an AbctractNamedSBase from an id, name, level and version.
 	 * 
-	 * @param id the id of this <code>AbstractNamedSBase</code>
-	 * @param name the name of this <code>AbstractNamedSBase</code>
+	 * @param id the id of this {@code AbstractNamedSBase}
+	 * @param name the name of this {@code AbstractNamedSBase}
 	 * @param level the SBML level
 	 * @param version the SBML version
 	 */

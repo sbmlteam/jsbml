@@ -362,7 +362,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
    * 
    * @param id the identifier for the {@link ReferenceGlyph} to be created.
    * @param glyph corresponding {@link GraphicalObject} ID.
-   * @return a new {@link ReferenceGlyph} that points to the given <code>glyph</code>.
+   * @return a new {@link ReferenceGlyph} that points to the given {@code glyph}.
    */
   public ReferenceGlyph createSpeciesReferenceGlyph(String id, String speciesGlyph) {
     ReferenceGlyph glyph = createReferenceGlyph(id);

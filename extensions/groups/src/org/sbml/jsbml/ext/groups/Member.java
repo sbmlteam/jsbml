@@ -169,9 +169,7 @@ public class Member extends AbstractSBase {
     return "Member [symbol=" + symbol + "]";
   }
 
-  /*
-	 * (non-Javadoc)
-	 * 
+  /* (non-Javadoc)
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override

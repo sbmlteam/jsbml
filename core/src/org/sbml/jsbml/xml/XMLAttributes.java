@@ -51,7 +51,7 @@ public class XMLAttributes {
    * @param sb a reference to an object to which the current object
    * instance will be compared
    *
-   * @return {@code true} if <code>sb</code> refers to the same underlying 
+   * @return {@code true} if {@code sb} refers to the same underlying 
    * native object as this one, {@code false} otherwise
    */
   public boolean equals(Object sb)

@@ -623,22 +623,22 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetProgramName()) {
       attributes.remove(RenderConstants.programName);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.programName,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.programName,
         getProgramName());
     }
     if (isSetProgramVersion()) {
       attributes.remove(RenderConstants.programVersion);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.programVersion,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.programVersion,
         getProgramVersion());
     }
     if (isSetReferenceRenderInformation()) {
       attributes.remove(RenderConstants.referenceRenderInformation);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.referenceRenderInformation,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.referenceRenderInformation,
         getReferenceRenderInformation());
     }
     if (isSetBackgroundColor()) {
       attributes.remove(RenderConstants.backgroundColor);
-      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.backgroundColor,
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.backgroundColor,
         XMLTools.encodeColorToString(getBackgroundColor()));
     }
     return attributes;

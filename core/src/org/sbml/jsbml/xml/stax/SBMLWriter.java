@@ -388,7 +388,7 @@ public class SBMLWriter {
 
 	/**
 	 * Allows you to set another blank character for indentation. Allowed are
-	 * only tabs and white spaces, i.e., <code>'\t'</code> and <code>' '</code>.
+	 * only tabs and white spaces, i.e., {@code '\t'} and {@code ' '}.
 	 * 
 	 * @param the character to be used for indentation
 	 *            the indentSymbol to set
@@ -1364,7 +1364,7 @@ public class SBMLWriter {
 				parentObject, smOutputParentElement.getNamespace().getURI());
 
 		if (listOfPackages.size() > 1) {
-			logger.warn("An SBML element should only be associated with one package !!!");
+			logger.warn("An SBML element should only be associated with one package!");
 		}
 		
 		if (logger.isDebugEnabled()) {
@@ -1392,7 +1392,8 @@ public class SBMLWriter {
 			{
 				if (! (nextObjectToWrite instanceof SBase)) 
 				{
-					logger.debug("Element '" + nextObjectToWrite.getClass().getSimpleName() + "' ignored because it is supposed to be written elsewhere (ASTNode, XMLNode, ..) ");
+					logger.debug("Element '" + nextObjectToWrite.getClass().getSimpleName() +
+					  "' ignored because it is supposed to be written elsewhere (ASTNode, XMLNode, ..) ");
 					// ASTNode, Annotation, Notes, Math, ... are written directly below, at the same time as SBase at the moment
 					continue;
 				}
@@ -1404,7 +1405,7 @@ public class SBMLWriter {
 				boolean elementIsNested = false;
 
 				if (listOfChildPackages.size() > 1) {
-					logger.warn("An SBML element should only be associated with one package !!!");
+					logger.warn("An SBML element should only be associated with one package!");
 				
 					if (logger.isDebugEnabled()) {
 						logger.debug("List of associated namespace : " + listOfChildPackages);
@@ -1436,7 +1437,7 @@ public class SBMLWriter {
 
 				if (! childXmlObject.isSetName()) {
 					// TODO : add a log message that this is ignored ??
-					logger.debug("XML name not set, element ignored !!");
+					logger.debug("XML name not set, element ignored!");
 					continue;
 				}
 				
@@ -1548,8 +1549,8 @@ public class SBMLWriter {
 	 * Writes the given SBML document to an in-memory string.
 	 * 
 	 * @param doc
-	 *            the <code>SBMLdocument</code>
-	 * @return the XML representation of the <code>SBMLdocument</code> as a
+	 *            the {@code SBMLdocument}
+	 * @return the XML representation of the {@code SBMLdocument} as a
 	 *         String.
 	 * @throws XMLStreamException
 	 *             if any error occur while creating the XML document.

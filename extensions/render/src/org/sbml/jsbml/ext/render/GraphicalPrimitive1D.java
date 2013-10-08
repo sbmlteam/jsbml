@@ -247,17 +247,17 @@ public class GraphicalPrimitive1D extends Transformation2D {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetStroke()) {
     	attributes.remove(RenderConstants.stroke);
-    	attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.strokeWidth,
+    	attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.strokeWidth,
     			getStroke());
     }
     if (isSetStrokeDashArray()) {
     	attributes.remove(RenderConstants.strokeDashArray);
-        attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.strokeWidth,
+        attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.strokeWidth,
         		XMLTools.encodeArrayShortToString(getStrokeDashArray()));
     }
     if (isSetStrokeWidth()) {
     	attributes.remove(RenderConstants.strokeWidth);
-        attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.strokeWidth,
+        attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.strokeWidth,
           getStrokeWidth().toString().toLowerCase());
     }
     return attributes;
