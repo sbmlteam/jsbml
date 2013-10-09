@@ -56,7 +56,6 @@
     </dependencies>
 
     <modules>
-        <module>adapter</module>
         <module>comp</module>
         <module>fbc</module>
         <module>groups</module>

@@ -66,8 +66,6 @@
     <modules>
         <module>android</module>
         <module>celldesigner</module>
-        <module>compare</module>
-        <module>libSBMLcompat</module>
         <module>libSBMLio</module>
     </modules>
     
