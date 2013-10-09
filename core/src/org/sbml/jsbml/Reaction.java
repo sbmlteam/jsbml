@@ -1036,27 +1036,27 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 
 	/**
 	 * 
-	 * @param <T>
 	 * @param list
 	 * @param id
 	 * @return
 	 */
-	private <T> SimpleSpeciesReference remove(
-			ListOf<? extends SimpleSpeciesReference> list, String id) {
-		SimpleSpeciesReference deleted = null;
+  private <T extends SimpleSpeciesReference> T remove(
+			ListOf<T> list, String id) {
+		T deleted = null;
 		int index = 0;
-		for (SimpleSpeciesReference reference : list) {
-			if (reference.getSpecies().equals(id)) {
-				deleted = reference;
-				break;
-			}
-			index++;
-		}
-		if (deleted != null) {
-			list.remove(index);
+		if ((list != null) && (list.size() > 0)) {
+		  for (T reference : list) {
+		    if (reference.getSpecies().equals(id)) {
+		      deleted = reference;
+		      break;
+		    }
+		    index++;
+		  }
+		  if (deleted != null) {
+		    list.remove(index);
+		  }
 		}
 		return deleted;
-
 	}
 
 	/**
@@ -1092,7 +1092,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	 * @return
 	 */
 	public ModifierSpeciesReference removeModifier(String id) {
-		return (ModifierSpeciesReference) remove(listOfModifiers, id);
+		return remove(listOfModifiers, id);
 	}
 
 	/**
@@ -1129,7 +1129,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	 * @return
 	 */
 	public SpeciesReference removeProduct(String id) {
-		return (SpeciesReference) remove(listOfProducts, id);
+		return remove(listOfProducts, id);
 	}
 
 	/**
@@ -1166,7 +1166,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	 * @return
 	 */
 	public SpeciesReference removeReactant(String id) {
-		return (SpeciesReference) remove(listOfReactants, id);
+		return remove(listOfReactants, id);
 	}
 
 	/**

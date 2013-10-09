@@ -73,6 +73,11 @@ Version 1.0-rc1 (xx-xx-2013)
 
 * Bug Fixes:
 
+  - When trying to remove a modifier, reactant, or product from a reaction using
+    the id of the element, where no such element was present before, a
+    NullPointerException was thrown. This has been solved. Thanks to Curtis
+    Madsen for detecting this bug. 
+
   - The method nextMetaId in SBMLDocument sometimes created metaIds containing
     the invalid character '-', but only underscores are allowed there.
 
