@@ -22,9 +22,13 @@ package org.sbml.jsbml.test;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.KineticLaw;
+import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 
 
@@ -39,10 +43,26 @@ public class RemoveFromParentTest {
    * Test method for {@link org.sbml.jsbml.AbstractTreeNode#removeFromParent()}.
    */
   
-  private SBMLDocument doc = new SBMLDocument(3, 1);
-  private Model model = doc.createModel("test_model");
-  private Compartment compartment = model.createCompartment("cytoplasm");
-  private Compartment compartment2 = model.createCompartment("periplasm"); 
+  private SBMLDocument doc;
+  private Model model;
+  private Compartment compartment;
+  private Compartment compartment2; 
+  private KineticLaw k;
+  
+  @Before public void setUp() throws Exception
+  {
+	  doc = new SBMLDocument(3, 1);
+	  model = doc.createModel("test_model");
+	  model.setMetaId("M1");
+	  compartment = model.createCompartment("cytoplasm");
+	  compartment.setMetaId("M2");
+	  compartment2 = model.createCompartment("periplasm"); 
+	  Reaction reaction = model.createReaction("R1");
+	  k = reaction.createKineticLaw();
+	  k.setMetaId("M3");
+	  LocalParameter param1 = k.createLocalParameter("LP1");
+	  param1.setMetaId("M4");
+  }
   
   @Test
   public void testRemoveFromParentRoot() {
@@ -59,12 +79,44 @@ public class RemoveFromParentTest {
     compartment2.removeFromParent();
     assertTrue(!model.isSetListOfCompartments());
     
+    assertTrue(doc.findSBase("M2") == null);
+    assertTrue(model.findCallableSBase("cytoplasm") == null);
   }
   
   @Test
   public void testRemoveFromParentNoList() {
-    // Check if method can delete model from SBMLDocument
-    model.removeFromParent();
-    assertTrue(!doc.isSetModel());
+	  // Check if method can delete model from SBMLDocument
+
+	  assertTrue(doc.findSBase("M1") != null);
+
+	  model.removeFromParent();
+	  assertTrue(!doc.isSetModel());
+
+	  assertTrue(doc.findSBase("M1") == null);
+	  assertTrue(doc.findSBase("M2") == null);
+	  assertTrue(doc.findSBase("M4") == null);
+	  
+	  Model m = doc.createModel("test_model");
+	  m.setMetaId("M4");
+	  m.createParameter("LP1");
   }
+  
+  @Test
+  public void testRemoveFromParentKineticLaw() {
+
+	  assertTrue(k.removeFromParent());
+
+	  Reaction reaction = model.getReaction(0);
+	  
+	  assertTrue(reaction.isSetKineticLaw() == false);
+	  assertTrue(doc.findSBase("M1") != null);
+	  assertTrue(doc.findSBase("M3") == null);
+	  assertTrue(doc.findSBase("M4") == null);
+	  
+	  k = reaction.createKineticLaw();
+	  k.setMetaId("M4");
+	  k.createLocalParameter("LP1");
+	  
+  }
+
 }
