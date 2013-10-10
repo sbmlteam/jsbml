@@ -19,6 +19,7 @@
  */
 package org.sbml.jsbml.ext.fbc;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -31,6 +32,7 @@ import org.sbml.jsbml.UniqueNamedSBase;
 /**
  * 
  * @author Nicolas Rodriguez
+ * @author Andreas Dr&auml;ger
  * @version $Rev$
  * @since 1.0
  * @date 27.10.2011
@@ -38,11 +40,58 @@ import org.sbml.jsbml.UniqueNamedSBase;
 public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 
 	/**
+	 * 
+	 * @author Andreas Dr&auml;ger
+	 * @version $Rev$
+	 * @since 1.0
+	 * @date $Date$
+	 */
+	public static enum Type {
+	  /**
+	   * 
+	   */
+	  MAXIMIZE("maximize"),
+	  /**
+	   * 
+	   */
+	  MINIMIZE("minimize");
+	  
+	  /**
+	   * 
+	   */
+	  private String sbmlName;
+	  
+	  /**
+	   * 
+	   * @param name
+	   */
+	  private Type(String name) {
+	    this.sbmlName = name;
+	  }
+	  
+	  /* (non-Javadoc)
+	   * @see java.lang.Enum#toString()
+	   */
+	  @Override
+	  public String toString() {
+	    return sbmlName;
+	  }
+	  
+	}
+  
+  /**
    * 
    */
   private static final long serialVersionUID = -3466570440778373634L;
+  /**
+   * 
+   */
   private ListOf<FluxObjective> listOfFluxObjectives;
-	private String type; // TODO make it an Enumeration
+	
+	/**
+   * 
+   */
+	private Type type;
 	
 
 	/**
@@ -119,11 +168,40 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 		getListOfFluxObjectives().add(fluxObjective);
 	}
 
-	/**
-	 * clones this class
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	public Objective clone() {
 		return new Objective(this);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public FluxObjective createFluxObjective() {
+	  return createFluxObjective(null);
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public FluxObjective createFluxObjective(String id) {
+	  return createFluxObjective(id, null);
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @param name
+	 * @return
+	 */
+	public FluxObjective createFluxObjective(String id, String name) {
+	  FluxObjective fluxObjective = new FluxObjective(id, name, getLevel(), getVersion());
+	  getListOfFluxObjectives().add(fluxObjective);
+	  return fluxObjective;	  
 	}
 
 	/* (non-Javadoc)
@@ -131,10 +209,24 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 	 */
 	@Override
 	public TreeNode getChildAt(int index) {
-		if ((index == 0) && isSetListOfFluxObjectives()) {
-			return listOfFluxObjectives;
+	  if (index < 0) {
+	    throw new IndexOutOfBoundsException(index + " < 0");
+	  }
+	  int count = super.getChildCount(), pos = 0;
+	  if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
+    }
+		if (isSetListOfFluxObjectives()) {
+		  if (pos == index) {
+		    return listOfFluxObjectives;
+		  }
+		  pos++;
 		}
-		return null;
+		throw new IndexOutOfBoundsException(MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}",
+      index, +((int) Math.min(pos, 0))));
 	}
 
 	/* (non-Javadoc)
@@ -165,7 +257,7 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * 
 	 * @return the type
 	 */
-	public String getType() {
+	public Type getType() {
 		return type;
 	}
 
@@ -218,10 +310,18 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * @param type the type to set
 	 */
 	public void setType(String type) {
-		this.type = type;
+		setType(Type.valueOf(type));
 	}
 
-	/* (non-Javadoc)
+	/**
+	 * 
+	 * @param type
+	 */
+	public void setType(Type type) {
+	  this.type = type;
+  }
+
+  /* (non-Javadoc)
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
@@ -229,13 +329,16 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (type != null) {
-			attributes.put(FBCConstants.shortLabel + ":type", getType());			
+			attributes.put(FBCConstants.shortLabel + ":type", getType().toString());			
 		}
 		if (isSetId()) {
 			attributes.remove("id");
 			attributes.put(FBCConstants.shortLabel + ":id", getId());
 		}
-		// TODO: take care of id and name properly
+		if (isSetName()) {
+		  attributes.remove("name");
+      attributes.put(FBCConstants.shortLabel + ":name", getName());
+		}
 		
 		return attributes;
 	}

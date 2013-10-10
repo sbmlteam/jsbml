@@ -19,6 +19,7 @@
  */
 package org.sbml.jsbml.ext.fbc;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -128,8 +129,14 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildAt(int)
    */
-  public TreeNode getChildAt(int childIndex) {
-    return null;
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(index + " < 0");
+    }
+    int pos = 0;
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}",
+      index, +((int) Math.min(pos, 0))));
   }
 
   /* (non-Javadoc)

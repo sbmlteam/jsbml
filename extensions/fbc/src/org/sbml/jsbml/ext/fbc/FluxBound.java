@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
 
@@ -45,17 +46,17 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public enum Operation {
     /**
-     * lessEqual
+     * equal
      */
-    LESS_EQUAL("lessEqual"),
+    EQUAL("equal"),
     /**
      * greaterEqual
      */
     GREATER_EQUAL("greaterEqual"),
     /**
-     * equal
+     * lessEqual
      */
-    EQUAL("equal");
+    LESS_EQUAL("lessEqual");
     
     /**
      * SBML attribute name.
@@ -251,6 +252,14 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
     Operation oldOperation = this.operation;
     this.operation = operation;
     firePropertyChange(FBCConstants.operation, oldOperation, operation);
+  }
+
+  /**
+   * 
+   * @param reaction
+   */
+  public void setReaction(Reaction reaction) {
+    setReaction(reaction.getId());
   }
 
   /**
