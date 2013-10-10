@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
 
@@ -189,6 +190,14 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   public void setCoefficient(double coefficient) {
     this.coefficient = coefficient;
     isSetCoefficient = true;
+  }
+
+  /**
+   * 
+   * @param reaction
+   */
+  public void setReaction(Reaction reaction) {
+    setReaction(reaction.getId());
   }
 
   /**

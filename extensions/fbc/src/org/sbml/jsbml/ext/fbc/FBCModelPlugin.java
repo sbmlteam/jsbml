@@ -86,7 +86,6 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
     return getListOfFluxBounds().add(fluxBound);
   }
 
-
   /**
    * Adds a new {@link Objective} to the listOfObjectives.
    * <p>The listOfObjectives is initialized if necessary.
@@ -227,11 +226,12 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Returns the listOfObjectives. Creates it if it is not already existing.
+   * Returns the {@link #listOfObjectives}. Creates it if it is not already
+   * existing.
    *
    * @return the listOfObjectives
    */
-  public ListOf<Objective> getListOfObjectives() {
+  public ListOfObjectives getListOfObjectives() {
     if (!isSetListOfObjectives()) {
       listOfObjectives = new ListOfObjectives(extendedSBase.getLevel(),
         extendedSBase.getVersion());
@@ -241,7 +241,6 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
     }
     return listOfObjectives;
   }
-
 
   /**
    * 
@@ -259,10 +258,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    *         otherwise {@code false}
    */
   public boolean isSetListOfFluxBounds() {
-    if ((listOfFluxBounds == null) || listOfFluxBounds.isEmpty()) {
-      return false;
-    }
-    return true;
+    return ((listOfFluxBounds != null) && !listOfFluxBounds.isEmpty());
   }
 
   /**
@@ -272,10 +268,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    *         otherwise {@code false}
    */
   public boolean isSetListOfObjectives() {
-    if ((listOfObjectives == null) || listOfObjectives.isEmpty()) {
-      return false;
-    }
-    return true;
+    return ((listOfObjectives != null) && !listOfObjectives.isEmpty());
   }
 
   /* (non-Javadoc)
@@ -345,9 +338,16 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    * 
    * @param activeObjective
    */
-  public void setActiveObjective(String activeObjective)
-  {
-    ((ListOfObjectives) getListOfObjectives()).setActiveObjective(activeObjective);
+  public void setActiveObjective(String activeObjective) {
+    getListOfObjectives().setActiveObjective(activeObjective);
+  }
+  
+  /**
+   * 
+   * @param objective
+   */
+  public void setActiveObjective(Objective objective) {
+    setActiveObjective(objective.getId());
   }
 
   /**
@@ -367,18 +367,36 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    * @param listOfObjectives
    */
   public void setListOfObjectives(ListOfObjectives listOfObjectives) {
-    // TODO make a method that is taking ListOf<Objective> and transform it into ListOfObjectives is necessary
     unsetListOfObjectives();
     this.listOfObjectives = listOfObjectives;
     extendedSBase.registerChild(this.listOfObjectives);
   }
 
   /**
-   * Returns {@code true} if listOfFluxBounds contain at least one element, 
-   *         otherwise {@code false}
-   *
-   * @return {@code true} if listOfFluxBounds contain at least one element, 
-   *         otherwise {@code false}
+   * If the given list is an instance of {@link ListOfObjectives}, a call of
+   * this
+   * method is identical to directly calling
+   * {@link #setListOfObjectives(ListOfObjectives)}.
+   * Otherwise, a new {@link ListOfObjectives} will be created from the given
+   * {@link ListOf}.
+   * Note that in the second case there is no active objective defined.
+   * 
+   * @param listOfObjectives
+   */
+  public void setListOfObjectives(ListOf<Objective> listOfObjectives) {
+    if (listOfObjectives instanceof ListOfObjectives) {
+      setListOfObjectives((ListOfObjectives) listOfObjectives);
+    } else {
+      setListOfObjectives(new ListOfObjectives(listOfObjectives));
+    }
+  }
+
+  /**
+   * Returns {@code true} if {@link #listOfFluxBounds} contain at least one
+   * element, otherwise {@code false}
+   * 
+   * @return {@code true} if {@link #listOfFluxBounds} contain at least one
+   *         element, otherwise {@code false}
    */
   public boolean unsetListOfFluxBounds() {
     if (isSetListOfFluxBounds()) {

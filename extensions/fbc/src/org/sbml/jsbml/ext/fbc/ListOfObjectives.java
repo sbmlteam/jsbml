@@ -59,12 +59,20 @@ public class ListOfObjectives extends ListOf<Objective> {
    * @param listOf
    */
   public ListOfObjectives(ListOfObjectives listOf) {
-    super(listOf);
+    this((ListOf<Objective>) listOf);
 
     // copy attribute
     if (listOf.isSetActiveObjective()) {
       setActiveObjective(listOf.getActiveObjective());
     }
+  }
+  
+  /**
+   * 
+   * @param listOf
+   */
+  public ListOfObjectives(ListOf<Objective> listOf) {
+    super(listOf);
   }
 
   /**
@@ -73,11 +81,7 @@ public class ListOfObjectives extends ListOf<Objective> {
    * @return the value of activeObjective
    */
   public String getActiveObjective() {
-    if (isSetActiveObjective()) {
-      return activeObjective;
-    }
-
-    return null;
+    return isSetActiveObjective() ? activeObjective : "";
   }
 
   /**
