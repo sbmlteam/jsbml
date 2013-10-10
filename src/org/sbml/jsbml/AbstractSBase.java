@@ -880,7 +880,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		// TODO : check this to get correctly the extensions children
 
 		if (extensions.size() > 0) {
-
 			for (SBasePlugin sbasePlugin : extensions.values()) {
 				int sbasePluginNbChildren = sbasePlugin.getChildCount();
 
@@ -890,7 +889,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 					pos += sbasePluginNbChildren;
 				}
 			}
-
 		}
 
 		throw new IndexOutOfBoundsException(isLeaf() ? MessageFormat.format(
