@@ -97,16 +97,16 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  */
 public class L3LayoutParser extends AbstractReaderWriter {
 
-	
-	
-	/**
-	 * 
-	 * @return the namespaceURI of this parser.
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
 	 */
 	public String getNamespaceURI() {
 		return LayoutConstants.namespaceURI;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getShortLabel()
+	 */
 	public String getShortLabel() {
 		return LayoutConstants.shortLabel;
 	}
@@ -116,10 +116,11 @@ public class L3LayoutParser extends AbstractReaderWriter {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
 	 */
+	@Override
 	public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("getListOfSBMLElementsToWrite : " + sbase.getClass().getCanonicalName());
+			logger.debug("getListOfSBMLElementsToWrite: " + sbase.getClass().getCanonicalName());
 		}
 		
 		List<Object> listOfElementsToWrite = new ArrayList<Object>();
@@ -151,7 +152,7 @@ public class L3LayoutParser extends AbstractReaderWriter {
 			if (elementName.equals(listOfLayouts)) {
 
 				LayoutModelPlugin layoutModel = new LayoutModelPlugin(model);
-				model.addExtension(namespaceURI, layoutModel);
+				model.addExtension(getNamespaceURI(), layoutModel);
 
 				return layoutModel.getListOfLayouts();
 			}
@@ -368,28 +369,25 @@ public class L3LayoutParser extends AbstractReaderWriter {
 		return contextObject;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processEndDocument(org.sbml.jsbml.SBMLDocument)
+	 */
 	@Override
-	public void processEndDocument(SBMLDocument sbmlDocument) 
-	{
-		if (sbmlDocument.isSetModel() && sbmlDocument.getModel().getExtension(namespaceURI) != null) 
+	public void processEndDocument(SBMLDocument sbmlDocument) {
+		if (sbmlDocument.isSetModel() && sbmlDocument.getModel().getExtension(getNamespaceURI()) != null) 
 		{
 			// going through the document to find all Curve objects
 			// filtering only on the ListOfLayouts
-			List<? extends TreeNode> curveElements = sbmlDocument.getModel().getExtension(namespaceURI).filter(new Filter() {
-
-				public boolean accepts(Object o) 
-				{
-					if (o instanceof Curve)
-					{
-						return true;
-					}
-
-					return false;
+			List<? extends TreeNode> curveElements = sbmlDocument.getModel().getExtension(getNamespaceURI()).filter(new Filter() {
+			  /* (non-Javadoc)
+			   * @see org.sbml.jsbml.util.filters.Filter#accepts(java.lang.Object)
+			   */
+				public boolean accepts(Object o) {
+					return o instanceof Curve;
 				}
 			});
 
-			for (TreeNode curveNode : curveElements)
-			{
+			for (TreeNode curveNode : curveElements) {
 				Curve curve = (Curve) curveNode;
 
 				// transform the CubicBezier into LineSegment when needed
@@ -428,27 +426,26 @@ public class L3LayoutParser extends AbstractReaderWriter {
 		}
 	}
 	
-	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
+	 */
 	@Override
-	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) 
-	{
+	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) {
 		super.writeElement(xmlObject, sbmlElementToWrite);
 		
 		String name = xmlObject.getName();
 		
-		if (name.equals("lineSegment") || name.equals("cubicBezier"))
-		{
+		if (name.equals("lineSegment") || name.equals("cubicBezier")) {
 			xmlObject.setName(LayoutConstants.curveSegment); 
 		}
 		
-		if (name.equals("listOfLineSegments") || name.equals("listOfCubicBeziers"))
-		{
+		if (name.equals("listOfLineSegments") || name.equals("listOfCubicBeziers")) {
 			xmlObject.setName(LayoutConstants.listOfCurveSegments);
 		}
 		
-		if (name.equals(listOfLayouts))
-		{
+		if (name.equals(listOfLayouts)) {
 			xmlObject.getAttributes().put("xmlns:" + LayoutConstants.xsiShortLabel, LayoutConstants.xsiNamespace);
 		}
 	}
+
 }

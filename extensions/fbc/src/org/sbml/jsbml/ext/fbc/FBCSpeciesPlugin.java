@@ -75,17 +75,16 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
 
   }
 
-
   /**
    * Creates an FBCSpeciesPlugin instance 
    */
   public FBCSpeciesPlugin(Species species) {
     super(species);		
-    initDefaults();
 
     if (species == null) {
       throw new IllegalArgumentException("The value of the species argument must not be null.");
     }
+    initDefaults();
   }
 
   /* (non-Javadoc)
@@ -102,8 +101,6 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
     return false;
   }
 
-
-
   /**
    * Returns the value of charge
    *
@@ -113,7 +110,6 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
     if (isSetCharge()) {
       return charge;
     }
-
     throw new PropertyUndefinedError(FBCConstants.charge, this);
   }
 
@@ -143,11 +139,11 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
     return 0;
   }
 
-
   /**
    * Initializes the default values.
    */
-  public void initDefaults() {}
+  public void initDefaults() {
+  }
 
   /**
    * Returns whether charge is set 

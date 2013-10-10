@@ -52,7 +52,6 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * @version $Rev$
  */
 public class QualParser extends AbstractReaderWriter {
-
 	
 	/**
 	 * The QualList enum which represents the name of the list this parser is
@@ -68,10 +67,11 @@ public class QualParser extends AbstractReaderWriter {
 	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("getListOfSBMLElementsToWrite : " + sbase.getClass().getCanonicalName());
+			logger.debug("getListOfSBMLElementsToWrite: " + sbase.getClass().getCanonicalName());
 		}
 		
 		List<Object> listOfElementsToWrite = new ArrayList<Object>();
@@ -144,9 +144,7 @@ public class QualParser extends AbstractReaderWriter {
 	// Create the proper object and link it to his parent.
 	@SuppressWarnings("unchecked")
 	public Object processStartElement(String elementName, String prefix,
-			boolean hasAttributes, boolean hasNamespaces, Object contextObject) 
-	{
-		
+			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 		// logger.debug("processStartElement : elementName = " + elementName + " (" + contextObject.getClass().getSimpleName() + ")");
 		
 		if (contextObject instanceof Model) {
@@ -189,8 +187,7 @@ public class QualParser extends AbstractReaderWriter {
 				return listOfFunctionTerms;
 			}
 		}
-		else if (contextObject instanceof ListOf<?>) 
-		{
+		else if (contextObject instanceof ListOf<?>) {
 			ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
 
 			if (elementName.equals("transition") && this.groupList.equals(QualList.listOfTransitions)) { 
@@ -237,34 +234,28 @@ public class QualParser extends AbstractReaderWriter {
 				functionTerm.setDefaultTerm(true);
 				transition.addFunctionTerm(functionTerm);
 				return functionTerm;
-				
 			}
 		}
 		return contextObject;
 	}
-
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
 	 */
 	@Override
 	public void writeElement(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) 
-	{
+			Object sbmlElementToWrite) {
 		super.writeElement(xmlObject, sbmlElementToWrite);
 		
 		if (logger.isDebugEnabled()) {
-			logger.debug("writeElement : " + sbmlElementToWrite.getClass().getSimpleName());
+			logger.debug("writeElement: " + sbmlElementToWrite.getClass().getSimpleName());
 		}
 
 		if ((sbmlElementToWrite instanceof FunctionTerm) &&
-				((FunctionTerm) sbmlElementToWrite).isDefaultTerm())
-		{
+				((FunctionTerm) sbmlElementToWrite).isDefaultTerm()) {
 			xmlObject.setName("defaultTerm");
 		}
-
 	}
-
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getShortLabel()
