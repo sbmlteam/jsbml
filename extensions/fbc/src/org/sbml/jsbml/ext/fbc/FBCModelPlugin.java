@@ -20,7 +20,6 @@
 package org.sbml.jsbml.ext.fbc;
 
 import java.text.MessageFormat;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;

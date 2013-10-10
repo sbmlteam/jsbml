@@ -19,7 +19,6 @@
  */
 package org.sbml.jsbml.xml.parsers;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -27,12 +26,10 @@ import java.util.List;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCList;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
@@ -45,21 +42,27 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * This class is used to parse the fbc extension package elements and
  * attributes. The namespaceURI URI of this parser is
  * {@code http://www.sbml.org/sbml/level3/version1/fbc/version1}. This parser is
- * able to read and write elements of the fbc package (implements
- * {@link ReadingParser} and {@link WritingParser}).
+ * able to read and write elements of the fbc package (extends
+ * {@link AbstractReaderWriter}).
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
  * @version $Rev$
  */
-public class FBCParser implements ReadingParser, WritingParser {
+public class FBCParser extends AbstractReaderWriter {
 
-	/**
-	 * 
-	 * @return the namespaceURI of this parser.
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
 	 */
-	public static String getNamespaceURI() {
+	public String getNamespaceURI() {
 		return FBCConstants.namespaceURI;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getShortLabel()
+	 */
+	public String getShortLabel() {
+	  return FBCConstants.shortLabel;
 	}
 
 	/**
@@ -75,9 +78,12 @@ public class FBCParser implements ReadingParser, WritingParser {
 	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
 
-		logger.debug("getListOfSBMLElementsToWrite: " + sbase.getClass().getCanonicalName());
+	  if (logger.isDebugEnabled()) {
+	    logger.debug("getListOfSBMLElementsToWrite: " + sbase.getClass().getCanonicalName());
+	  }
 
 		List<Object> listOfElementsToWrite = new ArrayList<Object>();
 
@@ -88,14 +94,15 @@ public class FBCParser implements ReadingParser, WritingParser {
 		else if (sbase instanceof Model) {
 			FBCModelPlugin modelGE = (FBCModelPlugin) ((Model) sbase).getExtension(FBCConstants.namespaceURI);
 
-			if (modelGE != null && modelGE.isSetListOfFluxBounds()) {
-				listOfElementsToWrite.add(modelGE.getListOfFluxBounds());
-				groupList = FBCList.listOfFluxBounds;
+			if (modelGE != null) {
+			  if (modelGE.isSetListOfFluxBounds()) {
+			    listOfElementsToWrite.add(modelGE.getListOfFluxBounds());
+			    groupList = FBCList.listOfFluxBounds;
+			  }
+			  if (modelGE.isSetListOfObjectives()) {
+			    listOfElementsToWrite.add(modelGE.getListOfObjectives());
+			  }
 			}
-			if (modelGE != null && modelGE.isSetListOfObjectives()) {
-				listOfElementsToWrite.add(modelGE.getListOfObjectives());
-			}
-			
 		} 
 		else if (sbase instanceof TreeNode) {
 			Enumeration<TreeNode> children = ((TreeNode) sbase).children();
@@ -115,89 +122,16 @@ public class FBCParser implements ReadingParser, WritingParser {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processAttribute(java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, java.lang.Object)
-	 */
-	public void processAttribute(String elementName, String attributeName,
-			String value, String prefix, boolean isLastAttribute,
-			Object contextObject) {
-
-		logger.debug("processAttribute\n");
-		
-		boolean isAttributeRead = false;
-
-		if (contextObject instanceof SBase) {
-
-			SBase sbase = (SBase) contextObject;
-			
-			logger.debug(MessageFormat.format(
-			  "processAttribute: level, version = {0,number,integer}, {1,number,integer}",
-			  sbase.getLevel(),  sbase.getVersion()));
-
-			try {
-				isAttributeRead = sbase.readAttribute(attributeName, prefix,
-						value);
-			} catch (Throwable exc) {
-				System.err.println(exc.getMessage());
-			}
-		} else if (contextObject instanceof Annotation) {
-			Annotation annotation = (Annotation) contextObject;
-			isAttributeRead = annotation.readAttribute(attributeName, prefix,
-					value);
-		} else if (contextObject instanceof SBasePlugin) {
-			isAttributeRead = ((SBasePlugin) contextObject).readAttribute(attributeName, prefix, value);
-		}
-
-		if (!isAttributeRead) {
-			logger.warn(MessageFormat.format(
-			  "processAttribute: The attribute {0} on the element {1} is not part of the SBML specifications.",
-			  attributeName, elementName));		
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.stax.ReadingParser#processCharactersOf(java.lang.String, java.lang.String, java.lang.Object)
-	 */
-	public void processCharactersOf(String elementName, String characters,
-			Object contextObject) {
-		
-		// TODO: the basic fbc elements don't have any text. SBML syntax
-		// error, throw an exception, log en error ?
-		logger.debug(MessageFormat.format(
-		  "processCharactersOf: the basic FBC elements don't have any text. SBML syntax error. characters lost = {0}",
-		  characters));
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processEndDocument(org.sbml.jsbml.SBMLDocument)
-	 */
-	public void processEndDocument(SBMLDocument sbmlDocument) {
-		// Do some checking ??
-	}
-
-	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processEndElement(java.lang.String, java.lang.String, boolean, java.lang.Object)
 	 */
+	@Override
 	public boolean processEndElement(String elementName, String prefix,
-			boolean isNested, Object contextObject) 
-	{
-
-		if (elementName.equals("listOfFluxBounds")
-				|| elementName.equals("listOfObjectives")) 
-		{
+			boolean isNested, Object contextObject) {
+		if (elementName.equals(FBCList.listOfFluxBounds.name())
+				|| elementName.equals(FBCList.listOfObjectives.name())) {
 			this.groupList = FBCList.none;
 		}
-		
 		return true;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processNamespace(java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, boolean, java.lang.Object)
-	 */
-	public void processNamespace(String elementName, String URI, String prefix,
-			String localName, boolean hasAttributes, boolean isLastNamespace,
-			Object contextObject) 
-	{
-		// TODO: read the namespace, it could be some other extension objects
 	}
 
 	/* (non-Javadoc)
@@ -219,7 +153,7 @@ public class FBCParser implements ReadingParser, WritingParser {
 				model.addExtension(FBCConstants.namespaceURI, fbcModel);
 			}
 
-			if (elementName.equals("listOfFluxBounds")) {
+			if (elementName.equals(FBCList.listOfFluxBounds.name())) {
 					
 				ListOf<FluxBound> listOfFluxBounds = fbcModel.getListOfFluxBounds();
 				listOfFluxBounds.setSBaseListType(ListOf.Type.other);
@@ -228,7 +162,7 @@ public class FBCParser implements ReadingParser, WritingParser {
 				this.groupList = FBCList.listOfFluxBounds;
 				return listOfFluxBounds;
 			} 
-			else if (elementName.equals("listOfObjectives")) {
+			else if (elementName.equals(FBCList.listOfObjectives.name())) {
 
 				ListOf<Objective> listOfObjectives = fbcModel.getListOfObjectives();
 				listOfObjectives.setSBaseListType(ListOf.Type.other);
@@ -239,6 +173,7 @@ public class FBCParser implements ReadingParser, WritingParser {
 			}
 		} else if (contextObject instanceof Objective) {
 			Objective objective = (Objective) contextObject;
+			// TODO: Where is this name defined?
 			if (elementName.equals("listOfFluxes")) {				
 				ListOf<FluxObjective> listOfFluxObjectives = objective.getListOfFluxObjectives();
 				listOfFluxObjectives.setSBaseListType(ListOf.Type.other);
@@ -283,33 +218,14 @@ public class FBCParser implements ReadingParser, WritingParser {
 				return fluxObjective;
 			}
 
-
 		}
 		return contextObject;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeAttributes(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
-	 */
-	public void writeAttributes(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		if (sbmlElementToWrite instanceof SBase) {
-			SBase sbase = (SBase) sbmlElementToWrite;
-			xmlObject.addAttributes(sbase.writeXMLAttributes());
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeCharacters(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
-	 */
-	public void writeCharacters(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		logger.error("writeCharacters: Group elements do not have any characters!");
-	}
-
-	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
 	 */
+	@Override
 	public void writeElement(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) {
 
@@ -335,26 +251,12 @@ public class FBCParser implements ReadingParser, WritingParser {
 					xmlObject.setName(sbase.getElementName());
 				}
 			}
-			if (!xmlObject.isSetPrefix()) {
-				xmlObject.setPrefix(FBCConstants.shortLabel);
-			}
-			xmlObject.setNamespace(FBCConstants.namespaceURI);
-
+//			if (!xmlObject.isSetPrefix()) {
+//				xmlObject.setPrefix(FBCConstants.shortLabel);
+//			}
+//			xmlObject.setNamespace(FBCConstants.namespaceURI);
 		}
 
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeNamespaces(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
-	 */
-	public void writeNamespaces(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		if (sbmlElementToWrite instanceof SBase) {
-			// SBase sbase = (SBase) sbmlElementToWrite;
-
-			xmlObject.setPrefix(FBCConstants.shortLabel);
-		}
-		// TODO: write all namespaces
 	}
 
 }

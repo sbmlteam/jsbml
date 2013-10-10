@@ -146,7 +146,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 	@SuppressWarnings("unchecked")
 	public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
 
-		logger.debug("getListOfSBMLElementsToWrite : " + sbase.getClass().getCanonicalName());
+		logger.debug("getListOfSBMLElementsToWrite: " + sbase.getClass().getCanonicalName());
 		
 		List<Object> listOfElementsToWrite = new ArrayList<Object>();
 		Enumeration<TreeNode> children = null;
@@ -175,8 +175,8 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 			listOfElementsToWrite.add(children.nextElement());
 		}
 
-		logger.debug("getListOfSBMLElementsToWrite :  nb children = " + listOfElementsToWrite.size());
-		logger.debug("getListOfSBMLElementsToWrite :  children = " + listOfElementsToWrite);
+		logger.debug("getListOfSBMLElementsToWrite: nb children = " + listOfElementsToWrite.size());
+		logger.debug("getListOfSBMLElementsToWrite: children = " + listOfElementsToWrite);
 
 		if (listOfElementsToWrite.isEmpty()) {
 			listOfElementsToWrite = null;
@@ -184,7 +184,6 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 
 		return listOfElementsToWrite;
 	}
-
 	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeAttributes(SBMLObjectForXML xmlObject, Object sbmlElementToWrite)
@@ -223,15 +222,14 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 			SBase sbase = (SBase) sbmlElementToWrite;
 
 			if (!sbase.getNamespaces().contains(getNamespaceURI())) {
-				logger.debug("writeElement : rejected an element as it does not seems to have the good namespace definition");
-				logger.debug("writeElement : sbase.namespaces size = " + sbase.getNamespaces().size());
-				logger.debug("writeElement : sbase.namespaces = " + sbase.getNamespaces());
+				logger.debug("writeElement: rejected an element as it does not seems to have the good namespace definition");
+				logger.debug("writeElement: sbase.namespaces size = " + sbase.getNamespaces().size());
+				logger.debug("writeElement: sbase.namespaces = " + sbase.getNamespaces());
 
 				return;
 			}
 
-			if (sbase instanceof ListOfWithName<?>) 
-			{
+			if (sbase instanceof ListOfWithName<?>) {
 				xmlObject.setName(sbase.getElementName());
 			}
 			

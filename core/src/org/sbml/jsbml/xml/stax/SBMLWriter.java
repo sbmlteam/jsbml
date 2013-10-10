@@ -1435,7 +1435,7 @@ public class SBMLWriter {
 				childParser.writeNamespaces(childXmlObject, nextObjectToWrite);
 				childParser.writeAttributes(childXmlObject, nextObjectToWrite);
 
-				if (! childXmlObject.isSetName()) {
+				if (!childXmlObject.isSetName()) {
 					// TODO : add a log message that this is ignored ??
 					logger.debug("XML name not set, element ignored!");
 					continue;
