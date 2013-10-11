@@ -20,6 +20,8 @@
 package org.sbml.jsbml.ext.fbc;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -27,7 +29,9 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.UniqueNamedSBase;
+import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * 
@@ -76,7 +80,26 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 	  public String toString() {
 	    return sbmlName;
 	  }
-	  
+
+	  public static Type fromString(String value)
+	  {
+		  if (value == null)
+		  {
+			  throw new IllegalArgumentException();
+		  }
+
+		  for(Type v : values())
+		  {
+			  if(value.equalsIgnoreCase(v.sbmlName))
+			  {
+				  return v;
+			  }
+		  }
+		  throw new IllegalArgumentException();
+
+	  }
+
+
 	}
   
   /**
@@ -118,8 +141,12 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 	public Objective(Objective obj) {
 		super(obj);
 
-		// TODO: copy all class attributes, e.g.:
-		// bar = obj.bar;
+		if (obj.isSetListOfFluxObjectives()) {
+			setListOfFluxObjectives(obj.getListOfFluxObjectives().clone());
+		}
+		if (obj.isSetType()) {
+			setType(obj.getType());
+		}
 	}
 
 	/**
@@ -162,7 +189,11 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 	}
 
 	/**
-	 * @param listOfFluxObjectives the listOfFluxObjectives to set
+	 * Adds a new {@link FluxObjective} to the listOfFluxObjectives.
+	 * <p>The listOfFluxObjectives is initialized if necessary.
+	 *
+	 * @param fluxObjective the element to add to the list
+	 * @return true (as specified by {@link Collection.add})
 	 */
 	public void addFluxObjective(FluxObjective fluxObjective) {
 		getListOfFluxObjectives().add(fluxObjective);
@@ -176,17 +207,19 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Creates a new {@link FluxObjective} element and adds it to the ListOfFluxObjectives list
+	 *
+	 * @return a new {@link FluxObjective} element
 	 */
 	public FluxObjective createFluxObjective() {
 	  return createFluxObjective(null);
 	}
 	
 	/**
-	 * 
-	 * @param id
-	 * @return
+	 * Creates a new {@link FluxObjective} element and adds it to the ListOfFluxObjectives list
+	 *
+	 * @param id the id for the new {@link FluxObjective}
+	 * @return a new {@link FluxObjective} element
 	 */
 	public FluxObjective createFluxObjective(String id) {
 	  return createFluxObjective(id, null);
@@ -266,8 +299,6 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 	 */
 	public void initDefaults() {
 		addNamespace(FBCConstants.namespaceURI);
-		// TODO: init default values here if necessary, e.g.:
-		// bar = null;
 	}
 
 	public boolean isIdMandatory() {
@@ -305,23 +336,34 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 	}
 
 	/**
-	 * Sets the type.
+	 * Sets the type from a {@link String}.
 	 * 
 	 * @param type the type to set
 	 */
 	public void setType(String type) {
-		setType(Type.valueOf(type));
+	  try 
+  	  {
+  		  setType(Type.fromString(type));
+  	  }
+  	  catch (Exception e) 
+  	  {
+  		  throw new SBMLException("Could not recognized the value '" + type
+  				  + "' for the attribute " + FBCConstants.type
+  				  + " on the 'objective' element.");
+  	  }
 	}
 
 	/**
-	 * 
-	 * @param type
+	 * Sets the value of type
 	 */
 	public void setType(Type type) {
-	  this.type = type;
-  }
+		Type oldType = this.type;
+		this.type = type;
+		firePropertyChange(FBCConstants.type, oldType, this.type);
+	}
 
-  /* (non-Javadoc)
+
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
@@ -337,10 +379,108 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 		}
 		if (isSetName()) {
 		  attributes.remove("name");
-      attributes.put(FBCConstants.shortLabel + ":name", getName());
+		  attributes.put(FBCConstants.shortLabel + ":name", getName());
 		}
 		
 		return attributes;
 	}
 	
+	
+	/**
+	 * Returns whether type is set 
+	 *
+	 * @return whether type is set 
+	 */
+	public boolean isSetType() {
+		return this.type != null;
+	}
+
+	/**
+	 * Unsets the variable type 
+	 *
+	 * @return {@code true}, if type was set before, 
+	 *         otherwise {@code false}
+	 */
+	public boolean unsetType() {
+		if (isSetType()) {
+			Type oldType = this.type;
+			this.type = null;
+			firePropertyChange(FBCConstants.type, oldType, this.type);
+			return true;
+		}
+		return false;
+	}
+	
+
+	/**
+	 * Sets the given {@code ListOf<FluxObjective>}. If listOfFluxObjectives
+	 * was defined before and contains some elements, they are all unset.
+	 *
+	 * @param listOfFluxObjectives
+	 */
+	public void setListOfFluxObjectives(ListOf<FluxObjective> listOfFluxObjectives) {
+		unsetListOfFluxObjectives();
+		this.listOfFluxObjectives = listOfFluxObjectives;
+		registerChild(this.listOfFluxObjectives);
+	}
+
+	/**
+	 * Unsets the {@code listOfFluxObjectives}.
+	 * 
+	 * <p>Returns {@code true}, if listOfFluxObjectives contain at least one element, 
+	 *         otherwise {@code false}
+	 *
+	 * @return {@code true}, if listOfFluxObjectives contain at least one element, 
+	 *         otherwise {@code false}
+	 */
+	public boolean unsetListOfFluxObjectives() {
+		if (isSetListOfFluxObjectives()) {
+			ListOf<FluxObjective> oldFluxObjectives = this.listOfFluxObjectives;
+			this.listOfFluxObjectives = null;
+			oldFluxObjectives.fireNodeRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+
+	/**
+	 * Removes an element from the listOfFluxObjectives.
+	 *
+	 * @param fluxObjective the element to be removed from the list
+	 * @return true if the list contained the specified element
+	 * @see List#remove(Object)
+	 */
+	public boolean removeFluxObjective(FluxObjective fluxObjective) {
+		if (isSetListOfFluxObjectives()) {
+			return getListOfFluxObjectives().remove(fluxObjective);
+		}
+		return false;
+	}
+
+	/**
+	 * Removes an element from the listOfFluxObjectives at the given index.
+	 *
+	 * @param i the index where to remove the {@link FluxObjective}
+	 * @throws IndexOutOfBoundsException if the listOf is not set or
+	 * if the index is out of bound (index < 0 || index > list.size)
+	 */
+	public void removeFluxObjective(int i) {
+		if (!isSetListOfFluxObjectives()) {
+			throw new IndexOutOfBoundsException(Integer.toString(i));
+		}
+		getListOfFluxObjectives().remove(i);
+	}
+
+	/**
+	 * Removes an element from the listOfFluxObjectives with the given id.
+	 *
+	 * @param id the id of the {@link FluxObjective} to remove. 
+	 * @throws IndexOutOfBoundsException if the listOf is not set or
+	 * if the index is out of bound (index < 0 || index > list.size)
+	 */
+	public void removeFluxObjective(String id) {
+		getListOfFluxObjectives().removeFirst(new NameFilter(id));
+	}
+
 }

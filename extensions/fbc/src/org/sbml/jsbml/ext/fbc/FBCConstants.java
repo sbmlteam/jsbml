@@ -61,6 +61,9 @@ public class FBCConstants {
   public static final String operation = "operation";
   public static final String reaction = "reaction";
   public static final String value = "value";
+  public static final String type = "type";
+  public static final String coefficient = "coefficient";
+  public static final String listOfObjectives = "listOfObjectives";
 	
 	/**
 	 * 

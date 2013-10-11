@@ -141,8 +141,10 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * 
-   * @return
+   * Gets the {@code activeObjective}.
+   * <p>If the {@code activeObjective} is not defined, an empty String is returned.
+   *  
+   * @return the {@code activeObjective} or "".
    */
   public String getActiveObjective() {
     return isSetListOfObjectives() ? listOfObjectives.getActiveObjective() : "";
@@ -200,10 +202,12 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Sets the given {@code ListOf<FluxBound>}. If listOfFluxBounds
-   * was defined before and contains some elements, they are all unset.
+   *  Gets an element from the listOfFluxBounds at the given index.
    *
-   * @param listOfFluxBounds
+   * @param i the index where to get the {@link FluxBound}
+   * @throws IndexOutOfBoundsException 
+   * if the index is out of bound (index < 0 || index > list.size)
+   * @return an element from the listOfFluxBounds at the given index.
    */
   public FluxBound getFluxBound(int i) {
     return getListOfFluxBounds().get(i);
@@ -243,9 +247,12 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * 
-   * @param i
-   * @return
+   *  Gets an element from the listOfObjectives at the given index.
+   *
+   * @param i the index where to get the {@link Objective}
+   * @throws IndexOutOfBoundsException 
+   * if the index is out of bound (index < 0 || index > list.size)
+   * @return an element from the listOfObjectives at the given index.
    */
   public Objective getObjective(int i) {
     return getListOfObjectives().get(i);
@@ -262,13 +269,16 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Returns {@code true} if listOfObjectives contains at least one element.
+   * Returns {@code true} if listOfObjectives is not null.
    *
-   * @return {@code true} if listOfObjectives contains at least one element, 
+   * @return {@code true} if listOfObjectives is not null, 
    *         otherwise {@code false}
    */
   public boolean isSetListOfObjectives() {
-    return ((listOfObjectives != null) && !listOfObjectives.isEmpty());
+	  // cannot use the isEmpty() test here to avoid loosing the activeObject attribute
+	  // when calling the getListOfObjectives() when there are not yet any objective object added to the list.
+	  // This happen for example when reading a file.
+    return listOfObjectives != null;
   }
 
   /* (non-Javadoc)
@@ -351,7 +361,9 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * 
+   *  Sets the given {@code ListOf<FluxBound>}. <p>If listOfFluxBounds
+   *  was defined before and contained some elements, they are all unset.
+   *  
    * @param listOfFluxBounds
    */
   public void setListOfFluxBounds(ListOf<FluxBound> listOfFluxBounds) {
@@ -361,8 +373,8 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Sets the given {@code ListOf<Objective>}. If listOfObjectives
-   * was defined before and contains some elements, they are all unset.
+   * Sets the given {@code ListOfObjectives}. <p>If listOfObjectives
+   * was defined before and contained some elements, they are all unset.
    *
    * @param listOfObjectives
    */
@@ -373,6 +385,8 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
+   * Sets the given {@code ListOf<Objective>}.
+   * <p>
    * If the given list is an instance of {@link ListOfObjectives}, a call of
    * this
    * method is identical to directly calling
