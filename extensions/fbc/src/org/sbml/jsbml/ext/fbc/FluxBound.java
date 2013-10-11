@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
@@ -79,6 +80,25 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
     public String toString() {
       return id;
     }
+	
+	public static Operation fromString(String value)
+	{
+		if (value == null)
+		{
+			throw new IllegalArgumentException();
+		}
+		
+		for(Operation v : values())
+		{
+			if(value.equalsIgnoreCase(v.id))
+			{
+				return v;
+			}
+		}
+		throw new IllegalArgumentException();
+
+	}
+
   }
 
   /**
@@ -176,7 +196,6 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
     return operation;
   }
 
-  // TODO: re-write the getters and setters using the new template to get the change events launched.
 
   /**
    * Returns the reaction id
@@ -232,7 +251,17 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
       if (attributeName.equals(FBCConstants.reaction)) {
         setReaction(value);
       } else if (attributeName.equals(FBCConstants.operation)) {
-        setOperation(Operation.valueOf(value));
+    	  try 
+    	  {
+    		  setOperation(Operation.fromString(value));
+    	  }
+    	  catch (Exception e) 
+    	  {
+    		  throw new SBMLException("Could not recognized the value '" + value
+    				  + "' for the attribute " + FBCConstants.operation
+    				  + " on the 'fluxBound' element.");
+    	  }
+    	  return true;
       } else if (attributeName.equals(FBCConstants.value)) {
         setValue(StringTools.parseSBMLDouble(value));
       } else {
@@ -305,9 +334,86 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
     if (isSetId()) {
       attributes.remove("id");
       attributes.put(FBCConstants.shortLabel + ":id", getId());
+    }    
+    if (isSetName()) {
+        attributes.remove("name");
+        attributes.put(FBCConstants.shortLabel + ":id", getId());
     }
 
     return attributes;
+  }
+
+  
+
+  /**
+   * Unsets the variable value 
+   *
+   * @return {@code true}, if value was set before, 
+   *         otherwise {@code false}
+   */
+  public boolean unsetValue() {
+	  if (isSetValue()) {
+		  double oldValue = this.value;
+		  this.value = null;
+		  firePropertyChange(FBCConstants.value, oldValue, this.value);
+		  return true;
+	  }
+	  return false;
+  }
+  
+
+
+  /**
+   * Returns whether operation is set 
+   *
+   * @return whether operation is set 
+   */
+  public boolean isSetOperation() {
+	  return this.operation != null;
+  }
+
+
+  /**
+   * Unsets the variable operation 
+   *
+   * @return {@code true}, if operation was set before, 
+   *         otherwise {@code false}
+   */
+  public boolean unsetOperation() {
+	  if (isSetOperation()) {
+		  Operation oldOperation = this.operation;
+		  this.operation = null;
+		  firePropertyChange(FBCConstants.operation, oldOperation, this.operation);
+		  return true;
+	  }
+	  return false;
+  }
+
+  
+
+  /**
+   * Returns whether reaction is set 
+   *
+   * @return whether reaction is set 
+   */
+  public boolean isSetReaction() {
+	  return this.reaction != null;
+  }
+
+  /**
+   * Unsets the variable reaction 
+   *
+   * @return {@code true}, if reaction was set before, 
+   *         otherwise {@code false}
+   */
+  public boolean unsetReaction() {
+	  if (isSetReaction()) {
+		  String oldReaction = this.reaction;
+		  this.reaction = null;
+		  firePropertyChange(FBCConstants.reaction, oldReaction, this.reaction);
+		  return true;
+	  }
+	  return false;
   }
 
 }

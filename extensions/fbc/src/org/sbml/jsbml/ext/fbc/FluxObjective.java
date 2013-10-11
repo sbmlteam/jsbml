@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
@@ -61,16 +62,6 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   public FluxObjective() {
     super();
     initDefaults();
-  }
-
-  /**
-   * Clone constructor
-   */
-  public FluxObjective(FluxObjective obj) {
-    super(obj);
-
-    // TODO: copy all class attributes, e.g.:
-    // bar = obj.bar;
   }
 
   /**
@@ -123,6 +114,20 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   }
 
   /**
+   * Clone constructor
+   */
+  public FluxObjective(FluxObjective obj) {
+    super(obj);
+
+    if (obj.isSetReaction()) {
+    	setReaction(obj.getReaction());
+    }
+    if (obj.isSetCoefficient()) {
+    	setCoefficient(obj.getCoefficient());
+    }
+  }
+
+  /**
    * clones this class
    */
   public FluxObjective clone() {
@@ -130,20 +135,35 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   }
 
   /**
-   * @return the coefficient
+   * Returns the value of coefficient
+   *
+   * @return the value of coefficient
    */
   public double getCoefficient() {
-    return coefficient;
+	  if (isSetCoefficient()) {
+		  return coefficient;
+	  }
+	  // This is necessary if we cannot return null here.
+	  throw new PropertyUndefinedError(FBCConstants.coefficient, this);
   }
 
   /**
-   * @return the reaction
+   * Returns the value of reaction
+   *
+   * @return the value of reaction
    */
   public String getReaction() {
-    return reaction;
+	  return reaction;
   }
 
-  // TODO: re-write the getters and setters
+  /**
+   * Returns whether reaction is set 
+   *
+   * @return whether reaction is set 
+   */
+  public boolean isSetReaction() {
+	  return this.reaction != null;
+  }
 
   /**
    * Initializes the default values using the namespace.
@@ -151,15 +171,23 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   public void initDefaults() {
     addNamespace(FBCConstants.namespaceURI);
   }
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
-   */
+
+/* (non-Javadoc)
+ * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+*/
   public boolean isIdMandatory() {
     return true;
   }
+
+  /**
+   * Returns whether coefficient is set 
+   *
+   * @return whether coefficient is set 
+   */
   public boolean isSetCoefficient() {
-    return isSetCoefficient;
+	  return isSetCoefficient;
   }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
    */
@@ -185,12 +213,17 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   }
 
   /**
+   * Sets the value of coefficient
+   * 
    * @param coefficient the coefficient to set
    */
   public void setCoefficient(double coefficient) {
-    this.coefficient = coefficient;
-    isSetCoefficient = true;
+	  double oldCoefficient = this.coefficient;
+	  this.coefficient = coefficient;
+	  isSetCoefficient = true;
+	  firePropertyChange(FBCConstants.coefficient, oldCoefficient, this.coefficient);
   }
+
 
   /**
    * 
@@ -207,14 +240,39 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
     this.reaction = reaction;
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractNamedSBase#toString()
+  /**
+   * Unsets the variable coefficient 
+   *
+   * @return {@code true}, if coefficient was set before, 
+   *         otherwise {@code false}
    */
-  @Override
-  public String toString() {
-    // TODO Auto-generated method stub
-    return null;
+  public boolean unsetCoefficient() {
+	  if (isSetCoefficient()) {
+		  double oldCoefficient = this.coefficient;
+		  this.coefficient = Double.NaN;
+		  isSetCoefficient = false;
+		  firePropertyChange(FBCConstants.coefficient, oldCoefficient, this.coefficient);
+		  return true;
+	  }
+	  return false;
   }
+
+  /**
+   * Unsets the variable reaction 
+   *
+   * @return {@code true}, if reaction was set before, 
+   *         otherwise {@code false}
+   */
+  public boolean unsetReaction() {
+	  if (isSetReaction()) {
+		  String oldReaction = this.reaction;
+		  this.reaction = null;
+		  firePropertyChange(FBCConstants.reaction, oldReaction, this.reaction);
+		  return true;
+	  }
+	  return false;
+  }
+  
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
@@ -223,14 +281,22 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
 
-    if (reaction != null) {
+    if (isSetReaction()) {
       attributes.put(FBCConstants.shortLabel+ ":reaction", getReaction());			
     }
     if (isSetCoefficient()) {
-      attributes.put(FBCConstants.shortLabel+ ":coefficient",
+      attributes.put(FBCConstants.shortLabel+ ":" + FBCConstants.coefficient,
         StringTools.toString(Locale.ENGLISH, getCoefficient()));
     }
-    // TODO: take care of id and name properly
+	if (isSetId()) {
+		attributes.remove("id");
+		attributes.put(FBCConstants.shortLabel + ":id", getId());
+	}
+	if (isSetName())
+	{
+		attributes.remove("name");
+		attributes.put(FBCConstants.shortLabel + ":name", getName());
+	}
 
     return attributes;
   }

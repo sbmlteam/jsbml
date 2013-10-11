@@ -84,6 +84,11 @@ public class ListOfObjectives extends ListOf<Objective> {
     return isSetActiveObjective() ? activeObjective : "";
   }
 
+  @Override
+	public String getElementName() {
+		return FBCConstants.listOfObjectives;
+	}
+  
   /**
    * Returns whether activeObjective is set 
    *

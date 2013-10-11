@@ -19,22 +19,30 @@
  */
 package org.sbml.jsbml.xml.parsers;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
+import java.util.Calendar;
 import java.util.List;
 
-import javax.swing.tree.TreeNode;
+import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SBMLReader;
+import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.Species;
+import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCList;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
+import org.sbml.jsbml.ext.fbc.FBCSpeciesPlugin;
 import org.sbml.jsbml.ext.fbc.FluxBound;
 import org.sbml.jsbml.ext.fbc.FluxObjective;
+import org.sbml.jsbml.ext.fbc.ListOfObjectives;
 import org.sbml.jsbml.ext.fbc.Objective;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
@@ -77,49 +85,56 @@ public class FBCParser extends AbstractReaderWriter {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
 
-	  if (logger.isDebugEnabled()) {
-	    logger.debug("getListOfSBMLElementsToWrite: " + sbase.getClass().getCanonicalName());
-	  }
+		if (logger.isDebugEnabled()) {
+			logger.debug("getListOfSBMLElementsToWrite: " + sbase.getClass().getCanonicalName());
+		}
 
 		List<Object> listOfElementsToWrite = new ArrayList<Object>();
 
-		if (sbase instanceof SBMLDocument) {
-			// nothing to do
-			// TODO: the 'required' attribute is written even if there is no plugin class for the SBMLDocument, so I am not totally sure how this is done.
-		} 
-		else if (sbase instanceof Model) {
-			FBCModelPlugin modelGE = (FBCModelPlugin) ((Model) sbase).getExtension(FBCConstants.namespaceURI);
+		// test if this sbase is an extended SBase.
+		if (sbase instanceof SBase && ((SBase) sbase).getExtension(getNamespaceURI()) != null) {
+			SBasePlugin sbasePlugin = (SBasePlugin) ((SBase) sbase).getExtension(getNamespaceURI());
 
-			if (modelGE != null) {
-			  if (modelGE.isSetListOfFluxBounds()) {
-			    listOfElementsToWrite.add(modelGE.getListOfFluxBounds());
-			    groupList = FBCList.listOfFluxBounds;
-			  }
-			  if (modelGE.isSetListOfObjectives()) {
-			    listOfElementsToWrite.add(modelGE.getListOfObjectives());
-			  }
-			}
-		} 
-		else if (sbase instanceof TreeNode) {
-			Enumeration<TreeNode> children = ((TreeNode) sbase).children();
-			
-			while (children.hasMoreElements()) {
-				listOfElementsToWrite.add(children.nextElement());
-			}
-		}
-		
-		if (listOfElementsToWrite.isEmpty()) {
-			listOfElementsToWrite = null;
+			listOfElementsToWrite = super.getListOfSBMLElementsToWrite(sbasePlugin);
+			logger.debug("getListOfSBMLElementsToWrite : nb children = " + sbasePlugin.getChildCount());
 		} else {
-			logger.debug("getListOfSBMLElementsToWrite size = " + listOfElementsToWrite.size());
+			listOfElementsToWrite = super.getListOfSBMLElementsToWrite(sbase);
 		}
 
 		return listOfElementsToWrite;
 	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processAttribute(String
+	 *      elementName, String attributeName, String value, String prefix,
+	 *      boolean isLastAttribute, Object contextObject)
+	 */
+	public void processAttribute(String elementName, String attributeName,
+			String value, String prefix, boolean isLastAttribute,
+			Object contextObject) 
+	{
+		logger.debug("processAttribute -> " + prefix + " : " + attributeName + " = " + value + " (" + contextObject.getClass().getName() + ")");
+		
+		if (contextObject instanceof Species) {
+			Species species = (Species) contextObject;
+			FBCSpeciesPlugin fbcSpecies = null;
+			
+			if (species.getExtension(FBCConstants.namespaceURI) != null) {
+				fbcSpecies = (FBCSpeciesPlugin) species.getExtension(FBCConstants.namespaceURI);
+			} else {
+				fbcSpecies = new FBCSpeciesPlugin(species);
+				species.addExtension(FBCConstants.namespaceURI, fbcSpecies);
+			}
+			
+			contextObject = fbcSpecies;
+		}  
+			
+		super.processAttribute(elementName, attributeName, value, prefix, isLastAttribute, contextObject);
+	}
+
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processEndElement(java.lang.String, java.lang.String, boolean, java.lang.Object)
@@ -156,29 +171,20 @@ public class FBCParser extends AbstractReaderWriter {
 			if (elementName.equals(FBCList.listOfFluxBounds.name())) {
 					
 				ListOf<FluxBound> listOfFluxBounds = fbcModel.getListOfFluxBounds();
-				listOfFluxBounds.setSBaseListType(ListOf.Type.other);
-				listOfFluxBounds.addNamespace(FBCConstants.namespaceURI);
-				model.registerChild(listOfFluxBounds);
 				this.groupList = FBCList.listOfFluxBounds;
 				return listOfFluxBounds;
 			} 
 			else if (elementName.equals(FBCList.listOfObjectives.name())) {
 
 				ListOf<Objective> listOfObjectives = fbcModel.getListOfObjectives();
-				listOfObjectives.setSBaseListType(ListOf.Type.other);
-				listOfObjectives.addNamespace(FBCConstants.namespaceURI);
-				model.registerChild(listOfObjectives);
 				this.groupList = FBCList.listOfObjectives;
 				return listOfObjectives;
 			}
 		} else if (contextObject instanceof Objective) {
 			Objective objective = (Objective) contextObject;
-			// TODO: Where is this name defined?
-			if (elementName.equals("listOfFluxes")) {				
+
+			if (elementName.equals("listOfFluxObjectives")) {				
 				ListOf<FluxObjective> listOfFluxObjectives = objective.getListOfFluxObjectives();
-				listOfFluxObjectives.setSBaseListType(ListOf.Type.other);
-				listOfFluxObjectives.addNamespace(FBCConstants.namespaceURI);
-				objective.registerChild(listOfFluxObjectives);
 				this.groupList = FBCList.listOfFluxObjectives;
 				return listOfFluxObjectives;
 			}
@@ -193,7 +199,6 @@ public class FBCParser extends AbstractReaderWriter {
 				FBCModelPlugin extendeModel = (FBCModelPlugin) model.getExtension(FBCConstants.namespaceURI); 
 				
 				FluxBound fluxBound = new FluxBound();
-				fluxBound.addNamespace(FBCConstants.namespaceURI);
 				extendeModel.addFluxBound(fluxBound);
 				return fluxBound;
 				
@@ -203,7 +208,6 @@ public class FBCParser extends AbstractReaderWriter {
 				FBCModelPlugin extendeModel = (FBCModelPlugin) model.getExtension(FBCConstants.namespaceURI); 
 
 				Objective objective = new Objective();
-				objective.addNamespace(FBCConstants.namespaceURI);
 				extendeModel.addObjective(objective);
 
 				return objective;
@@ -212,7 +216,6 @@ public class FBCParser extends AbstractReaderWriter {
 				Objective objective = (Objective) listOf.getParentSBMLObject();
 
 				FluxObjective fluxObjective = new FluxObjective();
-				fluxObjective.addNamespace(FBCConstants.namespaceURI);
 				objective.addFluxObjective(fluxObjective);
 
 				return fluxObjective;
@@ -259,4 +262,78 @@ public class FBCParser extends AbstractReaderWriter {
 
 	}
 
+	public static void main(String[] args) throws SBMLException {
+
+		if (args.length < 1) {
+			System.out.println(
+			  "Usage: java org.sbml.jsbml.xml.stax.SBMLWriter sbmlFileName");
+			System.exit(0);
+		}
+
+		// this JOptionPane is added here to be able to start visualVM profiling
+		// before the reading or writing is started.
+		// JOptionPane.showMessageDialog(null, "Eggs are not supposed to be green.");
+		
+		long init = Calendar.getInstance().getTimeInMillis();
+		System.out.println(Calendar.getInstance().getTime());
+		
+		String fileName = args[0];
+		String jsbmlWriteFileName = fileName.replaceFirst(".xml", "-jsbml.xml");
+		
+		System.out.printf("Reading %s and writing %s\n", 
+		  fileName, jsbmlWriteFileName);
+
+		SBMLDocument testDocument;
+		long afterRead = 0;
+		try {
+			testDocument = new SBMLReader().readSBMLFromFile(fileName);
+			System.out.printf("Reading done\n");
+			System.out.println(Calendar.getInstance().getTime());
+			afterRead = Calendar.getInstance().getTimeInMillis();
+
+			FBCModelPlugin fbcModel = (FBCModelPlugin) testDocument.getModel().getExtension(FBCConstants.namespaceURI);
+			
+			if (fbcModel != null)
+			{
+				System.out.println("nb fluxBounds found : " + fbcModel.getListOfFluxBounds().size());
+				System.out.println("nb objectives found : " + fbcModel.getListOfObjectives().size());
+				System.out.println("nb fluxObjectives found : " + fbcModel.getObjective(0).getListOfFluxObjectives().size());
+				System.out.println("Active objective : " + fbcModel.getActiveObjective());
+				System.out.println("Active objective : " + ((ListOfObjectives) fbcModel.getListOfObjectives()).getActiveObjective());
+			}
+			else
+			{
+				System.out.println("!!!!!!!!!! not FBC model plugin defined !!!!!!!!!!!!");
+			}
+
+			System.out.printf("Starting writing\n");
+			
+			new SBMLWriter().write(testDocument.clone(), jsbmlWriteFileName);
+		} 
+		catch (XMLStreamException e) 
+		{
+			e.printStackTrace();
+		}
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		System.out.println(Calendar.getInstance().getTime());
+		long end = Calendar.getInstance().getTimeInMillis();
+		long nbSecondes = (end - init)/1000;
+		long nbSecondesRead = (afterRead - init)/1000;
+		long nbSecondesWrite = (end - afterRead)/1000;
+		
+		if (nbSecondes > 120) {
+			System.out.println("It took " + nbSecondes/60 + " minutes.");
+		} else {
+			System.out.println("It took " + nbSecondes + " secondes.");			
+		}
+		System.out.println("Reading: " + nbSecondesRead + " secondes.");
+		System.out.println("Writing: " + nbSecondesWrite + " secondes.");
+	}
+
+
+	
 }
