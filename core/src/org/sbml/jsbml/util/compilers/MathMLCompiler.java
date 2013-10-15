@@ -1028,4 +1028,9 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("xor", values);
 	}
 
+	@Override
+	public ASTNodeValue selector(List<ASTNode> nodes) throws SBMLException {
+		return function("selector", nodes);
+	}
+
 }

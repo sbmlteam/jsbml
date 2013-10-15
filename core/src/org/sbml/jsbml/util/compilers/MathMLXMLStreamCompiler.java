@@ -276,6 +276,7 @@ public class MathMLXMLStreamCompiler {
 			case FUNCTION_POWER:
 			case FUNCTION_SEC:
 			case FUNCTION_SECH:
+			case FUNCTION_SELECTOR:
 			case FUNCTION_SIN:
 			case FUNCTION_SINH:
 			case FUNCTION_TAN:
