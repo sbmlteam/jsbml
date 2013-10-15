@@ -34,6 +34,7 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.text.parser.FormulaParser;
+import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.Maths;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
@@ -222,6 +223,10 @@ public class ASTNode extends AbstractTreeNode {
 		 * 
 		 */
 		FUNCTION_SECH,
+		/**
+		 * 
+		 */
+		FUNCTION_SELECTOR,		
 		/**
 		 * 
 		 */
@@ -519,6 +524,11 @@ public class ASTNode extends AbstractTreeNode {
 				return REAL;
 			} else if (type.equals("exponentiale")) {
 				return CONSTANT_E;
+			}
+
+			// arrays package additional mathML elements
+			else if (type.equals("selector")) {
+				return FUNCTION_SELECTOR;
 			}
 
 			// TODO: possible annotations: semantics, annotation, annotation-xml
@@ -892,6 +902,24 @@ public class ASTNode extends AbstractTreeNode {
 	public static ASTNode parseFormula(String formula) throws ParseException {
 		FormulaParser parser = new FormulaParser(new StringReader(formula));
 		return parser.parse();
+	}
+
+	/**
+	 * Parses a text-string mathematical formula and returns a representation as
+	 * an Abstract Syntax Tree.
+	 * 
+	 * @param formula
+	 *            a text-string mathematical formula.
+	 * @param parser
+	 *            a formula parser.
+	 * @return an {@link ASTNode} representing the formula.
+	 * @throws ParseException
+	 *             If the given formula is not of valid format or cannot be
+	 *             parsed for other reasons.
+	 */
+	public static ASTNode parseFormula(String formula, IFormulaParser parser) throws Exception {
+		parser.ReInit(new StringReader(formula));
+		return parser.parse();		
 	}
 
 	/**
@@ -1790,6 +1818,9 @@ public class ASTNode extends AbstractTreeNode {
 		case FUNCTION_SECH:
 			value = compiler.sech(getLeftChild());
 			break;
+		case FUNCTION_SELECTOR:
+			value = compiler.selector(getChildren());
+			break;			
 		case FUNCTION_SIN:
 			value = compiler.sin(getLeftChild());
 			break;
