@@ -617,6 +617,14 @@ public interface ASTNodeCompiler {
 	 * @return
 	 * @throws SBMLException
 	 */
+	public ASTNodeValue selector(List<ASTNode> nodes) throws SBMLException;
+	
+	/**
+	 * 
+	 * @param value
+	 * @return
+	 * @throws SBMLException
+	 */
 	public ASTNodeValue sin(ASTNode value) throws SBMLException;
 
 	/**

@@ -672,4 +672,9 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 		return dummyValue;
 	}
 
+	@Override
+	public ASTNodeValue selector(List<ASTNode> value) throws SBMLException {
+		return dummyValue;
+	}
+
 }

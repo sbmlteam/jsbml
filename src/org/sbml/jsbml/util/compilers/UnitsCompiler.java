@@ -1269,4 +1269,9 @@ public class UnitsCompiler implements ASTNodeCompiler {
 		return value;
 	}
 
+	@Override
+	public ASTNodeValue selector(List<ASTNode> nodes) throws SBMLException {
+		return function("selector", nodes);
+	}
+
 }
