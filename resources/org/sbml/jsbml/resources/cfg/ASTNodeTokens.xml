@@ -93,6 +93,8 @@
   <entry key="lt">RELATIONAL_LT</entry>  
   <entry key="geq">RELATIONAL_GEQ</entry>  
   <entry key="gt">RELATIONAL_GT</entry>
-  <!-- plus times divide minus todo ?? inf, infinity, nan, NaN, notanumber ?? -->
-  <!-- modulo, % ?? -->
+  <entry key="plus">PLUS</entry>
+  <entry key="minus">MINUS</entry>
+  <entry key="divide">DIVIDE</entry>
+  <entry key="times">TIMES</entry>      
 </properties>
