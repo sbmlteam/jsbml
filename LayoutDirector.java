@@ -52,6 +52,7 @@ import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
 import org.sbml.jsbml.ext.layout.TextGlyph;
 
 import de.zbit.io.csv.CSVReader;
+import de.zbit.sbml.util.SBMLtools;
 
 /**
  * {@link LayoutDirector} produces a graphical representation of a layout of an
@@ -523,9 +524,9 @@ public class LayoutDirector<P> implements Runnable {
 			NamedSBase species = speciesGlyph.getReferenceInstance();
 
 			if (!species.isSetSBOTerm()) {
-				speciesGlyph.setSBOTerm(SBO.getUnknownMolecule());
+				SBMLtools.setSBOTerm(speciesGlyph, SBO.getUnknownMolecule());
 			} else {
-				speciesGlyph.setSBOTerm(species.getSBOTerm());
+			  SBMLtools.setSBOTerm(speciesGlyph, species.getSBOTerm());
 			}
 
 			List<AbstractReferenceGlyph> glyphList = new ArrayList<AbstractReferenceGlyph>();
