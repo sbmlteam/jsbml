@@ -9,7 +9,8 @@
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
- *
+ * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -17,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.text.parser;
 
 import java.io.InputStream;
@@ -31,8 +31,9 @@ import org.sbml.jsbml.ASTNode;
  * This allow users of jsbml to develop easily their own formula parser and pass it to the 
  * {@link ASTNode#parseFormula(String, IFormulaParser)} method.
  * 
- * @author rodrigue
- *
+ * @author Nicolas Rodriguez
+ * @version $Rev$
+ * @since 1.0
  */
 public interface IFormulaParser {
 

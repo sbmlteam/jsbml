@@ -9,7 +9,8 @@
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
- *
+ * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -45,7 +46,7 @@ import com.ctc.wstx.stax.WstxOutputFactory;
 /**
  * Writes an {@link ASTNode} the mathML.
  * 
- * @author rodrigue
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */
