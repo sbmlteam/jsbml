@@ -9,7 +9,8 @@
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
- *
+ * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -26,7 +27,7 @@ import org.sbml.jsbml.Assignment;
  * This filter only accepts instances of {@link Assignment} with the variable as
  * given in the constructor of this object.
  * 
- * @author rodrigue
+ * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$

@@ -1,4 +1,4 @@
-/*
+/* 
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
@@ -18,11 +18,25 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
+package org.sbml.jsbml.ext.spatial;
 
 /**
- * <p>
- * This package provides methods to validate the content of SBML models, whether
- * given in a file or as a data structure.
- * </p>
+ * 
+ * @author Nicolas Rodriguez
+ * @version $Rev$
+ * @since 1.0
+ * @date 17.10.2013
  */
-package org.sbml.jsbml.validator;
+public class SpatialConstants {
+
+	/**
+	 * The namespace URI of this parser.
+	 */
+	public static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/spatial/version1";
+	public static final String shortLabel = "spatial";
+
+	
+	public static final String domain1 = "domain1";
+	public static final String domain2 = "domain2";
+	
+}

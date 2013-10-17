@@ -1,4 +1,4 @@
-/*
+/* 
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
@@ -9,7 +9,8 @@
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
- *
+ * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -107,7 +108,7 @@ public class AdjacentDomains extends AbstractSBase {
 	public void setDomain1(String domain1) {
 		String oldDomain1 = this.domain1;
 		this.domain1 = domain1;
-		firePropertyChange(SpatialConstant.domain1, oldDomain1, this.domain1);
+		firePropertyChange(SpatialConstants.domain1, oldDomain1, this.domain1);
 	}
 
 	/**
@@ -120,7 +121,7 @@ public class AdjacentDomains extends AbstractSBase {
 		if (isSetDomain1()) {
 			String oldDomain1 = this.domain1;
 			this.domain1 = null;
-			firePropertyChange(SpatialConstant.domain1, oldDomain1, this.domain1);
+			firePropertyChange(SpatialConstants.domain1, oldDomain1, this.domain1);
 			return true;
 		}
 		return false;
@@ -152,7 +153,7 @@ public class AdjacentDomains extends AbstractSBase {
 	public void setDomain2(String domain2) {
 		String oldDomain2 = this.domain2;
 		this.domain2 = domain2;
-		firePropertyChange(SpatialConstant.domain2, oldDomain2, this.domain2);
+		firePropertyChange(SpatialConstants.domain2, oldDomain2, this.domain2);
 	}
 
 	/**
@@ -165,7 +166,7 @@ public class AdjacentDomains extends AbstractSBase {
 		if (isSetDomain2()) {
 			String oldDomain2 = this.domain2;
 			this.domain2 = null;
-			firePropertyChange(SpatialConstant.domain2, oldDomain2, this.domain2);
+			firePropertyChange(SpatialConstants.domain2, oldDomain2, this.domain2);
 			return true;
 		}
 		return false;
@@ -232,10 +233,10 @@ public class AdjacentDomains extends AbstractSBase {
 	  Map<String, String> attributes = super.writeXMLAttributes();
 
 	  if (isSetDomain1()) {
-	    attributes.put(SpatialConstant.shortLabel + ":domain1", getDomain1());
+	    attributes.put(SpatialConstants.shortLabel + ":domain1", getDomain1());
 	  }
 	  if (isSetDomain2()) {
-	    attributes.put(SpatialConstant.shortLabel + ":domain2", getDomain2());
+	    attributes.put(SpatialConstants.shortLabel + ":domain2", getDomain2());
 	  }
 
 	  return attributes;
@@ -253,10 +254,10 @@ public class AdjacentDomains extends AbstractSBase {
 		if (!isAttributeRead) {
 			isAttributeRead = true;
 
-			if (attributeName.equals(SpatialConstant.domain1)) {
+			if (attributeName.equals(SpatialConstants.domain1)) {
 				setDomain1(value);
 			} 
-			else if (attributeName.equals(SpatialConstant.domain2)) 
+			else if (attributeName.equals(SpatialConstants.domain2)) 
 			{
 				setDomain2(value);
 			}

@@ -27,7 +27,7 @@ import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.SBasePlugin;
-import org.sbml.jsbml.ext.spatial.SpatialConstant;
+import org.sbml.jsbml.ext.spatial.SpatialConstants;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
@@ -53,7 +53,7 @@ public class SpatialParser extends AbstractReaderWriter {
 
 	@Override
 	public String getNamespaceURI() {
-		return SpatialConstant.namespaceURI;
+		return SpatialConstants.namespaceURI;
 	}
 
 	/* (non-Javadoc)

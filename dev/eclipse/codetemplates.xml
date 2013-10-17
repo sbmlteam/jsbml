@@ -7,7 +7,6 @@
  */</template><template autoinsert="false" context="filecomment_context" deleted="false" description="Comment for created Java files" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.filecomment" name="filecomment">/*
  * $$Id:  ${file_name} ${time} ${user} $$
  * $$URL: ${file_name} $$
- *
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit &lt;http://sbml.org/Software/JSBML&gt; 
  * for the latest version of JSBML and more information about SBML. 
@@ -16,6 +15,7 @@
  * 1. The University of Tuebingen, Germany 
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
  * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * 4. The University of California, San Diego, La Jolla, CA, USA
  * 
  * This library is free software; you can redistribute it and/or modify it 
  * under the terms of the GNU Lesser General Public License as published by 
