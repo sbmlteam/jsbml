@@ -6,6 +6,7 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.IFormulaParser;
+import org.sbml.jsbml.util.compilers.FormulaCompiler;
 
 public class FormulaParserLL3Test {
 
@@ -18,8 +19,7 @@ public class FormulaParserLL3Test {
 		
 		System.out.println(node.toFormula());
 		
-		node = ASTNode.parseFormula("true && false", parser);
-		
+		node = ASTNode.parseFormula("true && false", parser);		
 		System.out.println(node.toFormula());
 
 		node = ASTNode.parseFormula("and(true,false)", parser);		
@@ -36,6 +36,9 @@ public class FormulaParserLL3Test {
 
 		node = ASTNode.parseFormula("NOT true", parser);		
 		System.out.println(node.toFormula());
+		
+//		node = ASTNode.parseFormula("true and false", parser); 	 // Not supported anymore by the new parser			
+//		System.out.println(node.toFormula());
 		
 //		node = ASTNode.parseFormula("not true", parser); // Not supported anymore by the new parser		
 //		System.out.println(node.toFormula());
@@ -62,5 +65,24 @@ public class FormulaParserLL3Test {
 		
 		mathMLSelector = node.toMathML();
 		System.out.println(mathMLSelector);
-	}
+		
+		node = ASTNode.parseFormula("plus(1, 2, 3, 4)", parser);		
+		System.out.println(node.toFormula());
+
+		node = ASTNode.parseFormula("minus(1, 2, 3, 4)", parser);		
+		System.out.println(node.toFormula());
+
+		node = ASTNode.parseFormula("times(1, 2, 3, 4)", parser);		
+		System.out.println(node.toFormula());
+		
+		node = ASTNode.parseFormula("divide(2, 4)", parser);		
+		System.out.println(node.toFormula());
+		
+		node = ASTNode.parseFormula("modulo(13, 5)", parser);				
+		System.out.println(node.toFormula());
+		System.out.println(node.toMathML());
+
+		node = ASTNode.parseFormula("18 % 5", parser);		
+		System.out.println(node.toFormula());
+}
 }
