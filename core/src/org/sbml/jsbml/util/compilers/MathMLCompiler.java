@@ -1029,7 +1029,10 @@ public class MathMLCompiler implements ASTNodeCompiler {
 		return createApplyNode("xor", values);
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#selector(java.util.List)
+	 */
+	//@Override
 	public ASTNodeValue selector(List<ASTNode> nodes) throws SBMLException {
 		return function("selector", nodes);
 	}
