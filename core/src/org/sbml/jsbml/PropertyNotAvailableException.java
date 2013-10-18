@@ -41,7 +41,7 @@ public class PropertyNotAvailableException extends PropertyException {
 	 * Message to indicate that a certain property cannot be set for the current
 	 * level/version combination.
 	 */
-	public static final String PROPERTY_UNDEFINED_EXCEPTION_MSG = "Property %s is not defined in %s for Level %d and Version %d.";
+	public static final String PROPERTY_UNDEFINED_EXCEPTION_MSG = "Property {0} is not defined in {1} for Level {2,number,integer} and Version {3,number,integer}.";
 	
 	/**
 	 * 

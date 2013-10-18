@@ -673,7 +673,10 @@ public class FindUnitsCompiler implements ASTNodeCompiler {
 		return dummyValue;
 	}
 
-	@Override
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#selector(java.util.List)
+	 */
+	//@Override
 	public ASTNodeValue selector(List<ASTNode> value) throws SBMLException {
 		return dummyValue;
 	}

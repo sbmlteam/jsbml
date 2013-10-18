@@ -54,9 +54,7 @@ public class AssignmentVariableFilter implements Filter {
 		this.id = id;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.Filter#fulfilsProperty(java.lang.Object)
 	 */
 	public boolean accepts(Object o) {

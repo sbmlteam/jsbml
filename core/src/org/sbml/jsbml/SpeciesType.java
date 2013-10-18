@@ -45,6 +45,7 @@ public class SpeciesType extends AbstractNamedSBase implements UniqueNamedSBase 
 	@Deprecated
 	public SpeciesType() {
 		super();
+		initDefaults();
 	}
 
 	/**
@@ -56,6 +57,7 @@ public class SpeciesType extends AbstractNamedSBase implements UniqueNamedSBase 
 	@Deprecated
 	public SpeciesType(int level, int version) {
 		super(level, version);
+		initDefaults();
 	}
 
 	/**
@@ -76,6 +78,7 @@ public class SpeciesType extends AbstractNamedSBase implements UniqueNamedSBase 
 	@Deprecated
 	public SpeciesType(String id) {
 		super(id);
+		initDefaults();
 	}
 
 	/**
@@ -88,6 +91,7 @@ public class SpeciesType extends AbstractNamedSBase implements UniqueNamedSBase 
 	@Deprecated
 	public SpeciesType(String id, int level, int version) {
 		super(id, level, version);
+		initDefaults();
 	}
 
 	/**
@@ -102,7 +106,7 @@ public class SpeciesType extends AbstractNamedSBase implements UniqueNamedSBase 
 	public SpeciesType(String id, String name, int level, int version) {
 		super(id, name, level, version);
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
@@ -110,7 +114,7 @@ public class SpeciesType extends AbstractNamedSBase implements UniqueNamedSBase 
 	public SpeciesType clone() {
 		return new SpeciesType(this);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getParent()
 	 */
@@ -119,6 +123,20 @@ public class SpeciesType extends AbstractNamedSBase implements UniqueNamedSBase 
 	@Deprecated
 	public ListOf<SpeciesType> getParent() {
 		return (ListOf<SpeciesType>) super.getParent();
+	}
+	
+	/**
+	 * Initializes the default settings of this class. In this case, it checks if
+   * this type can actually be used in the defined SBML Level/Version
+   * combination.
+	 */
+	private void initDefaults() {
+	  if (isSetLevelAndVersion() && 
+	      ((getLevelAndVersion().compareTo(Integer.valueOf(2), Integer.valueOf(2)) < 0) || 
+	       (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) >= 0))) {
+	    throw new SBMLTypeUndefinedException(SpeciesType.class, getLevel(),
+	      getVersion());
+	  }
 	}
 
 	/* (non-Javadoc)

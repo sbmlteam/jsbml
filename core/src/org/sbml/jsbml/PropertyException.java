@@ -20,10 +20,12 @@
  */ 
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
+
 import org.sbml.jsbml.ext.SBasePlugin;
 
 /**
- * This is an error of an undefined property or value for a propterty in some
+ * This is an error of an undefined property or value for a property in some
  * instance of {@link SBase}.
  * 
  * @author Andreas Dr&auml;ger
@@ -61,13 +63,20 @@ public abstract class PropertyException extends SBMLError {
 	 * @return
 	 */
 	static String createMessage(String baseMessage, String property, SBase sbase) {
-		return String.format(baseMessage, property, sbase
+		return MessageFormat.format(baseMessage, property, sbase
 				.getElementName(), Integer.valueOf(sbase.getLevel()), Integer
 				.valueOf(sbase.getVersion()));
 	}
 	
+	/**
+	 * 
+	 * @param baseMessage
+	 * @param property
+	 * @param sbasePlugin
+	 * @return
+	 */
 	static String createMessage(String baseMessage,	String property, SBasePlugin sbasePlugin) {
-		return String.format(baseMessage, property, sbasePlugin.getExtendedSBase().getElementName(),
+		return MessageFormat.format(baseMessage, property, sbasePlugin.getExtendedSBase().getElementName(),
 				Integer.valueOf(sbasePlugin.getExtendedSBase().getLevel()), Integer.valueOf(sbasePlugin.getExtendedSBase().getVersion()));
 	}
 

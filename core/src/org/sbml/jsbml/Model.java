@@ -41,7 +41,6 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.filters.AssignmentVariableFilter;
 import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
 import org.sbml.jsbml.util.filters.IdenticalUnitDefinitionFilter;
-import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * <p>
@@ -1257,6 +1256,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   @Deprecated
   public SpeciesType createSpeciesType() {
+    if ((getLevelAndVersion().compareTo(Integer.valueOf(2), Integer.valueOf(2)) < 0)
+        || (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) >= 0)) {
+        throw new SBMLTypeUndefinedException(SpeciesType.class, getLevel(), getVersion());
+    }
     return createSpeciesType(null);
   }
   
@@ -4064,6 +4067,51 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * Removes the element with the given id from this model if such an element
+   * can be found. The type attribute is used to assess if the element with this
+   * id has the required type.
+   * 
+   * @param clazz
+   *        The desired type of the element to be removed, can be {@code null}.
+   * @param id
+   *        the identifier of the {@link NamedSBase} to be removed.
+   * @return the removed element in case of success, or {@code null} if no such
+   *         element
+   *         could be found or the action was not successful.
+   */
+  @SuppressWarnings("unchecked")
+  private <T extends UniqueNamedSBase> T remove(Class<T> clazz, String id) {
+    UniqueNamedSBase sb = findUniqueNamedSBase(id);
+    if ((sb != null) && ((clazz == null) || sb.getClass().isAssignableFrom(clazz))) {
+      if (sb.removeFromParent()) {
+        return (T) sb;
+      }
+    }
+    logger.warn(MessageFormat.format(
+      "Could not find any {0} for the given id \"{1}\".",
+      (clazz != null) ? "instance of " + clazz.getSimpleName() : "element", id));
+    return null;
+  }
+  
+  /**
+   * Removes any {@link UniqueNamedSBase} with the given identifier from this
+   * {@link Model} and returns the removed element if the operation was
+   * successfull. Note that this method cannot be used to remove 
+   * {@link UnitDefinition}s from this {@link Model} because 
+   * {@link UnitDefinition}s exist in a separate namespace that might have
+   * overlapping identifiers. It would therefore not be clear, which element
+   * to remove in case of a identifier clash.
+   * 
+   * @param id
+   *        the identifier of the element that is to be removed from this model.
+   * @return the removed element or {@code null} if the operation was not
+   *         successful.
+   */
+  public <T extends UniqueNamedSBase> T remove(String id) {
+    return remove(null, id);
+  }
+  
+  /**
    * Removes the i-th {@link Compartment} of the {@link Model}.
    * 
    * @param i
@@ -4073,7 +4121,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Compartment removeCompartment(int i) {
     return getListOfCompartments().remove(i);
   }
-  
+
   /**
    * Removes the {@link Compartment} of the {@link Model} with 'id' as id.
    * 
@@ -4081,7 +4129,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the removed {@link Compartment}.
    */
   public Compartment removeCompartment(String id) {
-    return getListOfCompartments().removeFirst(new NameFilter(id));
+    return remove(Compartment.class, id);
   }
   
   /**
@@ -4106,7 +4154,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   @Deprecated
   public CompartmentType removeCompartmentType(String id) {
-    return getListOfCompartmentTypes().removeFirst(new NameFilter(id));
+    return remove(CompartmentType.class, id);
   }
   
   /**
@@ -4136,7 +4184,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the removed element.
    */
   public Event removeEvent(String id) {
-    return getListOfEvents().removeFirst(new NameFilter(id));
+    return remove(Event.class, id);
   }
   
   /**
@@ -4157,7 +4205,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the removed element.
    */
   public FunctionDefinition removeFunctionDefinition(String id) {
-    return getListOfFunctionDefinitions().removeFirst(new NameFilter(id));
+    return remove(FunctionDefinition.class, id);
   }
   
   /**
@@ -4197,7 +4245,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the removed element.
    */
   public Parameter removeParameter(String id) {
-    return getListOfParameters().removeFirst(new NameFilter(id));
+    // TODO: Check if this parameter is also linked to the model as conversion factor etc. Should we also remove references/display a warning?
+    return remove(Parameter.class, id);
   }
   
   /**
@@ -4227,7 +4276,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the removed element.
    */
   public Reaction removeReaction(String id) {
-    return getListOfReactions().removeFirst(new NameFilter(id));
+    return remove(Reaction.class, id);
   }
   
   /**
@@ -4279,7 +4328,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the removed element.
    */
   public Species removeSpecies(String id) {
-    return getListOfSpecies().removeFirst(new NameFilter(id));
+    return remove(Species.class, id);
   }
   
   /**
@@ -4303,7 +4352,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   @Deprecated
   public SpeciesType removeSpeciesType(String id) {
-    return getListOfSpeciesTypes().removeFirst(new NameFilter(id));
+    return remove(SpeciesType.class, id);
   }
   
   /**
@@ -4323,18 +4372,26 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the removed element.
    */
   public UnitDefinition removeUnitDefinition(String id) {
-    return getListOfUnitDefinitions().removeFirst(new NameFilter(id));
+    UnitDefinition unit = findUnitDefinition(id);
+    if ((unit != null) && unit.removeFromParent()) {
+      // TODO: Should in this case also be checked if the unit is linked to the model as 'default' area/substance etc.? Maybe we want to also remove these links automatically?
+      return unit;
+    }
+    logger.warn(MessageFormat.format(
+      "Could not find any {0} for the given id \"{1}\".",
+      UnitDefinition.class.getSimpleName(), id));
+    return null;
   }
   
   /**
    * Removes a {@link UnitDefinition} of the {@link Model}.
    * 
    * @param unitDefininition
-   * @return {@code true} if the UnitDefinition 'unitDefinition' has been removed from
-   *         the Model.
+   * @return {@code true} if the {@link UnitDefinition} 'unitDefinition' has
+   *         been removed from the {@link Model}.
    */
   public boolean removeUnitDefinition(UnitDefinition unitDefininition) {
-    return getListOfUnitDefinitions().remove(unitDefininition);
+    return removeUnitDefinition(unitDefininition.getId()) != null;
   }
 
   /**

@@ -21,6 +21,8 @@
 
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
+
 import org.sbml.jsbml.util.Message;
 
 /**
@@ -41,7 +43,7 @@ public class LevelVersionError extends SBMLError {
 	 * first element, version in first element, class name of second element and
 	 * level in second argument.
 	 */
-	public static final String LEVEL_MISMATCH_MSG = "Level mismatch between %s in L %d and %s in L %d";
+	public static final String LEVEL_MISMATCH_MSG = "Level mismatch between {0} in Level {1,number,integer} and {2} in Level {3,number,integer}";
 	
 	/**
 	 * Generated serial version identifier.
@@ -51,14 +53,14 @@ public class LevelVersionError extends SBMLError {
 	 * Message to indicate that an invalid combination of the level and version
 	 * attribute has been set.
 	 */
-	public static final String UNDEFINED_LEVEL_VERSION_COMBINATION_MSG = "Undefined combination of Level %d and Version %d.";
+	public static final String UNDEFINED_LEVEL_VERSION_COMBINATION_MSG = "Undefined combination of Level {0,number,integer} and Version {1,number,integer}.";
 	/**
 	 * Message to display in cases that two objects do not have identical
 	 * version attributes. Requires the following replacement arguments: Class
 	 * name of first element, version in first element, class name of second
 	 * element and version in second argument.
 	 */
-	public static final String VERSION_MISMATCH_MSG = "Version mismatch between %s in V %d and %s in V %d.";
+	public static final String VERSION_MISMATCH_MSG = "Version mismatch between {0} in Version {1,number,integer} and {2} in Version {3,number,integer}.";
 
 	/**
 	 * Creates an error message if the level fields of both elements are not
@@ -70,7 +72,7 @@ public class LevelVersionError extends SBMLError {
 	 */
 	public static String levelMismatchMessage(SBase element1, SBase element2) {
 		if (element1.getLevel() != element2.getLevel()) {
-			return String.format(VERSION_MISMATCH_MSG, element1
+			return MessageFormat.format(VERSION_MISMATCH_MSG, element1
 					.getElementName(), element1.getLevel(), element2
 					.getElementName(), element2.getLevel());
 		}
@@ -87,7 +89,7 @@ public class LevelVersionError extends SBMLError {
 	 */
 	public static String versionMismatchMessage(SBase element1, SBase element2) {
 		if (element1.getVersion() != element2.getVersion()) {
-			return String.format(VERSION_MISMATCH_MSG, element1
+			return MessageFormat.format(VERSION_MISMATCH_MSG, element1
 					.getElementName(), element1.getVersion(), element2
 					.getElementName(), element2.getVersion());
 		}
@@ -121,10 +123,10 @@ public class LevelVersionError extends SBMLError {
 		super();
 		Message message = new Message();
 		if (!AbstractSBase.isValidLevelAndVersionCombination(level, version)) {
-			message.setMessage(String.format(
+			message.setMessage(MessageFormat.format(
 					UNDEFINED_LEVEL_VERSION_COMBINATION_MSG, level, version));
 			if (elementName != null) {
-				message.setMessage(String.format("%s for element %s.", message.getMessage().substring(0,
+				message.setMessage(MessageFormat.format("{0} for element {1}.", message.getMessage().substring(0,
 						message.getMessage().length() - 1), elementName));
 			}
 			setMessage(message);
@@ -150,6 +152,7 @@ public class LevelVersionError extends SBMLError {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.SBMLError#toString()
 	 */
+	@Override
 	public String toString() {
 		return getMessage();
 	}

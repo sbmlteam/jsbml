@@ -24,9 +24,9 @@ package org.sbml.jsbml;
 import org.sbml.jsbml.ext.SBasePlugin;
 
 /**
- * This {@link PropertyException} indicates that the value belonging to a mandatory
- * property, for which there is no default value, has not been declared by the
- * user.
+ * This {@link PropertyException} indicates that the value belonging to a
+ * mandatory property, for which there is no default value, has not been
+ * declared by the user.
  * 
  * @author Andreas Dr&auml;ger
  * @version $Rev$
@@ -44,7 +44,7 @@ public class PropertyUndefinedError extends PropertyException {
 	 * Message to indicate that a certain property has not been set for the
 	 * current {@link SBase} in its level/version combination.
 	 */
-	public static final String PROPERTY_UNDEFINED_EXCEPTION_MSG = "The value for property %s is not defined in %s for Level %d and Version %d.";
+	public static final String PROPERTY_UNDEFINED_EXCEPTION_MSG = "The value for property {0} is not defined in {1} for Level {2,number,integer} and Version {3,number,integer}.";
 	
 	/**
 	 * @param property 
@@ -55,7 +55,7 @@ public class PropertyUndefinedError extends PropertyException {
 	}
 
 	public PropertyUndefinedError(String property, SBasePlugin sbasePlugin) {
-		// TODO : change to include package short name or namespace ??
+		// TODO : change to include package short name or namespace??
 		super(createMessage(PROPERTY_UNDEFINED_EXCEPTION_MSG, property, sbasePlugin));
 	}
 
