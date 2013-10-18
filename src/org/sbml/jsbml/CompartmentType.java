@@ -46,6 +46,7 @@ public class CompartmentType extends AbstractNamedSBase implements
 	@Deprecated
 	public CompartmentType() {
 		super();
+		initDefaults();
 	}
 
 	/**
@@ -67,6 +68,7 @@ public class CompartmentType extends AbstractNamedSBase implements
 	@Deprecated
 	public CompartmentType(int level, int version) {
 		super(level, version);
+		initDefaults();
 	}
 
 	/**
@@ -90,6 +92,7 @@ public class CompartmentType extends AbstractNamedSBase implements
 	@Deprecated
 	public CompartmentType(String id, int level, int version) {
 		super(id, level, version);
+		initDefaults();
 	}
 
 	/**
@@ -103,16 +106,17 @@ public class CompartmentType extends AbstractNamedSBase implements
 	@Deprecated
 	public CompartmentType(String id, String name, int level, int version) {
 		super(id, name, level, version);
+		initDefaults();
 	}
 
-	/* (non-Javadoc)
+  /* (non-Javadoc)
 	 * @see org.sbml.jsbml.element.AbstractSBase#clone()
 	 */
 	@Deprecated
 	public CompartmentType clone() {
 		return new CompartmentType(this);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getParent()
 	 */
@@ -122,6 +126,20 @@ public class CompartmentType extends AbstractNamedSBase implements
 	public ListOf<CompartmentType> getParent() {
 		return (ListOf<CompartmentType>) super.getParent();
 	}
+	
+	/**
+	 * Initializes the default settings of this class. In this case, it checks if
+	 * this type can actually be used in the defined SBML Level/Version
+	 * combination.
+	 */
+	private void initDefaults() {
+    if (isSetLevelAndVersion() && 
+        ((getLevelAndVersion().compareTo(Integer.valueOf(2), Integer.valueOf(2)) < 0) || 
+         (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) >= 0))) {
+      throw new SBMLTypeUndefinedException(CompartmentType.class, getLevel(),
+        getVersion());
+    }
+  }
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
