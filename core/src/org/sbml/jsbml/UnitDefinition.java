@@ -248,6 +248,12 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 		id = id.toLowerCase();
 		Unit u = new Unit(level, version);
+		
+		// explicitly set default values:
+		u.setMultiplier(1d);
+		u.setScale(0);
+		u.setExponent(1d);
+		
 		if (id.equals(SUBSTANCE)) {
 			u.setKind(Kind.MOLE);
 		} else if (id.equals(VOLUME)) {

@@ -27,6 +27,7 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.ListOf;
@@ -54,6 +55,11 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = 8866612784809904674L;
+	
+	/**
+	 * A {@link Logger} for this class.
+	 */
+	private static final Logger logger = Logger.getLogger(Layout.class);
 	
 	
 	/**
@@ -1128,7 +1134,11 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 	  }
 	  if (isSetName()) {
 		  attributes.remove("name");
-		  attributes.put(LayoutConstants.shortLabel + ":name", getName());
+          // attributes.put(LayoutConstants.shortLabel + ":name", getName());
+		  logger.warn(MessageFormat.format(
+		    "Attribute ''{0}'' is not part of the definition of an SBML Level {1,number,integer} Version {2,number,integer} {3} element.",
+		    "name", getLevel(), getVersion(), getElementName()));
+		  // TODO: This must be generally solved. Here we have an SBase with ID but without name!
 	  } 
 
 	  return attributes;
