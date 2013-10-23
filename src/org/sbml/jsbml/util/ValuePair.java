@@ -74,9 +74,7 @@ public class ValuePair<L extends Comparable<? super L>, V extends Comparable<? s
 		this.v = valuePair.getV();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
@@ -98,9 +96,7 @@ public class ValuePair<L extends Comparable<? super L>, V extends Comparable<? s
 		return compareTo(new ValuePair<L, V>(l, v));
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	public int compareTo(ValuePair<L, V> v) {
@@ -126,9 +122,7 @@ public class ValuePair<L extends Comparable<? super L>, V extends Comparable<? s
 		return comp;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
@@ -164,9 +158,7 @@ public class ValuePair<L extends Comparable<? super L>, V extends Comparable<? s
 		return v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -206,9 +198,7 @@ public class ValuePair<L extends Comparable<? super L>, V extends Comparable<? s
 		this.v = v;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
