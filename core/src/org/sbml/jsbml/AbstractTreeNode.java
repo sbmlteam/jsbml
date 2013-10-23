@@ -400,7 +400,12 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 				changeType = 0; // element added
 			} else if ((oldValue != null) && (newValue == null)) {
 				changeType = 1; // element removed
-			} else if ((oldValue != null) && !oldValue.equals(newValue)) {
+      } else if ((oldValue != null) && 
+          ((oldValue != newValue) ||
+           (newValue.getClass().isAssignableFrom(oldValue.getClass()) && 
+           !oldValue.equals(newValue)))) {
+        /* An equals test might cause a ClassCastException. We therefore need a
+           more complicated test here in order to avoid this. */
 				changeType = 2; // real property change
 			}
 			if (-1 < changeType) {
