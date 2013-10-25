@@ -173,9 +173,9 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
   }
 
   /**
-   * Returns true if the listOfStateFeature is set.
+   * Returns {@code true} if the listOfStateFeature is set.
    * 
-   * @return true if the listOfStateFeature is set.
+   * @return {@code true} if the listOfStateFeature is set.
    */
   public boolean isSetListOfStateFeatures() {
     if ((listOfStateFeatures == null) || listOfStateFeatures.isEmpty()) {
@@ -187,7 +187,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
   /**
    * Sets the listOfStateFeatures to null
    * 
-   * @return true is successful
+   * @return {@code true} is successful
    */
   public boolean unsetListOfStateFeatures() {
     if (isSetListOfStateFeatures()) {

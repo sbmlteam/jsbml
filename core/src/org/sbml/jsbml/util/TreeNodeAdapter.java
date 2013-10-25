@@ -79,11 +79,11 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 	 * tree.
 	 * 
 	 * @param userObject
-	 *            the element to be wrapped in a {@link TreeNode}; may be null.
+	 *            the element to be wrapped in a {@link TreeNode}; may be {@code null}.
 	 * @param parent
 	 *            the parent {@link TreeNode} of this new node, i.e., the
 	 *            position within an existing tree where to link this new node.
-	 *            May be null.
+	 *            May be {@code null}.
 	 */
 	public TreeNodeAdapter(Object userObject, TreeNode parent) {
 		super();

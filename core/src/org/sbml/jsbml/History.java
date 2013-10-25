@@ -65,7 +65,8 @@ public class History extends AnnotationElement {
 
 	/**
 	 * Creates a {@link History} instance. By default, the creation and modified
-	 * are null. The {@link #listOfModification} and {@link #listOfCreators} are empty.
+	 * are {@code null}. The {@link #listOfModification} and
+	 * {@link #listOfCreators} are empty.
 	 */
 	public History() {
 		super();
@@ -213,7 +214,8 @@ public class History extends AnnotationElement {
 	 * Get the nth {@link Creator} object in this {@link History}.
 	 * 
 	 * @param i
-	 * @return the nth {@link Creator} of this {@link History}. Can be null.
+	 * @return the nth {@link Creator} of this {@link History}. Can be
+	 *         {@code null}.
 	 */
 	public Creator getCreator(int i) {
 		return listOfCreators.get(i);
@@ -321,7 +323,7 @@ public class History extends AnnotationElement {
 	 * Checks whether at least one attribute has been set for this
 	 * {@link History}.
 	 * 
-	 * @return true if at least one of the possible attributes is set, i.e., not
+	 * @return {@code true} if at least one of the possible attributes is set, i.e., not
 	 *         null:
 	 *         <ul>
 	 *         <li> {@link #creation} date</li>
@@ -330,7 +332,7 @@ public class History extends AnnotationElement {
 	 *         <li>
 	 *         {@link #listOfModification} is not null and contains at least one
 	 *         element.</li>
-	 *         <li> {@link #modified} is not null.</li>
+	 *         <li> {@link #modified} is not {@code null}.</li>
 	 *         </ul>
 	 */
 	public boolean isEmpty() {
@@ -343,8 +345,8 @@ public class History extends AnnotationElement {
 	 * Predicate returning true or false depending on whether this
 	 * {@link History}'s createdDate has been set.
 	 * 
-	 * @return true if the createdDate of this {@link History} has been set, false
-	 *         otherwise.
+	 * @return {@code true} if the createdDate of this {@link History} has been
+	 *         set, {@code false} otherwise.
 	 */
 	public boolean isSetCreatedDate() {
 		return creation != null;
@@ -370,8 +372,8 @@ public class History extends AnnotationElement {
 	 * Predicate returning true or false depending on whether this
 	 * {@link History}'s modifiedDate has been set.
 	 * 
-	 * @return true if the modifiedDate of this {@link History} has been set, false
-	 *         otherwise.
+	 * @return {@code true} if the modifiedDate of this {@link History} has been
+	 *         set, {@code false} otherwise.
 	 */
 	public boolean isSetModifiedDate() {
 		return modified != null;
@@ -383,7 +385,7 @@ public class History extends AnnotationElement {
 	 * @param attributeName
 	 * @param prefix
 	 * @param value
-	 * @return true if the XML attribute is known by this {@link History}.
+	 * @return {@code true} if the XML attribute is known by this {@link History}.
 	 */
 	public boolean readAttribute(String nodeName, String attributeName,
 			String prefix, String value) {
@@ -397,7 +399,7 @@ public class History extends AnnotationElement {
 	}
 
 	/**
-	 *If there is no i<sup>th</sup> {@link Creator}, it returns null.
+	 *If there is no i<sup>th</sup> {@link Creator}, it returns {@code null}.
 	 * 
 	 * @param i
 	 * @return the {@link Creator} removed from the {@link #listOfCreators}.
@@ -411,7 +413,7 @@ public class History extends AnnotationElement {
 	}
 
 	/**
-	 * If there is no i<sup>th</sup> modified {@link Date}, it returns null.
+	 * If there is no i<sup>th</sup> modified {@link Date}, it returns {@code null}.
 	 * 
 	 * @param i
 	 * @return the modified {@link Date} removed from the listOfModification.
@@ -464,7 +466,7 @@ public class History extends AnnotationElement {
 	}
 
 	/**
-	 * Sets the created of this {@link History} to null.
+	 * Sets the created of this {@link History} to {@code null}.
 	 */
 	public void unsetCreatedDate() {
 		if (this.creation != null) {
@@ -475,7 +477,7 @@ public class History extends AnnotationElement {
 	}
 
 	/**
-	 * Sets the created of this {@link History} to null.
+	 * Sets the created of this {@link History} to {@code null}.
 	 */
 	public void unsetListOfModifiedDates() {
 		if (this.modified != null) {

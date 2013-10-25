@@ -71,18 +71,18 @@ public interface Assignment extends MathContainer {
 	public Variable getVariableInstance();
 
 	/**
-	 * Returns true if the variableID of this {@link Assignment} is not null.
+	 * Returns {@code true} if the variableID of this {@link Assignment} is not {@code null}.
 	 * 
-	 * @return true if the variableID of this {@link Assignment} is not null.
+	 * @return {@code true} if the variableID of this {@link Assignment} is not {@code null}.
 	 */
 	public boolean isSetVariable();
 
 	/**
-	 * Returns true if the {@link Variable} instance which has the variableID of
-	 *         this {@link Assignment} as id is not null.
+	 * Returns {@code true} if the {@link Variable} instance which has the variableID of
+	 *         this {@link Assignment} as id is not {@code null}.
 	 * 
-	 * @return true if the {@link Variable} instance which has the variableID of
-	 *         this {@link Assignment} as id is not null.
+	 * @return {@code true} if the {@link Variable} instance which has the variableID of
+	 *         this {@link Assignment} as id is not {@code null}.
 	 */
 	public boolean isSetVariableInstance();
 
@@ -106,7 +106,7 @@ public interface Assignment extends MathContainer {
 
 	/**
 	 * Removes the reference from this InitialAssignment to its {@link Variable}
-	 * if there was any, i.e., the {@link Variable} is set to null. Listeners
+	 * if there was any, i.e., the {@link Variable} is set to {@code null}. Listeners
 	 * are notified about this change.
 	 */
 	public void unsetVariable();

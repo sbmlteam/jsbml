@@ -57,7 +57,7 @@ public abstract class Symbol extends QuantityWithUnit implements
 	protected boolean isSetConstant = false;
 
 	/**
-	 * Creates a Symbol instance. By default, value, unitsID, constant are null.
+	 * Creates a Symbol instance. By default, value, unitsID, constant are {@code null}.
 	 */
 	public Symbol() {
 		super();
@@ -66,7 +66,7 @@ public abstract class Symbol extends QuantityWithUnit implements
 
 	/**
 	 * Creates a Symbol instance from a level and version. By default, value,
-	 * unitsID, constant are null.
+	 * unitsID, constant are {@code null}.
 	 * 
 	 * @param id
 	 * @param level
@@ -97,7 +97,7 @@ public abstract class Symbol extends QuantityWithUnit implements
 	
 	/**
 	 * Creates a Symbol instance from an id, level and version. By default,
-	 * value, unitsID, constant are null.
+	 * value, unitsID, constant are {@code null}.
 	 * 
 	 * @param id
 	 * @param level
@@ -109,7 +109,7 @@ public abstract class Symbol extends QuantityWithUnit implements
 
 	/**
 	 * Creates a Symbol instance from an id, name, level and version. By
-	 * default, value, unitsID, constant are null.
+	 * default, value, unitsID, constant are {@code null}.
 	 * 
 	 * @param id
 	 * @param name

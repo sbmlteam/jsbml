@@ -118,9 +118,9 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 	}
 
 	/**
-	 * Returns true if the speciesType is defined.
+	 * Returns {@code true} if the speciesType is defined.
 	 * 
-	 * @return true if the speciesType is defined, false otherwise.
+	 * @return {@code true} if the speciesType is defined, {@code false} otherwise.
 	 */
 	public boolean isSetSpeciesType() {
 		return speciesType != null;
@@ -145,9 +145,9 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 	}
 
 	/**
-	 * Returns true if minOccur is not null.
+	 * Returns {@code true} if minOccur is not {@code null}.
 	 * 
-	 * @return true if minOccur is not null.
+	 * @return {@code true} if minOccur is not {@code null}.
 	 */
 	public boolean isSetMinOccur() {
 		return minOccur != null;
@@ -175,9 +175,9 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 
 	
 	/**
-	 * Returns true if maxOccur is not null.
+	 * Returns {@code true} if maxOccur is not {@code null}.
 	 * 
-	 * @return true if maxOccur is not null.
+	 * @return {@code true} if maxOccur is not {@code null}.
 	 */
 	public boolean isSetMaxOccur() {
 		return maxOccur != null;
@@ -211,9 +211,9 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 	}
 
 	/**
-	 * Returns true if connex is not null.
+	 * Returns {@code true} if connex is not {@code null}.
 	 * 
-	 * @return true if connex is not null.
+	 * @return {@code true} if connex is not {@code null}.
 	 */
 	public boolean isSetConnex() {
 		return connex != null;
@@ -247,9 +247,9 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 	}
 
 	/**
-	 * Returns true if saturated is not null.
+	 * Returns {@code true} if saturated is not {@code null}.
 	 * 
-	 * @return true if saturated is not null.
+	 * @return {@code true} if saturated is not {@code null}.
 	 */
 	public boolean isSetSaturated() {
 		return saturated != null;
@@ -334,9 +334,9 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 	}
 
 	/**
-	 * Returns true if the listOfStateFeatureInstance is set.
+	 * Returns {@code true} if the listOfStateFeatureInstance is set.
 	 * 
-	 * @return true if the listOfStateFeatureInstance is set.
+	 * @return {@code true} if the listOfStateFeatureInstance is set.
 	 */
 	public boolean isSetListOfStateFeatureInstances() {
 		if ((listOfStateFeatureInstances == null) || listOfStateFeatureInstances.isEmpty()) {
@@ -348,7 +348,7 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 	/**
 	 * Sets the listOfStateFeatureInstances to null
 	 * 
-	 * @return true is successful
+	 * @return {@code true} is successful
 	 */
 	public boolean unsetListOfStateFeatureInstances() {
 		if (isSetListOfStateFeatureInstances()) {
@@ -433,9 +433,9 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 	}
 
 	/**
-	 * Returns true if the listOfContainedSpeciesType is set.
+	 * Returns {@code true} if the listOfContainedSpeciesType is set.
 	 * 
-	 * @return true if the listOfContainedSpeciesType is set.
+	 * @return {@code true} if the listOfContainedSpeciesType is set.
 	 */
 	public boolean isSetListOfContainedSpeciesTypes() {
 		if ((listOfContainedSpeciesTypes == null) || listOfContainedSpeciesTypes.isEmpty()) {
@@ -447,7 +447,7 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 	/**
 	 * Sets the listOfContainedSpeciesTypes to null
 	 * 
-	 * @return true is successful
+	 * @return {@code true} is successful
 	 */
 	public boolean unsetListOfContainedSpeciesTypes() {
 		if (isSetListOfContainedSpeciesTypes()) {

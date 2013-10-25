@@ -217,7 +217,7 @@ public abstract class AbstractNamedSBaseWithUnit extends AbstractNamedSBase
 	 * {@link UnitDefinition} equals a predefined unit identifier for this type.
 	 * 
 	 * @param unitsID the identifier to be checked.
-	 * @return true if the given identifier equals the unit definition
+	 * @return {@code true} if the given identifier equals the unit definition
 	 *         identifier that is predefined under the Level/Version combination
 	 *         for this data type.
 	 */

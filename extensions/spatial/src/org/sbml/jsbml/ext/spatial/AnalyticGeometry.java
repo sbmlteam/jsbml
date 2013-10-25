@@ -128,7 +128,7 @@ public class AnalyticGeometry extends GeometryDefinition {
 	 * <p>The listOfAnalyticVolumes is initialized if necessary.
 	 *
 	 * @param field the element to add to the list
-	 * @return true (as specified by {@link Collection.add})
+	 * @return {@code true} (as specified by {@link Collection.add})
 	 */
 	public boolean addAnalyticVolume(AnalyticVolume field) {
 		return getListOfAnalyticVolumes().add(field);
@@ -138,7 +138,7 @@ public class AnalyticGeometry extends GeometryDefinition {
 	 * Removes an element from the listOfAnalyticVolumes.
 	 *
 	 * @param field the element to be removed from the list
-	 * @return true if the list contained the specified element
+	 * @return {@code true} if the list contained the specified element
 	 * @see List#remove(Object)
 	 */
 	public boolean removeAnalyticVolume(AnalyticVolume field) {

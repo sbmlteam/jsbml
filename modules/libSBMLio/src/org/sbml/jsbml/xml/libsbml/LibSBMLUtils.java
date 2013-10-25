@@ -524,7 +524,7 @@ public class LibSBMLUtils {
 	 * @param doc
 	 * @return
 	 */
-	public static int getContraintIndex(Constraint con, org.sbml.jsbml.SBMLDocument doc) {
+	public static int getConstraintIndex(Constraint con, org.sbml.jsbml.SBMLDocument doc) {
 		int index = 0;
 		for (int k = 0; k < doc.getModel().getListOfConstraints().size(); k++) {
 			Constraint c = doc.getModel().getConstraint(k);
@@ -546,7 +546,7 @@ public class LibSBMLUtils {
 	public static org.sbml.libsbml.AlgebraicRule getCorrespondingAlgRule(
 			SBMLDocument libDoc, AlgebraicRule algRule) {
 		if (libDoc.getModel().getListOfRules() != null) {
-			for (int i=0; i<libDoc.getModel().getListOfRules().size(); i++) {
+			for (int i = 0; i < libDoc.getModel().getListOfRules().size(); i++) {
 				org.sbml.libsbml.Rule r = libDoc.getModel().getListOfRules().get(i);
 				if (r.isAlgebraic()) {
 					org.sbml.libsbml.AlgebraicRule ar = (org.sbml.libsbml.AlgebraicRule) r;
@@ -606,6 +606,9 @@ public class LibSBMLUtils {
 		case AMPERE:
 			u.setKind(libsbmlConstants.UNIT_KIND_AMPERE);
 			break;
+		case AVOGADRO:
+		  u.setKind(libsbmlConstants.UNIT_KIND_AVOGADRO);
+		  break;
 		case BECQUEREL:
 			u.setKind(libsbmlConstants.UNIT_KIND_BECQUEREL);
 			break;
@@ -717,7 +720,7 @@ public class LibSBMLUtils {
 
 
 	/**
-	 * sets the math ASTNode in the libSBML object if it's set in the JSBML object
+	 * sets the math {@link ASTNode} in the libSBML object if it's set in the JSBML object
 	 * and calls the convert-method for the ASTNodes.
 	 * @param mathCont
 	 * @param libMathCont
@@ -727,23 +730,23 @@ public class LibSBMLUtils {
 		if (mathCont.isSetMath()) {
 			if (libMathCont instanceof org.sbml.libsbml.FunctionDefinition) {
 				((org.sbml.libsbml.FunctionDefinition) libMathCont).setMath(convertASTNode(mathCont.getMath()));
-			}else if (libMathCont instanceof org.sbml.libsbml.KineticLaw) {
+			} else if (libMathCont instanceof org.sbml.libsbml.KineticLaw) {
 				((org.sbml.libsbml.KineticLaw) libMathCont).setMath(convertASTNode(mathCont.getMath()));
-			}else if (libMathCont instanceof org.sbml.libsbml.Rule) {
+			} else if (libMathCont instanceof org.sbml.libsbml.Rule) {
 				((org.sbml.libsbml.Rule) libMathCont).setMath(convertASTNode(mathCont.getMath()));
-			}else if (libMathCont instanceof org.sbml.libsbml.StoichiometryMath) {
+			} else if (libMathCont instanceof org.sbml.libsbml.StoichiometryMath) {
 				((org.sbml.libsbml.StoichiometryMath) libMathCont).setMath(convertASTNode(mathCont.getMath()));
-			}else if (libMathCont instanceof org.sbml.libsbml.Trigger) {
+			} else if (libMathCont instanceof org.sbml.libsbml.Trigger) {
 				((org.sbml.libsbml.Trigger) libMathCont).setMath(convertASTNode(mathCont.getMath()));
-			}else if (libMathCont instanceof org.sbml.libsbml.EventAssignment) {
+			} else if (libMathCont instanceof org.sbml.libsbml.EventAssignment) {
 				((org.sbml.libsbml.EventAssignment) libMathCont).setMath(convertASTNode(mathCont.getMath()));
-			}else if (libMathCont instanceof org.sbml.libsbml.InitialAssignment) {
+			} else if (libMathCont instanceof org.sbml.libsbml.InitialAssignment) {
 				((org.sbml.libsbml.InitialAssignment) libMathCont).setMath(convertASTNode(mathCont.getMath()));
-			}else if (libMathCont instanceof org.sbml.libsbml.Constraint) {
+			} else if (libMathCont instanceof org.sbml.libsbml.Constraint) {
 				((org.sbml.libsbml.Constraint) libMathCont).setMath(convertASTNode(mathCont.getMath()));
-			}else if (libMathCont instanceof org.sbml.libsbml.Delay) {
+			} else if (libMathCont instanceof org.sbml.libsbml.Delay) {
 				((org.sbml.libsbml.Delay) libMathCont).setMath(convertASTNode(mathCont.getMath()));
-			}else if (libMathCont instanceof org.sbml.libsbml.Priority) {
+			} else if (libMathCont instanceof org.sbml.libsbml.Priority) {
 				((org.sbml.libsbml.Priority) libMathCont).setMath(convertASTNode(mathCont.getMath()));
 			}
 		}
@@ -775,13 +778,13 @@ public class LibSBMLUtils {
 	public static void transferSBaseProperties(SBase sbase,
 			org.sbml.libsbml.SBase libSBase) {
 		if (sbase.isSetMetaId()) {
-			libSBase.setMetaId(libSBase.getMetaId());
+			libSBase.setMetaId(sbase.getMetaId());
 		}
 		if (sbase.isSetSBOTerm()) {
-			libSBase.setSBOTerm(libSBase.getSBOTerm());
+			libSBase.setSBOTerm(sbase.getSBOTerm());
 		}
 		if (sbase.isSetNotes()) {
-			libSBase.setNotes(libSBase.getNotesString());
+			libSBase.setNotes(sbase.getNotesString());
 		}
 		if (sbase.isSetAnnotation()) {
 			libSBase.setAnnotation(sbase.getAnnotationString());
@@ -791,6 +794,7 @@ public class LibSBMLUtils {
 	/**
 	 * sets the species in libSBML object if the species is set in the JSBML object
 	 * and calls the method {@link transferNamedSBaseProperties(SBase, libSBase)}.
+	 * 
 	 * @param sbase
 	 * @param libSBase
 	 */
@@ -800,4 +804,5 @@ public class LibSBMLUtils {
 		}
 		transferNamedSBaseProperties(sbase, libSBase);
 	}
+
 }

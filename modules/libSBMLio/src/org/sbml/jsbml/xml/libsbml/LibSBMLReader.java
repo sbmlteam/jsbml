@@ -78,16 +78,18 @@ import org.sbml.jsbml.util.IOProgressListener;
 import org.sbml.jsbml.util.SBMLtools;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.libsbml.SBMLError;
+import org.sbml.libsbml.XMLNode;
 import org.sbml.libsbml.libsbmlConstants;
 
 /**
  * This class can be used to parse SBML documents with libSBML and to copy all
  * data structures contained therein into JSBML's data objects. Note that this
- * class is only implemented to work with certain versions of libSBML and does
- * currently not support SBML packages. However, the advantage of using this
- * class is that it provides the offline validation capability of libSBML. The
- * downside is that it again introduces the platform dependency of libSBML also
- * to the JSBML-based program.
+ * class is only implemented to work with certain versions of libSBML
+ * (successfully tested with version 5.8) and does currently not support SBML
+ * packages. However, the advantage of using this class is that it provides the
+ * offline validation capability of libSBML. The downside is that it again
+ * introduces the platform dependency of libSBML also to the JSBML-based
+ * program.
  * 
  * @author Andreas Dr&auml;ger
  * @version $Rev$
@@ -1287,9 +1289,6 @@ public class LibSBMLReader implements SBMLInputConverter {
 	 */
 	private void copySBaseProperties(SBase sbase,
 			org.sbml.libsbml.SBase libSBase) {
-		if (libSBase.isSetMetaId()) {
-			sbase.setMetaId(libSBase.getMetaId());
-		}
 		if (libSBase.isSetSBOTerm()) {
 			sbase.setSBOTerm(libSBase.getSBOTerm());
 		}
@@ -1301,13 +1300,34 @@ public class LibSBMLReader implements SBMLInputConverter {
 				logger.warn(t.getLocalizedMessage());
 			}
 		}
-		for (int i = 0; i < libSBase.getNumCVTerms(); i++) {
-			sbase.addCVTerm(readCVTerm(libSBase.getCVTerm(i)));
+		if (libSBase.getAnnotation() != null) {
+		  for (int i = 0; i < libSBase.getNumCVTerms(); i++) {
+		    sbase.addCVTerm(readCVTerm(libSBase.getCVTerm(i)));
+		  }
+		  if (libSBase.isSetModelHistory()) {
+		    sbase.setHistory(readHistory(libSBase.getModelHistory()));
+		  }
+		  // Parse the XML annotation nodes that are non-RDF
+		  XMLNode annotation = libSBase.getAnnotation();
+		  StringBuilder sb = new StringBuilder();
+		  boolean newLine = false;
+		  for (long i = 0; i < annotation.getNumChildren(); i++) {
+		    String annot = annotation.getChild(i).toXMLString();
+		    if (!annot.trim().startsWith("<rdf:")) {
+		      if (newLine) {
+		        sb.append('\n');
+		      }
+		      sb.append(annot);
+		      newLine = true;
+		    }
+		  }
+		  if (sb.toString().trim().length() > 0) {
+		    sbase.getAnnotation().setNonRDFAnnotation(sb.toString());
+		  }
 		}
-		if (libSBase.isSetModelHistory()) {
-			sbase.setHistory(readHistory(libSBase.getModelHistory()));
+		if (libSBase.isSetMetaId()) {
+		  sbase.setMetaId(libSBase.getMetaId());
 		}
-		// TODO: Non-RDF annotation might be lost!
 	}
 
 	/**
@@ -1417,10 +1437,17 @@ public class LibSBMLReader implements SBMLInputConverter {
 		}
 		if (comp.isSetCompartmentType()) {
 			c.setCompartmentType(readCompartmentType(comp.getCompartmentType()));
-		}		
-		c.setConstant(comp.getConstant());
-		c.setSize(comp.isSetSize() ? comp.getSize() : Double.NaN);
-		c.setSpatialDimensions(comp.getSpatialDimensionsAsDouble());
+		}
+		// Here we have to distinguish arbitrary special cases because of the way how libSBML works:
+		if (comp.isSetConstant() && ((comp.getLevel() != 2) || !comp.getConstant())) {
+		  c.setConstant(comp.getConstant());
+		}
+		if (comp.isSetSize()) {
+		  c.setSize(comp.getSize());
+		}
+		if (comp.isSetSpatialDimensions() && ((comp.getLevel() > 2) || (comp.getSpatialDimensionsAsDouble() != 3d))) {
+		  c.setSpatialDimensions(comp.getSpatialDimensionsAsDouble());
+		}
 		if (comp.isSetUnits()) {
 			c.setUnits(getModel().getUnitDefinition(comp.getUnits()));
 		}
@@ -1582,26 +1609,28 @@ public class LibSBMLReader implements SBMLInputConverter {
 			throw new IllegalArgumentException(MessageFormat.format(error,
 			  "event", org.sbml.libsbml.Event.class.getName()));
 		}
-		org.sbml.libsbml.Event eve = (org.sbml.libsbml.Event) event;
-		Event ev = new Event((int) eve.getLevel(), (int) eve.getVersion());
-		copyNamedSBaseProperties(ev, eve);
-		if (eve.isSetTrigger()) {
-			ev.setTrigger(readTrigger(eve.getTrigger()));
+		org.sbml.libsbml.Event libEvent = (org.sbml.libsbml.Event) event;
+		Event ev = new Event((int) libEvent.getLevel(), (int) libEvent.getVersion());
+		copyNamedSBaseProperties(ev, libEvent);
+		if (libEvent.isSetTrigger()) {
+			ev.setTrigger(readTrigger(libEvent.getTrigger()));
 		}
-		if (eve.isSetPriority()) {
-			ev.setPriority(readPriority(eve.getPriority()));
+		if (libEvent.isSetPriority()) {
+			ev.setPriority(readPriority(libEvent.getPriority()));
 		}
-		if (eve.isSetDelay()) {
-			ev.setDelay(readDelay(eve.getDelay()));
+		if (libEvent.isSetDelay()) {
+			ev.setDelay(readDelay(libEvent.getDelay()));
 		}
-		for (int i = 0; i < eve.getNumEventAssignments(); i++) {
-			ev.addEventAssignment(readEventAssignment(eve.getEventAssignment(i)));
+		for (int i = 0; i < libEvent.getNumEventAssignments(); i++) {
+			ev.addEventAssignment(readEventAssignment(libEvent.getEventAssignment(i)));
 		}
-		if (eve.isSetTimeUnits()) {
-			ev.setTimeUnits(eve.getTimeUnits());
+		if (libEvent.isSetTimeUnits()) {
+			ev.setTimeUnits(libEvent.getTimeUnits());
 		}
-		if (eve.isSetUseValuesFromTriggerTime()) {
-			ev.setUseValuesFromTriggerTime(eve.getUseValuesFromTriggerTime());
+		if (libEvent.isSetUseValuesFromTriggerTime() &&
+		   (ev.getLevelAndVersion().compareTo(Integer.valueOf(2), Integer.valueOf(4)) > 0)) {
+		  // There is a bug in libSBML that the isSetUseValuesFromTriggerTime returns true, even if the level is not appropriate!
+			ev.setUseValuesFromTriggerTime(libEvent.getUseValuesFromTriggerTime());
 		}
 		return ev;
 
@@ -1702,8 +1731,15 @@ public class LibSBMLReader implements SBMLInputConverter {
 		org.sbml.libsbml.KineticLaw kl = (org.sbml.libsbml.KineticLaw) kineticLaw;
 		KineticLaw kinlaw = new KineticLaw((int) kl.getLevel(), (int) kl.getVersion());
 		copySBaseProperties(kinlaw, kl);
-		for (int i = 0; i < kl.getNumLocalParameters(); i++) {
-			kinlaw.addLocalParameter(readLocalParameter(kl.getLocalParameter(i)));
+		if (kl.getNumLocalParameters() > 0) {
+		  for (int i = 0; i < kl.getNumLocalParameters(); i++) {
+		    kinlaw.addLocalParameter(readLocalParameter(kl.getLocalParameter(i)));
+		  }
+		} else if (kl.getNumParameters() > 0) {
+		  // This distinction does not make sense but libSBML is programmed like this!
+		  for (int i = 0; i < kl.getNumParameters(); i++) {
+		    kinlaw.addLocalParameter(new LocalParameter(readParameter(kl.getParameter(i))));
+		  }
 		}
 		if (kl.isSetMath()) {
 			kinlaw.setMath(convert(kl.getMath(), kinlaw));
@@ -1744,22 +1780,24 @@ public class LibSBMLReader implements SBMLInputConverter {
 			throw new IllegalArgumentException(MessageFormat.format(error,
 			  "parameter", org.sbml.libsbml.Parameter.class.getName()));
 		}
-		org.sbml.libsbml.Parameter p = (org.sbml.libsbml.Parameter) parameter;
-		Parameter para = new Parameter(p.getId(), (int) p.getLevel(), (int) p.getVersion());
-		copyNamedSBaseProperties(para, p);
-		if (p.isSetValue()) {
-			para.setValue(p.getValue());
+		org.sbml.libsbml.Parameter libParameter = (org.sbml.libsbml.Parameter) parameter;
+		Parameter param = new Parameter(libParameter.getId(), (int) libParameter.getLevel(), (int) libParameter.getVersion());
+		copyNamedSBaseProperties(param, libParameter);
+		if (libParameter.isSetValue()) {
+		  param.setValue(libParameter.getValue());
 		}
-		para.setConstant(p.getConstant());
-		if (p.isSetUnits()) {
-			if (Unit.isUnitKind(p.getUnits(), para.getLevel(), para.getVersion())) {
-				para.setUnits(Unit.Kind.valueOf(p.getUnits().toUpperCase()));
-			} else {
-				para.setUnits(this.model.getUnitDefinition(p.getUnits()));
-			}
+		if (libParameter.isSetConstant() && ((libParameter.getLevel() != 2) || !libParameter.getConstant())) {
+		  param.setConstant(libParameter.getConstant());
 		}
-		addAllTreeNodeChangeListenersTo(para);
-		return para;
+		if (libParameter.isSetUnits()) {
+		  if (Unit.isUnitKind(libParameter.getUnits(), param.getLevel(), param.getVersion())) {
+		    param.setUnits(Unit.Kind.valueOf(libParameter.getUnits().toUpperCase()));
+		  } else {
+		    param.setUnits(this.model.getUnitDefinition(libParameter.getUnits()));
+		  }
+		}
+		addAllTreeNodeChangeListenersTo(param);
+		return param;
 	}
 
 	/* (non-Javadoc)
@@ -1835,40 +1873,40 @@ public class LibSBMLReader implements SBMLInputConverter {
 			throw new IllegalArgumentException(MessageFormat.format(error,
 			  "species", org.sbml.libsbml.Species.class.getName()));
 		}
-		org.sbml.libsbml.Species spec = (org.sbml.libsbml.Species) species;
-		Species s = new Species(spec.getId(), (int) spec.getLevel(), (int) spec.getVersion());
-		copyNamedSBaseProperties(s, spec);
-		if (spec.isSetCharge()) {
-			s.setCharge(spec.getCharge());
+		org.sbml.libsbml.Species libSpecies = (org.sbml.libsbml.Species) species;
+		Species spec = new Species(libSpecies.getId(), (int) libSpecies.getLevel(), (int) libSpecies.getVersion());
+		copyNamedSBaseProperties(spec, libSpecies);
+		if (libSpecies.isSetCharge()) {
+			spec.setCharge(libSpecies.getCharge());
 		}
-		if (spec.isSetCompartment()) {
-			s.setCompartment(getModel().getCompartment(spec.getCompartment()));
+		if (libSpecies.isSetCompartment()) {
+			spec.setCompartment(getModel().getCompartment(libSpecies.getCompartment()));
 		}
-		if (spec.isSetBoundaryCondition()) {
-		  s.setBoundaryCondition(spec.getBoundaryCondition());
+		if (libSpecies.isSetBoundaryCondition() && ((libSpecies.getLevel() > 2) || libSpecies.getBoundaryCondition())) {
+		  spec.setBoundaryCondition(libSpecies.getBoundaryCondition());
 		}
-		if (spec.isSetConstant()) {
-		  s.setConstant(spec.getConstant());
+		if (libSpecies.isSetConstant() && ((libSpecies.getLevel() != 2) || libSpecies.getConstant())) {
+		  spec.setConstant(libSpecies.getConstant());
 		}
-		if (s.isSetHasOnlySubstanceUnits()) {
-		  s.setHasOnlySubstanceUnits(spec.getHasOnlySubstanceUnits());
+		if (spec.isSetHasOnlySubstanceUnits()) {
+		  spec.setHasOnlySubstanceUnits(libSpecies.getHasOnlySubstanceUnits());
 		}
-		if (spec.isSetInitialAmount()) {
-			s.setInitialAmount(spec.getInitialAmount());
-		} else if (spec.isSetInitialConcentration()) {
-			s.setInitialConcentration(spec.getInitialConcentration());
+		if (libSpecies.isSetInitialAmount()) {
+			spec.setInitialAmount(libSpecies.getInitialAmount());
+		} else if (libSpecies.isSetInitialConcentration()) {
+			spec.setInitialConcentration(libSpecies.getInitialConcentration());
 		}
-		if (spec.isSetSubstanceUnits()) {
-			s.setSubstanceUnits(this.model.getUnitDefinition(spec.getUnits()));
+		if (libSpecies.isSetSubstanceUnits()) {
+			spec.setSubstanceUnits(this.model.getUnitDefinition(libSpecies.getUnits()));
 		}
-		if (spec.isSetSpeciesType()) {
-			s.setSpeciesType(this.model.getSpeciesType(spec.getSpeciesType()));
+		if (libSpecies.isSetSpeciesType()) {
+			spec.setSpeciesType(this.model.getSpeciesType(libSpecies.getSpeciesType()));
 		}
-		if (spec.isSetConversionFactor()) {
-		  s.setConversionFactor(spec.getConversionFactor());
+		if (libSpecies.isSetConversionFactor()) {
+		  spec.setConversionFactor(libSpecies.getConversionFactor());
 		}
-		addAllTreeNodeChangeListenersTo(s);
-		return s;
+		addAllTreeNodeChangeListenersTo(spec);
+		return spec;
 	}
 
 	/* (non-Javadoc)
@@ -1884,7 +1922,7 @@ public class LibSBMLReader implements SBMLInputConverter {
 		copyNamedSBaseProperties(spec, specref);
 		if (specref.isSetStoichiometryMath()) {
 			spec.setStoichiometryMath(readStoichiometricMath(specref.getStoichiometryMath()));
-		} else {
+		} else if (specref.isSetStoichiometry()){
 			spec.setStoichiometry(specref.getStoichiometry());
 		}
 		if (specref.isSetConstant()) {
@@ -2068,13 +2106,13 @@ public class LibSBMLReader implements SBMLInputConverter {
 			u.setKind(Unit.Kind.WEBER);
 			break;
 		}
-		if (u.isSetExponent()) {
+		if (libUnit.isSetExponent()) {
 		  u.setExponent(libUnit.getExponentAsDouble());
 		}
-		if (u.isSetMultiplier()) {
+		if (libUnit.isSetMultiplier()) {
 		  u.setMultiplier(libUnit.getMultiplier());
 		}
-		if (u.isSetScale()) {
+		if (libUnit.isSetScale()) {
 		  u.setScale(libUnit.getScale());
 		}
 		if (libUnit.getOffset() != 0d) {

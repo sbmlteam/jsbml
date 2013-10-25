@@ -69,9 +69,9 @@ public class ContainedSpeciesType extends AbstractSBase {
 	}
 
 	/**
-	 * Returns true if the speciesTypeState is set.
+	 * Returns {@code true} if the speciesTypeState is set.
 	 * 
-	 * @return true if the speciesTypeState is set.
+	 * @return {@code true} if the speciesTypeState is set.
 	 */
 	public boolean isSetSpeciesTypeState() {
 		return speciesTypeState != null;

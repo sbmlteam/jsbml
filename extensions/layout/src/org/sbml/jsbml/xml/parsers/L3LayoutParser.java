@@ -40,7 +40,6 @@ import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfSpeciesGlyphs;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfSpeciesReferenceGlyphs;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfSubGlyphs;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.listOfTextGlyphs;
-import static org.sbml.jsbml.ext.layout.LayoutConstants.namespaceURI;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.position;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.reactionGlyph;
 import static org.sbml.jsbml.ext.layout.LayoutConstants.referenceGlyph;

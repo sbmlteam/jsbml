@@ -114,11 +114,11 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	}
 
 	/**
-	 * Returns true is the level and version combination is a valid one, false otherwise.
+	 * Returns {@code true} if the level and version combination is a valid one, {@code false} otherwise.
 	 * 
 	 * @param level the SBML level
 	 * @param version the SBML version
-	 * @return true is the level and version combination is a valid one, false otherwise.
+	 * @return {@code true} if the level and version combination is a valid one, {@code false} otherwise.
 	 */
 	public static boolean isValidLevelAndVersionCombination(int level,
 			int version) {
@@ -206,7 +206,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * 
 	 * <p>By default, the sboTerm is -1, the
 	 * metaid, notes, parentSBMLObject, annotation, and
-	 * notes are null. The level and version are set to -1.
+	 * notes are {@code null}. The level and version are set to -1.
 	 * The setOfListeners list and the extensions hash map
 	 * are empty.
 	 */
@@ -228,7 +228,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * 
 	 * <p>
 	 * By default, the sboTerm is -1, the metaid, notes,
-	 * {@link #parent}, {@link #annotation}, and notes are null. The
+	 * {@link #parent}, {@link #annotation}, and notes are {@code null}. The
 	 * {@link #setOfListeners} list and the {@link #extensions} {@link Map} are
 	 * empty.
 	 * 
@@ -839,9 +839,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 */
 	public Annotation getAnnotation() {
 		if (!isSetAnnotation()) {
-			annotation = new Annotation();
-			annotation.parent = this;
-			annotation.addAllChangeListeners(getListOfTreeNodeChangeListeners());
+			setAnnotation(new Annotation());
 		}
 		return annotation;
 	}
@@ -1396,6 +1394,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		Annotation oldAnnotation = this.annotation;
 		this.annotation = annotation;
 		this.annotation.parent = this;
+		if (isSetMetaId()) {
+		  this.annotation.setAbout('#' + getMetaId());
+		}
 		firePropertyChange(TreeNodeChangeEvent.setAnnotation, oldAnnotation, this.annotation);
 	}
 	
@@ -1431,7 +1432,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 	 * @param level the SBML level
 	 * @param version the SBML version
 	 * @param strict a boolean to say if the method need to be strict or not (not used at the moment)
-	 * @return true if the operation as been successful.
+	 * @return {@code true} if the operation as been successful.
 	 */
 	boolean setLevelAndVersion(int level, int version, boolean strict) {
 		if (isValidLevelAndVersionCombination(level, version)) {

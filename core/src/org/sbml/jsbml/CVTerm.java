@@ -287,7 +287,7 @@ public class CVTerm extends AnnotationElement {
 
 	/**
 	 * Creates a {@link CVTerm} instance. By default, the type and qualifier of
-	 * this {@link CVTerm} are null. The list of resourceURIS is empty.
+	 * this {@link CVTerm} are {@code null}. The list of resourceURIS is empty.
 	 */
 	public CVTerm() {
 		super();

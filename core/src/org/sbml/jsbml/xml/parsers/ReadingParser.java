@@ -83,7 +83,7 @@ public interface ReadingParser {
 	 * @param contextObject : the object to set or modify depending on the identity of the current element. This object 
 	 *             represents the context of the XML element in the SBMLDocument.
 	 * 
-	 * @return true to remove the contextObject from the stack, if false is returned the contextObject will stay on top 
+	 * @return {@code true} to remove the contextObject from the stack, if {@code false} is returned the contextObject will stay on top 
 	 *             of the stack 
 	 */
 	public boolean processEndElement(String elementName, String prefix, boolean isNested, Object contextObject);

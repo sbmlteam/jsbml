@@ -111,7 +111,7 @@ public class ReactionRule extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return true if the kineticLaw of this {@link ReactionRule} is not null.
+	 * @return {@code true} if the kineticLaw of this {@link ReactionRule} is not {@code null}.
 	 */
 	public boolean isSetKineticLaw() {
 		return kineticLaw != null;

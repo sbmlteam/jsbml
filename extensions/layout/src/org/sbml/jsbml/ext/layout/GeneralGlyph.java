@@ -178,7 +178,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 	 * <p>The listOfSubGlyphs is initialized if necessary.
 	 *
 	 * @param subGlyph the element to add to the list
-	 * @return true (as specified by {@link Collection.add})
+	 * @return {@code true} (as specified by {@link Collection.add})
 	 */
 	public boolean addSubGlyph(GraphicalObject subGlyph) {
 		return getListOfSubGlyphs().add(subGlyph);
@@ -188,7 +188,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 	 * Removes an element from the listOfSubGlyphs.
 	 *
 	 * @param subGlyph the element to be removed from the list
-	 * @return true if the list contained the specified element
+	 * @return {@code true} if the list contained the specified element
 	 * @see List#remove(Object)
 	 */
 	public boolean removeSubGlyph(GraphicalObject subGlyph) {

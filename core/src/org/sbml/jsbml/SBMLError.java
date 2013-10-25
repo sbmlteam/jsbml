@@ -205,54 +205,54 @@ public class SBMLError extends XMLException {
 	}
 
 	/**
-	 * Returns true is the {@link SBMLError} severity is of type {@link SEVERITY#FATAL}
+	 * Returns {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#FATAL}
 	 * 
-	 * @return true is the {@link SBMLError} severity is of type {@link SEVERITY#FATAL}
+	 * @return {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#FATAL}
 	 */
 	public boolean isFatal() {
 		return severity != null && severity.equalsIgnoreCase("Fatal");
 	}
 
 	/**
-	 * Returns true is the {@link SBMLError} severity is of type {@link SEVERITY#ERROR}
+	 * Returns {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#ERROR}
 	 * 
-	 * @return true is the {@link SBMLError} severity is of type {@link SEVERITY#ERROR}
+	 * @return {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#ERROR}
 	 */
 	public boolean isError() {
 		return severity != null && severity.equalsIgnoreCase("Error");
 	}
 
 	/**
-	 * Returns true is the {@link SBMLError} severity is of type {@link SEVERITY#INFO}
+	 * Returns {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#INFO}
 	 * 
-	 * @return true is the {@link SBMLError} severity is of type {@link SEVERITY#INFO}
+	 * @return {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#INFO}
 	 */
 	public boolean isInfo() {
 		return severity != null && (severity.equalsIgnoreCase("Info") || severity.equalsIgnoreCase("Advisory"));
 	}
 
 	/**
-	 * Returns true is the {@link SBMLError} severity is of type {@link SEVERITY#WARNING}
+	 * Returns {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#WARNING}
 	 * 
-	 * @return true is the {@link SBMLError} severity is of type {@link SEVERITY#WARNING}
+	 * @return {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#WARNING}
 	 */
 	public boolean isWarning() {
 		return severity != null && severity.equalsIgnoreCase("Warning");
 	}
 
 	/**
-	 * Returns true is the {@link SBMLError} category is of type {@code internal}
+	 * Returns {@code true} is the {@link SBMLError} category is of type {@code internal}
 	 * 
-	 * @return true is the {@link SBMLError} category is of type {@code internal}
+	 * @return {@code true} is the {@link SBMLError} category is of type {@code internal}
 	 */
 	public boolean isInternal() {
 		return category != null && category.equalsIgnoreCase("Internal");
 	}
 
 	/**
-	 * Returns true is the {@link SBMLError} category is of type {@code system}
+	 * Returns {@code true} is the {@link SBMLError} category is of type {@code system}
 	 * 
-	 * @return true is the {@link SBMLError} category is of type {@code system}
+	 * @return {@code true} is the {@link SBMLError} category is of type {@code system}
 	 */
 	public boolean isSystem() {
 		return category != null && category.equalsIgnoreCase("System");
@@ -260,9 +260,9 @@ public class SBMLError extends XMLException {
 
 
 	/**
-	 * Returns true is the {@link SBMLError} category is of type {@code xml}
+	 * Returns {@code true} is the {@link SBMLError} category is of type {@code xml}
 	 * 
-	 * @return true is the {@link SBMLError} category is of type {@code xml}
+	 * @return {@code true} is the {@link SBMLError} category is of type {@code xml}
 	 */
 	public boolean isXML() {
 		return category != null && category.equalsIgnoreCase("xml");

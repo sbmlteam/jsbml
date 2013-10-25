@@ -86,7 +86,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	/**
 	 * Creates a SpeciesReference instance. By default, if the level is superior
 	 * or equal to 3, the constant, stoichiometryMath and stoichiometry are
-	 * null.
+	 * {@code null}.
 	 * 
 	 * @param spec
 	 */
@@ -107,7 +107,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	/**
 	 * Creates a SpeciesReference instance from a Species. By default, if the
 	 * level is superior or equal to 3, the constant, stoichiometryMath and
-	 * stoichiometry are null.
+	 * stoichiometry are {@code null}.
 	 * 
 	 * @param speciesReference
 	 */
@@ -413,7 +413,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 
 	/**
 	 * 
-	 * @return true if the denominator is not null.
+	 * @return {@code true} if the denominator is not {@code null}.
 	 */
 	public boolean isSetDenominator() {
 		return denominator != null;
@@ -431,8 +431,8 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 
 	/**
 	 * 
-	 * @return true if the {@link StoichiometryMath} of this {@link SpeciesReference} is not
-	 *         null.
+	 * @return {@code true} if the {@link StoichiometryMath} of this {@link SpeciesReference} is not
+	 *         {@code null}.
 	 */
 	public boolean isSetStoichiometryMath() {
 		return stoichiometryMath != null;

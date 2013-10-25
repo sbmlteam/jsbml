@@ -29,6 +29,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.Maths;
+import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
@@ -328,7 +329,7 @@ public class Unit extends AbstractSBase {
 		 * @param version
 		 *            the SBML version.
 		 * @return {@code true} if the given string is valid for the
-		 *         particular SBML level and version, false otherwise.
+		 *         particular SBML level and version, {@code false} otherwise.
 		 * @see Unit#isPredefined(String, int)
 		 */
 		public static boolean isValidUnitKindString(String unitKind, int level, int version) {
@@ -630,7 +631,7 @@ public class Unit extends AbstractSBase {
 	 * @param unit2
 	 *            the second Unit object to compare
 	 * @return if the 'kind' and 'exponent' attributes of unit1 are identical to
-	 *         the kind and exponent attributes of unit2, false otherwise.
+	 *         the kind and exponent attributes of unit2, {@code false} otherwise.
 	 */
 	public static boolean areEquivalent(Unit unit1, Unit unit2) {
 		return Kind.areEquivalent(unit1.getKind(), unit2.getKind())
@@ -653,8 +654,8 @@ public class Unit extends AbstractSBase {
 	 *            the first Unit object to compare
 	 * @param unit2
 	 *            the second Unit object to compare
-	 * @return true if all the attributes of unit1 are identical to the
-	 *         attributes of unit2, false otherwise.
+	 * @return {@code true} if all the attributes of unit1 are identical to the
+	 *         attributes of unit2, {@code false} otherwise.
 	 * @see areEquivalent
 	 */
 	public static boolean areIdentical(Unit unit1, Unit unit2) {
@@ -984,7 +985,7 @@ public class Unit extends AbstractSBase {
 	 *            an integer representing the SBML specification Level
 	 * @param version
 	 *            an integer representing the SBML specification Version
-	 * @return true if name is a valid UnitKind, false otherwise
+	 * @return {@code true} if name is a valid UnitKind, {@code false} otherwise
 	 * @jsbml.note The allowed unit names differ between SBML Levels 1 and 2 and again
 	 *       slightly between Level 2 Versions 1 and 2.
 	 */
@@ -1004,7 +1005,7 @@ public class Unit extends AbstractSBase {
 	}
 
 	/**
-	 * Returns true if the {@code unit} is a valid unit kind name or an
+	 * Returns {@code true} if the {@code unit} is a valid unit kind name or an
 	 * identifier of an existing {@link UnitDefinition}.
 	 * 
 	 * If either the unit or model are null, it will return false.
@@ -1016,7 +1017,7 @@ public class Unit extends AbstractSBase {
 	 * @param model
 	 *            the model where to look for the {@code unit}.
 	 * 
-	 * @return true if the unit is a valid unit kind name or an identifier of an
+	 * @return {@code true} if the unit is a valid unit kind name or an identifier of an
 	 *         existing {@link UnitDefinition}.
 	 */
 	public static boolean isValidUnit(Model model, String unit) {
@@ -1276,7 +1277,7 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * Creates a Unit instance. If the level is set and is superior or equal to
-	 * 3 the multiplier, scale, kind and exponent are null.
+	 * 3 the multiplier, scale, kind and exponent are {@code null}.
 	 */
 	public Unit() {
 		super();
@@ -1285,7 +1286,7 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * Creates a {@link Unit} instance from a multiplier, scale, kind and exponent. The
-	 * offset is null.
+	 * offset is {@code null}.
 	 * 
 	 * @param multiplier
 	 * @param scale
@@ -1309,7 +1310,7 @@ public class Unit extends AbstractSBase {
 	/**
 	 * Creates a {@link Unit} instance from a level and version. If the level is set and
 	 * is superior or equal to 3 the multiplier, scale, kind, offset and
-	 * exponent are null.
+	 * exponent are {@code null}.
 	 * 
 	 * @param level
 	 * @param version
@@ -1362,7 +1363,7 @@ public class Unit extends AbstractSBase {
 	/**
 	 * Creates a Unit instance from a kind, level and version. If the level is
 	 * set and is superior or equal to 3 the multiplier, scale, offset and
-	 * exponent are null.
+	 * exponent are {@code null}.
 	 * 
 	 * @param kind
 	 */
@@ -1670,8 +1671,8 @@ public class Unit extends AbstractSBase {
 		if (level < 3) {
 			exponent = Double.valueOf(1d);
 			scale = Integer.valueOf(0);
-			multiplier = new Double(1);
-			offset = new Double(0);
+			multiplier = new Double(1d);
+			offset = new Double(0d);
 		} else {
 			exponent = null;
 			offset = null;
@@ -1696,7 +1697,7 @@ public class Unit extends AbstractSBase {
 	/**
 	 * Predicate for testing whether this Unit is of the kind avogadro.
 	 * 
-	 * @return true if the kind of this Unit is avogadro, false otherwise.
+	 * @return {@code true} if the kind of this Unit is avogadro, {@code false} otherwise.
 	 */
 	public boolean isAvogadro() {
 		return kind == Kind.AVOGADRO;
@@ -1856,7 +1857,7 @@ public class Unit extends AbstractSBase {
 	/**
 	 * Predicate for testing whether this Unit is of the kind litre.
 	 * 
-	 * @return true if the kind of this Unit is litre or 'liter', false
+	 * @return {@code true} if the kind of this Unit is litre or 'liter', {@code false}
 	 *         otherwise.
 	 */
 	public boolean isLitre() {
@@ -1893,7 +1894,7 @@ public class Unit extends AbstractSBase {
 	/**
 	 * Predicate for testing whether this Unit is of the kind mole.
 	 * 
-	 * @return true if the kind of this Unit is mole, false otherwise.
+	 * @return {@code true} if the kind of this Unit is mole, {@code false} otherwise.
 	 */
 	public boolean isMole() {
 		return kind == Kind.MOLE;
@@ -1946,7 +1947,7 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * 
-	 * @return true if the exponent of this Unit is not null.
+	 * @return {@code true} if the exponent of this Unit is not {@code null}.
 	 */
 	public boolean isSetExponent() {
 		return isSetExponent && (exponent != null);
@@ -1963,7 +1964,7 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * 
-	 * @return true if the multiplier of this Unit is not null.
+	 * @return {@code true} if the multiplier of this Unit is not {@code null}.
 	 */
 	public boolean isSetMultiplier() {
 		return isSetMultiplier && (multiplier != null);
@@ -1981,7 +1982,7 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * 
-	 * @return true if the scale of this Unit is not null.
+	 * @return {@code true} if the scale of this Unit is not {@code null}.
 	 */
 	public boolean isSetScale() {
 		return isSetScale && (scale != null);
@@ -2025,7 +2026,7 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * 
-	 * @return true if this Unit is a variant of area.
+	 * @return {@code true} if this Unit is a variant of area.
 	 */
 	public boolean isVariantOfArea() {
 		Kind kind = getKind();
@@ -2035,7 +2036,7 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * 
-	 * @return true if this Unit is a variant of length.
+	 * @return {@code true} if this Unit is a variant of length.
 	 */
 	public boolean isVariantOfLength() {
 		Kind kind = getKind();
@@ -2045,7 +2046,7 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * 
-	 * @return true if this Unit is a variant of substance.
+	 * @return {@code true} if this Unit is a variant of substance.
 	 */
 	public boolean isVariantOfSubstance() {
 		Kind kind = getKind();
@@ -2068,7 +2069,7 @@ public class Unit extends AbstractSBase {
 
 	/**
 	 * 
-	 * @return true if this Unit is a variant of volume.
+	 * @return {@code true} if this Unit is a variant of volume.
 	 */
 	public boolean isVariantOfVolume() {
 		Kind kind = getKind();
@@ -2414,7 +2415,7 @@ public class Unit extends AbstractSBase {
 				attributes.put("exponent", Integer.toString((int) getExponent()));
 				if (exponent - getExponent() != 0d) {
 				  logger.warn(MessageFormat.format(
-				    "Loss of information because the illegal non-integer exponent {0,number} has been rounded to {1,number,integer}.",
+				    ResourceManager.getBundle("org.sbml.jsbml.resources.cfg.Messages").getString("LOSS_OF_INFORMATION_DUE_TO_ROUNDING"),
 				    getExponent(), exponent));
 				}
 			}

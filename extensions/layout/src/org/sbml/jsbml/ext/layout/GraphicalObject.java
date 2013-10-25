@@ -25,8 +25,10 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.UniqueNamedSBase;
+import org.sbml.jsbml.util.ResourceManager;
 
 /**
  * 
@@ -43,6 +45,12 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = 7587814013754302901L;
+
+	/**
+	 * A {@link Logger} for this class.
+	 */
+	private static final Logger logger = Logger.getLogger(GraphicalObject.class);
+  
 	/**
 	 * 
 	 */
@@ -287,9 +295,12 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 			attributes.remove("id");
 			attributes.put(LayoutConstants.shortLabel + ":id", getId());
 		}
-		if (isSetName())
-		{
-			attributes.remove("name"); // name is not part of the layout specs for now
+		if (isSetName()) {
+		  attributes.remove("name");
+		  logger.warn(MessageFormat.format(
+		    ResourceManager.getBundle("org.sbml.jsbml.resources.cfg.Messages").getString("UNDEFINED_ATTRIBUTE"),
+		    "name", getLevel(), getVersion(), getElementName()));
+		  // TODO: This must be generally solved. Here we have an SBase with ID but without name!
 		}
 		if (isSetMetaidRef())
 		{

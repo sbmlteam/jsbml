@@ -141,7 +141,7 @@ public class SBMLDocument extends AbstractSBase {
 
 	/**
 	 * Creates a SBMLDocument instance from a level and version. By default, the
-	 * parent SBML object of this object is itself. The model is null. The
+	 * parent SBML object of this object is itself. The model is {@code null}. The
 	 * SBMLDocumentAttributes and the SBMLDocumentNamespaces are empty.
 	 * 
 	 * @param level
@@ -694,7 +694,7 @@ public class SBMLDocument extends AbstractSBase {
 	}
 
 	/**
-	 * @return true if the {@link Model} of this {@link SBMLDocument} is not {@code null}.
+	 * @return {@code true} if the {@link Model} of this {@link SBMLDocument} is not {@code null}.
 	 */
 	public boolean isSetModel() {
 		return model != null;
@@ -939,7 +939,7 @@ public class SBMLDocument extends AbstractSBase {
 	 *            the desired SBML Level
 	 * @param version
 	 *            the desired Version within the SBML Level
-	 * @return true if 'level' and 'version' are valid.
+	 * @return {@code true} if 'level' and 'version' are valid.
 	 * @see #setLevelAndVersion(int, int, boolean)
 	 */
 	public boolean setLevelAndVersion(int level, int version) {

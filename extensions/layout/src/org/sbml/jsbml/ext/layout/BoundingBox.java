@@ -25,8 +25,10 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.UniqueNamedSBase;
+import org.sbml.jsbml.util.ResourceManager;
 
 /**
  * 
@@ -43,6 +45,11 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = -6371039558611201798L;
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final Logger logger = Logger.getLogger(BoundingBox.class);
 
 	/**
 	 * 
@@ -377,12 +384,12 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
 			attributes.put(LayoutConstants.shortLabel + ":id", getId());
 		}
 		if (isSetName()) {
-			// Problem !!! no name defined officially
-			// write an error message ?
-			// TODO : override the setName method to report an error ?
-			attributes.remove("name");
-			// attributes.put(LayoutConstant.shortLabel + ":name", getName());
-		} 
+		  attributes.remove("name");
+		  logger.warn(MessageFormat.format(
+		    ResourceManager.getBundle("org.sbml.jsbml.resources.cfg.Messages").getString("UNDEFINED_ATTRIBUTE"),
+		    "name", getLevel(), getVersion(), getElementName()));
+		  // TODO: This must be generally solved. Here we have an SBase with ID but without name!
+		}
 
 		return attributes;
 	}

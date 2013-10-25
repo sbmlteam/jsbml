@@ -92,9 +92,9 @@ public class StateFeatureInstance extends AbstractNamedSBase {
 	}
 	
 	/**
-	 * Returns true if the stateFeature id is defined.
+	 * Returns {@code true} if the stateFeature id is defined.
 	 * 
-	 * @return true if the stateFeature id is defined.
+	 * @return {@code true} if the stateFeature id is defined.
 	 */
 	public boolean isSetStateFeature() {
 		return stateFeature != null;
@@ -164,9 +164,9 @@ public class StateFeatureInstance extends AbstractNamedSBase {
 	}
 
 	/**
-	 * Returns true if the listOfStateFeatureValue is set.
+	 * Returns {@code true} if the listOfStateFeatureValue is set.
 	 * 
-	 * @return true if the listOfStateFeatureValue is set.
+	 * @return {@code true} if the listOfStateFeatureValue is set.
 	 */
 	public boolean isSetListOfStateFeatureValues() {
 		if ((listOfStateFeatureValues == null) || listOfStateFeatureValues.isEmpty()) {
@@ -178,7 +178,7 @@ public class StateFeatureInstance extends AbstractNamedSBase {
 	/**
 	 * Sets the listOfStateFeatureValues to null
 	 * 
-	 * @return true is successful
+	 * @return {@code true} is successful
 	 */
 	public boolean unsetListOfStateFeatureValues() {
 		if (isSetListOfStateFeatureValues()) {

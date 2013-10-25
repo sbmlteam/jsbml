@@ -20,25 +20,33 @@
  */
 package org.sbml.jsbml.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.xml.libsbml.LibSBMLChangeListener;
 import org.sbml.jsbml.xml.libsbml.LibSBMLReader;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
-
 
 /**
- * This class is used to test LibSBMLChangeListener with JUnit-tests
+ * This class is used to test {@link LibSBMLChangeListener} with JUnit tests
+ * 
  * @author Meike Aichele
  * @version $Rev$
  * @since 1.0
  */
 public class LibSBMLChangeListenerTest {
+  
 	static SBMLDocument doc = null;
 	static org.sbml.libsbml.SBMLDocument libDoc = null;
+	final static double delta = 1E-24d;
 
 	@BeforeClass
 	public static void beforeTesting() {
@@ -47,20 +55,23 @@ public class LibSBMLChangeListenerTest {
 			System.loadLibrary("sbmlj");
 			// Extra check to be sure we have access to libSBML:
 			Class.forName("org.sbml.libsbml.libsbml");
-
-			// Read SBML file using LibSBML and convert it to JSBML:
-			libDoc = new org.sbml.libsbml.SBMLDocument(2,4);
-			LibSBMLReader reader = new LibSBMLReader();
-			doc = reader.convertSBMLDocument(libDoc);
-
-			//org.sbml.libsbml.SBMLDocument libDoc = new org.sbml.libsbml.SBMLDocument(2,4);
-			doc.addTreeNodeChangeListener(new LibSBMLChangeListener(doc, libDoc));
-			
-
-		} catch (Throwable e) {
-			e.printStackTrace();
+		} catch (Throwable exc) {
+		  exc.printStackTrace();
+		  System.exit(1);
 		}
 
+		try {
+		  // Read SBML file using LibSBML and convert it to JSBML:
+		  libDoc = new org.sbml.libsbml.SBMLDocument(2, 4);
+		  LibSBMLReader reader = new LibSBMLReader();
+		  doc = reader.convertSBMLDocument(libDoc);
+
+		  //org.sbml.libsbml.SBMLDocument libDoc = new org.sbml.libsbml.SBMLDocument(2,4);
+		  doc.addTreeNodeChangeListener(new LibSBMLChangeListener(doc, libDoc));
+		} catch (IOException exc) {
+		  exc.printStackTrace();
+      System.exit(1);
+		}
 	}
 	
 	/*
@@ -116,21 +127,21 @@ public class LibSBMLChangeListenerTest {
 	@SuppressWarnings("deprecation")
 	@Test
 	public void testPropertyChanged() {
-		doc.getModel().setId("model02");
+		doc.createModel("model02");
 		assertEquals(libDoc.getModel().getId(), "model02");
 		doc.getModel().setName("modelName");
 		assertEquals(libDoc.getModel().getName(), "modelName");
-		doc.getModel().getCompartment("comp001").setConstant(true);
+		doc.getModel().createCompartment("comp001").setConstant(true);
 		assertTrue(libDoc.getModel().getCompartment("comp001").getConstant());
 		doc.getModel().getCompartment("comp001").setCompartmentType("comptype001");
 		assertEquals(libDoc.getModel().getCompartment("comp001").getCompartmentType(), "comptype001");
 		doc.getModel().getCompartment("comp001").setMetaId("metaCompId");
 		assertEquals(libDoc.getModel().getCompartment("comp001").getMetaId(), "metaCompId");
 		doc.getModel().getCompartment("comp001").setSize(0.5d);
-		assertEquals(libDoc.getModel().getCompartment("comp001").getSize(), 0.5d, 1E-24d);
+		assertEquals(libDoc.getModel().getCompartment("comp001").getSize(), 0.5d, delta);
 		doc.getModel().getCompartment("comp001").setSpatialDimensions(2);
-		assertEquals(libDoc.getModel().getCompartment("comp001").getSpatialDimensions(), 2);
-		doc.getModel().getEvent("evt001").unsetTrigger();
+		assertEquals(libDoc.getModel().getCompartment("comp001").getSpatialDimensionsAsDouble(), 2d, delta);
+		doc.getModel().createEvent("evt001").unsetTrigger();
 		assertNull(libDoc.getModel().getEvent("evt001").getTrigger());
 	}
 	
@@ -158,4 +169,5 @@ public class LibSBMLChangeListenerTest {
 		doc.getModel().removeUnitDefinition("udef1");
 		assertNull(libDoc.getModel().getUnitDefinition("udef1"));		
 	}
+
 }

@@ -83,9 +83,9 @@ public class Bond extends AbstractSBase {
 	}
 
 	/**
-	 * Returns true if the occurrence is set.
+	 * Returns {@code true} if the occurrence is set.
 	 * 
-	 * @return true if the occurrence is set.
+	 * @return {@code true} if the occurrence is set.
 	 */
 	public boolean isSetOccurence() {
 		return occurence != null;
@@ -110,9 +110,9 @@ public class Bond extends AbstractSBase {
 	}
 
 	/**
-	 * Returns true if the first {@link BindingSiteReference} is set.
+	 * Returns {@code true} if the first {@link BindingSiteReference} is set.
 	 * 
-	 * @return true if the first {@link BindingSiteReference} is set.
+	 * @return {@code true} if the first {@link BindingSiteReference} is set.
 	 */
 	public boolean isSetBindingSiteReference1() {
 		return bindingSiteReference1 != null;
@@ -138,9 +138,9 @@ public class Bond extends AbstractSBase {
 	}
 
 	/**
-	 * Returns true if the second {@link BindingSiteReference} is set.
+	 * Returns {@code true} if the second {@link BindingSiteReference} is set.
 	 * 
-	 * @return true if the second {@link BindingSiteReference} is set.
+	 * @return {@code true} if the second {@link BindingSiteReference} is set.
 	 */
 	public boolean isSetBindingSiteReference2() {
 		return bindingSiteReference2 != null;
@@ -152,7 +152,7 @@ public class Bond extends AbstractSBase {
 	 * not added and false is returned.
 	 * 
 	 * @param bindingSiteReference
-	 * @return true is the {@link BindingSiteReference} was added successfully to the {@link Bond}.
+	 * @return {@code true} is the {@link BindingSiteReference} was added successfully to the {@link Bond}.
 	 */
 	public boolean addBindingSiteReference(BindingSiteReference bindingSiteReference) {
 		

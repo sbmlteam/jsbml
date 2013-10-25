@@ -58,13 +58,13 @@ public interface NamedSBase extends SBase {
 
 	/**
 	 * 
-	 * @return true if the id is not null.
+	 * @return {@code true} if the id is not {@code null}.
 	 */
 	public boolean isSetId();
 
 	/**
 	 * 
-	 * @return true if the name is not null.
+	 * @return {@code true} if the name is not {@code null}.
 	 */
 	public boolean isSetName();
 
@@ -84,12 +84,12 @@ public interface NamedSBase extends SBase {
 	public void setName(String name);
 
 	/**
-	 * sets the id value to null.
+	 * sets the id value to {@code null}.
 	 */
 	public void unsetId();
 
 	/**
-	 * sets the name value to null.
+	 * sets the name value to {@code null}.
 	 */
 	public void unsetName();
 

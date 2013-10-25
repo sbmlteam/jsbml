@@ -356,10 +356,10 @@ public class QualitativeModel extends AbstractSBasePlugin {
   }
 
   /**
-   * Returns true if {@code qs} is already part of this {@link QualitativeModel}
+   * Returns {@code true} if {@code qs} is already part of this {@link QualitativeModel}
    * 
    * @param qs
-   * @return true if {@code qs} is already part of this {@link QualitativeModel}
+   * @return {@code true} if {@code qs} is already part of this {@link QualitativeModel}
    */
   public boolean containsQualitativeSpecies(QualitativeSpecies qs) {
 	  return isSetListOfQualitativeSpecies()
@@ -396,9 +396,9 @@ public class QualitativeModel extends AbstractSBasePlugin {
   }
 
   /**
-   * Returns true if the listOfQualitativeSpecies is set.
+   * Returns {@code true} if the listOfQualitativeSpecies is set.
    * 
-   * @return true if the listOfQualitativeSpecies is set.
+   * @return {@code true} if the listOfQualitativeSpecies is set.
    */
   public boolean isSetListOfQualitativeSpecies() {
 	  if ((listOfQualitativeSpecies == null) || listOfQualitativeSpecies.isEmpty()) {
@@ -408,9 +408,9 @@ public class QualitativeModel extends AbstractSBasePlugin {
   }
 
   /**
-   * Returns true if the listOfTransitions is set.
+   * Returns {@code true} if the listOfTransitions is set.
    * 
-   * @return true if the listOfTransitions is set.
+   * @return {@code true} if the listOfTransitions is set.
    */
   public boolean isSetListOfTransitions() {
 	  if ((listOfTransitions == null) || listOfTransitions.isEmpty()) {
@@ -456,7 +456,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
   
   /**
    * 
-   * @return true is successful
+   * @return {@code true} is successful
    */
   public boolean unsetListOfTransitions() {
 	  if (isSetListOfTransitions()) {
@@ -470,7 +470,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
   
   /**
    * 
-   * @return true is successful
+   * @return {@code true} is successful
    */
   public boolean unsetListOfQualitativeSpecies() {
 	  if (isSetListOfQualitativeSpecies()) {

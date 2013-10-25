@@ -63,7 +63,7 @@ public class Token implements java.io.Serializable {
    * A reference to the next regular (non-special) token from the input
    * stream.  If this is the last token from the input stream, or if the
    * token manager has not read tokens beyond this one, this field is
-   * set to null.  This is true only if this token is also a regular
+   * set to {@code null}.  This is true only if this token is also a regular
    * token.  Otherwise, see below for a description of the contents of
    * this field.
    */
@@ -72,14 +72,14 @@ public class Token implements java.io.Serializable {
   /**
    * This field is used to access special tokens that occur prior to this
    * token, but after the immediately preceding regular (non-special) token.
-   * If there are no such special tokens, this field is set to null.
+   * If there are no such special tokens, this field is set to {@code null}.
    * When there are more than one such special token, this field refers
    * to the last of these special tokens, which in turn refers to the next
    * previous special token through its specialToken field, and so on
    * until the first special token (whose specialToken field is null).
    * The next fields of special tokens refer to other special tokens that
    * immediately follow it (without an intervening regular token).  If there
-   * is no such token, this field is null.
+   * is no such token, this field is {@code null}.
    */
   public Token specialToken;
 

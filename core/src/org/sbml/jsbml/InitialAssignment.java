@@ -45,7 +45,7 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
 	private String variableID;
 
 	/**
-	 * Creates an InitialAssignment instance. By default, variableID is null.
+	 * Creates an InitialAssignment instance. By default, variableID is {@code null}.
 	 */
 	public InitialAssignment() {
 		super();
@@ -212,7 +212,8 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
 
 	/**
 	 * 
-	 * @return true if the variableID of this InitialAssignment is not null.
+	 * @return {@code true} if the variableID of this InitialAssignment is not
+	 *         {@code null}.
 	 */
 	public boolean isSetSymbol() {
 		return isSetVariable();

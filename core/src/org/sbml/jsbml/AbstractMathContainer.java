@@ -56,7 +56,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 	private ASTNode math;
 
 	/**
-	 * Creates a MathContainer instance. By default, the math object is null.
+	 * Creates a MathContainer instance. By default, the math object is {@code null}.
 	 */
 	public AbstractMathContainer() {
 		super();
@@ -79,7 +79,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 
 	/**
 	 * Creates a MathContainer instance from an ASTNode, level and version. By
-	 * default, the math is null.
+	 * default, the math is {@code null}.
 	 * 
 	 * @param math the ASTNode representing the math.
 	 * @param level the SBML level
@@ -96,7 +96,7 @@ public abstract class AbstractMathContainer extends AbstractSBase implements
 
 	/**
 	 * Creates a MathContainer instance from a level and version. By default,
-	 * the formula, math and mathBuffer are null.
+	 * the formula, math and mathBuffer are {@code null}.
 	 * 
 	 * @param level the SBML level
 	 * @param version the SBML version

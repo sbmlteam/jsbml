@@ -122,7 +122,7 @@ public class CompModelPlugin extends CompSBasePlugin {
 	 * <p>The listOfSubmodels is initialized if necessary.
 	 *
 	 * @param submodel the element to add to the list
-	 * @return true (as specified by {@link Collection.add})
+	 * @return {@code true} (as specified by {@link Collection.add})
 	 */
 	public boolean addSubmodel(Submodel submodel) {
 		return getListOfSubmodels().add(submodel);
@@ -132,7 +132,7 @@ public class CompModelPlugin extends CompSBasePlugin {
 	 * Removes an element from the listOfSubmodels.
 	 *
 	 * @param submodel the element to be removed from the list
-	 * @return true if the list contained the specified element
+	 * @return {@code true} if the list contained the specified element
 	 * @see List#remove(Object)
 	 */
 	public boolean removeSubmodel(Submodel submodel) {
@@ -256,7 +256,7 @@ public class CompModelPlugin extends CompSBasePlugin {
 	 * <p>The listOfPorts is initialized if necessary.
 	 *
 	 * @param port the element to add to the list
-	 * @return true (as specified by {@link Collection.add})
+	 * @return {@code true} (as specified by {@link Collection.add})
 	 */
 	public boolean addPort(Port port) {
 		return getListOfPorts().add(port);
@@ -266,7 +266,7 @@ public class CompModelPlugin extends CompSBasePlugin {
 	 * Removes an element from the listOfPorts.
 	 *
 	 * @param port the element to be removed from the list
-	 * @return true if the list contained the specified element
+	 * @return {@code true} if the list contained the specified element
 	 * @see List#remove(Object)
 	 */
 	public boolean removePort(Port port) {

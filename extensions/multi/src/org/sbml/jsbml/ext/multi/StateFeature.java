@@ -148,9 +148,9 @@ public class StateFeature extends AbstractNamedSBase implements UniqueNamedSBase
 	}
 
 	/**
-	 * Returns true if the listOfPossibleValue is set.
+	 * Returns {@code true} if the listOfPossibleValue is set.
 	 * 
-	 * @return true if the listOfPossibleValue is set.
+	 * @return {@code true} if the listOfPossibleValue is set.
 	 */
 	public boolean isSetListOfPossibleValues() {
 		if ((listOfPossibleValues == null) || listOfPossibleValues.isEmpty()) {
@@ -162,7 +162,7 @@ public class StateFeature extends AbstractNamedSBase implements UniqueNamedSBase
 	/**
 	 * Sets the listOfPossibleValues to null
 	 * 
-	 * @return true is successful
+	 * @return {@code true} is successful
 	 */
 	public boolean unsetListOfPossibleValues() {
 		if (isSetListOfPossibleValues()) {

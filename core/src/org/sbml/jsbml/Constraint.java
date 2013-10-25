@@ -52,7 +52,7 @@ public class Constraint extends AbstractMathContainer {
 	private XMLNode message;
 
 	/**
-	 * Creates a {@link Constraint} instance. By default, the message is null.
+	 * Creates a {@link Constraint} instance. By default, the message is {@code null}.
 	 */
 	public Constraint() {
 		super();
@@ -61,7 +61,7 @@ public class Constraint extends AbstractMathContainer {
 
 	/**
 	 * Creates a {@link Constraint} instance from an {@link ASTNode}, a level and a version. By
-	 * default, the message is null.
+	 * default, the message is {@code null}.
 	 * 
 	 * @param math
 	 * @param level
@@ -86,7 +86,7 @@ public class Constraint extends AbstractMathContainer {
 
 	/**
 	 * Creates a {@link Constraint} instance from a level and a version. By default, the
-	 * message is null.
+	 * message is {@code null}.
 	 * 
 	 * @param level
 	 * @param version
@@ -141,10 +141,10 @@ public class Constraint extends AbstractMathContainer {
 	}
 
 	/**
-	 * Returns the message of this {@link Constraint}. Returns null if the
+	 * Returns the message of this {@link Constraint}. Returns {@code null} if the
 	 *         message is not set.
 	 * 
-	 * @return the message of this {@link Constraint}. Returns null if the
+	 * @return the message of this {@link Constraint}. Returns {@code null} if the
 	 *         message is not set.
 	 */
 	public XMLNode getMessage() {
@@ -170,9 +170,9 @@ public class Constraint extends AbstractMathContainer {
 	}
 
 	/**
-	 * Returns true if the message of this {@link Constraint} is not null.
+	 * Returns {@code true} if the message of this {@link Constraint} is not {@code null}.
 	 * 
-	 * @return true if the message of this {@link Constraint} is not null.
+	 * @return {@code true} if the message of this {@link Constraint} is not {@code null}.
 	 */
 	public boolean isSetMessage() {
 		return message != null;
@@ -202,7 +202,7 @@ public class Constraint extends AbstractMathContainer {
 	}
 
 	/**
-	 * Sets the message of this {@link Constraint} to null.
+	 * Sets the message of this {@link Constraint} to {@code null}.
 	 */
 	public void unsetMessage() {
 		setMessage((XMLNode) null);

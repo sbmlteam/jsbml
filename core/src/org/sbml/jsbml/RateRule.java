@@ -38,7 +38,7 @@ public class RateRule extends ExplicitRule {
 	private static final long serialVersionUID = -1631920547145001765L;
 
 	/**
-	 * Creates a RateRule instance. By default, the variableID is null.
+	 * Creates a RateRule instance. By default, the variableID is {@code null}.
 	 */
 	public RateRule() {
 		super();

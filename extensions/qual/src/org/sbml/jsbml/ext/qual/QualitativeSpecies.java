@@ -230,7 +230,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
 
 
   /**
-   * @return true if the unset of the compartment attribute was successful
+   * @return {@code true} if the unset of the compartment attribute was successful
    */
   public boolean unsetCompartment() {
     if (isSetCompartment()) {
@@ -287,7 +287,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
 
 
   /**
-   * @return true if the unset of the constant attribute was successful
+   * @return {@code true} if the unset of the constant attribute was successful
    */
   public boolean unsetConstant() {
     if (isSetConstant()) {
@@ -342,7 +342,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
 
 
   /**
-   * @return true if unset initialLevel attribute was successful
+   * @return {@code true} if unset initialLevel attribute was successful
    */
   public boolean unsetInitialLevel() {
     if (isSetInitialLevel()) {
@@ -397,7 +397,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
 
 
   /**
-   * @return true if unset maxLevel attribute was successful
+   * @return {@code true} if unset maxLevel attribute was successful
    */
   public boolean unsetMaxLevel() {
     if (isSetMaxLevel()) {

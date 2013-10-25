@@ -57,7 +57,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 	private String name;
 
 	/**
-	 * Creates a FunctionDefinition instance. By default, id and name are null.
+	 * Creates a FunctionDefinition instance. By default, id and name are {@code null}.
 	 */
 	public FunctionDefinition() {
 		super();
@@ -86,7 +86,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 
 	/**
 	 * Creates a FunctionDefinition instance from a level and version. By
-	 * default, name is null.
+	 * default, name is {@code null}.
 	 * 
 	 * @param level
 	 * @param version
@@ -102,7 +102,7 @@ public class FunctionDefinition extends AbstractMathContainer implements
 
 	/**
 	 * Creates a FunctionDefinition instance from an id, ASTNode, level and
-	 * version. By default, name is null. If the ASTNode is not of type lambda,
+	 * version. By default, name is {@code null}. If the ASTNode is not of type lambda,
 	 * an IllegalArgumentException is thrown.
 	 * 
 	 * @param id
