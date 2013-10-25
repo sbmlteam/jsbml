@@ -102,7 +102,7 @@ public class JSBML {
 	 * Adds the given {@link UnitDefinition} to the given model or returns the
 	 * identifier of an equivalent {@link UnitDefinition} that is already part
 	 * of the model. In case that the given model is null, the return value of
-	 * this method will also be null.
+	 * this method will also be {@code null}.
 	 * 
 	 * @param model
 	 *            The model where to add the given {@link UnitDefinition}
@@ -112,7 +112,7 @@ public class JSBML {
 	 * @return The identifier of the given {@link UnitDefinition} if this one
 	 *         has been added to the given model, the identifier of an
 	 *         equivalent {@link UnitDefinition} that is already part of the
-	 *         given model, or null.
+	 *         given model, or {@code null}.
 	 */
 	public static String addUnitDefinitionIfNotContained(Model model,
 			UnitDefinition units) {

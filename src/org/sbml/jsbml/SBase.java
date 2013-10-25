@@ -293,7 +293,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * 
    * element containing it.
    * 
-   * @return Returns the parent SBML object.
+   * @return the parent SBML object.
    * @see #getParent()
    */
   public SBase getParentSBMLObject();

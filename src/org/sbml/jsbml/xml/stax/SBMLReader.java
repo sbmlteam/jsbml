@@ -176,7 +176,7 @@ public class SBMLReader {
 
 	/**
 	 * Returns {@code true} if there is no 'required' attribute for this
-	 * namespace URI, false otherwise.
+	 * namespace URI, {@code false} otherwise.
 	 * 
 	 * @param namespaceURI
 	 * @param startElement

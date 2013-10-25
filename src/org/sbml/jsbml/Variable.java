@@ -42,13 +42,13 @@ public interface Variable extends Quantity, UniqueNamedSBase {
 
 	/**
 	 * 
-	 * @return the constant value if it is set, false otherwise.
+	 * @return the constant value if it is set, {@code false} otherwise.
 	 */
 	public boolean isConstant();
 
 	/**
 	 * 
-	 * @return true if the constant boolean of this Variable is not null.
+	 * @return {@code true} if the constant boolean of this Variable is not {@code null}.
 	 */
 	public boolean isSetConstant();
 

@@ -829,9 +829,9 @@ public class ASTNode extends AbstractTreeNode {
 	 *            The basis of this logarithm. Can be null; then a base of 10
 	 *            will be assumed.
 	 * @param value
-	 *            Must not be null.
+	 *            Must not be {@code null}.
 	 * @return An {@link ASTNode} representing the logarithm of the given value
-	 *         with respect to the given base or to the base 10 if base is null.
+	 *         with respect to the given base or to the base 10 if base is {@code null}.
 	 */
 	public static ASTNode log(ASTNode base, ASTNode value) {
 		if (value == null) {
@@ -2354,7 +2354,7 @@ public class ASTNode extends AbstractTreeNode {
 	 * {@link MathContainer}; element containing it. From this
 	 * {@link MathContainer} even the overall {@link Model} can be accessed.
 	 * 
-	 * @return Returns the parent SBML object.
+	 * @return the parent SBML object.
 	 */
 	public MathContainer getParentSBMLObject() {
 		return parentSBMLObject;

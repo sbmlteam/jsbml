@@ -1524,11 +1524,11 @@ public class SBMLWriter {
 
 
 	/**
-	 * Returns true if the given {@link Object} is an empty {@link ListOf}, false otherwise.
+	 * Returns {@code true} if the given {@link Object} is an empty {@link ListOf}, {@code false} otherwise.
 	 * 
 	 * @param object
 	 * @param parser
-	 * @return true if the given {@link Object} is an empty {@link ListOf}, false otherwise.
+	 * @return {@code true} if the given {@link Object} is an empty {@link ListOf}, {@code false} otherwise.
 	 */
 	private boolean isEmptyListOf(Object object, WritingParser parser)
 	{		

@@ -46,7 +46,7 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 	private String variableID;
 
 	/**
-	 * Creates an EventAssignment instance. By default, the variableID is null.
+	 * Creates an EventAssignment instance. By default, the variableID is {@code null}.
 	 */
 	public EventAssignment() {
 		super();
@@ -67,7 +67,7 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
 
 	/**
 	 * Creates an EventAssignment instance from a level and version. By default,
-	 * the variableID is null.
+	 * the variableID is {@code null}.
 	 */
 	public EventAssignment(int level, int version) {
 		super(level, version);

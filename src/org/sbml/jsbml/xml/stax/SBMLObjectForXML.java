@@ -69,7 +69,7 @@ public class SBMLObjectForXML {
 	}
 
 	/**
-	 * Sets all the variable of this object to null.
+	 * Sets all the variable of this object to {@code null}.
 	 */
 	public void clear() {
 		this.attributes = null;
@@ -116,7 +116,7 @@ public class SBMLObjectForXML {
 
 	/**
 	 * 
-	 * @return true if the attributes of this object is not null.
+	 * @return {@code true} if the attributes of this object is not {@code null}.
 	 */
 	public boolean isSetAttributes() {
 		return attributes != null;
@@ -124,7 +124,7 @@ public class SBMLObjectForXML {
 
 	/**
 	 * 
-	 * @return true if the characters of this object is not null.
+	 * @return {@code true} if the characters of this object is not {@code null}.
 	 */
 	public boolean isSetCharacters() {
 		return characters != null;
@@ -132,7 +132,7 @@ public class SBMLObjectForXML {
 
 	/**
 	 * 
-	 * @return true if the name of this object is not null.
+	 * @return {@code true} if the name of this object is not {@code null}.
 	 */
 	public boolean isSetName() {
 		return name != null;
@@ -140,7 +140,7 @@ public class SBMLObjectForXML {
 
 	/**
 	 * 
-	 * @return true if the namespace of this Object is not null;
+	 * @return {@code true} if the namespace of this Object is not null;
 	 */
 	public boolean isSetNamespace() {
 		return namespace != null;
@@ -148,7 +148,7 @@ public class SBMLObjectForXML {
 
 	/**
 	 * 
-	 * @return true if the prefix of this Object is not null.
+	 * @return {@code true} if the prefix of this Object is not {@code null}.
 	 */
 	public boolean isSetPrefix() {
 		return prefix != null;

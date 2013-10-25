@@ -87,7 +87,7 @@ public class Creator extends AnnotationElement {
 
 	/**
 	 * Creates a {@link Creator} instance. By default, the email, familyName,
-	 * givenName, organisation are null.
+	 * givenName, organisation are {@code null}.
 	 */
 	public Creator() {
 		super();
@@ -281,51 +281,51 @@ public class Creator extends AnnotationElement {
   }
 
   /**
-   * Returns true or false depending on whether this
+   * Returns {@code true} or false depending on whether this
    * {@link Creator}'s email has been set.
    * 
-   * @return true if the email of this {@link Creator} is not null.
+   * @return {@code true} if the email of this {@link Creator} is not {@code null}.
    */
   public boolean isSetEmail() {
 	  return email != null;
   }
 
   /**
-   * Returns true or false depending on whether this
+   * Returns {@code true} or false depending on whether this
    * {@link Creator}'s familyName has been set.
    * 
-   * @return true if the familyName of this {@link Creator} is not null.
+   * @return {@code true} if the familyName of this {@link Creator} is not {@code null}.
    */
   public boolean isSetFamilyName() {
 	  return familyName != null;
   }
 
   /**
-   * Returns true or false depending on whether this
+   * Returns {@code true} or false depending on whether this
    * {@link Creator}'s givenName has been set.
    * 
-   * @return true if the givenName of this {@link Creator} is not null.
+   * @return {@code true} if the givenName of this {@link Creator} is not {@code null}.
    */
   public boolean isSetGivenName() {
 	  return givenName != null;
   }
 
   /**
-   * Returns true or false depending on whether this
+   * Returns {@code true} or false depending on whether this
    * {@link Creator}'s organisation has been set.
    * 
-   * @return true if the organisation of this {@link Creator} is not null.
+   * @return {@code true} if the organisation of this {@link Creator} is not {@code null}.
    */
   public boolean isSetOrganisation() {
 	  return organisation != null;
   }
 
   /**
-   * Returns true or false depending on whether this
+   * Returns {@code true} or false depending on whether this
    * {@link Creator}'s organisation has been set.
    * <p>Equal to {@link #isSetOrganisation()}
    * 
-   * @return true or false depending on whether this
+   * @return {@code true} or false depending on whether this
    * {@link Creator}'s organisation has been set.
    */
   public boolean isSetOrganization() {
@@ -333,9 +333,9 @@ public class Creator extends AnnotationElement {
   }
 
   /**
-   * Returns true if the XML attribute is known by this {@link Creator}.
+   * Returns {@code true} if the XML attribute is known by this {@link Creator}.
    * 
-   * @return true if the XML attribute is known by this {@link Creator}.
+   * @return {@code true} if the XML attribute is known by this {@link Creator}.
    */
   public boolean readAttribute(String elementName, String attributeName,
 		  String prefix, String value) {

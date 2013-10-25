@@ -135,8 +135,7 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 			if (!(Double.isNaN(v.getValue()) && Double.isNaN(getValue()))) {
 				equals &= v.getValue() == getValue();
 			} else {
-				equals &= (Double.isNaN(v.getValue()) && Double
-						.isNaN(getValue()));
+				equals &= (Double.isNaN(v.getValue()) && Double.isNaN(getValue()));
 			}
 		}
 		return equals;
@@ -146,7 +145,7 @@ public abstract class QuantityWithUnit extends AbstractNamedSBaseWithUnit
 	 * @see org.sbml.jsbml.Quantity#getValue()
 	 */
 	public double getValue() {
-		return value != null ? value : 0;
+		return value != null ? value : 0d;
 	}
 	
 	/* (non-Javadoc)

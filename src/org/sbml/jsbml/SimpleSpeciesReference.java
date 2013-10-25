@@ -49,7 +49,7 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase
 	private String speciesID;
 	/**
 	 * Creates a SimpleSpeciesReference instance. By default, the speciesId is
-	 * null.
+	 * {@code null}.
 	 */
 	public SimpleSpeciesReference() {
 		super();
@@ -173,7 +173,7 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase
 
 	/**
 	 * 
-	 * @return true if ths speciesID of this SimpleSpeciesReference is not null.
+	 * @return {@code true} if this speciesID of this {@link SimpleSpeciesReference} is not {@code null}.
 	 */
 	public boolean isSetSpecies() {
 		return speciesID != null;
@@ -181,8 +181,8 @@ public abstract class SimpleSpeciesReference extends AbstractNamedSBase
 
 	/**
 	 * 
-	 * @return true if the Species instance which has the speciesID of this
-	 *         SimpleSpeciesReference as id is not null.
+	 * @return {@code true} if the Species instance which has the speciesID of this
+	 *         {@link SimpleSpeciesReference} as id is not {@code null}.
 	 */
 	public boolean isSetSpeciesInstance() {
 		Model m = getModel();

@@ -87,7 +87,7 @@ public class Compartment extends Symbol {
   /**
    * Creates a Compartment instance. By default, if the level is set and is
    * superior or equal to 3, sets the compartmentType, outsideID and
-   * spatialDimension to null.
+   * spatialDimension to {@code null}.
    */
   public Compartment() {
     super();
@@ -128,7 +128,7 @@ public class Compartment extends Symbol {
 	/**
 	 * Creates a Compartment instance from a level and version. By default, if
 	 * the level is set and is superior or equal to 3, sets the compartmentType,
-	 * outsideID and spatialDimension to null.
+	 * outsideID and spatialDimension to {@code null}.
 	 * 
 	 * @param level the SBML level
 	 * @param version  the SBML level
@@ -149,7 +149,7 @@ public class Compartment extends Symbol {
 	
 	/**
 	 * Creates a Compartment instance from an id, level and version. By default,
-	 * sets the compartmentType, outsideID and spatialDimension to null.
+	 * sets the compartmentType, outsideID and spatialDimension to {@code null}.
 	 * 
 	 * @param id  the compartment id.
 	 * @param level the SBML level
@@ -162,7 +162,7 @@ public class Compartment extends Symbol {
 	/**
 	 * Creates a Compartment instance from an id, name, level and version. By
 	 * default, if the level is set and is superior or equal to 3, sets the
-	 * compartmentType, outsideID and spatialDimension to null.
+	 * compartmentType, outsideID and spatialDimension to {@code null}.
 	 * 
 	 * @param id  the compartment id.
 	 * @param name the compartment name.
@@ -199,7 +199,10 @@ public class Compartment extends Symbol {
 			}
 			// already checked by super class:
 			// equals &= c.getSize() == getSize();
-			equals &= Double.valueOf(c.getSpatialDimensions()).equals(getSpatialDimensions());
+			equals &= c.isSetSpatialDimensions() == isSetSpatialDimensions();
+			if (equals && isSetSpatialDimensions()) {
+			  equals &= c.getSpatialDimensions() == getSpatialDimensions();
+			}
 		}
 		return equals;
 	}
@@ -418,20 +421,20 @@ public class Compartment extends Symbol {
 	}
 
 	/**
-	 * Returns true if the compartmentID of this compartment is not null.
+	 * Returns {@code true} if the compartmentID of this compartment is not {@code null}.
 	 * 
-	 * @return true if the compartmentID of this compartment is not null.
+	 * @return {@code true} if the compartmentID of this compartment is not {@code null}.
 	 */
 	public boolean isSetCompartmentType() {
 		return compartmentTypeID != null;
 	}
 
 	/**
-	 * Returns true if the compartmentType instance which matches the
-	 *         compartmentTypeID of this compartment is not null.
+	 * Returns {@code true} if the compartmentType instance which matches the
+	 *         compartmentTypeID of this compartment is not {@code null}.
 	 *         
-	 * @return true if the compartmentType instance which matches the
-	 *         compartmentTypeID of this compartment is not null.
+	 * @return {@code true} if the compartmentType instance which matches the
+	 *         compartmentTypeID of this compartment is not {@code null}.
 	 */
 	@Deprecated
 	public boolean isSetCompartmentTypeInstance() {
@@ -441,20 +444,20 @@ public class Compartment extends Symbol {
 	}
 
 	/**
-	 * Returns true if the outsideID of this compartment is not null.
+	 * Returns {@code true} if the outsideID of this compartment is not {@code null}.
 	 * 
-	 * @return true if the outsideID of this compartment is not null.
+	 * @return {@code true} if the outsideID of this compartment is not {@code null}.
 	 */
 	public boolean isSetOutside() {
 		return outsideID != null;
 	}
 
 	/**
-	 * Returns true if the compartment instance which matches the outsideID of
-	 *         this compartment is not null.
+	 * Returns {@code true} if the compartment instance which matches the outsideID of
+	 *         this compartment is not {@code null}.
 	 * 
-	 * @return true if the compartment instance which matches the outsideID of
-	 *         this compartment is not null.
+	 * @return {@code true} if the compartment instance which matches the outsideID of
+	 *         this compartment is not {@code null}.
 	 */
 	public boolean isSetOutsideInstance() {
 		Model m = getModel();
@@ -462,18 +465,18 @@ public class Compartment extends Symbol {
 	}
 
 	/**
-	 * Returns true if the size of this compartment has been set by a user.
+	 * Returns {@code true} if the size of this compartment has been set by a user.
 	 * 
-	 * @return true if the size of this compartment has been set by a user.
+	 * @return {@code true} if the size of this compartment has been set by a user.
 	 */
 	public boolean isSetSize() {
 		return isSetValue();
 	}
 
 	/**
-	 * Returns true if the spatialDimensions of this compartment has been set by a user.
+	 * Returns {@code true} if the spatialDimensions of this compartment has been set by a user.
 	 * 
-	 * @return true if the spatialDimensions of this compartment has been set by a user.
+	 * @return {@code true} if the spatialDimensions of this compartment has been set by a user.
 	 */
 	public boolean isSetSpatialDimensions() {
 		return isSetSpatialDimensions;
@@ -481,7 +484,7 @@ public class Compartment extends Symbol {
 
 	/**
 	 * <p>
-	 * Returns true or false depending on whether this Compartment's 'volume'
+	 * Returns {@code true} or false depending on whether this Compartment's 'volume'
 	 * attribute has been set.
 	 * </p>
 	 * <p>
@@ -504,8 +507,8 @@ public class Compartment extends Symbol {
 	 * account the difference in default values between SBML Levels 1 and 2.
 	 * </p>
 	 * 
-	 * @return true if the 'volume' attribute ('size' in L2) of this Compartment
-	 *         has been set, false otherwise.
+	 * @return {@code true} if the 'volume' attribute ('size' in L2) of this Compartment
+	 *         has been set, {@code false} otherwise.
 	 * @see #isSetSize()
 	 * @jsbml.note In SBML Level 1, a compartment's volume has a default value (
 	 *             1.0) and therefore this method will always return true. In
@@ -818,14 +821,14 @@ public class Compartment extends Symbol {
 	}
 
 	/**
-	 * Sets the compartmentTypeID of this {@link Compartment} to null.
+	 * Sets the compartmentTypeID of this {@link Compartment} to {@code null}.
 	 */
 	public void unsetCompartmentType() {
 		setCompartmentType((String) null);
 	}
 
 	/**
-	 * Sets the outsideID of this compartment to null.
+	 * Sets the outsideID of this compartment to {@code null}.
 	 * 
 	 * @deprecated since Level 3 Version 1
 	 */
@@ -857,7 +860,7 @@ public class Compartment extends Symbol {
 	}
 
 	/**
-	 * Sets the spatialDimensions of this compartment to null.
+	 * Sets the spatialDimensions of this compartment to {@code null}.
 	 */
 	public void unsetSpatialDimensions() {
 		Double oldSpatialDim = this.spatialDimensions;

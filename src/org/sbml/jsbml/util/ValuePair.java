@@ -49,7 +49,7 @@ public class ValuePair<L extends Comparable<? super L>, V extends Comparable<? s
 	private V v;
 
 	/**
-	 * Creates a new {@link ValuePair} with both attributes set to null.
+	 * Creates a new {@link ValuePair} with both attributes set to {@code null}.
 	 */
 	public ValuePair() {
 		this(null, null);

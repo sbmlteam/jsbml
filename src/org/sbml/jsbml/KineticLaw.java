@@ -90,7 +90,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 
 	/**
 	 * Creates a KineticLaw instance. By default, this listOfParameters, the
-	 * timeUnitsID and substanceUnitsID are null.
+	 * timeUnitsID and substanceUnitsID are {@code null}.
 	 */
 	public KineticLaw() {
 		super();
@@ -99,7 +99,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 
 	/**
 	 * Creates a KineticLaw instance from a level and version. By default, this
-	 * listOfParameters, the timeUnitsID and substanceUnitsID are null.
+	 * listOfParameters, the timeUnitsID and substanceUnitsID are {@code null}.
 	 * 
 	 * @param level
 	 * @param version
@@ -280,7 +280,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	/**
 	 * 
 	 * @return the {@link #listOfLocalParameters} of this {@link KineticLaw}.
-	 *         Returns null if it is not set.
+	 *         Returns {@code null} if it is not set.
 	 */
 	public ListOf<LocalParameter> getListOfLocalParameters() {
 		if (listOfLocalParameters == null) {
@@ -293,7 +293,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	/**
 	 * 
 	 * @return the {@link #listOfLocalParameters} of this {@link KineticLaw}.
-	 *         Returns null if it is not set.
+	 *         Returns {@code null} if it is not set.
 	 * @deprecated use {@link #getListOfLocalParameters()}
 	 */
 	@Deprecated
@@ -389,7 +389,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	 * 
 	 * element containing it.
 	 * 
-	 * @return Returns the parent SBML object.
+	 * @return the parent SBML object.
 	 */
 	@Override
 	public Reaction getParentSBMLObject() {
@@ -541,8 +541,8 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 
 	/**
 	 * 
-	 * @return true if the listOfParameters of this KineticLaw is not null and
-	 *         not empty.
+	 * @return {@code true} if the listOfParameters of this KineticLaw is not
+	 *         {@code null} and not empty.
 	 * @deprecated use {@link #isSetListOfLocalParameters()}
 	 */
 	@Deprecated
@@ -552,7 +552,8 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 
 	/**
 	 * 
-	 * @return true if the substanceUnitsID of this KineticLaw is not null.
+	 * @return {@code true} if the substanceUnitsID of this KineticLaw is not
+	 *         {@code null}.
 	 */
 	@Deprecated
 	public boolean isSetSubstanceUnits() {
@@ -561,8 +562,8 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 
 	/**
 	 * 
-	 * @return true if the UnistDefinition instance which has the
-	 *         substanceUnitsID of this KineticLaw as id is not null.
+	 * @return {@code true} if the UnistDefinition instance which has the
+	 *         substanceUnitsID of this KineticLaw as id is not {@code null}.
 	 * @deprecated
 	 */
 	@Deprecated
@@ -574,7 +575,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 
 	/**
 	 * 
-	 * @return true if the timeUnitsID of this KineticLaw is not null.
+	 * @return {@code true} if the timeUnitsID of this KineticLaw is not {@code null}.
 	 * @deprecated
 	 */
 	@Deprecated
@@ -584,8 +585,8 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	
 	/**
 	 * 
-	 * @return true if the UnistDefinition instance which has the timeUnitsID of
-	 *         this KineticLaw as id is not null.
+	 * @return {@code true} if the UnistDefinition instance which has the timeUnitsID of
+	 *         this KineticLaw as id is not {@code null}.
 	 * @deprecated
 	 */
 	@Deprecated
@@ -681,7 +682,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	 * Removes the ith {@link LocalParameter} from this object.
 	 * 
 	 * @param i
-	 * @return the {@link LocalParameter} that has been removed or null.
+	 * @return the {@link LocalParameter} that has been removed or {@code null}.
 	 */
 	public LocalParameter removeLocalParameter(int i) {
 		if (!isSetListOfLocalParameters()) {
@@ -696,7 +697,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	 * its 'id'.
 	 * 
 	 * @param p
-	 * @return true if the operation was performed successfully.
+	 * @return {@code true} if the operation was performed successfully.
 	 */
 	public boolean removeLocalParameter(LocalParameter p) {
 		if (isSetListOfLocalParameters()) {
@@ -709,7 +710,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	 * Removes a {@link LocalParameter} from this object based on its 'id'.
 	 * 
 	 * @param i
-	 * @return true if the operation was performed successfully.
+	 * @return {@code true} if the operation was performed successfully.
 	 */
 	public boolean removeLocalParameter(String id) {
 		if (isSetListOfLocalParameters()) {
@@ -734,7 +735,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	 * of this {@link KineticLaw}.
 	 * 
 	 * @param p
-	 * @return true if the operation was performed successfully.
+	 * @return {@code true} if the operation was performed successfully.
 	 * @deprecated use {@link #removeLocalParameter(LocalParameter)}
 	 */
 	@Deprecated
@@ -746,7 +747,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit {
 	 * Removes a {@link LocalParameter} from this object based on its 'id'.
 	 * 
 	 * @param i
-	 * @return true if the operation was performed successfully.
+	 * @return {@code true} if the operation was performed successfully.
 	 * @deprecated use {@link #removeLocalParameter(String)}
 	 */
 	@Deprecated

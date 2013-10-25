@@ -38,7 +38,7 @@ public class AssignmentRule extends ExplicitRule {
 	private static final long serialVersionUID = 683172080347613789L;
 
 	/**
-	 * Creates an AssignmentRule instance. By default, the variableID is null.
+	 * Creates an AssignmentRule instance. By default, the variableID is {@code null}.
 	 */
 	public AssignmentRule() {
 		super();

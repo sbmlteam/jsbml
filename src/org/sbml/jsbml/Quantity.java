@@ -48,9 +48,9 @@ public interface Quantity extends CallableSBase {
 	public double getValue();
 
 	/**
-	 * Returns true if the value of this {@link Quantity} is set.
+	 * Returns {@code true} if the value of this {@link Quantity} is set.
 	 * 
-	 * @return true if the value of this {@link Quantity} is set.
+	 * @return {@code true} if the value of this {@link Quantity} is set.
 	 */
 	public boolean isSetValue();
 

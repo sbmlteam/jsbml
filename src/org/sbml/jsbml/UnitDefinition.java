@@ -250,9 +250,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 		Unit u = new Unit(level, version);
 		
 		// explicitly set default values:
-		u.setMultiplier(1d);
-		u.setScale(0);
-		u.setExponent(1d);
+		u.initDefaults(2, 4);
 		
 		if (id.equals(SUBSTANCE)) {
 			u.setKind(Kind.MOLE);
@@ -781,7 +779,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return true if the listOfUnits is not null and not empty.
+	 * @return {@code true} if the listOfUnits is not null and not empty.
 	 */
 	public boolean isSetListOfUnits() {
 		return (listOfUnits != null) && (listOfUnits.size() > 0);
@@ -806,7 +804,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return true if this UnitDefinition is a variant of Area
+	 * @return {@code true} if this UnitDefinition is a variant of Area
 	 */
 	public boolean isVariantOfArea() {
 		if (isSetListOfUnits()) {
@@ -823,7 +821,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * of the predefined unit identifier 'length'.
 	 * 
 	 * @param two
-	 * @return true if this UnitDefinition is a variant of the predefined unit
+	 * @return {@code true} if this UnitDefinition is a variant of the predefined unit
 	 *         length, meaning metres with only arbitrary variations in scale or
 	 *         multiplier values; false otherwise.
 	 */
@@ -841,7 +839,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 	 * Convenience function for testing if a given unit definition is a variant
 	 * of the predefined unit identifier 'substance'.
 	 * 
-	 * @return true if this UnitDefinition is a variant of the predefined unit
+	 * @return {@code true} if this UnitDefinition is a variant of the predefined unit
 	 *         substance, meaning moles or items (and grams or kilograms from
 	 *         SBML Level 2 Version 2 onwards) with only arbitrary variations in
 	 *         scale or multiplier values; false otherwise.
@@ -879,7 +877,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return true if this UnitDefinition is a variant of substance per length.
+	 * @return {@code true} if this UnitDefinition is a variant of substance per length.
 	 */
 	public boolean isVariantOfSubstancePerLength() {
 		if (isSetListOfUnits()) {
@@ -925,7 +923,7 @@ public class UnitDefinition extends AbstractNamedSBase {
 
 	/**
 	 * 
-	 * @return true if this UnitDefinition is a variant of substance per volume.
+	 * @return {@code true} if this UnitDefinition is a variant of substance per volume.
 	 */
 	public boolean isVariantOfSubstancePerVolume() {
 		if (isSetListOfUnits()) {
