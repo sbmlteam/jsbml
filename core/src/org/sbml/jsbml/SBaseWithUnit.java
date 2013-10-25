@@ -61,7 +61,7 @@ public interface SBaseWithUnit extends SBaseWithDerivedUnit {
 
 	/**
 	 * 
-	 * @return true if the unitsID of this element is not null.
+	 * @return {@code true} if the unitsID of this element is not {@code null}.
 	 */
 	public boolean isSetUnits();
 
@@ -73,7 +73,7 @@ public interface SBaseWithUnit extends SBaseWithDerivedUnit {
 	 * {@link UnitDefinition} in the {@link Model} to which this
 	 * {@link SBaseWithUnit} belongs.
 	 * 
-	 * @return true if either a {@link UnitDefinition}, which has the
+	 * @return {@code true} if either a {@link UnitDefinition}, which has the
 	 *         {@code unitsID} of this {@link SBaseWithUnit}, can be
 	 *         found in the {@link Model} to which this
 	 *         {@link SBaseWithUnit} belongs, or if this element's
@@ -120,7 +120,7 @@ public interface SBaseWithUnit extends SBaseWithDerivedUnit {
 	public void setUnits(UnitDefinition units);
 
 	/**
-	 * Sets the unitsID of this {@link SBaseWithUnit} to null.
+	 * Sets the unitsID of this {@link SBaseWithUnit} to {@code null}.
 	 */
 	public void unsetUnits();
 

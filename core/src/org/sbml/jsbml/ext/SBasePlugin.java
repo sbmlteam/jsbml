@@ -80,7 +80,7 @@ public interface SBasePlugin extends TreeNodeWithChangeSupport {
 	 *            : prefix of the XML attribute
 	 * @param value
 	 *            : value of the XML attribute
-	 * @return true if the attribute has been successfully read.
+	 * @return {@code true} if the attribute has been successfully read.
 	 */
 	public boolean readAttribute(String attributeName, String prefix, String value);
 

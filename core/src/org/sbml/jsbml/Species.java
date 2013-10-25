@@ -105,7 +105,7 @@ public class Species extends Symbol {
 	/**
 	 * Creates a Species instance. By default, the charge, compartmentID,
 	 * speciesTypeID, conversionFactorID, hasOnlySubstanceUnits,
-	 * boundaryCondition are null.
+	 * boundaryCondition are {@code null}.
 	 */
 	public Species() {
 		super();
@@ -115,7 +115,7 @@ public class Species extends Symbol {
 	/**
 	 * Creates a Species instance from a level and version. By default, the
 	 * charge, compartmentID, speciesTypeID, conversionFactorID,
-	 * hasOnlySubstanceUnits, boundaryCondition are null.
+	 * hasOnlySubstanceUnits, boundaryCondition are {@code null}.
 	 * 
 	 * @param level
 	 * @param version
@@ -181,7 +181,7 @@ public class Species extends Symbol {
 	/**
 	 * Creates a Species instance from a level and verison. By default, the
 	 * charge, compartmentID, speciesTypeID, conversionFactorID,
-	 * hasOnlySubstanceUnits, boundaryCondition are null.
+	 * hasOnlySubstanceUnits, boundaryCondition are {@code null}.
 	 * 
 	 * @param id
 	 * @param level
@@ -219,10 +219,18 @@ public class Species extends Symbol {
 		boolean equals = super.equals(object);
 		if (equals) {
 			Species s = (Species) object;
-			equals &= s.getBoundaryCondition() == getBoundaryCondition();
-			equals &= s.getHasOnlySubstanceUnits() == getHasOnlySubstanceUnits();
-			equals &= s.getCharge() == getCharge();
-			
+			equals &= s.isSetBoundaryCondition() == isSetBoundaryCondition();
+			if (equals && isSetBoundaryCondition()) {
+			  equals &= s.getBoundaryCondition() == getBoundaryCondition();
+			}
+			equals &= s.isSetHasOnlySubstanceUnits() == isSetHasOnlySubstanceUnits();
+			if (equals && isSetHasOnlySubstanceUnits()) {
+			  equals &= s.getHasOnlySubstanceUnits() == getHasOnlySubstanceUnits();
+			}
+			equals &= s.isSetCharge() == isSetCharge();
+			if (equals && isSetCharge()) {
+			  equals &= s.getCharge() == getCharge();
+			}
 			equals &= s.isSetSpeciesType() == isSetSpeciesType();
 			if (equals && isSetSpeciesType()) {
 				equals &= s.getSpeciesType().equals(getSpeciesType());
@@ -574,17 +582,18 @@ public class Species extends Symbol {
 		return hasOnlySubstanceUnits();
 	}
 
-	/**
-	 * 
-	 * @return true if the boundaryCondition of this Species is not null.
-	 */
+  /**
+   * 
+   * @return {@code true} if the {@link #boundaryCondition} of this
+   *         {@link Species} is not {@code null}.
+   */
 	public boolean isSetBoundaryCondition() {
 		return isSetBoundaryCondition;
 	}
 
 	/**
 	 * 
-	 * @return true if the charge of this Species if not null.
+	 * @return {@code true} if the charge of this Species if not {@code null}.
 	 */
 	public boolean isSetCharge() {
 		return isSetCharge;
@@ -592,7 +601,7 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return true if the compartmentID of this Species is not null.
+	 * @return {@code true} if the compartmentID of this Species is not {@code null}.
 	 */
 	public boolean isSetCompartment() {
 		return compartmentID != null;
@@ -600,8 +609,8 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return true if the Compartment instance which has the compartmentID of
-	 *         this Species as id is not null.
+	 * @return {@code true} if the Compartment instance which has the compartmentID of
+	 *         this Species as id is not {@code null}.
 	 */
 	public boolean isSetCompartmentInstance() {
 		if (getModel() == null) {
@@ -612,7 +621,7 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return true if the conversionFactorID of this Species is not null.
+	 * @return {@code true} if the conversionFactorID of this Species is not {@code null}.
 	 */
 	public boolean isSetConversionFactor() {
 		return conversionFactorID != null;
@@ -620,8 +629,8 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return true if the Parameter which has the conversionFactorID of this
-	 *         Species as id is not null.
+	 * @return {@code true} if the Parameter which has the conversionFactorID of this
+	 *         Species as id is not {@code null}.
 	 */
 	public boolean isSetConversionFactorInstance() {
 		if (getModel() == null) {
@@ -632,7 +641,7 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return true if the hasOnlySubstanceUnits of this Species is not null.
+	 * @return {@code true} if the hasOnlySubstanceUnits of this Species is not {@code null}.
 	 */
 	public boolean isSetHasOnlySubstanceUnits() {
 		return isSetHasOnlySubstanceUnits;
@@ -640,7 +649,7 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return Returns true if an initial amount has been set for this species.
+	 * @return {@code true} if an initial amount has been set for this species.
 	 */
 	public boolean isSetInitialAmount() {
 		return amount && isSetValue();
@@ -648,7 +657,7 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return Returns true if an initial concentration has been set for this
+	 * @return {@code true} if an initial concentration has been set for this
 	 *         species.
 	 */
 	public boolean isSetInitialConcentration() {
@@ -681,7 +690,7 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return true if the speciesTypeID of this Species is not null.
+	 * @return {@code true} if the speciesTypeID of this Species is not {@code null}.
 	 */
 	@Deprecated
 	public boolean isSetSpeciesType() {
@@ -690,8 +699,8 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return true if the SpeciesType instance which has the speciesTypeID of
-	 *         this Species as id is not null.
+	 * @return {@code true} if the SpeciesType instance which has the speciesTypeID of
+	 *         this Species as id is not {@code null}.
 	 */
 	@Deprecated
 	public boolean isSetSpeciesTypeInstance() {
@@ -703,7 +712,7 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return true if the substanceUnitsID of this species is not null.
+	 * @return {@code true} if the substanceUnitsID of this species is not {@code null}.
 	 */
 	public boolean isSetSubstanceUnits() {
 		return isSetUnits();
@@ -711,8 +720,8 @@ public class Species extends Symbol {
 
 	/**
 	 * 
-	 * @return true if the UnitDefinition which has the substanceUnitsID of this
-	 *         Species as id is not null.
+	 * @return {@code true} if the UnitDefinition which has the substanceUnitsID of this
+	 *         Species as id is not {@code null}.
 	 */
 	public boolean isSetSubstanceUnitsInstance() {
 		return isSetUnitsInstance();
@@ -796,7 +805,6 @@ public class Species extends Symbol {
 			} else if (attributeName.equals("boundaryCondition")) {
 				setBoundaryCondition(StringTools.parseSBMLBoolean(value));
 				return true;
-
 			}
 		}
 

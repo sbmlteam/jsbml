@@ -354,7 +354,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * <p>The listOfDeletions is initialized if necessary.
 	 *
 	 * @param deletion the element to add to the list
-	 * @return true (as specified by {@link Collection.add})
+	 * @return {@code true} (as specified by {@link Collection.add})
 	 */
 	public boolean addDeletion(Deletion deletion) {
 		return getListOfDeletions().add(deletion);
@@ -364,7 +364,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * Removes an element from the listOfDeletions.
 	 *
 	 * @param deletion the element to be removed from the list
-	 * @return true if the list contained the specified element
+	 * @return {@code true} if the list contained the specified element
 	 * @see List#remove(Object)
 	 */
 	public boolean removeDeletion(Deletion deletion) {

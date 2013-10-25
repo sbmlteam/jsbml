@@ -613,7 +613,7 @@ public class SBO {
 	 * Checks the format of the given SBO integer portion.
 	 * 
 	 * @param sboTerm
-	 * @return true if sboTerm is in the range {0,.., 9999999}, false otherwise.
+	 * @return {@code true} if sboTerm is in the range {0,.., 9999999}, {@code false} otherwise.
 	 */
 	public static boolean checkTerm(int sboTerm) {
 		return (0 <= sboTerm) && (sboTerm <= 9999999);
@@ -623,8 +623,8 @@ public class SBO {
 	 * Checks the format of the given SBO string.
 	 * 
 	 * @param sboTerm
-	 * @return true if sboTerm is in the correct format (a zero-padded, seven
-	 *         digit string), false otherwise.
+	 * @return {@code true} if sboTerm is in the correct format (a zero-padded, seven
+	 *         digit string), {@code false} otherwise.
 	 */
 	public static boolean checkTerm(String sboTerm) {
 		boolean correct = sboTerm.length() == 11;
@@ -1554,7 +1554,7 @@ public class SBO {
 	 * @param parent
 	 *            An SBO term that is the root of a certain subgraph within the
 	 *            SBO.
-	 * @return true if the subgraph of the SBO rooted at the term parent
+	 * @return {@code true} if the subgraph of the SBO rooted at the term parent
 	 *         contains a term with the id corresponding to sboTerm.
 	 */
 	public static boolean isChildOf(int sboTerm, int parent) {
@@ -1573,7 +1573,7 @@ public class SBO {
 	 *            Child
 	 * @param object
 	 *            Parent
-	 * @return true if subject is a child of object.
+	 * @return {@code true} if subject is a child of object.
 	 */
 	private static boolean isChildOf(Term subject, Term object) {
 		if (subject.equals(object)) {
@@ -1623,30 +1623,30 @@ public class SBO {
 	}
 
 	/**
-	 * Returns true if the term is-a conservation law, false otherwise
+	 * Returns {@code true} if the term is-a conservation law, {@code false} otherwise
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-a conservation law, false otherwise
+	 * @return {@code true} if the term is-a conservation law, {@code false} otherwise
 	 */
 	public static boolean isConservationLaw(int sboTerm) {
 		return isChildOf(sboTerm, getConservationLaw());
 	}
 
 	/**
-	 * Returns true if the term is-a continuous framework, false otherwise
+	 * Returns {@code true} if the term is-a continuous framework, {@code false} otherwise
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-a continuous framework, false otherwise
+	 * @return {@code true} if the term is-a continuous framework, {@code false} otherwise
 	 */
 	public static boolean isContinuousFramework(int sboTerm) {
 		return isChildOf(sboTerm, getContinuousFramework());
 	}
 
 	/**
-	 * Returns true if the term is-a discrete framework, false otherwise
+	 * Returns {@code true} if the term is-a discrete framework, {@code false} otherwise
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-a discrete framework, false otherwise
+	 * @return {@code true} if the term is-a discrete framework, {@code false} otherwise
 	 */
 	public static boolean isDiscreteFramework(int sboTerm) {
 		return isChildOf(sboTerm, getDiscreteFramework());
@@ -1673,10 +1673,10 @@ public class SBO {
 	}
 
 	/**
-	 * Returns true if the term is-a Entity, false otherwise
+	 * Returns {@code true} if the term is-a Entity, {@code false} otherwise
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-a Entity, false otherwise
+	 * @return {@code true} if the term is-a Entity, {@code false} otherwise
 	 */
 	public static boolean isEntity(int sboTerm) {
 		return isChildOf(sboTerm, getEntity());
@@ -1706,7 +1706,7 @@ public class SBO {
 	 * Function for checking the SBO term is from correct part of SBO.
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-an Event, false otherwise
+	 * @return {@code true} if the term is-an Event, {@code false} otherwise
 	 */
 	public static boolean isEvent(int sboTerm) {
 		return isChildOf(sboTerm, getEvent());
@@ -1716,7 +1716,7 @@ public class SBO {
 	 * Function for checking the SBO term is from correct part of SBO.
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-a functional compartment, false otherwise
+	 * @return {@code true} if the term is-a functional compartment, {@code false} otherwise
 	 */
 	public static boolean isFunctionalCompartment(int sboTerm) {
 		return isChildOf(sboTerm, getFunctionalCompartment());
@@ -1726,7 +1726,7 @@ public class SBO {
 	 * Function for checking the SBO term is from correct part of SBO.
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-a functional entity, false otherwise
+	 * @return {@code true} if the term is-a functional entity, {@code false} otherwise
 	 */
 	public static boolean isFunctionalEntity(int sboTerm) {
 		return isChildOf(sboTerm, getFunctionalEntity());
@@ -1743,11 +1743,11 @@ public class SBO {
 	}
 
 	/**
-	 * Returns true if the sboTerm stands for a gene coding region, false
+	 * Returns {@code true} if the sboTerm stands for a gene coding region, false
 	 *         otherwise
 	 *         
 	 * @param sboTerm
-	 * @return true if the sboTerm stands for a gene coding region, false
+	 * @return {@code true} if the sboTerm stands for a gene coding region, false
 	 *         otherwise
 	 */
 	public static boolean isGeneCodingRegion(int sboTerm) {
@@ -1755,11 +1755,11 @@ public class SBO {
 	}
 
 	/**
-	 * Returns true if the sboTerm stands for a gene coding region or a gene,
+	 * Returns {@code true} if the sboTerm stands for a gene coding region or a gene,
 	 *         false otherwise
 	 * 
 	 * @param sboTerm
-	 * @return true if the sboTerm stands for a gene coding region or a gene,
+	 * @return {@code true} if the sboTerm stands for a gene coding region or a gene,
 	 *         false otherwise
 	 */
 	public static boolean isGeneOrGeneCodingRegion(int sboTerm) {
@@ -1800,7 +1800,7 @@ public class SBO {
 	 * Function for checking the SBO term is from correct part of SBO.
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-an interaction, false otherwise
+	 * @return {@code true} if the term is-an interaction, {@code false} otherwise
 	 */
 	public static boolean isInteraction(int sboTerm) {
 		return isChildOf(sboTerm, getInteraction());
@@ -1830,7 +1830,7 @@ public class SBO {
 	 * Function for checking the SBO term is from correct part of SBO.
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-a kinetic constant, false otherwise
+	 * @return {@code true} if the term is-a kinetic constant, {@code false} otherwise
 	 */
 	public static boolean isKineticConstant(int sboTerm) {
 		return isChildOf(sboTerm, getKineticConstant());
@@ -1840,7 +1840,7 @@ public class SBO {
 	 * Function for checking the SBO term is from correct part of SBO.
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-a logical framework, false otherwise
+	 * @return {@code true} if the term is-a logical framework, {@code false} otherwise
 	 */
 	public static boolean isLogicalFramework(int sboTerm) {
 		return isChildOf(sboTerm, getLogicalFramework());
@@ -1850,7 +1850,7 @@ public class SBO {
 	 * Function for checking the SBO term is from correct part of SBO.
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-a material entity, false otherwise
+	 * @return {@code true} if the term is-a material entity, {@code false} otherwise
 	 */
 	public static boolean isMaterialEntity(int sboTerm) {
 		return isChildOf(sboTerm, getMaterialEntity());
@@ -1860,7 +1860,7 @@ public class SBO {
 	 * Function for checking the SBO term is from correct part of SBO.
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-a mathematical expression, false otherwise
+	 * @return {@code true} if the term is-a mathematical expression, {@code false} otherwise
 	 */
 	public static boolean isMathematicalExpression(int sboTerm) {
 		return isChildOf(sboTerm, getMathematicalExpression());
@@ -1880,7 +1880,7 @@ public class SBO {
 	 * Function for checking the SBO term is from correct part of SBO.
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-a modelling framework, false otherwise
+	 * @return {@code true} if the term is-a modelling framework, {@code false} otherwise
 	 */
 	public static boolean isModellingFramework(int sboTerm) {
 		return isChildOf(sboTerm, getModellingFramework());
@@ -1890,7 +1890,7 @@ public class SBO {
 	 * Function for checking the SBO term is from correct part of SBO.
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-a modifier, false otherwise
+	 * @return {@code true} if the term is-a modifier, {@code false} otherwise
 	 */
 	public static boolean isModifier(int sboTerm) {
 		return isChildOf(sboTerm, getModifier());
@@ -1920,7 +1920,7 @@ public class SBO {
 	 * Function for checking whether the SBO term is obsolete.
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-an obsolete term, false otherwise
+	 * @return {@code true} if the term is-an obsolete term, {@code false} otherwise
 	 */
 	public static boolean isObsolete(int sboTerm) {
 		return getTerm(intToString(sboTerm)).isObsolete();
@@ -1941,7 +1941,7 @@ public class SBO {
 	 * is actually obsolete.
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-a participant, false otherwise
+	 * @return {@code true} if the term is-a participant, {@code false} otherwise
 	 */
 	public static boolean isParticipant(int sboTerm) {
 		return isChildOf(sboTerm, getParticipant());
@@ -1951,7 +1951,7 @@ public class SBO {
 	 * Function for checking the SBO term is from correct part of SBO.
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-a participant role, false otherwise
+	 * @return {@code true} if the term is-a participant role, {@code false} otherwise
 	 */
 	public static boolean isParticipantRole(int sboTerm) {
 		return isChildOf(sboTerm, getParticipantRole());
@@ -1982,7 +1982,7 @@ public class SBO {
 	 * term.
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-a physical participant, false otherwise
+	 * @return {@code true} if the term is-a physical participant, {@code false} otherwise
 	 */
 	public static boolean isPhysicalParticipant(int sboTerm) {
 		return isChildOf(sboTerm, getPhysicalParticipant());
@@ -1992,7 +1992,7 @@ public class SBO {
 	 * Function for checking the SBO term is from correct part of SBO.
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-a product, false otherwise
+	 * @return {@code true} if the term is-a product, {@code false} otherwise
 	 */
 	public static boolean isProduct(int sboTerm) {
 		return isChildOf(sboTerm, getProduct());
@@ -2012,7 +2012,7 @@ public class SBO {
 	 * Function for checking the SBO term is from correct part of SBO.
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-a quantitative parameter, false otherwise
+	 * @return {@code true} if the term is-a quantitative parameter, {@code false} otherwise
 	 */
 	public static boolean isQuantitativeParameter(int sboTerm) {
 		return isChildOf(sboTerm, getQuantitativeParameter());
@@ -2022,7 +2022,7 @@ public class SBO {
 	 * Function for checking the SBO term is from correct part of SBO.
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-a rate law, false otherwise
+	 * @return {@code true} if the term is-a rate law, {@code false} otherwise
 	 */
 	public static boolean isRateLaw(int sboTerm) {
 		return isChildOf(sboTerm, getRateLaw());
@@ -2032,7 +2032,7 @@ public class SBO {
 	 * Function for checking the SBO term is from correct part of SBO.
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-a reactant, false otherwise
+	 * @return {@code true} if the term is-a reactant, {@code false} otherwise
 	 */
 	public static boolean isReactant(int sboTerm) {
 		return isChildOf(sboTerm, getReactant());
@@ -2102,7 +2102,7 @@ public class SBO {
 	 * Function for checking the SBO term is from correct part of SBO.
 	 * 
 	 * @param sboTerm
-	 * @return true if the term is-a steady state expression, false otherwise
+	 * @return {@code true} if the term is-a steady state expression, {@code false} otherwise
 	 */
 	public static boolean isSteadyStateExpression(int sboTerm) {
 		return isChildOf(sboTerm, getSteadyStateExpression());

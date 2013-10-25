@@ -42,12 +42,12 @@ public interface TreeNode {
   int getIndex(TreeNode node);
   
   /**
-   * Returns true if the receiver allows children.
+   * Returns {@code true} if the receiver allows children.
    */
   boolean getAllowsChildren();
   
   /**
-   * Returns true if the receiver is a leaf.
+   * Returns {@code true} if the receiver is a leaf.
    */
   boolean isLeaf();
   

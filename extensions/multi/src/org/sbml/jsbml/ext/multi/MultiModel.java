@@ -184,9 +184,9 @@ public class MultiModel extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * Returns true if the listOfSpeciesType is set.
+	 * Returns {@code true} if the listOfSpeciesType is set.
 	 * 
-	 * @return true if the listOfSpeciesType is set.
+	 * @return {@code true} if the listOfSpeciesType is set.
 	 */
 	public boolean isSetListOfSpeciesTypes() {
 		if ((listOfSpeciesTypes == null) || listOfSpeciesTypes.isEmpty()) {
@@ -198,7 +198,7 @@ public class MultiModel extends AbstractSBasePlugin {
 	/**
 	 * Sets the listOfSpeciesTypes to null
 	 * 
-	 * @return true is successful
+	 * @return {@code true} is successful
 	 */
 	public boolean unsetListOfSpeciesTypes() {
 		if (isSetListOfSpeciesTypes()) {
@@ -291,9 +291,9 @@ public class MultiModel extends AbstractSBasePlugin {
 	}
 
 	/**
-	 * Returns true if the listOfSelector is set.
+	 * Returns {@code true} if the listOfSelector is set.
 	 * 
-	 * @return true if the listOfSelector is set.
+	 * @return {@code true} if the listOfSelector is set.
 	 */
 	public boolean isSetListOfSelectors() {
 		if ((listOfSelectors == null) || listOfSelectors.isEmpty()) {
@@ -305,7 +305,7 @@ public class MultiModel extends AbstractSBasePlugin {
 	/**
 	 * Sets the listOfSelectors to null
 	 * 
-	 * @return true is successful
+	 * @return {@code true} is successful
 	 */
 	public boolean unsetListOfSelectors() {
 		if (isSetListOfSelectors()) {

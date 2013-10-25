@@ -90,7 +90,7 @@ public abstract class Rule extends AbstractMathContainer {
 
 	/**
 	 * 
-	 * @return true if this Rule is an AlgebraicRule instance.
+	 * @return {@code true} if this Rule is an {@link AlgebraicRule} instance.
 	 */
 	public boolean isAlgebraic() {
 		return this instanceof AlgebraicRule;
@@ -98,7 +98,7 @@ public abstract class Rule extends AbstractMathContainer {
 
 	/**
 	 * 
-	 * @return true if this Rule is an AssignmentRule instance.
+	 * @return {@code true} if this Rule is an {@link AssignmentRule} instance.
 	 */
 	public boolean isAssignment() {
 		return this instanceof AssignmentRule;
@@ -108,7 +108,7 @@ public abstract class Rule extends AbstractMathContainer {
 	 * (SBML Level 1 only) Predicate returning true or false depending on
 	 * whether this Rule is an CompartmentVolumeRule.
 	 * 
-	 * @return true if this Rule is a CompartmentVolumeRule, false otherwise.
+	 * @return {@code true} if this Rule is a CompartmentVolumeRule, {@code false} otherwise.
 	 */
 	public abstract boolean isCompartmentVolume();
 
@@ -116,23 +116,23 @@ public abstract class Rule extends AbstractMathContainer {
 	 * (SBML Level 1 only) Predicate returning true or false depending on
 	 * whether this Rule is an ParameterRule.
 	 * 
-	 * @return true if this Rule is a ParameterRule, false otherwise.
+	 * @return {@code true} if this Rule is a ParameterRule, {@code false} otherwise.
 	 */
 	public abstract boolean isParameter();
 
 	/**
 	 * 
-	 * @return true if this Rule is a RateRule instance.
+	 * @return {@code true} if this Rule is a {@link RateRule} instance.
 	 */
 	public boolean isRate() {
 		return this instanceof RateRule;
 	}
 
 	/**
-	 * (SBML Level 1 only) Predicate returning true or false depending on
-	 * whether this Rule is an SpeciesConcentrationRule.
+	 * (SBML Level 1 only) Predicate returning {@code true} or {@code false} depending on
+	 * whether this {@link Rule} is an SpeciesConcentrationRule.
 	 * 
-	 * @return true if this Rule is a SpeciesConcentrationRule, false otherwise.
+	 * @return {@code true} if this Rule is a SpeciesConcentrationRule, {@code false} otherwise.
 	 */
 	public abstract boolean isSpeciesConcentration();
 

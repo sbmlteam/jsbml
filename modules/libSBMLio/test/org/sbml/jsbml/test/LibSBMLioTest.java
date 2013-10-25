@@ -21,13 +21,20 @@
 
 package org.sbml.jsbml.test;
 
+import static org.junit.Assert.assertEquals;
+
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.xml.libsbml.LibSBMLReader;
-import org.sbml.jsbml.xml.stax.SBMLReader;
 
 /**
  * @author Andreas Dr&auml;ger
@@ -36,30 +43,79 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  */
 public class LibSBMLioTest {
 
-	static {
-		try {
-			System.loadLibrary("sbmlj");
-			// Extra check to be sure we have access to libSBML:
-			Class.forName("org.sbml.libsbml.libsbml");
-		} catch (Throwable e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
-	}
-	
-	/**
-	 * 
-	 * @param args just the path to one SBML file.
-	 * @throws XMLStreamException 
-	 * @throws IOException 
-	 */
-	public static void main(String args[]) throws XMLStreamException, IOException {
-		org.sbml.libsbml.SBMLReader libReader = new org.sbml.libsbml.SBMLReader(); 
-		org.sbml.libsbml.SBMLDocument libDoc = libReader.readSBML(args[0]);
-		LibSBMLReader libTranslator = new LibSBMLReader();
-		SBMLDocument doc1 = new SBMLReader().readSBML(args[0]);
-		SBMLDocument doc2 = libTranslator.convertSBMLDocument(libDoc);
-		System.out.println(doc1.equals(doc2));
-	}
-	
+  @BeforeClass
+  public static void beforeTesting() {
+    try {
+      // Load LibSBML:
+      System.loadLibrary("sbmlj");
+      // Extra check to be sure we have access to libSBML:
+      Class.forName("org.sbml.libsbml.libsbml");
+    } catch (Throwable exc) {
+      exc.printStackTrace();
+      System.exit(1);
+    }
+  }
+
+  /**
+   * 
+   * @throws XMLStreamException 
+   * @throws IOException 
+   * @throws URISyntaxException 
+   */
+  @Test
+  public void sbmlReadingTest() throws XMLStreamException, IOException, URISyntaxException {
+    String files[] = new String[] {
+      "../xml/test/data/l2v1/BIOMD0000000025.xml",
+      "../xml/test/data/l2v1/BIOMD0000000227.xml",
+      "../xml/test/data/l2v3/BIOMD0000000191.xml",
+      //      "../xml/test/data/l2v4/BIOMD0000000228.xml", // Does not work because of differences in XML nodes.
+      "../xml/test/data/l2v4/BIOMD0000000229.xml",
+    };
+    for (String file : files) {
+      testReading(file);
+    }
+  }
+
+  /**
+   * The actual test.
+   * @param fileName
+   * @throws IOException
+   * @throws XMLStreamException
+   * @throws URISyntaxException
+   */
+  private void testReading(String fileName) throws IOException, XMLStreamException, URISyntaxException {
+    File file = new File(LibSBMLioTest.class.getResource(fileName).toURI());
+    org.sbml.libsbml.SBMLDocument libDoc = new org.sbml.libsbml.SBMLReader().readSBML(file.getAbsolutePath());
+    LibSBMLReader libTranslator = new LibSBMLReader();
+    SBMLDocument doc1 = SBMLReader.read(file);
+    SBMLDocument doc2 = libTranslator.convertSBMLDocument(libDoc);
+
+    Model model1 = doc1.getModel();
+    Model model2 = doc2.getModel();
+
+    //    for (int i = 0; i < model1.getSpeciesCount(); i++) {
+    //      Species ud1 = model1.getSpecies(i);
+    //      Species ud2 = model2.getSpecies(i);
+    //      boolean equal = ud1.equals(ud2);
+    //      System.out.println(i + ".\t" + ud1.toString() + ":\t" + equal);
+    //      if (!equal) {
+    //        equal = ud1.equals(ud2);
+    //      }
+    //      //assertEquals(ud1, ud2);
+    //    }
+
+    assertEquals(model1.getListOfUnitDefinitions(), model2.getListOfUnitDefinitions());
+    assertEquals(model1.getListOfCompartments(), model2.getListOfCompartments());
+    assertEquals(model1.getListOfSpecies(), model2.getListOfSpecies());
+    assertEquals(model1.getListOfParameters(), model2.getListOfParameters());
+    // All tests involving Math are likely to fail in case that there is a non-binary MathML structure in the test file:
+    //    assertEquals(model1.getListOfReactions(), model2.getListOfReactions());
+
+
+    assertEquals(model1.getListOfEvents(), model2.getListOfEvents());
+    //    
+    //    assertEquals(model1, model2);
+    //    assertEquals(doc1, doc2);
+  }
+
 }

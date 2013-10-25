@@ -515,7 +515,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * @param functionTerm
    *        to remove from the listOfFunctionTerms
-   * @return true if the operation was successful
+   * @return {@code true} if the operation was successful
    */
   public boolean removeFunctionTerm(FunctionTerm functionTerm) {
     if (isSetListOfFunctionTerms()) {
@@ -539,7 +539,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * @param input
    *        to remove from the listOfInputs
-   * @return true if the operation was successful
+   * @return {@code true} if the operation was successful
    */
   public boolean removeInput(Input input) {
     if (isSetListOfInputs()) {
@@ -575,7 +575,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * @param output
    *        to remove from the listOfOutputs
-   * @return true if the operation was successful
+   * @return {@code true} if the operation was successful
    */
   public boolean removeOutput(Output output) {
     if (isSetListOfOutputs()) {

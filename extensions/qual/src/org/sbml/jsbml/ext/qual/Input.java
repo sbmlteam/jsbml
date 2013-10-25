@@ -196,7 +196,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
 
 
   /**
-   * @return true if unset the sign attribute was successful
+   * @return {@code true} if unset the sign attribute was successful
    */
   public boolean unsetSign() {
     if (isSetSign()) {
@@ -361,7 +361,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
 
 
   /**
-   * @return true if unset the threholdLevel attribute was successful
+   * @return {@code true} if unset the threholdLevel attribute was successful
    */
   public boolean unsetThresholdLevel() {
     if (isSetThresholdLevel()) {

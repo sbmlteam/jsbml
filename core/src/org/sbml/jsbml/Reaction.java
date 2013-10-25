@@ -906,7 +906,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 
 	/**
 	 * 
-	 * @return the boolean value of fast if it is set, false otherwise.
+	 * @return the boolean value of fast if it is set, {@code false} otherwise.
 	 */
 	public boolean isFast() {
 		return getFast();
@@ -921,7 +921,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 
 	/**
 	 * 
-	 * @return the value of reversible if it is set, false otherwise.
+	 * @return the value of reversible if it is set, {@code false} otherwise.
 	 */
 	public boolean isReversible() {
 		return getReversible();
@@ -929,7 +929,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 
 	/**
 	 * 
-	 * @return true if the compartmentID of this Reaction is not null;
+	 * @return {@code true} if the compartmentID of this Reaction is not {@code null}.
 	 */
 	public boolean isSetCompartment() {
 		return this.compartmentID != null;
@@ -937,7 +937,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 
 	/**
 	 * 
-	 * @return true if the Compartment which has the compartmentID of this
+	 * @return {@code true} if the Compartment which has the compartmentID of this
 	 *         Reaction as id is not null;
 	 */
 	public boolean isSetCompartmentInstance() {
@@ -947,7 +947,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 
 	/**
 	 * 
-	 * @return true if fast is not null.
+	 * @return {@code true} if fast is not {@code null}.
 	 */
 	public boolean isSetFast() {
 		return isSetFast;
@@ -955,7 +955,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 
 	/**
 	 * 
-	 * @return true if the kineticLaw of this Reaction is not null.
+	 * @return {@code true} if the kineticLaw of this Reaction is not {@code null}.
 	 */
 	public boolean isSetKineticLaw() {
 		return kineticLaw != null;
@@ -963,7 +963,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 
 	/**
 	 * 
-	 * @return true if the listOfModifiers of this Reaction is not null and not
+	 * @return {@code true} if the listOfModifiers of this Reaction is not {@code true} and not
 	 *         empty.
 	 */
 	public boolean isSetListOfModifiers() {
@@ -972,7 +972,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 
 	/**
 	 * 
-	 * @return true if the listOfProducts of this reaction is not null and not
+	 * @return {@code true} if the listOfProducts of this reaction is not {@code true} and not
 	 *         empty.
 	 */
 	public boolean isSetListOfProducts() {
@@ -981,7 +981,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 
 	/**
 	 * 
-	 * @return true if the listOfReactants of this Reaction is not null and not
+	 * @return {@code true} if the listOfReactants of this Reaction is not {@code true} and not
 	 *         empty.
 	 */
 	public boolean isSetListOfReactants() {
@@ -990,7 +990,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 
 	/**
 	 * 
-	 * @return true if reversible is not null.
+	 * @return {@code true} if reversible is not {@code null}.
 	 */
 	public boolean isSetReversible() {
 		return isSetReversible;
@@ -1281,7 +1281,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	}
 
 	/**
-	 * Sets the fast Boolean of this Reaction to null.
+	 * Sets the fast Boolean of this Reaction to {@code null}.
 	 */
 	public void unsetFast() {
 		Boolean oldFast = this.fast;
@@ -1359,7 +1359,7 @@ public class Reaction extends AbstractNamedSBase implements CallableSBase,
 	}
 
 	/**
-	 * Sets the reversible Boolean of this {@link Reaction} to null.
+	 * Sets the reversible Boolean of this {@link Reaction} to {@code null}.
 	 */
 	public void unsetReversible() {
 		Boolean oldReversible = this.reversible;

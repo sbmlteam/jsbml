@@ -141,7 +141,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
 	 * <p>The listOfExternalModelDefinitions is initialized if necessary.
 	 *
 	 * @param externalModelDefinition the element to add to the list
-	 * @return true (as specified by {@link Collection.add})
+	 * @return {@code true} (as specified by {@link Collection.add})
 	 */
 	public boolean addExternalModelDefinition(ExternalModelDefinition externalModelDefinition) {
 		return getListOfExternalModelDefinitions().add(externalModelDefinition);
@@ -151,7 +151,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
 	 * Removes an element from the listOfExternalModelDefinitions.
 	 *
 	 * @param externalModelDefinition the element to be removed from the list
-	 * @return true if the list contained the specified element
+	 * @return {@code true} if the list contained the specified element
 	 * @see List#remove(Object)
 	 */
 	public boolean removeExternalModelDefinition(ExternalModelDefinition externalModelDefinition) {
@@ -266,7 +266,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
 	 * <p>The listOfModelDefinitions is initialized if necessary.
 	 *
 	 * @param modelDefinition the element to add to the list
-	 * @return true (as specified by {@link Collection.add})
+	 * @return {@code true} (as specified by {@link Collection.add})
 	 */
 	public boolean addModelDefinition(ModelDefinition modelDefinition) {
 		return getListOfModelDefinitions().add(modelDefinition);
@@ -276,7 +276,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
 	 * Removes an element from the listOfModelDefinitions.
 	 *
 	 * @param modelDefinition the element to be removed from the list
-	 * @return true if the list contained the specified element
+	 * @return {@code true} if the list contained the specified element
 	 * @see List#remove(Object)
 	 */
 	public boolean removeModelDefinition(ModelDefinition modelDefinition) {

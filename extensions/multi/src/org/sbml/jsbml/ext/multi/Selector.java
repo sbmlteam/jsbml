@@ -195,9 +195,9 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	}
 
 	/**
-	 * Returns true if the listOfSpeciesTypeState is set.
+	 * Returns {@code true} if the listOfSpeciesTypeState is set.
 	 * 
-	 * @return true if the listOfSpeciesTypeState is set.
+	 * @return {@code true} if the listOfSpeciesTypeState is set.
 	 */
 	public boolean isSetListOfSpeciesTypeStates() {
 		if ((listOfSpeciesTypeStates == null) || listOfSpeciesTypeStates.isEmpty()) {
@@ -209,7 +209,7 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	/**
 	 * Sets the listOfSpeciesTypeStates to null
 	 * 
-	 * @return true is successful
+	 * @return {@code true} is successful
 	 */
 	public boolean unsetListOfSpeciesTypeStates() {
 		if (isSetListOfSpeciesTypeStates()) {
@@ -285,9 +285,9 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	}
 
 	/**
-	 * Returns true if the listOfBond is set.
+	 * Returns {@code true} if the listOfBond is set.
 	 * 
-	 * @return true if the listOfBond is set.
+	 * @return {@code true} if the listOfBond is set.
 	 */
 	public boolean isSetListOfBonds() {
 		if ((listOfBonds == null) || listOfBonds.isEmpty()) {
@@ -297,9 +297,9 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	}
 
 	/**
-	 * Sets the listOfBonds to null
+	 * Sets the {@link #listOfBonds} to {@code null}.
 	 * 
-	 * @return true is successful
+	 * @return {@code true} is successful
 	 */
 	public boolean unsetListOfBonds() {
 		if (isSetListOfBonds()) {
@@ -387,9 +387,9 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	}
 
 	/**
-	 * Returns true if the listOfUnBoundBindingSite is set.
+	 * Returns {@code true} if the listOfUnBoundBindingSite is set.
 	 * 
-	 * @return true if the listOfUnBoundBindingSite is set.
+	 * @return {@code true} if the listOfUnBoundBindingSite is set.
 	 */
 	public boolean isSetListOfUnboundBindingSites() {
 		if ((listOfUnboundBindingSites == null) || listOfUnboundBindingSites.isEmpty()) {
@@ -401,7 +401,7 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	/**
 	 * Sets the listOfUnboundBindingSites to null
 	 * 
-	 * @return true is successful
+	 * @return {@code true} is successful
 	 */
 	public boolean unsetListOfUnboundBindingSites() {
 		if (isSetListOfUnboundBindingSites()) {

@@ -154,25 +154,25 @@ public class QualConstant  extends PropertyChangeEvent {
   }
 
   /**
-   * Returns true is the new value is set.
+   * Returns {@code true} is the new value is set.
    *  
-   * @return true is the new value is set.
+   * @return {@code true} is the new value is set.
    */
   public boolean isSetNewValue() {
     return getNewValue() != null;
   }
 
   /**
-   * Returns true is the old value is set.
+   * Returns {@code true} is the old value is set.
    * 
-   * @return true is the old value is set.
+   * @return {@code true} is the old value is set.
    */
   public boolean isSetOldValue() {
     return getOldValue() != null;
   }
 
   /**
-   * Returns true is the source is set.
+   * Returns {@code true} is the source is set.
    *  
    * @return  true is the source is set.
    */

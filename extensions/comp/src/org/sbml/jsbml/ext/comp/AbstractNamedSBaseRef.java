@@ -52,7 +52,7 @@ public abstract class AbstractNamedSBaseRef extends SBaseRef implements NamedSBa
 	private String name;
 
 	/**
-	 * Creates an {@link AbstractNamedSBase}. By default, id and name are null.
+	 * Creates an {@link AbstractNamedSBase}. By default, id and name are {@code null}.
 	 */
 	public AbstractNamedSBaseRef() {
 		super();
@@ -73,7 +73,7 @@ public abstract class AbstractNamedSBaseRef extends SBaseRef implements NamedSBa
 
 	/**
 	 * Creates an {@link AbstractNamedSBase} from a level and version. By default, id
-	 * and name are null.
+	 * and name are {@code null}.
 	 * 
 	 * @param level the SBML level
 	 * @param version the SBML version

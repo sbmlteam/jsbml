@@ -70,7 +70,7 @@ public interface MathContainer extends SBaseWithDerivedUnit {
 	/**
 	 * Checks if an {@link ASTNode} has been set for this {@link MathContainer}.
 	 * 
-	 * @return true if the math {@link ASTNode} of this object is not null.
+	 * @return {@code true} if the math {@link ASTNode} of this object is not {@code null}.
 	 */
 	public boolean isSetMath();
 

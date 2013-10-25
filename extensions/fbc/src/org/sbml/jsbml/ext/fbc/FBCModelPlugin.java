@@ -92,7 +92,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    * <p>The listOfObjectives is initialized if necessary.
    *
    * @param objective the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return {@code true} (as specified by {@link Collection.add})
    */
   public boolean addObjective(Objective objective) {
     return getListOfObjectives().add(objective);
@@ -270,7 +270,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Returns {@code true} if listOfObjectives is not null.
+   * Returns {@code true} if listOfObjectives is not {@code null}.
    *
    * @return {@code true} if listOfObjectives is not null, 
    *         otherwise {@code false}
@@ -293,7 +293,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    * Removes an element from the listOfFluxBounds.
    *
    * @param fluxBound the element to be removed from the list
-   * @return true if the list contained the specified element
+   * @return {@code true} if the list contained the specified element
    * @see List#remove(Object)
    */
   public boolean removeFluxBound(FluxBound fluxBound) {
@@ -335,7 +335,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    * Removes an element from the listOfObjectives.
    *
    * @param objective the element to be removed from the list
-   * @return true if the list contained the specified element
+   * @return {@code true} if the list contained the specified element
    * @see List#remove(Object)
    */
   public boolean removeObjective(Objective objective) {

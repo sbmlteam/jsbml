@@ -78,7 +78,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 	/**
 	 * Creates an Event instance. By default, if the level is set and is
 	 * superior or equal to 3, the trigger, delay, listOfEventAssignemnts and
-	 * timeUnitsID are null.
+	 * timeUnitsID are {@code null}.
 	 */
 	public Event() {
 		super();
@@ -116,7 +116,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 	/**
 	 * Creates an Event from a level and version. By default, if the level is
 	 * set and is superior or equal to 3, the trigger, delay,
-	 * listOfEventAssignemnts and timeUnitsID are null.
+	 * {@link #listOfEventAssignments} and timeUnitsID are {@code null}.
 	 * 
 	 * @param level
 	 * @param version
@@ -138,7 +138,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 	/**
 	 * Creates an Event instance from an id, level and version. By default, if
 	 * the level is set and is superior or equal to 3, the trigger, delay,
-	 * listOfEventAssignemnts and timeUnitsID are null.
+	 * listOfEventAssignemnts and timeUnitsID are {@code null}.
 	 * 
 	 * @param id
 	 * @param level
@@ -152,7 +152,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 	/**
 	 * Creates an Event instance from an id, name, level and version. By
 	 * default, if the level is set and is superior or equal to 3, the trigger,
-	 * delay, listOfEventAssignemnts and timeUnitsID are null.
+	 * delay, listOfEventAssignemnts and timeUnitsID are {@code null}.
 	 * 
 	 * @param id
 	 * @param name
@@ -517,7 +517,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 	/**
 	 * 
 	 * @return the {@link UnitDefinition} instance of the model which matches
-	 *         the timesUnitsID of this {@link Event}. Returns null if there is
+	 *         the timesUnitsID of this {@link Event}. Returns {@code null} if there is
 	 *         no {@link UnitDefinition} id which matches the
 	 *         {@link #timeUnitsID} of this {@link Event}.
 	 * @deprecated
@@ -609,16 +609,15 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 
 	/**
 	 * 
-	 * @return true if the delay of this Event is not null.
+	 * @return {@code true} if the delay of this Event is not {@code null}.
 	 */
 	public boolean isSetDelay() {
 		return delay != null;
 	}
 
 	/**
-	 * 
-	 * @return true if the listOfEventAssignments of this Event is not null and
-	 *         not empty;
+	 * @return {@code true} if the listOfEventAssignments of this Event is not
+	 *         {@code null} and not empty;
 	 */
 	public boolean isSetListOfEventAssignments() {
 		return (listOfEventAssignments != null)
@@ -635,7 +634,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 
 	/**
 	 * 
-	 * @return true if the timeUnitsID of this {@link Event} is not null.
+	 * @return {@code true} if the timeUnitsID of this {@link Event} is not {@code null}.
 	 * @deprecated
 	 */
 	@Deprecated
@@ -645,8 +644,8 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 
 	/**
 	 * 
-	 * @return true if the UnitDefinition which has the timeUnitsID of this
-	 *         Event as id is not null.
+	 * @return {@code true} if the UnitDefinition which has the timeUnitsID of this
+	 *         Event as id is not {@code null}.
 	 * @deprecated
 	 */
 	@Deprecated
@@ -656,7 +655,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 
 	/**
 	 * 
-	 * @return true if the trigger of this Event is not null.
+	 * @return {@code true} if the trigger of this Event is not {@code null}.
 	 */
 	public boolean isSetTrigger() {
 		return this.trigger != null;
@@ -682,7 +681,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 	
 	/**
 	 * 
-	 * @return true is the useValuesFromTriggerTime of this Event is not null.
+	 * @return {@code true} is the useValuesFromTriggerTime of this Event is not {@code null}.
 	 */
 	public boolean isSetUseValuesFromTriggerTime() {
 		return isSetUseValuesFromTriggerTime;
@@ -691,7 +690,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 	/**
 	 * 
 	 * @return the boolean value of the useValuesFromTriggerTime of this {@link Event}
-	 *         if it has been set, false otherwise.
+	 *         if it has been set, {@code false} otherwise.
 	 */
 	public boolean isUseValuesFromTriggerTime() {
 		return isSetUseValuesFromTriggerTime() ? useValuesFromTriggerTime
@@ -918,7 +917,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 	}
 
 	/**
-	 * Sets the delay of this {@link Event} to null.
+	 * Sets the delay of this {@link Event} to {@code null}.
 	 */
 	public boolean unsetDelay() {
 		if (this.delay != null) {
@@ -962,7 +961,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 	}
 
 	/**
-	 * Sets the timeUnitsID of this {@link Event} to null.
+	 * Sets the timeUnitsID of this {@link Event} to {@code null}.
 	 */
 	public void unsetTimeUnits() {
 		setTimeUnitsID(null);
@@ -983,7 +982,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 	}
 
 	/**
-	 * Sets the useValuesFromTriggerTime of this Event to null.
+	 * Sets the useValuesFromTriggerTime of this Event to {@code null}.
 	 */
 	public void unsetUseValuesFromTriggerTime() {
 		if (this.useValuesFromTriggerTime != null) {

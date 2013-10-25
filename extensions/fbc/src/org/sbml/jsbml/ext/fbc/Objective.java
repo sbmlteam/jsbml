@@ -194,7 +194,7 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * <p>The listOfFluxObjectives is initialized if necessary.
 	 *
 	 * @param fluxObjective the element to add to the list
-	 * @return true (as specified by {@link Collection.add})
+	 * @return {@code true} (as specified by {@link Collection.add})
 	 */
 	public void addFluxObjective(FluxObjective fluxObjective) {
 		getListOfFluxObjectives().add(fluxObjective);
@@ -449,7 +449,7 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * Removes an element from the listOfFluxObjectives.
 	 *
 	 * @param fluxObjective the element to be removed from the list
-	 * @return true if the list contained the specified element
+	 * @return {@code true} if the list contained the specified element
 	 * @see List#remove(Object)
 	 */
 	public boolean removeFluxObjective(FluxObjective fluxObjective) {

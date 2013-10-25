@@ -71,9 +71,9 @@ public class StateFeatureValue extends AbstractSBase {
 	}
 
 	/**
-	 * Returns true if possibleValue is set.
+	 * Returns {@code true} if possibleValue is set.
 	 * 
-	 * @return true if possibleValue is set.
+	 * @return {@code true} if possibleValue is set.
 	 */
 	public boolean isSetPossibleValue() {
 		return possibleValue != null;

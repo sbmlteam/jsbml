@@ -60,6 +60,7 @@ import org.sbml.jsbml.QuantityWithUnit;
 import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
@@ -75,33 +76,34 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.TreeNodeRemovedEvent;
 import org.sbml.jsbml.xml.XMLToken;
-import org.sbml.libsbml.ModelCreator;
-import org.sbml.libsbml.SBMLDocument;
-import org.sbml.libsbml.XMLNode;
 
 /**
- * This class listens to the changes in the JSBML-Document and synchronizes the corresponding LibSBML-Document 
- * with the JSBML-Document. 
+ * This class listens to the changes in the JSBML document and synchronizes the
+ * corresponding LibSBML document
+ * with the JSBML-Document.
+ * 
  * @author Meike Aichele
  * @author Andreas Dr&auml;ger
  * @version $Rev$
  * @since 0.8
  */
-
 @SuppressWarnings("deprecation")
 public class LibSBMLChangeListener implements TreeNodeChangeListener {
 
 	/**
-	 * 
+	 * Pointer to the {@link org.sbml.libsbml.SBMLDocument}.
 	 */
-	private SBMLDocument libDoc;
-	private org.sbml.jsbml.SBMLDocument doc;
+	private org.sbml.libsbml.SBMLDocument libDoc;
+	
+	/**
+	 * Pointer to the {@link SBMLDocument}.
+	 */
+	private SBMLDocument doc;
 
 	/**
-	 * 
+	 * A {@link Logger} for this class.
 	 */
-	private static final transient Logger logger = Logger
-	.getLogger(LibSBMLChangeListener.class);
+	private static final transient Logger logger = Logger.getLogger(LibSBMLChangeListener.class);
 
 	/**
 	 * 
@@ -113,7 +115,6 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 		this.libDoc = libDoc;
 		this.doc = doc;
 	}
-
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeAdded(javax.swing.tree.TreeNode)
@@ -463,7 +464,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 					org.sbml.libsbml.Constraint libConstr = libDoc.getModel().createConstraint();
 					LibSBMLUtils.transferMathContainerProperties(constr, libConstr);
 					if (constr.isSetMessage()) {
-						libConstr.setMessage(XMLNode.convertStringToXMLNode(constr.getMessage().toXMLString()));
+						libConstr.setMessage(org.sbml.libsbml.XMLNode.convertStringToXMLNode(constr.getMessage().toXMLString()));
 					}
 				}
 				else if (node instanceof Delay) {
@@ -523,7 +524,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 			}
 			else if (node instanceof Creator) {
 				Creator creator = (Creator) node;
-				org.sbml.libsbml.ModelCreator libCreator = new ModelCreator();
+				org.sbml.libsbml.ModelCreator libCreator = new org.sbml.libsbml.ModelCreator();
 				if (creator.isSetEmail()) {
 					libCreator.setEmail(creator.getEmail());
 				}
@@ -929,7 +930,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 				libKl.setFormula(mathContainer.getFormula());
 			} else if (mathContainer instanceof Constraint) {
 				Constraint con = (Constraint) mathContainer;
-				int index = LibSBMLUtils.getContraintIndex(con,doc);
+				int index = LibSBMLUtils.getConstraintIndex(con,doc);
 				libDoc.getModel().getConstraint(index).setMath(LibSBMLUtils.convertASTNode(mathContainer.getMath()));
 			} else if (mathContainer instanceof Delay) {
 				Delay delay = (Delay) mathContainer;
@@ -953,8 +954,8 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 		} else if (prop.equals(TreeNodeChangeEvent.message)) {
 			if (evtSrc instanceof Constraint) {
 				Constraint con = (Constraint) evtSrc;
-				int index = LibSBMLUtils.getContraintIndex(con,doc);
-				org.sbml.libsbml.XMLNode xml = new XMLNode(con.getMessageString());
+				int index = LibSBMLUtils.getConstraintIndex(con,doc);
+				org.sbml.libsbml.XMLNode xml = new org.sbml.libsbml.XMLNode(con.getMessageString());
 				libDoc.getModel().getConstraint(index).setMessage(xml);
 			}
 		} else if (prop.equals(TreeNodeChangeEvent.metaId)) {
@@ -1428,7 +1429,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 							}
 						} else if (evtSrc instanceof Constraint) {
 							Constraint constr = (Constraint) evtSrc;
-							return libDoc.getModel().getConstraint(LibSBMLUtils.getContraintIndex(constr,doc));
+							return libDoc.getModel().getConstraint(LibSBMLUtils.getConstraintIndex(constr,doc));
 						} else if (evtSrc instanceof Delay) {
 							Delay delay = (Delay) evtSrc;
 							if (delay.isSetParent()) {

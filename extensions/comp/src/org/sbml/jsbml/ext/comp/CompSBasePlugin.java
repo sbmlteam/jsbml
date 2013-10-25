@@ -218,7 +218,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 	 * <p>listOfReplacedElements is initialized if necessary.
 	 * 
 	 * @param replacedElement
-	 * @return true (as specified by {@link Collection.add})
+	 * @return {@code true} (as specified by {@link Collection.add})
 	 */
 	public boolean addReplacedElement(ReplacedElement replacedElement) {
 		return getListOfReplacedElements().add(replacedElement);
@@ -228,7 +228,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 	 * Removes an element from listOfReplacedElements.
 	 * 
 	 * @param replacedElement the element to be removed from the list
-	 * @return true if this list contained the specified element
+	 * @return {@code true} if this list contained the specified element
 	 * @see List#remove(Object)
 	 */
 	public boolean removeReplacedElement(ReplacedElement replacedElement) {

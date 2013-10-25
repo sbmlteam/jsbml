@@ -296,14 +296,14 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 	 * AssignmentRule (SBML Level 2) or has a 'type' attribute value of 'scalar'
 	 * (SBML Level 1).
 	 * 
-	 * @return true if this Rule is an AssignmentRule (Level 2) or has type
-	 *         'scalar' (Level 1), false otherwise.
+	 * @return {@code true} if this Rule is an AssignmentRule (Level 2) or has type
+	 *         'scalar' (Level 1), {@code false} otherwise.
 	 */
 	public abstract boolean isScalar();
 
 	/**
 	 * 
-	 * @return true if the unitsID of this object is not null.
+	 * @return {@code true} if the unitsID of this object is not {@code null}.
 	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
 	 *             but can only be used in conjunction with {@link Parameter}s.
 	 *             In this case this {@link AssignmentRule} represents the SBML
@@ -316,7 +316,7 @@ public abstract class ExplicitRule extends Rule implements Assignment,
 
 	/**
 	 * 
-	 * @return true if the UnitsID of this object matches a no null
+	 * @return {@code true} if the UnitsID of this object matches a no null
 	 *         UniDefinition of the model instance.
 	 * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
 	 *             but can only be used in conjunction with {@link Parameter}s.

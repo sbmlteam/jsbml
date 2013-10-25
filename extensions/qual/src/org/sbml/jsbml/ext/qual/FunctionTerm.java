@@ -115,9 +115,9 @@ public class FunctionTerm extends AbstractMathContainer {
 	}
 	
 	/**
-	 * Returns true if resultLevel is set.
+	 * Returns {@code true} if resultLevel is set.
 	 * 
-	 * @return true if resultLevel is set.
+	 * @return {@code true} if resultLevel is set.
 	 */
 	public boolean isSetResultLevel() {
 	  return this.resultLevel!= null;
@@ -155,7 +155,7 @@ public class FunctionTerm extends AbstractMathContainer {
   /**
    * Unsets the resultLevel.
    * 
-   * @return true is the resultLevel was set beforehand.
+   * @return {@code true} is the resultLevel was set beforehand.
    */
   public boolean unsetResultLevel() {
 	  if (isSetResultLevel()) {
@@ -205,7 +205,7 @@ public class FunctionTerm extends AbstractMathContainer {
 	/**
 	 * Returns  true if it is a defaultTerm.
 	 * 
-	 * @return true if it is a defaultTerm.
+	 * @return {@code true} if it is a defaultTerm.
 	 */
 	public boolean isDefaultTerm() {
 		return defaultTerm;

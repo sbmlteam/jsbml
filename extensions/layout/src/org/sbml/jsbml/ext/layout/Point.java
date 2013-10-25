@@ -20,11 +20,14 @@
  */
 package org.sbml.jsbml.ext.layout;
 
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.UniqueNamedSBase;
+import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -41,6 +44,12 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * 
 	 */
 	private static final long serialVersionUID = -7464572763198848890L;
+
+	/**
+	 * A {@link Logger} for this class.
+	 */
+	private static final Logger logger = Logger.getLogger(Point.class);
+
 	/**
 	 * 
 	 */
@@ -323,6 +332,13 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
 		if (isSetId()) {
 			attributes.remove("id");
 			attributes.put(LayoutConstants.shortLabel + ":id", getId());
+		}
+		if (isSetName()) {
+		  attributes.remove("name");
+		  logger.warn(MessageFormat.format(
+		    ResourceManager.getBundle("org.sbml.jsbml.resources.cfg.Messages").getString("UNDEFINED_ATTRIBUTE"),
+		    "name", getLevel(), getVersion(), getElementName()));
+		  // TODO: This must be generally solved. Here we have an SBase with ID but without name!
 		}
 		
 		if (isSetX()) {

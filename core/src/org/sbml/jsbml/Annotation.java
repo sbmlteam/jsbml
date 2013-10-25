@@ -27,6 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import javax.swing.tree.TreeNode;
 
@@ -128,7 +129,7 @@ public class Annotation extends AnnotationElement {
 
 	/**
 	 * Creates an Annotation instance. By default, the {@link History} and
-	 * otherAnnotation Strings are null. The list of {@link CVTerm}s, annotationNamespaces, 
+	 * otherAnnotation Strings are {@code null}. The list of {@link CVTerm}s, annotationNamespaces, 
 	 * rdfAnnotationNamespaces and extensions are empty.
 	 * 
 	 */
@@ -171,7 +172,7 @@ public class Annotation extends AnnotationElement {
 	/**
 	 * Creates an {@link Annotation} instance from a list of {@link CVTerm}
 	 * objects. By default, the {@link History} and otherAnnotation {@link String}s are
-	 * null. The {@link Map}s annotationNamespaces, rdfAnnotationNamespaces and
+	 * {@code null}. The {@link Map}s annotationNamespaces, rdfAnnotationNamespaces and
 	 * extensions are empty.
 	 * 
 	 * @param cvTerms
@@ -185,7 +186,7 @@ public class Annotation extends AnnotationElement {
 	/**
 	 * Creates an {@link Annotation} instance from a given {@link Map} of
 	 * annotations. By default, the {@link History} and otherAnnotation {@link String}s
-	 * are null. The list of {@link CVTerm}s, rdfAnnotationNamespaces and
+	 * are {@code null}. The list of {@link CVTerm}s, rdfAnnotationNamespaces and
 	 * extensions are empty.
 	 * 
 	 * @param annotations
@@ -218,7 +219,7 @@ public class Annotation extends AnnotationElement {
 	/**
 	 * Creates an {@link Annotation} instance from a {@link String} containing
 	 * non RDF annotation and a list of {@link CVTerm}. By default, the
-	 * {@link History} is null. The {@link Map}s annotationNamespaces,
+	 * {@link History} is {@code null}. The {@link Map}s annotationNamespaces,
 	 * rdfAnnotationNamespaces and extensions are empty.
 	 * 
 	 * @param annotation
@@ -260,7 +261,7 @@ public class Annotation extends AnnotationElement {
 	 * 
 	 * @param cvTerm
 	 *            the {@link CVTerm} to add.
-	 * @return true if the 'cvTerm' element has been added to the {@link List}
+	 * @return {@code true} if the 'cvTerm' element has been added to the {@link List}
 	 *         of {@link Qualifier}s.
 	 */
 	public boolean addCVTerm(CVTerm cvTerm) {
@@ -346,11 +347,27 @@ public class Annotation extends AnnotationElement {
 		if (equals) {
 			Annotation annotation = (Annotation) object;
 			// TODO: As soon as NonRDFannotation is also represented in form of XMLNodes, we won't have to check this here because this will also be done in the super class.
-			equals &= isSetNonRDFannotation() == annotation
-					.isSetNonRDFannotation();
+			equals &= isSetNonRDFannotation() == annotation.isSetNonRDFannotation();
 			if (equals && isSetNonRDFannotation()) {
-				equals = nonRDFannotation.equals(annotation
-						.getNonRDFannotation());
+			  /* The correct comparison of these elements is tricky as long as we
+			   * don't use proper XML nodes...
+			   */
+			  StringTokenizer st1 = new StringTokenizer(nonRDFannotation.toString().trim(), "\n");
+			  StringTokenizer st2 = new StringTokenizer(annotation.getNonRDFannotation().trim(), "\n");
+			  equals &= st1.countTokens() == st2.countTokens();
+			  while (equals && st1.hasMoreElements()) {
+			    // Store Strings in variables for easier debugging:
+			    String s1 = st1.nextElement().toString().trim();
+			    String s2 = st2.nextElement().toString().trim();
+			    equals &= s1.equals(s2);
+			    // The following happens if there is some empty tag that can be encoded in different ways: 
+			    if (!equals && ((s1.contains("></") && s2.endsWith("/>")) || (s2.contains("></") && s1.endsWith("/>")))) {
+			      if ((s1.contains("></") && s2.endsWith("/>") && s2.equals(s1.substring(0, s1.indexOf("></")) + "/>")) || 
+			          (s2.contains("></") && s1.endsWith("/>") && s1.equals(s2.substring(0, s2.indexOf("></")) + "/>"))) {
+			        equals = true;
+			      }
+			    }
+			  }
 			}
 			equals &= isSetAbout() == annotation.isSetAbout();
 			if (equals && isSetAbout()) {
@@ -653,23 +670,22 @@ public class Annotation extends AnnotationElement {
 	/**
 	 * Checks whether the 'about' element has been initialized.
 	 * 
-	 * @return true if the 'about' element has been initialized.
+	 * @return {@code true} if the 'about' element has been initialized.
 	 */
 	public boolean isSetAbout() {
 		return about != null;
 	}
 
 	/**
-	 * Checks if the Annotation is initialised.
+	 * Checks if the {@link Annotation} is initialized.
 	 *  
-	 * <p>An Annotation is initialised if
-	 * at least one of the following is true :
+	 * <p>An {@link Annotation} is initialized if
+	 * at least one of the following is true:
 	 * <li> there is some non RDF annotation
-	 * <li> one or more CVTerm are defined
+	 * <li> one or more {@link CVTerm} are defined
 	 * <li> there is an history defined.
-	 * <p>
 	 * 
-	 * @return true if the Annotation is initialised
+	 * @return {@code true} if the Annotation is initialized
 	 */
 	public boolean isSetAnnotation() {
 		if ((getNonRDFannotation() == null) && getListOfCVTerms().isEmpty()
@@ -691,9 +707,9 @@ public class Annotation extends AnnotationElement {
 	}
 
 	/**
-	 * Checks if the {@link History} is initialised
+	 * Checks if the {@link History} is initialized
 	 * 
-	 * @return true if the {@link History} is initialised
+	 * @return {@code true} if the {@link History} is initialized
 	 */
 	public boolean isSetHistory() {
 		return history != null && !history.isEmpty();
@@ -703,20 +719,20 @@ public class Annotation extends AnnotationElement {
 	/**
 	 * Checks if the list of {@link CVTerm} is not empty.
 	 * 
-	 * @return true if there is one or more {@link CVTerm} defined. 
+	 * @return {@code true} if there is one or more {@link CVTerm} defined. 
 	 */
 	public boolean isSetListOfCVTerms() {
 		return (listOfCVTerms != null) && (listOfCVTerms.size() > 0);
 	}
 
 	/**
-	 * Checks if the non RDF part of the Annotation is initialised.
+	 * Checks if the non RDF part of the Annotation is initialized.
 	 *  
-	 * <p>An Annotation is initialised if
+	 * <p>An Annotation is initialized if
 	 *  there is some non RDF annotation
 	 * <p>
 	 * 
-	 * @return true if the non RDF part of the Annotation is initialised.
+	 * @return {@code true} if the non RDF part of the Annotation is initialized.
 	 */
 	public boolean isSetNonRDFannotation() {
 		if ((getNonRDFannotation() == null)) {
@@ -727,10 +743,10 @@ public class Annotation extends AnnotationElement {
 	}
 
 	/**
-	 * Returns true if there is some non RDF annotation.
+	 * Returns {@code true} if there is some non RDF annotation.
 	 * <p>Same as {@link #isSetNonRDFannotation()}
 	 * 
-	 * @return true if there is some non RDF annotation.
+	 * @return {@code true} if there is some non RDF annotation.
 	 * @see #isSetNonRDFannotation()
 	 * @deprecated please use {@link #isSetNonRDFannotation()}
 	 */
@@ -740,15 +756,15 @@ public class Annotation extends AnnotationElement {
 	}
 	
 	/**
-	 * Checks if the RDF part of the Annotation is initialised.
+	 * Checks if the RDF part of the Annotation is initialized.
 	 *  
-	 * <p>An Annotation is initialised if
+	 * <p>An Annotation is initialized if
 	 * at least one of the following is true :
 	 * <li> one or more CVTerm are defined
 	 * <li> there is an history defined.
 	 * <p>
 	 * 
-	 * @return true if the RDF part of the Annotation is initialised
+	 * @return {@code true} if the RDF part of the Annotation is initialized
 	 */
 	public boolean isSetRDFannotation() {
 		if (getListOfCVTerms().isEmpty() && (!isSetHistory())) {
@@ -771,7 +787,7 @@ public class Annotation extends AnnotationElement {
 	 * @param attributeName the attribute name.
 	 * @param prefix the attribute prefix.
 	 * @param value the attribute value.
-	 * @return true if an about XML attribute has been read
+	 * @return {@code true} if an about XML attribute has been read
 	 */
 	public boolean readAttribute(String attributeName, String prefix,
 			String value) {
@@ -884,7 +900,7 @@ public class Annotation extends AnnotationElement {
 	}
 
 	/**
-	 * Sets the {@link History} instance of this object to null.
+	 * Sets the {@link History} instance of this object to {@code null}.
 	 */
 	public void unsetHistory() {
 		History oldHistory = null;
@@ -896,7 +912,7 @@ public class Annotation extends AnnotationElement {
 	}
 
 	/**
-	 * Sets the non RDF annotation String to null.
+	 * Sets the non RDF annotation String to {@code null}.
 	 */
 	public void unsetNonRDFannotation() {
 		String oldNonRDFAnnotation = null;

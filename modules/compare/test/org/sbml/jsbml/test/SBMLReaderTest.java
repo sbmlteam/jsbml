@@ -1632,7 +1632,7 @@ public class SBMLReaderTest {
 	 * 
 	 * @param jsbmlString
 	 * @param libSbmlString
-	 * @return true if the String are equals, ignoring white spaces at the beginning or the end of each lines
+	 * @return {@code true} if the String are equals, ignoring white spaces at the beginning or the end of each lines
 	 */
 	private static boolean compareString(String jsbmlString, String libSbmlString) 
 	{

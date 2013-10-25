@@ -115,7 +115,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 	private String name;
 
 	/**
-	 * Creates an {@link AbstractNamedSBase}. By default, id and name are null.
+	 * Creates an {@link AbstractNamedSBase}. By default, id and name are {@code null}.
 	 */
 	public AbstractNamedSBase() {
 		super();
@@ -136,7 +136,7 @@ public abstract class AbstractNamedSBase extends AbstractSBase implements
 
 	/**
 	 * Creates an {@link AbstractNamedSBase} from a level and version. By default, id
-	 * and name are null.
+	 * and name are {@code null}.
 	 * 
 	 * @param level the SBML level
 	 * @param version the SBML version
