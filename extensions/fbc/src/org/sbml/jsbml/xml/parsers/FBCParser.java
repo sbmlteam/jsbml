@@ -184,7 +184,8 @@ public class FBCParser extends AbstractReaderWriter {
 		} else if (contextObject instanceof Objective) {
 			Objective objective = (Objective) contextObject;
 
-			if (elementName.equals("listOfFluxObjectives")) {				
+			if (elementName.equals("listOfFluxObjectives") || elementName.equals("listOfFluxes")) {	
+				// listOfFluxes was the first name of listOfFluxObjectives in the preliminary specifications
 				ListOf<FluxObjective> listOfFluxObjectives = objective.getListOfFluxObjectives();
 				this.groupList = FBCList.listOfFluxObjectives;
 				return listOfFluxObjectives;
