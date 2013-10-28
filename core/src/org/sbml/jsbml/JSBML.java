@@ -59,7 +59,7 @@ public class JSBML {
 	/**
 	 * The current version number of JSBML.
 	 */
-	private static final String jsbmlVersion = "1.0-rc1"; // TODO : replace automatically this version number with [BUILD.NUMBER]
+	private static final String jsbmlVersion = "1.0-rc1"; // TODO: replace automatically this version number with [BUILD.NUMBER]
 	
 	public static final int LEVEL_MISMATCH = -7;
 	public static final int OPERATION_FAILED = -3;
@@ -79,7 +79,7 @@ public class JSBML {
 	 * This message indicates that a problem occurred but the current class
 	 * cannot give any more precise information about the reasons.
 	 */
-	public static final String UNDEFINED_PARSING_ERROR_MSG = "An error occur while parsing the file : %s.";
+	public static final String UNDEFINED_PARSING_ERROR_MSG = "An error occur while parsing the file: %s.";
 	public static final int UNEXPECTED_ATTRIBUTE = -2;
 
 	public static final int VERSION_MISMATCH = -8;

@@ -123,7 +123,7 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
 	 * {@link Parameter}), an {@link IllegalArgumentException} is thrown.
 	 * 
 	 * @param variable
-	 *            : the symbol to set
+	 *           the symbol to set
 	 */
 	public void checkAndSetVariable(String variable) {
 		Variable nsb = null;

@@ -307,7 +307,7 @@ public class Annotation extends AnnotationElement {
 	 */
 	public void addRDFAnnotationNamespace(String namespaceName, String prefix,
 			String URI) {
-		// TODO : prefix is ignored, is it normal ??
+		// TODO: prefix is ignored, is it normal ??
 		this.rdfAnnotationNamespaces.put(URI, namespaceName);
 		firePropertyChange(TreeNodeChangeEvent.rdfAnnotationNamespaces, null, URI);
 	}
@@ -521,7 +521,7 @@ public class Annotation extends AnnotationElement {
 	 * @return the Annotation extension object matching 'namespace'. Return null
 	 *         if there is no matching object.
 	 */
-	// TODO : we need to clear things up in this class to be sure that we use namespace url or some name/prefix only
+	// TODO: we need to clear things up in this class to be sure that we use namespace url or some name/prefix only
 	public Annotation getExtension(String namespace) {
 		return this.extensions.get(namespace);
 	}
@@ -759,7 +759,7 @@ public class Annotation extends AnnotationElement {
 	 * Checks if the RDF part of the Annotation is initialized.
 	 *  
 	 * <p>An Annotation is initialized if
-	 * at least one of the following is true :
+	 * at least one of the following is true:
 	 * <li> one or more CVTerm are defined
 	 * <li> there is an history defined.
 	 * <p>
@@ -814,7 +814,7 @@ public class Annotation extends AnnotationElement {
 	 * 
 	 * @param annotationNamespaces the annotationNamespaces to set
 	 */
-	// TODO : we need to find better names for these class attributes and methods for 1.0 release
+	// TODO: we need to find better names for these class attributes and methods for 1.0 release
 	public void setAnnotationAttributes(NamedNodeMap annotationNamespaces) {
 		if (annotationNamespaces != null) {
 			for (int i = 0; i < annotationNamespaces.getLength(); i++) {

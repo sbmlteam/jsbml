@@ -46,7 +46,7 @@ public class Compartment {
 		compartment = new org.sbml.jsbml.Compartment(level, version);
 	}
 	
-	// TODO : add all the constructors and missing methods
+	// TODO: add all the constructors and missing methods
 	
 	/**
 	 * 
@@ -56,17 +56,16 @@ public class Compartment {
 		this.compartment = compartment;
 	}
 	
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Species#clone()
 	 */
+	@Override
 	public org.sbml.jsbml.Compartment clone() {
 		return compartment.clone();
 	}
 
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Species#initDefaults()
 	 */
 	public void initDefaults() {
@@ -74,144 +73,126 @@ public class Compartment {
 	}
 
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#addChangeListener(org.sbml.jsbml.SBaseChangedListener)
 	 */
 	public void addChangeListener(TreeNodeChangeListener l) {
 		compartment.addTreeNodeChangeListener(l);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#appendNotes(java.lang.String)
 	 */
 	public void appendNotes(String notes) {
 		compartment.appendNotes(notes);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getAnnotation()
 	 */
 	public Annotation getAnnotation() {
 		return compartment.getAnnotation();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getElementName()
 	 */
 	public String getElementName() {
 		return compartment.getElementName();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getLevel()
 	 */
 	public int getLevel() {
 		return compartment.getLevel();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getMetaId()
 	 */
 	public String getMetaId() {
 		return compartment.getMetaId();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getModel()
 	 */
 	public Model getModel() {
 		return compartment.getModel();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getNotesString()
 	 */
 	public String getNotesString() {
 		return compartment.getNotesString();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getSBMLDocument()
 	 */
 	public SBMLDocument getSBMLDocument() {
 		return compartment.getSBMLDocument();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getSBOTerm()
 	 */
 	public int getSBOTerm() {
 		return compartment.getSBOTerm();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getSBOTermID()
 	 */
 	public String getSBOTermID() {
 		return compartment.getSBOTermID();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getVersion()
 	 */
 	public int getVersion() {
 		return compartment.getVersion();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#hasValidAnnotation()
 	 */
 	public boolean hasValidAnnotation() {
 		return compartment.hasValidAnnotation();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#hasValidLevelVersionNamespaceCombination()
 	 */
 	public boolean hasValidLevelVersionNamespaceCombination() {
 		return compartment.hasValidLevelVersionNamespaceCombination();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#isSetAnnotation()
 	 */
 	public boolean isSetAnnotation() {
 		return compartment.isSetAnnotation();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#isSetMetaId()
 	 */
 	public boolean isSetMetaId() {
 		return compartment.isSetMetaId();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#isSetNotes()
 	 */
 	public boolean isSetNotes() {
 		return compartment.isSetNotes();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#isSetSBOTerm()
 	 */
 	public boolean isSetSBOTerm() {
@@ -219,76 +200,67 @@ public class Compartment {
 	}
 
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#setAnnotation(org.sbml.jsbml.Annotation)
 	 */
 	public void setAnnotation(Annotation annotation) {
 		compartment.setAnnotation(annotation);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#setMetaId(java.lang.String)
 	 */
 	public void setMetaId(String metaid) {
 		compartment.setMetaId(metaid);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#setNotes(java.lang.String)
 	 */
 	public void setNotes(String notes) {
 		compartment.setNotes(notes);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#setSBOTerm(int)
 	 */
 	public void setSBOTerm(int term) {
 		compartment.setSBOTerm(term);
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#setSBOTerm(java.lang.String)
 	 */
 	public void setSBOTerm(String sboid) {
 		compartment.setSBOTerm(sboid);
 	}
 
-
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#unsetAnnotation()
 	 */
 	public void unsetAnnotation() {
 		compartment.unsetAnnotation();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#unsetMetaId()
 	 */
 	public void unsetMetaId() {
 		compartment.unsetMetaId();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#unsetNotes()
 	 */
 	public void unsetNotes() {
 		compartment.unsetNotes();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#unsetSBOTerm()
 	 */
 	public void unsetSBOTerm() {
 		compartment.unsetSBOTerm();
 	}
+
 }

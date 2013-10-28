@@ -125,16 +125,16 @@ public class SBMLReaderTest {
         	e.printStackTrace();
 
             System.out
-                    .println("SecurityException exception catched : Could not load libsbml library.");
+                    .println("SecurityException exception catched: Could not load libsbml library.");
         } catch (UnsatisfiedLinkError e) {
         	e.printStackTrace();
             System.out
-                    .println("UnsatisfiedLinkError exception catched : Could not load libsbml library.");
+                    .println("UnsatisfiedLinkError exception catched: Could not load libsbml library.");
         } catch (ClassNotFoundException e) {
         	e.printStackTrace();
 
             System.out
-                    .println("ClassNotFoundException exception catched : Could not load libsbml class file.");
+                    .println("ClassNotFoundException exception catched: Could not load libsbml class file.");
 
         } catch (RuntimeException e) {
             e.printStackTrace();
@@ -206,12 +206,12 @@ public class SBMLReaderTest {
 	public static void main(String[] args) throws IOException, XMLStreamException {
 		
 		if (args.length < 1) {
-			loggerErr.warning("Usage : java org.sbml.jsbml.xml.test.SBMLReaderTest sbmlFile");
+			loggerErr.warning("Usage: java org.sbml.jsbml.xml.test.SBMLReaderTest sbmlFile");
 			return;
 		}
 		
 		if (!isLibSBMLAvailable) {
-			loggerErr.warning("Warning : libsbml need to be installed !!");
+			loggerErr.warning("Warning: libsbml need to be installed !!");
 			return;
 		}
 
@@ -223,11 +223,11 @@ public class SBMLReaderTest {
 		Model model = jsbmlDocument.getModel();
 		Annotation modelAnnotation = model.getAnnotation();
 		
-		System.out.println("Model Annotation about : \n@" + modelAnnotation.getAbout() + "@");
+		System.out.println("Model Annotation about: \n@" + modelAnnotation.getAbout() + "@");
 		
-		System.out.println("Model NonRDFAnnotation  : \n@" + modelAnnotation.getNonRDFannotation() + "@");
+		System.out.println("Model NonRDFAnnotation : \n@" + modelAnnotation.getNonRDFannotation() + "@");
 		
-		System.out.println("\n\n\n\n\n !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \n\n\n Model Annotation String : \n@" + model.getAnnotationString() + "@");
+		System.out.println("\n\n\n\n\n !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! \n\n\n Model Annotation String: \n@" + model.getAnnotationString() + "@");
 		
 		try {
 			SBMLWriter.write(jsbmlDocument, "testWriteAnnotation.xml", ' ', (short) 2);
@@ -312,7 +312,7 @@ public class SBMLReaderTest {
 		} else {
 			// log error
 			loggerErr.warning("!!!!! Different number of UnitDefinition found !!!!");
-			loggerErr.warning(" jsbml = " + jsbmlModel.getNumUnitDefinitions() + " : libsbml = " + libsbmlModel.getNumUnitDefinitions());
+			loggerErr.warning(" jsbml = " + jsbmlModel.getNumUnitDefinitions() + ": libsbml = " + libsbmlModel.getNumUnitDefinitions());
 			for (UnitDefinition jsbmlUnitDefinition : jsbmlModel.getListOfUnitDefinitions()) {
 				loggerErr.info(jsbmlUnitDefinition.toString());
 			}
@@ -594,12 +594,12 @@ public class SBMLReaderTest {
 		if (libsbmlModel.isSetSubstanceUnits() != jsbmlModel.isSetSubstanceUnits()) {
 			if (jsbmlModel.getLevelAndVersion().compareTo(3, 0) >= 0) {
 				// log error
-				loggerErr.warning("Model " + jsbmlModel + " : isSetSubstanceUnits differ.");				
+				loggerErr.warning("Model " + jsbmlModel + ": isSetSubstanceUnits differ.");				
 			}
 		} else if (libsbmlModel.isSetSubstanceUnits() && jsbmlModel.isSetSubstanceUnits()) {
 			if (!jsbmlModel.getSubstanceUnits().equals(libsbmlModel.getSubstanceUnits())) {
 				// log error
-				loggerErr.warning("Model " + jsbmlModel + " : SubstanceUnits differ.");
+				loggerErr.warning("Model " + jsbmlModel + ": SubstanceUnits differ.");
 				loggerErr.warning("jsbml substanceUnits = " + jsbmlModel.getSubstanceUnits() + ", libsbml = " + libsbmlModel.getSubstanceUnits());
 			}
 		}
@@ -616,11 +616,11 @@ public class SBMLReaderTest {
 		if (jsbmlModel.isSetTimeUnits() && libsbmlModel.isSetTimeUnits()) {
 			if (!jsbmlModel.getTimeUnits().equals(libsbmlModel.getTimeUnits())) {
 				// log error
-				loggerErr.warning("Model " + jsbmlModel + " : TimeUnits differ.");
+				loggerErr.warning("Model " + jsbmlModel + ": TimeUnits differ.");
 			}
 		} else if (libsbmlModel.isSetTimeUnits() != jsbmlModel.isSetTimeUnits()) {
 			// log error
-			loggerErr.warning("Model " + jsbmlModel + " : isSetTimeUnits differ.");
+			loggerErr.warning("Model " + jsbmlModel + ": isSetTimeUnits differ.");
 			loggerErr.warning("jsbml isSetTimeUnits = " + jsbmlModel.isSetSubstanceUnits() + ", libsbml = " + libsbmlModel.isSetSubstanceUnits());
 		}
 
@@ -628,55 +628,55 @@ public class SBMLReaderTest {
 		if (jsbmlModel.isSetVolumeUnits() && libsbmlModel.isSetVolumeUnits()) {
 			if (!jsbmlModel.getVolumeUnits().equals(libsbmlModel.getVolumeUnits())) {
 				// log error
-				loggerErr.warning("Model " + jsbmlModel + " : VolumeUnits differ.");
+				loggerErr.warning("Model " + jsbmlModel + ": VolumeUnits differ.");
 			}
 		} else if (libsbmlModel.isSetVolumeUnits() != jsbmlModel.isSetVolumeUnits()) {
 			// log error
-			loggerErr.warning("Model " + jsbmlModel + " : isSetVolumeUnits differ.");
+			loggerErr.warning("Model " + jsbmlModel + ": isSetVolumeUnits differ.");
 		}
 		
 		// areaUnits: UnitsSIdRef { use="optional" }
 		if (jsbmlModel.isSetAreaUnits() && libsbmlModel.isSetAreaUnits()) {
 			if (!jsbmlModel.getAreaUnits().equals(libsbmlModel.getAreaUnits())) {
 				// log error
-				loggerErr.warning("Model " + jsbmlModel + " : AreaUnits differ.");
+				loggerErr.warning("Model " + jsbmlModel + ": AreaUnits differ.");
 			}
 		} else if (libsbmlModel.isSetAreaUnits() != jsbmlModel.isSetAreaUnits()) {
 			// log error
-			loggerErr.warning("Model " + jsbmlModel + " : isSetAreaUnits differ.");
+			loggerErr.warning("Model " + jsbmlModel + ": isSetAreaUnits differ.");
 		}
 		
 		// lengthUnits: UnitsSIdRef { use="optional" }
 		if (jsbmlModel.isSetLengthUnits() && libsbmlModel.isSetLengthUnits()) {
 			if (!jsbmlModel.getLengthUnits().equals(libsbmlModel.getLengthUnits())) {
 				// log error
-				loggerErr.warning("Model " + jsbmlModel + " : LengthUnits differ.");
+				loggerErr.warning("Model " + jsbmlModel + ": LengthUnits differ.");
 			}
 		} else if (libsbmlModel.isSetLengthUnits() != jsbmlModel.isSetLengthUnits()) {
 			// log error
-			loggerErr.warning("Model " + jsbmlModel + " : isSetLengthUnits differ.");
+			loggerErr.warning("Model " + jsbmlModel + ": isSetLengthUnits differ.");
 		}
 		
 		// extentUnits: UnitsSIdRef { use="optional" }
 		if (jsbmlModel.isSetExtentUnits() && libsbmlModel.isSetExtentUnits()) {
 			if (!jsbmlModel.getExtentUnits().equals(libsbmlModel.getExtentUnits())) {
 				// log error
-				loggerErr.warning("Model " + jsbmlModel + " : ExtentUnits differ.");
+				loggerErr.warning("Model " + jsbmlModel + ": ExtentUnits differ.");
 			}
 		} else if (libsbmlModel.isSetExtentUnits() != jsbmlModel.isSetExtentUnits()) {
 			// log error
-			loggerErr.warning("Model " + jsbmlModel + " : isSetExtentUnits differ.");
+			loggerErr.warning("Model " + jsbmlModel + ": isSetExtentUnits differ.");
 		}
 		
 		// conversionFactor: SIdRef { use="optional" }
 		if (jsbmlModel.isSetConversionFactor() && libsbmlModel.isSetConversionFactor()) {
 			if (!jsbmlModel.getConversionFactor().equals(libsbmlModel.getConversionFactor())) {
 				// log error
-				loggerErr.warning("Model " + jsbmlModel + " : ConversionFactor differ.");
+				loggerErr.warning("Model " + jsbmlModel + ": ConversionFactor differ.");
 			}
 		} else if (libsbmlModel.isSetConversionFactor() != jsbmlModel.isSetConversionFactor()) {
 			// log error
-			loggerErr.warning("Model " + jsbmlModel + " : isSetConversionFactor differ.");
+			loggerErr.warning("Model " + jsbmlModel + ": isSetConversionFactor differ.");
 		}
 	}
 
@@ -697,50 +697,50 @@ public class SBMLReaderTest {
 			
 			if (jsbmlTrigger.isSetInitialValue() && libsbmlTrigger.isSetInitialValue()) {
 				if (jsbmlTrigger.getInitialValue() != libsbmlTrigger.getInitialValue()) {
-					loggerErr.warning("Event " + eventId + " : trigger.initialValue differ !!");
+					loggerErr.warning("Event " + eventId + ": trigger.initialValue differ !!");
 				}
 			} else if (jsbmlTrigger.isSetInitialValue() != libsbmlTrigger.isSetInitialValue()) {
-				loggerErr.warning("Event " + eventId + " : trigger.isSetInitialValue differ !!");
+				loggerErr.warning("Event " + eventId + ": trigger.isSetInitialValue differ !!");
 			}
 			
 			if (jsbmlTrigger.isSetPersistent() && libsbmlTrigger.isSetPersistent()) {
 				if (jsbmlTrigger.getPersistent() != libsbmlTrigger.getPersistent()) {
-					loggerErr.warning("Event " + eventId + " : trigger.persistent differ !!");
+					loggerErr.warning("Event " + eventId + ": trigger.persistent differ !!");
 				}
 			} else if (jsbmlTrigger.isSetPersistent() != libsbmlTrigger.isSetPersistent()) {
-				loggerErr.warning("Event " + eventId + " : trigger.isSetPersistent differ !!");
+				loggerErr.warning("Event " + eventId + ": trigger.isSetPersistent differ !!");
 			}
 			
 		} else if (jsbmlEvent.isSetTrigger() != libSbmlEvent.isSetTrigger()) {
-			loggerErr.warning("Event " + eventId + " : isSetTrigger differ !!");
+			loggerErr.warning("Event " + eventId + ": isSetTrigger differ !!");
 		}
 		// delay
 		if (jsbmlEvent.isSetDelay() && libSbmlEvent.isSetDelay()) {
 			compareMathContainer(jsbmlEvent.getDelay(), libSbmlEvent.getDelay().getMath());
 		} else if (jsbmlEvent.isSetDelay() != libSbmlEvent.isSetDelay()) {
-			loggerErr.warning("Event " + eventId + " : isSetDelay differ !!");
+			loggerErr.warning("Event " + eventId + ": isSetDelay differ !!");
 		}
 
 		// timeUnits
 		if (libSbmlEvent.isSetTimeUnits() && jsbmlEvent.isSetTimeUnits()) {
 			if (!libSbmlEvent.getTimeUnits().equals(jsbmlEvent.getTimeUnits())) {
 				// log error
-				loggerErr.warning("Event " + eventId + " : TimeUnits differ.");
+				loggerErr.warning("Event " + eventId + ": TimeUnits differ.");
 			}
 		} else if (libSbmlEvent.isSetTimeUnits() != jsbmlEvent.isSetTimeUnits()) {
 			// log error
-			loggerErr.warning("Event " + eventId + " : isSetTimeUnits differ.");
+			loggerErr.warning("Event " + eventId + ": isSetTimeUnits differ.");
 		}
 		
-		// useValuesFromTriggerTime : For level lower than L2V4, libSBML will always return true !
+		// useValuesFromTriggerTime: For level lower than L2V4, libSBML will always return true !
 		if (jsbmlEvent.getUseValuesFromTriggerTime() != libSbmlEvent.getUseValuesFromTriggerTime()) {
-			loggerErr.warning("Event " + eventId + " : useValuesFromTriggerTime differ !!");
+			loggerErr.warning("Event " + eventId + ": useValuesFromTriggerTime differ !!");
 			loggerErr.warning("jsbml UVFTT = " + jsbmlEvent.getUseValuesFromTriggerTime() + ", libsbml = " + libSbmlEvent.getUseValuesFromTriggerTime());
 		}
 		if (jsbmlEvent.isSetUseValuesFromTriggerTime() != libSbmlEvent.isSetUseValuesFromTriggerTime()
 				&& jsbmlEvent.getLevelAndVersion().compareTo(2, 4) > 0) 
 		{
-			loggerErr.warning("Event " + eventId + " : isSetUseValuesFromTriggerTime differ !!");
+			loggerErr.warning("Event " + eventId + ": isSetUseValuesFromTriggerTime differ !!");
 			loggerErr.warning("jsbml isSetUVFTT = " + jsbmlEvent.isSetUseValuesFromTriggerTime() + ", libsbml = " + libSbmlEvent.isSetUseValuesFromTriggerTime());
 		}
 
@@ -748,14 +748,14 @@ public class SBMLReaderTest {
 		if (jsbmlEvent.isSetPriority() && libSbmlEvent.isSetPriority()) {
 			compareMathContainer(jsbmlEvent.getPriority(), libSbmlEvent.getPriority().getMath());
 		} else if (jsbmlEvent.isSetPriority() != libSbmlEvent.isSetPriority()) {
-			loggerErr.warning("Event " + eventId + " : isSetPriority differ !!");
+			loggerErr.warning("Event " + eventId + ": isSetPriority differ !!");
 		}
 		
 		
 		// Compare EventAssignments
 		if (jsbmlEvent.getListOfEventAssignments().size() == libSbmlEvent.getListOfEventAssignments().size()) {
 			int i = 0;
-			for (EventAssignment jsbmlEventAssignment : jsbmlEvent.getListOfEventAssignments()) {
+			for (EventAssignment jsbmlEventAssignment: jsbmlEvent.getListOfEventAssignments()) {
 				org.sbml.libsbml.EventAssignment libSbmlEventAssignment = libSbmlEvent.getEventAssignment(i);
 				i++;
 				
@@ -771,7 +771,7 @@ public class SBMLReaderTest {
 				}
 			}
 		} else {
-			loggerErr.warning("Event " + eventId + " : listOfEventAssignments differ in size !!");
+			loggerErr.warning("Event " + eventId + ": listOfEventAssignments differ in size !!");
 			loggerErr.warning("jsbml size = " + jsbmlEvent.getListOfEventAssignments().size() + ", libsbml = " + libSbmlEvent.getListOfEventAssignments().size());
 		}
 		
@@ -789,13 +789,13 @@ public class SBMLReaderTest {
 		if (libSbmlEventAssignment.isSetVariable() && jsbmlEventAssignment.isSetVariable()) {
 			if (!libSbmlEventAssignment.getVariable().equals(jsbmlEventAssignment.getVariable())) {
 				// log error
-				loggerErr.warning("EventAssignment " + eventAssignementMetaId + " : variable differ.");
-				loggerErr.warning("EventAssignment jsbml variable = " + jsbmlEventAssignment.getVariable() + " : libsbml = " + libSbmlEventAssignment.getVariable());
+				loggerErr.warning("EventAssignment " + eventAssignementMetaId + ": variable differ.");
+				loggerErr.warning("EventAssignment jsbml variable = " + jsbmlEventAssignment.getVariable() + ": libsbml = " + libSbmlEventAssignment.getVariable());
 			}
 		} else if (libSbmlEventAssignment.isSetVariable() != jsbmlEventAssignment.isSetVariable()) {
 			// log error
-			loggerErr.warning("EventAssignment " + eventAssignementMetaId + " : isSetVariable differ.");
-			loggerErr.warning("EventAssignment jsbml isSetVariable = " + jsbmlEventAssignment.isSetVariable() + " : libsbml = " + libSbmlEventAssignment.isSetVariable());
+			loggerErr.warning("EventAssignment " + eventAssignementMetaId + ": isSetVariable differ.");
+			loggerErr.warning("EventAssignment jsbml isSetVariable = " + jsbmlEventAssignment.isSetVariable() + ": libsbml = " + libSbmlEventAssignment.isSetVariable());
 		}
 	}
 
@@ -808,7 +808,7 @@ public class SBMLReaderTest {
 		if (libSbmlReaction.isSetFast() && jsbmlReaction.isSetFast()) {
 			if (libSbmlReaction.getFast() != jsbmlReaction.getFast()) {
 				// 	log error
-				loggerErr.warning("Reaction " + libSbmlReaction.getId() + " : fast differ.");
+				loggerErr.warning("Reaction " + libSbmlReaction.getId() + ": fast differ.");
 			}
 		} else if (libSbmlReaction.isSetFast() != jsbmlReaction.isSetFast()) {
 			
@@ -818,21 +818,21 @@ public class SBMLReaderTest {
 		if (libSbmlReaction.isSetReversible() != jsbmlReaction.isSetReversible()) {
 			if (libSbmlReaction.getReversible() != jsbmlReaction.getReversible()) {
 				// 	log error
-				loggerErr.warning("Reaction " + libSbmlReaction.getId() + " : reversible differ.");
-				loggerErr.warning("jsbml reversible = " + jsbmlReaction.getReversible() + " : libsbml = " + libSbmlReaction.getReversible());
+				loggerErr.warning("Reaction " + libSbmlReaction.getId() + ": reversible differ.");
+				loggerErr.warning("jsbml reversible = " + jsbmlReaction.getReversible() + ": libsbml = " + libSbmlReaction.getReversible());
 			}
 		} else if (libSbmlReaction.isSetReversible() != jsbmlReaction.isSetReversible()) {
-			loggerErr.warning("Reaction " + libSbmlReaction.getId() + " : isSetReversible differ.");
+			loggerErr.warning("Reaction " + libSbmlReaction.getId() + ": isSetReversible differ.");
 		}
 		
 		// compartment
 		if (libSbmlReaction.isSetCompartment() != jsbmlReaction.isSetCompartment()) {
 			if (! libSbmlReaction.getCompartment().equals(jsbmlReaction.getCompartment())) {
 				// 	log error
-				loggerErr.warning("Reaction " + libSbmlReaction.getId() + " : compartment differ.");
+				loggerErr.warning("Reaction " + libSbmlReaction.getId() + ": compartment differ.");
 			}
 		} else if (libSbmlReaction.isSetCompartment() != jsbmlReaction.isSetCompartment()) {
-			loggerErr.warning("Reaction " + libSbmlReaction.getId() + " : isSetCompartment differ.");
+			loggerErr.warning("Reaction " + libSbmlReaction.getId() + ": isSetCompartment differ.");
 		}
 
 		
@@ -852,7 +852,7 @@ public class SBMLReaderTest {
 				libsbmlSpeciesRef.delete();
 			}
 		} else {
-			loggerErr.warning("Reaction " + libSbmlReaction.getId() + " : nb reactants differ.");
+			loggerErr.warning("Reaction " + libSbmlReaction.getId() + ": nb reactants differ.");
 		}
 		
 		// Products
@@ -871,7 +871,7 @@ public class SBMLReaderTest {
 				libsbmlSpeciesRef.delete();
 			}
 		} else {
-			loggerErr.warning("Reaction " + libSbmlReaction.getId() + " : nb products differ.");
+			loggerErr.warning("Reaction " + libSbmlReaction.getId() + ": nb products differ.");
 		}
 		
 		// Modifiers
@@ -891,14 +891,14 @@ public class SBMLReaderTest {
 				libSbmlModSpeciesRef.delete();
 			}
 		} else {
-			loggerErr.warning("Reaction " + libSbmlReaction.getId() + " : nb modifiers differ.");
+			loggerErr.warning("Reaction " + libSbmlReaction.getId() + ": nb modifiers differ.");
 		}
 
 		// KineticLaw
 		if (jsbmlReaction.isSetKineticLaw() && libSbmlReaction.isSetKineticLaw()) {
 			compareKineticLaw(jsbmlReaction.getKineticLaw(), libSbmlReaction.getKineticLaw());
 		} else if (jsbmlReaction.isSetKineticLaw() != libSbmlReaction.isSetKineticLaw()) {
-			loggerErr.warning("Reaction " + jsbmlReaction.getId() + " : isSetKineticLaw differ.");
+			loggerErr.warning("Reaction " + jsbmlReaction.getId() + ": isSetKineticLaw differ.");
 		}
 	}
 
@@ -911,12 +911,12 @@ public class SBMLReaderTest {
 		if (libSbmlSSpeciesRef.isSetSpecies() && jsbmlSSpeciesRef.isSetSpecies()) {
 			if (!libSbmlSSpeciesRef.getSpecies().equals(jsbmlSSpeciesRef.getSpecies())) {
 				// log error
-				loggerErr.warning("SimpleSpeciesReference " + jsbmlSSpeciesRef.getMetaId() + " : species differ.");
+				loggerErr.warning("SimpleSpeciesReference " + jsbmlSSpeciesRef.getMetaId() + ": species differ.");
 				loggerErr.warning("\t  jsbml = " + jsbmlSSpeciesRef.getSpecies() + ", libsbml = " + libSbmlSSpeciesRef.getSpecies());
 			}
 		} else if (libSbmlSSpeciesRef.isSetSpecies() != jsbmlSSpeciesRef.isSetSpecies()) {
 			// log error
-			loggerErr.warning("SimpleSpeciesReference " + jsbmlSSpeciesRef.getMetaId() + " : isSetSpecies differ.");
+			loggerErr.warning("SimpleSpeciesReference " + jsbmlSSpeciesRef.getMetaId() + ": isSetSpecies differ.");
 		}
 		
 	}
@@ -948,20 +948,20 @@ public class SBMLReaderTest {
 				compareMathContainer(jsbmlStochioMMClone, libSbmlStochioMMClone.getMath());				
 			}
 		} else if (jsbmlSpeciesRef.isSetStoichiometryMath() && libSbmlSpeciesRef.isSetStoichiometryMath()) {
-			loggerErr.warning("SpeciesReference " + jsbmlSpeciesRef.getMetaId() + " : isSetStoichiometryMath differ.");
+			loggerErr.warning("SpeciesReference " + jsbmlSpeciesRef.getMetaId() + ": isSetStoichiometryMath differ.");
 		}
 		
 		// Stoichiometry ==> isSetStoichiometry() differ in libsbml and jsbml if there is a default value in the specs, libsbml return always true
 		if (libSbmlSpeciesRef.getLevel() > 2 && libSbmlSpeciesRef.isSetStoichiometry() != jsbmlSpeciesRef.isSetStoichiometry()) {
-			loggerErr.warning("SpeciesReference '" + jsbmlSpeciesRef.getMetaId() + "':'" + jsbmlSpeciesRef.getSpecies() + "'  : isSetStoichiometry differ.");
+			loggerErr.warning("SpeciesReference '" + jsbmlSpeciesRef.getMetaId() + "':'" + jsbmlSpeciesRef.getSpecies() + "': isSetStoichiometry differ.");
 			loggerErr.warning("\t  jsbml = " + jsbmlSpeciesRef.isSetStoichiometry() + ", libsbml = " + libSbmlSpeciesRef.isSetStoichiometry());			
 		}
 		if (libSbmlSpeciesRef.getStoichiometry() != jsbmlSpeciesRef.getStoichiometry()) {
 			
 			if (Double.isNaN(libSbmlSpeciesRef.getStoichiometry()) && Double.isNaN(jsbmlSpeciesRef.getStoichiometry())) {
-				loggerErr.finest("SpeciesReference : both stoichiometry is NaN.");
+				loggerErr.finest("SpeciesReference: both stoichiometry is NaN.");
 			} else {
-				loggerErr.warning("SpeciesReference " + jsbmlSpeciesRef.getMetaId() + "':'" + jsbmlSpeciesRef.getSpecies() + "' : stoichiometry differ.");
+				loggerErr.warning("SpeciesReference " + jsbmlSpeciesRef.getMetaId() + "':'" + jsbmlSpeciesRef.getSpecies() + "': stoichiometry differ.");
 				loggerErr.warning("\t  jsbml = " + jsbmlSpeciesRef.getStoichiometry() + ", libsbml = " + libSbmlSpeciesRef.getStoichiometry());
 			}
 		}
@@ -969,17 +969,17 @@ public class SBMLReaderTest {
 		// Denominator - SBML level 1 attribute
 		// not isSetDenominator in libsbml 4.x or 5.0
 		if (libSbmlSpeciesRef.getDenominator() != jsbmlSpeciesRef.getDenominator()) {
-			loggerErr.warning("SpeciesReference " + jsbmlSpeciesRef.getMetaId() + " : denominator differ.");
+			loggerErr.warning("SpeciesReference " + jsbmlSpeciesRef.getMetaId() + ": denominator differ.");
 			loggerErr.warning("\t  jsbml = " + jsbmlSpeciesRef.getDenominator() + ", libsbml = " + libSbmlSpeciesRef.getDenominator());
 		}
 		
 		// constant - SBML level 3 attribute
 		if (libSbmlSpeciesRef.isSetConstant() != jsbmlSpeciesRef.isSetConstant()) {
-			loggerErr.warning("SpeciesReference " + jsbmlSpeciesRef.getMetaId() + "':'" + jsbmlSpeciesRef.getSpecies() + "' : isSetConstant differ.");
+			loggerErr.warning("SpeciesReference " + jsbmlSpeciesRef.getMetaId() + "':'" + jsbmlSpeciesRef.getSpecies() + "': isSetConstant differ.");
 			loggerErr.warning("\t  jsbml = " + jsbmlSpeciesRef.isSetConstant() + ", libsbml = " + libSbmlSpeciesRef.isSetConstant());						
 		} else if (libSbmlSpeciesRef.isSetConstant() && jsbmlSpeciesRef.isSetConstant()) {
 			if (libSbmlSpeciesRef.getConstant() != jsbmlSpeciesRef.getConstant()) {		
-				loggerErr.warning("SpeciesReference " + jsbmlSpeciesRef.getMetaId() + "':'" + jsbmlSpeciesRef.getSpecies() + "' : getConstant differ.");
+				loggerErr.warning("SpeciesReference " + jsbmlSpeciesRef.getMetaId() + "':'" + jsbmlSpeciesRef.getSpecies() + "': getConstant differ.");
 				loggerErr.warning("\t  jsbml = " + jsbmlSpeciesRef.getConstant() + ", libsbml = " + libSbmlSpeciesRef.getConstant());						
 			}
 		}
@@ -996,19 +996,19 @@ public class SBMLReaderTest {
 		// timeUnits
 		if (libSbmlKineticLaw.isSetTimeUnits() && jsbmlKineticLaw.isSetTimeUnits()) {
 			if (!(libSbmlKineticLaw.getTimeUnits().equals(jsbmlKineticLaw.getTimeUnits()))) {
-				loggerErr.warning("KineticLaw " + reactionId + " : timeUnits differ.");
+				loggerErr.warning("KineticLaw " + reactionId + ": timeUnits differ.");
 			}
 		} else if (libSbmlKineticLaw.isSetTimeUnits() != jsbmlKineticLaw.isSetTimeUnits()) {
-			loggerErr.warning("KineticLaw " + reactionId + " : isSetTimeUnits differ.");
+			loggerErr.warning("KineticLaw " + reactionId + ": isSetTimeUnits differ.");
 		}
 		
 		// substanceUnits
 		if (libSbmlKineticLaw.isSetSubstanceUnits() && jsbmlKineticLaw.isSetSubstanceUnits()) {
 			if (!(libSbmlKineticLaw.getSubstanceUnits().equals(jsbmlKineticLaw.getSubstanceUnits()))) {
-				loggerErr.warning("KineticLaw " + reactionId + " : substanceUnits differ.");
+				loggerErr.warning("KineticLaw " + reactionId + ": substanceUnits differ.");
 			}
 		} else if (libSbmlKineticLaw.isSetSubstanceUnits() != jsbmlKineticLaw.isSetSubstanceUnits()) {
-			loggerErr.warning("KineticLaw " + reactionId + " : isSetSubstanceUnits differ.");
+			loggerErr.warning("KineticLaw " + reactionId + ": isSetSubstanceUnits differ.");
 		}
 		
 		// compare list of parameters 
@@ -1026,7 +1026,7 @@ public class SBMLReaderTest {
 				}
 			}
 		} else {
-			loggerErr.warning("KineticLaw " + reactionId + " : nb parameters differ.");
+			loggerErr.warning("KineticLaw " + reactionId + ": nb parameters differ.");
 		}
 		
 	}
@@ -1073,11 +1073,11 @@ public class SBMLReaderTest {
 			if (libSbmlRule.isSetVariable() && jsbmlExplicitRule.isSetVariable()) {
 				if (!libSbmlRule.getVariable().equals(jsbmlExplicitRule.getVariable())) {
 					// log error
-					loggerErr.warning("Rule " + jsbmlExplicitRule.getVariable() + " : variable differ.");
+					loggerErr.warning("Rule " + jsbmlExplicitRule.getVariable() + ": variable differ.");
 				}
 			} else if (libSbmlRule.isSetVariable() != jsbmlExplicitRule.isSetVariable()) {
 				// log error
-				loggerErr.warning("EventAssignment " + jsbmlExplicitRule.getVariable()  + " : isSetVariable differ.");
+				loggerErr.warning("EventAssignment " + jsbmlExplicitRule.getVariable()  + ": isSetVariable differ.");
 			}
 		}
 	}
@@ -1094,11 +1094,11 @@ public class SBMLReaderTest {
 		if (libSbmlInitialAssignment.isSetSymbol() && jsbmlInitialAssignment.isSetVariable()) {
 			if (!libSbmlInitialAssignment.getSymbol().equals(jsbmlInitialAssignment.getSymbol())) {
 				// log error
-				loggerErr.warning("EventAssignment " + jsbmlInitialAssignment.getMetaId() + " : symbol/variable differ.");
+				loggerErr.warning("EventAssignment " + jsbmlInitialAssignment.getMetaId() + ": symbol/variable differ.");
 			}
 		} else if (libSbmlInitialAssignment.isSetSymbol() != jsbmlInitialAssignment.isSetSymbol()) {
 			// log error
-			loggerErr.warning("EventAssignment " + jsbmlInitialAssignment.getMetaId() + " : isSetSymbol differ.");
+			loggerErr.warning("EventAssignment " + jsbmlInitialAssignment.getMetaId() + ": isSetSymbol differ.");
 		}
 		
 	}
@@ -1115,12 +1115,12 @@ public class SBMLReaderTest {
 				if (Double.isNaN(libSbmlParameter.getValue()) && Double.isNaN(jsbmlParameter.getValue())) {
 					// fine
 				} else {
-					loggerErr.warning("Parameter " + libSbmlParameter.getId() + " : value differ.");
+					loggerErr.warning("Parameter " + libSbmlParameter.getId() + ": value differ.");
 				}
 			}
 		} else if (libSbmlParameter.isSetValue() != jsbmlParameter.isSetValue()) {
 			// log error
-			loggerErr.warning("Parameter " + libSbmlParameter.getId() + " : isSetValue differ.");
+			loggerErr.warning("Parameter " + libSbmlParameter.getId() + ": isSetValue differ.");
 			loggerErr.warning(" libsbml isSetValue = " + libSbmlParameter.isSetValue() + ", jsbml = " + jsbmlParameter.isSetValue());
 		}
 		
@@ -1128,11 +1128,11 @@ public class SBMLReaderTest {
 		if (libSbmlParameter.isSetUnits() && jsbmlParameter.isSetUnits()) {
 			if (!libSbmlParameter.getUnits().equals(jsbmlParameter.getUnits())) {
 				// log error
-				loggerErr.warning("Parameter " + libSbmlParameter.getId() + " : units differ.");
+				loggerErr.warning("Parameter " + libSbmlParameter.getId() + ": units differ.");
 			}
 		} else if (libSbmlParameter.isSetUnits() != jsbmlParameter.isSetUnits()) {
 			// log error
-			loggerErr.warning("Parameter " + libSbmlParameter.getId() + " : isSetUnits differ.");
+			loggerErr.warning("Parameter " + libSbmlParameter.getId() + ": isSetUnits differ.");
 		}
 		
 		// constant
@@ -1144,7 +1144,7 @@ public class SBMLReaderTest {
 			 * 
 			 * 
 			if (libSbmlParameter.isSetConstant() != jsbmlPar.isSetConstant()) {
-				loggerErr.warning("Parameter " + libSbmlParameter.getId() + " : isSetConstant differ.");
+				loggerErr.warning("Parameter " + libSbmlParameter.getId() + ": isSetConstant differ.");
 				loggerErr.warning(" libsbml isSetConstant = " + libSbmlParameter.isSetConstant() + ", jsbml = " + jsbmlPar.isSetConstant());
 			}
 			*/
@@ -1152,7 +1152,7 @@ public class SBMLReaderTest {
 			if (libSbmlParameter.getLevel() > 1) { // in level 1 libsbml return always true and jsbml always false
 				if (libSbmlParameter.getConstant() != jsbmlPar.getConstant()) {
 					// log error
-					loggerErr.warning("Parameter " + libSbmlParameter.getId() + " : constant differ.");
+					loggerErr.warning("Parameter " + libSbmlParameter.getId() + ": constant differ.");
 					loggerErr.warning(" libsbml constant = " + libSbmlParameter.getConstant() + ", jsbml = " + jsbmlPar.getConstant());
 				}
 			}
@@ -1185,7 +1185,7 @@ public class SBMLReaderTest {
 				}
 			}
 		} else {
-			loggerErr.warning("UnitDefinition " + libSbmlUnitDefinition.getId() + " : nb units differ.");
+			loggerErr.warning("UnitDefinition " + libSbmlUnitDefinition.getId() + ": nb units differ.");
 		}
 	}
 
@@ -1198,32 +1198,32 @@ public class SBMLReaderTest {
 		if (libSbmlUnit.isSetKind() && jsbmlUnit.isSetKind()) {
 			if (!(libsbml.UnitKind_toString(libSbmlUnit.getKind())).toUpperCase().equals(jsbmlUnit.getKind().toString())) {
 				// log error
-				loggerErr.warning("Unit " + jsbmlUnit.getKind() + " : kind differ.");
+				loggerErr.warning("Unit " + jsbmlUnit.getKind() + ": kind differ.");
 			}
 		} else if (libSbmlUnit.isSetKind() != jsbmlUnit.isSetKind()) {
 			// log error
-			loggerErr.warning("Unit " + jsbmlUnit.getKind() + " : isSetKind differ.");
+			loggerErr.warning("Unit " + jsbmlUnit.getKind() + ": isSetKind differ.");
 		}
 		
 		// exponent
 		// no isSetXXX for exponent, scale, multiplier or offset in libsbml 4.0
 		if (libSbmlUnit.getExponent() != jsbmlUnit.getExponent()) {
-			loggerErr.warning("Unit " + jsbmlUnit.getKind() + " : exponent differ.");
+			loggerErr.warning("Unit " + jsbmlUnit.getKind() + ": exponent differ.");
 		}
 		
 		// scale
 		if (libSbmlUnit.getScale() != jsbmlUnit.getScale()) {
-			loggerErr.warning("Unit " + jsbmlUnit.getKind() + " : scale differ.");
+			loggerErr.warning("Unit " + jsbmlUnit.getKind() + ": scale differ.");
 		}
 		
 		// multiplier
 		if (libSbmlUnit.getMultiplier() != jsbmlUnit.getMultiplier()) {
-			loggerErr.warning("Unit " + jsbmlUnit.getKind() + " : multiplier differ.");
+			loggerErr.warning("Unit " + jsbmlUnit.getKind() + ": multiplier differ.");
 		}
 		
 		// offset
 		if (libSbmlUnit.getOffset() != jsbmlUnit.getOffset()) {
-			loggerErr.warning("Unit " + jsbmlUnit.getKind() + " : offset differ.");
+			loggerErr.warning("Unit " + jsbmlUnit.getKind() + ": offset differ.");
 		}
 		
 	}
@@ -1253,11 +1253,11 @@ public class SBMLReaderTest {
 		if (libSbmlCompartment.isSetCompartmentType() && jsbmlCompartment.isSetCompartmentType()) {
 			if (!libSbmlCompartment.getCompartmentType().equals(jsbmlCompartment.getCompartmentType())) {
 				// log error
-				loggerErr.warning("Compartment " + libSbmlCompartment.getId() + " : compartmentType differ.");
+				loggerErr.warning("Compartment " + libSbmlCompartment.getId() + ": compartmentType differ.");
 			}
 		} else if (libSbmlCompartment.isSetCompartmentType() != jsbmlCompartment.isSetCompartmentType()) {
 			// log error
-			loggerErr.warning("Compartment " + libSbmlCompartment.getId() + " : isSetCompartmentType differ.");
+			loggerErr.warning("Compartment " + libSbmlCompartment.getId() + ": isSetCompartmentType differ.");
 		}
 		
 		// spatialDimensions
@@ -1268,8 +1268,8 @@ public class SBMLReaderTest {
 
 		if (libSbmlCompartment.isSetSpatialDimensions() != jsbmlCompartment.isSetSpatialDimensions()) {
 			// log error
-			loggerErr.warning("Compartment " + libSbmlCompartment.getId() + " : isSetSpatialDimensions differ.");
-			loggerErr.warning("Compartment : libsbml isSetSD = " + libSbmlCompartment.isSetSpatialDimensions() + ", jsbml isSetSD : " + jsbmlCompartment.isSetSpatialDimensions());
+			loggerErr.warning("Compartment " + libSbmlCompartment.getId() + ": isSetSpatialDimensions differ.");
+			loggerErr.warning("Compartment: libsbml isSetSD = " + libSbmlCompartment.isSetSpatialDimensions() + ", jsbml isSetSD: " + jsbmlCompartment.isSetSpatialDimensions());
 			
 		}
 		*/
@@ -1277,8 +1277,8 @@ public class SBMLReaderTest {
 		if (libSbmlCompartment.getLevel() < 3) {
 			if (libSbmlCompartment.getSpatialDimensions() != jsbmlCompartment.getSpatialDimensions()) {
 				// log error
-				loggerErr.warning("Compartment " + libSbmlCompartment.getId() + " : spatialDimensions differ.");
-				loggerErr.warning("Compartment : libsbml SD = " + libSbmlCompartment.getSpatialDimensions() + ", jsbml SD : " 
+				loggerErr.warning("Compartment " + libSbmlCompartment.getId() + ": spatialDimensions differ.");
+				loggerErr.warning("Compartment: libsbml SD = " + libSbmlCompartment.getSpatialDimensions() + ", jsbml SD: " 
 						+ jsbmlCompartment.getSpatialDimensions());
 			}
 		} else {
@@ -1287,9 +1287,9 @@ public class SBMLReaderTest {
 					// everything is good
 				} else {
 					// 	log error
-					loggerErr.warning("Compartment " + libSbmlCompartment.getId() + " : spatialDimensions differ.");
-					loggerErr.warning("Compartment : libsbml SD double = " + libSbmlCompartment.getSpatialDimensionsAsDouble() + 
-							", jsbml SD : " + jsbmlCompartment.getSpatialDimensions());
+					loggerErr.warning("Compartment " + libSbmlCompartment.getId() + ": spatialDimensions differ.");
+					loggerErr.warning("Compartment: libsbml SD double = " + libSbmlCompartment.getSpatialDimensionsAsDouble() + 
+							", jsbml SD: " + jsbmlCompartment.getSpatialDimensions());
 				}
 			}
 		}
@@ -1298,35 +1298,35 @@ public class SBMLReaderTest {
 		if (libSbmlCompartment.isSetSize() && jsbmlCompartment.isSetSize()) {
 			if (libSbmlCompartment.getSize() != jsbmlCompartment.getSize()) {
 				// log error
-				loggerErr.warning("Compartment " + libSbmlCompartment.getId() + " : size differ.");
+				loggerErr.warning("Compartment " + libSbmlCompartment.getId() + ": size differ.");
 			}
 		} else if (libSbmlCompartment.isSetSize() != jsbmlCompartment.isSetSize()) {
 			// log error
-			loggerErr.warning("Compartment " + libSbmlCompartment.getId() + " : isSetSize differ.");
-			loggerErr.warning("Compartment : libsbml isSetSize = " + libSbmlCompartment.isSetSize() + ", jsbml = " + jsbmlCompartment.isSetSize());
-			loggerErr.warning("Compartment : libsbml size = " + libSbmlCompartment.getSize() + ", jsbml = " + jsbmlCompartment.getSize());
+			loggerErr.warning("Compartment " + libSbmlCompartment.getId() + ": isSetSize differ.");
+			loggerErr.warning("Compartment: libsbml isSetSize = " + libSbmlCompartment.isSetSize() + ", jsbml = " + jsbmlCompartment.isSetSize());
+			loggerErr.warning("Compartment: libsbml size = " + libSbmlCompartment.getSize() + ", jsbml = " + jsbmlCompartment.getSize());
 		}
 		
 		// units
 		if (libSbmlCompartment.isSetUnits() && jsbmlCompartment.isSetUnits()) {
 			if (!libSbmlCompartment.getUnits().equals(jsbmlCompartment.getUnits())) {
 				// log error
-				loggerErr.warning("Compartment " + libSbmlCompartment.getId() + " : units differ.");
+				loggerErr.warning("Compartment " + libSbmlCompartment.getId() + ": units differ.");
 			}
 		} else if (libSbmlCompartment.isSetUnits() != jsbmlCompartment.isSetUnits()) {
 			// log error
-			loggerErr.warning("Compartment " + libSbmlCompartment.getId() + " : isSetUnits differ.");
+			loggerErr.warning("Compartment " + libSbmlCompartment.getId() + ": isSetUnits differ.");
 		}
 		
 		// outside
 		if (libSbmlCompartment.isSetOutside() && jsbmlCompartment.isSetOutside()) {
 			if (!libSbmlCompartment.getOutside().equals(jsbmlCompartment.getOutside())) {
 				// log error
-				loggerErr.warning("Compartment " + libSbmlCompartment.getId() + " : outside differ.");
+				loggerErr.warning("Compartment " + libSbmlCompartment.getId() + ": outside differ.");
 			}
 		} else if (libSbmlCompartment.isSetOutside() != jsbmlCompartment.isSetOutside()) {
 			// log error
-			loggerErr.warning("Compartment " + libSbmlCompartment.getId() + " : isSetOutside differ.");
+			loggerErr.warning("Compartment " + libSbmlCompartment.getId() + ": isSetOutside differ.");
 		}
 		
 		// constant
@@ -1338,16 +1338,16 @@ public class SBMLReaderTest {
 		} else 
 		if (libSbmlCompartment.isSetConstant() != jsbmlCompartment.isSetConstant()) {
 			// log error
-			loggerErr.warning("Compartment " + libSbmlCompartment.getId() + " : isSetConstant differ.");
-			loggerErr.warning("Compartment : libsbml isSetconstant = " + libSbmlCompartment.isSetConstant() + ", jsbml isSetconstant : " + jsbmlCompartment.isSetConstant());
+			loggerErr.warning("Compartment " + libSbmlCompartment.getId() + ": isSetConstant differ.");
+			loggerErr.warning("Compartment: libsbml isSetconstant = " + libSbmlCompartment.isSetConstant() + ", jsbml isSetconstant: " + jsbmlCompartment.isSetConstant());
 		}
  
 			*/
 
 		if (! (libSbmlCompartment.getConstant() == jsbmlCompartment.getConstant())) {
 			// log error
-			loggerErr.warning("Compartment " + libSbmlCompartment.getId() + " : constant differ.");
-			loggerErr.warning("Compartment : libsbml constant = " + libSbmlCompartment.getConstant() + ", jsbml constant : " + jsbmlCompartment.getConstant());
+			loggerErr.warning("Compartment " + libSbmlCompartment.getId() + ": constant differ.");
+			loggerErr.warning("Compartment: libsbml constant = " + libSbmlCompartment.getConstant() + ", jsbml constant: " + jsbmlCompartment.getConstant());
 		}
 		
 	}	
@@ -1361,11 +1361,11 @@ public class SBMLReaderTest {
 		if (libSbmlSpecies.isSetSpeciesType() && jsbmlSpecies.isSetSpeciesType()) {
 			if (!libSbmlSpecies.getSpeciesType().equals(jsbmlSpecies.getSpeciesType())) {
 				// log error
-				loggerErr.warning("Species " + libSbmlSpecies.getId() + " : speciesType differ.");
+				loggerErr.warning("Species " + libSbmlSpecies.getId() + ": speciesType differ.");
 			}
 		} else if (libSbmlSpecies.isSetSpeciesType() != jsbmlSpecies.isSetSpeciesType()) {
 			// log error
-			loggerErr.warning("Species " + libSbmlSpecies.getId() + " : isSetSpeciesType differ.");
+			loggerErr.warning("Species " + libSbmlSpecies.getId() + ": isSetSpeciesType differ.");
 			loggerErr.warning("jsbml isSetSpeciesType = " + jsbmlSpecies.isSetSpeciesType() + ", libsbml = " + libSbmlSpecies.isSetSpeciesType());
 			loggerErr.warning("jsbml speciesType = " + jsbmlSpecies.getSpeciesType() + ", libsbml = " + libSbmlSpecies.getSpeciesType());
 		}
@@ -1373,86 +1373,86 @@ public class SBMLReaderTest {
 		if (libSbmlSpecies.isSetCompartment() && jsbmlSpecies.isSetCompartment()) {
 			if (!libSbmlSpecies.getCompartment().equals(jsbmlSpecies.getCompartment())) {
 				// log error
-				loggerErr.warning("Species " + libSbmlSpecies.getId() + " : compartment differ.");
+				loggerErr.warning("Species " + libSbmlSpecies.getId() + ": compartment differ.");
 			}
 		} else if (libSbmlSpecies.isSetCompartment() != jsbmlSpecies.isSetCompartment()) {
 			// log error
-			loggerErr.warning("Species " + libSbmlSpecies.getId() + " : isSetCompartment differ.");
+			loggerErr.warning("Species " + libSbmlSpecies.getId() + ": isSetCompartment differ.");
 		}
 		
 		// initialAmount
 		if (libSbmlSpecies.isSetInitialAmount() && jsbmlSpecies.isSetInitialAmount()) {
 			if (! (libSbmlSpecies.getInitialAmount() == jsbmlSpecies.getInitialAmount())) {
 				// log error
-				loggerErr.warning("Species " + libSbmlSpecies.getId() + " : initialAmount differ.");
+				loggerErr.warning("Species " + libSbmlSpecies.getId() + ": initialAmount differ.");
 			}
 		} else if (libSbmlSpecies.isSetInitialAmount() != jsbmlSpecies.isSetInitialAmount()) {
 			// log error
-			loggerErr.warning("Species " + libSbmlSpecies.getId() + " : isSetInitialAmount differ.");
+			loggerErr.warning("Species " + libSbmlSpecies.getId() + ": isSetInitialAmount differ.");
 		}
 		
 		// initialConcentration
 		if (libSbmlSpecies.isSetInitialConcentration() && jsbmlSpecies.isSetInitialConcentration()) {
 			if (! (libSbmlSpecies.getInitialConcentration() == jsbmlSpecies.getInitialConcentration())) {
 				// log error
-				loggerErr.warning("Species " + libSbmlSpecies.getId() + " : initialConcentration differ.");
+				loggerErr.warning("Species " + libSbmlSpecies.getId() + ": initialConcentration differ.");
 			}
 		} else if (libSbmlSpecies.isSetInitialConcentration() != jsbmlSpecies.isSetInitialConcentration()) {
 			// log error
-			loggerErr.warning("Species " + libSbmlSpecies.getId() + " : isSetInitialConcentration differ.");
+			loggerErr.warning("Species " + libSbmlSpecies.getId() + ": isSetInitialConcentration differ.");
 		}
 		
 		// substanceUnits
 		if (libSbmlSpecies.isSetSubstanceUnits() && jsbmlSpecies.isSetSubstanceUnits()) {
 			if (!libSbmlSpecies.getSubstanceUnits().equals(jsbmlSpecies.getSubstanceUnits())) {
 				// log error
-				loggerErr.warning("Species " + libSbmlSpecies.getId() + " : substanceUnits differ.");
+				loggerErr.warning("Species " + libSbmlSpecies.getId() + ": substanceUnits differ.");
 			}
 		} else if (libSbmlSpecies.isSetSubstanceUnits() != jsbmlSpecies.isSetSubstanceUnits()) {
 			// log error
-			loggerErr.warning("Species " + libSbmlSpecies.getId() + " : isSetSpeciesType differ.");
+			loggerErr.warning("Species " + libSbmlSpecies.getId() + ": isSetSpeciesType differ.");
 		}
 		
 		// hasOnlySubstanceUnits
 		// No isSetHasOnlySubstanceUnits in libsbml
 		if (! (libSbmlSpecies.getHasOnlySubstanceUnits() == jsbmlSpecies.getHasOnlySubstanceUnits())) {
 			// log error
-			loggerErr.warning("Species " + libSbmlSpecies.getId() + " : hasOnlySubstanceUnits differ.");
+			loggerErr.warning("Species " + libSbmlSpecies.getId() + ": hasOnlySubstanceUnits differ.");
 		}
 		
 		// boundaryCondition
 		// No isSetBoundaryCondition in libsbml
 		if (! (libSbmlSpecies.getBoundaryCondition() == jsbmlSpecies.getBoundaryCondition())) {
 			// log error
-			loggerErr.warning("Species " + libSbmlSpecies.getId() + " : boundaryCondition differ.");
+			loggerErr.warning("Species " + libSbmlSpecies.getId() + ": boundaryCondition differ.");
 		}
 
 		// charge
 		if (libSbmlSpecies.isSetCharge() && jsbmlSpecies.isSetCharge()) {
 			if (! (libSbmlSpecies.getCharge() == jsbmlSpecies.getCharge())) {
 				// log error
-				loggerErr.warning("Species " + libSbmlSpecies.getId() + " : charge differ.");
+				loggerErr.warning("Species " + libSbmlSpecies.getId() + ": charge differ.");
 			}
 		} else if (libSbmlSpecies.isSetCharge() != jsbmlSpecies.isSetCharge()) {
 			// log error
-			loggerErr.warning("Species " + libSbmlSpecies.getId() + " : isSetCharge differ.");
+			loggerErr.warning("Species " + libSbmlSpecies.getId() + ": isSetCharge differ.");
 		}
 		
 		// constant
 		// libSBML.Species.isSetConstant always return true for models <= L2V4
 		if (! (libSbmlSpecies.getConstant() == jsbmlSpecies.getConstant())) {
 			// log error
-			loggerErr.warning("Species " + libSbmlSpecies.getId() + " : constant differ.");
+			loggerErr.warning("Species " + libSbmlSpecies.getId() + ": constant differ.");
 		}
 
 		// conversionFactor
 		if (jsbmlSpecies.isSetConversionFactor() && libSbmlSpecies.isSetConversionFactor()) {
 			if (! jsbmlSpecies.getConversionFactor().equals(libSbmlSpecies.getConversionFactor())) {
-				loggerErr.warning("Species " + libSbmlSpecies.getId() + " : conversionFactor differ.");
+				loggerErr.warning("Species " + libSbmlSpecies.getId() + ": conversionFactor differ.");
 			}
 		} else if (jsbmlSpecies.isSetConversionFactor() != libSbmlSpecies.isSetConversionFactor()) {
-			loggerErr.warning("Species " + libSbmlSpecies.getId() + " : isSetConversionFactor differ.");
-			loggerErr.warning("jsbml isSetConversionFactor = " + jsbmlSpecies.isSetConversionFactor() + " : libsbml = " + libSbmlSpecies.isSetConversionFactor());
+			loggerErr.warning("Species " + libSbmlSpecies.getId() + ": isSetConversionFactor differ.");
+			loggerErr.warning("jsbml isSetConversionFactor = " + jsbmlSpecies.isSetConversionFactor() + ": libsbml = " + libSbmlSpecies.isSetConversionFactor());
 		}
 		
 	}
@@ -1460,16 +1460,16 @@ public class SBMLReaderTest {
 	private static void compareAnnotation(SBase jsbmlSBase, org.sbml.libsbml.SBase libSbmlSBase) {
 
 		// if (libSbmlSBase.isSetAnnotation()) {
-			// loggerErr.warning("SBase " + jsbmlSBase.getMetaId() + " : jsbml annotation : @" + jsbmlSBase.getAnnotation().getNonRDFannotation() + "@");
-			// loggerErr.warning("SBase " + libSbmlSBase.getMetaId() + " : libSBML annotation : @" + libSbmlSBase.getAnnotationString() + "@");
+			// loggerErr.warning("SBase " + jsbmlSBase.getMetaId() + ": jsbml annotation: @" + jsbmlSBase.getAnnotation().getNonRDFannotation() + "@");
+			// loggerErr.warning("SBase " + libSbmlSBase.getMetaId() + ": libSBML annotation: @" + libSbmlSBase.getAnnotationString() + "@");
 
-		loggerErr.fine("SBase comparing Annotation : " + libSbmlSBase.getElementName() + " (" + libSbmlSBase.getId() + ")");
+		loggerErr.fine("SBase comparing Annotation: " + libSbmlSBase.getElementName() + " (" + libSbmlSBase.getId() + ")");
 
 		if (jsbmlSBase instanceof Model && jsbmlSBase.isSetHistory() && jsbmlSBase.getHistory().getListOfModifiedDates().size() > 1) {
 			jsbmlSBase.getHistory().getListOfModifiedDates().remove(1);
 		}
 		
-		// loggerErr.info("SBase jsbml Non RDF annotation :\n@" + jsbmlSBase.getAnnotation().getNonRDFannotation() + "@");
+		// loggerErr.info("SBase jsbml Non RDF annotation:\n@" + jsbmlSBase.getAnnotation().getNonRDFannotation() + "@");
 
 		String jsbmlAnnotStr = jsbmlSBase.getAnnotationString();
 		String libsbmlAnnotStr = libSbmlSBase.getAnnotationString();
@@ -1482,19 +1482,19 @@ public class SBMLReaderTest {
 
 		if (!annotationsAreEquals && !(jsbmlSBase instanceof Model)) {
 			loggerErr.warning("SBase Annotation Strings are different");
-			loggerErr.info("SBase comparing Annotation : libSbml annotationStr = \n@" + libsbmlAnnotStr + "@\n");
-			loggerErr.info("SBase comparing Annotation : jSbml annotationStr = \n@" + jsbmlAnnotStr + "@\n");								
+			loggerErr.info("SBase comparing Annotation: libSbml annotationStr = \n@" + libsbmlAnnotStr + "@\n");
+			loggerErr.info("SBase comparing Annotation: jSbml annotationStr = \n@" + jsbmlAnnotStr + "@\n");								
 		} else if (! jsbmlAnnotStr.equals(libsbmlAnnotStr) && !(jsbmlSBase instanceof Model)) {
 			loggerErr.fine("SBase Annotation Strings differ by some whitespaces");
 		}
 
 		if (jsbmlSBase instanceof Model && jsbmlSBase.isSetHistory() && libSbmlSBase.isSetModelHistory()) 
 		{
-			// TODO : compare History
+			// TODO: compare History
 
 		} else if (jsbmlSBase.isSetHistory() != libSbmlSBase.isSetModelHistory()) 
 		{
-			loggerErr.warning(jsbmlSBase.getElementName() + " " + libSbmlSBase.getId() + " : isSetHistory() differ.");
+			loggerErr.warning(jsbmlSBase.getElementName() + " " + libSbmlSBase.getId() + ": isSetHistory() differ.");
 			loggerErr.warning("jsbml isSetHistory = " + jsbmlSBase.isSetHistory() + ", libsbml " + libSbmlSBase.isSetModelHistory());
 			
 			if (libSbmlSBase instanceof org.sbml.libsbml.Model) {
@@ -1513,7 +1513,7 @@ public class SBMLReaderTest {
 			}
 
 		} else if (libSbmlSBase.getNumCVTerms() > 0) {
-			loggerErr.warning("SBase " + libSbmlSBase.getMetaId() + " : nb CVTerm differ.");
+			loggerErr.warning("SBase " + libSbmlSBase.getMetaId() + ": nb CVTerm differ.");
 		}
 	}
 
@@ -1528,7 +1528,7 @@ public class SBMLReaderTest {
 				String libsbmlResourceURI = libsbmlCVTerm.getResourceURI(i);
 				
 				if (!jsbmlResourceURI.equals(libsbmlResourceURI)) {
-					loggerErr.warning("SBase " + libsbmlResourceURI + " : annotation differ.");
+					loggerErr.warning("SBase " + libsbmlResourceURI + ": annotation differ.");
 				}
 				i++;
 			}
@@ -1553,38 +1553,38 @@ public class SBMLReaderTest {
 		// level
 		if (jsbmlSbase.getLevel() != libSbmlSbase.getLevel()) {
 			// log error
-			loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + " : level differ.");
-			loggerErr.warning("SBase " + jsbmlSbase.getElementName() + " : level = " + jsbmlSbase.getLevel());
+			loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + ": level differ.");
+			loggerErr.warning("SBase " + jsbmlSbase.getElementName() + ": level = " + jsbmlSbase.getLevel());
 		}
 		
 		// version
 		if (jsbmlSbase.getVersion() != libSbmlSbase.getVersion()) {
 			// log error
-			loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + " : version differ.");
-			loggerErr.warning("SBase " + jsbmlSbase.getElementName() + " : version = " + jsbmlSbase.getVersion());
+			loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + ": version differ.");
+			loggerErr.warning("SBase " + jsbmlSbase.getElementName() + ": version = " + jsbmlSbase.getVersion());
 		}
 
 		// Metaid
 		if (jsbmlSbase.isSetMetaId() && libSbmlSbase.isSetMetaId()) {
 			if (!jsbmlSbase.getMetaId().equals(libSbmlSbase.getMetaId())) {
 				// log error
-				loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + " : metaid differ.");
-				loggerErr.warning("SBase : libsbml metaid = '" + libSbmlSbase.getMetaId() + "', jsbml = '" + jsbmlSbase.getMetaId() + "'");
+				loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + ": metaid differ.");
+				loggerErr.warning("SBase: libsbml metaid = '" + libSbmlSbase.getMetaId() + "', jsbml = '" + jsbmlSbase.getMetaId() + "'");
 			}
 		} else if (jsbmlSbase.isSetMetaId() != libSbmlSbase.isSetMetaId()) {
 			// log error
-			loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + " : isSetMetaId differ.");
+			loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + ": isSetMetaId differ.");
 		}
 
 		// SBOTerm
 		if (jsbmlSbase.isSetSBOTerm() && libSbmlSbase.isSetSBOTerm()) {
 			if (jsbmlSbase.getSBOTerm() !=(libSbmlSbase.getSBOTerm())) {
 				// log error
-				loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + " : sboTerm differ.");
+				loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + ": sboTerm differ.");
 			}
 		} else if (jsbmlSbase.isSetSBOTerm() != libSbmlSbase.isSetSBOTerm()) {
 			// log error
-			loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + " : isSetSBOTerm differ.");
+			loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + ": isSetSBOTerm differ.");
 		}
 		
 		// notes
@@ -1603,7 +1603,7 @@ public class SBMLReaderTest {
 		if (jsbmlNotesString == null) {
 			jsbmlNotesString = "";
 		}
-		boolean notesAreEquals = true; // TODO : remove comment !! compareString(jsbmlNotesString, libSbmlNotesString);
+		boolean notesAreEquals = true; // TODO: remove comment !! compareString(jsbmlNotesString, libSbmlNotesString);
 		
 		// After the changes from Andreas the Notes are totally different, no way to compare them ...
 		
@@ -1612,7 +1612,7 @@ public class SBMLReaderTest {
 			loggerErr.warning("jsbml = \n@" + jsbmlNotesString + "@");
 			loggerErr.warning("libsbml = \n@" + libSbmlNotesString + "@");
 		} else if (!jsbmlNotesString.equals(libSbmlNotesString)) {
-			// TODO : remove comment !! loggerErr.fine("\nSBase String getNotes differ by some white spaces.\n");			
+			// TODO: remove comment !! loggerErr.fine("\nSBase String getNotes differ by some white spaces.\n");			
 		}
 
 		if (jsbmlSbase.isSetNotes() == libSbmlSbase.isSetNotes() && jsbmlSbase.isSetNotes()) {
@@ -1642,7 +1642,7 @@ public class SBMLReaderTest {
 		String[] libSbmlLines = libSbmlString.split("\n");
 		
 		if (jsbmlLines.length != libSbmlLines.length) {
-			loggerErr.warning("compareString : the two String have a different number of lines : " + jsbmlLines.length +
+			loggerErr.warning("compareString: the two String have a different number of lines: " + jsbmlLines.length +
 					", " + libSbmlLines.length);
 			return false;
 		}
@@ -1660,7 +1660,7 @@ public class SBMLReaderTest {
 			}
 			
 			if (!jsbmlLine.trim().equals(libSbmlLine.trim())) {
-				loggerErr.warning("compareStrings : the notes or annotation have a different line : \n@" + jsbmlLine +
+				loggerErr.warning("compareStrings: the notes or annotation have a different line: \n@" + jsbmlLine +
 						"@\n@" + libSbmlLine + "@");
 				equal = false;
 				nbDiff++;
@@ -1671,7 +1671,7 @@ public class SBMLReaderTest {
 		}
 		
 		if (!equal) {
-			loggerErr.warning("compareNotes : there is " + nbDiff + " different line(s)");			
+			loggerErr.warning("compareNotes: there is " + nbDiff + " different line(s)");			
 		}
 		
 		return equal;
@@ -1680,53 +1680,53 @@ public class SBMLReaderTest {
 	private static void compareXMLNode(XMLNode jsbmlXMLNode, org.sbml.libsbml.XMLNode libSbmlXMLNode) {
 
 		if (jsbmlXMLNode.isStart()) {
-			loggerErr.fine("XMLNode : element name = " + jsbmlXMLNode.getName());
+			loggerErr.fine("XMLNode: element name = " + jsbmlXMLNode.getName());
 		} else if (jsbmlXMLNode.isText()) {
-			loggerErr.fine("XMLNode : text element  = $" + jsbmlXMLNode.getCharacters() + "$");
+			loggerErr.fine("XMLNode: text element  = $" + jsbmlXMLNode.getCharacters() + "$");
 		} else {
-			loggerErr.fine("XMLNode : element is neither start or text !!!");
+			loggerErr.fine("XMLNode: element is neither start or text !!!");
 		}
 		
 		// attributesEmpty
 		if (jsbmlXMLNode.isAttributesEmpty() != libSbmlXMLNode.isAttributesEmpty()) {
-			loggerErr.fine("XMLNode : isAttributesEmpty() differ");
+			loggerErr.fine("XMLNode: isAttributesEmpty() differ");
 		}
 		
 		// isStartElement
 		if (jsbmlXMLNode.isStart() != libSbmlXMLNode.isStart()) {
-			loggerErr.fine("XMLNode : isStart() differ");
+			loggerErr.fine("XMLNode: isStart() differ");
 		}
 		
 		// isEndElement
 		if (jsbmlXMLNode.isEnd() != libSbmlXMLNode.isEnd()) {
-			loggerErr.fine("XMLNode : isEnd() differ");
+			loggerErr.fine("XMLNode: isEnd() differ");
 		}
 		
 		// isText
 		if (jsbmlXMLNode.isText() != libSbmlXMLNode.isText()) {
-			loggerErr.fine("XMLNode : isText() differ");
+			loggerErr.fine("XMLNode: isText() differ");
 		}
 		
 		// isElement
 		if (jsbmlXMLNode.isElement() != libSbmlXMLNode.isElement()) {
-			loggerErr.fine("XMLNode : isElement() differ");
+			loggerErr.fine("XMLNode: isElement() differ");
 		}
 		
 		// namespacesEmpty
 		if (jsbmlXMLNode.isNamespacesEmpty() != libSbmlXMLNode.isNamespacesEmpty()) {
-			loggerErr.fine("XMLNode : isNamespacesEmpty() differ");
+			loggerErr.fine("XMLNode: isNamespacesEmpty() differ");
 		}
 		
 		// eof
 		if (jsbmlXMLNode.isEOF() != libSbmlXMLNode.isEOF()) {
-			loggerErr.fine("XMLNode : isStart() differ");
+			loggerErr.fine("XMLNode: isStart() differ");
 		}
 
 		// isEndFor ???
 
 		// Characters
 		if (!jsbmlXMLNode.getCharacters().equals(libSbmlXMLNode.getCharacters())) {
-			loggerErr.fine("XMLNode : characters differ");
+			loggerErr.fine("XMLNode: characters differ");
 		}
 		
 		// Compare namespaces
@@ -1738,15 +1738,15 @@ public class SBMLReaderTest {
 				for (int i = 0; i < jsbmlNamespaces.getLength(); i++) {
 
 					if (!jsbmlNamespaces.getPrefix(i).equals(libSbmlNamespaces.getPrefix(i))) {
-						loggerErr.fine("XMLNode : namespace prefix differ");
+						loggerErr.fine("XMLNode: namespace prefix differ");
 					}
 					if (!jsbmlNamespaces.getURI(i).equals(libSbmlNamespaces.getURI(i))) {
-						loggerErr.fine("XMLNode : namespace uri differ");
+						loggerErr.fine("XMLNode: namespace uri differ");
 					}
 				}
 			}
 		} else {
-			loggerErr.fine("XMLNode : namespace length differ");
+			loggerErr.fine("XMLNode: namespace length differ");
 		}
 		
 		// Compare attributes
@@ -1757,20 +1757,20 @@ public class SBMLReaderTest {
 			for (int i = 0; i < jsbmlAttributes.getLength(); i++) {
 				
 				if (!jsbmlAttributes.getName(i).equals(libSbmlAttributes.getName(i))) {
-					loggerErr.fine("XMLNode : attribute name differ");
+					loggerErr.fine("XMLNode: attribute name differ");
 				}
 				if (!jsbmlAttributes.getPrefix(i).equals(libSbmlAttributes.getPrefix(i))) {
-					loggerErr.fine("XMLNode : attribute prefix differ");
+					loggerErr.fine("XMLNode: attribute prefix differ");
 				}
 				if (!jsbmlAttributes.getURI(i).equals(libSbmlAttributes.getURI(i))) {
-					loggerErr.fine("XMLNode : attribute uri differ");
+					loggerErr.fine("XMLNode: attribute uri differ");
 				}
 				if (!jsbmlAttributes.getValue(i).equals(libSbmlAttributes.getValue(i))) {
-					loggerErr.fine("XMLNode : attribute value differ");
+					loggerErr.fine("XMLNode: attribute value differ");
 				}
 			}
 		} else {
-			loggerErr.fine("XMLNode : attribute length differ");
+			loggerErr.fine("XMLNode: attribute length differ");
 		}
 		
 		// Compare XMLNode Children
@@ -1780,7 +1780,7 @@ public class SBMLReaderTest {
 				compareXMLNode(jsbmlXMLNode.getChildAt(i), libSbmlXMLNode.getChild(i));
 			}
 		} else {
-			loggerErr.fine("XMLNode : children length differ : jsbml = " + jsbmlXMLNode.getNumChildren() + ", libsbml = " + libSbmlXMLNode.getNumChildren());
+			loggerErr.fine("XMLNode: children length differ: jsbml = " + jsbmlXMLNode.getNumChildren() + ", libsbml = " + libSbmlXMLNode.getNumChildren());
 			displayLisbmlXMLNode(libSbmlXMLNode);
 		}
 		
@@ -1788,10 +1788,10 @@ public class SBMLReaderTest {
 
 	private static void displayLisbmlXMLNode(org.sbml.libsbml.XMLNode libSbmlXMLNode) {
 
-		loggerErr.fine("LXMLNode : element name = " + libSbmlXMLNode.getName());
+		loggerErr.fine("LXMLNode: element name = " + libSbmlXMLNode.getName());
 		
 		for (int i = 0; i < libSbmlXMLNode.getNumChildren(); i++) {
-			loggerErr.fine("LXMLNode : " + libSbmlXMLNode.getName() + " child " + i);
+			loggerErr.fine("LXMLNode: " + libSbmlXMLNode.getName() + " child " + i);
 			displayLisbmlXMLNode(libSbmlXMLNode.getChild(i));
 		}
 		
@@ -1804,23 +1804,23 @@ public class SBMLReaderTest {
 		if (jsbmlSbase.isSetId() && libSbmlSbase.isSetId()) {
 			if (!jsbmlSbase.getId().equals(libSbmlSbase.getId())) {
 				// log error
-				loggerErr.warning("SBase " + libSbmlSbase.getId() + " : id differ.");
+				loggerErr.warning("SBase " + libSbmlSbase.getId() + ": id differ.");
 			}
 		} else if (jsbmlSbase.isSetId() && libSbmlSbase.isSetId()) {
 			// log error
-			loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + " : isSetId differ.");
+			loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + ": isSetId differ.");
 		}
 
 		// name
 		if (jsbmlSbase.isSetName() && libSbmlSbase.isSetName()) {
 			if (!jsbmlSbase.getName().equals(libSbmlSbase.getName())) {
 				// log error
-				loggerErr.warning("SBase " + libSbmlSbase.getId() + " : name differ.");				
+				loggerErr.warning("SBase " + libSbmlSbase.getId() + ": name differ.");				
 			}
 		} else if (jsbmlSbase.isSetName() != libSbmlSbase.isSetName()) {
 			// log error
-			loggerErr.warning("SBase " + libSbmlSbase.getId() + " : isSetName differ.");
-			loggerErr.warning("SBase jsbml isSetName = " + jsbmlSbase.isSetName() + " : libsbml = " + libSbmlSbase.isSetName());
+			loggerErr.warning("SBase " + libSbmlSbase.getId() + ": isSetName differ.");
+			loggerErr.warning("SBase jsbml isSetName = " + jsbmlSbase.isSetName() + ": libsbml = " + libSbmlSbase.isSetName());
 		}
 		
 	}
@@ -1847,9 +1847,9 @@ public class SBMLReaderTest {
 
 			if (!jsbmlMathML.equals(libsbmlMathML)) {
 				if (jsbmlMathContainer.getLevel() > 1 || loggerErr.isLoggable(Level.FINE)) {
-					loggerErr.warning("MathContainer : " + jsbmlMathContainer.getMetaId() + " mathML output differ.");
-					loggerErr.warning("JSBML mathML : \n" + jsbmlMathML);
-					loggerErr.warning("libSBML mathML : \n" + libsbmlMathML);
+					loggerErr.warning("MathContainer: " + jsbmlMathContainer.getMetaId() + " mathML output differ.");
+					loggerErr.warning("JSBML mathML: \n" + jsbmlMathML);
+					loggerErr.warning("libSBML mathML: \n" + libsbmlMathML);
 				}
 				
 				if (jsbmlMathContainer.getLevel() > 1 || loggerErr.isLoggable(Level.FINE)) {
@@ -1859,7 +1859,7 @@ public class SBMLReaderTest {
 					diffXConfig.setNamespaceAware(false);
 					com.topologi.diffx.Main.diff(new StringReader(jsbmlMathML), new StringReader(libsbmlMathML), diffOutout, diffXConfig);
 
-					loggerErr.warning(" DiffX : \n");					
+					loggerErr.warning(" DiffX: \n");					
 					loggerErr.finest("DiffX file = @" + diffOutout.toString() + "@");					
 					
 					BufferedReader diffOutputReader = new BufferedReader(new StringReader(diffOutout.toString()));
@@ -1874,7 +1874,7 @@ public class SBMLReaderTest {
 							loggerErr.warning(line);
 						}
 					}
-					loggerErr.warning("\n End DiffX : \n");
+					loggerErr.warning("\n End DiffX: \n");
 				}
 			}
 		}  catch (DiffXException e) {
@@ -1882,7 +1882,7 @@ public class SBMLReaderTest {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (RuntimeException e) {
-			loggerErr.warning("Exception occured when creating the mathML output : " + e.getMessage());
+			loggerErr.warning("Exception occured when creating the mathML output: " + e.getMessage());
 			e.printStackTrace();
 		}
 				
@@ -1897,19 +1897,19 @@ public class SBMLReaderTest {
 			if (!jsbmlInfix.equals(libsbmlInfix)) {
 
 				if (jsbmlInfix.indexOf('<') == -1 && jsbmlInfix.indexOf('>') == -1 && jsbmlInfix.indexOf('=') == -1) {
-					loggerErr.fine("MathContainer : " + jsbmlMathContainer.getMetaId() + " infix formula output differ.");
-					loggerErr.fine("JSBML formula : @" + jsbmlInfix + "@");
-					loggerErr.fine("libSBML formula : @" + libsbmlInfix + "@");
+					loggerErr.fine("MathContainer: " + jsbmlMathContainer.getMetaId() + " infix formula output differ.");
+					loggerErr.fine("JSBML formula: @" + jsbmlInfix + "@");
+					loggerErr.fine("libSBML formula: @" + libsbmlInfix + "@");
 				} else {
-//					loggerErr.warning("MathContainer : " + jsbmlMathContainer.getMetaId() + " infix formula relational output differ.");
-					// loggerErr.warning("JSBML formula : \n" + jsbmlInfix);
-					// loggerErr.warning("libSBML formula : \n" + libsbmlInfix);
+//					loggerErr.warning("MathContainer: " + jsbmlMathContainer.getMetaId() + " infix formula relational output differ.");
+					// loggerErr.warning("JSBML formula: \n" + jsbmlInfix);
+					// loggerErr.warning("libSBML formula: \n" + libsbmlInfix);
 				}
 			}
 		} catch (SBMLException e) {
 			e.printStackTrace();
 		} catch (RuntimeException e) {
-			loggerErr.warning("Exception occured when creating an infix formula : " + e.getMessage());
+			loggerErr.warning("Exception occured when creating an infix formula: " + e.getMessage());
 		}
 		
 		try {
@@ -1925,26 +1925,26 @@ public class SBMLReaderTest {
 				}
 				
 				if (jsbmlInfix.indexOf('<') == -1 && jsbmlInfix.indexOf('>') == -1 && jsbmlInfix.indexOf('=') == -1) {
-					loggerErr.warning("MathContainer : " + jsbmlMathContainer.getMetaId() + " jlibSBML infix formula output differ.");
-					loggerErr.warning("JSBML formula : @" + jsbmlInfix + "@");
-					loggerErr.warning("libSBML formula : @" + libsbmlInfix + "@");
+					loggerErr.warning("MathContainer: " + jsbmlMathContainer.getMetaId() + " jlibSBML infix formula output differ.");
+					loggerErr.warning("JSBML formula: @" + jsbmlInfix + "@");
+					loggerErr.warning("libSBML formula: @" + libsbmlInfix + "@");
 				} else {
-//					loggerErr.warning("MathContainer : " + jsbmlMathContainer.getMetaId() + " infix formula relational output differ.");
-					// loggerErr.warning("JSBML formula : \n" + jsbmlInfix);
-					// loggerErr.warning("libSBML formula : \n" + libsbmlInfix);
+//					loggerErr.warning("MathContainer: " + jsbmlMathContainer.getMetaId() + " infix formula relational output differ.");
+					// loggerErr.warning("JSBML formula: \n" + jsbmlInfix);
+					// loggerErr.warning("libSBML formula: \n" + libsbmlInfix);
 				}
 			}
 		} catch (SBMLException e) {
 			e.printStackTrace();
 		} catch (RuntimeException e) {
-			loggerErr.warning("Exception occured when creating an infix formula : " + e.getMessage());
+			loggerErr.warning("Exception occured when creating an infix formula: " + e.getMessage());
 		}
 	}
 
 	private static void compareASTNode(ASTNode jsbmlASTNode, org.sbml.libsbml.ASTNode libSbmlASTNode) {
 		
 		if (jsbmlASTNode == null && libSbmlASTNode != null) {
-			loggerErr.warning("ASTNode : jsbml ASTNode is null !!!");
+			loggerErr.warning("ASTNode: jsbml ASTNode is null !!!");
 			return;
 		}
 		// compare values
@@ -1956,7 +1956,7 @@ public class SBMLReaderTest {
 		
 		// character
 		if (jsbmlASTNode.isOperator() && libSbmlASTNode.isOperator() && jsbmlASTNode.getCharacter() != libSbmlASTNode.getCharacter()) {
-			loggerErr.warning("ASTNode : getCharacter differ !!!");
+			loggerErr.warning("ASTNode: getCharacter differ !!!");
 		}
 		
 		// definitionURL
@@ -1967,7 +1967,7 @@ public class SBMLReaderTest {
 		if (jsbmlASTNode.isRational() && libSbmlASTNode.isRational() 
 				&& jsbmlASTNode.getDenominator() != libSbmlASTNode.getDenominator()) 
 		{
-			loggerErr.warning("ASTNode : getDenominator differ !!!");
+			loggerErr.warning("ASTNode: getDenominator differ !!!");
 		}
 		
 		
@@ -1978,13 +1978,13 @@ public class SBMLReaderTest {
 			if (Double.isNaN(jsbmlASTNode.getExponent()) && Double.isNaN(libSbmlASTNode.getExponent())) {
 				// nothing
 			} else {
-				loggerErr.warning("ASTNode : getExponent differ !!!");
+				loggerErr.warning("ASTNode: getExponent differ !!!");
 			}
 		}
 		
 		// integer
 		if (jsbmlASTNode.isInteger() && jsbmlASTNode.getInteger() != libSbmlASTNode.getInteger()) {
-			loggerErr.warning("ASTNode : getInteger differ !!!");
+			loggerErr.warning("ASTNode: getInteger differ !!!");
 		}
 		
 		// mantissa
@@ -1994,7 +1994,7 @@ public class SBMLReaderTest {
 			if (Double.isNaN(jsbmlASTNode.getMantissa()) && Double.isNaN(libSbmlASTNode.getMantissa())) {
 				// nothing
 			} else {
-				loggerErr.warning("ASTNode : getMantissa differ !!!");
+				loggerErr.warning("ASTNode: getMantissa differ !!!");
 			}
 		}
 		
@@ -2003,13 +2003,13 @@ public class SBMLReaderTest {
 				&& jsbmlASTNode.getName() != null && libSbmlASTNode.getName() != null 
 				&& !(jsbmlASTNode.getName().equals(libSbmlASTNode.getName()))) 
 		{
-			loggerErr.warning("ASTNode : getName differ !!!");
-			loggerErr.warning("ASTNode : jsbml name = " + jsbmlASTNode.getName() + ", libsbml = " + libSbmlASTNode.getName());
+			loggerErr.warning("ASTNode: getName differ !!!");
+			loggerErr.warning("ASTNode: jsbml name = " + jsbmlASTNode.getName() + ", libsbml = " + libSbmlASTNode.getName());
 		}
 		
 		// numerator
 		if (jsbmlASTNode.isRational() && jsbmlASTNode.getNumerator() != libSbmlASTNode.getNumerator()) {
-			loggerErr.warning("ASTNode : getNumerator differ !!!");
+			loggerErr.warning("ASTNode: getNumerator differ !!!");
 		}
 		
 		// precedence (level 1)
@@ -2021,8 +2021,8 @@ public class SBMLReaderTest {
 			if (Double.isNaN(jsbmlASTNode.getReal()) && Double.isNaN(libSbmlASTNode.getReal())) {
 				// nothing
 			} else {
-				loggerErr.warning("ASTNode : getReal differ !!!");
-				loggerErr.warning("ASTNode : jsbml getReal = " + jsbmlASTNode.getReal() + ", libsbml = " + libSbmlASTNode.getReal());
+				loggerErr.warning("ASTNode: getReal differ !!!");
+				loggerErr.warning("ASTNode: jsbml getReal = " + jsbmlASTNode.getReal() + ", libsbml = " + libSbmlASTNode.getReal());
 			}
 		}
 		
@@ -2034,106 +2034,106 @@ public class SBMLReaderTest {
 		
 		
 		if (jsbmlASTNode.isBoolean() != libSbmlASTNode.isBoolean()) {
-			loggerErr.warning("ASTNode : isBoolean differ !!!");
-			loggerErr.warning("ASTNode : jsbml isBoolean = " + jsbmlASTNode.isBoolean() + ", libsbml = " + libSbmlASTNode.isBoolean());
+			loggerErr.warning("ASTNode: isBoolean differ !!!");
+			loggerErr.warning("ASTNode: jsbml isBoolean = " + jsbmlASTNode.isBoolean() + ", libsbml = " + libSbmlASTNode.isBoolean());
 		}
 		
 		// isConstant
 		if (jsbmlASTNode.isConstant() != libSbmlASTNode.isConstant()) {
-			loggerErr.warning("ASTNode : isConstant differ !!!");
+			loggerErr.warning("ASTNode: isConstant differ !!!");
 		}
 		
 		// isFunction
 		if (jsbmlASTNode.isFunction() != libSbmlASTNode.isFunction()) {
-			loggerErr.warning("ASTNode : isFunction differ !!!");
-			loggerErr.warning("ASTNode : jsbml isFunction = " + jsbmlASTNode.isFunction() + ", libsbml = " + libSbmlASTNode.isFunction());
-			loggerErr.warning("ASTNode : jsbml functionName = " + jsbmlASTNode.getName() + ", libsbml = " + libSbmlASTNode.getName());
+			loggerErr.warning("ASTNode: isFunction differ !!!");
+			loggerErr.warning("ASTNode: jsbml isFunction = " + jsbmlASTNode.isFunction() + ", libsbml = " + libSbmlASTNode.isFunction());
+			loggerErr.warning("ASTNode: jsbml functionName = " + jsbmlASTNode.getName() + ", libsbml = " + libSbmlASTNode.getName());
 		}
 		
 		// isInfinity
 		if (jsbmlASTNode.isInfinity() != libSbmlASTNode.isInfinity()) {
-			loggerErr.warning("ASTNode : isInfinity differ !!!");
+			loggerErr.warning("ASTNode: isInfinity differ !!!");
 		}
 		
 		// isInteger
 		if (jsbmlASTNode.isInteger() != libSbmlASTNode.isInteger()) {
-			loggerErr.warning("ASTNode : isInteger differ !!!");
+			loggerErr.warning("ASTNode: isInteger differ !!!");
 		}
 		
 		// isLambda
 		if (jsbmlASTNode.isLambda() != libSbmlASTNode.isLambda()) {
-			loggerErr.warning("ASTNode : isLambda differ !!!");
+			loggerErr.warning("ASTNode: isLambda differ !!!");
 		}
 		
 		// isLog10
 		if (jsbmlASTNode.isLog10() != libSbmlASTNode.isLog10()) {
-			loggerErr.warning("ASTNode : isLog10 differ !!!");
+			loggerErr.warning("ASTNode: isLog10 differ !!!");
 		}
 		
 		// isLogical
 		if (jsbmlASTNode.isLogical() != libSbmlASTNode.isLogical()) {
-			loggerErr.warning("ASTNode : isLogical differ !!!");
+			loggerErr.warning("ASTNode: isLogical differ !!!");
 		}
 		
 		// isName
 		if (jsbmlASTNode.isName() != libSbmlASTNode.isName()) {
-			loggerErr.warning("ASTNode : isName differ !!!");
+			loggerErr.warning("ASTNode: isName differ !!!");
 		}
 		
 		// isNaN
 		if (jsbmlASTNode.isNaN() != libSbmlASTNode.isNaN()) {
-			loggerErr.warning("ASTNode : isNaN differ !!!");
+			loggerErr.warning("ASTNode: isNaN differ !!!");
 		}
 		
 		// isNeqInfinity
 		if (jsbmlASTNode.isNegInfinity() != libSbmlASTNode.isNegInfinity()) {
-			loggerErr.warning("ASTNode : isNeqInfinity differ !!!");
+			loggerErr.warning("ASTNode: isNeqInfinity differ !!!");
 		}
 		
 		// isNumber
 		if (jsbmlASTNode.isNumber() != libSbmlASTNode.isNumber()) {
-			loggerErr.warning("ASTNode : isNumber differ !!!");
+			loggerErr.warning("ASTNode: isNumber differ !!!");
 		}
 		
 		// isOperator
 		if (jsbmlASTNode.isOperator() != libSbmlASTNode.isOperator()) {
-			loggerErr.warning("ASTNode : isOperator differ !!!");
-			loggerErr.warning("ASTNode : jsbml isOperator = " + jsbmlASTNode.isOperator() + ", libsbml = " + libSbmlASTNode.isOperator());
+			loggerErr.warning("ASTNode: isOperator differ !!!");
+			loggerErr.warning("ASTNode: jsbml isOperator = " + jsbmlASTNode.isOperator() + ", libsbml = " + libSbmlASTNode.isOperator());
 		}
 		
 		// isPiecewise
 		if (jsbmlASTNode.isPiecewise() != libSbmlASTNode.isPiecewise()) {
-			loggerErr.warning("ASTNode : isPiecewise differ !!!");
+			loggerErr.warning("ASTNode: isPiecewise differ !!!");
 		}
 		
 		// isRational
 		if (jsbmlASTNode.isRational() != libSbmlASTNode.isRational()) {
-			loggerErr.warning("ASTNode : isRational differ !!!");
+			loggerErr.warning("ASTNode: isRational differ !!!");
 		}
 				
 		// isReal
 		if (jsbmlASTNode.isReal() != libSbmlASTNode.isReal()) {
-			loggerErr.warning("ASTNode : isReal differ !!!");
+			loggerErr.warning("ASTNode: isReal differ !!!");
 		}
 		
 		// isRelational
 		if (jsbmlASTNode.isRelational() != libSbmlASTNode.isRelational()) {
-			loggerErr.warning("ASTNode : isRelational differ !!!");
+			loggerErr.warning("ASTNode: isRelational differ !!!");
 		}
 		
 		// isSqrt
 		if (jsbmlASTNode.isSqrt() != libSbmlASTNode.isSqrt()) {
-			loggerErr.warning("ASTNode : isSqrt differ !!!");
+			loggerErr.warning("ASTNode: isSqrt differ !!!");
 		}
 		
 		// isUMinus
 		if (jsbmlASTNode.isUMinus() != libSbmlASTNode.isUMinus()) {
-			loggerErr.warning("ASTNode : isUMinus differ !!!");
+			loggerErr.warning("ASTNode: isUMinus differ !!!");
 		}
 		
 		// isUnknown
 		if (jsbmlASTNode.isUnknown() != libSbmlASTNode.isUnknown()) {
-			loggerErr.warning("ASTNode : isUnknown differ !!!");
+			loggerErr.warning("ASTNode: isUnknown differ !!!");
 		}
 		
 		// isWellFormedASTNode 
@@ -2148,11 +2148,11 @@ public class SBMLReaderTest {
 			}
 
 		} else {
-			// TODO : would need to make a function ASTNode.toBinaryTree() to be able to compare the tree easily
+			// TODO: would need to make a function ASTNode.toBinaryTree() to be able to compare the tree easily
 			// otherwise, the case where they are differences in size seems correct each time.
 			
-			// loggerErr.warning("ASTNode : num children differ !!! ");
-			// loggerErr.warning("ASTNode : jsbml nb child = " + jsbmlASTNode.getNumChildren() + ", libsbml = " + libSbmlASTNode.getNumChildren());
+			// loggerErr.warning("ASTNode: num children differ !!! ");
+			// loggerErr.warning("ASTNode: jsbml nb child = " + jsbmlASTNode.getNumChildren() + ", libsbml = " + libSbmlASTNode.getNumChildren());
 		}
 
 	}

@@ -30,7 +30,7 @@ import org.sbml.jsbml.SBMLDocument;
 
 /**
  * A {@link VCardParser} is used to parse the subNodes of an annotation which have this
- * namespace URI : "http://www.w3.org/2001/vcard-rdf/3.0#".
+ * namespace URI: "http://www.w3.org/2001/vcard-rdf/3.0#".
  * 
  * <p/>
  * To know more about vCard ==> <a href="http://www.ietf.org/rfc/rfc2426.txt">vCard MIME Directory Profile, 
@@ -124,7 +124,7 @@ public class VCardParser implements ReadingParser {
 					creator.setOtherAttribute(elementName, characters);
 				}
 			} else {
-				logger.warn("Lost Information : the characters '" + characters + "' on the element '" + elementName + "' might be lost"
+				logger.warn("Lost Information: the characters '" + characters + "' on the element '" + elementName + "' might be lost"
 						+ " as the context object is not a Creator.");
 			}
 		}

@@ -182,7 +182,7 @@ public class Constraint extends AbstractMathContainer {
 	 * Sets the message of this {@link Constraint} to 'message'.
 	 * 
 	 * @param message
-	 *            : the message to set
+	 *           the message to set
 	 */
 	public void setMessage(String message) {
 		setMessage(XMLNode.convertStringToXMLNode(StringTools.toXMLMessageString(message)));
@@ -192,7 +192,7 @@ public class Constraint extends AbstractMathContainer {
 	 * Sets the message of this {@link Constraint} to 'message'.
 	 * 
 	 * @param message
-	 *            : the message to set
+	 *           the message to set
 	 */
 	public void setMessage(XMLNode message) {
 		XMLNode oldMessage = this.message;
@@ -207,4 +207,5 @@ public class Constraint extends AbstractMathContainer {
 	public void unsetMessage() {
 		setMessage((XMLNode) null);
 	}
+
 }

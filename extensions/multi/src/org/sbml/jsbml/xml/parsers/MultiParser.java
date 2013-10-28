@@ -89,7 +89,7 @@ public class MultiParser extends AbstractReaderWriter {
 	public List<Object> getListOfSBMLElementsToWrite(Object treeNode) {
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("getListOfSBMLElementsToWrite : " + treeNode.getClass().getCanonicalName());
+			logger.debug("getListOfSBMLElementsToWrite: " + treeNode.getClass().getCanonicalName());
 		}	
 		
 		List<Object> listOfElementsToWrite = new ArrayList<Object>();
@@ -100,7 +100,7 @@ public class MultiParser extends AbstractReaderWriter {
 			
 			if (sbasePlugin != null) {
 				listOfElementsToWrite = super.getListOfSBMLElementsToWrite(sbasePlugin);
-				logger.debug("getListOfSBMLElementsToWrite : nb children = " + sbasePlugin.getChildCount());
+				logger.debug("getListOfSBMLElementsToWrite: nb children = " + sbasePlugin.getChildCount());
 			}
 		} else {
 			listOfElementsToWrite = super.getListOfSBMLElementsToWrite(treeNode);
@@ -118,7 +118,7 @@ public class MultiParser extends AbstractReaderWriter {
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 
-		// TODO : make it generic by using reflection on the contextObject
+		// TODO: make it generic by using reflection on the contextObject
 		
 		if (contextObject instanceof Model) 
 		{
@@ -214,7 +214,7 @@ public class MultiParser extends AbstractReaderWriter {
 			
 			return newElement;
 			
-			// TODO : SpeciesTypeInstance, SelectorReference, ....
+			// TODO: SpeciesTypeInstance, SelectorReference, ....
 		}
 		
 		return contextObject;
@@ -277,7 +277,7 @@ public class MultiParser extends AbstractReaderWriter {
 			}
 		}
 		
-		// TODO : try to use the default constructor + the addXX method
+		// TODO: try to use the default constructor + the addXX method
 		
 		return null;
 	}
@@ -292,9 +292,8 @@ public class MultiParser extends AbstractReaderWriter {
 		super.writeElement(xmlObject, sbmlElementToWrite);
 		
 		if (logger.isDebugEnabled()) {
-			logger.debug("writeElement : " + sbmlElementToWrite.getClass().getSimpleName());
+			logger.debug("writeElement: " + sbmlElementToWrite.getClass().getSimpleName());
 		}
 	}
-
 
 }

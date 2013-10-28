@@ -33,7 +33,7 @@ import org.sbml.jsbml.SBMLDocument;
 
 /**
  * A BiologicalQualifierParser is used to parse the XML elements and attributes
- * which have this namespace URI : http://biomodels.net/biology-qualifiers/.
+ * which have this namespace URI: http://biomodels.net/biology-qualifiers/.
  * 
  * @author Marine Dumousseau
  * @author Nicolas Rodriguez
@@ -74,14 +74,14 @@ public class BiologicalQualifierParser implements ReadingParser {
 	 * Initialises the biologicalQualifierMap of this parser.
 	 */
 	private void initialisesBiologicalQualifierMap() {
-		// TODO : loading from a file would be better.
+		// TODO: loading from a file would be better.
 		
-		// TODO : We need to try to make it work with qualifier that we do not know !!!
+		// TODO: We need to try to make it work with qualifier that we do not know !!!
 		
 		for (CVTerm.Qualifier qualifier : CVTerm.Qualifier.values()) {
 			if (qualifier.isBiologicalQualifier()) {
 				biologicalQualifierMap.put(qualifier.getElementNameEquivalent(), qualifier);
-				logger.debug("initialisesBiologicalQualifierMap : " + qualifier.getElementNameEquivalent());
+				logger.debug("initialisesBiologicalQualifierMap: " + qualifier.getElementNameEquivalent());
 			}			
 		}
 	}
@@ -92,7 +92,7 @@ public class BiologicalQualifierParser implements ReadingParser {
 	public void processAttribute(String ElementName, String AttributeName,
 			String value, String prefix, boolean isLastAttribute,
 			Object contextObject) {
-		// TODO : a node with a biological qualifier can't have attributes,
+		// TODO: a node with a biological qualifier can't have attributes,
 		// there is a SBML syntax error, log the error ?
 
 	}
@@ -102,7 +102,7 @@ public class BiologicalQualifierParser implements ReadingParser {
 	 */
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
-		// TODO : a node with a biological qualifier can't have text, there is a
+		// TODO: a node with a biological qualifier can't have text, there is a
 		// SBML syntax error, log the error ?
 	}
 
@@ -166,11 +166,11 @@ public class BiologicalQualifierParser implements ReadingParser {
 				annotation.addCVTerm(cvTerm);
 				return cvTerm;
 			} else {
-				// TODO : SBML syntax error, log an error
+				// TODO: SBML syntax error, log an error
 			}
 		} else {
 			// TODO the context object of a biological qualifier node should be
-			// an annotation instance, there is a SBML syntax error, log an error ?
+			// an annotation instance, there is a SBML syntax error, log an error?
 		}
 		return contextObject;
 	}

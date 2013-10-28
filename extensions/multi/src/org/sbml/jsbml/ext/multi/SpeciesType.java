@@ -316,5 +316,5 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
     return attributes;
   }
 
-  // TODO : equals, hashCode, toString, more constructors, ...
+  // TODO: equals, hashCode, toString, more constructors, ...
 }

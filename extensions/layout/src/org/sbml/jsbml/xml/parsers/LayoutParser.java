@@ -138,14 +138,14 @@ public class LayoutParser implements ReadingParser, WritingParser {
    */
   @SuppressWarnings("unchecked")
   public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
-    log4jLogger.debug(String.format("%s : getListOfSBMLElementsToWrite\n",
+    log4jLogger.debug(MessageFormat.format("{0}: getListOfSBMLElementsToWrite\n",
         getClass().getSimpleName()));
 
     List<Object> listOfElementsToWrite = new LinkedList<Object>();
 
     if (sbase instanceof SBMLDocument) {
       // nothing to do
-      // TODO : the 'required' attribute is written even if there is no
+      // TODO: the 'required' attribute is written even if there is no
       // plugin class for the SBMLDocument, so I am not totally sure how
       // this is done.
     } else if (sbase instanceof Model) {
@@ -294,7 +294,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
       SBase sbase = (SBase) contextObject;
 
-      log4jLogger.debug("processAttribute : level, version = "
+      log4jLogger.debug("processAttribute: level, version = "
           + sbase.getLevel() + ", " + sbase.getVersion());
 
       try {
@@ -313,7 +313,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
     }
 
     if (!isAttributeRead) {
-      log4jLogger.warn("processAttribute : The attribute "
+      log4jLogger.warn("processAttribute: The attribute "
           + attributeName + " on the element " + elementName
           + " is not part of the SBML specifications");
     }
@@ -371,14 +371,14 @@ public class LayoutParser implements ReadingParser, WritingParser {
 					{
 						LineSegment realCurveSegment = new LineSegment(curveSegment);
 						setNamespace(realCurveSegment, namespaceURI);
-						logger.debug("Transformed CubicBezier : " + curveSegment + " into LineSegment.");
+						logger.debug("Transformed CubicBezier: " + curveSegment + " into LineSegment.");
 						curve.getListOfCurveSegments().remove(i);
 						curve.getListOfCurveSegments().add(i, realCurveSegment);
 					}
 
 					if (logger.isDebugEnabled())
 					{
-						logger.debug("Transformed CurveSegment : realCurveSegment = " + curve.getListOfCurveSegments().get(i));
+						logger.debug("Transformed CurveSegment: realCurveSegment = " + curve.getListOfCurveSegments().get(i));
 					}
 
 					i++;

@@ -39,10 +39,10 @@ public class TestAnnotation {
 
 	public static void main(String[] args) {
 		
-		// TODO : transform this file into a proper junit test class that is included in the jsbml standard tests.
+		// TODO: transform this file into a proper junit test class that is included in the jsbml standard tests.
 		// The junit test file would test the Annotation class methods.  
 		  
-		// Setup : creating some simple objects 
+		// Setup: creating some simple objects 
 	    SBMLDocument doc = new SBMLDocument(2,4);
 
 	    Model m = doc.createModel("model1");

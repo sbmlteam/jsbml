@@ -287,7 +287,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 		if (sb.isSetAnnotation()) {
 			setAnnotation(sb.getAnnotation().clone());
 		}
-		// TODO : we need to clone these extensions objects !!
+		// TODO: we need to clone these extensions objects !!
 		if (sb.isExtendedByOtherPackages()) {
 			this.extensions.putAll(sb.getExtensionPackages());
 		}
@@ -401,7 +401,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
 		//------------------------------------------------------------
 		//
-		// STEP1 : identifies the type of the given notes
+		// STEP1: identifies the type of the given notes
 		//
 		//------------------------------------------------------------
 
@@ -441,7 +441,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 			else
 			{
 				// the given notes is empty 
-				// TODO : log an error
+				// TODO: log an error
 				return;
 			}
 		}
@@ -452,7 +452,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 			// as parent - leaving this in doesn't affect the writing out of notes
 			// but messes up the check for correct syntax
 
-			// TODO : check that we are doing that when parsing a String into XMLNode
+			// TODO: check that we are doing that when parsing a String into XMLNode
 
 			if (!notes.isStart() && !notes.isEnd() && !notes.isText() ) 
 			{
@@ -504,7 +504,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 							)
 					)
 			{
-				// TODO : log an error to the user or throw an exception or both ?		    	
+				// TODO: log an error to the user or throw an exception or both ?		    	
 				return;
 			}
 		}
@@ -541,7 +541,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 								)
 						)
 				{
-					// TODO : log an error
+					// TODO: log an error
 					return;
 				}
 				curNotesType = NOTES_TYPE.NotesHTML;
@@ -583,7 +583,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 					for (i=0; i < addedBody.getChildCount(); i++)
 					{
 						if (curBody.addChild(addedBody.getChildAt(i)) < 0 )
-							// TODO : log an error
+							// TODO: log an error
 							return;          
 					}
 				}
@@ -595,7 +595,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 					for (i=0; i < addedNotes.getChildCount(); i++)
 					{
 						if (curBody.addChild(addedNotes.getChildAt(i)) < 0 )
-							// TODO : log an error
+							// TODO: log an error
 							return;
 					}
 				}
@@ -617,7 +617,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
 					curNotes.removeChildren();
 					if (curNotes.addChild(addedHTML) < 0)
-						// TODO : log an error
+						// TODO: log an error
 						return;
 				}
 				else if ((addedNotesType == NOTES_TYPE.NotesBody) || (addedNotesType == NOTES_TYPE.NotesAny))
@@ -630,7 +630,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 					for (i=0; i < addedNotes.getChildCount(); i++)
 					{
 						if (curBody.addChild(addedNotes.getChildAt(i)) < 0)
-							// TODO : log an error
+							// TODO: log an error
 							return;
 					}
 				}
@@ -651,7 +651,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
 					curNotes.removeChildren();
 					if (curNotes.addChild(addedHTML) < 0)
-						// TODO : log an error
+						// TODO: log an error
 						return;
 				}
 				else if (addedNotesType == NOTES_TYPE.NotesBody)
@@ -667,7 +667,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
 					curNotes.removeChildren();
 					if (curNotes.addChild(addedBody) < 0)
-						// TODO : log an error
+						// TODO: log an error
 						return;
 				}
 				else if (addedNotesType == NOTES_TYPE.NotesAny)
@@ -678,7 +678,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 					for (i=0; i < addedNotes.getChildCount(); i++)
 					{
 						if (curNotes.addChild(addedNotes.getChildAt(i)) < 0)
-							// TODO : log an error
+							// TODO: log an error
 							return;
 					}
 				}
@@ -876,7 +876,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 			pos++;
 		}
 
-		// TODO : check this to get correctly the extensions children
+		// TODO: check this to get correctly the extensions children
 
 		if (extensions.size() > 0) {
 			for (SBasePlugin sbasePlugin : extensions.values()) {

@@ -64,7 +64,7 @@ public class SubModelTest {
 		// Doing a loop over the list of reactions
 		for (Reaction reaction : model.getListOfReactions()) {
 			
-			// BEGIN : filtering
+			// BEGIN: filtering
 			
 			// filtering the reaction as we want
 			if (reaction.getName().contains("phosphorylation")) {
@@ -77,7 +77,7 @@ public class SubModelTest {
 			
 			// add/modify as needed the filtering
 			
-			// END : filtering. All the reactions added to the selectedReactionIds will be used
+			// END: filtering. All the reactions added to the selectedReactionIds will be used
 			// to create a new submodel
 		}
 

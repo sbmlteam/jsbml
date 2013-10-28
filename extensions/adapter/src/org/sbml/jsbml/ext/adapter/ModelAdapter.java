@@ -31,5 +31,5 @@ import org.sbml.jsbml.Model;
  */
 public class ModelAdapter extends Model {
 
-	// TODO : implement !!
+	// TODO: implement !!
 }

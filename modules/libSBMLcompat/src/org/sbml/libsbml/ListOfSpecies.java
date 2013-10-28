@@ -139,9 +139,9 @@ public class ListOfSpecies extends ListOf<org.sbml.jsbml.Species> {
 		return listOf.add(e);
 	}
 
-	// TODO : overwrite all of the methods if needed !
+	// TODO: overwrite all of the methods if needed !
 	
-	// TODO : check and add missing functions from libsbml
+	// TODO: check and add missing functions from libsbml
 	
 
 

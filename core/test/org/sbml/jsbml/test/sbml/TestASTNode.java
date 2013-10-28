@@ -58,7 +58,7 @@ public class TestASTNode {
   @Test
 public void test_ASTNode_addChild1()
   {
-    ASTNode node = new  ASTNode(Type.NAME); // TODO : setName will assign Type.FUNCTION if type and variable are not defined !!!
+    ASTNode node = new  ASTNode(Type.NAME); // TODO: setName will assign Type.FUNCTION if type and variable are not defined !!!
     ASTNode c1 = new  ASTNode(Type.NAME);
     ASTNode c2 = new  ASTNode(Type.NAME);
     ASTNode c1_1 = new  ASTNode(Type.NAME);
@@ -70,14 +70,14 @@ public void test_ASTNode_addChild1()
     node.addChild(c2);
     assertTrue( node.getNumChildren() == 2 );
     
-    // System.out.println("test_ASTNode_addChild1 : formula = " + node.toFormula());
+    // System.out.println("test_ASTNode_addChild1: formula = " + node.toFormula());
     
-    assertTrue(JSBML.formulaToString(node).equals( "a and b")); // libsbml output that as a function : and(a, b)
+    assertTrue(JSBML.formulaToString(node).equals( "a and b")); // libsbml output that as a function: and(a, b)
     c1_1.setName( "d");
     node.addChild(c1_1);
     assertTrue( node.getNumChildren() == 3 );
     
-    // System.out.println("test_ASTNode_addChild1 : formula = " + node.toFormula());
+    // System.out.println("test_ASTNode_addChild1: formula = " + node.toFormula());
     
     assertTrue(JSBML.formulaToString(node).equals( "a and b and d"));
     assertTrue(node.getChild(0).getName().equals( "a"));
@@ -153,7 +153,7 @@ public void test_ASTNode_children()
     assertTrue( parent.getChild(1).equals(right) );
     
     try {
-    	parent.getChild(2); // libsbml would return null instead of throwing an exception : assertTrue( parent.getChild(2) == null );
+    	parent.getChild(2); // libsbml would return null instead of throwing an exception: assertTrue( parent.getChild(2) == null );
     	assertTrue(false); 
     } catch (IndexOutOfBoundsException e) {
     	assertTrue(true);
@@ -264,7 +264,7 @@ public void test_ASTNode_deepCopy_1()
   @Test
 public void test_ASTNode_deepCopy_2()
   {
-    ASTNode node = new  ASTNode(Type.NAME); // TODO : setName will assign Type.FUNCTION if type and variable are not defined !!!
+    ASTNode node = new  ASTNode(Type.NAME); // TODO: setName will assign Type.FUNCTION if type and variable are not defined !!!
     ASTNode copy;
     node.setName( "Foo");
     assertTrue( node.getType() == ASTNode.Type.NAME );
@@ -345,7 +345,7 @@ public void test_ASTNode_deepCopy_4()
     n.setName( "foo");
     assertTrue(n.getName().equals( "foo"));
     n.setType(ASTNode.Type.NAME_TIME);
-    assertTrue(n.getName().equals( "foo")); // TODO : name reset after calling setType ??
+    assertTrue(n.getName().equals( "foo")); // TODO: name reset after calling setType ??
     n.setName(null);
     assertTrue( n.getName() == null );
     n.setType(ASTNode.Type.CONSTANT_E);
@@ -359,7 +359,7 @@ public void test_ASTNode_deepCopy_4()
     n.setType(ASTNode.Type.LAMBDA);
     assertTrue(n.getName().equals( "lambda"));
     n.setType(ASTNode.Type.FUNCTION);
-    n.setName( "f");
+    n.setName("f");
     assertTrue(n.getName().equals( "f"));
     n.setType(ASTNode.Type.FUNCTION_DELAY);
     assertTrue(n.getName().equals( "f"));

@@ -40,7 +40,7 @@ public class MultiEventAssignment extends AbstractSBasePlugin {
    */
   private static final long serialVersionUID = -5524105017747151889L;
  
-  // TODO : should probably be a listOf here
+  // TODO: should probably be a listOf here
 	private SpeciesTypeInstanceChange speciesTypeInstanceChange;
 	
 	public boolean readAttribute(String attributeName, String prefix,

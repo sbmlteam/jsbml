@@ -145,11 +145,11 @@ public class SBMLDocument extends org.sbml.jsbml.SBMLDocument {
 		
 		System.out.println("Model class = " + model.getClass());
 		
-		System.out.println("Model is an instance of org.sbml.libsbml.Model : " + (model instanceof org.sbml.libsbml.Model));
+		System.out.println("Model is an instance of org.sbml.libsbml.Model: " + (model instanceof org.sbml.libsbml.Model));
 		
 		ListOfSpecies listOfSpecies = model.getListOfSpecies(); 
 		
-		System.out.println("the list of Species is an instance of org.sbml.libsbml.ListOfSpecies : " + (listOfSpecies instanceof ListOfSpecies));
+		System.out.println("the list of Species is an instance of org.sbml.libsbml.ListOfSpecies: " + (listOfSpecies instanceof ListOfSpecies));
 		
 		System.out.println("Species nb 2 id = " + listOfSpecies.get(2).getId());
 		

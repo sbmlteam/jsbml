@@ -244,5 +244,5 @@ public class StateFeature extends AbstractNamedSBase implements UniqueNamedSBase
 		return attributes;
 	}
 
-	// TODO : equals, hashCode, toString, more constructors, ...
+	// TODO: equals, hashCode, toString, more constructors, ...
 }

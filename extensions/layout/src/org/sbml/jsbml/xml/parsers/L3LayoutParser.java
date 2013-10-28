@@ -410,7 +410,7 @@ public class L3LayoutParser extends AbstractReaderWriter {
 					if (curveSegment.getType().equals(CurveSegment.Type.LINE_SEGMENT)) 
 					{
 						LineSegment realCurveSegment = new LineSegment(curveSegment);
-						logger.debug("Transformed CubicBezier : " + curveSegment + " into a LineSegment.");
+						logger.debug("Transformed CubicBezier: " + curveSegment + " into a LineSegment.");
 						curve.getListOfCurveSegments().remove(i);
 						curve.getListOfCurveSegments().add(i, realCurveSegment);
 					}

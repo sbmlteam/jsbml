@@ -36,14 +36,14 @@ import org.sbml.jsbml.ext.SBasePlugin;
  */
 public class MultiRule extends AbstractSBasePlugin  {
 
-	// TODO : we could/should probably use the same SBasePlugin to InitialAssigment, Rules and EventAssignement 
+	// TODO: we could/should probably use the same SBasePlugin to InitialAssigment, Rules and EventAssignement 
 	// as it is exactly the same structure
 	
 	/**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 4526455581462978178L;
-  // TODO : should probably be a listOf here
+  // TODO: should probably be a listOf here
 	private SpeciesTypeInstanceChange speciesTypeInstanceChange;
 	
 

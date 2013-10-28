@@ -65,9 +65,7 @@ public class InitialSpeciesInstance extends AbstractNamedSBase {
 		this.setInitialProportion(in.getInitialProportion());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
 	public InitialSpeciesInstance clone() {
@@ -134,11 +132,8 @@ public class InitialSpeciesInstance extends AbstractNamedSBase {
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String,
-	 * java.lang.String, java.lang.String)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
 	public boolean readAttribute(String attributeName, String prefix,
@@ -185,9 +180,7 @@ public class InitialSpeciesInstance extends AbstractNamedSBase {
 		this.selectorID = selectorID;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
 	 */
 	@Override
@@ -196,9 +189,7 @@ public class InitialSpeciesInstance extends AbstractNamedSBase {
 		return null;
 	}
 
-  /*
-	 * (non-Javadoc)
-	 * 
+  /* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
 	 */
 	@Override

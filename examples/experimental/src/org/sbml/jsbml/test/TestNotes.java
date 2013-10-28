@@ -66,7 +66,7 @@ public class TestNotes
 		
 		System.out.println(doc2.getModel().getNotesString());
 		
-		// TODO : fix this, add more tests like creating the XMLNode by hand to see if it is better when we add the chebi URL as an attribute 
+		// TODO: fix this, add more tests like creating the XMLNode by hand to see if it is better when we add the chebi URL as an attribute 
 		
 		String chebiAsImage = "<img xmlns=\"http://www.w3.org/1999/xhtml\" src=\"http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage&#61;true&#38;chebiId&#61;15511&#38;dimensions=300\" alt=\"Smiley face\" height=\"42\" width=\"42\" />";
 		

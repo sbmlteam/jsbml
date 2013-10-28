@@ -32,7 +32,7 @@ import org.sbml.jsbml.SBMLDocument;
 
 /**
  * A {@link ModelQualifierParser} is used to parse the XML elements and
- * attributes which have this namespace URI :
+ * attributes which have this namespace URI:
  * http://biomodels.net/model-qualifiers/.
  * 
  * @author Marine Dumousseau
@@ -76,7 +76,7 @@ public class ModelQualifierParser implements ReadingParser {
 		for (CVTerm.Qualifier qualifier : CVTerm.Qualifier.values()) {
 			if (qualifier.isModelQualifier()) {
 				modelQualifierMap.put(qualifier.getElementNameEquivalent(), qualifier);
-				logger.debug("initialisesModelQualifierMap : " + qualifier.getElementNameEquivalent());
+				logger.debug("initialisesModelQualifierMap: " + qualifier.getElementNameEquivalent());
 			}			
 		}
 	}
@@ -87,7 +87,7 @@ public class ModelQualifierParser implements ReadingParser {
 	public void processAttribute(String ElementName, String AttributeName,
 			String value, String prefix, boolean isLastAttribute,
 			Object contextObject) {
-		// TODO : a node with the namespace "http://biomodels.net/model-qualifiers/" can't have attributes.
+		// TODO: a node with the namespace "http://biomodels.net/model-qualifiers/" can't have attributes.
 		// Throw an error?
 	}
 
@@ -96,7 +96,7 @@ public class ModelQualifierParser implements ReadingParser {
 	 */
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {	
-		// TODO : a node with the namespace "http://biomodels.net/model-qualifiers/" can't have text.
+		// TODO: a node with the namespace "http://biomodels.net/model-qualifiers/" can't have text.
 		// Throw an error?
 	}
 
@@ -155,11 +155,11 @@ public class ModelQualifierParser implements ReadingParser {
 				return cvTerm;
 			}
 			else {
-				// TODO : SBML syntax error, throw an exception?
+				// TODO: SBML syntax error, throw an exception?
 			}
 		}
 		else {
-			// TODO : SBML syntax error, throw an exception?
+			// TODO: SBML syntax error, throw an exception?
 		}
 		return contextObject;
 	}

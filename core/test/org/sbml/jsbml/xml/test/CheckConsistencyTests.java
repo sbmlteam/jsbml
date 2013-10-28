@@ -107,8 +107,8 @@ public class CheckConsistencyTests {
 		
 	}
 
-	// TODO : test that the different possible consistency checks can be put on or off.
-	// TODO : test the SBMLError class
+	// TODO: test that the different possible consistency checks can be put on or off.
+	// TODO: test the SBMLError class
 
 	
 	/**

@@ -584,7 +584,7 @@ public class StringTools {
 	 *         {@link String}s in SBML, nothing will be changed.
 	 */
 	private static String toXMLString(String notes, String surroundingTagName) {
-		// TODO : We need to perform plenty of check to see of which form are the notes given to this method
+		// TODO: We need to perform plenty of check to see of which form are the notes given to this method
 		// and perform the necessary conversion to append or set the notes correctly.
 		// If we need more checks, we should define which one into trackers/stories
 

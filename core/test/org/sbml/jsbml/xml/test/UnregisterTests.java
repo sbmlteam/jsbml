@@ -465,7 +465,7 @@ public class UnregisterTests {
 		// Setting the same id as an existing Species		
 		r2.createReactant("S1");
 		
-		// Setting the parent by hand !!  // TODO : should we limit the access of SBase.setParentSBML and TreeNode.setParent (should be possible) ??		
+		// Setting the parent by hand !!  // TODO: should we limit the access of SBase.setParentSBML and TreeNode.setParent (should be possible) ??		
 		// r2.setParentSBML(new ListOf<Reaction>(2, 4));
 		// r2.getParent().setParentSBML(model); // This will make the registration of the reaction non recursive
 		
@@ -557,7 +557,7 @@ public class UnregisterTests {
 		assertTrue(model.findLocalParameters("LP1").size() == 1);
 		assertTrue(model.findLocalParameters("LP2").size() == 0);
 				
-		// listOfLP.remove(3); // TODO : at the moment the list of local parameter is emptied if there is an error !! Should we clone the listOf
+		// listOfLP.remove(3); // TODO: at the moment the list of local parameter is emptied if there is an error !! Should we clone the listOf
 		// when using the setListOf methods ??
 
 		listOfLP.clear();

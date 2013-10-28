@@ -100,7 +100,7 @@ public class FBCParser extends AbstractReaderWriter {
 			SBasePlugin sbasePlugin = (SBasePlugin) ((SBase) sbase).getExtension(getNamespaceURI());
 
 			listOfElementsToWrite = super.getListOfSBMLElementsToWrite(sbasePlugin);
-			logger.debug("getListOfSBMLElementsToWrite : nb children = " + sbasePlugin.getChildCount());
+			logger.debug("getListOfSBMLElementsToWrite: nb children = " + sbasePlugin.getChildCount());
 		} else {
 			listOfElementsToWrite = super.getListOfSBMLElementsToWrite(sbase);
 		}
@@ -117,7 +117,7 @@ public class FBCParser extends AbstractReaderWriter {
 			String value, String prefix, boolean isLastAttribute,
 			Object contextObject) 
 	{
-		logger.debug("processAttribute -> " + prefix + " : " + attributeName + " = " + value + " (" + contextObject.getClass().getName() + ")");
+		logger.debug("processAttribute -> " + prefix + ":" + attributeName + " = " + value + " (" + contextObject.getClass().getName() + ")");
 		
 		if (contextObject instanceof Species) {
 			Species species = (Species) contextObject;
@@ -297,11 +297,11 @@ public class FBCParser extends AbstractReaderWriter {
 			
 			if (fbcModel != null)
 			{
-				System.out.println("nb fluxBounds found : " + fbcModel.getListOfFluxBounds().size());
-				System.out.println("nb objectives found : " + fbcModel.getListOfObjectives().size());
-				System.out.println("nb fluxObjectives found : " + fbcModel.getObjective(0).getListOfFluxObjectives().size());
-				System.out.println("Active objective : " + fbcModel.getActiveObjective());
-				System.out.println("Active objective : " + ((ListOfObjectives) fbcModel.getListOfObjectives()).getActiveObjective());
+				System.out.println("nb fluxBounds found: " + fbcModel.getListOfFluxBounds().size());
+				System.out.println("nb objectives found: " + fbcModel.getListOfObjectives().size());
+				System.out.println("nb fluxObjectives found: " + fbcModel.getObjective(0).getListOfFluxObjectives().size());
+				System.out.println("Active objective: " + fbcModel.getActiveObjective());
+				System.out.println("Active objective: " + ((ListOfObjectives) fbcModel.getListOfObjectives()).getActiveObjective());
 			}
 			else
 			{

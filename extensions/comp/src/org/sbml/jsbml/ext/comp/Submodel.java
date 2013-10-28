@@ -122,7 +122,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 		// bar = obj.bar;
 	}
 
-	// TODO : equals, hashCode
+	// TODO: equals, hashCode
 	
 	/**
 	 * clones this class

@@ -283,6 +283,6 @@ public class StateFeatureInstance extends AbstractNamedSBase {
 	}
 
 	
-	// TODO : removeXX unsetXX
+	// TODO: removeXX unsetXX
 
 }

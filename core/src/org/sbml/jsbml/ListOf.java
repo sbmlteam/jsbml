@@ -825,7 +825,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	 */
 	public boolean removeAll(Collection<?> c) {
 		boolean success = listOf.removeAll(c);
-		if (success) { // TODO : a success does not mean that all elements from c have been removed from the listOf
+		if (success) { // TODO: a success does not mean that all elements from c have been removed from the listOf
 			 for(Iterator<?> i = c.iterator(); i.hasNext();) {
 				 SBase element = (SBase) i.next();
 				 element.fireNodeRemovedEvent();
@@ -966,7 +966,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 	@Override
 	public String toString() {
 
-		// TODO : replace the code below by log4j debug message ?
+		// TODO: replace the code below by log4j debug message ?
 
 		if (DEBUG_MODE) {
 			return listOf.toString();

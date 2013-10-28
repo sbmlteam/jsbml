@@ -104,7 +104,7 @@ public class TestIncompatibilities {
 
 	  @Test public void test_L3_Parameter_hasRequiredAttributes()
 	  {
-		  assertTrue(false); // TODO : we need to implement the method sbase.hasRequiredAttributes() for all element
+		  assertTrue(false); // TODO: we need to implement the method sbase.hasRequiredAttributes() for all element
 		  
 	    Parameter p = new  Parameter(3,1);
 //	    assertEquals( false, p.hasRequiredAttributes() );
@@ -199,7 +199,7 @@ public class TestIncompatibilities {
 
 		  assertTrue(false);
 		  // assertTrue(ud.getUnit(0).getKind() == Unit.Kind.LITRE); 
-		  // TODO : API changes to document
+		  // TODO: API changes to document
 
 	  }
 	  

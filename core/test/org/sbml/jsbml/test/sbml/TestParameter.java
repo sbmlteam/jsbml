@@ -81,7 +81,7 @@ public class TestParameter {
   }
 
   /*
-  // TODO : put back if we support constructor with namespaces
+  // TODO: put back if we support constructor with namespaces
   public void test_Parameter_createWithNS()
   {
     XMLNamespaces xmlns = new  XMLNamespaces();

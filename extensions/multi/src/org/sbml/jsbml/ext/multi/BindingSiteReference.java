@@ -125,5 +125,5 @@ public class BindingSiteReference extends AbstractSBase {
 		return attributes;
 	}
 
-	// TODO : removeXX unsetXX, equals, hashCode, ...
+	// TODO: removeXX unsetXX, equals, hashCode, ...
 }

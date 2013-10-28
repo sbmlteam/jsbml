@@ -67,12 +67,12 @@ public class TestEvent {
   }
 
   @SuppressWarnings("deprecation")
-@Test public void test_Event_create()
+  @Test public void test_Event_create()
   {
-//    assertTrue( E.getTypeCode() == libsbml.SBML_EVENT );
+    //    assertTrue( E.getTypeCode() == libsbml.SBML_EVENT );
     assertTrue( E.getMetaId().equals("") == true );
     assertTrue( E.getNotes() == null );
-//    assertTrue( E.getAnnotation() == null );
+    //    assertTrue( E.getAnnotation() == null );
     assertTrue( E.getId().equals("") == true );
     assertTrue( E.getName().equals("") == true );
     assertEquals(E.getTrigger(),null);
@@ -82,7 +82,7 @@ public class TestEvent {
   }
 
   /*
-   // TODO : add again if we have constructor with SBMLNamespaces
+   // TODO: add again if we have constructor with SBMLNamespaces
   @Test public void test_Event_createWithNS()
   {
     XMLNamespaces xmlns = new  XMLNamespaces();
@@ -100,8 +100,8 @@ public class TestEvent {
     assertTrue( object.getNamespaces().getLength() == 2 );
     object = null;
   }
-*/
-  
+   */
+
   @Test public void test_Event_full() throws ParseException
   {
     ASTNode math1 = ASTNode.parseFormula("0"); 
@@ -127,10 +127,10 @@ public class TestEvent {
     EventAssignment o1,o2,o3;
     ASTNode math = null;
     try {
-		math = ASTNode.parseFormula("0");
-	} catch (ParseException e) {
-		assertTrue(false);
-	} 
+      math = ASTNode.parseFormula("0");
+    } catch (ParseException e) {
+      assertTrue(false);
+    } 
     o1 = E.createEventAssignment("t1", math); // We cannot add several time the same element to a list of anything
     o2 = E.createEventAssignment("t2", math);
     o3 = E.createEventAssignment("t3", math);
@@ -203,7 +203,7 @@ public class TestEvent {
   }
 
   @SuppressWarnings("deprecation")
-@Test public void test_Event_setTimeUnits()
+  @Test public void test_Event_setTimeUnits()
   {
     Event E1 = new  Event(2,1);
     String units =  "second";;

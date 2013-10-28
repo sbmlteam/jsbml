@@ -79,7 +79,7 @@ public class QualParser extends AbstractReaderWriter {
 
 		if (sbase instanceof SBMLDocument) {
 			// nothing to do
-			// TODO : the 'required' attribute is written even if there is no plugin class for the SBMLDocument, so I am not totally sure how this is done.
+			// TODO: the 'required' attribute is written even if there is no plugin class for the SBMLDocument, so I am not totally sure how this is done.
 		} 
 		else if (sbase instanceof Model) {
 			QualitativeModel modelGE = (QualitativeModel) ((Model) sbase).getExtension(QualConstant.namespaceURI);
@@ -146,7 +146,7 @@ public class QualParser extends AbstractReaderWriter {
 	@SuppressWarnings("unchecked")
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
-		// logger.debug("processStartElement : elementName = " + elementName + " (" + contextObject.getClass().getSimpleName() + ")");
+		// logger.debug("processStartElement: elementName = " + elementName + " (" + contextObject.getClass().getSimpleName() + ")");
 		
 		if (contextObject instanceof Model) {
 			Model model = (Model) contextObject;

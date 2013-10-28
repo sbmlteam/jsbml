@@ -141,7 +141,7 @@ public class MultiSpecies extends AbstractSBasePlugin {
    */
   public boolean isSetListOfSpeciesInstances() {
     return (listOfSpeciesTypeInstances != null)
-        && (listOfSpeciesTypeInstances.size() > 0); // TODO : should we do that or not (and in general for other listOf that should not be empty) ?
+        && (listOfSpeciesTypeInstances.size() > 0); // TODO: should we do that or not (and in general for other listOf that should not be empty) ?
   }
 
   public boolean readAttribute(String attributeName, String prefix,
@@ -166,7 +166,7 @@ public class MultiSpecies extends AbstractSBasePlugin {
    *         data structure.
    */
   public boolean unsetListOfInitialSpeciesInstances() {
-    // TODO : check if we need to do any additional call to have everything properly unregistered
+    // TODO: check if we need to do any additional call to have everything properly unregistered
     if (this.listOfSpeciesTypeInstances != null) {
       ListOf<SpeciesTypeInstance> oldListOfInitialSpeciesInstances = this.listOfSpeciesTypeInstances;
       this.listOfSpeciesTypeInstances = null;

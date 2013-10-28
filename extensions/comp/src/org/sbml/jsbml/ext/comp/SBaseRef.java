@@ -368,7 +368,7 @@ public class SBaseRef extends AbstractSBase {
 		SBaseRef oldSBaseRef = this.sBaseRef;
 		this.sBaseRef = sBaseRef;
 		firePropertyChange(CompConstant.sBaseRef, oldSBaseRef, this.sBaseRef);
-		// TODO : need to register the new sBaseRef in the model/document
+		// TODO: need to register the new sBaseRef in the model/document
 	}
 
 	/**

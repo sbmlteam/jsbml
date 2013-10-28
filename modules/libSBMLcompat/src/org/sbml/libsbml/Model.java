@@ -61,7 +61,7 @@ public class Model extends org.sbml.jsbml.Model {
 		              // get the useful stuff from the AbstracSBase constructor.
 		              // But I am not sure inheritance is the way to go.
 		
-		// initDefaults(); TODO : add
+		// initDefaults(); TODO: add
 
 		if (model.isSetListOfSpecies()) {
 			setListOfSpecies(new ListOfSpecies(model.getListOfSpecies()));
@@ -76,7 +76,7 @@ public class Model extends org.sbml.jsbml.Model {
 	public Model(org.sbml.jsbml.Model model) {
 		super(model); // call AbstracSBase constructor
 		
-		// initDefaults(); TODO : add
+		// initDefaults(); TODO: add
 
 		if (model.isSetListOfSpecies()) {
 			setListOfSpecies(new ListOfSpecies(model.getListOfSpecies()));
@@ -103,7 +103,7 @@ public class Model extends org.sbml.jsbml.Model {
 	 * 
 	 */
 	private void initListOfSpecies() {
-		System.out.println("libsbml.Model : initListOfSpecies called");
+		System.out.println("libsbml.Model: initListOfSpecies called");
 		this.listOfSpecies = new ListOfSpecies(getLevel(), getVersion());
 		setThisAsParentSBMLObject(this.listOfSpecies);
 		this.listOfSpecies.setSBaseListType(Type.listOfSpecies);
@@ -115,6 +115,7 @@ public class Model extends org.sbml.jsbml.Model {
 	 * 
 	 * @param listOfSpecies
 	 */
+	@Override
 	public ListOfSpecies getListOfSpecies() {
 		if (!isSetListOfSpecies()) {
 			initListOfSpecies();
@@ -122,6 +123,6 @@ public class Model extends org.sbml.jsbml.Model {
 		return listOfSpecies;
 	}
 
-	// TODO : check and add missing functions
+	// TODO: check and add missing functions
 	
 }
