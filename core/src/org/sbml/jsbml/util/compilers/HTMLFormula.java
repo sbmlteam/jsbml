@@ -72,12 +72,15 @@ public class HTMLFormula extends MathMLCompiler {
 	 */
 	private static final StringBuffer arith(Object operator, Object... elements) {
 		List<Object> vsb = new Vector<Object>();
-		for (Object sb : elements)
-			if (sb != null && sb.toString().length() > 0)
+		for (Object sb : elements) {
+			if (sb != null && sb.toString().length() > 0) {
 				vsb.add(sb);
+			}
+		}
 		StringBuffer equation = new StringBuffer();
-		if (vsb.size() > 0)
+		if (vsb.size() > 0) {
 			equation.append(vsb.get(0));
+		}
 		String op = operator.toString();
 		for (int count = 1; count < vsb.size(); count++) {
 			StringTools.append(equation, op, vsb.get(count));
@@ -254,4 +257,5 @@ public class HTMLFormula extends MathMLCompiler {
 		}
 		return StringTools.toHTML(reactionEqn.toString());
 	}
+
 }

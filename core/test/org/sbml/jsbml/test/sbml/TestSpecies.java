@@ -69,7 +69,7 @@ public class TestSpecies {
     assertTrue( S.getId().equals("") == true );
     assertTrue( S.getName().equals("") == true );
     assertTrue( S.getCompartment().equals("") == true );
-    assertTrue( Double.isNaN(S.getInitialAmount()) ); // TODO : difference to add
+    assertTrue( Double.isNaN(S.getInitialAmount()) ); // TODO: difference to add
     assertTrue( Double.isNaN(S.getInitialConcentration()) );
     // assertTrue( S.getInitialConcentration() == 0.0 ); // test from libsbml
     assertTrue( S.getSubstanceUnits().equals("") == true );

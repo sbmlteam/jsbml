@@ -91,7 +91,7 @@ public interface Assignment extends MathContainer {
 	 * are notified about this change.
 	 * 
 	 * @param variableID
-	 *            : the variable to set
+	 *           the variable to set
 	 */
 	public void setVariable(String variableID);
 
@@ -100,7 +100,7 @@ public interface Assignment extends MathContainer {
 	 * {@link Variable} 'variable'.Listeners are notified about this change.
 	 * 
 	 * @param variable
-	 *            : the variable to set
+	 *            the variable to set
 	 */
 	public void setVariable(Variable variable);
 

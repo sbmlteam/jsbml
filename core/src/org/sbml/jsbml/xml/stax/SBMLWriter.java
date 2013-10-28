@@ -1409,7 +1409,7 @@ public class SBMLWriter {
 					logger.warn("An SBML element should only be associated with one package!");
 				
 					if (logger.isDebugEnabled()) {
-						logger.debug("List of associated namespace : " + listOfChildPackages);
+						logger.debug("List of associated namespace: " + listOfChildPackages);
 					}
 				}
 				WritingParser childParser = listOfChildPackages.get(0);
@@ -1437,7 +1437,7 @@ public class SBMLWriter {
 				childParser.writeAttributes(childXmlObject, nextObjectToWrite);
 
 				if (!childXmlObject.isSetName()) {
-					// TODO : add a log message that this is ignored ??
+					// TODO: add a log message that this is ignored ??
 					logger.debug("XML name not set, element ignored!");
 					continue;
 				}

@@ -28,6 +28,8 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+
 /**
  * 
  * Format time to W3DTF
@@ -42,6 +44,11 @@ public class DateProcessor {
 	 * 
 	 */
 	public final static DateProcessor instance;
+	
+	/**
+	 * A {@link Logger} for this class.
+	 */
+	private static final Logger logger = Logger.getLogger(DateProcessor.class);
 
 	static {
 		instance = new DateProcessor();
@@ -137,9 +144,8 @@ public class DateProcessor {
 	 */
 	public final String formatToW3CDTF(Date datetime) {
 
-		System.out
-				.println("DateProcessor : formatToW3CDTF(Date) : date to parse : "
-						+ datetime);
+		logger.debug("DateProcessor: formatToW3CDTF(Date): date to parse: "
+		    + datetime);
 
 		String datetimeStr = ISO_8601_DATE_FORMAT.format(datetime);
 		return datetimeStr.substring(0, datetimeStr.lastIndexOf("00")) + ":00";
@@ -179,10 +185,8 @@ public class DateProcessor {
 		}
 
 		try {
-
-			System.out
-					.println("DateProcessor : formatToW3CDTF(String) : date to parse : "
-							+ datetime);
+			logger.debug(
+			  "DateProcessor: formatToW3CDTF(String): date to parse: " + datetime);
 
 			Date date = ISO_8601_DATE_FORMAT.parse(datetime);
 			return formatToW3CDTF(date);

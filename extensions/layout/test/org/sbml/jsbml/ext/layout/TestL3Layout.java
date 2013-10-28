@@ -115,7 +115,7 @@ public class TestL3Layout {
 		SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
 		Model model = doc.getModel();
 		
-		System.out.println("Model extension objects : " + model.getExtension(LAYOUT_NAMESPACE));
+		System.out.println("Model extension objects: " + model.getExtension(LAYOUT_NAMESPACE));
 		LayoutModelPlugin extendedModel = (LayoutModelPlugin) model.getExtension(LAYOUT_NAMESPACE);
 		
 		System.out.println("Nb Layouts = " + extendedModel.getListOfLayouts().size());

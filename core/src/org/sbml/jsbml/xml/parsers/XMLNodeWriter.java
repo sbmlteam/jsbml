@@ -33,8 +33,6 @@ import org.sbml.jsbml.xml.XMLNode;
 
 import com.ctc.wstx.stax.WstxOutputFactory;
 
-
-
 /**
  *
  * 
@@ -175,7 +173,7 @@ public class XMLNodeWriter {
         String attrValue = xmlNode.getAttrValue(i);
         
         if (attrPrefix.length() != 0) {
-          // TODO : check if we need to pass null for URI if not defined and if we could use only one method
+          // TODO check if we need to pass null for URI if not defined and if we could use only one method
           writer.writeAttribute(attrPrefix, attrURI, attrName, attrValue);
         } else if (attrURI.length() != 0) {
           writer.writeAttribute(attrURI, attrName, attrValue);
@@ -185,7 +183,7 @@ public class XMLNodeWriter {
       }
 
     } else if (xmlNode.isText()) {
-      logger.debug("writing some text : characters = @" + xmlNode.getCharacters().trim() + "@");
+      logger.debug("writing some text characters = @" + xmlNode.getCharacters().trim() + "@");
       writer.writeCharacters(xmlNode.getCharacters().trim());
     }
 

@@ -31,7 +31,7 @@ import org.sbml.jsbml.SpeciesReference;
  */
 public class ProductSpeciesReference extends SpeciesReference {
 
-	// TODO : check if it is a new element or a plugin to speciesReference
+	// TODO: check if it is a new element or a plugin to speciesReference
 	
 	/**
    * Generated serial version identifier.

@@ -36,7 +36,7 @@ import org.sbml.jsbml.SBMLException;
  */
 public class Bond extends AbstractSBase {
 
-	// TODO : store the BindingSiteReference in a list and test that there are no more than two of them.
+	// TODO: store the BindingSiteReference in a list and test that there are no more than two of them.
 	
 	/**
    * Generated serial version identifier.

@@ -428,11 +428,17 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
 		return false;
 	}
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnitDefinition()
+   */
 	public UnitDefinition getDerivedUnitDefinition() {
 		return null; // return Dimensionless here ??
-		// TODO : ask Sarah if the qual specs say anything about that
+		// TODO: ask Sarah if the qual specs say anything about that
 	}
 
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnits()
+	 */
 	public String getDerivedUnits() {
 		return null; // see comment above
 	}

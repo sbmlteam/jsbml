@@ -153,11 +153,11 @@ public class SubModel {
       String[] eventsIds,
       boolean inclComp, boolean inclSpecies, boolean inclReact, boolean inclRules, boolean inclEvents) {
 
-    	// TODO : need to be sure that all needed elements have a metaid, likes rules, events, ...
+    	// TODO: need to be sure that all needed elements have a metaid, likes rules, events, ...
     	
-    	// TODO : would probably be easier to use only ArrayList, instead of arrays. Not sure if it would be better to store the Objects instead of the ids.
+    	// TODO: would probably be easier to use only ArrayList, instead of arrays. Not sure if it would be better to store the Objects instead of the ids.
     	
-    	// TODO : need to check for InitialAssignment and Constraint
+    	// TODO: need to check for InitialAssignment and Constraint
     	
         //
         // initial
@@ -219,7 +219,7 @@ public class SubModel {
         	allFunctionsIdSet.add(functionDefinition.getId());
         }
 
-        // TODO : the added rules or events can contain some species, compartment or speciesReferences (for L3) that could
+        // TODO: the added rules or events can contain some species, compartment or speciesReferences (for L3) that could
         // not be present in the list of included elements !!!
 
         //
@@ -297,7 +297,7 @@ public class SubModel {
                   subModel.addRule(modelRule.clone());
                   if (modelRule.getMath() != null) {
                     getRelatedFunctionsId(relatedFunctionsIdSet, allFunctionsIdSet, modelRule.getMath());
-                    // TODO : analyze the math to add missing Species, ...
+                    // TODO: analyze the math to add missing Species, ...
                   }
                 }
               }
@@ -334,7 +334,7 @@ public class SubModel {
         // parameters.
         //
 
-        // TODO : try not to add all the parameters !!
+        // TODO: try not to add all the parameters !!
         // When we do getRelatedFunctions, we could search for the related species and parameter !!
         
         for (Parameter parameter : model.getListOfParameters()) {
@@ -379,7 +379,7 @@ public class SubModel {
 
         UnitDefinition unit = model.getUnitDefinition(elementUnits);
 
-        debugLogger.debug("processUnitsMap : unit = " + elementUnits);
+        debugLogger.debug("processUnitsMap: unit = " + elementUnits);
 
         if (unit != null && !unitsMap.containsKey(unit.getId())) {
             unitsMap.put(unit.getId(), unit);
@@ -400,7 +400,7 @@ public class SubModel {
     		}
     	}
     	
-    	// TODO : the mathML can have some units as well, on the cn element in SBML L3V1
+    	// TODO: the mathML can have some units as well, on the cn element in SBML L3V1
     }
     //
     //
@@ -467,12 +467,12 @@ public class SubModel {
         if ((relatedCompartmentsList == null) || relatedCompartmentsList.isEmpty()) {
             compartmentsIds = null;
         
-            debugLogger.debug("getRelatedCompartments : related compartmentsIds is empty !!!!\n\n");
+            debugLogger.debug("getRelatedCompartments: related compartmentsIds is empty !!!!\n\n");
 
         } else {
             compartmentsIds = relatedCompartmentsList.toArray(new String[relatedCompartmentsList.size()]);
             
-            debugLogger.debug("getRelatedCompartments : related compartmentsIds = " + Arrays.toString(compartmentsIds) + "\n\n");
+            debugLogger.debug("getRelatedCompartments: related compartmentsIds = " + Arrays.toString(compartmentsIds) + "\n\n");
             
         }
 
@@ -503,9 +503,9 @@ public class SubModel {
         
     	Logger debugLogger = Logger.getLogger(SubModel.class);
     	debugLogger.debug("getRelatedSpecies ");
-    	debugLogger.debug("getRelatedSpecies : reactsIds : " + Arrays.toString(reactsIds));
-    	debugLogger.debug("getRelatedSpecies : compartmentsIds : " + Arrays.toString(compartmentsIds));
-    	debugLogger.debug("getRelatedSpecies : speciesIds : " + Arrays.toString(speciesIds) + "\n");
+    	debugLogger.debug("getRelatedSpecies: reactsIds: " + Arrays.toString(reactsIds));
+    	debugLogger.debug("getRelatedSpecies: compartmentsIds: " + Arrays.toString(compartmentsIds));
+    	debugLogger.debug("getRelatedSpecies: speciesIds: " + Arrays.toString(speciesIds) + "\n");
 
     	// get the related species
         List<String> selectedSpecies = new ArrayList<String>();
@@ -563,12 +563,12 @@ public class SubModel {
         if ((selectedSpecies == null) || selectedSpecies.isEmpty()) {
             speciesIds = null;
 
-            debugLogger.debug("getRelatedSpecies : related speciesIds is empty !!!!! \n\n");
+            debugLogger.debug("getRelatedSpecies: related speciesIds is empty !!!!! \n\n");
 
         } else {
             speciesIds = selectedSpecies.toArray(new String[selectedSpecies.size()]);
 
-            debugLogger.debug("\ngetRelatedSpecies : related speciesIds = " + Arrays.toString(speciesIds) + "\n\n");
+            debugLogger.debug("\ngetRelatedSpecies: related speciesIds = " + Arrays.toString(speciesIds) + "\n\n");
 
         }
         
@@ -591,9 +591,9 @@ public class SubModel {
     {
     	Logger debugLogger = Logger.getLogger(SubModel.class);
     	debugLogger.debug("getRelatedRules ");
-    	debugLogger.debug("getRelatedRules : rulesIds : " + Arrays.toString(rulesIds));
-    	debugLogger.debug("getRelatedRules : compartmentsIds : " + Arrays.toString(compartmentsIds));
-    	debugLogger.debug("getRelatedRules : speciesIds : " + Arrays.toString(speciesIds) + "\n");
+    	debugLogger.debug("getRelatedRules: rulesIds: " + Arrays.toString(rulesIds));
+    	debugLogger.debug("getRelatedRules: compartmentsIds: " + Arrays.toString(compartmentsIds));
+    	debugLogger.debug("getRelatedRules: speciesIds: " + Arrays.toString(speciesIds) + "\n");
 
     	// get the related rules
         List<String> selectedRules = new ArrayList<String>();
@@ -638,18 +638,18 @@ public class SubModel {
         	}
         }
         
-        // TODO : check the math of rule to check if we need to add any more species, compartment or other
+        // TODO: check the math of rule to check if we need to add any more species, compartment or other
         
         // convert to array
         if ((selectedRules == null) || selectedRules.isEmpty()) {
             rulesIds = null;
 
-            debugLogger.debug("getRelatedRules : related RulesIds is empty !!!!! \n\n");
+            debugLogger.debug("getRelatedRules: related RulesIds is empty !!!!! \n\n");
 
         } else {
             rulesIds = selectedRules.toArray(new String[selectedRules.size()]);
 
-            debugLogger.debug("\ngetRelatedRules : related RulesIds = " + Arrays.toString(rulesIds) + "\n\n");
+            debugLogger.debug("\ngetRelatedRules: related RulesIds = " + Arrays.toString(rulesIds) + "\n\n");
 
         }
         
@@ -672,9 +672,9 @@ public class SubModel {
     {
     	Logger debugLogger = Logger.getLogger(SubModel.class);
     	debugLogger.debug("getRelatedEvents ");
-    	debugLogger.debug("getRelatedEvents : eventsIds : " + Arrays.toString(eventsIds));
-    	debugLogger.debug("getRelatedEvents : compartmentsIds : " + Arrays.toString(compartmentsIds));
-    	debugLogger.debug("getRelatedEvents : speciesIds : " + Arrays.toString(speciesIds) + "\n");
+    	debugLogger.debug("getRelatedEvents: eventsIds: " + Arrays.toString(eventsIds));
+    	debugLogger.debug("getRelatedEvents: compartmentsIds: " + Arrays.toString(compartmentsIds));
+    	debugLogger.debug("getRelatedEvents: speciesIds: " + Arrays.toString(speciesIds) + "\n");
 
     	// get the related events
         ArrayList<String> selectedEvents = new ArrayList<String>();
@@ -687,8 +687,8 @@ public class SubModel {
         
         for (Event event : model.getListOfEvents()) {
 
-        	// TODO : check the trigger math 
-        	// TODO : check the delay math 
+        	// TODO: check the trigger math 
+        	// TODO: check the delay math 
         	
         	for (EventAssignment eventAssigment : event.getListOfEventAssignments()) {
         		
@@ -716,12 +716,12 @@ public class SubModel {
         if ((selectedEvents == null) || selectedEvents.isEmpty()) {
             eventsIds = null;
 
-            debugLogger.debug("getRelatedEvents : related EventsIds is empty !!!!! \n\n");
+            debugLogger.debug("getRelatedEvents: related EventsIds is empty !!!!! \n\n");
 
         } else {
             eventsIds = selectedEvents.toArray(new String[selectedEvents.size()]);
 
-            debugLogger.debug("\ngetRelatedEvents : related EventsIds = " + Arrays.toString(eventsIds) + "\n\n");
+            debugLogger.debug("\ngetRelatedEvents: related EventsIds = " + Arrays.toString(eventsIds) + "\n\n");
 
         }
         
@@ -757,8 +757,8 @@ public class SubModel {
       Logger debugLogger = Logger.getLogger(SubModel.class);
 
       debugLogger.debug("getRelatedReactions ");
-      debugLogger.debug("getRelatedReactions : selected reactsIds : " + Arrays.toString(reactsIds));
-      debugLogger.debug("getRelatedReactions : selected speciesIds : " + Arrays.toString(speciesIds) + "\n");
+      debugLogger.debug("getRelatedReactions: selected reactsIds: " + Arrays.toString(reactsIds));
+      debugLogger.debug("getRelatedReactions: selected speciesIds: " + Arrays.toString(speciesIds) + "\n");
 
       // get all related reactions
       List<String> relatedReactsList = new ArrayList<String>();
@@ -769,7 +769,7 @@ public class SubModel {
 
           String reactionId = reaction.getId();
 
-          debugLogger.debug("getRelatedReactions : reaction = " + reactionId);
+          debugLogger.debug("getRelatedReactions: reaction = " + reactionId);
 
           boolean thisReactionSelected = false;
 
@@ -786,15 +786,15 @@ public class SubModel {
 
               Species species = model.getSpecies(speciesIds[j]);
 
-              // debugLogger.debug("getRelatedReactions : speciesId = " + speciesIds[j]);
-              // debugLogger.debug("getRelatedReactions : reactant = " + Arrays.toString(reaction.getReactants().toArray()));
-              // debugLogger.debug("getRelatedReactions : product = " + Arrays.toString(reaction.getProducts().toArray()));
-              // debugLogger.debug("getRelatedReactions : modifier = " + Arrays.toString(reaction.getModifiers().toArray()));
+              // debugLogger.debug("getRelatedReactions: speciesId = " + speciesIds[j]);
+              // debugLogger.debug("getRelatedReactions: reactant = " + Arrays.toString(reaction.getReactants().toArray()));
+              // debugLogger.debug("getRelatedReactions: product = " + Arrays.toString(reaction.getProducts().toArray()));
+              // debugLogger.debug("getRelatedReactions: modifier = " + Arrays.toString(reaction.getModifiers().toArray()));
 
               // thisReactionSelected = reaction.getReactants().contains(species); // not working !! to investigate may be !!
               thisReactionSelected = contains(reaction.getListOfReactants(), species);
 
-              // debugLogger.debug("getRelatedReactions : contains.own = " + contains(reaction.getReactants(), species));
+              // debugLogger.debug("getRelatedReactions: contains.own = " + contains(reaction.getReactants(), species));
 
               if (!thisReactionSelected) {
                 thisReactionSelected = contains(reaction.getListOfProducts(), species);
@@ -813,12 +813,12 @@ public class SubModel {
 
       // convert to array
       if ((relatedReactsList == null) || relatedReactsList.isEmpty()) {
-        debugLogger.debug("getRelatedReactions : related reactsIds is empty !!!!\n\n");
+        debugLogger.debug("getRelatedReactions: related reactsIds is empty !!!!\n\n");
         
         return null;
       }
       
-      debugLogger.debug("getRelatedReactions : related reactsIds : " + Arrays.toString(reactsIds) + "!!!!\n\n");
+      debugLogger.debug("getRelatedReactions: related reactsIds: " + Arrays.toString(reactsIds) + "!!!!\n\n");
 
       return relatedReactsList.toArray(new String[relatedReactsList.size()]);
     }
@@ -856,7 +856,7 @@ public class SubModel {
     	Logger debugLogger = Logger.getLogger(SubModel.class);
 
     	debugLogger.debug("getRelatedFunctions ");
-    	debugLogger.debug("getRelatedFunctions : math = " + mathNode);
+    	debugLogger.debug("getRelatedFunctions: math = " + mathNode);
 
     	if (mathNode == null) 
     	{
@@ -875,7 +875,7 @@ public class SubModel {
     			&& (mathNode.isName() || mathNode.isFunction())
     			&& mathNode.getName() == null)
     	{
-    		debugLogger.debug("getRelatedFunctions : mathNode.getName() == null !!! - type = " + mathNode.getType());
+    		debugLogger.debug("getRelatedFunctions: mathNode.getName() == null !!! - type = " + mathNode.getType());
     	}
     	
     	for (int i = 0; i < mathNode.getChildCount(); i++) {

@@ -42,25 +42,15 @@ public class MessageConverter implements Converter {
 		this.elementName = elementName; 
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.thoughtworks.xstream.converters.ConverterMatcher#canConvert(java.
-	 * lang.Class)
+	/* (non-Javadoc)
+	 * @see com.thoughtworks.xstream.converters.ConverterMatcher#canConvert(java.lang.Class)
 	 */
-	@SuppressWarnings("unchecked")
 	public boolean canConvert(Class arg0) {
 		return arg0.equals(Message.class);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.thoughtworks.xstream.converters.Converter#marshal(java.lang.Object,
-	 * com.thoughtworks.xstream.io.HierarchicalStreamWriter,
-	 * com.thoughtworks.xstream.converters.MarshallingContext)
+	/* (non-Javadoc)
+	 * @see com.thoughtworks.xstream.converters.Converter#marshal(java.lang.Object, com.thoughtworks.xstream.io.HierarchicalStreamWriter, com.thoughtworks.xstream.converters.MarshallingContext)
 	 */
 	public void marshal(Object currentObject, HierarchicalStreamWriter writer,
 			MarshallingContext context) {
@@ -72,19 +62,14 @@ public class MessageConverter implements Converter {
 		writer.endNode();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.thoughtworks.xstream.converters.Converter#unmarshal(com.thoughtworks
-	 * .xstream.io.HierarchicalStreamReader,
-	 * com.thoughtworks.xstream.converters.UnmarshallingContext)
+	/* (non-Javadoc)
+	 * @see com.thoughtworks.xstream.converters.Converter#unmarshal(com.thoughtworks.xstream.io.HierarchicalStreamReader, com.thoughtworks.xstream.converters.UnmarshallingContext)
 	 */
 	public Object unmarshal(HierarchicalStreamReader reader,
 			UnmarshallingContext context) {
 		Message message = new Message();
 
-		// System.out.println("MessageConverter : nodeName = " +
+		// logger.debug("MessageConverter: nodeName = " +
 		// reader.getNodeName());
 
 		message.setLang(reader.getAttribute("lang"));
@@ -92,7 +77,7 @@ public class MessageConverter implements Converter {
 		// reader.moveDown();
 		String messageContent = reader.getValue();
 
-		// System.out.println("MessageConverter : content = " + messageContent);
+		// logger.debug("MessageConverter: content = " + messageContent);
 
 		message.setMessage(messageContent);
 		// reader.moveUp();

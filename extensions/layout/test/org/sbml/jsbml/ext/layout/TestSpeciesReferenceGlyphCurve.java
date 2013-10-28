@@ -115,8 +115,8 @@ public class TestSpeciesReferenceGlyphCurve {
 		assert(cs1Bis.getBasePoint1().getY() == 35);
 		assert(cs1Bis.getBasePoint1().getZ() == 45);
 		assert(cs1Bis.getBasePoint2().getX() == 55);
-		assert cs1Bis.getBasePoint2().getZ() == 75 : "BasePoint2.Z is not read properly !!!";
-		assert cs1Bis.getType().equals(CurveSegment.Type.CUBIC_BEZIER) : "BasePoint2.type is not read properly !!!";
+		assert cs1Bis.getBasePoint2().getZ() == 75 : "BasePoint2.Z is not read properly!";
+		assert cs1Bis.getType().equals(CurveSegment.Type.CUBIC_BEZIER) : "BasePoint2.type is not read properly!";
 		
 		System.out.println("CurveSegmentImpl.basePoint2.Z = " + cs1Bis.getBasePoint2().getZ());
 		

@@ -78,9 +78,9 @@ public class SBML_L2V1Test {
 	
 	@BeforeClass public static void initialSetUp() {
 		
-		// System.out.println("BeforeClass code : DATA_FOLDER = " + DATA_FOLDER);
+		// System.out.println("BeforeClass code: DATA_FOLDER = " + DATA_FOLDER);
 		
-		// TODO : read the files there and extend the class with the initialSetup using libSBML to test the libSBMLReader/Writer also
+		// TODO: read the files there and extend the class with the initialSetup using libSBML to test the libSBMLReader/Writer also
 	
 	}
 	
@@ -108,7 +108,7 @@ public class SBML_L2V1Test {
 		
 		assertTrue(doc.getLevel() == 2 && doc.getVersion() == 1);
 		
-		// TODO : assertTrue(model.getLevel() == 2 && model.getVersion() == 1);
+		// TODO: assertTrue(model.getLevel() == 2 && model.getVersion() == 1);
 		
 		assertTrue(model.getId().equals("Smolen2002"));
 		assertTrue(model.getName().equals("Smolen2002_CircClock"));
@@ -122,8 +122,8 @@ public class SBML_L2V1Test {
         </dcterms:modified>
 		 * 
 		 */
-		// System.out.println("Created on  : " + model.getHistory().getCreatedDate());
-		// System.out.println("Modified on : " + model.getHistory().getModifiedDate());
+		// System.out.println("Created on : " + model.getHistory().getCreatedDate());
+		// System.out.println("Modified on: " + model.getHistory().getModifiedDate());
 		
 		// asserTrue(model.getHistory().getCreatedDate());
 		
@@ -224,12 +224,12 @@ public class SBML_L2V1Test {
 		pRBp.setHasOnlySubstanceUnits(false);
 		
 		assertTrue(pRBp != null);
-		System.out.println("pRBp notes : " + pRBp.getNotesString()); // namespace lost, should probably here.
+		System.out.println("pRBp notes: " + pRBp.getNotesString()); // namespace lost, should probably here.
 
-		// TODO : add more complex test for Notes !! assertTrue(pRBp.getNotesString().contains(JSBML.URI_XHTML_DEFINITION));
+		// TODO: add more complex test for Notes !! assertTrue(pRBp.getNotesString().contains(JSBML.URI_XHTML_DEFINITION));
 
-		System.out.println("pRBp annotation : " + pRBp.getAnnotation().getNonRDFannotation());
-		System.out.println("pRBp annotation : " + pRBp.getCVTerm(0).toString());
+		System.out.println("pRBp annotation: " + pRBp.getAnnotation().getNonRDFannotation());
+		System.out.println("pRBp annotation: " + pRBp.getCVTerm(0).toString());
 		
 		assertTrue(model.getListOfParameters().size() == 40);
 		
@@ -249,7 +249,7 @@ public class SBML_L2V1Test {
 		Reaction pRB_synthesis = model.getReaction("pRB_synthesis");
 		
 		assertTrue(pRB_synthesis != null);
-		System.out.println("pRB_synthesis additional annotation : " + pRB_synthesis.getAnnotation().getNonRDFannotation());
+		System.out.println("pRB_synthesis additional annotation: " + pRB_synthesis.getAnnotation().getNonRDFannotation());
 
 		assertTrue(pRB_synthesis.getAnnotation().getNonRDFannotation().trim().startsWith("<jigcell:ratelaw jigcell:name=\"Local\""));
 		
@@ -276,8 +276,8 @@ public class SBML_L2V1Test {
 		assertTrue(model.getId().equals("Ma2002_cAMP_oscillations"));
 		assertTrue(model.getName().equals("Ma2202_cAMP_oscillations"));
 		
-		System.out.println(" Create date, read : " + model.getHistory().getCreatedDate() + ", from file : 2009-08-18T15:45:28Z");
-		System.out.println(" Create date, read : " + model.getHistory().getModifiedDate() + ", from file : 2009-08-25T14:48:18Z");
+		System.out.println(" Create date, read: " + model.getHistory().getCreatedDate() + ", from file: 2009-08-18T15:45:28Z");
+		System.out.println(" Create date, read: " + model.getHistory().getModifiedDate() + ", from file: 2009-08-25T14:48:18Z");
 		
 		assertTrue(model.getHistory().getCreator(0).getGivenName().equals("Vijayalakshmi"));
 		assertTrue(model.getHistory().getCreator(1).getGivenName().equals("Lan"));
@@ -296,8 +296,6 @@ public class SBML_L2V1Test {
 		assertTrue(erk2.getCVTerm(0).getResourceCount() == 2);
 		assertTrue(erk2.getCompartment().equals("compartment"));
 		assertTrue(erk2.getCompartmentInstance().getId().equals("compartment"));
-		
-		
 	}
 
 	

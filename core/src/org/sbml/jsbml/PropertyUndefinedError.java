@@ -55,7 +55,7 @@ public class PropertyUndefinedError extends PropertyException {
 	}
 
 	public PropertyUndefinedError(String property, SBasePlugin sbasePlugin) {
-		// TODO : change to include package short name or namespace??
+		// TODO: change to include package short name or namespace??
 		super(createMessage(PROPERTY_UNDEFINED_EXCEPTION_MSG, property, sbasePlugin));
 	}
 

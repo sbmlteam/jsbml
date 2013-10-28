@@ -31,7 +31,7 @@ import org.sbml.jsbml.AbstractSBase;
  */
 public class AdjacentDomains extends AbstractSBase {
 
-	  // private String spatialId; // TODO : see what to do about this id, either extends NamedSBase or a custom Spatial only abstract class
+	  // private String spatialId; // TODO: see what to do about this id, either extends NamedSBase or a custom Spatial only abstract class
 	
 	  private String domain1;
 	  private String domain2;

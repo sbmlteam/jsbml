@@ -33,61 +33,58 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  */
 public class ListOfGroups<T extends SBase> extends ListOf<T>{
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -1320591187114439942L;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -1320591187114439942L;
 
-	/**
-	 * 
-	 * @return
-	 */
-    public GroupList getCurrentList() {
-        return listType;
+  /**
+   * 
+   * @return
+   */
+  public GroupList getCurrentList() {
+    return listType;
+  }
+
+  /**
+   * name of the list at it appears in the SBMLFile.
+   */
+  private GroupList listType = GroupList.none;
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof ListOfGroups<?>) {
+      boolean equals = super.equals(o);
+      // TODO: test the type of list
+      ListOfGroups<SBase> listOf = (ListOfGroups<SBase>) o;
+      equals &= getCurrentList() == listOf.getCurrentList();
+      return listOf.containsAll(this) && equals;
     }
+    return false;
+  }
 
-    /**
-     * name of the list at it appears in the SBMLFile.
-     */
-    private GroupList listType = GroupList.none;
+  /* (non-Javadoc)
+   * @see org.sbml.jlibsbml.SBase#getAnnotationString()
+   */
+  @Override
+  public String getElementName() {
+    String name = getCurrentList().toString();
+    return name;
+  }
 
-    /*
-      * (non-Javadoc)
-      *
-      * @see java.lang.Object#equals(java.lang.Object)
-      */
-	@SuppressWarnings("unchecked")
-	@Override
-    public boolean equals(Object o) {
-        if (o instanceof ListOfGroups<?>) {
-            boolean equals = super.equals(o);
-            // TODO : test the type of list
-            ListOfGroups<SBase> listOf = (ListOfGroups<SBase>) o;
-            equals &= getCurrentList() == listOf.getCurrentList();
-            return listOf.containsAll(this) && equals;
-        }
-        return false;
-    }
-
-    /*
-	 * (non-Javadoc)
-	 *
-	 * @see org.sbml.jlibsbml.SBase#getAnnotationString()
-	 */
-	public String getElementName() {
-		String name = getCurrentList().toString();
-		return name;
-	}
-
-   /**
-	 * Sets the SBaseListType of this ListOf instance to 'listType'.
-	 *
-	 * @param listType
-	 */
-	public void setCurrentList(GroupList currentList) {
-		GroupList oldList = this.listType;
-		this.listType = currentList;
-		firePropertyChange(TreeNodeChangeEvent.currentList, oldList, this.listType);
-	}
+  /**
+   * Sets the SBaseListType of this ListOf instance to 'listType'.
+   *
+   * @param listType
+   */
+  public void setCurrentList(GroupList currentList) {
+    GroupList oldList = this.listType;
+    this.listType = currentList;
+    firePropertyChange(TreeNodeChangeEvent.currentList, oldList, this.listType);
+  }
 
 }

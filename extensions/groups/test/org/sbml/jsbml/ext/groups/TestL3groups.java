@@ -98,7 +98,7 @@ public class TestL3groups {
 		SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
 		Model model = doc.getModel();
 
-		System.out.println("Model extension objects : "
+		System.out.println("Model extension objects: "
 				+ model.getExtension(GROUPS_NAMESPACE));
 		GroupModel extendedModel = (GroupModel) model
 				.getExtension(GROUPS_NAMESPACE);

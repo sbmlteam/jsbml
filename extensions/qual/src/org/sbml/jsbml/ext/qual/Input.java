@@ -92,7 +92,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
     setQualitativeSpecies(qualitativeSpecies.getId());
     setTransitionEffect(transitionEffect);
   }
-   
+
   /**
    * 
    * @param level
@@ -129,7 +129,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
 
   public Input(Input in) {
     super(in);
-    
+
     if (in.isSetQualitativeSpecies()) {
       setQualitativeSpecies(in.getQualitativeSpecies());
     }
@@ -143,7 +143,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
       setTransitionEffect(in.getTransitionEffect());
     }
   }
-  
+
   /**
    * 
    */
@@ -432,7 +432,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-    
+
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(QualConstant.qualitativeSpecies)) {
@@ -440,13 +440,13 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
       } else if (attributeName.equals(QualConstant.thresholdLevel)) {
         setThresholdLevel(StringTools.parseSBMLInt(value));
       } else if (attributeName.equals(QualConstant.sign)) {
-    	  try {
-    		  setSign(Sign.valueOf(value));
-    	  } catch (Exception e) {
-    		  throw new SBMLException("Could not recognized the value '" + value
-    				  + "' for the attribute " + QualConstant.sign
-    				  + " on the 'input' element.");
-    	  }
+        try {
+          setSign(Sign.valueOf(value));
+        } catch (Exception e) {
+          throw new SBMLException("Could not recognized the value '" + value
+            + "' for the attribute " + QualConstant.sign
+            + " on the 'input' element.");
+        }
       } else if (attributeName.equals(QualConstant.transitionEffect)) {
         try {
           setTransitionEffect(InputTransitionEffect.valueOf(value));
@@ -495,16 +495,26 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
     return attributes;
   }
 
-public boolean containsUndeclaredUnits() {
-	return false;
-}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBaseWithDerivedUnit#containsUndeclaredUnits()
+   */
+  public boolean containsUndeclaredUnits() {
+    return false;
+  }
 
-public UnitDefinition getDerivedUnitDefinition() {
-	return null; // return Dimensionless here ??
-	// TODO : ask Sarah if the qual specs say anything about that
-}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnitDefinition()
+   */
+  public UnitDefinition getDerivedUnitDefinition() {
+    return null; // return Dimensionless here ??
+    // TODO: ask Sarah if the qual specs say anything about that
+  }
 
-public String getDerivedUnits() {
-	return null; // see comment above
-}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnits()
+   */
+  public String getDerivedUnits() {
+    return null; // see comment above
+  }
+
 }

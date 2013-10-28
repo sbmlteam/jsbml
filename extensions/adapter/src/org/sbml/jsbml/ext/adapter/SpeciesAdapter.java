@@ -42,7 +42,7 @@ import org.sbml.jsbml.Unit.Kind;
 @SuppressWarnings("deprecation")
 public abstract class SpeciesAdapter extends Species {
 
-	// TODO : implement !!
+	// TODO: implement !!
 	
 	/**
 	 * Generated serial version identifier.

@@ -83,7 +83,7 @@ public class RenderParser extends AbstractReaderWriter {
 	@Override
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
-		logger.debug("logger called, " + prefix + " : " + elementName + " in context of: " + contextObject.toString());
+		logger.debug("logger called, " + prefix + ":" + elementName + " in context of: " + contextObject.toString());
 		if (contextObject instanceof LayoutModelPlugin) {
 			LayoutModelPlugin layoutModel = (LayoutModelPlugin) contextObject;
 			// TODO not sure if necessary to check if listOfLayouts != null

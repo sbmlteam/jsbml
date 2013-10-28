@@ -57,9 +57,10 @@ public class GroupsParser extends AbstractReaderWriter {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
 	 */
+	@Override
 	public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
 
-		logger.debug("getListOfSBMLElementsToWrite : " + sbase.getClass().getCanonicalName());
+		logger.debug("getListOfSBMLElementsToWrite: " + sbase.getClass().getCanonicalName());
 		
 		List<Object> listOfElementsToWrite = new ArrayList<Object>();
 		

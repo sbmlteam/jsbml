@@ -76,16 +76,16 @@ public class ReactionReadTest {
         	e.printStackTrace();
 
             System.out
-                    .println("SecurityException exception catched : Could not load libsbml library.");
+                    .println("SecurityException exception catched: Could not load libsbml library.");
         } catch (UnsatisfiedLinkError e) {
         	e.printStackTrace();
             System.out
-                    .println("UnsatisfiedLinkError exception catched : Could not load libsbml library.");
+                    .println("UnsatisfiedLinkError exception catched: Could not load libsbml library.");
         } catch (ClassNotFoundException e) {
         	e.printStackTrace();
 
             System.out
-                    .println("ClassNotFoundException exception catched : Could not load libsbml class file.");
+                    .println("ClassNotFoundException exception catched: Could not load libsbml class file.");
 
         } catch (RuntimeException e) {
             e.printStackTrace();
@@ -103,12 +103,12 @@ public class ReactionReadTest {
 	public static void main(String[] args) throws IOException, XMLStreamException {
 		
 		if (args.length < 1) {
-			loggerErr.warning("Usage : java org.sbml.jsbml.xml.test.SBMLReaderTest sbmlFile");
+			loggerErr.warning("Usage: java org.sbml.jsbml.xml.test.SBMLReaderTest sbmlFile");
 			return;
 		}
 		
 		if (!isLibSBMLAvailable) {
-			loggerErr.warning("Warning : libsbml need to be installed !!");
+			loggerErr.warning("Warning: libsbml need to be installed !!");
 			return;
 		}
 
@@ -197,7 +197,7 @@ public class ReactionReadTest {
 	private static void compareSBase(SBase jsbmlSbase, org.sbml.libsbml.SBase libSbmlSbase) 
 	{
 		
-		// TODO : other stuffs to test, like additional namespaces declarations, extensions objects ??		
+		// TODO: other stuffs to test, like additional namespaces declarations, extensions objects?		
 
 		if (libSbmlSbase == null) {
 			loggerErr.warning("SBase libSBML object is null !!! ");
@@ -211,38 +211,38 @@ public class ReactionReadTest {
 		// level
 		if (jsbmlSbase.getLevel() != libSbmlSbase.getLevel()) {
 			// log error
-			loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + " : level differ.");
-			loggerErr.warning("SBase " + jsbmlSbase.getElementName() + " : level = " + jsbmlSbase.getLevel());
+			loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + ": level differ.");
+			loggerErr.warning("SBase " + jsbmlSbase.getElementName() + ": level = " + jsbmlSbase.getLevel());
 		}
 		
 		// version
 		if (jsbmlSbase.getVersion() != libSbmlSbase.getVersion()) {
 			// log error
-			loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + " : version differ.");
-			loggerErr.warning("SBase " + jsbmlSbase.getElementName() + " : version = " + jsbmlSbase.getVersion());
+			loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + ": version differ.");
+			loggerErr.warning("SBase " + jsbmlSbase.getElementName() + ": version = " + jsbmlSbase.getVersion());
 		}
 
 		// Metaid
 		if (jsbmlSbase.isSetMetaId() && libSbmlSbase.isSetMetaId()) {
 			if (!jsbmlSbase.getMetaId().equals(libSbmlSbase.getMetaId())) {
 				// log error
-				loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + " : metaid differ.");
-				loggerErr.warning("SBase : libsbml metaid = '" + libSbmlSbase.getMetaId() + "', jsbml = '" + jsbmlSbase.getMetaId() + "'");
+				loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + ": metaid differ.");
+				loggerErr.warning("SBase: libsbml metaid = '" + libSbmlSbase.getMetaId() + "', jsbml = '" + jsbmlSbase.getMetaId() + "'");
 			}
 		} else if (jsbmlSbase.isSetMetaId() != libSbmlSbase.isSetMetaId()) {
 			// log error
-			loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + " : isSetMetaId differ.");
+			loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + ": isSetMetaId differ.");
 		}
 
 		// SBOTerm
 		if (jsbmlSbase.isSetSBOTerm() && libSbmlSbase.isSetSBOTerm()) {
 			if (jsbmlSbase.getSBOTerm() !=(libSbmlSbase.getSBOTerm())) {
 				// log error
-				loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + " : sboTerm differ.");
+				loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + ": sboTerm differ.");
 			}
 		} else if (jsbmlSbase.isSetSBOTerm() != libSbmlSbase.isSetSBOTerm()) {
 			// log error
-			loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + " : isSetSBOTerm differ.");
+			loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + ": isSetSBOTerm differ.");
 		}
 		
 	}
@@ -254,23 +254,23 @@ public class ReactionReadTest {
 		if (jsbmlSbase.isSetId() && libSbmlSbase.isSetId()) {
 			if (!jsbmlSbase.getId().equals(libSbmlSbase.getId())) {
 				// log error
-				loggerErr.warning("SBase " + libSbmlSbase.getId() + " : id differ.");
+				loggerErr.warning("SBase " + libSbmlSbase.getId() + ": id differ.");
 			}
 		} else if (jsbmlSbase.isSetId() && libSbmlSbase.isSetId()) {
 			// log error
-			loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + " : isSetId differ.");
+			loggerErr.warning("SBase " + libSbmlSbase.getMetaId() + ": isSetId differ.");
 		}
 
 		// name
 		if (jsbmlSbase.isSetName() && libSbmlSbase.isSetName()) {
 			if (!jsbmlSbase.getName().equals(libSbmlSbase.getName())) {
 				// log error
-				loggerErr.warning("SBase " + libSbmlSbase.getId() + " : name differ.");				
+				loggerErr.warning("SBase " + libSbmlSbase.getId() + ": name differ.");				
 			}
 		} else if (jsbmlSbase.isSetName() != libSbmlSbase.isSetName()) {
 			// log error
-			loggerErr.warning("SBase " + libSbmlSbase.getId() + " : isSetName differ.");
-			loggerErr.warning("SBase jsbml isSetName = " + jsbmlSbase.isSetName() + " : libsbml = " + libSbmlSbase.isSetName());
+			loggerErr.warning("SBase " + libSbmlSbase.getId() + ": isSetName differ.");
+			loggerErr.warning("SBase jsbml isSetName = " + jsbmlSbase.isSetName() + ": libsbml = " + libSbmlSbase.isSetName());
 		}
 		
 	}

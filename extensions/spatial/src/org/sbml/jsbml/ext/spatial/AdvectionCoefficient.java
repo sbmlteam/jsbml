@@ -28,10 +28,10 @@ package org.sbml.jsbml.ext.spatial;
  */
 public class AdvectionCoefficient extends Coefficient {
 
-	private String variable; // TODO : can we inherit from the Variable class ???
+	private String variable; // TODO: can we inherit from the Variable class ???
 	private int coordinateIndex;
 
-	// TODO : check latest specs to see if there are more attributes
+	// TODO: check latest specs to see if there are more attributes
 	
 	private  boolean  isSetCoordinateIndex;
 

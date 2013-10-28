@@ -31,8 +31,8 @@ import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLTriple;
 
 /**
- * A {@link StringParser} can be used to store the HTML expressions into an {@link XMLNode} in the
- * SBML component.
+ * A {@link StringParser} can be used to store the HTML expressions into an
+ * {@link XMLNode} in the SBML component.
  * 
  * @author Nicolas Rodriguez
  * @since 0.8
@@ -66,7 +66,7 @@ public class StringParser implements ReadingParser {
 			Object contextObject) 
 	{
 		
-		logger.debug("processAttribute : attribute name = " + attributeName + ", value = " + value);
+		logger.debug("processAttribute: attribute name = " + attributeName + ", value = " + value);
 		
 		if (contextObject instanceof XMLNode) {
 			
@@ -75,7 +75,7 @@ public class StringParser implements ReadingParser {
 			
 			
 		} else {
-			logger.debug("processAttribute : context Object is not an XMLNode !!! " + contextObject);
+			logger.debug("processAttribute: context Object is not an XMLNode !!! " + contextObject);
 		}
 		
 	}
@@ -88,9 +88,9 @@ public class StringParser implements ReadingParser {
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
 		
-		logger.debug("processCharactersOf called : characters = @" + characters + "@");
+		logger.debug("processCharactersOf called: characters = @" + characters + "@");
 		
-		// characters = StringTools.encodeForHTML(characters); // TODO : use an apache util for that.
+		// characters = StringTools.encodeForHTML(characters); // TODO: use an apache util for that.
 
 		XMLNode textNode = new XMLNode(characters);
 
@@ -124,7 +124,7 @@ public class StringParser implements ReadingParser {
 			xmlNode.addChild(textNode);
 			
 		} else {	
-			logger.debug("processCharactersOf : context Object is not an XMLNode or SBase !!! " + contextObject);
+			logger.debug("processCharactersOf: context Object is not an XMLNode or SBase !!! " + contextObject);
 		}
 
 		
@@ -135,7 +135,7 @@ public class StringParser implements ReadingParser {
 	 * @see org.sbml.jsbml.xml.ReadingParser#processEndDocument(SBMLDocument sbmlDocument)
 	 */
 	public void processEndDocument(SBMLDocument sbmlDocument) {
-		// TODO : nothing special to be done I think ??!!!
+		// TODO: nothing special to be done I think ??!!!
 	}
 
 	/* (non-Javadoc)
@@ -171,29 +171,26 @@ public class StringParser implements ReadingParser {
 			
 			XMLNode xmlNode = (XMLNode) contextObject;
 			if (!xmlNode.isStart()) {
-				logger.debug("processNamespace : context Object is not a start node !!! " + contextObject);
+				logger.debug("processNamespace: context Object is not a start node !!! " + contextObject);
 			}
 			
 			xmlNode.addNamespace(URI, prefix);
 			
 		} else {
-			logger.debug("processNamespace : context Object is not an XMLNode !!! " + contextObject);
-			logger.debug("processNamespace : element name = " + elementName + ", namespace = " + prefix + ":" + URI);
+			logger.debug("processNamespace: context Object is not an XMLNode !!! " + contextObject);
+			logger.debug("processNamespace: element name = " + elementName + ", namespace = " + prefix + ":" + URI);
 		}
 		
 	}
 
 	/* (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String elementName, String prefix,
-			boolean hasAttributes, boolean hasNamespaces,
-			Object contextObject)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String elementName, String prefix, boolean hasAttributes, boolean hasNamespaces, Object contextObject)
 	 */
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces,
 			Object contextObject) 
 	{
-		logger.debug("processStartElement : element name = " + elementName);
+		logger.debug("processStartElement: element name = " + elementName);
 		
 		if (elementName.equals("notes")
 				&& (contextObject instanceof SBase)) {
@@ -233,4 +230,5 @@ public class StringParser implements ReadingParser {
 	public void setTypeOfNotes(String typeOfNotes) {
 		this.typeOfNotes = typeOfNotes;
 	}
+
 }

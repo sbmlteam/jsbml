@@ -235,7 +235,7 @@ public class SBMLDocument extends AbstractSBase {
 		try {
 			tmpFile = File.createTempFile("jsbml-", ".xml");
 		} catch (IOException e) {
-			logger.error("There was an error creating a temporary file :" + e.getMessage());
+			logger.error("There was an error creating a temporary file: " + e.getMessage());
 
 			if (logger.isDebugEnabled()) {
 				e.printStackTrace();
@@ -282,7 +282,7 @@ public class SBMLDocument extends AbstractSBase {
 		// checkConsistencyParameters.put("offcheck", "u");
 		// checkConsistencyParameters.put("offcheck", "u,p,o");
 
-		// System.out.println("SBMLDocument.checkConsistency : tmp file = " + tmpFile.getAbsolutePath());
+		// System.out.println("SBMLDocument.checkConsistency: tmp file = " + tmpFile.getAbsolutePath());
 
 		HashMap<String, String> consistencyParameters = new HashMap<String, String>(); 
 		String offcheck = null;
@@ -355,7 +355,7 @@ public class SBMLDocument extends AbstractSBase {
 		try {
 			tmpFile.delete();
 		} catch (SecurityException e) {
-			logger.error("There was an error removing a temporary file :" + e.getMessage());
+			logger.error("There was an error removing a temporary file: " + e.getMessage());
 
 			if (logger.isDebugEnabled()) {
 				e.printStackTrace();
@@ -363,7 +363,7 @@ public class SBMLDocument extends AbstractSBase {
 		}
 
 		if (listOfErrors == null) {                                                                                      
-			logger.error("There was an error accessing the sbml online validator !!");                               
+			logger.error("There was an error accessing the sbml online validator!");                               
 			return -1;                                                                                               
 		}
 

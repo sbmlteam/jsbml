@@ -31,7 +31,7 @@ import org.sbml.jsbml.AbstractSBase;
  */
 public class GeometryDefinition extends AbstractSBase {
 
-	// TODO : extend something with an id
+	// TODO: extend something with an id
 	
 	/**
 	 * Generated serial version identifier.
@@ -72,6 +72,7 @@ public class GeometryDefinition extends AbstractSBase {
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
 	 */
+	@Override
 	public boolean getAllowsChildren() {
 		// TODO Auto-generated method stub
 		return false;
@@ -80,6 +81,7 @@ public class GeometryDefinition extends AbstractSBase {
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getChildAt(int)
 	 */
+	@Override
 	public TreeNode getChildAt(int childIndex) {
 		// TODO Auto-generated method stub
 		return null;
@@ -88,6 +90,7 @@ public class GeometryDefinition extends AbstractSBase {
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getChildCount()
 	 */
+	@Override
 	public int getChildCount() {
 		// TODO Auto-generated method stub
 		return 0;

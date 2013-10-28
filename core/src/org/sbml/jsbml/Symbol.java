@@ -186,7 +186,7 @@ public abstract class Symbol extends QuantityWithUnit implements
 		 * boolean isSetConstant is false and the value set, corresponding to
 		 * the default value in the specs, is never returned.
 		 */
-		// TODO : check if they are some other cases like that !!
+		// TODO: check if they are some other cases like that !!
 		return constant != null ? constant.booleanValue() : false;
 	}
 

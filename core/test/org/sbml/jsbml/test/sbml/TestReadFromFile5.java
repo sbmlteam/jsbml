@@ -229,7 +229,7 @@ public class TestReadFromFile5 {
 		assert(false);
 	}
 
-	System.out.println(" TestReadFromFile 5 : reading done.");
+	System.out.println(" TestReadFromFile 5: reading done.");
 	
 	assertTrue( d.getLevel() == 2 );
     assertTrue( d.getVersion() == 1 );

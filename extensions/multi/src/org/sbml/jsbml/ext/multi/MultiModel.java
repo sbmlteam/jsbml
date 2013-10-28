@@ -79,7 +79,7 @@ public class MultiModel extends AbstractSBasePlugin {
 			this.listOfSpeciesTypes = multiModel.getListOfSpeciesTypes().clone();
 		}
 		// The listOf would have to be referenced elsewhere
-		// TODO : check how libSBML is doing the cloning
+		// TODO: check how libSBML is doing the cloning
 		/*
 		if (multiModel.getModel() != null) {
 			getModel().registerChild(listOfSelectors);
@@ -91,7 +91,7 @@ public class MultiModel extends AbstractSBasePlugin {
 	
 	//@Override
 	public MultiModel clone() {
-		// TODO : when cloning, we should be able to be associated with a new cloned model !?
+		// TODO: when cloning, we should be able to be associated with a new cloned model !?
 		return null;
 	}
 
@@ -202,7 +202,7 @@ public class MultiModel extends AbstractSBasePlugin {
 	 */
 	public boolean unsetListOfSpeciesTypes() {
 		if (isSetListOfSpeciesTypes()) {
-			// TODO : unregister the ids if needed.			  
+			// TODO: unregister the ids if needed.			  
 			// getModel().unregisterChild(this.listOfSpeciesTypes);
 			this.listOfSpeciesTypes = null;
 			return true;
@@ -309,7 +309,7 @@ public class MultiModel extends AbstractSBasePlugin {
 	 */
 	public boolean unsetListOfSelectors() {
 		if (isSetListOfSelectors()) {
-			// TODO : unregister the ids if needed for SBasePlugin.			  
+			// TODO: unregister the ids if needed for SBasePlugin.			  
 			// fireNodeRemoved(this.listOfSelectors);
 			this.listOfSelectors = null;
 			return true;

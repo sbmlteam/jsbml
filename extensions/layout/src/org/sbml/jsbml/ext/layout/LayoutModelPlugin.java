@@ -39,7 +39,7 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  */
 public class LayoutModelPlugin extends AbstractSBasePlugin {
 
-	// TODO : need to be adapted to the new way of dealing with L3 packages
+	// TODO: need to be adapted to the new way of dealing with L3 packages
 
 	/**
 	 * 

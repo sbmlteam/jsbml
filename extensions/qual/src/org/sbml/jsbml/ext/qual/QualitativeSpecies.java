@@ -190,14 +190,12 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     return compartment != null;
   }
 
-
   /**
    * @return the compartment
    */
   public String getCompartment() {
     return isSetCompartment() ? compartment : "";
   }
-
 
   /**
    * @param compartment

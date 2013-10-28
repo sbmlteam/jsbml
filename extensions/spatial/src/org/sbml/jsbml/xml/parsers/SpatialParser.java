@@ -62,7 +62,7 @@ public class SpatialParser extends AbstractReaderWriter {
 	public List<Object> getListOfSBMLElementsToWrite(Object treeNode)
 	{
 		if (logger.isDebugEnabled()) {
-			logger.debug("getListOfSBMLElementsToWrite : " + treeNode.getClass().getCanonicalName());
+			logger.debug("getListOfSBMLElementsToWrite: " + treeNode.getClass().getCanonicalName());
 		}	
 		
 		List<Object> listOfElementsToWrite = new ArrayList<Object>();
@@ -73,7 +73,7 @@ public class SpatialParser extends AbstractReaderWriter {
 			
 			if (sbasePlugin != null) {
 				listOfElementsToWrite = super.getListOfSBMLElementsToWrite(sbasePlugin);
-				logger.debug("getListOfSBMLElementsToWrite : nb children = " + sbasePlugin.getChildCount());
+				logger.debug("getListOfSBMLElementsToWrite: nb children = " + sbasePlugin.getChildCount());
 			}
 		} else {
 			listOfElementsToWrite = super.getListOfSBMLElementsToWrite(treeNode);
@@ -87,7 +87,7 @@ public class SpatialParser extends AbstractReaderWriter {
 			for (Object child : listOfElementsToWrite) {
 				if (child instanceof SBase && ((SBase) child).getNamespaces().size() == 0) {
 					SBase sbase = (SBase) child;
-					logger.debug("Found one suspect Model child : " + sbase.getElementName() + ". Setting the SBML namespace to it.");
+					logger.debug("Found one suspect Model child: " + sbase.getElementName() + ". Setting the SBML namespace to it.");
 					sbase.addNamespace(sbmlNamespace);
 				}
 			}
@@ -100,13 +100,14 @@ public class SpatialParser extends AbstractReaderWriter {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.parsers.WritingParser#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
 	 */
+	@Override
 	public void writeElement(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) 
 	{
 		super.writeElement(xmlObject, sbmlElementToWrite);
 		
 		if (logger.isDebugEnabled()) {
-			logger.debug("writeElement : " + sbmlElementToWrite.getClass().getSimpleName());
+			logger.debug("writeElement: " + sbmlElementToWrite.getClass().getSimpleName());
 		}
 	}
 

@@ -556,7 +556,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
 	 */
 	public ASTNodeValue function(String functionDefinitionName,
 			List<ASTNode> args) throws SBMLException {
-		// TODO : Not sure what to do
+		// TODO: Not sure what to do
 		return new ASTNodeValue(this);
 	}
 

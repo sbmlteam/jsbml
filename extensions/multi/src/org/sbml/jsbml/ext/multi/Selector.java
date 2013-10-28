@@ -498,8 +498,8 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 		return attributes;
 	}
 
-	// TODO : equals, hashCode, toString, more constructors, ...
+	// TODO: equals, hashCode, toString, more constructors, ...
 
-	// TODO : removeXX unsetXX, isSetXX
+	// TODO: removeXX unsetXX, isSetXX
 
 }

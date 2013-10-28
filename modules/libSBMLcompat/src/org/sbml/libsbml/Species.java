@@ -64,12 +64,16 @@ public class Species extends org.sbml.jsbml.Species {
 	}
 
 
-	// TODO : missing constructor with namespaces
+	// TODO: missing constructor with namespaces
 	
 	public Species cloneObject() {
 		return new Species(this);
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.Species#clone()
+	 */
+	@Override
 	public Species clone() {
 		return new Species(this);
 	}
@@ -77,6 +81,5 @@ public class Species extends org.sbml.jsbml.Species {
 	public void delete() {
 		
 	}
-	
 	
 }

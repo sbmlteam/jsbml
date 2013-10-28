@@ -151,12 +151,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 		return SBMLDocument.URI_NAMESPACE_L3V1Core;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String
-	 * elementName, String attributeName, String value, String prefix, boolean
-	 * isLastAttribute, Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processAttribute(String elementName, String attributeName, String value, String prefix, boolean isLastAttribute, Object contextObject)
 	 */
 	public void processAttribute(String elementName, String attributeName,
 			String value, String prefix, boolean isLastAttribute,
@@ -164,7 +160,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	{
 
 		if (log4jLogger.isDebugEnabled()) {
-			log4jLogger.debug(" process the attribute : '" + attributeName + "' (value = " + value + ") on element '" + elementName + "' (" + contextObject + ").");
+			log4jLogger.debug(" process the attribute: '" + attributeName + "' (value = " + value + ") on element '" + elementName + "' (" + contextObject + ").");
 		}
 		
 		boolean isAttributeRead = false;
@@ -196,12 +192,12 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 				astNode.setUnits(value);
 				isAttributeRead = true;
 			} catch (IllegalArgumentException e) {
-				// TODO : Write from which element the error is coming from : astNode.getParentSBMLObject();
+				// TODO: Write from which element the error is coming from: astNode.getParentSBMLObject();
 				log4jLogger.info(e.getMessage());
 				// Log the error to the ErrorLog object ??
 			}
 			
-			log4jLogger.debug("SBMLCoreParser : processAttribute : adding an unit to an ASTNode");
+			log4jLogger.debug("SBMLCoreParser: processAttribute: adding an unit to an ASTNode");
 		}
 
 		if (!isAttributeRead) {
@@ -213,24 +209,20 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 		}
 	}
 
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processCharactersOf(String
-	 * elementName, String characters, Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processCharactersOf(String elementName, String characters, Object contextObject)
 	 */
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) 
 	{
 		
-		// TODO : we have to check if we are in the context of a Notes or an Annotation
+		// TODO: we have to check if we are in the context of a Notes or an Annotation
 		
 		if ((elementName != null) && elementName.equals("notes")) {
 			
 		} else if ((characters != null) && (characters.trim().length() != 0)) {
 			// log4jLogger.warn("The SBML core XML element should not have any content, everything should be stored as attribute.");
-			// log4jLogger.warn("The Characters are : @" + characters.trim() + "@");
+			// log4jLogger.warn("The Characters are: @" + characters.trim() + "@");
 		}
 	}
 
@@ -272,7 +264,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 				
 				if (model.getLevel() == 1) {
 
-					log4jLogger.debug("Transformed SBMLLevel1Rule : processEndDocument : model is level 1");
+					log4jLogger.debug("Transformed SBMLLevel1Rule: processEndDocument: model is level 1");
 
 					int i = 0;
 					for (Rule rule : model.getListOfRules().clone()) {
@@ -281,13 +273,13 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 							
 							if (((SBMLLevel1Rule) rule).isScalar()) {
 								realRule = ((SBMLLevel1Rule) rule).cloneAsAssignmentRule();
-								log4jLogger.debug("Transformed SBMLLevel1Rule : " + ((SBMLLevel1Rule) rule).getVariable() + " into AssignmentRule.");
+								log4jLogger.debug("Transformed SBMLLevel1Rule: " + ((SBMLLevel1Rule) rule).getVariable() + " into AssignmentRule.");
 							} else {
 								realRule = ((SBMLLevel1Rule) rule).cloneAsRateRule();
-								log4jLogger.debug("Transformed SBMLLevel1Rule : " + ((SBMLLevel1Rule) rule).getVariable() + " into RateRule.");
+								log4jLogger.debug("Transformed SBMLLevel1Rule: " + ((SBMLLevel1Rule) rule).getVariable() + " into RateRule.");
 							}
 							
-							log4jLogger.debug("Transformed SBMLLevel1Rule : realRule = " + realRule);
+							log4jLogger.debug("Transformed SBMLLevel1Rule: realRule = " + realRule);
 
 							model.getListOfRules().remove(i);
 							model.getListOfRules().add(i, realRule);
@@ -480,11 +472,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String
-	 * elementName, String prefix, boolean isNested, Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processEndElement(String elementName, String prefix, boolean isNested, Object contextObject)
 	 */
 	public boolean processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) 
@@ -492,12 +481,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String
-	 * elementName, String URI, String prefix, String localName, boolean
-	 * hasAttributes, boolean isLastNamespace, Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processNamespace(String elementName, String URI, String prefix, String localName, boolean hasAttributes, boolean isLastNamespace, Object contextObject)
 	 */
 	public void processNamespace(String elementName, String URI, String prefix,
 			String localName, boolean hasAttributes, boolean isLastNamespace,
@@ -509,7 +494,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
 			sbmlDocument.addNamespace(localName, prefix, URI);
 			
-			log4jLogger.debug("processNamespace : " + prefix + " = " + URI);
+			log4jLogger.debug("processNamespace: " + prefix + " = " + URI);
 		} 
 		else if (contextObject instanceof SBase) {
 			SBase sbase = (SBase) contextObject;
@@ -520,22 +505,18 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 				sbase.addDeclaredNamespace(localName, URI);
 			}
 
-			log4jLogger.debug("processNamespace : " + prefix + " = " + URI);
+			log4jLogger.debug("processNamespace: " + prefix + " = " + URI);
 		} 
 		else if (contextObject instanceof Annotation) {
 			Annotation sbase = (Annotation) contextObject;
 			sbase.addAnnotationNamespace(localName, prefix, URI);
 			
-			log4jLogger.debug("processNamespace : " + prefix + " = " + URI);
+			log4jLogger.debug("processNamespace: " + prefix + " = " + URI);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String
-	 * elementName, String prefix, boolean hasAttributes, boolean hasNamespaces,
-	 * Object contextObject)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String elementName, String prefix, boolean hasAttributes, boolean hasNamespaces, Object contextObject)
 	 */
 	@SuppressWarnings("unchecked")
 	public Object processStartElement(String elementName, String prefix,
@@ -694,7 +675,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
 							return species;
 						}
-						// level 1 : species => specie
+						// level 1: species => specie
 						else if (elementName.equals("specie")
 								&& list.getSBaseListType().equals(
 										ListOf.Type.listOfSpecies)
@@ -895,7 +876,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 					} else if (list.getParentSBMLObject() instanceof KineticLaw) {
 						KineticLaw kineticLaw = (KineticLaw) list
 								.getParentSBMLObject();
-						// Level 3 : parameter and listOfParameters =>
+						// Level 3: parameter and listOfParameters =>
 						// localParameter and listOfLocalParameter
 						if (elementName.equals("localParameter")
 								&& list.getSBaseListType().equals(
@@ -1085,11 +1066,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 		this.logger = logger;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeAttributes(SBMLObjectForXML
-	 * xmlObject, Object sbmlElementToWrite)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.WritingParser#writeAttributes(SBMLObjectForXML xmlObject, Object sbmlElementToWrite)
 	 */
 	public void writeAttributes(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) {
@@ -1099,11 +1077,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeCharacters(SBMLObjectForXML
-	 * xmlObject, Object sbmlElementToWrite)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.WritingParser#writeCharacters(SBMLObjectForXML xmlObject, Object sbmlElementToWrite)
 	 */
 	public void writeCharacters(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) {
@@ -1111,11 +1086,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 		log4jLogger.warn("The SBML core XML element should not have any content, everything should be stored as attribute.");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeElement(SBMLObjectForXML
-	 * xmlObject, Object sbmlElementToWrite)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.WritingParser#writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite)
 	 */
 	public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) 
 	{
@@ -1123,7 +1095,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 		if (sbmlElementToWrite instanceof SBase) {
 			SBase sbase = (SBase) sbmlElementToWrite;
 			
-			log4jLogger.debug("writeElement : " + sbase.getElementName());
+			log4jLogger.debug("writeElement: " + sbase.getElementName());
 
 			if (!xmlObject.isSetName()) {
 				xmlObject.setName(sbase.getElementName());
@@ -1131,11 +1103,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.xml.WritingParser#writeNamespaces(SBMLObjectForXML
-	 * xmlObject, Object sbmlElementToWrite)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.WritingParser#writeNamespaces(SBMLObjectForXML xmlObject, Object sbmlElementToWrite)
 	 */
 	public void writeNamespaces(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) 
@@ -1160,4 +1129,5 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 			xmlObject.setNamespace(JSBML.getNamespaceFrom(sbase.getLevel(), sbase.getVersion()));
 		}
 	}
+
 }

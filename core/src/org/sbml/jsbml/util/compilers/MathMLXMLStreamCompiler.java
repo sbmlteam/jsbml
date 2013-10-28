@@ -171,7 +171,7 @@ public class MathMLXMLStreamCompiler {
 	 */
 	public void compile(ASTNode astNode) {
 
-		logger.debug("compile : node type = " + astNode.getType()) ;
+		logger.debug("compile: node type = " + astNode.getType()) ;
 		
 		if (astNode.isInfinity()) {
 			compilePositiveInfinity(astNode);
@@ -195,9 +195,9 @@ public class MathMLXMLStreamCompiler {
 			 */
 			case DIVIDE:
 				if (astNode.getChildCount() != 2) {
-					// TODO : add it to an error log like libsbml ?
+					// TODO: add it to an error log like libsbml ?
 					logger.warn(String.format(
-						"compile : Type.DIVIDE : getChildCount() = %d but required is 2!",
+						"compile: Type.DIVIDE: getChildCount() = %d but required is 2!",
 						astNode.getChildCount()));
 				}
 			case POWER:
@@ -215,8 +215,8 @@ public class MathMLXMLStreamCompiler {
 			case NAME:
 				if (astNode.getChildCount() > 0) { // In case the id is not a valid functionDefinition id, the type is set to NAME
 					
-					// TODO : check for SBML level 3 where the order of the listOf is not mandatory any more.
-					// TODO : check how and when we put the type FUNCTION to a node.
+					// TODO: check for SBML level 3 where the order of the listOf is not mandatory any more.
+					// TODO: check how and when we put the type FUNCTION to a node.
 					
 					compileUserFunction(astNode);
 				} else {
@@ -664,7 +664,7 @@ public class MathMLXMLStreamCompiler {
 			indent += "  ";
 			
 			if (!arg.isString()) {
-				logger.warn("compileBvar : can only have node of type NAME there !!!!");
+				logger.warn("compileBvar: can only have node of type NAME there !!!!");
 			}
 			
 			compileCi(arg);
@@ -764,7 +764,7 @@ public class MathMLXMLStreamCompiler {
 				e.printStackTrace();
 			}
 		} else {
-			logger.warn("compileLog : cannot have more than 2 children on a log node !!");			
+			logger.warn("compileLog: cannot have more than 2 children on a log node !!");			
 		}
 	}
 
@@ -795,7 +795,7 @@ public class MathMLXMLStreamCompiler {
 	 */
 	private void compileElement(String string, ASTNode astNode) {
 
-		// TODO : Not good, we need to write the possible attribute or annotations of the element node
+		// TODO: Not good, we need to write the possible attribute or annotations of the element node
 		function(string, astNode.getListOfNodes());
 		
 	}

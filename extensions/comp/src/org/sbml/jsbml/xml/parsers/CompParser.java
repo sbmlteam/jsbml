@@ -78,7 +78,7 @@ public class CompParser extends AbstractReaderWriter {
 	public List<Object> getListOfSBMLElementsToWrite(Object treeNode) {
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("getListOfSBMLElementsToWrite : " + treeNode.getClass().getCanonicalName());
+			logger.debug("getListOfSBMLElementsToWrite: " + treeNode.getClass().getCanonicalName());
 		}	
 		
 		List<Object> listOfElementsToWrite = new ArrayList<Object>();
@@ -89,7 +89,7 @@ public class CompParser extends AbstractReaderWriter {
 			
 			if (sbasePlugin != null) {
 				listOfElementsToWrite = super.getListOfSBMLElementsToWrite(sbasePlugin);
-				logger.debug("getListOfSBMLElementsToWrite : nb children = " + sbasePlugin.getChildCount());
+				logger.debug("getListOfSBMLElementsToWrite: nb children = " + sbasePlugin.getChildCount());
 			}
 		} else {
 			listOfElementsToWrite = super.getListOfSBMLElementsToWrite(treeNode);
@@ -103,7 +103,7 @@ public class CompParser extends AbstractReaderWriter {
 			for (Object child : listOfElementsToWrite) {
 				if (child instanceof SBase && ((SBase) child).getNamespaces().size() == 0) {
 					SBase sbase = (SBase) child;
-					logger.debug("Found one suspect Model child : " + sbase.getElementName() + ". Setting the SBML namespace to it.");
+					logger.debug("Found one suspect Model child: " + sbase.getElementName() + ". Setting the SBML namespace to it.");
 					sbase.addNamespace(sbmlNamespace);
 				}
 			}
@@ -121,7 +121,7 @@ public class CompParser extends AbstractReaderWriter {
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 
-		// TODO : make it generic by using reflection on the contextObject
+		// TODO: make it generic by using reflection on the contextObject
 		
 		if (contextObject instanceof SBMLDocument) 
 		{
@@ -279,7 +279,7 @@ public class CompParser extends AbstractReaderWriter {
 			}
 		}
 		
-		// TODO : try to use the default constructor + the addXX method
+		// TODO: try to use the default constructor + the addXX method
 		
 		return null;
 	}
@@ -294,9 +294,8 @@ public class CompParser extends AbstractReaderWriter {
 		super.writeElement(xmlObject, sbmlElementToWrite);
 		
 		if (logger.isDebugEnabled()) {
-			logger.debug("writeElement : " + sbmlElementToWrite.getClass().getSimpleName());
+			logger.debug("writeElement: " + sbmlElementToWrite.getClass().getSimpleName());
 		}
 	}
-
 
 }

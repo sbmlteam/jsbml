@@ -584,5 +584,5 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 		return attributes;
 	}
 
-	// TODO : removeXX unsetXX
+	// TODO: removeXX unsetXX
 }

@@ -96,7 +96,7 @@ public class DatesParser implements ReadingParser {
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
 		
-		logger.debug("processCharactersOf : " + characters + ", element name = " + elementName);
+		logger.debug("processCharactersOf: " + characters + ", element name = " + elementName);
 		
 		// An elementName can be null if the text appears after an element
 		// ending tag. In this case,
@@ -127,10 +127,10 @@ public class DatesParser implements ReadingParser {
 							Date createdDate = DateParser.parse(stringDate);
 							modelHistory.setCreatedDate(createdDate);
 
-							logger.debug("processCharactersOf : getIsoDateNoMillis " + DateParser.getIsoDateNoMillis(createdDate));
+							logger.debug("processCharactersOf: getIsoDateNoMillis " + DateParser.getIsoDateNoMillis(createdDate));
 							
 						} catch (InvalidDateException e) {
-							logger.warn("Cannot read the following date properly :" + stringDate);
+							logger.warn("Cannot read the following date properly: " + stringDate);
 							if (logger.isDebugEnabled()) {
 								e.printStackTrace();
 							}
@@ -150,19 +150,19 @@ public class DatesParser implements ReadingParser {
 							Date modifiedDate = DateParser.parse(stringDate);
 							modelHistory.setModifiedDate(modifiedDate);
 						} catch (InvalidDateException e) {
-							logger.warn("Cannot read the following date properly :" + stringDate);
+							logger.warn("Cannot read the following date properly: " + stringDate);
 							if (logger.isDebugEnabled()) {
 								e.printStackTrace();
 							}
 						}
 					} else {
-						logger.debug("processCharactersOf : previousElement is not created or modified !!!");
+						logger.debug("processCharactersOf: previousElement is not created or modified !!!");
 					}
 				} else {
-					logger.debug("processCharactersOf : context object is not a W3CDTF element !! ");
+					logger.debug("processCharactersOf: context object is not a W3CDTF element !! ");
 				}
 			} else {
-				logger.debug("processCharactersOf : context object is not an History !! -> "
+				logger.debug("processCharactersOf: context object is not an History !! -> "
 						+ contextObject.getClass().getName());
 			}
 		}
@@ -189,7 +189,7 @@ public class DatesParser implements ReadingParser {
 	public boolean processEndElement(String elementName, String prefix,
 			boolean isNested, Object contextObject) {
 
-		logger.debug("processEndElement : " + elementName);
+		logger.debug("processEndElement: " + elementName);
 		
 		// A DatesParser can only modify a contextObject which is a ModelHistory
 		// instance.
@@ -249,7 +249,7 @@ public class DatesParser implements ReadingParser {
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 
-		logger.debug("processStartElement : " + elementName);
+		logger.debug("processStartElement: " + elementName);
 		
 		// When this parser read a starting element tag, it can modify a
 		// contextObject which is an Annotation instance.
@@ -288,10 +288,10 @@ public class DatesParser implements ReadingParser {
 					hasReadModified = true;
 					return history;
 				} else {
-					logger.debug("processStartElement : element unknown !!");
+					logger.debug("processStartElement: element unknown!");
 				}
 			} else {
-				logger.debug("processStartElement : history not set yet !!");
+				logger.debug("processStartElement: history not set yet!");
 			}
 		}
 		// When this parser read a starting element tag, it can modify a
@@ -303,12 +303,13 @@ public class DatesParser implements ReadingParser {
 			// element, the boolean hasReadW3CDTF
 			// of this node is set to true.
 			if (elementName.equals("W3CDTF")
-					&& (previousElement.equals("created") || previousElement
-							.equals("modified"))) {
+					&& (previousElement.equals("created") ||
+					    previousElement.equals("modified"))) {
 				hasReadW3CDTF = true;
 			}
 		} 
 
 		return contextObject;
 	}
+
 }

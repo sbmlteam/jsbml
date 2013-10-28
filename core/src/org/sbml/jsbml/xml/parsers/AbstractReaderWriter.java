@@ -61,7 +61,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 			Object contextObject) 
 	{
 
-		logger.debug("processAttribute -> " + prefix + " : " + attributeName + " = " + value + " (" + contextObject.getClass().getName() + ")");
+		logger.debug("processAttribute -> " + prefix + ":" + attributeName + " = " + value + " (" + contextObject.getClass().getName() + ")");
 		
 		boolean isAttributeRead = false;
 
@@ -69,7 +69,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 
 			SBase sbase = (SBase) contextObject;
 			
-			// logger.debug("processAttribute : level, version = " + sbase.getLevel() + ", " + sbase.getVersion());
+			// logger.debug("processAttribute: level, version = " + sbase.getLevel() + ", " + sbase.getVersion());
 			
 			try {
 				isAttributeRead = sbase.readAttribute(attributeName, prefix,
@@ -89,7 +89,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 		}
 
 		if (!isAttributeRead) {
-			logger.warn("processAttribute : The attribute " + attributeName
+			logger.warn("processAttribute: The attribute " + attributeName
 					+ " on the element " + elementName +
 					" is not part of the SBML specifications");
 		}
@@ -101,7 +101,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) 
 	{		
-		logger.debug("processCharactersOf : the element " + elementName + " does not have any text. " +
+		logger.debug("processCharactersOf: the element " + elementName + " does not have any text. " +
 				"SBML syntax error. Characters lost = " + characters);
 	}
 
@@ -131,7 +131,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 			String localName, boolean hasAttributes, boolean isLastNamespace,
 			Object contextObject) 
 	{
-		// TODO : read the namespace, it could be some other extension objects
+		// TODO: read the namespace, it could be some other extension objects
 	}
 
 
@@ -154,7 +154,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 		
 		if (sbase instanceof SBMLDocument) {
 			// nothing to do
-			// TODO : the 'required' attribute is written even if there is no plugin class for the SBMLDocument
+			// TODO: the 'required' attribute is written even if there is no plugin class for the SBMLDocument
 			// we will have to change that !!!
 			return null;
 		} 
@@ -206,7 +206,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 	public void writeCharacters(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) 
 	{
-		logger.error("writeCharacters : " + xmlObject.getName() + " XML element do not have any characters !!");
+		logger.error("writeCharacters: " + xmlObject.getName() + " XML element do not have any characters !!");
 	}
 
 
@@ -217,7 +217,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 	public void writeElement(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite) {
 
-		logger.debug("writeElement : " + sbmlElementToWrite.getClass().getSimpleName());
+		logger.debug("writeElement: " + sbmlElementToWrite.getClass().getSimpleName());
 
 		if (sbmlElementToWrite instanceof SBase) {
 			SBase sbase = (SBase) sbmlElementToWrite;
@@ -276,7 +276,7 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 			if (sbase.getDeclaredNamespaces().size() > 0) 
 			{
 				// writing all declared namespaces
-				// TODO : check that the prefix start with xmlns 
+				// TODO: check that the prefix start with xmlns 
 				
 				xmlObject.addAttributes(sbase.getDeclaredNamespaces());
 			}

@@ -43,7 +43,7 @@ public class ReactionRule extends AbstractNamedSBase {
   ListOf<SpeciesTypeRestrictionReference> listOfConditions;
 	ListOf<SpeciesTypeRestrictionReference> listOfResults;
 	
-	// TODO : add a kineticLaw
+	// TODO: add a kineticLaw
 	private KineticLaw kineticLaw;
 
 	/**

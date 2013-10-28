@@ -61,7 +61,7 @@ public class TestFunctionDefinition {
 		
 		printASTNoteType(rule.getMath());
 		
-		// System.out.println("\n\nWhole SBML Document as XML :\n\n" + JSBML.writeSBMLToString(document));
+		// System.out.println("\n\nWhole SBML Document as XML:\n\n" + JSBML.writeSBMLToString(document));
 		
 		System.out.println("PARSING MATHML NOW ----------");
 		
@@ -89,7 +89,7 @@ public class TestFunctionDefinition {
 
 		String sbmlDocument = JSBML.writeSBMLToString(document);
 		
-		System.out.println("\n\nWhole SBML Document as XML :\n\n" + sbmlDocument);
+		System.out.println("\n\nWhole SBML Document as XML:\n\n" + sbmlDocument);
 		
 		SBMLDocument wrongDocument = JSBML.readSBMLFromString(sbmlDocument.replaceFirst("location", "locatoin"));
 		

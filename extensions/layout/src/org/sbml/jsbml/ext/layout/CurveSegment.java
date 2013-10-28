@@ -278,7 +278,7 @@ public abstract class CurveSegment extends AbstractNamedSBase {
 			String value) {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
-		logger.debug("reading CurveSegmentImpl: " + prefix + " : " + attributeName);
+		logger.debug("reading CurveSegmentImpl: " + prefix + ":" + attributeName);
 
 		if (!isAttributeRead) {
 			
