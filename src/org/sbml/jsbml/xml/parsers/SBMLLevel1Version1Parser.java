@@ -61,8 +61,8 @@ import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLTriple;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
-// TODO : this parser need to work as well with sbml level 1 version 2
-// TODO : we need to parse correctly the rules, the current implementation is wrong
+// TODO: this parser need to work as well with sbml level 1 version 2
+// TODO: we need to parse correctly the rules, the current implementation is wrong
 
 /**
  * @since 0.8
@@ -231,7 +231,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 		}
 
 		if (!isAttributeRead) {
-			// TODO : throw new SBMLException ("The attribute " + attributeName
+			// TODO: throw new SBMLException ("The attribute " + attributeName
 			// + " on the element " + elementName +
 			// "is not part of the SBML specifications");
 		}
@@ -246,7 +246,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 	 */
 	public void processCharactersOf(String elementName, String characters,
 			Object contextObject) {
-		// TODO : the basic SBML elements don't have any text. SBML syntax
+		// TODO: the basic SBML elements don't have any text. SBML syntax
 		// error, throw an exception?
 	}
 
@@ -367,7 +367,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 			}
 
 		} else {
-			// TODO : SBML syntax error, what to do?
+			// TODO: SBML syntax error, what to do?
 		}
 	}
 
@@ -467,10 +467,10 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 
 							return listOfReactions;
 						} else {
-							// TODO : SBML syntax error, throw an exception?
+							// TODO: SBML syntax error, throw an exception?
 						}
 					} else {
-						// TODO : SBML syntax error, throw an exception?
+						// TODO: SBML syntax error, throw an exception?
 					}
 				} else if (contextObject instanceof ListOf<?>) {
 					ListOf<?> list = (ListOf<?>) contextObject;
@@ -512,7 +512,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 							model.addRule(rule);
 
 							return rule;
-						} else if (elementName.equals("assignmentRule") // TODO : wrong, there are no assignmentRule element, only more specialize rule
+						} else if (elementName.equals("assignmentRule") // TODO: wrong, there are no assignmentRule element, only more specialize rule
 								&& list.getSBaseListType().equals(
 										ListOf.Type.listOfRules)) {
 							AssignmentRule rule = (AssignmentRule) newContextObject;
@@ -527,7 +527,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 
 							return reaction;
 						} else {
-							// TODO : SBML syntax error, throw an exception?
+							// TODO: SBML syntax error, throw an exception?
 						}
 					} else if (list.getParentSBMLObject() instanceof UnitDefinition) {
 						UnitDefinition unitDefinition = (UnitDefinition) list
@@ -541,7 +541,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 
 							return unit;
 						} else {
-							// TODO : SBML syntax error, throw an exception?
+							// TODO: SBML syntax error, throw an exception?
 						}
 					} else if (list.getParentSBMLObject() instanceof Reaction) {
 						Reaction reaction = (Reaction) list
@@ -561,10 +561,10 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 
 								return speciesReference;
 							} else {
-								// TODO : SBML syntax error, throw an exception?
+								// TODO: SBML syntax error, throw an exception?
 							}
 						} else {
-							// TODO : SBML syntax error, throw an exception?
+							// TODO: SBML syntax error, throw an exception?
 						}
 					} else if (list.getParentSBMLObject() instanceof KineticLaw) {
 						KineticLaw kineticLaw = (KineticLaw) list
@@ -578,10 +578,10 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 
 							return localParameter;
 						} else {
-							// TODO : SBML syntax error, throw an exception?
+							// TODO: SBML syntax error, throw an exception?
 						}
 					} else {
-						// TODO : SBML syntax error, throw an exception?
+						// TODO: SBML syntax error, throw an exception?
 					}
 				} else if (contextObject instanceof UnitDefinition) {
 					UnitDefinition unitDefinition = (UnitDefinition) contextObject;
@@ -615,7 +615,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 
 						return kineticLaw;
 					} else {
-						// TODO : SBML syntax error, throw an exception?
+						// TODO: SBML syntax error, throw an exception?
 					}
 				} else if (contextObject instanceof KineticLaw) {
 					KineticLaw kineticLaw = (KineticLaw) contextObject;
@@ -629,16 +629,16 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 
 						return listOfLocalParameters;
 					} else {
-						// TODO : SBML syntax error, throw an exception?
+						// TODO: SBML syntax error, throw an exception?
 					}
 				} else {
-					// TODO : SBML syntax error, throw an exception?
+					// TODO: SBML syntax error, throw an exception?
 				}
 			} catch (InstantiationException e) {
-				// TODO : SBML object can't be instantiated, throw an exception?
+				// TODO: SBML object can't be instantiated, throw an exception?
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
-				// TODO : SBML object can't be instantiated, throw an exception?
+				// TODO: SBML object can't be instantiated, throw an exception?
 				e.printStackTrace();
 			}
 		}
@@ -689,7 +689,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 							if (speciesReference != null) {
 								rule.setVariable(speciesReference);
 							} else {
-								// TODO : the variable ID doesn't match a SBML
+								// TODO: the variable ID doesn't match a SBML
 								// component, throw an exception?
 							}
 						}
@@ -721,7 +721,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 			if (compartmentType != null) {
 				compartment.setCompartmentType(compartmentType);
 			} else {
-				// TODO : the compartmentType ID doesn't match a compartment,
+				// TODO: the compartmentType ID doesn't match a compartment,
 				// throw an exception?
 			}
 		}
@@ -742,7 +742,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 			if (outside != null) {
 				compartment.setOutside(outside);
 			} else {
-				// TODO : the compartment ID doesn't match a compartment, throw
+				// TODO: the compartment ID doesn't match a compartment, throw
 				// an exception?
 			}
 		}
@@ -763,7 +763,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 			if (unitDefinition != null) {
 				compartment.setUnits(unitDefinition);
 			} else {
-				// TODO : the unitDefinition ID doesn't match a unitDefinition,
+				// TODO: the unitDefinition ID doesn't match a unitDefinition,
 				// throw an exception?
 			}
 		}
@@ -814,7 +814,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 							if (speciesReference != null) {
 								eventAssignment.setVariable(speciesReference);
 							} else {
-								// TODO : the variable ID doesn't match a SBML
+								// TODO: the variable ID doesn't match a SBML
 								// component, throw an exception?
 							}
 						}
@@ -846,7 +846,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 			if (unitDefinition != null) {
 				event.setTimeUnits(unitDefinition);
 			} else {
-				// TODO : the unitDefinition ID doesn't match a unitDefinition,
+				// TODO: the unitDefinition ID doesn't match a unitDefinition,
 				// throw an exception?
 			}
 		}
@@ -897,7 +897,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 							if (speciesReference != null) {
 								initialAssignment.setVariable(speciesReference);
 							} else {
-								// TODO : the variable ID doesn't match a SBML
+								// TODO: the variable ID doesn't match a SBML
 								// component, throw an exception?
 							}
 						}
@@ -929,7 +929,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 			if (unitDefinition != null) {
 				parameter.setUnits(unitDefinition);
 			} else {
-				// TODO : the unitDefinition ID doesn't match an unitDefinition,
+				// TODO: the unitDefinition ID doesn't match an unitDefinition,
 				// throw an exception?
 			}
 		}
@@ -978,7 +978,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 							if (speciesReference != null) {
 								rule.setVariable(speciesReference);
 							} else {
-								// TODO : the variable ID doesn't match a SBML
+								// TODO: the variable ID doesn't match a SBML
 								// component, throw an exception?
 							}
 						}
@@ -1009,7 +1009,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 			if (compartment != null) {
 				reaction.setCompartment(compartment);
 			} else {
-				// TODO : the compartment ID doesn't match a compartment, throw
+				// TODO: the compartment ID doesn't match a compartment, throw
 				// an exception?
 			}
 		}
@@ -1030,7 +1030,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 			if (compartment != null) {
 				species.setCompartment(compartment);
 			} else {
-				// TODO : the compartment ID doesn't match a compartment, throw
+				// TODO: the compartment ID doesn't match a compartment, throw
 				// an exception?
 			}
 		}
@@ -1051,7 +1051,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 			if (parameter != null) {
 				species.setConversionFactor(parameter);
 			} else {
-				// TODO : the parameter ID doesn't match a parameter, throw an
+				// TODO: the parameter ID doesn't match a parameter, throw an
 				// exception?
 			}
 		}
@@ -1073,7 +1073,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 			if (species != null) {
 				speciesReference.setSpecies(species);
 			} else {
-				// TODO : the species ID doesn't match a species, throw an
+				// TODO: the species ID doesn't match a species, throw an
 				// exception?
 			}
 		}
@@ -1094,7 +1094,7 @@ public class SBMLLevel1Version1Parser implements ReadingParser, WritingParser {
 			if (speciesType != null) {
 				species.setSpeciesType(speciesType);
 			} else {
-				// TODO : the speciesType ID doesn't match a speciesType, throw
+				// TODO: the speciesType ID doesn't match a speciesType, throw
 				// an exception?
 			}
 		}

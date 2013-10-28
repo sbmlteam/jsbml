@@ -29,15 +29,14 @@ import org.sbml.jsbml.util.Option;
 
 /**
  * Log of errors and other events encountered during SBML processing.
- * 
- * <p/>
+ * <p>
  * This class is used both to have the same API as the libSBML equivalent, and also
  * to store the information sent by the SBML online validator.
- * 
- * see :<br/>
- *   - <a href="http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/SBMLErrorLog.html">libSBML SBMLErrorLog</a>
- * <br>
- *   - <a href="http://sbml.org/Facilities/Documentation/Validator_Web_API">SBML Online Validator web API</a>
+ * <p>
+ * See:<ul>
+ * <li><a href="http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/SBMLErrorLog.html">libSBML SBMLErrorLog</a>
+ * <li><a href="http://sbml.org/Facilities/Documentation/Validator_Web_API">SBML Online Validator web API</a>
+ * </ul>
  * 
  * @author Nicolas Rodriguez
  * @since 0.8

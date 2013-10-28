@@ -90,7 +90,7 @@ public class SBML_L1VxTests {
 		
 		assertTrue(model.getLevel() == 1 && model.getVersion() == 2);
 		
-		// assertTrue(model.getId().equals("")); // TODO : document. Different behavior than libsbml, we set the id as the name for SBML level 1 models.
+		// assertTrue(model.getId().equals("")); // TODO: document. Different behavior than libsbml, we set the id as the name for SBML level 1 models.
 		assertTrue(model.getId().equals("Branch"));
 		assertTrue(model.getName().equals("Branch"));
 		
@@ -161,7 +161,7 @@ public class SBML_L1VxTests {
 		assertTrue(s1 != null);
 		
 		assertTrue(s1.getName().equals("s1"));
-		assertTrue(s1.getId().equals("s1")); // changed, was :  assertTrue(s1.getId().equals(""));
+		assertTrue(s1.getId().equals("s1")); // changed, was:  assertTrue(s1.getId().equals(""));
 		assertTrue(s1.getCVTermCount() == 0);
 		
 		assertTrue(s1.getInitialAmount() == 1);

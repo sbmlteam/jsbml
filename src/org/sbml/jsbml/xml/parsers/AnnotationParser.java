@@ -21,6 +21,8 @@
 
 package org.sbml.jsbml.xml.parsers;
 
+import java.text.MessageFormat;
+
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.SBMLDocument;
@@ -82,7 +84,7 @@ public class AnnotationParser implements ReadingParser {
 			}
 		} else {
 			// There is a syntax error, the attribute can't be read?
-			// TODO : log the problem 
+			// TODO: log the problem 
 		}
 	}
 
@@ -131,7 +133,7 @@ public class AnnotationParser implements ReadingParser {
 			boolean isNested, Object contextObject) 
 	{
 
-		logger.debug("processEndElement : elementName = " + elementName);
+		logger.debug("processEndElement: elementName = " + elementName);
 		
 		// an AnnotationParser can only be used for the annotations of a SBML
 		// component. If the contextObject is not
@@ -165,7 +167,7 @@ public class AnnotationParser implements ReadingParser {
 			}
 		} else {
 			// There is a syntax error, the node can't be read?
-			// TODO : log the problem 
+			// TODO: log the problem 
 		}
 		
 		return true;
@@ -183,12 +185,12 @@ public class AnnotationParser implements ReadingParser {
 			Object contextObject) 
 	{
 
-		logger.debug("processNamespace : elementName = " + elementName);
-		logger.debug("processNamespace : namespace uri = " + URI);
-		logger.debug("processNamespace : namespace prefix = " + prefix);
-		logger.debug("processNamespace : namespace localName = " + localName);				
-		logger.debug("processNamespace : hasAttributes = " + hasAttributes);
-		logger.debug("processNamespace : isLastNamespace = " + isLastNamespace);
+		logger.debug("processNamespace: elementName = " + elementName);
+		logger.debug("processNamespace: namespace uri = " + URI);
+		logger.debug("processNamespace: namespace prefix = " + prefix);
+		logger.debug("processNamespace: namespace localName = " + localName);				
+		logger.debug("processNamespace: hasAttributes = " + hasAttributes);
+		logger.debug("processNamespace: isLastNamespace = " + isLastNamespace);
 				
 		// If the element is an annotation and the contextObject is an
 		// Annotation instance,
@@ -199,7 +201,7 @@ public class AnnotationParser implements ReadingParser {
 
 			if (elementName.equals("annotation") && (annotation.getNonRDFannotation() != null) && (!annotation.getNonRDFannotation().contains("layout"))) {
 				// Hack added to be able to parse properly the render annotation that are
-				// stored inside : '<annotation xmlns="http://www.sbml.org/sbml/level2">'
+				// stored inside: '<annotation xmlns="http://www.sbml.org/sbml/level2">'
 				// It would make problem for models that contain the word layout in the non RDF annotation part as well as some namespace
 				// declared on the top level annotation element... !!
 				// The problem will go away as soon as the new annotation parsing is in place.
@@ -270,7 +272,9 @@ public class AnnotationParser implements ReadingParser {
 			return annotation;
 		} else {
 			// There is a syntax error, the node can't be read ?
-			logger.error(String.format("Cannot read the element %s as the context object is not of the type Annotation", elementName)); 
+			logger.error(MessageFormat.format(
+			  "Cannot read the element {0} as the context object is not of the type Annotation",
+			  elementName)); 
 		}
 		return contextObject;
 	}

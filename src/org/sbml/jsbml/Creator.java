@@ -80,7 +80,7 @@ public class Creator extends AnnotationElement {
 	 * This is a quick and dirty solution as the vCard can contain
 	 * many elements that have sub-elements.
 	 * 
-	 * TODO : use an XMLNode to hold all the additional informations
+	 * TODO: use an XMLNode to hold all the additional informations
 	 * 
 	 */
 	private Map<String, String> otherAttributes;

@@ -90,7 +90,7 @@ public class TestL3Parameter {
   }
 
   /*
-   // TODO : put back when implemented or document api changes
+   // TODO: put back when implemented or document api changes
   @Test public void test_L3_Parameter_createWithNS()
   {
     XMLNamespaces xmlns = new  XMLNamespaces();

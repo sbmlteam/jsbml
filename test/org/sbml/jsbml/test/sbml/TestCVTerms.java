@@ -121,13 +121,13 @@ public class TestCVTerms {
   @Test
   public void test_CVTerm_addResource()
   {
-    CVTerm term = new  CVTerm(); // TODO : difference to document => CVTerm term = new  CVTerm(CVTerm.Type.MODEL_QUALIFIER); constructor does not exist
+    CVTerm term = new  CVTerm(); // TODO: difference to document => CVTerm term = new  CVTerm(CVTerm.Type.MODEL_QUALIFIER); constructor does not exist
     term.setQualifierType(CVTerm.Type.MODEL_QUALIFIER);    
     String resource =  "GO6666";
     assertTrue( term != null );
-    assertTrue( term.getQualifierType() == CVTerm.Type.MODEL_QUALIFIER ); // TODO : difference to document ==> CVTerm.Type.MODEL_QUALIFIER
+    assertTrue( term.getQualifierType() == CVTerm.Type.MODEL_QUALIFIER ); // TODO: difference to document ==> CVTerm.Type.MODEL_QUALIFIER
     term.addResource(resource);
-    List<String> xa = term.getResources(); // TODO : difference to document ==> term.getResources(); does not return XMLAttributes but a List<String>
+    List<String> xa = term.getResources(); // TODO: difference to document ==> term.getResources(); does not return XMLAttributes but a List<String>
     assertTrue( xa.size() == 1 );
     // assertTrue(xa.getName(0).equals( "rdf:resource"));
     assertTrue(xa.get(0).equals( "GO6666"));
@@ -145,7 +145,7 @@ public class TestCVTerms {
 
   /*
    * 
-   * TODO :  difference to document ==> Annotation are not parse into XMLNode and the example is not yet supported.
+   * TODO:  difference to document ==> Annotation are not parse into XMLNode and the example is not yet supported.
    * 
   @Test public void test_CVTerm_createFromNode()
   {
@@ -209,7 +209,7 @@ public class TestCVTerms {
     term.setQualifierType(CVTerm.Type.MODEL_QUALIFIER);
     assertTrue( term != null );
     assertTrue( term.getQualifierType() == CVTerm.Type.MODEL_QUALIFIER );
-    term.setModelQualifierType(CVTerm.Qualifier.BQM_IS); // TODO : difference to document ==> libsbml.BQM_IS become 
+    term.setModelQualifierType(CVTerm.Qualifier.BQM_IS); // TODO: difference to document ==> libsbml.BQM_IS become 
     assertTrue( term != null );
     assertTrue( term.getQualifierType() == CVTerm.Type.MODEL_QUALIFIER );
     assertTrue( term.getModelQualifierType() == CVTerm.Qualifier.BQM_IS );

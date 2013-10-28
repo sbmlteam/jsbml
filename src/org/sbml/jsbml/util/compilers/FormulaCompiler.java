@@ -49,20 +49,18 @@ import org.sbml.jsbml.util.StringTools;
  */
 
 /*
- * 
- * 
- * // TODO : check if we can improve the writing of brackets or wrote a method
+ * // TODO: check if we can improve the writing of brackets or wrote a method
  * to minimized the bracket, they are few differences with libSBML both way
  * anyway.
  * 
- * BIOMODEL 162 :
+ * BIOMODEL 162:
  * 
  * 
- * KineticLaw (ER_leak_fluxD) MathContainer : infix formula output differ. JSBML
- * formula :
+ * KineticLaw (ER_leak_fluxD) MathContainer: infix formula output differ. JSBML
+ * formula:
  * (-ERDensity_D_ERM*vL*(1+-0.00166112956810631*Ca_D_Cytosol*1/(0.00166112956810631
  * *Ca_D_ER)))*ERM*1*1/KMOLE // False, should put - instead of +- ? libSBML
- * formula :-(ERDensity_D_ERM*vL*(1+-(0.00166112956810631*Ca_D_Cytosol*(1/(
+ * formula:-(ERDensity_D_ERM*vL*(1+-(0.00166112956810631*Ca_D_Cytosol*(1/(
  * 0.00166112956810631*Ca_D_ER)))))*ERM*1*(1/KMOLE) // False
  */
 
@@ -855,7 +853,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 			throws SBMLException 
 	{
 		// Writing the root function as '(radiant)^(1/(rootExponent))'
-		// TODO : need to reduce the number of parenthesis when possible
+		// TODO: need to reduce the number of parenthesis when possible
 		
 		return new ASTNodeValue(StringTools.concat(Character.valueOf('('),
 				radiant.compile(this), Character.valueOf(')'), "^", "(1/(",

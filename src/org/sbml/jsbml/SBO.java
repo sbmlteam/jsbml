@@ -2240,53 +2240,6 @@ public class SBO {
 	}
 
 	/**
-	 * Tests method.
-	 * 
-	 * @param args no argument are processed.
-	 */
-	public static void main(String[] args) {
-
-		int i = 0; 
-		for (Term term : getTerms()) {
-			if (!term.isObsolete()) {
-				System.out.printf("%s\n\n", Term.printTerm(term));
-				i++;
-			}
-		}
-		System.out.println("\nThere is " + i + " terms in the SBO ontology.");
-
-		System.out.println("\nPrinting the SBO ontology tree :");
-		Term sboRoot = SBO.getSBORoot();
-
-		for (Term term : sboRoot.getChildren()) {
-			System.out.println("   " + term.getId() + " - " + term.getName());
-
-			printChildren(term, "   ");
-		}
-
-		System.out.println("ANTISENSE_RNA = " + SBO.getAntisenseRNA());
-
-		// TODO : Shall we catch the exception thrown by the biojava getTerm() method or let it like that ??
-		System.out.println("Search null Term : " + SBO.getTerm(null));
-		System.out.println("Search invalid id Term : " + SBO.getTerm("SBO:004"));
-		System.out.println("Search invalid id Term : " + SBO.getTerm("0000004"));
-	}
-
-	/**
-	 * Prints to the console all the sub-tree of terms, starting from the children
-	 * of the given parent term.
-	 * 
-	 * @param parent the parent term
-	 * @param indent the indentation to use to print the children terms
-	 */
-	private static void printChildren(Term parent, String indent) {
-		for (Term term : parent.getChildren()) {
-			System.out.println(indent + "   " + term.getId() + " - " + term.getName());
-			printChildren(term, indent + "   ");
-		}		
-	}
-
-	/**
 	 * Creates and returns a 7 digit SBO number for the given {@link Term} identifier (if
 	 * this is a valid identifier). The returned {@link String} will not contain the
 	 * SBO prefix.

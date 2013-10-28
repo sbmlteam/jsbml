@@ -75,11 +75,11 @@ public interface SBasePlugin extends TreeNodeWithChangeSupport {
 	 * Reads and sets the attribute if it is know from this {@link SBasePlugin}.
 	 * 
 	 * @param attributeName
-	 *            : localName of the XML attribute
+	 *           localName of the XML attribute
 	 * @param prefix
-	 *            : prefix of the XML attribute
+	 *           prefix of the XML attribute
 	 * @param value
-	 *            : value of the XML attribute
+	 *           value of the XML attribute
 	 * @return {@code true} if the attribute has been successfully read.
 	 */
 	public boolean readAttribute(String attributeName, String prefix, String value);

@@ -506,7 +506,7 @@ public class SBMLValidator {
 
 			return sbmlErrorLog;
 		} catch (XStreamException e) {
-			logger.error("There has been an error parsing the consistency check XML result : " + e.getMessage());
+			logger.error("There has been an error parsing the consistency check XML result: " + e.getMessage());
 			
 			if (logger.isDebugEnabled()) {
 				e.printStackTrace();

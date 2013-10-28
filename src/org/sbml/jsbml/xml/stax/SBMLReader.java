@@ -196,7 +196,7 @@ public class SBMLReader {
 
 			if (attribute.getName().getNamespaceURI().equals(namespaceURI)) {
 				
-				// TODO: we have to check that the attribute name is really required !!!! :-)
+				// TODO: we have to check that the attribute name is really required !!!!:-)
 				
 				if (Boolean.parseBoolean(attribute.getValue())) {
 					return true;

@@ -150,7 +150,7 @@ public class RDFAnnotationParser implements ReadingParser {
 	{
 		// there is no text for element with the namespace "http://www.w3.org/1999/02/22-rdf-syntax-ns#".
 		if (characters.trim().length() > 0) {
-			logger.warn("RDFAnnotationParser : processCharactersOf called !!!! Found some unexpected characters");
+			logger.warn("RDFAnnotationParser: processCharactersOf called !!!! Found some unexpected characters");
 		}
 	}
 
@@ -166,7 +166,7 @@ public class RDFAnnotationParser implements ReadingParser {
 		if (sbase.isSetMetaId()) {
 			sbase.getAnnotation().setAbout("#" + sbase.getMetaId());
 		} else {
-			// TODO : generate the metaid at this point ??
+			// TODO: generate the metaid at this point ??
 			
 			logger.warn(String.format(
 				"The element %s has no metaid, so the rdf:about inside his annotation cannot be defined properly.",

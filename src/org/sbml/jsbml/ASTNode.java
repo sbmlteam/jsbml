@@ -2629,7 +2629,7 @@ public class ASTNode extends AbstractTreeNode {
 	 */
 	private void initDefaults() {
 		ASTNode old = this;
-		logger.debug("initDefaults called !! type was " + (type == null ? Type.UNKNOWN : type));
+		logger.debug("initDefaults called! type was " + (type == null ? Type.UNKNOWN : type));
 
 		type = Type.UNKNOWN;
 
@@ -3595,7 +3595,7 @@ public class ASTNode extends AbstractTreeNode {
 	 *            the type as a String.
 	 */
 	public void setType(String typeStr) {
-		// System.out.println("ASTNode : setType(String) called.");
+		// System.out.println("ASTNode: setType(String) called.");
 		Type type = Type.getTypeFor(typeStr);
 		setType(type);
 		if (type != Type.UNKNOWN) {
@@ -3624,7 +3624,7 @@ public class ASTNode extends AbstractTreeNode {
 
 		// TODO: check that the calls to initDefaults() do not delete anything
 		// important when reading the XML file, see MathMLStaxParser.java
-		// System.out.println("ASTNode : setType(Type) called : type = " +
+		// System.out.println("ASTNode: setType(Type) called: type = " +
 		// type);
 
 		String sType = type.toString();

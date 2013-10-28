@@ -26,7 +26,7 @@ import org.sbml.jsbml.History;
 import org.sbml.jsbml.SBMLDocument;
 
 /**
- * A CreatorParser is used to parser the subelements of an annotation element which have this namespaceURI :
+ * A CreatorParser is used to parser the subelements of an annotation element which have this namespaceURI:
  * <a href="http://purl.org/dc/elements/1.1/">http://purl.org/dc/elements/1.1/</a>.
  * 
  * @author Marine Dumousseau 
@@ -54,7 +54,7 @@ public class CreatorParser implements ReadingParser {
 	public void processAttribute(String ElementName, String AttributeName,
 	  String value, String prefix, boolean isLastAttribute,
 	  Object contextObject) {
-	  // TODO : there is no attributes with the namespace "http://purl.org/dc/elements/1.1/", there
+	  // TODO: there is no attributes with the namespace "http://purl.org/dc/elements/1.1/", there
 	  // is a SBML syntax error, log an error ?
 	}
 
@@ -63,7 +63,7 @@ public class CreatorParser implements ReadingParser {
 	 */
 	public void processCharactersOf(String elementName, String characters,
 	  Object contextObject) {
-	  // TODO : there is no text for the element with the namespace "http://purl.org/dc/elements/1.1/", there
+	  // TODO: there is no text for the element with the namespace "http://purl.org/dc/elements/1.1/", there
 	  // is a SBML syntax error, log an error ?
 	}
 
@@ -115,8 +115,8 @@ public class CreatorParser implements ReadingParser {
 	    return modelHistory;
 	  }
 	  else {
-	    // TODO : !elementName.equals("creator"), SBML syntax error?
-	    // TODO : !contextObject instanceof ModelAnnotation, for the moment, only a model with a modelAnnotaton
+	    // TODO: !elementName.equals("creator"), SBML syntax error?
+	    // TODO: !contextObject instanceof ModelAnnotation, for the moment, only a model with a modelAnnotaton
 	    // can contain an history. Should be changed depending on the version.
 	  }
 	  return contextObject;

@@ -53,7 +53,7 @@ public class CVTerm extends AnnotationElement {
 	public static final String URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS = "http://biomodels.net/biology-qualifiers/";
 
 	
-	// TODO : it would be probably safer to try to load the list a qualifier
+	// TODO: it would be probably safer to try to load the list a qualifier
 	// from the web at http://www.ebi.ac.uk/miriam/main/qualifiers/xml/
 	// We can have a copy of the file in the jar in case the web access fail but
 	// the online one would be better as you can have new qualifiers defined at
@@ -743,7 +743,7 @@ public class CVTerm extends AnnotationElement {
 		}
 	}
 
-	// TODO : check that this 3 functions are doing the good things and
+	// TODO: check that this 3 functions are doing the good things and
 	// selecting the proper qualifier
 	/**
 	 * Sets the type of this {@link CVTerm} to the {@link Type} represented by

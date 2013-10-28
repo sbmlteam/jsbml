@@ -288,7 +288,7 @@ public class MathMLStaxParser implements ReadingParser {
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 		
 		logger.debug("processStartElement called");
-		logger.debug("processStartElement : element name = " + elementName); // +  
+		logger.debug("processStartElement: element name = " + elementName); // +  
 					// ", prefix = " + prefix + ", hasAttributes = " + hasAttributes + ", hasNamespace = " + hasNamespaces);
 			// + ", " + contextObject);
 		
@@ -330,17 +330,17 @@ public class MathMLStaxParser implements ReadingParser {
 			} else {
 				// because normal operator are written <operator/> in mathML and so the parent ASTNode is not any more the contextObject
 				parentASTNode = mathContainer.getMath();
-				// System.out.println("MathMLStaxParser : processStartElement parent type : " + parentASTNode.getType());
+				// System.out.println("MathMLStaxParser: processStartElement parent type: " + parentASTNode.getType());
 			}
 		} else if (contextObject instanceof ASTNode) {
 			
 			parentASTNode = ((ASTNode) contextObject);
 			mathContainer = parentASTNode.getParentSBMLObject();
-			// System.out.println("MathMLStaxParser : processStartElement parent type : " + parentASTNode.getType());
+			// System.out.println("MathMLStaxParser: processStartElement parent type: " + parentASTNode.getType());
 		} else {
 			// Should never happen
-			logger.debug("processStartElement : !!!!!!!!!!! Should not have been here !!!!!!!!!!!");
-			logger.debug("processStartElement : contextObject.classname = " + contextObject.getClass().getName());
+			logger.debug("processStartElement: !!!!!!!!!!! Should not have been here !!!!!!!!!!!");
+			logger.debug("processStartElement: contextObject.classname = " + contextObject.getClass().getName());
 			return null;
 		}
 		

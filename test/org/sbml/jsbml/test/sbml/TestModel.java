@@ -117,9 +117,9 @@ public class TestModel {
 		r1.setKineticLaw(kl);
 		M.addReaction(r1);
 		KineticLaw kl1 = M.getReaction(0).getKineticLaw();
-		// assertTrue(!kl1.getParameter("k1").equals(k3)); // TODO : compare Parameter and LocalParameter
+		// assertTrue(!kl1.getParameter("k1").equals(k3)); // TODO: compare Parameter and LocalParameter
 		// assertTrue(!kl1.getParameter("k1").equals(k1)); // We are not doinga clone of the object and even it will return true
-		// assertTrue(!kl1.getParameter("k2").equals(k4)); // TODO : compare Parameter and LocalParameter
+		// assertTrue(!kl1.getParameter("k2").equals(k4)); // TODO: compare Parameter and LocalParameter
 		assertEquals(kl1.getParameter("k3"), null);
 	}
 
@@ -185,7 +185,7 @@ public class TestModel {
 		Event e2 = new Event(2, 4);
 		Trigger t = new Trigger(2, 4);
 		e1.setTrigger(t);
-		e2.setTrigger(t); // TODO : Document the difference : Setting the same trigger object there in jsbml !!!
+		e2.setTrigger(t); // TODO: Document the difference: Setting the same trigger object there in jsbml !!!
 		e1.createEventAssignment("k1", math);
 		e2.createEventAssignment("k2", math);
 		M.addEvent(e1);
@@ -270,7 +270,7 @@ public class TestModel {
 		assertTrue(c != null);
 		assertTrue(M.getCompartmentCount() == 1);
 		assertTrue(c.equals(c));
-		assertTrue(M.getCompartment(0).equals(c)); // TODO : check why this is failing
+		assertTrue(M.getCompartment(0).equals(c)); // TODO: check why this is failing
 	}
 
 	@Test
@@ -421,7 +421,7 @@ public class TestModel {
 		Parameter p = M.createParameter();
 		assertTrue(p != null);
 		assertTrue(M.getParameterCount() == 1);
-		assertEquals(M.getParameter(0), p); // TODO : check why this failing
+		assertEquals(M.getParameter(0), p); // TODO: check why this failing
 	}
 
 	@Test
@@ -688,7 +688,7 @@ public class TestModel {
 		assertEquals(M.getReaction("reaction_3"), null);
 	}
 
-	// TODO : API changes, setVariable function is not in the Rule Class.
+	// TODO: API changes, setVariable function is not in the Rule Class.
 
 	@Test
 	public void test_Model_getRules() throws ParseException {
@@ -824,7 +824,7 @@ public class TestModel {
 	@Test
 	public void test_Model_removeConstraint() {
 		Constraint o1, o2, o3;
-		o1 = M.createConstraint(); // TODO : document diff : cannot add twice the same element
+		o1 = M.createConstraint(); // TODO: document diff: cannot add twice the same element
 		o1.setMetaId("c1");
 		o2 = M.createConstraint();
 		o2.setMetaId("c2");

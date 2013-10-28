@@ -190,7 +190,7 @@ public class XMLNode extends XMLToken {
 	 */
 	public static XMLNode convertStringToXMLNode(String xmlstr, XMLNamespaces xmlns) {
 		
-		// TODO : check how to use the xmlns arguments inside the SBMLReader.readNotes.
+		// TODO: check how to use the xmlns arguments inside the SBMLReader.readNotes.
 		
 		try {
 			return notesReader.readNotes(xmlstr);
@@ -451,7 +451,7 @@ public class XMLNode extends XMLToken {
 			unsetEnd();
 		}
 
-		// TODO : there are more tests in libsbml XMLNode.cpp, check if we need them, like isEOF()
+		// TODO: there are more tests in libsbml XMLNode.cpp, check if we need them, like isEOF()
 
 		childrenElements.add(node);
 		node.fireNodeAddedEvent();
