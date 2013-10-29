@@ -24,12 +24,16 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.text.parser.ParseException;
 
 
 /**
@@ -133,5 +137,21 @@ public class RemoveFromParentTest {
 	  
 	  k.createLocalParameter("LP1");	  
   }
-
+  
+  @Test
+  public void testRemoveFromParentXMLNode() {
+	  
+  }
+  
+  @Test
+  public void testRemoveFromParentASTNode() throws ParseException {
+	Constraint constr = model.createConstraint();
+	constr.setMath(ASTNode.parseFormula("0 * 4 * 3"));
+	ASTNode math = constr.getMath();
+	System.out.println(math.getChildCount());
+	ASTNode child = (ASTNode) math.getChildAt(1); 
+	child.removeFromParent();
+	System.out.println(math.getChildCount());
+  }
+  
 }
