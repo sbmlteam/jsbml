@@ -544,11 +544,11 @@ public class XMLNode extends XMLToken {
 	 * <p>
 	 * @jsbml.note The caller owns the returned node and is responsible for deleting it.
 	 */
-	public XMLNode removeChild(long n) {
+	public XMLNode removeChild(int n) {
 		if ((n < 0) || (getChildCount() < n)) {
 			return null;
 		}		
-		XMLNode oldNode =  childrenElements.remove((int) n);
+		XMLNode oldNode =  childrenElements.remove(n);
 		oldNode.fireNodeRemovedEvent();
 		return oldNode;
 	}
