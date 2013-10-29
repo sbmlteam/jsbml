@@ -1,6 +1,6 @@
 /*
- * $Id: LibSBMLWriter.java 102 2009-12-13 19:52:50Z andreas-draeger $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/src/org/sbml/jsbml/io/LibSBMLWriter.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -66,6 +66,8 @@ import org.sbml.libsbml.libsbmlConstants;
 
 /**
  * @author Andreas Dr&auml;ger
+ * @since 0.8
+ * @version $Rev$
  */
 @SuppressWarnings("deprecation")
 public class LibSBMLWriter implements SBMLOutputConverter {
@@ -93,7 +95,7 @@ public class LibSBMLWriter implements SBMLOutputConverter {
 	 * @return
 	 */
 	private boolean equal(ASTNode math, org.sbml.libsbml.ASTNode libMath) {
-		if (math == null || libMath == null) {
+		if ((math == null) || (libMath == null)) {
 			return false;
 		}
 		boolean equal = true;
@@ -676,11 +678,11 @@ public class LibSBMLWriter implements SBMLOutputConverter {
 
 		// Compartment types
 		for (CompartmentType c : model.getListOfCompartmentTypes()) {
-			if (modelOrig.getCompartmentType(c.getId()) == null)
+			if (modelOrig.getCompartmentType(c.getId()) == null) {
 				modelOrig.addCompartmentType(writeCompartmentType(c));
-			else
-				saveNamedSBaseProperties(c, modelOrig.getCompartmentType(c
-						.getId()));
+			} else {
+				saveNamedSBaseProperties(c, modelOrig.getCompartmentType(c.getId()));
+			}
 			fireIOEvent(c);
 		}
 
@@ -928,7 +930,7 @@ public class LibSBMLWriter implements SBMLOutputConverter {
 			}
 		}
 		if (species.isSetCompartment()
-				&& pluMo.getCompartment(species.getCompartment()) == null) {
+				&& (pluMo.getCompartment(species.getCompartment()) == null)) {
 			Compartment c = species.getCompartmentInstance();
 			if (c.isSetCompartmentType()) {
 				if (pluMo.getCompartmentType(c.getCompartmentType()) == null) {

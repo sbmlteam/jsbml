@@ -36,6 +36,7 @@ import java.util.Set;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
@@ -57,6 +58,11 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = 8629109724566600238L;
+	
+	/**
+	 * A {@link Logger} for this class.
+	 */
+	private static final Logger logger = Logger.getLogger(AbstractTreeNode.class);
 
 	/**
 	 * Searches the given child in the list of sub-nodes of the parent element.
@@ -631,19 +637,24 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 			Method method;
 			try {
 				Class<?> clazz = parent.getClass();
-				method = clazz.getMethod("removeChild", Integer.class);
+				method = clazz.getMethod("removeChild", int.class);
 				if (method != null) {
-					method.invoke(Integer.valueOf(parent.getIndex(this)));
+					method.invoke(parent, new Object[]{parent.getIndex(this)});
 				}
 			} catch (SecurityException exc) {
+			  logger.debug(exc.getMessage(), exc);
 				noSuchMethod = true;
 			} catch (NoSuchMethodException exc) {
+			  logger.debug(exc.getMessage(), exc);
 				noSuchMethod = true;
 			} catch (IllegalArgumentException exc) {
+			  logger.debug(exc.getMessage(), exc);
 				noSuchMethod = true;
 			} catch (IllegalAccessException exc) {
+			  logger.debug(exc.getMessage(), exc);
 				noSuchMethod = true;
 			} catch (InvocationTargetException exc) {
+			  logger.debug(exc.getMessage(), exc);
 				noSuchMethod = true;
 			}
 			if (noSuchMethod) {
