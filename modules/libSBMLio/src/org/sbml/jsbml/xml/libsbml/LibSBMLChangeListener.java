@@ -80,13 +80,12 @@ import org.sbml.jsbml.xml.XMLToken;
 
 /**
  * This class listens to the changes in the JSBML document and synchronizes the
- * corresponding LibSBML document
- * with the JSBML-Document.
+ * corresponding LibSBML document with the JSBML-Document.
  * 
  * @author Meike Aichele
  * @author Andreas Dr&auml;ger
  * @version $Rev$
- * @since 0.8
+ * @since 1.0
  */
 @SuppressWarnings("deprecation")
 public class LibSBMLChangeListener implements TreeNodeChangeListener {

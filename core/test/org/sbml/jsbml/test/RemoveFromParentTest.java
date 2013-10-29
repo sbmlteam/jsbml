@@ -25,7 +25,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.KineticLaw;
@@ -140,18 +139,18 @@ public class RemoveFromParentTest {
   
   @Test
   public void testRemoveFromParentXMLNode() {
-	  
+	  // TODO
   }
   
   @Test
   public void testRemoveFromParentASTNode() throws ParseException {
-	Constraint constr = model.createConstraint();
-	constr.setMath(ASTNode.parseFormula("0 * 4 * 3"));
-	ASTNode math = constr.getMath();
-	System.out.println(math.getChildCount());
-	ASTNode child = (ASTNode) math.getChildAt(1); 
-	child.removeFromParent();
-	System.out.println(math.getChildCount());
+    // TODO
+    Constraint constr = model.createConstraint();
+    constr.setMath(ASTNode.parseFormula("0 * 4 * 3"));
+    ASTNode math = constr.getMath();
+    ASTNode child = (ASTNode) math.getChildAt(1);
+    child.removeFromParent();
+    System.out.println(math.toFormula());
   }
   
 }
