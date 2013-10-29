@@ -22,6 +22,8 @@
 package org.sbml.jsbml;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -625,33 +627,53 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		    fireNodeRemovedEvent();
 		  }
 		} else {
-		  /* If the object's parent is not a list, mimic "unset" methods using
-		   * reflection
-		   */
-		  Class<?> clazz = parent.getClass();
-		  Field fields[] = clazz.getDeclaredFields();
-		  for (Field field : fields) {
-		    try {
-		      boolean isAccessible = true;
-		      if (!field.isAccessible()) {
-		        field.setAccessible(isAccessible);
-		        isAccessible = false;
-		      }
-		      Object object = field.get(parent);
-		      if (object == this) {
-		        field.set(parent, null);
-		      }
-		      if (!isAccessible) {
-		        // reset original state
-		        field.setAccessible(isAccessible);  
-		      }
-		    } catch (IllegalAccessException exc) {
-		      // ignore
-		    }
-		  }
-		  fireNodeRemovedEvent();
+			boolean noSuchMethod = false;
+			Method method;
+			try {
+				Class<?> clazz = parent.getClass();
+				method = clazz.getMethod("removeChild", Integer.class);
+				if (method != null) {
+					method.invoke(Integer.valueOf(parent.getIndex(this)));
+				}
+			} catch (SecurityException exc) {
+				noSuchMethod = true;
+			} catch (NoSuchMethodException exc) {
+				noSuchMethod = true;
+			} catch (IllegalArgumentException exc) {
+				noSuchMethod = true;
+			} catch (IllegalAccessException exc) {
+				noSuchMethod = true;
+			} catch (InvocationTargetException exc) {
+				noSuchMethod = true;
+			}
+			if (noSuchMethod) {
+				/* If the object's parent is not a list, mimic "unset" methods
+				 * using reflection
+				 */
+				Class<?> clazz = parent.getClass();
+				Field fields[] = clazz.getDeclaredFields();
+				for (Field field : fields) {
+					try {
+						boolean isAccessible = true;
+						if (!field.isAccessible()) {
+							field.setAccessible(isAccessible);
+							isAccessible = false;
+						}
+						Object object = field.get(parent);
+						if (object == this) {
+							field.set(parent, null);
+						}
+						if (!isAccessible) {
+							// reset original state
+							field.setAccessible(isAccessible);  
+						}
+					} catch (IllegalAccessException exc) {
+						// ignore
+					}
+				}
+				fireNodeRemovedEvent();
+			}
 		}
-		
 		return true;
 	}
   
