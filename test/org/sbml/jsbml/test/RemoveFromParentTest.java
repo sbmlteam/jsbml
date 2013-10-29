@@ -119,4 +119,19 @@ public class RemoveFromParentTest {
 	  
   }
 
+  @Test
+  public void testRemoveFromParentLocalParameter() {
+
+	  assertTrue(k.getLocalParameter(0).removeFromParent());
+	  
+	  assertTrue(k.isSetListOfLocalParameters() == false);
+	  assertTrue(k.getLocalParameter("LP1") == null);
+	  assertTrue(doc.findSBase("M1") != null);
+	  assertTrue(doc.findSBase("M3") != null);
+	  assertTrue(doc.findSBase("M4") == null);
+	  assertTrue(model.findLocalParameters("LP1").size() == 0);
+	  
+	  k.createLocalParameter("LP1");	  
+  }
+
 }
