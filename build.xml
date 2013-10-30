@@ -8,7 +8,9 @@
 	<!-- Initialization target                                               -->
 	<!-- =================================================================== -->
 
-	<target name="init">
+	<target
+	 description="Initialization target"
+	 name="init">
 		<tstamp>
 			<format property="YEAR" pattern="yyyy"/>
 		</tstamp>
@@ -69,7 +71,9 @@
 	<!-- =================================================================== -->
 	<!-- Help on usage                                                       -->
 	<!-- =================================================================== -->
-	<target name="usage" depends="init">
+	<target name="usage"
+	 description="Help on usage"
+	 depends="init">
 		<echo message=""/>
 		<echo message=""/>
 		<echo message=" ${Name} Build file"/>
@@ -95,7 +99,9 @@
 	<!-- =================================================================== -->
 	<!-- Prepares the build directory                                        -->
 	<!-- =================================================================== -->
-	<target name="prepare" depends="init">
+	<target name="prepare"
+	 description="Prepares the build directory"
+	 depends="init">
 		<mkdir dir="${build.dir}"/>
 		<echo message="Done"/>
 	</target>
@@ -103,7 +109,9 @@
 	<!-- =================================================================== -->
 	<!-- Prepares the source code                                            -->
 	<!-- =================================================================== -->
-	<target name="prepare-src" depends="prepare">
+	<target name="prepare-src"
+	 description="Prepares the source code"
+	 depends="prepare">
 		<!-- create directories -->
 		<mkdir dir="${build.src}"/>
 		<mkdir dir="${build.dest}"/>
@@ -140,9 +148,11 @@
 
 
 	<!-- =================================================================== -->
-	<!-- Modify somes files                                                  -->
+	<!-- Modify some files                                                  -->
 	<!-- =================================================================== -->
-	<target name="gen-build-number" unless="dev.mode">
+	<target name="gen-build-number"
+	 description="Modify some files"
+	 unless="dev.mode">
 		<echo message="Updating the files with the build number..."/>
 
 		<replace file="${basedir}/doc/Readme.html"
@@ -153,9 +163,12 @@
 	</target>
 
 	<!-- =================================================================== -->
-	<!-- Modify back somes files                                             -->
+	<!-- Modify back some files                                             -->
 	<!-- =================================================================== -->
-	<target name="gen-build-number-back" depends="jar" unless="dev.mode">
+	<target name="gen-build-number-back"
+	 description="Modify back some files"
+	 depends="jar"
+	 unless="dev.mode">
 		<echo message="Updating back the files with [BUILD.NUMBER]..."/>
 
 
@@ -169,7 +182,9 @@
 	<!-- =================================================================== -->
 	<!-- Compiles the source directory                                       -->
 	<!-- =================================================================== -->
-	<target name="compile" depends="prepare-src">
+	<target name="compile"
+	 description="Compiles the source directory"
+	 depends="prepare-src">
 		<javac srcdir="${build.src}"
            destdir="${build.dest}"
            debug="${debug}"
@@ -194,7 +209,9 @@
 	<!-- =================================================================== -->
 	<!-- Creates the class package                                           -->
 	<!-- =================================================================== -->
-	<target name="jar" depends="compile">
+	<target name="jar"
+	 description="Creates the class package"
+	 depends="compile">
 
 		<copy todir="${build.dest}">
 			<fileset dir="${build.src}" 
@@ -208,7 +225,9 @@
 	<!-- Creates the class package and include all the dependencies jars     -->
 	<!-- into a big jsbml jar file.                                          -->
 	<!-- =================================================================== -->
-	<target name="jar-src" depends="prepare-src">
+	<target name="jar-src"
+	 description="Creates the class package and includes all the dependencies jars into a big jsbml jar file"
+	 depends="prepare-src">
 
 		<jar jarfile="${build.dir}/${name}-${version}-src.jar" basedir="${build.src}" includes="**/*.java"/>
 
@@ -218,7 +237,9 @@
 	<!-- Creates the class package and include all the dependencies jars     -->
 	<!-- into a big jsbml jar file.                                          -->
 	<!-- =================================================================== -->
-	<target name="bigjar" depends="compile">
+	<target name="bigjar"
+	 description="Creates the class package and includes all the dependencies jars (and other resources) into a big jsbml jar file"
+	 depends="compile">
 
 		<!-- we use the ${build.src} to include the sources of jsbml in the resulting jar -->
 		<copy todir="${build.dest}">
@@ -477,7 +498,10 @@
 	<!-- =================================================================== -->
 	<!-- Build the jsbml modules                                             -->
 	<!-- =================================================================== -->
-	<target name="module-dist" depends="init">
+	<target
+	 name="module-dist"
+	 description="Build the jsbml modules"
+	 depends="init">
 
 		<mkdir dir="${dist.dir}/modules"/>
 
