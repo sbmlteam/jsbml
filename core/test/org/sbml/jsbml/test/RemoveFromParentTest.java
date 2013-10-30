@@ -33,6 +33,10 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.xml.XMLAttributes;
+import org.sbml.jsbml.xml.XMLNamespaces;
+import org.sbml.jsbml.xml.XMLNode;
+import org.sbml.jsbml.xml.XMLTriple;
 
 
 /**
@@ -65,6 +69,14 @@ public class RemoveFromParentTest {
 	  k.setMetaId("M3");
 	  LocalParameter param1 = k.createLocalParameter("LP1");
 	  param1.setMetaId("M4");
+	  
+	  
+	  
+	  doc.appendNotes("<body xmlns=\"http://www.w3.org/1999/xhtml\"><p>Child string one</p><p>Child string two</p></body>");
+	  //XMLNode node = doc.getNotes();
+	  //node.addChild(XMLNode.convertStringToXMLNode("<p>Child string three</p>"));
+	  //node.addChild(XMLNode.convertStringToXMLNode("<p>Child string four</p>"));
+	  
   }
   
   @Test
@@ -139,18 +151,28 @@ public class RemoveFromParentTest {
   
   @Test
   public void testRemoveFromParentXMLNode() {
-	  // TODO
+	  XMLNode notes = doc.getNotes().getChildAt(0);
+	  assertTrue(notes.getChildCount() == 2);
+	  
+	  notes.getChildAt(0).removeFromParent();
+	  assertTrue(notes.getChildCount() == 1);
+	  notes.getChildAt(0).removeFromParent();
+	  assertTrue(notes.getChildCount() == 0);
+	  notes.removeFromParent();
+	  XMLNode notes2 = doc.getNotes();
+	  notes2.removeFromParent();
+	  assertTrue(doc.isSetNotes() == true); // This should still be true because "notes" is a property of SBMLDocument
+	  
   }
   
   @Test
   public void testRemoveFromParentASTNode() throws ParseException {
-    // TODO
     Constraint constr = model.createConstraint();
     constr.setMath(ASTNode.parseFormula("0 * 4 * 3"));
     ASTNode math = constr.getMath();
     ASTNode child = (ASTNode) math.getChildAt(1);
     child.removeFromParent();
-    System.out.println(math.toFormula());
+    assertTrue(math.getChildCount() == 1);
   }
   
 }
