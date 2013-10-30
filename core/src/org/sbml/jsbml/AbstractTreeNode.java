@@ -22,7 +22,6 @@
 package org.sbml.jsbml;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.AbstractMap;
 import java.util.Collection;
@@ -633,31 +632,14 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 		    fireNodeRemovedEvent();
 		  }
 		} else {
-			boolean noSuchMethod = false;
-			Method method;
 			try {
 				Class<?> clazz = parent.getClass();
-				method = clazz.getMethod("removeChild", int.class);
+				Method method = clazz.getMethod("removeChild", int.class);
 				if (method != null) {
 					method.invoke(parent, new Object[]{parent.getIndex(this)});
 				}
-			} catch (SecurityException exc) {
-			  logger.debug(exc.getMessage(), exc);
-				noSuchMethod = true;
-			} catch (NoSuchMethodException exc) {
-			  logger.debug(exc.getMessage(), exc);
-				noSuchMethod = true;
-			} catch (IllegalArgumentException exc) {
-			  logger.debug(exc.getMessage(), exc);
-				noSuchMethod = true;
-			} catch (IllegalAccessException exc) {
-			  logger.debug(exc.getMessage(), exc);
-				noSuchMethod = true;
-			} catch (InvocationTargetException exc) {
-			  logger.debug(exc.getMessage(), exc);
-				noSuchMethod = true;
-			}
-			if (noSuchMethod) {
+			} catch (Throwable exc) {
+				logger.debug(exc.getMessage(), exc);
 				/* If the object's parent is not a list, mimic "unset" methods
 				 * using reflection
 				 */
@@ -678,7 +660,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 							// reset original state
 							field.setAccessible(isAccessible);  
 						}
-					} catch (IllegalAccessException exc) {
+					} catch (IllegalAccessException exc2) {
 						// ignore
 					}
 				}
