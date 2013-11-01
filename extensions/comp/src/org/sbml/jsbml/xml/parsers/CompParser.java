@@ -226,7 +226,7 @@ public class CompParser extends AbstractReaderWriter {
 	 * @param elementName
 	 * @return
 	 */
-	private Object createListOfChild(ListOf<?> listOf, String elementName) {
+	protected Object createListOfChild(ListOf<?> listOf, String elementName) {
 
 		Object parentSBase = listOf.getParent();
 		

@@ -21,6 +21,8 @@
 
 package org.sbml.jsbml.xml.parsers;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -282,6 +284,69 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
 			}
 
 		}
+	}
+
+	/**
+	 * 
+	 * @param listOf
+	 * @param elementName
+	 * @return
+	 */
+	protected Object createListOfChild(ListOf<?> listOf, String elementName) {
+
+		Object parentSBase = listOf.getParent();
+		SBasePlugin parentPlugin = null;
+		
+		if (parentSBase == null) {
+			return null;
+		}
+		parentPlugin = ((SBase) parentSBase).getExtension(getNamespaceURI());
+		
+		if (parentPlugin != null) {
+			parentSBase = parentPlugin;
+		}
+
+		String createMethodName = "create" + elementName.substring(0, 1).toUpperCase() + elementName.substring(1);  
+		Method createMethod = null;
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("Method '" + createMethodName + "' will be used");
+		}
+		
+		try {
+			createMethod = parentSBase.getClass().getMethod(createMethodName, (Class<?>[]) null);
+			
+			return createMethod.invoke(parentSBase, (Object[]) null);
+			
+		} catch (SecurityException e) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Method '" + createMethodName + "' is not accessible on " + parentSBase.getClass().getSimpleName());
+				e.printStackTrace();
+			}
+		} catch (NoSuchMethodException e) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Method '" + createMethodName + "' does not exist on " + parentSBase.getClass().getSimpleName());
+			}
+		} catch (IllegalArgumentException e) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
+				logger.debug(e.getMessage());
+			}
+		} catch (IllegalAccessException e) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
+				logger.debug(e.getMessage());
+			}
+		} catch (InvocationTargetException e) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
+				logger.debug(e.getMessage());
+			}
+		}
+		
+		// TODO : try to use the default constructor + the addXX method
+		
+		return null;
 	}
 
 	/**
