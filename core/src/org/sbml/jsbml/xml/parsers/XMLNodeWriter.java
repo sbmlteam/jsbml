@@ -137,21 +137,29 @@ public class XMLNodeWriter {
     }
     if (!isRoot && (!(xmlNode.getParent() instanceof XMLNode))) {
       isTopElement = true;
-    }
+    }    
     
     if (xmlNode.isElement() && !xmlNode.getName().equals("message")) {
-      if (!(isRoot || isTopElement)) {
+  	  logger.debug("write(XMLNode, int) - node name, isRoot, isTopElement = " + xmlNode.getName() + ", " + isRoot + ", " + isTopElement);
+
+  	  if (!(isRoot || isTopElement)) {
+    	  logger.debug("writing the indentation 0");
         writer.writeCharacters(StringTools.fill(indentCount - depth, indentChar));
       }
-      if (xmlNode.getPrefix() != null) {
-        writer.writeStartElement(xmlNode.getPrefix(), xmlNode.getName(), xmlNode.getURI());
+      if (xmlNode.getPrefix() != null && xmlNode.getPrefix().trim().length() > 0) {
+    	  if (xmlNode.getURI() != null && xmlNode.getURI().trim().length() > 0) {
+    		  if (logger.isDebugEnabled()) {
+    			  logger.debug("calling writeStartElement with prefix, name and uri = " + xmlNode.getPrefix() + ", " + xmlNode.getName() + ", " + xmlNode.getURI());
+    		  }
+    		  writer.writeStartElement(xmlNode.getPrefix(), xmlNode.getName(), xmlNode.getURI());
+    	  } else {
+    		  logger.debug("calling writeStartElement with prefix and name");
+    		  writer.writeStartElement(xmlNode.getPrefix(), xmlNode.getName());
+    	  }
       } else {
+		  logger.debug("calling writeStartElement with name only");
         writer.writeStartElement(xmlNode.getName());
       }      
-      if (isRoot || isTopElement) {
-        writer.writeCharacters("\n");
-        writer.writeCharacters(StringTools.fill(depth + indentCount, indentChar));        
-      }
       
       int nbNamespaces = xmlNode.getNamespacesLength();
       
@@ -159,8 +167,6 @@ public class XMLNodeWriter {
         String uri = xmlNode.getNamespaceURI(i);
         String prefix = xmlNode.getNamespacePrefix(i);
         writer.writeNamespace(prefix, uri);
-        writer.writeCharacters("\n");
-        writer.writeCharacters(StringTools.fill(depth - indentCount, indentChar));
       }
       
       // write the xmlNode attributes
@@ -172,15 +178,28 @@ public class XMLNodeWriter {
         String attrPrefix = xmlNode.getAttrPrefix(i);
         String attrValue = xmlNode.getAttrValue(i);
         
-        if (attrPrefix.length() != 0) {
-          // TODO check if we need to pass null for URI if not defined and if we could use only one method
-          writer.writeAttribute(attrPrefix, attrURI, attrName, attrValue);
-        } else if (attrURI.length() != 0) {
+        if (attrPrefix != null && attrPrefix.trim().length() != 0) {
+        	if (logger.isDebugEnabled()) {
+        		logger.debug("writeAttribute(attrPrefix, attrURI, attrName, attrValue) = " + attrPrefix + ", " + attrURI + ", " + attrName + ", " + attrValue);
+        	}
+        	writer.writeAttribute(attrPrefix, attrURI, attrName, attrValue);
+        } else if (attrURI != null && attrURI.length() != 0) {
+        	if (logger.isDebugEnabled()) {
+        		logger.debug("writeAttribute(attrURI, attrName, attrValue) = " + attrURI + ", " + attrName + ", " + attrValue);
+        	}
           writer.writeAttribute(attrURI, attrName, attrValue);
         } else {
+        	if (logger.isDebugEnabled()) {
+        		logger.debug("writeAttribute(attrName, attrValue) = " + attrName + ", " + attrValue);
+        	}
           writer.writeAttribute(attrName, attrValue);
         }
       }
+      if ((isRoot || isTopElement) && xmlNode.getChildCount() > 0) {
+    	  logger.debug("writing a new line and the indentation 1");
+          writer.writeCharacters("\n");
+          writer.writeCharacters(StringTools.fill(depth + indentCount, indentChar));        
+        }
 
     } else if (xmlNode.isText()) {
       logger.debug("writing some text characters = @" + xmlNode.getCharacters().trim() + "@");
@@ -190,10 +209,14 @@ public class XMLNodeWriter {
 
     boolean isNested = false;
     long nbChildren = xmlNode.getChildCount();
+    
+    logger.debug("write(XMLNode, int) - nb Children = " + nbChildren);
+    		
     for (int i = 0; i < nbChildren; i++) {
       XMLNode child = xmlNode.getChildAt(i);
-      if (!child.isText() && !(isRoot || isTopElement)) {
+      if (!child.isText()) {
         isNested = true;
+        logger.debug("writing the indentation 2");
         writer.writeCharacters(StringTools.fill((depth - indentCount),
           indentChar));
       }
@@ -201,19 +224,23 @@ public class XMLNodeWriter {
     }
     
     if (xmlNode.isElement() && !xmlNode.getName().equals("message")) {
-      if (isRoot || isTopElement) {
+      if ((isRoot || isTopElement) && (xmlNode.getChildCount() > 0)) {
+    	  logger.debug("writing a new line and the indentation 3");
         writer.writeCharacters("\n");
         writer.writeCharacters(StringTools.fill(depth, indentChar));
       } else if (isNested) {
+    	  logger.debug("writing the indentation 4");
         writer.writeCharacters(StringTools.fill(
           ((depth - indentCount) / indentCount) * indentCount, indentChar));
       }
       writer.writeEndElement();
       if (!(isRoot || isTopElement)) {
+    	  logger.debug("writing a new line and the indentation 5");
         writer.writeCharacters("\n");
         writer.writeCharacters(StringTools.fill(depth, indentChar));
       }
     }
+    logger.debug("write(XMLNode, int) - end");
   }
 	
 	
