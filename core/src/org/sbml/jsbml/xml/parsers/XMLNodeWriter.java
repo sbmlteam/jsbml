@@ -140,10 +140,10 @@ public class XMLNodeWriter {
     }    
     
     if (xmlNode.isElement() && !xmlNode.getName().equals("message")) {
-  	  logger.debug("write(XMLNode, int) - node name, isRoot, isTopElement = " + xmlNode.getName() + ", " + isRoot + ", " + isTopElement);
+  	  logger.debug("write(XMLNode, int) - begin - node name, isRoot, isTopElement = " + xmlNode.getName() + ", " + isRoot + ", " + isTopElement);
 
   	  if (!(isRoot || isTopElement)) {
-    	  logger.debug("writing the indentation 0");
+    	  logger.debug("writing the indentation 0 -> 'indentCount - depth' !??");
         writer.writeCharacters(StringTools.fill(indentCount - depth, indentChar));
       }
       if (xmlNode.getPrefix() != null && xmlNode.getPrefix().trim().length() > 0) {
@@ -195,11 +195,11 @@ public class XMLNodeWriter {
           writer.writeAttribute(attrName, attrValue);
         }
       }
-      if ((isRoot || isTopElement) && xmlNode.getChildCount() > 0) {
-    	  logger.debug("writing a new line and the indentation 1");
+      if (xmlNode.getChildCount() > 0) {
+    	  logger.debug("writing a new line and the indentation 1 -> 'depth + indentCount'");
           writer.writeCharacters("\n");
           writer.writeCharacters(StringTools.fill(depth + indentCount, indentChar));        
-        }
+      }
 
     } else if (xmlNode.isText()) {
       logger.debug("writing some text characters = @" + xmlNode.getCharacters().trim() + "@");
@@ -216,7 +216,7 @@ public class XMLNodeWriter {
       XMLNode child = xmlNode.getChildAt(i);
       if (!child.isText()) {
         isNested = true;
-        logger.debug("writing the indentation 2");
+        logger.debug("writing the indentation 2 -> 'depth - indentCount'");
         writer.writeCharacters(StringTools.fill((depth - indentCount),
           indentChar));
       }
@@ -225,7 +225,7 @@ public class XMLNodeWriter {
     
     if (xmlNode.isElement() && !xmlNode.getName().equals("message")) {
       if ((isRoot || isTopElement) && (xmlNode.getChildCount() > 0)) {
-    	  logger.debug("writing a new line and the indentation 3");
+    	  logger.debug("writing a new line and the indentation 3  -> 'depth'");
         writer.writeCharacters("\n");
         writer.writeCharacters(StringTools.fill(depth, indentChar));
       } else if (isNested) {
@@ -234,8 +234,8 @@ public class XMLNodeWriter {
           ((depth - indentCount) / indentCount) * indentCount, indentChar));
       }
       writer.writeEndElement();
-      if (!(isRoot || isTopElement)) {
-    	  logger.debug("writing a new line and the indentation 5");
+      if ((!(isRoot || isTopElement)) && (xmlNode.getParent().getParent() != null)) {
+    	  logger.debug("writing a new line and the indentation 5 -> 'depth'");
         writer.writeCharacters("\n");
         writer.writeCharacters(StringTools.fill(depth, indentChar));
       }
