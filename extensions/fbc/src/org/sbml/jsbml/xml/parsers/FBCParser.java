@@ -20,6 +20,8 @@
  */
 package org.sbml.jsbml.xml.parsers;
 
+import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,6 +62,8 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  */
 public class FBCParser extends AbstractReaderWriter {
 
+	
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
 	 */
@@ -146,7 +150,10 @@ public class FBCParser extends AbstractReaderWriter {
 		if (elementName.equals(FBCList.listOfFluxBounds.name())
 				|| elementName.equals(FBCList.listOfObjectives.name())) {
 			this.groupList = FBCList.none;
+		} else if (elementName.equals(FBCList.listOfFluxObjectives.name())) {
+			this.groupList = FBCList.listOfObjectives;
 		}
+				
 		return true;
 	}
 
@@ -263,7 +270,13 @@ public class FBCParser extends AbstractReaderWriter {
 		}
 
 	}
-
+	
+	/**
+	 * Tests this class
+	 * 
+	 * @param args
+	 * @throws SBMLException
+	 */
 	public static void main(String[] args) throws SBMLException {
 
 		if (args.length < 1) {
@@ -275,11 +288,44 @@ public class FBCParser extends AbstractReaderWriter {
 		// this JOptionPane is added here to be able to start visualVM profiling
 		// before the reading or writing is started.
 		// JOptionPane.showMessageDialog(null, "Eggs are not supposed to be green.");
-		
+
+		File argsAsFile = new File(args[0]);
+		File[] files = null;
+
+		if (argsAsFile.isDirectory())
+		{
+			files = argsAsFile.listFiles(new FileFilter() {
+				
+				@Override
+				public boolean accept(File pathname) 
+				{
+					if (pathname.getName().contains("-jsbml"))
+					{
+						return false;
+					}
+					
+					if (pathname.getName().endsWith(".xml"))
+					{
+						return true;
+					}
+					
+					return false;
+				}
+			});
+		}
+		else
+		{
+			files = new File[1];
+			files[0] = argsAsFile;
+		}
+
+		for (File file : files) 
+		{
+
 		long init = Calendar.getInstance().getTimeInMillis();
 		System.out.println(Calendar.getInstance().getTime());
 		
-		String fileName = args[0];
+		String fileName = file.getAbsolutePath();
 		String jsbmlWriteFileName = fileName.replaceFirst(".xml", "-jsbml.xml");
 		
 		System.out.printf("Reading %s and writing %s\n", 
@@ -294,7 +340,7 @@ public class FBCParser extends AbstractReaderWriter {
 			afterRead = Calendar.getInstance().getTimeInMillis();
 
 			FBCModelPlugin fbcModel = (FBCModelPlugin) testDocument.getModel().getExtension(FBCConstants.namespaceURI);
-			
+
 			if (fbcModel != null)
 			{
 				System.out.println("nb fluxBounds found: " + fbcModel.getListOfFluxBounds().size());
@@ -307,6 +353,7 @@ public class FBCParser extends AbstractReaderWriter {
 			{
 				System.out.println("!!!!!!!!!! not FBC model plugin defined !!!!!!!!!!!!");
 			}
+
 
 			System.out.printf("Starting writing\n");
 			
@@ -334,6 +381,7 @@ public class FBCParser extends AbstractReaderWriter {
 		}
 		System.out.println("Reading: " + nbSecondesRead + " secondes.");
 		System.out.println("Writing: " + nbSecondesWrite + " secondes.");
+		}
 	}
 
 
