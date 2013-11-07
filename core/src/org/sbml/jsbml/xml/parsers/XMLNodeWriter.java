@@ -147,15 +147,10 @@ public class XMLNodeWriter {
         writer.writeCharacters(StringTools.fill(indentCount - depth, indentChar));
       }
       if (xmlNode.getPrefix() != null && xmlNode.getPrefix().trim().length() > 0) {
-    	  if (xmlNode.getURI() != null && xmlNode.getURI().trim().length() > 0) {
-    		  if (logger.isDebugEnabled()) {
-    			  logger.debug("calling writeStartElement with prefix, name and uri = " + xmlNode.getPrefix() + ", " + xmlNode.getName() + ", " + xmlNode.getURI());
-    		  }
-    		  writer.writeStartElement(xmlNode.getPrefix(), xmlNode.getName(), xmlNode.getURI());
-    	  } else {
-    		  logger.debug("calling writeStartElement with prefix and name");
-    		  writer.writeStartElement(xmlNode.getPrefix(), xmlNode.getName());
+    	  if (logger.isDebugEnabled()) {
+    		  logger.debug("calling writeStartElement with prefix, name and uri = " + xmlNode.getPrefix() + ", " + xmlNode.getName() + ", " + xmlNode.getURI());
     	  }
+    	  writer.writeStartElement(xmlNode.getPrefix(), xmlNode.getName(), xmlNode.getURI());
       } else {
 		  logger.debug("calling writeStartElement with name only");
         writer.writeStartElement(xmlNode.getName());
