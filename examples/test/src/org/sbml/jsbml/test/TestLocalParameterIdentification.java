@@ -44,7 +44,6 @@ import org.sbml.jsbml.Species;
 public class TestLocalParameterIdentification {
 
   public static void main(String[] args) throws IOException, XMLStreamException {
-    
     SBMLDocument doc = new SBMLDocument(2, 4);
     Model model = doc.createModel("model_test");
     Compartment c1 = model.createCompartment("c1");
@@ -77,6 +76,7 @@ public class TestLocalParameterIdentification {
       System.out.println("The local parameter k is not found!");
     }
   }
+ 
 }
 
 

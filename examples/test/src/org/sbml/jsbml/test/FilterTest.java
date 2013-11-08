@@ -50,4 +50,5 @@ public class FilterTest {
     Filter filter = new NameFilter(args[1]);
     System.out.println(doc.filter(filter));
   }
+
 }

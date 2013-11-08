@@ -60,12 +60,12 @@ import org.sbml.jsbml.util.filters.IdenticalUnitDefinitionFilter;
  * @version $Rev$
  */
 public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
-  
+
   /**
    * Error message to indicate that an element could not be created.
    */
   private static final String COULD_NOT_CREATE_ELEMENT_MSG = "Could not create {0} because no {1} have been defined yet.";
-  
+
   /**
    * A {@link Logger} for this class.
    */
@@ -104,92 +104,92 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Represents the listOfConstraints subnode of a model element.
    */
   private ListOf<Constraint> listOfConstraints;
-  
+
   /**
    * Represents the listOfEvents subnode of a model element.
    */
   private ListOf<Event> listOfEvents;
-  
+
   /**
    * Represents the listOfFunctionDefinitions subnode of a model element.
    */
   private ListOf<FunctionDefinition> listOfFunctionDefinitions;
-  
+
   /**
    * Represents the listOfInitialAssignments subnode of a model element.
    */
   private ListOf<InitialAssignment> listOfInitialAssignments;
-  
+
   /**
    * Represents the listOfParameters subnode of a model element.
    */
   private ListOf<Parameter> listOfParameters;
-  
+
   /**
    * Represents the list of predefined UnitDefinitions for a given SBML level
    * and version.
    */
   private List<UnitDefinition> listOfPredefinedUnitDefinitions;
-  
+
   /**
    * Represents the listOfReactions subnode of a model element.
    */
   private ListOf<Reaction> listOfReactions;
-  
+
   /**
    * Represents the listOfRules subnode of a model element.
    */
   private ListOf<Rule> listOfRules;
-  
+
   /**
    * Represents the listOfSpecies subnode of a model element.
    */
   private ListOf<Species> listOfSpecies;
-  
+
   /**
    * Represents the listOfSpeciesTypes subnode of a model element.
    * @deprecated only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   private ListOf<SpeciesType> listOfSpeciesTypes;
-  
+
   /**
    * Represents the listOfUnitDefinitions subnode of a model element.
    */
   private ListOf<UnitDefinition> listOfUnitDefinitions;
-  
+
   /**
    * A mapping between the identifiers of {@link LocalParameter}s and the
    * containing {@link Reaction} objects.
    */
   private Map<String, List<Reaction>> mapOfLocalParameters;
-  
+
   /**
    * For internal computation: a mapping between their identifiers and
    * the {@link UniqueNamedSBase}s in {@link Model}s themself:
    */
   private Map<String, UniqueNamedSBase> mapOfUniqueNamedSBases;
-  
+
   /**
    * A mapping between their identifiers and associated {@link UnitDefinition} objects.
    */
   private Map<String, UnitDefinition> mapOfUnitDefinitions;
-  
+
   /**
    * Represents the 'substanceUnits' XML attribute of a model element.
    */
   private String substanceUnitsID;
-  
+
   /**
    * Represents the 'timeUnits' XML attribute of a model element.
    */
   private String timeUnitsID;
-  
+
   /**
    * Represents the 'volumeUnits' XML attribute of a model element.
    */
   private String volumeUnitsID;
-  
+
   /**
    * Creates a Model instance. By default, all the listOfxxx and xxxUnitsID are
    * {@code null}.
@@ -198,7 +198,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     super();
     initDefaults();
   }
-  
+
   /**
    * Creates a Model instance.
    * 
@@ -209,85 +209,84 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     this(null, level, version);
     initDefaults();
   }
-  
+
   /**
    * Creates a Model instance from a Model.
    * 
    * @param model
    */
-  @SuppressWarnings("deprecation")
   public Model(Model model) {
     super(model);
     initDefaults();
     if (model.isSetListOfFunctionDefinitions()) {
-      setListOfFunctionDefinitions((ListOf<FunctionDefinition>) model
-          .getListOfFunctionDefinitions().clone());
+      setListOfFunctionDefinitions(model
+        .getListOfFunctionDefinitions().clone());
     }
     if (model.isSetListOfUnitDefinitions()) {
-      setListOfUnitDefinitions((ListOf<UnitDefinition>) model
-          .getListOfUnitDefinitions().clone());
+      setListOfUnitDefinitions(model
+        .getListOfUnitDefinitions().clone());
     }
     if (model.isSetListOfCompartmentTypes()) {
-      setListOfCompartmentTypes((ListOf<CompartmentType>) model
-          .getListOfCompartmentTypes().clone());
+      setListOfCompartmentTypes(model
+        .getListOfCompartmentTypes().clone());
     }
     if (model.isSetListOfSpeciesTypes()) {
-      setListOfSpeciesTypes((ListOf<SpeciesType>) model.getListOfSpeciesTypes()
-          .clone());
+      setListOfSpeciesTypes(model.getListOfSpeciesTypes()
+        .clone());
     }
     if (model.isSetListOfCompartments()) {
-      setListOfCompartments((ListOf<Compartment>) model.getListOfCompartments()
-          .clone());
+      setListOfCompartments(model.getListOfCompartments()
+        .clone());
     }
     if (model.isSetListOfSpecies()) {
-      setListOfSpecies((ListOf<Species>) model.getListOfSpecies().clone());
+      setListOfSpecies(model.getListOfSpecies().clone());
     }
     if (model.isSetListOfParameters()) {
-      setListOfParameters((ListOf<Parameter>) model.getListOfParameters()
-          .clone());
+      setListOfParameters(model.getListOfParameters()
+        .clone());
     }
     if (model.isSetListOfInitialAssignments()) {
-      setListOfInitialAssignments((ListOf<InitialAssignment>) model
-          .getListOfInitialAssignments().clone());
+      setListOfInitialAssignments(model
+        .getListOfInitialAssignments().clone());
     }
     if (model.isSetListOfRules()) {
-      setListOfRules((ListOf<Rule>) model.getListOfRules().clone());
+      setListOfRules(model.getListOfRules().clone());
     }
     if (model.isSetListOfConstraints()) {
-      setListOfConstraints((ListOf<Constraint>) model.getListOfConstraints()
-          .clone());
+      setListOfConstraints(model.getListOfConstraints()
+        .clone());
     }
     if (model.isSetListOfReactions()) {
-      setListOfReactions((ListOf<Reaction>) model.getListOfReactions().clone());
+      setListOfReactions(model.getListOfReactions().clone());
     }
     if (model.isSetListOfEvents()) {
-      setListOfEvents((ListOf<Event>) model.getListOfEvents().clone());
+      setListOfEvents(model.getListOfEvents().clone());
     }
-    
+
     // L3 attributes
     if (model.isSetAreaUnits()) {
-    	setAreaUnits(model.getAreaUnits());
+      setAreaUnits(model.getAreaUnits());
     }
     if (model.isSetConversionFactor()) {
-    	setConversionFactor(model.getConversionFactor());
+      setConversionFactor(model.getConversionFactor());
     }
     if (model.isSetExtentUnits()) {
-    	setExtentUnits(model.getExtentUnits());
+      setExtentUnits(model.getExtentUnits());
     }
     if (model.isSetLengthUnits()) {
-    	setLengthUnits(model.getLengthUnits());
+      setLengthUnits(model.getLengthUnits());
     }
     if (model.isSetSubstanceUnits()) {
-    	setSubstanceUnits(model.getSubstanceUnits());
+      setSubstanceUnits(model.getSubstanceUnits());
     }
     if (model.isSetTimeUnits()) {
-    	setTimeUnits(model.getTimeUnits());
+      setTimeUnits(model.getTimeUnits());
     }
     if (model.isSetVolumeUnits()) {
-    	setVolumeUnits(model.getVolumeUnits());
+      setVolumeUnits(model.getVolumeUnits());
     }
   }
-  
+
   /**
    * Creates a Model instance from an id.
    * 
@@ -297,7 +296,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     super(id);
     initDefaults();
   }
-  
+
   /**
    * Creates a Model instance from an id, level and version. By default, all the
    * listOfxxx and xxxUnitsID are {@code null}.
@@ -311,7 +310,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     initDefaults();
   }
 
-	/**
+  /**
    * Adds a Compartment instance to the listOfCompartments of this Model.
    * 
    * @param compartment
@@ -321,7 +320,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean addCompartment(Compartment compartment) {
     return getListOfCompartments().add(compartment);
   }
-  
+
   /**
    * Adds a CompartmentType instance to the listOfCompartmentTypes of this
    * Model.
@@ -335,7 +334,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean addCompartmentType(CompartmentType compartmentType) {
     return getListOfCompartmentTypes().add(compartmentType);
   }
-  
+
   /**
    * Adds a {@link Constraint} instance to the listOfConstraints of this
    * {@link Model}.
@@ -347,7 +346,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean addConstraint(Constraint constraint) {
     return getListOfConstraints().add(constraint);
   }
-  
+
   /**
    * Adds an {@link Event} instance to the listOfEvents of this Model.
    * 
@@ -358,12 +357,12 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *             for inappropriate Level/Version combinations.
    */
   public boolean addEvent(Event event) {
-    if (getLevel() < 2) { 
-    	throw new PropertyNotAvailableException("event", this); 
+    if (getLevel() < 2) {
+      throw new PropertyNotAvailableException("event", this);
     }
     return getListOfEvents().add(event);
   }
-  
+
   /**
    * Adds a {@link FunctionDefinition} instance to the listOfFunctionDefinitions
    * of this {@link Model}.
@@ -375,7 +374,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean addFunctionDefinition(FunctionDefinition functionDefinition) {
     return getListOfFunctionDefinitions().add(functionDefinition);
   }
-  
+
   /**
    * Adds an InitialAssignment instance to the listOfInitialAssignments of this
    * Model.
@@ -387,7 +386,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean addInitialAssignment(InitialAssignment initialAssignment) {
     return getListOfInitialAssignments().add(initialAssignment);
   }
-  
+
   /**
    * Adds a Parameter instance to the listOfParameters of this Model.
    * 
@@ -398,7 +397,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean addParameter(Parameter parameter) {
     return getListOfParameters().add(parameter);
   }
-  
+
   /**
    * Adds all the possible unit kinds as {@link UnitDefinition}, so that the
    * method {@link Model#getUnitDefinition(String)} would be able to return a
@@ -407,14 +406,14 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    */
   private void addPredefinedUnits() {
-    
+
     List<UnitDefinition> oldValue = new ArrayList<UnitDefinition>(
-      this.listOfPredefinedUnitDefinitions);
-    
-    if ((getLevel() == -1) || (getVersion() == -1)) { 
-      return; 
+        this.listOfPredefinedUnitDefinitions);
+
+    if ((getLevel() == -1) || (getVersion() == -1)) {
+      return;
     }
-    
+
     // ampere farad joule lux radian volt
     listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
       "ampere", getLevel(), getVersion()));
@@ -428,8 +427,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       "radian", getLevel(), getVersion()));
     listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
       "volt", getLevel(), getVersion()));
-    
-    // avogadro gram katal metre second watt 		
+
+    // avogadro gram katal metre second watt
     if (getLevel() >= 3) {
       listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
         "avogadro", getLevel(), getVersion()));
@@ -444,8 +443,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       "second", getLevel(), getVersion()));
     listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
       "watt", getLevel(), getVersion()));
-    
-    // becquerel gray kelvin mole siemens weber 
+
+    // becquerel gray kelvin mole siemens weber
     listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
       "becquerel", getLevel(), getVersion()));
     listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
@@ -458,7 +457,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       "siemens", getLevel(), getVersion()));
     listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
       "weber", getLevel(), getVersion()));
-    
+
     // candela henry kilogram newton sievert
     listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
       "candela", getLevel(), getVersion()));
@@ -470,7 +469,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       "newton", getLevel(), getVersion()));
     listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
       "sievert", getLevel(), getVersion()));
-    
+
     // coulomb hertz litre ohm steradian
     listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
       "coulomb", getLevel(), getVersion()));
@@ -482,7 +481,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       getLevel(), getVersion()));
     listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
       "steradian", getLevel(), getVersion()));
-    
+
     // dimensionless item lumen pascal tesla
     listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
       "dimensionless", getLevel(), getVersion()));
@@ -494,7 +493,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       "pascal", getLevel(), getVersion()));
     listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
       "tesla", getLevel(), getVersion()));
-    
+
     // meter liter celsius
     if (getLevel() == 1) {
       listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
@@ -507,7 +506,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     this.firePropertyChange(TreeNodeChangeEvent.units, oldValue,
       listOfPredefinedUnitDefinitions);
   }
-  
+
   /**
    * Adds a Reaction instance to the listOfReactions of this Model.
    * 
@@ -518,7 +517,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean addReaction(Reaction reaction) {
     return getListOfReactions().add(reaction);
   }
-  
+
   /**
    * Adds a Rule instance to the listOfRules of this Model.
    * 
@@ -529,7 +528,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean addRule(Rule rule) {
     return getListOfRules().add(rule);
   }
-  
+
   /**
    * Adds a Species instance to the listOfSpecies of this Model.
    * 
@@ -540,7 +539,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean addSpecies(Species spec) {
     return getListOfSpecies().add(spec);
   }
-  
+
   /**
    * Adds a SpeciesType instance to the listOfSpeciesTypes of this Model.
    * 
@@ -553,7 +552,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean addSpeciesType(SpeciesType speciesType) {
     return getListOfSpeciesTypes().add(speciesType);
   }
-  
+
   /**
    * Adds an {@link UnitDefinition} instance to the {@link #listOfUnitDefinitions} of this {@link Model}.
    * 
@@ -564,7 +563,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean addUnitDefinition(UnitDefinition unitDefinition) {
     return getListOfUnitDefinitions().add(unitDefinition);
   }
-  
+
   /**
    * Checks whether an identical {@link UnitDefinition} like the given
    * {@link UnitDefinition} is already in this {@link Model}'s
@@ -593,14 +592,15 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return units.getId();
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.element.SBase#clone()
    */
+  @Override
   public Model clone() {
     return new Model(this);
   }
-  
+
   /**
    * Returns {@code true} if this model contains a reference to a {@link Compartment}
    * with the given identifier.
@@ -624,7 +624,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean containsFunctionDefinition(String id) {
     return getFunctionDefinition(id) != null;
   }
-  
+
   /**
    * Returns {@code true} if this model contains a reference to a {@link Parameter} with
    * the given identifier.
@@ -636,7 +636,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean containsParameter(String id) {
     return getParameter(id) != null;
   }
-  
+
   /**
    * Returns {@code true} if this {@link Model} contains a reference to the given
    * {@link Quantity}.
@@ -647,8 +647,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public boolean containsQuantity(Quantity quantity) {
     Model model = quantity.getModel();
-    if (!quantity.isSetId() || (model == null) || (this != model)) { 
-      return false; 
+    if (!quantity.isSetId() || (model == null) || (this != model)) {
+      return false;
     }
     return findQuantity(quantity.getId()) != null;
   }
@@ -665,7 +665,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean containsReaction(String id) {
     return getReaction(id) != null;
   }
-  
+
   /**
    * Returns {@code true} if this {@link Model} contains a reference to the given
    * {@link Species}.
@@ -677,7 +677,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean containsSpecies(String id) {
     return getSpecies(id) != null;
   }
-  
+
   /**
    * Returns {@code true} if this {@link Model} contains a reference to the given
    * {@link UniqueNamedSBase}.
@@ -689,7 +689,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean containsUniqueNamedSBase(String id) {
     return mapOfUniqueNamedSBases.containsKey(id);
   }
-  
+
   /**
    * Returns {@code true} if this {@link Model} contains a reference to the given
    * {@link UnitDefinition}.
@@ -701,7 +701,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean containsUnitDefinition(String units) {
     return getUnitDefinition(units) != null;
   }
-  
+
   /**
    * Creates a new {@link AlgebraicRule} inside this {@link Model} and returns
    * it.
@@ -716,7 +716,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     addRule(rule);
     return rule;
   }
-  
+
   /**
    * Creates a new {@link AssignmentRule} inside this {@link Model} and returns
    * it.
@@ -731,7 +731,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     addRule(rule);
     return rule;
   }
-  
+
   /**
    * Creates a new {@link Compartment} inside this {@link Model} and returns it.
    * <p>
@@ -743,7 +743,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Compartment createCompartment() {
     return createCompartment(null);
   }
-  
+
   /**
    * Creates a new {@link Compartment} inside this {@link Model} and returns it.
    * 
@@ -790,10 +790,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     CompartmentType compartmentType = new CompartmentType(id, getLevel(),
       getVersion());
     addCompartmentType(compartmentType);
-    
+
     return compartmentType;
   }
-  
+
   /**
    * Creates a new {@link Constraint} inside this {@link Model} and returns it.
    * <p>
@@ -805,10 +805,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Constraint createConstraint() {
     Constraint constraint = new Constraint(getLevel(), getVersion());
     addConstraint(constraint);
-    
+
     return constraint;
   }
-  
+
   /**
    * Creates a new {@link Delay} inside the last {@link Event} object created in
    * this {@link Model}, and returns a pointer to it.
@@ -825,7 +825,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Delay createDelay() {
     return getLastElementOf(getListOfEvents()).createDelay();
   }
-  
+
   /**
    * Creates a new {@link Event} inside this {@link Model} and returns it.
    * <p>
@@ -835,7 +835,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Event createEvent() {
     return createEvent(null);
   }
-  
+
   /**
    * Creates a new {@link Event} inside this {@link Model} and returns it.
    * 
@@ -848,7 +848,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     addEvent(event);
     return event;
   }
-  
+
   /**
    * Creates a new {@link EventAssignment} inside the last {@link Event} object
    * created in this {@link Model}, and returns a pointer to it.
@@ -863,22 +863,22 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the {@link EventAssignment} object created
    */
   public EventAssignment createEventAssignment() {
-    
+
     int numEvent = getNumEvents();
     Event lastEvent = null;
-    
+
     if (numEvent == 0) {
       return null;
     } else {
       lastEvent = getEvent(numEvent - 1);
     }
-    
+
     EventAssignment eventAssgnt = new EventAssignment(getLevel(), getVersion());
     lastEvent.addEventAssignment(eventAssgnt);
-    
+
     return eventAssgnt;
   }
-  
+
   /**
    * Creates a new {@link FunctionDefinition} inside this {@link Model} and
    * returns it.
@@ -891,7 +891,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public FunctionDefinition createFunctionDefinition() {
     return createFunctionDefinition(null);
   }
-  
+
   /**
    * Creates a new {@link FunctionDefinition} inside this {@link Model} and
    * returns it.
@@ -904,10 +904,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     FunctionDefinition functionDef = new FunctionDefinition(id, getLevel(),
       getVersion());
     addFunctionDefinition(functionDef);
-    
+
     return functionDef;
   }
-  
+
   /**
    * Creates a new {@link InitialAssignment} inside this {@link Model} and
    * returns it.
@@ -921,10 +921,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     InitialAssignment initAssgmt = new InitialAssignment(getLevel(),
       getVersion());
     addInitialAssignment(initAssgmt);
-    
+
     return initAssgmt;
   }
-  
+
   /**
    * Creates a new {@link KineticLaw} inside the last {@link Reaction} object
    * created in this {@link Model}, and returns a pointer to it.
@@ -940,20 +940,20 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the {@link KineticLaw} object created
    */
   public KineticLaw createKineticLaw() {
-    Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
-    
+    Reaction lastReaction = getLastElementOf(listOfReactions);
+
     if (lastReaction == null) {
-      logger.warn(MessageFormat.format(COULD_NOT_CREATE_ELEMENT_MSG, 
-    	"KineticLaw", "reactions"));
+      logger.warn(MessageFormat.format(COULD_NOT_CREATE_ELEMENT_MSG,
+        "KineticLaw", "reactions"));
       return null;
     }
-    
+
     KineticLaw kineticLaw = new KineticLaw(getLevel(), getVersion());
     lastReaction.setKineticLaw(kineticLaw);
-    
+
     return kineticLaw;
   }
-  
+
   /**
    * Creates a new local {@link LocalParameter} inside the {@link KineticLaw}
    * object of the last {@link Reaction} created inside this {@link Model}, and
@@ -974,7 +974,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public LocalParameter createKineticLawParameter() {
     return createKineticParameter(null);
   }
-  
+
   /**
    * Creates a new local {@link LocalParameter} inside the {@link KineticLaw}
    * object of the last {@link Reaction} created inside this {@link Model}, and
@@ -985,26 +985,26 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the {@link LocalParameter} object created
    */
   public LocalParameter createKineticParameter(String id) {
-    Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
+    Reaction lastReaction = getLastElementOf(listOfReactions);
     KineticLaw lastKineticLaw = null;
-    
+
     if (lastReaction == null) {
       logger.warn(MessageFormat.format(COULD_NOT_CREATE_ELEMENT_MSG,
         "LocalParameter for KineticLaw", "reactions"));
       return null;
     } else {
       lastKineticLaw = lastReaction.getKineticLaw();
-      if (lastKineticLaw == null) { 
-        return null; 
+      if (lastKineticLaw == null) {
+        return null;
       }
     }
-    
+
     LocalParameter parameter = new LocalParameter(id, getLevel(), getVersion());
     lastKineticLaw.addLocalParameter(parameter);
-    
+
     return parameter;
   }
-  
+
   /**
    * Creates a new {@link ModifierSpeciesReference} object for a modifier
    * species inside the last {@link Reaction} object in this {@link Model}, and
@@ -1023,7 +1023,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public ModifierSpeciesReference createModifier() {
     return createModifier(null);
   }
-  
+
   /**
    * Creates a new {@link ModifierSpeciesReference} with the specified 'id'.
    * 
@@ -1032,17 +1032,17 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the {@link SpeciesReference} object created
    */
   public ModifierSpeciesReference createModifier(String id) {
-    Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
-    
+    Reaction lastReaction = getLastElementOf(listOfReactions);
+
     if (lastReaction == null) {
-    	return null;
+      return null;
     }
-    
+
     ModifierSpeciesReference modifier = lastReaction.createModifier(id);
-    
+
     return modifier;
   }
-  
+
   /**
    * Creates a new {@link Parameter} inside this {@link Model} and returns it.
    * <p>
@@ -1054,7 +1054,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Parameter createParameter() {
     return createParameter(null);
   }
-  
+
   /**
    * Creates a new {@link Parameter}.
    * 
@@ -1067,7 +1067,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     addParameter(parameter);
     return parameter;
   }
-  
+
   /**
    * Creates a new {@link SpeciesReference} object for a product inside the last
    * {@link Reaction} object in this {@link Model}, and returns a pointer to it.
@@ -1085,7 +1085,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public SpeciesReference createProduct() {
     return createProduct(null);
   }
-  
+
   /**
    * Creates an instance of {@link SpeciesReference} and adds it to the last
    * {@link Reaction} element that has been added to this {@link Model}.
@@ -1094,19 +1094,19 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return
    */
   public SpeciesReference createProduct(String id) {
-    Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
-    
+    Reaction lastReaction = getLastElementOf(listOfReactions);
+
     if (lastReaction == null) {
       logger.warn(MessageFormat.format(COULD_NOT_CREATE_ELEMENT_MSG,
-    	"Product", "reactions"));
+        "Product", "reactions"));
       return null;
     }
-    
+
     SpeciesReference product = lastReaction.createProduct(id);
-    
+
     return product;
   }
-  
+
   /**
    * Creates a new {@link RateRule} inside this {@link Model} and returns it.
    * <p>
@@ -1118,10 +1118,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public RateRule createRateRule() {
     RateRule rule = new RateRule(getLevel(), getVersion());
     addRule(rule);
-    
+
     return rule;
   }
-  
+
   /**
    * Creates a new {@link SpeciesReference} object for a reactant inside the
    * last {@link Reaction} object in this {@link Model}, and returns a pointer
@@ -1140,7 +1140,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public SpeciesReference createReactant() {
     return createReactant(null);
   }
-  
+
   /**
    * Creates a new {@link SpeciesReference} object, with the specified 'id', for
    * a reactant inside the last {@link Reaction} object in this {@link Model},
@@ -1151,17 +1151,17 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the {@link SpeciesReference} object created.
    */
   public SpeciesReference createReactant(String id) {
-    Reaction lastReaction = (Reaction) getLastElementOf(listOfReactions);
+    Reaction lastReaction = getLastElementOf(listOfReactions);
     if (lastReaction == null) {
-      logger.warn(MessageFormat.format(COULD_NOT_CREATE_ELEMENT_MSG, 
-    	"Reactant", "reactions"));
+      logger.warn(MessageFormat.format(COULD_NOT_CREATE_ELEMENT_MSG,
+        "Reactant", "reactions"));
       return null;
     }
     SpeciesReference reactant = lastReaction.createReactant(id);
-    
+
     return reactant;
   }
-  
+
   /**
    * Creates a new {@link Reaction} inside this {@link Model} and returns it.
    * <p>
@@ -1173,7 +1173,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Reaction createReaction() {
     return createReaction(null);
   }
-  
+
   /**
    * Creates a new {@link Reaction} inside this {@link Model} and returns it.
    * 
@@ -1184,10 +1184,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Reaction createReaction(String id) {
     Reaction reaction = new Reaction(id, getLevel(), getVersion());
     addReaction(reaction);
-    
+
     return reaction;
   }
-  
+
   /**
    * Creates a new {@link Species} inside this {@link Model} and returns it.
    * <p>
@@ -1199,7 +1199,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Species createSpecies() {
     return createSpecies(null);
   }
-  
+
   /**
    * Creates a new {@link Species} inside this {@link Model} and returns it.
    * 
@@ -1212,7 +1212,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     addSpecies(species);
     return species;
   }
-  
+
   /**
    * Creates a new {@link Species} inside this {@link Model} and returns it.
    * 
@@ -1227,7 +1227,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     s.setCompartment(c);
     return s;
   }
-  
+
   /**
    * Creates a new {@link Species} inside this {@link Model} and returns it.
    * 
@@ -1244,7 +1244,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     s.setName(name);
     return s;
   }
-  
+
   /**
    * Creates a new {@link SpeciesType} inside this {@link Model} and returns it.
    * <p>
@@ -1258,11 +1258,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public SpeciesType createSpeciesType() {
     if ((getLevelAndVersion().compareTo(Integer.valueOf(2), Integer.valueOf(2)) < 0)
         || (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) >= 0)) {
-        throw new SBMLTypeUndefinedException(SpeciesType.class, getLevel(), getVersion());
+      throw new SBMLTypeUndefinedException(SpeciesType.class, getLevel(), getVersion());
     }
     return createSpeciesType(null);
   }
-  
+
   /**
    * Creates a new {@link SpeciesType} inside this {@link Model} and returns it.
    * 
@@ -1275,10 +1275,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public SpeciesType createSpeciesType(String id) {
     SpeciesType speciesType = new SpeciesType(id, getLevel(), getVersion());
     addSpeciesType(speciesType);
-    
+
     return speciesType;
   }
-  
+
   /**
    * Creates a new {@link Trigger} inside the last {@link Event} object created
    * in this {@link Model}, and returns a pointer to it.
@@ -1295,7 +1295,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Trigger createTrigger() {
     return getLastElementOf(getListOfEvents()).createTrigger();
   }
-  
+
   /**
    * Creates a new {@link Unit} object within the last {@link UnitDefinition}
    * object created in this model and returns a pointer to it.
@@ -1313,7 +1313,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Unit createUnit() {
     return createUnit(null);
   }
-  
+
   /**
    * Creates a new {@link Unit} object within the last {@link UnitDefinition}
    * object created in this model and returns a pointer to it.
@@ -1325,18 +1325,18 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Unit createUnit(Unit.Kind kind) {
     int numUnitDef = getNumUnitDefinitions();
     UnitDefinition lastUnitDef = null;
-    
+
     if (numUnitDef == 0) {
       return null;
     } else {
       lastUnitDef = getUnitDefinition(numUnitDef - 1);
     }
-    
+
     Unit unit = lastUnitDef.createUnit(kind);
-    
+
     return unit;
   }
-  
+
   /**
    * Creates a new {@link UnitDefinition} inside this {@link Model} and returns
    * it.
@@ -1349,7 +1349,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public UnitDefinition createUnitDefinition() {
     return createUnitDefinition(null);
   }
-  
+
   /**
    * Creates a new {@link UnitDefinition} inside this {@link Model} and returns
    * it.
@@ -1362,10 +1362,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     UnitDefinition unitDefinition = new UnitDefinition(id, getLevel(),
       getVersion());
     addUnitDefinition(unitDefinition);
-    
+
     return unitDefinition;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
    */
@@ -1405,7 +1405,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return equals;
   }
-  
+
   /**
    * Returns a {@link CallableSBase} element of the {@link Model} that has the
    * given 'id' as identifier or {@code null} if no element is found.
@@ -1422,7 +1422,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return null;
   }
-  
+
   /**
    * Searches the first {@link UnitDefinition} within this {@link Model}'s
    * {@link #listOfUnitDefinitions} that
@@ -1442,7 +1442,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public UnitDefinition findIdentical(UnitDefinition unitDefinition) {
     return getListOfUnitDefinitions().firstHit(new IdenticalUnitDefinitionFilter(unitDefinition));
   }
-  
+
   /**
    * Finds all instances of {@link LocalParameter} in this {@link Model} and
    * adds them to a {@link List}.
@@ -1452,30 +1452,30 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         given name or identifier. This {@link List} can be empty, but never
    *         {@code null}.
    */
-  public List<LocalParameter> findLocalParameters(String id) 
+  public List<LocalParameter> findLocalParameters(String id)
   {
     List<LocalParameter> list = new LinkedList<LocalParameter>();
     List<Reaction> rList = mapOfLocalParameters.get(id);
-    
+
     if ((rList == null) || rList.isEmpty()) {
       return list;
     }
-    
-    for (Reaction r : rList) 
+
+    for (Reaction r : rList)
     {
       // This must always be true, otherwise there is an error elsewhere:
       if (r.isSetKineticLaw()) {
-    	LocalParameter p = r.getKineticLaw().getLocalParameter(id);
+        LocalParameter p = r.getKineticLaw().getLocalParameter(id);
         if (p != null) {
           list.add(p);
         }
       } else {
-    	  logger.warn("A reaction that is supposed to have a local parameter defined has no kineticLaw !!!");
+        logger.warn("A reaction that is supposed to have a local parameter defined has no kineticLaw !!!");
       }
     }
     return list;
   }
-  
+
   /**
    * Returns the {@link ModifierSpeciesReference} with all {@link Reaction}s
    * of this {@link Model} that has 'id' as id.
@@ -1495,7 +1495,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return null;
   }
-  
+
   /**
    * Returns a {@link NamedSBase} element of the model that has the given 'id'
    * as id or {@code null} if no element is found.
@@ -1508,7 +1508,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public NamedSBase findNamedSBase(String id) {
     UniqueNamedSBase found = findUniqueNamedSBase(id);
     if ((found != null) && (found instanceof NamedSBase)) {
-      return (NamedSBase) found;
+      return found;
     }
     return null;
   }
@@ -1553,13 +1553,13 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     Quantity nsb = findVariable(id);
     if (nsb == null) {
       List<LocalParameter> list = findLocalParameters(id);
-      if (!list.isEmpty()) { 
-      	return list.get(0); 
+      if (!list.isEmpty()) {
+        return list.get(0);
       }
     }
     return nsb;
   }
-  
+
   /**
    * Searches for an instance of {@link QuantityWithUnit} within all of this
    * {@link Model}'s components that has the given identifier or name attribute
@@ -1577,13 +1577,13 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     QuantityWithUnit q = findSymbol(idOrName);
     if (q == null) {
       List<LocalParameter> list = findLocalParameters(idOrName);
-      if (!list.isEmpty()) { 
-        return list.get(0); 
+      if (!list.isEmpty()) {
+        return list.get(0);
       }
     }
     return q;
   }
-  
+
   /**
    * Returns a {@link SortedSet} of identifiers of all {@link Reaction} elements
    * within
@@ -1596,38 +1596,38 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *        {@link Model}.
    * @return a {@link SortedSet} of the identifiers of all {@link Reaction}
    *         elements within this {@link Model} whose {@link KineticLaw}
-   *         contains a {@link LocalParameter} that has the given 'id' as id 
+   *         contains a {@link LocalParameter} that has the given 'id' as id
    *         or {@code null} if no such element with this 'id' can be
    *         found.
    */
-  public SortedSet<String> findReactionsForLocalParameter(String id) 
+  public SortedSet<String> findReactionsForLocalParameter(String id)
   {
-	  List<Reaction> reactionList = mapOfLocalParameters.get(id);
-	  SortedSet<String> reactionIdSet = null;
-	  
-	  if (reactionList != null && reactionList.size() > 0)
-	  {
-		  reactionIdSet = new TreeSet<String>();
-		  
-		  for (Reaction reaction : reactionList)
-		  {
-			  if (reaction.isSetId()) 
-			  {
-				  reactionIdSet.add(reaction.getId());
-			  }
-		  }
-		  
-		  if (reactionIdSet.size() != reactionList.size())
-		  {
-			  logger.warn(MessageFormat.format(
-				"Some of the reactions containing the local parameter {0} have no id defined!", 
-				id));
-		  }
-	  }
-	  
-	  return reactionIdSet;
+    List<Reaction> reactionList = mapOfLocalParameters.get(id);
+    SortedSet<String> reactionIdSet = null;
+
+    if (reactionList != null && reactionList.size() > 0)
+    {
+      reactionIdSet = new TreeSet<String>();
+
+      for (Reaction reaction : reactionList)
+      {
+        if (reaction.isSetId())
+        {
+          reactionIdSet.add(reaction.getId());
+        }
+      }
+
+      if (reactionIdSet.size() != reactionList.size())
+      {
+        logger.warn(MessageFormat.format(
+          "Some of the reactions containing the local parameter {0} have no id defined!",
+          id));
+      }
+    }
+
+    return reactionIdSet;
   }
-  
+
   /**
    * Returns the {@link SimpleSpeciesReference} within all {@link Reaction}s of
    * this {@link Model} that has 'id' as id.
@@ -1647,7 +1647,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return null;
   }
-  
+
   /**
    * Returns the {@link SpeciesReference} with all {@link Reaction}s
    * of this {@link Model} that has 'id' as id.
@@ -1667,7 +1667,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return null;
   }
-  
+
   /**
    * Searches in the list of {@link Compartment}s, {@link Species}, and
    * {@link Parameter}s for the element with the given identifier.
@@ -1683,7 +1683,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return null;
   }
-  
+
   /**
    * Returns a {@link UniqueNamedSBase} element that has the given 'id' within
    * this {@link Model} or {@code null} if no such element can be found.
@@ -1698,7 +1698,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public UniqueNamedSBase findUniqueNamedSBase(String id) {
     return mapOfUniqueNamedSBases == null ? null : mapOfUniqueNamedSBases.get(id);
   }
-  
+
   /**
    * Returns a {@link UnitDefinition} element that has the given 'id' within
    * this {@link Model} or {@code null} if no such element can be found.
@@ -1713,7 +1713,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public UnitDefinition findUnitDefinition(String id) {
     return mapOfUnitDefinitions == null ? null : mapOfUnitDefinitions.get(id);
   }
-  
+
   /**
    * Searches the {@link Variable} with the given identifier in this model.
    * 
@@ -1729,7 +1729,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return null;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
    */
@@ -1737,7 +1737,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean getAllowsChildren() {
     return true;
   }
-  
+
   /**
    * Returns the area units ID of this {@link Model}.
    * 
@@ -1752,7 +1752,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return "";
   }
-  
+
   /**
    * Returns the {@link UnitDefinition} instance which has the {@link #areaUnitsID} of
    * this {@link Model} as id.
@@ -1770,7 +1770,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   @Override
   public TreeNode getChildAt(int index) {
     if (index < 0) {
-    	throw new IndexOutOfBoundsException(index + " < 0");
+      throw new IndexOutOfBoundsException(index + " < 0");
     }
     int count = super.getChildCount(), pos = 0;
     if (index < count) {
@@ -1780,79 +1780,79 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     if (isSetListOfFunctionDefinitions()) {
       if (pos == index) {
-    	  return getListOfFunctionDefinitions();
+        return getListOfFunctionDefinitions();
       }
       pos++;
     }
     if (isSetListOfUnitDefinitions()) {
       if (pos == index) {
-    	  return getListOfUnitDefinitions();
+        return getListOfUnitDefinitions();
       }
       pos++;
     }
     if (isSetListOfCompartmentTypes()) {
       if (pos == index) {
-    	  return getListOfCompartmentTypes();
+        return getListOfCompartmentTypes();
       }
       pos++;
     }
     if (isSetListOfSpeciesTypes()) {
       if (pos == index) {
-    	  return getListOfSpeciesTypes();
+        return getListOfSpeciesTypes();
       }
       pos++;
     }
     if (isSetListOfCompartments()) {
       if (pos == index) {
-    	  return getListOfCompartments();
+        return getListOfCompartments();
       }
       pos++;
     }
     if (isSetListOfSpecies()) {
       if (pos == index) {
-    	  return getListOfSpecies();
+        return getListOfSpecies();
       }
       pos++;
     }
     if (isSetListOfParameters()) {
       if (pos == index) {
-    	  return getListOfParameters();
+        return getListOfParameters();
       }
       pos++;
     }
     if (isSetListOfInitialAssignments()) {
       if (pos == index) {
-    	  return getListOfInitialAssignments();
+        return getListOfInitialAssignments();
       }
       pos++;
     }
     if (isSetListOfRules()) {
       if (pos == index) {
-    	  return getListOfRules();
+        return getListOfRules();
       }
       pos++;
     }
     if (isSetListOfConstraints()) {
       if (pos == index) {
-    	  return getListOfConstraints();
+        return getListOfConstraints();
       }
       pos++;
     }
     if (isSetListOfReactions()) {
       if (pos == index) {
-    	  return getListOfReactions();
+        return getListOfReactions();
       }
       pos++;
     }
     if (isSetListOfEvents()) {
       if (pos == index) {
-    	  return getListOfEvents();
+        return getListOfEvents();
       }
       pos++;
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
-      "Index {0,number,integer} >= {1,number,integer}", 
-      index, +((int) Math.min(pos, 0))));
+      "Index {0,number,integer} >= {1,number,integer}",
+      index, +Math.min(pos, 0)));
   }
 
   /* (non-Javadoc)
@@ -1860,7 +1860,398 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   @Override
   public int getChildCount() {
-    int children = super.getChildCount();
+    return super.getChildCount() + getListOfCount();
+  }
+
+  /**
+   * Gets the n<sup>th</sup> {@link Compartment} instance of the listOfCompartments.
+   * 
+   * @param n
+   * @return the n<sup>th</sup> {@link Compartment} instance of the listOfCompartments.
+   *         {@code null} if the listOfCompartments is not set.
+   */
+  public Compartment getCompartment(int n) {
+    return getListOfCompartments().get(n);
+  }
+
+  /**
+   * Gets the {@link Compartment} of the listOfCompartments which has 'id' as
+   * id.
+   * 
+   * @param id
+   * @return the {@link Compartment} of the listOfCompartments which has 'id' as
+   *         id (or name depending on the version and level). {@code null} if the
+   *         listOfCompartments is not set.
+   */
+  public Compartment getCompartment(String id) {
+    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    if ((found != null) && (found instanceof Compartment)) {
+      return (Compartment) found;
+    }
+    return null;
+  }
+
+  /**
+   * Returns the number of {@link Compartment}s of this {@link Model}.
+   * 
+   * @return the number of {@link Compartment}s of this {@link Model}.
+   */
+  public int getCompartmentCount() {
+    return isSetListOfCompartments() ? listOfCompartments.size() : 0;
+  }
+
+  /**
+   * Gets the n<sup>th</sup> CompartmentType object in this Model.
+   * 
+   * @param n
+   *        index
+   * @return the n<sup>th</sup> CompartmentType of this Model. Returns {@code null} if there are no
+   *         compartmentType defined or if the index n is too big or lower than
+   *         zero.
+   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
+   */
+  @Deprecated
+  public CompartmentType getCompartmentType(int n) {
+    return getListOfCompartmentTypes().get(n);
+  }
+
+  /**
+   * Gets the {@link CompartmentType} with the given {@code id}.
+   * 
+   * @param id
+   * @return the CompartmentType of the {@link #listOfCompartmentTypes} which has 'id' as
+   *         id (or name depending on the level and version). {@code null} if the
+   *         {@link #listOfCompartmentTypes} is not set or the id is not found.
+   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
+   */
+  @Deprecated
+  public CompartmentType getCompartmentType(String id) {
+    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    if ((found != null) && (found instanceof CompartmentType)) {
+      return (CompartmentType) found;
+    }
+    return null;
+  }
+
+  /**
+   * Returns the number of {@link CompartmentType}s of this {@link Model}.
+   * 
+   * @return the number of {@link CompartmentType}s of this {@link Model}.
+   * @deprecated using {@link CompartmentType} is not recommended, because this
+   *             data structure is only valid in SBML Level 2 for Versions 2
+   *             through 4.
+   */
+  @Deprecated
+  public int getCompartmentTypeCount() {
+    return isSetListOfCompartmentTypes() ? listOfCompartmentTypes.size() : 0;
+  }
+
+  /**
+   * Gets the n<sup>th</sup> Constraint object in this Model.
+   * 
+   * @param n
+   * @return the n<sup>th</sup> Constraint of this Model. Returns {@code null} if there are no
+   *         constraint defined or if the index n is too big or lower than zero.
+   */
+  public Constraint getConstraint(int n) {
+    return getListOfConstraints().get(n);
+  }
+
+  /**
+   * Returns the number of {@link Constraint}s of this {@link Model}.
+   * 
+   * @return the number of {@link Constraint}s of this {@link Model}.
+   */
+  public int getConstraintCount() {
+    return isSetListOfConstraints() ? listOfConstraints.size() : 0;
+  }
+
+  /**
+   * Returns the conversionFactor ID of this {@link Model}.
+   * 
+   * @return the conversionFactorID of this {@link Model}. Returns an empty
+   *         {@link String} if it is not set.
+   */
+  public String getConversionFactor() {
+    return isSetConversionFactor() ? conversionFactorID : "";
+  }
+
+  /**
+   * Returns the Parameter instance which has the conversionFactorID of this
+   * Model as id.
+   * 
+   * @return the Parameter instance which has the conversionFactorID of this
+   *         Model as id. {@code null} if it doesn't exist
+   */
+  public Parameter getConversionFactorInstance() {
+    return getParameter(this.conversionFactorID);
+  }
+
+  /**
+   * Returns the number of {@link Delay}s of this {@link Model}.
+   * 
+   * @return the number of {@link Delay}s of this {@link Model}.
+   */
+  public int getDelayCount() {
+    int count = 0;
+    for (Event e : getListOfEvents()) {
+      if (e.isSetDelay()) {
+        count++;
+      }
+    }
+    return count;
+  }
+
+  /**
+   * Gets the n<sup>th</sup> Event object in this Model.
+   * 
+   * @param n
+   * @return the n<sup>th</sup> Event of this Model. Returns {@code null} if there are no event
+   *         defined or if the index n is too big or lower than zero.
+   */
+  public Event getEvent(int n) {
+    return getListOfEvents().get(n);
+  }
+
+  /**
+   * Gets the {@link Event} which as the given {@code id} as id.
+   * 
+   * @param id
+   * @return the {@link Event} of the {@link #listOfEvents} which has 'id' as id
+   *         (or name depending on the level and version). {@code null} if the
+   *         {@link #listOfEvents} is not set.
+   */
+  public Event getEvent(String id) {
+    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    if ((found != null) && (found instanceof Event)) {
+      return (Event) found;
+    }
+    return null;
+  }
+
+  /**
+   * Returns the number of {@link EventAssignment}s of this {@link Model}.
+   * 
+   * @return return the number of {@link EventAssignment}s of this {@link Model}.
+   */
+  public int getEventAssignmentCount() {
+    int count = 0;
+    for (Event e : getListOfEvents()) {
+      count += e.getEventAssignmentCount();
+    }
+    return count;
+  }
+
+  /**
+   * Returns the number of {@link Event}s of this {@link Model}.
+   * 
+   * @return the number of {@link Event}s of this {@link Model}.
+   */
+  public int getEventCount() {
+    return isSetListOfEvents() ? listOfEvents.size() : 0;
+  }
+
+  /**
+   * Returns the extent units ID of this {@link Model}.
+   * 
+   * @return the extent units ID of this {@link Model}. Returns an empty
+   *         {@link String} if it is not set.
+   */
+  public String getExtentUnits() {
+    return isSetExtentUnits() ? extentUnitsID : "";
+  }
+
+  /**
+   * Returns the {@link UnitDefinition} instance which has the extent units ID
+   * of this Model as id.
+   * 
+   * @return the {@link UnitDefinition} instance which has the extent units ID
+   *         of this Model as id. {@code null} if it doesn't exist
+   */
+  public UnitDefinition getExtentUnitsInstance() {
+    return getUnitDefinition(getExtentUnits());
+  }
+
+  /**
+   * Gets the n<sup>th</sup> {@link FunctionDefinition} instance of the
+   * listOfFunstionDefinitions.
+   * 
+   * @param n
+   * @return the n<sup>th</sup> {@link FunctionDefinition} instance of the
+   *         listOfFunstionDefinitions. {@code null} if the listOfFunctionDefinitions
+   *         is not set.
+   */
+  public FunctionDefinition getFunctionDefinition(int n) {
+    return getListOfFunctionDefinitions().get(n);
+  }
+
+  /**
+   * Returns the {@link FunctionDefinition} of the {@link #listOfFunctionDefinitions}
+   * which has 'id' as id.
+   * 
+   * @param id
+   * @return the {@link FunctionDefinition} of the {@link #listOfFunctionDefinitions}
+   *         which has 'id' as id (or name depending on the level and version).
+   *         {@code null} if the {@link #listOfFunctionDefinitions} is not set.
+   */
+  public FunctionDefinition getFunctionDefinition(String id) {
+    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    if ((found != null) && (found instanceof FunctionDefinition)) {
+      return (FunctionDefinition) found;
+    }
+    return null;
+  }
+
+  /**
+   * Returns the number of {@link FunctionDefinition}s of this {@link Model}.
+   * 
+   * @return the number of {@link FunctionDefinition}s of this {@link Model}.
+   */
+  public int getFunctionDefinitionCount() {
+    return isSetListOfFunctionDefinitions() ? listOfFunctionDefinitions.size()
+      : 0;
+  }
+
+  /**
+   * Gets the n<sup>th</sup> {@link InitialAssignment} object in this {@link Model}.
+   * 
+   * @param n
+   * @return the n<sup>th</sup> {@link InitialAssignment} of this {@link Model}. {@code null} if
+   *         the listOfInitialAssignments is not set.
+   */
+  public InitialAssignment getInitialAssignment(int n) {
+    return getListOfInitialAssignments().get(n);
+  }
+
+  /**
+   * Returns the {@link InitialAssignment} of the
+   * {@link #listOfInitialAssignments} whose {@code symbol} attribute,
+   * i.e., whose {@link Variable} has the given {@code variable} as
+   * identifier.
+   * 
+   * @param variable
+   *        The identifier of a variable, for which a corresponding
+   *        {@link InitialAssignment} is requested.
+   * @return the first {@link InitialAssignment} of the
+   *         {@link #listOfInitialAssignments}, whose {@link Variable} has the
+   *         {@code variable} as identifier (or name depending on the level
+   *         and version). {@code null} if it doesn't exist.
+   */
+  public InitialAssignment getInitialAssignment(String variable) {
+    return getListOfInitialAssignments().firstHit(
+      new AssignmentVariableFilter(variable));
+  }
+
+  /**
+   * Returns the number of {@link InitialAssignment}s of this {@link Model}.
+   * 
+   * @return the number of {@link InitialAssignment}s of this {@link Model}.
+   */
+  public int getInitialAssignmentCount() {
+    return isSetListOfInitialAssignments() ? listOfInitialAssignments.size()
+      : 0;
+  }
+
+  /**
+   * Returns the number of {@link KineticLaw}s of this {@link Model}.
+   * 
+   * @return the number of {@link KineticLaw}s of this {@link Model}.
+   */
+  public int getKineticLawCount() {
+    int count = 0;
+    for (Reaction r : getListOfReactions()) {
+      if (r.isSetKineticLaw()) {
+        count++;
+      }
+    }
+    return count;
+  }
+
+  /**
+   * Returns the last element added in the given list.
+   * 
+   * @return the last element added in the model, corresponding to the last
+   *         element of the list of these elements, or {@code null} is no element exist
+   *         for this type.
+   */
+  private <T> T getLastElementOf(ListOf<? extends T> listOf) {
+    // added casting and parenthesis because there was a compilation error
+    // when using the ant script
+    return ((listOf == null) || (listOf.size() == 0)) ? (T) null : (T) listOf
+      .getLast();
+  }
+
+  /**
+   * Returns the length units ID of this {@link Model}.
+   * 
+   * @return the length units ID of this {@link Model}. Returns an empty
+   *         {@link String} if it is not set.
+   */
+  public String getLengthUnits() {
+    if (isSetLengthUnits()) {
+      return lengthUnitsID;
+    } else if (getLevel() == 2) { return UnitDefinition.LENGTH; }
+    return "";
+  }
+
+  /**
+   * Returns the length units of this {@link Model} as a {@link UnitDefinition}.
+   * 
+   * @return the {@link UnitDefinition} instance which has the {@link #lengthUnitsID} of this
+   *         {@link Model} as id. {@code null} if it doesn't exist.
+   */
+  public UnitDefinition getLengthUnitsInstance() {
+    return getUnitDefinition(getLengthUnits());
+  }
+
+  /**
+   * Returns the listOfCompartments of this {@link Model}.
+   * 
+   * @return the listOfCompartments of this {@link Model}.
+   */
+  public ListOf<Compartment> getListOfCompartments() {
+    if (listOfCompartments == null) {
+      listOfCompartments = ListOf.newInstance(this, Compartment.class);
+      registerChild(listOfCompartments);
+    }
+    return listOfCompartments;
+  }
+
+  /**
+   * Returns the listOfCompartmentTypes of this {@link Model}.
+   * 
+   * @return the listOfCompartmentTypes of this {@link Model}.
+   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
+   */
+  @Deprecated
+  public ListOf<CompartmentType> getListOfCompartmentTypes() {
+    if (listOfCompartmentTypes == null) {
+      listOfCompartmentTypes = ListOf.newInstance(this, CompartmentType.class);
+      registerChild(listOfCompartmentTypes);
+    }
+    return listOfCompartmentTypes;
+  }
+
+  /**
+   * Returns the listOfConstraints of this {@link Model}.
+   * 
+   * @return the listOfConstraints of this {@link Model}. set.
+   */
+  public ListOf<Constraint> getListOfConstraints() {
+    if (listOfConstraints == null) {
+      listOfConstraints = ListOf.newInstance(this, Constraint.class);
+      registerChild(listOfConstraints);
+    }
+    return listOfConstraints;
+  }
+
+  /**
+   * Returns the number of {@link ListOf}s of this {@link Model}.
+   * 
+   * @return the number of {@link ListOf}s of this {@link Model}.
+   */
+  public int getListOfCount() {
+    int children = 0;
     if (isSetListOfFunctionDefinitions()) {
       children++;
     }
@@ -1899,398 +2290,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return children;
   }
-  
-  /**
-   * Gets the n<sup>th</sup> {@link Compartment} instance of the listOfCompartments.
-   * 
-   * @param n
-   * @return the n<sup>th</sup> {@link Compartment} instance of the listOfCompartments.
-   *         {@code null} if the listOfCompartments is not set.
-   */
-  public Compartment getCompartment(int n) {
-    return getListOfCompartments().get(n);
-  }
-  
-  /**
-   * Gets the {@link Compartment} of the listOfCompartments which has 'id' as
-   * id.
-   * 
-   * @param id
-   * @return the {@link Compartment} of the listOfCompartments which has 'id' as
-   *         id (or name depending on the version and level). {@code null} if the
-   *         listOfCompartments is not set.
-   */
-  public Compartment getCompartment(String id) {
-    UniqueNamedSBase found = findUniqueNamedSBase(id);
-    if ((found != null) && (found instanceof Compartment)) {
-      return (Compartment) found;
-    }
-    return null;
-  }
-  
-  /**
-   * Returns the number of {@link Compartment}s of this {@link Model}.
-   * 
-   * @return the number of {@link Compartment}s of this {@link Model}.
-   */
-  public int getCompartmentCount() {
-    return isSetListOfCompartments() ? listOfCompartments.size() : 0;
-  }
-  
-  /**
-   * Gets the n<sup>th</sup> CompartmentType object in this Model.
-   * 
-   * @param n
-   *        index
-   * @return the n<sup>th</sup> CompartmentType of this Model. Returns {@code null} if there are no
-   *         compartmentType defined or if the index n is too big or lower than
-   *         zero.
-   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
-   */
-  @Deprecated
-  public CompartmentType getCompartmentType(int n) {
-    return getListOfCompartmentTypes().get(n);
-  }
-  
-  /**
-   * Gets the {@link CompartmentType} with the given {@code id}.
-   * 
-   * @param id
-   * @return the CompartmentType of the {@link #listOfCompartmentTypes} which has 'id' as
-   *         id (or name depending on the level and version). {@code null} if the
-   *         {@link #listOfCompartmentTypes} is not set or the id is not found.
-   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
-   */
-  @Deprecated
-  public CompartmentType getCompartmentType(String id) {
-    UniqueNamedSBase found = findUniqueNamedSBase(id);
-    if ((found != null) && (found instanceof CompartmentType)) {
-      return (CompartmentType) found;
-    }
-    return null;
-  }
-  
-  /**
-   * Returns the number of {@link CompartmentType}s of this {@link Model}.
-   * 
-   * @return the number of {@link CompartmentType}s of this {@link Model}.
-   * @deprecated using {@link CompartmentType} is not recommended, because this
-   *             data structure is only valid in SBML Level 2 for Versions 2
-   *             through 4.
-   */
-  @Deprecated
-  public int getCompartmentTypeCount() {
-    return isSetListOfCompartmentTypes() ? listOfCompartmentTypes.size() : 0;
-  }
 
-  /**
-   * Gets the n<sup>th</sup> Constraint object in this Model.
-   * 
-   * @param n
-   * @return the n<sup>th</sup> Constraint of this Model. Returns {@code null} if there are no
-   *         constraint defined or if the index n is too big or lower than zero.
-   */
-  public Constraint getConstraint(int n) {
-    return getListOfConstraints().get(n);
-  }
-  
-  /**
-   * Returns the number of {@link Constraint}s of this {@link Model}.
-   * 
-   * @return the number of {@link Constraint}s of this {@link Model}.
-   */
-  public int getConstraintCount() {
-    return isSetListOfConstraints() ? listOfConstraints.size() : 0;
-  }
-  
-  /**
-   * Returns the conversionFactor ID of this {@link Model}.
-   * 
-   * @return the conversionFactorID of this {@link Model}. Returns an empty
-   *         {@link String} if it is not set.
-   */
-  public String getConversionFactor() {
-    return isSetConversionFactor() ? conversionFactorID : "";
-  }
-  
-  /**
-   * Returns the Parameter instance which has the conversionFactorID of this
-   * Model as id.
-   * 
-   * @return the Parameter instance which has the conversionFactorID of this
-   *         Model as id. {@code null} if it doesn't exist
-   */
-  public Parameter getConversionFactorInstance() {
-    return getParameter(this.conversionFactorID);
-  }
-  
-  /**
-   * Returns the number of {@link Delay}s of this {@link Model}.
-   * 
-   * @return the number of {@link Delay}s of this {@link Model}.
-   */
-  public int getDelayCount() {
-    int count = 0;
-    for (Event e : getListOfEvents()) {
-      if (e.isSetDelay()) {
-        count++;
-      }
-    }
-    return count;
-  }
-  
-  /**
-   * Gets the n<sup>th</sup> Event object in this Model.
-   * 
-   * @param n
-   * @return the n<sup>th</sup> Event of this Model. Returns {@code null} if there are no event
-   *         defined or if the index n is too big or lower than zero.
-   */
-  public Event getEvent(int n) {
-    return getListOfEvents().get(n);
-  }
-  
-  /**
-   * Gets the {@link Event} which as the given {@code id} as id.
-   * 
-   * @param id
-   * @return the {@link Event} of the {@link #listOfEvents} which has 'id' as id
-   *         (or name depending on the level and version). {@code null} if the
-   *         {@link #listOfEvents} is not set.
-   */
-  public Event getEvent(String id) {
-    UniqueNamedSBase found = findUniqueNamedSBase(id);
-    if ((found != null) && (found instanceof Event)) {
-      return (Event) found;
-    }
-    return null;
-  }
-  
-  /**
-   * Returns the number of {@link EventAssignment}s of this {@link Model}.
-   * 
-   * @return return the number of {@link EventAssignment}s of this {@link Model}.
-   */
-  public int getEventAssignmentCount() {
-    int count = 0;
-    for (Event e : getListOfEvents()) {
-      count += e.getEventAssignmentCount();
-    }
-    return count;
-  }
-  
-  /**
-   * Returns the number of {@link Event}s of this {@link Model}.
-   * 
-   * @return the number of {@link Event}s of this {@link Model}.
-   */
-  public int getEventCount() {
-    return isSetListOfEvents() ? listOfEvents.size() : 0;
-  }
-  
-  /**
-   * Returns the extent units ID of this {@link Model}.
-   * 
-   * @return the extent units ID of this {@link Model}. Returns an empty
-   *         {@link String} if it is not set.
-   */
-  public String getExtentUnits() {
-    return isSetExtentUnits() ? extentUnitsID : "";
-  }
-  
-  /**
-   * Returns the {@link UnitDefinition} instance which has the extent units ID
-   * of this Model as id.
-   * 
-   * @return the {@link UnitDefinition} instance which has the extent units ID
-   *         of this Model as id. {@code null} if it doesn't exist
-   */
-  public UnitDefinition getExtentUnitsInstance() {
-    return getUnitDefinition(getExtentUnits());
-  }
-  
-  /**
-   * Gets the n<sup>th</sup> {@link FunctionDefinition} instance of the
-   * listOfFunstionDefinitions.
-   * 
-   * @param n
-   * @return the n<sup>th</sup> {@link FunctionDefinition} instance of the
-   *         listOfFunstionDefinitions. {@code null} if the listOfFunctionDefinitions
-   *         is not set.
-   */
-  public FunctionDefinition getFunctionDefinition(int n) {
-    return getListOfFunctionDefinitions().get(n);
-  }
-  
-  /**
-   * Returns the {@link FunctionDefinition} of the {@link #listOfFunctionDefinitions}
-   * which has 'id' as id.
-   * 
-   * @param id
-   * @return the {@link FunctionDefinition} of the {@link #listOfFunctionDefinitions}
-   *         which has 'id' as id (or name depending on the level and version).
-   *         {@code null} if the {@link #listOfFunctionDefinitions} is not set.
-   */
-  public FunctionDefinition getFunctionDefinition(String id) {
-    UniqueNamedSBase found = findUniqueNamedSBase(id);
-    if ((found != null) && (found instanceof FunctionDefinition)) {
-      return (FunctionDefinition) found;
-    }
-    return null;
-  }
-  
-  /**
-   * Returns the number of {@link FunctionDefinition}s of this {@link Model}.
-   * 
-   * @return the number of {@link FunctionDefinition}s of this {@link Model}.
-   */
-  public int getFunctionDefinitionCount() {
-    return isSetListOfFunctionDefinitions() ? listOfFunctionDefinitions.size()
-      : 0;
-  }
-  
-  /**
-   * Gets the n<sup>th</sup> {@link InitialAssignment} object in this {@link Model}.
-   * 
-   * @param n
-   * @return the n<sup>th</sup> {@link InitialAssignment} of this {@link Model}. {@code null} if
-   *         the listOfInitialAssignments is not set.
-   */
-  public InitialAssignment getInitialAssignment(int n) {
-    return getListOfInitialAssignments().get(n);
-  }
-  
-  /**
-   * Returns the {@link InitialAssignment} of the
-   * {@link #listOfInitialAssignments} whose {@code symbol} attribute,
-   * i.e., whose {@link Variable} has the given {@code variable} as
-   * identifier.
-   * 
-   * @param variable
-   *        The identifier of a variable, for which a corresponding
-   *        {@link InitialAssignment} is requested.
-   * @return the first {@link InitialAssignment} of the
-   *         {@link #listOfInitialAssignments}, whose {@link Variable} has the
-   *         {@code variable} as identifier (or name depending on the level
-   *         and version). {@code null} if it doesn't exist.
-   */
-  public InitialAssignment getInitialAssignment(String variable) {
-    return getListOfInitialAssignments().firstHit(
-      new AssignmentVariableFilter(variable));
-  }
-  
-  /**
-   * Returns the number of {@link InitialAssignment}s of this {@link Model}.
-   * 
-   * @return the number of {@link InitialAssignment}s of this {@link Model}.
-   */
-  public int getInitialAssignmentCount() {
-    return isSetListOfInitialAssignments() ? listOfInitialAssignments.size()
-      : 0;
-  }
-  
-  /**
-   * Returns the number of {@link KineticLaw}s of this {@link Model}.
-   * 
-   * @return the number of {@link KineticLaw}s of this {@link Model}.
-   */
-  public int getKineticLawCount() {
-    int count = 0;
-    for (Reaction r : getListOfReactions()) {
-      if (r.isSetKineticLaw()) {
-        count++;
-      }
-    }
-    return count;
-  }
-  
-  /**
-   * Returns the last element added in the given list.
-   * 
-   * @return the last element added in the model, corresponding to the last
-   *         element of the list of these elements, or {@code null} is no element exist
-   *         for this type.
-   */
-  private <T> T getLastElementOf(ListOf<? extends T> listOf) {
-    // added casting and parenthesis because there was a compilation error
-    // when using the ant script
-    return ((listOf == null) || (listOf.size() == 0)) ? (T) null : (T) listOf
-        .getLast();
-  }
-  
-  /**
-   * Returns the length units ID of this {@link Model}.
-   * 
-   * @return the length units ID of this {@link Model}. Returns an empty
-   *         {@link String} if it is not set.
-   */
-  public String getLengthUnits() {
-    if (isSetLengthUnits()) {
-      return lengthUnitsID;
-    } else if (getLevel() == 2) { return UnitDefinition.LENGTH; }
-    return "";
-  }
-  
-  /**
-   * Returns the length units of this {@link Model} as a {@link UnitDefinition}.
-   * 
-   * @return the {@link UnitDefinition} instance which has the {@link #lengthUnitsID} of this
-   *         {@link Model} as id. {@code null} if it doesn't exist.
-   */
-  public UnitDefinition getLengthUnitsInstance() {
-    return getUnitDefinition(getLengthUnits());
-  }
-  
-  /**
-   * Returns the listOfCompartments of this {@link Model}.
-   * 
-   * @return the listOfCompartments of this {@link Model}.
-   */
-  public ListOf<Compartment> getListOfCompartments() {
-    if (listOfCompartments == null) {
-      listOfCompartments = ListOf.newInstance(this, Compartment.class);
-      registerChild(listOfCompartments);
-    }
-    return listOfCompartments;
-  }
-  
-  /**
-   * Returns the listOfCompartmentTypes of this {@link Model}.
-   * 
-   * @return the listOfCompartmentTypes of this {@link Model}.
-   * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
-   */
-  @Deprecated
-  public ListOf<CompartmentType> getListOfCompartmentTypes() {
-    if (listOfCompartmentTypes == null) {
-      listOfCompartmentTypes = ListOf.newInstance(this, CompartmentType.class);
-      registerChild(listOfCompartmentTypes);
-    }
-    return listOfCompartmentTypes;
-  }
-  
-  /**
-   * Returns the listOfConstraints of this {@link Model}.
-   * 
-   * @return the listOfConstraints of this {@link Model}. set.
-   */
-  public ListOf<Constraint> getListOfConstraints() {
-    if (listOfConstraints == null) {
-      listOfConstraints = ListOf.newInstance(this, Constraint.class);
-      registerChild(listOfConstraints);
-    }
-    return listOfConstraints;
-  }
-  
-  /**
-   * Returns the number of {@link ListOf}s of this {@link Model}.
-   * 
-   * @return the number of {@link ListOf}s of this {@link Model}.
-   */
-  public int getListOfCount() {
-    return getChildCount();
-  }
-  
   /**
    * Returns the listOfEvents of this {@link Model}.
    * 
@@ -2303,7 +2303,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return listOfEvents;
   }
-  
+
   /**
    * Returns the listOfFunctionDefinitions of this {@link Model}.
    * 
@@ -2316,7 +2316,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return listOfFunctionDefinitions;
   }
-  
+
   /**
    * Returns the listOfInitialAssignments of this {@link Model}.
    * 
@@ -2329,7 +2329,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return listOfInitialAssignments;
   }
-  
+
   /**
    * Returns the {@link #listOfParameters} of this {@link Model}.
    * 
@@ -2342,7 +2342,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return listOfParameters;
   }
-  
+
   /**
    * 
    * @return
@@ -2350,7 +2350,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public List<UnitDefinition> getListOfPredefinedUnitDefinitions() {
     return (listOfPredefinedUnitDefinitions != null) ? listOfPredefinedUnitDefinitions : new ArrayList<UnitDefinition>(0);
   }
-  
+
   /**
    * Returns the listOfReactions of this {@link Model}.
    * 
@@ -2363,7 +2363,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return listOfReactions;
   }
-  
+
   /**
    * Returns the listOfRules of this {@link Model}.
    * 
@@ -2376,7 +2376,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return listOfRules;
   }
-  
+
   /**
    * Returns the {@link #listOfSpecies} of this {@link Model}.
    * 
@@ -2389,7 +2389,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return listOfSpecies;
   }
-  
+
   /**
    * Returns the listOfSpeciesTypes of this {@link Model}.
    * 
@@ -2404,7 +2404,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return listOfSpeciesTypes;
   }
-  
+
   /**
    * Returns the listOfUnitDefinitions of this {@link Model}.
    * 
@@ -2417,7 +2417,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return listOfUnitDefinitions;
   }
-  
+
   /**
    * Returns the number of parameters that are contained within kineticLaws in
    * the reactions of this model.
@@ -2436,7 +2436,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return count;
   }
-  
+
   /**
    * Returns the number of elements that can contain math in the {@link Model} .
    * 
@@ -2449,7 +2449,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
         + getRuleCount() + getTriggerCount() + getStoichiometryMathCount()
         + getKineticLawCount();
   }
-  
+
   /**
    * Returns {@link History} of this model.
    * 
@@ -2462,7 +2462,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public History getModelHistory() {
     return getHistory();
   }
-  
+
   /**
    * Returns the number of {@link ModifierSpeciesReference}s in the
    * {@link Model}.
@@ -2477,25 +2477,25 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return count;
   }
-  
+
   /**
    * Returns all {@link ModifierSpeciesReference}s, registered in
    * any {@link Reaction}.
-   * @return 
+   * @return
    * @return all {@link ModifierSpeciesReference} contained in this {@link Model}.
    */
   public Set<ModifierSpeciesReference> getModifierSpeciesReferences() {
     Set<ModifierSpeciesReference> listOfModifiers = new HashSet<ModifierSpeciesReference>();
     if (isSetListOfReactions()) {
-    	for (Reaction r : getListOfReactions()) {
-    		if (r.isSetListOfModifiers()) {
-    			listOfModifiers.addAll(r.getListOfModifiers());
-    		}
-    	}
+      for (Reaction r : getListOfReactions()) {
+        if (r.isSetListOfModifiers()) {
+          listOfModifiers.addAll(r.getListOfModifiers());
+        }
+      }
     }
     return listOfModifiers;
   }
-  
+
   /**
    * Returns the number of {@link NamedSBase}s in the {@link Model}, so elements
    * that can have a name.
@@ -2509,11 +2509,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
         + getUnitDefinitionCount() + getEventCount()
         + getModifierSpeciesReferenceCount();
   }
-  
+
   public int getNamedSBaseWithDerivedUnitCount() {
     return getQuantityCount() + getFunctionDefinitionCount() + getReactionCount();
   }
-  
+
   /**
    * Returns the number of {@link Compartment}s of this {@link Model}.
    * 
@@ -2524,7 +2524,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumCompartments() {
     return getCompartmentCount();
   }
-  
+
   /**
    * Returns the number of {@link CompartmentType}s of this {@link Model}.
    * 
@@ -2535,7 +2535,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumCompartmentTypes() {
     return getCompartmentTypeCount();
   }
-  
+
   /**
    * Returns the number of {@link Constraint}s of this {@link Model}.
    * 
@@ -2546,7 +2546,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumConstraints() {
     return getConstraintCount();
   }
-  
+
   /**
    * Returns the number of {@link Delay}s of this {@link Model}.
    * 
@@ -2557,7 +2557,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumDelays() {
     return getDelayCount();
   }
-  
+
   /**
    * Returns the number of {@link EventAssignment}s of this {@link Model}.
    * 
@@ -2568,7 +2568,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumEventAssignments() {
     return getEventAssignmentCount();
   }
-  
+
   /**
    * Returns the number of {@link Event}s of this {@link Model}.
    * 
@@ -2579,7 +2579,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumEvents() {
     return getEventCount();
   }
-  
+
   /**
    * Returns the number of {@link FunctionDefinition}s of this {@link Model}.
    * 
@@ -2590,7 +2590,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumFunctionDefinitions() {
     return getFunctionDefinitionCount();
   }
-  
+
   /**
    * Returns the number of {@link InitialAssignment}s of this {@link Model}.
    * 
@@ -2601,7 +2601,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumInitialAssignments() {
     return getInitialAssignmentCount();
   }
-  
+
   /**
    * Returns the number of {@link KineticLaw}s of this {@link Model}.
    * 
@@ -2612,7 +2612,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumKineticLaws() {
     return getKineticLawCount();
   }
-  
+
   /**
    * Returns the number of {@link ListOf}s of this {@link Model}.
    * 
@@ -2623,7 +2623,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumListsOf() {
     return getListOfCount();
   }
-  
+
   /**
    * Returns the number of parameters that are contained within kineticLaws in
    * the reactions of this model.
@@ -2636,7 +2636,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumLocalParameters() {
     return getLocalParameterCount();
   }
-  
+
   /**
    * Returns the number of elements that can contain math in the {@link Model} .
    * 
@@ -2648,7 +2648,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumMathContainers() {
     return getMathContainerCount();
   }
-  
+
   /**
    * Returns the number of {@link ModifierSpeciesReference}s in the
    * {@link Model}.
@@ -2661,7 +2661,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumModifierSpeciesReferences() {
     return getModifierSpeciesReferenceCount();
   }
-  
+
   /**
    * Returns the number of {@link NamedSBase}s in the {@link Model}, so elements
    * that can have a name.
@@ -2674,7 +2674,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumNamedSBases() {
     return getNamedSBaseCount();
   }
-  
+
   /**
    * Returns the number of {@link NamedSBaseWithDerivedUnit}s in the
    * {@link Model}, so elements that can have a name and a unit that can be
@@ -2689,7 +2689,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumNamedSBasesWithDerivedUnit() {
     return getNamedSBaseWithDerivedUnitCount();
   }
-  
+
   /**
    * Returns the number of {@link Parameter}s of this {@link Model}.
    * 
@@ -2700,7 +2700,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumParameters() {
     return getParameterCount();
   }
-  
+
   /**
    * Returns the number of {@link Quantity}s of this {@link Model}.
    * 
@@ -2711,7 +2711,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumQuantities() {
     return getQuantityCount();
   }
-  
+
   /**
    * Returns the number of {@link QuantityWithUnit}s of this {@link Model}.
    * 
@@ -2722,7 +2722,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumQuantitiesWithUnit() {
     return getQuantityWithUnitCount();
   }
-  
+
   /**
    * Returns the number of {@link Reaction}s of this {@link Model}.
    * 
@@ -2733,7 +2733,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumReactions() {
     return getReactionCount();
   }
-  
+
   /**
    * Returns the number of {@link Rule}s of this {@link Model}.
    * 
@@ -2744,7 +2744,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumRules() {
     return getRuleCount();
   }
-  
+
   /**
    * Returns the number of {@link SBase}s of this {@link Model}.
    * 
@@ -2755,7 +2755,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumSBases() {
     return getSBaseCount();
   }
-  
+
   /**
    * Returns the number of {@link SBaseWithDerivedUnit}s of this {@link Model}.
    * 
@@ -2764,9 +2764,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   @Deprecated
   public int getNumSBasesWithDerivedUnit() {
-    return getSBaseWithDerivedUnitCount(); 
+    return getSBaseWithDerivedUnitCount();
   }
-  
+
   /**
    * Returns the number of {@link Species} of this {@link Model}.
    * 
@@ -2777,7 +2777,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumSpecies() {
     return getSpeciesCount();
   }
-  
+
   /**
    * Returns the number of {@link SpeciesReferences}s of this {@link Model}.
    * 
@@ -2788,7 +2788,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumSpeciesReferences() {
     return getSpeciesReferenceCount();
   }
-  
+
   /**
    * Returns the number of {@link SpeciesType}s of this {@link Model}.
    * 
@@ -2799,7 +2799,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumSpeciesTypes() {
     return getSpeciesTypeCount();
   }
-  
+
   /**
    * Returns the number of {@link Species} whose boundary condition is set to
    * {@code true}.
@@ -2812,7 +2812,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumSpeciesWithBoundaryCondition() {
     return getSpeciesWithBoundaryConditionCount();
   }
-  
+
   /**
    * Returns the number of {@link StoichiometryMath} in the {@link Model}.
    * 
@@ -2823,7 +2823,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumStoichiometryMath() {
     return getStoichiometryMathCount();
   }
-  
+
   /**
    * Returns the number of all instances of {@link Symbol} referenced within the
    * model. There is no dedicated list for {@link Symbol}s. This is a convenient
@@ -2837,7 +2837,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumSymbols() {
     return getSymbolCount();
   }
-  
+
   /**
    * Returns the number of {@link Trigger} of this {@link Model}.
    * 
@@ -2848,7 +2848,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumTriggers() {
     return getTriggerCount();
   }
-  
+
   /**
    * Returns the number of {@link UnitDefinition}s of this {@link Model}.
    * 
@@ -2859,7 +2859,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumUnitDefinitions() {
     return getUnitDefinitionCount();
   }
-  
+
   /**
    * Returns the number of {@link Unit}s of this {@link Model}.
    * 
@@ -2870,7 +2870,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumUnits() {
     return getUnitCount();
   }
-  
+
   /**
    * Returns the number of {@link Variable}s of this {@link Model}.
    * 
@@ -2881,7 +2881,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumVariables() {
     return getVariableCount();
   }
-  
+
   /**
    * Gets the n<sup>th</sup> {@link Parameter} object in this {@link Model}.
    * 
@@ -2892,7 +2892,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Parameter getParameter(int n) {
     return getListOfParameters().get(n);
   }
-  
+
   /**
    * Returns the {@link Parameter} of the {@link #listOfParameters} which has 'id' as id
    * 
@@ -2902,13 +2902,13 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         exist.
    */
   public Parameter getParameter(String id) {
-	  UniqueNamedSBase found = findUniqueNamedSBase(id);
-	  if ((found != null) && (found instanceof Parameter)) {
-		  return (Parameter) found;
-	  }
-	  return null;
+    UniqueNamedSBase found = findUniqueNamedSBase(id);
+    if ((found != null) && (found instanceof Parameter)) {
+      return (Parameter) found;
+    }
+    return null;
   }
-  
+
   /**
    * Returns the number of {@link Parameter}s of this {@link Model}.
    * 
@@ -2917,7 +2917,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getParameterCount() {
     return isSetListOfParameters() ? listOfParameters.size() : 0;
   }
-    
+
   /**
    * Returns a {@link UnitDefinition} representing one of the predefined units of SBML,
    * returns {@code null} if the given unit kind is not a valid one for the SBML level
@@ -2931,27 +2931,27 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public UnitDefinition getPredefinedUnitDefinition(String unitKind) {
     // TODO: This might be more efficient than ALWAYS storing ALL base units in the listOfPredefinedUnits:
-//    if ((unitKind != null) && !unitKind.isEmpty()) {
-//      int level = getLevel(), version = getVersion();
-//      if (Unit.isUnitKind(unitKind, level, version)) {
-//        UnitDefinition ud = new UnitDefinition(unitKind + "_base", level, version);
-//        ud.addUnit(Unit.Kind.valueOf(unitKind.toUpperCase()));
-//        return ud;
-//      }
-//    }
+    //    if ((unitKind != null) && !unitKind.isEmpty()) {
+    //      int level = getLevel(), version = getVersion();
+    //      if (Unit.isUnitKind(unitKind, level, version)) {
+    //        UnitDefinition ud = new UnitDefinition(unitKind + "_base", level, version);
+    //        ud.addUnit(Unit.Kind.valueOf(unitKind.toUpperCase()));
+    //        return ud;
+    //      }
+    //    }
     if (listOfPredefinedUnitDefinitions != null) {
       for (UnitDefinition unitDefinition : listOfPredefinedUnitDefinitions) {
         // TODO: It can never happen that a unitDef has the id that is a unit kind.
         if (unitDefinition.getId().equals(unitKind)
-        		|| unitDefinition.getId().equals(unitKind + "_base")) 
-        { 
-        	return unitDefinition; 
+            || unitDefinition.getId().equals(unitKind + "_base"))
+        {
+          return unitDefinition;
         }
       }
     }
     return null;
   }
-  
+
   /**
    * Returns the number of {@link Quantity}s of this {@link Model}.
    * 
@@ -2960,7 +2960,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getQuantityCount() {
     return getVariableCount() + getLocalParameterCount();
   }
-  
+
   /**
    * Returns the number of {@link QuantityWithUnit}s of this {@link Model}.
    * 
@@ -2969,7 +2969,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getQuantityWithUnitCount() {
     return getSymbolCount() + getLocalParameterCount();
   }
-  
+
   /**
    * Gets the n-th {@link Reaction} object in this Model.
    * 
@@ -2979,7 +2979,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Reaction getReaction(int n) {
     return getListOfReactions().get(n);
   }
-  
+
   /**
    * Returns the {@link Reaction} of the {@link #listOfReactions} which has 'id' as id.
    * 
@@ -2995,7 +2995,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return null;
   }
-  
+
   /**
    * Returns the number of {@link Reaction}s of this {@link Model}.
    * 
@@ -3004,7 +3004,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getReactionCount() {
     return isSetListOfReactions() ? listOfReactions.size() : 0;
   }
-  
+
   /**
    * Gets the n<sup>th</sup> {@link Rule} of the listOfRules.
    * 
@@ -3015,7 +3015,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Rule getRule(int n) {
     return getListOfRules().get(n);
   }
-  
+
   /**
    * Searches for the first instance of {@link ExplicitRule} within this
    * {@link Model}'s {@link #listOfRules}, whose variable attribute is set to
@@ -3027,9 +3027,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public ExplicitRule getRule(String variable) {
     Rule rule = listOfRules.firstHit(new AssignmentVariableFilter(variable));
     return (rule != null) && (rule instanceof ExplicitRule) ? (ExplicitRule) rule
-        : null;
+      : null;
   }
-  
+
   /**
    * Returns the number of {@link Rule}s of this {@link Model}.
    * 
@@ -3038,7 +3038,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getRuleCount() {
     return isSetListOfRules() ? listOfRules.size() : 0;
   }
-  
+
   /**
    * Returns the number of {@link SBase}s of this {@link Model}.
    * 
@@ -3053,7 +3053,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return count;
   }
-  
+
   /**
    * Returns the number of {@link SBaseWithDerivedUnit}s of this {@link Model}.
    * 
@@ -3063,26 +3063,26 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     return getNamedSBaseWithDerivedUnitCount() + getMathContainerCount()
         - getFunctionDefinitionCount();
   }
-  
+
   /**
    * Gets the n-th {@link Species} object in this Model.
    * 
    * @param n
    *        an index
-   * @return the {@link Species} with the given index if it exists, 
+   * @return the {@link Species} with the given index if it exists,
    *         {@code null} otherwise.
    */
   public Species getSpecies(int n) {
     return getListOfSpecies().get(n);
   }
-  
+
   /**
    * Gets the {@link Species} of the {@link #listOfSpecies} which has 'id' as
    * id.
    * 
    * @param id
    * @return the {@link Species} of the listOfSpecies which has 'id' as id (or
-   *         name depending on the level and version). {@code null} if 
+   *         name depending on the level and version). {@code null} if
    *         it doesn't exist.
    */
   public Species getSpecies(String id) {
@@ -3092,7 +3092,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return null;
   }
-  
+
   /**
    * Returns the number of {@link Species} of this {@link Model}.
    * 
@@ -3101,7 +3101,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getSpeciesCount() {
     return isSetListOfSpecies() ? listOfSpecies.size() : 0;
   }
-  
+
   /**
    * Returns the number of {@link SpeciesReferences}s of this {@link Model}.
    * 
@@ -3114,7 +3114,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return count;
   }
-  
+
   /**
    * Gets the n<sup>th</sup> {@link SpeciesType} object in this Model.
    * 
@@ -3129,7 +3129,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public SpeciesType getSpeciesType(int n) {
     return getListOfSpeciesTypes().get(n);
   }
-  
+
   /**
    * Returns the {@link SpeciesType} of the {@link #listOfSpeciesTypes} which has 'id' as
    * id.
@@ -3148,7 +3148,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return null;
   }
-  
+
   /**
    * Returns the number of {@link SpeciesType}s of this {@link Model}.
    * 
@@ -3194,7 +3194,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return count;
   }
-  
+
   /**
    * Returns the substance units ID of this model.
    * 
@@ -3204,12 +3204,12 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public String getSubstanceUnits() {
     if (isSetSubstanceUnits()) {
       return substanceUnitsID;
-    } else if (getLevel() < 3) { 
-      return UnitDefinition.SUBSTANCE; 
+    } else if (getLevel() < 3) {
+      return UnitDefinition.SUBSTANCE;
     }
     return "";
   }
-  
+
   /**
    * Returns the {@link UnitDefinition} which has the {@link #substanceUnitsID} of this
    * {@link Model} as id.
@@ -3220,7 +3220,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public UnitDefinition getSubstanceUnitsInstance() {
     return getUnitDefinition(getSubstanceUnits());
   }
-  
+
   /**
    * Returns the number of all instances of {@link Symbol} referenced within the
    * model. There is no dedicated list for {@link Symbol}s. This is a convenient
@@ -3232,7 +3232,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getSymbolCount() {
     return getParameterCount() + getSpeciesCount() + getCompartmentCount();
   }
-  
+
   /**
    * Returns the time units ID of this {@link Model}.
    * 
@@ -3243,11 +3243,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     if (isSetTimeUnits()) {
       return timeUnitsID;
     } else if (getLevel() < 3) {
-      return UnitDefinition.TIME; 
+      return UnitDefinition.TIME;
     }
     return "";
   }
-  
+
   /**
    * Gets the {@link UnitDefinition} representing the time units of this
    * {@link Model}.
@@ -3258,7 +3258,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public UnitDefinition getTimeUnitsInstance() {
     return getUnitDefinition(getTimeUnits());
   }
-  
+
   /**
    * Returns the number of {@link Trigger} of this {@link Model}.
    * 
@@ -3273,7 +3273,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return count;
   }
-  
+
   /**
    * Returns the number of {@link Unit}s of this {@link Model}.
    * 
@@ -3286,19 +3286,19 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return count;
   }
-  
+
   /**
    * Gets the n<sup>th</sup> {@link UnitDefinition} object in this {@link Model}.
    * 
    * @param n
    * @return the n<sup>th</sup> {@link UnitDefinition} of this {@link Model}. Returns
-   *         {@code null} if there are no {@link UnitDefinition}s defined 
+   *         {@code null} if there are no {@link UnitDefinition}s defined
    *         or if the index n is too big or lower than zero.
    */
   public UnitDefinition getUnitDefinition(int n) {
     return getListOfUnitDefinitions().get(n);
   }
-  
+
   /**
    * Returns the {@link UnitDefinition} of the {@link #listOfUnitDefinitions}
    * which has 'id' as id. If no {@link UnitDefinition} are found, we check in the
@@ -3307,7 +3307,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param id
    * @return the {@link UnitDefinition} of the {@link #listOfUnitDefinitions}s
-   *         which has 'id' as id (or name depending on the level and version). 
+   *         which has 'id' as id (or name depending on the level and version).
    *         {@code null} if it doesn't exist.
    */
   public UnitDefinition getUnitDefinition(String id) {
@@ -3318,7 +3318,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return unitDefinition;
   }
-  
+
   /**
    * Returns the number of {@link UnitDefinition}s of this {@link Model}.
    * 
@@ -3336,7 +3336,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getVariableCount() {
     return getSymbolCount() + getSpeciesReferenceCount();
   }
-  
+
   /**
    * Returns the volume units ID of this {@link Model}.
    * 
@@ -3351,7 +3351,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return "";
   }
-  
+
   /**
    * Returns the {@link UnitDefinition} instance which has the {@link #volumeUnitsID}
    * of this {@link Model} as id.
@@ -3362,7 +3362,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public UnitDefinition getVolumeUnitsInstance() {
     return getUnitDefinition(getVolumeUnits());
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
    */
@@ -3393,7 +3393,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return hashCode;
   }
-  
+
   /**
    * Returns {@code true} if this model has a reference to the unit with the given
    * identifier.
@@ -3405,7 +3405,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean hasUnit(String id) {
     return getUnitDefinition(id) != null;
   }
-  
+
   /**
    * Initializes the default values using the current Level/Version
    * configuration.
@@ -3413,7 +3413,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public void initDefaults() {
     initDefaults(getLevel(), getVersion());
   }
-  
+
   /**
    * Initializes the default values of the attributes of the {@link Model}
    */
@@ -3432,65 +3432,66 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     UnitDefinition ud;
     listOfPredefinedUnitDefinitions = new ArrayList<UnitDefinition>();
     addPredefinedUnits();
-    
+
     switch (level) {
-      case 1:
-        // substance
-        ud = UnitDefinition.substance(getLevel(), getVersion());
-        listOfPredefinedUnitDefinitions.add(ud);
-        
-        // time
-        ud = UnitDefinition.time(getLevel(), getVersion());
-        listOfPredefinedUnitDefinitions.add(ud);
-        
-        // volume
-        ud = UnitDefinition.volume(getLevel(), getVersion());
-        listOfPredefinedUnitDefinitions.add(ud);
-        
-        areaUnitsID = null;
-        lengthUnitsID = null;
-        extentUnitsID = null;
-        conversionFactorID = null;
-        break;
-      case 2:
-        // substance
-        ud = UnitDefinition.substance(getLevel(), getVersion());
-        listOfPredefinedUnitDefinitions.add(ud);
-        
-        // volume
-        ud = UnitDefinition.volume(getLevel(), getVersion());
-        listOfPredefinedUnitDefinitions.add(ud);
-        
-        // area
-        ud = UnitDefinition.area(getLevel(), getVersion());
-        listOfPredefinedUnitDefinitions.add(ud);
-        
-        // length
-        ud = UnitDefinition.length(getLevel(), getVersion());
-        listOfPredefinedUnitDefinitions.add(ud);
-        
-        // time
-        ud = UnitDefinition.time(getLevel(), getVersion());
-        listOfPredefinedUnitDefinitions.add(ud);
-        
-        extentUnitsID = null;
-        conversionFactorID = null;
-        break;
-      default: // undefined or level 3
-        substanceUnitsID = null;
-        timeUnitsID = null;
-        volumeUnitsID = null;
-        areaUnitsID = null;
-        lengthUnitsID = null;
-        extentUnitsID = null;
-        conversionFactorID = null;
-        break;
+    case 1:
+      // substance
+      ud = UnitDefinition.substance(getLevel(), getVersion());
+      listOfPredefinedUnitDefinitions.add(ud);
+
+      // time
+      ud = UnitDefinition.time(getLevel(), getVersion());
+      listOfPredefinedUnitDefinitions.add(ud);
+
+      // volume
+      ud = UnitDefinition.volume(getLevel(), getVersion());
+      listOfPredefinedUnitDefinitions.add(ud);
+
+      areaUnitsID = null;
+      lengthUnitsID = null;
+      extentUnitsID = null;
+      conversionFactorID = null;
+      break;
+    case 2:
+      // substance
+      ud = UnitDefinition.substance(getLevel(), getVersion());
+      listOfPredefinedUnitDefinitions.add(ud);
+
+      // volume
+      ud = UnitDefinition.volume(getLevel(), getVersion());
+      listOfPredefinedUnitDefinitions.add(ud);
+
+      // area
+      ud = UnitDefinition.area(getLevel(), getVersion());
+      listOfPredefinedUnitDefinitions.add(ud);
+
+      // length
+      ud = UnitDefinition.length(getLevel(), getVersion());
+      listOfPredefinedUnitDefinitions.add(ud);
+
+      // time
+      ud = UnitDefinition.time(getLevel(), getVersion());
+      listOfPredefinedUnitDefinitions.add(ud);
+
+      extentUnitsID = null;
+      conversionFactorID = null;
+      break;
+    default: // undefined or level 3
+      substanceUnitsID = null;
+      timeUnitsID = null;
+      volumeUnitsID = null;
+      areaUnitsID = null;
+      lengthUnitsID = null;
+      extentUnitsID = null;
+      conversionFactorID = null;
+      break;
     }
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
+  @Override
   public boolean isIdMandatory() {
     return false;
   }
@@ -3527,7 +3528,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetConversionFactor() {
     return this.conversionFactorID != null;
   }
-  
+
   /**
    * Returns {@code true} if the Parameter which has the conversionFactorID of this
    * Model as id is not {@code null}.
@@ -3538,7 +3539,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetConversionFactorInstance() {
     return getParameter(this.conversionFactorID) != null;
   }
-  
+
   /**
    * Returns {@code true} if the extentUnitsID of this Model is not {@code null}.
    * 
@@ -3547,7 +3548,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetExtentUnits() {
     return this.extentUnitsID != null;
   }
-  
+
   /**
    * Returns {@code true} if the UnitDefinition which has the extentUnitsID of this
    * Model as id is not {@code null}.
@@ -3558,7 +3559,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetExtentUnitsInstance() {
     return getExtentUnitsInstance() != null;
   }
-  
+
   /**
    * Returns {@code true} if the lengthUnitsID of this Model is not {@code null}.
    * 
@@ -3567,7 +3568,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetLengthUnits() {
     return this.lengthUnitsID != null;
   }
-  
+
   /**
    * Returns {@code true} if the UnitDefinition which has the lengthUnitsID of this
    * Model as id is not {@code null}.
@@ -3578,7 +3579,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetLengthUnitsInstance() {
     return getLengthUnitsInstance() != null;
   }
-  
+
   /**
    * Returns {@code true} if the listOfCompartments of this Model is not {@code null} and not
    * empty.
@@ -3589,7 +3590,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetListOfCompartments() {
     return (listOfCompartments != null) && (listOfCompartments.size() > 0);
   }
-  
+
   /**
    * Returns {@code true} if the listOfCompartmentTypes of this Model is not {@code null} and
    * not empty.
@@ -3603,7 +3604,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     return (listOfCompartmentTypes != null)
         && (listOfCompartmentTypes.size() > 0);
   }
-  
+
   /**
    * Returns {@code true} if the listOfConstraints of this Model is not {@code null} and not
    * empty.
@@ -3614,7 +3615,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetListOfConstraints() {
     return (listOfConstraints != null) && (listOfConstraints.size() > 0);
   }
-  
+
   /**
    * Returns {@code true} if the listOfEvents of this Model is not {@code null} and not empty.
    * 
@@ -3623,7 +3624,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetListOfEvents() {
     return (listOfEvents != null) && (listOfEvents.size() > 0);
   }
-  
+
   /**
    * Returns {@code true} if the listOfFunctionDefinitions of this Model is not {@code null} and
    * not empty.
@@ -3635,7 +3636,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     return (listOfFunctionDefinitions != null)
         && (listOfFunctionDefinitions.size() > 0);
   }
-  
+
   /**
    * Returns {@code true} if the listOfInitialAssignments of this Model is not {@code null} and
    * not empty.
@@ -3647,7 +3648,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     return (listOfInitialAssignments != null)
         && (listOfInitialAssignments.size() > 0);
   }
-  
+
   /**
    * Returns {@code true} if the listOfParameters of this Model is not {@code null} and not
    * empty.
@@ -3658,7 +3659,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetListOfParameters() {
     return (listOfParameters != null) && (listOfParameters.size() > 0);
   }
-  
+
   /**
    * Returns {@code true} if the listOfReactions of this Model is not {@code null} and not
    * empty.
@@ -3669,7 +3670,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetListOfReactions() {
     return (listOfReactions != null) && (listOfReactions.size() > 0);
   }
-  
+
   /**
    * Returns {@code true} if the listOfRules of this Model is not {@code null} and not empty.
    * 
@@ -3678,7 +3679,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetListOfRules() {
     return (listOfRules != null) && (listOfRules.size() > 0);
   }
-  
+
   /**
    * Returns {@code true} if the listOfSpecies of this Model is not {@code null} and not empty.
    * 
@@ -3687,7 +3688,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetListOfSpecies() {
     return (listOfSpecies != null) && (listOfSpecies.size() > 0);
   }
-  
+
   /**
    * Returns {@code true} if the listOfSpeciesTypes of this Model is not {@code null} and not
    * empty.
@@ -3700,7 +3701,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetListOfSpeciesTypes() {
     return (listOfSpeciesTypes != null) && (listOfSpeciesTypes.size() > 0);
   }
-  
+
   /**
    * Returns {@code true} if the listOfUnitDefinitions of this Model is not {@code null} and not
    * empty.
@@ -3712,7 +3713,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     return (listOfUnitDefinitions != null)
         && (listOfUnitDefinitions.size() > 0);
   }
-  
+
   /**
    * Returns the {@link History} of the Model. This is equivalent to the call
    * {@link SBase#isSetHistory()}.
@@ -3724,7 +3725,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetModelHistory() {
     return isSetHistory();
   }
-  
+
   /**
    * Returns {@code true} if the substanceUnitsID of this Model is not {@code null}.
    * 
@@ -3733,7 +3734,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetSubstanceUnits() {
     return this.substanceUnitsID != null;
   }
-  
+
   /**
    * Returns {@code true} if the UnitDefinition which has the substanceUnitsID of this
    * Model as id is not {@code null}.
@@ -3744,7 +3745,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetSubstanceUnitsInstance() {
     return getSubstanceUnitsInstance() != null;
   }
-  
+
   /**
    * Returns {@code true} if the timeUnitsID of this {@link Model} is not {@code null}.
    * 
@@ -3753,7 +3754,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetTimeUnits() {
     return this.timeUnitsID != null;
   }
-  
+
   /**
    * Returns {@code true} if the UnitsDefinition which has the timeUnistID of this Model
    * as id is not {@code null}.
@@ -3764,7 +3765,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetTimeUnitsInstance() {
     return getTimeUnitsInstance() != null;
   }
-  
+
   /**
    * Returns {@code true} if the volumeUnitsID of this Model is not {@code null}.
    * 
@@ -3773,7 +3774,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean isSetVolumeUnits() {
     return this.volumeUnitsID != null;
   }
-  
+
   /**
    * Returns {@code true} if the UnitDefinition which has the volumeUnitsID of this
    * Model as id is not {@code null}.
@@ -3791,7 +3792,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-    
+
     if (!isAttributeRead) {
       if (attributeName.equals("substanceUnits")) {
         setSubstanceUnits(value);
@@ -3832,42 +3833,42 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   private boolean registerId(KineticLaw kl, LocalParameter lp, boolean delete, boolean alreadyRegisteredInKL) {
     if (!alreadyRegisteredInKL) {
-        // Register local parameter within its kinetic law first.
-    	logger.debug("registerIds (LP): calling kineticLaw.registerLocalParameter !");
-    	// should never be called from the model in fact
-    	
-    	kl.registerLocalParameter(lp, delete);
-    }
-    
-    if (logger.isDebugEnabled()) {
-    	logger.debug((delete ? "un" : "") + "registerIds (LP): id = " + lp.getId() + "");
+      // Register local parameter within its kinetic law first.
+      logger.debug("registerIds (LP): calling kineticLaw.registerLocalParameter !");
+      // should never be called from the model in fact
+
+      kl.registerLocalParameter(lp, delete);
     }
 
-    if (lp.isSetId()) 
+    if (logger.isDebugEnabled()) {
+      logger.debug((delete ? "un" : "") + "registerIds (LP): id = " + lp.getId() + "");
+    }
+
+    if (lp.isSetId())
     {
-      Reaction r = kl.getParentSBMLObject();      
+      Reaction r = kl.getParentSBMLObject();
       String pId = lp.getId();
 
       if (logger.isDebugEnabled()) {
-    	  logger.debug("registerIds (LP): reaction = " + r + " (r.isSetId = " + r.isSetId() + ")");
+        logger.debug("registerIds (LP): reaction = " + r + " (r.isSetId = " + r.isSetId() + ")");
       }
-      if ((r != null)) 
+      if ((r != null))
       {
-        if (delete) 
+        if (delete)
         {
           if (mapOfLocalParameters != null) {
             List<Reaction> reactionList = mapOfLocalParameters.get(pId);
 
-            if (reactionList != null) 
+            if (reactionList != null)
             {
-            	
-            	boolean removed = reactionList.remove(r);
 
-            	if (!removed && logger.isDebugEnabled()) 
-            	{
-            		logger.debug("Reaction '" + r + "' was not removed from the mapOfLocalParameters");
-            	}
-            	
+              boolean removed = reactionList.remove(r);
+
+              if (!removed && logger.isDebugEnabled())
+              {
+                logger.debug("Reaction '" + r + "' was not removed from the mapOfLocalParameters");
+              }
+
               if (reactionList.isEmpty()) {
                 mapOfLocalParameters.remove(pId);
               }
@@ -3875,7 +3876,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
           }
           return true;
         }
-        else // register 
+        else // register
         {
           // add new key or reaction for this local parameter.
           if (mapOfLocalParameters == null) {
@@ -3885,12 +3886,12 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
             mapOfLocalParameters.put(pId, new ArrayList<Reaction>());
           }
           mapOfLocalParameters.get(pId).add(r);
-          
-          return true;          
-        }        
-      }      
+
+          return true;
+        }
+      }
     }
-    
+
     return false;
   }
 
@@ -3910,7 +3911,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   boolean registerId(NamedSBase nsb, boolean add) {
     return registerIds(nsb.getParentSBMLObject(), nsb, true, !add);
   }
-  
+
   /**
    * 
    * @param unsb
@@ -3924,8 +3925,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
 
       mapOfUniqueNamedSBases.remove(id);
       if (logger.isDebugEnabled()) {
-    	  logger.debug(MessageFormat.format("removed id={0} from model{1}",
-    			  id, (isSetId() ? " " + getId() : "")));
+        logger.debug(MessageFormat.format("removed id={0} from model{1}",
+          id, (isSetId() ? " " + getId() : "")));
       }
     } else if (unsb.isSetId()) {
       if (mapOfUniqueNamedSBases == null) {
@@ -3937,10 +3938,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
        * 
        * (2) In Level 1 UnitDefinitions and UniqueNamedSBases use the same namespace.
        */
-      if ((mapOfUniqueNamedSBases.containsKey(id) && 
+      if ((mapOfUniqueNamedSBases.containsKey(id) &&
           (mapOfUniqueNamedSBases.get(id) != unsb))
-        || ((unsb.getLevel() == 1) && (mapOfUnitDefinitions != null) && 
-            (mapOfUnitDefinitions.containsKey(id)))) 
+          || ((unsb.getLevel() == 1) && (mapOfUnitDefinitions != null) &&
+              (mapOfUnitDefinitions.containsKey(id))))
       {
         logger.error(MessageFormat.format(
           "An element with the id \"{0}\" is already present in this model {1}. The new element will not be added to the model.",
@@ -3949,15 +3950,15 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       }
       mapOfUniqueNamedSBases.put(id, unsb);
 
-      if (logger.isDebugEnabled()) {      
-    	  logger.debug(MessageFormat.format("registered id={0} in model {1}",
-    			  id, (isSetId() ? " " + getId() : "")));
+      if (logger.isDebugEnabled()) {
+        logger.debug(MessageFormat.format("registered id={0} in model {1}",
+          id, (isSetId() ? " " + getId() : "")));
       }
     }
 
     return true;
   }
-  
+
   /**
    * Registers the identifier and the corresponding {@link UnitDefinition}
    * itself
@@ -3976,8 +3977,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     if (add) {
       return mapOfUnitDefinitions.put(ud.getId(), ud) == null;
     }
-    
-    return mapOfUnitDefinitions.remove(ud.getId()) != null;    
+
+    return mapOfUnitDefinitions.remove(ud.getId()) != null;
   }
 
   /**
@@ -3990,80 +3991,80 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return {@code true} if this operation was successfully performed,
    *         {@code false} otherwise.
    */
-  boolean registerIds(SBase parent, SBase newElem, boolean recursively, boolean delete) 
+  boolean registerIds(SBase parent, SBase newElem, boolean recursively, boolean delete)
   {
-      /*
-       * the default return value is true to be able to register successfully objects that are
-       * not NamedSBase when the recursive boolean is set to false (happen with listOf objects for example).
-       * For these, the AbstractSBase.registerChild(SBase) method was throwing an exception although there was no problem.
-       */
-      boolean success = true;
+    /*
+     * the default return value is true to be able to register successfully objects that are
+     * not NamedSBase when the recursive boolean is set to false (happen with listOf objects for example).
+     * For these, the AbstractSBase.registerChild(SBase) method was throwing an exception although there was no problem.
+     */
+    boolean success = true;
 
-      logger.debug("registerIds (main): newElem = " + newElem.getElementName() + " (recursive = " + recursively + ")");
+    logger.debug("registerIds (main): newElem = " + newElem.getElementName() + " (recursive = " + recursively + ")");
 
-      if (newElem instanceof NamedSBase) 
+    if (newElem instanceof NamedSBase)
+    {
+      NamedSBase newNsb = (NamedSBase) newElem;
+
+      if (newNsb.isSetId())
       {
-    	  NamedSBase newNsb = (NamedSBase) newElem;
-    	
-    	  if (newNsb.isSetId()) 
-    	  {
-    		  if (newNsb instanceof UniqueNamedSBase) 
-    		  {
-    			  success &= registerId((UniqueNamedSBase) newNsb, delete);
-    		  }
-    		  else if ((newNsb instanceof LocalParameter) && (parent.getParent() != null)) 
-    		  {
-    			  success &= registerId((KineticLaw) parent.getParent(), (LocalParameter) newNsb, delete, true);
-    		  }
-    		  else if (newNsb instanceof UnitDefinition) 
-    		  {
-    		    success &= registerId((UnitDefinition) newNsb, !delete);
-    		  }
-    		  else 
-    		  {
-    			  // in L3 packages we might have different id namespaces
-    			  logger.error(MessageFormat.format(
-    					  "registerIds: the object {0} is neither a UniqueNamedSBase, a LocalParameter or a UnitDefinition so its id will not be registered in the Model.",
-    					  newNsb.getClass().getCanonicalName()));
-    		  }
-    	  } else if (!newNsb.isIdMandatory()) {
-    		  // do nothing
-    	  }
-      } 
-      
-      logger.debug("registerIds (main): success = " + success);
-      
-      if (recursively) {
-    	  for (int i = 0; (i < newElem.getChildCount()) && success; i++) {
-    		  TreeNode child = newElem.getChildAt(i);
-    		  if (child instanceof SBase) {
-    			  if (child instanceof LocalParameter) {
-    				  // The local parameter have already been registered in the KineticLaw in this case
-    				  logger.debug("registerIds (main): registering a LocalParameter.");
-    				  success &= registerId((KineticLaw) parent, (LocalParameter) child, delete, true);
-    				  
-    				  // we still need to register recursively the children of a LocalParameter
-    				  if (child.getChildCount() > 0) {
-    					  for (int j = 0; (j < child.getChildCount()) && success; j++) {
-    			    		  TreeNode lpChild = child.getChildAt(j);
-    			    		  
-    			    		  if (lpChild instanceof SBase) {
-    			    			  success &= registerIds((SBase) child, (SBase) lpChild, recursively, delete);
-    			    		  }
-    					  }
-    				  }
-    			  } else {
-    				  success &= registerIds(newElem, (SBase) child, recursively, delete);
-    			  }
-    		  }
-    	  }
-    	  
-    	  logger.debug("registerIds (main): success after recursion = " + success);
-    	  
-    	  return success;
+        if (newNsb instanceof UniqueNamedSBase)
+        {
+          success &= registerId((UniqueNamedSBase) newNsb, delete);
+        }
+        else if ((newNsb instanceof LocalParameter) && (parent.getParent() != null))
+        {
+          success &= registerId((KineticLaw) parent.getParent(), (LocalParameter) newNsb, delete, true);
+        }
+        else if (newNsb instanceof UnitDefinition)
+        {
+          success &= registerId((UnitDefinition) newNsb, !delete);
+        }
+        else
+        {
+          // in L3 packages we might have different id namespaces
+          logger.error(MessageFormat.format(
+            "registerIds: the object {0} is neither a UniqueNamedSBase, a LocalParameter or a UnitDefinition so its id will not be registered in the Model.",
+            newNsb.getClass().getCanonicalName()));
+        }
+      } else if (!newNsb.isIdMandatory()) {
+        // do nothing
+      }
+    }
+
+    logger.debug("registerIds (main): success = " + success);
+
+    if (recursively) {
+      for (int i = 0; (i < newElem.getChildCount()) && success; i++) {
+        TreeNode child = newElem.getChildAt(i);
+        if (child instanceof SBase) {
+          if (child instanceof LocalParameter) {
+            // The local parameter have already been registered in the KineticLaw in this case
+            logger.debug("registerIds (main): registering a LocalParameter.");
+            success &= registerId((KineticLaw) parent, (LocalParameter) child, delete, true);
+
+            // we still need to register recursively the children of a LocalParameter
+            if (child.getChildCount() > 0) {
+              for (int j = 0; (j < child.getChildCount()) && success; j++) {
+                TreeNode lpChild = child.getChildAt(j);
+
+                if (lpChild instanceof SBase) {
+                  success &= registerIds((SBase) child, (SBase) lpChild, recursively, delete);
+                }
+              }
+            }
+          } else {
+            success &= registerIds(newElem, (SBase) child, recursively, delete);
+          }
+        }
       }
 
+      logger.debug("registerIds (main): success after recursion = " + success);
+
       return success;
+    }
+
+    return success;
   }
 
   /**
@@ -4088,16 +4089,16 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       }
     }
     logger.warn(MessageFormat.format(
-      "Could not find any {0} for the given id \"{1}\".",
+      "Could not find any {0} for the given id ''{1}''.",
       (clazz != null) ? "instance of " + clazz.getSimpleName() : "element", id));
     return null;
   }
-  
+
   /**
    * Removes any {@link UniqueNamedSBase} with the given identifier from this
    * {@link Model} and returns the removed element if the operation was
-   * successfull. Note that this method cannot be used to remove 
-   * {@link UnitDefinition}s from this {@link Model} because 
+   * successfull. Note that this method cannot be used to remove
+   * {@link UnitDefinition}s from this {@link Model} because
    * {@link UnitDefinition}s exist in a separate namespace that might have
    * overlapping identifiers. It would therefore not be clear, which element
    * to remove in case of a identifier clash.
@@ -4110,7 +4111,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public <T extends UniqueNamedSBase> T remove(String id) {
     return remove(null, id);
   }
-  
+
   /**
    * Removes the i-th {@link Compartment} of the {@link Model}.
    * 
@@ -4131,7 +4132,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Compartment removeCompartment(String id) {
     return remove(Compartment.class, id);
   }
-  
+
   /**
    * Removes the n-th {@link CompartmentType} of the {@link Model}.
    * 
@@ -4144,7 +4145,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public CompartmentType removeCompartmentType(int n) {
     return getListOfCompartmentTypes().remove(n);
   }
-  
+
   /**
    * Removes the {@link CompartmentType} of the {@link Model} with 'id' as id.
    * 
@@ -4156,7 +4157,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public CompartmentType removeCompartmentType(String id) {
     return remove(CompartmentType.class, id);
   }
-  
+
   /**
    * Removes the n-th {@link Constraint} of the {@link Model}.
    * 
@@ -4166,7 +4167,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Constraint removeConstraint(int n) {
     return getListOfConstraints().remove(n);
   }
-  
+
   /**
    * Removes the n-th {@link Event} of the {@link Model}.
    * 
@@ -4176,7 +4177,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Event removeEvent(int n) {
     return getListOfEvents().remove(n);
   }
-  
+
   /**
    * Removes the {@link Event} of the {@link Model} with 'id' as id.
    * 
@@ -4186,7 +4187,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Event removeEvent(String id) {
     return remove(Event.class, id);
   }
-  
+
   /**
    * Removes the n-th {@link FunctionDefinition} of the {@link Model}.
    * 
@@ -4196,7 +4197,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public FunctionDefinition removeFunctionDefinition(int n) {
     return getListOfFunctionDefinitions().remove(n);
   }
-  
+
   /**
    * Removes the {@link FunctionDefinition} of the {@link Model} with 'id' as
    * id.
@@ -4207,7 +4208,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public FunctionDefinition removeFunctionDefinition(String id) {
     return remove(FunctionDefinition.class, id);
   }
-  
+
   /**
    * Removes the n-th {@link InitialAssignment} of the {@link Model}.
    * 
@@ -4217,7 +4218,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public InitialAssignment removeInitialAssignment(int n) {
     return getListOfInitialAssignments().remove(n);
   }
-  
+
   /**
    * Removes the n-th {@link Parameter} of the {@link Model}.
    * 
@@ -4227,7 +4228,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Parameter removeParameter(int n) {
     return getListOfParameters().remove(n);
   }
-  
+
   /**
    * Removes the Parameter 'parameter' from this Model.
    * 
@@ -4237,7 +4238,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean removeParameter(Parameter parameter) {
     return getListOfParameters().remove(parameter);
   }
-  
+
   /**
    * Removes the {@link Parameter} of the {@link Model} with 'id' as id.
    * 
@@ -4248,7 +4249,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     // TODO: Check if this parameter is also linked to the model as conversion factor etc. Should we also remove references/display a warning?
     return remove(Parameter.class, id);
   }
-  
+
   /**
    * Removes the n-th {@link Reaction} of the {@link Model}.
    * 
@@ -4258,7 +4259,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Reaction removeReaction(int n) {
     return getListOfReactions().remove(n);
   }
-  
+
   /**
    * Removes a reaction from the model.
    * 
@@ -4268,7 +4269,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean removeReaction(Reaction reac) {
     return getListOfReactions().remove(reac);
   }
-  
+
   /**
    * Removes the {@link Reaction} of the {@link Model} with 'id' as id.
    * 
@@ -4278,7 +4279,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Reaction removeReaction(String id) {
     return remove(Reaction.class, id);
   }
-  
+
   /**
    * Removes the i-th {@link Rule} of the {@link Model}.
    * 
@@ -4288,7 +4289,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Rule removeRule(int i) {
     return getListOfRules().remove(i);
   }
-  
+
   /**
    * Removes the {@link Rule} of the {@link Model} with 'variableId' as
    * variable.
@@ -4300,7 +4301,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     return getListOfRules().removeFirst(
       new AssignmentVariableFilter(variableId));
   }
-  
+
   /**
    * Removes the i-th {@link Species} of the {@link Model}.
    * 
@@ -4310,7 +4311,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Species removeSpecies(int i) {
     return getListOfSpecies().remove(i);
   }
-  
+
   /**
    * Removes a species from the model.
    * 
@@ -4320,7 +4321,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public boolean removeSpecies(Species spec) {
     return getListOfSpecies().remove(spec);
   }
-  
+
   /**
    * Removes the {@link Species} of the {@link Model} with 'id' as id.
    * 
@@ -4330,7 +4331,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public Species removeSpecies(String id) {
     return remove(Species.class, id);
   }
-  
+
   /**
    * Removes the n-th {@link SpeciesType} of the {@link Model}.
    * 
@@ -4342,7 +4343,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public SpeciesType removeSpeciesType(int n) {
     return getListOfSpeciesTypes().remove(n);
   }
-  
+
   /**
    * Removes the {@link SpeciesType} of the {@link Model} with 'id' as id.
    * 
@@ -4354,7 +4355,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public SpeciesType removeSpeciesType(String id) {
     return remove(SpeciesType.class, id);
   }
-  
+
   /**
    * Removes the n-th {@link UnitDefinition} of the {@link Model}.
    * 
@@ -4364,8 +4365,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public UnitDefinition removeUnitDefinition(int n) {
     return getListOfUnitDefinitions().remove(n);
   }
-  
-	/**
+
+  /**
    * Removes the {@link UnitDefinition} of the {@link Model} with 'id' as id.
    * 
    * @param id
@@ -4382,7 +4383,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       UnitDefinition.class.getSimpleName(), id));
     return null;
   }
-  
+
   /**
    * Removes a {@link UnitDefinition} of the {@link Model}.
    * 
@@ -4402,14 +4403,14 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *             if Level < 3.
    */
   public void setAreaUnits(String areaUnitsID) {
-	  if (getLevel() < 3) {
-		  throw new PropertyNotAvailableException(TreeNodeChangeEvent.areaUnits,
-				  this);
-	  }
-	  String oldAreaUnitsID = this.areaUnitsID;
-	  this.areaUnitsID = areaUnitsID;
-	  firePropertyChange(TreeNodeChangeEvent.areaUnits, oldAreaUnitsID,
-			  areaUnitsID);
+    if (getLevel() < 3) {
+      throw new PropertyNotAvailableException(TreeNodeChangeEvent.areaUnits,
+        this);
+    }
+    String oldAreaUnitsID = this.areaUnitsID;
+    this.areaUnitsID = areaUnitsID;
+    firePropertyChange(TreeNodeChangeEvent.areaUnits, oldAreaUnitsID,
+      areaUnitsID);
   }
 
   /**
@@ -4419,10 +4420,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param areaUnits
    */
   public void setAreaUnits(UnitDefinition areaUnits) {
-	  if (!getListOfUnitDefinitions().contains(areaUnits)) {
-		  addUnitDefinition(areaUnits);
-	  }
-	  setAreaUnits(areaUnits != null ? areaUnits.getId() : null);
+    if (!getListOfUnitDefinitions().contains(areaUnits)) {
+      addUnitDefinition(areaUnits);
+    }
+    setAreaUnits(areaUnits != null ? areaUnits.getId() : null);
   }
 
   /**
@@ -4432,9 +4433,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param conversionFactor
    */
   public void setConversionFactor(Parameter conversionFactor) {
-	  setConversionFactor(conversionFactor != null ? conversionFactor.getId() : null);
+    setConversionFactor(conversionFactor != null ? conversionFactor.getId() : null);
   }
-  
+
   /**
    * Sets the conversionFactorID of this {@link Model} to
    * 'conversionFactorID'.
@@ -4443,15 +4444,15 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @throws PropertyNotAvailableException if Level < 3.
    */
   public void setConversionFactor(String conversionFactorID) {
-	  if (getLevel() < 3) {
-	    throw new PropertyNotAvailableException(TreeNodeChangeEvent.conversionFactor, this);
-	  }
-	  String oldConversionFactorID = this.conversionFactorID;
-	  this.conversionFactorID = conversionFactorID;
-	  firePropertyChange(TreeNodeChangeEvent.conversionFactor,
-			  oldConversionFactorID, conversionFactorID);
+    if (getLevel() < 3) {
+      throw new PropertyNotAvailableException(TreeNodeChangeEvent.conversionFactor, this);
+    }
+    String oldConversionFactorID = this.conversionFactorID;
+    this.conversionFactorID = conversionFactorID;
+    firePropertyChange(TreeNodeChangeEvent.conversionFactor,
+      oldConversionFactorID, conversionFactorID);
   }
-  
+
   /**
    * Sets the extendUnitsID of this {@link Model} to 'extentUnitsID'.
    * 
@@ -4460,16 +4461,16 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *             if Level < 3.
    */
   public void setExtentUnits(String extentUnitsID) {
-	  if (getLevel() < 3) { 
-		  throw new PropertyNotAvailableException(
-			  TreeNodeChangeEvent.extentUnits, this);
-	  }
-	  String oldExtentUnits = this.extentUnitsID;
-	  this.extentUnitsID = extentUnitsID;
-	  firePropertyChange(TreeNodeChangeEvent.extentUnits, oldExtentUnits,
-			  extentUnitsID);
+    if (getLevel() < 3) {
+      throw new PropertyNotAvailableException(
+        TreeNodeChangeEvent.extentUnits, this);
+    }
+    String oldExtentUnits = this.extentUnitsID;
+    this.extentUnitsID = extentUnitsID;
+    firePropertyChange(TreeNodeChangeEvent.extentUnits, oldExtentUnits,
+      extentUnitsID);
   }
-  
+
   /**
    * Sets the extentUnitsID of this {@link Model} to the id of the
    * {@link UnitDefinition} 'extentUnits'.
@@ -4482,7 +4483,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     setExtentUnits(extentUnits != null ? extentUnits.getId() : null);
   }
-  
+
   /**
    * Sets the lengthUnitsID of this {@link Model} to 'lengthUnitsID'.
    * 
@@ -4498,7 +4499,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     firePropertyChange(TreeNodeChangeEvent.lengthUnits, oldLengthUnits,
       lengthUnitsID);
   }
-  
+
   /**
    * Sets the lengthUnitsID of this {@link Model} to the id of the
    * UnitDefinition 'lengthUnits'.
@@ -4511,7 +4512,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     setLengthUnits(lengthUnits != null ? lengthUnits.getId() : null);
   }
-  
+
   /**
    * Sets the listOfCompartments of this {@link Model} to 'listOfCompartments'.
    * Automatically sets the parentSBML objects of 'listOfCompartments' to this
@@ -4524,11 +4525,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     this.listOfCompartments = listOfCompartments;
     if ((this.listOfCompartments != null)
         && (this.listOfCompartments.getSBaseListType() != ListOf.Type.listOfCompartments)) {
-      this.listOfCompartments.setSBaseListType(ListOf.Type.listOfCompartments);    
+      this.listOfCompartments.setSBaseListType(ListOf.Type.listOfCompartments);
     }
-    registerChild(this.listOfCompartments);    
+    registerChild(this.listOfCompartments);
   }
-  
+
   /**
    * Sets the listOfCompartmentTypes of this Model to 'listOfCompartmentTypes'.
    * Automatically sets the parentSBML objects of 'listOfCompartmentTypes' to
@@ -4546,11 +4547,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     if ((this.listOfCompartmentTypes != null)
         && (this.listOfCompartmentTypes.getSBaseListType() != ListOf.Type.listOfCompartmentTypes)) {
       this.listOfCompartmentTypes
-          .setSBaseListType(ListOf.Type.listOfCompartmentTypes);
+      .setSBaseListType(ListOf.Type.listOfCompartmentTypes);
     }
     registerChild(this.listOfCompartmentTypes);
   }
-  
+
   /**
    * Sets the listOfConstraints of this {@link Model} to 'listOfConstraints'.
    * Automatically sets the parentSBML objects of 'listOfCanstraints' to this
@@ -4568,7 +4569,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     registerChild(this.listOfConstraints);
   }
-  
+
   /**
    * Sets the listOfEvents of this {@link Model} to 'listOfEvents'.
    * Automatically sets the parentSBML objects of 'listOfEvents' to this
@@ -4585,7 +4586,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     registerChild(this.listOfEvents);
   }
-  
+
   /**
    * Sets the listOfFunctionDefinitions of this {@link Model} to
    * 'listOfFunctionDefinitions'. Automatically sets the parentSBML objects of
@@ -4601,11 +4602,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     if ((this.listOfFunctionDefinitions != null)
         && (this.listOfFunctionDefinitions.getSBaseListType() != ListOf.Type.listOfFunctionDefinitions)) {
       this.listOfFunctionDefinitions
-          .setSBaseListType(ListOf.Type.listOfFunctionDefinitions);
+      .setSBaseListType(ListOf.Type.listOfFunctionDefinitions);
     }
     registerChild(this.listOfFunctionDefinitions);
   }
-  
+
   /**
    * Sets the {@link #listOfInitialAssignments} of this {@link Model} to
    * 'listOfInitialAssignments'. Automatically sets the parentSBML objects of
@@ -4621,11 +4622,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     if ((this.listOfInitialAssignments != null)
         && (this.listOfInitialAssignments.getSBaseListType() != ListOf.Type.listOfInitialAssignments)) {
       this.listOfInitialAssignments
-          .setSBaseListType(ListOf.Type.listOfInitialAssignments);
+      .setSBaseListType(ListOf.Type.listOfInitialAssignments);
     }
     registerChild(this.listOfInitialAssignments);
   }
-  
+
   /**
    * Sets the {@link #listOfParameters} of this {@link Model} to
    * 'listOfParameters'. Automatically sets the parentSBML objects of
@@ -4642,7 +4643,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     registerChild(listOfParameters);
   }
-  
+
   /**
    * Sets the {@link #listOfReactions} of this {@link Model} to
    * 'listOfReactions'. Automatically sets the parentSBML objects of
@@ -4657,9 +4658,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
         && (this.listOfReactions.getSBaseListType() != ListOf.Type.listOfReactions)) {
       this.listOfReactions.setSBaseListType(ListOf.Type.listOfReactions);
     }
-    registerChild(this.listOfReactions); 
+    registerChild(this.listOfReactions);
   }
-  
+
   /**
    * Sets the {@link #listOfRules} of this {@link Model} to 'listOfRules'.
    * Automatically sets the parentSBML objects of 'listOfRules' to this Model.
@@ -4675,7 +4676,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     registerChild(this.listOfRules);
   }
-  
+
   /**
    * Sets the listOfSpecies of this {@link Model} to 'listOfSpecies'.
    * Automatically sets the parentSBML objects of 'listOfSpecies' to this Model.
@@ -4691,7 +4692,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     registerChild(this.listOfSpecies);
   }
-  
+
   /**
    * Sets the listOfSpeciesTypes of this Model to 'listOfSpeciesTypes'.
    * Automatically sets the parentSBML objects of 'listOfSpeciesTypes' to this
@@ -4711,7 +4712,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     registerChild(this.listOfSpeciesTypes);
   }
-  
+
   /**
    * Sets the listOfUnitDefinitions of this {@link Model} to
    * 'listOfUnitDefinitions'. Automatically sets the parentSBML objects of
@@ -4720,17 +4721,17 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param listOfUnitDefinitions
    */
   public void setListOfUnitDefinitions(
-		  ListOf<UnitDefinition> listOfUnitDefinitions) {
-	  unsetListOfUnitDefinitions();
-	  this.listOfUnitDefinitions = listOfUnitDefinitions;
-	  if ((this.listOfUnitDefinitions != null)
-			  && (this.listOfUnitDefinitions.getSBaseListType() != ListOf.Type.listOfUnitDefinitions)) {
-		  this.listOfUnitDefinitions
-		  .setSBaseListType(ListOf.Type.listOfUnitDefinitions);
-	  }
-	  registerChild(this.listOfUnitDefinitions);
+    ListOf<UnitDefinition> listOfUnitDefinitions) {
+    unsetListOfUnitDefinitions();
+    this.listOfUnitDefinitions = listOfUnitDefinitions;
+    if ((this.listOfUnitDefinitions != null)
+        && (this.listOfUnitDefinitions.getSBaseListType() != ListOf.Type.listOfUnitDefinitions)) {
+      this.listOfUnitDefinitions
+      .setSBaseListType(ListOf.Type.listOfUnitDefinitions);
+    }
+    registerChild(this.listOfUnitDefinitions);
   }
-  
+
   /**
    * @see #setHistory(History history)
    * @param history
@@ -4749,14 +4750,14 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *             if Level < 3.
    */
   public void setSubstanceUnits(String substanceUnitsID) {
-	  if (getLevel() < 3) { 
-		  throw new PropertyNotAvailableException(
-			  TreeNodeChangeEvent.substanceUnits, this);
-	  }
-	  String oldSubstanceUnitsID = this.substanceUnitsID;
-	  this.substanceUnitsID = substanceUnitsID;
-	  firePropertyChange(TreeNodeChangeEvent.substanceUnits, oldSubstanceUnitsID,
-			  substanceUnitsID);
+    if (getLevel() < 3) {
+      throw new PropertyNotAvailableException(
+        TreeNodeChangeEvent.substanceUnits, this);
+    }
+    String oldSubstanceUnitsID = this.substanceUnitsID;
+    this.substanceUnitsID = substanceUnitsID;
+    firePropertyChange(TreeNodeChangeEvent.substanceUnits, oldSubstanceUnitsID,
+      substanceUnitsID);
   }
 
   /**
@@ -4771,7 +4772,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     setSubstanceUnits(substanceUnits != null ? substanceUnits.getId() : null);
   }
-  
+
   /**
    * Sets the timeUnits of this {@link Model} to 'timeUnistID'
    * 
@@ -4780,16 +4781,16 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *             if Level < 3.
    */
   public void setTimeUnits(String timeUnitsID) {
-	  if (getLevel() < 3) { 
-	    throw new PropertyNotAvailableException(
-			  TreeNodeChangeEvent.timeUnits, this);
-	  }
-	  String oldTimeUnitsID = this.timeUnitsID;
-	  this.timeUnitsID = timeUnitsID;
-	  firePropertyChange(TreeNodeChangeEvent.timeUnits, oldTimeUnitsID,
-			  timeUnitsID);
+    if (getLevel() < 3) {
+      throw new PropertyNotAvailableException(
+        TreeNodeChangeEvent.timeUnits, this);
+    }
+    String oldTimeUnitsID = this.timeUnitsID;
+    this.timeUnitsID = timeUnitsID;
+    firePropertyChange(TreeNodeChangeEvent.timeUnits, oldTimeUnitsID,
+      timeUnitsID);
   }
-  
+
   /**
    * Sets the timeUnitsID of this {@link Model} to the id of the
    * {@link UnitDefinition} 'timeUnits'.
@@ -4802,7 +4803,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     setTimeUnits(timeUnits != null ? timeUnits.getId() : null);
   }
-  
+
   /**
    * Sets the volumeUnitsID of this {@link Model} to 'volumeUnitsID'
    * 
@@ -4811,16 +4812,16 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *             if Level < 3.
    */
   public void setVolumeUnits(String volumeUnitsID) {
-	  if (getLevel() < 3) { 
-		  throw new PropertyNotAvailableException(TreeNodeChangeEvent.volumeUnits,
-				  this);
-	  }
-	  String oldVolumeUnitsID = this.volumeUnitsID;
-	  this.volumeUnitsID = volumeUnitsID;
-	  firePropertyChange(TreeNodeChangeEvent.volumeUnits, oldVolumeUnitsID,
-			  this.volumeUnitsID);
+    if (getLevel() < 3) {
+      throw new PropertyNotAvailableException(TreeNodeChangeEvent.volumeUnits,
+        this);
+    }
+    String oldVolumeUnitsID = this.volumeUnitsID;
+    this.volumeUnitsID = volumeUnitsID;
+    firePropertyChange(TreeNodeChangeEvent.volumeUnits, oldVolumeUnitsID,
+      this.volumeUnitsID);
   }
-  
+
   /**
    * Sets the volumeUnitsID of this {@link Model} to the id of the
    * {@link UnitDefinition} 'volumeUnits'.
@@ -4833,35 +4834,35 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     setVolumeUnits(volumeUnits != null ? volumeUnits.getId() : null);
   }
-  
+
   /**
    * Sets the {@link #areaUnitsID} of this {@link Model} to {@code null}.
    */
   public void unsetAreaUnits() {
     setAreaUnits((String) null);
   }
-  
+
   /**
    * Sets the {@link #conversionFactorID} of this {@link Model} to {@code null}.
    */
   public void unsetConversionFactor() {
     setConversionFactor((String) null);
   }
-  
+
   /**
    * Sets the {@link #extentUnitsID} of this {@link Model} to {@code null}.
    */
   public void unsetExtentUnits() {
     setExtentUnits((String) null);
   }
-  
+
   /**
    * Sets the {@link #lengthUnitsID} of this {@link Model} to {@code null}.
    */
   public void unsetLengthUnits() {
     setLengthUnits((String) null);
   }
-  
+
   /**
    * Removes the {@link #listOfCompartments} from this {@link Model} and
    * notifies all registered instances of {@link TreeNodeChangeListener}.
@@ -4878,7 +4879,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return false;
   }
-  
+
   /**
    * Removes the {@link #listOfCompartmentTypes} from this {@link Model} and
    * notifies all registered instances of {@link TreeNodeChangeListener}.
@@ -4897,7 +4898,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return false;
   }
-  
+
   /**
    * Removes the {@link #listOfConstraints} from this {@link Model} and notifies
    * all registered instances of {@link TreeNodeChangeListener}.
@@ -4914,7 +4915,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return false;
   }
-  
+
   /**
    * Removes the {@link #listOfEvents} from this {@link Model} and notifies all
    * registered instances of {@link TreeNodeChangeListener}.
@@ -4931,7 +4932,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return false;
   }
-  
+
   /**
    * Removes the {@link #listOfFunctionDefinitions} from this {@link Model} and
    * notifies all registered instances of {@link TreeNodeChangeListener}.
@@ -4948,7 +4949,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return false;
   }
-  
+
   /**
    * Removes the {@link #listOfInitialAssignments} from this {@link Model} and
    * notifies all registered instances of {@link TreeNodeChangeListener}.
@@ -4965,7 +4966,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return false;
   }
-  
+
   /**
    * Removes the {@link #listOfParameters} from this {@link Model} and notifies
    * all registered instances of {@link TreeNodeChangeListener}.
@@ -4982,7 +4983,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return false;
   }
-  
+
   /**
    * Removes the {@link #listOfReactions} from this {@link Model} and notifies
    * all registered instances of {@link TreeNodeChangeListener}.
@@ -4999,7 +5000,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return false;
   }
-  
+
   /**
    * Removes the {@link #listOfRules} from this {@link Model} and notifies all
    * registered instances of {@link TreeNodeChangeListener}.
@@ -5016,7 +5017,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return false;
   }
-  
+
   /**
    * Removes the {@link #listOfSpecies} from this {@link Model} and notifies all
    * registered instances of {@link TreeNodeChangeListener}.
@@ -5033,7 +5034,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return false;
   }
-  
+
   /**
    * Removes the {@link #listOfSpeciesTypes} from this {@link Model} and
    * notifies all registered instances of {@link TreeNodeChangeListener}.
@@ -5052,7 +5053,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return false;
   }
-  
+
   /**
    * Removes the {@link #listOfUnitDefinitions} from this {@link Model} and
    * notifies all registered instances of {@link TreeNodeChangeListener}.
@@ -5069,7 +5070,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return false;
   }
-  
+
   /**
    * @see #unsetHistory()
    * @deprecated use {@link #unsetHistory()}.
@@ -5078,7 +5079,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public void unsetModelHistory() {
     unsetHistory();
   }
-  
+
   /**
    * Sets the {@link #substanceUnitsID} of this {@link Model} to {@code null}.
    */
@@ -5092,7 +5093,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public void unsetTimeUnits() {
     setTimeUnits((String) null);
   }
-  
+
   /**
    * Sets the {@link #volumeUnitsID} of this {@link Model} to {@code null}.
    */

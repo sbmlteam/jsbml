@@ -793,7 +793,7 @@ public class Event extends AbstractNamedSBaseWithUnit implements
 	public void setPriority(Priority priority) {
 		if (getLevel() < 3) {
 			throw new PropertyNotAvailableException(TreeNodeChangeEvent.priority,
-					this);
+			  this);
 		}
 		unsetPriority();
 		this.priority = priority;

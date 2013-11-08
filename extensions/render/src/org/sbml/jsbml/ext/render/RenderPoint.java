@@ -72,7 +72,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
-  //@Override
+  @Override
   public RenderPoint clone() {
 		return new RenderPoint(this);
 	}
@@ -110,7 +110,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#getX()
    */
-  //@Override
+  @Override
   public double getX() {
     if (isSetX()) {
       return x;
@@ -122,7 +122,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#getY()
    */
-  //@Override
+  @Override
   public double getY() {
     if (isSetY()) {
       return y;
@@ -134,7 +134,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#getZ()
    */
-  //@Override
+  @Override
   public double getZ() {
     if (isSetZ()) {
       return z;
@@ -154,7 +154,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#isAbsoluteX()
    */
-  //@Override
+  @Override
   public boolean isAbsoluteX() {
     if (isSetAbsoluteX()) {
       return absoluteX;
@@ -166,7 +166,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#isAbsoluteY()
    */
-  //@Override
+  @Override
   public boolean isAbsoluteY() {
     if (isSetAbsoluteY()) {
       return absoluteY;
@@ -178,7 +178,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#isAbsoluteZ()
    */
-  //@Override
+  @Override
   public boolean isAbsoluteZ() {
     if (isSetAbsoluteZ()) {
       return absoluteZ;
@@ -190,7 +190,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#isSetAbsoluteX()
    */
-  //@Override
+  @Override
   public boolean isSetAbsoluteX() {
     return this.absoluteX != null;
   }
@@ -198,7 +198,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#isSetAbsoluteY()
    */
-  //@Override
+  @Override
   public boolean isSetAbsoluteY() {
     return this.absoluteY != null;
   }
@@ -206,7 +206,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#isSetAbsoluteZ()
    */
-  //@Override
+  @Override
   public boolean isSetAbsoluteZ() {
     return this.absoluteZ != null;
   }
@@ -214,7 +214,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#isSetX()
    */
-  //@Override
+  @Override
   public boolean isSetX() {
     return this.x != null;
   }
@@ -222,7 +222,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#isSetY()
    */
-  //@Override
+  @Override
   public boolean isSetY() {
     return this.y != null;
   }
@@ -230,7 +230,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#isSetZ()
    */
-  //@Override
+  @Override
   public boolean isSetZ() {
     return this.z != null;
   }
@@ -238,7 +238,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#setAbsoluteX(java.lang.Boolean)
    */
-  //@Override
+  @Override
   public void setAbsoluteX(Boolean absoluteX) {
     Boolean oldAbsoluteX = this.absoluteX;
     this.absoluteX = absoluteX;
@@ -248,7 +248,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#setAbsoluteY(java.lang.Boolean)
    */
-  //@Override
+  @Override
   public void setAbsoluteY(Boolean absoluteY) {
     Boolean oldAbsoluteY = this.absoluteY;
     this.absoluteY = absoluteY;
@@ -258,7 +258,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
 	/* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#setAbsoluteZ(java.lang.Boolean)
    */
-  //@Override
+  @Override
   public void setAbsoluteZ(Boolean absoluteZ) {
     Boolean oldAbsoluteZ = this.absoluteZ;
     this.absoluteZ = absoluteZ;
@@ -268,7 +268,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#setX(java.lang.Double)
    */
-  //@Override
+  @Override
   public void setX(Double x) {
     Double oldX = this.x;
     this.x = x;
@@ -278,7 +278,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#setY(java.lang.Double)
    */
-  //@Override
+  @Override
   public void setY(Double y) {
     Double oldY = this.y;
     this.y = y;
@@ -288,7 +288,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#setZ(java.lang.Double)
    */
-  //@Override
+  @Override
   public void setZ(Double z) {
     Double oldZ = this.z;
     this.z = z;
@@ -298,7 +298,6 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#toString()
    */
-  //@Override
   @Override
   public String toString() {
 		// TODO Auto-generated method stub
@@ -321,7 +320,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#unsetAbsoluteY()
    */
-  //@Override
+  @Override
   public boolean unsetAbsoluteY() {
     if (isSetAbsoluteY()) {
       Boolean oldAbsoluteY = this.absoluteY;
@@ -335,7 +334,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#unsetAbsoluteZ()
    */
-  //@Override
+  @Override
   public boolean unsetAbsoluteZ() {
     if (isSetAbsoluteZ()) {
       Boolean oldAbsoluteZ = this.absoluteZ;
@@ -349,7 +348,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#unsetX()
    */
-  //@Override
+  @Override
   public boolean unsetX() {
     if (isSetX()) {
       Double oldX = this.x;
@@ -363,7 +362,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#unsetY()
    */
-  //@Override
+  @Override
   public boolean unsetY() {
     if (isSetY()) {
       Double oldY = this.y;
@@ -377,7 +376,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#unsetZ()
    */
-  //@Override
+  @Override
   public boolean unsetZ() {
     if (isSetZ()) {
       Double oldZ = this.z;

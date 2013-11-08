@@ -116,7 +116,7 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
-	//@Override
+	@Override
 	public BoundingBox clone() {
 		return new BoundingBox(this);
 	}

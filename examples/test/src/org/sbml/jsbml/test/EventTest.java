@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.test;
 
 import javax.xml.stream.XMLStreamException;
@@ -82,4 +81,5 @@ public class EventTest extends SimpleTreeNodeChangeListener {
 			XMLStreamException, SBMLException {
 		new EventTest();
 	}
+
 }

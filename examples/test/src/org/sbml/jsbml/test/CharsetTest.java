@@ -18,31 +18,42 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.test;
 
-import java.lang.reflect.TypeVariable;
-
-import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.Species;
+import java.util.regex.Pattern;
 
 /**
- * 
- * @author 
+ * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
-public class ListTest {
+public class CharsetTest {
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		ListOf<Species> los = new ListOf<Species>();
-		TypeVariable<?> v[] = los.getClass().getTypeParameters();
-		for (int i = 0; i < v.length; i++) {
-			System.out.println(v[i].getGenericDeclaration());
-		}
+		String underscore = "_";
+		String letter = "a-zA-Z";
+		String digit = "0-9";
+		String idChar = letter + digit + underscore;
+
+		/*
+		 * Level 1
+		 */
+		String SNameL1V1 = underscore + "*[" + letter + "][" + idChar + "]*";
+		String SNameL1V2 = "[" + letter + underscore + "][" + idChar + "]*";
+		/*
+		 * Level 2 and beyond
+		 */
+		String SIdL2 = "[" + letter + underscore + "][" + idChar + "]*";
+		System.out.println(SIdL2);
+		
+		String testId = "Z_1_a_q3_c9";
+		System.out.printf("%s\t%s\t%s\n", testId, SNameL1V1, Pattern.matches(
+				SNameL1V1, testId));
+		System.out.printf("%s\t%s\t%s\n", testId, SNameL1V2, Pattern.matches(
+				SNameL1V2, testId));
 	}
 
 }

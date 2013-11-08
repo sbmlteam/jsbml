@@ -26,7 +26,6 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
-import org.sbml.jsbml.ext.SBasePlugin;
 
 /**
  * 
@@ -92,7 +91,7 @@ public class MultiSpeciesReference extends AbstractSBasePlugin {
 		return null;
 	}
 
-	//@Override
+	@Override
 	public MultiSpeciesReference clone() {
 		// TODO Auto-generated method stub
 		return null;

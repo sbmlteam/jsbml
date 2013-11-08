@@ -220,13 +220,11 @@ public class MultiParser extends AbstractReaderWriter {
 		return contextObject;
 	}
 
-	/**
-	 * 
-	 * @param listOf
-	 * @param elementName
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#createListOfChild(org.sbml.jsbml.ListOf, java.lang.String)
 	 */
-	private Object createListOfChild(ListOf<?> listOf, String elementName) {
+	@Override
+	protected Object createListOfChild(ListOf<?> listOf, String elementName) {
 
 		Object parentSBase = listOf.getParent();
 		

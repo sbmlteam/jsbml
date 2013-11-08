@@ -289,8 +289,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * This method is convenient when holding an object nested inside other
-   * objects in an SBML model. It allows direct access to the &lt;model&gt;
-   * 
+   * objects in an SBML model. It allows direct access to the next SBML
    * element containing it.
    * 
    * @return the parent SBML object.

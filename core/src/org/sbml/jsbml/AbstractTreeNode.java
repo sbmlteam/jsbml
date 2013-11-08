@@ -2,13 +2,13 @@
  * $Id$
  * $URL$
  *
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2013 jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
+ * Copyright (C) 2009-2013 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 
@@ -18,7 +18,7 @@
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
- */ 
+ */
 package org.sbml.jsbml;
 
 import java.lang.reflect.Field;
@@ -53,686 +53,700 @@ import org.sbml.jsbml.util.filters.Filter;
  */
 public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 8629109724566600238L;
-	
-	/**
-	 * A {@link Logger} for this class.
-	 */
-	private static final Logger logger = Logger.getLogger(AbstractTreeNode.class);
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 8629109724566600238L;
 
-	/**
-	 * Searches the given child in the list of sub-nodes of the parent element.
-	 * 
-	 * @param parent
-	 * @param child
-	 * @return the index of the child in the parent's list of children or -1 if no
-	 *         such child can be found.
-	 */
-	@SuppressWarnings("unchecked")
-	public static int indexOf(TreeNode parent, TreeNode child) {
-		if (child == null) {
-			throw new IllegalArgumentException("Argument is null.");
-		}
-		// linear search
-		Enumeration<TreeNode> e = parent.children();
-		for (int i = 0; e.hasMoreElements(); i++) {
-			TreeNode elem = e.nextElement();
-			if ((child == elem) || child.equals(elem)) {
-				return i;
-			}
-		}
-		// not found => node is not a child.
-		return -1;
-	}
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final Logger logger = Logger.getLogger(AbstractTreeNode.class);
 
-	/**
-	 * {@link List} of listeners for this component
-	 */
-	protected List<TreeNodeChangeListener> listOfListeners;
+  /**
+   * Searches the given child in the list of sub-nodes of the parent element.
+   * 
+   * @param parent
+   * @param child
+   * @return the index of the child in the parent's list of children or -1 if no
+   *         such child can be found.
+   */
+  @SuppressWarnings("unchecked")
+  public static int indexOf(TreeNode parent, TreeNode child) {
+    if (child == null) {
+      throw new IllegalArgumentException("Argument is null.");
+    }
+    // linear search
+    Enumeration<TreeNode> e = parent.children();
+    for (int i = 0; e.hasMoreElements(); i++) {
+      TreeNode elem = e.nextElement();
+      if ((child == elem) || child.equals(elem)) {
+        return i;
+      }
+    }
+    // not found => node is not a child.
+    return -1;
+  }
 
-	/**
-	 * The parent element of this {@link Annotation}.
-	 */
-	protected TreeNode parent;
+  /**
+   * {@link List} of listeners for this component
+   */
+  protected List<TreeNodeChangeListener> listOfListeners;
 
-	/**
-	 * Any kind of {@link Object} that can be stored in addition to all other
-	 * features of this {@link AbstractTreeNode} in form of key-value pairs.
-	 * Note that things stored here will not be written to SBML files. This
-	 * only provides a possibility to attach some in-memory information to
-	 * derived classes. 
-	 */
-	private Map<Object, Object> userObjects;
+  /**
+   * The parent element of this {@link Annotation}.
+   */
+  protected TreeNode parent;
 
-	/**
-	 * Creates an empty {@link AbstractTreeNode} without child nodes and an
-	 * empty list of {@link TreeNodeChangeListener}s. The pointer to the parent
-	 * of this node is set to {@code null}.
-	 */
-	public AbstractTreeNode() {
-		super();
-		this.listOfListeners = new LinkedList<TreeNodeChangeListener>();
-		this.parent = null;
-	}
+  /**
+   * Any kind of {@link Object} that can be stored in addition to all other
+   * features of this {@link AbstractTreeNode} in form of key-value pairs.
+   * Note that things stored here will not be written to SBML files. This
+   * only provides a possibility to attach some in-memory information to
+   * derived classes.
+   */
+  private Map<Object, Object> userObjects;
 
-	/**
-	 * Constructor for cloning. {@link AbstractTreeNode} has two properties:
-	 * {@link #parent} and {@link #listOfListeners}. Both of them are not cloned
-	 * by this method, for two reasons:
-	 * <ul>
-	 * <li>The {@link #parent} is not cloned and is left as {@code null}
-	 * because the new {@link AbstractTreeNode} will get a parent set as soon as
-	 * it is added/linked again to a {@link Model}. Note that only the top-level
-	 * element of the cloned sub-tree will have a {@code null} value as its
-	 * parent. All sub-element will point to their correct parent element.</li>
-	 * <li>{@link #listOfListeners} is needed in all other setXX() methods.
-	 * Cloning these might lead to strange and unexpected behavior, because when
-	 * doing a deep cloning, the listeners of the old object would suddenly be
-	 * informed about all value changes within this new object. Since we do
-	 * cloning, all values of all child elements have to be touched, i.e., all
-	 * listeners would be informed many times, but each time receive the identical
-	 * value as it was before. Since it is totally unclear of which type listeners
-	 * are, a deep cloning of these is not possible.</li>
-	 * </ul>
-	 * Therefore, it is necessary to keep in mind that the parent of the clone
-	 * will be null and that you have to care by yourself if you are using
-	 * {@link TreeNodeChangeListener}s.
-	 * 
-	 * @param node
-	 *        The original {@link TreeNode} to be cloned.
-	 */
-	public AbstractTreeNode(TreeNode node) {
-		this();
-		// the parent is not cloned and is left as null
-		// The Object will get a parent set as soon as it is added/linked
-		// again to a model somehow.		
-		// this.parent = node.getParent();
+  /**
+   * Creates an empty {@link AbstractTreeNode} without child nodes and an
+   * empty list of {@link TreeNodeChangeListener}s. The pointer to the parent
+   * of this node is set to {@code null}.
+   */
+  public AbstractTreeNode() {
+    super();
+    this.listOfListeners = new LinkedList<TreeNodeChangeListener>();
+    this.parent = null;
+  }
 
-		/* listOfListeners is needed in all other setXX() methods.
-		 * Cloning these might lead to strange and unexpected behavior. 
-		 * This is actually not deep cloning anyway:
-		 */
-		if (node instanceof AbstractTreeNode) {
-			AbstractTreeNode anode = (AbstractTreeNode) node;
-			// Do not clone listeners!
-			//   this.listOfListeners.addAll(anode.listOfListeners);
-			if (anode.isSetUserObjects()) {
-				this.userObjects = new HashMap<Object, Object>();
-				this.userObjects.putAll(anode.userObjects);
-			}
-		}
-	}
+  /**
+   * Constructor for cloning. {@link AbstractTreeNode} has two properties:
+   * {@link #parent} and {@link #listOfListeners}. Both of them are not cloned
+   * by this method, for two reasons:
+   * <ul>
+   * <li>The {@link #parent} is not cloned and is left as {@code null}
+   * because the new {@link AbstractTreeNode} will get a parent set as soon as
+   * it is added/linked again to a {@link Model}. Note that only the top-level
+   * element of the cloned sub-tree will have a {@code null} value as its
+   * parent. All sub-element will point to their correct parent element.</li>
+   * <li>{@link #listOfListeners} is needed in all other setXX() methods.
+   * Cloning these might lead to strange and unexpected behavior, because when
+   * doing a deep cloning, the listeners of the old object would suddenly be
+   * informed about all value changes within this new object. Since we do
+   * cloning, all values of all child elements have to be touched, i.e., all
+   * listeners would be informed many times, but each time receive the identical
+   * value as it was before. Since it is totally unclear of which type listeners
+   * are, a deep cloning of these is not possible.</li>
+   * </ul>
+   * Therefore, it is necessary to keep in mind that the parent of the clone
+   * will be null and that you have to care by yourself if you are using
+   * {@link TreeNodeChangeListener}s.
+   * 
+   * @param node
+   *        The original {@link TreeNode} to be cloned.
+   */
+  public AbstractTreeNode(TreeNode node) {
+    this();
+    // the parent is not cloned and is left as null
+    // The Object will get a parent set as soon as it is added/linked
+    // again to a model somehow.
+    // this.parent = node.getParent();
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#addAllChangeListeners(java.util.Collection)
-	 */
-	//@Override
-	public boolean addAllChangeListeners(
-			Collection<TreeNodeChangeListener> listeners) {
-		boolean success = listOfListeners.addAll(listeners);
-		Enumeration<TreeNode> children = children();
-		while (children.hasMoreElements()) {
-			TreeNode node = children.nextElement();
-			if (node instanceof TreeNodeWithChangeSupport) {
-				success &= ((TreeNodeWithChangeSupport) node)
-						.addAllChangeListeners(listeners);
-			}
-		}
-		return success;
-	}
+    /* listOfListeners is needed in all other setXX() methods.
+     * Cloning these might lead to strange and unexpected behavior.
+     * This is actually not deep cloning anyway:
+     */
+    if (node instanceof AbstractTreeNode) {
+      AbstractTreeNode anode = (AbstractTreeNode) node;
+      // Do not clone listeners!
+      //   this.listOfListeners.addAll(anode.listOfListeners);
+      if (anode.isSetUserObjects()) {
+        this.userObjects = new HashMap<Object, Object>();
+        this.userObjects.putAll(anode.userObjects);
+      }
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#addTreeNodeChangeListener(org.sbml.jsbml.util.TreeNodeChangeListener)
-	 */
-	//@Override
-	public void addTreeNodeChangeListener(TreeNodeChangeListener listener) {
-		addTreeNodeChangeListener(listener, true);
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#addAllChangeListeners(java.util.Collection)
+   */
+  @Override
+  public boolean addAllChangeListeners(
+    Collection<TreeNodeChangeListener> listeners) {
+    boolean success = listOfListeners.addAll(listeners);
+    Enumeration<TreeNode> children = children();
+    while (children.hasMoreElements()) {
+      TreeNode node = children.nextElement();
+      if (node instanceof TreeNodeWithChangeSupport) {
+        success &= ((TreeNodeWithChangeSupport) node)
+            .addAllChangeListeners(listeners);
+      }
+    }
+    return success;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#addTreeNodeChangeListener(org.sbml.jsbml.util.TreeNodeChangeListener, boolean)
-	 */
-	//@Override
-	public void addTreeNodeChangeListener(TreeNodeChangeListener listener, boolean recursive) {
-		if (!listOfListeners.contains(listener)) {
-			listOfListeners.add(listener);
-		}
-		if (recursive) {
-			Enumeration<TreeNode> children = children();
-			while (children.hasMoreElements()) {
-				TreeNode node = children.nextElement();
-				if (node instanceof TreeNodeWithChangeSupport) {
-					((TreeNodeWithChangeSupport) node).addTreeNodeChangeListener(listener);
-				}
-			}
-		}
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#addTreeNodeChangeListener(org.sbml.jsbml.util.TreeNodeChangeListener)
+   */
+  @Override
+  public void addTreeNodeChangeListener(TreeNodeChangeListener listener) {
+    addTreeNodeChangeListener(listener, true);
+  }
 
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#children()
-	 */
-	//@Override
-	public Enumeration<TreeNode> children() {
-		return new Enumeration<TreeNode>() {
-			/**
-			 * Total number of children in this enumeration.
-			 */
-			private int childCount = getChildCount();
-			/**
-			 * Current position in the list of children.
-			 */
-			private int index;
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#addTreeNodeChangeListener(org.sbml.jsbml.util.TreeNodeChangeListener, boolean)
+   */
+  @Override
+  public void addTreeNodeChangeListener(TreeNodeChangeListener listener, boolean recursive) {
+    if (!listOfListeners.contains(listener)) {
+      listOfListeners.add(listener);
+    }
+    if (recursive) {
+      Enumeration<TreeNode> children = children();
+      while (children.hasMoreElements()) {
+        TreeNode node = children.nextElement();
+        if (node instanceof TreeNodeWithChangeSupport) {
+          ((TreeNodeWithChangeSupport) node).addTreeNodeChangeListener(listener);
+        }
+      }
+    }
+  }
 
-			/* (non-Javadoc)
-			 * @see java.util.Enumeration#hasMoreElements()
-			 */
-			//@Override
-			public boolean hasMoreElements() {
-				return index < childCount;
-			}
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#children()
+   */
+  @Override
+  public Enumeration<TreeNode> children() {
+    return new Enumeration<TreeNode>() {
+      /**
+       * Total number of children in this enumeration.
+       */
+      private int childCount = getChildCount();
+      /**
+       * Current position in the list of children.
+       */
+      private int index;
 
-			/* (non-Javadoc)
-			 * @see java.util.Enumeration#nextElement()
-			 */
-			//@Override
-			public TreeNode nextElement() {
-				synchronized (this) {
-					if (index < childCount) {
-						return getChildAt(index++);
-					}
-				}
-				throw new NoSuchElementException("Enumeration");
-			}
-		};
-	}
+      /* (non-Javadoc)
+       * @see java.util.Enumeration#hasMoreElements()
+       */
+      @Override
+      public boolean hasMoreElements() {
+        return index < childCount;
+      }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#clearUserObjects()
-	 */
-	//@Override
-	public void clearUserObjects() {
-		if (isSetUserObjects()) {
-			userObjects.clear();
-		}
-	}
+      /* (non-Javadoc)
+       * @see java.util.Enumeration#nextElement()
+       */
+      @Override
+      public TreeNode nextElement() {
+        synchronized (this) {
+          if (index < childCount) {
+            return getChildAt(index++);
+          }
+        }
+        throw new NoSuchElementException("Enumeration");
+      }
+    };
+  }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#clone()
-	 */
-	@Override
-	public abstract TreeNode clone();
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#clearUserObjects()
+   */
+  @Override
+  public void clearUserObjects() {
+    if (isSetUserObjects()) {
+      userObjects.clear();
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#containsUserObjectKey(java.lang.Object)
-	 */
-	//@Override
-	public boolean containsUserObjectKey(Object key) {
-		return isSetUserObjects() ? userObjects.containsKey(key) : false;
-	}	
+  /* (non-Javadoc)
+   * @see java.lang.Object#clone()
+   */
+  @Override
+  public abstract TreeNode clone();
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object object) {
-		// Check if the given object is a pointer to precisely the same object:
-		if (super.equals(object)) {
-			return true;
-		}
-		// Check if the given object is of identical class and not null: 
-		if ((object == null) || (!getClass().equals(object.getClass()))) {
-			return false;
-		}
-		// Check all child nodes recursively:
-		if (object instanceof TreeNode) {
-			TreeNode stn = (TreeNode) object;
-			int childCount = getChildCount();
-			boolean equal = stn.isLeaf() == isLeaf();
-			/*
-			 * This is not good because cloned AbstractTreeNodes may not point
-			 * to the same parent as the original and would hence not be equal
-			 * to the cloned object.
-			 */
-			//	equal &= ((stn.getParent() == null) && isRoot())
-			//           || (stn.getParent() == getParent());
-			equal &= stn.getChildCount() == childCount;
-			if (equal && (childCount > 0)) {
-				for (int i = 0; i < childCount; i++) {
-					if (!stn.getChildAt(i).equals(getChildAt(i))) {
-						return false;
-					}
-				}
-			}
-			return equal;
-		}
-		return false;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#containsUserObjectKey(java.lang.Object)
+   */
+  @Override
+  public boolean containsUserObjectKey(Object key) {
+    return isSetUserObjects() ? userObjects.containsKey(key) : false;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#filter(org.sbml.jsbml.util.filters.Filter)
-	 */
-	//@Override
-	public List<? extends TreeNode> filter(Filter filter) {
-		return filter(filter, false);
-	}
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    // Check if the given object is a pointer to precisely the same object:
+    if (super.equals(object)) {
+      return true;
+    }
+    // Check if the given object is of identical class and not null:
+    if ((object == null) || (!getClass().equals(object.getClass()))) {
+      return false;
+    }
+    // Check all child nodes recursively:
+    if (object instanceof TreeNode) {
+      TreeNode stn = (TreeNode) object;
+      int childCount = getChildCount();
+      boolean equal = stn.isLeaf() == isLeaf();
+      /*
+       * This is not good because cloned AbstractTreeNodes may not point
+       * to the same parent as the original and would hence not be equal
+       * to the cloned object.
+       */
+      //	equal &= ((stn.getParent() == null) && isRoot())
+      //           || (stn.getParent() == getParent());
+      equal &= stn.getChildCount() == childCount;
+      if (equal && (childCount > 0)) {
+        for (int i = 0; i < childCount; i++) {
+          if (!stn.getChildAt(i).equals(getChildAt(i))) {
+            return false;
+          }
+        }
+      }
+      return equal;
+    }
+    return false;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#filter(org.sbml.jsbml.util.filters.Filter, boolean)
-	 */
-	//@Override
-	public List<? extends TreeNode> filter(Filter filter, boolean retainInternalNodes) {
-		return filter(filter, retainInternalNodes, false);
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#filter(org.sbml.jsbml.util.filters.Filter)
+   */
+  @Override
+  public List<? extends TreeNode> filter(Filter filter) {
+    return filter(filter, false);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#filter(org.sbml.jsbml.util.filters.Filter, boolean, boolean)
-	 */
-	//@Override
-	public List<? extends TreeNode> filter(Filter filter, boolean retainInternalNodes, boolean prune) {
-		List<TreeNode> list = new LinkedList<TreeNode>();
-		boolean accepts = filter.accepts(this);
-		if (accepts) {
-			list.add(this);
-			if (prune) {
-				return list;
-			}
-		}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#filter(org.sbml.jsbml.util.filters.Filter, boolean)
+   */
+  @Override
+  public List<? extends TreeNode> filter(Filter filter, boolean retainInternalNodes) {
+    return filter(filter, retainInternalNodes, false);
+  }
 
-		List<? extends TreeNode> childList;
-		TreeNode child;
-		for (int i = 0; i < getChildCount(); i++) {
-			child = getChildAt(i);
-			if (child instanceof TreeNodeWithChangeSupport) {
-				childList = ((TreeNodeWithChangeSupport) child).filter(filter, retainInternalNodes, prune);
-				if (childList.size() > 0) {
-					// Somewhere in the subtree rooted at this child is an interesting node.
-					if (!accepts && retainInternalNodes) {
-						list.add(this);
-						// prevent adding the current node more often than once:
-						accepts = true;
-					}
-					list.addAll(childList);
-					if (prune) {
-						// Since we found at least one hit, we are done.
-						return list;
-					}
-				}
-			}
-		}
-		return list;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#filter(org.sbml.jsbml.util.filters.Filter, boolean, boolean)
+   */
+  @Override
+  public List<? extends TreeNode> filter(Filter filter, boolean retainInternalNodes, boolean prune) {
+    List<TreeNode> list = new LinkedList<TreeNode>();
+    boolean accepts = filter.accepts(this);
+    if (accepts) {
+      list.add(this);
+      if (prune) {
+        return list;
+      }
+    }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#fireNodeAddedEvent()
-	 */
-	//@Override
-	public void fireNodeAddedEvent() {
-		for (int i = listOfListeners.size() - 1; i >= 0; i--) {
-			listOfListeners.get(i).nodeAdded(this);
-		}
-	}
+    List<? extends TreeNode> childList;
+    TreeNode child;
+    for (int i = 0; i < getChildCount(); i++) {
+      child = getChildAt(i);
+      if (child instanceof TreeNodeWithChangeSupport) {
+        childList = ((TreeNodeWithChangeSupport) child).filter(filter, retainInternalNodes, prune);
+        if (childList.size() > 0) {
+          // Somewhere in the subtree rooted at this child is an interesting node.
+          if (!accepts && retainInternalNodes) {
+            list.add(this);
+            // prevent adding the current node more often than once:
+            accepts = true;
+          }
+          list.addAll(childList);
+          if (prune) {
+            // Since we found at least one hit, we are done.
+            return list;
+          }
+        }
+      }
+    }
+    return list;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#fireNodeRemovedEvent()
-	 */
-	//@Override
-	public void fireNodeRemovedEvent() {
-		TreeNode previousParent = getParent();
-		parent = null;
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#fireNodeAddedEvent()
+   */
+  @Override
+  public void fireNodeAddedEvent() {
+    for (int i = listOfListeners.size() - 1; i >= 0; i--) {
+      listOfListeners.get(i).nodeAdded(this);
+    }
+  }
 
-		if (getTreeNodeChangeListenerCount() > 0) {
-			// memorize all listeners before deleting them from this object.
-			List<TreeNodeChangeListener> listOfTreeNodeChangeListeners = new LinkedList<TreeNodeChangeListener>(listOfListeners);
-			// remove all changeListeners
-			removeAllTreeNodeChangeListeners();
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#fireNodeRemovedEvent()
+   */
+  @Override
+  public void fireNodeRemovedEvent() {
+    TreeNode previousParent = getParent();
+    parent = null;
 
-			for (TreeNodeChangeListener listener : listOfTreeNodeChangeListeners) {
-				listener.nodeRemoved(new TreeNodeRemovedEvent(this, previousParent));
-			}
-		}
-	}
+    if (getTreeNodeChangeListenerCount() > 0) {
+      // memorize all listeners before deleting them from this object.
+      List<TreeNodeChangeListener> listOfTreeNodeChangeListeners = new LinkedList<TreeNodeChangeListener>(listOfListeners);
+      // remove all changeListeners
+      removeAllTreeNodeChangeListeners();
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#firePropertyChange(java.lang.String, java.lang.Object, java.lang.Object)
-	 */
-	//@Override
-	public void firePropertyChange(String propertyName, Object oldValue,
-			Object newValue) {
-		if (listOfListeners.size() > 0) {
-			short changeType = -1; // no property change at all
-			if ((oldValue == null) && (newValue != null)) {
-				changeType = 0; // element added
-			} else if ((oldValue != null) && (newValue == null)) {
-				changeType = 1; // element removed
-			} else if ((oldValue != null) && !oldValue.equals(newValue)) {
-				changeType = 2; // real property change
-			}
-			if (-1 < changeType) {
-				boolean userObjectChange = propertyName.equals(TreeNodeChangeEvent.userObject);
-				boolean newValTreeNode = newValue instanceof TreeNodeWithChangeSupport;
-				boolean oldValTreeNode = oldValue instanceof TreeNodeWithChangeSupport;
-				if ((changeType == 0) && newValTreeNode && !userObjectChange) {
-					((TreeNodeWithChangeSupport) newValue).fireNodeAddedEvent();
-				} else if ((changeType == 1) && oldValTreeNode && !userObjectChange) {
-					((TreeNodeWithChangeSupport) oldValue).fireNodeRemovedEvent();
-				} else {
-					// TODO: check if notifying and updating the metaId is necessary
-					// because of the method AbstractSBase.setThisAsParentSBMLObject
-					if (oldValTreeNode && newValTreeNode) {
-						notifyChildChange((TreeNode) oldValue, (TreeNode) newValue);
-					}
-					/*
-					 * It is not necessary to add the metaId of the new value to
-					 * the SBMLDocument because this is already done in the
-					 * method setThisAsParentSBMLObject, a method that is called
-					 * to link a new element to an existing SBML tree.
-					 */
-					// Now we can notify all listeners about the change:
-					TreeNodeChangeEvent changeEvent = new TreeNodeChangeEvent(this,
-							propertyName, oldValue, newValue);
-					for (TreeNodeChangeListener listener : listOfListeners) {
-						listener.propertyChange(changeEvent);
-					}
-				}
-			}
-		}
-	}
+      for (TreeNodeChangeListener listener : listOfTreeNodeChangeListeners) {
+        listener.nodeRemoved(new TreeNodeRemovedEvent(this, previousParent));
+      }
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getIndex(javax.swing.tree.TreeNode)
-	 */
-	//@Override
-	public int getIndex(TreeNode node) {
-		return indexOf(this, node);
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#firePropertyChange(java.lang.String, java.lang.Object, java.lang.Object)
+   */
+  @Override
+  public void firePropertyChange(String propertyName, Object oldValue,
+    Object newValue) {
+    if (listOfListeners.size() > 0) {
+      short changeType = -1; // no property change at all
+      if ((oldValue == null) && (newValue != null)) {
+        changeType = 0; // element added
+      } else if ((oldValue != null) && (newValue == null)) {
+        changeType = 1; // element removed
+      } else if ((oldValue != null) && !oldValue.equals(newValue)) {
+        changeType = 2; // real property change
+      }
+      if (-1 < changeType) {
+        boolean userObjectChange = propertyName.equals(TreeNodeChangeEvent.userObject);
+        boolean newValIsTreeNode = newValue instanceof TreeNodeWithChangeSupport;
+        boolean oldValIsTreeNode = oldValue instanceof TreeNodeWithChangeSupport;
+        if ((changeType == 0) && newValIsTreeNode && !userObjectChange
+            && !propertyName.equals(TreeNodeChangeEvent.parentSBMLObject)) {
+          /*
+           * This last condition is important because otherwise a treeNodeAdded
+           * event would be triggered, i.e., the attempt to re-add the parent
+           * object to the model. However, this is just a property change,
+           * because the parent is already in the model.
+           */
+          ((TreeNodeWithChangeSupport) newValue).fireNodeAddedEvent();
+        } else if ((changeType == 1) && oldValIsTreeNode && !userObjectChange) {
+          ((TreeNodeWithChangeSupport) oldValue).fireNodeRemovedEvent();
+        } else {
+          // TODO: check if notifying and updating the metaId is necessary
+          // because of the method AbstractSBase.setThisAsParentSBMLObject
+          if (oldValIsTreeNode && newValIsTreeNode) {
+            notifyChildChange((TreeNode) oldValue, (TreeNode) newValue);
+          }
+          /*
+           * It is not necessary to add the metaId of the new value to
+           * the SBMLDocument because this is already done in the
+           * method setThisAsParentSBMLObject, a method that is called
+           * to link a new element to an existing SBML tree.
+           */
+          // Now we can notify all listeners about the change:
+          TreeNodeChangeEvent changeEvent = new TreeNodeChangeEvent(this,
+            propertyName, oldValue, newValue);
+          for (TreeNodeChangeListener listener : listOfListeners) {
+            listener.propertyChange(changeEvent);
+          }
+        }
+      }
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#getListOfTreeNodeChangeListeners()
-	 */
-	//@Override
-	public List<TreeNodeChangeListener> getListOfTreeNodeChangeListeners() {
-		return listOfListeners;
-	}
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getIndex(javax.swing.tree.TreeNode)
+   */
+  @Override
+  public int getIndex(TreeNode node) {
+    return indexOf(this, node);
+  }
 
-	/**
-	 * Returns the number of child elements of this {@link TreeNode}.
-	 * 
-	 * @return the number of children TreeNodes the receiver contains.
-	 * @deprecated use {@link #getChildCount()}
-	 */
-	@Deprecated
-	public int getNumChildren() {
-		return getChildCount();
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#getListOfTreeNodeChangeListeners()
+   */
+  @Override
+  public List<TreeNodeChangeListener> getListOfTreeNodeChangeListeners() {
+    return listOfListeners;
+  }
 
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getParent()
-	 */
-	//@Override
-	public TreeNode getParent() {
-		return parent;
-	}
+  /**
+   * Returns the number of child elements of this {@link TreeNode}.
+   * 
+   * @return the number of children TreeNodes the receiver contains.
+   * @deprecated use {@link #getChildCount()}
+   */
+  @Deprecated
+  public int getNumChildren() {
+    return getChildCount();
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#getRoot()
-	 */
-	//@Override
-	public TreeNode getRoot() {
-		if (isRoot()) {
-			return this;
-		}
-		TreeNode parent = getParent();
-		if (parent instanceof TreeNodeWithChangeSupport) {
-			return ((TreeNodeWithChangeSupport) parent).getRoot();
-		}
-		while (parent.getParent() != null) {
-			parent = parent.getParent();
-		}
-		return parent;
-	}
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getParent()
+   */
+  @Override
+  public TreeNode getParent() {
+    return parent;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#getTreeNodeChangeListenerCount()
-	 */
-	//@Override
-	public int getTreeNodeChangeListenerCount() {
-		return listOfListeners != null ? listOfListeners.size() : 0;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#getRoot()
+   */
+  @Override
+  public TreeNode getRoot() {
+    if (isRoot()) {
+      return this;
+    }
+    TreeNode parent = getParent();
+    if (parent instanceof TreeNodeWithChangeSupport) {
+      return ((TreeNodeWithChangeSupport) parent).getRoot();
+    }
+    while (parent.getParent() != null) {
+      parent = parent.getParent();
+    }
+    return parent;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#getUserObject(java.lang.Object)
-	 */
-	//@Override
-	public Object getUserObject(Object key) {
-		if (userObjects == null) {
-			userObjects = new HashMap<Object, Object>();
-		}
-		return userObjects.get(key);
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#getTreeNodeChangeListenerCount()
+   */
+  @Override
+  public int getTreeNodeChangeListenerCount() {
+    return listOfListeners != null ? listOfListeners.size() : 0;
+  }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		// A constant and arbitrary, sufficiently large prime number:
-		final int prime = 769;
-		/*
-		 * This method is implemented as suggested in the JavaDoc API
-		 * documentation of the List interface.
-		 */
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#getUserObject(java.lang.Object)
+   */
+  @Override
+  public Object getUserObject(Object key) {
+    if (userObjects == null) {
+      userObjects = new HashMap<Object, Object>();
+    }
+    return userObjects.get(key);
+  }
 
-		// Compute the initial hashCode based on the name of the actual class.
-		int hashCode = getClass().getName().hashCode();
-		/*
-		 * The following start wouldn't work because it will compute the
-		 * hashCode from the address in memory of the object.
-		 */
-		// int hashCode = super.hashCode();
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    // A constant and arbitrary, sufficiently large prime number:
+    final int prime = 769;
+    /*
+     * This method is implemented as suggested in the JavaDoc API
+     * documentation of the List interface.
+     */
 
-		// Recursively compute the hashCode for each child node:
-		TreeNode child;
-		for (int i = 0; i < getChildCount(); i++) {
-			child = getChildAt(i);
-			hashCode = prime * hashCode + (child == null ? 0 : child.hashCode());
-		}
+    // Compute the initial hashCode based on the name of the actual class.
+    int hashCode = getClass().getName().hashCode();
+    /*
+     * The following start wouldn't work because it will compute the
+     * hashCode from the address in memory of the object.
+     */
+    // int hashCode = super.hashCode();
 
-		return hashCode;
-	}
+    // Recursively compute the hashCode for each child node:
+    TreeNode child;
+    for (int i = 0; i < getChildCount(); i++) {
+      child = getChildAt(i);
+      hashCode = prime * hashCode + (child == null ? 0 : child.hashCode());
+    }
 
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#isLeaf()
-	 */
-	//@Override
-	public boolean isLeaf() {
-		return getChildCount() == 0;
-	}
+    return hashCode;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#isRoot()
-	 */
-	//@Override
-	public boolean isRoot() {
-		return !isSetParent();
-	}
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#isLeaf()
+   */
+  @Override
+  public boolean isLeaf() {
+    return getChildCount() == 0;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#isSetParent()
-	 */
-	//@Override
-	public boolean isSetParent() {
-		return parent != null;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#isRoot()
+   */
+  @Override
+  public boolean isRoot() {
+    return !isSetParent();
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#isSetUserObjects()
-	 */
-	//@Override
-	public boolean isSetUserObjects() {
-		return (userObjects != null) && !userObjects.isEmpty();
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#isSetParent()
+   */
+  @Override
+  public boolean isSetParent() {
+    return parent != null;
+  }
 
-	/**
-	 * This method is called when one child has been swapped with another one
-	 * and can be used to check certain properties of the resulting changed
-	 * tree.
-	 * 
-	 * @param oldChild
-	 *            the element that was a child of this node before the change.
-	 * @param newChild
-	 *            the new child whose new parent is this node.
-	 */
-	protected void notifyChildChange(TreeNode oldChild, TreeNode newChild) {
-		// default: empty body, nothing to do.
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#isSetUserObjects()
+   */
+  @Override
+  public boolean isSetUserObjects() {
+    return (userObjects != null) && !userObjects.isEmpty();
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#putUserObject(java.lang.Object, java.lang.Object)
-	 */
-	//@Override
-	public void putUserObject(Object key, Object userObject) {
-		if (userObjects == null) {
-			userObjects = new HashMap<Object, Object>();
-		}
-		Object oldObject = userObjects.put(key, userObject);
-		// Avoid that by mistake a nodeAdded event is generated!
-		Map.Entry<Object, Object> oldEntry = new AbstractMap.SimpleImmutableEntry<Object, Object>(key, oldObject);
-		Map.Entry<Object, Object> newEntry = new AbstractMap.SimpleImmutableEntry<Object, Object>(key, userObject);
-		firePropertyChange(TreeNodeChangeEvent.userObject, oldEntry, newEntry);
-	}
+  /**
+   * This method is called when one child has been swapped with another one
+   * and can be used to check certain properties of the resulting changed
+   * tree.
+   * 
+   * @param oldChild
+   *            the element that was a child of this node before the change.
+   * @param newChild
+   *            the new child whose new parent is this node.
+   */
+  protected void notifyChildChange(TreeNode oldChild, TreeNode newChild) {
+    // default: empty body, nothing to do.
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeAllTreeNodeChangeListeners()
-	 */
-	//@Override
-	public void removeAllTreeNodeChangeListeners() {
-		listOfListeners.clear();
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#putUserObject(java.lang.Object, java.lang.Object)
+   */
+  @Override
+  public void putUserObject(Object key, Object userObject) {
+    if (userObjects == null) {
+      userObjects = new HashMap<Object, Object>();
+    }
+    Object oldObject = userObjects.put(key, userObject);
+    // Avoid that by mistake a nodeAdded event is generated!
+    Map.Entry<Object, Object> oldEntry = new AbstractMap.SimpleImmutableEntry<Object, Object>(key, oldObject);
+    Map.Entry<Object, Object> newEntry = new AbstractMap.SimpleImmutableEntry<Object, Object>(key, userObject);
+    firePropertyChange(TreeNodeChangeEvent.userObject, oldEntry, newEntry);
+  }
 
-	/** 
-	 * This method is designed to be overridden for non-independent child nodes 
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeFromParent()
-	 */
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeAllTreeNodeChangeListeners()
+   */
+  @Override
+  public void removeAllTreeNodeChangeListeners() {
+    listOfListeners.clear();
+  }
+
+  /**
+   * This method is designed to be overridden for non-independent child nodes
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeFromParent()
+   */
+  @Override
   public boolean removeFromParent() {
-    
+
     // Check if this is a root node, return false if it is root
-	  if (isRoot()) { 
-		  return false;
-		}
-		
-		// Check if the object's parent is a list, then clear from list
-		if (parent instanceof List<?>) {
-		  List<?> parentList = (List<?>) parent;
-		  parentList.remove(this);
-		  if (!(parentList instanceof TreeNodeWithChangeSupport)) {
-	      // avoid redoing it twice.
-		    fireNodeRemovedEvent();
-		  }
-		} else {
-			try {
-				Class<?> clazz = parent.getClass();
-				Method method = clazz.getMethod("removeChild", int.class);
-				if (method != null) {
-					method.invoke(parent, new Object[]{parent.getIndex(this)});
-				}
-			} catch (Throwable exc) {
-				logger.debug(exc.getMessage(), exc);
-				/* If the object's parent is not a list, mimic "unset" methods
-				 * using reflection
-				 */
-				Class<?> clazz = parent.getClass();
-				Field fields[] = clazz.getDeclaredFields();
-				for (Field field : fields) {
-					try {
-						boolean isAccessible = true;
-						if (!field.isAccessible()) {
-							field.setAccessible(isAccessible);
-							isAccessible = false;
-						}
-						Object object = field.get(parent);
-						if (object == this) {
-							field.set(parent, null);
-						}
-						if (!isAccessible) {
-							// reset original state
-							field.setAccessible(isAccessible);  
-						}
-					} catch (IllegalAccessException exc2) {
-						// ignore
-					}
-				}
-				fireNodeRemovedEvent();
-			}
-		}
-		return true;
-	}
-  
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeTreeNodeChangeListener(org.sbml.jsbml.util.TreeNodeChangeListener)
-	 */
-	//@Override
-	public void removeTreeNodeChangeListener(TreeNodeChangeListener listener) {
-		removeTreeNodeChangeListener(listener, true);
-	}
+    if (isRoot()) {
+      return false;
+    }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeTreeNodeChangeListener(org.sbml.jsbml.util.TreeNodeChangeListener, boolean)
-	 */
-	//@Override
-	public void removeTreeNodeChangeListener(TreeNodeChangeListener listener, boolean recursive) {
-		listOfListeners.remove(listener);
-		if (recursive) {
-			Enumeration<TreeNode> children = children();
-			while (children.hasMoreElements()) {
-				TreeNode node = children.nextElement();
-				if (node instanceof TreeNodeWithChangeSupport) {
-					((TreeNodeWithChangeSupport) node).removeTreeNodeChangeListener(listener);
-				}
-			}
-		}
-	}
+    // Check if the object's parent is a list, then clear from list
+    if (parent instanceof List<?>) {
+      List<?> parentList = (List<?>) parent;
+      parentList.remove(this);
+      if (!(parentList instanceof TreeNodeWithChangeSupport)) {
+        // avoid doing it twice.
+        fireNodeRemovedEvent();
+      }
+    } else {
+      try {
+        Class<?> clazz = parent.getClass();
+        Method method = clazz.getMethod("removeChild", int.class);
+        if (method != null) {
+          Object result = method.invoke(parent, parent.getIndex(this));
+          if ((result == null) && !method.getReturnType().equals(Void.class)) {
+            return false;
+          } else if (result.getClass() == Boolean.class) {
+            return ((Boolean) result).booleanValue();
+          }
+        }
+      } catch (Throwable t) {
+        logger.debug(t.getMessage(), t);
+        /* If the object's parent is not a list, mimic "unset" methods
+         * using reflection
+         */
+        Class<?> clazz = parent.getClass();
+        Field fields[] = clazz.getDeclaredFields();
+        for (Field field : fields) {
+          try {
+            boolean isAccessible = true;
+            if (!field.isAccessible()) {
+              field.setAccessible(isAccessible);
+              isAccessible = false;
+            }
+            Object object = field.get(parent);
+            if (object == this) {
+              field.set(parent, null);
+            }
+            if (!isAccessible) {
+              // reset original state
+              field.setAccessible(isAccessible);
+            }
+          } catch (IllegalAccessException exc) {
+            // ignore
+            logger.debug(exc.getMessage(), exc);
+          }
+        }
+        fireNodeRemovedEvent();
+      }
+    }
+    return true;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeUserObject(java.lang.Object)
-	 */
-	//@Override
-	public Object removeUserObject(Object key) {
-		if (userObjects != null) {
-			return userObjects.remove(key);
-		}
-		return null;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeTreeNodeChangeListener(org.sbml.jsbml.util.TreeNodeChangeListener)
+   */
+  @Override
+  public void removeTreeNodeChangeListener(TreeNodeChangeListener listener) {
+    removeTreeNodeChangeListener(listener, true);
+  }
 
-	/**
-	 * @param parent
-	 *            the parent to set
-	 */
-	protected void setParent(TreeNode parent) {
-		TreeNode oldValue = this.parent;
-		this.parent = parent;
-		if (parent instanceof TreeNodeWithChangeSupport) {
-			this.addAllChangeListeners(((TreeNodeWithChangeSupport) parent).getListOfTreeNodeChangeListeners());
-		}
-		this.firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldValue, this.parent);
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeTreeNodeChangeListener(org.sbml.jsbml.util.TreeNodeChangeListener, boolean)
+   */
+  @Override
+  public void removeTreeNodeChangeListener(TreeNodeChangeListener listener, boolean recursive) {
+    listOfListeners.remove(listener);
+    if (recursive) {
+      Enumeration<TreeNode> children = children();
+      while (children.hasMoreElements()) {
+        TreeNode node = children.nextElement();
+        if (node instanceof TreeNodeWithChangeSupport) {
+          ((TreeNodeWithChangeSupport) node).removeTreeNodeChangeListener(listener);
+        }
+      }
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return StringTools.firstLetterLowerCase(getClass().getSimpleName());
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeUserObject(java.lang.Object)
+   */
+  @Override
+  public Object removeUserObject(Object key) {
+    if (userObjects != null) {
+      return userObjects.remove(key);
+    }
+    return null;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#userObjectKeySet()
-	 */
-	//@Override
-	public Set<Object> userObjectKeySet() {
-		return userObjects.keySet();
-	}
+  /**
+   * @param parent
+   *            the parent to set
+   */
+  protected void setParent(TreeNode parent) {
+    TreeNode oldValue = this.parent;
+    this.parent = parent;
+    if (parent instanceof TreeNodeWithChangeSupport) {
+      this.addAllChangeListeners(((TreeNodeWithChangeSupport) parent).getListOfTreeNodeChangeListeners());
+    }
+    this.firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldValue, this.parent);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return StringTools.firstLetterLowerCase(getClass().getSimpleName());
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#userObjectKeySet()
+   */
+  @Override
+  public Set<Object> userObjectKeySet() {
+    return userObjects.keySet();
+  }
 
 }

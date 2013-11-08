@@ -133,7 +133,7 @@ public class ModelQualifierParser implements ReadingParser {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String elementName, String prefix, boolean hasAttributes, boolean hasNamespaces, Object contextObject)
 	 */
-	//@Override
+	@Override
 	public Object processStartElement(String elementName, String prefix,
 			boolean hasAttributes, boolean hasNamespaces,
 			Object contextObject) {

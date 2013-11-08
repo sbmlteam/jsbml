@@ -62,7 +62,7 @@ public class Transformation extends AbstractSBase {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
-  //@Override
+  @Override
   public Transformation clone() {
     return new Transformation(this);
   }
@@ -107,7 +107,7 @@ public class Transformation extends AbstractSBase {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#toString()
    */
-  //@Override
+  @Override
   public String toString() {
     // TODO Auto-generated method stub
     return null;

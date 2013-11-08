@@ -25,7 +25,6 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
-import org.sbml.jsbml.ext.SBasePlugin;
 
 /**
  * 
@@ -69,7 +68,7 @@ public class MultiInitialAssignment extends AbstractSBasePlugin {
 		return null;
 	}
 
-	//@Override
+	@Override
 	public MultiInitialAssignment clone() {
 		// TODO Auto-generated method stub
 		return null;

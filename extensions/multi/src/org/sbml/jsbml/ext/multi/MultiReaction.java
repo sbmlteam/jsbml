@@ -26,7 +26,6 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
-import org.sbml.jsbml.ext.SBasePlugin;
 
 /**
  * 
@@ -88,7 +87,7 @@ public class MultiReaction extends AbstractSBasePlugin {
 		return null;
 	}
 
-	//@Override
+	@Override
 	public MultiReaction clone() {
 		// TODO Auto-generated method stub
 		return null;

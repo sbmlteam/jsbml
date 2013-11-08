@@ -698,7 +698,7 @@ public class Annotation extends AnnotationElement {
 		{
 
 			for (int i = 0; i < getListOfCVTerms().size(); i++) {
-				if (getCVTerm(i) != null && getCVTerm(i).getResourceCount() > 0) {
+				if ((getCVTerm(i) != null) && getCVTerm(i).getResourceCount() > 0) {
 					return true;
 				}
 			}

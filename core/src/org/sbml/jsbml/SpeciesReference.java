@@ -45,7 +45,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	/**
 	 * Message to be displayed in case that an illegal stoichiometric value has been set.
 	 */
-	private static final String ILLEGAL_STOCHIOMETRY_VALUE = "Only positive integer values can be set as %s. Invalid value %d.";
+	private static final String ILLEGAL_STOCHIOMETRY_VALUE = "Only positive integer values can be set as {0}. Invalid value {1,number}.";
 	/**
 	 * Generated serial version identifier.
 	 */
@@ -495,7 +495,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	public void setDenominator(int denominator) {
 		if ((getLevel() == 1) && (getVersion() == 2)) {
 			if (denominator < 0) {
-				throw new IllegalArgumentException(String.format(
+				throw new IllegalArgumentException(MessageFormat.format(
 										ILLEGAL_STOCHIOMETRY_VALUE,
 										"denominator", stoichiometry));
 			}
@@ -515,7 +515,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 		if ((getLevel() == 1) && (getVersion() == 2)) {
 			int stoch = (int) stoichiometry;
 			if ((stoch < 0) || (stoch - stoichiometry != 0d)) {
-				throw new IllegalArgumentException(String.format(
+				throw new IllegalArgumentException(MessageFormat.format(
 						ILLEGAL_STOCHIOMETRY_VALUE, "stoichiometry",
 						stoichiometry));
 			}
@@ -599,6 +599,7 @@ public class SpeciesReference extends SimpleSpeciesReference implements
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.Quantity#unsetValue()
 	 */
+	@Override
 	public void unsetValue() {
 		unsetStoichiometry();
 	}

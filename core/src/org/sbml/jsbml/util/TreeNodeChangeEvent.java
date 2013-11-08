@@ -123,8 +123,8 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
 	public static final String isEOF = "isEOF";
 	public static final String resource = "resource";
 	public static final String qualifier = "qualifier";
-	public static final String modified = "modified";
-	public static final String created = "created";
+	public static final String modifiedDate = "modifiedDate";
+	public static final String createdDate = "createdDate";
 	public static final String creator = "creator";
 	public static final String isExplicitlySetConstant = "isExplicitlySetConstant";
     
@@ -147,7 +147,7 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
 	public static final String email = "email";
 	public static final String familyName = "familyName";
 	public static final String givenName = "givenName";
-	public static final String organisation = "organisation";
+	public static final String organization = "organization";
 
 	public static final String text = "text";
 

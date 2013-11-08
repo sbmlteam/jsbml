@@ -24,10 +24,6 @@ package org.sbml.jsbml.test;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-
-import javax.xml.stream.XMLStreamException;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -58,12 +54,10 @@ public class LibSBMLioTest {
 
   /**
    * 
-   * @throws XMLStreamException 
-   * @throws IOException 
-   * @throws URISyntaxException 
+   * @throws Exception 
    */
   @Test
-  public void sbmlReadingTest() throws XMLStreamException, IOException, URISyntaxException {
+  public void sbmlReadingTest() throws Exception {
     String files[] = new String[] {
       "../xml/test/data/l2v1/BIOMD0000000025.xml",
       "../xml/test/data/l2v1/BIOMD0000000227.xml",
@@ -79,11 +73,9 @@ public class LibSBMLioTest {
   /**
    * The actual test.
    * @param fileName
-   * @throws IOException
-   * @throws XMLStreamException
-   * @throws URISyntaxException
+   * @throws Exception 
    */
-  private void testReading(String fileName) throws IOException, XMLStreamException, URISyntaxException {
+  private void testReading(String fileName) throws Exception {
     File file = new File(LibSBMLioTest.class.getResource(fileName).toURI());
     org.sbml.libsbml.SBMLDocument libDoc = new org.sbml.libsbml.SBMLReader().readSBML(file.getAbsolutePath());
     LibSBMLReader libTranslator = new LibSBMLReader();

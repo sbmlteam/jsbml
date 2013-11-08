@@ -69,7 +69,7 @@ public class SpatialParameterPlugin extends SpatialCallableSBase {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
 	 */
-	//@Override
+	@Override
 	public SpatialParameterPlugin clone() {
 		return new SpatialParameterPlugin(this);
 	}
@@ -77,7 +77,7 @@ public class SpatialParameterPlugin extends SpatialCallableSBase {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
 	 */
-	//@Override
+	@Override
 	public boolean equals(Object object) {
 		boolean equals = super.equals(object);
 		if (equals) {
@@ -93,7 +93,7 @@ public class SpatialParameterPlugin extends SpatialCallableSBase {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
 	 */
-	//@Override
+	@Override
 	public TreeNode getChildAt(int childIndex) {
 		if (childIndex < 0) {
 			throw new IndexOutOfBoundsException(childIndex + " < 0");
@@ -113,7 +113,7 @@ public class SpatialParameterPlugin extends SpatialCallableSBase {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
 	 */
-	//@Override
+	@Override
 	public int getChildCount() {
 		return super.getChildCount() + (isSetQualifier() ? 1 : 0);
 	}
@@ -128,7 +128,7 @@ public class SpatialParameterPlugin extends SpatialCallableSBase {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
 	 */
-	//@Override
+	@Override
 	public int hashCode() {
 		final int prime = 991;
 		int hashCode = super.hashCode();

@@ -39,78 +39,78 @@ import org.sbml.jsbml.SBase;
  * @date 08.05.2012
  */
 public class GradientStop extends AbstractSBase { 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7400974339251884133L;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 7400974339251884133L;
 
 
-	private Double offset;
+  private Double offset;
   private String stopColor;
 
 
   /**
-	 * Creates a GradientStop instance with an offset and a color. 
-	 * 
-	 * @param offset
-	 * @param color
-	 */
-	public GradientStop(Double offset, String stopColor) {
-		this.offset = offset;
-		this.stopColor = stopColor;
-	}
+   * Creates a GradientStop instance with an offset and a color. 
+   * 
+   * @param offset
+   * @param color
+   */
+  public GradientStop(Double offset, String stopColor) {
+    this.offset = offset;
+    this.stopColor = stopColor;
+  }
 
   /**
-	 * Creates a GradientStop instance with an offset, color, level, and version. 
-	 * 
-	 * @param offset
-	 * @param color
-	 * @param level
-	 * @param version
-	 */
-	public GradientStop(Double offset, String stopColor, int level, int version) {
-		super(level, version);
-		if (getLevelAndVersion().compareTo(Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
-				Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
-			throw new LevelVersionError(getElementName(), level, version);
-		}
-		this.offset = offset;
-		this.stopColor = stopColor;
-	}
+   * Creates a GradientStop instance with an offset, color, level, and version. 
+   * 
+   * @param offset
+   * @param color
+   * @param level
+   * @param version
+   */
+  public GradientStop(Double offset, String stopColor, int level, int version) {
+    super(level, version);
+    if (getLevelAndVersion().compareTo(Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
+      Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
+      throw new LevelVersionError(getElementName(), level, version);
+    }
+    this.offset = offset;
+    this.stopColor = stopColor;
+  }
 
-	/**
-	 * Clone constructor
-	 */
-	public GradientStop(GradientStop obj) {
-		super(obj);
-		this.offset = obj.offset;
-		this.stopColor = obj.stopColor;
-	}
+  /**
+   * Clone constructor
+   */
+  public GradientStop(GradientStop obj) {
+    super(obj);
+    this.offset = obj.offset;
+    this.stopColor = obj.stopColor;
+  }
 
-	public GradientStop() {
-		super();
-	}
+  public GradientStop() {
+    super();
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#clone()
-	 */
-  //@Override
-	public GradientStop clone() {
-		return new GradientStop(this);
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
+  @Override
+  public GradientStop clone() {
+    return new GradientStop(this);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
-	 */
-	@Override
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
+   */
+  @Override
   public boolean getAllowsChildren() {
     return false;
   }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-	 */
-	@Override
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+   */
+  @Override
   public SBase getChildAt(int childIndex) {
     if (childIndex < 0) {
       throw new IndexOutOfBoundsException(childIndex + " < 0");
@@ -121,147 +121,147 @@ public class GradientStop extends AbstractSBase {
       +((int) Math.min(pos, 0))));
   }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
-	 */
-	@Override
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+   */
+  @Override
   public int getChildCount() {
     return 0;
   }
 
-	/**
-	 * @return the value of offset
-	 */
-	public double getOffset() {
-		if (isSetOffset()) {
-			return offset;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.offset, this);
-	}
+  /**
+   * @return the value of offset
+   */
+  public double getOffset() {
+    if (isSetOffset()) {
+      return offset;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.offset, this);
+  }
 
-	/**
-	 * @return the value of stopColor
-	 */
-	public String getStopColor() {
-		if (isSetStopColor()) {
-			return stopColor;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.stopColor, this);
-	}
-	
-	/**
-	 * @return whether offset is set 
-	 */
-	public boolean isSetOffset() {
-		return this.offset != null;
-	}
+  /**
+   * @return the value of stopColor
+   */
+  public String getStopColor() {
+    if (isSetStopColor()) {
+      return stopColor;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.stopColor, this);
+  }
 
-	/**
-	 * @return whether stopColor is set 
-	 */
-	public boolean isSetStopColor() {
-		return this.stopColor != null;
-	}
+  /**
+   * @return whether offset is set 
+   */
+  public boolean isSetOffset() {
+    return this.offset != null;
+  }
 
-	/**
-	 * Set the value of offset
-	 */
-	public void setOffset(Double offset) {
-		Double oldOffset = this.offset;
-		this.offset = offset;
-		firePropertyChange(RenderConstants.offset, oldOffset, this.offset);
-	}
+  /**
+   * @return whether stopColor is set 
+   */
+  public boolean isSetStopColor() {
+    return this.stopColor != null;
+  }
 
-	/**
-	 * Set the value of stopColor
-	 */
-	public void setStopColor(String stopColor) {
-		String oldStopColor = this.stopColor;
-		this.stopColor = stopColor;
-		firePropertyChange(RenderConstants.stopColor, oldStopColor, this.stopColor);
-	}
+  /**
+   * Set the value of offset
+   */
+  public void setOffset(Double offset) {
+    Double oldOffset = this.offset;
+    this.offset = offset;
+    firePropertyChange(RenderConstants.offset, oldOffset, this.offset);
+  }
 
-	/**
-	 * Unsets the variable offset 
-	 * @return {@code true}, if offset was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetOffset() {
-		if (isSetOffset()) {
-			Double oldOffset = this.offset;
-			this.offset = null;
-			firePropertyChange(RenderConstants.offset, oldOffset, this.offset);
-			return true;
-		}
-		return false;
-	}
+  /**
+   * Set the value of stopColor
+   */
+  public void setStopColor(String stopColor) {
+    String oldStopColor = this.stopColor;
+    this.stopColor = stopColor;
+    firePropertyChange(RenderConstants.stopColor, oldStopColor, this.stopColor);
+  }
 
-	/**
-	 * Unsets the variable stopColor 
-	 * @return {@code true}, if stopColor was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetStopColor() {
-		if (isSetStopColor()) {
-			String oldStopColor = this.stopColor;
-			this.stopColor = null;
-			firePropertyChange(RenderConstants.stopColor, oldStopColor, this.stopColor);
-			return true;
-		}
-		return false;
-	}
+  /**
+   * Unsets the variable offset 
+   * @return {@code true}, if offset was set before, 
+   *         otherwise {@code false}
+   */
+  public boolean unsetOffset() {
+    if (isSetOffset()) {
+      Double oldOffset = this.offset;
+      this.offset = null;
+      firePropertyChange(RenderConstants.offset, oldOffset, this.offset);
+      return true;
+    }
+    return false;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#toString()
-	 */
-	//@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
+  /**
+   * Unsets the variable stopColor 
+   * @return {@code true}, if stopColor was set before, 
+   *         otherwise {@code false}
+   */
+  public boolean unsetStopColor() {
+    if (isSetStopColor()) {
+      String oldStopColor = this.stopColor;
+      this.stopColor = null;
+      firePropertyChange(RenderConstants.stopColor, oldStopColor, this.stopColor);
+      return true;
+    }
+    return false;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#toString()
+   */
+  @Override
+  public String toString() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
    */
-	@Override
+  @Override
   public Map<String, String> writeXMLAttributes() {
-	  Map<String, String> attributes = super.writeXMLAttributes();
-	  if (isSetOffset()) {
-	    attributes.remove(RenderConstants.offset);
-	    attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.offset,
-	      XMLTools.positioningToString(getOffset(), false));
-	  }
-	  if (isSetStopColor()) {
-	    attributes.remove(RenderConstants.stopColor);
-	    attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.stopColor,
-	      getStopColor());
-	  }
-	  return attributes;
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetOffset()) {
+      attributes.remove(RenderConstants.offset);
+      attributes.put(RenderConstants.shortLabel + ":" + RenderConstants.offset,
+        XMLTools.positioningToString(getOffset(), false));
+    }
+    if (isSetStopColor()) {
+      attributes.remove(RenderConstants.stopColor);
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.stopColor,
+        getStopColor());
+    }
+    return attributes;
   }
 
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value) {
-	  boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-	  if (!isAttributeRead) {
-	    isAttributeRead = true;
-	    if (attributeName.equals(RenderConstants.offset)) {
-	      setOffset(XMLTools.parsePosition(value));
-	    }
-	    else if (attributeName.equals(RenderConstants.stopColor)) {
-	      setStopColor(value);
-	    }
-	    else {
-	      isAttributeRead = false;
-	    }
-	  }
-	  return isAttributeRead;
-	}
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(RenderConstants.offset)) {
+        setOffset(XMLTools.parsePosition(value));
+      }
+      else if (attributeName.equals(RenderConstants.stopColor)) {
+        setStopColor(value);
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
+  }
 
 }

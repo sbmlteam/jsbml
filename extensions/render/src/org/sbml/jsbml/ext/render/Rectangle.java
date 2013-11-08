@@ -120,7 +120,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#isAbsoluteX()
    */
-  //@Override
+  @Override
   public boolean isAbsoluteX() {
     if (isSetAbsoluteX()) {
       return absoluteX;
@@ -132,7 +132,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * @return whether absoluteX is set 
    */
-  //@Override
+  @Override
   public boolean isSetAbsoluteX() {
     return this.absoluteX != null;
   }
@@ -140,7 +140,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * Set the value of absoluteX
    */
-  //@Override
+  @Override
   public void setAbsoluteX(Boolean absoluteX) {
     Boolean oldAbsoluteX = this.absoluteX;
     this.absoluteX = absoluteX;
@@ -152,7 +152,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * @return {@code true}, if absoluteX was set before, 
    *         otherwise {@code false}
    */
-  //@Override
+  @Override
   public boolean unsetAbsoluteX() {
     if (isSetAbsoluteX()) {
       Boolean oldAbsoluteX = this.absoluteX;
@@ -166,7 +166,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * @return the value of absoluteY
    */
-  //@Override
+  @Override
   public boolean isAbsoluteY() {
     if (isSetAbsoluteY()) {
       return absoluteY;
@@ -178,7 +178,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * @return whether absoluteY is set 
    */
-  //@Override
+  @Override
   public boolean isSetAbsoluteY() {
     return this.absoluteY != null;
   }
@@ -186,7 +186,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * Set the value of absoluteY
    */
-  //@Override
+  @Override
   public void setAbsoluteY(Boolean absoluteY) {
     Boolean oldAbsoluteY = this.absoluteY;
     this.absoluteY = absoluteY;
@@ -198,7 +198,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * @return {@code true}, if absoluteY was set before, 
    *         otherwise {@code false}
    */
-  //@Override
+  @Override
   public boolean unsetAbsoluteY() {
     if (isSetAbsoluteY()) {
       Boolean oldAbsoluteY = this.absoluteY;
@@ -212,7 +212,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * @return the value of absoluteZ
    */
-  //@Override
+  @Override
   public boolean isAbsoluteZ() {
     if (isSetAbsoluteZ()) {
       return absoluteZ;
@@ -224,7 +224,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * @return whether absoluteZ is set 
    */
-  //@Override
+  @Override
   public boolean isSetAbsoluteZ() {
     return this.absoluteZ != null;
   }
@@ -232,7 +232,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * Set the value of absoluteZ
    */
-  //@Override
+  @Override
   public void setAbsoluteZ(Boolean absoluteZ) {
     Boolean oldAbsoluteZ = this.absoluteZ;
     this.absoluteZ = absoluteZ;
@@ -244,7 +244,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * @return {@code true}, if absoluteZ was set before, 
    *         otherwise {@code false}
    */
-  //@Override
+  @Override
   public boolean unsetAbsoluteZ() {
     if (isSetAbsoluteZ()) {
       Boolean oldAbsoluteZ = this.absoluteZ;
@@ -441,7 +441,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * @return the value of x
    */
-  //@Override
+  @Override
   public double getX() {
     if (isSetX()) {
       return x;
@@ -453,7 +453,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * @return whether x is set 
    */
-  //@Override
+  @Override
   public boolean isSetX() {
     return this.x != null;
   }
@@ -461,7 +461,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * Set the value of x
    */
-  //@Override
+  @Override
   public void setX(Double x) {
     Double oldX = this.x;
     this.x = x;
@@ -473,7 +473,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * @return {@code true}, if x was set before, 
    *         otherwise {@code false}
    */
-  //@Override
+  @Override
   public boolean unsetX() {
     if (isSetX()) {
       Double oldX = this.x;
@@ -487,7 +487,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * @return the value of y
    */
-  //@Override
+  @Override
   public double getY() {
     if (isSetY()) {
       return y;
@@ -499,7 +499,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * @return whether y is set 
    */
-  //@Override
+  @Override
   public boolean isSetY() {
     return this.y != null;
   }
@@ -507,7 +507,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * Set the value of y
    */
-  //@Override
+  @Override
   public void setY(Double y) {
     Double oldY = this.y;
     this.y = y;
@@ -519,7 +519,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * @return {@code true}, if y was set before, 
    *         otherwise {@code false}
    */
-  //@Override
+  @Override
   public boolean unsetY() {
     if (isSetY()) {
       Double oldY = this.y;
@@ -533,7 +533,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * @return the value of z
    */
-  //@Override
+  @Override
   public double getZ() {
     if (isSetZ()) {
       return z;
@@ -545,7 +545,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * @return whether z is set 
    */
-  //@Override
+  @Override
   public boolean isSetZ() {
     return this.z != null;
   }
@@ -553,7 +553,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
   /**
    * Set the value of z
    */
-  //@Override
+  @Override
   public void setZ(Double z) {
     Double oldZ = this.z;
     this.z = z;
@@ -565,7 +565,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * @return {@code true}, if z was set before, 
    *         otherwise {@code false}
    */
-  //@Override
+  @Override
   public boolean unsetZ() {
     if (isSetZ()) {
       Double oldZ = this.z;
