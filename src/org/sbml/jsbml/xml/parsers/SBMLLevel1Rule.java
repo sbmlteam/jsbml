@@ -41,105 +41,102 @@ import org.sbml.jsbml.RateRule;
  */
 class SBMLLevel1Rule extends ExplicitRule {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -7511529049103686574L;
-	/**
-	 * 
-	 */
-	private String type;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -7511529049103686574L;
+  /**
+   * 
+   */
+  private String type;
 
-	/**
-	 * 
-	 */
-	public SBMLLevel1Rule() {
-	}
-	
-	/**
-	 * Creates a new {@link ExplicitRule}
-	 * 
-	 * @param rule
-	 */
-	public SBMLLevel1Rule(SBMLLevel1Rule rule) {
-		super(rule);
-		
-		if (rule.getType() != null) {
-			setType(new String(rule.getType()));
-		}
-	}
+  /**
+   * 
+   */
+  public SBMLLevel1Rule() {
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.ExplicitRule#clone()
-	 */
-	public SBMLLevel1Rule clone() {
-		return new SBMLLevel1Rule(this);
-	}
+  /**
+   * Creates a new {@link ExplicitRule}
+   * 
+   * @param rule
+   */
+  public SBMLLevel1Rule(SBMLLevel1Rule rule) {
+    super(rule);
 
-	/**
-	 * 
-	 * @return
-	 */
-	public AssignmentRule cloneAsAssignmentRule() {
-		return new AssignmentRule(this);
-	}
+    if (rule.getType() != null) {
+      setType(new String(rule.getType()));
+    }
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public RateRule cloneAsRateRule() {
-		return new RateRule(this);
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getType() {
-		return type;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ExplicitRule#clone()
+   */
+  @Override
+  public SBMLLevel1Rule clone() {
+    return new SBMLLevel1Rule(this);
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.ExplicitRule#isScalar()
-	 */
-	public boolean isScalar() {
-		if (type == null || type.trim().equals("scalar")) {
-			return true;
-		}
-		return false;
-	}
+  /**
+   * 
+   * @return
+   */
+  public AssignmentRule cloneAsAssignmentRule() {
+    return new AssignmentRule(this);
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.MathContainer#readAttribute(java.lang.String,
-	 * java.lang.String, java.lang.String)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value) 
-	{
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-		
-		if (!isAttributeRead) {
-			if (getLevel() == 1) {
-				if (attributeName.equals("type")) {
-					setType(value);
-					return true;
-				} 				
-			} 
-		}
-		return isAttributeRead;
-	}
-	
-	/**
-	 * 
-	 * @param type
-	 */
-	public void setType(String type) {
-		this.type = type;
-	}
+  /**
+   * 
+   * @return
+   */
+  public RateRule cloneAsRateRule() {
+    return new RateRule(this);
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public String getType() {
+    return type;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ExplicitRule#isScalar()
+   */
+  @Override
+  public boolean isScalar() {
+    if ((type == null) || type.trim().equals("scalar")) {
+      return true;
+    }
+    return false;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.MathContainer#readAttribute(java.lang.String,java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value)
+  {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+
+    if (!isAttributeRead) {
+      if (getLevel() == 1) {
+        if (attributeName.equals("type")) {
+          setType(value);
+          return true;
+        }
+      }
+    }
+    return isAttributeRead;
+  }
+
+  /**
+   * 
+   * @param type
+   */
+  public void setType(String type) {
+    this.type = type;
+  }
 
 }

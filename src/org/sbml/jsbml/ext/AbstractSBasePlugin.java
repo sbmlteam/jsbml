@@ -63,7 +63,7 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getExtendedSBase()
    */
-  //@Override
+  @Override
   public SBase getExtendedSBase() {
     return extendedSBase;
   }
@@ -95,7 +95,7 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#isSetExtendedSBase()
    */
-  //@Override
+  @Override
   public boolean isSetExtendedSBase() {
     return extendedSBase != null;
   }

@@ -967,7 +967,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#selector(java.util.List)
 	 */
-	//@Override
+	@Override
 	public ASTNodeValue selector(List<ASTNode> nodes) throws SBMLException {
 		return function("selector", nodes);
 	}

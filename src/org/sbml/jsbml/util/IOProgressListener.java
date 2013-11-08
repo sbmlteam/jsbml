@@ -18,12 +18,14 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.util;
 
 import java.util.EventListener;
 
 /**
+ * A listener that is notified about any progress while reading or writing
+ * information about some object.
+ * 
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$

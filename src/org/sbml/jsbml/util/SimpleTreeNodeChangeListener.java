@@ -63,7 +63,7 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeAdded(javax.swing.tree.TreeNode)
 	 */
-	//@Override
+	@Override
 	public void nodeAdded(TreeNode treeNode) {
 		if (logger.isDebugEnabled()) {
 			logger.debug(MessageFormat.format("[ADD]\t{0}", saveToString(treeNode)));
@@ -73,7 +73,7 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeRemoved(org.sbml.jsbml.util.TreeNodeRemovedEvent)
 	 */
-	//@Override
+	@Override
 	public void nodeRemoved(TreeNodeRemovedEvent evt) {
 		if (logger.isDebugEnabled()) {
 			String element = "null", prevParent = "null";
@@ -88,7 +88,7 @@ public class SimpleTreeNodeChangeListener implements TreeNodeChangeListener {
 	/* (non-Javadoc)
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
-	//@Override
+	@Override
 	public void propertyChange(PropertyChangeEvent evt) {		
 		if (logger.isDebugEnabled()) {
 			logger.debug(MessageFormat.format("[CHG]\t{0}", saveToString(evt)));

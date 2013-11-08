@@ -22,7 +22,7 @@
 package org.sbml.jsbml;
 
 /**
- * Contains the MathMl expression of the Stoichiometry.
+ * Contains the MathML expression of the stoichiometry.
  * 
  * @author Andreas Dr&auml;ger
  * @since 0.8
@@ -40,7 +40,7 @@ public class StoichiometryMath extends AbstractMathContainer {
 	private static final long serialVersionUID = -7070065639669486763L;
 
 	/**
-	 * Creates a StoichiometryMath instance.
+	 * Creates a {@link StoichiometryMath} instance.
 	 */
 	@Deprecated
 	public StoichiometryMath() {
@@ -48,7 +48,7 @@ public class StoichiometryMath extends AbstractMathContainer {
 	}
 
 	/**
-	 * Creates a StoichiometryMath instance from a level and version.
+	 * Creates a {@link StoichiometryMath} instance from a level and version.
 	 * 
 	 * @param level
 	 * @param version
@@ -59,7 +59,8 @@ public class StoichiometryMath extends AbstractMathContainer {
 	}
 
 	/**
-	 * Creates a StoichiometryMath instance from a given StoichiometryMath.
+	 * Creates a {@link StoichiometryMath} instance from a given
+	 * {@link StoichiometryMath}.
 	 * 
 	 * @param stoichiometryMath
 	 */

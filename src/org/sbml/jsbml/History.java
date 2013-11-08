@@ -109,9 +109,9 @@ public class History extends AnnotationElement {
 	 */
 	public void addCreator(Creator mc) {
 		boolean success = listOfCreators.add(mc);
-		mc.parent = this;
 		if (success) {
-			firePropertyChange(TreeNodeChangeEvent.created, null, mc);
+		  mc.parent = this;
+			firePropertyChange(TreeNodeChangeEvent.createdDate, null, mc);
 		}		
 	}
 
@@ -231,9 +231,9 @@ public class History extends AnnotationElement {
 	}
 
 	/**
-	 * Get the list of ModifiedDate objects in this {@link History}.
+	 * Get the list of modifiedDate objects in this {@link History}.
 	 * 
-	 * @return the list of ModifiedDates for this {@link History}.
+	 * @return the list of modifiedDate for this {@link History}.
 	 */
 	public List<Date> getListOfModifiedDates() {
 		return listOfModification;
@@ -429,11 +429,11 @@ public class History extends AnnotationElement {
 			}
 			Date d = listOfModification.remove(i);
 			if (d != null) {
-				firePropertyChange(TreeNodeChangeEvent.modified, d, null);
+				firePropertyChange(TreeNodeChangeEvent.modifiedDate, d, null);
 			}
 			return d;
 		}
-		throw new IndexOutOfBoundsException(String.format("No modified date %d available.", i));
+		throw new IndexOutOfBoundsException(MessageFormat.format("No modified date {0,number,integer} available.", i));
 	}
 
 	/**
@@ -446,7 +446,7 @@ public class History extends AnnotationElement {
 	public void setCreatedDate(Date date) {
 		Date oldValue = creation;
 		creation = date;
-		firePropertyChange(TreeNodeChangeEvent.created, oldValue, date);
+		firePropertyChange(TreeNodeChangeEvent.createdDate, oldValue, date);
 	}
 
 	/**
@@ -461,7 +461,7 @@ public class History extends AnnotationElement {
 		boolean success = listOfModification.add(date);
 		modified = date;
 		if (success) {
-			firePropertyChange(TreeNodeChangeEvent.modified, oldValue, modified);
+			firePropertyChange(TreeNodeChangeEvent.modifiedDate, oldValue, modified);
 		}
 	}
 
@@ -472,7 +472,7 @@ public class History extends AnnotationElement {
 		if (this.creation != null) {
 			Date oldValue = this.creation;
 			creation = null;
-			firePropertyChange(TreeNodeChangeEvent.created, oldValue, creation);
+			firePropertyChange(TreeNodeChangeEvent.createdDate, oldValue, creation);
 		}
 	}
 
@@ -485,9 +485,8 @@ public class History extends AnnotationElement {
 		}
 		if (listOfModification != null) {			
 			for (Date date : listOfModification) {
-				firePropertyChange(TreeNodeChangeEvent.modified, date, null);
+				firePropertyChange(TreeNodeChangeEvent.modifiedDate, date, null);
 			}
-			
 			listOfModification = null;
 		}
 	}

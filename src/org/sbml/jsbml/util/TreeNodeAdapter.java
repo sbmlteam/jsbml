@@ -109,7 +109,7 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractTreeNode#clone()
 	 */
-	//@Override
+	@Override
 	public TreeNode clone() {
 		return new TreeNodeAdapter(this);
 	}
@@ -133,7 +133,7 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
 	 */
-	//@Override
+	@Override
 	public boolean getAllowsChildren() {
 		if (isSetUserObject() && (userObject instanceof Collection<?>)) {
 			return true;
@@ -144,7 +144,7 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getChildAt(int)
 	 */
-	//@Override
+	@Override
 	public TreeNode getChildAt(int childIndex) {
 		if (childIndex < 0) {
 			throw new IndexOutOfBoundsException(childIndex + " < 0");
@@ -185,7 +185,7 @@ public class TreeNodeAdapter extends AbstractTreeNode {
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getChildCount()
 	 */
-	//@Override
+	@Override
 	public int getChildCount() {
 		if (isSetUserObject()) {
 			if (userObject instanceof Collection<?>) {
