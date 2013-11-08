@@ -18,13 +18,10 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml;
 
 import java.io.IOException;
 import java.util.List;
-
-import org.sbml.jsbml.util.IOProgressListener;
 
 /**
  * This interface allows the implementing class to convert a JSBML model into
@@ -35,96 +32,55 @@ import org.sbml.jsbml.util.IOProgressListener;
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
+ * @param <T> The type of output model that can be treated by this converter.
  */
-public interface SBMLOutputConverter {
-
-	/**
-	 * Allows this class to fire events through this event Listener.
-	 * 
-	 * @param listener
-	 */
-	public void addIOProgressListener(IOProgressListener listener);
-
-	/**
-	 * 
-	 * @return
-	 * @deprecated use {@link #getErrorCount(Object)}
-	 */
-	@Deprecated
-	public int getNumErrors(Object sbase);
-	
-	/**
-	 * 
-	 * @param sbase
-	 * @return
-	 */
-	public int getErrorCount(Object sbase);
-
-	/**
-	 * 
-	 * @param sbase
-	 * @return
-	 */
-	public List<SBMLException> getWriteWarnings(Object sbase);
-
-	/**
-	 * Deletes those elements that are not referenced or not needed within the
-	 * model.
-	 * 
-	 * @param model
-	 * @param orig
-	 */
-	public void removeUnneccessaryElements(Model model, Object orig);
-
-	/**
-	 * Save the changes in the model.
-	 * 
-	 * @param model
-	 * @param object
-	 * @throws SBMLException
-	 */
-	public boolean saveChanges(Model model, Object object) throws SBMLException;
-
-	/**
-	 * 
-	 * @param reaction
-	 * @param model
-	 * @return
-	 * @throws SBMLException
-	 */
-	public boolean saveChanges(Reaction reaction, Object model)
-			throws SBMLException;
+public interface SBMLOutputConverter<T> {
 
 	/**
 	 * 
 	 * @param model
 	 * @return
-	 * @throws SBMLException
 	 */
-	public Object writeModel(Model model) throws SBMLException;
+	public List<SBMLException> getWriteWarnings(T model);
 
-	/**
-	 * 
-	 * @param sbmlDocument
-	 * @param filename
-	 * @return
-	 * @throws SBMLException
-	 * @throws IOException
-	 */
-	public boolean writeSBML(Object sbmlDocument, String filename)
+  /**
+   * This method is identical to the method
+   * {@link #writeSBML(Object, String, String, String)},
+   * but without the option to pass the program's name or version to the writer.
+   * 
+   * @param model
+   * @param filename
+   * @return
+   * @throws SBMLException
+   * @throws IOException
+   * @see #writeSBML(Object, String, String, String)
+   */
+	public boolean writeSBML(T model, String filename)
 			throws SBMLException, IOException;
 
-	/**
-	 * 
-	 * @param object
-	 * @param filename
-	 * @param programName
-	 * @param versionNumber
-	 * @return
-	 * @throws SBMLException
-	 * @throws IOException
-	 */
-	public boolean writeSBML(Object object, String filename,
+  /**
+   * Writes the given model (in which format it might be given) to an SBML file
+   * as specified by the given filename and returns {@code true} if this
+   * operation could be successfully executed, {@code false} otherwise.
+   * 
+   * @param model
+   *        the model (in whatever format, but with respect to the type of
+   *        this generic class).
+   * @param filename
+   *        the file's absolute or relative path to which the SBML code
+   *        should be serialized.
+   * @param programName
+   *        the name of the program that uses this method.
+   * @param versionNumber
+   *        the version number of the program that accesses this
+   *        method.
+   * @return {@code true} if this
+   *         operation could be successfully executed, {@code false} otherwise.
+   * @throws SBMLException
+   * @throws IOException
+   * @see #writeSBML(Object, String)
+   */
+	public boolean writeSBML(T model, String filename,
 			String programName, String versionNumber) throws SBMLException,
 			IOException;
 

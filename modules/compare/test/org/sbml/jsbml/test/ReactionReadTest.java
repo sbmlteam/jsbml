@@ -246,8 +246,12 @@ public class ReactionReadTest {
 		}
 		
 	}
-	
-	@SuppressWarnings("deprecation")
+
+	/**
+	 * 
+	 * @param jsbmlSbase
+	 * @param libSbmlSbase
+	 */
 	private static void compareNamedSBase(NamedSBase jsbmlSbase, org.sbml.libsbml.SBase libSbmlSbase) 
 	{
 		// id

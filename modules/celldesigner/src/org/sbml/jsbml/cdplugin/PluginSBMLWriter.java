@@ -644,8 +644,9 @@ public class PluginSBMLWriter implements SBMLOutputConverter {
 	 * @return
 	 */
 	private boolean equal(Unit u, PluginUnit unit) {
-		if (u == null || unit == null)
+		if ((u == null) || (unit == null)) {
 			return false;
+		}
 		boolean equal = true;
 		switch (unit.getKind()) {
 		case libsbmlConstants.UNIT_KIND_AMPERE:
@@ -2442,20 +2443,6 @@ public class PluginSBMLWriter implements SBMLOutputConverter {
 		return k;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.SBMLWriter#writeModel(org.sbml.Model)
-	 */
-	public PluginModel writeModel(Model model) throws SBMLException {
-		// LibSBMLWriter writer = new LibSBMLWriter();
-		// pluginModel = new PluginModel((org.sbml.libsbml.Model) writer
-		// .writeModel(model));
-		// saveChanges(model, pluginModel);
-		// return pluginModel;
-		return null;
-	}
-
 	/**
 	 * 
 	 * @param modifierSpeciesReference
@@ -2567,21 +2554,18 @@ public class PluginSBMLWriter implements SBMLOutputConverter {
 		return writeSBML(sbmlModel, filename, null, null);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.SBMLWriter#writeSBML(java.lang.Object,
-	 * java.lang.String, java.lang.String, java.lang.String)
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.SBMLWriter#writeSBML(java.lang.Object,java.lang.String, java.lang.String, java.lang.String)
 	 */
 	public boolean writeSBML(Object sbmlModel, String filename,
 			String programName, String versionNumber) throws SBMLException,
 			IOException {
-		if (!(sbmlModel instanceof PluginSBase))
-			throw new IllegalArgumentException("sbmlModel" + error
-					+ "PluginSBase");
+		if (!(sbmlModel instanceof PluginSBase)) {
+			throw new IllegalArgumentException("sbmlModel" + error + "PluginSBase");
+		}
 		PluginSBase sbase = (PluginSBase) sbmlModel;
 		BufferedWriter bw = new BufferedWriter(new FileWriter(filename));
-		if (programName != null || versionNumber != null) {
+		if ((programName != null) || (versionNumber != null)) {
 			bw.append("<!-- ");
 			if (programName != null) {
 				bw.append("created by ");

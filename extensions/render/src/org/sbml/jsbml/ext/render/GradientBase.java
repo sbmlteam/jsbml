@@ -154,7 +154,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
-  //@Override
+  @Override
   public GradientBase clone() {
     return new GradientBase(this);
   }
@@ -213,7 +213,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#toString()
    */
-  //@Override
+  @Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return null;

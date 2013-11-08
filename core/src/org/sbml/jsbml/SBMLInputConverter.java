@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml;
 
 import java.util.List;
@@ -35,48 +34,40 @@ import org.sbml.jsbml.util.IOProgressListener;
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
+ * @param <T> The type of input model that can be treated by this converter.
  */
-public interface SBMLInputConverter {
+public interface SBMLInputConverter<T> {
 
-	/**
-	 * 
-	 * @param listener
-	 */
-	public void addIOProgressListener(IOProgressListener listener);
+  /**
+   * 
+   * @param listener
+   */
+  public void addIOProgressListener(IOProgressListener listener);
 
-	/**
-	 * 
-	 * @param model
-	 * @return
-	 * @throws Exception
-	 */
-	public Model convertModel(Object model) throws Exception;
+  /**
+   * Takes a model in an arbitrary (but type-secure) format and delivers a
+   * corresponding JSBML-compliant model.
+   * 
+   * @param model
+   * @return
+   * @throws Exception
+   */
+  public Model convertModel(T model) throws Exception;
 
-	/**
-	 * 
-	 * @return
-	 * @deprecated use {@link #getErrorCount()}
-	 */
-	@Deprecated
-	public int getNumErrors();
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public int getErrorCount();
+  /**
+   * @return The original model that has been converted by this class in the
+   *         method {@link #convertModel(Object)}. Typically, the identical
+   *         result can also be obtained by calling
+   *         {@link Model#getUserObject(Object)} with
+   *         {@link #ORIGINAL_MODEL_KEY} as parameter.
+   */
+  public T getOriginalModel();
 
-	/**
-	 * 
-	 * @return
-	 */
-	public Object getOriginalModel();
-
-	/**
-	 * 
-	 * @param sbmlDocument
-	 * @return
-	 */
-	public List<SBMLException> getWarnings();
+  /**
+   * Creates an SBML error report and returns the list of errors.
+   * 
+   * @return Warnings that occur during the conversion of the model.
+   */
+  public List<SBMLException> getWarnings();
 
 }

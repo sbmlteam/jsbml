@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.test;
 
 import java.beans.PropertyChangeEvent;
@@ -81,7 +80,7 @@ public class ListenerTest implements TreeNodeChangeListener {
 	/* (non-Javadoc)
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
-	//@Override
+	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		System.out.printf("Change:\t%s\n", evt.toString());
 	}
@@ -89,7 +88,7 @@ public class ListenerTest implements TreeNodeChangeListener {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeAdded(javax.swing.tree.TreeNode)
 	 */
-	//@Override
+	@Override
 	public void nodeAdded(TreeNode node) {
 		System.out.printf("Added:\t%s\n", node);
 	}
@@ -97,7 +96,7 @@ public class ListenerTest implements TreeNodeChangeListener {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeRemoved(org.sbml.jsbml.util.TreeNodeRemovedEvent)
 	 */
-	//@Override
+	@Override
 	public void nodeRemoved(TreeNodeRemovedEvent evt) {
 		System.out.printf("Removed:\t%s\n", evt.getSource());
 	}

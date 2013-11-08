@@ -50,7 +50,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#getFontFamily()
    */
-  //@Override
+  @Override
   public FontFamily getFontFamily() {
     if (isSetFontFamily()) {
       return fontFamily;
@@ -62,7 +62,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#getFontSize()
    */
-  //@Override
+  @Override
   public short getFontSize() {
     if (isSetFontSize()) {
       return fontSize;
@@ -74,7 +74,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#getTextAnchor()
    */
-  //@Override
+  @Override
   public TextAnchor getTextAnchor() {
     if (isSetTextAnchor()) {
       return textAnchor;
@@ -86,7 +86,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#getVTextAnchor()
    */
-  //@Override
+  @Override
   public VTextAnchor getVTextAnchor() {
     if (isSetVTextAnchor()) {
       return vTextAnchor;
@@ -98,7 +98,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#getX()
    */
-  //@Override
+  @Override
   public double getX() {
     if (isSetX()) {
       return x;
@@ -110,7 +110,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#getY()
    */
-  //@Override
+  @Override
   public double getY() {
     if (isSetY()) {
       return y;
@@ -122,7 +122,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#getZ()
    */
-  //@Override
+  @Override
   public double getZ() {
     if (isSetZ()) {
       return z;
@@ -134,7 +134,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#isAbsoluteX()
    */
-  //@Override
+  @Override
   public boolean isAbsoluteX() {
     if (isSetAbsoluteX()) {
       return absoluteX;
@@ -146,7 +146,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#isAbsoluteY()
    */
-  //@Override
+  @Override
   public boolean isAbsoluteY() {
     if (isSetAbsoluteY()) {
       return absoluteY;
@@ -158,7 +158,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#isAbsoluteZ()
    */
-  //@Override
+  @Override
   public boolean isAbsoluteZ() {
     if (isSetAbsoluteZ()) {
       return absoluteZ;
@@ -170,7 +170,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#isFontStyleItalic()
    */
-  //@Override
+  @Override
   public boolean isFontStyleItalic() {
     if (isSetFontStyleItalic()) {
       return fontStyleItalic;
@@ -182,7 +182,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#isFontWeightBold()
    */
-  //@Override
+  @Override
   public boolean isFontWeightBold() {
     if (isSetFontWeightBold()) {
       return fontWeightBold;
@@ -194,7 +194,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#isSetAbsoluteX()
    */
-  //@Override
+  @Override
   public boolean isSetAbsoluteX() {
     return this.absoluteX != null;
   }
@@ -202,7 +202,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#isSetAbsoluteY()
    */
-  //@Override
+  @Override
   public boolean isSetAbsoluteY() {
     return this.absoluteY != null;
   }
@@ -210,7 +210,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#isSetAbsoluteZ()
    */
-  //@Override
+  @Override
   public boolean isSetAbsoluteZ() {
     return this.absoluteZ != null;
   }
@@ -218,7 +218,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#isSetFontFamily()
    */
-  //@Override
+  @Override
   public boolean isSetFontFamily() {
     return this.fontFamily != null;
   }
@@ -226,7 +226,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#isSetFontSize()
    */
-  //@Override
+  @Override
   public boolean isSetFontSize() {
     return this.fontSize != null;
   }
@@ -234,7 +234,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#isSetFontStyleItalic()
    */
-  //@Override
+  @Override
   public boolean isSetFontStyleItalic() {
     return this.fontStyleItalic != null;
   }
@@ -242,7 +242,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#isSetFontWeightBold()
    */
-  //@Override
+  @Override
   public boolean isSetFontWeightBold() {
     return this.fontWeightBold != null;
   }
@@ -250,7 +250,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#isSetTextAnchor()
    */
-  //@Override
+  @Override
   public boolean isSetTextAnchor() {
     return this.textAnchor != null;
   }
@@ -258,7 +258,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#isSetVTextAnchor()
    */
-  //@Override
+  @Override
   public boolean isSetVTextAnchor() {
     return this.vTextAnchor != null;
   }
@@ -266,7 +266,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#isSetX()
    */
-  //@Override
+  @Override
   public boolean isSetX() {
     return this.x != null;
   }
@@ -274,7 +274,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#isSetY()
    */
-  //@Override
+  @Override
   public boolean isSetY() {
     return this.y != null;
   }
@@ -282,7 +282,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#isSetZ()
    */
-  //@Override
+  @Override
   public boolean isSetZ() {
     return this.z != null;
   }
@@ -290,7 +290,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#setAbsoluteX(java.lang.Boolean)
    */
-  //@Override
+  @Override
   public void setAbsoluteX(Boolean absoluteX) {
     Boolean oldAbsoluteX = this.absoluteX;
     this.absoluteX = absoluteX;
@@ -300,7 +300,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#setAbsoluteY(java.lang.Boolean)
    */
-  //@Override
+  @Override
   public void setAbsoluteY(Boolean absoluteY) {
     Boolean oldAbsoluteY = this.absoluteY;
     this.absoluteY = absoluteY;
@@ -310,7 +310,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#setAbsoluteZ(java.lang.Boolean)
    */
-  //@Override
+  @Override
   public void setAbsoluteZ(Boolean absoluteZ) {
     Boolean oldAbsoluteZ = this.absoluteZ;
     this.absoluteZ = absoluteZ;
@@ -320,7 +320,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#setFontFamily(org.sbml.jsbml.ext.render.FontFamily)
    */
-  //@Override
+  @Override
   public void setFontFamily(FontFamily fontFamily) {
     FontFamily oldFontFamily = this.fontFamily;
     this.fontFamily = fontFamily;
@@ -330,7 +330,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#setFontSize(short)
    */
-  //@Override
+  @Override
   public void setFontSize(short fontSize) {
     Short oldFontSize = this.fontSize;
     this.fontSize = fontSize;
@@ -340,7 +340,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#setFontStyleItalic(boolean)
    */
-  //@Override
+  @Override
   public void setFontStyleItalic(boolean fontStyleItalic) {
     Boolean oldFontStyleItalic = this.fontStyleItalic;
     this.fontStyleItalic = fontStyleItalic;
@@ -350,7 +350,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#setFontWeightBold(boolean)
    */
-  //@Override
+  @Override
   public void setFontWeightBold(boolean fontWeightBold) {
     Boolean oldFontWeightBold = this.fontWeightBold;
     this.fontWeightBold = fontWeightBold;
@@ -360,7 +360,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#setTextAnchor(org.sbml.jsbml.ext.render.TextAnchor)
    */
-  //@Override
+  @Override
   public void setTextAnchor(TextAnchor textAnchor) {
     TextAnchor oldTextAnchor = this.textAnchor;
     this.textAnchor = textAnchor;
@@ -370,7 +370,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#setVTextAnchor(org.sbml.jsbml.ext.render.VTextAnchor)
    */
-  //@Override
+  @Override
   public void setVTextAnchor(VTextAnchor vTextAnchor) {
     VTextAnchor oldVTextAnchor = this.vTextAnchor;
     this.vTextAnchor = vTextAnchor;
@@ -380,7 +380,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#setX(java.lang.Double)
    */
-  //@Override
+  @Override
   public void setX(Double x) {
     Double oldX = this.x;
     this.x = x;
@@ -390,7 +390,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#setY(java.lang.Double)
    */
-  //@Override
+  @Override
   public void setY(Double y) {
     Double oldY = this.y;
     this.y = y;
@@ -400,7 +400,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#setZ(java.lang.Double)
    */
-  //@Override
+  @Override
   public void setZ(Double z) {
     Double oldZ = this.z;
     this.z = z;
@@ -410,7 +410,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#unsetAbsoluteX()
    */
-  //@Override
+  @Override
   public boolean unsetAbsoluteX() {
     if (isSetAbsoluteX()) {
       Boolean oldAbsoluteX = this.absoluteX;
@@ -424,7 +424,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#unsetAbsoluteY()
    */
-  //@Override
+  @Override
   public boolean unsetAbsoluteY() {
     if (isSetAbsoluteY()) {
       Boolean oldAbsoluteY = this.absoluteY;
@@ -438,7 +438,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#unsetAbsoluteZ()
    */
-  //@Override
+  @Override
   public boolean unsetAbsoluteZ() {
     if (isSetAbsoluteZ()) {
       Boolean oldAbsoluteZ = this.absoluteZ;
@@ -452,7 +452,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#unsetFontFamily()
    */
-  //@Override
+  @Override
   public boolean unsetFontFamily() {
     if (isSetFontFamily()) {
       FontFamily oldFontFamily = this.fontFamily;
@@ -466,7 +466,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#unsetFontSize()
    */
-  //@Override
+  @Override
   public boolean unsetFontSize() {
     if (isSetFontSize()) {
       Short oldFontSize = this.fontSize;
@@ -480,7 +480,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#unsetFontStyleItalic()
    */
-  //@Override
+  @Override
   public boolean unsetFontStyleItalic() {
     if (isSetFontStyleItalic()) {
       Boolean oldFontStyleItalic = this.fontStyleItalic;
@@ -494,7 +494,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#unsetFontWeightBold()
    */
-  //@Override
+  @Override
   public boolean unsetFontWeightBold() {
     if (isSetFontWeightBold()) {
       Boolean oldFontWeightBold = this.fontWeightBold;
@@ -508,7 +508,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#unsetTextAnchor()
    */
-  //@Override
+  @Override
   public boolean unsetTextAnchor() {
     if (isSetTextAnchor()) {
       TextAnchor oldTextAnchor = this.textAnchor;
@@ -522,7 +522,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#unsetVTextAnchor()
    */
-  //@Override
+  @Override
   public boolean unsetVTextAnchor() {
     if (isSetVTextAnchor()) {
       VTextAnchor oldVTextAnchor = this.vTextAnchor;
@@ -536,7 +536,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#unsetX()
    */
-  //@Override
+  @Override
   public boolean unsetX() {
     if (isSetX()) {
       Double oldX = this.x;
@@ -550,7 +550,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#unsetY()
    */
-  //@Override
+  @Override
   public boolean unsetY() {
     if (isSetY()) {
       Double oldY = this.y;
@@ -564,7 +564,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Point3D#unsetZ()
    */
-  //@Override
+  @Override
   public boolean unsetZ() {
     if (isSetZ()) {
       Double oldZ = this.z;

@@ -21,7 +21,6 @@
  */ 
 package org.sbml.jsbml.test;
 
-
 import static org.junit.Assert.assertTrue;
 
 import javax.xml.stream.XMLStreamException;

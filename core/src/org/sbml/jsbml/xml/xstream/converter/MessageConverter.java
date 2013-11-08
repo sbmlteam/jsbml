@@ -45,13 +45,15 @@ public class MessageConverter implements Converter {
 	/* (non-Javadoc)
 	 * @see com.thoughtworks.xstream.converters.ConverterMatcher#canConvert(java.lang.Class)
 	 */
-	public boolean canConvert(Class arg0) {
+	@Override
+	public boolean canConvert(@SuppressWarnings("rawtypes") Class arg0) {
 		return arg0.equals(Message.class);
 	}
 
 	/* (non-Javadoc)
 	 * @see com.thoughtworks.xstream.converters.Converter#marshal(java.lang.Object, com.thoughtworks.xstream.io.HierarchicalStreamWriter, com.thoughtworks.xstream.converters.MarshallingContext)
 	 */
+	@Override
 	public void marshal(Object currentObject, HierarchicalStreamWriter writer,
 			MarshallingContext context) {
 		Message message = (Message) currentObject;

@@ -6,6 +6,16 @@ Version 1.0-rc1 (xx-xx-2013)
 
 * New Features:
 
+  - JSBML is no longer compliant to Java 1.5. With this version it has been
+    shifted to 1.6 due to the common availability of virtual machines for this
+    version on diverse platforms.
+    
+  - JSBML now provides a better distinction between JUnit test cases and example
+    programs.
+    
+  - The libSBMLio module for reading and writing SBML using libSBML as an input
+    and output module has been revised and completely re-implemented.
+
   - The MAVEN support has been improved. Thanks to Aurélien Naldi for providing
     several POM.xml files for JSBML.
 
@@ -72,6 +82,11 @@ Version 1.0-rc1 (xx-xx-2013)
 
 
 * Bug Fixes:
+
+  - The setParent method caused an incorrect and in many cases duplicate call of
+    the nodeAdded method in TreeNodeChangeListeners. Instead of registering a
+    property change (the parent link) the parent node has been passed to the
+    nodeAdded method. This has been corrected.
 
   - When trying to remove a modifier, reactant, or product from a reaction using
     the id of the element, where no such element was present before, a

@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.xml.test;
 
 import org.junit.runner.RunWith;
@@ -43,8 +42,8 @@ import org.sbml.jsbml.test.sbml.TestSpecies;
  */
 @RunWith(value=Suite.class)
 @SuiteClasses(value={TestCompartment.class, TestSpecies.class, TestParameter.class, TestL3Parameter.class, 
-		TestReaction.class, TestEvent.class, TestModel.class, TestReadFromFile1.class, TestCVTerms.class, 
-		TestReadFromFile5.class})
+  TestReaction.class, TestEvent.class, TestModel.class, TestReadFromFile1.class, TestCVTerms.class, 
+  TestReadFromFile5.class})
 public class LibsbmlCompatibilityTests {
 
 }

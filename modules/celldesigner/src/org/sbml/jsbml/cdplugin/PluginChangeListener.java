@@ -151,7 +151,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 	/* (non-Javadoc)
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
 	 */
-	//@Override
+	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		Object eventsource = event.getSource();
 		String prop = event.getPropertyName();
@@ -230,7 +230,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 			}
 		} else if (prop.equals(TreeNodeChangeEvent.conversionFactor)) {
 			logger.log(Level.DEBUG, String.format("Changing %s in the Model only supported with SBML version > 3.", eventsource.getClass().getSimpleName()));
-		} else if (prop.equals(TreeNodeChangeEvent.created)) {
+		} else if (prop.equals(TreeNodeChangeEvent.createdDate)) {
 			logger.log(Level.DEBUG, String.format("Couldn't change %s in the model.", eventsource.getClass().getSimpleName()));
 		} else if (prop.equals(TreeNodeChangeEvent.creator)) {
 			logger.log(Level.DEBUG, String.format("Couldn't change %s in the model.", eventsource.getClass().getSimpleName()));
@@ -356,7 +356,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 			logger.log(Level.DEBUG, String.format("Cannot fire propertychange %s", event.getClass().getSimpleName()));
 		} else if (prop.equals(TreeNodeChangeEvent.model)) {
 			logger.log(Level.DEBUG, String.format("Changing %s in the Model not supported.", eventsource.getClass().getSimpleName()));
-		} else if (prop.equals(TreeNodeChangeEvent.modified)) {
+		} else if (prop.equals(TreeNodeChangeEvent.modifiedDate)) {
 			logger.log(Level.DEBUG, String.format("Cannot fire propertychange in %s.", eventsource.getClass().getSimpleName()));
 		} else if (prop.equals(TreeNodeChangeEvent.multiplier)) {
 			Unit u = (Unit) eventsource;
@@ -393,7 +393,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 			PluginUnit plugU = pu.getUnit(index);
 			plugU.setOffset((Double) event.getNewValue());
 			plugin.notifySBaseChanged(plugU);
-		} else if (prop.equals(TreeNodeChangeEvent.organisation)) {
+		} else if (prop.equals(TreeNodeChangeEvent.organization)) {
 			logger.log(Level.DEBUG, String.format("Couldn't change %s in the model.", eventsource.getClass().getSimpleName()));
 		} else if (prop.equals(TreeNodeChangeEvent.outside)) {
 			Compartment c = (Compartment) event.getSource();
@@ -692,7 +692,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeAdded(javax.swing.tree.TreeNode)
 	 */
-	//@Override
+	@Override
 	public void nodeAdded(TreeNode node) {
 		if (node instanceof AbstractSBase) {
 			if (node instanceof AbstractNamedSBase) {
@@ -1200,7 +1200,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeRemoved(org.sbml.jsbml.util.TreeNodeRemovedEvent)
 	 */
-	//@Override
+	@Override
 	public void nodeRemoved(TreeNodeRemovedEvent evt) {
 		TreeNode node = evt.getSource();
 		TreeNode parent = evt.getPreviousParent();

@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.xml.test;
 
 import static org.junit.Assert.assertNotNull;
@@ -71,4 +70,5 @@ public class GetNotesStringTests {
         assertNotNull(doc.getModel().getNotesString());
 		assertTrue(doc.getModel().getNotesString() == "");
 	}
+
 }

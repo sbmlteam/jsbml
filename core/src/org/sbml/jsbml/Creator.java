@@ -21,6 +21,7 @@
 
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -31,10 +32,10 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
- * Contains all the information about a creator of a {@link Model} (or other {@link SBase} in level
- * 3).
+ * Contains all the information about a creator of a {@link Model} (or other
+ * {@link SBase} in level 3).
  * 
- * @author marine3
+ * @author Marine Dumousseau
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
@@ -375,8 +376,8 @@ public class Creator extends AnnotationElement {
 	   */
     final String emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
     if ((email != null) && !Pattern.matches(emailPattern, email)) {
-    	logger.warn(String.format("Invalid e-mail address %s", email));
-    	throw new IllegalArgumentException(String.format("Invalid e-mail address %s", email));
+    	logger.warn(MessageFormat.format("Invalid e-mail address {0}", email));
+    	throw new IllegalArgumentException(MessageFormat.format("Invalid e-mail address {0}", email));
     }
 		String oldValue = this.email;
 		this.email = email;
@@ -418,7 +419,7 @@ public class Creator extends AnnotationElement {
 	public void setOrganisation(String organisation) {
 		String oldValue = this.organisation;
 		this.organisation = organisation;
-		this.firePropertyChange(TreeNodeChangeEvent.organisation, oldValue, organisation);
+		this.firePropertyChange(TreeNodeChangeEvent.organization, oldValue, organisation);
 	}
 
 	/**
@@ -551,7 +552,7 @@ public class Creator extends AnnotationElement {
 	public void unsetOrganization() {
 		String oldValue = this.organisation;
 		this.organisation = null;
-		this.firePropertyChange(TreeNodeChangeEvent.organisation, oldValue, organisation);
+		this.firePropertyChange(TreeNodeChangeEvent.organization, oldValue, organisation);
 	}
 
 }

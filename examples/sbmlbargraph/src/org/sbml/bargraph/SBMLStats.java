@@ -21,6 +21,7 @@
 package org.sbml.bargraph;
 
 import java.io.File;
+
 import org.sbml.jsbml.*;
 
 
@@ -50,6 +51,7 @@ public class SBMLStats
      * @throws java.io.IOException If an error occurs while trying to read
      * the file.
      */
+    @SuppressWarnings("deprecation")
     public SBMLStats(File file)
         throws javax.xml.stream.XMLStreamException, java.io.IOException
     {
@@ -88,7 +90,7 @@ public class SBMLStats
                 numConstraints        = model.getListOfConstraints().getChildCount();
             }
 
-            if (version >= 2 && level < 3)
+            if ((version >= 2) && (level < 3))
             {
                 numSpeciesTypes     = model.getListOfSpeciesTypes().getChildCount();
                 numCompartmentTypes = model.getListOfCompartmentTypes().getChildCount();

@@ -26,10 +26,7 @@
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available online as http://sbml.org/software/libsbml/license.html
  *--------------------------------------------------------------------------->*/
-
-
 package org.sbml.jsbml.test.sbml;
-
 
 import static org.junit.Assert.assertTrue;
 
@@ -42,21 +39,19 @@ import org.sbml.jsbml.ASTNode.Type;
 
 public class TestASTNode {
 
-	  @Before public void setUp() throws Exception
-	  {
-	  }
+  @Before public void setUp() throws Exception
+  {
+  }
 
-	  @After public void tearDown() throws Exception
-	  {
-	  }
-
-	  
+  @After public void tearDown() throws Exception
+  {
+  }
 
   public static final double DBL_EPSILON =  2.2204460492503131e-016;
 
   @SuppressWarnings("deprecation")
   @Test
-public void test_ASTNode_addChild1()
+  public void test_ASTNode_addChild1()
   {
     ASTNode node = new  ASTNode(Type.NAME); // TODO: setName will assign Type.FUNCTION if type and variable are not defined !!!
     ASTNode c1 = new  ASTNode(Type.NAME);
@@ -69,16 +64,16 @@ public void test_ASTNode_addChild1()
     node.addChild(c1);
     node.addChild(c2);
     assertTrue( node.getNumChildren() == 2 );
-    
+
     // System.out.println("test_ASTNode_addChild1: formula = " + node.toFormula());
-    
+
     assertTrue(JSBML.formulaToString(node).equals( "a and b")); // libsbml output that as a function: and(a, b)
     c1_1.setName( "d");
     node.addChild(c1_1);
     assertTrue( node.getNumChildren() == 3 );
-    
+
     // System.out.println("test_ASTNode_addChild1: formula = " + node.toFormula());
-    
+
     assertTrue(JSBML.formulaToString(node).equals( "a and b and d"));
     assertTrue(node.getChild(0).getName().equals( "a"));
     assertTrue(node.getChild(1).getName().equals( "b"));
@@ -101,14 +96,14 @@ public void test_ASTNode_addChild1()
     assertTrue( node.getNumSemanticsAnnotations() == 1 );
     node = null;
   }
-*/
+   */
   /*
   // Not supported in JSBML (canonicalize method on ASTNode)
   public void test_ASTNode_canonicalizeConstants()
   {
   ...
 	}
-	
+
   public void test_ASTNode_canonicalizeFunctions()
   {
   ...
@@ -128,11 +123,11 @@ public void test_ASTNode_addChild1()
   {
   ...
   }
-*/
-  
+   */
+
   @SuppressWarnings("deprecation")
   @Test
-public void test_ASTNode_children()
+  public void test_ASTNode_children()
   {
     ASTNode parent = new  ASTNode();
     ASTNode left = new  ASTNode();
@@ -151,14 +146,14 @@ public void test_ASTNode_children()
     assertTrue( parent.getRightChild().equals(right) );
     assertTrue( parent.getChild(0).equals(left) );
     assertTrue( parent.getChild(1).equals(right) );
-    
+
     try {
-    	parent.getChild(2); // libsbml would return null instead of throwing an exception: assertTrue( parent.getChild(2) == null );
-    	assertTrue(false); 
+      parent.getChild(2); // libsbml would return null instead of throwing an exception: assertTrue( parent.getChild(2) == null );
+      assertTrue(false); 
     } catch (IndexOutOfBoundsException e) {
-    	assertTrue(true);
+      assertTrue(true);
     }
-    
+
     parent.addChild(right2);
     assertTrue( parent.getNumChildren() == 3 );
     assertTrue( left.getNumChildren() == 0 );
@@ -169,46 +164,46 @@ public void test_ASTNode_children()
     assertTrue( parent.getChild(0).equals(left) );
     assertTrue( parent.getChild(1).equals(right) );
     assertTrue( parent.getChild(2).equals(right2) );
-    
+
     try {
-    	parent.getChild(3);
-    	assertTrue(false); 
+      parent.getChild(3);
+      assertTrue(false); 
     } catch (IndexOutOfBoundsException e) {
-    	assertTrue(true);
+      assertTrue(true);
     }
-    
+
     parent = null;
   }
 
   // The ASTNode.getXXX methods will throw exception in JSBML if not called with the right Type
   @SuppressWarnings("deprecation")
   @Test
-public void test_ASTNode_create()
+  public void test_ASTNode_create()
   {
     ASTNode n = new  ASTNode();
 
     assertTrue( n.getType() == ASTNode.Type.UNKNOWN );
-    
+
     try {
-    	n.getCharacter();
-    	assertTrue(false); 
+      n.getCharacter();
+      assertTrue(false); 
     } catch (Exception e) { 
-    	assertTrue(true);
+      assertTrue(true);
     }
-    
+
     assertTrue(n.getName() == null);
 
     try {
-    	n.getInteger();
-    	assertTrue(false); 
+      n.getInteger();
+      assertTrue(false); 
     } catch (Exception e) { 
-    	assertTrue(true);
+      assertTrue(true);
     }
     try {
-    	n.getExponent();
-    	assertTrue(false); 
+      n.getExponent();
+      assertTrue(false); 
     } catch (Exception e) { 
-    	assertTrue(true);
+      assertTrue(true);
     }
 
     assertTrue( n.getNumChildren() == 0 );
@@ -221,7 +216,7 @@ public void test_ASTNode_create()
   // libsbml deepCopy() == JSBML clone() 
   @SuppressWarnings("deprecation")
   @Test
-public void test_ASTNode_deepCopy_1()
+  public void test_ASTNode_deepCopy_1()
   {
     ASTNode node = new  ASTNode();
     ASTNode child,copy;
@@ -262,7 +257,7 @@ public void test_ASTNode_deepCopy_1()
 
   @SuppressWarnings("deprecation")
   @Test
-public void test_ASTNode_deepCopy_2()
+  public void test_ASTNode_deepCopy_2()
   {
     ASTNode node = new  ASTNode(Type.NAME); // TODO: setName will assign Type.FUNCTION if type and variable are not defined !!!
     ASTNode copy;
@@ -281,7 +276,7 @@ public void test_ASTNode_deepCopy_2()
 
   @SuppressWarnings("deprecation")
   @Test
-public void test_ASTNode_deepCopy_3()
+  public void test_ASTNode_deepCopy_3()
   {
     ASTNode node = new  ASTNode(ASTNode.Type.FUNCTION);
     ASTNode copy;
@@ -300,7 +295,7 @@ public void test_ASTNode_deepCopy_3()
 
   @SuppressWarnings("deprecation")
   @Test
-public void test_ASTNode_deepCopy_4()
+  public void test_ASTNode_deepCopy_4()
   {
     ASTNode node = new  ASTNode(ASTNode.Type.FUNCTION_ABS);
     ASTNode copy;
@@ -336,8 +331,8 @@ public void test_ASTNode_deepCopy_4()
   public void test_ASTNode_free_NULL()
   {
   }
- */
-  
+   */
+
   @Test
   public void test_ASTNode_getName()
   {
@@ -419,7 +414,7 @@ public void test_ASTNode_deepCopy_4()
     assertTrue( n.getPrecedence() == 6 );
     n = null;
   }
-*/
+   */
   @Test
   public void test_ASTNode_getReal()
   {
@@ -438,7 +433,7 @@ public void test_ASTNode_deepCopy_4()
 
   @SuppressWarnings("deprecation")
   @Test
-public void test_ASTNode_insertChild()
+  public void test_ASTNode_insertChild()
   {
     ASTNode node = new  ASTNode();
     ASTNode c1 = new  ASTNode(Type.NAME);
@@ -463,10 +458,10 @@ public void test_ASTNode_insertChild()
     assertTrue(JSBML.formulaToString(node).equals( "a and d and b and c"));
 
     try {
-    	node.insertChild(5,newc);
-    	assertTrue(false);
+      node.insertChild(5,newc);
+      assertTrue(false);
     } catch(IndexOutOfBoundsException e) {
-    	assertTrue(true);
+      assertTrue(true);
     }
     assertTrue( node.getNumChildren() == 4 ); 
     assertTrue(JSBML.formulaToString(node).equals( "a and d and b and c"));
@@ -529,58 +524,58 @@ public void test_ASTNode_insertChild()
 
   @SuppressWarnings("deprecation")
   @Test
-public void test_ASTNode_no_children()
+  public void test_ASTNode_no_children()
   {
     ASTNode node = new  ASTNode();
     assertTrue( node.getNumChildren() == 0 );
-    
+
     try {
-    	node.getLeftChild();
-    	assertTrue(false);
+      node.getLeftChild();
+      assertTrue(false);
     } catch(IndexOutOfBoundsException e) {
-    	assertTrue(true);
+      assertTrue(true);
     }
     try {
-    	node.getRightChild();
-    	assertTrue(false);
+      node.getRightChild();
+      assertTrue(false);
     } catch(IndexOutOfBoundsException e) {
-    	assertTrue(true);
+      assertTrue(true);
     }
     try {
-    	node.getChild(0);
-    	assertTrue(false);
+      node.getChild(0);
+      assertTrue(false);
     } catch(IndexOutOfBoundsException e) {
-    	assertTrue(true);
+      assertTrue(true);
     }
     node = null;
   }
 
   @SuppressWarnings("deprecation")
   @Test
-public void test_ASTNode_one_child()
+  public void test_ASTNode_one_child()
   {
     ASTNode node = new  ASTNode();
     ASTNode child = new  ASTNode();
     node.addChild(child);
     assertTrue( node.getNumChildren() == 1 );
     assertTrue( node.getLeftChild().equals(child) );
-    
-    assertTrue( node.getRightChild().equals(child) ); // libsbml would return null for the rightChild here
-    
-	assertTrue( node.getChild(0).equals(child) );
 
-	try {
-    	assertTrue( node.getChild(1) == null );
-    	assertTrue(false);
+    assertTrue( node.getRightChild().equals(child) ); // libsbml would return null for the rightChild here
+
+    assertTrue( node.getChild(0).equals(child) );
+
+    try {
+      assertTrue( node.getChild(1) == null );
+      assertTrue(false);
     } catch(IndexOutOfBoundsException e) {
-    	assertTrue(true);
+      assertTrue(true);
     }
     node = null;
   }
 
   @SuppressWarnings("deprecation")
   @Test
-public void test_ASTNode_prependChild1()
+  public void test_ASTNode_prependChild1()
   {
     ASTNode node = new  ASTNode();
     ASTNode c1 = new  ASTNode(Type.NAME);
@@ -606,7 +601,7 @@ public void test_ASTNode_prependChild1()
 
   @SuppressWarnings("deprecation")
   @Test
-public void test_ASTNode_removeChild()
+  public void test_ASTNode_removeChild()
   {
     ASTNode node = new  ASTNode();
     ASTNode c1 = new  ASTNode();
@@ -630,7 +625,7 @@ public void test_ASTNode_removeChild()
 
   @SuppressWarnings("deprecation")
   @Test
-public void test_ASTNode_replaceChild()
+  public void test_ASTNode_replaceChild()
   {
     ASTNode node = new  ASTNode();
     ASTNode c1 = new  ASTNode(Type.NAME);
@@ -653,10 +648,10 @@ public void test_ASTNode_replaceChild()
     assertTrue(JSBML.formulaToString(node).equals( "d and b and c"));
 
     try {
-    	node.replaceChild(3,newc);
-    	assertTrue(false);
+      node.replaceChild(3,newc);
+      assertTrue(false);
     } catch (IndexOutOfBoundsException e) {
-    	assertTrue(true);
+      assertTrue(true);
     }
 
     assertTrue( node.getNumChildren() == 3 );
@@ -679,7 +674,7 @@ public void test_ASTNode_replaceChild()
     // assertTrue( node.getReal() == 0 );
     // assertTrue( node.getExponent() == 0 );
     // assertTrue( node.getDenominator() == 1 );
-    
+
     node.setCharacter( '+');
     assertTrue( node.getType() == ASTNode.Type.PLUS );
     assertTrue( node.getCharacter() ==  '+'       );
@@ -724,9 +719,9 @@ public void test_ASTNode_replaceChild()
     // assertTrue( node.getReal() == 0 );
     // assertTrue( node.getExponent() == 0 );
     // assertTrue( node.getDenominator() == 1 );
-    
+
     node.setValue(3.2);
-    
+
     assertTrue( node.getType() == ASTNode.Type.REAL );
     // assertTrue( node.getInteger() == 0 );
     // assertTrue( node.getName() == null );
@@ -734,9 +729,9 @@ public void test_ASTNode_replaceChild()
     assertTrue( node.getReal() == 3.2 );
     assertTrue( node.getExponent() == 0 );
     // assertTrue( node.getDenominator() == 1 );
-    
+
     node.setValue(321);
-    
+
     assertTrue( node.getType() == ASTNode.Type.INTEGER );
     assertTrue( node.getInteger() == 321 );
     // assertTrue( node.getName() == null );
@@ -766,7 +761,7 @@ public void test_ASTNode_replaceChild()
     assertTrue( node.getType() == ASTNode.Type.NAME );
 
     assertTrue(node.getName() == null);
-    
+
     node.setType(ASTNode.Type.FUNCTION_COS);
     assertTrue( node.getType() == ASTNode.Type.FUNCTION_COS );
     assertTrue(node.getName().equals( "cos"));
@@ -819,7 +814,7 @@ public void test_ASTNode_replaceChild()
     assertTrue( node.getMantissa() == 32.1 );
 
     node.setValue(45,90);
-    
+
     assertTrue( node.getType() == ASTNode.Type.RATIONAL );
     // assertTrue( node.getInteger() == 45 );
     // assertTrue( node.getName() == null );
@@ -828,9 +823,9 @@ public void test_ASTNode_replaceChild()
     // assertTrue( node.getExponent() == 0 ); // Exception thrown
     assertTrue( node.getDenominator() == 90 );
     // assertTrue( node.getMantissa() == 0 ); // Exception thrown
-    
+
     node.setValue(32.0,4);
-    
+
     assertTrue( node.getType() == ASTNode.Type.REAL_E );
     // assertTrue( node.getInteger() == 0 );
     // assertTrue( node.getName() == null );
@@ -880,7 +875,7 @@ public void test_ASTNode_replaceChild()
 
   @SuppressWarnings("deprecation")
   @Test
-public void test_ASTNode_swapChildren()
+  public void test_ASTNode_swapChildren()
   {
     ASTNode node = new  ASTNode();
     ASTNode c1 = new  ASTNode(Type.NAME);

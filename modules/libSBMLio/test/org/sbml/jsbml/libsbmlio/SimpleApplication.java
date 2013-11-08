@@ -60,7 +60,7 @@ public class SimpleApplication {
 
 			org.sbml.libsbml.SBMLDocument libDoc = reader.getOriginalModel().getSBMLDocument();
 			//org.sbml.libsbml.SBMLDocument libDoc = new org.sbml.libsbml.SBMLDocument(2,4);
-			doc.addTreeNodeChangeListener(new LibSBMLChangeListener(doc, libDoc));
+			doc.addTreeNodeChangeListener(new LibSBMLChangeListener(libDoc));
 
 			/*
 			 * Some tests to test nodeAdded in LibSBMLChangeListener

@@ -51,7 +51,6 @@ public class UnregisterTests {
 	
 	@BeforeClass public static void initialSetUp() {
 		
-	
 	}
 	
 	/**

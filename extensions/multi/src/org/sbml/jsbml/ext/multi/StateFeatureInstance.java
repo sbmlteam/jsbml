@@ -59,7 +59,7 @@ public class StateFeatureInstance extends AbstractNamedSBase {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
 	 */
-	//@Override
+	@Override
 	public boolean isIdMandatory() {
 		return false;
 	}

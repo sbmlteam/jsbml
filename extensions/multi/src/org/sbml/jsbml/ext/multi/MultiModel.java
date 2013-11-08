@@ -89,7 +89,7 @@ public class MultiModel extends AbstractSBasePlugin {
 
 	}
 	
-	//@Override
+	@Override
 	public MultiModel clone() {
 		// TODO: when cloning, we should be able to be associated with a new cloned model !?
 		return null;

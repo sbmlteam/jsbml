@@ -463,6 +463,7 @@ public class XMLNode extends XMLToken {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.XMLToken#clone()
 	 */
+	@Override
 	public XMLNode clone() {
 		return new XMLNode(this);
 	}
@@ -471,6 +472,7 @@ public class XMLNode extends XMLToken {
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
 	 */
+	@Override
 	public boolean getAllowsChildren() {
 		return true;
 	}
@@ -479,6 +481,7 @@ public class XMLNode extends XMLToken {
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getChildAt(int)
 	 */
+	@Override
 	public XMLNode getChildAt(int childIndex) {
 		if (childrenElements == null) {
 			throw new IndexOutOfBoundsException(Integer.toString(childIndex));
@@ -490,6 +493,7 @@ public class XMLNode extends XMLToken {
 	/* (non-Javadoc)
 	 * @see javax.swing.tree.TreeNode#getChildCount()
 	 */
+	@Override
 	public int getChildCount() {
 		return childrenElements != null ? childrenElements.size() : 0;
 	}

@@ -18,7 +18,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
- package org.sbml.jsbml.test;
+package org.sbml.jsbml.test;
 
 import javax.xml.stream.XMLStreamException;
 
