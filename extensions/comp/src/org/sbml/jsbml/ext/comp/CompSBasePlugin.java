@@ -170,6 +170,19 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 	}
 
 	/**
+	 * Returns the number of {@link ReplacedElement} objects in this {@link CompSBasePlugin}.
+	 * 
+	 * @return the number of {@link ReplacedElement} objects in this {@link CompSBasePlugin}.
+	 */
+	public int getReplacedElementCount() {
+		if (!isSetListOfReplacedElements()) {
+			return 0;
+		}
+		
+		return getListOfReplacedElements().size();
+	}
+
+	/**
 	 * Returns the listOfReplacedElements
 	 * 
 	 * @return the listOfReplacedElements

@@ -21,6 +21,7 @@
 package org.sbml.jsbml.ext.comp;
 
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
  * 
@@ -28,7 +29,7 @@ import org.sbml.jsbml.LevelVersionError;
  * @version $Rev$
  * @since 1.0
  */
-public class Deletion extends AbstractNamedSBaseRef {
+public class Deletion extends AbstractNamedSBaseRef implements UniqueNamedSBase {
 
 	/**
 	 * Generated serial version identifier.

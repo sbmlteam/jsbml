@@ -22,7 +22,6 @@ package org.sbml.jsbml.ext.comp;
 
 import java.text.MessageFormat;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -70,6 +69,19 @@ public class CompModelPlugin extends CompSBasePlugin {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Returns the number of {@link Submodel} objects in this {@link CompModelPlugin}.
+	 * 
+	 * @return the number of {@link Submodel} objects in this {@link CompModelPlugin}.
+	 */
+	public int getSubmodelCount() {
+		if (!isSetListOfSubmodels()) {
+			return 0;
+		}
+		
+		return getListOfSubmodels().size();
 	}
 
 	/**
@@ -204,6 +216,19 @@ public class CompModelPlugin extends CompSBasePlugin {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Returns the number of {@link Port} objects in this {@link CompModelPlugin}.
+	 * 
+	 * @return the number of {@link Port} objects in this {@link CompModelPlugin}.
+	 */
+	public int getPortCount() {
+		if (!isSetListOfPorts()) {
+			return 0;
+		}
+		
+		return getListOfPorts().size();
 	}
 
 	/**
