@@ -30,7 +30,9 @@ import org.sbml.jsbml.UniqueNamedSBase;
  * @since 1.0
  */
 public class Port extends AbstractNamedSBaseRef implements UniqueNamedSBase {
-
+	// TODO - Port have their own namespace of ids so we have to treat them separately. 
+	// We will do that once the new methods and interface to deal with registration of ids are in place.
+	
 	/**
 	 * Generated serial version identifier.
 	 */

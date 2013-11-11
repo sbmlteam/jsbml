@@ -306,6 +306,20 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 	}
 
 	/**
+	 * Returns the number of {@link Deletion} objects in this {@link Submodel}.
+	 * 
+	 * @return the number of {@link Deletion} objects in this {@link Submodel}.
+	 */
+	public int getDeletionCount() {
+		if (!isSetListOfDeletions()) {
+			return 0;
+		}
+		
+		return getListOfDeletions().size();
+	}
+	
+	
+	/**
 	 * Returns the listOfDeletions. Creates it if it is not already existing.
 	 *
 	 * @return the listOfDeletions

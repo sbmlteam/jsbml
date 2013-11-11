@@ -22,7 +22,6 @@ package org.sbml.jsbml.ext.comp;
 
 import java.text.MessageFormat;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -90,6 +89,20 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
 		}
 		return true;
 	}
+
+	/**
+	 * Returns the number of {@link ExternalModelDefinition} objects in this {@link CompSBMLDocumentPlugin}.
+	 * 
+	 * @return the number of {@link ExternalModelDefinition} objects in this {@link CompSBMLDocumentPlugin}.
+	 */
+	public int getExternalModelDefinitionCount() {
+		if (!isSetListOfExternalModelDefinitions()) {
+			return 0;
+		}
+		
+		return getListOfExternalModelDefinitions().size();
+	}
+
 
 	/**
 	 * Returns the listOfExternalModelDefinitions. Creates it if it is not already existing.
@@ -214,6 +227,19 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Returns the number of {@link ModelDefinition} objects in this {@link CompSBMLDocumentPlugin}.
+	 * 
+	 * @return the number of {@link ModelDefinition} objects in this {@link CompSBMLDocumentPlugin}.
+	 */
+	public int getModelDefinitionCount() {
+		if (!isSetListOfModelDefinitions()) {
+			return 0;
+		}
+		
+		return getListOfModelDefinitions().size();
 	}
 
 	/**
