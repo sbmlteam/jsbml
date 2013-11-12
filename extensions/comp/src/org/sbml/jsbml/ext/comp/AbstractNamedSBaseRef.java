@@ -196,12 +196,6 @@ public abstract class AbstractNamedSBaseRef extends SBaseRef implements NamedSBa
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
 
-		// TODO: we should probably be careful there and check if there is a
-		// prefix set before reading the id or name
-		// as there are not defined at the level of the SBase on the SBML
-		// specifications and some packages might define them in their own
-		// name space.
-
 		if (!isAttributeRead) {
 			if (attributeName.equals("id") && (getLevel() > 1)) {
 				this.setId(value);

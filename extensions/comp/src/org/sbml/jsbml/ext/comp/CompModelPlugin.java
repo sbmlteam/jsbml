@@ -29,6 +29,7 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * 
@@ -53,10 +54,38 @@ public class CompModelPlugin extends CompSBasePlugin {
 	 */
 	private ListOf<Submodel> listOfSubmodels;
 	
+	// TODO - create constructors with package version ??
 	
+	/**
+	 * Creates a new {@link CompModelPlugin} instance, associated with the given {@link Model}
+	 * 
+	 * @param model
+	 */
 	public CompModelPlugin(Model model) {
 		super(model);
 	}
+
+	@Override
+	public CompModelPlugin clone() {
+		return new CompModelPlugin(this);
+	}
+
+	/**
+	 * Creates a new {@link CompModelPlugin} instance that is a copy of the current {@link CompModelPlugin}.
+	 * 
+	 * @param obj the {@link CompModelPlugin} to clone.
+	 */
+	public CompModelPlugin(CompModelPlugin obj) {
+		super(obj);
+		
+		if (obj.isSetListOfSubmodels()) {
+			setListOfSubmodels(obj.getListOfSubmodels().clone());
+		}
+		if (obj.isSetListOfPorts()) {
+			setListOfPorts(obj.getListOfPorts().clone());
+		}
+	}
+
 
 	/**
 	 * Returns {@code true}, if listOfSubmodels contains at least one element.
@@ -169,12 +198,21 @@ public class CompModelPlugin extends CompSBasePlugin {
 	}
 
 	/**
-	 * TODO: if the ID is mandatory for Submodel objects, 
-	 * one should also add this methods
+	 * Removes an element from the listOfSubmodels.
+	 *
+	 * @param id the id of the element to be removed from the list
+	 * @return {@code true} if the list contained the specified element
+	 * @see List#remove(Object)
 	 */
-	//public void removeSubmodel(String id) {
-	//  getListOfSubmodels().removeFirst(new NameFilter(id));
-	//}
+	public boolean removeSubmodel(String id) {
+		Submodel removedSM = getListOfSubmodels().removeFirst(new NameFilter(id));
+		
+		if (removedSM != null) {
+			return true;
+		}
+		
+		return false;
+	}
 
 	/**
 	 * Creates a new Submodel element and adds it to the ListOfSubmodels list
@@ -194,17 +232,6 @@ public class CompModelPlugin extends CompSBasePlugin {
 		return submodel;
 	}
 
-	/**
-	 * TODO: optionally, create additional create methods with more
-	 * variables, for instance "bar" variable
-	 */
-	// public Submodel createSubmodel(String id, int bar) {
-	//   Submodel submodel = createSubmodel(id);
-	//   submodel.setBar(bar);
-	//   return submodel;
-	// }
-
-	
 	/**
 	 * Returns {@code true}, if listOfPorts contains at least one element.
 	 *
@@ -316,14 +343,6 @@ public class CompModelPlugin extends CompSBasePlugin {
 	}
 
 	/**
-	 * TODO: if the ID is mandatory for Port objects, 
-	 * one should also add this methods
-	 */
-	//public void removePort(String id) {
-	//  getListOfPorts().removeFirst(new NameFilter(id));
-	//}
-
-	/**
 	 * Creates a new Port element and adds it to the ListOfPorts list
 	 */
 	public Port createPort() {
@@ -340,16 +359,6 @@ public class CompModelPlugin extends CompSBasePlugin {
 		addPort(port);
 		return port;
 	}
-
-	/**
-	 * TODO: optionally, create additional create methods with more
-	 * variables, for instance "bar" variable
-	 */
-	// public Port createPort(String id, int bar) {
-	//   Port port = createPort(id);
-	//   port.setBar(bar);
-	//   return port;
-	// }
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.comp.CompSBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
@@ -419,12 +428,6 @@ public class CompModelPlugin extends CompSBasePlugin {
 	@Override
 	public boolean getAllowsChildren() {
 		return true;
-	}
-
-	@Override
-	public CompModelPlugin clone() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

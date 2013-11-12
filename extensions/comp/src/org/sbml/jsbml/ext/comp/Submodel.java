@@ -118,8 +118,18 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 	public Submodel(Submodel obj) {
 		super(obj);
 
-		// TODO: copy all class attributes, e.g.:
-		// bar = obj.bar;
+		if (obj.isSetListOfDeletions()) {
+			setListOfDeletions(obj.getListOfDeletions().clone());
+		}
+		if (obj.isSetModelRef()) {
+			setModelRef(new String(obj.getModelRef()));
+		}
+		if (obj.isSetTimeConversionFactor()) {
+			setTimeConversionFactor(new String(obj.getTimeConversionFactor()));
+		}
+		if (obj.isSetExtentConversionFactor()) {
+			setExtentConversionFactor(new String(obj.getExtentConversionFactor()));
+		}
 	}
 
 	// TODO: equals, hashCode
