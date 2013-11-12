@@ -112,8 +112,6 @@ public class Deletion extends AbstractNamedSBaseRef implements UniqueNamedSBase 
 	 */
 	public void initDefaults() {
 		addNamespace(CompConstant.namespaceURI);
-		// TODO: init default values here if necessary, e.g.:
-		// bar = null;
 	}
 
 

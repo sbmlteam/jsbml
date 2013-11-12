@@ -68,13 +68,13 @@ public class ReplacedElement extends SBaseRef {
 		super(obj);
 
 		if (obj.isSetSubmodelRef()) {
-			setSubmodelRef(obj.getSubmodelRef());
+			setSubmodelRef(new String(obj.getSubmodelRef()));
 		}
 		if (obj.isSetDeletion()) {
-			setDeletion(obj.getDeletion());
+			setDeletion(new String(obj.getDeletion()));
 		}
 		if (obj.isSetConversionFactor()) {
-			setConversionFactor(obj.getConversionFactor());
+			setConversionFactor(new String(obj.getConversionFactor()));
 		}
 	}
 
