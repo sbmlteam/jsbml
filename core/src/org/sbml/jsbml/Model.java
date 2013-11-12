@@ -3025,7 +3025,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return {@code null} if no element with the required property exists.
    */
   public ExplicitRule getRule(String variable) {
-    Rule rule = listOfRules.firstHit(new AssignmentVariableFilter(variable));
+    Rule rule = getListOfRules().firstHit(new AssignmentVariableFilter(variable));
     return (rule != null) && (rule instanceof ExplicitRule) ? (ExplicitRule) rule
       : null;
   }
