@@ -207,6 +207,21 @@ public class SBMLDocument extends AbstractSBase {
   }
 
   /**
+   * Adds the package namespace declaration in this {@link SBMLDocument}, adds as well
+   * the required attribute for this package. This is a helper method until the methods
+   * enablePackage() are implemented.
+   * 
+   * @param packageName the name or short label of the package, for example: layout, comp, qual, ...
+   * @param packageURI the package namespace uri
+   * @param required the value of the required attribute
+   */
+  public void addPackageDeclaration(String packageName, String packageURI, String required) {
+	  addNamespace(packageName, "xmlns", packageURI);
+
+	  getSBMLDocumentAttributes().put(packageName + ":required", required);
+  }
+
+  /**
    * Validates the {@link SBMLDocument} using the
    * SBML.org online validator (http://sbml.org/validator/).
    * <p>
