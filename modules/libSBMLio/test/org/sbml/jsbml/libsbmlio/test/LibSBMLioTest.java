@@ -18,8 +18,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
-package org.sbml.jsbml.test;
+package org.sbml.jsbml.libsbmlio.test;
 
 import static org.junit.Assert.assertEquals;
 
@@ -54,16 +53,16 @@ public class LibSBMLioTest {
 
   /**
    * 
-   * @throws Exception 
+   * @throws Exception
    */
   @Test
   public void sbmlReadingTest() throws Exception {
     String files[] = new String[] {
-      "../xml/test/data/l2v1/BIOMD0000000025.xml",
-      "../xml/test/data/l2v1/BIOMD0000000227.xml",
-      "../xml/test/data/l2v3/BIOMD0000000191.xml",
+      "../../xml/test/data/l2v1/BIOMD0000000025.xml",
+      "../../xml/test/data/l2v1/BIOMD0000000227.xml",
+      "../../xml/test/data/l2v3/BIOMD0000000191.xml",
       //      "../xml/test/data/l2v4/BIOMD0000000228.xml", // Does not work because of differences in XML nodes.
-      "../xml/test/data/l2v4/BIOMD0000000229.xml",
+      "../../xml/test/data/l2v4/BIOMD0000000229.xml",
     };
     for (String file : files) {
       testReading(file);
@@ -73,7 +72,7 @@ public class LibSBMLioTest {
   /**
    * The actual test.
    * @param fileName
-   * @throws Exception 
+   * @throws Exception
    */
   private void testReading(String fileName) throws Exception {
     File file = new File(LibSBMLioTest.class.getResource(fileName).toURI());
@@ -105,7 +104,7 @@ public class LibSBMLioTest {
 
 
     assertEquals(model1.getListOfEvents(), model2.getListOfEvents());
-    //    
+    //
     //    assertEquals(model1, model2);
     //    assertEquals(doc1, doc2);
   }

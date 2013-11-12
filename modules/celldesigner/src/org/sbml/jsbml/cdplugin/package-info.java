@@ -20,13 +20,10 @@
  */
 
 /**
-  <p>
-    This package provides a bridge between the plug-in API of the 
-    graphical pathway editor CellDesigner and JSBML. In particular,
-    this package provides a reader and a writer that interconvert
-    all data structures of both concepts. In this way, providing a
-    plug-in for CellDesigner for an application that has originally
-    been developed based on JSBML becomes very easy.  
-  </p>
-*/
+ * This package provides a bridge between the plug-in API of the graphical
+ * pathway editor CellDesigner and JSBML. In particular, this package provides
+ * a reader and a writer that interconverts all data structures of both concepts.
+ * In this way, providing a plug-in for CellDesigner for an application that has
+ * originally been developed based on JSBML becomes very easy.
+ */
 package org.sbml.jsbml.cdplugin;

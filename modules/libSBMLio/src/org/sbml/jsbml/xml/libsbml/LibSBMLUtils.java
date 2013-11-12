@@ -25,6 +25,7 @@ import static org.sbml.jsbml.xml.libsbml.LibSBMLConstants.LINK_TO_LIBSBML;
 import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode;
@@ -55,6 +56,7 @@ import org.sbml.jsbml.Priority;
 import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.SimpleSpeciesReference;
@@ -1045,6 +1047,39 @@ public class LibSBMLUtils {
 
   /**
    * 
+   * @param doc
+   * @return
+   */
+  public static org.sbml.libsbml.SBMLDocument convertSBMLDocument(SBMLDocument doc) {
+    org.sbml.libsbml.SBMLDocument libDoc = (org.sbml.libsbml.SBMLDocument) doc.getUserObject(LINK_TO_LIBSBML);
+    if (libDoc == null) {
+      libDoc = new org.sbml.libsbml.SBMLDocument(doc.getLevel(), doc.getVersion());
+      doc.putUserObject(LINK_TO_LIBSBML, libDoc);
+      doc.addTreeNodeChangeListener(new LibSBMLChangeListener(libDoc));
+    }
+    transferSBaseProperties(doc, libDoc);
+    if (doc.isSetModel()) {
+      doc.getModel().putUserObject(LINK_TO_LIBSBML, libDoc.createModel());
+      convertModel(doc.getModel());
+    }
+    org.sbml.libsbml.XMLNamespaces libNamespaces = libDoc.getNamespaces();
+    for (String namespace : doc.getNamespaces()) {
+      libNamespaces.add(namespace);
+    }
+    String keyWord = ":required";
+    for (Map.Entry<String, String> entry : doc.getSBMLDocumentAttributes().entrySet()) {
+      String key = entry.getKey();
+      if (key.endsWith(keyWord)) {
+        libDoc.setPackageRequired(
+          key.substring(0, key.length() - keyWord.length() - 1),
+          Boolean.parseBoolean(entry.getValue()));
+      }
+    }
+    return libDoc;
+  }
+
+  /**
+   * 
    * @param species
    * @return
    */
@@ -1202,32 +1237,6 @@ public class LibSBMLUtils {
       unitDefinition.getListOfUnits().putUserObject(LINK_TO_LIBSBML, ud.getListOfUnits());
     }
     return ud;
-  }
-
-  /**
-   * 
-   * @param code
-   */
-  public static void logLibSBMLCode(int code) {
-    switch (code) {
-    case libsbmlConstants.LIBSBML_OPERATION_SUCCESS:
-      break;
-    case libsbmlConstants.LIBSBML_LEVEL_MISMATCH:
-      logger.error("level mismatch");
-      break;
-    case libsbmlConstants.LIBSBML_VERSION_MISMATCH:
-      logger.error("version mismatch");
-      break;
-    case libsbmlConstants.LIBSBML_DUPLICATE_OBJECT_ID:
-      logger.error("duplicate object id");
-      break;
-    case libsbmlConstants.LIBSBML_OPERATION_FAILED:
-      logger.error("operation failed");
-      break;
-    default:
-      logger.error("error code: " + code);
-      break;
-    }
   }
 
   /**
@@ -1396,6 +1405,56 @@ public class LibSBMLUtils {
 
   /**
    * 
+   * @param math
+   * @param libASTNode
+   */
+  public static void link(ASTNode math, org.sbml.libsbml.ASTNode libASTNode) {
+    math.putUserObject(LINK_TO_LIBSBML, libASTNode);
+    for (int i = 0; i < math.getChildCount(); i++) {
+      link(math.getChild(i), libASTNode.getChild(i));
+    }
+  }
+
+  /**
+   * 
+   * @param message
+   * @param libMessage
+   */
+  public static void link(XMLNode message, org.sbml.libsbml.XMLNode libMessage) {
+    message.putUserObject(LINK_TO_LIBSBML, libMessage);
+    for (int i = 0; i < message.getChildCount(); i++) {
+      link(message.getChildAt(i), libMessage.getChild(i));
+    }
+  }
+
+  /**
+   * 
+   * @param code
+   */
+  public static void logLibSBMLCode(int code) {
+    switch (code) {
+    case libsbmlConstants.LIBSBML_OPERATION_SUCCESS:
+      break;
+    case libsbmlConstants.LIBSBML_LEVEL_MISMATCH:
+      logger.error("level mismatch");
+      break;
+    case libsbmlConstants.LIBSBML_VERSION_MISMATCH:
+      logger.error("version mismatch");
+      break;
+    case libsbmlConstants.LIBSBML_DUPLICATE_OBJECT_ID:
+      logger.error("duplicate object id");
+      break;
+    case libsbmlConstants.LIBSBML_OPERATION_FAILED:
+      logger.error("operation failed");
+      break;
+    default:
+      logger.error("error code: " + code);
+      break;
+    }
+  }
+
+  /**
+   * 
    * @param mathContainer
    * @param libSBase
    */
@@ -1418,30 +1477,6 @@ public class LibSBMLUtils {
       } catch (Throwable t) {
         logger.warn(t.getMessage(), t);
       }
-    }
-  }
-
-  /**
-   * 
-   * @param math
-   * @param libASTNode
-   */
-  public static void link(ASTNode math, org.sbml.libsbml.ASTNode libASTNode) {
-    math.putUserObject(LINK_TO_LIBSBML, libASTNode);
-    for (int i = 0; i < math.getChildCount(); i++) {
-      link(math.getChild(i), libASTNode.getChild(i));
-    }
-  }
-
-  /**
-   * 
-   * @param message
-   * @param libMessage
-   */
-  public static void link(XMLNode message, org.sbml.libsbml.XMLNode libMessage) {
-    message.putUserObject(LINK_TO_LIBSBML, libMessage);
-    for (int i = 0; i < message.getChildCount(); i++) {
-      link(message.getChildAt(i), libMessage.getChild(i));
     }
   }
 

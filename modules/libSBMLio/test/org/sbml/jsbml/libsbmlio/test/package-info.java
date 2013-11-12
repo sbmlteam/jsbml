@@ -20,6 +20,6 @@
  */
 
 /**
- * 
+ * @author Andreas Dr&auml;ger
  */
-package org.sbml.jsbml.test;
+package org.sbml.jsbml.libsbmlio.test;
