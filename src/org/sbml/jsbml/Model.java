@@ -53,7 +53,7 @@ import org.sbml.jsbml.util.filters.IdenticalUnitDefinitionFilter;
  * model, the list must not be empty; that is, it must have length one or more.
  * </p>
  * 
- * @author Andreas Dr&auml;ger
+ * @author Andreas Dr&auml;ger 
  * @author Marine Dumousseau
  * @author Nicolas Rodriguez
  * @since 0.8

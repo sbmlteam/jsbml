@@ -131,8 +131,8 @@ public class SBMLDocument extends AbstractSBase {
    */
   public SBMLDocument() {
     super();
-    this.mappingFromMetaId2SBase = new HashMap<String, SBase>();
-    this.model = null;
+    mappingFromMetaId2SBase = new HashMap<String, SBase>();
+    model = null;
     SBMLDocumentAttributes = new HashMap<String, String>();
     SBMLDocumentNamespaces = new HashMap<String, String>();
     // setParentSBML(this);
@@ -164,32 +164,32 @@ public class SBMLDocument extends AbstractSBase {
    */
   public SBMLDocument(SBMLDocument sb) {
     super(sb);
-    this.mappingFromMetaId2SBase = new HashMap<String, SBase>();
-    this.SBMLDocumentAttributes = new HashMap<String, String>();
-    this.SBMLDocumentNamespaces = new HashMap<String, String>();
+    mappingFromMetaId2SBase = new HashMap<String, SBase>();
+    SBMLDocumentAttributes = new HashMap<String, String>();
+    SBMLDocumentNamespaces = new HashMap<String, String>();
     if (sb.isSetModel()) {
       // This will also cause that all metaIds are registered correctly.
       setModel(sb.getModel().clone());
     } else {
-      this.model = null;
+      model = null;
     }
     Iterator<Map.Entry<String, String>> entryIterator = sb.SBMLDocumentAttributes.entrySet().iterator();
     Map.Entry<String, String> entry;
     while (entryIterator.hasNext()) {
       entry = entryIterator.next();
-      this.SBMLDocumentAttributes.put(entry.getKey(), entry.getValue());
+      SBMLDocumentAttributes.put(entry.getKey(), entry.getValue());
     }
     entryIterator = sb.SBMLDocumentNamespaces.entrySet().iterator();
     while (entryIterator.hasNext()) {
       entry = entryIterator.next();
-      this.SBMLDocumentNamespaces.put(entry.getKey(), entry.getValue());
+      SBMLDocumentNamespaces.put(entry.getKey(), entry.getValue());
     }
     // setParentSBML(this);
     checkConsistencyParameters.put(CHECK_CATEGORY.UNITS_CONSISTENCY.name(), Boolean.valueOf(false));
   }
 
   /**
-   * Adds a name space to the SBMLNamespaces of this SBMLDocument.
+   * Adds a name space to the SBMLNamespaces of this {@link SBMLDocument}.
    * 
    * @param namespaceName
    * @param prefix
@@ -197,13 +197,13 @@ public class SBMLDocument extends AbstractSBase {
    */
   public void addNamespace(String namespaceName, String prefix, String URI) {
     if ((prefix != null) && (prefix.trim().length() > 0)) {
-      this.SBMLDocumentNamespaces.put(prefix + ':' + namespaceName, URI);
+      SBMLDocumentNamespaces.put(prefix + ':' + namespaceName, URI);
 
     } else {
-      this.SBMLDocumentNamespaces.put(namespaceName, URI);
+      SBMLDocumentNamespaces.put(namespaceName, URI);
     }
     // this.addNamespace(URI);
-    this.firePropertyChange(TreeNodeChangeEvent.addNamespace, null, URI);
+    firePropertyChange(TreeNodeChangeEvent.addNamespace, null, URI);
   }
 
   /**
@@ -482,8 +482,8 @@ public class SBMLDocument extends AbstractSBase {
   @Deprecated
   public Model createModel() {
     Model oldValue = getModel();
-    this.setModel(new Model(getLevel(), getVersion()));
-    this.firePropertyChange(TreeNodeChangeEvent.model, oldValue, getModel());
+    setModel(new Model(getLevel(), getVersion()));
+    firePropertyChange(TreeNodeChangeEvent.model, oldValue, getModel());
     return getModel();
   }
 
@@ -609,6 +609,14 @@ public class SBMLDocument extends AbstractSBase {
   }
 
   /**
+   * 
+   * @return
+   */
+  public int getErrorCount() {
+    return isSetListOfErrors() ? listOfErrors.getErrorCount() : 0;
+  }
+
+  /**
    * This method returns a collection of all {@link SBMLError}s reflecting
    * problems in the overall data structure of this {@link SBMLDocument}.
    * 
@@ -652,11 +660,32 @@ public class SBMLDocument extends AbstractSBase {
   }
 
   /**
+   * Returns the required attribute of the given package extension.
+   * The name of package must not be given if the package is not enabled.
    * 
-   * @return
+   * @param pckage
+   *        the name or URI of the package extension.
+   * @return Boolean flag indicating whether the package is flagged as being
+   *         required.
    */
-  public int getErrorCount() {
-    return isSetListOfErrors() ? listOfErrors.getErrorCount() : 0;
+  public boolean getPackageRequired(String pckage) {
+    // TODO: IMPLEMENT
+    return false;
+  }
+
+  /**
+   * Returns the required attribute of the given package extension.
+   * The name of package must not be given if the package is not enabled.
+   * 
+   * @param pckage
+   *        the name or URI of the package extension.
+   * @return a boolean value indicating whether the package is flagged as being
+   *         required in this {@link SBMLDocument}.
+   * @deprecated use {@link #getPackageRequired(String)}
+   */
+  @Deprecated
+  public boolean getPkgRequired(String pckage) {
+    return getPackageRequired(pckage);
   }
 
   /**
@@ -702,6 +731,38 @@ public class SBMLDocument extends AbstractSBase {
   }
 
   /**
+   * Returns {@code true} if the given package extension is one of an ignored
+   * packages, otherwise returns {@code false}.
+   * An ignored package is one that is defined to be used in this
+   * {@link SBMLDocument}, but the package is not enabled in this copy of JSBML.
+   * 
+   * @param pkgURI
+   *        the URI of the package extension.
+   * @return a Boolean, {@code true} if the package is being ignored and
+   *         {@code false} otherwise.
+   */
+  public boolean isIgnoredPackage(String pkgURI) {
+    // TODO: IMPLEMENT
+    return false;
+  }
+
+  /**
+   * Returns true if the given package extension is one of ignored packages,
+   * otherwise returns false.
+   * An ignored package is one that is defined to be used in this SBMLDocument,
+   * but the package is not enabled in this copy of JSBML.
+   * 
+   * @param pkgURI
+   *        the URI of the package extension.
+   * @return a boolean
+   * @deprecated use {@link #isIgnoredPackage(String)}
+   */
+  @Deprecated
+  public boolean isIgnoredPkg(String pkgURI) {
+    return isIgnoredPackage(pkgURI);
+  }
+
+  /**
    * 
    * @return
    */
@@ -714,6 +775,35 @@ public class SBMLDocument extends AbstractSBase {
    */
   public boolean isSetModel() {
     return model != null;
+  }
+
+  /**
+   * Returns {@code true} if the required attribute of the given package
+   * extension is defined, otherwise returns {@code false}. Nnote The name of
+   * package must not be given if the package is not enabled.
+   * 
+   * @param pckage
+   *        the name or URI of the package extension.
+   * @return a boolean
+   */
+  public boolean isSetPackageRequired(String pckage) {
+    // TODO: IMPLEMENT
+    return false;
+  }
+
+  /**
+   * Returns {@code true} if the required attribute of the given package
+   * extension is defined, otherwise returns {@code false}. The name of package
+   * must not be given if the package is not enabled.
+   * 
+   * @param pckage
+   *        the name or URI of the package extension.
+   * @return a boolean value.
+   * @deprecated use {@link #isSetPackageRequired(String)}
+   */
+  @Deprecated
+  public boolean isSetPkgRequired(String pckage) {
+    return isSetPackageRequired(pckage);
   }
 
   /**
@@ -814,7 +904,6 @@ public class SBMLDocument extends AbstractSBase {
     }
     return false;
   }
-
 
   /**
    * Collects all meta identifiers of this {@link AbstractSBase} and all of
@@ -937,6 +1026,7 @@ public class SBMLDocument extends AbstractSBase {
     checkConsistencyParameters.put(category.name(), Boolean.valueOf(apply));
   }
 
+
   /**
    * <p>
    * Sets the SBML Level and Version of this {@link SBMLDocument} instance,
@@ -1011,15 +1101,50 @@ public class SBMLDocument extends AbstractSBase {
   }
 
   /**
+   * Sets the required attribute value of the given package extension.
+   * 
+   * @param pckage
+   *        the name or URI of the package extension.
+   * @param flag
+   *        boolean value indicating whether the package is required.
+   * @return boolean value indicating success ({@code true}) or failure (
+   *         {@code false}) of the function.
+   */
+  public boolean setPackageRequired(String pckage, boolean flag) {
+    // TODO: IMPLEMENT
+    // TODO: determine shortlabel and associated namespace from what is given by pckage
+    // Now, add the package declaration to this document and set the required flag:
+    //addNamespace(shortLabel, "xmlns", namespace);
+    //getSBMLDocumentAttributes().put(shortLabel + ":required", Boolean.valueOf(flag).toString());
+    return false;
+  }
+
+  /**
+   * Sets the value of the required attribute for the given package.
+   * The name of package must not be given if the package is not enabled.
+   * 
+   * @param pckage
+   *        the name or URI of the package extension.
+   * @param flag
+   *        a Boolean value.
+   * @return boolean value indicating success/failure of the function
+   * @deprecated use {@link #setPackageRequired(String, boolean)}
+   */
+  @Deprecated
+  public boolean setPkgRequired(String pckage, boolean flag) {
+    return setPackageRequired(pckage, flag);
+  }
+
+  /**
    * Sets the {@link #SBMLDocumentAttributes}.
    * 
    * @param attributes
    */
   public void setSBMLDocumentAttributes(Map<String, String> attributes) {
-    Map<String, String> oldAttributes = this.SBMLDocumentAttributes;
+    Map<String, String> oldAttributes = SBMLDocumentAttributes;
     SBMLDocumentAttributes = attributes;
     firePropertyChange(TreeNodeChangeEvent.SBMLDocumentAttributes,
-      oldAttributes, this.SBMLDocumentAttributes);
+      oldAttributes, SBMLDocumentAttributes);
   }
 
   /* (non-Javadoc)
@@ -1038,9 +1163,9 @@ public class SBMLDocument extends AbstractSBase {
    *         of this element.
    */
   public boolean unsetModel() {
-    if (this.model != null) {
-      Model oldModel = this.model;
-      this.model = null;
+    if (model != null) {
+      Model oldModel = model;
+      model = null;
       oldModel.fireNodeRemovedEvent();
       return true;
     }
@@ -1057,10 +1182,10 @@ public class SBMLDocument extends AbstractSBase {
     attributes.putAll(SBMLDocumentAttributes);
 
     if (isSetLevel()) {
-      attributes.put("level", Integer.toString(this.getLevel()));
+      attributes.put("level", Integer.toString(getLevel()));
     }
     if (isSetVersion()) {
-      attributes.put("version", Integer.toString(this.getVersion()));
+      attributes.put("version", Integer.toString(getVersion()));
     }
 
     Iterator<Map.Entry<String, String>> it = getSBMLDocumentNamespaces().entrySet().iterator();
