@@ -22,11 +22,11 @@ package org.sbml.jsbml.ext.groups;
 
 import java.util.Map;
 
-import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
-import org.sbml.jsbml.xml.parsers.GroupsParser;
 
 /**
  * @author Nicolas Rodriguez
@@ -34,17 +34,17 @@ import org.sbml.jsbml.xml.parsers.GroupsParser;
  * @since 1.0
  * @version $Rev$
  */
-public class Member extends AbstractSBase {
+public class Member extends AbstractNamedSBase {
 
 	/**
 	 * Generated serial version identifier.
 	 */
 	private static final long serialVersionUID = 1726020714284762330L;
-	/**
-	 * 
-	 */
-	protected String symbol; 
-	
+
+	private String idRef;
+
+	private String metaIdRef;
+
 	/**
 	 * 
 	 */
@@ -52,9 +52,9 @@ public class Member extends AbstractSBase {
 		super();
 		initDefaults();
 	}
-	
+
 	private void initDefaults() {
-		addNamespace(GroupsParser.namespaceURI);		
+		addNamespace(GroupConstant.namespaceURI);		
 	}
 
 	/**
@@ -65,16 +65,22 @@ public class Member extends AbstractSBase {
 	public Member(int level, int version) {
 		super(level, version);
 	}
-	
+
 	/**
 	 * 
 	 * @param member
 	 */
 	public Member(Member member) {
 		super(member);
-		this.symbol = new String(member.getSymbol());
+
+		if (member.isSetIdRef()) {
+			setIdRef(member.getIdRef());
+		}
+		if (member.isSetMetaIdRef()) {
+			setIdRef(member.getMetaIdRef());
+		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#clone()
@@ -83,42 +89,132 @@ public class Member extends AbstractSBase {
 		return new Member(this);
 	}
 
+
 	/**
-	 * 
-	 * @return
+	 * Returns the value of idRef
+	 *
+	 * @return the value of idRef
 	 */
-	public String getSymbol() {
-		return symbol == null ? "" : symbol;
+	public String getIdRef() {
+		if (isSetIdRef()) {
+			return idRef;
+		}
+
+		return null;
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Returns whether idRef is set 
+	 *
+	 * @return whether idRef is set 
 	 */
-	public SBase getSymbolInstance() {
-		if (getModel() == null) {
-			return null;
+	public boolean isSetIdRef() {
+		return this.idRef != null;
+	}
+
+	/**
+	 * Sets the value of idRef
+	 */
+	public void setIdRef(String idRef) {
+		String oldIdRef = this.idRef;
+		this.idRef = idRef;
+		firePropertyChange(GroupConstant.idRef, oldIdRef, this.idRef);
+	}
+
+	/**
+	 * Unsets the variable idRef 
+	 *
+	 * @return {@code true}, if idRef was set before, 
+	 *         otherwise {@code false}
+	 */
+	public boolean unsetIdRef() {
+		if (isSetIdRef()) {
+			String oldIdRef = this.idRef;
+			this.idRef = null;
+			firePropertyChange(GroupConstant.idRef, oldIdRef, this.idRef);
+			return true;
 		}
-		
-		SBase instance = getModel().getSpecies(symbol);
-		if (instance == null) {
-		  instance = getModel().getReaction(symbol);
+		return false;
+	}
+
+
+	/**
+	 * Returns the value of metaIdRef
+	 *
+	 * @return the value of metaIdRef
+	 */
+	public String getMetaIdRef() {
+		if (isSetMetaIdRef()) {
+			return metaIdRef;
 		}
-		if (instance == null) {
-		  instance = getModel().getCompartment(symbol);
+
+		return null;
+	}
+
+	/**
+	 * Returns whether metaIdRef is set 
+	 *
+	 * @return whether metaIdRef is set 
+	 */
+	public boolean isSetMetaIdRef() {
+		return this.metaIdRef != null;
+	}
+
+	/**
+	 * Sets the value of metaIdRef
+	 */
+	public void setMetaIdRef(String metaIdRef) {
+		String oldMetaIdRef = this.metaIdRef;
+		this.metaIdRef = metaIdRef;
+		firePropertyChange(GroupConstant.metaIdRef, oldMetaIdRef, this.metaIdRef);
+	}
+
+	/**
+	 * Unsets the variable metaIdRef 
+	 *
+	 * @return {@code true}, if metaIdRef was set before, 
+	 *         otherwise {@code false}
+	 */
+	public boolean unsetMetaIdRef() {
+		if (isSetMetaIdRef()) {
+			String oldMetaIdRef = this.metaIdRef;
+			this.metaIdRef = null;
+			firePropertyChange(GroupConstant.metaIdRef, oldMetaIdRef, this.metaIdRef);
+			return true;
 		}
-		
+		return false;
+	}
+
+
+	/**
+	 * Gets the actual SBase instance referred by the {@code idRef} or {@code metaIdRef}, returns null
+	 * if nothing is found.
+	 * 
+	 * @return the actual SBase instance referred by the {@code idRef} or {@code metaIdRef}, returns null
+	 * if nothing is found.
+	 */
+	public SBase getSBaseInstance() {
+
+		SBase instance = null;
+
+		if (isSetIdRef()) {
+			Model model = getModel();
+
+			if (model != null) {
+				instance = model.findNamedSBase(idRef);
+			}
+		} else if (isSetMetaIdRef()) {
+			SBMLDocument doc = getSBMLDocument();
+
+			if (doc != null) {
+				instance = doc.findSBase(metaIdRef);
+			}
+		}
+
 		return instance;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isSetSymbol() {
-		return symbol != null;
-	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -130,58 +226,77 @@ public class Member extends AbstractSBase {
 			String value) {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
 				value);
-		
+
 		if (!isAttributeRead) {
-			if (attributeName.equals("symbol")) {
-				this.symbol = value;
+			if (attributeName.equals(GroupConstant.idRef)) {
+				setIdRef(value);
+				return true;
+			}
+			if (attributeName.equals(GroupConstant.metaIdRef)) {
+				setMetaIdRef(value);
 				return true;
 			}
 		}
 		return isAttributeRead;
 	}
-	
+
 	/**
+	 * Sets the value of idRef, using the id defined in the given {@link NamedSBase}
 	 * 
-	 * @param symbol
+	 * @param namedSbase the {@link NamedSBase} that contain the id to be set.
+	 * 
 	 */
-	public void setSymbol(NamedSBase symbol) {
-		setSymbol(symbol != null ? symbol.getId() : null);
+	public void setIdRef(NamedSBase namedSbase) {
+		setIdRef(namedSbase != null ? namedSbase.getId() : null);
 	}
-	
+
 	/**
+	 * Sets the value of metaIdRef, using the metaid defined in the given {@link SBase}
 	 * 
-	 * @param symbolId
+	 * @param sbase the {@link SBase} that contain the metaid to be set.
+	 * 
 	 */
-	public void setSymbol(String symbolId) {
-		String oldSymbol = this.symbol;
-		if ((symbolId != null) && (symbolId.trim().length() == 0)) {
-			this.symbol = null;
-		} else {
-			this.symbol = symbolId;
-		}
-		firePropertyChange(TreeNodeChangeEvent.symbol, oldSymbol, this.symbol);
+	public void setMetaIdRef(SBase sbase) {
+		setMetaIdRef(sbase != null ? sbase.getMetaId() : null);
+	}
+
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Member [idRef=" + idRef + " metaIdRef=" + metaIdRef + "]";
 	}
 
 	/* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    return "Member [symbol=" + symbol + "]";
-  }
-
-  /* (non-Javadoc)
 	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
 	 */
 	@Override
 	public Map<String, String> writeXMLAttributes() {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
-		if (isSetSymbol()) {
-			attributes.put(GroupsParser.shortLabel + ":symbol", symbol);
+		if (isSetIdRef()) {
+			attributes.put(GroupConstant.shortLabel + ":" + GroupConstant.idRef, idRef);
 		}
-		
+		if (isSetMetaIdRef()) {
+			attributes.put(GroupConstant.shortLabel + ":" + GroupConstant.metaIdRef, metaIdRef);
+		}
+		if (isSetId()) {
+			attributes.remove("id");
+			attributes.put(GroupConstant.shortLabel + ":id", getId());
+		}
+		if (isSetName()) {
+			attributes.remove("name");
+			attributes.put(GroupConstant.shortLabel + ":name", getName());
+		}
+
 		return attributes;
 	}
-	
+
+	@Override
+	public boolean isIdMandatory() {
+		return false;
+	}
+
 }

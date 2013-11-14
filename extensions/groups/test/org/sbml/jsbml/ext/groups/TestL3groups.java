@@ -100,7 +100,7 @@ public class TestL3groups {
 
 		System.out.println("Model extension objects: "
 				+ model.getExtension(GROUPS_NAMESPACE));
-		GroupModel extendedModel = (GroupModel) model
+		GroupModelPlugin extendedModel = (GroupModelPlugin) model
 				.getExtension(GROUPS_NAMESPACE);
 
 		System.out.println("Nb Groups = "
@@ -114,7 +114,7 @@ public class TestL3groups {
 
 		Member member = group.getMember(0);
 
-		System.out.println("Member(0).symbol = " + member.getSymbol());
+		System.out.println("Member(0).idRef = " + member.getIdRef());
 
 	}
 

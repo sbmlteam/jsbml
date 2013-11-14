@@ -20,6 +20,8 @@
  */
 package org.sbml.jsbml.ext.groups;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -29,7 +31,7 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
-import org.sbml.jsbml.xml.parsers.GroupsParser;
+import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * 
@@ -54,6 +56,8 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * 
 	 */
 	protected ListOf<Member> listOfMembers = null;
+	
+	private ListOfMemberConstraint listOfMemberConstraints = null;
 
 	/**
 	 * 
@@ -69,13 +73,18 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	 */
 	public Group(Group group) {
 		super(group);
+		
 		if (group.isSetListOfMembers()) {
+			// TODO - update to have a proper clone of the ListOf as well
 			for (Member m : group.listOfMembers) {
 				addMember(m.clone());
 			}
 		}
 		if (group.isSetKind()) {
 			setKind(group.getKind());
+		}
+		if (group.isSetListOfMemberConstraints()) {
+			setListOfMemberConstraints((ListOfMemberConstraint) group.getListOfMemberConstraints().clone());
 		}
 	}
 
@@ -106,9 +115,9 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * @param symbol
 	 * @return
 	 */
-	public Member createMember(String symbol) {
+	public Member createMember(String idRef) {
 		Member m = new Member();
-		m.setSymbol(symbol);
+		m.setIdRef(idRef);
 		addMember(m);
 		return m;
 	}
@@ -155,7 +164,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	public ListOf<Member> getListOfMembers() {
 		if (!isSetListOfMembers()) {
 			listOfMembers = new ListOf<Member>();
-			listOfMembers.addNamespace(GroupsParser.namespaceURI);
+			listOfMembers.addNamespace(GroupConstant.namespaceURI);
 			registerChild(listOfMembers);
 			listOfMembers.setSBaseListType(ListOf.Type.other);
 		}
@@ -185,7 +194,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	}
 
 	private void initDefaults() {
-		addNamespace(GroupsParser.namespaceURI);		
+		addNamespace(GroupConstant.namespaceURI);		
 	}
 
 	/* (non-Javadoc)
@@ -215,6 +224,128 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 		return true;
 	}
 
+	
+	/**
+	 * Returns {@code true}, if listOfMemberConstraints contains at least one element.
+	 *
+	 * @return {@code true}, if listOfMemberConstraints contains at least one element, 
+	 *         otherwise {@code false}
+	 */
+	public boolean isSetListOfMemberConstraints() {
+		if ((listOfMemberConstraints == null) || listOfMemberConstraints.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Returns the listOfMemberConstraints. Creates it if it is not already existing.
+	 *
+	 * @return the listOfMemberConstraints
+	 */
+	public ListOf<MemberConstraint> getListOfMemberConstraints() {
+		if (!isSetListOfMemberConstraints()) {
+			listOfMemberConstraints = new ListOfMemberConstraint(getLevel(), getVersion());
+			listOfMemberConstraints.addNamespace(GroupConstant.namespaceURI);
+			listOfMemberConstraints.setSBaseListType(ListOf.Type.other);
+			registerChild(listOfMemberConstraints);
+		}
+		return listOfMemberConstraints;
+	}
+	
+	// TODO - helper method with setListOfMemberConstraints(ListOf<MemberConstraint>) ??
+
+	/**
+	 * Sets the given {@code ListOf<MemberConstraint>}. If listOfMemberConstraints
+	 * was defined before and contains some elements, they are all unset.
+	 *
+	 * @param listOfMemberConstraints
+	 */
+	public void setListOfMemberConstraints(ListOfMemberConstraint listOfMemberConstraints) {
+		unsetListOfMemberConstraints();
+		this.listOfMemberConstraints = listOfMemberConstraints;
+		registerChild(this.listOfMemberConstraints);
+	}
+
+	/**
+	 * Returns {@code true}, if listOfMemberConstraints contain at least one element, 
+	 *         otherwise {@code false}
+	 *
+	 * @return {@code true}, if listOfMemberConstraints contain at least one element, 
+	 *         otherwise {@code false}
+	 */
+	public boolean unsetListOfMemberConstraints() {
+		if (isSetListOfMemberConstraints()) {
+			ListOf<MemberConstraint> oldMemberConstraints = this.listOfMemberConstraints;
+			this.listOfMemberConstraints = null;
+			oldMemberConstraints.fireNodeRemovedEvent();
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Adds a new {@link MemberConstraint} to the listOfMemberConstraints.
+	 * <p>The listOfMemberConstraints is initialized if necessary.
+	 *
+	 * @param MemberConstraint the element to add to the list
+	 * @return true (as specified by {@link Collection.add})
+	 */
+	public boolean addMemberConstraint(MemberConstraint MemberConstraint) {
+		return getListOfMemberConstraints().add(MemberConstraint);
+	}
+
+	/**
+	 * Removes an element from the listOfMemberConstraints.
+	 *
+	 * @param MemberConstraint the element to be removed from the list
+	 * @return true if the list contained the specified element
+	 * @see List#remove(Object)
+	 */
+	public boolean removeMemberConstraint(MemberConstraint MemberConstraint) {
+		if (isSetListOfMemberConstraints()) {
+			return getListOfMemberConstraints().remove(MemberConstraint);
+		}
+		return false;
+	}
+
+	/**
+	 * Removes an element from the listOfMemberConstraints at the given index.
+	 *
+	 * @param i the index where to remove the {@link MemberConstraint}
+	 * @throws IndexOutOfBoundsException if the listOf is not set or
+	 * if the index is out of bound (index < 0 || index > list.size)
+	 */
+	public void removeMemberConstraint(int i) {
+		if (!isSetListOfMemberConstraints()) {
+			throw new IndexOutOfBoundsException(Integer.toString(i));
+		}
+		getListOfMemberConstraints().remove(i);
+	}
+
+	public void removeMemberConstraint(String id) {
+	  getListOfMemberConstraints().removeFirst(new NameFilter(id));
+	}
+
+	/**
+	 * Creates a new MemberConstraint element and adds it to the ListOfMemberConstraints list
+	 */
+	public MemberConstraint createMemberConstraint() {
+		return createMemberConstraint(null);
+	}
+
+	/**
+	 * Creates a new {@link MemberConstraint} element and adds it to the ListOfMemberConstraints list
+	 *
+	 * @return a new {@link MemberConstraint} element
+	 */
+	public MemberConstraint createMemberConstraint(String id) {
+		MemberConstraint MemberConstraint = new MemberConstraint(id, getLevel(), getVersion());
+		addMemberConstraint(MemberConstraint);
+		return MemberConstraint;
+	}
+
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
 	 */
@@ -223,7 +354,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 
 		if (!isAttributeRead && attributeName.equals("kind")) {
-			this.setKind(GroupKind.valueOf(value));
+			this.setKind(GroupKind.valueOf(value)); // TODO - add exception handling in case the value is not correct
 			isAttributeRead = true;
 		}
 
@@ -274,18 +405,20 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 
 		if (isSetId()) {
 			attributes.remove("id");
-			attributes.put(GroupsParser.shortLabel+ ":id", getId());
+			attributes.put(GroupConstant.shortLabel+ ":id", getId());
 		}
 		if (isSetName()) {
 			attributes.remove("name");
-			attributes.put(GroupsParser.shortLabel+ ":name", getName());
+			attributes.put(GroupConstant.shortLabel+ ":name", getName());
 		}
 		if (isSetKind()) {
 			attributes.remove("kind");
-			attributes.put(GroupsParser.shortLabel+ ":kind", getKind().toString());
+			attributes.put(GroupConstant.shortLabel+ ":kind", getKind().toString());
 		}
 
 		return attributes;
 	}
 
+	// TODO - add methods to get/set/... the attribute from the ListOfMemberConstraint
+	
 }
