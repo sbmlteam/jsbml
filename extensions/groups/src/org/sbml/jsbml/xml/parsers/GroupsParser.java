@@ -29,8 +29,10 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.groups.Group;
-import org.sbml.jsbml.ext.groups.GroupModel;
+import org.sbml.jsbml.ext.groups.GroupConstant;
+import org.sbml.jsbml.ext.groups.GroupModelPlugin;
 import org.sbml.jsbml.ext.groups.Member;
+import org.sbml.jsbml.ext.groups.MemberConstraint;
 
 /**
  * This class is used to parse the groups extension package elements and
@@ -44,13 +46,6 @@ import org.sbml.jsbml.ext.groups.Member;
  * @version $Rev$
  */
 public class GroupsParser extends AbstractReaderWriter {
-
-	/**
-	 * The namespace URI of this parser.
-	 */
-	public static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/groups/version1";
-
-	public static final String shortLabel = "groups";
 
 	private Logger logger = Logger.getLogger(GroupsParser.class);
 
@@ -94,10 +89,10 @@ public class GroupsParser extends AbstractReaderWriter {
 			
 			if (elementName.equals("listOfGroups")) {
 
-				GroupModel groupModel = new GroupModel(model);
-				model.addExtension(namespaceURI, groupModel);
+				GroupModelPlugin groupModelPlugin = new GroupModelPlugin(model);
+				model.addExtension(GroupConstant.namespaceURI, groupModelPlugin);
 
-				return groupModel.getListOfGroups();
+				return groupModelPlugin.getListOfGroups();
 			}
 		} else if (contextObject instanceof Group) {
 			Group group = (Group) contextObject;
@@ -106,6 +101,11 @@ public class GroupsParser extends AbstractReaderWriter {
 
 				return group.getListOfMembers();
 			}
+			else if (elementName.equals("listOfMemberConstraints")) {
+
+				return group.getListOfMemberConstraints();
+			}
+			
 		}
 
 		else if (contextObject instanceof ListOf<?>) {
@@ -113,7 +113,7 @@ public class GroupsParser extends AbstractReaderWriter {
 
 			if (elementName.equals("group")) {
 				Model model = (Model) listOf.getParentSBMLObject();
-				GroupModel extendeModel = (GroupModel) model.getExtension(namespaceURI); 
+				GroupModelPlugin extendeModel = (GroupModelPlugin) model.getExtension(GroupConstant.namespaceURI); 
 				
 				Group group = new Group();
 				extendeModel.addGroup(group);
@@ -121,6 +121,11 @@ public class GroupsParser extends AbstractReaderWriter {
 				return group;
 			} else if (elementName.equals("member")) {
 				Member member = new Member();
+				listOf.add(member);
+
+				return member;
+			} else if (elementName.equals("memberConstraint")) {
+				MemberConstraint member = new MemberConstraint();
 				listOf.add(member);
 
 				return member;
@@ -136,7 +141,7 @@ public class GroupsParser extends AbstractReaderWriter {
 	 */
 	@Override
 	public String getShortLabel() {
-		return shortLabel;
+		return GroupConstant.shortLabel;
 	}
 
 	/* (non-Javadoc)
@@ -144,7 +149,7 @@ public class GroupsParser extends AbstractReaderWriter {
 	 */
 	@Override
 	public String getNamespaceURI() {
-		return namespaceURI;
+		return GroupConstant.namespaceURI;
 	}
 
 	

@@ -1,6 +1,6 @@
 /*
- * $Id: GroupModel.java 834 2011-10-24 13:10:20Z niko-rodrigue $
- * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/extensions/groups/src/org/sbml/jsbml/ext/groups/GroupModel.java $
+ * $Id: GroupModelPlugin.java 834 2011-10-24 13:10:20Z niko-rodrigue $
+ * $URL: https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk/extensions/groups/src/org/sbml/jsbml/ext/groups/GroupModelPlugin.java $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -20,7 +20,6 @@
  */
 package org.sbml.jsbml.ext.groups;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.sbml.jsbml.ListOf;
@@ -29,7 +28,6 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.filters.NameFilter;
-import org.sbml.jsbml.xml.parsers.GroupsParser;
 
 /**
  * @author Nicolas Rodriguez
@@ -37,7 +35,7 @@ import org.sbml.jsbml.xml.parsers.GroupsParser;
  * @since 1.0
  * @version $Rev: 834 $
  */
-public class GroupModel extends AbstractSBasePlugin {
+public class GroupModelPlugin extends AbstractSBasePlugin {
 
 	/**
 	 * Generated serial version identifier.
@@ -47,35 +45,31 @@ public class GroupModel extends AbstractSBasePlugin {
 	 * 
 	 */
 	protected ListOf<Group> listOfGroups = new ListOf<Group>();
-	/**
-	 * 
-	 */
-	protected Model model;
 	
 	
 	/**
 	 * 
 	 * @param model
 	 */
-	public GroupModel(Model model) {
-		this.model = model;
+	public GroupModelPlugin(Model model) {
+		super(model);
 		initDefaults();
 	}
 	
 	/**
-   * @param groupModel
+   * @param groupModelPlugin
    */
-  public GroupModel(GroupModel groupModel) {
+  public GroupModelPlugin(GroupModelPlugin groupModelPlugin) {
     // We don't clone the pointer to the containing model.
-    if (groupModel.listOfGroups != null) {
-      this.listOfGroups = groupModel.listOfGroups.clone();
+    if (groupModelPlugin.listOfGroups != null) {
+      this.listOfGroups = groupModelPlugin.listOfGroups.clone();
     }
   }
 
   private void initDefaults() {
-		listOfGroups.addNamespace(GroupsParser.namespaceURI);
+		listOfGroups.addNamespace(GroupConstant.namespaceURI);
 		listOfGroups.setSBaseListType(ListOf.Type.other);
-		model.registerChild(listOfGroups);
+		extendedSBase.registerChild(listOfGroups);
 	}
 	
 	/**
@@ -107,6 +101,10 @@ public class GroupModel extends AbstractSBasePlugin {
 		return listOfGroups;
 	}
 
+	public int getGroupCount() {
+		return listOfGroups.size();
+	}
+	
 	/**
 	 * 
 	 * @return
@@ -132,7 +130,7 @@ public class GroupModel extends AbstractSBasePlugin {
 		if ((this.listOfGroups != null) && (this.listOfGroups.getSBaseListType() != ListOf.Type.other)) {
 			this.listOfGroups.setSBaseListType(ListOf.Type.other);
 		}
-		model.registerChild(listOfGroups);
+		extendedSBase.registerChild(listOfGroups);
 	}
 
 	/**
@@ -155,8 +153,8 @@ public class GroupModel extends AbstractSBasePlugin {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
 	 */
-	public GroupModel clone() {
-		return new GroupModel(this);
+	public GroupModelPlugin clone() {
+		return new GroupModelPlugin(this);
 	}
 
   /* (non-Javadoc)
@@ -164,7 +162,7 @@ public class GroupModel extends AbstractSBasePlugin {
    */
   @Override
   public String toString() {
-    return "GroupModel [listOfGroups=" + listOfGroups + ", model=" + model
+    return "GroupModelPlugin [listOfGroups=" + listOfGroups + ", model=" + extendedSBase
         + "]";
   }
   
