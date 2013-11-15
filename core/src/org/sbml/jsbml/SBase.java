@@ -36,7 +36,7 @@ import org.sbml.jsbml.xml.XMLNode;
  * The interface to implement for each SBML component.
  * 
  * @author Andreas Dr&auml;ger
- * @author Marine Dumousseau 
+ * @author Marine Dumousseau
  * @since 0.8
  * @version $Rev$
  */
@@ -79,7 +79,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Appends 'notes' to the notes String of this object.
-   *  
+   * 
    * @param notes
    */
   public void appendNotes(String notes);
@@ -109,6 +109,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    *         {@link SBase} that has exactly the same properties like this
    *         SBase instance.
    */
+  @Override
   public boolean equals(Object sbase);
 
   /**
@@ -153,7 +154,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns the content of the 'annotation' sub-element of this object as an
    *         {@link Annotation} instance.
-   *         
+   * 
    * @return the content of the 'annotation' sub-element of this object as an
    *         {@link Annotation} instance.
    */
@@ -201,7 +202,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * 
    * @param namespace
-   * @return the SBase extension object which matches this name space.
+   * @return the {@link SBase} extension object which matches this namespace.
    */
   public SBasePlugin getExtension(String namespace);
 
@@ -251,7 +252,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns all the namespaces of all the packages which are currently
    *         extending this object.
-   *         
+   * 
    * @return all the name spaces of all the packages which are currently
    *         extending this object.
    */
@@ -347,6 +348,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * @return
    * @see Object#hashCode()
    */
+  @Override
   public int hashCode();
 
   /**
@@ -460,7 +462,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Sets this object as SBML parent of 'sbase'. Check if the level and version
    * of sbase are set, otherwise sets the level and version of 'sbase' with
-   * those of this object. This method should actually not be called by any tool 
+   * those of this object. This method should actually not be called by any tool
    * as it is used internally within JSBML to maintain the hierarchical document
    * structure.
    * 
@@ -481,6 +483,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * 
    * @param l
    */
+  @Override
   public void removeTreeNodeChangeListener(TreeNodeChangeListener l);
 
   /**
@@ -553,7 +556,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Sets this object as SBML parent of 'sbase'. Check if the level and version
    * of sbase are set, otherwise sets the level and version of 'sbase' with
-   * those of this object. This method should actually not be called by any tool 
+   * those of this object. This method should actually not be called by any tool
    * as it is used internally within JSBML to maintain the hierarchical document
    * structure.
    * 
