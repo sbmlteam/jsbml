@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml;
 
 import java.io.File;
@@ -30,6 +29,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.UUID;
 
 import javax.swing.tree.TreeNode;
@@ -131,10 +131,10 @@ public class SBMLDocument extends AbstractSBase {
    */
   public SBMLDocument() {
     super();
-    mappingFromMetaId2SBase = new HashMap<String, SBase>();
     model = null;
-    SBMLDocumentAttributes = new HashMap<String, String>();
-    SBMLDocumentNamespaces = new HashMap<String, String>();
+    mappingFromMetaId2SBase = new TreeMap<String, SBase>();
+    SBMLDocumentAttributes = new TreeMap<String, String>();
+    SBMLDocumentNamespaces = new TreeMap<String, String>();
     // setParentSBML(this);
     checkConsistencyParameters.put(CHECK_CATEGORY.UNITS_CONSISTENCY.name(), false);
   }
@@ -215,10 +215,9 @@ public class SBMLDocument extends AbstractSBase {
    * @param packageURI the package namespace uri
    * @param required the value of the required attribute
    */
-  public void addPackageDeclaration(String packageName, String packageURI, String required) {
-	  addNamespace(packageName, "xmlns", packageURI);
-
-	  getSBMLDocumentAttributes().put(packageName + ":required", required);
+  public void addPackageDeclaration(String packageName, String packageURI, boolean required) {
+    addNamespace(packageName, "xmlns", packageURI);
+    getSBMLDocumentAttributes().put(packageName + ":required", Boolean.toString(required));
   }
 
   /**
