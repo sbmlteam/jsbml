@@ -20,6 +20,7 @@
  */
 package org.sbml.jsbml.ext.groups;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import org.sbml.jsbml.ListOf;
@@ -187,8 +188,11 @@ public class GroupModelPlugin extends AbstractSBasePlugin {
 	 */
 	public SBase getChildAt(int childIndex) {
 		if (childIndex < 0 || childIndex >= 1) {
-			return null;
+		    throw new IndexOutOfBoundsException(MessageFormat.format(
+		    	      "Index {0,number,integer} >= {1,number,integer}", childIndex,
+		    	      +((int) Math.min(getChildCount(), 0))));
 		}
+		
 		return listOfGroups;
 	}
 
