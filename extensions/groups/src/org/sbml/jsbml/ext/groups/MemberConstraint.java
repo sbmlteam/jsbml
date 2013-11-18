@@ -210,10 +210,10 @@ public class MemberConstraint extends AbstractNamedSBase {
 			attributes.put(GroupConstant.shortLabel + ":name", getName());
 		}
 		if (isSetIdenticalAttribute()) {
-			attributes.put(GroupConstant.identicalAttribute, getIdenticalAttribute());
+			attributes.put(GroupConstant.shortLabel + ":" + GroupConstant.identicalAttribute, getIdenticalAttribute());
 		}
 		if (isSetDistinctAttribute()) {
-			attributes.put(GroupConstant.distinctAttribute, getDistinctAttribute());
+			attributes.put(GroupConstant.shortLabel + ":" + GroupConstant.distinctAttribute, getDistinctAttribute());
 		}
 		
 		return attributes;

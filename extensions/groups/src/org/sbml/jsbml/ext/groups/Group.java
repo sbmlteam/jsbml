@@ -20,6 +20,7 @@
  */
 package org.sbml.jsbml.ext.groups;
 
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.filters.NameFilter;
@@ -127,26 +129,54 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	 */
 	@Override
 	public TreeNode getChildAt(int index) {
-		if (index < 0 || index >= 1) {
-			return null;
+		if (index < 0) {
+			throw new IndexOutOfBoundsException(index + " < 0");
 		}
 
-		if (isSetListOfMembers()) {
-			return listOfMembers;
+		int count = super.getChildCount();
+		int position = 0;
+
+		if (index < count) {
+			return super.getChildAt(index);
+		} else {
+			index -= count;
 		}
 
-		return null;
+		 if (isSetListOfMembers()) {
+		   if (position == index) {
+		     return getListOfMembers();
+		   }
+		   position++;
+		 }
+
+		 if (isSetListOfMemberConstraints()) {
+			 if (position == index) {
+				 return getListOfMemberConstraints();
+			 }
+			 position++;
+		 }
+
+		throw new IndexOutOfBoundsException(MessageFormat.format(
+				"Index {0,number,integer} >= {1,number,integer}", index,
+				+((int) Math.min(position, 0))));
 	}
 
+	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
 	 */
 	@Override
 	public int getChildCount() {
+		int childCount = super.getChildCount();
+		
 		if (isSetListOfMembers()) {
-			return 1;
+			childCount++;
 		}
-		return 0;
+		if (isSetListOfMemberConstraints()) {
+			childCount++;
+		}
+		
+		return childCount;
 	}
 
 	/**
@@ -291,8 +321,8 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * @param MemberConstraint the element to add to the list
 	 * @return true (as specified by {@link Collection.add})
 	 */
-	public boolean addMemberConstraint(MemberConstraint MemberConstraint) {
-		return getListOfMemberConstraints().add(MemberConstraint);
+	public boolean addMemberConstraint(MemberConstraint memberConstraint) {
+		return getListOfMemberConstraints().add(memberConstraint);
 	}
 
 	/**
@@ -302,9 +332,9 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * @return true if the list contained the specified element
 	 * @see List#remove(Object)
 	 */
-	public boolean removeMemberConstraint(MemberConstraint MemberConstraint) {
+	public boolean removeMemberConstraint(MemberConstraint memberConstraint) {
 		if (isSetListOfMemberConstraints()) {
-			return getListOfMemberConstraints().remove(MemberConstraint);
+			return getListOfMemberConstraints().remove(memberConstraint);
 		}
 		return false;
 	}
@@ -354,8 +384,13 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 
 		if (!isAttributeRead && attributeName.equals("kind")) {
-			this.setKind(GroupKind.valueOf(value)); // TODO - add exception handling in case the value is not correct
-			isAttributeRead = true;
+			try {
+				setKind(GroupKind.valueOf(value));
+				isAttributeRead = true;
+			} catch (Exception e) {
+				throw new SBMLException("Could not recognized the value '" + value
+						+ "' for the attribute 'kind' on the 'group' element.");
+			}
 		}
 
 		return isAttributeRead;
@@ -421,4 +456,10 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 
 	// TODO - add methods to get/set/... the attribute from the ListOfMemberConstraint
 	
+
+	@Override
+	public boolean getAllowsChildren() {
+		return true;
+	}
+
 }

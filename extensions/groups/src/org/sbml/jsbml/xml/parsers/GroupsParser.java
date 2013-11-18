@@ -124,7 +124,7 @@ public class GroupsParser extends AbstractReaderWriter {
 				listOf.add(member);
 
 				return member;
-			} else if (elementName.equals("memberConstraint")) {
+			} else if (elementName.equals(GroupConstant.memberConstraint)) {
 				MemberConstraint member = new MemberConstraint();
 				listOf.add(member);
 

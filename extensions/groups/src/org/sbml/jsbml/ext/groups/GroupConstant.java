@@ -16,5 +16,6 @@ public class GroupConstant {
 	public static final String identicalAttribute = "identicalAttribute";
 	public static final String distinctAttribute = "distinctAttribute";
 	public static final String membersShareType = "membersShareType";
-
+	public static final String memberConstraint = "memberConstraint";
+	
 }
