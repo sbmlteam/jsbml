@@ -882,17 +882,16 @@ public class SBMLDocument extends AbstractSBase {
    *         <li>This method also returns {@code false} if the given
    *         {@link SBase} does not have a defined metaId</li>
    *         </ul>
-   * @throws IllegalArgumentException
-   *         if a metaid to add is already present in the list of
-   *         registered metaids.
+   *         
    */
   boolean registerMetaId(SBase sbase, boolean add) {
     if (sbase.isSetMetaId()) {
       if (add) {
+    	  // We should call checkMetaid if we want to throw IllegalArgumentException here when metaid already present
         return mappingFromMetaId2SBase.put(sbase.getMetaId(), sbase) == null;
       } else {
         SBase old = mappingFromMetaId2SBase.get(sbase.getMetaId());
-        if ((old != null) && (old != sbase)) {
+        if ((old != null) && (old == sbase)) {
           /* This check is needed because the given SBase might originate from a
            * different Document or could be a clone of some other SBase registered
            * here.
