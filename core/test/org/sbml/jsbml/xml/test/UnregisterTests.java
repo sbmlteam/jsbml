@@ -29,6 +29,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.IdentifierException;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.ListOf;
@@ -83,6 +84,8 @@ public class UnregisterTests {
 		LocalParameter lp1 = r1.createKineticLaw().createLocalParameter("LP1");
 		lp1.setMetaId("LP1");
 		
+		Constraint c1 = model.createConstraint();
+		c1.setMetaId("c0");
 	}
 	
 	/**
@@ -625,7 +628,6 @@ public class UnregisterTests {
 			assertTrue(true);
 		} catch (IllegalArgumentException e) {
 			fail("We should be able to register an id or metaid from a removed element.");
-			// success
 		}
 		
 		try {
@@ -688,9 +690,41 @@ public class UnregisterTests {
 			assertTrue(true);
 		} catch (IllegalArgumentException e) {
 			fail("We should be able to register an id or metaid from a removed element.");
+		}		
+	}
+
+	/**
+	 * 
+	 */
+	@Test public void testUnRegisterConstraintMetaid() {
+
+		Constraint c0 = (Constraint) doc.findSBase("c0");
+		Constraint c1 = model.getConstraint(0);
+		
+		assertTrue(c0 != null);
+		assertTrue(c1 != null);
+		assertTrue(c0.equals(c1));
+		
+		c0.setMetaId("c1");
+		
+		assertTrue(doc.findSBase("c0") == null);
+		assertTrue(doc.findSBase("c1") != null);
+		
+		Constraint c3 = model.createConstraint();
+		c3.setMetaId("c0");
+
+		assertTrue(doc.findSBase("c0") != null);
+		assertTrue(doc.findSBase("c0") == c3);
+
+		Constraint c4 = c3.clone();
+		
+		try {
+			model.addConstraint(c4);
+			fail("We should not be able to register a cloned element with the same metaid as an other element in the model.");
+		} catch (IllegalArgumentException e) {
 			// success
 		}
 		
+		assertTrue(doc.findSBase("c0") == c3);
 	}
-
 }
