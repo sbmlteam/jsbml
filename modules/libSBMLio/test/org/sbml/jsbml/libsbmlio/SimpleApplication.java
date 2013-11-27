@@ -30,6 +30,7 @@ import org.sbml.jsbml.History;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLInputConverter;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.test.gui.JTreeOfSBML;
 import org.sbml.jsbml.xml.libsbml.LibSBMLChangeListener;
@@ -54,7 +55,7 @@ public class SimpleApplication {
 			Class.forName("org.sbml.libsbml.libsbml");
 
 			// Read SBML file using LibSBML and convert it to JSBML:
-			LibSBMLReader reader = new LibSBMLReader();
+			SBMLInputConverter<org.sbml.libsbml.Model> reader = new LibSBMLReader();
 			SBMLDocument doc = reader.convertSBMLDocument(args[0]);
 			//SBMLDocument doc = new SBMLDocument(2,4);
 

@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.xml.libsbml;
 
 import static org.sbml.jsbml.xml.libsbml.LibSBMLConstants.LINK_TO_LIBSBML;
@@ -726,16 +725,6 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
 
   /**
    * 
-   * @param model
-   * @throws Exception
-   */
-  public LibSBMLReader(org.sbml.libsbml.Model model) throws Exception {
-    this();
-    this.model = convertModel(model);
-  }
-
-  /**
-   * 
    * @param sb
    */
   private void addAllTreeNodeChangeListenersTo(SBase sb) {
@@ -1006,10 +995,7 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
   @Override
   public Model convertModel(org.sbml.libsbml.Model originalModel) throws Exception {
 
-    SBMLDocument sbmldoc = new SBMLDocument((int) originalModel.getLevel(), (int) originalModel.getVersion());
-    transferSBaseProperties(sbmldoc, originalModel.getSBMLDocument());
-
-    model = sbmldoc.createModel(originalModel.getId());
+    model = new Model(originalModel.getId(), (int) originalModel.getLevel(), (int) originalModel.getVersion());
     transferNamedSBaseProperties(model, originalModel);
 
     if (originalModel.isSetAreaUnits()) {
@@ -1088,16 +1074,13 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
     }
 
     addAllTreeNodeChangeListenersTo(model);
-    sbmldoc.addTreeNodeChangeListener(new LibSBMLChangeListener(originalModel.getSBMLDocument()));
     return model;
   }
 
-  /**
-   * 
-   * @param sbmlFile
-   * @return
-   * @throws Exception
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBMLInputConverter#convertSBMLDocument(java.io.File)
    */
+  @Override
   public SBMLDocument convertSBMLDocument(File sbmlFile) throws Exception {
     return convertSBMLDocument(readSBMLfromFile(sbmlFile.getAbsolutePath()));
   }
@@ -1108,16 +1091,24 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
    * @return
    * @throws Exception
    */
-  public SBMLDocument convertSBMLDocument(org.sbml.libsbml.SBMLDocument doc) throws Exception {
-    return convertModel(doc.getModel()).getSBMLDocument();
+  public SBMLDocument convertSBMLDocument(org.sbml.libsbml.SBMLDocument libDoc) throws Exception {
+    SBMLDocument doc = new SBMLDocument((int) libDoc.getLevel(), (int) libDoc.getVersion());
+    transferSBaseProperties(doc, libDoc);
+    if (libDoc.getModel() != null) {
+      doc.setModel(convertModel(libDoc.getModel()));
+    }
+    org.sbml.libsbml.XMLNamespaces libNamespaces = libDoc.getNamespaces();
+    for (int i = 0; i < libNamespaces.getNumNamespaces(); i++) {
+      doc.addNamespace(libNamespaces.getURI(i));
+    }
+    doc.addTreeNodeChangeListener(new LibSBMLChangeListener(libDoc));
+    return doc;
   }
 
-  /**
-   * 
-   * @param fileName
-   * @return
-   * @throws Exception
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBMLInputConverter#convertSBMLDocument(java.lang.String)
    */
+  @Override
   public SBMLDocument convertSBMLDocument(String fileName) throws Exception {
     return convertSBMLDocument(new File(fileName));
   }
