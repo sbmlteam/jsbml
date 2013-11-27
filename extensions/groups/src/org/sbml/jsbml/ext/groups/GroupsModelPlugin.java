@@ -36,7 +36,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @since 1.0
  * @version $Rev: 834 $
  */
-public class GroupModelPlugin extends AbstractSBasePlugin {
+public class GroupsModelPlugin extends AbstractSBasePlugin {
 
 	/**
 	 * Generated serial version identifier.
@@ -52,7 +52,7 @@ public class GroupModelPlugin extends AbstractSBasePlugin {
 	 * 
 	 * @param model
 	 */
-	public GroupModelPlugin(Model model) {
+	public GroupsModelPlugin(Model model) {
 		super(model);
 		initDefaults();
 	}
@@ -60,7 +60,7 @@ public class GroupModelPlugin extends AbstractSBasePlugin {
 	/**
    * @param groupModelPlugin
    */
-  public GroupModelPlugin(GroupModelPlugin groupModelPlugin) {
+  public GroupsModelPlugin(GroupsModelPlugin groupModelPlugin) {
     // We don't clone the pointer to the containing model.
     if (groupModelPlugin.listOfGroups != null) {
       this.listOfGroups = groupModelPlugin.listOfGroups.clone();
@@ -68,7 +68,7 @@ public class GroupModelPlugin extends AbstractSBasePlugin {
   }
 
   private void initDefaults() {
-		listOfGroups.addNamespace(GroupConstant.namespaceURI);
+		listOfGroups.addNamespace(GroupsConstants.namespaceURI);
 		listOfGroups.setSBaseListType(ListOf.Type.other);
 		extendedSBase.registerChild(listOfGroups);
 	}
@@ -154,8 +154,8 @@ public class GroupModelPlugin extends AbstractSBasePlugin {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
 	 */
-	public GroupModelPlugin clone() {
-		return new GroupModelPlugin(this);
+	public GroupsModelPlugin clone() {
+		return new GroupsModelPlugin(this);
 	}
 
   /* (non-Javadoc)

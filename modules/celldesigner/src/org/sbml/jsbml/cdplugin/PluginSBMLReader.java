@@ -20,6 +20,7 @@
  */
 package org.sbml.jsbml.cdplugin;
 
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -72,6 +73,7 @@ import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLInputConverter;
 import org.sbml.jsbml.SBO;
@@ -1165,6 +1167,23 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
     }
     addAllSBaseChangeListenersTo(ud);
     return ud;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBMLInputConverter#convertSBMLDocument(java.lang.String)
+   */
+  @Override
+  public SBMLDocument convertSBMLDocument(String fileName) throws Exception {
+    return null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBMLInputConverter#convertSBMLDocument(java.io.File)
+   */
+  @Override
+  public SBMLDocument convertSBMLDocument(File sbmlFile) throws Exception {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

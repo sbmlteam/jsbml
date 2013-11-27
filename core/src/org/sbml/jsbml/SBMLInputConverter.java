@@ -20,6 +20,7 @@
  */
 package org.sbml.jsbml;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -45,6 +46,22 @@ public interface SBMLInputConverter<T> {
    * @throws Exception
    */
   public Model convertModel(T model) throws Exception;
+
+  /**
+   * 
+   * @param sbmlFile
+   * @return
+   * @throws Exception
+   */
+  public abstract SBMLDocument convertSBMLDocument(File sbmlFile) throws Exception;
+
+  /**
+   * 
+   * @param fileName
+   * @return
+   * @throws Exception
+   */
+  public abstract SBMLDocument convertSBMLDocument(String fileName) throws Exception;
 
   /**
    * @return The original model that has been converted by this class in the

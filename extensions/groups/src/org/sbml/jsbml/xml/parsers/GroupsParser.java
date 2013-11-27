@@ -29,8 +29,8 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.groups.Group;
-import org.sbml.jsbml.ext.groups.GroupConstant;
-import org.sbml.jsbml.ext.groups.GroupModelPlugin;
+import org.sbml.jsbml.ext.groups.GroupsConstants;
+import org.sbml.jsbml.ext.groups.GroupsModelPlugin;
 import org.sbml.jsbml.ext.groups.Member;
 import org.sbml.jsbml.ext.groups.MemberConstraint;
 
@@ -89,8 +89,8 @@ public class GroupsParser extends AbstractReaderWriter {
 			
 			if (elementName.equals("listOfGroups")) {
 
-				GroupModelPlugin groupModelPlugin = new GroupModelPlugin(model);
-				model.addExtension(GroupConstant.namespaceURI, groupModelPlugin);
+				GroupsModelPlugin groupModelPlugin = new GroupsModelPlugin(model);
+				model.addExtension(GroupsConstants.namespaceURI, groupModelPlugin);
 
 				return groupModelPlugin.getListOfGroups();
 			}
@@ -113,7 +113,7 @@ public class GroupsParser extends AbstractReaderWriter {
 
 			if (elementName.equals("group")) {
 				Model model = (Model) listOf.getParentSBMLObject();
-				GroupModelPlugin extendeModel = (GroupModelPlugin) model.getExtension(GroupConstant.namespaceURI); 
+				GroupsModelPlugin extendeModel = (GroupsModelPlugin) model.getExtension(GroupsConstants.namespaceURI); 
 				
 				Group group = new Group();
 				extendeModel.addGroup(group);
@@ -124,7 +124,7 @@ public class GroupsParser extends AbstractReaderWriter {
 				listOf.add(member);
 
 				return member;
-			} else if (elementName.equals(GroupConstant.memberConstraint)) {
+			} else if (elementName.equals(GroupsConstants.memberConstraint)) {
 				MemberConstraint member = new MemberConstraint();
 				listOf.add(member);
 
@@ -141,7 +141,7 @@ public class GroupsParser extends AbstractReaderWriter {
 	 */
 	@Override
 	public String getShortLabel() {
-		return GroupConstant.shortLabel;
+		return GroupsConstants.shortLabel;
 	}
 
 	/* (non-Javadoc)
@@ -149,7 +149,7 @@ public class GroupsParser extends AbstractReaderWriter {
 	 */
 	@Override
 	public String getNamespaceURI() {
-		return GroupConstant.namespaceURI;
+		return GroupsConstants.namespaceURI;
 	}
 
 	

@@ -194,7 +194,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	public ListOf<Member> getListOfMembers() {
 		if (!isSetListOfMembers()) {
 			listOfMembers = new ListOf<Member>();
-			listOfMembers.addNamespace(GroupConstant.namespaceURI);
+			listOfMembers.addNamespace(GroupsConstants.namespaceURI);
 			registerChild(listOfMembers);
 			listOfMembers.setSBaseListType(ListOf.Type.other);
 		}
@@ -224,7 +224,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	}
 
 	private void initDefaults() {
-		addNamespace(GroupConstant.namespaceURI);		
+		addNamespace(GroupsConstants.namespaceURI);		
 	}
 
 	/* (non-Javadoc)
@@ -276,7 +276,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	public ListOf<MemberConstraint> getListOfMemberConstraints() {
 		if (!isSetListOfMemberConstraints()) {
 			listOfMemberConstraints = new ListOfMemberConstraint(getLevel(), getVersion());
-			listOfMemberConstraints.addNamespace(GroupConstant.namespaceURI);
+			listOfMemberConstraints.addNamespace(GroupsConstants.namespaceURI);
 			listOfMemberConstraints.setSBaseListType(ListOf.Type.other);
 			registerChild(listOfMemberConstraints);
 		}
@@ -440,15 +440,15 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 
 		if (isSetId()) {
 			attributes.remove("id");
-			attributes.put(GroupConstant.shortLabel+ ":id", getId());
+			attributes.put(GroupsConstants.shortLabel+ ":id", getId());
 		}
 		if (isSetName()) {
 			attributes.remove("name");
-			attributes.put(GroupConstant.shortLabel+ ":name", getName());
+			attributes.put(GroupsConstants.shortLabel+ ":name", getName());
 		}
 		if (isSetKind()) {
 			attributes.remove("kind");
-			attributes.put(GroupConstant.shortLabel+ ":kind", getKind().toString());
+			attributes.put(GroupsConstants.shortLabel+ ":kind", getKind().toString());
 		}
 
 		return attributes;
