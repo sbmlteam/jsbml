@@ -27,8 +27,9 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.UniqueNamedSBase;
-import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
+
+import de.zbit.util.ResourceManager;
 
 /**
  * @author Nicolas Rodriguez
@@ -39,63 +40,63 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -6114634391235520057L;
-  
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -6114634391235520057L;
+
   /**
    * A {@link Logger} for this class.
    */
   private static final Logger logger = Logger.getLogger(Dimensions.class);
-  
-	/**
-	 * 
-	 */
-	private double depth;
-	/**
-	 * 
-	 */
-	private double height;
-	/**
-	 * 
-	 */
-	private double width;
 
-	/**
-	 * 
-	 */
-	public Dimensions() {
-	  addNamespace(LayoutConstants.namespaceURI);
-	  depth = height = width = Double.NaN;
-	}
-	
-	/**
-	 * 
-	 * @param dimensions
-	 */
-	public Dimensions(Dimensions dimensions) {
-		super(dimensions);
-		depth = height = width = Double.NaN;
-		
-		if (dimensions.isSetDepth()) {
-			this.depth = dimensions.getDepth();
-		} else {
-			this.depth = Double.NaN;
-		}
-		if (dimensions.isSetHeight()) {
-			this.height = dimensions.getHeight();
-		} else {
-			this.height = Double.NaN;
-		}
-		if (dimensions.isSetWidth()) {
-			this.width = dimensions.getWidth();
-		} else {
-			this.width = Double.NaN;
-		}
-	}
+  /**
+   * 
+   */
+  private double depth;
+  /**
+   * 
+   */
+  private double height;
+  /**
+   * 
+   */
+  private double width;
 
-	/**
+  /**
+   * 
+   */
+  public Dimensions() {
+    addNamespace(LayoutConstants.namespaceURI);
+    depth = height = width = Double.NaN;
+  }
+
+  /**
+   * 
+   * @param dimensions
+   */
+  public Dimensions(Dimensions dimensions) {
+    super(dimensions);
+    depth = height = width = Double.NaN;
+
+    if (dimensions.isSetDepth()) {
+      this.depth = dimensions.getDepth();
+    } else {
+      this.depth = Double.NaN;
+    }
+    if (dimensions.isSetHeight()) {
+      this.height = dimensions.getHeight();
+    } else {
+      this.height = Double.NaN;
+    }
+    if (dimensions.isSetWidth()) {
+      this.width = dimensions.getWidth();
+    } else {
+      this.width = Double.NaN;
+    }
+  }
+
+  /**
    * 
    * @param width
    * @param height
@@ -109,18 +110,18 @@ public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
     this.height = height;
     this.depth = depth;
   }
-  
+
   /**
-	 * 
-	 * @param level
-	 * @param version
-	 */
+   * 
+   * @param level
+   * @param version
+   */
   public Dimensions(int level, int version) {
-	  super(level, version);
-	  addNamespace(LayoutConstants.namespaceURI);
-	  depth = height = width = Double.NaN;
-	}
-  
+    super(level, version);
+    addNamespace(LayoutConstants.namespaceURI);
+    depth = height = width = Double.NaN;
+  }
+
   /**
    * 
    * @param id
@@ -132,205 +133,206 @@ public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
     addNamespace(LayoutConstants.namespaceURI);
     depth = height = width = Double.NaN;
   }
-	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#clone()
-	 */
-	@Override
-	public Dimensions clone() {
-		return new Dimensions(this);
-	}
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
+  @Override
+  public Dimensions clone() {
+    return new Dimensions(this);
+  }
 
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object object) {
-		boolean equals = super.equals(object);
-		if (equals) {
-			Dimensions d = (Dimensions) object;
-			equals &= d.isSetDepth() == isSetDepth();
-			if (equals && isSetDepth()) {
-				equals &= Double.valueOf(d.getDepth()).equals(Double.valueOf(getDepth()));
-			}
-			equals &= d.isSetHeight() == isSetHeight();
-			if (equals && isSetHeight()) {
-				equals &= Double.valueOf(d.getHeight()).equals(Double.valueOf(getHeight()));
-			}
-			equals &= d.isSetWidth() == isSetWidth();
-			if (equals && isSetWidth()) {
-				equals &=  Double.valueOf(d.getWidth()).equals(Double.valueOf(getWidth()));
-			}
-		}
-		return equals;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    boolean equals = super.equals(object);
+    if (equals) {
+      Dimensions d = (Dimensions) object;
+      equals &= d.isSetDepth() == isSetDepth();
+      if (equals && isSetDepth()) {
+        equals &= Double.valueOf(d.getDepth()).equals(Double.valueOf(getDepth()));
+      }
+      equals &= d.isSetHeight() == isSetHeight();
+      if (equals && isSetHeight()) {
+        equals &= Double.valueOf(d.getHeight()).equals(Double.valueOf(getHeight()));
+      }
+      equals &= d.isSetWidth() == isSetWidth();
+      if (equals && isSetWidth()) {
+        equals &=  Double.valueOf(d.getWidth()).equals(Double.valueOf(getWidth()));
+      }
+    }
+    return equals;
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public double getDepth() {
-		return depth;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public double getHeight() {
-		return height;
-	}
+  /**
+   * 
+   * @return
+   */
+  public double getDepth() {
+    return depth;
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public double getWidth() {
-		return width;
-	}
+  /**
+   * 
+   * @return
+   */
+  public double getHeight() {
+    return height;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 941;
-		int hashCode = super.hashCode();
-		hashCode += prime * Double.valueOf(depth).hashCode();
-		hashCode += prime * Double.valueOf(height).hashCode();
-		hashCode += prime * Double.valueOf(width).hashCode();
-		return hashCode;
-	}
+  /**
+   * 
+   * @return
+   */
+  public double getWidth() {
+    return width;
+  }
 
-	/* (non-Javadoc)
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 941;
+    int hashCode = super.hashCode();
+    hashCode += prime * Double.valueOf(depth).hashCode();
+    hashCode += prime * Double.valueOf(height).hashCode();
+    hashCode += prime * Double.valueOf(width).hashCode();
+    return hashCode;
+  }
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
+  @Override
   public boolean isIdMandatory() {
     return false;
   }
 
-	/**
-	 * @return
-	 */
-	public boolean isSetDepth() {
-		return !Double.isNaN(depth);
-	}
-
-	/**
-	 * @return
-	 */
-	public boolean isSetHeight() {
-		return !Double.isNaN(height);
-	}
-
-	/**
-	 * @return
-	 */
-	public boolean isSetWidth() {
-		return !Double.isNaN(width);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
-
-		if (!isAttributeRead)
-		{
-		
-			//isAttributeRead = true;			
-			if (attributeName.equals(LayoutConstants.width))
-			{	
-				setWidth(StringTools.parseSBMLDouble(value));
-			}
-			else if (attributeName.equals(LayoutConstants.height))
-			{	
-				setHeight(StringTools.parseSBMLDouble(value));
-			}
-			else if (attributeName.equals(LayoutConstants.depth))
-			{	
-				setDepth(StringTools.parseSBMLDouble(value));
-			} 
-			else
-			{
-				return false;
-			}
-		
-			return true;
-		}
-		
-		return isAttributeRead;
-	}
-
-	/**
-	 * 
-	 * @param depth
-	 */
-	public void setDepth(double depth) {
-		Double oldDepth = this.depth;
-		this.depth = depth;
-		firePropertyChange(LayoutConstants.depth, oldDepth, this.depth);
-	}
-	
-	/**
-	 * 
-	 * @param height
-	 */
-	public void setHeight(double height) {
-		Double oldHeight = this.height;
-		this.height = height;
-		firePropertyChange(LayoutConstants.height, oldHeight, this.height);
-	}
+  /**
+   * @return
+   */
+  public boolean isSetDepth() {
+    return !Double.isNaN(depth);
+  }
 
   /**
-	 * 
-	 * @param width
-	 */
-	public void setWidth(double width) {
-		Double oldWidth = this.width;
-		this.width = width;
-		firePropertyChange(LayoutConstants.width, oldWidth, this.width);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
-	 */
-	@Override
-	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+   * @return
+   */
+  public boolean isSetHeight() {
+    return !Double.isNaN(height);
+  }
 
-		if (isSetId()) {
-			attributes.remove("id");
-			attributes.put(LayoutConstants.shortLabel + ":id", getId());
-		}
-		if (isSetName()) {
-		  attributes.remove("name");
-		  logger.warn(MessageFormat.format(
-		    ResourceManager.getBundle("org.sbml.jsbml.resources.cfg.Messages").getString("UNDEFINED_ATTRIBUTE"),
-		    "name", getLevel(), getVersion(), getElementName()));
-		  // TODO: This must be generally solved. Here we have an SBase with ID but without name!
-		}
-		
-		if (isSetDepth()) {
-			attributes.put(LayoutConstants.shortLabel + ':'
-					+ LayoutConstants.depth, StringTools.toString(Locale.ENGLISH, depth));
-		}
-		if (isSetHeight()) {
-			attributes.put(LayoutConstants.shortLabel + ':'
-					+ LayoutConstants.height, StringTools.toString(Locale.ENGLISH, height));
-		}
-		if (isSetWidth()) {
-			attributes.put(LayoutConstants.shortLabel + ':'
-					+ LayoutConstants.width, StringTools.toString(Locale.ENGLISH, width));
-		}
+  /**
+   * @return
+   */
+  public boolean isSetWidth() {
+    return !Double.isNaN(width);
+  }
 
-		return attributes;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix,
+    String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+      value);
+
+    if (!isAttributeRead)
+    {
+
+      //isAttributeRead = true;
+      if (attributeName.equals(LayoutConstants.width))
+      {
+        setWidth(StringTools.parseSBMLDouble(value));
+      }
+      else if (attributeName.equals(LayoutConstants.height))
+      {
+        setHeight(StringTools.parseSBMLDouble(value));
+      }
+      else if (attributeName.equals(LayoutConstants.depth))
+      {
+        setDepth(StringTools.parseSBMLDouble(value));
+      }
+      else
+      {
+        return false;
+      }
+
+      return true;
+    }
+
+    return isAttributeRead;
+  }
+
+  /**
+   * 
+   * @param depth
+   */
+  public void setDepth(double depth) {
+    Double oldDepth = this.depth;
+    this.depth = depth;
+    firePropertyChange(LayoutConstants.depth, oldDepth, this.depth);
+  }
+
+  /**
+   * 
+   * @param height
+   */
+  public void setHeight(double height) {
+    Double oldHeight = this.height;
+    this.height = height;
+    firePropertyChange(LayoutConstants.height, oldHeight, this.height);
+  }
+
+  /**
+   * 
+   * @param width
+   */
+  public void setWidth(double width) {
+    Double oldWidth = this.width;
+    this.width = width;
+    firePropertyChange(LayoutConstants.width, oldWidth, this.width);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (isSetId()) {
+      attributes.remove("id");
+      attributes.put(LayoutConstants.shortLabel + ":id", getId());
+    }
+    if (isSetName()) {
+      attributes.remove("name");
+      logger.warn(MessageFormat.format(
+        ResourceManager.getBundle("org.sbml.jsbml.resources.cfg.Messages").getString("UNDEFINED_ATTRIBUTE"),
+        "name", getLevel(), getVersion(), getElementName()));
+      // TODO: This must be generally solved. Here we have an SBase with ID but without name!
+    }
+
+    if (isSetDepth()) {
+      attributes.put(LayoutConstants.shortLabel + ':'
+        + LayoutConstants.depth, StringTools.toString(Locale.ENGLISH, depth));
+    }
+    if (isSetHeight()) {
+      attributes.put(LayoutConstants.shortLabel + ':'
+        + LayoutConstants.height, StringTools.toString(Locale.ENGLISH, height));
+    }
+    if (isSetWidth()) {
+      attributes.put(LayoutConstants.shortLabel + ':'
+        + LayoutConstants.width, StringTools.toString(Locale.ENGLISH, width));
+    }
+
+    return attributes;
+  }
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
