@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <!-- $Id$ -->
 
-<project default ="usage" basedir=".">	
+<project
+  default ="usage"
+  basedir=".">	
 
 	
 	<!-- =================================================================== -->
@@ -159,7 +161,6 @@
                 token="[BUILD.NUMBER]"
                 value="${build.name}" />
 
-
 	</target>
 
 	<!-- =================================================================== -->
@@ -190,8 +191,8 @@
            debug="${debug}"
            optimize="${optimize}"
            verbose="${verbose}"
-           source="1.5"
-           target="1.5"
+           source="1.6"
+           target="1.6"
            classpathref="classpath">
 		</javac>
 		<manifest file="${build.dest}/META-INF/MANIFEST.MF">
@@ -259,7 +260,10 @@
 	<!-- =================================================================== -->
 	<!-- Test the jsbml library                                              -->
 	<!-- =================================================================== -->
-	<target name="test" depends="jar">
+	<target
+		name="test"
+		description="Test the jsbml library"
+		depends="jar">
 
 
 		<echo message="There should be NO failures or errors."/>
@@ -320,7 +324,10 @@
 	<!-- =================================================================== -->
 	<!-- Test the jsbml library                                              -->
 	<!-- =================================================================== -->
-	<target name="checkConsistencyTest" depends="jar">
+	<target
+		name="checkConsistencyTest"
+		description="Test the jsbml library"
+		depends="jar">
 
 
 		<echo message="These tests are using the sbml online validator"/>
@@ -367,7 +374,8 @@
 	  description="Creates the API documentation"
 	>
 		<mkdir dir="${build.javadocs}"/>
-		<javadoc packagenames="org.*"
+		<javadoc
+			 packagenames="org.*"
     		 excludepackagenames="org.sbml.jsbml.test.*, org.sbml.jsbml.xml.test.*"
              sourcepath="${build.src}"
              destdir="${build.javadocs}"
@@ -382,8 +390,8 @@
              doctitle="${Name} ${version} API Specification"
     	     breakiterator="yes"
     		 access="public"
-    >
-			<link href="http://java.sun.com/j2se/1.5.0/docs/api"/>
+        >
+			<link href="http://docs.oracle.com/javase/6/docs/api/"/>
 			<link href="http://www.biojava.org/docs/api17"/>
 			<tag name="sbml.deprecated" description="Deprecated in SBML since :"/>
 			<tag name="jsbml.note" description="Note"/>
@@ -394,9 +402,12 @@
 	</target>
 
 	<!-- =================================================================== -->
-	<!-- Creates the javadocs jar package                                      -->
+	<!-- Creates the javadocs jar package                                    -->
 	<!-- =================================================================== -->
-	<target name="jar-javadoc" depends="javadoc">
+	<target
+		name="jar-javadoc"
+		description="Creates the javadocs jar package"
+		depends="javadoc">
 
 		<jar jarfile="${build.dir}/${name}-${version}-javadoc.jar" basedir="${build.javadocs}" />
 
@@ -405,7 +416,10 @@
 	<!-- =================================================================== -->
 	<!-- Creates the distribution                                            -->
 	<!-- =================================================================== -->
-	<target name="dist" depends="prepare-src">
+	<target
+		name="dist"
+		description="Creates the distribution"
+		depends="prepare-src">
 
 		<!-- Creates the standard jar file -->
 
@@ -478,7 +492,10 @@
 	<!-- =================================================================== -->
 	<!-- Build the jsbml modules                                             -->
 	<!-- =================================================================== -->
-	<target name="module" depends="init">
+	<target
+		name="module"
+		description="Build the jsbml modules"
+		depends="init">
 
 		<ant dir="${cellDesigner.module.base.dir}" inheritAll="false" inheritRefs="false">
 			<target name="clean"/>
@@ -536,7 +553,10 @@
 	<!-- =================================================================== -->
 	<!-- Cleans everything                                                   -->
 	<!-- =================================================================== -->
-	<target name="clean" depends="init">
+	<target
+		name="clean"
+		description="Cleans everything"
+		depends="init">
 		<delete includeEmptyDirs="true" quiet="yes">
 			<fileset dir="${build.dir}" includes="**/*"/>
 		</delete>
