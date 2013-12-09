@@ -1655,6 +1655,9 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 			{
 				XMLNode qualifierNode = null;
 				
+				// TODO - Need to do a special method for CVTerm. We always add the child at the end of the rdf:Description
+				// if there is a XMLNode in the user object map, we take it. Otherwise we create it.
+				
 				if (cvterm.isBiologicalQualifier())
 				{
 					if (cvtermIndex == 0 && precedingElementName != null)
@@ -1664,7 +1667,6 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 					} 
 					else
 					{
-						// TODO - find the proper index. Need to do a special method for CVTerm 
 						qualifierNode = getOrCreate(descriptionNode, cvtermIndex, cvterm.getBiologicalQualifierType().getElementNameEquivalent(),
 								CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS, "bqbiol");	
 					}

@@ -137,7 +137,7 @@ public abstract class XMLToken extends AbstractTreeNode {
 		line = orig.line;
 		column = orig.column;
 		if (orig.characters != null) {
-			characters.append(orig.getCharacters());
+			characters = new StringBuilder(orig.getCharacters());
 		}
 		isText = orig.isText;
 		isStartElement = orig.isStartElement;

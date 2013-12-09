@@ -519,6 +519,11 @@ public class SBMLReader {
 				if (message != null) {
 					return message;
 				}
+			} else if (constraint.isSetAnnotation()) {
+				XMLNode annotation = constraint.getAnnotation().getNonRDFannotation();
+				if (annotation != null) {
+					return annotation;
+				}
 			}
 		}
 		return null;
@@ -670,7 +675,8 @@ public class SBMLReader {
 					// This a hack to be able to read some mathMl or notes by themselves.
 					// If the parent container is set in this SBMLReader, we use it instead.
 					
-					if (currentNode.getLocalPart().equals("notes") || currentNode.getLocalPart().equals("message")) 
+					if (currentNode.getLocalPart().equals("notes") || currentNode.getLocalPart().equals("message")
+							|| currentNode.getLocalPart().equals("annotation")) 
 					{
 						initializedParsers.put("", sbmlCoreParser);
 						

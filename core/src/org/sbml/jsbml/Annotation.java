@@ -25,11 +25,11 @@ import java.text.MessageFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.CVTerm.Qualifier;
+import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeAdapter;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.filters.CVTermFilter;
@@ -196,24 +196,36 @@ public class Annotation extends AnnotationElement {
 	}
 	
 	/**
-	 * Appends some'annotation' to the non RDF annotation StringBuilder of this object.
+	 * Appends some 'annotation' to the non RDF annotation {@link XMLNode} of this object.
 	 * 
 	 * @param annotation some non RDF annotations.
 	 */
 	public void appendNoRDFAnnotation(String annotation) {
 		XMLNode oldNonRDFAnnotation = null;		
+		XMLNode annotationToAppend = XMLNode.convertStringToXMLNode(StringTools.toXMLAnnotationString(annotation));
 		
-		if (this.nonRDFannotation == null) {
-			// TODO : check if the annotation contain an annotation element or not
-			// if not create a new XMLNode
-			// 	new XMLNode(new XMLTriple("annotation", null, null), new XMLAttributes()));
+		if (nonRDFannotation == null) {
+			// check if the annotation contain an annotation top level element or not
+			if (!annotationToAppend.getName().equals("annotation")) {
+				XMLNode annotationXMLNode = new XMLNode(new XMLTriple("annotation", null, null), new XMLAttributes());
+				annotationXMLNode.addChild(new XMLNode("\n  "));
+				annotationXMLNode.addChild(annotationToAppend);
+				annotationToAppend = annotationXMLNode;
+				annotationToAppend.setParent(this);
+			}
 			
-			this.nonRDFannotation = XMLNode.convertStringToXMLNode(annotation);
+			nonRDFannotation = annotationToAppend;
 		} else {
-			oldNonRDFAnnotation = nonRDFannotation;
+			oldNonRDFAnnotation = nonRDFannotation.clone();
 			
-			// TODO : add the annotation at the end of the XMLNode at the right place
-			this.nonRDFannotation.addChild(XMLNode.convertStringToXMLNode(annotation));
+			if (annotationToAppend.getName().equals("annotation")) {
+				for (int i = 0; i < annotationToAppend.getChildCount(); i++) {
+					XMLNode child = annotationToAppend.getChildAt(i);
+					nonRDFannotation.addChild(child);
+				}
+			} else {
+				nonRDFannotation.addChild(annotationToAppend);
+			}
 		}
 
 		firePropertyChange(TreeNodeChangeEvent.nonRDFAnnotation,
@@ -235,28 +247,9 @@ public class Annotation extends AnnotationElement {
 		boolean equals = super.equals(object);
 		if (equals) {
 			Annotation annotation = (Annotation) object;
-			// TODO: As soon as NonRDFannotation is also represented in form of XMLNodes, we won't have to check this here because this will also be done in the super class.
 			equals &= isSetNonRDFannotation() == annotation.isSetNonRDFannotation();
 			if (equals && isSetNonRDFannotation()) {
-			  /* The correct comparison of these elements is tricky as long as we
-			   * don't use proper XML nodes...
-			   */
-			  StringTokenizer st1 = new StringTokenizer(nonRDFannotation.toString().trim(), "\n");
-			  StringTokenizer st2 = new StringTokenizer(annotation.getNonRDFannotation().toString().trim(), "\n");
-			  equals &= st1.countTokens() == st2.countTokens();
-			  while (equals && st1.hasMoreElements()) {
-			    // Store Strings in variables for easier debugging:
-			    String s1 = st1.nextElement().toString().trim();
-			    String s2 = st2.nextElement().toString().trim();
-			    equals &= s1.equals(s2);
-			    // The following happens if there is some empty tag that can be encoded in different ways: 
-			    if (!equals && ((s1.contains("></") && s2.endsWith("/>")) || (s2.contains("></") && s1.endsWith("/>")))) {
-			      if ((s1.contains("></") && s2.endsWith("/>") && s2.equals(s1.substring(0, s1.indexOf("></")) + "/>")) || 
-			          (s2.contains("></") && s1.endsWith("/>") && s1.equals(s2.substring(0, s2.indexOf("></")) + "/>"))) {
-			        equals = true;
-			      }
-			    }
-			  }
+				equals &= nonRDFannotation.equals(annotation.getNonRDFannotation());
 			}
 			equals &= isSetAbout() == annotation.isSetAbout();
 			if (equals && isSetAbout()) {
@@ -319,9 +312,9 @@ public class Annotation extends AnnotationElement {
 
 
 	/**
-	 * Returns the StringBuilder representing non RDF annotations.
+	 * Returns the {@link XMLNode} representing non RDF annotations.
 	 * 
-	 * @return the StringBuilder representing non RDF annotations.
+	 * @return the {@link XMLNode} representing non RDF annotations.
 	 */
 	public XMLNode getAnnotationBuilder() {
 		return this.nonRDFannotation;
@@ -348,7 +341,7 @@ public class Annotation extends AnnotationElement {
 			pos++;
 		}
 
-		// TODO: could add all the XMLNode top level children ??!?
+		// TODO: could add all the XMLNode top level elements ??!?
 		
 //		if (isSetNonRDFannotation()) {
 //			if (childIndex == pos) {
@@ -672,7 +665,13 @@ public class Annotation extends AnnotationElement {
 			oldNonRDFAnnotation = this.nonRDFannotation;
 		}
 		
-		// TODO: test if the XMLNode has as first element 'annotation' 
+		// test if the XMLNode has as first element 'annotation'
+		if (!nonRDFAnnotation.getName().equals("annotation")) {
+			XMLNode annotationXMLNode = new XMLNode(new XMLTriple("annotation", null, null), new XMLAttributes());
+			annotationXMLNode.addChild(new XMLNode("\n  "));
+			annotationXMLNode.addChild(nonRDFAnnotation);
+			nonRDFAnnotation = annotationXMLNode;
+		}
 		
 		this.nonRDFannotation = nonRDFAnnotation;
 		this.nonRDFannotation.setParent(this);
@@ -687,18 +686,9 @@ public class Annotation extends AnnotationElement {
 	 * @param nonRDFAnnotation
 	 */
 	public void setNonRDFAnnotation(String nonRDFAnnotationStr) {
-		XMLNode oldNonRDFAnnotation = null;
-		if (nonRDFannotation != null) {
-			oldNonRDFAnnotation = nonRDFannotation;
-		}
-		
-		// TODO: same test to perform as in appendNoRDFAnnotation
-		// TODO - if some official RDF is present, throw an exception ?
-		
-		nonRDFannotation = XMLNode.convertStringToXMLNode(nonRDFAnnotationStr);
-		
-		firePropertyChange(TreeNodeChangeEvent.nonRDFAnnotation,
-				oldNonRDFAnnotation, nonRDFannotation);
+		if (nonRDFAnnotationStr != null) {
+			setNonRDFAnnotation(XMLNode.convertStringToXMLNode(StringTools.toXMLAnnotationString(nonRDFAnnotationStr)));
+		}		
 	}
 
 	/**

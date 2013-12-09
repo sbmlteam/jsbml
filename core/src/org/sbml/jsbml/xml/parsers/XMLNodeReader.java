@@ -241,7 +241,7 @@ public class XMLNodeReader implements ReadingParser {
 			} else if (typeOfNotes.equals("message") && parentSBMLElement instanceof Constraint) {
 				((Constraint) parentSBMLElement).getMessage().addChild(xmlNode);
 			} else {
-				logger.warn("The type of String " + typeOfNotes + " on the element " + 
+				logger.warn("The type of String '" + typeOfNotes + "' on the element " + 
 						parentSBMLElement.getElementName() + " is unknown !! Some data might be lost");
 			}
 		} 
