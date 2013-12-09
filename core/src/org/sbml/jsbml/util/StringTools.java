@@ -618,4 +618,31 @@ public class StringTools {
 		return notes;
 	}
 
+	
+	/**
+	 * Checks whether a given {@link String} fits into the definition of the XML
+	 * annotation {@link String} in SBML. If not, this method will surround the given
+	 * {@link String} with the minimal definition of a valid annotation
+	 * {@link String}.
+	 * 
+	 * @param annotation - the {@link String} to be checked and possibly modified.
+	 * @return the argument surrounded by the annotation XML element if needed.
+	 * @throws IllegalArgumentException if the {@link String} passed as argument is not XML
+	 */
+	public static String toXMLAnnotationString(String annotation) {
+		
+		if (!annotation.trim().startsWith("<")) { 
+			// we assume that this is free text
+			throw new IllegalArgumentException("");
+		} else if (!annotation.trim().startsWith("<annotation")) { 
+			// we assume the surrounding XML tag is missing
+			StringBuilder sb = new StringBuilder();
+			sb.append("<annotation>\n");			
+			sb.append(annotation);
+			sb.append("\n</annotation>\n");
+			annotation = sb.toString();
+		} 
+		
+		return annotation;
+	}
 }
