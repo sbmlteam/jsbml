@@ -81,7 +81,7 @@ public class RenderParser extends AbstractReaderWriter {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public Object processStartElement(String elementName, String prefix,
+	public Object processStartElement(String elementName, String uri, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 		logger.debug("logger called, " + prefix + ":" + elementName + " in context of: " + contextObject.toString());
 		if (contextObject instanceof LayoutModelPlugin) {

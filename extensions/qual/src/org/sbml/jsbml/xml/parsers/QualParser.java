@@ -144,7 +144,7 @@ public class QualParser extends AbstractReaderWriter {
 	 */
 	// Create the proper object and link it to his parent.
 	@SuppressWarnings("unchecked")
-	public Object processStartElement(String elementName, String prefix,
+	public Object processStartElement(String elementName, String uri, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 		// logger.debug("processStartElement: elementName = " + elementName + " (" + contextObject.getClass().getSimpleName() + ")");
 		

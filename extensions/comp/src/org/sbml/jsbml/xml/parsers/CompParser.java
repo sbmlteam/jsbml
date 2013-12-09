@@ -118,7 +118,7 @@ public class CompParser extends AbstractReaderWriter {
 	 * elementName, String prefix, boolean hasAttributes, boolean hasNamespaces,
 	 * Object contextObject)
 	 */
-	public Object processStartElement(String elementName, String prefix,
+	public Object processStartElement(String elementName, String uri, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 
 		// TODO: make it generic by using reflection on the contextObject
