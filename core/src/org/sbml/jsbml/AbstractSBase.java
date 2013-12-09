@@ -287,9 +287,11 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     if (sb.isSetAnnotation()) {
       setAnnotation(sb.getAnnotation().clone());
     }
-    // TODO: we need to clone these extensions objects !!
     if (sb.isExtendedByOtherPackages()) {
-      this.extensions.putAll(sb.getExtensionPackages());
+      for (String key : sb.getExtensionPackages().keySet()) {
+    	  SBasePlugin plugin = sb.getExtensionPackages().get(key);
+    	  extensions.put(new String(key), plugin.clone());
+      }
     }
     // cloning namespaces
     if (sb.getNamespaces().size() > 0) {
@@ -446,8 +448,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       }
       else
       {
-        // the given notes is empty
-        // TODO: log an error
+    	  // the given notes is empty
+    	  logger.info("The notes to append are empty !!");
         return;
       }
     }
@@ -458,7 +460,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       // as parent - leaving this in doesn't affect the writing out of notes
       // but messes up the check for correct syntax
 
-      // TODO: check that we are doing that when parsing a String into XMLNode
+      // TODO: check that we are doing that when parsing a String into XMLNode - I think we are not, we create a proper start element with the name 'notes'
 
       if (!notes.isStart() && !notes.isEnd() && !notes.isText() )
       {
@@ -510,7 +512,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
               )
           )
       {
-        // TODO: log an error to the user or throw an exception or both ?
+        // throw an exception as well ??
+    	logger.warn("The given 'notes' String does not have the proper structure, excepting the children 'head' and 'body' to the 'html' element.");  
         return;
       }
     }
@@ -547,7 +550,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
                 )
             )
         {
-          // TODO: log an error
+        	// throw an exception as well ??
+        	logger.warn("The given 'notes' String does not have the proper structure, excepting the children 'head' and 'body' to the 'html' element.");  
           return;
         }
         curNotesType = NOTES_TYPE.NotesHTML;
@@ -589,7 +593,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           for (i=0; i < addedBody.getChildCount(); i++)
           {
             if (curBody.addChild(addedBody.getChildAt(i)) < 0 ) {
-              // TODO: log an error
+            	logger.warn("There was a problem adding the given XMLNode: '" + addedBody.getChildAt(i).toXMLString() + "' to the 'body' XMLNode.");
               return;
             }
           }
@@ -602,7 +606,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           for (i=0; i < addedNotes.getChildCount(); i++)
           {
             if (curBody.addChild(addedNotes.getChildAt(i)) < 0 ) {
-              // TODO: log an error
+            	logger.warn("There was a problem adding the given XMLNode: '" + addedNotes.getChildAt(i).toXMLString() + "' to the 'body' XMLNode.");
               return;
             }
           }
@@ -625,7 +629,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
           curNotes.removeChildren();
           if (curNotes.addChild(addedHTML) < 0) {
-            // TODO: log an error
+        	// throw an exception as well ??
+          	logger.warn("There was a problem adding the given XMLNode: '" + addedHTML.toXMLString() + "' to the notes.");
             return;
           }
         }
@@ -639,7 +644,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           for (i=0; i < addedNotes.getChildCount(); i++)
           {
             if (curBody.addChild(addedNotes.getChildAt(i)) < 0) {
-              // TODO: log an error
+            	logger.warn("There was a problem adding the given XMLNode: '" + addedNotes.getChildAt(i).toXMLString() + "' to the 'body' XMLNode.");
               return;
             }
           }
@@ -661,7 +666,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
           curNotes.removeChildren();
           if (curNotes.addChild(addedHTML) < 0) {
-            // TODO: log an error
+          	// throw an exception as well ??
+        	  logger.warn("There was a problem adding the given XMLNode: '" + addedHTML.toXMLString() + "' to the notes.");
             return;
           }
         }
@@ -678,7 +684,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
           curNotes.removeChildren();
           if (curNotes.addChild(addedBody) < 0) {
-            // TODO: log an error
+          	// throw an exception as well ??
+        	  logger.warn("There was a problem adding the given XMLNode: '" + addedBody.toXMLString() + "' to the notes.");
             return;
           }
         }
@@ -690,7 +697,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           for (i=0; i < addedNotes.getChildCount(); i++)
           {
             if (curNotes.addChild(addedNotes.getChildAt(i)) < 0) {
-              // TODO: log an error
+            	logger.warn("There was a problem adding the given XMLNode: '" + addedNotes.getChildAt(i).toXMLString() + "' to the 'body' XMLNode.");
               return;
             }
           }
@@ -1498,7 +1505,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     if (isValidLevelAndVersionCombination(level, version)) {
       setLevel(level);
       setVersion(version);
-      // TODO: perform necessary conversion!
+      // TODO: perform necessary conversion and/or report potential problems or lose of data to the user!
       boolean success = true;
       Enumeration<TreeNode> children = children();
       TreeNode child;
