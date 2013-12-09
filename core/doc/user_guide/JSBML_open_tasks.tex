@@ -1,0 +1,28 @@
+% -*- TeX-master: "User_guide"; fill-column: 75 -*-
+
+The following is an incomplete list of tasks still remaining to be done to
+complete JSBML.
+
+\begin{itemize}
+
+\item JSBML does not yet provide a stand-alone validator for SBML. It
+  currently uses the online validator for SBML.
+
+\item The support for SBML Level~3\index{SBML!Level~3} should be completed
+  by implementing all extension packages.\index{SBML!extension packages}
+
+\item The \codeSubindexed{{toSBML()}}{SBase}
+  methods on \code{SBase} are missing.
+
+\item Constructors and methods with namespaces are not yet provided.
+
+\item The libSBML compatibility module\index{libSBML!compatibility module}
+  needs to be fully implemented.
+
+\item Also the \code{android} module is not ready yet.
+
+\item A more general implementation for ontology access and manipulation in
+  order to access other ontologies than just the SBO. See, for instance,
+  the work of Courtot et al.~\cite{Courtot2011a} for details.\index{Ontology}
+
+\end{itemize}

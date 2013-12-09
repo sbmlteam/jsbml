@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="eng"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="description" content="The European Bioinformatics Institute" />
+<meta name="author" content="Nicolas Rodriguez"/>
+<meta http-equiv="Content-Language" content="en-GB" />
+<meta http-equiv="Window-target" content="_top" />
+<meta name="no-email-collection" content="http://www.unspam.com/noemailcollection/" />
+<!-- ===================================== -->
+<!-- TemplateBeginEditable name="doctitle" -->
+<!-- ===================================== -->
+<title>JSBML</title>
+<!-- ===================================== -->
+<!-- TemplateEndEditable -->
+<!-- ===================================== -->
+<link rel="stylesheet" href="http://www.ebi.ac.uk/inc/css/contents.css" type="text/css" />
+<link rel="stylesheet" href="http://www.ebi.ac.uk/inc/css/userstyles.css" type="text/css" />
+<script src="http://www.ebi.ac.uk/inc/js/contents.js" type="text/javascript"></script>
+<link rel="stylesheet" href="http://www.ebi.ac.uk/inc/css/sidebars.css" type="text/css" />
+<link rel="SHORTCUT ICON" href="http://sbml.org/skins/common/images/favicon.ico" />
+<style type="text/css">
+@media print { body, .contents, .header, .contentsarea, .head { position: relative;
+} } </style>
+<!-- ===================================== -->
+<!-- TemplateBeginEditable name="head" -->
+<!-- ===================================== -->
+<!-- start meta tags, css , javascript here -->
+<!-- ===================================== -->
+<meta name="Keywords" content="SBML, libSBML, jsbml, bioinformatics, systems biology" />
+<!-- ===================================== -->
+<!-- end meta tags, css , javascript here -->
+<!-- ===================================== -->
+<!-- TemplateEndEditable -->
+<!-- ===================================== -->
+</head>
+
+<body onload="if(navigator.userAgent.indexOf('MSIE') != -1) {document.getElementById('head').allowTransparency = true;}">
+<!-- ===================================== -->
+<div class="headerdiv" id="headerdiv" style="position: absolute; z-index: 1;">
+<center><h1 class="offwhite" style="color: white;">JSBML - The SBML Java Library</h1></center>
+</div> 
+<!-- ===================================== -->
+<div class="contents" id="contents">
+<table class="contentspane" id="contentspane" summary="The main content pane of the page">
+<tbody><tr><td class="leftmargin">
+<img src="http://www.ebi.ac.uk/inc/images/spacer.gif" class="spacer" alt="spacer" /></td>
+<!-- ===================================== -->
+<td class="leftmenucell" id="leftmenucell">
+<div class="leftmenu" id="leftmenudiv" style="width: 145px; visibility: visible; display: block;">
+<!-- TemplateBeginEditable name="leftnav" -->
+<!-- ===================================== -->
+<!-- start left menu here -->
+<!-- ===================================== -->
+<iframe src="leftmenu.html" name="leftmenu" id="leftmenu_iframe" marginwidth="0" marginheight="0" 
+	style="width: 145px; visibility: visible; display: block; z-index: 2;" 
+	frameborder="0" height="560" scrolling="no" width="100%">
+</iframe></div>
+<!-- ===================================== -->
+<!-- end left menu here -->
+<!-- ===================================== -->
+<!-- TemplateEndEditable -->
+<script type="text/javascript" src="http://www.ebi.ac.uk/inc/js/sidebars.js"></script>
+<img src="http://www.ebi.ac.uk/inc/images/spacer.gif" class="spacer" alt="spacer" /></td>
+<!-- TemplateBeginEditable name="contents" -->
+<!-- ===================================== -->
+<!-- start contents here -->
+<!-- ===================================== -->
+<td class="contentsarea" id="contentsarea">
+
+
+<!-- ===================================== 
+<h1>JSBML - The SBML Java Library</h1> -->
+<!-- ===================================== -->
+<h1>Introduction</h1>
+<!-- ===================================== -->
+ The JSBML project's
+aim is to provide an SBML parser and programming library
+that maps all SBML elements to a flexible and extended type
+hierarchy. Where possible, JSBML strives to attain 100% API
+compatibility with the libSBML Java API, to facilitate a
+switch from one library to the other for those who desire
+it. 
+
+Currently, JSBML supports all constructs for SBML up to the
+latest Level 3 Version 1 release candidate specification,
+including an API to add SBML extensions. There are no plans
+to re-implement some of the more complex functions of
+libSBML, since separate community efforts are expected to
+make them available to JSBML via web services. These more
+complex functions include model consistency checking, SBML
+validation, and the conversion between different SBML Levels
+and Versions.
+<br/><br/>
+<!-- ===================================== -->
+<h1>RoadMap</h1>
+<!-- ===================================== -->
+<br/>
+
+<b>current status</b>  : <p>JSBML is planning to release a first version for the end of this year. Most of the features planned for the 0.8 release are there and working. We have fews problems or issues in the handling of notes (XHTML), annotation (RDF) or math (MATHML) and we need to add more test and documentation.</p>
+
+<br/><br/>
+Version : <b>jsbml-0.8.x</b> 
+<ul>
+  <li> complete support for SBML level 1 and 2</li>
+  <li> parse notes, annotation into XMLNode and math elements into ASTNode</li>
+  <li> implement the functions converting ASTNode to infix formula</li>
+  <li> Add more tests files, both tests from the libSBML java API and some new tests.</li>
+  <li> Improve the documentation</li>
+</ul>
+
+<br/><br/>
+Version : <b>jsbml-1.0.x</b>
+<ul>
+  <li> complete support for SBML level 3</li>
+  <li> implementation of the getTypeCode() methods</li>
+  <li> implementation of the toSBML() methods</li>
+  <li> implement constructor and methods with namespaces</li>
+  <li> implement a libsbml compatibility module</li>
+  <li> have a correct indentation when writing the SBML</li>
+</ul>
+
+If you want to do some of those, even just a part like few test files, 
+please answer on the features tracker, so that we can coordinate and 
+assign tasks.
+
+<br/><br/>
+<!-- ===================================== -->
+<h1>Download</h1>
+<!-- ===================================== -->
+There are no stable releases published yet but you can
+download and compile directly the sources.
+<br/>
+To do that you will need to have the java <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">jdk</a> installed and also an apache build utility called <a href="http://ant.apache.org">ant</a> and a version control system, <a href="http://subversion.apache.org/">subversion</a>.
+
+<pre>
+
+# to get the source
+svn co https://jsbml.svn.sourceforge.net/svnroot/jsbml/trunk jsbml
+cd jsbml
+
+# to compile and create the library jar file
+ant jar
+
+# to run the tests
+ant test
+
+</pre>
+
+<!-- ===================================== -->
+<h1>Acknowledgements</h1>
+<!-- ===================================== -->
+JSBML is a community driven, open source project. Currently, the main developers come from the <a href="http://www.ebi.ac.uk">European Bioinformatics Institute</a> (EBI) and the <a href="http://www.uni-tuebingen.de/">University of Tübingen</a>.
+
+<br/>
+<br/><br/>
+<!-- ===================================== -->
+<!-- end contents here -->
+<!-- ===================================== -->
+<!-- TemplateEndEditable -->
+<img src="http://www.ebi.ac.uk/inc/images/spacer.gif" class="spacer" alt="spacer" /></td>
+<td class="rightmenucell" id="rightmenucell">
+<div class="rightmenu" id="rightmenu">
+<img src="http://www.ebi.ac.uk/inc/images/spacer.gif" class="spacer" alt="spacer" /></div></td>
+</tr></tbody></table>
+</div></body></html>
