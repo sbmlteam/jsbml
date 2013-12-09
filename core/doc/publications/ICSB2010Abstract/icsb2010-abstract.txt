@@ -1,0 +1,53 @@
+
+The XML-based Systems Biology Markup Language (SBML) is the
+de facto standard file format for the storage and exchange
+of biochemical network models, and is supported by more than
+180 software packages to date. Much of this success is due
+to SBML's clearly defined specifications and the
+availability of libSBML, a portable, robust and easy-to-use
+library.
+ 
+LibSBML provides many methods for manipulating and
+validating SBML files through its Application Programming
+Interface (API). Originally written in C and C++, libSBML
+also provides automatically-generated language bindings for
+Java, MATLAB, Perl, Python, and many more. However, the
+platform independence of Java is compromised in libSBML due
+to the fact that the language binding is a wrapper around
+the C/C++ core. The real-world experiences of many software
+developers has been that the deployment of portable
+libSBML-based Java applications is difficult. Further, the
+libSBML API and type hierarchy are not sufficiently
+intuitive from a Java programmer's perspective simply
+because they were not designed directly for Java.
+
+For these reasons, several groups in the SBML community have
+mounted an open-source effort to develop a pure Java library
+for SBML. Here we present the JSBML project, whose products
+are freely available at the website
+http://sourceforge.net/projects/jsbml. The JSBML project's
+aim is to provide an SBML parser and programming library
+that maps all SBML elements to a flexible and extended type
+hierarchy. Where possible, JSBML strives to attain 100% API
+compatibility with the libSBML Java API, to facilitate a
+switch from one library to the other for those who desire
+it. 
+
+Currently, JSBML supports all constructs for SBML up to the
+latest Level 3 Version 1 release candidate specification,
+including an API to add SBML extensions. There are no plans
+to re-implement some of the more complex functions of
+libSBML, since separate community efforts are expected to
+make them available to JSBML via web services. These more
+complex functions include model consistency checking, SBML
+validation, and the conversion between different SBML Levels
+and Versions.
+
+In summary, JSBML is a young, ongoing software project that
+provides comprehensive and entirely Java-based data
+structures to read, write, and manipulate SBML files. Its
+layered architecture allows for the creation of
+Java web start applications and CellDesigner plug-ins based
+on stand-alone programs with very little effort. One
+program, SBMLsqueezer 1.3, has already been re-implemented
+and released using JSBML, and many others are planned.

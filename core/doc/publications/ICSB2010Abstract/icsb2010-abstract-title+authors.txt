@@ -1,0 +1,18 @@
+JSBML: A flexible and entirely Java-based library for
+   working with SBML
+
+Nicolas Rodriguez 1, 
+Marine Dumousseau 1, 
+Andreas Dräger 2,3, 
+Clemens Wrzodek 2, 
+Alexander Dörr 2, 
+Sarah M. Keating 1, 
+Akiya Jouraku 3, 
+Nicolas Le Novère 1, 
+Andreas Zell 2, and 
+Michael Hucka 4
+
+1 European Bioinformatics Institute (EBI), Hinxton, UK
+2 Center for Bioinformatics Tübingen (ZBIT), Tübingen, Germany
+3 Keio University, Yokohama, Japan
+4 California Institute of Technology, Pasadena, USA

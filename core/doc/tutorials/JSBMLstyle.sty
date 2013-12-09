@@ -1,0 +1,106 @@
+\ProvidesPackage{JSBMLstyle}
+
+\RequirePackage{ifthen}
+
+% Mathematics
+\RequirePackage{amsmath}
+\RequirePackage{amsfonts}
+\RequirePackage{amssymb}
+
+% Fonts
+\RequirePackage{mathptmx} % Times font in main text and mathematical formulas
+\RequirePackage{wasysym}  % Contains several special symbols
+\RequirePackage{pifont}   % Enables Zapf dingbats (special symbols)
+\RequirePackage[scaled=.95]{helvet} % Sans serif font to be used
+\RequirePackage{courier}
+
+% Page style
+
+\RequirePackage[automark]{scrpage2}
+\RequirePackage[paper=letterpaper, centering]{geometry}
+\RequirePackage{caption2}
+
+% Language definition
+\RequirePackage[english]{babel}
+\RequirePackage{varioref} % better references with \vref
+\RequirePackage{natbib}   % nice citeation
+
+% Figures
+\RequirePackage{graphicx}
+\RequirePackage{sidecap}
+\RequirePackage{rotating}    % Allows setting sideways tables and figures, and to
+                                        % rotate text.
+
+% Some color in the document
+\RequirePackage{color}
+
+% Source code and pseudo code
+\RequirePackage{listings}    % Source code listing support
+\RequirePackage{algorithm}
+\RequirePackage{algorithmic} % Algorithmen im Pseudo-Code,
+
+\RequirePackage[unicode, breaklinks]{hyperref}
+\RequirePackage[htt]{hyphenat}
+
+% some nice colors
+\definecolor{royalblue}{cmyk}{.93, .79, 0, 0}
+\definecolor{lightblue}{cmyk}{.10, .017, 0, 0}
+\definecolor{forrestgreen}{cmyk}{.76, 0, .76, .45}
+\definecolor{darkred}{rgb}{.7,0,0}
+\definecolor{winered}{cmyk}{0,1,0.331,0.502}
+\definecolor{lightgray}{gray}{0.97}
+
+% Style definitions
+
+\def\TReg{\textsuperscript{\textregistered}\,}
+\def\TCop{\textsuperscript{\textcopyright}\,}
+\def\TTra{\texttrademark\,}
+
+\selectlanguage{english}
+\addtokomafont{sectioning}{\color{royalblue}}
+\setkomafont{descriptionlabel}{\normalfont\bfseries}
+% \DeclareFontShape{OT1}{cmtt}{b}{n}
+%    {
+%     <5><6><7><8>cmbtt8%
+%     <9>cmbtt9%
+%     <10><12><10.95><14.4><17.28><20.74><24.88>cmbtt10
+%     }{}
+% \DeclareFontShape{OT1}{cmtt}{bx}{n}
+%    {<->ssub*cmtt/b/n}{}
+
+\pagestyle{scrheadings}
+\ifoot{\includegraphics[width=50pt]{../logo/JSBML_shaddow.pdf}}
+
+\lstset{language=Java,
+captionpos=t,
+basicstyle=\footnotesize\ttfamily,
+stringstyle=\color{darkred}\footnotesize\ttfamily,
+keywordstyle=\color{royalblue}\ttfamily\bfseries,
+ndkeywordstyle=\color{forrestgreen},
+numbers=left,
+numberstyle=\footnotesize,
+% backgroundcolor=\color{lightgray},
+breaklines=true,
+tabsize=2,
+frame=single,
+breakatwhitespace=true,
+identifierstyle=\color{black},
+% morecomment=[l][\color{forrestgreen}]{//},
+% morecomment=[s][\color{lightblue}]{/**}{*/},
+% morecomment=[s][\color{forrestgreen}]{/*}{*/},
+commentstyle=\ttfamily\itshape\color{forrestgreen}
+% framexleftmargin=5mm,
+% rulesepcolor=\color{lightgray}
+% frameround=ttff
+}
+
+\lstdefinelanguage{bash}{
+morekeywords={svn, java, ant, cp, cd},
+morestring=[b]",
+deletekeywords={test},
+morecomment=[l]\#,
+commentstyle=\ttfamily\itshape\color{forrestgreen}
+}
+
+\publishers{\includegraphics[width=100pt]{../logo/JSBML_shaddow.pdf}}
+
