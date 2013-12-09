@@ -9,8 +9,9 @@ TOTAL_TIME=0
 NB_FILES=0
 
 INPUT=$1
+OPTION=$2
 
-if [ -d ${INPUT} ]
+if [ -d ${INPUT} ] && [[ ${OPTION} == "single"  ]]
 then
     for file in ${INPUT}/*.xml
     do
