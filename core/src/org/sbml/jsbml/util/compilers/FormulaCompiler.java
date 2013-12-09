@@ -22,19 +22,19 @@ package org.sbml.jsbml.util.compilers;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
 import java.util.IllegalFormatException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
 
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SpeciesReference;
-import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -578,7 +578,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 	 */
 	protected ASTNodeValue function(String name, ASTNode... nodes)
 			throws SBMLException {
-		LinkedList<ASTNode> l = new LinkedList<ASTNode>();
+		ArrayList<ASTNode> l = new ArrayList<ASTNode>();
 		for (ASTNode node : nodes) {
 			l.add(node);
 		}

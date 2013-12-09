@@ -1174,7 +1174,6 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 	 */
 	private void writeSBMLRDF(SBase contextObject) 
 	{
-		// 
 		if ((contextObject == null) || (!contextObject.isSetAnnotation()))
 		{
 			return;
@@ -1183,17 +1182,26 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 		
 		// TODO : add a created date or modified date automatically ??
 		
-		// gets or creates the RDF and Description XMLNode
-		
+		// gets or creates the RDF and Description XMLNode		
 		XMLNode annotationXMLNode = contextObject.getAnnotation().getAnnotationBuilder();
 		XMLNode rdfNode = getOrCreate(annotationXMLNode, "RDF", Annotation.URI_RDF_SYNTAX_NS, "rdf");
-		// TODO - write only the needed namespaces
 		rdfNode.addNamespace(Annotation.URI_RDF_SYNTAX_NS, "rdf");
-		rdfNode.addNamespace(JSBML.URI_PURL_ELEMENTS, "dc");
-		rdfNode.addNamespace(JSBML.URI_PURL_TERMS, "dcterms");
-		rdfNode.addNamespace(Creator.URI_RDF_VCARD_NS, "vCard");
-		rdfNode.addNamespace(CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS, "bqbiol");
-		rdfNode.addNamespace(CVTerm.URI_BIOMODELS_NET_MODEL_QUALIFIERS, "bqmodel");
+		
+		// writing only the needed namespaces
+		if (contextObject.isSetHistory() && contextObject.getHistory().getCreatorCount() > 0) {
+			rdfNode.addNamespace(JSBML.URI_PURL_ELEMENTS, "dc");
+			rdfNode.addNamespace(Creator.URI_RDF_VCARD_NS, "vCard");			
+		}
+		if (contextObject.isSetHistory() && 
+				(contextObject.getHistory().isSetCreatedDate() || contextObject.getHistory().isSetModifiedDate())) 
+		{
+			rdfNode.addNamespace(JSBML.URI_PURL_TERMS, "dcterms");		
+		}
+		if (contextObject.getCVTermCount() > 0) {
+			rdfNode.addNamespace(CVTerm.URI_BIOMODELS_NET_MODEL_QUALIFIERS, "bqmodel");			
+			rdfNode.addNamespace(CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS, "bqbiol");
+		}
+		
 		
 		XMLNode descriptionNode = getOrCreateDescription(rdfNode);
 		

@@ -22,7 +22,7 @@
 package org.sbml.jsbml.util.compilers;
 
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -341,7 +341,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
 	 */
 	private ASTNodeValue createApplyNode(String tagName, ASTNode... childNodes)
 			throws DOMException, SBMLException {
-		LinkedList<ASTNode> l = new LinkedList<ASTNode>();
+		ArrayList<ASTNode> l = new ArrayList<ASTNode>();
 		for (ASTNode ast : childNodes) {
 			l.add(ast);
 		}
