@@ -303,7 +303,15 @@ public abstract class XMLToken extends AbstractTreeNode {
 			return JSBML.OPERATION_FAILED;
 		}
 		
-		String oldValue = attributes.getValue(name);
+		int index = attributes.getIndex(name);
+		String oldValue = null;
+		
+		if (index != -1) {
+			// the attribute exist, we need to update it
+			oldValue = attributes.getValue(index);
+			attributes.remove(index);			
+		}
+		
 		int success = attributes.add(name, value);
 		if (success == JSBML.OPERATION_SUCCESS) {
 			firePropertyChange(name, oldValue, value);
@@ -337,7 +345,15 @@ public abstract class XMLToken extends AbstractTreeNode {
 			return JSBML.OPERATION_FAILED;
 		}
 
-		String oldValue = attributes.getValue(name);
+		int index = attributes.getIndex(name, namespaceURI);
+		String oldValue = null;
+		
+		if (index != -1) {
+			// the attribute exist, we need to update it
+			oldValue = attributes.getValue(index);
+			attributes.remove(index);			
+		}
+		
 		int success = attributes.add(name, value, namespaceURI);
 		if (success == JSBML.OPERATION_SUCCESS) {
 			firePropertyChange(name, oldValue, value);
@@ -371,12 +387,21 @@ public abstract class XMLToken extends AbstractTreeNode {
 			return JSBML.OPERATION_FAILED;
 		}
 
-		String oldValue = attributes.getValue(name);
+		int index = attributes.getIndex(name, namespaceURI);
+		String oldValue = null;
+		
+		if (index != -1) {
+			// the attribute exist, we need to update it
+			oldValue = attributes.getValue(index);
+			attributes.remove(index);			
+		}
+		
 		int success = attributes.add(name, value, namespaceURI, prefix);
 		if (success == JSBML.OPERATION_SUCCESS) {
 			firePropertyChange(name, oldValue, value);
 		} 
 		return success;
+		
 	}
 
 
@@ -403,7 +428,15 @@ public abstract class XMLToken extends AbstractTreeNode {
 			return JSBML.OPERATION_FAILED;
 		}
 		
-		String oldValue = attributes.getValue(triple.getName());
+		int index = attributes.getIndex(triple.getName(), triple.getURI());
+		String oldValue = null;
+		
+		if (index != -1) {
+			// the attribute exist, we need to update it
+			oldValue = attributes.getValue(index);
+			attributes.remove(index);			
+		}
+		
 		int success = attributes.add(triple, value);
 		if (success == JSBML.OPERATION_SUCCESS) {
 			firePropertyChange(triple.getName(), oldValue, value);
@@ -413,7 +446,7 @@ public abstract class XMLToken extends AbstractTreeNode {
 
 
 	/**
-	 * Appends an XML namespace prefix and URI pair to this {@link XMLToken}.
+	 * Appends an XML namespace URI to this {@link XMLToken}.
 	 * If there is an XML namespace with the given prefix in this {@link XMLToken}, 
 	 * then the existing XML namespace will be overwritten by the new one.
 	 * <p>

@@ -1284,6 +1284,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 //			}
 
 			descriptionNode = rdfNode.insertChild(index, new XMLNode(new XMLTriple("Description", Annotation.URI_RDF_SYNTAX_NS, "rdf"), new XMLAttributes()));
+			descriptionNode.putUserObject(RDF_NODE_COLOR, NODE_COLOR.GREEN);
 			rdfNode.insertChild(index + 1, new XMLNode("\n\t"));
 		}
 
