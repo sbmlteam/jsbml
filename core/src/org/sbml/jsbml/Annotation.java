@@ -22,7 +22,7 @@
 package org.sbml.jsbml;
 
 import java.text.MessageFormat;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -186,7 +186,7 @@ public class Annotation extends AnnotationElement {
 	 */
 	public boolean addCVTerm(CVTerm cvTerm) {
 		if (listOfCVTerms == null) {
-			listOfCVTerms = new LinkedList<CVTerm>();
+			listOfCVTerms = new ArrayList<CVTerm>();
 		}
 
 		cvTerm.parent = this;
@@ -267,7 +267,7 @@ public class Annotation extends AnnotationElement {
 	 * list is returned if no CVTerm are found.
 	 */
 	public List<CVTerm> filterCVTerms(Qualifier qualifier) {
-		LinkedList<CVTerm> l = new LinkedList<CVTerm>();
+		ArrayList<CVTerm> l = new ArrayList<CVTerm>();
 		CVTermFilter filter = new CVTermFilter(qualifier);
 		for (CVTerm term : getListOfCVTerms()) {
 			if (filter.accepts(term)) {
@@ -287,7 +287,7 @@ public class Annotation extends AnnotationElement {
 	 * where the URI matches the given pattern.
 	 */
 	public List<String> filterCVTerms(Qualifier qualifier, String pattern) {
-		List<String> l = new LinkedList<String>();
+		List<String> l = new ArrayList<String>();
 		for (CVTerm c : filterCVTerms(qualifier)) {
 			l.addAll(c.filterResources(pattern));
 		}
@@ -413,7 +413,7 @@ public class Annotation extends AnnotationElement {
 	 */
 	public List<CVTerm> getListOfCVTerms() {
 		if (listOfCVTerms == null) {
-			listOfCVTerms = new LinkedList<CVTerm>(); // Should never happen, to remove ?
+			listOfCVTerms = new ArrayList<CVTerm>(); // Should never happen, to remove ?
 		}
 		return listOfCVTerms;
 	}

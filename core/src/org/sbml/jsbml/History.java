@@ -22,9 +22,9 @@
 package org.sbml.jsbml;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.tree.TreeNode;
@@ -70,8 +70,8 @@ public class History extends AnnotationElement {
 	 */
 	public History() {
 		super();
-		listOfCreators = new LinkedList<Creator>();
-		listOfModification = new LinkedList<Date>();
+		listOfCreators = new ArrayList<Creator>();
+		listOfModification = new ArrayList<Date>();
 		creation = null;
 		modified = null;
 	}
@@ -83,11 +83,11 @@ public class History extends AnnotationElement {
 	 */
 	public History(History history) {
 		super(history);
-		listOfCreators = new LinkedList<Creator>();
+		listOfCreators = new ArrayList<Creator>();
 		for (Creator c : history.getListOfCreators()) {
 			listOfCreators.add(c.clone());
 		}
-		listOfModification = new LinkedList<Date>();
+		listOfModification = new ArrayList<Date>();
 		for (Date d : history.getListOfModifiedDates()) {
 			listOfModification.add((Date) d.clone());
 		}

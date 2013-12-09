@@ -24,10 +24,10 @@ package org.sbml.jsbml;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -119,7 +119,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    */
   public AbstractTreeNode() {
     super();
-    this.listOfListeners = new LinkedList<TreeNodeChangeListener>();
+    this.listOfListeners = new ArrayList<TreeNodeChangeListener>();
     this.parent = null;
   }
 
@@ -337,7 +337,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    */
   @Override
   public List<? extends TreeNode> filter(Filter filter, boolean retainInternalNodes, boolean prune) {
-    List<TreeNode> list = new LinkedList<TreeNode>();
+    List<TreeNode> list = new ArrayList<TreeNode>();
     boolean accepts = filter.accepts(this);
     if (accepts) {
       list.add(this);
@@ -390,7 +390,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
 
     if (getTreeNodeChangeListenerCount() > 0) {
       // memorize all listeners before deleting them from this object.
-      List<TreeNodeChangeListener> listOfTreeNodeChangeListeners = new LinkedList<TreeNodeChangeListener>(listOfListeners);
+      List<TreeNodeChangeListener> listOfTreeNodeChangeListeners = new ArrayList<TreeNodeChangeListener>(listOfListeners);
       // remove all changeListeners
       removeAllTreeNodeChangeListeners();
 

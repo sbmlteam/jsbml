@@ -25,7 +25,6 @@ import java.io.StringReader;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -631,7 +630,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return a new {@link ASTNode} of type {@code operator} and adds the given nodes as children.
    */
   private static ASTNode arithmethicOperation(Type operator, ASTNode... ast) {
-    LinkedList<ASTNode> astList = new LinkedList<ASTNode>();
+	  ArrayList<ASTNode> astList = new ArrayList<ASTNode>();
     if (ast != null) {
       for (ASTNode node : ast) {
         if ((node != null)
@@ -644,12 +643,12 @@ public class ASTNode extends AbstractTreeNode {
       return null;
     }
     if (astList.size() == 1) {
-      return astList.getFirst().clone();
+      return astList.get(0).clone();
     }
     if ((operator == Type.PLUS) || (operator == Type.MINUS)
         || (operator == Type.TIMES) || (operator == Type.DIVIDE)
         || (operator == Type.POWER)) {
-      MathContainer mc = astList.getFirst().parentSBMLObject;
+      MathContainer mc = astList.get(0).parentSBMLObject;
       ASTNode arithmetic = new ASTNode(operator, mc);
       for (ASTNode nodes : astList) {
         arithmetic.addChild(nodes);
@@ -1216,7 +1215,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Child nodes.
    */
-  private List<ASTNode> listOfNodes; // TODO: for jsbml 1.0, we should replace that by a simple ArrayList that is much quicker ??
+  private List<ASTNode> listOfNodes;
 
   /**
    * A {@link Logger} for this class.
@@ -2080,7 +2079,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return all global parameters that are referenced by this rate equation.
    */
   public List<Parameter> findReferencedGlobalParameters() {
-    LinkedList<Parameter> pList = new LinkedList<Parameter>();
+	  ArrayList<Parameter> pList = new ArrayList<Parameter>();
     if (getType().equals(ASTNode.Type.NAME)
         && (getVariable() instanceof Parameter)
         && (getParentSBMLObject().getModel().getParameter(
@@ -2653,7 +2652,7 @@ public class ASTNode extends AbstractTreeNode {
     unitId = null;
 
     if (listOfNodes == null) {
-      listOfNodes = new LinkedList<ASTNode>();
+      listOfNodes = new ArrayList<ASTNode>();
     } else {
       for (int i = listOfNodes.size() - 1; i >= 0; i--) {
         // This also removes the pointer from the previous child to this object, i.e., its previous parent node.

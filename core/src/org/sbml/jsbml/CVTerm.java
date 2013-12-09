@@ -21,8 +21,8 @@
 
 package org.sbml.jsbml;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.tree.TreeNode;
@@ -340,7 +340,7 @@ public class CVTerm extends AnnotationElement {
 		super();
 		type = Type.UNKNOWN_QUALIFIER;
 		qualifier = null;
-		resourceURIs = new LinkedList<String>();
+		resourceURIs = new ArrayList<String>();
 	}
 
 	/**
@@ -362,7 +362,7 @@ public class CVTerm extends AnnotationElement {
 			qualifier = null;
 			break;
 		}
-		resourceURIs = new LinkedList<String>();
+		resourceURIs = new ArrayList<String>();
 		for (int i = 0; i < term.getResourceCount(); i++) {
 			String resource = term.getResourceURI(i);
 			if (resource != null) {
@@ -500,7 +500,7 @@ public class CVTerm extends AnnotationElement {
 	 *         can be empty.
 	 */
 	public List<String> filterResources(String pattern) {
-		LinkedList<String> selectedResources = new LinkedList<String>();
+		ArrayList<String> selectedResources = new ArrayList<String>();
 		for (String resource : resourceURIs) {
 			if (resource.contains(pattern)) {
 				selectedResources.add(resource);

@@ -22,9 +22,9 @@
 package org.sbml.jsbml;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -810,7 +810,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public List<String> filterCVTerms(CVTerm.Qualifier qualifier, String pattern) {
-    List<String> l = new LinkedList<String>();
+    List<String> l = new ArrayList<String>();
     for (CVTerm c : filterCVTerms(qualifier)) {
       l.addAll(c.filterResources(pattern));
     }

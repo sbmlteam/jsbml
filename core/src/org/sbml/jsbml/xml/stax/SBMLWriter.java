@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -235,7 +234,7 @@ public class SBMLWriter {
 	 * the same thing (Warning: Skipping detailed parsing of name space 'XYZ'.
 	 * No parser available.)
 	 */
-	private transient List<String> issuedWarnings = new LinkedList<String>();
+	private transient List<String> issuedWarnings = new ArrayList<String>();
 
 	Logger logger = Logger.getLogger(SBMLWriter.class);
 

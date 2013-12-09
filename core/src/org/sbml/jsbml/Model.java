@@ -26,7 +26,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1454,7 +1453,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public List<LocalParameter> findLocalParameters(String id)
   {
-    List<LocalParameter> list = new LinkedList<LocalParameter>();
+    List<LocalParameter> list = new ArrayList<LocalParameter>();
     List<Reaction> rList = mapOfLocalParameters.get(id);
 
     if ((rList == null) || rList.isEmpty()) {
