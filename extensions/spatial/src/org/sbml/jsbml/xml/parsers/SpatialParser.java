@@ -113,7 +113,7 @@ public class SpatialParser extends AbstractReaderWriter {
 
 
 	@Override
-	public Object processStartElement(String elementName,
+	public Object processStartElement(String elementName, String uri, 
 			String prefix, boolean hasAttributes, boolean hasNamespaces,
 			Object contextObject) 
 	{

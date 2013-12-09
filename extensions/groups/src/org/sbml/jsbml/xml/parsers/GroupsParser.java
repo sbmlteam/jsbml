@@ -81,7 +81,7 @@ public class GroupsParser extends AbstractReaderWriter {
 	 */
 	// Create the proper object and link it to his parent.
 	@SuppressWarnings("unchecked")
-	public Object processStartElement(String elementName, String prefix,
+	public Object processStartElement(String elementName, String uri, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) 
 	{
 		if (contextObject instanceof Model) {

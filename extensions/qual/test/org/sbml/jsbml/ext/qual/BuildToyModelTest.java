@@ -28,8 +28,8 @@ import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLWriter;
-import org.sbml.jsbml.test.gui.JSBMLvisualizer;
 import org.sbml.jsbml.text.parser.ParseException;
+
 
 /**
  * @author Florian Mittag
@@ -154,7 +154,7 @@ public class BuildToyModelTest {
       e.printStackTrace();
     }
 
-    new JSBMLvisualizer(sbmlDoc);
+    // new JSBMLvisualizer(sbmlDoc);
   }
 
 }

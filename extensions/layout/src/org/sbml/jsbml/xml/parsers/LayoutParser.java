@@ -284,7 +284,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
    * @see org.sbml.jsbml.xml.parsers.ReadingParser#processAttribute(java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, java.lang.Object)
    */
   public void processAttribute(String elementName, String attributeName,
-      String value, String prefix, boolean isLastAttribute,
+      String value, String uri, String prefix, boolean isLastAttribute,
       Object contextObject) {
     log4jLogger.debug("processAttribute\n");
 
@@ -399,7 +399,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
    * @see org.sbml.jsbml.xml.parsers.ReadingParser#processStartElement(java.lang.String, java.lang.String, boolean, boolean, java.lang.Object)
    */
   @SuppressWarnings("unchecked")
-  public Object processStartElement(String elementName, String prefix,
+  public Object processStartElement(String elementName, String uri, String prefix,
       boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
     if (elementName.equals("basePoint1")) {
       log4jLogger.debug("processing basePoint1");

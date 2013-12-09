@@ -63,7 +63,6 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 public class FBCParser extends AbstractReaderWriter {
 
 	
-	
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
 	 */
@@ -118,7 +117,7 @@ public class FBCParser extends AbstractReaderWriter {
 	 *      boolean isLastAttribute, Object contextObject)
 	 */
 	public void processAttribute(String elementName, String attributeName,
-			String value, String prefix, boolean isLastAttribute,
+			String value, String uri, String prefix, boolean isLastAttribute,
 			Object contextObject) 
 	{
 		logger.debug("processAttribute -> " + prefix + ":" + attributeName + " = " + value + " (" + contextObject.getClass().getName() + ")");
@@ -137,7 +136,7 @@ public class FBCParser extends AbstractReaderWriter {
 			contextObject = fbcSpecies;
 		}  
 			
-		super.processAttribute(elementName, attributeName, value, prefix, isLastAttribute, contextObject);
+		super.processAttribute(elementName, attributeName, value, uri, prefix, isLastAttribute, contextObject);
 	}
 
 
@@ -162,7 +161,7 @@ public class FBCParser extends AbstractReaderWriter {
 	 */
 	// Create the proper object and link it to his parent.
 	@SuppressWarnings("unchecked")
-	public Object processStartElement(String elementName, String prefix,
+	public Object processStartElement(String elementName, String uri, String prefix,
 			boolean hasAttributes, boolean hasNamespaces, Object contextObject) 
 	{
 		if (contextObject instanceof Model) {
