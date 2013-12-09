@@ -96,9 +96,11 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 	{
 		logger.debug("writeAnnotation called ");
 		
-		// write all the RDF part of the annotation
-		writeSBMLRDF(contextObject);
-		
+		if (contextObject.isSetAnnotation() && (contextObject.isSetHistory() || contextObject.getCVTermCount() > 0))
+		{
+			// write all the RDF part of the annotation
+			writeSBMLRDF(contextObject);
+		}
 		return contextObject.getAnnotation().getNonRDFannotation();
 	}
 
