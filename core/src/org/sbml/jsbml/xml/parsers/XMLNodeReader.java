@@ -254,7 +254,7 @@ public class XMLNodeReader implements ReadingParser {
 				// logger.debug(" type of notes = annotation :\n " + annotation.getNonRDFannotation().toXMLString());
 			}
 			else {
-				logger.warn("The type of String " + typeOfNotes + " on the element 'annotation'" + 
+				logger.warn("The type of String '" + typeOfNotes + "' on the element 'annotation'" + 
 						" is unknown !! Some data might be lost");
 			}
 		} 
