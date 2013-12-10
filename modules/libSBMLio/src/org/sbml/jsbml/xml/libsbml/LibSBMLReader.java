@@ -993,7 +993,7 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
    * @see org.sbml.SBMLReader#readModel(java.lang.Object)
    */
   @Override
-  public Model convertModel(org.sbml.libsbml.Model originalModel) throws Exception {
+  public Model convertModel(org.sbml.libsbml.Model originalModel) {
 
     model = new Model(originalModel.getId(), (int) originalModel.getLevel(), (int) originalModel.getVersion());
     transferNamedSBaseProperties(model, originalModel);
