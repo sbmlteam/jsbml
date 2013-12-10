@@ -531,10 +531,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    * @param u
    */
   public void addUnit(Unit u) {
-    listOfUnits = getListOfUnits();
-    if (!listOfUnits.contains(u)) {
-      listOfUnits.add(u);
-    }
+    getListOfUnits().add(u);
   }
 
   /**
