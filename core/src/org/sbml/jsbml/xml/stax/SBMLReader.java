@@ -925,7 +925,7 @@ public class SBMLReader {
 		ReadingParser parser = null;
 
 		String elementNamespace = currentNode.getNamespaceURI();
-
+		
 		if (logger.isDebugEnabled()) {
 			logger.debug("processStartElement: " + currentNode.getLocalPart() + ", " + elementNamespace);
 		}
@@ -947,8 +947,10 @@ public class SBMLReader {
 						|| currentNode.getLocalPart().equals("annotation")) 
 				{
 					ReadingParser sbmlparser = initializedParsers.get("anyXML");
+					SBase sbmlDoc = (SBase) sbmlElements.firstElement();
+					String sbmlNamespace = JSBML.getNamespaceFrom(sbmlDoc.getLevel(), sbmlDoc.getVersion());
 
-					if (sbmlparser instanceof XMLNodeReader) {
+					if (sbmlparser instanceof XMLNodeReader && elementNamespace.equals(sbmlNamespace)) {
 						XMLNodeReader notesParser = (XMLNodeReader) sbmlparser;
 						notesParser.setTypeOfNotes(currentNode.getLocalPart());
 					}
@@ -963,7 +965,7 @@ public class SBMLReader {
 					boolean hasAttributes = att.hasNext();
 					boolean hasNamespace = nam.hasNext();
 
-					if (isInsideAnnotation) // TODO : replace by annotationDeepness ? 
+					if (isInsideAnnotation) 
 					{
 						parser = initializedParsers.get("anyXML");
 					}
