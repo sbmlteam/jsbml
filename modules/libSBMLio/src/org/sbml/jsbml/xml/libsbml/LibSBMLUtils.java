@@ -114,7 +114,7 @@ public class LibSBMLUtils {
     if (astnode.isSetId()) {
       libAstNode.setId(astnode.getId());
     }
-    if (astnode.isSetName()) {
+    if (astnode.isSetName() && !astnode.isOperator()) {
       libAstNode.setName(astnode.getName());
     }
     if (astnode.isSetStyle()) {
@@ -356,7 +356,7 @@ public class LibSBMLUtils {
       if (term.isSetModelQualifierType()) {
         libCVt.setModelQualifierType(convertCVTermQualifier(term.getModelQualifierType()));
       } else if (term.isSetBiologicalQualifierType()) {
-        libCVt.setBiologicalQualifierType(convertCVTermQualifier(term.getModelQualifierType()));
+        libCVt.setBiologicalQualifierType(convertCVTermQualifier(term.getBiologicalQualifierType()));
       }
     }
     if (term.getResourceCount() > 0) {

@@ -131,6 +131,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
             LibSBMLUtils.transferSBaseProperties(sbase, (org.sbml.libsbml.ListOf) returnVal);
           } else {
             Method convertMethod = LibSBMLUtils.class.getMethod("convert" + jsbmlClass.getSimpleName(), jsbmlClass);
+            logger.debug("trying to call " + convertMethod.toString());
             convertMethod.invoke(null, sbase);
           }
         } else {
@@ -394,7 +395,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
       Annotation annot = (Annotation) evtSrc;
       if (annot.getParent() != null) {
         org.sbml.libsbml.SBase sb = (org.sbml.libsbml.SBase) ((SBase) annot.getParent()).getUserObject(LINK_TO_LIBSBML);
-        sb.setAnnotation(annot.getNonRDFannotation());
+        sb.setAnnotation(annot.getNonRDFannotation().toXMLString());
       } else {
         logger.log(Level.DEBUG, MessageFormat.format(CANNOT_CHANGE_ELEMENT_BECAUSE_OF_MISSING_PARENT, evtSrc.getClass().getSimpleName()));
       }
