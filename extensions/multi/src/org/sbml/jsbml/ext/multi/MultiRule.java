@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
@@ -24,6 +24,8 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
 /**
@@ -35,48 +37,113 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  */
 public class MultiRule extends AbstractSBasePlugin  {
 
-	// TODO: we could/should probably use the same SBasePlugin to InitialAssigment, Rules and EventAssignement 
-	// as it is exactly the same structure
-	
-	/**
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
+   */
+  @Override
+  public String getElementNamespace() {
+    return MultiConstants.getNamespaceURI(getLevel(), getVersion());
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
+   */
+  @Override
+  public String getPackageName() {
+    return MultiConstants.packageName;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
+   */
+  @Override
+  public String getPrefix() {
+    return MultiConstants.shortLabel;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
+   */
+  @Override
+  public String getURI() {
+    return getElementNamespace();
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#getParent()
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public ListOf<Rule> getParent() {
+    return (ListOf<Rule>) getExtendedSBase().getParent();
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
+   */
+  @Override
+  public ListOf<Rule> getParentSBMLObject() {
+    return getParent();
+  }
+  // TODO: we could/should probably use the same SBasePlugin to InitialAssigment, Rules and EventAssignement
+  // as it is exactly the same structure
+
+  /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 4526455581462978178L;
   // TODO: should probably be a listOf here
-	private SpeciesTypeInstanceChange speciesTypeInstanceChange;
-	
+  private SpeciesTypeInstanceChange speciesTypeInstanceChange;
 
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  /**
+   * @param multiRule
+   */
+  public MultiRule(MultiRule multiRule) {
+    super(multiRule);
+  }
 
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+  @Override
+  public boolean readAttribute(String attributeName, String prefix,
+    String value) {
+    // TODO Auto-generated method stub
+    return false;
+  }
 
-	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+  @Override
+  public TreeNode getChildAt(int childIndex) {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-	public Map<String, String> writeXMLAttributes() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public int getChildCount() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
 
-	@Override
-	public MultiRule clone() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public boolean getAllowsChildren() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public MultiRule clone() {
+    return new MultiRule(this);
+  }
 
 
 }

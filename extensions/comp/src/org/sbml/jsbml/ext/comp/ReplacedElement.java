@@ -89,7 +89,7 @@ public class ReplacedElement extends SBaseRef {
 	 * Initializes the default values using the namespace.
 	 */
 	public void initDefaults() {
-		addNamespace(CompConstant.namespaceURI);
+		addNamespace(CompConstants.namespaceURI);
 	}
 
 
@@ -132,7 +132,7 @@ public class ReplacedElement extends SBaseRef {
 	public void setSubmodelRef(String submodelRef) {
 		String oldSubmodelRef = this.submodelRef;
 		this.submodelRef = submodelRef;
-		firePropertyChange(CompConstant.submodelRef, oldSubmodelRef, this.submodelRef);
+		firePropertyChange(CompConstants.submodelRef, oldSubmodelRef, this.submodelRef);
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class ReplacedElement extends SBaseRef {
 		if (isSetSubmodelRef()) {
 			String oldSubmodelRef = this.submodelRef;
 			this.submodelRef = null;
-			firePropertyChange(CompConstant.submodelRef, oldSubmodelRef, this.submodelRef);
+			firePropertyChange(CompConstants.submodelRef, oldSubmodelRef, this.submodelRef);
 			return true;
 		}
 		return false;
@@ -180,7 +180,7 @@ public class ReplacedElement extends SBaseRef {
 	public void setDeletion(String deletion) {
 		String oldDeletion = this.deletion;
 		this.deletion = deletion;
-		firePropertyChange(CompConstant.deletion, oldDeletion, this.deletion);
+		firePropertyChange(CompConstants.deletion, oldDeletion, this.deletion);
 	}
 
 	/**
@@ -193,7 +193,7 @@ public class ReplacedElement extends SBaseRef {
 		if (isSetDeletion()) {
 			String oldDeletion = this.deletion;
 			this.deletion = null;
-			firePropertyChange(CompConstant.deletion, oldDeletion, this.deletion);
+			firePropertyChange(CompConstants.deletion, oldDeletion, this.deletion);
 			return true;
 		}
 		return false;
@@ -229,7 +229,7 @@ public class ReplacedElement extends SBaseRef {
 	public void setConversionFactor(String conversionFactor) {
 		String oldConversionFactor = this.conversionFactor;
 		this.conversionFactor = conversionFactor;
-		firePropertyChange(CompConstant.conversionFactor, oldConversionFactor, this.conversionFactor);
+		firePropertyChange(CompConstants.conversionFactor, oldConversionFactor, this.conversionFactor);
 	}
 
 	/**
@@ -242,7 +242,7 @@ public class ReplacedElement extends SBaseRef {
 		if (isSetConversionFactor()) {
 			String oldConversionFactor = this.conversionFactor;
 			this.conversionFactor = null;
-			firePropertyChange(CompConstant.conversionFactor, oldConversionFactor, this.conversionFactor);
+			firePropertyChange(CompConstants.conversionFactor, oldConversionFactor, this.conversionFactor);
 			return true;
 		}
 		return false;
@@ -256,13 +256,13 @@ public class ReplacedElement extends SBaseRef {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetSubmodelRef()) {
-			attributes.put(CompConstant.shortLabel + ":" + CompConstant.submodelRef, getSubmodelRef());
+			attributes.put(CompConstants.shortLabel + ":" + CompConstants.submodelRef, getSubmodelRef());
 		}
 		if (isSetDeletion()) {
-			attributes.put(CompConstant.shortLabel + ":" + CompConstant.deletion, getDeletion());
+			attributes.put(CompConstants.shortLabel + ":" + CompConstants.deletion, getDeletion());
 		}
 		if (isSetConversionFactor()) {
-			attributes.put(CompConstant.shortLabel + ":" + CompConstant.conversionFactor, getConversionFactor());
+			attributes.put(CompConstants.shortLabel + ":" + CompConstants.conversionFactor, getConversionFactor());
 		}
 		
 		return attributes;
@@ -280,13 +280,13 @@ public class ReplacedElement extends SBaseRef {
 		if (!isAttributeRead) {
 			isAttributeRead = true;
 
-			if (attributeName.equals(CompConstant.deletion)) {
+			if (attributeName.equals(CompConstants.deletion)) {
 				setDeletion(value);
 			}
-			else if (attributeName.equals(CompConstant.submodelRef)) {
+			else if (attributeName.equals(CompConstants.submodelRef)) {
 				setSubmodelRef(value);
 			}
-			else if (attributeName.equals(CompConstant.conversionFactor)) {
+			else if (attributeName.equals(CompConstants.conversionFactor)) {
 				setConversionFactor(value);
 			}
 			else {

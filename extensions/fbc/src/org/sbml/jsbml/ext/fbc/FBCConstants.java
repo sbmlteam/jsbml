@@ -28,50 +28,51 @@ package org.sbml.jsbml.ext.fbc;
  */
 public class FBCConstants {
 
-	public static final String activeObjective = "activeObjective";
-	/**
-	 * The namespace URI of this parser.
-	 */
-	public static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/fbc/version1";
-	
-	/**
-	 * 
-	 */
-	public static final String shortLabel = "fbc";
-	
-	/**
-	 * 
-	 */
-	public static final String chemicalFormula = "chemicalFormula";
-	
-	/**
-	 * 
-	 */
-	public static final String charge = "charge";
-	
-	/**
-	 * 
-	 */
-	public static final int MIN_SBML_LEVEL = 3;
-	
-	/**
-	 * 
-	 */
-	public static final int MIN_SBML_VERSION = 1;
-	
+  public static final String activeObjective = "activeObjective";
+  /**
+   * The namespace URI of this parser.
+   */
+  public static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/fbc/version1";
+
+  /**
+   * 
+   */
+  public static final String shortLabel = "fbc";
+
+  /**
+   * 
+   */
+  public static final String chemicalFormula = "chemicalFormula";
+
+  /**
+   * 
+   */
+  public static final String charge = "charge";
+
+  /**
+   * 
+   */
+  public static final int MIN_SBML_LEVEL = 3;
+
+  /**
+   * 
+   */
+  public static final int MIN_SBML_VERSION = 1;
+
   public static final String operation = "operation";
   public static final String reaction = "reaction";
   public static final String value = "value";
   public static final String type = "type";
   public static final String coefficient = "coefficient";
   public static final String listOfObjectives = "listOfObjectives";
-	
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 * @return
-	 */
+  public static final String packageName = "Flux Balance Constraints";
+
+  /**
+   * 
+   * @param level
+   * @param version
+   * @return
+   */
   public static String getNamespaceURI(int level, int version) {
     return namespaceURI;
   }

@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
@@ -24,6 +24,8 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.EventAssignment;
+import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
 /**
@@ -35,44 +37,109 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  */
 public class MultiEventAssignment extends AbstractSBasePlugin {
 
-	/**
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
+   */
+  @Override
+  public String getElementNamespace() {
+    return MultiConstants.getNamespaceURI(getLevel(), getVersion());
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
+   */
+  @Override
+  public String getPackageName() {
+    return MultiConstants.packageName;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
+   */
+  @Override
+  public String getPrefix() {
+    return MultiConstants.shortLabel;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
+   */
+  @Override
+  public String getURI() {
+    return getElementNamespace();
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#getParent()
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public ListOf<EventAssignment> getParent() {
+    return (ListOf<EventAssignment>) getExtendedSBase().getParent();
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
+   */
+  @Override
+  public ListOf<EventAssignment> getParentSBMLObject() {
+    return getParent();
+  }
+  /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = -5524105017747151889L;
- 
+
   // TODO: should probably be a listOf here
-	private SpeciesTypeInstanceChange speciesTypeInstanceChange;
-	
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+  private SpeciesTypeInstanceChange speciesTypeInstanceChange;
 
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  /**
+   * @param multiEventAssignment
+   */
+  public MultiEventAssignment(MultiEventAssignment multiEventAssignment) {
+    super(multiEventAssignment);
+  }
 
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+  @Override
+  public boolean readAttribute(String attributeName, String prefix,
+    String value) {
+    // TODO Auto-generated method stub
+    return false;
+  }
 
-	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+  @Override
+  public TreeNode getChildAt(int childIndex) {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
-	public Map<String, String> writeXMLAttributes() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public int getChildCount() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
 
-	@Override
-	public MultiEventAssignment clone() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public boolean getAllowsChildren() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public MultiEventAssignment clone() {
+    return new MultiEventAssignment(this);
+  }
 
 }

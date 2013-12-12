@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>org.sbml.jsbml.modules</groupId>
 		<artifactId>modules</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0-a1-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
     <groupId>org.sbml.jsbml.modules.compare</groupId>
     <artifactId>jsbml_modules_compare</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0-a1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
 	<dependencies>

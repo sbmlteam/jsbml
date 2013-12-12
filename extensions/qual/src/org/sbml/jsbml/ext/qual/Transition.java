@@ -381,7 +381,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     if (!isSetListOfFunctionTerms()) {
       listOfFunctionTerms = new ListOf<FunctionTerm>(getLevel(), getVersion());
       listOfFunctionTerms.setSBaseListType(ListOf.Type.other);
-      listOfFunctionTerms.addNamespace(QualConstant.namespaceURI);
+      listOfFunctionTerms.addNamespace(QualConstants.namespaceURI);
       registerChild(listOfFunctionTerms);
     }
     return listOfFunctionTerms;
@@ -394,7 +394,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     if (!isSetListOfInputs()) {
       listOfInputs = new ListOf<Input>(getLevel(), getVersion());
       listOfInputs.setSBaseListType(ListOf.Type.other);
-      listOfInputs.addNamespace(QualConstant.namespaceURI);
+      listOfInputs.addNamespace(QualConstants.namespaceURI);
       registerChild(listOfInputs);
     }
     return listOfInputs;
@@ -407,7 +407,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     if (!isSetListOfOutputs()) {
       listOfOutputs = new ListOf<Output>(getLevel(), getVersion());
       listOfOutputs.setSBaseListType(ListOf.Type.other);
-      listOfOutputs.addNamespace(QualConstant.namespaceURI);
+      listOfOutputs.addNamespace(QualConstants.namespaceURI);
       registerChild(listOfOutputs);
     }
     return listOfOutputs;
@@ -435,7 +435,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    */
   public void initDefaults() {
-    addNamespace(QualConstant.namespaceURI);
+    addNamespace(QualConstants.namespaceURI);
     listOfFunctionTerms = null;
     listOfInputs = null;
     listOfOutputs = null;
@@ -665,11 +665,11 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
 	  
 	  if (isSetId()) {
 		  attributes.remove("id");
-		  attributes.put(QualConstant.shortLabel+ ":id", getId());
+		  attributes.put(QualConstants.shortLabel+ ":id", getId());
 	  }
 	  if (isSetName()) {
 		  attributes.remove("name");
-		  attributes.put(QualConstant.shortLabel+ ":name", getName());
+		  attributes.put(QualConstants.shortLabel+ ":name", getName());
 	  }
 	  
 	  return attributes;

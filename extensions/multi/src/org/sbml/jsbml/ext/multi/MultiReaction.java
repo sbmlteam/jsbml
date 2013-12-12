@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
@@ -25,6 +25,7 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
 /**
@@ -36,61 +37,126 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  */
 public class MultiReaction extends AbstractSBasePlugin {
 
-	/**
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
+   */
+  @Override
+  public String getElementNamespace() {
+    return MultiConstants.getNamespaceURI(getLevel(), getVersion());
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
+   */
+  @Override
+  public String getPackageName() {
+    return MultiConstants.packageName;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
+   */
+  @Override
+  public String getPrefix() {
+    return MultiConstants.shortLabel;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
+   */
+  @Override
+  public String getURI() {
+    return getElementNamespace();
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#getParent()
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public ListOf<Reaction> getParent() {
+    return (ListOf<Reaction>) getExtendedSBase().getParent();
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
+   */
+  @Override
+  public ListOf<Reaction> getParentSBMLObject() {
+    return getParent();
+  }
+  /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 7392764563567861115L;
   ListOf<ReactionRule> listOfReactionRules;
-	
-	
-	/**
-	 * @return the listOfReactionRules
-	 */
-	public ListOf<ReactionRule> getListOfReactionRules() {
-		if (listOfReactionRules == null) {
-			listOfReactionRules = new ListOf<ReactionRule>();
-		}
-		
-		return listOfReactionRules;
-	}
 
-	/**
-	 * @param listOfReactionRules the listOfReactionRules to set
-	 */
-	public void addReactionRule(ReactionRule reactionRule) {
-		getListOfReactionRules().add(reactionRule);
-	}
 
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+  /**
+   * @param multiReaction
+   */
+  public MultiReaction(MultiReaction multiReaction) {
+    super(multiReaction);
+  }
 
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  /**
+   * @return the listOfReactionRules
+   */
+  public ListOf<ReactionRule> getListOfReactionRules() {
+    if (listOfReactionRules == null) {
+      listOfReactionRules = new ListOf<ReactionRule>();
+    }
 
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    return listOfReactionRules;
+  }
 
-	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+  /**
+   * @param listOfReactionRules the listOfReactionRules to set
+   */
+  public void addReactionRule(ReactionRule reactionRule) {
+    getListOfReactionRules().add(reactionRule);
+  }
 
-	public Map<String, String> writeXMLAttributes() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public boolean readAttribute(String attributeName, String prefix,
+    String value) {
+    // TODO Auto-generated method stub
+    return false;
+  }
 
-	@Override
-	public MultiReaction clone() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public TreeNode getChildAt(int childIndex) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public int getChildCount() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  @Override
+  public boolean getAllowsChildren() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public MultiReaction clone() {
+    return new MultiReaction(this);
+  }
 
 }

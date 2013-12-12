@@ -108,7 +108,7 @@ public class StateFeatureInstance extends AbstractNamedSBase {
 	public ListOf<StateFeatureValue> getListOfStateFeatureValues() {
 		if (listOfStateFeatureValues == null) {
 			listOfStateFeatureValues = new ListOf<StateFeatureValue>();
-			listOfStateFeatureValues.addNamespace(MultiConstant.namespaceURI);
+			listOfStateFeatureValues.addNamespace(MultiConstants.namespaceURI);
 			this.registerChild(listOfStateFeatureValues);
 			listOfStateFeatureValues.setSBaseListType(ListOf.Type.other);
 		}
@@ -194,7 +194,7 @@ public class StateFeatureInstance extends AbstractNamedSBase {
 	 * 
 	 */
 	public void initDefaults() {
-		addNamespace(MultiConstant.namespaceURI);
+		addNamespace(MultiConstants.namespaceURI);
 	}
 
 	/* (non-Javadoc)
@@ -250,7 +250,7 @@ public class StateFeatureInstance extends AbstractNamedSBase {
 
 		if (!isAttributeRead) {
 
-			if (attributeName.equals(MultiConstant.stateFeature)) {
+			if (attributeName.equals(MultiConstants.stateFeature)) {
 				setStateFeature(value);
 				isAttributeRead = true;
 			} 
@@ -269,14 +269,14 @@ public class StateFeatureInstance extends AbstractNamedSBase {
 
 		if (isSetId()) {
 			attributes.remove("id");
-			attributes.put(MultiConstant.shortLabel+ ":id", getId());
+			attributes.put(MultiConstants.shortLabel+ ":id", getId());
 		}
 		if (isSetName()) {
 			attributes.remove("name");
-			attributes.put(MultiConstant.shortLabel+ ":name", getName());
+			attributes.put(MultiConstants.shortLabel+ ":name", getName());
 		}
 		if (isSetStateFeature()) {
-			attributes.put(MultiConstant.shortLabel + ':' + MultiConstant.stateFeature, getStateFeature());
+			attributes.put(MultiConstants.shortLabel + ':' + MultiConstants.stateFeature, getStateFeature());
 		} 
 
 		return attributes;

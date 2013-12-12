@@ -84,8 +84,8 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 	public ExternalModelDefinition(String id, String name, int level, int version) {
 		super(id, name, level, version);
 		
-		if (getLevelAndVersion().compareTo(Integer.valueOf(CompConstant.MIN_SBML_LEVEL),
-				Integer.valueOf(CompConstant.MIN_SBML_VERSION)) < 0) 
+		if (getLevelAndVersion().compareTo(Integer.valueOf(CompConstants.MIN_SBML_LEVEL),
+				Integer.valueOf(CompConstants.MIN_SBML_VERSION)) < 0) 
 		{
 			throw new LevelVersionError(getElementName(), level, version);
 		}
@@ -120,7 +120,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 	 * Initializes the default values using the namespace.
 	 */
 	public void initDefaults() {
-		addNamespace(CompConstant.namespaceURI);
+		addNamespace(CompConstants.namespaceURI);
 	}
 
 
@@ -154,7 +154,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 	public void setSource(String source) {
 		String oldSource = this.source;
 		this.source = source;
-		firePropertyChange(CompConstant.source, oldSource, this.source);
+		firePropertyChange(CompConstants.source, oldSource, this.source);
 	}
 
 	/**
@@ -166,7 +166,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 		if (isSetSource()) {
 			String oldSource = this.source;
 			this.source = null;
-			firePropertyChange(CompConstant.source, oldSource, this.source);
+			firePropertyChange(CompConstants.source, oldSource, this.source);
 			return true;
 		}
 		return false;
@@ -206,7 +206,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 			modelRef = null;
 		}
 		this.modelRef = modelRef;
-		firePropertyChange(CompConstant.modelRef, oldModelRef, this.modelRef);
+		firePropertyChange(CompConstants.modelRef, oldModelRef, this.modelRef);
 	}
 
 	/**
@@ -218,7 +218,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 		if (isSetModelRef()) {
 			String oldModelRef = this.modelRef;
 			this.modelRef = null;
-			firePropertyChange(CompConstant.modelRef, oldModelRef, this.modelRef);
+			firePropertyChange(CompConstants.modelRef, oldModelRef, this.modelRef);
 			return true;
 		}
 		return false;
@@ -259,7 +259,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 		}
 		
 		this.md5 = md5;
-		firePropertyChange(CompConstant.md5, oldMd5, this.md5);
+		firePropertyChange(CompConstants.md5, oldMd5, this.md5);
 	}
 
 	/**
@@ -272,7 +272,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 		if (isSetMd5()) {
 			String oldMd5 = this.md5;
 			this.md5 = null;
-			firePropertyChange(CompConstant.md5, oldMd5, this.md5);
+			firePropertyChange(CompConstants.md5, oldMd5, this.md5);
 			return true;
 		}
 		return false;
@@ -286,20 +286,20 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 
 		  if (isSetId()) {
 		    attributes.remove("id");
-		    attributes.put(CompConstant.shortLabel + ":id", getId());
+		    attributes.put(CompConstants.shortLabel + ":id", getId());
 		  }
 		  if (isSetName()) {
 			  attributes.remove("name");
-			  attributes.put(CompConstant.shortLabel + ":name", getName());
+			  attributes.put(CompConstants.shortLabel + ":name", getName());
 		  }
 		  if (isSetSource()) {
-			  attributes.put(CompConstant.shortLabel + ":" + CompConstant.source, getSource());
+			  attributes.put(CompConstants.shortLabel + ":" + CompConstants.source, getSource());
 		  }
 		  if (isSetModelRef()) {
-			  attributes.put(CompConstant.shortLabel + ":" + CompConstant.modelRef, getModelRef());
+			  attributes.put(CompConstants.shortLabel + ":" + CompConstants.modelRef, getModelRef());
 		  }
 		  if (isSetMd5()) {
-			  attributes.put(CompConstant.shortLabel + ":" + CompConstant.md5, getMd5());
+			  attributes.put(CompConstants.shortLabel + ":" + CompConstants.md5, getMd5());
 		  }
 
 		  return attributes;
@@ -317,11 +317,11 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 		if (!isAttributeRead) {
 			isAttributeRead = true;
 
-			if (attributeName.equals(CompConstant.source)) {
+			if (attributeName.equals(CompConstants.source)) {
 				setSource(value);
-			} else if (attributeName.equals(CompConstant.modelRef)) {
+			} else if (attributeName.equals(CompConstants.modelRef)) {
 				setModelRef(value);
-			} else if (attributeName.equals(CompConstant.md5)) {
+			} else if (attributeName.equals(CompConstants.md5)) {
 				setMd5(value);
 			}
 			else {

@@ -6,12 +6,12 @@
     <parent>
         <groupId>org.sbml.jsbml.ext</groupId>
         <artifactId>ext</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0-a1-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
 
     <groupId>org.sbml.jsbml.ext.layout</groupId>
     <artifactId>jsbml_ext_layout</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0-a1-SNAPSHOT</version>
     <packaging>jar</packaging>
 </project>

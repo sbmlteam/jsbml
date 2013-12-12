@@ -105,8 +105,8 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 	public Submodel(String id, String name, int level, int version) {
 		super(id, name, level, version);
 		if (getLevelAndVersion().compareTo(
-				Integer.valueOf(CompConstant.MIN_SBML_LEVEL),
-				Integer.valueOf(CompConstant.MIN_SBML_VERSION)) < 0) {
+				Integer.valueOf(CompConstants.MIN_SBML_LEVEL),
+				Integer.valueOf(CompConstants.MIN_SBML_VERSION)) < 0) {
 			throw new LevelVersionError(getElementName(), level, version);
 		}
 		initDefaults();
@@ -145,7 +145,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * Initializes the default values using the namespace.
 	 */
 	public void initDefaults() {
-		addNamespace(CompConstant.namespaceURI);
+		addNamespace(CompConstants.namespaceURI);
 	}
 
 
@@ -166,7 +166,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 			return modelRef;
 		}
 		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(CompConstant.modelRef, this);
+		throw new PropertyUndefinedError(CompConstants.modelRef, this);
 	}
 
 	/**
@@ -184,7 +184,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 	public void setModelRef(String modelRef) {
 		String oldModelRef = this.modelRef;
 		this.modelRef = modelRef;
-		firePropertyChange(CompConstant.modelRef, oldModelRef, this.modelRef);
+		firePropertyChange(CompConstants.modelRef, oldModelRef, this.modelRef);
 	}
 
 	/**
@@ -197,7 +197,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 		if (isSetModelRef()) {
 			String oldModelRef = this.modelRef;
 			this.modelRef = null;
-			firePropertyChange(CompConstant.modelRef, oldModelRef, this.modelRef);
+			firePropertyChange(CompConstants.modelRef, oldModelRef, this.modelRef);
 			return true;
 		}
 		return false;
@@ -215,7 +215,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 			return timeConversionFactor;
 		}
 		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(CompConstant.timeConversionFactor, this);
+		throw new PropertyUndefinedError(CompConstants.timeConversionFactor, this);
 	}
 
 	/**
@@ -233,7 +233,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 	public void setTimeConversionFactor(String timeConversionFactor) {
 		String oldTimeConversionFactor = this.timeConversionFactor;
 		this.timeConversionFactor = timeConversionFactor;
-		firePropertyChange(CompConstant.timeConversionFactor, oldTimeConversionFactor, this.timeConversionFactor);
+		firePropertyChange(CompConstants.timeConversionFactor, oldTimeConversionFactor, this.timeConversionFactor);
 	}
 
 	/**
@@ -246,7 +246,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 		if (isSetTimeConversionFactor()) {
 			String oldTimeConversionFactor = this.timeConversionFactor;
 			this.timeConversionFactor = null;
-			firePropertyChange(CompConstant.timeConversionFactor, oldTimeConversionFactor, this.timeConversionFactor);
+			firePropertyChange(CompConstants.timeConversionFactor, oldTimeConversionFactor, this.timeConversionFactor);
 			return true;
 		}
 		return false;
@@ -264,7 +264,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 			return extentConversionFactor;
 		}
 		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(CompConstant.extentConversionFactor, this);
+		throw new PropertyUndefinedError(CompConstants.extentConversionFactor, this);
 	}
 
 	/**
@@ -282,7 +282,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 	public void setExtentConversionFactor(String extentConversionFactor) {
 		String oldExtentConversionFactor = this.extentConversionFactor;
 		this.extentConversionFactor = extentConversionFactor;
-		firePropertyChange(CompConstant.extentConversionFactor, oldExtentConversionFactor, this.extentConversionFactor);
+		firePropertyChange(CompConstants.extentConversionFactor, oldExtentConversionFactor, this.extentConversionFactor);
 	}
 
 	/**
@@ -295,7 +295,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 		if (isSetExtentConversionFactor()) {
 			String oldExtentConversionFactor = this.extentConversionFactor;
 			this.extentConversionFactor = null;
-			firePropertyChange(CompConstant.extentConversionFactor, oldExtentConversionFactor, this.extentConversionFactor);
+			firePropertyChange(CompConstants.extentConversionFactor, oldExtentConversionFactor, this.extentConversionFactor);
 			return true;
 		}
 		return false;
@@ -337,7 +337,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 	public ListOf<Deletion> getListOfDeletions() {
 		if (!isSetListOfDeletions()) {
 			listOfDeletions = new ListOf<Deletion>(getLevel(), getVersion());
-			listOfDeletions.addNamespace(CompConstant.namespaceURI);
+			listOfDeletions.addNamespace(CompConstants.namespaceURI);
 			listOfDeletions.setSBaseListType(ListOf.Type.other);
 			registerChild(listOfDeletions);
 		}
@@ -489,20 +489,20 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 
 		if (isSetId()) {
 			attributes.remove("id");
-			attributes.put(CompConstant.shortLabel + ":id", getId());
+			attributes.put(CompConstants.shortLabel + ":id", getId());
 		}
 		if (isSetName()) {
 			attributes.remove("name");
-			attributes.put(CompConstant.shortLabel + ":name", getName());
+			attributes.put(CompConstants.shortLabel + ":name", getName());
 		}
 		if (isSetModelRef()) {
-			attributes.put(CompConstant.shortLabel + ":" + CompConstant.modelRef, getModelRef());
+			attributes.put(CompConstants.shortLabel + ":" + CompConstants.modelRef, getModelRef());
 		}
 		if (isSetTimeConversionFactor()) {
-			attributes.put(CompConstant.shortLabel + ":" + CompConstant.timeConversionFactor, getTimeConversionFactor());
+			attributes.put(CompConstants.shortLabel + ":" + CompConstants.timeConversionFactor, getTimeConversionFactor());
 		}
 		if (isSetExtentConversionFactor()) {
-			attributes.put(CompConstant.shortLabel + ":" + CompConstant.extentConversionFactor, getExtentConversionFactor());
+			attributes.put(CompConstants.shortLabel + ":" + CompConstants.extentConversionFactor, getExtentConversionFactor());
 		}
 
 		return attributes;
@@ -521,13 +521,13 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 		if (!isAttributeRead) {
 			isAttributeRead = true;
 
-			if (attributeName.equals(CompConstant.modelRef)) {
+			if (attributeName.equals(CompConstants.modelRef)) {
 				setModelRef(value);
 			}
-			else if (attributeName.equals(CompConstant.timeConversionFactor)) {
+			else if (attributeName.equals(CompConstants.timeConversionFactor)) {
 				setTimeConversionFactor(value);
 			}
-			else if (attributeName.equals(CompConstant.extentConversionFactor)) {
+			else if (attributeName.equals(CompConstants.extentConversionFactor)) {
 				setExtentConversionFactor(value);
 			}
 			else {

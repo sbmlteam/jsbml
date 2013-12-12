@@ -27,6 +27,7 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
 /**
@@ -38,6 +39,59 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  */
 public class FBCModelPlugin extends AbstractSBasePlugin {
 
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
+   */
+  @Override
+  public String getElementNamespace() {
+    return FBCConstants.getNamespaceURI(getLevel(), getVersion());
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
+   */
+  @Override
+  public String getPackageName() {
+    return FBCConstants.packageName;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
+   */
+  @Override
+  public String getPrefix() {
+    return FBCConstants.shortLabel;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
+   */
+  @Override
+  public String getURI() {
+    return getElementNamespace();
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#getParent()
+   */
+  @Override
+  public Model getParent() {
+    return (Model) getExtendedSBase().getParent();
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
+   */
+  @Override
+  public Model getParentSBMLObject() {
+    return getParent();
+  }
   /**
    * Generated serial version identifier.
    */
@@ -57,7 +111,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    * Clone constructor
    */
   public FBCModelPlugin(FBCModelPlugin obj) {
-    super(obj.getExtendedSBase());
+    super(obj);
 
     if (obj.isSetListOfFluxBounds()) {
       setListOfFluxBounds(obj.getListOfFluxBounds().clone());
@@ -101,6 +155,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   /* (non-Javadoc)
    * @see java.lang.Object#clone()
    */
+  @Override
   public FBCModelPlugin clone() {
     return new FBCModelPlugin(this);
   }
@@ -144,7 +199,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   /**
    * Gets the {@code activeObjective}.
    * <p>If the {@code activeObjective} is not defined, an empty String is returned.
-   *  
+   * 
    * @return the {@code activeObjective} or "".
    */
   public String getActiveObjective() {
@@ -154,6 +209,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
+  @Override
   public boolean getAllowsChildren() {
     return true;
   }
@@ -161,6 +217,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildAt(int)
    */
+  @Override
   public TreeNode getChildAt(int index) {
     if (index < 0) {
       throw new IndexOutOfBoundsException(index + " < 0");
@@ -183,12 +240,13 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
 
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", index,
-      +((int) Math.min(pos, 0))));
+      +Math.min(pos, 0)));
   }
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildCount()
    */
+  @Override
   public int getChildCount() {
     int count = 0;
 
@@ -206,7 +264,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    *  Gets an element from the listOfFluxBounds at the given index.
    *
    * @param i the index where to get the {@link FluxBound}
-   * @throws IndexOutOfBoundsException 
+   * @throws IndexOutOfBoundsException
    * if the index is out of bound (index < 0 || index > list.size)
    * @return an element from the listOfFluxBounds at the given index.
    */
@@ -251,7 +309,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    *  Gets an element from the listOfObjectives at the given index.
    *
    * @param i the index where to get the {@link Objective}
-   * @throws IndexOutOfBoundsException 
+   * @throws IndexOutOfBoundsException
    * if the index is out of bound (index < 0 || index > list.size)
    * @return an element from the listOfObjectives at the given index.
    */
@@ -262,7 +320,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   /**
    * Returns {@code true} if listOfFluxBounds contains at least one element.
    *
-   * @return {@code true} if listOfFluxBounds contains at least one element, 
+   * @return {@code true} if listOfFluxBounds contains at least one element,
    *         otherwise {@code false}
    */
   public boolean isSetListOfFluxBounds() {
@@ -272,19 +330,20 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   /**
    * Returns {@code true} if listOfObjectives is not {@code null}.
    *
-   * @return {@code true} if listOfObjectives is not null, 
+   * @return {@code true} if listOfObjectives is not null,
    *         otherwise {@code false}
    */
   public boolean isSetListOfObjectives() {
-	  // cannot use the isEmpty() test here to avoid loosing the activeObject attribute
-	  // when calling the getListOfObjectives() when there are not yet any objective object added to the list.
-	  // This happen for example when reading a file.
+    // cannot use the isEmpty() test here to avoid loosing the activeObject attribute
+    // when calling the getListOfObjectives() when there are not yet any objective object added to the list.
+    // This happen for example when reading a file.
     return listOfObjectives != null;
   }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
+  @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     return false;
   }
@@ -352,7 +411,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   public void setActiveObjective(String activeObjective) {
     getListOfObjectives().setActiveObjective(activeObjective);
   }
-  
+
   /**
    * 
    * @param objective
@@ -364,7 +423,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   /**
    *  Sets the given {@code ListOf<FluxBound>}. <p>If listOfFluxBounds
    *  was defined before and contained some elements, they are all unset.
-   *  
+   * 
    * @param listOfFluxBounds
    */
   public void setListOfFluxBounds(ListOf<FluxBound> listOfFluxBounds) {
@@ -415,8 +474,8 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    */
   public boolean unsetListOfFluxBounds() {
     if (isSetListOfFluxBounds()) {
-      ListOf<FluxBound> oldFluxBounds = this.listOfFluxBounds;
-      this.listOfFluxBounds = null;
+      ListOf<FluxBound> oldFluxBounds = listOfFluxBounds;
+      listOfFluxBounds = null;
       oldFluxBounds.fireNodeRemovedEvent();
       return true;
     }
@@ -424,16 +483,16 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Returns {@code true} if listOfObjectives contain at least one element, 
+   * Returns {@code true} if listOfObjectives contain at least one element,
    *         otherwise {@code false}
    *
-   * @return {@code true} if listOfObjectives contain at least one element, 
+   * @return {@code true} if listOfObjectives contain at least one element,
    *         otherwise {@code false}
    */
   public boolean unsetListOfObjectives() {
     if (isSetListOfObjectives()) {
-      ListOf<Objective> oldObjectives = this.listOfObjectives;
-      this.listOfObjectives = null;
+      ListOf<Objective> oldObjectives = listOfObjectives;
+      listOfObjectives = null;
       oldObjectives.fireNodeRemovedEvent();
       return true;
     }
@@ -443,6 +502,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
    */
+  @Override
   public Map<String, String> writeXMLAttributes() {
     return null;
   }

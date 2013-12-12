@@ -60,7 +60,7 @@ public class FunctionTerm extends AbstractMathContainer {
 	 */
 	public FunctionTerm() {
 		super();
-		addNamespace(QualConstant.namespaceURI);
+		addNamespace(QualConstants.namespaceURI);
 	}
 	
 	/**
@@ -70,7 +70,7 @@ public class FunctionTerm extends AbstractMathContainer {
 	 */
 	public FunctionTerm(int level, int version) {
 		super(level, version);
-		addNamespace(QualConstant.namespaceURI);
+		addNamespace(QualConstants.namespaceURI);
 	}
 	
 	/**
@@ -81,7 +81,7 @@ public class FunctionTerm extends AbstractMathContainer {
 	 */
 	public FunctionTerm(ASTNode math, int level, int version) {
 		super(math, level, version);
-		addNamespace(QualConstant.namespaceURI);
+		addNamespace(QualConstants.namespaceURI);
 	}
 
 	/**
@@ -134,7 +134,7 @@ public class FunctionTerm extends AbstractMathContainer {
 		if (isSetResultLevel()) {
 			return resultLevel.intValue();
 		} else {
-			throw new PropertyUndefinedError(QualConstant.resultLevel, this);
+			throw new PropertyUndefinedError(QualConstants.resultLevel, this);
 		}
 	}
 
@@ -148,7 +148,7 @@ public class FunctionTerm extends AbstractMathContainer {
   public void setResultLevel(int resultLevel) {
     Integer oldResultLevel = this.resultLevel;
     this.resultLevel = resultLevel;
-    firePropertyChange(QualConstant.resultLevel, oldResultLevel, this.resultLevel);
+    firePropertyChange(QualConstants.resultLevel, oldResultLevel, this.resultLevel);
   }
 
 
@@ -161,7 +161,7 @@ public class FunctionTerm extends AbstractMathContainer {
 	  if (isSetResultLevel()) {
 		  Integer oldResultLevel = this.resultLevel;
 		  this.resultLevel = null;
-		  firePropertyChange(QualConstant.resultLevel, oldResultLevel, this.resultLevel);
+		  firePropertyChange(QualConstants.resultLevel, oldResultLevel, this.resultLevel);
 		  return true;
 	  } else {
 		  return false;
@@ -242,7 +242,7 @@ public class FunctionTerm extends AbstractMathContainer {
 		if (!isAttributeRead) {
 			isAttributeRead = true;
 
-			if (attributeName.equals(QualConstant.resultLevel)) {
+			if (attributeName.equals(QualConstants.resultLevel)) {
 				setResultLevel(StringTools.parseSBMLInt(value));
 			} else {
 				isAttributeRead = false;
@@ -260,7 +260,7 @@ public class FunctionTerm extends AbstractMathContainer {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetResultLevel()) {
-			attributes.put(QualConstant.shortLabel + ':' + QualConstant.resultLevel,
+			attributes.put(QualConstants.shortLabel + ':' + QualConstants.resultLevel,
 			  Integer.toString(getResultLevel()));
 		}	  
 		return attributes;

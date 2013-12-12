@@ -48,7 +48,7 @@ public class BindingSiteReference extends AbstractSBase {
 	 * 
 	 */
 	public void initDefaults() {
-		addNamespace(MultiConstant.namespaceURI);
+		addNamespace(MultiConstants.namespaceURI);
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public class BindingSiteReference extends AbstractSBase {
 
 		if (!isAttributeRead) {
 
-			if (attributeName.equals(MultiConstant.speciesTypeState)) {
+			if (attributeName.equals(MultiConstants.speciesTypeState)) {
 				setSpeciesTypeState(value);
 				isAttributeRead = true;
 			} 
@@ -119,7 +119,7 @@ public class BindingSiteReference extends AbstractSBase {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetSpeciesTypeState()) {
-			attributes.put(MultiConstant.shortLabel + ':' + MultiConstant.speciesTypeState, getSpeciesTypeState());
+			attributes.put(MultiConstants.shortLabel + ':' + MultiConstants.speciesTypeState, getSpeciesTypeState());
 		} 
 
 		return attributes;

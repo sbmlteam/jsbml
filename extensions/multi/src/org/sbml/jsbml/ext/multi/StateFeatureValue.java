@@ -90,7 +90,7 @@ public class StateFeatureValue extends AbstractSBase {
 	 * 
 	 */
 	public void initDefaults() {
-		addNamespace(MultiConstant.namespaceURI);
+		addNamespace(MultiConstants.namespaceURI);
 	}
 
 
@@ -105,7 +105,7 @@ public class StateFeatureValue extends AbstractSBase {
 
 		if (!isAttributeRead) {
 
-			if (attributeName.equals(MultiConstant.possibleValue)) {
+			if (attributeName.equals(MultiConstants.possibleValue)) {
 				setPossibleValue(value);
 				isAttributeRead = true;
 			} 
@@ -123,7 +123,7 @@ public class StateFeatureValue extends AbstractSBase {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetPossibleValue()) {
-			attributes.put(MultiConstant.shortLabel + ':' + MultiConstant.possibleValue,
+			attributes.put(MultiConstants.shortLabel + ':' + MultiConstants.possibleValue,
 			  getPossibleValue());
 		} 
 

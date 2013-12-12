@@ -77,7 +77,7 @@ public class ReplacedBy extends SBaseRef {
 	 * Initializes the default values using the namespace.
 	 */
 	public void initDefaults() {
-		addNamespace(CompConstant.namespaceURI);
+		addNamespace(CompConstants.namespaceURI);
 	}
 
 
@@ -111,7 +111,7 @@ public class ReplacedBy extends SBaseRef {
 	public void setSubmodelRef(String submodelRef) {
 		String oldSubmodelRef = this.submodelRef;
 		this.submodelRef = submodelRef;
-		firePropertyChange(CompConstant.submodelRef, oldSubmodelRef, this.submodelRef);
+		firePropertyChange(CompConstants.submodelRef, oldSubmodelRef, this.submodelRef);
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class ReplacedBy extends SBaseRef {
 		if (isSetSubmodelRef()) {
 			String oldSubmodelRef = this.submodelRef;
 			this.submodelRef = null;
-			firePropertyChange(CompConstant.submodelRef, oldSubmodelRef, this.submodelRef);
+			firePropertyChange(CompConstants.submodelRef, oldSubmodelRef, this.submodelRef);
 			return true;
 		}
 		return false;
@@ -144,7 +144,7 @@ public class ReplacedBy extends SBaseRef {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		  if (isSetSubmodelRef()) {
-		    attributes.put(CompConstant.shortLabel + ":" + CompConstant.submodelRef, getSubmodelRef());
+		    attributes.put(CompConstants.shortLabel + ":" + CompConstants.submodelRef, getSubmodelRef());
 		  }
 
 		  return attributes;
@@ -162,7 +162,7 @@ public class ReplacedBy extends SBaseRef {
 		if (!isAttributeRead) {
 			isAttributeRead = true;
 
-			if (attributeName.equals(CompConstant.submodelRef)) {
+			if (attributeName.equals(CompConstants.submodelRef)) {
 				setSubmodelRef(value);
 			}
 			else {
