@@ -26,6 +26,7 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
@@ -41,6 +42,60 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class FBCSpeciesPlugin extends AbstractSBasePlugin {
 
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
+   */
+  @Override
+  public String getElementNamespace() {
+    return FBCConstants.getNamespaceURI(getLevel(), getVersion());
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
+   */
+  @Override
+  public String getPackageName() {
+    return FBCConstants.packageName;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
+   */
+  @Override
+  public String getPrefix() {
+    return FBCConstants.shortLabel;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
+   */
+  @Override
+  public String getURI() {
+    return getElementNamespace();
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#getParent()
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public ListOf<Species> getParent() {
+    return (ListOf<Species>) getExtendedSBase().getParent();
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
+   */
+  @Override
+  public ListOf<Species> getParentSBMLObject() {
+    return getParent();
+  }
   /**
    * Generated serial version identifier.
    */
@@ -65,7 +120,7 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
    * Clone constructor
    */
   public FBCSpeciesPlugin(FBCSpeciesPlugin obj) {
-    super(obj.getExtendedSBase());
+    super(obj);
 
     if (obj.isSetChemicalFormula()) {
       setChemicalFormula(obj.getChemicalFormula());
@@ -78,10 +133,10 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Creates an FBCSpeciesPlugin instance 
+   * Creates an FBCSpeciesPlugin instance
    */
   public FBCSpeciesPlugin(Species species) {
-    super(species);		
+    super(species);
 
     if (species == null) {
       throw new IllegalArgumentException("The value of the species argument must not be null.");
@@ -92,6 +147,7 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
    */
+  @Override
   public FBCSpeciesPlugin clone() {
     return new FBCSpeciesPlugin(this);
   }
@@ -99,6 +155,7 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
+  @Override
   public boolean getAllowsChildren() {
     return false;
   }
@@ -130,6 +187,7 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildAt(int)
    */
+  @Override
   public TreeNode getChildAt(int index) {
     if (index < 0) {
       throw new IndexOutOfBoundsException(index + " < 0");
@@ -137,12 +195,13 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
     int pos = 0;
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}",
-      index, +((int) Math.min(pos, 0))));
+      index, +Math.min(pos, 0)));
   }
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildCount()
    */
+  @Override
   public int getChildCount() {
     return 0;
   }
@@ -154,26 +213,27 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Returns whether charge is set 
+   * Returns whether charge is set
    *
-   * @return whether charge is set 
+   * @return whether charge is set
    */
   public boolean isSetCharge() {
     return isSetCharge;
   }
 
   /**
-   * Returns whether chemicalFormula is set 
+   * Returns whether chemicalFormula is set
    *
-   * @return whether chemicalFormula is set 
+   * @return whether chemicalFormula is set
    */
   public boolean isSetChemicalFormula() {
-    return this.chemicalFormula != null;
+    return chemicalFormula != null;
   }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
+  @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
 
     if (attributeName.equals(FBCConstants.charge)) {
@@ -181,7 +241,7 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
       return true;
     } else if (attributeName.equals(FBCConstants.chemicalFormula)) {
       setChemicalFormula(value);
-      return true;		
+      return true;
     }
 
     return false;
@@ -207,33 +267,33 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Unsets the variable charge 
+   * Unsets the variable charge
    *
-   * @return {@code true}, if charge was set before, 
+   * @return {@code true}, if charge was set before,
    *         otherwise {@code false}
    */
   public boolean unsetCharge() {
     if (isSetCharge()) {
-      int oldCharge = this.charge;
-      this.charge = 0;
+      int oldCharge = charge;
+      charge = 0;
       isSetCharge = false;
-      firePropertyChange(FBCConstants.charge, oldCharge, this.charge);
+      firePropertyChange(FBCConstants.charge, oldCharge, charge);
       return true;
     }
     return false;
   }
 
   /**
-   * Unsets the variable chemicalFormula 
+   * Unsets the variable chemicalFormula
    *
-   * @return {@code true} if chemicalFormula was set before, 
+   * @return {@code true} if chemicalFormula was set before,
    *         otherwise {@code false}
    */
   public boolean unsetChemicalFormula() {
     if (isSetChemicalFormula()) {
-      String oldChemicalFormula = this.chemicalFormula;
-      this.chemicalFormula = null;
-      firePropertyChange(FBCConstants.chemicalFormula, oldChemicalFormula, this.chemicalFormula);
+      String oldChemicalFormula = chemicalFormula;
+      chemicalFormula = null;
+      firePropertyChange(FBCConstants.chemicalFormula, oldChemicalFormula, chemicalFormula);
       return true;
     }
     return false;
@@ -242,6 +302,7 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
    */
+  @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = new HashMap<String, String>();
 

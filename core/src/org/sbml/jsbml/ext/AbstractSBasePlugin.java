@@ -22,6 +22,7 @@
 package org.sbml.jsbml.ext;
 
 import org.sbml.jsbml.AbstractTreeNode;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 
 
@@ -33,6 +34,23 @@ import org.sbml.jsbml.SBase;
  * @date 28.10.2011
  */
 public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SBasePlugin {
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getLevel()
+   */
+  @Override
+  public int getLevel() {
+    return isSetExtendedSBase() ? getExtendedSBase().getLevel() : -1;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getVersion()
+   */
+  @Override
+  public int getVersion() {
+    return isSetExtendedSBase() ? getExtendedSBase().getVersion() : -1;
+  }
 
   /**
    * Generated serial version identifier.
@@ -58,6 +76,16 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
   public AbstractSBasePlugin(SBase extendedSBase) {
     this();
     this.extendedSBase = extendedSBase;
+  }
+  
+  
+  /**
+   * This method will need to be further tested
+   * @param plugin
+   */
+  public AbstractSBasePlugin(AbstractSBasePlugin plugin) {
+	    super(plugin);
+	    this.extendedSBase = plugin.extendedSBase;
   }
 
   /* (non-Javadoc)
@@ -113,5 +141,35 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
     }
     return hashCode;
   }
+ 
+  protected int packageVersion;
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageVersion()
+   */
+  @Override
+  public int getPackageVersion() {
+    return packageVersion;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getParentSBMLObject()
+   */
+  @Override
+  public SBase getParentSBMLObject() {
+    return (SBase) getParent();
+  }
+
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getSBMLDocument()
+   */
+  @Override
+  public SBMLDocument getSBMLDocument() {
+    return isSetExtendedSBase() ? getExtendedSBase().getSBMLDocument() : null;
+  }
+
 
 }

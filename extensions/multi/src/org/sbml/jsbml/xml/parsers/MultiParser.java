@@ -20,19 +20,19 @@
  */
 package org.sbml.jsbml.xml.parsers;
 
-import static org.sbml.jsbml.ext.multi.MultiConstant.bindingSiteReference;
-import static org.sbml.jsbml.ext.multi.MultiConstant.listOfBonds;
-import static org.sbml.jsbml.ext.multi.MultiConstant.listOfContainedSpeciesTypes;
-import static org.sbml.jsbml.ext.multi.MultiConstant.listOfPossibleValues;
-import static org.sbml.jsbml.ext.multi.MultiConstant.listOfSelectors;
-import static org.sbml.jsbml.ext.multi.MultiConstant.listOfSpeciesTypeStates;
-import static org.sbml.jsbml.ext.multi.MultiConstant.listOfSpeciesTypes;
-import static org.sbml.jsbml.ext.multi.MultiConstant.listOfStateFeatureInstances;
-import static org.sbml.jsbml.ext.multi.MultiConstant.listOfStateFeatureValues;
-import static org.sbml.jsbml.ext.multi.MultiConstant.listOfStateFeatures;
-import static org.sbml.jsbml.ext.multi.MultiConstant.listOfUnboundBindingSites;
-import static org.sbml.jsbml.ext.multi.MultiConstant.namespaceURI;
-import static org.sbml.jsbml.ext.multi.MultiConstant.shortLabel;
+import static org.sbml.jsbml.ext.multi.MultiConstants.bindingSiteReference;
+import static org.sbml.jsbml.ext.multi.MultiConstants.listOfBonds;
+import static org.sbml.jsbml.ext.multi.MultiConstants.listOfContainedSpeciesTypes;
+import static org.sbml.jsbml.ext.multi.MultiConstants.listOfPossibleValues;
+import static org.sbml.jsbml.ext.multi.MultiConstants.listOfSelectors;
+import static org.sbml.jsbml.ext.multi.MultiConstants.listOfSpeciesTypeStates;
+import static org.sbml.jsbml.ext.multi.MultiConstants.listOfSpeciesTypes;
+import static org.sbml.jsbml.ext.multi.MultiConstants.listOfStateFeatureInstances;
+import static org.sbml.jsbml.ext.multi.MultiConstants.listOfStateFeatureValues;
+import static org.sbml.jsbml.ext.multi.MultiConstants.listOfStateFeatures;
+import static org.sbml.jsbml.ext.multi.MultiConstants.listOfUnboundBindingSites;
+import static org.sbml.jsbml.ext.multi.MultiConstants.namespaceURI;
+import static org.sbml.jsbml.ext.multi.MultiConstants.shortLabel;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

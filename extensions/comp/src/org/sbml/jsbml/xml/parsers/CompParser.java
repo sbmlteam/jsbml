@@ -20,8 +20,8 @@
  */
 package org.sbml.jsbml.xml.parsers;
 
-import static org.sbml.jsbml.ext.comp.CompConstant.namespaceURI;
-import static org.sbml.jsbml.ext.comp.CompConstant.shortLabel;
+import static org.sbml.jsbml.ext.comp.CompConstants.namespaceURI;
+import static org.sbml.jsbml.ext.comp.CompConstants.shortLabel;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -35,7 +35,7 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.SBasePlugin;
-import org.sbml.jsbml.ext.comp.CompConstant;
+import org.sbml.jsbml.ext.comp.CompConstants;
 import org.sbml.jsbml.ext.comp.CompModelPlugin;
 import org.sbml.jsbml.ext.comp.CompSBMLDocumentPlugin;
 import org.sbml.jsbml.ext.comp.CompSBasePlugin;
@@ -135,11 +135,11 @@ public class CompParser extends AbstractReaderWriter {
 				sbmlDoc.addExtension(namespaceURI, compSBMLDoc);
 			}
 
-			if (elementName.equals(CompConstant.listOfExternalModelDefinitions)) 
+			if (elementName.equals(CompConstants.listOfExternalModelDefinitions)) 
 			{
 				return compSBMLDoc.getListOfExternalModelDefinitions();
 			} 
-			else if (elementName.equals(CompConstant.listOfModelDefinitions)) 
+			else if (elementName.equals(CompConstants.listOfModelDefinitions)) 
 			{
 				return compSBMLDoc.getListOfModelDefinitions();
 			}
@@ -156,11 +156,11 @@ public class CompParser extends AbstractReaderWriter {
 				model.addExtension(namespaceURI, compModel);
 			}
 
-			if (elementName.equals(CompConstant.listOfSubmodels)) 
+			if (elementName.equals(CompConstants.listOfSubmodels)) 
 			{
 				return compModel.getListOfSubmodels();
 			} 
-			else if (elementName.equals(CompConstant.listOfPorts)) 
+			else if (elementName.equals(CompConstants.listOfPorts)) 
 			{
 				return compModel.getListOfPorts();
 			}
@@ -169,7 +169,7 @@ public class CompParser extends AbstractReaderWriter {
 		{
 			Submodel submodel = (Submodel) contextObject;
 			
-			if (elementName.equals(CompConstant.listOfDeletions)) {
+			if (elementName.equals(CompConstants.listOfDeletions)) {
 				return submodel.getListOfDeletions();
 			}			
 		} // end Submodel
@@ -177,7 +177,7 @@ public class CompParser extends AbstractReaderWriter {
 		{
 			SBaseRef sBaseRef = (SBaseRef) contextObject;
 			
-			if (elementName.equalsIgnoreCase(CompConstant.sBaseRef)) {
+			if (elementName.equalsIgnoreCase(CompConstants.sBaseRef)) {
 				return sBaseRef.createSBaseRef();
 			}			
 		} // end SBaseRef
@@ -206,11 +206,11 @@ public class CompParser extends AbstractReaderWriter {
 				sbase.addExtension(namespaceURI, compSBase);
 			}
 
-			if (elementName.equals(CompConstant.listOfReplacedElements)) 
+			if (elementName.equals(CompConstants.listOfReplacedElements)) 
 			{
 				return compSBase.getListOfReplacedElements();
 			} 
-			else if (elementName.equals(CompConstant.replacedBy)) 
+			else if (elementName.equals(CompConstants.replacedBy)) 
 			{				
 				return compSBase.createReplacedBy();
 			}
@@ -237,7 +237,7 @@ public class CompParser extends AbstractReaderWriter {
 		}
 
 		// dealing with the extendedSBase		
-		if (elementName.equals(CompConstant.replacedBy) || elementName.equals(CompConstant.replacedElement)) {
+		if (elementName.equals(CompConstants.replacedBy) || elementName.equals(CompConstants.replacedElement)) {
 			parentSBase = ((SBase) parentSBase).getExtension(namespaceURI);
 		}
 		

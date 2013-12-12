@@ -93,7 +93,7 @@ public class SBaseRef extends AbstractSBase {
 	 */
 	public SBaseRef() {
 		super();
-		addNamespace(CompConstant.namespaceURI);
+		addNamespace(CompConstants.namespaceURI);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class SBaseRef extends AbstractSBase {
 	 */
 	public SBaseRef(int level, int version) {
 		super(level, version);
-		addNamespace(CompConstant.namespaceURI);
+		addNamespace(CompConstants.namespaceURI);
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class SBaseRef extends AbstractSBase {
 	public void setPortRef(String portRef) {
 		String oldPortRef = this.portRef;
 		this.portRef = portRef;
-		firePropertyChange(CompConstant.portRef, oldPortRef, this.portRef);
+		firePropertyChange(CompConstants.portRef, oldPortRef, this.portRef);
 	}
 
 	/**
@@ -175,7 +175,7 @@ public class SBaseRef extends AbstractSBase {
 		if (isSetPortRef()) {
 			String oldPortRef = this.portRef;
 			this.portRef = null;
-			firePropertyChange(CompConstant.portRef, oldPortRef, this.portRef);
+			firePropertyChange(CompConstants.portRef, oldPortRef, this.portRef);
 			return true;
 		}
 		return false;
@@ -210,7 +210,7 @@ public class SBaseRef extends AbstractSBase {
 	public void setIdRef(String idRef) {
 		String oldIdRef = this.idRef;
 		this.idRef = idRef;
-		firePropertyChange(CompConstant.idRef, oldIdRef, this.idRef);
+		firePropertyChange(CompConstants.idRef, oldIdRef, this.idRef);
 	}
 
 	/**
@@ -223,7 +223,7 @@ public class SBaseRef extends AbstractSBase {
 		if (isSetIdRef()) {
 			String oldIdRef = this.idRef;
 			this.idRef = null;
-			firePropertyChange(CompConstant.idRef, oldIdRef, this.idRef);
+			firePropertyChange(CompConstants.idRef, oldIdRef, this.idRef);
 			return true;
 		}
 		return false;
@@ -259,7 +259,7 @@ public class SBaseRef extends AbstractSBase {
 	public void setUnitRef(String unitRef) {
 		String oldUnitRef = this.unitRef;
 		this.unitRef = unitRef;
-		firePropertyChange(CompConstant.unitRef, oldUnitRef, this.unitRef);
+		firePropertyChange(CompConstants.unitRef, oldUnitRef, this.unitRef);
 	}
 
 	/**
@@ -272,7 +272,7 @@ public class SBaseRef extends AbstractSBase {
 		if (isSetUnitRef()) {
 			String oldUnitRef = this.unitRef;
 			this.unitRef = null;
-			firePropertyChange(CompConstant.unitRef, oldUnitRef, this.unitRef);
+			firePropertyChange(CompConstants.unitRef, oldUnitRef, this.unitRef);
 			return true;
 		}
 		return false;
@@ -307,7 +307,7 @@ public class SBaseRef extends AbstractSBase {
 	public void setMetaIdRef(String metaIdRef) {
 		String oldIdRef = this.metaIdRef;
 		this.metaIdRef = metaIdRef;
-		firePropertyChange(CompConstant.metaIdRef, oldIdRef, this.metaIdRef);
+		firePropertyChange(CompConstants.metaIdRef, oldIdRef, this.metaIdRef);
 	}
 
 	/**
@@ -319,7 +319,7 @@ public class SBaseRef extends AbstractSBase {
 		if (isSetMetaIdRef()) {
 			String oldIdRef = this.metaIdRef;
 			this.metaIdRef = null;
-			firePropertyChange(CompConstant.metaIdRef, oldIdRef, this.metaIdRef);
+			firePropertyChange(CompConstants.metaIdRef, oldIdRef, this.metaIdRef);
 			return true;
 		}
 		return false;
@@ -367,7 +367,7 @@ public class SBaseRef extends AbstractSBase {
 	public void setSBaseRef(SBaseRef sBaseRef) {
 		SBaseRef oldSBaseRef = this.sBaseRef;
 		this.sBaseRef = sBaseRef;
-		firePropertyChange(CompConstant.sBaseRef, oldSBaseRef, this.sBaseRef);
+		firePropertyChange(CompConstants.sBaseRef, oldSBaseRef, this.sBaseRef);
 		// TODO: need to register the new sBaseRef in the model/document
 	}
 
@@ -381,7 +381,7 @@ public class SBaseRef extends AbstractSBase {
 		if (isSetSBaseRef()) {
 			SBaseRef oldSBaseRef = this.sBaseRef;
 			this.sBaseRef = null;
-			firePropertyChange(CompConstant.sBaseRef, oldSBaseRef, this.sBaseRef);
+			firePropertyChange(CompConstants.sBaseRef, oldSBaseRef, this.sBaseRef);
 			return true;
 		}
 		return false;
@@ -436,16 +436,16 @@ public class SBaseRef extends AbstractSBase {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		  if (isSetPortRef()) {
-		    attributes.put(CompConstant.shortLabel + ':' + CompConstant.portRef, getPortRef());
+		    attributes.put(CompConstants.shortLabel + ':' + CompConstants.portRef, getPortRef());
 		  }
 		  if (isSetIdRef()) {
-			  attributes.put(CompConstant.shortLabel + ':' + CompConstant.idRef, getIdRef());
+			  attributes.put(CompConstants.shortLabel + ':' + CompConstants.idRef, getIdRef());
 		  }
 		  if (isSetUnitRef()) {
-			  attributes.put(CompConstant.shortLabel + ':' + CompConstant.unitRef, getUnitRef());
+			  attributes.put(CompConstants.shortLabel + ':' + CompConstants.unitRef, getUnitRef());
 		  }
 		  if (isSetMetaIdRef()) {
-			  attributes.put(CompConstant.shortLabel + ':' + CompConstant.metaIdRef, getMetaIdRef());
+			  attributes.put(CompConstants.shortLabel + ':' + CompConstants.metaIdRef, getMetaIdRef());
 		  }
 
 		  return attributes;
@@ -463,14 +463,14 @@ public class SBaseRef extends AbstractSBase {
 		if (!isAttributeRead) {
 			isAttributeRead = true;
 
-			if (attributeName.equals(CompConstant.portRef)) {
+			if (attributeName.equals(CompConstants.portRef)) {
 				setPortRef(value);
 			}
-			else if (attributeName.equals(CompConstant.idRef)) {
+			else if (attributeName.equals(CompConstants.idRef)) {
 				setIdRef(value);
-			} else if (attributeName.equals(CompConstant.unitRef)) {
+			} else if (attributeName.equals(CompConstants.unitRef)) {
 				setUnitRef(value);
-			} else if (attributeName.equals(CompConstant.metaIdRef)) {
+			} else if (attributeName.equals(CompConstants.metaIdRef)) {
 				setMetaIdRef(value);
 			}
 			else {

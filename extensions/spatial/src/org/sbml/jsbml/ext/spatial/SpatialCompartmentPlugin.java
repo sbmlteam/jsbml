@@ -24,58 +24,114 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
-
 /**
+ * 
  * @author Andreas Dr&auml;ger
  * @since 1.0
- * @version $Rev: 1445 $
+ * @version $Rev$
  */
-public class SpatialReactionPlugin extends AbstractSBasePlugin {
+public class SpatialCompartmentPlugin extends AbstractSBasePlugin {
 
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
+   */
+  @Override
+  public String getElementNamespace() {
+    return SpatialConstants.getNamespaceURI(getLevel(), getVersion());
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
+   */
+  @Override
+  public String getPackageName() {
+    return SpatialConstants.packageName;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
+   */
+  @Override
+  public String getPrefix() {
+    return SpatialConstants.shortLabel;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
+   */
+  @Override
+  public String getURI() {
+    return getElementNamespace();
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#getParent()
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public ListOf<Compartment> getParent() {
+    return (ListOf<Compartment>) getExtendedSBase().getParent();
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
+   */
+  @Override
+  public ListOf<Compartment> getParentSBMLObject() {
+    return getParent();
+  }
   /**
    * Generated serial version identifier.
    */
-  private static final long serialVersionUID = -2154884901226244123L;
+  private static final long serialVersionUID = 1363097365327594433L;
 
   /**
    * 
    */
-  private Boolean isLocal;
+  private ListOf<CompartmentMapping> listOfCompartmentMappings;
 
   /**
    * 
    */
-  public SpatialReactionPlugin() {
+  public SpatialCompartmentPlugin() {
     super();
   }
 
 
-
   /**
-   * @param sr
+   * @param compartment
    */
-  public SpatialReactionPlugin(SpatialReactionPlugin sr) {
-    super(sr);
-    if (sr.isSetIsLocal()) {
-      isLocal = Boolean.valueOf(sr.getIsLocal());
-    }
+  public SpatialCompartmentPlugin(Compartment compartment) {
+    super(compartment);
+    // TODO Auto-generated constructor stub
   }
 
   /**
-   * @return
+   * @param spatialCompartmentPlugin
    */
-  public boolean isSetIsLocal() {
-    return isLocal != null;
+  public SpatialCompartmentPlugin(
+    SpatialCompartmentPlugin spatialCompartmentPlugin) {
+    super(spatialCompartmentPlugin);
   }
+
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
   @Override
-  public SpatialReactionPlugin clone() {
-    return new SpatialReactionPlugin(this);
+  public SpatialCompartmentPlugin clone() {
+    return new SpatialCompartmentPlugin(this);
   }
 
   /* (non-Javadoc)
@@ -83,42 +139,29 @@ public class SpatialReactionPlugin extends AbstractSBasePlugin {
    */
   @Override
   public boolean equals(Object object) {
-    boolean equal = super.equals(object);
-    if (equal) {
-      SpatialReactionPlugin sr = (SpatialReactionPlugin) object;
-      equal &= sr.isSetIsLocal() == isSetIsLocal();
-      if (equal && isSetIsLocal()) {
-        equal &= sr.getIsLocal() == getIsLocal();
-      }
-    }
-    return equal;
+    // TODO Auto-generated method stub
+    return super.equals(object);
   }
 
-  /**
-   * @return the isLocal
-   */
-  public Boolean getIsLocal() {
-    return isLocal;
-  }
+
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#hashCode()
    */
   @Override
   public int hashCode() {
-    final int prime = 953;
-    int hashCode = super.hashCode();
-    if (isSetIsLocal()) {
-      hashCode += prime * isLocal.hashCode();
-    }
-    return hashCode;
+    // TODO Auto-generated method stub
+    return super.hashCode();
   }
 
   /**
-   * @param isLocal the isLocal to set
+   * 
+   * @return
    */
-  public void setIsLocal(Boolean isLocal) {
-    this.isLocal = isLocal;
+  public boolean isSetListOfCompartmentMappings() {
+    return (listOfCompartmentMappings != null)
+        && (listOfCompartmentMappings.size() > 0);
   }
 
 
@@ -127,12 +170,11 @@ public class SpatialReactionPlugin extends AbstractSBasePlugin {
    * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
   @Override
-  public boolean readAttribute(String attributeName, String prefix, String value) {
+  public boolean readAttribute(String attributeName, String prefix,
+    String value) {
     // TODO Auto-generated method stub
     return false;
   }
-
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
@@ -142,52 +184,6 @@ public class SpatialReactionPlugin extends AbstractSBasePlugin {
     // TODO Auto-generated method stub
     return null;
   }
-
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
-   */
-  @Override
-  public String getElementNamespace() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
-   */
-  @Override
-  public String getPackageName() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
-   */
-  @Override
-  public String getPrefix() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
-   */
-  @Override
-  public String getURI() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
@@ -199,16 +195,14 @@ public class SpatialReactionPlugin extends AbstractSBasePlugin {
   }
 
 
-
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildAt(int)
    */
   @Override
-  public TreeNode getChildAt(int childIndex) {
+  public TreeNode getChildAt(int arg0) {
     // TODO Auto-generated method stub
     return null;
   }
-
 
 
   /* (non-Javadoc)
@@ -219,5 +213,4 @@ public class SpatialReactionPlugin extends AbstractSBasePlugin {
     // TODO Auto-generated method stub
     return 0;
   }
-
 }

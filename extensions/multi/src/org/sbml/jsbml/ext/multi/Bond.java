@@ -182,7 +182,7 @@ public class Bond extends AbstractSBase {
 	 * 
 	 */
 	public void initDefaults() {
-		addNamespace(MultiConstant.namespaceURI);
+		addNamespace(MultiConstants.namespaceURI);
 	}
 
 	
@@ -249,13 +249,13 @@ public class Bond extends AbstractSBase {
 
 		if (!isAttributeRead) {
 
-			if (attributeName.equals(MultiConstant.occurrence)) {
+			if (attributeName.equals(MultiConstants.occurrence)) {
 				try {
 					setOccurence(BOND_OCCURRENCE_TYPE.valueOf(value));
 					isAttributeRead = true;
 				  } catch (Exception e) {
 					  throw new SBMLException("Could not recognized the value '" + value
-							  + "' for the attribute " + MultiConstant.occurrence 
+							  + "' for the attribute " + MultiConstants.occurrence 
 							  + " on the 'bond' element.");
 				  }
 			} 
@@ -273,7 +273,7 @@ public class Bond extends AbstractSBase {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetOccurence()) {
-			attributes.put(MultiConstant.shortLabel + ':' + MultiConstant.occurrence, getOccurence().toString());
+			attributes.put(MultiConstants.shortLabel + ':' + MultiConstants.occurrence, getOccurence().toString());
 		}
 
 		return attributes;

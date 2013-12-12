@@ -35,6 +35,7 @@ public class LayoutConstants {
 	public static final String namespaceURI_L2 = "http://projects.eml.org/bcb/sbml/level2";
 	
 	public static final String shortLabel = "layout";
+	public static final String packageName = "Layout";
 
 	public static final String xsiShortLabel = "xsi";
 	public static final String xsiNamespace = "http://www.w3.org/2001/XMLSchema-instance";

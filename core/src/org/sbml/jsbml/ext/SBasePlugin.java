@@ -23,6 +23,7 @@ package org.sbml.jsbml.ext;
 
 import java.util.Map;
 
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 
@@ -38,57 +39,138 @@ import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
  */
 public interface SBasePlugin extends TreeNodeWithChangeSupport {
 
-	/**
-	 * 
-	 * @return
-	 */
-	public SBasePlugin clone();
-  
   /**
-	 * 
-	 * @param obj
-	 * @return
-	 */
-	public boolean equals(Object obj);
-	
-	/**
+   * 
+   * @return
+   */
+  public SBasePlugin clone();
+
+  /**
+   * 
+   * @param obj
+   * @return
+   */
+  public boolean equals(Object obj);
+
+  /**
    * Returns the SBase object that is extended by this plug-in.
    * 
    * @return the SBase object that is extended by this plug-in.
    */
   public SBase getExtendedSBase();
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public int hashCode();
 
-	/**
-	 * Check whether an extended SBase has been set.
-	 * 
-	 * @return
-	 */
+  /**
+   * 
+   * @return
+   */
+  public int hashCode();
+
+  /**
+   * Check whether an extended SBase has been set.
+   * 
+   * @return
+   */
   public boolean isSetExtendedSBase();
 
   /**
-	 * Reads and sets the attribute if it is know from this {@link SBasePlugin}.
-	 * 
-	 * @param attributeName
-	 *           localName of the XML attribute
-	 * @param prefix
-	 *           prefix of the XML attribute
-	 * @param value
-	 *           value of the XML attribute
-	 * @return {@code true} if the attribute has been successfully read.
-	 */
-	public boolean readAttribute(String attributeName, String prefix, String value);
+   * Reads and sets the attribute if it is know from this {@link SBasePlugin}.
+   * 
+   * @param attributeName
+   *           localName of the XML attribute
+   * @param prefix
+   *           prefix of the XML attribute
+   * @param value
+   *           value of the XML attribute
+   * @return {@code true} if the attribute has been successfully read.
+   */
+  public boolean readAttribute(String attributeName, String prefix, String value);
 
-	/**
-	 * Returns a {@link Map} containing the XML attributes of this object.
-	 * 
-	 * @return a {@link Map} containing the XML attributes of this object.
-	 */
-	public Map<String, String> writeXMLAttributes();
+  /**
+   * Returns a {@link Map} containing the XML attributes of this object.
+   * 
+   * @return a {@link Map} containing the XML attributes of this object.
+   */
+  public Map<String, String> writeXMLAttributes();
+
+
+  /**
+   * 
+   * @return
+   * @see SBase#getLevel()
+   */
+  public int getLevel();
+
+  /**
+   * 
+   * @return
+   * @see SBase#getVersion()
+   */
+  public int getVersion();
+  
+  /**
+   * Returns the XML namespace (URI) of the package extension of this plugin object.
+   * @return the URI of the package extension of this plugin object.
+   */
+  public String getElementNamespace();
+  
+  /**
+   * Returns the package name of this plugin object.
+   * @return the package name of this plugin object.
+   */
+  public String getPackageName();
+  
+  /**
+   * Returns the package version of the package extension of this plugin object.
+   * @return the package version of the package extension of this plugin object.
+   */
+  public int getPackageVersion();
+  
+  /**
+   * Returns the parent {@link SBase} object to which this plugin object connected.
+   * 
+   * @return the parent {@link SBase} object to which this plugin object connected.
+   */
+  public SBase getParentSBMLObject();
+  
+  /**
+   * Returns the prefix of the package extension of this plugin object.
+   * @return the prefix of the package extension of this plugin object.
+   */
+  public String getPrefix();
+  
+  /**
+   * Returns the parent {@link SBMLDocument} of this plugin object.
+   * @return the parent {@link SBMLDocument} object of this plugin object.
+   */
+  public SBMLDocument getSBMLDocument();
+  
+  /**
+   * Gets the URI to which this element belongs to. 
+   * For example, all elements that belong to SBML Level 3 
+   * Version 1 Core must would have the URI 
+   * 'http://www.sbml.org/sbml/level3/version1/core'; all 
+   * elements that belong to Layout Extension Version 1 for
+   * SBML Level 3 Version 1 Core must would have the URI
+   * 'http://www.sbml.org/sbml/level3/version1/layout/version1/' 
+   * Unlike getElementNamespace, this function first returns
+   * the URI for this element by looking into the SBMLNamespaces
+   * object of the document with the its package name. 
+   * If not found it will return the result of getElementNamespace
+   * @return the URI for this element
+   */
+  public String getURI();
+  
+//  /**
+//   * Sets the XML namespace to which this element belongs to. 
+//   * For example, all elements that belong to SBML Level 3 Version 1 Core 
+//   * must set the namespace to 'http://www.sbml.org/sbml/level3/version1/core'; 
+//   * all elements that belong to Layout Extension Version 1 for SBML Level 3
+//   * Version 1 Core must set the namespace to 
+//   * 'http://www.sbml.org/sbml/level3/version1/layout/version1/'
+//   * @param uri
+//   * @return boolean indicating success/failure of the function. The possible values returned by this function are:
+//   */
+//  public boolean setElementNamespace(String uri);
+  
 
 }

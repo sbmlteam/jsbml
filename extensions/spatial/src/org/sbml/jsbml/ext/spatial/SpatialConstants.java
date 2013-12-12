@@ -38,5 +38,15 @@ public class SpatialConstants {
 	
 	public static final String domain1 = "domain1";
 	public static final String domain2 = "domain2";
+	public static final String geometry = "geometry";
+  public static final String packageName = "Spatial";
+  /**
+   * @param level
+   * @param version
+   * @return
+   */
+  public static String getNamespaceURI(int level, int version) {
+    return namespaceURI;
+  }
 	
 }

@@ -124,7 +124,7 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	public ListOf<SpeciesTypeState> getListOfSpeciesTypeStates() {
 		if (listOfSpeciesTypeStates == null) {
 			listOfSpeciesTypeStates = new ListOf<SpeciesTypeState>();
-			listOfSpeciesTypeStates.addNamespace(MultiConstant.namespaceURI);
+			listOfSpeciesTypeStates.addNamespace(MultiConstants.namespaceURI);
 			this.registerChild(listOfSpeciesTypeStates);
 			listOfSpeciesTypeStates.setSBaseListType(ListOf.Type.other);
 		}
@@ -229,7 +229,7 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	public ListOf<Bond> getListOfBonds() {
 		if (listOfBonds == null) {
 			listOfBonds = new ListOf<Bond>();
-			listOfBonds.addNamespace(MultiConstant.namespaceURI);
+			listOfBonds.addNamespace(MultiConstants.namespaceURI);
 			this.registerChild(listOfBonds);
 			listOfBonds.setSBaseListType(ListOf.Type.other);
 		}
@@ -319,7 +319,7 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	public ListOf<BindingSiteReference> getListOfUnboundBindingSites() {
 		if (listOfUnboundBindingSites == null) {
 			listOfUnboundBindingSites = new ListOf<BindingSiteReference>();
-			listOfUnboundBindingSites.addNamespace(MultiConstant.namespaceURI);
+			listOfUnboundBindingSites.addNamespace(MultiConstants.namespaceURI);
 			this.registerChild(listOfUnboundBindingSites);
 			listOfUnboundBindingSites.setSBaseListType(ListOf.Type.other);
 		}
@@ -417,7 +417,7 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * 
 	 */
 	public void initDefaults() {
-		addNamespace(MultiConstant.namespaceURI);
+		addNamespace(MultiConstants.namespaceURI);
 	}
 
 	/* (non-Javadoc)
@@ -488,11 +488,11 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 
 		if (isSetId()) {
 			attributes.remove("id");
-			attributes.put(MultiConstant.shortLabel+ ":id", getId());
+			attributes.put(MultiConstants.shortLabel+ ":id", getId());
 		}
 		if (isSetName()) {
 			attributes.remove("name");
-			attributes.put(MultiConstant.shortLabel+ ":name", getName());
+			attributes.put(MultiConstants.shortLabel+ ":name", getName());
 		}
 
 		return attributes;

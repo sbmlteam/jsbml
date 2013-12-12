@@ -94,7 +94,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
     if (!isSetListOfExternalModelDefinitions()) {
       listOfExternalModelDefinitions = new ListOf<ExternalModelDefinition>(extendedSBase.getLevel(),
           extendedSBase.getVersion());
-      listOfExternalModelDefinitions.addNamespace(CompConstant.namespaceURI);
+      listOfExternalModelDefinitions.addNamespace(CompConstants.namespaceURI);
       listOfExternalModelDefinitions.setSBaseListType(ListOf.Type.other);
       extendedSBase.registerChild(listOfExternalModelDefinitions);
     }
@@ -253,7 +253,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
     if (!isSetListOfModelDefinitions()) {
       listOfModelDefinitions = new ListOf<ModelDefinition>(extendedSBase.getLevel(),
           extendedSBase.getVersion());
-      listOfModelDefinitions.addNamespace(CompConstant.namespaceURI);
+      listOfModelDefinitions.addNamespace(CompConstants.namespaceURI);
       listOfModelDefinitions.setSBaseListType(ListOf.Type.other);
       extendedSBase.registerChild(listOfModelDefinitions);
     }

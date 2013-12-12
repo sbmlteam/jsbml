@@ -102,7 +102,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
   public ListOf<StateFeature> getListOfStateFeatures() {
     if (listOfStateFeatures == null) {
       listOfStateFeatures = new ListOf<StateFeature>();
-      listOfStateFeatures.addNamespace(MultiConstant.namespaceURI);
+      listOfStateFeatures.addNamespace(MultiConstants.namespaceURI);
       this.registerChild(listOfStateFeatures);
       listOfStateFeatures.setSBaseListType(ListOf.Type.other);
     }
@@ -225,7 +225,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
    * 
    */
   public void initDefaults() {
-    addNamespace(MultiConstant.namespaceURI);
+    addNamespace(MultiConstants.namespaceURI);
   }
 
   /* (non-Javadoc)
@@ -282,7 +282,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
     if (!isAttributeRead) {
       isAttributeRead = true;
 
-      if (attributeName.equals(MultiConstant.bindingSite)) {
+      if (attributeName.equals(MultiConstants.bindingSite)) {
         setBindingSite(StringTools.parseSBMLBoolean(value));
       } else {
         isAttributeRead = false;
@@ -302,14 +302,14 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
 
     if (isSetId()) {
       attributes.remove("id");
-      attributes.put(MultiConstant.shortLabel+ ":id", getId());
+      attributes.put(MultiConstants.shortLabel+ ":id", getId());
     }
     if (isSetName()) {
       attributes.remove("name");
-      attributes.put(MultiConstant.shortLabel+ ":name", getName());
+      attributes.put(MultiConstants.shortLabel+ ":name", getName());
     }
     if (isSetBindingSite()) {
-      attributes.put(MultiConstant.shortLabel + ':' + MultiConstant.bindingSite,
+      attributes.put(MultiConstants.shortLabel + ':' + MultiConstants.bindingSite,
         Boolean.toString(isBindingSite()));
     }
 

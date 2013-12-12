@@ -40,6 +40,60 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  */
 public class MultiSpecies extends AbstractSBasePlugin {
 
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
+   */
+  @Override
+  public String getElementNamespace() {
+    return MultiConstants.getNamespaceURI(getLevel(), getVersion());
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
+   */
+  @Override
+  public String getPackageName() {
+    return MultiConstants.packageName;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
+   */
+  @Override
+  public String getPrefix() {
+    return MultiConstants.shortLabel;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
+   */
+  @Override
+  public String getURI() {
+    return getElementNamespace();
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#getParent()
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public ListOf<Species> getParent() {
+    return (ListOf<Species>) getExtendedSBase().getParent();
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
+   */
+  @Override
+  public ListOf<Species> getParentSBMLObject() {
+    return getParent();
+  }
   /**
    * Generated serial version identifier.
    */
@@ -60,14 +114,23 @@ public class MultiSpecies extends AbstractSBasePlugin {
   }
 
 
+  /**
+   * @param multiSpecies
+   */
+  public MultiSpecies(MultiSpecies multiSpecies) {
+    super(multiSpecies);
+  }
+
+
+  @Override
   public MultiSpecies clone() {
-    // TODO
-    return null;
+    return new MultiSpecies(this);
   }
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
+  @Override
   public boolean getAllowsChildren() {
     return true;
   }
@@ -75,27 +138,25 @@ public class MultiSpecies extends AbstractSBasePlugin {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getChildAt(int)
    */
+  @Override
   public SBase getChildAt(int childIndex) {
     // TODO Auto-generated method stub
     return null;
   }
 
+  @Override
   public int getChildCount() {
     // TODO Auto-generated method stub
     return 0;
   }
 
-  public TreeNode getParent() {
-    // TODO Auto-generated method stub
-    return null;
-  }
 
   /**
    * 
    * @param speciesTypeInstance
    */
   public void addSpeciesTypeInstance(SpeciesTypeInstance speciesTypeInstance) {
-    getListOfSpeciesTypeInstances().add(speciesTypeInstance);		
+    getListOfSpeciesTypeInstances().add(speciesTypeInstance);
   }
 
   /**
@@ -129,7 +190,7 @@ public class MultiSpecies extends AbstractSBasePlugin {
    */
   public ListOf<SpeciesTypeInstance> getListOfSpeciesTypeInstances() {
     if (listOfSpeciesTypeInstances == null) {
-      this.listOfSpeciesTypeInstances = new ListOf<SpeciesTypeInstance>();
+      listOfSpeciesTypeInstances = new ListOf<SpeciesTypeInstance>();
     }
 
     return listOfSpeciesTypeInstances;
@@ -144,9 +205,10 @@ public class MultiSpecies extends AbstractSBasePlugin {
         && (listOfSpeciesTypeInstances.size() > 0); // TODO: should we do that or not (and in general for other listOf that should not be empty) ?
   }
 
+  @Override
   public boolean readAttribute(String attributeName, String prefix,
     String value) {
-    // TODO 
+    // TODO
     return false;
   }
 
@@ -154,6 +216,7 @@ public class MultiSpecies extends AbstractSBasePlugin {
    * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#toString()
    */
+  @Override
   public String toString() {
     return getClass().getSimpleName();
   }
@@ -167,9 +230,9 @@ public class MultiSpecies extends AbstractSBasePlugin {
    */
   public boolean unsetListOfInitialSpeciesInstances() {
     // TODO: check if we need to do any additional call to have everything properly unregistered
-    if (this.listOfSpeciesTypeInstances != null) {
-      ListOf<SpeciesTypeInstance> oldListOfInitialSpeciesInstances = this.listOfSpeciesTypeInstances;
-      this.listOfSpeciesTypeInstances = null;
+    if (listOfSpeciesTypeInstances != null) {
+      ListOf<SpeciesTypeInstance> oldListOfInitialSpeciesInstances = listOfSpeciesTypeInstances;
+      listOfSpeciesTypeInstances = null;
       oldListOfInitialSpeciesInstances.fireNodeRemovedEvent();
       return true;
     }
@@ -179,6 +242,7 @@ public class MultiSpecies extends AbstractSBasePlugin {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
    */
+  @Override
   public Map<String, String> writeXMLAttributes() {
     // TODO Auto-generated method stub
     return null;

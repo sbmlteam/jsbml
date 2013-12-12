@@ -49,7 +49,7 @@ public class SpeciesTypeRestrictionReference extends AbstractSBase {
 			return speciesTypeRestriction;
 		}
 		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(MultiConstant.speciesTypeRestriction, this);
+		throw new PropertyUndefinedError(MultiConstants.speciesTypeRestriction, this);
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class SpeciesTypeRestrictionReference extends AbstractSBase {
 	public void setSpeciesTypeRestriction(String speciesTypeRestriction) {
 		String oldSpeciesTypeRestriction = this.speciesTypeRestriction;
 		this.speciesTypeRestriction = speciesTypeRestriction;
-		firePropertyChange(MultiConstant.speciesTypeRestriction, oldSpeciesTypeRestriction, this.speciesTypeRestriction);
+		firePropertyChange(MultiConstants.speciesTypeRestriction, oldSpeciesTypeRestriction, this.speciesTypeRestriction);
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class SpeciesTypeRestrictionReference extends AbstractSBase {
 		if (isSetSpeciesTypeRestriction()) {
 			String oldSpeciesTypeRestriction = this.speciesTypeRestriction;
 			this.speciesTypeRestriction = null;
-			firePropertyChange(MultiConstant.speciesTypeRestriction, oldSpeciesTypeRestriction, this.speciesTypeRestriction);
+			firePropertyChange(MultiConstants.speciesTypeRestriction, oldSpeciesTypeRestriction, this.speciesTypeRestriction);
 			return true;
 		}
 		return false;
@@ -97,7 +97,7 @@ public class SpeciesTypeRestrictionReference extends AbstractSBase {
 		Map<String, String> attributes = super.writeXMLAttributes();
 
 		if (isSetSpeciesTypeRestriction()) {
-			attributes.put(MultiConstant.shortLabel + ":speciesTypeRestriction",
+			attributes.put(MultiConstants.shortLabel + ":speciesTypeRestriction",
 			  getSpeciesTypeRestriction());
 		}
 
@@ -114,7 +114,7 @@ public class SpeciesTypeRestrictionReference extends AbstractSBase {
 		if (!isAttributeRead) {
 			isAttributeRead = true;
 
-			if (attributeName.equals(MultiConstant.speciesTypeRestriction)) {
+			if (attributeName.equals(MultiConstants.speciesTypeRestriction)) {
 				setSpeciesTypeRestriction(value);
 			}
 			else {
@@ -165,7 +165,7 @@ public class SpeciesTypeRestrictionReference extends AbstractSBase {
 	 * Initializes the default values using the namespace.
 	 */
 	public void initDefaults() {
-		addNamespace(MultiConstant.namespaceURI);
+		addNamespace(MultiConstants.namespaceURI);
 	}
 
 	public static final int MIN_SBML_LEVEL = 3;

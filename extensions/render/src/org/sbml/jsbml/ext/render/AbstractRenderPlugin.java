@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
@@ -24,6 +24,7 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
@@ -35,6 +36,37 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  * @date 16.05.2012
  */
 public class AbstractRenderPlugin extends AbstractSBasePlugin {
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
+	 */
+	@Override
+	public String getElementNamespace() {
+		return RenderConstants.getNamespaceURI(getLevel(), getVersion());
+	}
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
+	 */
+	@Override
+	public String getPackageName() {
+		return RenderConstants.packageName;
+	}
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
+	 */
+	@Override
+	public String getPrefix() {
+		return RenderConstants.shortLabel;
+	}
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
+	 */
+	@Override
+	public String getURI() {
+		return getElementNamespace();
+	}
+
+
 	/**
 	 *
 	 */
@@ -44,13 +76,13 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	private GlobalRenderInformation renderInformation;
 
 
-	 /**
-   * Creates an AbstractRenderPlugin instance
-   */
-  public AbstractRenderPlugin(SBase extendedElement) {
-    super(extendedElement);
-    initDefaults();
-  }
+	/**
+	 * Creates an AbstractRenderPlugin instance
+	 */
+	public AbstractRenderPlugin(SBase extendedElement) {
+		super(extendedElement);
+		initDefaults();
+	}
 
 	/**
 	 * Creates a AbstractRenderPlugin instance with a level and version.
@@ -84,10 +116,10 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	public AbstractRenderPlugin(String id, String name, int level, int version) {
 		super();
 		// FIXME getLevelAndVersion, getElementName
-//		if (getLevelAndVersion().compareTo(Integer.valueOf(MIN_SBML_LEVEL),
-//		  Integer.valueOf(MIN_SBML_VERSION)) < 0) {
-//		  throw new LevelVersionError(getElementName(), level, version);
-//		}
+		//		if (getLevelAndVersion().compareTo(Integer.valueOf(MIN_SBML_LEVEL),
+		//		  Integer.valueOf(MIN_SBML_VERSION)) < 0) {
+		//		  throw new LevelVersionError(getElementName(), level, version);
+		//		}
 		initDefaults();
 	}
 
@@ -95,7 +127,7 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	 * Clone constructor
 	 */
 	public AbstractRenderPlugin(AbstractRenderPlugin obj) {
-		super((SBase) obj);
+		super(obj);
 
 		versionMinor = obj.versionMinor;
 		versionMajor = obj.versionMajor;
@@ -106,7 +138,7 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	 * clones this class
 	 */
 	@Override
-  public AbstractRenderPlugin clone() {
+	public AbstractRenderPlugin clone() {
 		return new AbstractRenderPlugin(this);
 	}
 
@@ -134,7 +166,7 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	 * @return whether versionMinor is set
 	 */
 	public boolean isSetVersionMinor() {
-		return this.versionMinor != null;
+		return versionMinor != null;
 	}
 
 	/**
@@ -153,9 +185,9 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	 */
 	public boolean unsetVersionMinor() {
 		if (isSetVersionMinor()) {
-			Short oldVersionMinor = this.versionMinor;
-			this.versionMinor = null;
-			firePropertyChange(RenderConstants.versionMinor, oldVersionMinor, this.versionMinor);
+			Short oldVersionMinor = versionMinor;
+			versionMinor = null;
+			firePropertyChange(RenderConstants.versionMinor, oldVersionMinor, versionMinor);
 			return true;
 		}
 		return false;
@@ -178,7 +210,7 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	 * @return whether versionMajor is set
 	 */
 	public boolean isSetVersionMajor() {
-		return this.versionMajor != null;
+		return versionMajor != null;
 	}
 
 	/**
@@ -197,9 +229,9 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	 */
 	public boolean unsetVersionMajor() {
 		if (isSetVersionMajor()) {
-			Short oldVersionMajor = this.versionMajor;
-			this.versionMajor = null;
-			firePropertyChange(RenderConstants.versionMajor, oldVersionMajor, this.versionMajor);
+			Short oldVersionMajor = versionMajor;
+			versionMajor = null;
+			firePropertyChange(RenderConstants.versionMajor, oldVersionMajor, versionMajor);
 			return true;
 		}
 		return false;
@@ -222,7 +254,7 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	 * @return whether renderInformation is set
 	 */
 	public boolean isSetRenderInformation() {
-		return this.renderInformation != null;
+		return renderInformation != null;
 	}
 
 	/**
@@ -241,9 +273,9 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	 */
 	public boolean unsetRenderInformation() {
 		if (isSetRenderInformation()) {
-			GlobalRenderInformation oldRenderInformation = this.renderInformation;
-			this.renderInformation = null;
-			firePropertyChange(RenderConstants.renderInformation, oldRenderInformation, this.renderInformation);
+			GlobalRenderInformation oldRenderInformation = renderInformation;
+			renderInformation = null;
+			firePropertyChange(RenderConstants.renderInformation, oldRenderInformation, renderInformation);
 			return true;
 		}
 		return false;
@@ -252,15 +284,17 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
 	 */
-  // @Override
+	// @Override
+	@Override
 	public boolean readAttribute(String attributeName, String prefix, String value) {
-	  return false;
+		return false;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.SBasePlugin#getChildAt(int)
 	 */
-  // @Override
+	// @Override
+	@Override
 	public TreeNode getChildAt(int childIndex) {
 		return null;
 	}
@@ -268,7 +302,8 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.SBasePlugin#getChildCount()
 	 */
-  // @Override
+	// @Override
+	@Override
 	public int getChildCount() {
 		return 0;
 	}
@@ -276,7 +311,8 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.SBasePlugin#getAllowsChildren()
 	 */
-  // @Override
+	// @Override
+	@Override
 	public boolean getAllowsChildren() {
 		return false;
 	}
@@ -284,9 +320,10 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
 	 */
-  // @Override
+	// @Override
+	@Override
 	public Map<String, String> writeXMLAttributes() {
-	  return null;
+		return null;
 	}
 
 }

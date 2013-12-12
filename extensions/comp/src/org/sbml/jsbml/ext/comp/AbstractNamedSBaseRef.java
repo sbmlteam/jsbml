@@ -308,13 +308,13 @@ public abstract class AbstractNamedSBaseRef extends SBaseRef implements NamedSBa
 		
 		if (isSetId()) {
 			if (getLevel() != 1) {
-				attributes.put(CompConstant.shortLabel + ":id", getId());
+				attributes.put(CompConstants.shortLabel + ":id", getId());
 			} else {
 				attributes.put("name", getId());
 			}
 		}
 		if (isSetName()) {
-			attributes.put(CompConstant.shortLabel + ":name", getName());
+			attributes.put(CompConstants.shortLabel + ":name", getName());
 		}
 		return attributes;
 	}

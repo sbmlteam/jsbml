@@ -155,7 +155,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
    * 
    */
   public void initDefaults() {
-    addNamespace(QualConstant.namespaceURI);
+    addNamespace(QualConstants.namespaceURI);
     compartment = null;
     constant = null;
   }
@@ -208,7 +208,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     } else {
       this.compartment = compartment;
     }
-    firePropertyChange(QualConstant.compartment, oldCompartment,
+    firePropertyChange(QualConstants.compartment, oldCompartment,
       this.compartment);
   }
   
@@ -269,7 +269,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     if (isSetConstant()) {
       return constant.booleanValue();
     }
-    throw new PropertyUndefinedError(QualConstant.constant, this);
+    throw new PropertyUndefinedError(QualConstants.constant, this);
   }
 
 
@@ -280,7 +280,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   public void setConstant(boolean constant) {
     Boolean oldConstant = this.constant;
     this.constant = constant;
-    firePropertyChange(QualConstant.constant, oldConstant, this.constant);
+    firePropertyChange(QualConstants.constant, oldConstant, this.constant);
   }
 
 
@@ -291,7 +291,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     if (isSetConstant()) {
       boolean oldConstant = this.constant;
       this.constant = null;
-      firePropertyChange(QualConstant.constant, oldConstant, this.constant);
+      firePropertyChange(QualConstants.constant, oldConstant, this.constant);
       return true;
     } else {
       return false;
@@ -323,7 +323,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     if (isSetInitialLevel()) {
       return initialLevel.intValue();
     }
-    throw new PropertyUndefinedError(QualConstant.initialLevel, this);
+    throw new PropertyUndefinedError(QualConstants.initialLevel, this);
   }
 
 
@@ -334,7 +334,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   public void setInitialLevel(int initialLevel) {
     Integer oldInitialLevel = this.initialLevel;
     this.initialLevel = initialLevel;
-    firePropertyChange(QualConstant.initialLevel, oldInitialLevel,
+    firePropertyChange(QualConstants.initialLevel, oldInitialLevel,
       this.initialLevel);
   }
 
@@ -346,7 +346,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     if (isSetInitialLevel()) {
       Integer oldInitialLevel = this.initialLevel;
       this.initialLevel = null;
-      firePropertyChange(QualConstant.initialLevel, oldInitialLevel,
+      firePropertyChange(QualConstants.initialLevel, oldInitialLevel,
         this.initialLevel);
       return true;
     } else {
@@ -379,7 +379,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     if (isSetMaxLevel()) {
       return maxLevel.intValue();
     }
-    throw new PropertyUndefinedError(QualConstant.maxLevel, this);
+    throw new PropertyUndefinedError(QualConstants.maxLevel, this);
   }
 
 
@@ -390,7 +390,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   public void setMaxLevel(int maxLevel) {
     Integer oldMaxLevel = this.maxLevel;
     this.maxLevel = maxLevel;
-    firePropertyChange(QualConstant.maxLevel, oldMaxLevel, this.maxLevel);
+    firePropertyChange(QualConstants.maxLevel, oldMaxLevel, this.maxLevel);
   }
 
 
@@ -401,7 +401,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     if (isSetMaxLevel()) {
       Integer oldMaxLevel = this.maxLevel;
       this.maxLevel = null;
-      firePropertyChange(QualConstant.maxLevel, oldMaxLevel, this.maxLevel);
+      firePropertyChange(QualConstants.maxLevel, oldMaxLevel, this.maxLevel);
       return true;
     } else {
       return false;
@@ -473,13 +473,13 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
 	  if (!isAttributeRead) {
 		  isAttributeRead = true;
 
-		  if (attributeName.equals(QualConstant.constant)) {
+		  if (attributeName.equals(QualConstants.constant)) {
 			  setConstant(StringTools.parseSBMLBoolean(value));
-		  } else if (attributeName.equals(QualConstant.compartment)) {
+		  } else if (attributeName.equals(QualConstants.compartment)) {
 			  setCompartment(value);
-		  } else if (attributeName.equals(QualConstant.initialLevel)) {
+		  } else if (attributeName.equals(QualConstants.initialLevel)) {
 			  setInitialLevel(StringTools.parseSBMLInt(value));
-		  } else if (attributeName.equals(QualConstant.maxLevel)) {
+		  } else if (attributeName.equals(QualConstants.maxLevel)) {
 			  setMaxLevel(StringTools.parseSBMLInt(value));
 		  } else {
 			  isAttributeRead = false;
@@ -498,23 +498,23 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
 
 	  if (isSetId()) {
 		  attributes.remove("id");
-		  attributes.put(QualConstant.shortLabel+ ":id", getId());
+		  attributes.put(QualConstants.shortLabel+ ":id", getId());
 	  }
 	  if (isSetName()) {
 		  attributes.remove("name");
-		  attributes.put(QualConstant.shortLabel+ ":name", getName());
+		  attributes.put(QualConstants.shortLabel+ ":name", getName());
 	  }
 	  if (isSetConstant()) {
-		  attributes.put(QualConstant.shortLabel+ ':' + QualConstant.constant, Boolean.toString(getConstant()));
+		  attributes.put(QualConstants.shortLabel+ ':' + QualConstants.constant, Boolean.toString(getConstant()));
 	  }
 	  if (isSetCompartment()) {
-		  attributes.put(QualConstant.shortLabel+ ':' + QualConstant.compartment, getCompartment());
+		  attributes.put(QualConstants.shortLabel+ ':' + QualConstants.compartment, getCompartment());
 	  }
 	  if (isSetInitialLevel()) {
-		  attributes.put(QualConstant.shortLabel+ ':' + QualConstant.initialLevel, Integer.toString(getInitialLevel()));
+		  attributes.put(QualConstants.shortLabel+ ':' + QualConstants.initialLevel, Integer.toString(getInitialLevel()));
 	  }	  
 	  if (isSetMaxLevel()) {
-		  attributes.put(QualConstant.shortLabel+ ':' + QualConstant.maxLevel, Integer.toString(getMaxLevel()));
+		  attributes.put(QualConstants.shortLabel+ ':' + QualConstants.maxLevel, Integer.toString(getMaxLevel()));
 	  }
 
 	  return attributes;

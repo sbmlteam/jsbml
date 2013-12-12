@@ -263,7 +263,7 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 	public ListOf<StateFeatureInstance> getListOfStateFeatureInstances() {
 		if (listOfStateFeatureInstances == null) {
 			listOfStateFeatureInstances = new ListOf<StateFeatureInstance>();
-			listOfStateFeatureInstances.addNamespace(MultiConstant.namespaceURI);
+			listOfStateFeatureInstances.addNamespace(MultiConstants.namespaceURI);
 			this.registerChild(listOfStateFeatureInstances);
 			listOfStateFeatureInstances.setSBaseListType(ListOf.Type.other);
 		}
@@ -368,7 +368,7 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 	public ListOf<ContainedSpeciesType> getListOfContainedSpeciesTypes() {
 		if (listOfContainedSpeciesTypes == null) {
 			listOfContainedSpeciesTypes = new ListOf<ContainedSpeciesType>();
-			listOfContainedSpeciesTypes.addNamespace(MultiConstant.namespaceURI);
+			listOfContainedSpeciesTypes.addNamespace(MultiConstants.namespaceURI);
 			this.registerChild(listOfContainedSpeciesTypes);
 			listOfContainedSpeciesTypes.setSBaseListType(ListOf.Type.other);
 		}
@@ -463,7 +463,7 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 	 * 
 	 */
 	public void initDefaults() {
-		addNamespace(MultiConstant.namespaceURI);
+		addNamespace(MultiConstants.namespaceURI);
 	}
 
 	/* (non-Javadoc)
@@ -529,15 +529,15 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 		if (!isAttributeRead) {
 			isAttributeRead = true;
 
-			if (attributeName.equals(MultiConstant.minOccur)) {
+			if (attributeName.equals(MultiConstants.minOccur)) {
 				setMinOccur(StringTools.parseSBMLInt(value));
-			} else if (attributeName.equals(MultiConstant.maxOccur)) {
+			} else if (attributeName.equals(MultiConstants.maxOccur)) {
 				setMaxOccur(StringTools.parseSBMLInt(value));
-			} else if (attributeName.equals(MultiConstant.connex)) {
+			} else if (attributeName.equals(MultiConstants.connex)) {
 				setConnex(StringTools.parseSBMLBoolean(value));
-			} else if (attributeName.equals(MultiConstant.saturated)) {
+			} else if (attributeName.equals(MultiConstants.saturated)) {
 				setSaturated(StringTools.parseSBMLBoolean(value));
-			} else if (attributeName.equals(MultiConstant.speciesType)) {
+			} else if (attributeName.equals(MultiConstants.speciesType)) {
 				setSpeciesType(value);
 			} else {
 				isAttributeRead = false;
@@ -557,27 +557,27 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 
 		if (isSetId()) {
 			attributes.remove("id");
-			attributes.put(MultiConstant.shortLabel+ ":id", getId());
+			attributes.put(MultiConstants.shortLabel+ ":id", getId());
 		}
 		if (isSetName()) {
 			attributes.remove("name");
-			attributes.put(MultiConstant.shortLabel+ ":name", getName());
+			attributes.put(MultiConstants.shortLabel+ ":name", getName());
 		}
 
 		if (isSetMinOccur()) {
-			attributes.put(MultiConstant.shortLabel + ':' + MultiConstant.minOccur, Integer.toString(getMinOccur()));
+			attributes.put(MultiConstants.shortLabel + ':' + MultiConstants.minOccur, Integer.toString(getMinOccur()));
 		}
 		if (isSetMaxOccur()) {
-			attributes.put(MultiConstant.shortLabel + ':' + MultiConstant.maxOccur, Integer.toString(getMaxOccur()));
+			attributes.put(MultiConstants.shortLabel + ':' + MultiConstants.maxOccur, Integer.toString(getMaxOccur()));
 		}
 		if (isSetConnex()) {
-			attributes.put(MultiConstant.shortLabel + ':' + MultiConstant.connex, Boolean.toString(isConnex()));
+			attributes.put(MultiConstants.shortLabel + ':' + MultiConstants.connex, Boolean.toString(isConnex()));
 		}
 		if (isSetSaturated()) {
-			attributes.put(MultiConstant.shortLabel + ':' + MultiConstant.saturated, Boolean.toString(isSaturated()));
+			attributes.put(MultiConstants.shortLabel + ':' + MultiConstants.saturated, Boolean.toString(isSaturated()));
 		}
 		if (isSetSpeciesType()) {
-			attributes.put(MultiConstant.shortLabel + ':' + MultiConstant.speciesType, getSpeciesType());
+			attributes.put(MultiConstants.shortLabel + ':' + MultiConstants.speciesType, getSpeciesType());
 		}
 
 

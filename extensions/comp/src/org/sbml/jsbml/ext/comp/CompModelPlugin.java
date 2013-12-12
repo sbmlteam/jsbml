@@ -218,7 +218,7 @@ public class CompModelPlugin extends CompSBasePlugin {
     if (!isSetListOfPorts()) {
       listOfPorts = new ListOf<Port>(extendedSBase.getLevel(),
           extendedSBase.getVersion());
-      listOfPorts.addNamespace(CompConstant.namespaceURI);
+      listOfPorts.addNamespace(CompConstants.namespaceURI);
       listOfPorts.setSBaseListType(ListOf.Type.other);
       extendedSBase.registerChild(listOfPorts);
     }
@@ -234,7 +234,7 @@ public class CompModelPlugin extends CompSBasePlugin {
     if (!isSetListOfSubmodels()) {
       listOfSubmodels = new ListOf<Submodel>(extendedSBase.getLevel(),
           extendedSBase.getVersion());
-      listOfSubmodels.addNamespace(CompConstant.namespaceURI);
+      listOfSubmodels.addNamespace(CompConstants.namespaceURI);
       listOfSubmodels.setSBaseListType(ListOf.Type.other);
       extendedSBase.registerChild(listOfSubmodels);
     }

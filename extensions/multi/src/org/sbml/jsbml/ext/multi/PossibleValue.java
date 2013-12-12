@@ -68,7 +68,7 @@ public class PossibleValue extends AbstractNamedSBase  implements UniqueNamedSBa
 	 * 
 	 */
 	public void initDefaults() {
-		addNamespace(MultiConstant.namespaceURI);
+		addNamespace(MultiConstants.namespaceURI);
 	}
 
 	/* (non-Javadoc)
@@ -80,11 +80,11 @@ public class PossibleValue extends AbstractNamedSBase  implements UniqueNamedSBa
 
 		if (isSetId()) {
 			attributes.remove("id");
-			attributes.put(MultiConstant.shortLabel+ ":id", getId());
+			attributes.put(MultiConstants.shortLabel+ ":id", getId());
 		}
 		if (isSetName()) {
 			attributes.remove("name");
-			attributes.put(MultiConstant.shortLabel+ ":name", getName());
+			attributes.put(MultiConstants.shortLabel+ ":name", getName());
 		}
 
 		return attributes;

@@ -4,22 +4,22 @@
   <artifactId>jsbml</artifactId>
   <version>1.0-a1-SNAPSHOT</version>
   <description>JSBML</description>
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
   
   <parent>
     <groupId>org.sbml.jsbml</groupId>
     <artifactId>jsbml-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <relativePath>../../trunk/</relativePath>
+    <version>1.0-a1-SNAPSHOT</version>
+    <relativePath>../</relativePath>
   </parent>
-
+	<!--
 	<scm>
         <connection>scm:svn:http://127.0.0.1/dummy</connection>
         <developerConnection>scm:svn:https://127.0.0.1/dummy</developerConnection>
         <tag>HEAD</tag>
         <url>http://127.0.0.1/dummy</url>
     </scm>
-
+	-->
 
   <build>
 	  
@@ -135,10 +135,10 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
 					<configuration>
-					  <groups>deployment,deployment-validation,jar-deployment</groups>
-					  <skipTests>true</skipTests>
-					  <testFailureIgnore>false</testFailureIgnore>
-					  <argLine>-Dfile.encoding=UTF-8 -ea</argLine>
+						<groups>deployment,deployment-validation,jar-deployment</groups>
+                        <skipTests>true</skipTests>
+						<testFailureIgnore>false</testFailureIgnore>
+						<argLine>-Dfile.encoding=UTF-8 -DDATA_FOLDER=${project.basedir}/test/org/sbml/jsbml/xml/test/data/ -ea</argLine>
 					</configuration>
 				</plugin>
                 <plugin>

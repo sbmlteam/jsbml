@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
@@ -38,125 +39,180 @@ import org.sbml.jsbml.util.filters.NameFilter;
  */
 public class GroupsModelPlugin extends AbstractSBasePlugin {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 3334444867660252255L;
-	/**
-	 * 
-	 */
-	protected ListOf<Group> listOfGroups = new ListOf<Group>();
-	
-	
-	/**
-	 * 
-	 * @param model
-	 */
-	public GroupsModelPlugin(Model model) {
-		super(model);
-		initDefaults();
-	}
-	
-	/**
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
+   */
+  @Override
+  public String getElementNamespace() {
+    return GroupsConstants.getNamespaceURI(getLevel(), getVersion());
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
+   */
+  @Override
+  public String getPackageName() {
+    return GroupsConstants.packageName;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
+   */
+  @Override
+  public String getPrefix() {
+    return GroupsConstants.shortLabel;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
+   */
+  @Override
+  public String getURI() {
+    return getElementNamespace();
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#getParent()
+   */
+  @Override
+  public SBMLDocument getParent() {
+    return (SBMLDocument) getExtendedSBase().getParent();
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
+   */
+  @Override
+  public SBMLDocument getParentSBMLObject() {
+    return getParent();
+  }
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 3334444867660252255L;
+  /**
+   * 
+   */
+  protected ListOf<Group> listOfGroups = new ListOf<Group>();
+
+
+  /**
+   * 
+   * @param model
+   */
+  public GroupsModelPlugin(Model model) {
+    super(model);
+    initDefaults();
+  }
+
+  /**
    * @param groupModelPlugin
    */
   public GroupsModelPlugin(GroupsModelPlugin groupModelPlugin) {
+    super(groupModelPlugin);
     // We don't clone the pointer to the containing model.
     if (groupModelPlugin.listOfGroups != null) {
-      this.listOfGroups = groupModelPlugin.listOfGroups.clone();
+      listOfGroups = groupModelPlugin.listOfGroups.clone();
     }
   }
 
   private void initDefaults() {
-		listOfGroups.addNamespace(GroupsConstants.namespaceURI);
-		listOfGroups.setSBaseListType(ListOf.Type.other);
-		extendedSBase.registerChild(listOfGroups);
-	}
-	
-	/**
-	 * 
-	 * @param group
-	 */
-	public void addGroup(Group group) {
-		listOfGroups.add(group);
-	}
+    listOfGroups.addNamespace(GroupsConstants.namespaceURI);
+    listOfGroups.setSBaseListType(ListOf.Type.other);
+    extendedSBase.registerChild(listOfGroups);
+  }
 
-	/**
-	 * 
-	 * @param i
-	 * @return
-	 */
-	public Group getGroup(int i) {
-		if ((i >= 0) && (i < listOfGroups.size())) {
-			return listOfGroups.get(i);
-		}
-		
-		return null;
-	}
+  /**
+   * 
+   * @param group
+   */
+  public void addGroup(Group group) {
+    listOfGroups.add(group);
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public ListOf<Group> getListOfGroups() {
-		return listOfGroups;
-	}
+  /**
+   * 
+   * @param i
+   * @return
+   */
+  public Group getGroup(int i) {
+    if ((i >= 0) && (i < listOfGroups.size())) {
+      return listOfGroups.get(i);
+    }
 
-	public int getGroupCount() {
-		return listOfGroups.size();
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isSetListOfGroups() {
-		if ((listOfGroups == null) || listOfGroups.isEmpty()) {
-			return false;			
-		}		
-		return true;
-	}
+    return null;
+  }
 
-	/**
-	 * 
-	 * @param listOfGroups
-	 */
-	public void setListOfGroups(ListOf<Group> listOfGroups) {
-		unsetListOfGroups();
-		if (listOfGroups == null) {
-			this.listOfGroups = new ListOf<Group>();
-		} else {
-			this.listOfGroups = listOfGroups;
-		}
-		if ((this.listOfGroups != null) && (this.listOfGroups.getSBaseListType() != ListOf.Type.other)) {
-			this.listOfGroups.setSBaseListType(ListOf.Type.other);
-		}
-		extendedSBase.registerChild(listOfGroups);
-	}
+  /**
+   * 
+   * @return
+   */
+  public ListOf<Group> getListOfGroups() {
+    return listOfGroups;
+  }
 
-	/**
-	 * Removes the {@link #listOfGroups} from this {@link Model} and notifies
-	 * all registered instances of {@link TreeNodeChangeListener}.
-	 * 
-	 * @return {@code true} if calling this method lead to a change in this
-	 *         data structure.
-	 */
-	public boolean unsetListOfGroups() {
-		if (this.listOfGroups != null) {
-			ListOf<Group> oldListOfGroups = this.listOfGroups;
-			this.listOfGroups = null;
-			oldListOfGroups.fireNodeRemovedEvent();
-			return true;
-		}
-		return false;
-	}
+  public int getGroupCount() {
+    return listOfGroups.size();
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
-	 */
-	public GroupsModelPlugin clone() {
-		return new GroupsModelPlugin(this);
-	}
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetListOfGroups() {
+    if ((listOfGroups == null) || listOfGroups.isEmpty()) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * 
+   * @param listOfGroups
+   */
+  public void setListOfGroups(ListOf<Group> listOfGroups) {
+    unsetListOfGroups();
+    if (listOfGroups == null) {
+      this.listOfGroups = new ListOf<Group>();
+    } else {
+      this.listOfGroups = listOfGroups;
+    }
+    if ((this.listOfGroups != null) && (this.listOfGroups.getSBaseListType() != ListOf.Type.other)) {
+      this.listOfGroups.setSBaseListType(ListOf.Type.other);
+    }
+    extendedSBase.registerChild(listOfGroups);
+  }
+
+  /**
+   * Removes the {@link #listOfGroups} from this {@link Model} and notifies
+   * all registered instances of {@link TreeNodeChangeListener}.
+   * 
+   * @return {@code true} if calling this method lead to a change in this
+   *         data structure.
+   */
+  public boolean unsetListOfGroups() {
+    if (listOfGroups != null) {
+      ListOf<Group> oldListOfGroups = listOfGroups;
+      listOfGroups = null;
+      oldListOfGroups.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
+   */
+  @Override
+  public GroupsModelPlugin clone() {
+    return new GroupsModelPlugin(this);
+  }
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
@@ -166,52 +222,57 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
     return "GroupModelPlugin [listOfGroups=" + listOfGroups + ", model=" + extendedSBase
         + "]";
   }
-  
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	public boolean readAttribute(String attributeName, String prefix, String value) {
-		// No attribute define on this plugin
-		return false;
-	}
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
-	 */
-	public Map<String, String> writeXMLAttributes() {
-		// No attribute define on this plugin
-		return null;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    // No attribute define on this plugin
+    return false;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.SBasePlugin#getChildAt(int)
-	 */
-	public SBase getChildAt(int childIndex) {
-		if (childIndex < 0 || childIndex >= 1) {
-		    throw new IndexOutOfBoundsException(MessageFormat.format(
-		    	      "Index {0,number,integer} >= {1,number,integer}", childIndex,
-		    	      +((int) Math.min(getChildCount(), 0))));
-		}
-		
-		return listOfGroups;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    // No attribute define on this plugin
+    return null;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.SBasePlugin#getChildCount()
-	 */
-	public int getChildCount() {		
-		if (isSetListOfGroups()) {
-			return 1;
-		}
-		return 0;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getChildAt(int)
+   */
+  @Override
+  public SBase getChildAt(int childIndex) {
+    if (childIndex < 0 || childIndex >= 1) {
+      throw new IndexOutOfBoundsException(MessageFormat.format(
+        "Index {0,number,integer} >= {1,number,integer}", childIndex,
+        +Math.min(getChildCount(), 0)));
+    }
 
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
-	 */
-	public boolean getAllowsChildren() {
-		return true;
-	}
+    return listOfGroups;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    if (isSetListOfGroups()) {
+      return 1;
+    }
+    return 0;
+  }
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getAllowsChildren()
+   */
+  @Override
+  public boolean getAllowsChildren() {
+    return true;
+  }
 
   /**
    * @param symbol_of_members
@@ -222,20 +283,20 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
     addGroup(g);
     return g;
   }
-  
+
   /**
    * @param symbol_of_members
    * @return
    */
   public Group createGroup(String... symbol_of_members) {
     Group g = createGroup();
-    
+
     if (symbol_of_members!=null) {
       for (String s_member: symbol_of_members) {
         g.createMember(s_member);
       }
     }
-    
+
     return g;
   }
 
@@ -248,9 +309,9 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
    */
   public SBase getGroup(String sbmlID) {
     if (isSetListOfGroups()) {
-      return listOfGroups.firstHit(new NameFilter(sbmlID));     
-    } 
+      return listOfGroups.firstHit(new NameFilter(sbmlID));
+    }
     return null;
   }
-  
+
 }

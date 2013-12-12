@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
@@ -25,6 +25,7 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
 /**
@@ -36,65 +37,130 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  */
 public class MultiSpeciesReference extends AbstractSBasePlugin {
 
-	/**
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
+   */
+  @Override
+  public String getElementNamespace() {
+    return MultiConstants.getNamespaceURI(getLevel(), getVersion());
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
+   */
+  @Override
+  public String getPackageName() {
+    return MultiConstants.packageName;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
+   */
+  @Override
+  public String getPrefix() {
+    return MultiConstants.shortLabel;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
+   */
+  @Override
+  public String getURI() {
+    return getElementNamespace();
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#getParent()
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public ListOf<Species> getParent() {
+    return (ListOf<Species>) getExtendedSBase().getParent();
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
+   */
+  @Override
+  public ListOf<Species> getParentSBMLObject() {
+    return getParent();
+  }
+  /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 3171952386462646205L;
   ListOf<SpeciesTypeRestriction> listOfSpeciesTypeRestrictions;
-	
-	
-	/**
-	 * Returns the list of {@link SpeciesTypeRestriction}.
-	 * 
-	 * @return the list of {@link SpeciesTypeRestriction}
-	 */
-	public ListOf<SpeciesTypeRestriction> getListOfSpeciesTypeRestrictions() {
-		if (listOfSpeciesTypeRestrictions == null) {
-			listOfSpeciesTypeRestrictions = new ListOf<SpeciesTypeRestriction>();
-		}
-		
-		return listOfSpeciesTypeRestrictions;
-	}
 
-	/**
-	 * Adds a {@link SpeciesTypeRestriction}.
-	 * 
-	 * @param speciesTypeRestriction the {@link SpeciesTypeRestriction} to add
-	 */
-	public void addSpeciesTypeRestriction(SpeciesTypeRestriction speciesTypeRestriction) {
-		getListOfSpeciesTypeRestrictions().add(speciesTypeRestriction);
-	}
 
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+  /**
+   * @param multiSpeciesReference
+   */
+  public MultiSpeciesReference(MultiSpeciesReference multiSpeciesReference) {
+    super(multiSpeciesReference);
+  }
 
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  /**
+   * Returns the list of {@link SpeciesTypeRestriction}.
+   * 
+   * @return the list of {@link SpeciesTypeRestriction}
+   */
+  public ListOf<SpeciesTypeRestriction> getListOfSpeciesTypeRestrictions() {
+    if (listOfSpeciesTypeRestrictions == null) {
+      listOfSpeciesTypeRestrictions = new ListOf<SpeciesTypeRestriction>();
+    }
 
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    return listOfSpeciesTypeRestrictions;
+  }
 
-	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+  /**
+   * Adds a {@link SpeciesTypeRestriction}.
+   * 
+   * @param speciesTypeRestriction the {@link SpeciesTypeRestriction} to add
+   */
+  public void addSpeciesTypeRestriction(SpeciesTypeRestriction speciesTypeRestriction) {
+    getListOfSpeciesTypeRestrictions().add(speciesTypeRestriction);
+  }
 
-	public Map<String, String> writeXMLAttributes() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public boolean readAttribute(String attributeName, String prefix,
+    String value) {
+    // TODO Auto-generated method stub
+    return false;
+  }
 
-	@Override
-	public MultiSpeciesReference clone() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public TreeNode getChildAt(int childIndex) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public int getChildCount() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  @Override
+  public boolean getAllowsChildren() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public MultiSpeciesReference clone() {
+    return new MultiSpeciesReference(this);
+  }
 
 }

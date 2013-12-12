@@ -86,8 +86,8 @@ public class Deletion extends AbstractNamedSBaseRef implements UniqueNamedSBase 
 	public Deletion(String id, String name, int level, int version) {
 		super(id, name, level, version);
 		if (getLevelAndVersion().compareTo(
-				Integer.valueOf(CompConstant.MIN_SBML_LEVEL),
-				Integer.valueOf(CompConstant.MIN_SBML_VERSION)) < 0) {
+				Integer.valueOf(CompConstants.MIN_SBML_LEVEL),
+				Integer.valueOf(CompConstants.MIN_SBML_VERSION)) < 0) {
 			throw new LevelVersionError(getElementName(), level, version);
 		}
 		initDefaults();
@@ -111,7 +111,7 @@ public class Deletion extends AbstractNamedSBaseRef implements UniqueNamedSBase 
 	 * Initializes the default values using the namespace.
 	 */
 	public void initDefaults() {
-		addNamespace(CompConstant.namespaceURI);
+		addNamespace(CompConstants.namespaceURI);
 	}
 
 

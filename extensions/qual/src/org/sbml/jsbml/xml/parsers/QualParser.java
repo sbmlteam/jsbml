@@ -34,7 +34,7 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.qual.FunctionTerm;
 import org.sbml.jsbml.ext.qual.Input;
 import org.sbml.jsbml.ext.qual.Output;
-import org.sbml.jsbml.ext.qual.QualConstant;
+import org.sbml.jsbml.ext.qual.QualConstants;
 import org.sbml.jsbml.ext.qual.QualList;
 import org.sbml.jsbml.ext.qual.QualitativeModel;
 import org.sbml.jsbml.ext.qual.QualitativeSpecies;
@@ -82,7 +82,7 @@ public class QualParser extends AbstractReaderWriter {
 			// TODO: the 'required' attribute is written even if there is no plugin class for the SBMLDocument, so I am not totally sure how this is done.
 		} 
 		else if (sbase instanceof Model) {
-			QualitativeModel modelGE = (QualitativeModel) ((Model) sbase).getExtension(QualConstant.namespaceURI);
+			QualitativeModel modelGE = (QualitativeModel) ((Model) sbase).getExtension(QualConstants.namespaceURI);
 			
 			Enumeration<TreeNode> children = modelGE.children();
 			
@@ -152,11 +152,11 @@ public class QualParser extends AbstractReaderWriter {
 			Model model = (Model) contextObject;
 			QualitativeModel qualModel = null;
 			
-			if (model.getExtension(QualConstant.namespaceURI) != null) {
-				qualModel = (QualitativeModel) model.getExtension(QualConstant.namespaceURI);
+			if (model.getExtension(QualConstants.namespaceURI) != null) {
+				qualModel = (QualitativeModel) model.getExtension(QualConstants.namespaceURI);
 			} else {
 				qualModel = new QualitativeModel(model);
-				model.addExtension(QualConstant.namespaceURI, qualModel);
+				model.addExtension(QualConstants.namespaceURI, qualModel);
 			}
 
 			if (elementName.equals("listOfQualitativeSpecies")) {
@@ -193,7 +193,7 @@ public class QualParser extends AbstractReaderWriter {
 
 			if (elementName.equals("transition") && this.groupList.equals(QualList.listOfTransitions)) { 
 				Model model = (Model) listOf.getParentSBMLObject();
-				QualitativeModel extendeModel = (QualitativeModel) model.getExtension(QualConstant.namespaceURI); 
+				QualitativeModel extendeModel = (QualitativeModel) model.getExtension(QualConstants.namespaceURI); 
 				
 				Transition transition = new Transition();				
 				extendeModel.addTransition(transition);
@@ -201,7 +201,7 @@ public class QualParser extends AbstractReaderWriter {
 				
 			} else if ((elementName.equals("qualitativeSpecies")) && this.groupList.equals(QualList.listOfQualitativeSpecies)) {
 				Model model = (Model) listOf.getParentSBMLObject();
-				QualitativeModel extendeModel = (QualitativeModel) model.getExtension(QualConstant.namespaceURI); 
+				QualitativeModel extendeModel = (QualitativeModel) model.getExtension(QualConstants.namespaceURI); 
 				
 				QualitativeSpecies qualSpecies = new QualitativeSpecies();
 				extendeModel.addQualitativeSpecies(qualSpecies);
@@ -262,14 +262,14 @@ public class QualParser extends AbstractReaderWriter {
 	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getShortLabel()
 	 */
 	public String getShortLabel() {
-		return QualConstant.shortLabel;
+		return QualConstants.shortLabel;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
 	 */
 	public String getNamespaceURI() {
-		return QualConstant.namespaceURI;
+		return QualConstants.namespaceURI;
 	}
 
 }
