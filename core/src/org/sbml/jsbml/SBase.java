@@ -23,7 +23,6 @@ package org.sbml.jsbml;
 
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
 
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.ext.SBasePlugin;
@@ -75,7 +74,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * 
    * @param namespace the namespace to add
    */
-  public void addNamespace(String namespace);
+//  protected void setNamespace(String namespace);
 
   /**
    * Appends 'notes' to the notes String of this object.
@@ -250,13 +249,11 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public Model getModel();
 
   /**
-   * Returns all the namespaces of all the packages which are currently
-   *         extending this object.
+   * Returns the namespace to which this {@link SBase} belong to.
    * 
-   * @return all the name spaces of all the packages which are currently
-   *         extending this object.
+   * @return the namespace to which this {@link SBase} belong to.
    */
-  public SortedSet<String> getNamespaces();
+  public String getNamespace();
 
   /**
    * Returns the {@code XMLNode} containing the notes sub-element of

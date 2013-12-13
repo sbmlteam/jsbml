@@ -28,9 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
-import java.util.SortedSet;
 import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 import javax.swing.tree.TreeNode;
@@ -197,9 +195,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   private int sboTerm;
 
   /**
-   * Contains all the namespaces used by this SBase element.
+   * the namespace which this SBase element belong to.
    */
-  private SortedSet<String> usedNamespaces;
+  private String elementNamespace;
 
   /**
    * Creates an AbstractSBase instance.
@@ -218,7 +216,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     lv = getLevelAndVersion();
     annotation = null;
     extensions = new TreeMap<String, SBasePlugin>();
-    usedNamespaces = new TreeSet<String>();
+    elementNamespace = null;
     declaredNamespaces = new HashMap<String, String>();
   }
 
@@ -264,7 +262,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
     // extensions is needed when doing getChildCount()
     extensions = new TreeMap<String, SBasePlugin>();
-    usedNamespaces = new TreeSet<String>();
+    elementNamespace = null;
     declaredNamespaces = new HashMap<String, String>();
 
     if (sb.isSetLevel()) {
@@ -293,11 +291,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     	  extensions.put(new String(key), plugin.clone());
       }
     }
-    // cloning namespaces
-    if (sb.getNamespaces().size() > 0) {
-      for (String namespace : sb.getNamespaces()) {
-        usedNamespaces.add(new String(namespace));
-      }
+    // cloning namespace ?
+    if (sb.getNamespace() != null) {
+        elementNamespace = sb.getNamespace();
     }
     if (sb.getDeclaredNamespaces().size() > 0) {
       for (String namespacePrefix : sb.getDeclaredNamespaces().keySet()) {
@@ -345,13 +341,30 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     firePropertyChange(TreeNodeChangeEvent.addExtension, null, sbase);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.SBase#addNamespace(java.lang.String)
+
+  /**
+   * Sets the XML namespace to which this {@link SBase} belong. 
+   * 
+   * <p>This an internal method that should not be used outside of the main jsbml code
+   * (core + packages). One class should always belong to the same namespace, although the namespaces can
+   * have different level and version (and package version). You have to know what you are doing
+   * when using this method.
+   * 
+   * @param namespace the XML namespace to which this {@link SBase} belong.
    */
-  @Override
-  public void addNamespace(String namespace) {
-    this.usedNamespaces.add(namespace);
-    firePropertyChange(TreeNodeChangeEvent.addNamespace, null, namespace);
+  public void setNamespace(String namespace) {
+
+	  if (elementNamespace != null && (!elementNamespace.equals(namespace))) {
+		  // if we implement proper conversion some days, we need to unset the namespace before changing it.
+		  logger.error(MessageFormat.format("An SBase element cannot belong to two different namespaces ! "
+		  		+ "Current namespace = '{0}', new namespace = '{1}' ", elementNamespace, namespace));
+//		  throw new IllegalArgumentException(MessageFormat.format("An SBase element cannot belong to two different namespaces ! "
+//			  		+ "Current namespace = '{0}', new namespace = '{1}' ", elementNamespace, namespace));
+	  }
+	  String old = elementNamespace;
+	  this.elementNamespace = namespace;
+	  
+    firePropertyChange(TreeNodeChangeEvent.namespace, old, namespace);
   }
 
   /* (non-Javadoc)
@@ -1059,11 +1072,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @see org.sbml.jsbml.SBase#getNamespaces()
    */
   @Override
-  public SortedSet<String> getNamespaces() {
-    // Need to separate the list of name spaces from the extensions.
-    // SBase object directly from the extension need to set their name space.
-
-    return this.usedNamespaces;
+  public String getNamespace() {
+    return elementNamespace;
   }
 
   /**
@@ -1433,24 +1443,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
   }
 
-  /**
-   * 
-   * @param namespace
-   * @return if operation was a success.
-   */
-  public boolean removeNamespace(String namespace) {
-    boolean success = false;
-    if (usedNamespaces.contains(namespace)) {
-      success = usedNamespaces.remove(namespace);
-      if (success) {
-        firePropertyChange(TreeNodeChangeEvent.removeNamespace, namespace, null);
-      }
-    } else {
-      logger.debug("Namespace " + namespace + " not assigned to this element " + toString());
-    }
-    return success;
-  }
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBase#setAnnotation(org.sbml.jsbml.Annotation)
    */
@@ -1775,6 +1767,19 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     if (isSetMetaId()) {
       setMetaId(null);
     }
+  }
+  
+
+  /**
+   * Unsets the namespace that is associated to this {@link SBase}.
+   * 
+   * <p>This is an internal method of JSBML that should be used with caution.
+   */
+  public void unsetNamespace() {
+	  String old = elementNamespace;
+	  
+	  elementNamespace = null;
+      firePropertyChange(TreeNodeChangeEvent.namespace, old, null);
   }
 
   /* (non-Javadoc)
