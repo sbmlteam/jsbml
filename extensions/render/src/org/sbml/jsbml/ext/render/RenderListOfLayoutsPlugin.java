@@ -144,7 +144,7 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
     if (!isSetListOfGlobalRenderInformation()) {
       SBase sBase = getExtendedSBase();
       listOfGlobalRenderInformation = new ListOf<GlobalRenderInformation>(sBase.getLevel(), sBase.getVersion());
-      listOfGlobalRenderInformation.addNamespace(RenderConstants.namespaceURI);
+      listOfGlobalRenderInformation.setNamespace(RenderConstants.namespaceURI);
       listOfGlobalRenderInformation.setSBaseListType(ListOf.Type.other);
       sBase.registerChild(listOfGlobalRenderInformation);
     }
@@ -156,7 +156,7 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
    */
   @Override
   public void initDefaults() {
-//    TODO addNamespace(RenderConstants.namespaceURI);
+//    TODO setNamespace(RenderConstants.namespaceURI);
   }
 
   /**

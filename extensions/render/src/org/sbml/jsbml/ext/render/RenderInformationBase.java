@@ -138,7 +138,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    addNamespace(RenderConstants.namespaceURI);
+    setNamespace(RenderConstants.namespaceURI);
     this.backgroundColor = new Color(0, 0, 0);
     this.programName = null;
     this.programVersion = null;
@@ -333,7 +333,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   public ListOf<ColorDefinition> getListOfColorDefinitions() {
     if (!isSetListOfColorDefinitions()) {
       listOfColorDefinitions = new ListOf<ColorDefinition>(getLevel(), getVersion());
-      listOfColorDefinitions.addNamespace(RenderConstants.namespaceURI);
+      listOfColorDefinitions.setNamespace(RenderConstants.namespaceURI);
       listOfColorDefinitions.setSBaseListType(ListOf.Type.other);
       registerChild(listOfColorDefinitions);
     }
@@ -416,7 +416,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   public ListOf<GradientBase> getListOfGradientDefintions() {
     if (!isSetListOfGradientDefintions()) {
       listOfGradientDefintions = new ListOf<GradientBase>(getLevel(), getVersion());
-      listOfGradientDefintions.addNamespace(RenderConstants.namespaceURI);
+      listOfGradientDefintions.setNamespace(RenderConstants.namespaceURI);
       listOfGradientDefintions.setSBaseListType(ListOf.Type.other);
       registerChild(listOfGradientDefintions);
     }
@@ -552,7 +552,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   public ListOf<LineEnding> getListOfLineEndings() {
     if (!isSetListOfLineEndings()) {
       listOfLineEndings = new ListOf<LineEnding>(getLevel(), getVersion());
-      listOfLineEndings.addNamespace(RenderConstants.namespaceURI);
+      listOfLineEndings.setNamespace(RenderConstants.namespaceURI);
       listOfLineEndings.setSBaseListType(ListOf.Type.other);
       registerChild(listOfLineEndings);
     }

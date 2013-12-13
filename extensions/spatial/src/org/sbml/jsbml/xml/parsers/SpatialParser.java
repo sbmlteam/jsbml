@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.SBasePlugin;
@@ -77,20 +76,6 @@ public class SpatialParser extends AbstractReaderWriter {
 			}
 		} else {
 			listOfElementsToWrite = super.getListOfSBMLElementsToWrite(treeNode);
-		}
-
-		if (treeNode instanceof Model) {
-			String sbmlNamespace = JSBML.getNamespaceFrom(((Model) treeNode).getLevel(), ((Model) treeNode).getVersion());
-			
-			((Model) treeNode).addNamespace(sbmlNamespace);
-			
-			for (Object child : listOfElementsToWrite) {
-				if (child instanceof SBase && ((SBase) child).getNamespaces().size() == 0) {
-					SBase sbase = (SBase) child;
-					logger.debug("Found one suspect Model child: " + sbase.getElementName() + ". Setting the SBML namespace to it.");
-					sbase.addNamespace(sbmlNamespace);
-				}
-			}
 		}
 		
 		return listOfElementsToWrite;

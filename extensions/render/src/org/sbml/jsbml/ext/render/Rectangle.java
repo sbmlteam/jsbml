@@ -702,7 +702,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    */
   @Override
   public void initDefaults() {
-    addNamespace(RenderConstants.namespaceURI);
+    setNamespace(RenderConstants.namespaceURI);
     z = 0d;
     rx = 0d;
     ry = 0d;

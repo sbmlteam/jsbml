@@ -176,7 +176,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    addNamespace(RenderConstants.namespaceURI);
+    setNamespace(RenderConstants.namespaceURI);
     this.roleList = null;
     this.typeList = null;
   }

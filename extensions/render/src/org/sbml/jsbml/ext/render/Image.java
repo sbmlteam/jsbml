@@ -96,7 +96,7 @@ public class Image extends Transformation2D {
 	 */
 	@Override
 	public void initDefaults() {
-		addNamespace(RenderConstants.namespaceURI);
+		setNamespace(RenderConstants.namespaceURI);
 		z = 0d;
 	}
 

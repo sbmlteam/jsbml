@@ -138,7 +138,7 @@ public class Group extends GraphicalPrimitive2D {
 	 */
 	@Override
 	public void initDefaults() {
-		addNamespace(RenderConstants.namespaceURI);
+		setNamespace(RenderConstants.namespaceURI);
 	}
 
 	/* (non-Javadoc)

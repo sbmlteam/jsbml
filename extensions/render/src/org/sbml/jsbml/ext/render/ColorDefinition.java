@@ -140,7 +140,7 @@ public class ColorDefinition extends AbstractNamedSBase {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    addNamespace(RenderConstants.namespaceURI);
+    setNamespace(RenderConstants.namespaceURI);
   }
 
 

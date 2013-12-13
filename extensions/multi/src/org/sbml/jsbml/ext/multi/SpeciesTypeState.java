@@ -263,7 +263,7 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 	public ListOf<StateFeatureInstance> getListOfStateFeatureInstances() {
 		if (listOfStateFeatureInstances == null) {
 			listOfStateFeatureInstances = new ListOf<StateFeatureInstance>();
-			listOfStateFeatureInstances.addNamespace(MultiConstants.namespaceURI);
+			listOfStateFeatureInstances.setNamespace(MultiConstants.namespaceURI);
 			this.registerChild(listOfStateFeatureInstances);
 			listOfStateFeatureInstances.setSBaseListType(ListOf.Type.other);
 		}
@@ -368,7 +368,7 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 	public ListOf<ContainedSpeciesType> getListOfContainedSpeciesTypes() {
 		if (listOfContainedSpeciesTypes == null) {
 			listOfContainedSpeciesTypes = new ListOf<ContainedSpeciesType>();
-			listOfContainedSpeciesTypes.addNamespace(MultiConstants.namespaceURI);
+			listOfContainedSpeciesTypes.setNamespace(MultiConstants.namespaceURI);
 			this.registerChild(listOfContainedSpeciesTypes);
 			listOfContainedSpeciesTypes.setSBaseListType(ListOf.Type.other);
 		}
@@ -463,7 +463,7 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
 	 * 
 	 */
 	public void initDefaults() {
-		addNamespace(MultiConstants.namespaceURI);
+		setNamespace(MultiConstants.namespaceURI);
 	}
 
 	/* (non-Javadoc)

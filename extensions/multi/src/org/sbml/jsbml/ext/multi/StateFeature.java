@@ -77,7 +77,7 @@ public class StateFeature extends AbstractNamedSBase implements UniqueNamedSBase
 	public ListOf<PossibleValue> getListOfPossibleValues() {
 		if (listOfPossibleValues == null) {
 			listOfPossibleValues = new ListOf<PossibleValue>();
-			listOfPossibleValues.addNamespace(MultiConstants.namespaceURI);
+			listOfPossibleValues.setNamespace(MultiConstants.namespaceURI);
 			this.registerChild(listOfPossibleValues);
 			listOfPossibleValues.setSBaseListType(ListOf.Type.other);
 		}
@@ -179,7 +179,7 @@ public class StateFeature extends AbstractNamedSBase implements UniqueNamedSBase
 	 * 
 	 */
 	public void initDefaults() {
-		addNamespace(MultiConstants.namespaceURI);
+		setNamespace(MultiConstants.namespaceURI);
 	}
 
 	/* (non-Javadoc)

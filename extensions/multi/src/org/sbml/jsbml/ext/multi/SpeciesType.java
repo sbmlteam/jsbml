@@ -102,7 +102,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
   public ListOf<StateFeature> getListOfStateFeatures() {
     if (listOfStateFeatures == null) {
       listOfStateFeatures = new ListOf<StateFeature>();
-      listOfStateFeatures.addNamespace(MultiConstants.namespaceURI);
+      listOfStateFeatures.setNamespace(MultiConstants.namespaceURI);
       this.registerChild(listOfStateFeatures);
       listOfStateFeatures.setSBaseListType(ListOf.Type.other);
     }
@@ -225,7 +225,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
    * 
    */
   public void initDefaults() {
-    addNamespace(MultiConstants.namespaceURI);
+    setNamespace(MultiConstants.namespaceURI);
   }
 
   /* (non-Javadoc)

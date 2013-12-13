@@ -165,7 +165,7 @@ public class SpeciesTypeRestrictionReference extends AbstractSBase {
 	 * Initializes the default values using the namespace.
 	 */
 	public void initDefaults() {
-		addNamespace(MultiConstants.namespaceURI);
+		setNamespace(MultiConstants.namespaceURI);
 	}
 
 	public static final int MIN_SBML_LEVEL = 3;

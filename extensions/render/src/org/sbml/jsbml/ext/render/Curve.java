@@ -75,7 +75,7 @@ public class Curve extends GraphicalPrimitive1D {
 	 */
 	@Override
 	public void initDefaults() {
-		addNamespace(RenderConstants.namespaceURI);
+		setNamespace(RenderConstants.namespaceURI);
 	}
 
 	/**
@@ -181,7 +181,7 @@ public class Curve extends GraphicalPrimitive1D {
 	public ListOf<RenderPoint> getListOfElements() {
 		if (!isSetListOfElements()) {
 			listOfElements = new ListOf<RenderPoint>(getLevel(), getVersion());
-			listOfElements.addNamespace(RenderConstants.namespaceURI);
+			listOfElements.setNamespace(RenderConstants.namespaceURI);
 			listOfElements.setSBaseListType(ListOf.Type.other);
 			registerChild(listOfElements);
 		}

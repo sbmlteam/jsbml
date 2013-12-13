@@ -81,7 +81,7 @@ public class Transformation2D extends Transformation {
    */
   @Override
   public void initDefaults() {
-    addNamespace(RenderConstants.namespaceURI);
+    setNamespace(RenderConstants.namespaceURI);
   }
 
   /**

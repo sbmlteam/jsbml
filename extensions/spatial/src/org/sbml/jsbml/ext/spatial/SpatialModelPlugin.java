@@ -23,16 +23,9 @@ package org.sbml.jsbml.ext.spatial;
 import java.text.MessageFormat;
 import java.util.Map;
 
-import javax.swing.tree.TreeNode;
-
-import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.Reaction;
-import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.SpeciesReference;
-import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
 /**
  * @author Alex Thomas
@@ -40,59 +33,9 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  * @since 1.0
  * @date Dec 10, 2013
  */
-public class SpatialModelPlugin extends AbstractSBasePlugin {
+public class SpatialModelPlugin extends AbstractSpatialSBasePlugin {
 
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractTreeNode#getParent()
-   */
-  @Override
-  public SBMLDocument getParent() {
-    return (SBMLDocument) getExtendedSBase().getParent();
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
-   */
-  @Override
-  public SBMLDocument getParentSBMLObject() {
-    return getParent();
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
-   */
-  @Override
-  public String getElementNamespace() {
-    return SpatialConstants.getNamespaceURI(getLevel(), getVersion());
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
-   */
-  @Override
-  public String getPackageName() {
-    return SpatialConstants.packageName;
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
-   */
-  @Override
-  public String getPrefix() {
-    return SpatialConstants.shortLabel;
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
-   */
-  @Override
-  public String getURI() {
-    return getElementNamespace();
-  }
 
   /**
    * Generated serial version ID
@@ -125,7 +68,7 @@ public class SpatialModelPlugin extends AbstractSBasePlugin {
    */
   public Geometry createGeometry() {
     geometry = new Geometry(getLevel(), getVersion());
-    geometry.addNamespace(SpatialConstants.getNamespaceURI(getLevel(), getVersion()));
+    geometry.setNamespace(SpatialConstants.getNamespaceURI(getLevel(), getVersion()));
     getExtendedSBase().registerChild(geometry);
     return geometry;
   }

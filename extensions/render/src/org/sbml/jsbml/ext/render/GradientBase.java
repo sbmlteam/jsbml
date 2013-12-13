@@ -163,7 +163,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    addNamespace(RenderConstants.namespaceURI);
+    setNamespace(RenderConstants.namespaceURI);
     this.spreadMethod = Spread.PAD;
     this.listOfGradientStops = new ListOf<GradientStop>();
   }
@@ -236,7 +236,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
   public ListOf<GradientStop> getListOfGradientStops() {
     if (!isSetListOfGradientStops()) {
       listOfGradientStops = new ListOf<GradientStop>(getLevel(), getVersion());
-      listOfGradientStops.addNamespace(RenderConstants.namespaceURI);
+      listOfGradientStops.setNamespace(RenderConstants.namespaceURI);
       listOfGradientStops.setSBaseListType(ListOf.Type.other);
       registerChild(listOfGradientStops);
     }

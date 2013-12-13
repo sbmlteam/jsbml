@@ -175,7 +175,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
    */
   @Override
   public void initDefaults() {
-    addNamespace(RenderConstants.namespaceURI);
+    setNamespace(RenderConstants.namespaceURI);
   }
 
   /**
