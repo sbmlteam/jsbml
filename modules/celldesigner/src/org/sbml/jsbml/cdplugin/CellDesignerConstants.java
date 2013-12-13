@@ -18,20 +18,22 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.xml.libsbml;
+package org.sbml.jsbml.cdplugin;
+
+import org.sbml.jsbml.xml.libsbml.LibSBMLConstants;
 
 /**
  * @author Andreas Dr&auml;ger
  * @version $Rev$
  * @since 1.0
- * @date 06.11.2013
+ * @date 12.12.2013
  */
-public class LibSBMLConstants {
+public class CellDesignerConstants extends LibSBMLConstants {
 
   /**
    * A key that can be used to store corresponding elements from original models
    * as user objects in JSBML model elements.
    */
-  public static final String LINK_TO_LIBSBML = LibSBMLConstants.class.getName() + ".LINK_TO_LIBSBML";
+  public static final String LINK_TO_CELLDESIGNER = CellDesignerConstants.class.getName() + ".LINK_TO_CELLDESIGNER";
 
 }

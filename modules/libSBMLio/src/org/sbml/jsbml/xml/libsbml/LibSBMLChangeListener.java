@@ -290,10 +290,6 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
     if (prop.equals(TreeNodeChangeEvent.addExtension)) {
       Annotation anno = (Annotation) evtSrc;
       logger.log(Level.DEBUG, MessageFormat.format(CANNOT_CHANGE_ELEMENT, anno.getClass().getSimpleName()));
-    } else if (prop.equals(TreeNodeChangeEvent.addNamespace)) {
-      SBase sbase = (SBase) evt;
-      org.sbml.libsbml.SBase correspondingElement = (org.sbml.libsbml.SBase) sbase.getUserObject(LINK_TO_LIBSBML);
-      correspondingElement.getNamespaces().add((String) evt.getNewValue());
     } else if (prop.equals(TreeNodeChangeEvent.annotation)) {
       SBase sbase = (SBase) evt;
       org.sbml.libsbml.SBase correspondingElement = (org.sbml.libsbml.SBase) sbase.getUserObject(LINK_TO_LIBSBML);

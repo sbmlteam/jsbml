@@ -67,7 +67,7 @@ public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    */
   public Dimensions() {
-    addNamespace(LayoutConstants.namespaceURI);
+    setNamespace(LayoutConstants.namespaceURI);
     depth = height = width = Double.NaN;
   }
 
@@ -80,19 +80,19 @@ public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
     depth = height = width = Double.NaN;
 
     if (dimensions.isSetDepth()) {
-      this.depth = dimensions.getDepth();
+      depth = dimensions.getDepth();
     } else {
-      this.depth = Double.NaN;
+      depth = Double.NaN;
     }
     if (dimensions.isSetHeight()) {
-      this.height = dimensions.getHeight();
+      height = dimensions.getHeight();
     } else {
-      this.height = Double.NaN;
+      height = Double.NaN;
     }
     if (dimensions.isSetWidth()) {
-      this.width = dimensions.getWidth();
+      width = dimensions.getWidth();
     } else {
-      this.width = Double.NaN;
+      width = Double.NaN;
     }
   }
 
@@ -118,7 +118,7 @@ public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public Dimensions(int level, int version) {
     super(level, version);
-    addNamespace(LayoutConstants.namespaceURI);
+    setNamespace(LayoutConstants.namespaceURI);
     depth = height = width = Double.NaN;
   }
 
@@ -130,7 +130,7 @@ public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public Dimensions(String id, int level, int version) {
     super(id, level, version);
-    addNamespace(LayoutConstants.namespaceURI);
+    setNamespace(LayoutConstants.namespaceURI);
     depth = height = width = Double.NaN;
   }
 
