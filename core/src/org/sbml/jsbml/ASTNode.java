@@ -630,7 +630,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return a new {@link ASTNode} of type {@code operator} and adds the given nodes as children.
    */
   private static ASTNode arithmethicOperation(Type operator, ASTNode... ast) {
-	  ArrayList<ASTNode> astList = new ArrayList<ASTNode>();
+    ArrayList<ASTNode> astList = new ArrayList<ASTNode>();
     if (ast != null) {
       for (ASTNode node : ast) {
         if ((node != null)
@@ -2079,7 +2079,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return all global parameters that are referenced by this rate equation.
    */
   public List<Parameter> findReferencedGlobalParameters() {
-	  ArrayList<Parameter> pList = new ArrayList<Parameter>();
+    ArrayList<Parameter> pList = new ArrayList<Parameter>();
     if (getType().equals(ASTNode.Type.NAME)
         && (getVariable() instanceof Parameter)
         && (getParentSBMLObject().getModel().getParameter(
@@ -3673,7 +3673,7 @@ public class ASTNode extends AbstractTreeNode {
   public void setUnits(String unitId) {
     if (!isNumber()) {
       throw new IllegalArgumentException(MessageFormat.format(
-        "Unexpected attribute {0}, only literal numbers can defined a unit.",
+        "Unexpected attribute {0}, a unit can only be assigned to literal numbers.",
         unitId));
     }
     if (parentSBMLObject != null) {

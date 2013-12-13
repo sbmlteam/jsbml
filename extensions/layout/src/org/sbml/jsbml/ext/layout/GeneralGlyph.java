@@ -38,326 +38,327 @@ import org.sbml.jsbml.util.ListOfWithName;
  */
 public class GeneralGlyph extends AbstractReferenceGlyph {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 8770691813350594995L;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 8770691813350594995L;
 
-	/**
-	 * 
-	 */
-	private Curve curve;
-	
-	/**
-	 * 
-	 */
-	private ListOf<ReferenceGlyph> listOfReferenceGlyphs; 
+  /**
+   * 
+   */
+  private Curve curve;
 
-	private ListOf<GraphicalObject> listOfSubGlyphs;
-	
-	
+  /**
+   * 
+   */
+  private ListOf<ReferenceGlyph> listOfReferenceGlyphs;
 
-	/**
-	 * 
-	 */
-	public GeneralGlyph() {
-	  super();
-	}
-
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public GeneralGlyph(int level, int version) {
-		super(level, version);
-	}
-	
-	/**
-	 * 
-	 * @param generalGlyph
-	 */
-	public GeneralGlyph(GeneralGlyph generalGlyph) {
-		super(generalGlyph);
-		if (generalGlyph.isSetCurve()) {
-			this.curve = generalGlyph.getCurve().clone();
-		}
-		if (generalGlyph.isSetListOfReferenceGlyphs()) {
-			this.listOfReferenceGlyphs = generalGlyph
-					.getListOfReferenceGlyphs().clone();
-		}
-		if (generalGlyph.isSetListOfSubGlyphs()) {
-			this.listOfSubGlyphs = generalGlyph.getListOfSubGlyphs().clone();
-		}
-	}
-	
-	/**
-	 * 
-	 * @param id
-	 */
-	public GeneralGlyph(String id) {
-		super(id);
-	}
-	
-	/**
-	 * 
-	 * @param id
-	 * @param level
-	 * @param version
-	 */
-	public GeneralGlyph(String id, int level, int version) {
-		super(id, level, version);
-	}
-
-	
-	/**
-	 * Returns {@code true}, if listOfSubGlyphs contains at least one element.
-	 *
-	 * @return {@code true}, if listOfSubGlyphs contains at least one element, 
-	 *         otherwise {@code false}
-	 */
-	public boolean isSetListOfSubGlyphs() {
-		if ((listOfSubGlyphs == null) || listOfSubGlyphs.isEmpty()) {
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * Returns the listOfSubGlyphs. Creates it if it is not already existing.
-	 *
-	 * @return the listOfSubGlyphs
-	 */
-	public ListOf<GraphicalObject> getListOfSubGlyphs() {
-		if (!isSetListOfSubGlyphs()) {
-			listOfSubGlyphs = new ListOfWithName<GraphicalObject>(getLevel(), getVersion(), LayoutConstants.listOfSubGlyphs);
-			listOfSubGlyphs.addNamespace(LayoutConstants.namespaceURI);
-			listOfSubGlyphs.setSBaseListType(ListOf.Type.other);
-			registerChild(listOfSubGlyphs);
-		}
-		return listOfSubGlyphs;
-	}
-
-	/**
-	 * Sets the given {@code ListOf<GraphicalObject>}. If listOfSubGlyphs
-	 * was defined before and contains some elements, they are all unset.
-	 *
-	 * @param listOfSubGlyphs
-	 */
-	public void setListOfSubGlyphs(ListOf<GraphicalObject> listOfSubGlyphs) 
-	{
-		unsetListOfSubGlyphs();
-		
-		if (listOfSubGlyphs != null) 
-		{
-			this.listOfSubGlyphs = getListOfSubGlyphs(); // initializing a new ListOfWithName with the proper settings
-			this.listOfSubGlyphs.addAll(listOfSubGlyphs);
-			registerChild(this.listOfSubGlyphs);
-		}
-	}
-
-	/**
-	 * Returns {@code true}, if listOfSubGlyphs contain at least one element, 
-	 *         otherwise {@code false}
-	 *
-	 * @return {@code true}, if listOfSubGlyphs contain at least one element, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetListOfSubGlyphs() {
-		if (isSetListOfSubGlyphs()) {
-			ListOf<GraphicalObject> oldSubGlyphs = this.listOfSubGlyphs;
-			this.listOfSubGlyphs = null;
-			oldSubGlyphs.fireNodeRemovedEvent();
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Adds a new {@link GraphicalObject} to the listOfSubGlyphs.
-	 * <p>The listOfSubGlyphs is initialized if necessary.
-	 *
-	 * @param subGlyph the element to add to the list
-	 * @return {@code true} (as specified by {@link Collection.add})
-	 */
-	public boolean addSubGlyph(GraphicalObject subGlyph) {
-		return getListOfSubGlyphs().add(subGlyph);
-	}
-
-	/**
-	 * Removes an element from the listOfSubGlyphs.
-	 *
-	 * @param subGlyph the element to be removed from the list
-	 * @return {@code true} if the list contained the specified element
-	 * @see List#remove(Object)
-	 */
-	public boolean removeSubGlyph(GraphicalObject subGlyph) {
-		if (isSetListOfSubGlyphs()) {
-			return getListOfSubGlyphs().remove(subGlyph);
-		}
-		return false;
-	}
-
-	/**
-	 * Removes an element from the listOfSubGlyphs at the given index.
-	 *
-	 * @param i the index where to remove the {@link SubGlyph}
-	 * @throws IndexOutOfBoundsException if the listOf is not set or
-	 * if the index is out of bound (index < 0 || index > list.size)
-	 */
-	public void removeSubGlyph(int i) {
-		if (!isSetListOfSubGlyphs()) {
-			throw new IndexOutOfBoundsException(Integer.toString(i));
-		}
-		getListOfSubGlyphs().remove(i);
-	}
+  private ListOf<GraphicalObject> listOfSubGlyphs;
 
 
-	/**
-	 * Creates a new {@link SpeciesReferenceGlyph} element and adds it to the ListOfSubGlyphs list
-	 */
-	public SpeciesReferenceGlyph createSpeciesReferenceGlyph() {
-		return createSpeciesReferenceGlyph(null);
-	}
 
-	/**
-	 * Creates a new {@link SpeciesReferenceGlyph} element and adds it to the ListOfSubGlyphs list
-	 *
-	 * @return a new {@link SpeciesReferenceGlyph} element
-	 */
-	public SpeciesReferenceGlyph createSpeciesReferenceGlyph(String id) {
-		SpeciesReferenceGlyph subGlyph = new SpeciesReferenceGlyph(id, getLevel(), getVersion());
-		addSubGlyph(subGlyph);
-		return subGlyph;
-	}
+  /**
+   * 
+   */
+  public GeneralGlyph() {
+    super();
+  }
 
-	/**
-	 * Creates a new {@link TextGlyph} element and adds it to the ListOfSubGlyphs list
-	 */
-	public TextGlyph createTextGlyph() {
-		return createTextGlyph(null);
-	}
+  /**
+   * 
+   * @param level
+   * @param version
+   */
+  public GeneralGlyph(int level, int version) {
+    super(level, version);
+  }
 
-	/**
-	 * Creates a new {@link TextGlyph} element and adds it to the ListOfSubGlyphs list
-	 *
-	 * @return a new {@link TextGlyph} element
-	 */
-	public TextGlyph createTextGlyph(String id) {
-		TextGlyph subGlyph = new TextGlyph(id, getLevel(), getVersion());
-		addSubGlyph(subGlyph);
-		return subGlyph;
-	}
+  /**
+   * 
+   * @param generalGlyph
+   */
+  public GeneralGlyph(GeneralGlyph generalGlyph) {
+    super(generalGlyph);
+    if (generalGlyph.isSetCurve()) {
+      curve = generalGlyph.getCurve().clone();
+    }
+    if (generalGlyph.isSetListOfReferenceGlyphs()) {
+      listOfReferenceGlyphs = generalGlyph
+          .getListOfReferenceGlyphs().clone();
+    }
+    if (generalGlyph.isSetListOfSubGlyphs()) {
+      listOfSubGlyphs = generalGlyph.getListOfSubGlyphs().clone();
+    }
+  }
+
+  /**
+   * 
+   * @param id
+   */
+  public GeneralGlyph(String id) {
+    super(id);
+  }
+
+  /**
+   * 
+   * @param id
+   * @param level
+   * @param version
+   */
+  public GeneralGlyph(String id, int level, int version) {
+    super(id, level, version);
+  }
 
 
-	/**
-	 * Creates a new {@link SpeciesGlyph} element and adds it to the ListOfSubGlyphs list
-	 */
-	public SpeciesGlyph createSpeciesGlyph() {
-		return createSpeciesGlyph(null);
-	}
+  /**
+   * Returns {@code true}, if listOfSubGlyphs contains at least one element.
+   *
+   * @return {@code true}, if listOfSubGlyphs contains at least one element,
+   *         otherwise {@code false}
+   */
+  public boolean isSetListOfSubGlyphs() {
+    if ((listOfSubGlyphs == null) || listOfSubGlyphs.isEmpty()) {
+      return false;
+    }
+    return true;
+  }
 
-	/**
-	 * Creates a new {@link SpeciesGlyph} element and adds it to the ListOfSubGlyphs list
-	 *
-	 * @return a new {@link SpeciesGlyph} element
-	 */
-	public SpeciesGlyph createSpeciesGlyph(String id) {
-		SpeciesGlyph subGlyph = new SpeciesGlyph(id, getLevel(), getVersion());
-		addSubGlyph(subGlyph);
-		return subGlyph;
-	}
+  /**
+   * Returns the listOfSubGlyphs. Creates it if it is not already existing.
+   *
+   * @return the listOfSubGlyphs
+   */
+  public ListOf<GraphicalObject> getListOfSubGlyphs() {
+    if (!isSetListOfSubGlyphs()) {
+      listOfSubGlyphs = new ListOfWithName<GraphicalObject>(getLevel(), getVersion(), LayoutConstants.listOfSubGlyphs);
+      listOfSubGlyphs.setNamespace(LayoutConstants.namespaceURI);
+      listOfSubGlyphs.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfSubGlyphs);
+    }
+    return listOfSubGlyphs;
+  }
 
-	/**
-	 * Creates a new {@link CompartmentGlyph} element and adds it to the ListOfSubGlyphs list
-	 */
-	public CompartmentGlyph createCompartmentGlyph() {
-		return createCompartmentGlyph(null);
-	}
+  /**
+   * Sets the given {@code ListOf<GraphicalObject>}. If listOfSubGlyphs
+   * was defined before and contains some elements, they are all unset.
+   *
+   * @param listOfSubGlyphs
+   */
+  public void setListOfSubGlyphs(ListOf<GraphicalObject> listOfSubGlyphs)
+  {
+    unsetListOfSubGlyphs();
 
-	/**
-	 * Creates a new {@link CompartmentGlyph} element and adds it to the ListOfSubGlyphs list
-	 *
-	 * @return a new {@link CompartmentGlyph} element
-	 */
-	public CompartmentGlyph createCompartmentGlyph(String id) {
-		CompartmentGlyph subGlyph = new CompartmentGlyph(id, getLevel(), getVersion());
-		addSubGlyph(subGlyph);
-		return subGlyph;
-	}
+    if (listOfSubGlyphs != null)
+    {
+      this.listOfSubGlyphs = getListOfSubGlyphs(); // initializing a new ListOfWithName with the proper settings
+      this.listOfSubGlyphs.addAll(listOfSubGlyphs);
+      registerChild(this.listOfSubGlyphs);
+    }
+  }
 
-	/**
-	 * Creates a new {@link ReactionGlyph} element and adds it to the ListOfSubGlyphs list
-	 */
-	public ReactionGlyph createReactionGlyph() {
-		return createReactionGlyph(null);
-	}
+  /**
+   * Returns {@code true}, if listOfSubGlyphs contain at least one element,
+   *         otherwise {@code false}
+   *
+   * @return {@code true}, if listOfSubGlyphs contain at least one element,
+   *         otherwise {@code false}
+   */
+  public boolean unsetListOfSubGlyphs() {
+    if (isSetListOfSubGlyphs()) {
+      ListOf<GraphicalObject> oldSubGlyphs = listOfSubGlyphs;
+      listOfSubGlyphs = null;
+      oldSubGlyphs.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Creates a new {@link ReactionGlyph} element and adds it to the ListOfSubGlyphs list
-	 *
-	 * @return a new {@link ReactionGlyph} element
-	 */
-	public ReactionGlyph createReactionGlyph(String id) {
-		ReactionGlyph subGlyph = new ReactionGlyph(id, getLevel(), getVersion());
-		addSubGlyph(subGlyph);
-		return subGlyph;
-	}
+  /**
+   * Adds a new {@link GraphicalObject} to the listOfSubGlyphs.
+   * <p>The listOfSubGlyphs is initialized if necessary.
+   *
+   * @param subGlyph the element to add to the list
+   * @return {@code true} (as specified by {@link Collection.add})
+   */
+  public boolean addSubGlyph(GraphicalObject subGlyph) {
+    return getListOfSubGlyphs().add(subGlyph);
+  }
 
-	/**
-	 * Creates a new {@link GraphicalObject} element and adds it to the ListOfSubGlyphs list
-	 */
-	public GraphicalObject createGraphicalObject() {
-		return createGraphicalObject(null);
-	}
+  /**
+   * Removes an element from the listOfSubGlyphs.
+   *
+   * @param subGlyph the element to be removed from the list
+   * @return {@code true} if the list contained the specified element
+   * @see List#remove(Object)
+   */
+  public boolean removeSubGlyph(GraphicalObject subGlyph) {
+    if (isSetListOfSubGlyphs()) {
+      return getListOfSubGlyphs().remove(subGlyph);
+    }
+    return false;
+  }
 
-	/**
-	 * Creates a new {@link GraphicalObject} element and adds it to the ListOfSubGlyphs list
-	 *
-	 * @return a new {@link GraphicalObject} element
-	 */
-	public GraphicalObject createGraphicalObject(String id) {
-		GraphicalObject subGlyph = new GraphicalObject(id, getLevel(), getVersion());
-		addSubGlyph(subGlyph);
-		return subGlyph;
-	}
+  /**
+   * Removes an element from the listOfSubGlyphs at the given index.
+   *
+   * @param i the index where to remove the {@link SubGlyph}
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size)
+   */
+  public void removeSubGlyph(int i) {
+    if (!isSetListOfSubGlyphs()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    getListOfSubGlyphs().remove(i);
+  }
 
-	
-	/**
-	 * Appends the specified element to the end of the
-	 * {@link #listOfReferenceGlyphs}.
-	 * 
-	 * @param glyph
-	 * @return {@code true} (as specified by {@link Collection#add(E)})
-	 * @throws NullPointerException
-	 *             if the specified element is null and this list does not
-	 *             permit null elements
-	 * @throws IllegalArgumentException
-	 *             if some property of this element prevents it from being added
-	 *             to this list
-	 */
-	public boolean addSpeciesReferenceGlyph(ReferenceGlyph glyph) {
-		return getListOfReferenceGlyphs().add(glyph);
-	}
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
-	 */
-	public GeneralGlyph clone() {
-		return new GeneralGlyph(this);
-	}
+  /**
+   * Creates a new {@link SpeciesReferenceGlyph} element and adds it to the ListOfSubGlyphs list
+   */
+  public SpeciesReferenceGlyph createSpeciesReferenceGlyph() {
+    return createSpeciesReferenceGlyph(null);
+  }
 
-	/**
-	 * Creates and adds a new {@link ReferenceGlyph}
-	 * @param id the identifier for the {@link ReferenceGlyph} to be created.
-	 * @return a new {@link ReferenceGlyph}.
-	 */
-	public ReferenceGlyph createReferenceGlyph(String id) {
-		ReferenceGlyph glyph = new ReferenceGlyph(id, getLevel(), getVersion());
-		addSpeciesReferenceGlyph(glyph);
-		return glyph;
-	}
-	
+  /**
+   * Creates a new {@link SpeciesReferenceGlyph} element and adds it to the ListOfSubGlyphs list
+   *
+   * @return a new {@link SpeciesReferenceGlyph} element
+   */
+  public SpeciesReferenceGlyph createSpeciesReferenceGlyph(String id) {
+    SpeciesReferenceGlyph subGlyph = new SpeciesReferenceGlyph(id, getLevel(), getVersion());
+    addSubGlyph(subGlyph);
+    return subGlyph;
+  }
+
+  /**
+   * Creates a new {@link TextGlyph} element and adds it to the ListOfSubGlyphs list
+   */
+  public TextGlyph createTextGlyph() {
+    return createTextGlyph(null);
+  }
+
+  /**
+   * Creates a new {@link TextGlyph} element and adds it to the ListOfSubGlyphs list
+   *
+   * @return a new {@link TextGlyph} element
+   */
+  public TextGlyph createTextGlyph(String id) {
+    TextGlyph subGlyph = new TextGlyph(id, getLevel(), getVersion());
+    addSubGlyph(subGlyph);
+    return subGlyph;
+  }
+
+
+  /**
+   * Creates a new {@link SpeciesGlyph} element and adds it to the ListOfSubGlyphs list
+   */
+  public SpeciesGlyph createSpeciesGlyph() {
+    return createSpeciesGlyph(null);
+  }
+
+  /**
+   * Creates a new {@link SpeciesGlyph} element and adds it to the ListOfSubGlyphs list
+   *
+   * @return a new {@link SpeciesGlyph} element
+   */
+  public SpeciesGlyph createSpeciesGlyph(String id) {
+    SpeciesGlyph subGlyph = new SpeciesGlyph(id, getLevel(), getVersion());
+    addSubGlyph(subGlyph);
+    return subGlyph;
+  }
+
+  /**
+   * Creates a new {@link CompartmentGlyph} element and adds it to the ListOfSubGlyphs list
+   */
+  public CompartmentGlyph createCompartmentGlyph() {
+    return createCompartmentGlyph(null);
+  }
+
+  /**
+   * Creates a new {@link CompartmentGlyph} element and adds it to the ListOfSubGlyphs list
+   *
+   * @return a new {@link CompartmentGlyph} element
+   */
+  public CompartmentGlyph createCompartmentGlyph(String id) {
+    CompartmentGlyph subGlyph = new CompartmentGlyph(id, getLevel(), getVersion());
+    addSubGlyph(subGlyph);
+    return subGlyph;
+  }
+
+  /**
+   * Creates a new {@link ReactionGlyph} element and adds it to the ListOfSubGlyphs list
+   */
+  public ReactionGlyph createReactionGlyph() {
+    return createReactionGlyph(null);
+  }
+
+  /**
+   * Creates a new {@link ReactionGlyph} element and adds it to the ListOfSubGlyphs list
+   *
+   * @return a new {@link ReactionGlyph} element
+   */
+  public ReactionGlyph createReactionGlyph(String id) {
+    ReactionGlyph subGlyph = new ReactionGlyph(id, getLevel(), getVersion());
+    addSubGlyph(subGlyph);
+    return subGlyph;
+  }
+
+  /**
+   * Creates a new {@link GraphicalObject} element and adds it to the ListOfSubGlyphs list
+   */
+  public GraphicalObject createGraphicalObject() {
+    return createGraphicalObject(null);
+  }
+
+  /**
+   * Creates a new {@link GraphicalObject} element and adds it to the ListOfSubGlyphs list
+   *
+   * @return a new {@link GraphicalObject} element
+   */
+  public GraphicalObject createGraphicalObject(String id) {
+    GraphicalObject subGlyph = new GraphicalObject(id, getLevel(), getVersion());
+    addSubGlyph(subGlyph);
+    return subGlyph;
+  }
+
+
+  /**
+   * Appends the specified element to the end of the
+   * {@link #listOfReferenceGlyphs}.
+   * 
+   * @param glyph
+   * @return {@code true} (as specified by {@link Collection#add(E)})
+   * @throws NullPointerException
+   *             if the specified element is null and this list does not
+   *             permit null elements
+   * @throws IllegalArgumentException
+   *             if some property of this element prevents it from being added
+   *             to this list
+   */
+  public boolean addSpeciesReferenceGlyph(ReferenceGlyph glyph) {
+    return getListOfReferenceGlyphs().add(glyph);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
+   */
+  @Override
+  public GeneralGlyph clone() {
+    return new GeneralGlyph(this);
+  }
+
+  /**
+   * Creates and adds a new {@link ReferenceGlyph}
+   * @param id the identifier for the {@link ReferenceGlyph} to be created.
+   * @return a new {@link ReferenceGlyph}.
+   */
+  public ReferenceGlyph createReferenceGlyph(String id) {
+    ReferenceGlyph glyph = new ReferenceGlyph(id, getLevel(), getVersion());
+    addSpeciesReferenceGlyph(glyph);
+    return glyph;
+  }
+
   /**
    * Creates and adds a new {@link ReferenceGlyph}
    * 
@@ -396,87 +397,87 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
   }
 
   /* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildAt(int)
-	 */
-	@Override
-	public TreeNode getChildAt(int index) {
-		if (index < 0) {
-			throw new IndexOutOfBoundsException(Integer.toString(index));
-		}
-		int count = super.getChildCount(), pos = 0;
-		if (index < count) {
-			return super.getChildAt(index);
-		} else {
-			index -= count;
-		}
-		if (isSetListOfSubGlyphs()) {
-			if (pos == index) {
-				return getListOfSubGlyphs();
-			}
-			pos++;
-		}
-		if (isSetListOfReferenceGlyphs()) {
-			if (pos == index) {
-				return getListOfReferenceGlyphs();
-			}
-			pos++;
-		}
-		if (isSetCurve()) {
-			if (pos == index) {
-				return getCurve();
-			}
-			pos++;
-		}
-		throw new IndexOutOfBoundsException(MessageFormat.format(
-		  "Index {0,number,integer} >= {1,number,integer}",
-			index, +((int) Math.min(pos, 0))));
-	}
-  
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildCount()
-	 */
-	@Override
-	public int getChildCount() {
-		int count = super.getChildCount();
-		if (isSetCurve()) {
-			count++;
-		}
-		if (isSetListOfReferenceGlyphs()) {
-			count++;
-		}
-		if (isSetListOfSubGlyphs()) {
-			count++;
-		}
-		
-		return count;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public Curve getCurve() {
-		return curve;
-	}
+   * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildAt(int)
+   */
+  @Override
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(Integer.toString(index));
+    }
+    int count = super.getChildCount(), pos = 0;
+    if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
+    }
+    if (isSetListOfSubGlyphs()) {
+      if (pos == index) {
+        return getListOfSubGlyphs();
+      }
+      pos++;
+    }
+    if (isSetListOfReferenceGlyphs()) {
+      if (pos == index) {
+        return getListOfReferenceGlyphs();
+      }
+      pos++;
+    }
+    if (isSetCurve()) {
+      if (pos == index) {
+        return getCurve();
+      }
+      pos++;
+    }
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}",
+      index, +Math.min(pos, 0)));
+  }
 
-	/**
-	 * If the {@link #listOfReferenceGlyphs} has not yet been initialized, this
-	 * will be done by this method.
-	 * 
-	 * @return the {@link #listOfReferenceGlyphs}
-	 */
-	public ListOf<ReferenceGlyph> getListOfReferenceGlyphs() {
-		if (!isSetListOfReferenceGlyphs()) {
-			listOfReferenceGlyphs = new ListOf<ReferenceGlyph>();
-			listOfReferenceGlyphs.addNamespace(LayoutConstants.namespaceURI);
-			listOfReferenceGlyphs.setSBaseListType(ListOf.Type.other);
-			registerChild(listOfReferenceGlyphs);
-		}
-		return listOfReferenceGlyphs;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.GraphicalObject#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    int count = super.getChildCount();
+    if (isSetCurve()) {
+      count++;
+    }
+    if (isSetListOfReferenceGlyphs()) {
+      count++;
+    }
+    if (isSetListOfSubGlyphs()) {
+      count++;
+    }
 
-	
-	/* (non-Javadoc)
+    return count;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public Curve getCurve() {
+    return curve;
+  }
+
+  /**
+   * If the {@link #listOfReferenceGlyphs} has not yet been initialized, this
+   * will be done by this method.
+   * 
+   * @return the {@link #listOfReferenceGlyphs}
+   */
+  public ListOf<ReferenceGlyph> getListOfReferenceGlyphs() {
+    if (!isSetListOfReferenceGlyphs()) {
+      listOfReferenceGlyphs = new ListOf<ReferenceGlyph>();
+      listOfReferenceGlyphs.setNamespace(LayoutConstants.namespaceURI);
+      listOfReferenceGlyphs.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfReferenceGlyphs);
+    }
+    return listOfReferenceGlyphs;
+  }
+
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#hashCode()
    */
   @Override
@@ -490,111 +491,111 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
       hashCode += prime * getListOfReferenceGlyphs().hashCode();
     }
     if (isSetListOfSubGlyphs()) {
-        hashCode += prime * getListOfSubGlyphs().hashCode();
-      }
+      hashCode += prime * getListOfSubGlyphs().hashCode();
+    }
 
     return hashCode;
   }
-	
-	/**
-	 * @return
-	 */
-	public boolean isSetCurve() {
-		return curve != null;
-	}
 
-	/**
-	 * @return
-	 */
-	public boolean isSetListOfReferenceGlyphs() {
-		return listOfReferenceGlyphs != null;
-	}
+  /**
+   * @return
+   */
+  public boolean isSetCurve() {
+    return curve != null;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
+  /**
+   * @return
+   */
+  public boolean isSetListOfReferenceGlyphs() {
+    return listOfReferenceGlyphs != null;
+  }
 
-		if (!isAttributeRead) {
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix,
+    String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+      value);
 
-			isAttributeRead = true;			
-			if (attributeName.equals(LayoutConstants.reference)) {				
-				setReference(value);
-			} else {
-				return false;
-			}
-		}
+    if (!isAttributeRead) {
 
-		return isAttributeRead;
-	}
+      isAttributeRead = true;
+      if (attributeName.equals(LayoutConstants.reference)) {
+        setReference(value);
+      } else {
+        return false;
+      }
+    }
 
-	/**
-	 * 
-	 * @param curve
-	 */
-	public void setCurve(Curve curve) {
-		if (this.curve != null) {
-			Curve oldValue = this.curve;
-			this.curve = null;
-			oldValue.fireNodeRemovedEvent();
-		}
-		this.curve = curve;
-		registerChild(this.curve);
-	}
+    return isAttributeRead;
+  }
 
-	/**
-	 * 
-	 * @param listOfReferenceGlyph
-	 */
-	public void setListOfSpeciesReferencesGlyph(ListOf<ReferenceGlyph> listOfReferenceGlyph) 
-	{
-		unsetListOfSpeciesReferencesGlyph();
-		this.listOfReferenceGlyphs = listOfReferenceGlyph;
-		
-		if (listOfReferenceGlyph != null)
-		{
-			listOfReferenceGlyph.setSBaseListType(ListOf.Type.other);
-		}
-		
-		registerChild(this.listOfReferenceGlyphs);
-	}
-	
-	
-	/**
-	 * 
-	 */
-	private void unsetListOfSpeciesReferencesGlyph() {
-		if (this.listOfReferenceGlyphs != null) {
-			ListOf<ReferenceGlyph> oldValue = this.listOfReferenceGlyphs;
-			this.listOfReferenceGlyphs = null;
-			oldValue.fireNodeRemovedEvent();
-		}
-	}
+  /**
+   * 
+   * @param curve
+   */
+  public void setCurve(Curve curve) {
+    if (this.curve != null) {
+      Curve oldValue = this.curve;
+      this.curve = null;
+      oldValue.fireNodeRemovedEvent();
+    }
+    this.curve = curve;
+    registerChild(this.curve);
+  }
 
-	/**
-	 * 
-	 */
-	public void unsetReaction() {
-		unsetReference();
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()
-	 */
-	@Override
-	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
-		
-		if (isSetReference()) {
-			attributes.put(LayoutConstants.shortLabel + ':'
-					+ LayoutConstants.reference, getReference());
-		}
+  /**
+   * 
+   * @param listOfReferenceGlyph
+   */
+  public void setListOfSpeciesReferencesGlyph(ListOf<ReferenceGlyph> listOfReferenceGlyph)
+  {
+    unsetListOfSpeciesReferencesGlyph();
+    listOfReferenceGlyphs = listOfReferenceGlyph;
 
-		return attributes;
-	}
+    if (listOfReferenceGlyph != null)
+    {
+      listOfReferenceGlyph.setSBaseListType(ListOf.Type.other);
+    }
+
+    registerChild(listOfReferenceGlyphs);
+  }
+
+
+  /**
+   * 
+   */
+  private void unsetListOfSpeciesReferencesGlyph() {
+    if (listOfReferenceGlyphs != null) {
+      ListOf<ReferenceGlyph> oldValue = listOfReferenceGlyphs;
+      listOfReferenceGlyphs = null;
+      oldValue.fireNodeRemovedEvent();
+    }
+  }
+
+  /**
+   * 
+   */
+  public void unsetReaction() {
+    unsetReference();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (isSetReference()) {
+      attributes.put(LayoutConstants.shortLabel + ':'
+        + LayoutConstants.reference, getReference());
+    }
+
+    return attributes;
+  }
 
 }

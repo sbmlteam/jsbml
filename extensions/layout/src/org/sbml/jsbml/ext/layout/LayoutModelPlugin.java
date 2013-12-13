@@ -122,7 +122,7 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
    */
   private ListOf<Layout> createListOfLayout() {
     listOfLayouts = new ListOf<Layout>();
-    listOfLayouts.addNamespace(LayoutConstants.namespaceURI);
+    listOfLayouts.setNamespace(LayoutConstants.namespaceURI);
     listOfLayouts.setSBaseListType(ListOf.Type.other);
     getExtendedSBase().registerChild(listOfLayouts);
 

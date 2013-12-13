@@ -69,7 +69,7 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public Point() {
     super();
-    addNamespace(LayoutConstants.namespaceURI);
+    setNamespace(LayoutConstants.namespaceURI);
     x = y = z = Double.NaN;
   }
 
@@ -83,7 +83,7 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
     this();
     this.x = x;
     this.y = y;
-    this.z = Double.NaN;
+    z = Double.NaN;
   }
 
   /**
@@ -121,7 +121,7 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public Point(int level, int version) {
     super(level, version);
-    addNamespace(LayoutConstants.namespaceURI);
+    setNamespace(LayoutConstants.namespaceURI);
     x = y = z = Double.NaN;
   }
 

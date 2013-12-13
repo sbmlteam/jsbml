@@ -77,10 +77,10 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   public ReactionGlyph(ReactionGlyph reactionGlyph) {
     super(reactionGlyph);
     if (reactionGlyph.isSetCurve()) {
-      this.curve = reactionGlyph.getCurve().clone();
+      curve = reactionGlyph.getCurve().clone();
     }
     if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
-      this.listOfSpeciesReferencesGlyph = reactionGlyph
+      listOfSpeciesReferencesGlyph = reactionGlyph
           .getListOfSpeciesReferenceGlyphs().clone();
     }
   }
@@ -123,6 +123,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
    */
+  @Override
   public ReactionGlyph clone() {
     return new ReactionGlyph(this);
   }
@@ -202,7 +203,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}",
-      index, +((int) Math.min(pos, 0))));
+      index, +Math.min(pos, 0)));
   }
 
   /* (non-Javadoc)
@@ -237,7 +238,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   public ListOf<SpeciesReferenceGlyph> getListOfSpeciesReferenceGlyphs() {
     if (!isSetListOfSpeciesReferencesGlyphs()) {
       listOfSpeciesReferencesGlyph = new ListOf<SpeciesReferenceGlyph>();
-      listOfSpeciesReferencesGlyph.addNamespace(LayoutConstants.namespaceURI);
+      listOfSpeciesReferencesGlyph.setNamespace(LayoutConstants.namespaceURI);
       listOfSpeciesReferencesGlyph.setSBaseListType(ListOf.Type.other);
       registerChild(listOfSpeciesReferencesGlyph);
     }
@@ -319,8 +320,8 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
 
     if (!isAttributeRead) {
 
-      isAttributeRead = true;			
-      if (attributeName.equals("reaction")) {				
+      isAttributeRead = true;
+      if (attributeName.equals("reaction")) {
         setReaction(value);
       } else {
         return false;
@@ -375,9 +376,9 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
    * 
    */
   private void unsetListOfSpeciesReferencesGlyph() {
-    if (this.listOfSpeciesReferencesGlyph != null) {
-      ListOf<SpeciesReferenceGlyph> oldValue = this.listOfSpeciesReferencesGlyph;
-      this.listOfSpeciesReferencesGlyph = null;
+    if (listOfSpeciesReferencesGlyph != null) {
+      ListOf<SpeciesReferenceGlyph> oldValue = listOfSpeciesReferencesGlyph;
+      listOfSpeciesReferencesGlyph = null;
       oldValue.fireNodeRemovedEvent();
     }
   }

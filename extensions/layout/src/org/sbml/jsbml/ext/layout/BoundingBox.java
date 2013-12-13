@@ -77,10 +77,10 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
   public BoundingBox(BoundingBox boundingBox) {
     super(boundingBox);
     if (boundingBox.isSetDimensions()) {
-      this.dimensions = boundingBox.getDimensions().clone();
+      dimensions = boundingBox.getDimensions().clone();
     }
     if (boundingBox.isSetPosition()) {
-      this.position = boundingBox.getPosition().clone();
+      position = boundingBox.getPosition().clone();
     }
   }
 
@@ -282,7 +282,7 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
    * 
    */
   private void init() {
-    addNamespace(LayoutConstants.namespaceURI);
+    setNamespace(LayoutConstants.namespaceURI);
   }
 
   /* (non-Javadoc)
@@ -327,16 +327,16 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
    * @param point
    */
   public void setPosition(Point point) {
-    Point oldValue = this.position;
-    this.position = point;
+    Point oldValue = position;
+    position = point;
     if (oldValue != null) {
       oldValue.fireNodeRemovedEvent();
     }
-    if (this.position != null) {
-      if (! (this.position instanceof Position)) {
-        this.position = new Position(this.position);
+    if (position != null) {
+      if (! (position instanceof Position)) {
+        position = new Position(position);
       }
-      this.position.fireNodeAddedEvent();
+      position.fireNodeAddedEvent();
     }
   }
 

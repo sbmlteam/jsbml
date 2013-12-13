@@ -35,145 +35,145 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  */
 public abstract class CurveSegment extends AbstractNamedSBase {
 
-	public enum Type
-	{
-		CUBIC_BEZIER("CubicBezier"), 
-		LINE_SEGMENT("LineSegment");
-		
-		public static Type fromString(String value)
-		{
-			if (value == null)
-			{
-				throw new IllegalArgumentException();
-			}
-			
-			for(Type v : values())
-			{
-				if(value.equalsIgnoreCase(v.getXmlString()))
-				{
-					return v;
-				}
-			}
-			throw new IllegalArgumentException();
+  public enum Type
+  {
+    CUBIC_BEZIER("CubicBezier"),
+    LINE_SEGMENT("LineSegment");
 
-		}
-		
-		private final String xmlString;
+    public static Type fromString(String value)
+    {
+      if (value == null)
+      {
+        throw new IllegalArgumentException();
+      }
 
-		private Type(String xmlString)
-		{
-			this.xmlString = xmlString;
-		}
-		
-		/**
-		 * Returns the xmlString
-		 *
-		 * @return the xmlString
-		 */
-		public String getXmlString() {
-			return xmlString;
-		}
-		
-		@Override
-		public String toString() {
-			return xmlString;
-		}
-	}
+      for(Type v : values())
+      {
+        if(value.equalsIgnoreCase(v.getXmlString()))
+        {
+          return v;
+        }
+      }
+      throw new IllegalArgumentException();
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -5085246314333062152L;
+    }
 
-	/**
-	 * 
-	 */
-	private Logger logger = Logger.getLogger(CurveSegment.class);
+    private final String xmlString;
 
-	/**
-	 * 
-	 */
-	private Type type;
+    private Type(String xmlString)
+    {
+      this.xmlString = xmlString;
+    }
 
-	
-	
-	/**
-	 * 
-	 */
-	public CurveSegment() {
-	  super();
-	  initDefaults();
-	}
+    /**
+     * Returns the xmlString
+     *
+     * @return the xmlString
+     */
+    public String getXmlString() {
+      return xmlString;
+    }
+
+    @Override
+    public String toString() {
+      return xmlString;
+    }
+  }
 
   /**
-	 * 
-	 * @param curveSegment
-	 */
-	public CurveSegment(CurveSegment curveSegment) {
-		super(curveSegment);
-
-		if (curveSegment.isSetType()) {
-			setType(curveSegment.getType());
-		}
-	}
-
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public CurveSegment(int level, int version) {
-		super(level, version);
-		initDefaults();
-	}
-
-
-	/**
-	 * Creates, sets and returns an empty {@link Point}.
-	 *
-	 * @return a new {@link Point} object.
-	 */
-	abstract public Point createEnd();
-
-	/**
-	 * Creates, sets and returns a {@link Point} based on the
-	 * given values.
-	 * 
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return a new {@link Point} object.
-	 */
-	abstract public Point createEnd(double x, double y, double z);
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -5085246314333062152L;
 
   /**
-	 * Creates, sets and returns an empty {@link Point}.
-	 *
-	 * @return a new {@link Point} object.
-	 */
-	abstract public Point createStart();
+   * 
+   */
+  private Logger logger = Logger.getLogger(CurveSegment.class);
+
+  /**
+   * 
+   */
+  private Type type;
 
 
-	/**
-	 * Creates, sets and returns a {@link Point} based on the
-	 * given values.
-	 * 
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return a new {@link Point} object.
-	 */
-	abstract public Point createStart(double x, double y, double z);
+
+  /**
+   * 
+   */
+  public CurveSegment() {
+    super();
+    initDefaults();
+  }
+
+  /**
+   * 
+   * @param curveSegment
+   */
+  public CurveSegment(CurveSegment curveSegment) {
+    super(curveSegment);
+
+    if (curveSegment.isSetType()) {
+      setType(curveSegment.getType());
+    }
+  }
+
+  /**
+   * 
+   * @param level
+   * @param version
+   */
+  public CurveSegment(int level, int version) {
+    super(level, version);
+    initDefaults();
+  }
 
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object object) {
-		boolean equals = super.equals(object);
-		if (equals) {
-			CurveSegment curveSegment = (CurveSegment) object;
+  /**
+   * Creates, sets and returns an empty {@link Point}.
+   *
+   * @return a new {@link Point} object.
+   */
+  abstract public Point createEnd();
+
+  /**
+   * Creates, sets and returns a {@link Point} based on the
+   * given values.
+   * 
+   * @param x
+   * @param y
+   * @param z
+   * @return a new {@link Point} object.
+   */
+  abstract public Point createEnd(double x, double y, double z);
+
+  /**
+   * Creates, sets and returns an empty {@link Point}.
+   *
+   * @return a new {@link Point} object.
+   */
+  abstract public Point createStart();
+
+
+  /**
+   * Creates, sets and returns a {@link Point} based on the
+   * given values.
+   * 
+   * @param x
+   * @param y
+   * @param z
+   * @return a new {@link Point} object.
+   */
+  abstract public Point createStart(double x, double y, double z);
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    boolean equals = super.equals(object);
+    if (equals) {
+      CurveSegment curveSegment = (CurveSegment) object;
       equals &= curveSegment.isSetType() == isSetType();
       if (equals && isSetType()) {
         equals &= curveSegment.getType().equals(getType());
@@ -182,29 +182,29 @@ public abstract class CurveSegment extends AbstractNamedSBase {
     return equals;
   }
 
-	/**
-	 * Returns the {@code End} {@link Point} of this {@link CurveSegment}.
-	 * 
-	 * @return the {@code End} {@link Point} of this {@link CurveSegment}.
-	 */
-	abstract public Point getEnd();
-	
-	/**
-	 * Returns the {@code Start} {@link Point} of this {@link CurveSegment}.
-	 * 
-	 * @return the {@code Start} {@link Point} of this {@link CurveSegment}.
-	 */
-	abstract public Point getStart();
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public Type getType() {
-		return type;
-	}
+  /**
+   * Returns the {@code End} {@link Point} of this {@link CurveSegment}.
+   * 
+   * @return the {@code End} {@link Point} of this {@link CurveSegment}.
+   */
+  abstract public Point getEnd();
 
-	/* (non-Javadoc)
+  /**
+   * Returns the {@code Start} {@link Point} of this {@link CurveSegment}.
+   * 
+   * @return the {@code Start} {@link Point} of this {@link CurveSegment}.
+   */
+  abstract public Point getStart();
+
+  /**
+   * 
+   * @return
+   */
+  public Type getType() {
+    return type;
+  }
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#hashCode()
    */
   @Override
@@ -217,134 +217,135 @@ public abstract class CurveSegment extends AbstractNamedSBase {
     return hashCode;
   }
 
-	/**
-	 * 
-	 */
-	private void initDefaults() {
-	  addNamespace(LayoutConstants.namespaceURI);
+  /**
+   * 
+   */
+  private void initDefaults() {
+    setNamespace(LayoutConstants.namespaceURI);
   }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isCubicBezier() {
-		return type != null && type.equals(Type.CUBIC_BEZIER);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
-	 */
-	public boolean isIdMandatory() {
-		return false;
-	}
+  /**
+   * 
+   * @return
+   */
+  public boolean isCubicBezier() {
+    return type != null && type.equals(Type.CUBIC_BEZIER);
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isLineSegment() {
-		return type != null && type.equals(Type.LINE_SEGMENT);
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  @Override
+  public boolean isIdMandatory() {
+    return false;
+  }
 
-	/**
-	 * Returns {@code true} if the {@code End} {@link Point} is set.
-	 * 
-	 * @return {@code true} if the {@code End} {@link Point} is set.
-	 */
-	abstract public boolean isSetEnd();
+  /**
+   * 
+   * @return
+   */
+  public boolean isLineSegment() {
+    return type != null && type.equals(Type.LINE_SEGMENT);
+  }
 
-	/**
-	 * Returns {@code true} if the {@code Start} {@link Point} is set.
-	 * 
-	 * @return {@code true} if the {@code Start} {@link Point} is set.
-	 */
-	abstract public boolean isSetStart();
+  /**
+   * Returns {@code true} if the {@code End} {@link Point} is set.
+   * 
+   * @return {@code true} if the {@code End} {@link Point} is set.
+   */
+  abstract public boolean isSetEnd();
 
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isSetType() {
-		return type != null;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractMathContainer#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
-		logger.debug("reading CurveSegmentImpl: " + prefix + ":" + attributeName);
+  /**
+   * Returns {@code true} if the {@code Start} {@link Point} is set.
+   * 
+   * @return {@code true} if the {@code Start} {@link Point} is set.
+   */
+  abstract public boolean isSetStart();
 
-		if (!isAttributeRead) {
-			
-			if (attributeName.equals("type")) {
-				try 
-				{
-					setType(Type.fromString(value));
-				}
-				catch (Exception e) 
-				{
-					throw new SBMLException("Could not recognized the value '" + value
-							+ "' for the attribute " + LayoutConstants.type
-							+ " on the 'curveSegment' element.");
-				}
-				return true;
-			}
-		}
 
-		return isAttributeRead;
-	}
-	
-	/**
-	 * Sets the {@code End} {@link Point} of this {@link CurveSegment}.
-	 * 
-	 * @param start the {@code End} {@link Point} to set
-	 */
-	abstract public void setEnd(Point end);
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetType() {
+    return type != null;
+  }
 
-	/**
-	 * Sets the {@code Start} {@link Point} of this {@link CurveSegment}.
-	 * 
-	 * @param start the {@code Start} {@link Point} to set
-	 */
-	abstract public void setStart(Point start);
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractMathContainer#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix,
+    String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+      value);
+    logger.debug("reading CurveSegmentImpl: " + prefix + ":" + attributeName);
 
-	/**
-	 * 
-	 * @param type
-	 */
-	void setType(Type type) 
-	{
-		Type oldType = this.type;
-		this.type = type;
-		firePropertyChange(TreeNodeChangeEvent.type, oldType, this.type);
-	}
+    if (!isAttributeRead) {
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
-	 */
-	@Override
-	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
-		
-		if (logger.isDebugEnabled())
-		{
-			logger.debug("process attributes of CurveSegmentImpl");
-			logger.debug("isSetType: " + isSetType());
-			logger.debug("Type = " + type);
-		}
-		
-		if (isSetType()) {
-			attributes.put(LayoutConstants.xsiShortLabel + ":type", getType().toString());
-		}
-		
-		return attributes;
-	}
-	
-	
+      if (attributeName.equals("type")) {
+        try
+        {
+          setType(Type.fromString(value));
+        }
+        catch (Exception e)
+        {
+          throw new SBMLException("Could not recognized the value '" + value
+            + "' for the attribute " + LayoutConstants.type
+            + " on the 'curveSegment' element.");
+        }
+        return true;
+      }
+    }
+
+    return isAttributeRead;
+  }
+
+  /**
+   * Sets the {@code End} {@link Point} of this {@link CurveSegment}.
+   * 
+   * @param start the {@code End} {@link Point} to set
+   */
+  abstract public void setEnd(Point end);
+
+  /**
+   * Sets the {@code Start} {@link Point} of this {@link CurveSegment}.
+   * 
+   * @param start the {@code Start} {@link Point} to set
+   */
+  abstract public void setStart(Point start);
+
+  /**
+   * 
+   * @param type
+   */
+  void setType(Type type)
+  {
+    Type oldType = this.type;
+    this.type = type;
+    firePropertyChange(TreeNodeChangeEvent.type, oldType, this.type);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (logger.isDebugEnabled())
+    {
+      logger.debug("process attributes of CurveSegmentImpl");
+      logger.debug("isSetType: " + isSetType());
+      logger.debug("Type = " + type);
+    }
+
+    if (isSetType()) {
+      attributes.put(LayoutConstants.xsiShortLabel + ":type", getType().toString());
+    }
+
+    return attributes;
+  }
+
+
 }

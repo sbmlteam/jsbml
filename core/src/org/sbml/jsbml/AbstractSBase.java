@@ -238,14 +238,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   public AbstractSBase(int level, int version) {
     this();
     if ((0 < level) && (level < 4)) {
-      this.lv.setL(Integer.valueOf(level));
+      lv.setL(Integer.valueOf(level));
     } else {
-      this.lv.setL(null);
+      lv.setL(null);
     }
     if ((0 < version)) {
-      this.lv.setV(Integer.valueOf(version));
+      lv.setV(Integer.valueOf(version));
     } else {
-      this.lv.setV(null);
+      lv.setV(null);
     }
     if (!hasValidLevelVersionNamespaceCombination()) {
       throw new LevelVersionError(this);
@@ -272,12 +272,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       setVersion(sb.getVersion());
     }
     if (sb.isSetSBOTerm()) {
-      this.sboTerm = sb.getSBOTerm();
+      sboTerm = sb.getSBOTerm();
     } else {
       sboTerm = -1;
     }
     if (sb.isSetMetaId()) {
-      this.metaId = new String(sb.getMetaId());
+      metaId = new String(sb.getMetaId());
     }
     if (sb.isSetNotes()) {
       setNotes(sb.getNotes().clone());
@@ -287,13 +287,13 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
     if (sb.isExtendedByOtherPackages()) {
       for (String key : sb.getExtensionPackages().keySet()) {
-    	  SBasePlugin plugin = sb.getExtensionPackages().get(key);
-    	  extensions.put(new String(key), plugin.clone());
+        SBasePlugin plugin = sb.getExtensionPackages().get(key);
+        extensions.put(new String(key), plugin.clone());
       }
     }
     // cloning namespace ?
     if (sb.getNamespace() != null) {
-        elementNamespace = sb.getNamespace();
+      elementNamespace = sb.getNamespace();
     }
     if (sb.getDeclaredNamespaces().size() > 0) {
       for (String namespacePrefix : sb.getDeclaredNamespaces().keySet()) {
@@ -328,7 +328,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       }
       prefix = "xmlns:" + prefix;
     }
-    this.declaredNamespaces.put(prefix, namespace);
+    declaredNamespaces.put(prefix, namespace);
     firePropertyChange(TreeNodeChangeEvent.addDeclaredNamespace, null, namespace);
   }
 
@@ -337,13 +337,13 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public void addExtension(String namespace, SBasePlugin sbase) {
-    this.extensions.put(namespace, sbase);
+    extensions.put(namespace, sbase);
     firePropertyChange(TreeNodeChangeEvent.addExtension, null, sbase);
   }
 
 
   /**
-   * Sets the XML namespace to which this {@link SBase} belong. 
+   * Sets the XML namespace to which this {@link SBase} belong.
    * 
    * <p>This an internal method that should not be used outside of the main jsbml code
    * (core + packages). One class should always belong to the same namespace, although the namespaces can
@@ -354,16 +354,16 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   public void setNamespace(String namespace) {
 
-	  if (elementNamespace != null && (!elementNamespace.equals(namespace))) {
-		  // if we implement proper conversion some days, we need to unset the namespace before changing it.
-		  logger.error(MessageFormat.format("An SBase element cannot belong to two different namespaces ! "
-		  		+ "Current namespace = '{0}', new namespace = '{1}' ", elementNamespace, namespace));
-//		  throw new IllegalArgumentException(MessageFormat.format("An SBase element cannot belong to two different namespaces ! "
-//			  		+ "Current namespace = '{0}', new namespace = '{1}' ", elementNamespace, namespace));
-	  }
-	  String old = elementNamespace;
-	  this.elementNamespace = namespace;
-	  
+    if ((elementNamespace != null) && (!elementNamespace.equals(namespace))) {
+      // if we implement proper conversion some days, we need to unset the namespace before changing it.
+      logger.error(MessageFormat.format("An SBase element cannot belong to two different namespaces ! "
+          + "Current namespace = '{0}', new namespace = '{1}' ", elementNamespace, namespace));
+      //		  throw new IllegalArgumentException(MessageFormat.format("An SBase element cannot belong to two different namespaces ! "
+      //			  		+ "Current namespace = '{0}', new namespace = '{1}' ", elementNamespace, namespace));
+    }
+    String old = elementNamespace;
+    elementNamespace = namespace;
+
     firePropertyChange(TreeNodeChangeEvent.namespace, old, namespace);
   }
 
@@ -461,8 +461,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       }
       else
       {
-    	  // the given notes is empty
-    	  logger.info("The notes to append are empty !!");
+        // the given notes is empty
+        logger.info("The notes to append are empty !!");
         return;
       }
     }
@@ -526,7 +526,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           )
       {
         // throw an exception as well ??
-    	logger.warn("The given 'notes' String does not have the proper structure, excepting the children 'head' and 'body' to the 'html' element.");  
+        logger.warn("The given 'notes' String does not have the proper structure, excepting the children 'head' and 'body' to the 'html' element.");
         return;
       }
     }
@@ -563,8 +563,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
                 )
             )
         {
-        	// throw an exception as well ??
-        	logger.warn("The given 'notes' String does not have the proper structure, excepting the children 'head' and 'body' to the 'html' element.");  
+          // throw an exception as well ??
+          logger.warn("The given 'notes' String does not have the proper structure, excepting the children 'head' and 'body' to the 'html' element.");
           return;
         }
         curNotesType = NOTES_TYPE.NotesHTML;
@@ -606,7 +606,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           for (i=0; i < addedBody.getChildCount(); i++)
           {
             if (curBody.addChild(addedBody.getChildAt(i)) < 0 ) {
-            	logger.warn("There was a problem adding the given XMLNode: '" + addedBody.getChildAt(i).toXMLString() + "' to the 'body' XMLNode.");
+              logger.warn("There was a problem adding the given XMLNode: '" + addedBody.getChildAt(i).toXMLString() + "' to the 'body' XMLNode.");
               return;
             }
           }
@@ -619,7 +619,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           for (i=0; i < addedNotes.getChildCount(); i++)
           {
             if (curBody.addChild(addedNotes.getChildAt(i)) < 0 ) {
-            	logger.warn("There was a problem adding the given XMLNode: '" + addedNotes.getChildAt(i).toXMLString() + "' to the 'body' XMLNode.");
+              logger.warn("There was a problem adding the given XMLNode: '" + addedNotes.getChildAt(i).toXMLString() + "' to the 'body' XMLNode.");
               return;
             }
           }
@@ -642,8 +642,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
           curNotes.removeChildren();
           if (curNotes.addChild(addedHTML) < 0) {
-        	// throw an exception as well ??
-          	logger.warn("There was a problem adding the given XMLNode: '" + addedHTML.toXMLString() + "' to the notes.");
+            // throw an exception as well ??
+            logger.warn("There was a problem adding the given XMLNode: '" + addedHTML.toXMLString() + "' to the notes.");
             return;
           }
         }
@@ -657,7 +657,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           for (i=0; i < addedNotes.getChildCount(); i++)
           {
             if (curBody.addChild(addedNotes.getChildAt(i)) < 0) {
-            	logger.warn("There was a problem adding the given XMLNode: '" + addedNotes.getChildAt(i).toXMLString() + "' to the 'body' XMLNode.");
+              logger.warn("There was a problem adding the given XMLNode: '" + addedNotes.getChildAt(i).toXMLString() + "' to the 'body' XMLNode.");
               return;
             }
           }
@@ -679,8 +679,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
           curNotes.removeChildren();
           if (curNotes.addChild(addedHTML) < 0) {
-          	// throw an exception as well ??
-        	  logger.warn("There was a problem adding the given XMLNode: '" + addedHTML.toXMLString() + "' to the notes.");
+            // throw an exception as well ??
+            logger.warn("There was a problem adding the given XMLNode: '" + addedHTML.toXMLString() + "' to the notes.");
             return;
           }
         }
@@ -697,8 +697,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
           curNotes.removeChildren();
           if (curNotes.addChild(addedBody) < 0) {
-          	// throw an exception as well ??
-        	  logger.warn("There was a problem adding the given XMLNode: '" + addedBody.toXMLString() + "' to the notes.");
+            // throw an exception as well ??
+            logger.warn("There was a problem adding the given XMLNode: '" + addedBody.toXMLString() + "' to the notes.");
             return;
           }
         }
@@ -710,7 +710,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           for (i=0; i < addedNotes.getChildCount(); i++)
           {
             if (curNotes.addChild(addedNotes.getChildAt(i)) < 0) {
-            	logger.warn("There was a problem adding the given XMLNode: '" + addedNotes.getChildAt(i).toXMLString() + "' to the 'body' XMLNode.");
+              logger.warn("There was a problem adding the given XMLNode: '" + addedNotes.getChildAt(i).toXMLString() + "' to the 'body' XMLNode.");
               return;
             }
           }
@@ -993,7 +993,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     // Need to separate the list of name spaces from the extensions.
     // SBase object directly from the extension need to set their name space.
 
-    return this.declaredNamespaces;
+    return declaredNamespaces;
   }
 
   /* (non-Javadoc)
@@ -1009,7 +1009,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public SBasePlugin getExtension(String namespace) {
-    return this.extensions.get(namespace);
+    return extensions.get(namespace);
   }
 
   /* (non-Javadoc)
@@ -1033,7 +1033,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public int getLevel() {
-    return isSetLevel() ? this.lv.getL().intValue() : -1;
+    return isSetLevel() ? lv.getL().intValue() : -1;
   }
 
   /* (non-Javadoc)
@@ -1041,11 +1041,11 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public ValuePair<Integer, Integer> getLevelAndVersion() {
-    if (this.lv == null) {
-      this.lv = new ValuePair<Integer, Integer>(Integer.valueOf(-1),
+    if (lv == null) {
+      lv = new ValuePair<Integer, Integer>(Integer.valueOf(-1),
           Integer.valueOf(-1));
     }
-    return this.lv;
+    return lv;
   }
 
   /* (non-Javadoc)
@@ -1156,7 +1156,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public int getVersion() {
-    return isSetVersion() ? this.lv.getV().intValue() : -1;
+    return isSetVersion() ? lv.getV().intValue() : -1;
   }
 
   /* (non-Javadoc)
@@ -1219,7 +1219,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public boolean isExtendedByOtherPackages() {
-    return !this.extensions.isEmpty();
+    return !extensions.isEmpty();
   }
 
   /* (non-Javadoc)
@@ -1379,7 +1379,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       // even if the model is not available (the KL or reaction was not yet added to a model)
       if (sbase instanceof LocalParameter) {
 
-        TreeNode klTreeNode = this.getParent();
+        TreeNode klTreeNode = getParent();
 
         if (klTreeNode != null && klTreeNode instanceof KineticLaw) {
           KineticLaw kineticLaw = (KineticLaw) klTreeNode;
@@ -1480,8 +1480,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       }
     }
     Integer oldLevel = getLevelAndVersion().getL();
-    this.lv.setL(Integer.valueOf(level));
-    firePropertyChange(TreeNodeChangeEvent.level, oldLevel, this.lv.getL());
+    lv.setL(Integer.valueOf(level));
+    firePropertyChange(TreeNodeChangeEvent.level, oldLevel, lv.getL());
   }
 
   /**
@@ -1574,10 +1574,10 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public void setNotes(XMLNode notes) {
-    XMLNode oldNotes = this.notesXMLNode;
-    this.notesXMLNode = notes;
-    this.notesXMLNode.setParent(this);
-    firePropertyChange(TreeNodeChangeEvent.notes, oldNotes, this.notesXMLNode);
+    XMLNode oldNotes = notesXMLNode;
+    notesXMLNode = notes;
+    notesXMLNode.setParent(this);
+    firePropertyChange(TreeNodeChangeEvent.notes, oldNotes, notesXMLNode);
   }
 
   /* (non-Javadoc)
@@ -1664,7 +1664,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       }
     }
     Integer oldVersion = getLevelAndVersion().getV();
-    this.lv.setV(Integer.valueOf(version));
+    lv.setV(Integer.valueOf(version));
     firePropertyChange(TreeNodeChangeEvent.version, oldVersion, version);
   }
 
@@ -1695,7 +1695,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
       if (sbase instanceof LocalParameter) {
 
-        TreeNode klTreeNode = this.getParent();
+        TreeNode klTreeNode = getParent();
 
         if (klTreeNode != null && klTreeNode instanceof KineticLaw) {
 
@@ -1755,7 +1755,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public void unsetHistory() {
     if (isSetHistory()) {
-      this.annotation.unsetHistory();
+      annotation.unsetHistory();
     }
   }
 
@@ -1768,7 +1768,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       setMetaId(null);
     }
   }
-  
+
 
   /**
    * Unsets the namespace that is associated to this {@link SBase}.
@@ -1776,10 +1776,10 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * <p>This is an internal method of JSBML that should be used with caution.
    */
   public void unsetNamespace() {
-	  String old = elementNamespace;
-	  
-	  elementNamespace = null;
-      firePropertyChange(TreeNodeChangeEvent.namespace, old, null);
+    String old = elementNamespace;
+
+    elementNamespace = null;
+    firePropertyChange(TreeNodeChangeEvent.namespace, old, null);
   }
 
   /* (non-Javadoc)
