@@ -194,7 +194,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	public ListOf<Member> getListOfMembers() {
 		if (!isSetListOfMembers()) {
 			listOfMembers = new ListOf<Member>();
-			listOfMembers.addNamespace(GroupsConstants.namespaceURI);
+			listOfMembers.setNamespace(GroupsConstants.namespaceURI);
 			registerChild(listOfMembers);
 			listOfMembers.setSBaseListType(ListOf.Type.other);
 		}
@@ -224,7 +224,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	}
 
 	private void initDefaults() {
-		addNamespace(GroupsConstants.namespaceURI);		
+		setNamespace(GroupsConstants.namespaceURI);		
 	}
 
 	/* (non-Javadoc)
@@ -276,7 +276,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 	public ListOf<MemberConstraint> getListOfMemberConstraints() {
 		if (!isSetListOfMemberConstraints()) {
 			listOfMemberConstraints = new ListOfMemberConstraint(getLevel(), getVersion());
-			listOfMemberConstraints.addNamespace(GroupsConstants.namespaceURI);
+			listOfMemberConstraints.setNamespace(GroupsConstants.namespaceURI);
 			listOfMemberConstraints.setSBaseListType(ListOf.Type.other);
 			registerChild(listOfMemberConstraints);
 		}

@@ -155,7 +155,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
    * 
    */
   public void initDefaults() {
-    addNamespace(QualConstants.namespaceURI);
+    setNamespace(QualConstants.namespaceURI);
     compartment = null;
     constant = null;
   }

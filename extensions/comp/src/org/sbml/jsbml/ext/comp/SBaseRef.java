@@ -93,7 +93,7 @@ public class SBaseRef extends AbstractSBase {
 	 */
 	public SBaseRef() {
 		super();
-		addNamespace(CompConstants.namespaceURI);
+		setNamespace(CompConstants.namespaceURI);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class SBaseRef extends AbstractSBase {
 	 */
 	public SBaseRef(int level, int version) {
 		super(level, version);
-		addNamespace(CompConstants.namespaceURI);
+		setNamespace(CompConstants.namespaceURI);
 	}
 
 	/**

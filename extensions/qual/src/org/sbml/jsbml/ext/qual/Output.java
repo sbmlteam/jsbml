@@ -136,7 +136,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
    * 
    */
   public void initDefaults() {
-     addNamespace(QualConstants.namespaceURI);
+     setNamespace(QualConstants.namespaceURI);
      qualitativeSpecies = null;
      transitionEffect = null;
      outputLevel = null;   

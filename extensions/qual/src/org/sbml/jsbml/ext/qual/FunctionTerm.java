@@ -60,7 +60,7 @@ public class FunctionTerm extends AbstractMathContainer {
 	 */
 	public FunctionTerm() {
 		super();
-		addNamespace(QualConstants.namespaceURI);
+		setNamespace(QualConstants.namespaceURI);
 	}
 	
 	/**
@@ -70,7 +70,7 @@ public class FunctionTerm extends AbstractMathContainer {
 	 */
 	public FunctionTerm(int level, int version) {
 		super(level, version);
-		addNamespace(QualConstants.namespaceURI);
+		setNamespace(QualConstants.namespaceURI);
 	}
 	
 	/**
@@ -81,7 +81,7 @@ public class FunctionTerm extends AbstractMathContainer {
 	 */
 	public FunctionTerm(ASTNode math, int level, int version) {
 		super(math, level, version);
-		addNamespace(QualConstants.namespaceURI);
+		setNamespace(QualConstants.namespaceURI);
 	}
 
 	/**

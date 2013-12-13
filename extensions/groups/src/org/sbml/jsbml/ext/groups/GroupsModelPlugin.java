@@ -123,7 +123,7 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
   }
 
   private void initDefaults() {
-    listOfGroups.addNamespace(GroupsConstants.namespaceURI);
+    listOfGroups.setNamespace(GroupsConstants.namespaceURI);
     listOfGroups.setSBaseListType(ListOf.Type.other);
     extendedSBase.registerChild(listOfGroups);
   }

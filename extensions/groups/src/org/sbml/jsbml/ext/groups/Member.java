@@ -54,7 +54,7 @@ public class Member extends AbstractNamedSBase {
   }
 
   private void initDefaults() {
-    addNamespace(GroupsConstants.namespaceURI);
+    setNamespace(GroupsConstants.namespaceURI);
   }
 
   /**
