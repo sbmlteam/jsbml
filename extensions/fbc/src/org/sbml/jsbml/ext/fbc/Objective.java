@@ -279,7 +279,7 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 	public ListOf<FluxObjective> getListOfFluxObjectives() {
 	  if (!isSetListOfFluxObjectives()) {
 	    listOfFluxObjectives = new ListOf<FluxObjective>(getLevel(), getVersion());
-	    listOfFluxObjectives.addNamespace(FBCConstants.namespaceURI);
+	    listOfFluxObjectives.setNamespace(FBCConstants.namespaceURI);
 	    listOfFluxObjectives.setSBaseListType(ListOf.Type.other);
       registerChild(listOfFluxObjectives);
     }
@@ -299,7 +299,7 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * Initializes the default values using the namespace.
 	 */
 	public void initDefaults() {
-		addNamespace(FBCConstants.namespaceURI);
+		setNamespace(FBCConstants.namespaceURI);
 	}
 
 	public boolean isIdMandatory() {

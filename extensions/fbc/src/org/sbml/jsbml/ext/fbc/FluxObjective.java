@@ -170,7 +170,7 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    addNamespace(FBCConstants.namespaceURI);
+    setNamespace(FBCConstants.namespaceURI);
   }
 
 /* (non-Javadoc)

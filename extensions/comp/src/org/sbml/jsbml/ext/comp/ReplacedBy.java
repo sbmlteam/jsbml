@@ -77,7 +77,7 @@ public class ReplacedBy extends SBaseRef {
 	 * Initializes the default values using the namespace.
 	 */
 	public void initDefaults() {
-		addNamespace(CompConstants.namespaceURI);
+		setNamespace(CompConstants.namespaceURI);
 	}
 
 

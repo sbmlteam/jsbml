@@ -245,7 +245,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
   public ListOf<ReplacedElement> getListOfReplacedElements() {
     if (!isSetListOfReplacedElements()) {
       listOfReplacedElements = new ListOf<ReplacedElement>(extendedSBase.getLevel(), extendedSBase.getVersion());
-      listOfReplacedElements.addNamespace(CompConstants.namespaceURI);
+      listOfReplacedElements.setNamespace(CompConstants.namespaceURI);
       listOfReplacedElements.setSBaseListType(ListOf.Type.other);
       extendedSBase.registerChild(listOfReplacedElements);
     }

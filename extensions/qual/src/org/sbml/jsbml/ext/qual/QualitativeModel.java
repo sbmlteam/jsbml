@@ -333,7 +333,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
 		if (!isSetListOfQualitativeSpecies()) {
 			listOfQualitativeSpecies = new ListOf<QualitativeSpecies>(
 					getModel().getLevel(), getModel().getVersion());
-			listOfQualitativeSpecies.addNamespace(QualConstants.namespaceURI);
+			listOfQualitativeSpecies.setNamespace(QualConstants.namespaceURI);
 			getModel().registerChild(listOfQualitativeSpecies);
 			listOfQualitativeSpecies.setSBaseListType(ListOf.Type.other);
 		}
@@ -347,7 +347,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
 		if (!isSetListOfTransitions()) {
 			listOfTransitions = new ListOf<Transition>(getModel().getLevel(),
 					getModel().getVersion());
-			listOfTransitions.addNamespace(QualConstants.namespaceURI);
+			listOfTransitions.setNamespace(QualConstants.namespaceURI);
 			getModel().registerChild(listOfTransitions);
 			listOfTransitions.setSBaseListType(ListOf.Type.other);
 

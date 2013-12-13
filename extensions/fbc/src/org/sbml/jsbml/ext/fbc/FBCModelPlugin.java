@@ -281,7 +281,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
     if (!isSetListOfFluxBounds()) {
       listOfFluxBounds = new ListOf<FluxBound>(extendedSBase.getLevel(),
           extendedSBase.getVersion());
-      listOfFluxBounds.addNamespace(FBCConstants.namespaceURI);
+      listOfFluxBounds.setNamespace(FBCConstants.namespaceURI);
       listOfFluxBounds.setSBaseListType(ListOf.Type.other);
       extendedSBase.registerChild(listOfFluxBounds);
     }
@@ -298,7 +298,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
     if (!isSetListOfObjectives()) {
       listOfObjectives = new ListOfObjectives(extendedSBase.getLevel(),
         extendedSBase.getVersion());
-      listOfObjectives.addNamespace(FBCConstants.namespaceURI);
+      listOfObjectives.setNamespace(FBCConstants.namespaceURI);
       listOfObjectives.setSBaseListType(ListOf.Type.other);
       extendedSBase.registerChild(listOfObjectives);
     }

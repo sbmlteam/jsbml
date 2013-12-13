@@ -381,7 +381,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     if (!isSetListOfFunctionTerms()) {
       listOfFunctionTerms = new ListOf<FunctionTerm>(getLevel(), getVersion());
       listOfFunctionTerms.setSBaseListType(ListOf.Type.other);
-      listOfFunctionTerms.addNamespace(QualConstants.namespaceURI);
+      listOfFunctionTerms.setNamespace(QualConstants.namespaceURI);
       registerChild(listOfFunctionTerms);
     }
     return listOfFunctionTerms;
@@ -394,7 +394,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     if (!isSetListOfInputs()) {
       listOfInputs = new ListOf<Input>(getLevel(), getVersion());
       listOfInputs.setSBaseListType(ListOf.Type.other);
-      listOfInputs.addNamespace(QualConstants.namespaceURI);
+      listOfInputs.setNamespace(QualConstants.namespaceURI);
       registerChild(listOfInputs);
     }
     return listOfInputs;
@@ -407,7 +407,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     if (!isSetListOfOutputs()) {
       listOfOutputs = new ListOf<Output>(getLevel(), getVersion());
       listOfOutputs.setSBaseListType(ListOf.Type.other);
-      listOfOutputs.addNamespace(QualConstants.namespaceURI);
+      listOfOutputs.setNamespace(QualConstants.namespaceURI);
       registerChild(listOfOutputs);
     }
     return listOfOutputs;
@@ -435,7 +435,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    */
   public void initDefaults() {
-    addNamespace(QualConstants.namespaceURI);
+    setNamespace(QualConstants.namespaceURI);
     listOfFunctionTerms = null;
     listOfInputs = null;
     listOfOutputs = null;

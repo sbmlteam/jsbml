@@ -106,7 +106,7 @@ public class Port extends AbstractNamedSBaseRef implements UniqueNamedSBase {
 	 * Initializes the default values using the namespace.
 	 */
 	public void initDefaults() {
-		addNamespace(CompConstants.namespaceURI);
+		setNamespace(CompConstants.namespaceURI);
 	}
 
 

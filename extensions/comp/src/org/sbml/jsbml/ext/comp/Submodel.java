@@ -145,7 +145,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * Initializes the default values using the namespace.
 	 */
 	public void initDefaults() {
-		addNamespace(CompConstants.namespaceURI);
+		setNamespace(CompConstants.namespaceURI);
 	}
 
 
@@ -337,7 +337,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 	public ListOf<Deletion> getListOfDeletions() {
 		if (!isSetListOfDeletions()) {
 			listOfDeletions = new ListOf<Deletion>(getLevel(), getVersion());
-			listOfDeletions.addNamespace(CompConstants.namespaceURI);
+			listOfDeletions.setNamespace(CompConstants.namespaceURI);
 			listOfDeletions.setSBaseListType(ListOf.Type.other);
 			registerChild(listOfDeletions);
 		}

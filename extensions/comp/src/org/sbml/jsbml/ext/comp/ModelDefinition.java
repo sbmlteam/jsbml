@@ -62,6 +62,6 @@ public class ModelDefinition extends Model {
 
 	public void init()
 	{
-		addNamespace(CompConstants.namespaceURI);
+		setNamespace(CompConstants.namespaceURI);
 	}
 }

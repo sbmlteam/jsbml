@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
@@ -98,13 +99,13 @@ public class CompParser extends AbstractReaderWriter {
 		if (treeNode instanceof Model) {
 			String sbmlNamespace = JSBML.getNamespaceFrom(((Model) treeNode).getLevel(), ((Model) treeNode).getVersion());
 			
-			((Model) treeNode).addNamespace(sbmlNamespace);
+			((Model) treeNode).setNamespace(sbmlNamespace);
 			
 			for (Object child : listOfElementsToWrite) {
-				if (child instanceof SBase && ((SBase) child).getNamespaces().size() == 0) {
-					SBase sbase = (SBase) child;
+				if (child instanceof AbstractSBase && ((AbstractSBase) child).getNamespace() == null) {
+					AbstractSBase sbase = (AbstractSBase) child;
 					logger.debug("Found one suspect Model child: " + sbase.getElementName() + ". Setting the SBML namespace to it.");
-					sbase.addNamespace(sbmlNamespace);
+					((AbstractSBase) sbase).setNamespace(sbmlNamespace);
 				}
 			}
 		}

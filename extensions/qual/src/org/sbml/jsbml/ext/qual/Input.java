@@ -148,7 +148,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
    * 
    */
   public void initDefaults() {
-    addNamespace(QualConstants.namespaceURI);
+    setNamespace(QualConstants.namespaceURI);
     qualitativeSpecies = null;
     transitionEffect = null;
     thresholdLevel = null;

@@ -125,7 +125,7 @@ public class MemberConstraint extends AbstractNamedSBase {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    addNamespace(GroupsConstants.namespaceURI);
+    setNamespace(GroupsConstants.namespaceURI);
   }
 
   /* (non-Javadoc)

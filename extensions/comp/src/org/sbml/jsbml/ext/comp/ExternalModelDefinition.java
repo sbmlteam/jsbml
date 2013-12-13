@@ -120,7 +120,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 	 * Initializes the default values using the namespace.
 	 */
 	public void initDefaults() {
-		addNamespace(CompConstants.namespaceURI);
+		setNamespace(CompConstants.namespaceURI);
 	}
 
 
