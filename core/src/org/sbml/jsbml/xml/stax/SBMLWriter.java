@@ -335,11 +335,10 @@ public class SBMLWriter {
 		if (object instanceof SBase) {
 			SBase sbase = (SBase) object;
 			packageNamespaces = new TreeSet<String>();
+			String sbaseNamespace = sbase.getNamespace();
 
-			for (String sbaseNamespace : sbase.getNamespaces()) {
-				if (!packageNamespaces.contains(sbaseNamespace)) {
-					packageNamespaces.add(sbaseNamespace);
-				}
+			if (sbaseNamespace != null && (!packageNamespaces.contains(sbaseNamespace))) {
+				packageNamespaces.add(sbaseNamespace);
 			}
 
 		} else if (object instanceof Annotation) {

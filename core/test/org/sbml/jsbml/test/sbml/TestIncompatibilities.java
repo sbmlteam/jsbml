@@ -81,7 +81,7 @@ public class TestIncompatibilities {
 	    assertTrue( c.getAnnotation() == null );
 	    assertTrue( c.getLevel() == 2 );
 	    assertTrue( c.getVersion() == 1 );
-	    assertTrue( c.getNamespaces() != null );
+	    assertTrue( c.getNamespace() != null );
 //	    assertTrue( c.getNamespaces().getLength() == 2 );
 	    assertTrue( c.getName().equals("") == true );
 	    assertTrue( c.getSpatialDimensions() == 3d );

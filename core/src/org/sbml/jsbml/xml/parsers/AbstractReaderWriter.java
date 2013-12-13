@@ -276,10 +276,10 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
     if (sbmlElementToWrite instanceof SBase) {
       SBase sbase = (SBase) sbmlElementToWrite;
 
-      if (!sbase.getNamespaces().contains(getNamespaceURI())) {
+      // TODO - not sure this code is ready for different package versions !!
+      if (!getNamespaceURI().equals(sbase.getNamespace())) {
         logger.debug("writeElement: rejected an element as it does not seems to have the good namespace definition");
-        logger.debug("writeElement: sbase.namespaces size = " + sbase.getNamespaces().size());
-        logger.debug("writeElement: sbase.namespaces = " + sbase.getNamespaces());
+        logger.debug("writeElement: sbase.namespaces = " + sbase.getNamespace());
 
         return;
       }

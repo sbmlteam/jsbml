@@ -675,19 +675,6 @@ public class SBMLReader {
 					// This a hack to be able to read some mathMl or notes by themselves.
 					// If the parent container is set in this SBMLReader, we use it instead.
 					
-					if (currentNode.getLocalPart().equals("notes") || currentNode.getLocalPart().equals("message")
-							|| currentNode.getLocalPart().equals("annotation")) 
-					{
-						initializedParsers.put("", sbmlCoreParser);
-						
-					}
-					else if (currentNode.getLocalPart().equals("math")) 
-					{
-						initializedParsers.put("", new MathMLStaxParser());
-						initializedParsers.put(ASTNode.URI_MATHML_DEFINITION, new MathMLStaxParser());
-						currentNode = new QName(ASTNode.URI_MATHML_DEFINITION, "math");						
-					}
-					
 					// TODO: will not work with arbitrary SBML part
 					// TODO: we need to be able, somehow, to set the Model element in the Constraint
 					// to be able to have a fully functional parsing. Without it the functionDefinition, for examples, are
@@ -701,7 +688,24 @@ public class SBMLReader {
 						Constraint constraint = new Constraint(3,1);
 						sbmlElements.push(constraint);
 					}
-					
+
+					if (currentNode.getLocalPart().equals("notes") || currentNode.getLocalPart().equals("message")
+							|| currentNode.getLocalPart().equals("annotation")) 
+					{
+						initializedParsers.put("", sbmlCoreParser);
+						
+						// get the sbml namespace to set it on the first element to parse
+						SBase sbase = (SBase) sbmlElements.firstElement();
+						String sbmlNamespace = JSBML.getNamespaceFrom(sbase.getLevel(), sbase.getVersion());
+						currentNode = new QName(sbmlNamespace, currentNode.getLocalPart());
+					}
+					else if (currentNode.getLocalPart().equals("math")) 
+					{
+						initializedParsers.put("", new MathMLStaxParser());
+						initializedParsers.put(ASTNode.URI_MATHML_DEFINITION, new MathMLStaxParser());
+						currentNode = new QName(ASTNode.URI_MATHML_DEFINITION, "math");						
+					}
+										
 				} else if (currentNode.getLocalPart().equals("annotation")) {
 
 					// get the sbml namespace as some element can have similar names in different namespaces
