@@ -76,7 +76,7 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
    */
   @Override
   public void initDefaults() {
-    addNamespace(RenderConstants.namespaceURI);
+    setNamespace(RenderConstants.namespaceURI);
   }
 
   /**

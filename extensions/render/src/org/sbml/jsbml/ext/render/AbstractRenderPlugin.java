@@ -146,7 +146,7 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
 	 * Initializes the default values using the namespace.
 	 */
 	public void initDefaults() {
-		// TODO addNamespace(RenderConstants.namespaceURI);
+		// TODO setNamespace(RenderConstants.namespaceURI);
 		versionMajor = 0;
 		versionMinor = 0;
 	}

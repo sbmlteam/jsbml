@@ -101,7 +101,7 @@ public class Transformation extends AbstractSBase {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    addNamespace(RenderConstants.namespaceURI);
+    setNamespace(RenderConstants.namespaceURI);
   }
 
   /* (non-Javadoc)

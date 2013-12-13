@@ -76,7 +76,7 @@ public class LineEnding extends GraphicalPrimitive2D {
 	 */
 	@Override
 	public void initDefaults() {
-		addNamespace(RenderConstants.namespaceURI);
+		setNamespace(RenderConstants.namespaceURI);
 		enableRotationMapping = true;
 	}
 

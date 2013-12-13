@@ -147,7 +147,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    addNamespace(RenderConstants.namespaceURI);
+    setNamespace(RenderConstants.namespaceURI);
     z = 0d;
   }
 

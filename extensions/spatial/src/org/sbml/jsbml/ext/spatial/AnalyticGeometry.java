@@ -87,7 +87,7 @@ public class AnalyticGeometry extends GeometryDefinition {
 	public ListOf<AnalyticVolume> getListOfAnalyticVolumes() {
 		if (!isSetListOfAnalyticVolumes()) {
 			listOfAnalyticVolumes = new ListOf<AnalyticVolume>(getLevel(), getVersion());
-			listOfAnalyticVolumes.addNamespace(SpatialConstants.namespaceURI);
+			listOfAnalyticVolumes.setNamespace(SpatialConstants.namespaceURI);
 			listOfAnalyticVolumes.setSBaseListType(ListOf.Type.other);
 			registerChild(listOfAnalyticVolumes);
 		}

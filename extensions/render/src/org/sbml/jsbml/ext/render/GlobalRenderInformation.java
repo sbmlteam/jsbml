@@ -124,7 +124,7 @@ public class GlobalRenderInformation extends RenderInformationBase {
    */
   @Override
   public void initDefaults() {
-    addNamespace(RenderConstants.namespaceURI);
+    setNamespace(RenderConstants.namespaceURI);
   }
   
   
@@ -146,7 +146,7 @@ public class GlobalRenderInformation extends RenderInformationBase {
   public ListOf<Style> getListOfStyles() {
     if (!isSetListOfStyles()) {
       listOfStyles = new ListOf<Style>(getLevel(), getVersion());
-      listOfStyles.addNamespace(RenderConstants.namespaceURI);
+      listOfStyles.setNamespace(RenderConstants.namespaceURI);
       listOfStyles.setSBaseListType(ListOf.Type.other);
       registerChild(listOfStyles);
     }

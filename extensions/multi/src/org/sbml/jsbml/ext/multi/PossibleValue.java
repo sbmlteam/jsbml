@@ -68,7 +68,7 @@ public class PossibleValue extends AbstractNamedSBase  implements UniqueNamedSBa
 	 * 
 	 */
 	public void initDefaults() {
-		addNamespace(MultiConstants.namespaceURI);
+		setNamespace(MultiConstants.namespaceURI);
 	}
 
 	/* (non-Javadoc)

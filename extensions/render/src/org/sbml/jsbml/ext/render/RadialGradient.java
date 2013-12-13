@@ -166,7 +166,7 @@ public class RadialGradient extends GradientBase {
    */
   @Override
   public void initDefaults() {
-    addNamespace(RenderConstants.namespaceURI);
+    setNamespace(RenderConstants.namespaceURI);
     cx = 0.5d;
     cy = 0.5d;
     cz = 0.5d;

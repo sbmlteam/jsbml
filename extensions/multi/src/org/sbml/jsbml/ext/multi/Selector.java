@@ -124,7 +124,7 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	public ListOf<SpeciesTypeState> getListOfSpeciesTypeStates() {
 		if (listOfSpeciesTypeStates == null) {
 			listOfSpeciesTypeStates = new ListOf<SpeciesTypeState>();
-			listOfSpeciesTypeStates.addNamespace(MultiConstants.namespaceURI);
+			listOfSpeciesTypeStates.setNamespace(MultiConstants.namespaceURI);
 			this.registerChild(listOfSpeciesTypeStates);
 			listOfSpeciesTypeStates.setSBaseListType(ListOf.Type.other);
 		}
@@ -229,7 +229,7 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	public ListOf<Bond> getListOfBonds() {
 		if (listOfBonds == null) {
 			listOfBonds = new ListOf<Bond>();
-			listOfBonds.addNamespace(MultiConstants.namespaceURI);
+			listOfBonds.setNamespace(MultiConstants.namespaceURI);
 			this.registerChild(listOfBonds);
 			listOfBonds.setSBaseListType(ListOf.Type.other);
 		}
@@ -319,7 +319,7 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	public ListOf<BindingSiteReference> getListOfUnboundBindingSites() {
 		if (listOfUnboundBindingSites == null) {
 			listOfUnboundBindingSites = new ListOf<BindingSiteReference>();
-			listOfUnboundBindingSites.addNamespace(MultiConstants.namespaceURI);
+			listOfUnboundBindingSites.setNamespace(MultiConstants.namespaceURI);
 			this.registerChild(listOfUnboundBindingSites);
 			listOfUnboundBindingSites.setSBaseListType(ListOf.Type.other);
 		}
@@ -417,7 +417,7 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 	 * 
 	 */
 	public void initDefaults() {
-		addNamespace(MultiConstants.namespaceURI);
+		setNamespace(MultiConstants.namespaceURI);
 	}
 
 	/* (non-Javadoc)

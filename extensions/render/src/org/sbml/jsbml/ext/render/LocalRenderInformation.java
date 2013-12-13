@@ -121,7 +121,7 @@ public class LocalRenderInformation extends RenderInformationBase {
    */
   @Override
   public void initDefaults() {
-    addNamespace(RenderConstants.namespaceURI);
+    setNamespace(RenderConstants.namespaceURI);
     this.listOfLocalStyles = null;
   }
   
@@ -142,7 +142,7 @@ public class LocalRenderInformation extends RenderInformationBase {
   public ListOf<LocalStyle> getListOfLocalStyles() {
     if (!isSetListOfLocalStyles()) {
       listOfLocalStyles = new ListOf<LocalStyle>(getLevel(), getVersion());
-      listOfLocalStyles.addNamespace(RenderConstants.namespaceURI);
+      listOfLocalStyles.setNamespace(RenderConstants.namespaceURI);
       listOfLocalStyles.setSBaseListType(ListOf.Type.other);
       registerChild(listOfLocalStyles);
     }

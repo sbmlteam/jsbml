@@ -108,7 +108,7 @@ public class StateFeatureInstance extends AbstractNamedSBase {
 	public ListOf<StateFeatureValue> getListOfStateFeatureValues() {
 		if (listOfStateFeatureValues == null) {
 			listOfStateFeatureValues = new ListOf<StateFeatureValue>();
-			listOfStateFeatureValues.addNamespace(MultiConstants.namespaceURI);
+			listOfStateFeatureValues.setNamespace(MultiConstants.namespaceURI);
 			this.registerChild(listOfStateFeatureValues);
 			listOfStateFeatureValues.setSBaseListType(ListOf.Type.other);
 		}
@@ -194,7 +194,7 @@ public class StateFeatureInstance extends AbstractNamedSBase {
 	 * 
 	 */
 	public void initDefaults() {
-		addNamespace(MultiConstants.namespaceURI);
+		setNamespace(MultiConstants.namespaceURI);
 	}
 
 	/* (non-Javadoc)

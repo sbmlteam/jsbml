@@ -48,7 +48,7 @@ public class BindingSiteReference extends AbstractSBase {
 	 * 
 	 */
 	public void initDefaults() {
-		addNamespace(MultiConstants.namespaceURI);
+		setNamespace(MultiConstants.namespaceURI);
 	}
 
 	@Override

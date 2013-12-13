@@ -165,7 +165,7 @@ public class MultiModel extends AbstractSBasePlugin {
   public ListOf<SpeciesType> getListOfSpeciesTypes() {
     if (listOfSpeciesTypes == null) {
       listOfSpeciesTypes = new ListOf<SpeciesType>();
-      listOfSpeciesTypes.addNamespace(MultiConstants.namespaceURI);
+      listOfSpeciesTypes.setNamespace(MultiConstants.namespaceURI);
       getModel().registerChild(listOfSpeciesTypes);
       listOfSpeciesTypes.setSBaseListType(ListOf.Type.other);
     }
@@ -271,7 +271,7 @@ public class MultiModel extends AbstractSBasePlugin {
   public ListOf<Selector> getListOfSelectors() {
     if (listOfSelectors == null) {
       listOfSelectors = new ListOf<Selector>();
-      listOfSelectors.addNamespace(MultiConstants.namespaceURI);
+      listOfSelectors.setNamespace(MultiConstants.namespaceURI);
       getModel().registerChild(listOfSelectors);
       listOfSelectors.setSBaseListType(ListOf.Type.other);
     }

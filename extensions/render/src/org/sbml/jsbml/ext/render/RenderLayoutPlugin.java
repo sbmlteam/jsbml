@@ -72,7 +72,7 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
    */
   @Override
   public void initDefaults() {
-//    TODO addNamespace(RenderConstants.namespaceURI);
+//    TODO setNamespace(RenderConstants.namespaceURI);
   }
 
   /* (non-Javadoc)
@@ -133,7 +133,7 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
     if (!isSetListOfLocalRenderInformation()) {
       SBase sBase = getExtendedSBase();
       listOfLocalRenderInformation = new ListOf<LocalRenderInformation>(sBase.getLevel(), sBase.getVersion());
-      listOfLocalRenderInformation.addNamespace(RenderConstants.namespaceURI);
+      listOfLocalRenderInformation.setNamespace(RenderConstants.namespaceURI);
       listOfLocalRenderInformation.setSBaseListType(ListOf.Type.other);
       sBase.registerChild(listOfLocalRenderInformation);
     }
