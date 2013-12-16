@@ -28,6 +28,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import javax.xml.stream.XMLStreamException;
+
 import jp.sbi.celldesigner.plugin.PluginAlgebraicRule;
 import jp.sbi.celldesigner.plugin.PluginAssignmentRule;
 import jp.sbi.celldesigner.plugin.PluginCompartment;
@@ -54,6 +56,7 @@ import jp.sbi.celldesigner.plugin.PluginUnit;
 import jp.sbi.celldesigner.plugin.PluginUnitDefinition;
 import jp.sbi.celldesigner.plugin.util.PluginSpeciesSymbolType;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.AlgebraicRule;
 import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.Compartment;
@@ -110,6 +113,12 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    */
   protected LinkedList<TreeNodeChangeListener> listOfTreeNodeChangeListeners;
+
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final Logger logger = Logger.getLogger(PluginSBMLReader.class);
+
   /**
    * 
    */
@@ -266,7 +275,11 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
     sbase.putUserObject(LINK_TO_CELLDESIGNER, pluginSBase);
 
     if (pluginSBase.getNotesString().length() > 0) {
-      sbase.setNotes(pluginSBase.getNotesString());
+      try {
+        sbase.setNotes(pluginSBase.getNotesString());
+      } catch (XMLStreamException exc) {
+        logger.warn(exc.getLocalizedMessage() != null ? exc.getLocalizedMessage() : exc.getMessage(), exc);
+      }
     }
     for (int i = 0; i < pluginSBase.getNumCVTerms(); i++) {
       sbase.addCVTerm(LibSBMLUtils.convertCVTerm(pluginSBase.getCVTerm(i)));
@@ -291,7 +304,11 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
         }
       }
       if (sb.toString().trim().length() > 0) {
-        sbase.getAnnotation().setNonRDFAnnotation(sb.toString());
+        try {
+          sbase.getAnnotation().setNonRDFAnnotation(sb.toString());
+        } catch (XMLStreamException exc) {
+          logger.warn(exc.getLocalizedMessage() != null ? exc.getLocalizedMessage() : exc.getMessage(), exc);
+        }
       }
       sbase.getAnnotation().putUserObject(LINK_TO_LIBSBML, pluginSBase.getAnnotation());
     }
@@ -382,7 +399,11 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
       c.setMath(LibSBMLUtils.convert(libsbml.parseFormula(constraint.getMath()), c));
     }
     if (constraint.getMessage().length() > 0) {
-      c.setMessage(constraint.getMessage());
+      try {
+        c.setMessage(constraint.getMessage());
+      } catch (XMLStreamException exc) {
+        logger.warn(exc.getLocalizedMessage() != null ? exc.getLocalizedMessage() : exc.getMessage(), exc);
+      }
     }
     return c;
   }

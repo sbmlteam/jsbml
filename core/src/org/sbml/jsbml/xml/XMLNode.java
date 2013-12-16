@@ -112,22 +112,22 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  */
 public class XMLNode extends XMLToken {
 
-	/**
-	 * Generated serial version identifier
-	 */
-	private static final long serialVersionUID = -7699595383368237593L;
-	
-	/**
-	 * This reader is used to parse all notes-Strings.
-	 * It takes a lot of time to re-initialize the {@link SBMLReader}
-	 * every time notes are being set or appended, thus, this instance
-	 * is static and should be used to parse all notes.
-	 */
-	private static SBMLReader notesReader = new SBMLReader();
-	
+  /**
+   * Generated serial version identifier
+   */
+  private static final long serialVersionUID = -7699595383368237593L;
 
   /**
-   * Returns an {@link XMLNode} which is derived from a {@link String} 
+   * This reader is used to parse all notes-Strings.
+   * It takes a lot of time to re-initialize the {@link SBMLReader}
+   * every time notes are being set or appended, thus, this instance
+   * is static and should be used to parse all notes.
+   */
+  private static SBMLReader notesReader = new SBMLReader();
+
+
+  /**
+   * Returns an {@link XMLNode} which is derived from a {@link String}
    * containing XML content.
    * <p>
    * The XML namespace must be defined using argument {@code xmlns} if the
@@ -151,453 +151,449 @@ public class XMLNode extends XMLToken {
    *             returned {@link XMLNode} object is a dummy node.
    * @return a {@link XMLNode} which is converted from string {@code xmlstr}.
    *         {@code null} is returned if the conversion failed.
+   * @throws XMLStreamException
    */
-	public static XMLNode convertStringToXMLNode(String xmlstr) {
-		try {
-		  /* Initializing the SBMLReader again and again
-		   * for every time we append notes takes a lot of time
-		   * (especially calling the initializePackageParsers()
-		   * method) => use a static instance here */
-			return notesReader.readNotes(xmlstr);
-		} catch (XMLStreamException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
-	
-	/**
-	 * Returns an {@link XMLNode} which is derived from a string containing XML
-	 * content.
-	 * <p>
-	 * The XML namespace must be defined using argument {@code xmlns} if the
-	 * corresponding XML namespace attribute is not part of the string of the
-	 * first argument.
-	 * <p>
-	 * @param xmlstr string to be converted to a XML node.
-	 * @param xmlns {@link XMLNamespaces} the namespaces to set (default value is {@code null}). This argument is ignored at the moment.
-	 * <p>
-	 * @jsbml.note The caller owns the returned {@link XMLNode} and is reponsible for deleting it.
-	 * The returned {@link XMLNode} object is a dummy root (container) {@link XMLNode} if the top-level 
-	 * element in the given XML string is NOT {@code html}, {@code body}, {@code annotation}, {@code notes}.
-	 * In the dummy root node, each top-level element in the given XML string is contained
-	 * as a child {@link XMLNode}. XMLToken.isEOF() can be used to identify if the returned {@link XMLNode} 
-	 * object is a dummy node.
-	 * <p>
-	 * @return a {@link XMLNode} which is converted from string {@code xmlstr}. {@code null} is returned
-	 * if the conversion failed. 
-	 * 
-	 */
-	public static XMLNode convertStringToXMLNode(String xmlstr, XMLNamespaces xmlns) {
-		
-		// TODO: check how to use the xmlns arguments inside the SBMLReader.readNotes.
-		
-		try {
-			return notesReader.readNotes(xmlstr);
-		} catch (XMLStreamException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
-	
-	/**
-	 * Returns a string representation of a given {@link XMLNode}. 
-	 * <p>
-	 * @param node the {@link XMLNode} to be represented as a string
-	 * <p>
-	 * @return a string-form representation of {@code node}
-	 */
-	public static String convertXMLNodeToString(XMLNode node) {
-		return node.toXMLString();
-	}
+  public static XMLNode convertStringToXMLNode(String xmlstr) throws XMLStreamException {
+    /* Initializing the SBMLReader again and again
+     * for every time we append notes takes a lot of time
+     * (especially calling the initializePackageParsers()
+     * method) => use a static instance here */
+    return notesReader.readNotes(xmlstr);
+  }
+
+  /**
+   * Returns an {@link XMLNode} which is derived from a string containing XML
+   * content.
+   * <p>
+   * The XML namespace must be defined using argument {@code xmlns} if the
+   * corresponding XML namespace attribute is not part of the string of the
+   * first argument.
+   * <p>
+   * @param xmlstr string to be converted to a XML node.
+   * @param xmlns {@link XMLNamespaces} the namespaces to set (default value is {@code null}). This argument is ignored at the moment.
+   * <p>
+   * @jsbml.note The caller owns the returned {@link XMLNode} and is reponsible for deleting it.
+   * The returned {@link XMLNode} object is a dummy root (container) {@link XMLNode} if the top-level
+   * element in the given XML string is NOT {@code html}, {@code body}, {@code annotation}, {@code notes}.
+   * In the dummy root node, each top-level element in the given XML string is contained
+   * as a child {@link XMLNode}. XMLToken.isEOF() can be used to identify if the returned {@link XMLNode}
+   * object is a dummy node.
+   * <p>
+   * @return a {@link XMLNode} which is converted from string {@code xmlstr}. {@code null} is returned
+   * if the conversion failed.
+   * 
+   */
+  public static XMLNode convertStringToXMLNode(String xmlstr, XMLNamespaces xmlns) {
+
+    // TODO: check how to use the xmlns arguments inside the SBMLReader.readNotes.
+
+    try {
+      return notesReader.readNotes(xmlstr);
+    } catch (XMLStreamException e) {
+      e.printStackTrace();
+    }
+
+    return null;
+  }
+
+  /**
+   * Returns a string representation of a given {@link XMLNode}.
+   * <p>
+   * @param node the {@link XMLNode} to be represented as a string
+   * <p>
+   * @return a string-form representation of {@code node}
+   */
+  public static String convertXMLNodeToString(XMLNode node) {
+    return node.toXMLString();
+  }
 
 
-	/**
-	 * 
-	 */
-	private List<XMLNode> childrenElements = new ArrayList<XMLNode>();
+  /**
+   * 
+   */
+  private List<XMLNode> childrenElements = new ArrayList<XMLNode>();
 
-	/**
-	 * Creates a new empty {@link XMLNode} with no children.
-	 */
-	public XMLNode() {
-	  super();
-	}
-
-
-	/**
-	 * Creates a text {@link XMLNode}.
-	 * <p>
-	 * @param chars a string, the text to be added to the {@link XMLToken}
-	 * 
-	 */
-	public XMLNode(String chars) {
-		super(chars);
-	}
+  /**
+   * Creates a new empty {@link XMLNode} with no children.
+   */
+  public XMLNode() {
+    super();
+  }
 
 
-	/**
-	 * Creates a text {@link XMLNode}.
-	 * <p>
-	 * @param chars a string, the text to be added to the {@link XMLToken}
-	 * @param line a long integer, the line number (default = 0).
-	 * 
-	 */
-	public XMLNode(String chars, long line) {
-		super(chars, line, 0);
-	}
+  /**
+   * Creates a text {@link XMLNode}.
+   * <p>
+   * @param chars a string, the text to be added to the {@link XMLToken}
+   * 
+   */
+  public XMLNode(String chars) {
+    super(chars);
+  }
 
 
-	/**
-	 * Creates a text {@link XMLNode}.
-	 * <p>
-	 * @param chars a string, the text to be added to the {@link XMLToken}
-	 * @param line a long integer, the line number (default = 0).
-	 * @param column a long integer, the column number (default = 0).
-	 * 
-	 */
-	public XMLNode(String chars, long line, long column) {
-		super(chars, line, column);
-	}
+  /**
+   * Creates a text {@link XMLNode}.
+   * <p>
+   * @param chars a string, the text to be added to the {@link XMLToken}
+   * @param line a long integer, the line number (default = 0).
+   * 
+   */
+  public XMLNode(String chars, long line) {
+    super(chars, line, 0);
+  }
 
 
-	/**
-	 * Creates a copy of this {@link XMLNode}.
-	 * <p>
-	 * @param orig the {@link XMLNode} instance to copy.
-	 */
-	public XMLNode(XMLNode orig) {
-		super(orig);
-		
-		if (orig.childrenElements.size() > 0) {
-			for (XMLNode origchildren : orig.childrenElements) {
-				childrenElements.add(origchildren.clone());
-			}
-		}
-	}
+  /**
+   * Creates a text {@link XMLNode}.
+   * <p>
+   * @param chars a string, the text to be added to the {@link XMLToken}
+   * @param line a long integer, the line number (default = 0).
+   * @param column a long integer, the column number (default = 0).
+   * 
+   */
+  public XMLNode(String chars, long line, long column) {
+    super(chars, line, column);
+  }
 
 
-	/**
-	 * Creates a new {@link XMLNode} by copying token.
-	 * <p>
-	 * @param token {@link XMLToken} to be copied to {@link XMLNode}
-	 */
-	public XMLNode(XMLToken orig) {
-		if (orig.triple != null) {
-			triple = orig.triple.clone();
-		}
-		if (orig.attributes != null) {
-			attributes = orig.attributes.clone();
-		}
-		if (orig.namespaces != null) {
-			namespaces = orig.namespaces.clone();
-		}
-		line = orig.line;
-		column = orig.column;
-		if (orig.characters != null) {
-			characters.append(orig.getCharacters());
-		}
-		isText = orig.isText;
-		isStartElement = orig.isStartElement;
-		isEndElement = orig.isEndElement;
-		isEOF = orig.isEOF;
+  /**
+   * Creates a copy of this {@link XMLNode}.
+   * <p>
+   * @param orig the {@link XMLNode} instance to copy.
+   */
+  public XMLNode(XMLNode orig) {
+    super(orig);
 
-	}
+    if (orig.childrenElements.size() > 0) {
+      for (XMLNode origchildren : orig.childrenElements) {
+        childrenElements.add(origchildren.clone());
+      }
+    }
+  }
 
 
-	/**
-	 * Creates an end element {@link XMLNode}.
-	 * <p>
-	 * @param triple {@link XMLTriple}.
-	 * 
-	 */
-	public XMLNode(XMLTriple triple) {
-		super(triple);
-	}
+  /**
+   * Creates a new {@link XMLNode} by copying token.
+   * <p>
+   * @param token {@link XMLToken} to be copied to {@link XMLNode}
+   */
+  public XMLNode(XMLToken orig) {
+    if (orig.triple != null) {
+      triple = orig.triple.clone();
+    }
+    if (orig.attributes != null) {
+      attributes = orig.attributes.clone();
+    }
+    if (orig.namespaces != null) {
+      namespaces = orig.namespaces.clone();
+    }
+    line = orig.line;
+    column = orig.column;
+    if (orig.characters != null) {
+      characters.append(orig.getCharacters());
+    }
+    isText = orig.isText;
+    isStartElement = orig.isStartElement;
+    isEndElement = orig.isEndElement;
+    isEOF = orig.isEOF;
+
+  }
 
 
-	/**
-	 * Creates an end element {@link XMLNode}.
-	 * <p>
-	 * @param triple {@link XMLTriple}.
-	 * @param line a long integer, the line number (default = 0).
-	 * 
-	 */
-	public XMLNode(XMLTriple triple, long line) {
-		super(triple, line);
-	}
+  /**
+   * Creates an end element {@link XMLNode}.
+   * <p>
+   * @param triple {@link XMLTriple}.
+   * 
+   */
+  public XMLNode(XMLTriple triple) {
+    super(triple);
+  }
 
 
-	/**
-	 * Creates an end element {@link XMLNode}.
-	 * <p>
-	 * @param triple {@link XMLTriple}.
-	 * @param line a long integer, the line number (default = 0).
-	 * @param column a long integer, the column number (default = 0).
-	 * 
-	 */
-	public XMLNode(XMLTriple triple, long line, long column) {
-		super(triple, line, column);
-	}
+  /**
+   * Creates an end element {@link XMLNode}.
+   * <p>
+   * @param triple {@link XMLTriple}.
+   * @param line a long integer, the line number (default = 0).
+   * 
+   */
+  public XMLNode(XMLTriple triple, long line) {
+    super(triple, line);
+  }
 
 
-	/**
-	 * Creates a start element {@link XMLNode} with the given set of attributes.
-	 * <p>
-	 * @param triple {@link XMLTriple}.
-	 * @param attributes {@link XMLAttributes}, the attributes to set.
-	 * 
-	 */
-	public XMLNode(XMLTriple triple, XMLAttributes attributes) {
-		super(triple, attributes);
-	}
+  /**
+   * Creates an end element {@link XMLNode}.
+   * <p>
+   * @param triple {@link XMLTriple}.
+   * @param line a long integer, the line number (default = 0).
+   * @param column a long integer, the column number (default = 0).
+   * 
+   */
+  public XMLNode(XMLTriple triple, long line, long column) {
+    super(triple, line, column);
+  }
 
 
-	/**
-	 * Creates a start element {@link XMLNode} with the given set of attributes.
-	 * <p>
-	 * @param triple {@link XMLTriple}.
-	 * @param attributes {@link XMLAttributes}, the attributes to set.
-	 * @param line a long integer, the line number (default = 0).
-	 * 
-	 */
-	public XMLNode(XMLTriple triple, XMLAttributes attributes, long line) {
-		super(triple, attributes, line, 0);
-	}
+  /**
+   * Creates a start element {@link XMLNode} with the given set of attributes.
+   * <p>
+   * @param triple {@link XMLTriple}.
+   * @param attributes {@link XMLAttributes}, the attributes to set.
+   * 
+   */
+  public XMLNode(XMLTriple triple, XMLAttributes attributes) {
+    super(triple, attributes);
+  }
 
 
-	/**
-	 * Creates a start element {@link XMLNode} with the given set of attributes.
-	 * <p>
-	 * @param triple {@link XMLTriple}.
-	 * @param attributes {@link XMLAttributes}, the attributes to set.
-	 * @param line a long integer, the line number (default = 0).
-	 * @param column a long integer, the column number (default = 0).
-	 * 
-	 */
-	public XMLNode(XMLTriple triple, XMLAttributes attributes, long line, long column) {
-		super(triple, attributes, line, column);
-	}
+  /**
+   * Creates a start element {@link XMLNode} with the given set of attributes.
+   * <p>
+   * @param triple {@link XMLTriple}.
+   * @param attributes {@link XMLAttributes}, the attributes to set.
+   * @param line a long integer, the line number (default = 0).
+   * 
+   */
+  public XMLNode(XMLTriple triple, XMLAttributes attributes, long line) {
+    super(triple, attributes, line, 0);
+  }
 
 
-	/**
-	 * Creates a new start element {@link XMLNode} with the given set of attributes and
-	 * namespace declarations.
-	 * <p>
-	 * @param triple {@link XMLTriple}.
-	 * @param attributes {@link XMLAttributes}, the attributes to set.
-	 * @param namespaces {@link XMLNamespaces}, the namespaces to set.
-	 * 
-	 */
-	public XMLNode(XMLTriple triple, XMLAttributes attributes, XMLNamespaces namespaces) {
-		super(triple, attributes, namespaces);
-	}
+  /**
+   * Creates a start element {@link XMLNode} with the given set of attributes.
+   * <p>
+   * @param triple {@link XMLTriple}.
+   * @param attributes {@link XMLAttributes}, the attributes to set.
+   * @param line a long integer, the line number (default = 0).
+   * @param column a long integer, the column number (default = 0).
+   * 
+   */
+  public XMLNode(XMLTriple triple, XMLAttributes attributes, long line, long column) {
+    super(triple, attributes, line, column);
+  }
 
 
-	/**
-	 * Creates a new start element {@link XMLNode} with the given set of attributes and
-	 * namespace declarations.
-	 * <p>
-	 * @param triple {@link XMLTriple}.
-	 * @param attributes {@link XMLAttributes}, the attributes to set.
-	 * @param namespaces {@link XMLNamespaces}, the namespaces to set.
-	 * @param line a long integer, the line number (default = 0).
-	 * 
-	 */
+  /**
+   * Creates a new start element {@link XMLNode} with the given set of attributes and
+   * namespace declarations.
+   * <p>
+   * @param triple {@link XMLTriple}.
+   * @param attributes {@link XMLAttributes}, the attributes to set.
+   * @param namespaces {@link XMLNamespaces}, the namespaces to set.
+   * 
+   */
+  public XMLNode(XMLTriple triple, XMLAttributes attributes, XMLNamespaces namespaces) {
+    super(triple, attributes, namespaces);
+  }
+
+
+  /**
+   * Creates a new start element {@link XMLNode} with the given set of attributes and
+   * namespace declarations.
+   * <p>
+   * @param triple {@link XMLTriple}.
+   * @param attributes {@link XMLAttributes}, the attributes to set.
+   * @param namespaces {@link XMLNamespaces}, the namespaces to set.
+   * @param line a long integer, the line number (default = 0).
+   * 
+   */
   public XMLNode(XMLTriple triple, XMLAttributes attributes,
     XMLNamespaces namespaces, long line) {
     super(triple, attributes, namespaces, line);
   }
 
 
-	/**
-	 * Creates a new start element {@link XMLNode} with the given set of attributes and
-	 * namespace declarations.
-	 * <p>
-	 * @param triple {@link XMLTriple}.
-	 * @param attributes {@link XMLAttributes}, the attributes to set.
-	 * @param namespaces {@link XMLNamespaces}, the namespaces to set.
-	 * @param line a long integer, the line number (default = 0).
-	 * @param column a long integer, the column number (default = 0).
-	 */
-	public XMLNode(XMLTriple triple, XMLAttributes attributes, XMLNamespaces namespaces, long line, long column) {		 
-		super(triple, attributes, namespaces, line, column);
-	}
+  /**
+   * Creates a new start element {@link XMLNode} with the given set of attributes and
+   * namespace declarations.
+   * <p>
+   * @param triple {@link XMLTriple}.
+   * @param attributes {@link XMLAttributes}, the attributes to set.
+   * @param namespaces {@link XMLNamespaces}, the namespaces to set.
+   * @param line a long integer, the line number (default = 0).
+   * @param column a long integer, the column number (default = 0).
+   */
+  public XMLNode(XMLTriple triple, XMLAttributes attributes, XMLNamespaces namespaces, long line, long column) {
+    super(triple, attributes, namespaces, line, column);
+  }
 
 
-	/**
-	 * Adds a child to this {@link XMLNode}.
-	 * <p>
-	 * The given {@code node} is added at the end of the list of children.
-	 * <p>
-	 * @param node the {@link XMLNode} to be added as child.
-	 * <p>
-	 * @return integer value indicating success/failure of the
-	 * function.   The possible values
-	 * returned by this function are:
-	 * <li> OPERATION_SUCCESS
-	 * <li> OPERATION_FAILED
-	 * <p>
-	 * @jsbml.note The given node is added at the end of the children list.
-	 */
-	public int addChild(XMLNode node) {
-		
-		if (node == null) {
-			return OPERATION_FAILED;
-		}
-		
-		if (isEnd()) {
-			unsetEnd();
-		}
+  /**
+   * Adds a child to this {@link XMLNode}.
+   * <p>
+   * The given {@code node} is added at the end of the list of children.
+   * <p>
+   * @param node the {@link XMLNode} to be added as child.
+   * <p>
+   * @return integer value indicating success/failure of the
+   * function.   The possible values
+   * returned by this function are:
+   * <li> OPERATION_SUCCESS
+   * <li> OPERATION_FAILED
+   * <p>
+   * @jsbml.note The given node is added at the end of the children list.
+   */
+  public int addChild(XMLNode node) {
 
-		// TODO: there are more tests in libsbml XMLNode.cpp, check if we need them, like isEOF()
+    if (node == null) {
+      return OPERATION_FAILED;
+    }
 
-		childrenElements.add(node);
-		node.fireNodeAddedEvent();
-		node.parent = this;
+    if (isEnd()) {
+      unsetEnd();
+    }
 
-		return OPERATION_SUCCESS;
-	}
+    // TODO: there are more tests in libsbml XMLNode.cpp, check if we need them, like isEOF()
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.XMLToken#clone()
-	 */
-	@Override
-	public XMLNode clone() {
-		return new XMLNode(this);
-	}
+    childrenElements.add(node);
+    node.fireNodeAddedEvent();
+    node.parent = this;
 
+    return OPERATION_SUCCESS;
+  }
 
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
-	 */
-	@Override
-	public boolean getAllowsChildren() {
-		return true;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.XMLToken#clone()
+   */
+  @Override
+  public XMLNode clone() {
+    return new XMLNode(this);
+  }
 
 
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
-	 */
-	@Override
-	public XMLNode getChildAt(int childIndex) {
-		if (childrenElements == null) {
-			throw new IndexOutOfBoundsException(Integer.toString(childIndex));
-		}
-		return childrenElements.get(childIndex);
-	}
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getAllowsChildren()
+   */
+  @Override
+  public boolean getAllowsChildren() {
+    return true;
+  }
 
 
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	@Override
-	public int getChildCount() {
-		return childrenElements != null ? childrenElements.size() : 0;
-	}
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildAt(int)
+   */
+  @Override
+  public XMLNode getChildAt(int childIndex) {
+    if (childrenElements == null) {
+      throw new IndexOutOfBoundsException(Integer.toString(childIndex));
+    }
+    return childrenElements.get(childIndex);
+  }
 
-	/**
-	 * Inserts a node as the {@code n}th child of this
-	 * {@link XMLNode}.
-	 * <p>
-	 * If the given index {@code n} is out of range for this {@link XMLNode} instance,
-	 * the {@code node} is added at the end of the list of children.  Even in
-	 * that situation, this method does not throw an error.
-	 * <p>
-	 * @param n an integer, the index at which the given node is inserted
-	 * @param node an {@link XMLNode} to be inserted as {@code n}th child.
-	 * <p>
-	 * @return a reference to the newly-inserted child {@code node}
-	 */
-	public XMLNode insertChild(int n, XMLNode node) {
-		if (node == null) {
-			return node;
-		}
-		
-		if (isEnd()) {
-			unsetEnd();
-		}
-		if ((n > getChildCount()) || (n < 0)) {
-//			childrenElements.add(node);
-			throw new IndexOutOfBoundsException(Integer.toString(n));
-		} else {		
-			childrenElements.add(n, node);
-			node.fireNodeAddedEvent();
-		}
-		node.parent = this;
-		
-		return node;
-	}
 
-	/**
-	 * Removes the {@code n}th child of this {@link XMLNode} and returns the
-	 * removed node.
-	 * <p>
-	 * It is important to keep in mind that a given {@link XMLNode} may have more
-	 * than one child.  Calling this method erases all existing references to
-	 * child nodes <em>after</em> the given position {@code n}.  If the index {@code n} is
-	 * greater than the number of child nodes in this {@link XMLNode}, this method
-	 * takes no action (and returns {@code null}).
-	 * <p>
-	 * @param n an integer, the index of the node to be removed
-	 * <p>
-	 * @return the removed child, or {@code null} if {@code n} is greater than the number
-	 * of children in this node
-	 * <p>
-	 * @jsbml.note The caller owns the returned node and is responsible for deleting it.
-	 */
-	public XMLNode removeChild(int n) {
-		if ((n < 0) || (getChildCount() < n)) {
-			return null;
-		}		
-		XMLNode oldNode =  childrenElements.remove(n);
-		oldNode.fireNodeRemovedEvent();
-		return oldNode;
-	}
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    return childrenElements != null ? childrenElements.size() : 0;
+  }
 
-	/**
-	 * Removes all children from this node.
-	 * @return integer value indicating success/failure of the
-	 * function.   The possible values
-	 * returned by this function are:
-	 * <li> OPERATION_SUCCESS
-	 */
-	public int removeChildren() {
+  /**
+   * Inserts a node as the {@code n}th child of this
+   * {@link XMLNode}.
+   * <p>
+   * If the given index {@code n} is out of range for this {@link XMLNode} instance,
+   * the {@code node} is added at the end of the list of children.  Even in
+   * that situation, this method does not throw an error.
+   * <p>
+   * @param n an integer, the index at which the given node is inserted
+   * @param node an {@link XMLNode} to be inserted as {@code n}th child.
+   * <p>
+   * @return a reference to the newly-inserted child {@code node}
+   */
+  public XMLNode insertChild(int n, XMLNode node) {
+    if (node == null) {
+      return node;
+    }
 
-		List<XMLNode> removedChildren = childrenElements;
-		childrenElements.clear();
-		for(XMLNode child : removedChildren) {
-			child.fireNodeRemovedEvent();
-		}
-		
-		return OPERATION_SUCCESS;
-	}
+    if (isEnd()) {
+      unsetEnd();
+    }
+    if ((n > getChildCount()) || (n < 0)) {
+      //			childrenElements.add(node);
+      throw new IndexOutOfBoundsException(Integer.toString(n));
+    } else {
+      childrenElements.add(n, node);
+      node.fireNodeAddedEvent();
+    }
+    node.parent = this;
 
-	/**
-	 * Returns a string representation of this {@link XMLNode}. 
-	 * <p>
-	 * @return a string derived from this {@link XMLNode}.
-	 */
-	public String toXMLString() {
-		if (isText() && getChildCount() == 0)
-		{
-			return getCharacters();
-		}
-		return XMLNodeWriter.toXML(this);
-	}
+    return node;
+  }
 
-	/*
-	 *  (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.XMLToken#toString()
-	 */
-	public String toString() {
-		return toXMLString();
-	}
+  /**
+   * Removes the {@code n}th child of this {@link XMLNode} and returns the
+   * removed node.
+   * <p>
+   * It is important to keep in mind that a given {@link XMLNode} may have more
+   * than one child.  Calling this method erases all existing references to
+   * child nodes <em>after</em> the given position {@code n}.  If the index {@code n} is
+   * greater than the number of child nodes in this {@link XMLNode}, this method
+   * takes no action (and returns {@code null}).
+   * <p>
+   * @param n an integer, the index of the node to be removed
+   * <p>
+   * @return the removed child, or {@code null} if {@code n} is greater than the number
+   * of children in this node
+   * <p>
+   * @jsbml.note The caller owns the returned node and is responsible for deleting it.
+   */
+  public XMLNode removeChild(int n) {
+    if ((n < 0) || (getChildCount() < n)) {
+      return null;
+    }
+    XMLNode oldNode =  childrenElements.remove(n);
+    oldNode.fireNodeRemovedEvent();
+    return oldNode;
+  }
 
-	public boolean removeChild(XMLNode xmlNode) {
-		return childrenElements.remove(xmlNode);		
-	}
+  /**
+   * Removes all children from this node.
+   * @return integer value indicating success/failure of the
+   * function.   The possible values
+   * returned by this function are:
+   * <li> OPERATION_SUCCESS
+   */
+  public int removeChildren() {
+
+    List<XMLNode> removedChildren = childrenElements;
+    childrenElements.clear();
+    for(XMLNode child : removedChildren) {
+      child.fireNodeRemovedEvent();
+    }
+
+    return OPERATION_SUCCESS;
+  }
+
+  /**
+   * Returns a string representation of this {@link XMLNode}.
+   * <p>
+   * @return a string derived from this {@link XMLNode}.
+   */
+  public String toXMLString() {
+    if (isText() && getChildCount() == 0)
+    {
+      return getCharacters();
+    }
+    return XMLNodeWriter.toXML(this);
+  }
+
+  /*
+   *  (non-Javadoc)
+   * @see org.sbml.jsbml.xml.XMLToken#toString()
+   */
+  @Override
+  public String toString() {
+    return toXMLString();
+  }
+
+  public boolean removeChild(XMLNode xmlNode) {
+    return childrenElements.remove(xmlNode);
+  }
 
 }

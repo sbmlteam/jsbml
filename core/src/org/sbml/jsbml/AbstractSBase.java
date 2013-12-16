@@ -32,6 +32,7 @@ import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 import javax.swing.tree.TreeNode;
+import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ext.SBasePlugin;
@@ -371,9 +372,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @see org.sbml.jlibsbml.SBase#appendNotes(java.lang.String)
    */
   @Override
-  public void appendNotes(String notes) {
-    XMLNode addedNotes = XMLNode.convertStringToXMLNode(StringTools
-      .toXMLNotesString(notes));
+  public void appendNotes(String notes) throws XMLStreamException {
+    XMLNode addedNotes = XMLNode.convertStringToXMLNode(StringTools.toXMLNotesString(notes));
     if (isSetNotes()) {
       XMLNode oldNotes = notesXMLNode.clone();
       appendNotes(addedNotes);
@@ -1564,9 +1564,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @see org.sbml.jsbml.element.SBase#setNotes(java.lang.String)
    */
   @Override
-  public void setNotes(String notes) {
-    setNotes(XMLNode.convertStringToXMLNode(StringTools
-      .toXMLNotesString(notes)));
+  public void setNotes(String notes) throws XMLStreamException {
+    setNotes(XMLNode.convertStringToXMLNode(StringTools.toXMLNotesString(notes)));
   }
 
   /* (non-Javadoc)

@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
+import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.util.StringTools;
@@ -50,702 +51,709 @@ import org.sbml.jsbml.xml.XMLTriple;
  * @version $Rev$
  */
 public class Annotation extends AnnotationElement {
-	
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 2127495202258145900L;
 
-	/**
-	 * The RDF syntax name space definition URI.
-	 */
-	public static final transient String URI_RDF_SYNTAX_NS = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-	
-	/**
-	 * Returns a {@link String} which represents the given {@link Qualifier}.
-	 * 
-	 * @param qualifier a {@code Qualifier}
-	 * @return a {@link String} which represents the given {@link Qualifier}.
-	 */
-	public static String getElementNameEquivalentToQualifier(Qualifier qualifier) {
-		return qualifier.getElementNameEquivalent();
-	}
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 2127495202258145900L;
 
-	/**
-	 * matches the about XML attribute of an annotation element in a SBML
-	 * file.
-	 */
-	private String about;
+  /**
+   * The RDF syntax name space definition URI.
+   */
+  public static final transient String URI_RDF_SYNTAX_NS = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 
-	/**
-	 * The ModelHistory which represents the history section of a RDF
-	 * annotation
-	 */
-	private History history;
+  /**
+   * Returns a {@link String} which represents the given {@link Qualifier}.
+   * 
+   * @param qualifier a {@code Qualifier}
+   * @return a {@link String} which represents the given {@link Qualifier}.
+   */
+  public static String getElementNameEquivalentToQualifier(Qualifier qualifier) {
+    return qualifier.getElementNameEquivalent();
+  }
 
-	/**
-	 * contains all the CVTerm of the RDF annotation
-	 */
-	private List<CVTerm> listOfCVTerms;
+  /**
+   * matches the about XML attribute of an annotation element in a SBML
+   * file.
+   */
+  private String about;
 
-	/**
-	 * contains all the remaining annotation not mapped to Objects.
-	 * 
-	 */
-	private XMLNode nonRDFannotation;
+  /**
+   * The ModelHistory which represents the history section of a RDF
+   * annotation
+   */
+  private History history;
 
+  /**
+   * contains all the CVTerm of the RDF annotation
+   */
+  private List<CVTerm> listOfCVTerms;
 
-	/**
-	 * Creates an Annotation instance.<p> By default, the {@link History} and
-	 * otherAnnotation Strings are {@code null}. The list of {@link CVTerm}s and extensions are empty.
-	 * 
-	 */
-	public Annotation() {
-		super();
-
-		this.nonRDFannotation = null;
-		this.history = null;
-	}
-	
-	/**
-	 * Creates a new Annotation instance by cloning the given Annotation.
-	 * 
-	 * @param annotation the annotation to be cloned.
-	 */
-	public Annotation(Annotation annotation) {
-		super(annotation);
-
-		if (annotation.nonRDFannotation != null) {
-			this.nonRDFannotation = annotation.nonRDFannotation.clone();
-		}
-		for (CVTerm term : annotation.getListOfCVTerms()) {
-			getListOfCVTerms().add(term.clone());
-		}
-		if (annotation.isSetHistory()) {
-			setHistory(annotation.getHistory().clone());
-		}
-	}
-
-	/**
-	 * Creates an {@link Annotation} instance from a list of {@link CVTerm}
-	 * objects. By default, the {@link History} and otherAnnotation {@link String}s are
-	 * {@code null}. The {@link Map} extensions is empty.
-	 * 
-	 * @param cvTerms
-	 *            the list of {@link CVTerm}.
-	 */
-	public Annotation(List<CVTerm> cvTerms) {
-		this();
-		this.listOfCVTerms = cvTerms;
-	}
-
-	/**
-	 * Creates an {@link Annotation} instance from a {@link String} containing non RDF
-	 * annotation. By default, the {@link History} is null, the list of {@link CVTerm}s
-	 * is empty. The {@link Map} extensions is empty.
-	 * 
-	 * @param annotation
-	 *            a {@link String} containing non RDF annotation, it will be parsed to
-	 *            create a {@link Map} containing an XML name space associated with a
-	 *            {@link String} representing all the annotation elements of
-	 *            this name space.
-	 * 
-	 */
-	public Annotation(String annotation) {
-		this();
-		// parse the String as an XMLNode
-		this.nonRDFannotation = XMLNode.convertStringToXMLNode(annotation);
-	}
-
-	/**
-	 * Creates an {@link Annotation} instance from a {@link String} containing
-	 * non RDF annotation and a list of {@link CVTerm}. By default, the
-	 * {@link History} is {@code null}. The {@link Map} extensions is empty.
-	 * 
-	 * @param annotation
-	 *            a {@link String} containing non RDF annotation, it will be
-	 *            parsed to create a {@link Map} containing an XML name space
-	 *            associated with a {@link String} representing all the
-	 *            annotation elements of this name space.
-	 * @param cvTerms
-	 *            the {@link List} of {@link CVTerm}.
-	 */
-	public Annotation(String annotation, List<CVTerm> cvTerms) {
-		this();
-		this.nonRDFannotation = XMLNode.convertStringToXMLNode(annotation);
-		this.listOfCVTerms = cvTerms;
-	}
-
-	/**
-	 * Adds a {@link CVTerm}. 
-	 * 
-	 * @param cvTerm
-	 *            the {@link CVTerm} to add.
-	 * @return {@code true} if the 'cvTerm' element has been added to the {@link List}
-	 *         of {@link Qualifier}s.
-	 */
-	public boolean addCVTerm(CVTerm cvTerm) {
-		if (listOfCVTerms == null) {
-			listOfCVTerms = new ArrayList<CVTerm>();
-		}
-
-		cvTerm.parent = this;
-		boolean success = listOfCVTerms.add(cvTerm);
-		firePropertyChange(TreeNodeChangeEvent.addCVTerm, null, cvTerm);
-		return success;
-	}
-	
-	/**
-	 * Appends some 'annotation' to the non RDF annotation {@link XMLNode} of this object.
-	 * 
-	 * @param annotation some non RDF annotations.
-	 */
-	public void appendNoRDFAnnotation(String annotation) {
-		XMLNode oldNonRDFAnnotation = null;		
-		XMLNode annotationToAppend = XMLNode.convertStringToXMLNode(StringTools.toXMLAnnotationString(annotation));
-		
-		if (nonRDFannotation == null) {
-			// check if the annotation contain an annotation top level element or not
-			if (!annotationToAppend.getName().equals("annotation")) {
-				XMLNode annotationXMLNode = new XMLNode(new XMLTriple("annotation", null, null), new XMLAttributes());
-				annotationXMLNode.addChild(new XMLNode("\n  "));
-				annotationXMLNode.addChild(annotationToAppend);
-				annotationToAppend = annotationXMLNode;
-				annotationToAppend.setParent(this);
-			}
-			
-			nonRDFannotation = annotationToAppend;
-		} else {
-			oldNonRDFAnnotation = nonRDFannotation.clone();
-			
-			if (annotationToAppend.getName().equals("annotation")) {
-				for (int i = 0; i < annotationToAppend.getChildCount(); i++) {
-					XMLNode child = annotationToAppend.getChildAt(i);
-					nonRDFannotation.addChild(child);
-				}
-			} else {
-				nonRDFannotation.addChild(annotationToAppend);
-			}
-		}
-
-		firePropertyChange(TreeNodeChangeEvent.nonRDFAnnotation,
-					oldNonRDFAnnotation, nonRDFannotation);
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#clone()
-	 */
-	public Annotation clone() {
-		return new Annotation(this);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object object) {
-		boolean equals = super.equals(object);
-		if (equals) {
-			Annotation annotation = (Annotation) object;
-			equals &= isSetNonRDFannotation() == annotation.isSetNonRDFannotation();
-			if (equals && isSetNonRDFannotation()) {
-				equals &= nonRDFannotation.equals(annotation.getNonRDFannotation());
-			}
-			equals &= isSetAbout() == annotation.isSetAbout();
-			if (equals && isSetAbout()) {
-				equals &= getAbout().equals(annotation.getAbout());
-			}
-		}
-		return equals;
-	}
-	
-	/**
-	 * Returns a list of CVTerm having the given qualifier.
-	 * 
-	 * @param qualifier the qualifier
-	 * @return a list of CVTerm having the given qualifier, an empty
-	 * list is returned if no CVTerm are found.
-	 */
-	public List<CVTerm> filterCVTerms(Qualifier qualifier) {
-		ArrayList<CVTerm> l = new ArrayList<CVTerm>();
-		CVTermFilter filter = new CVTermFilter(qualifier);
-		for (CVTerm term : getListOfCVTerms()) {
-			if (filter.accepts(term)) {
-				l.add(term);
-			}
-		}
-		return l;
-	}
-
-	/**
-	 * Returns a list of CVTerm having the given qualifier and
-	 * where the URI contains the given pattern. The pattern can only be plain text.
-	 * 
-	 * @param qualifier the qualifier.
-	 * @param pattern a plain text pattern.
-	 * @return a list of CVTerm having the given qualifier and
-	 * where the URI matches the given pattern.
-	 */
-	public List<String> filterCVTerms(Qualifier qualifier, String pattern) {
-		List<String> l = new ArrayList<String>();
-		for (CVTerm c : filterCVTerms(qualifier)) {
-			l.addAll(c.filterResources(pattern));
-		}
-		return l;
-	}
-
-	/**
-	 * Returns the about String of this object.
-	 * 
-	 * @return the about String of this object.
-	 */
-	public String getAbout() {
-		return about == null ? "" : about;
-	}
-
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
-	 */
-	public boolean getAllowsChildren() {
-		return true;
-	}
+  /**
+   * contains all the remaining annotation not mapped to Objects.
+   * 
+   */
+  private XMLNode nonRDFannotation;
 
 
-	/**
-	 * Returns the {@link XMLNode} representing non RDF annotations.
-	 * 
-	 * @return the {@link XMLNode} representing non RDF annotations.
-	 */
-	public XMLNode getAnnotationBuilder() {
-		return this.nonRDFannotation;
-	}
+  /**
+   * Creates an Annotation instance.<p> By default, the {@link History} and
+   * otherAnnotation Strings are {@code null}. The list of {@link CVTerm}s and extensions are empty.
+   * 
+   */
+  public Annotation() {
+    super();
 
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
-	 */
-	public TreeNode getChildAt(int childIndex) {
-		if (childIndex < 0) {
-			throw new IndexOutOfBoundsException(childIndex + " < 0");
-		}
-		int pos = 0;
-		if (isSetHistory()) {
-			if (childIndex == pos) {
-				return getHistory();
-			}
-			pos++;
-		}
-		if (isSetListOfCVTerms()) {
-			if (childIndex == pos) {
-				return new TreeNodeAdapter(getListOfCVTerms(), this);
-			}
-			pos++;
-		}
+    nonRDFannotation = null;
+    history = null;
+  }
 
-		// TODO: could add all the XMLNode top level elements ??!?
-		
-//		if (isSetNonRDFannotation()) {
-//			if (childIndex == pos) {
-//				return new TreeNodeAdapter(getNonRDFannotation());
-//			}
-//			pos++;
-//		}
-		throw new IndexOutOfBoundsException(MessageFormat.format(
-		  "Index {0,number,integer} >= {1,number,integer}",
-			childIndex, +((int) Math.min(pos, 0))));
-	}
+  /**
+   * Creates a new Annotation instance by cloning the given Annotation.
+   * 
+   * @param annotation the annotation to be cloned.
+   */
+  public Annotation(Annotation annotation) {
+    super(annotation);
 
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	public int getChildCount() {
-		int count = 0;
-		if (isSetHistory()) {
-			count++;
-		}
-		if (isSetListOfCVTerms()) {
-			count++;
-		}
-//		if (isSetNonRDFannotation()) {
-//			count++;
-//		}
-		return count;
-	}
+    if (annotation.nonRDFannotation != null) {
+      nonRDFannotation = annotation.nonRDFannotation.clone();
+    }
+    for (CVTerm term : annotation.getListOfCVTerms()) {
+      getListOfCVTerms().add(term.clone());
+    }
+    if (annotation.isSetHistory()) {
+      setHistory(annotation.getHistory().clone());
+    }
+  }
 
-	/**
-	 * Returns the CVTerm at the ith position in the list of CVTerms.
-	 * 
-	 * @param i the index of the CVTerm to retrieve.
-	 * @return the CVTerm at the ith position in the list of CVTerms.
-	 */
-	public CVTerm getCVTerm(int i) {
-		return listOfCVTerms.get(i);
-	}
+  /**
+   * Creates an {@link Annotation} instance from a list of {@link CVTerm}
+   * objects. By default, the {@link History} and otherAnnotation {@link String}s are
+   * {@code null}. The {@link Map} extensions is empty.
+   * 
+   * @param cvTerms
+   *            the list of {@link CVTerm}.
+   */
+  public Annotation(List<CVTerm> cvTerms) {
+    this();
+    listOfCVTerms = cvTerms;
+  }
 
+  /**
+   * Creates an {@link Annotation} instance from a {@link String} containing non RDF
+   * annotation. By default, the {@link History} is null, the list of {@link CVTerm}s
+   * is empty. The {@link Map} extensions is empty.
+   * 
+   * @param annotation
+   *            a {@link String} containing non RDF annotation, it will be parsed to
+   *            create a {@link Map} containing an XML name space associated with a
+   *            {@link String} representing all the annotation elements of
+   *            this name space.
+   * @throws XMLStreamException
+   * 
+   */
+  public Annotation(String annotation) throws XMLStreamException {
+    this();
+    // parse the String as an XMLNode
+    nonRDFannotation = XMLNode.convertStringToXMLNode(annotation);
+  }
 
-	/**
-	 * Returns the {@link History} of the Annotation.
-	 * 
-	 * @return the {@link History} of the Annotation.
-	 */
-	public History getHistory() {
-		if (!isSetHistory()) {
-			createHistory();
-		}	
-		
-		return history;
-	}
+  /**
+   * Creates an {@link Annotation} instance from a {@link String} containing
+   * non RDF annotation and a list of {@link CVTerm}. By default, the
+   * {@link History} is {@code null}. The {@link Map} extensions is empty.
+   * 
+   * @param annotation
+   *            a {@link String} containing non RDF annotation, it will be
+   *            parsed to create a {@link Map} containing an XML name space
+   *            associated with a {@link String} representing all the
+   *            annotation elements of this name space.
+   * @param cvTerms
+   *            the {@link List} of {@link CVTerm}.
+   * @throws XMLStreamException
+   */
+  public Annotation(String annotation, List<CVTerm> cvTerms) throws XMLStreamException {
+    this(annotation);
+    listOfCVTerms = cvTerms;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.SBase#getHistory()
-	 */
-	private History createHistory() {
-		history = new History();
-		history.parent = this;
-		history.addAllChangeListeners(getListOfTreeNodeChangeListeners());
-		
-		return history;
-	}
+  /**
+   * Adds a {@link CVTerm}.
+   * 
+   * @param cvTerm
+   *            the {@link CVTerm} to add.
+   * @return {@code true} if the 'cvTerm' element has been added to the {@link List}
+   *         of {@link Qualifier}s.
+   */
+  public boolean addCVTerm(CVTerm cvTerm) {
+    if (listOfCVTerms == null) {
+      listOfCVTerms = new ArrayList<CVTerm>();
+    }
 
-	/**
-	 * Returns the list of CVTerms. If they are no CVTerm, an empty list is returned.
-	 * 
-	 * @return the list of CVTerms.
-	 */
-	public List<CVTerm> getListOfCVTerms() {
-		if (listOfCVTerms == null) {
-			listOfCVTerms = new ArrayList<CVTerm>(); // Should never happen, to remove ?
-		}
-		return listOfCVTerms;
-	}
+    cvTerm.parent = this;
+    boolean success = listOfCVTerms.add(cvTerm);
+    firePropertyChange(TreeNodeChangeEvent.addCVTerm, null, cvTerm);
+    return success;
+  }
 
+  /**
+   * Appends some 'annotation' to the non RDF annotation {@link XMLNode} of this object.
+   * 
+   * @param annotation some non RDF annotations.
+   * @throws XMLStreamException
+   */
+  public void appendNoRDFAnnotation(String annotation) throws XMLStreamException {
+    XMLNode oldNonRDFAnnotation = null;
+    XMLNode annotationToAppend = XMLNode.convertStringToXMLNode(StringTools.toXMLAnnotationString(annotation));
 
-	/**
-	 * Returns the String containing annotations other than RDF
-	 *         annotation.
-	 * 
-	 * @return the String containing annotations other than RDF
-	 *         annotation. Return null if there are none.
-	 */
-	public String getNonRDFannotationAsString() {
-		if (nonRDFannotation != null) {
-			return nonRDFannotation.toString();
-		}
-		return null;
-	}
+    if (nonRDFannotation == null) {
+      // check if the annotation contain an annotation top level element or not
+      if (!annotationToAppend.getName().equals("annotation")) {
+        XMLNode annotationXMLNode = new XMLNode(new XMLTriple("annotation", null, null), new XMLAttributes());
+        annotationXMLNode.addChild(new XMLNode("\n  "));
+        annotationXMLNode.addChild(annotationToAppend);
+        annotationToAppend = annotationXMLNode;
+        annotationToAppend.setParent(this);
+      }
 
-	/**
-	 * Returns the {@link XMLNode} containing annotations other than 
-	 * the official RDF annotation, as defined in the SBML specifications.
-	 * 
-	 * @return the {@link XMLNode} containing annotations other than RDF
-	 *         annotation. Return null if there are none.
-	 */
-	public XMLNode getNonRDFannotation() {
-		if (nonRDFannotation != null) {
-			return nonRDFannotation;
-		}
-		return null;
-	}
+      nonRDFannotation = annotationToAppend;
+    } else {
+      oldNonRDFAnnotation = nonRDFannotation.clone();
 
+      if (annotationToAppend.getName().equals("annotation")) {
+        for (int i = 0; i < annotationToAppend.getChildCount(); i++) {
+          XMLNode child = annotationToAppend.getChildAt(i);
+          nonRDFannotation.addChild(child);
+        }
+      } else {
+        nonRDFannotation.addChild(annotationToAppend);
+      }
+    }
 
-	/**
-	 * Gives the number of {@link CVTerm}s in this {@link Annotation}.
-	 * 
-	 * @return the number of controlled vocabulary terms in this {@link Annotation}.
-	 * @deprecated use {@link #getCVTermCount()}
-	 */
-	@Deprecated
-	public int getNumCVTerms() {
-		return getCVTermCount();
-	}
+    firePropertyChange(TreeNodeChangeEvent.nonRDFAnnotation,
+      oldNonRDFAnnotation, nonRDFannotation);
+  }
 
-	/**
-	 * Gives the number of {@link CVTerm}s in this {@link Annotation}.
-	 * 
-	 * @return the number of controlled vocabulary terms in this {@link Annotation}.
-	 */
-	public int getCVTermCount() {
-	  return isSetListOfCVTerms() ? listOfCVTerms.size() : 0;
-	}
+  /* (non-Javadoc)
+   * @see java.lang.Object#clone()
+   */
+  @Override
+  public Annotation clone() {
+    return new Annotation(this);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractTreeNode#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 809;
-		int hashCode = super.hashCode();
-		if (isSetNonRDFannotation()) {
-			hashCode += prime * getNonRDFannotation().hashCode();
-		}
-		if (isSetAbout()) {
-			hashCode += prime * about.hashCode();
-		}
-		return hashCode;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    boolean equals = super.equals(object);
+    if (equals) {
+      Annotation annotation = (Annotation) object;
+      equals &= isSetNonRDFannotation() == annotation.isSetNonRDFannotation();
+      if (equals && isSetNonRDFannotation()) {
+        equals &= nonRDFannotation.equals(annotation.getNonRDFannotation());
+      }
+      equals &= isSetAbout() == annotation.isSetAbout();
+      if (equals && isSetAbout()) {
+        equals &= getAbout().equals(annotation.getAbout());
+      }
+    }
+    return equals;
+  }
 
+  /**
+   * Returns a list of CVTerm having the given qualifier.
+   * 
+   * @param qualifier the qualifier
+   * @return a list of CVTerm having the given qualifier, an empty
+   * list is returned if no CVTerm are found.
+   */
+  public List<CVTerm> filterCVTerms(Qualifier qualifier) {
+    ArrayList<CVTerm> l = new ArrayList<CVTerm>();
+    CVTermFilter filter = new CVTermFilter(qualifier);
+    for (CVTerm term : getListOfCVTerms()) {
+      if (filter.accepts(term)) {
+        l.add(term);
+      }
+    }
+    return l;
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isEmpty() {
-		return (!isSetHistory() || history.isEmpty())
-				&& (getNumCVTerms() == 0)
-				&& (!isSetNonRDFannotation() || (nonRDFannotation.getChildCount() == 0));
-	}
+  /**
+   * Returns a list of CVTerm having the given qualifier and
+   * where the URI contains the given pattern. The pattern can only be plain text.
+   * 
+   * @param qualifier the qualifier.
+   * @param pattern a plain text pattern.
+   * @return a list of CVTerm having the given qualifier and
+   * where the URI matches the given pattern.
+   */
+  public List<String> filterCVTerms(Qualifier qualifier, String pattern) {
+    List<String> l = new ArrayList<String>();
+    for (CVTerm c : filterCVTerms(qualifier)) {
+      l.addAll(c.filterResources(pattern));
+    }
+    return l;
+  }
 
-	/**
-	 * Checks whether the 'about' element has been initialized.
-	 * 
-	 * @return {@code true} if the 'about' element has been initialized.
-	 */
-	public boolean isSetAbout() {
-		return about != null;
-	}
+  /**
+   * Returns the about String of this object.
+   * 
+   * @return the about String of this object.
+   */
+  public String getAbout() {
+    return about == null ? "" : about;
+  }
 
-	/**
-	 * Checks if the {@link Annotation} is initialized.
-	 *  
-	 * <p>An {@link Annotation} is initialized if
-	 * at least one of the following is true:
-	 * <li> there is some non RDF annotation
-	 * <li> one or more {@link CVTerm} are defined
-	 * <li> there is an history defined.
-	 * 
-	 * @return {@code true} if the Annotation is initialized
-	 */
-	public boolean isSetAnnotation() {
-		if ((getNonRDFannotation() == null) && getListOfCVTerms().isEmpty()
-				&& !isSetHistory()) 
-		{
-			return false;
-			
-		} else if ((getNonRDFannotation() == null) && !isSetHistory()
-				&& !getListOfCVTerms().isEmpty()) 
-		{
-
-			for (int i = 0; i < getListOfCVTerms().size(); i++) {
-				if ((getCVTerm(i) != null) && getCVTerm(i).getResourceCount() > 0) {
-					return true;
-				}
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * Checks if the {@link History} is initialized
-	 * 
-	 * @return {@code true} if the {@link History} is initialized
-	 */
-	public boolean isSetHistory() {
-		return history != null && !history.isEmpty();
-	}
-
-	
-	/**
-	 * Checks if the list of {@link CVTerm} is not empty.
-	 * 
-	 * @return {@code true} if there is one or more {@link CVTerm} defined. 
-	 */
-	public boolean isSetListOfCVTerms() {
-		return (listOfCVTerms != null) && (listOfCVTerms.size() > 0);
-	}
-
-	/**
-	 * Checks if the non RDF part of the Annotation is initialized.
-	 *  
-	 * <p>An Annotation is initialized if
-	 *  there is some non RDF annotation
-	 * <p>
-	 * 
-	 * @return {@code true} if the non RDF part of the Annotation is initialized.
-	 */
-	public boolean isSetNonRDFannotation() {
-		if ((getNonRDFannotation() == null)) {
-			return false;
-		}
-		
-		return true;
-	}
-
-	/**
-	 * Returns {@code true} if there is some non RDF annotation.
-	 * <p>Same as {@link #isSetNonRDFannotation()}
-	 * 
-	 * @return {@code true} if there is some non RDF annotation.
-	 * @see #isSetNonRDFannotation()
-	 * @deprecated please use {@link #isSetNonRDFannotation()}
-	 */
-	@Deprecated
-	public boolean isSetOtherAnnotationThanRDF() {
-		return isSetNonRDFannotation();
-	}
-	
-	/**
-	 * Checks if the RDF part of the Annotation is initialized.
-	 *  
-	 * <p>An Annotation is initialized if
-	 * at least one of the following is true:
-	 * <li> one or more CVTerm are defined
-	 * <li> there is an history defined.
-	 * <p>
-	 * 
-	 * @return {@code true} if the RDF part of the Annotation is initialized
-	 */
-	public boolean isSetRDFannotation() {
-		if (getListOfCVTerms().isEmpty() && (!isSetHistory())) {
-			return false;
-		} else if ((!isSetHistory()) && !getListOfCVTerms().isEmpty()) {
-
-			for (int i = 0; i < getListOfCVTerms().size(); i++) {
-				if (getCVTerm(i) != null) {
-					return true;
-				}
-			}
-		}
-		return true;
-	}
-	
-	/**
-	 * Sets the about instance of this object if the attributeName is equal to
-	 * 'about'.
-	 * 
-	 * @param attributeName the attribute name.
-	 * @param prefix the attribute prefix.
-	 * @param value the attribute value.
-	 * @return {@code true} if an about XML attribute has been read
-	 */
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		// TODO: do we want to keep this method here ??!?
-		if (attributeName.equals("about")) {
-			setAbout(value);
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Sets the value of the about String of this object.
-	 * 
-	 * @param about the about String to set.
-	 */
-	public void setAbout(String about) {
-		String oldAbout = this.about;
-		this.about = about;
-		firePropertyChange(TreeNodeChangeEvent.about, oldAbout, this.about);
-	}
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getAllowsChildren()
+   */
+  @Override
+  public boolean getAllowsChildren() {
+    return true;
+  }
 
 
+  /**
+   * Returns the {@link XMLNode} representing non RDF annotations.
+   * 
+   * @return the {@link XMLNode} representing non RDF annotations.
+   */
+  public XMLNode getAnnotationBuilder() {
+    return nonRDFannotation;
+  }
 
-	/**
-	 * Changes the {@link History} instance to 'history'
-	 * 
-	 * @param history the history to set.
-	 */
-	public void setHistory(History history) {
-		History oldHistory = this.history;
-		this.history = history;
-		this.history.parent = this;
-		this.history.addAllChangeListeners(getListOfTreeNodeChangeListeners());
-		firePropertyChange(TreeNodeChangeEvent.history, oldHistory, this.history);
-	}
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildAt(int)
+   */
+  @Override
+  public TreeNode getChildAt(int childIndex) {
+    if (childIndex < 0) {
+      throw new IndexOutOfBoundsException(childIndex + " < 0");
+    }
+    int pos = 0;
+    if (isSetHistory()) {
+      if (childIndex == pos) {
+        return getHistory();
+      }
+      pos++;
+    }
+    if (isSetListOfCVTerms()) {
+      if (childIndex == pos) {
+        return new TreeNodeAdapter(getListOfCVTerms(), this);
+      }
+      pos++;
+    }
 
-	/**
-	 * Sets the value of the non RDF annotations
-	 * 
-	 * @param nonRDFAnnotation
-	 */
-	public void setNonRDFAnnotation(XMLNode nonRDFAnnotation) {
-		XMLNode oldNonRDFAnnotation = null;
-		
-		if (this.nonRDFannotation != null) {
-			oldNonRDFAnnotation = this.nonRDFannotation;
-		}
-		
-		// test if the XMLNode has as first element 'annotation'
-		if (!nonRDFAnnotation.getName().equals("annotation")) {
-			XMLNode annotationXMLNode = new XMLNode(new XMLTriple("annotation", null, null), new XMLAttributes());
-			annotationXMLNode.addChild(new XMLNode("\n  "));
-			annotationXMLNode.addChild(nonRDFAnnotation);
-			nonRDFAnnotation = annotationXMLNode;
-		}
-		
-		this.nonRDFannotation = nonRDFAnnotation;
-		this.nonRDFannotation.setParent(this);
-		
-		firePropertyChange(TreeNodeChangeEvent.nonRDFAnnotation,
-				oldNonRDFAnnotation, nonRDFannotation);
-	}
+    // TODO: could add all the XMLNode top level elements ??!?
 
-	/**
-	 * Sets the value of the non RDF annotations
-	 * 
-	 * @param nonRDFAnnotation
-	 */
-	public void setNonRDFAnnotation(String nonRDFAnnotationStr) {
-		if (nonRDFAnnotationStr != null) {
-			setNonRDFAnnotation(XMLNode.convertStringToXMLNode(StringTools.toXMLAnnotationString(nonRDFAnnotationStr)));
-		}		
-	}
+    //		if (isSetNonRDFannotation()) {
+    //			if (childIndex == pos) {
+    //				return new TreeNodeAdapter(getNonRDFannotation());
+    //			}
+    //			pos++;
+    //		}
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}",
+      childIndex, +Math.min(pos, 0)));
+  }
 
-	/**
-	 * Clears the {@link List} of {@link CVTerm}s and removes unnecessary
-	 * entries from the {@link #rdfAnnotationNamespaces}.
-	 */
-	public void unsetCVTerms() {
-		if (listOfCVTerms != null) {
-			List<CVTerm> oldListOfCVTerms = this.listOfCVTerms;
-			listOfCVTerms.clear();
-			listOfCVTerms = null;
-			firePropertyChange(TreeNodeChangeEvent.unsetCVTerms,
-					oldListOfCVTerms, listOfCVTerms);
-		}
-	}
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    int count = 0;
+    if (isSetHistory()) {
+      count++;
+    }
+    if (isSetListOfCVTerms()) {
+      count++;
+    }
+    //		if (isSetNonRDFannotation()) {
+    //			count++;
+    //		}
+    return count;
+  }
 
-	/**
-	 * Sets the {@link History} instance of this object to {@code null}.
-	 */
-	public void unsetHistory() {
-		History oldHistory = null;
-		if (history != null) {
-			oldHistory = history;
-		}
-		this.history = null;
-		firePropertyChange(TreeNodeChangeEvent.history, oldHistory, history);
-	}
+  /**
+   * Returns the CVTerm at the ith position in the list of CVTerms.
+   * 
+   * @param i the index of the CVTerm to retrieve.
+   * @return the CVTerm at the ith position in the list of CVTerms.
+   */
+  public CVTerm getCVTerm(int i) {
+    return listOfCVTerms.get(i);
+  }
 
-	/**
-	 * Sets the non RDF annotation String to {@code null}.
-	 */
-	public void unsetNonRDFannotation() {
-		XMLNode oldNonRDFAnnotation = null;
 
-		if (isSetNonRDFannotation()) {	
-			oldNonRDFAnnotation = nonRDFannotation;
-			nonRDFannotation = null;
-			firePropertyChange(TreeNodeChangeEvent.nonRDFAnnotation,
-					oldNonRDFAnnotation, nonRDFannotation);
-		}
-	}
+  /**
+   * Returns the {@link History} of the Annotation.
+   * 
+   * @return the {@link History} of the Annotation.
+   */
+  public History getHistory() {
+    if (!isSetHistory()) {
+      createHistory();
+    }
 
-	/**
-	 * Adds an additional namespace to the set of declared namespaces of this
-	 * {@link SBase}.
-	 * 
-	 * @param prefix the prefix of the namespace to add
-	 * @param namespace the namespace to add
-	 * 
-	 */
-	public void addDeclaredNamespace(String prefix, String uri) 
-	{
-		if (!isSetNonRDFannotation()) {
-			nonRDFannotation = new XMLNode(new XMLTriple("annotation", null, null), new XMLAttributes());
-		}
-		
-		nonRDFannotation.addNamespace(uri, prefix);
-	}
+    return history;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#getHistory()
+   */
+  private History createHistory() {
+    history = new History();
+    history.parent = this;
+    history.addAllChangeListeners(getListOfTreeNodeChangeListeners());
+
+    return history;
+  }
+
+  /**
+   * Returns the list of CVTerms. If they are no CVTerm, an empty list is returned.
+   * 
+   * @return the list of CVTerms.
+   */
+  public List<CVTerm> getListOfCVTerms() {
+    if (listOfCVTerms == null) {
+      listOfCVTerms = new ArrayList<CVTerm>(); // Should never happen, to remove ?
+    }
+    return listOfCVTerms;
+  }
+
+
+  /**
+   * Returns the String containing annotations other than RDF
+   *         annotation.
+   * 
+   * @return the String containing annotations other than RDF
+   *         annotation. Return null if there are none.
+   */
+  public String getNonRDFannotationAsString() {
+    if (nonRDFannotation != null) {
+      return nonRDFannotation.toString();
+    }
+    return null;
+  }
+
+  /**
+   * Returns the {@link XMLNode} containing annotations other than
+   * the official RDF annotation, as defined in the SBML specifications.
+   * 
+   * @return the {@link XMLNode} containing annotations other than RDF
+   *         annotation. Return null if there are none.
+   */
+  public XMLNode getNonRDFannotation() {
+    if (nonRDFannotation != null) {
+      return nonRDFannotation;
+    }
+    return null;
+  }
+
+
+  /**
+   * Gives the number of {@link CVTerm}s in this {@link Annotation}.
+   * 
+   * @return the number of controlled vocabulary terms in this {@link Annotation}.
+   * @deprecated use {@link #getCVTermCount()}
+   */
+  @Deprecated
+  public int getNumCVTerms() {
+    return getCVTermCount();
+  }
+
+  /**
+   * Gives the number of {@link CVTerm}s in this {@link Annotation}.
+   * 
+   * @return the number of controlled vocabulary terms in this {@link Annotation}.
+   */
+  public int getCVTermCount() {
+    return isSetListOfCVTerms() ? listOfCVTerms.size() : 0;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 809;
+    int hashCode = super.hashCode();
+    if (isSetNonRDFannotation()) {
+      hashCode += prime * getNonRDFannotation().hashCode();
+    }
+    if (isSetAbout()) {
+      hashCode += prime * about.hashCode();
+    }
+    return hashCode;
+  }
+
+
+  /**
+   * 
+   * @return
+   */
+  public boolean isEmpty() {
+    return (!isSetHistory() || history.isEmpty())
+        && (getNumCVTerms() == 0)
+        && (!isSetNonRDFannotation() || (nonRDFannotation.getChildCount() == 0));
+  }
+
+  /**
+   * Checks whether the 'about' element has been initialized.
+   * 
+   * @return {@code true} if the 'about' element has been initialized.
+   */
+  public boolean isSetAbout() {
+    return about != null;
+  }
+
+  /**
+   * Checks if the {@link Annotation} is initialized.
+   * 
+   * <p>An {@link Annotation} is initialized if
+   * at least one of the following is true:
+   * <li> there is some non RDF annotation
+   * <li> one or more {@link CVTerm} are defined
+   * <li> there is an history defined.
+   * 
+   * @return {@code true} if the Annotation is initialized
+   */
+  public boolean isSetAnnotation() {
+    if ((getNonRDFannotation() == null) && getListOfCVTerms().isEmpty()
+        && !isSetHistory())
+    {
+      return false;
+
+    } else if ((getNonRDFannotation() == null) && !isSetHistory()
+        && !getListOfCVTerms().isEmpty())
+    {
+
+      for (int i = 0; i < getListOfCVTerms().size(); i++) {
+        if ((getCVTerm(i) != null) && getCVTerm(i).getResourceCount() > 0) {
+          return true;
+        }
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Checks if the {@link History} is initialized
+   * 
+   * @return {@code true} if the {@link History} is initialized
+   */
+  public boolean isSetHistory() {
+    return history != null && !history.isEmpty();
+  }
+
+
+  /**
+   * Checks if the list of {@link CVTerm} is not empty.
+   * 
+   * @return {@code true} if there is one or more {@link CVTerm} defined.
+   */
+  public boolean isSetListOfCVTerms() {
+    return (listOfCVTerms != null) && (listOfCVTerms.size() > 0);
+  }
+
+  /**
+   * Checks if the non RDF part of the Annotation is initialized.
+   * 
+   * <p>An Annotation is initialized if
+   *  there is some non RDF annotation
+   * <p>
+   * 
+   * @return {@code true} if the non RDF part of the Annotation is initialized.
+   */
+  public boolean isSetNonRDFannotation() {
+    if ((getNonRDFannotation() == null)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Returns {@code true} if there is some non RDF annotation.
+   * <p>Same as {@link #isSetNonRDFannotation()}
+   * 
+   * @return {@code true} if there is some non RDF annotation.
+   * @see #isSetNonRDFannotation()
+   * @deprecated please use {@link #isSetNonRDFannotation()}
+   */
+  @Deprecated
+  public boolean isSetOtherAnnotationThanRDF() {
+    return isSetNonRDFannotation();
+  }
+
+  /**
+   * Checks if the RDF part of the Annotation is initialized.
+   * 
+   * <p>An Annotation is initialized if
+   * at least one of the following is true:
+   * <li> one or more CVTerm are defined
+   * <li> there is an history defined.
+   * <p>
+   * 
+   * @return {@code true} if the RDF part of the Annotation is initialized
+   */
+  public boolean isSetRDFannotation() {
+    if (getListOfCVTerms().isEmpty() && (!isSetHistory())) {
+      return false;
+    } else if ((!isSetHistory()) && !getListOfCVTerms().isEmpty()) {
+
+      for (int i = 0; i < getListOfCVTerms().size(); i++) {
+        if (getCVTerm(i) != null) {
+          return true;
+        }
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Sets the about instance of this object if the attributeName is equal to
+   * 'about'.
+   * 
+   * @param attributeName the attribute name.
+   * @param prefix the attribute prefix.
+   * @param value the attribute value.
+   * @return {@code true} if an about XML attribute has been read
+   */
+  public boolean readAttribute(String attributeName, String prefix,
+    String value) {
+    // TODO: do we want to keep this method here ??!?
+    if (attributeName.equals("about")) {
+      setAbout(value);
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Sets the value of the about String of this object.
+   * 
+   * @param about the about String to set.
+   */
+  public void setAbout(String about) {
+    String oldAbout = this.about;
+    this.about = about;
+    firePropertyChange(TreeNodeChangeEvent.about, oldAbout, this.about);
+  }
+
+
+
+  /**
+   * Changes the {@link History} instance to 'history'
+   * 
+   * @param history the history to set.
+   */
+  public void setHistory(History history) {
+    History oldHistory = this.history;
+    this.history = history;
+    this.history.parent = this;
+    this.history.addAllChangeListeners(getListOfTreeNodeChangeListeners());
+    firePropertyChange(TreeNodeChangeEvent.history, oldHistory, this.history);
+  }
+
+  /**
+   * Sets the value of the non RDF annotations
+   * 
+   * @param nonRDFAnnotation
+   */
+  public void setNonRDFAnnotation(XMLNode nonRDFAnnotation) {
+    XMLNode oldNonRDFAnnotation = null;
+
+    if (nonRDFannotation != null) {
+      oldNonRDFAnnotation = nonRDFannotation;
+    }
+
+    // test if the XMLNode has as first element 'annotation'
+    if (!nonRDFAnnotation.getName().equals("annotation")) {
+      XMLNode annotationXMLNode = new XMLNode(new XMLTriple("annotation", null, null), new XMLAttributes());
+      annotationXMLNode.addChild(new XMLNode("\n  "));
+      annotationXMLNode.addChild(nonRDFAnnotation);
+      nonRDFAnnotation = annotationXMLNode;
+    }
+
+    nonRDFannotation = nonRDFAnnotation;
+    nonRDFannotation.setParent(this);
+
+    firePropertyChange(TreeNodeChangeEvent.nonRDFAnnotation,
+      oldNonRDFAnnotation, nonRDFannotation);
+  }
+
+  /**
+   * Sets the value of the non RDF annotations
+   * 
+   * @param nonRDFAnnotation
+   * @throws XMLStreamException
+   */
+  public void setNonRDFAnnotation(String nonRDFAnnotationStr) throws XMLStreamException {
+    if (nonRDFAnnotationStr != null) {
+      setNonRDFAnnotation(XMLNode.convertStringToXMLNode(StringTools.toXMLAnnotationString(nonRDFAnnotationStr)));
+    }
+  }
+
+  /**
+   * Clears the {@link List} of {@link CVTerm}s and removes unnecessary
+   * entries from the {@link #rdfAnnotationNamespaces}.
+   */
+  public void unsetCVTerms() {
+    if (listOfCVTerms != null) {
+      List<CVTerm> oldListOfCVTerms = listOfCVTerms;
+      listOfCVTerms.clear();
+      listOfCVTerms = null;
+      firePropertyChange(TreeNodeChangeEvent.unsetCVTerms,
+        oldListOfCVTerms, listOfCVTerms);
+    }
+  }
+
+  /**
+   * Sets the {@link History} instance of this object to {@code null}.
+   */
+  public void unsetHistory() {
+    History oldHistory = null;
+    if (history != null) {
+      oldHistory = history;
+    }
+    history = null;
+    firePropertyChange(TreeNodeChangeEvent.history, oldHistory, history);
+  }
+
+  /**
+   * Sets the non RDF annotation String to {@code null}.
+   */
+  public void unsetNonRDFannotation() {
+    XMLNode oldNonRDFAnnotation = null;
+
+    if (isSetNonRDFannotation()) {
+      oldNonRDFAnnotation = nonRDFannotation;
+      nonRDFannotation = null;
+      firePropertyChange(TreeNodeChangeEvent.nonRDFAnnotation,
+        oldNonRDFAnnotation, nonRDFannotation);
+    }
+  }
+
+  /**
+   * Adds an additional namespace to the set of declared namespaces of this
+   * {@link SBase}.
+   * 
+   * @param prefix the prefix of the namespace to add
+   * @param namespace the namespace to add
+   * 
+   */
+  public void addDeclaredNamespace(String prefix, String uri)
+  {
+    if (!isSetNonRDFannotation()) {
+      nonRDFannotation = new XMLNode(new XMLTriple("annotation", null, null), new XMLAttributes());
+    }
+
+    nonRDFannotation.addNamespace(uri, prefix);
+  }
 
 }

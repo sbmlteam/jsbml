@@ -33,6 +33,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
+import javax.xml.stream.XMLStreamException;
+
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.AlgebraicRule;
 import org.sbml.jsbml.AssignmentRule;
@@ -958,7 +960,11 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
       con.setMath(LibSBMLUtils.convert(constraint.getMath(), con));
     }
     if (constraint.isSetMessage()) {
-      con.setMessage(constraint.getMessageString());
+      try {
+        con.setMessage(constraint.getMessageString());
+      } catch (XMLStreamException exc) {
+        logger.warn(exc.getLocalizedMessage() != null ? exc.getLocalizedMessage() : exc.getMessage(), exc);
+      }
     }
     return con;
   }
@@ -1539,7 +1545,11 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
         }
       }
       if (sb.toString().trim().length() > 0) {
-        sbase.getAnnotation().setNonRDFAnnotation(sb.toString());
+        try {
+          sbase.getAnnotation().setNonRDFAnnotation(sb.toString());
+        } catch (XMLStreamException exc) {
+          logger.warn(exc.getLocalizedMessage() != null ? exc.getLocalizedMessage() : exc.getMessage(), exc);
+        }
       }
       sbase.getAnnotation().putUserObject(LINK_TO_LIBSBML, libSBase.getAnnotation());
     }
