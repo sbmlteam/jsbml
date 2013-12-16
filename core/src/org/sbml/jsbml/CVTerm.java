@@ -569,6 +569,15 @@ public class CVTerm extends AnnotationElement {
     return getResourceCount();
   }
 
+    /**
+     * Returns the {@link Qualifier} for this CVTerm.
+     * 
+     * @return the {@link Qualifier} for this CVTerm.
+     */
+    public Qualifier getQualifier() {
+	return qualifier;
+    }
+    
   /**
    * Returns the number of resources for this {@link CVTerm}.
    * 
