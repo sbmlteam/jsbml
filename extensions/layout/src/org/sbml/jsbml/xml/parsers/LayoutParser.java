@@ -31,6 +31,7 @@ import java.util.List;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.ListOf;
@@ -167,7 +168,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
     if (sbase instanceof SBase) {
       SBase elem = (SBase) sbase;
       log4jLogger.debug("add to write: " + elem.getElementName()
-        + " namespace: " + elem.getNamespaces().toString());
+        + " namespace: " + elem.getNamespace().toString());
       if (sbase instanceof ListOf<?>) {
         log4jLogger.debug("process a ListOf instance");
         ListOf<SBase> listOf = (ListOf<SBase>) sbase;
@@ -723,7 +724,7 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
     // Setting the correct namespace to the object
     // TODO!!!!
-    sbase.setNamespace(namespace);
+    ((AbstractSBase) sbase).setNamespace(namespace);
   }
 
   /* (non-Javadoc)
