@@ -22,6 +22,8 @@ package org.sbml.jsbml.ext.qual;
 
 import java.util.Calendar;
 
+import javax.xml.stream.XMLStreamException;
+
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.CVTerm;
 import org.sbml.jsbml.Compartment;
@@ -45,8 +47,9 @@ public class BuildToyModelTest {
 
   /**
    * @param args
+   * @throws XMLStreamException
    */
-  public static void main(String[] args) {
+  public static void main(String[] args) throws XMLStreamException {
 
     SBMLDocument sbmlDoc = new SBMLDocument(3, 1);
     sbmlDoc.addNamespace(QUAL_NS_PREFIX, "xmlns", QUAL_NS);

@@ -24,6 +24,8 @@ package org.sbml.jsbml;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.stream.XMLStreamException;
+
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
@@ -74,14 +76,15 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * 
    * @param namespace the namespace to add
    */
-//  protected void setNamespace(String namespace);
+  //  protected void setNamespace(String namespace);
 
   /**
    * Appends 'notes' to the notes String of this object.
    * 
    * @param notes
+   * @throws XMLStreamException
    */
-  public void appendNotes(String notes);
+  public void appendNotes(String notes) throws XMLStreamException;
 
   /**
    * Appends 'notes' to the notes of this object.
@@ -519,8 +522,9 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * Sets the notes with 'notes'.
    * 
    * @param notes
+   * @throws XMLStreamException
    */
-  public void setNotes(String notes);
+  public void setNotes(String notes) throws XMLStreamException;
 
   /**
    * Sets the {@code XMLNode} containing the notes sub-element of
