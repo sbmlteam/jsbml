@@ -1286,7 +1286,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 				rdfNode.addChild(new XMLNode("\n\t"));
 				index++;
 			} 
-//			else if (rdfNode.getChildAt(0)) TODO check that there is a first child that is empty text, including \n
+//			else if (rdfNode.getChildAt(0)) // TODO check that there is a first child that is empty text, including \n ??
 //			{
 //				
 //			}
@@ -1430,7 +1430,58 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 		return child;
 	}
 
-	
+	/**
+	 * 
+	 * @param parent
+	 * @param precedingTermIndex
+	 * @param elementName
+	 * @param cvtermURI
+	 * @param cvtermPrefix
+	 * @param customRDFXMLNode
+	 * @return
+	 */
+	private XMLNode getOrCreateCVTerm(XMLNode parent, int precedingTermIndex,
+			String elementName, String cvtermURI,	String cvtermPrefix, Object customRDFXMLNode) 
+	{
+		int index = precedingTermIndex;
+		
+		if (precedingTermIndex < 0)
+		{
+			index = 0;
+		}
+		if (index != 0 && index < parent.getChildCount()) 
+		{
+			XMLNode nextNode = parent.getChildAt(index + 1);
+			
+			if (!(nextNode.isText() && nextNode.getCharacters().trim().length() == 0)) 
+			{
+				parent.insertChild(index, new XMLNode("\n\t"));
+			}
+			index += 2;
+		}
+		
+		XMLNode child = null;
+		if (customRDFXMLNode != null)
+		{
+			child = (XMLNode) customRDFXMLNode;
+		}
+		else
+		{
+			child = new XMLNode(new XMLTriple(elementName, cvtermURI, cvtermPrefix), new XMLAttributes());
+		}
+		
+		if (parent.getChildCount() == 0)
+		{
+			parent.insertChild(index, new XMLNode("\n\t"));
+			index++;
+		}
+
+		parent.insertChild(index, child);
+		parent.insertChild(index + 1, new XMLNode("\n\t"));
+
+		return child;
+	}
+
 	/**
 	 * 
 	 * @param xmlNode
@@ -1644,7 +1695,6 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 	{
 		if (contextObject.getCVTermCount() > 0)
 		{
-			int cvtermIndex = 0;
 			String precedingElementName = null;
 			String precedingElementNamespaceURI = JSBML.URI_PURL_TERMS;
 			
@@ -1662,39 +1712,28 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 				precedingElementNamespaceURI = JSBML.URI_PURL_ELEMENTS;
 			}
 			
-			for (CVTerm cvterm : contextObject.getAnnotation().getListOfCVTerms())
+			int i = contextObject.getAnnotation().getListOfCVTerms().size() - 1;
+			for (; i >= 0; i--)
 			{
+				CVTerm cvterm = contextObject.getCVTerm(i);
 				XMLNode qualifierNode = null;
 				
-				// TODO - Need to do a special method for CVTerm. We always add the child at the end of the rdf:Description
-				// if there is a XMLNode in the user object map, we take it. Otherwise we create it.
+				int trueIndex = getLastIndexOf(descriptionNode, precedingElementName, precedingElementNamespaceURI);
+				String cvtermURI = CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS;
+				String cvtermPrefix = "bqbiol";
 				
-				if (cvterm.isBiologicalQualifier())
+				if (cvterm.isModelQualifier())
 				{
-					if (cvtermIndex == 0 && precedingElementName != null)
-					{
-						qualifierNode = getOrCreateAfter(descriptionNode, cvterm.getBiologicalQualifierType().getElementNameEquivalent(),
-								CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS, "bqbiol", precedingElementName, precedingElementNamespaceURI);
-					} 
-					else
-					{
-						qualifierNode = getOrCreate(descriptionNode, cvtermIndex, cvterm.getBiologicalQualifierType().getElementNameEquivalent(),
-								CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS, "bqbiol");	
-					}
+					cvtermURI = CVTerm.URI_BIOMODELS_NET_MODEL_QUALIFIERS;
+					cvtermPrefix = "bqmodel";
 				}
-				else
+				if (trueIndex == -1) 
 				{
-					if (cvtermIndex == 0 && precedingElementName != null)
-					{
-						qualifierNode = getOrCreateAfter(descriptionNode, cvterm.getModelQualifierType().getElementNameEquivalent(),
-								CVTerm.URI_BIOMODELS_NET_MODEL_QUALIFIERS, "bqmodel", precedingElementName, precedingElementNamespaceURI);
-					} 
-					else
-					{
-						qualifierNode = getOrCreate(descriptionNode, cvtermIndex, cvterm.getModelQualifierType().getElementNameEquivalent(),
-								CVTerm.URI_BIOMODELS_NET_MODEL_QUALIFIERS, "bqmodel");
-					}
+					trueIndex = 0;
 				}
+					
+				qualifierNode = getOrCreateCVTerm(descriptionNode, trueIndex, cvterm.getQualifier().getElementNameEquivalent(),
+						cvtermURI, cvtermPrefix, cvterm.getUserObject(CUSTOM_RDF));	
 
 				XMLNode bagNode = getOrCreate(qualifierNode, "Bag", Annotation.URI_RDF_SYNTAX_NS, "rdf");
 				
@@ -1707,11 +1746,8 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 					
 					liIndex++;
 				}
-				
-				cvtermIndex++;
 			}
 		}
 	}
-
 
 }
