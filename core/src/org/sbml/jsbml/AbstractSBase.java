@@ -1742,9 +1742,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public void unsetCVTerms() {
     if (isSetAnnotation() && getAnnotation().isSetListOfCVTerms()) {
-      List<CVTerm> list = annotation.getListOfCVTerms();
       annotation.unsetCVTerms();
-      firePropertyChange(TreeNodeChangeEvent.unsetCVTerms, list, null);
     }
   }
 
