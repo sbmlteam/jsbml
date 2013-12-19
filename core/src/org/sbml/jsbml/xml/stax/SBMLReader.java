@@ -772,7 +772,7 @@ public class SBMLReader {
 					} 
 					
 					if (logger.isDebugEnabled()) {
-						logger.debug(" Parser = " + parser.getClass().getName());
+						logger.debug(" PackageParser = " + parser.getClass().getName());
 						logger.debug(" Characters = @" + characters.getData() + "@");
 					}
 					
@@ -789,7 +789,7 @@ public class SBMLReader {
 				} else if (isText) {
 					logger.warn(MessageFormat.format("Some characters cannot be read: {0}", characters.getData()));
 					if (logger.isDebugEnabled()) {
-						logger.debug("Parser = " + parser);
+						logger.debug("PackageParser = " + parser);
 						if (sbmlElements.isEmpty()) {
 							logger.debug("The Object Stack is empty!");
 						} else {
@@ -954,7 +954,8 @@ public class SBMLReader {
 					SBase sbmlDoc = (SBase) sbmlElements.firstElement();
 					String sbmlNamespace = JSBML.getNamespaceFrom(sbmlDoc.getLevel(), sbmlDoc.getVersion());
 
-					if (sbmlparser instanceof XMLNodeReader && elementNamespace.equals(sbmlNamespace)) {
+					if (sbmlparser instanceof XMLNodeReader && elementNamespace.equals(sbmlNamespace)) { 
+						// TODO - update only when the top level element from the stack is an SBase ?? 
 						XMLNodeReader notesParser = (XMLNodeReader) sbmlparser;
 						notesParser.setTypeOfNotes(currentNode.getLocalPart());
 					}

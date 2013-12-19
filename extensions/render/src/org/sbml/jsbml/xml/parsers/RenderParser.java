@@ -21,7 +21,10 @@
  */ 
 package org.sbml.jsbml.xml.parsers;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
+import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.layout.BoundingBox;
@@ -53,6 +56,7 @@ import org.sbml.jsbml.ext.render.Style;
  * @since 1.0
  * @date 04.06.2012
  */
+@ProviderFor(ReadingParser.class)
 public class RenderParser extends AbstractReaderWriter {
   
 	/**
@@ -258,6 +262,11 @@ public class RenderParser extends AbstractReaderWriter {
 			 return newElement;
 		 }
 		return contextObject;
+	}
+
+	@Override
+	public List<String> getNamespaces() {
+		return RenderConstants.namespaces_L3;
 	}
 
 

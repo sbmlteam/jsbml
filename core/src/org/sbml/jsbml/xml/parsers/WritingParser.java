@@ -91,4 +91,12 @@ public interface WritingParser {
 	 */
 	public void writeNamespaces(SBMLObjectForXML xmlObject,
 			Object sbmlElementToWrite);
+	
+	/**
+	 * Returns a {@link List} of all the namespaces that this parser is handling
+	 * 
+	 * @return a {@link List} of all the namespaces that this parser is handling
+	 */
+	public List<String> getNamespaces();
+
 }

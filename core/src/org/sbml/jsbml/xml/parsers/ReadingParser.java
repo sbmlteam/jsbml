@@ -22,6 +22,7 @@
 package org.sbml.jsbml.xml.parsers;
 
 import java.awt.Event;
+import java.util.List;
 
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
@@ -164,5 +165,12 @@ public interface ReadingParser {
    *         the contextObject will not change.
    */
 	public Object processStartElement(String elementName, String URI, String prefix, boolean hasAttributes, boolean hasNamespaces, Object contextObject);
-	
+
+	/**
+	 * Returns a {@link List} of all the namespaces that this parser is handling.
+	 * 
+	 * @return a {@link List} of all the namespaces that this parser is handling
+	 */
+	public List<String> getNamespaces();
+
 }

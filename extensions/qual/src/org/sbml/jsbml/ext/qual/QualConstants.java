@@ -21,6 +21,8 @@
 package org.sbml.jsbml.ext.qual;
 
 import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
@@ -47,6 +49,12 @@ public class QualConstants  extends PropertyChangeEvent {
 	 */
 	public static final String shortLabel = "qual";
 
+	public static final List<String> namespaces;
+
+	static {
+		namespaces = new ArrayList<String>();
+		namespaces.add(namespaceURI);
+	}
 
 	/**
 	 * Generated serial version identifier.

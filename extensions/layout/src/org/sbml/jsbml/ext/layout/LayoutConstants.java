@@ -20,6 +20,9 @@
  */
 package org.sbml.jsbml.ext.layout;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  * @author 
@@ -33,6 +36,17 @@ public class LayoutConstants {
 	 */
 	public static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/layout/version1";
 	public static final String namespaceURI_L2 = "http://projects.eml.org/bcb/sbml/level2";
+	
+	public static final List<String> namespaces_L3;
+	public static final List<String> namespaces_L2;
+	
+	static {
+		namespaces_L3 = new ArrayList<String>();
+		namespaces_L3.add(namespaceURI);
+
+		namespaces_L2 = new ArrayList<String>();
+		namespaces_L2.add(namespaceURI_L2);
+	}
 	
 	public static final String shortLabel = "layout";
 	public static final String packageName = "Layout";

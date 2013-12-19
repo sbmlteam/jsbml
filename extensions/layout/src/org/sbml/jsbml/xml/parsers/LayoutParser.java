@@ -31,6 +31,7 @@ import java.util.List;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
+import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.JSBML;
@@ -74,6 +75,7 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * @version $Rev$
  * 
  */
+@ProviderFor(ReadingParser.class)
 public class LayoutParser implements ReadingParser, WritingParser {
 
   private Logger logger = Logger.getLogger(LayoutParser.class);
@@ -770,6 +772,11 @@ public class LayoutParser implements ReadingParser, WritingParser {
       sb.setLevel(parent.getLevel());
       sb.setVersion(parent.getVersion());
     }
+  }
+
+  @Override
+  public List<String> getNamespaces() {
+	  return LayoutConstants.namespaces_L2;
   }
 
 }

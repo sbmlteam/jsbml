@@ -20,6 +20,9 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  * @author Nicolas Rodriguez
@@ -35,7 +38,13 @@ public class SpatialConstants {
 	public static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/spatial/version1";
 	public static final String shortLabel = "spatial";
 
-	
+	public static final List<String> namespaces;
+
+	static {
+		namespaces = new ArrayList<String>();
+		namespaces.add(namespaceURI);
+	}
+
 	public static final String domain1 = "domain1";
 	public static final String domain2 = "domain2";
 	public static final String geometry = "geometry";
