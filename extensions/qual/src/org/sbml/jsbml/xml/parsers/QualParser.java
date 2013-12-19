@@ -27,6 +27,7 @@ import java.util.List;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
+import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
@@ -52,7 +53,8 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * @since 1.0
  * @version $Rev$
  */
-public class QualParser extends AbstractReaderWriter {
+@ProviderFor(ReadingParser.class)
+public class QualParser extends AbstractReaderWriter implements PackageParser {
 	
 	/**
 	 * The QualList enum which represents the name of the list this parser is
@@ -271,5 +273,32 @@ public class QualParser extends AbstractReaderWriter {
 	public String getNamespaceURI() {
 		return QualConstants.namespaceURI;
 	}
+
+	@Override
+	public String getNamespaceFor(String level, String version,	String packageVersion) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getNamespaces() {		
+		return QualConstants.namespaces;
+	}
+
+	@Override
+	public List<String> getPackageNamespaces() {		
+		return getNamespaces();
+	}
+
+	@Override
+	public String getPackageName() {
+		return getShortLabel();
+	}
+
+	@Override
+	public boolean isRequired() {
+		return true;
+	}
+
 
 }

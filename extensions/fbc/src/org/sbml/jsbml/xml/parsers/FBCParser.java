@@ -30,6 +30,7 @@ import java.util.List;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
+import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
@@ -60,7 +61,8 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * @since 1.0
  * @version $Rev$
  */
-public class FBCParser extends AbstractReaderWriter {
+@ProviderFor(ReadingParser.class)
+public class FBCParser extends AbstractReaderWriter implements PackageParser {
 
 	
 	/* (non-Javadoc)
@@ -381,6 +383,32 @@ public class FBCParser extends AbstractReaderWriter {
 		System.out.println("Reading: " + nbSecondesRead + " secondes.");
 		System.out.println("Writing: " + nbSecondesWrite + " secondes.");
 		}
+	}
+
+	@Override
+	public String getNamespaceFor(String level, String version,	String packageVersion) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getNamespaces() {		
+		return FBCConstants.namespaces;
+	}
+
+	@Override
+	public List<String> getPackageNamespaces() {		
+		return getNamespaces();
+	}
+
+	@Override
+	public String getPackageName() {
+		return FBCConstants.shortLabel;
+	}
+
+	@Override
+	public boolean isRequired() {
+		return true;
 	}
 
 

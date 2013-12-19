@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -446,6 +447,12 @@ public class MathMLParser implements ReadingParser, WritingParser {
 			Object sbmlElementToWrite) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public List<String> getNamespaces() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

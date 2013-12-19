@@ -21,7 +21,11 @@
 
 package org.sbml.jsbml.xml.parsers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
+import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.FunctionDefinition;
@@ -39,6 +43,7 @@ import org.sbml.jsbml.util.StringTools;
  * @since 0.8
  * @version $Rev$
  */
+@ProviderFor(ReadingParser.class)
 public class MathMLStaxParser implements ReadingParser {
 	
 
@@ -394,5 +399,14 @@ public class MathMLStaxParser implements ReadingParser {
 		this.omitXMLDeclaration = omitXMLDeclaration;
 	}
 
+	@Override
+	public List<String> getNamespaces() {
+		return namespaces;
+	}
 
+	private static final List<String> namespaces = new ArrayList<String>();
+	
+	static {
+		namespaces.add(ASTNode.URI_MATHML_DEFINITION);
+	}
 }

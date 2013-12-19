@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.ListOf;
@@ -55,7 +56,8 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * @since 1.0
  * @version $Rev: 1445 $
  */
-public class CompParser extends AbstractReaderWriter {
+@ProviderFor(ReadingParser.class)
+public class CompParser extends AbstractReaderWriter implements PackageParser {
 
 	private Logger logger = Logger.getLogger(CompParser.class);
 	
@@ -298,5 +300,32 @@ public class CompParser extends AbstractReaderWriter {
 			logger.debug("writeElement: " + sbmlElementToWrite.getClass().getSimpleName());
 		}
 	}
+
+	@Override
+	public String getNamespaceFor(String level, String version,	String packageVersion) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getNamespaces() {		
+		return CompConstants.namespaces;
+	}
+
+	@Override
+	public List<String> getPackageNamespaces() {		
+		return getNamespaces();
+	}
+
+	@Override
+	public String getPackageName() {
+		return CompConstants.shortLabel;
+	}
+
+	@Override
+	public boolean isRequired() {
+		return true;
+	}
+
 
 }

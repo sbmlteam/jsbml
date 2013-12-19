@@ -30,6 +30,7 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
+import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.AlgebraicRule;
 import org.sbml.jsbml.Annotation;
@@ -83,6 +84,7 @@ import org.sbml.jsbml.xml.stax.XMLLogger;
 // rather than one SBMLCoreParser which parses everything. 
 
 @SuppressWarnings("deprecation")
+@ProviderFor(ReadingParser.class)
 public class SBMLCoreParser implements ReadingParser, WritingParser {
 
 	/**
@@ -103,7 +105,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 	
 	/**
 	 * Creates a SBMLCoreParser instance. Initializes the sbmlCoreElements of
-	 * this Parser.
+	 * this PackageParser.
 	 * 
 	 */
 	public SBMLCoreParser() {
@@ -1134,6 +1136,23 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 			xmlObject.setPrefix("");
 			xmlObject.setNamespace(JSBML.getNamespaceFrom(sbase.getLevel(), sbase.getVersion()));
 		}
+	}
+
+	@Override
+	public List<String> getNamespaces() {
+		return namespaces;
+	}
+
+	private static final List<String> namespaces = new ArrayList<String>();
+	
+	static {
+		namespaces.add("http://www.sbml.org/sbml/level3/version2/core");
+		namespaces.add("http://www.sbml.org/sbml/level3/version1/core");
+		namespaces.add("http://www.sbml.org/sbml/level2/version4");
+		namespaces.add("http://www.sbml.org/sbml/level2/version3");
+		namespaces.add("http://www.sbml.org/sbml/level2/version2");
+		namespaces.add("http://www.sbml.org/sbml/level2");
+		namespaces.add("http://www.sbml.org/sbml/level1");
 	}
 
 }

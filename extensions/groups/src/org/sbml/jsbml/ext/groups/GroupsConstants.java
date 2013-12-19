@@ -20,6 +20,9 @@
  */
 package org.sbml.jsbml.ext.groups;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  * @author Nicolas Rodriguez
@@ -36,6 +39,12 @@ public class GroupsConstants {
   public static final int MIN_SBML_LEVEL = 3;
   public static final int MIN_SBML_VERSION = 1;
 
+  public static final List<String> namespaces;
+
+  static {
+	namespaces = new ArrayList<String>();
+	namespaces.add(namespaceURI);
+  }
 
   public static final String idRef = "idRef";
   public static final String metaIdRef = "metaIdRef";

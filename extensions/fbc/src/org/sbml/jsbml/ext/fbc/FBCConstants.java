@@ -20,6 +20,9 @@
  */
 package org.sbml.jsbml.ext.fbc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  * @author Nicolas Rodriguez
@@ -34,6 +37,13 @@ public class FBCConstants {
    */
   public static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/fbc/version1";
 
+  public static final List<String> namespaces;
+
+  static {
+	namespaces = new ArrayList<String>();
+	namespaces.add(namespaceURI);
+  }
+	
   /**
    * 
    */

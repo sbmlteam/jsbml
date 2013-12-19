@@ -20,6 +20,9 @@
  */
 package org.sbml.jsbml.ext.comp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  * @author Nicolas Rodriguez
@@ -37,6 +40,13 @@ public class CompConstants {
 
   public static final int MIN_SBML_LEVEL = 3;
   public static final int MIN_SBML_VERSION = 1;
+
+  public static final List<String> namespaces;
+
+  static {
+	namespaces = new ArrayList<String>();
+	namespaces.add(namespaceURI);
+  }
 
   public static final String source = "source";
   public static final String modelRef = "modelRef";

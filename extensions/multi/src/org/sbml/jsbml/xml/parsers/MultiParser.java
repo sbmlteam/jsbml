@@ -40,12 +40,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.multi.BindingSiteReference;
 import org.sbml.jsbml.ext.multi.Bond;
+import org.sbml.jsbml.ext.multi.MultiConstants;
 import org.sbml.jsbml.ext.multi.MultiModel;
 import org.sbml.jsbml.ext.multi.Selector;
 import org.sbml.jsbml.ext.multi.SpeciesType;
@@ -65,7 +67,8 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * @since 1.0
  * @version $Rev$
  */
-public class MultiParser extends AbstractReaderWriter {
+@ProviderFor(ReadingParser.class)
+public class MultiParser extends AbstractReaderWriter implements PackageParser {
 
 	private Logger logger = Logger.getLogger(MultiParser.class);
 	
@@ -293,5 +296,32 @@ public class MultiParser extends AbstractReaderWriter {
 			logger.debug("writeElement: " + sbmlElementToWrite.getClass().getSimpleName());
 		}
 	}
+
+	@Override
+	public String getNamespaceFor(String level, String version,	String packageVersion) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getNamespaces() {		
+		return MultiConstants.namespaces;
+	}
+
+	@Override
+	public List<String> getPackageNamespaces() {		
+		return getNamespaces();
+	}
+
+	@Override
+	public String getPackageName() {
+		return MultiConstants.shortLabel;
+	}
+
+	@Override
+	public boolean isRequired() {
+		return true;
+	}
+
 
 }

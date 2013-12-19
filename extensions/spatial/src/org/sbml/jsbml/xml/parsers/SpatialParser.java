@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.SBasePlugin;
@@ -34,7 +35,8 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * @since 1.0
  * @version $Rev$
  */
-public class SpatialParser extends AbstractReaderWriter {
+@ProviderFor(ReadingParser.class)
+public class SpatialParser extends AbstractReaderWriter implements PackageParser {
 
 	private Logger logger = Logger.getLogger(SpatialParser.class);
 	
@@ -105,6 +107,33 @@ public class SpatialParser extends AbstractReaderWriter {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public String getNamespaceFor(String level, String version,	String packageVersion) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getNamespaces() {		
+		return SpatialConstants.namespaces;
+	}
+
+	@Override
+	public List<String> getPackageNamespaces() {		
+		return getNamespaces();
+	}
+
+	@Override
+	public String getPackageName() {
+		return SpatialConstants.shortLabel;
+	}
+
+	@Override
+	public boolean isRequired() {
+		return true;
+	}
+
 
 
 }

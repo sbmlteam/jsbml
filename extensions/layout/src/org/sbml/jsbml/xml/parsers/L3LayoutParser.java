@@ -54,6 +54,7 @@ import java.util.List;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
+import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
@@ -95,7 +96,8 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * @since 1.0
  * @version $Rev$
  */
-public class L3LayoutParser extends AbstractReaderWriter {
+@ProviderFor(ReadingParser.class)
+public class L3LayoutParser extends AbstractReaderWriter implements PackageParser {
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
@@ -450,6 +452,39 @@ public class L3LayoutParser extends AbstractReaderWriter {
     if (name.equals(listOfLayouts)) {
       xmlObject.getAttributes().put("xmlns:" + LayoutConstants.xsiShortLabel, LayoutConstants.xsiNamespace);
     }
+  }
+
+  @Override
+  public List<String> getNamespaces() {
+	  return LayoutConstants.namespaces_L3;
+  }
+
+  @Override
+  public List<String> getPackageNamespaces() {
+	  return LayoutConstants.namespaces_L3;
+  }
+
+  private static final List<String> namespaces = new ArrayList<String>();
+
+  static {
+	  namespaces.addAll(LayoutConstants.namespaces_L3);
+	  namespaces.add("http://www.w3.org/2001/XMLSchema-instance");
+  }
+
+  @Override
+  public String getNamespaceFor(String level, String version, String packageVersion) {
+	  // TODO Auto-generated method stub
+	  return null;
+  }
+
+  @Override
+  public String getPackageName() {
+	  return LayoutConstants.shortLabel;
+  }
+
+  @Override
+  public boolean isRequired() {
+	  return false;
   }
 
 }

@@ -21,6 +21,9 @@
  */
 package org.sbml.jsbml.ext.render;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * @author Eugen Netz
@@ -39,6 +42,17 @@ public class RenderConstants {
 	public static final String shortLabel = "render";
 
 	public static final String namespaceURI_L2 = "http://projects.eml.org/bcb/sbml/render/level2";
+
+	public static final List<String> namespaces_L3;
+	public static final List<String> namespaces_L2;
+	
+	static {
+		namespaces_L3 = new ArrayList<String>();
+		namespaces_L3.add(namespaceURI);
+
+		namespaces_L2 = new ArrayList<String>();
+		namespaces_L2.add(namespaceURI_L2);
+	}
 
 
 	public static final String fontFamily = "font-family";

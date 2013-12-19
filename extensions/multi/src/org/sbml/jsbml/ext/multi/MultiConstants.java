@@ -20,6 +20,9 @@
  */
 package org.sbml.jsbml.ext.multi;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Nicolas Rodriguez
  * @version $Rev$
@@ -35,6 +38,13 @@ public class MultiConstants {
 
   public static final String shortLabel = "multi";
 
+  public static final List<String> namespaces;
+
+  static {
+	namespaces = new ArrayList<String>();
+	namespaces.add(namespaceURI);
+  }
+  
   public static final String listOfSpeciesTypes = "listOfSpeciesTypes";
   public static final String listOfSelectors = "listOfSelectors";
   public static final String listOfStateFeatures = "listOfStateFeatures";

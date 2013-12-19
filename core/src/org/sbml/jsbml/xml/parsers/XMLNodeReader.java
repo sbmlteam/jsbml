@@ -21,9 +21,14 @@
 
 package org.sbml.jsbml.xml.parsers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
+import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.Constraint;
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.xml.XMLAttributes;
@@ -41,6 +46,7 @@ import org.sbml.jsbml.xml.XMLTriple;
  * @since 1.0
  * @version $Rev: 1559 $
  */
+@ProviderFor(ReadingParser.class)
 public class XMLNodeReader implements ReadingParser {
 	
 	/**
@@ -276,6 +282,18 @@ public class XMLNodeReader implements ReadingParser {
 	 */
 	public void setTypeOfNotes(String typeOfNotes) {
 		this.typeOfNotes = typeOfNotes;
+	}
+
+	@Override
+	public List<String> getNamespaces() {
+		return namespaces;
+	}
+
+	private static final List<String> namespaces = new ArrayList<String>();
+	
+	static {
+		namespaces.add(JSBML.URI_XHTML_DEFINITION);
+		namespaces.add("anyXML"); // Special keyword used when inside annotation, notes or message
 	}
 
 }

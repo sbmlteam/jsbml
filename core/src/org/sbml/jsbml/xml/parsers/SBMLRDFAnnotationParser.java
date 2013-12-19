@@ -1178,9 +1178,9 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 		{
 			return;
 		}
-		// TODO - make use of the potential XML stores using the CUSTOM_RDF user object  
+		// TODO - make use of the potential XML stores using the CUSTOM_RDF user object for Creator  
 		
-		// TODO : add a created date or modified date automatically ??
+		// TODO : add a created date or modified date automatically ?? Would need to be done at the level of the writer.
 		
 		// gets or creates the RDF and Description XMLNode		
 		XMLNode annotationXMLNode = contextObject.getAnnotation().getAnnotationBuilder();

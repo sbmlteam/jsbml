@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
@@ -45,7 +46,8 @@ import org.sbml.jsbml.ext.groups.MemberConstraint;
  * @since 1.0
  * @version $Rev$
  */
-public class GroupsParser extends AbstractReaderWriter {
+@ProviderFor(ReadingParser.class)
+public class GroupsParser extends AbstractReaderWriter implements PackageParser {
 
 	private Logger logger = Logger.getLogger(GroupsParser.class);
 
@@ -151,6 +153,33 @@ public class GroupsParser extends AbstractReaderWriter {
 	public String getNamespaceURI() {
 		return GroupsConstants.namespaceURI;
 	}
+
+	@Override
+	public String getNamespaceFor(String level, String version,	String packageVersion) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getNamespaces() {		
+		return GroupsConstants.namespaces;
+	}
+
+	@Override
+	public List<String> getPackageNamespaces() {		
+		return getNamespaces();
+	}
+
+	@Override
+	public String getPackageName() {
+		return GroupsConstants.shortLabel;
+	}
+
+	@Override
+	public boolean isRequired() {
+		return false;
+	}
+
 
 	
 }
