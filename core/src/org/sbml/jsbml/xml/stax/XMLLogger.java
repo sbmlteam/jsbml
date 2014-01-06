@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.xml.stax;
 
 
@@ -33,50 +32,50 @@ import org.apache.log4j.Priority;
  */
 public class XMLLogger {
 
-	/**
-	 * logger
-	 */
-	private Logger logger = Logger.getLogger(XMLLogger.class);
+  /**
+   * logger
+   */
+  private Logger logger = Logger.getLogger(XMLLogger.class);
 
-	/**
-	 * 
-	 * @param message
-	 */
-	public void debug(String message) {
-		logger.debug(message);
-	}
+  /**
+   * 
+   * @param message
+   */
+  public void debug(String message) {
+    logger.debug(message);
+  }
 
-	/**
-	 * 
-	 * @param message
-	 */
-	public void error(String message) {
-		logger.error(message);
-	}
+  /**
+   * 
+   * @param message
+   */
+  public void error(String message) {
+    logger.error(message);
+  }
 
-	/**
-	 * 
-	 * @param message
-	 */
-	public void fatal(String message) {
-		logger.fatal(message);
-	}
+  /**
+   * 
+   * @param message
+   */
+  public void fatal(String message) {
+    logger.fatal(message);
+  }
 
-	/**
-	 * 
-	 * @param message
-	 */
-	public void info(String message) {
-		logger.info(message);
-	}
+  /**
+   * 
+   * @param message
+   */
+  public void info(String message) {
+    logger.info(message);
+  }
 
-	/**
-	 * 
-	 * @param priority
-	 * @param message
-	 */
-	public void log(Priority priority, String message) {
-		logger.log(priority, message);
-	}
+  /**
+   * 
+   * @param priority
+   * @param message
+   */
+  public void log(Priority priority, String message) {
+    logger.log(priority, message);
+  }
 
 }

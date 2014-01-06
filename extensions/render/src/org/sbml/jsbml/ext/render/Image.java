@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -26,7 +26,6 @@ import java.util.Map;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
 
-
 /**
  * @author Eugen Netz
  * @author Alexander Diamantikos
@@ -37,567 +36,567 @@ import org.sbml.jsbml.SBase;
  * @date 08.05.2012
  */
 public class Image extends Transformation2D {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6031110715160806863L;
-	private Double x, y, z;
-	private Double width, height;
-	private Boolean absoluteX, absoluteY, absoluteZ;
-	private Boolean absoluteWidth, absoluteHeight;
-	private String href;
-	
-	/**
-	 * Creates an Image instance 
-	 */
-	public Image() {
-		super();
-		initDefaults();
-	}
+  /**
+   * Generated serial version identifier
+   */
+  private static final long serialVersionUID = 6031110715160806863L;
+  private Double x, y, z;
+  private Double width, height;
+  private Boolean absoluteX, absoluteY, absoluteZ;
+  private Boolean absoluteWidth, absoluteHeight;
+  private String href;
 
-	/**
-	 * Creates a Image instance with an id. 
-	 * 
-	 * @param id
-	 */
-	public Image(String id) {
-		super();
-		initDefaults();
-	}
+  /**
+   * Creates an Image instance
+   */
+  public Image() {
+    super();
+    initDefaults();
+  }
 
-	/**
-	 * Clone constructor
-	 */
-	public Image(Image obj) {
-		super();
-		absoluteHeight = obj.absoluteHeight;
-		absoluteWidth = obj.absoluteWidth;
-		absoluteX = obj.absoluteX;
-		absoluteY = obj.absoluteY;
-		absoluteZ = obj.absoluteZ;
-		height = obj.height;
-		href = obj.href;
-		width = obj.width;
-		x = obj.x;
-		y = obj.y;
-		z = obj.z;
-	}
+  /**
+   * Creates a Image instance with an id.
+   * 
+   * @param id
+   */
+  public Image(String id) {
+    super();
+    initDefaults();
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.render.Transformation2D#clone()
-	 */
-	@Override
-	public Image clone() {
-		return new Image(this);
-	}
+  /**
+   * Clone constructor
+   */
+  public Image(Image obj) {
+    super();
+    absoluteHeight = obj.absoluteHeight;
+    absoluteWidth = obj.absoluteWidth;
+    absoluteX = obj.absoluteX;
+    absoluteY = obj.absoluteY;
+    absoluteZ = obj.absoluteZ;
+    height = obj.height;
+    href = obj.href;
+    width = obj.width;
+    x = obj.x;
+    y = obj.y;
+    z = obj.z;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.render.Transformation2D#initDefaults()
-	 */
-	@Override
-	public void initDefaults() {
-		setNamespace(RenderConstants.namespaceURI);
-		z = 0d;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Transformation2D#clone()
+   */
+  @Override
+  public Image clone() {
+    return new Image(this);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.render.Transformation#getAllowsChildren()
-	 */
-	@Override
-	public boolean getAllowsChildren() {
-		return false;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Transformation2D#initDefaults()
+   */
+  @Override
+  public void initDefaults() {
+    setNamespace(RenderConstants.namespaceURI);
+    z = 0d;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.render.Transformation#getChildCount()
-	 */
-	@Override
-	public int getChildCount() {
-		int count = 0;
-		return count;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Transformation#getAllowsChildren()
+   */
+  @Override
+  public boolean getAllowsChildren() {
+    return false;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.render.Transformation#getChildAt(int)
-	 */
-	@Override
-	public SBase getChildAt(int childIndex) {
-		if (childIndex < 0) {
-			throw new IndexOutOfBoundsException(childIndex + " < 0");
-		}
-		int pos = 0;
-		throw new IndexOutOfBoundsException(MessageFormat.format(
-				"Index {0,number,integer} >= {1,number,integer}", childIndex,
-				+((int) Math.min(pos, 0))));
-	}
-	
-	/**
-	 * @return the value of absoluteHeight
-	 */
-	public boolean isAbsoluteHeight() {
-		if (isSetAbsoluteHeight()) {
-			return absoluteHeight;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.absoluteHeight, this);
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Transformation#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    int count = 0;
+    return count;
+  }
 
-	/**
-	 * @return whether absoluteHeight is set 
-	 */
-	public boolean isSetAbsoluteHeight() {
-		return this.absoluteHeight != null;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Transformation#getChildAt(int)
+   */
+  @Override
+  public SBase getChildAt(int childIndex) {
+    if (childIndex < 0) {
+      throw new IndexOutOfBoundsException(childIndex + " < 0");
+    }
+    int pos = 0;
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}", childIndex,
+      +Math.min(pos, 0)));
+  }
 
-	/**
-	 * Set the value of absoluteHeight
-	 */
-	public void setAbsoluteHeight(Boolean absoluteHeight) {
-		Boolean oldAbsoluteHeight = this.absoluteHeight;
-		this.absoluteHeight = absoluteHeight;
-		firePropertyChange(RenderConstants.absoluteHeight, oldAbsoluteHeight, this.absoluteHeight);
-	}
+  /**
+   * @return the value of absoluteHeight
+   */
+  public boolean isAbsoluteHeight() {
+    if (isSetAbsoluteHeight()) {
+      return absoluteHeight;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.absoluteHeight, this);
+  }
 
-	/**
-	 * Unsets the variable absoluteHeight 
-	 * @return {@code true}, if absoluteHeight was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetAbsoluteHeight() {
-		if (isSetAbsoluteHeight()) {
-			Boolean oldAbsoluteHeight = this.absoluteHeight;
-			this.absoluteHeight = null;
-			firePropertyChange(RenderConstants.absoluteHeight, oldAbsoluteHeight, this.absoluteHeight);
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * @return the value of absoluteWidth
-	 */
-	public boolean isAbsoluteWidth() {
-		if (isSetAbsoluteWidth()) {
-			return absoluteWidth;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.absoluteWidth, this);
-	}
+  /**
+   * @return whether absoluteHeight is set
+   */
+  public boolean isSetAbsoluteHeight() {
+    return absoluteHeight != null;
+  }
 
-	/**
-	 * @return whether absoluteWidth is set 
-	 */
-	public boolean isSetAbsoluteWidth() {
-		return this.absoluteWidth != null;
-	}
+  /**
+   * Set the value of absoluteHeight
+   */
+  public void setAbsoluteHeight(Boolean absoluteHeight) {
+    Boolean oldAbsoluteHeight = this.absoluteHeight;
+    this.absoluteHeight = absoluteHeight;
+    firePropertyChange(RenderConstants.absoluteHeight, oldAbsoluteHeight, this.absoluteHeight);
+  }
 
-	/**
-	 * Set the value of absoluteWidth
-	 */
-	public void setAbsoluteWidth(Boolean absoluteWidth) {
-		Boolean oldAbsoluteWidth = this.absoluteWidth;
-		this.absoluteWidth = absoluteWidth;
-		firePropertyChange(RenderConstants.absoluteWidth, oldAbsoluteWidth, this.absoluteWidth);
-	}
+  /**
+   * Unsets the variable absoluteHeight
+   * @return {@code true}, if absoluteHeight was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetAbsoluteHeight() {
+    if (isSetAbsoluteHeight()) {
+      Boolean oldAbsoluteHeight = absoluteHeight;
+      absoluteHeight = null;
+      firePropertyChange(RenderConstants.absoluteHeight, oldAbsoluteHeight, absoluteHeight);
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Unsets the variable absoluteWidth 
-	 * @return {@code true}, if absoluteWidth was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetAbsoluteWidth() {
-		if (isSetAbsoluteWidth()) {
-			Boolean oldAbsoluteWidth = this.absoluteWidth;
-			this.absoluteWidth = null;
-			firePropertyChange(RenderConstants.absoluteWidth, oldAbsoluteWidth, this.absoluteWidth);
-			return true;
-		}
-		return false;
-	}
+  /**
+   * @return the value of absoluteWidth
+   */
+  public boolean isAbsoluteWidth() {
+    if (isSetAbsoluteWidth()) {
+      return absoluteWidth;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.absoluteWidth, this);
+  }
 
-	/**
-	 * @return the value of absoluteX
-	 */
-	public boolean isAbsoluteX() {
-		if (isSetAbsoluteX()) {
-			return absoluteX;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.absoluteX, this);
-	}
+  /**
+   * @return whether absoluteWidth is set
+   */
+  public boolean isSetAbsoluteWidth() {
+    return absoluteWidth != null;
+  }
 
-	/**
-	 * @return whether absoluteX is set 
-	 */
-	public boolean isSetAbsoluteX() {
-		return this.absoluteX != null;
-	}
+  /**
+   * Set the value of absoluteWidth
+   */
+  public void setAbsoluteWidth(Boolean absoluteWidth) {
+    Boolean oldAbsoluteWidth = this.absoluteWidth;
+    this.absoluteWidth = absoluteWidth;
+    firePropertyChange(RenderConstants.absoluteWidth, oldAbsoluteWidth, this.absoluteWidth);
+  }
 
-	/**
-	 * Set the value of absoluteX
-	 */
-	public void setAbsoluteX(Boolean absoluteX) {
-		Boolean oldAbsoluteX = this.absoluteX;
-		this.absoluteX = absoluteX;
-		firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, this.absoluteX);
-	}
+  /**
+   * Unsets the variable absoluteWidth
+   * @return {@code true}, if absoluteWidth was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetAbsoluteWidth() {
+    if (isSetAbsoluteWidth()) {
+      Boolean oldAbsoluteWidth = absoluteWidth;
+      absoluteWidth = null;
+      firePropertyChange(RenderConstants.absoluteWidth, oldAbsoluteWidth, absoluteWidth);
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Unsets the variable absoluteX 
-	 * @return {@code true}, if absoluteX was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetAbsoluteX() {
-		if (isSetAbsoluteX()) {
-			Boolean oldAbsoluteX = this.absoluteX;
-			this.absoluteX = null;
-			firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, this.absoluteX);
-			return true;
-		}
-		return false;
-	}
+  /**
+   * @return the value of absoluteX
+   */
+  public boolean isAbsoluteX() {
+    if (isSetAbsoluteX()) {
+      return absoluteX;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.absoluteX, this);
+  }
 
-	/**
-	 * @return the value of absoluteY
-	 */
-	public boolean isAbsoluteY() {
-		if (isSetAbsoluteY()) {
-			return absoluteY;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.absoluteY, this);
-	}
+  /**
+   * @return whether absoluteX is set
+   */
+  public boolean isSetAbsoluteX() {
+    return absoluteX != null;
+  }
 
-	/**
-	 * @return whether absoluteY is set 
-	 */
-	public boolean isSetAbsoluteY() {
-		return this.absoluteY != null;
-	}
+  /**
+   * Set the value of absoluteX
+   */
+  public void setAbsoluteX(Boolean absoluteX) {
+    Boolean oldAbsoluteX = this.absoluteX;
+    this.absoluteX = absoluteX;
+    firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, this.absoluteX);
+  }
 
-	/**
-	 * Set the value of absoluteY
-	 */
-	public void setAbsoluteY(Boolean absoluteY) {
-		Boolean oldAbsoluteY = this.absoluteY;
-		this.absoluteY = absoluteY;
-		firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, this.absoluteY);
-	}
+  /**
+   * Unsets the variable absoluteX
+   * @return {@code true}, if absoluteX was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetAbsoluteX() {
+    if (isSetAbsoluteX()) {
+      Boolean oldAbsoluteX = absoluteX;
+      absoluteX = null;
+      firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, absoluteX);
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Unsets the variable absoluteY 
-	 * @return {@code true}, if absoluteY was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetAbsoluteY() {
-		if (isSetAbsoluteY()) {
-			Boolean oldAbsoluteY = this.absoluteY;
-			this.absoluteY = null;
-			firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, this.absoluteY);
-			return true;
-		}
-		return false;
-	}
+  /**
+   * @return the value of absoluteY
+   */
+  public boolean isAbsoluteY() {
+    if (isSetAbsoluteY()) {
+      return absoluteY;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.absoluteY, this);
+  }
 
-	/**
-	 * @return the value of absoluteZ
-	 */
-	public boolean isAbsoluteZ() {
-		if (isSetAbsoluteZ()) {
-			return absoluteZ;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.absoluteZ, this);
-	}
+  /**
+   * @return whether absoluteY is set
+   */
+  public boolean isSetAbsoluteY() {
+    return absoluteY != null;
+  }
 
-	/**
-	 * @return whether absoluteZ is set 
-	 */
-	public boolean isSetAbsoluteZ() {
-		return this.absoluteZ != null;
-	}
+  /**
+   * Set the value of absoluteY
+   */
+  public void setAbsoluteY(Boolean absoluteY) {
+    Boolean oldAbsoluteY = this.absoluteY;
+    this.absoluteY = absoluteY;
+    firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, this.absoluteY);
+  }
 
-	/**
-	 * Set the value of absoluteZ
-	 */
-	public void setAbsoluteZ(Boolean absoluteZ) {
-		Boolean oldAbsoluteZ = this.absoluteZ;
-		this.absoluteZ = absoluteZ;
-		firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, this.absoluteZ);
-	}
+  /**
+   * Unsets the variable absoluteY
+   * @return {@code true}, if absoluteY was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetAbsoluteY() {
+    if (isSetAbsoluteY()) {
+      Boolean oldAbsoluteY = absoluteY;
+      absoluteY = null;
+      firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, absoluteY);
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Unsets the variable absoluteZ 
-	 * @return {@code true}, if absoluteZ was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetAbsoluteZ() {
-		if (isSetAbsoluteZ()) {
-			Boolean oldAbsoluteZ = this.absoluteZ;
-			this.absoluteZ = null;
-			firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, this.absoluteZ);
-			return true;
-		}
-		return false;
-	}
+  /**
+   * @return the value of absoluteZ
+   */
+  public boolean isAbsoluteZ() {
+    if (isSetAbsoluteZ()) {
+      return absoluteZ;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.absoluteZ, this);
+  }
 
-	/**
-	 * @return the value of height
-	 */
-	public double getHeight() {
-		if (isSetHeight()) {
-			return height;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.height, this);
-	}
+  /**
+   * @return whether absoluteZ is set
+   */
+  public boolean isSetAbsoluteZ() {
+    return absoluteZ != null;
+  }
 
-	/**
-	 * @return whether height is set 
-	 */
-	public boolean isSetHeight() {
-		return this.height != null;
-	}
+  /**
+   * Set the value of absoluteZ
+   */
+  public void setAbsoluteZ(Boolean absoluteZ) {
+    Boolean oldAbsoluteZ = this.absoluteZ;
+    this.absoluteZ = absoluteZ;
+    firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, this.absoluteZ);
+  }
 
-	/**
-	 * Set the value of height
-	 */
-	public void setHeight(Double height) {
-		Double oldHeight = this.height;
-		this.height = height;
-		firePropertyChange(RenderConstants.height, oldHeight, this.height);
-	}
+  /**
+   * Unsets the variable absoluteZ
+   * @return {@code true}, if absoluteZ was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetAbsoluteZ() {
+    if (isSetAbsoluteZ()) {
+      Boolean oldAbsoluteZ = absoluteZ;
+      absoluteZ = null;
+      firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, absoluteZ);
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Unsets the variable height 
-	 * @return {@code true}, if height was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetHeight() {
-		if (isSetHeight()) {
-			Double oldHeight = this.height;
-			this.height = null;
-			firePropertyChange(RenderConstants.height, oldHeight, this.height);
-			return true;
-		}
-		return false;
-	}
+  /**
+   * @return the value of height
+   */
+  public double getHeight() {
+    if (isSetHeight()) {
+      return height;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.height, this);
+  }
 
-	/**
-	 * @return the value of href
-	 */
-	public String getHref() {
-		if (isSetHref()) {
-			return href;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.href, this);
-	}
+  /**
+   * @return whether height is set
+   */
+  public boolean isSetHeight() {
+    return height != null;
+  }
 
-	/**
-	 * @return whether href is set 
-	 */
-	public boolean isSetHref() {
-		return this.href != null;
-	}
+  /**
+   * Set the value of height
+   */
+  public void setHeight(Double height) {
+    Double oldHeight = this.height;
+    this.height = height;
+    firePropertyChange(RenderConstants.height, oldHeight, this.height);
+  }
 
-	/**
-	 * Set the value of href
-	 */
-	public void setHref(String href) {
-		String oldHref = this.href;
-		this.href = href;
-		firePropertyChange(RenderConstants.href, oldHref, this.href);
-	}
+  /**
+   * Unsets the variable height
+   * @return {@code true}, if height was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetHeight() {
+    if (isSetHeight()) {
+      Double oldHeight = height;
+      height = null;
+      firePropertyChange(RenderConstants.height, oldHeight, height);
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Unsets the variable href 
-	 * @return {@code true}, if href was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetHref() {
-		if (isSetHref()) {
-			String oldHref = this.href;
-			this.href = null;
-			firePropertyChange(RenderConstants.href, oldHref, this.href);
-			return true;
-		}
-		return false;
-	}
+  /**
+   * @return the value of href
+   */
+  public String getHref() {
+    if (isSetHref()) {
+      return href;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.href, this);
+  }
 
-	/**
-	 * @return the value of width
-	 */
-	public double getWidth() {
-		if (isSetWidth()) {
-			return width;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.width, this);
-	}
+  /**
+   * @return whether href is set
+   */
+  public boolean isSetHref() {
+    return href != null;
+  }
 
-	/**
-	 * @return whether width is set 
-	 */
-	public boolean isSetWidth() {
-		return this.width != null;
-	}
+  /**
+   * Set the value of href
+   */
+  public void setHref(String href) {
+    String oldHref = this.href;
+    this.href = href;
+    firePropertyChange(RenderConstants.href, oldHref, this.href);
+  }
 
-	/**
-	 * Set the value of width
-	 */
-	public void setWidth(Double width) {
-		Double oldWidth = this.width;
-		this.width = width;
-		firePropertyChange(RenderConstants.width, oldWidth, this.width);
-	}
+  /**
+   * Unsets the variable href
+   * @return {@code true}, if href was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetHref() {
+    if (isSetHref()) {
+      String oldHref = href;
+      href = null;
+      firePropertyChange(RenderConstants.href, oldHref, href);
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Unsets the variable width 
-	 * @return {@code true}, if width was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetWidth() {
-		if (isSetWidth()) {
-			Double oldWidth = this.width;
-			this.width = null;
-			firePropertyChange(RenderConstants.width, oldWidth, this.width);
-			return true;
-		}
-		return false;
-	}
+  /**
+   * @return the value of width
+   */
+  public double getWidth() {
+    if (isSetWidth()) {
+      return width;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.width, this);
+  }
 
-	/**
-	 * @return the value of x
-	 */
-	public double getX() {
-		if (isSetX()) {
-			return x;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.x, this);
-	}
+  /**
+   * @return whether width is set
+   */
+  public boolean isSetWidth() {
+    return width != null;
+  }
 
-	/**
-	 * @return whether x is set 
-	 */
-	public boolean isSetX() {
-		return this.x != null;
-	}
+  /**
+   * Set the value of width
+   */
+  public void setWidth(Double width) {
+    Double oldWidth = this.width;
+    this.width = width;
+    firePropertyChange(RenderConstants.width, oldWidth, this.width);
+  }
 
-	/**
-	 * Set the value of x
-	 */
-	public void setX(Double x) {
-		Double oldX = this.x;
-		this.x = x;
-		firePropertyChange(RenderConstants.x, oldX, this.x);
-	}
+  /**
+   * Unsets the variable width
+   * @return {@code true}, if width was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetWidth() {
+    if (isSetWidth()) {
+      Double oldWidth = width;
+      width = null;
+      firePropertyChange(RenderConstants.width, oldWidth, width);
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Unsets the variable x 
-	 * @return {@code true}, if x was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetX() {
-		if (isSetX()) {
-			Double oldX = this.x;
-			this.x = null;
-			firePropertyChange(RenderConstants.x, oldX, this.x);
-			return true;
-		}
-		return false;
-	}
+  /**
+   * @return the value of x
+   */
+  public double getX() {
+    if (isSetX()) {
+      return x;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.x, this);
+  }
 
-	/**
-	 * @return the value of y
-	 */
-	public double getY() {
-		if (isSetY()) {
-			return y;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.y, this);
-	}
+  /**
+   * @return whether x is set
+   */
+  public boolean isSetX() {
+    return x != null;
+  }
 
-	/**
-	 * @return whether y is set 
-	 */
-	public boolean isSetY() {
-		return this.y != null;
-	}
+  /**
+   * Set the value of x
+   */
+  public void setX(Double x) {
+    Double oldX = this.x;
+    this.x = x;
+    firePropertyChange(RenderConstants.x, oldX, this.x);
+  }
 
-	/**
-	 * Set the value of y
-	 */
-	public void setY(Double y) {
-		Double oldY = this.y;
-		this.y = y;
-		firePropertyChange(RenderConstants.y, oldY, this.y);
-	}
+  /**
+   * Unsets the variable x
+   * @return {@code true}, if x was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetX() {
+    if (isSetX()) {
+      Double oldX = x;
+      x = null;
+      firePropertyChange(RenderConstants.x, oldX, x);
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Unsets the variable y 
-	 * @return {@code true}, if y was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetY() {
-		if (isSetY()) {
-			Double oldY = this.y;
-			this.y = null;
-			firePropertyChange(RenderConstants.y, oldY, this.y);
-			return true;
-		}
-		return false;
-	}
+  /**
+   * @return the value of y
+   */
+  public double getY() {
+    if (isSetY()) {
+      return y;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.y, this);
+  }
 
-	/**
-	 * @return the value of z
-	 */
-	public double getZ() {
-		if (isSetZ()) {
-			return z;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.z, this);
-	}
+  /**
+   * @return whether y is set
+   */
+  public boolean isSetY() {
+    return y != null;
+  }
 
-	/**
-	 * @return whether z is set 
-	 */
-	public boolean isSetZ() {
-		return this.z != null;
-	}
+  /**
+   * Set the value of y
+   */
+  public void setY(Double y) {
+    Double oldY = this.y;
+    this.y = y;
+    firePropertyChange(RenderConstants.y, oldY, this.y);
+  }
 
-	/**
-	 * Set the value of z
-	 */
-	public void setZ(Double z) {
-		Double oldZ = this.z;
-		this.z = z;
-		firePropertyChange(RenderConstants.z, oldZ, this.z);
-	}
+  /**
+   * Unsets the variable y
+   * @return {@code true}, if y was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetY() {
+    if (isSetY()) {
+      Double oldY = y;
+      y = null;
+      firePropertyChange(RenderConstants.y, oldY, y);
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Unsets the variable z 
-	 * @return {@code true}, if z was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetZ() {
-		if (isSetZ()) {
-			Double oldZ = this.z;
-			this.z = null;
-			firePropertyChange(RenderConstants.z, oldZ, this.z);
-			return true;
-		}
-		return false;
-	}
+  /**
+   * @return the value of z
+   */
+  public double getZ() {
+    if (isSetZ()) {
+      return z;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.z, this);
+  }
 
-	
+  /**
+   * @return whether z is set
+   */
+  public boolean isSetZ() {
+    return z != null;
+  }
+
+  /**
+   * Set the value of z
+   */
+  public void setZ(Double z) {
+    Double oldZ = this.z;
+    this.z = z;
+    firePropertyChange(RenderConstants.z, oldZ, this.z);
+  }
+
+  /**
+   * Unsets the variable z
+   * @return {@code true}, if z was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetZ() {
+    if (isSetZ()) {
+      Double oldZ = z;
+      z = null;
+      firePropertyChange(RenderConstants.z, oldZ, z);
+      return true;
+    }
+    return false;
+  }
+
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
    */
-	@Override
+  @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetHref()) {
@@ -637,7 +636,7 @@ public class Image extends Transformation2D {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
-	@Override
+  @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
     if (!isAttributeRead) {
@@ -671,5 +670,5 @@ public class Image extends Transformation2D {
     }
     return isAttributeRead;
   }
-	
+
 }

@@ -6,7 +6,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -28,7 +28,6 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.util.filters.NameFilter;
 
-
 /**
  * @author Jakob Matthes
  * @version $Rev$
@@ -38,7 +37,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
 public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
 
   /**
-   *
+   * Generated serial version identifier
    */
   private static final long serialVersionUID = -4727110538908666931L;
 
@@ -114,12 +113,12 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
       throw new IndexOutOfBoundsException(childIndex + " < 0");
     }
     int pos = 0;
-     if (isSetListOfGlobalRenderInformation()) {
-       if (pos == childIndex) {
-         return getListOfGlobalRenderInformation();
-       }
-       pos++;
-     }
+    if (isSetListOfGlobalRenderInformation()) {
+      if (pos == childIndex) {
+        return getListOfGlobalRenderInformation();
+      }
+      pos++;
+    }
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", childIndex,
       +Math.min(pos, 0)));
@@ -131,9 +130,9 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
   @Override
   public int getChildCount() {
     int count = super.getChildCount();
-     if (isSetListOfGlobalRenderInformation()) {
+    if (isSetListOfGlobalRenderInformation()) {
       count++;
-     }
+    }
     return count;
   }
 
@@ -156,7 +155,7 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
    */
   @Override
   public void initDefaults() {
-//    TODO setNamespace(RenderConstants.namespaceURI);
+    //    TODO setNamespace(RenderConstants.namespaceURI);
   }
 
   /**
@@ -214,8 +213,8 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
    */
   public boolean unsetListOfGlobalRenderInformation() {
     if (isSetListOfGlobalRenderInformation()) {
-      ListOf<GlobalRenderInformation> oldGlobalRenderInformation = this.listOfGlobalRenderInformation;
-      this.listOfGlobalRenderInformation = null;
+      ListOf<GlobalRenderInformation> oldGlobalRenderInformation = listOfGlobalRenderInformation;
+      listOfGlobalRenderInformation = null;
       oldGlobalRenderInformation.fireNodeRemovedEvent();
       return true;
     }

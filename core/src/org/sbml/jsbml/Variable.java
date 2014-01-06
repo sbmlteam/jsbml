@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml;
 
 /**
@@ -34,38 +33,38 @@ package org.sbml.jsbml;
  */
 public interface Variable extends Quantity, UniqueNamedSBase {
 
-	/**
-	 * 
-	 * @return the constant boolean of this variable.
-	 */
-	public boolean getConstant();
+  /**
+   * 
+   * @return the constant boolean of this variable.
+   */
+  public boolean getConstant();
 
-	/**
-	 * 
-	 * @return the constant value if it is set, {@code false} otherwise.
-	 */
-	public boolean isConstant();
+  /**
+   * 
+   * @return the constant value if it is set, {@code false} otherwise.
+   */
+  public boolean isConstant();
 
-	/**
-	 * 
-	 * @return {@code true} if the constant boolean of this Variable is not {@code null}.
-	 */
-	public boolean isSetConstant();
+  /**
+   * 
+   * @return {@code true} if the constant boolean of this Variable is not {@code null}.
+   */
+  public boolean isSetConstant();
 
-	/**
-	 * Sets the constant boolean of this Variable.
-	 * 
-	 * @param constant
-	 * @throws PropertyNotAvailableException
-	 *             for inappropriate Level/Version combinations depending on the
-	 *             implementing class.
-	 */
-	public void setConstant(boolean constant);
+  /**
+   * Sets the constant boolean of this Variable.
+   * 
+   * @param constant
+   * @throws PropertyNotAvailableException
+   *             for inappropriate Level/Version combinations depending on the
+   *             implementing class.
+   */
+  public void setConstant(boolean constant);
 
-	/**
-	 * With this method the constant property of this variable will be set to an
-	 * undefined state.
-	 */
-	public void unsetConstant();
+  /**
+   * With this method the constant property of this variable will be set to an
+   * undefined state.
+   */
+  public void unsetConstant();
 
 }

@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -33,31 +33,31 @@ import jp.sbi.celldesigner.plugin.PluginAction;
  */
 public class SimpleCellDesignerPluginAction extends PluginAction{
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 2080508810969190318L;
-	
-	private CDPluginTester plugin;
-	
-	public SimpleCellDesignerPluginAction(CDPluginTester plugTest) {
-		this.plugin = plugTest;
-	}
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 2080508810969190318L;
 
-	/* (non-Javadoc)
-	 * @see jp.sbi.celldesigner.plugin.PluginActionListener#myActionPerformed(java.awt.event.ActionEvent)
-	 */
-	public void myActionPerformed(ActionEvent ae) {
-		if (ae.getSource() instanceof JMenuItem) {
-			String itemText = ((JMenuItem) ae.getSource()).getText();
-			if (itemText.equals(CDPluginTester.ACTION)) {
-				plugin.startPlugin();
-			}
-		} else {
-			System.err.printf("Unsupported source of action %s \n", ae.getSource().getClass().getName());
-		}
-		
-	}
-	
-	
+  private CDPluginTester plugin;
+
+  public SimpleCellDesignerPluginAction(CDPluginTester plugTest) {
+    plugin = plugTest;
+  }
+
+  /* (non-Javadoc)
+   * @see jp.sbi.celldesigner.plugin.PluginActionListener#myActionPerformed(java.awt.event.ActionEvent)
+   */
+  @Override
+  public void myActionPerformed(ActionEvent ae) {
+    if (ae.getSource() instanceof JMenuItem) {
+      String itemText = ((JMenuItem) ae.getSource()).getText();
+      if (itemText.equals(CDPluginTester.ACTION)) {
+        plugin.startPlugin();
+      }
+    } else {
+      System.err.printf("Unsupported source of action %s \n", ae.getSource().getClass().getName());
+    }
+
+  }
+
 }

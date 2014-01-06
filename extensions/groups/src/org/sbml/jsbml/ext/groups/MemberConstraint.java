@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -155,7 +155,7 @@ public class MemberConstraint extends AbstractNamedSBase {
    * @return whether identicalAttribute is set
    */
   public boolean isSetIdenticalAttribute() {
-    return this.identicalAttribute != null;
+    return identicalAttribute != null;
   }
 
   /**
@@ -175,9 +175,9 @@ public class MemberConstraint extends AbstractNamedSBase {
    */
   public boolean unsetIdenticalAttribute() {
     if (isSetIdenticalAttribute()) {
-      String oldIdenticalAttribute = this.identicalAttribute;
-      this.identicalAttribute = null;
-      firePropertyChange(GroupsConstants.identicalAttribute, oldIdenticalAttribute, this.identicalAttribute);
+      String oldIdenticalAttribute = identicalAttribute;
+      identicalAttribute = null;
+      firePropertyChange(GroupsConstants.identicalAttribute, oldIdenticalAttribute, identicalAttribute);
       return true;
     }
     return false;
@@ -202,7 +202,7 @@ public class MemberConstraint extends AbstractNamedSBase {
    * @return whether distinctAttribute is set
    */
   public boolean isSetDistinctAttribute() {
-    return this.distinctAttribute != null;
+    return distinctAttribute != null;
   }
 
   /**
@@ -222,9 +222,9 @@ public class MemberConstraint extends AbstractNamedSBase {
    */
   public boolean unsetDistinctAttribute() {
     if (isSetDistinctAttribute()) {
-      String oldDistinctAttribute = this.distinctAttribute;
-      this.distinctAttribute = null;
-      firePropertyChange(GroupsConstants.distinctAttribute, oldDistinctAttribute, this.distinctAttribute);
+      String oldDistinctAttribute = distinctAttribute;
+      distinctAttribute = null;
+      firePropertyChange(GroupsConstants.distinctAttribute, oldDistinctAttribute, distinctAttribute);
       return true;
     }
     return false;

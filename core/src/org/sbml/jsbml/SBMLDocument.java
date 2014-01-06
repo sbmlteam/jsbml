@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -185,11 +185,12 @@ public class SBMLDocument extends AbstractSBase {
    * @param URI
    * @deprecated use {@link SBase#addDeclaredNamespace(String, String)}
    */
+  @Deprecated
   public void addNamespace(String namespaceName, String prefix, String URI) {
     if ((prefix != null) && (prefix.trim().length() > 0)) {
-    	addDeclaredNamespace(prefix + ':' + namespaceName, URI);
+      addDeclaredNamespace(prefix + ':' + namespaceName, URI);
     } else {
-    	addDeclaredNamespace(namespaceName, URI);
+      addDeclaredNamespace(namespaceName, URI);
     }
   }
 
@@ -203,8 +204,8 @@ public class SBMLDocument extends AbstractSBase {
    * @param required the value of the required attribute
    */
   public void addPackageDeclaration(String packageName, String packageURI, boolean required) {
-	  addDeclaredNamespace("xmlns:" + packageName, packageURI);
-	  getSBMLDocumentAttributes().put(packageName + ":required", Boolean.toString(required));
+    addDeclaredNamespace("xmlns:" + packageName, packageURI);
+    getSBMLDocumentAttributes().put(packageName + ":required", Boolean.toString(required));
   }
 
   /**
@@ -687,6 +688,7 @@ public class SBMLDocument extends AbstractSBase {
    * @return the map SBMLDocumentNamespaces of this SBMLDocument.
    * @deprecated use {@link SBase#getDeclaredNamespaces()}
    */
+  @Deprecated
   public Map<String, String> getSBMLDocumentNamespaces() {
     return getDeclaredNamespaces();
   }
@@ -867,12 +869,12 @@ public class SBMLDocument extends AbstractSBase {
    *         <li>This method also returns {@code false} if the given
    *         {@link SBase} does not have a defined metaId</li>
    *         </ul>
-   *         
+   * 
    */
   boolean registerMetaId(SBase sbase, boolean add) {
     if (sbase.isSetMetaId()) {
       if (add) {
-    	  // We should call checkMetaid if we want to throw IllegalArgumentException here when metaid already present
+        // We should call checkMetaid if we want to throw IllegalArgumentException here when metaid already present
         return mappingFromMetaId2SBase.put(sbase.getMetaId(), sbase) == null;
       } else {
         SBase old = mappingFromMetaId2SBase.get(sbase.getMetaId());

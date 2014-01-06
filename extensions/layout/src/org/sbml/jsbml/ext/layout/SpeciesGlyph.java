@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -36,142 +36,143 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  */
 public class SpeciesGlyph extends AbstractReferenceGlyph {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 1077785483575936434L;
-	
-	/**
-	 * 
-	 */
-	public SpeciesGlyph() {
-		super();
-	}
-	
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public SpeciesGlyph(int level, int version) {
-		super(level, version);
-	}
-	
-	/**
-	 * 
-	 * @param speciesGlyph
-	 */
-	public SpeciesGlyph(SpeciesGlyph speciesGlyph) {
-		super(speciesGlyph);
-	}
-	
-	/**
-	 * 
-	 * @param id
-	 */
-	public SpeciesGlyph(String id) {
-		super(id);
-	}
-	
-	/**
-	 * 
-	 * @param id
-	 * @param level
-	 * @param version
-	 */
-	public SpeciesGlyph(String id, int level, int version) {
-		super(id, level, version);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.AbstractReferenceGlyph#clone()
-	 */
-	public SpeciesGlyph clone() {
-		return new SpeciesGlyph(this);
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getSpecies() {
-		return getReference();
-	}
-	
-	/**
-	 * Note that the return type of this method is {@link NamedSBase} because it
-	 * could be possible to link some element from other packages to this glyph.
-	 * 
-	 * @return
-	 */
-	public NamedSBase getSpeciesInstance() {
-	  return getNamedSBaseInstance();
-	}
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 1077785483575936434L;
 
-	/**
-	 * @return the {@link #speciesId}
-	 */
-	public boolean isSetSpecies() {
-		return isSetReference();
-	}
+  /**
+   * 
+   */
+  public SpeciesGlyph() {
+    super();
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
+  /**
+   * 
+   * @param level
+   * @param version
+   */
+  public SpeciesGlyph(int level, int version) {
+    super(level, version);
+  }
 
-		if (!isAttributeRead)
-		{
-			if (attributeName.equals(LayoutConstants.species)) {
-				setSpecies(value);
-			}
-			else
-			{				
-				return false;
-			}
-		}
-			return true;
-	}
+  /**
+   * 
+   * @param speciesGlyph
+   */
+  public SpeciesGlyph(SpeciesGlyph speciesGlyph) {
+    super(speciesGlyph);
+  }
 
-	/**
-	 * 
-	 * @param species
-	 */
-	public void setSpecies(Species species) {
-		setSpecies(species.getId());
-	}
-	
-	/**
-	 * 
-	 * @param species
-	 */
-	public void setSpecies(String species) {
-		setReference(species, TreeNodeChangeEvent.species);
-	}
-	
-	/**
-	 * 
-	 */
-	public void unsetSpecies() {
-		unsetReference();
-	}
+  /**
+   * 
+   * @param id
+   */
+  public SpeciesGlyph(String id) {
+    super(id);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()
-	 */
-	@Override
-	public Map<String, String> writeXMLAttributes() {
-	  Map<String, String> attributes = super.writeXMLAttributes();
-	  
-	  if (isSetSpecies()) {
-	    attributes.put(LayoutConstants.shortLabel + ':' + LayoutConstants.species, getSpecies());
-	  } 
-	  
-	  return attributes;
-	}
+  /**
+   * 
+   * @param id
+   * @param level
+   * @param version
+   */
+  public SpeciesGlyph(String id, int level, int version) {
+    super(id, level, version);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.AbstractReferenceGlyph#clone()
+   */
+  @Override
+  public SpeciesGlyph clone() {
+    return new SpeciesGlyph(this);
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public String getSpecies() {
+    return getReference();
+  }
+
+  /**
+   * Note that the return type of this method is {@link NamedSBase} because it
+   * could be possible to link some element from other packages to this glyph.
+   * 
+   * @return
+   */
+  public NamedSBase getSpeciesInstance() {
+    return getNamedSBaseInstance();
+  }
+
+  /**
+   * @return the {@link #speciesId}
+   */
+  public boolean isSetSpecies() {
+    return isSetReference();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix,
+    String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+      value);
+
+    if (!isAttributeRead)
+    {
+      if (attributeName.equals(LayoutConstants.species)) {
+        setSpecies(value);
+      }
+      else
+      {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * 
+   * @param species
+   */
+  public void setSpecies(Species species) {
+    setSpecies(species.getId());
+  }
+
+  /**
+   * 
+   * @param species
+   */
+  public void setSpecies(String species) {
+    setReference(species, TreeNodeChangeEvent.species);
+  }
+
+  /**
+   * 
+   */
+  public void unsetSpecies() {
+    unsetReference();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.GraphicalObject#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (isSetSpecies()) {
+      attributes.put(LayoutConstants.shortLabel + ':' + LayoutConstants.species, getSpecies());
+    }
+
+    return attributes;
+  }
 
 }

@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -45,18 +45,27 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * subbranch functional entity of the <a href="http://biomodels.net/sbo/">Systems Biology Ontology</a>
  * through the optional sboTerm attribute. The following table provides typical examples of
  * component or domains (the list is absolutely not complete).
- * <pre>
- *   | SBO identifier  |  definition
- *  ----------------------------------- 
- *   | SBO:0000242     |  channel
- *   | SBO:0000244     |  receptor
- *   | SBO:0000284     |  transporter
- *   | SBO:0000280     |  ligand
- *   | SBO:0000493     |  functional domain
- *   | SBO:0000494     |  binding site
- *   | SBO:0000495     |  catalytic site
- *   | SBO:0000496     |  transmembrane domain
- * </pre>
+ * <table>
+ *   <tr>
+ *     <th> SBO identifier </th><th> Definition </th>
+ *   </tr><tr>
+ *     <td> SBO:0000242 </td><td> channel </td>
+ *   </tr><tr>
+ *     <td> SBO:0000244 </td><td> receptor </td>
+ *   </tr><tr>
+ *     <td> SBO:0000284 </td><td> transporter </td>
+ *   </tr><tr>
+ *     <td> SBO:0000280 </td><td> ligand </td>
+ *   </tr><tr>
+ *     <td> SBO:0000493 </td><td> functional domain </td>
+ *   </tr><tr>
+ *     <td> SBO:0000494 </td><td> binding site </td>
+ *   </tr><tr>
+ *     <td> SBO:0000495 </td><td> catalytic site </td>
+ *   </tr><tr>
+ *     <td> SBO:0000496 </td><td> transmembrane domain </td>
+ *   </tr>
+ * </table>
  * 
  * @author Nicolas Rodriguez
  *
@@ -84,6 +93,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
     initDefaults();
   }
 
+  @Override
   public boolean isIdMandatory() {
     return false;
   }
@@ -103,7 +113,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
     if (listOfStateFeatures == null) {
       listOfStateFeatures = new ListOf<StateFeature>();
       listOfStateFeatures.setNamespace(MultiConstants.namespaceURI);
-      this.registerChild(listOfStateFeatures);
+      registerChild(listOfStateFeatures);
       listOfStateFeatures.setSBaseListType(ListOf.Type.other);
     }
 
@@ -159,7 +169,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
   }
 
   /**
-   * Gets the {@link StateFeature} that has the given id. 
+   * Gets the {@link StateFeature} that has the given id.
    * 
    * @param id
    * @return the {@link StateFeature} that has the given id or null if
@@ -167,8 +177,8 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
    */
   public StateFeature getStateFeature(String id) {
     if (isSetListOfStateFeatures()) {
-      return listOfStateFeatures.firstHit(new NameFilter(id));	    
-    } 
+      return listOfStateFeatures.firstHit(new NameFilter(id));
+    }
     return null;
   }
 
@@ -179,8 +189,8 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
    */
   public boolean isSetListOfStateFeatures() {
     if ((listOfStateFeatures == null) || listOfStateFeatures.isEmpty()) {
-      return false;			
-    }		
+      return false;
+    }
     return true;
   }
 
@@ -191,9 +201,9 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
    */
   public boolean unsetListOfStateFeatures() {
     if (isSetListOfStateFeatures()) {
-      // unregister the ids if needed.			  
-      this.listOfStateFeatures.fireNodeRemovedEvent();
-      this.listOfStateFeatures = null;
+      // unregister the ids if needed.
+      listOfStateFeatures.fireNodeRemovedEvent();
+      listOfStateFeatures = null;
       return true;
     }
     return false;
@@ -252,7 +262,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
 
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}",
-      index, +((int) Math.min(pos, 0))));
+      index, +Math.min(pos, 0)));
   }
 
 
@@ -275,7 +285,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix,
-    String value) 
+    String value)
   {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 
@@ -287,7 +297,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
       } else {
         isAttributeRead = false;
       }
-    }	  
+    }
 
     return isAttributeRead;
 

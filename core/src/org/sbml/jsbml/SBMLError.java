@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml;
 
 import org.sbml.jsbml.util.Detail;
@@ -41,312 +40,313 @@ import org.sbml.jsbml.xml.XMLException;
  */
 public class SBMLError extends XMLException {
 
-	/**
-	 * 
-	 * @author Nicolas Rodriguez
-	 * @version $Rev$
-	 * @since 0.8
-	 */
-	public enum SEVERITY {
-		/**
-		 * 
-		 */
-		INFO, 
-		/**
-		 * 
-		 */
-		WARNING,
-		/**
-		 * 
-		 */
-		ERROR,
-		/**
-		 * 
-		 */
-		FATAL
-	}; 
-	
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -6071833473902680630L;
-	/**
-	 * 
-	 */
-	private String category;
-	/**
-	 * 
-	 */
-	private int code;
-	/**
-	 * 
-	 */
-	private String excerpt;
-	/**
-	 * 
-	 */
-	private Location location;
-	/**
-	 * 
-	 */
-	private Message message;
-	
-	/**
-	 * 
-	 */
-	private Message shortmessage;
-	
-	/**
-	 * 
-	 */
-	private Detail detail;
-	/**
-	 * 
-	 */
-	private String severity;
+  /**
+   * 
+   * @author Nicolas Rodriguez
+   * @version $Rev$
+   * @since 0.8
+   */
+  public enum SEVERITY {
+    /**
+     * 
+     */
+    INFO,
+    /**
+     * 
+     */
+    WARNING,
+    /**
+     * 
+     */
+    ERROR,
+    /**
+     * 
+     */
+    FATAL
+  };
+
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -6071833473902680630L;
+  /**
+   * 
+   */
+  private String category;
+  /**
+   * 
+   */
+  private int code;
+  /**
+   * 
+   */
+  private String excerpt;
+  /**
+   * 
+   */
+  private Location location;
+  /**
+   * 
+   */
+  private Message message;
+
+  /**
+   * 
+   */
+  private Message shortmessage;
+
+  /**
+   * 
+   */
+  private Detail detail;
+  /**
+   * 
+   */
+  private String severity;
 
 
-	/**
-	 * Constructs a new {@link SBMLError}.
-	 */
-	public SBMLError() {
-		super();
-	}
-	
-	/**
-	 * Constructs a new {@link SBMLError} with the given message.
-	 * 
-	 * @param message the error message
-	 */
-	public SBMLError(String message) {
-		super(message);
-	}
+  /**
+   * Constructs a new {@link SBMLError}.
+   */
+  public SBMLError() {
+    super();
+  }
 
-	/**
-	 * Returns the category of the {@link SBMLError}
-	 * 
-	 * @return the category of the {@link SBMLError}
-	 */
-	public String getCategory() {
-		return category;
-	}
+  /**
+   * Constructs a new {@link SBMLError} with the given message.
+   * 
+   * @param message the error message
+   */
+  public SBMLError(String message) {
+    super(message);
+  }
 
-	/**
-	 * Returns the code of this {@link SBMLError}.
-	 * 
-	 * @return the code of this {@link SBMLError}.
-	 * 
-	 * @see the appendix on the SBML specifications about validations rules.
-	 */
-	public int getCode() {
-		return code;
-	}
+  /**
+   * Returns the category of the {@link SBMLError}
+   * 
+   * @return the category of the {@link SBMLError}
+   */
+  public String getCategory() {
+    return category;
+  }
 
-	/**
-	 * Returns the column where this {@link SBMLError} happened.
-	 * 
-	 * @return the column where this {@link SBMLError} happened.
-	 */
-	public int getColumn() {
-		return location.getColumn();
-	}
+  /**
+   * Returns the code of this {@link SBMLError}.
+   * 
+   * @return the code of this {@link SBMLError}.
+   * 
+   * @see the appendix on the SBML specifications about validations rules.
+   */
+  public int getCode() {
+    return code;
+  }
 
-	/**
-	 * Returns a fragment of the original XML file that induced the error.
-	 * 
-	 * @return a fragment of the original XML file that induced the error.
-	 */
-	public String getExcerpt() {
-		return excerpt;
-	}
+  /**
+   * Returns the column where this {@link SBMLError} happened.
+   * 
+   * @return the column where this {@link SBMLError} happened.
+   */
+  public int getColumn() {
+    return location.getColumn();
+  }
 
-	/**
-	 * Returns the line where this {@link SBMLError} happened.
-	 * 
-	 * @return the line where this {@link SBMLError} happened.
-	 */
-	public int getLine() {
-		return location.getLine();
-	}
+  /**
+   * Returns a fragment of the original XML file that induced the error.
+   * 
+   * @return a fragment of the original XML file that induced the error.
+   */
+  public String getExcerpt() {
+    return excerpt;
+  }
 
-	/**
-	 * Returns the location where this {@link SBMLError} happened.
-	 * 
-	 * @return the location where this {@link SBMLError} happened.
-	 */
-	public Location getLocation() {
-		return location;
-	}
+  /**
+   * Returns the line where this {@link SBMLError} happened.
+   * 
+   * @return the line where this {@link SBMLError} happened.
+   */
+  public int getLine() {
+    return location.getLine();
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public Message getMessageInstance() {
-		return message;
-	}
-	
-	/**
-	 * Returns the message of the {@link SBMLError}
-	 *
-	 * @return the message of the {@link SBMLError}
-	 */
-	public String getMessage() {
-		return message != null ? message.getMessage() : "";
-	}
+  /**
+   * Returns the location where this {@link SBMLError} happened.
+   * 
+   * @return the location where this {@link SBMLError} happened.
+   */
+  public Location getLocation() {
+    return location;
+  }
 
-	/**
-	 * Returns the severity of the {@link SBMLError}
-	 * 
-	 * @return the severity of the {@link SBMLError}
-	 */
-	public String getSeverity() {
-		return severity;
-	}
+  /**
+   * 
+   * @return
+   */
+  public Message getMessageInstance() {
+    return message;
+  }
 
-	/**
-	 * Returns {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#FATAL}
-	 * 
-	 * @return {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#FATAL}
-	 */
-	public boolean isFatal() {
-		return severity != null && severity.equalsIgnoreCase("Fatal");
-	}
+  /**
+   * Returns the message of the {@link SBMLError}
+   *
+   * @return the message of the {@link SBMLError}
+   */
+  @Override
+  public String getMessage() {
+    return message != null ? message.getMessage() : "";
+  }
 
-	/**
-	 * Returns {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#ERROR}
-	 * 
-	 * @return {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#ERROR}
-	 */
-	public boolean isError() {
-		return severity != null && severity.equalsIgnoreCase("Error");
-	}
+  /**
+   * Returns the severity of the {@link SBMLError}
+   * 
+   * @return the severity of the {@link SBMLError}
+   */
+  public String getSeverity() {
+    return severity;
+  }
 
-	/**
-	 * Returns {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#INFO}
-	 * 
-	 * @return {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#INFO}
-	 */
-	public boolean isInfo() {
-		return severity != null && (severity.equalsIgnoreCase("Info") || severity.equalsIgnoreCase("Advisory"));
-	}
+  /**
+   * Returns {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#FATAL}
+   * 
+   * @return {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#FATAL}
+   */
+  public boolean isFatal() {
+    return severity != null && severity.equalsIgnoreCase("Fatal");
+  }
 
-	/**
-	 * Returns {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#WARNING}
-	 * 
-	 * @return {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#WARNING}
-	 */
-	public boolean isWarning() {
-		return severity != null && severity.equalsIgnoreCase("Warning");
-	}
+  /**
+   * Returns {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#ERROR}
+   * 
+   * @return {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#ERROR}
+   */
+  public boolean isError() {
+    return severity != null && severity.equalsIgnoreCase("Error");
+  }
 
-	/**
-	 * Returns {@code true} is the {@link SBMLError} category is of type {@code internal}
-	 * 
-	 * @return {@code true} is the {@link SBMLError} category is of type {@code internal}
-	 */
-	public boolean isInternal() {
-		return category != null && category.equalsIgnoreCase("Internal");
-	}
+  /**
+   * Returns {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#INFO}
+   * 
+   * @return {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#INFO}
+   */
+  public boolean isInfo() {
+    return severity != null && (severity.equalsIgnoreCase("Info") || severity.equalsIgnoreCase("Advisory"));
+  }
 
-	/**
-	 * Returns {@code true} is the {@link SBMLError} category is of type {@code system}
-	 * 
-	 * @return {@code true} is the {@link SBMLError} category is of type {@code system}
-	 */
-	public boolean isSystem() {
-		return category != null && category.equalsIgnoreCase("System");
-	}
+  /**
+   * Returns {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#WARNING}
+   * 
+   * @return {@code true} is the {@link SBMLError} severity is of type {@link SEVERITY#WARNING}
+   */
+  public boolean isWarning() {
+    return severity != null && severity.equalsIgnoreCase("Warning");
+  }
+
+  /**
+   * Returns {@code true} is the {@link SBMLError} category is of type {@code internal}
+   * 
+   * @return {@code true} is the {@link SBMLError} category is of type {@code internal}
+   */
+  public boolean isInternal() {
+    return category != null && category.equalsIgnoreCase("Internal");
+  }
+
+  /**
+   * Returns {@code true} is the {@link SBMLError} category is of type {@code system}
+   * 
+   * @return {@code true} is the {@link SBMLError} category is of type {@code system}
+   */
+  public boolean isSystem() {
+    return category != null && category.equalsIgnoreCase("System");
+  }
 
 
-	/**
-	 * Returns {@code true} is the {@link SBMLError} category is of type {@code xml}
-	 * 
-	 * @return {@code true} is the {@link SBMLError} category is of type {@code xml}
-	 */
-	public boolean isXML() {
-		return category != null && category.equalsIgnoreCase("xml");
-	}
+  /**
+   * Returns {@code true} is the {@link SBMLError} category is of type {@code xml}
+   * 
+   * @return {@code true} is the {@link SBMLError} category is of type {@code xml}
+   */
+  public boolean isXML() {
+    return category != null && category.equalsIgnoreCase("xml");
+  }
 
-	/**
-	 * Sets the category of this {@link SBMLError}.
-	 * 
-	 * @param category
-	 */
-	public void setCategory(String category) {
-		this.category = category;
-	}
+  /**
+   * Sets the category of this {@link SBMLError}.
+   * 
+   * @param category
+   */
+  public void setCategory(String category) {
+    this.category = category;
+  }
 
-	/**
-	 * Sets the error code of this {@link SBMLError}.
-	 * 
-	 * @param code
-	 * 
-	 * @see the appendix on the SBML specifications about validations rules.
-	 */
-	public void setCode(int code) {
-		this.code = code;
-	}
+  /**
+   * Sets the error code of this {@link SBMLError}.
+   * 
+   * @param code
+   * 
+   * @see the appendix on the SBML specifications about validations rules.
+   */
+  public void setCode(int code) {
+    this.code = code;
+  }
 
-	/**
-	 * Sets the excerpt of this {@link SBMLError}.
-	 * 
-	 * @param excerpt
-	 */
-	public void setExcerpt(String excerpt) {
-		this.excerpt = excerpt;
-	}
+  /**
+   * Sets the excerpt of this {@link SBMLError}.
+   * 
+   * @param excerpt
+   */
+  public void setExcerpt(String excerpt) {
+    this.excerpt = excerpt;
+  }
 
-	/**
-	 * Sets the location of this {@link SBMLError}.
-	 * 
-	 * @param location
-	 */
-	public void setLocation(Location location) {
-		this.location = location;
-	}
+  /**
+   * Sets the location of this {@link SBMLError}.
+   * 
+   * @param location
+   */
+  public void setLocation(Location location) {
+    this.location = location;
+  }
 
-	/**
-	 * Sets the message of this {@link SBMLError}.
-	 * 
-	 * @param messageObj
-	 */
-	public void setMessage(Message message) {
-		this.message = message;
-	}
-	
-	/**
-	 * Sets the severity of this {@link SBMLError}.
-	 * 
-	 * @param severity
-	 */
-	public void setSeverity(String severity) {
-		this.severity = severity;
-	}
+  /**
+   * Sets the message of this {@link SBMLError}.
+   * 
+   * @param messageObj
+   */
+  public void setMessage(Message message) {
+    this.message = message;
+  }
 
-	public Message getShortMessage() {
-		return shortmessage;
-	}
+  /**
+   * Sets the severity of this {@link SBMLError}.
+   * 
+   * @param severity
+   */
+  public void setSeverity(String severity) {
+    this.severity = severity;
+  }
 
-	public void setShortMessage(Message shortmessage) {
-		this.shortmessage = shortmessage;
-	}
+  public Message getShortMessage() {
+    return shortmessage;
+  }
 
-	public Detail getDetail() {
-		return detail;
-	}
+  public void setShortMessage(Message shortmessage) {
+    this.shortmessage = shortmessage;
+  }
 
-	public void setDetail(Detail detail) {
-		this.detail = detail;
-	}
+  public Detail getDetail() {
+    return detail;
+  }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return StringTools.concat("SBMLError ", code, " [", severity, "] [", category, "] ","\n  excerpt = ", excerpt, "\n  ", location,
-				"\n  message = ", message.getMessage() ,"\n").toString();
-	}
+  public void setDetail(Detail detail) {
+    this.detail = detail;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return StringTools.concat("SBMLError ", code, " [", severity, "] [", category, "] ","\n  excerpt = ", excerpt, "\n  ", location,
+      "\n  message = ", message.getMessage() ,"\n").toString();
+  }
 
 }

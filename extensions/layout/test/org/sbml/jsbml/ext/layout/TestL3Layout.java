@@ -5,7 +5,7 @@
  *
  * @author  Nicolas Rodriguez (JSBML conversion)
  * @author  Akiya Jouraku (Java conversion)
- * @author  Sarah Keating 
+ * @author  Sarah Keating
  *
  * This test file was converted from libsbml http://sbml.org/software/libsbml
  *
@@ -15,7 +15,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -55,27 +55,27 @@ public class TestL3Layout {
   /**
    * 
    */
-	public static String DATA_FOLDER = null;
-	/**
-	 * 
-	 */
-	public static String LAYOUT_NAMESPACE = "http://www.sbml.org/sbml/level3/version1/layout/version1";
-	
-	static {
-		if (DATA_FOLDER == null) {
-			DATA_FOLDER = System.getenv("DATA_FOLDER"); 
-		}
-		if (DATA_FOLDER == null) {
-			DATA_FOLDER = System.getProperty("DATA_FOLDER"); 
-		}
-		
-	}
+  public static String DATA_FOLDER = null;
+  /**
+   * 
+   */
+  public static String LAYOUT_NAMESPACE = "http://www.sbml.org/sbml/level3/version1/layout/version1";
 
-	/**
-	 * 
-	 * @param x
-	 * @return
-	 */
+  static {
+    if (DATA_FOLDER == null) {
+      DATA_FOLDER = System.getenv("DATA_FOLDER");
+    }
+    if (DATA_FOLDER == null) {
+      DATA_FOLDER = System.getProperty("DATA_FOLDER");
+    }
+
+  }
+
+  /**
+   * 
+   * @param x
+   * @return
+   */
   public boolean isNaN(double x)
   {
     return Double.isNaN(x);
@@ -100,35 +100,35 @@ public class TestL3Layout {
   /**
    * 
    * @throws XMLStreamException
- * @throws ClassNotFoundException 
- * @throws IOException 
- * @throws InvalidPropertiesFormatException 
+   * @throws ClassNotFoundException
+   * @throws IOException
+   * @throws InvalidPropertiesFormatException
    */
   @Test public void test_L3_Layout_read1() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException
   {
-	  if (DATA_FOLDER == null)
-	  {
-		  DATA_FOLDER = System.getProperty("user.dir") + "/extensions/layout/test/org/sbml/jsbml/xml/test/data";
-	  }
-		String fileName = DATA_FOLDER + "/layout/GlycolysisLayout_small.xml";
-		
-		SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
-		Model model = doc.getModel();
-		
-		System.out.println("Model extension objects: " + model.getExtension(LAYOUT_NAMESPACE));
-		LayoutModelPlugin extendedModel = (LayoutModelPlugin) model.getExtension(LAYOUT_NAMESPACE);
-		
-		System.out.println("Nb Layouts = " + extendedModel.getListOfLayouts().size());
-		
-		Layout layout = extendedModel.getLayout(0);
-		
-		// System.out.println("Group sboTerm, id = " + group.getSBOTermID() + ", " + group.getId()); print dimension
-		System.out.println("Nb SpeciesGlyphs = " + layout.getListOfSpeciesGlyphs().size());
-		
-		SpeciesGlyph  speciesGlyph = layout.getSpeciesGlyph(0);
-		
-		// System.out.println("Member(0).symbol = " + member.getSymbol());
-		
+    if (DATA_FOLDER == null)
+    {
+      DATA_FOLDER = System.getProperty("user.dir") + "/extensions/layout/test/org/sbml/jsbml/xml/test/data";
+    }
+    String fileName = DATA_FOLDER + "/layout/GlycolysisLayout_small.xml";
+
+    SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
+    Model model = doc.getModel();
+
+    System.out.println("Model extension objects: " + model.getExtension(LAYOUT_NAMESPACE));
+    LayoutModelPlugin extendedModel = (LayoutModelPlugin) model.getExtension(LAYOUT_NAMESPACE);
+
+    System.out.println("Nb Layouts = " + extendedModel.getListOfLayouts().size());
+
+    Layout layout = extendedModel.getLayout(0);
+
+    // System.out.println("Group sboTerm, id = " + group.getSBOTermID() + ", " + group.getId()); print dimension
+    System.out.println("Nb SpeciesGlyphs = " + layout.getListOfSpeciesGlyphs().size());
+
+    SpeciesGlyph  speciesGlyph = layout.getSpeciesGlyph(0);
+
+    // System.out.println("Member(0).symbol = " + member.getSymbol());
+
   }
 
   /**
@@ -136,10 +136,10 @@ public class TestL3Layout {
    */
   @Test public void test_L3_Layout_write1()
   {
-	  String fileName = DATA_FOLDER + "/layout/GlycolysisLayout_small.xml";
-		
-	  // SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
-	  
-	  // SBMLWriter.write(doc, DATA_FOLDER + "/layout/GlycolysisLayout_small_write.xml");
+    String fileName = DATA_FOLDER + "/layout/GlycolysisLayout_small.xml";
+
+    // SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
+
+    // SBMLWriter.write(doc, DATA_FOLDER + "/layout/GlycolysisLayout_small_write.xml");
   }
 }

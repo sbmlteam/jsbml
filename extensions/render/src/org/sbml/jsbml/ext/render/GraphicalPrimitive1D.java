@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -27,7 +27,6 @@ import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.StringTools;
 
-
 /**
  * @author Eugen Netz
  * @author Alexander Diamantikos
@@ -38,15 +37,15 @@ import org.sbml.jsbml.util.StringTools;
  * @date 08.05.2012
  */
 public class GraphicalPrimitive1D extends Transformation2D {
-	/**
-   * 
+  /**
+   * Generated serial version identifier
    */
   private static final long serialVersionUID = 3705246334810811216L;
-	protected String stroke;
-	protected Short[] strokeDashArray;
+  protected String stroke;
+  protected Short[] strokeDashArray;
   protected Integer strokeWidth;
 
-  
+
   /**
    * @return the value of strokeDashArray
    */
@@ -60,10 +59,10 @@ public class GraphicalPrimitive1D extends Transformation2D {
 
 
   /**
-   * @return whether strokeDashArray is set 
+   * @return whether strokeDashArray is set
    */
   public boolean isSetStrokeDashArray() {
-    return this.strokeDashArray != null;
+    return strokeDashArray != null;
   }
 
 
@@ -78,22 +77,22 @@ public class GraphicalPrimitive1D extends Transformation2D {
 
 
   /**
-   * Unsets the variable strokeDashArray 
-   * @return {@code true}, if strokeDashArray was set before, 
+   * Unsets the variable strokeDashArray
+   * @return {@code true}, if strokeDashArray was set before,
    *         otherwise {@code false}
    */
   public boolean unsetStrokeDashArray() {
     if (isSetStrokeDashArray()) {
-      Short[] oldStrokeDashArray = this.strokeDashArray;
-      this.strokeDashArray = null;
-      firePropertyChange(RenderConstants.strokeDashArray, oldStrokeDashArray, this.strokeDashArray);
+      Short[] oldStrokeDashArray = strokeDashArray;
+      strokeDashArray = null;
+      firePropertyChange(RenderConstants.strokeDashArray, oldStrokeDashArray, strokeDashArray);
       return true;
     }
     return false;
   }
 
   /**
-   * Creates an GraphicalPrimitive1D instance 
+   * Creates an GraphicalPrimitive1D instance
    */
   public GraphicalPrimitive1D() {
     super();
@@ -117,7 +116,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
   public GraphicalPrimitive1D clone() {
     return new GraphicalPrimitive1D(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Transformation#getAllowsChildren()
    */
@@ -137,7 +136,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
     int pos = 0;
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", childIndex,
-      +((int) Math.min(pos, 0))));
+      +Math.min(pos, 0)));
   }
 
   /* (non-Javadoc)
@@ -158,7 +157,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.stroke, this);
   }
-  
+
   /**
    * @return the value of strokeWidth
    */
@@ -179,17 +178,17 @@ public class GraphicalPrimitive1D extends Transformation2D {
   }
 
   /**
-   * @return whether stroke is set 
+   * @return whether stroke is set
    */
   public boolean isSetStroke() {
-    return this.stroke != null;
+    return stroke != null;
   }
 
   /**
-   * @return whether strokeWidth is set 
+   * @return whether strokeWidth is set
    */
   public boolean isSetStrokeWidth() {
-    return this.strokeWidth != null;
+    return strokeWidth != null;
   }
   /**
    * Set the value of stroke
@@ -199,7 +198,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
     this.stroke = stroke;
     firePropertyChange(RenderConstants.stroke, oldStroke, this.stroke);
   }
-	
+
   /**
    * Set the value of strokeWidth
    */
@@ -210,35 +209,35 @@ public class GraphicalPrimitive1D extends Transformation2D {
   }
 
   /**
-   * Unsets the variable stroke 
-   * @return {@code true}, if stroke was set before, 
+   * Unsets the variable stroke
+   * @return {@code true}, if stroke was set before,
    *         otherwise {@code false}
    */
   public boolean unsetStroke() {
     if (isSetStroke()) {
-      String oldStroke = this.stroke;
-      this.stroke = null;
-      firePropertyChange(RenderConstants.stroke, oldStroke, this.stroke);
+      String oldStroke = stroke;
+      stroke = null;
+      firePropertyChange(RenderConstants.stroke, oldStroke, stroke);
       return true;
     }
     return false;
   }
 
   /**
-   * Unsets the variable strokeWidth 
-   * @return {@code true}, if strokeWidth was set before, 
+   * Unsets the variable strokeWidth
+   * @return {@code true}, if strokeWidth was set before,
    *         otherwise {@code false}
    */
   public boolean unsetStrokeWidth() {
     if (isSetStrokeWidth()) {
-      Integer oldStrokeWidth = this.strokeWidth;
-      this.strokeWidth = null;
-      firePropertyChange(RenderConstants.strokeWidth, oldStrokeWidth, this.strokeWidth);
+      Integer oldStrokeWidth = strokeWidth;
+      strokeWidth = null;
+      firePropertyChange(RenderConstants.strokeWidth, oldStrokeWidth, strokeWidth);
       return true;
     }
     return false;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
    */
@@ -246,23 +245,23 @@ public class GraphicalPrimitive1D extends Transformation2D {
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetStroke()) {
-    	attributes.remove(RenderConstants.stroke);
-    	attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.strokeWidth,
-    			getStroke());
+      attributes.remove(RenderConstants.stroke);
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.strokeWidth,
+        getStroke());
     }
     if (isSetStrokeDashArray()) {
-    	attributes.remove(RenderConstants.strokeDashArray);
-        attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.strokeWidth,
-        		XMLTools.encodeArrayShortToString(getStrokeDashArray()));
+      attributes.remove(RenderConstants.strokeDashArray);
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.strokeWidth,
+        XMLTools.encodeArrayShortToString(getStrokeDashArray()));
     }
     if (isSetStrokeWidth()) {
-    	attributes.remove(RenderConstants.strokeWidth);
-        attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.strokeWidth,
-          getStrokeWidth().toString().toLowerCase());
+      attributes.remove(RenderConstants.strokeWidth);
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.strokeWidth,
+        getStrokeWidth().toString().toLowerCase());
     }
     return attributes;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
@@ -273,19 +272,19 @@ public class GraphicalPrimitive1D extends Transformation2D {
       isAttributeRead = true;
       // TODO: catch Exception if Enum.valueOf fails, generate logger output
       if (attributeName.equals(RenderConstants.stroke)) {
-          setStroke(value);
+        setStroke(value);
       }
       else if (attributeName.equals(RenderConstants.strokeDashArray)) {
-    	  setStrokeDashArray(XMLTools.decodeStringToArrayShort(value));
+        setStrokeDashArray(XMLTools.decodeStringToArrayShort(value));
       }
       else if (attributeName.equals(RenderConstants.strokeWidth)) {
-    	  setStrokeWidth(StringTools.parseSBMLInt(value));
+        setStrokeWidth(StringTools.parseSBMLInt(value));
       }
       else {
-          isAttributeRead = false;
+        isAttributeRead = false;
       }
     }
     return isAttributeRead;
   }
-  
+
 }

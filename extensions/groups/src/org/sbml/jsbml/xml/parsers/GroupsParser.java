@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -49,137 +49,151 @@ import org.sbml.jsbml.ext.groups.MemberConstraint;
 @ProviderFor(ReadingParser.class)
 public class GroupsParser extends AbstractReaderWriter implements PackageParser {
 
-	private Logger logger = Logger.getLogger(GroupsParser.class);
+  private Logger logger = Logger.getLogger(GroupsParser.class);
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
-	 */
-	@Override
-	public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
+   */
+  @Override
+  public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
 
-		logger.debug("getListOfSBMLElementsToWrite: " + sbase.getClass().getCanonicalName());
-		
-		List<Object> listOfElementsToWrite = new ArrayList<Object>();
-		
-		if (sbase instanceof Model) {
-			SBasePlugin modelPlugin = (SBasePlugin) ((Model) sbase).getExtension(getNamespaceURI());
-			
-			if (modelPlugin != null) {
-				listOfElementsToWrite = super.getListOfSBMLElementsToWrite(modelPlugin);
-			}
-		} else {
-			listOfElementsToWrite = super.getListOfSBMLElementsToWrite(sbase);
-		}
+    logger.debug("getListOfSBMLElementsToWrite: " + sbase.getClass().getCanonicalName());
 
-		return listOfElementsToWrite;
-	}
+    List<Object> listOfElementsToWrite = new ArrayList<Object>();
 
+    if (sbase instanceof Model) {
+      SBasePlugin modelPlugin = ((Model) sbase).getExtension(getNamespaceURI());
 
-	/**
-	 * 
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processStartElement(String
-	 *      elementName, String prefix, boolean hasAttributes, boolean
-	 *      hasNamespaces, Object contextObject)
-	 */
-	// Create the proper object and link it to his parent.
-	@SuppressWarnings("unchecked")
-	public Object processStartElement(String elementName, String uri, String prefix,
-			boolean hasAttributes, boolean hasNamespaces, Object contextObject) 
-	{
-		if (contextObject instanceof Model) {
-			Model model = (Model) contextObject;
-			
-			if (elementName.equals("listOfGroups")) {
+      if (modelPlugin != null) {
+        listOfElementsToWrite = super.getListOfSBMLElementsToWrite(modelPlugin);
+      }
+    } else {
+      listOfElementsToWrite = super.getListOfSBMLElementsToWrite(sbase);
+    }
 
-				GroupsModelPlugin groupModelPlugin = new GroupsModelPlugin(model);
-				model.addExtension(GroupsConstants.namespaceURI, groupModelPlugin);
-
-				return groupModelPlugin.getListOfGroups();
-			}
-		} else if (contextObject instanceof Group) {
-			Group group = (Group) contextObject;
-			
-			if (elementName.equals("listOfMembers")) {
-
-				return group.getListOfMembers();
-			}
-			else if (elementName.equals("listOfMemberConstraints")) {
-
-				return group.getListOfMemberConstraints();
-			}
-			
-		}
-
-		else if (contextObject instanceof ListOf<?>) {
-			ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
-
-			if (elementName.equals("group")) {
-				Model model = (Model) listOf.getParentSBMLObject();
-				GroupsModelPlugin extendeModel = (GroupsModelPlugin) model.getExtension(GroupsConstants.namespaceURI); 
-				
-				Group group = new Group();
-				extendeModel.addGroup(group);
-
-				return group;
-			} else if (elementName.equals("member")) {
-				Member member = new Member();
-				listOf.add(member);
-
-				return member;
-			} else if (elementName.equals(GroupsConstants.memberConstraint)) {
-				MemberConstraint member = new MemberConstraint();
-				listOf.add(member);
-
-				return member;
-			}
-
-		}
-		return contextObject;
-	}
+    return listOfElementsToWrite;
+  }
 
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getShortLabel()
-	 */
-	@Override
-	public String getShortLabel() {
-		return GroupsConstants.shortLabel;
-	}
+  /**
+   * 
+   * @see org.sbml.jsbml.xml.parsers.ReadingParser#processStartElement(String
+   *      elementName, String prefix, boolean hasAttributes, boolean
+   *      hasNamespaces, Object contextObject)
+   */
+  @Override
+  // Create the proper object and link it to his parent.
+  @SuppressWarnings("unchecked")
+  public Object processStartElement(String elementName, String uri, String prefix,
+    boolean hasAttributes, boolean hasNamespaces, Object contextObject)
+  {
+    if (contextObject instanceof Model) {
+      Model model = (Model) contextObject;
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
-	 */
-	@Override
-	public String getNamespaceURI() {
-		return GroupsConstants.namespaceURI;
-	}
+      if (elementName.equals("listOfGroups")) {
 
-	@Override
-	public String getNamespaceFor(String level, String version,	String packageVersion) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        GroupsModelPlugin groupModelPlugin = new GroupsModelPlugin(model);
+        model.addExtension(GroupsConstants.namespaceURI, groupModelPlugin);
 
-	@Override
-	public List<String> getNamespaces() {		
-		return GroupsConstants.namespaces;
-	}
+        return groupModelPlugin.getListOfGroups();
+      }
+    } else if (contextObject instanceof Group) {
+      Group group = (Group) contextObject;
 
-	@Override
-	public List<String> getPackageNamespaces() {		
-		return getNamespaces();
-	}
+      if (elementName.equals("listOfMembers")) {
 
-	@Override
-	public String getPackageName() {
-		return GroupsConstants.shortLabel;
-	}
+        return group.getListOfMembers();
+      }
+      else if (elementName.equals("listOfMemberConstraints")) {
 
-	@Override
-	public boolean isRequired() {
-		return false;
-	}
+        return group.getListOfMemberConstraints();
+      }
+
+    }
+
+    else if (contextObject instanceof ListOf<?>) {
+      ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
+
+      if (elementName.equals("group")) {
+        Model model = (Model) listOf.getParentSBMLObject();
+        GroupsModelPlugin extendeModel = (GroupsModelPlugin) model.getExtension(GroupsConstants.namespaceURI);
+
+        Group group = new Group();
+        extendeModel.addGroup(group);
+
+        return group;
+      } else if (elementName.equals("member")) {
+        Member member = new Member();
+        listOf.add(member);
+
+        return member;
+      } else if (elementName.equals(GroupsConstants.memberConstraint)) {
+        MemberConstraint member = new MemberConstraint();
+        listOf.add(member);
+
+        return member;
+      }
+
+    }
+    return contextObject;
+  }
 
 
-	
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getShortLabel()
+   */
+  @Override
+  public String getShortLabel() {
+    return GroupsConstants.shortLabel;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
+   */
+  @Override
+  public String getNamespaceURI() {
+    return GroupsConstants.namespaceURI;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#getNamespaceFor(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public String getNamespaceFor(String level, String version,	String packageVersion) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.ReadingParser#getNamespaces()
+   */
+  @Override
+  public List<String> getNamespaces() {
+    return GroupsConstants.namespaces;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#getPackageNamespaces()
+   */
+  @Override
+  public List<String> getPackageNamespaces() {
+    return getNamespaces();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#getPackageName()
+   */
+  @Override
+  public String getPackageName() {
+    return GroupsConstants.shortLabel;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#isRequired()
+   */
+  @Override
+  public boolean isRequired() {
+    return false;
+  }
+
 }

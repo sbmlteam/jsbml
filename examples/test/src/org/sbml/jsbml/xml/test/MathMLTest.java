@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -42,52 +42,52 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
  */
 public class MathMLTest {
 
-	/**
-	 * 
-	 */
-	public MathMLTest() {
-		int level = 3;
-		int version = 1;
-		SBMLDocument doc = new SBMLDocument(level, 1);
-		Model m = doc.createModel("id");
-		FunctionDefinition fd = m.createFunctionDefinition("fd");
-		ASTNode math = new ASTNode(Type.LAMBDA, fd);
-		math.addChild(new ASTNode("x", fd));
-		ASTNode pieces = ASTNode.piecewise(new ASTNode(3, fd), ASTNode.lt("x",
-				ASTNode.abs(Double.NEGATIVE_INFINITY, fd)), ASTNode.times(
-				new ASTNode(5.3, fd), ASTNode.log(new ASTNode(8, fd))));
-		pieces = ASTNode.times(pieces, ASTNode.root(new ASTNode(2, fd),
-				new ASTNode(16, fd)));
-		math.addChild(pieces);
-		fd.setMath(math);
-		System.out.println(math.toMathML());
-		
-		Species species = m.createSpecies("spec");
-		Reaction r = m.createReaction("r");
-		r.addReactant(new SpeciesReference(species));
-		KineticLaw kl = new KineticLaw(level, version);
-		math = new ASTNode(fd, kl);
-		math.addChild(new ASTNode(species, kl));
-		math = ASTNode.times(math, new ASTNode(3.7, 8, kl));
-		kl.setMath(math);
-		r.setKineticLaw(kl);
-		
-		System.out.println(math.toMathML());
+  /**
+   * 
+   */
+  public MathMLTest() {
+    int level = 3;
+    int version = 1;
+    SBMLDocument doc = new SBMLDocument(level, 1);
+    Model m = doc.createModel("id");
+    FunctionDefinition fd = m.createFunctionDefinition("fd");
+    ASTNode math = new ASTNode(Type.LAMBDA, fd);
+    math.addChild(new ASTNode("x", fd));
+    ASTNode pieces = ASTNode.piecewise(new ASTNode(3, fd), ASTNode.lt("x",
+      ASTNode.abs(Double.NEGATIVE_INFINITY, fd)), ASTNode.times(
+        new ASTNode(5.3, fd), ASTNode.log(new ASTNode(8, fd))));
+    pieces = ASTNode.times(pieces, ASTNode.root(new ASTNode(2, fd),
+      new ASTNode(16, fd)));
+    math.addChild(pieces);
+    fd.setMath(math);
+    System.out.println(math.toMathML());
 
-		try {
-			new SBMLWriter().write(doc, System.out);
-		} catch (XMLStreamException e) {
-			e.printStackTrace();
-		} catch (SBMLException e) {
-			e.printStackTrace();
-		}
-	}
+    Species species = m.createSpecies("spec");
+    Reaction r = m.createReaction("r");
+    r.addReactant(new SpeciesReference(species));
+    KineticLaw kl = new KineticLaw(level, version);
+    math = new ASTNode(fd, kl);
+    math.addChild(new ASTNode(species, kl));
+    math = ASTNode.times(math, new ASTNode(3.7, 8, kl));
+    kl.setMath(math);
+    r.setKineticLaw(kl);
 
-	/**
-	 * 
-	 */
-	public static void main(String args[]) {
-		new MathMLTest();
-	}
+    System.out.println(math.toMathML());
+
+    try {
+      new SBMLWriter().write(doc, System.out);
+    } catch (XMLStreamException e) {
+      e.printStackTrace();
+    } catch (SBMLException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * 
+   */
+  public static void main(String args[]) {
+    new MathMLTest();
+  }
 
 }

@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -27,7 +27,6 @@ import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
 
-
 /**
  * @author Eugen Netz
  * @author Alexander Diamantikos
@@ -38,518 +37,518 @@ import org.sbml.jsbml.SBase;
  * @date 08.05.2012
  */
 public class Group extends GraphicalPrimitive2D {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2302368129571619877L;
-	private String id;
-	private FontFamily fontFamily;
-	private Short fontSize;
-	private Boolean fontWeightBold, fontStyleItalic;
-	private TextAnchor textAnchor;
-	private VTextAnchor vTextAnchor;
-	private String startHead;
-	private String endHead;
-	
-	/**
-	 * Creates an Group instance 
-	 */
-	public Group() {
-		super();
-		initDefaults();
-	}
+  /**
+   * Generated serial version identifier
+   */
+  private static final long serialVersionUID = 2302368129571619877L;
+  private String id;
+  private FontFamily fontFamily;
+  private Short fontSize;
+  private Boolean fontWeightBold, fontStyleItalic;
+  private TextAnchor textAnchor;
+  private VTextAnchor vTextAnchor;
+  private String startHead;
+  private String endHead;
 
-	/**
-	 * Creates a Group instance with an id. 
-	 * 
-	 * @param id
-	 */
-	public Group(String id) {
-		super();
-		this.id = id;
-		initDefaults();
-	}
+  /**
+   * Creates an Group instance
+   */
+  public Group() {
+    super();
+    initDefaults();
+  }
 
-	/**
-	 * Creates a Group instance with a level and version. 
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public Group(int level, int version) {
-		this(null, null, level, version);
-	}
+  /**
+   * Creates a Group instance with an id.
+   * 
+   * @param id
+   */
+  public Group(String id) {
+    super();
+    this.id = id;
+    initDefaults();
+  }
 
-	/**
-	 * Creates a Group instance with an id, level, and version. 
-	 * 
-	 * @param id
-	 * @param level
-	 * @param version
-	 */
-	public Group(String id, int level, int version) {
-		this(id, null, level, version);
-	}
+  /**
+   * Creates a Group instance with a level and version.
+   * 
+   * @param level
+   * @param version
+   */
+  public Group(int level, int version) {
+    this(null, null, level, version);
+  }
 
-	/**
-	 * Creates a Group instance with an id, name, level, and version. 
-	 * 
-	 * @param id
-	 * @param name
-	 * @param level
-	 * @param version
-	 */
-	public Group(String id, String name, int level, int version) {
-		super();
-		this.id = id;
-		if (getLevelAndVersion().compareTo(Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
-				Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
-			throw new LevelVersionError(getElementName(), level, version);
-		}
-		initDefaults();
-	}
+  /**
+   * Creates a Group instance with an id, level, and version.
+   * 
+   * @param id
+   * @param level
+   * @param version
+   */
+  public Group(String id, int level, int version) {
+    this(id, null, level, version);
+  }
 
-	/**
-	 * Clone constructor
-	 */
-	public Group(Group obj) {
-		super(obj);
-		this.id = obj.id;
-		this.fontFamily = obj.fontFamily;
-		this.fontSize = obj.fontSize;
-		this.fontStyleItalic = obj.fontStyleItalic;
-		this.fontWeightBold = obj.fontWeightBold;
-		this.textAnchor = obj.textAnchor;
-		this.vTextAnchor = obj.vTextAnchor;
-		this.startHead = obj.startHead;
-		this.endHead = obj.endHead;
-	}
+  /**
+   * Creates a Group instance with an id, name, level, and version.
+   * 
+   * @param id
+   * @param name
+   * @param level
+   * @param version
+   */
+  public Group(String id, String name, int level, int version) {
+    super();
+    this.id = id;
+    if (getLevelAndVersion().compareTo(Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
+      Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
+      throw new LevelVersionError(getElementName(), level, version);
+    }
+    initDefaults();
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.render.GraphicalPrimitive2D#clone()
-	 */
-	@Override
-	public Group clone() {
-		return new Group(this);
-	}
+  /**
+   * Clone constructor
+   */
+  public Group(Group obj) {
+    super(obj);
+    id = obj.id;
+    fontFamily = obj.fontFamily;
+    fontSize = obj.fontSize;
+    fontStyleItalic = obj.fontStyleItalic;
+    fontWeightBold = obj.fontWeightBold;
+    textAnchor = obj.textAnchor;
+    vTextAnchor = obj.vTextAnchor;
+    startHead = obj.startHead;
+    endHead = obj.endHead;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.render.GraphicalPrimitive2D#initDefaults()
-	 */
-	@Override
-	public void initDefaults() {
-		setNamespace(RenderConstants.namespaceURI);
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive2D#clone()
+   */
+  @Override
+  public Group clone() {
+    return new Group(this);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getAllowsChildren()
-	 */
-	@Override
-	public boolean getAllowsChildren() {
-		return false;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive2D#initDefaults()
+   */
+  @Override
+  public void initDefaults() {
+    setNamespace(RenderConstants.namespaceURI);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getChildCount()
-	 */
-	@Override
-	public int getChildCount() {
-		int count = 0;
-		return count;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getAllowsChildren()
+   */
+  @Override
+  public boolean getAllowsChildren() {
+    return false;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getChildAt(int)
-	 */
-	@Override
-	public SBase getChildAt(int childIndex) {
-		if (childIndex < 0) {
-			throw new IndexOutOfBoundsException(childIndex + " < 0");
-		}
-		int pos = 0;
-		throw new IndexOutOfBoundsException(MessageFormat.format(
-				"Index {0,number,integer} >= {1,number,integer}", childIndex,
-				+((int) Math.min(pos, 0))));
-	}
-	
-	/**
-	 * @return the value of id
-	 */
-	public String getId() {
-		if (isSetId()) {
-			return id;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.id, this);
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    int count = 0;
+    return count;
+  }
 
-	/**
-	 * @return whether id is set 
-	 */
-	public boolean isSetId() {
-		return this.id != null;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getChildAt(int)
+   */
+  @Override
+  public SBase getChildAt(int childIndex) {
+    if (childIndex < 0) {
+      throw new IndexOutOfBoundsException(childIndex + " < 0");
+    }
+    int pos = 0;
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}", childIndex,
+      +Math.min(pos, 0)));
+  }
 
-	/**
-	 * Set the value of id
-	 */
-	public void setId(String id) {
-		String oldId = this.id;
-		this.id = id;
-		firePropertyChange(RenderConstants.id, oldId, this.id);
-	}
+  /**
+   * @return the value of id
+   */
+  public String getId() {
+    if (isSetId()) {
+      return id;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.id, this);
+  }
 
-	/**
-	 * Unsets the variable id 
-	 * @return {@code true}, if id was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetId() {
-		if (isSetId()) {
-			String oldId = this.id;
-			this.id = null;
-			firePropertyChange(RenderConstants.id, oldId, this.id);
-			return true;
-		}
-		return false;
-	}
+  /**
+   * @return whether id is set
+   */
+  public boolean isSetId() {
+    return id != null;
+  }
 
-	/**
-	 * @return the value of fontFamily
-	 */
-	public FontFamily getFontFamily() {
-		if (isSetFontFamily()) {
-			return fontFamily;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.fontFamily, this);
-	}
+  /**
+   * Set the value of id
+   */
+  public void setId(String id) {
+    String oldId = this.id;
+    this.id = id;
+    firePropertyChange(RenderConstants.id, oldId, this.id);
+  }
 
-	/**
-	 * @return whether fontFamily is set 
-	 */
-	public boolean isSetFontFamily() {
-		return this.fontFamily != null;
-	}
+  /**
+   * Unsets the variable id
+   * @return {@code true}, if id was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetId() {
+    if (isSetId()) {
+      String oldId = id;
+      id = null;
+      firePropertyChange(RenderConstants.id, oldId, id);
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Set the value of fontFamily
-	 */
-	public void setFontFamily(FontFamily fontFamily) {
-		FontFamily oldFontFamily = this.fontFamily;
-		this.fontFamily = fontFamily;
-		firePropertyChange(RenderConstants.fontFamily, oldFontFamily, this.fontFamily);
-	}
+  /**
+   * @return the value of fontFamily
+   */
+  public FontFamily getFontFamily() {
+    if (isSetFontFamily()) {
+      return fontFamily;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.fontFamily, this);
+  }
 
-	/**
-	 * Unsets the variable fontFamily 
-	 * @return {@code true}, if fontFamily was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetFontFamily() {
-		if (isSetFontFamily()) {
-			FontFamily oldFontFamily = this.fontFamily;
-			this.fontFamily = null;
-			firePropertyChange(RenderConstants.fontFamily, oldFontFamily, this.fontFamily);
-			return true;
-		}
-		return false;
-	}
+  /**
+   * @return whether fontFamily is set
+   */
+  public boolean isSetFontFamily() {
+    return fontFamily != null;
+  }
 
-	/**
-	 * @return the value of fontSize
-	 */
-	public Short getFontSize() {
-		if (isSetFontSize()) {
-			return fontSize;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.fontSize, this);
-	}
+  /**
+   * Set the value of fontFamily
+   */
+  public void setFontFamily(FontFamily fontFamily) {
+    FontFamily oldFontFamily = this.fontFamily;
+    this.fontFamily = fontFamily;
+    firePropertyChange(RenderConstants.fontFamily, oldFontFamily, this.fontFamily);
+  }
 
-	/**
-	 * @return whether fontSize is set 
-	 */
-	public boolean isSetFontSize() {
-		return this.fontSize != null;
-	}
+  /**
+   * Unsets the variable fontFamily
+   * @return {@code true}, if fontFamily was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetFontFamily() {
+    if (isSetFontFamily()) {
+      FontFamily oldFontFamily = fontFamily;
+      fontFamily = null;
+      firePropertyChange(RenderConstants.fontFamily, oldFontFamily, fontFamily);
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Set the value of fontSize
-	 */
-	public void setFontSize(Short fontSize) {
-		Short oldFontSize = this.fontSize;
-		this.fontSize = fontSize;
-		firePropertyChange(RenderConstants.fontSize, oldFontSize, this.fontSize);
-	}
+  /**
+   * @return the value of fontSize
+   */
+  public Short getFontSize() {
+    if (isSetFontSize()) {
+      return fontSize;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.fontSize, this);
+  }
 
-	/**
-	 * Unsets the variable fontSize 
-	 * @return {@code true}, if fontSize was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetFontSize() {
-		if (isSetFontSize()) {
-			short oldFontSize = this.fontSize;
-			this.fontSize = null;
-			firePropertyChange(RenderConstants.fontSize, oldFontSize, this.fontSize);
-			return true;
-		}
-		return false;
-	}
+  /**
+   * @return whether fontSize is set
+   */
+  public boolean isSetFontSize() {
+    return fontSize != null;
+  }
 
-	/**
-	 * @return the value of fontWeightBold
-	 */
-	public boolean isFontWeightBold() {
-		if (isSetFontWeightBold()) {
-			return fontWeightBold;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.fontWeightBold, this);
-	}
+  /**
+   * Set the value of fontSize
+   */
+  public void setFontSize(Short fontSize) {
+    Short oldFontSize = this.fontSize;
+    this.fontSize = fontSize;
+    firePropertyChange(RenderConstants.fontSize, oldFontSize, this.fontSize);
+  }
 
-	/**
-	 * @return whether fontWeightBold is set 
-	 */
-	public boolean isSetFontWeightBold() {
-		return this.fontWeightBold != null;
-	}
+  /**
+   * Unsets the variable fontSize
+   * @return {@code true}, if fontSize was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetFontSize() {
+    if (isSetFontSize()) {
+      short oldFontSize = fontSize;
+      fontSize = null;
+      firePropertyChange(RenderConstants.fontSize, oldFontSize, fontSize);
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Set the value of fontWeightBold
-	 */
-	public void setFontWeightBold(Boolean fontWeightBold) {
-		Boolean oldFontWeightBold = this.fontWeightBold;
-		this.fontWeightBold = fontWeightBold;
-		firePropertyChange(RenderConstants.fontWeightBold, oldFontWeightBold, this.fontWeightBold);
-	}
+  /**
+   * @return the value of fontWeightBold
+   */
+  public boolean isFontWeightBold() {
+    if (isSetFontWeightBold()) {
+      return fontWeightBold;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.fontWeightBold, this);
+  }
 
-	/**
-	 * Unsets the variable fontWeightBold 
-	 * @return {@code true}, if fontWeightBold was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetFontWeightBold() {
-		if (isSetFontWeightBold()) {
-			Boolean oldFontWeightBold = this.fontWeightBold;
-			this.fontWeightBold = null;
-			firePropertyChange(RenderConstants.fontWeightBold, oldFontWeightBold, this.fontWeightBold);
-			return true;
-		}
-		return false;
-	}
+  /**
+   * @return whether fontWeightBold is set
+   */
+  public boolean isSetFontWeightBold() {
+    return fontWeightBold != null;
+  }
 
-	/**
-	 * @return the value of fontStyleItalic
-	 */
-	public boolean isFontStyleItalic() {
-		if (isSetFontStyleItalic()) {
-			return fontStyleItalic;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.fontStyleItalic, this);
-	}
+  /**
+   * Set the value of fontWeightBold
+   */
+  public void setFontWeightBold(Boolean fontWeightBold) {
+    Boolean oldFontWeightBold = this.fontWeightBold;
+    this.fontWeightBold = fontWeightBold;
+    firePropertyChange(RenderConstants.fontWeightBold, oldFontWeightBold, this.fontWeightBold);
+  }
 
-	/**
-	 * @return whether fontStyleItalic is set 
-	 */
-	public boolean isSetFontStyleItalic() {
-		return this.fontStyleItalic != null;
-	}
+  /**
+   * Unsets the variable fontWeightBold
+   * @return {@code true}, if fontWeightBold was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetFontWeightBold() {
+    if (isSetFontWeightBold()) {
+      Boolean oldFontWeightBold = fontWeightBold;
+      fontWeightBold = null;
+      firePropertyChange(RenderConstants.fontWeightBold, oldFontWeightBold, fontWeightBold);
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Set the value of fontStyleItalic
-	 */
-	public void setFontStyleItalic(Boolean fontStyleItalic) {
-		Boolean oldFontStyleItalic = this.fontStyleItalic;
-		this.fontStyleItalic = fontStyleItalic;
-		firePropertyChange(RenderConstants.fontStyleItalic, oldFontStyleItalic, this.fontStyleItalic);
-	}
+  /**
+   * @return the value of fontStyleItalic
+   */
+  public boolean isFontStyleItalic() {
+    if (isSetFontStyleItalic()) {
+      return fontStyleItalic;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.fontStyleItalic, this);
+  }
 
-	/**
-	 * Unsets the variable fontStyleItalic 
-	 * @return {@code true}, if fontStyleItalic was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetFontStyleItalic() {
-		if (isSetFontStyleItalic()) {
-			Boolean oldFontStyleItalic = this.fontStyleItalic;
-			this.fontStyleItalic = null;
-			firePropertyChange(RenderConstants.fontStyleItalic, oldFontStyleItalic, this.fontStyleItalic);
-			return true;
-		}
-		return false;
-	}
+  /**
+   * @return whether fontStyleItalic is set
+   */
+  public boolean isSetFontStyleItalic() {
+    return fontStyleItalic != null;
+  }
 
-	/**
-	 * @return the value of startHead
-	 */
-	public String getStartHead() {
-		if (isSetStartHead()) {
-			return startHead;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.startHead, this);
-	}
+  /**
+   * Set the value of fontStyleItalic
+   */
+  public void setFontStyleItalic(Boolean fontStyleItalic) {
+    Boolean oldFontStyleItalic = this.fontStyleItalic;
+    this.fontStyleItalic = fontStyleItalic;
+    firePropertyChange(RenderConstants.fontStyleItalic, oldFontStyleItalic, this.fontStyleItalic);
+  }
 
-	/**
-	 * @return whether startHead is set 
-	 */
-	public boolean isSetStartHead() {
-		return this.startHead != null;
-	}
+  /**
+   * Unsets the variable fontStyleItalic
+   * @return {@code true}, if fontStyleItalic was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetFontStyleItalic() {
+    if (isSetFontStyleItalic()) {
+      Boolean oldFontStyleItalic = fontStyleItalic;
+      fontStyleItalic = null;
+      firePropertyChange(RenderConstants.fontStyleItalic, oldFontStyleItalic, fontStyleItalic);
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Set the value of startHead
-	 */
-	public void setStartHead(String startHead) {
-		String oldStartHead = this.startHead;
-		this.startHead = startHead;
-		firePropertyChange(RenderConstants.startHead, oldStartHead, this.startHead);
-	}
+  /**
+   * @return the value of startHead
+   */
+  public String getStartHead() {
+    if (isSetStartHead()) {
+      return startHead;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.startHead, this);
+  }
 
-	/**
-	 * Unsets the variable startHead 
-	 * @return {@code true}, if startHead was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetStartHead() {
-		if (isSetStartHead()) {
-			String oldStartHead = this.startHead;
-			this.startHead = null;
-			firePropertyChange(RenderConstants.startHead, oldStartHead, this.startHead);
-			return true;
-		}
-		return false;
-	}
+  /**
+   * @return whether startHead is set
+   */
+  public boolean isSetStartHead() {
+    return startHead != null;
+  }
 
-	/**
-	 * @return the value of endHead
-	 */
-	public String getEndHead() {
-		if (isSetEndHead()) {
-			return endHead;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.endHead, this);
-	}
+  /**
+   * Set the value of startHead
+   */
+  public void setStartHead(String startHead) {
+    String oldStartHead = this.startHead;
+    this.startHead = startHead;
+    firePropertyChange(RenderConstants.startHead, oldStartHead, this.startHead);
+  }
 
-	/**
-	 * @return whether endHead is set 
-	 */
-	public boolean isSetEndHead() {
-		return this.endHead != null;
-	}
+  /**
+   * Unsets the variable startHead
+   * @return {@code true}, if startHead was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetStartHead() {
+    if (isSetStartHead()) {
+      String oldStartHead = startHead;
+      startHead = null;
+      firePropertyChange(RenderConstants.startHead, oldStartHead, startHead);
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Set the value of endHead
-	 */
-	public void setEndHead(String endHead) {
-		String oldEndHead = this.endHead;
-		this.endHead = endHead;
-		firePropertyChange(RenderConstants.endHead, oldEndHead, this.endHead);
-	}
+  /**
+   * @return the value of endHead
+   */
+  public String getEndHead() {
+    if (isSetEndHead()) {
+      return endHead;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.endHead, this);
+  }
 
-	/**
-	 * Unsets the variable endHead 
-	 * @return {@code true}, if endHead was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetEndHead() {
-		if (isSetEndHead()) {
-			String oldEndHead = this.endHead;
-			this.endHead = null;
-			firePropertyChange(RenderConstants.endHead, oldEndHead, this.endHead);
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * @return the value of textAnchor
-	 */
-	public TextAnchor getTextAnchor() {
-		if (isSetTextAnchor()) {
-			return textAnchor;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.textAnchor, this);
-	}
+  /**
+   * @return whether endHead is set
+   */
+  public boolean isSetEndHead() {
+    return endHead != null;
+  }
 
-	/**
-	 * @return whether textAnchor is set 
-	 */
-	public boolean isSetTextAnchor() {
-		return this.textAnchor != null;
-	}
+  /**
+   * Set the value of endHead
+   */
+  public void setEndHead(String endHead) {
+    String oldEndHead = this.endHead;
+    this.endHead = endHead;
+    firePropertyChange(RenderConstants.endHead, oldEndHead, this.endHead);
+  }
 
-	/**
-	 * Set the value of textAnchor
-	 */
-	public void setTextAnchor(TextAnchor textAnchor) {
-		TextAnchor oldTextAnchor = this.textAnchor;
-		this.textAnchor = textAnchor;
-		firePropertyChange(RenderConstants.textAnchor, oldTextAnchor, this.textAnchor);
-	}
+  /**
+   * Unsets the variable endHead
+   * @return {@code true}, if endHead was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetEndHead() {
+    if (isSetEndHead()) {
+      String oldEndHead = endHead;
+      endHead = null;
+      firePropertyChange(RenderConstants.endHead, oldEndHead, endHead);
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Unsets the variable textAnchor 
-	 * @return {@code true}, if textAnchor was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetTextAnchor() {
-		if (isSetTextAnchor()) {
-			TextAnchor oldTextAnchor = this.textAnchor;
-			this.textAnchor = null;
-			firePropertyChange(RenderConstants.textAnchor, oldTextAnchor, this.textAnchor);
-			return true;
-		}
-		return false;
-	}
+  /**
+   * @return the value of textAnchor
+   */
+  public TextAnchor getTextAnchor() {
+    if (isSetTextAnchor()) {
+      return textAnchor;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.textAnchor, this);
+  }
 
-	/**
-	 * @return the value of vTextAnchor
-	 */
-	public VTextAnchor getVTextAnchor() {
-		if (isSetVTextAnchor()) {
-			return vTextAnchor;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(RenderConstants.vTextAnchor, this);
-	}
+  /**
+   * @return whether textAnchor is set
+   */
+  public boolean isSetTextAnchor() {
+    return textAnchor != null;
+  }
 
-	/**
-	 * @return whether vTextAnchor is set 
-	 */
-	public boolean isSetVTextAnchor() {
-		return this.vTextAnchor != null;
-	}
+  /**
+   * Set the value of textAnchor
+   */
+  public void setTextAnchor(TextAnchor textAnchor) {
+    TextAnchor oldTextAnchor = this.textAnchor;
+    this.textAnchor = textAnchor;
+    firePropertyChange(RenderConstants.textAnchor, oldTextAnchor, this.textAnchor);
+  }
 
-	/**
-	 * Set the value of vTextAnchor
-	 */
-	public void setVTextAnchor(VTextAnchor vTextAnchor) {
-		VTextAnchor oldVTextAnchor = this.vTextAnchor;
-		this.vTextAnchor = vTextAnchor;
-		firePropertyChange(RenderConstants.vTextAnchor, oldVTextAnchor, this.vTextAnchor);
-	}
+  /**
+   * Unsets the variable textAnchor
+   * @return {@code true}, if textAnchor was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetTextAnchor() {
+    if (isSetTextAnchor()) {
+      TextAnchor oldTextAnchor = textAnchor;
+      textAnchor = null;
+      firePropertyChange(RenderConstants.textAnchor, oldTextAnchor, textAnchor);
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Unsets the variable vTextAnchor 
-	 * @return {@code true}, if vTextAnchor was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetVTextAnchor() {
-		if (isSetVTextAnchor()) {
-			VTextAnchor oldVTextAnchor = this.vTextAnchor;
-			this.vTextAnchor = null;
-			firePropertyChange(RenderConstants.vTextAnchor, oldVTextAnchor, this.vTextAnchor);
-			return true;
-		}
-		return false;
-	}
-	
+  /**
+   * @return the value of vTextAnchor
+   */
+  public VTextAnchor getVTextAnchor() {
+    if (isSetVTextAnchor()) {
+      return vTextAnchor;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(RenderConstants.vTextAnchor, this);
+  }
+
+  /**
+   * @return whether vTextAnchor is set
+   */
+  public boolean isSetVTextAnchor() {
+    return vTextAnchor != null;
+  }
+
+  /**
+   * Set the value of vTextAnchor
+   */
+  public void setVTextAnchor(VTextAnchor vTextAnchor) {
+    VTextAnchor oldVTextAnchor = this.vTextAnchor;
+    this.vTextAnchor = vTextAnchor;
+    firePropertyChange(RenderConstants.vTextAnchor, oldVTextAnchor, this.vTextAnchor);
+  }
+
+  /**
+   * Unsets the variable vTextAnchor
+   * @return {@code true}, if vTextAnchor was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetVTextAnchor() {
+    if (isSetVTextAnchor()) {
+      VTextAnchor oldVTextAnchor = vTextAnchor;
+      vTextAnchor = null;
+      firePropertyChange(RenderConstants.vTextAnchor, oldVTextAnchor, vTextAnchor);
+      return true;
+    }
+    return false;
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
    */
@@ -640,7 +639,7 @@ public class Group extends GraphicalPrimitive2D {
       }
       else if (attributeName.equals(RenderConstants.endHead)) {
         setEndHead(value);
-      }     
+      }
       else {
         isAttributeRead = false;
       }

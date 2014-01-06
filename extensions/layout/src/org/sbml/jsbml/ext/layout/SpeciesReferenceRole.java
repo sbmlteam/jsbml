@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -29,89 +29,89 @@ import org.sbml.jsbml.SBO;
  * @version $Rev$
  */
 public enum SpeciesReferenceRole {
-	/**
-	 * 
-	 */
-	ACTIVATOR,
-	/**
-	 * 
-	 */
-	INHIBITOR,
-	/**
-	 * 
-	 */
-	MODIFIER,
-	/**
-	 * 
-	 */
-	PRODUCT,
-	/**
-	 * 
-	 */
-	SIDEPRODUCT,
-	/**
-	 * 
-	 */
-	SIDESUBSTRATE,
-	/**
-	 * 
-	 */
-	SUBSTRATE,
-	/**
-	 * 
-	 */
-	UNDEFINED;
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public int toSBOterm() {
-		switch (this) {
-		case ACTIVATOR:
-			return 459; // 459 = stimulator
-		case INHIBITOR:
-			return SBO.getInhibitor(); // 20 = inhibitor
-		case MODIFIER:
-			return SBO.getModifier(); // 19 = modifier
-		case PRODUCT:
-			return SBO.getProduct(); // 11 = product
-		case SIDEPRODUCT:
-			return -1; // ??
-		case SIDESUBSTRATE:
-			return -1; // ??
-		case SUBSTRATE:
-			return SBO.getReactant(); // 10 = reactant
-		case UNDEFINED:
-			return SBO.getParticipantRole(); // 3 = participant role
-		default:
-			return -1; // invalid
-		}
-	}
+  /**
+   * 
+   */
+  ACTIVATOR,
+  /**
+   * 
+   */
+  INHIBITOR,
+  /**
+   * 
+   */
+  MODIFIER,
+  /**
+   * 
+   */
+  PRODUCT,
+  /**
+   * 
+   */
+  SIDEPRODUCT,
+  /**
+   * 
+   */
+  SIDESUBSTRATE,
+  /**
+   * 
+   */
+  SUBSTRATE,
+  /**
+   * 
+   */
+  UNDEFINED;
 
-	/**
-	 * 
-	 * @param sboTerm
-	 * @return the {@link SpeciesReferenceRole} for the given SBO term
-	 *         identifier.
-	 */
-	public static SpeciesReferenceRole valueOf(int sboTerm) {
-		if (SBO.isChildOf(sboTerm, ACTIVATOR.toSBOterm())) {
-			return ACTIVATOR;
-		} else if (SBO.isChildOf(sboTerm, INHIBITOR.toSBOterm())) {
-			return INHIBITOR;
-		} else if (SBO.isChildOf(sboTerm, MODIFIER.toSBOterm())) {
-			return MODIFIER;
-		} else if (SBO.isChildOf(sboTerm, SIDEPRODUCT.toSBOterm())) {
-			return SIDEPRODUCT;
-		} else if (SBO.isChildOf(sboTerm, PRODUCT.toSBOterm())) {
-			return PRODUCT;
-		} else if (SBO.isChildOf(sboTerm, SIDESUBSTRATE.toSBOterm())) {
-			return SIDESUBSTRATE;
-		} else if (SBO.isChildOf(sboTerm, SUBSTRATE.toSBOterm())) {
-			return SUBSTRATE;
-		}
-		return UNDEFINED;
-	}
+  /**
+   * 
+   * @return
+   */
+  public int toSBOterm() {
+    switch (this) {
+    case ACTIVATOR:
+      return 459; // 459 = stimulator
+    case INHIBITOR:
+      return SBO.getInhibitor(); // 20 = inhibitor
+    case MODIFIER:
+      return SBO.getModifier(); // 19 = modifier
+    case PRODUCT:
+      return SBO.getProduct(); // 11 = product
+    case SIDEPRODUCT:
+      return -1; // ??
+    case SIDESUBSTRATE:
+      return -1; // ??
+    case SUBSTRATE:
+      return SBO.getReactant(); // 10 = reactant
+    case UNDEFINED:
+      return SBO.getParticipantRole(); // 3 = participant role
+    default:
+      return -1; // invalid
+    }
+  }
+
+  /**
+   * 
+   * @param sboTerm
+   * @return the {@link SpeciesReferenceRole} for the given SBO term
+   *         identifier.
+   */
+  public static SpeciesReferenceRole valueOf(int sboTerm) {
+    if (SBO.isChildOf(sboTerm, ACTIVATOR.toSBOterm())) {
+      return ACTIVATOR;
+    } else if (SBO.isChildOf(sboTerm, INHIBITOR.toSBOterm())) {
+      return INHIBITOR;
+    } else if (SBO.isChildOf(sboTerm, MODIFIER.toSBOterm())) {
+      return MODIFIER;
+    } else if (SBO.isChildOf(sboTerm, SIDEPRODUCT.toSBOterm())) {
+      return SIDEPRODUCT;
+    } else if (SBO.isChildOf(sboTerm, PRODUCT.toSBOterm())) {
+      return PRODUCT;
+    } else if (SBO.isChildOf(sboTerm, SIDESUBSTRATE.toSBOterm())) {
+      return SIDESUBSTRATE;
+    } else if (SBO.isChildOf(sboTerm, SUBSTRATE.toSBOterm())) {
+      return SUBSTRATE;
+    }
+    return UNDEFINED;
+  }
 
 }

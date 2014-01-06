@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -131,9 +131,9 @@ SBaseWithUnit {
     this((Variable) parameter);
     UnitDefinition ud = parameter.getDerivedUnitDefinition();
     if ((ud != null) && ud.isSetId()) {
-      this.unitsID = new String(ud.getId());
+      unitsID = new String(ud.getId());
     } else {
-      this.unitsID = null;
+      unitsID = null;
     }
   }
 
@@ -146,9 +146,9 @@ SBaseWithUnit {
   public ExplicitRule(Parameter parameter, ASTNode math) {
     this((Variable) parameter, math);
     if (parameter.isSetUnits()) {
-      this.unitsID = new String(parameter.getUnits());
+      unitsID = new String(parameter.getUnits());
     } else {
-      this.unitsID = null;
+      unitsID = null;
     }
   }
 
@@ -173,9 +173,9 @@ SBaseWithUnit {
     super(math, variable.getLevel(), variable.getVersion());
     initDefaults();
     if (variable.isSetId()) {
-      this.variableID = new String(variable.getId());
+      variableID = new String(variable.getId());
     } else {
-      this.variableID = null;
+      variableID = null;
     }
   }
 
@@ -233,7 +233,7 @@ SBaseWithUnit {
   @Deprecated
   public UnitDefinition getUnitsInstance() {
     Model model = getModel();
-    return model != null ? model.getUnitDefinition(this.unitsID) : null;
+    return model != null ? model.getUnitDefinition(unitsID) : null;
   }
 
   /* (non-Javadoc)
@@ -241,7 +241,7 @@ SBaseWithUnit {
    */
   @Override
   public String getVariable() {
-    return isSetVariable() ? this.variableID : "";
+    return isSetVariable() ? variableID : "";
   }
 
   /* (non-Javadoc)
@@ -250,7 +250,7 @@ SBaseWithUnit {
   @Override
   public Variable getVariableInstance() {
     Model m = getModel();
-    return m != null ? m.findVariable(this.variableID) : null;
+    return m != null ? m.findVariable(variableID) : null;
   }
 
   /* (non-Javadoc)
@@ -332,7 +332,7 @@ SBaseWithUnit {
   @Deprecated
   public boolean isSetUnitsInstance() {
     Model model = getModel();
-    return model != null ? model.getUnitDefinition(this.unitsID) != null
+    return model != null ? model.getUnitDefinition(unitsID) != null
         : false;
   }
 
@@ -350,7 +350,7 @@ SBaseWithUnit {
   @Override
   public boolean isSetVariableInstance() {
     Model m = getModel();
-    return m != null ? m.findVariable(this.variableID) != null : false;
+    return m != null ? m.findVariable(variableID) != null : false;
   }
 
   /* (non-Javadoc)
@@ -514,7 +514,7 @@ SBaseWithUnit {
           getElementName()));
       }
       if (variable.isSetId()) {
-        String oldVariable = this.variableID;
+        String oldVariable = variableID;
         variableID = variable.getId();
         firePropertyChange(TreeNodeChangeEvent.variable, oldVariable, variableID);
       } else {
@@ -536,8 +536,8 @@ SBaseWithUnit {
   @Override
   @Deprecated
   public void unsetUnits() {
-    String oldUnitsID = this.unitsID;
-    this.unitsID = null;
+    String oldUnitsID = unitsID;
+    unitsID = null;
     firePropertyChange(TreeNodeChangeEvent.variable, oldUnitsID, unitsID);
   }
 
@@ -546,7 +546,7 @@ SBaseWithUnit {
    */
   @Override
   public void unsetVariable() {
-    String oldVariableID = this.variableID;
+    String oldVariableID = variableID;
     variableID = null;
     firePropertyChange(TreeNodeChangeEvent.variable, oldVariableID,
       variableID);

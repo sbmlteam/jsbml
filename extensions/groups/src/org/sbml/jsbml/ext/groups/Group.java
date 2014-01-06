@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -44,422 +44,424 @@ import org.sbml.jsbml.util.filters.NameFilter;
  */
 public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 2361503116934849753L;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 2361503116934849753L;
 
-	/**
-	 * Defined in version 3 of the groups proposal.
-	 */
-	private GroupKind kind = null;
+  /**
+   * Defined in version 3 of the groups proposal.
+   */
+  private GroupKind kind = null;
 
-	/**
-	 * 
-	 */
-	protected ListOf<Member> listOfMembers = null;
-	
-	private ListOfMemberConstraint listOfMemberConstraints = null;
+  /**
+   * 
+   */
+  protected ListOf<Member> listOfMembers = null;
 
-	/**
-	 * 
-	 */
-	public Group() {
-		super();
-		initDefaults();
-	}
+  private ListOfMemberConstraint listOfMemberConstraints = null;
 
-	/**
-	 * 
-	 * @param group
-	 */
-	public Group(Group group) {
-		super(group);
-		
-		if (group.isSetListOfMembers()) {
-			// TODO - update to have a proper clone of the ListOf as well
-			for (Member m : group.listOfMembers) {
-				addMember(m.clone());
-			}
-		}
-		if (group.isSetKind()) {
-			setKind(group.getKind());
-		}
-		if (group.isSetListOfMemberConstraints()) {
-			setListOfMemberConstraints((ListOfMemberConstraint) group.getListOfMemberConstraints().clone());
-		}
-	}
+  /**
+   * 
+   */
+  public Group() {
+    super();
+    initDefaults();
+  }
 
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public Group(int level, int version) {
-		super(level, version);
-	}
+  /**
+   * 
+   * @param group
+   */
+  public Group(Group group) {
+    super(group);
 
-	/**
-	 * 
-	 */
-	public boolean addMember(Member member) {
-		return getListOfMembers().add(member);
-	}
+    if (group.isSetListOfMembers()) {
+      // TODO - update to have a proper clone of the ListOf as well
+      for (Member m : group.listOfMembers) {
+        addMember(m.clone());
+      }
+    }
+    if (group.isSetKind()) {
+      setKind(group.getKind());
+    }
+    if (group.isSetListOfMemberConstraints()) {
+      setListOfMemberConstraints((ListOfMemberConstraint) group.getListOfMemberConstraints().clone());
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#clone()
-	 */
-	public Group clone() {
-		return new Group(this);
-	}
+  /**
+   * 
+   * @param level
+   * @param version
+   */
+  public Group(int level, int version) {
+    super(level, version);
+  }
 
-	/**
-	 * @param symbol
-	 * @return
-	 */
-	public Member createMember(String idRef) {
-		Member m = new Member();
-		m.setIdRef(idRef);
-		addMember(m);
-		return m;
-	}
+  /**
+   * 
+   */
+  public boolean addMember(Member member) {
+    return getListOfMembers().add(member);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-	 */
-	@Override
-	public TreeNode getChildAt(int index) {
-		if (index < 0) {
-			throw new IndexOutOfBoundsException(index + " < 0");
-		}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
+  @Override
+  public Group clone() {
+    return new Group(this);
+  }
 
-		int count = super.getChildCount();
-		int position = 0;
+  /**
+   * @param symbol
+   * @return
+   */
+  public Member createMember(String idRef) {
+    Member m = new Member();
+    m.setIdRef(idRef);
+    addMember(m);
+    return m;
+  }
 
-		if (index < count) {
-			return super.getChildAt(index);
-		} else {
-			index -= count;
-		}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+   */
+  @Override
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(index + " < 0");
+    }
 
-		 if (isSetListOfMembers()) {
-		   if (position == index) {
-		     return getListOfMembers();
-		   }
-		   position++;
-		 }
+    int count = super.getChildCount();
+    int position = 0;
 
-		 if (isSetListOfMemberConstraints()) {
-			 if (position == index) {
-				 return getListOfMemberConstraints();
-			 }
-			 position++;
-		 }
+    if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
+    }
 
-		throw new IndexOutOfBoundsException(MessageFormat.format(
-				"Index {0,number,integer} >= {1,number,integer}", index,
-				+((int) Math.min(position, 0))));
-	}
+    if (isSetListOfMembers()) {
+      if (position == index) {
+        return getListOfMembers();
+      }
+      position++;
+    }
 
-	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
-	 */
-	@Override
-	public int getChildCount() {
-		int childCount = super.getChildCount();
-		
-		if (isSetListOfMembers()) {
-			childCount++;
-		}
-		if (isSetListOfMemberConstraints()) {
-			childCount++;
-		}
-		
-		return childCount;
-	}
+    if (isSetListOfMemberConstraints()) {
+      if (position == index) {
+        return getListOfMemberConstraints();
+      }
+      position++;
+    }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public GroupKind getKind() {
-		return kind;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public ListOf<Member> getListOfMembers() {
-		if (!isSetListOfMembers()) {
-			listOfMembers = new ListOf<Member>();
-			listOfMembers.setNamespace(GroupsConstants.namespaceURI);
-			registerChild(listOfMembers);
-			listOfMembers.setSBaseListType(ListOf.Type.other);
-		}
-
-		return listOfMembers;
-	}
-
-	/**
-	 * 
-	 * @param i
-	 * @return
-	 */
-	public Member getMember(int i) {
-		if (i >= 0 && i < getListOfMembers().size()) {
-			return getListOfMembers().get(i);
-		}
-
-		return null;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public int getMemberCount() {
-		return isSetListOfMembers() ? getListOfMembers().size() : 0;
-	}
-
-	private void initDefaults() {
-		setNamespace(GroupsConstants.namespaceURI);		
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
-	 */
-	public boolean isIdMandatory() {
-		return false;
-	}
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}", index,
+      +Math.min(position, 0)));
+  }
 
 
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isSetKind() {
-		return kind!=null;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    int childCount = super.getChildCount();
 
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isSetListOfMembers() {
-		if (listOfMembers == null) {
-			return false;			
-		}
-		return true;
-	}
+    if (isSetListOfMembers()) {
+      childCount++;
+    }
+    if (isSetListOfMemberConstraints()) {
+      childCount++;
+    }
 
-	
-	/**
-	 * Returns {@code true}, if listOfMemberConstraints contains at least one element.
-	 *
-	 * @return {@code true}, if listOfMemberConstraints contains at least one element, 
-	 *         otherwise {@code false}
-	 */
-	public boolean isSetListOfMemberConstraints() {
-		if ((listOfMemberConstraints == null) || listOfMemberConstraints.isEmpty()) {
-			return false;
-		}
-		return true;
-	}
+    return childCount;
+  }
 
-	/**
-	 * Returns the listOfMemberConstraints. Creates it if it is not already existing.
-	 *
-	 * @return the listOfMemberConstraints
-	 */
-	public ListOf<MemberConstraint> getListOfMemberConstraints() {
-		if (!isSetListOfMemberConstraints()) {
-			listOfMemberConstraints = new ListOfMemberConstraint(getLevel(), getVersion());
-			listOfMemberConstraints.setNamespace(GroupsConstants.namespaceURI);
-			listOfMemberConstraints.setSBaseListType(ListOf.Type.other);
-			registerChild(listOfMemberConstraints);
-		}
-		return listOfMemberConstraints;
-	}
-	
-	// TODO - helper method with setListOfMemberConstraints(ListOf<MemberConstraint>) ??
+  /**
+   * 
+   * @return
+   */
+  public GroupKind getKind() {
+    return kind;
+  }
 
-	/**
-	 * Sets the given {@code ListOf<MemberConstraint>}. If listOfMemberConstraints
-	 * was defined before and contains some elements, they are all unset.
-	 *
-	 * @param listOfMemberConstraints
-	 */
-	public void setListOfMemberConstraints(ListOfMemberConstraint listOfMemberConstraints) {
-		unsetListOfMemberConstraints();
-		this.listOfMemberConstraints = listOfMemberConstraints;
-		registerChild(this.listOfMemberConstraints);
-	}
+  /**
+   * 
+   * @return
+   */
+  public ListOf<Member> getListOfMembers() {
+    if (!isSetListOfMembers()) {
+      listOfMembers = new ListOf<Member>();
+      listOfMembers.setNamespace(GroupsConstants.namespaceURI);
+      registerChild(listOfMembers);
+      listOfMembers.setSBaseListType(ListOf.Type.other);
+    }
 
-	/**
-	 * Returns {@code true}, if listOfMemberConstraints contain at least one element, 
-	 *         otherwise {@code false}
-	 *
-	 * @return {@code true}, if listOfMemberConstraints contain at least one element, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetListOfMemberConstraints() {
-		if (isSetListOfMemberConstraints()) {
-			ListOf<MemberConstraint> oldMemberConstraints = this.listOfMemberConstraints;
-			this.listOfMemberConstraints = null;
-			oldMemberConstraints.fireNodeRemovedEvent();
-			return true;
-		}
-		return false;
-	}
+    return listOfMembers;
+  }
 
-	/**
-	 * Adds a new {@link MemberConstraint} to the listOfMemberConstraints.
-	 * <p>The listOfMemberConstraints is initialized if necessary.
-	 *
-	 * @param MemberConstraint the element to add to the list
-	 * @return true (as specified by {@link Collection.add})
-	 */
-	public boolean addMemberConstraint(MemberConstraint memberConstraint) {
-		return getListOfMemberConstraints().add(memberConstraint);
-	}
+  /**
+   * 
+   * @param i
+   * @return
+   */
+  public Member getMember(int i) {
+    if (i >= 0 && i < getListOfMembers().size()) {
+      return getListOfMembers().get(i);
+    }
 
-	/**
-	 * Removes an element from the listOfMemberConstraints.
-	 *
-	 * @param MemberConstraint the element to be removed from the list
-	 * @return true if the list contained the specified element
-	 * @see List#remove(Object)
-	 */
-	public boolean removeMemberConstraint(MemberConstraint memberConstraint) {
-		if (isSetListOfMemberConstraints()) {
-			return getListOfMemberConstraints().remove(memberConstraint);
-		}
-		return false;
-	}
+    return null;
+  }
 
-	/**
-	 * Removes an element from the listOfMemberConstraints at the given index.
-	 *
-	 * @param i the index where to remove the {@link MemberConstraint}
-	 * @throws IndexOutOfBoundsException if the listOf is not set or
-	 * if the index is out of bound (index < 0 || index > list.size)
-	 */
-	public void removeMemberConstraint(int i) {
-		if (!isSetListOfMemberConstraints()) {
-			throw new IndexOutOfBoundsException(Integer.toString(i));
-		}
-		getListOfMemberConstraints().remove(i);
-	}
+  /**
+   * 
+   * @return
+   */
+  public int getMemberCount() {
+    return isSetListOfMembers() ? getListOfMembers().size() : 0;
+  }
 
-	public void removeMemberConstraint(String id) {
-	  getListOfMemberConstraints().removeFirst(new NameFilter(id));
-	}
+  private void initDefaults() {
+    setNamespace(GroupsConstants.namespaceURI);
+  }
 
-	/**
-	 * Creates a new MemberConstraint element and adds it to the ListOfMemberConstraints list
-	 */
-	public MemberConstraint createMemberConstraint() {
-		return createMemberConstraint(null);
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  @Override
+  public boolean isIdMandatory() {
+    return false;
+  }
 
-	/**
-	 * Creates a new {@link MemberConstraint} element and adds it to the ListOfMemberConstraints list
-	 *
-	 * @return a new {@link MemberConstraint} element
-	 */
-	public MemberConstraint createMemberConstraint(String id) {
-		MemberConstraint MemberConstraint = new MemberConstraint(id, getLevel(), getVersion());
-		addMemberConstraint(MemberConstraint);
-		return MemberConstraint;
-	}
 
-	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetKind() {
+    return kind!=null;
+  }
 
-		if (!isAttributeRead && attributeName.equals("kind")) {
-			try {
-				setKind(GroupKind.valueOf(value));
-				isAttributeRead = true;
-			} catch (Exception e) {
-				throw new SBMLException("Could not recognized the value '" + value
-						+ "' for the attribute 'kind' on the 'group' element.");
-			}
-		}
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetListOfMembers() {
+    if (listOfMembers == null) {
+      return false;
+    }
+    return true;
+  }
 
-		return isAttributeRead;
-	}
 
-	/**
-	 * 
-	 * @param kind
-	 */
-	public void setKind(GroupKind kind) {
-		this.kind = kind;
-	}
+  /**
+   * Returns {@code true}, if listOfMemberConstraints contains at least one element.
+   *
+   * @return {@code true}, if listOfMemberConstraints contains at least one element,
+   *         otherwise {@code false}
+   */
+  public boolean isSetListOfMemberConstraints() {
+    if ((listOfMemberConstraints == null) || listOfMemberConstraints.isEmpty()) {
+      return false;
+    }
+    return true;
+  }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Group [id=" + getId() + ", name=" + getName() 
-				+ (isSetKind()?", kind=" + getKind():"")
-				+ ", listOfMembers=" + listOfMembers + "]";
-	}
+  /**
+   * Returns the listOfMemberConstraints. Creates it if it is not already existing.
+   *
+   * @return the listOfMemberConstraints
+   */
+  public ListOf<MemberConstraint> getListOfMemberConstraints() {
+    if (!isSetListOfMemberConstraints()) {
+      listOfMemberConstraints = new ListOfMemberConstraint(getLevel(), getVersion());
+      listOfMemberConstraints.setNamespace(GroupsConstants.namespaceURI);
+      listOfMemberConstraints.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfMemberConstraints);
+    }
+    return listOfMemberConstraints;
+  }
 
-	/**
-	 * Removes the {@link #listOfMembers} from this {@link Model} and notifies
-	 * all registered instances of {@link TreeNodeChangeListener}.
-	 * 
-	 * @return {@code true} if calling this method lead to a change in this
-	 *         data structure.
-	 */
-	public boolean unsetListOfMembers() {
-		if (isSetListOfMembers()) {
-			ListOf<Member> oldListOfMembers = this.listOfMembers;
-			this.listOfMembers = null;
-			oldListOfMembers.fireNodeRemovedEvent();
-			return true;
-		}
-		return false;
-	}
+  // TODO - helper method with setListOfMemberConstraints(ListOf<MemberConstraint>) ??
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
-	 */
-	@Override
-	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+  /**
+   * Sets the given {@code ListOf<MemberConstraint>}. If listOfMemberConstraints
+   * was defined before and contains some elements, they are all unset.
+   *
+   * @param listOfMemberConstraints
+   */
+  public void setListOfMemberConstraints(ListOfMemberConstraint listOfMemberConstraints) {
+    unsetListOfMemberConstraints();
+    this.listOfMemberConstraints = listOfMemberConstraints;
+    registerChild(this.listOfMemberConstraints);
+  }
 
-		if (isSetId()) {
-			attributes.remove("id");
-			attributes.put(GroupsConstants.shortLabel+ ":id", getId());
-		}
-		if (isSetName()) {
-			attributes.remove("name");
-			attributes.put(GroupsConstants.shortLabel+ ":name", getName());
-		}
-		if (isSetKind()) {
-			attributes.remove("kind");
-			attributes.put(GroupsConstants.shortLabel+ ":kind", getKind().toString());
-		}
+  /**
+   * Returns {@code true}, if listOfMemberConstraints contain at least one element,
+   *         otherwise {@code false}
+   *
+   * @return {@code true}, if listOfMemberConstraints contain at least one element,
+   *         otherwise {@code false}
+   */
+  public boolean unsetListOfMemberConstraints() {
+    if (isSetListOfMemberConstraints()) {
+      ListOf<MemberConstraint> oldMemberConstraints = listOfMemberConstraints;
+      listOfMemberConstraints = null;
+      oldMemberConstraints.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
 
-		return attributes;
-	}
+  /**
+   * Adds a new {@link MemberConstraint} to the listOfMemberConstraints.
+   * <p>The listOfMemberConstraints is initialized if necessary.
+   *
+   * @param MemberConstraint the element to add to the list
+   * @return true (as specified by {@link Collection.add})
+   */
+  public boolean addMemberConstraint(MemberConstraint memberConstraint) {
+    return getListOfMemberConstraints().add(memberConstraint);
+  }
 
-	// TODO - add methods to get/set/... the attribute from the ListOfMemberConstraint
-	
+  /**
+   * Removes an element from the listOfMemberConstraints.
+   *
+   * @param MemberConstraint the element to be removed from the list
+   * @return true if the list contained the specified element
+   * @see List#remove(Object)
+   */
+  public boolean removeMemberConstraint(MemberConstraint memberConstraint) {
+    if (isSetListOfMemberConstraints()) {
+      return getListOfMemberConstraints().remove(memberConstraint);
+    }
+    return false;
+  }
 
-	@Override
-	public boolean getAllowsChildren() {
-		return true;
-	}
+  /**
+   * Removes an element from the listOfMemberConstraints at the given index.
+   *
+   * @param i the index where to remove the {@link MemberConstraint}
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size)
+   */
+  public void removeMemberConstraint(int i) {
+    if (!isSetListOfMemberConstraints()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    getListOfMemberConstraints().remove(i);
+  }
+
+  public void removeMemberConstraint(String id) {
+    getListOfMemberConstraints().removeFirst(new NameFilter(id));
+  }
+
+  /**
+   * Creates a new MemberConstraint element and adds it to the ListOfMemberConstraints list
+   */
+  public MemberConstraint createMemberConstraint() {
+    return createMemberConstraint(null);
+  }
+
+  /**
+   * Creates a new {@link MemberConstraint} element and adds it to the ListOfMemberConstraints list
+   *
+   * @return a new {@link MemberConstraint} element
+   */
+  public MemberConstraint createMemberConstraint(String id) {
+    MemberConstraint MemberConstraint = new MemberConstraint(id, getLevel(), getVersion());
+    addMemberConstraint(MemberConstraint);
+    return MemberConstraint;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.element.SBase#readAttribute(String attributeName, String prefix, String value)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+
+    if (!isAttributeRead && attributeName.equals("kind")) {
+      try {
+        setKind(GroupKind.valueOf(value));
+        isAttributeRead = true;
+      } catch (Exception e) {
+        throw new SBMLException("Could not recognized the value '" + value
+          + "' for the attribute 'kind' on the 'group' element.");
+      }
+    }
+
+    return isAttributeRead;
+  }
+
+  /**
+   * 
+   * @param kind
+   */
+  public void setKind(GroupKind kind) {
+    this.kind = kind;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "Group [id=" + getId() + ", name=" + getName()
+        + (isSetKind()?", kind=" + getKind():"")
+        + ", listOfMembers=" + listOfMembers + "]";
+  }
+
+  /**
+   * Removes the {@link #listOfMembers} from this {@link Model} and notifies
+   * all registered instances of {@link TreeNodeChangeListener}.
+   * 
+   * @return {@code true} if calling this method lead to a change in this
+   *         data structure.
+   */
+  public boolean unsetListOfMembers() {
+    if (isSetListOfMembers()) {
+      ListOf<Member> oldListOfMembers = listOfMembers;
+      listOfMembers = null;
+      oldListOfMembers.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.element.SBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (isSetId()) {
+      attributes.remove("id");
+      attributes.put(GroupsConstants.shortLabel+ ":id", getId());
+    }
+    if (isSetName()) {
+      attributes.remove("name");
+      attributes.put(GroupsConstants.shortLabel+ ":name", getName());
+    }
+    if (isSetKind()) {
+      attributes.remove("kind");
+      attributes.put(GroupsConstants.shortLabel+ ":kind", getKind().toString());
+    }
+
+    return attributes;
+  }
+
+  // TODO - add methods to get/set/... the attribute from the ListOfMemberConstraint
+
+
+  @Override
+  public boolean getAllowsChildren() {
+    return true;
+  }
 
 }

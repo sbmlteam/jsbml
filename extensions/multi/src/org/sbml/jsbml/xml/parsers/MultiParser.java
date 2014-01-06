@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -70,258 +70,260 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 @ProviderFor(ReadingParser.class)
 public class MultiParser extends AbstractReaderWriter implements PackageParser {
 
-	private Logger logger = Logger.getLogger(MultiParser.class);
-	
-	/**
-	 * 
-	 * @return the namespaceURI of this parser.
-	 */
-	public String getNamespaceURI() {
-		return namespaceURI;
-	}
+  private Logger logger = Logger.getLogger(MultiParser.class);
 
-	@Override
-	public String getShortLabel() {
-		return shortLabel;
-	}
+  /**
+   * 
+   * @return the namespaceURI of this parser.
+   */
+  @Override
+  public String getNamespaceURI() {
+    return namespaceURI;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
-	 */
-	@Override
-	public List<Object> getListOfSBMLElementsToWrite(Object treeNode) {
+  @Override
+  public String getShortLabel() {
+    return shortLabel;
+  }
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("getListOfSBMLElementsToWrite: " + treeNode.getClass().getCanonicalName());
-		}	
-		
-		List<Object> listOfElementsToWrite = new ArrayList<Object>();
-		
-		// test if this treeNode is an extended SBase.
-		if (treeNode instanceof SBase && ((SBase) treeNode).getExtension(getNamespaceURI()) != null) {
-			SBasePlugin sbasePlugin = (SBasePlugin) ((Model) treeNode).getExtension(getNamespaceURI());
-			
-			if (sbasePlugin != null) {
-				listOfElementsToWrite = super.getListOfSBMLElementsToWrite(sbasePlugin);
-				logger.debug("getListOfSBMLElementsToWrite: nb children = " + sbasePlugin.getChildCount());
-			}
-		} else {
-			listOfElementsToWrite = super.getListOfSBMLElementsToWrite(treeNode);
-		}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
+   */
+  @Override
+  public List<Object> getListOfSBMLElementsToWrite(Object treeNode) {
 
-		return listOfElementsToWrite;
-	}
+    if (logger.isDebugEnabled()) {
+      logger.debug("getListOfSBMLElementsToWrite: " + treeNode.getClass().getCanonicalName());
+    }
+
+    List<Object> listOfElementsToWrite = new ArrayList<Object>();
+
+    // test if this treeNode is an extended SBase.
+    if (treeNode instanceof SBase && ((SBase) treeNode).getExtension(getNamespaceURI()) != null) {
+      SBasePlugin sbasePlugin = ((Model) treeNode).getExtension(getNamespaceURI());
+
+      if (sbasePlugin != null) {
+        listOfElementsToWrite = super.getListOfSBMLElementsToWrite(sbasePlugin);
+        logger.debug("getListOfSBMLElementsToWrite: nb children = " + sbasePlugin.getChildCount());
+      }
+    } else {
+      listOfElementsToWrite = super.getListOfSBMLElementsToWrite(treeNode);
+    }
+
+    return listOfElementsToWrite;
+  }
 
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String
-	 * elementName, String prefix, boolean hasAttributes, boolean hasNamespaces,
-	 * Object contextObject)
-	 */
-	public Object processStartElement(String elementName, String uri, String prefix,
-			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String
+   * elementName, String prefix, boolean hasAttributes, boolean hasNamespaces,
+   * Object contextObject)
+   */
+  @Override
+  public Object processStartElement(String elementName, String uri, String prefix,
+    boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 
-		// TODO: make it generic by using reflection on the contextObject
-		
-		if (contextObject instanceof Model) 
-		{
-			Model model = (Model) contextObject;
-			MultiModel multiModel = null;
-			
-			if (model.getExtension(namespaceURI) != null) {
-				multiModel = (MultiModel) model.getExtension(namespaceURI);
-			} else {
-				multiModel = new MultiModel(model);
-				model.addExtension(namespaceURI, multiModel);
-			}
+    // TODO: make it generic by using reflection on the contextObject
 
-			if (elementName.equals(listOfSpeciesTypes)) 
-			{
-				return multiModel.getListOfSpeciesTypes();
-			} 
-			else if (elementName.equals(listOfSelectors)) 
-			{
-				return multiModel.getListOfSelectors();
-			}
-		} // end Model
-		else if (contextObject instanceof SpeciesType)
-		{
-			SpeciesType speciesType = (SpeciesType) contextObject;
-			
-			if (elementName.equals(listOfStateFeatures)) {
-				return speciesType.getListOfStateFeatures();
-			}			
-		} // end SpeciesType
-		else if (contextObject instanceof StateFeature)
-		{
-			StateFeature stateFeature = (StateFeature) contextObject;
-			
-			if (elementName.equals(listOfPossibleValues)) {
-				return stateFeature.getListOfPossibleValues();
-			}			
-		} // end StateFeature
-		else if (contextObject instanceof Selector)
-		{
-			Selector selector = (Selector) contextObject;
-			
-			if (elementName.equals(listOfSpeciesTypeStates)) 
-			{
-				return selector.getListOfSpeciesTypeStates();
-			}
-			else if (elementName.equals(listOfBonds)) 
-			{
-				return selector.getListOfBonds();
-			} 
-			else if (elementName.equals(listOfUnboundBindingSites)) 
-			{
-				return selector.getListOfUnboundBindingSites();
-			} 
-		} // end Selector
-		else if (contextObject instanceof SpeciesTypeState)
-		{
-			SpeciesTypeState speciesTypeState = (SpeciesTypeState) contextObject;
-			
-			if (elementName.equals(listOfStateFeatureInstances)) 
-			{
-				return speciesTypeState.getListOfStateFeatureInstances();
-			}			
-			else if (elementName.equals(listOfContainedSpeciesTypes)) 
-			{
-				return speciesTypeState.getListOfContainedSpeciesTypes();
-			} 
-		} // end SpeciesTypeState
-		else if (contextObject instanceof StateFeatureInstance)
-		{
-			StateFeatureInstance stateFeatureInstance = (StateFeatureInstance) contextObject;
-			
-			if (elementName.equals(listOfStateFeatureValues)) {
-				return stateFeatureInstance.getListOfStateFeatureValues();
-			}			
-		} // end StateFeatureInstance
-		else if (contextObject instanceof Bond)
-		{
-			Bond bond = (Bond) contextObject;
-			
-			if (elementName.equals(bindingSiteReference)) 
-			{
-				BindingSiteReference bindingSiteReference = new BindingSiteReference();
-				bond.addBindingSiteReference(bindingSiteReference);
-				return bindingSiteReference;
-			} 
-		} // end Bond
-		else if (contextObject instanceof ListOf<?>) 
-		{
-			ListOf<?> listOf = (ListOf<?>) contextObject;
-			
-			Object newElement = createListOfChild(listOf, elementName);
-			
-			return newElement;
-			
-			// TODO: SpeciesTypeInstance, SelectorReference, ....
-		}
-		
-		return contextObject;
-	}
+    if (contextObject instanceof Model)
+    {
+      Model model = (Model) contextObject;
+      MultiModel multiModel = null;
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#createListOfChild(org.sbml.jsbml.ListOf, java.lang.String)
-	 */
-	@Override
-	protected Object createListOfChild(ListOf<?> listOf, String elementName) {
+      if (model.getExtension(namespaceURI) != null) {
+        multiModel = (MultiModel) model.getExtension(namespaceURI);
+      } else {
+        multiModel = new MultiModel(model);
+        model.addExtension(namespaceURI, multiModel);
+      }
 
-		Object parentSBase = listOf.getParent();
-		
-		if (parentSBase == null) {
-			return null;
-		} else if (parentSBase instanceof Model) {
-			parentSBase = ((Model) parentSBase).getExtension(namespaceURI);
-		}
+      if (elementName.equals(listOfSpeciesTypes))
+      {
+        return multiModel.getListOfSpeciesTypes();
+      }
+      else if (elementName.equals(listOfSelectors))
+      {
+        return multiModel.getListOfSelectors();
+      }
+    } // end Model
+    else if (contextObject instanceof SpeciesType)
+    {
+      SpeciesType speciesType = (SpeciesType) contextObject;
 
-		String createMethodName = "create" + elementName.substring(0, 1).toUpperCase() + elementName.substring(1);  
-		Method createMethod = null;
+      if (elementName.equals(listOfStateFeatures)) {
+        return speciesType.getListOfStateFeatures();
+      }
+    } // end SpeciesType
+    else if (contextObject instanceof StateFeature)
+    {
+      StateFeature stateFeature = (StateFeature) contextObject;
 
-		if ((parentSBase instanceof Selector) && (elementName.equals(bindingSiteReference))) {
-			createMethodName = "createUnboundBindingSite";
-		}
-		if (logger.isDebugEnabled()) {
-			logger.debug("Method '" + createMethodName + "' will be used");
-		}
-		
-		try {
-			createMethod = parentSBase.getClass().getMethod(createMethodName, (Class<?>[]) null);
-			
-			return createMethod.invoke(parentSBase, (Object[]) null);
-			
-		} catch (SecurityException e) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Method '" + createMethodName + "' is not accessible on " + parentSBase.getClass().getSimpleName());
-				e.printStackTrace();
-			}
-		} catch (NoSuchMethodException e) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Method '" + createMethodName + "' does not exist on " + parentSBase.getClass().getSimpleName());
-			}
-		} catch (IllegalArgumentException e) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
-				logger.debug(e.getMessage());
-			}
-		} catch (IllegalAccessException e) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
-				logger.debug(e.getMessage());
-			}
-		} catch (InvocationTargetException e) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
-				logger.debug(e.getMessage());
-			}
-		}
-		
-		// TODO: try to use the default constructor + the addXX method
-		
-		return null;
-	}
+      if (elementName.equals(listOfPossibleValues)) {
+        return stateFeature.getListOfPossibleValues();
+      }
+    } // end StateFeature
+    else if (contextObject instanceof Selector)
+    {
+      Selector selector = (Selector) contextObject;
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
-	 */
-	@Override
-	public void writeElement(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) 
-	{
-		super.writeElement(xmlObject, sbmlElementToWrite);
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("writeElement: " + sbmlElementToWrite.getClass().getSimpleName());
-		}
-	}
+      if (elementName.equals(listOfSpeciesTypeStates))
+      {
+        return selector.getListOfSpeciesTypeStates();
+      }
+      else if (elementName.equals(listOfBonds))
+      {
+        return selector.getListOfBonds();
+      }
+      else if (elementName.equals(listOfUnboundBindingSites))
+      {
+        return selector.getListOfUnboundBindingSites();
+      }
+    } // end Selector
+    else if (contextObject instanceof SpeciesTypeState)
+    {
+      SpeciesTypeState speciesTypeState = (SpeciesTypeState) contextObject;
 
-	@Override
-	public String getNamespaceFor(String level, String version,	String packageVersion) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+      if (elementName.equals(listOfStateFeatureInstances))
+      {
+        return speciesTypeState.getListOfStateFeatureInstances();
+      }
+      else if (elementName.equals(listOfContainedSpeciesTypes))
+      {
+        return speciesTypeState.getListOfContainedSpeciesTypes();
+      }
+    } // end SpeciesTypeState
+    else if (contextObject instanceof StateFeatureInstance)
+    {
+      StateFeatureInstance stateFeatureInstance = (StateFeatureInstance) contextObject;
 
-	@Override
-	public List<String> getNamespaces() {		
-		return MultiConstants.namespaces;
-	}
+      if (elementName.equals(listOfStateFeatureValues)) {
+        return stateFeatureInstance.getListOfStateFeatureValues();
+      }
+    } // end StateFeatureInstance
+    else if (contextObject instanceof Bond)
+    {
+      Bond bond = (Bond) contextObject;
 
-	@Override
-	public List<String> getPackageNamespaces() {		
-		return getNamespaces();
-	}
+      if (elementName.equals(bindingSiteReference))
+      {
+        BindingSiteReference bindingSiteReference = new BindingSiteReference();
+        bond.addBindingSiteReference(bindingSiteReference);
+        return bindingSiteReference;
+      }
+    } // end Bond
+    else if (contextObject instanceof ListOf<?>)
+    {
+      ListOf<?> listOf = (ListOf<?>) contextObject;
 
-	@Override
-	public String getPackageName() {
-		return MultiConstants.shortLabel;
-	}
+      Object newElement = createListOfChild(listOf, elementName);
 
-	@Override
-	public boolean isRequired() {
-		return true;
-	}
+      return newElement;
+
+      // TODO: SpeciesTypeInstance, SelectorReference, ....
+    }
+
+    return contextObject;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#createListOfChild(org.sbml.jsbml.ListOf, java.lang.String)
+   */
+  @Override
+  protected Object createListOfChild(ListOf<?> listOf, String elementName) {
+
+    Object parentSBase = listOf.getParent();
+
+    if (parentSBase == null) {
+      return null;
+    } else if (parentSBase instanceof Model) {
+      parentSBase = ((Model) parentSBase).getExtension(namespaceURI);
+    }
+
+    String createMethodName = "create" + elementName.substring(0, 1).toUpperCase() + elementName.substring(1);
+    Method createMethod = null;
+
+    if ((parentSBase instanceof Selector) && (elementName.equals(bindingSiteReference))) {
+      createMethodName = "createUnboundBindingSite";
+    }
+    if (logger.isDebugEnabled()) {
+      logger.debug("Method '" + createMethodName + "' will be used");
+    }
+
+    try {
+      createMethod = parentSBase.getClass().getMethod(createMethodName, (Class<?>[]) null);
+
+      return createMethod.invoke(parentSBase, (Object[]) null);
+
+    } catch (SecurityException e) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("Method '" + createMethodName + "' is not accessible on " + parentSBase.getClass().getSimpleName());
+        e.printStackTrace();
+      }
+    } catch (NoSuchMethodException e) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("Method '" + createMethodName + "' does not exist on " + parentSBase.getClass().getSimpleName());
+      }
+    } catch (IllegalArgumentException e) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
+        logger.debug(e.getMessage());
+      }
+    } catch (IllegalAccessException e) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
+        logger.debug(e.getMessage());
+      }
+    } catch (InvocationTargetException e) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
+        logger.debug(e.getMessage());
+      }
+    }
+
+    // TODO: try to use the default constructor + the addXX method
+
+    return null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
+   */
+  @Override
+  public void writeElement(SBMLObjectForXML xmlObject,
+    Object sbmlElementToWrite)
+  {
+    super.writeElement(xmlObject, sbmlElementToWrite);
+
+    if (logger.isDebugEnabled()) {
+      logger.debug("writeElement: " + sbmlElementToWrite.getClass().getSimpleName());
+    }
+  }
+
+  @Override
+  public String getNamespaceFor(String level, String version,	String packageVersion) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public List<String> getNamespaces() {
+    return MultiConstants.namespaces;
+  }
+
+  @Override
+  public List<String> getPackageNamespaces() {
+    return getNamespaces();
+  }
+
+  @Override
+  public String getPackageName() {
+    return MultiConstants.shortLabel;
+  }
+
+  @Override
+  public boolean isRequired() {
+    return true;
+  }
 
 
 }

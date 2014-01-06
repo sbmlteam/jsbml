@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -55,250 +55,254 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  */
 @ProviderFor(ReadingParser.class)
 public class QualParser extends AbstractReaderWriter implements PackageParser {
-	
-	/**
-	 * The QualList enum which represents the name of the list this parser is
-	 * currently reading.
-	 */
-	private QualList groupList = QualList.none;
-	/**
-	 * 
-	 */
-	private Logger logger = Logger.getLogger(QualParser.class);
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
+  /**
+   * The QualList enum which represents the name of the list this parser is
+   * currently reading.
+   */
+  private QualList groupList = QualList.none;
+  /**
+   * 
+   */
+  private Logger logger = Logger.getLogger(QualParser.class);
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("getListOfSBMLElementsToWrite: " + sbase.getClass().getCanonicalName());
-		}
-		
-		List<Object> listOfElementsToWrite = new ArrayList<Object>();
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
+   */
+  @SuppressWarnings("unchecked")
+  @Override
+  public List<Object> getListOfSBMLElementsToWrite(Object sbase) {
 
-		if (sbase instanceof SBMLDocument) {
-			// nothing to do
-			// TODO: the 'required' attribute is written even if there is no plugin class for the SBMLDocument, so I am not totally sure how this is done.
-		} 
-		else if (sbase instanceof Model) {
-			QualitativeModel modelGE = (QualitativeModel) ((Model) sbase).getExtension(QualConstants.namespaceURI);
-			
-			Enumeration<TreeNode> children = modelGE.children();
-			
-			while (children.hasMoreElements()) {
-				listOfElementsToWrite.add(children.nextElement());
-			}						
-		} 
-		else if (sbase instanceof TreeNode) {
-			Enumeration<TreeNode> children = ((TreeNode) sbase).children();
-			
-			while (children.hasMoreElements()) {
-				listOfElementsToWrite.add(children.nextElement());
-			}
-		}
-		
-		if (listOfElementsToWrite.isEmpty()) {
-			listOfElementsToWrite = null;
-		} else if (logger.isDebugEnabled()) {
-			logger.debug("getListOfSBMLElementsToWrite size = " + listOfElementsToWrite.size());
-		}
+    if (logger.isDebugEnabled()) {
+      logger.debug("getListOfSBMLElementsToWrite: " + sbase.getClass().getCanonicalName());
+    }
 
-		return listOfElementsToWrite;
-	}
+    List<Object> listOfElementsToWrite = new ArrayList<Object>();
+
+    if (sbase instanceof SBMLDocument) {
+      // nothing to do
+      // TODO: the 'required' attribute is written even if there is no plugin class for the SBMLDocument, so I am not totally sure how this is done.
+    }
+    else if (sbase instanceof Model) {
+      QualitativeModel modelGE = (QualitativeModel) ((Model) sbase).getExtension(QualConstants.namespaceURI);
+
+      Enumeration<TreeNode> children = modelGE.children();
+
+      while (children.hasMoreElements()) {
+        listOfElementsToWrite.add(children.nextElement());
+      }
+    }
+    else if (sbase instanceof TreeNode) {
+      Enumeration<TreeNode> children = ((TreeNode) sbase).children();
+
+      while (children.hasMoreElements()) {
+        listOfElementsToWrite.add(children.nextElement());
+      }
+    }
+
+    if (listOfElementsToWrite.isEmpty()) {
+      listOfElementsToWrite = null;
+    } else if (logger.isDebugEnabled()) {
+      logger.debug("getListOfSBMLElementsToWrite size = " + listOfElementsToWrite.size());
+    }
+
+    return listOfElementsToWrite;
+  }
 
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processEndElement(java.lang.String, java.lang.String, boolean, java.lang.Object)
-	 */
-	public boolean processEndElement(String elementName, String prefix,
-			boolean isNested, Object contextObject) 
-	{
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processEndElement(java.lang.String, java.lang.String, boolean, java.lang.Object)
+   */
+  @Override
+  public boolean processEndElement(String elementName, String prefix,
+    boolean isNested, Object contextObject)
+  {
 
-		if (elementName.equals("listOfQualitativeSpecies")
-				|| elementName.equals("listOfTransitions"))
-		{
-			this.groupList = QualList.none;
-		}
+    if (elementName.equals("listOfQualitativeSpecies")
+        || elementName.equals("listOfTransitions"))
+    {
+      groupList = QualList.none;
+    }
 
-		if (elementName.equals("listOfInputs")
-				|| elementName.equals("listOfOutputs")
-				|| elementName.equals("listOfFunctionTerms"))
-		{
-			this.groupList = QualList.listOfTransitions;
-		}
+    if (elementName.equals("listOfInputs")
+        || elementName.equals("listOfOutputs")
+        || elementName.equals("listOfFunctionTerms"))
+    {
+      groupList = QualList.listOfTransitions;
+    }
 
-		if (elementName.equals("listOfSymbolicValues")) 
-		{
-			this.groupList = QualList.listOfQualitativeSpecies;
-		}
+    if (elementName.equals("listOfSymbolicValues"))
+    {
+      groupList = QualList.listOfQualitativeSpecies;
+    }
 
-		return true;
-	}
+    return true;
+  }
 
-	/**
-	 * 
-	 * @see org.sbml.jsbml.xml.parsers.ReadingParser#processStartElement(String
-	 *      elementName, String prefix, boolean hasAttributes, boolean
-	 *      hasNamespaces, Object contextObject)
-	 */
-	// Create the proper object and link it to his parent.
-	@SuppressWarnings("unchecked")
-	public Object processStartElement(String elementName, String uri, String prefix,
-			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
-		// logger.debug("processStartElement: elementName = " + elementName + " (" + contextObject.getClass().getSimpleName() + ")");
-		
-		if (contextObject instanceof Model) {
-			Model model = (Model) contextObject;
-			QualitativeModel qualModel = null;
-			
-			if (model.getExtension(QualConstants.namespaceURI) != null) {
-				qualModel = (QualitativeModel) model.getExtension(QualConstants.namespaceURI);
-			} else {
-				qualModel = new QualitativeModel(model);
-				model.addExtension(QualConstants.namespaceURI, qualModel);
-			}
+  /**
+   * 
+   * @see org.sbml.jsbml.xml.parsers.ReadingParser#processStartElement(String
+   *      elementName, String prefix, boolean hasAttributes, boolean
+   *      hasNamespaces, Object contextObject)
+   */
+  @Override
+  // Create the proper object and link it to his parent.
+  @SuppressWarnings("unchecked")
+  public Object processStartElement(String elementName, String uri, String prefix,
+    boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
+    // logger.debug("processStartElement: elementName = " + elementName + " (" + contextObject.getClass().getSimpleName() + ")");
 
-			if (elementName.equals("listOfQualitativeSpecies")) {
-					
-				ListOf<QualitativeSpecies> listOfQualitativeSpecies = qualModel.getListOfQualitativeSpecies();
-				this.groupList = QualList.listOfQualitativeSpecies;
-				return listOfQualitativeSpecies;
-			} 
-			else if (elementName.equals("listOfTransitions")) {
+    if (contextObject instanceof Model) {
+      Model model = (Model) contextObject;
+      QualitativeModel qualModel = null;
 
-				ListOf<Transition> listOfObjectives = qualModel.getListOfTransitions();
-				this.groupList = QualList.listOfTransitions;
-				return listOfObjectives;
-			}
-		} else if (contextObject instanceof Transition) {
-			Transition transition = (Transition) contextObject;
-			
-			if (elementName.equals("listOfInputs")) {				
-				ListOf<Input> listOfInputs = transition.getListOfInputs();
-				this.groupList = QualList.listOfInputs;
-				return listOfInputs;
-			} else if (elementName.equals("listOfOutputs")) {
-				ListOf<Output> listOfOutputs = transition.getListOfOutputs();
-				this.groupList = QualList.listOfOutputs;
-				return listOfOutputs;
-			} else if (elementName.equals("listOfFunctionTerms")) {
-				ListOf<FunctionTerm> listOfFunctionTerms = transition.getListOfFunctionTerms();
-				this.groupList = QualList.listOfFunctionTerms;
-				return listOfFunctionTerms;
-			}
-		}
-		else if (contextObject instanceof ListOf<?>) {
-			ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
+      if (model.getExtension(QualConstants.namespaceURI) != null) {
+        qualModel = (QualitativeModel) model.getExtension(QualConstants.namespaceURI);
+      } else {
+        qualModel = new QualitativeModel(model);
+        model.addExtension(QualConstants.namespaceURI, qualModel);
+      }
 
-			if (elementName.equals("transition") && this.groupList.equals(QualList.listOfTransitions)) { 
-				Model model = (Model) listOf.getParentSBMLObject();
-				QualitativeModel extendeModel = (QualitativeModel) model.getExtension(QualConstants.namespaceURI); 
-				
-				Transition transition = new Transition();				
-				extendeModel.addTransition(transition);
-				return transition;
-				
-			} else if ((elementName.equals("qualitativeSpecies")) && this.groupList.equals(QualList.listOfQualitativeSpecies)) {
-				Model model = (Model) listOf.getParentSBMLObject();
-				QualitativeModel extendeModel = (QualitativeModel) model.getExtension(QualConstants.namespaceURI); 
-				
-				QualitativeSpecies qualSpecies = new QualitativeSpecies();
-				extendeModel.addQualitativeSpecies(qualSpecies);
-				return qualSpecies;
-				
-			} else if (elementName.equals("input") && this.groupList.equals(QualList.listOfInputs)) {
-				Transition transition = (Transition) listOf.getParentSBMLObject();
-				
-				Input input = new Input();
-				transition.addInput(input);
-				return input;
-				
-			} else if (elementName.equals("output") && this.groupList.equals(QualList.listOfOutputs)) {
-				Transition transition = (Transition) listOf.getParentSBMLObject();
-				
-				Output output = new Output();
-				transition.addOutput(output);
-				return output;
-				
-			} else if (elementName.equals("functionTerm") && this.groupList.equals(QualList.listOfFunctionTerms)) {
-				Transition transition = (Transition) listOf.getParentSBMLObject();
-				
-				FunctionTerm functionTerm = new FunctionTerm();
-				transition.addFunctionTerm(functionTerm);
-				return functionTerm;
-				
-			} else if (elementName.equals("defaultTerm") && this.groupList.equals(QualList.listOfFunctionTerms)) {
-				Transition transition = (Transition) listOf.getParentSBMLObject();
-				
-				FunctionTerm functionTerm = new FunctionTerm();
-				functionTerm.setDefaultTerm(true);
-				transition.addFunctionTerm(functionTerm);
-				return functionTerm;
-			}
-		}
-		return contextObject;
-	}
+      if (elementName.equals("listOfQualitativeSpecies")) {
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
-	 */
-	@Override
-	public void writeElement(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) {
-		super.writeElement(xmlObject, sbmlElementToWrite);
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("writeElement: " + sbmlElementToWrite.getClass().getSimpleName());
-		}
+        ListOf<QualitativeSpecies> listOfQualitativeSpecies = qualModel.getListOfQualitativeSpecies();
+        groupList = QualList.listOfQualitativeSpecies;
+        return listOfQualitativeSpecies;
+      }
+      else if (elementName.equals("listOfTransitions")) {
 
-		if ((sbmlElementToWrite instanceof FunctionTerm) &&
-				((FunctionTerm) sbmlElementToWrite).isDefaultTerm()) {
-			xmlObject.setName("defaultTerm");
-		}
-	}
+        ListOf<Transition> listOfObjectives = qualModel.getListOfTransitions();
+        groupList = QualList.listOfTransitions;
+        return listOfObjectives;
+      }
+    } else if (contextObject instanceof Transition) {
+      Transition transition = (Transition) contextObject;
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getShortLabel()
-	 */
-	public String getShortLabel() {
-		return QualConstants.shortLabel;
-	}
+      if (elementName.equals("listOfInputs")) {
+        ListOf<Input> listOfInputs = transition.getListOfInputs();
+        groupList = QualList.listOfInputs;
+        return listOfInputs;
+      } else if (elementName.equals("listOfOutputs")) {
+        ListOf<Output> listOfOutputs = transition.getListOfOutputs();
+        groupList = QualList.listOfOutputs;
+        return listOfOutputs;
+      } else if (elementName.equals("listOfFunctionTerms")) {
+        ListOf<FunctionTerm> listOfFunctionTerms = transition.getListOfFunctionTerms();
+        groupList = QualList.listOfFunctionTerms;
+        return listOfFunctionTerms;
+      }
+    }
+    else if (contextObject instanceof ListOf<?>) {
+      ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
-	 */
-	public String getNamespaceURI() {
-		return QualConstants.namespaceURI;
-	}
+      if (elementName.equals("transition") && groupList.equals(QualList.listOfTransitions)) {
+        Model model = (Model) listOf.getParentSBMLObject();
+        QualitativeModel extendeModel = (QualitativeModel) model.getExtension(QualConstants.namespaceURI);
 
-	@Override
-	public String getNamespaceFor(String level, String version,	String packageVersion) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        Transition transition = new Transition();
+        extendeModel.addTransition(transition);
+        return transition;
 
-	@Override
-	public List<String> getNamespaces() {		
-		return QualConstants.namespaces;
-	}
+      } else if ((elementName.equals("qualitativeSpecies")) && groupList.equals(QualList.listOfQualitativeSpecies)) {
+        Model model = (Model) listOf.getParentSBMLObject();
+        QualitativeModel extendeModel = (QualitativeModel) model.getExtension(QualConstants.namespaceURI);
 
-	@Override
-	public List<String> getPackageNamespaces() {		
-		return getNamespaces();
-	}
+        QualitativeSpecies qualSpecies = new QualitativeSpecies();
+        extendeModel.addQualitativeSpecies(qualSpecies);
+        return qualSpecies;
 
-	@Override
-	public String getPackageName() {
-		return getShortLabel();
-	}
+      } else if (elementName.equals("input") && groupList.equals(QualList.listOfInputs)) {
+        Transition transition = (Transition) listOf.getParentSBMLObject();
 
-	@Override
-	public boolean isRequired() {
-		return true;
-	}
+        Input input = new Input();
+        transition.addInput(input);
+        return input;
+
+      } else if (elementName.equals("output") && groupList.equals(QualList.listOfOutputs)) {
+        Transition transition = (Transition) listOf.getParentSBMLObject();
+
+        Output output = new Output();
+        transition.addOutput(output);
+        return output;
+
+      } else if (elementName.equals("functionTerm") && groupList.equals(QualList.listOfFunctionTerms)) {
+        Transition transition = (Transition) listOf.getParentSBMLObject();
+
+        FunctionTerm functionTerm = new FunctionTerm();
+        transition.addFunctionTerm(functionTerm);
+        return functionTerm;
+
+      } else if (elementName.equals("defaultTerm") && groupList.equals(QualList.listOfFunctionTerms)) {
+        Transition transition = (Transition) listOf.getParentSBMLObject();
+
+        FunctionTerm functionTerm = new FunctionTerm();
+        functionTerm.setDefaultTerm(true);
+        transition.addFunctionTerm(functionTerm);
+        return functionTerm;
+      }
+    }
+    return contextObject;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
+   */
+  @Override
+  public void writeElement(SBMLObjectForXML xmlObject,
+    Object sbmlElementToWrite) {
+    super.writeElement(xmlObject, sbmlElementToWrite);
+
+    if (logger.isDebugEnabled()) {
+      logger.debug("writeElement: " + sbmlElementToWrite.getClass().getSimpleName());
+    }
+
+    if ((sbmlElementToWrite instanceof FunctionTerm) &&
+        ((FunctionTerm) sbmlElementToWrite).isDefaultTerm()) {
+      xmlObject.setName("defaultTerm");
+    }
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getShortLabel()
+   */
+  @Override
+  public String getShortLabel() {
+    return QualConstants.shortLabel;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
+   */
+  @Override
+  public String getNamespaceURI() {
+    return QualConstants.namespaceURI;
+  }
+
+  @Override
+  public String getNamespaceFor(String level, String version,	String packageVersion) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public List<String> getNamespaces() {
+    return QualConstants.namespaces;
+  }
+
+  @Override
+  public List<String> getPackageNamespaces() {
+    return getNamespaces();
+  }
+
+  @Override
+  public String getPackageName() {
+    return getShortLabel();
+  }
+
+  @Override
+  public boolean isRequired() {
+    return true;
+  }
 
 
 }

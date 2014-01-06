@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -30,32 +30,33 @@ import javax.swing.UIManager;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
 
-/** 
+/**
  * Displays the content of an SBML file in a {@link JTree}
  * @author Andreas Dr&auml;ger
  * @version $Rev$
  * @since 0.8
  */
 public class JSBMLvisualizer extends JFrame {
-    /**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 4283379148190661646L;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 4283379148190661646L;
 
-	/** @param document The SBML root node of an SBML file */
-    public JSBMLvisualizer(SBMLDocument document) {
-        super(document.getModel().getId());
-        getContentPane().add(new JScrollPane(new JTree(document)));
-        pack();
-        setVisible(true);
-    }
+  /** @param document The SBML root node of an SBML file */
+  public JSBMLvisualizer(SBMLDocument document) {
+    super(document.getModel().getId());
+    getContentPane().add(new JScrollPane(new JTree(document)));
+    pack();
+    setVisible(true);
+  }
 
-    /**
-     * Main routine. Note: this does not perform any error checking, but should. It is an illustration only.
-     * @param args Expects a valid path to an SBML file.
-     */
-    public static void main(String[] args) throws Exception {
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        new JSBMLvisualizer(SBMLReader.read(new File(args[0])));
-    }
+  /**
+   * Main routine. Note: this does not perform any error checking, but should. It is an illustration only.
+   * @param args Expects a valid path to an SBML file.
+   */
+  public static void main(String[] args) throws Exception {
+    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    new JSBMLvisualizer(SBMLReader.read(new File(args[0])));
+  }
+
 }

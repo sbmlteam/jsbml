@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml;
 
 /**
@@ -34,45 +33,45 @@ package org.sbml.jsbml;
  */
 public interface SBaseWithDerivedUnit extends SBase {
 
-	/**
-	 * Returns {@code true} or {@code false} depending on whether this
-	 * {@link SBaseWithDerivedUnit} refers to elements such as parameters or
-	 * numbers with undeclared units.
-	 * 
-	 * A return value of true indicates that the {@code UnitDefinition}
-	 * returned by {@see getDerivedUnitDefinition()} may not accurately
-	 * represent the units of the expression.
-	 * 
-	 * @return {@code true} if the math expression of this {@link SBaseWithDerivedUnit}
-	 *         includes parameters/numbers with undeclared units,
-	 *         {@code false} otherwise.
-	 */
-	public boolean containsUndeclaredUnits();
+  /**
+   * Returns {@code true} or {@code false} depending on whether this
+   * {@link SBaseWithDerivedUnit} refers to elements such as parameters or
+   * numbers with undeclared units.
+   * 
+   * A return value of true indicates that the {@code UnitDefinition}
+   * returned by {@see getDerivedUnitDefinition()} may not accurately
+   * represent the units of the expression.
+   * 
+   * @return {@code true} if the math expression of this {@link SBaseWithDerivedUnit}
+   *         includes parameters/numbers with undeclared units,
+   *         {@code false} otherwise.
+   */
+  public boolean containsUndeclaredUnits();
 
-	/**
-	 * This method derives the unit of this quantity and tries to identify an
-	 * equivalent {@link UnitDefinition} within the corresponding {@link Model}.
-	 * If no equivalent unit definition can be found, a new unit definition will
-	 * be created that is not part of the model but represents the unit of this
-	 * quantity. If it is not possible to derive a unit for this quantity, null
-	 * will be returned.
-	 * 
-	 * @return
-	 */
-	public UnitDefinition getDerivedUnitDefinition();
+  /**
+   * This method derives the unit of this quantity and tries to identify an
+   * equivalent {@link UnitDefinition} within the corresponding {@link Model}.
+   * If no equivalent unit definition can be found, a new unit definition will
+   * be created that is not part of the model but represents the unit of this
+   * quantity. If it is not possible to derive a unit for this quantity, null
+   * will be returned.
+   * 
+   * @return
+   */
+  public UnitDefinition getDerivedUnitDefinition();
 
-	/**
-	 * This method derives the unit of this quantity. If the model that contains
-	 * this quantity already contains a unit that is equivalent to the derived
-	 * unit, the corresponding identifier will be returned. In case that the
-	 * unit cannot be derived or that no equivalent unit exists within the
-	 * model, or if the model has not been defined yet, null will be returned.
-	 * In case that this quantity represents a basic {@link Unit.Kind} this
-	 * method will return the {@link String} representation of this
-	 * {@link Unit.Kind}.
-	 * 
-	 * @return
-	 */
-	public String getDerivedUnits();
+  /**
+   * This method derives the unit of this quantity. If the model that contains
+   * this quantity already contains a unit that is equivalent to the derived
+   * unit, the corresponding identifier will be returned. In case that the
+   * unit cannot be derived or that no equivalent unit exists within the
+   * model, or if the model has not been defined yet, null will be returned.
+   * In case that this quantity represents a basic {@link Unit.Kind} this
+   * method will return the {@link String} representation of this
+   * {@link Unit.Kind}.
+   * 
+   * @return
+   */
+  public String getDerivedUnits();
 
 }

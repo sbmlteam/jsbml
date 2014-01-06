@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -40,103 +40,104 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class FunctionTerm extends AbstractMathContainer {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -3456373304133826017L;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -3456373304133826017L;
 
-	/**
-	 * 
-	 */
-	private Integer resultLevel;
-    /**
-     * 
-     */
-	private boolean defaultTerm;
+  /**
+   * 
+   */
+  private Integer resultLevel;
+  /**
+   * 
+   */
+  private boolean defaultTerm;
 
-	/**
-	 * Default constructor
-	 * 
-	 */
-	public FunctionTerm() {
-		super();
-		setNamespace(QualConstants.namespaceURI);
-	}
-	
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public FunctionTerm(int level, int version) {
-		super(level, version);
-		setNamespace(QualConstants.namespaceURI);
-	}
-	
-	/**
-	 * 
-	 * @param math
-	 * @param level
-	 * @param version
-	 */
-	public FunctionTerm(ASTNode math, int level, int version) {
-		super(math, level, version);
-		setNamespace(QualConstants.namespaceURI);
-	}
+  /**
+   * Default constructor
+   * 
+   */
+  public FunctionTerm() {
+    super();
+    setNamespace(QualConstants.namespaceURI);
+  }
 
-	/**
-	 * Creates a FunctionTerm instance from a given FunctionTerm.
-	 * 
-	 * @param ft an {@code FunctionTerm} object to clone
-	 */
-	public FunctionTerm(FunctionTerm ft) {
-		super(ft);
+  /**
+   * 
+   * @param level
+   * @param version
+   */
+  public FunctionTerm(int level, int version) {
+    super(level, version);
+    setNamespace(QualConstants.namespaceURI);
+  }
 
-		setDefaultTerm(ft.isDefaultTerm());
-		if (ft.isSetResultLevel()) {
-			setResultLevel(ft.getResultLevel());
-		}
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
-	 */
-	public FunctionTerm clone() {
-	  return new FunctionTerm(this);
-	}
+  /**
+   * 
+   * @param math
+   * @param level
+   * @param version
+   */
+  public FunctionTerm(ASTNode math, int level, int version) {
+    super(math, level, version);
+    setNamespace(QualConstants.namespaceURI);
+  }
 
-	/**
-	 * Return false, resultLevel is not mandatory.
-	 * 
-	 * @return false
-	 */
-	public boolean isResultLevelMandatory() {
-	  return false;
-	}
-	
-	/**
-	 * Returns {@code true} if resultLevel is set.
-	 * 
-	 * @return {@code true} if resultLevel is set.
-	 */
-	public boolean isSetResultLevel() {
-	  return this.resultLevel!= null;
-	}
-	
-	/**
-	 * Returns the resultLevel if it is set, otherwise throw a {@link PropertyUndefinedError}
-	 * Exception.
-	 * 
-	 * @return the resultLevel if it is set.
-	 * @throws PropertyUndefinedError
-	 */
-	public int getResultLevel() {
-		if (isSetResultLevel()) {
-			return resultLevel.intValue();
-		} else {
-			throw new PropertyUndefinedError(QualConstants.resultLevel, this);
-		}
-	}
+  /**
+   * Creates a FunctionTerm instance from a given FunctionTerm.
+   * 
+   * @param ft an {@code FunctionTerm} object to clone
+   */
+  public FunctionTerm(FunctionTerm ft) {
+    super(ft);
+
+    setDefaultTerm(ft.isDefaultTerm());
+    if (ft.isSetResultLevel()) {
+      setResultLevel(ft.getResultLevel());
+    }
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractMathContainer#clone()
+   */
+  @Override
+  public FunctionTerm clone() {
+    return new FunctionTerm(this);
+  }
+
+  /**
+   * Return false, resultLevel is not mandatory.
+   * 
+   * @return false
+   */
+  public boolean isResultLevelMandatory() {
+    return false;
+  }
+
+  /**
+   * Returns {@code true} if resultLevel is set.
+   * 
+   * @return {@code true} if resultLevel is set.
+   */
+  public boolean isSetResultLevel() {
+    return resultLevel!= null;
+  }
+
+  /**
+   * Returns the resultLevel if it is set, otherwise throw a {@link PropertyUndefinedError}
+   * Exception.
+   * 
+   * @return the resultLevel if it is set.
+   * @throws PropertyUndefinedError
+   */
+  public int getResultLevel() {
+    if (isSetResultLevel()) {
+      return resultLevel.intValue();
+    } else {
+      throw new PropertyUndefinedError(QualConstants.resultLevel, this);
+    }
+  }
 
 
   /**
@@ -158,112 +159,112 @@ public class FunctionTerm extends AbstractMathContainer {
    * @return {@code true} is the resultLevel was set beforehand.
    */
   public boolean unsetResultLevel() {
-	  if (isSetResultLevel()) {
-		  Integer oldResultLevel = this.resultLevel;
-		  this.resultLevel = null;
-		  firePropertyChange(QualConstants.resultLevel, oldResultLevel, this.resultLevel);
-		  return true;
-	  } else {
-		  return false;
-	  }
+    if (isSetResultLevel()) {
+      Integer oldResultLevel = resultLevel;
+      resultLevel = null;
+      firePropertyChange(QualConstants.resultLevel, oldResultLevel, resultLevel);
+      return true;
+    } else {
+      return false;
+    }
   }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object object) {
-		boolean equals = super.equals(object);
-		if (equals) {
-			FunctionTerm ft = (FunctionTerm) object;
-			equals &= ft.isDefaultTerm() == isDefaultTerm();
-			equals &= ft.isSetResultLevel() == isSetResultLevel();
-			if (equals && isSetResultLevel()) {
-				equals &= (ft.getResultLevel() == getResultLevel());
-			}
-		}
-		return equals;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 953;
-		int hashCode = super.hashCode();
-		if (isDefaultTerm()) {
-			hashCode *= 2;
-		}
-		if (isSetResultLevel()) {
-			hashCode += prime * resultLevel.hashCode();
-		}
-		return hashCode;
-	}
-	
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    boolean equals = super.equals(object);
+    if (equals) {
+      FunctionTerm ft = (FunctionTerm) object;
+      equals &= ft.isDefaultTerm() == isDefaultTerm();
+      equals &= ft.isSetResultLevel() == isSetResultLevel();
+      if (equals && isSetResultLevel()) {
+        equals &= (ft.getResultLevel() == getResultLevel());
+      }
+    }
+    return equals;
+  }
 
-	/**
-	 * Returns  true if it is a defaultTerm.
-	 * 
-	 * @return {@code true} if it is a defaultTerm.
-	 */
-	public boolean isDefaultTerm() {
-		return defaultTerm;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 953;
+    int hashCode = super.hashCode();
+    if (isDefaultTerm()) {
+      hashCode *= 2;
+    }
+    if (isSetResultLevel()) {
+      hashCode += prime * resultLevel.hashCode();
+    }
+    return hashCode;
+  }
 
-	/**
-	 * Sets defaultTerm.
-	 * 
-	 * @param defaultTerm the defaultTerm to set
-	 */
-	public void setDefaultTerm(boolean defaultTerm) {
-		this.defaultTerm = defaultTerm;
-	}
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#toString()
-	 */
-	@Override
-	public String toString() {
-		if (isDefaultTerm()) {
-			return "defaultTerm";
-		}
-		return super.toString();
-	}
+  /**
+   * Returns  true if it is a defaultTerm.
+   * 
+   * @return {@code true} if it is a defaultTerm.
+   */
+  public boolean isDefaultTerm() {
+    return defaultTerm;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractMathContainer#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value) {
+  /**
+   * Sets defaultTerm.
+   * 
+   * @param defaultTerm the defaultTerm to set
+   */
+  public void setDefaultTerm(boolean defaultTerm) {
+    this.defaultTerm = defaultTerm;
+  }
 
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#toString()
+   */
+  @Override
+  public String toString() {
+    if (isDefaultTerm()) {
+      return "defaultTerm";
+    }
+    return super.toString();
+  }
 
-		if (!isAttributeRead) {
-			isAttributeRead = true;
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractMathContainer#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
 
-			if (attributeName.equals(QualConstants.resultLevel)) {
-				setResultLevel(StringTools.parseSBMLInt(value));
-			} else {
-				isAttributeRead = false;
-			}
-		}
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 
-		return isAttributeRead;
-	}
+    if (!isAttributeRead) {
+      isAttributeRead = true;
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractMathContainer#writeXMLAttributes()
-	 */
-	@Override
-	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+      if (attributeName.equals(QualConstants.resultLevel)) {
+        setResultLevel(StringTools.parseSBMLInt(value));
+      } else {
+        isAttributeRead = false;
+      }
+    }
 
-		if (isSetResultLevel()) {
-			attributes.put(QualConstants.shortLabel + ':' + QualConstants.resultLevel,
-			  Integer.toString(getResultLevel()));
-		}	  
-		return attributes;
-	}
-	
+    return isAttributeRead;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractMathContainer#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (isSetResultLevel()) {
+      attributes.put(QualConstants.shortLabel + ':' + QualConstants.resultLevel,
+        Integer.toString(getResultLevel()));
+    }
+    return attributes;
+  }
+
 }

@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -28,7 +28,6 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
 
-
 /**
  * @author Andreas Dr&auml;ger
  * @since 1.0
@@ -44,7 +43,6 @@ public class FBCWritingTest {
     SBMLDocument doc = SBMLReader.read(FBCWritingTest.class.getResourceAsStream("../../xml/test/data/fbc/MODEL_01186.xml"));
     SBMLWriter.write(doc, System.out, ' ', (short) 2);
   }
-
 
   /**
    * Test method for {@link org.sbml.jsbml.xml.parsers.FBCParser#writeAttributes(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)}.

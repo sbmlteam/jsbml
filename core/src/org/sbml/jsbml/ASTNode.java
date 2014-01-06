@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml;
 
 import java.io.StringReader;
@@ -1272,9 +1271,9 @@ public class ASTNode extends AbstractTreeNode {
    */
   public ASTNode() {
     super();
-    this.parentSBMLObject = null;
-    this.listOfNodes = null;
-    this.initDefaults();
+    parentSBMLObject = null;
+    listOfNodes = null;
+    initDefaults();
   }
 
   /**
@@ -1285,25 +1284,25 @@ public class ASTNode extends AbstractTreeNode {
    */
   public ASTNode(ASTNode astNode) {
     super(astNode);
-    this.parentSBMLObject = null;
-    this.initDefaults();
+    parentSBMLObject = null;
+    initDefaults();
 
     logger.debug("Clone constructor: Origin type = " + astNode.type);
 
     setType(astNode.getType());
-    this.denominator = astNode.denominator;
-    this.exponent = astNode.exponent;
-    this.mantissa = astNode.mantissa;
-    this.name = astNode.name == null ? null : new String(astNode.name);
-    this.variable = null; // the clone is not linked anymore to any model so we cannot have any 'variable' set
-    this.numerator = astNode.numerator;
-    this.unitId = astNode.unitId == null ? null : new String(astNode.unitId);
+    denominator = astNode.denominator;
+    exponent = astNode.exponent;
+    mantissa = astNode.mantissa;
+    name = astNode.name == null ? null : new String(astNode.name);
+    variable = null; // the clone is not linked anymore to any model so we cannot have any 'variable' set
+    numerator = astNode.numerator;
+    unitId = astNode.unitId == null ? null : new String(astNode.unitId);
 
     if (astNode.getChildCount() > 0) {
       for (ASTNode child : astNode.listOfNodes) {
         ASTNode c = child.clone();
         c.parent = this;
-        this.listOfNodes.add(c);
+        listOfNodes.add(c);
       }
     }
   }
@@ -2663,7 +2662,7 @@ public class ASTNode extends AbstractTreeNode {
     }
     variable = null;
     mantissa = Double.NaN;
-    this.firePropertyChange(TreeNodeChangeEvent.initialValue, old, this);
+    firePropertyChange(TreeNodeChangeEvent.initialValue, old, this);
   }
 
   /**
@@ -3475,7 +3474,7 @@ public class ASTNode extends AbstractTreeNode {
    *            the character value to which the node's value should be set.
    */
   public void setCharacter(char value) {
-    Type oldValue = this.type;
+    Type oldValue = type;
     switch (value) {
     case '+':
       type = Type.PLUS;
@@ -3496,7 +3495,7 @@ public class ASTNode extends AbstractTreeNode {
       type = Type.UNKNOWN;
       break;
     }
-    this.firePropertyChange(TreeNodeChangeEvent.value, oldValue, type);
+    firePropertyChange(TreeNodeChangeEvent.value, oldValue, type);
   }
 
   /**
@@ -3508,7 +3507,7 @@ public class ASTNode extends AbstractTreeNode {
   public void setClassName(String className) {
     String oldValue = this.className;
     this.className = className;
-    this.firePropertyChange(TreeNodeChangeEvent.className, oldValue, className);
+    firePropertyChange(TreeNodeChangeEvent.className, oldValue, className);
   }
 
   /**
@@ -3518,7 +3517,7 @@ public class ASTNode extends AbstractTreeNode {
   public void setDefinitionURL(String definitionURL) {
     String oldValue = this.definitionURL;
     this.definitionURL = definitionURL;
-    this.firePropertyChange(TreeNodeChangeEvent.definitionURL, oldValue, definitionURL);
+    firePropertyChange(TreeNodeChangeEvent.definitionURL, oldValue, definitionURL);
   }
 
   /**
@@ -3530,7 +3529,7 @@ public class ASTNode extends AbstractTreeNode {
   public void setEncoding(String encoding) {
     String oldValue = this.encoding;
     this.encoding = encoding;
-    this.firePropertyChange(TreeNodeChangeEvent.encoding, oldValue, encoding);
+    firePropertyChange(TreeNodeChangeEvent.encoding, oldValue, encoding);
   }
 
   /**
@@ -3542,7 +3541,7 @@ public class ASTNode extends AbstractTreeNode {
   public void setId(String id) {
     String oldValue = this.id;
     this.id = id;
-    this.firePropertyChange(TreeNodeChangeEvent.id, oldValue, id);
+    firePropertyChange(TreeNodeChangeEvent.id, oldValue, id);
   }
 
   /**
@@ -3552,7 +3551,7 @@ public class ASTNode extends AbstractTreeNode {
   public void setIsSetNumberType(boolean isSetNumberType) {
     Boolean oldValue = this.isSetNumberType;
     this.isSetNumberType = isSetNumberType;
-    this.firePropertyChange(TreeNodeChangeEvent.isSetNumberType, oldValue, isSetNumberType);
+    firePropertyChange(TreeNodeChangeEvent.isSetNumberType, oldValue, isSetNumberType);
   }
 
   /**
@@ -3569,13 +3568,13 @@ public class ASTNode extends AbstractTreeNode {
   public void setName(String name) {
     String oldValue = this.name; // TODO: if oldValue != null ==> set variable = null or update it ??
     this.name = name;
-    this.firePropertyChange(TreeNodeChangeEvent.name, oldValue, name);
+    firePropertyChange(TreeNodeChangeEvent.name, oldValue, name);
     if ((!type.toString().startsWith("NAME")) && type != Type.FUNCTION
         && type != Type.FUNCTION_DELAY)
     {
-      Type oldType = this.type;
+      Type oldType = type;
       type = variable == null ? Type.FUNCTION : Type.NAME;
-      this.firePropertyChange(TreeNodeChangeEvent.type, oldType, type);
+      firePropertyChange(TreeNodeChangeEvent.type, oldType, type);
     }
   }
 
@@ -3588,7 +3587,7 @@ public class ASTNode extends AbstractTreeNode {
   public void setStyle(String style) {
     String oldValue = this.style;
     this.style = style;
-    this.firePropertyChange(TreeNodeChangeEvent.style, oldValue, style);
+    firePropertyChange(TreeNodeChangeEvent.style, oldValue, style);
   }
 
   /**
@@ -3656,9 +3655,9 @@ public class ASTNode extends AbstractTreeNode {
       setValue(6.02214179e23);
       definitionURL = URI_AVOGADRO_DEFINITION;
     }
-    Type oldValue = this.getType();
+    Type oldValue = getType();
     this.type = type;
-    this.firePropertyChange(TreeNodeChangeEvent.type, oldValue, type);
+    firePropertyChange(TreeNodeChangeEvent.type, oldValue, type);
   }
 
   /**
@@ -3690,7 +3689,7 @@ public class ASTNode extends AbstractTreeNode {
     }
     String oldValue = this.unitId;
     this.unitId = unitId;
-    this.firePropertyChange(TreeNodeChangeEvent.units, oldValue, unitId);
+    firePropertyChange(TreeNodeChangeEvent.units, oldValue, unitId);
   }
 
   /**
@@ -3724,15 +3723,15 @@ public class ASTNode extends AbstractTreeNode {
    *            set
    */
   public void setValue(double value) {
-    Type oldType = this.type;
-    double oldMantissa = this.mantissa;
-    int oldExponent = this.exponent;
+    Type oldType = type;
+    double oldMantissa = mantissa;
+    int oldExponent = exponent;
     type = Type.REAL;
-    this.firePropertyChange(TreeNodeChangeEvent.type, oldType, type);
-    this.mantissa = value;
-    this.firePropertyChange(TreeNodeChangeEvent.mantissa, oldMantissa, mantissa);
-    this.exponent = 0;
-    this.firePropertyChange(TreeNodeChangeEvent.exponent, oldExponent, exponent);
+    firePropertyChange(TreeNodeChangeEvent.type, oldType, type);
+    mantissa = value;
+    firePropertyChange(TreeNodeChangeEvent.mantissa, oldMantissa, mantissa);
+    exponent = 0;
+    firePropertyChange(TreeNodeChangeEvent.exponent, oldExponent, exponent);
   }
 
   /**
@@ -3745,15 +3744,15 @@ public class ASTNode extends AbstractTreeNode {
    *            the exponent of this node's real-numbered value
    */
   public void setValue(double mantissa, int exponent) {
-    Type oldType = this.type;
+    Type oldType = type;
     double oldMantissa = this.mantissa;
     int oldExponent = this.exponent;
     type = Type.REAL_E;
-    this.firePropertyChange(TreeNodeChangeEvent.type, oldType, type);
+    firePropertyChange(TreeNodeChangeEvent.type, oldType, type);
     this.mantissa = mantissa;
-    this.firePropertyChange(TreeNodeChangeEvent.mantissa, oldMantissa, mantissa);
+    firePropertyChange(TreeNodeChangeEvent.mantissa, oldMantissa, mantissa);
     this.exponent = exponent;
-    this.firePropertyChange(TreeNodeChangeEvent.exponent, oldExponent, exponent);
+    firePropertyChange(TreeNodeChangeEvent.exponent, oldExponent, exponent);
   }
 
   /**
@@ -3763,15 +3762,15 @@ public class ASTNode extends AbstractTreeNode {
    * @param value
    */
   public void setValue(int value) {
-    Type oldType = this.type;
-    int oldNumerator = this.numerator;
-    int oldDenominator = this.denominator;
+    Type oldType = type;
+    int oldNumerator = numerator;
+    int oldDenominator = denominator;
     type = Type.INTEGER;
-    this.firePropertyChange(TreeNodeChangeEvent.type, oldType, type);
+    firePropertyChange(TreeNodeChangeEvent.type, oldType, type);
     numerator = value;
-    this.firePropertyChange(TreeNodeChangeEvent.numerator, oldNumerator, numerator);
+    firePropertyChange(TreeNodeChangeEvent.numerator, oldNumerator, numerator);
     denominator = 1;
-    this.firePropertyChange(TreeNodeChangeEvent.denominator, oldDenominator, denominator);
+    firePropertyChange(TreeNodeChangeEvent.denominator, oldDenominator, denominator);
   }
 
   /**
@@ -3784,15 +3783,15 @@ public class ASTNode extends AbstractTreeNode {
    *            the denominator value of the rational
    */
   public void setValue(int numerator, int denominator) {
-    Type oldType = this.type;
+    Type oldType = type;
     int oldNumerator = this.numerator;
     int oldDenominator = this.denominator;
     type = Type.RATIONAL;
-    this.firePropertyChange(TreeNodeChangeEvent.type, oldType, type);
+    firePropertyChange(TreeNodeChangeEvent.type, oldType, type);
     this.numerator = numerator;
-    this.firePropertyChange(TreeNodeChangeEvent.numerator, oldNumerator, numerator);
+    firePropertyChange(TreeNodeChangeEvent.numerator, oldNumerator, numerator);
     this.denominator = denominator;
-    this.firePropertyChange(TreeNodeChangeEvent.denominator, oldDenominator, denominator);
+    firePropertyChange(TreeNodeChangeEvent.denominator, oldDenominator, denominator);
   }
 
   /**
@@ -3818,10 +3817,10 @@ public class ASTNode extends AbstractTreeNode {
        * store its id. Otherwise, this knowledge will got lost when cloning this
        * node.
        */
-      this.name = variable.getId();
+      name = variable.getId();
     }
     this.variable = variable;
-    this.firePropertyChange(TreeNodeChangeEvent.variable, oldValue, variable);
+    firePropertyChange(TreeNodeChangeEvent.variable, oldValue, variable);
   }
 
   /**
@@ -3972,9 +3971,9 @@ public class ASTNode extends AbstractTreeNode {
    * 
    */
   public void unsetUnits() {
-    String oldValue = this.unitId;
+    String oldValue = unitId;
     unitId = null;
-    this.firePropertyChange(TreeNodeChangeEvent.units, oldValue, null);
+    firePropertyChange(TreeNodeChangeEvent.units, oldValue, null);
   }
 
   /**
@@ -3990,11 +3989,11 @@ public class ASTNode extends AbstractTreeNode {
   public void updateVariables() {
     if (isString()) {
       if (variable != null) {
-        CallableSBase oldValue = this.getVariable();
+        CallableSBase oldValue = getVariable();
         name = variable.getId();
         variable = null;
         variable = getVariable();
-        this.firePropertyChange(TreeNodeChangeEvent.variable, oldValue, variable);
+        firePropertyChange(TreeNodeChangeEvent.variable, oldValue, variable);
       } else if ((type != Type.NAME_TIME) && (type != Type.NAME_AVOGADRO)) {
         // Try to register a direct link to the variable (if the name represent one).
         variable = getVariable();

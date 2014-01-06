@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -108,7 +108,7 @@ public class Member extends AbstractNamedSBase {
    * @return whether idRef is set
    */
   public boolean isSetIdRef() {
-    return this.idRef != null;
+    return idRef != null;
   }
 
   /**
@@ -128,9 +128,9 @@ public class Member extends AbstractNamedSBase {
    */
   public boolean unsetIdRef() {
     if (isSetIdRef()) {
-      String oldIdRef = this.idRef;
-      this.idRef = null;
-      firePropertyChange(GroupsConstants.idRef, oldIdRef, this.idRef);
+      String oldIdRef = idRef;
+      idRef = null;
+      firePropertyChange(GroupsConstants.idRef, oldIdRef, idRef);
       return true;
     }
     return false;
@@ -155,7 +155,7 @@ public class Member extends AbstractNamedSBase {
    * @return whether metaIdRef is set
    */
   public boolean isSetMetaIdRef() {
-    return this.metaIdRef != null;
+    return metaIdRef != null;
   }
 
   /**
@@ -175,9 +175,9 @@ public class Member extends AbstractNamedSBase {
    */
   public boolean unsetMetaIdRef() {
     if (isSetMetaIdRef()) {
-      String oldMetaIdRef = this.metaIdRef;
-      this.metaIdRef = null;
-      firePropertyChange(GroupsConstants.metaIdRef, oldMetaIdRef, this.metaIdRef);
+      String oldMetaIdRef = metaIdRef;
+      metaIdRef = null;
+      firePropertyChange(GroupsConstants.metaIdRef, oldMetaIdRef, metaIdRef);
       return true;
     }
     return false;

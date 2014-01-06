@@ -10,7 +10,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -48,7 +48,9 @@ public class TestSpecies {
   @Before public void setUp() throws Exception
   {
     S = new  Species(2,4);
-    if (S == null);
+    if (S == null) {
+      ;
+    }
     {
     }
   }
@@ -59,9 +61,9 @@ public class TestSpecies {
   }
 
   @SuppressWarnings("deprecation")
-@Test public void test_Species_create()
+  @Test public void test_Species_create()
   {
-//    assertTrue( S.getTypeCode() == libsbml.SBML_SPECIES );
+    //    assertTrue( S.getTypeCode() == libsbml.SBML_SPECIES );
     assertTrue( S.getMetaId().equals("") == true );
     assertTrue( S.getNotes() == null );
     // assertTrue( S.getAnnotation() == null );
@@ -92,13 +94,13 @@ public class TestSpecies {
    * Removed from now as we do not have constructor taking namespace
   @Test public void test_Species_createWithNS()
   {
-	  
+
     XMLNamespaces xmlns = new  XMLNamespaces();
     xmlns.add( "http://www.sbml.org", "testsbml");
     SBMLNamespaces sbmlns = new  SBMLNamespaces(2,1);
     sbmlns.addNamespaces(xmlns);
     Species object = new  Species(sbmlns);
-    
+
     assertTrue( object.getTypeCode() == libsbml.SBML_SPECIES );
     assertTrue( object.getMetaId().equals("") == true );
     assertTrue( object.getNotes() == null );
@@ -109,8 +111,8 @@ public class TestSpecies {
     assertTrue( object.getNamespaces().getLength() == 2 );
     object = null;
   }
-*/
-  
+   */
+
 
   @Test public void test_Species_setCompartment()
   {
@@ -118,7 +120,9 @@ public class TestSpecies {
     S.setCompartment(compartment);
     assertTrue(S.getCompartment().equals(compartment));
     assertEquals( true, S.isSetCompartment() );
-    if (S.getCompartment() == compartment);
+    if (S.getCompartment() == compartment) {
+      ;
+    }
     {
     }
     S.setCompartment(S.getCompartment());
@@ -126,7 +130,9 @@ public class TestSpecies {
     S.setCompartment("");
     assertEquals( false, S.isSetCompartment() );
     S.setCompartment((String) null);
-    if (S.getCompartment() != null);
+    if (S.getCompartment() != null) {
+      ;
+    }
     {
     }
   }
@@ -137,14 +143,18 @@ public class TestSpecies {
     S.setId(id);
     assertTrue(S.getId().equals(id));
     assertEquals( true, S.isSetId() );
-    if (S.getId() == id);
+    if (S.getId() == id) {
+      ;
+    }
     {
     }
     S.setId(S.getId());
     assertTrue(S.getId().equals(id));
     S.setId("");
     assertEquals( false, S.isSetId() );
-    if (S.getId() != null);
+    if (S.getId() != null) {
+      ;
+    }
     {
     }
   }
@@ -175,55 +185,67 @@ public class TestSpecies {
     S.setName(name);
     assertTrue(S.getName().equals(name));
     assertEquals( true, S.isSetName() );
-    if (S.getName() == name);
+    if (S.getName() == name) {
+      ;
+    }
     {
     }
     S.setName(S.getName());
     assertTrue(S.getName().equals(name));
     S.setName("");
     assertEquals( false, S.isSetName() );
-    if (S.getName() != null);
+    if (S.getName() != null) {
+      ;
+    }
     {
     }
   }
 
-  
+
   @SuppressWarnings("deprecation")
-@Test public void test_Species_setSpatialSizeUnits()
+  @Test public void test_Species_setSpatialSizeUnits()
   {
     Species s = new  Species(2,1);
     String units =  "volume";;
     s.setSpatialSizeUnits(units);
     assertTrue(s.getSpatialSizeUnits().equals(units));
     assertEquals( true, s.isSetSpatialSizeUnits() );
-    if (s.getSpatialSizeUnits() == units);
+    if (s.getSpatialSizeUnits() == units) {
+      ;
+    }
     {
     }
     s.setSpatialSizeUnits(s.getSpatialSizeUnits());
     assertTrue(s.getSpatialSizeUnits().equals(units));
     s.setSpatialSizeUnits("");
     assertEquals( false, s.isSetSpatialSizeUnits() );
-    if (s.getSpatialSizeUnits() != null);
+    if (s.getSpatialSizeUnits() != null) {
+      ;
+    }
     {
     }
     s = null;
   }
 
-  
+
   @Test public void test_Species_setSubstanceUnits()
   {
     String units =  "item";;
     S.setSubstanceUnits(units);
     assertTrue(S.getSubstanceUnits().equals(units));
     assertEquals( true, S.isSetSubstanceUnits() );
-    if (S.getSubstanceUnits() == units);
+    if (S.getSubstanceUnits() == units) {
+      ;
+    }
     {
     }
     S.setSubstanceUnits(S.getSubstanceUnits());
     assertTrue(S.getSubstanceUnits().equals(units));
     S.setSubstanceUnits("");
     assertEquals( false, S.isSetSubstanceUnits() );
-    if (S.getSubstanceUnits() != null);
+    if (S.getSubstanceUnits() != null) {
+      ;
+    }
     {
     }
   }
@@ -234,14 +256,18 @@ public class TestSpecies {
     S.setUnits(units);
     assertTrue(S.getUnits().equals(units));
     assertEquals( true, S.isSetUnits() );
-    if (S.getSubstanceUnits() == units);
+    if (S.getSubstanceUnits() == units) {
+      ;
+    }
     {
     }
     S.setUnits(S.getSubstanceUnits());
     assertTrue(S.getUnits().equals(units));
     S.setUnits("");
     assertEquals( false, S.isSetUnits() );
-    if (S.getSubstanceUnits() != null);
+    if (S.getSubstanceUnits() != null) {
+      ;
+    }
     {
     }
     S.unsetUnits();

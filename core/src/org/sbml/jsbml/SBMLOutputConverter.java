@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -36,12 +36,12 @@ import java.util.List;
  */
 public interface SBMLOutputConverter<T> {
 
-	/**
-	 * 
-	 * @param model
-	 * @return
-	 */
-	public List<SBMLException> getWriteWarnings(T model);
+  /**
+   * 
+   * @param model
+   * @return
+   */
+  public List<SBMLException> getWriteWarnings(T model);
 
   /**
    * This method is identical to the method
@@ -55,8 +55,8 @@ public interface SBMLOutputConverter<T> {
    * @throws IOException
    * @see #writeSBML(Object, String, String, String)
    */
-	public boolean writeSBML(T model, String filename)
-			throws SBMLException, IOException;
+  public boolean writeSBML(T model, String filename)
+      throws SBMLException, IOException;
 
   /**
    * Writes the given model (in which format it might be given) to an SBML file
@@ -80,8 +80,8 @@ public interface SBMLOutputConverter<T> {
    * @throws IOException
    * @see #writeSBML(Object, String)
    */
-	public boolean writeSBML(T model, String filename,
-			String programName, String versionNumber) throws SBMLException,
-			IOException;
+  public boolean writeSBML(T model, String filename,
+    String programName, String versionNumber) throws SBMLException,
+    IOException;
 
 }

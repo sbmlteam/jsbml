@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -28,8 +28,8 @@ package org.sbml.jsbml.ext.layout;
  * @date 21.11.2011
  */
 public class BasePoint1 extends Point {
-  
-	/**
+
+  /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = -7544027003069685943L;
@@ -40,22 +40,22 @@ public class BasePoint1 extends Point {
   public BasePoint1() {
     super();
   }
-  
+
   /**
    * 
    * @param point
    */
   public BasePoint1(Point point) {
-	  super(point);
-	  clonePointAttributes(point, this);
-	}
+    super(point);
+    clonePointAttributes(point, this);
+  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.layout.Point#clone()
    */
   @Override
   public BasePoint1 clone() {
-	return new BasePoint1(this);
+    return new BasePoint1(this);
   }
-  
+
 }

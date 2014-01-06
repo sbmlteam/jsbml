@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.sbml.jsbml.PropertyUndefinedError;
 
-
 /**
  * @author Eugen Netz
  * @author Alexander Diamantikos
@@ -35,19 +34,19 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @date 08.05.2012
  */
 public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
-	/**
-   * 
+  /**
+   * Generated serial version identifier
    */
   private static final long serialVersionUID = -5666416071124784541L;
-  protected String fill; 
-	protected enum FillRule {
-		NONZERO,
-		EVENODD,
-	}
-	protected FillRule fillRule;
-	
-	/**
-   * Creates an GraphicalPrimitive2D instance 
+  protected String fill;
+  protected enum FillRule {
+    NONZERO,
+    EVENODD,
+  }
+  protected FillRule fillRule;
+
+  /**
+   * Creates an GraphicalPrimitive2D instance
    */
   public GraphicalPrimitive2D() {
     super();
@@ -62,7 +61,7 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
     fill = obj.fill;
     fillRule = obj.fillRule;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#clone()
    */
@@ -91,10 +90,10 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
   }
 
   /**
-   * @return whether fill is set 
+   * @return whether fill is set
    */
   public boolean isSetFill() {
-    return this.fill != null;
+    return fill != null;
   }
 
   /**
@@ -107,15 +106,15 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
   }
 
   /**
-   * Unsets the variable fill 
-   * @return {@code true}, if fill was set before, 
+   * Unsets the variable fill
+   * @return {@code true}, if fill was set before,
    *         otherwise {@code false}
    */
   public boolean unsetFill() {
     if (isSetFill()) {
-      String oldFill = this.fill;
-      this.fill = null;
-      firePropertyChange(RenderConstants.fill, oldFill, this.fill);
+      String oldFill = fill;
+      fill = null;
+      firePropertyChange(RenderConstants.fill, oldFill, fill);
       return true;
     }
     return false;
@@ -133,10 +132,10 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
   }
 
   /**
-   * @return whether fillRule is set 
+   * @return whether fillRule is set
    */
   public boolean isSetFillRule() {
-    return this.fillRule != null;
+    return fillRule != null;
   }
 
   /**
@@ -149,20 +148,20 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
   }
 
   /**
-   * Unsets the variable fillRule 
-   * @return {@code true}, if fillRule was set before, 
+   * Unsets the variable fillRule
+   * @return {@code true}, if fillRule was set before,
    *         otherwise {@code false}
    */
   public boolean unsetFillRule() {
     if (isSetFillRule()) {
-      FillRule oldFillRule = this.fillRule;
-      this.fillRule = null;
-      firePropertyChange(RenderConstants.fillRule, oldFillRule, this.fillRule);
+      FillRule oldFillRule = fillRule;
+      fillRule = null;
+      firePropertyChange(RenderConstants.fillRule, oldFillRule, fillRule);
       return true;
     }
     return false;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
    */
@@ -172,12 +171,12 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
     if (isSetFill()) {
       attributes.remove(RenderConstants.fill);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fill,
-          getFill());
+        getFill());
     }
     if (isSetFillRule()) {
       attributes.remove(RenderConstants.fillRule);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fillRule,
-          getFillRule().toString().toLowerCase());
+        getFillRule().toString().toLowerCase());
     }
     return attributes;
   }

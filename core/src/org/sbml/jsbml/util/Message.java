@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.util;
 
 /**
@@ -27,61 +26,60 @@ package org.sbml.jsbml.util;
  */
 public class Message {
 
-	/**
-	 * 
-	 */
-	private String lang;
-	/**
-	 * 
-	 */
-	private String message;
-	
-	/**
-	 * 
-	 */
-	public Message() {
-	}
+  /**
+   * 
+   */
+  private String lang;
+  /**
+   * 
+   */
+  private String message;
 
-	/**
-	 * 
-	 * @return
-	 */
-	public String getLang() {
-		return lang;
-	}
+  /**
+   * 
+   */
+  public Message() {
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public String getMessage() {
-		return message;
-	}
+  /**
+   * 
+   * @return
+   */
+  public String getLang() {
+    return lang;
+  }
 
-	/**
-	 * 
-	 * @param lang
-	 */
-	public void setLang(String lang) {
-		this.lang = lang;
-	}
+  /**
+   * 
+   * @return
+   */
+  public String getMessage() {
+    return message;
+  }
 
-	/**
-	 * 
-	 * @param messageContent
-	 */
-	public void setMessage(String messageContent) {
-		this.message = messageContent;
-	}
+  /**
+   * 
+   * @param lang
+   */
+  public void setLang(String lang) {
+    this.lang = lang;
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return StringTools.concat("Message [lang=", lang, ", messageContent=",
-				message, "]").toString();
-	}
-	
+  /**
+   * 
+   * @param messageContent
+   */
+  public void setMessage(String messageContent) {
+    message = messageContent;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return StringTools.concat("Message [lang=", lang, ", messageContent=",
+      message, "]").toString();
+  }
+
 }

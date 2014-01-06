@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -41,7 +41,7 @@ import org.sbml.jsbml.UniqueNamedSBase;
 public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
-   *
+   * Generated serial version identifier
    */
   private static final long serialVersionUID = -4660813321564690910L;
   protected Group group;
@@ -57,7 +57,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
     super();
     initDefaults();
   }
-  
+
   /**
    * Creates a Style instance with a group
    * 
@@ -106,9 +106,9 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public Style(Style obj) {
     super(obj);
-    this.roleList = obj.roleList;
-    this.typeList = obj.typeList;
-    this.group = obj.group;
+    roleList = obj.roleList;
+    typeList = obj.typeList;
+    group = obj.group;
   }
 
 
@@ -177,8 +177,8 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public void initDefaults() {
     setNamespace(RenderConstants.namespaceURI);
-    this.roleList = null;
-    this.typeList = null;
+    roleList = null;
+    typeList = null;
   }
 
 
@@ -187,6 +187,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
   // @Override
+  @Override
   public boolean isIdMandatory() {
     return true;
   }
@@ -196,7 +197,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return whether group is set
    */
   public boolean isSetGroup() {
-    return this.group != null;
+    return group != null;
   }
 
 
@@ -229,15 +230,15 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public boolean unsetGroup() {
     if (isSetGroup()) {
-      Group oldGroup = this.group;
-      this.group = null;
-      firePropertyChange(RenderConstants.group, oldGroup, this.group);
+      Group oldGroup = group;
+      group = null;
+      firePropertyChange(RenderConstants.group, oldGroup, group);
       return true;
     }
     return false;
   }
-  
-  
+
+
   /**
    * @return the value of roleList
    */
@@ -251,10 +252,10 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
 
 
   /**
-   * @return whether roleList is set 
+   * @return whether roleList is set
    */
   public boolean isSetRoleList() {
-    return this.roleList != null;
+    return roleList != null;
   }
 
 
@@ -266,8 +267,8 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
     this.roleList = roleList;
     firePropertyChange(RenderConstants.roleList, oldRoleList, this.roleList);
   }
-  
-  
+
+
   /**
    * @return the value of typeList
    */
@@ -281,10 +282,10 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
 
 
   /**
-   * @return whether typeList is set 
+   * @return whether typeList is set
    */
   public boolean isSetTypeList() {
-    return this.typeList != null;
+    return typeList != null;
   }
 
 
@@ -299,15 +300,15 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
 
 
   /**
-   * Unsets the variable typeList 
-   * @return {@code true}, if typeList was set before, 
+   * Unsets the variable typeList
+   * @return {@code true}, if typeList was set before,
    *         otherwise {@code false}
    */
   public boolean unsetTypeList() {
     if (isSetTypeList()) {
-      String[] oldTypeList = this.typeList;
-      this.typeList = null;
-      firePropertyChange(RenderConstants.typeList, oldTypeList, this.typeList);
+      String[] oldTypeList = typeList;
+      typeList = null;
+      firePropertyChange(RenderConstants.typeList, oldTypeList, typeList);
       return true;
     }
     return false;
@@ -315,15 +316,15 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
 
 
   /**
-   * Unsets the variable roleList 
-   * @return {@code true}, if roleList was set before, 
+   * Unsets the variable roleList
+   * @return {@code true}, if roleList was set before,
    *         otherwise {@code false}
    */
   public boolean unsetRoleList() {
     if (isSetRoleList()) {
-      String[] oldRoleList = this.roleList;
-      this.roleList = null;
-      firePropertyChange(RenderConstants.roleList, oldRoleList, this.roleList);
+      String[] oldRoleList = roleList;
+      roleList = null;
+      firePropertyChange(RenderConstants.roleList, oldRoleList, roleList);
       return true;
     }
     return false;
@@ -361,7 +362,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
         setRoleList(value.split(" "));
       }
       else if (attributeName.equals(RenderConstants.typeList)) {
-        setTypeList(value.split(" "));  
+        setTypeList(value.split(" "));
       }
       else {
         isAttributeRead = false;

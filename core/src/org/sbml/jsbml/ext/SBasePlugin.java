@@ -2,13 +2,13 @@
  * $Id$
  * $URL$
  *
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2013 jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
+ * Copyright (C) 2009-2014 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 
@@ -18,7 +18,7 @@
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
- */ 
+ */
 package org.sbml.jsbml.ext;
 
 import java.util.Map;
@@ -28,10 +28,10 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 
 /**
- * Defines the methods necessary for an SBase Plugin. When a SBML level 3 is extending 
- * one of the core SBML elements with additional attributes or child elements, a {@link SBasePlugin}
- * is created to serve as a place holder for there new attributes or elements.
- * 
+ * Defines the methods necessary for an SBase Plugin. When a SBML level 3 is
+ * extending one of the core SBML elements with additional attributes or child
+ * elements, a {@link SBasePlugin} is created to serve as a place holder for
+ * there new attributes or elements.
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$
@@ -50,6 +50,7 @@ public interface SBasePlugin extends TreeNodeWithChangeSupport {
    * @param obj
    * @return
    */
+  @Override
   public boolean equals(Object obj);
 
   /**
@@ -63,6 +64,7 @@ public interface SBasePlugin extends TreeNodeWithChangeSupport {
    * 
    * @return
    */
+  @Override
   public int hashCode();
 
   /**
@@ -106,71 +108,71 @@ public interface SBasePlugin extends TreeNodeWithChangeSupport {
    * @see SBase#getVersion()
    */
   public int getVersion();
-  
+
   /**
    * Returns the XML namespace (URI) of the package extension of this plugin object.
    * @return the URI of the package extension of this plugin object.
    */
   public String getElementNamespace();
-  
+
   /**
    * Returns the package name of this plugin object.
    * @return the package name of this plugin object.
    */
   public String getPackageName();
-  
+
   /**
    * Returns the package version of the package extension of this plugin object.
    * @return the package version of the package extension of this plugin object.
    */
   public int getPackageVersion();
-  
+
   /**
    * Returns the parent {@link SBase} object to which this plugin object connected.
    * 
    * @return the parent {@link SBase} object to which this plugin object connected.
    */
   public SBase getParentSBMLObject();
-  
+
   /**
    * Returns the prefix of the package extension of this plugin object.
    * @return the prefix of the package extension of this plugin object.
    */
   public String getPrefix();
-  
+
   /**
    * Returns the parent {@link SBMLDocument} of this plugin object.
    * @return the parent {@link SBMLDocument} object of this plugin object.
    */
   public SBMLDocument getSBMLDocument();
-  
+
   /**
-   * Gets the URI to which this element belongs to. 
-   * For example, all elements that belong to SBML Level 3 
-   * Version 1 Core must would have the URI 
-   * 'http://www.sbml.org/sbml/level3/version1/core'; all 
+   * Gets the URI to which this element belongs to.
+   * For example, all elements that belong to SBML Level 3
+   * Version 1 Core must would have the URI
+   * 'http://www.sbml.org/sbml/level3/version1/core'; all
    * elements that belong to Layout Extension Version 1 for
    * SBML Level 3 Version 1 Core must would have the URI
-   * 'http://www.sbml.org/sbml/level3/version1/layout/version1/' 
+   * 'http://www.sbml.org/sbml/level3/version1/layout/version1/'
    * Unlike getElementNamespace, this function first returns
    * the URI for this element by looking into the SBMLNamespaces
-   * object of the document with the its package name. 
+   * object of the document with the its package name.
    * If not found it will return the result of getElementNamespace
    * @return the URI for this element
    */
   public String getURI();
-  
-//  /**
-//   * Sets the XML namespace to which this element belongs to. 
-//   * For example, all elements that belong to SBML Level 3 Version 1 Core 
-//   * must set the namespace to 'http://www.sbml.org/sbml/level3/version1/core'; 
-//   * all elements that belong to Layout Extension Version 1 for SBML Level 3
-//   * Version 1 Core must set the namespace to 
-//   * 'http://www.sbml.org/sbml/level3/version1/layout/version1/'
-//   * @param uri
-//   * @return boolean indicating success/failure of the function. The possible values returned by this function are:
-//   */
-//  public boolean setElementNamespace(String uri);
-  
+
+  //  /**
+  //   * Sets the XML namespace to which this element belongs to.
+  //   * For example, all elements that belong to SBML Level 3 Version 1 Core
+  //   * must set the namespace to 'http://www.sbml.org/sbml/level3/version1/core';
+  //   * all elements that belong to Layout Extension Version 1 for SBML Level 3
+  //   * Version 1 Core must set the namespace to
+  //   * 'http://www.sbml.org/sbml/level3/version1/layout/version1/'
+  //   * @param uri
+  //   * @return boolean indicating success/failure of the function. The possible values returned by this function are:
+  //   */
+  //  public boolean setElementNamespace(String uri);
+
 
 }

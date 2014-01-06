@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -32,136 +32,141 @@ import javax.swing.tree.TreeNode;
  */
 public class LineSegment extends CurveSegment {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -5085246314333062152L;
-	
-	/**
-	 * 
-	 */
-	Point end;
-	
-	/**
-	 * 
-	 */
-	Point start;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -5085246314333062152L;
 
-	/**
-	 * 
-	 */
-	public LineSegment() {
-		super();
-		setType(Type.LINE_SEGMENT);
-	}
+  /**
+   * 
+   */
+  Point end;
 
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public LineSegment(int level, int version) {
-		super(level, version);
-		setType(Type.LINE_SEGMENT);
-	}
+  /**
+   * 
+   */
+  Point start;
 
-	/**
-	 * 
-	 * @param lineSegment
-	 */
-	public LineSegment(LineSegment lineSegment) {
-		super(lineSegment);
-		if (lineSegment.isSetStart()) {
-			this.start = lineSegment.getStart().clone();
-		}
-		if (lineSegment.isSetEnd()) {
-			this.end = lineSegment.getEnd().clone();
-		}
-	}
+  /**
+   * 
+   */
+  public LineSegment() {
+    super();
+    setType(Type.LINE_SEGMENT);
+  }
 
-	/**
-	 * 
-	 * @param lineSegment
-	 */
-	public LineSegment(CurveSegment lineSegment) {
-		super(lineSegment);
-		if (lineSegment.isSetStart()) {
-			this.start = lineSegment.getStart().clone();
-		}
-		if (lineSegment.isSetEnd()) {
-			this.end = lineSegment.getEnd().clone();
-		}
-	}
+  /**
+   * 
+   * @param level
+   * @param version
+   */
+  public LineSegment(int level, int version) {
+    super(level, version);
+    setType(Type.LINE_SEGMENT);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#clone()
-	 */
-	public LineSegment clone() {
-		return new LineSegment(this);
-	}
-	
-	/**
-	 * Creates, sets and returns a {@link Point}
-	 *
-	 * @return new {@link Point} object.
-	 */
-	public Point createEnd() {
-		Point p = new End();
-		setStart(p);
-		return p;
-	}
+  /**
+   * 
+   * @param lineSegment
+   */
+  public LineSegment(LineSegment lineSegment) {
+    super(lineSegment);
+    if (lineSegment.isSetStart()) {
+      start = lineSegment.getStart().clone();
+    }
+    if (lineSegment.isSetEnd()) {
+      end = lineSegment.getEnd().clone();
+    }
+  }
 
-	/**
-	 * Creates, sets and returns a {@link Point} based on the
-	 * given values.
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return new {@link Point} object.
-	 */
-	public Point createEnd(double x, double y, double z) {
-		Point p = new End();
-		p.setX(x);
-		p.setY(y);
-		p.setZ(z);
-		setEnd(p);
-		return p;
-	}
+  /**
+   * 
+   * @param lineSegment
+   */
+  public LineSegment(CurveSegment lineSegment) {
+    super(lineSegment);
+    if (lineSegment.isSetStart()) {
+      start = lineSegment.getStart().clone();
+    }
+    if (lineSegment.isSetEnd()) {
+      end = lineSegment.getEnd().clone();
+    }
+  }
 
-	/**
-	 * Creates, sets and returns a {@link Point}
-	 *
-	 * @return new {@link Point} object.
-	 */
-	public Point createStart() {
-		Point p = new Start();
-		setStart(p);
-		return p;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
+  @Override
+  public LineSegment clone() {
+    return new LineSegment(this);
+  }
 
-	/**
-	 * Creates, sets and returns a {@link Point} based on the
-	 * given values.
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @return new {@link Point} object.
-	 */
-	public Point createStart(double x, double y, double z) {
-		Point p = new Start();
-		p.setX(x);
-		p.setY(y);
-		p.setZ(z);
-		setStart(p);
-		return p;
-	}
+  /**
+   * Creates, sets and returns a {@link Point}
+   *
+   * @return new {@link Point} object.
+   */
+  @Override
+  public Point createEnd() {
+    Point p = new End();
+    setStart(p);
+    return p;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object object) {
-	  boolean equals = super.equals(object);
+  /**
+   * Creates, sets and returns a {@link Point} based on the
+   * given values.
+   * @param x
+   * @param y
+   * @param z
+   * @return new {@link Point} object.
+   */
+  @Override
+  public Point createEnd(double x, double y, double z) {
+    Point p = new End();
+    p.setX(x);
+    p.setY(y);
+    p.setZ(z);
+    setEnd(p);
+    return p;
+  }
+
+  /**
+   * Creates, sets and returns a {@link Point}
+   *
+   * @return new {@link Point} object.
+   */
+  @Override
+  public Point createStart() {
+    Point p = new Start();
+    setStart(p);
+    return p;
+  }
+
+  /**
+   * Creates, sets and returns a {@link Point} based on the
+   * given values.
+   * @param x
+   * @param y
+   * @param z
+   * @return new {@link Point} object.
+   */
+  @Override
+  public Point createStart(double x, double y, double z) {
+    Point p = new Start();
+    p.setX(x);
+    p.setY(y);
+    p.setZ(z);
+    setStart(p);
+    return p;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    boolean equals = super.equals(object);
     if (equals) {
       LineSegment lineSegment = (LineSegment) object;
       equals &= lineSegment.isSetStart() == isSetStart();
@@ -174,61 +179,63 @@ public class LineSegment extends CurveSegment {
       }
     }
     return equals;
-	}
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-	 */
-	@Override
-	public TreeNode getChildAt(int index) {
-		if (index < 0) {
-			throw new IndexOutOfBoundsException(Integer.toString(index));
-		}
-		int count = super.getChildCount(), pos = 0;
-		if (index < count) {
-			return super.getChildAt(index);
-		} else {
-			index -= count;
-		}
-		if (isSetStart()) {
-			if (pos == index) {
-				return getStart();
-			}
-			pos++;
-		}
-		if (isSetEnd()) {
-			if (pos == index) {
-				return getEnd();
-			}
-			pos++;
-		}
-		throw new IndexOutOfBoundsException(MessageFormat.format(
-		  "Index {0,number,integer} >= {1,number,integer}",
-			index, +((int) Math.min(pos, 0))));
-	}
-	
-	@Override
-	public int getChildCount() {
-		int count = super.getChildCount();
-		if (isSetStart()) {
-			count++;
-		}
-		if (isSetEnd()) {
-			count++;
-		}
-		return count;
-	}
-	
-	public Point getEnd() {
-		return end;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+   */
+  @Override
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(Integer.toString(index));
+    }
+    int count = super.getChildCount(), pos = 0;
+    if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
+    }
+    if (isSetStart()) {
+      if (pos == index) {
+        return getStart();
+      }
+      pos++;
+    }
+    if (isSetEnd()) {
+      if (pos == index) {
+        return getEnd();
+      }
+      pos++;
+    }
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}",
+      index, +Math.min(pos, 0)));
+  }
+
+  @Override
+  public int getChildCount() {
+    int count = super.getChildCount();
+    if (isSetStart()) {
+      count++;
+    }
+    if (isSetEnd()) {
+      count++;
+    }
+    return count;
+  }
+
+  @Override
+  public Point getEnd() {
+    return end;
+  }
 
 
-	public Point getStart() {
-		return start;
-	}
+  @Override
+  public Point getStart() {
+    return start;
+  }
 
-	/* (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#hashCode()
    */
   @Override
@@ -243,36 +250,40 @@ public class LineSegment extends CurveSegment {
     }
     return hashCode;
   }
-	
-	
-	public boolean isSetEnd() {
-		return end != null;
-	}
-	
-	public boolean isSetStart() {
-		return start != null;
-	}
-	
-	public void setEnd(Point end) {
-		if (this.end != null) {
-			this.end.fireNodeRemovedEvent();
-		}
-		if (!(end instanceof End)) {
-			end = new End(end);
-		}
-		this.end = end;
-		registerChild(this.end);
-	}
 
-	public void setStart(Point start) {
-		if (this.start != null) {
-			this.start.fireNodeRemovedEvent();
-		}
-		if (!(start instanceof Start)) {
-			start = new Start(start);
-		}
-		this.start = start;
-		registerChild(this.start);
-	}
+
+  @Override
+  public boolean isSetEnd() {
+    return end != null;
+  }
+
+  @Override
+  public boolean isSetStart() {
+    return start != null;
+  }
+
+  @Override
+  public void setEnd(Point end) {
+    if (this.end != null) {
+      this.end.fireNodeRemovedEvent();
+    }
+    if (!(end instanceof End)) {
+      end = new End(end);
+    }
+    this.end = end;
+    registerChild(this.end);
+  }
+
+  @Override
+  public void setStart(Point start) {
+    if (this.start != null) {
+      this.start.fireNodeRemovedEvent();
+    }
+    if (!(start instanceof Start)) {
+      start = new Start(start);
+    }
+    this.start = start;
+    registerChild(this.start);
+  }
 
 }

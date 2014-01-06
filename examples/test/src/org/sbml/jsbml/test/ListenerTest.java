@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -44,61 +44,64 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
  */
 public class ListenerTest implements TreeNodeChangeListener {
 
-	public ListenerTest() {
-		SBMLDocument doc = new SBMLDocument(2, 2);
-		doc.addTreeNodeChangeListener(this);
-		Model model = doc.createModel("test_model");
-		Parameter p1 = model.createParameter("p1");
-		p1.setId("p2");
-		model.removeParameter(p1);
+  /**
+   * 
+   */
+  public ListenerTest() {
+    SBMLDocument doc = new SBMLDocument(2, 2);
+    doc.addTreeNodeChangeListener(this);
+    Model model = doc.createModel("test_model");
+    Parameter p1 = model.createParameter("p1");
+    p1.setId("p2");
+    model.removeParameter(p1);
 
-		Compartment c = model.createCompartment("c");
-		c.setSize(4.3);
-		c.setSBOTerm(SBO.getPhysicalCompartment());
+    Compartment c = model.createCompartment("c");
+    c.setSize(4.3);
+    c.setSBOTerm(SBO.getPhysicalCompartment());
 
-		Species s1 = model.createSpecies("s1", c);
-		s1.addCVTerm(new CVTerm(CVTerm.Type.BIOLOGICAL_QUALIFIER,
-				Qualifier.BQB_IS, "urn:miriam:kegg.compound:C12345"));
-		s1.setValue(23.7);
-		model.removeSpecies(s1);
+    Species s1 = model.createSpecies("s1", c);
+    s1.addCVTerm(new CVTerm(CVTerm.Type.BIOLOGICAL_QUALIFIER,
+      Qualifier.BQB_IS, "urn:miriam:kegg.compound:C12345"));
+    s1.setValue(23.7);
+    model.removeSpecies(s1);
 
-		try {
-			System.out.println();
-			new SBMLWriter().write(doc, System.out);
-		} catch (Exception exc) {
-			exc.printStackTrace();
-		}
-	}
+    try {
+      System.out.println();
+      new SBMLWriter().write(doc, System.out);
+    } catch (Exception exc) {
+      exc.printStackTrace();
+    }
+  }
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		new ListenerTest();
-	}
+  /**
+   * @param args
+   */
+  public static void main(String[] args) {
+    new ListenerTest();
+  }
 
-	/* (non-Javadoc)
-	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-	 */
-	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		System.out.printf("Change:\t%s\n", evt.toString());
-	}
+  /* (non-Javadoc)
+   * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+   */
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+    System.out.printf("Change:\t%s\n", evt.toString());
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeAdded(javax.swing.tree.TreeNode)
-	 */
-	@Override
-	public void nodeAdded(TreeNode node) {
-		System.out.printf("Added:\t%s\n", node);
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeAdded(javax.swing.tree.TreeNode)
+   */
+  @Override
+  public void nodeAdded(TreeNode node) {
+    System.out.printf("Added:\t%s\n", node);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeRemoved(org.sbml.jsbml.util.TreeNodeRemovedEvent)
-	 */
-	@Override
-	public void nodeRemoved(TreeNodeRemovedEvent evt) {
-		System.out.printf("Removed:\t%s\n", evt.getSource());
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeChangeListener#nodeRemoved(org.sbml.jsbml.util.TreeNodeRemovedEvent)
+   */
+  @Override
+  public void nodeRemoved(TreeNodeRemovedEvent evt) {
+    System.out.printf("Removed:\t%s\n", evt.getSource());
+  }
 
 }

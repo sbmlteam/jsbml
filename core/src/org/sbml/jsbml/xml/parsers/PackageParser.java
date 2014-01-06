@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.xml.parsers;
 
 import java.util.List;
@@ -33,44 +32,43 @@ import java.util.List;
 public interface PackageParser {
 
 
-	/**
-	 * Gets the namespace for this package that correspond to the given SBML level, version
-	 * and the package version.
-	 *  
-	 * <p>Returns null if the combined level, version and packageVersion is
-	 * invalid or not known from the package parser implementation.
-	 * 
-	 * @param level - the SBML level
-	 * @param version - the SBML version
-	 * @param packageVersion - the package version
-	 * @return the namespace for this package that correspond to the given SBML level and version
-	 * and the package version.
-	 */
-	public String getNamespaceFor(String level, String version, String packageVersion);
-	
-	/**
-	 * Returns a {@link List} of all the valid namespaces for the package.
-	 * 
-	 * @return a {@link List} of all the valid namespaces for the package.
-	 */
-	public List<String> getPackageNamespaces();
-	
-	
-	/**
-	 * Returns the name of this package.
-	 * 
-	 * @return the name of this package.
-	 */
-	public String getPackageName();
-	
-	/**
-	 * Returns the value of the {@code required} attribute for this package.
-	 * 
-	 * @return the value of the {@code required} attribute for this package.
-	 */
-	public boolean isRequired();
+  /**
+   * Gets the namespace for this package that correspond to the given SBML level, version
+   * and the package version.
+   * 
+   * <p>Returns null if the combined level, version and packageVersion is
+   * invalid or not known from the package parser implementation.
+   * 
+   * @param level - the SBML level
+   * @param version - the SBML version
+   * @param packageVersion - the package version
+   * @return the namespace for this package that correspond to the given SBML level and version
+   * and the package version.
+   */
+  public String getNamespaceFor(String level, String version, String packageVersion);
 
-	// TODO - methods to change an id or metaid ??
-	
+  /**
+   * Returns a {@link List} of all the valid namespaces for the package.
+   * 
+   * @return a {@link List} of all the valid namespaces for the package.
+   */
+  public List<String> getPackageNamespaces();
+
+
+  /**
+   * Returns the name of this package.
+   * 
+   * @return the name of this package.
+   */
+  public String getPackageName();
+
+  /**
+   * Returns the value of the {@code required} attribute for this package.
+   * 
+   * @return the value of the {@code required} attribute for this package.
+   */
+  public boolean isRequired();
+
+  // TODO - methods to change an id or metaid ??
 
 }

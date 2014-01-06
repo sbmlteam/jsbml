@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,80 +18,80 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.util;
 
 /**
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */
 public class Location {
 
-	/**
-	 * 
-	 */
-	private int line;
-	/**
-	 * 
-	 */
-	private int column;
+  // TODO: Where is this used and what is this class's purpose?
 
-	/**
-	 * 
-	 */
-	public Location() {
-	}
+  /**
+   * 
+   */
+  private int line;
+  /**
+   * 
+   */
+  private int column;
 
-	/**
-	 * 
-	 * @param line
-	 * @param column
-	 */
-	public Location(int line, int column) {
-		this.line = line;
-		this.column = column;
-	}
+  /**
+   * 
+   */
+  public Location() {
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public int getColumn() {
-		return column;
-	}
+  /**
+   * 
+   * @param line
+   * @param column
+   */
+  public Location(int line, int column) {
+    this.line = line;
+    this.column = column;
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public int getLine() {
-		return line;
-	}
+  /**
+   * 
+   * @return
+   */
+  public int getColumn() {
+    return column;
+  }
 
-	/**
-	 * 
-	 * @param column
-	 */
-	public void setColumn(int column) {
-		this.column = column;
-	}
+  /**
+   * 
+   * @return
+   */
+  public int getLine() {
+    return line;
+  }
 
-	/**
-	 * 
-	 * @param line
-	 */
-	public void setLine(int line) {
-		this.line = line;
-	}
+  /**
+   * 
+   * @param column
+   */
+  public void setColumn(int column) {
+    this.column = column;
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "Location [column=" + column + ", line=" + line + "]";
-	}
+  /**
+   * 
+   * @param line
+   */
+  public void setLine(int line) {
+    this.line = line;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "Location [column=" + column + ", line=" + line + "]";
+  }
 
 }

@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.util;
 
 /**
@@ -32,38 +31,38 @@ package org.sbml.jsbml.util;
  */
 public class NotImplementedException extends Error {
 
-	/**
-	 * Generated serial version identifier
-	 */
-	private static final long serialVersionUID = 8871684506701754580L;
+  /**
+   * Generated serial version identifier
+   */
+  private static final long serialVersionUID = 8871684506701754580L;
 
-	/**
-	 * 
-	 */
-	public NotImplementedException() {
-		super();
-	}
+  /**
+   * 
+   */
+  public NotImplementedException() {
+    super();
+  }
 
-	/**
-	 * @param message
-	 */
-	public NotImplementedException(String message) {
-		super(message);
-	}
+  /**
+   * @param message
+   */
+  public NotImplementedException(String message) {
+    super(message);
+  }
 
-	/**
-	 * @param cause
-	 */
-	public NotImplementedException(Throwable cause) {
-		super(cause);
-	}
+  /**
+   * @param cause
+   */
+  public NotImplementedException(Throwable cause) {
+    super(cause);
+  }
 
-	/**
-	 * @param message
-	 * @param cause
-	 */
-	public NotImplementedException(String message, Throwable cause) {
-		super(message, cause);
-	}
+  /**
+   * @param message
+   * @param cause
+   */
+  public NotImplementedException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
 }

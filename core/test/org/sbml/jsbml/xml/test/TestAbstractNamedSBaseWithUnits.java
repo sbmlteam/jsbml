@@ -2,13 +2,13 @@
  * $Id$
  * $URL$
  *
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2013 jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
+ * Copyright (C) 2009-2014 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 
@@ -18,7 +18,7 @@
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
- */ 
+ */
 package org.sbml.jsbml.xml.test;
 
 import static org.junit.Assert.assertTrue;
@@ -45,7 +45,7 @@ public class TestAbstractNamedSBaseWithUnits {
    */
   private AbstractNamedSBaseWithUnit sbase;
   private Unit.Kind kind;
-  
+
   /**
    * Initialize an object
    */
@@ -58,7 +58,7 @@ public class TestAbstractNamedSBaseWithUnits {
     kind = Unit.Kind.AMPERE;
     assertTrue(!sbase.isSetUnits());
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.AbstractNamedSBaseWithUnit#setUnits(org.sbml.jsbml.Unit.Kind)}.
    */
@@ -102,7 +102,7 @@ public class TestAbstractNamedSBaseWithUnits {
     assertTrue(sbase.isSetUnitsInstance());
     assertTrue(sbase.getUnits().equals(
       '_' + "1_0_0_" + kind.toString() + '_'
-        + Double.toString(unit.getExponent()).replace('.', '_')));
+      + Double.toString(unit.getExponent()).replace('.', '_')));
   }
 
 
@@ -118,7 +118,7 @@ public class TestAbstractNamedSBaseWithUnits {
     assertTrue(sbase.isSetUnitsInstance());
     assertTrue(sbase.getUnits().equals(kind.toString().toLowerCase() + "_base"));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.AbstractNamedSBaseWithUnit#isPredefinedUnitsID(java.lang.String)}.
    */

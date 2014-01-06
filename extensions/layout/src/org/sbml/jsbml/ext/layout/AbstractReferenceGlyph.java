@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -33,168 +33,168 @@ import org.sbml.jsbml.NamedSBase;
  */
 public abstract class AbstractReferenceGlyph extends GraphicalObject {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 3542638384361924654L;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 3542638384361924654L;
 
-	/**
-	 * The identifier of the {@link NamedSBase} represented by this
-	 * {@link GraphicalObject}.
-	 */
-	private String reference;
-	
-	/**
-	 * 
-	 */
-	public AbstractReferenceGlyph() {
-		super();
-	}
+  /**
+   * The identifier of the {@link NamedSBase} represented by this
+   * {@link GraphicalObject}.
+   */
+  private String reference;
 
-	/**
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public AbstractReferenceGlyph(int level, int version) {
-		super(level, version);
-	}
+  /**
+   * 
+   */
+  public AbstractReferenceGlyph() {
+    super();
+  }
 
-	/**
-	 * 
-	 * @param glyp
-	 */
-	public AbstractReferenceGlyph(AbstractReferenceGlyph glyph) {
-		super(glyph);
-		if (glyph.isSetReference()) {
-			setName(glyph.getReference());
-		}
-	}
-	
-	/**
-	 * @param id
-	 */
-	public AbstractReferenceGlyph(String id) {
-		super(id);
-	}
-	
-	/**
-	 * 
-	 * @param id
-	 * @param level
-	 * @param version
-	 */
-	public AbstractReferenceGlyph(String id, int level, int version) {
-		super(id, level, version);
-	}
+  /**
+   * 
+   * @param level
+   * @param version
+   */
+  public AbstractReferenceGlyph(int level, int version) {
+    super(level, version);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
-	 */
-	@Override
-	public abstract AbstractReferenceGlyph clone();
+  /**
+   * 
+   * @param glyp
+   */
+  public AbstractReferenceGlyph(AbstractReferenceGlyph glyph) {
+    super(glyph);
+    if (glyph.isSetReference()) {
+      setName(glyph.getReference());
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object object) {
-		boolean equal = super.equals(object);
-		if (equal) {
-			AbstractReferenceGlyph nsg = (AbstractReferenceGlyph) object;
-			equal &= isSetReference() == nsg.isSetReference();
-			if (equal && isSetReference()) {
-				equal &= getReference().equals(nsg.getReference());
-			}
-		}
-		return equal;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String getReference() {
-		return isSetReference() ? reference : "";
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public NamedSBase getReferenceInstance() {
-		Model model = getModel();
-		return isSetReference() && (model != null) ? model.findNamedSBase(getReference()) : null;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 * @see #getReferenceInstance()
-	 */
-	public NamedSBase getNamedSBaseInstance() {
-		return getReferenceInstance();
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 983;
-		int hashCode = super.hashCode();
-		hashCode += prime * (isSetReference() ? reference.hashCode() : 0);
-		return hashCode;
-	}
+  /**
+   * @param id
+   */
+  public AbstractReferenceGlyph(String id) {
+    super(id);
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isSetReference() {
-		return (reference != null) && (reference.length() > 0);
-	}
-	
-	/**
-	 * 
-	 * @param namedSBase
-	 */
-	public void setNamedSBase(NamedSBase namedSBase) {
-	  setReference(namedSBase.getId());
-	}
+  /**
+   * 
+   * @param id
+   * @param level
+   * @param version
+   */
+  public AbstractReferenceGlyph(String id, int level, int version) {
+    super(id, level, version);
+  }
 
-	/**
-	 * 
-	 * @param sbase
-	 */
-	public void setReference(String sbase) {
-		setReference(sbase, "reference");
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.GraphicalObject#clone()
+   */
+  @Override
+  public abstract AbstractReferenceGlyph clone();
 
-	/**
-	 * 
-	 * @param sbase
-	 * @param type
-	 */
-	void setReference(String sbase, String type) {
-		String oldSBase = this.reference;
-		this.reference = sbase;
-		firePropertyChange(type, oldSBase, this.reference);
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    boolean equal = super.equals(object);
+    if (equal) {
+      AbstractReferenceGlyph nsg = (AbstractReferenceGlyph) object;
+      equal &= isSetReference() == nsg.isSetReference();
+      if (equal && isSetReference()) {
+        equal &= getReference().equals(nsg.getReference());
+      }
+    }
+    return equal;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
-	 */
-	@Override
-	public String toString() {
-		return getElementName() + " [" + (isSetReference() ? getReference() : "") + ']';
-	}
-	
-	/**
-	 * 
-	 */
-	public void unsetReference() {
-		setReference((String) null);
-	}
-	
+  /**
+   * 
+   * @return
+   */
+  public String getReference() {
+    return isSetReference() ? reference : "";
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public NamedSBase getReferenceInstance() {
+    Model model = getModel();
+    return isSetReference() && (model != null) ? model.findNamedSBase(getReference()) : null;
+  }
+
+  /**
+   * 
+   * @return
+   * @see #getReferenceInstance()
+   */
+  public NamedSBase getNamedSBaseInstance() {
+    return getReferenceInstance();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 983;
+    int hashCode = super.hashCode();
+    hashCode += prime * (isSetReference() ? reference.hashCode() : 0);
+    return hashCode;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetReference() {
+    return (reference != null) && (reference.length() > 0);
+  }
+
+  /**
+   * 
+   * @param namedSBase
+   */
+  public void setNamedSBase(NamedSBase namedSBase) {
+    setReference(namedSBase.getId());
+  }
+
+  /**
+   * 
+   * @param sbase
+   */
+  public void setReference(String sbase) {
+    setReference(sbase, "reference");
+  }
+
+  /**
+   * 
+   * @param sbase
+   * @param type
+   */
+  void setReference(String sbase, String type) {
+    String oldSBase = reference;
+    reference = sbase;
+    firePropertyChange(type, oldSBase, reference);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#toString()
+   */
+  @Override
+  public String toString() {
+    return getElementName() + " [" + (isSetReference() ? getReference() : "") + ']';
+  }
+
+  /**
+   * 
+   */
+  public void unsetReference() {
+    setReference((String) null);
+  }
+
 }

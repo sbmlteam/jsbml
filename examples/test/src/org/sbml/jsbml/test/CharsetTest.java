@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -29,31 +29,31 @@ import java.util.regex.Pattern;
  */
 public class CharsetTest {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		String underscore = "_";
-		String letter = "a-zA-Z";
-		String digit = "0-9";
-		String idChar = letter + digit + underscore;
+  /**
+   * @param args
+   */
+  public static void main(String[] args) {
+    String underscore = "_";
+    String letter = "a-zA-Z";
+    String digit = "0-9";
+    String idChar = letter + digit + underscore;
 
-		/*
-		 * Level 1
-		 */
-		String SNameL1V1 = underscore + "*[" + letter + "][" + idChar + "]*";
-		String SNameL1V2 = "[" + letter + underscore + "][" + idChar + "]*";
-		/*
-		 * Level 2 and beyond
-		 */
-		String SIdL2 = "[" + letter + underscore + "][" + idChar + "]*";
-		System.out.println(SIdL2);
-		
-		String testId = "Z_1_a_q3_c9";
-		System.out.printf("%s\t%s\t%s\n", testId, SNameL1V1, Pattern.matches(
-				SNameL1V1, testId));
-		System.out.printf("%s\t%s\t%s\n", testId, SNameL1V2, Pattern.matches(
-				SNameL1V2, testId));
-	}
+    /*
+     * Level 1
+     */
+    String SNameL1V1 = underscore + "*[" + letter + "][" + idChar + "]*";
+    String SNameL1V2 = "[" + letter + underscore + "][" + idChar + "]*";
+    /*
+     * Level 2 and beyond
+     */
+    String SIdL2 = "[" + letter + underscore + "][" + idChar + "]*";
+    System.out.println(SIdL2);
+
+    String testId = "Z_1_a_q3_c9";
+    System.out.printf("%s\t%s\t%s\n", testId, SNameL1V1, Pattern.matches(
+      SNameL1V1, testId));
+    System.out.printf("%s\t%s\t%s\n", testId, SNameL1V2, Pattern.matches(
+      SNameL1V2, testId));
+  }
 
 }

@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -43,43 +43,43 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
 @Ignore
 public class EventTest extends SimpleTreeNodeChangeListener {
 
-	/**
-	 * 
-	 * @throws ParseException
-	 * @throws XMLStreamException
-	 * @throws SBMLException
-	 */
-	public EventTest() throws ParseException, XMLStreamException, SBMLException {
-		SBMLDocument doc = new SBMLDocument(3, 1);
-		doc.addTreeNodeChangeListener(this);
-		Model model = doc.createModel("event_model");
-		Compartment c = model.createCompartment("compartment");
-		model.createSpecies("s1", c);
-		model.createSpecies("s2", c);
-		Event ev = model.createEvent();
-		Trigger trigger = ev.createTrigger(false, true, ASTNode.parseFormula("3 >= 2"));
-		trigger.setMath(ASTNode.geq(new ASTNode(ASTNode.Type.NAME_TIME),
-				new ASTNode(10)));
-		ev.createPriority(ASTNode.parseFormula("25"));
-		ev.createDelay(ASTNode.parseFormula("2"));
-		ev.createEventAssignment("s1", ASTNode.parseFormula("s2"));
-		System.out.println("==================================");
-		new SBMLWriter().write(doc, System.out);
-		System.out.println("\n==================================");
-		doc.setLevelAndVersion(2, 4);
-		System.out.println("==================================");
-		new SBMLWriter().write(doc, System.out);
-	}
+  /**
+   * 
+   * @throws ParseException
+   * @throws XMLStreamException
+   * @throws SBMLException
+   */
+  public EventTest() throws ParseException, XMLStreamException, SBMLException {
+    SBMLDocument doc = new SBMLDocument(3, 1);
+    doc.addTreeNodeChangeListener(this);
+    Model model = doc.createModel("event_model");
+    Compartment c = model.createCompartment("compartment");
+    model.createSpecies("s1", c);
+    model.createSpecies("s2", c);
+    Event ev = model.createEvent();
+    Trigger trigger = ev.createTrigger(false, true, ASTNode.parseFormula("3 >= 2"));
+    trigger.setMath(ASTNode.geq(new ASTNode(ASTNode.Type.NAME_TIME),
+      new ASTNode(10)));
+    ev.createPriority(ASTNode.parseFormula("25"));
+    ev.createDelay(ASTNode.parseFormula("2"));
+    ev.createEventAssignment("s1", ASTNode.parseFormula("s2"));
+    System.out.println("==================================");
+    new SBMLWriter().write(doc, System.out);
+    System.out.println("\n==================================");
+    doc.setLevelAndVersion(2, 4);
+    System.out.println("==================================");
+    new SBMLWriter().write(doc, System.out);
+  }
 
-	/**
-	 * @param args
-	 * @throws ParseException
-	 * @throws SBMLException
-	 * @throws XMLStreamException
-	 */
-	public static void main(String[] args) throws ParseException,
-			XMLStreamException, SBMLException {
-		new EventTest();
-	}
+  /**
+   * @param args
+   * @throws ParseException
+   * @throws SBMLException
+   * @throws XMLStreamException
+   */
+  public static void main(String[] args) throws ParseException,
+  XMLStreamException, SBMLException {
+    new EventTest();
+  }
 
 }

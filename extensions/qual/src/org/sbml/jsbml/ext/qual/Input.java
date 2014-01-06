@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -159,6 +159,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
+  @Override
   public AbstractSBase clone() {
     return new Input(this);
   }
@@ -211,6 +212,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
   /* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
+  @Override
   public boolean isIdMandatory() {
     return false;
   }
@@ -333,7 +335,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
    * @return
    */
   public boolean isSetThresholdLevel() {
-    return this.thresholdLevel != null;
+    return thresholdLevel != null;
   }
 
 
@@ -365,10 +367,10 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
    */
   public boolean unsetThresholdLevel() {
     if (isSetThresholdLevel()) {
-      Integer oldThresholdLevel = this.thresholdLevel;
-      this.thresholdLevel = null;
+      Integer oldThresholdLevel = thresholdLevel;
+      thresholdLevel = null;
       firePropertyChange(QualConstants.thresholdLevel, oldThresholdLevel,
-        this.thresholdLevel);
+        thresholdLevel);
       return true;
     } else {
       return false;
@@ -498,6 +500,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBaseWithDerivedUnit#containsUndeclaredUnits()
    */
+  @Override
   public boolean containsUndeclaredUnits() {
     return false;
   }
@@ -505,6 +508,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnitDefinition()
    */
+  @Override
   public UnitDefinition getDerivedUnitDefinition() {
     return null; // return Dimensionless here ??
     // TODO: ask Sarah if the qual specs say anything about that
@@ -513,6 +517,7 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnits()
    */
+  @Override
   public String getDerivedUnits() {
     return null; // see comment above
   }

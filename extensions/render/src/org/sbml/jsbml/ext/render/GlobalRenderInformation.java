@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -26,7 +26,6 @@ import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
 
-
 /**
  * @author Eugen Netz
  * @author Alexander Diamantikos
@@ -37,8 +36,8 @@ import org.sbml.jsbml.SBase;
  * @date 08.05.2012
  */
 public class GlobalRenderInformation extends RenderInformationBase {
-	/**
-   * 
+  /**
+   * Generated serial version identifier
    */
   private static final long serialVersionUID = 855680727119080659L;
 
@@ -48,7 +47,7 @@ public class GlobalRenderInformation extends RenderInformationBase {
   private ListOf<Style> listOfStyles;
 
   /**
-   * Creates an GlobalRenderInformation instance 
+   * Creates an GlobalRenderInformation instance
    */
   public GlobalRenderInformation() {
     super();
@@ -64,7 +63,7 @@ public class GlobalRenderInformation extends RenderInformationBase {
   }
 
   /**
-   * Creates a GlobalRenderInformation instance with a level and version. 
+   * Creates a GlobalRenderInformation instance with a level and version.
    * 
    * @param level
    * @param version
@@ -74,7 +73,7 @@ public class GlobalRenderInformation extends RenderInformationBase {
   }
 
   /**
-   * Creates a {@link GlobalRenderInformation} instance with an id. 
+   * Creates a {@link GlobalRenderInformation} instance with an id.
    * 
    * @param id
    */
@@ -84,7 +83,7 @@ public class GlobalRenderInformation extends RenderInformationBase {
   }
 
   /**
-   * Creates a {@link GlobalRenderInformation} instance with an id, level, and version. 
+   * Creates a {@link GlobalRenderInformation} instance with an id, level, and version.
    * 
    * @param id
    * @param level
@@ -95,7 +94,7 @@ public class GlobalRenderInformation extends RenderInformationBase {
   }
 
   /**
-   * Creates a {@link GlobalRenderInformation} instance with an id, name, level, and version. 
+   * Creates a {@link GlobalRenderInformation} instance with an id, name, level, and version.
    * 
    * @param id
    * @param name
@@ -118,7 +117,7 @@ public class GlobalRenderInformation extends RenderInformationBase {
   public GlobalRenderInformation clone() {
     return new GlobalRenderInformation(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderInformationBase#initDefaults()
    */
@@ -126,10 +125,10 @@ public class GlobalRenderInformation extends RenderInformationBase {
   public void initDefaults() {
     setNamespace(RenderConstants.namespaceURI);
   }
-  
-  
+
+
   /**
-   * @return {@code true}, if listOfStyles contains at least one element, 
+   * @return {@code true}, if listOfStyles contains at least one element,
    *         otherwise {@code false}
    */
   public boolean isSetListOfStyles() {
@@ -165,13 +164,13 @@ public class GlobalRenderInformation extends RenderInformationBase {
 
 
   /**
-   * @return {@code true}, if listOfStyles contained at least one element, 
+   * @return {@code true}, if listOfStyles contained at least one element,
    *         otherwise {@code false}
    */
   public boolean unsetListOfStyles() {
     if (isSetListOfStyles()) {
-      ListOf<Style> oldStyles = this.listOfStyles;
-      this.listOfStyles = null;
+      ListOf<Style> oldStyles = listOfStyles;
+      listOfStyles = null;
       oldStyles.fireNodeRemovedEvent();
       return true;
     }
@@ -262,5 +261,5 @@ public class GlobalRenderInformation extends RenderInformationBase {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
     return isAttributeRead;
   }
-  
+
 }

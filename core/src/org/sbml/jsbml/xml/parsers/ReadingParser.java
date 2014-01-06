@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.xml.parsers;
 
 import java.awt.Event;
@@ -32,7 +31,7 @@ import org.sbml.jsbml.Trigger;
  * The interface to implement for the SBML parsers reading SBML files.
  * 
  * @author Marine Dumousseau
- * @author rodrigue
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */
@@ -61,7 +60,7 @@ public interface ReadingParser {
    *        attribute. This object
    *        represents the context of the XML attribute in the SBMLDocument.
    */
-	public void processAttribute(String elementName, String attributeName, String value, String URI, String prefix, boolean isLastAttribute, Object contextObject);
+  public void processAttribute(String elementName, String attributeName, String value, String URI, String prefix, boolean isLastAttribute, Object contextObject);
 
   /**
    * Process the text of a XML element and modify 'contextObject' in
@@ -81,7 +80,7 @@ public interface ReadingParser {
    *        element. This object
    *        represents the context of the XML element in the SBMLDocument.
    */
-	public void processCharactersOf(String elementName, String characters, Object contextObject);
+  public void processCharactersOf(String elementName, String characters, Object contextObject);
 
   /**
    * Process the end of the document. Do the necessary changes in the
@@ -90,8 +89,8 @@ public interface ReadingParser {
    * @param sbmlDocument
    *        the final initialized SBMLDocument instance.
    */
-	public void processEndDocument(SBMLDocument sbmlDocument);
-	
+  public void processEndDocument(SBMLDocument sbmlDocument);
+
   /**
    * Process the end of the element 'elementName'. Modify or not the
    * contextObject.
@@ -110,8 +109,8 @@ public interface ReadingParser {
    *         {@code false} is returned the contextObject will stay on top
    *         of the stack
    */
-	public boolean processEndElement(String elementName, String prefix, boolean isNested, Object contextObject);
-	
+  public boolean processEndElement(String elementName, String prefix, boolean isNested, Object contextObject);
+
   /**
    * Process the namespace and modify the contextObject in consequence.
    * <p>For example, if the contextObject is an instance of SBMLDocument, the
@@ -137,12 +136,12 @@ public interface ReadingParser {
    *        element. This object
    *        represents the context of the XML element in the SBMLDocument.
    */
-	public void processNamespace(String elementName, String URI, String prefix, String localName, boolean hasAttributes, boolean isLastNamespace, Object contextObject);
+  public void processNamespace(String elementName, String URI, String prefix, String localName, boolean hasAttributes, boolean isLastNamespace, Object contextObject);
 
   /**
    * Process the XML element and modify 'contextObject' in consequence.
    * <p>For example, if the contextObject is an instance of {@link Event} and the
-   * elementName is 'trigger', this method will create a new {@link Trigger} instance 
+   * elementName is 'trigger', this method will create a new {@link Trigger} instance
    * and will set the trigger instance of the 'contextObject' to the new
    * {@link Trigger}. Then the method will return the new {@link Trigger} instance which is the
    * new environment.
@@ -164,13 +163,13 @@ public interface ReadingParser {
    *         node/subnode in the SBMLDocument. If null is returned,
    *         the contextObject will not change.
    */
-	public Object processStartElement(String elementName, String URI, String prefix, boolean hasAttributes, boolean hasNamespaces, Object contextObject);
+  public Object processStartElement(String elementName, String URI, String prefix, boolean hasAttributes, boolean hasNamespaces, Object contextObject);
 
-	/**
-	 * Returns a {@link List} of all the namespaces that this parser is handling.
-	 * 
-	 * @return a {@link List} of all the namespaces that this parser is handling
-	 */
-	public List<String> getNamespaces();
+  /**
+   * Returns a {@link List} of all the namespaces that this parser is handling.
+   * 
+   * @return a {@link List} of all the namespaces that this parser is handling
+   */
+  public List<String> getNamespaces();
 
 }

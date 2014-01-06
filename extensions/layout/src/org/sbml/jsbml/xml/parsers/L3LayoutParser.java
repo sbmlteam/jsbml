@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -456,35 +456,35 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
 
   @Override
   public List<String> getNamespaces() {
-	  return LayoutConstants.namespaces_L3;
+    return LayoutConstants.namespaces_L3;
   }
 
   @Override
   public List<String> getPackageNamespaces() {
-	  return LayoutConstants.namespaces_L3;
+    return LayoutConstants.namespaces_L3;
   }
 
   private static final List<String> namespaces = new ArrayList<String>();
 
   static {
-	  namespaces.addAll(LayoutConstants.namespaces_L3);
-	  namespaces.add("http://www.w3.org/2001/XMLSchema-instance");
+    namespaces.addAll(LayoutConstants.namespaces_L3);
+    namespaces.add("http://www.w3.org/2001/XMLSchema-instance");
   }
 
   @Override
   public String getNamespaceFor(String level, String version, String packageVersion) {
-	  // TODO Auto-generated method stub
-	  return null;
+    // TODO Auto-generated method stub
+    return null;
   }
 
   @Override
   public String getPackageName() {
-	  return LayoutConstants.shortLabel;
+    return LayoutConstants.shortLabel;
   }
 
   @Override
   public boolean isRequired() {
-	  return false;
+    return false;
   }
 
 }

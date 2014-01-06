@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -53,8 +53,8 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
    * 
    */
   public Output() {
-	  super();
-	  initDefaults();
+    super();
+    initDefaults();
   }
 
   /**
@@ -64,7 +64,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
     super(id);
     initDefaults();
   }
-  
+
   /**
    * @param qualitativeSpecies
    */
@@ -90,7 +90,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
    * @param version
    */
   public Output(int level, int version) {
-	  this(null, null, level, version);
+    this(null, null, level, version);
   }
 
 
@@ -100,7 +100,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
    * @param version
    */
   public Output(String id, int level, int version) {
-	  this(id, null, level, version);
+    this(id, null, level, version);
   }
 
   /**
@@ -110,17 +110,17 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
    * @param version
    */
   public Output(String id, String name, int level, int version) {
-	  super(id, name, level, version);
-	  // TODO: replace level/version check with call to helper method
-	  if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
-		  throw new LevelVersionError(getElementName(), level, version);
-	  }
-	  initDefaults();
+    super(id, name, level, version);
+    // TODO: replace level/version check with call to helper method
+    if (getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) < 0) {
+      throw new LevelVersionError(getElementName(), level, version);
+    }
+    initDefaults();
   }
 
   public Output(Output out) {
     super(out);
-    
+
     if (out.isSetQualitativeSpecies()) {
       setQualitativeSpecies(out.getQualitativeSpecies());
     }
@@ -136,12 +136,12 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
    * 
    */
   public void initDefaults() {
-     setNamespace(QualConstants.namespaceURI);
-     qualitativeSpecies = null;
-     transitionEffect = null;
-     outputLevel = null;   
-   }
-  
+    setNamespace(QualConstants.namespaceURI);
+    qualitativeSpecies = null;
+    transitionEffect = null;
+    outputLevel = null;
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
@@ -153,6 +153,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
   /* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
+  @Override
   public boolean isIdMandatory() {
     return false;
   }
@@ -169,7 +170,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
    * @return
    */
   public boolean isSetQualitativeSpecies() {
-    return this.qualitativeSpecies != null;
+    return qualitativeSpecies != null;
   }
 
 
@@ -201,11 +202,11 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
    * @return
    */
   public boolean unsetQualitativeSpecies() {
-	  if (isSetQualitativeSpecies()) {
-		  setQualitativeSpecies(null);
-		  return true;
-	  }
-	  return false;
+    if (isSetQualitativeSpecies()) {
+      setQualitativeSpecies(null);
+      return true;
+    }
+    return false;
   }
 
 
@@ -222,7 +223,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
    * @return
    */
   public boolean isSetTransitionEffect() {
-    return this.transitionEffect != null;
+    return transitionEffect != null;
   }
 
 
@@ -296,9 +297,9 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
    *        the level to set
    */
   public void setOutputLevel(int level) {
-    Integer oldLevel = this.outputLevel;
-    this.outputLevel = level;
-    firePropertyChange(QualConstants.outputLevel, oldLevel, this.outputLevel);
+    Integer oldLevel = outputLevel;
+    outputLevel = level;
+    firePropertyChange(QualConstants.outputLevel, oldLevel, outputLevel);
   }
 
 
@@ -308,9 +309,9 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
    */
   public boolean unsetOutputLevel() {
     if (isSetOutputLevel()) {
-      Integer oldLevel = this.outputLevel;
-      this.outputLevel = null;
-      firePropertyChange(QualConstants.outputLevel, oldLevel, this.outputLevel);
+      Integer oldLevel = outputLevel;
+      outputLevel = null;
+      firePropertyChange(QualConstants.outputLevel, oldLevel, outputLevel);
       return true;
     } else {
       return false;
@@ -361,86 +362,89 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
     }
     return hashCode;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
 
-	  boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 
-	  if (!isAttributeRead) {
-		  isAttributeRead = true;
+    if (!isAttributeRead) {
+      isAttributeRead = true;
 
-		  if (attributeName.equals(QualConstants.qualitativeSpecies)) {
-			  setQualitativeSpecies(value);
-		  } else if (attributeName.equals(QualConstants.outputLevel)) {
-			  setLevel(StringTools.parseSBMLInt(value));
-		  } else if (attributeName.equals(QualConstants.transitionEffect)) {
-			  try {
-				  setTransitionEffect(OutputTransitionEffect.valueOf(value));
-			  } catch (Exception e) {
-				  throw new SBMLException("Could not recognized the value '" + value + "' for the attribute " + 
-						  QualConstants.transitionEffect + " on the 'output' element.");
-			  }
+      if (attributeName.equals(QualConstants.qualitativeSpecies)) {
+        setQualitativeSpecies(value);
+      } else if (attributeName.equals(QualConstants.outputLevel)) {
+        setLevel(StringTools.parseSBMLInt(value));
+      } else if (attributeName.equals(QualConstants.transitionEffect)) {
+        try {
+          setTransitionEffect(OutputTransitionEffect.valueOf(value));
+        } catch (Exception e) {
+          throw new SBMLException("Could not recognized the value '" + value + "' for the attribute " +
+              QualConstants.transitionEffect + " on the 'output' element.");
+        }
 
-		  } else {
-			  isAttributeRead = false;
-		  }
-	  }
+      } else {
+        isAttributeRead = false;
+      }
+    }
 
-	  return isAttributeRead;
+    return isAttributeRead;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
    */
   @Override
   public Map<String, String> writeXMLAttributes() {
-	  Map<String, String> attributes = super.writeXMLAttributes();
+    Map<String, String> attributes = super.writeXMLAttributes();
 
-	  if (isSetId()) {
-		  attributes.remove("id");
-		  attributes.put(QualConstants.shortLabel+ ":id", getId());
-	  }
-	  if (isSetName()) {
-		  attributes.remove("name");
-		  attributes.put(QualConstants.shortLabel+ ":name", getName());
-	  }
-	  if (isSetQualitativeSpecies()) {
-		  attributes.put(QualConstants.shortLabel+ ':' + QualConstants.qualitativeSpecies, getQualitativeSpecies());
-	  }
-	  if (isSetOutputLevel()) {
-		  attributes.put(QualConstants.shortLabel+ ':' + QualConstants.outputLevel, Integer.toString(getOutputLevel()));
-	  }	  
-	  if (isSetTransitionEffect()) {
-		  attributes.put(QualConstants.shortLabel+ ':' + QualConstants.transitionEffect, getTransitionEffect().toString());
-	  }
+    if (isSetId()) {
+      attributes.remove("id");
+      attributes.put(QualConstants.shortLabel+ ":id", getId());
+    }
+    if (isSetName()) {
+      attributes.remove("name");
+      attributes.put(QualConstants.shortLabel+ ":name", getName());
+    }
+    if (isSetQualitativeSpecies()) {
+      attributes.put(QualConstants.shortLabel+ ':' + QualConstants.qualitativeSpecies, getQualitativeSpecies());
+    }
+    if (isSetOutputLevel()) {
+      attributes.put(QualConstants.shortLabel+ ':' + QualConstants.outputLevel, Integer.toString(getOutputLevel()));
+    }
+    if (isSetTransitionEffect()) {
+      attributes.put(QualConstants.shortLabel+ ':' + QualConstants.transitionEffect, getTransitionEffect().toString());
+    }
 
-	  return attributes;
+    return attributes;
   }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBaseWithDerivedUnit#containsUndeclaredUnits()
    */
+  @Override
   public boolean containsUndeclaredUnits() {
-		return false;
-	}
+    return false;
+  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnitDefinition()
    */
-	public UnitDefinition getDerivedUnitDefinition() {
-		return null; // return Dimensionless here ??
-		// TODO: ask Sarah if the qual specs say anything about that
-	}
+  @Override
+  public UnitDefinition getDerivedUnitDefinition() {
+    return null; // return Dimensionless here ??
+    // TODO: ask Sarah if the qual specs say anything about that
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnits()
-	 */
-	public String getDerivedUnits() {
-		return null; // see comment above
-	}
-  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnits()
+   */
+  @Override
+  public String getDerivedUnits() {
+    return null; // see comment above
+  }
+
 }

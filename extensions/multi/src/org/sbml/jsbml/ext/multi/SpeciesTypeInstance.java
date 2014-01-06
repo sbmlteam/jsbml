@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -34,74 +34,75 @@ import org.sbml.jsbml.UniqueNamedSBase;
  */
 public class SpeciesTypeInstance extends AbstractNamedSBase implements UniqueNamedSBase {
 
-	/**
+  /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 1775590492963078468L;
 
   private double initialAmount;
-	
-	private double initialConcentration;
-	
-	private ListOf<SelectorReference> listOfSelectorReferences;
-	
-	public boolean isIdMandatory() {
-		return true;
-	}
 
-	@Override
-	public AbstractSBase clone() {
-		// TODO
-		return null;
-	}
+  private double initialConcentration;
 
-	/**
-	 * Returns the initialAmount.
-	 * 
-	 * @return the initialAmount
-	 */
-	public double getInitialAmount() {
-		return initialAmount;
-	}
+  private ListOf<SelectorReference> listOfSelectorReferences;
 
-	/**
-	 * Sets the initialAmount.
-	 * 
-	 * @param initialAmount the initialAmount to set
-	 */
-	public void setInitialAmount(double initialAmount) {
-		this.initialAmount = initialAmount;
-	}
+  @Override
+  public boolean isIdMandatory() {
+    return true;
+  }
 
-	/**
-	 * Returns the initialConcentration.
-	 * 
-	 * @return the initialConcentration
-	 */
-	public double getInitialConcentration() {
-		return initialConcentration;
-	}
+  @Override
+  public AbstractSBase clone() {
+    // TODO
+    return null;
+  }
 
-	/**
-	 * Sets the initialConcentration.
-	 * 
-	 * @param initialConcentration the initialConcentration to set
-	 */
-	public void setInitialConcentration(double initialConcentration) {
-		this.initialConcentration = initialConcentration;
-	}
+  /**
+   * Returns the initialAmount.
+   * 
+   * @return the initialAmount
+   */
+  public double getInitialAmount() {
+    return initialAmount;
+  }
 
-	/**
-	 * @return the listOfSelectorReferences
-	 */
-	public ListOf<SelectorReference> getListOfSelectorReferences() {
-		return listOfSelectorReferences;
-	}
+  /**
+   * Sets the initialAmount.
+   * 
+   * @param initialAmount the initialAmount to set
+   */
+  public void setInitialAmount(double initialAmount) {
+    this.initialAmount = initialAmount;
+  }
 
-	/**
-	 * @param listOfSelectorReferences the listOfSelectorReferences to set
-	 */
-	public void addSelectorReference(SelectorReference selectorReference) {
-		getListOfSelectorReferences().add(selectorReference);
-	}
+  /**
+   * Returns the initialConcentration.
+   * 
+   * @return the initialConcentration
+   */
+  public double getInitialConcentration() {
+    return initialConcentration;
+  }
+
+  /**
+   * Sets the initialConcentration.
+   * 
+   * @param initialConcentration the initialConcentration to set
+   */
+  public void setInitialConcentration(double initialConcentration) {
+    this.initialConcentration = initialConcentration;
+  }
+
+  /**
+   * @return the listOfSelectorReferences
+   */
+  public ListOf<SelectorReference> getListOfSelectorReferences() {
+    return listOfSelectorReferences;
+  }
+
+  /**
+   * @param listOfSelectorReferences the listOfSelectorReferences to set
+   */
+  public void addSelectorReference(SelectorReference selectorReference) {
+    getListOfSelectorReferences().add(selectorReference);
+  }
 }

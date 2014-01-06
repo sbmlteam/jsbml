@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -30,95 +30,99 @@ import org.sbml.jsbml.UniqueNamedSBase;
  * @since 1.0
  */
 public class Port extends AbstractNamedSBaseRef implements UniqueNamedSBase {
-	// TODO - Port have their own namespace of ids so we have to treat them separately. 
-	// We will do that once the new methods and interface to deal with registration of ids are in place.
-	
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -301236222127386488L;
+  // TODO - Port have their own namespace of ids so we have to treat them separately.
+  // We will do that once the new methods and interface to deal with registration of ids are in place.
 
-	/**
-	 * Creates an Port instance 
-	 */
-	public Port() {
-		super();
-		initDefaults();
-	}
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -301236222127386488L;
 
-	/**
-	 * Creates a Port instance with an id. 
-	 * 
-	 * @param id
-	 */
-	public Port(String id) {
-		super(id);
-		initDefaults();
-	}
+  /**
+   * Creates an Port instance
+   */
+  public Port() {
+    super();
+    initDefaults();
+  }
 
-	/**
-	 * Creates a Port instance with a level and version. 
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public Port(int level, int version) {
-		this(null, null, level, version);
-	}
+  /**
+   * Creates a Port instance with an id.
+   * 
+   * @param id
+   */
+  public Port(String id) {
+    super(id);
+    initDefaults();
+  }
 
-	/**
-	 * Creates a Port instance with an id, level, and version. 
-	 * 
-	 * @param id
-	 * @param level
-	 * @param version
-	 */
-	public Port(String id, int level, int version) {
-		this(id, null, level, version);
-	}
+  /**
+   * Creates a Port instance with a level and version.
+   * 
+   * @param level
+   * @param version
+   */
+  public Port(int level, int version) {
+    this(null, null, level, version);
+  }
 
-	/**
-	 * Creates a Port instance with an id, name, level, and version. 
-	 * 
-	 * @param id
-	 * @param name
-	 * @param level
-	 * @param version
-	 */
-	public Port(String id, String name, int level, int version) {
-		super(id, name, level, version);
-		if (getLevelAndVersion().compareTo(
-				Integer.valueOf(CompConstants.MIN_SBML_LEVEL),
-				Integer.valueOf(CompConstants.MIN_SBML_VERSION)) < 0) {
-			throw new LevelVersionError(getElementName(), level, version);
-		}
-		initDefaults();
-	}
+  /**
+   * Creates a Port instance with an id, level, and version.
+   * 
+   * @param id
+   * @param level
+   * @param version
+   */
+  public Port(String id, int level, int version) {
+    this(id, null, level, version);
+  }
 
-	/**
-	 * Clone constructor
-	 */
-	public Port(Port obj) {
-		super(obj);
-	}
+  /**
+   * Creates a Port instance with an id, name, level, and version.
+   * 
+   * @param id
+   * @param name
+   * @param level
+   * @param version
+   */
+  public Port(String id, String name, int level, int version) {
+    super(id, name, level, version);
+    if (getLevelAndVersion().compareTo(
+      Integer.valueOf(CompConstants.MIN_SBML_LEVEL),
+      Integer.valueOf(CompConstants.MIN_SBML_VERSION)) < 0) {
+      throw new LevelVersionError(getElementName(), level, version);
+    }
+    initDefaults();
+  }
 
-	/**
-	 * Initializes the default values using the namespace.
-	 */
-	public void initDefaults() {
-		setNamespace(CompConstants.namespaceURI);
-	}
+  /**
+   * Clone constructor
+   */
+  public Port(Port obj) {
+    super(obj);
+  }
 
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setNamespace(CompConstants.namespaceURI);
+  }
 
-	public boolean isIdMandatory() {
-		return true;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  @Override
+  public boolean isIdMandatory() {
+    return true;
+  }
 
-	/**
-	 * clones this class
-	 */
-	public Port clone() {
-		return new Port(this);
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.comp.SBaseRef#clone()
+   */
+  @Override
+  public Port clone() {
+    return new Port(this);
+  }
 
 }

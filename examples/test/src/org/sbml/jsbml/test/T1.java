@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -30,19 +30,20 @@ import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.util.SimpleTreeNodeChangeListener;
 
 /**
- * @author draeger
- *
+ * @author Andreas Dr&auml;ger
+ * @since 0.8
+ * @version $Rev$
  */
 public class T1 {
 
-	/**
-	 * @param args
-	 * @throws XMLStreamException 
-	 * @throws IOException 
-	 */
-	public static void main(String[] args) throws XMLStreamException, IOException {
-		System.setProperty("log4j.configuration", System.getProperty("user.dir") + "/log4j.properties");
-		SBMLWriter.write(SBMLReader.read(new File(args[0]),  new SimpleTreeNodeChangeListener()), System.out, ' ', (short) 2);
-	}
+  /**
+   * @param args
+   * @throws XMLStreamException
+   * @throws IOException
+   */
+  public static void main(String[] args) throws XMLStreamException, IOException {
+    System.setProperty("log4j.configuration", System.getProperty("user.dir") + "/log4j.properties");
+    SBMLWriter.write(SBMLReader.read(new File(args[0]),  new SimpleTreeNodeChangeListener()), System.out, ' ', (short) 2);
+  }
 
 }

@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.xml;
 
 /**
@@ -32,47 +31,47 @@ package org.sbml.jsbml.xml;
  */
 public class XMLException extends RuntimeException {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -7347204499480036729L;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -7347204499480036729L;
 
-	/**
-	 * 
-	 */
-	public XMLException() {
-		super();
-	}
+  /**
+   * 
+   */
+  public XMLException() {
+    super();
+  }
 
-	
-	/**
-	 * @param message
-	 */
-	public XMLException(String message) {
-		super(message);
-	}
 
-	/**
-	 * @param message
-	 * @param cause
-	 */
-	public XMLException(String message, Throwable cause) {
-		super(message, cause);
-	}
+  /**
+   * @param message
+   */
+  public XMLException(String message) {
+    super(message);
+  }
 
-	/**
-	 * @param cause
-	 */
-	public XMLException(Throwable cause) {
-		super(cause);
-	}
+  /**
+   * @param message
+   * @param cause
+   */
+  public XMLException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public int getErrorId() {
-		return 0;
-	}
+  /**
+   * @param cause
+   */
+  public XMLException(Throwable cause) {
+    super(cause);
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public int getErrorId() {
+    return 0;
+  }
 
 }

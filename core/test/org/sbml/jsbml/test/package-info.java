@@ -1,10 +1,11 @@
 /*
  * $Id$
  * $URL$
+ *
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- *
+ * 
  * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
@@ -20,10 +21,7 @@
  */
 
 /**
- * Contains classes to deal with and to manage non-Java resources, such as
- * configuration files.
- * 
  * @version $Rev$
  * @since 0.8
  */
-package org.sbml.jsbml.resources;
+package org.sbml.jsbml.test;

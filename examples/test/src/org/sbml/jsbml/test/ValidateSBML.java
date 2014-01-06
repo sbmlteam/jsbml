@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -36,57 +36,64 @@ import org.sbml.jsbml.SBMLReader;
  */
 public class ValidateSBML {
 
-	public static void main (String[] args) throws XMLStreamException, IOException
-	{
-		if (args.length < 1)
-		{
-			System.out.println("Usage: java validateSBML filename");
-			System.exit(1);
-		}
+  public static void main (String[] args) throws XMLStreamException, IOException
+  {
+    if (args.length < 1)
+    {
+      System.out.println("Usage: java validateSBML filename");
+      System.exit(1);
+    }
 
-		String filename       = args[0];
-		SBMLReader reader     = new SBMLReader();
-		SBMLDocument document;
-		long start, stop;
+    String filename       = args[0];
+    SBMLReader reader     = new SBMLReader();
+    SBMLDocument document;
+    long start, stop;
 
-		start    = System.currentTimeMillis();
-		document = reader.readSBML(filename);
-		stop     = System.currentTimeMillis();
+    start    = System.currentTimeMillis();
+    document = reader.readSBML(filename);
+    stop     = System.currentTimeMillis();
 
-		if (document.getErrorCount() > 0)
-		{
-			print("Encountered the following errors while reading the SBML file:\n");
-			document.printErrors(System.out);
-			print("\nFurther consistency checking and validation aborted.\n");
-			System.exit(1);
-		}
-		else
-		{
-			long errors = document.checkConsistency();
-			long size   = new File(filename).length();
+    if (document.getErrorCount() > 0)
+    {
+      print("Encountered the following errors while reading the SBML file:\n");
+      document.printErrors(System.out);
+      print("\nFurther consistency checking and validation aborted.\n");
+      System.exit(1);
+    }
+    else
+    {
+      long errors = document.checkConsistency();
+      long size   = new File(filename).length();
 
-			println("            filename: " + filename);
-			println("           file size: " + size);
-			println("      read time (ms): " + (stop - start));
-			println(" validation error(s): " + errors);
+      println("            filename: " + filename);
+      println("           file size: " + size);
+      println("      read time (ms): " + (stop - start));
+      println(" validation error(s): " + errors);
 
-			if (errors > 0)
-			{
-				document.printErrors(System.out);
-				System.exit(1);
-			}
-		}
-	}
+      if (errors > 0)
+      {
+        document.printErrors(System.out);
+        System.exit(1);
+      }
+    }
+  }
 
+  /**
+   * 
+   * @param msg
+   */
+  static void print (String msg)
+  {
+    System.out.print(msg);
+  }
 
-	static void print (String msg)
-	{
-		System.out.print(msg);
-	}
-
-	static void println (String msg)
-	{
-		System.out.println(msg);
-	}
+  /**
+   * 
+   * @param msg
+   */
+  static void println (String msg)
+  {
+    System.out.println(msg);
+  }
 
 }

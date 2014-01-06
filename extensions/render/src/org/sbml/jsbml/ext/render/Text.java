@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.sbml.jsbml.PropertyUndefinedError;
 
-
 /**
  * @author Eugen Netz
  * @author Alexander Diamantikos
@@ -36,7 +35,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
  */
 public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point3D {
   /**
-   *
+   * Generated serial version identifier
    */
   private static final long serialVersionUID = -7468181076596795203L;
   private Boolean absoluteX, absoluteY, absoluteZ;
@@ -196,7 +195,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    */
   @Override
   public boolean isSetAbsoluteX() {
-    return this.absoluteX != null;
+    return absoluteX != null;
   }
 
   /* (non-Javadoc)
@@ -204,7 +203,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    */
   @Override
   public boolean isSetAbsoluteY() {
-    return this.absoluteY != null;
+    return absoluteY != null;
   }
 
   /* (non-Javadoc)
@@ -212,7 +211,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    */
   @Override
   public boolean isSetAbsoluteZ() {
-    return this.absoluteZ != null;
+    return absoluteZ != null;
   }
 
   /* (non-Javadoc)
@@ -220,7 +219,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    */
   @Override
   public boolean isSetFontFamily() {
-    return this.fontFamily != null;
+    return fontFamily != null;
   }
 
   /* (non-Javadoc)
@@ -228,7 +227,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    */
   @Override
   public boolean isSetFontSize() {
-    return this.fontSize != null;
+    return fontSize != null;
   }
 
   /* (non-Javadoc)
@@ -236,7 +235,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    */
   @Override
   public boolean isSetFontStyleItalic() {
-    return this.fontStyleItalic != null;
+    return fontStyleItalic != null;
   }
 
   /* (non-Javadoc)
@@ -244,7 +243,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    */
   @Override
   public boolean isSetFontWeightBold() {
-    return this.fontWeightBold != null;
+    return fontWeightBold != null;
   }
 
   /* (non-Javadoc)
@@ -252,7 +251,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    */
   @Override
   public boolean isSetTextAnchor() {
-    return this.textAnchor != null;
+    return textAnchor != null;
   }
 
   /* (non-Javadoc)
@@ -260,7 +259,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    */
   @Override
   public boolean isSetVTextAnchor() {
-    return this.vTextAnchor != null;
+    return vTextAnchor != null;
   }
 
   /* (non-Javadoc)
@@ -268,7 +267,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    */
   @Override
   public boolean isSetX() {
-    return this.x != null;
+    return x != null;
   }
 
   /* (non-Javadoc)
@@ -276,7 +275,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    */
   @Override
   public boolean isSetY() {
-    return this.y != null;
+    return y != null;
   }
 
   /* (non-Javadoc)
@@ -284,7 +283,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    */
   @Override
   public boolean isSetZ() {
-    return this.z != null;
+    return z != null;
   }
 
   /* (non-Javadoc)
@@ -413,9 +412,9 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   @Override
   public boolean unsetAbsoluteX() {
     if (isSetAbsoluteX()) {
-      Boolean oldAbsoluteX = this.absoluteX;
-      this.absoluteX = null;
-      firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, this.absoluteX);
+      Boolean oldAbsoluteX = absoluteX;
+      absoluteX = null;
+      firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, absoluteX);
       return true;
     }
     return false;
@@ -427,9 +426,9 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   @Override
   public boolean unsetAbsoluteY() {
     if (isSetAbsoluteY()) {
-      Boolean oldAbsoluteY = this.absoluteY;
-      this.absoluteY = null;
-      firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, this.absoluteY);
+      Boolean oldAbsoluteY = absoluteY;
+      absoluteY = null;
+      firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, absoluteY);
       return true;
     }
     return false;
@@ -441,9 +440,9 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   @Override
   public boolean unsetAbsoluteZ() {
     if (isSetAbsoluteZ()) {
-      Boolean oldAbsoluteZ = this.absoluteZ;
-      this.absoluteZ = null;
-      firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, this.absoluteZ);
+      Boolean oldAbsoluteZ = absoluteZ;
+      absoluteZ = null;
+      firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, absoluteZ);
       return true;
     }
     return false;
@@ -455,9 +454,9 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   @Override
   public boolean unsetFontFamily() {
     if (isSetFontFamily()) {
-      FontFamily oldFontFamily = this.fontFamily;
-      this.fontFamily = null;
-      firePropertyChange(RenderConstants.fontFamily, oldFontFamily, this.fontFamily);
+      FontFamily oldFontFamily = fontFamily;
+      fontFamily = null;
+      firePropertyChange(RenderConstants.fontFamily, oldFontFamily, fontFamily);
       return true;
     }
     return false;
@@ -469,9 +468,9 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   @Override
   public boolean unsetFontSize() {
     if (isSetFontSize()) {
-      Short oldFontSize = this.fontSize;
-      this.fontSize = null;
-      firePropertyChange(RenderConstants.fontSize, oldFontSize, this.fontSize);
+      Short oldFontSize = fontSize;
+      fontSize = null;
+      firePropertyChange(RenderConstants.fontSize, oldFontSize, fontSize);
       return true;
     }
     return false;
@@ -483,9 +482,9 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   @Override
   public boolean unsetFontStyleItalic() {
     if (isSetFontStyleItalic()) {
-      Boolean oldFontStyleItalic = this.fontStyleItalic;
-      this.fontStyleItalic = null;
-      firePropertyChange(RenderConstants.fontStyleItalic, oldFontStyleItalic, this.fontStyleItalic);
+      Boolean oldFontStyleItalic = fontStyleItalic;
+      fontStyleItalic = null;
+      firePropertyChange(RenderConstants.fontStyleItalic, oldFontStyleItalic, fontStyleItalic);
       return true;
     }
     return false;
@@ -497,9 +496,9 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   @Override
   public boolean unsetFontWeightBold() {
     if (isSetFontWeightBold()) {
-      Boolean oldFontWeightBold = this.fontWeightBold;
-      this.fontWeightBold = null;
-      firePropertyChange(RenderConstants.fontWeightBold, oldFontWeightBold, this.fontWeightBold);
+      Boolean oldFontWeightBold = fontWeightBold;
+      fontWeightBold = null;
+      firePropertyChange(RenderConstants.fontWeightBold, oldFontWeightBold, fontWeightBold);
       return true;
     }
     return false;
@@ -511,9 +510,9 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   @Override
   public boolean unsetTextAnchor() {
     if (isSetTextAnchor()) {
-      TextAnchor oldTextAnchor = this.textAnchor;
-      this.textAnchor = null;
-      firePropertyChange(RenderConstants.textAnchor, oldTextAnchor, this.textAnchor);
+      TextAnchor oldTextAnchor = textAnchor;
+      textAnchor = null;
+      firePropertyChange(RenderConstants.textAnchor, oldTextAnchor, textAnchor);
       return true;
     }
     return false;
@@ -525,9 +524,9 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   @Override
   public boolean unsetVTextAnchor() {
     if (isSetVTextAnchor()) {
-      VTextAnchor oldVTextAnchor = this.vTextAnchor;
-      this.vTextAnchor = null;
-      firePropertyChange(RenderConstants.vTextAnchor, oldVTextAnchor, this.vTextAnchor);
+      VTextAnchor oldVTextAnchor = vTextAnchor;
+      vTextAnchor = null;
+      firePropertyChange(RenderConstants.vTextAnchor, oldVTextAnchor, vTextAnchor);
       return true;
     }
     return false;
@@ -539,9 +538,9 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   @Override
   public boolean unsetX() {
     if (isSetX()) {
-      Double oldX = this.x;
-      this.x = null;
-      firePropertyChange(RenderConstants.x, oldX, this.x);
+      Double oldX = x;
+      x = null;
+      firePropertyChange(RenderConstants.x, oldX, x);
       return true;
     }
     return false;
@@ -553,9 +552,9 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   @Override
   public boolean unsetY() {
     if (isSetY()) {
-      Double oldY = this.y;
-      this.y = null;
-      firePropertyChange(RenderConstants.y, oldY, this.y);
+      Double oldY = y;
+      y = null;
+      firePropertyChange(RenderConstants.y, oldY, y);
       return true;
     }
     return false;
@@ -567,9 +566,9 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
   @Override
   public boolean unsetZ() {
     if (isSetZ()) {
-      Double oldZ = this.z;
-      this.z = null;
-      firePropertyChange(RenderConstants.z, oldZ, this.z);
+      Double oldZ = z;
+      z = null;
+      firePropertyChange(RenderConstants.z, oldZ, z);
       return true;
     }
     return false;

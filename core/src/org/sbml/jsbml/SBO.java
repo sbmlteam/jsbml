@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml;
 
 import java.io.BufferedReader;
@@ -278,7 +277,7 @@ public class SBO {
      */
     @Override
     public Term clone() {
-      return new Term(this.term);
+      return new Term(term);
     }
 
     /* (non-Javadoc)
@@ -328,7 +327,7 @@ public class SBO {
       if (def == null) {
         Annotation annotation;
         Object definition;
-        annotation = this.term.getAnnotation();
+        annotation = term.getAnnotation();
         definition = (annotation != null)
             && (annotation.keys().size() > 0) ? annotation
               .getProperty("def") : null;
@@ -360,7 +359,7 @@ public class SBO {
     public String getName() {
       if (name == null) {
         String description;
-        description = this.term.getDescription();
+        description = term.getDescription();
         name = description != null ? description.replace("\\n", "\n")
           .replace("\\,", ",").trim() : "";
       }
@@ -413,7 +412,7 @@ public class SBO {
      * {@link org.biojava.ontology.Term}.
      */
     public org.biojava.ontology.Term getTerm() {
-      return this.term;
+      return term;
     }
 
     /**
@@ -475,7 +474,7 @@ public class SBO {
      */
     @Override
     public Triple clone() {
-      return new Triple(this.triple);
+      return new Triple(triple);
     }
 
     /* (non-Javadoc)

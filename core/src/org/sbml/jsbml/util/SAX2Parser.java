@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -24,7 +24,6 @@ import java.io.*;
 import org.xml.sax.helpers.*;
 
 /**
- * 
  * An interface for XML SAX2 parsers.
  * 
  * @author Marco Donizelli
@@ -33,87 +32,84 @@ import org.xml.sax.helpers.*;
  */
 public interface SAX2Parser {
 
-	/**
-	 * 
-	 * Parses the content of a byte stream as XML, using a <i>nonvalidating</i>
-	 * parser and the specified SAX2 default event handler.
-	 * 
-	 * @param byteStream
-	 *            The byte stream which content has to be parsed as XML.
-	 * @param handler
-	 *            The SAX2 default event handler to use for parsing
-	 *            {@code byteStream}.
-	 * @param namespaceAware
-	 *            A flag to indicate whether the parser should know about
-	 *            namespaces or not.
-	 * 
-	 */
-	public void parse(InputStream byteStream, DefaultHandler handler,
-			boolean namespaceAware);
+  /**
+   * Parses the content of a byte stream as XML, using a <i>nonvalidating</i>
+   * parser and the specified SAX2 default event handler.
+   * 
+   * @param byteStream
+   *            The byte stream which content has to be parsed as XML.
+   * @param handler
+   *            The SAX2 default event handler to use for parsing
+   *            {@code byteStream}.
+   * @param namespaceAware
+   *            A flag to indicate whether the parser should know about
+   *            namespaces or not.
+   * 
+   */
+  public void parse(InputStream byteStream, DefaultHandler handler,
+    boolean namespaceAware);
 
-	/**
-	 * 
-	 * Parses the content of a byte stream as XML, using a <i>validating</i>
-	 * parser and the specified SAX2 default event handler.
-	 * 
-	 * @param byteStream
-	 *            The byte stream which content has to be parsed as XML.
-	 * @param handler
-	 *            The SAX2 default event handler to use for parsing
-	 *            {@code byteStream}.
-	 * @param schemas
-	 *            An optional array of either {@code java.io.File}
-	 *            instances containing the abstract pathnames, or of
-	 *            {@code java.io.String} instances containing the URIs,
-	 *            pointing to the schemas to use in the validation process. If
-	 *            set to {@code null}, the schemas defined in the data set
-	 *            will be used. If set to {@code null} and no schemas are
-	 *            found in the data set, an exception is most likely to be
-	 *            thrown by the underlying implementation.
-	 * 
-	 */
-	public void parse(InputStream byteStream, DefaultHandler handler,
-			Object[] schemas);
+  /**
+   * Parses the content of a byte stream as XML, using a <i>validating</i>
+   * parser and the specified SAX2 default event handler.
+   * 
+   * @param byteStream
+   *            The byte stream which content has to be parsed as XML.
+   * @param handler
+   *            The SAX2 default event handler to use for parsing
+   *            {@code byteStream}.
+   * @param schemas
+   *            An optional array of either {@code java.io.File}
+   *            instances containing the abstract pathnames, or of
+   *            {@code java.io.String} instances containing the URIs,
+   *            pointing to the schemas to use in the validation process. If
+   *            set to {@code null}, the schemas defined in the data set
+   *            will be used. If set to {@code null} and no schemas are
+   *            found in the data set, an exception is most likely to be
+   *            thrown by the underlying implementation.
+   * 
+   */
+  public void parse(InputStream byteStream, DefaultHandler handler,
+    Object[] schemas);
 
-	/**
-	 * 
-	 * Parses the content of a character stream as XML, using a
-	 * <i>nonvalidating</i> parser and the specified SAX2 default event handler.
-	 * 
-	 * @param characterStream
-	 *            The character stream which content has to be parsed as XML.
-	 * @param handler
-	 *            The SAX2 default event handler to use for parsing
-	 *            {@code characterStream}.
-	 * @param namespaceAware
-	 *            A flag to indicate whether the parser should know about
-	 *            namespaces or not.
-	 * 
-	 */
-	public void parse(Reader characterStream, DefaultHandler handler,
-			boolean namespaceAware);
+  /**
+   * Parses the content of a character stream as XML, using a
+   * <i>nonvalidating</i> parser and the specified SAX2 default event handler.
+   * 
+   * @param characterStream
+   *            The character stream which content has to be parsed as XML.
+   * @param handler
+   *            The SAX2 default event handler to use for parsing
+   *            {@code characterStream}.
+   * @param namespaceAware
+   *            A flag to indicate whether the parser should know about
+   *            namespaces or not.
+   * 
+   */
+  public void parse(Reader characterStream, DefaultHandler handler,
+    boolean namespaceAware);
 
-	/**
-	 * 
-	 * Parses the content of a character stream as XML, using a
-	 * <i>validating</i> parser and the specified SAX2 default event handler.
-	 * 
-	 * @param characterStream
-	 *            The character stream which content has to be parsed as XML.
-	 * @param handler
-	 *            The SAX2 default event handler to use for parsing
-	 *            {@code characterStream}.
-	 * @param schemas
-	 *            An optional array of either {@code java.io.File}
-	 *            instances containing the abstract pathnames, or of
-	 *            {@code java.io.String} instances containing the URIs,
-	 *            pointing to the schemas to use in the validation process. If
-	 *            set to {@code null}, the schemas defined in the data set
-	 *            will be used. If set to {@code null} and no schemas are
-	 *            found in the data set, an exception is most likely to be
-	 *            thrown by the underlying implementation.
-	 * 
-	 */
-	public void parse(Reader characterStream, DefaultHandler handler,
-			Object[] schemas);
+  /**
+   * Parses the content of a character stream as XML, using a
+   * <i>validating</i> parser and the specified SAX2 default event handler.
+   * 
+   * @param characterStream
+   *            The character stream which content has to be parsed as XML.
+   * @param handler
+   *            The SAX2 default event handler to use for parsing
+   *            {@code characterStream}.
+   * @param schemas
+   *            An optional array of either {@code java.io.File}
+   *            instances containing the abstract pathnames, or of
+   *            {@code java.io.String} instances containing the URIs,
+   *            pointing to the schemas to use in the validation process. If
+   *            set to {@code null}, the schemas defined in the data set
+   *            will be used. If set to {@code null} and no schemas are
+   *            found in the data set, an exception is most likely to be
+   *            thrown by the underlying implementation.
+   * 
+   */
+  public void parse(Reader characterStream, DefaultHandler handler,
+    Object[] schemas);
+
 }

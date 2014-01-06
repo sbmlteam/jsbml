@@ -17,36 +17,29 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.xml.parsers;
 
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.xml.XMLNode;
 
-
 /**
  * The interface to implement for the SBML parsers reading SBML annotations.
  * 
- * @author rodrigue
+ * @author Nicolas Rodriguez
  * @since 1.0
  * @version $Rev$
  */
 public interface AnnotationReader {
 
-	
-	
+  /**
+   * Process the annotation of the given {@link SBase} object.
+   * 
+   * This method can change the content of the annotation {@link XMLNode} by
+   * removing or adding nodes.
+   * 
+   * @param contextObject
+   * 
+   */
+  public void processAnnotation(SBase contextObject);
 
-	/**
-	 * Process the annotation of the given {@link SBase} object.
-	 * 
-	 * This method can change the content of the annotation {@link XMLNode} by
-	 * removing or adding nodes.
-	 * 
-	 * @param contextObject
-	 * 
-	 */
-	public void processAnnotation(SBase contextObject);
-	
-	
-	
 }

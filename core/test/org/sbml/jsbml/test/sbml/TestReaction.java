@@ -11,7 +11,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -41,29 +41,31 @@ import org.sbml.jsbml.SpeciesReference;
 /**
  * @author  Nicolas Rodriguez
  * @author  Akiya Jouraku
- * @author  Ben Bornstein 
+ * @author  Ben Bornstein
  * @since 0.8
  * @version $Rev$
  */
 public class TestReaction {
 
-	static void assertNotEquals(Object a, Object b)
-	{
-		if (a == null && b == null) {
-			assertTrue(false);
-		} else if ((a == null) || (b == null)) {
-		      return;
-	    }
-		assertTrue(!a.equals(b));
-	}
+  static void assertNotEquals(Object a, Object b)
+  {
+    if (a == null && b == null) {
+      assertTrue(false);
+    } else if ((a == null) || (b == null)) {
+      return;
+    }
+    assertTrue(!a.equals(b));
+  }
 
-	
-	private Reaction R;
+
+  private Reaction R;
 
   @Before public void setUp() throws Exception
   {
     R = new  Reaction(2,4);
-    if (R == null);
+    if (R == null) {
+      ;
+    }
     {
     }
   }
@@ -110,7 +112,7 @@ public class TestReaction {
     //assertTrue( R.getTypeCode() == libsbml.SBML_REACTION );
     assertTrue( R.getMetaId().equals("") == true );
     assertTrue( R.getNotes() == null );
-//    assertTrue( R.getAnnotation() == null );
+    //    assertTrue( R.getAnnotation() == null );
     assertTrue( R.getId().equals("") == true );
     assertTrue( R.getName().equals("") == true );
     assertEquals(R.getKineticLaw(),null);
@@ -142,7 +144,7 @@ public class TestReaction {
     assertTrue( object.getNamespaces().getLength() == 2 );
     object = null;
   }
-*/
+   */
 
   @Test public void test_Reaction_getModifier()
   {
@@ -315,14 +317,18 @@ public class TestReaction {
     R.setId(id);
     assertTrue(R.getId().equals(id));
     assertEquals( true, R.isSetId() );
-    if (R.getId() == id);
+    if (R.getId() == id) {
+      ;
+    }
     {
     }
     R.setId(R.getId());
     assertTrue(R.getId().equals(id));
     R.setId("");
     assertEquals( false, R.isSetId() );
-    if (R.getId() != null);
+    if (R.getId() != null) {
+      ;
+    }
     {
     }
   }
@@ -333,14 +339,18 @@ public class TestReaction {
     R.setName(name);
     assertTrue(R.getName().equals(name));
     assertEquals( true, R.isSetName() );
-    if (R.getName() == name);
+    if (R.getName() == name) {
+      ;
+    }
     {
     }
     R.setName(R.getName());
     assertTrue(R.getName().equals(name));
     R.setName("");
     assertEquals( false, R.isSetName() );
-    if (R.getName() != null);
+    if (R.getName() != null) {
+      ;
+    }
     {
     }
   }

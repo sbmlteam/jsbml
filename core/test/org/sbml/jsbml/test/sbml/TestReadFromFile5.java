@@ -10,7 +10,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -54,16 +54,16 @@ import org.sbml.jsbml.UnitDefinition;
  */
 public class TestReadFromFile5 {
 
-	public static String DATA_FOLDER = null;
+  public static String DATA_FOLDER = null;
 
-	static {
+  static {
 
-		DATA_FOLDER = "test/org/sbml/jsbml/xml/test/data";
-		
-		if (System.getProperty("DATA_FOLDER") != null) {
-			DATA_FOLDER = System.getProperty("DATA_FOLDER"); 
-		}
-	}
+    DATA_FOLDER = "test/org/sbml/jsbml/xml/test/data";
+
+    if (System.getProperty("DATA_FOLDER") != null) {
+      DATA_FOLDER = System.getProperty("DATA_FOLDER");
+    }
+  }
 
 
   /**
@@ -190,7 +190,7 @@ public class TestReadFromFile5 {
    * 
    */
   @SuppressWarnings("deprecation")
-@Test public void test_read_l2v1_assignment()
+  @Test public void test_read_l2v1_assignment()
   {
     SBMLReader reader = new SBMLReader();
     SBMLDocument d = null;
@@ -216,18 +216,18 @@ public class TestReadFromFile5 {
     String filename = new String( DATA_FOLDER + "/libsbml-test-data/" );
     filename += "l2v1-assignment.xml";
     try {
-		d = reader.readSBML(filename);
-	} catch (IOException e) {
-		e.printStackTrace();
-		assert(false);
-	} catch (XMLStreamException e) {
-		e.printStackTrace();
-		assert(false);
-	}
+      d = reader.readSBML(filename);
+    } catch (IOException e) {
+      e.printStackTrace();
+      assert(false);
+    } catch (XMLStreamException e) {
+      e.printStackTrace();
+      assert(false);
+    }
 
-	System.out.println(" TestReadFromFile 5: reading done.");
-	
-	assertTrue( d.getLevel() == 2 );
+    System.out.println(" TestReadFromFile 5: reading done.");
+
+    assertTrue( d.getLevel() == 2 );
     assertTrue( d.getVersion() == 1 );
     m = d.getModel();
     assertTrue( m != null );
@@ -235,10 +235,10 @@ public class TestReadFromFile5 {
     c = m.getCompartment(0);
     assertTrue( c != null );
     assertTrue( c.getId().equals( "cell") );
-/*    ud = c.getDerivedUnitDefinition();
+    /*    ud = c.getDerivedUnitDefinition();
     assertTrue( ud.getUnitCount() == 1 );
     assertTrue( ud.getUnit(0).getKind() == Kind.LITRE );
-    */
+     */
     loc = m.getListOfCompartments();
     c1 = loc.get(0);
     assertTrue( c1.equals(c) );
@@ -289,7 +289,7 @@ public class TestReadFromFile5 {
     ud = gp.getDerivedUnitDefinition();
     assertTrue( ud.getUnitCount() == 0 );
     assertTrue( m.getRuleCount() == 2 );
-    */
+     */
     ar = (AssignmentRule)  m.getRule(0);
     assertTrue( ar != null );
     assertTrue( ar.getVariable().equals( "S1"           ) );
@@ -301,7 +301,7 @@ public class TestReadFromFile5 {
     assertTrue( ud.getUnit(0).getExponent() == 1 );
     assertTrue( ud.getUnit(1).getKind() == Kind.LITRE );
     assertTrue( ud.getUnit(1).getExponent() == -1 );
-    */
+     */
     assertTrue( ar.containsUndeclaredUnits() == true );
     lor = m.getListOfRules();
     ar1 = (AssignmentRule) lor.get(0);
@@ -328,7 +328,7 @@ public class TestReadFromFile5 {
     assertTrue( kl != null );
     assertTrue( kl.getFormula().equals( "k1*X0") );
     assertTrue( kl.getLocalParameterCount() == 1 );
-    r1 = (Reaction) kl.getParentSBMLObject();
+    r1 = kl.getParentSBMLObject();
     assertTrue( r1 != null );
     assertTrue( r1.getId().equals( "in") );
     assertTrue( r1.getReactantCount() == 1 );

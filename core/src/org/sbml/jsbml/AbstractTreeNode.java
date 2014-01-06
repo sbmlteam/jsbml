@@ -6,7 +6,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -58,9 +58,9 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    */
   private static final long serialVersionUID = 8629109724566600238L;
 
-    public static final String UNKNOWN_ATTRIBUTES = "unknown.attributes";
-    public static final String UNKNOWN_ELEMENTS = "unknown.elements";
-  
+  public static final String UNKNOWN_ATTRIBUTES = "unknown.attributes";
+  public static final String UNKNOWN_ELEMENTS = "unknown.elements";
+
 
   /**
    * A {@link Logger} for this class.
@@ -119,8 +119,8 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    */
   public AbstractTreeNode() {
     super();
-    this.listOfListeners = new ArrayList<TreeNodeChangeListener>();
-    this.parent = null;
+    listOfListeners = new ArrayList<TreeNodeChangeListener>();
+    parent = null;
   }
 
   /**
@@ -165,8 +165,8 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
       // Do not clone listeners!
       //   this.listOfListeners.addAll(anode.listOfListeners);
       if (anode.isSetUserObjects()) {
-        this.userObjects = new HashMap<Object, Object>();
-        this.userObjects.putAll(anode.userObjects);
+        userObjects = new HashMap<Object, Object>();
+        userObjects.putAll(anode.userObjects);
       }
     }
   }
@@ -733,9 +733,9 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
     TreeNode oldValue = this.parent;
     this.parent = parent;
     if (parent instanceof TreeNodeWithChangeSupport) {
-      this.addAllChangeListeners(((TreeNodeWithChangeSupport) parent).getListOfTreeNodeChangeListeners());
+      addAllChangeListeners(((TreeNodeWithChangeSupport) parent).getListOfTreeNodeChangeListeners());
     }
-    this.firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldValue, this.parent);
+    firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldValue, this.parent);
   }
 
   /* (non-Javadoc)

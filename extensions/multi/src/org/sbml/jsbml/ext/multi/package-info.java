@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -20,15 +20,16 @@
  */
 
 /**
- * <p>
  * Provides classes for the <a href=
  * "http://sbml.org/Community/Wiki/SBML_Level_3_Proposals/Multistate_and_Multicomponent_Species"
  * >Multi package</a>.
- * </p>
  * <p>
  * The current version implemented follow the <a href=
  * "http://sbml.org/Community/Wiki/SBML_Level_3_Proposals/Multistate_and_Multicomponent_Species_Proposal"
  * > proposal by Nicolas Le Nov&#232;re and Anika Oellrich</a>. There is only few
  * classes from the proposal and it need to be completed.
+ * 
+ * @version $Rev$
+ * @since 1.0
  */
 package org.sbml.jsbml.ext.multi;
