@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -26,7 +26,6 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
 
-
 /**
  * @author Eugen Netz
  * @author Alexander Diamantikos
@@ -37,8 +36,8 @@ import org.sbml.jsbml.SBase;
  * @date 08.05.2012
  */
 public class Polygon extends GraphicalPrimitive2D {
-	/**
-   * 
+  /**
+   * Generated serial version identifier
    */
   private static final long serialVersionUID = 9207043017589271103L;
 
@@ -49,13 +48,13 @@ public class Polygon extends GraphicalPrimitive2D {
 
 
   /**
-   * Creates an Polygon instance 
+   * Creates an Polygon instance
    */
   public Polygon() {
     super();
     initDefaults();
   }
-  
+
   /**
    * Clone constructor
    */
@@ -104,7 +103,7 @@ public class Polygon extends GraphicalPrimitive2D {
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", childIndex,
-      +((int) Math.min(pos, 0))));
+      +Math.min(pos, 0)));
   }
 
   /* (non-Javadoc)
@@ -139,10 +138,10 @@ public class Polygon extends GraphicalPrimitive2D {
   }
 
   /**
-   * @return whether listOfElements is set 
+   * @return whether listOfElements is set
    */
   public boolean isSetListOfElements() {
-    return this.listOfElements != null;
+    return listOfElements != null;
   }
 
   /**
@@ -155,15 +154,15 @@ public class Polygon extends GraphicalPrimitive2D {
   }
 
   /**
-   * Unsets the variable listOfElements 
-   * @return {@code true}, if listOfElements was set before, 
+   * Unsets the variable listOfElements
+   * @return {@code true}, if listOfElements was set before,
    *         otherwise {@code false}
    */
   public boolean unsetListOfElements() {
     if (isSetListOfElements()) {
-      ListOf<RenderPoint> oldListOfElements = this.listOfElements;
-      this.listOfElements = null;
-      firePropertyChange(RenderConstants.listOfElements, oldListOfElements, this.listOfElements);
+      ListOf<RenderPoint> oldListOfElements = listOfElements;
+      listOfElements = null;
+      firePropertyChange(RenderConstants.listOfElements, oldListOfElements, listOfElements);
       return true;
     }
     return false;

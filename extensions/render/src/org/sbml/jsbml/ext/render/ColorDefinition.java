@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -28,7 +28,6 @@ import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
 
-
 /**
  * @author Eugen Netz
  * @author Alexander Diamantikos
@@ -41,23 +40,22 @@ import org.sbml.jsbml.SBase;
 public class ColorDefinition extends AbstractNamedSBase {
 
   /**
-   * 
+   * Generated serial version identifier
    */
   private static final long serialVersionUID = 8904459123022343452L;
-  
+
   private Color value;
-	
+
   /**
-   * Creates an ColorDefinition instance 
+   * Creates an ColorDefinition instance
    */
   public ColorDefinition() {
     super();
     initDefaults();
   }
 
-
   /**
-   * Creates a ColorDefinition instance with an id. 
+   * Creates a ColorDefinition instance with an id.
    * 
    * @param id
    */
@@ -65,9 +63,9 @@ public class ColorDefinition extends AbstractNamedSBase {
     super(id);
     initDefaults();
   }
-  
+
   /**
-   * Creates a ColorDefinition instance with an id. 
+   * Creates a ColorDefinition instance with an id.
    * 
    * @param id
    */
@@ -77,9 +75,8 @@ public class ColorDefinition extends AbstractNamedSBase {
     initDefaults();
   }
 
-
   /**
-   * Creates a ColorDefinition instance with a level and version. 
+   * Creates a ColorDefinition instance with a level and version.
    * 
    * @param level
    * @param version
@@ -88,9 +85,8 @@ public class ColorDefinition extends AbstractNamedSBase {
     this(null, null, level, version);
   }
 
-
   /**
-   * Creates a ColorDefinition instance with an id, level, and version. 
+   * Creates a ColorDefinition instance with an id, level, and version.
    * 
    * @param id
    * @param level
@@ -100,9 +96,8 @@ public class ColorDefinition extends AbstractNamedSBase {
     this(id, null, level, version);
   }
 
-
   /**
-   * Creates a ColorDefinition instance with an id, name, level, and version. 
+   * Creates a ColorDefinition instance with an id, name, level, and version.
    * 
    * @param id
    * @param name
@@ -118,7 +113,6 @@ public class ColorDefinition extends AbstractNamedSBase {
     initDefaults();
   }
 
-
   /**
    * Clone constructor
    */
@@ -127,14 +121,13 @@ public class ColorDefinition extends AbstractNamedSBase {
     value = obj.value;
   }
 
-
-  /**
-   * clones this class
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
    */
+  @Override
   public ColorDefinition clone() {
     return new ColorDefinition(this);
   }
-
 
   /**
    * Initializes the default values using the namespace.
@@ -143,15 +136,14 @@ public class ColorDefinition extends AbstractNamedSBase {
     setNamespace(RenderConstants.namespaceURI);
   }
 
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
+  @Override
   public boolean isIdMandatory() {
     return true;
   }
-  
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
    */
@@ -160,7 +152,6 @@ public class ColorDefinition extends AbstractNamedSBase {
     return false;
   }
 
-  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildCount()
    */
@@ -177,9 +168,7 @@ public class ColorDefinition extends AbstractNamedSBase {
   public SBase getChildAt(int childIndex) {
     return null;
   }
-  
-  
-  
+
   /**
    * @return the value of value
    */
@@ -191,14 +180,12 @@ public class ColorDefinition extends AbstractNamedSBase {
     throw new PropertyUndefinedError(RenderConstants.value, this);
   }
 
-
   /**
-   * @return whether value is set 
+   * @return whether value is set
    */
   public boolean isSetValue() {
-    return this.value != null;
+    return value != null;
   }
-
 
   /**
    * Set the value of value
@@ -209,23 +196,21 @@ public class ColorDefinition extends AbstractNamedSBase {
     firePropertyChange(RenderConstants.value, oldValue, this.value);
   }
 
-
   /**
-   * Unsets the variable value 
-   * @return {@code true}, if value was set before, 
+   * Unsets the variable value
+   * @return {@code true}, if value was set before,
    *         otherwise {@code false}
    */
   public boolean unsetValue() {
     if (isSetValue()) {
-      Color oldValue = this.value;
-      this.value = null;
-      firePropertyChange(RenderConstants.value, oldValue, this.value);
+      Color oldValue = value;
+      value = null;
+      firePropertyChange(RenderConstants.value, oldValue, value);
       return true;
     }
     return false;
   }
 
-  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
    */
@@ -239,7 +224,6 @@ public class ColorDefinition extends AbstractNamedSBase {
     }
     return attributes;
   }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)

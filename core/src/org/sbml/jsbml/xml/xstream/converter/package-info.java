@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -20,13 +20,13 @@
  */
 
 /**
- * <p>
  * Contains classes that uses the <a
  * href="http://xstream.codehaus.org/">XStream</a> to read or write XML.
- * </p>
  * <p>
  * It is currently use only to parse the result of the libSBML validation
  * process but might be use in future release to parse SBML
- * </p>
+ * 
+ * @version $Rev$
+ * @since 0.8
  */
 package org.sbml.jsbml.xml.xstream.converter;

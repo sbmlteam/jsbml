@@ -11,7 +11,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -40,19 +40,21 @@ import org.sbml.jsbml.Parameter;
  * 
  * @author  Nicolas Rodriguez
  * @author  Akiya Jouraku
- * @author  Ben Bornstein 
+ * @author  Ben Bornstein
  * @since 0.8
  * @version $Rev$
  *
  */
 public class TestParameter {
 
-    private Parameter P;
+  private Parameter P;
 
   @Before public void setUp() throws Exception
   {
     P = new  Parameter(2,4);
-    if (P == null);
+    if (P == null) {
+      ;
+    }
     {
     }
   }
@@ -64,10 +66,10 @@ public class TestParameter {
 
   @Test public void test_Parameter_create()
   {
-//    assertTrue( P.getTypeCode() == libsbml.SBML_PARAMETER );
+    //    assertTrue( P.getTypeCode() == libsbml.SBML_PARAMETER );
     assertTrue( P.getMetaId().equals("") == true );
     assertTrue( P.getNotes() == null );
-//    assertTrue( P.getAnnotation() == null );
+    //    assertTrue( P.getAnnotation() == null );
     assertTrue( P.getId().equals("") == true );
     assertTrue( P.getName().equals("") == true );
     assertTrue( P.getUnits().equals("") == true );
@@ -97,7 +99,7 @@ public class TestParameter {
     assertTrue( object.getNamespaces().getLength() == 2 );
     object = null;
   }
-*/
+   */
 
   @Test public void test_Parameter_setId()
   {
@@ -105,14 +107,18 @@ public class TestParameter {
     P.setId(id);
     assertTrue(P.getId().equals(id));
     assertEquals( true, P.isSetId() );
-    if (P.getId() == id);
+    if (P.getId() == id) {
+      ;
+    }
     {
     }
     P.setId(P.getId());
     assertTrue(P.getId().equals(id));
     P.setId("");
     assertEquals( false, P.isSetId() );
-    if (P.getId() != null);
+    if (P.getId() != null) {
+      ;
+    }
     {
     }
   }
@@ -123,14 +129,18 @@ public class TestParameter {
     P.setName(name);
     assertTrue(P.getName().equals(name));
     assertEquals( true, P.isSetName() );
-    if (P.getName() == name);
+    if (P.getName() == name) {
+      ;
+    }
     {
     }
     P.setName(P.getName());
     assertTrue(P.getName().equals(name));
     P.setName("");
     assertEquals( false, P.isSetName() );
-    if (P.getName() != null);
+    if (P.getName() != null) {
+      ;
+    }
     {
     }
   }
@@ -141,14 +151,18 @@ public class TestParameter {
     P.setUnits(units);
     assertTrue(P.getUnits().equals(units));
     assertEquals( true, P.isSetUnits() );
-    if (P.getUnits() == units);
+    if (P.getUnits() == units) {
+      ;
+    }
     {
     }
     P.setUnits(P.getUnits());
     assertTrue(P.getUnits().equals(units));
     P.setUnits("");
     assertEquals( false, P.isSetUnits() );
-    if (P.getUnits() != null);
+    if (P.getUnits() != null) {
+      ;
+    }
     {
     }
   }

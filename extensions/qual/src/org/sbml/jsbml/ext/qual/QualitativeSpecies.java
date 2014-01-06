@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -52,7 +52,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
    * 
    */
   private Boolean               constant;             // TODO: extends/implements the jsbml interface
-                                                      // that has the constant attribute.
+  // that has the constant attribute.
   /**
    * 
    */
@@ -69,7 +69,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     super();
     initDefaults();
   }
-  
+
   /**
    * 
    * @param id
@@ -78,7 +78,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     super(id);
     initDefaults();
   }
-  
+
   /**
    * 
    * @param level
@@ -111,7 +111,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     }
     initDefaults();
   }
-  
+
   /**
    * Copy constructor that clones all values from the input
    * {@code species} that are also available in
@@ -123,19 +123,19 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   public QualitativeSpecies(Species species) {
     super(species);
     initDefaults();
-    
+
     if (species.isSetCompartment()) {
       compartment = species.getCompartment();
     }
     if (species.isSetConstant()) {
       constant = species.getConstant();
     }
-    
+
     /* initialLevel, maxLevel and listOfSymbolicValues
      * are only for qual species.
      */
   }
-  
+
   /**
    * Copy constructor that clones all variables of
    * {@code qualSpecies}.
@@ -150,7 +150,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     initialLevel = qualSpecies.initialLevel;
     maxLevel = qualSpecies.maxLevel;
   }
-  
+
   /**
    * 
    */
@@ -163,6 +163,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
+  @Override
   public QualitativeSpecies clone() {
     return new QualitativeSpecies(this);
   }
@@ -171,6 +172,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   /* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
+  @Override
   public boolean isIdMandatory() {
     return true;
   }
@@ -182,7 +184,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   public boolean isCompartmentMandatory() {
     return true;
   }
-  
+
   /**
    * @return if compartment attribute is set
    */
@@ -211,7 +213,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     firePropertyChange(QualConstants.compartment, oldCompartment,
       this.compartment);
   }
-  
+
   /**
    * Sets the compartmentID of this {@link Species} to the id of
    * 'compartment'.
@@ -232,7 +234,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
    */
   public boolean unsetCompartment() {
     if (isSetCompartment()) {
-      this.compartment = null;
+      compartment = null;
       return true;
     }
     return false;
@@ -289,9 +291,9 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
    */
   public boolean unsetConstant() {
     if (isSetConstant()) {
-      boolean oldConstant = this.constant;
-      this.constant = null;
-      firePropertyChange(QualConstants.constant, oldConstant, this.constant);
+      boolean oldConstant = constant;
+      constant = null;
+      firePropertyChange(QualConstants.constant, oldConstant, constant);
       return true;
     } else {
       return false;
@@ -306,7 +308,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     return false;
   }
 
-  
+
   /**
    * 
    * @return
@@ -344,10 +346,10 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
    */
   public boolean unsetInitialLevel() {
     if (isSetInitialLevel()) {
-      Integer oldInitialLevel = this.initialLevel;
-      this.initialLevel = null;
+      Integer oldInitialLevel = initialLevel;
+      initialLevel = null;
       firePropertyChange(QualConstants.initialLevel, oldInitialLevel,
-        this.initialLevel);
+        initialLevel);
       return true;
     } else {
       return false;
@@ -368,7 +370,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
    * @return
    */
   public boolean isSetMaxLevel() {
-    return this.maxLevel != null;
+    return maxLevel != null;
   }
 
 
@@ -399,16 +401,16 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
    */
   public boolean unsetMaxLevel() {
     if (isSetMaxLevel()) {
-      Integer oldMaxLevel = this.maxLevel;
-      this.maxLevel = null;
-      firePropertyChange(QualConstants.maxLevel, oldMaxLevel, this.maxLevel);
+      Integer oldMaxLevel = maxLevel;
+      maxLevel = null;
+      firePropertyChange(QualConstants.maxLevel, oldMaxLevel, maxLevel);
       return true;
     } else {
       return false;
     }
   }
 
- 
+
   /*
    * (non-Javadoc)
    * 
@@ -438,7 +440,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     }
     return equals;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#hashCode()
    */
@@ -458,7 +460,7 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     if (isSetMaxLevel()) {
       hashCode += prime * getMaxLevel();
     }
-    
+
     return hashCode;
   }
 
@@ -468,56 +470,56 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
 
-	  boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 
-	  if (!isAttributeRead) {
-		  isAttributeRead = true;
+    if (!isAttributeRead) {
+      isAttributeRead = true;
 
-		  if (attributeName.equals(QualConstants.constant)) {
-			  setConstant(StringTools.parseSBMLBoolean(value));
-		  } else if (attributeName.equals(QualConstants.compartment)) {
-			  setCompartment(value);
-		  } else if (attributeName.equals(QualConstants.initialLevel)) {
-			  setInitialLevel(StringTools.parseSBMLInt(value));
-		  } else if (attributeName.equals(QualConstants.maxLevel)) {
-			  setMaxLevel(StringTools.parseSBMLInt(value));
-		  } else {
-			  isAttributeRead = false;
-		  }
-	  }
+      if (attributeName.equals(QualConstants.constant)) {
+        setConstant(StringTools.parseSBMLBoolean(value));
+      } else if (attributeName.equals(QualConstants.compartment)) {
+        setCompartment(value);
+      } else if (attributeName.equals(QualConstants.initialLevel)) {
+        setInitialLevel(StringTools.parseSBMLInt(value));
+      } else if (attributeName.equals(QualConstants.maxLevel)) {
+        setMaxLevel(StringTools.parseSBMLInt(value));
+      } else {
+        isAttributeRead = false;
+      }
+    }
 
-	  return isAttributeRead;
+    return isAttributeRead;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
    */
   @Override
   public Map<String, String> writeXMLAttributes() {
-	  Map<String, String> attributes = super.writeXMLAttributes();
+    Map<String, String> attributes = super.writeXMLAttributes();
 
-	  if (isSetId()) {
-		  attributes.remove("id");
-		  attributes.put(QualConstants.shortLabel+ ":id", getId());
-	  }
-	  if (isSetName()) {
-		  attributes.remove("name");
-		  attributes.put(QualConstants.shortLabel+ ":name", getName());
-	  }
-	  if (isSetConstant()) {
-		  attributes.put(QualConstants.shortLabel+ ':' + QualConstants.constant, Boolean.toString(getConstant()));
-	  }
-	  if (isSetCompartment()) {
-		  attributes.put(QualConstants.shortLabel+ ':' + QualConstants.compartment, getCompartment());
-	  }
-	  if (isSetInitialLevel()) {
-		  attributes.put(QualConstants.shortLabel+ ':' + QualConstants.initialLevel, Integer.toString(getInitialLevel()));
-	  }	  
-	  if (isSetMaxLevel()) {
-		  attributes.put(QualConstants.shortLabel+ ':' + QualConstants.maxLevel, Integer.toString(getMaxLevel()));
-	  }
+    if (isSetId()) {
+      attributes.remove("id");
+      attributes.put(QualConstants.shortLabel+ ":id", getId());
+    }
+    if (isSetName()) {
+      attributes.remove("name");
+      attributes.put(QualConstants.shortLabel+ ":name", getName());
+    }
+    if (isSetConstant()) {
+      attributes.put(QualConstants.shortLabel+ ':' + QualConstants.constant, Boolean.toString(getConstant()));
+    }
+    if (isSetCompartment()) {
+      attributes.put(QualConstants.shortLabel+ ':' + QualConstants.compartment, getCompartment());
+    }
+    if (isSetInitialLevel()) {
+      attributes.put(QualConstants.shortLabel+ ':' + QualConstants.initialLevel, Integer.toString(getInitialLevel()));
+    }
+    if (isSetMaxLevel()) {
+      attributes.put(QualConstants.shortLabel+ ':' + QualConstants.maxLevel, Integer.toString(getMaxLevel()));
+    }
 
-	  return attributes;
+    return attributes;
   }
-  
+
 }

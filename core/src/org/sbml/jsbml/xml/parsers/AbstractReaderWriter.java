@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.xml.parsers;
 
 import java.lang.reflect.InvocationTargetException;
@@ -47,7 +46,6 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * @author Nicolas Rodriguez
  * @since 1.0
  * @version $Rev$
- *
  */
 public abstract class AbstractReaderWriter implements ReadingParser, WritingParser {
 
@@ -206,34 +204,34 @@ public abstract class AbstractReaderWriter implements ReadingParser, WritingPars
    * @param contextObject
    */
   public static void processUnknownAttribute(String attributeName,
-		  String value, String prefix, Object contextObject) 
+    String value, String prefix, Object contextObject)
   {
-	  if (contextObject instanceof AbstractTreeNode)
-	  {
-		  XMLAttributes unknownAttributes = null;
-		  Object unknownAttributesObj = ((AbstractTreeNode) contextObject).getUserObject(AbstractTreeNode.UNKNOWN_ATTRIBUTES);
+    if (contextObject instanceof AbstractTreeNode)
+    {
+      XMLAttributes unknownAttributes = null;
+      Object unknownAttributesObj = ((AbstractTreeNode) contextObject).getUserObject(AbstractTreeNode.UNKNOWN_ATTRIBUTES);
 
-		  if (unknownAttributesObj == null)
-		  {
-			  unknownAttributes = new XMLAttributes();
-			  ((AbstractTreeNode) contextObject).putUserObject(AbstractTreeNode.UNKNOWN_ATTRIBUTES, unknownAttributes);
-		  }
-		  else if (unknownAttributesObj instanceof XMLAttributes)
-		  {
-			  unknownAttributes = (XMLAttributes) unknownAttributesObj;
-		  }
-		  else 
-		  {
-			  // TODO : exception/log ?? Problem !!!!
-			  return;
-		  }
+      if (unknownAttributesObj == null)
+      {
+        unknownAttributes = new XMLAttributes();
+        ((AbstractTreeNode) contextObject).putUserObject(AbstractTreeNode.UNKNOWN_ATTRIBUTES, unknownAttributes);
+      }
+      else if (unknownAttributesObj instanceof XMLAttributes)
+      {
+        unknownAttributes = (XMLAttributes) unknownAttributesObj;
+      }
+      else
+      {
+        // TODO : exception/log ?? Problem !!!!
+        return;
+      }
 
-		  unknownAttributes.add(attributeName, value, null, prefix);
-	  }
-	  else 
-	  {
-		  // TODO : exception/log/other
-	  }
+      unknownAttributes.add(attributeName, value, null, prefix);
+    }
+    else
+    {
+      // TODO : exception/log/other
+    }
 
   }
 

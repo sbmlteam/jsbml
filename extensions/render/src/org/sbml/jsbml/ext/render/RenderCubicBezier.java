@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -26,7 +26,6 @@ import java.util.Map;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
 
-
 /**
  * @author Eugen Netz
  * @author Alexander Diamantikos
@@ -37,9 +36,9 @@ import org.sbml.jsbml.SBase;
  * @date 08.05.2012
  */
 public class RenderCubicBezier extends RenderPoint {
-  
+
   /**
-   * 
+   * Generated serial version identifier
    */
   private static final long serialVersionUID = -2426257418589249467L;
   private Boolean absoluteX1, absoluteY1, absoluteZ1;
@@ -48,13 +47,13 @@ public class RenderCubicBezier extends RenderPoint {
   private Double x2, y2, z2;
 
   /**
-   * Creates an RenderCubicBezier instance 
+   * Creates an RenderCubicBezier instance
    */
   public RenderCubicBezier() {
     super();
     initDefaults();
   }
-  
+
   /**
    * Clone constructor
    */
@@ -101,9 +100,9 @@ public class RenderCubicBezier extends RenderPoint {
     int pos = 0;
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", childIndex,
-      +((int) Math.min(pos, 0))));
+      +Math.min(pos, 0)));
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#getChildCount()
    */
@@ -122,7 +121,7 @@ public class RenderCubicBezier extends RenderPoint {
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.x1, this);
   }
-    
+
   /**
    * @return the value of x2
    */
@@ -253,91 +252,91 @@ public class RenderCubicBezier extends RenderPoint {
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.absoluteZ2, this);
   }
-  
+
   /**
-   * @return whether absoluteX1 is set 
+   * @return whether absoluteX1 is set
    */
   public boolean isSetAbsoluteX1() {
-    return this.absoluteX1 != null;
+    return absoluteX1 != null;
   }
 
   /**
-   * @return whether absoluteX2 is set 
+   * @return whether absoluteX2 is set
    */
   public boolean isSetAbsoluteX2() {
-    return this.absoluteX2 != null;
+    return absoluteX2 != null;
   }
 
   /**
-   * @return whether absoluteY1 is set 
+   * @return whether absoluteY1 is set
    */
   public boolean isSetAbsoluteY1() {
-    return this.absoluteY1 != null;
+    return absoluteY1 != null;
   }
 
   /**
-   * @return whether absoluteY2 is set 
+   * @return whether absoluteY2 is set
    */
   public boolean isSetAbsoluteY2() {
-    return this.absoluteY2 != null;
+    return absoluteY2 != null;
   }
 
   /**
-   * @return whether absoluteZ1 is set 
+   * @return whether absoluteZ1 is set
    */
   public boolean isSetAbsoluteZ1() {
-    return this.absoluteZ1 != null;
+    return absoluteZ1 != null;
   }
 
   /**
-   * @return whether absoluteZ2 is set 
+   * @return whether absoluteZ2 is set
    */
   public boolean isSetAbsoluteZ2() {
-    return this.absoluteZ2 != null;
+    return absoluteZ2 != null;
   }
 
   /**
-   * @return whether x1 is set 
+   * @return whether x1 is set
    */
   public boolean isSetX1() {
-    return this.x1 != null;
+    return x1 != null;
   }
 
   /**
-   * @return whether x2 is set 
+   * @return whether x2 is set
    */
   public boolean isSetX2() {
-    return this.x2 != null;
+    return x2 != null;
   }
-  
+
   /**
-   * @return whether y1 is set 
+   * @return whether y1 is set
    */
   public boolean isSetY1() {
-    return this.y1 != null;
+    return y1 != null;
   }
 
   /**
-   * @return whether y2 is set 
+   * @return whether y2 is set
    */
   public boolean isSetY2() {
-    return this.y2 != null;
+    return y2 != null;
   }
 
   /**
-   * @return whether z1 is set 
+   * @return whether z1 is set
    */
   public boolean isSetZ1() {
-    return this.z1 != null;
+    return z1 != null;
   }
 
   /**
-   * @return whether z2 is set 
+   * @return whether z2 is set
    */
   public boolean isSetZ2() {
-    return this.z2 != null;
+    return z2 != null;
   }
-  
+
   /**
    * Set the value of absoluteX1
    */
@@ -373,7 +372,7 @@ public class RenderCubicBezier extends RenderPoint {
     this.absoluteY2 = absoluteY2;
     firePropertyChange(RenderConstants.absoluteY2, oldAbsoluteY2, this.absoluteY2);
   }
-  
+
   /**
    * Set the value of absoluteZ1
    */
@@ -447,186 +446,186 @@ public class RenderCubicBezier extends RenderPoint {
   }
 
   /**
-   * Unsets the variable absoluteX1 
-   * @return {@code true}, if absoluteX1 was set before, 
+   * Unsets the variable absoluteX1
+   * @return {@code true}, if absoluteX1 was set before,
    *         otherwise {@code false}
    */
   public boolean unsetAbsoluteX1() {
     if (isSetAbsoluteX1()) {
-      Boolean oldAbsoluteX1 = this.absoluteX1;
-      this.absoluteX1 = null;
-      firePropertyChange(RenderConstants.absoluteX1, oldAbsoluteX1, this.absoluteX1);
+      Boolean oldAbsoluteX1 = absoluteX1;
+      absoluteX1 = null;
+      firePropertyChange(RenderConstants.absoluteX1, oldAbsoluteX1, absoluteX1);
       return true;
     }
     return false;
   }
 
   /**
-   * Unsets the variable absoluteX2 
-   * @return {@code true}, if absoluteX2 was set before, 
+   * Unsets the variable absoluteX2
+   * @return {@code true}, if absoluteX2 was set before,
    *         otherwise {@code false}
    */
   public boolean unsetAbsoluteX2() {
     if (isSetAbsoluteX2()) {
-      Boolean oldAbsoluteX2 = this.absoluteX2;
-      this.absoluteX2 = null;
-      firePropertyChange(RenderConstants.absoluteX2, oldAbsoluteX2, this.absoluteX2);
+      Boolean oldAbsoluteX2 = absoluteX2;
+      absoluteX2 = null;
+      firePropertyChange(RenderConstants.absoluteX2, oldAbsoluteX2, absoluteX2);
       return true;
     }
     return false;
   }
 
   /**
-   * Unsets the variable absoluteY1 
-   * @return {@code true}, if absoluteY1 was set before, 
+   * Unsets the variable absoluteY1
+   * @return {@code true}, if absoluteY1 was set before,
    *         otherwise {@code false}
    */
   public boolean unsetAbsoluteY1() {
     if (isSetAbsoluteY1()) {
-      Boolean oldAbsoluteY1 = this.absoluteY1;
-      this.absoluteY1 = null;
-      firePropertyChange(RenderConstants.absoluteY1, oldAbsoluteY1, this.absoluteY1);
+      Boolean oldAbsoluteY1 = absoluteY1;
+      absoluteY1 = null;
+      firePropertyChange(RenderConstants.absoluteY1, oldAbsoluteY1, absoluteY1);
       return true;
     }
     return false;
   }
 
   /**
-   * Unsets the variable absoluteY2 
-   * @return {@code true}, if absoluteY2 was set before, 
+   * Unsets the variable absoluteY2
+   * @return {@code true}, if absoluteY2 was set before,
    *         otherwise {@code false}
    */
   public boolean unsetAbsoluteY2() {
     if (isSetAbsoluteY2()) {
-      Boolean oldAbsoluteY2 = this.absoluteY2;
-      this.absoluteY2 = null;
-      firePropertyChange(RenderConstants.absoluteY2, oldAbsoluteY2, this.absoluteY2);
+      Boolean oldAbsoluteY2 = absoluteY2;
+      absoluteY2 = null;
+      firePropertyChange(RenderConstants.absoluteY2, oldAbsoluteY2, absoluteY2);
       return true;
     }
     return false;
   }
 
   /**
-   * Unsets the variable absoluteZ1 
-   * @return {@code true}, if absoluteZ1 was set before, 
+   * Unsets the variable absoluteZ1
+   * @return {@code true}, if absoluteZ1 was set before,
    *         otherwise {@code false}
    */
   public boolean unsetAbsoluteZ1() {
     if (isSetAbsoluteZ1()) {
-      Boolean oldAbsoluteZ1 = this.absoluteZ1;
-      this.absoluteZ1 = null;
-      firePropertyChange(RenderConstants.absoluteZ1, oldAbsoluteZ1, this.absoluteZ1);
+      Boolean oldAbsoluteZ1 = absoluteZ1;
+      absoluteZ1 = null;
+      firePropertyChange(RenderConstants.absoluteZ1, oldAbsoluteZ1, absoluteZ1);
       return true;
     }
     return false;
   }
 
   /**
-   * Unsets the variable absoluteZ2 
-   * @return {@code true}, if absoluteZ2 was set before, 
+   * Unsets the variable absoluteZ2
+   * @return {@code true}, if absoluteZ2 was set before,
    *         otherwise {@code false}
    */
   public boolean unsetAbsoluteZ2() {
     if (isSetAbsoluteZ2()) {
-      Boolean oldAbsoluteZ2 = this.absoluteZ2;
-      this.absoluteZ2 = null;
-      firePropertyChange(RenderConstants.absoluteZ2, oldAbsoluteZ2, this.absoluteZ2);
+      Boolean oldAbsoluteZ2 = absoluteZ2;
+      absoluteZ2 = null;
+      firePropertyChange(RenderConstants.absoluteZ2, oldAbsoluteZ2, absoluteZ2);
       return true;
     }
     return false;
   }
 
   /**
-   * Unsets the variable x1 
-   * @return {@code true}, if x1 was set before, 
+   * Unsets the variable x1
+   * @return {@code true}, if x1 was set before,
    *         otherwise {@code false}
    */
   public boolean unsetX1() {
     if (isSetX1()) {
-      Double oldX1 = this.x1;
-      this.x1 = null;
-      firePropertyChange(RenderConstants.x1, oldX1, this.x1);
+      Double oldX1 = x1;
+      x1 = null;
+      firePropertyChange(RenderConstants.x1, oldX1, x1);
       return true;
     }
     return false;
   }
 
   /**
-   * Unsets the variable x2 
-   * @return {@code true}, if x2 was set before, 
+   * Unsets the variable x2
+   * @return {@code true}, if x2 was set before,
    *         otherwise {@code false}
    */
   public boolean unsetX2() {
     if (isSetX2()) {
-      Double oldX2 = this.x2;
-      this.x2 = null;
-      firePropertyChange(RenderConstants.x2, oldX2, this.x2);
+      Double oldX2 = x2;
+      x2 = null;
+      firePropertyChange(RenderConstants.x2, oldX2, x2);
       return true;
     }
     return false;
   }
-  
+
   /**
-   * Unsets the variable y1 
-   * @return {@code true}, if y1 was set before, 
+   * Unsets the variable y1
+   * @return {@code true}, if y1 was set before,
    *         otherwise {@code false}
    */
   public boolean unsetY1() {
     if (isSetY1()) {
-      Double oldY1 = this.y1;
-      this.y1 = null;
-      firePropertyChange(RenderConstants.y1, oldY1, this.y1);
+      Double oldY1 = y1;
+      y1 = null;
+      firePropertyChange(RenderConstants.y1, oldY1, y1);
       return true;
     }
     return false;
   }
 
   /**
-   * Unsets the variable y2 
-   * @return {@code true}, if y2 was set before, 
+   * Unsets the variable y2
+   * @return {@code true}, if y2 was set before,
    *         otherwise {@code false}
    */
   public boolean unsetY2() {
     if (isSetY2()) {
-      Double oldY2 = this.y2;
-      this.y2 = null;
-      firePropertyChange(RenderConstants.y2, oldY2, this.y2);
+      Double oldY2 = y2;
+      y2 = null;
+      firePropertyChange(RenderConstants.y2, oldY2, y2);
       return true;
     }
     return false;
   }
 
   /**
-   * Unsets the variable z1 
-   * @return {@code true}, if z1 was set before, 
+   * Unsets the variable z1
+   * @return {@code true}, if z1 was set before,
    *         otherwise {@code false}
    */
   public boolean unsetZ1() {
     if (isSetZ1()) {
-      Double oldZ1 = this.z1;
-      this.z1 = null;
-      firePropertyChange(RenderConstants.z1, oldZ1, this.z1);
+      Double oldZ1 = z1;
+      z1 = null;
+      firePropertyChange(RenderConstants.z1, oldZ1, z1);
       return true;
     }
     return false;
   }
 
   /**
-   * Unsets the variable z2 
-   * @return {@code true}, if z2 was set before, 
+   * Unsets the variable z2
+   * @return {@code true}, if z2 was set before,
    *         otherwise {@code false}
    */
   public boolean unsetZ2() {
     if (isSetZ2()) {
-      Double oldZ2 = this.z2;
-      this.z2 = null;
-      firePropertyChange(RenderConstants.z2, oldZ2, this.z2);
+      Double oldZ2 = z2;
+      z2 = null;
+      firePropertyChange(RenderConstants.z2, oldZ2, z2);
       return true;
     }
     return false;
   }
 
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#writeXMLAttributes()
    */
@@ -705,5 +704,5 @@ public class RenderCubicBezier extends RenderPoint {
     }
     return isAttributeRead;
   }
-  
+
 }

@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -36,7 +36,11 @@ import org.sbml.jsbml.text.parser.IFormulaParser;
  */
 public class FormulaParserLL3Test {
 
-
+  /**
+   * 
+   * @param args
+   * @throws Exception
+   */
   public static void main(String[] args) throws Exception {
 
     IFormulaParser parser = new FormulaParserLL3(new StringReader(""));
@@ -45,40 +49,40 @@ public class FormulaParserLL3Test {
 
     System.out.println(node.toFormula());
 
-    node = ASTNode.parseFormula("true && false", parser);		
+    node = ASTNode.parseFormula("true && false", parser);
     System.out.println(node.toFormula());
 
-    node = ASTNode.parseFormula("and(true,false)", parser);		
+    node = ASTNode.parseFormula("and(true,false)", parser);
     System.out.println(node.toFormula());
 
-    node = ASTNode.parseFormula("! true", parser);		
+    node = ASTNode.parseFormula("! true", parser);
     System.out.println(node.toFormula());
 
-    node = ASTNode.parseFormula("not(true)", parser);		
+    node = ASTNode.parseFormula("not(true)", parser);
     System.out.println(node.toFormula());
 
-    node = ASTNode.parseFormula("NOT(true)", parser);		
+    node = ASTNode.parseFormula("NOT(true)", parser);
     System.out.println(node.toFormula());
 
-    node = ASTNode.parseFormula("NOT true", parser);		
+    node = ASTNode.parseFormula("NOT true", parser);
     System.out.println(node.toFormula());
 
-    //		node = ASTNode.parseFormula("true and false", parser); 	 // Not supported anymore by the new parser			
+    //		node = ASTNode.parseFormula("true and false", parser); 	 // Not supported anymore by the new parser
     //		System.out.println(node.toFormula());
 
-    //		node = ASTNode.parseFormula("not true", parser); // Not supported anymore by the new parser		
+    //		node = ASTNode.parseFormula("not true", parser); // Not supported anymore by the new parser
     //		System.out.println(node.toFormula());
 
-    node = ASTNode.parseFormula("and(or(gt(x,2), lt(S1, 4)),and(x >= 2, (S1 AND true) || (true && true)))", parser);		
+    node = ASTNode.parseFormula("and(or(gt(x,2), lt(S1, 4)),and(x >= 2, (S1 AND true) || (true && true)))", parser);
     System.out.println(node.toFormula());
 
-    //		node = ASTNode.parseFormula("4!", parser);  // Not supported anymore by the new parser		
+    //		node = ASTNode.parseFormula("4!", parser);  // Not supported anymore by the new parser
     //		System.out.println(node.toFormula());
 
-    node = ASTNode.parseFormula("selector(S, 1)", parser);		
+    node = ASTNode.parseFormula("selector(S, 1)", parser);
     System.out.println(node.toFormula());
 
-    node = ASTNode.parseFormula("selector(S, 1, 5)", parser);		
+    node = ASTNode.parseFormula("selector(S, 1, 5)", parser);
     System.out.println(node.toFormula());
 
     String mathMLSelector = node.toMathML();
@@ -92,23 +96,24 @@ public class FormulaParserLL3Test {
     mathMLSelector = node.toMathML();
     System.out.println(mathMLSelector);
 
-    node = ASTNode.parseFormula("plus(1, 2, 3, 4)", parser);		
+    node = ASTNode.parseFormula("plus(1, 2, 3, 4)", parser);
     System.out.println(node.toFormula());
 
-    node = ASTNode.parseFormula("minus(1, 2, 3, 4)", parser);		
+    node = ASTNode.parseFormula("minus(1, 2, 3, 4)", parser);
     System.out.println(node.toFormula());
 
-    node = ASTNode.parseFormula("times(1, 2, 3, 4)", parser);		
+    node = ASTNode.parseFormula("times(1, 2, 3, 4)", parser);
     System.out.println(node.toFormula());
 
-    node = ASTNode.parseFormula("divide(2, 4)", parser);		
+    node = ASTNode.parseFormula("divide(2, 4)", parser);
     System.out.println(node.toFormula());
 
-    node = ASTNode.parseFormula("modulo(13, 5)", parser);				
+    node = ASTNode.parseFormula("modulo(13, 5)", parser);
     System.out.println(node.toFormula());
     System.out.println(node.toMathML());
 
-    node = ASTNode.parseFormula("18 % 5", parser);		
+    node = ASTNode.parseFormula("18 % 5", parser);
     System.out.println(node.toFormula());
   }
+
 }

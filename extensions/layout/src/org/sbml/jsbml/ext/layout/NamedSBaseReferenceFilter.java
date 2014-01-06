@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -41,90 +41,90 @@ import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
  */
 public class NamedSBaseReferenceFilter extends NameFilter {
 
-	/**
-	 * Decides whether to filter for the identifier of the referenced
-	 * {@link NamedSBase} or if to use id and name to filter for the instance of
-	 * {@link AbstractReferenceGlyph} itself.
-	 */
-	private boolean filterForReference = false;
+  /**
+   * Decides whether to filter for the identifier of the referenced
+   * {@link NamedSBase} or if to use id and name to filter for the instance of
+   * {@link AbstractReferenceGlyph} itself.
+   */
+  private boolean filterForReference = false;
 
-	/**
-	 * Creates a new {@link SpeciesReferenceFilter} with undefined properties.
-	 */
-	public NamedSBaseReferenceFilter() {
-		super();
-	}
+  /**
+   * Creates a new {@link SpeciesReferenceFilter} with undefined properties.
+   */
+  public NamedSBaseReferenceFilter() {
+    super();
+  }
 
-	/**
-	 * Creates a new {@link NamedSBaseReferenceFilter} that only accepts instances of
-	 * {@link AbstractReferenceGlyph} pointing to the id of the given {@link NamedSBase}.
-	 * 
-	 * @param glyph
-	 *        the {@link NamedSBase} of interest.
-	 */
-	public NamedSBaseReferenceFilter(NamedSBase glyph) {
-		this(glyph.getId(), glyph.getName());
-		setFilterForReference(true);
-	}
+  /**
+   * Creates a new {@link NamedSBaseReferenceFilter} that only accepts instances of
+   * {@link AbstractReferenceGlyph} pointing to the id of the given {@link NamedSBase}.
+   * 
+   * @param glyph
+   *        the {@link NamedSBase} of interest.
+   */
+  public NamedSBaseReferenceFilter(NamedSBase glyph) {
+    this(glyph.getId(), glyph.getName());
+    setFilterForReference(true);
+  }
 
-	/**
-	 * @param id
-	 *        the identifier of a {@link NamedSBase} or {@link AbstractReferenceGlyph} we
-	 *        are interested in. Whether we accept the id of a {@link NamedSBase} or
-	 *        a {@link AbstractReferenceGlyph} depends on the flag that can be defined
-	 *        with {@link #setFilterForReference(boolean)}.
-	 * @see #setFilterForReference(boolean)
-	 */
-	public NamedSBaseReferenceFilter(String id) {
-		super(id);
-	}
+  /**
+   * @param id
+   *        the identifier of a {@link NamedSBase} or {@link AbstractReferenceGlyph} we
+   *        are interested in. Whether we accept the id of a {@link NamedSBase} or
+   *        a {@link AbstractReferenceGlyph} depends on the flag that can be defined
+   *        with {@link #setFilterForReference(boolean)}.
+   * @see #setFilterForReference(boolean)
+   */
+  public NamedSBaseReferenceFilter(String id) {
+    super(id);
+  }
 
-	/**
-	 * @param id
-	 *        the identifier of a {@link NamedSBase} or {@link AbstractReferenceGlyph} we
-	 *        are interested in. Whether we accept the id of a {@link NamedSBase} or
-	 *        a {@link AbstractReferenceGlyph} depends on the flag that can be defined
-	 *        with {@link #setFilterForReference(boolean)}.
-	 * @param name
-	 *        the name of the element we are interested in.
-	 * @see #setFilterForReference(boolean)
-	 */
-	public NamedSBaseReferenceFilter(String id, String name) {
-		super(id, name);
-	}
+  /**
+   * @param id
+   *        the identifier of a {@link NamedSBase} or {@link AbstractReferenceGlyph} we
+   *        are interested in. Whether we accept the id of a {@link NamedSBase} or
+   *        a {@link AbstractReferenceGlyph} depends on the flag that can be defined
+   *        with {@link #setFilterForReference(boolean)}.
+   * @param name
+   *        the name of the element we are interested in.
+   * @see #setFilterForReference(boolean)
+   */
+  public NamedSBaseReferenceFilter(String id, String name) {
+    super(id, name);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.filters.Filter#accepts(java.lang.Object)
-	 */
-	@Override
-	public boolean accepts(Object o) {
-		if (!filterForReference) {
-			return super.accepts(o);
-		}
-		if (o instanceof AbstractReferenceGlyph) {
-		  AbstractReferenceGlyph specRef = (AbstractReferenceGlyph) o;
-			String id = getId();
-			if (specRef.isSetReference() && (id != null)
-					&& specRef.getReference().equals(id)) {
-				return true;
-			}
-		}
-		return false;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.filters.Filter#accepts(java.lang.Object)
+   */
+  @Override
+  public boolean accepts(Object o) {
+    if (!filterForReference) {
+      return super.accepts(o);
+    }
+    if (o instanceof AbstractReferenceGlyph) {
+      AbstractReferenceGlyph specRef = (AbstractReferenceGlyph) o;
+      String id = getId();
+      if (specRef.isSetReference() && (id != null)
+          && specRef.getReference().equals(id)) {
+        return true;
+      }
+    }
+    return false;
+  }
 
-	/**
-	 * @return the filterForSpecies
-	 */
-	public boolean isFilterForSpecies() {
-		return filterForReference;
-	}
+  /**
+   * @return the filterForSpecies
+   */
+  public boolean isFilterForSpecies() {
+    return filterForReference;
+  }
 
-	/**
-	 * @param filterForSpecies
-	 *            the filterForSpecies to set
-	 */
-	public void setFilterForReference(boolean filterForSpecies) {
-		this.filterForReference = filterForSpecies;
-	}
+  /**
+   * @param filterForSpecies
+   *            the filterForSpecies to set
+   */
+  public void setFilterForReference(boolean filterForSpecies) {
+    filterForReference = filterForSpecies;
+  }
 
 }

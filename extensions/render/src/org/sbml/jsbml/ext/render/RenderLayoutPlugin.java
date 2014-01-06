@@ -6,7 +6,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -28,7 +28,6 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.util.filters.NameFilter;
 
-
 /**
  * @author Jakob Matthes
  * @version $Rev$
@@ -37,7 +36,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  */
 public class RenderLayoutPlugin extends AbstractRenderPlugin {
   /**
-   *
+   * Generated serial version identifier
    */
   private static final long serialVersionUID = 6636572993878851570L;
   private ListOf<LocalRenderInformation> listOfLocalRenderInformation;
@@ -72,7 +71,7 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
    */
   @Override
   public void initDefaults() {
-//    TODO setNamespace(RenderConstants.namespaceURI);
+    //    TODO setNamespace(RenderConstants.namespaceURI);
   }
 
   /* (non-Javadoc)
@@ -104,12 +103,12 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
       throw new IndexOutOfBoundsException(childIndex + " < 0");
     }
     int pos = 0;
-     if (isSetListOfLocalRenderInformation()) {
-       if (pos == childIndex) {
-         return getListOfLocalRenderInformation();
-       }
-       pos++;
-     }
+    if (isSetListOfLocalRenderInformation()) {
+      if (pos == childIndex) {
+        return getListOfLocalRenderInformation();
+      }
+      pos++;
+    }
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", childIndex,
       +Math.min(pos, 0)));
@@ -164,8 +163,8 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
    */
   public boolean unsetListOfLocalRenderInformation() {
     if (isSetListOfLocalRenderInformation()) {
-      ListOf<LocalRenderInformation> oldLocalRenderInformation = this.listOfLocalRenderInformation;
-      this.listOfLocalRenderInformation = null;
+      ListOf<LocalRenderInformation> oldLocalRenderInformation = listOfLocalRenderInformation;
+      listOfLocalRenderInformation = null;
       oldLocalRenderInformation.fireNodeRemovedEvent();
       return true;
     }

@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.util.filters;
 
 import org.sbml.jsbml.CVTerm;
@@ -37,104 +36,103 @@ import org.sbml.jsbml.CVTerm.Qualifier;
  */
 public class CVTermFilter implements Filter {
 
-	/**
-	 * 
-	 */
-	private Qualifier qualifier;
-	/**
-	 * 
-	 */
-	private String pattern;
+  /**
+   * 
+   */
+  private Qualifier qualifier;
+  /**
+   * 
+   */
+  private String pattern;
 
-	/**
-	 * 
-	 */
-	public CVTermFilter() {
-		this(null, null);
-	}
+  /**
+   * 
+   */
+  public CVTermFilter() {
+    this(null, null);
+  }
 
-	/**
-	 * 
-	 * @param qualifier
-	 */
-	public CVTermFilter(Qualifier qualifier) {
-		this(qualifier, null);
-	}
+  /**
+   * 
+   * @param qualifier
+   */
+  public CVTermFilter(Qualifier qualifier) {
+    this(qualifier, null);
+  }
 
-	/**
-	 * 
-	 * @param qualifier
-	 * @param pattern
-	 */
-	public CVTermFilter(Qualifier qualifier, String pattern) {
-		this.qualifier = qualifier;
-		this.pattern = pattern;
-	}
+  /**
+   * 
+   * @param qualifier
+   * @param pattern
+   */
+  public CVTermFilter(Qualifier qualifier, String pattern) {
+    this.qualifier = qualifier;
+    this.pattern = pattern;
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.sbml.jsbml.util.Filter#accepts(java.lang.Object)
-	 */
-	public boolean accepts(Object o) {
-		if (o instanceof CVTerm) {
-			CVTerm cvt = (CVTerm) o;
-			if (qualifier != null) {
-				if (cvt.isBiologicalQualifier()
-						&& (cvt.getBiologicalQualifierType() == qualifier)) {
-					return pattern != null ? cvt.filterResources(pattern)
-							.size() > 0 : true;
-				} else if (cvt.isModelQualifier()
-						&& cvt.getModelQualifierType() == qualifier) {
-					return pattern != null ? cvt.filterResources(pattern)
-							.size() > 0 : true;
-				}
-			} else if (pattern != null) {
-				return cvt.filterResources(pattern).size() > 0;
-			}
-		} else if (o instanceof SBase) {
-			SBase sbase = (SBase) o;
-			if (qualifier != null) {
-				if (pattern != null) {
-					if (sbase.filterCVTerms(qualifier, pattern).size() > 0) {
-						return true;
-					}
-				} else if (sbase.filterCVTerms(qualifier).size() > 0) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.Filter#accepts(java.lang.Object)
+   */
+  @Override
+  public boolean accepts(Object o) {
+    if (o instanceof CVTerm) {
+      CVTerm cvt = (CVTerm) o;
+      if (qualifier != null) {
+        if (cvt.isBiologicalQualifier()
+            && (cvt.getBiologicalQualifierType() == qualifier)) {
+          return pattern != null ? cvt.filterResources(pattern)
+            .size() > 0 : true;
+        } else if (cvt.isModelQualifier()
+            && cvt.getModelQualifierType() == qualifier) {
+          return pattern != null ? cvt.filterResources(pattern)
+            .size() > 0 : true;
+        }
+      } else if (pattern != null) {
+        return cvt.filterResources(pattern).size() > 0;
+      }
+    } else if (o instanceof SBase) {
+      SBase sbase = (SBase) o;
+      if (qualifier != null) {
+        if (pattern != null) {
+          if (sbase.filterCVTerms(qualifier, pattern).size() > 0) {
+            return true;
+          }
+        } else if (sbase.filterCVTerms(qualifier).size() > 0) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 
-	/**
-	 * @return the pattern
-	 */
-	public String getPattern() {
-		return pattern;
-	}
+  /**
+   * @return the pattern
+   */
+  public String getPattern() {
+    return pattern;
+  }
 
-	/**
-	 * @return the qualifier
-	 */
-	public Qualifier getQualifier() {
-		return qualifier;
-	}
+  /**
+   * @return the qualifier
+   */
+  public Qualifier getQualifier() {
+    return qualifier;
+  }
 
-	/**
-	 * @param pattern
-	 *            the pattern to set
-	 */
-	public void setPattern(String pattern) {
-		this.pattern = pattern;
-	}
+  /**
+   * @param pattern
+   *            the pattern to set
+   */
+  public void setPattern(String pattern) {
+    this.pattern = pattern;
+  }
 
-	/**
-	 * @param qualifier
-	 *            the qualifier to set
-	 */
-	public void setQualifier(Qualifier qualifier) {
-		this.qualifier = qualifier;
-	}
+  /**
+   * @param qualifier
+   *            the qualifier to set
+   */
+  public void setQualifier(Qualifier qualifier) {
+    this.qualifier = qualifier;
+  }
 
 }

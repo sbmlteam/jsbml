@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.util.filters;
 
 import org.sbml.jsbml.SBO;
@@ -35,57 +34,58 @@ import org.sbml.jsbml.SBase;
  */
 public class SBOFilter implements Filter {
 
-	/**
-	 * The SBO term of interest.
-	 */
-	private int terms[];
+  /**
+   * The SBO term of interest.
+   */
+  private int terms[];
 
-	/**
-	 * Generates a new {@link Filter} for SBO terms but with an invalid SBO term
-	 * as filter criterion.
-	 */
-	public SBOFilter() {
-		this(null);
-	}
+  /**
+   * Generates a new {@link Filter} for SBO terms but with an invalid SBO term
+   * as filter criterion.
+   */
+  public SBOFilter() {
+    this(null);
+  }
 
-	/**
-	 * Creates an SBO term filter with the given term as filter criterion.
-	 * 
-	 * @param terms
-	 *            The terms of interest.
-	 */
-	public SBOFilter(int... terms) {
-		this.terms = terms;
-	}
+  /**
+   * Creates an SBO term filter with the given term as filter criterion.
+   * 
+   * @param terms
+   *            The terms of interest.
+   */
+  public SBOFilter(int... terms) {
+    this.terms = terms;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.Filter#accepts(java.lang.Object)
-	 */
-	public boolean accepts(Object o) {
-		if ((terms != null) && (terms.length > 0) && (o instanceof SBase)) {
-			SBase sbase = (SBase) o;
-			for (int i = 0; sbase.isSetSBOTerm() && (i < terms.length); i++) {
-				if (SBO.isChildOf(sbase.getSBOTerm(), terms[i])) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.Filter#accepts(java.lang.Object)
+   */
+  @Override
+  public boolean accepts(Object o) {
+    if ((terms != null) && (terms.length > 0) && (o instanceof SBase)) {
+      SBase sbase = (SBase) o;
+      for (int i = 0; sbase.isSetSBOTerm() && (i < terms.length); i++) {
+        if (SBO.isChildOf(sbase.getSBOTerm(), terms[i])) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 
-	/**
-	 * @return the terms
-	 */
-	public int[] getTerms() {
-		return terms;
-	}
+  /**
+   * @return the terms
+   */
+  public int[] getTerms() {
+    return terms;
+  }
 
-	/**
-	 * @param terms
-	 *            the terms to set
-	 */
-	public void setTerms(int... terms) {
-		this.terms = terms;
-	}
+  /**
+   * @param terms
+   *            the terms to set
+   */
+  public void setTerms(int... terms) {
+    this.terms = terms;
+  }
 
 }

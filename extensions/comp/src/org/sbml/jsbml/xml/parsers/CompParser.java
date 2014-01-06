@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -59,273 +59,293 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 @ProviderFor(ReadingParser.class)
 public class CompParser extends AbstractReaderWriter implements PackageParser {
 
-	private Logger logger = Logger.getLogger(CompParser.class);
-	
-	/**
-	 * 
-	 * @return the namespaceURI of this parser.
-	 */
-	public String getNamespaceURI() {
-		return namespaceURI;
-	}
+  private Logger logger = Logger.getLogger(CompParser.class);
 
-	@Override
-	public String getShortLabel() {
-		return shortLabel;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
+   */
+  @Override
+  public String getNamespaceURI() {
+    return namespaceURI;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
-	 */
-	@Override
-	public List<Object> getListOfSBMLElementsToWrite(Object treeNode) {
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getShortLabel()
+   */
+  @Override
+  public String getShortLabel() {
+    return shortLabel;
+  }
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("getListOfSBMLElementsToWrite: " + treeNode.getClass().getCanonicalName());
-		}	
-		
-		List<Object> listOfElementsToWrite = new ArrayList<Object>();
-		
-		// test if this treeNode is an extended SBase.
-		if (treeNode instanceof SBase && (! (treeNode instanceof Model)) && ((SBase) treeNode).getExtension(getNamespaceURI()) != null) {
-			SBasePlugin sbasePlugin = (SBasePlugin) ((SBase) treeNode).getExtension(getNamespaceURI());
-			
-			if (sbasePlugin != null) {
-				listOfElementsToWrite = super.getListOfSBMLElementsToWrite(sbasePlugin);
-				logger.debug("getListOfSBMLElementsToWrite: nb children = " + sbasePlugin.getChildCount());
-			}
-		} else {
-			listOfElementsToWrite = super.getListOfSBMLElementsToWrite(treeNode);
-		}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.WritingParser#getListOfSBMLElementsToWrite(Object sbase)
+   */
+  @Override
+  public List<Object> getListOfSBMLElementsToWrite(Object treeNode) {
 
-		if (treeNode instanceof Model) {
-			String sbmlNamespace = JSBML.getNamespaceFrom(((Model) treeNode).getLevel(), ((Model) treeNode).getVersion());
-			
-			((Model) treeNode).setNamespace(sbmlNamespace);
-			
-			for (Object child : listOfElementsToWrite) {
-				if (child instanceof AbstractSBase && ((AbstractSBase) child).getNamespace() == null) {
-					AbstractSBase sbase = (AbstractSBase) child;
-					logger.debug("Found one suspect Model child: " + sbase.getElementName() + ". Setting the SBML namespace to it.");
-					((AbstractSBase) sbase).setNamespace(sbmlNamespace);
-				}
-			}
-		}
-		
-		return listOfElementsToWrite;
-	}
+    if (logger.isDebugEnabled()) {
+      logger.debug("getListOfSBMLElementsToWrite: " + treeNode.getClass().getCanonicalName());
+    }
+
+    List<Object> listOfElementsToWrite = new ArrayList<Object>();
+
+    // test if this treeNode is an extended SBase.
+    if (treeNode instanceof SBase && (! (treeNode instanceof Model)) && ((SBase) treeNode).getExtension(getNamespaceURI()) != null) {
+      SBasePlugin sbasePlugin = ((SBase) treeNode).getExtension(getNamespaceURI());
+
+      if (sbasePlugin != null) {
+        listOfElementsToWrite = super.getListOfSBMLElementsToWrite(sbasePlugin);
+        logger.debug("getListOfSBMLElementsToWrite: nb children = " + sbasePlugin.getChildCount());
+      }
+    } else {
+      listOfElementsToWrite = super.getListOfSBMLElementsToWrite(treeNode);
+    }
+
+    if (treeNode instanceof Model) {
+      String sbmlNamespace = JSBML.getNamespaceFrom(((Model) treeNode).getLevel(), ((Model) treeNode).getVersion());
+
+      ((Model) treeNode).setNamespace(sbmlNamespace);
+
+      for (Object child : listOfElementsToWrite) {
+        if (child instanceof AbstractSBase && ((AbstractSBase) child).getNamespace() == null) {
+          AbstractSBase sbase = (AbstractSBase) child;
+          logger.debug("Found one suspect Model child: " + sbase.getElementName() + ". Setting the SBML namespace to it.");
+          sbase.setNamespace(sbmlNamespace);
+        }
+      }
+    }
+
+    return listOfElementsToWrite;
+  }
 
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String
-	 * elementName, String prefix, boolean hasAttributes, boolean hasNamespaces,
-	 * Object contextObject)
-	 */
-	public Object processStartElement(String elementName, String uri, String prefix,
-			boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.ReadingParser#processStartElement(String
+   * elementName, String prefix, boolean hasAttributes, boolean hasNamespaces,
+   * Object contextObject)
+   */
+  @Override
+  public Object processStartElement(String elementName, String uri, String prefix,
+    boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 
-		// TODO: make it generic by using reflection on the contextObject
-		
-		if (contextObject instanceof SBMLDocument) 
-		{
-			SBMLDocument sbmlDoc = (SBMLDocument) contextObject;
-			CompSBMLDocumentPlugin compSBMLDoc = null;
-			
-			if (sbmlDoc.getExtension(namespaceURI) != null) {
-				compSBMLDoc = (CompSBMLDocumentPlugin) sbmlDoc.getExtension(namespaceURI);
-			} else {
-				compSBMLDoc = new CompSBMLDocumentPlugin(sbmlDoc);
-				sbmlDoc.addExtension(namespaceURI, compSBMLDoc);
-			}
+    // TODO: make it generic by using reflection on the contextObject
 
-			if (elementName.equals(CompConstants.listOfExternalModelDefinitions)) 
-			{
-				return compSBMLDoc.getListOfExternalModelDefinitions();
-			} 
-			else if (elementName.equals(CompConstants.listOfModelDefinitions)) 
-			{
-				return compSBMLDoc.getListOfModelDefinitions();
-			}
-		} // end SBMLDocument		
-		else if (contextObject instanceof Model) 
-		{
-			Model model = (Model) contextObject;
-			CompModelPlugin compModel = null;
-			
-			if (model.getExtension(namespaceURI) != null) {
-				compModel = (CompModelPlugin) model.getExtension(namespaceURI);
-			} else {
-				compModel = new CompModelPlugin(model);
-				model.addExtension(namespaceURI, compModel);
-			}
+    if (contextObject instanceof SBMLDocument)
+    {
+      SBMLDocument sbmlDoc = (SBMLDocument) contextObject;
+      CompSBMLDocumentPlugin compSBMLDoc = null;
 
-			if (elementName.equals(CompConstants.listOfSubmodels)) 
-			{
-				return compModel.getListOfSubmodels();
-			} 
-			else if (elementName.equals(CompConstants.listOfPorts)) 
-			{
-				return compModel.getListOfPorts();
-			}
-		} // end Model
-		else if (contextObject instanceof Submodel)
-		{
-			Submodel submodel = (Submodel) contextObject;
-			
-			if (elementName.equals(CompConstants.listOfDeletions)) {
-				return submodel.getListOfDeletions();
-			}			
-		} // end Submodel
-		else if (contextObject instanceof SBaseRef)
-		{
-			SBaseRef sBaseRef = (SBaseRef) contextObject;
-			
-			if (elementName.equalsIgnoreCase(CompConstants.sBaseRef)) {
-				return sBaseRef.createSBaseRef();
-			}			
-		} // end SBaseRef
-		else if (contextObject instanceof ListOf<?>) 
-		{
-			ListOf<?> listOf = (ListOf<?>) contextObject;
-			
-			Object newElement = createListOfChild(listOf, elementName);
-			
-			if (newElement != null) {
-				return newElement;
-			}			
-		}
-		
-		// If not other elements recognized the new element to read, it might be
-		// on of the extended SBase children
-		if (contextObject instanceof SBase) 
-		{
-			SBase sbase = (SBase) contextObject;
-			CompSBasePlugin compSBase = null;
-			
-			if (sbase.getExtension(namespaceURI) != null) {
-				compSBase = (CompSBasePlugin) sbase.getExtension(namespaceURI);
-			} else {
-				compSBase = new CompSBasePlugin(sbase);
-				sbase.addExtension(namespaceURI, compSBase);
-			}
+      if (sbmlDoc.getExtension(namespaceURI) != null) {
+        compSBMLDoc = (CompSBMLDocumentPlugin) sbmlDoc.getExtension(namespaceURI);
+      } else {
+        compSBMLDoc = new CompSBMLDocumentPlugin(sbmlDoc);
+        sbmlDoc.addExtension(namespaceURI, compSBMLDoc);
+      }
 
-			if (elementName.equals(CompConstants.listOfReplacedElements)) 
-			{
-				return compSBase.getListOfReplacedElements();
-			} 
-			else if (elementName.equals(CompConstants.replacedBy)) 
-			{				
-				return compSBase.createReplacedBy();
-			}
-		} 
-		
-		
-		return contextObject;
-	}
+      if (elementName.equals(CompConstants.listOfExternalModelDefinitions))
+      {
+        return compSBMLDoc.getListOfExternalModelDefinitions();
+      }
+      else if (elementName.equals(CompConstants.listOfModelDefinitions))
+      {
+        return compSBMLDoc.getListOfModelDefinitions();
+      }
+    } // end SBMLDocument
+    else if (contextObject instanceof Model)
+    {
+      Model model = (Model) contextObject;
+      CompModelPlugin compModel = null;
 
-	/**
-	 * 
-	 * @param listOf
-	 * @param elementName
-	 * @return
-	 */
-	protected Object createListOfChild(ListOf<?> listOf, String elementName) {
+      if (model.getExtension(namespaceURI) != null) {
+        compModel = (CompModelPlugin) model.getExtension(namespaceURI);
+      } else {
+        compModel = new CompModelPlugin(model);
+        model.addExtension(namespaceURI, compModel);
+      }
 
-		Object parentSBase = listOf.getParent();
-		
-		if (parentSBase == null) {
-			return null;
-		} else if (parentSBase instanceof Model || parentSBase instanceof SBMLDocument) {
-			parentSBase = ((SBase) parentSBase).getExtension(namespaceURI);
-		}
+      if (elementName.equals(CompConstants.listOfSubmodels))
+      {
+        return compModel.getListOfSubmodels();
+      }
+      else if (elementName.equals(CompConstants.listOfPorts))
+      {
+        return compModel.getListOfPorts();
+      }
+    } // end Model
+    else if (contextObject instanceof Submodel)
+    {
+      Submodel submodel = (Submodel) contextObject;
 
-		// dealing with the extendedSBase		
-		if (elementName.equals(CompConstants.replacedBy) || elementName.equals(CompConstants.replacedElement)) {
-			parentSBase = ((SBase) parentSBase).getExtension(namespaceURI);
-		}
-		
-		String createMethodName = "create" + elementName.substring(0, 1).toUpperCase() + elementName.substring(1);  
-		Method createMethod = null;
+      if (elementName.equals(CompConstants.listOfDeletions)) {
+        return submodel.getListOfDeletions();
+      }
+    } // end Submodel
+    else if (contextObject instanceof SBaseRef)
+    {
+      SBaseRef sBaseRef = (SBaseRef) contextObject;
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("Method '" + createMethodName + "' will be used");
-		}
-		
-		try {
-			createMethod = parentSBase.getClass().getMethod(createMethodName, (Class<?>[]) null);
-			
-			return createMethod.invoke(parentSBase, (Object[]) null);
-			
-		} catch (SecurityException e) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Method '" + createMethodName + "' is not accessible on " + parentSBase.getClass().getSimpleName());
-				e.printStackTrace();
-			}
-		} catch (NoSuchMethodException e) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Method '" + createMethodName + "' does not exist on " + parentSBase.getClass().getSimpleName());
-			}
-		} catch (IllegalArgumentException e) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
-				logger.debug(e.getMessage());
-			}
-		} catch (IllegalAccessException e) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
-				logger.debug(e.getMessage());
-			}
-		} catch (InvocationTargetException e) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
-				logger.debug(e.getMessage());
-			}
-		}
-		
-		// TODO: try to use the default constructor + the addXX method
-		
-		return null;
-	}
+      if (elementName.equalsIgnoreCase(CompConstants.sBaseRef)) {
+        return sBaseRef.createSBaseRef();
+      }
+    } // end SBaseRef
+    else if (contextObject instanceof ListOf<?>)
+    {
+      ListOf<?> listOf = (ListOf<?>) contextObject;
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
-	 */
-	@Override
-	public void writeElement(SBMLObjectForXML xmlObject,
-			Object sbmlElementToWrite) 
-	{
-		super.writeElement(xmlObject, sbmlElementToWrite);
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("writeElement: " + sbmlElementToWrite.getClass().getSimpleName());
-		}
-	}
+      Object newElement = createListOfChild(listOf, elementName);
 
-	@Override
-	public String getNamespaceFor(String level, String version,	String packageVersion) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+      if (newElement != null) {
+        return newElement;
+      }
+    }
 
-	@Override
-	public List<String> getNamespaces() {		
-		return CompConstants.namespaces;
-	}
+    // If not other elements recognized the new element to read, it might be
+    // on of the extended SBase children
+    if (contextObject instanceof SBase)
+    {
+      SBase sbase = (SBase) contextObject;
+      CompSBasePlugin compSBase = null;
 
-	@Override
-	public List<String> getPackageNamespaces() {		
-		return getNamespaces();
-	}
+      if (sbase.getExtension(namespaceURI) != null) {
+        compSBase = (CompSBasePlugin) sbase.getExtension(namespaceURI);
+      } else {
+        compSBase = new CompSBasePlugin(sbase);
+        sbase.addExtension(namespaceURI, compSBase);
+      }
 
-	@Override
-	public String getPackageName() {
-		return CompConstants.shortLabel;
-	}
+      if (elementName.equals(CompConstants.listOfReplacedElements))
+      {
+        return compSBase.getListOfReplacedElements();
+      }
+      else if (elementName.equals(CompConstants.replacedBy))
+      {
+        return compSBase.createReplacedBy();
+      }
+    }
 
-	@Override
-	public boolean isRequired() {
-		return true;
-	}
+
+    return contextObject;
+  }
+
+  /**
+   * 
+   * @param listOf
+   * @param elementName
+   * @return
+   */
+  @Override
+  protected Object createListOfChild(ListOf<?> listOf, String elementName) {
+
+    Object parentSBase = listOf.getParent();
+
+    if (parentSBase == null) {
+      return null;
+    } else if (parentSBase instanceof Model || parentSBase instanceof SBMLDocument) {
+      parentSBase = ((SBase) parentSBase).getExtension(namespaceURI);
+    }
+
+    // dealing with the extendedSBase
+    if (elementName.equals(CompConstants.replacedBy) || elementName.equals(CompConstants.replacedElement)) {
+      parentSBase = ((SBase) parentSBase).getExtension(namespaceURI);
+    }
+
+    String createMethodName = "create" + elementName.substring(0, 1).toUpperCase() + elementName.substring(1);
+    Method createMethod = null;
+
+    if (logger.isDebugEnabled()) {
+      logger.debug("Method '" + createMethodName + "' will be used");
+    }
+
+    try {
+      createMethod = parentSBase.getClass().getMethod(createMethodName, (Class<?>[]) null);
+
+      return createMethod.invoke(parentSBase, (Object[]) null);
+
+    } catch (SecurityException e) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("Method '" + createMethodName + "' is not accessible on " + parentSBase.getClass().getSimpleName());
+        e.printStackTrace();
+      }
+    } catch (NoSuchMethodException e) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("Method '" + createMethodName + "' does not exist on " + parentSBase.getClass().getSimpleName());
+      }
+    } catch (IllegalArgumentException e) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
+        logger.debug(e.getMessage());
+      }
+    } catch (IllegalAccessException e) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
+        logger.debug(e.getMessage());
+      }
+    } catch (InvocationTargetException e) {
+      if (logger.isDebugEnabled()) {
+        logger.debug("Problem invoking the method '" + createMethodName + "' on " + parentSBase.getClass().getSimpleName());
+        logger.debug(e.getMessage());
+      }
+    }
+
+    // TODO: try to use the default constructor + the addXX method
+
+    return null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
+   */
+  @Override
+  public void writeElement(SBMLObjectForXML xmlObject,
+    Object sbmlElementToWrite)
+  {
+    super.writeElement(xmlObject, sbmlElementToWrite);
+
+    if (logger.isDebugEnabled()) {
+      logger.debug("writeElement: " + sbmlElementToWrite.getClass().getSimpleName());
+    }
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#getNamespaceFor(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public String getNamespaceFor(String level, String version,	String packageVersion) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.ReadingParser#getNamespaces()
+   */
+  @Override
+  public List<String> getNamespaces() {
+    return CompConstants.namespaces;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#getPackageNamespaces()
+   */
+  @Override
+  public List<String> getPackageNamespaces() {
+    return getNamespaces();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#getPackageName()
+   */
+  @Override
+  public String getPackageName() {
+    return CompConstants.shortLabel;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#isRequired()
+   */
+  @Override
+  public boolean isRequired() {
+    return true;
+  }
 
 
 }

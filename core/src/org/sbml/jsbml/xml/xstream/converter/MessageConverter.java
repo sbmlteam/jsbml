@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.xml.xstream.converter;
 
 import org.sbml.jsbml.util.Message;
@@ -35,56 +34,57 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
  */
 public class MessageConverter implements Converter {
 
-	String elementName = "message";
-	
-	public MessageConverter(String elementName) {
-		super();
-		this.elementName = elementName; 
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.thoughtworks.xstream.converters.ConverterMatcher#canConvert(java.lang.Class)
-	 */
-	@Override
-	public boolean canConvert(@SuppressWarnings("rawtypes") Class arg0) {
-		return arg0.equals(Message.class);
-	}
+  String elementName = "message";
 
-	/* (non-Javadoc)
-	 * @see com.thoughtworks.xstream.converters.Converter#marshal(java.lang.Object, com.thoughtworks.xstream.io.HierarchicalStreamWriter, com.thoughtworks.xstream.converters.MarshallingContext)
-	 */
-	@Override
-	public void marshal(Object currentObject, HierarchicalStreamWriter writer,
-			MarshallingContext context) {
-		Message message = (Message) currentObject;
+  public MessageConverter(String elementName) {
+    super();
+    this.elementName = elementName;
+  }
 
-		writer.startNode(elementName);
-		writer.setValue(message.getMessage());
-		writer.addAttribute("lang", message.getLang());
-		writer.endNode();
-	}
+  /* (non-Javadoc)
+   * @see com.thoughtworks.xstream.converters.ConverterMatcher#canConvert(java.lang.Class)
+   */
+  @Override
+  public boolean canConvert(@SuppressWarnings("rawtypes") Class arg0) {
+    return arg0.equals(Message.class);
+  }
 
-	/* (non-Javadoc)
-	 * @see com.thoughtworks.xstream.converters.Converter#unmarshal(com.thoughtworks.xstream.io.HierarchicalStreamReader, com.thoughtworks.xstream.converters.UnmarshallingContext)
-	 */
-	public Object unmarshal(HierarchicalStreamReader reader,
-			UnmarshallingContext context) {
-		Message message = new Message();
+  /* (non-Javadoc)
+   * @see com.thoughtworks.xstream.converters.Converter#marshal(java.lang.Object, com.thoughtworks.xstream.io.HierarchicalStreamWriter, com.thoughtworks.xstream.converters.MarshallingContext)
+   */
+  @Override
+  public void marshal(Object currentObject, HierarchicalStreamWriter writer,
+    MarshallingContext context) {
+    Message message = (Message) currentObject;
 
-		// logger.debug("MessageConverter: nodeName = " +
-		// reader.getNodeName());
+    writer.startNode(elementName);
+    writer.setValue(message.getMessage());
+    writer.addAttribute("lang", message.getLang());
+    writer.endNode();
+  }
 
-		message.setLang(reader.getAttribute("lang"));
+  /* (non-Javadoc)
+   * @see com.thoughtworks.xstream.converters.Converter#unmarshal(com.thoughtworks.xstream.io.HierarchicalStreamReader, com.thoughtworks.xstream.converters.UnmarshallingContext)
+   */
+  @Override
+  public Object unmarshal(HierarchicalStreamReader reader,
+    UnmarshallingContext context) {
+    Message message = new Message();
 
-		// reader.moveDown();
-		String messageContent = reader.getValue();
+    // logger.debug("MessageConverter: nodeName = " +
+    // reader.getNodeName());
 
-		// logger.debug("MessageConverter: content = " + messageContent);
+    message.setLang(reader.getAttribute("lang"));
 
-		message.setMessage(messageContent);
-		// reader.moveUp();
+    // reader.moveDown();
+    String messageContent = reader.getValue();
 
-		return message;
-	}
+    // logger.debug("MessageConverter: content = " + messageContent);
+
+    message.setMessage(messageContent);
+    // reader.moveUp();
+
+    return message;
+  }
 
 }

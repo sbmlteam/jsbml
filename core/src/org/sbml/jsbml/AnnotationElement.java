@@ -2,13 +2,13 @@
  * $Id$
  * $URL$
  *
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2013 jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
+ * Copyright (C) 2009-2014 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 
@@ -18,7 +18,7 @@
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
- */ 
+ */
 package org.sbml.jsbml;
 
 import org.sbml.jsbml.util.TreeNodeChangeListener;
@@ -33,27 +33,27 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  */
 public abstract class AnnotationElement extends AbstractTreeNode {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 495755171215798027L;
-	
-	/**
-	 * Creates a new empty {@link AnnotationElement} without any children, an
-	 * empty list of {@link TreeNodeChangeListener}s, and a parent that is
-	 * {@code null}.
-	 */
-	public AnnotationElement() {
-		super();
-	}
-	
-	/**
-	 * Clone constructor.
-	 * 
-	 * @param annotation
-	 */
-	public AnnotationElement(AnnotationElement annotation) {
-		super(annotation);
-	}
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 495755171215798027L;
+
+  /**
+   * Creates a new empty {@link AnnotationElement} without any children, an
+   * empty list of {@link TreeNodeChangeListener}s, and a parent that is
+   * {@code null}.
+   */
+  public AnnotationElement() {
+    super();
+  }
+
+  /**
+   * Clone constructor.
+   * 
+   * @param annotation
+   */
+  public AnnotationElement(AnnotationElement annotation) {
+    super(annotation);
+  }
 
 }

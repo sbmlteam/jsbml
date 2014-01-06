@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -33,177 +33,179 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class InitialSpeciesInstance extends AbstractNamedSBase {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 6619677758810986153L;
-	/**
-	 * 
-	 */
-	private Double initialProportion;
-	/**
-	 * 
-	 */
-	private String selectorID;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 6619677758810986153L;
+  /**
+   * 
+   */
+  private Double initialProportion;
+  /**
+   * 
+   */
+  private String selectorID;
 
-	/**
-	 * 
-	 */
-	public InitialSpeciesInstance() {
-		super();
-		this.selectorID = null;
-		this.initialProportion = null;
-	}
+  /**
+   * 
+   */
+  public InitialSpeciesInstance() {
+    super();
+    selectorID = null;
+    initialProportion = null;
+  }
 
-	/**
-	 * 
-	 * @param in
-	 */
-	public InitialSpeciesInstance(InitialSpeciesInstance in) {
-		super(in);
-		this.setSelector(in.getSelector());
-		this.setInitialProportion(in.getInitialProportion());
-	}
+  /**
+   * 
+   * @param in
+   */
+  public InitialSpeciesInstance(InitialSpeciesInstance in) {
+    super(in);
+    this.setSelector(in.getSelector());
+    setInitialProportion(in.getInitialProportion());
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#clone()
-	 */
-	public InitialSpeciesInstance clone() {
-		return new InitialSpeciesInstance(this);
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
+  @Override
+  public InitialSpeciesInstance clone() {
+    return new InitialSpeciesInstance(this);
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public double getInitialProportion() {
-		return isSetInitialProportion() ? initialProportion : 0;
-	}
+  /**
+   * 
+   * @return
+   */
+  public double getInitialProportion() {
+    return isSetInitialProportion() ? initialProportion : 0;
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public String getSelector() {
-		return isSetSelector() ? this.selectorID : "";
-	}
+  /**
+   * 
+   * @return
+   */
+  public String getSelector() {
+    return isSetSelector() ? selectorID : "";
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public Selector getSelectorInstance() {
-		// TODO extend model to have the listOfSelector and the appropriate
-		// methods
-		return null;
-	}
+  /**
+   * 
+   * @return
+   */
+  public Selector getSelectorInstance() {
+    // TODO extend model to have the listOfSelector and the appropriate
+    // methods
+    return null;
+  }
 
-	/* (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
+  @Override
   public boolean isIdMandatory() {
     // TODO Auto-generated method stub
     return false;
   }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isSetInitialProportion() {
-		return this.initialProportion != null;
-	}
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetInitialProportion() {
+    return initialProportion != null;
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isSetSelector() {
-		return this.selectorID != null;
-	}
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetSelector() {
+    return selectorID != null;
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isSetSelectorInstance() {
-		// TODO extend Model to add the listOfSelector and the appropriate
-		// methods
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isReadAttribute = super.readAttribute(attributeName, prefix,
-				value);
-
-		if (!isReadAttribute) {
-			if (attributeName.equals("initialProportion")) {
-				this.initialProportion = StringTools.parseSBMLDouble(value);
-
-				return true;
-			} else if (attributeName.equals("selector")) {
-				this.selectorID = value;
-
-				return true;
-			}
-		}
-
-		return isReadAttribute;
-	}
-
-	/**
-	 * 
-	 * @param initialProportion
-	 */
-	public void setInitialProportion(double initialProportion) {
-		this.initialProportion = initialProportion;
-	}
-
-	/**
-	 * 
-	 * @param selector
-	 */
-	public void setSelector(Selector selector) {
-		this.selectorID = selector.isSetId() ? selector.getId() : "";
-	}
-
-	/**
-	 * 
-	 * @param selectorID
-	 */
-	public void setSelector(String selectorID) {
-		this.selectorID = selectorID;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#toString()
-	 */
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetSelectorInstance() {
+    // TODO extend Model to add the listOfSelector and the appropriate
+    // methods
+    return false;
+  }
 
   /* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
-	 */
-	@Override
-	public HashMap<String, String> writeXMLAttributes() {
-		HashMap<String, String> attributes = new HashMap<String, String>();
+   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix,
+    String value) {
+    boolean isReadAttribute = super.readAttribute(attributeName, prefix,
+      value);
 
-		if (isSetInitialProportion()) {
-			attributes.put("initialProportion", StringTools.toString(
-					Locale.ENGLISH, getInitialProportion()));
-		}
-		if (isSetSelector()) {
-			attributes.put("selector", getSelector());
-		}
+    if (!isReadAttribute) {
+      if (attributeName.equals("initialProportion")) {
+        initialProportion = StringTools.parseSBMLDouble(value);
 
-		return attributes;
-	}
+        return true;
+      } else if (attributeName.equals("selector")) {
+        selectorID = value;
+
+        return true;
+      }
+    }
+
+    return isReadAttribute;
+  }
+
+  /**
+   * 
+   * @param initialProportion
+   */
+  public void setInitialProportion(double initialProportion) {
+    this.initialProportion = initialProportion;
+  }
+
+  /**
+   * 
+   * @param selector
+   */
+  public void setSelector(Selector selector) {
+    selectorID = selector.isSetId() ? selector.getId() : "";
+  }
+
+  /**
+   * 
+   * @param selectorID
+   */
+  public void setSelector(String selectorID) {
+    this.selectorID = selectorID;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#toString()
+   */
+  @Override
+  public String toString() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+   */
+  @Override
+  public HashMap<String, String> writeXMLAttributes() {
+    HashMap<String, String> attributes = new HashMap<String, String>();
+
+    if (isSetInitialProportion()) {
+      attributes.put("initialProportion", StringTools.toString(
+        Locale.ENGLISH, getInitialProportion()));
+    }
+    if (isSetSelector()) {
+      attributes.put("selector", getSelector());
+    }
+
+    return attributes;
+  }
 }

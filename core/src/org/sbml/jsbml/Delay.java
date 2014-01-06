@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,9 +18,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml;
-
 
 /**
  * Represents the delay subnode of an event element.
@@ -31,59 +29,60 @@ package org.sbml.jsbml;
  */
 public class Delay extends AbstractMathContainer {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -1578051749680028593L;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -1578051749680028593L;
 
-	/**
-	 * Creates a Delay instance.
-	 */
-	public Delay() {
-		super();
-	}
+  /**
+   * Creates a Delay instance.
+   */
+  public Delay() {
+    super();
+  }
 
-	/**
-	 * Creates a Delay instance from an ASTNode, level and version.
-	 * 
-	 * @param math
-	 */
-	public Delay(ASTNode math, int level, int version) {
-		super(math, level, version);
-	}
+  /**
+   * Creates a Delay instance from an ASTNode, level and version.
+   * 
+   * @param math
+   */
+  public Delay(ASTNode math, int level, int version) {
+    super(math, level, version);
+  }
 
-	/**
-	 * Creates a Delay instance from a given Delay.
-	 * 
-	 * @param sb
-	 */
-	public Delay(Delay sb) {
-		super(sb);
-	}
+  /**
+   * Creates a Delay instance from a given Delay.
+   * 
+   * @param sb
+   */
+  public Delay(Delay sb) {
+    super(sb);
+  }
 
-	/**
-	 * Creates a Delay instance from a level and version.
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public Delay(int level, int version) {
-		super(level, version);
-	}
+  /**
+   * Creates a Delay instance from a level and version.
+   * 
+   * @param level
+   * @param version
+   */
+  public Delay(int level, int version) {
+    super(level, version);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
-	 */
-	public Delay clone() {
-		return new Delay(this);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getParent()
-	 */
-	@Override
-	public Event getParent() {
-		return (Event) super.getParent();
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractMathContainer#clone()
+   */
+  @Override
+  public Delay clone() {
+    return new Delay(this);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getParent()
+   */
+  @Override
+  public Event getParent() {
+    return (Event) super.getParent();
+  }
 
 }

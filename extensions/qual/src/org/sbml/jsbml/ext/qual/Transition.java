@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -65,7 +65,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     super();
     initDefaults();
   }
-  
+
   /**
    * 
    * @param level
@@ -74,7 +74,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   public Transition(int level, int version) {
     this(null, null, level, version);
   }
-  
+
   /**
    * 
    * @param id
@@ -83,7 +83,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     super(id);
     initDefaults();
   }
-  
+
   /**
    * @param id
    * @param level
@@ -111,7 +111,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
 
   public Transition(Transition t) {
     super(t);
-    
+
     if (t.isSetListOfFunctionTerms()) {
       listOfFunctionTerms = t.listOfFunctionTerms.clone();
     }
@@ -122,7 +122,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfOutputs = t.listOfOutputs.clone();
     }
   }
-  
+
   /**
    * @param functionTerm
    *            {@code true} if the {@link FunctionTerm} was added to the
@@ -135,13 +135,13 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return false;
   }
-  
+
   /**
    * @param input
    *        the input to add
    */
   public boolean addInput(Input input) {
-      return getListOfInputs().add(input);
+    return getListOfInputs().add(input);
   }
 
 
@@ -150,13 +150,14 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    *        the output to add
    */
   public boolean addOutput(Output output) {
-      return getListOfOutputs().add(output);
+    return getListOfOutputs().add(output);
   }
 
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
+  @Override
   public Transition clone() {
     return new Transition(this);
   }
@@ -173,7 +174,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    * @see #createFunctionTerm(ASTNode)
    */
   public FunctionTerm createFunctionTerm() {
-	  return createFunctionTerm(null);
+    return createFunctionTerm(null);
   }
 
 
@@ -190,8 +191,8 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    *         the new {@link FunctionTerm} was not successful.
    */
   public FunctionTerm createFunctionTerm(ASTNode math) {
-	  FunctionTerm ft = new FunctionTerm(math, getLevel(), getVersion());
-	  return addFunctionTerm(ft) ? ft : null;
+    FunctionTerm ft = new FunctionTerm(math, getLevel(), getVersion());
+    return addFunctionTerm(ft) ? ft : null;
   }
 
   /**
@@ -273,7 +274,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return
    */
   public Output createOutput(String id, QualitativeSpecies qualitativeSpecies,
-      OutputTransitionEffect transitionEffect) {
+    OutputTransitionEffect transitionEffect) {
     return createOutput(id, qualitativeSpecies.getId(), transitionEffect);
   }
 
@@ -310,7 +311,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     if (index < 0) {
       throw new IndexOutOfBoundsException(index + " < 0");
     }
-      
+
     int count = super.getChildCount(), pos = 0;
     if (index < count) {
       return super.getChildAt(index);
@@ -337,7 +338,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}",
-      index, +((int) Math.min(pos, 0))));
+      index, +Math.min(pos, 0)));
   }
 
   /* (non-Javadoc)
@@ -363,7 +364,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return
    */
   public int getFunctionTermCount() {
-	  return isSetListOfFunctionTerms() ? getListOfFunctionTerms().size() : 0;
+    return isSetListOfFunctionTerms() ? getListOfFunctionTerms().size() : 0;
   }
 
   /**
@@ -371,7 +372,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return
    */
   public int getInputCount() {
-	  return isSetListOfInputs() ? getListOfInputs().size() : 0;
+    return isSetListOfInputs() ? getListOfInputs().size() : 0;
   }
 
   /**
@@ -399,7 +400,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return listOfInputs;
   }
-  
+
   /**
    * @return the listOfOutputs
    */
@@ -418,7 +419,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return
    */
   public int getOutputCount() {
-	  return isSetListOfOutputs() ? getListOfOutputs().size() : 0;
+    return isSetListOfOutputs() ? getListOfOutputs().size() : 0;
   }
 
   /* (non-Javadoc)
@@ -444,6 +445,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * @return false
    */
+  @Override
   public boolean isIdMandatory() {
     return false;
   }
@@ -505,11 +507,11 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix,
-		  String value) 
+    String value)
   {
-	  boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-	  return isAttributeRead;
-	  
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    return isAttributeRead;
+
   }
 
   /**
@@ -547,7 +549,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return false;
   }
-  
+
   /**
    * @param i position
    *        in the listOfInputs which should be deleted
@@ -559,7 +561,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     listOfInputs.remove(i);
   }
-  
+
   /**
    * @param i position
    *        in the listOfOutputs which should be deleted
@@ -571,7 +573,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     listOfOutputs.remove(i);
   }
-  
+
   /**
    * @param output
    *        to remove from the listOfOutputs
@@ -590,28 +592,28 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public void setListOfFunctionTerms(ListOf<FunctionTerm> loft) {
     unsetListOfFunctionTerms();
-    this.listOfFunctionTerms = loft;
-    registerChild(this.listOfFunctionTerms);
+    listOfFunctionTerms = loft;
+    registerChild(listOfFunctionTerms);
   }
-  
+
   /**
    * 
    * @param loi
    */
   public void setListOfInputs(ListOf<Input> loi) {
     unsetListOfInputs();
-    this.listOfInputs = loi;
-    registerChild(this.listOfInputs);
+    listOfInputs = loi;
+    registerChild(listOfInputs);
   }
-  
+
   /**
    * 
    * @param loo
    */
   public void setListOfOutputs(ListOf<Output> loo) {
     unsetListOfOutputs();
-    this.listOfOutputs = loo;
-    registerChild(this.listOfOutputs);
+    listOfOutputs = loo;
+    registerChild(listOfOutputs);
   }
 
   /**
@@ -620,8 +622,8 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public boolean unsetListOfFunctionTerms() {
     if (isSetListOfFunctionTerms()) {
-      ListOf<FunctionTerm> oldLoft = this.listOfFunctionTerms;
-      this.listOfFunctionTerms = null;
+      ListOf<FunctionTerm> oldLoft = listOfFunctionTerms;
+      listOfFunctionTerms = null;
       oldLoft.fireNodeRemovedEvent();
       return true;
     }
@@ -634,22 +636,22 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public boolean unsetListOfInputs() {
     if (isSetListOfInputs()) {
-      ListOf<Input> oldLoi = this.listOfInputs;
-      this.listOfInputs = null;
+      ListOf<Input> oldLoi = listOfInputs;
+      listOfInputs = null;
       oldLoi.fireNodeRemovedEvent();
       return true;
     }
     return false;
   }
-  
+
   /**
    * 
    * @return
    */
   public boolean unsetListOfOutputs() {
     if (isSetListOfOutputs()) {
-      ListOf<Output> oldLoo = this.listOfOutputs;
-      this.listOfOutputs = null;
+      ListOf<Output> oldLoo = listOfOutputs;
+      listOfOutputs = null;
       oldLoo.fireNodeRemovedEvent();
       return true;
     }
@@ -661,18 +663,18 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   @Override
   public Map<String, String> writeXMLAttributes() {
-	  Map<String, String> attributes = super.writeXMLAttributes();
-	  
-	  if (isSetId()) {
-		  attributes.remove("id");
-		  attributes.put(QualConstants.shortLabel+ ":id", getId());
-	  }
-	  if (isSetName()) {
-		  attributes.remove("name");
-		  attributes.put(QualConstants.shortLabel+ ":name", getName());
-	  }
-	  
-	  return attributes;
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (isSetId()) {
+      attributes.remove("id");
+      attributes.put(QualConstants.shortLabel+ ":id", getId());
+    }
+    if (isSetName()) {
+      attributes.remove("name");
+      attributes.put(QualConstants.shortLabel+ ":name", getName());
+    }
+
+    return attributes;
   }
 
 }

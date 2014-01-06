@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -38,37 +38,37 @@ import org.sbml.jsbml.SBMLReader;
  * @version $Rev$
  */
 public class GetNotesStringTests {
-	
-	
-	public static String DATA_FOLDER = null;
-	
-	static {
 
-		DATA_FOLDER = "test/org/sbml/jsbml/xml/test/data";
-		
-		if (System.getProperty("DATA_FOLDER") != null || System.getenv("DATA_FOLDER") != null) {
-			DATA_FOLDER = System.getProperty("DATA_FOLDER");
-			if (DATA_FOLDER == null) {
-				DATA_FOLDER = System.getenv("DATA_FOLDER");
-			}
-		}
-	}
 
-	/**
-	 * 
-	 */
-	@Before public void setUp() { 
-	}
-	
-	/**
-	 * Tries to use getNotesString on a model without a notes element.
-	 */
-	@Test public void getNotesStringOnModel() throws IOException, XMLStreamException {
-		String fileName = DATA_FOLDER + "/libsbml-test-data/l1v1-minimal.xml";
-		
-		SBMLDocument doc = new SBMLReader().readSBML(fileName);
-        assertNotNull(doc.getModel().getNotesString());
-		assertTrue(doc.getModel().getNotesString() == "");
-	}
+  public static String DATA_FOLDER = null;
+
+  static {
+
+    DATA_FOLDER = "test/org/sbml/jsbml/xml/test/data";
+
+    if (System.getProperty("DATA_FOLDER") != null || System.getenv("DATA_FOLDER") != null) {
+      DATA_FOLDER = System.getProperty("DATA_FOLDER");
+      if (DATA_FOLDER == null) {
+        DATA_FOLDER = System.getenv("DATA_FOLDER");
+      }
+    }
+  }
+
+  /**
+   * 
+   */
+  @Before public void setUp() {
+  }
+
+  /**
+   * Tries to use getNotesString on a model without a notes element.
+   */
+  @Test public void getNotesStringOnModel() throws IOException, XMLStreamException {
+    String fileName = DATA_FOLDER + "/libsbml-test-data/l1v1-minimal.xml";
+
+    SBMLDocument doc = new SBMLReader().readSBML(fileName);
+    assertNotNull(doc.getModel().getNotesString());
+    assertTrue(doc.getModel().getNotesString() == "");
+  }
 
 }

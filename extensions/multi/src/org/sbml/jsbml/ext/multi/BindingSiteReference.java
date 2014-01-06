@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -32,98 +32,98 @@ import org.sbml.jsbml.AbstractSBase;
  */
 public class BindingSiteReference extends AbstractSBase {
 
-	/**
+  /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = -744301449365477023L;
 
   private String speciesTypeState;
-	
-	public BindingSiteReference() {
-		super();
-		initDefaults();
-	}
-	
-	/**
-	 * 
-	 */
-	public void initDefaults() {
-		setNamespace(MultiConstants.namespaceURI);
-	}
 
-	@Override
-	public AbstractSBase clone() {
-		// TODO 
-		return null;
-	}
+  public BindingSiteReference() {
+    super();
+    initDefaults();
+  }
 
-	/**
-	 * Returns the speciesTypeState.
-	 * 
-	 * @return the speciesTypeState
-	 */
-	public String getSpeciesTypeState() {
-		return speciesTypeState;
-	}
+  /**
+   * 
+   */
+  public void initDefaults() {
+    setNamespace(MultiConstants.namespaceURI);
+  }
 
-	/**
-	 * Sets the speciesTypeState.
-	 * 
-	 * @param speciesTypeState the speciesTypeState to set
-	 */
-	public void setSpeciesTypeState(String speciesTypeState) {
-		this.speciesTypeState = speciesTypeState;
-	}
+  @Override
+  public AbstractSBase clone() {
+    // TODO
+    return null;
+  }
 
-	/**
-	 * Returns {@code true} if the speciesTypeState is set.
-	 * 
-	 * @return {@code true} if the speciesTypeState is set.
-	 */
-	public boolean isSetSpeciesTypeState() {
-		return speciesTypeState != null;
-	}
+  /**
+   * Returns the speciesTypeState.
+   * 
+   * @return the speciesTypeState
+   */
+  public String getSpeciesTypeState() {
+    return speciesTypeState;
+  }
 
-	@Override
-	public String toString() {
-		// TODO 
-		return null;
-	}
+  /**
+   * Sets the speciesTypeState.
+   * 
+   * @param speciesTypeState the speciesTypeState to set
+   */
+  public void setSpeciesTypeState(String speciesTypeState) {
+    this.speciesTypeState = speciesTypeState;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) 
-	{
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+  /**
+   * Returns {@code true} if the speciesTypeState is set.
+   * 
+   * @return {@code true} if the speciesTypeState is set.
+   */
+  public boolean isSetSpeciesTypeState() {
+    return speciesTypeState != null;
+  }
 
-		if (!isAttributeRead) {
+  @Override
+  public String toString() {
+    // TODO
+    return null;
+  }
 
-			if (attributeName.equals(MultiConstants.speciesTypeState)) {
-				setSpeciesTypeState(value);
-				isAttributeRead = true;
-			} 
-		}	  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix,
+    String value)
+  {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 
-		return isAttributeRead;
+    if (!isAttributeRead) {
 
-	}
+      if (attributeName.equals(MultiConstants.speciesTypeState)) {
+        setSpeciesTypeState(value);
+        isAttributeRead = true;
+      }
+    }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
-	 */
-	@Override
-	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+    return isAttributeRead;
 
-		if (isSetSpeciesTypeState()) {
-			attributes.put(MultiConstants.shortLabel + ':' + MultiConstants.speciesTypeState, getSpeciesTypeState());
-		} 
+  }
 
-		return attributes;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
 
-	// TODO: removeXX unsetXX, equals, hashCode, ...
+    if (isSetSpeciesTypeState()) {
+      attributes.put(MultiConstants.shortLabel + ':' + MultiConstants.speciesTypeState, getSpeciesTypeState());
+    }
+
+    return attributes;
+  }
+
+  // TODO: removeXX unsetXX, equals, hashCode, ...
 }

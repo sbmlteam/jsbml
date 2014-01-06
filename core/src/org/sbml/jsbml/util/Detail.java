@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -21,26 +21,53 @@
 package org.sbml.jsbml.util;
 
 /**
- * 
+ * @author Nicolas Rodriguez
  * @version $Rev$
  * @since 1.0
  */
 public class Detail {
 
-	private int category;
-	private int severity;
-	
-	public int getCategory() {
-		return category;
-	}
-	public void setCategory(int category) {
-		this.category = category;
-	}
-	public int getSeverity() {
-		return severity;
-	}
-	public void setSeverity(int severity) {
-		this.severity = severity;
-	}
-	
+  // TODO: Where is this used? What is its purpose?
+
+  /**
+   * 
+   */
+  private int category;
+  /**
+   * 
+   */
+  private int severity;
+
+  /**
+   * 
+   * @return
+   */
+  public int getCategory() {
+    return category;
+  }
+
+  /**
+   * 
+   * @param category
+   */
+  public void setCategory(int category) {
+    this.category = category;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public int getSeverity() {
+    return severity;
+  }
+
+  /**
+   * 
+   * @param severity
+   */
+  public void setSeverity(int severity) {
+    this.severity = severity;
+  }
+
 }

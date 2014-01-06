@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.util.filters;
 
 import org.sbml.jsbml.SimpleSpeciesReference;
@@ -41,89 +40,89 @@ import org.sbml.jsbml.SpeciesReference;
  */
 public class SpeciesReferenceFilter extends NameFilter {
 
-	/**
-	 * Decides whether to filter for the identifier of the referenced
-	 * {@link Species} or if to use id and name to filter for the instance of
-	 * {@link SimpleSpeciesReference} itself.
-	 */
-	private boolean filterForSpecies = false;
+  /**
+   * Decides whether to filter for the identifier of the referenced
+   * {@link Species} or if to use id and name to filter for the instance of
+   * {@link SimpleSpeciesReference} itself.
+   */
+  private boolean filterForSpecies = false;
 
-	/**
-	 * Creates a new {@link SpeciesReferenceFilter} with undefined properties.
-	 */
-	public SpeciesReferenceFilter() {
-		super();
-	}
+  /**
+   * Creates a new {@link SpeciesReferenceFilter} with undefined properties.
+   */
+  public SpeciesReferenceFilter() {
+    super();
+  }
 
-	/**
-	 * Creates a new {@link SpeciesReferenceFilter} that only accepts instances of
-	 * {@link SpeciesReference} pointing to the id of the given {@link Species}.
-	 * 
-	 * @param species
-	 *        the {@link Species} of interest.
-	 */
-	public SpeciesReferenceFilter(Species species) {
-		this(species.getId(), species.getName());
-		setFilterForSpecies(true);
-	}
+  /**
+   * Creates a new {@link SpeciesReferenceFilter} that only accepts instances of
+   * {@link SpeciesReference} pointing to the id of the given {@link Species}.
+   * 
+   * @param species
+   *        the {@link Species} of interest.
+   */
+  public SpeciesReferenceFilter(Species species) {
+    this(species.getId(), species.getName());
+    setFilterForSpecies(true);
+  }
 
-	/**
-	 * @param id
-	 *        the identifier of a {@link Species} or {@link SpeciesReference} we
-	 *        are interested in. Whether we accept the id of a {@link Species} or
-	 *        a {@link SpeciesReference} depends on the flag that can be defined
-	 *        with {@link #setFilterForSpecies(boolean)}.
-	 * @see #setFilterForSpecies(boolean)
-	 */
-	public SpeciesReferenceFilter(String id) {
-		super(id);
-	}
+  /**
+   * @param id
+   *        the identifier of a {@link Species} or {@link SpeciesReference} we
+   *        are interested in. Whether we accept the id of a {@link Species} or
+   *        a {@link SpeciesReference} depends on the flag that can be defined
+   *        with {@link #setFilterForSpecies(boolean)}.
+   * @see #setFilterForSpecies(boolean)
+   */
+  public SpeciesReferenceFilter(String id) {
+    super(id);
+  }
 
-	/**
-	 * @param id
-	 *        the identifier of a {@link Species} or {@link SpeciesReference} we
-	 *        are interested in. Whether we accept the id of a {@link Species} or
-	 *        a {@link SpeciesReference} depends on the flag that can be defined
-	 *        with {@link #setFilterForSpecies(boolean)}.
-	 * @param name
-	 *        the name of the element we are interested in.
-	 * @see #setFilterForSpecies(boolean)
-	 */
-	public SpeciesReferenceFilter(String id, String name) {
-		super(id, name);
-	}
+  /**
+   * @param id
+   *        the identifier of a {@link Species} or {@link SpeciesReference} we
+   *        are interested in. Whether we accept the id of a {@link Species} or
+   *        a {@link SpeciesReference} depends on the flag that can be defined
+   *        with {@link #setFilterForSpecies(boolean)}.
+   * @param name
+   *        the name of the element we are interested in.
+   * @see #setFilterForSpecies(boolean)
+   */
+  public SpeciesReferenceFilter(String id, String name) {
+    super(id, name);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.filters.Filter#accepts(java.lang.Object)
-	 */
-	@Override
-	public boolean accepts(Object o) {
-		if (!filterForSpecies) {
-			return super.accepts(o);
-		}
-		if (o instanceof SimpleSpeciesReference) {
-			SimpleSpeciesReference specRef = (SimpleSpeciesReference) o;
-			if (specRef.isSetSpecies() && (id != null)
-					&& specRef.getSpecies().equals(id)) {
-				return true;
-			}
-		}
-		return false;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.filters.Filter#accepts(java.lang.Object)
+   */
+  @Override
+  public boolean accepts(Object o) {
+    if (!filterForSpecies) {
+      return super.accepts(o);
+    }
+    if (o instanceof SimpleSpeciesReference) {
+      SimpleSpeciesReference specRef = (SimpleSpeciesReference) o;
+      if (specRef.isSetSpecies() && (id != null)
+          && specRef.getSpecies().equals(id)) {
+        return true;
+      }
+    }
+    return false;
+  }
 
-	/**
-	 * @return the filterForSpecies
-	 */
-	public boolean isFilterForSpecies() {
-		return filterForSpecies;
-	}
+  /**
+   * @return the filterForSpecies
+   */
+  public boolean isFilterForSpecies() {
+    return filterForSpecies;
+  }
 
-	/**
-	 * @param filterForSpecies
-	 *            the filterForSpecies to set
-	 */
-	public void setFilterForSpecies(boolean filterForSpecies) {
-		this.filterForSpecies = filterForSpecies;
-	}
+  /**
+   * @param filterForSpecies
+   *            the filterForSpecies to set
+   */
+  public void setFilterForSpecies(boolean filterForSpecies) {
+    this.filterForSpecies = filterForSpecies;
+  }
 
 }

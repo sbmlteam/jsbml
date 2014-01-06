@@ -11,7 +11,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -71,10 +71,10 @@ public class TestL3Parameter {
 
   @Test public void test_L3_Parameter_create()
   {
-//    assertTrue( P.getTypeCode() == libsbml.SBML_PARAMETER );
+    //    assertTrue( P.getTypeCode() == libsbml.SBML_PARAMETER );
     assertTrue( P.getMetaId().equals("") == true );
     assertTrue( P.getNotes() == null );
-//    assertTrue( P.getAnnotation() == null );
+    //    assertTrue( P.getAnnotation() == null );
     assertTrue( P.getId().equals("") == true );
     assertTrue( P.getName().equals("") == true );
     assertTrue( P.getUnits().equals("") == true );
@@ -116,7 +116,7 @@ public class TestL3Parameter {
     assertEquals( false, p.isSetConstant() );
     p = null;
   }
-*/
+   */
 
 
   @Test public void test_L3_Parameter_id()
@@ -126,7 +126,9 @@ public class TestL3Parameter {
     P.setId(id);
     assertTrue(P.getId().equals(id));
     assertEquals( true, P.isSetId() );
-    if (P.getId() == id);
+    if (P.getId() == id) {
+      ;
+    }
     {
     }
   }
@@ -138,12 +140,16 @@ public class TestL3Parameter {
     P.setName(name);
     assertTrue(P.getName().equals(name));
     assertEquals( true, P.isSetName() );
-    if (P.getName() == name);
+    if (P.getName() == name) {
+      ;
+    }
     {
     }
     P.unsetName();
     assertEquals( false, P.isSetName() );
-    if (P.getName() != null);
+    if (P.getName() != null) {
+      ;
+    }
     {
     }
   }
@@ -155,12 +161,16 @@ public class TestL3Parameter {
     P.setUnits(units);
     assertTrue(P.getUnits().equals(units));
     assertEquals( true, P.isSetUnits() );
-    if (P.getUnits() == units);
+    if (P.getUnits() == units) {
+      ;
+    }
     {
     }
     P.unsetUnits();
     assertEquals( false, P.isSetUnits() );
-    if (P.getUnits() != null);
+    if (P.getUnits() != null) {
+      ;
+    }
     {
     }
   }

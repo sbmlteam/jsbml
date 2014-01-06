@@ -6,7 +6,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -19,7 +19,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml;
 
 import java.text.MessageFormat;
@@ -52,7 +51,7 @@ import org.sbml.jsbml.util.filters.IdenticalUnitDefinitionFilter;
  * model, the list must not be empty; that is, it must have length one or more.
  * </p>
  * 
- * @author Andreas Dr&auml;ger 
+ * @author Andreas Dr&auml;ger
  * @author Marine Dumousseau
  * @author Nicolas Rodriguez
  * @since 0.8
@@ -407,7 +406,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   private void addPredefinedUnits() {
 
     List<UnitDefinition> oldValue = new ArrayList<UnitDefinition>(
-        this.listOfPredefinedUnitDefinitions);
+        listOfPredefinedUnitDefinitions);
 
     if ((getLevel() == -1) || (getVersion() == -1)) {
       return;
@@ -502,7 +501,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       listOfPredefinedUnitDefinitions.add(UnitDefinition.getPredefinedUnit(
         "celsius", getLevel(), getVersion()));
     }
-    this.firePropertyChange(TreeNodeChangeEvent.units, oldValue,
+    firePropertyChange(TreeNodeChangeEvent.units, oldValue,
       listOfPredefinedUnitDefinitions);
   }
 
@@ -1983,7 +1982,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         Model as id. {@code null} if it doesn't exist
    */
   public Parameter getConversionFactorInstance() {
-    return getParameter(this.conversionFactorID);
+    return getParameter(conversionFactorID);
   }
 
   /**
@@ -3503,7 +3502,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         {@code null}.
    */
   public boolean isSetAreaUnits() {
-    return this.areaUnitsID != null;
+    return areaUnitsID != null;
   }
 
   /**
@@ -3525,7 +3524,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         {@link Model} is not {@code null}.
    */
   public boolean isSetConversionFactor() {
-    return this.conversionFactorID != null;
+    return conversionFactorID != null;
   }
 
   /**
@@ -3536,7 +3535,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         Model as id is not {@code null}.
    */
   public boolean isSetConversionFactorInstance() {
-    return getParameter(this.conversionFactorID) != null;
+    return getParameter(conversionFactorID) != null;
   }
 
   /**
@@ -3545,7 +3544,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return {@code true} if the extentUnitsID of this Model is not {@code null}.
    */
   public boolean isSetExtentUnits() {
-    return this.extentUnitsID != null;
+    return extentUnitsID != null;
   }
 
   /**
@@ -3565,7 +3564,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return {@code true} if the lengthUnitsID of this Model is not {@code null}.
    */
   public boolean isSetLengthUnits() {
-    return this.lengthUnitsID != null;
+    return lengthUnitsID != null;
   }
 
   /**
@@ -3731,7 +3730,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return {@code true} if the substanceUnitsID of this Model is not {@code null}.
    */
   public boolean isSetSubstanceUnits() {
-    return this.substanceUnitsID != null;
+    return substanceUnitsID != null;
   }
 
   /**
@@ -3751,7 +3750,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return {@code true} if the timeUnitsID of this {@link Model} is not {@code null}.
    */
   public boolean isSetTimeUnits() {
-    return this.timeUnitsID != null;
+    return timeUnitsID != null;
   }
 
   /**
@@ -3771,7 +3770,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return {@code true} if the volumeUnitsID of this Model is not {@code null}.
    */
   public boolean isSetVolumeUnits() {
-    return this.volumeUnitsID != null;
+    return volumeUnitsID != null;
   }
 
   /**
@@ -3999,9 +3998,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
      */
     boolean success = true;
 
-      if (logger.isDebugEnabled()) {
-    	  logger.debug("registerIds (main): newElem = " + newElem.getElementName() + " (recursive = " + recursively + ")");
-      }
+    if (logger.isDebugEnabled()) {
+      logger.debug("registerIds (main): newElem = " + newElem.getElementName() + " (recursive = " + recursively + ")");
+    }
 
     if (newElem instanceof NamedSBase)
     {
@@ -4034,7 +4033,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     }
 
     if (logger.isDebugEnabled()) {
-  	  logger.debug("registerIds (main): success = " + success);
+      logger.debug("registerIds (main): success = " + success);
     }
 
     if (recursively) {
@@ -4062,9 +4061,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
         }
       }
 
-	  if (logger.isDebugEnabled()) {
-		  logger.debug("registerIds (main): success after recursion = " + success);
-	  }
+      if (logger.isDebugEnabled()) {
+        logger.debug("registerIds (main): success after recursion = " + success);
+      }
 
       return success;
     }
@@ -4876,9 +4875,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         data structure.
    */
   public boolean unsetListOfCompartments() {
-    if (this.listOfCompartments != null) {
-      ListOf<Compartment> oldListOfCompartments = this.listOfCompartments;
-      this.listOfCompartments = null;
+    if (listOfCompartments != null) {
+      ListOf<Compartment> oldListOfCompartments = listOfCompartments;
+      listOfCompartments = null;
       oldListOfCompartments.fireNodeRemovedEvent();
       return true;
     }
@@ -4895,9 +4894,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   @Deprecated
   public boolean unsetListOfCompartmentTypes() {
-    if (this.listOfCompartmentTypes != null) {
-      ListOf<CompartmentType> oldListOfCompartmentTypes = this.listOfCompartmentTypes;
-      this.listOfCompartmentTypes = null;
+    if (listOfCompartmentTypes != null) {
+      ListOf<CompartmentType> oldListOfCompartmentTypes = listOfCompartmentTypes;
+      listOfCompartmentTypes = null;
       oldListOfCompartmentTypes.fireNodeRemovedEvent();
       return true;
     }
@@ -4912,9 +4911,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         data structure.
    */
   public boolean unsetListOfConstraints() {
-    if (this.listOfConstraints != null) {
-      ListOf<Constraint> oldListOfConstraints = this.listOfConstraints;
-      this.listOfConstraints = null;
+    if (listOfConstraints != null) {
+      ListOf<Constraint> oldListOfConstraints = listOfConstraints;
+      listOfConstraints = null;
       oldListOfConstraints.fireNodeRemovedEvent();
       return true;
     }
@@ -4929,9 +4928,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         data structure.
    */
   public boolean unsetListOfEvents() {
-    if (this.listOfEvents != null) {
-      ListOf<Event> oldListOfEvents = this.listOfEvents;
-      this.listOfEvents = null;
+    if (listOfEvents != null) {
+      ListOf<Event> oldListOfEvents = listOfEvents;
+      listOfEvents = null;
       oldListOfEvents.fireNodeRemovedEvent();
       return true;
     }
@@ -4946,9 +4945,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         data structure.
    */
   public boolean unsetListOfFunctionDefinitions() {
-    if (this.listOfFunctionDefinitions != null) {
-      ListOf<FunctionDefinition> oldListOfFunctionDefinitions = this.listOfFunctionDefinitions;
-      this.listOfFunctionDefinitions = null;
+    if (listOfFunctionDefinitions != null) {
+      ListOf<FunctionDefinition> oldListOfFunctionDefinitions = listOfFunctionDefinitions;
+      listOfFunctionDefinitions = null;
       oldListOfFunctionDefinitions.fireNodeRemovedEvent();
       return true;
     }
@@ -4963,9 +4962,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         data structure.
    */
   public boolean unsetListOfInitialAssignments() {
-    if (this.listOfInitialAssignments != null) {
-      ListOf<InitialAssignment> oldListOfInitialAssignments = this.listOfInitialAssignments;
-      this.listOfInitialAssignments = null;
+    if (listOfInitialAssignments != null) {
+      ListOf<InitialAssignment> oldListOfInitialAssignments = listOfInitialAssignments;
+      listOfInitialAssignments = null;
       oldListOfInitialAssignments.fireNodeRemovedEvent();
       return true;
     }
@@ -4980,9 +4979,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         data structure.
    */
   public boolean unsetListOfParameters() {
-    if (this.listOfParameters != null) {
-      ListOf<Parameter> oldListOfParameters = this.listOfParameters;
-      this.listOfParameters = null;
+    if (listOfParameters != null) {
+      ListOf<Parameter> oldListOfParameters = listOfParameters;
+      listOfParameters = null;
       oldListOfParameters.fireNodeRemovedEvent();
       return true;
     }
@@ -4997,9 +4996,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         data structure.
    */
   public boolean unsetListOfReactions() {
-    if (this.listOfReactions != null) {
-      ListOf<Reaction> oldListOfReactions = this.listOfReactions;
-      this.listOfReactions = null;
+    if (listOfReactions != null) {
+      ListOf<Reaction> oldListOfReactions = listOfReactions;
+      listOfReactions = null;
       oldListOfReactions.fireNodeRemovedEvent();
       return true;
     }
@@ -5014,9 +5013,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         data structure.
    */
   public boolean unsetListOfRules() {
-    if (this.listOfRules != null) {
-      ListOf<Rule> oldListOfRules = this.listOfRules;
-      this.listOfRules = null;
+    if (listOfRules != null) {
+      ListOf<Rule> oldListOfRules = listOfRules;
+      listOfRules = null;
       oldListOfRules.fireNodeRemovedEvent();
       return true;
     }
@@ -5031,9 +5030,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         data structure.
    */
   public boolean unsetListOfSpecies() {
-    if (this.listOfSpecies != null) {
-      ListOf<Species> oldListOfSpecies = this.listOfSpecies;
-      this.listOfSpecies = null;
+    if (listOfSpecies != null) {
+      ListOf<Species> oldListOfSpecies = listOfSpecies;
+      listOfSpecies = null;
       oldListOfSpecies.fireNodeRemovedEvent();
       return true;
     }
@@ -5050,9 +5049,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   @Deprecated
   public boolean unsetListOfSpeciesTypes() {
-    if (this.listOfSpeciesTypes != null) {
-      ListOf<SpeciesType> oldListOfSpeciesTypes = this.listOfSpeciesTypes;
-      this.listOfSpeciesTypes = null;
+    if (listOfSpeciesTypes != null) {
+      ListOf<SpeciesType> oldListOfSpeciesTypes = listOfSpeciesTypes;
+      listOfSpeciesTypes = null;
       oldListOfSpeciesTypes.fireNodeRemovedEvent();
       return true;
     }
@@ -5067,9 +5066,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         data structure.
    */
   public boolean unsetListOfUnitDefinitions() {
-    if (this.listOfUnitDefinitions != null) {
-      ListOf<UnitDefinition> oldListOfUnitDefinitions = this.listOfUnitDefinitions;
-      this.listOfUnitDefinitions = null;
+    if (listOfUnitDefinitions != null) {
+      ListOf<UnitDefinition> oldListOfUnitDefinitions = listOfUnitDefinitions;
+      listOfUnitDefinitions = null;
       oldListOfUnitDefinitions.fireNodeRemovedEvent();
       return true;
     }

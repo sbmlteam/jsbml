@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -32,14 +32,12 @@ import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
- * <p/>
  * A selector is a mask describing the rules that an entity has to pass in order
  * to be used or rejected. This selector is built of different components,
  * carrying state features. The components can be bound together or not. In a
  * population-based model, the selector, when applied to a pool of entities,
  * permits to filter it, and to obtain a further, more refined, entity pool.
- * 
- * <p/>
+ * <p>
  * A selector can be reused in various places of a model, to restrict the
  * application of a procedure to a certain set of topologies and states.
  * Selectors can be used to refine the initial conditions of a species, for
@@ -47,8 +45,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * topologies. They can also be used in a reaction to decide if a this reaction
  * happens, or to modulate its velocity, in function of the state or topology of
  * a reactant.
- * 
- * <p/>
+ * <p>
  * A selector defines the list of components composing the mask, that are
  * species type existing under a given state (that can be an ensemble of
  * elementary states). In addition to the components, the selector lists the
@@ -58,448 +55,450 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * of complexes, even if this topology is not used to decide upon particular
  * reactions.
  * 
- * 
  * @author Nicolas Rodriguez
  * @since 1.0
  * @version $Rev$
  */
 public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 1103757869624885889L;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 1103757869624885889L;
 
-	/**
-	 * 
-	 */
-	private ListOf<SpeciesTypeState> listOfSpeciesTypeStates;
+  /**
+   * 
+   */
+  private ListOf<SpeciesTypeState> listOfSpeciesTypeStates;
 
-	/**
-	 * 
-	 */
-	private ListOf<Bond> listOfBonds;
+  /**
+   * 
+   */
+  private ListOf<Bond> listOfBonds;
 
-	/**
-	 * 
-	 */
-	private ListOf<BindingSiteReference> listOfUnboundBindingSites;
+  /**
+   * 
+   */
+  private ListOf<BindingSiteReference> listOfUnboundBindingSites;
 
 
-	/**
-	 * 
-	 */
-	public Selector() {
-		super();
-	}
+  /**
+   * 
+   */
+  public Selector() {
+    super();
+  }
 
-	/**
-	 * 
-	 * @param selector
-	 */
-	public Selector(Selector selector) {
-		super(selector);
-		// TODO
-	}
+  /**
+   * 
+   * @param selector
+   */
+  public Selector(Selector selector) {
+    super(selector);
+    // TODO
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#clone()
-	 */
-	public Selector clone() {
-		return new Selector(this);
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
+  @Override
+  public Selector clone() {
+    return new Selector(this);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
-	 */
-	public boolean isIdMandatory() {
-		return false;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
+  @Override
+  public boolean isIdMandatory() {
+    return false;
+  }
 
-	/**
-	 * Returns the listOfSpeciesTypeStates
-	 * 
-	 * @return the listOfSpeciesTypeStates
-	 */
-	public ListOf<SpeciesTypeState> getListOfSpeciesTypeStates() {
-		if (listOfSpeciesTypeStates == null) {
-			listOfSpeciesTypeStates = new ListOf<SpeciesTypeState>();
-			listOfSpeciesTypeStates.setNamespace(MultiConstants.namespaceURI);
-			this.registerChild(listOfSpeciesTypeStates);
-			listOfSpeciesTypeStates.setSBaseListType(ListOf.Type.other);
-		}
+  /**
+   * Returns the listOfSpeciesTypeStates
+   * 
+   * @return the listOfSpeciesTypeStates
+   */
+  public ListOf<SpeciesTypeState> getListOfSpeciesTypeStates() {
+    if (listOfSpeciesTypeStates == null) {
+      listOfSpeciesTypeStates = new ListOf<SpeciesTypeState>();
+      listOfSpeciesTypeStates.setNamespace(MultiConstants.namespaceURI);
+      registerChild(listOfSpeciesTypeStates);
+      listOfSpeciesTypeStates.setSBaseListType(ListOf.Type.other);
+    }
 
-		return listOfSpeciesTypeStates;
-	}
+    return listOfSpeciesTypeStates;
+  }
 
-	/**
-	 * Adds a SpeciesTypeState.
-	 * 
-	 * @param speciesTypeState the SpeciesTypeState to add
-	 */
-	public void addSpeciesTypeState(SpeciesTypeState speciesTypeState) {
-		getListOfSpeciesTypeStates().add(speciesTypeState);
-	}
+  /**
+   * Adds a SpeciesTypeState.
+   * 
+   * @param speciesTypeState the SpeciesTypeState to add
+   */
+  public void addSpeciesTypeState(SpeciesTypeState speciesTypeState) {
+    getListOfSpeciesTypeStates().add(speciesTypeState);
+  }
 
-	/**
-	 * Creates a new {@link SpeciesTypeState} inside this {@link Selector} and returns it.
-	 * <p>
-	 * 
-	 * @return the {@link SpeciesTypeState} object created
-	 *         <p>
-	 * @see #addSpeciesTypeState(SpeciesTypeState r)
-	 */
-	public SpeciesTypeState createSpeciesTypeState() {
-		return createSpeciesTypeState(null);
-	}
+  /**
+   * Creates a new {@link SpeciesTypeState} inside this {@link Selector} and returns it.
+   * <p>
+   * 
+   * @return the {@link SpeciesTypeState} object created
+   *         <p>
+   * @see #addSpeciesTypeState(SpeciesTypeState r)
+   */
+  public SpeciesTypeState createSpeciesTypeState() {
+    return createSpeciesTypeState(null);
+  }
 
-	/**
-	 * Creates a new {@link SpeciesTypeState} inside this {@link Selector} and returns it.
-	 * 
-	 * @param id
-	 *        the id of the new element to create
-	 * @return the {@link SpeciesTypeState} object created
-	 */
-	public SpeciesTypeState createSpeciesTypeState(String id) {
-		SpeciesTypeState speciesTypeState = new SpeciesTypeState();
-		speciesTypeState.setId(id);
-		addSpeciesTypeState(speciesTypeState);
+  /**
+   * Creates a new {@link SpeciesTypeState} inside this {@link Selector} and returns it.
+   * 
+   * @param id
+   *        the id of the new element to create
+   * @return the {@link SpeciesTypeState} object created
+   */
+  public SpeciesTypeState createSpeciesTypeState(String id) {
+    SpeciesTypeState speciesTypeState = new SpeciesTypeState();
+    speciesTypeState.setId(id);
+    addSpeciesTypeState(speciesTypeState);
 
-		return speciesTypeState;
-	}
+    return speciesTypeState;
+  }
 
-	/**
-	 * Gets the ith {@link SpeciesTypeState}.
-	 * 
-	 * @param i
-	 * 
-	 * @return the ith {@link SpeciesTypeState}
-	 * @throws IndexOutOfBoundsException if the index is invalid.
-	 */
-	public SpeciesTypeState getSpeciesTypeState(int i) {
-		return getListOfSpeciesTypeStates().get(i);
-	}
+  /**
+   * Gets the ith {@link SpeciesTypeState}.
+   * 
+   * @param i
+   * 
+   * @return the ith {@link SpeciesTypeState}
+   * @throws IndexOutOfBoundsException if the index is invalid.
+   */
+  public SpeciesTypeState getSpeciesTypeState(int i) {
+    return getListOfSpeciesTypeStates().get(i);
+  }
 
-	/**
-	 * Gets the {@link SpeciesTypeState} that has the given id. 
-	 * 
-	 * @param id
-	 * @return the {@link SpeciesTypeState} that has the given id or null if
-	 * no {@link SpeciesTypeState} are found that match {@code id}.
-	 */
-	public SpeciesTypeState getSpeciesTypeState(String id) {
-		if (isSetListOfSpeciesTypeStates()) {
-			return listOfSpeciesTypeStates.firstHit(new NameFilter(id));	    
-		} 
-		return null;
-	}
+  /**
+   * Gets the {@link SpeciesTypeState} that has the given id.
+   * 
+   * @param id
+   * @return the {@link SpeciesTypeState} that has the given id or null if
+   * no {@link SpeciesTypeState} are found that match {@code id}.
+   */
+  public SpeciesTypeState getSpeciesTypeState(String id) {
+    if (isSetListOfSpeciesTypeStates()) {
+      return listOfSpeciesTypeStates.firstHit(new NameFilter(id));
+    }
+    return null;
+  }
 
-	/**
-	 * Returns {@code true} if the listOfSpeciesTypeState is set.
-	 * 
-	 * @return {@code true} if the listOfSpeciesTypeState is set.
-	 */
-	public boolean isSetListOfSpeciesTypeStates() {
-		if ((listOfSpeciesTypeStates == null) || listOfSpeciesTypeStates.isEmpty()) {
-			return false;			
-		}		
-		return true;
-	}
+  /**
+   * Returns {@code true} if the listOfSpeciesTypeState is set.
+   * 
+   * @return {@code true} if the listOfSpeciesTypeState is set.
+   */
+  public boolean isSetListOfSpeciesTypeStates() {
+    if ((listOfSpeciesTypeStates == null) || listOfSpeciesTypeStates.isEmpty()) {
+      return false;
+    }
+    return true;
+  }
 
-	/**
-	 * Sets the listOfSpeciesTypeStates to null
-	 * 
-	 * @return {@code true} is successful
-	 */
-	public boolean unsetListOfSpeciesTypeStates() {
-		if (isSetListOfSpeciesTypeStates()) {
-			// unregister the ids if needed.			  
-			this.listOfSpeciesTypeStates.fireNodeRemovedEvent();
-			this.listOfSpeciesTypeStates = null;
-			return true;
-		}
-		return false;
-	}
+  /**
+   * Sets the listOfSpeciesTypeStates to null
+   * 
+   * @return {@code true} is successful
+   */
+  public boolean unsetListOfSpeciesTypeStates() {
+    if (isSetListOfSpeciesTypeStates()) {
+      // unregister the ids if needed.
+      listOfSpeciesTypeStates.fireNodeRemovedEvent();
+      listOfSpeciesTypeStates = null;
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Returns the listOfBonds
-	 * 
-	 * @return the listOfBonds
-	 */
-	public ListOf<Bond> getListOfBonds() {
-		if (listOfBonds == null) {
-			listOfBonds = new ListOf<Bond>();
-			listOfBonds.setNamespace(MultiConstants.namespaceURI);
-			this.registerChild(listOfBonds);
-			listOfBonds.setSBaseListType(ListOf.Type.other);
-		}
+  /**
+   * Returns the listOfBonds
+   * 
+   * @return the listOfBonds
+   */
+  public ListOf<Bond> getListOfBonds() {
+    if (listOfBonds == null) {
+      listOfBonds = new ListOf<Bond>();
+      listOfBonds.setNamespace(MultiConstants.namespaceURI);
+      registerChild(listOfBonds);
+      listOfBonds.setSBaseListType(ListOf.Type.other);
+    }
 
-		return listOfBonds;
-	}
+    return listOfBonds;
+  }
 
-	/**
-	 * Adds a Bond.
-	 * 
-	 * @param bond the Bond to add
-	 */
-	public void addBond(Bond bond) {
-		getListOfBonds().add(bond);
-	}
+  /**
+   * Adds a Bond.
+   * 
+   * @param bond the Bond to add
+   */
+  public void addBond(Bond bond) {
+    getListOfBonds().add(bond);
+  }
 
-	/**
-	 * Creates a new {@link Bond} inside this {@link Selector} and returns it.
-	 * 
-	 * @return the {@link Bond} object created
-	 */
-	public Bond createBond() {
-		Bond bond = new Bond();
-		addBond(bond);
+  /**
+   * Creates a new {@link Bond} inside this {@link Selector} and returns it.
+   * 
+   * @return the {@link Bond} object created
+   */
+  public Bond createBond() {
+    Bond bond = new Bond();
+    addBond(bond);
 
-		return bond;
-	}
+    return bond;
+  }
 
-	/**
-	 * Gets the ith {@link Bond}.
-	 * 
-	 * @param i
-	 * 
-	 * @return the ith {@link Bond}
-	 * @throws IndexOutOfBoundsException if the index is invalid.
-	 */
-	public Bond getBond(int i) {
-		return getListOfBonds().get(i);
-	}
+  /**
+   * Gets the ith {@link Bond}.
+   * 
+   * @param i
+   * 
+   * @return the ith {@link Bond}
+   * @throws IndexOutOfBoundsException if the index is invalid.
+   */
+  public Bond getBond(int i) {
+    return getListOfBonds().get(i);
+  }
 
-	/**
-	 * Gets the {@link Bond} that has the given id. 
-	 * 
-	 * @param id
-	 * @return the {@link Bond} that has the given id or null if
-	 * no {@link Bond} are found that match {@code id}.
-	 */
-	public Bond getBond(String id) {
-		if (isSetListOfBonds()) {
-			return listOfBonds.firstHit(new NameFilter(id));	    
-		} 
-		return null;
-	}
+  /**
+   * Gets the {@link Bond} that has the given id.
+   * 
+   * @param id
+   * @return the {@link Bond} that has the given id or null if
+   * no {@link Bond} are found that match {@code id}.
+   */
+  public Bond getBond(String id) {
+    if (isSetListOfBonds()) {
+      return listOfBonds.firstHit(new NameFilter(id));
+    }
+    return null;
+  }
 
-	/**
-	 * Returns {@code true} if the listOfBond is set.
-	 * 
-	 * @return {@code true} if the listOfBond is set.
-	 */
-	public boolean isSetListOfBonds() {
-		if ((listOfBonds == null) || listOfBonds.isEmpty()) {
-			return false;			
-		}		
-		return true;
-	}
+  /**
+   * Returns {@code true} if the listOfBond is set.
+   * 
+   * @return {@code true} if the listOfBond is set.
+   */
+  public boolean isSetListOfBonds() {
+    if ((listOfBonds == null) || listOfBonds.isEmpty()) {
+      return false;
+    }
+    return true;
+  }
 
-	/**
-	 * Sets the {@link #listOfBonds} to {@code null}.
-	 * 
-	 * @return {@code true} is successful
-	 */
-	public boolean unsetListOfBonds() {
-		if (isSetListOfBonds()) {
-			// unregister the ids if needed.			  
-			this.listOfBonds.fireNodeRemovedEvent();
-			this.listOfBonds = null;
-			return true;
-		}
-		return false;
-	}
+  /**
+   * Sets the {@link #listOfBonds} to {@code null}.
+   * 
+   * @return {@code true} is successful
+   */
+  public boolean unsetListOfBonds() {
+    if (isSetListOfBonds()) {
+      // unregister the ids if needed.
+      listOfBonds.fireNodeRemovedEvent();
+      listOfBonds = null;
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * Returns the listOfUnboundBindingSites
-	 * 
-	 * @return the listOfUnboundBindingSites
-	 */
-	public ListOf<BindingSiteReference> getListOfUnboundBindingSites() {
-		if (listOfUnboundBindingSites == null) {
-			listOfUnboundBindingSites = new ListOf<BindingSiteReference>();
-			listOfUnboundBindingSites.setNamespace(MultiConstants.namespaceURI);
-			this.registerChild(listOfUnboundBindingSites);
-			listOfUnboundBindingSites.setSBaseListType(ListOf.Type.other);
-		}
+  /**
+   * Returns the listOfUnboundBindingSites
+   * 
+   * @return the listOfUnboundBindingSites
+   */
+  public ListOf<BindingSiteReference> getListOfUnboundBindingSites() {
+    if (listOfUnboundBindingSites == null) {
+      listOfUnboundBindingSites = new ListOf<BindingSiteReference>();
+      listOfUnboundBindingSites.setNamespace(MultiConstants.namespaceURI);
+      registerChild(listOfUnboundBindingSites);
+      listOfUnboundBindingSites.setSBaseListType(ListOf.Type.other);
+    }
 
-		return listOfUnboundBindingSites;
-	}
+    return listOfUnboundBindingSites;
+  }
 
-	/**
-	 * Adds an unboundBindingSite.
-	 * 
-	 * @param unboundBindingSite the UnboundBindingSite to add
-	 */
-	public void addUnboundBindingSite(BindingSiteReference unboundBindingSite) {
-		getListOfUnboundBindingSites().add(unboundBindingSite);
-	}
+  /**
+   * Adds an unboundBindingSite.
+   * 
+   * @param unboundBindingSite the UnboundBindingSite to add
+   */
+  public void addUnboundBindingSite(BindingSiteReference unboundBindingSite) {
+    getListOfUnboundBindingSites().add(unboundBindingSite);
+  }
 
-	/**
-	 * Creates a new {@link BindingSiteReference} inside this {@link Selector} list
-	 * of unbound binding site and returns it.
-	 * 
-	 * @param id
-	 *        the id of the new element to create
-	 * @return the {@link BindingSiteReference} object created
-	 */
-	public BindingSiteReference createUnboundBindingSite() {
-		BindingSiteReference unBoundBindingSite = new BindingSiteReference();
-		addUnboundBindingSite(unBoundBindingSite);
+  /**
+   * Creates a new {@link BindingSiteReference} inside this {@link Selector} list
+   * of unbound binding site and returns it.
+   * 
+   * @param id
+   *        the id of the new element to create
+   * @return the {@link BindingSiteReference} object created
+   */
+  public BindingSiteReference createUnboundBindingSite() {
+    BindingSiteReference unBoundBindingSite = new BindingSiteReference();
+    addUnboundBindingSite(unBoundBindingSite);
 
-		return unBoundBindingSite;
-	}
+    return unBoundBindingSite;
+  }
 
-	/**
-	 * Gets the ith unbound binding site ({@link BindingSiteReference}).
-	 * 
-	 * @param i
-	 * 
-	 * @return the ith {@link BindingSiteReference}
-	 * @throws IndexOutOfBoundsException if the index is invalid.
-	 */
-	public BindingSiteReference getUnboundBindingSite(int i) {
-		return getListOfUnboundBindingSites().get(i);
-	}
+  /**
+   * Gets the ith unbound binding site ({@link BindingSiteReference}).
+   * 
+   * @param i
+   * 
+   * @return the ith {@link BindingSiteReference}
+   * @throws IndexOutOfBoundsException if the index is invalid.
+   */
+  public BindingSiteReference getUnboundBindingSite(int i) {
+    return getListOfUnboundBindingSites().get(i);
+  }
 
-	/**
-	 * Gets the unbound binding site {@link BindingSiteReference} that has the given speciesTypeState id. 
-	 * 
-	 * @param id
-	 * @return the {@link BindingSiteReference} that has the given speciesTypeState id or null if
-	 * no {@link BindingSiteReference} are found that match {@code id}.
-	 */
-	public BindingSiteReference getUnboundBindingSite(final String id) {
-		if (isSetListOfUnboundBindingSites()) {
-			return listOfUnboundBindingSites.firstHit(new Filter() {
+  /**
+   * Gets the unbound binding site {@link BindingSiteReference} that has the given speciesTypeState id.
+   * 
+   * @param id
+   * @return the {@link BindingSiteReference} that has the given speciesTypeState id or null if
+   * no {@link BindingSiteReference} are found that match {@code id}.
+   */
+  public BindingSiteReference getUnboundBindingSite(final String id) {
+    if (isSetListOfUnboundBindingSites()) {
+      return listOfUnboundBindingSites.firstHit(new Filter() {
 
-				public boolean accepts(Object o) {
-					if (o instanceof BindingSiteReference &&
-							((BindingSiteReference) o).getSpeciesTypeState().equals(id)) {
-						return true;
-					}
-					return false;
-				}
-			});	    
-		} 
-		return null;
-	}
+        @Override
+        public boolean accepts(Object o) {
+          if (o instanceof BindingSiteReference &&
+              ((BindingSiteReference) o).getSpeciesTypeState().equals(id)) {
+            return true;
+          }
+          return false;
+        }
+      });
+    }
+    return null;
+  }
 
-	/**
-	 * Returns {@code true} if the listOfUnBoundBindingSite is set.
-	 * 
-	 * @return {@code true} if the listOfUnBoundBindingSite is set.
-	 */
-	public boolean isSetListOfUnboundBindingSites() {
-		if ((listOfUnboundBindingSites == null) || listOfUnboundBindingSites.isEmpty()) {
-			return false;			
-		}		
-		return true;
-	}
+  /**
+   * Returns {@code true} if the listOfUnBoundBindingSite is set.
+   * 
+   * @return {@code true} if the listOfUnBoundBindingSite is set.
+   */
+  public boolean isSetListOfUnboundBindingSites() {
+    if ((listOfUnboundBindingSites == null) || listOfUnboundBindingSites.isEmpty()) {
+      return false;
+    }
+    return true;
+  }
 
-	/**
-	 * Sets the listOfUnboundBindingSites to null
-	 * 
-	 * @return {@code true} is successful
-	 */
-	public boolean unsetListOfUnboundBindingSites() {
-		if (isSetListOfUnboundBindingSites()) {
-			// unregister the ids if needed.			  
-			this.listOfUnboundBindingSites.fireNodeRemovedEvent();
-			this.listOfUnboundBindingSites = null;
-			return true;
-		}
-		return false;
-	}
+  /**
+   * Sets the listOfUnboundBindingSites to null
+   * 
+   * @return {@code true} is successful
+   */
+  public boolean unsetListOfUnboundBindingSites() {
+    if (isSetListOfUnboundBindingSites()) {
+      // unregister the ids if needed.
+      listOfUnboundBindingSites.fireNodeRemovedEvent();
+      listOfUnboundBindingSites = null;
+      return true;
+    }
+    return false;
+  }
 
-	/**
-	 * 
-	 */
-	public void initDefaults() {
-		setNamespace(MultiConstants.namespaceURI);
-	}
+  /**
+   * 
+   */
+  public void initDefaults() {
+    setNamespace(MultiConstants.namespaceURI);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-	 */
-	@Override
-	public TreeNode getChildAt(int index) {
-		if (index < 0) {
-			throw new IndexOutOfBoundsException(index + " < 0");
-		}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+   */
+  @Override
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(index + " < 0");
+    }
 
-		int count = super.getChildCount(), pos = 0;
-		if (index < count) {
-			return super.getChildAt(index);
-		} else {
-			index -= count;
-		}
-		if (isSetListOfSpeciesTypeStates()) {
-			if (pos == index) {
-				return getListOfSpeciesTypeStates();
-			}
-			pos++;
-		}
-		if (isSetListOfBonds()) {
-			if (pos == index) {
-				return getListOfBonds();
-			}
-			pos++;
-		}
-		if (isSetListOfUnboundBindingSites()) {
-			if (pos == index) {
-				return getListOfUnboundBindingSites();
-			}
-			pos++;
-		}
+    int count = super.getChildCount(), pos = 0;
+    if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
+    }
+    if (isSetListOfSpeciesTypeStates()) {
+      if (pos == index) {
+        return getListOfSpeciesTypeStates();
+      }
+      pos++;
+    }
+    if (isSetListOfBonds()) {
+      if (pos == index) {
+        return getListOfBonds();
+      }
+      pos++;
+    }
+    if (isSetListOfUnboundBindingSites()) {
+      if (pos == index) {
+        return getListOfUnboundBindingSites();
+      }
+      pos++;
+    }
 
-		throw new IndexOutOfBoundsException(MessageFormat.format(
-		  "Index {0,number,integer} >= {1,number,integer}",
-			index, +((int) Math.min(pos, 0))));
-	}
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}",
+      index, +Math.min(pos, 0)));
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getChildCount()
-	 */
-	@Override
-	public int getChildCount() {
-		int count = super.getChildCount();
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    int count = super.getChildCount();
 
-		if (isSetListOfSpeciesTypeStates()) {
-			count++;
-		}
-		if (isSetListOfBonds()) {
-			count++;
-		}
-		if (isSetListOfUnboundBindingSites()) {
-			count++;
-		}
+    if (isSetListOfSpeciesTypeStates()) {
+      count++;
+    }
+    if (isSetListOfBonds()) {
+      count++;
+    }
+    if (isSetListOfUnboundBindingSites()) {
+      count++;
+    }
 
-		return count;
-	}
+    return count;
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
-	 */
-	@Override
-	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
 
-		if (isSetId()) {
-			attributes.remove("id");
-			attributes.put(MultiConstants.shortLabel+ ":id", getId());
-		}
-		if (isSetName()) {
-			attributes.remove("name");
-			attributes.put(MultiConstants.shortLabel+ ":name", getName());
-		}
+    if (isSetId()) {
+      attributes.remove("id");
+      attributes.put(MultiConstants.shortLabel+ ":id", getId());
+    }
+    if (isSetName()) {
+      attributes.remove("name");
+      attributes.put(MultiConstants.shortLabel+ ":name", getName());
+    }
 
-		return attributes;
-	}
+    return attributes;
+  }
 
-	// TODO: equals, hashCode, toString, more constructors, ...
+  // TODO: equals, hashCode, toString, more constructors, ...
 
-	// TODO: removeXX unsetXX, isSetXX
+  // TODO: removeXX unsetXX, isSetXX
 
 }

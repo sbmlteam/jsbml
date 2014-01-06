@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -50,212 +50,213 @@ import java.util.Stack;
  * @date    This file is based on code I wrote in 2000-2003.
  */
 class VerifiableFile
-    extends File
+extends File
 {
-    //
-    // --------------------------- Public methods -----------------------------
-    //
+  //
+  // --------------------------- Public methods -----------------------------
+  //
 
-    /**
-     * Creates a new {@code VerifiableFile} instance by converting the
-     * given pathname string into an abstract pathname.
-     * 
-     * @param pathname A pathname string.
-     **/
-    public VerifiableFile(String pathname)
+  /**
+   * Creates a new {@code VerifiableFile} instance by converting the
+   * given pathname string into an abstract pathname.
+   * 
+   * @param pathname A pathname string.
+   **/
+  public VerifiableFile(String pathname)
+  {
+    super(pathname);
+  }
+
+
+  /**
+   * Creates a new {@code VerifiableFile} instance by converting the
+   * given {@code File} parameter into an abstract pathname.
+   * 
+   * @param file A file.
+   **/
+  public VerifiableFile(File file)
+  {
+    // This is inefficient b/c it takes an object, turns it into a
+    // string, then causes a new object to be created.  The Java File()
+    // class doesn't provide a way of resetting the internal object it
+    // keeps, so we have to go through the constructor like this.
+
+    super(file.getPath());
+  }
+
+
+  /**
+   * Creates a new {@code VerifiableFile} instance from a parent
+   * pathname string and a child pathname string.
+   * <p>
+   * If {@code parent} is {@code null}, then the new
+   * {@code VerifiableFile} instance is created as if by invoking the
+   * single-argument {@code VerifiableFile} constructor on the given
+   * {@code child} pathname string.
+   * <p>
+   * Otherwise, the {@code parent} pathname string is taken to denote
+   * a directory, and the {@code child} pathname string is taken to
+   * denote either a directory or a file.  If the {@code child} pathname
+   * string is absolute then it is converted into a relative pathname in a
+   * system-dependent way.  If {@code parent} is the empty string then
+   * the new {@code VerifiableFile} instance is created by converting
+   * {@code child} into an abstract pathname and resolving the result
+   * against a system-dependent default directory.  Otherwise, each pathname
+   * string is converted into an abstract pathname and the child abstract
+   * pathname is resolved against the parent.
+   * 
+   * @param parent The parent pathname string.
+   * @param child The child pathname string.
+   * @throws  NullPointerException
+   *          If {@code child} is {@code null}.
+   **/
+  public VerifiableFile(String parent, String child)
+  {
+    super(parent, child);
+  }
+
+
+  /**
+   * Creates a new {@code VerifiableFile} instance from a parent
+   * abstract pathname and a child pathname string.
+   * <p>
+   * If {@code parent} is {@code null}, then the new
+   * {@code VerifiableFile} instance is created as if by invoking the
+   * single-argument {@code VerifiableFile} constructor on the given
+   * {@code child} pathname string.
+   * <p>
+   * Otherwise, the {@code parent} abstract pathname is taken to denote
+   * a directory, and the {@code child} pathname string is taken to
+   * denote either a directory or a file.  If the {@code child} pathname
+   * string is absolute then it is converted into a relative pathname in a
+   * system-dependent way.  If {@code parent} is empty, then
+   * the new {@code VerifiableFile} instance is created by converting
+   * {@code child} into an abstract pathname and resolving the result
+   * against a system-dependent default directory.  Otherwise, each pathname
+   * string is converted into an abstract pathname and the child abstract
+   * pathname is resolved against the parent.
+   * 
+   * @param parent The parent pathname string.
+   * @param child The child pathname string.
+   * @throws  NullPointerException
+   *          If {@code child} is {@code null}.
+   **/
+  public VerifiableFile(File parent, String child)
+  {
+    super(parent, child);
+  }
+
+
+  /**
+   * Predicate to test that a file is not a directory, that it exists,
+   * and that it is readable to the invoking process.
+   * 
+   * @return {@code true} if this file is verified to be an existing
+   * file, {@code false} otherwise
+   **/
+  public boolean isVerifiedFile()
+  {
+    if (isDirectory())
     {
-        super(pathname);
+      Log.note(getPath() + " is a directory.");
+      return false;
+    }
+    if (! exists())
+    {
+      Log.note("File " + getPath() + " does not exist.");
+      return false;
+    }
+    if (! isFile())
+    {
+      Log.note(getPath() + " is a not a file.");
+      return false;
+    }
+    if (! canRead())
+    {
+      Log.note("File " + getPath() + " exists but is not readable.");
+      return false;
+    }
+    return true;
+  }
+
+
+  /**
+   * Predicate to test that a diretory is not a file, that it exists,
+   * and that it is readable to the invoking process.
+   * 
+   * @return {@code true} if this file is verified to be a
+   * directory, {@code false} otherwise
+   **/
+  public boolean isVerifiedDirectory()
+  {
+    if (! exists())
+    {
+      Log.note("Directory " + getPath() + " does not exist.");
+      return false;
+    }
+    if (! isDirectory())
+    {
+      Log.note(getPath() + " is not a directory.");
+      return false;
+    }
+    if (! canRead())
+    {
+      Log.note("Directory " + getPath() + " exists but is not readable.");
+      return false;
+    }
+    return true;
+  }
+
+
+  /**
+   * Deletes directory along with any content therein.
+   * This is a non-recursive implementation found online on 2009-03-21 at
+   * http://forums.sun.com/thread.jspa?threadID=563148
+   * Original author unknown.
+   */
+  public void deleteDirectory()
+  {
+    if (! exists() || ! isDirectory()) {
+      return;
     }
 
+    Stack<File> dirStack = new Stack<File>();
+    dirStack.push(this);
 
-    /**
-     * Creates a new {@code VerifiableFile} instance by converting the
-     * given {@code File} parameter into an abstract pathname.
-     * 
-     * @param file A file.
-     **/
-    public VerifiableFile(File file)
+    boolean containsSubdir;
+    while (! dirStack.isEmpty())
     {
-        // This is inefficient b/c it takes an object, turns it into a
-        // string, then causes a new object to be created.  The Java File()
-        // class doesn't provide a way of resetting the internal object it
-        // keeps, so we have to go through the constructor like this.
+      File currDir = dirStack.peek();
+      containsSubdir = false;
 
-        super(file.getPath());
+      String[] filenameArray = currDir.list();
+      for (int i = 0; i < filenameArray.length; i++)
+      {
+        String fileName = currDir.getAbsolutePath() + File.separator
+            + filenameArray[i];
+        File file = new File(fileName);
+        if (file.isDirectory())
+        {
+          dirStack.push(file);
+          containsSubdir = true;
+        }
+        else
+        {
+          file.delete();
+        }
+      }
+
+      if (! containsSubdir)
+      {
+        dirStack.pop();         // Remove current dir from stack.
+        currDir.delete();       // Delete current dir.
+      }
     }
+  }
 
+  //
+  // ---------------------- Private data members ----------------------------
+  //
 
-    /**
-     * Creates a new {@code VerifiableFile} instance from a parent
-     * pathname string and a child pathname string.
-     * <p>
-     * If {@code parent} is {@code null}, then the new
-     * {@code VerifiableFile} instance is created as if by invoking the
-     * single-argument {@code VerifiableFile} constructor on the given
-     * {@code child} pathname string. 
-     * <p>
-     * Otherwise, the {@code parent} pathname string is taken to denote
-     * a directory, and the {@code child} pathname string is taken to
-     * denote either a directory or a file.  If the {@code child} pathname
-     * string is absolute then it is converted into a relative pathname in a
-     * system-dependent way.  If {@code parent} is the empty string then
-     * the new {@code VerifiableFile} instance is created by converting
-     * {@code child} into an abstract pathname and resolving the result
-     * against a system-dependent default directory.  Otherwise, each pathname
-     * string is converted into an abstract pathname and the child abstract
-     * pathname is resolved against the parent.
-     * 
-     * @param parent The parent pathname string.
-     * @param child The child pathname string.
-     * @throws  NullPointerException
-     *          If {@code child} is {@code null}.
-     **/
-    public VerifiableFile(String parent, String child)
-    {
-        super(parent, child);
-    }
-
-
-    /**
-     * Creates a new {@code VerifiableFile} instance from a parent
-     * abstract pathname and a child pathname string.
-     * <p>
-     * If {@code parent} is {@code null}, then the new
-     * {@code VerifiableFile} instance is created as if by invoking the
-     * single-argument {@code VerifiableFile} constructor on the given
-     * {@code child} pathname string. 
-     * <p>
-     * Otherwise, the {@code parent} abstract pathname is taken to denote
-     * a directory, and the {@code child} pathname string is taken to
-     * denote either a directory or a file.  If the {@code child} pathname
-     * string is absolute then it is converted into a relative pathname in a
-     * system-dependent way.  If {@code parent} is empty, then
-     * the new {@code VerifiableFile} instance is created by converting
-     * {@code child} into an abstract pathname and resolving the result
-     * against a system-dependent default directory.  Otherwise, each pathname
-     * string is converted into an abstract pathname and the child abstract
-     * pathname is resolved against the parent.
-     * 
-     * @param parent The parent pathname string.
-     * @param child The child pathname string.
-     * @throws  NullPointerException
-     *          If {@code child} is {@code null}.
-     **/
-    public VerifiableFile(File parent, String child)
-    {
-        super(parent, child);
-    }
-
-
-    /**
-     * Predicate to test that a file is not a directory, that it exists,
-     * and that it is readable to the invoking process.
-     * 
-     * @return {@code true} if this file is verified to be an existing
-     * file, {@code false} otherwise
-     **/
-    public boolean isVerifiedFile()
-    {
-        if (isDirectory())
-        {
-            Log.note(getPath() + " is a directory.");
-            return false;
-        }
-        if (! exists())
-        {
-            Log.note("File " + getPath() + " does not exist.");
-            return false;
-        }
-        if (! isFile())
-        {
-            Log.note(getPath() + " is a not a file.");
-            return false;
-        }
-        if (! canRead())
-        {
-            Log.note("File " + getPath() + " exists but is not readable.");
-            return false;
-        }
-        return true;
-    }
-
-
-    /**
-     * Predicate to test that a diretory is not a file, that it exists,
-     * and that it is readable to the invoking process.
-     * 
-     * @return {@code true} if this file is verified to be a
-     * directory, {@code false} otherwise
-     **/
-    public boolean isVerifiedDirectory()
-    {
-        if (! exists())
-        {
-            Log.note("Directory " + getPath() + " does not exist.");
-            return false;
-        }
-        if (! isDirectory())
-        {
-            Log.note(getPath() + " is not a directory.");
-            return false;
-        }
-        if (! canRead())
-        {
-            Log.note("Directory " + getPath() + " exists but is not readable.");
-            return false;
-        }
-        return true;
-    }
-
-
-    /**
-     * Deletes directory along with any content therein.
-     * This is a non-recursive implementation found online on 2009-03-21 at
-     * http://forums.sun.com/thread.jspa?threadID=563148
-     * Original author unknown.
-     */
-    public void deleteDirectory()
-    {
-        if (! exists() || ! isDirectory())
-            return;
-
-        Stack<File> dirStack = new Stack<File>();
-        dirStack.push(this);
-
-        boolean containsSubdir;
-        while (! dirStack.isEmpty())
-        {
-            File currDir = dirStack.peek();
-            containsSubdir = false;
-
-            String[] filenameArray = currDir.list();
-            for (int i = 0; i < filenameArray.length; i++)
-            {
-                String fileName = currDir.getAbsolutePath() + File.separator 
-                                  + filenameArray[i];
-                File file = new File(fileName);
-                if (file.isDirectory())
-                {
-                    dirStack.push(file);
-                    containsSubdir = true;
-                }
-                else
-                {
-                    file.delete();
-                }       
-            }
-
-            if (! containsSubdir)
-            {
-                dirStack.pop();         // Remove current dir from stack.
-                currDir.delete();       // Delete current dir.
-            }
-        }
-    }
-
-    //
-    // ---------------------- Private data members ----------------------------
-    //
-
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 }

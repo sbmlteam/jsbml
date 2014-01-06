@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -26,7 +26,6 @@ import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
 
-
 /**
  * @author Eugen Netz
  * @author Alexander Diamantikos
@@ -38,14 +37,14 @@ import org.sbml.jsbml.SBase;
  */
 public class LocalRenderInformation extends RenderInformationBase {
   /**
-   * 
+   * Generated serial version identifier
    */
   private static final long serialVersionUID = -8056565578647428405L;
-  
+
   private ListOf<LocalStyle> listOfLocalStyles;
-  
+
   /**
-   * Creates an LocalRenderInformation instance 
+   * Creates an LocalRenderInformation instance
    */
   public LocalRenderInformation() {
     super();
@@ -53,7 +52,7 @@ public class LocalRenderInformation extends RenderInformationBase {
   }
 
   /**
-   * Creates a LocalRenderInformation instance with an id. 
+   * Creates a LocalRenderInformation instance with an id.
    * 
    * @param id
    */
@@ -63,7 +62,7 @@ public class LocalRenderInformation extends RenderInformationBase {
   }
 
   /**
-   * Creates a LocalRenderInformation instance with a level and version. 
+   * Creates a LocalRenderInformation instance with a level and version.
    * 
    * @param level
    * @param version
@@ -73,7 +72,7 @@ public class LocalRenderInformation extends RenderInformationBase {
   }
 
   /**
-   * Creates a LocalRenderInformation instance with an id, level, and version. 
+   * Creates a LocalRenderInformation instance with an id, level, and version.
    * 
    * @param id
    * @param level
@@ -84,7 +83,7 @@ public class LocalRenderInformation extends RenderInformationBase {
   }
 
   /**
-   * Creates a LocalRenderInformation instance with an id, name, level, and version. 
+   * Creates a LocalRenderInformation instance with an id, name, level, and version.
    * 
    * @param id
    * @param name
@@ -105,7 +104,7 @@ public class LocalRenderInformation extends RenderInformationBase {
    */
   public LocalRenderInformation(LocalRenderInformation obj) {
     super(obj);
-    this.listOfLocalStyles = obj.listOfLocalStyles;
+    listOfLocalStyles = obj.listOfLocalStyles;
   }
 
   /* (non-Javadoc)
@@ -122,11 +121,11 @@ public class LocalRenderInformation extends RenderInformationBase {
   @Override
   public void initDefaults() {
     setNamespace(RenderConstants.namespaceURI);
-    this.listOfLocalStyles = null;
+    listOfLocalStyles = null;
   }
-  
+
   /**
-   * @return {@code true}, if listOfLocalStyles contains at least one element, 
+   * @return {@code true}, if listOfLocalStyles contains at least one element,
    *         otherwise {@code false}
    */
   public boolean isSetListOfLocalStyles() {
@@ -159,13 +158,13 @@ public class LocalRenderInformation extends RenderInformationBase {
   }
 
   /**
-   * @return {@code true}, if listOfLocalStyles contained at least one element, 
+   * @return {@code true}, if listOfLocalStyles contained at least one element,
    *         otherwise {@code false}
    */
   public boolean unsetListOfLocalStyles() {
     if (isSetListOfLocalStyles()) {
-      ListOf<LocalStyle> oldLocalStyles = this.listOfLocalStyles;
-      this.listOfLocalStyles = null;
+      ListOf<LocalStyle> oldLocalStyles = listOfLocalStyles;
+      listOfLocalStyles = null;
       oldLocalStyles.fireNodeRemovedEvent();
       return true;
     }
@@ -198,14 +197,14 @@ public class LocalRenderInformation extends RenderInformationBase {
     }
     getListOfLocalStyles().remove(i);
   }
-  
-  
+
+
   @Override
   public int getChildCount() {
     int count = super.getChildCount();
-     if (isSetListOfLocalStyles()) {
+    if (isSetListOfLocalStyles()) {
       count++;
-     }
+    }
     return count;
   }
 

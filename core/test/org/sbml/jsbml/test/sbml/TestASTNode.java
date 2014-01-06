@@ -4,7 +4,7 @@
  * @brief   ASTNode unit tests
  *
  * @author  Akiya Jouraku (Java conversion)
- * @author  Ben Bornstein 
+ * @author  Ben Bornstein
  *
  * $Id: TestASTNode.java 10124 2009-08-28 12:04:51Z sarahkeating $
  * $HeadURL: https://sbml.svn.sourceforge.net/svnroot/sbml/trunk/libsbml/src/bindings/java/test/org/sbml/libsbml/test/math/TestASTNode.java $
@@ -37,6 +37,10 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.ASTNode.Type;
 
+/**
+ * 
+ * @version $Rev$
+ */
 public class TestASTNode {
 
   @Before public void setUp() throws Exception
@@ -149,7 +153,7 @@ public class TestASTNode {
 
     try {
       parent.getChild(2); // libsbml would return null instead of throwing an exception: assertTrue( parent.getChild(2) == null );
-      assertTrue(false); 
+      assertTrue(false);
     } catch (IndexOutOfBoundsException e) {
       assertTrue(true);
     }
@@ -167,7 +171,7 @@ public class TestASTNode {
 
     try {
       parent.getChild(3);
-      assertTrue(false); 
+      assertTrue(false);
     } catch (IndexOutOfBoundsException e) {
       assertTrue(true);
     }
@@ -186,8 +190,8 @@ public class TestASTNode {
 
     try {
       n.getCharacter();
-      assertTrue(false); 
-    } catch (Exception e) { 
+      assertTrue(false);
+    } catch (Exception e) {
       assertTrue(true);
     }
 
@@ -195,14 +199,14 @@ public class TestASTNode {
 
     try {
       n.getInteger();
-      assertTrue(false); 
-    } catch (Exception e) { 
+      assertTrue(false);
+    } catch (Exception e) {
       assertTrue(true);
     }
     try {
       n.getExponent();
-      assertTrue(false); 
-    } catch (Exception e) { 
+      assertTrue(false);
+    } catch (Exception e) {
       assertTrue(true);
     }
 
@@ -213,7 +217,7 @@ public class TestASTNode {
     n = null;
   }
 
-  // libsbml deepCopy() == JSBML clone() 
+  // libsbml deepCopy() == JSBML clone()
   @SuppressWarnings("deprecation")
   @Test
   public void test_ASTNode_deepCopy_1()
@@ -390,7 +394,7 @@ public class TestASTNode {
   }
 
   /*
-   // getPrecedence() not available in jsbml    
+   // getPrecedence() not available in jsbml
   public void test_ASTNode_getPrecedence()
   {
     ASTNode n = new  ASTNode();
@@ -463,7 +467,7 @@ public class TestASTNode {
     } catch(IndexOutOfBoundsException e) {
       assertTrue(true);
     }
-    assertTrue( node.getNumChildren() == 4 ); 
+    assertTrue( node.getNumChildren() == 4 );
     assertTrue(JSBML.formulaToString(node).equals( "a and d and b and c"));
     node.insertChild(2,newc1);
     assertTrue( node.getNumChildren() == 5 );
@@ -702,7 +706,7 @@ public class TestASTNode {
 
     node.setCharacter( '$');
     assertTrue( node.getType() == ASTNode.Type.UNKNOWN );
-    // assertTrue( node.getCharacter() ==  '$'          );  // Exception thrown 
+    // assertTrue( node.getCharacter() ==  '$'          );  // Exception thrown
 
     node = null;
   }
@@ -805,8 +809,8 @@ public class TestASTNode {
     node.setValue(32.1);
     assertTrue( node.getType() == ASTNode.Type.REAL );
 
-    // assertTrue( node.getInteger() == 0 ); // Exception thrown    
-    // assertTrue( node.getName() == null ); // Exception thrown    
+    // assertTrue( node.getInteger() == 0 ); // Exception thrown
+    // assertTrue( node.getName() == null ); // Exception thrown
     // assertTrue( node.getCharacter() == '\0' );  // Exception thrown
     assertTrue( node.getReal() == 32.1 );
     assertTrue( node.getExponent() == 0 );

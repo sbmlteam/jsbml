@@ -11,7 +11,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -49,162 +49,163 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * 
  * @author  Nicolas Rodriguez
  * @author  Akiya Jouraku
- * @author  Ben Bornstein 
+ * @author  Ben Bornstein
  * @since 0.8
  * @version $Rev$
  */
 public class TestReadFromFile1 {
 
-	public static String DATA_FOLDER = null;
+  public static String DATA_FOLDER = null;
 
-	static {
+  static {
 
-		DATA_FOLDER = "test/org/sbml/jsbml/xml/test/data";
-		
-		if (System.getProperty("DATA_FOLDER") != null) {
-			DATA_FOLDER = System.getProperty("DATA_FOLDER"); 
-		}
-	}
+    DATA_FOLDER = "test/org/sbml/jsbml/xml/test/data";
 
-	/**
-	 * 
-	 * @throws XMLStreamException
-	 * @throws ClassNotFoundException 
-	 * @throws IOException 
-	 * @throws InvalidPropertiesFormatException 
-	 */
-	@SuppressWarnings("deprecation")
-	@Test
-	public void test_read_l1v1_branch() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
-		SBMLDocument d;
-		Model m;
-		Compartment c;
-		KineticLaw kl;
-		LocalParameter p;
-		Reaction r;
-		Species s;
-		SpeciesReference sr;
-		UnitDefinition ud;
-		String filename = DATA_FOLDER + "/libsbml-test-data/l1v1-branch.xml";
-		d = new SBMLReader().readSBML(filename);
-		if (d == null)
-			;
-		{
-		}
-		assertTrue(d.getLevel() == 1);
-		assertTrue(d.getVersion() == 1);
-		m = d.getModel();
-		assertTrue(m.getName().equals("Branch"));
-		assertTrue(m.getCompartmentCount() == 1);
-		c = m.getCompartment(0);
-		assertTrue(c.getName().equals("compartmentOne"));
-		assertTrue(c.getVolume() == 1);
-		ud = c.getDerivedUnitDefinition();
-		assertTrue(ud.getUnitCount() == 1);
+    if (System.getProperty("DATA_FOLDER") != null) {
+      DATA_FOLDER = System.getProperty("DATA_FOLDER");
+    }
+  }
 
-		// assertTrue(ud.getUnit(0).getKind() == Unit.Kind.LITRE); // getDerivedUnitDefinition not working properly
-		assertTrue(m.getSpeciesCount() == 4);
-		s = m.getSpecies(0);
-		assertTrue(s.getName().equals("S1"));
-		assertTrue(s.getCompartment().equals("compartmentOne"));
-		assertTrue(s.getInitialAmount() == 0);
-		assertTrue(s.getBoundaryCondition() == false);
+  /**
+   * 
+   * @throws XMLStreamException
+   * @throws ClassNotFoundException
+   * @throws IOException
+   * @throws InvalidPropertiesFormatException
+   */
+  @SuppressWarnings("deprecation")
+  @Test
+  public void test_read_l1v1_branch() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
+    SBMLDocument d;
+    Model m;
+    Compartment c;
+    KineticLaw kl;
+    LocalParameter p;
+    Reaction r;
+    Species s;
+    SpeciesReference sr;
+    UnitDefinition ud;
+    String filename = DATA_FOLDER + "/libsbml-test-data/l1v1-branch.xml";
+    d = new SBMLReader().readSBML(filename);
+    if (d == null) {
+      ;
+    }
+    {
+    }
+    assertTrue(d.getLevel() == 1);
+    assertTrue(d.getVersion() == 1);
+    m = d.getModel();
+    assertTrue(m.getName().equals("Branch"));
+    assertTrue(m.getCompartmentCount() == 1);
+    c = m.getCompartment(0);
+    assertTrue(c.getName().equals("compartmentOne"));
+    assertTrue(c.getVolume() == 1);
+    ud = c.getDerivedUnitDefinition();
+    assertTrue(ud.getUnitCount() == 1);
 
-		//		ud = s.getDerivedUnitDefinition(); // getDerivedUnitDefinition not working properly
-//		assertTrue(ud.getUnitCount() == 2);
-//		assertTrue(ud.getUnit(0).getKind() == Unit.Kind.MOLE);
-//		assertTrue(ud.getUnit(0).getExponent() == 1);
-//		assertTrue(ud.getUnit(1).getKind() == Unit.Kind.LITRE);
-//		assertTrue(ud.getUnit(1).getExponent() == -1);
-		
-		s = m.getSpecies(1);
-		assertTrue(s.getName().equals("X0"));
-		assertTrue(s.getCompartment().equals("compartmentOne"));
-		assertTrue(s.getInitialAmount() == 0);
-		assertTrue(s.getBoundaryCondition() == true);
-		s = m.getSpecies(2);
-		assertTrue(s.getName().equals("X1"));
-		assertTrue(s.getCompartment().equals("compartmentOne"));
-		assertTrue(s.getInitialAmount() == 0);
-		assertTrue(s.getBoundaryCondition() == true);
-		s = m.getSpecies(3);
-		assertTrue(s.getName().equals("X2"));
-		assertTrue(s.getCompartment().equals("compartmentOne"));
-		assertTrue(s.getInitialAmount() == 0);
-		assertTrue(s.getBoundaryCondition() == true);
-		assertTrue(m.getReactionCount() == 3);
-		r = m.getReaction(0);
-		assertTrue(r.getName().equals("reaction_1"));
-		assertTrue(r.getReversible() == false);
-		assertTrue(r.getFast() == false);
-		ud = r.getKineticLaw().getDerivedUnitDefinition();
+    // assertTrue(ud.getUnit(0).getKind() == Unit.Kind.LITRE); // getDerivedUnitDefinition not working properly
+    assertTrue(m.getSpeciesCount() == 4);
+    s = m.getSpecies(0);
+    assertTrue(s.getName().equals("S1"));
+    assertTrue(s.getCompartment().equals("compartmentOne"));
+    assertTrue(s.getInitialAmount() == 0);
+    assertTrue(s.getBoundaryCondition() == false);
 
-		//		assertTrue(ud.getUnitCount() == 2);
-//		assertTrue(ud.getUnit(0).getKind() == Unit.Kind.MOLE);
-//		assertTrue(ud.getUnit(0).getExponent() == 1);
-//		assertTrue(ud.getUnit(1).getKind() == Unit.Kind.LITRE);
-//		assertTrue(ud.getUnit(1).getExponent() == -1);
-		
-		assertTrue(r.getKineticLaw().containsUndeclaredUnits() == true);
-		r = m.getReaction(1);
-		assertTrue(r.getName().equals("reaction_2"));
-		assertTrue(r.getReversible() == false);
-		assertTrue(r.getFast() == false);
-		r = m.getReaction(2);
-		assertTrue(r.getName().equals("reaction_3"));
-		assertTrue(r.getReversible() == false);
-		assertTrue(r.getFast() == false);
-		r = m.getReaction(0);
-		assertTrue(r.getReactantCount() == 1);
-		assertTrue(r.getProductCount() == 1);
-		sr = r.getReactant(0);
-		assertTrue(sr.getSpecies().equals("X0"));
-		assertTrue(sr.getStoichiometry() == 1);
-		assertTrue(sr.getDenominator() == 1);
-		sr = r.getProduct(0);
-		assertTrue(sr.getSpecies().equals("S1"));
-		assertTrue(sr.getStoichiometry() == 1);
-		assertTrue(sr.getDenominator() == 1);
-		kl = r.getKineticLaw();
-		assertTrue(kl.getFormula().equals("k1*X0")); // We are not putting the same space in the formula
-		assertTrue(kl.getLocalParameterCount() == 1);
-		p = kl.getParameter(0);
-		assertTrue(p.getName().equals("k1"));
-		assertTrue(p.getValue() == 0);
-		r = m.getReaction(1);
-		assertTrue(r.getReactantCount() == 1);
-		assertTrue(r.getProductCount() == 1);
-		sr = r.getReactant(0);
-		assertTrue(sr.getSpecies().equals("S1"));
-		assertTrue(sr.getStoichiometry() == 1);
-		assertTrue(sr.getDenominator() == 1);
-		sr = r.getProduct(0);
-		assertTrue(sr.getSpecies().equals("X1"));
-		assertTrue(sr.getStoichiometry() == 1);
-		assertTrue(sr.getDenominator() == 1);
-		kl = r.getKineticLaw();
-		assertTrue(kl.getFormula().equals("k2*S1")); // equals("k2 * S1")
-		assertTrue(kl.getLocalParameterCount() == 1);
-		p = kl.getParameter(0);
-		assertTrue(p.getName().equals("k2"));
-		assertTrue(p.getValue() == 0);
-		r = m.getReaction(2);
-		assertTrue(r.getReactantCount() == 1);
-		assertTrue(r.getProductCount() == 1);
-		sr = r.getReactant(0);
-		assertTrue(sr.getSpecies().equals("S1"));
-		assertTrue(sr.getStoichiometry() == 1);
-		assertTrue(sr.getDenominator() == 1);
-		sr = r.getProduct(0);
-		assertTrue(sr.getSpecies().equals("X2"));
-		assertTrue(sr.getStoichiometry() == 1);
-		assertTrue(sr.getDenominator() == 1);
-		kl = r.getKineticLaw();
-		assertTrue(kl.getFormula().equals("k3*S1")); // equals("k3 * S1")
-		assertTrue(kl.getLocalParameterCount() == 1);
-		p = kl.getParameter(0);
-		assertTrue(p.getName().equals("k3"));
-		assertTrue(p.getValue() == 0);
-		d = null;
-	}
+    //		ud = s.getDerivedUnitDefinition(); // getDerivedUnitDefinition not working properly
+    //		assertTrue(ud.getUnitCount() == 2);
+    //		assertTrue(ud.getUnit(0).getKind() == Unit.Kind.MOLE);
+    //		assertTrue(ud.getUnit(0).getExponent() == 1);
+    //		assertTrue(ud.getUnit(1).getKind() == Unit.Kind.LITRE);
+    //		assertTrue(ud.getUnit(1).getExponent() == -1);
+
+    s = m.getSpecies(1);
+    assertTrue(s.getName().equals("X0"));
+    assertTrue(s.getCompartment().equals("compartmentOne"));
+    assertTrue(s.getInitialAmount() == 0);
+    assertTrue(s.getBoundaryCondition() == true);
+    s = m.getSpecies(2);
+    assertTrue(s.getName().equals("X1"));
+    assertTrue(s.getCompartment().equals("compartmentOne"));
+    assertTrue(s.getInitialAmount() == 0);
+    assertTrue(s.getBoundaryCondition() == true);
+    s = m.getSpecies(3);
+    assertTrue(s.getName().equals("X2"));
+    assertTrue(s.getCompartment().equals("compartmentOne"));
+    assertTrue(s.getInitialAmount() == 0);
+    assertTrue(s.getBoundaryCondition() == true);
+    assertTrue(m.getReactionCount() == 3);
+    r = m.getReaction(0);
+    assertTrue(r.getName().equals("reaction_1"));
+    assertTrue(r.getReversible() == false);
+    assertTrue(r.getFast() == false);
+    ud = r.getKineticLaw().getDerivedUnitDefinition();
+
+    //		assertTrue(ud.getUnitCount() == 2);
+    //		assertTrue(ud.getUnit(0).getKind() == Unit.Kind.MOLE);
+    //		assertTrue(ud.getUnit(0).getExponent() == 1);
+    //		assertTrue(ud.getUnit(1).getKind() == Unit.Kind.LITRE);
+    //		assertTrue(ud.getUnit(1).getExponent() == -1);
+
+    assertTrue(r.getKineticLaw().containsUndeclaredUnits() == true);
+    r = m.getReaction(1);
+    assertTrue(r.getName().equals("reaction_2"));
+    assertTrue(r.getReversible() == false);
+    assertTrue(r.getFast() == false);
+    r = m.getReaction(2);
+    assertTrue(r.getName().equals("reaction_3"));
+    assertTrue(r.getReversible() == false);
+    assertTrue(r.getFast() == false);
+    r = m.getReaction(0);
+    assertTrue(r.getReactantCount() == 1);
+    assertTrue(r.getProductCount() == 1);
+    sr = r.getReactant(0);
+    assertTrue(sr.getSpecies().equals("X0"));
+    assertTrue(sr.getStoichiometry() == 1);
+    assertTrue(sr.getDenominator() == 1);
+    sr = r.getProduct(0);
+    assertTrue(sr.getSpecies().equals("S1"));
+    assertTrue(sr.getStoichiometry() == 1);
+    assertTrue(sr.getDenominator() == 1);
+    kl = r.getKineticLaw();
+    assertTrue(kl.getFormula().equals("k1*X0")); // We are not putting the same space in the formula
+    assertTrue(kl.getLocalParameterCount() == 1);
+    p = kl.getParameter(0);
+    assertTrue(p.getName().equals("k1"));
+    assertTrue(p.getValue() == 0);
+    r = m.getReaction(1);
+    assertTrue(r.getReactantCount() == 1);
+    assertTrue(r.getProductCount() == 1);
+    sr = r.getReactant(0);
+    assertTrue(sr.getSpecies().equals("S1"));
+    assertTrue(sr.getStoichiometry() == 1);
+    assertTrue(sr.getDenominator() == 1);
+    sr = r.getProduct(0);
+    assertTrue(sr.getSpecies().equals("X1"));
+    assertTrue(sr.getStoichiometry() == 1);
+    assertTrue(sr.getDenominator() == 1);
+    kl = r.getKineticLaw();
+    assertTrue(kl.getFormula().equals("k2*S1")); // equals("k2 * S1")
+    assertTrue(kl.getLocalParameterCount() == 1);
+    p = kl.getParameter(0);
+    assertTrue(p.getName().equals("k2"));
+    assertTrue(p.getValue() == 0);
+    r = m.getReaction(2);
+    assertTrue(r.getReactantCount() == 1);
+    assertTrue(r.getProductCount() == 1);
+    sr = r.getReactant(0);
+    assertTrue(sr.getSpecies().equals("S1"));
+    assertTrue(sr.getStoichiometry() == 1);
+    assertTrue(sr.getDenominator() == 1);
+    sr = r.getProduct(0);
+    assertTrue(sr.getSpecies().equals("X2"));
+    assertTrue(sr.getStoichiometry() == 1);
+    assertTrue(sr.getDenominator() == 1);
+    kl = r.getKineticLaw();
+    assertTrue(kl.getFormula().equals("k3*S1")); // equals("k3 * S1")
+    assertTrue(kl.getLocalParameterCount() == 1);
+    p = kl.getParameter(0);
+    assertTrue(p.getName().equals("k3"));
+    assertTrue(p.getValue() == 0);
+    d = null;
+  }
 }

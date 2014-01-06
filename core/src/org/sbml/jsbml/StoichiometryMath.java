@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml;
 
 /**
@@ -34,56 +33,57 @@ package org.sbml.jsbml;
 @Deprecated
 public class StoichiometryMath extends AbstractMathContainer {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -7070065639669486763L;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -7070065639669486763L;
 
-	/**
-	 * Creates a {@link StoichiometryMath} instance.
-	 */
-	@Deprecated
-	public StoichiometryMath() {
-		super();
-	}
+  /**
+   * Creates a {@link StoichiometryMath} instance.
+   */
+  @Deprecated
+  public StoichiometryMath() {
+    super();
+  }
 
-	/**
-	 * Creates a {@link StoichiometryMath} instance from a level and version.
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	@Deprecated
-	public StoichiometryMath(int level, int version) {
-		super(level, version);
-	}
+  /**
+   * Creates a {@link StoichiometryMath} instance from a level and version.
+   * 
+   * @param level
+   * @param version
+   */
+  @Deprecated
+  public StoichiometryMath(int level, int version) {
+    super(level, version);
+  }
 
-	/**
-	 * Creates a {@link StoichiometryMath} instance from a given
-	 * {@link StoichiometryMath}.
-	 * 
-	 * @param stoichiometryMath
-	 */
-	@Deprecated
-	public StoichiometryMath(StoichiometryMath stoichiometryMath) {
-		super(stoichiometryMath);
-	}
+  /**
+   * Creates a {@link StoichiometryMath} instance from a given
+   * {@link StoichiometryMath}.
+   * 
+   * @param stoichiometryMath
+   */
+  @Deprecated
+  public StoichiometryMath(StoichiometryMath stoichiometryMath) {
+    super(stoichiometryMath);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractMathContainer#clone()
-	 */
-	@Deprecated
-	public StoichiometryMath clone() {
-		return new StoichiometryMath(this);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#getParent()
-	 */
-	@Override
-	@Deprecated
-	public SpeciesReference getParent() {
-		return (SpeciesReference) super.getParent();
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractMathContainer#clone()
+   */
+  @Override
+  @Deprecated
+  public StoichiometryMath clone() {
+    return new StoichiometryMath(this);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getParent()
+   */
+  @Override
+  @Deprecated
+  public SpeciesReference getParent() {
+    return (SpeciesReference) super.getParent();
+  }
 
 }

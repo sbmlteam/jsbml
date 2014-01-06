@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -1304,7 +1304,7 @@ public class Unit extends AbstractSBase {
     setScale(scale);
     setKind(kind);
     setExponent(exponent);
-    this.offset = null;
+    offset = null;
   }
 
   /**
@@ -2335,30 +2335,30 @@ public class Unit extends AbstractSBase {
    * 
    */
   public void unsetExponent() {
-    Double oldExponent = this.exponent;
+    Double oldExponent = exponent;
     exponent = null;
     isSetExponent = false;
-    firePropertyChange(TreeNodeChangeEvent.exponent, oldExponent, this.exponent);
+    firePropertyChange(TreeNodeChangeEvent.exponent, oldExponent, exponent);
   }
 
   /**
    * 
    */
   public void unsetKind() {
-    Kind oldKind = this.kind;
+    Kind oldKind = kind;
     kind = Kind.INVALID;
-    firePropertyChange(TreeNodeChangeEvent.kind, oldKind, this.kind);
+    firePropertyChange(TreeNodeChangeEvent.kind, oldKind, kind);
   }
 
   /**
    * 
    */
   public void unsetMultiplier() {
-    Double oldMultipler = this.multiplier;
+    Double oldMultipler = multiplier;
     multiplier = null;
     isSetMultiplier = false;
     firePropertyChange(TreeNodeChangeEvent.multiplier, oldMultipler,
-      this.multiplier);
+      multiplier);
   }
 
   /**
@@ -2366,17 +2366,17 @@ public class Unit extends AbstractSBase {
    */
   @Deprecated
   public void unsetOffset() {
-    Double oldOffset = this.offset;
+    Double oldOffset = offset;
     offset = null;
     isSetOffset = false;
-    firePropertyChange(TreeNodeChangeEvent.offset, oldOffset, this.offset);
+    firePropertyChange(TreeNodeChangeEvent.offset, oldOffset, offset);
   }
 
   /**
    * 
    */
   public void unsetScale() {
-    Integer oldScale = this.scale;
+    Integer oldScale = scale;
     scale = null;
     isSetScale = false;
     firePropertyChange(TreeNodeChangeEvent.scale, oldScale, scale);

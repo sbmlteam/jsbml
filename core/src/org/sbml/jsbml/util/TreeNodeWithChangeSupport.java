@@ -2,13 +2,13 @@
  * $Id$
  * $URL$
  *
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2013 jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
+ * Copyright (C) 2009-2014 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 
@@ -18,7 +18,7 @@
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
- */ 
+ */
 package org.sbml.jsbml.util;
 
 import java.io.Serializable;
@@ -35,7 +35,7 @@ import org.sbml.jsbml.util.filters.Filter;
 /**
  * This interface extends the regular recursively defined {@link TreeNode} by
  * adding methods to keep track of changes within the tree, such as
- * adding/removing, or exchanging of child nodes or the change of any other 
+ * adding/removing, or exchanging of child nodes or the change of any other
  * attributes.
  * 
  * @author Andreas Dr&auml;ger
@@ -44,8 +44,8 @@ import org.sbml.jsbml.util.filters.Filter;
  * @date 2011-09-15
  */
 public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
-  Serializable {
-  
+Serializable {
+
   /**
    * Adds recursively all given {@link TreeNodeChangeListener} instances to
    * this element.
@@ -56,8 +56,8 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
    * 
    */
   public boolean addAllChangeListeners(
-      Collection<TreeNodeChangeListener> listeners);
-  
+    Collection<TreeNodeChangeListener> listeners);
+
   /**
    * Adds recursively a listener to the {@link TreeNodeWithChangeSupport}
    * object and all of its sub-elements. Calling this method is effectively
@@ -70,7 +70,7 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
    * @see #addTreeNodeChangeListener(TreeNodeChangeListener, boolean)
    */
   public void addTreeNodeChangeListener(TreeNodeChangeListener listener);
-  
+
   /**
    * Adds a listener to this {@link TreeNodeWithChangeSupport} object and
    * optionally also to all of its child nodes.
@@ -84,7 +84,7 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
    * @see #addTreeNodeChangeListener(TreeNodeChangeListener)
    */
   public void addTreeNodeChangeListener(TreeNodeChangeListener listener, boolean recursive);
-  
+
   /**
    * Removes all of the mappings from the map of user objects (optional
    * operation). The map will be empty after this call returns.
@@ -92,7 +92,7 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
    * @see Map#clear()
    */
   public abstract void clearUserObjects();
-  
+
   /**
    * @param key
    * @return
@@ -114,7 +114,7 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
    * @see #filter(Filter, boolean)
    */
   public List<? extends TreeNode> filter(Filter filter);
-  
+
   /**
    * Filters this tree data structure recursively and returns a list of all
    * {@link TreeNode}s that are accepted by the {@link Filter}. The second
@@ -135,7 +135,7 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
    * @see #filter(Filter)
    */
   public List<? extends TreeNode> filter(Filter filter, boolean retainInternalNodes);
-  
+
   /**
    * Filters this tree data structure recursively and returns a list of all
    * {@link TreeNode}s that are accepted by the {@link Filter}. The two
@@ -160,21 +160,21 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
    * @see #filter(Filter, boolean)
    */
   public List<? extends TreeNode> filter(Filter filter, boolean retainInternalNodes, boolean prune);
-  
+
   /**
    * All {@link TreeNodeChangeListener} instances linked to this
    * {@link TreeNode} are informed about the adding of this {@link Object} to
    * an owning parent {@link Object}.
    */
   public void fireNodeAddedEvent();
-  
+
   /**
    * All {@link TreeNodeChangeListener} instances linked to this
    * {@link TreeNode} are informed about the deletion of this {@link TreeNode}
    * from a parent {@link Object}.
    */
   public void fireNodeRemovedEvent();
-  
+
   /**
    * All {@link TreeNodeChangeListener}s are informed about the change in this
    * {@link TreeNodeWithChangeSupport}.
@@ -189,8 +189,8 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
    *            given property..
    */
   public void firePropertyChange(String propertyName, Object oldValue,
-      Object newValue);
-  
+    Object newValue);
+
   /**
    * Returns all {@link TreeNodeChangeListener}s that are assigned to this
    * element.
@@ -211,7 +211,7 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
    *         this {@link TreeNodeWithChangeSupport}
    */
   public abstract int getTreeNodeChangeListenerCount();
-  
+
   /**
    * @return the userObject
    */
@@ -296,14 +296,13 @@ public interface TreeNodeWithChangeSupport extends Cloneable, TreeNode,
    * @see #removeTreeNodeChangeListener(TreeNodeChangeListener)
    */
   public void removeTreeNodeChangeListener(TreeNodeChangeListener listener, boolean recursive);
-  
+
   /**
    * 
    * @param key
    * @return
    */
   public abstract Object removeUserObject(Object key);
-
 
   /**
    * @return

@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -27,7 +27,6 @@ import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
 
-
 /**
  * @author Eugen Netz
  * @author Alexander Diamantikos
@@ -39,12 +38,12 @@ import org.sbml.jsbml.SBase;
  */
 public class RenderPoint extends AbstractSBase implements Point3D {
 
-	/**
-   *
+  /**
+   * Generated serial version identifier
    */
   private static final long serialVersionUID = 6792387139122188270L;
 
-	private Boolean absoluteX, absoluteY, absoluteZ;
+  private Boolean absoluteX, absoluteY, absoluteZ;
 
   private Double x, y, z;
 
@@ -74,8 +73,8 @@ public class RenderPoint extends AbstractSBase implements Point3D {
    */
   @Override
   public RenderPoint clone() {
-		return new RenderPoint(this);
-	}
+    return new RenderPoint(this);
+  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
@@ -192,7 +191,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
    */
   @Override
   public boolean isSetAbsoluteX() {
-    return this.absoluteX != null;
+    return absoluteX != null;
   }
 
   /* (non-Javadoc)
@@ -200,7 +199,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
    */
   @Override
   public boolean isSetAbsoluteY() {
-    return this.absoluteY != null;
+    return absoluteY != null;
   }
 
   /* (non-Javadoc)
@@ -208,7 +207,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
    */
   @Override
   public boolean isSetAbsoluteZ() {
-    return this.absoluteZ != null;
+    return absoluteZ != null;
   }
 
   /* (non-Javadoc)
@@ -216,7 +215,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
    */
   @Override
   public boolean isSetX() {
-    return this.x != null;
+    return x != null;
   }
 
   /* (non-Javadoc)
@@ -224,7 +223,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
    */
   @Override
   public boolean isSetY() {
-    return this.y != null;
+    return y != null;
   }
 
   /* (non-Javadoc)
@@ -232,7 +231,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
    */
   @Override
   public boolean isSetZ() {
-    return this.z != null;
+    return z != null;
   }
 
   /* (non-Javadoc)
@@ -255,7 +254,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
     firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, this.absoluteY);
   }
 
-	/* (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#setAbsoluteZ(java.lang.Boolean)
    */
   @Override
@@ -300,18 +299,19 @@ public class RenderPoint extends AbstractSBase implements Point3D {
    */
   @Override
   public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    // TODO Auto-generated method stub
+    return null;
+  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.RenderPoint#unsetAbsoluteX()
    */
+  @Override
   public boolean unsetAbsoluteX() {
     if (isSetAbsoluteX()) {
-      Boolean oldAbsoluteX = this.absoluteX;
-      this.absoluteX = null;
-      firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, this.absoluteX);
+      Boolean oldAbsoluteX = absoluteX;
+      absoluteX = null;
+      firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, absoluteX);
       return true;
     }
     return false;
@@ -323,9 +323,9 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   @Override
   public boolean unsetAbsoluteY() {
     if (isSetAbsoluteY()) {
-      Boolean oldAbsoluteY = this.absoluteY;
-      this.absoluteY = null;
-      firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, this.absoluteY);
+      Boolean oldAbsoluteY = absoluteY;
+      absoluteY = null;
+      firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, absoluteY);
       return true;
     }
     return false;
@@ -337,9 +337,9 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   @Override
   public boolean unsetAbsoluteZ() {
     if (isSetAbsoluteZ()) {
-      Boolean oldAbsoluteZ = this.absoluteZ;
-      this.absoluteZ = null;
-      firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, this.absoluteZ);
+      Boolean oldAbsoluteZ = absoluteZ;
+      absoluteZ = null;
+      firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, absoluteZ);
       return true;
     }
     return false;
@@ -351,9 +351,9 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   @Override
   public boolean unsetX() {
     if (isSetX()) {
-      Double oldX = this.x;
-      this.x = null;
-      firePropertyChange(RenderConstants.x, oldX, this.x);
+      Double oldX = x;
+      x = null;
+      firePropertyChange(RenderConstants.x, oldX, x);
       return true;
     }
     return false;
@@ -365,9 +365,9 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   @Override
   public boolean unsetY() {
     if (isSetY()) {
-      Double oldY = this.y;
-      this.y = null;
-      firePropertyChange(RenderConstants.y, oldY, this.y);
+      Double oldY = y;
+      y = null;
+      firePropertyChange(RenderConstants.y, oldY, y);
       return true;
     }
     return false;
@@ -379,15 +379,15 @@ public class RenderPoint extends AbstractSBase implements Point3D {
   @Override
   public boolean unsetZ() {
     if (isSetZ()) {
-      Double oldZ = this.z;
-      this.z = null;
-      firePropertyChange(RenderConstants.z, oldZ, this.z);
+      Double oldZ = z;
+      z = null;
+      firePropertyChange(RenderConstants.z, oldZ, z);
       return true;
     }
     return false;
   }
-  
-  
+
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
    */

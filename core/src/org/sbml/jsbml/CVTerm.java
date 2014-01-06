@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml;
 
 import java.util.ArrayList;
@@ -350,7 +349,7 @@ public class CVTerm extends AnnotationElement {
    */
   public CVTerm(CVTerm term) {
     super(term);
-    this.type = term.getQualifierType();
+    type = term.getQualifierType();
     switch (type) {
     case MODEL_QUALIFIER:
       qualifier = term.getModelQualifierType();
@@ -569,15 +568,15 @@ public class CVTerm extends AnnotationElement {
     return getResourceCount();
   }
 
-    /**
-     * Returns the {@link Qualifier} for this CVTerm.
-     * 
-     * @return the {@link Qualifier} for this CVTerm.
-     */
-    public Qualifier getQualifier() {
-	return qualifier;
-    }
-    
+  /**
+   * Returns the {@link Qualifier} for this CVTerm.
+   * 
+   * @return the {@link Qualifier} for this CVTerm.
+   */
+  public Qualifier getQualifier() {
+    return qualifier;
+  }
+
   /**
    * Returns the number of resources for this {@link CVTerm}.
    * 
@@ -751,10 +750,10 @@ public class CVTerm extends AnnotationElement {
   public void setBiologicalQualifierType(Qualifier qualifier) {
     if (qualifier != null) {
       if (qualifier.toString().startsWith("BQB")) {
-        if (this.type == Type.BIOLOGICAL_QUALIFIER) {
+        if (type == Type.BIOLOGICAL_QUALIFIER) {
           Qualifier oldValue = this.qualifier;
           this.qualifier = qualifier;
-          this.firePropertyChange(TreeNodeChangeEvent.qualifier, oldValue, qualifier);
+          firePropertyChange(TreeNodeChangeEvent.qualifier, oldValue, qualifier);
         } else {
           throw new IllegalArgumentException(String.format(
             INVALID_TYPE_AND_QUALIFIER_COMBINATION_MSG, type,
@@ -787,10 +786,10 @@ public class CVTerm extends AnnotationElement {
   public void setModelQualifierType(Qualifier qualifier) {
     if (qualifier != null) {
       if (qualifier.toString().startsWith("BQM")) {
-        if (this.type == Type.MODEL_QUALIFIER) {
+        if (type == Type.MODEL_QUALIFIER) {
           Qualifier oldValue = this.qualifier;
           this.qualifier = qualifier;
-          this.firePropertyChange(TreeNodeChangeEvent.qualifier, oldValue, qualifier);
+          firePropertyChange(TreeNodeChangeEvent.qualifier, oldValue, qualifier);
         } else {
           throw new IllegalArgumentException(
               "Model qualifier types can only be applyed if the type is set to Model Qualifier.");
@@ -825,14 +824,14 @@ public class CVTerm extends AnnotationElement {
     if ((type == Type.MODEL_QUALIFIER)
         || (type == Type.BIOLOGICAL_QUALIFIER)
         || (type == Type.UNKNOWN_QUALIFIER)) {
-      Qualifier oldQualifier = this.qualifier;
+      Qualifier oldQualifier = qualifier;
       Type oldType = this.type;
       this.type = type;
 
-      this.qualifier = type == Type.MODEL_QUALIFIER ? Qualifier.BQM_UNKNOWN
+      qualifier = type == Type.MODEL_QUALIFIER ? Qualifier.BQM_UNKNOWN
         : Qualifier.BQB_UNKNOWN;
-      this.firePropertyChange(TreeNodeChangeEvent.type, oldType, this.type);
-      this.firePropertyChange(TreeNodeChangeEvent.qualifier, oldQualifier, this.qualifier);
+      firePropertyChange(TreeNodeChangeEvent.type, oldType, this.type);
+      firePropertyChange(TreeNodeChangeEvent.qualifier, oldQualifier, qualifier);
     } else {
       throw new IllegalArgumentException(String.format(
         "%s is not a valid qualifier.", type.toString()));

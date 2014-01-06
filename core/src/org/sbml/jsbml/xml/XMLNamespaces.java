@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,14 +18,13 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.xml;
 
 import java.util.LinkedHashMap;
 
 import org.sbml.jsbml.JSBML;
 
-/** 
+/**
  * Representation of XML Namespaces.
  * <p>
  * <em style='color: #555'>
@@ -56,40 +55,42 @@ defined in SBML.
  * object instance can be retrieved based on their index using
  * {@link XMLNamespaces#getPrefix(int index)}, or by their characteristics such as
  * their URI or position in the list.
+ * 
  * @since 0.8
  * @version $Rev$
  */
 public class XMLNamespaces {
-	
-	/**
-	 * HashMap<Prefix, URI>
-	 */
-	LinkedHashMap<String, String> namespaces = new LinkedHashMap<String, String>();
-	
+
+  /**
+   * HashMap<Prefix, URI>
+   */
+  LinkedHashMap<String, String> namespaces = new LinkedHashMap<String, String>();
+
   /**
    * Equality comparison method for XMLNamespaces.
    *
    * @param sb a reference to an object to which the current object
    * instance will be compared
    *
-   * @return {@code true} if {@code sb} refers to the same underlying 
+   * @return {@code true} if {@code sb} refers to the same underlying
    * native object as this one, {@code false} otherwise
    */
+  @Override
   public boolean equals(Object sb)
   {
-	  if (sb instanceof XMLNamespaces) {
-		  XMLNamespaces namespaces2 = (XMLNamespaces) sb;
+    if (sb instanceof XMLNamespaces) {
+      XMLNamespaces namespaces2 = (XMLNamespaces) sb;
 
-		  for (String prefix : namespaces.keySet()) {
-			  if (!getURI(prefix).equals(namespaces2.getURI(prefix))) {
-				  return false;
-			  }
-		  }
-		  
-		  return true;
-	  }
+      for (String prefix : namespaces.keySet()) {
+        if (!getURI(prefix).equals(namespaces2.getURI(prefix))) {
+          return false;
+        }
+      }
 
-	  return false;
+      return true;
+    }
+
+    return false;
   }
 
   /**
@@ -97,49 +98,51 @@ public class XMLNamespaces {
    *
    * @return a hash code usable by Java methods that need them.
    */
+  @Override
   public int hashCode()
   {
-	  int hashcode = 0;
-	  
-	  for (String prefix : namespaces.keySet()) {
-		  hashcode += prefix.hashCode() + getURI(prefix).hashCode();
-	  }
+    int hashcode = 0;
+
+    for (String prefix : namespaces.keySet()) {
+      hashcode += prefix.hashCode() + getURI(prefix).hashCode();
+    }
 
     return hashcode;
   }
 
-  
+
   /**
    * Creates a new empty list of XML namespace declarations.
    */
- public XMLNamespaces() {
+  public XMLNamespaces() {
   }
 
-  
+
   /**
    * Copy constructor; creates a copy of this {@link XMLNamespaces} list.
    * <p>
    * @param orig the {@link XMLNamespaces} object to copy
    */
- public XMLNamespaces(XMLNamespaces orig) {
-	 
-	 for (String prefix : orig.namespaces.keySet()) {
-		 namespaces.put(new String(prefix), new String(orig.getURI(prefix)));
-	 }
+  public XMLNamespaces(XMLNamespaces orig) {
+
+    for (String prefix : orig.namespaces.keySet()) {
+      namespaces.put(new String(prefix), new String(orig.getURI(prefix)));
+    }
 
   }
 
-  
+
   /**
    * Creates and returns a deep copy of this {@link XMLNamespaces} list.
    * <p>
    * @return a (deep) copy of this {@link XMLNamespaces} list.
    */
- public XMLNamespaces clone() {
+  @Override
+  public XMLNamespaces clone() {
     return new XMLNamespaces(this);
   }
 
-  
+
   /**
    * Appends an XML namespace prefix and URI pair to this list of namespace
    * declarations.
@@ -149,7 +152,7 @@ public class XMLNamespaces {
    * in this list, then its corresponding URI will be overwritten by the
    * new {@code uri}.  Calling programs could use one of the other {@link XMLNamespaces}
    * methods, such as
-   * {@link XMLNamespaces#hasPrefix(String)}  and 
+   * {@link XMLNamespaces#hasPrefix(String)}  and
    * {@link XMLNamespaces#hasURI(String)}  to
    * inquire whether a given prefix and/or URI
    * is already present in this {@link XMLNamespaces} object.
@@ -163,14 +166,14 @@ public class XMLNamespaces {
    * <li> OPERATION_SUCCESS
    * <p>
    */
- public int add(String uri, String prefix) {
+  public int add(String uri, String prefix) {
 
-	 namespaces.put(prefix, uri);
-	 
-	 return JSBML.OPERATION_SUCCESS;
+    namespaces.put(prefix, uri);
+
+    return JSBML.OPERATION_SUCCESS;
   }
 
-  
+
   /**
    * Appends an XML namespace URI with an empty prefix to this list of namespace
    * declarations.
@@ -180,7 +183,7 @@ public class XMLNamespaces {
    * in this list, then its corresponding URI will be overwritten by the
    * new {@code uri}.  Calling programs could use one of the other {@link XMLNamespaces}
    * methods, such as
-   * {@link XMLNamespaces#hasPrefix(String)}  and 
+   * {@link XMLNamespaces#hasPrefix(String)}  and
    * {@link XMLNamespaces#hasURI(String)}  to
    * inquire whether a given prefix and/or URI
    * is already present in this {@link XMLNamespaces} object.
@@ -194,14 +197,14 @@ public class XMLNamespaces {
    * <li> OPERATION_SUCCESS
    * <p>
    */
- public int add(String uri) {
+  public int add(String uri) {
 
-	 namespaces.put("", uri);
-	 
-	 return JSBML.OPERATION_SUCCESS;
+    namespaces.put("", uri);
+
+    return JSBML.OPERATION_SUCCESS;
   }
 
-  
+
   /**
    * Removes an XML Namespace stored in the given position of this list.
    * <p>
@@ -213,25 +216,25 @@ public class XMLNamespaces {
    * <li> OPERATION_SUCCESS
    * <li> INDEX_EXCEEDS_SIZE
    */
- public int remove(int index) {
+  public int remove(int index) {
 
-	 if (index < 0 || index >= namespaces.size()) {
-		 return JSBML.INDEX_EXCEEDS_SIZE;
-	 }
-	 
-	 int i = 0;
-	 for (String prefix : namespaces.keySet()) {
-		 if (i == index) {
-			 namespaces.remove(prefix);
-			 break;
-		 }
-		 i++;
-	 }
+    if (index < 0 || index >= namespaces.size()) {
+      return JSBML.INDEX_EXCEEDS_SIZE;
+    }
 
-	 return JSBML.OPERATION_SUCCESS;
+    int i = 0;
+    for (String prefix : namespaces.keySet()) {
+      if (i == index) {
+        namespaces.remove(prefix);
+        break;
+      }
+      i++;
+    }
+
+    return JSBML.OPERATION_SUCCESS;
   }
 
-  
+
   /**
    * Removes an XML Namespace with the given prefix.
    * <p>
@@ -244,15 +247,15 @@ public class XMLNamespaces {
    * <p>
    * @see #remove(int index)
    */
- public int remove(String prefix) {
-	 
-	 namespaces.remove(prefix);
+  public int remove(String prefix) {
 
-	 return JSBML.OPERATION_SUCCESS;
+    namespaces.remove(prefix);
+
+    return JSBML.OPERATION_SUCCESS;
 
   }
 
-  
+
   /**
    * Clears (deletes) all XML namespace declarations in this {@link XMLNamespaces}
    * object.
@@ -264,15 +267,15 @@ public class XMLNamespaces {
    * <p>
    * @see #remove(int index)
    */
- public int clear() {
-	 
-	 namespaces.clear();
-	 
-	 return JSBML.OPERATION_SUCCESS;
+  public int clear() {
+
+    namespaces.clear();
+
+    return JSBML.OPERATION_SUCCESS;
 
   }
 
-  
+
   /**
    * Gets the index of an XML namespace declaration by URI.
    * <p>
@@ -285,24 +288,24 @@ public class XMLNamespaces {
    * @return the index of the given declaration, or {@code -1} if not
    * present.
    */
- public int getIndex(String uri) {
+  public int getIndex(String uri) {
 
-	 int index = -1;
-	 
-	 int i = 0;
-	 for (String prefix : namespaces.keySet()) {
-		 if (namespaces.get(prefix).equals(uri)) {
-			 index = i;
-			 break;
-		 }
-		 i++;
-	 }
+    int index = -1;
 
-	 return index;
+    int i = 0;
+    for (String prefix : namespaces.keySet()) {
+      if (namespaces.get(prefix).equals(uri)) {
+        index = i;
+        break;
+      }
+      i++;
+    }
+
+    return index;
 
   }
 
-  
+
   /**
    * Gets the index of an XML namespace declaration by prefix.
    * <p>
@@ -316,37 +319,37 @@ public class XMLNamespaces {
    * @return the index of the given declaration, or {@code -1} if not
    * present.
    */
- public int getIndexByPrefix(String prefix) {
+  public int getIndexByPrefix(String prefix) {
 
-	 int index = -1;
-	 
-	 int i = 0;
-	 for (String currentPrefix : namespaces.keySet()) {
-		 if (currentPrefix.equals(prefix)) {
-			 index = i;
-			 break;
-		 }
-		 i++;
-	 }
+    int index = -1;
 
-	 return index;
+    int i = 0;
+    for (String currentPrefix : namespaces.keySet()) {
+      if (currentPrefix.equals(prefix)) {
+        index = i;
+        break;
+      }
+      i++;
+    }
+
+    return index;
 
   }
 
-  
+
   /**
    * Returns the total number of URI-and-prefix pairs stored in this
    * particular {@link XMLNamespaces} instance.
    * <p>
    * @return the number of namespaces in this list.
    */
- public int getLength() {
+  public int getLength() {
 
-	 return namespaces.size();
+    return namespaces.size();
 
   }
 
-  
+
   /**
    * Gets the prefix of an XML namespace declaration by its position.
    * <p>
@@ -363,21 +366,21 @@ public class XMLNamespaces {
    * <p>
    * @see #getLength()
    */
- public String getPrefix(int index) {
+  public String getPrefix(int index) {
 
-	 int i = 0;
-	 for (String prefix : namespaces.keySet()) {
-		 if (i == index) {
-			 return prefix;
-		 }
-		 i++;
-	 }
+    int i = 0;
+    for (String prefix : namespaces.keySet()) {
+      if (i == index) {
+        return prefix;
+      }
+      i++;
+    }
 
-	 return "";
+    return "";
 
   }
 
-  
+
   /**
    * Gets the prefix of an XML namespace declaration by its URI.
    * <p>
@@ -390,19 +393,19 @@ public class XMLNamespaces {
    * @return the prefix of an XML namespace declaration given its URI, or
    * an empty string if no such {@code uri} exists in this {@link XMLNamespaces} object
    */
- public String getPrefix(String uri) {
+  public String getPrefix(String uri) {
 
-	 for (String prefix : namespaces.keySet()) {
-		 if (namespaces.get(prefix).equals(uri)) {
-			 return prefix;
-		 }
-	 }
+    for (String prefix : namespaces.keySet()) {
+      if (namespaces.get(prefix).equals(uri)) {
+        return prefix;
+      }
+    }
 
-	 return "";
+    return "";
 
   }
 
-  
+
   /**
    * Gets the URI of an XML namespace declaration by its position.
    * <p>
@@ -419,20 +422,20 @@ public class XMLNamespaces {
    * <p>
    * @see #getLength()
    */
- public String getURI(int index) {
+  public String getURI(int index) {
 
-	 int i = 0;
-	 for (String prefix : namespaces.keySet()) {
-		 if (i == index) {
-			 return namespaces.get(prefix);
-		 }
-		 i++;
-	 }
+    int i = 0;
+    for (String prefix : namespaces.keySet()) {
+      if (i == index) {
+        return namespaces.get(prefix);
+      }
+      i++;
+    }
 
-	 return "";
+    return "";
   }
 
-  
+
   /**
    * Gets the URI of an XML namespace declaration by its prefix.
    * <p>
@@ -442,25 +445,25 @@ public class XMLNamespaces {
    * <p>
    * @param prefix a string, the prefix of the required URI
    * <p>
-   * @return the URI of an XML namespace declaration having the given 
+   * @return the URI of an XML namespace declaration having the given
    * {@code prefix}, or an empty string if no such prefix-and-URI pair exists
    * in this {@link XMLNamespaces} object
    * 
    * @see #getURI()
    */
- public String getURI(String prefix) {
+  public String getURI(String prefix) {
 
-	 for (String currentPrefix : namespaces.keySet()) {
-		 if (currentPrefix.equals(prefix)) {
-			 return namespaces.get(currentPrefix);
-		 }
-	 }
+    for (String currentPrefix : namespaces.keySet()) {
+      if (currentPrefix.equals(prefix)) {
+        return namespaces.get(currentPrefix);
+      }
+    }
 
-	 return "";
+    return "";
 
   }
 
-  
+
   /**
    * Gets the URI of an XML namespace declaration by the empty prefix.
    * <p>
@@ -468,38 +471,38 @@ public class XMLNamespaces {
    * prefixes.  This method returns the namespace URI for a pair that has
    * the empty {@code prefix}.
    * <p>
-   * @return the URI of an XML namespace declaration having the empty 
+   * @return the URI of an XML namespace declaration having the empty
    * {@code prefix}, or an empty string if no such prefix-and-URI pair exists
    * in this {@link XMLNamespaces} object
    * 
    * @see #getURI()
    */
- public String getURI() {
+  public String getURI() {
 
-	 for (String currentPrefix : namespaces.keySet()) {
-		 if (currentPrefix.equals("")) {
-			 return namespaces.get(currentPrefix);
-		 }
-	 }
+    for (String currentPrefix : namespaces.keySet()) {
+      if (currentPrefix.equals("")) {
+        return namespaces.get(currentPrefix);
+      }
+    }
 
-	 return "";
+    return "";
 
   }
 
-  
+
   /**
    * Returns {@code true} or {@code false} depending on whether this
    * {@link XMLNamespaces} list is empty.
    * <p>
    * @return {@code true} if this {@link XMLNamespaces} list is empty, {@code false} otherwise.
    */
- public boolean isEmpty() {
+  public boolean isEmpty() {
 
-	 return namespaces.size() == 0;
+    return namespaces.size() == 0;
 
   }
 
-  
+
   /**
    * Returns {@code true} or {@code false} depending on whether an XML
    * Namespace with the given URI is contained in this {@link XMLNamespaces} list.
@@ -509,13 +512,13 @@ public class XMLNamespaces {
    * @return {@code true} if an XML Namespace with the given URI is contained in
    * this {@link XMLNamespaces} list, {@code false} otherwise.
    */
- public boolean hasURI(String uri) {
+  public boolean hasURI(String uri) {
 
-	 return namespaces.containsValue(uri);
+    return namespaces.containsValue(uri);
 
   }
 
-  
+
   /**
    * Returns {@code true} or {@code false} depending on whether an XML
    * Namespace with the given prefix is contained in this {@link XMLNamespaces}
@@ -526,13 +529,13 @@ public class XMLNamespaces {
    * @return {@code true} if an XML Namespace with the given URI is contained in
    * this {@link XMLNamespaces} list, {@code false} otherwise.
    */
- public boolean hasPrefix(String prefix) {
+  public boolean hasPrefix(String prefix) {
 
-	 return namespaces.containsKey(prefix);
+    return namespaces.containsKey(prefix);
 
   }
 
-  
+
   /**
    * Returns {@code true} or {@code false} depending on whether an XML
    * Namespace with the given URI and prefix pair is contained in this
@@ -544,18 +547,18 @@ public class XMLNamespaces {
    * @return {@code true} if an XML Namespace with the given uri/prefix pair is
    * contained in this {@link XMLNamespaces} list, {@code false} otherwise.
    */
- public boolean hasNS(String uri, String prefix) {
+  public boolean hasNS(String uri, String prefix) {
 
-	 if (uri == null || prefix == null) {
-		 return false;
-	 }
-	 String uri2 = namespaces.get(prefix); 
-		 
-	 if (uri.equals(uri2)) {
-		 return true;
-	 }
-	 
-	 return false;
+    if (uri == null || prefix == null) {
+      return false;
+    }
+    String uri2 = namespaces.get(prefix);
+
+    if (uri.equals(uri2)) {
+      return true;
+    }
+
+    return false;
 
   }
 

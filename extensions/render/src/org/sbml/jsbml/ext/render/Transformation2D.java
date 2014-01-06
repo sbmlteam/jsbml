@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -22,7 +22,6 @@ package org.sbml.jsbml.ext.render;
 
 import org.sbml.jsbml.PropertyUndefinedError;
 
-
 /**
  * @author Eugen Netz
  * @author Alexander Diamantikos
@@ -33,8 +32,8 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @date 08.05.2012
  */
 public class Transformation2D extends Transformation {
-	/**
-   * 
+  /**
+   * Generated serial version identifier
    */
   private static final long serialVersionUID = -1737694519381619398L;
 
@@ -42,13 +41,13 @@ public class Transformation2D extends Transformation {
   protected Double[] transform = new Double[6];
 
   /**
-   * Creates an Transformation2D instance 
+   * Creates an Transformation2D instance
    */
   public Transformation2D() {
     super();
     initDefaults();
   }
-  
+
   /**
    * Clone constructor
    */
@@ -85,10 +84,10 @@ public class Transformation2D extends Transformation {
   }
 
   /**
-   * @return whether transform is set 
+   * @return whether transform is set
    */
   public boolean isSetTransform() {
-    return this.transform != null;
+    return transform != null;
   }
 
   /**
@@ -101,15 +100,15 @@ public class Transformation2D extends Transformation {
   }
 
   /**
-   * Unsets the variable transform 
-   * @return {@code true}, if transform was set before, 
+   * Unsets the variable transform
+   * @return {@code true}, if transform was set before,
    *         otherwise {@code false}
    */
   public boolean unsetTransform() {
     if (isSetTransform()) {
-      Double[] oldTransform = this.transform;
-      this.transform = null;
-      firePropertyChange(RenderConstants.transform, oldTransform, this.transform);
+      Double[] oldTransform = transform;
+      transform = null;
+      firePropertyChange(RenderConstants.transform, oldTransform, transform);
       return true;
     }
     return false;

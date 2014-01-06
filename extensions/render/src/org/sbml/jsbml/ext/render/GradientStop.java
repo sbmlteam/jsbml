@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -28,7 +28,6 @@ import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
 
-
 /**
  * @author Eugen Netz
  * @author Alexander Diamantikos
@@ -38,9 +37,9 @@ import org.sbml.jsbml.SBase;
  * @since 1.0
  * @date 08.05.2012
  */
-public class GradientStop extends AbstractSBase { 
+public class GradientStop extends AbstractSBase {
   /**
-   * 
+   * Generated serial version identifier
    */
   private static final long serialVersionUID = 7400974339251884133L;
 
@@ -50,7 +49,7 @@ public class GradientStop extends AbstractSBase {
 
 
   /**
-   * Creates a GradientStop instance with an offset and a color. 
+   * Creates a GradientStop instance with an offset and a color.
    * 
    * @param offset
    * @param color
@@ -61,7 +60,7 @@ public class GradientStop extends AbstractSBase {
   }
 
   /**
-   * Creates a GradientStop instance with an offset, color, level, and version. 
+   * Creates a GradientStop instance with an offset, color, level, and version.
    * 
    * @param offset
    * @param color
@@ -83,8 +82,8 @@ public class GradientStop extends AbstractSBase {
    */
   public GradientStop(GradientStop obj) {
     super(obj);
-    this.offset = obj.offset;
-    this.stopColor = obj.stopColor;
+    offset = obj.offset;
+    stopColor = obj.stopColor;
   }
 
   public GradientStop() {
@@ -118,7 +117,7 @@ public class GradientStop extends AbstractSBase {
     int pos = 0;
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", childIndex,
-      +((int) Math.min(pos, 0))));
+      +Math.min(pos, 0)));
   }
 
   /* (non-Javadoc)
@@ -152,17 +151,17 @@ public class GradientStop extends AbstractSBase {
   }
 
   /**
-   * @return whether offset is set 
+   * @return whether offset is set
    */
   public boolean isSetOffset() {
-    return this.offset != null;
+    return offset != null;
   }
 
   /**
-   * @return whether stopColor is set 
+   * @return whether stopColor is set
    */
   public boolean isSetStopColor() {
-    return this.stopColor != null;
+    return stopColor != null;
   }
 
   /**
@@ -184,30 +183,30 @@ public class GradientStop extends AbstractSBase {
   }
 
   /**
-   * Unsets the variable offset 
-   * @return {@code true}, if offset was set before, 
+   * Unsets the variable offset
+   * @return {@code true}, if offset was set before,
    *         otherwise {@code false}
    */
   public boolean unsetOffset() {
     if (isSetOffset()) {
-      Double oldOffset = this.offset;
-      this.offset = null;
-      firePropertyChange(RenderConstants.offset, oldOffset, this.offset);
+      Double oldOffset = offset;
+      offset = null;
+      firePropertyChange(RenderConstants.offset, oldOffset, offset);
       return true;
     }
     return false;
   }
 
   /**
-   * Unsets the variable stopColor 
-   * @return {@code true}, if stopColor was set before, 
+   * Unsets the variable stopColor
+   * @return {@code true}, if stopColor was set before,
    *         otherwise {@code false}
    */
   public boolean unsetStopColor() {
     if (isSetStopColor()) {
-      String oldStopColor = this.stopColor;
-      this.stopColor = null;
-      firePropertyChange(RenderConstants.stopColor, oldStopColor, this.stopColor);
+      String oldStopColor = stopColor;
+      stopColor = null;
+      firePropertyChange(RenderConstants.stopColor, oldStopColor, stopColor);
       return true;
     }
     return false;

@@ -17,36 +17,28 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.xml.parsers;
 
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.xml.XMLNode;
 
-
 /**
  * The interface to implement for the SBML parsers writing SBML annotations.
  * 
- * @author rodrigue
+ * @author Nicolas Rodriguez
  * @since 1.0
  * @version $Rev$
  */
 public interface AnnotationWriter {
 
-	
-	
+  /**
+   * Writes the annotation of the given {@link SBase} object into the annotation
+   * {@link XMLNode}.
+   * This method can change the content of the annotation {@link XMLNode} by
+   * removing or adding nodes.
+   * 
+   * @param contextObject
+   */
+  public XMLNode writeAnnotation(SBase contextObject);
 
-	/**
-	 * Writes the annotation of the given {@link SBase} object into the annotation {@link XMLNode}.
-	 * 
-	 * This method can change the content of the annotation {@link XMLNode} by
-	 * removing or adding nodes.
-	 * 
-	 * @param contextObject
-	 * 
-	 */
-	public XMLNode writeAnnotation(SBase contextObject);
-	
-	
-	
 }

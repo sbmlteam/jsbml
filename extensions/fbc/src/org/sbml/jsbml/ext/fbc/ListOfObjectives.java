@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -39,7 +39,7 @@ public class ListOfObjectives extends ListOf<Objective> {
   /**
    * 
    */
-  private String activeObjective; 
+  private String activeObjective;
 
   /**
    * 
@@ -67,7 +67,7 @@ public class ListOfObjectives extends ListOf<Objective> {
       setActiveObjective(listOf.getActiveObjective());
     }
   }
-  
+
   /**
    * 
    * @param listOf
@@ -86,17 +86,17 @@ public class ListOfObjectives extends ListOf<Objective> {
   }
 
   @Override
-	public String getElementName() {
-		return FBCConstants.listOfObjectives;
-	}
-  
+  public String getElementName() {
+    return FBCConstants.listOfObjectives;
+  }
+
   /**
-   * Returns whether activeObjective is set 
+   * Returns whether activeObjective is set
    *
-   * @return whether activeObjective is set 
+   * @return whether activeObjective is set
    */
   public boolean isSetActiveObjective() {
-    return this.activeObjective != null;
+    return activeObjective != null;
   }
 
   /* (non-Javadoc)
@@ -107,7 +107,7 @@ public class ListOfObjectives extends ListOf<Objective> {
     String value) {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 
-    if (!isAttributeRead) 
+    if (!isAttributeRead)
     {
       isAttributeRead = true;
 
@@ -133,16 +133,16 @@ public class ListOfObjectives extends ListOf<Objective> {
 
 
   /**
-   * Unsets the variable activeObjective 
+   * Unsets the variable activeObjective
    *
-   * @return {@code true}, if activeObjective was set before, 
+   * @return {@code true}, if activeObjective was set before,
    *         otherwise {@code false}
    */
   public boolean unsetActiveObjective() {
     if (isSetActiveObjective()) {
-      String oldActiveObjective = this.activeObjective;
-      this.activeObjective = null;
-      firePropertyChange(FBCConstants.activeObjective, oldActiveObjective, this.activeObjective);
+      String oldActiveObjective = activeObjective;
+      activeObjective = null;
+      firePropertyChange(FBCConstants.activeObjective, oldActiveObjective, activeObjective);
       return true;
     }
     return false;

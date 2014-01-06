@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -62,32 +62,32 @@ public interface Point3D {
   public abstract boolean isAbsoluteX();
 
   /**
-   * @return whether absoluteX is set 
+   * @return whether absoluteX is set
    */
   public abstract boolean isSetAbsoluteX();
 
   /**
-   * @return whether absoluteY is set 
+   * @return whether absoluteY is set
    */
   public abstract boolean isSetAbsoluteY();
 
   /**
-   * @return whether absoluteZ is set 
+   * @return whether absoluteZ is set
    */
   public abstract boolean isSetAbsoluteZ();
 
   /**
-   * @return whether x is set 
+   * @return whether x is set
    */
   public abstract boolean isSetX();
 
   /**
-   * @return whether y is set 
+   * @return whether y is set
    */
   public abstract boolean isSetY();
 
   /**
-   * @return whether z is set 
+   * @return whether z is set
    */
   public abstract boolean isSetZ();
 
@@ -122,43 +122,43 @@ public interface Point3D {
   public abstract void setZ(Double z);
 
   /**
-   * Unsets the variable absoluteX 
-   * @return {@code true}, if absoluteX was set before, 
+   * Unsets the variable absoluteX
+   * @return {@code true}, if absoluteX was set before,
    *         otherwise {@code false}
    */
   public abstract boolean unsetAbsoluteX();
 
   /**
-   * Unsets the variable absoluteY 
-   * @return {@code true}, if absoluteY was set before, 
+   * Unsets the variable absoluteY
+   * @return {@code true}, if absoluteY was set before,
    *         otherwise {@code false}
    */
   public abstract boolean unsetAbsoluteY();
 
   /**
-   * Unsets the variable absoluteZ 
-   * @return {@code true}, if absoluteZ was set before, 
+   * Unsets the variable absoluteZ
+   * @return {@code true}, if absoluteZ was set before,
    *         otherwise {@code false}
    */
   public abstract boolean unsetAbsoluteZ();
 
   /**
-   * Unsets the variable x 
-   * @return {@code true}, if x was set before, 
+   * Unsets the variable x
+   * @return {@code true}, if x was set before,
    *         otherwise {@code false}
    */
   public abstract boolean unsetX();
 
   /**
-   * Unsets the variable y 
-   * @return {@code true}, if y was set before, 
+   * Unsets the variable y
+   * @return {@code true}, if y was set before,
    *         otherwise {@code false}
    */
   public abstract boolean unsetY();
 
   /**
-   * Unsets the variable z 
-   * @return {@code true}, if z was set before, 
+   * Unsets the variable z
+   * @return {@code true}, if z was set before,
    *         otherwise {@code false}
    */
   public abstract boolean unsetZ();

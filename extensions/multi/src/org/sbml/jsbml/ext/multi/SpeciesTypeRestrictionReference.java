@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -34,140 +34,142 @@ import org.sbml.jsbml.PropertyUndefinedError;
  */
 public class SpeciesTypeRestrictionReference extends AbstractSBase {
 
-	/**
+  /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = -8803949492166466113L;
   private String speciesTypeRestriction;
-		
-	
-	/**
-	 * @return the value of speciesTypeRestriction
-	 */
-	public String getSpeciesTypeRestriction() {
-		if (isSetSpeciesTypeRestriction()) {
-			return speciesTypeRestriction;
-		}
-		// This is necessary if we cannot return null here.
-		throw new PropertyUndefinedError(MultiConstants.speciesTypeRestriction, this);
-	}
-
-	/**
-	 * @return whether speciesTypeRestriction is set 
-	 */
-	public boolean isSetSpeciesTypeRestriction() {
-		return this.speciesTypeRestriction != null;
-	}
-
-	/**
-	 * Set the value of speciesTypeRestriction
-	 */
-	public void setSpeciesTypeRestriction(String speciesTypeRestriction) {
-		String oldSpeciesTypeRestriction = this.speciesTypeRestriction;
-		this.speciesTypeRestriction = speciesTypeRestriction;
-		firePropertyChange(MultiConstants.speciesTypeRestriction, oldSpeciesTypeRestriction, this.speciesTypeRestriction);
-	}
-
-	/**
-	 * Unsets the variable speciesTypeRestriction 
-	 * @return {@code true}, if speciesTypeRestriction was set before, 
-	 *         otherwise {@code false}
-	 */
-	public boolean unsetSpeciesTypeRestriction() {
-		if (isSetSpeciesTypeRestriction()) {
-			String oldSpeciesTypeRestriction = this.speciesTypeRestriction;
-			this.speciesTypeRestriction = null;
-			firePropertyChange(MultiConstants.speciesTypeRestriction, oldSpeciesTypeRestriction, this.speciesTypeRestriction);
-			return true;
-		}
-		return false;
-	}
 
 
-	@Override
-	public String toString() {
-		// TODO
-		return null;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
-	 */
-	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
+  /**
+   * @return the value of speciesTypeRestriction
+   */
+  public String getSpeciesTypeRestriction() {
+    if (isSetSpeciesTypeRestriction()) {
+      return speciesTypeRestriction;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(MultiConstants.speciesTypeRestriction, this);
+  }
 
-		if (isSetSpeciesTypeRestriction()) {
-			attributes.put(MultiConstants.shortLabel + ":speciesTypeRestriction",
-			  getSpeciesTypeRestriction());
-		}
+  /**
+   * @return whether speciesTypeRestriction is set
+   */
+  public boolean isSetSpeciesTypeRestriction() {
+    return speciesTypeRestriction != null;
+  }
 
-		return attributes;
-	}
+  /**
+   * Set the value of speciesTypeRestriction
+   */
+  public void setSpeciesTypeRestriction(String speciesTypeRestriction) {
+    String oldSpeciesTypeRestriction = this.speciesTypeRestriction;
+    this.speciesTypeRestriction = speciesTypeRestriction;
+    firePropertyChange(MultiConstants.speciesTypeRestriction, oldSpeciesTypeRestriction, this.speciesTypeRestriction);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix, String value) {
-
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-		if (!isAttributeRead) {
-			isAttributeRead = true;
-
-			if (attributeName.equals(MultiConstants.speciesTypeRestriction)) {
-				setSpeciesTypeRestriction(value);
-			}
-			else {
-				isAttributeRead = false;
-			}
-		}
-
-		return isAttributeRead;
-	}
-
-	/**
-	 * Creates an SpeciesTypeRestrictionReference instance 
-	 */
-	public SpeciesTypeRestrictionReference() {
-		super();
-		initDefaults();
-	}
-
-	/**
-	 * Creates a SpeciesTypeRestrictionReference instance with a level and version. 
-	 * 
-	 * @param level
-	 * @param version
-	 */
-	public SpeciesTypeRestrictionReference(int level, int version) {
-		super(level, version);
-	}
+  /**
+   * Unsets the variable speciesTypeRestriction
+   * @return {@code true}, if speciesTypeRestriction was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetSpeciesTypeRestriction() {
+    if (isSetSpeciesTypeRestriction()) {
+      String oldSpeciesTypeRestriction = speciesTypeRestriction;
+      speciesTypeRestriction = null;
+      firePropertyChange(MultiConstants.speciesTypeRestriction, oldSpeciesTypeRestriction, speciesTypeRestriction);
+      return true;
+    }
+    return false;
+  }
 
 
-	/**
-	 * Clone constructor
-	 */
-	public SpeciesTypeRestrictionReference(SpeciesTypeRestrictionReference obj) {
-		super(obj);
+  @Override
+  public String toString() {
+    // TODO
+    return null;
+  }
 
-		// TODO: copy all class attributes, e.g.:
-		// bar = obj.bar;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
 
-	/**
-	 * clones this class
-	 */
-	public SpeciesTypeRestrictionReference clone() {
-		return new SpeciesTypeRestrictionReference(this);
-	}
+    if (isSetSpeciesTypeRestriction()) {
+      attributes.put(MultiConstants.shortLabel + ":speciesTypeRestriction",
+        getSpeciesTypeRestriction());
+    }
 
-	/**
-	 * Initializes the default values using the namespace.
-	 */
-	public void initDefaults() {
-		setNamespace(MultiConstants.namespaceURI);
-	}
+    return attributes;
+  }
 
-	public static final int MIN_SBML_LEVEL = 3;
-	public static final int MIN_SBML_VERSION = 1;	
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+
+      if (attributeName.equals(MultiConstants.speciesTypeRestriction)) {
+        setSpeciesTypeRestriction(value);
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+
+    return isAttributeRead;
+  }
+
+  /**
+   * Creates an SpeciesTypeRestrictionReference instance
+   */
+  public SpeciesTypeRestrictionReference() {
+    super();
+    initDefaults();
+  }
+
+  /**
+   * Creates a SpeciesTypeRestrictionReference instance with a level and version.
+   * 
+   * @param level
+   * @param version
+   */
+  public SpeciesTypeRestrictionReference(int level, int version) {
+    super(level, version);
+  }
+
+
+  /**
+   * Clone constructor
+   */
+  public SpeciesTypeRestrictionReference(SpeciesTypeRestrictionReference obj) {
+    super(obj);
+
+    // TODO: copy all class attributes, e.g.:
+    // bar = obj.bar;
+  }
+
+  /**
+   * clones this class
+   */
+  @Override
+  public SpeciesTypeRestrictionReference clone() {
+    return new SpeciesTypeRestrictionReference(this);
+  }
+
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+    setNamespace(MultiConstants.namespaceURI);
+  }
+
+  public static final int MIN_SBML_LEVEL = 3;
+  public static final int MIN_SBML_VERSION = 1;
 }

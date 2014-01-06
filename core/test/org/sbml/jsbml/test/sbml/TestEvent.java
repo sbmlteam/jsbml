@@ -11,7 +11,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -44,7 +44,7 @@ import org.sbml.jsbml.text.parser.ParseException;
 /**
  * @author  Nicolas Rodriguez
  * @author  Akiya Jouraku
- * @author  Ben Bornstein 
+ * @author  Ben Bornstein
  * @since 0.8
  * @version $Rev$
  */
@@ -55,7 +55,9 @@ public class TestEvent {
   @Before public void setUp() throws Exception
   {
     E = new  Event(2,4);
-    if (E == null);
+    if (E == null) {
+      ;
+    }
     {
     }
   }
@@ -103,7 +105,7 @@ public class TestEvent {
 
   @Test public void test_Event_full() throws ParseException
   {
-    ASTNode math1 = ASTNode.parseFormula("0"); 
+    ASTNode math1 = ASTNode.parseFormula("0");
     Trigger trigger = new  Trigger(2,4);
     ASTNode math = ASTNode.parseFormula("0");
     Event e = new  Event(2,4);
@@ -129,7 +131,7 @@ public class TestEvent {
       math = ASTNode.parseFormula("0");
     } catch (ParseException e) {
       assertTrue(false);
-    } 
+    }
     o1 = E.createEventAssignment("t1", math); // We cannot add several time the same element to a list of anything
     o2 = E.createEventAssignment("t2", math);
     o3 = E.createEventAssignment("t3", math);
@@ -153,14 +155,18 @@ public class TestEvent {
     E.setDelay(delay);
     assertTrue(E.getDelay() != null);
     assertEquals( true, E.isSetDelay() );
-    if (E.getDelay() == delay);
+    if (E.getDelay() == delay) {
+      ;
+    }
     {
     }
     E.setDelay(E.getDelay());
     // assertTrue(E.getDelay() != delay); // We are not doing a copy of the object, so it is the same
     E.setDelay(null);
     assertEquals( false, E.isSetDelay() );
-    if (E.getDelay() != null);
+    if (E.getDelay() != null) {
+      ;
+    }
     {
     }
   }
@@ -171,14 +177,18 @@ public class TestEvent {
     E.setId(id);
     assertTrue(E.getId().equals(id));
     assertEquals( true, E.isSetId() );
-    if (E.getId() == id);
+    if (E.getId() == id) {
+      ;
+    }
     {
     }
     E.setId(E.getId());
     assertTrue(E.getId().equals(id));
     E.setId("");
     assertEquals( false, E.isSetId() );
-    if (E.getId() != null);
+    if (E.getId() != null) {
+      ;
+    }
     {
     }
   }
@@ -189,14 +199,18 @@ public class TestEvent {
     E.setName(name);
     assertTrue(E.getName().equals(name));
     assertEquals( true, E.isSetName() );
-    if (E.getName() == name);
+    if (E.getName() == name) {
+      ;
+    }
     {
     }
     E.setName(E.getName());
     assertTrue(E.getName().equals(name));
     E.setName("");
     assertEquals( false, E.isSetName() );
-    if (E.getName() != null);
+    if (E.getName() != null) {
+      ;
+    }
     {
     }
   }
@@ -209,14 +223,18 @@ public class TestEvent {
     E1.setTimeUnits(units);
     assertTrue(E1.getTimeUnits().equals(units));
     assertEquals( true, E1.isSetTimeUnits() );
-    if (E1.getTimeUnits() == units);
+    if (E1.getTimeUnits() == units) {
+      ;
+    }
     {
     }
     E1.setTimeUnits(E1.getTimeUnits());
     assertTrue(E1.getTimeUnits().equals(units));
     E1.setTimeUnits("");
     assertEquals( false, E1.isSetTimeUnits() );
-    if (E1.getTimeUnits() != null);
+    if (E1.getTimeUnits() != null) {
+      ;
+    }
     {
     }
     E1 = null;
@@ -230,14 +248,18 @@ public class TestEvent {
     E.setTrigger(trigger);
     assertTrue(E.getTrigger() != null);
     assertEquals( true, E.isSetTrigger() );
-    if (E.getTrigger() == trigger);
+    if (E.getTrigger() == trigger) {
+      ;
+    }
     {
     }
     E.setTrigger(E.getTrigger());
-    // assertTrue(E.getTrigger() != trigger); // We are not doing a copy of the object, so it is the same 
+    // assertTrue(E.getTrigger() != trigger); // We are not doing a copy of the object, so it is the same
     E.setTrigger(null);
     assertEquals( false, E.isSetTrigger() );
-    if (E.getTrigger() != null);
+    if (E.getTrigger() != null) {
+      ;
+    }
     {
     }
   }

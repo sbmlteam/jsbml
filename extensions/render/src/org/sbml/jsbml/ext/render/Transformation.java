@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -26,7 +26,6 @@ import java.util.Map;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.SBase;
 
-
 /**
  * @author Eugen Netz
  * @author Alexander Diamantikos
@@ -38,13 +37,13 @@ import org.sbml.jsbml.SBase;
  */
 public class Transformation extends AbstractSBase {
   /**
-   * 
+   * Generated serial version identifier
    */
   private static final long serialVersionUID = 1845276761656867150L;
   protected Double[] transform = new Double[12];
 
   /**
-   * Creates an Transformation instance 
+   * Creates an Transformation instance
    */
   public Transformation() {
     super();
@@ -74,7 +73,7 @@ public class Transformation extends AbstractSBase {
   public boolean getAllowsChildren() {
     return false;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
    */
@@ -86,7 +85,7 @@ public class Transformation extends AbstractSBase {
     int pos = 0;
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", childIndex,
-      +((int) Math.min(pos, 0))));
+      +Math.min(pos, 0)));
   }
 
   /* (non-Javadoc)
@@ -112,7 +111,7 @@ public class Transformation extends AbstractSBase {
     // TODO Auto-generated method stub
     return null;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
    */
@@ -120,18 +119,18 @@ public class Transformation extends AbstractSBase {
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetTransform()) {
-    	attributes.remove(RenderConstants.transform);
-        attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.transform,
-        	XMLTools.encodeArrayDoubleToString(transform)); 
+      attributes.remove(RenderConstants.transform);
+      attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.transform,
+        XMLTools.encodeArrayDoubleToString(transform));
     }
     return attributes;
   }
-  
-  private boolean isSetTransform() {
-	  return this.transform != null;
-}
 
-/* (non-Javadoc)
+  private boolean isSetTransform() {
+    return transform != null;
+  }
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
   @Override
@@ -141,14 +140,14 @@ public class Transformation extends AbstractSBase {
       isAttributeRead = true;
       // TODO: catch Exception if Enum.valueOf fails, generate logger output
       if (attributeName.equals(RenderConstants.transform)) {
-    	  setTransform(XMLTools.decodeStringToArrayDouble(value));
+        setTransform(XMLTools.decodeStringToArrayDouble(value));
       }
     }
     return isAttributeRead;
   }
 
   private void setTransform(Double[] transform) {
-	Double[] oldTransform = this.transform;
+    Double[] oldTransform = this.transform;
     this.transform = transform;
     firePropertyChange(RenderConstants.transform, oldTransform, this.transform);
   }

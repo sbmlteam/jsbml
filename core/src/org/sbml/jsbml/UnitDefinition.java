@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -756,7 +756,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    * @return
    */
   public boolean isInvalid() {
-    UnitDefinition ud = this.clone().simplify();
+    UnitDefinition ud = clone().simplify();
 
     if (ud.getUnitCount() == 1) {
       return ud.getUnit(0).isInvalid();
@@ -1189,9 +1189,9 @@ public class UnitDefinition extends AbstractNamedSBase {
    *         data structure.
    */
   public boolean unsetListOfUnits() {
-    if (this.listOfUnits != null) {
-      ListOf<Unit> oldListOfUnits = this.listOfUnits;
-      this.listOfUnits = null;
+    if (listOfUnits != null) {
+      ListOf<Unit> oldListOfUnits = listOfUnits;
+      listOfUnits = null;
       oldListOfUnits.fireNodeRemovedEvent();
       return true;
     }

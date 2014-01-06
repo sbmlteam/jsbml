@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -25,36 +25,59 @@ import org.sbml.jsbml.SBase;
 
 /**
  * 
+ * @author Nicolas Rodriguez
  * @version $Rev$
  * @since 1.0
  * @param <T>
  */
 public class ListOfWithName<T extends SBase> extends ListOf<T> {
 
-	/**
+  /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = -1585956493391213596L;
+
+  /**
+   * 
+   */
   private String elementName;
-	
-	public ListOfWithName(String elementName) {
-		super();
-		this.elementName = elementName; 
-	}
 
-	public ListOfWithName(int level, int version, String elementName) {
-		super(level, version);
-		this.elementName = elementName; 
-	}
+  /**
+   * 
+   * @param elementName
+   */
+  public ListOfWithName(String elementName) {
+    super();
+    this.elementName = elementName;
+  }
 
-	public ListOfWithName(ListOfWithName<T> listOf) {
-		super(listOf);
-		elementName = listOf.elementName;
-	}
+  /**
+   * 
+   * @param level
+   * @param version
+   * @param elementName
+   */
+  public ListOfWithName(int level, int version, String elementName) {
+    super(level, version);
+    this.elementName = elementName;
+  }
 
-	@Override
-	public String getElementName() 
-	{
-		return elementName;
-	}
+  /**
+   * 
+   * @param listOf
+   */
+  public ListOfWithName(ListOfWithName<T> listOf) {
+    super(listOf);
+    elementName = listOf.elementName;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ListOf#getElementName()
+   */
+  @Override
+  public String getElementName()
+  {
+    return elementName;
+  }
+
 }

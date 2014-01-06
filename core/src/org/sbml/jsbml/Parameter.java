@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml;
 
 import java.util.Locale;
@@ -38,152 +37,154 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class Parameter extends Symbol {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 3300762892435768291L;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 3300762892435768291L;
 
-	/**
-	 * Creates a Parameter instance.
-	 */
-	public Parameter() {
-		super();
-		initDefaults();
-	}
-	
-	/**
-	 * Creates a Parameter instance from an id, level and version.
-	 * 
-	 * @param id
-	 * @param level
-	 * @param version
-	 */
-	public Parameter(int level, int version) {
-		super(level, version);
-		initDefaults();
-	}
+  /**
+   * Creates a Parameter instance.
+   */
+  public Parameter() {
+    super();
+    initDefaults();
+  }
 
-	/**
-	 * This constructor allows the creation of a global {@link Parameter} based on a
-	 * {@link LocalParameter}. It creates a new {@link Parameter} object that will have the
-	 * same attributes than the {@link LocalParameter}. Its constant attribute will be
-	 * set to true.
-	 * 
-	 * @param localParameter
-	 */
-	public Parameter(LocalParameter localParameter) {
-		super(localParameter);
-		if (getLevel() != 1) {
-			// This is necessary because in Level 1 this attribute is not defined.
-			setConstant(true);
-		}
-	}
+  /**
+   * Creates a Parameter instance from an id, level and version.
+   * 
+   * @param id
+   * @param level
+   * @param version
+   */
+  public Parameter(int level, int version) {
+    super(level, version);
+    initDefaults();
+  }
 
-	/**
-	 * Creates a Parameter instance from a given Parameter.
-	 * 
-	 * @param p
-	 */
-	public Parameter(Parameter p) {
-		super(p);		
-	}
+  /**
+   * This constructor allows the creation of a global {@link Parameter} based on a
+   * {@link LocalParameter}. It creates a new {@link Parameter} object that will have the
+   * same attributes than the {@link LocalParameter}. Its constant attribute will be
+   * set to true.
+   * 
+   * @param localParameter
+   */
+  public Parameter(LocalParameter localParameter) {
+    super(localParameter);
+    if (getLevel() != 1) {
+      // This is necessary because in Level 1 this attribute is not defined.
+      setConstant(true);
+    }
+  }
 
-	/**
-	 * 
-	 * @param id
-	 */
-	public Parameter(String id) {
-		this();
-		setId(id);
-	}
+  /**
+   * Creates a Parameter instance from a given Parameter.
+   * 
+   * @param p
+   */
+  public Parameter(Parameter p) {
+    super(p);
+  }
 
-	/**
-	 * 
-	 * @param id
-	 */
-	public Parameter(String id, int level, int version) {
-		super(id, level, version);
-		initDefaults();
-	}
+  /**
+   * 
+   * @param id
+   */
+  public Parameter(String id) {
+    this();
+    setId(id);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.Symbol#clone()
-	 */
-	public Parameter clone() {
-		return new Parameter(this);
-	}
+  /**
+   * 
+   * @param id
+   */
+  public Parameter(String id, int level, int version) {
+    super(id, level, version);
+    initDefaults();
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getPredefinedUnitID()
-	 */
-	public String getPredefinedUnitID() {
-		return null;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.Symbol#clone()
+   */
+  @Override
+  public Parameter clone() {
+    return new Parameter(this);
+  }
 
-	/**
-	 * Initializes the default values of this {@link Parameter}, i.e., sets it to a
-	 * constant variable with a NaN value.
-	 */
-	public void initDefaults(int level, int version) {
-		value = Double.NaN;
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getPredefinedUnitID()
+   */
+  @Override
+  public String getPredefinedUnitID() {
+    return null;
+  }
 
-		if (level > 1) {
-			constant = true;
-		}
-	}
-	
-	/**
-	 * Initializes the default values using the current Level/Version configuration.
-	 */
-	public void initDefaults() {
-		initDefaults(getLevel(), getVersion());
-	}
+  /**
+   * Initializes the default values of this {@link Parameter}, i.e., sets it to a
+   * constant variable with a NaN value.
+   */
+  public void initDefaults(int level, int version) {
+    value = Double.NaN;
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.Symbol#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) {
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix,
-				value);
-		
-		if (!isAttributeRead) {
-			isAttributeRead = true;
-		
-			if (attributeName.equals("value")) {
-				setValue(StringTools.parseSBMLDouble(value));
-			} else if (attributeName.equals("units")) {
-				setUnits(value);
-			} else if (attributeName.equals("constant")) {
-				setConstant(StringTools.parseSBMLBoolean(value));
-			} else {
-				isAttributeRead = false;
-			}
-		}
+    if (level > 1) {
+      constant = true;
+    }
+  }
 
-		return isAttributeRead;
-	}
+  /**
+   * Initializes the default values using the current Level/Version configuration.
+   */
+  public void initDefaults() {
+    initDefaults(getLevel(), getVersion());
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.Symbol#writeXMLAttributes()
-	 */
-	@Override
-	public Map<String, String> writeXMLAttributes() {
-	  Map<String, String> attributes = super.writeXMLAttributes();
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.Symbol#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix,
+    String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix,
+      value);
 
-		if (isSetValue()) {
-			attributes.put("value", StringTools.toString(Locale.ENGLISH,
-					getValue()));
-		}
-		if (isSetUnits()) {
-			attributes.put("units", getUnits());
-		}
-		if (isSetConstant() && (getLevel() > 1)) {
-			attributes.put("constant", Boolean.toString(getConstant()));
-		}
+    if (!isAttributeRead) {
+      isAttributeRead = true;
 
-		return attributes;
-	}
+      if (attributeName.equals("value")) {
+        setValue(StringTools.parseSBMLDouble(value));
+      } else if (attributeName.equals("units")) {
+        setUnits(value);
+      } else if (attributeName.equals("constant")) {
+        setConstant(StringTools.parseSBMLBoolean(value));
+      } else {
+        isAttributeRead = false;
+      }
+    }
+
+    return isAttributeRead;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.Symbol#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (isSetValue()) {
+      attributes.put("value", StringTools.toString(Locale.ENGLISH,
+        getValue()));
+    }
+    if (isSetUnits()) {
+      attributes.put("units", getUnits());
+    }
+    if (isSetConstant() && (getLevel() > 1)) {
+      attributes.put("constant", Boolean.toString(getConstant()));
+    }
+
+    return attributes;
+  }
 
 }

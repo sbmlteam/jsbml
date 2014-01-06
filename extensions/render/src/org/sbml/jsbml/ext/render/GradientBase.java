@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -29,7 +29,6 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UniqueNamedSBase;
 
-
 /**
  * @author Eugen Netz
  * @author Alexander Diamantikos
@@ -39,10 +38,10 @@ import org.sbml.jsbml.UniqueNamedSBase;
  * @since 1.0
  * @date 08.05.2012
  */
-public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase {  
+public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
-   * 
+   * Generated serial version identifier
    */
   private static final long serialVersionUID = -3921074024567604440L;
 
@@ -57,17 +56,17 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
    * @date 08.05.2012
    */
   protected enum Spread {
-		PAD,
-		REFLECT,
-		REPEAT,
-	}
-	
-	protected Spread spreadMethod;
-	protected ListOf<GradientStop> listOfGradientStops;
+    PAD,
+    REFLECT,
+    REPEAT,
+  }
 
-	
-	/**
-   * Creates an GradientBase instance 
+  protected Spread spreadMethod;
+  protected ListOf<GradientStop> listOfGradientStops;
+
+
+  /**
+   * Creates an GradientBase instance
    */
   public GradientBase() {
     super();
@@ -75,17 +74,17 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
   }
 
   /**
-   * Creates a GradientBase instance with an id. 
+   * Creates a GradientBase instance with an id.
    * 
    * @param id
    */
   public GradientBase(String id, GradientStop stop) {
     initDefaults();
-    this.listOfGradientStops.add(stop);
+    listOfGradientStops.add(stop);
   }
 
   /**
-   * Creates a GradientBase instance with an id, name, level, and version. 
+   * Creates a GradientBase instance with an id, name, level, and version.
    * 
    * @param id
    * @param name
@@ -99,7 +98,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
       throw new LevelVersionError(getElementName(), level, version);
     }
     initDefaults();
-    this.listOfGradientStops.add(stop);
+    listOfGradientStops.add(stop);
   }
 
   /* (non-Javadoc)
@@ -139,7 +138,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", childIndex,
-      +((int) Math.min(pos, 0))));
+      +Math.min(pos, 0)));
   }
 
   /**
@@ -147,8 +146,8 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
    */
   public GradientBase(GradientBase obj) {
     super(obj);
-    this.spreadMethod = obj.spreadMethod;
-    this.listOfGradientStops = obj.listOfGradientStops;
+    spreadMethod = obj.spreadMethod;
+    listOfGradientStops = obj.listOfGradientStops;
   }
 
   /* (non-Javadoc)
@@ -164,10 +163,10 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
    */
   public void initDefaults() {
     setNamespace(RenderConstants.namespaceURI);
-    this.spreadMethod = Spread.PAD;
-    this.listOfGradientStops = new ListOf<GradientStop>();
+    spreadMethod = Spread.PAD;
+    listOfGradientStops = new ListOf<GradientStop>();
   }
-  
+
   /**
    * @return the value of spreadMethod
    */
@@ -180,10 +179,10 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
   }
 
   /**
-   * @return whether spreadMethod is set 
+   * @return whether spreadMethod is set
    */
   public boolean isSetSpreadMethod() {
-    return this.spreadMethod != null;
+    return spreadMethod != null;
   }
 
   /**
@@ -196,15 +195,15 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
   }
 
   /**
-   * Unsets the variable spreadMethod 
-   * @return {@code true}, if spreadMethod was set before, 
+   * Unsets the variable spreadMethod
+   * @return {@code true}, if spreadMethod was set before,
    *         otherwise {@code false}
    */
   public boolean unsetSpreadMethod() {
     if (isSetSpreadMethod()) {
-      Spread oldSpreadMethod = this.spreadMethod;
-      this.spreadMethod = null;
-      firePropertyChange(RenderConstants.spreadMethod, oldSpreadMethod, this.spreadMethod);
+      Spread oldSpreadMethod = spreadMethod;
+      spreadMethod = null;
+      firePropertyChange(RenderConstants.spreadMethod, oldSpreadMethod, spreadMethod);
       return true;
     }
     return false;
@@ -214,13 +213,13 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
    * @see org.sbml.jsbml.AbstractSBase#toString()
    */
   @Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  public String toString() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
   /**
-   * @return {@code true}, if listOfGradientStops contains at least one element, 
+   * @return {@code true}, if listOfGradientStops contains at least one element,
    *         otherwise {@code false}
    */
   public boolean isSetListOfGradientStops() {
@@ -253,13 +252,13 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
   }
 
   /**
-   * @return {@code true}, if listOfGradientStops contained at least one element, 
+   * @return {@code true}, if listOfGradientStops contained at least one element,
    *         otherwise {@code false}
    */
   public boolean unsetListOfGradientStops() {
     if (isSetListOfGradientStops()) {
-      ListOf<GradientStop> oldGradientStops = this.listOfGradientStops;
-      this.listOfGradientStops = null;
+      ListOf<GradientStop> oldGradientStops = listOfGradientStops;
+      listOfGradientStops = null;
       oldGradientStops.fireNodeRemovedEvent();
       return true;
     }
@@ -305,11 +304,12 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
   /* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
+  @Override
   public boolean isIdMandatory() {
     return true;
   }
-  
-  
+
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
    */

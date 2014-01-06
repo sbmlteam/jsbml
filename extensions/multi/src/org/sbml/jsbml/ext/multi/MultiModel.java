@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -40,7 +40,6 @@ import org.sbml.jsbml.util.filters.NameFilter;
  */
 public class MultiModel extends AbstractSBasePlugin {
 
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
    */
@@ -48,7 +47,6 @@ public class MultiModel extends AbstractSBasePlugin {
   public String getElementNamespace() {
     return MultiConstants.getNamespaceURI(getLevel(), getVersion());
   }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
@@ -58,7 +56,6 @@ public class MultiModel extends AbstractSBasePlugin {
     return MultiConstants.packageName;
   }
 
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
    */
@@ -66,7 +63,6 @@ public class MultiModel extends AbstractSBasePlugin {
   public String getPrefix() {
     return MultiConstants.shortLabel;
   }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
@@ -76,7 +72,6 @@ public class MultiModel extends AbstractSBasePlugin {
     return getElementNamespace();
   }
 
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#getParent()
    */
@@ -84,7 +79,6 @@ public class MultiModel extends AbstractSBasePlugin {
   public SBMLDocument getParent() {
     return (SBMLDocument) getExtendedSBase().getParent();
   }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
@@ -105,7 +99,6 @@ public class MultiModel extends AbstractSBasePlugin {
    * 
    */
   ListOf<Selector> listOfSelectors;
-
 
   /**
    * 

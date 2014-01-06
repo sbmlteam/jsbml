@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -44,20 +44,20 @@ import org.sbml.jsbml.util.filters.NameFilter;
 public class RenderInformationBase extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
-   * 
+   * Generated serial version identifier
    */
   private static final long serialVersionUID = -9096154126197866584L;
 
   protected String programName;
   protected String programVersion;
   protected String referenceRenderInformation;
-  protected Color backgroundColor; 
+  protected Color backgroundColor;
   protected ListOf<ColorDefinition> listOfColorDefinitions;
   protected ListOf<GradientBase> listOfGradientDefintions;
   protected ListOf<LineEnding> listOfLineEndings;
 
   /**
-   * Creates an RenderInformationBase instance 
+   * Creates an RenderInformationBase instance
    */
   public RenderInformationBase() {
     super();
@@ -65,7 +65,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   }
 
   /**
-   * Creates a RenderInformationBase instance with an id. 
+   * Creates a RenderInformationBase instance with an id.
    * 
    * @param id
    */
@@ -75,7 +75,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   }
 
   /**
-   * Creates a RenderInformationBase instance with a level and version. 
+   * Creates a RenderInformationBase instance with a level and version.
    * 
    * @param level
    * @param version
@@ -85,7 +85,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   }
 
   /**
-   * Creates a RenderInformationBase instance with an id, level, and version. 
+   * Creates a RenderInformationBase instance with an id, level, and version.
    * 
    * @param id
    * @param level
@@ -96,7 +96,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   }
 
   /**
-   * Creates a RenderInformationBase instance with an id, name, level, and version. 
+   * Creates a RenderInformationBase instance with an id, name, level, and version.
    * 
    * @param id
    * @param name
@@ -117,13 +117,13 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
    */
   public RenderInformationBase(RenderInformationBase obj) {
     super(obj);
-    this.programName = obj.programName;
-    this.programVersion = obj.programVersion;
-    this.referenceRenderInformation = obj.referenceRenderInformation;
-    this.backgroundColor = obj.backgroundColor; 
-    this.listOfColorDefinitions = obj.listOfColorDefinitions;
-    this.listOfGradientDefintions = obj.listOfGradientDefintions;
-    this.listOfLineEndings = obj.listOfLineEndings;
+    programName = obj.programName;
+    programVersion = obj.programVersion;
+    referenceRenderInformation = obj.referenceRenderInformation;
+    backgroundColor = obj.backgroundColor;
+    listOfColorDefinitions = obj.listOfColorDefinitions;
+    listOfGradientDefintions = obj.listOfGradientDefintions;
+    listOfLineEndings = obj.listOfLineEndings;
   }
 
   /* (non-Javadoc)
@@ -139,13 +139,13 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
    */
   public void initDefaults() {
     setNamespace(RenderConstants.namespaceURI);
-    this.backgroundColor = new Color(0, 0, 0);
-    this.programName = null;
-    this.programVersion = null;
-    this.referenceRenderInformation = null;
-    this.listOfColorDefinitions = null;
-    this.listOfGradientDefintions = null;
-    this.listOfLineEndings = null;
+    backgroundColor = new Color(0, 0, 0);
+    programName = null;
+    programVersion = null;
+    referenceRenderInformation = null;
+    listOfColorDefinitions = null;
+    listOfGradientDefintions = null;
+    listOfLineEndings = null;
   }
 
   /**
@@ -154,16 +154,16 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   public String getProgramName() {
 
     if (isSetProgramName()) {
-      return this.programName;
+      return programName;
     }
     throw new PropertyUndefinedError(RenderConstants.programName, this);
   }
 
   /**
-   * @return whether programmName is set 
+   * @return whether programmName is set
    */
   public boolean isSetProgramName() {
-    return this.programName != null;
+    return programName != null;
   }
 
   /**
@@ -176,15 +176,15 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   }
 
   /**
-   * Unsets the variable programmName 
-   * @return {@code true}, if programmName was set before, 
+   * Unsets the variable programmName
+   * @return {@code true}, if programmName was set before,
    *         otherwise {@code false}
    */
   public boolean unsetProgramName() {
     if (isSetProgramName()) {
-      String oldProgramName = this.programName;
-      this.programName = null;
-      firePropertyChange(RenderConstants.programName, oldProgramName, this.programName);
+      String oldProgramName = programName;
+      programName = null;
+      firePropertyChange(RenderConstants.programName, oldProgramName, programName);
       return true;
     }
     return false;
@@ -202,10 +202,10 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   }
 
   /**
-   * @return whether programVersion is set 
+   * @return whether programVersion is set
    */
   public boolean isSetProgramVersion() {
-    return this.programVersion != null;
+    return programVersion != null;
   }
 
   /**
@@ -218,15 +218,15 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   }
 
   /**
-   * Unsets the variable programVersion 
-   * @return {@code true}, if programVersion was set before, 
+   * Unsets the variable programVersion
+   * @return {@code true}, if programVersion was set before,
    *         otherwise {@code false}
    */
   public boolean unsetProgramVersion() {
     if (isSetProgramVersion()) {
-      String oldProgramVersion = this.programVersion;
-      this.programVersion = null;
-      firePropertyChange(RenderConstants.programVersion, oldProgramVersion, this.programVersion);
+      String oldProgramVersion = programVersion;
+      programVersion = null;
+      firePropertyChange(RenderConstants.programVersion, oldProgramVersion, programVersion);
       return true;
     }
     return false;
@@ -244,10 +244,10 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   }
 
   /**
-   * @return whether referenceRenderInformation is set 
+   * @return whether referenceRenderInformation is set
    */
   public boolean isSetReferenceRenderInformation() {
-    return this.referenceRenderInformation != null;
+    return referenceRenderInformation != null;
   }
 
   /**
@@ -260,15 +260,15 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   }
 
   /**
-   * Unsets the variable referenceRenderInformation 
-   * @return {@code true}, if referenceRenderInformation was set before, 
+   * Unsets the variable referenceRenderInformation
+   * @return {@code true}, if referenceRenderInformation was set before,
    *         otherwise {@code false}
    */
   public boolean unsetReferenceRenderInformation() {
     if (isSetReferenceRenderInformation()) {
-      String oldReferenceRenderInformation = this.referenceRenderInformation;
-      this.referenceRenderInformation = null;
-      firePropertyChange(RenderConstants.referenceRenderInformation, oldReferenceRenderInformation, this.referenceRenderInformation);
+      String oldReferenceRenderInformation = referenceRenderInformation;
+      referenceRenderInformation = null;
+      firePropertyChange(RenderConstants.referenceRenderInformation, oldReferenceRenderInformation, referenceRenderInformation);
       return true;
     }
     return false;
@@ -286,10 +286,10 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   }
 
   /**
-   * @return whether backgroundColor is set 
+   * @return whether backgroundColor is set
    */
   public boolean isSetBackgroundColor() {
-    return this.backgroundColor != null;
+    return backgroundColor != null;
   }
 
   /**
@@ -302,26 +302,26 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   }
 
   /**
-   * Unsets the variable backgroundColor 
-   * @return {@code true}, if backgroundColor was set before, 
+   * Unsets the variable backgroundColor
+   * @return {@code true}, if backgroundColor was set before,
    *         otherwise {@code false}
    */
   public boolean unsetBackgroundColor() {
     if (isSetBackgroundColor()) {
-      Color oldBackgroundColor = this.backgroundColor;
-      this.backgroundColor = null;
-      firePropertyChange(RenderConstants.backgroundColor, oldBackgroundColor, this.backgroundColor);
+      Color oldBackgroundColor = backgroundColor;
+      backgroundColor = null;
+      firePropertyChange(RenderConstants.backgroundColor, oldBackgroundColor, backgroundColor);
       return true;
     }
     return false;
   }
 
   /**
-   * @return {@code true}, if listOfColorDefinitions contains at least one element, 
+   * @return {@code true}, if listOfColorDefinitions contains at least one element,
    *         otherwise {@code false}
    */
   public boolean isSetListOfColorDefinitions() {
-    if ((this.listOfColorDefinitions == null) || listOfColorDefinitions.isEmpty()) {
+    if ((listOfColorDefinitions == null) || listOfColorDefinitions.isEmpty()) {
       return false;
     }
     return true;
@@ -350,13 +350,13 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   }
 
   /**
-   * @return {@code true}, if listOfColorDefinitions contained at least one element, 
+   * @return {@code true}, if listOfColorDefinitions contained at least one element,
    *         otherwise {@code false}
    */
   public boolean unsetListOfColorDefinitions() {
     if (isSetListOfColorDefinitions()) {
-      ListOf<ColorDefinition> oldColorDefinitions = this.listOfColorDefinitions;
-      this.listOfColorDefinitions = null;
+      ListOf<ColorDefinition> oldColorDefinitions = listOfColorDefinitions;
+      listOfColorDefinitions = null;
       oldColorDefinitions.fireNodeRemovedEvent();
       return true;
     }
@@ -400,7 +400,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 
 
   /**
-   * @return {@code true}, if listOfGradientDefintions contains at least one element, 
+   * @return {@code true}, if listOfGradientDefintions contains at least one element,
    *         otherwise {@code false}
    */
   public boolean isSetListOfGradientDefintions() {
@@ -433,13 +433,13 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
   }
 
   /**
-   * @return {@code true}, if listOfGradientDefintions contained at least one element, 
+   * @return {@code true}, if listOfGradientDefintions contained at least one element,
    *         otherwise {@code false}
    */
   public boolean unsetListOfGradientDefintions() {
     if (isSetListOfGradientDefintions()) {
-      ListOf<GradientBase> oldGradientBases = this.listOfGradientDefintions;
-      this.listOfGradientDefintions = null;
+      ListOf<GradientBase> oldGradientBases = listOfGradientDefintions;
+      listOfGradientDefintions = null;
       oldGradientBases.fireNodeRemovedEvent();
       return true;
     }
@@ -535,7 +535,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 
 
   /**
-   * @return {@code true}, if listOfLineEndings contains at least one element, 
+   * @return {@code true}, if listOfLineEndings contains at least one element,
    *         otherwise {@code false}
    */
   public boolean isSetListOfLineEndings() {
@@ -571,13 +571,13 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 
 
   /**
-   * @return {@code true}, if listOfLineEndings contained at least one element, 
+   * @return {@code true}, if listOfLineEndings contained at least one element,
    *         otherwise {@code false}
    */
   public boolean unsetListOfLineEndings() {
     if (isSetListOfLineEndings()) {
-      ListOf<LineEnding> oldLineEndings = this.listOfLineEndings;
-      this.listOfLineEndings = null;
+      ListOf<LineEnding> oldLineEndings = listOfLineEndings;
+      listOfLineEndings = null;
       oldLineEndings.fireNodeRemovedEvent();
       return true;
     }

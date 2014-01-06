@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -33,102 +33,102 @@ import org.sbml.jsbml.AbstractSBase;
  */
 public class StateFeatureValue extends AbstractSBase {
 
-	/**
+  /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 3920699098046832296L;
   private String possibleValue;
 
-	public StateFeatureValue() {
-		super();
-		initDefaults();
-	}
-	
-	@Override
-	public AbstractSBase clone() {
-		// TODO 
-		return null;
-	}
+  public StateFeatureValue() {
+    super();
+    initDefaults();
+  }
 
-	
-	/**
-	 * Returns the possibleValue
-	 * 
-	 * @return the possibleValue
-	 */
-	public String getPossibleValue() {
-		return possibleValue;
-	}
+  @Override
+  public AbstractSBase clone() {
+    // TODO
+    return null;
+  }
 
 
-	/**
-	 * Sets the possibleValue
-	 * 
-	 * @param possibleValue the possibleValue to set
-	 */
-	public void setPossibleValue(String possibleValue) {
-		this.possibleValue = possibleValue;
-	}
-
-	/**
-	 * Returns {@code true} if possibleValue is set.
-	 * 
-	 * @return {@code true} if possibleValue is set.
-	 */
-	public boolean isSetPossibleValue() {
-		return possibleValue != null;
-	}
-
-	@Override
-	public String toString() {
-		// TODO 
-		return null;
-	}
-	
-	
-	/**
-	 * 
-	 */
-	public void initDefaults() {
-		setNamespace(MultiConstants.namespaceURI);
-	}
+  /**
+   * Returns the possibleValue
+   * 
+   * @return the possibleValue
+   */
+  public String getPossibleValue() {
+    return possibleValue;
+  }
 
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-	 */
-	@Override
-	public boolean readAttribute(String attributeName, String prefix,
-			String value) 
-	{
-		boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+  /**
+   * Sets the possibleValue
+   * 
+   * @param possibleValue the possibleValue to set
+   */
+  public void setPossibleValue(String possibleValue) {
+    this.possibleValue = possibleValue;
+  }
 
-		if (!isAttributeRead) {
+  /**
+   * Returns {@code true} if possibleValue is set.
+   * 
+   * @return {@code true} if possibleValue is set.
+   */
+  public boolean isSetPossibleValue() {
+    return possibleValue != null;
+  }
 
-			if (attributeName.equals(MultiConstants.possibleValue)) {
-				setPossibleValue(value);
-				isAttributeRead = true;
-			} 
-		}	  
+  @Override
+  public String toString() {
+    // TODO
+    return null;
+  }
 
-		return isAttributeRead;
 
-	}
+  /**
+   * 
+   */
+  public void initDefaults() {
+    setNamespace(MultiConstants.namespaceURI);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
-	 */
-	@Override
-	public Map<String, String> writeXMLAttributes() {
-		Map<String, String> attributes = super.writeXMLAttributes();
 
-		if (isSetPossibleValue()) {
-			attributes.put(MultiConstants.shortLabel + ':' + MultiConstants.possibleValue,
-			  getPossibleValue());
-		} 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix,
+    String value)
+  {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 
-		return attributes;
-	}
+    if (!isAttributeRead) {
 
-	
+      if (attributeName.equals(MultiConstants.possibleValue)) {
+        setPossibleValue(value);
+        isAttributeRead = true;
+      }
+    }
+
+    return isAttributeRead;
+
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (isSetPossibleValue()) {
+      attributes.put(MultiConstants.shortLabel + ':' + MultiConstants.possibleValue,
+        getPossibleValue());
+    }
+
+    return attributes;
+  }
+
+
 }

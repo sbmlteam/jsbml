@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -37,12 +37,17 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
 
 /**
  * 
- * @author
+ * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
  */
 public class SBMLWriterTest {
 
+  /**
+   * 
+   * @param args
+   * @throws XMLStreamException
+   */
   public static void main(String args[]) throws XMLStreamException {
     SBMLDocument doc = new SBMLDocument(2, 4);
     doc.setNotes("<body>Senseless test commentar</body>");
@@ -66,8 +71,7 @@ public class SBMLWriterTest {
     history.addModifiedDate(Calendar.getInstance().getTime());
     m.setHistory(history);
 
-    m
-    .setNotes("<body>A senseless test model with a senseless notes element.</body>");
+    m.setNotes("<body>A senseless test model with a senseless notes element.</body>");
 
     m.getUnitDefinition("substance").getUnit(0).setScale(-3);
 

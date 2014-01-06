@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -88,7 +88,7 @@ public class ListOfMemberConstraint extends ListOf<MemberConstraint> implements 
    */
   @Override
   public String getId() {
-    return isSetId() ? this.id : "";
+    return isSetId() ? id : "";
   }
 
   /* (non-Javadoc)
@@ -96,7 +96,7 @@ public class ListOfMemberConstraint extends ListOf<MemberConstraint> implements 
    */
   @Override
   public String getName() {
-    return isSetName() ? this.name : "";
+    return isSetName() ? name : "";
   }
 
   /* (non-Javadoc)
@@ -249,11 +249,11 @@ public class ListOfMemberConstraint extends ListOf<MemberConstraint> implements 
    */
   public boolean unsetMembersShareType() {
     if (isSetMembersShareType()) {
-      boolean oldMembersShareType = this.membersShareType;
-      this.membersShareType = false;
+      boolean oldMembersShareType = membersShareType;
+      membersShareType = false;
       isSetMembersShareType = false;
 
-      firePropertyChange(GroupsConstants.membersShareType, oldMembersShareType, this.membersShareType);
+      firePropertyChange(GroupsConstants.membersShareType, oldMembersShareType, membersShareType);
       return true;
     }
     return false;
@@ -269,14 +269,14 @@ public class ListOfMemberConstraint extends ListOf<MemberConstraint> implements 
 
     if (!isAttributeRead) {
       if (attributeName.equals("id")) {
-        this.setId(value);
+        setId(value);
         return true;
       } else if (attributeName.equals("name")) {
-        this.setName(value);
+        setName(value);
 
         return true;
       } else if (attributeName.equals(GroupsConstants.membersShareType)) {
-        this.setMembersShareType(StringTools.parseSBMLBoolean(value));
+        setMembersShareType(StringTools.parseSBMLBoolean(value));
 
         return true;
       }

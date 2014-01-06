@@ -2,13 +2,13 @@
  * $Id$
  * $URL$
  *
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2013 jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
+ * Copyright (C) 2009-2014 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 
@@ -18,7 +18,7 @@
  * in the file named "LICENSE.txt" included with this software distribution
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
- */ 
+ */
 package org.sbml.jsbml.test;
 
 import static org.junit.Assert.assertTrue;
@@ -47,7 +47,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @date 15.09.2011
  */
 public class IdRegistrationTest {
-  
+
   /**
    * 
    */
@@ -62,7 +62,7 @@ public class IdRegistrationTest {
     SBMLDocument doc = new SBMLDocument(level, version);
     Model model = doc.createModel("myModel");
     Reaction r1 = model.createReaction("r1");
-    
+
     /*
      * Local Parameters
      */
@@ -77,11 +77,11 @@ public class IdRegistrationTest {
     } catch (IllegalArgumentException exc) {
       logger.debug(exc.getLocalizedMessage());
       assertTrue(kl.getListOfLocalParameters()
-                   .filterList(new NameFilter(parameter.getId())).size() == 1);
+        .filterList(new NameFilter(parameter.getId())).size() == 1);
     }
     kl.removeLocalParameter(parameter);
     assertTrue(kl.getListOfLocalParameters()
-               .filterList(new NameFilter(parameter.getId())).size() == 0);
+      .filterList(new NameFilter(parameter.getId())).size() == 0);
     assertTrue(kl.getLocalParameter(parameter.getId()) == null);
     // remove ListOfLocalParameters
     ListOf<LocalParameter> listOfLP = kl.getListOfLocalParameters();
@@ -92,7 +92,7 @@ public class IdRegistrationTest {
     listOfLP.add(parameter);
     kl.setListOfLocalParameters(listOfLP);
     assertTrue(kl.getLocalParameter(parameter.getId()) != null);
-    
+
     /*
      * Compartments
      */
@@ -116,7 +116,7 @@ public class IdRegistrationTest {
     c3.setId("c3");
     model.addCompartment(c3);
     c3.setId("c4");
-    
+
     /*
      * Species and Species References
      */
@@ -126,7 +126,7 @@ public class IdRegistrationTest {
     r1.createReactant(s1);
     r1.createProduct(p1);
     r1.getProduct(0).setId("p1ref");
-    
+
     /*
      * Reactions
      */
@@ -137,14 +137,14 @@ public class IdRegistrationTest {
     r2.createModifier(p1);
     r2.setId("r2");
     model.addReaction(r2);
-    
+
     /*
      * Function Definitions
      */
     logger.debug("==== FunctionDefinitions ====");
     FunctionDefinition f1 = model.createFunctionDefinition("f1");
     model.removeFunctionDefinition(f1.getId());
-    
+
     try {
       SBMLWriter.write(doc, System.out, ' ', (short) 2);
     } catch (Exception exc) {

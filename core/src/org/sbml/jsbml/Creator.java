@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml;
 
 import java.text.MessageFormat;
@@ -42,94 +41,94 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  */
 public class Creator extends AnnotationElement {
 
-	/**
-	 * A {@link Logger} for this class.
-	 */
-	private static final transient Logger logger = Logger.getLogger(Creator.class);
-	
-	
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -3403463908044292946L;
-	
-	/**
-	 * URI for the RDF syntax name space definition for VCards.
-	 */
-	public static final transient String URI_RDF_VCARD_NS = "http://www.w3.org/2001/vcard-rdf/3.0#";
-	
-	/**
-	 * email of the creator
-	 */
-	private String email;
-	/**
-	 * Family name of the creator
-	 */
-	private String familyName;
-	/**
-	 * Given name of the creator
-	 */
-	private String givenName;
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final transient Logger logger = Logger.getLogger(Creator.class);
 
-	/**
-	 * Organisation name of the creator.
-	 */
-	private String organisation;
 
-	/**
-	 * Holding any additional vCard elements.
-	 * This is a quick and dirty solution as the vCard can contain
-	 * many elements that have sub-elements.
-	 * 
-	 * TODO: use an XMLNode to hold all the additional informations
-	 * 
-	 */
-	private Map<String, String> otherAttributes;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -3403463908044292946L;
 
-	/**
-	 * Creates a {@link Creator} instance. By default, the email, familyName,
-	 * givenName, organisation are {@code null}.
-	 */
-	public Creator() {
-		super();
-		this.givenName = null;
-		this.familyName = null;
-		this.organisation = null;
-		this.email = null;
-		this.otherAttributes = null;
-	}
+  /**
+   * URI for the RDF syntax name space definition for VCards.
+   */
+  public static final transient String URI_RDF_VCARD_NS = "http://www.w3.org/2001/vcard-rdf/3.0#";
 
-	/**
-	 * Creates a {@link Creator} instance from a given {@link Creator}.
-	 * 
-	 * @param creator
-	 */
-	public Creator(Creator creator) {
-		super(creator);
-		this.email = creator.isSetEmail() ? new String(creator.getEmail()) : null;
-		this.familyName = creator.isSetFamilyName() ? new String(creator.getFamilyName()) : null;
-		this.givenName = creator.isSetGivenName() ? new String(creator.getGivenName()) : null;
-		this.organisation = creator.isSetOrganisation() ? new String(creator.getOrganisation()) : null;
+  /**
+   * email of the creator
+   */
+  private String email;
+  /**
+   * Family name of the creator
+   */
+  private String familyName;
+  /**
+   * Given name of the creator
+   */
+  private String givenName;
 
-		if (creator.isSetOtherAttributes()) {
-			this.otherAttributes = new LinkedHashMap<String,String>();
+  /**
+   * Organisation name of the creator.
+   */
+  private String organisation;
 
-			for (String key : creator.getOtherAttributes().keySet()) {
-				this.otherAttributes.put(new String(key), new String(creator.getOtherAttribute(key)));
-			}
-		} else {
-			this.otherAttributes = null;
-		}
-	}
+  /**
+   * Holding any additional vCard elements.
+   * This is a quick and dirty solution as the vCard can contain
+   * many elements that have sub-elements.
+   * 
+   * TODO: use an XMLNode to hold all the additional informations
+   * 
+   */
+  private Map<String, String> otherAttributes;
 
-	/**
-	 * Creates a {@link Creator} instance. 
-	 * 
-	 * @param givenName
-	 * @param familyName
-	 * @param organization
-	 * @param email
-	 */
+  /**
+   * Creates a {@link Creator} instance. By default, the email, familyName,
+   * givenName, organisation are {@code null}.
+   */
+  public Creator() {
+    super();
+    givenName = null;
+    familyName = null;
+    organisation = null;
+    email = null;
+    otherAttributes = null;
+  }
+
+  /**
+   * Creates a {@link Creator} instance from a given {@link Creator}.
+   * 
+   * @param creator
+   */
+  public Creator(Creator creator) {
+    super(creator);
+    email = creator.isSetEmail() ? new String(creator.getEmail()) : null;
+    familyName = creator.isSetFamilyName() ? new String(creator.getFamilyName()) : null;
+    givenName = creator.isSetGivenName() ? new String(creator.getGivenName()) : null;
+    organisation = creator.isSetOrganisation() ? new String(creator.getOrganisation()) : null;
+
+    if (creator.isSetOtherAttributes()) {
+      otherAttributes = new LinkedHashMap<String,String>();
+
+      for (String key : creator.getOtherAttributes().keySet()) {
+        otherAttributes.put(new String(key), new String(creator.getOtherAttribute(key)));
+      }
+    } else {
+      otherAttributes = null;
+    }
+  }
+
+  /**
+   * Creates a {@link Creator} instance.
+   * 
+   * @param givenName
+   * @param familyName
+   * @param organization
+   * @param email
+   */
   public Creator(String givenName, String familyName, String organization,
     String email) {
     this();
@@ -142,8 +141,9 @@ public class Creator extends AnnotationElement {
   /* (non-Javadoc)
    * @see java.lang.Object#clone()
    */
+  @Override
   public Creator clone() {
-	  return new Creator(this);
+    return new Creator(this);
   }
 
   /* (non-Javadoc)
@@ -151,52 +151,55 @@ public class Creator extends AnnotationElement {
    */
   @Override
   public boolean equals(Object object) {
-	  boolean equals = super.equals(object);
-	  if (equals) {
-		  Creator m = (Creator) object;
-		  equals &= isSetEmail() == m.isSetEmail();
-		  if (equals && isSetEmail()) {
-			  equals &= getEmail().equals(m.getEmail());
-		  }
-		  equals &= isSetFamilyName() == m.isSetFamilyName();
-		  if (equals && isSetFamilyName()) {
-			  equals &= getFamilyName().equals(m.getFamilyName());
-		  }
-		  equals &= isSetGivenName() == m.isSetGivenName();
-		  if (equals && isSetGivenName()) {
-			  equals &= getGivenName().equals(m.getGivenName());
-		  }
-		  equals &= isSetOrganisation() == m.isSetOrganisation();
-		  if (equals && isSetOrganisation()) {
-			  equals &= getOrganisation().equals(m.getOrganisation());
-		  }
-		  equals &= isSetOtherAttributes() == m.isSetOtherAttributes();
-		  if (equals && isSetOtherAttributes()) {
-			  equals &= getOtherAttributes().equals(m.getOtherAttributes());
-		  }
-	  }
-	  return equals;
+    boolean equals = super.equals(object);
+    if (equals) {
+      Creator m = (Creator) object;
+      equals &= isSetEmail() == m.isSetEmail();
+      if (equals && isSetEmail()) {
+        equals &= getEmail().equals(m.getEmail());
+      }
+      equals &= isSetFamilyName() == m.isSetFamilyName();
+      if (equals && isSetFamilyName()) {
+        equals &= getFamilyName().equals(m.getFamilyName());
+      }
+      equals &= isSetGivenName() == m.isSetGivenName();
+      if (equals && isSetGivenName()) {
+        equals &= getGivenName().equals(m.getGivenName());
+      }
+      equals &= isSetOrganisation() == m.isSetOrganisation();
+      if (equals && isSetOrganisation()) {
+        equals &= getOrganisation().equals(m.getOrganisation());
+      }
+      equals &= isSetOtherAttributes() == m.isSetOtherAttributes();
+      if (equals && isSetOtherAttributes()) {
+        equals &= getOtherAttributes().equals(m.getOtherAttributes());
+      }
+    }
+    return equals;
   }
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
+  @Override
   public boolean getAllowsChildren() {
-	  return false;
+    return false;
   }
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildAt(int)
    */
+  @Override
   public TreeNode getChildAt(int childIndex) {
-	  throw new IndexOutOfBoundsException(Integer.toString(childIndex));
+    throw new IndexOutOfBoundsException(Integer.toString(childIndex));
   }
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildCount()
    */
+  @Override
   public int getChildCount() {
-	  return 0;
+    return 0;
   }
 
   /**
@@ -207,7 +210,7 @@ public class Creator extends AnnotationElement {
    *         not set.
    */
   public String getEmail() {
-	  return isSetEmail() ? email : "";
+    return isSetEmail() ? email : "";
   }
 
   /**
@@ -218,7 +221,7 @@ public class Creator extends AnnotationElement {
    *         it is not set.
    */
   public String getFamilyName() {
-	  return isSetFamilyName() ? familyName : "";
+    return isSetFamilyName() ? familyName : "";
   }
 
   /**
@@ -229,7 +232,7 @@ public class Creator extends AnnotationElement {
    * it is not set.
    */
   public String getGivenName() {
-	  return isSetGivenName() ? givenName : "";
+    return isSetGivenName() ? givenName : "";
   }
 
   /**
@@ -240,7 +243,7 @@ public class Creator extends AnnotationElement {
    * if it is not set.
    */
   public String getOrganisation() {
-	  return isSetOrganisation() ? organisation : "";
+    return isSetOrganisation() ? organisation : "";
   }
 
   /**
@@ -253,7 +256,7 @@ public class Creator extends AnnotationElement {
    * if it is not set.
    */
   public String getOrganization() {
-	  return getOrganisation();
+    return getOrganisation();
   }
 
   /* (non-Javadoc)
@@ -261,24 +264,24 @@ public class Creator extends AnnotationElement {
    */
   @Override
   public int hashCode() {
-	  final int prime = 797;
-	  int hashCode = super.hashCode();
-	  if (isSetEmail()) {
-		  hashCode += prime * getEmail().hashCode();
-	  }
-	  if (isSetFamilyName()) {
-		  hashCode += prime * getFamilyName().hashCode();
-	  }
-	  if (isSetGivenName()) {
-		  hashCode += prime * getGivenName().hashCode();
-	  }
-	  if (isSetOrganization()) {
-		  hashCode += prime * getOrganization().hashCode();
-	  }
-	  if (isSetOtherAttributes()) {
-		  hashCode += prime * getOtherAttributes().hashCode();
-	  }
-	  return hashCode;
+    final int prime = 797;
+    int hashCode = super.hashCode();
+    if (isSetEmail()) {
+      hashCode += prime * getEmail().hashCode();
+    }
+    if (isSetFamilyName()) {
+      hashCode += prime * getFamilyName().hashCode();
+    }
+    if (isSetGivenName()) {
+      hashCode += prime * getGivenName().hashCode();
+    }
+    if (isSetOrganization()) {
+      hashCode += prime * getOrganization().hashCode();
+    }
+    if (isSetOtherAttributes()) {
+      hashCode += prime * getOtherAttributes().hashCode();
+    }
+    return hashCode;
   }
 
   /**
@@ -288,7 +291,7 @@ public class Creator extends AnnotationElement {
    * @return {@code true} if the email of this {@link Creator} is not {@code null}.
    */
   public boolean isSetEmail() {
-	  return email != null;
+    return email != null;
   }
 
   /**
@@ -298,7 +301,7 @@ public class Creator extends AnnotationElement {
    * @return {@code true} if the familyName of this {@link Creator} is not {@code null}.
    */
   public boolean isSetFamilyName() {
-	  return familyName != null;
+    return familyName != null;
   }
 
   /**
@@ -308,7 +311,7 @@ public class Creator extends AnnotationElement {
    * @return {@code true} if the givenName of this {@link Creator} is not {@code null}.
    */
   public boolean isSetGivenName() {
-	  return givenName != null;
+    return givenName != null;
   }
 
   /**
@@ -318,7 +321,7 @@ public class Creator extends AnnotationElement {
    * @return {@code true} if the organisation of this {@link Creator} is not {@code null}.
    */
   public boolean isSetOrganisation() {
-	  return organisation != null;
+    return organisation != null;
   }
 
   /**
@@ -330,7 +333,7 @@ public class Creator extends AnnotationElement {
    * {@link Creator}'s organisation has been set.
    */
   public boolean isSetOrganization() {
-	  return isSetOrganisation();
+    return isSetOrganisation();
   }
 
   /**
@@ -339,220 +342,220 @@ public class Creator extends AnnotationElement {
    * @return {@code true} if the XML attribute is known by this {@link Creator}.
    */
   public boolean readAttribute(String elementName, String attributeName,
-		  String prefix, String value) {
-	  if (elementName.equals("li") || elementName.equals("N")
-			  || elementName.equals("ORG")) {
-		  if (attributeName.equals("parseType") && value.equals("Resource")) {
-			  return true;
-		  }
-	  }
-	  return false;
+    String prefix, String value) {
+    if (elementName.equals("li") || elementName.equals("N")
+        || elementName.equals("ORG")) {
+      if (attributeName.equals("parseType") && value.equals("Resource")) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
    * Sets the email if it follows the syntax rules of valid e-mail addresses
-   * according to 
+   * according to
    * <a href="http://en.wikipedia.org/wiki/E-mail_address">http://en.wikipedia.org/wiki/E-mail_address</a>.
    * 
    * @param email
    * @return {@link JSBML#OPERATION_SUCCESS}
    */
-	public int setEmail(String email) {
-	  /*
-	   * ^                     # start of the line
-	   *   [_A-Za-z0-9-]+      # must start with string in the bracket [ ], must contains one or more (+)
-	   *   (                   # start of group #1
-	   *     \\.[_A-Za-z0-9-]+ # follow by a dot "." and string in the bracket [ ], must contains one or more (+)
-	   *   )*                  # end of group #1, this group is optional (*)
-	   *   @                   # must contains a "@" symbol
-	   *   [A-Za-z0-9-]+       # follow by string in the bracket [ ], must contains one or more (+)
-	   *   (                   # start of group #2 - first level TLD checking
-	   *     \\.[A-Za-z0-9-]+  # follow by a dot "." and string in the bracket [ ], must contains one or more (+)
-	   *   )*                  # end of group #2, this group is optional (*)
-	   *   (                   # start of group #3 - second level TLD checking
-	   *     \\.[A-Za-z]{2,}   # follow by a dot "." and string in the bracket [ ], with minimum length of 2
-	   *   )                   # end of group #3
-	   *$                      # end of the line
-	   */
+  public int setEmail(String email) {
+    /*
+     * ^                     # start of the line
+     *   [_A-Za-z0-9-]+      # must start with string in the bracket [ ], must contains one or more (+)
+     *   (                   # start of group #1
+     *     \\.[_A-Za-z0-9-]+ # follow by a dot "." and string in the bracket [ ], must contains one or more (+)
+     *   )*                  # end of group #1, this group is optional (*)
+     *   @                   # must contains a "@" symbol
+     *   [A-Za-z0-9-]+       # follow by string in the bracket [ ], must contains one or more (+)
+     *   (                   # start of group #2 - first level TLD checking
+     *     \\.[A-Za-z0-9-]+  # follow by a dot "." and string in the bracket [ ], must contains one or more (+)
+     *   )*                  # end of group #2, this group is optional (*)
+     *   (                   # start of group #3 - second level TLD checking
+     *     \\.[A-Za-z]{2,}   # follow by a dot "." and string in the bracket [ ], with minimum length of 2
+     *   )                   # end of group #3
+     *$                      # end of the line
+     */
     final String emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
     if ((email != null) && !Pattern.matches(emailPattern, email)) {
-    	logger.warn(MessageFormat.format("Invalid e-mail address {0}", email));
-    	throw new IllegalArgumentException(MessageFormat.format("Invalid e-mail address {0}", email));
+      logger.warn(MessageFormat.format("Invalid e-mail address {0}", email));
+      throw new IllegalArgumentException(MessageFormat.format("Invalid e-mail address {0}", email));
     }
-		String oldValue = this.email;
-		this.email = email;
-		this.firePropertyChange(TreeNodeChangeEvent.email, oldValue, email);
-		return JSBML.OPERATION_SUCCESS;
-	}
+    String oldValue = this.email;
+    this.email = email;
+    firePropertyChange(TreeNodeChangeEvent.email, oldValue, email);
+    return JSBML.OPERATION_SUCCESS;
+  }
 
-	/**
-	 * Sets the family name
-	 * 
-	 * @param familyName
-	 * @return {@link JSBML#OPERATION_SUCCESS}
-	 */
-	public int setFamilyName(String familyName) {
-		String oldValue = this.familyName;
-		this.familyName = familyName;
-		this.firePropertyChange(TreeNodeChangeEvent.familyName, oldValue, familyName);
-		return JSBML.OPERATION_SUCCESS;
-	}
+  /**
+   * Sets the family name
+   * 
+   * @param familyName
+   * @return {@link JSBML#OPERATION_SUCCESS}
+   */
+  public int setFamilyName(String familyName) {
+    String oldValue = this.familyName;
+    this.familyName = familyName;
+    firePropertyChange(TreeNodeChangeEvent.familyName, oldValue, familyName);
+    return JSBML.OPERATION_SUCCESS;
+  }
 
-	/**
-	 * Sets the given name
-	 * 
-	 * @param givenName
-	 * @return {@link JSBML#OPERATION_SUCCESS}
-	 */
-	public int setGivenName(String givenName) {
-		String oldValue = this.givenName;
-		this.givenName = givenName;
-		this.firePropertyChange(TreeNodeChangeEvent.givenName, oldValue, givenName);
-		return JSBML.OPERATION_SUCCESS;
-	}
+  /**
+   * Sets the given name
+   * 
+   * @param givenName
+   * @return {@link JSBML#OPERATION_SUCCESS}
+   */
+  public int setGivenName(String givenName) {
+    String oldValue = this.givenName;
+    this.givenName = givenName;
+    firePropertyChange(TreeNodeChangeEvent.givenName, oldValue, givenName);
+    return JSBML.OPERATION_SUCCESS;
+  }
 
-	/**
-	 * Sets the organisation
-	 * 
-	 * @param organisation
-	 */
-	public void setOrganisation(String organisation) {
-		String oldValue = this.organisation;
-		this.organisation = organisation;
-		this.firePropertyChange(TreeNodeChangeEvent.organization, oldValue, organisation);
-	}
+  /**
+   * Sets the organisation
+   * 
+   * @param organisation
+   */
+  public void setOrganisation(String organisation) {
+    String oldValue = this.organisation;
+    this.organisation = organisation;
+    firePropertyChange(TreeNodeChangeEvent.organization, oldValue, organisation);
+  }
 
-	/**
-	 * Sets the organisation
-	 * <p>Equal to {@link #setOrganisation(String)}.
-	 * 
-	 * @param organization
-	 */
-	public void setOrganization(String organization) {
-		setOrganisation(organization);
-	}
-	
-	/**
-	 * 
-	 * @param attributeName
-	 * @param attributeValue
-	 */
-	public void setOtherAttribute(String attributeName, String attributeValue) {
-		if (attributeName == null) {
-			return;
-		}
-		getOtherAttributes().put(attributeName, attributeValue);
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public Map<String, String> getOtherAttributes() {
+  /**
+   * Sets the organisation
+   * <p>Equal to {@link #setOrganisation(String)}.
+   * 
+   * @param organization
+   */
+  public void setOrganization(String organization) {
+    setOrganisation(organization);
+  }
 
-		if (!isSetOtherAttributes()) {
-			otherAttributes = new LinkedHashMap<String, String>();
-		}
-		return otherAttributes;
-	}
+  /**
+   * 
+   * @param attributeName
+   * @param attributeValue
+   */
+  public void setOtherAttribute(String attributeName, String attributeValue) {
+    if (attributeName == null) {
+      return;
+    }
+    getOtherAttributes().put(attributeName, attributeValue);
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isSetOtherAttributes() {
-		return otherAttributes != null;
-	}
-	
-	/**
-	 * 
-	 * @param attributeName
-	 * @return
-	 */
-	public String getOtherAttribute(String attributeName) {
-		if (attributeName == null) {
-			return null;
-		}
-		return getOtherAttributes().get(attributeName);
-	}
-	
-	/**
-	 * Returns the information about the {@link Creator} as a {@link String}.
-	 * 
-	 * @return the information about the {@link Creator} as a {@link String}.
-	 */
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		if (isSetGivenName()) {
-			sb.append(getGivenName());
-			if (isSetFamilyName() || isSetEmail() || isSetOrganisation()) {
-				sb.append(' ');
-			}
-		}
-		if (isSetFamilyName()) {
-			sb.append(getFamilyName());
-			if (isSetEmail() || isSetOrganisation()) {
-				sb.append(", ");
-			}
-		}
-		if (isSetEmail()) {
-			sb.append(getEmail());
-			if (isSetOrganisation()) {
-				sb.append(", ");
-			}
-		}
-		if (isSetOrganisation()) {
-			sb.append(getOrganisation());
-		}
+  /**
+   * 
+   * @return
+   */
+  public Map<String, String> getOtherAttributes() {
 
-		return sb.toString();
-	}
+    if (!isSetOtherAttributes()) {
+      otherAttributes = new LinkedHashMap<String, String>();
+    }
+    return otherAttributes;
+  }
 
-	/**
-	 * Unsets the email of this {@link Creator}.
-	 * 
-	 * @return {@link JSBML#OPERATION_SUCCESS}
-	 */
-	public int unsetEmail() {
-		String oldValue = this.email;
-		email = null;
-		this.firePropertyChange(TreeNodeChangeEvent.email, oldValue, email);
-		return JSBML.OPERATION_SUCCESS;
-	}
+  /**
+   * 
+   * @return
+   */
+  public boolean isSetOtherAttributes() {
+    return otherAttributes != null;
+  }
 
-	/**
-	 * Unsets the familyName of this {@link Creator}.
-	 * 
-	 * @return {@link JSBML#OPERATION_SUCCESS}
-	 */
-	public int unsetFamilyName() {
-		String oldValue = this.familyName;
-		this.familyName = null;
-		this.firePropertyChange(TreeNodeChangeEvent.familyName, oldValue, familyName);
-		return JSBML.OPERATION_SUCCESS;
-	}
+  /**
+   * 
+   * @param attributeName
+   * @return
+   */
+  public String getOtherAttribute(String attributeName) {
+    if (attributeName == null) {
+      return null;
+    }
+    return getOtherAttributes().get(attributeName);
+  }
 
-	/**
-	 * Unsets the givenName of this {@link Creator}.
-	 * 
-	 * @return {@link JSBML#OPERATION_SUCCESS}
-	 */
-	public int unsetGivenName() {
-		String oldValue = this.givenName;
-		this.givenName = null;
-		this.firePropertyChange(TreeNodeChangeEvent.givenName, oldValue, givenName);
-		return JSBML.OPERATION_SUCCESS;
-	}
+  /**
+   * Returns the information about the {@link Creator} as a {@link String}.
+   * 
+   * @return the information about the {@link Creator} as a {@link String}.
+   */
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    if (isSetGivenName()) {
+      sb.append(getGivenName());
+      if (isSetFamilyName() || isSetEmail() || isSetOrganisation()) {
+        sb.append(' ');
+      }
+    }
+    if (isSetFamilyName()) {
+      sb.append(getFamilyName());
+      if (isSetEmail() || isSetOrganisation()) {
+        sb.append(", ");
+      }
+    }
+    if (isSetEmail()) {
+      sb.append(getEmail());
+      if (isSetOrganisation()) {
+        sb.append(", ");
+      }
+    }
+    if (isSetOrganisation()) {
+      sb.append(getOrganisation());
+    }
 
-	/**
-	 * Unsets the organisation of this {@link Creator}.
-	 * 
-	 */
-	public void unsetOrganization() {
-		String oldValue = this.organisation;
-		this.organisation = null;
-		this.firePropertyChange(TreeNodeChangeEvent.organization, oldValue, organisation);
-	}
+    return sb.toString();
+  }
+
+  /**
+   * Unsets the email of this {@link Creator}.
+   * 
+   * @return {@link JSBML#OPERATION_SUCCESS}
+   */
+  public int unsetEmail() {
+    String oldValue = email;
+    email = null;
+    firePropertyChange(TreeNodeChangeEvent.email, oldValue, email);
+    return JSBML.OPERATION_SUCCESS;
+  }
+
+  /**
+   * Unsets the familyName of this {@link Creator}.
+   * 
+   * @return {@link JSBML#OPERATION_SUCCESS}
+   */
+  public int unsetFamilyName() {
+    String oldValue = familyName;
+    familyName = null;
+    firePropertyChange(TreeNodeChangeEvent.familyName, oldValue, familyName);
+    return JSBML.OPERATION_SUCCESS;
+  }
+
+  /**
+   * Unsets the givenName of this {@link Creator}.
+   * 
+   * @return {@link JSBML#OPERATION_SUCCESS}
+   */
+  public int unsetGivenName() {
+    String oldValue = givenName;
+    givenName = null;
+    firePropertyChange(TreeNodeChangeEvent.givenName, oldValue, givenName);
+    return JSBML.OPERATION_SUCCESS;
+  }
+
+  /**
+   * Unsets the organisation of this {@link Creator}.
+   * 
+   */
+  public void unsetOrganization() {
+    String oldValue = organisation;
+    organisation = null;
+    firePropertyChange(TreeNodeChangeEvent.organization, oldValue, organisation);
+  }
 
 }

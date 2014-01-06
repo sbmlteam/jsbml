@@ -5,7 +5,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.util.compilers;
 
 import org.sbml.jsbml.ASTNode;
@@ -35,38 +34,38 @@ import org.sbml.jsbml.SBMLException;
  */
 public class UnitException extends SBMLException {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -5630929507888356877L;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -5630929507888356877L;
 
-	/**
-	 * 
-	 */
-	public UnitException() {
-		super();
-	}
+  /**
+   * 
+   */
+  public UnitException() {
+    super();
+  }
 
-	/**
-	 * @param message
-	 */
-	public UnitException(String message) {
-		super(message);
-	}
+  /**
+   * @param message
+   */
+  public UnitException(String message) {
+    super(message);
+  }
 
-	/**
-	 * @param cause
-	 */
-	public UnitException(Throwable cause) {
-		super(cause);
-	}
+  /**
+   * @param cause
+   */
+  public UnitException(Throwable cause) {
+    super(cause);
+  }
 
-	/**
-	 * @param message
-	 * @param cause
-	 */
-	public UnitException(String message, Throwable cause) {
-		super(message, cause);
-	}
+  /**
+   * @param message
+   * @param cause
+   */
+  public UnitException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
 }

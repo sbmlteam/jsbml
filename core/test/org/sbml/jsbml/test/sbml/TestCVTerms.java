@@ -10,7 +10,7 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -23,7 +23,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.test.sbml;
 
 import java.util.List;
@@ -122,7 +121,7 @@ public class TestCVTerms {
   public void test_CVTerm_addResource()
   {
     CVTerm term = new  CVTerm(); // TODO: difference to document => CVTerm term = new  CVTerm(CVTerm.Type.MODEL_QUALIFIER); constructor does not exist
-    term.setQualifierType(CVTerm.Type.MODEL_QUALIFIER);    
+    term.setQualifierType(CVTerm.Type.MODEL_QUALIFIER);
     String resource =  "GO6666";
     assertTrue( term != null );
     assertTrue( term.getQualifierType() == CVTerm.Type.MODEL_QUALIFIER ); // TODO: difference to document ==> CVTerm.Type.MODEL_QUALIFIER
@@ -137,7 +136,7 @@ public class TestCVTerms {
   @Test public void test_CVTerm_create()
   {
     CVTerm term = new  CVTerm();
-    term.setQualifierType(CVTerm.Type.MODEL_QUALIFIER);  
+    term.setQualifierType(CVTerm.Type.MODEL_QUALIFIER);
     assertTrue( term != null );
     assertTrue( term.getQualifierType() == CVTerm.Type.MODEL_QUALIFIER );
     term = null;
@@ -185,7 +184,7 @@ public class TestCVTerms {
     bag = null;
     li = null;
   }
-  */
+   */
 
   @Test public void test_CVTerm_getResources()
   {
@@ -209,7 +208,7 @@ public class TestCVTerms {
     term.setQualifierType(CVTerm.Type.MODEL_QUALIFIER);
     assertTrue( term != null );
     assertTrue( term.getQualifierType() == CVTerm.Type.MODEL_QUALIFIER );
-    term.setModelQualifierType(CVTerm.Qualifier.BQM_IS); // TODO: difference to document ==> libsbml.BQM_IS become 
+    term.setModelQualifierType(CVTerm.Qualifier.BQM_IS); // TODO: difference to document ==> libsbml.BQM_IS become
     assertTrue( term != null );
     assertTrue( term.getQualifierType() == CVTerm.Type.MODEL_QUALIFIER );
     assertTrue( term.getModelQualifierType() == CVTerm.Qualifier.BQM_IS );

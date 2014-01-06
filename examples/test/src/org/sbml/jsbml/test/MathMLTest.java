@@ -1,11 +1,11 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2013 jointly by the following organizations:
+ * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -33,32 +33,32 @@ import org.sbml.jsbml.Species;
 import org.sbml.jsbml.text.parser.ParseException;
 
 /**
- * 
+ * @author Andreas Dr&auml;ger
  * @version $Rev$
  * @since 1.0
  */
 public class MathMLTest {
 
-	/**
-	 * 
-	 * @param args
-	 * @throws ParseException
-	 * @throws XMLStreamException
-	 * @throws SBMLException
-	 */
-	@SuppressWarnings("deprecation")
-	public static void main(String args[]) throws ParseException, XMLStreamException, SBMLException {
-		SBMLDocument doc = new SBMLDocument(1, 2);
-		Model m = doc.createModel();
-		Compartment c = m.createCompartment("c1");
-		Species s1 = m.createSpecies("s1", c);
-		Species s2 = m.createSpecies("s2", c);
-		Reaction r = m.createReaction("r1");
-		r.createReactant(null, s1);
-		r.createProduct(null, s2);
-		KineticLaw kl = r.createKineticLaw();
-		kl.setFormula("s1 * 3");
-		SBMLWriter.write(doc, System.out, ' ', (short) 2);
-	}
-	
+  /**
+   * 
+   * @param args
+   * @throws ParseException
+   * @throws XMLStreamException
+   * @throws SBMLException
+   */
+  @SuppressWarnings("deprecation")
+  public static void main(String args[]) throws ParseException, XMLStreamException, SBMLException {
+    SBMLDocument doc = new SBMLDocument(1, 2);
+    Model m = doc.createModel();
+    Compartment c = m.createCompartment("c1");
+    Species s1 = m.createSpecies("s1", c);
+    Species s2 = m.createSpecies("s2", c);
+    Reaction r = m.createReaction("r1");
+    r.createReactant(null, s1);
+    r.createProduct(null, s2);
+    KineticLaw kl = r.createKineticLaw();
+    kl.setFormula("s1 * 3");
+    SBMLWriter.write(doc, System.out, ' ', (short) 2);
+  }
+
 }
