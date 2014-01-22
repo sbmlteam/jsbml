@@ -25,7 +25,6 @@ import java.util.Map;
 
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBase;
 
 /**
  * @author Alex Thomas
@@ -50,8 +49,6 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin {
    * @return the value of geometry
    */
   public Geometry getGeometry() {
-    //TODO: if variable is boolean, create an additional "isVar"
-    //TODO: return primitive data type if possible (e.g. int instead of Integer)
     if (isSetGeometry()) {
       return geometry;
     }
@@ -130,7 +127,8 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin {
     }
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getExtendedSBase()
    */
   @Override
@@ -138,17 +136,10 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin {
     return (Model) super.getExtendedSBase();
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-   */
-  @Override
-  public boolean readAttribute(String attributeName, String prefix,
-    String value) {
-    return false;
-  }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#writeXMLAttributes()
    */
   @Override
   public Map<String, String> writeXMLAttributes() {
@@ -167,7 +158,7 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin {
    * @see javax.swing.tree.TreeNode#getChildAt(int)
    */
   @Override
-  public SBase getChildAt(int index) {
+  public Geometry getChildAt(int index) {
     if (index < 0) {
       throw new IndexOutOfBoundsException(index + " < 0");
     }

@@ -805,6 +805,19 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       /*
        * Note: Listeners are not included in the equals check.
        */
+
+
+      if ((extensions.size() > 0) &&
+          (sbase.getExtensionPackages().size() == extensions.size())) {
+
+        for (Map.Entry<String,SBasePlugin> entry : extensions.entrySet()) {
+          Map<String, String> objectAttr = sbase.getExtension(entry.getKey()).writeXMLAttributes();
+          Map<String, String> currentAttr = entry.getValue().writeXMLAttributes();
+          equals &= objectAttr.equals(currentAttr);
+
+        }
+      }
+
     }
     return equals;
   }

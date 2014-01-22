@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
@@ -20,66 +20,411 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
-import javax.swing.tree.TreeNode;
+import java.text.MessageFormat;
+import java.util.Map;
+import java.util.ResourceBundle;
 
-import org.sbml.jsbml.AbstractTreeNode;
+import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.StringTools;
+
+import de.zbit.util.ResourceManager;
 
 /**
+ * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
  * @version $Rev$
  */
-public class SampledVolume extends AbstractTreeNode {
+public class SampledVolume extends AbstractSpatialNamedSBase {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -8253664900275697978L;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -8253664900275697978L;
 
-	/**
-	 * 
-	 */
-	public SampledVolume() {
-		// TODO Auto-generated constructor stub
-	}
+  private String domainType;
+  private Double sampledValue;
+  private Double minValue;
+  private Double maxValue;
 
-	/**
-	 * @param node
-	 */
-	public SampledVolume(TreeNode node) {
-		super(node);
-		// TODO Auto-generated constructor stub
-	}
+  private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractTreeNode#clone()
-	 */
-	public SampledVolume clone() {
-		return new SampledVolume(this);
-	}
 
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
-	 */
-	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+  /**
+   * 
+   */
+  public SampledVolume() {
+    super();
+  }
 
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
-	 */
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  /**
+   * @param node
+   */
+  public SampledVolume(SampledVolume sv) {
+    super(sv);
+    if (sv.isSetDomainType()) {
+      domainType = new String(sv.getDomainType());
+    }
+    if (sv.isSetSampledValue()) {
+      sampledValue = new Double(sv.getSampledValue());
+    }
+    if (sv.isSetMinValue()) {
+      minValue = new Double(sv.getMinValue());
+    }
+    if (sv.isSetMaxValue()) {
+      maxValue = new Double(sv.getMaxValue());
+    }
+  }
 
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+  public SampledVolume(String id, int level, int version) {
+    super(id,level,version);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#clone()
+   */
+  @Override
+  public SampledVolume clone() {
+    return new SampledVolume(this);
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    boolean equal = super.equals(object);
+    if (equal) {
+      SampledVolume sv = (SampledVolume) object;
+      equal &= sv.isSetSampledValue() == isSetSampledValue();
+      if (equal && isSetSampledValue()) {
+        equal &= sv.getSampledValue() == getSampledValue();
+      }
+      equal &= sv.isSetDomainType() == isSetDomainType();
+      if (equal && isSetDomainType()) {
+        equal &= sv.getDomainType().equals(getDomainType());
+      }
+      equal &= sv.isSetMaxValue() == isSetMaxValue();
+      if (equal && isSetMaxValue()) {
+        equal &= sv.getMaxValue() == getMaxValue();
+      }
+      equal &= sv.isSetMinValue() == isSetMinValue();
+      if (equal && isSetMinValue()) {
+        equal &= sv.getMinValue() == getMinValue();
+      }
+    }
+    return equal;
+  }
+
+
+  /**
+   * Returns the value of domainType
+   *
+   * @return the value of domainType
+   */
+  public String getDomainType() {
+    if (isSetDomainType()) {
+      return domainType;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(SpatialConstants.domainType, this);
+  }
+
+
+  /**
+   * Returns whether domainType is set
+   *
+   * @return whether domainType is set
+   */
+  public boolean isSetDomainType() {
+    return domainType != null;
+  }
+
+
+  /**
+   * Sets the value of domainType
+   */
+  public void setDomainType(String domainType) {
+    String oldDomainType = this.domainType;
+    this.domainType = domainType;
+    firePropertyChange(SpatialConstants.domainType, oldDomainType, this.domainType);
+  }
+
+
+  /**
+   * Unsets the variable domainType
+   *
+   * @return {@code true}, if domainType was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetDomainType() {
+    if (isSetDomainType()) {
+      String oldDomainType = domainType;
+      domainType = null;
+      firePropertyChange(SpatialConstants.domainType, oldDomainType, domainType);
+      return true;
+    }
+    return false;
+  }
+
+
+  /**
+   * Returns the value of sampledValue
+   *
+   * @return the value of sampledValue
+   */
+  public double getSampledValue() {
+    if (isSetSampledValue()) {
+      return sampledValue;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(SpatialConstants.sampledValue, this);
+  }
+
+
+  /**
+   * Returns whether sampledValue is set
+   *
+   * @return whether sampledValue is set
+   */
+  public boolean isSetSampledValue() {
+    return sampledValue != null;
+  }
+
+
+  /**
+   * Sets the value of sampledValue
+   */
+  public void setSampledValue(double sampledValue) {
+    double oldSampledValue = this.sampledValue;
+    this.sampledValue = sampledValue;
+    firePropertyChange(SpatialConstants.sampledValue, oldSampledValue, this.sampledValue);
+  }
+
+
+  /**
+   * Unsets the variable sampledValue
+   *
+   * @return {@code true}, if sampledValue was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetSampledValue() {
+    if (isSetSampledValue()) {
+      double oldSampledValue = sampledValue;
+      sampledValue = null;
+      firePropertyChange(SpatialConstants.sampledValue, oldSampledValue, sampledValue);
+      return true;
+    }
+    return false;
+  }
+
+
+  /**
+   * Returns the value of minValue
+   *
+   * @return the value of minValue
+   */
+  public Double getMinValue() {
+    if (isSetMinValue()) {
+      return minValue;
+    }
+    // This is necessary if we cannot return null here.
+    return null;
+  }
+
+
+  /**
+   * Returns whether minValue is set
+   *
+   * @return whether minValue is set
+   */
+  public boolean isSetMinValue() {
+    return minValue != null;
+  }
+
+
+  /**
+   * Sets the value of minValue
+   */
+  public void setMinValue(Double minValue) {
+    Double oldMinValue = this.minValue;
+    this.minValue = minValue;
+    firePropertyChange(SpatialConstants.minValue, oldMinValue, this.minValue);
+  }
+
+
+  /**
+   * Unsets the variable minValue
+   *
+   * @return {@code true}, if minValue was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetMinValue() {
+    if (isSetMinValue()) {
+      Double oldMinValue = minValue;
+      minValue = null;
+      firePropertyChange(SpatialConstants.minValue, oldMinValue, minValue);
+      return true;
+    }
+    return false;
+  }
+
+
+  /**
+   * Returns the value of maxValue
+   *
+   * @return the value of maxValue
+   */
+  public Double getMaxValue() {
+    if (isSetMaxValue()) {
+      return maxValue;
+    }
+    // This is necessary if we cannot return null here.
+    return null;
+  }
+
+
+  /**
+   * Returns whether maxValue is set
+   *
+   * @return whether maxValue is set
+   */
+  public boolean isSetMaxValue() {
+    return maxValue != null;
+  }
+
+
+  /**
+   * Sets the value of maxValue
+   */
+  public void setMaxValue(Double maxValue) {
+    Double oldMaxValue = this.maxValue;
+    this.maxValue = maxValue;
+    firePropertyChange(SpatialConstants.maxValue, oldMaxValue, this.maxValue);
+  }
+
+
+  /**
+   * Unsets the variable maxValue
+   *
+   * @return {@code true}, if maxValue was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetMaxValue() {
+    if (isSetMaxValue()) {
+      Double oldMaxValue = maxValue;
+      maxValue = null;
+      firePropertyChange(SpatialConstants.maxValue, oldMaxValue, maxValue);
+      return true;
+    }
+    return false;
+  }
+
+
+  @Override
+  public int hashCode() {
+    final int prime = 983;//Change this prime number
+    int hashCode = super.hashCode();
+    if (isSetSampledValue()) {
+      hashCode += prime * getSampledValue();
+    }
+    if (isSetMinValue()) {
+      hashCode += prime * getMinValue();
+    }
+    if (isSetMaxValue()) {
+      hashCode += prime * getMaxValue();
+    }
+    if (isSetDomainType()) {
+      hashCode += prime * getDomainType().hashCode();
+    }
+    return hashCode;
+  }
+
+
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    //  TODO: this must be done for each class attribute
+    if (isSetSampledValue()) {
+      attributes.remove("sampledValue");
+      attributes.put(SpatialConstants.shortLabel + ":sampledValue", String.valueOf(getSampledValue()));
+    }
+    if (isSetMinValue()) {
+      attributes.remove("minValue");
+      attributes.put(SpatialConstants.shortLabel + ":minValue", String.valueOf(getMinValue()));
+    }
+    if (isSetMaxValue()) {
+      attributes.remove("maxValue");
+      attributes.put(SpatialConstants.shortLabel + ":maxValue", String.valueOf(getMaxValue()));
+    }
+    if (isSetDomainType()) {
+      attributes.remove("domainType");
+      attributes.put(SpatialConstants.shortLabel + ":domainType", getDomainType());
+    }
+    return attributes;
+  }
+
+
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
+        && (SpatialConstants.shortLabel == prefix);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(SpatialConstants.domainType)) {
+        try {
+          setDomainType(value);
+        } catch (Exception e) {
+          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
+            SpatialConstants.domainType);
+        }
+      }
+      if (attributeName.equals(SpatialConstants.sampledValue)) {
+        try {
+          setSampledValue(StringTools.parseSBMLDouble(value));
+        } catch (Exception e) {
+          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
+            SpatialConstants.sampledValue);
+        }
+      }
+      if (attributeName.equals(SpatialConstants.minValue)) {
+        try {
+          setMinValue(StringTools.parseSBMLDouble(value));
+        } catch (Exception e) {
+          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
+            SpatialConstants.minValue);
+        }
+      }
+      if (attributeName.equals(SpatialConstants.maxValue)) {
+        try {
+          setMaxValue(StringTools.parseSBMLDouble(value));
+        } catch (Exception e) {
+          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
+            SpatialConstants.maxValue);
+        }
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("SampledVolume [domainType=");
+    builder.append(domainType);
+    builder.append(", sampledValue=");
+    builder.append(sampledValue);
+    builder.append(", minValue=");
+    builder.append(minValue);
+    builder.append(", maxValue=");
+    builder.append(maxValue);
+    builder.append("]");
+    return builder.toString();
+  }
+
+
 
 }

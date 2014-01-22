@@ -4,8 +4,8 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- *
- * Copyright (C) 2009-2014 jointly by the following organizations:
+ * 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -20,44 +20,45 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
+import org.sbml.jsbml.SBase;
+
 
 /**
  * @author Alex Thomas
- * @author Andreas Dr&auml;ger
- * @since 1.0
  * @version $Rev$
+ * @since 1.0
+ * @date Jan 17, 2014
  */
-public class DiffusionCoefficient extends Coefficient {
+public interface SpatialNamedSBase extends SBase {
+
 
   /**
-   * Generated serial version identifier.
+   * Unsets the variable spatialId
+   *
+   * @return {@code true}, if spatialId was set before,
+   *         otherwise {@code false}
    */
-  private static final long serialVersionUID = 1233063375698575897L;
+  public abstract boolean unsetSpatialId();
 
   /**
-   * 
+   * Sets the value of spatialId
    */
-  public DiffusionCoefficient() {
-    super();
-  }
+  public abstract void setSpatialId(String spatialId);
 
   /**
-   * @param sb
+   * Returns whether spatialId is set
+   *
+   * @return whether spatialId is set
    */
-  public DiffusionCoefficient(DiffusionCoefficient sb) {
-    super(sb);
-  }
+  public abstract boolean isSetSpatialId();
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#clone()
+  /**
+   * Returns the value of spatialId
+   *
+   * @return the value of spatialId
    */
-  @Override
-  public DiffusionCoefficient clone() {
-    return new DiffusionCoefficient(this);
-  }
+  public abstract String getSpatialId();
 
-  //TODO: Could add a method that checks if other DiffusionCoefficient's have been
-  // defined. This may be a low priority item.
 
 
 }

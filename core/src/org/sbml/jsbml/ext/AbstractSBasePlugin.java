@@ -21,6 +21,9 @@
  */
 package org.sbml.jsbml.ext;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
@@ -103,16 +106,8 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
    */
   @Override
   public boolean equals(Object object) {
-    boolean equal = super.equals(object);
-
     // Check all child nodes recursively:
-    if (equal && (object instanceof SBasePlugin)) {
-      SBasePlugin stn = (SBasePlugin) object;
-      equal &= stn.isSetExtendedSBase() == isSetExtendedSBase();
-      if (equal && isSetExtendedSBase()) {
-        equal &= stn.getExtendedSBase().equals(getExtendedSBase());
-      }
-    }
+    boolean equal = super.equals(object);
     return equal;
   }
 
@@ -162,6 +157,15 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
   @Override
   public SBMLDocument getSBMLDocument() {
     return isSetExtendedSBase() ? getExtendedSBase().getSBMLDocument() : null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    return new TreeMap<String, String>();
   }
 
 }

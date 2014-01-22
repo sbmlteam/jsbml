@@ -21,140 +21,87 @@
 package org.sbml.jsbml.ext.spatial;
 
 
+
+
 /**
- * 
+ * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @version $Rev$
  * @since 1.0
  * @date 09.09.2011
  */
-public abstract class Coefficient extends VariableReference {
+public abstract class Coefficient extends ParameterType {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -7651871640808157489L;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -7651871640808157489L;
 
-	/**
-	 * 
-	 */
-	private Integer coordinateIndex;
+  /**
+   * 
+   */
+  private Integer coordinateIndex;
 
-	/**
-	 * 
-	 */
-	private String domain;
-	
-	/**
-	 * 
-	 */
-	public Coefficient() {
-		super();
-	}
+  /**
+   * 
+   */
+  public Coefficient() {
+    super();
+  }
 
-	/**
-	 * @param coefficient
-	 */
-	public Coefficient(Coefficient coefficient) {
-		super(coefficient);
-		if (coefficient.isSetCoordinateIndex()) {
-			this.coordinateIndex = Integer.valueOf(coefficient.getCoordinateIndex());
-		}
-		if (coefficient.isSetDomain()) {
-			this.domain = new String(coefficient.getDomain());
-		}
-	}
-	
-	/**
-	 * @param level
-	 * @param version
-	 */
-	public Coefficient(int level, int version) {
-		super(level, version);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#clone()
-	 */
-	public abstract Coefficient clone();
-	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object object) {
-		boolean equal = super.equals(object);
-		if (equal) {
-			Coefficient dc = (Coefficient) object;
-			equal &= dc.isSetCoordinateIndex() == isSetCoordinateIndex();
-			if (equal && isSetCoordinateIndex()) {
-				equal &= dc.getCoordinateIndex() == getCoordinateIndex();
-			}
-			equal &= dc.isSetDomain() == isSetDomain();
-			if (equal && isSetDomain()) {
-				equal &= dc.getDomain().equals(getDomain());
-			}
-		}
-		return equal;
-	}
+  /**
+   * @param coefficient
+   */
+  public Coefficient(Coefficient coefficient) {
+    super(coefficient);
+    if (coefficient.isSetCoordinateIndex()) {
+      coordinateIndex = Integer.valueOf(coefficient.getCoordinateIndex());
+    }
 
-	/**
-	 * @return the coordinateIndex
-	 */
-	public int getCoordinateIndex() {
-		return coordinateIndex.intValue();
-	}
+  }
 
-	/**
-	 * @return the domain
-	 */
-	public String getDomain() {
-		return isSetDomain() ? domain : "";
-	}	
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 967;
-		int hashCode = super.hashCode();
-		if (isSetCoordinateIndex()) {
-			hashCode += prime * getCoordinateIndex();
-		}
-		if (isSetDomain()) {
-			hashCode += prime * getDomain().hashCode();
-		}
-		return hashCode;
-	}
-	
-	/**
-	 * @return
-	 */
-	public boolean isSetCoordinateIndex() {
-		return coordinateIndex != null;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
+  @Override
+  public abstract Coefficient clone();
 
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isSetDomain() {
-		return domain != null;
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    boolean equal = super.equals(object);
+    if (equal) {
+      Coefficient dc = (Coefficient) object;
+      equal &= dc.isSetCoordinateIndex() == isSetCoordinateIndex();
+      equal &= dc.getCoordinateIndex() == getCoordinateIndex();
+    }
+    return equal;
+  }
 
-	/**
-	 * @param coordinateIndex the coordinateIndex to set
-	 */
-	public void setCoordinateIndex(Integer coordinateIndex) {
-		this.coordinateIndex = coordinateIndex;
-	}
+  /**
+   * @return the coordinateIndex
+   */
+  public int getCoordinateIndex() {
+    return coordinateIndex.intValue();
+  }
 
-	/**
-	 * @param domain the domain to set
-	 */
-	public void setDomain(String domain) {
-		this.domain = domain;
-	}
+  /**
+   * @return
+   */
+  public boolean isSetCoordinateIndex() {
+    return coordinateIndex != null;
+  }
+
+
+  /**
+   * @param coordinateIndex the coordinateIndex to set
+   */
+  public void setCoordinateIndex(Integer coordinateIndex) {
+    this.coordinateIndex = coordinateIndex;
+  }
+
 
 }

@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
@@ -20,95 +20,51 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
-import javax.swing.tree.TreeNode;
-
-import org.sbml.jsbml.AbstractSBase;
 
 /**
+ * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
  * @version $Rev$
  */
-public class GeometryDefinition extends AbstractSBase {
+public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 211166389798247646L;
 
-	// TODO: extend something with an id
-	
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 211166389798247646L;
+  /**
+   * 
+   */
+  public GeometryDefinition() {
+    super();
+  }
 
-	/**
-	 * 
-	 */
-	public GeometryDefinition() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	/**
-	 * @param node
-	 */
-	public GeometryDefinition(GeometryDefinition node) {
-		super(node);
-		// TODO Auto-generated constructor stub
-	}
+  public GeometryDefinition(int level, int version) {
+    super(level,version);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractTreeNode#clone()
-	 */
-	public GeometryDefinition clone() {
-		return new GeometryDefinition(this);
-	}
+  public GeometryDefinition(String id, int level, int version) {
+    super(id,level,version);
+  }
+  /**
+   * @param node
+   */
+  public GeometryDefinition(GeometryDefinition gd) {
+    super(gd);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object object) {
-		// TODO Auto-generated method stub
-		return super.equals(object);
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    return super.equals(object);
+  }
 
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
-	 */
-	@Override
-	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
-	 */
-	@Override
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	@Override
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		// TODO Auto-generated method stub
-		return super.hashCode();
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public String toString() {
+    return super.toString();
+  }
 
 }

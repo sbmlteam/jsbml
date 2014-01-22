@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
@@ -21,47 +21,53 @@
 package org.sbml.jsbml.ext.spatial;
 
 
+
 /**
+ * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
  * @version $Rev$
  */
-public class SpatialSymbolReference extends NamedSpatialElement implements
-		SpatialParameterQualifier {
+public class SpatialSymbolReference extends ParameterType {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -8906622500258765056L;
-	
-	/**
-	 * 
-	 */
-	public SpatialSymbolReference() {
-		super();
-	}
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -8906622500258765056L;
 
-	/**
-	 * @param level
-	 * @param version
-	 */
-	public SpatialSymbolReference(int level, int version) {
-		super(level, version);
-	}
 
-	/**
-	 * @param sb
-	 */
-	public SpatialSymbolReference(SpatialSymbolReference sb) {
-		super(sb);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#clone()
-	 */
-	@Override
-	public SpatialSymbolReference clone() {
-		return new SpatialSymbolReference(this);
-	}
+
+  public SpatialSymbolReference() {
+    super();
+  }
+
+
+  /**
+   * @param node
+   */
+  public SpatialSymbolReference(SpatialSymbolReference classvar) {
+    super(classvar);
+  }
+
+
+  /**
+   * @param level
+   * @param version
+   */
+  public SpatialSymbolReference(int level, int version) {
+    super(level, version);
+  }
+
+
+  @Override
+  public SpatialSymbolReference clone() {
+    return new SpatialSymbolReference(this);
+  }
+
+
+  @Override
+  public boolean equals(Object object) {
+    return super.equals(object);
+  }
 
 }

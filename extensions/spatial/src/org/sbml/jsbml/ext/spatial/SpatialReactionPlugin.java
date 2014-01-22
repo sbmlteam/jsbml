@@ -20,18 +20,22 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.ext.AbstractSBasePlugin;
+import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.util.StringTools;
 
 /**
+ * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
  * @version $Rev$
  */
-public class SpatialReactionPlugin extends AbstractSBasePlugin {
+public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
 
   /**
    * Generated serial version identifier.
@@ -43,69 +47,143 @@ public class SpatialReactionPlugin extends AbstractSBasePlugin {
    */
   private Boolean isLocal;
 
-  /**
-   * 
-   */
+
   public SpatialReactionPlugin() {
     super();
   }
 
-
+  public SpatialReactionPlugin(Reaction rxn) {
+    super(rxn);
+  }
 
   /**
-   * @param sr
+   * @param node
    */
-  public SpatialReactionPlugin(SpatialReactionPlugin sr) {
-    super(sr);
-    if (sr.isSetIsLocal()) {
-      isLocal = Boolean.valueOf(sr.getIsLocal());
+  public SpatialReactionPlugin(SpatialReactionPlugin spr) {
+    super(spr);
+
+    if (spr.isSetIsLocal()) {
+      isLocal = new Boolean(spr.getIsLocal());
     }
+
   }
 
-  /**
-   * @return
-   */
-  public boolean isSetIsLocal() {
-    return isLocal != null;
-  }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#clone()
-   */
   @Override
   public SpatialReactionPlugin clone() {
     return new SpatialReactionPlugin(this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
-   */
+
   @Override
   public boolean equals(Object object) {
     boolean equal = super.equals(object);
     if (equal) {
-      SpatialReactionPlugin sr = (SpatialReactionPlugin) object;
-      equal &= sr.isSetIsLocal() == isSetIsLocal();
+      SpatialReactionPlugin spr = (SpatialReactionPlugin) object;
+
+      equal &= spr.isSetIsLocal() == isSetIsLocal();
       if (equal && isSetIsLocal()) {
-        equal &= sr.getIsLocal() == getIsLocal();
+        equal &= spr.getIsLocal() == getIsLocal();
       }
+
     }
     return equal;
   }
 
-  /**
-   * @return the isLocal
-   */
-  public Boolean getIsLocal() {
-    return isLocal;
+  @Override
+  public Reaction getExtendedSBase() {
+    return (Reaction) super.getExtendedSBase();
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+
+  /**
+   * Returns the value of isLocal
+   *
+   * @return the value of isLocal
+   */
+  public boolean getIsLocal() {
+    if (isSetIsLocal()) {
+      return isLocal;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(SpatialConstants.isLocal, this);
+  }
+
+
+  /**
+   * Returns whether isLocal is set
+   *
+   * @return whether isLocal is set
+   */
+  public boolean isSetIsLocal() {
+    return isLocal != null;
+  }
+
+  public boolean isLocal() {
+    return getIsLocal();
+  }
+
+
+  /**
+   * Sets the value of isLocal
+   */
+  public void setIsLocal(boolean isLocal) {
+    boolean oldIsLocal = this.isLocal;
+    this.isLocal = isLocal;
+    firePropertyChange(SpatialConstants.isLocal, oldIsLocal, this.isLocal);
+  }
+
+
+  /**
+   * Unsets the variable isLocal
+   *
+   * @return {@code true}, if isLocal was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetIsLocal() {
+    if (isSetIsLocal()) {
+      boolean oldIsLocal = isLocal;
+      isLocal = null;
+      firePropertyChange(SpatialConstants.isLocal, oldIsLocal, isLocal);
+      return true;
+    }
+    return false;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getAllowsChildren()
+   */
+  @Override
+  public boolean getAllowsChildren() {
+    return false;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    return 0;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildAt(int)
+   */
+  @Override
+  public TreeNode getChildAt(int index) {
+    return null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#hashCode()
    */
   @Override
   public int hashCode() {
-    final int prime = 953;
+    final int prime = 983;//Change this prime number
     int hashCode = super.hashCode();
     if (isSetIsLocal()) {
       hashCode += prime * isLocal.hashCode();
@@ -113,110 +191,59 @@ public class SpatialReactionPlugin extends AbstractSBasePlugin {
     return hashCode;
   }
 
-  /**
-   * @param isLocal the isLocal to set
-   */
-  public void setIsLocal(Boolean isLocal) {
-    this.isLocal = isLocal;
-  }
-
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-   */
-  @Override
-  public boolean readAttribute(String attributeName, String prefix, String value) {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialSBasePlugin#writeXMLAttributes()
    */
   @Override
   public Map<String, String> writeXMLAttributes() {
-    // TODO Auto-generated method stub
-    return null;
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetIsLocal()) {
+      attributes.remove("isLocal");
+      attributes.put(SpatialConstants.shortLabel + ":isLocal", String.valueOf(getIsLocal()));
+    }
+    return attributes;
   }
 
 
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialSBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
   @Override
-  public String getElementNamespace() {
-    // TODO Auto-generated method stub
-    return null;
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
+        && (SpatialConstants.shortLabel == prefix);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(SpatialConstants.isLocal)) {
+        try {
+          setIsLocal(StringTools.parseSBMLBoolean(value));
+        } catch (Exception e) {
+          MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
+            SpatialConstants.isLocal);
+        }
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
   }
-
-
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
+   * @see java.lang.Object#toString()
    */
   @Override
-  public String getPackageName() {
-    // TODO Auto-generated method stub
-    return null;
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("SpatialReactionPlugin [isLocal=");
+    builder.append(isLocal);
+    builder.append("]");
+    return builder.toString();
   }
 
 
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
-   */
-  @Override
-  public String getPrefix() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
-   */
-  @Override
-  public String getURI() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-
-
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#getAllowsChildren()
-   */
-  @Override
-  public boolean getAllowsChildren() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-
-
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#getChildAt(int)
-   */
-  @Override
-  public TreeNode getChildAt(int childIndex) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-
-
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#getChildCount()
-   */
-  @Override
-  public int getChildCount() {
-    // TODO Auto-generated method stub
-    return 0;
-  }
 
 }

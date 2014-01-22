@@ -20,18 +20,30 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
+import java.text.MessageFormat;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.ext.AbstractSBasePlugin;
+import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.Species;
+import org.sbml.jsbml.util.StringTools;
+
+import de.zbit.util.ResourceManager;
 
 /**
+ * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
  * @version $Rev$
  */
-public class SpatialSpeciesPlugin extends AbstractSBasePlugin {
+public class SpatialSpeciesPlugin extends AbstractSpatialSBasePlugin {
 
   /**
    * Generated serial version identifier.
@@ -41,24 +53,40 @@ public class SpatialSpeciesPlugin extends AbstractSBasePlugin {
   /**
    * 
    */
-  private Boolean isSpatial;
+  private Boolean spatial;
+
+  /**
+   * Localization support
+   */
+  private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
+
+
 
   /**
    * 
    */
   public SpatialSpeciesPlugin() {
-    // TODO Auto-generated constructor stub
+    super();
+  }
+
+
+  /**
+   * 
+   * @param Species sp
+   */
+  public SpatialSpeciesPlugin(Species sp) {
+    super(sp);
   }
 
 
 
   /**
-   * @param sb
+   * @param SpatialSpeciesPlugin sb
    */
   public SpatialSpeciesPlugin(SpatialSpeciesPlugin sb) {
     super(sb);
-    if (sb.isSetIsSpatial()) {
-      isSpatial = Boolean.valueOf(sb.isSpatial());
+    if (sb.isSetSpatial()) {
+      spatial = Boolean.valueOf(sb.isSpatial());
     }
   }
 
@@ -71,26 +99,19 @@ public class SpatialSpeciesPlugin extends AbstractSBasePlugin {
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getExtendedSBase()
    */
   @Override
-  public boolean equals(Object object) {
-    boolean equal = super.equals(object);
-    if (equal) {
-      SpatialSpeciesPlugin ss = (SpatialSpeciesPlugin) object;
-      equal &= ss.isSetIsSpatial() == isSetIsSpatial();
-      if (equal && isSetIsSpatial()) {
-        equal &= ss.isSpatial() == isSpatial();
-      }
-    }
-    return equal;
+  public Species getExtendedSBase() {
+    return (Species) super.getExtendedSBase();
   }
+
 
   /**
    * @return the isSpatial
    */
-  public boolean getIsSpatial() {
-    return isSpatial;
+  public boolean getSpatial() {
+    return spatial;
   }
 
   /* (non-Javadoc)
@@ -100,17 +121,32 @@ public class SpatialSpeciesPlugin extends AbstractSBasePlugin {
   public int hashCode() {
     final int prime = 997;
     int hashCode = super.hashCode();
-    if (isSetIsSpatial()) {
-      hashCode += prime * isSpatial.hashCode();
+    if (isSetSpatial()) {
+      hashCode += prime * spatial.hashCode();
     }
     return hashCode;
   }
 
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("SpatialSpeciesPlugin [isSpatial=");
+    builder.append(spatial);
+    builder.append("]");
+    return builder.toString();
+  }
+
+
   /**
    * @return
    */
-  public boolean isSetIsSpatial() {
-    return isSpatial != null;
+  public boolean isSetSpatial() {
+    return spatial != null;
   }
 
   /**
@@ -119,14 +155,30 @@ public class SpatialSpeciesPlugin extends AbstractSBasePlugin {
    * @see #getIsSpatial()
    */
   public boolean isSpatial() {
-    return getIsSpatial();
+    return getSpatial();
   }
 
   /**
    * @param isSpatial the isSpatial to set
    */
-  public void setIsSpatial(boolean isSpatial) {
-    this.isSpatial = Boolean.valueOf(isSpatial);
+  public void setSpatial(boolean isSpatial) {
+    spatial = Boolean.valueOf(isSpatial);
+
+    // Check if the compartment of the Species has a child of CompartmentMapping
+    Species species = getExtendedSBase();
+    Compartment compartment = species.getCompartmentInstance();
+
+    if (compartment != null) {
+      SpatialCompartmentPlugin spatialCompartment = (SpatialCompartmentPlugin) compartment.getExtension(SpatialConstants.packageName);
+
+      boolean cmSet = spatialCompartment.isSetCompartmentMapping();
+
+      if (!cmSet) {
+        throw new SBMLException(bundle.getString("COMPARTMENT_MAPPING_NOT_SET"));
+      }
+    }
+
+
   }
 
   /* (non-Javadoc)
@@ -134,61 +186,44 @@ public class SpatialSpeciesPlugin extends AbstractSBasePlugin {
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    // TODO Auto-generated method stub
-    return false;
+    boolean isAttributeRead = false;
+
+    if (attributeName.equals(SpatialConstants.isSpatial)) {
+      try {
+        setSpatial(StringTools.parseSBMLBoolean(value));
+        isAttributeRead = true;
+      } catch (Exception e) {
+        throw new SBMLException(
+          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
+            SpatialConstants.isSpatial));
+      }
+
+    }
+
+    return isAttributeRead;
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#writeXMLAttributes()
    */
   @Override
   public Map<String, String> writeXMLAttributes() {
-    // TODO Auto-generated method stub
-    return null;
+    Map<String, String> attributes = super.writeXMLAttributes();
+
+    if (isSetSpatial()) {
+      attributes.put(SpatialConstants.shortLabel + ':' + SpatialConstants.isSpatial, spatial.toString());
+    }
+
+    return attributes;
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
-   */
-  @Override
-  public String getElementNamespace() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
-   */
-  @Override
-  public String getPackageName() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
-   */
-  @Override
-  public String getPrefix() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
-   */
-  @Override
-  public String getURI() {
-    // TODO Auto-generated method stub
-    return null;
-  }
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
   @Override
   public boolean getAllowsChildren() {
-    // TODO Auto-generated method stub
     return false;
   }
 
@@ -197,7 +232,6 @@ public class SpatialSpeciesPlugin extends AbstractSBasePlugin {
    */
   @Override
   public TreeNode getChildAt(int childIndex) {
-    // TODO Auto-generated method stub
     return null;
   }
 
@@ -206,8 +240,84 @@ public class SpatialSpeciesPlugin extends AbstractSBasePlugin {
    */
   @Override
   public int getChildCount() {
-    // TODO Auto-generated method stub
     return 0;
   }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    boolean equal = super.equals(object);
+    if (equal) {
+      SpatialSpeciesPlugin species = (SpatialSpeciesPlugin) object;
+      equal &= species.isSetSpatial() == isSetSpatial();
+      equal &= species.getSpatial() == getSpatial();
+    }
+    return equal;
+  }
+
+
+  public boolean coefficientCheck() {
+    boolean check = true;
+    Model model = getModel();
+    ListOf<Parameter> params = model.getListOfParameters();
+    ListOf<DiffusionCoefficient> diffCoeffs = new ListOf<DiffusionCoefficient>();
+    ListOf<AdvectionCoefficient> advCoeffs = new ListOf<AdvectionCoefficient>();
+
+    for (Parameter p: params) {
+      SpatialParameterPlugin paramPlugin =
+          (SpatialParameterPlugin) p.getExtension(SpatialConstants.packageName);
+
+      if (paramPlugin != null) {
+        ParameterType paramType = paramPlugin.getParamType();
+        if (paramType.isSetSpeciesReference()) {
+          if (equals(paramType.getSpeciesInstance())) {
+
+            if (paramType instanceof DiffusionCoefficient) {
+              diffCoeffs.add((DiffusionCoefficient) paramType);
+            }
+            else if (paramType instanceof AdvectionCoefficient) {
+              advCoeffs.add((AdvectionCoefficient) paramType);
+            }
+          }
+        }
+      }
+    }
+
+    HashSet<Integer> coordDimensions = new HashSet<Integer>();
+
+    // Now you have a list of Parameter Type coefficients, go through and check if there is one
+    if (diffCoeffs.isEmpty()) {
+      if  (advCoeffs.isEmpty()) {
+        check = false;
+        throw new SBMLException("There is no species Id set for this parameter.");
+      } else {
+        for (AdvectionCoefficient ac : advCoeffs) {
+          if (coordDimensions.contains(ac.getCoordinateIndex())) {
+            check = false;
+          } else {
+            coordDimensions.add(ac.getCoordinateIndex());
+          }
+        }
+      }
+    } else {
+
+      coordDimensions = new HashSet<Integer>();
+
+      for (DiffusionCoefficient dc : diffCoeffs) {
+        if (coordDimensions.contains(dc.getCoordinateIndex())) {
+          check = false;
+        } else {
+          coordDimensions.add(dc.getCoordinateIndex());
+        }
+      }
+    }
+
+    return check;
+
+  }
+
 
 }
