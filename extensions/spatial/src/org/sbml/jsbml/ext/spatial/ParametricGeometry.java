@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
@@ -20,56 +20,449 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
+import java.text.MessageFormat;
+import java.util.Collection;
+
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.SBMLException;
+
+
 /**
+ * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
  * @version $Rev$
  */
 public class ParametricGeometry extends GeometryDefinition {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 5947368889263003716L;
+  ListOf<SpatialPoint> listOfSpatialPoints;
+  ListOf<ParametricObject> listOfParametricObjects;
 
-	/**
-	 * 
-	 */
-	public ParametricGeometry() {
-		// TODO Auto-generated constructor stub
-	}
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 5947368889263003716L;
 
-	/**
-	 * 
-	 * @param parametricGeometry
-	 */
-	public ParametricGeometry(ParametricGeometry parametricGeometry) {
-		// TODO Auto-generated constructor stub
-	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractTreeNode#clone()
-	 */
-	public ParametricGeometry clone() {
-		return new ParametricGeometry(this);
-	}
+  public ParametricGeometry() {
+    super();
+  }
 
-	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  /**
+   * @param node
+   */
+  public ParametricGeometry(ParametricGeometry pg) {
+    super(pg);
 
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    if (pg.isSetListOfParametricObjects()) {
+      listOfParametricObjects = pg.getListOfParametricObjects().clone();
+    }
+
+    if (pg.isSetListOfSpatialPoints()) {
+      listOfSpatialPoints = pg.getListOfSpatialPoints().clone();
+    }
+
+  }
+
+
+  /**
+   * @param level
+   * @param version
+   */
+  public ParametricGeometry(int level, int version) {
+    super(level, version);
+  }
+
+
+  /**
+   * 
+   * @param id
+   * @param level
+   * @param version
+   */
+  public ParametricGeometry(String id, int level, int version) {
+    super(id, level, version);
+  }
+
+
+  @Override
+  public ParametricGeometry clone() {
+    return new ParametricGeometry(this);
+  }
+
+
+  @Override
+  public boolean equals(Object object) {
+    boolean equal = super.equals(object);
+    if (equal) {
+      ParametricGeometry pg = (ParametricGeometry) object;
+
+      equal &= pg.isSetListOfParametricObjects() == isSetListOfParametricObjects();
+      if (equal && isSetListOfParametricObjects()) {
+        equal &= pg.getListOfParametricObjects().equals(getListOfParametricObjects());
+      }
+
+      equal &= pg.isSetListOfSpatialPoints() == isSetListOfSpatialPoints();
+      if (equal && isSetListOfSpatialPoints()) {
+        equal &= pg.getListOfSpatialPoints().equals(getListOfSpatialPoints());
+      }
+
+    }
+    return equal;
+  }
+
+
+  /**
+   * Returns {@code true}, if listOfParametricObjects contains at least one element.
+   *
+   * @return {@code true}, if listOfParametricObjects contains at least one element,
+   *         otherwise {@code false}
+   */
+  public boolean isSetListOfParametricObjects() {
+    if ((listOfParametricObjects == null) || listOfParametricObjects.isEmpty()) {
+      return false;
+    }
+    return true;
+  }
+
+
+  /**
+   * Returns the listOfParametricObjects. Creates it if it is not already existing.
+   *
+   * @return the listOfParametricObjects
+   */
+  public ListOf<ParametricObject> getListOfParametricObjects() {
+    if (!isSetListOfParametricObjects()) {
+      listOfParametricObjects = new ListOf<ParametricObject>(getLevel(),
+          getVersion());
+      listOfParametricObjects.setNamespace(SpatialConstants.namespaceURI);
+      listOfParametricObjects.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfParametricObjects);
+    }
+    return listOfParametricObjects;
+  }
+
+
+  /**
+   * Sets the given {@code ListOf<ParametricObject>}. If listOfParametricObjects
+   * was defined before and contains some elements, they are all unset.
+   *
+   * @param listOfParametricObjects
+   */
+  public void setListOfParametricObjects(ListOf<ParametricObject> listOfParametricObjects) {
+    unsetListOfParametricObjects();
+    this.listOfParametricObjects = listOfParametricObjects;
+    registerChild(this.listOfParametricObjects);
+  }
+
+
+  /**
+   * Returns {@code true}, if listOfParametricObjects contain at least one element,
+   *         otherwise {@code false}
+   *
+   * @return {@code true}, if listOfParametricObjects contain at least one element,
+   *         otherwise {@code false}
+   */
+  public boolean unsetListOfParametricObjects() {
+    if (isSetListOfParametricObjects()) {
+      ListOf<ParametricObject> oldParametricObjects = listOfParametricObjects;
+      listOfParametricObjects = null;
+      oldParametricObjects.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+
+  /**
+   * Adds a new {@link ParametricObject} to the listOfParametricObjects.
+   * <p>The listOfParametricObjects is initialized if necessary.
+   *
+   * @param parametricObject the element to add to the list
+   * @return true (as specified by {@link Collection.add})
+   */
+  public boolean addParametricObject(ParametricObject parametricObject) {
+    return getListOfParametricObjects().add(parametricObject);
+  }
+
+
+  /**
+   * Removes an element from the listOfParametricObjects.
+   *
+   * @param parametricObject the element to be removed from the list
+   * @return true if the list contained the specified element
+   * @see List#remove(Object)
+   */
+  public boolean removeParametricObject(ParametricObject parametricObject) {
+    if (isSetListOfParametricObjects()) {
+      if (getListOfParametricObjects().size() == 1) {
+        return false; //There must be at least one ParametricObject defined for this list
+      } else {
+        return getListOfParametricObjects().remove(parametricObject);
+      }
+    }
+    return false;
+  }
+
+
+  /**
+   * Removes an element from the listOfParametricObjects at the given index.
+   *
+   * @param i the index where to remove the {@link ParametricObject}
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size)
+   */
+  public void removeParametricObject(int i) {
+    if (!isSetListOfParametricObjects()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    if (getListOfParametricObjects().size() == 1) {
+      throw new SBMLException("There must be at least one ParametricObject defined for this list");
+    }
+    getListOfParametricObjects().remove(i);
+  }
+
+
+  /**
+   * TODO: if the ID is mandatory for ParametricObject objects,
+   * one should also add this methods
+   */
+  //public void removeParametricObject(String id) {
+  //  getListOfParametricObjects().removeFirst(new NameFilter(id));
+  //}
+  /**
+   * Creates a new ParametricObject element and adds it to the ListOfParametricObjects list
+   */
+  public ParametricObject createParametricObject() {
+    return createParametricObject(null);
+  }
+
+
+  /**
+   * Creates a new {@link ParametricObject} element and adds it to the ListOfParametricObjects list
+   *
+   * @return a new {@link ParametricObject} element
+   */
+  public ParametricObject createParametricObject(String id) {
+    ParametricObject parametricObject = new ParametricObject(id, getLevel(), getVersion());
+    addParametricObject(parametricObject);
+    return parametricObject;
+  }
+
+  /**
+   * TODO: optionally, create additional create methods with more
+   * variables, for instance "bar" variable
+   */
+  // public ParametricObject createParametricObject(String id, int bar) {
+  //   ParametricObject parametricObject = createParametricObject(id);
+  //   parametricObject.setBar(bar);
+  //   return parametricObject;
+  // }
+  /**
+   * 
+   */
+
+
+  /**
+   * Returns {@code true}, if listOfSpatialPoints contains at least one element.
+   *
+   * @return {@code true}, if listOfSpatialPoints contains at least one element,
+   *         otherwise {@code false}
+   */
+  public boolean isSetListOfSpatialPoints() {
+    if ((listOfSpatialPoints == null) || listOfSpatialPoints.isEmpty()) {
+      return false;
+    }
+    return true;
+  }
+
+
+  /**
+   * Returns the listOfSpatialPoints. Creates it if it is not already existing.
+   *
+   * @return the listOfSpatialPoints
+   */
+  public ListOf<SpatialPoint> getListOfSpatialPoints() {
+    if (!isSetListOfSpatialPoints()) {
+      listOfSpatialPoints = new ListOf<SpatialPoint>(getLevel(),
+          getVersion());
+      listOfSpatialPoints.setNamespace(SpatialConstants.namespaceURI);
+      listOfSpatialPoints.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfSpatialPoints);
+    }
+    return listOfSpatialPoints;
+  }
+
+
+  /**
+   * Sets the given {@code ListOf<SpatialPoint>}. If listOfSpatialPoints
+   * was defined before and contains some elements, they are all unset.
+   *
+   * @param listOfSpatialPoints
+   */
+  public void setListOfSpatialPoints(ListOf<SpatialPoint> listOfSpatialPoints) {
+    unsetListOfSpatialPoints();
+    this.listOfSpatialPoints = listOfSpatialPoints;
+    registerChild(this.listOfSpatialPoints);
+  }
+
+
+  /**
+   * Returns {@code true}, if listOfSpatialPoints contain at least one element,
+   *         otherwise {@code false}
+   *
+   * @return {@code true}, if listOfSpatialPoints contain at least one element,
+   *         otherwise {@code false}
+   */
+  public boolean unsetListOfSpatialPoints() {
+    if (isSetListOfSpatialPoints()) {
+      ListOf<SpatialPoint> oldSpatialPoints = listOfSpatialPoints;
+      listOfSpatialPoints = null;
+      oldSpatialPoints.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+
+  /**
+   * Adds a new {@link SpatialPoint} to the listOfSpatialPoints.
+   * <p>The listOfSpatialPoints is initialized if necessary.
+   *
+   * @param spatialPoint the element to add to the list
+   * @return true (as specified by {@link Collection.add})
+   */
+  public boolean addSpatialPoint(SpatialPoint spatialPoint) {
+    return getListOfSpatialPoints().add(spatialPoint);
+  }
+
+
+  /**
+   * Removes an element from the listOfSpatialPoints.
+   *
+   * @param spatialPoint the element to be removed from the list
+   * @return true if the list contained the specified element
+   * @see List#remove(Object)
+   */
+  public boolean removeSpatialPoint(SpatialPoint spatialPoint) {
+    if (isSetListOfSpatialPoints()) {
+      if (getListOfSpatialPoints().size() == 1) {
+        return false;
+      } else {
+        return getListOfSpatialPoints().remove(spatialPoint);
+      }
+    }
+    return false;
+  }
+
+
+  /**
+   * Removes an element from the listOfSpatialPoints at the given index.
+   *
+   * @param i the index where to remove the {@link SpatialPoint}
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size)
+   */
+  public void removeSpatialPoint(int i) {
+    if (!isSetListOfSpatialPoints()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    if (getListOfSpatialPoints().size() == 1) {
+      throw new SBMLException("There must be at least one SpatialPoint defined for this list");
+    }
+    getListOfSpatialPoints().remove(i);
+  }
+
+
+  /**
+   * TODO: if the ID is mandatory for SpatialPoint objects,
+   * one should also add this methods
+   */
+  //public void removeSpatialPoint(String id) {
+  //  getListOfSpatialPoints().removeFirst(new NameFilter(id));
+  //}
+  /**
+   * Creates a new SpatialPoint element and adds it to the ListOfSpatialPoints list
+   */
+  public SpatialPoint createSpatialPoint() {
+    return createSpatialPoint(null);
+  }
+
+
+  /**
+   * Creates a new {@link SpatialPoint} element and adds it to the ListOfSpatialPoints list
+   *
+   * @return a new {@link SpatialPoint} element
+   */
+  public SpatialPoint createSpatialPoint(String id) {
+    SpatialPoint spatialPoint = new SpatialPoint(id, getLevel(), getVersion());
+    addSpatialPoint(spatialPoint);
+    return spatialPoint;
+  }
+
+  /**
+   * TODO: optionally, create additional create methods with more
+   * variables, for instance "bar" variable
+   */
+  // public SpatialPoint createSpatialPoint(String id, int bar) {
+  //   SpatialPoint spatialPoint = createSpatialPoint(id);
+  //   spatialPoint.setBar(bar);
+  //   return spatialPoint;
+  // }
+  /**
+   * 
+   */
+
+
+  @Override
+  public boolean getAllowsChildren() {
+    return true;
+  }
+
+
+  @Override
+  public int getChildCount() {
+    int count = super.getChildCount();
+    if (isSetListOfParametricObjects()) {
+      count++;
+    }
+    if (isSetListOfSpatialPoints()) {
+      count++;
+    }
+    return count;
+  }
+
+
+  @Override
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(index + " < 0");
+    }
+    int count = super.getChildCount(), pos = 0;
+    if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
+    }
+    if (isSetListOfParametricObjects()) {
+      if (pos == index) {
+        return getListOfParametricObjects();
+      }
+      pos++;
+    }
+    if (isSetListOfSpatialPoints()) {
+      if (pos == index) {
+        return getListOfSpatialPoints();
+      }
+      pos++;
+    }
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}", index,
+      +Math.min(pos, 0)));
+  }
+
 
 }

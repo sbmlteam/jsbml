@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
@@ -22,53 +22,40 @@ package org.sbml.jsbml.ext.spatial;
 
 
 /**
+ * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
  * @version $Rev$
  */
 public class AdvectionCoefficient extends Coefficient {
 
-	private String variable; // TODO: can we inherit from the Variable class ???
-	private int coordinateIndex;
 
-	// TODO: check latest specs to see if there are more attributes
-	
-	private  boolean  isSetCoordinateIndex;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 8982184068116596444L;
 
-	
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 8982184068116596444L;
-	
-	/**
-	 * 
-	 */
-	public AdvectionCoefficient() {
-		super();
-	}
+  /**
+   * 
+   */
+  public AdvectionCoefficient() {
+    super();
+  }
 
-	/**
-	 * @param level
-	 * @param version
-	 */
-	public AdvectionCoefficient(int level, int version) {
-		super(level, version);
-	}
-	
-	/**
-	 * @param sb
-	 */
-	public AdvectionCoefficient(AdvectionCoefficient sb) {
-		super(sb);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#clone()
-	 */
-	public AdvectionCoefficient clone() {
-		return new AdvectionCoefficient(this);
-	}
-	
-	
+  /**
+   * @param sb
+   */
+  public AdvectionCoefficient(AdvectionCoefficient sb) {
+    super(sb);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
+  @Override
+  public AdvectionCoefficient clone() {
+    return new AdvectionCoefficient(this);
+  }
+
+
 }

@@ -4,8 +4,8 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- *
- * Copyright (C) 2009-2014 jointly by the following organizations:
+ * 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -21,43 +21,60 @@
 package org.sbml.jsbml.ext.spatial;
 
 
-/**
- * @author Alex Thomas
- * @author Andreas Dr&auml;ger
- * @since 1.0
- * @version $Rev$
- */
-public class DiffusionCoefficient extends Coefficient {
 
-  /**
-   * Generated serial version identifier.
-   */
-  private static final long serialVersionUID = 1233063375698575897L;
+/**
+ * @author Alex-Thomas
+ * @version $Rev$
+ * @since 1.0
+ * @date Jan 20, 2014
+ */
+public abstract class CSGNode extends AbstractSpatialNamedSBase {
+
+
 
   /**
    * 
    */
-  public DiffusionCoefficient() {
+  private static final long serialVersionUID = 5499821335582691196L;
+
+
+  public CSGNode() {
     super();
   }
 
+
   /**
-   * @param sb
+   * @param node
    */
-  public DiffusionCoefficient(DiffusionCoefficient sb) {
-    super(sb);
+  public CSGNode(CSGNode csgn) {
+    super(csgn);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#clone()
+
+  /**
+   * @param level
+   * @param version
    */
+  public CSGNode(int level, int version) {
+    super(level, version);
+  }
+
+
+  /**
+   * 
+   * @param id
+   * @param level
+   * @param version
+   */
+  public CSGNode(String id, int level, int version) {
+    super(id, level, version);
+  }
+
+
   @Override
-  public DiffusionCoefficient clone() {
-    return new DiffusionCoefficient(this);
+  public boolean equals(Object object) {
+    return super.equals(object);
   }
-
-  //TODO: Could add a method that checks if other DiffusionCoefficient's have been
-  // defined. This may be a low priority item.
 
 
 }

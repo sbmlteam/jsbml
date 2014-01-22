@@ -21,75 +21,18 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
-import java.util.Map;
 
-import javax.swing.tree.TreeNode;
-
-import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Parameter;
-import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
 /**
+ * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
  * @version $Rev$
  */
-public class SpatialParameterPlugin extends AbstractSBasePlugin {
+public class SpatialParameterPlugin extends AbstractSpatialSBasePlugin {
 
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
-   */
-  @Override
-  public String getElementNamespace() {
-    return SpatialConstants.getNamespaceURI(getLevel(), getVersion());
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
-   */
-  @Override
-  public String getPackageName() {
-    return SpatialConstants.packageName;
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
-   */
-  @Override
-  public String getPrefix() {
-    return SpatialConstants.shortLabel;
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
-   */
-  @Override
-  public String getURI() {
-    return getElementNamespace();
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractTreeNode#getParent()
-   */
-  @SuppressWarnings("unchecked")
-  @Override
-  public ListOf<Parameter> getParent() {
-    return (ListOf<Parameter>) getExtendedSBase().getParent();
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
-   */
-  @Override
-  public ListOf<Parameter> getParentSBMLObject() {
-    return getParent();
-  }
   /**
    * Generated serial version identifier.
    */
@@ -98,7 +41,17 @@ public class SpatialParameterPlugin extends AbstractSBasePlugin {
   /**
    * 
    */
-  private SpatialParameterQualifier qualifier;
+  private ParameterType param;
+
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getExtendedSBase()
+   */
+  @Override
+  public Parameter getExtendedSBase() {
+    return (Parameter) super.getExtendedSBase();
+  }
 
   /**
    * 
@@ -107,16 +60,36 @@ public class SpatialParameterPlugin extends AbstractSBasePlugin {
     super();
   }
 
-
-
   /**
    * @param sb
    */
   public SpatialParameterPlugin(SpatialParameterPlugin sb) {
     super(sb);
-    if (sb.isSetQualifier()) {
-      qualifier = (SpatialParameterQualifier) sb.getQualifier().clone();
+    if (sb.isSetParamType()) {
+      param = sb.getParamType().clone();
     }
+  }
+
+  /**
+   * @param model
+   */
+  public SpatialParameterPlugin(Parameter parameter) {
+    super(parameter);
+  }
+
+  public ParameterType getParamType() {
+    return isSetParamType() ? param : null;
+  }
+
+  public boolean isSetParamType() {
+    return param != null ? true : false;
+  }
+
+  /**
+   * @param qualifier the qualifier to set
+   */
+  public void setParamType(ParameterType param) {
+    this.param = param;
   }
 
   /* (non-Javadoc)
@@ -127,40 +100,29 @@ public class SpatialParameterPlugin extends AbstractSBasePlugin {
     return new SpatialParameterPlugin(this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
-   */
-  @Override
-  public boolean equals(Object object) {
-    boolean equals = super.equals(object);
-    if (equals) {
-      SpatialParameterPlugin sp = (SpatialParameterPlugin) object;
-      equals &= sp.isSetQualifier() == isSetQualifier();
-      if (equals && isSetQualifier()) {
-        equals &= sp.getQualifier().equals(getQualifier());
-      }
-    }
-    return equals;
-  }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+  /*
+   * (non-Javadoc)
+   * This will force people to cast to the different forms of parameter types
+   * @see javax.swing.tree.TreeNode#getChildAt(int)
    */
   @Override
-  public TreeNode getChildAt(int childIndex) {
-    if (childIndex < 0) {
-      throw new IndexOutOfBoundsException(childIndex + " < 0");
+  public ParameterType getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(index + " < 0");
     }
+
     int pos = 0;
-    if (isSetQualifier())  {
-      if (childIndex == pos) {
-        return getQualifier();
+
+    if (isSetParamType()) {
+      if (pos==index) {
+        return getParamType();
       }
       pos++;
     }
-    throw new IndexOutOfBoundsException(isLeaf() ? MessageFormat.format(
-      "Node {0} has no children.", getExtendedSBase().getElementName()) : MessageFormat.format(
-        "Index {0,number,integer} >= {1,number,integer}", childIndex, +Math.min(pos, 0)));
+
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}", index,pos));
   }
 
   /* (non-Javadoc)
@@ -168,72 +130,17 @@ public class SpatialParameterPlugin extends AbstractSBasePlugin {
    */
   @Override
   public int getChildCount() {
-    return (isSetQualifier() ? 1 : 0);
+    return isSetParamType() ? 1 : 0;
   }
 
-  /**
-   * @return the qualifier
-   */
-  public SpatialParameterQualifier getQualifier() {
-    return qualifier;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#hashCode()
-   */
-  @Override
-  public int hashCode() {
-    final int prime = 991;
-    int hashCode = super.hashCode();
-    if (isSetQualifier()) {
-      hashCode += prime * getQualifier().hashCode();
-    }
-    return hashCode;
-  }
-
-  /**
-   * 
-   * @return
-   */
-  public boolean isSetQualifier() {
-    return qualifier != null;
-  }
-
-  /**
-   * @param qualifier the qualifier to set
-   */
-  public void setQualifier(SpatialParameterQualifier qualifier) {
-    this.qualifier = qualifier;
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
-   */
-  @Override
-  public boolean readAttribute(String attributeName, String prefix, String value) {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
-   */
-  @Override
-  public Map<String, String> writeXMLAttributes() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
   @Override
   public boolean getAllowsChildren() {
-    // TODO Auto-generated method stub
-    return false;
+    return true;
   }
+
 
 }

@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
@@ -20,101 +20,192 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
-import javax.swing.tree.TreeNode;
+import java.text.MessageFormat;
+import java.util.Map;
+import java.util.ResourceBundle;
+
+import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.StringTools;
+
+import de.zbit.util.ResourceManager;
 
 /**
+ * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
  * @version $Rev$
  */
-public class Boundary extends NamedSpatialElement {
+public class Boundary extends AbstractSpatialNamedSBase {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -5283759970799753982L;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -5283759970799753982L;
 
-	/**
-	 * 
-	 */
-	private Double value;
-	
-	/**
-	 * 
-	 */
-	public Boundary() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	/**
-	 * 
-	 * @param boundary
-	 */
-	public Boundary(Boundary boundary) {
-		// TODO Auto-generated constructor stub
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractTreeNode#clone()
-	 */
-	public Boundary clone() {
-		return new Boundary(this);
-	}
+  /**
+   * 
+   */
+  private Double value;
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object object) {
-		// TODO Auto-generated method stub
-		return super.equals(object);
-	}
+  private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
-	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  /**
+   * 
+   */
+  public Boundary() {
+    super();
+  }
 
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+  /**
+   * 
+   * @param boundary
+   */
+  public Boundary(Boundary boundary) {
+    super(boundary);
+    if (boundary.isSetValue()) {
+      value = Double.valueOf(value);
+    }
+  }
 
-	/**
-	 * @return the value
-	 */
-	public double getValue() {
-		return isSetValue() ? value.doubleValue() : Double.NaN;
-	}
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#clone()
+   */
+  @Override
+  public Boundary clone() {
+    return new Boundary(this);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		// TODO Auto-generated method stub
-		return super.hashCode();
-	}
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object object) {
+    boolean equal = super.equals(object);
+    if (equal) {
+      Boundary b = (Boundary) object;
+      equal &= b.isSetValue() == isSetValue();
+      if (equal && isSetValue()) {
+        equal &= b.getValue() == getValue();
+      }
+    }
+    return equal;
+  }
 
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean isSetValue() {
-		return value != null;
-	}
 
-	/**
-	 * @param value the value to set
-	 */
-	public void setValue(double value) {
-		this.value = Double.valueOf(value);
-	}
+  /**
+   * Returns the value of value
+   *
+   * @return the value of value
+   */
+  public double getValue() {
+    if (isSetValue()) {
+      return value;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(SpatialConstants.value, this);
+  }
+
+
+  /**
+   * Returns whether value is set
+   *
+   * @return whether value is set
+   */
+  public boolean isSetValue() {
+    return value != null;
+  }
+
+
+  /**
+   * Sets the value of value
+   */
+  public void setValue(double value) {
+    double oldValue = this.value;
+    this.value = value;
+    firePropertyChange(SpatialConstants.value, oldValue, this.value);
+  }
+
+
+  /**
+   * Unsets the variable value
+   *
+   * @return {@code true}, if value was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetValue() {
+    if (isSetValue()) {
+      double oldValue = value;
+      value = null;
+      firePropertyChange(SpatialConstants.value, oldValue, value);
+      return true;
+    }
+    return false;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.NamedSpatialElement#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 983;
+    int hashCode = super.hashCode();
+    if (isSetValue()) {
+      hashCode += prime * getValue();
+    }
+    return hashCode;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("Boundary [value=");
+    builder.append(value);
+    builder.append("]");
+    return builder.toString();
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+   */
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetValue()) {
+      attributes.remove("value");
+      attributes.put(SpatialConstants.shortLabel + ":value", String.valueOf(getValue()));
+    }
+    return attributes;
+  }
+
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value) && (SpatialConstants.shortLabel == prefix);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(SpatialConstants.value)) {
+        try{
+          setValue(StringTools.parseSBMLDouble(value));
+        } catch (Exception e) {
+          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
+            SpatialConstants.value);
+
+        }
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
+  }
+
 
 }

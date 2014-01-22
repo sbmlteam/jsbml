@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
@@ -21,6 +21,7 @@
 
 /**
  * All classes required to reflect the spatial extension of SBML.
+ * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @version $Rev$
  * @since 1.0

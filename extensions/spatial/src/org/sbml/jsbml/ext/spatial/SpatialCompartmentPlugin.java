@@ -20,57 +20,21 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
-import java.util.Map;
-
-import javax.swing.tree.TreeNode;
+import java.text.MessageFormat;
 
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.ext.AbstractSBasePlugin;
+import org.sbml.jsbml.PropertyUndefinedError;
 
 /**
- * 
+ * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
  * @version $Rev$
  */
-public class SpatialCompartmentPlugin extends AbstractSBasePlugin {
+public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
 
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
-   */
-  @Override
-  public String getElementNamespace() {
-    return SpatialConstants.getNamespaceURI(getLevel(), getVersion());
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
-   */
-  @Override
-  public String getPackageName() {
-    return SpatialConstants.packageName;
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
-   */
-  @Override
-  public String getPrefix() {
-    return SpatialConstants.shortLabel;
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
-   */
-  @Override
-  public String getURI() {
-    return getElementNamespace();
-  }
 
 
   /* (non-Javadoc)
@@ -98,7 +62,7 @@ public class SpatialCompartmentPlugin extends AbstractSBasePlugin {
   /**
    * 
    */
-  private ListOf<CompartmentMapping> listOfCompartmentMappings;
+  private CompartmentMapping compartmentMapping;
 
   /**
    * 
@@ -113,15 +77,25 @@ public class SpatialCompartmentPlugin extends AbstractSBasePlugin {
    */
   public SpatialCompartmentPlugin(Compartment compartment) {
     super(compartment);
-    // TODO Auto-generated constructor stub
   }
+
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getExtendedSBase()
+   */
+  @Override
+  public Compartment getExtendedSBase() {
+    return (Compartment) super.getExtendedSBase();
+  }
+
 
   /**
    * @param spatialCompartmentPlugin
    */
   public SpatialCompartmentPlugin(
     SpatialCompartmentPlugin spatialCompartmentPlugin) {
-    super(spatialCompartmentPlugin);
+    super(spatialCompartmentPlugin);//TODO: add in definition of ComparmentMapping
   }
 
 
@@ -134,83 +108,87 @@ public class SpatialCompartmentPlugin extends AbstractSBasePlugin {
     return new SpatialCompartmentPlugin(this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
+
+  /**
+   * Returns the value of compartmentMapping
+   *
+   * @return the value of compartmentMapping
    */
-  @Override
-  public boolean equals(Object object) {
-    // TODO Auto-generated method stub
-    return super.equals(object);
-  }
-
-
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#hashCode()
-   */
-  @Override
-  public int hashCode() {
-    // TODO Auto-generated method stub
-    return super.hashCode();
+  public CompartmentMapping getCompartmentMapping() {
+    if (isSetCompartmentMapping()) {
+      return compartmentMapping;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(SpatialConstants.compartmentMapping, this);
   }
 
   /**
-   * 
-   * @return
+   * Returns whether compartmentMapping is set
+   *
+   * @return whether compartmentMapping is set
    */
-  public boolean isSetListOfCompartmentMappings() {
-    return (listOfCompartmentMappings != null)
-        && (listOfCompartmentMappings.size() > 0);
+  public boolean isSetCompartmentMapping() {
+    return compartmentMapping != null;
   }
 
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+  /**
+   * Sets the value of compartmentMapping
    */
-  @Override
-  public boolean readAttribute(String attributeName, String prefix,
-    String value) {
-    // TODO Auto-generated method stub
+  public void setCompartmentMapping(CompartmentMapping compartmentMapping) {
+    CompartmentMapping oldCompartmentMapping = this.compartmentMapping;
+    this.compartmentMapping = compartmentMapping;
+    firePropertyChange(SpatialConstants.compartmentMapping, oldCompartmentMapping, this.compartmentMapping);
+  }
+
+  /**
+   * Unsets the variable compartmentMapping
+   *
+   * @return {@code true}, if compartmentMapping was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetCompartmentMapping() {
+    if (isSetCompartmentMapping()) {
+      CompartmentMapping oldCompartmentMapping = compartmentMapping;
+      compartmentMapping = null;
+      firePropertyChange(SpatialConstants.compartmentMapping, oldCompartmentMapping, compartmentMapping);
+      return true;
+    }
     return false;
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()
-   */
-  @Override
-  public Map<String, String> writeXMLAttributes() {
-    // TODO Auto-generated method stub
-    return null;
-  }
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
   @Override
   public boolean getAllowsChildren() {
-    // TODO Auto-generated method stub
-    return false;
+    return true;
   }
 
-
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#getChildAt(int)
-   */
-  @Override
-  public TreeNode getChildAt(int arg0) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#getChildCount()
-   */
   @Override
   public int getChildCount() {
-    // TODO Auto-generated method stub
-    return 0;
+    return isSetCompartmentMapping() ? 1 : 0;
+
   }
+
+  @Override
+  public CompartmentMapping getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(index + " < 0");
+    }
+
+    int pos = 0;
+
+    if (isSetCompartmentMapping()) {
+      if (pos==index) {
+        return getCompartmentMapping();
+      }
+      pos++;
+    }
+
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}", index,pos));
+  }
+
+
 }

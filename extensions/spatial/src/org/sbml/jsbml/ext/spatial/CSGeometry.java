@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
@@ -20,78 +20,231 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
-import javax.swing.tree.TreeNode;
+import java.util.Collection;
+
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.SBMLException;
+
 
 /**
+ * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
  * @version $Rev$
  */
 public class CSGeometry extends GeometryDefinition {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = -3162376343741365280L;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -3162376343741365280L;
 
-	/**
-	 * 
-	 */
-	public CSGeometry() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	/**
-	 * 
-	 * @param csGeometry
-	 */
-	public CSGeometry(CSGeometry csGeometry) {
-		// TODO Auto-generated constructor stub
-	}
+  private ListOf<CSGObject> listOfCSGObjects;
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractTreeNode#clone()
-	 */
-	public CSGeometry clone() {
-		return new CSGeometry(this);
-	}
+  public CSGeometry() {
+    super();
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object object) {
-		// TODO Auto-generated method stub
-		return super.equals(object);
-	}
 
-	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+  /**
+   * @param node
+   */
+  public CSGeometry(CSGeometry csg) {
+    super(csg);
+    if (csg.isSetListOfCSGObjects()) {
+      listOfCSGObjects = csg.getListOfCSGObjects().clone();
+    }
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
-	 */
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+  /**
+   * @param level
+   * @param version
+   */
+  public CSGeometry(int level, int version) {
+    super(level, version);
+  }
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractSBase#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		// TODO Auto-generated method stub
-		return super.hashCode();
-	}
+
+  /**
+   * 
+   * @param id
+   * @param level
+   * @param version
+   */
+  public CSGeometry(String id, int level, int version) {
+    super(id, level, version);
+  }
+
+
+  @Override
+  public CSGeometry clone() {
+    return new CSGeometry(this);
+  }
+
+
+  @Override
+  public boolean equals(Object object) {
+    boolean equal = super.equals(object);
+    if (equal) {
+      CSGeometry csg = (CSGeometry) object;
+      equal &= csg.isSetListOfCSGObjects() == isSetListOfCSGObjects();
+      if (equal && isSetListOfCSGObjects()) {
+        equal &= csg.getListOfCSGObjects().equals(getListOfCSGObjects());
+      }
+    }
+    return equal;
+  }
+
+
+  /**
+   * Returns {@code true}, if listOfCSGObjects contains at least one element.
+   *
+   * @return {@code true}, if listOfCSGObjects contains at least one element,
+   *         otherwise {@code false}
+   */
+  public boolean isSetListOfCSGObjects() {
+    if ((listOfCSGObjects == null) || listOfCSGObjects.isEmpty()) {
+      return false;
+    }
+    return true;
+  }
+
+
+  /**
+   * Returns the listOfCSGObjects. Creates it if it is not already existing.
+   *
+   * @return the listOfCSGObjects
+   */
+  public ListOf<CSGObject> getListOfCSGObjects() {
+    if (!isSetListOfCSGObjects()) {
+      listOfCSGObjects = new ListOf<CSGObject>(getLevel(),
+          getVersion());
+      listOfCSGObjects.setNamespace(SpatialConstants.namespaceURI);
+      listOfCSGObjects.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfCSGObjects);
+    }
+    return listOfCSGObjects;
+  }
+
+
+  /**
+   * Sets the given {@code ListOf<CSGObject>}. If listOfCSGObjects
+   * was defined before and contains some elements, they are all unset.
+   *
+   * @param listOfCSGObjects
+   */
+  public void setListOfCSGObjects(ListOf<CSGObject> listOfCSGObjects) {
+    unsetListOfCSGObjects();
+    this.listOfCSGObjects = listOfCSGObjects;
+    registerChild(this.listOfCSGObjects);
+  }
+
+
+  /**
+   * Returns {@code true}, if listOfCSGObjects contain at least one element,
+   *         otherwise {@code false}
+   *
+   * @return {@code true}, if listOfCSGObjects contain at least one element,
+   *         otherwise {@code false}
+   */
+  public boolean unsetListOfCSGObjects() {
+    if (isSetListOfCSGObjects()) {
+      ListOf<CSGObject> oldCSGObjects = listOfCSGObjects;
+      listOfCSGObjects = null;
+      oldCSGObjects.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+
+  /**
+   * Adds a new {@link CSGObject} to the listOfCSGObjects.
+   * <p>The listOfCSGObjects is initialized if necessary.
+   *
+   * @param csgo the element to add to the list
+   * @return true (as specified by {@link Collection.add})
+   */
+  public boolean addCSGObject(CSGObject csgo) {
+    return getListOfCSGObjects().add(csgo);
+  }
+
+
+  /**
+   * Removes an element from the listOfCSGObjects.
+   *
+   * @param csgo the element to be removed from the list
+   * @return true if the list contained the specified element
+   * @see List#remove(Object)
+   */
+  public boolean removeCSGObject(CSGObject csgo) {
+    if (isSetListOfCSGObjects()) {
+      if (getListOfCSGObjects().size() == 1) {
+        return false;
+      }  else {
+        return getListOfCSGObjects().remove(csgo);
+      }
+    }
+    return false;
+  }
+
+
+  /**
+   * Removes an element from the listOfCSGObjects at the given index.
+   *
+   * @param i the index where to remove the {@link CSGObject}
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size)
+   */
+  public void removeCSGObject(int i) {
+    if (!isSetListOfCSGObjects()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    if (getListOfCSGObjects().size() == 1) {
+      throw new SBMLException("There must be at least one AnalyticVolume defined for this list");
+    }
+    getListOfCSGObjects().remove(i);
+  }
+
+
+  /**
+   * TODO: if the ID is mandatory for CSGObject objects,
+   * one should also add this methods
+   */
+  //public void removeCSGObject(String id) {
+  //  getListOfCSGObjects().removeFirst(new NameFilter(id));
+  //}
+  /**
+   * Creates a new CSGObject element and adds it to the ListOfCSGObjects list
+   */
+  public CSGObject createCSGObject() {
+    return createCSGObject(null);
+  }
+
+
+  /**
+   * Creates a new {@link CSGObject} element and adds it to the ListOfCSGObjects list
+   *
+   * @return a new {@link CSGObject} element
+   */
+  public CSGObject createCSGObject(String id) {
+    CSGObject csgo = new CSGObject(id, getLevel(), getVersion());
+    addCSGObject(csgo);
+    return csgo;
+  }
+
+  /**
+   * TODO: optionally, create additional create methods with more
+   * variables, for instance "bar" variable
+   */
+  // public CSGObject createCSGObject(String id, int bar) {
+  //   CSGObject csgo = createCSGObject(id);
+  //   csgo.setBar(bar);
+  //   return csgo;
+  // }
+  /**
+   * 
+   */
 
 }

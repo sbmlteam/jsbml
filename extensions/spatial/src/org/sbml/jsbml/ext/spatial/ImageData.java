@@ -1,4 +1,4 @@
-/* 
+/*
  * $Id$
  * $URL$
  * ----------------------------------------------------------------------------
@@ -20,66 +20,316 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
-import javax.swing.tree.TreeNode;
+import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.StringTokenizer;
 
-import org.sbml.jsbml.AbstractTreeNode;
+import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.StringTools;
+
+
 
 /**
+ * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
  * @version $Rev$
  */
-public class ImageData extends AbstractTreeNode {
+public class ImageData extends AbstractSBase {
 
-	/**
-	 * Generated serial version identifier.
-	 */
-	private static final long serialVersionUID = 1872012239027099782L;
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 1872012239027099782L;
 
-	/**
-	 * 
-	 */
-	public ImageData() {
-		// TODO Auto-generated constructor stub
-	}
+  private Integer samplesLength;
 
-	/**
-	 * @param node
-	 */
-	public ImageData(TreeNode node) {
-		super(node);
-		// TODO Auto-generated constructor stub
-	}
+  private String dataType;
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.AbstractTreeNode#clone()
-	 */
-	public ImageData clone() {
-		return new ImageData(this);
-	}
+  private Integer[] samples;
 
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getAllowsChildren()
-	 */
-	public boolean getAllowsChildren() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildAt(int)
-	 */
-	public TreeNode getChildAt(int childIndex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  public ImageData() {
+    super();
+  }
 
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.TreeNode#getChildCount()
-	 */
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+
+  /**
+   * @param node
+   */
+  public ImageData(ImageData im) {
+    super(im);
+    if (im.isSetSamples()) {
+      samples = im.getSamples().clone();
+      samplesLength = samples.length;
+    }
+    if (im.isSetDataType()) {
+      dataType = new String(im.getDataType());
+    }
+  }
+
+
+  /**
+   * @param level
+   * @param version
+   */
+  public ImageData(int level, int version) {
+    super(level, version);
+  }
+
+
+  @Override
+  public ImageData clone() {
+    return new ImageData(this);
+  }
+
+
+  @Override
+  public boolean equals(Object object) {
+    boolean equal = super.equals(object);
+    if (equal) {
+      ImageData im = (ImageData) object;
+
+      equal &= im.isSetSamples() == isSetSamples();
+      if (equal && isSetSamples()) {
+        equal &= im.getSamples().equals(getSamples());
+      }
+
+      equal &= im.isSetDataType() == isSetDataType();
+      if (equal && isSetDataType()) {
+        equal &= im.getDataType().equals(getDataType());
+      }
+
+    }
+    return equal;
+  }
+
+
+  /**
+   * Returns the value of samples
+   *
+   * @return the value of samples
+   */
+  public Integer[] getSamples() {
+    if (isSetSamples()) {
+      return samples;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(SpatialConstants.samples, this);
+  }
+
+
+  /**
+   * Returns whether samples is set
+   *
+   * @return whether samples is set
+   */
+  public boolean isSetSamples() {
+    return samples != null;
+  }
+
+
+  /**
+   * Sets the value of samples
+   */
+  public void setSamples(Integer[] samples) {
+    Integer[] oldSamples = this.samples;
+    this.samples = samples;
+    samplesLength = samples.length;
+    firePropertyChange(SpatialConstants.samples, oldSamples, this.samples);
+    firePropertyChange(SpatialConstants.samples, oldSamples.length, samplesLength);
+  }
+
+
+  /**
+   * Unsets the variable samples
+   *
+   * @return {@code true}, if samples was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetSamples() {
+    if (isSetSamples()) {
+      Integer[] oldSamples = samples;
+      samples = null;
+      samplesLength = null;
+      firePropertyChange(SpatialConstants.samples, oldSamples, samples);
+      firePropertyChange(SpatialConstants.samplesLength, oldSamples.length, samplesLength);
+      return true;
+    }
+    return false;
+  }
+
+
+  /**
+   * Returns the value of samplesLength
+   *
+   * @return the value of samplesLength
+   */
+  public int getSamplesLength() {
+    if (isSetSamplesLength()) {
+      return samplesLength;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(SpatialConstants.samplesLength, this);
+  }
+
+
+  /**
+   * Returns whether samplesLength is set
+   *
+   * @return whether samplesLength is set
+   */
+  public boolean isSetSamplesLength() {
+    return samplesLength != null;
+  }
+
+
+  /**
+   * Returns the value of dataType
+   *
+   * @return the value of dataType
+   */
+  public String getDataType() {
+    if (isSetDataType()) {
+      return dataType;
+    }
+    return null;
+  }
+
+
+  /**
+   * Returns whether dataType is set
+   *
+   * @return whether dataType is set
+   */
+  public boolean isSetDataType() {
+    return dataType != null;
+  }
+
+
+  /**
+   * Sets the value of dataType
+   */
+  public void setDataType(String dataType) {
+    String oldDataType = this.dataType;
+    this.dataType = dataType;
+    firePropertyChange(SpatialConstants.dataType, oldDataType, this.dataType);
+  }
+
+
+  /**
+   * Unsets the variable dataType
+   *
+   * @return {@code true}, if dataType was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetDataType() {
+    if (isSetDataType()) {
+      String oldDataType = dataType;
+      dataType = null;
+      firePropertyChange(SpatialConstants.dataType, oldDataType, dataType);
+      return true;
+    }
+    return false;
+  }
+
+
+  @Override
+  public int hashCode() {
+    final int prime = 983;//Change this prime number
+    int hashCode = super.hashCode();
+    if (isSetSamples()) {
+      hashCode += prime * getSamples().hashCode();
+    }
+    if (isSetDataType()) {
+      hashCode += prime * getDataType().hashCode();
+    }
+
+    return hashCode;
+  }
+
+
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetSamples()) {
+      attributes.remove("samples");
+      attributes.put(SpatialConstants.shortLabel + ":samples", Arrays.toString(getSamples()));
+    }
+
+    if (isSetSamplesLength()) {
+      attributes.remove("samplesLength");
+      attributes.put(SpatialConstants.shortLabel + ":samplesLength",
+        String.valueOf(getSamplesLength()));
+    }
+
+    if (isSetDataType()) {
+      attributes.remove("dataType");
+      attributes.put(SpatialConstants.shortLabel + ":dataType",
+        getDataType());
+    }
+    return attributes;
+  }
+
+
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
+        && (SpatialConstants.shortLabel == prefix);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(SpatialConstants.samples)) {
+        StringTokenizer test = new StringTokenizer(value);
+        Integer[] samplesTemp = new Integer[test.countTokens()];
+        int i = 0;
+        while(test.hasMoreTokens()) {
+          try {
+            samplesTemp[i] = StringTools.parseSBMLInt(test.nextToken());
+            i++;
+          } catch (Exception e) {
+            MessageFormat.format(
+              SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
+              SpatialConstants.pointIndex);
+          }
+        }
+        if (samplesTemp.length > 0) {
+          unsetSamples();
+          setSamples(samplesTemp);
+        }
+      }
+      else if (attributeName.equals(SpatialConstants.dataType)) {
+        try {
+          setDataType(value);
+        } catch (Exception e) {
+          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.dataType);
+        }
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
+  }
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ImageData [samplesLength=");
+    builder.append(samplesLength);
+    builder.append(", dataType=");
+    builder.append(dataType);
+    builder.append(", samples=");
+    builder.append(Arrays.toString(samples));
+    builder.append("]");
+    return builder.toString();
+  }
+
+
 
 }
