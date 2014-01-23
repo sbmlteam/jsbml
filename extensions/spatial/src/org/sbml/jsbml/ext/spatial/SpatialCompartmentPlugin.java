@@ -34,8 +34,10 @@ import org.sbml.jsbml.PropertyUndefinedError;
  */
 public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
 
-
-
+  /**
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 1363097365327594433L;
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#getParent()
@@ -46,7 +48,6 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
     return (ListOf<Compartment>) getExtendedSBase().getParent();
   }
 
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getParentSBMLObject()
    */
@@ -54,10 +55,6 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
   public ListOf<Compartment> getParentSBMLObject() {
     return getParent();
   }
-  /**
-   * Generated serial version identifier.
-   */
-  private static final long serialVersionUID = 1363097365327594433L;
 
   /**
    * 
@@ -71,15 +68,12 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
     super();
   }
 
-
   /**
    * @param compartment
    */
   public SpatialCompartmentPlugin(Compartment compartment) {
     super(compartment);
   }
-
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getExtendedSBase()
@@ -89,7 +83,6 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
     return (Compartment) super.getExtendedSBase();
   }
 
-
   /**
    * @param spatialCompartmentPlugin
    */
@@ -98,8 +91,6 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
     super(spatialCompartmentPlugin);//TODO: add in definition of ComparmentMapping
   }
 
-
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
@@ -107,7 +98,6 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
   public SpatialCompartmentPlugin clone() {
     return new SpatialCompartmentPlugin(this);
   }
-
 
   /**
    * Returns the value of compartmentMapping
@@ -156,7 +146,6 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
     return false;
   }
 
-
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
@@ -165,12 +154,18 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
     return true;
   }
 
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildCount()
+   */
   @Override
   public int getChildCount() {
     return isSetCompartmentMapping() ? 1 : 0;
 
   }
 
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildAt(int)
+   */
   @Override
   public CompartmentMapping getChildAt(int index) {
     if (index < 0) {
@@ -189,6 +184,5 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", index,pos));
   }
-
 
 }
