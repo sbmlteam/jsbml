@@ -100,7 +100,7 @@ public class GlyphCreator {
     Layout layout = extLayout.createLayout(SBMLtools.nextId(model));
     layout.setName("auto_layout");
     doc.addNamespace(LayoutConstants.shortLabel, "xmlns", namespace);
-    doc.getSBMLDocumentAttributes().put(LayoutConstants.shortLabel + ":required", "false"); 
+    doc.getSBMLDocumentAttributes().put(LayoutConstants.shortLabel + ":required", "false");
     
     int degreeThreshold = 3;
     
@@ -141,7 +141,7 @@ public class GlyphCreator {
           }
         }
       }
-    }		
+    }
     
     Map<String, List<String>> species2glyph = new HashMap<String, List<String>>();
     Map<String, Integer> sGlyphDegree = new HashMap<String, Integer>();
