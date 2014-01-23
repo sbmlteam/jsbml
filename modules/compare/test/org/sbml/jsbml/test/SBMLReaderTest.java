@@ -63,6 +63,7 @@ import org.sbml.jsbml.StoichiometryMath;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.util.SBMLtools;
 import org.sbml.jsbml.util.compilers.LibSBMLFormulaCompiler;
 import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNamespaces;
@@ -1037,7 +1038,7 @@ public class SBMLReaderTest {
     // compare message
     if (libSbmlConstraint.isSetMessage()) {
 
-      String jsbmlMessageString = jsbmlConstraint.getMessageString();
+      String jsbmlMessageString = SBMLtools.toXML(jsbmlConstraint.getMessage());
       String libSbmlMessageString = libSbmlConstraint.getMessageString();
 
       if (jsbmlMessageString == null) {
@@ -1469,7 +1470,11 @@ public class SBMLReaderTest {
 
     // loggerErr.info("SBase jsbml Non RDF annotation:\n@" + jsbmlSBase.getAnnotation().getNonRDFannotation() + "@");
 
-    String jsbmlAnnotStr = jsbmlSBase.getAnnotationString();
+    String jsbmlAnnotStr = "";
+    try {
+      jsbmlAnnotStr = jsbmlSBase.getAnnotationString();
+    } catch (XMLStreamException exc) {
+    }
     String libsbmlAnnotStr = libSbmlSBase.getAnnotationString();
 
     boolean annotationsAreEquals = true;
@@ -1595,7 +1600,7 @@ public class SBMLReaderTest {
 
   private static void compareNotes(SBase jsbmlSbase, org.sbml.libsbml.SBase libSbmlSbase) {
 
-    String jsbmlNotesString = jsbmlSbase.getNotesString();
+    String jsbmlNotesString = SBMLtools.toXML(jsbmlSbase.getNotes());
     String libSbmlNotesString = libSbmlSbase.getNotesString();
 
     if (jsbmlNotesString == null) {
