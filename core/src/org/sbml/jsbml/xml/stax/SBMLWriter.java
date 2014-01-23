@@ -689,42 +689,36 @@ public class SBMLWriter {
    * 
    * @param sbase
    * @return
+   * @throws XMLStreamException
    */
-  public String writeAnnotation(SBase sbase) {
+  public String writeAnnotation(SBase sbase) throws XMLStreamException {
 
     String annotationStr = "";
 
-    if (sbase == null || (!sbase.isSetAnnotation())) {
+    if ((sbase == null) || !sbase.isSetAnnotation()) {
       return annotationStr;
     }
 
     StringWriter stream = new StringWriter();
-
     SMOutputFactory smFactory = new SMOutputFactory(XMLOutputFactory.newInstance());
 
-    try {
-      XMLStreamWriter2 writer = smFactory.createStax2Writer(stream);
+    XMLStreamWriter2 writer = smFactory.createStax2Writer(stream);
 
-      // For this to work, the elements need to be completely empty (no whitespace or line return)
-      writer.setProperty(XMLOutputFactory2.P_AUTOMATIC_EMPTY_ELEMENTS, Boolean.TRUE);
+    // For this to work, the elements need to be completely empty (no whitespace or line return)
+    writer.setProperty(XMLOutputFactory2.P_AUTOMATIC_EMPTY_ELEMENTS, Boolean.TRUE);
 
-      // Create an xml fragment to avoid having the xml declaration
-      SMRootFragment outputDocument = SMOutputFactory.createOutputFragment(writer);
+    // Create an xml fragment to avoid having the xml declaration
+    SMRootFragment outputDocument = SMOutputFactory.createOutputFragment(writer);
 
-      // all the sbml element namespaces are registered to the writer in the writeAnnotation method
+    // all the sbml element namespaces are registered to the writer in the writeAnnotation method
 
-      // call the writeAnnotation, indicating that we are building an xml fragment
-      writeAnnotation(sbase, outputDocument, writer, 0, true);
+    // call the writeAnnotation, indicating that we are building an xml fragment
+    writeAnnotation(sbase, outputDocument, writer, 0, true);
 
-      writer.writeEndDocument();
-      writer.close();
+    writer.writeEndDocument();
+    writer.close();
 
-      annotationStr = stream.toString();
-    } catch (XMLStreamException e) {
-      e.printStackTrace();
-    } catch (SBMLException e) {
-      e.printStackTrace();
-    }
+    annotationStr = stream.toString();
 
     return annotationStr;
   }
@@ -748,8 +742,7 @@ public class SBMLWriter {
    */
   private void writeAnnotation(SBase sbase, SMOutputContainer element,
     XMLStreamWriter writer, int indent, boolean xmlFragment)
-        throws XMLStreamException, SBMLException
-        {
+        throws XMLStreamException, SBMLException {
     // calling the annotation parsers so that they update the XMLNode before writing it
     // TODO - should be done in the Annotation class on methods that return the whole XMLNode
     for (AnnotationWriter annoWriter : annotationParsers) {
@@ -760,8 +753,7 @@ public class SBMLWriter {
     XMLNodeWriter xmlNodeWriter = new XMLNodeWriter(writer, indent,
       indentCount, indentChar);
     xmlNodeWriter.write(sbase.getAnnotation().getNonRDFannotation());
-
-        }
+  }
 
 
   /**

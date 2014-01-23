@@ -83,6 +83,15 @@ Version 1.0-rc1 (xx-xx-2013)
 
 * Bug Fixes:
 
+  - Appending text in an XMLToken did not have an effect if there was already
+    some text.
+    
+  - The unsetUnits method in ExplicitRule did correct notify the listeners. 
+
+  - When calling the method setSymbol in InitialAssignment with an instance of
+    Variable as argument, the listeners were sometimes not correctly informed
+    about changes.
+
   - The setParent method caused an incorrect and in many cases duplicate call of
     the nodeAdded method in TreeNodeChangeListeners. Instead of registering a
     property change (the parent link) the parent node has been passed to the

@@ -287,12 +287,12 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
    */
   @Override
   public void setVariable(Variable variable) {
-    if ((getLevel() < 3) && (variable instanceof SpeciesReference)) {
+    if ((getLevel() < 3) && (variable != null) && (variable instanceof SpeciesReference)) {
       throw new IllegalArgumentException(String.format(
         Assignment.ILLEGAL_VARIABLE_EXCEPTION_MSG,
         variable.getId(), getElementName()));
     }
-    setVariable(variableID = variable != null ? variable.getId() : null);
+    setVariable(variable != null ? variable.getId() : null);
   }
 
   /* (non-Javadoc)
@@ -311,7 +311,7 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
     Map<String, String> attributes = super.writeXMLAttributes();
 
     if (isSetVariable()) {
-      attributes.put("symbol", getVariable());
+      attributes.put(TreeNodeChangeEvent.symbol, getVariable());
     }
 
     return attributes;

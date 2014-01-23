@@ -521,6 +521,8 @@ public abstract class XMLToken extends AbstractTreeNode {
   public void append(String chars) {
     if (characters == null) {
       characters = new StringBuilder(chars);
+    } else {
+      characters.append(chars);
     }
     String oldValue = characters.toString();
     firePropertyChange(TreeNodeChangeEvent.text, oldValue, characters.toString());

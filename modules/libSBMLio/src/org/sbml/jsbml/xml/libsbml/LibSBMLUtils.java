@@ -26,6 +26,9 @@ import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
+import java.util.TimeZone;
+
+import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode;
@@ -88,51 +91,6 @@ public class LibSBMLUtils {
    * A {@link Logger} for this class.
    */
   private static final Logger logger = Logger.getLogger(LibSBMLUtils.class);
-
-  /**
-   * 
-   * @param astnode
-   * @return
-   */
-  public static org.sbml.libsbml.ASTNode convertASTNode(ASTNode astnode) {
-    org.sbml.libsbml.ASTNode libAstNode = new org.sbml.libsbml.ASTNode();
-
-    libAstNode.setType(convertASTNodeType(astnode.getType()));
-    if (astnode.getType() == ASTNode.Type.REAL) {
-      libAstNode.setValue(astnode.getReal());
-    } else if (astnode.getType() == ASTNode.Type.INTEGER) {
-      libAstNode.setValue(astnode.getInteger());
-    } else if (astnode.getType() == ASTNode.Type.NAME
-        || astnode.getType() == ASTNode.Type.FUNCTION) {
-      libAstNode.setName(astnode.getName());
-    } else if (astnode.getType() == ASTNode.Type.REAL_E) {
-      libAstNode.setValue(astnode.getMantissa(), astnode.getExponent());
-    }
-
-    if (astnode.isSetClassName()) {
-      libAstNode.setClassName(astnode.getClassName());
-    }
-    if (astnode.isSetId()) {
-      libAstNode.setId(astnode.getId());
-    }
-    if (astnode.isSetName() && !astnode.isOperator()) {
-      libAstNode.setName(astnode.getName());
-    }
-    if (astnode.isSetStyle()) {
-      libAstNode.setStyle(astnode.getStyle());
-    }
-    if (astnode.isSetUnits()) {
-      libAstNode.setUnits(astnode.getUnits());
-    }
-    if (astnode.getChildCount() > 0) {
-      for (ASTNode child : astnode.getListOfNodes()) {
-        libAstNode.addChild(convertASTNode(child));
-      }
-    }
-    astnode.putUserObject(LINK_TO_LIBSBML, libAstNode);
-
-    return libAstNode;
-  }
 
   /**
    * 
@@ -370,6 +328,51 @@ public class LibSBMLUtils {
 
   /**
    * 
+   * @param astnode
+   * @return
+   */
+  public static org.sbml.libsbml.ASTNode convertASTNode(ASTNode astnode) {
+    org.sbml.libsbml.ASTNode libAstNode = new org.sbml.libsbml.ASTNode();
+
+    libAstNode.setType(convertASTNodeType(astnode.getType()));
+    if (astnode.getType() == ASTNode.Type.REAL) {
+      libAstNode.setValue(astnode.getReal());
+    } else if (astnode.getType() == ASTNode.Type.INTEGER) {
+      libAstNode.setValue(astnode.getInteger());
+    } else if (astnode.getType() == ASTNode.Type.NAME
+        || astnode.getType() == ASTNode.Type.FUNCTION) {
+      libAstNode.setName(astnode.getName());
+    } else if (astnode.getType() == ASTNode.Type.REAL_E) {
+      libAstNode.setValue(astnode.getMantissa(), astnode.getExponent());
+    }
+
+    if (astnode.isSetClassName()) {
+      libAstNode.setClassName(astnode.getClassName());
+    }
+    if (astnode.isSetId()) {
+      libAstNode.setId(astnode.getId());
+    }
+    if (astnode.isSetName() && !astnode.isOperator()) {
+      libAstNode.setName(astnode.getName());
+    }
+    if (astnode.isSetStyle()) {
+      libAstNode.setStyle(astnode.getStyle());
+    }
+    if (astnode.isSetUnits()) {
+      libAstNode.setUnits(astnode.getUnits());
+    }
+    if (astnode.getChildCount() > 0) {
+      for (ASTNode child : astnode.getListOfNodes()) {
+        libAstNode.addChild(convertASTNode(child));
+      }
+    }
+    astnode.putUserObject(LINK_TO_LIBSBML, libAstNode);
+
+    return libAstNode;
+  }
+
+  /**
+   * 
    * @param type
    * @return
    */
@@ -510,9 +513,10 @@ public class LibSBMLUtils {
    * 
    * @param compartment
    * @return
+   * @throws XMLStreamException
    */
   public static org.sbml.libsbml.Compartment convertCompartment(
-    Compartment compartment) {
+    Compartment compartment) throws XMLStreamException {
     org.sbml.libsbml.Compartment c = (org.sbml.libsbml.Compartment) compartment.getUserObject(LINK_TO_LIBSBML);
     if (c == null) {
       c = new org.sbml.libsbml.Compartment(compartment.getLevel(), compartment.getVersion());
@@ -544,9 +548,10 @@ public class LibSBMLUtils {
    * 
    * @param compartmentType
    * @return
+   * @throws XMLStreamException
    */
   public static org.sbml.libsbml.CompartmentType convertCompartmentType(
-    CompartmentType compartmentType) {
+    CompartmentType compartmentType) throws XMLStreamException {
     org.sbml.libsbml.CompartmentType ct = (org.sbml.libsbml.CompartmentType) compartmentType.getUserObject(LINK_TO_LIBSBML);
     if (ct == null) {
       ct = new org.sbml.libsbml.CompartmentType(compartmentType.getLevel(), compartmentType.getVersion());
@@ -560,8 +565,9 @@ public class LibSBMLUtils {
    * 
    * @param constraint
    * @return
+   * @throws XMLStreamException
    */
-  public static org.sbml.libsbml.Constraint convertConstraint(Constraint constraint) {
+  public static org.sbml.libsbml.Constraint convertConstraint(Constraint constraint) throws XMLStreamException {
     org.sbml.libsbml.Constraint c = (org.sbml.libsbml.Constraint) constraint.getUserObject(LINK_TO_LIBSBML);
     if (c == null) {
       c = new org.sbml.libsbml.Constraint(constraint.getLevel(), constraint.getVersion());
@@ -764,10 +770,23 @@ public class LibSBMLUtils {
 
   /**
    * 
-   * @param delay
+   * @param date
    * @return
    */
-  public static org.sbml.libsbml.Delay convertDelay(Delay delay) {
+  public static Date convertDate(org.sbml.libsbml.Date date) {
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTimeZone(TimeZone.getTimeZone(TimeZone.getAvailableIDs((int) (date.getSignOffset() * date.getMinutesOffset() * 60000l))[0]));
+    calendar.set((int) date.getYear(), (int) date.getMonth(), (int) date.getDay(), (int) date.getHour(), (int) date.getMinute(), (int) date.getSecond());
+    return calendar.getTime();
+  }
+
+  /**
+   * 
+   * @param delay
+   * @return
+   * @throws XMLStreamException
+   */
+  public static org.sbml.libsbml.Delay convertDelay(Delay delay) throws XMLStreamException {
     org.sbml.libsbml.Delay d = (org.sbml.libsbml.Delay) delay.getUserObject(LINK_TO_LIBSBML);
     if (d == null) {
       d = new org.sbml.libsbml.Delay(delay.getLevel(), delay.getVersion());
@@ -781,8 +800,9 @@ public class LibSBMLUtils {
    * 
    * @param event
    * @return
+   * @throws XMLStreamException
    */
-  public static org.sbml.libsbml.Event convertEvent(Event event) {
+  public static org.sbml.libsbml.Event convertEvent(Event event) throws XMLStreamException {
     org.sbml.libsbml.Event e = (org.sbml.libsbml.Event) event.getUserObject(LINK_TO_LIBSBML);
     if (e == null) {
       e = new org.sbml.libsbml.Event(event.getLevel(), event.getVersion());
@@ -822,9 +842,10 @@ public class LibSBMLUtils {
    * @param eventAssignment
    * @param args
    * @return
+   * @throws XMLStreamException
    */
   public static org.sbml.libsbml.EventAssignment convertEventAssignment(
-    EventAssignment eventAssignment) {
+    EventAssignment eventAssignment) throws XMLStreamException {
     org.sbml.libsbml.EventAssignment ea = (org.sbml.libsbml.EventAssignment) eventAssignment.getUserObject(LINK_TO_LIBSBML);
     if (ea == null) {
       ea = new org.sbml.libsbml.EventAssignment(eventAssignment.getLevel(), eventAssignment.getVersion());
@@ -841,15 +862,15 @@ public class LibSBMLUtils {
    * 
    * @param functionDefinition
    * @return
+   * @throws XMLStreamException
    */
   public static org.sbml.libsbml.FunctionDefinition convertFunctionDefinition(
-    FunctionDefinition functionDefinition) {
+    FunctionDefinition functionDefinition) throws XMLStreamException {
     org.sbml.libsbml.FunctionDefinition fd = (org.sbml.libsbml.FunctionDefinition) functionDefinition.getUserObject(LINK_TO_LIBSBML);
     if (fd == null) {
       fd = new org.sbml.libsbml.FunctionDefinition(functionDefinition.getLevel(), functionDefinition.getVersion());
       functionDefinition.putUserObject(LINK_TO_LIBSBML, fd);
     }
-    transferNamedSBaseProperties(functionDefinition, fd);
     transferMathContainerProperties(functionDefinition, fd);
     return fd;
   }
@@ -890,11 +911,44 @@ public class LibSBMLUtils {
 
   /**
    * 
-   * @param initialAssignment
+   * @param libHist
    * @return
    */
+  public static History convertHistory(org.sbml.libsbml.ModelHistory libHist) {
+    int i;
+    History history = new History();
+    for (i = 0; i < libHist.getNumCreators(); i++) {
+      Creator creator = new Creator();
+      org.sbml.libsbml.ModelCreator libCreator = libHist.getCreator(i);
+      creator.setGivenName(libCreator.getGivenName());
+      creator.setFamilyName(libCreator.getFamilyName());
+      creator.setEmail(libCreator.getEmail());
+      creator.setOrganization(libCreator.getOrganization());
+      creator.putUserObject(LINK_TO_LIBSBML, libCreator);
+      history.addCreator(creator);
+    }
+    if (libHist.isSetCreatedDate()) {
+      history.setCreatedDate(convertDate(libHist.getCreatedDate()));
+    }
+    if (libHist.isSetModifiedDate()) {
+      history.setModifiedDate(convertDate(libHist.getModifiedDate()));
+    }
+    for (i = 0; i < libHist.getNumModifiedDates(); i++) {
+      history.addModifiedDate(convertDate(libHist.getModifiedDate(i)));
+    }
+    history.putUserObject(LINK_TO_LIBSBML, libHist);
+    return history;
+  }
+
+
+  /**
+   * 
+   * @param initialAssignment
+   * @return
+   * @throws XMLStreamException
+   */
   public static org.sbml.libsbml.InitialAssignment convertInitialAssignment(
-    InitialAssignment initialAssignment) {
+    InitialAssignment initialAssignment) throws XMLStreamException {
     org.sbml.libsbml.InitialAssignment ia = (org.sbml.libsbml.InitialAssignment) initialAssignment.getUserObject(LINK_TO_LIBSBML);
     if (ia == null) {
       ia = new org.sbml.libsbml.InitialAssignment(initialAssignment.getLevel(),
@@ -912,8 +966,9 @@ public class LibSBMLUtils {
    * 
    * @param kinteicLaw
    * @return
+   * @throws XMLStreamException
    */
-  public static org.sbml.libsbml.KineticLaw convertKineticLaw(KineticLaw kinteticLaw) {
+  public static org.sbml.libsbml.KineticLaw convertKineticLaw(KineticLaw kinteticLaw) throws XMLStreamException {
     org.sbml.libsbml.KineticLaw k = (org.sbml.libsbml.KineticLaw) kinteticLaw.getUserObject(LINK_TO_LIBSBML);
     if (k == null) {
       k = new org.sbml.libsbml.KineticLaw(kinteticLaw.getLevel(), kinteticLaw.getVersion());
@@ -936,13 +991,13 @@ public class LibSBMLUtils {
     return k;
   }
 
-
   /**
    * 
    * @param parameter
    * @return
+   * @throws XMLStreamException
    */
-  public static org.sbml.libsbml.SBase convertLocalParameter(LocalParameter parameter) {
+  public static org.sbml.libsbml.SBase convertLocalParameter(LocalParameter parameter) throws XMLStreamException {
     org.sbml.libsbml.LocalParameter p1 = null;
     org.sbml.libsbml.Parameter p2 = null;
 
@@ -984,8 +1039,9 @@ public class LibSBMLUtils {
    * @param model
    * @return
    * @throws SBMLException
+   * @throws XMLStreamException
    */
-  public static org.sbml.libsbml.Model convertModel(Model model) throws SBMLException {
+  public static org.sbml.libsbml.Model convertModel(Model model) throws SBMLException, XMLStreamException {
     org.sbml.libsbml.Model libModel = (org.sbml.libsbml.Model) model.getUserObject(LINK_TO_LIBSBML);
     if (libModel == null) {
       libModel = new org.sbml.libsbml.Model(model.getLevel(), model.getVersion());
@@ -1142,9 +1198,10 @@ public class LibSBMLUtils {
    * 
    * @param modifierSpeciesReference
    * @return
+   * @throws XMLStreamException
    */
   public static org.sbml.libsbml.ModifierSpeciesReference convertModifierSpeciesReference(
-    ModifierSpeciesReference modifierSpeciesReference) {
+    ModifierSpeciesReference modifierSpeciesReference) throws XMLStreamException {
     org.sbml.libsbml.ModifierSpeciesReference m = (org.sbml.libsbml.ModifierSpeciesReference) modifierSpeciesReference.getUserObject(LINK_TO_LIBSBML);
     if (m == null) {
       m = new org.sbml.libsbml.ModifierSpeciesReference(modifierSpeciesReference.getLevel(), modifierSpeciesReference.getVersion());
@@ -1161,8 +1218,9 @@ public class LibSBMLUtils {
    * 
    * @param parameter
    * @return
+   * @throws XMLStreamException
    */
-  public static org.sbml.libsbml.Parameter convertParameter(Parameter parameter) {
+  public static org.sbml.libsbml.Parameter convertParameter(Parameter parameter) throws XMLStreamException {
     org.sbml.libsbml.Parameter p = (org.sbml.libsbml.Parameter) parameter.getUserObject(LINK_TO_LIBSBML);
     if (p == null) {
       p = new org.sbml.libsbml.Parameter(parameter.getLevel(), parameter.getVersion());
@@ -1183,8 +1241,9 @@ public class LibSBMLUtils {
    * 
    * @param priority
    * @return
+   * @throws XMLStreamException
    */
-  public static org.sbml.libsbml.Priority convertPriority(Priority priority) {
+  public static org.sbml.libsbml.Priority convertPriority(Priority priority) throws XMLStreamException {
     org.sbml.libsbml.Priority p = (org.sbml.libsbml.Priority) priority.getUserObject(LINK_TO_LIBSBML);
     if (p == null) {
       p = new org.sbml.libsbml.Priority(priority.getLevel(), priority.getVersion());
@@ -1198,8 +1257,9 @@ public class LibSBMLUtils {
    * 
    * @param reaction
    * @return
+   * @throws XMLStreamException
    */
-  public static org.sbml.libsbml.Reaction convertReaction(Reaction reaction) {
+  public static org.sbml.libsbml.Reaction convertReaction(Reaction reaction) throws XMLStreamException {
     org.sbml.libsbml.Reaction r = (org.sbml.libsbml.Reaction) reaction.getUserObject(LINK_TO_LIBSBML);
     if (r == null) {
       r = new org.sbml.libsbml.Reaction(reaction.getLevel(), reaction.getVersion());
@@ -1207,7 +1267,7 @@ public class LibSBMLUtils {
     }
     transferNamedSBaseProperties(reaction, r);
     if (reaction.isSetFast()) {
-      r.setFast(reaction.getFast());
+      r.setFast(reaction.isFast());
     }
     if (reaction.isSetReversible()) {
       r.setReversible(reaction.getReversible());
@@ -1247,8 +1307,9 @@ public class LibSBMLUtils {
    * 
    * @param rule
    * @return
+   * @throws XMLStreamException
    */
-  public static org.sbml.libsbml.Rule convertRule(Rule rule) {
+  public static org.sbml.libsbml.Rule convertRule(Rule rule) throws XMLStreamException {
     org.sbml.libsbml.Rule r = (org.sbml.libsbml.Rule) rule.getUserObject(LINK_TO_LIBSBML);
     if (rule.isAlgebraic()) {
       if (r == null) {
@@ -1284,8 +1345,9 @@ public class LibSBMLUtils {
    * 
    * @param doc
    * @return
+   * @throws XMLStreamException
    */
-  public static org.sbml.libsbml.SBMLDocument convertSBMLDocument(SBMLDocument doc) {
+  public static org.sbml.libsbml.SBMLDocument convertSBMLDocument(SBMLDocument doc) throws XMLStreamException {
     org.sbml.libsbml.SBMLDocument libDoc = (org.sbml.libsbml.SBMLDocument) doc.getUserObject(LINK_TO_LIBSBML);
     if (libDoc == null) {
       libDoc = new org.sbml.libsbml.SBMLDocument(doc.getLevel(), doc.getVersion());
@@ -1317,8 +1379,9 @@ public class LibSBMLUtils {
    * 
    * @param species
    * @return
+   * @throws XMLStreamException
    */
-  public static org.sbml.libsbml.Species convertSpecies(Species species) {
+  public static org.sbml.libsbml.Species convertSpecies(Species species) throws XMLStreamException {
     org.sbml.libsbml.Species s = (org.sbml.libsbml.Species) species.getUserObject(LINK_TO_LIBSBML);
     if (s == null) {
       s = new org.sbml.libsbml.Species(species.getLevel(), species.getVersion());
@@ -1358,8 +1421,9 @@ public class LibSBMLUtils {
    * 
    * @param speciesReference
    * @return
+   * @throws XMLStreamException
    */
-  public static org.sbml.libsbml.SpeciesReference convertSpeciesReference(SpeciesReference speciesReference) {
+  public static org.sbml.libsbml.SpeciesReference convertSpeciesReference(SpeciesReference speciesReference) throws XMLStreamException {
     org.sbml.libsbml.SpeciesReference libSpeciesReference = (org.sbml.libsbml.SpeciesReference) speciesReference.getUserObject(LINK_TO_LIBSBML);
     if (libSpeciesReference == null) {
       libSpeciesReference = new org.sbml.libsbml.SpeciesReference(speciesReference.getLevel(), speciesReference.getVersion());
@@ -1369,12 +1433,14 @@ public class LibSBMLUtils {
     return libSpeciesReference;
   }
 
+
   /**
    * 
    * @param speciesType
    * @return
+   * @throws XMLStreamException
    */
-  public static org.sbml.libsbml.SpeciesType convertSpeciesType(SpeciesType speciesType) {
+  public static org.sbml.libsbml.SpeciesType convertSpeciesType(SpeciesType speciesType) throws XMLStreamException {
     org.sbml.libsbml.SpeciesType st = (org.sbml.libsbml.SpeciesType) speciesType.getUserObject(LINK_TO_LIBSBML);
     if (st == null) {
       st = new org.sbml.libsbml.SpeciesType(speciesType.getLevel(), speciesType.getVersion());
@@ -1388,8 +1454,9 @@ public class LibSBMLUtils {
    * 
    * @param sbase
    * @return
+   * @throws XMLStreamException
    */
-  public static org.sbml.libsbml.StoichiometryMath convertStoichiometryMath(StoichiometryMath sbase) {
+  public static org.sbml.libsbml.StoichiometryMath convertStoichiometryMath(StoichiometryMath sbase) throws XMLStreamException {
     org.sbml.libsbml.StoichiometryMath libSBase = (org.sbml.libsbml.StoichiometryMath) sbase.getUserObject(LINK_TO_LIBSBML);
     if (libSBase == null) {
       libSBase = new org.sbml.libsbml.StoichiometryMath(sbase.getLevel(), sbase.getVersion());
@@ -1399,13 +1466,13 @@ public class LibSBMLUtils {
     return libSBase;
   }
 
-
   /**
    * 
    * @param trigger
    * @return
+   * @throws XMLStreamException
    */
-  public static org.sbml.libsbml.Trigger convertTrigger(Trigger trigger) {
+  public static org.sbml.libsbml.Trigger convertTrigger(Trigger trigger) throws XMLStreamException {
     org.sbml.libsbml.Trigger t = (org.sbml.libsbml.Trigger) trigger.getUserObject(LINK_TO_LIBSBML);
     if (t == null) {
       t = new org.sbml.libsbml.Trigger(trigger.getLevel(), trigger.getVersion());
@@ -1425,8 +1492,9 @@ public class LibSBMLUtils {
    * 
    * @param unit
    * @return
+   * @throws XMLStreamException
    */
-  public static org.sbml.libsbml.Unit convertUnit(Unit unit) {
+  public static org.sbml.libsbml.Unit convertUnit(Unit unit) throws XMLStreamException {
     org.sbml.libsbml.Unit u = (org.sbml.libsbml.Unit) unit.getUserObject(LINK_TO_LIBSBML);
     if (u == null) {
       u = new org.sbml.libsbml.Unit(unit.getLevel(), unit.getVersion());
@@ -1455,9 +1523,10 @@ public class LibSBMLUtils {
    * 
    * @param unitDefinition
    * @return
+   * @throws XMLStreamException
    */
   public static org.sbml.libsbml.UnitDefinition convertUnitDefinition(
-    UnitDefinition unitDefinition) {
+    UnitDefinition unitDefinition) throws XMLStreamException {
     org.sbml.libsbml.UnitDefinition ud = (org.sbml.libsbml.UnitDefinition) unitDefinition.getUserObject(LINK_TO_LIBSBML);
     if (ud == null) {
       ud = new org.sbml.libsbml.UnitDefinition(unitDefinition.getLevel(), unitDefinition.getVersion());
@@ -1472,6 +1541,91 @@ public class LibSBMLUtils {
       unitDefinition.getListOfUnits().putUserObject(LINK_TO_LIBSBML, ud.getListOfUnits());
     }
     return ud;
+  }
+
+  /**
+   * 
+   * @param kind
+   * @return
+   */
+  public static Unit.Kind convertUnitKind(int kind) {
+    switch (kind) {
+    case libsbmlConstants.UNIT_KIND_AMPERE:
+      return Unit.Kind.AMPERE;
+    case libsbmlConstants.UNIT_KIND_AVOGADRO:
+      return Unit.Kind.AVOGADRO;
+    case libsbmlConstants.UNIT_KIND_BECQUEREL:
+      return Unit.Kind.BECQUEREL;
+    case libsbmlConstants.UNIT_KIND_CANDELA:
+      return Unit.Kind.CANDELA;
+    case libsbmlConstants.UNIT_KIND_CELSIUS:
+      return Unit.Kind.CELSIUS;
+    case libsbmlConstants.UNIT_KIND_COULOMB:
+      return Unit.Kind.COULOMB;
+    case libsbmlConstants.UNIT_KIND_DIMENSIONLESS:
+      return Unit.Kind.DIMENSIONLESS;
+    case libsbmlConstants.UNIT_KIND_FARAD:
+      return Unit.Kind.FARAD;
+    case libsbmlConstants.UNIT_KIND_GRAM:
+      return Unit.Kind.GRAM;
+    case libsbmlConstants.UNIT_KIND_GRAY:
+      return Unit.Kind.GRAY;
+    case libsbmlConstants.UNIT_KIND_HENRY:
+      return Unit.Kind.HENRY;
+    case libsbmlConstants.UNIT_KIND_HERTZ:
+      return Unit.Kind.HERTZ;
+    case libsbmlConstants.UNIT_KIND_INVALID:
+      return Unit.Kind.INVALID;
+    case libsbmlConstants.UNIT_KIND_ITEM:
+      return Unit.Kind.ITEM;
+    case libsbmlConstants.UNIT_KIND_JOULE:
+      return Unit.Kind.JOULE;
+    case libsbmlConstants.UNIT_KIND_KATAL:
+      return Unit.Kind.KATAL;
+    case libsbmlConstants.UNIT_KIND_KELVIN:
+      return Unit.Kind.KELVIN;
+    case libsbmlConstants.UNIT_KIND_KILOGRAM:
+      return Unit.Kind.KILOGRAM;
+    case libsbmlConstants.UNIT_KIND_LITER:
+      return Unit.Kind.LITER;
+    case libsbmlConstants.UNIT_KIND_LITRE:
+      return Unit.Kind.LITRE;
+    case libsbmlConstants.UNIT_KIND_LUMEN:
+      return Unit.Kind.LUMEN;
+    case libsbmlConstants.UNIT_KIND_LUX:
+      return Unit.Kind.LUX;
+    case libsbmlConstants.UNIT_KIND_METER:
+      return Unit.Kind.METER;
+    case libsbmlConstants.UNIT_KIND_METRE:
+      return Unit.Kind.METRE;
+    case libsbmlConstants.UNIT_KIND_MOLE:
+      return Unit.Kind.MOLE;
+    case libsbmlConstants.UNIT_KIND_NEWTON:
+      return Unit.Kind.NEWTON;
+    case libsbmlConstants.UNIT_KIND_OHM:
+      return Unit.Kind.OHM;
+    case libsbmlConstants.UNIT_KIND_PASCAL:
+      return Unit.Kind.PASCAL;
+    case libsbmlConstants.UNIT_KIND_RADIAN:
+      return Unit.Kind.RADIAN;
+    case libsbmlConstants.UNIT_KIND_SECOND:
+      return Unit.Kind.SECOND;
+    case libsbmlConstants.UNIT_KIND_SIEMENS:
+      return Unit.Kind.SIEMENS;
+    case libsbmlConstants.UNIT_KIND_SIEVERT:
+      return Unit.Kind.SIEVERT;
+    case libsbmlConstants.UNIT_KIND_STERADIAN:
+      return Unit.Kind.STERADIAN;
+    case libsbmlConstants.UNIT_KIND_TESLA:
+      return Unit.Kind.TESLA;
+    case libsbmlConstants.UNIT_KIND_VOLT:
+      return Unit.Kind.VOLT;
+    case libsbmlConstants.UNIT_KIND_WATT:
+      return Unit.Kind.WATT;
+    case libsbmlConstants.UNIT_KIND_WEBER:
+      return Unit.Kind.WEBER;
+    }
+    return null;
   }
 
   /**
@@ -1720,9 +1874,14 @@ public class LibSBMLUtils {
    * and calls the convert-method for the ASTNodes.
    * @param mathCont
    * @param libMathCont
+   * @throws XMLStreamException
    */
-  public static void transferMathContainerProperties(MathContainer mathCont, org.sbml.libsbml.SBase libMathCont) {
-    transferSBaseProperties(mathCont, libMathCont);
+  public static void transferMathContainerProperties(MathContainer mathCont, org.sbml.libsbml.SBase libMathCont) throws XMLStreamException {
+    if (mathCont instanceof NamedSBase) {
+      transferNamedSBaseProperties((NamedSBase) mathCont, libMathCont);
+    } else {
+      transferSBaseProperties(mathCont, libMathCont);
+    }
     transferMath(mathCont, libMathCont);
   }
 
@@ -1733,8 +1892,9 @@ public class LibSBMLUtils {
    * 
    * @param sbase
    * @param libSBase
+   * @throws XMLStreamException
    */
-  public static void transferNamedSBaseProperties(NamedSBase sbase, org.sbml.libsbml.SBase libSBase) {
+  public static void transferNamedSBaseProperties(NamedSBase sbase, org.sbml.libsbml.SBase libSBase) throws XMLStreamException {
     transferSBaseProperties(sbase, libSBase);
     if (sbase.isSetId()
         && (!libSBase.isSetId() || !libSBase.getId().equals(sbase.getId()))) {
@@ -1747,14 +1907,91 @@ public class LibSBMLUtils {
   }
 
   /**
+   * Copies the id and name properties from the libSBML object to the JSBML
+   * object.
+   * 
+   * @param libSBase
+   * @param sbase
+   */
+  public static void transferNamedSBaseProperties(org.sbml.libsbml.SBase libSBase, NamedSBase sbase) {
+    transferSBaseProperties(libSBase, sbase);
+    if (libSBase.isSetId()
+        && !(sbase.isSetId() || !sbase.getId().equals(libSBase.getId()))) {
+      sbase.setId(libSBase.getId());
+    }
+    if (libSBase.isSetName()
+        && !(sbase.isSetName() || !sbase.getName().equals(libSBase.getName()))) {
+      sbase.setName(libSBase.getName());
+    }
+  }
+
+  /**
+   * Copies the properties of the given libSBML object to the given JSBML object.
+   * 
+   * @param libSBase
+   * @param sbase
+   */
+  public static void transferSBaseProperties(org.sbml.libsbml.SBase libSBase, SBase sbase) {
+
+    // Memorize the corresponding original element for each SBase:
+    sbase.putUserObject(LINK_TO_LIBSBML, libSBase);
+
+    if (libSBase.isSetSBOTerm()) {
+      sbase.setSBOTerm(libSBase.getSBOTerm());
+    }
+    if (libSBase.isSetNotes()) {
+      try {
+        // TODO: convert all UTF-8 characters appropriately.
+        sbase.setNotes(libSBase.getNotesString());
+      } catch (Throwable t) {
+        logger.warn(t.getLocalizedMessage());
+      }
+    }
+    if (libSBase.getAnnotation() != null) {
+      for (int i = 0; i < libSBase.getNumCVTerms(); i++) {
+        sbase.addCVTerm(LibSBMLUtils.convertCVTerm(libSBase.getCVTerm(i)));
+      }
+      if (libSBase.isSetModelHistory()) {
+        sbase.setHistory(convertHistory(libSBase.getModelHistory()));
+      }
+      // Parse the XML annotation nodes that are non-RDF
+      org.sbml.libsbml.XMLNode annotation = libSBase.getAnnotation();
+      StringBuilder sb = new StringBuilder();
+      boolean newLine = false;
+      for (long i = 0; i < annotation.getNumChildren(); i++) {
+        String annot = annotation.getChild(i).toXMLString();
+        if (!annot.trim().startsWith("<rdf:")) {
+          if (newLine) {
+            sb.append('\n');
+          }
+          sb.append(annot);
+          newLine = true;
+        }
+      }
+      if (sb.toString().trim().length() > 0) {
+        try {
+          sbase.getAnnotation().setNonRDFAnnotation(sb.toString());
+        } catch (XMLStreamException exc) {
+          logger.warn(exc.getLocalizedMessage() != null ? exc.getLocalizedMessage() : exc.getMessage(), exc);
+        }
+      }
+      sbase.getAnnotation().putUserObject(LINK_TO_LIBSBML, libSBase.getAnnotation());
+    }
+    if (libSBase.isSetMetaId()) {
+      sbase.setMetaId(libSBase.getMetaId());
+    }
+  }
+
+  /**
    * Sets metaId, {@link SBOTerm}, notes, and {@link Annotation} in the libSBML
    * object, if it's set in the JSBML object.
    * 
    * @param sbase
    * @param libSBase
+   * @throws XMLStreamException
    */
   public static void transferSBaseProperties(SBase sbase,
-    org.sbml.libsbml.SBase libSBase) {
+    org.sbml.libsbml.SBase libSBase) throws XMLStreamException {
     if (sbase.isSetMetaId() && libSBase.isSetMetaId()
         && !sbase.getMetaId().equals(libSBase.getMetaId())) {
       libSBase.setMetaId(sbase.getMetaId());
@@ -1797,8 +2034,9 @@ public class LibSBMLUtils {
    * 
    * @param sbase
    * @param libSBase
+   * @throws XMLStreamException
    */
-  public static void transferSimpleSpeciesReferenceProperties(SimpleSpeciesReference sbase, org.sbml.libsbml.SimpleSpeciesReference libSBase) {
+  public static void transferSimpleSpeciesReferenceProperties(SimpleSpeciesReference sbase, org.sbml.libsbml.SimpleSpeciesReference libSBase) throws XMLStreamException {
     transferNamedSBaseProperties(sbase, libSBase);
     if (sbase.isSetSpecies()
         && (!libSBase.isSetSpecies() || !libSBase.getSpecies().equals(sbase.getSpecies()))) {
@@ -1810,8 +2048,9 @@ public class LibSBMLUtils {
    * 
    * @param sbase
    * @param libSBase
+   * @throws XMLStreamException
    */
-  public static void transferSpeciesReferenceProperties(SpeciesReference sbase, org.sbml.libsbml.SpeciesReference libSBase) {
+  public static void transferSpeciesReferenceProperties(SpeciesReference sbase, org.sbml.libsbml.SpeciesReference libSBase) throws XMLStreamException {
     transferSimpleSpeciesReferenceProperties(sbase, libSBase);
     if (sbase.isSetConstant() && !(libSBase.isSetConstant() || libSBase.getConstant() != sbase.isConstant())) {
       libSBase.setConstant(sbase.getConstant());
@@ -1821,91 +2060,6 @@ public class LibSBMLUtils {
     } else if (sbase.isSetStoichiometryMath()) {
       libSBase.setStoichiometryMath(convertStoichiometryMath(sbase.getStoichiometryMath()));
     }
-  }
-
-  /**
-   * 
-   * @param kind
-   * @return
-   */
-  public static Unit.Kind convertUnitKind(int kind) {
-    switch (kind) {
-    case libsbmlConstants.UNIT_KIND_AMPERE:
-      return Unit.Kind.AMPERE;
-    case libsbmlConstants.UNIT_KIND_AVOGADRO:
-      return Unit.Kind.AVOGADRO;
-    case libsbmlConstants.UNIT_KIND_BECQUEREL:
-      return Unit.Kind.BECQUEREL;
-    case libsbmlConstants.UNIT_KIND_CANDELA:
-      return Unit.Kind.CANDELA;
-    case libsbmlConstants.UNIT_KIND_CELSIUS:
-      return Unit.Kind.CELSIUS;
-    case libsbmlConstants.UNIT_KIND_COULOMB:
-      return Unit.Kind.COULOMB;
-    case libsbmlConstants.UNIT_KIND_DIMENSIONLESS:
-      return Unit.Kind.DIMENSIONLESS;
-    case libsbmlConstants.UNIT_KIND_FARAD:
-      return Unit.Kind.FARAD;
-    case libsbmlConstants.UNIT_KIND_GRAM:
-      return Unit.Kind.GRAM;
-    case libsbmlConstants.UNIT_KIND_GRAY:
-      return Unit.Kind.GRAY;
-    case libsbmlConstants.UNIT_KIND_HENRY:
-      return Unit.Kind.HENRY;
-    case libsbmlConstants.UNIT_KIND_HERTZ:
-      return Unit.Kind.HERTZ;
-    case libsbmlConstants.UNIT_KIND_INVALID:
-      return Unit.Kind.INVALID;
-    case libsbmlConstants.UNIT_KIND_ITEM:
-      return Unit.Kind.ITEM;
-    case libsbmlConstants.UNIT_KIND_JOULE:
-      return Unit.Kind.JOULE;
-    case libsbmlConstants.UNIT_KIND_KATAL:
-      return Unit.Kind.KATAL;
-    case libsbmlConstants.UNIT_KIND_KELVIN:
-      return Unit.Kind.KELVIN;
-    case libsbmlConstants.UNIT_KIND_KILOGRAM:
-      return Unit.Kind.KILOGRAM;
-    case libsbmlConstants.UNIT_KIND_LITER:
-      return Unit.Kind.LITER;
-    case libsbmlConstants.UNIT_KIND_LITRE:
-      return Unit.Kind.LITRE;
-    case libsbmlConstants.UNIT_KIND_LUMEN:
-      return Unit.Kind.LUMEN;
-    case libsbmlConstants.UNIT_KIND_LUX:
-      return Unit.Kind.LUX;
-    case libsbmlConstants.UNIT_KIND_METER:
-      return Unit.Kind.METER;
-    case libsbmlConstants.UNIT_KIND_METRE:
-      return Unit.Kind.METRE;
-    case libsbmlConstants.UNIT_KIND_MOLE:
-      return Unit.Kind.MOLE;
-    case libsbmlConstants.UNIT_KIND_NEWTON:
-      return Unit.Kind.NEWTON;
-    case libsbmlConstants.UNIT_KIND_OHM:
-      return Unit.Kind.OHM;
-    case libsbmlConstants.UNIT_KIND_PASCAL:
-      return Unit.Kind.PASCAL;
-    case libsbmlConstants.UNIT_KIND_RADIAN:
-      return Unit.Kind.RADIAN;
-    case libsbmlConstants.UNIT_KIND_SECOND:
-      return Unit.Kind.SECOND;
-    case libsbmlConstants.UNIT_KIND_SIEMENS:
-      return Unit.Kind.SIEMENS;
-    case libsbmlConstants.UNIT_KIND_SIEVERT:
-      return Unit.Kind.SIEVERT;
-    case libsbmlConstants.UNIT_KIND_STERADIAN:
-      return Unit.Kind.STERADIAN;
-    case libsbmlConstants.UNIT_KIND_TESLA:
-      return Unit.Kind.TESLA;
-    case libsbmlConstants.UNIT_KIND_VOLT:
-      return Unit.Kind.VOLT;
-    case libsbmlConstants.UNIT_KIND_WATT:
-      return Unit.Kind.WATT;
-    case libsbmlConstants.UNIT_KIND_WEBER:
-      return Unit.Kind.WEBER;
-    }
-    return null;
   }
 
 }

@@ -21,7 +21,6 @@
 package org.sbml.jsbml.cdplugin;
 
 import static org.sbml.jsbml.cdplugin.CellDesignerConstants.LINK_TO_CELLDESIGNER;
-import static org.sbml.jsbml.xml.libsbml.LibSBMLConstants.LINK_TO_LIBSBML;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -46,8 +45,6 @@ import jp.sbi.celldesigner.plugin.PluginParameter;
 import jp.sbi.celldesigner.plugin.PluginRateRule;
 import jp.sbi.celldesigner.plugin.PluginReaction;
 import jp.sbi.celldesigner.plugin.PluginRule;
-import jp.sbi.celldesigner.plugin.PluginSBase;
-import jp.sbi.celldesigner.plugin.PluginSimpleSpeciesReference;
 import jp.sbi.celldesigner.plugin.PluginSpecies;
 import jp.sbi.celldesigner.plugin.PluginSpeciesAlias;
 import jp.sbi.celldesigner.plugin.PluginSpeciesReference;
@@ -71,7 +68,6 @@ import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.ModifierSpeciesReference;
-import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.Reaction;
@@ -86,10 +82,10 @@ import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.SpeciesType;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.util.SBMLtools;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.xml.libsbml.LibSBMLReader;
 import org.sbml.jsbml.xml.libsbml.LibSBMLUtils;
-import org.sbml.libsbml.XMLNode;
 import org.sbml.libsbml.libsbml;
 
 /**
@@ -134,8 +130,9 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * format and stores it
    * 
    * @param model
+   * @throws XMLStreamException
    */
-  public PluginSBMLReader(PluginModel model, Set<Integer> possibleEnzymes) {
+  public PluginSBMLReader(PluginModel model, Set<Integer> possibleEnzymes) throws XMLStreamException {
     this(possibleEnzymes);
     this.model = convertModel(model);
   }
@@ -164,155 +161,6 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
     for (TreeNodeChangeListener listener : listOfTreeNodeChangeListeners) {
       sb.addTreeNodeChangeListener(listener);
     }
-  }
-
-  /**
-   * 
-   * @param c
-   * @param pc
-   */
-  private void transferNamedSBaseProperties(NamedSBase sbase, PluginSBase pluginSBase) {
-    transferSBaseProperties(sbase, pluginSBase);
-    if (pluginSBase instanceof PluginCompartment) {
-      PluginCompartment c = (PluginCompartment) pluginSBase;
-      if (c.getId() != null && c.getId().length() > 0) {
-        sbase.setId(c.getId());
-      }
-      if ((c.getName() != null) && (c.getName().length() > 0)) {
-        sbase.setName(c.getName());
-      }
-    } else if (pluginSBase instanceof PluginCompartmentType) {
-      PluginCompartmentType c = (PluginCompartmentType) pluginSBase;
-      if ((c.getId() != null) && (c.getId().length() > 0)) {
-        sbase.setId(c.getId());
-      }
-      if ((c.getName() != null) && (c.getName().length() > 0)) {
-        sbase.setName(c.getName());
-      }
-    } else if (pluginSBase instanceof PluginEvent) {
-      PluginEvent c = (PluginEvent) pluginSBase;
-      if ((c.getId() != null) && (c.getId().length() > 0)) {
-        sbase.setId(c.getId());
-      }
-      if ((c.getName() != null) && (c.getName().length() > 0)) {
-        sbase.setName(c.getName());
-      }
-    } else if (pluginSBase instanceof PluginFunctionDefinition) {
-      PluginFunctionDefinition c = (PluginFunctionDefinition) pluginSBase;
-      if ((c.getId() != null) && (c.getId().length() > 0)) {
-        sbase.setId(c.getId());
-      }
-      if ((c.getName() != null) && (c.getName().length() > 0)) {
-        sbase.setName(c.getName());
-      }
-    } else if (pluginSBase instanceof PluginModel) {
-      PluginModel c = (PluginModel) pluginSBase;
-      if ((c.getId() != null) && (c.getId().length() > 0)) {
-        sbase.setId(c.getId());
-      }
-      if ((c.getName() != null) && (c.getName().length() > 0)) {
-        sbase.setName(c.getName());
-      }
-    } else if (pluginSBase instanceof PluginParameter) {
-      PluginParameter c = (PluginParameter) pluginSBase;
-      if ((c.getId() != null) && (c.getId().length() > 0)) {
-        sbase.setId(c.getId());
-      }
-      if ((c.getName() != null) && (c.getName().length() > 0)) {
-        sbase.setName(c.getName());
-      }
-    } else if (pluginSBase instanceof PluginReaction) {
-      PluginReaction c = (PluginReaction) pluginSBase;
-      if ((c.getId() != null) && (c.getId().length() > 0)) {
-        sbase.setId(c.getId());
-      }
-      if ((c.getName() != null) && (c.getName().length() > 0)) {
-        sbase.setName(c.getName());
-      }
-    } else if (pluginSBase instanceof PluginSimpleSpeciesReference) {
-      //      PluginSimpleSpeciesReference c = (PluginSimpleSpeciesReference) pluginSBase;
-      //      if ((c.getId() != null) && (c.getId().length() > 0)) {
-      //        n.setId(c.getId());
-      //      }
-      //      if ((c.getName() != null) && (c.getName().length() > 0)) {
-      //        sbase.setName(c.getName());
-      //      }
-    } else if (pluginSBase instanceof PluginSpecies) {
-      PluginSpecies c = (PluginSpecies) pluginSBase;
-      if ((c.getId() != null) && (c.getId().length() > 0)) {
-        sbase.setId(c.getId());
-      }
-      if ((c.getName() != null) && (c.getName().length() > 0)) {
-        sbase.setName(c.getName());
-      }
-    } else if (pluginSBase instanceof PluginSpeciesType) {
-      PluginSpeciesType c = (PluginSpeciesType) pluginSBase;
-      if ((c.getId() != null) && (c.getId().length() > 0)) {
-        sbase.setId(c.getId());
-      }
-      if ((c.getName() != null) && (c.getName().length() > 0)) {
-        sbase.setName(c.getName());
-      }
-    } else if (pluginSBase instanceof PluginUnitDefinition) {
-      PluginUnitDefinition c = (PluginUnitDefinition) pluginSBase;
-      if ((c.getId() != null) && (c.getId().length() > 0)) {
-        sbase.setId(c.getId());
-      }
-      if ((c.getName() != null) && (c.getName().length() > 0)) {
-        sbase.setName(c.getName());
-      }
-    }
-  }
-
-  /**
-   * 
-   * @param sbase
-   * @param pluginSBase
-   */
-  private void transferSBaseProperties(SBase sbase, PluginSBase pluginSBase) {
-
-    // Memorize the corresponding original element for each SBase:
-    sbase.putUserObject(LINK_TO_CELLDESIGNER, pluginSBase);
-
-    if (pluginSBase.getNotesString().length() > 0) {
-      try {
-        sbase.setNotes(pluginSBase.getNotesString());
-      } catch (XMLStreamException exc) {
-        logger.warn(exc.getLocalizedMessage() != null ? exc.getLocalizedMessage() : exc.getMessage(), exc);
-      }
-    }
-    for (int i = 0; i < pluginSBase.getNumCVTerms(); i++) {
-      sbase.addCVTerm(LibSBMLUtils.convertCVTerm(pluginSBase.getCVTerm(i)));
-    }
-
-    if (pluginSBase.getAnnotation() != null) {
-      for (int i = 0; i < pluginSBase.getNumCVTerms(); i++) {
-        sbase.addCVTerm(LibSBMLUtils.convertCVTerm(pluginSBase.getCVTerm(i)));
-      }
-      // Parse the XML annotation nodes that are non-RDF
-      XMLNode annotation = pluginSBase.getAnnotation();
-      StringBuilder sb = new StringBuilder();
-      boolean newLine = false;
-      for (long i = 0; i < annotation.getNumChildren(); i++) {
-        String annot = annotation.getChild(i).toXMLString();
-        if (!annot.trim().startsWith("<rdf:")) {
-          if (newLine) {
-            sb.append('\n');
-          }
-          sb.append(annot);
-          newLine = true;
-        }
-      }
-      if (sb.toString().trim().length() > 0) {
-        try {
-          sbase.getAnnotation().setNonRDFAnnotation(sb.toString());
-        } catch (XMLStreamException exc) {
-          logger.warn(exc.getLocalizedMessage() != null ? exc.getLocalizedMessage() : exc.getMessage(), exc);
-        }
-      }
-      sbase.getAnnotation().putUserObject(LINK_TO_LIBSBML, pluginSBase.getAnnotation());
-    }
-    // no MetaId accessible.
   }
 
   /**
@@ -351,17 +199,13 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    * @param compartment
    * @return
+   * @throws XMLStreamException
    */
-  private Compartment readCompartment(PluginCompartment compartment) {
+  private Compartment readCompartment(PluginCompartment compartment) throws XMLStreamException {
     Compartment c = new Compartment(compartment.getId(), level, version);
-    transferNamedSBaseProperties(c, compartment);
+    PluginUtils.transferNamedSBaseProperties(c, compartment);
     if ((compartment.getOutside() != null) && (compartment.getOutside().length() > 0)) {
-      Compartment outside = model.getCompartment(compartment.getOutside());
-      if (outside == null) {
-        outside = readCompartment(((PluginModel) model.getUserObject(LINK_TO_CELLDESIGNER)).getCompartment(compartment.getOutside()));
-        model.addCompartment(outside);
-      }
-      c.setOutside(outside);
+      c.setOutside(compartment.getOutside());
     }
     if ((compartment.getCompartmentType() != null)
         && (compartment.getCompartmentType().length() > 0)) {
@@ -380,10 +224,11 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    * @param compartmentType
    * @return
+   * @throws XMLStreamException
    */
-  private CompartmentType readCompartmentType(PluginCompartmentType compartmentType) {
+  private CompartmentType readCompartmentType(PluginCompartmentType compartmentType) throws XMLStreamException {
     CompartmentType com = new CompartmentType(compartmentType.getId(), level, version);
-    transferNamedSBaseProperties(com, compartmentType);
+    PluginUtils.transferNamedSBaseProperties(com, compartmentType);
     return com;
   }
 
@@ -391,10 +236,11 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    * @param constraint
    * @return
+   * @throws XMLStreamException
    */
-  private Constraint readConstraint(PluginConstraint constraint) {
+  private Constraint readConstraint(PluginConstraint constraint) throws XMLStreamException {
     Constraint c = new Constraint(level, version);
-    transferSBaseProperties(c, constraint);
+    PluginUtils.transferSBaseProperties(c, constraint);
     if (constraint.getMath() != null) {
       c.setMath(LibSBMLUtils.convert(libsbml.parseFormula(constraint.getMath()), c));
     }
@@ -412,10 +258,11 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    * @param event
    * @return
+   * @throws XMLStreamException
    */
-  private Event readEvent(PluginEvent event) {
+  private Event readEvent(PluginEvent event) throws XMLStreamException {
     Event e = new Event(level, version);
-    transferNamedSBaseProperties(e, event);
+    PluginUtils.transferNamedSBaseProperties(e, event);
     if (event.getTrigger() != null) {
       e.setTrigger(LibSBMLReader.readTrigger(event.getTrigger()));
     }
@@ -436,10 +283,11 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    * @param eventass
    * @return
+   * @throws XMLStreamException
    */
-  private EventAssignment readEventAssignment(PluginEventAssignment eventass) {
+  private EventAssignment readEventAssignment(PluginEventAssignment eventass) throws XMLStreamException {
     EventAssignment ev = new EventAssignment(level, version);
-    transferSBaseProperties(ev, eventass);
+    PluginUtils.transferSBaseProperties(ev, eventass);
     if ((eventass.getVariable() != null)
         && (eventass.getVariable().length() > 0)) {
       ev.setVariable(eventass.getVariable());
@@ -454,10 +302,11 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    * @param functionDefinition
    * @return
+   * @throws XMLStreamException
    */
-  private FunctionDefinition readFunctionDefinition(PluginFunctionDefinition functionDefinition) {
+  private FunctionDefinition readFunctionDefinition(PluginFunctionDefinition functionDefinition) throws XMLStreamException {
     FunctionDefinition f = new FunctionDefinition(level, version);
-    transferNamedSBaseProperties(f, functionDefinition);
+    PluginUtils.transferNamedSBaseProperties(f, functionDefinition);
     if (functionDefinition.getMath() != null) {
       f.setMath(LibSBMLUtils.convert(functionDefinition.getMath(), f));
     }
@@ -468,15 +317,16 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    * @param initialAssignment
    * @return
+   * @throws XMLStreamException
    */
-  private InitialAssignment readInitialAssignment(PluginInitialAssignment initialAssignment) {
+  private InitialAssignment readInitialAssignment(PluginInitialAssignment initialAssignment) throws XMLStreamException {
     if (initialAssignment.getSymbol() == null) {
       throw new IllegalArgumentException(
           "Symbol attribute not set for InitialAssignment");
     }
     InitialAssignment ia = new InitialAssignment(level, version);
     ia.setVariable(initialAssignment.getSymbol());
-    transferSBaseProperties(ia, initialAssignment);
+    PluginUtils.transferSBaseProperties(ia, initialAssignment);
     if (initialAssignment.getMath() != null) {
       ia.setMath(LibSBMLUtils.convert(libsbml.parseFormula(initialAssignment.getMath()), ia));
     }
@@ -487,10 +337,11 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    * @param kineticLaw
    * @return
+   * @throws XMLStreamException
    */
-  private KineticLaw readKineticLaw(PluginKineticLaw kineticLaw) {
+  private KineticLaw readKineticLaw(PluginKineticLaw kineticLaw) throws XMLStreamException {
     KineticLaw kinlaw = new KineticLaw(level, version);
-    transferSBaseProperties(kinlaw, kineticLaw);
+    PluginUtils.transferSBaseProperties(kinlaw, kineticLaw);
     for (int i = 0; i < kineticLaw.getNumParameters(); i++) {
       kinlaw.addLocalParameter(readLocalParameter(kineticLaw.getParameter(i)));
     }
@@ -506,8 +357,9 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    * @param parameter
    * @return
+   * @throws XMLStreamException
    */
-  private LocalParameter readLocalParameter(PluginParameter parameter) {
+  private LocalParameter readLocalParameter(PluginParameter parameter) throws XMLStreamException {
     return new LocalParameter(readParameter(parameter));
   }
 
@@ -515,15 +367,17 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * @see org.sbml.jsbml.SBMLReader#readModel(java.lang.Object)
    */
   @Override
-  public Model convertModel(PluginModel originalModel) {
+  public Model convertModel(PluginModel originalModel) throws XMLStreamException {
 
     model = new Model(originalModel.getId(), level, version);
-    transferNamedSBaseProperties(model, originalModel);
+    PluginUtils.transferNamedSBaseProperties(model, originalModel);
 
     int i;
     for (i = 0; i < originalModel.getNumUnitDefinitions(); i++) {
       model.addUnitDefinition(readUnitDefinition(originalModel.getUnitDefinition(i)));
     }
+    // This is something, libSBML wouldn't do...
+    SBMLtools.addPredefinedUnitDefinitions(model);
     for (i = 0; i < originalModel.getNumFunctionDefinitions(); i++) {
       model.addFunctionDefinition(readFunctionDefinition(originalModel.getFunctionDefinition(i)));
     }
@@ -557,6 +411,9 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
     for (i = 0; i < originalModel.getNumEvents(); i++) {
       model.addEvent(readEvent(originalModel.getEvent(i)));
     }
+
+    // There are no SBasePlugins, i.e., no extension packages to be considered.
+
     addAllSBaseChangeListenersTo(model);
     return model;
   }
@@ -565,12 +422,13 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    * @param modifierSpeciesReference
    * @return
+   * @throws XMLStreamException
    */
   private ModifierSpeciesReference readModifierSpeciesReference(
-    PluginModifierSpeciesReference modifierSpeciesReference) {
+    PluginModifierSpeciesReference modifierSpeciesReference) throws XMLStreamException {
     ModifierSpeciesReference mod = new ModifierSpeciesReference(level, version);
     mod.setSpecies(modifierSpeciesReference.getSpecies());
-    transferNamedSBaseProperties(mod, modifierSpeciesReference);
+    PluginUtils.transferNamedSBaseProperties(mod, modifierSpeciesReference);
     /*
      * Set SBO term.
      */
@@ -593,10 +451,11 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    * @param parameter
    * @return
+   * @throws XMLStreamException
    */
-  private Parameter readParameter(PluginParameter parameter) {
+  private Parameter readParameter(PluginParameter parameter) throws XMLStreamException {
     Parameter para = new Parameter(level, version);
-    transferNamedSBaseProperties(para, parameter);
+    PluginUtils.transferNamedSBaseProperties(para, parameter);
     para.setValue(parameter.getValue());
     para.setConstant(parameter.getConstant());
     if ((parameter.getUnits() != null) && (parameter.getUnits().length() > 0)) {
@@ -609,10 +468,11 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    * @param reac
    * @return
+   * @throws XMLStreamException
    */
-  private Reaction readReaction(PluginReaction reac) {
+  private Reaction readReaction(PluginReaction reac) throws XMLStreamException {
     Reaction reaction = new Reaction(reac.getId(), level, version);
-    transferNamedSBaseProperties(reaction, reac);
+    PluginUtils.transferNamedSBaseProperties(reaction, reac);
     for (int i = 0; i < reac.getNumReactants(); i++) {
       reaction.addReactant(readSpeciesReference(reac.getReactant(i)));
     }
@@ -638,8 +498,9 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    * @param rule
    * @return
+   * @throws XMLStreamException
    */
-  private Rule readRule(PluginRule rule) {
+  private Rule readRule(PluginRule rule) throws XMLStreamException {
     Rule r;
     if (rule instanceof PluginAlgebraicRule) {
       r = new AlgebraicRule(level, version);
@@ -655,7 +516,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
       ExplicitRule er = (ExplicitRule) r;
       er.setVariable(variable);
     }
-    transferSBaseProperties(r, rule);
+    PluginUtils.transferSBaseProperties(r, rule);
     if (rule.getMath() != null) {
       r.setMath(LibSBMLUtils.convert(rule.getMath(), r));
     }
@@ -666,10 +527,11 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    * @param species
    * @return
+   * @throws XMLStreamException
    */
-  private Species readSpecies(PluginSpecies species) {
+  private Species readSpecies(PluginSpecies species) throws XMLStreamException {
     Species s = new Species(level, version);
-    transferNamedSBaseProperties(s, species);
+    PluginUtils.transferNamedSBaseProperties(s, species);
     int sbo = SBO.convertAlias2SBO(species.getSpeciesAlias(0).getType());
     PluginSpeciesAlias alias = species.getSpeciesAlias(0);
     String type = alias.getType();
@@ -709,10 +571,11 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    * @param speciesReference
    * @return
+   * @throws XMLStreamException
    */
-  private SpeciesReference readSpeciesReference(PluginSpeciesReference speciesReference) {
+  private SpeciesReference readSpeciesReference(PluginSpeciesReference speciesReference) throws XMLStreamException {
     SpeciesReference spec = new SpeciesReference(level, version);
-    transferNamedSBaseProperties(spec, speciesReference);
+    PluginUtils.transferNamedSBaseProperties(spec, speciesReference);
     if (speciesReference.getStoichiometryMath() == null) {
       spec.setStoichiometry(speciesReference.getStoichiometry());
     } else {
@@ -733,10 +596,11 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    * @param speciesType
    * @return
+   * @throws XMLStreamException
    */
-  private SpeciesType readSpeciesType(PluginSpeciesType speciesType) {
+  private SpeciesType readSpeciesType(PluginSpeciesType speciesType) throws XMLStreamException {
     SpeciesType st = new SpeciesType(level, version);
-    transferNamedSBaseProperties(st, speciesType);
+    PluginUtils.transferNamedSBaseProperties(st, speciesType);
     return st;
   }
 
@@ -744,10 +608,11 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    * @param unit
    * @return
+   * @throws XMLStreamException
    */
-  private Unit readUnit(PluginUnit unit) {
+  private Unit readUnit(PluginUnit unit) throws XMLStreamException {
     Unit u = new Unit(level, version);
-    transferSBaseProperties(u, unit);
+    PluginUtils.transferSBaseProperties(u, unit);
     u.setKind(LibSBMLUtils.convertUnitKind(unit.getKind()));
     u.setExponent(unit.getExponent());
     u.setMultiplier(unit.getMultiplier());
@@ -762,10 +627,11 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    * @param unitDefinition
    * @return
+   * @throws XMLStreamException
    */
-  private UnitDefinition readUnitDefinition(PluginUnitDefinition unitDefinition) {
+  private UnitDefinition readUnitDefinition(PluginUnitDefinition unitDefinition) throws XMLStreamException {
     UnitDefinition ud = new UnitDefinition(level, version);
-    transferNamedSBaseProperties(ud, unitDefinition);
+    PluginUtils.transferNamedSBaseProperties(ud, unitDefinition);
     for (int i = 0; i < unitDefinition.getNumUnits(); i++) {
       ud.addUnit(readUnit(unitDefinition.getUnit(i)));
     }

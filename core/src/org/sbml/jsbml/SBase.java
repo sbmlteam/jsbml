@@ -167,8 +167,9 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * 
    * @return the content of the 'annotation' sub-element of this object as a
    * String.
+   * @throws XMLStreamException
    */
-  public String getAnnotationString();
+  public String getAnnotationString() throws XMLStreamException;
 
   /**
    * 
@@ -270,8 +271,9 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * 
    * @return the notes sub-element of this object as a {@link String}. If no
    *         notes are set, an empty {@link String} will be returned.
+   * @throws XMLStreamException
    */
-  public String getNotesString();
+  public String getNotesString() throws XMLStreamException;
 
   /**
    * 

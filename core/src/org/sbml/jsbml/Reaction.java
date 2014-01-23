@@ -1223,7 +1223,6 @@ UniqueNamedSBase {
   public void setKineticLaw(KineticLaw kineticLaw) {
     unsetKineticLaw();
     this.kineticLaw = kineticLaw;
-
     registerChild(this.kineticLaw);
   }
 

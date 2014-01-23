@@ -1173,7 +1173,7 @@ public class SBMLDocument extends AbstractSBase {
       attributes.put("version", Integer.toString(getVersion()));
     }
 
-    Iterator<Map.Entry<String, String>> it = getSBMLDocumentNamespaces().entrySet().iterator();
+    Iterator<Map.Entry<String, String>> it = getDeclaredNamespaces().entrySet().iterator();
     while (it.hasNext()) {
       Map.Entry<String, String> entry = it.next();
       if (!entry.getKey().equals("xmlns")) {

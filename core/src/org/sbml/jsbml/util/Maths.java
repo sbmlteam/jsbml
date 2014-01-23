@@ -47,7 +47,7 @@ public class Maths {
    * The suffix of the variable's name (L3V1) suggests that in later SBML values
    * new experimentally determined values for this constant could be determined.
    */
-  public static final double AVOGADRO_L3V1 = 6.02214179 * Math.pow(10, 23);
+  public static final double AVOGADRO_L3V1 = 6.02214179e23d;
 
   /**
    * Universal gas constant of 8.314472 J &#8901; mol<sup>-1</sup> &#8901;

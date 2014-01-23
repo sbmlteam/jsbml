@@ -54,12 +54,10 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
   public static final String level = "level";
   public static final String version="version";
   public static final String metaId = "metaId";
-  public static final String notesBuffer = "notesBuffer";
   public static final String parentSBMLObject = "parentSBMLObject";
   public static final String sboTerm = "sboTerm";
   public static final String annotation = "annotation";
   public static final String unsetCVTerms = "unsetCVTerms";
-  public static final String currentList = "currentList";
   public static final String symbol = "symbol";
   public static final String math = "math";
   public static final String name = "name";
@@ -67,7 +65,6 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
   public static final String compartmentType = "compartmentType";
   public static final String outside = "outside";
   public static final String message = "message";
-  public static final String messageBuffer = "messageBuffer";
   public static final String timeUnits = "timeUnits";
   public static final String useValuesFromTriggerTime = "useValuesFromTriggerTime";
   public static final String variable = "variable";
@@ -120,7 +117,6 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
   public static final String encoding = "encoding";
   public static final String xmlTriple = "xmlTriple";
   public static final String isEOF = "isEOF";
-  public static final String resource = "resource";
   public static final String qualifier = "qualifier";
   public static final String modifiedDate = "modifiedDate";
   public static final String createdDate = "createdDate";
@@ -135,7 +131,6 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
   public static String nonRDFAnnotation = "nonRDFAnnotation";
   public static String annotationNameSpaces = "annotationNameSpaces";
   public static String history = "history";
-  public static String rdfAnnotationNamespaces = "rdfAnnotationNamespaces";
   public static String addCVTerm = "addCVTerm";
 
   /*
