@@ -34,9 +34,9 @@ import org.sbml.jsbml.util.TreeNodeAdapter;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.filters.CVTermFilter;
 import org.sbml.jsbml.xml.XMLAttributes;
+import org.sbml.jsbml.xml.XMLNamespaces;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLTriple;
-
 
 /**
  * An Annotation represents the annotations of an {@link SBase} element. It
@@ -753,6 +753,14 @@ public class Annotation extends AnnotationElement {
     }
 
     nonRDFannotation.addNamespace(uri, prefix);
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public XMLNamespaces getDeclaredNamespaces() {
+    return isSetNonRDFannotation() ? nonRDFannotation.getNamespaces() : null;
   }
 
 }

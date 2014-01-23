@@ -4307,6 +4307,17 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * Removes a {@link Rule} from the {@link Model}.
+   * 
+   * @param rule the {@link Rule} to be removed.
+   * 
+   * @return {@code true} if the {@link Rule} was found and removed.
+   */
+  public boolean removeRule(Rule rule) {
+    return getListOfRules().remove(rule);
+  }
+
+  /**
    * Removes the i-th {@link Species} of the {@link Model}.
    * 
    * @param i

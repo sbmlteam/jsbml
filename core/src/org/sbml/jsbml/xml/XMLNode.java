@@ -201,11 +201,11 @@ public class XMLNode extends XMLToken {
    * @param node the {@link XMLNode} to be represented as a string
    * <p>
    * @return a string-form representation of {@code node}
+   * @throws XMLStreamException
    */
-  public static String convertXMLNodeToString(XMLNode node) {
+  public static String convertXMLNodeToString(XMLNode node) throws XMLStreamException {
     return node.toXMLString();
   }
-
 
   /**
    * 
@@ -219,7 +219,6 @@ public class XMLNode extends XMLToken {
     super();
   }
 
-
   /**
    * Creates a text {@link XMLNode}.
    * <p>
@@ -229,7 +228,6 @@ public class XMLNode extends XMLToken {
   public XMLNode(String chars) {
     super(chars);
   }
-
 
   /**
    * Creates a text {@link XMLNode}.
@@ -242,7 +240,6 @@ public class XMLNode extends XMLToken {
     super(chars, line, 0);
   }
 
-
   /**
    * Creates a text {@link XMLNode}.
    * <p>
@@ -254,7 +251,6 @@ public class XMLNode extends XMLToken {
   public XMLNode(String chars, long line, long column) {
     super(chars, line, column);
   }
-
 
   /**
    * Creates a copy of this {@link XMLNode}.
@@ -270,7 +266,6 @@ public class XMLNode extends XMLToken {
       }
     }
   }
-
 
   /**
    * Creates a new {@link XMLNode} by copying token.
@@ -296,9 +291,7 @@ public class XMLNode extends XMLToken {
     isStartElement = orig.isStartElement;
     isEndElement = orig.isEndElement;
     isEOF = orig.isEOF;
-
   }
-
 
   /**
    * Creates an end element {@link XMLNode}.
@@ -310,7 +303,6 @@ public class XMLNode extends XMLToken {
     super(triple);
   }
 
-
   /**
    * Creates an end element {@link XMLNode}.
    * <p>
@@ -321,7 +313,6 @@ public class XMLNode extends XMLToken {
   public XMLNode(XMLTriple triple, long line) {
     super(triple, line);
   }
-
 
   /**
    * Creates an end element {@link XMLNode}.
@@ -335,7 +326,6 @@ public class XMLNode extends XMLToken {
     super(triple, line, column);
   }
 
-
   /**
    * Creates a start element {@link XMLNode} with the given set of attributes.
    * <p>
@@ -346,7 +336,6 @@ public class XMLNode extends XMLToken {
   public XMLNode(XMLTriple triple, XMLAttributes attributes) {
     super(triple, attributes);
   }
-
 
   /**
    * Creates a start element {@link XMLNode} with the given set of attributes.
@@ -359,7 +348,6 @@ public class XMLNode extends XMLToken {
   public XMLNode(XMLTriple triple, XMLAttributes attributes, long line) {
     super(triple, attributes, line, 0);
   }
-
 
   /**
    * Creates a start element {@link XMLNode} with the given set of attributes.
@@ -374,7 +362,6 @@ public class XMLNode extends XMLToken {
     super(triple, attributes, line, column);
   }
 
-
   /**
    * Creates a new start element {@link XMLNode} with the given set of attributes and
    * namespace declarations.
@@ -387,7 +374,6 @@ public class XMLNode extends XMLToken {
   public XMLNode(XMLTriple triple, XMLAttributes attributes, XMLNamespaces namespaces) {
     super(triple, attributes, namespaces);
   }
-
 
   /**
    * Creates a new start element {@link XMLNode} with the given set of attributes and
@@ -404,7 +390,6 @@ public class XMLNode extends XMLToken {
     super(triple, attributes, namespaces, line);
   }
 
-
   /**
    * Creates a new start element {@link XMLNode} with the given set of attributes and
    * namespace declarations.
@@ -418,7 +403,6 @@ public class XMLNode extends XMLToken {
   public XMLNode(XMLTriple triple, XMLAttributes attributes, XMLNamespaces namespaces, long line, long column) {
     super(triple, attributes, namespaces, line, column);
   }
-
 
   /**
    * Adds a child to this {@link XMLNode}.
@@ -462,7 +446,6 @@ public class XMLNode extends XMLToken {
     return new XMLNode(this);
   }
 
-
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
@@ -470,7 +453,6 @@ public class XMLNode extends XMLToken {
   public boolean getAllowsChildren() {
     return true;
   }
-
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildAt(int)
@@ -482,7 +464,6 @@ public class XMLNode extends XMLToken {
     }
     return childrenElements.get(childIndex);
   }
-
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildCount()
@@ -559,7 +540,6 @@ public class XMLNode extends XMLToken {
    * <li> OPERATION_SUCCESS
    */
   public int removeChildren() {
-
     List<XMLNode> removedChildren = childrenElements;
     childrenElements.clear();
     for(XMLNode child : removedChildren) {
@@ -573,23 +553,53 @@ public class XMLNode extends XMLToken {
    * Returns a string representation of this {@link XMLNode}.
    * <p>
    * @return a string derived from this {@link XMLNode}.
+   * @throws XMLStreamException
    */
-  public String toXMLString() {
-    if (isText() && getChildCount() == 0)
-    {
+  public String toXMLString() throws XMLStreamException {
+    if (isText() && (getChildCount() == 0)) {
       return getCharacters();
     }
     return XMLNodeWriter.toXML(this);
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.xml.XMLToken#toString()
+   * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
-    return toXMLString();
+    StringBuilder builder = new StringBuilder();
+    builder.append(getClass().getSimpleName());
+    builder.append(" [childrenElements=");
+    builder.append(childrenElements);
+    builder.append(", attributes=");
+    builder.append(attributes);
+    builder.append(", characters=");
+    builder.append(characters);
+    builder.append(", column=");
+    builder.append(column);
+    builder.append(", isEndElement=");
+    builder.append(isEndElement);
+    builder.append(", isEOF=");
+    builder.append(isEOF);
+    builder.append(", isStartElement=");
+    builder.append(isStartElement);
+    builder.append(", isText=");
+    builder.append(isText);
+    builder.append(", line=");
+    builder.append(line);
+    builder.append(", namespaces=");
+    builder.append(namespaces);
+    builder.append(", triple=");
+    builder.append(triple);
+    builder.append("]");
+    return builder.toString();
   }
 
+  /**
+   * 
+   * @param xmlNode
+   * @return
+   */
   public boolean removeChild(XMLNode xmlNode) {
     return childrenElements.remove(xmlNode);
   }

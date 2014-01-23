@@ -3569,9 +3569,8 @@ public class ASTNode extends AbstractTreeNode {
     String oldValue = this.name; // TODO: if oldValue != null ==> set variable = null or update it ??
     this.name = name;
     firePropertyChange(TreeNodeChangeEvent.name, oldValue, name);
-    if ((!type.toString().startsWith("NAME")) && type != Type.FUNCTION
-        && type != Type.FUNCTION_DELAY)
-    {
+    if ((!type.toString().startsWith("NAME")) && (type != Type.FUNCTION)
+        && (type != Type.FUNCTION_DELAY)) {
       Type oldType = type;
       type = variable == null ? Type.FUNCTION : Type.NAME;
       firePropertyChange(TreeNodeChangeEvent.type, oldType, type);
@@ -3652,7 +3651,7 @@ public class ASTNode extends AbstractTreeNode {
     } else if (type == Type.NAME_AVOGADRO) {
       initDefaults();
       name = "Avogadro's number";
-      setValue(6.02214179e23);
+      setValue(Maths.AVOGADRO_L3V1);
       definitionURL = URI_AVOGADRO_DEFINITION;
     }
     Type oldValue = getType();

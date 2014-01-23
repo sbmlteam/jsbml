@@ -155,8 +155,9 @@ public class Constraint extends AbstractMathContainer {
    * Returns the message of this {@link Constraint} as an XML {@link String}.
    * 
    * @return  the message of this {@link Constraint} as an XML {@link String}.
+   * @throws XMLStreamException
    */
-  public String getMessageString() {
+  public String getMessageString() throws XMLStreamException {
     return isSetMessage() ? message.toXMLString() : "";
   }
 
@@ -198,8 +199,8 @@ public class Constraint extends AbstractMathContainer {
   public void setMessage(XMLNode message) {
     XMLNode oldMessage = this.message;
     this.message = message;
-    firePropertyChange(TreeNodeChangeEvent.message, oldMessage, message);
     this.message.setParent(this);
+    firePropertyChange(TreeNodeChangeEvent.message, oldMessage, message);
   }
 
   /**

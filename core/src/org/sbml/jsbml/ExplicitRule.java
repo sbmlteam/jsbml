@@ -20,6 +20,7 @@
  */
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import org.sbml.jsbml.Unit.Kind;
@@ -420,8 +421,8 @@ SBaseWithUnit {
       throw new PropertyNotAvailableException(TreeNodeChangeEvent.units, this);
     }
     if (isSetVariable() && !isParameter()) {
-      throw new IllegalArgumentException(String.format(
-        "Cannot set unit %s for a variable other than parameter", unitsID));
+      throw new IllegalArgumentException(MessageFormat.format(
+        "Cannot set unit {0} for a variable other than parameter", unitsID));
     }
     String oldUnitsID = this.unitsID;
     this.unitsID = unitsID;
@@ -538,7 +539,7 @@ SBaseWithUnit {
   public void unsetUnits() {
     String oldUnitsID = unitsID;
     unitsID = null;
-    firePropertyChange(TreeNodeChangeEvent.variable, oldUnitsID, unitsID);
+    firePropertyChange(TreeNodeChangeEvent.units, oldUnitsID, unitsID);
   }
 
   /* (non-Javadoc)
@@ -571,7 +572,7 @@ SBaseWithUnit {
           attributes.put("name", getVariable());
         }
         if (isSetUnits()) {
-          attributes.put("units", getUnits());
+          attributes.put(TreeNodeChangeEvent.units, getUnits());
         }
       }
     }

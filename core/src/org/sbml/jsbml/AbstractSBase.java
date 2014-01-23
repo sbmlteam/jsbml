@@ -35,6 +35,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.util.SBMLtools;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
@@ -605,7 +606,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           for (i=0; i < addedBody.getChildCount(); i++)
           {
             if (curBody.addChild(addedBody.getChildAt(i)) < 0 ) {
-              logger.warn("There was a problem adding the given XMLNode: '" + addedBody.getChildAt(i).toXMLString() + "' to the 'body' XMLNode.");
+              logger.warn("There was a problem adding the given XMLNode: '" + SBMLtools.toXML(addedBody.getChildAt(i)) + "' to the 'body' XMLNode.");
               return;
             }
           }
@@ -618,7 +619,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           for (i=0; i < addedNotes.getChildCount(); i++)
           {
             if (curBody.addChild(addedNotes.getChildAt(i)) < 0 ) {
-              logger.warn("There was a problem adding the given XMLNode: '" + addedNotes.getChildAt(i).toXMLString() + "' to the 'body' XMLNode.");
+              logger.warn("There was a problem adding the given XMLNode: '" + SBMLtools.toXML(addedNotes.getChildAt(i)) + "' to the 'body' XMLNode.");
               return;
             }
           }
@@ -642,7 +643,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           curNotes.removeChildren();
           if (curNotes.addChild(addedHTML) < 0) {
             // throw an exception as well ??
-            logger.warn("There was a problem adding the given XMLNode: '" + addedHTML.toXMLString() + "' to the notes.");
+            logger.warn("There was a problem adding the given XMLNode: '" + SBMLtools.toXML(addedHTML) + "' to the notes.");
             return;
           }
         }
@@ -656,7 +657,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           for (i=0; i < addedNotes.getChildCount(); i++)
           {
             if (curBody.addChild(addedNotes.getChildAt(i)) < 0) {
-              logger.warn("There was a problem adding the given XMLNode: '" + addedNotes.getChildAt(i).toXMLString() + "' to the 'body' XMLNode.");
+              logger.warn("There was a problem adding the given XMLNode: '" + SBMLtools.toXML(addedNotes.getChildAt(i)) + "' to the 'body' XMLNode.");
               return;
             }
           }
@@ -679,7 +680,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           curNotes.removeChildren();
           if (curNotes.addChild(addedHTML) < 0) {
             // throw an exception as well ??
-            logger.warn("There was a problem adding the given XMLNode: '" + addedHTML.toXMLString() + "' to the notes.");
+            logger.warn("There was a problem adding the given XMLNode: '" + SBMLtools.toXML(addedHTML) + "' to the notes.");
             return;
           }
         }
@@ -697,7 +698,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           curNotes.removeChildren();
           if (curNotes.addChild(addedBody) < 0) {
             // throw an exception as well ??
-            logger.warn("There was a problem adding the given XMLNode: '" + addedBody.toXMLString() + "' to the notes.");
+            logger.warn("There was a problem adding the given XMLNode: '" + SBMLtools.toXML(addedBody) + "' to the notes.");
             return;
           }
         }
@@ -706,10 +707,10 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           // adds the given any tag permitted in the boy to that of the current
           // any tag.
 
-          for (i=0; i < addedNotes.getChildCount(); i++)
+          for (i = 0; i < addedNotes.getChildCount(); i++)
           {
             if (curNotes.addChild(addedNotes.getChildAt(i)) < 0) {
-              logger.warn("There was a problem adding the given XMLNode: '" + addedNotes.getChildAt(i).toXMLString() + "' to the 'body' XMLNode.");
+              logger.warn("There was a problem adding the given XMLNode: '" + SBMLtools.toXML(addedNotes.getChildAt(i)) + "' to the 'body' XMLNode.");
               return;
             }
           }
@@ -900,10 +901,10 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * 
    * @return the {@link Annotation} of this SBML object as a {@link String} or
    *         an empty {@link String} if there are no {@link Annotation}.
-   * 
+   * @throws XMLStreamException
    */
   @Override
-  public String getAnnotationString() {
+  public String getAnnotationString() throws XMLStreamException {
     return isSetAnnotation() ? (new SBMLWriter()).writeAnnotation(this) : "";
   }
 
@@ -1102,7 +1103,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @see org.sbml.jsbml.SBase#getNotesString()
    */
   @Override
-  public String getNotesString() {
+  public String getNotesString() throws XMLStreamException {
     return notesXMLNode != null ? notesXMLNode.toXMLString() : "";
   }
 

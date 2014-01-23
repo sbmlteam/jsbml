@@ -20,6 +20,7 @@
  */
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -833,8 +834,8 @@ public class CVTerm extends AnnotationElement {
       firePropertyChange(TreeNodeChangeEvent.type, oldType, this.type);
       firePropertyChange(TreeNodeChangeEvent.qualifier, oldQualifier, qualifier);
     } else {
-      throw new IllegalArgumentException(String.format(
-        "%s is not a valid qualifier.", type.toString()));
+      throw new IllegalArgumentException(MessageFormat.format(
+        "{0} is not a valid qualifier.", type.toString()));
     }
   }
 

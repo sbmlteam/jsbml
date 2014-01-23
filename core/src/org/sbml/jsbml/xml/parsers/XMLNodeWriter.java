@@ -83,28 +83,19 @@ public class XMLNodeWriter {
    * 
    * @param xmlNode
    * @return
+   * @throws XMLStreamException
    */
-  public static String toXML(XMLNode xmlNode) {
+  public static String toXML(XMLNode xmlNode) throws XMLStreamException {
     String xml = "";
     StringWriter stream = new StringWriter();
 
-    SMOutputFactory smFactory = new SMOutputFactory(XMLOutputFactory
-      .newInstance());
+    SMOutputFactory smFactory = new SMOutputFactory(XMLOutputFactory.newInstance());
 
-    try {
-      XMLStreamWriter writer = smFactory.createStax2Writer(stream);
-
-      //			writer.writeCharacters("\n");
-
-      XMLNodeWriter xmlNodewriter = new XMLNodeWriter(writer, 0, 2, ' ');
-
-      xmlNodewriter.write(xmlNode);
-
-      writer.close();
-
-    } catch (XMLStreamException e) {
-      e.printStackTrace();
-    }
+    XMLStreamWriter writer = smFactory.createStax2Writer(stream);
+    //			writer.writeCharacters("\n");
+    XMLNodeWriter xmlNodewriter = new XMLNodeWriter(writer, 0, 2, ' ');
+    xmlNodewriter.write(xmlNode);
+    writer.close();
 
     xml = stream.toString();
 

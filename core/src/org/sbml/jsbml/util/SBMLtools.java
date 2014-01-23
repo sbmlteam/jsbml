@@ -21,10 +21,13 @@
 package org.sbml.jsbml.util;
 
 import javax.swing.tree.TreeNode;
+import javax.xml.stream.XMLStreamException;
 
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Unit;
-
+import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.xml.XMLNode;
 
 /**
  * @author Andreas Dr&auml;ger
@@ -73,6 +76,57 @@ public class SBMLtools {
       }
     }
     return sbase;
+  }
+
+  /**
+   * 
+   * @param model
+   */
+  public static final void addPredefinedUnitDefinitions(Model model) {
+    boolean isL3 = model.getLevelAndVersion().compareTo(Integer.valueOf(3), Integer.valueOf(1)) >= 0;
+    if (model.getUnitDefinition(UnitDefinition.SUBSTANCE) == null) {
+      model.addUnitDefinition(SBMLtools.setLevelAndVersion(UnitDefinition.substance(2, 4), model.getLevel(), model.getVersion()));
+      if (isL3) {
+        model.setSubstanceUnits(UnitDefinition.SUBSTANCE);
+      }
+    }
+    if (model.getUnitDefinition(UnitDefinition.VOLUME) == null) {
+      model.addUnitDefinition(SBMLtools.setLevelAndVersion(UnitDefinition.volume(2, 4), model.getLevel(), model.getVersion()));
+      if (isL3) {
+        model.setVolumeUnits(UnitDefinition.VOLUME);
+      }
+    }
+    if (model.getUnitDefinition(UnitDefinition.AREA) == null) {
+      model.addUnitDefinition(SBMLtools.setLevelAndVersion(UnitDefinition.area(2, 4), model.getLevel(), model.getVersion()));
+      if (isL3) {
+        model.setAreaUnits(UnitDefinition.AREA);
+      }
+    }
+    if (model.getUnitDefinition(UnitDefinition.LENGTH) == null) {
+      model.addUnitDefinition(SBMLtools.setLevelAndVersion(UnitDefinition.length(2, 4), model.getLevel(), model.getVersion()));
+      if (isL3) {
+        model.setLengthUnits(UnitDefinition.LENGTH);
+      }
+    }
+    if (model.getUnitDefinition(UnitDefinition.TIME) == null) {
+      model.addUnitDefinition(SBMLtools.setLevelAndVersion(UnitDefinition.time(2, 4), model.getLevel(), model.getVersion()));
+      if (isL3) {
+        model.setTimeUnits(UnitDefinition.TIME);
+      }
+    }
+  }
+
+  /**
+   * 
+   * @param xml
+   * @return
+   */
+  public static final String toXML(XMLNode xml) {
+    try {
+      return xml.toXMLString();
+    } catch (XMLStreamException exc) {
+      return "";
+    }
   }
 
 }

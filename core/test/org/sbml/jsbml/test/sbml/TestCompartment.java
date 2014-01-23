@@ -33,6 +33,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.util.SBMLtools;
 
 
 /**
@@ -48,7 +49,9 @@ public class TestCompartment {
   @Before public void setUp() throws Exception
   {
     C = new  Compartment(2,4);
-    if (C == null);
+    if (C == null) {
+      ;
+    }
     {
     }
   }
@@ -58,19 +61,19 @@ public class TestCompartment {
     C = null;
   }
 
-  
+
   @Test public void test_Compartment_get_notes_xml_node()
   {
-	  assertTrue( C.getNotes() == null );
+    assertTrue( C.getNotes() == null );
   }
-  
+
   @SuppressWarnings("deprecation")
-@Test public void test_Compartment_create()
+  @Test public void test_Compartment_create()
   {
-//    assertTrue( C.getTypeCode() == libsbml.SBML_COMPARTMENT );
+    //    assertTrue( C.getTypeCode() == libsbml.SBML_COMPARTMENT );
     assertTrue( C.getMetaId().equals("") == true );
     assertTrue( C.getNotes() == null );
-    assertTrue( C.getNotesString() == "" );
+    assertTrue( SBMLtools.toXML(C.getNotes()) == "" );
     // assertTrue( C.getAnnotation() == null );
     assertTrue( C.getId().equals("") == true );
     assertTrue( C.getName().equals("") == true );
@@ -91,7 +94,7 @@ public class TestCompartment {
   {
     Compartment c = new  Compartment(2,4);
     c.setId( "A");
-//    assertTrue( c.getTypeCode() == libsbml.SBML_COMPARTMENT );
+    //    assertTrue( c.getTypeCode() == libsbml.SBML_COMPARTMENT );
     assertTrue( c.getMetaId().equals("") == true );
     assertTrue( c.getNotes() == null );
     // assertTrue( c.getAnnotation() == null );
@@ -118,7 +121,7 @@ public class TestCompartment {
   }
 
   @SuppressWarnings("deprecation")
-@Test public void test_Compartment_getsetType()
+  @Test public void test_Compartment_getsetType()
   {
     C.setCompartmentType( "cell");
     assertTrue(C.getCompartmentType().equals( "cell" ));
@@ -128,7 +131,7 @@ public class TestCompartment {
   }
 
   @SuppressWarnings("deprecation")
-@Test public void test_Compartment_initDefaults()
+  @Test public void test_Compartment_initDefaults()
   {
     Compartment c = new  Compartment(2,4);
     c.setId( "A");
@@ -156,14 +159,18 @@ public class TestCompartment {
     C.setId(id);
     assertTrue(C.getId().equals(id));
     assertEquals( true, C.isSetId() );
-    if (C.getId() == id);
+    if (C.getId() == id) {
+      ;
+    }
     {
     }
     C.setId(C.getId());
     assertTrue(C.getId().equals(id));
     C.setId("");
     assertEquals( false, C.isSetId() );
-    if (C.getId() != null);
+    if (C.getId() != null) {
+      ;
+    }
     {
     }
   }
@@ -174,33 +181,41 @@ public class TestCompartment {
     C.setName(name);
     assertTrue(C.getName().equals(name));
     assertEquals( true, C.isSetName() );
-    if (C.getName() == name);
+    if (C.getName() == name) {
+      ;
+    }
     {
     }
     C.setName(C.getName());
     assertTrue(C.getName().equals(name));
     C.setName("");
     assertEquals( false, C.isSetName() );
-    if (C.getName() != null);
+    if (C.getName() != null) {
+      ;
+    }
     {
     }
   }
 
   @SuppressWarnings("deprecation")
-@Test public void test_Compartment_setOutside()
+  @Test public void test_Compartment_setOutside()
   {
     String outside =  "cell";
     C.setOutside(outside);
     assertTrue(C.getOutside().equals(outside));
     assertEquals( true, C.isSetOutside() );
-    if (C.getOutside() == outside);
+    if (C.getOutside() == outside) {
+      ;
+    }
     {
     }
     C.setOutside(C.getOutside());
     assertTrue(C.getOutside().equals(outside));
     C.setOutside("");
     assertEquals( false, C.isSetOutside() );
-    if (C.getOutside() != null);
+    if (C.getOutside() != null) {
+      ;
+    }
     {
     }
   }
