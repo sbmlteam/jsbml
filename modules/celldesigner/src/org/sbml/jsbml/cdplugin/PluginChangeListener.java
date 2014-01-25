@@ -165,189 +165,171 @@ public class PluginChangeListener implements TreeNodeChangeListener {
   @Override
   public void nodeAdded(TreeNode node) {
     if (node instanceof SBase) {
-      if (node instanceof NamedSBase) {
-        if (node instanceof CompartmentType) {
-          CompartmentType s = (CompartmentType) node;
-          PluginCompartmentType p;
-          try {
-            p = PluginUtils.convertCompartmentType(s);
-            plugModel.addCompartmentType(p);
-            plugin.notifySBaseAdded(p);
-          } catch (XMLStreamException exc) {
-            // TODO Auto-generated catch block
-            exc.printStackTrace();
-          }
-        } else if (node instanceof UnitDefinition) {
-          UnitDefinition s = (UnitDefinition) node;
-          PluginUnitDefinition p = new PluginUnitDefinition(s.getId());
-          try {
-            PluginUtils.transferNamedSBaseProperties(s, p);
-          } catch (XMLStreamException exc) {
-            // TODO Auto-generated catch block
-            exc.printStackTrace();
-          }
-          plugModel.addUnitDefinition(p);
-          plugin.notifySBaseAdded(p);
-        } else if (node instanceof Reaction) {
-          PluginReaction plugreac = new PluginReaction();
-
-          plugin.notifySBaseAdded(plugreac);
-        } else if (node instanceof SpeciesType) {
-          SpeciesType speciestype = (SpeciesType) node;
-          PluginSpeciesType plugspectype = new PluginSpeciesType(
-            speciestype.getId());
-          if (speciestype.isSetName()
-              && !speciestype.getName().equals(
-                plugspectype.getName())) {
-            plugspectype.setName(speciestype.getName());
-            plugin.notifySBaseAdded(plugspectype);
-          } else {
-            logger.log(Level.DEBUG, MessageFormat.format(
-              bundle.getString("CANNOT_ADD_NODE"),
-              node.getClass().getSimpleName()));
-          }
-        } else if (node instanceof SimpleSpeciesReference) {
-          SimpleSpeciesReference simspec = (SimpleSpeciesReference) node;
-          String type = SBO.convertSBO2Alias(simspec.getSBOTerm());
-          if (node instanceof ModifierSpeciesReference) {
-            if (type.length() == 0) {
-              // use "unknown"
-              int sbo = 285;
-              type = SBO.convertSBO2Alias(sbo);
-              logger.log(Level.DEBUG, MessageFormat.format(
-                bundle.getString("NO_SBO_TERM_DEFINED"),
-                simspec.getElementName(), sbo));
-            }
-            if (simspec.isSetSpecies()) {
-              PluginSpeciesAlias alias = new PluginSpeciesAlias(
-                plugModel.getSpecies(simspec.getSpecies()),
-                type);
-              PluginModifierSpeciesReference plugModRef = new PluginModifierSpeciesReference(
-                plugModel.getReaction(((Reaction) simspec.getParent()).getId()), alias);
-              plugin.notifySBaseAdded(plugModRef);
-            } else {
-              logger.log(Level.DEBUG, bundle.getString("CANNOT_CREATE_SPECIES_REFERENCE"));
-            }
-
-          } else if (node instanceof SpeciesReference) {
-            if (type.length() == 0) {
-              // use "unknown"
-              int sbo = 285;
-              type = SBO.convertSBO2Alias(sbo);
-              logger.log(Level.DEBUG, MessageFormat.format(
-                bundle.getString("NO_SBO_TERM_DEFINED"),
-                simspec.getElementName(), sbo));
-            }
-            // TODO: use SBML layout extension (later than JSBML
-            // 0.8)
-            if (simspec.isSetSpecies()) {
-              PluginSpeciesAlias alias = new PluginSpeciesAlias(
-                plugModel.getSpecies(simspec.getSpecies()),
-                type);
-              PluginSpeciesReference plugspecRef = new PluginSpeciesReference(
-                plugModel.getReaction(((Reaction) simspec.getParent()).getId()), alias);
-              plugin.notifySBaseAdded(plugspecRef);
-            } else {
-              logger.log(Level.DEBUG, bundle.getString("CANNOT_CREATE_SPECIES_REFERENCE"));
-            }
-          }
-        } else if (node instanceof AbstractNamedSBaseWithUnit) {
-          if (node instanceof Event) {
-            Event event = (Event) node;
-            PluginEvent plugevent = new PluginEvent(event.getId());
-            if (event.isSetName()
-                && !event.getName().equals(plugevent.getName())) {
-              plugevent.setName(event.getName());
-              plugin.notifySBaseAdded(plugevent);
-            } else {
-              logger.log(Level.DEBUG, MessageFormat.format(
-                bundle.getString("CANNOT_ADD_NODE"),
-                node.getClass().getSimpleName()));
-            }
-          } else if (node instanceof QuantityWithUnit) {
-            if (node instanceof LocalParameter) {
-              LocalParameter locparam = (LocalParameter) node;
-              ListOf<LocalParameter> lop = locparam
-                  .getParentSBMLObject();
-              KineticLaw kl = (KineticLaw) lop
-                  .getParentSBMLObject();
-              for (LocalParameter p : kl
-                  .getListOfLocalParameters()) {
-                if (p.isSetUnits()
-                    && !Unit.isUnitKind(p.getUnits(),
-                      p.getLevel(), p.getVersion())
-                      && plugModel.getUnitDefinition(p
-                        .getUnits()) == null) {
-                  PluginUnitDefinition plugUnitDefinition = new PluginUnitDefinition(
-                    p.getUnitsInstance().getId());
-                  plugModel
-                  .addUnitDefinition(plugUnitDefinition);
-                  plugin.notifySBaseAdded(plugUnitDefinition);
-                }
+      try {
+        if (node instanceof NamedSBase) {
+          SBase parent = (SBase) node.getParent();
+          NamedSBase nsb = (NamedSBase) node;
+          PluginSBase plugSBase = null;
+          if (node instanceof CompartmentType) {
+            plugSBase = PluginUtils.convertCompartmentType((CompartmentType) nsb);
+            plugModel.addCompartmentType((PluginCompartmentType) plugSBase);
+          } else if (node instanceof UnitDefinition) {
+            plugSBase = PluginUtils.convertUnitDefinition((UnitDefinition) nsb);
+            plugModel.addUnitDefinition((PluginUnitDefinition) plugSBase);
+          } else if (node instanceof Reaction) {
+            plugSBase = PluginUtils.convertReaction((Reaction) nsb);
+            plugModel.addReaction((PluginReaction) plugSBase);
+          } else if (node instanceof SpeciesType) {
+            plugSBase = PluginUtils.convertSpeciesType((SpeciesType) nsb);
+            plugModel.addSpeciesType((PluginSpeciesType) plugSBase);
+          } else if (node instanceof SimpleSpeciesReference) {
+            SimpleSpeciesReference simspec = (SimpleSpeciesReference) node;
+            String type = SBO.convertSBO2Alias(simspec.getSBOTerm());
+            if (node instanceof ModifierSpeciesReference) {
+              if (type.length() == 0) {
+                // use "unknown"
+                int sbo = 285;
+                type = SBO.convertSBO2Alias(sbo);
+                logger.log(Level.DEBUG, MessageFormat.format(
+                  bundle.getString("NO_SBO_TERM_DEFINED"),
+                  simspec.getElementName(), sbo));
+              }
+              if (simspec.isSetSpecies()) {
+                PluginSpeciesAlias alias = new PluginSpeciesAlias(
+                  plugModel.getSpecies(simspec.getSpecies()),
+                  type);
+                PluginModifierSpeciesReference plugModRef = new PluginModifierSpeciesReference(
+                  plugModel.getReaction(((Reaction) simspec.getParent()).getId()), alias);
+                plugin.notifySBaseAdded(plugModRef);
+              } else {
+                logger.log(Level.DEBUG, bundle.getString("CANNOT_CREATE_SPECIES_REFERENCE"));
               }
 
-            } else if (node instanceof Symbol) {
-              if (node instanceof Compartment) {
-                Compartment comp = (Compartment) node;
-                PluginCompartment plugcomp = new PluginCompartment(
-                  comp.getCompartmentType());
-                if (comp.isSetName()
-                    && !plugcomp.getName().equals(
-                      comp.getName())) {
-                  plugcomp.setName(comp.getName());
-                  plugin.notifySBaseAdded(plugcomp);
-                } else {
-                  logger.log(Level.DEBUG, MessageFormat.format(
-                    bundle.getString("CANNOT_ADD_NODE"),
-                    node.getClass().getSimpleName()));
+            } else if (node instanceof SpeciesReference) {
+              if (type.length() == 0) {
+                // use "unknown"
+                int sbo = 285;
+                type = SBO.convertSBO2Alias(sbo);
+                logger.log(Level.DEBUG, MessageFormat.format(
+                  bundle.getString("NO_SBO_TERM_DEFINED"),
+                  simspec.getElementName(), sbo));
+              }
+              // TODO: use SBML layout extension (later than JSBML
+              // 0.8)
+              if (simspec.isSetSpecies()) {
+                PluginSpeciesAlias alias = new PluginSpeciesAlias(
+                  plugModel.getSpecies(simspec.getSpecies()),
+                  type);
+                PluginSpeciesReference plugspecRef = new PluginSpeciesReference(
+                  plugModel.getReaction(((Reaction) simspec.getParent()).getId()), alias);
+                plugin.notifySBaseAdded(plugspecRef);
+              } else {
+                logger.log(Level.DEBUG, bundle.getString("CANNOT_CREATE_SPECIES_REFERENCE"));
+              }
+            }
+          } else if (node instanceof AbstractNamedSBaseWithUnit) {
+            if (node instanceof Event) {
+              Event event = (Event) node;
+              PluginEvent plugevent = new PluginEvent(event.getId());
+              if (event.isSetName()
+                  && !event.getName().equals(plugevent.getName())) {
+                plugevent.setName(event.getName());
+                plugin.notifySBaseAdded(plugevent);
+              } else {
+                logger.log(Level.DEBUG, MessageFormat.format(
+                  bundle.getString("CANNOT_ADD_NODE"),
+                  node.getClass().getSimpleName()));
+              }
+            } else if (node instanceof QuantityWithUnit) {
+              if (node instanceof LocalParameter) {
+                LocalParameter locparam = (LocalParameter) node;
+                ListOf<LocalParameter> lop = locparam
+                    .getParentSBMLObject();
+                KineticLaw kl = (KineticLaw) lop
+                    .getParentSBMLObject();
+                for (LocalParameter p : kl
+                    .getListOfLocalParameters()) {
+                  if (p.isSetUnits()
+                      && !Unit.isUnitKind(p.getUnits(),
+                        p.getLevel(), p.getVersion())
+                        && plugModel.getUnitDefinition(p
+                          .getUnits()) == null) {
+                    PluginUnitDefinition plugUnitDefinition = new PluginUnitDefinition(
+                      p.getUnitsInstance().getId());
+                    plugModel
+                    .addUnitDefinition(plugUnitDefinition);
+                    plugin.notifySBaseAdded(plugUnitDefinition);
+                  }
                 }
-              } else if (node instanceof Species) {
-                Species sp = (Species) node;
-                PluginSpecies plugsp = new PluginSpecies(
-                  sp.getSpeciesType(), sp.getName());
-                if (sp.isSetName()
-                    && !sp.getName().equals(
-                      plugsp.getName())) {
-                  plugin.notifySBaseAdded(plugsp);
-                } else {
-                  logger.log(Level.DEBUG, MessageFormat.format(
-                    bundle.getString("CANNOT_ADD_NODE"),
-                    node.getClass().getSimpleName()));
-                }
-              } else if (node instanceof org.sbml.jsbml.Parameter) {
-                org.sbml.jsbml.Parameter param = (org.sbml.jsbml.Parameter) node;
-                if (param.getParent() instanceof KineticLaw) {
-                  PluginParameter plugparam = new PluginParameter(
-                    (PluginKineticLaw) param
-                    .getParent());
-                  if (param.isSetName()
-                      && !param.getName().equals(
-                        plugparam.getName())) {
-                    plugparam.setName(param.getName());
-                    plugin.notifySBaseAdded(plugparam);
+
+              } else if (node instanceof Symbol) {
+                if (node instanceof Compartment) {
+                  Compartment comp = (Compartment) node;
+                  PluginCompartment plugcomp = new PluginCompartment(
+                    comp.getCompartmentType());
+                  if (comp.isSetName()
+                      && !plugcomp.getName().equals(
+                        comp.getName())) {
+                    plugcomp.setName(comp.getName());
+                    plugin.notifySBaseAdded(plugcomp);
                   } else {
                     logger.log(Level.DEBUG, MessageFormat.format(
                       bundle.getString("CANNOT_ADD_NODE"),
                       node.getClass().getSimpleName()));
                   }
-                } else if (param.getParent() instanceof Model) {
-                  PluginParameter plugparam = new PluginParameter(
-                    (PluginModel) param.getParent());
-                  if (param.isSetName()
-                      && !param.getName().equals(
-                        plugparam.getName())) {
-                    plugparam.setName(param.getName());
-                    plugin.notifySBaseAdded(plugparam);
+                } else if (node instanceof Species) {
+                  Species sp = (Species) node;
+                  PluginSpecies plugsp = new PluginSpecies(
+                    sp.getSpeciesType(), sp.getName());
+                  if (sp.isSetName()
+                      && !sp.getName().equals(
+                        plugsp.getName())) {
+                    plugin.notifySBaseAdded(plugsp);
                   } else {
                     logger.log(Level.DEBUG, MessageFormat.format(
                       bundle.getString("CANNOT_ADD_NODE"),
                       node.getClass().getSimpleName()));
                   }
+                } else if (node instanceof org.sbml.jsbml.Parameter) {
+                  org.sbml.jsbml.Parameter param = (org.sbml.jsbml.Parameter) node;
+                  if (param.getParent() instanceof KineticLaw) {
+                    PluginParameter plugparam = new PluginParameter(
+                      (PluginKineticLaw) param
+                      .getParent());
+                    if (param.isSetName()
+                        && !param.getName().equals(
+                          plugparam.getName())) {
+                      plugparam.setName(param.getName());
+                      plugin.notifySBaseAdded(plugparam);
+                    } else {
+                      logger.log(Level.DEBUG, MessageFormat.format(
+                        bundle.getString("CANNOT_ADD_NODE"),
+                        node.getClass().getSimpleName()));
+                    }
+                  } else if (param.getParent() instanceof Model) {
+                    PluginParameter plugparam = new PluginParameter(
+                      (PluginModel) param.getParent());
+                    if (param.isSetName()
+                        && !param.getName().equals(
+                          plugparam.getName())) {
+                      plugparam.setName(param.getName());
+                      plugin.notifySBaseAdded(plugparam);
+                    } else {
+                      logger.log(Level.DEBUG, MessageFormat.format(
+                        bundle.getString("CANNOT_ADD_NODE"),
+                        node.getClass().getSimpleName()));
+                    }
+                  }
                 }
               }
             }
+          }
+          if (plugSBase != null) {
+            plugin.notifySBaseAdded(plugSBase);
           }
         }
+      } catch (XMLStreamException exc) {
+        exc.printStackTrace();
       }
       if (node instanceof Unit) {
         Unit ut = (Unit) node;

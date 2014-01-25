@@ -301,9 +301,7 @@ public class PluginUtils {
     transferMathContainerProperties(kineticLaw, pkl);
     if (kineticLaw.isSetListOfLocalParameters()) {
       for (LocalParameter p : kineticLaw.getListOfLocalParameters()) {
-        PluginParameter pluginParam = new PluginParameter(pkl);
-        p.putUserObject(LINK_TO_CELLDESIGNER, pluginParam);
-        convertLocalParameter(p);
+        pkl.addParameter(convertLocalParameter(p));
       }
       kineticLaw.getListOfLocalParameters().putUserObject(LINK_TO_CELLDESIGNER, pkl.getListOfParameters());
     }
@@ -521,50 +519,33 @@ public class PluginUtils {
       reaction.putUserObject(LINK_TO_CELLDESIGNER, reaction);
     }
     transferNamedSBaseProperties(reaction, pr);
-    pr.setFast(reaction.isFast());
-    pr.setReversible(reaction.isReversible());
+    if (reaction.isSetFast()) {
+      pr.setFast(reaction.isFast());
+    }
+    if (reaction.isSetReversible()) {
+      pr.setReversible(reaction.isReversible());
+    }
     if (reaction.isSetKineticLaw()) {
-      PluginKineticLaw pkl = new PluginKineticLaw(pr);
-      pr.setKineticLaw(pkl);
-      reaction.getKineticLaw().putUserObject(LINK_TO_CELLDESIGNER, pkl);
-      convertKineticLaw(reaction.getKineticLaw());
+      pr.setKineticLaw(convertKineticLaw(reaction.getKineticLaw()));
     }
     if (reaction.isSetCompartment()) {
       // nothing to do
     }
     if (reaction.isSetListOfReactants()) {
       for (SpeciesReference sr : reaction.getListOfReactants()) {
-        PluginSpeciesReference psr = new PluginSpeciesReference(
-          pr,
-          new PluginSpeciesAlias(
-            (PluginSpecies) sr.getSpeciesInstance().getUserObject(LINK_TO_CELLDESIGNER),
-            SBO.convertSBO2Alias(sr.isSetSBOTerm() ? sr.getSBOTerm() : SBO.getReactant())));
-        sr.putUserObject(LINK_TO_CELLDESIGNER, psr);
-        convertSpeciesReference(sr);
+        pr.addReactant(convertSpeciesReference(sr));
       }
       reaction.getListOfReactants().putUserObject(LINK_TO_CELLDESIGNER, pr.getListOfReactants());
     }
     if (reaction.isSetListOfProducts()) {
       for (SpeciesReference sr : reaction.getListOfProducts()) {
-        PluginSpeciesReference psr = new PluginSpeciesReference(
-          pr,
-          new PluginSpeciesAlias(
-            (PluginSpecies) sr.getSpeciesInstance().getUserObject(LINK_TO_CELLDESIGNER),
-            SBO.convertSBO2Alias(sr.isSetSBOTerm() ? sr.getSBOTerm() : SBO.getProduct())));
-        sr.putUserObject(LINK_TO_CELLDESIGNER, psr);
-        convertSpeciesReference(sr);
+        pr.addProduct(convertSpeciesReference(sr));
       }
       reaction.getListOfProducts().putUserObject(LINK_TO_CELLDESIGNER, pr.getListOfProducts());
     }
     if (reaction.isSetListOfModifiers()) {
       for (ModifierSpeciesReference mr : reaction.getListOfModifiers()) {
-        PluginModifierSpeciesReference pmsr = new PluginModifierSpeciesReference(
-          pr,
-          new PluginSpeciesAlias(
-            (PluginSpecies) mr.getSpeciesInstance().getUserObject(LINK_TO_CELLDESIGNER),
-            SBO.convertSBO2Alias(mr.isSetSBOTerm() ? mr.getSBOTerm() : SBO.getModulation())));
-        mr.putUserObject(LINK_TO_CELLDESIGNER, pmsr);
-        convertModifierSpeciesReference(mr);
+        pr.addModifier(convertModifierSpeciesReference(mr));
       }
       reaction.getListOfModifiers().putUserObject(LINK_TO_CELLDESIGNER, pr.getListOfModifiers());
     }
@@ -701,10 +682,7 @@ public class PluginUtils {
     transferNamedSBaseProperties(unitDefinition, pu);
     if (unitDefinition.isSetListOfUnits()) {
       for (Unit unit : unitDefinition.getListOfUnits()) {
-        PluginUnit punit = new PluginUnit(pu);
-        pu.addUnit(punit);
-        unit.putUserObject(LINK_TO_CELLDESIGNER, punit);
-        convertUnit(unit);
+        pu.addUnit(convertUnit(unit));
       }
       unitDefinition.getListOfUnits().putUserObject(LINK_TO_CELLDESIGNER, pu.getListOfUnits());
     }
@@ -733,6 +711,15 @@ public class PluginUtils {
       if (error != 0d) {
         logger.warn(MessageFormat.format(bundle.getString("ROUNDING_ERROR"), error));
       }
+    }
+    if (unit.isSetMultiplier()) {
+      pu.setMultiplier(unit.getMultiplier());
+    }
+    if (unit.isSetOffset()) {
+      pu.setOffset(unit.getOffset());
+    }
+    if (unit.isSetScale()) {
+      pu.setScale(unit.getScale());
     }
     return pu;
   }
