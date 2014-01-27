@@ -212,7 +212,7 @@ public class SBML_L2V1Test {
 
     // TODO: add more complex test for Notes !! assertTrue(pRBp.getNotesString().contains(JSBML.URI_XHTML_DEFINITION));
 
-    System.out.println("pRBp annotation: " + pRBp.getAnnotation().getNonRDFannotation());
+    System.out.println("pRBp annotation: " + pRBp.getAnnotation().getNonRDFannotation().toXMLString());
     System.out.println("pRBp annotation: " + pRBp.getCVTerm(0).toString());
 
     assertTrue(model.getListOfParameters().size() == 40);
@@ -234,7 +234,7 @@ public class SBML_L2V1Test {
 
     assertTrue(pRB_synthesis != null);
 
-    System.out.println("pRB_synthesis additional annotation: '" + pRB_synthesis.getAnnotation().getNonRDFannotation() + "'");
+    System.out.println("pRB_synthesis additional annotation: '" + pRB_synthesis.getAnnotation().getNonRDFannotation().toXMLString() + "'");
 
     assertTrue(pRB_synthesis.getAnnotation().getNonRDFannotationAsString().trim().contains("<jigcell:ratelaw jigcell:name=\"Local\""));
 
