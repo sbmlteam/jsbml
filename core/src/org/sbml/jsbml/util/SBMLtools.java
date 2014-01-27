@@ -126,7 +126,10 @@ public class SBMLtools {
       return xml.toXMLString();
     } catch (XMLStreamException exc) {
       return "";
+    } catch (RuntimeException e) {
+    	return ""; // needed when xml is null for example.
     }
+    
   }
 
 }

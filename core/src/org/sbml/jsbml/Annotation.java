@@ -433,10 +433,14 @@ public class Annotation extends AnnotationElement {
    *         annotation. Return null if there are none.
    */
   public String getNonRDFannotationAsString() {
-    if (nonRDFannotation != null) {
-      return nonRDFannotation.toString();
-    }
-    return null;
+	  if (nonRDFannotation != null) {
+		  try {
+			  return nonRDFannotation.toXMLString();
+		  } catch (XMLStreamException e) {
+			  // nothing to do here ??
+		  }
+	  }
+	  return null;
   }
 
   /**
