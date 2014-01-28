@@ -20,6 +20,8 @@
  */
 package org.sbml.jsbml.cdplugin.test;
 
+import javax.xml.stream.XMLStreamException;
+
 import jp.sbi.celldesigner.plugin.CellDesignerPlugin;
 import jp.sbi.celldesigner.plugin.PluginMenu;
 import jp.sbi.celldesigner.plugin.PluginMenuItem;
@@ -80,7 +82,11 @@ public class CDPluginTester extends CellDesignerPlugin {
   }
 
 
-  public void startPlugin() {
+  /**
+   * 
+   * @throws XMLStreamException
+   */
+  public void startPlugin() throws XMLStreamException {
     PluginSBMLReader reader = new PluginSBMLReader(getSelectedModel(), SBO.getDefaultPossibleEnzymes());
     Model model = reader.getModel();
     SBMLDocument doc = new SBMLDocument(model.getLevel(), model.getVersion());

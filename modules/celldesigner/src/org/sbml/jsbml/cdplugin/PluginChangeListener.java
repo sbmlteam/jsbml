@@ -32,7 +32,6 @@ import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
 import jp.sbi.celldesigner.plugin.CellDesignerPlugin;
-import jp.sbi.celldesigner.plugin.PluginAlgebraicRule;
 import jp.sbi.celldesigner.plugin.PluginAssignmentRule;
 import jp.sbi.celldesigner.plugin.PluginCompartment;
 import jp.sbi.celldesigner.plugin.PluginCompartmentType;
@@ -52,7 +51,6 @@ import jp.sbi.celldesigner.plugin.PluginRule;
 import jp.sbi.celldesigner.plugin.PluginSBase;
 import jp.sbi.celldesigner.plugin.PluginSimpleSpeciesReference;
 import jp.sbi.celldesigner.plugin.PluginSpecies;
-import jp.sbi.celldesigner.plugin.PluginSpeciesAlias;
 import jp.sbi.celldesigner.plugin.PluginSpeciesReference;
 import jp.sbi.celldesigner.plugin.PluginSpeciesType;
 import jp.sbi.celldesigner.plugin.PluginUnit;
@@ -61,10 +59,7 @@ import jp.sbi.celldesigner.plugin.PluginUnitDefinition;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.AbstractMathContainer;
 import org.sbml.jsbml.AbstractNamedSBaseWithUnit;
-import org.sbml.jsbml.AbstractTreeNode;
-import org.sbml.jsbml.AlgebraicRule;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.AnnotationElement;
 import org.sbml.jsbml.AssignmentRule;
@@ -90,7 +85,6 @@ import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Priority;
 import org.sbml.jsbml.QuantityWithUnit;
-import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBMLDocument;
@@ -166,364 +160,198 @@ public class PluginChangeListener implements TreeNodeChangeListener {
   public void nodeAdded(TreeNode node) {
     if (node instanceof SBase) {
       try {
+        SBase parent = (SBase) node.getParent();
+        PluginSBase plugSBase = null;
+        PluginListOf pList = null;
+
         if (node instanceof NamedSBase) {
-          SBase parent = (SBase) node.getParent();
           NamedSBase nsb = (NamedSBase) node;
-          PluginSBase plugSBase = null;
           if (node instanceof CompartmentType) {
             plugSBase = PluginUtils.convertCompartmentType((CompartmentType) nsb);
             plugModel.addCompartmentType((PluginCompartmentType) plugSBase);
+            pList = plugModel.getListOfCompartments();
           } else if (node instanceof UnitDefinition) {
             plugSBase = PluginUtils.convertUnitDefinition((UnitDefinition) nsb);
             plugModel.addUnitDefinition((PluginUnitDefinition) plugSBase);
+            pList = plugModel.getListOfUnitDefinitions();
           } else if (node instanceof Reaction) {
             plugSBase = PluginUtils.convertReaction((Reaction) nsb);
             plugModel.addReaction((PluginReaction) plugSBase);
+            pList = plugModel.getListOfReactions();
           } else if (node instanceof SpeciesType) {
             plugSBase = PluginUtils.convertSpeciesType((SpeciesType) nsb);
             plugModel.addSpeciesType((PluginSpeciesType) plugSBase);
+            pList = plugModel.getListOfSpeciesTypes();
           } else if (node instanceof SimpleSpeciesReference) {
-            SimpleSpeciesReference simspec = (SimpleSpeciesReference) node;
-            String type = SBO.convertSBO2Alias(simspec.getSBOTerm());
+            PluginReaction plugReaction = (PluginReaction) ((Reaction) parent.getParent()).getUserObject(LINK_TO_CELLDESIGNER);
             if (node instanceof ModifierSpeciesReference) {
-              if (type.length() == 0) {
-                // use "unknown"
-                int sbo = 285;
-                type = SBO.convertSBO2Alias(sbo);
-                logger.log(Level.DEBUG, MessageFormat.format(
-                  bundle.getString("NO_SBO_TERM_DEFINED"),
-                  simspec.getElementName(), sbo));
-              }
-              if (simspec.isSetSpecies()) {
-                PluginSpeciesAlias alias = new PluginSpeciesAlias(
-                  plugModel.getSpecies(simspec.getSpecies()),
-                  type);
-                PluginModifierSpeciesReference plugModRef = new PluginModifierSpeciesReference(
-                  plugModel.getReaction(((Reaction) simspec.getParent()).getId()), alias);
-                plugin.notifySBaseAdded(plugModRef);
+              plugSBase = PluginUtils.convertModifierSpeciesReference((ModifierSpeciesReference) nsb);
+              plugReaction.addModifier((PluginModifierSpeciesReference) plugSBase);
+              pList = plugReaction.getListOfModifiers();
+            } else {
+              plugSBase = PluginUtils.convertSpeciesReference((SpeciesReference) nsb);
+              if (parent.getElementName().toLowerCase().contains("reactant")) {
+                plugReaction.addReactant((PluginSpeciesReference) plugSBase);
+                pList = plugReaction.getListOfReactants();
               } else {
-                logger.log(Level.DEBUG, bundle.getString("CANNOT_CREATE_SPECIES_REFERENCE"));
-              }
-
-            } else if (node instanceof SpeciesReference) {
-              if (type.length() == 0) {
-                // use "unknown"
-                int sbo = 285;
-                type = SBO.convertSBO2Alias(sbo);
-                logger.log(Level.DEBUG, MessageFormat.format(
-                  bundle.getString("NO_SBO_TERM_DEFINED"),
-                  simspec.getElementName(), sbo));
-              }
-              // TODO: use SBML layout extension (later than JSBML
-              // 0.8)
-              if (simspec.isSetSpecies()) {
-                PluginSpeciesAlias alias = new PluginSpeciesAlias(
-                  plugModel.getSpecies(simspec.getSpecies()),
-                  type);
-                PluginSpeciesReference plugspecRef = new PluginSpeciesReference(
-                  plugModel.getReaction(((Reaction) simspec.getParent()).getId()), alias);
-                plugin.notifySBaseAdded(plugspecRef);
-              } else {
-                logger.log(Level.DEBUG, bundle.getString("CANNOT_CREATE_SPECIES_REFERENCE"));
+                plugReaction.addProduct((PluginSpeciesReference) plugSBase);
+                pList = plugReaction.getListOfProducts();
               }
             }
+          } else if (node instanceof Model) {
+            plugSBase = PluginUtils.convertModel((Model) nsb);
+            plugModel = (PluginModel) plugSBase;
+          } else if (node instanceof FunctionDefinition) {
+            plugSBase = PluginUtils.convertFunctionDefinition((FunctionDefinition) nsb);
+            plugModel.addFunctionDefinition((PluginFunctionDefinition) plugSBase);
+            pList = plugModel.getListOfFunctionDefinitions();
           } else if (node instanceof AbstractNamedSBaseWithUnit) {
             if (node instanceof Event) {
-              Event event = (Event) node;
-              PluginEvent plugevent = new PluginEvent(event.getId());
-              if (event.isSetName()
-                  && !event.getName().equals(plugevent.getName())) {
-                plugevent.setName(event.getName());
-                plugin.notifySBaseAdded(plugevent);
-              } else {
-                logger.log(Level.DEBUG, MessageFormat.format(
-                  bundle.getString("CANNOT_ADD_NODE"),
-                  node.getClass().getSimpleName()));
-              }
+              plugSBase = PluginUtils.convertEvent((Event) nsb);
+              plugModel.addEvent((PluginEvent) plugSBase);
+              pList = plugModel.getListOfEvents();
             } else if (node instanceof QuantityWithUnit) {
               if (node instanceof LocalParameter) {
-                LocalParameter locparam = (LocalParameter) node;
-                ListOf<LocalParameter> lop = locparam
-                    .getParentSBMLObject();
-                KineticLaw kl = (KineticLaw) lop
-                    .getParentSBMLObject();
-                for (LocalParameter p : kl
-                    .getListOfLocalParameters()) {
-                  if (p.isSetUnits()
-                      && !Unit.isUnitKind(p.getUnits(),
-                        p.getLevel(), p.getVersion())
-                        && plugModel.getUnitDefinition(p
-                          .getUnits()) == null) {
-                    PluginUnitDefinition plugUnitDefinition = new PluginUnitDefinition(
-                      p.getUnitsInstance().getId());
-                    plugModel
-                    .addUnitDefinition(plugUnitDefinition);
-                    plugin.notifySBaseAdded(plugUnitDefinition);
-                  }
-                }
-
+                plugSBase = PluginUtils.convertLocalParameter((LocalParameter) nsb);
+                PluginKineticLaw pluKin = (PluginKineticLaw) ((KineticLaw) parent.getParent()).getUserObject(LINK_TO_CELLDESIGNER);
+                pluKin.addParameter((PluginParameter) plugSBase);
+                pList = pluKin.getListOfParameters();
               } else if (node instanceof Symbol) {
                 if (node instanceof Compartment) {
-                  Compartment comp = (Compartment) node;
-                  PluginCompartment plugcomp = new PluginCompartment(
-                    comp.getCompartmentType());
-                  if (comp.isSetName()
-                      && !plugcomp.getName().equals(
-                        comp.getName())) {
-                    plugcomp.setName(comp.getName());
-                    plugin.notifySBaseAdded(plugcomp);
-                  } else {
-                    logger.log(Level.DEBUG, MessageFormat.format(
-                      bundle.getString("CANNOT_ADD_NODE"),
-                      node.getClass().getSimpleName()));
-                  }
+                  plugSBase = PluginUtils.convertCompartment((Compartment) nsb);
+                  plugModel.addCompartment((PluginCompartment) plugSBase);
+                  pList = plugModel.getListOfCompartments();
                 } else if (node instanceof Species) {
-                  Species sp = (Species) node;
-                  PluginSpecies plugsp = new PluginSpecies(
-                    sp.getSpeciesType(), sp.getName());
-                  if (sp.isSetName()
-                      && !sp.getName().equals(
-                        plugsp.getName())) {
-                    plugin.notifySBaseAdded(plugsp);
-                  } else {
-                    logger.log(Level.DEBUG, MessageFormat.format(
-                      bundle.getString("CANNOT_ADD_NODE"),
-                      node.getClass().getSimpleName()));
-                  }
-                } else if (node instanceof org.sbml.jsbml.Parameter) {
-                  org.sbml.jsbml.Parameter param = (org.sbml.jsbml.Parameter) node;
-                  if (param.getParent() instanceof KineticLaw) {
-                    PluginParameter plugparam = new PluginParameter(
-                      (PluginKineticLaw) param
-                      .getParent());
-                    if (param.isSetName()
-                        && !param.getName().equals(
-                          plugparam.getName())) {
-                      plugparam.setName(param.getName());
-                      plugin.notifySBaseAdded(plugparam);
-                    } else {
-                      logger.log(Level.DEBUG, MessageFormat.format(
-                        bundle.getString("CANNOT_ADD_NODE"),
-                        node.getClass().getSimpleName()));
-                    }
-                  } else if (param.getParent() instanceof Model) {
-                    PluginParameter plugparam = new PluginParameter(
-                      (PluginModel) param.getParent());
-                    if (param.isSetName()
-                        && !param.getName().equals(
-                          plugparam.getName())) {
-                      plugparam.setName(param.getName());
-                      plugin.notifySBaseAdded(plugparam);
-                    } else {
-                      logger.log(Level.DEBUG, MessageFormat.format(
-                        bundle.getString("CANNOT_ADD_NODE"),
-                        node.getClass().getSimpleName()));
-                    }
-                  }
+                  plugSBase = PluginUtils.convertSpecies((Species) nsb);
+                  plugModel.addSpecies((PluginSpecies) plugSBase);
+                  pList = plugModel.getListOfSpecies();
+                } else if (node instanceof Parameter) {
+                  plugSBase = PluginUtils.convertParameter((Parameter) nsb);
+                  plugModel.addParameter((PluginParameter) plugSBase);
+                  pList = plugModel.getListOfParameters();
                 }
               }
             }
           }
-          if (plugSBase != null) {
-            plugin.notifySBaseAdded(plugSBase);
+
+        } else if (node instanceof MathContainer) {
+          MathContainer mc = (MathContainer) node;
+
+          if (mc instanceof KineticLaw) {
+            plugSBase = PluginUtils.convertKineticLaw((KineticLaw) mc);
+            ((PluginReaction) ((Reaction) parent).getUserObject(LINK_TO_CELLDESIGNER)).setKineticLaw((PluginKineticLaw) plugSBase);
+          } else if (mc instanceof InitialAssignment) {
+            plugSBase = PluginUtils.convertInitialAssignment((InitialAssignment) mc);
+            plugModel.addInitialAssignment((PluginInitialAssignment) plugSBase);
+            pList = plugModel.getListOfInitialAssignments();
+          } else if (mc instanceof EventAssignment) {
+            plugSBase = PluginUtils.convertEventAssignment((EventAssignment) mc);
+            PluginEvent pluEvt = (PluginEvent) ((Event) parent.getParent()).getUserObject(LINK_TO_CELLDESIGNER);
+            pluEvt.addEventAssignment((PluginEventAssignment) plugSBase);
+            pList = pluEvt.getListOfEventAssignments();
+          } else if (mc instanceof Rule) {
+            plugSBase = PluginUtils.convertRule((Rule) mc);
+            plugModel.addRule((PluginRule) plugSBase);
+            pList = plugModel.getListOfRules();
+          } else if (mc instanceof Constraint) {
+            plugSBase = PluginUtils.convertConstraint((Constraint) mc);
+            plugModel.addConstraint((PluginConstraint) plugSBase);
+            pList = plugModel.getListOfConstraints();
+          } else if (mc instanceof Delay) {
+            Event event = (Event) parent;
+            PluginEvent pluginEvent = (PluginEvent) event.getUserObject(LINK_TO_CELLDESIGNER);
+            pluginEvent.setDelay(LibSBMLUtils.convertASTNode(event.getDelay().getMath()));
+            LibSBMLUtils.transferMathContainerProperties(event.getDelay(), pluginEvent.getDelay());
+            plugin.notifySBaseChanged(pluginEvent);
+          } else if (mc instanceof Priority) {
+            logger.log(Level.DEBUG, MessageFormat.format(
+              bundle.getString("NO_CORRESPONDING_CLASS_IN_CELLDESIGNER"),
+              node.getClass().getSimpleName()));
+          } else if (mc instanceof StoichiometryMath) {
+            SpeciesReference speciesReference = (SpeciesReference) parent;
+            PluginSpeciesReference pluginSpeciesReference = (PluginSpeciesReference) speciesReference.getUserObject(LINK_TO_CELLDESIGNER);
+            pluginSpeciesReference.setStoichiometryMath(LibSBMLUtils.convertStoichiometryMath(speciesReference.getStoichiometryMath()));
+            plugin.notifySBaseChanged(pluginSpeciesReference);
+          } else if (mc instanceof Trigger) {
+            Event event = (Event) parent;
+            PluginEvent pluginEvent = (PluginEvent) event.getUserObject(LINK_TO_CELLDESIGNER);
+            pluginEvent.setTrigger(LibSBMLUtils.convertTrigger(event.getTrigger()));
+            event.getTrigger().putUserObject(LINK_TO_CELLDESIGNER, pluginEvent.getTrigger());
+            plugin.notifySBaseChanged(pluginEvent);
+          }
+
+        } else if (node instanceof Unit) {
+          plugSBase = PluginUtils.convertUnit((Unit) node);
+          PluginUnitDefinition plugUDef = (PluginUnitDefinition) ((UnitDefinition) parent.getParent()).getUserObject(LINK_TO_CELLDESIGNER);
+          plugUDef.addUnit((PluginUnit) plugSBase);
+          pList = plugUDef.getListOfUnits();
+        } else if (node instanceof SBMLDocument) {
+          logger.log(Level.DEBUG, MessageFormat.format(
+            bundle.getString("NO_CORRESPONDING_CLASS_IN_CELLDESIGNER"),
+            node.getClass().getSimpleName()));
+        } else if (node instanceof ListOf<?>) {
+          // What can we do here? Nothing, will be treated as soon as list is being filled.
+        }
+
+        if (plugSBase != null) {
+          plugin.notifySBaseAdded(plugSBase);
+          if (parent instanceof ListOf<?>) {
+            Object plugObj = ((ListOf<?>) parent).getUserObject(LINK_TO_CELLDESIGNER);
+            if ((plugObj == null) && (pList != null)) {
+              parent.putUserObject(LINK_TO_CELLDESIGNER, pList);
+            }
           }
         }
       } catch (XMLStreamException exc) {
         exc.printStackTrace();
       }
-      if (node instanceof Unit) {
-        Unit ut = (Unit) node;
-        PluginUnitDefinition plugUnitDef = new PluginUnitDefinition(
-          ((UnitDefinition) ut.getParentSBMLObject()).getId());
-        PluginUnit plugut = new PluginUnit(plugUnitDef);
-        plugut.setKind(LibSBMLUtils.convertUnitKind(ut.getKind()));
-        plugut.setExponent((int) Math.round(ut.getExponent()));
-        plugut.setMultiplier(ut.getMultiplier());
-        plugut.setOffset(ut.getOffset());
-        plugut.setScale(ut.getScale());
-        plugin.notifySBaseAdded(plugut);
-      } else if (node instanceof SBMLDocument) {
+
+    } else if (node instanceof AnnotationElement) {
+
+      TreeNode parent = null;
+      do {
+        parent = node.getParent();
+      } while (!(parent instanceof SBase));
+      SBase parentSBase = (SBase) parent;
+      PluginSBase plugParentSBase = (PluginSBase) parentSBase.getUserObject(LINK_TO_CELLDESIGNER);
+
+      if (node instanceof CVTerm) {
+        CVTerm cvt = (CVTerm) node;
+        plugParentSBase.addCVTerm(LibSBMLUtils.convertCVTerm(cvt));
+        cvt.putUserObject(LINK_TO_LIBSBML, plugParentSBase.getCVTerm(plugParentSBase.getNumCVTerms() - 1));
+      } else if (node instanceof History) {
         logger.log(Level.DEBUG, MessageFormat.format(
           bundle.getString("NO_CORRESPONDING_CLASS_IN_CELLDESIGNER"),
           node.getClass().getSimpleName()));
-      } else if (node instanceof ListOf<?>) {
-        ListOf<?> listOf = (ListOf<?>) node;
-        //PluginListOf pluli = new PluginListOf();
-        //PluginReaction ro = plugModel.getReaction(((Reaction) listOf.getParentSBMLObject()).getId());
-        switch (listOf.getSBaseListType()) {
-        //TODO This has to be fixed somehow, the usual way like in PluginSBMLWriter does not work at all....
-        case listOfCompartments:
-        case listOfCompartmentTypes:
-          break;
-        case listOfConstraints:
-          break;
-        case listOfEventAssignments:
-          break;
-        case listOfEvents:
-          break;
-        case listOfFunctionDefinitions:
-          break;
-        case listOfInitialAssignments:
-          break;
-        case listOfLocalParameters:
-          break;
-        case listOfModifiers:
-          break;
-        case listOfParameters:
-          break;
-        case listOfProducts:
-          break;
-        case listOfReactants:
-          break;
-        case listOfReactions:
-          break;
-        case listOfRules:
-          break;
-        case listOfSpecies:
-          break;
-        case listOfSpeciesTypes:
-          break;
-        case listOfUnitDefinitions:
-          break;
-        case listOfUnits:
-          break;
-        case other:
-          // TODO for JSBML packages (later than 0.8).
-        default:
-          // unknown
-          break;
-        }
-
-      } else if (node instanceof AbstractMathContainer) {
-        if (node instanceof FunctionDefinition) {
-          FunctionDefinition funcdef = (FunctionDefinition) node;
-          PluginFunctionDefinition plugfuncdef = new PluginFunctionDefinition(
-            funcdef.getId());
-          if (funcdef.isSetName()
-              && !plugfuncdef.getName().equals(funcdef.getName())) {
-            plugfuncdef.setName(funcdef.getName());
-            plugin.notifySBaseAdded(plugfuncdef);
-          } else {
-            logger.log(Level.DEBUG, MessageFormat.format(
-              bundle.getString("CANNOT_ADD_NODE"),
-              node.getClass().getSimpleName()));
-          }
-        } else if (node instanceof KineticLaw) {
-          KineticLaw klaw = (KineticLaw) node;
-          Reaction parentreaction = klaw.getParentSBMLObject();
-          PluginKineticLaw plugklaw = plugModel.getReaction(
-            parentreaction.getId()).getKineticLaw();
-          PluginReaction plugreac = plugModel
-              .getReaction(parentreaction.getId());
-          plugreac.setKineticLaw(plugklaw);
-          plugin.notifySBaseAdded(plugreac);
-        } else if (node instanceof InitialAssignment) {
-          InitialAssignment iAssign = (InitialAssignment) node;
-          PluginInitialAssignment plugiassign = new PluginInitialAssignment(
-            iAssign.getSymbol());
-          plugiassign.setMath(iAssign.getMathMLString());
-          plugiassign.setNotes(SBMLtools.toXML(iAssign.getNotes()));
-          plugin.notifySBaseAdded(plugiassign);
-        } else if (node instanceof EventAssignment) {
-          EventAssignment ea = (EventAssignment) node;
-          PluginEventAssignment pea = (PluginEventAssignment) ea.getUserObject(LINK_TO_CELLDESIGNER);
-          pea.setMath(LibSBMLUtils.convertASTNode(ea.getMath()));
-          pea.setNotes(SBMLtools.toXML(ea.getNotes()));
-          plugin.notifySBaseAdded(pea);
-        } else if (node instanceof StoichiometryMath) {
-          logger.log(Level.DEBUG, MessageFormat.format(
-            bundle.getString("NO_CORRESPONDING_CLASS_IN_CELLDESIGNER"),
-            node.getClass().getSimpleName()));
-        } else if (node instanceof Trigger) {
-          Trigger trig = (Trigger) node;
-          PluginEvent plugEvent = new PluginEvent(trig.getParent()
-            .getId());
-          plugEvent.setTrigger(LibSBMLUtils.convertASTNode(trig.getMath()));
-          plugin.notifySBaseAdded(plugEvent);
-        } else if (node instanceof Constraint) {
-          Constraint ct = (Constraint) node;
-          PluginConstraint plugct = new PluginConstraint(
-            ct.getMathMLString());
-          plugct.setMessage(SBMLtools.toXML(ct.getMessage()));
-          plugct.setNotes(SBMLtools.toXML(ct.getNotes()));
-          plugin.notifySBaseAdded(plugct);
-        } else if (node instanceof Delay) {
-          Delay dl = (Delay) node;
-          PluginEvent plugEvent = new PluginEvent(dl.getParent()
-            .getId());
-          plugEvent.setDelay(LibSBMLUtils.convertASTNode(dl.getMath()));
-          plugin.notifySBaseAdded(plugEvent);
-        } else if (node instanceof Priority) {
-          logger.log(Level.DEBUG, MessageFormat.format(
-            bundle.getString("NO_CORRESPONDING_CLASS_IN_CELLDESIGNER"),
-            node.getClass().getSimpleName()));
-        } else if (node instanceof Rule) {
-          if (node instanceof AlgebraicRule) {
-            AlgebraicRule alrule = (AlgebraicRule) node;
-            PluginAlgebraicRule plugalrule = new PluginAlgebraicRule(
-              plugModel);
-            plugalrule
-            .setMath(LibSBMLUtils.convertASTNode(alrule.getMath()));
-            plugin.notifySBaseAdded(plugalrule);
-          } else if (node instanceof ExplicitRule) {
-            if (node instanceof RateRule) {
-              RateRule rule = (RateRule) node;
-              PluginRateRule plugraterule = new PluginRateRule(
-                plugModel);
-
-              plugraterule.setMath(LibSBMLUtils.convertASTNode(rule
-                .getMath()));
-              plugraterule.setVariable(rule.getVariable());
-              plugraterule.setNotes(rule.getNotes().getName());
-              plugin.notifySBaseAdded(plugraterule);
-
-            } else if (node instanceof AssignmentRule) {
-              AssignmentRule assignRule = (AssignmentRule) node;
-              PluginAssignmentRule plugassignRule = new PluginAssignmentRule(
-                plugModel);
-
-              plugassignRule.setL1TypeCode(assignRule.getLevel());
-              plugassignRule.setMath(LibSBMLUtils.convertASTNode(assignRule.getMath()));
-              plugassignRule.setVariable(assignRule.getVariable());
-              plugassignRule.setNotes(SBMLtools.toXML(assignRule.getNotes()));
-              plugin.notifySBaseAdded(plugassignRule);
-            }
-          } else {
-            Rule rule = (Rule) node;
-            PluginRule plugrule = new PluginRule();
-            plugrule.setMath(LibSBMLUtils.convertASTNode(rule.getMath()));
-            plugrule.setNotes(SBMLtools.toXML(rule.getNotes()));
-            plugin.notifySBaseAdded(plugrule);
-          }
-        }
-      }
-    } else if (node instanceof AbstractTreeNode) {
-      if (node instanceof XMLToken) {
-        if (node instanceof XMLNode) {
-          logger.log(Level.DEBUG, MessageFormat.format(
-            bundle.getString("PARSING_OF_NODE_UNSUCCESSFUL"),
-            node.getClass().getSimpleName()));
-        }
-      } else if (node instanceof ASTNode) {
+      } else if (node instanceof Annotation) {
         logger.log(Level.DEBUG, MessageFormat.format(
-          bundle.getString("PARSING_OF_NODE_UNSUCCESSFUL"),
+          bundle.getString("NO_CORRESPONDING_CLASS_IN_CELLDESIGNER"),
           node.getClass().getSimpleName()));
-      } else if (node instanceof AnnotationElement) {
-        if (node instanceof CVTerm) {
-          //TODO this has to be done using libsbml - I couldn't get libsbml to run on my machine however :/
-        } else if (node instanceof History) {
-          logger.log(Level.DEBUG, MessageFormat.format(
-            bundle.getString("NO_CORRESPONDING_CLASS_IN_CELLDESIGNER"),
-            node.getClass().getSimpleName()));
-        } else if (node instanceof Creator) {
-          logger.log(Level.DEBUG, MessageFormat.format(
-            bundle.getString("NO_CORRESPONDING_CLASS_IN_CELLDESIGNER"),
-            node.getClass().getSimpleName()));
-        } else {
-          logger.log(Level.DEBUG, MessageFormat.format(
-            bundle.getString("COULD_NOT_PROCESS"), node.toString()));
-        }
+      } else if (node instanceof Creator) {
+        logger.log(Level.DEBUG, MessageFormat.format(
+          bundle.getString("NO_CORRESPONDING_CLASS_IN_CELLDESIGNER"),
+          node.getClass().getSimpleName()));
       }
+
+    } else if (node instanceof ASTNode) {
+      ASTNode astnode = (ASTNode) node;
+      Object libParent = ((TreeNodeWithChangeSupport) astnode.getParent()).getUserObject(LINK_TO_LIBSBML);
+      if (libParent instanceof org.sbml.libsbml.ASTNode) {
+        org.sbml.libsbml.ASTNode libParentAST = (org.sbml.libsbml.ASTNode) libParent;
+        libParentAST.addChild(LibSBMLUtils.convertASTNode(astnode));
+        LibSBMLUtils.link((ASTNode) astnode.getParent(), libParentAST);
+      } else {
+        PluginUtils.transferMath(astnode.getParentSBMLObject(), (PluginSBase) libParent);
+      }
+
+    } else if (node instanceof XMLToken) {
+      logger.log(Level.DEBUG, MessageFormat.format(
+        bundle.getString("PARSING_OF_NODE_UNSUCCESSFUL"),
+        node.getClass().getSimpleName()));
+
+    } else {
+      logger.log(Level.DEBUG, MessageFormat.format(
+        bundle.getString("COULD_NOT_PROCESS"), node.toString()));
     }
   }
 

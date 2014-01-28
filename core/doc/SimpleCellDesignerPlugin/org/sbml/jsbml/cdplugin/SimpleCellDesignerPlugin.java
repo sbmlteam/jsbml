@@ -57,16 +57,16 @@ public class SimpleCellDesignerPlugin extends CellDesignerPlugin {
   }
 
   public void startPlugin() {
-    PluginSBMLReader reader = new PluginSBMLReader(getSelectedModel(),
-      SBO.getDefaultPossibleEnzymes());
-    Model model = reader.getModel();
-    SBMLDocument doc = new SBMLDocument(model.getLevel(), model.getVersion());
-    doc.setModel(model);
     try {
+      PluginSBMLReader reader = new PluginSBMLReader(getSelectedModel(),
+        SBO.getDefaultPossibleEnzymes());
+      Model model = reader.getModel();
+      SBMLDocument doc = new SBMLDocument(model.getLevel(), model.getVersion());
+      doc.setModel(model);
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+      new JSBMLvisualizer(doc);
     } catch (Exception exc) {
     }
-    new JSBMLvisualizer(doc);
   }
 
 }
