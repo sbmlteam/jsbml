@@ -53,6 +53,7 @@ import jp.sbi.celldesigner.plugin.PluginSpeciesType;
 import jp.sbi.celldesigner.plugin.PluginUnit;
 import jp.sbi.celldesigner.plugin.PluginUnitDefinition;
 import jp.sbi.celldesigner.plugin.util.PluginCompartmentSymbolType;
+import jp.sbi.celldesigner.plugin.util.PluginReactionSymbolType;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.AssignmentRule;
@@ -341,116 +342,74 @@ public class PluginUtils {
 
     if (model.isSetListOfUnitDefinitions()) {
       for (UnitDefinition ud : model.getListOfUnitDefinitions()) {
-        PluginUnitDefinition pu = new PluginUnitDefinition(ud.getId());
-        pm.addUnitDefinition(pu);
-        ud.putUserObject(LINK_TO_CELLDESIGNER, pu);
-        convertUnitDefinition(ud);
+        pm.addUnitDefinition(convertUnitDefinition(ud));
       }
       model.getListOfUnitDefinitions().putUserObject(LINK_TO_CELLDESIGNER, pm.getListOfUnitDefinitions());
     }
     if (model.isSetListOfFunctionDefinitions()) {
       for (FunctionDefinition fd : model.getListOfFunctionDefinitions()) {
-        PluginFunctionDefinition pf = new PluginFunctionDefinition(fd.getId());
-        pm.addFunctionDefinition(pf);
-        fd.putUserObject(LINK_TO_CELLDESIGNER, pf);
-        convertFunctionDefinition(fd);
+        pm.addFunctionDefinition(convertFunctionDefinition(fd));
       }
       model.getListOfFunctionDefinitions().putUserObject(LINK_TO_CELLDESIGNER, pm.getListOfFunctionDefinitions());
     }
     if (model.isSetListOfCompartmentTypes()) {
       for (CompartmentType ct : model.getListOfCompartmentTypes()) {
-        PluginCompartmentType pct = new PluginCompartmentType(ct.getId());
-        pm.addCompartmentType(pct);
-        ct.putUserObject(LINK_TO_CELLDESIGNER, pct);
-        convertCompartmentType(ct);
+        pm.addCompartmentType(convertCompartmentType(ct));
       }
       model.getListOfCompartmentTypes().putUserObject(LINK_TO_CELLDESIGNER, pm.getListOfCompartmentTypes());
     }
     if (model.isSetListOfSpeciesTypes()) {
       for (SpeciesType st : model.getListOfSpeciesTypes()) {
-        PluginSpeciesType pst = new PluginSpeciesType(st.getId());
-        pm.addSpeciesType(pst);
-        st.putUserObject(LINK_TO_CELLDESIGNER, pst);
-        convertSpeciesType(st);
+        pm.addSpeciesType(convertSpeciesType(st));
       }
       model.getListOfCompartmentTypes().putUserObject(LINK_TO_CELLDESIGNER, pm.getListOfCompartmentTypes());
     }
     if (model.isSetListOfCompartments()) {
       for (Compartment c : model.getListOfCompartments()) {
-        PluginCompartment pc = new PluginCompartment(DEFAULT_COMPARTMENT_SYMBOL_TYPE);
-        pm.addCompartment(pc);
-        c.putUserObject(LINK_TO_CELLDESIGNER, pc);
-        convertCompartment(c);
+        pm.addCompartment(convertCompartment(c));
       }
       model.getListOfCompartments().putUserObject(LINK_TO_CELLDESIGNER, pm.getListOfCompartments());
     }
     if (model.isSetListOfSpecies()) {
       for (Species s : model.getListOfSpecies()) {
-        PluginSpecies ps = new PluginSpecies(SBO.convertSBO2Alias(s.isSetSBOTerm() ? s.getSBOTerm() : SBO.getUnknownMolecule()), s.getId());
-        pm.addSpecies(ps);
-        s.putUserObject(LINK_TO_CELLDESIGNER, ps);
-        convertSpecies(s);
+        pm.addSpecies(convertSpecies(s));
       }
       model.getListOfSpecies().putUserObject(LINK_TO_CELLDESIGNER, pm.getListOfSpecies());
     }
     if (model.isSetListOfParameters()) {
       for (Parameter p : model.getListOfParameters()) {
-        PluginParameter pp = new PluginParameter(pm);
-        pm.addParameter(pp);
-        p.putUserObject(LINK_TO_CELLDESIGNER, pp);
-        convertParameter(p);
+        pm.addParameter(convertParameter(p));
       }
       model.getListOfParameters().putUserObject(LINK_TO_CELLDESIGNER, pm.getListOfParameters());
     }
     if (model.isSetListOfConstraints()) {
       for (Constraint c : model.getListOfConstraints()) {
-        PluginConstraint pc = new PluginConstraint(c.getMath().toFormula());
-        pm.addConstraint(pc);
-        c.putUserObject(LINK_TO_CELLDESIGNER, pc);
-        convertConstraint(c);
+        pm.addConstraint(convertConstraint(c));
       }
       model.getListOfConstraints().putUserObject(LINK_TO_CELLDESIGNER, pm.getListOfConstraints());
     }
     if (model.isSetListOfInitialAssignments()) {
       for (InitialAssignment ia : model.getListOfInitialAssignments()) {
-        PluginInitialAssignment pia = new PluginInitialAssignment(ia.getVariable());
-        pm.addInitialAssignment(pia);
-        ia.putUserObject(LINK_TO_CELLDESIGNER, LINK_TO_CELLDESIGNER);
-        convertInitialAssignment(ia);
+        pm.addInitialAssignment(convertInitialAssignment(ia));
       }
       model.getListOfInitialAssignments().putUserObject(LINK_TO_CELLDESIGNER, pm.getListOfInitialAssignments());
     }
     if (model.isSetListOfRules()) {
       for (Rule r : model.getListOfRules()) {
-        PluginRule pr;
-        if (r.isAlgebraic()) {
-          pr = new PluginAlgebraicRule(pm);
-        } else if (r.isAssignment()) {
-          pr = new PluginAssignmentRule(pm);
-        } else {
-          pr = new PluginRateRule(pm);
-        }
-        pm.addRule(pr);
-        r.putUserObject(LINK_TO_CELLDESIGNER, pr);
+        pm.addRule(convertRule(r));
         convertRule(r);
       }
       model.getListOfRules().putUserObject(LINK_TO_CELLDESIGNER, pm.getListOfRules());
     }
     if (model.isSetListOfReactions()) {
       for (Reaction r : model.getListOfReactions()) {
-        PluginReaction pr = new PluginReaction();
-        pm.addReaction(pr);
-        r.putUserObject(LINK_TO_CELLDESIGNER, pr);
-        convertReaction(r);
+        pm.addReaction(convertReaction(r));
       }
       model.getListOfReactions().putUserObject(LINK_TO_CELLDESIGNER, pm.getListOfReactions());
     }
     if (model.isSetListOfEvents()) {
       for (Event e : model.getListOfEvents()) {
-        PluginEvent pe = new PluginEvent(e.getId());
-        pm.addEvent(pe);
-        e.putUserObject(LINK_TO_CELLDESIGNER, pe);
-        convertEvent(e);
+        pm.addEvent(convertEvent(e));
       }
       model.getListOfEvents().putUserObject(LINK_TO_CELLDESIGNER, pm.getListOfEvents());
     }
@@ -725,6 +684,7 @@ public class PluginUtils {
   }
 
   /**
+   * Copies the math in the JSBML ojbect into the CellDesigner object.
    * 
    * @param mathContainer
    * @param sbase
@@ -749,11 +709,15 @@ public class PluginUtils {
           (mathContainer instanceof StoichiometryMath) ||
           (mathContainer instanceof Trigger)) {
         // Nothing to do because here math is stored differently...
+      } else if ((sbase instanceof PluginFunctionDefinition)) {
+        ((PluginFunctionDefinition) sbase).setMath(libASTNode);
+        LibSBMLUtils.link(mathContainer.getMath(), libASTNode);
       }
     }
   }
 
   /**
+   * Copies all properties from the JSBML object to the CellDesigner object.
    * 
    * @param mathContainer
    * @param p
@@ -769,16 +733,15 @@ public class PluginUtils {
   }
 
   /**
-   * 
-   * @param c
-   * @param pc
-   * @throws XMLStreamException
+   * Transfers properties from the CellDesigner plugin to the corresponding JSBML element.
+   * @param pluginSBase
+   * @param sbase
    */
-  public static void transferNamedSBaseProperties(NamedSBase sbase, PluginSBase pluginSBase) throws XMLStreamException {
-    transferSBaseProperties(sbase, pluginSBase);
+  public static void transferNamedSBaseProperties(PluginSBase pluginSBase, NamedSBase sbase) {
+    transferSBaseProperties(pluginSBase, sbase);
     if (pluginSBase instanceof PluginCompartment) {
       PluginCompartment c = (PluginCompartment) pluginSBase;
-      if (c.getId() != null && c.getId().length() > 0) {
+      if ((c.getId() != null) && (c.getId().length() > 0)) {
         sbase.setId(c.getId());
       }
       if ((c.getName() != null) && (c.getName().length() > 0)) {
@@ -835,11 +798,11 @@ public class PluginUtils {
     } else if (pluginSBase instanceof PluginSimpleSpeciesReference) {
       //      PluginSimpleSpeciesReference c = (PluginSimpleSpeciesReference) pluginSBase;
       //      if ((c.getId() != null) && (c.getId().length() > 0)) {
-      //        n.setId(c.getId());
+      //        sbase.setId(c.getId());
       //      }
       //      if ((c.getName() != null) && (c.getName().length() > 0)) {
       //        sbase.setName(c.getName());
-      //      }
+      //    }
     } else if (pluginSBase instanceof PluginSpecies) {
       PluginSpecies c = (PluginSpecies) pluginSBase;
       if ((c.getId() != null) && (c.getId().length() > 0)) {
@@ -863,6 +826,107 @@ public class PluginUtils {
       }
       if ((c.getName() != null) && (c.getName().length() > 0)) {
         sbase.setName(c.getName());
+      }
+    }
+  }
+
+  /**
+   * Transfers all properties from the JSBML object to the corresponding CellDesigner
+   * plugin object.
+   * 
+   * @param c
+   * @param pc
+   * @throws XMLStreamException
+   */
+  public static void transferNamedSBaseProperties(NamedSBase sbase, PluginSBase pluginSBase) throws XMLStreamException {
+    transferSBaseProperties(sbase, pluginSBase);
+    if (pluginSBase instanceof PluginCompartment) {
+      PluginCompartment c = (PluginCompartment) pluginSBase;
+      if ((sbase.getId() != null) && (sbase.getId().length() > 0)) {
+        //        c.setId(sbase.getId());
+      }
+      if ((sbase.getName() != null) && (sbase.getName().length() > 0)) {
+        c.setName(sbase.getName());
+      }
+    } else if (pluginSBase instanceof PluginCompartmentType) {
+      PluginCompartmentType c = (PluginCompartmentType) pluginSBase;
+      if ((sbase.getId() != null) && (sbase.getId().length() > 0)) {
+        //        c.setId(sbase.getId());
+      }
+      if ((sbase.getName() != null) && (sbase.getName().length() > 0)) {
+        c.setName(sbase.getName());
+      }
+    } else if (pluginSBase instanceof PluginEvent) {
+      PluginEvent c = (PluginEvent) pluginSBase;
+      if ((sbase.getId() != null) && (sbase.getId().length() > 0)) {
+        //        c.setId(sbase.getId());
+      }
+      if ((sbase.getName() != null) && (sbase.getName().length() > 0)) {
+        c.setName(sbase.getName());
+      }
+    } else if (pluginSBase instanceof PluginFunctionDefinition) {
+      PluginFunctionDefinition c = (PluginFunctionDefinition) pluginSBase;
+      if ((sbase.getId() != null) && (sbase.getId().length() > 0)) {
+        //        c.setId(sbase.getId());
+      }
+      if ((sbase.getName() != null) && (sbase.getName().length() > 0)) {
+        c.setName(sbase.getName());
+      }
+    } else if (pluginSBase instanceof PluginModel) {
+      PluginModel c = (PluginModel) pluginSBase;
+      if ((sbase.getId() != null) && (sbase.getId().length() > 0)) {
+        //        c.setId(sbase.getId());
+      }
+      if ((sbase.getName() != null) && (sbase.getName().length() > 0)) {
+        c.setName(sbase.getName());
+      }
+    } else if (pluginSBase instanceof PluginParameter) {
+      PluginParameter c = (PluginParameter) pluginSBase;
+      if ((sbase.getId() != null) && (sbase.getId().length() > 0)) {
+        c.setId(sbase.getId());
+      }
+      if ((sbase.getName() != null) && (sbase.getName().length() > 0)) {
+        c.setName(sbase.getName());
+      }
+    } else if (pluginSBase instanceof PluginReaction) {
+      PluginReaction c = (PluginReaction) pluginSBase;
+      if ((sbase.getId() != null) && (sbase.getId().length() > 0)) {
+        //        c.setId(sbase.getId());
+      }
+      if ((sbase.getName() != null) && (sbase.getName().length() > 0)) {
+        c.setName(sbase.getName());
+      }
+    } else if (pluginSBase instanceof PluginSimpleSpeciesReference) {
+      //      PluginSimpleSpeciesReference c = (PluginSimpleSpeciesReference) pluginSBase;
+      //      if ((sbase.getId() != null) && (sbase.getId().length() > 0)) {
+      //        n.setId(c.getId());
+      //      }
+      //      if ((sbase.getName() != null) && (sbase.getName().length() > 0)) {
+      //        c.setName(sbase.getName());
+      //      }
+    } else if (pluginSBase instanceof PluginSpecies) {
+      //      PluginSpecies c = (PluginSpecies) pluginSBase;
+      if ((sbase.getId() != null) && (sbase.getId().length() > 0)) {
+        //        c.setId(sbase.getId());
+      }
+      if ((sbase.getName() != null) && (sbase.getName().length() > 0)) {
+        //        c.setName(sbase.getName());
+      }
+    } else if (pluginSBase instanceof PluginSpeciesType) {
+      PluginSpeciesType c = (PluginSpeciesType) pluginSBase;
+      if ((sbase.getId() != null) && (sbase.getId().length() > 0)) {
+        //        c.setId(sbase.getId());
+      }
+      if ((sbase.getName() != null) && (sbase.getName().length() > 0)) {
+        c.setName(sbase.getName());
+      }
+    } else if (pluginSBase instanceof PluginUnitDefinition) {
+      PluginUnitDefinition c = (PluginUnitDefinition) pluginSBase;
+      if ((sbase.getId() != null) && (sbase.getId().length() > 0)) {
+        //        c.setId(sbase.getId());
+      }
+      if ((sbase.getName() != null) && (sbase.getName().length() > 0)) {
+        c.setName(sbase.getName());
       }
     }
   }
@@ -971,7 +1035,7 @@ public class PluginUtils {
       PluginModifierSpeciesReference pmsr = (PluginModifierSpeciesReference) pSBase;
       pmsr.setAlias(new PluginSpeciesAlias(
         (PluginSpecies) ((SimpleSpeciesReference) sbase).getSpeciesInstance().getUserObject(LINK_TO_CELLDESIGNER),
-        SBO.convertSBO2Alias(sbase.getSBOTerm())));
+        sbase.isSetSBOTerm() ? SBO.convertSBO2Alias(sbase.getSBOTerm()) : PluginReactionSymbolType.MODULATION));
       return true;
 
     } else if (sbase instanceof SpeciesReference) {
@@ -980,6 +1044,7 @@ public class PluginUtils {
         (PluginSpecies) ((SimpleSpeciesReference) sbase).getSpeciesInstance().getUserObject(LINK_TO_CELLDESIGNER),
         SBO.convertSBO2Alias(sbase.getSBOTerm())));
       return true;
+
     }
 
     return false;
@@ -989,10 +1054,12 @@ public class PluginUtils {
    * 
    * @param speciesReference
    * @param pluginSpeciesReference
+   * @throws XMLStreamException
    */
   public static void transferSimpleSpeciesReferenceProperties(
     SimpleSpeciesReference speciesReference,
-    PluginSimpleSpeciesReference pluginSpeciesReference) {
+    PluginSimpleSpeciesReference pluginSpeciesReference) throws XMLStreamException {
+    transferNamedSBaseProperties(speciesReference, pluginSpeciesReference);
     if (speciesReference.isSetSpecies()) {
       pluginSpeciesReference.setAlias(new PluginSpeciesAlias(
         (PluginSpecies) speciesReference.getSpeciesInstance().getUserObject(

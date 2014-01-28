@@ -23,6 +23,7 @@ package org.sbml.jsbml.cdplugin.test;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JMenuItem;
+import javax.xml.stream.XMLStreamException;
 
 import jp.sbi.celldesigner.plugin.PluginAction;
 
@@ -52,7 +53,11 @@ public class SimpleCellDesignerPluginAction extends PluginAction{
     if (ae.getSource() instanceof JMenuItem) {
       String itemText = ((JMenuItem) ae.getSource()).getText();
       if (itemText.equals(CDPluginTester.ACTION)) {
-        plugin.startPlugin();
+        try {
+          plugin.startPlugin();
+        } catch (XMLStreamException exc) {
+          exc.printStackTrace();
+        }
       }
     } else {
       System.err.printf("Unsupported source of action %s \n", ae.getSource().getClass().getName());
