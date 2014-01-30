@@ -68,6 +68,7 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
+import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.parsers.AnnotationWriter;
 import org.sbml.jsbml.xml.parsers.WritingParser;
 import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
@@ -742,17 +743,14 @@ public class SBMLWriter {
    */
   private void writeAnnotation(SBase sbase, SMOutputContainer element,
     XMLStreamWriter writer, int indent, boolean xmlFragment)
-        throws XMLStreamException, SBMLException {
-    // calling the annotation parsers so that they update the XMLNode before writing it
-    // TODO - should be done in the Annotation class on methods that return the whole XMLNode
-    for (AnnotationWriter annoWriter : annotationParsers) {
-      annoWriter.writeAnnotation(sbase);
-    }
-
+        throws XMLStreamException, SBMLException 
+  {
+	XMLNode fullAnnotationXMLNode = sbase.getAnnotation().getFullAnnotation();
+	
     writer.writeCharacters("\n");
-    XMLNodeWriter xmlNodeWriter = new XMLNodeWriter(writer, indent,
-      indentCount, indentChar);
-    xmlNodeWriter.write(sbase.getAnnotation().getNonRDFannotation());
+    XMLNodeWriter xmlNodeWriter = new XMLNodeWriter(writer, indent, indentCount, indentChar);
+    xmlNodeWriter.write(fullAnnotationXMLNode);
+
   }
 
 

@@ -32,13 +32,13 @@ import org.sbml.jsbml.xml.XMLNode;
 public interface AnnotationWriter {
 
   /**
-   * Writes the annotation of the given {@link SBase} object into the annotation
+   * Writes the annotation of the given {@link SBase} object into the given 
    * {@link XMLNode}.
-   * This method can change the content of the annotation {@link XMLNode} by
+   * <p>This method can change the content of the {@link XMLNode} by
    * removing or adding nodes.
    * 
    * @param contextObject
    */
-  public XMLNode writeAnnotation(SBase contextObject);
+  public XMLNode writeAnnotation(SBase contextObject, XMLNode xmlNode);
 
 }

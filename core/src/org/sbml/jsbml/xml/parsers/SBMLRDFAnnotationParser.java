@@ -92,16 +92,17 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 	private Logger logger = Logger.getLogger(getClass());
 	
 	@Override
-	public XMLNode writeAnnotation(SBase contextObject) 
+	public XMLNode writeAnnotation(SBase contextObject, XMLNode xmlNode) 
 	{
 		logger.debug("writeAnnotation called ");
 		
 		if (contextObject.isSetAnnotation() && (contextObject.isSetHistory() || contextObject.getCVTermCount() > 0))
 		{
 			// write all the RDF part of the annotation
-			writeSBMLRDF(contextObject);
+			return writeSBMLRDF(contextObject, xmlNode);
 		}
-		return contextObject.getAnnotation().getNonRDFannotation();
+		
+		return xmlNode;
 	}
 
 	@Override
@@ -130,7 +131,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 			return false;
 		}
 		
-		XMLNode annotationXMLNode = contextObject.getAnnotation().getAnnotationBuilder();	
+		XMLNode annotationXMLNode = contextObject.getAnnotation().getNonRDFannotation();	
 		
 		NODE_COLOR rdfColor = isValidRDF(annotationXMLNode); 
 		
@@ -553,7 +554,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 
 		// This method should be called only if isValidSBMLRDF(SBase) return true		
 		
-		XMLNode annotationXMLNode = contextObject.getAnnotation().getAnnotationBuilder();	
+		XMLNode annotationXMLNode = contextObject.getAnnotation().getNonRDFannotation();	
 		XMLNode rdfNode = getChildElement(annotationXMLNode, "RDF", Annotation.URI_RDF_SYNTAX_NS);
 
 		if (rdfNode == null || rdfNode.getUserObject(RDF_NODE_COLOR) == null 
@@ -1172,18 +1173,22 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 	/**
 	 * @param contextObject
 	 */
-	private void writeSBMLRDF(SBase contextObject) 
+	private XMLNode writeSBMLRDF(SBase contextObject, XMLNode annotationXMLNode) 
 	{
+		logger.debug("writeSBMLRDF called ");
+		
 		if ((contextObject == null) || (!contextObject.isSetAnnotation()))
 		{
-			return;
+			return null;
 		}
 		// TODO - make use of the potential XML stores using the CUSTOM_RDF user object for Creator  
 		
 		// TODO : add a created date or modified date automatically ?? Would need to be done at the level of the writer.
 		
 		// gets or creates the RDF and Description XMLNode		
-		XMLNode annotationXMLNode = contextObject.getAnnotation().getAnnotationBuilder();
+		if (annotationXMLNode == null) {
+			annotationXMLNode = new XMLNode(new XMLTriple("annotation"), new XMLAttributes());
+		}
 		XMLNode rdfNode = getOrCreate(annotationXMLNode, "RDF", Annotation.URI_RDF_SYNTAX_NS, "rdf");
 		rdfNode.addNamespace(Annotation.URI_RDF_SYNTAX_NS, "rdf");
 		
@@ -1211,6 +1216,8 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 		
 		writeHistory(contextObject, descriptionNode);
 		writeURIs(contextObject, descriptionNode);
+		
+		return annotationXMLNode;
 	}
 
 	
