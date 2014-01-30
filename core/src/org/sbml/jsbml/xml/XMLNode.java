@@ -40,7 +40,7 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * <p>
  * An {@link XMLNode} can contain any number of children. Each child is another
  * {@link XMLNode}, thereby forming a tree. The methods
- * {@link XMLNode#getChildCount()} and {@link XMLNode#getChild(long n)} can be
+ * {@link XMLNode#getChildCount()} and {@link XMLNode#getChildAt(int)} can be
  * used to access the tree structure starting from a given node.
  * <p>
  * <p>
@@ -56,14 +56,12 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * {@link String} (e.g., &lt;annotation&gt;...&lt;/annotation&gt;) to/from an
  * {@link XMLNode} object.
  * <ul>
- * <li>XMLNode{@link #toXMLString()} returns a {@link String} representation of
- * the {@link XMLNode} object.
- * <p>
- * <li>{@link #convertXMLNodeToString(XMLNode)} (static function) returns a
- * {@link String} representation of the given {@link XMLNode} object.
- * <p>
- * <li>{@link #convertStringToXMLNode(String)} (static function) returns an
- * {@link XMLNode} object converted from the given XML {@link String}.
+ * <li>{@link XMLNode#toXMLString()} returns a {@link String} representation of
+ * the {@link XMLNode} object.</li>
+ * <li>{@link XMLNode#convertXMLNodeToString(XMLNode)} (static function) returns a
+ * {@link String} representation of the given {@link XMLNode} object.</li>
+ * <li>{@link XMLNode#convertStringToXMLNode(String)} (static function) returns an
+ * {@link XMLNode} object converted from the given XML {@link String}.</li>
  * </ul>
  * <p>
  * The returned {@link XMLNode} object by
@@ -265,6 +263,8 @@ public class XMLNode extends XMLToken {
         childrenElements.add(origchildren.clone());
       }
     }
+    // TODO - clone our jsbml user objects for XMLNode
+    
   }
 
   /**

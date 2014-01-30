@@ -28,6 +28,7 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeAdapter;
@@ -37,6 +38,8 @@ import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNamespaces;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.XMLTriple;
+import org.sbml.jsbml.xml.parsers.AnnotationWriter;
+import org.sbml.jsbml.xml.parsers.SBMLRDFAnnotationParser;
 
 /**
  * An Annotation represents the annotations of an {@link SBase} element. It
@@ -319,11 +322,64 @@ public class Annotation extends AnnotationElement {
    * Returns the {@link XMLNode} representing non RDF annotations.
    * 
    * @return the {@link XMLNode} representing non RDF annotations.
+   * @deprecated
    */
   public XMLNode getAnnotationBuilder() {
     return nonRDFannotation;
   }
+  
 
+  /**
+   * 
+   * 
+   * @return
+   */
+  public XMLNode getFullAnnotation() {
+
+	  XMLNode nonRdfAnnotationClone = null;
+	  
+	  if (isSetNonRDFannotation()) {
+		  nonRdfAnnotationClone = nonRDFannotation.clone();
+	  }
+	  
+	  // TODO - get the list of AnnotationWriter from the manager
+	  List<AnnotationWriter> annotationParsers = new ArrayList<AnnotationWriter>();
+	  // hack to delete
+	  annotationParsers.add(new SBMLRDFAnnotationParser());
+	  
+	  // calling the annotation parsers so that they update the XMLNode before returning it to the user
+	  for (AnnotationWriter annoWriter : annotationParsers) {
+		  nonRdfAnnotationClone = annoWriter.writeAnnotation((SBase) getParent(), nonRdfAnnotationClone);
+	  }
+
+	  return nonRdfAnnotationClone;
+  }
+
+  /**
+   * 
+   * 
+   * @return
+   */
+  public String getFullAnnotationString() {
+
+	  XMLNode fullAnnotation = getFullAnnotation();
+
+	  // System.out.println("getFullAnnotationString - " + fullAnnotation);
+	  
+	  if (fullAnnotation != null) {
+		  try {
+			  return fullAnnotation.toXMLString();
+		  } catch (XMLStreamException e) {
+			  Logger logger = Logger.getLogger(Annotation.class);
+			  if (logger.isDebugEnabled()) {
+				  e.printStackTrace();
+			  }
+		  }
+	  }
+
+	  return "";
+  }
+  
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildAt(int)
    */
