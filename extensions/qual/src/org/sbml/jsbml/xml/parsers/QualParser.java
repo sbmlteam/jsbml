@@ -32,6 +32,7 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.qual.FunctionTerm;
 import org.sbml.jsbml.ext.qual.Input;
 import org.sbml.jsbml.ext.qual.Output;
@@ -303,6 +304,13 @@ public class QualParser extends AbstractReaderWriter implements PackageParser {
   public boolean isRequired() {
     return true;
   }
+
+
+@Override
+public SBasePlugin createPluginFor(SBase sbase) {
+	// TODO Auto-generated method stub
+	return null;
+}
 
 
 }

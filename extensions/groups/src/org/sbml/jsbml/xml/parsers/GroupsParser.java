@@ -196,4 +196,11 @@ public class GroupsParser extends AbstractReaderWriter implements PackageParser 
     return false;
   }
 
+
+@Override
+public SBasePlugin createPluginFor(SBase sbase) {
+	// TODO Auto-generated method stub
+	return null;
+}
+
 }

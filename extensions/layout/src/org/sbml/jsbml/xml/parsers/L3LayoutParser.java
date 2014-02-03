@@ -487,4 +487,10 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
     return false;
   }
 
+@Override
+public SBasePlugin createPluginFor(SBase sbase) {
+	// TODO Auto-generated method stub
+	return null;
+}
+
 }
