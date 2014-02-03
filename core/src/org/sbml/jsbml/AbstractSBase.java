@@ -41,7 +41,6 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.xml.XMLNode;
-import org.sbml.jsbml.xml.stax.SBMLWriter;
 
 
 /**
@@ -338,6 +337,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public void addExtension(String namespace, SBasePlugin sbase) {
+	  // TODO - check that the package is enabled first
+	  // TODO - use always, either the package name or namespace in the map
     extensions.put(namespace, sbase);
     firePropertyChange(TreeNodeChangeEvent.addExtension, null, sbase);
   }
@@ -905,7 +906,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public String getAnnotationString() throws XMLStreamException {
-    return isSetAnnotation() ? (new SBMLWriter()).writeAnnotation(this) : "";
+    // return isSetAnnotation() ? (new SBMLWriter()).writeAnnotation(this) : "";
+    return isSetAnnotation() ? annotation.getFullAnnotationString() : "";
   }
 
   /* (non-Javadoc)
@@ -1022,6 +1024,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public SBasePlugin getExtension(String namespace) {
+	  // TODO - check in the map with the package name or the namespace or both ??
     return extensions.get(namespace);
   }
 

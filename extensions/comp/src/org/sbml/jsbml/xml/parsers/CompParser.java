@@ -347,5 +347,17 @@ public class CompParser extends AbstractReaderWriter implements PackageParser {
     return true;
   }
 
+  @Override
+  public SBasePlugin createPluginFor(SBase sbase) {
+
+	  if (sbase != null) {
+		  if (sbase instanceof Model) {
+			  // TODO
+		  }
+	  }
+	  
+	  return null;
+  }
+
 
 }

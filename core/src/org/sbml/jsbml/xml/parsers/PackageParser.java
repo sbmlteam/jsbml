@@ -22,6 +22,9 @@ package org.sbml.jsbml.xml.parsers;
 
 import java.util.List;
 
+import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.SBasePlugin;
+
 /**
  * Interface that define some common methods that the parsers for SBML packages need
  * to implement in order to provide some basic information about them.
@@ -32,6 +35,15 @@ import java.util.List;
 public interface PackageParser {
 
 
+	/**
+	 * Creates a new {@link SBasePlugin} for the given {@link SBase}
+	 * and add it to the {@link SBasePlugin} map of the {@link SBase}.
+	 * 
+	 * @param sbase - the sbase for which you want to create an {@link SBasePlugin}
+	 * @return a new {@link SBasePlugin} corresponding to the given {@link SBase}.
+	 */
+	public SBasePlugin createPluginFor(SBase sbase); 
+	
   /**
    * Gets the namespace for this package that correspond to the given SBML level, version
    * and the package version.
@@ -69,6 +81,7 @@ public interface PackageParser {
    */
   public boolean isRequired();
 
+  
   // TODO - methods to change an id or metaid ??
 
 }
