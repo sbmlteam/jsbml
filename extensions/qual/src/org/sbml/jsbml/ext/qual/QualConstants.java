@@ -31,6 +31,8 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
 /**
+ * Contains some constants related to the qual package.
+ * 
  * @author Finja B&uuml;chel
  * @version $Rev$
  * @since 1.0
@@ -39,10 +41,14 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 public class QualConstants  extends PropertyChangeEvent {
 
   /**
-   * The namespace URI of this parser.
+   * The namespace URI of this parser for SBML level 3, version 1 and package version 1.
    */
-  public static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/qual/version1";
+  public static final String namespaceURI_L3V1V1 = "http://www.sbml.org/sbml/level3/version1/qual/version1";
 
+  /**
+   * The latest namespace URI of this parser, this value can change between releases.
+   */
+  public static final String namespaceURI = namespaceURI_L3V1V1;
 
   /**
    * The short name/label of the package
@@ -53,7 +59,7 @@ public class QualConstants  extends PropertyChangeEvent {
 
   static {
     namespaces = new ArrayList<String>();
-    namespaces.add(namespaceURI);
+    namespaces.add(namespaceURI_L3V1V1);
   }
 
   /**

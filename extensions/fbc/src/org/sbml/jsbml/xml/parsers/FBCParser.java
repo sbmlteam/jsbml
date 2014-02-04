@@ -392,8 +392,12 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
    * @see org.sbml.jsbml.xml.parsers.PackageParser#getNamespaceFor(java.lang.String, java.lang.String, java.lang.String)
    */
   @Override
-  public String getNamespaceFor(String level, String version,	String packageVersion) {
-    // TODO Auto-generated method stub
+  public String getNamespaceFor(int level, int version,	int packageVersion) {
+
+    if (level == 3 && version == 1 && packageVersion == 1) {
+      return FBCConstants.namespaceURI;
+    }
+
     return null;
   }
 
@@ -429,10 +433,17 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
     return true;
   }
 
-@Override
-public SBasePlugin createPluginFor(SBase sbase) {
-	// TODO Auto-generated method stub
-	return null;
-}
+  @Override
+  public SBasePlugin createPluginFor(SBase sbase) {
+
+    if (sbase != null) {
+      if (sbase instanceof Model) {
+        return new FBCModelPlugin((Model) sbase);
+      } else if (sbase instanceof Species) {
+        return new FBCSpeciesPlugin((Species) sbase);
+      }
+    }
+    return null;
+  }
 
 }

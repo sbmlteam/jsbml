@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Contains some constants related to the fbc package.
  * 
  * @author Nicolas Rodriguez
  * @since 1.0
@@ -31,17 +32,21 @@ import java.util.List;
  */
 public class FBCConstants {
 
-  public static final String activeObjective = "activeObjective";
   /**
-   * The namespace URI of this parser.
+   * The namespace URI of this parser for SBML level 3, version 1 and package version 1.
    */
-  public static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/fbc/version1";
+  public static final String namespaceURI_L3V1V1 = "http://www.sbml.org/sbml/level3/version1/fbc/version1";
+
+  /**
+   * The latest namespace URI of this parser, this value can change between releases.
+   */
+  public static final String namespaceURI = namespaceURI_L3V1V1;
 
   public static final List<String> namespaces;
 
   static {
     namespaces = new ArrayList<String>();
-    namespaces.add(namespaceURI);
+    namespaces.add(namespaceURI_L3V1V1);
   }
 
   /**
@@ -76,6 +81,7 @@ public class FBCConstants {
   public static final String coefficient = "coefficient";
   public static final String listOfObjectives = "listOfObjectives";
   public static final String packageName = "Flux Balance Constraints";
+  public static final String activeObjective = "activeObjective";
 
   /**
    * 

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Contains some constants related to the layout package.
  * 
  * @author
  * @version $Rev$
@@ -32,9 +33,15 @@ import java.util.List;
 public class LayoutConstants {
 
   /**
-   * The namespace URI of this parser.
+   * The namespace URI of this parser for SBML level 3, version 1 and package version 1.
    */
-  public static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/layout/version1";
+  public static final String namespaceURI_L3V1V1 = "http://www.sbml.org/sbml/level3/version1/layout/version1";
+
+  /**
+   * The latest namespace URI of this parser, this value can change between releases.
+   */
+  public static final String namespaceURI = namespaceURI_L3V1V1;
+
   public static final String namespaceURI_L2 = "http://projects.eml.org/bcb/sbml/level2";
 
   public static final List<String> namespaces_L3;
@@ -42,7 +49,7 @@ public class LayoutConstants {
 
   static {
     namespaces_L3 = new ArrayList<String>();
-    namespaces_L3.add(namespaceURI);
+    namespaces_L3.add(namespaceURI_L3V1V1);
 
     namespaces_L2 = new ArrayList<String>();
     namespaces_L2.add(namespaceURI_L2);

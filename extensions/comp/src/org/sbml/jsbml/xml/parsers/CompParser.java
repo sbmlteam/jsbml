@@ -66,6 +66,7 @@ public class CompParser extends AbstractReaderWriter implements PackageParser {
    */
   @Override
   public String getNamespaceURI() {
+	  // TODO - use the SBMLDocument to know which namespace to return !!!
     return namespaceURI;
   }
 
@@ -287,7 +288,7 @@ public class CompParser extends AbstractReaderWriter implements PackageParser {
       }
     }
 
-    // TODO: try to use the default constructor + the addXX method
+    // TODO: try to use the default constructor + the addXX method ??
 
     return null;
   }
@@ -310,8 +311,12 @@ public class CompParser extends AbstractReaderWriter implements PackageParser {
    * @see org.sbml.jsbml.xml.parsers.PackageParser#getNamespaceFor(java.lang.String, java.lang.String, java.lang.String)
    */
   @Override
-  public String getNamespaceFor(String level, String version,	String packageVersion) {
-    // TODO Auto-generated method stub
+  public String getNamespaceFor(int level, int version,	int packageVersion) {
+
+    if (level == 3 && version == 1 && packageVersion == 1) {
+      return CompConstants.namespaceURI_L3V1V1;
+    }
+
     return null;
   }
 
@@ -350,13 +355,17 @@ public class CompParser extends AbstractReaderWriter implements PackageParser {
   @Override
   public SBasePlugin createPluginFor(SBase sbase) {
 
-	  if (sbase != null) {
-		  if (sbase instanceof Model) {
-			  // TODO
-		  }
-	  }
-	  
-	  return null;
+    if (sbase != null) {
+      if (sbase instanceof Model) {
+        return new CompModelPlugin((Model) sbase);
+      } else if (sbase instanceof SBMLDocument) {
+        return new CompSBMLDocumentPlugin((SBMLDocument) sbase);
+      } else {
+        return new CompSBasePlugin(sbase);
+      }
+    }
+
+    return null;
   }
 
 

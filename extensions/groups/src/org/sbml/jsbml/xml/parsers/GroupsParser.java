@@ -159,8 +159,12 @@ public class GroupsParser extends AbstractReaderWriter implements PackageParser 
    * @see org.sbml.jsbml.xml.parsers.PackageParser#getNamespaceFor(java.lang.String, java.lang.String, java.lang.String)
    */
   @Override
-  public String getNamespaceFor(String level, String version,	String packageVersion) {
-    // TODO Auto-generated method stub
+  public String getNamespaceFor(int level, int version,	int packageVersion) {
+
+    if (level == 3 && version == 1 && packageVersion == 1) {
+      return GroupsConstants.namespaceURI_L3V1V1;
+    }
+
     return null;
   }
 
@@ -197,10 +201,16 @@ public class GroupsParser extends AbstractReaderWriter implements PackageParser 
   }
 
 
-@Override
-public SBasePlugin createPluginFor(SBase sbase) {
-	// TODO Auto-generated method stub
-	return null;
-}
+  @Override
+  public SBasePlugin createPluginFor(SBase sbase) {
+
+    if (sbase != null) {
+      if (sbase instanceof Model) {
+        return new GroupsModelPlugin((Model) sbase);
+      }
+    }
+
+    return null;
+  }
 
 }

@@ -125,7 +125,12 @@ public class ParserManager {
 
   }
 
-  // <br /><dependency><br />  <groupId>org.kohsuke.metainf-services</groupId><br />  <artifactId>metainf-services</artifactId><br />  <version>1.1</version><br />  <optional>true</optional><br /></dependency><br />
+  // <br /><dependency><br />  
+  // <groupId>org.kohsuke.metainf-services</groupId><br />  
+  // <artifactId>metainf-services</artifactId><br />  
+  // <version>1.1</version><br />  
+  // <optional>true</optional><br />
+  // </dependency><br />
 
 
   /**
@@ -199,7 +204,7 @@ public class ParserManager {
    * @return the namespace for the given package name that correspond to the SBML level, version
    * and package version.
    */
-  public String getNamespaceFor(String level, String version, String packageVersion, String packageName) {
+  public String getNamespaceFor(int level, int version, int packageVersion, String packageName) {
 
     PackageParser packageParser = packageParsers.get(packageName);
 

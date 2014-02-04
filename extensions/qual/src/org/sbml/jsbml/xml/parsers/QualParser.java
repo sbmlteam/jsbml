@@ -30,7 +30,6 @@ import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.qual.FunctionTerm;
@@ -80,11 +79,7 @@ public class QualParser extends AbstractReaderWriter implements PackageParser {
 
     List<Object> listOfElementsToWrite = new ArrayList<Object>();
 
-    if (sbase instanceof SBMLDocument) {
-      // nothing to do
-      // TODO: the 'required' attribute is written even if there is no plugin class for the SBMLDocument, so I am not totally sure how this is done.
-    }
-    else if (sbase instanceof Model) {
+    if (sbase instanceof Model) {
       QualitativeModel modelGE = (QualitativeModel) ((Model) sbase).getExtension(QualConstants.namespaceURI);
 
       Enumeration<TreeNode> children = modelGE.children();
@@ -280,8 +275,12 @@ public class QualParser extends AbstractReaderWriter implements PackageParser {
   }
 
   @Override
-  public String getNamespaceFor(String level, String version,	String packageVersion) {
-    // TODO Auto-generated method stub
+  public String getNamespaceFor(int level, int version,	int packageVersion) {
+
+    if (level == 3 && version == 1 && packageVersion == 1) {
+      return QualConstants.namespaceURI_L3V1V1;
+    }
+
     return null;
   }
 
@@ -306,11 +305,17 @@ public class QualParser extends AbstractReaderWriter implements PackageParser {
   }
 
 
-@Override
-public SBasePlugin createPluginFor(SBase sbase) {
-	// TODO Auto-generated method stub
-	return null;
-}
+  @Override
+  public SBasePlugin createPluginFor(SBase sbase) {
+
+    if (sbase != null) {
+      if (sbase instanceof Model) {
+        return new QualitativeModel((Model) sbase);
+      }
+    }
+
+    return null;
+  }
 
 
 }
