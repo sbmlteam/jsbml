@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Contains some constants related to the multi package.
+ * 
  * @author Nicolas Rodriguez
  * @version $Rev$
  * @since 1.0
@@ -32,17 +34,22 @@ import java.util.List;
 public class MultiConstants {
 
   /**
-   * The namespace URI of this parser.
+   * The namespace URI of this parser for SBML level 3, version 1 and package version 1.
    */
-  public static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/multi/version1";
+  public static final String namespaceURI_L3V1V1 = "http://www.sbml.org/sbml/level3/version1/multi/version1";
 
+  /**
+   * The latest namespace URI of this parser, this value can change between releases.
+   */
+  public static final String namespaceURI = namespaceURI_L3V1V1;
+  
   public static final String shortLabel = "multi";
 
   public static final List<String> namespaces;
 
   static {
     namespaces = new ArrayList<String>();
-    namespaces.add(namespaceURI);
+    namespaces.add(namespaceURI_L3V1V1);
   }
 
   public static final String listOfSpeciesTypes = "listOfSpeciesTypes";

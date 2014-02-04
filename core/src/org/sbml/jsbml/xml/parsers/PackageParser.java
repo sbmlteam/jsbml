@@ -35,15 +35,15 @@ import org.sbml.jsbml.ext.SBasePlugin;
 public interface PackageParser {
 
 
-	/**
-	 * Creates a new {@link SBasePlugin} for the given {@link SBase}
-	 * and add it to the {@link SBasePlugin} map of the {@link SBase}.
-	 * 
-	 * @param sbase - the sbase for which you want to create an {@link SBasePlugin}
-	 * @return a new {@link SBasePlugin} corresponding to the given {@link SBase}.
-	 */
-	public SBasePlugin createPluginFor(SBase sbase); 
-	
+  /**
+   * Creates a new {@link SBasePlugin} for the given {@link SBase}
+   * and add it to the {@link SBasePlugin} map of the {@link SBase}.
+   * 
+   * @param sbase - the sbase for which you want to create an {@link SBasePlugin}
+   * @return a new {@link SBasePlugin} corresponding to the given {@link SBase}.
+   */
+  public SBasePlugin createPluginFor(SBase sbase); 
+
   /**
    * Gets the namespace for this package that correspond to the given SBML level, version
    * and the package version.
@@ -55,9 +55,9 @@ public interface PackageParser {
    * @param version - the SBML version
    * @param packageVersion - the package version
    * @return the namespace for this package that correspond to the given SBML level and version
-   * and the package version.
+   * and the package version or null if nothing valid is found.
    */
-  public String getNamespaceFor(String level, String version, String packageVersion);
+  public String getNamespaceFor(int level, int version, int packageVersion);
 
   /**
    * Returns a {@link List} of all the valid namespaces for the package.

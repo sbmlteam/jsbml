@@ -24,10 +24,19 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
+import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.ext.spatial.SpatialCompartmentPlugin;
 import org.sbml.jsbml.ext.spatial.SpatialConstants;
+import org.sbml.jsbml.ext.spatial.SpatialModelPlugin;
+import org.sbml.jsbml.ext.spatial.SpatialParameterPlugin;
+import org.sbml.jsbml.ext.spatial.SpatialReactionPlugin;
+import org.sbml.jsbml.ext.spatial.SpatialSpeciesPlugin;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**
@@ -109,37 +118,53 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
 	}
 
 	@Override
-	public String getNamespaceFor(String level, String version,	String packageVersion) {
-		// TODO Auto-generated method stub
-		return null;
+	public String getNamespaceFor(int level, int version,	int packageVersion) {
+
+	  if (level == 3 && version == 1 && packageVersion == 1) {
+	    return SpatialConstants.namespaceURI_L3V1V1;
+	  }
+
+	  return null;
 	}
 
 	@Override
 	public List<String> getNamespaces() {		
-		return SpatialConstants.namespaces;
+	  return SpatialConstants.namespaces;
 	}
 
 	@Override
 	public List<String> getPackageNamespaces() {		
-		return getNamespaces();
+	  return getNamespaces();
 	}
 
 	@Override
 	public String getPackageName() {
-		return SpatialConstants.shortLabel;
+	  return SpatialConstants.shortLabel;
 	}
 
 	@Override
 	public boolean isRequired() {
-		return true;
+	  return true;
 	}
 
 	@Override
 	public SBasePlugin createPluginFor(SBase sbase) {
-		// TODO Auto-generated method stub
-		return null;
+
+	  if (sbase != null) {
+	    if (sbase instanceof Model) {
+	      return new SpatialModelPlugin((Model) sbase);
+	    } else if (sbase instanceof Compartment) {
+	      return new SpatialCompartmentPlugin((Compartment) sbase);
+	    } else if (sbase instanceof Species) {
+	      return new SpatialSpeciesPlugin((Species) sbase);
+	    } else if (sbase instanceof Parameter) {
+	      return new SpatialParameterPlugin((Parameter) sbase);
+	    } else if (sbase instanceof Reaction) {
+	      return new SpatialReactionPlugin((Reaction) sbase);
+	    }
+	  }
+
+	  return null;
 	}
-
-
 
 }

@@ -27,6 +27,8 @@ import java.util.ResourceBundle;
 import de.zbit.util.ResourceManager;
 
 /**
+ * Contains some constants related to the spatial package.
+ * 
  * @author Alex Thomas
  * @author Nicolas Rodriguez
  * @version $Rev$
@@ -36,9 +38,15 @@ import de.zbit.util.ResourceManager;
 public class SpatialConstants {
 
   /**
-   * The namespace URI of this parser.
+   * The namespace URI of this parser for SBML level 3, version 1 and package version 1.
    */
-  public static final String namespaceURI = "http://www.sbml.org/sbml/level3/version1/spatial/version1";
+  public static final String namespaceURI_L3V1V1 = "http://www.sbml.org/sbml/level3/version1/spatial/version1";
+
+  /**
+   * The latest namespace URI of this parser, this value can change between releases.
+   */
+  public static final String namespaceURI = namespaceURI_L3V1V1;
+
   public static final String shortLabel = "spatial";
   public static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
@@ -47,7 +55,7 @@ public class SpatialConstants {
 
   static {
     namespaces = new ArrayList<String>();
-    namespaces.add(namespaceURI);
+    namespaces.add(namespaceURI_L3V1V1);
   }
 
   public static final String compartment = "compartment";

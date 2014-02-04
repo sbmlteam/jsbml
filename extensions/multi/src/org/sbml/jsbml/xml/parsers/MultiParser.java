@@ -43,12 +43,15 @@ import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.multi.BindingSiteReference;
 import org.sbml.jsbml.ext.multi.Bond;
 import org.sbml.jsbml.ext.multi.MultiConstants;
 import org.sbml.jsbml.ext.multi.MultiModel;
+import org.sbml.jsbml.ext.multi.MultiSpecies;
 import org.sbml.jsbml.ext.multi.Selector;
 import org.sbml.jsbml.ext.multi.SpeciesType;
 import org.sbml.jsbml.ext.multi.SpeciesTypeState;
@@ -300,8 +303,12 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
   }
 
   @Override
-  public String getNamespaceFor(String level, String version,	String packageVersion) {
-    // TODO Auto-generated method stub
+  public String getNamespaceFor(int level, int version, int packageVersion) {
+
+    if (level == 3 && version == 1 && packageVersion == 1) {
+      return MultiConstants.namespaceURI_L3V1V1;
+    }
+
     return null;
   }
 
@@ -325,11 +332,22 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
     return true;
   }
 
-@Override
-public SBasePlugin createPluginFor(SBase sbase) {
-	// TODO Auto-generated method stub
-	return null;
-}
+  @Override
+  public SBasePlugin createPluginFor(SBase sbase) {
+
+    if (sbase != null) {
+      if (sbase instanceof Model) {
+        return new MultiModel((Model) sbase);
+      } else if (sbase instanceof Species) {
+        return new MultiSpecies((Species) sbase);
+      } else if (sbase instanceof Reaction) {
+        // return new MultiReaction((Reaction) sbase);
+      }
+      // TODO : finish when implementation is updated
+    }
+
+    return null;
+  }
 
 
 }
