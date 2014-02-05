@@ -456,7 +456,7 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
 
   @Override
   public List<String> getNamespaces() {
-    return LayoutConstants.namespaces_L3;
+    return LayoutConstants.namespaces_L3; // TODO - check if it should not be namespaces !!
   }
 
   @Override

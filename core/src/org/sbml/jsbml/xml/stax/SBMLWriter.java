@@ -69,7 +69,7 @@ import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.xml.XMLNode;
-import org.sbml.jsbml.xml.parsers.AnnotationWriter;
+import org.sbml.jsbml.xml.parsers.ParserManager;
 import org.sbml.jsbml.xml.parsers.WritingParser;
 import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
 import org.xml.sax.SAXException;
@@ -220,12 +220,11 @@ public class SBMLWriter {
    * The number of indentation symbols.
    */
   private short indentCount;
+
   /**
    * contains the WritingParser instances of this class.
    */
   private HashMap<String, WritingParser> instantiatedSBMLParsers = new HashMap<String, WritingParser>();
-
-  private List<AnnotationWriter> annotationParsers = new ArrayList<AnnotationWriter>();
 
   /**
    * Remember already issued warnings to avoid having multiple lines, saying
@@ -236,10 +235,6 @@ public class SBMLWriter {
 
   Logger logger = Logger.getLogger(SBMLWriter.class);
 
-  /**
-   * contains all the relationships name space URI <=> WritingParser class.
-   */
-  private HashMap<String, Class<? extends WritingParser>> packageParsers = new HashMap<String, Class<? extends WritingParser>>();
 
   /**
    * Creates a new {@link SBMLWriter} with default configuration for
@@ -324,6 +319,7 @@ public class SBMLWriter {
    * @param parentNamespace
    * @return all the writing parsers necessary to write this element.
    */
+  // TODO - remove/update this method, one object can only be written by one package
   private List<WritingParser> getWritingParsers(Object object, String parentNamespace) {
 
     Set<String> packageNamespaces = null;
@@ -367,77 +363,21 @@ public class SBMLWriter {
     return sbmlParsers;
   }
 
-  /**
-   * 
-   * @param namespace
-   * @return the WritingParser class associated with 'namespace'. Null if
-   *         there is not matching WritingParser class.
-   */
-  public Class<? extends WritingParser> getWritingParsers(String namespace) {
-    return packageParsers.get(namespace);
-  }
-
-  /**
-   * Initializes the packageParser {@link HasMap} of this class.
-   * 
-   */
-  public void initializePackageParserNamespaces() {
-    JSBML.loadClasses("org/sbml/jsbml/resources/cfg/PackageParserNamespaces.xml",
-      packageParsers);
-  }
 
   /**
    * Creates the ReadingParser instances and stores them in a HashMap.
    * 
    * @return the map containing the ReadingParser instances.
    */
-  private Map<String, WritingParser> initializePackageParsers() {
-    if (packageParsers.size() == 0) {
-      initializePackageParserNamespaces();
-    }
-
-    for (String namespace : packageParsers.keySet()) {
-      try {
-        instantiatedSBMLParsers.put(namespace, packageParsers.get(namespace).newInstance());
-      } catch (InstantiationException e) {
-        e.printStackTrace();
-      } catch (IllegalAccessException e) {
-        e.printStackTrace();
-      } catch (ClassCastException e) {
-        // does nothing, some of the parsers are only Reader and not Writer
-        // so would throw a ClassCastException
-        logger.debug(e.getMessage());
-      }
+  private Map<String, WritingParser> initializePackageParsers() 
+  {
+    if (instantiatedSBMLParsers == null || instantiatedSBMLParsers.size() == 0) {
+      instantiatedSBMLParsers = ParserManager.getManager().getWritingParsers();
     }
 
     return instantiatedSBMLParsers;
   }
 
-  /**
-   * Initializes the AnnotationWriter {@link HashMap} of this class.
-   * 
-   */
-  public void initializeAnnotationParsers() {
-
-    // TODO - make use of the java6 annotation to know which annotationParsers to initialize
-
-    // to prevent several call to this method
-    annotationParsers.clear();
-
-    Map<String, Class<? extends AnnotationWriter>> annotationParserClasses = new HashMap<String, Class<? extends AnnotationWriter>>();
-
-    JSBML.loadClasses("org/sbml/jsbml/resources/cfg/annotationParsers.xml", annotationParserClasses);
-
-    for (Class<? extends AnnotationWriter> annotationWriterClass : annotationParserClasses.values()) {
-      try {
-        annotationParsers.add(annotationWriterClass.newInstance());
-      } catch (InstantiationException e) {
-        e.printStackTrace();
-      } catch (IllegalAccessException e) {
-        e.printStackTrace();
-      }
-    }
-  }
 
   /**
    * Allows you to set another blank character for indentation. Allowed are
@@ -556,7 +496,6 @@ public class SBMLWriter {
     System.setProperty("javax.xml.stream.XMLEventFactory", "com.ctc.wstx.stax.WstxEventFactory");
 
     initializePackageParsers();
-    initializeAnnotationParsers();
 
     SMOutputFactory smFactory = new SMOutputFactory(XMLOutputFactory.newInstance());
     XMLStreamWriter2 streamWriter = smFactory.createStax2Writer(stream);

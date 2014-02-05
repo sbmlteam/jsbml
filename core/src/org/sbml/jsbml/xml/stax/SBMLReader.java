@@ -61,6 +61,7 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.parsers.AnnotationReader;
 import org.sbml.jsbml.xml.parsers.MathMLStaxParser;
+import org.sbml.jsbml.xml.parsers.ParserManager;
 import org.sbml.jsbml.xml.parsers.ReadingParser;
 import org.sbml.jsbml.xml.parsers.SBMLCoreParser;
 import org.sbml.jsbml.xml.parsers.XMLNodeReader;
@@ -80,12 +81,6 @@ import com.ctc.wstx.stax.WstxInputFactory;
  * @version $Rev$
  */
 public class SBMLReader {
-
-  /**
-   * Contains all the relationships namespace URI <=> {@link ReadingParser}
-   * implementation classes.
-   */
-  private Map<String, Class<? extends ReadingParser>> packageParsers = new HashMap<String, Class<? extends ReadingParser>>();
 
 
   /**
@@ -114,41 +109,18 @@ public class SBMLReader {
    * 
    * @return the map containing the ReadingParser instances.
    */
-  private Map<String, ReadingParser> initializePackageParsers() {
-    if (packageParsers.size() == 0) {
-      initializePackageParserNamespaces();
-      initializeAnnotationParsers();
+  private Map<String, ReadingParser> initializePackageParsers() 
+  {
+    Logger logger = Logger.getLogger(SBMLReader.class);
+    
+    if (logger.isDebugEnabled()) {
+      logger.debug("initializePackageParsers called for " + this);
     }
-    for (String namespace : packageParsers.keySet()) {
-      // Skip already existing Namespaces
-      if (initializedParsers.containsKey(namespace)) {
-        continue;
-      }
-
-      try {
-
-        ReadingParser parser = null;
-
-        // Trying to see if an instance of this class is already present
-        for (ReadingParser rparser : initializedParsers.values()) {
-          if (rparser.getClass().equals(packageParsers.get(namespace))) {
-            // then, we use this instance
-            parser = rparser;
-            // logger.debug("SBMLReader : parser re-used : " + rparser.getClass().getCanonicalName());
-            break;
-          }
-        }
-
-        if (parser == null) {
-          parser = packageParsers.get(namespace).newInstance();
-        }
-
-        initializedParsers.put(namespace, parser);
-      } catch (InstantiationException e) {
-        e.printStackTrace();
-      } catch (IllegalAccessException e) {
-        e.printStackTrace();
-      }
+    
+    if (initializedParsers == null || initializedParsers.size() == 0) {
+      
+      initializedParsers = ParserManager.getManager().getReadingParsers();
+      initializeAnnotationParsers();
     }
 
     return initializedParsers;
@@ -172,26 +144,6 @@ public class SBMLReader {
     }
   }
 
-
-  /**
-   * Gets the ReadingParser class associated with 'namespace'.
-   * 
-   * @param namespace
-   * @return the ReadingParser class associated with 'namespace'. Null if
-   *         there is not matching ReadingParser class.
-   */
-  public Class<? extends ReadingParser> getReadingParsers(String namespace) {
-    return packageParsers.get(namespace);
-  }
-
-
-  /**
-   * Initializes the packageParser {@link HashMap} of this class.
-   * 
-   */
-  public void initializePackageParserNamespaces() {
-    JSBML.loadClasses("org/sbml/jsbml/resources/cfg/PackageParserNamespaces.xml", packageParsers);
-  }
 
   /**
    * Initializes the packageParser {@link HashMap} of this class.
@@ -219,38 +171,6 @@ public class SBMLReader {
     }
   }
 
-  /**
-   * Returns {@code true} if there is no 'required' attribute for this
-   * namespace URI, {@code false} otherwise.
-   * 
-   * @param namespaceURI
-   * @param startElement
-   *            the StartElement instance representing the SBMLDocument
-   *            element.
-   * @return {@code true} if the package represented by the namespace URI
-   *         is required to read the SBML file. If there is no 'required'
-   *         attribute for this namespace URI, return {@code false}.
-   */
-  private boolean isPackageRequired(String namespaceURI,
-    StartElement startElement) {
-    @SuppressWarnings("unchecked")
-    Iterator<Attribute> att = startElement.getAttributes();
-
-    while (att.hasNext()) {
-      Attribute attribute = att.next();
-
-      if (attribute.getName().getNamespaceURI().equals(namespaceURI)) {
-
-        // TODO: we have to check that the attribute name is really required !!!!:-)
-
-        if (Boolean.parseBoolean(attribute.getValue())) {
-          return true;
-        }
-        return false;
-      }
-    }
-    return false; // By default, a package is not required?
-  }
 
   /**
    * Reads the file that is passed as argument and write it to the console,
@@ -275,11 +195,11 @@ public class SBMLReader {
 
     SBMLDocument testDocument = new org.sbml.jsbml.SBMLReader().readSBMLFromFile(fileName);
 
-    System.out.println("Number of namespaces: " + testDocument.getSBMLDocumentNamespaces().size());
+    System.out.println("Number of namespaces: " + testDocument.getDeclaredNamespaces().size());
 
-    for(String prefix : testDocument.getSBMLDocumentNamespaces().keySet()) {
+    for(String prefix : testDocument.getDeclaredNamespaces().keySet()) {
       System.out.println("PREFIX = "+prefix);
-      String uri = testDocument.getSBMLDocumentNamespaces().get(prefix);
+      String uri = testDocument.getDeclaredNamespaces().get(prefix);
       System.out.println("URI = "+uri);
     }
 
