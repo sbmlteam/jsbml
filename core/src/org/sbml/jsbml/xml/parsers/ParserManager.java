@@ -68,6 +68,9 @@ public class ParserManager {
     // loading the ReadingParsers
     Iterator<ReadingParser> readingParserList = ServiceLoader.load(ReadingParser.class).iterator();
 
+    // TODO - each time we add one HashMap entry, check that it was not defined already
+    // so that we notice problems as early as possible if two packages declared to take care of the same namespace
+    
     while (readingParserList.hasNext()) {
       try {
         ReadingParser readingParser = readingParserList.next();
@@ -173,7 +176,7 @@ public class ParserManager {
         }
       }
       catch (ServiceConfigurationError e){
-
+        e.printStackTrace();
       }
     }
 
@@ -186,8 +189,47 @@ public class ParserManager {
    * @return a copy of the registered {@link WritingParser}s map.
    */
   public HashMap<String, WritingParser> getWritingParsers() {
-    // TODO - get a new instance of the parsers ??
-    return writingParsers;
+
+    HashMap<String, WritingParser> clonedMap = new HashMap<String, WritingParser>();
+
+    Iterator<ReadingParser> readingParserList = ServiceLoader.load(ReadingParser.class).iterator();
+
+    while (readingParserList.hasNext()) {
+      try {
+        ReadingParser readingParser = readingParserList.next();
+
+        if( readingParser != null && readingParser instanceof WritingParser) {
+
+          for (String namespaceURI : readingParser.getNamespaces()) {
+            clonedMap.put(namespaceURI, (WritingParser) readingParser);
+          }
+        }
+      }
+      catch (ServiceConfigurationError e){
+        e.printStackTrace();
+      }
+    }
+    
+    Iterator<WritingParser> service_list2 = ServiceLoader.load( WritingParser.class).iterator();
+    
+    while (service_list2.hasNext()) {
+      try {
+        WritingParser writingParser = service_list2.next();
+
+        if( writingParser != null) {
+
+          for (String namespaceURI : writingParser.getNamespaces()) {
+            clonedMap.put(namespaceURI, (WritingParser) writingParser);
+          }
+        }
+      }
+      catch (ServiceConfigurationError e){
+        e.printStackTrace();
+      }
+    }
+    
+
+    return clonedMap;
   }
 
   /**
@@ -219,6 +261,11 @@ public class ParserManager {
     System.out.println(ParserManager.getManager().getReadingParsers());
     System.out.println(ParserManager.getManager().getReadingParsers());
     System.out.println(ParserManager.getManager().readingParsers);
+    
+    System.out.println(ParserManager.getManager().getWritingParsers());
+    System.out.println(ParserManager.getManager().getWritingParsers());
+    System.out.println(ParserManager.getManager().writingParsers);
+
   }
 
 }
