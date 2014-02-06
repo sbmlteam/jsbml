@@ -33,7 +33,15 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
+ * Represents the extended {@link SBase} as define in the req package.
  * 
+ * <p>The Required Elements package is an exceedingly small package that allows model writers to declare specifically
+ * which components of the model have had their mathematics changed, by which package or annotation, and whether
+ * interpretation of those components in the absence of any package information results in a workable model. It
+ * accomplishes this by defining a class that can be added as an optional child of any SBML element with mathematical
+ * meaning.
+ * <p>To define that an {@link SBase} can have some optional {@link ChangedMath} children. 
+ *
  * @author Nicolas Rodriguez
  * @version $Rev$
  * @since 1.0
@@ -65,9 +73,9 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
   public ReqSBasePlugin(ReqSBasePlugin obj) {
     super(obj);
 
-    if (obj.isSetListOfMathChangeds()) {
-      for (MathChanged mathChanged : obj.getListOfMathChangeds()) {
-        addMathChanged(mathChanged.clone());
+    if (obj.isSetListOfChangedMaths()) {
+      for (ChangedMath changedMath : obj.getListOfChangedMaths()) {
+        addChangedMath(changedMath.clone());
       }
     }
   }
@@ -138,13 +146,13 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
 
   
   /**
-   * Returns {@code true}, if listOfMathChangeds contains at least one element.
+   * Returns {@code true}, if listOfChangedMaths contains at least one element.
    *
-   * @return {@code true}, if listOfMathChangeds contains at least one element, 
+   * @return {@code true}, if listOfChangedMaths contains at least one element, 
    *         otherwise {@code false}
    */
-  public boolean isSetListOfMathChangeds() {
-    if ((listOfMathChangeds == null) || listOfMathChangeds.isEmpty()) {
+  public boolean isSetListOfChangedMaths() {
+    if ((listOfChangedMaths == null) || listOfChangedMaths.isEmpty()) {
       return false;
     }
     
@@ -152,45 +160,48 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Returns the listOfMathChangeds. Creates it if it is not already existing.
+   * Returns the listOfChangedMaths. Creates it if it is not already existing.
    *
-   * @return the listOfMathChangeds
+   * @return the listOfChangedMaths
    */
-  public ListOf<MathChanged> getListOfMathChangeds() {
-    if (!isSetListOfMathChangeds()) {
-      listOfMathChangeds = new ListOf<MathChanged>(extendedSBase.getLevel(),
+  public ListOf<ChangedMath> getListOfChangedMaths() {
+    if (!isSetListOfChangedMaths()) {
+      listOfChangedMaths = new ListOf<ChangedMath>(extendedSBase.getLevel(),
           extendedSBase.getVersion());
       // TODO : get the correct namespace from the SBMLdocument, otherwise don't set it yet.
-      listOfMathChangeds.setNamespace(ReqConstants.namespaceURI);
-      listOfMathChangeds.setSBaseListType(ListOf.Type.other);
-      extendedSBase.registerChild(listOfMathChangeds);
+      listOfChangedMaths.setNamespace(ReqConstants.namespaceURI);
+      listOfChangedMaths.setSBaseListType(ListOf.Type.other);
+      extendedSBase.registerChild(listOfChangedMaths);
     }
     
-    return listOfMathChangeds;
+    return listOfChangedMaths;
   }
 
   /**
-   * Sets the given {@code ListOf<MathChanged>}. If listOfMathChangeds
+   * Sets the given {@code ListOf<ChangedMath>}. If listOfChangedMaths
    * was defined before and contains some elements, they are all unset.
    *
-   * @param listOfMathChangeds
+   * @param listOfChangedMaths
    */
-  public void setListOfMathChangeds(ListOf<MathChanged> listOfMathChangeds) {
-    unsetListOfMathChangeds();
-    this.listOfMathChangeds = listOfMathChangeds;
-    extendedSBase.registerChild(this.listOfMathChangeds);
+  public void setListOfChangedMaths(ListOf<ChangedMath> listOfChangedMaths) {
+    unsetListOfChangedMaths();
+    this.listOfChangedMaths = listOfChangedMaths;
+    this.listOfChangedMaths.setSBaseListType(ListOf.Type.other); // Just in case
+    // TODO - check namespaceURI as well
+    
+    extendedSBase.registerChild(this.listOfChangedMaths);
   }
 
   /**
-   * Removes all of the elements from this list of {@link MathChanged}s.
+   * Removes all of the elements from this list of {@link ChangedMath}s.
    *
-   * @return {@code true}, if listOfMathChangeds contained at least one element, 
+   * @return {@code true}, if listOfChangedMaths contained at least one element, 
    *         otherwise {@code false}
    */
-  public boolean unsetListOfMathChangeds() {
-    if (isSetListOfMathChangeds()) {
-      ListOf<MathChanged> oldMathChangeds = this.listOfMathChangeds;
-      this.listOfMathChangeds = null;
+  public boolean unsetListOfChangedMaths() {
+    if (isSetListOfChangedMaths()) {
+      ListOf<ChangedMath> oldMathChangeds = this.listOfChangedMaths;
+      this.listOfChangedMaths = null;
       oldMathChangeds.fireNodeRemovedEvent();
       return true;
     }
@@ -198,76 +209,76 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Adds a new {@link MathChanged} to the listOfMathChangeds.
-   * <p>The listOfMathChangeds is initialized if necessary.
+   * Adds a new {@link ChangedMath} to the listOfChangedMaths.
+   * <p>The listOfChangedMaths is initialized if necessary.
    *
-   * @param mathChanged the element to add to the list
+   * @param changedMath the element to add to the list
    * @return true (as specified by {@link Collection.add})
    */
-  public boolean addMathChanged(MathChanged mathChanged) {
-    return getListOfMathChangeds().add(mathChanged);
+  public boolean addChangedMath(ChangedMath changedMath) {
+    return getListOfChangedMaths().add(changedMath);
   }
 
   /**
-   * Removes an element from the listOfMathChangeds.
+   * Removes an element from the listOfChangedMaths.
    *
-   * @param mathChanged the element to be removed from the list
+   * @param changedMath the element to be removed from the list
    * @return true if the list contained the specified element
    * @see List#remove(Object)
    */
-  public boolean removeMathChanged(MathChanged mathChanged) {
-    if (isSetListOfMathChangeds()) {
-      return getListOfMathChangeds().remove(mathChanged);
+  public boolean removeChangedMath(ChangedMath changedMath) {
+    if (isSetListOfChangedMaths()) {
+      return getListOfChangedMaths().remove(changedMath);
     }
     return false;
   }
 
   /**
-   * Removes an element from the listOfMathChangeds at the given index.
+   * Removes an element from the listOfChangedMaths at the given index.
    *
-   * @param i - the index where to remove the {@link MathChanged}
+   * @param i - the index where to remove the {@link ChangedMath}
    * @throws IndexOutOfBoundsException - if the listOf is not set or
    * if the index is out of bound (index < 0 || index > list.size)
    */
-  public void removeMathChanged(int i) {
-    if (!isSetListOfMathChangeds()) {
+  public void removeChangedMath(int i) {
+    if (!isSetListOfChangedMaths()) {
       throw new IndexOutOfBoundsException(Integer.toString(i));
     }
-    getListOfMathChangeds().remove(i);
+    getListOfChangedMaths().remove(i);
   }
 
   /**
-   * Removes an element from the listOfMathChangeds with the given id.
+   * Removes an element from the listOfChangedMaths with the given id.
    *
-   * @param id - the id of the {@link MathChanged} to be removed
+   * @param id - the id of the {@link ChangedMath} to be removed
    */
-  public void removeMathChanged(String id) {
-    getListOfMathChangeds().removeFirst(new NameFilter(id));
+  public void removeChangedMath(String id) {
+    getListOfChangedMaths().removeFirst(new NameFilter(id));
   }
 
   /**
-   * Creates a new MathChanged element and adds it to the ListOfMathChangeds list
+   * Creates a new ChangedMath element and adds it to the ListOfMathChangeds list
    */
-  public MathChanged createMathChanged() {
-    return createMathChanged(null);
+  public ChangedMath createChangedMath() {
+    return createChangedMath(null);
   }
 
   /**
-   * Creates a new {@link MathChanged} element and adds it to the ListOfMathChangeds list
+   * Creates a new {@link ChangedMath} element and adds it to the ListOfMathChangeds list
    *
-   * @return a new {@link MathChanged} element
+   * @return a new {@link ChangedMath} element
    */
-  public MathChanged createMathChanged(String id) {
-    MathChanged mathChanged = new MathChanged(id, getLevel(), getVersion());
-    addMathChanged(mathChanged);
-    return mathChanged;
+  public ChangedMath createChangedMath(String id) {
+    ChangedMath changedMath = new ChangedMath(id, getLevel(), getVersion());
+    addChangedMath(changedMath);
+    return changedMath;
   }
 
 
   /**
    * 
    */
-  private ListOf<MathChanged> listOfMathChangeds;
+  private ListOf<ChangedMath> listOfChangedMaths;
   
   
 
@@ -277,7 +288,7 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
   public int getChildCount() {
     int count = 0;
 
-    if (isSetListOfMathChangeds()) {
+    if (isSetListOfChangedMaths()) {
       count++;
     }
 
@@ -291,9 +302,9 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
 
     int pos = 0;
 
-    if (isSetListOfMathChangeds()) {
+    if (isSetListOfChangedMaths()) {
       if (pos == index) {
-        return getListOfMathChangeds();
+        return getListOfChangedMaths();
       }
       pos++;
     }
@@ -303,6 +314,11 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
         +((int) Math.min(pos, 0))));
   }
 
+  
+  // TODO - support the old attributes from the first draft specs ??
+  // req:mathOverridden="http://www.sbml.org/sbml/level1/distrib/level1"
+  // req:coreHasAlternateMath=true>
+  // And what to do with them ?
 
   
 }
