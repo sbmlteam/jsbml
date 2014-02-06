@@ -57,7 +57,9 @@ public class ReqParser extends AbstractReaderWriter implements PackageParser {
   @Override
   public String getNamespaceURI() {
     // TODO - use the SBMLDocument to know which namespace to return !!!
-    // TODO - or create the parser with the correct namespace set
+    // TODO - or create the parser with the correct namespace set to it
+    // TODO - or we can remove all call to getNamespaceURI() and replace it by getShortLabel()
+    // once all the methods work with package name as well (probably most easy and straightforward solution)
     return namespaceURI;
   }
 
@@ -134,9 +136,9 @@ public class ReqParser extends AbstractReaderWriter implements PackageParser {
         sbase.addExtension(getNamespaceURI(), reqSBase);
       }
 
-      if (elementName.equals(ReqConstants.listOfMathChangeds))
+      if (elementName.equals(ReqConstants.listOfChangedMaths))
       {
-        return reqSBase.getListOfMathChangeds();
+        return reqSBase.getListOfChangedMaths();
       }
     }
 

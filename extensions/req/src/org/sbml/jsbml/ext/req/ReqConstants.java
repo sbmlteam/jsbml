@@ -62,11 +62,10 @@ public class ReqConstants {
   }
 
   
-  public static final String listOfMathChangeds = "listOfMathChangeds";
-  public static final String mathChanged = "mathChanged";
+  public static final String listOfChangedMaths = "listOfChangedMaths";
+  public static final String changedMath = "changedMath";
 
   public static final String changedBy = "changedBy";
-
   public static final String viableWithoutChange = "viableWithoutChange";
   
   /**
