@@ -171,6 +171,19 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   private SortedMap<String, SBasePlugin> extensions;
 
   /**
+   * {@link Map} containing the ignored package objects.
+   * <p>Package are considered ignored if JSBML does not support this package or
+   * support the package but not the associated namespace.
+   */
+  protected SortedMap<String, XMLNode> ignoredExtensions;
+  
+  /**
+   * Contains the unknown XML attributes or elements.
+   * 
+   */
+  protected XMLNode ignoredXMLElements;
+  
+  /**
    * Level and version of the SBML component. Matches the level XML attribute of
    * an SBML node.
    */

@@ -41,6 +41,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.validator.SBMLValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.xml.parsers.ParserManager;
 
 /**
  * Represents the 'sbml' root node of a SBML file.
@@ -463,10 +464,7 @@ public class SBMLDocument extends AbstractSBase {
    * instance is not set.
    * 
    * @return the new {@link Model} instance.
-   * @deprecated If not working with SBML Level 2 use
-   *             {@link #createModel(String)} instead.
    */
-  @Deprecated
   public Model createModel() {
     Model oldValue = getModel();
     setModel(new Model(getLevel(), getVersion()));
@@ -496,10 +494,6 @@ public class SBMLDocument extends AbstractSBase {
       SBMLDocument d = (SBMLDocument) o;
       if (!getSBMLDocumentAttributes().equals(
         d.getSBMLDocumentAttributes())) {
-        return false;
-      }
-      if (!getSBMLDocumentNamespaces().equals(
-        d.getSBMLDocumentNamespaces())) {
         return false;
       }
     }
@@ -557,21 +551,21 @@ public class SBMLDocument extends AbstractSBase {
   }
 
   /**
-   * The default SBML Level of new SBMLDocument objects.
+   * Returns the default SBML Level of new SBMLDocument objects.
    * 
-   * @return 2
+   * @return the default SBML Level of new SBMLDocument objects.
    */
   public int getDefaultLevel() {
-    return 2;
+    return 3;
   }
 
   /**
-   * The default Version of new SBMLDocument objects.
+   * Returns the default Version of new SBMLDocument objects.
    * 
-   * @return 4
+   * @return the default Version of new SBMLDocument objects.
    */
   public int getDefaultVersion() {
-    return 4;
+    return 1;
   }
 
   /* (non-Javadoc)
@@ -581,11 +575,26 @@ public class SBMLDocument extends AbstractSBase {
   public String getElementName() {
     return "sbml";
   }
+  
+  /**
+   * Returns the {@link SBase} with the given metaid in this {@link SBMLDocument} or null 
+   * if no such {@link SBase} is found.
+   * 
+   * @param metaid - the metaid of {@link SBase} to find
+   * @return the {@link SBase} with the given metaid or null 
+   * @see #findSBase(String)
+   */
+  public SBase getElementByMetaId(String metaid) {
+    return findSBase(metaid);
+  }
 
   /**
+   * Returns the ith error or warning encountered during consistency checking. 
    * 
-   * @param i
-   * @return
+   * @param i - the index of the {@link SBMLError} to get
+   * @return the ith error or warning encountered during consistency checking.
+   * @throws IndexOutOfBoundsException if the index is wrong
+   * @see #getNumErrors()
    */
   public SBMLError getError(int i) {
     if (!isSetListOfErrors() || (i < 0) || (i >= getErrorCount())) {
@@ -596,28 +605,29 @@ public class SBMLDocument extends AbstractSBase {
   }
 
   /**
+   * Returns the number of errors or warnings encountered during consistency checking. 
    * 
-   * @return
+   * @return the number of errors or warnings encountered during consistency checking.
    */
   public int getErrorCount() {
     return isSetListOfErrors() ? listOfErrors.getErrorCount() : 0;
   }
 
   /**
-   * This method returns a collection of all {@link SBMLError}s reflecting
+   * Returns a collection of all {@link SBMLError}s reflecting
    * problems in the overall data structure of this {@link SBMLDocument}.
    * 
-   * @return
+   * @return a collection of all {@link SBMLError}s encountered during consistency checking.
    */
   public SBMLErrorLog getErrorLog() {
     return getListOfErrors();
   }
 
   /**
-   * This method returns a collection of all {@link SBMLError}s reflecting
+   * Returns a collection of all {@link SBMLError}s reflecting
    * problems in the overall data structure of this {@link SBMLDocument}.
    * 
-   * @return
+   * @return a collection of all {@link SBMLError}s encountered during consistency checking.
    */
   public SBMLErrorLog getListOfErrors() {
     if (listOfErrors == null) {
@@ -637,26 +647,34 @@ public class SBMLDocument extends AbstractSBase {
   }
 
   /**
+   * Returns the number of errors or warnings encountered during consistency checking.
    * 
-   * @return
-   * @deprecated use {@link #getErrorCount()}
+   * @return the number of errors or warnings encountered during consistency checking.
+   * @libsbml.deprecated 
+   * @see {@link #getErrorCount()}
    */
-  @Deprecated
   public int getNumErrors() {
     return getErrorCount();
   }
 
   /**
    * Returns the required attribute of the given package extension.
-   * The name of package must not be given if the package is not enabled.
    * 
-   * @param pckage
+   * @param nameOrUri
    *        the name or URI of the package extension.
-   * @return Boolean flag indicating whether the package is flagged as being
-   *         required.
+   * @return a boolean indicating whether the package is flagged as being required. If the name or uri is
+   * not recognized by this version of JSBML, false is returned.
+   * 
    */
-  public boolean getPackageRequired(String pckage) {
-    // TODO: IMPLEMENT
+  public boolean getPackageRequired(String nameOrUri) {
+
+    try {
+      return ParserManager.getManager().getPackageRequired(nameOrUri);
+    } catch (IllegalArgumentException e) {
+      logger.warn(e.getMessage());
+    }
+    
+    // same default behavior as in libSBML 5.9.2
     return false;
   }
 
@@ -669,6 +687,7 @@ public class SBMLDocument extends AbstractSBase {
    * @return a boolean value indicating whether the package is flagged as being
    *         required in this {@link SBMLDocument}.
    * @deprecated use {@link #getPackageRequired(String)}
+   * @libsbml.deprecated
    */
   @Deprecated
   public boolean getPkgRequired(String pckage) {
@@ -676,16 +695,18 @@ public class SBMLDocument extends AbstractSBase {
   }
 
   /**
+   * Returns the map of attribute names and values of this SBMLDocument.
    * 
-   * @return the map SBMLDocumentAttributes of this SBMLDocument.
+   * @return the map of attribute names and values of this SBMLDocument.
    */
   public Map<String, String> getSBMLDocumentAttributes() {
     return SBMLDocumentAttributes;
   }
 
   /**
+   * Returns the map of declared namespaces of this SBMLDocument.
    * 
-   * @return the map SBMLDocumentNamespaces of this SBMLDocument.
+   * @return the map of declared namespaces of this SBMLDocument.
    * @deprecated use {@link SBase#getDeclaredNamespaces()}
    */
   @Deprecated
@@ -704,10 +725,7 @@ public class SBMLDocument extends AbstractSBase {
     if (map != null) {
       hashCode += prime * map.hashCode();
     }
-    map = getSBMLDocumentNamespaces();
-    if (map != null) {
-      hashCode += prime * map.hashCode();
-    }
+
     return hashCode;
   }
 
@@ -720,15 +738,19 @@ public class SBMLDocument extends AbstractSBase {
    * Returns {@code true} if the given package extension is one of an ignored
    * packages, otherwise returns {@code false}.
    * An ignored package is one that is defined to be used in this
-   * {@link SBMLDocument}, but the package is not enabled in this copy of JSBML.
+   * {@link SBMLDocument}, but the package is not supported in this copy of JSBML.
    * 
-   * @param pkgURI
-   *        the URI of the package extension.
+   * @param nameOrURI
+   *        the name or URI of the package extension.
    * @return a Boolean, {@code true} if the package is being ignored and
    *         {@code false} otherwise.
    */
-  public boolean isIgnoredPackage(String pkgURI) {
-    // TODO: IMPLEMENT
+  public boolean isIgnoredPackage(String nameOrURI) {
+    
+    if (ignoredExtensions.containsKey(nameOrURI)) {
+      return true;
+    }
+
     return false;
   }
 
@@ -742,6 +764,7 @@ public class SBMLDocument extends AbstractSBase {
    *        the URI of the package extension.
    * @return a boolean
    * @deprecated use {@link #isIgnoredPackage(String)}
+   * @libsbml.deprecated
    */
   @Deprecated
   public boolean isIgnoredPkg(String pkgURI) {
@@ -749,14 +772,17 @@ public class SBMLDocument extends AbstractSBase {
   }
 
   /**
+   * Returns {@code true} if the list of errors is defined and contain at least one error.
    * 
-   * @return
+   * @return {@code true} if the list of errors is defined and contain at least one error.
    */
   private boolean isSetListOfErrors() {
     return (listOfErrors != null) && (listOfErrors.getErrorCount() > 0);
   }
 
   /**
+   * Returns {@code true} if the {@link Model} of this {@link SBMLDocument} is not {@code null}.
+   * 
    * @return {@code true} if the {@link Model} of this {@link SBMLDocument} is not {@code null}.
    */
   public boolean isSetModel() {
@@ -764,28 +790,26 @@ public class SBMLDocument extends AbstractSBase {
   }
 
   /**
-   * Returns {@code true} if the required attribute of the given package
-   * extension is defined, otherwise returns {@code false}. Nnote The name of
-   * package must not be given if the package is not enabled.
+   * Returns {@code true}.
    * 
-   * @param pckage
-   *        the name or URI of the package extension.
-   * @return a boolean
+   * @param nameOrURI the name or URI of the package extension.
+   * @return {@code true}
+   * @libsbml.deprecated The required package does not need to be set in JSBML, it is done automatically as the value
+   * is fixed for each packages.
    */
-  public boolean isSetPackageRequired(String pckage) {
-    // TODO: IMPLEMENT
-    return false;
+  public boolean isSetPackageRequired(String nameOrURI) {
+    // it is always set as it is done automatically.
+    return true;
   }
 
   /**
-   * Returns {@code true} if the required attribute of the given package
-   * extension is defined, otherwise returns {@code false}. The name of package
-   * must not be given if the package is not enabled.
+   * Returns {@code true}
    * 
    * @param pckage
    *        the name or URI of the package extension.
    * @return a boolean value.
    * @deprecated use {@link #isSetPackageRequired(String)}
+   * @libsbml.deprecated
    */
   @Deprecated
   public boolean isSetPkgRequired(String pckage) {
@@ -797,7 +821,8 @@ public class SBMLDocument extends AbstractSBase {
    * String that is a valid metaid and that is not yet used by any other element
    * within this {@link SBMLDocument}.
    * 
-   * @return
+   * @return a valid metaid that is not yet used by any other element
+   * within this {@link SBMLDocument}.
    */
   public String nextMetaId() {
     String currId;
@@ -812,8 +837,9 @@ public class SBMLDocument extends AbstractSBase {
   }
 
   /**
+   * Prints all the errors or warnings encountered trying to check this SBML document.
    * 
-   * @param stream
+   * @param stream the stream where to print the {@link SBMLDocument} errors.
    */
   public void printErrors(PrintStream stream) {
     int nbErrors = listOfErrors.getErrorCount();
@@ -1015,15 +1041,7 @@ public class SBMLDocument extends AbstractSBase {
   /**
    * <p>
    * Sets the SBML Level and Version of this {@link SBMLDocument} instance,
-   * attempting to convert the model as needed.
-   * </p>
-   * <p>
-   * This method is equivalent to calling
-   * 
-   * <pre>
-   * setLevelAndVersion(level, version, true);
-   * </pre>
-   * 
+   * without attempting to convert the model.
    * </p>
    * 
    * @param level
@@ -1034,6 +1052,7 @@ public class SBMLDocument extends AbstractSBase {
    * @see #setLevelAndVersion(int, int, boolean)
    */
   public boolean setLevelAndVersion(int level, int version) {
+    // TODO - this method is not doing any conversion
     return super.setLevelAndVersion(level, version, true);
   }
 
@@ -1067,7 +1086,7 @@ public class SBMLDocument extends AbstractSBase {
    *            boolean indicating whether to check consistency of both the
    *            source and target model when performing conversion (defaults
    *            to {@code true})
-   * @return
+   * @return {@code true} if 'level' and 'version' are valid.
    */
   @Override
   public boolean setLevelAndVersion(int level, int version, boolean strict) {
@@ -1086,22 +1105,18 @@ public class SBMLDocument extends AbstractSBase {
   }
 
   /**
-   * Sets the required attribute value of the given package extension.
+   * Sets the required attribute value of the given package extension (does nothing in fact!).
    * 
-   * @param pckage
+   * @param nameOrUri
    *        the name or URI of the package extension.
    * @param flag
    *        boolean value indicating whether the package is required.
-   * @return boolean value indicating success ({@code true}) or failure (
-   *         {@code false}) of the function.
+   * @return {@code true}
+   * @libsbml.deprecated The required package does not need to be set in JSBML, 
+   * it is done automatically as the value is fixed for each packages.
    */
-  public boolean setPackageRequired(String pckage, boolean flag) {
-    // TODO: IMPLEMENT
-    // TODO: determine shortlabel and associated namespace from what is given by pckage
-    // Now, add the package declaration to this document and set the required flag:
-    //addNamespace(shortLabel, "xmlns", namespace);
-    //getSBMLDocumentAttributes().put(shortLabel + ":required", Boolean.valueOf(flag).toString());
-    return false;
+  public boolean setPackageRequired(String nameOrUri, boolean flag) {
+    return true;
   }
 
   /**
@@ -1114,6 +1129,7 @@ public class SBMLDocument extends AbstractSBase {
    *        a Boolean value.
    * @return boolean value indicating success/failure of the function
    * @deprecated use {@link #setPackageRequired(String, boolean)}
+   * @libsbml.deprecated
    */
   @Deprecated
   public boolean setPkgRequired(String pckage, boolean flag) {

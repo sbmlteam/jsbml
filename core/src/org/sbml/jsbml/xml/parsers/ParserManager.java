@@ -40,6 +40,9 @@ public class ParserManager {
   private HashMap<String, WritingParser> writingParsers = new HashMap<String, WritingParser>();
   private HashMap<String, PackageParser> packageParsers = new HashMap<String, PackageParser>();
 
+  /**
+   * Map between the {@link PackageParser} namespace and package short name.
+   */
   private HashMap<String, String> namespaceToNameMap = new HashMap<String, String>();
 
   /**
@@ -137,14 +140,14 @@ public class ParserManager {
 
 
   /**
-   * Returns the name of the SBML package corresponding to the given namespace.
+   * Returns the name of the SBML package corresponding to the given namespace URI.
    * 
-   * @param namespaceURI
-   * @return the name of the SBML package corresponding to the given namespace.
+   * @param namespace - the namespace URI of a SBML package.
+   * @return the name of the SBML package corresponding to the given namespace or null.
    */
-  public String getPackageName(String namespaceURI) {
+  public String getPackageName(String namespace) {
 
-    String packageName = namespaceToNameMap.get(namespaceURI);
+    String packageName = namespaceToNameMap.get(namespace);
 
     if (packageName != null) {
       return packageName;
@@ -153,6 +156,46 @@ public class ParserManager {
     return null;
   }
 
+  /**
+   * Returns the required attribute corresponding to the given name or namespace.
+   * 
+   * @param nameOrURI - the name or namespace of a SBML package.
+   * @return the required attribute corresponding to the given name or namespace, false is returned if
+   * no {@link PackageParser} was found.
+   * @throws IllegalArgumentException if the name or namespace is not recognized by JSBML.
+   */
+  public boolean getPackageRequired(String nameOrURI) {
+
+    PackageParser packageParser = getPackageParser(nameOrURI);
+
+    if (packageParser != null) {
+      return packageParser.isRequired();
+    }
+
+    throw new IllegalArgumentException("The name or namespace '" + nameOrURI + "' is not recognized by JSBML.");
+  }
+
+  /**
+   * Returns the {@link PackageParser} corresponding to the given name or namespace.
+   * 
+   * @param nameOrURI - the name or namespace of a SBML package.
+   * @return the {@link PackageParser} corresponding to the given name or namespace.
+   */
+  public PackageParser getPackageParser(String nameOrURI) {
+
+    PackageParser packageParser = packageParsers.get(nameOrURI);
+    
+    if (packageParser == null) {
+      String packageName = namespaceToNameMap.get(nameOrURI);
+
+      if (packageName != null) {
+        packageParser = packageParsers.get(packageName);
+      }      
+    }
+
+    return packageParser;
+  }
+  
   /**
    * Gets a copy of the registered {@link ReadingParser}s map.
    * 
