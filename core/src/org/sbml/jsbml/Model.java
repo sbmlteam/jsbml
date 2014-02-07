@@ -1251,6 +1251,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         <p>
    * @see #addSpeciesType(SpeciesType st)
    * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
+   * @sbml.deprecated only valid in SBML Level 2 for Versions 2 through 4. 
    */
   @Deprecated
   public SpeciesType createSpeciesType() {

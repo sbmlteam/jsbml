@@ -68,9 +68,9 @@ public interface PackageParser {
 
 
   /**
-   * Returns the name of this package.
+   * Returns the short name of this package.
    * 
-   * @return the name of this package.
+   * @return the short name of this package.
    */
   public String getPackageName();
 
