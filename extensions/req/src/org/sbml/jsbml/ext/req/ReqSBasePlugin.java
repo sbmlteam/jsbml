@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.req;
 
 import java.text.MessageFormat;
@@ -34,14 +33,18 @@ import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * Represents the extended {@link SBase} as define in the req package.
- * 
- * <p>The Required Elements package is an exceedingly small package that allows model writers to declare specifically
- * which components of the model have had their mathematics changed, by which package or annotation, and whether
- * interpretation of those components in the absence of any package information results in a workable model. It
- * accomplishes this by defining a class that can be added as an optional child of any SBML element with mathematical
+ * <p>
+ * The Required Elements package is an exceedingly small package that allows
+ * model writers to declare specifically which components of the model have had
+ * their mathematics changed, by which package or annotation, and whether
+ * interpretation of those components in the absence of any package information
+ * results in a workable model. It accomplishes this by defining a class that
+ * can be added as an optional child of any SBML element with mathematical
  * meaning.
- * <p>To define that an {@link SBase} can have some optional {@link ChangedMath} children. 
- *
+ * <p>
+ * To define that an {@link SBase} can have some optional {@link ChangedMath}
+ * children.
+ * 
  * @author Nicolas Rodriguez
  * @version $Rev$
  * @since 1.0
@@ -49,7 +52,12 @@ import org.sbml.jsbml.util.filters.NameFilter;
 public class ReqSBasePlugin extends AbstractSBasePlugin {
 
   /**
-   * Creates an {@link ReqSBasePlugin} instance 
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = -8899476363934112466L;
+
+  /**
+   * Creates an {@link ReqSBasePlugin} instance
    */
   public ReqSBasePlugin() {
     super();
@@ -57,7 +65,7 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Creates a ReqSBasePlugin instance with a level and version. 
+   * Creates a ReqSBasePlugin instance with a level and version.
    * 
    * @param level
    * @param version
@@ -79,10 +87,11 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
       }
     }
   }
-  
+
   /**
    * clones this class
    */
+  @Override
   public ReqSBasePlugin clone() {
     return new ReqSBasePlugin(this);
   }
@@ -95,7 +104,7 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
   }
 
 
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
@@ -144,18 +153,18 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
     return true;
   }
 
-  
+
   /**
    * Returns {@code true}, if listOfChangedMaths contains at least one element.
    *
-   * @return {@code true}, if listOfChangedMaths contains at least one element, 
+   * @return {@code true}, if listOfChangedMaths contains at least one element,
    *         otherwise {@code false}
    */
   public boolean isSetListOfChangedMaths() {
     if ((listOfChangedMaths == null) || listOfChangedMaths.isEmpty()) {
       return false;
     }
-    
+
     return true;
   }
 
@@ -173,7 +182,7 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
       listOfChangedMaths.setSBaseListType(ListOf.Type.other);
       extendedSBase.registerChild(listOfChangedMaths);
     }
-    
+
     return listOfChangedMaths;
   }
 
@@ -188,20 +197,20 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
     this.listOfChangedMaths = listOfChangedMaths;
     this.listOfChangedMaths.setSBaseListType(ListOf.Type.other); // Just in case
     // TODO - check namespaceURI as well
-    
+
     extendedSBase.registerChild(this.listOfChangedMaths);
   }
 
   /**
    * Removes all of the elements from this list of {@link ChangedMath}s.
    *
-   * @return {@code true}, if listOfChangedMaths contained at least one element, 
+   * @return {@code true}, if listOfChangedMaths contained at least one element,
    *         otherwise {@code false}
    */
   public boolean unsetListOfChangedMaths() {
     if (isSetListOfChangedMaths()) {
-      ListOf<ChangedMath> oldMathChangeds = this.listOfChangedMaths;
-      this.listOfChangedMaths = null;
+      ListOf<ChangedMath> oldMathChangeds = listOfChangedMaths;
+      listOfChangedMaths = null;
       oldMathChangeds.fireNodeRemovedEvent();
       return true;
     }
@@ -279,12 +288,13 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
    * 
    */
   private ListOf<ChangedMath> listOfChangedMaths;
-  
-  
+
+
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildCount()
    */
+  @Override
   public int getChildCount() {
     int count = 0;
 
@@ -295,6 +305,7 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
     return count;
   }
 
+  @Override
   public TreeNode getChildAt(int index) {
     if (index < 0) {
       throw new IndexOutOfBoundsException(index + " < 0");
@@ -310,15 +321,13 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
     }
 
     throw new IndexOutOfBoundsException(MessageFormat.format(
-        "Index {0,number,integer} >= {1,number,integer}", index,
-        +((int) Math.min(pos, 0))));
+      "Index {0,number,integer} >= {1,number,integer}", index,
+      +Math.min(pos, 0)));
   }
 
-  
   // TODO - support the old attributes from the first draft specs ??
   // req:mathOverridden="http://www.sbml.org/sbml/level1/distrib/level1"
   // req:coreHasAlternateMath=true>
   // And what to do with them ?
 
-  
 }

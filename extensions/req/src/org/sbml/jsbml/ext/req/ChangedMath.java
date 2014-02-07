@@ -18,7 +18,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.req;
 
 import java.util.Map;
@@ -29,24 +28,33 @@ import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
 
 /**
- * Declares which package has modified the value or the mathematical meaning of an {@link SBase} and in which way.
- * 
- * <p>Elements with mathematical meaning may have a ChangedMath child when a package alters the value or meaning
- * of that symbol. As an example, a Submodel from the Hierarchical Model Composition package may contain an
- * Event or Rule that assigns new values to a parameter. Because an interpreter that did not understand submodels
- * would not catch this change, the Hierarchical Model Composition package can be seen to change the math of that
- * element, and it would be appropriate to denote this by adding a ChangedMath child to the affected parameter.
- * 
- * <p>Similarly, models that use the proposed Spatial Processes package can change the meaning of a Compartment by
- * turning it into a bounded object with an size implied by those boundaries (and how they change over time), instead
- * of using the element’s size attribute. Spatial Processes elements may also change a Species to be spatially defined,
- * and therefore represent different values depending on what coordinates in space are under consideration. Affected
- * compartments and species could be given ChangedMath children to denote this fact.
- * 
- * <p>Elements with Math children may also be changed by the addition of package elements. Some packages may
- * instruct the modeler to disregard the Math and to use some other construct instead. For example, the proposed
- * Distributions package adds a new child to FunctionDeﬁnition, which replaces the old mathematics with a new set
- * of mathematics returning a draw from a random distribution (something impossible with Math).
+ * Declares which package has modified the value or the mathematical meaning of
+ * an {@link SBase} and in which way.
+ * <p>
+ * Elements with mathematical meaning may have a ChangedMath child when a
+ * package alters the value or meaning of that symbol. As an example, a Submodel
+ * from the Hierarchical Model Composition package may contain an Event or Rule
+ * that assigns new values to a parameter. Because an interpreter that did not
+ * understand submodels would not catch this change, the Hierarchical Model
+ * Composition package can be seen to change the math of that element, and it
+ * would be appropriate to denote this by adding a ChangedMath child to the
+ * affected parameter.
+ * <p>
+ * Similarly, models that use the proposed Spatial Processes package can change
+ * the meaning of a Compartment by turning it into a bounded object with an size
+ * implied by those boundaries (and how they change over time), instead of using
+ * the element’s size attribute. Spatial Processes elements may also change a
+ * Species to be spatially defined, and therefore represent different values
+ * depending on what coordinates in space are under consideration. Affected
+ * compartments and species could be given ChangedMath children to denote this
+ * fact.
+ * <p>
+ * Elements with Math children may also be changed by the addition of package
+ * elements. Some packages may instruct the modeler to disregard the Math and to
+ * use some other construct instead. For example, the proposed Distributions
+ * package adds a new child to FunctionDeﬁnition, which replaces the old
+ * mathematics with a new set of mathematics returning a draw from a random
+ * distribution (something impossible with Math).
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$
@@ -55,27 +63,40 @@ import org.sbml.jsbml.SBase;
 public class ChangedMath extends AbstractNamedSBase {
 
   /**
-   * The viableWithoutChange attribute is required, and is of type boolean. The attribute should be used to indicate
-   * whether an interpreter that does not understand the package from the changedBy attribute would have an interpretable
-   * version of the mathematics for the given component in a model. This can be established using two criteria:
-   * “Complete” and ”Workable”. Obviously, if the math being interpreted is incomplete, the viableWithoutChange
-   * attribute must be “false”. If the math is complete, then whether the solution is “workable” requires a judgment
-   * call on the part of the modeler: if the modeler feels that the alternative version makes sense in an alternative context,
-   * they may set the attribute value to “true”; conversely, if they feel that the resulting model component makes no
-   * sense, even if technically “complete”, then they should set the attribute value to “false”.
+   * Generated serial version identifier.
+   */
+  private static final long serialVersionUID = 2446721938903003641L;
+
+  /**
+   * The viableWithoutChange attribute is required, and is of type boolean. The
+   * attribute should be used to indicate whether an interpreter that does not
+   * understand the package from the changedBy attribute would have an
+   * interpretable version of the mathematics for the given component in a
+   * model. This can be established using two criteria: &ldquo;Complete&rdquo;
+   * and &ldquo;Workable&rdquo;. Obviously, if the math being interpreted is
+   * incomplete, the viableWithoutChange attribute must be {@code false}.
+   * If the math is complete, then whether the solution is
+   * &ldquo;workable&rdquo; requires a judgment call on the part of the modeler:
+   * if the modeler feels that the alternative version makes sense in an
+   * alternative context, they may set the attribute value to {@code true};
+   * conversely, if they feel that the resulting model component makes no sense,
+   * even if technically &ldquo;complete&rdquo;, then they should set the
+   * attribute value to {@code false}.
    */
   private Boolean viableWithoutChange;
 
   /**
-   * The changedBy attribute is required, and is of type string. The attribute must be set to the namespace URI of the
-   * SBML Level 3 package that redefines or alters the mathematical semantics of the parent object. In other words, if
-   * the mathematical semantics of a given component C in a model is changed by the use of a Level 3 package P, then C
-   * can be given a ChangedMath child, and its attribute changedBy should be P’s namespace URI.
+   * The changedBy attribute is required, and is of type string. The attribute
+   * must be set to the namespace URI of the SBML Level 3 package that redefines
+   * or alters the mathematical semantics of the parent object. In other words,
+   * if the mathematical semantics of a given component C in a model is changed
+   * by the use of a Level 3 package P, then C can be given a ChangedMath child,
+   * and its attribute changedBy should be P’s namespace URI.
    */
   private String changedBy;
 
   /**
-   * Creates an ChangedMath instance 
+   * Creates an ChangedMath instance
    */
   public ChangedMath() {
     super();
@@ -83,7 +104,7 @@ public class ChangedMath extends AbstractNamedSBase {
   }
 
   /**
-   * Creates a {@link ChangedMath} instance with an id. 
+   * Creates a {@link ChangedMath} instance with an id.
    * 
    * @param id
    */
@@ -93,7 +114,7 @@ public class ChangedMath extends AbstractNamedSBase {
   }
 
   /**
-   * Creates a {@link ChangedMath} instance with a level and version. 
+   * Creates a {@link ChangedMath} instance with a level and version.
    * 
    * @param level
    * @param version
@@ -103,7 +124,7 @@ public class ChangedMath extends AbstractNamedSBase {
   }
 
   /**
-   * Creates a {@link ChangedMath} instance with an id, level, and version. 
+   * Creates a {@link ChangedMath} instance with an id, level, and version.
    * 
    * @param id
    * @param level
@@ -114,7 +135,7 @@ public class ChangedMath extends AbstractNamedSBase {
   }
 
   /**
-   * Creates a {@link ChangedMath} instance with an id, name, level, and version. 
+   * Creates a {@link ChangedMath} instance with an id, name, level, and version.
    * 
    * @param id
    * @param name
@@ -124,8 +145,8 @@ public class ChangedMath extends AbstractNamedSBase {
   public ChangedMath(String id, String name, int level, int version) {
     super(id, name, level, version);
     if (getLevelAndVersion().compareTo(
-        Integer.valueOf(ReqConstants.MIN_SBML_LEVEL),
-        Integer.valueOf(ReqConstants.MIN_SBML_VERSION)) < 0) {
+      Integer.valueOf(ReqConstants.MIN_SBML_LEVEL),
+      Integer.valueOf(ReqConstants.MIN_SBML_VERSION)) < 0) {
       throw new LevelVersionError(getElementName(), level, version);
     }
     initDefaults();
@@ -148,6 +169,7 @@ public class ChangedMath extends AbstractNamedSBase {
   /**
    * clones this class
    */
+  @Override
   public ChangedMath clone() {
     return new ChangedMath(this);
   }
@@ -183,12 +205,12 @@ public class ChangedMath extends AbstractNamedSBase {
   }
 
   /**
-   * Returns whether changedBy is set 
+   * Returns whether changedBy is set
    *
-   * @return whether changedBy is set 
+   * @return whether changedBy is set
    */
   public boolean isSetChangedBy() {
-    return this.changedBy != null;
+    return changedBy != null;
   }
 
   /**
@@ -201,16 +223,16 @@ public class ChangedMath extends AbstractNamedSBase {
   }
 
   /**
-   * Unsets the variable changedBy 
+   * Unsets the variable changedBy
    *
-   * @return {@code true}, if changedBy was set before, 
+   * @return {@code true}, if changedBy was set before,
    *         otherwise {@code false}
    */
   public boolean unsetChangedBy() {
     if (isSetChangedBy()) {
-      String oldChangedBy = this.changedBy;
-      this.changedBy = null;
-      firePropertyChange(ReqConstants.changedBy, oldChangedBy, this.changedBy);
+      String oldChangedBy = changedBy;
+      changedBy = null;
+      firePropertyChange(ReqConstants.changedBy, oldChangedBy, changedBy);
       return true;
     }
     return false;
@@ -244,12 +266,12 @@ public class ChangedMath extends AbstractNamedSBase {
 
 
   /**
-   * Returns whether viableWithoutChange is set 
+   * Returns whether viableWithoutChange is set
    *
-   * @return whether viableWithoutChange is set 
+   * @return whether viableWithoutChange is set
    */
   public boolean isSetViableWithoutChange() {
-    return this.viableWithoutChange != null;
+    return viableWithoutChange != null;
   }
 
   /**
@@ -262,16 +284,16 @@ public class ChangedMath extends AbstractNamedSBase {
   }
 
   /**
-   * Unsets the variable viableWithoutChange 
+   * Unsets the variable viableWithoutChange
    *
-   * @return {@code true}, if viableWithoutChange was set before, 
+   * @return {@code true}, if viableWithoutChange was set before,
    *         otherwise {@code false}
    */
   public boolean unsetViableWithoutChange() {
     if (isSetViableWithoutChange()) {
-      Boolean oldViableWithoutChange = this.viableWithoutChange;
-      this.viableWithoutChange = null;
-      firePropertyChange(ReqConstants.viableWithoutChange, oldViableWithoutChange, this.viableWithoutChange);
+      Boolean oldViableWithoutChange = viableWithoutChange;
+      viableWithoutChange = null;
+      firePropertyChange(ReqConstants.viableWithoutChange, oldViableWithoutChange, viableWithoutChange);
       return true;
     }
     return false;
@@ -281,6 +303,7 @@ public class ChangedMath extends AbstractNamedSBase {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()
    */
+  @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
 
@@ -298,33 +321,34 @@ public class ChangedMath extends AbstractNamedSBase {
     if (isSetViableWithoutChange()) {
       attributes.put(ReqConstants.shortLabel + ":" + ReqConstants.viableWithoutChange, viableWithoutChange.toString());
     }
-    
+
     return attributes;
   }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
+  @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
 
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-    
+
     if (!isAttributeRead) {
       isAttributeRead = true;
 
       if (attributeName.equals(ReqConstants.changedBy)) {
         setChangedBy(value);
       }
-      else if (attributeName.equals(ReqConstants.viableWithoutChange)) 
+      else if (attributeName.equals(ReqConstants.viableWithoutChange))
       {
         setViableWithoutChange(Boolean.valueOf(value));
       }
-      else 
+      else
       {
         isAttributeRead = false;
       }
     }
-
     return isAttributeRead;
   }
+
 }

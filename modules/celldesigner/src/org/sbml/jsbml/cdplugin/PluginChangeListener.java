@@ -918,10 +918,10 @@ public class PluginChangeListener implements TreeNodeChangeListener {
       plugSpec.setStoichiometry((Double) evt.getNewValue());
       plugin.notifySBaseChanged(plugSpec);
     } else if (prop.equals(TreeNodeChangeEvent.style)) {
-      ASTNode n = (ASTNode) evtSrc;
-      org.sbml.libsbml.ASTNode libAST = (org.sbml.libsbml.ASTNode) n.getUserObject(LINK_TO_LIBSBML);
-      libAST.setStyle((String) evt.getNewValue());
-      plugin.notifySBaseChanged((PluginSBase) n.getParentSBMLObject().getUserObject(LINK_TO_CELLDESIGNER));
+      //      ASTNode n = (ASTNode) evtSrc;
+      //      org.sbml.libsbml.ASTNode libAST = (org.sbml.libsbml.ASTNode) n.getUserObject(LINK_TO_LIBSBML);
+      //libAST.setStyle((String) evt.getNewValue());
+      //plugin.notifySBaseChanged((PluginSBase) n.getParentSBMLObject().getUserObject(LINK_TO_CELLDESIGNER));
     } else if (prop.equals(TreeNodeChangeEvent.substanceUnits)) {
       if (evtSrc instanceof KineticLaw) {
         KineticLaw klaw = (KineticLaw) evtSrc;
@@ -967,9 +967,9 @@ public class PluginChangeListener implements TreeNodeChangeListener {
       }
     } else if (prop.equals(TreeNodeChangeEvent.units)) {
       if (evtSrc instanceof ASTNode) {
-        ASTNode n = (ASTNode) evtSrc;
-        ((org.sbml.libsbml.ASTNode) n.getUserObject(LINK_TO_LIBSBML)).setUnits((String) evt.getNewValue());
-        plugin.notifySBaseChanged((PluginSBase) n.getParentSBMLObject().getUserObject(LINK_TO_CELLDESIGNER));
+        //ASTNode n = (ASTNode) evtSrc;
+        //((org.sbml.libsbml.ASTNode) n.getUserObject(LINK_TO_LIBSBML)).setUnits((String) evt.getNewValue());
+        //plugin.notifySBaseChanged((PluginSBase) n.getParentSBMLObject().getUserObject(LINK_TO_CELLDESIGNER));
       } else if (evtSrc instanceof ExplicitRule) {
         logger.log(Level.DEBUG, MessageFormat.format(
           bundle.getString("CANNOT_CHANGE_ELEMENT"), evtSrc));

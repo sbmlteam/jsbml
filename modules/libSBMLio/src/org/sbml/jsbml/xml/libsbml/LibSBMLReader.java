@@ -1281,7 +1281,6 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
       trig.setMath(LibSBMLUtils.convert(trigger.getMath(), trig));
     }
     return trig;
-
   }
 
   /**

@@ -365,7 +365,7 @@ public class MathMLCompiler implements ASTNodeCompiler {
    */
   private ASTNodeValue createApplyNode(String tagName, ASTNode... childNodes)
       throws DOMException, SBMLException {
-    ArrayList<ASTNode> l = new ArrayList<ASTNode>();
+    List<ASTNode> l = new ArrayList<ASTNode>();
     for (ASTNode ast : childNodes) {
       l.add(ast);
     }
