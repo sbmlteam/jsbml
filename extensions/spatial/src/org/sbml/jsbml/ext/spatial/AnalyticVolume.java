@@ -28,10 +28,9 @@ import java.util.regex.Pattern;
 import org.sbml.jsbml.AbstractMathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
-
-import de.zbit.util.ResourceManager;
 
 /**
  * @author Alex Thomas

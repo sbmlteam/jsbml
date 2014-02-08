@@ -33,9 +33,8 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Species;
+import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
-
-import de.zbit.util.ResourceManager;
 
 /**
  * @author Alex Thomas

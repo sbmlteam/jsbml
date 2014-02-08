@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import de.zbit.util.ResourceManager;
+import org.sbml.jsbml.util.ResourceManager;
 
 /**
  * Contains some constants related to the spatial package.

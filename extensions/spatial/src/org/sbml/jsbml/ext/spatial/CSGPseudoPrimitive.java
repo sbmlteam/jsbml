@@ -25,8 +25,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.sbml.jsbml.PropertyUndefinedError;
-
-import de.zbit.util.ResourceManager;
+import org.sbml.jsbml.util.ResourceManager;
 
 
 

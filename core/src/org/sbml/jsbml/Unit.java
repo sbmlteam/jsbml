@@ -28,11 +28,10 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.Maths;
+import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
-
-import de.zbit.util.ResourceManager;
 
 /**
  * Represents the unit XML element of a SBML file.
