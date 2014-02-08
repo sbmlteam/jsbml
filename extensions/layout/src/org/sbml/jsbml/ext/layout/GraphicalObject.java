@@ -28,8 +28,7 @@ import javax.swing.tree.TreeNode;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.UniqueNamedSBase;
-
-import de.zbit.util.ResourceManager;
+import org.sbml.jsbml.util.ResourceManager;
 
 /**
  * 

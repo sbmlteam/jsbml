@@ -32,9 +32,8 @@ import org.sbml.jsbml.SBaseWithUnit;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
-
-import de.zbit.util.ResourceManager;
 
 /**
  * @author Alex Thomas

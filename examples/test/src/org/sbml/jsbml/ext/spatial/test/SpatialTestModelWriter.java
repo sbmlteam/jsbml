@@ -20,6 +20,8 @@
  */
 package org.sbml.jsbml.ext.spatial.test;
 
+import java.util.ResourceBundle;
+
 import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.Compartment;
@@ -29,6 +31,9 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.Species;
+import org.sbml.jsbml.ext.spatial.SpatialConstants;
+import org.sbml.jsbml.ext.spatial.SpatialModelPlugin;
+import org.sbml.jsbml.util.ResourceManager;
 
 
 /**
@@ -45,17 +50,25 @@ public class SpatialTestModelWriter {
    * @throws SBMLException
    */
   public static void main(String[] args) throws SBMLException, XMLStreamException {
-    SBMLDocument doc = new SBMLDocument(2, 4);
+
+    ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.resources.cfg.Messages");
+
+    SBMLDocument doc = new SBMLDocument(3, 1);
     Model model = doc.createModel("m1");
     Compartment comp = model.createCompartment("default");
-    //    Species s1 = model.createSpecies("s1", comp);
-    //    Species s2 = model.createSpecies("s2", comp);
-    //    Species p1 = model.createSpecies("p1", comp);
-    //    Reaction r1 = model.createReaction("r1");
-    //    r1.setCompartment(comp);
-    //    r1.createReactant(s1);
-    //    r1.createReactant(s2);
-    //    r1.createProduct(p1);
+    Species s1 = model.createSpecies("s1", comp);
+    Species s2 = model.createSpecies("s2", comp);
+    Species p1 = model.createSpecies("p1", comp);
+    Reaction r1 = model.createReaction("r1");
+    r1.setCompartment(comp);
+    r1.createReactant(s1);
+    r1.createReactant(s2);
+    r1.createProduct(p1);
+
+
+    SpatialModelPlugin plugin = new SpatialModelPlugin(model);
+    model.addExtension(SpatialConstants.namespaceURI, plugin);
+    plugin.createGeometry();
 
 
     SBMLWriter.write(doc, System.out, ' ', (short) 2);

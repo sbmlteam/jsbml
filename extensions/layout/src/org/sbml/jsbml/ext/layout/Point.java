@@ -27,9 +27,8 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.UniqueNamedSBase;
+import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
-
-import de.zbit.util.ResourceManager;
 
 /**
  * @author Nicolas Rodriguez
