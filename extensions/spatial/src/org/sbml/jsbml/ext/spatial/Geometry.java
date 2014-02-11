@@ -235,8 +235,7 @@ public class Geometry extends AbstractSBase {
    */
   public ListOf<GeometryDefinition> getListOfGeometryDefinitions() {
     if (!isSetListOfGeometryDefinitions()) {
-      listOfGeometryDefinitions = new ListOf<GeometryDefinition>(getLevel(),
-          getVersion());
+      listOfGeometryDefinitions = new ListOf<GeometryDefinition>();
       listOfGeometryDefinitions.setNamespace(SpatialConstants.namespaceURI);
       listOfGeometryDefinitions.setSBaseListType(ListOf.Type.other);
       registerChild(listOfGeometryDefinitions);
@@ -405,8 +404,7 @@ public class Geometry extends AbstractSBase {
    */
   public ListOf<AdjacentDomains> getListOfAdjacentDomains() {
     if (!isSetListOfAdjacentDomains()) {
-      listOfAdjacentDomains = new ListOf<AdjacentDomains>(getLevel(),
-          getVersion());
+      listOfAdjacentDomains = new ListOf<AdjacentDomains>();
       listOfAdjacentDomains.setNamespace(SpatialConstants.namespaceURI);
       listOfAdjacentDomains.setSBaseListType(ListOf.Type.other);
       registerChild(listOfAdjacentDomains);
@@ -545,8 +543,7 @@ public class Geometry extends AbstractSBase {
    */
   public ListOf<DomainType> getListOfDomainTypes() {
     if (!isSetListOfDomainTypes()) {
-      listOfDomainTypes = new ListOf<DomainType>(getLevel(),
-          getVersion());
+      listOfDomainTypes = new ListOf<DomainType>();
       listOfDomainTypes.setNamespace(SpatialConstants.namespaceURI);
       listOfDomainTypes.setSBaseListType(ListOf.Type.other);
       registerChild(listOfDomainTypes);
@@ -686,8 +683,7 @@ public class Geometry extends AbstractSBase {
    */
   public ListOf<Domain> getListOfDomains() {
     if (!isSetListOfDomains()) {
-      listOfDomains = new ListOf<Domain>(getLevel(),
-          getVersion());
+      listOfDomains = new ListOf<Domain>();
       listOfDomains.setNamespace(SpatialConstants.namespaceURI);
       listOfDomains.setSBaseListType(ListOf.Type.other);
       registerChild(listOfDomains);
@@ -828,8 +824,7 @@ public class Geometry extends AbstractSBase {
    */
   public ListOf<CoordinateComponent> getListOfCoordinateComponents() {
     if (!isSetListOfCoordinateComponents()) {
-      listOfCoordinateComponents = new ListOf<CoordinateComponent>(getLevel(),
-          getVersion());
+      listOfCoordinateComponents = new ListOf<CoordinateComponent>();
       listOfCoordinateComponents.setNamespace(SpatialConstants.namespaceURI);
       listOfCoordinateComponents.setSBaseListType(ListOf.Type.other);
       registerChild(listOfCoordinateComponents);

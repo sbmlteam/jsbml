@@ -169,8 +169,7 @@ public class Domain extends AbstractSpatialNamedSBase {
    */
   public ListOf<InteriorPoint> getListOfInteriorPoints() {
     if (!isSetListOfInteriorPoints()) {
-      listOfInteriorPoints = new ListOf<InteriorPoint>(getLevel(),
-          getVersion());
+      listOfInteriorPoints = new ListOf<InteriorPoint>();
       listOfInteriorPoints.setNamespace(SpatialConstants.namespaceURI);
       listOfInteriorPoints.setSBaseListType(ListOf.Type.other);
       registerChild(listOfInteriorPoints);

@@ -183,6 +183,13 @@ public class BoundaryCondition extends ParameterType {
     firePropertyChange(SpatialConstants.type, oldType, this.type);
   }
 
+  public void setType(String type) {
+    if (!Pattern.matches("[a-z]*", type)) {
+      throw new SBMLException("The value is not all lower-case.");
+    }
+    setType(Type.valueOf(type.toUpperCase()));
+  }
+
   /**
    * Unsets the variable type
    *
@@ -332,9 +339,9 @@ public class BoundaryCondition extends ParameterType {
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(SpatialConstants.type)) {
-        if (!Pattern.matches("[a-z]*", value)) {
-          throw new SBMLException("The value is not all lower-case.");
-        }
+        //        if (!Pattern.matches("[a-z]*", value)) {
+        //          throw new SBMLException("The value is not all lower-case.");
+        //        }
         setType(Type.valueOf(value.toUpperCase()));
       }
       else if (attributeName.equals(SpatialConstants.coordinateBoundary)) {

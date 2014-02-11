@@ -60,6 +60,11 @@ public class SpatialConstants {
 
   public static final String compartment = "compartment";
   public static final String unitSize = "unitSize";
+  public static final String spatialSymbolReference = "spatialSymbolReference";
+  public static final String diffusionCoefficient = "diffusionCoefficient";
+  public static final String advectionCoefficient = "advectionCoefficient";
+  public static final String boundaryCondition = "boundaryCondition";
+  public static final String coordinateIndex = "coordinateIndex";
   public static final String domain1 = "domain1";
   public static final String domain2 = "domain2";
   public static final String geometry = "geometry";
@@ -120,7 +125,44 @@ public class SpatialConstants {
   public static final String variable = "variable";
   public static final String coordinateBoundary = "coordinateBoundary";
   public static final String boundaryDomainType = "boundaryDomainType";
+  public static final String listOfCoordinateComponents = "listOfCoordinateComponents";
+  public static final String listOfDomainTypes = "listOfDomainTypes";
+  public static final String listOfDomains = "listOfDomains";
+  public static final String listOfAdjacentDomains = "listOfAdjacentDomains";
+  public static final String listOfGeometryDefinitions = "listOfGeometryDefinitions";
 
+  public static final String coordinateComponent = "coordinateComponent";
+  public static final String adjacentDomains = "adjacentDomains";
+  public static final String geometryDefinition = "geometryDefinition";
+
+  public static final String sampledFieldGeometry = "sampledFieldGeometry";
+  public static final String analyticGeometry = "analyticGeometry";
+  public static final String csGeometry = "csGeometry";
+  public static final String parametricGeometry = "parametricGeometry";
+  public static final String listOfInteriorPoints = "listOfInteriorPoints";
+  public static final String interiorPoint = "interiorPoint";
+
+  public static final String listOfAnalyticVolumes = "listOfAnalyticVolumes";
+  public static final String analyticVolume = "analyticVolume";
+  public static final String listOfSampledVolumes = "listOfSampledVolumes";
+  public static final String sampledVolume = "sampledVolume";
+  public static final String listOfCSGObjects = "listOfCSGObjects";
+
+  public static final String csgTransformation = "csgTransformation";
+  public static final String csgTranslation = "csgTranslation";
+  public static final String csgRotation = "csgRotation";
+  public static final String csgScale = "csgScale";
+  public static final String csgHomogeneousTransformation = "csgHomogeneousTransformation";
+  public static final String transformationComponent = "transformationComponent";
+  public static final String csgPrimitive = "csgPrimitive";
+  public static final String csgPseudoPrimitive = "csgPseudoPrimitive";
+  public static final String csgSetOperator = "csgSetOperator";
+  public static final String listOfCSGNodes = "listOfCSGNodes";
+
+  public static final String listOfSpatialPoints = "listOfSpatialPoints";
+  public static final String listOfParametricObjects = "listOfParametricObjects";
+  public static final String spatialPoint = "spatialPoint";
+  public static final String parametricObject = "parametricObject";
 
   /**
    * @param level
