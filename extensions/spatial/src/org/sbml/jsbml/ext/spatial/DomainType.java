@@ -20,13 +20,10 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
-import java.text.MessageFormat;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
 
 
@@ -48,7 +45,7 @@ public class DomainType extends AbstractSpatialNamedSBase {
    */
   private Integer spatialDimension;
 
-  private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
+  // private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
   /**
    * 
@@ -183,8 +180,7 @@ public class DomainType extends AbstractSpatialNamedSBase {
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetSpatialDimension()) {
-      attributes.remove("spatialDimension");
-      attributes.put(SpatialConstants.shortLabel + ":spatialDimension", String.valueOf(getSpatialDimension()));
+      attributes.put(SpatialConstants.shortLabel + ":" + SpatialConstants.spatialDimension, String.valueOf(getSpatialDimension()));
     }
     return attributes;
   }
@@ -195,16 +191,17 @@ public class DomainType extends AbstractSpatialNamedSBase {
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
-        && (SpatialConstants.shortLabel == prefix);
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(SpatialConstants.spatialDimension)) {
         try {
           setSpatialDimension(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.spatialDimension);
+//          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
+//            SpatialConstants.spatialDimension);
+          isAttributeRead = false;
         }
       }
       else {

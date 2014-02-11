@@ -69,6 +69,10 @@ SBaseWithUnit {
    */
   private Boundary minimum;
 
+  // TODO - add the boundaryFixed child, add componentType and coodinateType, two new Enum
+  // TODO - rename the methods to be closer to the attribute name in the specifications ??
+  // TODO - add create methods for boundaryMin, boundaryMax and boundaryFixed 
+  
   /**
    * 
    */
@@ -570,7 +574,7 @@ SBaseWithUnit {
    */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
-    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value) && (SpatialConstants.shortLabel == prefix);
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
     if (!isAttributeRead) {
       isAttributeRead = true;
 

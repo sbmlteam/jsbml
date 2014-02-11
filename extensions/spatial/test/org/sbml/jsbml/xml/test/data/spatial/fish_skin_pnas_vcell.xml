@@ -745,11 +745,11 @@
         </spatial:coordinateComponent>
       </spatial:listOfCoordinateComponents>
       <spatial:listOfDomainTypes>
-        <spatial:domainType spatial:spatialId="fish_eye" spatial:spatialDimensions="3"/>
-        <spatial:domainType spatial:spatialId="fish_body" spatial:spatialDimensions="3"/>
-        <spatial:domainType spatial:spatialId="outside" spatial:spatialDimensions="3"/>
-        <spatial:domainType spatial:spatialId="fish_body_outside_membrane" spatial:spatialDimensions="2"/>
-        <spatial:domainType spatial:spatialId="fish_body_fish_eye_membrane" spatial:spatialDimensions="2"/>
+        <spatial:domainType spatial:spatialId="fish_eye" spatial:spatialDimension="3"/>
+        <spatial:domainType spatial:spatialId="fish_body" spatial:spatialDimension="3"/>
+        <spatial:domainType spatial:spatialId="outside" spatial:spatialDimension="3"/>
+        <spatial:domainType spatial:spatialId="fish_body_outside_membrane" spatial:spatialDimension="2"/>
+        <spatial:domainType spatial:spatialId="fish_body_fish_eye_membrane" spatial:spatialDimension="2"/>
       </spatial:listOfDomainTypes>
       <spatial:listOfDomains>
         <spatial:domain spatial:spatialId="outside0" spatial:domainType="outside" spatial:implicit="false">
