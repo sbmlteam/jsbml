@@ -20,6 +20,9 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
+import java.text.MessageFormat;
+import java.util.Map;
+
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractSBase;
@@ -217,6 +220,65 @@ public class ParameterType extends AbstractSBase {
     return builder.toString();
   }
 
+
+  @Override
+  public int hashCode() {
+    final int prime = 983;//Change this prime number
+    int hashCode = super.hashCode();
+    if (isSetSpId()) {
+      hashCode += prime * getSpId().hashCode();
+    }
+    if (isSetSpeciesReference()) {
+      hashCode += prime * getSpeciesReference().hashCode();
+    }
+    return hashCode;
+  }
+
+
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetSpId()) {
+      attributes.remove("spatialId");
+      attributes.put(SpatialConstants.shortLabel + ":spatialId", getSpId());
+    }
+    if (isSetSpeciesReference()) {
+      attributes.remove("variable");
+      attributes.put(SpatialConstants.shortLabel + ":variable",
+        String.valueOf(getSpeciesReference()));
+    }
+    return attributes;
+  }
+
+
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
+        && (SpatialConstants.shortLabel == prefix);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(SpatialConstants.spatialId)) {
+        try {
+          setSpId(value);
+        } catch (Exception e) {
+          MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
+            SpatialConstants.spatialId);
+        }
+      }
+      else if (attributeName.equals(SpatialConstants.variable)) {
+        try {
+          setSpeciesReference(value);
+        } catch (Exception e) {
+          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.variable);
+        }
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
+  }
 
 
 

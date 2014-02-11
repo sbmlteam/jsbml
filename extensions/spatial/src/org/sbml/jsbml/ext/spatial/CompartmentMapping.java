@@ -259,7 +259,7 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
    * Sets the value of unitSize
    */
   public void setUnitSize(double unitSize) {
-    double oldUnitSize = this.unitSize;
+    Double oldUnitSize = this.unitSize;
     this.unitSize = unitSize;
     firePropertyChange(SpatialConstants.unitSize, oldUnitSize, this.unitSize);
   }

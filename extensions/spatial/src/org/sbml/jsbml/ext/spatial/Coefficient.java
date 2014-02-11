@@ -20,6 +20,11 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
+import java.text.MessageFormat;
+import java.util.Map;
+
+import org.sbml.jsbml.util.StringTools;
+
 
 
 
@@ -101,6 +106,52 @@ public abstract class Coefficient extends ParameterType {
    */
   public void setCoordinateIndex(Integer coordinateIndex) {
     this.coordinateIndex = coordinateIndex;
+  }
+
+
+  @Override
+  public int hashCode() {
+    final int prime = 983;//Change this prime number
+    int hashCode = super.hashCode();
+    if (isSetCoordinateIndex()) {
+      hashCode += prime * getCoordinateIndex();
+    }
+    return hashCode;
+  }
+
+
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetCoordinateIndex()) {
+      attributes.remove("coordinateIndex");
+      attributes.put(SpatialConstants.shortLabel + ":coordinateIndex",
+        String.valueOf(getCoordinateIndex()));
+    }
+    return attributes;
+  }
+
+
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
+        && (SpatialConstants.shortLabel == prefix);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(SpatialConstants.coordinateIndex)) {
+        try {
+          setCoordinateIndex(StringTools.parseSBMLInt(value));
+        } catch (Exception e) {
+          MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
+            SpatialConstants.coordinateIndex);
+        }
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
   }
 
 

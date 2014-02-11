@@ -168,7 +168,7 @@ public class SpatialSpeciesPlugin extends AbstractSpatialSBasePlugin {
     Compartment compartment = species.getCompartmentInstance();
 
     if (compartment != null) {
-      SpatialCompartmentPlugin spatialCompartment = (SpatialCompartmentPlugin) compartment.getExtension(SpatialConstants.packageName);
+      SpatialCompartmentPlugin spatialCompartment = (SpatialCompartmentPlugin) compartment.getExtension(SpatialConstants.namespaceURI);
 
       boolean cmSet = spatialCompartment.isSetCompartmentMapping();
 
