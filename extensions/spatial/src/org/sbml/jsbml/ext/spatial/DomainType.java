@@ -135,7 +135,7 @@ public class DomainType extends AbstractSpatialNamedSBase {
    * Sets the value of spatialDimension
    */
   public void setSpatialDimension(int spatialDimension) {
-    int oldSpatialDimension = this.spatialDimension;
+    Integer oldSpatialDimension = this.spatialDimension;
     if (!((spatialDimension >= 0) && (spatialDimension <= 3))) {
       throw new SBMLException("Not a valid spatial dimension. Must be 0, 1, 2, or 3.");
     }

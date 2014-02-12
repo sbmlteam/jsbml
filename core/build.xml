@@ -249,10 +249,28 @@
             includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo **/*.properties **/*.java" >
 			</fileset>
 		</copy>
+		
 		<jar jarfile="${build.dir}/${name}-${version}-with-dependencies.jar"
-         basedir="${build.dest}"  manifest="${build.dest}/META-INF/MANIFEST.MF">
-			<zipgroupfileset dir="${jars.dir}" includes="*.jar" />
-
+         basedir="${build.dest}"  manifest="${build.dest}/META-INF/MANIFEST.MF"
+				 filesetmanifest="mergewithoutmain"
+			   duplicate="preserve"
+			>
+			<zipgroupfileset dir="${jars.dir}" includes="*.jar"/>
+	    <service type="org.sbml.jsbml.xml.parsers.ReadingParser">
+	    	<!-- This list need to be updated as soon as there is a new parser -->
+	    	<provider classname="org.sbml.jsbml.xml.parsers.SBMLCoreParser"/>		
+	    	<provider classname="org.sbml.jsbml.xml.parsers.XMLNodeReader"/>
+	    	<provider classname="org.sbml.jsbml.xml.parsers.MathMLStaxParser"/>
+	    	<provider classname="org.sbml.jsbml.xml.parsers.FBCParser"/>
+		  	<provider classname="org.sbml.jsbml.xml.parsers.GroupsParser"/>
+				<provider classname="org.sbml.jsbml.xml.parsers.L3LayoutParser"/>
+				<provider classname="org.sbml.jsbml.xml.parsers.LayoutParser"/>
+				<provider classname="org.sbml.jsbml.xml.parsers.MultiParser"/>
+				<provider classname="org.sbml.jsbml.xml.parsers.QualParser"/>
+				<provider classname="org.sbml.jsbml.xml.parsers.RenderParser"/>
+				<provider classname="org.sbml.jsbml.xml.parsers.SpatialParser"/>
+				<provider classname="org.sbml.jsbml.xml.parsers.CompParser"/>
+	  	</service>
 		</jar>
 	</target>
 

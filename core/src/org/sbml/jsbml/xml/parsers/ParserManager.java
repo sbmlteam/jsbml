@@ -25,6 +25,8 @@ import java.util.Iterator;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
 
+import org.apache.log4j.Logger;
+
 
 /**
  * 
@@ -45,6 +47,8 @@ public class ParserManager {
    */
   private HashMap<String, String> namespaceToNameMap = new HashMap<String, String>();
 
+  private Logger logger = Logger.getLogger(ParserManager.class);
+  
   /**
    * Private constructor to make sure that we have only one {@link ParserManager} per JVM.
    */
@@ -99,7 +103,7 @@ public class ParserManager {
         }
       }
       catch (ServiceConfigurationError e){
-
+        logger.info(e.getMessage());
       }
     }
 
@@ -219,7 +223,7 @@ public class ParserManager {
         }
       }
       catch (ServiceConfigurationError e){
-        e.printStackTrace();
+        // No need to print the message again, it is printed once in the init() method
       }
     }
 
@@ -249,7 +253,7 @@ public class ParserManager {
         }
       }
       catch (ServiceConfigurationError e){
-        e.printStackTrace();
+        // No need to print the message again, it is printed once in the init() method
       }
     }
     
