@@ -735,11 +735,11 @@
     </listOfReactions>
     <spatial:geometry spatial:coordinateSystem="Cartesian">
       <spatial:listOfCoordinateComponents>
-        <spatial:coordinateComponent spatial:spatialId="x" spatial:componentType="cartesianX" spatial:sbmlUnit="um" spatial:index="0">
+        <spatial:coordinateComponent spatial:spatialId="x" spatial:componentType="cartesianX" spatial:unit="um" spatial:index="0">
           <spatial:boundaryMin spatial:spatialId="Xmin" spatial:value="0"/>
           <spatial:boundaryMax spatial:spatialId="Xmax" spatial:value="100"/>
         </spatial:coordinateComponent>
-        <spatial:coordinateComponent spatial:spatialId="y" spatial:componentType="cartesianY" spatial:sbmlUnit="um" spatial:index="1">
+        <spatial:coordinateComponent spatial:spatialId="y" spatial:componentType="cartesianY" spatial:unit="um" spatial:index="1">
           <spatial:boundaryMin spatial:spatialId="Ymin" spatial:value="0"/>
           <spatial:boundaryMax spatial:spatialId="Ymax" spatial:value="100"/>
         </spatial:coordinateComponent>

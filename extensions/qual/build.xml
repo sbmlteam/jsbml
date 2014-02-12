@@ -178,8 +178,8 @@
            debug="${debug}"
            optimize="${optimize}"
            verbose="${verbose}"
-           source="1.5"
-           target="1.5"
+           source="1.6"
+           target="1.6"
            classpathref="classpath">
 		</javac>
 		<manifest file="${build.dest}/META-INF/MANIFEST.MF">
