@@ -21,7 +21,6 @@
 package org.sbml.jsbml;
 
 import org.sbml.jsbml.util.Detail;
-import org.sbml.jsbml.util.Location;
 import org.sbml.jsbml.util.Message;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.XMLException;
@@ -81,10 +80,14 @@ public class SBMLError extends XMLException {
    * 
    */
   private String excerpt;
+
   /**
    * 
    */
-  private Location location;
+  private int column;
+  
+  private int line;
+
   /**
    * 
    */
@@ -103,6 +106,11 @@ public class SBMLError extends XMLException {
    * 
    */
   private String severity;
+  
+  /**
+   * 
+   */
+  private String packageName;
 
 
   /**
@@ -147,7 +155,7 @@ public class SBMLError extends XMLException {
    * @return the column where this {@link SBMLError} happened.
    */
   public int getColumn() {
-    return location.getColumn();
+    return column;
   }
 
   /**
@@ -165,17 +173,9 @@ public class SBMLError extends XMLException {
    * @return the line where this {@link SBMLError} happened.
    */
   public int getLine() {
-    return location.getLine();
+    return line;
   }
 
-  /**
-   * Returns the location where this {@link SBMLError} happened.
-   * 
-   * @return the location where this {@link SBMLError} happened.
-   */
-  public Location getLocation() {
-    return location;
-  }
 
   /**
    * 
@@ -297,14 +297,6 @@ public class SBMLError extends XMLException {
     this.excerpt = excerpt;
   }
 
-  /**
-   * Sets the location of this {@link SBMLError}.
-   * 
-   * @param location
-   */
-  public void setLocation(Location location) {
-    this.location = location;
-  }
 
   /**
    * Sets the message of this {@link SBMLError}.
@@ -345,8 +337,27 @@ public class SBMLError extends XMLException {
    */
   @Override
   public String toString() {
-    return StringTools.concat("SBMLError ", code, " [", severity, "] [", category, "] ","\n  excerpt = ", excerpt, "\n  ", location,
-      "\n  message = ", message.getMessage() ,"\n").toString();
+    return StringTools.concat("SBMLError ", code, " [", severity, "] [", category, "] ","\n  excerpt = ", excerpt, 
+        "\n  Line = ", line, ",  Column = ", column,
+        "\n  package = ", packageName,
+        "\n  short message = ", shortmessage.getMessage(), " (lang='" , shortmessage.getLang(), "')",
+        "\n  message = ", message.getMessage() , "\n").toString();
+  }
+
+  public void setColumn(int column) {
+    this.column = column;
+  }
+
+  public void setLine(int line) {
+    this.line = line;
+  }
+
+  public void setPackage(String packageName) {
+    this.packageName = packageName;    
+  }
+  
+  public String getPackage() {
+    return packageName;
   }
 
 }
