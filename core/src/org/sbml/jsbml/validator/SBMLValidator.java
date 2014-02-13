@@ -26,9 +26,7 @@ package org.sbml.jsbml.validator;
  * \author  Ben Bornstein <sbml-team@caltech.edu>
  * \author  Akiya Jouraku <sbml-team@caltech.edu>
  * 
- * This file is adapted from libSBML by rodrigue
- * @since 0.8
- * @version $Rev$
+ * 
  */
 import java.io.File;
 import java.io.FileInputStream;
@@ -54,21 +52,26 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLErrorLog;
 import org.sbml.jsbml.util.Detail;
-import org.sbml.jsbml.util.Location;
-import org.sbml.jsbml.util.Message;
 import org.sbml.jsbml.util.Option;
-import org.sbml.jsbml.xml.xstream.converter.MessageConverter;
+import org.sbml.jsbml.xml.xstream.converter.SBMLErrorConverter;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.XStreamException;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 /**
- * Validator is simply a container for the static method validateSBML(filename,
- * parameters).
+ * Validates an SBML document using the <a href="http://sbml.org/Facilities/Validator">SBML.org Online Validator</a>.
  * 
+ * <p>This file is adapted from libSBML by Nicolas Rodriguez
+ * 
+ * @author Ben Bornstein <sbml-team@caltech.edu>
+ * @author Akiya Jouraku <sbml-team@caltech.edu>
+ * @author Nicolas Rodriguez
+ * @since 0.8
+ * @version $Rev$
  */
 class Validator {
+  
   public static String validatorURL = "http://sbml.org/validator/";
   // public static String validatorURL = "http://sbml-validator.caltech.edu:8888/validator_servlet/ValidatorServlet";
 
@@ -449,16 +452,10 @@ public class SBMLValidator {
 
     xstream.alias("validation-results", SBMLErrorLog.class);
     xstream.alias("option", Option.class);
-    xstream.alias("problem", SBMLError.class);
-    xstream.alias("location", Location.class);
     xstream.alias("detail", Detail.class);
-    // xstream.registerConverter(new MessageConverter(), XStream.PRIORITY_VERY_HIGH);
-    xstream.registerLocalConverter(SBMLError.class, "message", new MessageConverter("message"));
-    xstream.registerLocalConverter(SBMLError.class, "shortmessage", new MessageConverter("shortmessage"));
-
-    xstream.alias("message", Message.class);
-    xstream.alias("shortmessage", Message.class);
-
+    // xstream.registerLocalConverter(SBMLError.class, "message", new MessageConverter("message"));
+    xstream.registerConverter(new SBMLErrorConverter()); // deal with the XML problem element and all it's content
+    
     xstream.addImplicitCollection(SBMLErrorLog.class, "options",
       "option", Option.class);
     xstream.addImplicitCollection(SBMLErrorLog.class,
@@ -477,13 +474,6 @@ public class SBMLValidator {
     xstream.useAttributeFor(Option.class, "name");
     xstream.useAttributeFor(Option.class, "status");
 
-    xstream.useAttributeFor(SBMLError.class, "category");
-    xstream.useAttributeFor(SBMLError.class, "code");
-    xstream.useAttributeFor(SBMLError.class, "severity");
-
-    xstream.useAttributeFor(Location.class, "line");
-    xstream.useAttributeFor(Location.class, "column");
-
     xstream.useAttributeFor(Detail.class, "category");
     xstream.useAttributeFor(Detail.class, "severity");
 
@@ -500,7 +490,11 @@ public class SBMLValidator {
       logger.debug("Nb Problems = "	+ sbmlErrorLog.getValidationErrors().size());
 
       if (sbmlErrorLog.getValidationErrors().size() > 0) {
+        try {
         logger.debug("ValidationError(0) = "	+ sbmlErrorLog.getValidationErrors().get(0));
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
       }
 
       return sbmlErrorLog;
@@ -510,7 +504,7 @@ public class SBMLValidator {
       if (logger.isDebugEnabled()) {
         e.printStackTrace();
       }
-    }
+    } 
 
     return new SBMLErrorLog();
   }
