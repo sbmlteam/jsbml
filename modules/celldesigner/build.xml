@@ -162,8 +162,8 @@
            debug="${debug}"
            optimize="${optimize}"
            verbose="${verbose}"
-           source="1.5"
-           target="1.5"
+           source="1.6"
+           target="1.6"
            classpathref="classpath">
     </javac>      
   </target>
@@ -279,7 +279,7 @@
              doctitle="${Name} ${version} API"
     	     breakiterator="yes"
     >
-		<link href="http://java.sun.com/j2se/1.5.0/docs/api"/>
+		<link href="http://docs.oracle.com/javase/6/docs/api/"/>
 		<link href="http://sbml.org/Special/Software/JSBML/build/apidocs/index.html"/>
    </javadoc> 	
   </target>
@@ -303,6 +303,7 @@
   	<delete dir="${dist.root}" includeEmptyDirs="true" quiet="yes">
   	    </delete>
   </target>
+
 </project>
 
 <!-- End of file -->

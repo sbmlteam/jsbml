@@ -4,8 +4,8 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- *
- * Copyright (C) 2009-2014 jointly by the following organizations:
+ * 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
@@ -18,17 +18,41 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
+package org.sbml.jsbml.xml.libsbml;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SBMLOutputConverter;
+import org.sbml.libsbml.Model;
+
 
 /**
- * This package provides a bridge between the plug-in API of the graphical
- * pathway editor CellDesigner and JSBML. In particular, this package provides
- * a reader and a writer that interconverts all data structures of both concepts.
- * In this way, providing a plug-in for CellDesigner for an application that has
- * originally been developed based on JSBML becomes very easy.
- * 
  * @author Andreas Dr&auml;ger
- * @author Alexander Peltzer
  * @version $Rev$
- * @since 0.8
+ * @since 1.0
+ * @date 03.02.2014
  */
-package org.sbml.jsbml.cdplugin;
+public class LibSBMLWriter implements SBMLOutputConverter<org.sbml.libsbml.Model> {
+
+  @Override
+  public List<SBMLException> getWriteWarnings(Model model) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public boolean writeSBML(Model model, String filename) throws SBMLException,
+  IOException {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
+  public boolean writeSBML(Model model, String filename, String programName,
+    String versionNumber) throws SBMLException, IOException {
+    // TODO Auto-generated method stub
+    return false;
+  }
+}

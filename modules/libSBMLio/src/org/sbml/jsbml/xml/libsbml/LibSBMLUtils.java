@@ -352,8 +352,10 @@ public class LibSBMLUtils {
     if (astnode.isSetId()) {
       libAstNode.setId(astnode.getId());
     }
-    if (astnode.isSetName() && !astnode.isOperator()) {
-      libAstNode.setName(astnode.getName());
+    if (astnode.isSetName()) {
+      if (!astnode.isOperator() && !astnode.isNumber()) {
+        libAstNode.setName(astnode.getName());
+      }
     }
     if (astnode.isSetStyle()) {
       libAstNode.setStyle(astnode.getStyle());

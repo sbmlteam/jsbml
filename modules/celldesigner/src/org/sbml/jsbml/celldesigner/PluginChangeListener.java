@@ -18,9 +18,9 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.cdplugin;
+package org.sbml.jsbml.celldesigner;
 
-import static org.sbml.jsbml.cdplugin.CellDesignerConstants.LINK_TO_CELLDESIGNER;
+import static org.sbml.jsbml.celldesigner.CellDesignerConstants.LINK_TO_CELLDESIGNER;
 import static org.sbml.jsbml.xml.libsbml.LibSBMLConstants.LINK_TO_LIBSBML;
 
 import java.beans.PropertyChangeEvent;
@@ -100,6 +100,7 @@ import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.SBMLtools;
 import org.sbml.jsbml.util.TreeNodeAdapter;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
@@ -109,8 +110,6 @@ import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.xml.XMLToken;
 import org.sbml.jsbml.xml.libsbml.LibSBMLUtils;
 import org.sbml.libsbml.XMLNode;
-
-import de.zbit.util.ResourceManager;
 
 /**
  * @author Alexander Peltzer

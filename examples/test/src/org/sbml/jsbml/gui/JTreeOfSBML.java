@@ -19,7 +19,7 @@
  * ----------------------------------------------------------------------------
  */
 
-package org.sbml.jsbml.test.gui;
+package org.sbml.jsbml.gui;
 
 import java.awt.Color;
 

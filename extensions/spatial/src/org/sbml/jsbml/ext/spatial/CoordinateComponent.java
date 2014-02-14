@@ -71,8 +71,8 @@ SBaseWithUnit {
 
   // TODO - add the boundaryFixed child, add componentType and coodinateType, two new Enum
   // TODO - rename the methods to be closer to the attribute name in the specifications ??
-  // TODO - add create methods for boundaryMin, boundaryMax and boundaryFixed 
-  
+  // TODO - add create methods for boundaryMin, boundaryMax and boundaryFixed
+
   /**
    * 
    */
@@ -117,6 +117,12 @@ SBaseWithUnit {
     super(level, version);
   }
 
+  /**
+   * 
+   * @param id
+   * @param level
+   * @param version
+   */
   public CoordinateComponent(String id,int level, int version) {
     super(id,level,version);
   }
@@ -128,8 +134,6 @@ SBaseWithUnit {
   public CoordinateComponent clone() {
     return new CoordinateComponent(this);
   }
-
-
 
   /**
    * Returns the value of minimum

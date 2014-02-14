@@ -1,13 +1,14 @@
-package org.sbml.jsbml.cdplugin;
+package org.sbml.jsbml.celldesigner;
 
-import javax.swing.*;
+import javax.swing.UIManager;
 
 import jp.sbi.celldesigner.plugin.*;
 
 import org.sbml.jsbml.*;
-import org.sbml.jsbml.test.gui.JSBMLvisualizer;
+import org.sbml.jsbml.celldesigner.PluginSBMLReader;
+import org.sbml.jsbml.gui.JSBMLvisualizer;
 
-public class SimpleCellDesignerPlugin extends CellDesignerPlugin {
+public class SimpleCellDesignerPlugin extends AbstractCellDesignerPlugin {
 
   public static final String ACTION = "Display full model tree";
   public static final String APPLICATION_NAME = "Simple Plugin";
@@ -30,30 +31,6 @@ public class SimpleCellDesignerPlugin extends CellDesignerPlugin {
 
   @Override
   public void addPluginMenu() {
-  }
-
-  @Override
-  public void modelClosed(PluginSBase psb) {
-  }
-
-  @Override
-  public void modelOpened(PluginSBase psb) {
-  }
-
-  @Override
-  public void modelSelectChanged(PluginSBase psb) {
-  }
-
-  @Override
-  public void SBaseAdded(PluginSBase psb) {
-  }
-
-  @Override
-  public void SBaseChanged(PluginSBase psb) {
-  }
-
-  @Override
-  public void SBaseDeleted(PluginSBase psb) {
   }
 
   public void startPlugin() {
