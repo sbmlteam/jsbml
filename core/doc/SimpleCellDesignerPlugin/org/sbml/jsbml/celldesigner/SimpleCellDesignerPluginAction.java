@@ -1,4 +1,4 @@
-package org.sbml.jsbml.cdplugin;
+package org.sbml.jsbml.celldesigner;
 
 import java.awt.event.ActionEvent;
 import javax.swing.JMenuItem;
@@ -8,6 +8,9 @@ import jp.sbi.celldesigner.plugin.PluginAction;
  *  which invokes the actual plug-in program. */
 public class SimpleCellDesignerPluginAction extends PluginAction {
 
+  /** Generated serial version identifier. */
+  private static final long serialVersionUID = 2214922004018714669L;
+  
   /** Memorizes a pointer to the actual plug-in program. */
   private SimpleCellDesignerPlugin plugin;
 
@@ -29,4 +32,5 @@ public class SimpleCellDesignerPluginAction extends PluginAction {
         .getSource().getClass().getName());
     }
   }
+
 }

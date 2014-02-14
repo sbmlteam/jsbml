@@ -1,6 +1,6 @@
 /*
- * $Id:  SpatialTestModelWriter.java 14:31:11 draeger $
- * $URL: SpatialTestModelWriter.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -20,8 +20,6 @@
  */
 package org.sbml.jsbml.ext.spatial.test;
 
-import java.util.ResourceBundle;
-
 import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.Compartment;
@@ -31,10 +29,10 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.Species;
+import org.sbml.jsbml.ext.spatial.Geometry;
 import org.sbml.jsbml.ext.spatial.SpatialConstants;
 import org.sbml.jsbml.ext.spatial.SpatialModelPlugin;
 import org.sbml.jsbml.util.ResourceManager;
-
 
 /**
  * @author Andreas Dr&auml;ger
@@ -51,7 +49,7 @@ public class SpatialTestModelWriter {
    */
   public static void main(String[] args) throws SBMLException, XMLStreamException {
 
-    ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.resources.cfg.Messages");
+    ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
     SBMLDocument doc = new SBMLDocument(3, 1);
     Model model = doc.createModel("m1");
@@ -68,9 +66,12 @@ public class SpatialTestModelWriter {
 
     SpatialModelPlugin plugin = new SpatialModelPlugin(model);
     model.addExtension(SpatialConstants.namespaceURI, plugin);
-    plugin.createGeometry();
+    Geometry geometry = plugin.createGeometry();
+    geometry.createAdjacentDomain();
+    geometry.createCoordinateComponent("test");
 
 
     SBMLWriter.write(doc, System.out, ' ', (short) 2);
   }
+
 }

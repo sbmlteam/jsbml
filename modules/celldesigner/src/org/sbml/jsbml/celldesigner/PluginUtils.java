@@ -18,9 +18,9 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.cdplugin;
+package org.sbml.jsbml.celldesigner;
 
-import static org.sbml.jsbml.cdplugin.CellDesignerConstants.LINK_TO_CELLDESIGNER;
+import static org.sbml.jsbml.celldesigner.CellDesignerConstants.LINK_TO_CELLDESIGNER;
 import static org.sbml.jsbml.xml.libsbml.LibSBMLConstants.LINK_TO_LIBSBML;
 
 import java.text.MessageFormat;
@@ -87,10 +87,9 @@ import org.sbml.jsbml.StoichiometryMath;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.xml.libsbml.LibSBMLUtils;
 import org.sbml.libsbml.XMLNode;
-
-import de.zbit.util.ResourceManager;
 
 /**
  * This class shall be used for methods that are necessary for the CellDesigner
@@ -322,7 +321,9 @@ public class PluginUtils {
       localParameter.putUserObject(LINK_TO_CELLDESIGNER, pp);
     }
     transferNamedSBaseProperties(localParameter, pp);
-    pp.setConstant(localParameter.isExplicitlySetConstant());
+    if (localParameter.isExplicitlySetConstant()) {
+      pp.setConstant(true);
+    }
     if (localParameter.isSetUnits()) {
       pp.setUnits(localParameter.getUnits());
     }
@@ -943,15 +944,17 @@ public class PluginUtils {
     // Memorize the corresponding original element for each SBase:
     sbase.putUserObject(LINK_TO_CELLDESIGNER, pluginSBase);
 
-    if (pluginSBase.getNotesString().length() > 0) {
+    String notes = pluginSBase.getNotesString();
+    if ((notes != null) && (notes.length() > 0)) {
       try {
-        sbase.setNotes(pluginSBase.getNotesString());
+        sbase.setNotes(notes);
       } catch (XMLStreamException exc) {
         logger.warn(exc.getLocalizedMessage() != null ? exc.getLocalizedMessage() : exc.getMessage(), exc);
       }
     }
     for (int i = 0; i < pluginSBase.getNumCVTerms(); i++) {
       sbase.addCVTerm(LibSBMLUtils.convertCVTerm(pluginSBase.getCVTerm(i)));
+      logger.debug("Created CVTerm " + sbase.getCVTerm(i));
     }
 
     if (pluginSBase.getAnnotation() != null) {

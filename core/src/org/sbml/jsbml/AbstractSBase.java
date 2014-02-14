@@ -176,13 +176,13 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * support the package but not the associated namespace.
    */
   protected SortedMap<String, XMLNode> ignoredExtensions;
-  
+
   /**
    * Contains the unknown XML attributes or elements.
    * 
    */
   protected XMLNode ignoredXMLElements;
-  
+
   /**
    * Level and version of the SBML component. Matches the level XML attribute of
    * an SBML node.
@@ -350,8 +350,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public void addExtension(String namespace, SBasePlugin sbase) {
-	  // TODO - check that the package is enabled first
-	  // TODO - use always, either the package name or namespace in the map
+    // TODO - check that the package is enabled first
+    // TODO - use always, either the package name or namespace in the map
     extensions.put(namespace, sbase);
     firePropertyChange(TreeNodeChangeEvent.addExtension, null, sbase);
   }
@@ -1037,7 +1037,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public SBasePlugin getExtension(String namespace) {
-	  // TODO - check in the map with the package name or the namespace or both ??
+    // TODO - check in the map with the package name or the namespace or both ??
     return extensions.get(namespace);
   }
 
@@ -1604,7 +1604,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   public void setNotes(XMLNode notes) {
     XMLNode oldNotes = notesXMLNode;
     notesXMLNode = notes;
-    notesXMLNode.setParent(this);
+    if (notesXMLNode != null) {
+      notesXMLNode.setParent(this);
+    }
     firePropertyChange(TreeNodeChangeEvent.notes, oldNotes, notesXMLNode);
   }
 

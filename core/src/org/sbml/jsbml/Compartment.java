@@ -102,15 +102,13 @@ public class Compartment extends Symbol {
     super(compartment);
 
     if (compartment.isSetCompartmentType()) {
-      compartmentTypeID = new String(compartment
-        .getCompartmentType());
+      compartmentTypeID = new String(compartment.getCompartmentType());
     } else {
       compartmentTypeID = compartment.compartmentTypeID == null ? null : new String(compartment.compartmentTypeID);
     }
 
     if (compartment.isSetSpatialDimensions()) {
-      setSpatialDimensions(Double.valueOf(compartment
-        .getSpatialDimensions()));
+      setSpatialDimensions(Double.valueOf(compartment.getSpatialDimensions()));
     } else {
       spatialDimensions = compartment.spatialDimensions == null ? null : new Double(compartment.spatialDimensions);
     }

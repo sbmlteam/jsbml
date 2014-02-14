@@ -18,7 +18,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.cdplugin;
+package org.sbml.jsbml.celldesigner;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

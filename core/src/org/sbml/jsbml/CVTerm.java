@@ -852,22 +852,16 @@ public class CVTerm extends AnnotationElement {
 
     switch (getQualifierType()) {
     case MODEL_QUALIFIER:
-    {
       buffer.append("the model ");
       buffer.append(getModelQualifierType().getElementNameEquivalent());
       break;
-    }
     case BIOLOGICAL_QUALIFIER:
-    {
       buffer.append("the biological entity ");
       buffer.append(getBiologicalQualifierType().getElementNameEquivalent());
       break;
-    }
     default: // UNKNOWN_QUALIFIER
-    {
       buffer.append("element has something to do with");
       break;
-    }
     }
     int i = 0;
     if (resourceURIs.size() > 0) {
