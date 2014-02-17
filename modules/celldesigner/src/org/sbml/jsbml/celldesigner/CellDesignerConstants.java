@@ -20,7 +20,7 @@
  */
 package org.sbml.jsbml.celldesigner;
 
-import org.sbml.jsbml.xml.libsbml.LibSBMLConstants;
+import org.sbml.jsbml.celldesigner.libsbml.LibSBMLConstants;
 
 /**
  * @author Andreas Dr&auml;ger

@@ -18,9 +18,9 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.xml.libsbml;
+package org.sbml.jsbml.celldesigner.libsbml;
 
-import static org.sbml.jsbml.xml.libsbml.LibSBMLConstants.LINK_TO_LIBSBML;
+import static org.sbml.jsbml.celldesigner.libsbml.LibSBMLConstants.LINK_TO_LIBSBML;
 
 import java.lang.reflect.Method;
 import java.util.Calendar;
@@ -49,6 +49,8 @@ import org.sbml.libsbml.libsbmlConstants;
 
 
 /**
+ * Simplified {@link LibSBMLUtils} for CellDesigner's older version of libSBML.
+ * 
  * @author Andreas Dr&auml;ger
  * @version $Rev$
  * @since 1.0
@@ -57,8 +59,16 @@ import org.sbml.libsbml.libsbmlConstants;
 @SuppressWarnings("deprecation")
 public class LibSBMLUtils {
 
+  /**
+   * A {@link Logger} for this class
+   */
   private static final Logger logger = Logger.getLogger(LibSBMLUtils.class);
 
+  /**
+   * 
+   * @param astnode
+   * @return
+   */
   public static org.sbml.libsbml.ASTNode convertASTNode(ASTNode astnode) {
     org.sbml.libsbml.ASTNode libAstNode = new org.sbml.libsbml.ASTNode();
 
@@ -101,6 +111,12 @@ public class LibSBMLUtils {
     return libAstNode;
   }
 
+  /**
+   * 
+   * @param mathCont
+   * @param libMathCont
+   * @throws XMLStreamException
+   */
   public static void transferMathContainerProperties(MathContainer mathCont, org.sbml.libsbml.SBase libMathCont) throws XMLStreamException {
     if (mathCont instanceof NamedSBase) {
       transferNamedSBaseProperties((NamedSBase) mathCont, libMathCont);
@@ -110,6 +126,11 @@ public class LibSBMLUtils {
     transferMath(mathCont, libMathCont);
   }
 
+  /**
+   * 
+   * @param mathContainer
+   * @param libSBase
+   */
   public static void transferMath(MathContainer mathContainer,
     org.sbml.libsbml.SBase libSBase) {
     if (mathContainer.isSetMath()) {
@@ -126,6 +147,12 @@ public class LibSBMLUtils {
     }
   }
 
+  /**
+   * 
+   * @param sbase
+   * @param libSBase
+   * @throws XMLStreamException
+   */
   public static void transferSBaseProperties(SBase sbase,
     org.sbml.libsbml.SBase libSBase) throws XMLStreamException {
     if (sbase.isSetMetaId() && libSBase.isSetMetaId()
@@ -164,6 +191,11 @@ public class LibSBMLUtils {
     }
   }
 
+  /**
+   * 
+   * @param history
+   * @return
+   */
   public static ModelHistory convertHistory(History history) {
     org.sbml.libsbml.ModelHistory mo = (ModelHistory) history.getUserObject(LINK_TO_LIBSBML);
     if (mo == null) {
@@ -193,6 +225,11 @@ public class LibSBMLUtils {
     return mo;
   }
 
+  /**
+   * 
+   * @param creator
+   * @return
+   */
   public static ModelCreator convertModelCreator(Creator creator) {
     org.sbml.libsbml.ModelCreator modelCreator = (ModelCreator) creator.getUserObject(LINK_TO_LIBSBML);
     if (modelCreator == null) {
@@ -214,6 +251,11 @@ public class LibSBMLUtils {
     return modelCreator;
   }
 
+  /**
+   * 
+   * @param createdDate
+   * @return
+   */
   public static org.sbml.libsbml.Date convertDate(Date createdDate) {
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(createdDate);
@@ -226,6 +268,11 @@ public class LibSBMLUtils {
       calendar.getTimeZone().getRawOffset() / 60000);
   }
 
+  /**
+   * 
+   * @param libSBase
+   * @param sbase
+   */
   public static void transferSBaseProperties(org.sbml.libsbml.SBase libSBase, SBase sbase) {
 
     // Memorize the corresponding original element for each SBase:
@@ -280,6 +327,11 @@ public class LibSBMLUtils {
     }
   }
 
+  /**
+   * 
+   * @param libHist
+   * @return
+   */
   public static History convertHistory(org.sbml.libsbml.ModelHistory libHist) {
     int i;
     History history = new History();
@@ -306,6 +358,11 @@ public class LibSBMLUtils {
     return history;
   }
 
+  /**
+   * 
+   * @param date
+   * @return
+   */
   public static Date convertDate(org.sbml.libsbml.Date date) {
     Calendar calendar = Calendar.getInstance();
     calendar.setTimeZone(TimeZone.getTimeZone(TimeZone.getAvailableIDs((int) (date.getSignOffset() * date.getMinutesOffset() * 60000l))[0]));
@@ -313,18 +370,28 @@ public class LibSBMLUtils {
     return calendar.getTime();
   }
 
+  /**
+   * 
+   * @param sbase
+   * @param libSBase
+   * @throws XMLStreamException
+   */
   public static void transferNamedSBaseProperties(NamedSBase sbase, org.sbml.libsbml.SBase libSBase) throws XMLStreamException {
     transferSBaseProperties(sbase, libSBase);
-    if (sbase.isSetId()
-        && (!libSBase.isSetId() || !libSBase.getId().equals(sbase.getId()))) {
+    if (sbase.isSetId()) {
       libSBase.setId(sbase.getId());
     }
-    if (sbase.isSetName()
-        && (!libSBase.isSetName() || !libSBase.getName().equals(sbase.getName()))) {
+    if (sbase.isSetName()) {
       libSBase.setName(sbase.getName());
     }
   }
 
+  /**
+   * 
+   * @param sbase
+   * @return
+   * @throws XMLStreamException
+   */
   public static org.sbml.libsbml.StoichiometryMath convertStoichiometryMath(StoichiometryMath sbase) throws XMLStreamException {
     org.sbml.libsbml.StoichiometryMath libSBase = (org.sbml.libsbml.StoichiometryMath) sbase.getUserObject(LINK_TO_LIBSBML);
     if (libSBase == null) {
@@ -335,6 +402,12 @@ public class LibSBMLUtils {
     return libSBase;
   }
 
+  /**
+   * 
+   * @param trigger
+   * @return
+   * @throws XMLStreamException
+   */
   public static org.sbml.libsbml.Trigger convertTrigger(Trigger trigger) throws XMLStreamException {
     org.sbml.libsbml.Trigger t = (org.sbml.libsbml.Trigger) trigger.getUserObject(LINK_TO_LIBSBML);
     if (t == null) {
@@ -351,6 +424,11 @@ public class LibSBMLUtils {
     return t;
   }
 
+  /**
+   * 
+   * @param term
+   * @return
+   */
   public static org.sbml.libsbml.CVTerm convertCVTerm(CVTerm term) {
     org.sbml.libsbml.CVTerm libCVt = (org.sbml.libsbml.CVTerm) term.getUserObject(LINK_TO_LIBSBML);
     if (libCVt == null) {
@@ -373,6 +451,11 @@ public class LibSBMLUtils {
     return libCVt;
   }
 
+  /**
+   * 
+   * @param qualifier
+   * @return
+   */
   public static int convertCVTermQualifier(CVTerm.Qualifier qualifier) {
     switch (qualifier) {
     case BQM_IS:
@@ -408,6 +491,11 @@ public class LibSBMLUtils {
     }
   }
 
+  /**
+   * 
+   * @param kind
+   * @return
+   */
   public static int convertUnitKind(Unit.Kind kind) {
     switch (kind) {
     case AMPERE:
@@ -489,6 +577,11 @@ public class LibSBMLUtils {
     }
   }
 
+  /**
+   * 
+   * @param math
+   * @param libASTNode
+   */
   public static void link(ASTNode math, org.sbml.libsbml.ASTNode libASTNode) {
     math.putUserObject(LINK_TO_LIBSBML, libASTNode);
     for (int i = 0; i < math.getChildCount(); i++) {
@@ -496,6 +589,11 @@ public class LibSBMLUtils {
     }
   }
 
+  /**
+   * 
+   * @param type
+   * @return
+   */
   public static int convertCVTermQualifierType(CVTerm.Type type) {
     switch (type) {
     case MODEL_QUALIFIER:
@@ -507,6 +605,11 @@ public class LibSBMLUtils {
     }
   }
 
+  /**
+   * 
+   * @param type
+   * @return
+   */
   public static int convertASTNodeType(ASTNode.Type type) {
     switch (type) {
     case REAL:
@@ -640,6 +743,11 @@ public class LibSBMLUtils {
     }
   }
 
+  /**
+   * 
+   * @param libCVt
+   * @return
+   */
   public static CVTerm convertCVTerm(org.sbml.libsbml.CVTerm libCVt) {
     // TODO: Extract switch in separate method
     CVTerm cvTerm = new CVTerm();
@@ -721,6 +829,12 @@ public class LibSBMLUtils {
     return cvTerm;
   }
 
+  /**
+   * 
+   * @param math
+   * @param parent
+   * @return
+   */
   public static ASTNode convert(org.sbml.libsbml.ASTNode math, MathContainer parent) {
     ASTNode ast;
     switch (math.getType()) {
@@ -944,6 +1058,11 @@ public class LibSBMLUtils {
     return ast;
   }
 
+  /**
+   * 
+   * @param kind
+   * @return
+   */
   public static Unit.Kind convertUnitKind(int kind) {
     switch (kind) {
     case libsbmlConstants.UNIT_KIND_AMPERE:

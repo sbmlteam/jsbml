@@ -18,7 +18,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.xml.libsbml;
+package org.sbml.jsbml.celldesigner.libsbml;
 
 import java.io.IOException;
 import java.util.List;

@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.xml.stream.XMLStreamException;
@@ -64,6 +65,8 @@ import org.sbml.jsbml.StoichiometryMath;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.util.ProgressListener;
+import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.SBMLtools;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.libsbml.SBMLError;
@@ -90,6 +93,11 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
    * A {@link Logger} for this class.
    */
   private static final transient Logger logger = Logger.getLogger(LibSBMLReader.class);
+
+  /**
+   * Localization support.
+   */
+  private static final transient ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.xml.libsbml.Messages");
 
   /**
    * Converts a libSBML SBMLError object into a JSBML SBMLException object.
@@ -658,6 +666,56 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
 
   /**
    * 
+   * @param delay
+   * @return
+   */
+  public static Delay readDelay(org.sbml.libsbml.Delay delay) {
+    Delay de = new Delay((int) delay.getLevel(), (int) delay.getVersion());
+    LibSBMLUtils.transferSBaseProperties(delay, de);
+    if (delay.isSetMath()) {
+      de.setMath(LibSBMLUtils.convert(delay.getMath(), de));
+    }
+    return de;
+  }
+
+  /**
+   * 
+   * @param stoichiometryMath
+   * @return
+   * @throws XMLStreamException
+   */
+  public static StoichiometryMath readStoichiometricMath(org.sbml.libsbml.StoichiometryMath stoichiometryMath) throws XMLStreamException {
+    StoichiometryMath sm = new StoichiometryMath((int) stoichiometryMath.getLevel(), (int) stoichiometryMath.getVersion());
+    LibSBMLUtils.transferSBaseProperties(sm, stoichiometryMath);
+    if (stoichiometryMath.isSetMath()) {
+      sm.setMath(LibSBMLUtils.convert(stoichiometryMath.getMath(), sm));
+    }
+    return sm;
+  }
+
+  /**
+   * 
+   * @param trigger
+   * @return
+   * @throws XMLStreamException
+   */
+  public static Trigger readTrigger(org.sbml.libsbml.Trigger trigger) throws XMLStreamException {
+    Trigger trig = new Trigger((int) trigger.getLevel(), (int) trigger.getVersion());
+    LibSBMLUtils.transferSBaseProperties(trig, trigger);
+    if (trigger.isSetInitialValue()) {
+      trig.setInitialValue(trigger.getInitialValue());
+    }
+    if (trigger.isSetPersistent()) {
+      trig.setPersistent(trigger.getPersistent());
+    }
+    if (trigger.isSetMath()) {
+      trig.setMath(LibSBMLUtils.convert(trigger.getMath(), trig));
+    }
+    return trig;
+  }
+
+  /**
+   * 
    */
   protected LinkedList<TreeNodeChangeListener> listOfTreeNodeChangeListeners;
 
@@ -665,6 +723,11 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
    * 
    */
   private Model model;
+
+  /**
+   * 
+   */
+  private ProgressListener listener;
 
   private Set<org.sbml.libsbml.SBMLDocument> setOfDocuments;
 
@@ -702,9 +765,40 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
   @Override
   public Model convertModel(org.sbml.libsbml.Model originalModel) throws XMLStreamException {
 
+    int total = 0, curr = 0;
+
+    total = (int) originalModel.getNumCVTerms();
+    total += originalModel.getNumUnitDefinitions();
+    total += originalModel.getNumFunctionDefinitions();
+    total += originalModel.getNumCompartmentTypes();
+    total += originalModel.getNumSpeciesTypes();
+    total += originalModel.getNumCompartments();
+    total += originalModel.getNumSpecies();
+    total += originalModel.getNumParameters();
+    total += originalModel.getNumInitialAssignments();
+    total += originalModel.getNumRules();
+    total += originalModel.getNumConstraints();
+    total += originalModel.getNumReactions();
+    total += originalModel.getNumEvents();
+
+    if (listener != null) {
+      listener.progressStart(total);
+    }
+
     model = new Model(originalModel.getId(), (int) originalModel.getLevel(), (int) originalModel.getVersion());
     LibSBMLUtils.transferNamedSBaseProperties(originalModel, model);
+    if (listener != null) {
+      curr += originalModel.getNumCVTerms();
+      listener.progressUpdate(curr);
+    }
 
+    int i;
+    for (i = 0; i < originalModel.getNumUnitDefinitions(); i++) {
+      model.addUnitDefinition(readUnitDefinition(originalModel.getUnitDefinition(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
+    }
     if (originalModel.isSetAreaUnits()) {
       model.setAreaUnits(originalModel.getAreaUnits());
     }
@@ -727,55 +821,89 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
       model.setVolumeUnits(originalModel.getVolumeUnits());
     }
 
-    int i;
-    for (i = 0; i < originalModel.getNumUnitDefinitions(); i++) {
-      model.addUnitDefinition(readUnitDefinition(originalModel.getUnitDefinition(i)));
-    }
     // This is something, libSBML wouldn't do...
     SBMLtools.addPredefinedUnitDefinitions(model);
     for (i = 0; i < originalModel.getNumFunctionDefinitions(); i++) {
       model.addFunctionDefinition(readFunctionDefinition(originalModel.getFunctionDefinition(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     for (i = 0; i < originalModel.getNumCompartmentTypes(); i++) {
       model.addCompartmentType(readCompartmentType(originalModel.getCompartmentType(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     for (i = 0; i < originalModel.getNumSpeciesTypes(); i++) {
       model.addSpeciesType(readSpeciesType(originalModel.getSpeciesType(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     for (i = 0; i < originalModel.getNumCompartments(); i++) {
       model.addCompartment(readCompartment(originalModel.getCompartment(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     for (i = 0; i < originalModel.getNumSpecies(); i++) {
       model.addSpecies(readSpecies(originalModel.getSpecies(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     for (i = 0; i < originalModel.getNumParameters(); i++) {
       model.addParameter(readParameter(originalModel.getParameter(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     for (i = 0; i < originalModel.getNumInitialAssignments(); i++) {
       model.addInitialAssignment(readInitialAssignment(originalModel.getInitialAssignment(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     for (i = 0; i < originalModel.getNumRules(); i++) {
       model.addRule(readRule(originalModel.getRule(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     for (i = 0; i < originalModel.getNumConstraints(); i++) {
       model.addConstraint(readConstraint(originalModel.getConstraint(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     for (i = 0; i < originalModel.getNumReactions(); i++) {
       model.addReaction(readReaction(originalModel.getReaction(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     for (i = 0; i < originalModel.getNumEvents(); i++) {
       model.addEvent(readEvent(originalModel.getEvent(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
 
     if (originalModel.getNumPlugins() > 0) {
       // TODO: Implement package support
       org.sbml.libsbml.SBasePlugin plugin = originalModel.getPlugin("layout");
-      if (plugin == null || plugin.getListOfAllElements().getSize() > 0) {
-        logger.warn("The SBML document contains exension packages. These are not supported by the libSBML reader and will therefore be lost after reading.");
+      if ((plugin == null) || (plugin.getListOfAllElements().getSize() > 0)) {
+        logger.warn(bundle.getString("PLUGINS_ARE_IGNORED"));
       }
     }
 
     addAllTreeNodeChangeListenersTo(model);
+
+    if (listener != null) {
+      listener.progressFinish();
+    }
+
     return model;
   }
 
@@ -910,20 +1038,6 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
       }
     }
     return con;
-  }
-
-  /**
-   * 
-   * @param delay
-   * @return
-   */
-  public static Delay readDelay(org.sbml.libsbml.Delay delay) {
-    Delay de = new Delay((int) delay.getLevel(), (int) delay.getVersion());
-    LibSBMLUtils.transferSBaseProperties(delay, de);
-    if (delay.isSetMath()) {
-      de.setMath(LibSBMLUtils.convert(delay.getMath(), de));
-    }
-    return de;
   }
 
   /**
@@ -1249,42 +1363,6 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
 
   /**
    * 
-   * @param stoichiometryMath
-   * @return
-   * @throws XMLStreamException
-   */
-  public static StoichiometryMath readStoichiometricMath(org.sbml.libsbml.StoichiometryMath stoichiometryMath) throws XMLStreamException {
-    StoichiometryMath sm = new StoichiometryMath((int) stoichiometryMath.getLevel(), (int) stoichiometryMath.getVersion());
-    LibSBMLUtils.transferSBaseProperties(sm, stoichiometryMath);
-    if (stoichiometryMath.isSetMath()) {
-      sm.setMath(LibSBMLUtils.convert(stoichiometryMath.getMath(), sm));
-    }
-    return sm;
-  }
-
-  /**
-   * 
-   * @param trigger
-   * @return
-   * @throws XMLStreamException
-   */
-  public static Trigger readTrigger(org.sbml.libsbml.Trigger trigger) throws XMLStreamException {
-    Trigger trig = new Trigger((int) trigger.getLevel(), (int) trigger.getVersion());
-    LibSBMLUtils.transferSBaseProperties(trig, trigger);
-    if (trigger.isSetInitialValue()) {
-      trig.setInitialValue(trigger.getInitialValue());
-    }
-    if (trigger.isSetPersistent()) {
-      trig.setPersistent(trigger.getPersistent());
-    }
-    if (trigger.isSetMath()) {
-      trig.setMath(LibSBMLUtils.convert(trigger.getMath(), trig));
-    }
-    return trig;
-  }
-
-  /**
-   * 
    * @param unit
    * @return
    * @throws XMLStreamException
@@ -1321,6 +1399,14 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
       ud.addUnit(readUnit(unitDefinition.getUnit(i)));
     }
     return ud;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBMLInputConverter#setListener(org.sbml.jsbml.util.ProgressListener)
+   */
+  @Override
+  public void setListener(ProgressListener listener) {
+    this.listener = listener;
   }
 
 }

@@ -20,9 +20,9 @@
  */
 
 /**
- * Simplified for CellDesigner
+ * Simplified for CellDesigner.
  * 
  * @version $Rev$
- * @since 0.8
+ * @since 1.0
  */
-package org.sbml.jsbml.xml.libsbml;
+package org.sbml.jsbml.celldesigner.libsbml;

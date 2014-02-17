@@ -77,16 +77,15 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLInputConverter;
 import org.sbml.jsbml.SBO;
-import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.SpeciesType;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.celldesigner.libsbml.LibSBMLReader;
+import org.sbml.jsbml.celldesigner.libsbml.LibSBMLUtils;
+import org.sbml.jsbml.util.ProgressListener;
 import org.sbml.jsbml.util.SBMLtools;
-import org.sbml.jsbml.util.TreeNodeChangeListener;
-import org.sbml.jsbml.xml.libsbml.LibSBMLReader;
-import org.sbml.jsbml.xml.libsbml.LibSBMLUtils;
 import org.sbml.libsbml.libsbml;
 
 /**
@@ -106,15 +105,24 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    */
   private static final int version = 4;
-  /**
-   * 
-   */
-  protected LinkedList<TreeNodeChangeListener> listOfTreeNodeChangeListeners;
 
   /**
    * A {@link Logger} for this class.
    */
   private static final Logger logger = Logger.getLogger(PluginSBMLReader.class);
+
+  /**
+   * 
+   */
+  private ProgressListener listener;
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBMLInputConverter#setListener(org.sbml.jsbml.util.ProgressListener)
+   */
+  @Override
+  public void setListener(ProgressListener listener) {
+    this.listener = listener;
+  }
 
   /**
    * 
@@ -156,17 +164,6 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   public PluginSBMLReader(Set<Integer> possibleEnzymes) {
     super();
     this.possibleEnzymes = possibleEnzymes;
-    listOfTreeNodeChangeListeners = new LinkedList<TreeNodeChangeListener>();
-  }
-
-  /**
-   * 
-   * @param sb
-   */
-  public void addAllSBaseChangeListenersTo(SBase sb) {
-    for (TreeNodeChangeListener listener : listOfTreeNodeChangeListeners) {
-      sb.addTreeNodeChangeListener(listener);
-    }
   }
 
   /**
@@ -381,12 +378,39 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   @Override
   public Model convertModel(PluginModel originalModel) throws XMLStreamException {
 
+    int total = 0, curr = 0;
+
+    total = originalModel.getNumCVTerms();
+    total += originalModel.getNumUnitDefinitions();
+    total += originalModel.getNumFunctionDefinitions();
+    total += originalModel.getNumCompartmentTypes();
+    total += originalModel.getNumSpeciesTypes();
+    total += originalModel.getNumCompartments();
+    total += originalModel.getNumSpecies();
+    total += originalModel.getNumParameters();
+    total += originalModel.getNumInitialAssignments();
+    total += originalModel.getNumRules();
+    total += originalModel.getNumConstraints();
+    total += originalModel.getNumReactions();
+    total += originalModel.getNumEvents();
+
+    if (listener != null) {
+      listener.progressStart(total);
+    }
+
     model = new Model(originalModel.getId(), level, version);
     PluginUtils.transferNamedSBaseProperties(originalModel, model);
+    if (listener != null) {
+      curr += originalModel.getNumCVTerms();
+      listener.progressUpdate(curr);
+    }
 
     int i;
     for (i = 0; i < originalModel.getNumUnitDefinitions(); i++) {
       model.addUnitDefinition(readUnitDefinition(originalModel.getUnitDefinition(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     if (model.getUnitDefinitionCount() > 0) {
       logger.debug("Unit definitions done");
@@ -396,6 +420,9 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
     SBMLtools.addPredefinedUnitDefinitions(model);
     for (i = 0; i < originalModel.getNumFunctionDefinitions(); i++) {
       model.addFunctionDefinition(readFunctionDefinition(originalModel.getFunctionDefinition(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     if (model.getFunctionDefinitionCount() > 0) {
       logger.debug("Function definitions done");
@@ -403,6 +430,9 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
 
     for (i = 0; i < originalModel.getNumCompartmentTypes(); i++) {
       model.addCompartmentType(readCompartmentType(originalModel.getCompartmentType(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     if (model.getCompartmentTypeCount() > 0) {
       logger.debug("Compartment types done");
@@ -410,6 +440,9 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
 
     for (i = 0; i < originalModel.getNumSpeciesTypes(); i++) {
       model.addSpeciesType(readSpeciesType(originalModel.getSpeciesType(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     if (model.getSpeciesTypeCount() > 0) {
       logger.debug("Species types done");
@@ -417,6 +450,9 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
 
     for (i = 0; i < originalModel.getNumCompartments(); i++) {
       model.addCompartment(readCompartment(originalModel.getCompartment(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     if (model.getCompartmentCount() > 0) {
       logger.debug("Compartments done");
@@ -424,6 +460,9 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
 
     for (i = 0; i < originalModel.getNumSpecies(); i++) {
       model.addSpecies(readSpecies(originalModel.getSpecies(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     if (model.getSpeciesCount() > 0) {
       logger.debug("Species done");
@@ -431,6 +470,9 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
 
     for (i = 0; i < originalModel.getNumParameters(); i++) {
       model.addParameter(readParameter(originalModel.getParameter(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     if (model.getParameterCount() > 0) {
       logger.debug("Parameters done");
@@ -438,6 +480,9 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
 
     for (i = 0; i < originalModel.getNumInitialAssignments(); i++) {
       model.addInitialAssignment(readInitialAssignment(originalModel.getInitialAssignment(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     if (model.getInitialAssignmentCount() > 0) {
       logger.debug("Initial assignments done");
@@ -445,6 +490,9 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
 
     for (i = 0; i < originalModel.getNumRules(); i++) {
       model.addRule(readRule(originalModel.getRule(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     if (model.getRuleCount() > 0) {
       logger.debug("Rules done");
@@ -452,6 +500,9 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
 
     for (i = 0; i < originalModel.getNumConstraints(); i++) {
       model.addConstraint(readConstraint(originalModel.getConstraint(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     if (model.getConstraintCount() > 0) {
       logger.debug("Constraints done");
@@ -459,6 +510,9 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
 
     for (i = 0; i < originalModel.getNumReactions(); i++) {
       model.addReaction(readReaction(originalModel.getReaction(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     if (model.getReactionCount() > 0) {
       logger.debug("Reactions done");
@@ -466,14 +520,19 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
 
     for (i = 0; i < originalModel.getNumEvents(); i++) {
       model.addEvent(readEvent(originalModel.getEvent(i)));
+      if (listener != null) {
+        listener.progressUpdate(++curr);
+      }
     }
     if (model.getEventCount() > 0) {
       logger.debug("Events done");
     }
+    if (listener != null) {
+      listener.progressFinish();
+    }
 
     // There are no SBasePlugins, i.e., no extension packages to be considered.
 
-    addAllSBaseChangeListenersTo(model);
     return model;
   }
 

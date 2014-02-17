@@ -59,6 +59,7 @@ import org.sbml.jsbml.Symbol;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.SBMLtools;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeAdapter;
@@ -71,8 +72,6 @@ import org.sbml.libsbml.ModelCreator;
 import org.sbml.libsbml.ModelHistory;
 import org.sbml.libsbml.XMLNode;
 import org.sbml.libsbml.libsbmlConstants;
-
-import de.zbit.util.ResourceManager;
 
 /**
  * This class listens to the changes in the JSBML document and synchronizes the
@@ -447,10 +446,12 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
     } else if (prop.equals(TreeNodeChangeEvent.isExplicitlySetConstant)) {
       LocalParameter loc = (LocalParameter) evtSrc;
       Object libObj = loc.getUserObject(LINK_TO_LIBSBML);
-      if (libObj instanceof LocalParameter) {
-        ((org.sbml.libsbml.LocalParameter) libObj).setConstant((Boolean) evt.getNewValue());
-      } else {
-        ((org.sbml.libsbml.Parameter) libObj).setConstant((Boolean) evt.getNewValue());
+      if ((Boolean) evt.getNewValue()) {
+        if (libObj instanceof LocalParameter) {
+          ((org.sbml.libsbml.LocalParameter) libObj).setConstant(true);
+        } else {
+          ((org.sbml.libsbml.Parameter) libObj).setConstant(true);
+        }
       }
     } else if (prop.equals(TreeNodeChangeEvent.isSetNumberType)) {
       logger.log(Level.DEBUG, MessageFormat.format(
