@@ -18,7 +18,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.xml.libsbml;
+package org.sbml.jsbml.celldesigner.libsbml;
 
 import java.io.File;
 import java.util.List;
@@ -32,9 +32,15 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLInputConverter;
 import org.sbml.jsbml.StoichiometryMath;
 import org.sbml.jsbml.Trigger;
-
+import org.sbml.jsbml.util.ProgressListener;
 
 /**
+ * This is a helper class for the CellDesigner plugin interface and is designed
+ * to only work in connection with CellDesigner. If you want to really
+ * inter-convert between LibSBML and JSBML data structures, the classes in this
+ * entire package are not suitable. Please have a look into the package
+ * {@link org.sbml.jsbml.xml.libsbml}.
+ * 
  * @author Andreas Dr&auml;ger
  * @version $Rev$
  * @since 1.0
@@ -78,32 +84,31 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
 
   @Override
   public Model convertModel(org.sbml.libsbml.Model model) throws Exception {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public SBMLDocument convertSBMLDocument(File sbmlFile) throws Exception {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public SBMLDocument convertSBMLDocument(String fileName) throws Exception {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public org.sbml.libsbml.Model getOriginalModel() {
-    // TODO Auto-generated method stub
     return null;
   }
 
   @Override
   public List<SBMLException> getWarnings() {
-    // TODO Auto-generated method stub
     return null;
+  }
+
+  @Override
+  public void setListener(ProgressListener listener) {
   }
 
 }

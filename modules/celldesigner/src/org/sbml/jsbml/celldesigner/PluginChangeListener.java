@@ -21,7 +21,7 @@
 package org.sbml.jsbml.celldesigner;
 
 import static org.sbml.jsbml.celldesigner.CellDesignerConstants.LINK_TO_CELLDESIGNER;
-import static org.sbml.jsbml.xml.libsbml.LibSBMLConstants.LINK_TO_LIBSBML;
+import static org.sbml.jsbml.celldesigner.libsbml.LibSBMLConstants.LINK_TO_LIBSBML;
 
 import java.beans.PropertyChangeEvent;
 import java.lang.reflect.Method;
@@ -99,6 +99,7 @@ import org.sbml.jsbml.Symbol;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.celldesigner.libsbml.LibSBMLUtils;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.SBMLtools;
@@ -108,7 +109,6 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.TreeNodeRemovedEvent;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.xml.XMLToken;
-import org.sbml.jsbml.xml.libsbml.LibSBMLUtils;
 import org.sbml.libsbml.XMLNode;
 
 /**
@@ -127,7 +127,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
   /**
    * Localization support.
    */
-  private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.cdplugin.Messages");
+  private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.celldesigner.Messages");
 
   /**
    * A reference to the main CellDesigner plugin.
@@ -739,8 +739,10 @@ public class PluginChangeListener implements TreeNodeChangeListener {
     } else if (prop.equals(TreeNodeChangeEvent.isExplicitlySetConstant)) {
       LocalParameter lpam = (LocalParameter) evtSrc;
       PluginParameter ppam = (PluginParameter) lpam.getUserObject(LINK_TO_CELLDESIGNER);
-      ppam.setConstant((Boolean) evt.getNewValue());
-      plugin.notifySBaseChanged(ppam);
+      if ((Boolean) evt.getNewValue()) {
+        ppam.setConstant(true);
+        plugin.notifySBaseChanged(ppam);
+      }
     } else if (prop.equals(TreeNodeChangeEvent.isSetNumberType)) {
       logger.log(Level.DEBUG, MessageFormat.format(
         bundle.getString("CANNOT_CHANGE_ELEMENT"),

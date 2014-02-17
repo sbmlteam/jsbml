@@ -1,4 +1,4 @@
-package org.sbml.jsbml.cdplugin;
+package org.sbml.jsbml.celldesigner;
 
 import javax.swing.*;
 import jp.sbi.celldesigner.plugin.*;

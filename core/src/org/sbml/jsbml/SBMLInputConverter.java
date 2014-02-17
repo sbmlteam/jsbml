@@ -23,6 +23,8 @@ package org.sbml.jsbml;
 import java.io.File;
 import java.util.List;
 
+import org.sbml.jsbml.util.ProgressListener;
+
 /**
  * This interface allows the implementing class to create a JSBML model based on
  * some other data structure. Possible examples are CellDesigner plug-in data
@@ -78,5 +80,10 @@ public interface SBMLInputConverter<T> {
    * @return Warnings that occur during the conversion of the model.
    */
   public List<SBMLException> getWarnings();
+
+  /**
+   * @param listener the listener to set
+   */
+  public void setListener(ProgressListener listener);
 
 }

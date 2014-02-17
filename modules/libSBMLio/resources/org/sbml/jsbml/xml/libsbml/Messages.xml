@@ -33,6 +33,7 @@
   <entry key="CANNOT_CHANGE_ELEMENT_BECAUSE_OF_MISSING_PARENT">Cannot change the element {0} in the libSBML document, because there was no parent SBML object found.</entry>
   <entry key="CANNOT_FIND_ELEMENT">Cannot find the element {0} in the libSBML document.</entry>
   <entry key="CANNOT_REMOVE_ELEMENT">Cannot remove the element {0} in the libSBML document.</entry>
+  <entry key="PLUGINS_ARE_IGNORED">The SBML document contains extension packages. These are not supported by the libSBML reader and will therefore be lost after reading.</entry>
   <entry key="PLUGINS_CURRENTLY_NOT_SUPPORTED">Plugins are currently not supported. The element {0} can therefore not be considered.</entry>
   
 </properties>

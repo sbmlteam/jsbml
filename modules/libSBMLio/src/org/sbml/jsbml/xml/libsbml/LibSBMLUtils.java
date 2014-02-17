@@ -148,12 +148,7 @@ public class LibSBMLUtils {
         }
       }
       if (ast.getVariable() == null) {
-        CallableSBase nsb = parent.getModel().findCallableSBase(math.getName());
-        if (nsb == null) {
-          ast.setName(math.getName());
-        } else {
-          ast.setVariable(nsb);
-        }
+        ast.setName(math.getName());
       }
       break;
     case libsbmlConstants.AST_CONSTANT_PI:
@@ -1017,7 +1012,9 @@ public class LibSBMLUtils {
 
     transferNamedSBaseProperties(parameter, p1 != null ? p1 : p2);
     if (p1 != null) {
-      p1.setConstant(parameter.isExplicitlySetConstant());
+      if (parameter.isExplicitlySetConstant()) {
+        p1.setConstant(true);
+      }
       if (parameter.isSetUnits()) {
         p1.setUnits(parameter.getUnits());
       }
@@ -1026,7 +1023,9 @@ public class LibSBMLUtils {
       }
       return p1;
     }
-    p2.setConstant(parameter.isExplicitlySetConstant());
+    if (parameter.isExplicitlySetConstant()) {
+      p2.setConstant(true);
+    }
     if (parameter.isSetUnits()) {
       p2.setUnits(parameter.getUnits());
     }
@@ -1229,7 +1228,7 @@ public class LibSBMLUtils {
       parameter.putUserObject(LINK_TO_LIBSBML, p);
     }
     transferNamedSBaseProperties(parameter, p);
-    p.setConstant(parameter.getConstant());
+    p.setConstant(parameter.isConstant());
     if (parameter.isSetUnits()) {
       p.setUnits(parameter.getUnits());
     }
@@ -1898,12 +1897,10 @@ public class LibSBMLUtils {
    */
   public static void transferNamedSBaseProperties(NamedSBase sbase, org.sbml.libsbml.SBase libSBase) throws XMLStreamException {
     transferSBaseProperties(sbase, libSBase);
-    if (sbase.isSetId()
-        && (!libSBase.isSetId() || !libSBase.getId().equals(sbase.getId()))) {
+    if (sbase.isSetId()) {
       libSBase.setId(sbase.getId());
     }
-    if (sbase.isSetName()
-        && (!libSBase.isSetName() || !libSBase.getName().equals(sbase.getName()))) {
+    if (sbase.isSetName()) {
       libSBase.setName(sbase.getName());
     }
   }
@@ -1917,12 +1914,10 @@ public class LibSBMLUtils {
    */
   public static void transferNamedSBaseProperties(org.sbml.libsbml.SBase libSBase, NamedSBase sbase) {
     transferSBaseProperties(libSBase, sbase);
-    if (libSBase.isSetId()
-        && !(sbase.isSetId() || !sbase.getId().equals(libSBase.getId()))) {
+    if (libSBase.isSetId()) {
       sbase.setId(libSBase.getId());
     }
-    if (libSBase.isSetName()
-        && !(sbase.isSetName() || !sbase.getName().equals(libSBase.getName()))) {
+    if (libSBase.isSetName()) {
       sbase.setName(libSBase.getName());
     }
   }
@@ -2054,10 +2049,10 @@ public class LibSBMLUtils {
    */
   public static void transferSpeciesReferenceProperties(SpeciesReference sbase, org.sbml.libsbml.SpeciesReference libSBase) throws XMLStreamException {
     transferSimpleSpeciesReferenceProperties(sbase, libSBase);
-    if (sbase.isSetConstant() && !(libSBase.isSetConstant() || libSBase.getConstant() != sbase.isConstant())) {
+    if (sbase.isSetConstant()) {
       libSBase.setConstant(sbase.getConstant());
     }
-    if (sbase.isSetStoichiometry() && !(libSBase.isSetStoichiometry() || libSBase.getStoichiometry() != sbase.getStoichiometry())) {
+    if (sbase.isSetStoichiometry()) {
       libSBase.setStoichiometry(sbase.getStoichiometry());
     } else if (sbase.isSetStoichiometryMath()) {
       libSBase.setStoichiometryMath(convertStoichiometryMath(sbase.getStoichiometryMath()));

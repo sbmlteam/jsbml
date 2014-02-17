@@ -21,7 +21,7 @@
 package org.sbml.jsbml.celldesigner;
 
 import static org.sbml.jsbml.celldesigner.CellDesignerConstants.LINK_TO_CELLDESIGNER;
-import static org.sbml.jsbml.xml.libsbml.LibSBMLConstants.LINK_TO_LIBSBML;
+import static org.sbml.jsbml.celldesigner.libsbml.LibSBMLConstants.LINK_TO_LIBSBML;
 
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
@@ -87,8 +87,8 @@ import org.sbml.jsbml.StoichiometryMath;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.celldesigner.libsbml.LibSBMLUtils;
 import org.sbml.jsbml.util.ResourceManager;
-import org.sbml.jsbml.xml.libsbml.LibSBMLUtils;
 import org.sbml.libsbml.XMLNode;
 
 /**
@@ -114,7 +114,7 @@ public class PluginUtils {
   /**
    * Localization support.
    */
-  private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.cdplugin.Messages");
+  private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.celldesigner.Messages");
 
   /**
    * 
