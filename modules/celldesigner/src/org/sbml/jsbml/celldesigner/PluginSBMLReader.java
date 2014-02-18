@@ -402,18 +402,15 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
     PluginUtils.transferNamedSBaseProperties(originalModel, model);
     if (listener != null) {
       curr += originalModel.getNumCVTerms();
-      listener.progressUpdate(curr);
+      listener.progressUpdate(curr, null);
     }
 
     int i;
     for (i = 0; i < originalModel.getNumUnitDefinitions(); i++) {
       model.addUnitDefinition(readUnitDefinition(originalModel.getUnitDefinition(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Unit definitions");
       }
-    }
-    if (model.getUnitDefinitionCount() > 0) {
-      logger.debug("Unit definitions done");
     }
 
     // This is something, libSBML wouldn't do...
@@ -421,112 +418,80 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
     for (i = 0; i < originalModel.getNumFunctionDefinitions(); i++) {
       model.addFunctionDefinition(readFunctionDefinition(originalModel.getFunctionDefinition(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Funciton definitions");
       }
-    }
-    if (model.getFunctionDefinitionCount() > 0) {
-      logger.debug("Function definitions done");
     }
 
     for (i = 0; i < originalModel.getNumCompartmentTypes(); i++) {
       model.addCompartmentType(readCompartmentType(originalModel.getCompartmentType(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Compartment types");
       }
-    }
-    if (model.getCompartmentTypeCount() > 0) {
-      logger.debug("Compartment types done");
     }
 
     for (i = 0; i < originalModel.getNumSpeciesTypes(); i++) {
       model.addSpeciesType(readSpeciesType(originalModel.getSpeciesType(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Species types");
       }
-    }
-    if (model.getSpeciesTypeCount() > 0) {
-      logger.debug("Species types done");
     }
 
     for (i = 0; i < originalModel.getNumCompartments(); i++) {
       model.addCompartment(readCompartment(originalModel.getCompartment(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Compartments");
       }
-    }
-    if (model.getCompartmentCount() > 0) {
-      logger.debug("Compartments done");
     }
 
     for (i = 0; i < originalModel.getNumSpecies(); i++) {
       model.addSpecies(readSpecies(originalModel.getSpecies(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Species");
       }
-    }
-    if (model.getSpeciesCount() > 0) {
-      logger.debug("Species done");
     }
 
     for (i = 0; i < originalModel.getNumParameters(); i++) {
       model.addParameter(readParameter(originalModel.getParameter(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Parameters");
       }
-    }
-    if (model.getParameterCount() > 0) {
-      logger.debug("Parameters done");
     }
 
     for (i = 0; i < originalModel.getNumInitialAssignments(); i++) {
       model.addInitialAssignment(readInitialAssignment(originalModel.getInitialAssignment(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Initial assignments");
       }
-    }
-    if (model.getInitialAssignmentCount() > 0) {
-      logger.debug("Initial assignments done");
     }
 
     for (i = 0; i < originalModel.getNumRules(); i++) {
       model.addRule(readRule(originalModel.getRule(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Rules");
       }
-    }
-    if (model.getRuleCount() > 0) {
-      logger.debug("Rules done");
     }
 
     for (i = 0; i < originalModel.getNumConstraints(); i++) {
       model.addConstraint(readConstraint(originalModel.getConstraint(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Constraints");
       }
-    }
-    if (model.getConstraintCount() > 0) {
-      logger.debug("Constraints done");
     }
 
     for (i = 0; i < originalModel.getNumReactions(); i++) {
       model.addReaction(readReaction(originalModel.getReaction(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Reactions");
       }
-    }
-    if (model.getReactionCount() > 0) {
-      logger.debug("Reactions done");
     }
 
     for (i = 0; i < originalModel.getNumEvents(); i++) {
       model.addEvent(readEvent(originalModel.getEvent(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Events");
       }
     }
-    if (model.getEventCount() > 0) {
-      logger.debug("Events done");
-    }
+
     if (listener != null) {
       listener.progressFinish();
     }

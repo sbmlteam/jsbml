@@ -6,6 +6,13 @@ Version 1.0-rc1 (xx-xx-2013)
 
 * New Features:
 
+  - There is now a new ProgressListener that enables tracking the progress
+    of computationally intensive tasks.
+    
+  - For a better localization support and to separate source code from user
+    messages a resource manager has been implemented and is being used in some
+    classes already.
+
   - JSBML is no longer compliant to Java 1.5. With this version it has been
     shifted to 1.6 due to the common availability of virtual machines for this
     version on diverse platforms.

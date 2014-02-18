@@ -39,6 +39,8 @@ public interface ProgressListener extends EventListener {
    * be called with a very high default number, e.g., {@link Integer#MAX_VALUE}.
    * 
    * @param total
+   *        the estimated total number of computation steps to be performed by
+   *        this process.
    */
   public void progressStart(int total);
 
@@ -50,12 +52,16 @@ public interface ProgressListener extends EventListener {
    * are the arguments passed to this method in the two subsequent calls).
    * 
    * @param progress
+   *        the number of steps that have been completed already
+   * @param message
+   *        can be {@code null}, a more detailed message to be displayed
+   *        to the user in some way.
    */
-  public void progressUpdate(int progress);
+  public void progressUpdate(int progress, String message);
 
   /**
    * This method is called when the process is finished, irrespective of the
-   * ration progress/total.
+   * progress/total ratio.
    */
   public void progressFinish();
 

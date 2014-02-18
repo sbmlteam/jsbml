@@ -789,14 +789,14 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
     LibSBMLUtils.transferNamedSBaseProperties(originalModel, model);
     if (listener != null) {
       curr += originalModel.getNumCVTerms();
-      listener.progressUpdate(curr);
+      listener.progressUpdate(curr, null);
     }
 
     int i;
     for (i = 0; i < originalModel.getNumUnitDefinitions(); i++) {
       model.addUnitDefinition(readUnitDefinition(originalModel.getUnitDefinition(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Unit definitions");
       }
     }
     if (originalModel.isSetAreaUnits()) {
@@ -826,67 +826,67 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
     for (i = 0; i < originalModel.getNumFunctionDefinitions(); i++) {
       model.addFunctionDefinition(readFunctionDefinition(originalModel.getFunctionDefinition(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Function definitions");
       }
     }
     for (i = 0; i < originalModel.getNumCompartmentTypes(); i++) {
       model.addCompartmentType(readCompartmentType(originalModel.getCompartmentType(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Compartment types");
       }
     }
     for (i = 0; i < originalModel.getNumSpeciesTypes(); i++) {
       model.addSpeciesType(readSpeciesType(originalModel.getSpeciesType(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Species types");
       }
     }
     for (i = 0; i < originalModel.getNumCompartments(); i++) {
       model.addCompartment(readCompartment(originalModel.getCompartment(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Compartments");
       }
     }
     for (i = 0; i < originalModel.getNumSpecies(); i++) {
       model.addSpecies(readSpecies(originalModel.getSpecies(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Species");
       }
     }
     for (i = 0; i < originalModel.getNumParameters(); i++) {
       model.addParameter(readParameter(originalModel.getParameter(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Parameters");
       }
     }
     for (i = 0; i < originalModel.getNumInitialAssignments(); i++) {
       model.addInitialAssignment(readInitialAssignment(originalModel.getInitialAssignment(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Initial assignments");
       }
     }
     for (i = 0; i < originalModel.getNumRules(); i++) {
       model.addRule(readRule(originalModel.getRule(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Rules");
       }
     }
     for (i = 0; i < originalModel.getNumConstraints(); i++) {
       model.addConstraint(readConstraint(originalModel.getConstraint(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Constraints");
       }
     }
     for (i = 0; i < originalModel.getNumReactions(); i++) {
       model.addReaction(readReaction(originalModel.getReaction(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Reactions");
       }
     }
     for (i = 0; i < originalModel.getNumEvents(); i++) {
       model.addEvent(readEvent(originalModel.getEvent(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr);
+        listener.progressUpdate(++curr, "Events");
       }
     }
 
