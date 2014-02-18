@@ -60,13 +60,15 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public void addDeclaredNamespace(String prefix, String namespace);
 
   /**
-   * add a SBase extension object 'sbase' associated with a name space
-   * 'namespace'.
+   * Adds a {@link SBasePlugin} extension object to this {@link SBase}.
    * 
-   * @param namespace
-   * @param sbase
+   * <p>If a previous {@link SBasePlugin} associated with the same package
+   * was present before, it will be replaced.
+   * 
+   * @param nameOrUri the name or URI of the package extension.
+   * @param sbasePlugin the {@link SBasePlugin} to add. 
    */
-  public void addExtension(String namespace, SBasePlugin sbase);
+  public void addExtension(String nameOrUri, SBasePlugin sbasePlugin);
 
   /**
    * Adds an additional name space to the set of name spaces of this
@@ -100,6 +102,28 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * @return
    */
   public SBase clone();
+
+  
+  /**
+   * Disables the given SBML Level 3 package on this {@link SBMLDocument}.
+   * 
+   * @param packageURIOrName a package namespace URI or package name
+   */
+  public void disablePackage(String packageURIOrName);
+
+  /**
+   * Enables the given SBML Level 3 package on this {@link SBMLDocument}.
+   * 
+   * @param packageURIOrName a package namespace URI or package name
+   */
+  public void enablePackage(String packageURIOrName);
+  
+  /**
+   * Enables or disables the given SBML Level 3 package on this {@link SBMLDocument}. 
+   * 
+   * @param packageURIOrName a package namespace URI or package name
+   */
+  public void enablePackage(String packageURIOrName, boolean enabled);
 
   /**
    * Returns {@code true} if and only if the given {@link SBase} has exactly the same
@@ -374,6 +398,15 @@ public interface SBase extends TreeNodeWithChangeSupport {
    */
   public boolean isExtendedByOtherPackages();
 
+  /**
+   * Returns {@code true} if the given SBML Level 3 package is enabled within the containing {@link SBMLDocument}. 
+   * 
+   * @param packageURIOrName the name or URI of the package extension.
+   * @return {@code true} if the given SBML Level 3 package is enabled within the  containing {@link SBMLDocument}, {@code false} otherwise.
+   */
+  public boolean isPackageEnabled(String packageURIOrName);
+
+  
   /**
    * Predicate returning {@code true} or {@code false} depending on whether this object's
    * 'annotation' sub-element exists and has content.

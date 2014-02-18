@@ -183,7 +183,7 @@ public class ParserManager {
    * Returns the {@link PackageParser} corresponding to the given name or namespace.
    * 
    * @param nameOrURI - the name or namespace of a SBML package.
-   * @return the {@link PackageParser} corresponding to the given name or namespace.
+   * @return the {@link PackageParser} corresponding to the given name or namespace or null.
    */
   public PackageParser getPackageParser(String nameOrURI) {
 

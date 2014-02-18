@@ -41,6 +41,8 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.xml.XMLNode;
+import org.sbml.jsbml.xml.parsers.PackageParser;
+import org.sbml.jsbml.xml.parsers.ParserManager;
 
 
 /**
@@ -349,11 +351,22 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @see org.sbml.jsbml.SBase#addExtension(java.lang.String, org.sbml.jsbml.SBase)
    */
   @Override
-  public void addExtension(String namespace, SBasePlugin sbase) {
-    // TODO - check that the package is enabled first
-    // TODO - use always, either the package name or namespace in the map
-    extensions.put(namespace, sbase);
-    firePropertyChange(TreeNodeChangeEvent.addExtension, null, sbase);
+  public void addExtension(String nameOrUri, SBasePlugin sbasePlugin) {
+
+    if (!isPackageEnabled(nameOrUri)) {
+      enablePackage(nameOrUri);
+    }
+
+    // use always the package name in the map
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+    
+    if (packageParser != null) {
+    
+      extensions.put(packageParser.getPackageName(), sbasePlugin);
+      firePropertyChange(TreeNodeChangeEvent.addExtension, null, sbasePlugin);
+    } else {
+      throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));
+    }
   }
 
 
@@ -790,6 +803,42 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     return getHistory();
   }
 
+  /**
+   * Disables the given SBML Level 3 package on this {@link SBMLDocument}.
+   * 
+   * @param packageURIOrName a package namespace URI or package name
+   */
+  public void disablePackage(String packageURIOrName) {
+    enablePackage(packageURIOrName, false);
+  }
+
+  /**
+   * Enables the given SBML Level 3 package on this {@link SBMLDocument}.
+   * 
+   * @param packageURIOrName a package namespace URI or package name
+   */
+  public void enablePackage(String packageURIOrName) {
+    enablePackage(packageURIOrName, true);
+  }
+  
+  /**
+   * Enables or disables the given SBML Level 3 package on this {@link SBMLDocument}. 
+   * 
+   * @param packageURIOrName a package namespace URI or package name
+   */
+  public void enablePackage(String packageURIOrName, boolean enabled) {
+
+    SBMLDocument doc = getSBMLDocument();
+
+    if (doc != null) {
+      doc.enablePackage(packageURIOrName, enabled);
+    } else {
+      logger.info("Package not enabled, could not find the SBMLDocument.");
+    }
+  }
+  
+  // TODO - add the methods getPlugin() like in libSBML, isSetPlugin(nameOrUri) and createPluginFor(nameOrUri)
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
    */
@@ -1036,9 +1085,17 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @see org.sbml.jsbml.SBase#getExtension(java.lang.String)
    */
   @Override
-  public SBasePlugin getExtension(String namespace) {
-    // TODO - check in the map with the package name or the namespace or both ??
-    return extensions.get(namespace);
+  public SBasePlugin getExtension(String nameOrUri) {
+
+    // use always the package name in the map
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+    
+    if (packageParser != null) {
+    
+      return extensions.get(packageParser.getPackageName());
+    } 
+    
+    throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));    
   }
 
   /* (non-Javadoc)
@@ -1249,6 +1306,18 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public boolean isExtendedByOtherPackages() {
     return !extensions.isEmpty();
+  }
+  
+  @Override
+  public boolean isPackageEnabled(String packageURIOrName) {
+    
+    SBMLDocument doc = getSBMLDocument();
+    
+    if (doc != null) {
+      return doc.isPackageEnabled(packageURIOrName);
+    }
+    
+    return false;
   }
 
   /* (non-Javadoc)

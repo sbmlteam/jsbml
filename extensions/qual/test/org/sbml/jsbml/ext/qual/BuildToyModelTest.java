@@ -40,9 +40,9 @@ import org.sbml.jsbml.text.parser.ParseException;
  */
 public class BuildToyModelTest {
 
-  public static final String QUAL_NS = "http://www.sbml.org/sbml/level3/version1/qual/version1";
+  public static final String QUAL_NS = QualConstants.namespaceURI_L3V1V1;
 
-  public static final String QUAL_NS_PREFIX = "qual";
+  public static final String QUAL_NS_PREFIX = QualConstants.shortLabel;
 
   /**
    * @param args
@@ -51,11 +51,6 @@ public class BuildToyModelTest {
   public static void main(String[] args) throws XMLStreamException {
 
     SBMLDocument sbmlDoc = new SBMLDocument(3, 1);
-    sbmlDoc.addNamespace(QUAL_NS_PREFIX, "xmlns", QUAL_NS);
-
-    // sbmlDoc.readAttribute("required", QUAL_NS_PREFIX, "true");
-    sbmlDoc.getSBMLDocumentAttributes().put(QUAL_NS_PREFIX + ":required", "true");
-
     Model model = sbmlDoc.createModel("m_default_name");
 
     model.getHistory().addModifiedDate(Calendar.getInstance().getTime());
@@ -63,8 +58,12 @@ public class BuildToyModelTest {
 
     QualitativeModel qModel = new QualitativeModel(model);
 
-    model.addExtension(QUAL_NS, qModel);
+    model.addExtension(QUAL_NS_PREFIX, qModel);
 
+    if (model.getExtension(QUAL_NS) == null) {
+      System.out.println("!!!!!!! getting a plugin object using a namespace does not work");
+    }
+    
     // ListOfCompartments
     Compartment comp1 = model.createCompartment("comp1");
     comp1.setConstant(true);
