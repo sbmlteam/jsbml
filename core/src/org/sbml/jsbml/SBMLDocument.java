@@ -24,9 +24,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -41,6 +43,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.validator.SBMLValidator;
 import org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY;
+import org.sbml.jsbml.xml.parsers.PackageParser;
 import org.sbml.jsbml.xml.parsers.ParserManager;
 
 /**
@@ -110,10 +113,19 @@ public class SBMLDocument extends AbstractSBase {
    * have to be unique within the document.
    */
   private Map<String, SBase> mappingFromMetaId2SBase;
+  
   /**
    * Represents the 'model' XML subnode of a SBML file.
    */
   private Model model;
+  
+  /**
+   * Stores a package namespace associated with it's status.
+   * The status being: enabled if the Boolean is true, disable otherwise  
+   * 
+   */
+  private Map<String, Boolean> enabledPackageMap;
+  
   /**
    * Contains all the XML attributes of the sbml XML node.
    */
@@ -131,6 +143,7 @@ public class SBMLDocument extends AbstractSBase {
     model = null;
     mappingFromMetaId2SBase = new TreeMap<String, SBase>();
     SBMLDocumentAttributes = new TreeMap<String, String>();
+    enabledPackageMap = new HashMap<String, Boolean>();
     // setParentSBML(this);
     checkConsistencyParameters.put(CHECK_CATEGORY.UNITS_CONSISTENCY.name(), false);
   }
@@ -162,6 +175,8 @@ public class SBMLDocument extends AbstractSBase {
     super(sb);
     mappingFromMetaId2SBase = new HashMap<String, SBase>();
     SBMLDocumentAttributes = new HashMap<String, String>();
+    enabledPackageMap = new HashMap<String, Boolean>();
+
     if (sb.isSetModel()) {
       // This will also cause that all metaIds are registered correctly.
       setModel(sb.getModel().clone());
@@ -172,10 +187,15 @@ public class SBMLDocument extends AbstractSBase {
     Map.Entry<String, String> entry;
     while (entryIterator.hasNext()) {
       entry = entryIterator.next();
-      SBMLDocumentAttributes.put(entry.getKey(), entry.getValue());
+      SBMLDocumentAttributes.put(new String(entry.getKey()), new String(entry.getValue()));
     }
     // setParentSBML(this);
     checkConsistencyParameters.put(CHECK_CATEGORY.UNITS_CONSISTENCY.name(), Boolean.valueOf(false));
+
+    // cloning the enabledPackageMap
+    for (String namespace : sb.enabledPackageMap.keySet()) {
+      enabledPackageMap.put(new String(namespace), new Boolean(sb.enabledPackageMap.get(namespace)));
+    }
   }
 
   /**
@@ -204,7 +224,7 @@ public class SBMLDocument extends AbstractSBase {
    * @param packageURI the package namespace uri
    * @param required the value of the required attribute
    */
-  public void addPackageDeclaration(String packageName, String packageURI, boolean required) {
+  private void addPackageDeclaration(String packageName, String packageURI, boolean required) {
     addDeclaredNamespace("xmlns:" + packageName, packageURI);
     getSBMLDocumentAttributes().put(packageName + ":required", Boolean.toString(required));
   }
@@ -484,6 +504,53 @@ public class SBMLDocument extends AbstractSBase {
     return getModel();
   }
 
+  /**
+   * Disables the given SBML Level 3 package on this {@link SBMLDocument}.
+   * 
+   * @param packageURIOrName a package namespace URI or package name
+   */
+  public void disablePackage(String packageURIOrName) {
+    enablePackage(packageURIOrName, false);
+  }
+
+  /**
+   * Enables the given SBML Level 3 package on this {@link SBMLDocument}.
+   * 
+   * @param packageURIOrName a package namespace URI or package name
+   */
+  public void enablePackage(String packageURIOrName) {
+    enablePackage(packageURIOrName, true);
+  }
+  
+  /**
+   * Enables or disables the given SBML Level 3 package on this {@link SBMLDocument}. 
+   * 
+   * @param packageURIOrName a package namespace URI or package name
+   */
+  public void enablePackage(String packageURIOrName, boolean enabled) {
+    
+    // Get the package URI is needed
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(packageURIOrName);
+    
+    if (packageParser != null) {
+      String packageURI = packageURIOrName;
+      
+      if (packageURI.equals(packageParser.getPackageName())) {
+        packageURI = packageParser.getPackageNamespaces().get(0);
+      }
+
+      // TODO - check if the package is already present ?
+      // possible errors  PACKAGE_UNKNOWN, PACKAGE_VERSION_MISMATCH, PACKAGE_CONFLICTED_VERSION 
+      enabledPackageMap.put(packageURI, enabled);
+      
+      if (enabled) {
+        addPackageDeclaration(packageParser.getPackageName(), packageURI, packageParser.isRequired());
+      }
+    }
+  }
+    
+    
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
    */
@@ -737,7 +804,7 @@ public class SBMLDocument extends AbstractSBase {
   /**
    * Returns {@code true} if the given package extension is one of an ignored
    * packages, otherwise returns {@code false}.
-   * An ignored package is one that is defined to be used in this
+   * <p>An ignored package is one that is defined to be used in this
    * {@link SBMLDocument}, but the package is not supported in this copy of JSBML.
    * 
    * @param nameOrURI
@@ -746,19 +813,29 @@ public class SBMLDocument extends AbstractSBase {
    *         {@code false} otherwise.
    */
   public boolean isIgnoredPackage(String nameOrURI) {
-    
-    if (ignoredExtensions.containsKey(nameOrURI)) {
-      return true;
-    }
 
+    // Getting the package URI
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrURI);
+
+    if (packageParser != null) {
+      String packageURI = nameOrURI;
+
+      if (packageURI.equals(packageParser.getPackageName())) {
+        packageURI = packageParser.getPackageNamespaces().get(0);
+      }
+
+      if (ignoredExtensions.containsKey(packageURI)) {
+        return true;
+      }
+    }
     return false;
   }
 
   /**
    * Returns true if the given package extension is one of ignored packages,
    * otherwise returns false.
-   * An ignored package is one that is defined to be used in this SBMLDocument,
-   * but the package is not enabled in this copy of JSBML.
+   * <p>An ignored package is one that is defined to be used in this SBMLDocument,
+   * but the package is not supported in this copy of JSBML.
    * 
    * @param pkgURI
    *        the URI of the package extension.
@@ -771,6 +848,38 @@ public class SBMLDocument extends AbstractSBase {
     return isIgnoredPackage(pkgURI);
   }
 
+  /**
+   * Returns {@code true} if the given SBML Level 3 package is enabled within the {@link SBMLDocument}. 
+   * 
+   * @param packageURIOrName the name or URI of the package extension.
+   * @return {@code true} if the given SBML Level 3 package is enabled within the {@link SBMLDocument}, {@code false} otherwise.
+   */
+  public boolean isPackageEnabled(String packageURIOrName) {
+    
+    // Get the package URI is needed
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(packageURIOrName);
+    
+    if (packageParser != null) {
+      List<String> packageURIs = null;
+      
+      if (packageURIOrName.equals(packageParser.getPackageName())) {
+        packageURIs = packageParser.getPackageNamespaces();
+      } else {
+        packageURIs = new ArrayList<String>();
+        packageURIs.add(packageURIOrName);
+      }
+
+      for (String packageURI : packageURIs) {
+        if (enabledPackageMap.containsKey(packageURI)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+  
+  
   /**
    * Returns {@code true} if the list of errors is defined and contain at least one error.
    * 
@@ -1120,14 +1229,13 @@ public class SBMLDocument extends AbstractSBase {
   }
 
   /**
-   * Sets the value of the required attribute for the given package.
-   * The name of package must not be given if the package is not enabled.
+   * Sets the value of the required attribute for the given package (does nothing in fact!).
    * 
    * @param pckage
    *        the name or URI of the package extension.
    * @param flag
-   *        a Boolean value.
-   * @return boolean value indicating success/failure of the function
+   *        a Boolean value indicating whether the package is required.
+   * @return {@code true}
    * @deprecated use {@link #setPackageRequired(String, boolean)}
    * @libsbml.deprecated
    */
