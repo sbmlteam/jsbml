@@ -95,15 +95,25 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public void appendNotes(XMLNode notes);
 
   /**
+   * Creates a deep copy of this object, i.e., a new {@link SBase} with the same properties
+   * like this one.
    * 
-   * Creates a copy of this object, i.e., e new {@link SBase} with the same properties
-   * like this one and returns a pointer to it.
-   * 
-   * @return
+   * @return a copy of this object
    */
   public SBase clone();
 
-  
+  /**
+   * Creates a new {@link SBasePlugin} for the given package name or URI
+   * and adds it to this {@link SBase}.
+   * 
+   * <p>If an {@link SBasePlugin} was already present in this {@link SBase}
+   * it will be replaced.
+   * 
+   * @param nameOrUri the package name or URI
+   * @return a new {@link SBasePlugin} for the given package name or URI
+   */
+  public SBasePlugin createPlugin(String nameOrUri);
+
   /**
    * Disables the given SBML Level 3 package on this {@link SBMLDocument}.
    * 
@@ -220,25 +230,32 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public Map<String, String> getDeclaredNamespaces();
 
   /**
+   * Returns the XML element name of this object.
    * 
    * @return the XML element name of this object.
    */
   public String getElementName();
 
   /**
+   * Returns the {@link SBasePlugin} extension object which matches this package name or URI.
    * 
-   * @param namespace
-   * @return the {@link SBase} extension object which matches this namespace.
+   * @param nameOrUri the package name or URI
+   * @return the {@link SBasePlugin} extension object which matches this  package name or URI,
+   * null is returned if nothing matching the name or URI is found.
    */
-  public SBasePlugin getExtension(String namespace);
+  public SBasePlugin getExtension(String nameOrUri);
 
   /**
+   * Returns the map containing all the {@link SBasePlugin} extension objects
+   * of this {@link SBase}.
    * 
-   * @return the map containing all the extension objects of this object.
+   * @return the map containing all the {@link SBasePlugin} extension objects
+   * of this {@link SBase}.
    */
   public Map<String, SBasePlugin> getExtensionPackages();
 
   /**
+   * Returns the {@link History} instance of this object.
    * 
    * @return the {@link History} instance of this object.
    */
@@ -263,7 +280,8 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public ValuePair<Integer, Integer> getLevelAndVersion();
 
   /**
-   * 
+   * Returns the metaid of this element.
+   *  
    * @return the metaid of this element.
    */
   public String getMetaId();
@@ -271,7 +289,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Returns the {@link Model} object in which the current {@link SBase} is located.
    * 
-   * @return
+   * @return the {@link Model} object in which the current {@link SBase} is located.
    */
   public Model getModel();
 
@@ -292,7 +310,10 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public XMLNode getNotes();
 
   /**
+   * Returns  the notes sub-element of this object as a {@link String}.
    * 
+   * <p>If no notes are set, an empty {@link String} will be returned.
+   *         
    * @return the notes sub-element of this object as a {@link String}. If no
    *         notes are set, an empty {@link String} will be returned.
    * @throws XMLStreamException
@@ -300,14 +321,23 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public String getNotesString() throws XMLStreamException;
 
   /**
+   * Returns the number of {@link CVTerm}s of this {@link SBase}.
    * 
    * @return the number of {@link CVTerm}s of this {@link SBase}.
-   * @deprecated use {@link #getCVTermCount()}
+   * @libsbml.deprecated
    */
-  @Deprecated
   public int getNumCVTerms();
 
   /**
+   * Returns the number of {@link SBasePlugin}s of this {@link SBase}.
+   * 
+   * @return the number of {@link SBasePlugin}s of this {@link SBase}.
+   * @libsbml.deprecated
+   */
+  public int getNumPlugins();
+
+  /**
+   * Returns the number of {@link CVTerm}s of this {@link SBase}.
    * 
    * @return the number of {@link CVTerm}s of this {@link SBase}.
    */
@@ -322,6 +352,18 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * @see #getParent()
    */
   public SBase getParentSBMLObject();
+
+  /**
+   * Returns an {@link SBasePlugin} for an SBML Level 3 package extension
+   * with the given package name or URI.
+   * <p>If no {@link SBasePlugin} is found for this package, a new {@link SBasePlugin}
+   * is created, added to this {@link SBase} and returned.
+   * 
+   * @param nameOrUri the name or URI of the package
+   * @return an {@link SBasePlugin} for an SBML Level 3 package extension
+   * with the given package name or URI.
+   */
+  public SBasePlugin getPlugin(String nameOrUri);
 
   /**
    * Returns the parent {@link SBMLDocument} object.
@@ -406,6 +448,35 @@ public interface SBase extends TreeNodeWithChangeSupport {
    */
   public boolean isPackageEnabled(String packageURIOrName);
 
+  /**
+   * Returns {@code true} if the given SBML Level 3 package is enabled within the containing {@link SBMLDocument}. 
+   * 
+   * @param packageURIOrName the name or URI of the package extension.
+   * @return {@code true} if the given SBML Level 3 package is enabled within the  containing {@link SBMLDocument}, {@code false} otherwise.
+   * @libsbml.deprecated
+   */
+  public boolean isPackageURIEnabled(String packageURIOrName);
+
+  /**
+   * Returns {@code true} if the given SBML Level 3 package is enabled within the containing {@link SBMLDocument}. 
+   * 
+   * @param packageURIOrName the name or URI of the package extension.
+   * @return {@code true} if the given SBML Level 3 package is enabled within the  containing {@link SBMLDocument}, {@code false} otherwise.
+   * @libsbml.deprecated
+   * @deprecated use {@link #isPackageEnabled(String)}
+   */
+  public boolean isPkgEnabled(String packageURIOrName);
+
+  /**
+   * Returns {@code true} if the given SBML Level 3 package is enabled within the containing {@link SBMLDocument}. 
+   * 
+   * @param packageURIOrName the name or URI of the package extension.
+   * @return {@code true} if the given SBML Level 3 package is enabled within the  containing {@link SBMLDocument}, {@code false} otherwise.
+   * @libsbml.deprecated
+   * @deprecated use {@link #isPackageEnabled(String)}
+   */
+  public boolean isPkgURIEnabled(String packageURIOrName);
+    
   
   /**
    * Predicate returning {@code true} or {@code false} depending on whether this object's
@@ -466,8 +537,19 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public boolean isSetParentSBMLObject();
 
   /**
+   * Returns {@code true} if an {@link SBasePlugin} is defined 
+   * for the given package.
    * 
-   * @return {@code true} if the SBOTerm is not -1.
+   * @param nameOrUri the package name or URI
+   * @return {@code true} if an {@link SBasePlugin} is defined 
+   * for the given package.
+   */
+  public boolean isSetPlugin(String nameOrUri);
+
+  /**
+   * Return {@code true} if the SBOTerm is set.
+   * 
+   * @return {@code true} if the SBOTerm is set.
    * @see SBO
    */
   public boolean isSetSBOTerm();
@@ -623,6 +705,13 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public void unsetCVTerms();
 
   /**
+   * Unsets the {@link SBasePlugin} extension object which matches this package name or URI.
+   * 
+   * @param nameOrUri the package name or URI
+   */
+  public void unsetExtension(String nameOrUri);
+
+  /**
    * Unsets the {@link History} of this object.
    */
   public void unsetHistory();
@@ -636,6 +725,13 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * Unsets the value of the 'notes' sub-element of this SBML object.
    */
   public void unsetNotes();
+
+  /**
+   * Unsets the {@link SBasePlugin} extension object which matches this package name or URI.
+   * 
+   * @param nameOrUri the package name or URI
+   */
+  public void unsetPlugin(String nameOrUri);
 
   /**
    * Unsets the value of the 'sboTerm' attribute of this SBML object.

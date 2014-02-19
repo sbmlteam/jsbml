@@ -803,6 +803,23 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     return getHistory();
   }
 
+  @Override
+  public SBasePlugin createPlugin(String nameOrUri) {
+
+	    // use always the package name in the map
+	    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+	    
+	    if (packageParser != null) {
+	    
+	    	SBasePlugin sbasePlugin = packageParser.createPluginFor(this);
+	    	addExtension(nameOrUri, sbasePlugin);
+	    	return sbasePlugin;
+	    } 
+	    
+	    throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));    
+  }
+
+
   /**
    * Disables the given SBML Level 3 package on this {@link SBMLDocument}.
    * 
@@ -837,7 +854,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
   }
   
-  // TODO - add the methods getPlugin() like in libSBML, isSetPlugin(nameOrUri) and createPluginFor(nameOrUri)
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
@@ -1184,9 +1200,13 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @see org.sbml.jsbml.SBase#getNumCVTerms()
    */
   @Override
-  @Deprecated
   public int getNumCVTerms() {
     return getCVTermCount();
+  }
+
+  @Override
+  public int getNumPlugins() {
+	  return extensions.size();
   }
 
   /**
@@ -1207,6 +1227,24 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public SBase getParentSBMLObject() {
     return getParent();
+  }
+
+  @Override
+  public SBasePlugin getPlugin(String nameOrUri) {
+
+	  // use always the package name in the map
+	  PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+
+	  if (packageParser != null) {
+
+		  if (extensions.get(packageParser.getPackageName()) != null) {
+			  return extensions.get(packageParser.getPackageName());
+		  } else {
+			  return createPlugin(nameOrUri);  
+		  }
+	  } 
+
+	  throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));    
   }
 
   /* (non-Javadoc)
@@ -1320,12 +1358,29 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     return false;
   }
 
+  @Override
+  public boolean isPackageURIEnabled(String packageURIOrName) {
+	  return isPackageEnabled(packageURIOrName);
+  }
+
+  @Override
+  @Deprecated
+  public boolean isPkgEnabled(String packageURIOrName) {
+	  return isPackageEnabled(packageURIOrName);
+  }
+
+  @Override
+  @Deprecated
+  public boolean isPkgURIEnabled(String packageURIOrName) {
+	  return isPackageEnabled(packageURIOrName);
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBase#isSetAnnotation()
    */
   @Override
   public boolean isSetAnnotation() {
-    return (annotation != null) && annotation.isSetAnnotation();
+	  return (annotation != null) && annotation.isSetAnnotation();
   }
 
   /* (non-Javadoc)
@@ -1333,7 +1388,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public boolean isSetHistory() {
-    if (isSetAnnotation()) {
+	  if (isSetAnnotation()) {
       return annotation.isSetHistory();
     }
     return false;
@@ -1378,6 +1433,20 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public boolean isSetParentSBMLObject() {
     return isSetParent();
+  }
+
+  @Override
+  public boolean isSetPlugin(String nameOrUri) {
+
+	  // use always the package name in the map
+	  PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+
+	  if (packageParser != null) {
+
+		  return extensions.get(packageParser.getPackageName()) != null;
+	  } 
+
+	  throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));    
   }
 
   /* (non-Javadoc)
@@ -1891,6 +1960,26 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
   }
 
+  @Override
+  public void unsetExtension(String nameOrUri) {
+
+	  // use always the package name in the map
+	  PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+
+	  if (packageParser != null) {
+
+		  SBasePlugin sbasePlugin = extensions.remove(packageParser.getPackageName());
+		  firePropertyChange(TreeNodeChangeEvent.extension, sbasePlugin, null);
+	  } 
+
+	  throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));    
+  }
+
+  @Override
+  public void unsetPlugin(String nameOrUri) {
+	  unsetExtension(nameOrUri);
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jlibsbml.SBase#unsetSBOTerm()
    */
