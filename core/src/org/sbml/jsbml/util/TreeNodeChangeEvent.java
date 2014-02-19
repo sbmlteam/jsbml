@@ -46,6 +46,7 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
    * Property names that can change in the life time of an SBML document.
    */
   public static final String addExtension="addExtension";
+  public static final String extension="sbasePlugin";
   //public static final String addNamespace="addNamespace";
   public static final String addDeclaredNamespace="addDeclaredNamespace";
   public static final String namespace = "namespace";
