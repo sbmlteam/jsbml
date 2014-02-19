@@ -1,43 +1,66 @@
 	       JSBML NEWS -- History of user-visible changes
 
 ======================================================================
-Version 1.0-rc1 (xx-xx-2013)
+Version 1.0-beta1 (xx-02-2014)
 ======================================================================
 
 * New Features:
 
-  - There is now a new ProgressListener that enables tracking the progress
-    of computationally intensive tasks.
+  - The main addition of jsbml-1.0 is the added support for the SBML level 3
+    packages.
+    
+  - JSBML is no longer compliant to Java 1.5. With this version it has been
+    shifted to 1.6 due to the common availability of java virtual machines for
+    this version on diverse platforms.
+    
+  - Qualitative Models package (qual) implemented, following the 
+    specifications version 1 release 1 (17 May 2013).
+  
+  - Flux Balance Constraints package (fbc) implemented, following the 
+    specifications version 1 release 1 (11 February 2013).
+  
+  - Hierarchical Model Composition package (comp) implemented, following the
+    specifications version 1 release 3 (14 November 2013).
+  
+  - Layout package (layout) implemented, following the specifications version
+    1 release 1 (13 August 2013).
+
+  - Required Elements package (req) implemented, following the draft
+    specifications version 1 release 0.5 (30 May 2013).
+  
+  - Spatial Processes package (spatial) implemented, following the working
+    specifications version 1 release 0.80 (latest version is release 0.85, 
+    13 December 2013).
+
+  - Groups package (groups) implemented, following the draft specifications
+    version 1 release 0.4 (17 May 2013).
+
+  - Render package (render) implemented, trying to following the SBML Level 2
+    specifications.
+
+  - Support for arrays, distrib and multi is not yet available but planned for
+    the final jsbml-1.0 release.
+
+  - Some filter methods have been added to TreeNodeWithChangeSupport (so to 
+    SBase as well), which allows for recursive queries in the entire data
+    structure.
+  
+  - There is now a new ProgressListener utility class that enables tracking
+    the progress of computationally intensive tasks.
     
   - For a better localization support and to separate source code from user
     messages a resource manager has been implemented and is being used in some
     classes already.
 
-  - JSBML is no longer compliant to Java 1.5. With this version it has been
-    shifted to 1.6 due to the common availability of virtual machines for this
-    version on diverse platforms.
-    
-  - JSBML now provides a better distinction between JUnit test cases and example
-    programs.
-    
   - The libSBMLio module for reading and writing SBML using libSBML as an input
     and output module has been revised and completely re-implemented.
 
   - The MAVEN support has been improved. Thanks to Aurélien Naldi for providing
     several POM.xml files for JSBML.
 
-  - A new filter method has been added to TreeNodeWithChangeSupport to
-    search for elements in the SBML tree that satisfy a certain filter
-    criterion. The new method can prune the search to the first occurrence of
-    a hit and hence save running time. 
-
   - Syntax check for metaids in the setMetaId method.
 
-  - Some additional methods for more convenient working with tree data
-    structures in TreeNodeWithChangeSupport.
-
-  - SBasePlugin has now also become a TreeNodeWithChangeSupport and
-    AbstractSBasePlugin in turn extends AbstractTreeNode. 
+  - SBasePlugin now implements the TreeNodeWithChangeSupport interface.
 
   - The Unit class has two new methods: removeOffset and
     removeMultiplier. The first one computes a new multiplier from
@@ -49,9 +72,6 @@ Version 1.0-rc1 (xx-xx-2013)
   - The multiplyWith and divideBy methods in UnitDefinition have been
     improved to better combine units by using the merge method.
   
-  - Filter method on TreeNodeWithChangeSupport, which allows for
-    recursive queries in the entire data structure.
-
   - Validation check for e-mail addresses in Creator.
   
   - A quick Hash-based search method to access elements in a model
@@ -59,10 +79,9 @@ Version 1.0-rc1 (xx-xx-2013)
     found in the SBMLDocument based on its metaId.
     
   - In order to make the API more Java-like, for each getNumXXX method
-    a corresponding getXXXCount method has been created and the older
-    method has become deprecated now.
+    a corresponding getXXXCount method has been created.
     
-  - The Species class now ensures that its spatial dimensions can only
+  - The Species class now ensures that its spatial size units can only
     be set if its surrounding compartment does not have zero dimensions
     and if its hasOnlySubstanceUnits attribute is false. This behavior
     is specified by the SBML documents for Level 2 Versions 1 and 2, but
@@ -72,59 +91,24 @@ Version 1.0-rc1 (xx-xx-2013)
     tries to find an existing unit from the model, rather than returning
     some UnitDefinition that has not yet been linked to the model.
 
-  - A new JUnitTestClass helps to check if simplification and merging
+  - A new JUnit test class helps to check if simplification and merging
     of Units and UnitDefinitions works correctly.
     
   - The userObject in ASTNode has been replaced by a more general map
     of userObjects that is located in TreeNodeWithChangeSupport. In this 
     way, any JSBML object that is part of the SBML tree can now be attached
-    with user-defined additional objects for in-memory manipulation. These
-    will not be written to SBML later on.
+    with user-defined objects. These will not be written to SBML later on.
     
-  - The new class NamedSBaeGlyph in the layout package supports accessing
-    the referenced element from a glyph. To further improve the access to
-    referenced objects from the Layout class, several new and improved methods
-    have been implemented, including a new Filter for NamedSBaseReferences.
-    Thanks to Matthias König for this suggestion.
-
 
 * Bug Fixes:
 
   - Appending text in an XMLToken did not have an effect if there was already
     some text.
     
-  - The unsetUnits method in ExplicitRule did correct notify the listeners. 
-
-  - When calling the method setSymbol in InitialAssignment with an instance of
-    Variable as argument, the listeners were sometimes not correctly informed
-    about changes.
-
-  - The setParent method caused an incorrect and in many cases duplicate call of
-    the nodeAdded method in TreeNodeChangeListeners. Instead of registering a
-    property change (the parent link) the parent node has been passed to the
-    nodeAdded method. This has been corrected.
-
   - When trying to remove a modifier, reactant, or product from a reaction using
     the id of the element, where no such element was present before, a
     NullPointerException was thrown. This has been solved. Thanks to Curtis
     Madsen for detecting this bug. 
-
-  - The method nextMetaId in SBMLDocument sometimes created metaIds containing
-    the invalid character '-', but only underscores are allowed there.
-
-  - Several improvements and corrections in the work with 
-    TreeNodeChangeListeners. In many cases listeners were notified too
-    early or sometimes even not at all because of inconsistent
-    notification mechanisms.
-
-  - SBML Layout extension contained bugs that caused endless recursion when
-    trying to access referenced instances of NamedSBase from a glyph (such
-    as CompartmentGlyph, SpeciesGlyph etc.).
-
-  - It was sometimes possible to unregister elements from a model that were
-    the result of cloning, removal of the original entry and linking the clone
-    to the model. When altering the previous element, pointers were deleted
-    in SBMLDocument and Model.
 
   - There is now a rounding correction for multipliers when merging units
     that tries to shift multipliers to the scale of a unit. This can only
@@ -132,15 +116,6 @@ Version 1.0-rc1 (xx-xx-2013)
     an integer number. Nearly means that the distance to the next integer
     is not larger than the ensured double precision.
 
-  - In the Layout Extension the id attribute on GraphicalObject has to be
-    mandatory. Furthermore, SpeciesReferenceGlyph has to be derived from
-    GraphicalObject as well. Thanks to Matthias König for pointing this
-    out.
-
-  - Cloning of models did not work correctly in case that of ASTNodes or 
-    Annotation elements that were to be cloned contained references to
-    TreeNodeChangeListeners.
-    
   - It was forgotten to implement an unsetSubstanceUnits method on the Model
     class. Thanks to Robert Byrnes for reporting this problem.
   
@@ -148,13 +123,14 @@ Version 1.0-rc1 (xx-xx-2013)
     method from its superclass. Hence, it was not possible to inherit
     Level 3 units from the model.
     
-  - Also, the Species class did not take inherited Level 3 units from the
+  - The Species class did not take inherited Level 3 units from the
     Model into account. The getDerivedUnitDefinition method now has been
-    corrected.
+    corrected for Species.
 
-  - In the Reaction class, the setReversible method only accepted Boolean,
-    no boolean.
+  - In the Reaction class, the setReversible method accepted Boolean,
+    not boolean, this has been changed.
     
+TODO: merge and shorten items related to units ??    
   - Merging of Units was not correct: In cases that scales of two units 
     could not be evenly merged, just one of both was used, the second scale
     was ignored. In these cases, however, the scales must be removed and
@@ -174,26 +150,24 @@ Version 1.0-rc1 (xx-xx-2013)
   - When unifying units in addition or subtraction within an ASTNode
     the scales were sometimes incorrectly merged.
     
-  - Removed old note comment from the SubModel class.
-
-  - JSBML could not write negative infinity into SBML files correctly.
-  
-  - Meike Aichele removed in TreeNodeChangeEvent the event spacialDimension, 
-    because there is already a spatialDimension-event, which means 
-    exactly the same
-    
   - The units of formulae containing Advogadro's number could not
     be derived because in the UnitsCompiler a UnitDefinition object 
     was created with undefined level/version configuration. Furhtermore,
     there was a bug in the method containsUndeclaredUnits() in ASTNode.
-    
-  - Detected and fixed a source of possible NullPointerExceptions within 
-    the hashCode method in ASTNode.
-    
+
   - Improved the units derivation: There were multiple problems in 
     re-scaling and merging of units and also when determining the actual
     unit of a species.
       
+ENDTODO: merge and shorten items related to units ?? Last Paragraph is a nice summary ??    
+    
+  - Removed old note comment from the SubModel class.
+
+  - JSBML could not write negative infinity into SBML files correctly.
+  
+  - Detected and fixed a source of possible NullPointerExceptions within 
+    the hashCode method in ASTNode.
+    
   - There was a bug in KineticLaw that prevented a correct iteration
     through all child elements: Instead of looking at the 
     listOfLocalParameters it did return the math element twice (if there
@@ -203,7 +177,7 @@ Version 1.0-rc1 (xx-xx-2013)
     the identical TreeNodeChangeListeners to the new data structure. This
     could lead to unexpected behavior because listeners were receiving
     change events from data structures to which these have not been 
-    explicitely added by a user.
+    explicitly added by a user.
     
   - Cloning also caused problems because in some cases the recursive
     method that registers all local parameters and other entities with
@@ -211,16 +185,79 @@ Version 1.0-rc1 (xx-xx-2013)
     could not be found in the model later on when searching for a certain
     id.
     
+TODO: merge and shorten items related to listeners and events ??        
   - QuantityWithUnit did not fire update events when changing its value
     because of an incorrect comparison of the previous and the new value.
+        
+  - The unsetUnits method in ExplicitRule now correctly notify the listeners. 
+
+  - When calling the method setSymbol in InitialAssignment with an instance of
+    Variable as argument, the listeners were sometimes not correctly informed
+    about changes.
+
+  - The setParent method caused an incorrect and in many cases duplicate call of
+    the nodeAdded method in TreeNodeChangeListeners. Instead of registering a
+    property change (the parent link) the parent node has been passed to the
+    nodeAdded method. This has been corrected.
+
+  - Several improvements and corrections in the work with 
+    TreeNodeChangeListeners. In many cases listeners were notified too
+    early or sometimes even not at all because of inconsistent
+    notification mechanisms.
+TODO: merge and shorten items related to listeners and events ?? Last Paragraph is a nice summary ??    
+
+
+========== to delete, move elsewhere or re-write =================
+
+  - SBML Layout extension contained bugs that caused endless recursion when
+    trying to access referenced instances of NamedSBase from a glyph (such
+    as CompartmentGlyph, SpeciesGlyph etc.).
+
+  - JSBML now provides a better distinction between JUnit test cases and example
+    programs.
+    
+  - A new filter method has been added to TreeNodeWithChangeSupport to
+    search for elements in the SBML tree that satisfy a certain filter
+    criterion. The new method can prune the search to the first occurrence of
+    a hit and hence save running time. 
+
+  - Some additional methods for more convenient working with tree data
+    structures in TreeNodeWithChangeSupport.
+
+  - The new class NamedSBaseGlyph in the layout package supports accessing
+    the referenced element from a glyph. To further improve the access to
+    referenced objects from the Layout class, several new and improved methods
+    have been implemented, including a new Filter for NamedSBaseReferences.
+    Thanks to Matthias König for this suggestion.
+
+  - The method nextMetaId in SBMLDocument sometimes created metaIds containing
+    the invalid character '-', but only underscores are allowed there.
+
+  - It was sometimes possible to unregister elements from a model that were
+    the result of cloning, removal of the original entry and linking the clone
+    to the model. When altering the previous element, pointers were deleted
+    in SBMLDocument and Model.
+
+  - In the Layout Extension the id attribute on GraphicalObject has to be
+    mandatory. Furthermore, SpeciesReferenceGlyph has to be derived from
+    GraphicalObject as well. Thanks to Matthias König for pointing this
+    out.
+
+  - Cloning of models did not work correctly in case of ASTNodes or 
+    Annotation elements that were to be cloned contained references to
+    TreeNodeChangeListeners.
+    
+  - Meike Aichele removed in TreeNodeChangeEvent the event spacialDimension, 
+    because there is already a spatialDimension-event, which means 
+    exactly the same
+    
     
   - Detected a bug that made it impossible to set a kinetic law with an 
-    exisiting list of local parameters as the new kinetic law in a 
+    existing list of local parameters as the new kinetic law in a 
     different reaction. JSBML always complained that all local parameters
     were already registered. This was the case for the previous model to
     which the kinetic law belonged. Hence, it was necessary to unregister
     all local parameters first.
-    
   - Subsequent registration and unregistration of local parameters did 
     not work. In case of reactions it was assumed that the kinetic law 
     that was to be added to some SBML subtree had already a parent SBML 
@@ -228,31 +265,7 @@ Version 1.0-rc1 (xx-xx-2013)
     local parameters in a kinetic law, the put method was called on the
     map between ids and local parameters, instead of the remove method.
 
-======================================================================
-Version 0.8.1 (xx-xx-2013)
-======================================================================
 
-* New Features:
-  
-  - Some additional methods for more convenient working with tree data
-    structures in TreeNodeWithChangeSupport.
-    
-  - A method removeNamespace has been added to AbstractSBase.
-  
-* Bug Fixes:
-
-  - When trying to unset a non-RDF annotation, a NullPointerException
-    occurred.
-    
-  - Removed unnecessary import of JOptionPane in SBMLWriter.
-
-  - Several improvements and corrections in the work with 
-    TreeNodeChangeListeners. In many cases listeners were notified too
-    early or sometimes even not at all because of inconsistent
-    notification mechanisms.
-    
-  - The method nextMetaid in SBMLDocument could create identifiers
-    that contain dashes, but only underscores are allowed.
 
 ======================================================================
 Version 0.8.0 (24-08-2012)
