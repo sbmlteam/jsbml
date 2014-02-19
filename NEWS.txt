@@ -1,6 +1,6 @@
-	       JSBML NEWS -- History of user-visible changes
+   
 ======================================================================
-Version 0.8.1 (xx-xx-2013)
+Version 0.8.1 (xx-xx-xxxx)
 ======================================================================
 
 * New Features:
@@ -24,6 +24,10 @@ Version 0.8.1 (xx-xx-2013)
     
   - The method nextMetaid in SBMLDocument could create identifiers
     that contain dashes, but only underscores are allowed.
+
+  - The method nextMetaid in SBMLDocument could create identifiers
+    that contain dashes, but only underscores are allowed.
+	       JSBML NEWS -- History of user-visible changes
 
 ======================================================================
 Version 0.8 (24-08-2012)
