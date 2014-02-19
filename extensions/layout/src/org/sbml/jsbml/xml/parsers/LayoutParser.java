@@ -62,9 +62,9 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 
 /**
- * This class is used to parse the layout extension package elements and
+ * Parses the SBML level 2 layout extension package elements and
  * attributes. The namespaceURI URI of this parser is
- * "http://www.sbml.org/sbml/level3/version1/layout/version1". This parser is
+ * "http://projects.eml.org/bcb/sbml/level2". This parser is
  * able to read and write elements of the layout package (implements
  * ReadingParser and WritingParser).
  * 
@@ -76,7 +76,7 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
  * 
  */
 @ProviderFor(ReadingParser.class)
-public class LayoutParser implements ReadingParser, WritingParser {
+public class LayoutParser implements ReadingParser, WritingParser, PackageParser {
 
   private Logger logger = Logger.getLogger(LayoutParser.class);
 
@@ -149,9 +149,6 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
     if (sbase instanceof SBMLDocument) {
       // nothing to do
-      // TODO: the 'required' attribute is written even if there is no
-      // plugin class for the SBMLDocument, so I am not totally sure how
-      // this is done.
     } else if (sbase instanceof Model) {
       LayoutModelPlugin layoutModel = (LayoutModelPlugin) ((Model) sbase)
           .getExtension(namespaceURI);
@@ -720,12 +717,8 @@ public class LayoutParser implements ReadingParser, WritingParser {
 
   private void setNamespace(SBase sbase, String namespace)
   {
-    // removing the namespace declared by default on the object.
-    // Will allow to read older packages when we have several versions for each packages.
-    //sbase.getNamespace().clear();
-
     // Setting the correct namespace to the object
-    // TODO!!!!
+    // Will allow to read older packages when we have several versions for each packages.
     ((AbstractSBase) sbase).setNamespace(namespace);
   }
 
@@ -779,4 +772,43 @@ public class LayoutParser implements ReadingParser, WritingParser {
     return LayoutConstants.namespaces_L2;
   }
 
+  @Override
+  public SBasePlugin createPluginFor(SBase sbase) {
+
+    if (sbase != null) {
+      if (sbase instanceof Model) {
+        LayoutModelPlugin modelPlugin = new LayoutModelPlugin((Model) sbase);
+        // set the proper namespace ??
+        return modelPlugin;
+      }
+    }
+
+    return null;
+  }
+
+  @Override
+  public String getNamespaceFor(int level, int version, int packageVersion) {
+    if (level < 3) {
+      return LayoutConstants.namespaceURI_L2;
+    }
+    throw new IllegalArgumentException("");
+  }
+
+  @Override
+  public List<String> getPackageNamespaces() {
+    return getNamespaces();
+  }
+
+  @Override
+  public String getPackageName() {
+    return LayoutConstants.shortLabel;
+  }
+
+  @Override
+  public boolean isRequired() {
+    return false;
+  }
+
+  
+  
 }
