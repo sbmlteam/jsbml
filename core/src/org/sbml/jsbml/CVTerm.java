@@ -519,9 +519,10 @@ public class CVTerm extends AnnotationElement {
   }
 
   /**
-   * Returns the Biological QualifierType code for this CVTerm.
+   * Returns the {@link Qualifier} for this CVTerm, only if it if of type {@link Type#BIOLOGICAL_QUALIFIER}, null otherwise.
    * 
-   * @return the Biological QualifierType code for this CVTerm.
+   * @return the {@link Qualifier} for this CVTerm, only if it if of type {@link Type#BIOLOGICAL_QUALIFIER}, null otherwise.
+   * @libsbml.deprecated you could use {@link #getQualifier()} that always return the {@link Qualifier}.
    */
   public Qualifier getBiologicalQualifierType() {
     if (type == Type.BIOLOGICAL_QUALIFIER) {
@@ -547,9 +548,10 @@ public class CVTerm extends AnnotationElement {
   }
 
   /**
-   * Returns the Model QualifierType code for this CVTerm.
+   * Returns the {@link Qualifier} for this CVTerm, only if it if of type {@link Type#MODEL_QUALIFIER}, null otherwise.
    * 
-   * @return the Model QualifierType code for this CVTerm.
+   * @return the {@link Qualifier} for this CVTerm, only if it if of type {@link Type#MODEL_QUALIFIER}, null otherwise.
+   * @libsbml.deprecated you could use {@link #getQualifier()} that always return the {@link Qualifier}.
    */
   public Qualifier getModelQualifierType() {
     if (type == Type.MODEL_QUALIFIER) {
@@ -562,9 +564,8 @@ public class CVTerm extends AnnotationElement {
    * Returns the number of resources for this {@link CVTerm}.
    * 
    * @return the number of resources for this {@link CVTerm}.
-   * @use {@link #getResourceCount()}
+   * @libsbml.deprecated use {@link #getResourceCount()}
    */
-  @Deprecated
   public int getNumResources() {
     return getResourceCount();
   }
@@ -572,6 +573,10 @@ public class CVTerm extends AnnotationElement {
   /**
    * Returns the {@link Qualifier} for this CVTerm.
    * 
+   * <p>If you want to know if the Qualifier is a model qualifier or a biological modifier,
+   * you can use {@link Qualifier#isModelQualifier()} and {@link Qualifier#isBiologicalQualifier()}.
+   * <p>If you want to display the name of the Qualifier, you can use {@link Qualifier#getElementNameEquivalent()}.  
+   *  
    * @return the {@link Qualifier} for this CVTerm.
    */
   public Qualifier getQualifier() {
@@ -588,9 +593,11 @@ public class CVTerm extends AnnotationElement {
   }
 
   /**
-   * Returns the Qualifier Type code for this CVTerm.
+   * Returns the qualifier {@link Type} for this CVTerm.
    * 
-   * @return the Qualifier Type code for this CVTerm.
+   * @return the qualifier {@link Type} for this CVTerm.
+   * @libsbml.deprecated you could use {@link Qualifier#isModelQualifier()} or {@link Qualifier#isBiologicalQualifier()}
+   * if you want to know the type of the qualifier of this CVTerm.
    */
   public Type getQualifierType() {
     return type;
@@ -608,8 +615,7 @@ public class CVTerm extends AnnotationElement {
   /**
    * Returns the value of the nth resource for this CVTerm.
    * 
-   * @param i
-   *            : index of the resourceURI in the list of the resourceURI.
+   * @param i  index of the resourceURI in the list of the resourceURI.
    * @return the value of the nth resource for this CVTerm.
    */
   public String getResourceURI(int i) {
@@ -653,33 +659,37 @@ public class CVTerm extends AnnotationElement {
   }
 
   /**
-   * @return
+   * Returns true if the {@link Qualifier} is set and is of type {@link Type#BIOLOGICAL_QUALIFIER}
+   * 
+   * @return true if the {@link Qualifier} is set and is of type {@link Type#BIOLOGICAL_QUALIFIER}, false otherwise.
    */
   public boolean isSetBiologicalQualifierType() {
     return getBiologicalQualifierType() != null;
   }
 
   /**
-   * @return
+   * Returns true if the {@link Qualifier} is set and is of type {@link Type#MODEL_QUALIFIER}
+   * 
+   * @return true if the {@link Qualifier} is set and is of type {@link Type#MODEL_QUALIFIER}, false otherwise.
    */
   public boolean isSetModelQualifierType() {
     return getModelQualifierType() != null;
   }
 
   /**
-   * Checks whether or not the {@link Qualifier} has been set for this
+   * Checks whether or not the {@link Type} has been set for this
    * {@link CVTerm}.
    * 
-   * @return
+   * @return {@code true} if the {@link Type} of this CVTerm is set.
    */
   public boolean isSetQualifierType() {
     return getQualifierType() != null;
   }
 
   /**
-   * Returns {@code true} if the Type of this CVTerm is set.
+   * Returns {@code true} if the {@link Type} of this CVTerm is set and is different from {@link Type#UNKNOWN_QUALIFIER}.
    * 
-   * @return {@code true} if the Type of this CVTerm is set.
+   * @return {@code true} if the {@link Type} of this CVTerm is set and is different from {@link Type#UNKNOWN_QUALIFIER}.
    */
   public boolean isSetType() {
     return (type != null) && !type.equals(Type.UNKNOWN_QUALIFIER);
@@ -687,13 +697,27 @@ public class CVTerm extends AnnotationElement {
 
   /**
    * Returns {@code true} if the {@link Qualifier} of this {@link CVTerm}
-   * is set.
+   * is set and is different from {@link Qualifier#BQM_UNKNOWN} and {@link Qualifier#BQB_UNKNOWN}.
+   * 
+   * @return {@code true} if the {@link Qualifier} of this {@link CVTerm}
+   *         is set.
+   * @deprecated use {@link #isSetQualifier()}        
+   */
+  @Deprecated
+  public boolean isSetTypeQualifier() {
+    return isSetQualifier();
+  }
+  
+  /**
+   * Returns {@code true} if the {@link Qualifier} of this {@link CVTerm}
+   * is set and is different from {@link Qualifier#BQM_UNKNOWN} and {@link Qualifier#BQB_UNKNOWN}.
    * 
    * @return {@code true} if the {@link Qualifier} of this {@link CVTerm}
    *         is set.
    */
-  public boolean isSetTypeQualifier() {
-    return qualifier != null;
+  public boolean isSetQualifier() {
+    return (qualifier != null) && (!qualifier.equals(Qualifier.BQM_UNKNOWN)) 
+        && (!qualifier.equals(Qualifier.BQB_UNKNOWN));
   }
 
   /* (non-Javadoc)
@@ -702,6 +726,8 @@ public class CVTerm extends AnnotationElement {
   public boolean readAttribute(String elementName, String attributeName,
     String prefix, String value) {
 
+    // TODO - remove this method if not used
+    
     if (elementName.equals("li")) {
       if (attributeName.equals("resource")) {
         addResourceURI(value);
@@ -735,9 +761,10 @@ public class CVTerm extends AnnotationElement {
   }
 
   /**
-   * Sets the biological qualifier type.
+   * Sets the biological qualifier type, using the {@link Qualifier#values()} array.
    * 
    * @param specificQualifierType
+   * @libsbml.deprecated use {@link #setQualifier(Qualifier)}
    */
   public void setBiologicalQualifierType(int specificQualifierType) {
     setBiologicalQualifierType(Qualifier.values()[specificQualifierType]);
@@ -747,6 +774,9 @@ public class CVTerm extends AnnotationElement {
    * Sets the biological qualifier type of this {@link CVTerm}.
    * 
    * @param qualifier
+   * @throws IllegalArgumentException if the {@link Qualifier} is not a biological one or if
+   * the {@link Type} was not set to {@link Type#BIOLOGICAL_QUALIFIER}.
+   * @see  {@link #setQualifier(Qualifier)}
    */
   public void setBiologicalQualifierType(Qualifier qualifier) {
     if (qualifier != null) {
@@ -769,9 +799,10 @@ public class CVTerm extends AnnotationElement {
   }
 
   /**
-   * Sets the model qualifier type of this {@link CVTerm}.
+   * Sets the model qualifier type of this {@link CVTerm}, using the {@link Qualifier#values()} array.
    * 
    * @param specificQualifierType
+   * @libsbml.deprecated use {@link #setQualifier(Qualifier)}
    */
   public void setModelQualifierType(int specificQualifierType) {
     final int NUM_BIOLOGICAL_QUALIFIER_TYPES = 11;
@@ -783,6 +814,9 @@ public class CVTerm extends AnnotationElement {
    * Sets the model qualifier type of this {@link CVTerm}.
    * 
    * @param qualifier
+   * @throws IllegalArgumentException if the {@link Qualifier} is not a model one or if
+   * the {@link Type} was not set to {@link Type#MODEL_QUALIFIER}.
+   * @see  {@link #setQualifier(Qualifier)}
    */
   public void setModelQualifierType(Qualifier qualifier) {
     if (qualifier != null) {
@@ -803,23 +837,53 @@ public class CVTerm extends AnnotationElement {
     }
   }
 
-  // TODO: check that this 3 functions are doing the good things and
-  // selecting the proper qualifier
+  // TODO: check that the 3 set functions taking an int are doing the good things and selecting the proper qualifier
+  
+  /**
+   * Sets the {@link Qualifier} of this {@link CVTerm}, sets at the same time the {@link Type} to the proper value.
+   * 
+   * @param qualifier
+   */
+  public void setQualifier(Qualifier qualifier) {
+    Qualifier oldQualifier = this.qualifier;
+    Type oldType = type;
+    
+    this.qualifier = qualifier;
+    
+    if (this.qualifier != null) {
+      if (qualifier.isBiologicalQualifier()) {
+        type = Type.BIOLOGICAL_QUALIFIER;
+      } else if (qualifier.isModelQualifier()) {
+        type = Type.MODEL_QUALIFIER;
+      } else {
+        type = Type.UNKNOWN_QUALIFIER;
+      }
+    } else {
+      type = null;
+    }
+
+    firePropertyChange(TreeNodeChangeEvent.type, oldType, this.type);
+    firePropertyChange(TreeNodeChangeEvent.qualifier, oldQualifier, qualifier);
+  }
+  
   /**
    * Sets the type of this {@link CVTerm} to the {@link Type} represented by
    * 'qualifierType'.
    * 
    * @param qualifierType
    *        the Type to set as an integer.
+   * @libsbml.deprecated use {@link #setQualifier(Qualifier)}.       
    */
   public void setQualifierType(int qualifierType) {
     setQualifierType(Type.values()[qualifierType]);
   }
 
   /**
-   * Sets the type of this {@link CVTerm} to 'type'
+   * Sets the type of this {@link CVTerm} to 'type', the value of the {@link Qualifier} is reset to
+   * {@link Qualifier#BQB_UNKNOWN} or {@link Qualifier#BQM_UNKNOWN}.
    * 
    * @param type
+   * @see  {@link #setQualifier(Qualifier)}
    */
   public void setQualifierType(Type type) {
     if ((type == Type.MODEL_QUALIFIER)
@@ -880,8 +944,9 @@ public class CVTerm extends AnnotationElement {
 
 
   /**
-   * Unsets the biological qualifier if it is set.
+   * Unsets the biological qualifier if it is set and of the type {@link Type#BIOLOGICAL_QUALIFIER}
    * 
+   * @see #unsetQualifier()
    */
   public void unsetBiologicalQualifierType() {
     if (type == Type.BIOLOGICAL_QUALIFIER) {
@@ -891,8 +956,9 @@ public class CVTerm extends AnnotationElement {
   }
 
   /**
-   * Unsets the model qualifier if it is set.
+   * Unsets the {@link Qualifier} if it is set and of the type {@link Type#MODEL_QUALIFIER}.
    * 
+   * @see #unsetQualifier()
    */
   public void unsetModelQualifierType() {
     if (type == Type.MODEL_QUALIFIER) {
@@ -900,6 +966,17 @@ public class CVTerm extends AnnotationElement {
       qualifier = null;
     }
   }
+  
+  /**
+   * Unsets the qualifier if it is set.
+   * 
+   */
+  public void unsetQualifier() {
+    firePropertyChange(TreeNodeChangeEvent.qualifier, qualifier, null);
+    qualifier = null;
+  }
+  
+    
 
   /**
    * Unsets the qualifier type if it is set.
