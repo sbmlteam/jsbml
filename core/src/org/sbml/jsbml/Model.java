@@ -1454,24 +1454,28 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   public List<LocalParameter> findLocalParameters(String id)
   {
     List<LocalParameter> list = new ArrayList<LocalParameter>();
-    List<Reaction> rList = mapOfLocalParameters.get(id);
 
-    if ((rList == null) || rList.isEmpty()) {
-      return list;
-    }
+    if (mapOfLocalParameters != null) {
+      List<Reaction> rList = mapOfLocalParameters.get(id);
 
-    for (Reaction r : rList)
-    {
-      // This must always be true, otherwise there is an error elsewhere:
-      if (r.isSetKineticLaw()) {
-        LocalParameter p = r.getKineticLaw().getLocalParameter(id);
-        if (p != null) {
-          list.add(p);
+      if ((rList == null) || rList.isEmpty()) {
+        return list;
+      }
+
+      for (Reaction r : rList)
+      {
+        // This must always be true, otherwise there is an error elsewhere:
+        if (r.isSetKineticLaw()) {
+          LocalParameter p = r.getKineticLaw().getLocalParameter(id);
+          if (p != null) {
+            list.add(p);
+          }
+        } else {
+          logger.warn("A reaction that is supposed to have a local parameter defined has no kineticLaw !!!");
         }
-      } else {
-        logger.warn("A reaction that is supposed to have a local parameter defined has no kineticLaw !!!");
       }
     }
+
     return list;
   }
 
@@ -2517,9 +2521,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link Compartment}s of this {@link Model}.
    * 
    * @return the number of {@link Compartment}s of this {@link Model}.
-   * @deprecated use {@link #getCompartmentCount()}
+   * @libsbml.deprecated use {@link #getCompartmentCount()}
    */
-  @Deprecated
   public int getNumCompartments() {
     return getCompartmentCount();
   }
@@ -2528,7 +2531,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link CompartmentType}s of this {@link Model}.
    * 
    * @return the number of {@link CompartmentType}s of this {@link Model}.
-   * @deprecated use {@link #getCompartmentTypeCount()}
+   * @libsbml.deprecated use {@link #getCompartmentTypeCount()}
    */
   @Deprecated
   public int getNumCompartmentTypes() {
@@ -2539,9 +2542,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link Constraint}s of this {@link Model}.
    * 
    * @return the number of {@link Constraint}s of this {@link Model}.
-   * @deprecated use {@link #getConstraintCount()}
+   * @libsbml.deprecated use {@link #getConstraintCount()}
    */
-  @Deprecated
   public int getNumConstraints() {
     return getConstraintCount();
   }
@@ -2550,9 +2552,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link Delay}s of this {@link Model}.
    * 
    * @return the number of {@link Delay}s of this {@link Model}.
-   * @deprecated use {@link #getDelayCount()}
+   * @libsbml.deprecated use {@link #getDelayCount()}
    */
-  @Deprecated
   public int getNumDelays() {
     return getDelayCount();
   }
@@ -2561,9 +2562,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link EventAssignment}s of this {@link Model}.
    * 
    * @return return the number of {@link EventAssignment}s of this {@link Model}.
-   * @deprecated use {@link #getEventAssignmentCount()}
+   * @libsbml.deprecated use {@link #getEventAssignmentCount()}
    */
-  @Deprecated
   public int getNumEventAssignments() {
     return getEventAssignmentCount();
   }
@@ -2572,9 +2572,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link Event}s of this {@link Model}.
    * 
    * @return the number of {@link Event}s of this {@link Model}.
-   * @deprecated use {@link #getEventCount()}
+   * @libsbml.deprecated use {@link #getEventCount()}
    */
-  @Deprecated
   public int getNumEvents() {
     return getEventCount();
   }
@@ -2583,9 +2582,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link FunctionDefinition}s of this {@link Model}.
    * 
    * @return the number of {@link FunctionDefinition}s of this {@link Model}.
-   * @deprecated use {@link #getFunctionDefinitionCount()}
+   * @libsbml.deprecated use {@link #getFunctionDefinitionCount()}
    */
-  @Deprecated
   public int getNumFunctionDefinitions() {
     return getFunctionDefinitionCount();
   }
@@ -2594,9 +2592,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link InitialAssignment}s of this {@link Model}.
    * 
    * @return the number of {@link InitialAssignment}s of this {@link Model}.
-   * @deprecated use {@link #getInitialAssignmentCount()}
+   * @libsbml.deprecated use {@link #getInitialAssignmentCount()}
    */
-  @Deprecated
   public int getNumInitialAssignments() {
     return getInitialAssignmentCount();
   }
@@ -2605,9 +2602,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link KineticLaw}s of this {@link Model}.
    * 
    * @return the number of {@link KineticLaw}s of this {@link Model}.
-   * @deprecated use {@link #getKineticLawCount()}
+   * @libsbml.deprecated use {@link #getKineticLawCount()}
    */
-  @Deprecated
   public int getNumKineticLaws() {
     return getKineticLawCount();
   }
@@ -2616,9 +2612,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link ListOf}s of this {@link Model}.
    * 
    * @return the number of {@link ListOf}s of this {@link Model}.
-   * @deprecated use {@link #getListOfCount()}
+   * @libsbml.deprecated use {@link #getListOfCount()}
    */
-  @Deprecated
   public int getNumListsOf() {
     return getListOfCount();
   }
@@ -2629,9 +2624,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @return the number of parameters that are contained within kineticLaws in
    *         the reactions of this model.
-   * @deprecated use {@link #getLocalParameterCount()}
+   * @libsbml.deprecated use {@link #getLocalParameterCount()}
    */
-  @Deprecated
   public int getNumLocalParameters() {
     return getLocalParameterCount();
   }
@@ -2641,9 +2635,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @return the number of elements that can contain math in the {@link Model} .
    * @see MathContainer
-   * @deprecated use {@link #getMathContainerCount()}
+   * @libsbml.deprecated use {@link #getMathContainerCount()}
    */
-  @Deprecated
   public int getNumMathContainers() {
     return getMathContainerCount();
   }
@@ -2654,9 +2647,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @return the number of {@link ModifierSpeciesReference}s in the
    *         {@link Model}.
-   * @deprecated use {@link #getModifierSpeciesReferenceCount()}
+   * @libsbml.deprecated use {@link #getModifierSpeciesReferenceCount()}
    */
-  @Deprecated
   public int getNumModifierSpeciesReferences() {
     return getModifierSpeciesReferenceCount();
   }
@@ -2667,9 +2659,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @return the number of {@link NamedSBase}s in the {@link Model}, so elements
    *         that can have a name.
-   * @deprecated use {@link #getNamedSBaseCount()}
+   * @libsbml.deprecated use {@link #getNamedSBaseCount()}
    */
-  @Deprecated
   public int getNumNamedSBases() {
     return getNamedSBaseCount();
   }
@@ -2682,9 +2673,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return the number of {@link NamedSBaseWithDerivedUnit}s in the
    *         {@link Model}, so elements that can have a name and a unit that can
    *         be derived.
-   * @deprecated use {@link #getNamedSBaseWithDerivedUnitCount()}
+   * @libsbml.deprecated use {@link #getNamedSBaseWithDerivedUnitCount()}
    */
-  @Deprecated
   public int getNumNamedSBasesWithDerivedUnit() {
     return getNamedSBaseWithDerivedUnitCount();
   }
@@ -2693,9 +2683,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link Parameter}s of this {@link Model}.
    * 
    * @return the number of {@link Parameter}s of this {@link Model}.
-   * @deprecated use {@link #getParameterCount()}
+   * @libsbml.deprecated use {@link #getParameterCount()}
    */
-  @Deprecated
   public int getNumParameters() {
     return getParameterCount();
   }
@@ -2704,9 +2693,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link Quantity}s of this {@link Model}.
    * 
    * @return the number of {@link Quantity}s of this {@link Model}.
-   * @deprecated use {@link #getQuantityCount()}
+   * @libsbml.deprecated use {@link #getQuantityCount()}
    */
-  @Deprecated
   public int getNumQuantities() {
     return getQuantityCount();
   }
@@ -2715,9 +2703,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link QuantityWithUnit}s of this {@link Model}.
    * 
    * @return the number of {@link QuantityWithUnit}s of this {@link Model}.
-   * @deprecated use {@link #getQuantityWithUnitCount()}
+   * @libsbml.deprecated use {@link #getQuantityWithUnitCount()}
    */
-  @Deprecated
   public int getNumQuantitiesWithUnit() {
     return getQuantityWithUnitCount();
   }
@@ -2726,9 +2713,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link Reaction}s of this {@link Model}.
    * 
    * @return the number of {@link Reaction}s of this {@link Model}.
-   * @deprecated use {@link #getReactionCount()}
+   * @libsbml.deprecated use {@link #getReactionCount()}
    */
-  @Deprecated
   public int getNumReactions() {
     return getReactionCount();
   }
@@ -2737,9 +2723,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link Rule}s of this {@link Model}.
    * 
    * @return the number of {@link Rule}s of this {@link Model}.
-   * @deprecated use {@link #getRuleCount()}
+   * @libsbml.deprecated use {@link #getRuleCount()}
    */
-  @Deprecated
   public int getNumRules() {
     return getRuleCount();
   }
@@ -2748,9 +2733,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link SBase}s of this {@link Model}.
    * 
    * @return the number of {@link SBase}s of this {@link Model}.
-   * @deprecated use {@link #getSBaseCount()}
+   * @libsbml.deprecated use {@link #getSBaseCount()}
    */
-  @Deprecated
   public int getNumSBases() {
     return getSBaseCount();
   }
@@ -2759,9 +2743,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link SBaseWithDerivedUnit}s of this {@link Model}.
    * 
    * @return the number of {@link SBaseWithDerivedUnit}s of this {@link Model}.
-   * @deprecated use {@link #getSBaseWithDerivedUnitCount()}
+   * @libsbml.deprecated use {@link #getSBaseWithDerivedUnitCount()}
    */
-  @Deprecated
   public int getNumSBasesWithDerivedUnit() {
     return getSBaseWithDerivedUnitCount();
   }
@@ -2770,9 +2753,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link Species} of this {@link Model}.
    * 
    * @return the number of {@link Species} of this {@link Model}.
-   * @deprecated use {@link #getSpeciesCount()}
+   * @libsbml.deprecated use {@link #getSpeciesCount()}
    */
-  @Deprecated
   public int getNumSpecies() {
     return getSpeciesCount();
   }
@@ -2781,9 +2763,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link SpeciesReferences}s of this {@link Model}.
    * 
    * @return the number of {@link SpeciesReferences}s of this {@link Model}.
-   * @deprecated use {@link #getSpeciesReferenceCount()}
+   * @libsbml.deprecated use {@link #getSpeciesReferenceCount()}
    */
-  @Deprecated
   public int getNumSpeciesReferences() {
     return getSpeciesReferenceCount();
   }
@@ -2792,7 +2773,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link SpeciesType}s of this {@link Model}.
    * 
    * @return the number of {@link SpeciesType}s of this {@link Model}.
-   * @deprecated use {@link #getSpeciesTypeCount()}
+   * @libsbml.deprecated use {@link #getSpeciesTypeCount()}
    */
   @Deprecated
   public int getNumSpeciesTypes() {
@@ -2805,9 +2786,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @return the number of {@link Species} whose boundary condition is set to
    *         {@code true}.
-   * @deprecated use {@link #getSpeciesWithBoundaryConditionCount()}
+   * @libsbml.deprecated use {@link #getSpeciesWithBoundaryConditionCount()}
    */
-  @Deprecated
   public int getNumSpeciesWithBoundaryCondition() {
     return getSpeciesWithBoundaryConditionCount();
   }
@@ -2816,9 +2796,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link StoichiometryMath} in the {@link Model}.
    * 
    * @return the number of {@link StoichiometryMath} in the {@link Model}.
-   * @deprecated use {@link #getStoichiometryMathCount()}
+   * @libsbml.deprecated use {@link #getStoichiometryMathCount()}
    */
-  @Deprecated
   public int getNumStoichiometryMath() {
     return getStoichiometryMathCount();
   }
@@ -2830,9 +2809,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @return The number of {@link Compartment}s, {@link Species}, and
    *         {@link Parameter}s in the model.
-   * @deprecated use {@link #getSymbolCount()}
+   * @libsbml.deprecated use {@link #getSymbolCount()}
    */
-  @Deprecated
   public int getNumSymbols() {
     return getSymbolCount();
   }
@@ -2841,9 +2819,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link Trigger} of this {@link Model}.
    * 
    * @return the number of {@link Trigger} of this {@link Model}.
-   * @deprecated use {@link #getTriggerCount()}
+   * @libsbml.deprecated use {@link #getTriggerCount()}
    */
-  @Deprecated
   public int getNumTriggers() {
     return getTriggerCount();
   }
@@ -2852,9 +2829,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link UnitDefinition}s of this {@link Model}.
    * 
    * @return the number of {@link UnitDefinition}s of this {@link Model}.
-   * @deprecated use {@link #getUnitDefinitionCount()}
+   * @libsbml.deprecated use {@link #getUnitDefinitionCount()}
    */
-  @Deprecated
   public int getNumUnitDefinitions() {
     return getUnitDefinitionCount();
   }
@@ -2863,9 +2839,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link Unit}s of this {@link Model}.
    * 
    * @return the number of {@link Unit}s of this {@link Model}.
-   * @deprecated use {@link #getUnitCount()}
+   * @libsbml.deprecated use {@link #getUnitCount()}
    */
-  @Deprecated
   public int getNumUnits() {
     return getUnitCount();
   }
@@ -2874,9 +2849,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    * Returns the number of {@link Variable}s of this {@link Model}.
    * 
    * @return the number of {@link Variable}s of this {@link Model}.
-   * @deprecated use {@link #getVariableCount()}
+   * @libsbml.deprecated use {@link #getVariableCount()}
    */
-  @Deprecated
   public int getNumVariables() {
     return getVariableCount();
   }
