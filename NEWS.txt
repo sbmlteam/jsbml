@@ -6,43 +6,43 @@ Version 1.0-beta1 (xx-02-2014)
 
 * New Features:
 
-  - The main addition of jsbml-1.0 is the added support for the SBML level 3
+  - The main addition of JSBML 1.0 is the added support for the SBML Level 3
     packages.
     
   - JSBML is no longer compliant to Java 1.5. With this version it has been
-    shifted to 1.6 due to the common availability of java virtual machines for
-    this version on diverse platforms.
+    shifted to 1.6 due to the common availability of Java(TM) virtual machines
+    version 1.6 on diverse platforms.
     
-  - Qualitative Models package (qual) implemented, following the 
-    specifications version 1 release 1 (17 May 2013).
+  - Qualitative Models package (qual) has been implemented, following the 
+    specifications Version 1 Release 1 (17 May 2013).
   
   - Flux Balance Constraints package (fbc) implemented, following the 
-    specifications version 1 release 1 (11 February 2013).
+    specifications Version 1 Release 1 (11 February 2013).
   
   - Hierarchical Model Composition package (comp) implemented, following the
-    specifications version 1 release 3 (14 November 2013).
+    specifications Version 1 Release 3 (14 November 2013).
   
-  - Layout package (layout) implemented, following the specifications version
-    1 release 1 (13 August 2013).
+  - Layout package (layout) implemented, following the specifications Version
+    1 Release 1 (13 August 2013).
 
   - Required Elements package (req) implemented, following the draft
-    specifications version 1 release 0.5 (30 May 2013).
+    specifications Version 1 Release 0.5 (30 May 2013).
   
   - Spatial Processes package (spatial) implemented, following the working
-    specifications version 1 release 0.80 (latest version is release 0.85, 
+    specifications Version 1 release 0.80 (latest version is release 0.85, 
     13 December 2013).
 
   - Groups package (groups) implemented, following the draft specifications
-    version 1 release 0.4 (17 May 2013).
+    Version 1 Release 0.4 (17 May 2013).
 
-  - Render package (render) implemented, trying to following the SBML Level 2
+  - Render package (render) implemented, trying to follow the SBML Level 2
     specifications.
 
   - Support for arrays, distrib and multi is not yet available but planned for
-    the final jsbml-1.0 release.
+    the final JSBML 1.0 release.
 
   - Some filter methods have been added to TreeNodeWithChangeSupport (so to 
-    SBase as well), which allows for recursive queries in the entire data
+    SBase as well), which allow for recursive queries in the entire data
     structure.
   
   - There is now a new ProgressListener utility class that enables tracking
@@ -71,28 +71,28 @@ Version 1.0-beta1 (xx-02-2014)
     
   - The multiplyWith and divideBy methods in UnitDefinition have been
     improved to better combine units by using the merge method.
-  
-  - Validation check for e-mail addresses in Creator.
-  
-  - A quick Hash-based search method to access elements in a model
-    based on their identifier. In the same way, any SBase can be
-    found in the SBMLDocument based on its metaId.
     
-  - In order to make the API more Java-like, for each getNumXXX method
-    a corresponding getXXXCount method has been created.
-    
+  - When trying to derive its UnitDefinition, the Species class now 
+    tries to find an existing unit from the model, rather than returning
+    some UnitDefinition that has not yet been linked to the model.
+
   - The Species class now ensures that its spatial size units can only
     be set if its surrounding compartment does not have zero dimensions
     and if its hasOnlySubstanceUnits attribute is false. This behavior
     is specified by the SBML documents for Level 2 Versions 1 and 2, but
     was not yet implemented.
     
-  - When trying to derive its UnitDefinition, the Species class now 
-    tries to find an existing unit from the model, rather than returning
-    some UnitDefinition that has not yet been linked to the model.
-
   - A new JUnit test class helps to check if simplification and merging
     of Units and UnitDefinitions works correctly.
+    
+  - Validation check for e-mail addresses in Creator.
+  
+  - A quick Hash-based search method to access elements in a model
+    based on their identifier. In the same way, any SBase can be
+    found in the SBMLDocument based on its metaId in constant time.
+    
+  - In order to make the API more Java-like, for each getNumXXX method
+    a corresponding getXXXCount method has been created.
     
   - The userObject in ASTNode has been replaced by a more general map
     of userObjects that is located in TreeNodeWithChangeSupport. In this 
@@ -152,7 +152,7 @@ TODO: merge and shorten items related to units ??
     
   - The units of formulae containing Advogadro's number could not
     be derived because in the UnitsCompiler a UnitDefinition object 
-    was created with undefined level/version configuration. Furhtermore,
+    was created with undefined level/version configuration. Furthermore,
     there was a bug in the method containsUndeclaredUnits() in ASTNode.
 
   - Improved the units derivation: There were multiple problems in 
@@ -181,9 +181,8 @@ ENDTODO: merge and shorten items related to units ?? Last Paragraph is a nice su
     
   - Cloning also caused problems because in some cases the recursive
     method that registers all local parameters and other entities with
-    an id did in some cases not do a full recursion. Hence, some entities
-    could not be found in the model later on when searching for a certain
-    id.
+    an id did not do a full recursion. Hence, some entities could not be found
+    in the model later on when searching for a certain id.
     
 TODO: merge and shorten items related to listeners and events ??        
   - QuantityWithUnit did not fire update events when changing its value
