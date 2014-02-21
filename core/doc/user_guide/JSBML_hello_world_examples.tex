@@ -22,7 +22,7 @@ elaborate programs.
   \index{graphical user interface!\code{JFrame}}
 \end{figure}
 
-\Vref*{fig:JSBMLvisualizer-source} shows the listing of a very simple
+\vref*{fig:JSBMLvisualizer-source} shows the listing of a very simple
 program called ``\code{JSBMLvisualizer}''. When it is run, it expects to
 be given the path name of a valid SBML file as \index{SBML!XML file} its
 sole argument. The program uses the static method \code{read()} defined
@@ -72,7 +72,7 @@ third-party libraries.
     implement the interface \TreeNode.}
   \label{fig:JSBMLvisualizer-output}
 \end{wrapfigure}
-\Vref*{fig:JSBMLvisualizer-output} shows the example output when
+\vref*{fig:JSBMLvisualizer-output} shows the example output when
 applying the program to an SBML test model. \index{SBML!test cases} Each
 element in the model shows up as an item in the hierarchy displayed by the
 Java \JTree object. In the working application, the user can click on the
@@ -105,7 +105,7 @@ topic of the next example.
 
 \subsection{Creating and writing an \codeNC{SBMLDocument} object}
 
-Our next example, shown in \vref{fig:JSBMLexample-source},
+Our next example, shown in \fig{fig:JSBMLexample-source},
 illustrates how to construct an in-memory representation of an SBML model
 and write it to a file. The program first creates an \SBMLDocument object,
 then attaches a \Model object to it, and then to the \Model adds one
@@ -133,12 +133,12 @@ representation of the SBML model.
 
 \section{More examples}
 
-\Vref*{lst:LibSBMLio} illustrates the conversion of libSBML data structures
-into JSBML data objects. \Vref{lst:PluginAction} demonstrates the
+\vref*{lst:LibSBMLio} illustrates the conversion of libSBML data structures
+into JSBML data objects. \vref{lst:PluginAction} demonstrates the
 implementation of CellDesigner's abstract class \code{PluginAction} and
 \vref{lst:Plugin} gives a complete example for writing CellDesigner plugins
 with JSBML.  \index{CellDesigner} More detailed explanations of JSBML's
-modules can be found in \vref{sec:jsbml-modules-details}, and more complex
+modules can be found in \sec{sec:jsbml-modules-details}, and more complex
 examples of using JSBML are available from the JSBML SourceForge repository.
-(Please see \vref{sec:jsbml-repo-examples} for information about how to obtain
+(Please see \sec{sec:jsbml-repo-examples} for information about how to obtain
 them.)
