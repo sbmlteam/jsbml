@@ -45,8 +45,8 @@ Version 1.0-beta1 (xx-02-2014)
     SBase as well), which allow for recursive queries in the entire data
     structure.
   
-  - There is now a new ProgressListener utility class that enables tracking
-    the progress of computationally intensive tasks.
+  - There is now a new ProgressListener utility class that enables tracking the
+    progress of computationally intensive tasks.
     
   - For a better localization support and to separate source code from user
     messages a resource manager has been implemented and is being used in some
@@ -54,6 +54,10 @@ Version 1.0-beta1 (xx-02-2014)
 
   - The libSBMLio module for reading and writing SBML using libSBML as an input
     and output module has been revised and completely re-implemented.
+    
+  - The CellDesigner plugin module has been completely re-written and has become
+    significantly more efficient. This facilitates the creation of CellDesigner
+    plugins for existing JSBML-based programs with very little overhead.
 
   - The MAVEN support has been improved. Thanks to Aurélien Naldi for providing
     several POM.xml files for JSBML.
@@ -61,44 +65,40 @@ Version 1.0-beta1 (xx-02-2014)
   - Syntax check for metaids in the setMetaId method.
 
   - SBasePlugin now implements the TreeNodeWithChangeSupport interface.
-
-  - The Unit class has two new methods: removeOffset and
-    removeMultiplier. The first one computes a new multiplier from
-    the old offset, the old multiplier, and the scale and then sets
-    the offset to 0. The second method tries to remove the multiplier
-    by combining it with the scale. If this is not possible without
-    loosing accuracy, the method does nothing.
-    
-  - The multiplyWith and divideBy methods in UnitDefinition have been
-    improved to better combine units by using the merge method.
-    
-  - When trying to derive its UnitDefinition, the Species class now 
-    tries to find an existing unit from the model, rather than returning
-    some UnitDefinition that has not yet been linked to the model.
-
-  - The Species class now ensures that its spatial size units can only
-    be set if its surrounding compartment does not have zero dimensions
-    and if its hasOnlySubstanceUnits attribute is false. This behavior
-    is specified by the SBML documents for Level 2 Versions 1 and 2, but
-    was not yet implemented.
-    
-  - A new JUnit test class helps to check if simplification and merging
-    of Units and UnitDefinitions works correctly.
     
   - Validation check for e-mail addresses in Creator.
   
-  - A quick Hash-based search method to access elements in a model
-    based on their identifier. In the same way, any SBase can be
-    found in the SBMLDocument based on its metaId in constant time.
+  - A quick Hash-based search method to access elements in a model based on
+    their identifier. In the same way, any SBase can be found in the
+    SBMLDocument based on its metaId in constant time.
     
-  - In order to make the API more Java-like, for each getNumXXX method
-    a corresponding getXXXCount method has been created.
+  - In order to make the API more Java-like, for each getNumXXX method a
+    corresponding getXXXCount method has been created.
     
-  - The userObject in ASTNode has been replaced by a more general map
-    of userObjects that is located in TreeNodeWithChangeSupport. In this 
-    way, any JSBML object that is part of the SBML tree can now be attached
-    with user-defined objects. These will not be written to SBML later on.
+  - The userObject in ASTNode has been replaced by a more general map of
+    userObjects that is located in TreeNodeWithChangeSupport. In this way, any
+    JSBML object that is part of the SBML tree can now be attached with user-
+    defined objects. These will not be written to SBML later on.
+
+  - The Unit class has the new methods removeMultiplier: it merges multiplier
+    and scale. This can only be done if the logarithm to the base 10 of the
+    multiplier is nearly an integer number, i.e., if the distance to the next
+    integer falls below the ensured double precision.
     
+  - The multiplyWith and divideBy methods in UnitDefinition have been improved
+    to better combine units by using the merge method.
+
+  - The Species class now ensures that its spatial size units can only be set if
+    its surrounding compartment does not have zero dimensions and if its
+    hasOnlySubstanceUnits attribute is false. This behavior is specified by the
+    SBML documents for Level 2 Versions 1 and 2, but was not yet implemented.
+    
+  - When deriving its UnitDefinition, the Species class searches for a suitable
+    existing unit from the model, rather than creating a new instance. To this 
+    end, inherited Level 3 units from the Model are now taken into account.
+
+  - A new JUnit test class helps to check if simplification and merging of Units
+    and UnitDefinitions works correctly.
 
 * Bug Fixes:
 
@@ -110,56 +110,8 @@ Version 1.0-beta1 (xx-02-2014)
     NullPointerException was thrown. This has been solved. Thanks to Curtis
     Madsen for detecting this bug. 
 
-  - There is now a rounding correction for multipliers when merging units
-    that tries to shift multipliers to the scale of a unit. This can only
-    be done if the logarithm to the base 10 of the multiplier is nearly
-    an integer number. Nearly means that the distance to the next integer
-    is not larger than the ensured double precision.
-
-  - It was forgotten to implement an unsetSubstanceUnits method on the Model
-    class. Thanks to Robert Byrnes for reporting this problem.
-  
-  - The Compartment class did not override the getDerivedUnitDefinition
-    method from its superclass. Hence, it was not possible to inherit
-    Level 3 units from the model.
-    
-  - The Species class did not take inherited Level 3 units from the
-    Model into account. The getDerivedUnitDefinition method now has been
-    corrected for Species.
-
-  - In the Reaction class, the setReversible method accepted Boolean,
-    not boolean, this has been changed.
-    
-TODO: merge and shorten items related to units ??    
-  - Merging of Units was not correct: In cases that scales of two units 
-    could not be evenly merged, just one of both was used, the second scale
-    was ignored. In these cases, however, the scales must be removed and
-    the double-valued multiplier must be used for representation. This is
-    now implemented.
-    
-  - If during the simplification of UnitDefinitions a dimensionless unit
-    was created by canceling terms, scale and multiplier were not merged
-    correctly with other units because in dimensionless units scale was
-    always 0 and multiplier was 1. Now, if some unit cancel, but a number
-    of non-dimensionless units remain, the simplify method checks again
-    the listOfUnits and tries to merge as many units as possible.
-    
-  - Scales of units could not be merged correctly if one of both scales
-    was different from zero.
-    
-  - When unifying units in addition or subtraction within an ASTNode
-    the scales were sometimes incorrectly merged.
-    
-  - The units of formulae containing Advogadro's number could not
-    be derived because in the UnitsCompiler a UnitDefinition object 
-    was created with undefined level/version configuration. Furthermore,
-    there was a bug in the method containsUndeclaredUnits() in ASTNode.
-
-  - Improved the units derivation: There were multiple problems in 
-    re-scaling and merging of units and also when determining the actual
-    unit of a species.
-      
-ENDTODO: merge and shorten items related to units ?? Last Paragraph is a nice summary ??    
+  - In the Reaction class, the setReversible method accepted Boolean, instead of
+    boolean. This has been changed.
     
   - Removed old note comment from the SubModel class.
 
@@ -168,28 +120,20 @@ ENDTODO: merge and shorten items related to units ?? Last Paragraph is a nice su
   - Detected and fixed a source of possible NullPointerExceptions within 
     the hashCode method in ASTNode.
     
-  - There was a bug in KineticLaw that prevented a correct iteration
-    through all child elements: Instead of looking at the 
-    listOfLocalParameters it did return the math element twice (if there
-    was one).
-    
-  - When cloning entire models or SBMLDocuments, JSBML also did assign
-    the identical TreeNodeChangeListeners to the new data structure. This
-    could lead to unexpected behavior because listeners were receiving
-    change events from data structures to which these have not been 
-    explicitly added by a user.
-    
-  - Cloning also caused problems because in some cases the recursive
-    method that registers all local parameters and other entities with
-    an id did not do a full recursion. Hence, some entities could not be found
-    in the model later on when searching for a certain id.
-    
-TODO: merge and shorten items related to listeners and events ??        
-  - QuantityWithUnit did not fire update events when changing its value
-    because of an incorrect comparison of the previous and the new value.
-        
-  - The unsetUnits method in ExplicitRule now correctly notify the listeners. 
+  - There was a bug in KineticLaw that prevented a correct iteration through all
+    child elements: Instead of looking at the listOfLocalParameters it did
+    return the math element twice (if there was one).      
 
+  - When cloning entire models or SBMLDocuments, JSBML assigned the identical
+    TreeNodeChangeListeners to the new data structure as well. This could lead
+    to unexpected behavior because listeners were receiving change events from
+    data structures to which these have not been explicitly added by a user.
+    
+  - Cloning caused problems because in some cases the recursive method that
+    registers all local parameters and other entities with an id did not do a
+    full recursion. Hence, some entities could not be found in the model later
+    on when searching for a certain id.
+    
   - When calling the method setSymbol in InitialAssignment with an instance of
     Variable as argument, the listeners were sometimes not correctly informed
     about changes.
@@ -197,37 +141,40 @@ TODO: merge and shorten items related to listeners and events ??
   - The setParent method caused an incorrect and in many cases duplicate call of
     the nodeAdded method in TreeNodeChangeListeners. Instead of registering a
     property change (the parent link) the parent node has been passed to the
-    nodeAdded method. This has been corrected.
+    nodeAdded method.
 
-  - Several improvements and corrections in the work with 
-    TreeNodeChangeListeners. In many cases listeners were notified too
-    early or sometimes even not at all because of inconsistent
-    notification mechanisms.
-TODO: merge and shorten items related to listeners and events ?? Last Paragraph is a nice summary ??    
+  - QuantityWithUnit did not fire update events when changing its value.
 
+  - The unsetUnits method in ExplicitRule now correctly notifies the listeners. 
+
+  - It was forgotten to implement an unsetSubstanceUnits method on the Model
+    class. Thanks to Robert Byrnes for reporting this problem.
+  
+  - The Compartment class did not override the method getDerivedUnitDefinition
+    from its superclass. Hence, Level 3 units could not be inherited from the
+    model.
+
+  - Merging of Units did not correctly work in cases, in which the scales of two
+    units could not be evenly merged: just one of both was used and the other
+    was ignored. In the corrected version both scales are removed represented by
+    a double-valued multiplier in the merged unit.
+    
+  - If during the simplification of UnitDefinitions a dimensionless unit was
+    created by canceling terms its scale was always set to 0 and multiplier to
+    1, which can lead to errors. Additional checks now yield correct results.
+    
+  - When unifying units in addition or subtraction of ASTNodes the scales were
+    sometimes incorrectly merged.
+    
+  - The units of formulae containing Advogadro's number could not be derived
+  
+  - In some cases, containsUndeclaredUnits() in ASTNode yielded incorrect
+    results.
 
 ========== to delete, move elsewhere or re-write =================
 
-  - SBML Layout extension contained bugs that caused endless recursion when
-    trying to access referenced instances of NamedSBase from a glyph (such
-    as CompartmentGlyph, SpeciesGlyph etc.).
-
   - JSBML now provides a better distinction between JUnit test cases and example
     programs.
-    
-  - A new filter method has been added to TreeNodeWithChangeSupport to
-    search for elements in the SBML tree that satisfy a certain filter
-    criterion. The new method can prune the search to the first occurrence of
-    a hit and hence save running time. 
-
-  - Some additional methods for more convenient working with tree data
-    structures in TreeNodeWithChangeSupport.
-
-  - The new class NamedSBaseGlyph in the layout package supports accessing
-    the referenced element from a glyph. To further improve the access to
-    referenced objects from the Layout class, several new and improved methods
-    have been implemented, including a new Filter for NamedSBaseReferences.
-    Thanks to Matthias König for this suggestion.
 
   - The method nextMetaId in SBMLDocument sometimes created metaIds containing
     the invalid character '-', but only underscores are allowed there.
@@ -236,35 +183,6 @@ TODO: merge and shorten items related to listeners and events ?? Last Paragraph 
     the result of cloning, removal of the original entry and linking the clone
     to the model. When altering the previous element, pointers were deleted
     in SBMLDocument and Model.
-
-  - In the Layout Extension the id attribute on GraphicalObject has to be
-    mandatory. Furthermore, SpeciesReferenceGlyph has to be derived from
-    GraphicalObject as well. Thanks to Matthias König for pointing this
-    out.
-
-  - Cloning of models did not work correctly in case of ASTNodes or 
-    Annotation elements that were to be cloned contained references to
-    TreeNodeChangeListeners.
-    
-  - Meike Aichele removed in TreeNodeChangeEvent the event spacialDimension, 
-    because there is already a spatialDimension-event, which means 
-    exactly the same
-    
-    
-  - Detected a bug that made it impossible to set a kinetic law with an 
-    existing list of local parameters as the new kinetic law in a 
-    different reaction. JSBML always complained that all local parameters
-    were already registered. This was the case for the previous model to
-    which the kinetic law belonged. Hence, it was necessary to unregister
-    all local parameters first.
-  - Subsequent registration and unregistration of local parameters did 
-    not work. In case of reactions it was assumed that the kinetic law 
-    that was to be added to some SBML subtree had already a parent SBML 
-    element (this could be null). Furthermore, when trying to unregister 
-    local parameters in a kinetic law, the put method was called on the
-    map between ids and local parameters, instead of the remove method.
-
-
 
 ======================================================================
 Version 0.8.0 (24-08-2012)
