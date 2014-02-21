@@ -118,8 +118,8 @@ that, if a developer so desires, all instances of JSBML's \SBase interface
 can be passed directly to the Java Swing \index{graphical user
   interface!Swing} class \JTree \index{graphical user
   interface!\code{JTree}} for easy visualization. The program shown in
-\vref{fig:JSBMLvisualizer-source} (and whose output is presented in
-\vref{fig:JSBMLvisualizer-output}) demonstrates the simple code
+\fig{fig:JSBMLvisualizer-source} (and whose output is presented in
+\fig{fig:JSBMLvisualizer-output}) demonstrates the simple code
 needed to parse an SBML file \index{SBML!XML file} and immediately display
 its contents in a \JFrame. \index{graphical user interface!\code{JFrame}}
 The \ASTNode class in JSBML is also derived from all these three interfaces
@@ -167,7 +167,7 @@ notes in XHTML \index{XHTML} format).
 
 As mentioned above, the interface \TreeNodeWithChangeSupport defines a
 cloneable and serializable version of \TreeNode. (See the diagram in
-\vref{fig:SBase}.) In addition, it also provides methods to notify
+\fig{fig:SBase}.) In addition, it also provides methods to notify
 dedicated \TreeNodeChangeListener class objects about any changes within
 the data structure. Its abstract implementation, \AbstractTreeNode,
 implements many of the methods inherited from \TreeNodeWithChangeSupport
@@ -183,7 +183,7 @@ implementation of all derived classes has become much simpler.
 
 With \SBase being an interface rather than an object class, most SBML-related
 object classes in JSBML extend the abstract implementation \AbstractSBase, as
-shown in \vref{fig:SBase}.  One of the features of this abstract class is
+shown in \fig{fig:SBase}.  One of the features of this abstract class is
 that it tracks the SBML Level and Version of every concrete object
 implementing it.  The need for tracking each object's Level+Version
 combination individually (a feature shared with libSBML) may seem odd at
@@ -263,7 +263,7 @@ it may instead be determined by a mathematical formula contained in a given
 \SBase object in the model.  This implies that the unit associated with the
 value may be derivable.  In JSBML, the interface \SBaseWithDerivedUnit is
 used to represent all components that either explicitly or implicitly
-contain some unit.  \Vref{fig:Variable} shows this part of JSBML's
+contain some unit.  \fig{fig:Variable} shows this part of JSBML's
 type hierarchy in more detail.
 
 \begin{figure}[b]
@@ -308,13 +308,13 @@ a constant \index{SBML!constant} or a variable, JSBML
 represents such a type using the interface \Variable.
 
 SBML variables \index{SBML!variable} that have a defined unit are
-represented as \Symbol objects.  (See \vref{fig:Variable}.) Thus,
+represented as \Symbol objects.  (See \fig{fig:Variable}.) Thus,
 the SBML elements \Compartment, \Parameter, and \Species are all special
 cases of \Symbol in JSBML.  The specification of \SBMLthree introduced
 another type of \Variable, which does not explicitly declare its unit:
 \SpeciesReference.  Level~3 also introduced \LocalParameter, which is a
 \QuantityWithUnit but not a \Variable because it is always constant.
-\vref{sec:assignment-interface} explains the interfaces used for
+\sec{sec:assignment-interface} explains the interfaces used for
 changing the values of \Variable{}s.
 
 
@@ -381,7 +381,7 @@ In addition, JSBML also provides the methods
 to make it easier to switch from libSBML to JSBML.  However, in JSBML, the
 preferred way \index{JSBML!variable@\code{Variable}} is to apply the
 methods \code{setVariable()}, either with \String or \Variable instances as
-arguments.  \Vref{fig:MathContainerHierarchy} shows the class
+arguments.  \fig{fig:MathContainerHierarchy} shows the class
 hierarchy surrounding the \Assignment interface in more detail.
 
 
@@ -411,7 +411,7 @@ stored within an \AbstractSBase instance. The class \ValuePair implements the
 Java interface \Comparable and takes two values of any type that both also
 implement \Comparable.  Storing the information in this way allows users to
 check for a specific Level/Version combination more naturally, as the example
-in \vref{fig:LevelVersionCheck} demonstrates. The method
+in \fig{fig:LevelVersionCheck} demonstrates. The method
 \code{getLevelAndVersion()} in \AbstractSBase delivers an instance of
 \ValuePair with the Level and Version combination for the respective element.
 
@@ -600,7 +600,7 @@ In JSBML, all SBML components whose value can be associated with a unit of
 measurement implement the interface \SBaseWithUnit.  This interface provides
 methods to access an object representing the unit. Currently, the interface
 is implemented by \AbstractNamedSBaseWithUnit, \ExplicitRule, and
-\KineticLaw.  \vref{fig:TypeHierarchy} provides an overview about the
+\KineticLaw.  \fig{fig:TypeHierarchy} provides an overview about the
 relationships between these and other classes and interfaces.
 
 % FIXME
@@ -672,7 +672,7 @@ efficient at run-time and also more intuitive for Java programmers. If
 cloning is necessary, users should call the \code{clone()} method
 explicitly. Since all instances of \SBase, and also \Annotation, \ASTNode,
 \CVTerm, and \History, extend \AbstractTreeNode (which in turn implements the
-interface \Cloneable---see \vref{fig:TypeHierarchy}), all these elements can
+interface \Cloneable---see \fig{fig:TypeHierarchy}), all these elements can
 be cloned naturally.  However, when cloning an object in JSBML
 \index{cloning}, such as an \AbstractNamedSBase, all children of this element
 will recursively be cloned before adding them to the new element. This is
@@ -777,7 +777,7 @@ The following are some examples of situations that lead to exceptions:
   a fully automatic way (method \code{nextMetaId()} on
   \code{SBMLDocument}), users of JSBML should not care about these
   identifiers at all. JSBML will automatically create meta identifiers
-  where missing upon writing an SBML file.  (See \vref{sec:find-methods}.)
+  where missing upon writing an SBML file.  (See \sec{sec:find-methods}.)
 
 \item In case that spatial dimension units of a \Species{} are defined
   whose surrounding \Compartment{} has zero dimensions or that has only
@@ -972,7 +972,7 @@ into common Java API idioms \index{application programming interface!Java}
 and allow users also to make use of, e.g., \EventHandler{}s to deal with
 changes in an SBML model\index{model}.
 
-As mentioned in \vref{sec:AbstractTreeNode}, all major objects implement
+As mentioned in \sec{sec:AbstractTreeNode}, all major objects implement
 the interface \TreeNode, and its listeners are notified about all changes
 that occur in any implementing data structure. The use of
 \TreeNodeChangeListener{}s allows a software application not only to keep
@@ -1016,7 +1016,7 @@ explicit separate iteration loops for these common operations.
 
 As of JSBML version 1.0, the \code{find*} methods do no longer query the
 model in an iterative way. Instead, the maps described in
-\vref{sec:exceptions} are used to access elements based on their \code{id}
+\sec{sec:exceptions} are used to access elements based on their \code{id}
 attribute. Similarly, the \SBMLDocument can also directly access any of its
 subelements for a given \code{metaid}. Such a search can be performed in
 logarithmic runtime, i.e., $O(\,\log_2 n)$.
@@ -1099,7 +1099,7 @@ systems have analogous facilities):
 \subsection{Some example configurations}
 \ifthenelse{\boolean{includeCodeExample}}{}{\index{logging!configuration}}%
 
-\Vref*{fig:log4j-simple-example} gives a short example of a log4j
+\vref*{fig:log4j-simple-example} gives a short example of a log4j
 configuration file.  The effect of this particular configuration is to
 change the threshold of all loggers in the \code{org.sbml.jsbml.util}
 package to \code{DEBUG}, which results in all changes that happen to SBML
@@ -1117,7 +1117,7 @@ the SBML elements.
 
 If your application is deployed in a server such as Tomcat~\cite{tomcat},
 it may be useful to define a log4j ``appender'' that will send some
-messages by email.  \Vref{fig:log4j-email-example} gives an example
+messages by email.  \fig{fig:log4j-email-example} gives an example
 of doing this.  It configures log4j so that any messages at the
 \code{ERROR} level \index{logging} are send by mail. All the messages are
 also written to a rolling log file.
@@ -1171,10 +1171,10 @@ want to switch slowly from libSBML to JSBML, you may still read and write
 SBML models using libSBML in conjunction with JSBML.
 
 To facilitate this, the module \code{libSBMLio} provides classes
-\LibSBMLReader and \LibSBMLWriter.  \Vref{lst:LibSBMLio} provides a short
+\LibSBMLReader and \LibSBMLWriter.  \vref{lst:LibSBMLio} provides a short
 code example illustrating the use of \LibSBMLReader.  The program displays the
 content of an SBML file in a \JTree, similar to what is shown in
-\vref{fig:JSBMLvisualizer-output}.
+\fig{fig:JSBMLvisualizer-output}.
 
 As of version 1.0 of JSBML, the \code{libSBMLio} module also contains
 specialized \TreeNodeChangeListener{}s that synchronize any change in the
@@ -1206,10 +1206,10 @@ show a simple example of (1) how to pass a model\index{model!CellDesigner}
 data structure in a CellDesigner plugin to the translator in JSBML, and (2)
 \index{CellDesigner!plugin} \index{CellDesigner!\code{PluginAction}}%
 creating a plugin for CellDesigner which displays the SBML data structure
-in a tree, like the example in \vref{fig:JSBMLvisualizer-output}.
+in a tree, like the example in \fig{fig:JSBMLvisualizer-output}.
 
 \begin{figure}[thb]
-  \exampleFile{../SimpleCellDesignerPlugin/org/sbml/jsbml/cdplugin/SimpleCellDesignerPluginAction.java}
+  \exampleFile{../SimpleCellDesignerPlugin/org/sbml/jsbml/celldesigner/SimpleCellDesignerPluginAction.java}
   \caption{A simple implementation of CellDesigner's abstract class
     \code{PluginAction}.}
   \label{lst:PluginAction}

@@ -18,7 +18,7 @@ the 0.8 branch of JSBML does not support extension packages.
 In the JSBML SVN repository, all extensions are found in the subdirectory
 named \code{extensions} inside the \code{trunk} directory.  (The process
 for checking out a local copy of the repository is described
-in \vref{sec:SourceDistribution}.) Each extension is named after the
+in \sec{sec:SourceDistribution}.) Each extension is named after the
 corresponding SBML short name for the \SBMLthree package; for example,
 \code{fbc} for the Flux Balance Constraints package, \code{layout} for the
 Layout package, and so on.  The source directories for the extensions
@@ -51,7 +51,7 @@ follow some basic conventions for their organization and contents.
 \end{wrapfigure}
 When creating a new extension for JSBML, please follow the conventions used
 in the existing extension directories.  These conventions are illustrated in
-\vref{fig:extension-src-structure}.  There should be a build script in a file
+\fig{fig:extension-src-structure}.  There should be a build script in a file
 named ``\code{build.xml}'' for use with Ant~\citep{ApacheAnt}, and several
 subdirectories.  The \code{doc} subdirectory should contain documentation
 about the extension, preferably with a subdirectory of its own, \code{img},
@@ -73,7 +73,7 @@ specified by the extension, and \code{org.sbml.jsbml.xml.parsers}, for the
 code that reads and writes SBML files with the extension
 constructs.  Per Java conventions, these source subdirectories are
 organized hierarchically based on the package components, which leads to
-the nested structure shown in \vref{fig:extension-src-structure}.
+the nested structure shown in \fig{fig:extension-src-structure}.
 
 
 \section{Creating the object hierarchy}
@@ -110,7 +110,7 @@ public class ExampleModel extends AbstractSBasePlugin {
   \label{lst:ModelExtClass}
 \end{figure}
 
-\Vref*{lst:ModelExtClass} shows the beginnings of the definition for
+\vref*{lst:ModelExtClass} shows the beginnings of the definition for
 a class named \code{ExampleModel} that extends the plain SBML
 \Model. Technically, an extension really only needs to implement the
 \SBasePlugin interface, but because the abstract class \AbstractSBasePlugin
@@ -130,7 +130,7 @@ and an integer-valued attribute, \code{bar}.  We assume that in the
 (hypothetical) package specification for \emph{Example}, \code{Foo} is
 derived from \SBase; let us also assume that \emph{Example} provides the
 ability to attach a list of \code{Foo} objects to an extended version of
-\Model.  We show in \vref{sec:listofs} how to create the list
+\Model.  We show in \sec{sec:listofs} how to create the list
 structure; here, we focus on the definition of \code{Foo}.  We define the
 class \code{Foo} by extending \AbstractSBasePlugin, and add methods for
 working with the attributes.  In \vref{lst:DefaultModelExtFooBar},
@@ -740,7 +740,7 @@ public boolean readAttribute(String attributeName, String prefix, String value) 
 The method \code{getListOfSBMLElementsToWrite()}  must return a list of all
 objects that have to be written because of the passed object.  In this way,
 the writer can traverse the XML tree to write all nodes. If the classes of the
-extension follow the structured advice in \vref{sec:creating-obj-hierarchy}, this
+extension follow the structured advice in \sec{sec:creating-obj-hierarchy}, this
 method does not need to be implement and the basic implementation from \code{AbstractReaderWriter}
 can be used. This basic implementation makes use of the method \code{TreeNode.children()}
 to find the list of children to write.

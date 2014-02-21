@@ -91,6 +91,7 @@
 \RequirePackage[section]{placeins}
 \RequirePackage[square,numbers,sort]{natbib}
 \RequirePackage{tocloft}
+\RequirePackage{suffix}
 
 % We use the "optional" package to indicate whether to generate a grayscale
 % vs a color version of the document without having to alter the .tex file
@@ -867,12 +868,51 @@
 \fi
 
 
-% Cross-references.  This uses the nameref package.  Usage is as follows:
+% Cross-references.
+%
+% We load the varioref package and define a set of macros for referring to
+% floats and sections in a consistent way, such that the entire reference
+% ("Section X", "Figure Y", etc.) is made into a hyperlink -- not only "X"
+% and "Y", as would be the case with using the normal approach of writing
+% "Section~\vref{...}".  Since all figure, table and section number
+% references are always capitalized (they are the proper names of the
+% objects, after all), the problem of creating a macro is simplified.
+% This style file defines the following for this purpose:
+%
+%   \fig{...}
+%   \tab{...}
+%   \sec{...}
+%
+% In addition, it defines starred versions of the above:
+%
+%   \fig*{...}
+%   \tab*{...}
+%   \sec*{...}
+%
+% The starred versions are useful when you have two or more references in
+% the same paragraph to a float or section that is located elsewhere in the
+% document, to avoid having text like the following happen:
+%
+%   "In Figure 2 on the next page, blah blah blah.  Figure 2 on the
+%   following page also blah blah blah."
+%
+% Using the unstarred version for the first reference and starred version
+% for subsequent references avoids this, and will produce text like this:
+% 
+%   "In Figure 2 on the next page, blah blah blah.  Figure 2 also blah
+%   blah blah."
+%
+% Note: this overrides the definition of \sec{...} from the AMS math
+% package. I decided this is likely to be acceptable to users because
+% in SBML's domain of activity, it is very unlikely that someone would
+% write a mathematical formula using the \sec command.
+%
+% As an alternative, the following plain varioref macros will work:
 %
 % * Use \vref{...} for everything and it will insert Figure~X, Table~Y,
 %   Section~Z, etc., as appropriate for the reference.  You do not need to
 %   add the object name; in other words, don't write "Section~\vref{foo}",
-%   write just "vref{foo}".
+%   write just "\vref{foo}".
 %
 % * Use \vref*{...} if the reference is in parentheses, like "(\vref*{...})".
 %
@@ -883,13 +923,36 @@
 % To see actual examples of using this, grep for "vref" in *.tex in the
 % JSBML User Guide directory.
 
-\labelformat{chapter}{Chapter~#1}
-\labelformat{section}{Section~#1}
-\labelformat{subsection}{Section~#1}
-\labelformat{subsubsection}{Section~#1}
+\newcommand{\sectionlabel}{Section}
+\newcommand{\setlabel}[1]{\renewcommand{\sectionlabel}{#1}}
+\newcommand{\normallabels}{\setlabel{Section}}
+\newcommand{\appendixlabels}{\setlabel{Appendix}}
+
+\labelformat{section}{\sectionlabel~#1}
+\labelformat{subsection}{\sectionlabel~#1}
+\labelformat{subsubsection}{\sectionlabel~#1}
+\labelformat{paragraph}{\sectionlabel~#1}
 \labelformat{table}{Table~#1}
 \labelformat{figure}{Figure~#1}
 
+\newcommand{\@commonRefNoStar}[1]{\xspace\Vref*{#1}\xspace}
+\newcommand{\@commonRefStar}[1]{\ref{#1}\xspace}
+
+\newcommand{\fig}[1]{\normallabels\@commonRefNoStar{#1}}
+\WithSuffix\newcommand\fig*[1]{\normallabels\@commonRefStar{#1}}
+
+\newcommand{\tab}[1]{\normallabels\@commonRefNoStar{#1}}
+\WithSuffix\newcommand\tab*[1]{\normallabels\@commonRefStar{#1}}
+
+\renewcommand{\sec}[1]{\normallabels\@commonRefNoStar{#1}}
+\WithSuffix\newcommand\sec*[1]{\normallabels\@commonRefStar{#1}}
+
+% Alternate name for \sec:
+\newcommand{\sect}[1]{\normallabels\@commonRefNoStar{#1}}
+\WithSuffix\newcommand\sect*[1]{\normallabels\@commonRefStar{#1}}
+
+\newcommand{\apdx}[1]{\appendixlabels\@commonRefNoStar{#1}}
+\WithSuffix\newcommand\apdx*[1]{\appendixlabels\@commonRefStar{#1}}
 
 % Misc.
 
