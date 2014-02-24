@@ -41,6 +41,14 @@ Version 1.0-beta1 (xx-02-2014)
   - Support for arrays, distrib and multi is not yet available but planned for
     the final JSBML 1.0 release.
 
+TODO: new annotation parsing with XMLNode
+TODO: ParserManager, packages enabled automatically
+TODO: CVTerm API changes?
+TODO: added XMLNodeFilter to facilitate the manipulation of XMLNode. 
+     It allow to do something similar to the DOM Element#getElementsByTagNameNS(String, String)
+TODO: removeFromParent method
+TODO: FormulaParserLL3
+
   - Some filter methods have been added to TreeNodeWithChangeSupport (so to 
     SBase as well), which allow for recursive queries in the entire data
     structure.
@@ -121,11 +129,11 @@ Version 1.0-beta1 (xx-02-2014)
     the hashCode method in ASTNode.
     
   - There was a bug in KineticLaw that prevented a correct iteration through all
-    child elements: Instead of looking at the listOfLocalParameters it did
+    child elements. Instead of looking at the listOfLocalParameters it did
     return the math element twice (if there was one).      
 
   - When cloning entire models or SBMLDocuments, JSBML assigned the identical
-    TreeNodeChangeListeners to the new data structure as well. This could lead
+    TreeNodeChangeListeners to the new data structure. This could lead
     to unexpected behavior because listeners were receiving change events from
     data structures to which these have not been explicitly added by a user.
     
@@ -170,19 +178,24 @@ Version 1.0-beta1 (xx-02-2014)
   
   - In some cases, containsUndeclaredUnits() in ASTNode yielded incorrect
     results.
+    
+  - [Tracker item #6]: a NullPointerException was returned when using the 
+    method Model.findLocalParameters(String) unless at least one LocalParameter
+    was registered in the model.  
 
-========== to delete, move elsewhere or re-write =================
+  - It was sometimes possible to unregister elements from a model using 
+    cloned elements that did not belong to the model.
 
-  - JSBML now provides a better distinction between JUnit test cases and example
-    programs.
+  - SBMLValidator fixed according to the changes made on the sbml.org 
+    validator to add package information.
+    
+======================================================================
+NEWs for the user of 'recent' trunk
+======================================================================
+-some method changed from deprecated to libsbml.deprecated
+-not necessary to enable a package, set the namespace or required attribute
+by hand.
 
-  - The method nextMetaId in SBMLDocument sometimes created metaIds containing
-    the invalid character '-', but only underscores are allowed there.
-
-  - It was sometimes possible to unregister elements from a model that were
-    the result of cloning, removal of the original entry and linking the clone
-    to the model. When altering the previous element, pointers were deleted
-    in SBMLDocument and Model.
 
 ======================================================================
 Version 0.8.0 (24-08-2012)
