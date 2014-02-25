@@ -146,17 +146,17 @@ Version 1.0-beta1 (xx-0x-2014)
 
   - JSBML could not write negative infinity into SBML files correctly.
   
-  - Detected and fixed a source of possible NullPointerExceptions within 
-    the hashCode method in ASTNode.
+  - Detected and fixed a source of possible NullPointerExceptions within the
+    hashCode method in ASTNode.
     
   - There was a bug in KineticLaw that prevented a correct iteration through all
-    child elements. Instead of looking at the listOfLocalParameters it did
-    return the math element twice (if there was one).      
+    children. Instead of looking at the listOfLocalParameters it did return the
+    math element twice (if there was one).      
 
   - When cloning entire models or SBMLDocuments, JSBML assigned the identical
-    TreeNodeChangeListeners to the new data structure. This could lead
-    to unexpected behavior because listeners were receiving change events from
-    data structures to which these have not been explicitly added by a user.
+    TreeNodeChangeListeners to the new data structure. This could lead to
+    unexpected behavior because listeners were receiving change events from data
+    structures to which these have not been explicitly added by a user.
     
   - Cloning caused problems because in some cases the recursive method that
     registers all local parameters and other entities with an id did not do a
@@ -186,31 +186,29 @@ Version 1.0-beta1 (xx-0x-2014)
   - Merging of Units did not correctly work in cases, in which the scales of two
     units could not be evenly merged: just one of both was used and the other
     was ignored. In the corrected version both scales are removed represented by
-    a double-valued multiplier in the merged unit.
+    a double-valued multiplier in the merged unit. In particular, this error
+    occurred in the addition or subtraction of ASTNodes.
     
   - If during the simplification of UnitDefinitions a dimensionless unit was
     created by canceling terms its scale was always set to 0 and multiplier to
-    1, which can lead to errors. Additional checks now yield correct results.
+    1, which could lead to errors. Additional checks now yield correct results.
     
-  - When unifying units in addition or subtraction of ASTNodes the scales were
-    sometimes incorrectly merged.
-    
-  - The units of formulae containing Advogadro's number could not be derived
+  - The units of formulae containing Advogadro's number could not be derived.
   
   - In some cases, containsUndeclaredUnits() in ASTNode yielded incorrect
     results.
     
-  - [Tracker item #6]: a NullPointerException was returned when using the 
-    method Model.findLocalParameters(String) unless at least one LocalParameter
-    was registered in the model.  
+  - [Tracker item #6]: a NullPointerException was returned when using the method
+    Model.findLocalParameters(String) unless at least one LocalParameter was
+    registered in the model.
 
-  - It was sometimes possible to unregister elements from a model using 
-    cloned elements that did not belong to the model.
+  - It was sometimes possible to unregister elements from a model using cloned
+    elements that did not belong to the model.
 
-  - SBMLValidator fixed according to the changes made on the sbml.org 
-    validator to add package information.
+  - SBMLValidator fixed according to the changes made on the sbml.org validator
+    to add package information.
 
-* Known issues :
+* Known issues:
 
   - SBML L3 packages are not supported and not kept.  
 

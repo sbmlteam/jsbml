@@ -109,16 +109,14 @@ public class SBMLReader {
    * 
    * @return the map containing the ReadingParser instances.
    */
-  private Map<String, ReadingParser> initializePackageParsers() 
-  {
+  private Map<String, ReadingParser> initializePackageParsers() {
     Logger logger = Logger.getLogger(SBMLReader.class);
-    
+
     if (logger.isDebugEnabled()) {
       logger.debug("initializePackageParsers called for " + this);
     }
-    
-    if (initializedParsers == null || initializedParsers.size() == 0) {
-      
+
+    if ((initializedParsers == null) || (initializedParsers.size() == 0)) {
       initializedParsers = ParserManager.getManager().getReadingParsers();
       initializeAnnotationParsers();
     }
@@ -277,19 +275,16 @@ public class SBMLReader {
       readObject = readXMLFromStream(stream, listener);
     } catch (XMLStreamException exc) {
       /*
-       * Catching this exception makes sure that we have still the chance
-       * to close the stream. Otherwise it will stay opened although the
-       * execution of this method is over.
+       * Catching this exception makes sure that we have still the chance to
+       * close the stream. Otherwise it will stay opened although the execution
+       * of this method is over.
        */
       exc1 = exc;
     } finally {
       try {
         stream.close();
       } catch (IOException exc2) {
-        /*
-         * Ok, we lost. No chance to really close this stream. Heavy
-         * error.
-         */
+        // Ok, we lost. No chance to really close this stream. Heavy error.
         if (exc1 != null) {
           exc2.initCause(exc1);
         }
