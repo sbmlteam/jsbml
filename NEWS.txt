@@ -1,7 +1,7 @@
 	       JSBML NEWS -- History of user-visible changes
 
 ======================================================================
-Version 1.0-beta1 (xx-02-2014)
+Version 1.0-beta1 (xx-0x-2014)
 ======================================================================
 
 * New Features:
@@ -41,24 +41,42 @@ Version 1.0-beta1 (xx-02-2014)
   - Support for arrays, distrib and multi is not yet available but planned for
     the final JSBML 1.0 release.
 
-TODO: new annotation parsing with XMLNode
-TODO: ParserManager, packages enabled automatically
-TODO: CVTerm API changes?
-TODO: added XMLNodeFilter to facilitate the manipulation of XMLNode. 
-     It allow to do something similar to the DOM Element#getElementsByTagNameNS(String, String)
-TODO: removeFromParent method
-TODO: FormulaParserLL3
+  - A ParserManager class was implemented to register SBML L3 package parsers.
+    This manager allow also JSBML to enable automatically the packages into
+    the SBMLDocument so there is no need anymore to set by hand the package
+    namespace or required attribute.
 
+  - Reading of more than one RDF Description elements in the RDF annotation 
+    block (the official SBML annotation scheme) is now supported. The whole
+    annotation is parsed first into XMLNode and then the official annotations
+    are extracted, if found.
+
+  - A new convenient method, removeFromParent, was added on SBase and
+    TreeNodeWithChangeSupport. It allows to remove any element from the
+    JSBML tree from its parent.
+
+  - An alternative class to parse mathematical formula was implemented. It is
+    named FormulaParserLL3 and respect the same syntax as the libSBML L3 
+    parser.
+  
   - Some filter methods have been added to TreeNodeWithChangeSupport (so to 
     SBase as well), which allow for recursive queries in the entire data
     structure.
-  
+
+  - Added a new filter, XMLNodeFilter, to facilitate the manipulation of 
+    XMLNode. It allow to do a search similar to the DOM 
+    Element#getElementsByTagNameNS(String, String) method on XMLNode.
+    
   - There is now a new ProgressListener utility class that enables tracking the
     progress of computationally intensive tasks.
     
   - For a better localization support and to separate source code from user
     messages a resource manager has been implemented and is being used in some
     classes already.
+
+  - The CVTerm API has been improved with new methods that should simplified
+    the code needed to manipulate the CVTerm objects. The javadoc should
+    indicate which methods could be used to replace the existing ones.
 
   - The libSBMLio module for reading and writing SBML using libSBML as an input
     and output module has been revised and completely re-implemented.
@@ -191,13 +209,10 @@ TODO: FormulaParserLL3
 
   - SBMLValidator fixed according to the changes made on the sbml.org 
     validator to add package information.
-    
-======================================================================
-NEWs for the user of 'recent' trunk
-======================================================================
--some method changed from deprecated to libsbml.deprecated
--not necessary to enable a package, set the namespace or required attribute
-by hand.
+
+* Known issues :
+
+  - SBML L3 packages are not supported and not kept.  
 
 
 ======================================================================
@@ -316,7 +331,7 @@ Version 0.8-rc2 (12-04-2012)
   - SBML L3 packages are not supported and not kept.  
 
 ======================================================================
-Version 0.8-rc1 (xx-xx-2011)
+Version 0.8-rc1 (14-12-2011)
 ======================================================================
 
 * New Features:
@@ -525,9 +540,6 @@ Version 0.8-rc1 (xx-xx-2011)
   
 * Known issues :
 
-  - ?? The support for the mathML elements notanumber and infinity is not 
-    complete. ?? NaN not read properly from formula !
-  
   - Reading of more than one RDF Description elements in the RDF annotation 
     block (the official SBML annotation scheme) is not supported at the 
     moment. Planned for the next major release. 
