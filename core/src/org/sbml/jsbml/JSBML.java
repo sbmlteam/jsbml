@@ -21,7 +21,6 @@
 package org.sbml.jsbml;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.InvalidPropertiesFormatException;
@@ -315,12 +314,11 @@ public class JSBML {
    *            the file name
    * @throws XMLStreamException
    *             if any error occur while creating the XML document.
-   * @throws FileNotFoundException
-   *             if the file name is invalid
    * @throws SBMLException
+   * @throws IOException if an I/O error occurs.
    */
   public static void writeSBML(SBMLDocument d, String filename)
-      throws XMLStreamException, FileNotFoundException, SBMLException {
+      throws XMLStreamException, SBMLException, IOException {
     SBMLWriter writer = new SBMLWriter();
     writer.write(d, filename);
   }

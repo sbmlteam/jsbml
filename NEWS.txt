@@ -110,6 +110,9 @@ TODO: FormulaParserLL3
 
 * Bug Fixes:
 
+  - When writing SBML to files, generated streams were not closed in all cases.
+    Thanks to Akira Funahashi for pointing this out.
+
   - Appending text in an XMLToken did not have an effect if there was already
     some text.
     
