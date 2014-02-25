@@ -86,7 +86,7 @@ public class SBMLWriter {
   /**
    * Returns the default symbol to be used to indent new elements in the XML
    *         representation of SBML data structures.
-   *         
+   * 
    * @return the default symbol to be used to indent new elements in the XML
    *         representation of SBML data structures.
    */
@@ -427,7 +427,7 @@ public class SBMLWriter {
 
   /**
    * Writes the {@link SBMLDocument} into a {@link File}.
-   *  
+   * 
    * @param document the {@link SBMLDocument} to write.
    * @param file the {@link File} to write to.
    * @throws SBMLException if any error is detected in the {@link SBMLDocument}.
@@ -446,7 +446,7 @@ public class SBMLWriter {
    * 
    * @param document the {@link SBMLDocument} to write.
    * @param file the {@link File} to write to.
-   * @param programName the program name. 
+   * @param programName the program name.
    * @param programVersion the program version.
    * @throws XMLStreamException if any error occur while creating the XML document.
    * @throws SBMLException if any error is detected in the {@link SBMLDocument}.
@@ -457,8 +457,36 @@ public class SBMLWriter {
   public void write(SBMLDocument document, File file, String programName,
     String programVersion) throws XMLStreamException, SBMLException, IOException {
     FileOutputStream stream = new FileOutputStream(file);
-    write(document, stream, programName, programVersion);
-    stream.close();
+    BufferedOutputStream buffer = new BufferedOutputStream(stream);
+    XMLStreamException exc1 = null;
+    try {
+      write(document, buffer, programName, programVersion);
+    } catch (XMLStreamException exc) {
+      /*
+       * Catching this exception makes sure that we have still the chance to
+       * close the streams. Otherwise they will stay opened although the
+       * execution of this method is over.
+       */
+      exc1 = exc;
+    } finally {
+      try {
+        try {
+          stream.close();
+        } finally {
+          buffer.close();
+        }
+      } catch (IOException exc2) {
+        // Ok, we lost. No chance to really close these streams. Heavy error.
+        if (exc1 != null) {
+          exc2.initCause(exc1);
+        }
+        throw exc2;
+      } finally {
+        if (exc1 != null) {
+          throw exc1;
+        }
+      }
+    }
   }
 
   /**
@@ -479,12 +507,12 @@ public class SBMLWriter {
 
   /**
    * Writes the XML representation of an {@link SBMLDocument} into an {@link OutputStream}.
-   *  
+   * 
    * @param sbmlDocument the {@link SBMLDocument}
    * @param stream the {@link OutputStream} to write to.
    * @param programName
    *            the program name (can be null).
-   * @param programVersion 
+   * @param programVersion
    *            the program version (can be null).
    * @throws XMLStreamException if any error occur while creating the XML document.
    * @throws SBMLException if any error is detected in the {@link SBMLDocument}.
@@ -628,9 +656,7 @@ public class SBMLWriter {
   public void write(SBMLDocument sbmlDocument, String fileName,
     String programName, String programVersion)
         throws XMLStreamException, SBMLException, IOException {
-    OutputStream os = new BufferedOutputStream(new FileOutputStream(fileName));
-    write(sbmlDocument, os, programName, programVersion);
-    os.close();
+    write(sbmlDocument, new File(fileName), programName, programVersion);
   }
 
   /**

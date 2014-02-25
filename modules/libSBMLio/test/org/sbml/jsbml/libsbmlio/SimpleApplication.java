@@ -32,7 +32,7 @@ import org.sbml.jsbml.RateRule;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLInputConverter;
 import org.sbml.jsbml.Unit.Kind;
-import org.sbml.jsbml.test.gui.JTreeOfSBML;
+import org.sbml.jsbml.gui.JTreeOfSBML;
 import org.sbml.jsbml.xml.libsbml.LibSBMLChangeListener;
 import org.sbml.jsbml.xml.libsbml.LibSBMLReader;
 
