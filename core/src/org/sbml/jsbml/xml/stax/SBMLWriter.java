@@ -71,7 +71,6 @@ import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.parsers.ParserManager;
 import org.sbml.jsbml.xml.parsers.WritingParser;
 import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
-import org.xml.sax.SAXException;
 
 /**
  * A SBMLWriter provides the methods to write a SBML file.
@@ -85,7 +84,10 @@ import org.xml.sax.SAXException;
 public class SBMLWriter {
 
   /**
-   * @return The default symbol to be used to indent new elements in the XML
+   * Returns the default symbol to be used to indent new elements in the XML
+   *         representation of SBML data structures.
+   *         
+   * @return the default symbol to be used to indent new elements in the XML
    *         representation of SBML data structures.
    */
   public static char getDefaultIndentChar() {
@@ -93,6 +95,10 @@ public class SBMLWriter {
   }
 
   /**
+   * Returns the default number of indent symbols to be concatenated at the
+   *         beginning of a new block in an XML representation of SBML data
+   *         structures.
+   * 
    * @return The default number of indent symbols to be concatenated at the
    *         beginning of a new block in an XML representation of SBML data
    *         structures.
@@ -250,8 +256,8 @@ public class SBMLWriter {
    * number of these symbols to be concatenated at the beginning of each new
    * line for a new element.
    * 
-   * @param indentChar
-   * @param indentCount
+   * @param indentChar the symbol to be used to indent elements in the XML representation
+   * @param indentCount the number of these symbols to be concatenated
    */
   public SBMLWriter(char indentChar, short indentCount) {
     setIndentationChar(indentChar);
@@ -281,7 +287,7 @@ public class SBMLWriter {
   }
 
   /**
-   * This method creates the necessary number of white spaces at the beginning
+   * Creates the necessary number of white spaces at the beginning
    * of an entry in the SBML file.
    * 
    * @param indent
@@ -379,7 +385,8 @@ public class SBMLWriter {
 
 
   /**
-   * Allows you to set another blank character for indentation. Allowed are
+   * Sets other blank character(s) for indentation.
+   * <p> Allowed are
    * only tabs and white spaces, i.e., {@code '\t'} and {@code ' '}.
    * 
    * @param the character to be used for indentation
@@ -395,8 +402,9 @@ public class SBMLWriter {
   }
 
   /**
+   * Sets the indent for this {@link SBMLWriter}.
    * 
-   * @param indentCount
+   * @param indentCount the indent count to set
    * @see SBMLWriter#setIndentationCount(short)
    */
   public void setIndentationCount(int indentCount) {
@@ -404,7 +412,9 @@ public class SBMLWriter {
   }
 
   /**
-   * @param indentCount the indentCount to set
+   * Sets the indent for this {@link SBMLWriter}.
+   * 
+   * @param indentCount the indent count to set
    */
   public void setIndentationCount(short indentCount) {
     if (indentCount < 0) {
@@ -416,11 +426,12 @@ public class SBMLWriter {
   }
 
   /**
-   * 
-   * @param document
-   * @param file
-   * @throws SBMLException
-   * @throws XMLStreamException
+   * Writes the {@link SBMLDocument} into a {@link File}.
+   *  
+   * @param document the {@link SBMLDocument} to write.
+   * @param file the {@link File} to write to.
+   * @throws SBMLException if any error is detected in the {@link SBMLDocument}.
+   * @throws XMLStreamException if any error occur while creating the XML document.
    * @throws IOException
    *             if it is not possible to write to the given file, e.g., due
    *             to an invalid file name or missing permissions.
@@ -431,14 +442,14 @@ public class SBMLWriter {
   }
 
   /**
+   * Writes the {@link SBMLDocument} into a {@link File}.
    * 
-   * @param document
-   * @param file
-   * @param programName
-   * @param programVersion
-   * @return
-   * @throws XMLStreamException
-   * @throws SBMLException
+   * @param document the {@link SBMLDocument} to write.
+   * @param file the {@link File} to write to.
+   * @param programName the program name. 
+   * @param programVersion the program version.
+   * @throws XMLStreamException if any error occur while creating the XML document.
+   * @throws SBMLException if any error is detected in the {@link SBMLDocument}.
    * @throws IOException
    *             if it is not possible to write to the given file, e.g., due
    *             to an invalid file name or missing permissions.
@@ -451,15 +462,14 @@ public class SBMLWriter {
   }
 
   /**
-   * Writes the SBMLDocument in a SBML file.
+   * Writes the {@link SBMLDocument} into an {@link OutputStream}.
    * 
    * @param sbmlDocument
-   *          the SBMLDocument to write
+   *          the {@link SBMLDocument} to write.
    * @param stream
-   *          a stream where to write the content of the model to.
-   * @throws XMLStreamException
-   * @throws SBMLException
-   * @throws IOException
+   *          a {@link OutputStream} where to write the content of the model to.
+   * @throws XMLStreamException if any error occur while creating the XML document.
+   * @throws SBMLException if any error is detected in the {@link SBMLDocument}.
    * 
    */
   public void write(SBMLDocument sbmlDocument, OutputStream stream)
@@ -468,15 +478,16 @@ public class SBMLWriter {
   }
 
   /**
-   * 
-   * @param sbmlDocument
-   * @param stream
+   * Writes the XML representation of an {@link SBMLDocument} into an {@link OutputStream}.
+   *  
+   * @param sbmlDocument the {@link SBMLDocument}
+   * @param stream the {@link OutputStream} to write to.
    * @param programName
-   *            can be null
-   * @param programVersion
-   *            can be null
-   * @throws XMLStreamException
-   * @throws SBMLException
+   *            the program name (can be null).
+   * @param programVersion 
+   *            the program version (can be null).
+   * @throws XMLStreamException if any error occur while creating the XML document.
+   * @throws SBMLException if any error is detected in the {@link SBMLDocument}.
    * 
    */
   public void write(SBMLDocument sbmlDocument, OutputStream stream,
@@ -588,15 +599,13 @@ public class SBMLWriter {
    * Writes the XML representation of an {@link SBMLDocument} in a SBML file.
    * 
    * @param sbmlDocument
-   *          the SBMLDocument to write
+   *          the {@link SBMLDocument} to write.
    * @param fileName
    *          the name of the file where to write the {@link SBMLDocument}
-   * 
-   * 
    * @throws XMLStreamException
    *             if any error occur while creating the XML document.
-   * @throws SBMLException
-   * @throws IOException
+   * @throws SBMLException if any error is detected in the {@link SBMLDocument}.
+   * @throws IOException if an I/O error occurs.
    * 
    */
   public void write(SBMLDocument sbmlDocument, String fileName)
@@ -605,14 +614,14 @@ public class SBMLWriter {
   }
 
   /**
+   * Writes the XML representation of an {@link SBMLDocument} in a SBML file.
    * 
-   * @param sbmlDocument
-   * @param fileName
-   * @param programName
-   * @param programVersion
-   * 
-   * @throws XMLStreamException
-   * @throws SBMLException
+   * @param sbmlDocument the {@link SBMLDocument} to write.
+   * @param fileName the name of the file where to write the {@link SBMLDocument}
+   * @param programName the program name that created the {@link SBMLDocument}
+   * @param programVersion the program version that created the {@link SBMLDocument}
+   * @throws XMLStreamException if any error occur while creating the XML document.
+   * @throws SBMLException if any error is detected in the {@link SBMLDocument}.
    * @throws IOException if an I/O error occurs.
    * 
    */
@@ -625,10 +634,11 @@ public class SBMLWriter {
   }
 
   /**
+   * Writes the {@link Annotation} of an {@link SBase} element to an XML {@link String}.
    * 
-   * @param sbase
-   * @return
-   * @throws XMLStreamException
+   * @param sbase the {@link SBase} element.
+   * @return the {@link Annotation} of the given {@link SBase} element as an XML {@link String}.
+   * @throws XMLStreamException if any error occur while creating the XML document.
    */
   public String writeAnnotation(SBase sbase) throws XMLStreamException {
 
@@ -663,25 +673,23 @@ public class SBMLWriter {
   }
 
   /**
-   * Writes the annotation of this sbase component.
+   * Writes the {@link Annotation} of an {@link SBase} element.
    * 
    * @param sbase
-   *          the sbase component
+   *          the {@link SBase} element.
    * @param element
-   *          the matching SMOutputElement
+   *          the matching {@link SMOutputElement}
    * @param writer
-   *          the XMLStreamWriter2
+   *          the {@link XMLStreamWriter} to write to.
    * @param sbmlNamespace
    *          the SBML namespace.
    * @param indent
    *            the number of indent white spaces of this annotation.
-   * @throws XMLStreamException
-   * @throws SBMLException
-   * @throws SAXException
+   * @throws XMLStreamException if any error occur while creating the XML document.
    */
   private void writeAnnotation(SBase sbase, SMOutputContainer element,
     XMLStreamWriter writer, int indent, boolean xmlFragment)
-        throws XMLStreamException, SBMLException
+        throws XMLStreamException
         {
     XMLNode fullAnnotationXMLNode = sbase.getAnnotation().getFullAnnotation();
 
@@ -693,17 +701,16 @@ public class SBMLWriter {
 
 
   /**
-   * Writes the MathML expression for the math element of this sbase
-   * component.
+   * Writes the MathML expression of a {@link MathContainer} element.
    * 
    * @param m
-   *          the sbase component
+   *          the {@link MathContainer} element.
    * @param element
-   *          the matching SMOutputElement
+   *          the matching {@link SMOutputElement}.
    * @param writer
-   *          the XMLStreamWriter
-   * @param indent
-   * @throws XMLStreamException
+   *          the {@link XMLStreamWriter} to write to.
+   * @param indent the number of white spaces to indent this element.
+   * @throws XMLStreamException if any error occur while creating the XML document.
    * 
    */
   private void writeMathML(MathContainer m, SMOutputElement element,
@@ -757,17 +764,18 @@ public class SBMLWriter {
     }
 
   /**
-   * Writes the message of this Constraint.
+   * Writes the message of a {@link Constraint} to the given {@link XMLStreamWriter}.
    * 
    * @param sbase
-   *          the Constraint component
+   *          the {@link Constraint} element.
    * @param element
-   *          the matching SMOUtputElement
+   *          the matching {@link SMOutputElement}.
    * @param writer
-   *          the XMLStreamWriter2
+   *          the {@link XMLStreamWriter} to write to.
    * @param sbmlNamespace
-   *          the SBML namespace
-   * @throws XMLStreamException
+   *          the SBML namespace.
+   * @param indent the number of white spaces to indent this element.
+   * @throws XMLStreamException if any error occur while creating the XML document.
    */
   private void writeMessage(Constraint sbase, SMOutputElement element,
     XMLStreamWriter writer, String sbmlNamespace, int indent)
@@ -795,18 +803,18 @@ public class SBMLWriter {
         }
 
   /**
-   * Writes the notes of this sbase component.
+   * Writes the notes of this {@link SBase} element to the given {@link XMLStreamWriter}.
    * 
    * @param sbase
-   *          the SBase component
+   *          the {@link SBase} element.
    * @param element
-   *          the matching SMOUtputElement
+   *          the matching {@link SMOutputElement}
    * @param writer
-   *          the XMLStreamWriter2
+   *          the {@link XMLStreamWriter} to write to.
    * @param sbmlNamespace
-   *          the SBML namespace
-   * @param indent
-   * @throws XMLStreamException
+   *          the SBML namespace.
+   * @param indent the number of white spaces to indent this element.
+   * @throws XMLStreamException if any error occur while creating the XML document.
    */
   private void writeNotes(SBase sbase, SMOutputElement element,
     XMLStreamWriter writer, String sbmlNamespace, int indent)
@@ -820,24 +828,19 @@ public class SBMLWriter {
 
 
   /**
-   * Writes the SBML elements.
+   * Writes the SBML elements to an {@link XMLStreamWriter}.
    * 
    * @param parentXmlObject
    *          contains the XML information of the parentElement.
    * @param smOutputParentElement
    *          {@link SMOutputElement} of the parentElement.
-   * @param streamWriter
+   * @param streamWriter the {@link XMLStreamWriter} to write to.
    * @param parentObject
-   *          the Object to write.
-   * @param notesParser
-   *          the WritingParser to parse the notes.
-   * @param MathMLparser
-   *          the WritingParser to parse the MathML expressions.
+   *          the {@link Object} to write.
    * @param indent
-   *            The number of white spaces to indent this element.
-   * @throws XMLStreamException
-   * @throws SBMLException
-   * @throws SAXException
+   *            the number of white spaces to indent this element.
+   * @throws XMLStreamException if any error occur while creating the XML document.
+   * @throws SBMLException if any error is detected in the {@link SBMLDocument}.
    */
   private void writeSBMLElements(SBMLObjectForXML parentXmlObject,
     SMOutputElement smOutputParentElement,
@@ -905,7 +908,7 @@ public class SBMLWriter {
           logger.debug("writeSBMLElements: element to Write = " + nextObjectToWrite.getClass().getSimpleName() + "\n");
         }
 
-        if (isEmptyListOf(nextObjectToWrite, childParser))
+        if (isEmptyListOf(nextObjectToWrite))
         {
           streamWriter.writeCharacters(whiteSpaces.substring(0, indent));
           continue;
@@ -923,7 +926,6 @@ public class SBMLWriter {
         childParser.writeAttributes(childXmlObject, nextObjectToWrite);
 
         if (!childXmlObject.isSetName()) {
-          // TODO: add a log message that this is ignored ??
           logger.debug("XML name not set, element ignored!");
           continue;
         }
@@ -1012,11 +1014,10 @@ public class SBMLWriter {
   /**
    * Returns {@code true} if the given {@link Object} is an empty {@link ListOf}, {@code false} otherwise.
    * 
-   * @param object
-   * @param parser
+   * @param object the {@link Object} to test
    * @return {@code true} if the given {@link Object} is an empty {@link ListOf}, {@code false} otherwise.
    */
-  private boolean isEmptyListOf(Object object, WritingParser parser)
+  private boolean isEmptyListOf(Object object)
   {
     if (object instanceof ListOf<?>)
     {
@@ -1033,7 +1034,7 @@ public class SBMLWriter {
 
 
   /**
-   * Writes the given SBML document to an in-memory string.
+   * Writes the given {@link SBMLDocument} to an in-memory XML {@link String}.
    * 
    * @param doc
    *            the {@code SBMLdocument}
@@ -1041,7 +1042,7 @@ public class SBMLWriter {
    *         String.
    * @throws XMLStreamException
    *             if any error occur while creating the XML document.
-   * @throws SBMLException
+   * @throws SBMLException if any error is detected in the {@link SBMLDocument}.
    */
   public String writeSBMLToString(SBMLDocument doc)
       throws XMLStreamException, SBMLException {
@@ -1049,13 +1050,14 @@ public class SBMLWriter {
   }
 
   /***
+   * Writes the given {@link SBMLDocument} to an in-memory XML {@link String}.
    * 
    * @param d
    * @param programName
    * @param programVersion
-   * @return
-   * @throws XMLStreamException
-   * @throws SBMLException
+   * @return the XML representation of the {@code SBMLdocument} as a {@link String}.
+   * @throws XMLStreamException if any error occur while creating the XML document.
+   * @throws SBMLException if any error is detected in the {@link SBMLDocument}.
    * 
    */
   public String writeSBMLToString(SBMLDocument d, String programName,
