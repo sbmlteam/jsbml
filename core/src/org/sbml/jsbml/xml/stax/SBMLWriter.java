@@ -24,7 +24,6 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -369,7 +368,7 @@ public class SBMLWriter {
    * 
    * @return the map containing the ReadingParser instances.
    */
-  private Map<String, WritingParser> initializePackageParsers() 
+  private Map<String, WritingParser> initializePackageParsers()
   {
     if (instantiatedSBMLParsers == null || instantiatedSBMLParsers.size() == 0) {
       instantiatedSBMLParsers = ParserManager.getManager().getWritingParsers();
@@ -596,13 +595,12 @@ public class SBMLWriter {
    * 
    * @throws XMLStreamException
    *             if any error occur while creating the XML document.
-   * @throws FileNotFoundException
-   *             if the file name is invalid
    * @throws SBMLException
+   * @throws IOException
    * 
    */
   public void write(SBMLDocument sbmlDocument, String fileName)
-      throws XMLStreamException, FileNotFoundException, SBMLException {
+      throws XMLStreamException, SBMLException, IOException {
     write(sbmlDocument, fileName, null, null);
   }
 
@@ -614,15 +612,16 @@ public class SBMLWriter {
    * @param programVersion
    * 
    * @throws XMLStreamException
-   * @throws FileNotFoundException
    * @throws SBMLException
+   * @throws IOException if an I/O error occurs.
    * 
    */
   public void write(SBMLDocument sbmlDocument, String fileName,
     String programName, String programVersion)
-        throws XMLStreamException, FileNotFoundException, SBMLException {
-    write(sbmlDocument, new BufferedOutputStream(new FileOutputStream(
-      fileName)), programName, programVersion);
+        throws XMLStreamException, SBMLException, IOException {
+    OutputStream os = new BufferedOutputStream(new FileOutputStream(fileName));
+    write(sbmlDocument, os, programName, programVersion);
+    os.close();
   }
 
   /**
@@ -682,15 +681,15 @@ public class SBMLWriter {
    */
   private void writeAnnotation(SBase sbase, SMOutputContainer element,
     XMLStreamWriter writer, int indent, boolean xmlFragment)
-        throws XMLStreamException, SBMLException 
-  {
-	XMLNode fullAnnotationXMLNode = sbase.getAnnotation().getFullAnnotation();
-	
+        throws XMLStreamException, SBMLException
+        {
+    XMLNode fullAnnotationXMLNode = sbase.getAnnotation().getFullAnnotation();
+
     writer.writeCharacters("\n");
     XMLNodeWriter xmlNodeWriter = new XMLNodeWriter(writer, indent, indentCount, indentChar);
     xmlNodeWriter.write(fullAnnotationXMLNode);
 
-  }
+        }
 
 
   /**
