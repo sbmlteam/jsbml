@@ -24,9 +24,19 @@
 
 		<property name="year" value="${YEAR}"/>
 
-		<echo message="----------- ${Name} ${version} [${year}] ------------"/>
+		<echo message="Determining the revision number of JSBML"/>
+    <exec executable="svn" outputproperty="svninfo.xml">
+      <arg line="info --xml"/>
+    </exec>
+    <xmlproperty collapseAttributes="true">
+      <propertyresource name="svninfo.xml"/>
+    </xmlproperty>
+    <property name="jsbml.revision" value="${info.entry.revision}"/>
+
+		<echo message="-----------   ${Name} ${version} [${year}] ------------"/>
 		<echo message="-----------     ${TODAY}   ------------"/>
 		<echo message="-----------     ${DSTAMP} ${TSTAMP}  ------------"/>
+		<echo message="-----------   svn revision ${jsbml.revision}  ------------"/>
 
 		<property environment="env"/>
 		<property name="build.compiler" value="modern"/>
@@ -200,7 +210,7 @@
 				<attribute name="Specification-Title" value="${Name}"/>
 				<attribute name="Specification-Version" value="${api.version}"/>
 				<attribute name="Implementation-Title" value="${Name}"/>
-				<attribute name="Implementation-Version" value="${version}"/>
+				<attribute name="Implementation-Version" value="${version}, SVN Revision ${jsbml.revision} (Build on ${DSTAMP}-${TSTAMP})"/>
 			</section>
 		</manifest>
 

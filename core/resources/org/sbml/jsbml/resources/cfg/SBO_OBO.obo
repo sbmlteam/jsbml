@@ -1,6 +1,6 @@
 format-version: 1.2
-date: 21:10:2013 07:00
-data-version: 15:05:2013 15:39
+date: 26:02:2014 07:00
+data-version: 09:01:2014 16:13
 saved-by: SBO community
 auto-generated-by: SBO Browser (http://www.ebi.ac.uk/sbo/)
 default-namespace: sbo
@@ -4084,6 +4084,41 @@ name: side substrate
 def: "A substance that is consumed in a chemical reaction but is not itself the primary substrate or focus of that reaction. Examples include, but are not limited to, currency compounds such as ATP, NADPH and protons." [src_code:NR]
 comment: created in response to \[SF req #3604202\].
 is_a: SBO:0000015 ! substrate
+
+[Term]
+id: SBO:0000605
+name: high affinity receptor
+def: "A receptor where binding occurs through strong intermolecular forces such as Van der Waals, hydrogen bonds or ionic bonds." [SBO:team "https://en.wikipedia.org/wiki/Ligand_%28biochemistry%29"]
+comment: created in response to SF#100
+is_a: SBO:0000244 ! receptor
+
+[Term]
+id: SBO:0000606
+name: low affinity receptor
+def: "A receptor where binding occurs through weak intermolecular forces." [SBO:team "https://en.wikipedia.org/wiki/Ligand_%28biochemistry%29"]
+comment: created in response to SF#100
+is_a: SBO:0000244 ! receptor
+
+[Term]
+id: SBO:0000607
+name: dimer
+def: "A macromolecular complex composed of two monomeric units, which may or may not be identical. Monomers are usually non-covalently bound." [src_code:NR]
+comment: created in response to SF req #101
+is_a: SBO:0000296 ! macromolecular complex
+
+[Term]
+id: SBO:0000608
+name: homodimer
+def: "A macromolecular complex composed of precisely two identical monomeric units, which are usually non-covalently bound." [src_code:NR]
+comment: created in response to SF req #101
+is_a: SBO:0000607 ! dimer
+
+[Term]
+id: SBO:0000609
+name: heterodimer
+def: "A macromolecular complex composed of precisely two non-identical monomeric units, which are usually non-covalently bound." [src_code:NR]
+comment: created in response to SF req #101
+is_a: SBO:0000607 ! dimer
 
 [Typedef]
 id: is_a
