@@ -46,7 +46,7 @@ please cite the JSBML paper:
 
   Draeger, A., Rodriguez, N., Dumousseau, M., Doerr, A., Wrzodek, C., 
   Le Novere, N., Zell, A., and Hucka M. (2011) JSBML: a flexible Java
-  library for working with SBML. Bioinformatics, 27(15):2167–2168.
+  library for working with SBML. Bioinformatics, 27(15):2167���2168.
 
 
 1. WHAT'S NEW IN THIS RELEASE?
@@ -141,6 +141,7 @@ Copyright (C) 2009-2014 jointly by the following organizations:
  2. EMBL European Bioinformatics Institute (EMBL-EBI), Hinxton, UK
  3. The California Institute of Technology, Pasadena, CA, USA
  4. The University of California, San Diego, La Jolla, CA, USA
+ 5. The Babraham Institute, Cambridge, UK
 
 JSBML is free software; you can redistribute it and/or modify it under
 the terms of the GNU Lesser General Public License as published by the

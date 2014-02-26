@@ -10,6 +10,7 @@
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 5. The Babraham Institute, Cambridge, UK
  * 
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -37,7 +38,6 @@ import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.xml.libsbml.LibSBMLChangeListener;
 import org.sbml.jsbml.xml.libsbml.LibSBMLReader;
 import org.sbml.libsbml.libsbml;
-
 
 /**
  * This class is used to test {@link LibSBMLChangeListener} with JUnit tests

@@ -10,6 +10,7 @@
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 5. The Babraham Institute, Cambridge, UK
  * 
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -48,7 +49,7 @@ public class ParserManager {
   private HashMap<String, String> namespaceToNameMap = new HashMap<String, String>();
 
   private Logger logger = Logger.getLogger(ParserManager.class);
-  
+
   /**
    * Private constructor to make sure that we have only one {@link ParserManager} per JVM.
    */
@@ -77,7 +78,7 @@ public class ParserManager {
 
     // TODO - each time we add one HashMap entry, check that it was not defined already
     // so that we notice problems as early as possible if two packages declared to take care of the same namespace
-    
+
     while (readingParserList.hasNext()) {
       try {
         ReadingParser readingParser = readingParserList.next();
@@ -135,10 +136,10 @@ public class ParserManager {
 
   }
 
-  // <br /><dependency><br />  
-  // <groupId>org.kohsuke.metainf-services</groupId><br />  
-  // <artifactId>metainf-services</artifactId><br />  
-  // <version>1.1</version><br />  
+  // <br /><dependency><br />
+  // <groupId>org.kohsuke.metainf-services</groupId><br />
+  // <artifactId>metainf-services</artifactId><br />
+  // <version>1.1</version><br />
   // <optional>true</optional><br />
   // </dependency><br />
 
@@ -188,18 +189,18 @@ public class ParserManager {
   public PackageParser getPackageParser(String nameOrURI) {
 
     PackageParser packageParser = packageParsers.get(nameOrURI);
-    
+
     if (packageParser == null) {
       String packageName = namespaceToNameMap.get(nameOrURI);
 
       if (packageName != null) {
         packageParser = packageParsers.get(packageName);
-      }      
+      }
     }
 
     return packageParser;
   }
-  
+
   /**
    * Gets a copy of the registered {@link ReadingParser}s map.
    * 
@@ -256,9 +257,9 @@ public class ParserManager {
         // No need to print the message again, it is printed once in the init() method
       }
     }
-    
+
     Iterator<WritingParser> service_list2 = ServiceLoader.load( WritingParser.class).iterator();
-    
+
     while (service_list2.hasNext()) {
       try {
         WritingParser writingParser = service_list2.next();
@@ -266,7 +267,7 @@ public class ParserManager {
         if( writingParser != null) {
 
           for (String namespaceURI : writingParser.getNamespaces()) {
-            clonedMap.put(namespaceURI, (WritingParser) writingParser);
+            clonedMap.put(namespaceURI, writingParser);
           }
         }
       }
@@ -274,7 +275,7 @@ public class ParserManager {
         e.printStackTrace();
       }
     }
-    
+
 
     return clonedMap;
   }
@@ -308,7 +309,7 @@ public class ParserManager {
     System.out.println(ParserManager.getManager().getReadingParsers());
     System.out.println(ParserManager.getManager().getReadingParsers());
     System.out.println(ParserManager.getManager().readingParsers);
-    
+
     System.out.println(ParserManager.getManager().getWritingParsers());
     System.out.println(ParserManager.getManager().getWritingParsers());
     System.out.println(ParserManager.getManager().writingParsers);
