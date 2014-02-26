@@ -210,7 +210,10 @@ Version 1.0-beta1 (xx-0x-2014)
 
 * Known issues:
 
-  - SBML L3 packages are not supported and not kept.  
+  - If you don't have the code handling a package in your classpath, 
+    jsbml-1.0-beta1 will loose the package elements, they won't be kept
+    in memory or went writing back the model to a file. The final release 
+    should be able to handle unknown packages.  
 
 
 ======================================================================
