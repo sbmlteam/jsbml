@@ -10,6 +10,7 @@
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 5. The Babraham Institute, Cambridge, UK
  * 
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -71,7 +72,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  * @version $Rev$
  */
 class Validator {
-  
+
   public static String validatorURL = "http://sbml.org/validator/";
   // public static String validatorURL = "http://sbml-validator.caltech.edu:8888/validator_servlet/ValidatorServlet";
 
@@ -455,7 +456,7 @@ public class SBMLValidator {
     xstream.alias("detail", Detail.class);
     // xstream.registerLocalConverter(SBMLError.class, "message", new MessageConverter("message"));
     xstream.registerConverter(new SBMLErrorConverter()); // deal with the XML problem element and all it's content
-    
+
     xstream.addImplicitCollection(SBMLErrorLog.class, "options",
       "option", Option.class);
     xstream.addImplicitCollection(SBMLErrorLog.class,
@@ -491,7 +492,7 @@ public class SBMLValidator {
 
       if (sbmlErrorLog.getValidationErrors().size() > 0) {
         try {
-        logger.debug("ValidationError(0) = "	+ sbmlErrorLog.getValidationErrors().get(0));
+          logger.debug("ValidationError(0) = "	+ sbmlErrorLog.getValidationErrors().get(0));
         } catch (Exception e) {
           e.printStackTrace();
         }
@@ -504,7 +505,7 @@ public class SBMLValidator {
       if (logger.isDebugEnabled()) {
         e.printStackTrace();
       }
-    } 
+    }
 
     return new SBMLErrorLog();
   }

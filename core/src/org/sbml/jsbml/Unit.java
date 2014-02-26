@@ -10,6 +10,7 @@
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 5. The Babraham Institute, Cambridge, UK
  * 
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -379,7 +380,7 @@ public class Unit extends AbstractSBase {
         return "Bq";
       case CANDELA:
         return "cd";
-      case CELSIUS: // °C in uni code
+      case CELSIUS:
         return "\u00B0C";
       case COULOMB:
         return "C";
@@ -700,7 +701,7 @@ public class Unit extends AbstractSBase {
       break;
 
     case CELSIUS:
-      /* 1 °Celsius = 1 Kelvin + 273.15 */
+      /* 1 degree Celsius = 1 Kelvin + 273.15 */
       Unit newUnit = new Unit(mult, scale, Kind.KELVIN, exp, l, v);
       newUnit.setOffset(273.15);
       ud.addUnit(newUnit);

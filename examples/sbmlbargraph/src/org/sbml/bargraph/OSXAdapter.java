@@ -51,13 +51,16 @@ AND WHETHER UNDER THEORY OF CONTRACT, TORT (INCLUDING NEGLIGENCE),
 STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 
-Copyright � 2003-2007 Apple, Inc., All Rights Reserved
+Copyright (C) 2003-2007 Apple, Inc., All Rights Reserved
 
  */
 
 package org.sbml.bargraph;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
-import java.lang.reflect.*;
 
 /**
  * 

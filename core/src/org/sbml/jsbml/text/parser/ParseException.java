@@ -12,6 +12,7 @@
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 5. The Babraham Institute, Cambridge, UK
  * 
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -49,9 +50,9 @@ public class ParseException extends Exception {
    * "expectedTokenSequences", and "tokenImage" set.
    */
   public ParseException(Token currentTokenVal,
-                        int[][] expectedTokenSequencesVal,
-                        String[] tokenImageVal
-                       )
+    int[][] expectedTokenSequencesVal,
+    String[] tokenImageVal
+      )
   {
     super(initialise(currentTokenVal, expectedTokenSequencesVal, tokenImageVal));
     currentToken = currentTokenVal;
@@ -108,8 +109,8 @@ public class ParseException extends Exception {
    * gets displayed.
    */
   private static String initialise(Token currentToken,
-                           int[][] expectedTokenSequences,
-                           String[] tokenImage) {
+    int[][] expectedTokenSequences,
+    String[] tokenImage) {
     String eol = System.getProperty("line.separator", "\n");
     StringBuffer expected = new StringBuffer();
     int maxSize = 0;
@@ -128,7 +129,9 @@ public class ParseException extends Exception {
     String retval = "Encountered \"";
     Token tok = currentToken.next;
     for (int i = 0; i < maxSize; i++) {
-      if (i != 0) retval += " ";
+      if (i != 0) {
+        retval += " ";
+      }
       if (tok.kind == 0) {
         retval += tokenImage[0];
         break;
@@ -161,49 +164,49 @@ public class ParseException extends Exception {
    * string literal.
    */
   static String add_escapes(String str) {
-      StringBuffer retval = new StringBuffer();
-      char ch;
-      for (int i = 0; i < str.length(); i++) {
-        switch (str.charAt(i))
-        {
-           case 0 :
-              continue;
-           case '\b':
-              retval.append("\\b");
-              continue;
-           case '\t':
-              retval.append("\\t");
-              continue;
-           case '\n':
-              retval.append("\\n");
-              continue;
-           case '\f':
-              retval.append("\\f");
-              continue;
-           case '\r':
-              retval.append("\\r");
-              continue;
-           case '\"':
-              retval.append("\\\"");
-              continue;
-           case '\'':
-              retval.append("\\\'");
-              continue;
-           case '\\':
-              retval.append("\\\\");
-              continue;
-           default:
-              if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
-                 String s = "0000" + Integer.toString(ch, 16);
-                 retval.append("\\u" + s.substring(s.length() - 4, s.length()));
-              } else {
-                 retval.append(ch);
-              }
-              continue;
+    StringBuffer retval = new StringBuffer();
+    char ch;
+    for (int i = 0; i < str.length(); i++) {
+      switch (str.charAt(i))
+      {
+      case 0 :
+        continue;
+      case '\b':
+        retval.append("\\b");
+        continue;
+      case '\t':
+        retval.append("\\t");
+        continue;
+      case '\n':
+        retval.append("\\n");
+        continue;
+      case '\f':
+        retval.append("\\f");
+        continue;
+      case '\r':
+        retval.append("\\r");
+        continue;
+      case '\"':
+        retval.append("\\\"");
+        continue;
+      case '\'':
+        retval.append("\\\'");
+        continue;
+      case '\\':
+        retval.append("\\\\");
+        continue;
+      default:
+        if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
+          String s = "0000" + Integer.toString(ch, 16);
+          retval.append("\\u" + s.substring(s.length() - 4, s.length()));
+        } else {
+          retval.append(ch);
         }
+        continue;
       }
-      return retval.toString();
-   }
+    }
+    return retval.toString();
+  }
 
 }
 /* JavaCC - OriginalChecksum=0991f265cfc04a8c5a752e12bcb1d54d (do not edit this line) */
