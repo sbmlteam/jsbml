@@ -27,7 +27,10 @@
 	<!-- Initialization target                                               -->
 	<!-- =================================================================== -->
 
-	<target description="Initialization target" name="init">
+	<target description="Initialization target" name="init" unless="target.init.done">
+		
+		<property name="target.init.done" value="true"/>
+
 		<tstamp>
 			<format property="YEAR" pattern="yyyy" />
 		</tstamp>
@@ -87,16 +90,6 @@
 		<property name="libSBMLio.module.base.dir" value="${basedir}/modules/libSBMLio" />
 
 		<property name="core.base.dir" value="${basedir}/core" />
-		<property name="comp.package.base.dir" value="${basedir}/extensions/comp" />
-		<property name="fbc.package.base.dir" value="${basedir}/extensions/fbc" />
-		<property name="groups.package.base.dir" value="${basedir}/extensions/groups" />
-		<property name="layout.package.base.dir" value="${basedir}/extensions/layout" />
-		<property name="multi.package.base.dir" value="${basedir}/extensions/multi" />
-		<property name="qual.package.base.dir" value="${basedir}/extensions/qual" />
-		<property name="render.package.base.dir" value="${basedir}/extensions/render" />
-		<property name="req.package.base.dir" value="${basedir}/extensions/req" />
-		<property name="spatial.package.base.dir" value="${basedir}/extensions/spatial" />
-
 		<property name="package.names" value="comp fbc groups layout multi qual render req spatial" />
 
 		<filter token="year" value="${year}" />
@@ -110,32 +103,6 @@
 		<path id="classpath">
 			<fileset dir="${jars.dir}" includes="*.jar *.zip">
 			</fileset>
-		</path>
-
-		<path id="src.paths">
-			<pathelement path="${core.base.dir}/build/src" />
-			<pathelement path="${comp.package.base.dir}/build/src" />
-			<pathelement path="${fbc.package.base.dir}/build/src" />
-			<pathelement path="${groups.package.base.dir}/build/src" />
-			<pathelement path="${layout.package.base.dir}/build/src" />
-			<pathelement path="${multi.package.base.dir}/build/src" />
-			<pathelement path="${qual.package.base.dir}/build/src" />
-			<pathelement path="${render.package.base.dir}/build/src" />
-			<pathelement path="${req.package.base.dir}/build/src" />
-			<pathelement path="${spatial.package.base.dir}/build/src" />
-		</path>
-
-		<path id="binaries.paths">
-			<pathelement path="${core.base.dir}/build/classes" />
-			<pathelement path="${comp.package.base.dir}/build/classes" />
-			<pathelement path="${fbc.package.base.dir}/build/classes" />
-			<pathelement path="${groups.package.base.dir}/build/classes" />
-			<pathelement path="${layout.package.base.dir}/build/classes" />
-			<pathelement path="${multi.package.base.dir}/build/classes" />
-			<pathelement path="${qual.package.base.dir}/build/classes" />
-			<pathelement path="${render.package.base.dir}/build/classes" />
-			<pathelement path="${req.package.base.dir}/build/classes" />
-			<pathelement path="${spatial.package.base.dir}/build/classes" />
 		</path>
 
 	</target>
@@ -183,13 +150,19 @@
 	<!-- =================================================================== -->
 	<!-- Prepares the source code                                            -->
 	<!-- =================================================================== -->
-	<target name="prepare-src" description="Prepares the source code" depends="prepare">
+	<target name="prepare-src" description="Prepares the source code" depends="prepare" unless="prepare.src.target.done">
+
+		<property name="prepare.src.target.done" value="true"/>
 
 		<ant dir="${core.base.dir}" inheritAll="false" inheritRefs="false">
 			<target name="clean" />
 			<target name="jar" />
 		</ant>
 
+		<copy todir="${build.src}">
+			<fileset dir="${core.base.dir}/build/src" />
+		</copy>
+		
 	</target>
 
 
@@ -226,9 +199,9 @@
 	<!-- Creates the class package and include all the dependencies jars     -->
 	<!-- into a big jsbml jar file.                                          -->
 	<!-- =================================================================== -->
-	<target name="jar-src" description="Creates the class package and includes all the dependencies jars into a big jsbml jar file" depends="prepare-src">
+	<target name="jar-src" description="Creates the class package and includes all the dependencies jars into a big jsbml jar file" depends="jar">
 
-		<jar jarfile="${build.dir}/${name}-${version}-src.jar" basedir="${build.src}" includes="**/*.java" />
+		<jar jarfile="${dist.dir}/${name}-${version}-src.jar" basedir="${build.src}" includes="**/*.java" />
 
 	</target>
 
@@ -236,16 +209,19 @@
 	<!-- Creates the class package and include all the dependencies jars     -->
 	<!-- into a big jsbml jar file.                                          -->
 	<!-- =================================================================== -->
-	<target name="bigjar" description="Creates the class package and includes all the dependencies jars (and other resources) into a big jsbml jar file">
+	<target name="bigjar" description="Creates the class package and includes all the dependencies jars (and other resources) into a big jsbml jar file" depends="jar">
 
-		<!-- we use the ${build.src} to include the sources of jsbml in the resulting jar -->
-		<copy todir="${build.dest}">
-			<fileset dir="${build.src}" includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo **/*.properties **/*.java">
-			</fileset>
-		</copy>
+		<jar jarfile="${dist.dir}/${name}-${version}-with-dependencies.jar" 
+			filesetmanifest="mergewithoutmain" duplicate="preserve">
 
-		<jar jarfile="${build.dir}/${name}-${version}-with-dependencies.jar" basedir="${build.dest}" manifest="${build.dest}/META-INF/MANIFEST.MF" filesetmanifest="mergewithoutmain" duplicate="preserve">
+			<!-- we use the ${build.src} to include the sources of jsbml in the resulting jar -->
+			<fileset dir="${build.src}" />
 			<zipgroupfileset dir="${jars.dir}" includes="*.jar" />
+			<!-- all the dependencies jars -->
+			<fileset dir="${core.base.dir}/build/classes" />
+			<!-- jsbml core classes -->
+			<zipgroupfileset dir="${build.dir}" includes="*.jar" />
+			<!-- all L3 packages classes -->
 			<service type="org.sbml.jsbml.xml.parsers.ReadingParser">
 				<!-- This list need to be updated as soon as there is a new parser -->
 				<provider classname="org.sbml.jsbml.xml.parsers.SBMLCoreParser" />
@@ -270,6 +246,7 @@
 	<!-- =================================================================== -->
 	<target name="test" description="Test the jsbml library" depends="jar">
 
+		<!-- TODO - add some tests using the package here -->
 
 		<echo message="There should be NO failures or errors." />
 		<echo message="" />
@@ -308,9 +285,9 @@
 	<!-- =================================================================== -->
 	<!-- Creates the API documentation                                       -->
 	<!-- =================================================================== -->
-	<target name="javadoc" depends="prepare-src" description="Creates the API documentation">
+	<target name="javadoc" depends="prepare-src, package" description="Creates the API documentation">
 		<mkdir dir="${build.javadocs}" />
-		<javadoc packagenames="org.*" excludepackagenames="org.sbml.jsbml.test.*, org.sbml.jsbml.xml.test.*" sourcepathref="src.paths" destdir="${build.javadocs}" classpathref="classpath" maxmemory="96m" author="true" version="true" use="true" splitindex="true" noindex="false" windowtitle="${Name} ${version} API Specification" doctitle="${Name} ${version} API Specification" breakiterator="yes" access="public">
+		<javadoc packagenames="org.*" excludepackagenames="org.sbml.jsbml.test.*, org.sbml.jsbml.xml.test.*" sourcepath="${build.src}" destdir="${build.javadocs}" classpathref="classpath" maxmemory="96m" author="true" version="true" use="true" splitindex="true" noindex="false" windowtitle="${Name} ${version} API Specification" doctitle="${Name} ${version} API Specification" breakiterator="yes" access="public">
 			<link href="http://docs.oracle.com/javase/6/docs/api/" />
 			<link href="http://www.biojava.org/docs/api17" />
 			<tag name="sbml.deprecated" description="Deprecated in SBML since:" />
@@ -433,32 +410,33 @@
 	<!-- =================================================================== -->
 	<!-- Build a single jsbml package                                    -->
 	<!-- =================================================================== -->
-	<target name="prepare-package">
+	<target name="prepare-package" depends="init">
 
 		<echo>Package ${packagename}</echo>
-		
+
 		<ant dir="${basedir}/extensions/${packagename}" inheritAll="false" inheritRefs="false">
 			<target name="clean" />
 			<target name="jar" />
 			<!-- <target name="dist"/> -->
 		</ant>
-		<!--  <copy todir="${build.dest}">
-			<fileset dir="${${packagename}.package.base.dir}/build/classes" />
+		<copy todir="${build.src}">
+			<fileset dir="${basedir}/extensions/${packagename}/build/src" />
 		</copy>
-		-->
 		<copy todir="${build.dir}">
 			<fileset dir="${basedir}/extensions/${packagename}/build/" includes="*.jar" />
 		</copy>
 
 	</target>
-	
-	
+
+
 	<!-- =================================================================== -->
 	<!-- Build the jsbml extensions/packages                                   -->
 	<!-- =================================================================== -->
-	<target name="package" description="Build the jsbml L3 packages" depends="init">
-		
-		<foreach list="${package.names}"  delimiter=" " param="packagename" target="prepare-package"/>
+	<target name="package" description="Build the jsbml L3 packages" depends="init" unless="package.target.done">
+
+		<property name="package.target.done" value="true"/>
+
+		<foreach list="${package.names}" delimiter=" " param="packagename" target="prepare-package" />
 
 	</target>
 
