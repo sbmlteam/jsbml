@@ -81,6 +81,7 @@
 			<fileset dir="${jars.dir}" includes="*.jar *.zip"/>
 			<fileset dir="${jsbml.build.dir}" includes="*.jar *.zip"/>
 			<fileset dir="${jsbml.jars.dir}" includes="*.jar *.zip"/>
+			<pathelement path="${basedir}/../layout/build/classes"/>
 		</path>
 	</target>
 
