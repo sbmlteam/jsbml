@@ -21,181 +21,204 @@
 
     Version: $Rev$
 -->
-<project
-  default ="usage"
-  basedir=".">
+<project default="usage" basedir=".">
 
-	
 	<!-- =================================================================== -->
 	<!-- Initialization target                                               -->
 	<!-- =================================================================== -->
 
-	<target
-	 description="Initialization target"
-	 name="init">
+	<target description="Initialization target" name="init">
 		<tstamp>
-			<format property="YEAR" pattern="yyyy"/>
+			<format property="YEAR" pattern="yyyy" />
 		</tstamp>
 
-		<property name="Name" value="JSBML"/>
-		<property name="name" value="jsbml-all"/>
-		<property name="version" value="1.0-b1"/>
-		<property name="api.version" value="1.0"/>
+		<taskdef resource="net/sf/antcontrib/antcontrib.properties">
+			<classpath>
+				<pathelement location="${basedir}/lib/ant-contrib-1.0b3.jar" />
+			</classpath>
+		</taskdef>
 
-		<property name="year" value="${YEAR}"/>
+		<property name="Name" value="JSBML" />
+		<property name="name" value="jsbml" />
+		<property name="version" value="1.0-b1" />
+		<property name="api.version" value="1.0" />
 
-		<echo message="Determining the revision number of JSBML"/>
-    <exec executable="svn" outputproperty="svninfo.xml">
-      <arg line="info --xml"/>
-    </exec>
-    <xmlproperty collapseAttributes="true">
-      <propertyresource name="svninfo.xml"/>
-    </xmlproperty>
-    <property name="jsbml.revision" value="${info.entry.revision}"/>
+		<property name="year" value="${YEAR}" />
 
-		<echo message="-----------   ${Name} ${version} [${year}] ------------"/>
-		<echo message="-----------     ${TODAY}   ------------"/>
-		<echo message="-----------     ${DSTAMP} ${TSTAMP}  ------------"/>
-		<echo message="-----------   svn revision ${jsbml.revision}  ------------"/>
-		
-		<property environment="env"/>
-		<property name="build.compiler" value="modern"/>
-		<property name="build.sysclasspath" value="ignore"/>
-		<property name="debug" value="on"/>
-		<property name="optimize" value="on"/>
-		<property name="deprecation" value="false"/>
-		<property name="depend" value="true"/>
-		<property name="verbose" value="false"/>
+		<echo message="Determining the revision number of JSBML" />
+		<exec executable="svn" outputproperty="svninfo.xml">
+			<arg line="info --xml" />
+		</exec>
+		<xmlproperty collapseAttributes="true">
+			<propertyresource name="svninfo.xml" />
+		</xmlproperty>
+		<property name="jsbml.revision" value="${info.entry.revision}" />
 
-		<property name="build.number" value="${DSTAMP}-${TSTAMP}"/>
-		<property name="build.name" value="${version} (build ${build.number}, svn rev ${jsbml.revision})"/>
+		<echo message="-----------   ${Name} ${version} [${year}] ------------" />
+		<echo message="-----------     ${TODAY}   ------------" />
+		<echo message="-----------     ${DSTAMP} ${TSTAMP}  ------------" />
+		<echo message="-----------   svn revision ${jsbml.revision}  ------------" />
 
-		<property name="src.dir" value="${basedir}/src"/>
-		<property name="test.src.dir" value="${basedir}/test"/>
-		<property name="build.dir" value="${basedir}/build"/>
-		<property name="build.src" value="${basedir}/build/src"/>
-		<property name="build.dest" value="${basedir}/build/classes"/>
-		<property name="build.javadocs" value="${basedir}/build/apidocs"/>
-		<property name="jars.dir" value="${basedir}/core/lib"/>
-		<property name="dist.root" value="${basedir}/dist"/>
-		<property name="dist.dir" value="${dist.root}/${name}-${version}"/>
+		<property environment="env" />
+		<property name="build.compiler" value="modern" />
+		<property name="build.sysclasspath" value="ignore" />
+		<property name="debug" value="on" />
+		<property name="optimize" value="on" />
+		<property name="deprecation" value="false" />
+		<property name="depend" value="true" />
+		<property name="verbose" value="false" />
 
-		<property name="resource.dir" value="${basedir}/resources"/>
+		<property name="build.number" value="${DSTAMP}-${TSTAMP}" />
+		<property name="build.name" value="${version} (build ${build.number}, svn rev ${jsbml.revision})" />
 
-		<property name="cellDesigner.module.base.dir" value="${basedir}/modules/celldesigner"/>
-		<property name="libSBMLio.module.base.dir" value="${basedir}/modules/libSBMLio"/>
+		<property name="src.dir" value="${basedir}/core/src" />
+		<property name="test.src.dir" value="${basedir}/core/test" />
+		<property name="build.dir" value="${basedir}/build" />
+		<property name="build.src" value="${basedir}/build/src" />
+		<property name="build.dest" value="${basedir}/build/classes" />
+		<property name="build.javadocs" value="${basedir}/build/apidocs" />
+		<property name="jars.dir" value="${basedir}/core/lib" />
+		<property name="dist.root" value="${basedir}/dist" />
+		<property name="dist.dir" value="${dist.root}/${name}-${version}" />
 
-		<property name="core.base.dir" value="${basedir}/core"/>
-		<property name="comp.package.base.dir" value="${basedir}/extensions/comp"/>
-		<property name="fbc.package.base.dir" value="${basedir}/extensions/fbc"/>
-		<property name="groups.package.base.dir" value="${basedir}/extensions/groups"/>
-		<property name="layout.package.base.dir" value="${basedir}/extensions/layout"/>
-		<property name="multi.package.base.dir" value="${basedir}/extensions/multi"/>
-		<property name="qual.package.base.dir" value="${basedir}/extensions/qual"/>
-		<property name="render.package.base.dir" value="${basedir}/extensions/render"/>
-		<property name="req.package.base.dir" value="${basedir}/extensions/req"/>
-		<property name="spatial.package.base.dir" value="${basedir}/extensions/spatial"/>
-		
-		<filter token="year" value="${year}"/>
-		<filter token="version" value="${version}"/>
-		<filter token="date" value="${TODAY}"/>
-		<filter token="log" value="true"/>
-		<filter token="verbose" value="true"/>
+		<property name="resource.dir" value="${basedir}/resources" />
+
+		<property name="cellDesigner.module.base.dir" value="${basedir}/modules/celldesigner" />
+		<property name="libSBMLio.module.base.dir" value="${basedir}/modules/libSBMLio" />
+
+		<property name="core.base.dir" value="${basedir}/core" />
+		<property name="comp.package.base.dir" value="${basedir}/extensions/comp" />
+		<property name="fbc.package.base.dir" value="${basedir}/extensions/fbc" />
+		<property name="groups.package.base.dir" value="${basedir}/extensions/groups" />
+		<property name="layout.package.base.dir" value="${basedir}/extensions/layout" />
+		<property name="multi.package.base.dir" value="${basedir}/extensions/multi" />
+		<property name="qual.package.base.dir" value="${basedir}/extensions/qual" />
+		<property name="render.package.base.dir" value="${basedir}/extensions/render" />
+		<property name="req.package.base.dir" value="${basedir}/extensions/req" />
+		<property name="spatial.package.base.dir" value="${basedir}/extensions/spatial" />
+
+		<property name="package.names" value="comp fbc groups layout multi qual render req spatial" />
+
+		<filter token="year" value="${year}" />
+		<filter token="version" value="${version}" />
+		<filter token="date" value="${TODAY}" />
+		<filter token="log" value="true" />
+		<filter token="verbose" value="true" />
 
 		<!-- add everything needed to the classpath -->
 		<!-- adjust the settings to your local environment -->
 		<path id="classpath">
 			<fileset dir="${jars.dir}" includes="*.jar *.zip">
 			</fileset>
-		</path>	
+		</path>
+
+		<path id="src.paths">
+			<pathelement path="${core.base.dir}/build/src" />
+			<pathelement path="${comp.package.base.dir}/build/src" />
+			<pathelement path="${fbc.package.base.dir}/build/src" />
+			<pathelement path="${groups.package.base.dir}/build/src" />
+			<pathelement path="${layout.package.base.dir}/build/src" />
+			<pathelement path="${multi.package.base.dir}/build/src" />
+			<pathelement path="${qual.package.base.dir}/build/src" />
+			<pathelement path="${render.package.base.dir}/build/src" />
+			<pathelement path="${req.package.base.dir}/build/src" />
+			<pathelement path="${spatial.package.base.dir}/build/src" />
+		</path>
+
+		<path id="binaries.paths">
+			<pathelement path="${core.base.dir}/build/classes" />
+			<pathelement path="${comp.package.base.dir}/build/classes" />
+			<pathelement path="${fbc.package.base.dir}/build/classes" />
+			<pathelement path="${groups.package.base.dir}/build/classes" />
+			<pathelement path="${layout.package.base.dir}/build/classes" />
+			<pathelement path="${multi.package.base.dir}/build/classes" />
+			<pathelement path="${qual.package.base.dir}/build/classes" />
+			<pathelement path="${render.package.base.dir}/build/classes" />
+			<pathelement path="${req.package.base.dir}/build/classes" />
+			<pathelement path="${spatial.package.base.dir}/build/classes" />
+		</path>
 
 	</target>
 
 	<!-- =================================================================== -->
 	<!-- Help on usage                                                       -->
 	<!-- =================================================================== -->
-	<target name="usage"
-	 description="Help on usage"
-	 depends="init">
-		<echo message=""/>
-		<echo message=""/>
-		<echo message=" ${Name} Build file"/>
-		<echo message=" -------------------------------------------------------------"/>
-		<echo message=""/>
-		<echo message=" available targets are:"/>
-		<echo message=""/>
-		<echo message="   jar         --> generates the ${name}.jar file"/>
-		<echo message="   bigjar      --> generates the ${name}-with-dependencies.jar file"/>
-		<echo message="   test        --> runs the tests"/>
-		<echo message="   javadoc     --> generates the API documentation"/>
-		<echo message="   clean       --> cleans up the directory"/>
-		<echo message=""/>
-		<echo message=" See the comments inside the build.xml file for more details."/>
-		<echo message=" -------------------------------------------------------------"/>
-		<echo message=""/>
-		<echo message=""/>
+	<target name="usage" description="Help on usage" depends="init">
+		<echo message="" />
+		<echo message="" />
+		<echo message=" ${Name} Build file" />
+		<echo message=" -------------------------------------------------------------" />
+		<echo message="" />
+		<echo message=" available targets are:" />
+		<echo message="" />
+		<echo message="   jar         --> generates the ${name}.jar file" />
+		<echo message="   bigjar      --> generates the ${name}-with-dependencies.jar file" />
+		<echo message="   test        --> runs the tests" />
+		<echo message="   javadoc     --> generates the API documentation" />
+		<echo message="   clean       --> cleans up the directory" />
+		<echo message="" />
+		<echo message=" See the comments inside the build.xml file for more details." />
+		<echo message=" -------------------------------------------------------------" />
+		<echo message="" />
+		<echo message="" />
 
 		<!--
 		<echo message="   compile     compiles the source code"/>
 
 		-->
-		
+
 	</target>
 
 	<!-- =================================================================== -->
 	<!-- Prepares the build directory                                        -->
 	<!-- =================================================================== -->
-	<target name="prepare"
-	 description="Prepares the build directory"
-	 depends="init">
-		<mkdir dir="${build.dir}"/>
-		<mkdir dir="${build.dest}"/>
-		<echo message="Done"/>
+	<target name="prepare" description="Prepares the build directory" depends="init">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${build.dest}" />
+		<mkdir dir="${build.src}" />
+		<mkdir dir="${dist.dir}" />
+		<echo message="Done" />
 	</target>
 
 	<!-- =================================================================== -->
 	<!-- Prepares the source code                                            -->
 	<!-- =================================================================== -->
-	<target name="prepare-src"
-	 description="Prepares the source code"
-	 depends="prepare">
+	<target name="prepare-src" description="Prepares the source code" depends="prepare">
 
-		<!-- TODO copy all the {build.dest} -->
-		<copy todir="${build.src}" overwrite="yes">
-			<fileset 
-            dir="${src.dir}"
-            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip ">
-			</fileset>
-		</copy>
-
+		<ant dir="${core.base.dir}" inheritAll="false" inheritRefs="false">
+			<target name="clean" />
+			<target name="jar" />
+		</ant>
 
 	</target>
 
 
 
 	<!-- =================================================================== -->
-	<!-- Creates the class package                                           -->
+	<!-- Creates the class package           depends="prepare-src, package"                                 -->
 	<!-- =================================================================== -->
-	<target name="jar"
-	 description="Creates the class package">
+	<target name="jar" description="Creates the class package" depends="prepare-src, package">
 
-		<copy todir="${build.dest}">
-			<fileset dir="${build.src}" 
-				includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo **/*.properties">
-			</fileset>
-		</copy>
-		<jar jarfile="${build.dir}/${name}-${version}.jar" basedir="${build.dest}" manifest="${build.dest}/META-INF/MANIFEST.MF"/>
-	</target>
+		<jar jarfile="${dist.dir}/${name}-${version}.jar" filesetmanifest="mergewithoutmain" duplicate="preserve">
+			<fileset dir="${core.base.dir}/build/classes" />
+			<zipgroupfileset dir="${build.dir}" includes="*.jar" />
+			<service type="org.sbml.jsbml.xml.parsers.ReadingParser">
+				<!-- This list need to be updated as soon as there is a new parser -->
+				<provider classname="org.sbml.jsbml.xml.parsers.SBMLCoreParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.XMLNodeReader" />
+				<provider classname="org.sbml.jsbml.xml.parsers.MathMLStaxParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.FBCParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.GroupsParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.L3LayoutParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.LayoutParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.MultiParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.QualParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.RenderParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.SpatialParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.CompParser" />
+			</service>
 
-	<!-- =================================================================== -->
-	<!-- Creates the class package and include all the dependencies jars     -->
-	<!-- into a big jsbml jar file.                                          -->
-	<!-- =================================================================== -->
-	<target name="jar-src"
-	 description="Creates the class package and includes all the dependencies jars into a big jsbml jar file"
-	 depends="prepare-src">
-
-		<jar jarfile="${build.dir}/${name}-${version}-src.jar" basedir="${build.src}" includes="**/*.java"/>
+		</jar>
 
 	</target>
 
@@ -203,38 +226,41 @@
 	<!-- Creates the class package and include all the dependencies jars     -->
 	<!-- into a big jsbml jar file.                                          -->
 	<!-- =================================================================== -->
-	<target name="bigjar"
-	 description="Creates the class package and includes all the dependencies jars (and other resources) into a big jsbml jar file">
+	<target name="jar-src" description="Creates the class package and includes all the dependencies jars into a big jsbml jar file" depends="prepare-src">
+
+		<jar jarfile="${build.dir}/${name}-${version}-src.jar" basedir="${build.src}" includes="**/*.java" />
+
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Creates the class package and include all the dependencies jars     -->
+	<!-- into a big jsbml jar file.                                          -->
+	<!-- =================================================================== -->
+	<target name="bigjar" description="Creates the class package and includes all the dependencies jars (and other resources) into a big jsbml jar file">
 
 		<!-- we use the ${build.src} to include the sources of jsbml in the resulting jar -->
 		<copy todir="${build.dest}">
-			<fileset
-            dir="${build.src}"
-            includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo **/*.properties **/*.java" >
+			<fileset dir="${build.src}" includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo **/*.properties **/*.java">
 			</fileset>
 		</copy>
-		
-		<jar jarfile="${build.dir}/${name}-${version}-with-dependencies.jar"
-         basedir="${build.dest}"  manifest="${build.dest}/META-INF/MANIFEST.MF"
-				 filesetmanifest="mergewithoutmain"
-			   duplicate="preserve"
-			>
-			<zipgroupfileset dir="${jars.dir}" includes="*.jar"/>
-	    <service type="org.sbml.jsbml.xml.parsers.ReadingParser">
-	    	<!-- This list need to be updated as soon as there is a new parser -->
-	    	<provider classname="org.sbml.jsbml.xml.parsers.SBMLCoreParser"/>		
-	    	<provider classname="org.sbml.jsbml.xml.parsers.XMLNodeReader"/>
-	    	<provider classname="org.sbml.jsbml.xml.parsers.MathMLStaxParser"/>
-	    	<provider classname="org.sbml.jsbml.xml.parsers.FBCParser"/>
-		  	<provider classname="org.sbml.jsbml.xml.parsers.GroupsParser"/>
-				<provider classname="org.sbml.jsbml.xml.parsers.L3LayoutParser"/>
-				<provider classname="org.sbml.jsbml.xml.parsers.LayoutParser"/>
-				<provider classname="org.sbml.jsbml.xml.parsers.MultiParser"/>
-				<provider classname="org.sbml.jsbml.xml.parsers.QualParser"/>
-				<provider classname="org.sbml.jsbml.xml.parsers.RenderParser"/>
-				<provider classname="org.sbml.jsbml.xml.parsers.SpatialParser"/>
-				<provider classname="org.sbml.jsbml.xml.parsers.CompParser"/>
-	  	</service>
+
+		<jar jarfile="${build.dir}/${name}-${version}-with-dependencies.jar" basedir="${build.dest}" manifest="${build.dest}/META-INF/MANIFEST.MF" filesetmanifest="mergewithoutmain" duplicate="preserve">
+			<zipgroupfileset dir="${jars.dir}" includes="*.jar" />
+			<service type="org.sbml.jsbml.xml.parsers.ReadingParser">
+				<!-- This list need to be updated as soon as there is a new parser -->
+				<provider classname="org.sbml.jsbml.xml.parsers.SBMLCoreParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.XMLNodeReader" />
+				<provider classname="org.sbml.jsbml.xml.parsers.MathMLStaxParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.FBCParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.GroupsParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.L3LayoutParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.LayoutParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.MultiParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.QualParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.RenderParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.SpatialParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.CompParser" />
+			</service>
 		</jar>
 	</target>
 
@@ -242,42 +268,39 @@
 	<!-- =================================================================== -->
 	<!-- Test the jsbml library                                              -->
 	<!-- =================================================================== -->
-	<target
-		name="test"
-		description="Test the jsbml library"
-		depends="jar">
+	<target name="test" description="Test the jsbml library" depends="jar">
 
 
-		<echo message="There should be NO failures or errors."/>
-		<echo message=""/>
-		<echo message="You can see a details of the tests on the two files : jsbmlTestResults.txt and libsbmlCompatibilityTestResults.txt"/>
-		<echo message=""/>
+		<echo message="There should be NO failures or errors." />
+		<echo message="" />
+		<echo message="You can see a details of the tests on the two files : jsbmlTestResults.txt and libsbmlCompatibilityTestResults.txt" />
+		<echo message="" />
 
-		<junit printsummary="yes" >
+		<junit printsummary="yes">
 			<!-- showoutput="yes" -->
-			<formatter type="plain"/>
+			<formatter type="plain" />
 			<test name="org.sbml.jsbml.xml.test.Tests" outfile="jsbmlTestResults">
-				<formatter type="plain"/>
+				<formatter type="plain" />
 			</test>
 			<classpath>
-				<path refid="classpath"/>
-				<pathelement location="${build.dir}/${name}-${version}.jar"/>
+				<path refid="classpath" />
+				<pathelement location="${build.dir}/${name}-${version}.jar" />
 			</classpath>
 		</junit>
-		<echo message=""/>
+		<echo message="" />
 
-		<junit printsummary="yes" >
+		<junit printsummary="yes">
 			<!-- showoutput="yes" -->
-			<formatter type="plain"/>
+			<formatter type="plain" />
 			<test name="org.sbml.jsbml.xml.test.LibsbmlCompatibilityTests" outfile="libsbmlCompatibilityTestResults">
-				<formatter type="plain"/>
+				<formatter type="plain" />
 			</test>
 			<classpath>
-				<path refid="classpath"/>
-				<pathelement location="${build.dir}/${name}-${version}.jar"/>
+				<path refid="classpath" />
+				<pathelement location="${build.dir}/${name}-${version}.jar" />
 			</classpath>
 		</junit>
-		<echo message=""/>
+		<echo message="" />
 
 	</target>
 
@@ -285,36 +308,16 @@
 	<!-- =================================================================== -->
 	<!-- Creates the API documentation                                       -->
 	<!-- =================================================================== -->
-	<target
-	  name="javadoc"
-	  depends="prepare-src"
-	  description="Creates the API documentation"
-	>
-		<mkdir dir="${build.javadocs}"/>
-		<javadoc
-			 packagenames="org.*"
-    		 excludepackagenames="org.sbml.jsbml.test.*, org.sbml.jsbml.xml.test.*"
-             sourcepath="${build.src}"
-             destdir="${build.javadocs}"
-             classpathref="classpath"
-             maxmemory="96m"
-             author="true"
-             version="true"
-             use="true"
-             splitindex="true"
-             noindex="false"
-             windowtitle="${Name} ${version} API Specification"
-             doctitle="${Name} ${version} API Specification"
-    	     breakiterator="yes"
-    		 access="public"
-        >
-			<link href="http://docs.oracle.com/javase/6/docs/api/"/>
-			<link href="http://www.biojava.org/docs/api17"/>
-			<tag name="sbml.deprecated" description="Deprecated in SBML since:"/>
-			<tag name="libsbml.deprecated" description="Note: this method is kept here as it exist in libSBML."/>
-			<tag name="jsbml.note" description="Note"/>
-			<tag name="jsbml.warning"/>
-			<tag name="doc.note"  description="Documentation note"/>
+	<target name="javadoc" depends="prepare-src" description="Creates the API documentation">
+		<mkdir dir="${build.javadocs}" />
+		<javadoc packagenames="org.*" excludepackagenames="org.sbml.jsbml.test.*, org.sbml.jsbml.xml.test.*" sourcepathref="src.paths" destdir="${build.javadocs}" classpathref="classpath" maxmemory="96m" author="true" version="true" use="true" splitindex="true" noindex="false" windowtitle="${Name} ${version} API Specification" doctitle="${Name} ${version} API Specification" breakiterator="yes" access="public">
+			<link href="http://docs.oracle.com/javase/6/docs/api/" />
+			<link href="http://www.biojava.org/docs/api17" />
+			<tag name="sbml.deprecated" description="Deprecated in SBML since:" />
+			<tag name="libsbml.deprecated" description="Note: this method is kept here as it exist in libSBML." />
+			<tag name="jsbml.note" description="Note" />
+			<tag name="jsbml.warning" />
+			<tag name="doc.note" description="Documentation note" />
 
 		</javadoc>
 	</target>
@@ -322,10 +325,7 @@
 	<!-- =================================================================== -->
 	<!-- Creates the javadocs jar package                                    -->
 	<!-- =================================================================== -->
-	<target
-		name="jar-javadoc"
-		description="Creates the javadocs jar package"
-		depends="javadoc">
+	<target name="jar-javadoc" description="Creates the javadocs jar package" depends="javadoc">
 
 		<jar jarfile="${build.dir}/${name}-${version}-javadoc.jar" basedir="${build.javadocs}" />
 
@@ -334,39 +334,36 @@
 	<!-- =================================================================== -->
 	<!-- Creates the distribution                                            -->
 	<!-- =================================================================== -->
-	<target
-		name="dist"
-		description="Creates the distribution"
-		depends="prepare-src">
+	<target name="dist" description="Creates the distribution" depends="prepare-src">
 
 		<!-- Creates the standard jar file -->
 
-		<antcall target="clean"/>
+		<antcall target="clean" />
 
-		<antcall target="jar"/>
-		<antcall target="jar-src"/>
-		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}-src.jar"/>
+		<antcall target="jar" />
+		<antcall target="jar-src" />
+		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}-src.jar" />
 
-		<antcall target="test"/>
+		<antcall target="test" />
 
-		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}.jar"/>
-		<copy todir="${dist.root}" file="${build.dir}/${name}-${version}.jar"/>
+		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}.jar" />
+		<copy todir="${dist.root}" file="${build.dir}/${name}-${version}.jar" />
 
 		<!-- Creates the jar file including all the dependencies -->
 
-		<antcall target="bigjar"/>
+		<antcall target="bigjar" />
 
-		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}-with-dependencies.jar"/>
-		<copy todir="${dist.root}" file="${build.dir}/${name}-${version}-with-dependencies.jar"/>
+		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}-with-dependencies.jar" />
+		<copy todir="${dist.root}" file="${build.dir}/${name}-${version}-with-dependencies.jar" />
 
 		<!-- Creates and copy the generated javadoc -->
-		<antcall target="jar-javadoc"/>
+		<antcall target="jar-javadoc" />
 
 		<copy todir="${dist.dir}/doc/api">
 			<fileset dir="${build.javadocs}/" includes="**/*">
 			</fileset>
 		</copy>
-		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}-javadoc.jar"/>
+		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}-javadoc.jar" />
 
 		<!-- Copy the source files -->
 		<copy todir="${dist.dir}/src">
@@ -396,10 +393,10 @@
 		</copy>
 
 		<!-- create the modules files -->
-		<antcall target="module-dist"/>
+		<antcall target="module-dist" />
 
 		<!-- Creates the archives to be distributed -->
-		<zip basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.zip" includes="${name}-${version}/**"/>
+		<zip basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.zip" includes="${name}-${version}/**" />
 
 		<!-- Not generating a tar.gz a having only a zip file should be enough -->
 		<!-- <tar basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.tar.gz" includes="${name}-${version}/**" compression="gzip"/> -->
@@ -410,121 +407,84 @@
 	<!-- =================================================================== -->
 	<!-- Build the jsbml modules                                             -->
 	<!-- =================================================================== -->
-	<target
-		name="module"
-		description="Build the jsbml modules"
-		depends="init">
+	<target name="module" description="Build the jsbml modules" depends="init">
 
 		<ant dir="${cellDesigner.module.base.dir}" inheritAll="false" inheritRefs="false">
-			<target name="clean"/>
-			<target name="jar"/>
-			<target name="javadoc"/>
+			<target name="clean" />
+			<target name="jar" />
+			<target name="javadoc" />
 		</ant>
 
-		<ant dir="${libSBMLio.module.base.dir}"  inheritAll="false" inheritRefs="false">
-			<target name="clean"/>
-			<target name="jar"/>
-			<target name="javadoc"/>
+		<ant dir="${libSBMLio.module.base.dir}" inheritAll="false" inheritRefs="false">
+			<target name="clean" />
+			<target name="jar" />
+			<target name="javadoc" />
 		</ant>
 
 	</target>
 
-	<!-- =================================================================== -->
-	<!-- Build the jsbml extension/package                                   -->
-	<!-- =================================================================== -->
-	<target
-		name="package"
-		description="Build the jsbml L3 packages"
-		depends="init">
+	<target name="test-for-loop">
+		<sequential>
+			<echo>Letter ${letter}</echo>
+		</sequential>
 
-		<!-- TODO could probably make use of a for or for-each construct -->
+	</target>
 
-		<ant dir="${comp.package.base.dir}" inheritAll="false" inheritRefs="false">
-			<target name="clean"/>
-			<target name="jar"/>
-			<target name="javadoc"/>
+	<!-- =================================================================== -->
+	<!-- Build a single jsbml package                                    -->
+	<!-- =================================================================== -->
+	<target name="prepare-package">
+
+		<echo>Package ${packagename}</echo>
+		
+		<ant dir="${basedir}/extensions/${packagename}" inheritAll="false" inheritRefs="false">
+			<target name="clean" />
+			<target name="jar" />
 			<!-- <target name="dist"/> -->
 		</ant>
+		<!--  <copy todir="${build.dest}">
+			<fileset dir="${${packagename}.package.base.dir}/build/classes" />
+		</copy>
+		-->
+		<copy todir="${build.dir}">
+			<fileset dir="${basedir}/extensions/${packagename}/build/" includes="*.jar" />
+		</copy>
 
-		<ant dir="${fbc.package.base.dir}"  inheritAll="false" inheritRefs="false">
-			<target name="clean"/>
-			<target name="jar"/>
-			<target name="javadoc"/>
-		</ant>
-
-		<ant dir="${groups.package.base.dir}"  inheritAll="false" inheritRefs="false">
-			<target name="clean"/>
-			<target name="jar"/>
-			<target name="javadoc"/>
-		</ant>
-
-		<ant dir="${layout.package.base.dir}"  inheritAll="false" inheritRefs="false">
-			<target name="clean"/>
-			<target name="jar"/>
-			<target name="javadoc"/>
-		</ant>
-
-		<ant dir="${multi.package.base.dir}"  inheritAll="false" inheritRefs="false">
-			<target name="clean"/>
-			<target name="jar"/>
-			<target name="javadoc"/>
-		</ant>
+	</target>
+	
+	
+	<!-- =================================================================== -->
+	<!-- Build the jsbml extensions/packages                                   -->
+	<!-- =================================================================== -->
+	<target name="package" description="Build the jsbml L3 packages" depends="init">
 		
-		<ant dir="${qual.package.base.dir}"  inheritAll="false" inheritRefs="false">
-			<target name="clean"/>
-			<target name="jar"/>
-			<target name="javadoc"/>
-		</ant>
+		<foreach list="${package.names}"  delimiter=" " param="packagename" target="prepare-package"/>
 
-		<ant dir="${render.package.base.dir}"  inheritAll="false" inheritRefs="false">
-			<target name="clean"/>
-			<target name="jar"/>
-			<target name="javadoc"/>
-		</ant>
-
-		<ant dir="${req.package.base.dir}"  inheritAll="false" inheritRefs="false">
-			<target name="clean"/>
-			<target name="jar"/>
-			<target name="javadoc"/>
-		</ant>
-
-		<ant dir="${spatial.package.base.dir}"  inheritAll="false" inheritRefs="false">
-			<target name="clean"/>
-			<target name="jar"/>
-			<target name="javadoc"/>
-		</ant>
-
-		<!-- TODO copy all the {build.dest} -->
-
-		
 	</target>
 
-	
+
 	<!-- =================================================================== -->
 	<!-- Create the jsbml modules distribution                               -->
 	<!-- =================================================================== -->
-	<target
-	 name="module-dist"
-	 description="Build the jsbml modules"
-	 depends="init">
+	<target name="module-dist" description="Build the jsbml modules" depends="init">
 
-		<mkdir dir="${dist.dir}/modules"/>
+		<mkdir dir="${dist.dir}/modules" />
 
-		<property file="${cellDesigner.module.base.dir}/celldesigner-build.properties"/>  		
-		<property file="${libSBMLio.module.base.dir}/libSBMLio-build.properties"/>  		
+		<property file="${cellDesigner.module.base.dir}/celldesigner-build.properties" />
+		<property file="${libSBMLio.module.base.dir}/libSBMLio-build.properties" />
 
 		<!--
 	    <echo message="Value read from celldesigner properties file = ${celldesigner.name}" />
 		<echo message="Value read from celldesigner properties file = ${celldesigner.version}" />
 	    <echo message="Value read from libSBMLio properties file = ${libSBMLio.name}" />
 		-->
-		
+
 		<ant dir="${cellDesigner.module.base.dir}" inheritAll="false" inheritRefs="false">
-			<target name="dist"/>
+			<target name="dist" />
 		</ant>
 
 		<copy todir="${dist.dir}/modules/${celldesigner.name}-${celldesigner.version}">
-			<fileset dir="${cellDesigner.module.base.dir}/dist/${celldesigner.name}-${celldesigner.version}" includes="*.jar"/>
+			<fileset dir="${cellDesigner.module.base.dir}/dist/${celldesigner.name}-${celldesigner.version}" includes="*.jar" />
 		</copy>
 
 		<ant dir="${libSBMLio.module.base.dir}" inheritAll="false" inheritRefs="true">
@@ -532,21 +492,18 @@
 		</ant>
 
 		<copy todir="${dist.dir}/modules/${libSBMLio.name}-${libSBMLio.version}">
-			<fileset dir="${libSBMLio.module.base.dir}/dist/${libSBMLio.name}-${libSBMLio.version}"  includes="*.jar"/>
+			<fileset dir="${libSBMLio.module.base.dir}/dist/${libSBMLio.name}-${libSBMLio.version}" includes="*.jar" />
 		</copy>
-		
+
 	</target>
 
 
 	<!-- =================================================================== -->
 	<!-- Cleans everything                                                   -->
 	<!-- =================================================================== -->
-	<target
-		name="clean"
-		description="Cleans everything"
-		depends="init">
+	<target name="clean" description="Cleans everything" depends="init">
 		<delete includeEmptyDirs="true" quiet="yes">
-			<fileset dir="${build.dir}" includes="**/*"/>
+			<fileset dir="${build.dir}" includes="**/*" />
 		</delete>
 		<delete dir="${dist.root}" includeEmptyDirs="true" quiet="yes">
 		</delete>
