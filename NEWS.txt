@@ -26,17 +26,17 @@ Version 1.0-beta1 (xx-0x-2014)
     1 Release 1 (13 August 2013).
 
   - Required Elements package (req) implemented, following the draft
-    specifications Version 1 Release 0.5 (30 May 2013).
+    specifications Version 1 Release 0.5 (30 May 2013) (experimental).
   
   - Spatial Processes package (spatial) implemented, following the working
     specifications Version 1 release 0.80 (latest version is release 0.85, 
-    13 December 2013).
+    13 December 2013) (experimental).
 
   - Groups package (groups) implemented, following the draft specifications
-    Version 1 Release 0.4 (17 May 2013).
+    Version 1 Release 0.4 (17 May 2013) (experimental).
 
   - Render package (render) implemented, trying to follow the SBML Level 2
-    specifications.
+    specifications (experimental).
 
   - Support for arrays, distrib and multi is not yet available but planned for
     the final JSBML 1.0 release.
