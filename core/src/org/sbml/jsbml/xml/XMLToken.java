@@ -494,12 +494,28 @@ public abstract class XMLToken extends AbstractTreeNode {
    * returned by this function are:
    * <li> OPERATION_SUCCESS
    * <li> OPERATION_FAILED
+   * @throws IllegalArgumentException if one of the arguments is null or if the prefix is malformed.
    */
   public int addNamespace(String uri, String prefix) {
 
     if (!isStartElement) {
       return JSBML.OPERATION_FAILED;
     }
+
+    if (uri == null || prefix == null) {
+      throw new IllegalArgumentException("Neither a namespace prefix or uri can be null.");
+    }
+    
+    // XMLToken expect the namespace without the xmlns:
+    if (prefix.startsWith("xmlns:")) {
+      prefix = prefix.substring(6);
+    } else if (prefix.equals("xmlns")) {
+      prefix = "";
+    }
+    if (prefix.indexOf(":") != -1) {
+      throw new IllegalArgumentException("The only allowed prefix for a namespace is 'xmlns:'.");
+    }
+
 
     String oldUri = null;
     if (namespaces.hasURI(uri)) {

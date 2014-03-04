@@ -525,6 +525,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
     else
     {
       log4jLogger.warn("namespace ignored on '" + elementName + "' !! " + localName + " = " + URI);
+      // TODO - store into the XMLNode for unknown things
     }
   }
 
@@ -1134,14 +1135,6 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
       if (sbase.getDeclaredNamespaces().size() > 0)
       {
         xmlObject.addAttributes(sbase.getDeclaredNamespaces());
-      }
-
-      if (sbase instanceof SBMLDocument) {
-
-        SBMLDocument sbmlDocument = (SBMLDocument) sbmlElementToWrite;
-
-        xmlObject.addAttributes(sbmlDocument
-          .getSBMLDocumentNamespaces());
       }
 
       xmlObject.setPrefix("");
