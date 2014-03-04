@@ -101,8 +101,8 @@
 		<!-- add everything needed to the classpath -->
 		<!-- adjust the settings to your local environment -->
 		<path id="classpath">
-			<fileset dir="${jars.dir}" includes="*.jar *.zip">
-			</fileset>
+			<fileset dir="${jars.dir}" includes="*.jar *.zip"/>
+			<path location="${core.base.dir}/build/classes"/>
 		</path>
 
 	</target>
@@ -217,9 +217,9 @@
 			<!-- we use the ${build.src} to include the sources of jsbml in the resulting jar -->
 			<fileset dir="${build.src}" />
 			<zipgroupfileset dir="${jars.dir}" includes="*.jar" />
-			<!-- all the dependencies jars -->
-			<fileset dir="${core.base.dir}/build/classes" />
 			<!-- jsbml core classes -->
+			<fileset dir="${core.base.dir}/build/classes" />
+			<!-- all the dependencies jars -->
 			<zipgroupfileset dir="${build.dir}" includes="*.jar" />
 			<!-- all L3 packages classes -->
 			<service type="org.sbml.jsbml.xml.parsers.ReadingParser">
@@ -304,7 +304,7 @@
 	<!-- =================================================================== -->
 	<target name="jar-javadoc" description="Creates the javadocs jar package" depends="javadoc">
 
-		<jar jarfile="${build.dir}/${name}-${version}-javadoc.jar" basedir="${build.javadocs}" />
+		<jar jarfile="${dist.dir}/${name}-${version}-javadoc.jar" basedir="${build.javadocs}" />
 
 	</target>
 
@@ -313,60 +313,42 @@
 	<!-- =================================================================== -->
 	<target name="dist" description="Creates the distribution" depends="prepare-src">
 
-		<!-- Creates the standard jar file -->
-
+		<!-- Creates the standard jar files -->
 		<antcall target="clean" />
-
 		<antcall target="jar" />
 		<antcall target="jar-src" />
-		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}-src.jar" />
-
-		<antcall target="test" />
-
-		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}.jar" />
-		<copy todir="${dist.root}" file="${build.dir}/${name}-${version}.jar" />
+		<copy todir="${dist.root}" file="${dist.dir}/${name}-${version}.jar" />
 
 		<!-- Creates the jar file including all the dependencies -->
-
 		<antcall target="bigjar" />
-
-		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}-with-dependencies.jar" />
-		<copy todir="${dist.root}" file="${build.dir}/${name}-${version}-with-dependencies.jar" />
+		<copy todir="${dist.root}" file="${dist.dir}/${name}-${version}-with-dependencies.jar" />
 
 		<!-- Creates and copy the generated javadoc -->
 		<antcall target="jar-javadoc" />
 
 		<copy todir="${dist.dir}/doc/api">
-			<fileset dir="${build.javadocs}/" includes="**/*">
-			</fileset>
+			<fileset dir="${build.javadocs}/" includes="**/*"/>
 		</copy>
-		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}-javadoc.jar" />
 
 		<!-- Copy the source files -->
 		<copy todir="${dist.dir}/src">
-			<fileset dir="${build.src}/" includes="**/*">
-			</fileset>
+			<fileset dir="${build.src}/" includes="**/*"/>
 		</copy>
 
 		<!-- Copy all the dependencies jar files -->
 		<copy todir="${dist.dir}/lib">
-			<fileset dir="${jars.dir}/" includes="*.jar">
-			</fileset>
+			<fileset dir="${jars.dir}/" includes="*.jar"/>
 		</copy>
 
 		<copy todir="${dist.dir}">
-			<fileset dir="${basedir}/" includes="LICENSE.txt NEWS.txt README AUTHORS.txt build.xml">
-			</fileset>
+			<fileset dir="${basedir}/" includes="LICENSE.txt NEWS.txt README AUTHORS.txt build.xml"/>
 		</copy>
 		<copy todir="${dist.dir}/licenses">
-			<fileset dir="${basedir}/licenses" includes="**/*">
-			</fileset>
+			<fileset dir="${basedir}/core/licenses" includes="**/*"/>
 		</copy>
 
 		<copy todir="${dist.dir}/doc">
-			<fileset dir="${basedir}/doc" includes="**/*.pdf **/*.jpg **/*.java" excludes="posters/** publications/** templates/**">
-
-			</fileset>
+			<fileset dir="${basedir}/core/doc" includes="**/*.pdf **/*.jpg **/*.java" excludes="posters/** publications/** templates/**"/>
 		</copy>
 
 		<!-- create the modules files -->
@@ -375,7 +357,7 @@
 		<!-- Creates the archives to be distributed -->
 		<zip basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.zip" includes="${name}-${version}/**" />
 
-		<!-- Not generating a tar.gz a having only a zip file should be enough -->
+		<!-- Not generating a tar.gz, having only a zip file should be enough -->
 		<!-- <tar basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.tar.gz" includes="${name}-${version}/**" compression="gzip"/> -->
 
 	</target>
@@ -397,13 +379,6 @@
 			<target name="jar" />
 			<target name="javadoc" />
 		</ant>
-
-	</target>
-
-	<target name="test-for-loop">
-		<sequential>
-			<echo>Letter ${letter}</echo>
-		</sequential>
 
 	</target>
 
@@ -464,6 +439,9 @@
 		<copy todir="${dist.dir}/modules/${celldesigner.name}-${celldesigner.version}">
 			<fileset dir="${cellDesigner.module.base.dir}/dist/${celldesigner.name}-${celldesigner.version}" includes="*.jar" />
 		</copy>
+		<copy todir="${dist.root}">
+			<fileset dir="${cellDesigner.module.base.dir}/dist/" includes="*.zip" />
+		</copy>
 
 		<ant dir="${libSBMLio.module.base.dir}" inheritAll="false" inheritRefs="true">
 			<target name="dist" />
@@ -471,6 +449,9 @@
 
 		<copy todir="${dist.dir}/modules/${libSBMLio.name}-${libSBMLio.version}">
 			<fileset dir="${libSBMLio.module.base.dir}/dist/${libSBMLio.name}-${libSBMLio.version}" includes="*.jar" />
+		</copy>
+		<copy todir="${dist.root}">
+			<fileset dir="${libSBMLio.module.base.dir}/dist/" includes="*.zip" />
 		</copy>
 
 	</target>
