@@ -262,9 +262,8 @@ CallableSBase, UniqueNamedSBase {
    * 
    * @return the number of arguments (bound variables) that must be passed to
    *         this {@link FunctionDefinition}.
-   * @deprecated use {@link #getArgumentCount()}
+   * @libsbml.deprecated use {@link #getArgumentCount()}
    */
-  @Deprecated
   public int getNumArguments() {
     return getArgumentCount();
   }

@@ -270,9 +270,8 @@ public class History extends AnnotationElement {
    * Get the number of {@link Creator} objects in this {@link History}.
    * 
    * @return the number of {@link Creator}s in this {@link History}.
-   * @deprecated use {@link #getCreatorCount()}
+   * @libsbml.deprecated use {@link #getCreatorCount()}
    */
-  @Deprecated
   public int getNumCreators() {
     return getCreatorCount();
   }
@@ -290,9 +289,8 @@ public class History extends AnnotationElement {
    * Get the number of ModifiedDate objects in this {@link History}.
    * 
    * @return the number of ModifiedDates in this {@link History}.
-   * @deprecated use {@link #getModifiedDateCount()}
+   * @libsbml.deprecated use {@link #getModifiedDateCount()}
    */
-  @Deprecated
   public int getNumModifiedDates() {
     return getModifiedDateCount();
   }

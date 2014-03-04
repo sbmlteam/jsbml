@@ -457,9 +457,8 @@ UniqueNamedSBase {
   /**
    * @return the number of EventAssignments in the list of EventAssignements
    *         of this Event.
-   * @deprecated use {@link #getEventAssignmentCount()}
+   * @libsbml.deprecated use {@link #getEventAssignmentCount()}
    */
-  @Deprecated
   public int getNumEventAssignments() {
     return getEventAssignmentCount();
   }

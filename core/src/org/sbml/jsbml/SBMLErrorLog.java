@@ -131,9 +131,8 @@ public class SBMLErrorLog {
    * {@link #getError(long n)}.
    * <p>
    * @return the number of errors that have been logged.
-   * @deprecated use {@link #getErrorCount()}
+   * @libsbml.deprecated use {@link #getErrorCount()}
    */
-  @Deprecated
   public int getNumErrors() {
     return getErrorCount();
   }

@@ -684,9 +684,8 @@ UniqueNamedSBase {
   /**
    * @return the number of {@link ModifierSpeciesReference}s of this
    *         {@link Reaction}.
-   * @deprecated use {@link #getModifierCount()}
+   * @libsbml.deprecated you could use {@link #getModifierCount()}
    */
-  @Deprecated
   public int getNumModifiers() {
     return getModifierCount();
   }
@@ -694,9 +693,8 @@ UniqueNamedSBase {
   /**
    * 
    * @return the number of products {@link SpeciesReference}.
-   * @deprecated use {@link #getProductCount()}
+   * @libsbml.deprecated you could use {@link #getProductCount()}
    */
-  @Deprecated
   public int getNumProducts() {
     return getProductCount();
   }
@@ -704,9 +702,8 @@ UniqueNamedSBase {
   /**
    * 
    * @return the number of reactants {@link SpeciesReference}.
-   * @deprecated use {@link #getReactantCount()}
+   * @libsbml.deprecated you could use {@link #getReactantCount()}
    */
-  @Deprecated
   public int getNumReactants() {
     return getReactantCount();
   }

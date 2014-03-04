@@ -440,6 +440,7 @@ public class Creator extends AnnotationElement {
    * 
    * @param attributeName
    * @param attributeValue
+   * @deprecated those other attributes are not saved when writing the model
    */
   public void setOtherAttribute(String attributeName, String attributeValue) {
     if (attributeName == null) {
@@ -451,6 +452,7 @@ public class Creator extends AnnotationElement {
   /**
    * 
    * @return
+   * @deprecated those other attributes are not saved when writing the model
    */
   public Map<String, String> getOtherAttributes() {
 
@@ -463,6 +465,7 @@ public class Creator extends AnnotationElement {
   /**
    * 
    * @return
+   * @deprecated those other attributes are not saved when writing the model
    */
   public boolean isSetOtherAttributes() {
     return otherAttributes != null;
@@ -472,6 +475,7 @@ public class Creator extends AnnotationElement {
    * 
    * @param attributeName
    * @return
+   * @deprecated those other attributes are not saved when writing the model
    */
   public String getOtherAttribute(String attributeName) {
     if (attributeName == null) {
