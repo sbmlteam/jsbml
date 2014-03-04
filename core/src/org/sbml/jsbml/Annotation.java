@@ -519,9 +519,8 @@ public class Annotation extends AnnotationElement {
    * Gives the number of {@link CVTerm}s in this {@link Annotation}.
    * 
    * @return the number of controlled vocabulary terms in this {@link Annotation}.
-   * @deprecated use {@link #getCVTermCount()}
+   * @libsbml.deprecated use {@link #getCVTermCount()}
    */
-  @Deprecated
   public int getNumCVTerms() {
     return getCVTermCount();
   }

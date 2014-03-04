@@ -696,9 +696,8 @@ public class UnitDefinition extends AbstractNamedSBase {
   /**
    * 
    * @return the number of Unit.
-   * @deprecated use {@link #getUnitCount()}
+   * @libsbml.deprecated use {@link #getUnitCount()}
    */
-  @Deprecated
   public int getNumUnits() {
     return getUnitCount();
   }
