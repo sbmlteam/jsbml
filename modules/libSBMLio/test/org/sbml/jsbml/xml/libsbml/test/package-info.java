@@ -25,4 +25,4 @@
  * @version $Rev$
  * @since 0.8
  */
-package org.sbml.jsbml.libsbmlio;
+package org.sbml.jsbml.xml.libsbml.test;
