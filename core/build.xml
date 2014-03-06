@@ -227,11 +227,23 @@
            classpathref="classpath">
 		</javac>
 		<manifest file="${build.dest}/META-INF/MANIFEST.MF">
+      <attribute name="Bundle-Name"            value="${Name}"/>
+      <attribute name="Built-By"               value="${user.name}"/>
+      <attribute name="Built-Date"             value="${TODAY}"/>
+      <attribute name="Bundle-Version"         value="${version}"/>
+      <attribute name="Bundle-Revision" value="${jsbml.revision}"/>
+      <attribute name="Bundle-Vendor"          value="The JSBML Team"/>
+      <attribute name="Bundle-RequiredExecutionEnvironment" value="JavaSE-1.6"/>
+			<attribute name="Created-By"          value="The JSBML Team"/>
+				
 			<section name="${Name}">
 				<attribute name="Specification-Title" value="${Name}"/>
 				<attribute name="Specification-Version" value="${api.version}"/>
+				<attribute name="Specification-Vendor"   value="The JSBML Team"/>
 				<attribute name="Implementation-Title" value="${Name}"/>
-				<attribute name="Implementation-Version" value="${version}, SVN Revision ${jsbml.revision} (Build on ${DSTAMP}-${TSTAMP})"/>
+				<attribute name="Implementation-Version" value="${version}, Revision ${jsbml.revision} (Build ${build.number})"/>
+				<attribute name="Implementation-Vendor"  value="The JSBML Team"/>
+	      <attribute name="Implementation-URL" value="http://sbml.org/Software/JSBML/"/>
 			</section>
 		</manifest>
 

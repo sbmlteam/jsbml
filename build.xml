@@ -160,7 +160,7 @@
 		</ant>
 
 		<copy todir="${build.src}">
-			<fileset dir="${core.base.dir}/build/src" />
+			<fileset dir="${core.base.dir}/build/src" includes="**/*"/>
 		</copy>
 		
 	</target>
@@ -172,9 +172,11 @@
 	<!-- =================================================================== -->
 	<target name="jar" description="Creates the class package" depends="prepare-src, package">
 
-		<jar jarfile="${dist.dir}/${name}-${version}.jar" filesetmanifest="mergewithoutmain" duplicate="preserve">
-			<fileset dir="${core.base.dir}/build/classes" />
-			<zipgroupfileset dir="${build.dir}" includes="*.jar" />
+		<jar jarfile="${dist.dir}/${name}-${version}.jar" manifest="${core.base.dir}/build/classes/META-INF/MANIFEST.MF" 
+			filesetmanifest="mergewithoutmain" duplicate="preserve" index="true">
+			
+			<fileset dir="${core.base.dir}/build/classes" excludes="**/package-info.class **/package.html"/>
+			<zipgroupfileset dir="${build.dir}" includes="*.jar" excludes="**/package-info.class **/package.html"/>
 			<service type="org.sbml.jsbml.xml.parsers.ReadingParser">
 				<!-- This list need to be updated as soon as there is a new parser -->
 				<provider classname="org.sbml.jsbml.xml.parsers.SBMLCoreParser" />
@@ -201,8 +203,9 @@
 	<!-- =================================================================== -->
 	<target name="jar-src" description="Creates the class package and includes all the dependencies jars into a big jsbml jar file" depends="jar">
 
-		<jar jarfile="${dist.dir}/${name}-${version}-src.jar" basedir="${build.src}" includes="**/*.java" />
-
+		<jar jarfile="${dist.dir}/${name}-${version}-src.jar" basedir="${build.src}" includes="**/*.java"
+			index="true" manifest="${core.base.dir}/build/classes/META-INF/MANIFEST.MF" />
+		
 	</target>
 
 	<!-- =================================================================== -->
@@ -212,7 +215,8 @@
 	<target name="bigjar" description="Creates the class package and includes all the dependencies jars (and other resources) into a big jsbml jar file" depends="jar">
 
 		<jar jarfile="${dist.dir}/${name}-${version}-with-dependencies.jar" 
-			filesetmanifest="mergewithoutmain" duplicate="preserve">
+			filesetmanifest="mergewithoutmain" duplicate="preserve" index="true"
+			manifest="${core.base.dir}/build/classes/META-INF/MANIFEST.MF">
 
 			<!-- we use the ${build.src} to include the sources of jsbml in the resulting jar -->
 			<fileset dir="${build.src}" />
@@ -286,8 +290,14 @@
 	<!-- Creates the API documentation                                       -->
 	<!-- =================================================================== -->
 	<target name="javadoc" depends="prepare-src, package" description="Creates the API documentation">
+		
 		<mkdir dir="${build.javadocs}" />
-		<javadoc packagenames="org.*" excludepackagenames="org.sbml.jsbml.test.*, org.sbml.jsbml.xml.test.*" sourcepath="${build.src}" destdir="${build.javadocs}" classpathref="classpath" maxmemory="96m" author="true" version="true" use="true" splitindex="true" noindex="false" windowtitle="${Name} ${version} API Specification" doctitle="${Name} ${version} API Specification" breakiterator="yes" access="public">
+		<javadoc packagenames="org.*" excludepackagenames="org.sbml.jsbml.test.*, org.sbml.jsbml.xml.test.*" 
+			sourcepath="${build.src}" destdir="${build.javadocs}" classpathref="classpath" maxmemory="96m" 
+			author="true" version="true" use="true" splitindex="true" noindex="false" 
+			windowtitle="${Name} ${version} API Specification" doctitle="${Name} ${version} API Specification"
+			breakiterator="yes" access="public">
+			
 			<link href="http://docs.oracle.com/javase/6/docs/api/" />
 			<link href="http://www.biojava.org/docs/api17" />
 			<tag name="sbml.deprecated" description="Deprecated in SBML since:" />
@@ -304,18 +314,26 @@
 	<!-- =================================================================== -->
 	<target name="jar-javadoc" description="Creates the javadocs jar package" depends="javadoc">
 
-		<jar jarfile="${dist.dir}/${name}-${version}-javadoc.jar" basedir="${build.javadocs}" />
+		<jar jarfile="${dist.dir}/${name}-${version}-javadoc.jar" basedir="${build.javadocs}"
+			index="true" manifest="${core.base.dir}/build/classes/META-INF/MANIFEST.MF" />
 
 	</target>
 
 	<!-- =================================================================== -->
 	<!-- Creates the distribution                                            -->
 	<!-- =================================================================== -->
-	<target name="dist" description="Creates the distribution" depends="prepare-src">
+	<target name="dist" description="Creates the distribution" depends="init">
 
-		<!-- Creates the standard jar files -->
+		<property name="prepare.src.target.done" value="true"/>
+
+		<!-- Cleaning before starting -->
 		<antcall target="clean" />
+		
+		<!-- Creates the standard jar files -->
 		<antcall target="jar" />
+		<property name="package.target.done" value="true"/>
+		<property name="prepare.src.target.done" value="true"/>
+		
 		<antcall target="jar-src" />
 		<copy todir="${dist.root}" file="${dist.dir}/${name}-${version}.jar" />
 
