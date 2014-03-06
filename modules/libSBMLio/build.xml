@@ -148,7 +148,7 @@
   	        <fileset 
   	            dir="${test.src.dir}"
   	        	includes="org/sbml/jsbml/**"
-  	            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip org/sbml/jsbml/libsbmlio/SimpleApplication.java">
+  	            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip org/sbml/jsbml/xml/libsbml/SimpleApplication.java">
   	        </fileset>
   	    </copy>
   </target>
@@ -321,11 +321,12 @@
   <!-- Cleans everything                                                   -->
   <!-- =================================================================== -->
   <target name="clean" depends="init">
-    <delete includeEmptyDirs="true" quiet="yes">
+
+  	<delete includeEmptyDirs="true" quiet="yes">
        <fileset dir="${build.dir}" includes="**/*"/>
     </delete>
-  	<delete dir="${dist.root}" includeEmptyDirs="true" quiet="yes">
-  	    </delete>
+  	<delete dir="${dist.root}" includeEmptyDirs="true" quiet="yes"/>
+
   </target>
 </project>
 
