@@ -39,7 +39,16 @@
 
     <property name="year" value="${YEAR}"/>
   	
-    <echo message="----------- ${Name} ${version} [${year}] ------------"/>
+		<echo message="Determining the revision number of JSBML" />
+		<exec executable="svn" outputproperty="svninfo.xml">
+			<arg line="info --xml" />
+		</exec>
+		<xmlproperty collapseAttributes="true">
+			<propertyresource name="svninfo.xml" />
+		</xmlproperty>
+		<property name="jsbml.revision" value="${info.entry.revision}" />
+
+		<echo message="----------- ${Name} ${version} [${year}] ------------"/>
     <echo message="-----------     ${TODAY}   ------------"/>
     <echo message="-----------     ${DSTAMP} ${TSTAMP}  ------------"/>
   	
@@ -122,6 +131,7 @@
     <!-- create directories -->
     <mkdir dir="${build.src}"/>
     <mkdir dir="${build.dest}"/>
+  	<mkdir dir="${build.dest}/META-INF"/>
     <mkdir dir="${package.dir}"/>
 <!--    <mkdir dir="${dist.root}"/>
     <mkdir dir="${dist.dir}"/> -->
@@ -145,33 +155,6 @@
 
 
   <!-- =================================================================== -->
-  <!-- Modify somes files                                                  -->
-  <!-- =================================================================== -->
-  <target name="gen-build-number" unless="dev.mode">
-       <echo message="Updating the files with the build number..."/>
-
-       <replace file="${basedir}/doc/Readme.html"
-                token="[BUILD.NUMBER]"
-                value="${build.name}" />
-
-
-   </target>
-  
-  <!-- =================================================================== -->
-  <!-- Modify back somes files                                                  -->
-  <!-- =================================================================== -->
-  <target name="gen-build-number-back" depends="jar" unless="dev.mode">
-       <echo message="Updating back the files with [BUILD.NUMBER]..."/>
-
-
-       <replace file="${basedir}/doc/Readme.html"
-                token="${build.name}"
-                value="[BUILD.NUMBER]" />
-
-   </target>
-
-
-  <!-- =================================================================== -->
   <!-- Compiles the source directory                                       -->
   <!-- =================================================================== -->
   <target name="compile" depends="prepare-src">   
@@ -184,6 +167,29 @@
            target="1.5"
            classpathref="classpath">
     </javac>      
+
+		<manifest file="${build.dest}/META-INF/MANIFEST.MF">
+      <attribute name="Bundle-Name"            value="${Name}"/>
+      <attribute name="Built-By"               value="${user.name}"/>
+      <attribute name="Built-Date"             value="${TODAY}"/>
+      <attribute name="Bundle-Version"         value="${version}"/>
+      <attribute name="Bundle-Revision" value="${jsbml.revision}"/>
+      <attribute name="Bundle-Vendor"          value="The JSBML Team"/>
+      <attribute name="Bundle-RequiredExecutionEnvironment" value="JavaSE-1.6"/>
+			<attribute name="Created-By"          value="The JSBML Team"/>
+
+			<section name="${Name}">
+				<attribute name="Specification-Title" value="${Name}"/>
+				<attribute name="Specification-Version" value="${api.version}"/>
+				<attribute name="Specification-Vendor"   value="The JSBML Team"/>
+				<attribute name="Implementation-Title" value="${Name}"/>
+				<attribute name="Implementation-Version" value="${version}, Revision ${jsbml.revision} (Build ${DSTAMP}-${TSTAMP})"/>
+				<attribute name="Implementation-Vendor"  value="The JSBML Team"/>
+	      <attribute name="Implementation-URL" value="http://sbml.org/Software/JSBML/"/>
+
+			</section>
+		</manifest>
+
   </target>
   
 
@@ -199,7 +205,7 @@
         </fileset>
     </copy>
     <jar jarfile="${build.dir}/${name}-${version}.jar"
-         basedir="${build.dest}"/>
+         basedir="${build.dest}" manifest="${build.dest}/META-INF/MANIFEST.MF"/>
   </target>
 
 	<!-- =================================================================== -->
@@ -207,7 +213,7 @@
 	<!-- =================================================================== -->
 	<target name="jar-src" depends="prepare-src">
 
-		<jar jarfile="${build.dir}/${name}-${version}-src.jar" basedir="${build.src}" includes="**/*.java"/>
+		<jar jarfile="${build.dir}/${name}-${version}-src.jar" basedir="${build.src}" includes="**/*.java" manifest="${build.dest}/META-INF/MANIFEST.MF"/>
 
 	</target>
 
@@ -307,7 +313,7 @@
 	<!-- =================================================================== -->
 	<target name="jar-javadoc" depends="javadoc">
 
-		<jar jarfile="${build.dir}/${name}-${version}-javadoc.jar" basedir="${build.javadocs}" />
+		<jar jarfile="${build.dir}/${name}-${version}-javadoc.jar" basedir="${build.javadocs}" manifest="${build.dest}/META-INF/MANIFEST.MF"/>
 
 	</target>
 

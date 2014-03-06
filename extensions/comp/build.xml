@@ -221,7 +221,9 @@
 				includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo **/*.properties">
 			</fileset>
 		</copy>
-		<jar jarfile="${build.dir}/${name}-${version}.jar" basedir="${build.dest}" manifest="${build.dest}/META-INF/MANIFEST.MF"/>
+		<jar jarfile="${build.dir}/${name}-${version}.jar" basedir="${build.dest}" 
+			manifest="${build.dest}/META-INF/MANIFEST.MF" index="true" 
+			excludes="**/package-info.class **/package.html"/>
 	</target>
 
 
