@@ -21,7 +21,10 @@
 
     Version: $Rev$
 -->
-<project default="usage" basedir=".">
+<project
+  default="usage"
+  basedir="."
+>
 
 	<!-- =================================================================== -->
 	<!-- Initialization target                                               -->
@@ -110,7 +113,11 @@
 	<!-- =================================================================== -->
 	<!-- Help on usage                                                       -->
 	<!-- =================================================================== -->
-	<target name="usage" description="Help on usage" depends="init">
+	<target
+	  name="usage"
+	  description="Help on usage"
+	  depends="init"
+	>
 		<echo message="" />
 		<echo message="" />
 		<echo message=" ${Name} Build file" />
@@ -139,7 +146,11 @@
 	<!-- =================================================================== -->
 	<!-- Prepares the build directory                                        -->
 	<!-- =================================================================== -->
-	<target name="prepare" description="Prepares the build directory" depends="init">
+	<target
+	  name="prepare"
+	  description="Prepares the build directory"
+	  depends="init"
+	>
 		<mkdir dir="${build.dir}" />
 		<mkdir dir="${build.dest}" />
 		<mkdir dir="${build.src}" />
@@ -150,7 +161,12 @@
 	<!-- =================================================================== -->
 	<!-- Prepares the source code                                            -->
 	<!-- =================================================================== -->
-	<target name="prepare-src" description="Prepares the source code" depends="prepare" unless="prepare.src.target.done">
+	<target
+	  name="prepare-src"
+	  description="Prepares the source code"
+	  depends="prepare"
+	  unless="prepare.src.target.done"
+	>
 
 		<property name="prepare.src.target.done" value="true"/>
 
@@ -170,11 +186,18 @@
 	<!-- =================================================================== -->
 	<!-- Creates the class package           depends="prepare-src, package"                                 -->
 	<!-- =================================================================== -->
-	<target name="jar" description="Creates the class package" depends="prepare-src, package">
-
-		<jar jarfile="${dist.dir}/${name}-${version}.jar" manifest="${core.base.dir}/build/classes/META-INF/MANIFEST.MF" 
-			filesetmanifest="mergewithoutmain" duplicate="preserve" index="true">
-			
+	<target
+	  name="jar"
+	  description="Creates the class package"
+	  depends="prepare-src, package"
+	>
+		<jar
+		  jarfile="${dist.dir}/${name}-${version}.jar"
+		  manifest="${core.base.dir}/build/classes/META-INF/MANIFEST.MF" 
+		  filesetmanifest="mergewithoutmain"
+		  duplicate="preserve"
+		  index="true"
+		>	
 			<fileset dir="${core.base.dir}/build/classes" excludes="**/package-info.class **/package.html"/>
 			<zipgroupfileset dir="${build.dir}" includes="*.jar" excludes="**/package-info.class **/package.html"/>
 			<service type="org.sbml.jsbml.xml.parsers.ReadingParser">
@@ -201,22 +224,35 @@
 	<!-- Creates the class package and include all the dependencies jars     -->
 	<!-- into a big jsbml jar file.                                          -->
 	<!-- =================================================================== -->
-	<target name="jar-src" description="Creates the class package and includes all the dependencies jars into a big jsbml jar file" depends="jar">
-
-		<jar jarfile="${dist.dir}/${name}-${version}-src.jar" basedir="${build.src}" includes="**/*.java"
-			index="true" manifest="${core.base.dir}/build/classes/META-INF/MANIFEST.MF" />
-		
+	<target
+	  name="jar-src"
+	  description="Creates the class package and includes all the dependencies jars into a big jsbml jar file"
+	  depends="jar"
+	>
+		<jar
+		  jarfile="${dist.dir}/${name}-${version}-src.jar"
+		  basedir="${build.src}" includes="**/*.java"
+		  index="true"
+		  manifest="${core.base.dir}/build/classes/META-INF/MANIFEST.MF"
+		/>
 	</target>
 
 	<!-- =================================================================== -->
 	<!-- Creates the class package and include all the dependencies jars     -->
 	<!-- into a big jsbml jar file.                                          -->
 	<!-- =================================================================== -->
-	<target name="bigjar" description="Creates the class package and includes all the dependencies jars (and other resources) into a big jsbml jar file" depends="jar">
+	<target
+	  name="bigjar"
+	  description="Creates the class package and includes all the dependencies jars (and other resources) into a big jsbml jar file"
+	  depends="jar"
+	>
 
-		<jar jarfile="${dist.dir}/${name}-${version}-with-dependencies.jar" 
-			filesetmanifest="mergewithoutmain" duplicate="preserve" index="true"
-			manifest="${core.base.dir}/build/classes/META-INF/MANIFEST.MF">
+		<jar
+		  jarfile="${dist.dir}/${name}-${version}-with-dependencies.jar" 
+		  filesetmanifest="mergewithoutmain" duplicate="preserve"
+		  index="true"
+		  manifest="${core.base.dir}/build/classes/META-INF/MANIFEST.MF"
+		>
 
 			<!-- we use the ${build.src} to include the sources of jsbml in the resulting jar -->
 			<fileset dir="${build.src}" />
@@ -248,7 +284,11 @@
 	<!-- =================================================================== -->
 	<!-- Test the jsbml library                                              -->
 	<!-- =================================================================== -->
-	<target name="test" description="Test the jsbml library" depends="jar">
+	<target
+	  name="test"
+	  description="Test the jsbml library"
+	  depends="jar"
+	>
 
 		<!-- TODO - add some tests using the package here -->
 
@@ -289,7 +329,11 @@
 	<!-- =================================================================== -->
 	<!-- Creates the API documentation                                       -->
 	<!-- =================================================================== -->
-	<target name="javadoc" depends="prepare-src, package" description="Creates the API documentation">
+	<target
+	  name="javadoc"
+	  depends="prepare-src, package"
+	  description="Creates the API documentation"
+	>
 		
 		<mkdir dir="${build.javadocs}" />
 		<javadoc packagenames="org.*" excludepackagenames="org.sbml.jsbml.test.*, org.sbml.jsbml.xml.test.*" 
@@ -312,7 +356,11 @@
 	<!-- =================================================================== -->
 	<!-- Creates the javadocs jar package                                    -->
 	<!-- =================================================================== -->
-	<target name="jar-javadoc" description="Creates the javadocs jar package" depends="javadoc">
+	<target
+	  name="jar-javadoc"
+	  description="Creates the javadocs jar package"
+	  depends="javadoc"
+	>
 
 		<jar jarfile="${dist.dir}/${name}-${version}-javadoc.jar" basedir="${build.javadocs}"
 			index="true" manifest="${core.base.dir}/build/classes/META-INF/MANIFEST.MF" />
@@ -322,7 +370,11 @@
 	<!-- =================================================================== -->
 	<!-- Creates the distribution                                            -->
 	<!-- =================================================================== -->
-	<target name="dist" description="Creates the distribution" depends="init">
+	<target
+	  name="dist"
+	  description="Creates the distribution"
+	  depends="init"
+	>
 
 		<property name="prepare.src.target.done" value="true"/>
 
@@ -386,7 +438,11 @@
 	<!-- =================================================================== -->
 	<!-- Build the jsbml modules                                             -->
 	<!-- =================================================================== -->
-	<target name="module" description="Build the jsbml modules" depends="init">
+	<target
+	  name="module"
+	  description="Build the jsbml modules"
+	  depends="init"
+	>
 
 		<ant dir="${cellDesigner.module.base.dir}" inheritAll="false" inheritRefs="false">
 			<target name="clean" />
@@ -405,7 +461,11 @@
 	<!-- =================================================================== -->
 	<!-- Build a single jsbml package                                    -->
 	<!-- =================================================================== -->
-	<target name="prepare-package" depends="init">
+	<target
+	  name="prepare-package"
+	  depends="init"
+	  description="Build a single jsbml package"
+	>
 
 		<echo>Package ${packagename}</echo>
 
@@ -427,7 +487,12 @@
 	<!-- =================================================================== -->
 	<!-- Build the jsbml extensions/packages                                   -->
 	<!-- =================================================================== -->
-	<target name="package" description="Build the jsbml L3 packages" depends="init" unless="package.target.done">
+	<target
+	  name="package"
+      description="Build the jsbml L3 packages"
+	  depends="init"
+	  unless="package.target.done"
+	>
 
 		<property name="package.target.done" value="true"/>
 
@@ -439,7 +504,11 @@
 	<!-- =================================================================== -->
 	<!-- Create the jsbml modules distribution                               -->
 	<!-- =================================================================== -->
-	<target name="module-dist" description="Build the jsbml modules" depends="init">
+	<target
+	  name="module-dist"
+	  description="Build the jsbml modules"
+	  depends="init"
+	>
 
 		<mkdir dir="${dist.dir}/modules" />
 
@@ -480,7 +549,11 @@
 	<!-- =================================================================== -->
 	<!-- Cleans everything                                                   -->
 	<!-- =================================================================== -->
-	<target name="clean" description="Cleans everything" depends="init">
+	<target
+	  name="clean"
+	  description="Cleans everything"
+      depends="init"
+	>
 		<delete includeEmptyDirs="true" quiet="yes">
 			<fileset dir="${build.dir}" includes="**/*" />
 		</delete>

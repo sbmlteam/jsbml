@@ -24,7 +24,8 @@
 
 <project
   default ="usage"
-  basedir=".">
+  basedir="."
+>
 
 	
 	<!-- =================================================================== -->
@@ -33,7 +34,8 @@
 
 	<target
 	 description="Initialization target"
-	 name="init">
+	 name="init"
+	>
 		<tstamp>
 			<format property="YEAR" pattern="yyyy"/>
 		</tstamp>
@@ -104,9 +106,11 @@
 	<!-- =================================================================== -->
 	<!-- Help on usage                                                       -->
 	<!-- =================================================================== -->
-	<target name="usage"
+	<target
+	 name="usage"
 	 description="Help on usage"
-	 depends="init">
+	 depends="init"
+	>
 		<echo message=""/>
 		<echo message=""/>
 		<echo message=" ${Name} Build file"/>
@@ -132,19 +136,23 @@
 	<!-- =================================================================== -->
 	<!-- Prepares the build directory                                        -->
 	<!-- =================================================================== -->
-	<target name="prepare"
-	 description="Prepares the build directory"
-	 depends="init">
-		<mkdir dir="${build.dir}"/>
-		<echo message="Done"/>
+	<target
+	  name="prepare"
+	  description="Prepares the build directory"
+	  depends="init"
+	>
+	  <mkdir dir="${build.dir}"/>
+	  <echo message="Done"/>
 	</target>
 
 	<!-- =================================================================== -->
 	<!-- Prepares the source code                                            -->
 	<!-- =================================================================== -->
-	<target name="prepare-src"
-	 description="Prepares the source code"
-	 depends="prepare">
+	<target
+	  name="prepare-src"
+	  description="Prepares the source code"
+	  depends="prepare"
+	>
 		<!-- create directories -->
 		<mkdir dir="${build.src}"/>
 		<mkdir dir="${build.dest}"/>
@@ -183,9 +191,11 @@
 	<!-- =================================================================== -->
 	<!-- Modify some files                                                  -->
 	<!-- =================================================================== -->
-	<target name="gen-build-number"
-	 description="Modify some files"
-	 unless="dev.mode">
+	<target
+	  name="gen-build-number"
+	  description="Modify some files"
+	  unless="dev.mode"
+	>
 		<echo message="Updating the files with the build number..."/>
 
 		<replace file="${basedir}/doc/Readme.html"
@@ -197,26 +207,28 @@
 	<!-- =================================================================== -->
 	<!-- Modify back some files                                             -->
 	<!-- =================================================================== -->
-	<target name="gen-build-number-back"
-	 description="Modify back some files"
-	 depends="jar"
-	 unless="dev.mode">
+	<target
+	  name="gen-build-number-back"
+	  description="Modify back some files"
+	  depends="jar"
+	  unless="dev.mode"
+	>
 		<echo message="Updating back the files with [BUILD.NUMBER]..."/>
-
 
 		<replace file="${basedir}/doc/Readme.html"
                 token="${build.name}"
                 value="[BUILD.NUMBER]" />
-
 	</target>
 
 
 	<!-- =================================================================== -->
 	<!-- Compiles the source directory                                       -->
 	<!-- =================================================================== -->
-	<target name="compile"
-	 description="Compiles the source directory"
-	 depends="prepare-src">
+	<target
+	  name="compile"
+	  description="Compiles the source directory"
+	  depends="prepare-src"
+	>
 		<javac srcdir="${build.src}"
            destdir="${build.dest}"
            debug="${debug}"
@@ -226,25 +238,28 @@
            target="1.6"
            classpathref="classpath">
 		</javac>
+		
+		<property name="api.version" value="1.0-beta"/>
+		<property name="vendor" value="The JSBML Team"/>
+		
 		<manifest file="${build.dest}/META-INF/MANIFEST.MF">
-      <attribute name="Bundle-Name"            value="${Name}"/>
-      <attribute name="Built-By"               value="${user.name}"/>
-      <attribute name="Built-Date"             value="${TODAY}"/>
-      <attribute name="Bundle-Version"         value="${version}"/>
-      <attribute name="Bundle-Revision" value="${jsbml.revision}"/>
-      <attribute name="Bundle-Vendor"          value="The JSBML Team"/>
-      <attribute name="Bundle-RequiredExecutionEnvironment" value="JavaSE-1.6"/>
-			<attribute name="Created-By"          value="The JSBML Team"/>
-				
-			<section name="${Name}">
-				<attribute name="Specification-Title" value="${Name}"/>
-				<attribute name="Specification-Version" value="${api.version}"/>
-				<attribute name="Specification-Vendor"   value="The JSBML Team"/>
-				<attribute name="Implementation-Title" value="${Name}"/>
-				<attribute name="Implementation-Version" value="${version}, Revision ${jsbml.revision} (Build ${build.number})"/>
-				<attribute name="Implementation-Vendor"  value="The JSBML Team"/>
-	      <attribute name="Implementation-URL" value="http://sbml.org/Software/JSBML/"/>
-			</section>
+          <attribute name="Bundle-Name"            value="${Name}"/>
+          <attribute name="Built-By"               value="${user.name}"/>
+          <attribute name="Built-Date"             value="${TODAY}"/>
+          <attribute name="Bundle-Version"         value="${version}"/>
+          <attribute name="Bundle-Revision" value="${jsbml.revision}"/>
+          <attribute name="Bundle-Vendor"          value="${vendor}"/>
+          <attribute name="Bundle-RequiredExecutionEnvironment" value="JavaSE-1.6"/>
+		  <attribute name="Created-By"          value="${vendor}"/>
+		  <section name="${Name}">
+			<attribute name="Specification-Title" value="${Name}"/>
+			<attribute name="Specification-Version" value="${api.version}"/>
+			<attribute name="Specification-Vendor"   value="${vendor}"/>
+			<attribute name="Implementation-Title" value="${Name}"/>
+			<attribute name="Implementation-Version" value="${version}, Revision ${jsbml.revision} (Build ${build.number})"/>
+			<attribute name="Implementation-Vendor"  value="${vendor}"/>
+	        <attribute name="Implementation-URL" value="http://sbml.org/Software/JSBML/"/>
+		  </section>
 		</manifest>
 
 	</target>
@@ -253,10 +268,11 @@
 	<!-- =================================================================== -->
 	<!-- Creates the class package                                           -->
 	<!-- =================================================================== -->
-	<target name="jar"
-	 description="Creates the class package"
-	 depends="compile">
-
+	<target
+	  name="jar"
+	  description="Creates the class package"
+	  depends="compile"
+	>
 		<copy todir="${build.dest}">
 			<fileset dir="${build.src}" 
 				includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo **/*.properties">
@@ -269,21 +285,28 @@
 	<!-- Creates the class package and include all the dependencies jars     -->
 	<!-- into a big jsbml jar file.                                          -->
 	<!-- =================================================================== -->
-	<target name="jar-src"
-	 description="Creates the class package and includes all the dependencies jars into a big jsbml jar file"
-	 depends="prepare-src">
-
-		<jar jarfile="${build.dir}/${name}-${version}-src.jar" basedir="${build.src}" includes="**/*.java"/>
-
+	<target
+	  name="jar-src"
+	  description="Creates the class package and includes all the dependencies jars into a big jsbml jar file"
+	  depends="prepare-src"
+	>
+	  <jar
+	  	basedir="${build.src}"
+	  	includes="**/*.java"
+	  	index="true"
+	  	jarfile="${build.dir}/${name}-${version}-src.jar"
+	  />
 	</target>
 
 	<!-- =================================================================== -->
 	<!-- Creates the class package and include all the dependencies jars     -->
 	<!-- into a big jsbml jar file.                                          -->
 	<!-- =================================================================== -->
-	<target name="bigjar"
-	 description="Creates the class package and includes all the dependencies jars (and other resources) into a big jsbml jar file"
-	 depends="compile">
+	<target
+	  name="bigjar"
+	  description="Creates the class package and includes all the dependencies jars (and other resources) into a big jsbml jar file"
+	  depends="compile"
+	>
 
 		<!-- we use the ${build.src} to include the sources of jsbml in the resulting jar -->
 		<copy todir="${build.dest}">
@@ -293,13 +316,16 @@
 			</fileset>
 		</copy>
 		
-		<jar jarfile="${build.dir}/${name}-${version}-with-dependencies.jar"
-         basedir="${build.dest}"  manifest="${build.dest}/META-INF/MANIFEST.MF"
-				 filesetmanifest="mergewithoutmain"
-			   duplicate="preserve"
-			>
-			<zipgroupfileset dir="${jars.dir}" includes="*.jar"/>
-	    <service type="org.sbml.jsbml.xml.parsers.ReadingParser">
+		<jar
+          basedir="${build.dest}"
+		  duplicate="preserve"
+		  filesetmanifest="mergewithoutmain"
+		  index="true"
+		  jarfile="${build.dir}/${name}-${version}-with-dependencies.jar"
+		  manifest="${build.dest}/META-INF/MANIFEST.MF"
+		>
+		  <zipgroupfileset dir="${jars.dir}" includes="*.jar"/>
+	      <service type="org.sbml.jsbml.xml.parsers.ReadingParser">
 	    	<!-- This list need to be updated as soon as there is a new parser -->
 	    	<provider classname="org.sbml.jsbml.xml.parsers.SBMLCoreParser"/>		
 	    	<provider classname="org.sbml.jsbml.xml.parsers.XMLNodeReader"/>
@@ -322,10 +348,10 @@
 	<!-- Test the jsbml library                                              -->
 	<!-- =================================================================== -->
 	<target
-		name="test"
-		description="Test the jsbml library"
-		depends="jar">
-
+	  name="test"
+	  description="Test the jsbml library"
+	  depends="jar"
+	>
 
 		<echo message="There should be NO failures or errors."/>
 		<echo message=""/>
@@ -380,11 +406,10 @@
 	<!-- Test the jsbml library                                              -->
 	<!-- =================================================================== -->
 	<target
-		name="checkConsistencyTest"
-		description="Test the jsbml library"
-		depends="jar">
-
-
+	  name="checkConsistencyTest"
+	  description="Test the jsbml library"
+	  depends="jar"
+	>
 		<echo message="These tests are using the sbml online validator"/>
 		<echo message=""/>
 		<echo message="You can see a details of the tests on the two files : sbmlOnlineValidatorTestResults.txt"/>
@@ -415,9 +440,11 @@
 	 name="update-sbo"
 	 description="Updates the SBO Ontology file"
 	>
-
-		<get src="http://www.ebi.ac.uk/sbo/exports/Main/SBO_OBO.obo" dest="${basedir}/resources/org/sbml/jsbml/resources/cfg/SBO_OBO.obo" verbose="on"/>
-
+	  <get
+		src="http://www.ebi.ac.uk/sbo/exports/Main/SBO_OBO.obo"
+		dest="${basedir}/resources/org/sbml/jsbml/resources/cfg/SBO_OBO.obo"
+	  	verbose="on"
+	  />
 	</target>
 
 	<!-- =================================================================== -->
@@ -461,21 +488,24 @@
 	<!-- Creates the javadocs jar package                                    -->
 	<!-- =================================================================== -->
 	<target
-		name="jar-javadoc"
-		description="Creates the javadocs jar package"
-		depends="javadoc">
-
-		<jar jarfile="${build.dir}/${name}-${version}-javadoc.jar" basedir="${build.javadocs}" />
-
+	  name="jar-javadoc"
+	  description="Creates the javadocs jar package"
+	  depends="javadoc"
+	>
+	  <jar
+		jarfile="${build.dir}/${name}-${version}-javadoc.jar"
+		basedir="${build.javadocs}"
+	  />
 	</target>
 
 	<!-- =================================================================== -->
 	<!-- Creates the distribution                                            -->
 	<!-- =================================================================== -->
 	<target
-		name="dist"
-		description="Creates the distribution"
-		depends="prepare-src">
+	  name="dist"
+	  description="Creates the distribution"
+	  depends="prepare-src"
+	>
 
 		<!-- Creates the standard jar file -->
 
@@ -549,9 +579,10 @@
 	<!-- Build the jsbml modules                                             -->
 	<!-- =================================================================== -->
 	<target
-		name="module"
-		description="Build the jsbml modules"
-		depends="init">
+	  name="module"
+	  description="Build the jsbml modules"
+	  depends="init"
+	>
 
 		<ant dir="${cellDesigner.module.base.dir}" inheritAll="false" inheritRefs="false">
 			<target name="clean"/>
@@ -572,9 +603,10 @@
 	<!-- Build the jsbml modules                                             -->
 	<!-- =================================================================== -->
 	<target
-	 name="module-dist"
-	 description="Build the jsbml modules"
-	 depends="init">
+	  name="module-dist"
+	  description="Build the jsbml modules"
+	  depends="init"
+	>
 
 		<mkdir dir="${dist.dir}/modules"/>
 
@@ -610,14 +642,14 @@
 	<!-- Cleans everything                                                   -->
 	<!-- =================================================================== -->
 	<target
-		name="clean"
-		description="Cleans everything"
-		depends="init">
-		<delete includeEmptyDirs="true" quiet="yes">
-			<fileset dir="${build.dir}" includes="**/*"/>
-		</delete>
-		<delete dir="${dist.root}" includeEmptyDirs="true" quiet="yes">
-		</delete>
+	  name="clean"
+	  description="Cleans everything"
+	  depends="init"
+	>
+	  <delete includeEmptyDirs="true" quiet="yes">
+	    <fileset dir="${build.dir}" includes="**/*"/>
+	  </delete>
+	  <delete dir="${dist.root}" includeEmptyDirs="true" quiet="yes"/>
 	</target>
 
 </project>

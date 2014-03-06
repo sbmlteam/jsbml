@@ -21,12 +21,18 @@
 
     Version: $Rev$
 -->
-<project default ="usage" basedir=".">
+<project
+  default="usage"
+  basedir="."
+>
   <!-- =================================================================== -->
   <!-- Initialization target                                               -->
   <!-- =================================================================== -->
 
-  <target name="init">
+  <target
+  	name="init"
+  	description="Initialization target"
+  >
   	<tstamp>
   	    <format property="YEAR" pattern="yyyy"/>
 	</tstamp>
@@ -99,7 +105,11 @@
   <!-- =================================================================== -->
   <!-- Help on usage                                                       -->
   <!-- =================================================================== -->
-  <target name="usage" depends="init">
+  <target
+  	name="usage"
+  	depends="init"
+  	description="Help on usage"
+  >
     <echo message=""/>
     <echo message=""/>
     <echo message="${Name} Build file"/>
@@ -121,7 +131,11 @@
   <!-- =================================================================== -->
   <!-- Prepares the build directory                                        -->
   <!-- =================================================================== -->
-  <target name="prepare" depends="init">
+  <target
+  	name="prepare"
+  	depends="init"
+  	description="Prepares the build directory"
+  >
     <mkdir dir="${build.dir}"/>
     <echo message="Done"/>
   </target>
@@ -129,7 +143,11 @@
   <!-- =================================================================== -->
   <!-- Prepares the source code                                            -->
   <!-- =================================================================== -->
-  <target name="prepare-src" depends="prepare">
+  <target
+  	name="prepare-src"
+  	depends="prepare"
+  	description="Prepares the source code"
+  >
     <!-- create directories -->
     <mkdir dir="${build.src}"/>
     <mkdir dir="${build.dest}"/>
@@ -158,7 +176,11 @@
   <!-- =================================================================== -->
   <!-- Compiles the source directory                                       -->
   <!-- =================================================================== -->
-  <target name="compile" depends="prepare-src">   
+  <target
+  	name="compile"
+  	depends="prepare-src"
+  	description="Compiles the source directory"
+  >   
     <javac srcdir="${build.src}"
            destdir="${build.dest}"
            debug="${debug}"
@@ -169,23 +191,26 @@
            classpathref="classpath">
     </javac>      
 
-		<manifest file="${build.dest}/META-INF/MANIFEST.MF">
+  	<property name="api.version" value="1.0-beta"/>
+  	<property name="vendor" value="The JSBML Team"/>
+	
+  	<manifest file="${build.dest}/META-INF/MANIFEST.MF">
       <attribute name="Bundle-Name"            value="${Name}"/>
       <attribute name="Built-By"               value="${user.name}"/>
       <attribute name="Built-Date"             value="${TODAY}"/>
       <attribute name="Bundle-Version"         value="${version}"/>
       <attribute name="Bundle-Revision" value="${jsbml.revision}"/>
-      <attribute name="Bundle-Vendor"          value="The JSBML Team"/>
+      <attribute name="Bundle-Vendor"          value="${vendor}"/>
       <attribute name="Bundle-RequiredExecutionEnvironment" value="JavaSE-1.6"/>
-			<attribute name="Created-By"          value="The JSBML Team"/>
+			<attribute name="Created-By"          value="${vendor}"/>
 
 			<section name="${Name}">
 				<attribute name="Specification-Title" value="${Name}"/>
 				<attribute name="Specification-Version" value="${api.version}"/>
-				<attribute name="Specification-Vendor"   value="The JSBML Team"/>
+				<attribute name="Specification-Vendor"   value="${vendor}"/>
 				<attribute name="Implementation-Title" value="${Name}"/>
 				<attribute name="Implementation-Version" value="${version}, Revision ${jsbml.revision} (Build ${build.number})"/>
-				<attribute name="Implementation-Vendor"  value="The JSBML Team"/>
+				<attribute name="Implementation-Vendor"  value="${vendor}"/>
 	      <attribute name="Implementation-URL" value="http://sbml.org/Software/JSBML/"/>
 			</section>
 		</manifest>
@@ -196,7 +221,11 @@
   <!-- =================================================================== -->  
   <!-- Creates the class package                                           -->
   <!-- =================================================================== -->
-  <target name="jar" depends="compile">
+  <target
+  	name="jar"
+  	depends="compile"
+  	description="Creates the class package"
+  >
       
     <copy todir="${build.dest}">
         <fileset
@@ -204,128 +233,160 @@
             includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo" > 
         </fileset>
     </copy>
-    <jar jarfile="${build.dir}/${name}-${version}.jar"
-         basedir="${build.dest}" manifest="${build.dest}/META-INF/MANIFEST.MF"/>
+    <jar
+      basedir="${build.dest}"
+      index="true"
+      jarfile="${build.dir}/${name}-${version}.jar"
+      manifest="${build.dest}/META-INF/MANIFEST.MF"
+    />
   </target>
 
-	<!-- =================================================================== -->
-	<!-- Creates the source jar package                                      -->
-	<!-- =================================================================== -->
-	<target name="jar-src" depends="prepare-src">
+  <!-- =================================================================== -->
+  <!-- Creates the source jar package                                      -->
+  <!-- =================================================================== -->
+  <target
+    name="jar-src"
+  	depends="prepare-src"
+  	description=""
+  >
+    <jar
+  	  basedir="${build.src}"
+      includes="**/*.java"
+      index="true"
+      jarfile="${build.dir}/${name}-${version}-src.jar"
+      manifest="${build.dest}/META-INF/MANIFEST.MF"
+    />
+  </target>
 
-		<jar jarfile="${build.dir}/${name}-${version}-src.jar" basedir="${build.src}" includes="**/*.java" manifest="${build.dest}/META-INF/MANIFEST.MF"/>
+  <!-- =================================================================== -->
+  <!-- Creates the distribution                                            -->
+  <!-- =================================================================== -->
+  <target
+  	name="dist"
+  	depends="prepare-src"
+  	description="Creates the distribution"
+  >
 
-	</target>
+    <mkdir dir="${dist.root}"/>
+    <mkdir dir="${dist.dir}"/>
 
-	<!-- =================================================================== -->
-	<!-- Creates the distribution                                            -->
-	<!-- =================================================================== -->
-	<target name="dist" depends="prepare-src">
+    <!-- Creates the standard jar file -->
 
-		<mkdir dir="${dist.root}"/>
-		<mkdir dir="${dist.dir}"/>
+    <antcall target="clean"/>
 
-		<!-- Creates the standard jar file -->
+    <antcall target="jar"/>
+    <antcall target="jar-src"/>
+    <copy todir="${dist.dir}" file="${build.dir}/${name}-${version}-src.jar"/>
 
-		<antcall target="clean"/>
-
-		<antcall target="jar"/>
-		<antcall target="jar-src"/>
-		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}-src.jar"/>
-
-		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}.jar"/>
-		<copy todir="${dist.root}" file="${build.dir}/${name}-${version}.jar"/>
-
-
-		<!-- Creates and copy the generated javadoc -->
-		<antcall target="jar-javadoc"/>
-
-		<copy todir="${dist.dir}/doc/api">
-			<fileset dir="${build.javadocs}/" includes="**/*">
-			</fileset>
-		</copy>
-		<copy todir="${dist.dir}" file="${build.dir}/${name}-${version}-javadoc.jar"/>
-
-		<!-- Copy the source files -->
-		<copy todir="${dist.dir}/src">
-			<fileset dir="${build.src}/" includes="**/*">
-			</fileset>
-		</copy>
-
-		<!-- Copy all the dependencies jar files -->
-		<copy todir="${dist.dir}/lib">
-			<fileset dir="${jars.dir}/" includes="*.jar" excludes="jsbml*.jar celldesigner*.jar">
-			</fileset>
-		</copy>
+    <copy todir="${dist.dir}" file="${build.dir}/${name}-${version}.jar"/>
+    <copy todir="${dist.root}" file="${build.dir}/${name}-${version}.jar"/>
 
 
-		<copy todir="${dist.dir}">
-			<fileset dir="${basedir}/" includes="LICENSE.txt NEWS.txt README AUTHORS.txt build.xml">
-			</fileset>
-		</copy>
-		<copy todir="${dist.dir}/licenses">
-			<fileset dir="${basedir}/licenses" includes="**/*">
-			</fileset>
-		</copy>
+    <!-- Creates and copy the generated javadoc -->
+    <antcall target="jar-javadoc"/>
 
-		<copy todir="${dist.dir}/doc">
-			<fileset dir="${basedir}/doc" includes="**/*.pdf **/*.jpg **/*.java">
+    <copy todir="${dist.dir}/doc/api">
+      <fileset dir="${build.javadocs}/" includes="**/*">
+      </fileset>
+    </copy>
+    <copy todir="${dist.dir}" file="${build.dir}/${name}-${version}-javadoc.jar"/>
 
-			</fileset>
-		</copy>
+    <!-- Copy the source files -->
+    <copy todir="${dist.dir}/src">
+      <fileset dir="${build.src}/" includes="**/*">
+      </fileset>
+    </copy>
 
-		<!-- Creates the archives to be distributed -->
-		<zip basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.zip" includes="${name}-${version}/**"/>
+    <!-- Copy all the dependencies jar files -->
+    <copy todir="${dist.dir}/lib">
+      <fileset dir="${jars.dir}/" includes="*.jar" excludes="jsbml*.jar celldesigner*.jar">
+      </fileset>
+    </copy>
 
-		<!-- Not generating a tar.gz a having only a zip file should be enough -->
-		<!-- <tar basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.tar.gz" includes="${name}-${version}/**" compression="gzip"/> -->
 
-	</target>
+    <copy todir="${dist.dir}">
+      <fileset dir="${basedir}/" includes="LICENSE.txt NEWS.txt README AUTHORS.txt build.xml">
+      </fileset>
+    </copy>
+    <copy todir="${dist.dir}/licenses">
+      <fileset dir="${basedir}/licenses" includes="**/*">
+      </fileset>
+    </copy>
+
+    <copy todir="${dist.dir}/doc">
+      <fileset dir="${basedir}/doc" includes="**/*.pdf **/*.jpg **/*.java">
+
+      </fileset>
+    </copy>
+
+    <!-- Creates the archives to be distributed -->
+    <zip basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.zip" includes="${name}-${version}/**"/>
+
+    <!-- Not generating a tar.gz a having only a zip file should be enough -->
+    <!-- <tar basedir="${dist.root}" destfile="${dist.root}/${name}-${version}.tar.gz" includes="${name}-${version}/**" compression="gzip"/> -->
+
+  </target>
 
 
   <!-- =================================================================== -->
   <!-- Creates the API documentation                                       -->
   <!-- =================================================================== -->
-  <target name="javadoc" depends="prepare-src">
+  <target
+  	name="javadoc"
+  	depends="prepare-src"
+  	description="Creates the API documentation"
+  >
     <mkdir dir="${build.javadocs}"/>
-    <javadoc packagenames="org.*"
-             excludepackagenames="org.sbml.jsbml.test.*"
-             sourcepath="${build.src}"
-             destdir="${build.javadocs}"
-             classpathref="classpath"
-             maxmemory="96m"
-             author="true"
-             version="true"
-             use="true"
-             splitindex="true"
-             noindex="false"
-             windowtitle="${Name} ${version} API"
-             doctitle="${Name} ${version} API"
-    	     breakiterator="yes"
+    <javadoc
+  	  packagenames="org.*"
+      excludepackagenames="org.sbml.jsbml.test.*"
+      sourcepath="${build.src}"
+      destdir="${build.javadocs}"
+      classpathref="classpath"
+      maxmemory="96m"
+      author="true"
+      version="true"
+      use="true"
+      splitindex="true"
+      noindex="false"
+      windowtitle="${Name} ${version} API"
+      doctitle="${Name} ${version} API"
+      breakiterator="yes"
     >
-		<link href="http://docs.oracle.com/javase/6/docs/api/"/>
-		<link href="http://sbml.org/Special/Software/JSBML/build/apidocs/index.html"/>
-   </javadoc> 	
+      <link href="http://docs.oracle.com/javase/6/docs/api/"/>
+      <link href="http://sbml.org/Special/Software/JSBML/build/apidocs/index.html"/>
+      <link href="http://celldesigner.org/help/plugin/"/>
+   </javadoc>
   </target>
 
-	<!-- =================================================================== -->
-	<!-- Creates the javadocs jar package                                      -->
-	<!-- =================================================================== -->
-	<target name="jar-javadoc" depends="javadoc">
-
-		<jar jarfile="${build.dir}/${name}-${version}-javadoc.jar" basedir="${build.javadocs}" manifest="${build.dest}/META-INF/MANIFEST.MF"/>
-
-	</target>
+  <!-- =================================================================== -->
+  <!-- Creates the javadocs jar package                                      -->
+  <!-- =================================================================== -->
+  <target
+  	name="jar-javadoc"
+  	depends="javadoc"
+  	description="Creates the javadocs jar package"
+  >
+    <jar
+      basedir="${build.javadocs}"
+      index="true"
+      jarfile="${build.dir}/${name}-${version}-javadoc.jar"
+      manifest="${build.dest}/META-INF/MANIFEST.MF"
+    />
+  </target>
 
   <!-- =================================================================== -->
   <!-- Cleans everything                                                   -->
   <!-- =================================================================== -->
-  <target name="clean" depends="init">
+  <target
+  	name="clean"
+  	depends="init"
+  	description="Cleans everything"
+  >
     <delete includeEmptyDirs="true" quiet="yes">
        <fileset dir="${build.dir}" includes="**/*"/>
     </delete>
-  	<delete dir="${dist.root}" includeEmptyDirs="true" quiet="yes">
-  	    </delete>
+    <delete dir="${dist.root}" includeEmptyDirs="true" quiet="yes"/>
   </target>
 
 </project>
