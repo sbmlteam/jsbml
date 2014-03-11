@@ -431,7 +431,7 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
    */
   @Override
   public boolean isRequired() {
-    return true;
+    return false;
   }
 
   @Override
