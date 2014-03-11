@@ -378,7 +378,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
       if (attributeName.equals(QualConstants.qualitativeSpecies)) {
         setQualitativeSpecies(value);
       } else if (attributeName.equals(QualConstants.outputLevel)) {
-        setLevel(StringTools.parseSBMLInt(value));
+        setOutputLevel(StringTools.parseSBMLInt(value));
       } else if (attributeName.equals(QualConstants.transitionEffect)) {
         try {
           setTransitionEffect(OutputTransitionEffect.valueOf(value));
