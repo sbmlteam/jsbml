@@ -125,20 +125,6 @@ public class SBMLWriter {
       System.exit(0);
     }
 
-    try {
-      ASTNode astNode = ASTNode.parseFormula("kf * S0 * S1 - kr * S2 * S3", new FormulaParserLL3(new StringReader("")));
-      System.out.println(astNode.toFormula());
-      astNode = ASTNode.parseFormula("kf + S0 + S1 + kr + S2 + S3", new FormulaParserLL3(new StringReader("")));
-      System.out.println(astNode.toFormula());
-      astNode = ASTNode.parseFormula("((((kf + S0) + S1) + kr) + S2) + S3", new FormulaParserLL3(new StringReader("")));
-      System.out.println(astNode.toFormula());
-      System.exit(0);
-    } catch (ParseException e1) {
-      e1.printStackTrace();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    
     // this JOptionPane is added here to be able to start visualVM profiling
     // before the reading or writing is started.
     // JOptionPane.showMessageDialog(null, "Eggs are not supposed to be green.");

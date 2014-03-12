@@ -2,6 +2,25 @@
 
 
 ======================================================================
+Version 1.0-beta2 (xx-xx-2014)
+======================================================================
+
+* New Features:
+
+
+* Bug Fixes:
+
+  - The SBML qual attribute Output.outputLevel was not read properly from XML.
+
+  - The required flag for the fbc package was set to true instead of false,
+    thanks to Chris Myers for reporting this problem.
+
+  - The FormulaParserLL3 was not reading properly formula like 
+    'kf * S0 * S1'. Only two arguments were read instead of three or more.
+    Thanks to Chris Myers for reporting this problem.
+
+
+======================================================================
 Version 1.0-beta1 (06-03-2014)
 ======================================================================
 
