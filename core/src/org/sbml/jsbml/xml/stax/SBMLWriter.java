@@ -28,6 +28,7 @@ import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -66,6 +67,8 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.text.parser.FormulaParserLL3;
+import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.xml.XMLNode;
@@ -122,6 +125,20 @@ public class SBMLWriter {
       System.exit(0);
     }
 
+    try {
+      ASTNode astNode = ASTNode.parseFormula("kf * S0 * S1 - kr * S2 * S3", new FormulaParserLL3(new StringReader("")));
+      System.out.println(astNode.toFormula());
+      astNode = ASTNode.parseFormula("kf + S0 + S1 + kr + S2 + S3", new FormulaParserLL3(new StringReader("")));
+      System.out.println(astNode.toFormula());
+      astNode = ASTNode.parseFormula("((((kf + S0) + S1) + kr) + S2) + S3", new FormulaParserLL3(new StringReader("")));
+      System.out.println(astNode.toFormula());
+      System.exit(0);
+    } catch (ParseException e1) {
+      e1.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    
     // this JOptionPane is added here to be able to start visualVM profiling
     // before the reading or writing is started.
     // JOptionPane.showMessageDialog(null, "Eggs are not supposed to be green.");
