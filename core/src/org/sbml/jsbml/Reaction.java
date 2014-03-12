@@ -404,9 +404,13 @@ UniqueNamedSBase {
   }
 
   /**
+   * Creates a new {@link SpeciesReference} with the given identifier and adds
+   * it to this {@link Reaction}'s {@link #listOfReactants}.
    * 
    * @param id
-   * @return
+   *        the id of the {@link SpeciesReference} that is to be created.
+   * @return a new instance of {@link SpeciesReference}, which is already linked
+   *         to this {@link Reaction}.
    */
   public SpeciesReference createReactant(String id) {
     SpeciesReference reactant = new SpeciesReference(id, getLevel(),

@@ -21,8 +21,6 @@
  */
 package org.sbml.jsbml.util;
 
-import java.io.Serializable;
-
 /**
  * A pair of two values with type parameters. This data object is useful
  * whenever exactly two values are required for a specific task.
@@ -32,27 +30,46 @@ import java.io.Serializable;
  * @since 0.8
  * @version $Rev$
  */
-public class ValuePair<L extends Comparable<? super L>, V extends Comparable<? super V>>
-implements Cloneable, Comparable<ValuePair<L, V>>, Serializable {
+public class ValuePair<L extends Comparable<? super L>, V extends Comparable<? super V>> extends Pair<L, V>
+implements Comparable<ValuePair<L, V>> {
 
   /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = -4230267902609475128L;
+
   /**
+   * Static method to easily create a value pair of two given values.
    * 
+   * @param left
+   * @param right
+   * @return
    */
-  private L l;
+  public static <L extends Comparable<? super L>, V extends Comparable<? super V>> ValuePair<L, V> of(L left, V right) {
+    return new ValuePair<L, V>(left, right);
+  }
+
   /**
+   * Can be used for static import, i.e. use
+   * <pre>
+   * import static org.sbml.jsbml.util.ValuePair.pairOf
+   * </pre>
+   * in your class to easily create {@link ValuePair}s of arbitrary data types
+   * with a simple method call, e.g., {@code valuePairOf(1, 2)}.
    * 
+   * @param left
+   * @param right
+   * @return
    */
-  private V v;
+  public static <L extends Comparable<? super L>, V extends Comparable<? super V>> ValuePair<L, V> valuePairOf(L left, V right) {
+    return of(left, right);
+  }
 
   /**
    * Creates a new {@link ValuePair} with both attributes set to {@code null}.
    */
   public ValuePair() {
-    this(null, null);
+    super();
   }
 
   /**
@@ -61,8 +78,7 @@ implements Cloneable, Comparable<ValuePair<L, V>>, Serializable {
    * @param v
    */
   public ValuePair(L l, V v) {
-    this.setL(l);
-    this.setV(v);
+    super(l, v);
   }
 
   /**
@@ -70,15 +86,14 @@ implements Cloneable, Comparable<ValuePair<L, V>>, Serializable {
    * @param valuePair
    */
   public ValuePair(ValuePair<L, V> valuePair) {
-    this.l = valuePair.getL();
-    this.v = valuePair.getV();
+    super(valuePair);
   }
 
   /* (non-Javadoc)
    * @see java.lang.Object#clone()
    */
   @Override
-  public ValuePair<L, V> clone() {
+  public ValuePair<L, V> clone() throws CloneNotSupportedException {
     return new ValuePair<L, V>(this);
   }
 
@@ -123,48 +138,11 @@ implements Cloneable, Comparable<ValuePair<L, V>>, Serializable {
     return comp;
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
-  @SuppressWarnings("unchecked")
-  @Override
-  public boolean equals(Object object) {
-    if (object.getClass().equals(getClass())) {
-      try {
-        ValuePair<L, V> v = (ValuePair<L, V>) object;
-        boolean equal = isSetL() == v.isSetL();
-        equal &= isSetV() == v.isSetV();
-        if (equal && isSetL() && isSetV()) {
-          equal &= v.getL().equals(getL()) && v.getV().equals(getV());
-        }
-        return equal;
-      } catch (ClassCastException exc) {
-        return false;
-      }
-    }
-    return false;
-  }
-
   /**
-   * @return the a
-   */
-  public L getL() {
-    return l;
-  }
-
-  /**
-   * @return the b
+   * @return the v
    */
   public V getV() {
-    return v;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
-   */
-  @Override
-  public int hashCode() {
-    return l.hashCode() + v.hashCode();
+    return getValue();
   }
 
   /**
@@ -172,7 +150,7 @@ implements Cloneable, Comparable<ValuePair<L, V>>, Serializable {
    * @return
    */
   public boolean isSetL() {
-    return l != null;
+    return isSetKey();
   }
 
   /**
@@ -180,7 +158,7 @@ implements Cloneable, Comparable<ValuePair<L, V>>, Serializable {
    * @return
    */
   public boolean isSetV() {
-    return v != null;
+    return isSetValue();
   }
 
   /**
@@ -188,7 +166,7 @@ implements Cloneable, Comparable<ValuePair<L, V>>, Serializable {
    *            the l to set
    */
   public void setL(L l) {
-    this.l = l;
+    setKey(l);
   }
 
   /**
@@ -196,15 +174,14 @@ implements Cloneable, Comparable<ValuePair<L, V>>, Serializable {
    *            the v to set
    */
   public void setV(V v) {
-    this.v = v;
+    setValue(v);
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
+  /**
+   * @return the l
    */
-  @Override
-  public String toString() {
-    return String.format("[%s, %s]", getL().toString(), getV().toString());
+  public L getL() {
+    return getKey();
   }
 
 }

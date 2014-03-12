@@ -31,6 +31,7 @@ PARSER_BEGIN(FormulaParser)
  * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.text.parser;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InvalidPropertiesFormatException;

@@ -1252,7 +1252,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
    *         <p>
    * @see #addSpeciesType(SpeciesType st)
    * @deprecated Only valid in SBML Level 2 for Versions 2 through 4.
-   * @sbml.deprecated only valid in SBML Level 2 for Versions 2 through 4. 
+   * @sbml.deprecated only valid in SBML Level 2 for Versions 2 through 4.
    */
   @Deprecated
   public SpeciesType createSpeciesType() {
@@ -4405,6 +4405,15 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * 
+   * @param kind
+   */
+  public void setAreaUnits(Unit.Kind kind) {
+    // TODO: Check if kind is variant of area
+    setAreaUnits(kind.toString().toLowerCase());
+  }
+
+  /**
    * Sets the areaUnitsID of this {@link Model} to the id of the
    * {@link UnitDefinition} 'areaUnits'.
    * 
@@ -4463,6 +4472,15 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * 
+   * @param kind
+   */
+  public void setExtentUnits(Unit.Kind kind) {
+    // TODO: Check?
+    setExtentUnits(kind.toString().toLowerCase());
+  }
+
+  /**
    * Sets the extentUnitsID of this {@link Model} to the id of the
    * {@link UnitDefinition} 'extentUnits'.
    * 
@@ -4489,6 +4507,15 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     this.lengthUnitsID = lengthUnitsID;
     firePropertyChange(TreeNodeChangeEvent.lengthUnits, oldLengthUnits,
       lengthUnitsID);
+  }
+
+  /**
+   * 
+   * @param kind
+   */
+  public void setLengthUnits(Unit.Kind kind) {
+    // TODO: Check if kind is variant of length
+    setLengthUnits(kind.toString().toLowerCase());
   }
 
   /**
@@ -4765,6 +4792,15 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * 
+   * @param kind
+   */
+  public void setSubstanceUnits(Unit.Kind kind) {
+    // TODO: Check if kind is substance unit
+    setSubstanceUnits(kind.toString().toLowerCase());
+  }
+
+  /**
    * Sets the timeUnits of this {@link Model} to 'timeUnistID'
    * 
    * @param timeUnitsID
@@ -4776,6 +4812,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
       throw new PropertyNotAvailableException(
         TreeNodeChangeEvent.timeUnits, this);
     }
+    // TODO: Check if timeUnitsID is a valid Unit.Kind or an identifier of a unitDefinition in the model?
     String oldTimeUnitsID = this.timeUnitsID;
     this.timeUnitsID = timeUnitsID;
     firePropertyChange(TreeNodeChangeEvent.timeUnits, oldTimeUnitsID,
@@ -4796,6 +4833,16 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * Sets the {@link #timeUnitsID} of this {@link Model} to the given unit
+   * kind.
+   * 
+   * @param kind
+   */
+  public void setTimeUnits(Unit.Kind kind) {
+    setTimeUnits(kind.toString().toLowerCase());
+  }
+
+  /**
    * Sets the volumeUnitsID of this {@link Model} to 'volumeUnitsID'
    * 
    * @param volumeUnitsID
@@ -4811,6 +4858,15 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     this.volumeUnitsID = volumeUnitsID;
     firePropertyChange(TreeNodeChangeEvent.volumeUnits, oldVolumeUnitsID,
       this.volumeUnitsID);
+  }
+
+  /**
+   * 
+   * @param kind
+   */
+  public void setVolumeUnits(Unit.Kind kind) {
+    // TODO: Check if kind is variant of volume
+    setVolumeUnits(kind.toString().toLowerCase());
   }
 
   /**
