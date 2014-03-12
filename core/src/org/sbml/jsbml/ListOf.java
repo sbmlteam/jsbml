@@ -821,6 +821,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
       int pos = -1;
       SBase sbase = null;
       for (int i = 0; i < size() && pos < 0; i++) {
+        if (! (get(i) instanceof NamedSBase)) {
+          return null;
+        }
         NamedSBase sb = (NamedSBase) get(i);
         if (sb.isSetId() && sb.getId().equals(removeId)) {
           pos = i;
