@@ -7,6 +7,10 @@ Version 1.0-beta2 (xx-xx-2014)
 
 * New Features:
 
+  - JSBML now provides a convenient ModelBuilder that can be used to create SBML
+    models with a significantly lower  number of lines of code for the end user.
+
+  - A general Pair of arbitrary values now generalizes ValuePair.
 
 * Bug Fixes:
 
