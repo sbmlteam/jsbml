@@ -258,7 +258,7 @@ public class JSBML {
    */
   public static SBMLDocument readSBML(String fileName)
       throws XMLStreamException, IOException {
-    return SBMLReader.read(fileName);
+    return SBMLReader.read(new File(fileName));
   }
 
   /**
