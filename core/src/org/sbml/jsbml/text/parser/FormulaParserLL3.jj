@@ -10,8 +10,8 @@ options
 
 PARSER_BEGIN(FormulaParserLL3)
 /*
- * $Id$
- * $URL$
+ * $Id: FormulaParserLL3.jj 1663 2014-03-12 13:47:27Z niko-rodrigue $
+ * $URL: svn+ssh://niko-rodrigue@svn.code.sf.net/p/jsbml/code/trunk/core/files/FormulaParserLL3.jj $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -50,7 +50,7 @@ import org.sbml.jsbml.text.parser.IFormulaParser;
  * @author Alexander D&ouml;rr
  * @author Nicolas Rodriguez
  * @since 1.0
- * @version $Rev$
+ * @version $Rev: 1663 $
  */
 public class FormulaParserLL3 implements IFormulaParser
 {
