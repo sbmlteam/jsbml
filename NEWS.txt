@@ -26,6 +26,8 @@ Version 1.0-beta2 (xx-xx-2014)
   - The ListOf.remove(String) will not throw a ClassCastException anymore
     when used on list that do not contain elements with id.
     
+  - The static method JSBML.read(String) was not calling the right helper 
+    method.   
 
 ======================================================================
 Version 1.0-beta1 (06-03-2014)
