@@ -6,8 +6,8 @@
  * @author  Akiya Jouraku (Java conversion)
  * @author  Ben Bornstein
  *
- * $Id: TestASTNode.java 10124 2009-08-28 12:04:51Z sarahkeating $
- * $HeadURL: https://sbml.svn.sourceforge.net/svnroot/sbml/trunk/libsbml/src/bindings/java/test/org/sbml/libsbml/test/math/TestASTNode.java $
+ * $Id$
+ * $HeadURL$
  *
  * This test file was converted from src/sbml/test/TestASTNode.c
  * with the help of conversion sciprt (ctest_converter.pl).

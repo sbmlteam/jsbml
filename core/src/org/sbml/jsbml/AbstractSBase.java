@@ -360,9 +360,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
     // use always the package name in the map
     PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
-    
+
     if (packageParser != null) {
-    
+
       extensions.put(packageParser.getPackageName(), sbasePlugin);
       firePropertyChange(TreeNodeChangeEvent.addExtension, null, sbasePlugin);
     } else {
@@ -385,8 +385,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
     if ((elementNamespace != null) && (!elementNamespace.equals(namespace))) {
       // if we implement proper conversion some days, we need to unset the namespace before changing it.
-      logger.error(MessageFormat.format("An SBase element cannot belong to two different namespaces ! "
-          + "Current namespace = '{0}', new namespace = '{1}' ", elementNamespace, namespace));
+      logger.error(MessageFormat.format("An SBase element cannot belong to two different namespaces! Current namespace = ''{0}'', new namespace = ''{1}''", elementNamespace, namespace));
       //		  throw new IllegalArgumentException(MessageFormat.format("An SBase element cannot belong to two different namespaces ! "
       //			  		+ "Current namespace = '{0}', new namespace = '{1}' ", elementNamespace, namespace));
     }
@@ -807,17 +806,17 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public SBasePlugin createPlugin(String nameOrUri) {
 
-	    // use always the package name in the map
-	    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
-	    
-	    if (packageParser != null) {
-	    
-	    	SBasePlugin sbasePlugin = packageParser.createPluginFor(this);
-	    	addExtension(nameOrUri, sbasePlugin);
-	    	return sbasePlugin;
-	    } 
-	    
-	    throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));    
+    // use always the package name in the map
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+
+    if (packageParser != null) {
+
+      SBasePlugin sbasePlugin = packageParser.createPluginFor(this);
+      addExtension(nameOrUri, sbasePlugin);
+      return sbasePlugin;
+    }
+
+    throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));
   }
 
 
@@ -826,6 +825,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * 
    * @param packageURIOrName a package namespace URI or package name
    */
+  @Override
   public void disablePackage(String packageURIOrName) {
     enablePackage(packageURIOrName, false);
   }
@@ -835,15 +835,17 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * 
    * @param packageURIOrName a package namespace URI or package name
    */
+  @Override
   public void enablePackage(String packageURIOrName) {
     enablePackage(packageURIOrName, true);
   }
-  
+
   /**
-   * Enables or disables the given SBML Level 3 package on this {@link SBMLDocument}. 
+   * Enables or disables the given SBML Level 3 package on this {@link SBMLDocument}.
    * 
    * @param packageURIOrName a package namespace URI or package name
    */
+  @Override
   public void enablePackage(String packageURIOrName, boolean enabled) {
 
     SBMLDocument doc = getSBMLDocument();
@@ -854,7 +856,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       logger.info("Package not enabled, could not find the SBMLDocument.");
     }
   }
-  
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#equals(java.lang.Object)
@@ -1106,13 +1108,13 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
     // use always the package name in the map
     PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
-    
+
     if (packageParser != null) {
-    
+
       return extensions.get(packageParser.getPackageName());
-    } 
-    
-    throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));    
+    }
+
+    throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));
   }
 
   /* (non-Javadoc)
@@ -1207,7 +1209,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
   @Override
   public int getNumPlugins() {
-	  return extensions.size();
+    return extensions.size();
   }
 
   /**
@@ -1233,19 +1235,19 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public SBasePlugin getPlugin(String nameOrUri) {
 
-	  // use always the package name in the map
-	  PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+    // use always the package name in the map
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
 
-	  if (packageParser != null) {
+    if (packageParser != null) {
 
-		  if (extensions.get(packageParser.getPackageName()) != null) {
-			  return extensions.get(packageParser.getPackageName());
-		  } else {
-			  return createPlugin(nameOrUri);  
-		  }
-	  } 
+      if (extensions.get(packageParser.getPackageName()) != null) {
+        return extensions.get(packageParser.getPackageName());
+      } else {
+        return createPlugin(nameOrUri);
+      }
+    }
 
-	  throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));    
+    throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));
   }
 
   /* (non-Javadoc)
@@ -1346,34 +1348,34 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   public boolean isExtendedByOtherPackages() {
     return !extensions.isEmpty();
   }
-  
+
   @Override
   public boolean isPackageEnabled(String packageURIOrName) {
-    
+
     SBMLDocument doc = getSBMLDocument();
-    
+
     if (doc != null) {
       return doc.isPackageEnabled(packageURIOrName);
     }
-    
+
     return false;
   }
 
   @Override
   public boolean isPackageURIEnabled(String packageURIOrName) {
-	  return isPackageEnabled(packageURIOrName);
+    return isPackageEnabled(packageURIOrName);
   }
 
   @Override
   @Deprecated
   public boolean isPkgEnabled(String packageURIOrName) {
-	  return isPackageEnabled(packageURIOrName);
+    return isPackageEnabled(packageURIOrName);
   }
 
   @Override
   @Deprecated
   public boolean isPkgURIEnabled(String packageURIOrName) {
-	  return isPackageEnabled(packageURIOrName);
+    return isPackageEnabled(packageURIOrName);
   }
 
   /* (non-Javadoc)
@@ -1381,7 +1383,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public boolean isSetAnnotation() {
-	  return (annotation != null) && annotation.isSetAnnotation();
+    return (annotation != null) && annotation.isSetAnnotation();
   }
 
   /* (non-Javadoc)
@@ -1389,7 +1391,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public boolean isSetHistory() {
-	  if (isSetAnnotation()) {
+    if (isSetAnnotation()) {
       return annotation.isSetHistory();
     }
     return false;
@@ -1439,15 +1441,15 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public boolean isSetPlugin(String nameOrUri) {
 
-	  // use always the package name in the map
-	  PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+    // use always the package name in the map
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
 
-	  if (packageParser != null) {
+    if (packageParser != null) {
 
-		  return extensions.get(packageParser.getPackageName()) != null;
-	  } 
+      return extensions.get(packageParser.getPackageName()) != null;
+    }
 
-	  throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));    
+    throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));
   }
 
   /* (non-Javadoc)
@@ -1964,23 +1966,23 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public void unsetExtension(String nameOrUri) {
 
-	  // use always the package name in the map
-	  PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
+    // use always the package name in the map
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
 
-	  if (packageParser != null) {
+    if (packageParser != null) {
 
-		  SBasePlugin sbasePlugin = extensions.remove(packageParser.getPackageName());
-		  firePropertyChange(TreeNodeChangeEvent.extension, sbasePlugin, null);
-	  } 
+      SBasePlugin sbasePlugin = extensions.remove(packageParser.getPackageName());
+      firePropertyChange(TreeNodeChangeEvent.extension, sbasePlugin, null);
+    }
 
-	  throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));    
+    throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));
   }
 
   @Override
   public void unsetPlugin(String nameOrUri) {
-	  unsetExtension(nameOrUri);
+    unsetExtension(nameOrUri);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jlibsbml.SBase#unsetSBOTerm()
    */

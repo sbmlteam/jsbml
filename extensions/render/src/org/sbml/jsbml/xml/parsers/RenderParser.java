@@ -1,6 +1,6 @@
 /*
- * $Id:  RenderParser.java 21:49:24 jakob $
- * $URL: RenderParser.java $
+ * $Id$
+ * $URL$
  *
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
