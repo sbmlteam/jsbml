@@ -44,7 +44,9 @@ import org.sbml.jsbml.xml.XMLNode;
 public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
-   * @param term
+   * Adds a {@link CVTerm}.
+   * 
+   * @param term the {@link CVTerm} to add.
    * @return {@code true} if a {@link CVTerm} instance has been added to
    *         the list of {@link CVTerm} of this object.
    */
@@ -595,6 +597,24 @@ public interface SBase extends TreeNodeWithChangeSupport {
    */
   public void unregister(SBase sbase);
 
+  /**
+   * Removes the given {@link CVTerm}. 
+   * 
+   * @param cvTerm the {@link CVTerm} to remove
+   * @return true if the {@link CVTerm} was successfully removed.
+   */
+  public boolean removeCVTerm(CVTerm cvTerm);
+  
+  /**
+   * Removes the {@link CVTerm} at the given index.
+   * 
+   * @param index the index
+   * @return the removed {@link CVTerm}.
+   * @throws IndexOutOfBoundsException  if the index is out of range (index < 0 || index >= size())
+   */
+  public CVTerm removeCVTerm(int index);
+
+  
   /**
    * Removes the given {@link TreeNodeChangeListener} from this element.
    * 

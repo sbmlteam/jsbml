@@ -630,12 +630,15 @@ public class CVTerm extends AnnotationElement {
   public int hashCode() {
     final int prime = 821;
     int hashCode = super.hashCode();
-    if (isSetQualifierType()) {
-      hashCode += prime * getQualifierType().hashCode();
+
+    if (isSetQualifier()) {
+      hashCode += prime * getQualifier().hashCode();
     }
-    if (isSetBiologicalQualifierType()) {
-      hashCode += prime * getBiologicalQualifierType().hashCode();
+
+    for (String uri : getResources()) {
+      hashCode += prime * uri.hashCode();
     }
+    
     return hashCode;
   }
 
@@ -646,7 +649,7 @@ public class CVTerm extends AnnotationElement {
    *         {@code false} otherwise.
    */
   public boolean isBiologicalQualifier() {
-    return type.equals(Type.BIOLOGICAL_QUALIFIER);
+    return isSetType() && type.equals(Type.BIOLOGICAL_QUALIFIER);
   }
 
   /**
@@ -656,7 +659,7 @@ public class CVTerm extends AnnotationElement {
    *         {@code false} otherwise.
    */
   public boolean isModelQualifier() {
-    return type.equals(Type.MODEL_QUALIFIER);
+    return isSetType() && type.equals(Type.MODEL_QUALIFIER);
   }
 
   /**
@@ -738,6 +741,19 @@ public class CVTerm extends AnnotationElement {
     return false;
   }
 
+  @Override
+  public boolean removeFromParent() {
+
+    TreeNode parent = getParent();
+    
+    if (parent != null && parent instanceof Annotation) {
+      Annotation annotation = (Annotation) parent;
+      return annotation.removeCVTerm(this);
+    }
+    
+    return false;
+  }
+  
   /**
    * Removes a resource from the {@link CVTerm}.
    * 
@@ -753,12 +769,14 @@ public class CVTerm extends AnnotationElement {
   }
 
   /**
-   * Removes the ith resource from the {@link CVTerm}.
+   * Removes the ith resource URI from the {@link CVTerm}.
    * 
-   * @param resource
+   * @param index
+   * @return the removed URI.
+   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size())
    */
-  public void removeResource(int index) {
-    resourceURIs.remove(index);
+  public String removeResource(int index) {
+    return resourceURIs.remove(index);
   }
 
   /**
