@@ -41,3 +41,16 @@ Definitions for writing JSBML classes:
       To use these templates while programming write "JSBML" and press "CTR + tab". Then all 
       available JSBML code templates are listed. Then select the desired template by pressing 
       "enter". If you have several fields to rename use "tab" to rename them all in one go.
+
+3) Setting up Eclipse
+
+  To setup eclipse, in general, you have to add the src, test and resources folder to your eclipse 
+  build path. As well as any jar files included in the lib folder.
+
+  Then, you need to do an extra step to configure the annotation processor, as the different parsers 
+  in JSBML are registered automatically using java annotation.
+
+  To configure the annotation processor, follow the instructions in the page https://code.google.com/p/spi/wiki/EclipseSettings
+
+  You can run the ParserManager class to check that the list of parsers are not empty and that they contain the parsers you need.
+
