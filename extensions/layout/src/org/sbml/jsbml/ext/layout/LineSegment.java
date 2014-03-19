@@ -92,6 +92,9 @@ public class LineSegment extends CurveSegment {
     if (lineSegment.isSetEnd()) {
       end = lineSegment.getEnd().clone();
     }
+    
+    // Make sure that the type is set properly
+    setType(Type.LINE_SEGMENT);
   }
 
   /* (non-Javadoc)

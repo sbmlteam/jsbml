@@ -45,22 +45,27 @@ public class LayoutConstants {
 
   public static final String namespaceURI_L2 = "http://projects.eml.org/bcb/sbml/level2";
 
+  public static final String xsiShortLabel = "xsi";
+  public static final String xsiNamespace = "http://www.w3.org/2001/XMLSchema-instance";
+
   public static final List<String> namespaces_L3;
   public static final List<String> namespaces_L2;
-
+  public static final List<String> all_L3_namespaces;
+  
   static {
     namespaces_L3 = new ArrayList<String>();
     namespaces_L3.add(namespaceURI_L3V1V1);
 
     namespaces_L2 = new ArrayList<String>();
     namespaces_L2.add(namespaceURI_L2);
+    
+    all_L3_namespaces = new ArrayList<String>();
+    all_L3_namespaces.addAll(namespaces_L3);
+    all_L3_namespaces.add(xsiNamespace);
   }
 
   public static final String shortLabel = "layout";
   public static final String packageName = "Layout";
-
-  public static final String xsiShortLabel = "xsi";
-  public static final String xsiNamespace = "http://www.w3.org/2001/XMLSchema-instance";
 
   public static final String listOfLayouts = "listOfLayouts";
   public static final String listOfCompartmentGlyphs = "listOfCompartmentGlyphs";
