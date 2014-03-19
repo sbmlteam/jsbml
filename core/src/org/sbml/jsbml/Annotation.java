@@ -693,6 +693,44 @@ public class Annotation extends AnnotationElement {
     return false;
   }
 
+  
+  /**
+   * Removes the given {@link CVTerm}. 
+   * 
+   * @param cvTerm the {@link CVTerm} to remove
+   * @return true if the {@link CVTerm} was successfully removed.
+   */
+  public boolean removeCVTerm(CVTerm cvTerm) {
+    if (listOfCVTerms == null) {
+      listOfCVTerms = new ArrayList<CVTerm>();
+    }
+
+    cvTerm.parent = null;
+    boolean success = listOfCVTerms.remove(cvTerm);
+    firePropertyChange(TreeNodeChangeEvent.removeCVTerm, cvTerm, null);
+    
+    return success;
+  }
+  
+  /**
+   * Removes the {@link CVTerm} at the given index.
+   * 
+   * @param index the index
+   * @return the removed {@link CVTerm}.
+   * @throws IndexOutOfBoundsException  if the index is out of range (index < 0 || index >= size())
+   */
+  public CVTerm removeCVTerm(int index) {
+    if (listOfCVTerms == null) {
+      listOfCVTerms = new ArrayList<CVTerm>();
+    }
+
+    CVTerm deletedCVTerm = listOfCVTerms.remove(index);
+    deletedCVTerm.parent = null;
+    firePropertyChange(TreeNodeChangeEvent.removeCVTerm, deletedCVTerm, null);
+    
+    return deletedCVTerm;
+  }
+    
   /**
    * Sets the value of the about String of this object.
    * 

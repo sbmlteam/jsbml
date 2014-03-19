@@ -130,15 +130,17 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
    * Annotation
    */
   public static final String about = "about";
-  public static String nonRDFAnnotation = "nonRDFAnnotation";
-  public static String annotationNameSpaces = "annotationNameSpaces";
-  public static String history = "history";
-  public static String addCVTerm = "addCVTerm";
+  public static final String nonRDFAnnotation = "nonRDFAnnotation";
+  public static final String annotationNameSpaces = "annotationNameSpaces";
+  public static final String history = "history";
+  public static final String addCVTerm = "addCVTerm";
+  public static final String removeCVTerm = "removeCVTerm";
+
 
   /*
    * ASTNode
    */
-  public static String userObject = "userObject";
+  public static final String userObject = "userObject";
 
   public static final String email = "email";
   public static final String familyName = "familyName";
