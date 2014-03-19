@@ -417,7 +417,7 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
           if (curveSegment.getType().equals(CurveSegment.Type.LINE_SEGMENT))
           {
             LineSegment realCurveSegment = new LineSegment(curveSegment);
-            logger.debug("Transformed CubicBezier: " + curveSegment + " into a LineSegment.");
+            logger.debug("Transformed a CubicBezier: '" + curveSegment + "' into a LineSegment.");
             curve.getListOfCurveSegments().remove(i);
             curve.getListOfCurveSegments().add(i, realCurveSegment);
           }
@@ -457,7 +457,7 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
 
   @Override
   public List<String> getNamespaces() {
-    return LayoutConstants.namespaces_L3; // TODO - check if it should not be namespaces !!
+    return LayoutConstants.all_L3_namespaces;
   }
 
   @Override

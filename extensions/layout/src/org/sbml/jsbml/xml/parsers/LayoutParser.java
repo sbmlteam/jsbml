@@ -802,7 +802,8 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
 
   @Override
   public String getPackageName() {
-    return LayoutConstants.shortLabel;
+    // We have to set a different packageName than the L3LayoutParser so that the map in the ParserManager works properly
+    return LayoutConstants.shortLabel + "_L2";
   }
 
   @Override
