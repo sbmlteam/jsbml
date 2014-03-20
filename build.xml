@@ -290,38 +290,14 @@
 	  depends="jar"
 	>
 
+		<!-- Launching the tests for core -->
+		<!-- The variable DATA_FOLDER need to be declared previously in the environment: 
+		       export DATA_FOLDER=core/test/org/sbml/jsbml/xml/test/data -->
+		<ant dir="${core.base.dir}" target="test" inheritall="false"/>
+		
+
 		<!-- TODO - add some tests using the package here -->
-
-		<echo message="There should be NO failures or errors." />
-		<echo message="" />
-		<echo message="You can see a details of the tests on the two files : jsbmlTestResults.txt and libsbmlCompatibilityTestResults.txt" />
-		<echo message="" />
-
-		<junit printsummary="yes">
-			<!-- showoutput="yes" -->
-			<formatter type="plain" />
-			<test name="org.sbml.jsbml.xml.test.Tests" outfile="jsbmlTestResults">
-				<formatter type="plain" />
-			</test>
-			<classpath>
-				<path refid="classpath" />
-				<pathelement location="${build.dir}/${name}-${version}.jar" />
-			</classpath>
-		</junit>
-		<echo message="" />
-
-		<junit printsummary="yes">
-			<!-- showoutput="yes" -->
-			<formatter type="plain" />
-			<test name="org.sbml.jsbml.xml.test.LibsbmlCompatibilityTests" outfile="libsbmlCompatibilityTestResults">
-				<formatter type="plain" />
-			</test>
-			<classpath>
-				<path refid="classpath" />
-				<pathelement location="${build.dir}/${name}-${version}.jar" />
-			</classpath>
-		</junit>
-		<echo message="" />
+		<!-- TODO - loop over the package names to call the test target ? -->
 
 	</target>
 
