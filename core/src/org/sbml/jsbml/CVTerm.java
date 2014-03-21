@@ -24,6 +24,7 @@ package org.sbml.jsbml;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.tree.TreeNode;
@@ -496,19 +497,32 @@ public class CVTerm extends AnnotationElement {
    * Returns a list of resources that contain the given pattern. This is
    * useful to obtain, e.g., all KEGG resources this term points to.
    * 
-   * @param pattern
-   *            e.g., "urn:miriam:kegg.reaction:R" or just "kegg".
+   * @param patterns
+   *        an arbitrary number of patterns, e.g., "urn:miriam:kegg.reaction:R*"
+   *        or just "*kegg*" that are matched to all resources using an
+   *        OR-operation, i.e.,
+   *        if just one of the patterns matches a resource, this resource will
+   *        appear in the returned list.
    * @return A list of all resources that contain the given pattern. This list
-   *         can be empty.
+   *         can be empty, but never {@code null}. The order of the resources
+   *         in that list will be identical to the order in this term.
+   * @see String#matches(String)
    */
-  public List<String> filterResources(String pattern) {
-    ArrayList<String> selectedResources = new ArrayList<String>();
-    for (String resource : resourceURIs) {
-      if (resource.matches(pattern)) {
-        selectedResources.add(resource);
+  public List<String> filterResources(String... patterns) {
+    if ((patterns != null) && (patterns.length > 0)) {
+      // Create a list with maximal length equal to the number of resources:
+      List<String> selectedResources = new ArrayList<String>(getResourceCount());
+      for (String resource : resourceURIs) {
+        for (String pattern : patterns) {
+          if (resource.matches(pattern)) {
+            selectedResources.add(resource);
+            break;
+          }
+        }
       }
+      return selectedResources;
     }
-    return selectedResources;
+    return new LinkedList<String>();
   }
 
   /* (non-Javadoc)
@@ -576,8 +590,8 @@ public class CVTerm extends AnnotationElement {
    * 
    * <p>If you want to know if the Qualifier is a model qualifier or a biological modifier,
    * you can use {@link Qualifier#isModelQualifier()} and {@link Qualifier#isBiologicalQualifier()}.
-   * <p>If you want to display the name of the Qualifier, you can use {@link Qualifier#getElementNameEquivalent()}.  
-   *  
+   * <p>If you want to display the name of the Qualifier, you can use {@link Qualifier#getElementNameEquivalent()}.
+   * 
    * @return the {@link Qualifier} for this CVTerm.
    */
   public Qualifier getQualifier() {
@@ -638,7 +652,7 @@ public class CVTerm extends AnnotationElement {
     for (String uri : getResources()) {
       hashCode += prime * uri.hashCode();
     }
-    
+
     return hashCode;
   }
 
@@ -705,13 +719,13 @@ public class CVTerm extends AnnotationElement {
    * 
    * @return {@code true} if the {@link Qualifier} of this {@link CVTerm}
    *         is set.
-   * @deprecated use {@link #isSetQualifier()}        
+   * @deprecated use {@link #isSetQualifier()}
    */
   @Deprecated
   public boolean isSetTypeQualifier() {
     return isSetQualifier();
   }
-  
+
   /**
    * Returns {@code true} if the {@link Qualifier} of this {@link CVTerm}
    * is set and is different from {@link Qualifier#BQM_UNKNOWN} and {@link Qualifier#BQB_UNKNOWN}.
@@ -720,7 +734,7 @@ public class CVTerm extends AnnotationElement {
    *         is set.
    */
   public boolean isSetQualifier() {
-    return (qualifier != null) && (!qualifier.equals(Qualifier.BQM_UNKNOWN)) 
+    return (qualifier != null) && (!qualifier.equals(Qualifier.BQM_UNKNOWN))
         && (!qualifier.equals(Qualifier.BQB_UNKNOWN));
   }
 
@@ -731,7 +745,7 @@ public class CVTerm extends AnnotationElement {
     String prefix, String value) {
 
     // TODO - remove this method if not used
-    
+
     if (elementName.equals("li")) {
       if (attributeName.equals("resource")) {
         addResourceURI(value);
@@ -745,15 +759,15 @@ public class CVTerm extends AnnotationElement {
   public boolean removeFromParent() {
 
     TreeNode parent = getParent();
-    
+
     if (parent != null && parent instanceof Annotation) {
       Annotation annotation = (Annotation) parent;
       return annotation.removeCVTerm(this);
     }
-    
+
     return false;
   }
-  
+
   /**
    * Removes a resource from the {@link CVTerm}.
    * 
@@ -857,7 +871,7 @@ public class CVTerm extends AnnotationElement {
   }
 
   // TODO: check that the 3 set functions taking an int are doing the good things and selecting the proper qualifier
-  
+
   /**
    * Sets the {@link Qualifier} of this {@link CVTerm}, sets at the same time the {@link Type} to the proper value.
    * 
@@ -866,9 +880,9 @@ public class CVTerm extends AnnotationElement {
   public void setQualifier(Qualifier qualifier) {
     Qualifier oldQualifier = this.qualifier;
     Type oldType = type;
-    
+
     this.qualifier = qualifier;
-    
+
     if (this.qualifier != null) {
       if (qualifier.isBiologicalQualifier()) {
         type = Type.BIOLOGICAL_QUALIFIER;
@@ -881,17 +895,17 @@ public class CVTerm extends AnnotationElement {
       type = null;
     }
 
-    firePropertyChange(TreeNodeChangeEvent.type, oldType, this.type);
+    firePropertyChange(TreeNodeChangeEvent.type, oldType, type);
     firePropertyChange(TreeNodeChangeEvent.qualifier, oldQualifier, qualifier);
   }
-  
+
   /**
    * Sets the type of this {@link CVTerm} to the {@link Type} represented by
    * 'qualifierType'.
    * 
    * @param qualifierType
    *        the Type to set as an integer.
-   * @libsbml.deprecated use {@link #setQualifier(Qualifier)}.       
+   * @libsbml.deprecated use {@link #setQualifier(Qualifier)}.
    */
   public void setQualifierType(int qualifierType) {
     setQualifierType(Type.values()[qualifierType]);
@@ -985,7 +999,7 @@ public class CVTerm extends AnnotationElement {
       qualifier = null;
     }
   }
-  
+
   /**
    * Unsets the qualifier if it is set.
    * 
@@ -994,8 +1008,8 @@ public class CVTerm extends AnnotationElement {
     firePropertyChange(TreeNodeChangeEvent.qualifier, qualifier, null);
     qualifier = null;
   }
-  
-    
+
+
 
   /**
    * Unsets the qualifier type if it is set.

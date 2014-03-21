@@ -69,7 +69,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * was present before, it will be replaced.
    * 
    * @param nameOrUri the name or URI of the package extension.
-   * @param sbasePlugin the {@link SBasePlugin} to add. 
+   * @param sbasePlugin the {@link SBasePlugin} to add.
    */
   public void addExtension(String nameOrUri, SBasePlugin sbasePlugin);
 
@@ -130,9 +130,9 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * @param packageURIOrName a package namespace URI or package name
    */
   public void enablePackage(String packageURIOrName);
-  
+
   /**
-   * Enables or disables the given SBML Level 3 package on this {@link SBMLDocument}. 
+   * Enables or disables the given SBML Level 3 package on this {@link SBMLDocument}.
    * 
    * @param packageURIOrName a package namespace URI or package name
    */
@@ -172,22 +172,37 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * A recursive implementation of {@link #filterCVTerms(Qualifier, String)}
-   * that considers all child elements of the current instance of
-   * {@link SBase} as well.
+   * that considers all child elements of the current instance of {@link SBase}
+   * as well.
    * 
    * @param qualifier
    * @param pattern
    * @param recursive
-   *            decides whether or not considering all child elements of this
-   *            {@link SBase} and collecting the matching {@link CVTerm}s of
-   *            all children recursively. If this argument is {@code false}, the
-   *            behavior of the method will be equivalent to calling
-   *            {@link #filterCVTerms(Qualifier, String)}.
-   * @return
+   *        decides whether or not considering all child elements of this
+   *        {@link SBase} and collecting the matching {@link CVTerm}s of
+   *        all children recursively. If this argument is {@code false}, the
+   *        behavior of the method will be equivalent to calling
+   *        {@link #filterCVTerms(Qualifier, String)}.
+   * @return A list of resources for the given {@link Qualifier} that match the
+   *         given pattern.
    * @see #filterCVTerms(Qualifier, String)
+   * @see String#matches(String)
    */
   public List<String> filterCVTerms(Qualifier qualifier, String pattern,
     boolean recursive);
+
+  /**
+   * @param qualifier
+   * @param recursive
+   * @param patterns
+   *        an arbitrary list of patterns to be matched to the resources of each
+   *        {@link CVTerm}.
+   * @return
+   * @see #filterCVTerms(Qualifier, String, boolean)
+   * @see CVTerm#filterResources(String...)
+   */
+  public List<String> filterCVTerms(CVTerm.Qualifier qualifier, boolean recursive,
+    String... patterns);
 
   /**
    * Returns the content of the 'annotation' sub-element of this object as an
@@ -284,7 +299,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
   /**
    * Returns the metaid of this element.
-   *  
+   * 
    * @return the metaid of this element.
    */
   public String getMetaId();
@@ -316,7 +331,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * Returns  the notes sub-element of this object as a {@link String}.
    * 
    * <p>If no notes are set, an empty {@link String} will be returned.
-   *         
+   * 
    * @return the notes sub-element of this object as a {@link String}. If no
    *         notes are set, an empty {@link String} will be returned.
    * @throws XMLStreamException
@@ -444,7 +459,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public boolean isExtendedByOtherPackages();
 
   /**
-   * Returns {@code true} if the given SBML Level 3 package is enabled within the containing {@link SBMLDocument}. 
+   * Returns {@code true} if the given SBML Level 3 package is enabled within the containing {@link SBMLDocument}.
    * 
    * @param packageURIOrName the name or URI of the package extension.
    * @return {@code true} if the given SBML Level 3 package is enabled within the  containing {@link SBMLDocument}, {@code false} otherwise.
@@ -452,7 +467,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public boolean isPackageEnabled(String packageURIOrName);
 
   /**
-   * Returns {@code true} if the given SBML Level 3 package is enabled within the containing {@link SBMLDocument}. 
+   * Returns {@code true} if the given SBML Level 3 package is enabled within the containing {@link SBMLDocument}.
    * 
    * @param packageURIOrName the name or URI of the package extension.
    * @return {@code true} if the given SBML Level 3 package is enabled within the  containing {@link SBMLDocument}, {@code false} otherwise.
@@ -461,26 +476,28 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public boolean isPackageURIEnabled(String packageURIOrName);
 
   /**
-   * Returns {@code true} if the given SBML Level 3 package is enabled within the containing {@link SBMLDocument}. 
+   * Returns {@code true} if the given SBML Level 3 package is enabled within the containing {@link SBMLDocument}.
    * 
    * @param packageURIOrName the name or URI of the package extension.
    * @return {@code true} if the given SBML Level 3 package is enabled within the  containing {@link SBMLDocument}, {@code false} otherwise.
    * @libsbml.deprecated
    * @deprecated use {@link #isPackageEnabled(String)}
    */
+  @Deprecated
   public boolean isPkgEnabled(String packageURIOrName);
 
   /**
-   * Returns {@code true} if the given SBML Level 3 package is enabled within the containing {@link SBMLDocument}. 
+   * Returns {@code true} if the given SBML Level 3 package is enabled within the containing {@link SBMLDocument}.
    * 
    * @param packageURIOrName the name or URI of the package extension.
    * @return {@code true} if the given SBML Level 3 package is enabled within the  containing {@link SBMLDocument}, {@code false} otherwise.
    * @libsbml.deprecated
    * @deprecated use {@link #isPackageEnabled(String)}
    */
+  @Deprecated
   public boolean isPkgURIEnabled(String packageURIOrName);
-    
-  
+
+
   /**
    * Predicate returning {@code true} or {@code false} depending on whether this object's
    * 'annotation' sub-element exists and has content.
@@ -540,11 +557,11 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public boolean isSetParentSBMLObject();
 
   /**
-   * Returns {@code true} if an {@link SBasePlugin} is defined 
+   * Returns {@code true} if an {@link SBasePlugin} is defined
    * for the given package.
    * 
    * @param nameOrUri the package name or URI
-   * @return {@code true} if an {@link SBasePlugin} is defined 
+   * @return {@code true} if an {@link SBasePlugin} is defined
    * for the given package.
    */
   public boolean isSetPlugin(String nameOrUri);
@@ -598,13 +615,13 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public void unregister(SBase sbase);
 
   /**
-   * Removes the given {@link CVTerm}. 
+   * Removes the given {@link CVTerm}.
    * 
    * @param cvTerm the {@link CVTerm} to remove
    * @return true if the {@link CVTerm} was successfully removed.
    */
   public boolean removeCVTerm(CVTerm cvTerm);
-  
+
   /**
    * Removes the {@link CVTerm} at the given index.
    * 
@@ -614,7 +631,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    */
   public CVTerm removeCVTerm(int index);
 
-  
+
   /**
    * Removes the given {@link TreeNodeChangeListener} from this element.
    * 

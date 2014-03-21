@@ -918,11 +918,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   @Override
   public List<String> filterCVTerms(CVTerm.Qualifier qualifier, String pattern) {
-    List<String> l = new ArrayList<String>();
-    for (CVTerm c : filterCVTerms(qualifier)) {
-      l.addAll(c.filterResources(pattern));
-    }
-    return l;
+    return filterCVTerms(qualifier, pattern, false);
   }
 
   /* (non-Javadoc)
@@ -931,13 +927,25 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public List<String> filterCVTerms(CVTerm.Qualifier qualifier, String pattern,
     boolean recursive) {
-    List<String> l = filterCVTerms(qualifier, pattern);
+    return filterCVTerms(qualifier, recursive, pattern);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier, boolean, java.lang.String[])
+   */
+  @Override
+  public List<String> filterCVTerms(CVTerm.Qualifier qualifier, boolean recursive,
+    String... patterns) {
+    List<String> l = new ArrayList<String>();
+    for (CVTerm c : filterCVTerms(qualifier)) {
+      l.addAll(c.filterResources(patterns));
+    }
     if (recursive) {
       TreeNode child;
       for (int i = 0; i < getChildCount(); i++) {
         child = getChildAt(i);
         if (child instanceof SBase) {
-          l.addAll(((SBase) child).filterCVTerms(qualifier, pattern, recursive));
+          l.addAll(((SBase) child).filterCVTerms(qualifier, recursive, patterns));
         }
       }
     }
@@ -1614,15 +1622,16 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   }
 
   /**
-   * Removes the given {@link CVTerm}. 
+   * Removes the given {@link CVTerm}.
    * 
    * @param cvTerm the {@link CVTerm} to remove
    * @return true if the {@link CVTerm} was successfully removed.
    */
+  @Override
   public boolean removeCVTerm(CVTerm cvTerm) {
     return getAnnotation().removeCVTerm(cvTerm);
   }
-  
+
   /**
    * Removes the {@link CVTerm} at the given index.
    * 
@@ -1630,10 +1639,11 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @return the removed {@link CVTerm}.
    * @throws IndexOutOfBoundsException  if the index is out of range (index < 0 || index >= size())
    */
+  @Override
   public CVTerm removeCVTerm(int index) {
     return getAnnotation().removeCVTerm(index);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBase#setAnnotation(org.sbml.jsbml.Annotation)
    */
