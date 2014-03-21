@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.tree.TreeNode;
 
@@ -498,8 +500,9 @@ public class CVTerm extends AnnotationElement {
    * useful to obtain, e.g., all KEGG resources this term points to.
    * 
    * @param patterns
-   *        an arbitrary number of patterns, e.g., "urn:miriam:kegg.reaction:R*"
-   *        or just "*kegg*" that are matched to all resources using an
+   *        an arbitrary number of patterns, e.g.,
+   *        {@code urn:miriam:kegg.reaction:R.*} or just {@code .*kegg.*} that
+   *        are matched to all resources using an
    *        OR-operation, i.e.,
    *        if just one of the patterns matches a resource, this resource will
    *        appear in the returned list.
@@ -512,11 +515,15 @@ public class CVTerm extends AnnotationElement {
     if ((patterns != null) && (patterns.length > 0)) {
       // Create a list with maximal length equal to the number of resources:
       List<String> selectedResources = new ArrayList<String>(getResourceCount());
-      for (String resource : resourceURIs) {
-        for (String pattern : patterns) {
-          if (resource.matches(pattern)) {
-            selectedResources.add(resource);
-            break;
+      for (String regex : patterns) {
+        Pattern pattern = Pattern.compile(regex);
+        for (int i = 0; i < getResourceCount(); i++) {
+          if ((selectedResources.size() <= i) || (selectedResources.get(i) == null)) {
+            String resource = getResourceURI(i);
+            Matcher matcher = pattern.matcher(resource);
+            if (matcher.matches()) {
+              selectedResources.add(i, resource);
+            }
           }
         }
       }
