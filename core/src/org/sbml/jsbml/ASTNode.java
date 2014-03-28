@@ -2794,7 +2794,8 @@ public class ASTNode extends AbstractTreeNode {
    */
   public boolean isMinusOne() {
     return (isReal() && (getReal() == -1d))
-        || (isInteger() && (getInteger() == -1));
+        || (isInteger() && (getInteger() == -1))
+        || (isUMinus() && getLeftChild().isOne());
   }
 
   /**

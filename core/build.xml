@@ -247,18 +247,18 @@
           <attribute name="Built-By"               value="${user.name}"/>
           <attribute name="Built-Date"             value="${TODAY}"/>
           <attribute name="Bundle-Version"         value="${version}"/>
-          <attribute name="Bundle-Revision" value="${jsbml.revision}"/>
+          <attribute name="Bundle-Revision"        value="${jsbml.revision}"/>
           <attribute name="Bundle-Vendor"          value="${vendor}"/>
           <attribute name="Bundle-RequiredExecutionEnvironment" value="JavaSE-1.6"/>
-		  <attribute name="Created-By"          value="${vendor}"/>
+		  <attribute name="Created-By"             value="${vendor}"/>
 		  <section name="${Name}">
-			<attribute name="Specification-Title" value="${Name}"/>
-			<attribute name="Specification-Version" value="${api.version}"/>
+			<attribute name="Specification-Title"    value="${Name}"/>
+			<attribute name="Specification-Version"  value="${api.version}"/>
 			<attribute name="Specification-Vendor"   value="${vendor}"/>
-			<attribute name="Implementation-Title" value="${Name}"/>
+			<attribute name="Implementation-Title"   value="${Name}"/>
 			<attribute name="Implementation-Version" value="${version}, Revision ${jsbml.revision} (Build ${build.number})"/>
 			<attribute name="Implementation-Vendor"  value="${vendor}"/>
-	        <attribute name="Implementation-URL" value="http://sbml.org/Software/JSBML/"/>
+	        <attribute name="Implementation-URL"     value="http://sbml.org/Software/JSBML/"/>
 		  </section>
 		</manifest>
 
