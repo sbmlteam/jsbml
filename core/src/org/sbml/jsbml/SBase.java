@@ -165,8 +165,9 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * 
    * @param qualifier
    * @param pattern
-   *            for instance, 'kegg' or 'chebi'.
+   *            for instance, '.*kegg.*' or '.*chebi.*'.
    * @return
+   * @see String#matches(String)
    */
   public List<String> filterCVTerms(Qualifier qualifier, String pattern);
 

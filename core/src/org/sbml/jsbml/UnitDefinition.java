@@ -200,9 +200,8 @@ public class UnitDefinition extends AbstractNamedSBase {
     UnitDefinition ud2clone = ud2.clone().simplify();
     if (ud1clone.getUnitCount() == ud2clone.getUnitCount()) {
       boolean identical = true;
-      for (int i = 0; i < ud1clone.getUnitCount(); i++) {
-        identical &= Unit.areIdentical(ud1clone.getUnit(i),
-          ud2clone.getUnit(i));
+      for (int i = 0; (i < ud1clone.getUnitCount()) && identical; i++) {
+        identical &= Unit.areIdentical(ud1clone.getUnit(i), ud2clone.getUnit(i));
       }
       return identical;
     }
@@ -247,10 +246,10 @@ public class UnitDefinition extends AbstractNamedSBase {
     }
 
     id = id.toLowerCase();
-    Unit u = new Unit(level, version);
+    Unit u = new Unit(1d, 0, Unit.Kind.INVALID, 1, level, version);
 
     // explicitly set default values:
-    u.initDefaults(2, 4);
+    //u.initDefaults(2, 4); --> Does not work! Because all isSetXXX will be false!!!! Can lead to invalid SBML!
 
     if (id.equals(SUBSTANCE)) {
       u.setKind(Kind.MOLE);
@@ -543,7 +542,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    * @param kind
    */
   public void addUnit(Unit.Kind kind) {
-    addUnit(new Unit(kind, getLevel(), getVersion()));
+    addUnit(new Unit(1d, 0, kind, 1d, getLevel(), getVersion()));
   }
 
   /**
@@ -593,7 +592,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    * @return
    */
   public Unit createUnit(Unit.Kind kind) {
-    Unit unit = new Unit(kind, getLevel(), getVersion());
+    Unit unit = new Unit(1d, 0, kind, 1d, getLevel(), getVersion());
     addUnit(unit);
 
     return unit;

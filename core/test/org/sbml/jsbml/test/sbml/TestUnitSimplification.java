@@ -88,10 +88,10 @@ public class TestUnitSimplification {
 
     // mole per litre
     ud1.addUnit(Kind.MOLE);
-    ud1.addUnit(new Unit(Kind.LITRE, -1d, level, version));
+    ud1.addUnit(new Unit(1d, 0, Kind.LITRE, -1d, level, version));
 
     // micro litre
-    ud2.addUnit(new Unit(-6, Kind.LITRE, level, version));
+    ud2.addUnit(new Unit(1d, -6, Kind.LITRE, 1d, level, version));
 
     // hours
     ud3.addUnit(new Unit(3600d, 0, Kind.SECOND, 1d, level, version));
@@ -100,13 +100,13 @@ public class TestUnitSimplification {
     ud4.addUnit(new Unit(60d, 0, Kind.SECOND, 1d, level, version));
 
     // micro mole
-    ud5.addUnit(new Unit(-6, Kind.MOLE, level, version));
+    ud5.addUnit(new Unit(1d, -6, Kind.MOLE, 1d, level, version));
 
     // milli litre
-    ud6.addUnit(new Unit(-3, Kind.LITRE, level, version));
+    ud6.addUnit(new Unit(1d, -3, Kind.LITRE, 1d, level, version));
 
     // seconds
-    ud7.addUnit(new Unit(Kind.SECOND, level, version));
+    ud7.addUnit(new Unit(1d, 0, Kind.SECOND, 1d, level, version));
   }
 
 
@@ -186,12 +186,12 @@ public class TestUnitSimplification {
     assertTrue(UnitDefinition.printUnits(udef, true).equals("60*dimensionless"));
 
     UnitDefinition u1 = new UnitDefinition(level, version);
-    u1.addUnit(new Unit(-3, Unit.Kind.JOULE, level, version));
-    u1.addUnit(new Unit(-3, Unit.Kind.MOLE, level, version));
+    u1.addUnit(new Unit(1d, -3, Unit.Kind.JOULE, 1d, level, version));
+    u1.addUnit(new Unit(1d, -3, Unit.Kind.MOLE, 1d, level, version));
 
     UnitDefinition u2 = new UnitDefinition(level, version);
-    u2.addUnit(new Unit(Unit.Kind.JOULE, 5, level, version));
-    u2.addUnit(new Unit(Unit.Kind.MOLE, 5, level, version));
+    u2.addUnit(new Unit(1d, 0, Unit.Kind.JOULE, 5d, level, version));
+    u2.addUnit(new Unit(1d, 0, Unit.Kind.MOLE, 5d, level, version));
 
     udef = u1.clone().divideBy(u2).simplify();
     printTask('/', u1, u2, udef);
@@ -199,8 +199,8 @@ public class TestUnitSimplification {
     assertTrue(UnitDefinition.printUnits(udef, true).equals('('+ Double.toString(pow) +"*J)^(-4)*(" + Double.toString(pow) + "*mol)^(-4)"));
 
     UnitDefinition u3 = new UnitDefinition(level, version);
-    u3.addUnit(new Unit(Kind.MOLE, -4d, level, version));
-    u3.addUnit(new Unit(Kind.SECOND, -1d, level, version));
+    u3.addUnit(new Unit(1d, 0, Kind.MOLE, -4d, level, version));
+    u3.addUnit(new Unit(1d, 0, Kind.SECOND, -1d, level, version));
     udef = ud5.clone().multiplyWith(u3).simplify();
     printTask('*', ud5, u3, udef);
     assertTrue(UnitDefinition.printUnits(udef, true).equals("hmol^(-3)*s^(-1)"));

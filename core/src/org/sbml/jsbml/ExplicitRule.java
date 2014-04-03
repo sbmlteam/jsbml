@@ -399,7 +399,7 @@ SBaseWithUnit {
   @Override
   @Deprecated
   public void setUnits(Kind unitKind) {
-    setUnits(new Unit(unitKind, getLevel(), getVersion()));
+    setUnits(new Unit(1d, 0, unitKind, 1d, getLevel(), getVersion()));
   }
 
   /**

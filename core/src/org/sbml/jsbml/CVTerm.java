@@ -65,59 +65,109 @@ public class CVTerm extends AnnotationElement {
 
   /**
    * This {@code enum} list all the possible MIRIAM qualifiers.
+   * @see http://co.mbine.org/standards/qualifiers
    * 
    */
   public static enum Qualifier {
     /**
-     * Represents the MIRIAM biological qualifier 'encodes'.
+     * Represents the MIRIAM biological qualifier 'encodes': the biological
+     * entity represented by the model element encodes, directly or
+     * transitively, the subject of the referenced resource (biological entity
+     * B). This relation may be used to express, for example, that a specific
+     * DNA sequence encodes a particular protein.
      */
     BQB_ENCODES,
     /**
-     * Represents the MIRIAM biological qualifier 'hasPart'.
+     * Represents the MIRIAM biological qualifier 'hasPart': the biological
+     * entity represented by the model element includes the subject of the
+     * referenced resource (biological entity B), either physically or
+     * logically. This relation might be used to link a complex to the
+     * description of its components.
      */
     BQB_HAS_PART,
     /**
-     * Represents the MIRIAM biological qualifier 'hasProperty'.
+     * Represents the MIRIAM biological qualifier 'hasProperty': the subject of
+     * the referenced resource (biological entity B) is a property of the
+     * biological entity represented by the model element. This relation might
+     * be used when a biological entity exhibits a certain enzymatic activity or
+     * exerts a specific function.
      */
     BQB_HAS_PROPERTY,
     /**
-     * Represents the MIRIAM biological qualifier 'hasTaxon'.
+     * Represents the MIRIAM biological qualifier 'hasTaxon': the biological
+     * entity represented by the model element is taxonomically restricted,
+     * where the restriction is the subject of the referenced resource
+     * (biological entity B). This relation may be used to ascribe a species
+     * restriction to a biochemical reaction.
      */
     BQB_HAS_TAXON,
     /**
-     * Represents the MIRIAM biological qualifier 'hasVersion'.
+     * Represents the MIRIAM biological qualifier 'hasVersion': the subject of
+     * the referenced resource (biological entity B) is a version or an instance
+     * of the biological entity represented by the model element. This relation
+     * may be used to represent an isoform or modified form of a biological
+     * entity.
      */
     BQB_HAS_VERSION,
     /**
-     * Represents the MIRIAM biological qualifier 'is'.
+     * Represents the MIRIAM biological qualifier 'is': the biological entity
+     * represented by the model element has identity with the subject of the
+     * referenced resource (biological entity B). This relation might be used to
+     * link a reaction to its exact counterpart in a database, for instance.
      */
     BQB_IS,
     /**
-     * Represents the MIRIAM biological qualifier 'isDescribedBy'.
+     * Represents the MIRIAM biological qualifier 'isDescribedBy': the
+     * biological entity represented by the model element is described by the
+     * subject of the referenced resource (biological entity B). This relation
+     * should be used, for instance, to link a species or a parameter to the
+     * literature that describes the concentration of that species or the value
+     * of that parameter.
      */
     BQB_IS_DESCRIBED_BY,
     /**
-     * Represents the MIRIAM biological qualifier 'isEncodedBy'.
+     * Represents the MIRIAM biological qualifier 'isEncodedBy': the biological
+     * entity represented by the model element is encoded, directly or
+     * transitively, by the subject of the referenced resource (biological
+     * entity B). This relation may be used to express, for example, that a
+     * protein is encoded by a specific DNA sequence.
      */
     BQB_IS_ENCODED_BY,
     /**
-     * Represents the MIRIAM biological qualifier 'isHomologTo'.
+     * Represents the MIRIAM biological qualifier 'isHomologTo': the biological
+     * entity represented by the model element is homologous to the subject of
+     * the referenced resource (biological entity B). This relation can be used
+     * to represent biological entities that share a common ancestor.
      */
     BQB_IS_HOMOLOG_TO,
     /**
-     * Represents the MIRIAM biological qualifier 'isPartOf'.
+     * Represents the MIRIAM biological qualifier 'isPartOf': the biological
+     * entity represented by the model element is a physical or logical part of
+     * the subject of the referenced resource (biological entity B). This
+     * relation may be used to link a model component to a description of the
+     * complex in which it is a part.
      */
     BQB_IS_PART_OF,
     /**
-     * Represents the MIRIAM biological qualifier 'isPropertyOf'.
+     * Represents the MIRIAM biological qualifier 'isPropertyOf': the biological
+     * entity represented by the model element is a property of the referenced
+     * resource (biological entity B).
      */
     BQB_IS_PROPERTY_OF,
     /**
-     * Represents the MIRIAM biological qualifier 'isVersionOf'.
+     * Represents the MIRIAM biological qualifier 'isVersionOf': the biological
+     * entity represented by the model element is a version or an instance of
+     * the subject of the referenced resource (biological entity B). This
+     * relation may be used to represent, for example, the 'superclass' or
+     * 'parent' form of a particular biological entity.
      */
     BQB_IS_VERSION_OF,
     /**
-     * Represents the MIRIAM biological qualifier 'occursIn'.
+     * Represents the MIRIAM biological qualifier 'occursIn': the biological
+     * entity represented by the model element is physically limited to a
+     * location, which is the subject of the referenced resource (biological
+     * entity B). This relation may be used to ascribe a compartmental location,
+     * within which a reaction takes place.
      */
     BQB_OCCURS_IN,
     /**
@@ -125,15 +175,25 @@ public class CVTerm extends AnnotationElement {
      */
     BQB_UNKNOWN,
     /**
-     * Represents the MIRIAM model qualifier 'is'.
+     * Represents the MIRIAM model qualifier 'is': the modeling object
+     * represented by the model element is identical with the subject of the
+     * referenced resource (modeling object B). For instance, this qualifier
+     * might be used to link an encoded model to a database of models.
      */
     BQM_IS,
     /**
-     * Represents the MIRIAM model qualifier 'isDerivedFrom'.
+     * Represents the MIRIAM model qualifier 'isDerivedFrom': the modeling
+     * object represented by the model element is derived from the modeling
+     * object represented by the referenced resource (modeling object B). This
+     * relation may be used, for instance, to express a refinement or adaptation
+     * in usage for a previously described modeling component.
      */
     BQM_IS_DERIVED_FROM,
     /**
-     * Represents the MIRIAM model qualifier 'isDescribedBy'.
+     * Represents the MIRIAM model qualifier 'isDescribedBy': the modeling
+     * object represented by the model element is described by the subject of
+     * the referenced resource (modeling object B). This relation might be used
+     * to link a model or a kinetic law to the literature that describes it.
      */
     BQM_IS_DESCRIBED_BY,
     /**
@@ -522,7 +582,7 @@ public class CVTerm extends AnnotationElement {
             String resource = getResourceURI(i);
             Matcher matcher = pattern.matcher(resource);
             if (matcher.matches()) {
-              selectedResources.add(i, resource);
+              selectedResources.add(Math.max(0, Math.min(i, selectedResources.size() - 1)), resource);
             }
           }
         }
