@@ -28,6 +28,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -114,19 +115,19 @@ public class SBMLDocument extends AbstractSBase {
    * have to be unique within the document.
    */
   private Map<String, SBase> mappingFromMetaId2SBase;
-  
+
   /**
    * Represents the 'model' XML subnode of a SBML file.
    */
   private Model model;
-  
+
   /**
    * Stores a package namespace associated with it's status.
-   * The status being: enabled if the Boolean is true, disable otherwise  
+   * The status being: enabled if the Boolean is true, disable otherwise
    * 
    */
   private Map<String, Boolean> enabledPackageMap;
-  
+
   /**
    * Contains all the XML attributes of the sbml XML node.
    */
@@ -510,6 +511,7 @@ public class SBMLDocument extends AbstractSBase {
    * 
    * @param packageURIOrName a package namespace URI or package name
    */
+  @Override
   public void disablePackage(String packageURIOrName) {
     enablePackage(packageURIOrName, false);
   }
@@ -519,38 +521,40 @@ public class SBMLDocument extends AbstractSBase {
    * 
    * @param packageURIOrName a package namespace URI or package name
    */
+  @Override
   public void enablePackage(String packageURIOrName) {
     enablePackage(packageURIOrName, true);
   }
-  
+
   /**
-   * Enables or disables the given SBML Level 3 package on this {@link SBMLDocument}. 
+   * Enables or disables the given SBML Level 3 package on this {@link SBMLDocument}.
    * 
    * @param packageURIOrName a package namespace URI or package name
    */
+  @Override
   public void enablePackage(String packageURIOrName, boolean enabled) {
-    
+
     // Get the package URI is needed
     PackageParser packageParser = ParserManager.getManager().getPackageParser(packageURIOrName);
-    
+
     if (packageParser != null) {
       String packageURI = packageURIOrName;
-      
+
       if (packageURI.equals(packageParser.getPackageName())) {
         packageURI = packageParser.getPackageNamespaces().get(0);
       }
 
       // TODO - check if the package is already present ?
-      // possible errors  PACKAGE_UNKNOWN, PACKAGE_VERSION_MISMATCH, PACKAGE_CONFLICTED_VERSION 
+      // possible errors  PACKAGE_UNKNOWN, PACKAGE_VERSION_MISMATCH, PACKAGE_CONFLICTED_VERSION
       enabledPackageMap.put(packageURI, enabled);
-      
+
       if (enabled) {
         addPackageDeclaration(packageParser.getPackageName(), packageURI, packageParser.isRequired());
       }
     }
   }
-    
-    
+
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
@@ -643,13 +647,13 @@ public class SBMLDocument extends AbstractSBase {
   public String getElementName() {
     return "sbml";
   }
-  
+
   /**
-   * Returns the {@link SBase} with the given metaid in this {@link SBMLDocument} or null 
+   * Returns the {@link SBase} with the given metaid in this {@link SBMLDocument} or null
    * if no such {@link SBase} is found.
    * 
    * @param metaid - the metaid of {@link SBase} to find
-   * @return the {@link SBase} with the given metaid or null 
+   * @return the {@link SBase} with the given metaid or null
    * @see #findSBase(String)
    */
   public SBase getElementByMetaId(String metaid) {
@@ -657,10 +661,10 @@ public class SBMLDocument extends AbstractSBase {
   }
 
   /**
-   * Returns the ith error or warning encountered during consistency checking. 
+   * Returns the i<sup>th</sup> error or warning encountered during consistency checking.
    * 
    * @param i - the index of the {@link SBMLError} to get
-   * @return the ith error or warning encountered during consistency checking.
+   * @return the i<sup>th</sup> error or warning encountered during consistency checking.
    * @throws IndexOutOfBoundsException if the index is wrong
    * @see #getNumErrors()
    */
@@ -673,7 +677,7 @@ public class SBMLDocument extends AbstractSBase {
   }
 
   /**
-   * Returns the number of errors or warnings encountered during consistency checking. 
+   * Returns the number of errors or warnings encountered during consistency checking.
    * 
    * @return the number of errors or warnings encountered during consistency checking.
    */
@@ -718,7 +722,7 @@ public class SBMLDocument extends AbstractSBase {
    * Returns the number of errors or warnings encountered during consistency checking.
    * 
    * @return the number of errors or warnings encountered during consistency checking.
-   * @libsbml.deprecated 
+   * @libsbml.deprecated
    * @see {@link #getErrorCount()}
    */
   public int getNumErrors() {
@@ -741,7 +745,7 @@ public class SBMLDocument extends AbstractSBase {
     } catch (IllegalArgumentException e) {
       logger.warn(e.getMessage());
     }
-    
+
     // same default behavior as in libSBML 5.9.2
     return false;
   }
@@ -850,19 +854,20 @@ public class SBMLDocument extends AbstractSBase {
   }
 
   /**
-   * Returns {@code true} if the given SBML Level 3 package is enabled within the {@link SBMLDocument}. 
+   * Returns {@code true} if the given SBML Level 3 package is enabled within the {@link SBMLDocument}.
    * 
    * @param packageURIOrName the name or URI of the package extension.
    * @return {@code true} if the given SBML Level 3 package is enabled within the {@link SBMLDocument}, {@code false} otherwise.
    */
+  @Override
   public boolean isPackageEnabled(String packageURIOrName) {
-    
+
     // Get the package URI is needed
     PackageParser packageParser = ParserManager.getManager().getPackageParser(packageURIOrName);
-    
+
     if (packageParser != null) {
       List<String> packageURIs = null;
-      
+
       if (packageURIOrName.equals(packageParser.getPackageName())) {
         packageURIs = packageParser.getPackageNamespaces();
       } else {
@@ -879,8 +884,8 @@ public class SBMLDocument extends AbstractSBase {
 
     return false;
   }
-  
-  
+
+
   /**
    * Returns {@code true} if the list of errors is defined and contain at least one error.
    * 
@@ -1063,6 +1068,18 @@ public class SBMLDocument extends AbstractSBase {
   }
 
   /**
+   * Provides access to all registered metaIds in this {@link SBMLDocument}.
+   * 
+   * @return
+   */
+  public Set<String> metaIds() {
+    if (mappingFromMetaId2SBase != null) {
+      return mappingFromMetaId2SBase.keySet();
+    }
+    return new HashSet<String>();
+  }
+
+  /**
    * Controls the consistency checks that are performed when
    * {@link SBMLDocument#checkConsistency()} is called.
    * <p>
@@ -1222,7 +1239,7 @@ public class SBMLDocument extends AbstractSBase {
    * @param flag
    *        boolean value indicating whether the package is required.
    * @return {@code true}
-   * @libsbml.deprecated The required package does not need to be set in JSBML, 
+   * @libsbml.deprecated The required package does not need to be set in JSBML,
    * it is done automatically as the value is fixed for each packages.
    */
   public boolean setPackageRequired(String nameOrUri, boolean flag) {

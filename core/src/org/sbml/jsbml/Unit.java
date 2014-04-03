@@ -610,8 +610,7 @@ public class Unit extends AbstractSBase {
    * @see #areEquivalent(Unit, Unit)
    */
   public static boolean areEquivalent(Unit unit, String units) {
-    return areEquivalent(unit, new Unit(units, unit.getLevel(), unit
-      .getVersion()));
+    return areEquivalent(unit, new Unit(1d, 0, Unit.Kind.valueOf(units), 1d, unit.getLevel(), unit.getVersion()));
   }
 
   /**
@@ -723,40 +722,40 @@ public class Unit extends AbstractSBase {
 
     case FARAD:
       /* 1 Farad = 1 m^-2 kg^-1 s^4 A^2 */
-      ud.addUnit(new Unit(Math.sqrt(mult), scale, Kind.AMPERE, 2 * exp,
+      ud.addUnit(new Unit(Math.sqrt(mult), scale, Kind.AMPERE, 2d * exp,
         l, v));
       ud.addUnit(new Unit(1d, scale, Kind.KILOGRAM, -exp, l, v));
-      ud.addUnit(new Unit(1d, scale, Kind.METRE, -2 * exp, l, v));
-      ud.addUnit(new Unit(1d, scale, Kind.SECOND, 4 * exp, l, v));
+      ud.addUnit(new Unit(1d, scale, Kind.METRE, -2d * exp, l, v));
+      ud.addUnit(new Unit(1d, scale, Kind.SECOND, 4d * exp, l, v));
       break;
 
     case GRAM:
       /* 1 gram = 0.001 Kg */
-      ud.addUnit(new Unit(0.001 * mult, scale, Kind.KILOGRAM, exp, l, v));
+      ud.addUnit(new Unit(0.001d * mult, scale, Kind.KILOGRAM, exp, l, v));
       break;
 
     case GRAY:
     case SIEVERT:
       /* 1 Gray = 1 m^2 sec^-2 */
       /* 1 Sievert = 1 m^2 sec^-2 */
-      ud.addUnit(new Unit(mult, scale, Kind.METRE, 2 * exp, l, v));
-      ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-2) * exp, l, v));
+      ud.addUnit(new Unit(mult, scale, Kind.METRE, 2d * exp, l, v));
+      ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-2d) * exp, l, v));
       break;
 
     case HENRY:
       /* 1 Henry = 1 m^2 kg s^-2 A^-2 */
-      ud.addUnit(new Unit(1d / Math.sqrt(mult), scale, Kind.AMPERE, (-2)
+      ud.addUnit(new Unit(1d / Math.sqrt(mult), scale, Kind.AMPERE, (-2d)
         * exp, l, v));
       ud.addUnit(new Unit(1d, scale, Kind.KILOGRAM, exp, l, v));
-      ud.addUnit(new Unit(1d, scale, Kind.METRE, 2 * exp, l, v));
-      ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-2) * exp, l, v));
+      ud.addUnit(new Unit(1d, scale, Kind.METRE, 2d * exp, l, v));
+      ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-2d) * exp, l, v));
       break;
 
     case JOULE:
       /* 1 joule = 1 m^2 kg s^-2 */
       ud.addUnit(new Unit(mult, scale, Kind.KILOGRAM, exp, l, v));
-      ud.addUnit(new Unit(1d, scale, Kind.METRE, 2 * exp, l, v));
-      ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-2) * exp, l, v));
+      ud.addUnit(new Unit(1d, scale, Kind.METRE, 2d * exp, l, v));
+      ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-2d) * exp, l, v));
       break;
 
     case KATAL:
@@ -779,7 +778,7 @@ public class Unit extends AbstractSBase {
     case LITRE:
       /* 1 litre = 0.001 m^3 = (0.1 m)^3 */
       ud.addUnit(new Unit(Math.pow(0.001d * mult, 1d / 3d), scale,
-        Kind.METRE, 3 * exp, l, v));
+        Kind.METRE, 3d * exp, l, v));
       break;
 
     case LUMEN:
@@ -790,7 +789,7 @@ public class Unit extends AbstractSBase {
     case LUX:
       /* 1 Lux = 1 Candela * m^-2 */
       ud.addUnit(new Unit(mult, scale, Kind.CANDELA, exp, l, v));
-      ud.addUnit(new Unit(1d, scale, Kind.METRE, (-2) * exp, l, v));
+      ud.addUnit(new Unit(1d, scale, Kind.METRE, (-2d) * exp, l, v));
       break;
 
     case METER:
@@ -808,23 +807,22 @@ public class Unit extends AbstractSBase {
       /* 1 newton = 1 m kg s^-2 */
       ud.addUnit(new Unit(mult, scale, Kind.KILOGRAM, exp, l, v));
       ud.addUnit(new Unit(1d, scale, Kind.METRE, exp, l, v));
-      ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-2) * exp, l, v));
+      ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-2d) * exp, l, v));
       break;
 
     case OHM:
       /* 1 ohm = 1 m^2 kg s^-3 A^-2 */
-      ud.addUnit(new Unit(1d / Math.sqrt(mult), scale, Kind.AMPERE, (-2)
-        * exp, l, v));
+      ud.addUnit(new Unit(1d / Math.sqrt(mult), scale, Kind.AMPERE, (-2d) * exp, l, v));
       ud.addUnit(new Unit(1d, scale, Kind.KILOGRAM, exp, l, v));
-      ud.addUnit(new Unit(1d, scale, Kind.METRE, 2 * exp, l, v));
-      ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-3) * exp, l, v));
+      ud.addUnit(new Unit(1d, scale, Kind.METRE, 2d * exp, l, v));
+      ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-3d) * exp, l, v));
       break;
 
     case PASCAL:
       /* 1 pascal = 1 m^-1 * kg s^-2 */
       ud.addUnit(new Unit(mult, scale, Kind.KILOGRAM, exp, l, v));
       ud.addUnit(new Unit(1d, scale, Kind.METRE, -exp, l, v));
-      ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-2) * exp, l, v));
+      ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-2d) * exp, l, v));
       break;
 
     case SECOND:
@@ -837,8 +835,8 @@ public class Unit extends AbstractSBase {
       ud.addUnit(new Unit(Math.sqrt(mult), scale, Kind.AMPERE, 2 * exp,
         l, v));
       ud.addUnit(new Unit(1d, scale, Kind.KILOGRAM, -exp, l, v));
-      ud.addUnit(new Unit(1d, scale, Kind.METRE, (-2) * exp, l, v));
-      ud.addUnit(new Unit(1d, scale, Kind.SECOND, 3 * exp, l, v));
+      ud.addUnit(new Unit(1d, scale, Kind.METRE, (-2d) * exp, l, v));
+      ud.addUnit(new Unit(1d, scale, Kind.SECOND, 3d * exp, l, v));
       break;
 
     case TESLA:
@@ -852,23 +850,23 @@ public class Unit extends AbstractSBase {
       /* 1 volt = 1 m^2 * kg * s^-3 * A^-1 */
       ud.addUnit(new Unit(1d / mult, scale, Kind.AMPERE, -exp, l, v));
       ud.addUnit(new Unit(1d, scale, Kind.KILOGRAM, exp, l, v));
-      ud.addUnit(new Unit(1d, scale, Kind.METRE, 2 * exp, l, v));
-      ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-3) * exp, l, v));
+      ud.addUnit(new Unit(1d, scale, Kind.METRE, 2d * exp, l, v));
+      ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-3d) * exp, l, v));
       break;
 
     case WATT:
       /* 1 Watt = 1 m^2 * kg * s^-3 */
       ud.addUnit(new Unit(mult, scale, Kind.KILOGRAM, exp, l, v));
-      ud.addUnit(new Unit(1d, scale, Kind.METRE, 2 * exp, l, v));
-      ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-3) * exp, l, v));
+      ud.addUnit(new Unit(1d, scale, Kind.METRE, 2d * exp, l, v));
+      ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-3d) * exp, l, v));
       break;
 
     case WEBER:
       /* 1 Weber = 1 m^2 * kg * s^-2 * A^-1 */
       ud.addUnit(new Unit(1d / mult, scale, Kind.AMPERE, -exp, l, v));
       ud.addUnit(new Unit(1d, scale, Kind.KILOGRAM, exp, l, v));
-      ud.addUnit(new Unit(1d, scale, Kind.METRE, 2 * exp, l, v));
-      ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-2) * exp, l, v));
+      ud.addUnit(new Unit(1d, scale, Kind.METRE, 2d * exp, l, v));
+      ud.addUnit(new Unit(1d, scale, Kind.SECOND, (-2d) * exp, l, v));
       break;
 
     case INVALID:

@@ -93,7 +93,7 @@ public class TestAbstractNamedSBaseWithUnits {
    */
   @Test
   public void testSetUnitsUnit() {
-    Unit unit = new Unit(kind, sbase.getLevel(), sbase.getVersion());
+    Unit unit = new Unit(1d, 0, kind, 1d, sbase.getLevel(), sbase.getVersion());
     sbase.setUnits(unit);
     assertTrue(sbase.isSetUnits());
     assertTrue(sbase.getUnits().equals(kind.toString().toLowerCase()));

@@ -621,7 +621,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
     UnitDefinition perMole = new UnitDefinition(level, version);
     perMole.setLevel(level);
     perMole.setId("per_mole");
-    perMole.addUnit(new Unit(Kind.MOLE, -1, level, version));
+    perMole.addUnit(new Unit(1d, 0, Kind.MOLE, -1d, level, version));
     value.setUnits(perMole);
     return value;
   }

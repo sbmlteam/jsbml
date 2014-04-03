@@ -1155,6 +1155,14 @@ public class SBO {
   }
 
   /**
+   * 
+   * @return
+   */
+  public static int getProcess() {
+    return 375;
+  }
+
+  /**
    * Creates and returns a list of molecule types that are accepted as an
    * enzyme for the given type names.
    * 
@@ -1519,6 +1527,15 @@ public class SBO {
   }
 
   /**
+   * 
+   * @param sboTerm
+   * @return
+   */
+  public static boolean isAssociation(int sboTerm) {
+    return isChildOf(sboTerm, getAssociation());
+  }
+
+  /**
    * Returns {@code true} if the given term identifier comes from the stated branch of SBO.
    * <p>
    * @param sboTerm
@@ -1654,6 +1671,15 @@ public class SBO {
    */
   public static boolean isDiscreteFramework(int sboTerm) {
     return isChildOf(sboTerm, getDiscreteFramework());
+  }
+
+  /**
+   * 
+   * @param sboTerm
+   * @return
+   */
+  public static boolean isDissociation(int sboTerm) {
+    return isChildOf(sboTerm, getDissociation());
   }
 
   /**
@@ -1990,6 +2016,15 @@ public class SBO {
    */
   public static boolean isPhysicalParticipant(int sboTerm) {
     return isChildOf(sboTerm, getPhysicalParticipant());
+  }
+
+  /**
+   * 
+   * @param sboTerm
+   * @return
+   */
+  public static boolean isProcess(int sboTerm) {
+    return isChildOf(sboTerm, getProcess());
   }
 
   /**
