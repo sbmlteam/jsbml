@@ -41,7 +41,9 @@ import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.ValuePair;
+import org.sbml.jsbml.xml.XMLAttributes;
 import org.sbml.jsbml.xml.XMLNode;
+import org.sbml.jsbml.xml.XMLTriple;
 import org.sbml.jsbml.xml.parsers.PackageParser;
 import org.sbml.jsbml.xml.parsers.ParserManager;
 
@@ -445,7 +447,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
 
     NOTES_TYPE addedNotesType = NOTES_TYPE.NotesAny;
-    XMLNode   addedNotes = new XMLNode();
+    XMLNode   addedNotes = new XMLNode(new XMLTriple("notes", "", ""), new XMLAttributes());
 
     //------------------------------------------------------------
     //
@@ -464,16 +466,21 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         // element that would be permitted within a "body" element
         // (e.g. <p>..</p>,  <br>..</br> and so forth).
 
-        String cname = notes.getChildAt(0).getName();
-
+        int firstElementIndex = getFirstElementIndex(notes);
+        String cname = "";
+        
+        if (firstElementIndex != -1) {
+          cname = notes.getChildAt(firstElementIndex).getName();  // we need to find the first child element
+        }
+        
         if (cname == "html")
         {
-          addedNotes = notes.getChildAt(0);
+          addedNotes = notes.getChildAt(firstElementIndex);
           addedNotesType = NOTES_TYPE.NotesHTML;
         }
         else if (cname == "body")
         {
-          addedNotes = notes.getChildAt(0);
+          addedNotes = notes.getChildAt(firstElementIndex);
           addedNotesType = NOTES_TYPE.NotesBody;
         }
         else
@@ -493,14 +500,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         return;
       }
     }
-    else
+    else // name != "notes"
     {
-      // if the XMLNode argument notes has been created from a string and
-      // it is a set of subelements there may be a single empty node
-      // as parent - leaving this in doesn't affect the writing out of notes
-      // but messes up the check for correct syntax
-
-      // TODO: check that we are doing that when parsing a String into XMLNode - I think we are not, we create a proper start element with the name 'notes'
 
       if (!notes.isStart() && !notes.isEnd() && !notes.isText() )
       {
@@ -546,13 +547,28 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     //
     if (addedNotesType == NOTES_TYPE.NotesHTML)
     {
-      if ((addedNotes.getChildCount() != 2) ||
-          ( (addedNotes.getChildAt(0).getName() != "head") ||
-              (addedNotes.getChildAt(1).getName() != "body")
-              )
-          )
+      boolean headFound = false;
+      boolean bodyFound = false;
+      boolean otherElementFound = false; 
+      
+      for (int i = 0; i < addedNotes.getChildCount(); i++) {
+        XMLNode child = addedNotes.getChildAt(i); 
+  
+        if (child.isElement()) 
+        {
+          if (child.getName().equals("head")) {
+            headFound = true;
+          } else if (child.getName().equals("body") && headFound) {
+            bodyFound = true;
+          } else {
+            otherElementFound = true;
+          }
+        }       
+      }
+       
+      if (!headFound || !bodyFound || otherElementFound) 
       {
-        // throw an exception as well ??
+        // TODO - throw an exception as well
         logger.warn("The given 'notes' String does not have the proper structure, excepting the children 'head' and 'body' to the 'html' element.");
         return;
       }
@@ -575,25 +591,15 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       // curNotes.getChildAt(0) must be "html", "body", or any XHTML
       // element that would be permitted within a "body" element .
 
-      String cname = curNotes.getChildAt(0).getName();
+      int firstElementIndex = getFirstElementIndex(curNotes);
+      String cname = "";
+      
+      if (firstElementIndex != -1) {
+        cname = curNotes.getChildAt(firstElementIndex).getName();  // we need to find the first child element
+      }
 
       if (cname == "html")
       {
-        XMLNode curHTML = curNotes.getChildAt(0);
-        //
-        // checks the curHTML if the html tag contains "head" and "body" tags
-        // which must be located in this order, otherwise nothing will be done.
-        //
-        if ((curHTML.getChildCount() != 2) ||
-            ( (curHTML.getChildAt(0).getName() != "head") ||
-                (curHTML.getChildAt(1).getName() != "body")
-                )
-            )
-        {
-          // throw an exception as well ??
-          logger.warn("The given 'notes' String does not have the proper structure, excepting the children 'head' and 'body' to the 'html' element.");
-          return;
-        }
         curNotesType = NOTES_TYPE.NotesHTML;
       }
       else if (cname == "body")
@@ -621,14 +627,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
       if (curNotesType == NOTES_TYPE.NotesHTML)
       {
-        XMLNode curHTML = curNotes.getChildAt(0);
-        XMLNode curBody = curHTML.getChildAt(1);
+        XMLNode curHTML = curNotes.getChildElement("html", null);
+        XMLNode curBody = curHTML.getChildElement("body", null);
 
         if (addedNotesType == NOTES_TYPE.NotesHTML)
         {
-          // adds the given html tag to the current html tag
+          // adds the content of the body of given html tag to the current body tag
 
-          XMLNode addedBody = addedNotes.getChildAt(1);
+          XMLNode addedBody = addedNotes.getChildElement("body", null);
 
           for (i=0; i < addedBody.getChildCount(); i++)
           {
@@ -637,6 +643,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
               return;
             }
           }
+          // we could add the content of the 'head' tag as well ?
         }
         else if ((addedNotesType == NOTES_TYPE.NotesBody) || (addedNotesType == NOTES_TYPE.NotesAny))
         {
@@ -658,28 +665,23 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         {
           // adds the given html tag to the current body tag
 
-          XMLNode addedHTML = new XMLNode(addedNotes);
-          XMLNode addedBody = addedHTML.getChildAt(1);
-          XMLNode curBody   = curNotes.getChildAt(0);
+          XMLNode addedBody = addedNotes.getChildElement("body", null);
+          XMLNode curBody   =  curNotes.getChildElement("body", null);
 
           for (i=0; i < curBody.getChildCount(); i++)
           {
             addedBody.insertChild(i,curBody.getChildAt(i));
           }
 
-          curNotes.removeChildren();
-          if (curNotes.addChild(addedHTML) < 0) {
-            // throw an exception as well ??
-            logger.warn("There was a problem adding the given XMLNode: '" + SBMLtools.toXML(addedHTML) + "' to the notes.");
-            return;
-          }
+          notesXMLNode.removeChild(firstElementIndex);
+          notesXMLNode.insertChild(firstElementIndex, addedNotes);
         }
         else if ((addedNotesType == NOTES_TYPE.NotesBody) || (addedNotesType == NOTES_TYPE.NotesAny))
         {
           // adds the given body or other tag (permitted in the body) to the current
           // body tag
 
-          XMLNode curBody = curNotes.getChildAt(0);
+          XMLNode curBody = curNotes.getChildElement("body", null);
 
           for (i=0; i < addedNotes.getChildCount(); i++)
           {
@@ -696,44 +698,33 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         {
           // adds the given html tag to the current any tag permitted in the body.
 
-          XMLNode addedHTML = new XMLNode(addedNotes);
-          XMLNode addedBody = addedHTML.getChildAt(1);
+          XMLNode addedBody = addedNotes.getChildElement("body", null);
 
           for (i=0; i < curNotes.getChildCount(); i++)
           {
-            addedBody.insertChild(i,curNotes.getChildAt(i));
+            addedBody.addChild(curNotes.getChildAt(i));
           }
 
-          curNotes.removeChildren();
-          if (curNotes.addChild(addedHTML) < 0) {
-            // throw an exception as well ??
-            logger.warn("There was a problem adding the given XMLNode: '" + SBMLtools.toXML(addedHTML) + "' to the notes.");
-            return;
-          }
+          notesXMLNode.removeChildren();
+          notesXMLNode.addChild(addedNotes);
         }
         else if (addedNotesType == NOTES_TYPE.NotesBody)
         {
           // adds the given body tag to the current any tag permitted in the body.
 
-          XMLNode addedBody = new XMLNode(addedNotes);
-
           for (i=0; i < curNotes.getChildCount(); i++)
           {
-            addedBody.insertChild(i,curNotes.getChildAt(i));
+            addedNotes.addChild(curNotes.getChildAt(i));
           }
 
-          curNotes.removeChildren();
-          if (curNotes.addChild(addedBody) < 0) {
-            // throw an exception as well ??
-            logger.warn("There was a problem adding the given XMLNode: '" + SBMLtools.toXML(addedBody) + "' to the notes.");
-            return;
-          }
+          notesXMLNode.removeChildren();
+          notesXMLNode.addChild(addedNotes);
         }
         else if (addedNotesType == NOTES_TYPE.NotesAny)
         {
-          // adds the given any tag permitted in the boy to that of the current
+          // adds the given any tag permitted in the notes to that of the current
           // any tag.
-
+          
           for (i = 0; i < addedNotes.getChildCount(); i++)
           {
             if (curNotes.addChild(addedNotes.getChildAt(i)) < 0) {
@@ -746,7 +737,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
     else // if (mNotes == NULL)
     {
-      // setNotes accepts XMLNode with/without top level notes tags.
+      // TODO - check that there is a 'notes' top level element
       setNotes(notes);
     }
   }
@@ -961,7 +952,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     TreeNode parent = getParent();
 
     if ((parent != null) && (parent instanceof SBase)) {
-      ((SBase) parent).unregister(this);
+      ((SBase) parent).unregisterChild(this);
     }
 
     super.fireNodeRemovedEvent();
@@ -1131,6 +1122,28 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public Map<String, SBasePlugin> getExtensionPackages() {
     return extensions;
+  }
+
+  /**
+   * Return the index of the first child of type 'Element' for the given {@link XMLNode}.
+   * 
+   * @param curNotes
+   * @return the index of the first child of type 'Element' for the given {@link XMLNode}, -1 otherwise.
+   */
+  private int getFirstElementIndex(XMLNode curNotes) {
+    
+    if (curNotes != null && curNotes.getChildCount() > 0) {
+      
+      for (int i = 0; i < curNotes.getChildCount(); i++) {
+        XMLNode childNode = curNotes.getChildAt(i);
+        
+        if (childNode.isElement()) {
+          return i;
+        }
+      }
+    }
+
+    return -1;
   }
 
   /* (non-Javadoc)
@@ -1555,6 +1568,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
       // Test added to be able to register localParameter in the kineticLaw,
       // even if the model is not available (the KL or reaction was not yet added to a model)
+      // TODO - use IdManager
       if (sbase instanceof LocalParameter) {
 
         TreeNode klTreeNode = getParent();
@@ -1590,6 +1604,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       TreeNode oldParent = sbase.getParent(); // Memorize the old parent (may be null).
       ((AbstractSBase) sbase).setParentSBML(this);
 
+      // TODO - use the IdManager
+      
       // If possible, recursively register all ids of the SBase in our model:
       if ((model != null)
           && !model.registerIds(this, sbase, recursively, false)) {
@@ -1880,7 +1896,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @see org.sbml.jsbml.SBase#unregisterChild(org.sbml.jsbml.SBase)
    */
   @Override
-  public void unregister(SBase sbase)  {
+  public void unregisterChild(SBase sbase)  {
 
     if (logger.isDebugEnabled()) {
       logger.debug("unregister called !! " + sbase.getElementName() + " "

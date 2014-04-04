@@ -522,7 +522,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
   public boolean unsetListOfTransitions() {
     if (isSetListOfTransitions()) {
       // unregister the ids.
-      listOfTransitions.unregister(listOfTransitions);
+      listOfTransitions.unregisterChild(listOfTransitions);
       listOfTransitions = null;
       return true;
     }
@@ -536,7 +536,7 @@ public class QualitativeModel extends AbstractSBasePlugin {
   public boolean unsetListOfQualitativeSpecies() {
     if (isSetListOfQualitativeSpecies()) {
       // unregister the ids
-      listOfQualitativeSpecies.unregister(listOfQualitativeSpecies);
+      listOfQualitativeSpecies.unregisterChild(listOfQualitativeSpecies);
       listOfQualitativeSpecies = null;
       return true;
     }

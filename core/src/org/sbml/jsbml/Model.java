@@ -35,6 +35,7 @@ import java.util.TreeSet;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.filters.AssignmentVariableFilter;
@@ -58,7 +59,7 @@ import org.sbml.jsbml.util.filters.IdenticalUnitDefinitionFilter;
  * @since 0.8
  * @version $Rev$
  */
-public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
+public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdManager {
 
   /**
    * Error message to indicate that an element could not be created.
@@ -309,6 +310,18 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     initDefaults();
   }
 
+  
+  @Override
+  public boolean accept(SBase sbase) {
+    if (sbase instanceof UniqueNamedSBase || sbase instanceof UnitDefinition 
+        || sbase instanceof LocalParameter) // TODO - check that we include everything needed 
+    {
+      return true;
+    }
+    
+    return false;
+  }
+  
   /**
    * Adds a Compartment instance to the listOfCompartments of this Model.
    * 
@@ -3794,6 +3807,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     return isAttributeRead;
   }
 
+  @Override
+  public boolean register(SBase sbase) {
+    return registerIds(sbase.getParentSBMLObject(), sbase, true, false);
+  }
+  
   /**
    * Registration of {@link LocalParameter} instances in the {@link Model}.
    * 
@@ -4882,6 +4900,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase {
     setVolumeUnits(volumeUnits != null ? volumeUnits.getId() : null);
   }
 
+  @Override
+  public boolean unregister(SBase sbase) {
+    return registerIds(sbase.getParentSBMLObject(), sbase, true, true);
+  }
+  
   /**
    * Sets the {@link #areaUnitsID} of this {@link Model} to {@code null}.
    */
