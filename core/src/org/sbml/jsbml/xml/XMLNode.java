@@ -286,6 +286,7 @@ public class XMLNode extends XMLToken {
     line = orig.line;
     column = orig.column;
     if (orig.characters != null) {
+      characters = new StringBuilder();
       characters.append(orig.getCharacters());
     }
     isText = orig.isText;
@@ -466,6 +467,18 @@ public class XMLNode extends XMLToken {
     return childrenElements.get(childIndex);
   }
 
+  /**
+   * Returns the child {@link XMLNode} at index childIndex.
+   * 
+   * @param childIndex
+   * @return the child {@link XMLNode} at index childIndex.
+   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size())
+   * @libsbml.deprecated you could use {@link #getChildAt(int)}
+   */
+  public XMLNode getChild(int childIndex) {
+    return getChildAt(childIndex);
+  }
+
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildCount()
    */
@@ -603,6 +616,79 @@ public class XMLNode extends XMLToken {
    */
   public boolean removeChild(XMLNode xmlNode) {
     return childrenElements.remove(xmlNode);
+  }
+
+  /**
+   * Gets the first direct child element of this {@link XMLNode} with the given local name and namespace.
+   * 
+   * <p>If <code>null</code> or an empty {@link String} is given for either the elementName or
+   * the elementURI, it is interpreted as any name or namespace. This is the same as passing the 
+   * special value "*".
+   * 
+   * @param elementName - The local name of the elements to match on. The special value "*" matches all local names.
+   * @param elementURI - The namespace URI of the elements to match on. The special value "*" matches all namespaces.
+   * @return the first direct child of this {@link XMLNode} with the given local name and namespace.
+   */
+  public XMLNode getChildElement(String elementName, String elementURI) 
+  {
+  	// checking the inputs
+  	if (elementName == null || elementName.trim().length() == 0) {
+  		elementName = "*";
+  	}
+  	if (elementURI == null || elementURI.trim().length() == 0) {
+  		elementURI = "*";
+  	}
+  	
+  	for (int i = 0; i < getChildCount(); i++) {
+  		XMLNode child = getChildAt(i); 
+  
+  		if (child.isElement() 
+  				&& (child.getName().equals(elementName) || elementName.equals("*"))
+  				&& (elementURI.equals("*") || elementURI.equals(child.getURI())))
+  		{
+  			return child;
+  		}
+  		
+  	}
+  	
+  	return null;
+  }
+
+  /**
+   * Gets all the direct children of this {@link XMLNode} with the given local name and namespace.
+   * 
+   * <p>If <code>null</code> or an empty {@link String} is given for either the elementName or
+   * the elementURI, it is interpreted as any name or namespace. This is the same as passing the 
+   * special value "*".
+   * 
+   * @param elementName - The local name of the elements to match on. The special value "*" matches all local names.
+   * @param elementURI - The namespace URI of the elements to match on. The special value "*" matches all namespaces.
+   * @return all the direct children of this {@link XMLNode} with the given local name and namespace.
+   */
+  public List<XMLNode> getChildElements(String elementName, String elementURI) 
+  {
+  	// checking the inputs
+  	if (elementName == null || elementName.trim().length() == 0) {
+  		elementName = "*";
+  	}
+  	if (elementURI == null || elementURI.trim().length() == 0) {
+  		elementURI = "*";
+  	}
+  
+  	List<XMLNode> foundNodes = new ArrayList<XMLNode>();
+  	
+  	for (int i = 0; i < getChildCount(); i++) {
+  		XMLNode child = getChildAt(i); 
+  		
+  		if (child.isElement() 
+  				&& (child.getName().equals(elementName) || elementName.equals("*")) 
+  				&& (elementURI.equals(child.getURI()) || elementURI.equals("*")))
+  		{
+  			foundNodes.add(child);
+  		}
+  	}
+  	
+  	return foundNodes;
   }
 
 }

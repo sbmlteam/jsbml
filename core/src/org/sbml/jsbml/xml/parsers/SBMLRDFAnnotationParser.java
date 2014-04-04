@@ -140,88 +140,6 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 	}
 
 	/**
-	 * Gets the first direct child element of the given {@link XMLNode} with the given local name and namespace.
-	 * 
-	 * <p>If <code>null</code> or an empty {@link String} is given for either the elementName or
-	 * the elementURI, it is interpreted as any name or namespace. This is the same as passing the 
-	 * special value "*".
-	 * 
-	 * @param xmlNode - the parent {@link XMLNode}
-	 * @param elementName - The local name of the elements to match on. The special value "*" matches all local names.
-	 * @param elementURI - The namespace URI of the elements to match on. The special value "*" matches all namespaces.
-	 * @return the first direct child of the given {@link XMLNode} with the given local name and namespace.
-	 */
-	private XMLNode getChildElement(XMLNode xmlNode, String elementName, String elementURI) 
-	{
-		// checking the inputs
-		if (xmlNode == null) {
-			return null;
-		}
-		if (elementName == null || elementName.trim().length() == 0) {
-			elementName = "*";
-		}
-		if (elementURI == null || elementURI.trim().length() == 0) {
-			elementURI = "*";
-		}
-		
-		for (int i = 0; i < xmlNode.getChildCount(); i++) {
-			XMLNode child = xmlNode.getChildAt(i); 
-
-			if (child.isElement() 
-					&& (child.getName().equals(elementName) || elementName.equals("*"))
-					&& (elementURI.equals("*") || elementURI.equals(child.getURI())))
-			{
-				return child;
-			}
-			
-		}
-		
-		return null;
-	}
-
-	/**
-	 * Gets all the direct children of the given {@link XMLNode} with the given local name and namespace.
-	 * 
-	 * <p>If <code>null</code> or an empty {@link String} is given for either the elementName or
-	 * the elementURI, it is interpreted as any name or namespace. This is the same as passing the 
-	 * special value "*".
-	 * 
-	 * @param xmlNode - the parent {@link XMLNode}
-	 * @param elementName - The local name of the elements to match on. The special value "*" matches all local names.
-	 * @param elementURI - The namespace URI of the elements to match on. The special value "*" matches all namespaces.
-	 * @return all the direct children of the given {@link XMLNode} with the given local name and namespace.
-	 */
-	private List<XMLNode> getChildElements(XMLNode xmlNode, String elementName, String elementURI) 
-	{
-		// checking the inputs
-		if (xmlNode == null) {
-			return null;
-		}
-		if (elementName == null || elementName.trim().length() == 0) {
-			elementName = "*";
-		}
-		if (elementURI == null || elementURI.trim().length() == 0) {
-			elementURI = "*";
-		}
-
-		List<XMLNode> foundNodes = new ArrayList<XMLNode>();
-		
-		for (int i = 0; i < xmlNode.getChildCount(); i++) {
-			XMLNode child = xmlNode.getChildAt(i); 
-			
-			if (child.isElement() 
-					&& (child.getName().equals(elementName) || elementName.equals("*")) 
-					&& (elementURI.equals(child.getURI()) || elementURI.equals("*")))
-			{
-				foundNodes.add(child);
-			}
-		}
-		
-		return foundNodes;
-	}
-
-	
-	/**
 	 * Returns a {@link NODE_COLOR} corresponding to the validity of the RDF block
 	 * compared to the SBML specifications.
 	 * 
@@ -234,7 +152,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 			return NODE_COLOR.WHITE;
 		}
 		
-		XMLNode rdfNode = getChildElement(annotationXMLNode, "RDF", Annotation.URI_RDF_SYNTAX_NS);
+		XMLNode rdfNode = annotationXMLNode.getChildElement("RDF", Annotation.URI_RDF_SYNTAX_NS);
 		
 		return isValidRDFDescription(rdfNode);
 	}
@@ -254,7 +172,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 		}
 		
 		NODE_COLOR rdfNodeColor = null;
-		List<XMLNode> descriptionNodes = getChildElements(rdfNode, "Description", Annotation.URI_RDF_SYNTAX_NS);
+		List<XMLNode> descriptionNodes = rdfNode.getChildElements("Description", Annotation.URI_RDF_SYNTAX_NS);
 		
 		if (descriptionNodes == null || descriptionNodes.size() == 0) {
 			rdfNodeColor = NODE_COLOR.WHITE;
@@ -316,9 +234,9 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 			return NODE_COLOR.WHITE;
 		}
 
-		NODE_COLOR creatorNodeColor = isValidCreator(getChildElement(xmlNode, "creator", JSBML.URI_PURL_ELEMENTS));
-		NODE_COLOR createdNodeColor = isValidCreatedDate(getChildElement(xmlNode, "created", JSBML.URI_PURL_TERMS));
-		NODE_COLOR modifiedNodesColor = areValidModifiedDates(getChildElements(xmlNode, "modified", JSBML.URI_PURL_TERMS));
+		NODE_COLOR creatorNodeColor = isValidCreator(xmlNode.getChildElement("creator", JSBML.URI_PURL_ELEMENTS));
+		NODE_COLOR createdNodeColor = isValidCreatedDate(xmlNode.getChildElement("created", JSBML.URI_PURL_TERMS));
+		NODE_COLOR modifiedNodesColor = areValidModifiedDates(xmlNode.getChildElements("modified", JSBML.URI_PURL_TERMS));
 		
 		return addColor(createdNodeColor, addColor(creatorNodeColor, modifiedNodesColor)); 
 	}
@@ -339,10 +257,10 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 		
 		// dc:creator->rdf:Bag->rdf:li*->VCard:stuff* 
 		NODE_COLOR wholeColor = NODE_COLOR.GREEN;
-		XMLNode bagNode = getChildElement(creatorNode, "Bag", Annotation.URI_RDF_SYNTAX_NS);
+		XMLNode bagNode = creatorNode.getChildElement("Bag", Annotation.URI_RDF_SYNTAX_NS);
 		
 		if (bagNode != null) {
-			List<XMLNode> liNodes = getChildElements(bagNode, "li", Annotation.URI_RDF_SYNTAX_NS);
+			List<XMLNode> liNodes = bagNode.getChildElements("li", Annotation.URI_RDF_SYNTAX_NS);
 			
 			if (liNodes != null && liNodes.size() > 0) {
 				
@@ -378,9 +296,9 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 		// nothing really mandatory there !! 
 		
 		// vCard:N->vCard:Family|vCard:given  vCard:EMAIL   vCard:ORG->vCard:Orgname
-		XMLNode nameNode = getChildElement(xmlNode, "N", Creator.URI_RDF_VCARD_NS);
-		XMLNode emailNode = getChildElement(xmlNode, "EMAIL", Creator.URI_RDF_VCARD_NS);
-		XMLNode orgNode = getChildElement(xmlNode, "ORG", Creator.URI_RDF_VCARD_NS);
+		XMLNode nameNode = xmlNode.getChildElement("N", Creator.URI_RDF_VCARD_NS);
+		XMLNode emailNode = xmlNode.getChildElement("EMAIL", Creator.URI_RDF_VCARD_NS);
+		XMLNode orgNode = xmlNode.getChildElement("ORG", Creator.URI_RDF_VCARD_NS);
 		
 		// at least one of these three nodes is present
 		if (nameNode != null || emailNode != null || orgNode != null) {
@@ -420,7 +338,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 		
 		for (XMLNode xmlNode : modifiedNodes) {
 
-			XMLNode w3cdtfNode = getChildElement(xmlNode, "W3CDTF", JSBML.URI_PURL_TERMS);
+			XMLNode w3cdtfNode = xmlNode.getChildElement("W3CDTF", JSBML.URI_PURL_TERMS);
 
 			if (w3cdtfNode != null) {
 				// we found at least one modified date that look fine.
@@ -459,7 +377,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 
 		// dcterms:created ---> dcterms:W3CDTF
 
-		XMLNode w3cdtfNode = getChildElement(createdNode, "W3CDTF", JSBML.URI_PURL_TERMS);
+		XMLNode w3cdtfNode = createdNode.getChildElement("W3CDTF", JSBML.URI_PURL_TERMS);
 		NODE_COLOR color = NODE_COLOR.WHITE;
 		
 		if (w3cdtfNode != null) {
@@ -500,15 +418,15 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 		// XML structure bqmodel/bqbiol:qualifier->rdf:Bag->rdf:li*
 
 		// get the first bqmodel:* and bqbiol:* children 
-		XMLNode bqmodelNode = getChildElement(rdfNode, "*", CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS);
-		XMLNode bqbiolNode = getChildElement(rdfNode, "*", CVTerm.URI_BIOMODELS_NET_MODEL_QUALIFIERS);
+		XMLNode bqmodelNode = rdfNode.getChildElement("*", CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS);
+		XMLNode bqbiolNode = rdfNode.getChildElement("*", CVTerm.URI_BIOMODELS_NET_MODEL_QUALIFIERS);
 
 		if (bqmodelNode != null) 
 		{
-			XMLNode bagNode = getChildElement(bqmodelNode, "Bag", Annotation.URI_RDF_SYNTAX_NS);
+			XMLNode bagNode = bqmodelNode.getChildElement("Bag", Annotation.URI_RDF_SYNTAX_NS);
 			
 			if (bagNode != null) {
-				List<XMLNode> liNodes = getChildElements(bagNode, "li", Annotation.URI_RDF_SYNTAX_NS);
+				List<XMLNode> liNodes = bagNode.getChildElements("li", Annotation.URI_RDF_SYNTAX_NS);
 				
 				if (liNodes != null && liNodes.size() > 0) {
 					// found a likely valid annotation
@@ -520,10 +438,10 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 
 		if (bqbiolNode != null) 
 		{
-			XMLNode bagNode = getChildElement(bqbiolNode, "Bag", Annotation.URI_RDF_SYNTAX_NS);
+			XMLNode bagNode = bqbiolNode.getChildElement("Bag", Annotation.URI_RDF_SYNTAX_NS);
 			
 			if (bagNode != null) {
-				List<XMLNode> liNodes = getChildElements(bagNode, "li", Annotation.URI_RDF_SYNTAX_NS);
+				List<XMLNode> liNodes = bagNode.getChildElements("li", Annotation.URI_RDF_SYNTAX_NS);
 				
 				if (liNodes != null && liNodes.size() > 0) {
 					// found a likely valid annotation
@@ -556,7 +474,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 		// This method should be called only if isValidSBMLRDF(SBase) return true		
 		
 		XMLNode annotationXMLNode = contextObject.getAnnotation().getNonRDFannotation();	
-		XMLNode rdfNode = getChildElement(annotationXMLNode, "RDF", Annotation.URI_RDF_SYNTAX_NS);
+		XMLNode rdfNode = annotationXMLNode.getChildElement("RDF", Annotation.URI_RDF_SYNTAX_NS);
 
 		if (rdfNode == null || rdfNode.getUserObject(RDF_NODE_COLOR) == null 
 				|| rdfNode.getUserObject(RDF_NODE_COLOR).equals(NODE_COLOR.WHITE)) 
@@ -568,7 +486,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 
 		// From here, we assume that the RDF is defined and more or less well written.
 
-		List<XMLNode> descriptionNodes = getChildElements(rdfNode, "Description", Annotation.URI_RDF_SYNTAX_NS);
+		List<XMLNode> descriptionNodes = rdfNode.getChildElements("Description", Annotation.URI_RDF_SYNTAX_NS);
 		XMLNode descriptionNode = descriptionNodes.get(0);
 		
 		readRDFURIs(contextObject, descriptionNode);
@@ -625,7 +543,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 		logger.debug("readRDFHistory - called");
 		
 		// get the dc:creator children 
-		List<XMLNode> creatorNodes = getChildElements(descriptionNode, "creator", JSBML.URI_PURL_ELEMENTS);
+		List<XMLNode> creatorNodes = descriptionNode.getChildElements("creator", JSBML.URI_PURL_ELEMENTS);
 
 		if (creatorNodes != null && creatorNodes.size() > 0)
 		{
@@ -636,8 +554,8 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 		}
 		
 		// getting the dates children
-		List<XMLNode> createdNodes = getChildElements(descriptionNode, "created", JSBML.URI_PURL_TERMS);
-		List<XMLNode> modifiedNodes = getChildElements(descriptionNode, "modified", JSBML.URI_PURL_TERMS);
+		List<XMLNode> createdNodes = descriptionNode.getChildElements("created", JSBML.URI_PURL_TERMS);
+		List<XMLNode> modifiedNodes = descriptionNode.getChildElements("modified", JSBML.URI_PURL_TERMS);
 
 		if (createdNodes != null && createdNodes.size() == 1)
 		{
@@ -672,7 +590,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 			return;
 		}
 		
-		List<XMLNode> w3cdtfNodes = getChildElements(modifiedNode, "W3CDTF", JSBML.URI_PURL_TERMS);
+		List<XMLNode> w3cdtfNodes = modifiedNode.getChildElements("W3CDTF", JSBML.URI_PURL_TERMS);
 		
 		if (w3cdtfNodes != null && w3cdtfNodes.size() == 1)
 		{
@@ -772,7 +690,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 			return;
 		}
 
-		List<XMLNode> w3cdtfNodes = getChildElements(createdNode, "W3CDTF", JSBML.URI_PURL_TERMS);
+		List<XMLNode> w3cdtfNodes = createdNode.getChildElements("W3CDTF", JSBML.URI_PURL_TERMS);
 		
 		if (w3cdtfNodes != null && w3cdtfNodes.size() == 1)
 		{
@@ -827,8 +745,8 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 	{
 		logger.debug("readCreator called");
 		
-		XMLNode bagNode = getChildElement(creatorNode, "Bag", Annotation.URI_RDF_SYNTAX_NS);
-		List<XMLNode> liNodes = getChildElements(bagNode, "li", Annotation.URI_RDF_SYNTAX_NS);
+		XMLNode bagNode = creatorNode.getChildElement("Bag", Annotation.URI_RDF_SYNTAX_NS);
+		List<XMLNode> liNodes = bagNode.getChildElements("li", Annotation.URI_RDF_SYNTAX_NS);
 
 		for (XMLNode liNode : liNodes) 
 		{
@@ -841,14 +759,14 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 			contextSBase.getHistory().addCreator(creator);
 
 			// get name information
-			List<XMLNode> nameNodes = getChildElements(liNode, "N", Creator.URI_RDF_VCARD_NS);
+			List<XMLNode> nameNodes = liNode.getChildElements("N", Creator.URI_RDF_VCARD_NS);
 
 			if (nameNodes != null && nameNodes.size() == 1)
 			{
 				XMLNode nameNode = nameNodes.get(0);
 
 				// get family name information
-				List<XMLNode> famillyNameNodes = getChildElements(nameNode, "Family", Creator.URI_RDF_VCARD_NS);
+				List<XMLNode> famillyNameNodes = nameNode.getChildElements("Family", Creator.URI_RDF_VCARD_NS);
 
 				if (famillyNameNodes != null & famillyNameNodes.size() == 1)
 				{
@@ -873,7 +791,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 				}
 				
 				// get first name information
-				List<XMLNode> firstNameNodes = getChildElements(nameNode, "Given", Creator.URI_RDF_VCARD_NS);
+				List<XMLNode> firstNameNodes = nameNode.getChildElements("Given", Creator.URI_RDF_VCARD_NS);
 
 				if (firstNameNodes != null & firstNameNodes.size() == 1)
 				{
@@ -906,7 +824,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 			}
 			
 			// get email information
-			List<XMLNode> emailNodes = getChildElements(liNode, "EMAIL", Creator.URI_RDF_VCARD_NS);
+			List<XMLNode> emailNodes = liNode.getChildElements("EMAIL", Creator.URI_RDF_VCARD_NS);
 
 			if (emailNodes != null && emailNodes.size() == 1)
 			{
@@ -931,14 +849,14 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 			}
 			
 			// get organization information
-			List<XMLNode> orgNodes = getChildElements(liNode, "ORG", Creator.URI_RDF_VCARD_NS); 
+			List<XMLNode> orgNodes = liNode.getChildElements("ORG", Creator.URI_RDF_VCARD_NS); 
 
 			if (orgNodes != null && orgNodes.size() == 1)
 			{
 				XMLNode firstNode = orgNodes.get(0);
 
 				// get Organization name information
-				List<XMLNode> orgNameNodes = getChildElements(firstNode, "Orgname", Creator.URI_RDF_VCARD_NS);
+				List<XMLNode> orgNameNodes = firstNode.getChildElements("Orgname", Creator.URI_RDF_VCARD_NS);
 
 				if (orgNameNodes != null & orgNameNodes.size() == 1)
 				{
@@ -997,8 +915,8 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 		logger.debug("readRDFURIs called");
 		
 		// get the first bqmodel:* and bqbiol:* children 
-		List<XMLNode> bqmodelNodes = getChildElements(descriptionNode, "*", CVTerm.URI_BIOMODELS_NET_MODEL_QUALIFIERS);
-		List<XMLNode> bqbiolNodes = getChildElements(descriptionNode, "*", CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS);
+		List<XMLNode> bqmodelNodes = descriptionNode.getChildElements("*", CVTerm.URI_BIOMODELS_NET_MODEL_QUALIFIERS);
+		List<XMLNode> bqbiolNodes = descriptionNode.getChildElements("*", CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS);
 
 		if (logger.isDebugEnabled()) 
 		{
@@ -1008,8 +926,8 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 
 		for (XMLNode bqmodelNode : bqmodelNodes) 
 		{
-			XMLNode bagNode = getChildElement(bqmodelNode, "Bag", Annotation.URI_RDF_SYNTAX_NS);
-			List<XMLNode> liNodes = getChildElements(bagNode, "li", Annotation.URI_RDF_SYNTAX_NS);
+			XMLNode bagNode = bqmodelNode.getChildElement("Bag", Annotation.URI_RDF_SYNTAX_NS);
+			List<XMLNode> liNodes = bagNode.getChildElements("li", Annotation.URI_RDF_SYNTAX_NS);
 			List<String> resources = new ArrayList<String>();
 
 			if (liNodes == null)
@@ -1063,8 +981,8 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 
 		for (XMLNode bqbiolNode : bqbiolNodes) 
 		{
-			XMLNode bagNode = getChildElement(bqbiolNode, "Bag", Annotation.URI_RDF_SYNTAX_NS);
-			List<XMLNode> liNodes = getChildElements(bagNode, "li", Annotation.URI_RDF_SYNTAX_NS);
+			XMLNode bagNode = bqbiolNode.getChildElement("Bag", Annotation.URI_RDF_SYNTAX_NS);
+			List<XMLNode> liNodes = bagNode.getChildElements("li", Annotation.URI_RDF_SYNTAX_NS);
 			List<String> resources = new ArrayList<String>();
 
 			if (liNodes == null)
@@ -1271,7 +1189,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 			throw new IllegalArgumentException("The RDF XMLNode cannot be null !!");
 		}
 		
-		List<XMLNode> descriptionNodes = getChildElements(rdfNode, "Description", Annotation.URI_RDF_SYNTAX_NS);
+		List<XMLNode> descriptionNodes = rdfNode.getChildElements("Description", Annotation.URI_RDF_SYNTAX_NS);
 		XMLNode descriptionNode = null;
 		
 		if (descriptionNodes != null && descriptionNodes.size() > 0) 
@@ -1319,7 +1237,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 	private XMLNode getOrCreate(XMLNode parent, String elementName, String elementNamespaceURI, String prefix) 
 	{
 		// logger.info("getOrCreate called");
-		XMLNode child = getChildElement(parent, elementName, elementNamespaceURI);
+		XMLNode child = parent.getChildElement(elementName, elementNamespaceURI);
 				
 		if (child == null)
 		{
@@ -1352,7 +1270,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 			String precedingElementNamespaceURI)
 	{
 		// logger.info("getOrCreateAfter called");
-		XMLNode child = getChildElement(parent, elementName, elementNamespaceURI);
+		XMLNode child = parent.getChildElement(elementName, elementNamespaceURI);
 				
 		if (child == null)
 		{
@@ -1400,7 +1318,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 		}
 		
 		// logger.info("getOrCreate called");
-		List<XMLNode> children = getChildElements(parent, elementName, elementNamespaceURI);
+		List<XMLNode> children = parent.getChildElements(elementName, elementNamespaceURI);
 		XMLNode child = null;		
 
 		if (children != null && children.size() > index)
@@ -1606,7 +1524,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 		// modified dates
 		if (history.getModifiedDateCount() > 0)
 		{
-			List<XMLNode> modifiedNodes = getChildElements(descriptionNode, "modified", JSBML.URI_PURL_TERMS);
+			List<XMLNode> modifiedNodes = descriptionNode.getChildElements("modified", JSBML.URI_PURL_TERMS);
 			int i = 0;
 			
 			for (Date modifiedDate : history.getListOfModifiedDates())

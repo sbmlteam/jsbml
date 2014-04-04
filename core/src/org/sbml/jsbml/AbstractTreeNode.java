@@ -474,9 +474,8 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    * Returns the number of child elements of this {@link TreeNode}.
    * 
    * @return the number of children TreeNodes the receiver contains.
-   * @deprecated use {@link #getChildCount()}
+   * @libsbml.deprecated you could use {@link #getChildCount()}
    */
-  @Deprecated
   public int getNumChildren() {
     return getChildCount();
   }

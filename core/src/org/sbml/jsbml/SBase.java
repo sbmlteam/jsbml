@@ -613,7 +613,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * and {@link SBMLDocument}.
    * 
    */
-  public void unregister(SBase sbase);
+  public void unregisterChild(SBase sbase);
 
   /**
    * Removes the given {@link CVTerm}.
