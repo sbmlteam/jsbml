@@ -26,96 +26,35 @@
  */
 package org.sbml.jsbml.test.sbml;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.CVTerm;
 
+
 /**
- * @author  Akiya Jouraku
- * @author  Sarah Keating
+ * Tests on the {@link CVTerm} methods.
+ * 
+ * @author Akiya Jouraku
+ * @author Sarah Keating
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */
 public class TestCVTerms {
 
-  static void assertTrue(boolean condition) throws AssertionError
-  {
-    if (condition == true)
-    {
-      return;
-    }
-    throw new AssertionError();
-  }
+  private CVTerm term;
+  String resource =  "GO6666";
+  String resource1 =  "OtherURI";
 
-  static void assertEquals(Object a, Object b) throws AssertionError
+  @Before public void setUp() throws Exception
   {
-    if ( (a == null) && (b == null) )
-    {
-      return;
-    }
-    else if ( (a == null) || (b == null) )
-    {
-      throw new AssertionError();
-    }
-    else if (a.equals(b))
-    {
-      return;
-    }
-
-    throw new AssertionError();
-  }
-
-  static void assertNotEquals(Object a, Object b) throws AssertionError
-  {
-    if ( (a == null) && (b == null) )
-    {
-      throw new AssertionError();
-    }
-    else if ( (a == null) || (b == null) )
-    {
-      return;
-    }
-    else if (a.equals(b))
-    {
-      throw new AssertionError();
-    }
-  }
-
-  static void assertEquals(boolean a, boolean b) throws AssertionError
-  {
-    if ( a == b )
-    {
-      return;
-    }
-    throw new AssertionError();
-  }
-
-  static void assertNotEquals(boolean a, boolean b) throws AssertionError
-  {
-    if ( a != b )
-    {
-      return;
-    }
-    throw new AssertionError();
-  }
-
-  static void assertEquals(int a, int b) throws AssertionError
-  {
-    if ( a == b )
-    {
-      return;
-    }
-    throw new AssertionError();
-  }
-
-  static void assertNotEquals(int a, int b) throws AssertionError
-  {
-    if ( a != b )
-    {
-      return;
-    }
-    throw new AssertionError();
+    term = new  CVTerm(CVTerm.Qualifier.BQM_IS);
+    term.addResource(resource);
+    term.addResource(resource1);
   }
 
   @Test
@@ -189,14 +128,7 @@ public class TestCVTerms {
 
   @Test public void test_CVTerm_getResources()
   {
-    CVTerm term = new  CVTerm();
-    term.setQualifierType(CVTerm.Type.MODEL_QUALIFIER);
-    String resource =  "GO6666";
-    String resource1 =  "OtherURI";
-    long number;
-    term.addResource(resource);
-    term.addResource(resource1);
-    number = term.getResourceCount();
+    long number = term.getResourceCount();
     assertTrue( number == 2 );
     assertTrue(term.getResourceURI(0).equals( "GO6666"));
     assertTrue(term.getResourceURI(1).equals( "OtherURI"));
@@ -219,5 +151,18 @@ public class TestCVTerms {
     assertTrue( term.getBiologicalQualifierType() == CVTerm.Qualifier.BQB_IS );
     term = null;
   }
+  
+  @Test public void test_CVTerm_removeResources()
+  {
+    long number = term.getResourceCount();
+    assertTrue( number == 2 );
+
+    term.removeResource(resource1);
+    assertTrue( term.getResourceCount() == 1 );
+    
+    assertTrue(term.getResourceURI(0).equals( "GO6666"));
+    term = null;
+  }
+  
 
 }

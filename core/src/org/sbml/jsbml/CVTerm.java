@@ -836,15 +836,16 @@ public class CVTerm extends AnnotationElement {
   }
 
   /**
-   * Removes a resource from the {@link CVTerm}.
+   * Removes the first occurrence of the given resource URI from the {@link CVTerm}.
    * 
    * @param resource
    */
   public void removeResource(String resource) {
-    for (int i = resourceURIs.size(); i >= 0; i--) {
+    for (int i = resourceURIs.size() - 1; i >= 0; i--) {
       if (resourceURIs.get(i).equals(resource)) {
         String urn = resourceURIs.remove(i);
         (new TreeNodeAdapter(urn, this)).fireNodeRemovedEvent();
+        break;
       }
     }
   }
