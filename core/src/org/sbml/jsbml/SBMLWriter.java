@@ -258,13 +258,13 @@ public class SBMLWriter implements Cloneable, Serializable {
    */
   public static void write(SBMLDocument sbmlDocument, String fileName,
     char indentChar, short indentCount) throws XMLStreamException,
-    FileNotFoundException, SBMLException {	  
+    FileNotFoundException, SBMLException {
     try {
-		new org.sbml.jsbml.xml.stax.SBMLWriter(indentChar, indentCount).write(
-		  sbmlDocument, fileName);
-	} catch (IOException e) {
-		throw new SBMLException(e);
-	}
+      new org.sbml.jsbml.xml.stax.SBMLWriter(indentChar, indentCount).write(
+        sbmlDocument, fileName);
+    } catch (IOException e) {
+      throw new SBMLException(e);
+    }
   }
 
   /**
@@ -296,11 +296,11 @@ public class SBMLWriter implements Cloneable, Serializable {
     String programName, String programVersion)
         throws XMLStreamException, FileNotFoundException, SBMLException {
     try {
-		new org.sbml.jsbml.xml.stax.SBMLWriter().write(sbmlDocument, fileName,
-		  programName, programVersion);
-	} catch (IOException e) {
-		throw new SBMLException(e);
-	}
+      new org.sbml.jsbml.xml.stax.SBMLWriter().write(sbmlDocument, fileName,
+        programName, programVersion);
+    } catch (IOException e) {
+      throw new SBMLException(e);
+    }
   }
 
   /**
@@ -339,11 +339,11 @@ public class SBMLWriter implements Cloneable, Serializable {
     short indentCount)
         throws XMLStreamException, FileNotFoundException, SBMLException {
     try {
-		new org.sbml.jsbml.xml.stax.SBMLWriter(indentChar, indentCount).write(
-		  sbmlDocument, fileName, programName, programVersion);
-	} catch (IOException e) {
-		throw new SBMLException(e);
-	}
+      new org.sbml.jsbml.xml.stax.SBMLWriter(indentChar, indentCount).write(
+        sbmlDocument, fileName, programName, programVersion);
+    } catch (IOException e) {
+      throw new SBMLException(e);
+    }
   }
 
   /**
@@ -553,10 +553,11 @@ public class SBMLWriter implements Cloneable, Serializable {
    * {@link #setProgramVersion(String version)}), the
    * following XML comment, intended for human consumption, will be written
    * at the beginning of the document:
-   * <div class='fragment'><pre class="brush:xml">
-	   &lt;!-- Created by &lt;program name&gt; version &lt;program version&gt;
-	   on yyyy-MM-dd HH:mm with {@link JSBML} version &lt;{@link JSBML} version&gt;. --&gt;
-	</pre></div>
+   * <div class='fragment'>
+   * <pre class="brush:xml">
+   * &lt;!-- Created by &lt;program name&gt; version &lt;program version&gt; on yyyy-MM-dd HH:mm with JSBML version &lt;JSBML version&gt;. --&gt;
+   * </pre>
+   * </div>
    * <p>
    * @param name the name of this program (where 'this program' refers to
    * the program in which JSBML is embedded, not JSBML itself!)
@@ -581,9 +582,12 @@ public class SBMLWriter implements Cloneable, Serializable {
    * If the program version and name are set (see
    * {@link setProgramName(String name)}), the
    * following XML comment, intended for human consumption, will be written
-   * at the beginning of the document: <div class='fragment'><pre class="brush:xml">&lt;!-- Created by &lt;program
-   * name&gt; version &lt;program version&gt; on yyyy-MM-dd HH:mm with {@link JSBML}
-   * version &lt;{@link JSBML} version&gt;. --&gt; </pre></div>
+   * at the beginning of the document:
+   * <div class='fragment'>
+   * <pre class="brush:xml">
+   * &lt;!-- Created by &lt;program name&gt; version &lt;program version&gt; on yyyy-MM-dd HH:mm with JSBML version &lt;JSBML version&gt;. --&gt;
+   * </pre>
+   * </div>
    * <p>
    * @param version the version of this program (where 'this program'
    * refers to the program in which JSBML is embedded, not JSBML itself!)
@@ -702,10 +706,10 @@ public class SBMLWriter implements Cloneable, Serializable {
   public void write(SBMLDocument sbmlDocument, String fileName)
       throws XMLStreamException, FileNotFoundException, SBMLException {
     try {
-		sbmlWriter.write(sbmlDocument, fileName, programName, programVersion);
-	} catch (IOException e) {
-		throw new SBMLException(e);
-	}
+      sbmlWriter.write(sbmlDocument, fileName, programName, programVersion);
+    } catch (IOException e) {
+      throw new SBMLException(e);
+    }
   }
 
   /**

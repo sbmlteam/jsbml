@@ -54,7 +54,7 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * <h2>Conversion between an XML {@link String} and an {@link XMLNode}</h2>
  * <p>
  * JSBML provides the following utility functions for converting an XML
- * {@link String} (e.g., &lt;annotation&gt;...&lt;/annotation&gt;) to/from an
+ * {@link String} (e.g., {@code <annotation>...</annotation>}) to/from an
  * {@link XMLNode} object.
  * <ul>
  * <li>{@link XMLNode#toXMLString()} returns a {@link String} representation of
@@ -68,39 +68,33 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * The returned {@link XMLNode} object by
  * {@link XMLNode#convertStringToXMLNode(String)} is a dummy root (container)
  * {@link XMLNode} if the given XML {@link String} has two or more top-level
- * elements (e.g., '&lt;p&gt;...&lt;/p&gt;&lt;p&gt;...&lt;/p&gt;'). In the dummy
- * root node, each top-level element in the given XML {@link String} is
+ * elements (e.g., {@code <p>...</p><p>...</p>}). In the
+ * dummy root node, each top-level element in the given XML {@link String} is
  * contained as a child {@link XMLNode}. {@link XMLToken#isEOF()} can be used to
  * identify if the returned {@link XMLNode} object is a dummy node or not. Here
  * is an example: <div class='fragment'>
  * 
+ * Checks if the returned {@link XMLNode} object by
+ * {@link XMLNode#convertStringToXMLNode(String)} is a dummy root node:
  * <pre class="brush:java">
- * // Checks if the returned {@link XMLNode} object by XMLNode.convertStringToXMLNode() is a dummy root node:
  * 
- * String str = '...';
- * {@link XMLNode} xn = {@link XMLNode}.convertStringToXMLNode(str);
- * if (xn == null)
- * {
+ * String str = "...";
+ * XMLNode xn = XMLNode.convertStringToXMLNode(str);
+ * if (xn == null) {
  *   // returned value is null (error)
- *   ...
- * }
- * else if ( xn.isEOF() )
- * {
+ *   // ...
+ * } else if (xn.isEOF()) {
  *   // root node is a dummy node
- *   for (int i=0; i &lt; xn.getChildCount(); i++)
- *   {
+ *   for (int i = 0; i < xn.getChildCount(); i++) {
  *     // access to each child node of the dummy node.
- *     {@link XMLNode} xnChild = xn.getChild(i);
- *     ...
+ *     XMLNode xnChild = xn.getChild(i);
+ *     // ...
  *   }
- * }
- * else
- * {
+ * } else {
  *   // root node is NOT a dummy node
- *   ...
+ *   // ...
  * }
  * </pre>
- * 
  * </div>
  * <p>
  * 
@@ -265,7 +259,7 @@ public class XMLNode extends XMLToken {
       }
     }
     // TODO - clone our jsbml user objects for XMLNode
-    
+
   }
 
   /**
@@ -622,73 +616,73 @@ public class XMLNode extends XMLToken {
    * Gets the first direct child element of this {@link XMLNode} with the given local name and namespace.
    * 
    * <p>If <code>null</code> or an empty {@link String} is given for either the elementName or
-   * the elementURI, it is interpreted as any name or namespace. This is the same as passing the 
+   * the elementURI, it is interpreted as any name or namespace. This is the same as passing the
    * special value "*".
    * 
    * @param elementName - The local name of the elements to match on. The special value "*" matches all local names.
    * @param elementURI - The namespace URI of the elements to match on. The special value "*" matches all namespaces.
    * @return the first direct child of this {@link XMLNode} with the given local name and namespace.
    */
-  public XMLNode getChildElement(String elementName, String elementURI) 
+  public XMLNode getChildElement(String elementName, String elementURI)
   {
-  	// checking the inputs
-  	if (elementName == null || elementName.trim().length() == 0) {
-  		elementName = "*";
-  	}
-  	if (elementURI == null || elementURI.trim().length() == 0) {
-  		elementURI = "*";
-  	}
-  	
-  	for (int i = 0; i < getChildCount(); i++) {
-  		XMLNode child = getChildAt(i); 
-  
-  		if (child.isElement() 
-  				&& (child.getName().equals(elementName) || elementName.equals("*"))
-  				&& (elementURI.equals("*") || elementURI.equals(child.getURI())))
-  		{
-  			return child;
-  		}
-  		
-  	}
-  	
-  	return null;
+    // checking the inputs
+    if (elementName == null || elementName.trim().length() == 0) {
+      elementName = "*";
+    }
+    if (elementURI == null || elementURI.trim().length() == 0) {
+      elementURI = "*";
+    }
+
+    for (int i = 0; i < getChildCount(); i++) {
+      XMLNode child = getChildAt(i);
+
+      if (child.isElement()
+          && (child.getName().equals(elementName) || elementName.equals("*"))
+          && (elementURI.equals("*") || elementURI.equals(child.getURI())))
+      {
+        return child;
+      }
+
+    }
+
+    return null;
   }
 
   /**
    * Gets all the direct children of this {@link XMLNode} with the given local name and namespace.
    * 
    * <p>If <code>null</code> or an empty {@link String} is given for either the elementName or
-   * the elementURI, it is interpreted as any name or namespace. This is the same as passing the 
+   * the elementURI, it is interpreted as any name or namespace. This is the same as passing the
    * special value "*".
    * 
    * @param elementName - The local name of the elements to match on. The special value "*" matches all local names.
    * @param elementURI - The namespace URI of the elements to match on. The special value "*" matches all namespaces.
    * @return all the direct children of this {@link XMLNode} with the given local name and namespace.
    */
-  public List<XMLNode> getChildElements(String elementName, String elementURI) 
+  public List<XMLNode> getChildElements(String elementName, String elementURI)
   {
-  	// checking the inputs
-  	if (elementName == null || elementName.trim().length() == 0) {
-  		elementName = "*";
-  	}
-  	if (elementURI == null || elementURI.trim().length() == 0) {
-  		elementURI = "*";
-  	}
-  
-  	List<XMLNode> foundNodes = new ArrayList<XMLNode>();
-  	
-  	for (int i = 0; i < getChildCount(); i++) {
-  		XMLNode child = getChildAt(i); 
-  		
-  		if (child.isElement() 
-  				&& (child.getName().equals(elementName) || elementName.equals("*")) 
-  				&& (elementURI.equals(child.getURI()) || elementURI.equals("*")))
-  		{
-  			foundNodes.add(child);
-  		}
-  	}
-  	
-  	return foundNodes;
+    // checking the inputs
+    if (elementName == null || elementName.trim().length() == 0) {
+      elementName = "*";
+    }
+    if (elementURI == null || elementURI.trim().length() == 0) {
+      elementURI = "*";
+    }
+
+    List<XMLNode> foundNodes = new ArrayList<XMLNode>();
+
+    for (int i = 0; i < getChildCount(); i++) {
+      XMLNode child = getChildAt(i);
+
+      if (child.isElement()
+          && (child.getName().equals(elementName) || elementName.equals("*"))
+          && (elementURI.equals(child.getURI()) || elementURI.equals("*")))
+      {
+        foundNodes.add(child);
+      }
+    }
+
+    return foundNodes;
   }
 
 }
