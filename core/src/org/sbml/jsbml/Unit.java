@@ -1463,7 +1463,7 @@ public class Unit extends AbstractSBase {
 
   /**
    * 
-   * @return the multiplier of this Unit if it is set, 1 otherwise.
+   * @return the multiplier of this {@link Unit} if it is set, 1 otherwise.
    */
   public double getMultiplier() {
     return isSetMultiplier() ? multiplier : 1d;
@@ -2235,8 +2235,10 @@ public class Unit extends AbstractSBase {
    * Unit with kind='metre' multiplier='0.001' scale='0' exponent='1'.
    */
   public Unit removeScale() {
-    setMultiplier(getMultiplier() * Math.pow(10, getScale()));
-    setScale(0);
+    if (isSetScale() && (getScale() != 0)) {
+      setMultiplier(getMultiplier() * Math.pow(10, getScale()));
+      setScale(0);
+    }
     return this;
   }
 
