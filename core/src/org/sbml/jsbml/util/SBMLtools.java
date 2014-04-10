@@ -63,6 +63,10 @@ public class SBMLtools {
           ud.setMultiplier(1d);
         }
       }
+    } else if (sbase instanceof Model) {
+      for (UnitDefinition ud : ((Model) sbase).getListOfPredefinedUnitDefinitions()) {
+        setLevelAndVersion(ud, level, version);
+      }
     }
 
     // Set level and version
@@ -128,9 +132,9 @@ public class SBMLtools {
     } catch (XMLStreamException exc) {
       return "";
     } catch (RuntimeException e) {
-    	return ""; // needed when xml is null for example.
+      return ""; // needed when xml is null for example.
     }
-    
+
   }
 
 }

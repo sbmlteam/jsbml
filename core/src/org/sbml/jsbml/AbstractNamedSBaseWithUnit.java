@@ -194,7 +194,8 @@ implements NamedSBaseWithDerivedUnit, SBaseWithUnit {
     if (isSetUnits()) {
       int level = getLevel(), version = getVersion();
       if (Unit.isUnitKind(unitsId, level, version)) {
-        UnitDefinition ud = new UnitDefinition(unitsId + "_base", level, version);
+        UnitDefinition ud = new UnitDefinition(unitsId
+          + UnitDefinition.BASE_UNIT_SUFFIX, level, version);
         ud.addUnit(Unit.Kind.valueOf(unitsId.toUpperCase()));
         return ud;
       }

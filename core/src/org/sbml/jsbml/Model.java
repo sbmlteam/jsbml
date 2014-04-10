@@ -2921,7 +2921,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
     //    if ((unitKind != null) && !unitKind.isEmpty()) {
     //      int level = getLevel(), version = getVersion();
     //      if (Unit.isUnitKind(unitKind, level, version)) {
-    //        UnitDefinition ud = new UnitDefinition(unitKind + "_base", level, version);
+    //        UnitDefinition ud = new UnitDefinition(unitKind + UnitDefinition.BASE_UNIT_SUFFIX, level, version);
     //        ud.addUnit(Unit.Kind.valueOf(unitKind.toUpperCase()));
     //        return ud;
     //      }
@@ -2930,7 +2930,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
       for (UnitDefinition unitDefinition : listOfPredefinedUnitDefinitions) {
         // TODO: It can never happen that a unitDef has the id that is a unit kind.
         if (unitDefinition.getId().equals(unitKind)
-            || unitDefinition.getId().equals(unitKind + "_base"))
+            || unitDefinition.getId().equals(unitKind + UnitDefinition.BASE_UNIT_SUFFIX))
         {
           return unitDefinition;
         }

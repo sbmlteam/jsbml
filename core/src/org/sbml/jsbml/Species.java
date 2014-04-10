@@ -212,6 +212,24 @@ public class Species extends Symbol {
   }
 
   /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#containsUndeclaredUnits()
+   */
+  @Override
+  public boolean containsUndeclaredUnits() {
+    boolean undeclared = super.containsUndeclaredUnits();
+    if (undeclared && (getLevel() > 2)) {
+      Model model = getModel();
+      if ((model != null) && model.isSetSubstanceUnits()) {
+        // In Level 3 a species inherits substance units from its model.
+        // If the model declares the default substance units, the units of each
+        // species are also declared.
+        return false;
+      }
+    }
+    return undeclared;
+  }
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.Symbol#equals(java.lang.Object)
    */
   @Override
@@ -491,7 +509,14 @@ public class Species extends Symbol {
    * @return the substanceUnitsID of this Species.
    */
   public String getSubstanceUnits() {
-    return getUnits();
+    String units = getUnits();
+    if ((units == null) && (getLevel() > 2)) {
+      Model model = getModel();
+      if ((model != null) && model.isSetSubstanceUnits()) {
+        units = model.getSubstanceUnits();
+      }
+    }
+    return units;
   }
 
   /**
@@ -500,7 +525,14 @@ public class Species extends Symbol {
    *         this Species as id.
    */
   public UnitDefinition getSubstanceUnitsInstance() {
-    return getUnitsInstance();
+    UnitDefinition ud = getUnitsInstance();
+    if ((ud == null) && (getLevel() > 2)) {
+      Model model = getModel();
+      if ((model != null) && model.isSetSubstanceUnits()) {
+        ud = model.getSubstanceUnitsInstance();
+      }
+    }
+    return ud;
   }
 
   /* (non-Javadoc)

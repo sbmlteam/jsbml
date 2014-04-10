@@ -3812,7 +3812,7 @@ public class ASTNode extends AbstractTreeNode {
     } else {
       type = Type.NAME;
     }
-    if (variable.isSetId()) {
+    if ((variable != null) && variable.isSetId()) {
       /*
        * Although we memorize a direct pointer to the variable, we also have to
        * store its id. Otherwise, this knowledge will got lost when cloning this

@@ -70,7 +70,7 @@ public class TestAbstractNamedSBaseWithUnits {
     assertTrue(sbase.getUnits().equals(kind.toString().toLowerCase()));
     assertTrue(sbase.isSetUnitsInstance());
     assertTrue(sbase.getUnitsInstance().getId().equals(
-      kind.toString().toLowerCase() + "_base"));
+      kind.toString().toLowerCase() + UnitDefinition.BASE_UNIT_SUFFIX));
   }
 
 
@@ -84,7 +84,7 @@ public class TestAbstractNamedSBaseWithUnits {
     assertTrue(sbase.getUnits().equals(kind.toString().toLowerCase()));
     assertTrue(sbase.isSetUnitsInstance());
     assertTrue(sbase.getUnitsInstance().getId().equals(
-      kind.toString().toLowerCase() + "_base"));
+      kind.toString().toLowerCase() + UnitDefinition.BASE_UNIT_SUFFIX));
   }
 
 
@@ -117,7 +117,7 @@ public class TestAbstractNamedSBaseWithUnits {
     sbase.setUnits(ud);
     assertTrue(sbase.isSetUnits());
     assertTrue(sbase.isSetUnitsInstance());
-    assertTrue(sbase.getUnits().equals(kind.toString().toLowerCase() + "_base"));
+    assertTrue(sbase.getUnits().equals(kind.toString().toLowerCase() + UnitDefinition.BASE_UNIT_SUFFIX));
   }
 
   /**
