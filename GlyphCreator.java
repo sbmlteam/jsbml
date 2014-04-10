@@ -238,6 +238,12 @@ public class GlyphCreator {
     return modifier;
   }
   
+  /**
+   * 
+   * @param ref
+   * @param r
+   * @param reactionToSpecies
+   */
   private void linkSpeciesToReaction(SimpleSpeciesReference ref, Reaction r,
     Map<String, Set<String>> reactionToSpecies) {
     if (!reactionToSpecies.containsKey(r.getId())) {
