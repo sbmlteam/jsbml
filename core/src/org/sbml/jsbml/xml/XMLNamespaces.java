@@ -41,7 +41,7 @@ defined in SBML.
  * a list of pairs of XML namespace URIs and prefix strings.  These
  * correspond to the parts of a namespace declaration on an XML element.
  * For example, in the following XML fragment,
- * <div class='fragment'><pre>
+ * <div class='fragment'><pre class="brush:xml">
 &lt;annotation&gt;
     &lt;mysim:nodecolors xmlns:mysim='urn:lsid:mysim.org'
          mysim:bgcolor='green' mysim:fgcolor='white'/&gt;

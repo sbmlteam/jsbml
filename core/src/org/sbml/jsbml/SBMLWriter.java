@@ -553,7 +553,7 @@ public class SBMLWriter implements Cloneable, Serializable {
    * {@link #setProgramVersion(String version)}), the
    * following XML comment, intended for human consumption, will be written
    * at the beginning of the document:
-   * <div class='fragment'><pre>
+   * <div class='fragment'><pre class="brush:xml">
 	   &lt;!-- Created by &lt;program name&gt; version &lt;program version&gt;
 	   on yyyy-MM-dd HH:mm with {@link JSBML} version &lt;{@link JSBML} version&gt;. --&gt;
 	</pre></div>
@@ -581,7 +581,7 @@ public class SBMLWriter implements Cloneable, Serializable {
    * If the program version and name are set (see
    * {@link setProgramName(String name)}), the
    * following XML comment, intended for human consumption, will be written
-   * at the beginning of the document: <div class='fragment'><pre>&lt;!-- Created by &lt;program
+   * at the beginning of the document: <div class='fragment'><pre class="brush:xml">&lt;!-- Created by &lt;program
    * name&gt; version &lt;program version&gt; on yyyy-MM-dd HH:mm with {@link JSBML}
    * version &lt;{@link JSBML} version&gt;. --&gt; </pre></div>
    * <p>

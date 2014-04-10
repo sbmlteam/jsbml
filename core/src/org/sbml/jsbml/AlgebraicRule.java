@@ -112,11 +112,11 @@ public class AlgebraicRule extends Rule {
    * An example of how to use the {@link OverdeterminationValidator} is given
    * here:
    * 
-   * <pre>
+   * <pre class="brush:java">
    * int ruleIndex = 0; // some arbitrary algebraic rule
    * AlgebraicRule ar = model.getRule(ruleIndex);
    * OverdeterminationValidator odv = new OverdeterminationValidator(model);
-   * Variable varialbe;
+   * Variable variable;
    * if (!odv.isOverdetermined()) {
    * 	variable = (Variable) odv.getMatching().get(ar);
    *  System.out.printf("Rule %d determines Variable %s.", ruleIndex, variable.getId());

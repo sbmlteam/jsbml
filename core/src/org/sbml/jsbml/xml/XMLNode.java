@@ -74,7 +74,7 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  * identify if the returned {@link XMLNode} object is a dummy node or not. Here
  * is an example: <div class='fragment'>
  * 
- * <pre>
+ * <pre class="brush:java">
  * // Checks if the returned {@link XMLNode} object by XMLNode.convertStringToXMLNode() is a dummy root node:
  * 
  * String str = '...';

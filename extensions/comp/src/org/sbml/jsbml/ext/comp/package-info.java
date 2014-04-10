@@ -22,6 +22,18 @@
 
 /**
  * 
+ * Provides classes for the <a
+ * href="http://sbml.org/Community/Wiki/SBML_Level_3_Proposals/Hierarchical_Model_Composition">
+ * Hierarchical Model Composition package</a>.
+ * <p>
+ * The current version of the package follow the <a href=
+ * "http://sbml.org/Documents/Specifications/SBML_Level_3/Packages/Hierarchical_Model_Composition_%28comp%29"
+ * >proposal by L. Smith</a>
+ * <p><img title="JSBML" alt="JSBML" height="54" src="http://sbml.org/images/7/79/xJsbml-logo-54px.png.pagespeed.ic.am7oEUtfpP.png">
+ * 
+ * @version $Rev$
+ * @since 1.0
+ *
  * @author Nicolas Rodriguez
  * @version $Rev$
  * @since 1.0

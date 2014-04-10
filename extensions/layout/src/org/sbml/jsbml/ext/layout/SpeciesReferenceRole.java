@@ -78,9 +78,9 @@ public enum SpeciesReferenceRole {
     case PRODUCT:
       return SBO.getProduct(); // 11 = product
     case SIDEPRODUCT:
-      return -1; // ??
+      return SBO.getSideProduct(); // 603 = side product
     case SIDESUBSTRATE:
-      return -1; // ??
+      return SBO.getSideSubstrate(); // 604 = side substrate
     case SUBSTRATE:
       return SBO.getReactant(); // 10 = reactant
     case UNDEFINED:

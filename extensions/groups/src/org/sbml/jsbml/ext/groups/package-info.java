@@ -28,6 +28,7 @@
  * The current version of the package follow the <a href=
  * "http://sbml.org/Community/Wiki/SBML_Level_3_Proposals/Groups_Proposal_(2009-10)"
  * >proposal by M. Hucka</a>
+ * <p><img title="JSBML" alt="JSBML" height="54" src="http://sbml.org/images/7/79/xJsbml-logo-54px.png.pagespeed.ic.am7oEUtfpP.png">
  * 
  * @version $Rev$
  * @since 1.0

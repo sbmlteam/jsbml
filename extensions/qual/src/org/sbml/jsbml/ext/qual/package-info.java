@@ -21,7 +21,15 @@
  */
 
 /**
- * This package supports qualitative models for SBML Level 3.
+ * Provides classes for the <a
+ * href="http://sbml.org/Community/Wiki/SBML_Level_3_Proposals/Qualitative_Models">
+ * Qualitative Models package</a>.
+ * <p>
+ * The current version of the package follow the <a href=
+ * "http://sbml.org/images/6/61/SBML-L3-qual-proposal_2.1.pdf"
+ * >proposal by S. Keating</a>
+ * <p><img title="JSBML" alt="JSBML" height="54" src="http://sbml.org/images/7/79/xJsbml-logo-54px.png.pagespeed.ic.am7oEUtfpP.png">
+ * 
  * 
  * @version $Rev$
  * @since 1.0

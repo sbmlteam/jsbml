@@ -52,7 +52,7 @@ public class Pair<L, V> implements Cloneable, Entry<L, V>, Serializable {
 
   /**
    * Can be used for static import, i.e. use
-   * <pre>
+   * <pre class="brush:java">
    * import static org.sbml.jsbml.util.Pair.pairOf
    * </pre>
    * in your class to easily create {@link Pair}s of arbitrary data types

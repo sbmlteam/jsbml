@@ -47,7 +47,7 @@ package org.sbml.jsbml.xml;
  * {@code someelement} and the attribute {@code attribA}.  When
  * both the element and the attribute are stored as {@link XMLTriple} objects,
  * their <i>prefix</i> is {@code mysim}.
- * <div class='fragment'><pre>
+ * <div class='fragment'><pre class="brush:xml">
 		&lt;mysim:someelement mysim:attribA='value' /&gt;
 		</pre></div>
  * <p>
