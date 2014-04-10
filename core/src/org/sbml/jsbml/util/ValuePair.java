@@ -51,7 +51,7 @@ implements Comparable<ValuePair<L, V>> {
 
   /**
    * Can be used for static import, i.e. use
-   * <pre>
+   * <pre class="brush:java">
    * import static org.sbml.jsbml.util.ValuePair.pairOf
    * </pre>
    * in your class to easily create {@link ValuePair}s of arbitrary data types

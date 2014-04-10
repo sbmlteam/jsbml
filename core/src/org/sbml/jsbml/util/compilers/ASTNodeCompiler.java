@@ -38,7 +38,7 @@ import org.sbml.jsbml.Unit.Kind;
  * represented by {@link ASTNode}s. It defines how to perform mathematical or
  * other operations on these data types. Recursion can be performed as follows:
  * 
- * <pre>
+ * <pre class="brush:java">
  *   public ASTNodeValue doSomeThing(ASTNode ast) {
  *     ...
  *     ASTNodeValue child = ast.compile(this);

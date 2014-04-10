@@ -312,12 +312,35 @@
 	>
 		
 		<mkdir dir="${build.javadocs}" />
-		<javadoc packagenames="org.*" excludepackagenames="org.sbml.jsbml.test.*, org.sbml.jsbml.xml.test.*" 
-			sourcepath="${build.src}" destdir="${build.javadocs}" classpathref="classpath" maxmemory="96m" 
-			author="true" version="true" use="true" splitindex="true" noindex="false" 
-			windowtitle="${Name} ${version} API Specification" doctitle="${Name} ${version} API Specification"
-			breakiterator="yes" access="public">
-			
+		<javadoc packagenames="org.*"
+            excludepackagenames="org.sbml.jsbml.test.*, org.sbml.jsbml.xml.test.*"
+			sourcepath="${build.src}"
+            destdir="${build.javadocs}"
+            classpathref="classpath"
+            maxmemory="96m"
+			author="true"
+            version="true"
+            use="true"
+            splitindex="true"
+            noindex="false"
+			windowtitle="${Name} ${version} API Specification"
+            doctitle="${Name} ${version} API Specification"
+            doctitle="${Name} ${version} API Specification"
+			breakiterator="yes"
+            access="public"
+            overview="${basedir}/overview.html"
+            stylesheetfile="${basedir}/stylesheet.css"
+            header="&lt;script src=&quot;http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+                &lt;script src=&quot;http://alexgorbatchev.com/pub/sh/current/scripts/shBrushJava.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+                &lt;script src=&quot;http://alexgorbatchev.com/pub/sh/current/scripts/shBrushXML.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+                &lt;img height=&quot;40&quot; src=&quot;http://sbml.org/images/7/79/xJsbml-logo-54px.png.pagespeed.ic.am7oEUtfpP.png&quot; title=&quot;JSBML&quot; alt=&quot;JSBML&quot;/&gt;"
+            footer="&lt;script type=&quot;text/javascript&quot;&gt;
+                SyntaxHighlighter.defaults[&quot;auto-links&quot;] = false;
+                SyntaxHighlighter.defaults[&quot;tab-size&quot;] = 2;
+                SyntaxHighlighter.all();
+                &lt;/script&gt;
+                Generated at ${TODAY}&lt;br/&gt;Version ${version} Revision ${jsbml.revision}">
+
 			<link href="http://docs.oracle.com/javase/6/docs/api/" />
 			<link href="http://www.biojava.org/docs/api17" />
 			<tag name="sbml.deprecated" description="Deprecated in SBML since:" />
@@ -326,7 +349,17 @@
 			<tag name="jsbml.warning" />
 			<tag name="doc.note" description="Documentation note" />
 
+
+
 		</javadoc>
+
+        <!--<property name="icon.file.src" value="${basedir}/core/doc/common/logo/JSBML.png"/>-->
+        <!--<property name="icon.file.dest" value="${basedir}/build/apidocs/resources/JSBML.png"/>-->
+        <!--<copy file="${icon.file.src}" tofile="${icon.file.dest}" verbose="true"/>-->
+        <!--<property name="icon.file.src2" value="${basedir}/javadoc.jpg"/>-->
+        <!--<property name="icon.file.dest2" value="${build.javadocs}/resources/javadoc.jpg"/>-->
+        <!--<copy file="${icon.file.src2}" tofile="${icon.file.dest2}" verbose="true"/>-->
+
 	</target>
 
 	<!-- =================================================================== -->

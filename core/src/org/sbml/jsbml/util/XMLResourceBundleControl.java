@@ -42,7 +42,7 @@ import java.util.Set;
  * the document see {@link Properties}).
  * 
  * Example usage:
- * <pre>
+ * <pre class="brush:java">
  * ResourceBundle resource = ResourceManager.getBundle("my.package.locales.Labels");
    String myString = resource.getString("MY_KEY");
  * </pre>

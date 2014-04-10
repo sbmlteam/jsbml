@@ -2840,7 +2840,7 @@ public class ASTNode extends AbstractTreeNode {
    * Returns {@code true} if this node contains a number, {@code false} otherwise. This is
    * functionally equivalent to the following code:
    * 
-   * <pre>
+   * <pre class="brush:java">
    * isInteger() || isReal()
    * </pre>
    * 
@@ -3715,7 +3715,7 @@ public class ASTNode extends AbstractTreeNode {
    * 
    * This is functionally equivalent to:
    * 
-   * <pre>
+   * <pre class="brush:java">
    * setValue(value, 0);
    * </pre>
    * 

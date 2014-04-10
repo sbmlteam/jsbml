@@ -525,7 +525,7 @@ public class StringTools {
    * @return A {@link String} that will be surrounded by the XML definition of
    *         a notes {@link String} in SBML, i.e.,
    * 
-   *         <pre>
+   *         <pre class="brush:xml">
    * &lt;notes&gt;
    *   &lt;body xmlns="http://www.w3.org/1999/xhtml"&gt;
    *     &lt;p&gt;the original notes&lt;/p&gt;
@@ -551,7 +551,7 @@ public class StringTools {
    * @return A {@link String} that will be surrounded by the XML definition of
    *         a notes {@link String} in SBML, i.e.,
    * 
-   *         <pre>
+   *         <pre class="brush:xml">
    * &lt;message&gt;
    *   &lt;body xmlns="http://www.w3.org/1999/xhtml"&gt;
    *     &lt;p&gt;the original message&lt;/p&gt;
@@ -577,7 +577,7 @@ public class StringTools {
    * @return A {@link String} that will be surrounded by the XML definition of
    *         a notes {@link String} in SBML, i.e.,
    * 
-   *         <pre>
+   *         <pre class="brush:xml">
    * &lt;tag&gt;
    *   &lt;body xmlns="http://www.w3.org/1999/xhtml"&gt;
    *     &lt;p&gt;the original notes&lt;/p&gt;

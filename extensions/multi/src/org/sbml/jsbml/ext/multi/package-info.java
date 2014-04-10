@@ -29,8 +29,10 @@
  * "http://sbml.org/Community/Wiki/SBML_Level_3_Proposals/Multistate_and_Multicomponent_Species_Proposal"
  * > proposal by Nicolas Le Nov&#232;re and Anika Oellrich</a>. There is only few
  * classes from the proposal and it need to be completed.
- * 
+ * <p><img title="JSBML" alt="JSBML" height="54" src="http://sbml.org/images/7/79/xJsbml-logo-54px.png.pagespeed.ic.am7oEUtfpP.png">
+ *
  * @version $Rev$
  * @since 1.0
+ * 
  */
 package org.sbml.jsbml.ext.multi;

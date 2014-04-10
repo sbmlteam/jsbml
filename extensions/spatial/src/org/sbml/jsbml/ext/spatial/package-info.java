@@ -21,7 +21,15 @@
  */
 
 /**
- * All classes required to reflect the spatial extension of SBML.
+ * Provides classes for the <a
+ * href="http://sbml.org/Community/Wiki/SBML_Level_3_Proposals/Spatial_Geometries_and_Spatial_Processes">
+ * Spatial Geometries and Processes package</a>.
+ * <p>
+ * The current version of the package follow the <a href=
+ * "http://sbml.org/images/1/15/SBMLSpatialProposal_2011_04_20.pdf"
+ * >proposal by J.C. Schaff</a>
+ * <p><img title="JSBML" alt="JSBML" height="54" src="http://sbml.org/images/7/79/xJsbml-logo-54px.png.pagespeed.ic.am7oEUtfpP.png">
+ *
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @version $Rev$
