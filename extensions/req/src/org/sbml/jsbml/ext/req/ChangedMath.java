@@ -43,7 +43,7 @@ import org.sbml.jsbml.SBase;
  * Similarly, models that use the proposed Spatial Processes package can change
  * the meaning of a Compartment by turning it into a bounded object with an size
  * implied by those boundaries (and how they change over time), instead of using
- * the element’s size attribute. Spatial Processes elements may also change a
+ * the element's size attribute. Spatial Processes elements may also change a
  * Species to be spatially defined, and therefore represent different values
  * depending on what coordinates in space are under consideration. Affected
  * compartments and species could be given ChangedMath children to denote this
@@ -52,7 +52,7 @@ import org.sbml.jsbml.SBase;
  * Elements with Math children may also be changed by the addition of package
  * elements. Some packages may instruct the modeler to disregard the Math and to
  * use some other construct instead. For example, the proposed Distributions
- * package adds a new child to FunctionDeﬁnition, which replaces the old
+ * package adds a new child to FunctionDefinition, which replaces the old
  * mathematics with a new set of mathematics returning a draw from a random
  * distribution (something impossible with Math).
  * 
@@ -91,7 +91,7 @@ public class ChangedMath extends AbstractNamedSBase {
    * or alters the mathematical semantics of the parent object. In other words,
    * if the mathematical semantics of a given component C in a model is changed
    * by the use of a Level 3 package P, then C can be given a ChangedMath child,
-   * and its attribute changedBy should be P’s namespace URI.
+   * and its attribute changedBy should be P's namespace URI.
    */
   private String changedBy;
 

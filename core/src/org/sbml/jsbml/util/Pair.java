@@ -51,12 +51,13 @@ public class Pair<L, V> implements Cloneable, Entry<L, V>, Serializable {
   }
 
   /**
-   * Can be used for static import, i.e. use
+   * Can be used for static import in your class to easily create {@link Pair}s
+   * of arbitrary data types  with a simple method call, e.g.,
+   * {@code pairOf(1, 2)}. This means, you can use
+   * 
    * <pre class="brush:java">
    * import static org.sbml.jsbml.util.Pair.pairOf
    * </pre>
-   * in your class to easily create {@link Pair}s of arbitrary data types
-   * with a simple method call, e.g., {@code pairOf(1, 2)}.
    * 
    * @param left
    * @param right

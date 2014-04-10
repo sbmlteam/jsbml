@@ -1462,18 +1462,23 @@ public class SBO {
    * Returns a set of Triple which match the supplied subject, predicate and object.
    * 
    * <p>If any of the parameters of this method are null, they are treated as wildcards.
+   * For example:
    * 
-   * <pre class="brush:java"> for example :
-   *    getTriples(SBO.getTerm("SBO:0000002"), SBO.getTerm("is_a"), null);
-   *    will returned all the parent Terms of SBO:0000002
+   * <pre class="brush:java">
+   * getTriples(SBO.getTerm("SBO:0000002"), SBO.getTerm("is_a"), null);
+   * </pre>
    * 
-   *    getTriples(null, SBO.getTerm("is_a"), SBO.getTerm(188));
-   *    will returned all the children Terms of SBO:0000188
+   * will returned all the parent Terms of {@code SBO:0000002} and
    * 
-   *  <p>
-   * @param subject the subject to search for, or null.
-   * @param predicate the relationship to search for, or null.
-   * @param object the object to search for, or null.
+   * <pre class="brush:java">
+   * getTriples(null, SBO.getTerm("is_a"), SBO.getTerm(188));
+   * </pre>
+   * 
+   * will returned all the children Terms of {@code SBO:0000188}
+   * 
+   * @param subject the subject to search for, or {@code null}.
+   * @param predicate the relationship to search for, or {@code null}.
+   * @param object the object to search for, or {@code null}.
    * @return a set of Triple which match the supplied subject, predicate and object.
    * 
    * @see org.biojava.ontology.Ontology#getTriples(org.biojava.ontology.Term,

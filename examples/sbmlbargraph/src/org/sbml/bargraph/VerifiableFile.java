@@ -30,12 +30,13 @@ import java.util.Stack;
  * testing whether a given file or directory exists and is accessible.
  * <p>
  * Usage:
- * <pre>
- *      VerifiableFile file = new VerifiableFile("/tmp/foo");
- *      if (file.isVerifiedExistingFile())
- *          ... do something;
- *      else
- *          ... do something else;
+ * <pre class="brush:java">
+ * VerifiableFile file = new VerifiableFile("/tmp/foo");
+ * if (file.isVerifiedExistingFile()) {
+ *   //... do something;
+ * } else {
+ *   //... do something else;
+ * }
  * </pre>
  *
  * Note: The two-argument {@link VerifiableFile} constructors do not

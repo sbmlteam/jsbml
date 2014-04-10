@@ -311,7 +311,7 @@
 	  description="Creates the API documentation"
 	>
 		
-		<mkdir dir="${build.javadocs}" />
+		<mkdir dir="${build.javadocs}"/>
 		<javadoc packagenames="org.*"
             excludepackagenames="org.sbml.jsbml.test.*, org.sbml.jsbml.xml.test.*"
 			sourcepath="${build.src}"
@@ -347,8 +347,6 @@
 			<tag name="jsbml.note" description="Note" />
 			<tag name="jsbml.warning" />
 			<tag name="doc.note" description="Documentation note" />
-
-
 
 		</javadoc>
 
