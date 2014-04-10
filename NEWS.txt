@@ -1,6 +1,5 @@
 	       JSBML NEWS -- History of user-visible changes
 
-
 ======================================================================
 Version 1.0-beta2 (xx-xx-2014)
 ======================================================================
@@ -15,12 +14,26 @@ Version 1.0-beta2 (xx-xx-2014)
   - JSBML no longer creates Unit objects that are lacking required attributes.
   
   - The SBMLDocument has now a convenient method to access all metaIds within
-    the document.
+    the document in form of an unmodifiable Collection.
     
   - The SBO class provides more methods to access those terms that are of
     particular interest for SBGN displays.
 
   - A general Pair of arbitrary values now generalizes ValuePair.
+  
+  - The toString() methods in UnitDefinition and SpeciesReferences have been
+    improved and are now more informative.
+    
+  - The suffix "_base", which is used for the identifiers of UnitDefinitions
+    that represent a base unit has been extracted to a static field variable in
+    order to be more easily re-usable.
+    
+  - Species and Compartment the containsUndeclaredUnits method has been
+    overridden because in SBML L3 Species and Compartments can inherit a default
+    unit from the Model. This is now considered. In this case,
+    containsUndeclaredUnits will return false even if the object itself does not
+    explicitly declare its unit. This is important because the unit of the
+    element is not undefined.
 
 * Bug Fixes:
 
@@ -37,7 +50,9 @@ Version 1.0-beta2 (xx-xx-2014)
     when used on list that do not contain elements with id.
     
   - The static method JSBML.read(String) was not calling the right helper 
-    method.   
+    method.
+    
+  - ASTNode threw a NullPointerException when trying to un-set its variable.
 
 ======================================================================
 Version 1.0-beta1 (06-03-2014)

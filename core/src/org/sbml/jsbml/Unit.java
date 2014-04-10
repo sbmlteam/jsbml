@@ -1665,23 +1665,46 @@ public class Unit extends AbstractSBase {
    * The 'kind' attribute is left unchanged.
    */
   public void initDefaults(int level, int version) {
+    initDefaults(level, version, false);
+  }
+
+  /**
+   * @param level
+   * @param version
+   * @param explicit
+   *        switch to decide if all properties that are set by this
+   *        method should also be explicitly marked as being set. For instance,
+   *        if this method is invoked for Level 2 Version 4, there is a default
+   *        value for most properties. If a value is not explicitly defined, the
+   *        default value is used and the XML serialization can omit this
+   *        attribute. Note that if the level argument exceeds two, this boolean
+   *        argument is ignored, because then there is no default and everything
+   *        will be set to {@code null} by this method anyway. Only the offset
+   *        will not be affected by the explicit parameter because this value
+   *        is optional or not even defined in certain levels of SBML and can
+   *        therefore always be omitted. It has been recognized that the offset
+   *        field produces more problems if it is beeing explicitly defined, so
+   *        here it is set to zero if the level surpasses 3, but it won't be
+   *        written to SBML, unless it is modified later on by the user.
+   */
+  public void initDefaults(int level, int version, boolean explicit) {
     kind = Kind.INVALID;
+    isSetOffset = false;
     if (level < 3) {
-      exponent = Double.valueOf(1d);
-      scale = Integer.valueOf(0);
-      multiplier = new Double(1d);
+      setExponent(1d);
+      setScale(0);
+      setMultiplier(1d);
       offset = new Double(0d);
+      isSetExponent = isSetScale = isSetMultiplier = explicit;
     } else {
       exponent = null;
       offset = null;
       multiplier = null;
       scale = null;
+      isSetExponent = isSetScale = isSetMultiplier = false;
     }
-    isSetExponent = false;
-    isSetScale = false;
-    isSetMultiplier = false;
-    isSetOffset = false;
   }
+
 
   /**
    * Predicate for testing whether this Unit is of the kind ampere.

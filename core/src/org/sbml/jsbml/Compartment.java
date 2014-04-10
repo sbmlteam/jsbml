@@ -181,6 +181,40 @@ public class Compartment extends Symbol {
   }
 
   /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#containsUndeclaredUnits()
+   */
+  @Override
+  public boolean containsUndeclaredUnits() {
+    boolean undeclared = super.containsUndeclaredUnits();
+    if (undeclared && (getLevel() > 2)) {
+      Model model = getModel();
+      if (model != null) {
+        if (isSetSpatialDimensions()) {
+          int spatialDim = (int) getSpatialDimensions();
+          if (getSpatialDimensions() - spatialDim == 0) {
+            // In Level 3 a compartment inherits substance units from its model.
+            // If the model declares the default size units, the units of each
+            // compartment are also declared.
+            switch (spatialDim) {
+            case 0:
+              return false;
+            case 1:
+              return !model.isSetLengthUnits();
+            case 2:
+              return !model.isSetAreaUnits();
+            case 3:
+              return !model.isSetVolumeUnits();
+            default:
+              break;
+            }
+          }
+        }
+      }
+    }
+    return undeclared;
+  }
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.Symbol#equals(java.lang.Object)
    */
   @Override
@@ -345,6 +379,60 @@ public class Compartment extends Symbol {
   @Deprecated
   public double getSpatialDimensionsAsDouble() {
     return getSpatialDimensions();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getUnits()
+   */
+  @Override
+  public String getUnits() {
+    String units = super.getUnits();
+    if ((units == null) && (getLevel() > 2)) {
+      int dim = (int) getSpatialDimensions();
+      if (dim - getSpatialDimensions() == 0d) {
+        Model model = getModel();
+        if (model != null) {
+          switch (dim) {
+          case 1:
+            return model.getLengthUnits();
+          case 2:
+            return model.getAreaUnits();
+          case 3:
+            return model.getVolumeUnits();
+          default:
+            break;
+          }
+        }
+      }
+    }
+    return units;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractNamedSBaseWithUnit#getUnitsInstance()
+   */
+  @Override
+  public UnitDefinition getUnitsInstance() {
+    UnitDefinition ud = super.getUnitsInstance();
+    if ((ud == null) && (getLevel() > 2)) {
+      int dim = (int) getSpatialDimensions();
+      if (dim - getSpatialDimensions() == 0d) {
+        Model model = getModel();
+        if (model != null) {
+          switch (dim) {
+          case 1:
+            return model.getLengthUnitsInstance();
+          case 2:
+            return model.getAreaUnitsInstance();
+          case 3:
+            return model.getVolumeUnitsInstance();
+          default:
+            break;
+          }
+        }
+      }
+    }
+    return ud;
   }
 
   /**

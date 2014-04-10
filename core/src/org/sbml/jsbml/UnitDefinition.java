@@ -80,6 +80,16 @@ public class UnitDefinition extends AbstractNamedSBase {
   public static final String VOLUME = "volume";
 
   /**
+   * The suffix used in {@link UnitDefinition} objects that represent a base
+   * {@link Unit.Kind} with offset = 0, multiplier = 1, scale = 0, and exponent
+   * = 1. Since SBML does not allow that the identifier of a
+   * {@link UnitDefinition} equals the name of a base unit, this suffix is used
+   * to internally store simple units in form of a composite
+   * {@link UnitDefinition}.
+   */
+  public static final String BASE_UNIT_SUFFIX = "_base";
+
+  /**
    * Predefined unit for area.
    */
   public static final UnitDefinition area(int level, int version) {
@@ -246,10 +256,10 @@ public class UnitDefinition extends AbstractNamedSBase {
     }
 
     id = id.toLowerCase();
-    Unit u = new Unit(1d, 0, Unit.Kind.INVALID, 1, level, version);
+    Unit u = new Unit(level, version);
 
     // explicitly set default values:
-    //u.initDefaults(2, 4); --> Does not work! Because all isSetXXX will be false!!!! Can lead to invalid SBML!
+    u.initDefaults(2, 4, true);
 
     if (id.equals(SUBSTANCE)) {
       u.setKind(Kind.MOLE);
@@ -283,7 +293,7 @@ public class UnitDefinition extends AbstractNamedSBase {
     }
     String name = " unit " + id;
     if (!Unit.isPredefined(id, level)) {
-      id += "_base";
+      id += UnitDefinition.BASE_UNIT_SUFFIX;
       name = "Base" + name;
     } else {
       name = "Predefined" + name;
@@ -1177,6 +1187,9 @@ public class UnitDefinition extends AbstractNamedSBase {
    */
   @Override
   public String toString() {
+    if (isSetName()) {
+      return getName();
+    }
     return isSetListOfUnits() ? printUnits(this, true) : super.toString();
   }
 

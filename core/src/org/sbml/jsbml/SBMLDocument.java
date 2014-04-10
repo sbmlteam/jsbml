@@ -26,9 +26,10 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -1068,15 +1069,18 @@ public class SBMLDocument extends AbstractSBase {
   }
 
   /**
-   * Provides access to all registered metaIds in this {@link SBMLDocument}.
+   * Provides access to all registered metaIds in this {@link SBMLDocument}. The
+   * given collection is unmodifiable. Modifications made to the values has
+   * hence no effect. This method is helpful to iterate through all metaIds in
+   * the document and to query elements based on the metaId.
    * 
-   * @return
+   * @return An unmodifiable collection of {@link String}s as a view of the
+   *         actual metaIds within this {@link SBMLDocument}. Hence, modifying
+   *         any of the values returned by this method does not have any effect
+   *         for the content of this document.
    */
-  public Set<String> metaIds() {
-    if (mappingFromMetaId2SBase != null) {
-      return mappingFromMetaId2SBase.keySet();
-    }
-    return new HashSet<String>();
+  public Collection<String> metaIds() {
+    return Collections.unmodifiableCollection(mappingFromMetaId2SBase.keySet());
   }
 
   /**

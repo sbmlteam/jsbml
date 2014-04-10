@@ -565,6 +565,23 @@ Variable {
   }
 
   /* (non-Javadoc)
+   * @see org.sbml.jsbml.SimpleSpeciesReference#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    if (isSetStoichiometry() && (getStoichiometry() != 1d)) {
+      sb.append(StringTools.toString(getStoichiometry()));
+      sb.append(' ');
+    } else if (isSetStoichiometryMath()) {
+      sb.append(getStoichiometryMath().getMath().toFormula());
+      sb.append(' ');
+    }
+    sb.append(super.toString());
+    return sb.toString();
+  }
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.Variable#unsetConstant()
    */
   @Override
