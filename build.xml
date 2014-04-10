@@ -325,7 +325,6 @@
             noindex="false"
 			windowtitle="${Name} ${version} API Specification"
             doctitle="${Name} ${version} API Specification"
-            doctitle="${Name} ${version} API Specification"
 			breakiterator="yes"
             access="public"
             overview="${basedir}/overview.html"

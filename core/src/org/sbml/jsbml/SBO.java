@@ -1261,6 +1261,22 @@ public class SBO {
   }
 
   /**
+   * Returns the side product SBO term
+   * @return the SBO term 604
+   */
+  public static int getSideProduct() {
+    return 604;
+  }
+
+  /**
+   * Returns the side substrate SBO term
+   * @return the SBO term 603
+   */
+  public static int getSideSubstrate() {
+    return 603;
+  }
+
+  /**
    * 
    * @return
    */
@@ -1447,7 +1463,7 @@ public class SBO {
    * 
    * <p>If any of the parameters of this method are null, they are treated as wildcards.
    * 
-   * <pre> for example :
+   * <pre class="brush:java"> for example :
    *    getTriples(SBO.getTerm("SBO:0000002"), SBO.getTerm("is_a"), null);
    *    will returned all the parent Terms of SBO:0000002
    * 
