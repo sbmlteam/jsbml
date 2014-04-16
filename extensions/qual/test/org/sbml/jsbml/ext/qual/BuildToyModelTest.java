@@ -31,6 +31,7 @@ import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLWriter;
+import org.sbml.jsbml.gui.JSBMLvisualizer;
 import org.sbml.jsbml.text.parser.ParseException;
 
 /**
@@ -64,7 +65,7 @@ public class BuildToyModelTest {
     if (model.getExtension(QUAL_NS) == null) {
       System.out.println("!!!!!!! getting a plugin object using a namespace does not work");
     }
-    
+
     // ListOfCompartments
     Compartment comp1 = model.createCompartment("comp1");
     comp1.setConstant(true);
@@ -156,7 +157,7 @@ public class BuildToyModelTest {
       e.printStackTrace();
     }
 
-    // new JSBMLvisualizer(sbmlDoc);
+    new JSBMLvisualizer(sbmlDoc);
   }
 
 }
