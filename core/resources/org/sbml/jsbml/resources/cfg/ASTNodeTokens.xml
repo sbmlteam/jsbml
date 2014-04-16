@@ -81,6 +81,7 @@
   <entry key="power">FUNCTION_POWER</entry>
   <entry key="sqr">FUNCTION_POWER</entry>
   <entry key="sqrt">FUNCTION_ROOT</entry>
+  <entry key="root">FUNCTION_ROOT</entry>
   <entry key="exp">FUNCTION_EXP</entry>
   <entry key="fac">FUNCTION_FACTORIAL</entry>
   <entry key="factorial">FUNCTION_FACTORIAL</entry>
