@@ -36,6 +36,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.SBMLtools;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
@@ -1154,6 +1155,22 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     return getAnnotation().getHistory();
   }
 
+  /**
+   * Returns an {@link IdManager} that can register the given {@link SBase}.
+   * 
+   * <p>It means that the method {@link IdManager#accept(SBase)} returned {@code true}.
+   * 
+   * @param sbase the {@link SBase} that we try to register or unregister.
+   * @return an {@link IdManager} that can register the given {@link SBase}.
+   */
+  protected IdManager getIdManager(SBase sbase) {
+    if ((this instanceof IdManager) && (((IdManager) this).accept(sbase))) {
+      return (IdManager) this;
+    }
+    return getParentSBMLObject() != null ? ((AbstractSBase) getParentSBMLObject()).getIdManager(sbase)
+      : null;
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jlibsbml.SBase#getLevel()
    */
@@ -1509,11 +1526,11 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         /*
          * Do the same for all identifiers under the old value.
          */
-        Model model = getModel();
-        if (model != null) {
-          model.registerIds(this, (NamedSBase) oldChild, true, true);
+        IdManager idManager = getIdManager((NamedSBase) oldChild);
+        if (idManager != null) {
+          idManager.unregister((NamedSBase) oldChild);
           NamedSBase newNsb = (NamedSBase) newChild;
-          if (!model.registerIds(this, newNsb, true, false)) {
+          if (!idManager.register(newNsb)) {
             throw new IdentifierException(newNsb, newNsb.getId());
           }
         }
@@ -1566,29 +1583,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           && (sbase instanceof AbstractSBase), false);
       }
 
-      // Test added to be able to register localParameter in the kineticLaw,
-      // even if the model is not available (the KL or reaction was not yet added to a model)
-      // TODO - use IdManager
-      if (sbase instanceof LocalParameter) {
-
-        TreeNode klTreeNode = getParent();
-
-        if (klTreeNode != null && klTreeNode instanceof KineticLaw) {
-          KineticLaw kineticLaw = (KineticLaw) klTreeNode;
-          kineticLaw.registerLocalParameter((LocalParameter) sbase, false);
-        }
-      }
-
-      Model model = getModel();
-      /*
-       * Check if the model to which this node is assigned equals the one to
-       * which the given SBase belongs. This is important because if both
-       * belong to the identical model, we don't have to register all
-       * identifiers recursively.
-       * In this case, it will be enough to check this one new node only.
-       */
-      boolean recursively = (model == null) || (sbase.getModel() != model);
-
       /* Memorize all TreeNodeChangeListeners that are currently assigned to the new
        * SBase in order to re-use these later. For now we must remove all those to
        * avoid listeners to be called before we could really add the SBase to this
@@ -1604,11 +1598,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       TreeNode oldParent = sbase.getParent(); // Memorize the old parent (may be null).
       ((AbstractSBase) sbase).setParentSBML(this);
 
-      // TODO - use the IdManager
+      // using the IdManager
+      IdManager idManager = getIdManager(sbase);
       
       // If possible, recursively register all ids of the SBase in our model:
-      if ((model != null)
-          && !model.registerIds(this, sbase, recursively, false)) {
+      if ((idManager != null)
+          && !idManager.register(sbase)) {
         // Something went wrong: We have to restore the previous state:
         if (sbase instanceof AbstractSBase) {
           if (oldParent == null) {
@@ -1911,24 +1906,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         doc.registerMetaIds(sbase, true, true);
       }
 
-      if (sbase instanceof LocalParameter) {
-
-        TreeNode klTreeNode = getParent();
-
-        if (klTreeNode != null && klTreeNode instanceof KineticLaw) {
-
-          logger.debug("Unregister LP");
-
-          KineticLaw kineticLaw = (KineticLaw) klTreeNode;
-          kineticLaw.registerLocalParameter((LocalParameter) sbase, true);
-        }
-      }
-
-      Model model = getModel();
+      
+      IdManager idManager = getIdManager(sbase);
 
       // If possible, recursively unregister all ids of the SBase in our model:
-      if ((model != null)
-          && !model.registerIds(this, sbase, true, true)) {
+      if ((idManager != null)
+          && !idManager.unregister(sbase)) {
         throw new IllegalArgumentException(MessageFormat.format("Cannot unregister {0}.",
           sbase.getElementName()));
       }

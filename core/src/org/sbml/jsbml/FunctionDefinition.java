@@ -23,6 +23,7 @@ package org.sbml.jsbml;
 
 import java.util.Map;
 
+import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
@@ -38,6 +39,8 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 public class FunctionDefinition extends AbstractMathContainer implements
 CallableSBase, UniqueNamedSBase {
 
+  // TODO - for L3V2, we probably will need to have AbstractMathContainer extending AbstractNamedSBase ??
+  
   /**
    * Error message to indicate that an incorrect {@link ASTNode#Type} has been passed
    * to a method.
@@ -357,25 +360,28 @@ CallableSBase, UniqueNamedSBase {
     if (getLevel() < 2) {
       throw new PropertyNotAvailableException(TreeNodeChangeEvent.id, this);
     }
+    String property = TreeNodeChangeEvent.id;
     String oldId = this.id;
-    Model model = getModel();
-    if ((oldId != null) && (model != null)) {
+    
+    IdManager idManager = getIdManager(this);
+    if ((oldId != null) && (idManager != null)) {
       // Delete previous identifier only if defined.
-      model.registerId(this, false);
+      idManager.unregister(this); // TODO - do we need non recursive method on the IdManager interface ??
     }
     if ((id == null) || (id.trim().length() == 0)) {
       this.id = null;
-    } else if ((getLevel() == 3) || checkIdentifier(id)) {
+    } else if (checkIdentifier(id)) {
       this.id = id;
     }
-    if ((model != null) && !model.registerId(this, true)) {
+    if ((idManager != null) && !idManager.register(this)) {
       IdentifierException exc = new IdentifierException(this, this.id);
       this.id = oldId; // restore the previous setting!
       throw new IllegalArgumentException(exc);
     }
-    firePropertyChange(TreeNodeChangeEvent.id, oldId, this.id);
+    firePropertyChange(property, oldId, this.id);
   }
 
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractMathContainer#setMath(org.sbml.jsbml.ASTNode)
    */
