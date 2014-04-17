@@ -313,13 +313,17 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
   
   @Override
   public boolean accept(SBase sbase) {
-    if (sbase instanceof UniqueNamedSBase || sbase instanceof UnitDefinition 
-        || sbase instanceof LocalParameter) // TODO - check that we include everything needed 
-    {
-      return true;
-    }
     
-    return false;
+//    if (sbase instanceof UniqueNamedSBase || sbase instanceof UnitDefinition 
+//        || sbase instanceof LocalParameter || sbase instanceof ListOf<?>)
+//      // TODO - check that we include everything needed. Should we accept everything ?? 
+//    {
+//      return true;
+//    }
+
+    // accept everything, to be able to register or unregister recursively everything,
+    // even if the first SBase given as no SId.
+    return true;
   }
   
   /**
@@ -3809,7 +3813,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
 
   @Override
   public boolean register(SBase sbase) {
-    return registerIds(sbase.getParentSBMLObject(), sbase, true, false);
+    return registerIds(sbase.getParentSBMLObject(), sbase, true, false, null);
   }
   
   /**
@@ -3888,23 +3892,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
   }
 
   /**
-   * Registers the identifier of a {@link NamedSBase} and its associated object
-   * in this {@link Model}.
-   * 
-   * @param nsb
-   *        the element, whose identifier is to be registered.
-   * @param add
-   *        If {@code true} the identifier of the given {@link NamedSBase}
-   *        will be registered in this {@link Model} Otherwise, the given
-   *        identifier will be removed from this {@link Model}'s hash.
-   * @return {@code true} if this operation was successfully performed,
-   *         {@code false} otherwise.
-   */
-  boolean registerId(NamedSBase nsb, boolean add) {
-    return registerIds(nsb.getParentSBMLObject(), nsb, true, !add);
-  }
-
-  /**
    * 
    * @param unsb
    * @param recursively
@@ -3980,10 +3967,11 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
    * @param newElem
    * @param recursively
    * @param delete
+   * @param idManagerList
    * @return {@code true} if this operation was successfully performed,
    *         {@code false} otherwise.
    */
-  boolean registerIds(SBase parent, SBase newElem, boolean recursively, boolean delete)
+  private boolean registerIds(SBase parent, SBase newElem, boolean recursively, boolean delete, List<IdManager> idManagerList)
   {
     /*
      * the default return value is true to be able to register successfully objects that are
@@ -4025,6 +4013,22 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
         // do nothing
       }
     }
+    
+    if (newElem instanceof IdManager && newElem != this) {
+      if (idManagerList == null) {
+        idManagerList = new ArrayList<IdManager>();
+      }
+      
+      idManagerList.add((IdManager) newElem);
+    }
+    
+    if (idManagerList != null && idManagerList.size() > 0 && delete) {
+      for (IdManager idManager : idManagerList) {
+        if (idManager.accept(newElem)) {
+          idManager.unregister(newElem);
+        }
+      }
+    }
 
     if (logger.isDebugEnabled()) {
       logger.debug("registerIds (main): success = " + success);
@@ -4045,12 +4049,12 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
                 TreeNode lpChild = child.getChildAt(j);
 
                 if (lpChild instanceof SBase) {
-                  success &= registerIds((SBase) child, (SBase) lpChild, recursively, delete);
+                  success &= registerIds((SBase) child, (SBase) lpChild, recursively, delete, idManagerList);
                 }
               }
             }
           } else {
-            success &= registerIds(newElem, (SBase) child, recursively, delete);
+            success &= registerIds(newElem, (SBase) child, recursively, delete, idManagerList);
           }
         }
       }
@@ -4902,7 +4906,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
 
   @Override
   public boolean unregister(SBase sbase) {
-    return registerIds(sbase.getParentSBMLObject(), sbase, true, true);
+    return registerIds(sbase.getParentSBMLObject(), sbase, true, true, null);
   }
   
   /**

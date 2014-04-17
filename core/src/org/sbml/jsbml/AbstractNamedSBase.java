@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
@@ -311,17 +312,18 @@ NamedSBase {
   public void setId(String id) {
     String property = getLevel() == 1 ? TreeNodeChangeEvent.name : TreeNodeChangeEvent.id;
     String oldId = this.id;
-    Model model = getModel();
-    if ((oldId != null) && (model != null)) {
+    
+    IdManager idManager = getIdManager(this);
+    if ((oldId != null) && (idManager != null)) {
       // Delete previous identifier only if defined.
-      model.registerIds(getParent(), this, false, true);
+      idManager.unregister(this); // TODO - do we need non recursive method on the IdManager interface ??
     }
     if ((id == null) || (id.trim().length() == 0)) {
       this.id = null;
     } else if (checkIdentifier(id)) {
       this.id = id;
     }
-    if ((model != null) && !model.registerIds(getParent(), this, false, false)) {
+    if ((idManager != null) && !idManager.register(this)) {
       IdentifierException exc = new IdentifierException(this, this.id);
       this.id = oldId; // restore the previous setting!
       throw new IllegalArgumentException(exc);

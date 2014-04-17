@@ -92,6 +92,14 @@ public class UnregisterTests {
   @Test public void testRegister() {
 
     try {
+      model.createSpecies("model");
+      fail("We should not be able to register twice the same id.");
+    } catch (IllegalArgumentException e) {
+      assertTrue(true);
+      // success
+    }
+
+    try {
       model.createSpecies("R1");
       fail("We should not be able to register twice the same id.");
     } catch (IllegalArgumentException e) {
@@ -554,11 +562,10 @@ public class UnregisterTests {
     }
 
     assertTrue(kl.getLocalParameterCount() == 0);
+    assertTrue(kl.getLocalParameter("LP1") == null);
+    assertTrue(kl.getLocalParameter("LP3") == null);
     assertTrue(model.findLocalParameters("LP1").size() == 1);
     assertTrue(model.findLocalParameters("LP2").size() == 0);
-
-    // listOfLP.remove(3); // TODO: at the moment the list of local parameter is emptied if there is an error !! Should we clone the listOf
-    // when using the setListOf methods ??
 
     listOfLP.clear();
     listOfLP.add(new LocalParameter("LP1"));
@@ -574,7 +581,8 @@ public class UnregisterTests {
     }
 
     assertTrue(kl.getLocalParameterCount() == 3);
-    assertTrue(model.findLocalParameters("LP1").size() == 2);
+    
+    assertTrue(model.findLocalParameters("LP1").size() == 2);    
     assertTrue(model.findLocalParameters("LP2").size() == 1);
 
     kl.removeLocalParameter("LP2");
