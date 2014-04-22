@@ -129,7 +129,7 @@ public class OSXAdapter implements InvocationHandler {
         if (appleEvent != null) {
           try {
             Method getFilenameMethod = appleEvent.getClass().getDeclaredMethod("getFilename", (Class[])null);
-            String filename = (String) getFilenameMethod.invoke(appleEvent, (Object[])null);
+            String filename = getFilenameMethod.invoke(appleEvent, (Object[]) null).toString();
             targetMethod.invoke(targetObject, new Object[] { filename });
           } catch (Exception ex) {
 

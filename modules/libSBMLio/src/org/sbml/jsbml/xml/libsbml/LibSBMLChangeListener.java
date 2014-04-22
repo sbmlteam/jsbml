@@ -322,7 +322,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
     } else if (prop.equals(TreeNodeChangeEvent.areaUnits)) {
       Model model = (Model) evtSrc;
       org.sbml.libsbml.Model libModel = (org.sbml.libsbml.Model) model.getUserObject(LINK_TO_LIBSBML);
-      libModel.setAreaUnits((String) evt.getNewValue());
+      libModel.setAreaUnits(evt.getNewValue().toString());
     } else if (prop.equals(TreeNodeChangeEvent.boundaryCondition)) {
       Species species = (Species) evtSrc;
       org.sbml.libsbml.Species libSpecies = (org.sbml.libsbml.Species) species.getUserObject(LINK_TO_LIBSBML);
@@ -345,14 +345,14 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
     } else if (prop.equals(TreeNodeChangeEvent.compartment)) {
       SBase sbase = (SBase) evtSrc;
       if (evtSrc instanceof Species) {
-        ((org.sbml.libsbml.Species) sbase.getUserObject(LINK_TO_LIBSBML)).setCompartment((String) evt.getNewValue());
+        ((org.sbml.libsbml.Species) sbase.getUserObject(LINK_TO_LIBSBML)).setCompartment(evt.getNewValue().toString());
       } else if (evtSrc instanceof Reaction) {
-        ((org.sbml.libsbml.Reaction) sbase.getUserObject(LINK_TO_LIBSBML)).setCompartment((String) evt.getNewValue());
+        ((org.sbml.libsbml.Reaction) sbase.getUserObject(LINK_TO_LIBSBML)).setCompartment(evt.getNewValue().toString());
       }
     } else if (prop.equals(TreeNodeChangeEvent.compartmentType)) {
       Compartment c = (Compartment) evtSrc;
       org.sbml.libsbml.Compartment libComp = (org.sbml.libsbml.Compartment) c.getUserObject(LINK_TO_LIBSBML);
-      libComp.setCompartmentType((String) evt.getNewValue());
+      libComp.setCompartmentType(evt.getNewValue().toString());
     } else if (prop.equals(TreeNodeChangeEvent.constant)) {
       if (evt.getSource() instanceof SpeciesReference) {
         ((org.sbml.libsbml.SpeciesReference) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setConstant((Boolean) evt.getNewValue());
@@ -366,7 +366,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
         }
       }
     } else if (prop.equals(TreeNodeChangeEvent.conversionFactor)) {
-      ((org.sbml.libsbml.Model) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setConversionFactor((String) evt.getNewValue());
+      ((org.sbml.libsbml.Model) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setConversionFactor(evt.getNewValue().toString());
     } else if (prop.equals(TreeNodeChangeEvent.createdDate)) {
       History history = (History) evtSrc;
       ((org.sbml.libsbml.ModelHistory) history.getUserObject(LINK_TO_LIBSBML)).setCreatedDate(LibSBMLUtils.convertDate(history.getCreatedDate()));
@@ -388,7 +388,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
         ((org.sbml.libsbml.ASTNode) node.getUserObject(LINK_TO_LIBSBML)).setValue(node.getNumerator(), node.getDenominator());
       }
     } else if (prop.equals(TreeNodeChangeEvent.email)) {
-      ((org.sbml.libsbml.ModelCreator) ((Creator) evtSrc).getUserObject(LINK_TO_LIBSBML)).setEmail((String) evt.getNewValue());
+      ((org.sbml.libsbml.ModelCreator) ((Creator) evtSrc).getUserObject(LINK_TO_LIBSBML)).setEmail(evt.getNewValue().toString());
     } else if (prop.equals(TreeNodeChangeEvent.encoding)) {
       // no such method for encoding!
       logger.log(Level.DEBUG, MessageFormat.format(
@@ -402,9 +402,9 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
         ((org.sbml.libsbml.Unit) ((Unit) evtSrc).getUserObject(LINK_TO_LIBSBML)).setExponent((Double) evt.getNewValue());
       }
     } else if (prop.equals(TreeNodeChangeEvent.extentUnits)) {
-      ((org.sbml.libsbml.Model) ((Model) evtSrc).getUserObject(LINK_TO_LIBSBML)).setExtentUnits((String) evt.getNewValue());
+      ((org.sbml.libsbml.Model) ((Model) evtSrc).getUserObject(LINK_TO_LIBSBML)).setExtentUnits(evt.getNewValue().toString());
     } else if (prop.equals(TreeNodeChangeEvent.familyName)) {
-      ((org.sbml.libsbml.ModelCreator) ((Creator) evtSrc).getUserObject(LINK_TO_LIBSBML)).setFamilyName((String) evt.getNewValue());
+      ((org.sbml.libsbml.ModelCreator) ((Creator) evtSrc).getUserObject(LINK_TO_LIBSBML)).setFamilyName(evt.getNewValue().toString());
     } else if (prop.equals(TreeNodeChangeEvent.fast)) {
       ((org.sbml.libsbml.Reaction) ((Reaction) evtSrc).getUserObject(LINK_TO_LIBSBML)).setFast((Boolean) evt.getNewValue());
     } else if (prop.equals(TreeNodeChangeEvent.formula)) {
@@ -412,13 +412,13 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
       Object libSBase = mathContainer.getUserObject(LINK_TO_LIBSBML);
       try {
         Method method = libSBase.getClass().getMethod("setFormula", String.class);
-        method.invoke(libSBase, (String) evt.getNewValue());
+        method.invoke(libSBase, evt.getNewValue().toString());
       } catch (Throwable exc) {
         logger.log(Level.DEBUG, MessageFormat.format(
           bundle.getString("CANNOT_CHANGE_ELEMENT"), mathContainer.getClass().getSimpleName()));
       }
     } else if (prop.equals(TreeNodeChangeEvent.givenName)) {
-      ((org.sbml.libsbml.ModelCreator) ((Creator) evtSrc).getUserObject(LINK_TO_LIBSBML)).setGivenName((String) evt.getNewValue());
+      ((org.sbml.libsbml.ModelCreator) ((Creator) evtSrc).getUserObject(LINK_TO_LIBSBML)).setGivenName(evt.getNewValue().toString());
     } else if (prop.equals(TreeNodeChangeEvent.hasOnlySubstanceUnits)) {
       ((org.sbml.libsbml.Species) ((Species) evtSrc).getUserObject(LINK_TO_LIBSBML)).setHasOnlySubstanceUnits((Boolean) evt.getNewValue());
     } else if (prop.equals(TreeNodeChangeEvent.history)) {
@@ -431,7 +431,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
         LibSBMLUtils.convertHistory(anno.getHistory());
       }
     } else if (prop.equals(TreeNodeChangeEvent.id)) {
-      ((org.sbml.libsbml.SBase) ((NamedSBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setId((String) evt.getNewValue());
+      ((org.sbml.libsbml.SBase) ((NamedSBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setId(evt.getNewValue().toString());
     } else if (prop.equals(TreeNodeChangeEvent.initialAmount)) {
       ((org.sbml.libsbml.Species) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setInitialAmount((Double) evt.getNewValue());
     } else if (prop.equals(TreeNodeChangeEvent.initialValue)) {
@@ -464,7 +464,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
     } else if (prop.equals(TreeNodeChangeEvent.kineticLaw)) {
       // This would be a node added event...
     } else if (prop.equals(TreeNodeChangeEvent.lengthUnits)) {
-      ((org.sbml.libsbml.Model) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setLengthUnits((String) evt.getNewValue());
+      ((org.sbml.libsbml.Model) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setLengthUnits(evt.getNewValue().toString());
     } else if (prop.equals(TreeNodeChangeEvent.level)) {
       SBase sbase = (SBase) evtSrc;
       libDoc.setLevelAndVersion((Long) evt.getNewValue(), sbase.getVersion());
@@ -479,7 +479,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
       org.sbml.libsbml.XMLNode xml = (message == null) ? null : new org.sbml.libsbml.XMLNode(SBMLtools.toXML(con.getMessage()));
       ((org.sbml.libsbml.Constraint) con.getUserObject(LINK_TO_LIBSBML)).setMessage(xml);
     } else if (prop.equals(TreeNodeChangeEvent.metaId)) {
-      ((org.sbml.libsbml.SBase) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setMetaId((String) evt.getNewValue());
+      ((org.sbml.libsbml.SBase) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setMetaId(evt.getNewValue().toString());
     } else if (prop.equals(TreeNodeChangeEvent.model)) {
       // This will be node added or node deleted
     } else if (prop.equals(TreeNodeChangeEvent.modifiedDate)) {
@@ -488,7 +488,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
     } else if (prop.equals(TreeNodeChangeEvent.multiplier)) {
       ((org.sbml.libsbml.Unit) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setMultiplier((Double) evt.getNewValue());
     } else if (prop.equals(TreeNodeChangeEvent.name)) {
-      ((org.sbml.libsbml.SBase) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setName((String) evt.getNewValue());
+      ((org.sbml.libsbml.SBase) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setName(evt.getNewValue().toString());
     } else if (prop.equals(TreeNodeChangeEvent.namespace)) {
       // evtSrc is a XMLToken-element
       logger.log(Level.DEBUG, MessageFormat.format(
@@ -506,16 +506,16 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
           evtSrc.getClass().getSimpleName()));
       }
     } else if (prop.equals(TreeNodeChangeEvent.notes)) {
-      ((org.sbml.libsbml.SBase) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setNotes((String) evt.getNewValue());
+      ((org.sbml.libsbml.SBase) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setNotes(evt.getNewValue().toString());
     } else if (prop.equals(TreeNodeChangeEvent.numerator)) {
       ASTNode node = (ASTNode) evtSrc;
       ((org.sbml.libsbml.ASTNode) node.getUserObject(LINK_TO_LIBSBML)).setValue((Double) evt.getNewValue(), node.getDenominator());
     } else if (prop.equals(TreeNodeChangeEvent.offset)) {
       ((org.sbml.libsbml.Unit) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setOffset((Double) evt.getNewValue());
     } else if (prop.equals(TreeNodeChangeEvent.organization)) {
-      ((org.sbml.libsbml.ModelCreator) ((Creator) evtSrc).getUserObject(LINK_TO_LIBSBML)).setOrganization((String) evt.getNewValue());
+      ((org.sbml.libsbml.ModelCreator) ((Creator) evtSrc).getUserObject(LINK_TO_LIBSBML)).setOrganization(evt.getNewValue().toString());
     } else if (prop.equals(TreeNodeChangeEvent.outside)) {
-      ((org.sbml.libsbml.Compartment) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setOutside((String) evt.getNewValue());
+      ((org.sbml.libsbml.Compartment) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setOutside(evt.getNewValue().toString());
     } else if (prop.equals(TreeNodeChangeEvent.parentSBMLObject)) {
       // We do not care about that here!
     } else if (prop.equals(TreeNodeChangeEvent.persistent)) {
@@ -550,20 +550,20 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
     } else if (prop.equals(TreeNodeChangeEvent.spatialDimensions)) {
       ((org.sbml.libsbml.Compartment) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setSpatialDimensions((Double) evt.getNewValue());
     } else if (prop.equals(TreeNodeChangeEvent.spatialSizeUnits)) {
-      ((org.sbml.libsbml.Species) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setSpatialSizeUnits((String) evt.getNewValue());
+      ((org.sbml.libsbml.Species) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setSpatialSizeUnits(evt.getNewValue().toString());
     } else if (prop.equals(TreeNodeChangeEvent.species)) {
-      ((org.sbml.libsbml.SimpleSpeciesReference) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setSpecies((String) evt.getNewValue());
+      ((org.sbml.libsbml.SimpleSpeciesReference) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setSpecies(evt.getNewValue().toString());
     } else if (prop.equals(TreeNodeChangeEvent.speciesType)) {
-      ((org.sbml.libsbml.Species) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setSpeciesType((String) evt.getNewValue());
+      ((org.sbml.libsbml.Species) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setSpeciesType(evt.getNewValue().toString());
     } else if (prop.equals(TreeNodeChangeEvent.stoichiometry)) {
       ((org.sbml.libsbml.SpeciesReference) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setStoichiometry((Double) evt.getNewValue());
     } else if (prop.equals(TreeNodeChangeEvent.style)) {
-      ((org.sbml.libsbml.ASTNode) ((ASTNode) evtSrc).getUserObject(LINK_TO_LIBSBML)).setStyle((String) evt.getNewValue());
+      ((org.sbml.libsbml.ASTNode) ((ASTNode) evtSrc).getUserObject(LINK_TO_LIBSBML)).setStyle(evt.getNewValue().toString());
     } else if (prop.equals(TreeNodeChangeEvent.substanceUnits)) {
       if (evtSrc instanceof KineticLaw) {
-        ((org.sbml.libsbml.KineticLaw) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setSubstanceUnits((String) evt.getNewValue());
+        ((org.sbml.libsbml.KineticLaw) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setSubstanceUnits(evt.getNewValue().toString());
       } else if (evtSrc instanceof Model) {
-        ((org.sbml.libsbml.Model) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setSubstanceUnits((String) evt.getNewValue());
+        ((org.sbml.libsbml.Model) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setSubstanceUnits(evt.getNewValue().toString());
       }
     } else if (prop.equals(TreeNodeChangeEvent.SBMLDocumentAttributes)) {
       logger.log(Level.DEBUG, MessageFormat.format(
@@ -573,14 +573,14 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
       XMLToken token = (XMLToken) evtSrc;
       org.sbml.libsbml.XMLToken libToken = (org.sbml.libsbml.XMLToken) token.getUserObject(LINK_TO_LIBSBML);
       String chars = libToken.getCharacters();
-      libToken.append(((String) evt.getNewValue()).substring(chars.length()));
+      libToken.append((evt.getNewValue().toString()).substring(chars.length()));
     } else if (prop.equals(TreeNodeChangeEvent.timeUnits)) {
       if (evtSrc instanceof Event) {
-        ((org.sbml.libsbml.Event) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setTimeUnits((String) evt.getNewValue());
+        ((org.sbml.libsbml.Event) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setTimeUnits(evt.getNewValue().toString());
       } else if (evtSrc instanceof KineticLaw) {
-        ((org.sbml.libsbml.KineticLaw) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setTimeUnits((String) evt.getNewValue());
+        ((org.sbml.libsbml.KineticLaw) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setTimeUnits(evt.getNewValue().toString());
       } else if (evtSrc instanceof Model) {
-        ((org.sbml.libsbml.Model) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setTimeUnits((String) evt.getNewValue());
+        ((org.sbml.libsbml.Model) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setTimeUnits(evt.getNewValue().toString());
       }
     } else if (prop.equals(TreeNodeChangeEvent.type)) {
       if (evtSrc instanceof ASTNode) {
@@ -591,25 +591,25 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
     } else if (prop.equals(TreeNodeChangeEvent.units)) {
       if (evtSrc instanceof ASTNode) {
         ASTNode n = (ASTNode) evtSrc;
-        ((org.sbml.libsbml.ASTNode) n.getUserObject(LINK_TO_LIBSBML)).setUnits((String) evt.getNewValue());
+        ((org.sbml.libsbml.ASTNode) n.getUserObject(LINK_TO_LIBSBML)).setUnits(evt.getNewValue().toString());
       } else {
         org.sbml.libsbml.SBase libSBase = (org.sbml.libsbml.SBase) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML);
         if (evtSrc instanceof ExplicitRule) {
-          ((org.sbml.libsbml.Rule) libSBase).setUnits((String) evt.getNewValue());
+          ((org.sbml.libsbml.Rule) libSBase).setUnits(evt.getNewValue().toString());
         } else if (evtSrc instanceof KineticLaw) {
-          ((org.sbml.libsbml.KineticLaw) libSBase).setTimeUnits((String) evt.getNewValue());
+          ((org.sbml.libsbml.KineticLaw) libSBase).setTimeUnits(evt.getNewValue().toString());
         } else if (evtSrc instanceof LocalParameter) {
           if (libSBase.getLevel() < 3) {
-            ((org.sbml.libsbml.Parameter) libSBase).setUnits((String) evt.getNewValue());
+            ((org.sbml.libsbml.Parameter) libSBase).setUnits(evt.getNewValue().toString());
           } else {
-            ((org.sbml.libsbml.LocalParameter) libSBase).setUnits((String) evt.getNewValue());
+            ((org.sbml.libsbml.LocalParameter) libSBase).setUnits(evt.getNewValue().toString());
           }
         } else if (evtSrc instanceof Parameter) {
-          ((org.sbml.libsbml.Parameter) libSBase).setUnits((String) evt.getNewValue());
+          ((org.sbml.libsbml.Parameter) libSBase).setUnits(evt.getNewValue().toString());
         } else if (evtSrc instanceof Species) {
-          ((org.sbml.libsbml.Species) libSBase).setUnits((String) evt.getNewValue());
+          ((org.sbml.libsbml.Species) libSBase).setUnits(evt.getNewValue().toString());
         } else if (evtSrc instanceof Compartment) {
-          ((org.sbml.libsbml.Compartment) libSBase).setUnits((String) evt.getNewValue());
+          ((org.sbml.libsbml.Compartment) libSBase).setUnits(evt.getNewValue().toString());
         }
       }
     } else if (prop.equals(TreeNodeChangeEvent.unsetCVTerms)) {
@@ -652,19 +652,19 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
       }
     } else if (prop.equals(TreeNodeChangeEvent.variable)) {
       if (evtSrc instanceof ASTNode) {
-        ((org.sbml.libsbml.ASTNode) ((ASTNode) evtSrc).getUserObject(LINK_TO_LIBSBML)).setName((String) evt.getNewValue());
+        ((org.sbml.libsbml.ASTNode) ((ASTNode) evtSrc).getUserObject(LINK_TO_LIBSBML)).setName(evt.getNewValue().toString());
       } else {
         org.sbml.libsbml.SBase pSBase = (org.sbml.libsbml.SBase) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML);
         if (evtSrc instanceof EventAssignment) {
-          ((org.sbml.libsbml.EventAssignment) pSBase).setVariable((String) evt.getNewValue());
+          ((org.sbml.libsbml.EventAssignment) pSBase).setVariable(evt.getNewValue().toString());
         } else if (evtSrc instanceof ExplicitRule) {
           if (evtSrc instanceof AssignmentRule) {
-            ((org.sbml.libsbml.AssignmentRule) pSBase).setVariable((String) evt.getNewValue());
+            ((org.sbml.libsbml.AssignmentRule) pSBase).setVariable(evt.getNewValue().toString());
           } else {
-            ((org.sbml.libsbml.RateRule) pSBase).setVariable((String) evt.getNewValue());
+            ((org.sbml.libsbml.RateRule) pSBase).setVariable(evt.getNewValue().toString());
           }
         } else if (evtSrc instanceof InitialAssignment) {
-          ((org.sbml.libsbml.InitialAssignment) pSBase).setSymbol((String) evt.getNewValue());
+          ((org.sbml.libsbml.InitialAssignment) pSBase).setSymbol(evt.getNewValue().toString());
         }
       }
     } else if (prop.equals(TreeNodeChangeEvent.version)) {
@@ -672,7 +672,7 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
     } else if (prop.equals(TreeNodeChangeEvent.volume)) {
       // won't happen because it is changing the "value" of the compartment.
     } else if (prop.equals(TreeNodeChangeEvent.volumeUnits)) {
-      ((org.sbml.libsbml.Model) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setVolumeUnits((String) evt.getNewValue());
+      ((org.sbml.libsbml.Model) ((SBase) evtSrc).getUserObject(LINK_TO_LIBSBML)).setVolumeUnits(evt.getNewValue().toString());
     } else if (prop.equals(TreeNodeChangeEvent.xmlTriple)) {
       XMLToken token = (XMLToken) evtSrc;
       // TODO!!!
