@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Contains some constants related to the fbc package.
+ * Contains constants related to the FBC package.
  * 
  * @author Nicolas Rodriguez
  * @since 1.0

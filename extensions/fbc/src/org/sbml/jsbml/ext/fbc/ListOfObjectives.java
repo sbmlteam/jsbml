@@ -26,6 +26,8 @@ import java.util.Map;
 import org.sbml.jsbml.ListOf;
 
 /**
+ * Unlike other SBML {@link ListOf} classes, {@link ListOfObjectives} adds an additional
+ * required attribute activeObjective.
  * @author Nicolas Rodriguez
  * @since 1.0
  * @version $Rev$
@@ -124,6 +126,11 @@ public class ListOfObjectives extends ListOf<Objective> {
   }
 
   /**
+   * This attribute refers to an id of an existing {@link Objective}. This attribute
+   * exists so that multiple objectives are defined in a single model, the model will
+   * always be well-defined, i.e. there is a single objective function which defines
+   * a single optimum.
+   * 
    * Sets the value of activeObjective
    */
   public void setActiveObjective(String activeObjective) {
