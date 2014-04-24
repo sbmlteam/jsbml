@@ -32,6 +32,8 @@ import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
 
 /**
+ * The {@link FluxObjective} class is a relatively simple container for a model
+ * variable weighted by a signed linear coefficient.
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$
@@ -217,7 +219,8 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   }
 
   /**
-   * Sets the value of coefficient
+   * The coefficient attribute takes the value of the coefficient that the FluxObjective
+   * takes in the context of the enclosing {@link Objective} class.
    * 
    * @param coefficient the coefficient to set
    */
@@ -238,6 +241,8 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
   }
 
   /**
+   * Sets the reaction that thie {@link FluxObjective} is associated with in the context
+   * of the enclosing {@link Objective} class.
    * @param reaction the reaction to set
    */
   public void setReaction(String reaction) {

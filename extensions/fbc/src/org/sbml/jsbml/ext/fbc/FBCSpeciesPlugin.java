@@ -34,6 +34,8 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.util.StringTools;
 
 /**
+ * {@link FBCSpeciesPlugin} is the extended {@link Species} class with the additional
+ * attributes charge and chemicalFormula
  * 
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
@@ -249,7 +251,9 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Sets the value of charge
+   * Sets the value of charge. The optional field charge takes an integer indicating
+   * the charge on the species (in terms of electrons, not the SI unit coulombs).
+   * This attribute can be used for charge balancing.
    */
   public void setCharge(int charge) {
     int oldCharge = this.charge;
@@ -259,7 +263,13 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Sets the value of chemicalFormula
+   * Sets the value of chemicalFormula.
+   * 
+   * The format of chemical formula must consist only of atomic names (as  in  the  Periodic  Table)
+   * or user defined compounds either of which take the form of a single capital letter followed
+   * by zero or more lower-case letters. Where there is more than a single atom  present,
+   * this is indicated with an integer. With regards to order (and enhance inter-operability)
+   * it is recommended to use the Hill system order (Hill 1900, 2012).
    */
   public void setChemicalFormula(String chemicalFormula) {
     String oldChemicalFormula = this.chemicalFormula;

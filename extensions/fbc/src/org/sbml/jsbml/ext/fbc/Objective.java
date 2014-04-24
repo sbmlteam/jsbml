@@ -36,6 +36,10 @@ import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
+ * An integral component in a complete description of a steady-state model is the so-called
+ * 'objective function' which generally consists of a linear combination of model variables
+ * (fluxes) and a sense (direction). In the FBC package this concept is succinctly captured
+ * in the {@link Objective} class.
  * 
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
@@ -340,6 +344,8 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * The required type attribute contains a {@link Type} which represents the sense
+   * of the optimality constraint and can take one of two values, minimize or maximize.
    * Sets the type from a {@link String}.
    * 
    * @param type the type to set
@@ -359,6 +365,7 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Sets the value of type
+   * 
    */
   public void setType(Type type) {
     Type oldType = this.type;
@@ -417,6 +424,9 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 
 
   /**
+   * This list houses the actual fluxes to partake in this objective function,
+   * which are encoded by {@link FluxObjective}
+   * 
    * Sets the given {@code ListOf<FluxObjective>}. If listOfFluxObjectives
    * was defined before and contains some elements, they are all unset.
    *

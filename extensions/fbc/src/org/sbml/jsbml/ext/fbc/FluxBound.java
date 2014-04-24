@@ -26,12 +26,14 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
-import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
 
 /**
+ * {@link FluxBound} is a new FBC class which holds a single (in)equality that provides
+ * the maximum or minimum value that a reaction flux can obtain at steady state.
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$

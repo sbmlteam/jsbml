@@ -33,6 +33,9 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
 /**
+ * {@link FBCModelPlugin} is the extended {@link Model} class for the FBC package.
+ * It is extended by the addition of two children, list of {@link FluxBound}
+ * and list of {@link Objective}
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$
@@ -407,6 +410,9 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
+   * The activeObjective refers to the id of an existing objective. This required
+   * attribute exists so that if there are multiple objectives included in the
+   * model, the model will still be well-described.
    * 
    * @param activeObjective
    */

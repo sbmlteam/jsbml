@@ -22,6 +22,7 @@
 package org.sbml.jsbml.ext.fbc;
 
 /**
+ * Lists used in the FBC package.
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$
