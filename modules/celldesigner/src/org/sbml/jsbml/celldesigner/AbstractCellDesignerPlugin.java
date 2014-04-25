@@ -25,7 +25,7 @@ import jp.sbi.celldesigner.plugin.CellDesignerPlugin;
 import jp.sbi.celldesigner.plugin.PluginSBase;
 
 /**
- * A basic implementation of a CellDesigner plugin that takes care of
+ * A basic implementation of a CellDesigner plug-in that takes care of
  * synchronization between CellDesigner and corresponding JSBML data structures.
  * 
  * @author Andreas Dr&auml;ger
@@ -35,31 +35,46 @@ import jp.sbi.celldesigner.plugin.PluginSBase;
  */
 public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin {
 
-  /* (non-Javadoc)
-   * @see jp.sbi.celldesigner.plugin.CellDesignerPlug#SBaseAdded(jp.sbi.celldesigner.plugin.PluginSBase)
+  /**
+   * Converts CellDesigner's plug-in data structure into a JSBML data structure.
    */
-  @Override
-  public void SBaseAdded(PluginSBase sbase) {
-    // TODO Auto-generated method stub
-    System.out.println("SBaseAdded " + sbase);
+  private PluginSBMLReader reader;
+  /**
+   * Creates CellDesigner's plug-in data structure for a given JSBML structure.
+   */
+  private PluginSBMLWriter writer;
+
+  /**
+   * 
+   */
+  public AbstractCellDesignerPlugin() {
+    super();
+    System.out.println("Loading plugin " + getClass().getName());
+    try {
+      // Initialize CellDesigner/JSBML communication interface
+      reader = new PluginSBMLReader();
+      writer = new PluginSBMLWriter(this);
+    } catch (Throwable t) {
+      t.printStackTrace();
+      Throwable cause = t.getCause();
+      if (cause != null) {
+        cause.printStackTrace();
+      }
+    }
   }
 
-  /* (non-Javadoc)
-   * @see jp.sbi.celldesigner.plugin.CellDesignerPlug#SBaseChanged(jp.sbi.celldesigner.plugin.PluginSBase)
+  /**
+   * @return the reader
    */
-  @Override
-  public void SBaseChanged(PluginSBase sbase) {
-    // TODO Auto-generated method stub
-    System.out.println("SBaseChanged " + sbase);
+  public PluginSBMLReader getReader() {
+    return reader;
   }
 
-  /* (non-Javadoc)
-   * @see jp.sbi.celldesigner.plugin.CellDesignerPlug#SBaseDeleted(jp.sbi.celldesigner.plugin.PluginSBase)
+  /**
+   * @return the writer
    */
-  @Override
-  public void SBaseDeleted(PluginSBase sbase) {
-    // TODO Auto-generated method stub
-    System.out.println("SBaseDeleted "  + sbase);
+  public PluginSBMLWriter getWriter() {
+    return writer;
   }
 
   /* (non-Javadoc)
@@ -87,6 +102,33 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin {
   public void modelSelectChanged(PluginSBase sbase) {
     // TODO Auto-generated method stub
     System.out.println("modelSelectChanged " + sbase);
+  }
+
+  /* (non-Javadoc)
+   * @see jp.sbi.celldesigner.plugin.CellDesignerPlug#SBaseAdded(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  @Override
+  public void SBaseAdded(PluginSBase sbase) {
+    // TODO Auto-generated method stub
+    System.out.println("SBaseAdded " + sbase);
+  }
+
+  /* (non-Javadoc)
+   * @see jp.sbi.celldesigner.plugin.CellDesignerPlug#SBaseChanged(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  @Override
+  public void SBaseChanged(PluginSBase sbase) {
+    // TODO Auto-generated method stub
+    System.out.println("SBaseChanged " + sbase);
+  }
+
+  /* (non-Javadoc)
+   * @see jp.sbi.celldesigner.plugin.CellDesignerPlug#SBaseDeleted(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  @Override
+  public void SBaseDeleted(PluginSBase sbase) {
+    // TODO Auto-generated method stub
+    System.out.println("SBaseDeleted "  + sbase);
   }
 
 }
