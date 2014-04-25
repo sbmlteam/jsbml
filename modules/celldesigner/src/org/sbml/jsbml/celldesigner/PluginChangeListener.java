@@ -30,7 +30,6 @@ import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
 import javax.swing.tree.TreeNode;
-import javax.xml.stream.XMLStreamException;
 
 import jp.sbi.celldesigner.plugin.CellDesignerPlugin;
 import jp.sbi.celldesigner.plugin.PluginAssignmentRule;
@@ -302,7 +301,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
             }
           }
         }
-      } catch (XMLStreamException exc) {
+      } catch (Throwable exc) {
         exc.printStackTrace();
       }
 
@@ -776,7 +775,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
       ASTNode n = (ASTNode) evtSrc;
       MathContainer mc = n.getParentSBMLObject();
       ASTNode node = (ASTNode) evtSrc;
-      ((org.sbml.libsbml.ASTNode) node.getUserObject(LINK_TO_LIBSBML)).setValue((Double) evt.getNewValue(), node.getExponent());
+      ((org.sbml.libsbml.ASTNode) node.getUserObject(LINK_TO_LIBSBML)).setValue(((Double) evt.getNewValue()).doubleValue(), node.getExponent());
       plugin.notifySBaseChanged((PluginSBase) mc.getUserObject(LINK_TO_CELLDESIGNER));
     } else if (prop.equals(TreeNodeChangeEvent.math)) {
       // This will be node added or node deleted
@@ -798,7 +797,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
       Unit u = (Unit) evtSrc;
       UnitDefinition ud = (UnitDefinition) u.getParentSBMLObject().getParentSBMLObject();
       PluginUnitDefinition pud = plugModel.getUnitDefinition(ud.getId());
-      u.setMultiplier((Double) evt.getNewValue());
+      u.setMultiplier(((Double) evt.getNewValue()).doubleValue());
       plugin.notifySBaseChanged(pud);
     } else if (prop.equals(TreeNodeChangeEvent.name)) {
       PluginSBase plugSBase = (PluginSBase) ((SBase) evtSrc).getUserObject(LINK_TO_CELLDESIGNER);
@@ -831,7 +830,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
     } else if (prop.equals(TreeNodeChangeEvent.offset)) {
       Unit u = (Unit) evtSrc;
       PluginUnit plugU = (PluginUnit) u.getUserObject(LINK_TO_CELLDESIGNER);
-      plugU.setOffset((Double) evt.getNewValue());
+      plugU.setOffset(((Double) evt.getNewValue()).doubleValue());
       plugin.notifySBaseChanged(plugU);
     } else if (prop.equals(TreeNodeChangeEvent.organization)) {
       logger.log(Level.DEBUG, MessageFormat.format(
@@ -887,7 +886,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
     } else if (prop.equals(TreeNodeChangeEvent.size)) {
       Compartment c = (Compartment) evtSrc;
       PluginCompartment plugC = (PluginCompartment) c.getUserObject(LINK_TO_CELLDESIGNER);
-      plugC.setSize((Double) evt.getNewValue());
+      plugC.setSize(((Double) evt.getNewValue()).doubleValue());
       plugin.notifySBaseChanged(plugC);
     } else if (prop.equals(TreeNodeChangeEvent.spatialDimensions)) {
       Compartment c = (Compartment) evtSrc;
@@ -917,7 +916,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
       plugin.notifySBaseChanged(plugSpec);
     } else if (prop.equals(TreeNodeChangeEvent.stoichiometry)) {
       PluginSpeciesReference plugSpec = (PluginSpeciesReference) ((SpeciesReference) evtSrc).getUserObject(LINK_TO_CELLDESIGNER);
-      plugSpec.setStoichiometry((Double) evt.getNewValue());
+      plugSpec.setStoichiometry(((Double) evt.getNewValue()).doubleValue());
       plugin.notifySBaseChanged(plugSpec);
     } else if (prop.equals(TreeNodeChangeEvent.style)) {
       //      ASTNode n = (ASTNode) evtSrc;
@@ -1005,7 +1004,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
       if (evtSrc instanceof ASTNode) {
         ASTNode n = (ASTNode) evtSrc;
         if (evt.getNewValue() instanceof Double) {
-          ((org.sbml.libsbml.ASTNode) n.getUserObject(LINK_TO_LIBSBML)).setValue((Double) evt.getNewValue());
+          ((org.sbml.libsbml.ASTNode) n.getUserObject(LINK_TO_LIBSBML)).setValue(((Double) evt.getNewValue()).doubleValue());
         } else {
           ((org.sbml.libsbml.ASTNode) n.getUserObject(LINK_TO_LIBSBML)).setValue((Character) evt.getNewValue());
         }
@@ -1013,22 +1012,23 @@ public class PluginChangeListener implements TreeNodeChangeListener {
       } else {
         PluginSBase plugSBase = (PluginSBase) ((SBase) evtSrc).getUserObject(LINK_TO_CELLDESIGNER);
         if ((evtSrc instanceof LocalParameter) || (evtSrc instanceof Parameter)) {
-          ((PluginParameter) plugSBase).setValue((Double) evt.getNewValue());
+          ((PluginParameter) plugSBase).setValue(((Double) evt.getNewValue()).doubleValue());
         } else if (evtSrc instanceof Species) {
           Species species = (Species) evtSrc;
           if (species.isSetInitialAmount()) {
-            ((PluginSpecies) plugSBase).setInitialAmount((Double) evt.getNewValue());
+            ((PluginSpecies) plugSBase).setInitialAmount(((Double) evt.getNewValue()).doubleValue());
           } else {
-            ((PluginSpecies) plugSBase).setInitialConcentration((Double) evt.getNewValue());
+            ((PluginSpecies) plugSBase).setInitialConcentration(((Double) evt.getNewValue()).doubleValue());
           }
         } else if (evtSrc instanceof Compartment) {
-          ((PluginCompartment) plugSBase).setSize((Double) evt.getNewValue());
+          ((PluginCompartment) plugSBase).setSize(((Double) evt.getNewValue()).doubleValue());
         }
         plugin.notifySBaseChanged(plugSBase);
       }
     } else if (prop.equals(TreeNodeChangeEvent.variable)) {
       if (evtSrc instanceof ASTNode) {
-        ((org.sbml.libsbml.ASTNode) ((ASTNode) evtSrc).getUserObject(LINK_TO_LIBSBML)).setName(evt.getNewValue().toString());
+        String id = evt.getNewValue() instanceof NamedSBase ? ((NamedSBase) evt.getNewValue()).getId() : evt.getNewValue().toString();
+        ((org.sbml.libsbml.ASTNode) ((ASTNode) evtSrc).getUserObject(LINK_TO_LIBSBML)).setName(id);
       } else {
         PluginSBase pSBase = (PluginSBase) ((SBase) evtSrc).getUserObject(LINK_TO_CELLDESIGNER);
         if (evtSrc instanceof EventAssignment) {

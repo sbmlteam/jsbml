@@ -136,6 +136,20 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   private Set<Integer> possibleEnzymes;
 
   /**
+   * @return the possibleEnzymes
+   */
+  public Set<Integer> getPossibleEnzymes() {
+    return possibleEnzymes;
+  }
+
+  /**
+   * @param possibleEnzymes the possibleEnzymes to set
+   */
+  public void setPossibleEnzymes(Set<Integer> possibleEnzymes) {
+    this.possibleEnzymes = possibleEnzymes;
+  }
+
+  /**
    * get a model from the CellDesigner output, converts it to JSBML
    * format and stores it
    * 
@@ -165,6 +179,13 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   public PluginSBMLReader(Set<Integer> possibleEnzymes) {
     super();
     this.possibleEnzymes = possibleEnzymes;
+  }
+
+  /**
+   * 
+   */
+  public PluginSBMLReader() {
+    this(SBO.getDefaultPossibleEnzymes());
   }
 
   /**
