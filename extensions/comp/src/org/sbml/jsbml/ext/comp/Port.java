@@ -22,7 +22,6 @@
 package org.sbml.jsbml.ext.comp;
 
 import org.sbml.jsbml.LevelVersionError;
-import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
  * 
@@ -30,9 +29,7 @@ import org.sbml.jsbml.UniqueNamedSBase;
  * @version $Rev$
  * @since 1.0
  */
-public class Port extends AbstractNamedSBaseRef implements UniqueNamedSBase {
-  // TODO - Port have their own namespace of ids so we have to treat them separately.
-  // We will do that once the new methods and interface to deal with registration of ids are in place.
+public class Port extends AbstractNamedSBaseRef {
 
   /**
    * Generated serial version identifier.

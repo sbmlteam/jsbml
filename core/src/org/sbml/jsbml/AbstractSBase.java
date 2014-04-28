@@ -1164,6 +1164,20 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @return an {@link IdManager} that can register the given {@link SBase}.
    */
   protected IdManager getIdManager(SBase sbase) {
+
+	  // we need to test the SBasePlugins if any exists first
+	  if (getNumPlugins() > 0) {
+		  for (String pluginKey : getExtensionPackages().keySet()) {
+			  SBasePlugin plugin = getExtensionPackages().get(pluginKey);
+
+			  // System.out.println("DEBUG - getIdManager plugins found");
+
+			  if ((plugin instanceof IdManager) && (((IdManager) plugin).accept(sbase))) {
+				  return (IdManager) plugin;
+			  }
+		  }
+	  }
+
     if ((this instanceof IdManager) && (((IdManager) this).accept(sbase))) {
       return (IdManager) this;
     }
