@@ -31,7 +31,6 @@ import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLWriter;
-import org.sbml.jsbml.gui.JSBMLvisualizer;
 import org.sbml.jsbml.text.parser.ParseException;
 
 /**
@@ -58,7 +57,7 @@ public class BuildToyModelTest {
     model.getHistory().addModifiedDate(Calendar.getInstance().getTime());
     model.getAnnotation().addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "urn:miriam:obo.go:GO%3A1234567"));
 
-    QualitativeModel qModel = new QualitativeModel(model);
+    QualModelPlugin qModel = new QualModelPlugin(model);
 
     model.addExtension(QUAL_NS_PREFIX, qModel);
 
@@ -156,8 +155,6 @@ public class BuildToyModelTest {
     } catch (Exception e) {
       e.printStackTrace();
     }
-
-    new JSBMLvisualizer(sbmlDoc);
   }
 
 }
