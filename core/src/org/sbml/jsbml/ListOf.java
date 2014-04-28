@@ -400,7 +400,8 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
       logger.debug(MessageFormat.format(
         "Reverting change: removing element {0} from internal list",
         element));
-      listOf.remove(element);
+      // using the position when removing to be sure to delete the added element (and it is more efficient)
+      listOf.remove(listOf.size() - 1);
       throw exc;
     }
   }
