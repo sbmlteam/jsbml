@@ -35,6 +35,7 @@ import java.util.TreeSet;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
@@ -4013,21 +4014,39 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
         // do nothing
       }
     }
-    
-    if (newElem instanceof IdManager && newElem != this) {
-      if (idManagerList == null) {
-        idManagerList = new ArrayList<IdManager>();
-      }
-      
-      idManagerList.add((IdManager) newElem);
-    }
-    
-    if (idManagerList != null && idManagerList.size() > 0 && delete) {
-      for (IdManager idManager : idManagerList) {
-        if (idManager.accept(newElem)) {
-          idManager.unregister(newElem);
-        }
-      }
+
+    if (delete) {
+
+		if (idManagerList == null) {
+			idManagerList = new ArrayList<IdManager>();
+		}
+
+    	if (newElem instanceof IdManager && newElem != this) {
+    		idManagerList.add((IdManager) newElem);
+    	}
+
+    	// TODO - test all the plugins to include them potentially in the list of IdManager
+    	// we need to test the SBasePlugins if any exists first
+    	if (newElem.getNumPlugins() > 0) {
+    		for (String pluginKey : newElem.getExtensionPackages().keySet()) {
+    			SBasePlugin plugin = newElem.getExtensionPackages().get(pluginKey);
+
+    			// System.out.println("DEBUG - getIdManager plugins found");
+
+    			if (plugin instanceof IdManager) {
+    				idManagerList.add((IdManager) plugin);			  }
+    		}
+    	}
+
+
+
+    	if (idManagerList != null && idManagerList.size() > 0 && delete) {
+    		for (IdManager idManager : idManagerList) {
+    			if (idManager.accept(newElem)) {
+    				idManager.unregister(newElem);
+    			}
+    		}
+    	}
     }
 
     if (logger.isDebugEnabled()) {

@@ -23,13 +23,18 @@ package org.sbml.jsbml.ext.comp;
 
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.UniqueNamedSBase;
+import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
@@ -38,12 +43,17 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @version $Rev$
  * @since 1.0
  */
-public class CompModelPlugin extends CompSBasePlugin {
+public class CompModelPlugin extends CompSBasePlugin implements IdManager {
 
   /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 7104644706063096211L;
+
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final transient Logger logger = Logger.getLogger(Model.class);
 
   /**
    * 
@@ -55,6 +65,12 @@ public class CompModelPlugin extends CompSBasePlugin {
    */
   private ListOf<Submodel> listOfSubmodels;
 
+  /**
+   * Maps between the {@link Port} identifiers and themselves.
+   */
+  private Map<String, Port> mapOfPorts;
+
+  
   // TODO - create constructors with package version ??
 
   /**
@@ -71,6 +87,9 @@ public class CompModelPlugin extends CompSBasePlugin {
     if (obj.isSetListOfPorts()) {
       setListOfPorts(obj.getListOfPorts().clone());
     }
+    
+    // TODO - copy the id map ?? Should not be needed, it should be constructed when adding the cloned Port
+    
   }
 
   /**
@@ -148,6 +167,22 @@ public class CompModelPlugin extends CompSBasePlugin {
     return submodel;
   }
 
+  /**
+   * Returns a {@link Port} element that has the given 'id' within
+   * this {@link Model} or {@code null} if no such element can be found.
+   * 
+   * @param id
+   *        an id indicating a {@link Port} element of the
+   *        {@link Model}.
+   * @return a {@link Port} element of the {@link Model} that has
+   *         the given 'id' as id or {@code null} if no element with this
+   *         'id' can be found.
+   */
+  public Port findPort(String id) {
+    return mapOfPorts == null ? null : mapOfPorts.get(id);
+  }
+
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.comp.CompSBasePlugin#getAllowsChildren()
    */
@@ -240,6 +275,23 @@ public class CompModelPlugin extends CompSBasePlugin {
       extendedSBase.registerChild(listOfSubmodels);
     }
     return listOfSubmodels;
+  }
+
+  
+  /**
+   * Returns a {@link Port} element that has the given 'id' within
+   * this {@link Model} or {@code null} if no such element can be found.
+   * 
+   * @param id
+   *        an id indicating a {@link Port} element of the
+   *        {@link Model}.
+   * @return a {@link Port} element of the {@link Model} that has
+   *         the given 'id' as id or {@code null} if no element with this
+   *         'id' can be found.
+   * @see CompModelPlugin#findPort(String)       
+   */
+  public Port getPortById(String id) {
+    return findPort(id);
   }
 
   /**
@@ -469,5 +521,93 @@ public class CompModelPlugin extends CompSBasePlugin {
   public Map<String, String> writeXMLAttributes() {
     return null;
   }
+
+  @Override
+  public boolean accept(SBase sbase) {
+	  
+//	  System.out.println("DEBUG : CompModelPlugin accept method called !!");
+	  
+	  return sbase instanceof Port;
+  }
+
+  @Override
+  public boolean register(SBase sbase) {
+	  
+	  boolean success = true;
+
+	  if (sbase instanceof Port) {
+		  Port port = (Port) sbase;
+		  
+		  if (port.isSetId()) {
+			  String portId = port.getId();
+			  
+			  if (mapOfPorts == null) {
+				  mapOfPorts = new HashMap<String, Port>();
+			  }
+			  
+			  if (mapOfPorts.containsKey(portId)) {
+				  logger.error(MessageFormat.format(
+				          "A Port with the id \"{0}\" is already present in this model {1}. The new element will not be added to the model.",
+				          portId, (isSetExtendedSBase() ? ((Model) getExtendedSBase()).getId() : "")));
+				  success = false;
+			  } else {
+
+				  mapOfPorts.put(portId, port);
+				  
+				  if (logger.isDebugEnabled()) {
+					  logger.debug(MessageFormat.format("registered port id={0} in model {1}",
+							  portId, (isSetExtendedSBase() ? ((Model) getExtendedSBase()).getId() : "")));
+				  }
+			  }
+		  }
+	  } else {
+		  logger.error(MessageFormat.format(
+				  "Trying to register something that is not a Port: \"{0}\".", sbase));
+	  }
+
+	  // TODO : register all the Port children if any !!
+
+	  return success;
+  }
+
+  @Override
+  public boolean unregister(SBase sbase) {
+
+	  boolean success = true;
+
+	  if (sbase instanceof Port) {
+		  Port port = (Port) sbase;
+
+		  if (port.isSetId()) {
+			  String portId = port.getId();
+
+			  if (mapOfPorts == null) {
+				  return false;
+			  }
+
+			  if (mapOfPorts.containsKey(portId)) {
+				  mapOfPorts.remove(portId);
+
+				  if (logger.isDebugEnabled()) {
+					  logger.debug(MessageFormat.format("unregistered port id={0} in model {1}",
+							  portId, (isSetExtendedSBase() ? ((Model) getExtendedSBase()).getId() : "")));
+				  }
+			  } else {
+
+				  logger.error(MessageFormat.format(
+						  "A Port with the id \"{0}\" is not present in this model {1}. Nothing to be done.",
+						  portId, (isSetExtendedSBase() ? ((Model) getExtendedSBase()).getId() : "")));
+			  }
+		  }
+	  } else {
+		  logger.error(MessageFormat.format(
+				  "Trying to unregister something that is not a Port: \"{0}\".", sbase));
+	  }
+
+	  // TODO : unregister all the Port children if any !!
+
+	  return success;
+  }
+
 
 }
