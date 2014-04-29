@@ -71,6 +71,14 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   public CompSBMLDocumentPlugin(CompSBMLDocumentPlugin compSBMLDocumentPlugin)
   {
     super(compSBMLDocumentPlugin);
+    
+    if (compSBMLDocumentPlugin.isSetListOfModelDefinitions()) {
+      setListOfModelDefinitions(compSBMLDocumentPlugin.getListOfModelDefinitions().clone());
+    }
+    if (compSBMLDocumentPlugin.isSetListOfExternalModelDefinitions()) {
+      setListOfExternalModelDefinitions(compSBMLDocumentPlugin.getListOfExternalModelDefinitions().clone());
+    }
+
   }
 
   /**
