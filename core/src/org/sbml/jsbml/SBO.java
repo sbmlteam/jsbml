@@ -966,6 +966,14 @@ public class SBO {
    * 
    * @return
    */
+  public static int getActivator() {
+    return 459;
+  }
+
+  /**
+   * 
+   * @return
+   */
   public static int getIon() {
     return convertAlias2SBO("ION");
   }

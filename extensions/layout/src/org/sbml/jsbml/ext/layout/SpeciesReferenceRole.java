@@ -24,6 +24,9 @@ package org.sbml.jsbml.ext.layout;
 import org.sbml.jsbml.SBO;
 
 /**
+ * Enumeration that defines the different SpeciesReferenceRoles that are encoded by
+ * the {@link Layout} package.
+ * 
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
  * @since 1.0
@@ -70,7 +73,7 @@ public enum SpeciesReferenceRole {
   public int toSBOterm() {
     switch (this) {
     case ACTIVATOR:
-      return 459; // 459 = stimulator
+      return SBO.getActivator(); // 459 = stimulator
     case INHIBITOR:
       return SBO.getInhibitor(); // 20 = inhibitor
     case MODIFIER:

@@ -32,6 +32,9 @@ import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.ResourceManager;
 
 /**
+ * The {@link BoundingBox} class specifies the required elements position and dimension.
+ * The class describes the rectangular area by which other classes of the Layout package
+ * will be situated.
  * 
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
@@ -308,6 +311,8 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
   }
 
   /**
+   * The dimensions element is required and of type {@link Dimensions}. It represents
+   * the size of the {@link BoundingBox}.
    * 
    * @param dimensions
    */
@@ -323,7 +328,8 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
 
 
   /**
-   * 
+   * Position always specifies the upper left corner of the {@link BoundingBox}.
+   * The position is of type {@link Point}.
    * @param point
    */
   public void setPosition(Point point) {

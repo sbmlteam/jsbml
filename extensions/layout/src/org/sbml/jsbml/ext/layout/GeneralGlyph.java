@@ -21,16 +21,30 @@
  */
 package org.sbml.jsbml.ext.layout;
 
+import java.awt.Event;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.junit.Rule;
+import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.EventAssignment;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.Species;
+import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.util.ListOfWithName;
 
 /**
+ * The {@link GeneralGlyph} is used to facilitate the representation of elements other than {@link Compartment},
+ * {@link Species} and {@link Reaction} and thus can be used for the display of relationships of {@link Rule} or
+ * elements defined by other SBML packages. It closely follows the structure of the {@link ReactionGlyph}.
+ * {@link GeneralGlyph} is defined to have an optional attribute reference as well as the elements curve,
+ * listOfReferenceGlyphs and listOfSubGlyphs.
+ * 
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
@@ -138,7 +152,15 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
   }
 
   /**
-   * Sets the given {@code ListOf<GraphicalObject>}. If listOfSubGlyphs
+   * The listOfSubGlyphs is an optional list that can contain sub-glyphs of the {@link GeneralGlyph}.
+   * One example of its use could be a sub-module containing {@link SpeciesGlyph}s and {@link ReactionGlyph}s
+   * that are not necessarily part of the enclosing {@link Model}. Another example is an {@link Event}, visualized
+   * with its {@link Trigger} and additional {@link GeneralGlyph}s for its {@link EventAssignment}. The
+   * listOfSubGlyphs consists of {@link GraphicalObject}s or derived classes. Thus, unlike
+   * the listOfAdditionalGraphicalObjects (which may only contain {@link GraphicalObject} or {@link GeneralGlyph}s),
+   * the listOfSubGlyphs may contain any derived class, such as for example {@link TextGlyph} elements.
+   * 
+   * Sets the given ListOf<{@link GraphicalObject}>. If listOfSubGlyphs
    * was defined before and contains some elements, they are all unset.
    *
    * @param listOfSubGlyphs
@@ -213,21 +235,10 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 
 
   /**
-   * Creates a new {@link SpeciesReferenceGlyph} element and adds it to the ListOfSubGlyphs list
+   * Creates a new {@link ReferenceGlyph} element and adds it to the ListOfSubGlyphs list
    */
-  public SpeciesReferenceGlyph createSpeciesReferenceGlyph() {
-    return createSpeciesReferenceGlyph(null);
-  }
-
-  /**
-   * Creates a new {@link SpeciesReferenceGlyph} element and adds it to the ListOfSubGlyphs list
-   *
-   * @return a new {@link SpeciesReferenceGlyph} element
-   */
-  public SpeciesReferenceGlyph createSpeciesReferenceGlyph(String id) {
-    SpeciesReferenceGlyph subGlyph = new SpeciesReferenceGlyph(id, getLevel(), getVersion());
-    addSubGlyph(subGlyph);
-    return subGlyph;
+  public ReferenceGlyph createReferenceGlyph() {
+    return createReferenceGlyph(null);
   }
 
   /**
@@ -246,6 +257,24 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
     TextGlyph subGlyph = new TextGlyph(id, getLevel(), getVersion());
     addSubGlyph(subGlyph);
     return subGlyph;
+  }
+
+  /**
+   * Creates a new {@link ReferenceGlyph} element and adds it to the ListOfSubGlyphs list
+   */
+  public ReferenceGlyph createReferenceGlyphForList() {
+    return createReferenceGlyphForList(null);
+  }
+
+  /**
+   * Creates a new {@link ReferenceGlyph} element and adds it to the ListOfSubGlyphs list
+   *
+   * @return a new {@link ReferenceGlyph} element
+   */
+  public ReferenceGlyph createReferenceGlyphForList(String id) {
+    ReferenceGlyph refGlyph = new ReferenceGlyph(id, getLevel(), getVersion());
+    addReferenceGlyph(refGlyph);
+    return refGlyph;
   }
 
 
@@ -268,6 +297,23 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * Creates a new {@link SpeciesReferenceGlyph} element and adds it to the ListOfSubGlyphs list
+   */
+  public SpeciesReferenceGlyph createSpeciesReferenceGlyph() {
+    return createSpeciesReferenceGlyph(null);
+  }
+
+  /**
+   * Creates a new {@link SpeciesReferenceGlyph} element and adds it to the ListOfSubGlyphs list
+   *
+   * @return a new {@link SpeciesReferenceGlyph} element
+   */
+  public SpeciesReferenceGlyph createSpeciesReferenceGlyph(String id) {
+    SpeciesReferenceGlyph subGlyph = new SpeciesReferenceGlyph(id, getLevel(), getVersion());
+    addSubGlyph(subGlyph);
+    return subGlyph;
+  }
+  /**
    * Creates a new {@link CompartmentGlyph} element and adds it to the ListOfSubGlyphs list
    */
   public CompartmentGlyph createCompartmentGlyph() {
@@ -281,6 +327,24 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
    */
   public CompartmentGlyph createCompartmentGlyph(String id) {
     CompartmentGlyph subGlyph = new CompartmentGlyph(id, getLevel(), getVersion());
+    addSubGlyph(subGlyph);
+    return subGlyph;
+  }
+
+  /**
+   * Creates a new {@link GeneralGlyph} element and adds it to the ListOfSubGlyphs list
+   */
+  public GeneralGlyph createGeneralGlyph() {
+    return createGeneralGlyph(null);
+  }
+
+  /**
+   * Creates a new {@link GeneralGlyph} element and adds it to the ListOfSubGlyphs list
+   *
+   * @return a new {@link GeneralGlyph} element
+   */
+  public GeneralGlyph createGeneralGlyph(String id) {
+    GeneralGlyph subGlyph = new GeneralGlyph(id, getLevel(), getVersion());
     addSubGlyph(subGlyph);
     return subGlyph;
   }
@@ -335,7 +399,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
    *             if some property of this element prevents it from being added
    *             to this list
    */
-  public boolean addSpeciesReferenceGlyph(ReferenceGlyph glyph) {
+  public boolean addReferenceGlyph(ReferenceGlyph glyph) {
     return getListOfReferenceGlyphs().add(glyph);
   }
 
@@ -354,7 +418,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
    */
   public ReferenceGlyph createReferenceGlyph(String id) {
     ReferenceGlyph glyph = new ReferenceGlyph(id, getLevel(), getVersion());
-    addSpeciesReferenceGlyph(glyph);
+    addReferenceGlyph(glyph);
     return glyph;
   }
 
@@ -365,7 +429,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
    * @param glyph corresponding {@link GraphicalObject} ID.
    * @return a new {@link ReferenceGlyph} that points to the given {@code glyph}.
    */
-  public ReferenceGlyph createSpeciesReferenceGlyph(String id, String speciesGlyph) {
+  public ReferenceGlyph createReferenceGlyph(String id, String speciesGlyph) {
     ReferenceGlyph glyph = createReferenceGlyph(id);
     glyph.setGlyph(speciesGlyph);
     return glyph;
@@ -533,6 +597,8 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * This is an optional attribute of type {@link Curve}. If this is defined, then the
+   * {@link BoundingBox} is to be ignored.
    * 
    * @param curve
    */
@@ -547,12 +613,14 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * The listOfReferenceGlyphs is optional, since conceivable the {@link GeneralGlyph} could
+   * just contain a number of subglyphs. When present, it must include at least one {@link ReferenceGlyph}.
    * 
    * @param listOfReferenceGlyph
    */
-  public void setListOfSpeciesReferencesGlyph(ListOf<ReferenceGlyph> listOfReferenceGlyph)
+  public void setListOfReferenceGlyph(ListOf<ReferenceGlyph> listOfReferenceGlyph)
   {
-    unsetListOfSpeciesReferencesGlyph();
+    unsetListOfReferenceGlyph();
     listOfReferenceGlyphs = listOfReferenceGlyph;
 
     if (listOfReferenceGlyph != null)
@@ -567,7 +635,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
   /**
    * 
    */
-  private void unsetListOfSpeciesReferencesGlyph() {
+  private void unsetListOfReferenceGlyph() {
     if (listOfReferenceGlyphs != null) {
       ListOf<ReferenceGlyph> oldValue = listOfReferenceGlyphs;
       listOfReferenceGlyphs = null;

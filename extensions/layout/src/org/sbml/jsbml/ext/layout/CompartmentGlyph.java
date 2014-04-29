@@ -25,12 +25,16 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.sbml.jsbml.Compartment;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
+ * The {@link CompartmentGlyph} class is derived from {@link GraphicalObject}
+ * and inherits its attributes. Additionally it has tow optional attributes:
+ * compartment and order.
  * 
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
@@ -175,6 +179,12 @@ public class CompartmentGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * The compartment attribute is used to add a reference to the id of
+   * the corresponding {@link Compartment} in the {@link Model}. Since
+   * the compartment is optional, the user can specify {@link Compartment}s
+   * in the {@link Layout} that are not part of the {@link Model}.
+   * 
+   * This attribute is optional.
    * 
    * @param compartment
    */
@@ -183,6 +193,7 @@ public class CompartmentGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * See annotation for setCompartment(Compartment)
    * 
    * @param compartment
    */
@@ -191,7 +202,18 @@ public class CompartmentGlyph extends AbstractReferenceGlyph {
   }
 
   /**
-   * Sets the value of order
+   * The order attribute is an optional attribute of type {@link Double}. It is there
+   * to handle the case where compartments in a layout overlap, and tools want to
+   * clearly disambiguate which {@link CompartmentGlyph} is on top of the other.
+   * The order attribute follows the coordinate system. There are z dimension points
+   * into a screen; thus, an element with a <b>lower</b> order value will be <b>in front</b>
+   * of an elements with a <b>higher</b> value. If not specified, the order is undefined
+   * and tools are free to display the compartment glyphs in the order that best fits their
+   * needs.
+   * 
+   * Note: if z coordinates are used (and this order is seemingly redundant), the order
+   * can still be used to disambiguate drawing order.
+   * @param order
    */
   public void setOrder(double order) {
     double oldOrder = this.order;

@@ -30,8 +30,13 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SimpleSpeciesReference;
+import org.sbml.jsbml.SpeciesReference;
 
 /**
+ * The {@link SpeciesReferenceGlyph} class describes the graphical connection
+ * between a {@link SpeciesGlyph} and a {@link ReactionGlyph} (which would be
+ * an arrow or some curve in most cases).
+ * 
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
@@ -328,6 +333,14 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * The curve is an optional element of type {@link Curve}. When present, the glyphs
+   * bounding box (as inherited from the {@link GraphicalObject}) is to be disregarded.
+   * 
+   * So as to make the drawing of these curves as easy as possible, the line segments
+   * should be ordered depending on the role of the {@link SpeciesReferenceGlyph}. If
+   * no role attribute is defined, the role to be assumed is taken from the role that
+   * the {@link SpeciesReference} referenced via the attribute speciesReference has,
+   * otherwise it is undefined.
    * 
    * @param curve
    */
@@ -339,6 +352,14 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * The role attribute is of type {@link SpeciesReferenceRole} and is used to specify
+   * how the species reference should be displayed. This attribute is optional and should
+   * only be necessary if the optional speciesReference attribute is not given or if the
+   * respective information from the model needs to be overridden.
+   * 
+   * To define more specific interactions, the recommended practice is to use the sboTerm
+   * attribute on the {@link SpeciesReference}. If both role and sboTerm are specified and
+   * they conflict, it is the role that takes precedence.
    * 
    * @param valueOf
    */
@@ -349,6 +370,10 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * The speciesGlyph attribute contains a reference to the id of a {@link SpeciesGlyph}
+   * object that is to be connected to the {@link ReactionGlyph}. This attribute is
+   * mandatory so as to ensure unambiguity about which {@link SpeciesGlyph} has to be
+   * connected with this {@link ReactionGlyph}.
    * 
    * @param speciesGlyph
    */
@@ -359,6 +384,7 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * See setSpeciesReference(String).
    * 
    * @param speciesReference
    */
@@ -367,6 +393,9 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * The speciesReference is an optional attribute that allows modelers to
+   * connect the {@link SpeciesReferenceGlyph} with a particular {@link SpeciesReference}
+   * of the containing {@link Model}.
    * 
    * @param speciesReference
    */

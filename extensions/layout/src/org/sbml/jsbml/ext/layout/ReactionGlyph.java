@@ -28,10 +28,19 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.Species;
 
 /**
+ * Analogous to how a {@link Reaction} object has to at least have one reactant or product,
+ * the {@link ReactionGlyph} has to at least have one {@link SpeciesReferenceGlyph} stored in
+ * the ListOfSpeciesReferenceGlyphs. The {@link ReactionGlyph} inherits from GraphicalObject.
+ * In addition to the attributes inherited from {@link GraphicalObject}, the {@link ReactionGlyph}
+ * is described by an attribute reaction, a {@link Curve} element and a listOfSpeciesReferenceGlyphs
+ * element.
+ * 
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
@@ -333,6 +342,11 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * The curve describes the center section of a {@link ReactionGlyph}. The center
+   * section is frequently used by tools to separate the point where substrates arcs come together
+   * from the point where product arcs split off. The {@link Curve} is optional, and when not present
+   * the dimensions of the inherited {@link BoundingBox} describes the center section, by storing its
+   * position and dimension.
    * 
    * @param curve
    */
@@ -347,6 +361,10 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * Since the {@link Species} element can have several graphical representations
+   * in the layout there must be a way to specify which {@link SpeciesGlyph} should
+   * be connected to the {@link ReactionGlyph}. This is done using the
+   * listOfSpeciesReferenceGlyphs.
    * 
    * @param listOfSpeciesReferencesGlyph
    */
@@ -358,6 +376,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * See setReaction(String)
    * 
    * @param reaction
    */
@@ -366,6 +385,8 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * The reaction attribute is used to specify the id of the corresponding
+   * {@link Reaction} in the {@link Model}. This reference is optional.
    * 
    * @param reaction
    */

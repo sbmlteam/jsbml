@@ -26,7 +26,17 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.Model;
+
 /**
+ * The {@link ReferenceGlyph} element describes the graphical connection between an arbitrary
+ * {@link GraphicalObject} (or derived element) and a {@link GeneralGlyph} (which would be an
+ * arrow or some curve in most cases). A {@link ReferenceGlyph} inherits from
+ * {@link GraphicalObject}. Additionally it has a mandatory attribute 'glyph' and two optional
+ * attributes 'reference' and 'role'. Optionally, the ReferenceGlyph also has an element 'curve'.
+ * The ReferenceGlyph should either contain a bounding box or a curve specification. If both
+ * are given, the bounding box should be ignored.
+ * 
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
@@ -281,6 +291,16 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * The curve is an optional element of type {@link Curve}.  When present, the glyph’s {@link BoundingBox}
+   * (as inherited from the {@link GraphicalObject}) is to be disregarded. So as to make the drawing of
+   * these curves as easy as possible the line segments should be ordered depending on the role of
+   * the {@link ReferenceGlyph}.
+   * 
+   * If the glyph represents a modification it should start at the glyph and end at the center of
+   * the {@link GeneralGlyph}.
+   * 
+   * Otherwise it should begin at the center section of the {@link GeneralGlyph} and end at the reference
+   * glyph.
    * 
    * @param curve
    */
@@ -292,7 +312,9 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
   }
 
   /**
-   * 
+   * The role attribute is used to specify how the reference should be displayed.
+   * While as a string, the value of the role attribute is unconstrained, current
+   * implementations use the same values as defined in SpeciesReferenceRole.
    * @param role
    */
   public void setRole(String role) {
@@ -302,6 +324,10 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * It contains a reference to the id of a {@link GraphicalObject} (or derived)
+   * object that is to be connected to the {@link GeneralGlyph}. This attribute is
+   * mandatory so as to ensure unambiguously which glyph has to be connected with
+   * this {@link GeneralGlyph}.
    * 
    * @param glyph
    */
@@ -313,6 +339,8 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
 
 
   /**
+   * The reference is an optional attribute that is used to connect the {@link ReferenceGlyph}
+   * with an element of the containing {@link Model}.
    * 
    * @param reference
    */

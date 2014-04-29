@@ -32,6 +32,18 @@ import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
 
 /**
+ * A {@link Dimensions} is specified via the required attributes width,
+ * height and an optional attribute depth, all of which are of type double.
+ * If the attribute depth is not specified, the object is a two dimensional object.
+ * The width attribute of {@link Dimensions} specifies the size of the object
+ * in the direction of the positive x axis, the height attribute specifies the
+ * size of the object along the positive y axis and the depth attribute specifies
+ * the size of the object along the positive z axis. All sizes for {@link Dimensions}
+ * objects are positive values, and so the attributes are not allowed to take
+ * negative values. The {@link Dimensions} class also has an optional attribute
+ * id of type SId. While not used in the {@link Layout} package, it can be used by
+ * programs to refer to the elements.
+ * 
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
@@ -270,6 +282,7 @@ public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * Depth is an optional attribute and specifies the size along the positive z axis.
    * 
    * @param depth
    */
@@ -280,6 +293,7 @@ public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * Height is a required attribute and specifies the size along the positive y axis.
    * 
    * @param height
    */
@@ -290,6 +304,7 @@ public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * Width is a required attribute and specifies the size along the positive x axis.
    * 
    * @param width
    */

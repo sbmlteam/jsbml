@@ -32,6 +32,12 @@ import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
 
 /**
+ * A {@link Point} is specified via the required attributes 'x', 'y' and an optional
+ * attribute 'z', all of which are of type double. If the attribute z is not
+ * specified, the object is a two dimensional object. The {@link Point} class also has
+ * an optional attribute id of type SId. While not used in the {@link Layout} package,
+ * it can be used by programs to refer to the elements.
+ * 
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
@@ -288,6 +294,9 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * The general {@link Point} class specifies the x, y, and z (optional) attributes
+   * which defines the graphical location with respect to the coordinate system
+   * of the {@link Layout} extension. The x attribute is required.
    * 
    * @param x
    */
@@ -298,6 +307,8 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * The y attribute is required. For a more general description of the dimension
+   * attributes, see setX().
    * 
    * @param y
    */
@@ -308,6 +319,8 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * The z attribute is optional. The layout is 2-dimensional if the z attribute is
+   * not specified.
    * 
    * @param z
    */

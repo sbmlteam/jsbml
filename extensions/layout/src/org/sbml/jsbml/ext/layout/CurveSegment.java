@@ -29,6 +29,8 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
+ * Parent class to {@link LineSegment} and {@link CubicBezier}.
+ * 
  * @author Sebastian Fr&oum;hlich
  * @author Nicolas Rodriguez
  * @since 1.0
@@ -283,7 +285,7 @@ public abstract class CurveSegment extends AbstractNamedSBase {
     logger.debug("reading CurveSegmentImpl: " + prefix + ":" + attributeName);
 
     if (!isAttributeRead) {
-
+      //TODO: will the xsi:type element be properly read? Create test for this...
       if (attributeName.equals("type")) {
         try
         {
@@ -317,7 +319,8 @@ public abstract class CurveSegment extends AbstractNamedSBase {
   abstract public void setStart(Point start);
 
   /**
-   * 
+   * Sets the {@link Type} of this {@link CurveSegment} to {@link LineSegment}
+   * or {@link CubicBezier}.
    * @param type
    */
   void setType(Type type)

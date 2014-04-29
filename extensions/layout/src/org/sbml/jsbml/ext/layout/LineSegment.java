@@ -26,6 +26,12 @@ import java.text.MessageFormat;
 import javax.swing.tree.TreeNode;
 
 /**
+ * The {@link LineSegment} class consists of the mandatory attribute xsi:type and two child
+ * elements of type {@link Point}. One is called 'start' and represents the starting point
+ * of the line, the other is called 'end' and represents the endpoint of the line. The
+ * {@link LineSegment} class is also the base class for {@link CubicBezier}, which represent
+ * curved lines instead of straight ones.
+ * 
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
  * @since 1.0
@@ -92,7 +98,7 @@ public class LineSegment extends CurveSegment {
     if (lineSegment.isSetEnd()) {
       end = lineSegment.getEnd().clone();
     }
-    
+
     // Make sure that the type is set properly
     setType(Type.LINE_SEGMENT);
   }
@@ -216,6 +222,10 @@ public class LineSegment extends CurveSegment {
       index, +Math.min(pos, 0)));
   }
 
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+   */
   @Override
   public int getChildCount() {
     int count = super.getChildCount();
@@ -228,12 +238,19 @@ public class LineSegment extends CurveSegment {
     return count;
   }
 
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.CurveSegment#getEnd()
+   */
   @Override
   public Point getEnd() {
     return end;
   }
 
-
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.CurveSegment#getStart()
+   */
   @Override
   public Point getStart() {
     return start;
@@ -255,17 +272,28 @@ public class LineSegment extends CurveSegment {
     return hashCode;
   }
 
-
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.CurveSegment#isSetEnd()
+   */
   @Override
   public boolean isSetEnd() {
     return end != null;
   }
 
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.CurveSegment#isSetStart()
+   */
   @Override
   public boolean isSetStart() {
     return start != null;
   }
 
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.CurveSegment#setEnd(org.sbml.jsbml.ext.layout.Point)
+   */
   @Override
   public void setEnd(Point end) {
     if (this.end != null) {
@@ -278,6 +306,10 @@ public class LineSegment extends CurveSegment {
     registerChild(this.end);
   }
 
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.ext.layout.CurveSegment#setStart(org.sbml.jsbml.ext.layout.Point)
+   */
   @Override
   public void setStart(Point start) {
     if (this.start != null) {
