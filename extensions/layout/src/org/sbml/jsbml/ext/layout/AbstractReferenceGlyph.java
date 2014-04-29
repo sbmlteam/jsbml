@@ -23,6 +23,7 @@ package org.sbml.jsbml.ext.layout;
 
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * Abstract super class for all kinds of glyphs that graphically represent an
@@ -165,7 +166,6 @@ public abstract class AbstractReferenceGlyph extends GraphicalObject {
   }
 
   /**
-   * 
    * @param sbase
    */
   public void setReference(String sbase) {
@@ -173,6 +173,8 @@ public abstract class AbstractReferenceGlyph extends GraphicalObject {
   }
 
   /**
+   * Sets the reference object to which the id sbase refers to. The type defines the category
+   * that changed for the {@link TreeNodeChangeEvent}.
    * 
    * @param sbase
    * @param type

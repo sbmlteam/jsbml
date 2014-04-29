@@ -31,7 +31,11 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
- * 
+ * The {@link Curve} class describes how to connect elements in a diagram defined with
+ * the use of the {@link Layout} package. A curve is fully specified by a mandatory
+ * listOfCurveSegments element and is used in four places in the {@link Layout}
+ * package: {@link SpeciesReferenceGlyph}, {@link ReactionGlyph},
+ * {@link ReferenceGlyph}, and {@link GeneralGlyph}.
  * 
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
@@ -255,6 +259,9 @@ public class Curve extends AbstractNamedSBase {
   }
 
   /**
+   * The listOfCurveSegments element contains arbitrary number of cuve segments that
+   * can be either of type {@link LineSegment} or of type {@link CubicBezier}. Here,
+   * both classes are child classes of the abstract type {@link CurveSegment}.
    * 
    * @param listOfCurveSegments
    */

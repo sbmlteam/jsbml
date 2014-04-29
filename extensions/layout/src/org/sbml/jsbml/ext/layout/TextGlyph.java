@@ -29,6 +29,9 @@ import org.sbml.jsbml.NamedSBase;
 
 
 /**
+ * The {@link TextGlyph} class describes the position and dimension of text labels. It inherits
+ * from {@link GraphicalObject} and adds the attributes graphicalObject, text and originOfText.
+ * 
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
@@ -264,6 +267,10 @@ public class TextGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * The graphicalObject attribute contains the id of any {@link GraphicalObject} and specifies that
+   * the {@link TextGlyph} should be considered to be a label to that object. This allows modelers to
+   * indicate that the label is to be moved together with the object. If the graphicalObject attribute
+   * is used together with the metaidRef they need to refer to the same object in the {@link Layout}.
    * 
    * @param graphicalObject
    */
@@ -282,6 +289,10 @@ public class TextGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * Additionally the optional attribute originOfText holds the id of an entity in the {@link Model}.
+   * If it is specified, the text to be displayed is taken from the name attribute of the referenced
+   * object. If both attributes originOfText and text are specified, the text attribute value
+   * overrides the value of originOfText.
    * 
    * @param originOfText
    */
@@ -290,6 +301,8 @@ public class TextGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * The String text attribute facilitates adding of independent text, like a title or a comment
+   * to the diagram.
    * 
    * @param text
    */

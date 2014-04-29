@@ -32,6 +32,10 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
+ * The {@link Layout} package extends the {@link Model} class with the
+ * addition of one child element: the listOfLayouts. A {@link Model} may
+ * contain at most one such list, but the list itself can hold many
+ * different {@link Layout}s.
  * 
  * @author Nicolas Rodriguez
  * @author Andreas Dr&auml;ger
@@ -261,6 +265,7 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
+   * The listOfLayouts element must contain at least one {@link Layout}.
    * 
    * @param listOfLayouts
    */

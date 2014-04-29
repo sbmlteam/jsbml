@@ -23,11 +23,15 @@ package org.sbml.jsbml.ext.layout;
 
 import java.util.Map;
 
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
+ * The {@link SpeciesGlyph} class has an optional species attribute, in
+ * addition to to the attributes from {@link GraphicalObject}.
+ * 
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
@@ -148,6 +152,11 @@ public class SpeciesGlyph extends AbstractReferenceGlyph {
   }
 
   /**
+   * The species attribute allows modelers to link the {@link SpeciesGlyph} to the id
+   * of the corresponding {@link Species} object in the {@link Model}. The species attribute
+   * is optional to allow the program to specify species representations that do not have a
+   * direct correspondence in the {@link Model}.  This might be useful if some pathway has
+   * been collapsed, but is still treated by layout programs.
    * 
    * @param species
    */

@@ -41,6 +41,14 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
+ * The {@link Layout} class stores layout information for some or all elements of the
+ * {@link Model} as well as additional objects that need not be connected to the {@link Model}.
+ * The {@link Layout} has two attributes: id and name. Additionally, a {@link Dimensions}
+ * element specifies the size of the {@link Layout}. The actual layout elements are contained
+ * in several lists, namely: a ListOf{@link CompartmentGlyph}s, a ListOf{@link SpeciesGlyph}s,
+ * a ListOf{@link ReactionGlyph}s, a ListOf{@link TextGlyph}s, and a
+ * ListOfAdditional{@link GraphicalObject}s. Each of these lists can only occur once, and, if present,
+ * are not allowed to be empty.
  * 
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
@@ -929,6 +937,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * This element is optional. If set, this list cannot be empty.
    * 
    * @param listOfAdditionalGraphicalObjects
    */
@@ -941,6 +950,10 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * The dimensions element of type {@link Dimensions} specifies the dimensions of this
+   * layout. This element is required. It holds the dimensions of all layout elements
+   * (care should be taken when using {@link CubicBezier}s, that the described curve also
+   * lies within the given dimensions).
    * 
    * @param dimensions
    */
@@ -953,6 +966,20 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * This element is optional. If set, this list cannot be empty. Most objects for
+   * which layout information is to be included in an SBML file have a corresponding
+   * object in {@link Model}. As there might be cases where the user wants to
+   * include object types in the layout that do fall in any of the other categories
+   * described below, we include a listOfAdditionalGraphicalObjects in each {@link Layout}
+   * object. This list holds an arbitrary number of {@link GraphicalObject} elements.
+   * The {@link GraphicalObject} only defines a bounding box in a specific place in the
+   * {@link Layout} without giving additional information about its contents.
+   * 
+   * The listOfAdditionalGraphicalObjects, when present, must contain one or more of the
+   * following elements: {@link GraphicalObject} or {@link GeneralGlyph}. When using a
+   * {@link GraphicalObject} it is recommended that some form of meta-information is provided.
+   * For additional relationships such as SBML events or rules, the {@link GeneralGlyph} can
+   * be used.
    * 
    * @param AdditionalGraphicalObjects
    */
@@ -968,6 +995,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * This element is optional. If set, this list cannot be empty. Also, not all
+   * {@link Compartment}s of a {@link Model} will need a corresponding {@link CompartmentGlyph}.
    * 
    * @param compartmentGlyphs
    */
@@ -981,6 +1010,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * This element is optional. If set, this list cannot be empty. Also, not all {@link Reaction}s
+   * of a {@link Model} need a corresponding {@link ReactionGlyph}.
    * 
    * @param reactionGlyphs
    */
@@ -994,6 +1025,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * This element is optional. If set, this list cannot be empty. Also, not all {@link Species}
+   * of a {@link Model} need a corresponding {@link SpeciesGlyph}.
    * 
    * @param speciesGlyphs
    */
@@ -1011,6 +1044,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * This element is optional. If set, this list cannot be empty.
    * 
    * @param textGlyphs
    */

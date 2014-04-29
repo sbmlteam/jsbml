@@ -28,10 +28,21 @@ import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.ResourceManager;
 
 /**
+ * All the more specific layout elements ({@link CompartmentGlyph}, {@link GeneralGlyph},
+ * {@link SpeciesGlyph}, {@link ReactionGlyph}, {@link ReferenceGlyph}, {@link TextGlyph},
+ * and {@link SpeciesReferenceGlyph}) are derived from the class {@link GraphicalObject}.
+ * Each object of class {@link GraphicalObject} has a mandatory {@link BoundingBox}, which
+ * specifies the position and the size of the object. While {@link GraphicalObject} is the
+ * base class for most elements in the {@link Layout} package, it is not an abstract class.
+ * It can be instantiated when used in the listOfAdditionalGraphicalObjects to describe
+ * additional elements and relationships. Since it only describes a {@link BoundingBox},
+ * programs are encouraged to add {@link Annotation} objects that describe program-specific
+ * graphical information.
  * 
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
@@ -266,6 +277,9 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
   }
 
   /**
+   * This is the only required element (besides the SId) of the {@link GraphicalObject}. Because
+   * this class is not an abstract class and can be instantiated, {@link Annotation} objects are
+   * encouraged to be added.
    * 
    * @param boundingBox
    */
@@ -303,6 +317,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
         ResourceManager.getBundle("org.sbml.jsbml.resources.cfg.Messages").getString("UNDEFINED_ATTRIBUTE"),
         "name", getLevel(), getVersion(), getElementName()));
       // TODO: This must be generally solved. Here we have an SBase with ID but without name!
+      // TODO: This does not have to be done at this level, however... also, why is this AbstractNamedSbase?
     }
     if (isSetMetaidRef())
     {
@@ -337,7 +352,9 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
   }
 
   /**
-   * Sets the value of metaidRef
+   * Sets the value of metaidRef which uniquely references elements in the model.
+   * 
+   * @param metaidRef
    */
   public void setMetaidRef(String metaidRef) {
     String oldMetaidRef = this.metaidRef;
