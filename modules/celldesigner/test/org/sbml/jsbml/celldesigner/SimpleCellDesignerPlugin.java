@@ -20,18 +20,19 @@
  */
 package org.sbml.jsbml.celldesigner;
 
+import javax.swing.SwingWorker;
 import javax.xml.stream.XMLStreamException;
 
 import jp.sbi.celldesigner.plugin.PluginMenu;
 import jp.sbi.celldesigner.plugin.PluginMenuItem;
 
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.SBO;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.gui.JSBMLvisualizer;
 
 
 /**
- * A simple Plugin for CellDesigner that displays the SBML data structure as a
+ * A simple plug-in for CellDesigner that displays the SBML data structure as a
  * tree.
  * 
  * @author Andreas Dr&auml;ger
@@ -45,32 +46,11 @@ public class SimpleCellDesignerPlugin extends AbstractCellDesignerPlugin {
   public static final String APPLICATION_NAME = "Simple Plugin";
 
   /**
-   * Converts CellDesigner's plug-in data structure into a JSBML data structure.
-   */
-  private PluginSBMLReader reader;
-  /**
-   * Creates CellDesigner's plug-in data structure for a given JSBML structure.
-   * In this example this is actually not required. Furthermore, changes can
-   * be synchronized to CellDesigner with the help of the
-   * {@link PluginChangeListener}.
-   */
-  private PluginSBMLWriter writer;
-
-  /**
-   * Creates a new CellDesigner plugin with an entry in the menu bar.
+   * Creates a new CellDesigner plug-in with an entry in the menu bar.
    */
   public SimpleCellDesignerPlugin() {
     super();
-    try {
-      // Initialize CellDesigner/JSBML communication interface
-      reader = new PluginSBMLReader(SBO.getPossibleEnzymes());
-      writer = new PluginSBMLWriter(this);
-      // Initializing CellDesigner's menu entries
-      addPluginMenu();
-    } catch (Throwable exc) {
-      exc.printStackTrace();
-      exc.getCause().printStackTrace();
-    }
+    addPluginMenu();
   }
 
   /* (non-Javadoc)
@@ -78,22 +58,44 @@ public class SimpleCellDesignerPlugin extends AbstractCellDesignerPlugin {
    */
   @Override
   public void addPluginMenu() {
+    // Initializing CellDesigner's menu entries
     PluginMenu menu = new PluginMenu(APPLICATION_NAME);
     PluginMenuItem menuItem = new PluginMenuItem(
       ACTION, new SimpleCellDesignerPluginAction(this));
+    menuItem.setToolTipText("Displays the data structure of the model.");
     menu.add(menuItem);
+    addCellDesignerPluginMenu(menu);
   }
 
   /**
-   * Performs the action for which this plugin is designed.
+   * Performs the action for which this plug-in is designed.
    * 
    * @throws XMLStreamException If the given SBML model contains errors.
    */
   public void startPlugin() throws XMLStreamException {
-    Model model = reader.convertModel(getSelectedModel());
-    // Synchronize changes from this plugin to CellDesigner:
-    model.getSBMLDocument().addTreeNodeChangeListener(new PluginChangeListener(this));
-    new JSBMLvisualizer(model.getSBMLDocument());
+    // Synchronize changes from this plug-in to CellDesigner:
+    final PluginChangeListener changeListener = new PluginChangeListener(this);
+    SwingWorker<Model, Void> worker = new SwingWorker<Model, Void>() {
+      @Override
+      protected Model doInBackground() throws Exception {
+        return getReader().convertModel(getSelectedModel());
+      }
+
+      @Override
+      protected void done() {
+        try {
+          Model model = get();
+          SBMLDocument doc = new SBMLDocument(model.getLevel(), model.getVersion());
+          doc.setModel(model);
+          doc.addTreeNodeChangeListener(changeListener);
+          new JSBMLvisualizer(doc);
+          super.done();
+        } catch (Throwable exc) {
+          exc.printStackTrace();
+        }
+      }
+    };
+    worker.execute();
   }
 
 }
