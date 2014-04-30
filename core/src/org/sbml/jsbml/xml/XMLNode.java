@@ -164,7 +164,7 @@ public class XMLNode extends XMLToken {
    * @param xmlstr string to be converted to a XML node.
    * @param xmlns {@link XMLNamespaces} the namespaces to set (default value is {@code null}). This argument is ignored at the moment.
    * <p>
-   * @jsbml.note The caller owns the returned {@link XMLNode} and is reponsible for deleting it.
+   * @jsbml.note The caller owns the returned {@link XMLNode} and is responsible for deleting it.
    * The returned {@link XMLNode} object is a dummy root (container) {@link XMLNode} if the top-level
    * element in the given XML string is NOT {@code html}, {@code body}, {@code annotation}, {@code notes}.
    * In the dummy root node, each top-level element in the given XML string is contained
