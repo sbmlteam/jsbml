@@ -35,6 +35,7 @@ import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.SBMLtools;
@@ -305,9 +306,13 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       setAnnotation(sb.getAnnotation().clone());
     }
     if (sb.isExtendedByOtherPackages()) {
+      
       for (String key : sb.getExtensionPackages().keySet()) {
+        
         SBasePlugin plugin = sb.getExtensionPackages().get(key);
-        extensions.put(new String(key), plugin.clone());
+        SBasePlugin clonedPlugin = plugin.clone();
+        
+        addExtension(new String(key), clonedPlugin);
       }
     }
     // cloning namespace ?
@@ -367,6 +372,13 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     if (packageParser != null) {
 
       extensions.put(packageParser.getPackageName(), sbasePlugin);
+
+      // Making sure that the correct extendedSBase is set in the SBasePlugin
+      // And that all the ids and metaids are registered
+      if (sbasePlugin.getExtendedSBase() == null || sbasePlugin.getExtendedSBase() != this) {
+        ((AbstractSBasePlugin) sbasePlugin).setExtendedSBase(this);
+      }
+
       firePropertyChange(TreeNodeChangeEvent.addExtension, null, sbasePlugin);
     } else {
       throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));
@@ -945,6 +957,18 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   }
 
   /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#firePropertyChange(java.lang.String, java.lang.Object, java.lang.Object)
+   */
+  @Override
+  public void firePropertyChange(String propertyName, Object oldValue,
+      Object newValue) {
+    // TODO - this method is used to add or remove SBase or SBasePlugin, we should make sure to handle the registration/un-registration
+    // in those cases.
+    
+    super.firePropertyChange(propertyName, oldValue, newValue);
+  }
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#fireNodeRemovedEvent()
    */
   @Override
@@ -952,6 +976,10 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
     TreeNode parent = getParent();
 
+    if (logger.isDebugEnabled()) {
+      logger.debug("fireNodeRemovedEvent called on " + this + " (parent = " + parent + ")");
+    }
+    
     if ((parent != null) && (parent instanceof SBase)) {
       ((SBase) parent).unregisterChild(this);
     }

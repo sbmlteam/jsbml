@@ -175,10 +175,22 @@ public class SBMLDocument extends AbstractSBase {
    * @param sb
    */
   public SBMLDocument(SBMLDocument sb) {
-    super(sb);
-    mappingFromMetaId2SBase = new HashMap<String, SBase>();
-    SBMLDocumentAttributes = new HashMap<String, String>();
-    enabledPackageMap = new HashMap<String, Boolean>();
+    super(sb);    
+
+    // the super constructor from AbstractSBase could have added stuff on this map already
+    if (mappingFromMetaId2SBase == null) {
+      mappingFromMetaId2SBase = new HashMap<String, SBase>();
+    }    
+
+    // the super constructor from AbstractSBase could have added stuff on this map already
+    if (SBMLDocumentAttributes == null) {
+      SBMLDocumentAttributes = new HashMap<String, String>();
+    }    
+    
+    // the super constructor from AbstractSBase could have added stuff on this map already
+    if (enabledPackageMap == null) {
+      enabledPackageMap = new HashMap<String, Boolean>();
+    }
 
     if (sb.isSetModel()) {
       // This will also cause that all metaIds are registered correctly.
@@ -773,6 +785,9 @@ public class SBMLDocument extends AbstractSBase {
    * @return the map of attribute names and values of this SBMLDocument.
    */
   public Map<String, String> getSBMLDocumentAttributes() {
+    if (SBMLDocumentAttributes == null) {
+      SBMLDocumentAttributes = new HashMap<String, String>();
+    }
     return SBMLDocumentAttributes;
   }
 
@@ -876,6 +891,12 @@ public class SBMLDocument extends AbstractSBase {
         packageURIs.add(packageURIOrName);
       }
 
+      // This can happen when cloning a SBMLDocument, the AbstractSBase constructor
+      // would add any existing SBasePlugin before we initialize enabledPackageMap
+      if (enabledPackageMap == null) {
+        enabledPackageMap = new HashMap<String, Boolean>();
+      }
+      
       for (String packageURI : packageURIs) {
         if (enabledPackageMap.containsKey(packageURI)) {
           return true;
@@ -1059,6 +1080,10 @@ public class SBMLDocument extends AbstractSBase {
 
     collectMetaIds(metaIds, sbase, recursively, delete);
 
+    if (mappingFromMetaId2SBase == null) {
+      mappingFromMetaId2SBase = new HashMap<String, SBase>();
+    }
+    
     if (delete) {
       for (String key : metaIds.keySet()) {
         mappingFromMetaId2SBase.remove(key);
