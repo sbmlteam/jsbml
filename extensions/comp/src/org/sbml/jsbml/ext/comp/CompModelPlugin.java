@@ -33,7 +33,6 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.filters.NameFilter;
 
@@ -70,9 +69,6 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    */
   private Map<String, Port> mapOfPorts;
 
-  
-  // TODO - create constructors with package version ??
-
   /**
    * Creates a new {@link CompModelPlugin} instance that is a copy of the current {@link CompModelPlugin}.
    * 
@@ -87,8 +83,6 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
     if (obj.isSetListOfPorts()) {
       setListOfPorts(obj.getListOfPorts().clone());
     }
-    
-    // TODO - copy the id map ?? Should not be needed, it should be constructed when adding the cloned Port
     
   }
 
@@ -130,7 +124,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
   public CompModelPlugin clone() {
     return new CompModelPlugin(this);
   }
-
+  
   /**
    * Creates a new Port element and adds it to the ListOfPorts list
    */
@@ -178,7 +172,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    *         the given 'id' as id or {@code null} if no element with this
    *         'id' can be found.
    */
-  public Port findPort(String id) {
+  private Port findPort(String id) {
     return mapOfPorts == null ? null : mapOfPorts.get(id);
   }
 
@@ -237,13 +231,6 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
     return count;
   }
 
-  /**
-   * TODO: if the ID is mandatory for Submodel objects,
-   * one should also add this methods
-   */
-  //public void removeSubmodel(String id) {
-  //  getListOfSubmodels().removeFirst(new NameFilter(id));
-  //}
 
   /**
    * Returns the listOfPorts. Creates it if it is not already existing.
@@ -252,11 +239,18 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    */
   public ListOf<Port> getListOfPorts() {
     if (!isSetListOfPorts()) {
-      listOfPorts = new ListOf<Port>(extendedSBase.getLevel(),
-          extendedSBase.getVersion());
+      if (extendedSBase != null) {
+        listOfPorts = new ListOf<Port>(extendedSBase.getLevel(),
+            extendedSBase.getVersion());
+      } else {
+        listOfPorts = new ListOf<Port>();
+      }
       listOfPorts.setNamespace(CompConstants.namespaceURI);
       listOfPorts.setSBaseListType(ListOf.Type.other);
-      extendedSBase.registerChild(listOfPorts);
+      
+      if (extendedSBase != null) {      
+        extendedSBase.registerChild(listOfPorts);
+      }
     }
     return listOfPorts;
   }
@@ -268,30 +262,46 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    */
   public ListOf<Submodel> getListOfSubmodels() {
     if (!isSetListOfSubmodels()) {
-      listOfSubmodels = new ListOf<Submodel>(extendedSBase.getLevel(),
-          extendedSBase.getVersion());
+      if (extendedSBase != null) {
+        listOfSubmodels = new ListOf<Submodel>(extendedSBase.getLevel(),
+            extendedSBase.getVersion());
+      } else {
+        listOfSubmodels = new ListOf<Submodel>();
+      }
       listOfSubmodels.setNamespace(CompConstants.namespaceURI);
       listOfSubmodels.setSBaseListType(ListOf.Type.other);
-      extendedSBase.registerChild(listOfSubmodels);
+      if (extendedSBase != null) {
+        extendedSBase.registerChild(listOfSubmodels);
+      }
     }
     return listOfSubmodels;
   }
 
+  /**
+   * Returns the n-th {@link Port} object in this {@link CompModelPlugin}.
+   * 
+   * @param n an index
+   * @return the {@link Port} with the given index if it exists.
+   * @throws IndexOutOfBoundsException
+   */
+  public Port getPort(int index) {
+    return getListOfPorts().get(index);
+  }
   
   /**
    * Returns a {@link Port} element that has the given 'id' within
-   * this {@link Model} or {@code null} if no such element can be found.
+   * this {@link CompModelPlugin} or {@code null} if no such element can be found.
    * 
    * @param id
    *        an id indicating a {@link Port} element of the
-   *        {@link Model}.
-   * @return a {@link Port} element of the {@link Model} that has
+   *        {@link CompModelPlugin}.
+   * @return a {@link Port} element of the {@link CompModelPlugin} that has
    *         the given 'id' as id or {@code null} if no element with this
    *         'id' can be found.
-   * @see CompModelPlugin#findPort(String)       
    */
-  public Port getPortById(String id) {
-    return findPort(id);
+  public Port getPort(String id) {
+    // not using the mapsOfPorts as it can be null when using a cloned instance
+    return getListOfPorts().get(id);
   }
 
   /**
@@ -307,16 +317,32 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
     return getListOfPorts().size();
   }
 
-  /**
-   * TODO: optionally, create additional create methods with more
-   * variables, for instance "bar" variable
-   */
-  // public Submodel createSubmodel(String id, int bar) {
-  //   Submodel submodel = createSubmodel(id);
-  //   submodel.setBar(bar);
-  //   return submodel;
-  // }
 
+  /**
+   * Returns the n-th {@link Submodel} object in this {@link CompModelPlugin}.
+   * 
+   * @param n an index
+   * @return the {@link Submodel} with the given index if it exists.
+   * @throws IndexOutOfBoundsException
+   */
+  public Submodel getSubmodel(int index) {
+    return getListOfSubmodels().get(index);
+  }
+  
+  /**
+   * Returns a {@link Submodel} element that has the given 'id' within
+   * this {@link CompModelPlugin} or {@code null} if no such element can be found.
+   * 
+   * @param id
+   *        an id indicating a {@link Submodel} element of the
+   *        {@link CompModelPlugin}.
+   * @return a {@link Submodel} element of the {@link CompModelPlugin} that has
+   *         the given 'id' as id or {@code null} if no element with this
+   *         'id' can be found.
+   */
+  public Submodel getSubmodel(String id) {
+    return getListOfSubmodels().get(id);
+  }
 
   /**
    * Returns the number of {@link Submodel} objects in this {@link CompModelPlugin}.
@@ -357,16 +383,6 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
     return true;
   }
 
-  /**
-   * TODO: optionally, create additional create methods with more
-   * variables, for instance "bar" variable
-   */
-  // public Port createPort(String id, int bar) {
-  //   Port port = createPort(id);
-  //   port.setBar(bar);
-  //   return port;
-  // }
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.comp.CompSBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
    */
@@ -386,6 +402,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
     if (!isSetListOfPorts()) {
       throw new IndexOutOfBoundsException(Integer.toString(i));
     }
+    
     getListOfPorts().remove(i);
   }
 
@@ -402,14 +419,6 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
     }
     return false;
   }
-
-  /**
-   * TODO: if the ID is mandatory for Port objects,
-   * one should also add this methods
-   */
-  //public void removePort(String id) {
-  //  getListOfPorts().removeFirst(new NameFilter(id));
-  //}
 
   /**
    * Removes an element from the listOfSubmodels at the given index.
@@ -465,7 +474,12 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
   public void setListOfPorts(ListOf<Port> listOfPorts) {
     unsetListOfPorts();
     this.listOfPorts = listOfPorts;
-    extendedSBase.registerChild(this.listOfPorts);
+    if ((this.listOfPorts != null)) {
+      this.listOfPorts.setSBaseListType(ListOf.Type.other);
+    }
+    if (extendedSBase != null) {
+      extendedSBase.registerChild(this.listOfPorts);
+    }
   }
 
   /**
@@ -477,7 +491,9 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
   public void setListOfSubmodels(ListOf<Submodel> listOfSubmodels) {
     unsetListOfSubmodels();
     this.listOfSubmodels = listOfSubmodels;
-    extendedSBase.registerChild(this.listOfSubmodels);
+    if (extendedSBase != null) {
+      extendedSBase.registerChild(this.listOfSubmodels);
+    }
   }
 
   /**
@@ -608,6 +624,5 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
 
 	  return success;
   }
-
 
 }

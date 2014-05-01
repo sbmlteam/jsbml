@@ -82,6 +82,34 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   }
 
   /**
+   * Returns the n-th {@link ExternalModelDefinition} object in this {@link CompSBMLDocumentPlugin}.
+   * 
+   * @param n an index
+   * @return the {@link ExternalModelDefinition} with the given index if it exists.
+   * @throws IndexOutOfBoundsException
+   */
+  public ExternalModelDefinition getExternalModelDefinition(int index) {
+    return getListOfExternalModelDefinitions().get(index);
+  }
+  
+  /**
+   * Returns a {@link ExternalModelDefinition} element that has the given 'id' within
+   * this {@link CompSBMLDocumentPlugin} or {@code null} if no such element can be found.
+   * 
+   * @param id
+   *        an id indicating a {@link ExternalModelDefinition} element of the
+   *        {@link CompSBMLDocumentPlugin}.
+   * @return a {@link ExternalModelDefinition} element of the {@link CompSBMLDocumentPlugin} that has
+   *         the given 'id' as id or {@code null} if no element with this
+   *         'id' can be found.
+   */
+  public ExternalModelDefinition getExternalModelDefinition(String id) {
+    return getListOfExternalModelDefinitions().get(id);
+  }
+
+
+  
+  /**
    * Returns the number of {@link ExternalModelDefinition} objects in this {@link CompSBMLDocumentPlugin}.
    * 
    * @return the number of {@link ExternalModelDefinition} objects in this {@link CompSBMLDocumentPlugin}.
@@ -101,11 +129,17 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    */
   public ListOf<ExternalModelDefinition> getListOfExternalModelDefinitions() {
     if (!isSetListOfExternalModelDefinitions()) {
-      listOfExternalModelDefinitions = new ListOf<ExternalModelDefinition>(extendedSBase.getLevel(),
-          extendedSBase.getVersion());
+      if (extendedSBase != null) {
+        listOfExternalModelDefinitions = new ListOf<ExternalModelDefinition>(extendedSBase.getLevel(),
+            extendedSBase.getVersion());
+      } else {
+        listOfExternalModelDefinitions = new ListOf<ExternalModelDefinition>();
+      }
       listOfExternalModelDefinitions.setNamespace(CompConstants.namespaceURI);
       listOfExternalModelDefinitions.setSBaseListType(ListOf.Type.other);
-      extendedSBase.registerChild(listOfExternalModelDefinitions);
+      if (extendedSBase != null) {
+        extendedSBase.registerChild(listOfExternalModelDefinitions);
+      }
     }
     return listOfExternalModelDefinitions;
   }
@@ -140,7 +174,9 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   public void setListOfExternalModelDefinitions(ListOf<ExternalModelDefinition> listOfExternalModelDefinitions) {
     unsetListOfExternalModelDefinitions();
     this.listOfExternalModelDefinitions = listOfExternalModelDefinitions;
-    extendedSBase.registerChild(this.listOfExternalModelDefinitions);
+    if (extendedSBase != null) {
+      extendedSBase.registerChild(this.listOfExternalModelDefinitions);
+    }
   }
 
   /**
@@ -168,6 +204,9 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    * @return {@code true} (as specified by {@link Collection.add})
    */
   public boolean addExternalModelDefinition(ExternalModelDefinition externalModelDefinition) {
+    
+    // TODO - the externalModelDefinition id is in the main SId namespace, so would need to be registered in the main model !
+    
     return getListOfExternalModelDefinitions().add(externalModelDefinition);
   }
 
@@ -208,6 +247,33 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
     getListOfExternalModelDefinitions().removeFirst(new NameFilter(id));
   }
 
+  /**
+   * Returns the n-th {@link ModelDefinition} object in this {@link CompSBMLDocumentPlugin}.
+   * 
+   * @param n an index
+   * @return the {@link ModelDefinition} with the given index if it exists.
+   * @throws IndexOutOfBoundsException
+   */
+  public ModelDefinition getModelDefinition(int index) {
+    return getListOfModelDefinitions().get(index);
+  }
+  
+  /**
+   * Returns a {@link ModelDefinition} element that has the given 'id' within
+   * this {@link CompSBMLDocumentPlugin} or {@code null} if no such element can be found.
+   * 
+   * @param id
+   *        an id indicating a {@link ModelDefinition} element of the
+   *        {@link CompSBMLDocumentPlugin}.
+   * @return a {@link ModelDefinition} element of the {@link CompSBMLDocumentPlugin} that has
+   *         the given 'id' as id or {@code null} if no element with this
+   *         'id' can be found.
+   */
+  public ModelDefinition getModelDefinition(String id) {
+    return getListOfModelDefinitions().get(id);
+  }
+
+  
   /**
    * Returns the number of {@link ModelDefinition} objects in this {@link CompSBMLDocumentPlugin}.
    * 
@@ -260,11 +326,17 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    */
   public ListOf<ModelDefinition> getListOfModelDefinitions() {
     if (!isSetListOfModelDefinitions()) {
-      listOfModelDefinitions = new ListOf<ModelDefinition>(extendedSBase.getLevel(),
+      if (extendedSBase != null) {
+        listOfModelDefinitions = new ListOf<ModelDefinition>(extendedSBase.getLevel(),
           extendedSBase.getVersion());
+      } else {
+        listOfModelDefinitions = new ListOf<ModelDefinition>();
+      }
       listOfModelDefinitions.setNamespace(CompConstants.namespaceURI);
       listOfModelDefinitions.setSBaseListType(ListOf.Type.other);
-      extendedSBase.registerChild(listOfModelDefinitions);
+      if (extendedSBase != null) {
+        extendedSBase.registerChild(listOfModelDefinitions);
+      }
     }
     return listOfModelDefinitions;
   }
@@ -278,7 +350,9 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   public void setListOfModelDefinitions(ListOf<ModelDefinition> listOfModelDefinitions) {
     unsetListOfModelDefinitions();
     this.listOfModelDefinitions = listOfModelDefinitions;
-    extendedSBase.registerChild(this.listOfModelDefinitions);
+    if (extendedSBase != null) {
+      extendedSBase.registerChild(this.listOfModelDefinitions);
+    }
   }
 
   /**
@@ -306,6 +380,9 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    * @return {@code true} (as specified by {@link Collection.add})
    */
   public boolean addModelDefinition(ModelDefinition modelDefinition) {
+    
+    // TODO - the modelDefinition id is in the main SId namespace, so would need to be registered in the main model !
+    
     return getListOfModelDefinitions().add(modelDefinition);
   }
 
@@ -432,5 +509,5 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   public boolean getAllowsChildren() {
     return true;
   }
-
+  
 }

@@ -61,6 +61,14 @@ public class ModelDefinition extends Model {
     init();
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.Model#clone()
+   */
+  @Override
+  public ModelDefinition clone() {
+    return new ModelDefinition(this);
+  }
+
   public void init()
   {
     setNamespace(CompConstants.namespaceURI);

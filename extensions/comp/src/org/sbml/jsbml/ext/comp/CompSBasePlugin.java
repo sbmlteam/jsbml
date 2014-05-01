@@ -121,7 +121,6 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
     super(extendedSBase);
   }
 
-
   /**
    * Clone constructor
    */
@@ -144,6 +143,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
     return new CompSBasePlugin(this);
   }
 
+  
   /**
    * Initializes the default values using the namespace.
    */
@@ -179,7 +179,9 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
   public void setReplacedBy(ReplacedBy replacedBy) {
     ReplacedBy oldReplacedBy = this.replacedBy;
     this.replacedBy = replacedBy;
-    extendedSBase.registerChild(replacedBy);
+    if (extendedSBase != null) {
+      extendedSBase.registerChild(replacedBy);
+    }
     firePropertyChange(CompConstants.replacedBy, oldReplacedBy, this.replacedBy);
   }
 
@@ -225,6 +227,32 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
   }
 
   /**
+   * Returns the n-th {@link ReplacedElement} object in this {@link CompSBasePlugin}.
+   * 
+   * @param n an index
+   * @return the {@link ReplacedElement} with the given index if it exists.
+   * @throws IndexOutOfBoundsException
+   */
+  public ReplacedElement getReplacedElement(int index) {
+    return getListOfReplacedElements().get(index);
+  }
+  
+  /**
+   * Returns a {@link ReplacedElement} element that has the given 'id' within
+   * this {@link CompSBasePlugin} or {@code null} if no such element can be found.
+   * 
+   * @param id
+   *        an id indicating a {@link ReplacedElement} element of the
+   *        {@link CompSBasePlugin}.
+   * @return a {@link ReplacedElement} element of the {@link CompSBasePlugin} that has
+   *         the given 'id' as id or {@code null} if no element with this
+   *         'id' can be found.
+   */
+  public ReplacedElement getReplacedElement(String id) {
+    return getListOfReplacedElements().get(id);
+  }
+
+  /**
    * Returns the number of {@link ReplacedElement} objects in this {@link CompSBasePlugin}.
    * 
    * @return the number of {@link ReplacedElement} objects in this {@link CompSBasePlugin}.
@@ -244,10 +272,16 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
    */
   public ListOf<ReplacedElement> getListOfReplacedElements() {
     if (!isSetListOfReplacedElements()) {
-      listOfReplacedElements = new ListOf<ReplacedElement>(extendedSBase.getLevel(), extendedSBase.getVersion());
+      if (extendedSBase != null) {
+        listOfReplacedElements = new ListOf<ReplacedElement>(extendedSBase.getLevel(), extendedSBase.getVersion());
+      } else {
+        listOfReplacedElements = new ListOf<ReplacedElement>();
+      }
       listOfReplacedElements.setNamespace(CompConstants.namespaceURI);
       listOfReplacedElements.setSBaseListType(ListOf.Type.other);
-      extendedSBase.registerChild(listOfReplacedElements);
+      if (extendedSBase != null) {
+        extendedSBase.registerChild(listOfReplacedElements);
+      }
     }
     return listOfReplacedElements;
   }
@@ -261,7 +295,9 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
   public void setListOfReplacedElements(ListOf<ReplacedElement> listOfReplacedElements) {
     unsetListOfReplacedElements();
     this.listOfReplacedElements = listOfReplacedElements;
-    extendedSBase.registerChild(this.listOfReplacedElements);
+    if (extendedSBase != null) {
+      extendedSBase.registerChild(this.listOfReplacedElements);
+    }
   }
 
   /**
