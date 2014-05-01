@@ -25,6 +25,8 @@ package org.sbml.jsbml.ext;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
@@ -85,9 +87,12 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
    */
   public AbstractSBasePlugin(AbstractSBasePlugin plugin) {
     super(plugin);
-    extendedSBase = plugin.extendedSBase;
-  }
 
+    // the extendedSBase will be set when the cloned SBasePlugin is added inside an SBase
+    // then the ids of is children will be registered in the correct maps.
+    extendedSBase = null;
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getExtendedSBase()
    */
@@ -101,7 +106,7 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
    */
   @Override
   public abstract AbstractSBasePlugin clone();
-
+  
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
@@ -158,6 +163,37 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
   @Override
   public SBMLDocument getSBMLDocument() {
     return isSetExtendedSBase() ? getExtendedSBase().getSBMLDocument() : null;
+  }
+
+  /**
+   * Sets the extended {@link SBase}.
+   * 
+   * <p>This method should not be called in general but it is necessary
+   * to use it after cloning an {@link SBasePlugin} to be able to set properly
+   * the new parent/extended {@link SBase}.
+   * 
+   * 
+   * @param extendedSBase
+   */
+  public void setExtendedSBase(SBase extendedSBase) {
+    
+    // TODO - unregister children if extendedSBase was not null !!??
+    // Or do we throw an exception asking to clone the object instead ??
+    
+    this.extendedSBase = extendedSBase;
+    
+    
+    if (getChildCount() > 0) {
+      for (int i = 0; i < getChildCount(); i++) {
+        TreeNode child = getChildAt(i);
+
+        if (child instanceof SBase) {
+          this.extendedSBase.registerChild((SBase) child); 
+          // TODO - if an error occur, we might have to unregister the first children, from i - 1 down to 0 !!
+        }
+      }
+    }
+
   }
 
   /*

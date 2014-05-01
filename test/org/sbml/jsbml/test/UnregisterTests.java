@@ -41,7 +41,7 @@ import org.sbml.jsbml.ext.comp.ModelDefinition;
 import org.sbml.jsbml.ext.comp.Port;
 
 /**
- * Tests the registration and un-registration of global or local ids using package element.
+ * Tests the registration and un-registration of global or local id using package elements.
  * 
  * @version $Rev$
  * @since 1.0
@@ -95,6 +95,7 @@ public class UnregisterTests {
 
     Species s3 = new Species();
     s3.setId("S3");
+    model.addSpecies(s3);
 
     assertTrue(compMainModel.getPortCount() == 0);
     
@@ -111,7 +112,7 @@ public class UnregisterTests {
     
     // create a second Port with the same id as the first Port and check that this is not allowed
     try {
-    	Port portS3bis = compMainModel.createPort("S3");
+    	compMainModel.createPort("S3");
     	assertTrue("We should not be allowed to have several Port with the same id inside the same model", false);
     } catch (IllegalArgumentException e) {
     	assertTrue(true);
@@ -133,10 +134,10 @@ public class UnregisterTests {
 
     assertTrue(compMainModel.getPortCount() == 2);
     
-    assertTrue(compMainModel.getPortById("Po1") != null);
-    assertTrue(compMainModel.getPortById("Po1").equals(portPo1));
-    assertTrue(compMainModel.getPortById("S3") != null);
-    assertTrue(compMainModel.getPortById("S3").equals(portS3));
+    assertTrue(compMainModel.getPort("Po1") != null);
+    assertTrue(compMainModel.getPort("Po1").equals(portPo1));
+    assertTrue(compMainModel.getPort("S3") != null);
+    assertTrue(compMainModel.getPort("S3").equals(portS3));
     
     assertTrue(! portS3.equals(portPo1));
     
@@ -153,7 +154,7 @@ public class UnregisterTests {
     ModelDefinition modelDef2 = (ModelDefinition) compDoc.createModelDefinition("modelDef2"); 
     
     // TODO - which id namespace does the modelDefinition id belong to ? itself I suppose
-    // Then it would not be really possible to get modelFedinition by id at the SBMLDocument level ?
+    // Then it would not be really possible to get modelDefinition by id at the SBMLDocument level ?
     
     CompModelPlugin compModelDef2 = (CompModelPlugin) modelDef2.getPlugin("comp");
     
@@ -166,7 +167,7 @@ public class UnregisterTests {
     
     // create a second Port with the same id as the first Port in a ModelDefinition and check that this is not allowed
     try {
-    	Port portS3bis = compModelDef2.createPort("S3");
+    	compModelDef2.createPort("S3");
     	assertTrue("We should not be allowed to have several Port with the same id inside the same modelDefinition", false);
     } catch (IllegalArgumentException e) {
     	assertTrue(true);
@@ -174,37 +175,84 @@ public class UnregisterTests {
 
     // create a second Species with the same id as the first Species in a ModelDefinition and check that this is not allowed
     try {
-    	Species s3bis = modelDef2.createSpecies("S3");
+    	modelDef2.createSpecies("S3");
     	assertTrue("We should not be allowed to have several Species with the same id inside the same modelDefinition", false);
     } catch (IllegalArgumentException e) {
     	assertTrue(true);
     }
-    
-    
+        
     assertTrue(modelDef2.getSpeciesCount() == 1);
     assertTrue(compModelDef2.getPortCount() == 1);
     
-    Model clonedModel = model.clone(); // TODO - problem there, there are warning message that should not be there
+    compModelDef2.createPort("test1");
+    compModelDef2.createPort("test2");
+    compModelDef2.createSubmodel("subM1");
+    compModelDef2.createSubmodel("subM2");
     
+    assertTrue(modelDef2.findUniqueNamedSBase("subM1") != null);
+    assertTrue(model.findUniqueNamedSBase("subM1") == null);
+    assertTrue(modelDef.findUniqueNamedSBase("subM1") == null);
+    
+    System.out.println("BEFORE CLONING");
+    
+    SBMLDocument clonedDoc = doc.clone(); // TODO - problem there, there are warning messages that should not be there
+    Model clonedModel = clonedDoc.getModel(); 
     CompModelPlugin compMainModelPluginCloned = (CompModelPlugin) clonedModel.getPlugin("comp");
+    ModelDefinition clonedModelDef2 = ((CompSBMLDocumentPlugin) clonedDoc.getPlugin("comp")).getListOfModelDefinitions().get("modelDef2");
+    CompModelPlugin clonedModelDef2Plugin = (CompModelPlugin) clonedModelDef2.getPlugin("comp");
     
+    System.out.println("AFTER CLONING");
+    
+    assertTrue(model.getSpeciesCount() == 3);
+        
     assertTrue(compMainModelPluginCloned.getPortCount() == 2);
-    // TODO - assertTrue(compMainModelPluginCloned.getPortById("S3") != null);
+    assertTrue(clonedModel.getSpeciesCount() == 3);
+    assertTrue(clonedModel.findUniqueNamedSBase("S2") != null);
+    assertTrue(clonedModel.findUniqueNamedSBase("S3") != null);
+    assertTrue(compMainModelPluginCloned.getPort(0).getId().equals("S3"));
+    assertTrue(compMainModelPluginCloned.getPort("S3") != null);
     
+    assertTrue(clonedModelDef2.findUniqueNamedSBase("subM1") != null);
+    assertTrue(clonedModelDef2Plugin.getPortCount() == 3);
+    assertTrue(clonedModelDef2Plugin.getPort("test1") != null);
     
+    // Testing un-registration of Port
     compMainModel.removePort(0);
     
     assertTrue(compMainModel.getPortCount() == 1);
-    assertTrue(compMainModel.getPortById("Po1") != null);
-    assertTrue(compMainModel.getPortById("S3") == null);
+    assertTrue(compMainModel.getPort("Po1") != null);
+    assertTrue(compMainModel.getPort("S3") == null);
+
+    compMainModel.removePort(portPo1);
     
-  }
+    assertTrue(compMainModel.getPortCount() == 0);
+    assertTrue(compMainModel.getPort("Po1") == null);
+
+    // Testing un-registration of SubModel
+    
+    compModelDef2.removeSubmodel("subM1");
+    assertTrue(modelDef2.findUniqueNamedSBase("subM1") == null);
+
+    compModelDef2.unsetListOfSubmodels();
+    compModelDef2.unsetListOfPorts();
+    assertTrue(modelDef2.findUniqueNamedSBase("subM2") == null);
+    assertTrue(compModelDef2.getPortCount() == 0);
+    assertTrue(compModelDef2.getPort("test1") == null);
+        
+  }  
   
+  // TODO - check that the metaid are on the maps. On plugin objects, on cloned objects, ...
   
+  // TODO - add tests using ReplacedBy as it is using the method firePropertyChange. 
+  
+  // TODO - create a SBasePlugin by hand without extenddeSBase set, add it to an element and check that the ids are registered.
   
   // TODO - clone a ModelDefinition and check the map are ok
   
+  // TODO - create a plugin without extendedSBase set, add few uniquenamedSBase to it, then add it to the SBMLDocument and check the maps
   
   // TODO - add test with other packages
+  
+  // TODO - test with qualitativeSpecies
   
 }

@@ -41,8 +41,9 @@ import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 public interface SBasePlugin extends TreeNodeWithChangeSupport {
 
   /**
+   * Creates a new instance of {@link SBasePlugin} from this {@link SBasePlugin}.
    * 
-   * @return
+   * @return a new instance of {@link SBasePlugin} from this {@link SBasePlugin}.
    */
   public SBasePlugin clone();
 
