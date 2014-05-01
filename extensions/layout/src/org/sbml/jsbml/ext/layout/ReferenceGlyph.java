@@ -11,7 +11,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -36,7 +36,7 @@ import org.sbml.jsbml.Model;
  * attributes 'reference' and 'role'. Optionally, the ReferenceGlyph also has an element 'curve'.
  * The ReferenceGlyph should either contain a bounding box or a curve specification. If both
  * are given, the bounding box should be ignored.
- * 
+ *
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich
  * @author Andreas Dr&auml;ger
@@ -51,29 +51,29 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
   private static final long serialVersionUID = -8810905237933499989L;
 
   /**
-   * 
+   *
    */
   private Curve curve;
 
   /**
-   * 
+   *
    */
   private String role;
 
   /**
-   * 
+   *
    */
   private String glyph;
 
   /**
-   * 
+   *
    */
   public ReferenceGlyph() {
     super();
   }
 
   /**
-   * 
+   *
    * @param level
    * @param version
    */
@@ -82,7 +82,7 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
   }
 
   /**
-   * 
+   *
    * @param speciesReferenceGlyph
    */
   public ReferenceGlyph(ReferenceGlyph speciesReferenceGlyph) {
@@ -99,7 +99,7 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
   }
 
   /**
-   * 
+   *
    * @param id
    */
   public ReferenceGlyph(String id) {
@@ -107,7 +107,7 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
   }
 
   /**
-   * 
+   *
    * @param id
    * @param level
    * @param version
@@ -125,7 +125,7 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public Curve createCurve() {
@@ -196,7 +196,7 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public Curve getCurve() {
@@ -204,7 +204,7 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public String getGlyph() {
@@ -291,17 +291,17 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
   }
 
   /**
-   * The curve is an optional element of type {@link Curve}.  When present, the glyph’s {@link BoundingBox}
+   * The curve is an optional element of type {@link Curve}.  When present, the glyph&rsquo;s {@link BoundingBox}
    * (as inherited from the {@link GraphicalObject}) is to be disregarded. So as to make the drawing of
    * these curves as easy as possible the line segments should be ordered depending on the role of
    * the {@link ReferenceGlyph}.
-   * 
+   *
    * If the glyph represents a modification it should start at the glyph and end at the center of
    * the {@link GeneralGlyph}.
-   * 
+   *
    * Otherwise it should begin at the center section of the {@link GeneralGlyph} and end at the reference
    * glyph.
-   * 
+   *
    * @param curve
    */
   public void setCurve(Curve curve) {
@@ -328,7 +328,7 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
    * object that is to be connected to the {@link GeneralGlyph}. This attribute is
    * mandatory so as to ensure unambiguously which glyph has to be connected with
    * this {@link GeneralGlyph}.
-   * 
+   *
    * @param glyph
    */
   public void setGlyph(String glyph) {
@@ -341,7 +341,7 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
   /**
    * The reference is an optional attribute that is used to connect the {@link ReferenceGlyph}
    * with an element of the containing {@link Model}.
-   * 
+   *
    * @param reference
    */
   @Override
@@ -350,7 +350,7 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public boolean unsetCurve() {
