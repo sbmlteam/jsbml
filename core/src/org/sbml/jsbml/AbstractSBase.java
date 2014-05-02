@@ -386,6 +386,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   }
 
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#addPlugin(java.lang.String, org.sbml.jsbml.ext.SBasePlugin)
+   */
+  @Override
+  public void addPlugin(String nameOrUri, SBasePlugin sbasePlugin) {
+    addExtension(nameOrUri, sbasePlugin);    
+  }
+
   /**
    * Sets the XML namespace to which this {@link SBase} belong.
    * 
@@ -1144,6 +1152,20 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
     throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));
   }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#getExtensionCount()
+   */
+  @Override
+  public int getExtensionCount() {
+
+    if (extensions != null) {
+      extensions.size();
+    }
+    
+    return 0;
+  }
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBase#getExtensionPackages()
@@ -2045,6 +2067,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
       SBasePlugin sbasePlugin = extensions.remove(packageParser.getPackageName());
       firePropertyChange(TreeNodeChangeEvent.extension, sbasePlugin, null);
+      return;
     }
 
     throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));

@@ -74,6 +74,18 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public void addExtension(String nameOrUri, SBasePlugin sbasePlugin);
 
   /**
+   * Adds a {@link SBasePlugin} extension object to this {@link SBase}.
+   * 
+   * <p>If a previous {@link SBasePlugin} associated with the same package
+   * was present before, it will be replaced.
+   * 
+   * @param nameOrUri the name or URI of the package extension.
+   * @param sbasePlugin the {@link SBasePlugin} to add.
+   * @see #addExtension(String, SBasePlugin)
+   */
+  public void addPlugin(String nameOrUri, SBasePlugin sbasePlugin);
+
+  /**
    * Adds an additional name space to the set of name spaces of this
    * {@link SBase} if the given name space is not yet present within this
    * {@link SortedSet}.
@@ -255,6 +267,8 @@ public interface SBase extends TreeNodeWithChangeSupport {
    */
   public String getElementName();
 
+  // TODO - add getExtension(int) and getPlugin(int) ??
+  
   /**
    * Returns the {@link SBasePlugin} extension object which matches this package name or URI.
    * 
@@ -265,13 +279,20 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public SBasePlugin getExtension(String nameOrUri);
 
   /**
+   * Returns the number of {@link SBasePlugin}s of this {@link SBase}.
+   * 
+   * @return the number of {@link SBasePlugin}s of this {@link SBase}.
+   */
+  public int getExtensionCount();
+
+  /**
    * Returns the map containing all the {@link SBasePlugin} extension objects
    * of this {@link SBase}.
    * 
    * @return the map containing all the {@link SBasePlugin} extension objects
    * of this {@link SBase}.
    */
-  public Map<String, SBasePlugin> getExtensionPackages();
+  public Map<String, SBasePlugin> getExtensionPackages(); // TODO - remove this method to prevent access to the map directly ?? Or provide a copy of the Map
 
   /**
    * Returns the {@link History} instance of this object.
