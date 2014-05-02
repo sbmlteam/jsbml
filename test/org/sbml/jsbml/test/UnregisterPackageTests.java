@@ -39,6 +39,12 @@ import org.sbml.jsbml.ext.comp.CompModelPlugin;
 import org.sbml.jsbml.ext.comp.CompSBMLDocumentPlugin;
 import org.sbml.jsbml.ext.comp.ModelDefinition;
 import org.sbml.jsbml.ext.comp.Port;
+import org.sbml.jsbml.ext.fbc.FBCConstants;
+import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
+import org.sbml.jsbml.ext.fbc.FBCSpeciesPlugin;
+import org.sbml.jsbml.ext.fbc.FluxBound;
+import org.sbml.jsbml.ext.fbc.FluxBound.Operation;
+import org.sbml.jsbml.ext.fbc.Objective;
 
 /**
  * Tests the registration and un-registration of global or local id using package elements.
@@ -46,7 +52,7 @@ import org.sbml.jsbml.ext.comp.Port;
  * @version $Rev$
  * @since 1.0
  */
-public class UnregisterTests {
+public class UnregisterPackageTests {
 
   SBMLDocument doc;
   Model model;
@@ -91,7 +97,7 @@ public class UnregisterTests {
 
 
 
-  @Test public void testRegisterCompPort() {
+  @Test public void testCompPort() {
 
     Species s3 = new Species();
     s3.setId("S3");
@@ -254,5 +260,120 @@ public class UnregisterTests {
   // TODO - add test with other packages
   
   // TODO - test with qualitativeSpecies
+  
+  @Test public void testFbc() {
+    
+    FBCModelPlugin fbcModel = (FBCModelPlugin) model.getPlugin(FBCConstants.namespaceURI_L3V1V1);
+    
+    FluxBound fluxBound1 = fbcModel.createFluxBound("FB1");
+    fluxBound1.setMetaId("FB1");
+    fluxBound1.setReaction("R1");
+    fluxBound1.setOperation(FluxBound.Operation.GREATER_EQUAL);
+    fluxBound1.setValue(800);
+    
+    fbcModel.createFluxBound("FB2");
+    fbcModel.createFluxBound("FB3");
+    fbcModel.createObjective("O1");
+    fbcModel.createObjective("O2");
+    
+    assertTrue(fbcModel.getFluxBoundCount() == 3);
+    assertTrue(fbcModel.getObjectiveCount() == 2);
+    
+    assertTrue(fbcModel.getFluxBound(0).getLevel() == 3);
+    assertTrue(fbcModel.getFluxBound(0).getVersion() == 1);
+    assertTrue(fbcModel.getListOfFluxBounds().getLevel() == 3);
+    assertTrue(fbcModel.getListOfFluxBounds().getVersion() == 1);
+    
+    assertTrue(model.findUniqueNamedSBase("FB2") != null);
+    assertTrue(model.findUniqueNamedSBase("O1") != null);
+    
+    assertTrue(doc.findSBase("FB1").equals(fluxBound1));
+    
+    Species s3 = model.createSpecies("S3");
+    
+    FBCSpeciesPlugin s3FbcPlugin = (FBCSpeciesPlugin) s3.getPlugin("fbc");
+    s3FbcPlugin.setCharge(8);
+    s3FbcPlugin.setChemicalFormula("H20");
+    s3.setMetaId("S3");
+    
+    
+    // trying to add a fluxbound/objective with an existing id, metaid
+    try {
+      fbcModel.createFluxBound("O1");
+      assertTrue("We should not be allowed to have several element with the same id inside the same model", false);
+    } catch (IllegalArgumentException e) {
+        assertTrue(true);
+        assertTrue(fbcModel.getFluxBoundCount() == 3);
+    }    
+    
+    try {
+      FluxBound f4 = new FluxBound("FB4");
+      f4.setMetaId("FB1");
+      fbcModel.addFluxBound(f4);
+      assertTrue("We should not be allowed to have several element with the same metaid inside the same model", false);
+    } catch (IllegalArgumentException e) {
+        assertTrue(true);
+        assertTrue(fbcModel.getFluxBoundCount() == 3);
+    }    
+    
+    try {
+      Objective o3 = new Objective("O3");
+      o3.setMetaId("S2");
+      fbcModel.addObjective(o3);
+      assertTrue("We should not be allowed to have several element with the same metaid inside the same model", false);
+    } catch (IllegalArgumentException e) {
+        assertTrue(true);
+        assertTrue(fbcModel.getObjectiveCount() == 2);
+    }    
+    
+    
+    // Cloning the FBCModelPlugin
+    FBCModelPlugin clonedFbcModel = fbcModel.clone(); 
+    assertTrue(clonedFbcModel.getListOfFluxBounds().getLevel() == 3);
+    assertTrue(clonedFbcModel.getListOfFluxBounds().getVersion() == 1);
+    
+    model.unsetPlugin("fbc");
+    
+//    assertTrue(model.findUniqueNamedSBase("FB2") == null); // TODO - fix firePropertyChange to register/un-register elements before putting that again
+//    assertTrue(model.findUniqueNamedSBase("O1") == null);
+
+    Model clonedModel = model.clone();    
+    clonedModel.addExtension("fbc", clonedFbcModel);
+    
+    SBMLDocument newDoc = new SBMLDocument(3, 1);
+    newDoc.setModel(clonedModel);
+    
+    assertTrue(clonedFbcModel.getFluxBoundCount() == 3);
+    assertTrue(clonedFbcModel.getObjectiveCount() == 2);
+    
+    assertTrue(clonedFbcModel.getFluxBound(0).getLevel() == 3);
+    assertTrue(clonedFbcModel.getFluxBound(0).getVersion() == 1);
+    assertTrue(clonedFbcModel.getListOfFluxBounds().getLevel() == 3);
+    assertTrue(clonedFbcModel.getListOfFluxBounds().getVersion() == 1);
+    
+    assertTrue(clonedModel.findUniqueNamedSBase("FB2") != null);
+    assertTrue(clonedModel.findUniqueNamedSBase("O1") != null);
+
+    assertTrue(newDoc.findSBase("FB1").equals(fluxBound1));
+    
+    FluxBound clonedFluxBound1 = (FluxBound) newDoc.findSBase("FB1"); 
+ 
+    assertTrue(clonedFluxBound1.getReaction().equals("R1"));
+    clonedFluxBound1.setValue(550);
+    assertTrue(!clonedFluxBound1.equals(fluxBound1));
+    assertTrue(clonedFluxBound1.hashCode() != fluxBound1.hashCode());
+    
+    clonedFluxBound1.setReaction("R2");
+    clonedFluxBound1.setOperation(Operation.EQUAL);
+    
+    assertTrue(clonedFluxBound1.getValue() == 550);
+    assertTrue(fluxBound1.getValue() == 800);
+    assertTrue(clonedFluxBound1.getReaction().equals("R2"));
+    assertTrue(fluxBound1.getReaction().equals("R1"));
+    assertTrue(clonedFluxBound1.getOperation().equals(Operation.EQUAL));
+    assertTrue(fluxBound1.getOperation().equals(Operation.GREATER_EQUAL));
+
+    
+  }
   
 }

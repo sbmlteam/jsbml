@@ -88,7 +88,12 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
   @SuppressWarnings("unchecked")
   @Override
   public ListOf<Species> getParent() {
-    return (ListOf<Species>) getExtendedSBase().getParent();
+    
+    if (isSetExtendedSBase()) {
+      return (ListOf<Species>) getExtendedSBase().getParent();
+    }
+    
+    return null;
   }
 
 
@@ -126,7 +131,7 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
     super(obj);
 
     if (obj.isSetChemicalFormula()) {
-      setChemicalFormula(obj.getChemicalFormula());
+      setChemicalFormula(new String(obj.getChemicalFormula()));
     }
 
     if (obj.isSetCharge()) {

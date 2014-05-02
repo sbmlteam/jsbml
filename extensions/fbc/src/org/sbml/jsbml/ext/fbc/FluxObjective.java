@@ -139,6 +139,50 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
     return new FluxObjective(this);
   }
 
+  
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 2203;
+    int result = super.hashCode();
+    long temp;
+    temp = Double.doubleToLongBits(coefficient);
+    result = prime * result + (int) (temp ^ (temp >>> 32));
+    result = prime * result + ((reaction == null) ? 0 : reaction.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    FluxObjective other = (FluxObjective) obj;
+    if (Double.doubleToLongBits(coefficient) != Double.doubleToLongBits(other.coefficient)) {
+      return false;
+    }
+    if (reaction == null) {
+      if (other.reaction != null) {
+        return false;
+      }
+    } else if (!reaction.equals(other.reaction)) {
+      return false;
+    }
+    return true;
+  }
+
   /**
    * Returns the value of coefficient
    *

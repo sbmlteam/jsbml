@@ -138,7 +138,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    * @return a new {@link Port} element
    */
   public Port createPort(String id) {
-    Port port = new Port(id, extendedSBase.getLevel(), extendedSBase.getVersion());
+    Port port = new Port(id);
     addPort(port);
     return port;
   }
@@ -156,7 +156,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    * @return a new {@link Submodel} element
    */
   public Submodel createSubmodel(String id) {
-    Submodel submodel = new Submodel(id, extendedSBase.getLevel(), extendedSBase.getVersion());
+    Submodel submodel = new Submodel(id);
     addSubmodel(submodel);
     return submodel;
   }

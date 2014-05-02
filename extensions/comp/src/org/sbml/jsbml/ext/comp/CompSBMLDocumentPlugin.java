@@ -300,7 +300,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    * @return a new {@link ExternalModelDefinition} element
    */
   public ExternalModelDefinition createExternalModelDefinition(String id) {
-    ExternalModelDefinition externalModelDefinition = new ExternalModelDefinition(id, extendedSBase.getLevel(), extendedSBase.getVersion());
+    ExternalModelDefinition externalModelDefinition = new ExternalModelDefinition(id);
     addExternalModelDefinition(externalModelDefinition);
     return externalModelDefinition;
   }
@@ -436,7 +436,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    * @return a new {@link ModelDefinition} element
    */
   public Model createModelDefinition(String id) {
-    ModelDefinition modelDefinition = new ModelDefinition(id, extendedSBase.getLevel(), extendedSBase.getVersion());
+    ModelDefinition modelDefinition = new ModelDefinition(id);
     addModelDefinition(modelDefinition);
     return modelDefinition;
   }
