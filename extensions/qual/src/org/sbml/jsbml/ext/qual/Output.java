@@ -123,13 +123,13 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
     super(out);
 
     if (out.isSetQualitativeSpecies()) {
-      setQualitativeSpecies(out.getQualitativeSpecies());
+      setQualitativeSpecies(new String(out.getQualitativeSpecies()));
     }
     if (out.isSetTransitionEffect()) {
       setTransitionEffect(out.getTransitionEffect());
     }
     if (out.isSetOutputLevel()) {
-      setOutputLevel(out.getOutputLevel());
+      setOutputLevel(new Integer(out.getOutputLevel()));
     }
   }
 
@@ -176,13 +176,16 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
 
 
   /**
+   * Returns the qualitativeSpecies
+   * 
    * @return the qualitativeSpecies
+   * @throws PropertyUndefinedError if {@link #isSetQualitativeSpecies()} return {@code false}.
    */
   public String getQualitativeSpecies() {
     if (isSetQualitativeSpecies()) {
       return qualitativeSpecies;
     } else {
-      throw new PropertyUndefinedError(QualConstants.qualitativeSpecies, this);
+      throw new PropertyUndefinedError(QualConstants.qualitativeSpecies, this); // TODO - we could return null instead
     }
   }
 
@@ -229,7 +232,10 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
 
 
   /**
+   * Returns the transitionEffect
+   * 
    * @return the transitionEffect
+   * @throws PropertyUndefinedError if {@link #isSetTransitionEffect()} return {@code false}.
    */
   public OutputTransitionEffect getTransitionEffect() {
     if (isSetTransitionEffect()) {
@@ -283,7 +289,10 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
 
 
   /**
+   * Returns the outputLevel.
+   * 
    * @return the outputLevel
+   * @throws PropertyUndefinedError if {@link #isSetOutputLevel()} return {@code false}.
    */
   public int getOutputLevel() {
     if (isSetOutputLevel()) {

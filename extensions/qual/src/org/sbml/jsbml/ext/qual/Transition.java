@@ -114,13 +114,13 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     super(t);
 
     if (t.isSetListOfFunctionTerms()) {
-      listOfFunctionTerms = t.listOfFunctionTerms.clone();
+      setListOfFunctionTerms(t.listOfFunctionTerms.clone());
     }
     if (t.isSetListOfInputs()) {
-      listOfInputs = t.listOfInputs.clone();
+      setListOfInputs(t.listOfInputs.clone());
     }
     if (t.isSetListOfOutputs()) {
-      listOfOutputs = t.listOfOutputs.clone();
+      setListOfOutputs(t.listOfOutputs.clone());
     }
   }
 
@@ -211,7 +211,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return
    */
   public Input createInput(String id) {
-    Input input = new Input(id, getModel().getLevel(), getModel().getVersion());
+    Input input = new Input(id, getLevel(), getVersion());
     addInput(input);
     return input;
   }
@@ -261,7 +261,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    * @return
    */
   public Output createOutput(String id) {
-    Output output = new Output(id, getModel().getLevel(), getModel().getVersion());
+    Output output = new Output(id, getLevel(), getVersion());
     addOutput(output);
     return output;
   }
@@ -296,13 +296,45 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.element.MathContainer#equals(java.lang.Object)
+   * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
-  public boolean equals(Object object) {
-    boolean equals = super.equals(object);
-    return equals;
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Transition other = (Transition) obj;
+    if (listOfFunctionTerms == null) {
+      if (other.listOfFunctionTerms != null) {
+        return false;
+      }
+    } else if (!listOfFunctionTerms.equals(other.listOfFunctionTerms)) {
+      return false;
+    }
+    if (listOfInputs == null) {
+      if (other.listOfInputs != null) {
+        return false;
+      }
+    } else if (!listOfInputs.equals(other.listOfInputs)) {
+      return false;
+    }
+    if (listOfOutputs == null) {
+      if (other.listOfOutputs != null) {
+        return false;
+      }
+    } else if (!listOfOutputs.equals(other.listOfOutputs)) {
+      return false;
+    }
+    return true;
   }
+  
+  
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
@@ -424,12 +456,19 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+   * @see java.lang.Object#hashCode()
    */
   @Override
   public int hashCode() {
-    int hashCode = super.hashCode();
-    return hashCode;
+    final int prime = 1259;
+    int result = super.hashCode();
+    result = prime * result
+      + ((listOfFunctionTerms == null) ? 0 : listOfFunctionTerms.hashCode());
+    result = prime * result
+      + ((listOfInputs == null) ? 0 : listOfInputs.hashCode());
+    result = prime * result
+      + ((listOfOutputs == null) ? 0 : listOfOutputs.hashCode());
+    return result;
   }
 
 
