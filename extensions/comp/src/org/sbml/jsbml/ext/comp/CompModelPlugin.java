@@ -278,6 +278,26 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
   }
 
   /**
+   * Returns the number of {@link Port} of this {@link CompModelPlugin}.
+   * 
+   * @return the number of {@link Port} of this {@link CompModelPlugin}.
+   * @libsbml.deprecated use {@link #getPortCount()}
+   */
+  public int getNumPorts() {
+    return getPortCount();
+  }
+
+  /**
+   * Returns the number of {@link Submodel} of this {@link CompModelPlugin}.
+   * 
+   * @return the number of {@link Submodel} of this {@link CompModelPlugin}.
+   * @libsbml.deprecated use {@link #getSubmodelCount()}
+   */
+  public int getNumSubmodels() {
+    return getSubmodelCount();
+  }
+
+  /**
    * Returns the n-th {@link Port} object in this {@link CompModelPlugin}.
    * 
    * @param n an index

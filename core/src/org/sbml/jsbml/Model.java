@@ -3980,7 +3980,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
      * For these, the AbstractSBase.registerChild(SBase) method was throwing an exception although there was no problem.
      */
     boolean success = true;
-
+    int idManagerAdded = 0;
+    
     if (logger.isDebugEnabled()) {
       logger.debug("registerIds (main): newElem = " + newElem.getElementName() + " (recursive = " + recursively + ")");
     }
@@ -4008,17 +4009,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
           // Trying to find an IdManager for this element.
           IdManager idManager = getIdManager(newElem);
           
-          System.out.println("DEBUG - idManager found for '" + newElem + "' = " + idManager);
+          logger.debug("idManager found for '" + newElem + "' = " + idManager);
           
-          if (idManager instanceof SBase) {
-            System.out.println("DEBUG - idManager has '" + ((SBase) idManager).getNumPlugins() + "' plugins.");
-          } else {
-            System.out.println("DEBUG - idManager is not of type SBase !!! " + (idManager instanceof SBasePlugin));
-          }
-          
-          if (idManager != null && idManager != this) { // TODO - infinite loop somewhere 
-            
-            //System.out.println("");
+          if (idManager != null && idManager != this) {
             
             if (delete) {
               return success &= idManager.unregister(newElem);
@@ -4037,7 +4030,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
       }
     }
 
-
+    // in the case of deletion, we keep a List of IdManager to avoid having to do a recursive call
+    // each time to found the proper IdManager 
+    // Not sure if this code is needed any more !! but it could be used in the 'else' block above where we search for an IdManager 
     if (delete) {
 
       if (idManagerList == null) {
@@ -4045,27 +4040,28 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
       }
 
       if (newElem instanceof IdManager && newElem != this) {
+        idManagerAdded++;
         idManagerList.add((IdManager) newElem);
       }
 
-      // TODO - test all the plugins to include them potentially in the list of IdManager
       // we need to test the SBasePlugins if any exists first
       if (newElem.getNumPlugins() > 0) {
         for (String pluginKey : newElem.getExtensionPackages().keySet()) {
           SBasePlugin plugin = newElem.getExtensionPackages().get(pluginKey);
 
-          // System.out.println("DEBUG - getIdManager plugins found");
-
           if (plugin instanceof IdManager) {
+            idManagerAdded++;
             idManagerList.add((IdManager) plugin);			  }
         }
       }
 
-
       if (idManagerList != null && idManagerList.size() > 0 && delete) {
-        for (IdManager idManager : idManagerList) {
+        for (int i = idManagerList.size() - 1; i >= 0; i--) {
+          IdManager idManager = idManagerList.get(i);
           if (idManager.accept(newElem)) {
             idManager.unregister(newElem);
+            break;
+            // TODO - we could return directly here ?
           }
         }
       }
@@ -4107,7 +4103,12 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
       return success;
     }
     
-    // TODO - remove the idManager added 
+    // removing the idManager(s) added 
+    if (delete && idManagerAdded > 0) {
+      for (int i = idManagerAdded; i > 0; i--) {
+        idManagerList.remove(idManagerList.size() - 1);
+      }
+    }
 
     return success;
   }

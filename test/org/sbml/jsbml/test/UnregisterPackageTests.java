@@ -35,6 +35,7 @@ import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.ext.comp.CompConstants;
 import org.sbml.jsbml.ext.comp.CompModelPlugin;
 import org.sbml.jsbml.ext.comp.CompSBMLDocumentPlugin;
 import org.sbml.jsbml.ext.comp.ModelDefinition;
@@ -45,6 +46,10 @@ import org.sbml.jsbml.ext.fbc.FBCSpeciesPlugin;
 import org.sbml.jsbml.ext.fbc.FluxBound;
 import org.sbml.jsbml.ext.fbc.FluxBound.Operation;
 import org.sbml.jsbml.ext.fbc.Objective;
+import org.sbml.jsbml.ext.layout.LayoutConstants;
+import org.sbml.jsbml.ext.qual.QualConstants;
+import org.sbml.jsbml.ext.qual.QualModelPlugin;
+import org.sbml.jsbml.ext.qual.QualitativeSpecies;
 
 /**
  * Tests the registration and un-registration of global or local id using package elements.
@@ -67,6 +72,7 @@ public class UnregisterPackageTests {
     model = doc.createModel("model");
 
     compMainModel = (CompModelPlugin) model.getPlugin("comp");
+    compMainModel.createSubmodel("submodel1");
     
     Compartment comp = model.createCompartment("cell");
     comp.setMetaId("cell");
@@ -159,8 +165,9 @@ public class UnregisterPackageTests {
 
     ModelDefinition modelDef2 = (ModelDefinition) compDoc.createModelDefinition("modelDef2"); 
     
-    // TODO - which id namespace does the modelDefinition id belong to ? itself I suppose
-    // Then it would not be really possible to get modelDefinition by id at the SBMLDocument level ?
+    // modelDefinition id belong to the id namespace of the main model
+    // TODO - add test for those when implementation is done
+    // TODO - problem here, if a SBMLDocument is created with the main model element defined
     
     CompModelPlugin compModelDef2 = (CompModelPlugin) modelDef2.getPlugin("comp");
     
@@ -201,7 +208,7 @@ public class UnregisterPackageTests {
     
     System.out.println("BEFORE CLONING");
     
-    SBMLDocument clonedDoc = doc.clone(); // TODO - problem there, there are warning messages that should not be there
+    SBMLDocument clonedDoc = doc.clone();
     Model clonedModel = clonedDoc.getModel(); 
     CompModelPlugin compMainModelPluginCloned = (CompModelPlugin) clonedModel.getPlugin("comp");
     ModelDefinition clonedModelDef2 = ((CompSBMLDocumentPlugin) clonedDoc.getPlugin("comp")).getListOfModelDefinitions().get("modelDef2");
@@ -247,19 +254,10 @@ public class UnregisterPackageTests {
         
   }  
   
-  // TODO - check that the metaid are on the maps. On plugin objects, on cloned objects, ...
-  
   // TODO - add tests using ReplacedBy as it is using the method firePropertyChange. 
-  
-  // TODO - create a SBasePlugin by hand without extenddeSBase set, add it to an element and check that the ids are registered.
-  
-  // TODO - clone a ModelDefinition and check the map are ok
-  
-  // TODO - create a plugin without extendedSBase set, add few uniquenamedSBase to it, then add it to the SBMLDocument and check the maps
   
   // TODO - add test with other packages
   
-  // TODO - test with qualitativeSpecies
   
   @Test public void testFbc() {
     
@@ -336,6 +334,7 @@ public class UnregisterPackageTests {
     
 //    assertTrue(model.findUniqueNamedSBase("FB2") == null); // TODO - fix firePropertyChange to register/un-register elements before putting that again
 //    assertTrue(model.findUniqueNamedSBase("O1") == null);
+//  assertTrue(doc.findSBase("FB1") == null);
 
     Model clonedModel = model.clone();    
     clonedModel.addExtension("fbc", clonedFbcModel);
@@ -375,5 +374,61 @@ public class UnregisterPackageTests {
 
     
   }
+
   
+  /**
+   * Create a SBasePlugin by hand without extenddeSBase set, add it to an element and check that the ids are registered.
+   * 
+   */
+  @Test public void testQual() {
+    
+    QualModelPlugin qualModel = new QualModelPlugin((Model) null);
+    QualitativeSpecies qs1 = qualModel.createQualitativeSpecies("QS1");
+    qs1.setMetaId("QS1");
+    qs1.setInitialLevel(1);
+    qs1.setMaxLevel(4);
+    qs1.setCompartment(model.getCompartment(0));
+    qs1.setConstant(false);
+    
+    qualModel.createQualitativeSpecies("QS2");
+    qualModel.createQualitativeSpecies("QS3");
+    qualModel.createQualitativeSpecies("QS4");
+    
+    qualModel.createTransition("T1");
+    qualModel.createTransition("T2");
+    
+    model.addPlugin(QualConstants.shortLabel, qualModel);
+    
+    assertTrue(model.findUniqueNamedSBase("QS1").equals(qs1));
+    assertTrue(model.findUniqueNamedSBase("QS3") != null);
+    assertTrue(model.findUniqueNamedSBase("T2") != null);
+    assertTrue(doc.findSBase("QS1") != null);
+
+    // cloning the whole document
+    SBMLDocument clonedDoc = doc.clone();
+    Model clonedModel = clonedDoc.getModel();
+    QualModelPlugin clonedQualModel = (QualModelPlugin) clonedModel.getExtension(QualConstants.shortLabel);
+    
+    assertTrue(clonedModel.isSetPlugin(QualConstants.shortLabel) == true);
+    assertTrue(clonedModel.isSetPlugin(LayoutConstants.shortLabel) == false);
+    assertTrue(clonedModel.isSetPlugin(CompConstants.shortLabel) == true);
+    assertTrue(clonedDoc.isPackageEnabled(QualConstants.shortLabel) == true);
+    assertTrue(clonedDoc.isPackageEnabled(LayoutConstants.shortLabel) == false);
+    assertTrue(clonedDoc.isPackageEnabled(CompConstants.shortLabel) == true);
+    
+    assertTrue(clonedQualModel.getQualitativeSpeciesCount() == 4);
+    assertTrue(clonedModel.findUniqueNamedSBase("QS1").equals(qs1));
+    assertTrue(clonedModel.findUniqueNamedSBase("QS3") != null);
+    assertTrue(clonedModel.findUniqueNamedSBase("T2") != null);
+    assertTrue(clonedDoc.findSBase("QS1") != null);
+
+    // test qualitativeSpecies clone method
+    QualitativeSpecies clonedQs1 = clonedQualModel.getQualitativeSpecies("QS1");
+    
+    assertTrue(qs1.hashCode() == clonedQs1.hashCode());
+    assertTrue(qs1.equals(clonedQs1));
+    
+    clonedQs1.setInitialLevel(0);
+    assertTrue(qs1.hashCode() != clonedQs1.hashCode());
+  }
 }

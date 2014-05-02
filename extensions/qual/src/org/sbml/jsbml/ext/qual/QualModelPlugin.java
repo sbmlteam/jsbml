@@ -81,7 +81,11 @@ public class QualModelPlugin extends AbstractSBasePlugin {
    */
   @Override
   public SBMLDocument getParent() {
-    return (SBMLDocument) getExtendedSBase().getParent();
+    if (isSetExtendedSBase()) {
+      return (SBMLDocument) getExtendedSBase().getParent();
+    }
+    
+    return null;
   }
 
   /* (non-Javadoc)
@@ -118,6 +122,13 @@ public class QualModelPlugin extends AbstractSBasePlugin {
    */
   public QualModelPlugin(QualModelPlugin qualitativeModel) {
     super(qualitativeModel);
+    
+    if (qualitativeModel.isSetListOfQualitativeSpecies()) {
+      setListOfQualitativeSpecies(qualitativeModel.getListOfQualitativeSpecies().clone());
+    }
+    if (qualitativeModel.isSetListOfTransitions()) {
+      setListOfTransitions(qualitativeModel.getListOfTransitions().clone());
+    }
   }
 
   /**
@@ -135,9 +146,7 @@ public class QualModelPlugin extends AbstractSBasePlugin {
    * @param transition
    */
   public void addTransition(Transition transition) {
-    if (!getListOfTransitions().contains(transition)) {
-      getListOfTransitions().add(transition);
-    }
+    getListOfTransitions().add(transition);
   }
 
   /* (non-Javadoc)
@@ -220,7 +229,7 @@ public class QualModelPlugin extends AbstractSBasePlugin {
    * @return the {@link Transition} object created
    */
   public Transition createTransition(String id) {
-    Transition transition = new Transition(id, getModel().getLevel(), getModel().getVersion());
+    Transition transition = new Transition(id);
     addTransition(transition);
 
     return transition;
@@ -275,8 +284,7 @@ public class QualModelPlugin extends AbstractSBasePlugin {
    * @return the {@link QualitativeSpecies} object created
    */
   public QualitativeSpecies createQualitativeSpecies(String id, String compartment, boolean constant) {
-    QualitativeSpecies species = new QualitativeSpecies(id,
-      getModel().getLevel(), getModel().getVersion());
+    QualitativeSpecies species = new QualitativeSpecies(id);
     species.setCompartment(compartment);
     species.setConstant(constant);
     addSpecies(species);
@@ -299,8 +307,6 @@ public class QualModelPlugin extends AbstractSBasePlugin {
     QualitativeSpecies qualSpecies = new QualitativeSpecies(species);
     qualSpecies.setId(id);
     qualSpecies.setMetaId(metaId);
-    qualSpecies.setLevel(getModel().getLevel());
-    qualSpecies.setVersion(getModel().getVersion());
     addSpecies(qualSpecies);
     return qualSpecies;
   }
@@ -335,11 +341,13 @@ public class QualModelPlugin extends AbstractSBasePlugin {
    */
   public ListOf<QualitativeSpecies> getListOfQualitativeSpecies() {
     if (!isSetListOfQualitativeSpecies()) {
-      listOfQualitativeSpecies = new ListOf<QualitativeSpecies>(
-          getModel().getLevel(), getModel().getVersion());
+      listOfQualitativeSpecies = new ListOf<QualitativeSpecies>();
       listOfQualitativeSpecies.setNamespace(QualConstants.namespaceURI);
-      getModel().registerChild(listOfQualitativeSpecies);
       listOfQualitativeSpecies.setSBaseListType(ListOf.Type.other);
+      
+      if (isSetExtendedSBase()) {
+        getModel().registerChild(listOfQualitativeSpecies);
+      }
     }
     return listOfQualitativeSpecies;
   }
@@ -349,12 +357,13 @@ public class QualModelPlugin extends AbstractSBasePlugin {
    */
   public ListOf<Transition> getListOfTransitions() {
     if (!isSetListOfTransitions()) {
-      listOfTransitions = new ListOf<Transition>(getModel().getLevel(),
-          getModel().getVersion());
+      listOfTransitions = new ListOf<Transition>();
       listOfTransitions.setNamespace(QualConstants.namespaceURI);
-      getModel().registerChild(listOfTransitions);
       listOfTransitions.setSBaseListType(ListOf.Type.other);
-
+      
+      if (isSetExtendedSBase()) {
+        getModel().registerChild(listOfTransitions);
+      }
     }
     return listOfTransitions;
   }
@@ -389,7 +398,31 @@ public class QualModelPlugin extends AbstractSBasePlugin {
    * @return the {@link Model}
    */
   public Model getModel() {
-    return (Model) extendedSBase;
+    if (isSetExtendedSBase()) {
+      return (Model) extendedSBase;
+    }
+    
+    return null;
+  }
+
+  /**
+   * Returns the number of {@link QualitativeSpecies} of this {@link QualModelPlugin}.
+   * 
+   * @return the number of {@link QualitativeSpecies} of this {@link QualModelPlugin}.
+   * @libsbml.deprecated same as {@link #getQualitativeSpeciesCount()}
+   */
+  public int getNumQualitativeSpecies() {
+    return getQualitativeSpeciesCount();
+  }
+
+  /**
+   * Returns the number of {@link Transition} of this {@link QualModelPlugin}.
+   * 
+   * @return the number of {@link Transition} of this {@link QualModelPlugin}.
+   * @libsbml.deprecated same as {@link #getTransitionCount()}
+   */
+  public int getNumTransitions() {
+    return getTransitionCount();
   }
 
   /**
@@ -416,6 +449,19 @@ public class QualModelPlugin extends AbstractSBasePlugin {
       return listOfQualitativeSpecies.firstHit(new NameFilter(id));
     }
     return null;
+  }
+
+  /**
+   * Returns the number of {@link QualitativeSpecies} objects in this {@link QualModelPlugin}.
+   * 
+   * @return the number of {@link QualitativeSpecies} objects in this {@link QualModelPlugin}.
+   */
+  public int getQualitativeSpeciesCount() {
+    if (!isSetListOfQualitativeSpecies()) {
+      return 0;
+    }
+
+    return getListOfQualitativeSpecies().size();
   }
 
   /**
@@ -459,6 +505,19 @@ public class QualModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
+   * Returns the number of {@link Transition} objects in this {@link QualModelPlugin}.
+   * 
+   * @return the number of {@link Transition} objects in this {@link QualModelPlugin}.
+   */
+  public int getTransitionCount() {
+    if (!isSetListOfTransitions()) {
+      return 0;
+    }
+
+    return getListOfTransitions().size();
+  }
+  
+  /**
    * Returns {@code true} if the listOfQualitativeSpecies is set.
    * 
    * @return {@code true} if the listOfQualitativeSpecies is set.
@@ -497,8 +556,12 @@ public class QualModelPlugin extends AbstractSBasePlugin {
    */
   public void setListOfQualitativeSpecies(
     ListOf<QualitativeSpecies> listOfQualitativeSpecies) {
+    unsetListOfQualitativeSpecies();
     this.listOfQualitativeSpecies = listOfQualitativeSpecies;
-    getModel().registerChild(this.listOfQualitativeSpecies);
+    
+    if (isSetExtendedSBase()) {
+      getModel().registerChild(this.listOfQualitativeSpecies);
+    }
   }
 
   /**
@@ -506,8 +569,12 @@ public class QualModelPlugin extends AbstractSBasePlugin {
    * @param listOfTransitions
    */
   public void setListOfTransitions(ListOf<Transition> listOfTransitions) {
+    unsetListOfTransitions();
     this.listOfTransitions = listOfTransitions;
-    getModel().registerChild(this.listOfTransitions);
+    
+    if (isSetExtendedSBase()) {
+      getModel().registerChild(this.listOfTransitions);
+    }
   }
 
   /* (non-Javadoc)
@@ -526,7 +593,7 @@ public class QualModelPlugin extends AbstractSBasePlugin {
   public boolean unsetListOfTransitions() {
     if (isSetListOfTransitions()) {
       // unregister the ids.
-      listOfTransitions.unregisterChild(listOfTransitions);
+      listOfTransitions.fireNodeRemovedEvent();
       listOfTransitions = null;
       return true;
     }
@@ -540,7 +607,7 @@ public class QualModelPlugin extends AbstractSBasePlugin {
   public boolean unsetListOfQualitativeSpecies() {
     if (isSetListOfQualitativeSpecies()) {
       // unregister the ids
-      listOfQualitativeSpecies.unregisterChild(listOfQualitativeSpecies);
+      listOfQualitativeSpecies.fireNodeRemovedEvent();
       listOfQualitativeSpecies = null;
       return true;
     }

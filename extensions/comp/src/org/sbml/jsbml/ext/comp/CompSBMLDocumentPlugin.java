@@ -288,6 +288,26 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   }
 
   /**
+   * Returns the number of {@link ExternalModelDefinition} of this {@link CompSBMLDocumentPlugin}.
+   * 
+   * @return the number of {@link ExternalModelDefinition} of this {@link CompSBMLDocumentPlugin}.
+   * @libsbml.deprecated use {@link #getExternalModelDefinitionCount()}
+   */
+  public int getNumExternalModelDefinitions() {
+    return getExternalModelDefinitionCount();
+  }
+
+  /**
+   * Returns the number of {@link ModelDefinition} of this {@link CompSBMLDocumentPlugin}.
+   * 
+   * @return the number of {@link ModelDefinition} of this {@link CompSBMLDocumentPlugin}.
+   * @libsbml.deprecated use {@link #getModelDefinitionCount()}
+   */
+  public int getNumModelDefinitions() {
+    return getModelDefinitionCount();
+  }
+
+  /**
    * Creates a new ExternalModelDefinition element and adds it to the ListOfExternalModelDefinitions list
    */
   public ExternalModelDefinition createExternalModelDefinition() {

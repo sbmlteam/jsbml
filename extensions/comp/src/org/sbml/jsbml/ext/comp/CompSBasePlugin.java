@@ -291,6 +291,16 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
   }
 
   /**
+   * Returns the number of {@link ReplacedElement} of this {@link CompSBasePlugin}.
+   * 
+   * @return the number of {@link ReplacedElement} of this {@link CompSBasePlugin}.
+   * @libsbml.deprecated use {@link #getReplacedElementCount()}
+   */
+  public int getNumReplacedElements() {
+    return getReplacedElementCount();
+  }
+
+  /**
    * Sets the listOfReplacedElements. If there was already some elements defined
    * on listOfReplacedElements, the will be unset beforehand.
    * 
