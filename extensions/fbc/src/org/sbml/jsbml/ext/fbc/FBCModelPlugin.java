@@ -86,7 +86,11 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    */
   @Override
   public Model getParent() {
-    return (Model) getExtendedSBase().getParent();
+    if (isSetExtendedSBase()) {
+      return (Model) getExtendedSBase().getParent();
+    }
+    
+    return null;
   }
 
 
@@ -178,7 +182,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    * @return a new {@link FluxBound} element
    */
   public FluxBound createFluxBound(String id) {
-    FluxBound fluxBound = new FluxBound(id, getExtendedSBase().getLevel(), getExtendedSBase().getVersion());
+    FluxBound fluxBound = new FluxBound(id);
     addFluxBound(fluxBound);
     return fluxBound;
   }
@@ -196,7 +200,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    * @return a new {@link Objective} element
    */
   public Objective createObjective(String id) {
-    Objective objective = new Objective(id, getExtendedSBase().getLevel(), getExtendedSBase().getVersion());
+    Objective objective = new Objective(id);
     addObjective(objective);
     return objective;
   }
@@ -278,17 +282,32 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
+   * Return the number of {@link FluxBound} in this {@link FBCModelPlugin}.
+   * 
+   * @return the number of {@link FluxBound} in this {@link FBCModelPlugin}.
+   */
+  public int getFluxBoundCount() {
+    if (isSetListOfFluxBounds()) {
+      return listOfFluxBounds.size();
+    }
+    
+    return 0;
+  }
+  
+  /**
    * Returns the listOfFluxBounds. Creates it if it is not already existing.
    *
    * @return the listOfFluxBounds
    */
   public ListOf<FluxBound> getListOfFluxBounds() {
     if (!isSetListOfFluxBounds()) {
-      listOfFluxBounds = new ListOf<FluxBound>(extendedSBase.getLevel(),
-          extendedSBase.getVersion());
+      listOfFluxBounds = new ListOf<FluxBound>();
       listOfFluxBounds.setNamespace(FBCConstants.namespaceURI);
       listOfFluxBounds.setSBaseListType(ListOf.Type.other);
-      extendedSBase.registerChild(listOfFluxBounds);
+      
+      if (isSetExtendedSBase()) {
+        extendedSBase.registerChild(listOfFluxBounds);
+      }
     }
     return listOfFluxBounds;
   }
@@ -301,11 +320,13 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    */
   public ListOfObjectives getListOfObjectives() {
     if (!isSetListOfObjectives()) {
-      listOfObjectives = new ListOfObjectives(extendedSBase.getLevel(),
-        extendedSBase.getVersion());
+      listOfObjectives = new ListOfObjectives();
       listOfObjectives.setNamespace(FBCConstants.namespaceURI);
       listOfObjectives.setSBaseListType(ListOf.Type.other);
-      extendedSBase.registerChild(listOfObjectives);
+      
+      if (isSetExtendedSBase()) {
+        extendedSBase.registerChild(listOfObjectives);
+      }
     }
     return listOfObjectives;
   }
@@ -320,6 +341,39 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    */
   public Objective getObjective(int i) {
     return getListOfObjectives().get(i);
+  }
+
+  /**
+   * Return the number of {@link Objective} in this {@link FBCModelPlugin}.
+   * 
+   * @return the number of {@link Objective} in this {@link FBCModelPlugin}.
+   */
+  public int getObjectiveCount() {
+    if (isSetListOfObjectives()) {
+      return listOfObjectives.size();
+    }
+    
+    return 0;
+  }
+ 
+  /**
+   * Return the number of {@link FluxBound} in this {@link FBCModelPlugin}.
+   * 
+   * @return the number of {@link FluxBound} in this {@link FBCModelPlugin}.
+   * @libsbml.deprecated same as {@link #getFluxBoundCount()}
+   */
+  public int getNumFluxBound() {
+    return getFluxBoundCount();
+  }
+  
+  /**
+   * Return the number of {@link FluxBound} in this {@link FBCModelPlugin}.
+   * 
+   * @return the number of {@link FluxBound} in this {@link FBCModelPlugin}.
+   * @libsbml.deprecated same as {@link #getObjectiveCount()}
+   */
+  public int getNumObjective() {
+    return getObjectiveCount();
   }
 
   /**
@@ -437,7 +491,10 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   public void setListOfFluxBounds(ListOf<FluxBound> listOfFluxBounds) {
     unsetListOfFluxBounds();
     this.listOfFluxBounds = listOfFluxBounds;
-    extendedSBase.registerChild(this.listOfFluxBounds);
+    
+    if (isSetExtendedSBase()) {
+      extendedSBase.registerChild(this.listOfFluxBounds);
+    }
   }
 
   /**
@@ -449,7 +506,10 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   public void setListOfObjectives(ListOfObjectives listOfObjectives) {
     unsetListOfObjectives();
     this.listOfObjectives = listOfObjectives;
-    extendedSBase.registerChild(this.listOfObjectives);
+    
+    if (isSetExtendedSBase()) {
+      extendedSBase.registerChild(this.listOfObjectives);
+    }
   }
 
   /**

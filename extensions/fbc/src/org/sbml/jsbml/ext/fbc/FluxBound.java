@@ -129,10 +129,16 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public FluxBound(FluxBound fb) {
     super(fb);
-    operation = fb.getOperation();
-    reaction = new String(fb.getReaction());
-    value = fb.isSetValue() ? new Double(fb.getValue()) : null;
-    isSetValue = fb.isSetValue();
+    
+    if (fb.isSetOperation()) {
+      setOperation(fb.getOperation());
+    }
+    if (fb.isSetReaction()) {
+      setReaction(new String(fb.getReaction()));
+    }
+    if (fb.isSetValue()) {
+      setValue(fb.getValue());
+    }
   }
 
   /**
@@ -190,6 +196,57 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
   @Override
   public FluxBound clone() {
     return new FluxBound(this);
+  }
+
+  
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 2029;
+    int result = super.hashCode();
+    result = prime * result + ((operation == null) ? 0 : operation.hashCode());
+    result = prime * result + ((reaction == null) ? 0 : reaction.hashCode());
+    result = prime * result + ((value == null) ? 0 : value.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    
+    FluxBound other = (FluxBound) obj;
+    if (operation != other.operation) {
+      return false;
+    }
+    if (reaction == null) {
+      if (other.reaction != null) {
+        return false;
+      }
+    } else if (!reaction.equals(other.reaction)) {
+      return false;
+    }
+    if (value == null) {
+      if (other.value != null) {
+        return false;
+      }
+    } else if (!value.equals(other.value)) {
+      return false;
+    }
+    return true;
   }
 
   /**

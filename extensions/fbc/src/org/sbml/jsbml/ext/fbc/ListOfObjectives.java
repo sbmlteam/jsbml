@@ -79,6 +79,15 @@ public class ListOfObjectives extends ListOf<Objective> {
     super(listOf);
   }
 
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ListOf#clone()
+   */
+  @Override
+  public ListOf<Objective> clone() {
+    return new ListOfObjectives(this);
+  }
+
   /**
    * Returns the value of activeObjective
    *

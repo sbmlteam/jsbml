@@ -244,6 +244,49 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
     return fluxObjective;
   }
 
+  
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 2383;
+    int result = super.hashCode();
+    result = prime * result
+      + ((listOfFluxObjectives == null) ? 0 : listOfFluxObjectives.hashCode());
+    result = prime * result + ((type == null) ? 0 : type.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Objective other = (Objective) obj;
+    if (listOfFluxObjectives == null) {
+      if (other.listOfFluxObjectives != null) {
+        return false;
+      }
+    } else if (!listOfFluxObjectives.equals(other.listOfFluxObjectives)) {
+      return false;
+    }
+    if (type != other.type) {
+      return false;
+    }
+    return true;
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
    */

@@ -83,7 +83,11 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
    */
   @Override
   public SBase getParent() {
-    return (SBase) getExtendedSBase().getParent();
+    if (isSetExtendedSBase()) {
+      return (SBase) getExtendedSBase().getParent();
+    }
+    
+    return null;
   }
 
 
@@ -191,7 +195,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
    * @return a new {@link ReplacedBy} element.
    */
   public ReplacedBy createReplacedBy() {
-    ReplacedBy replacedBy = new ReplacedBy(extendedSBase.getLevel(), extendedSBase.getVersion());
+    ReplacedBy replacedBy = new ReplacedBy();
     setReplacedBy(replacedBy);
     return replacedBy;
   }
@@ -363,7 +367,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
    * @return a new {@link ReplacedElement} element.
    */
   public ReplacedElement createReplacedElement() {
-    ReplacedElement replacedElement = new ReplacedElement(extendedSBase.getLevel(), extendedSBase.getVersion());
+    ReplacedElement replacedElement = new ReplacedElement();
     addReplacedElement(replacedElement);
     return replacedElement;
   }
