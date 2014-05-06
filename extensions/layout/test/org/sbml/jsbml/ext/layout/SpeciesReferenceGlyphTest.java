@@ -1,5 +1,5 @@
 /*
- * $Id: SpeciesReferenceGlyphTest.java 1708 2014-05-06 01:00:00Z yvazirabad $
+ * $Id:  SpeciesReferenceGlyphTest.java 1711 2014-05-06 1:15:37 AM yvazirabad $
  * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/extensions/layout/test/org/sbml/jsbml/ext/layout/SpeciesReferenceGlyphTest.java $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
@@ -30,13 +30,32 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SpeciesReference;
 
+/**
+ * @author yvazirabad
+ * @version $Rev 1711 $
+ * @since 1.0
+ * @date May 6, 2014
+ */
 public class SpeciesReferenceGlyphTest {
 
+  /**
+   * Test method for {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph#getChildAt()}.
+   */
   @Test
   public void testGetChildAt() {
-    SpeciesReferenceGlyph glyph = new SpeciesReferenceGlyph("glyph",3,1);
-  }
+    SBMLDocument d = new SBMLDocument(3,1);
+    Model model = d.createModel("extensionModel");
 
+    LayoutModelPlugin lModel = new LayoutModelPlugin(model);
+    Layout layout = lModel.createLayout("layout");
+    ReactionGlyph rg1 = new ReactionGlyph("react_r1", model.getLevel(), model.getVersion());
+    layout.addReactionGlyph(rg1);
+
+    SpeciesReferenceGlyph srg1 = rg1.createSpeciesReferenceGlyph("srg_r1_s1", "SPG1");
+    srg1.createCurve();
+    assertTrue(layout.getChildCount()>0);
+    assertTrue(srg1.getChildAt(0)!=null);
+  }
 
   /**
    * Test method for {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph#getChildCount()}.

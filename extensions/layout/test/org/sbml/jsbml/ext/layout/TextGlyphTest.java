@@ -1,6 +1,6 @@
 /*
- * $Id: SpeciesReferenceGlyphTest.java 1708 2014-05-06 01:00:00Z yvazirabad $
- * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/extensions/layout/test/org/sbml/jsbml/ext/layout/TestGlyphTest.java $
+ * $Id:  TextGlyphTest.java 1711 2014-05-06 1:08:19 AM yvazirabad $
+ * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/extensions/layout/test/org/sbml/jsbml/ext/layout/TextGlyphTest.java $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -22,13 +22,19 @@
 
 package org.sbml.jsbml.ext.layout;
 
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.sbml.jsbml.NamedSBase;
 
-
+/**
+ * @author yvazirabad
+ * @version $Rev 1711 $
+ * @since 1.0
+ * @date May 6, 2014
+ */
 public class TextGlyphTest {
 
   /**
