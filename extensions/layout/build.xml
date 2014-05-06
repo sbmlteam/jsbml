@@ -226,9 +226,39 @@
 	<!-- =================================================================== -->
 	<!-- Test the package                                              -->
 	<!-- =================================================================== -->
-	<target name="test" depends="jar">
-
-		<echo message="No junit test implemented for this package yet."/>
+	<target
+	  name="test"
+	  description="Test the layout extension library"
+	  depends="jar">
+		
+		<echo message="There should be NO failures or errors."/>
+		<echo message=""/>
+		
+		<junit printsummary="yes" >
+			<!-- showoutput="yes" -->
+			<formatter type="plain"/>
+			<test name="org.sbml.jsbml.ext.layout.TextGlyphTest" outfile="layoutTestResults">
+				<formatter type="plain"/>
+			</test>
+			<classpath>
+				<path refid="classpath"/>
+				<pathelement location="${build.dir}/${name}-${version}.jar"/>
+			</classpath>
+		</junit>
+		<echo message=""/>
+		
+		<junit printsummary="yes" >
+			<!-- showoutput="yes" -->
+			<formatter type="plain"/>
+			<test name="org.sbml.jsbml.ext.layout.SpeciesReferenceGlyphTest" outfile="layoutTestResults">
+				<formatter type="plain"/>
+			</test>
+			<classpath>
+				<path refid="classpath"/>
+				<pathelement location="${build.dir}/${name}-${version}.jar"/>
+			</classpath>
+		</junit>
+		<echo message=""/>
 
 	</target>
 
