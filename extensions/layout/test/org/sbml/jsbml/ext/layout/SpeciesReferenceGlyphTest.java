@@ -1,5 +1,5 @@
 /*
- * $Id:  SpeciesReferenceGlyphTest.java 1711 2014-05-06 1:15:37 AM yvazirabad $
+ * $Id:  SpeciesReferenceGlyphTest.java 1712 2014-05-07 3:08:37 AM yvazirabad $
  * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/extensions/layout/test/org/sbml/jsbml/ext/layout/SpeciesReferenceGlyphTest.java $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
@@ -28,13 +28,14 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 
 /**
- * @author yvazirabad
- * @version $Rev 1711 $
+ * @author Ibrahim Vazirabad
+ * @version $Rev 1712 $
  * @since 1.0
- * @date May 6, 2014
+ * @date May 7, 2014
  */
 public class SpeciesReferenceGlyphTest {
 
@@ -91,9 +92,21 @@ public class SpeciesReferenceGlyphTest {
    */
   @Test
   public void testGetSpeciesReferenceInstance()  {
-    SpeciesReferenceGlyph glyph = new SpeciesReferenceGlyph("glyph",3,1);
-    glyph.setSpeciesReference("testName");
-    assertTrue(glyph.getSpeciesReferenceInstance()==null);
+    SBMLDocument d = new SBMLDocument(3,1);
+    Model model = d.createModel("extensionModel");
+
+    LayoutModelPlugin lModel = new LayoutModelPlugin(model);
+    model.addExtension(LayoutConstants.getNamespaceURI(model.getLevel(), model.getVersion()), lModel);
+    Layout layout = lModel.createLayout("layout");
+    Species species=new Species("species_s1", model.getLevel(), model.getVersion());
+    ReactionGlyph rg = new ReactionGlyph("react_r1", model.getLevel(), model.getVersion());
+    layout.addReactionGlyph(rg);
+    model.addSpecies(species);
+
+    SpeciesReferenceGlyph srg1 = rg.createSpeciesReferenceGlyph("srg_r1_s1", "SPG1");
+    srg1.setRole(SpeciesReferenceRole.SUBSTRATE);
+    srg1.setSpeciesReference(species.getId());
+    assertEquals("Instance Error",srg1.getSpeciesReferenceInstance().getId(),species.getId());
   }
 
   /**
@@ -116,15 +129,17 @@ public class SpeciesReferenceGlyphTest {
     Model model = d.createModel("extensionModel");
 
     LayoutModelPlugin lModel = new LayoutModelPlugin(model);
+    model.addExtension(LayoutConstants.getNamespaceURI(model.getLevel(), model.getVersion()), lModel);
     Layout layout = lModel.createLayout("layout");
+    SpeciesGlyph sg=new SpeciesGlyph("species_s1", model.getLevel(), model.getVersion());
     ReactionGlyph rg = new ReactionGlyph("react_r1", model.getLevel(), model.getVersion());
     layout.addReactionGlyph(rg);
+    layout.addSpeciesGlyph(sg);
 
     SpeciesReferenceGlyph srg1 = rg.createSpeciesReferenceGlyph("srg_r1_s1", "SPG1");
     srg1.setRole(SpeciesReferenceRole.SUBSTRATE);
-    srg1.setSpeciesGlyph("STUFF");
-    assertTrue(srg1.isSetSpeciesGlyph());
-    assertTrue(srg1.getSpeciesGlyphInstance() ==null);
+    srg1.setSpeciesGlyph(sg.getId());
+    assertEquals("Instance Error",srg1.getSpeciesGlyphInstance().getId(),sg.getId());
   }
 
   /**
