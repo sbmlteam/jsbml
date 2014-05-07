@@ -55,22 +55,22 @@ import de.zbit.sbml.util.SBMLtools;
  * @version $Rev$
  */
 public class GlyphCreator {
-  
+
   /**
    * 
    */
   public static final String LAYOUT_LINK = "GLYPH";
-  
+
   /**
    * A {@link Logger} for this class.
    */
   private static final Logger logger = Logger.getLogger(GlyphCreator.class.getName());
-  
+
   /**
    * The model for which a layout is to be created.
    */
   private Model model;
-  
+
   /**
    * 
    * @param model
@@ -78,7 +78,7 @@ public class GlyphCreator {
   public GlyphCreator(Model model) {
     this.model = model;
   }
-  
+
   /**
    * compartment, species, reactions, textglyph
    * 
@@ -101,9 +101,9 @@ public class GlyphCreator {
     layout.setName("auto_layout");
     doc.addNamespace(LayoutConstants.shortLabel, "xmlns", namespace);
     doc.getSBMLDocumentAttributes().put(LayoutConstants.shortLabel + ":required", "false");
-    
-    int degreeThreshold = 3;
-    
+
+    int degreeThreshold = 1000;
+
     // TODO possibly implement logic to detect the outermost compartment
     if (model.isSetListOfCompartments()) {
       for (Compartment c : model.getListOfCompartments()) {
@@ -114,7 +114,7 @@ public class GlyphCreator {
         textGlyph.setGraphicalObject(compartmentGlyph.getId());
       }
     }
-    
+
     Map<String, Set<String>> speciesToReactions = new HashMap<String, Set<String>>();
     Map<String, Set<String>> reactionToReactants = new HashMap<String, Set<String>>();
     Map<String, Set<String>> reactionToProducts = new HashMap<String, Set<String>>();
@@ -142,7 +142,7 @@ public class GlyphCreator {
         }
       }
     }
-    
+
     Map<String, List<String>> species2glyph = new HashMap<String, List<String>>();
     Map<String, Integer> sGlyphDegree = new HashMap<String, Integer>();
     if (model.isSetListOfSpecies()) {
@@ -155,12 +155,12 @@ public class GlyphCreator {
         sGlyphDegree.put(sGlyph.getId(), Integer.valueOf(0));
       }
     }
-    
+
     if (model.isSetListOfReactions()) {
       for (Reaction r : model.getListOfReactions()) {
         logger.info("Processing reaction " + r.getId());
         ReactionGlyph rGlyph = layout.createReactionGlyph(SBMLtools.nextId(model), r.getId());
-        
+
         if (r.isSetListOfModifiers()) {
           for (ModifierSpeciesReference ref : r.getListOfModifiers()) {
             createSpeciesReferenceGlyph(doc, rGlyph, ref,
@@ -168,7 +168,7 @@ public class GlyphCreator {
               determineRole(ref.getSBOTerm()));
           }
         }
-        
+
         if (r.isSetListOfProducts()) {
           for (SpeciesReference ref : r.getListOfProducts()) {
             createSpeciesReferenceGlyph(doc, rGlyph, ref,
@@ -178,7 +178,7 @@ public class GlyphCreator {
         } else {
           createEmptySetReactionParticipant(layout, rGlyph, SpeciesReferenceRole.PRODUCT, doc);
         }
-        
+
         if (r.isSetListOfReactants()) {
           for (SpeciesReference ref : r.getListOfReactants()) {
             createSpeciesReferenceGlyph(doc, rGlyph, ref,
@@ -188,11 +188,11 @@ public class GlyphCreator {
         } else {
           createEmptySetReactionParticipant(layout, rGlyph, SpeciesReferenceRole.SUBSTRATE, doc);
         }
-        
+
       }
     }
   }
-  
+
   /**
    * 
    * @param ref
@@ -220,7 +220,7 @@ public class GlyphCreator {
     }
     return glyphId;
   }
-  
+
   /**
    * 
    * @param sboTerm
@@ -237,7 +237,7 @@ public class GlyphCreator {
     }
     return modifier;
   }
-  
+
   /**
    * 
    * @param ref
@@ -251,7 +251,7 @@ public class GlyphCreator {
     }
     reactionToSpecies.get(r.getId()).add(ref.getId());
   }
-  
+
   /**
    * 
    * @param ref
@@ -264,7 +264,7 @@ public class GlyphCreator {
     }
     speciesToReactions.get(ref.getSpecies()).add(r.getId());
   }
-  
+
   /**
    * 
    * @param layout
@@ -277,7 +277,7 @@ public class GlyphCreator {
     SpeciesReferenceGlyph sRG = rGlyph.createSpeciesReferenceGlyph(genId(doc, null), glyph.getId());
     sRG.setRole(role);
   }
-  
+
   /**
    * 
    * @param layout
@@ -303,7 +303,7 @@ public class GlyphCreator {
     }
     return speciesGlyph;
   }
-  
+
   /**
    * 
    * @param doc
@@ -317,7 +317,7 @@ public class GlyphCreator {
     SpeciesReferenceGlyph sRG = rGlyph.createSpeciesReferenceGlyph(genId(doc, ref.getSpeciesInstance()), speciesGlyphId);
     sRG.setRole(role);
   }
-  
+
   /**
    * 
    * @param doc
@@ -327,5 +327,5 @@ public class GlyphCreator {
   private String genId(SBMLDocument doc, NamedSBase ref) {
     return SBMLtools.nameToSId(((ref != null) ? ref.getId() : "empty") + "_glyph_", doc);
   }
-  
+
 }
