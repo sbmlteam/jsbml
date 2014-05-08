@@ -82,7 +82,11 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
    */
   @Override
   public SBMLDocument getParent() {
-    return (SBMLDocument) getExtendedSBase().getParent();
+    if (isSetExtendedSBase()) {
+      return (SBMLDocument) getExtendedSBase().getParent();
+    }
+    
+    return null;
   }
 
 
@@ -126,7 +130,10 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
   private void initDefaults() {
     listOfGroups.setNamespace(GroupsConstants.namespaceURI);
     listOfGroups.setSBaseListType(ListOf.Type.other);
-    extendedSBase.registerChild(listOfGroups);
+    
+    if (isSetExtendedSBase()) {
+      extendedSBase.registerChild(listOfGroups);
+    }
   }
 
   /**
@@ -158,10 +165,25 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
     return listOfGroups;
   }
 
+  /**
+   * Returns the number of {@link Group}s of this {@link GroupsModelPlugin}.
+   * 
+   * @return the number of {@link Group}s of this {@link GroupsModelPlugin}.
+   */
   public int getGroupCount() {
-    return listOfGroups.size();
+    return isSetListOfGroups() ? listOfGroups.size() : 0;
   }
 
+  /**
+   * Returns the number of {@link Group}s of this {@link GroupsModelPlugin}.
+   * 
+   * @return the number of {@link Group}s of this {@link GroupsModelPlugin}.
+   * @libsbml.deprecated same as {@link #getGroupCount()}
+   */
+  public int getNumGroups() {
+    return getGroupCount();
+  }
+  
   /**
    * 
    * @return
@@ -187,7 +209,10 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
     if ((this.listOfGroups != null) && (this.listOfGroups.getSBaseListType() != ListOf.Type.other)) {
       this.listOfGroups.setSBaseListType(ListOf.Type.other);
     }
-    extendedSBase.registerChild(listOfGroups);
+
+    if (isSetExtendedSBase()) {
+      extendedSBase.registerChild(listOfGroups);
+    }
   }
 
   /**
@@ -276,8 +301,9 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * @param symbol_of_members
-   * @return
+   * Creates a new instance of {@link Group} and add it to this {@link GroupsModelPlugin}.
+   * 
+   * @return the new {@link Group} instance.
    */
   public Group createGroup() {
     Group g = new Group();
@@ -286,15 +312,34 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * @param symbol_of_members
-   * @return
+   * Creates a new instance of {@link Group} and add it to this {@link GroupsModelPlugin}.
+   * 
+   * @param id the id to be set to the new {@link Group}.
+   * @return the new {@link Group} instance.
    */
-  public Group createGroup(String... symbol_of_members) {
-    Group g = createGroup();
+  public Group createGroup(String id) {
+    Group g = new Group();
+    g.setId(id);
+    addGroup(g);
+    return g;
+  }
 
-    if (symbol_of_members!=null) {
-      for (String s_member: symbol_of_members) {
-        g.createMember(s_member);
+  /**
+   * Creates a new instance of {@link Group} and add it to this {@link GroupsModelPlugin}.
+   * For each id in the memberIds array, a new {@link Member} instance is created and added to the {@link Group}
+   * as well. 
+   * 
+   * 
+   * @param id the id to be set to the new {@link Group}.
+   * @param memberIds the ids to be set to the new {@link Member} instances.
+   * @return the new {@link Group} instance.
+   */
+  public Group createGroup(String id, String... memberIds) {
+    Group g = createGroup(id);
+
+    if (memberIds != null) {
+      for (String memberId: memberIds) {
+        g.createMember(memberId);
       }
     }
 

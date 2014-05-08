@@ -116,12 +116,74 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * @param symbol
-   * @return
+   * Creates a new instance of {@link Member} and add it to this {@link Group}.
+   * 
+   * @param id the id to be set to the new {@link Member}.
+   * @return the new {@link Member} instance.
    */
-  public Member createMember(String idRef) {
+  public Member createMember(String id) {
+    Member m = new Member();
+    m.setId(id);
+    addMember(m);
+    return m;
+  }
+
+  /**
+   * Creates a new instance of {@link Member} and add it to this {@link Group}.
+   * 
+   * @param idRef the identifier of an object elsewhere in the Model. 
+   * An example value of idRef might be the identifier of a species in the model, or the identifier of another group.
+   * 
+   * @return the new {@link Member} instance.
+   */
+  public Member createMemberWithIdRef(String idRef) {
     Member m = new Member();
     m.setIdRef(idRef);
+    addMember(m);
+    return m;
+  }
+
+  /**
+   * Creates a new instance of {@link Member} and add it to this {@link Group}.
+   *
+   * @param metaIdRef
+   * @return the new {@link Member} instance.
+   */
+  public Member createMemberWithMetaIdRef(String metaIdRef) {
+    Member m = new Member();
+    m.setMetaIdRef(metaIdRef);
+    addMember(m);
+    return m;
+  }
+
+  
+  /**
+   * Creates a new instance of {@link Member} and add it to this {@link Group}.
+   *
+   * @param id the id to be set to the new {@link Member}.
+   * @param idRef the identifier of an object elsewhere in the Model. 
+   * An example value of idRef might be the identifier of a species in the model, or the identifier of another group.
+   * @return the new {@link Member} instance.
+   */
+  public Member createMemberWithIdRef(String id, String idRef) {
+    Member m = new Member();
+    m.setId(id);
+    m.setIdRef(idRef);
+    addMember(m);
+    return m;
+  }
+
+  /**
+   * Creates a new instance of {@link Member} and add it to this {@link Group}.
+   * 
+   * @param id the id to be set to the new {@link Member}.
+   * @param metaIdRef
+   * @return the new {@link Member} instance.
+   */
+  public Member createMemberWithMetaIdRef(String id, String metaIdRef) {
+    Member m = new Member();
+    m.setId(id);
+    m.setMetaIdRef(metaIdRef);
     addMember(m);
     return m;
   }
@@ -218,11 +280,41 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * Returns the number of {@link Member}s of this {@link Group}.
    * 
-   * @return
+   * @return the number of {@link Member}s of this {@link Group}.
    */
   public int getMemberCount() {
     return isSetListOfMembers() ? getListOfMembers().size() : 0;
+  }
+
+  /**
+   * Returns the number of {@link MemberConstraint}s of this {@link Group}.
+   * 
+   * @return the number of {@link MemberConstraint}s of this {@link Group}.
+   */
+  public int getMemberConstraintCount() {
+    return isSetListOfMemberConstraints() ? getListOfMemberConstraints().size() : 0;
+  }
+
+  /**
+   * Returns the number of {@link Member}s of this {@link Group}.
+   * 
+   * @return the number of {@link Member}s of this {@link Group}.
+   * @libsbml.deprecated same as {@link #getMemberCount()}
+   */
+  public int getNumMembers() {
+    return getMemberCount();
+  }
+
+  /**
+   * Returns the number of {@link MemberConstraint}s of this {@link Group}.
+   * 
+   * @return the number of {@link MemberConstraint}s of this {@link Group}.
+   * @libsbml.deprecated same as {@link #getMemberConstraintCount()}
+   */
+  public int getNumMemberConstraints() {
+    return getMemberConstraintCount();
   }
 
   private void initDefaults() {
@@ -465,4 +557,57 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
     return true;
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + ((kind == null) ? 0 : kind.hashCode());
+    result = prime
+      * result
+      + ((listOfMemberConstraints == null) ? 0
+        : listOfMemberConstraints.hashCode());
+    result = prime * result
+      + ((listOfMembers == null) ? 0 : listOfMembers.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Group other = (Group) obj;
+    if (kind != other.kind) {
+      return false;
+    }
+    if (listOfMemberConstraints == null) {
+      if (other.listOfMemberConstraints != null) {
+        return false;
+      }
+    } else if (!listOfMemberConstraints.equals(other.listOfMemberConstraints)) {
+      return false;
+    }
+    if (listOfMembers == null) {
+      if (other.listOfMembers != null) {
+        return false;
+      }
+    } else if (!listOfMembers.equals(other.listOfMembers)) {
+      return false;
+    }
+    return true;
+  }
+
+  
 }

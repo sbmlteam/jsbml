@@ -28,6 +28,7 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
@@ -38,7 +39,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @since 1.0
  * @date 2013-11-14
  */
-public class ListOfMemberConstraint extends ListOf<MemberConstraint> implements NamedSBase {
+public class ListOfMemberConstraint extends ListOf<MemberConstraint> implements NamedSBase, UniqueNamedSBase {
 
   /**
    * Generated serial version identifier.
@@ -83,6 +84,50 @@ public class ListOfMemberConstraint extends ListOf<MemberConstraint> implements 
     }
   }
 
+  
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ListOf#clone()
+   */
+  @Override
+  public ListOfMemberConstraint clone() {
+    return new ListOfMemberConstraint(this);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    ListOfMemberConstraint other = (ListOfMemberConstraint) obj;
+    if (id == null) {
+      if (other.id != null) {
+        return false;
+      }
+    } else if (!id.equals(other.id)) {
+      return false;
+    }
+    if (membersShareType != other.membersShareType) {
+      return false;
+    }
+    if (name == null) {
+      if (other.name != null) {
+        return false;
+      }
+    } else if (!name.equals(other.name)) {
+      return false;
+    }
+    return true;
+  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#getId()
@@ -101,18 +146,20 @@ public class ListOfMemberConstraint extends ListOf<MemberConstraint> implements 
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+   * @see java.lang.Object#hashCode()
    */
   @Override
   public int hashCode() {
     final int prime = 829;
     int hashCode = super.hashCode();
     if (isSetId()) {
-      hashCode += prime * getId().hashCode();
+      hashCode *= prime * getId().hashCode();
     }
     if (isSetName()) {
-      hashCode += prime * getName().hashCode();
+      hashCode *= prime * getName().hashCode();
     }
+    hashCode = prime * hashCode + (membersShareType ? 1231 : 1237);
+
     return hashCode;
   }
 

@@ -45,8 +45,6 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  */
 public class LayoutModelPlugin extends AbstractSBasePlugin {
 
-  // TODO: need to be adapted to the new way of dealing with L3 packages
-
   /**
    * 
    */
@@ -65,8 +63,8 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
   public LayoutModelPlugin(LayoutModelPlugin elm) {
     super(elm);
     // We don't clone the pointer to the containing model.
-    if (elm.listOfLayouts != null) {
-      listOfLayouts = elm.listOfLayouts.clone();
+    if (elm.isSetListOfLayouts()) {
+      setListOfLayouts(elm.listOfLayouts.clone());
     }
   }
 
@@ -99,20 +97,23 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Creates a new layout and adds it to the current list of layouts.
-   * @return new layout.
+   * Creates a new {@link Layout} and adds it to the current list of layouts.
+   * 
+   * @return the new {@link Layout}.
    */
   public Layout createLayout() {
     return createLayout(null);
   }
 
   /**
+   * Creates a new {@link Layout} and adds it to the current list of layouts.
    * 
-   * @param id
-   * @return
+   * @param id the id to be set in the new {@link Layout}.
+   * @return the new {@link Layout}.
    */
   public Layout createLayout(String id) {
-    Layout layout = new Layout(id, getExtendedSBase().getLevel(), getExtendedSBase().getVersion());
+    Layout layout = new Layout();
+    layout.setId(id);
     addLayout(layout);
     return layout;
   }
@@ -128,29 +129,49 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
     listOfLayouts = new ListOf<Layout>();
     listOfLayouts.setNamespace(LayoutConstants.namespaceURI);
     listOfLayouts.setSBaseListType(ListOf.Type.other);
-    getExtendedSBase().registerChild(listOfLayouts);
+    
+    if (isSetExtendedSBase()) {
+      getExtendedSBase().registerChild(listOfLayouts);
+    }
 
     return listOfLayouts;
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.Model#equals(java.lang.Object)
+   * @see java.lang.Object#hashCode()
    */
   @Override
-  public boolean equals(Object object) {
-    boolean equals = super.equals(object);
-    if (equals) {
-      // ExtendedLayoutModel elm = (ExtendedLayoutModel) object;
-      // An equals call on the model would cause a cyclic check!
-      // Actually, I'm not sure if we should compare the model
-      // here at all because this would be like checking a pointer
-      // to the parent node in the SBML tree, which we never do.
-      // Therefore, there's also no hashCode method here, because
-      // nothing to check, in my opinion.
-      // Hence, we can delete this method here.
-      // equals &= getModel() == elm.getModel();
+  public int hashCode() {
+    final int prime = 2887;
+    int result = super.hashCode();
+    result = prime * result
+      + ((listOfLayouts == null) ? 0 : listOfLayouts.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
     }
-    return equals;
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    LayoutModelPlugin other = (LayoutModelPlugin) obj;
+    if (listOfLayouts == null) {
+      if (other.listOfLayouts != null) {
+        return false;
+      }
+    } else if (!listOfLayouts.equals(other.listOfLayouts)) {
+      return false;
+    }
+    return true;
   }
 
   /* (non-Javadoc)
@@ -205,8 +226,9 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
+   * Returns the number of {@link Layout}s of this {@link LayoutModelPlugin}.
    * 
-   * @return
+   * @return the number of {@link Layout}s of this {@link LayoutModelPlugin}.
    */
   public int getLayoutCount() {
     return isSetListOfLayouts() ? listOfLayouts.size() : 0;
@@ -228,7 +250,21 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
    * @return
    */
   public Model getModel() {
-    return (Model) extendedSBase;
+    if (isSetExtendedSBase()) {
+      return (Model) extendedSBase;
+    }
+    
+    return null;
+  }
+
+  /**
+   * Returns the number of {@link Layout}s of this {@link LayoutModelPlugin}.
+   * 
+   * @return the number of {@link Layout}s of this {@link LayoutModelPlugin}.
+   * @libsbml.deprecated same as {@link #getLayoutCount()}
+   */
+  public int getNumLayouts() {
+    return getLayoutCount();
   }
 
   /* (non-Javadoc)
@@ -236,7 +272,11 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
    */
   @Override
   public SBMLDocument getParent() {
-    return (SBMLDocument) getExtendedSBase().getParent();
+    if (isSetExtendedSBase()) {
+      return (SBMLDocument) getExtendedSBase().getParent();
+    }
+    
+    return null;
   }
 
   /* (non-Javadoc)
@@ -279,7 +319,10 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
     if ((this.listOfLayouts != null) && (this.listOfLayouts.getSBaseListType() != ListOf.Type.other)) {
       this.listOfLayouts.setSBaseListType(ListOf.Type.other);
     }
-    getExtendedSBase().registerChild(listOfLayouts);
+    
+    if (isSetExtendedSBase()) {
+      getExtendedSBase().registerChild(listOfLayouts);
+    }
   }
 
   /* (non-Javadoc)
