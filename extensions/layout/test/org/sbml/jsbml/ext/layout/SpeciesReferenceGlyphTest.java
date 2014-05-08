@@ -1,5 +1,5 @@
 /*
- * $Id:  SpeciesReferenceGlyphTest.java 1712 2014-05-07 3:08:37 AM yvazirabad $
+ * $Id:  SpeciesReferenceGlyphTest.java 1713 2014-05-07 20:10:37 yvazirabad $
  * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/extensions/layout/test/org/sbml/jsbml/ext/layout/SpeciesReferenceGlyphTest.java $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
@@ -11,6 +11,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
+ * 6. Marquette University, Milwaukee, WI USA
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -33,7 +34,7 @@ import org.sbml.jsbml.SpeciesReference;
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev 1712 $
+ * @version $1713$
  * @since 1.0
  * @date May 7, 2014
  */

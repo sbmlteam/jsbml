@@ -1,5 +1,5 @@
 /*
- * $Id:  TextGlyphTest.java 1711 2014-05-06 1:08:19 AM yvazirabad $
+ * $Id:  TextGlyphTest.java 1713 2014-05-07 20:10:37 yvazirabad $
  * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/extensions/layout/test/org/sbml/jsbml/ext/layout/TextGlyphTest.java $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
@@ -11,6 +11,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
+ * 6. Marquette University, Milwaukee, WI USA
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -27,13 +28,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
+import org.sbml.jsbml.SBMLDocument;
 
 /**
- * @author yvazirabad
- * @version $Rev 1711 $
+ * @author Ibrahim Vazirabad
+ * @version $1713 $
  * @since 1.0
- * @date May 6, 2014
+ * @date May 7, 2014
  */
 public class TextGlyphTest {
 
@@ -52,9 +55,19 @@ public class TextGlyphTest {
    */
   @Test
   public void testGetGraphicalObjectInstance() {
+    SBMLDocument d = new SBMLDocument(3,1);
+    Model model = d.createModel("extensionModel");
+
+    LayoutModelPlugin lModel = new LayoutModelPlugin(model);
+    Layout layout = lModel.createLayout("layout");
+
     TextGlyph test=new TextGlyph();
-    test.setGraphicalObject("testName");
-    assertTrue(test.getGraphicalObjectInstance()==null);
+    GraphicalObject go=new GraphicalObject("Graphics");
+    test.setGraphicalObject(go);
+    layout.addTextGlyph(test);
+    layout.addGraphicalObject(go);
+    model.addExtension(LayoutConstants.getNamespaceURI(model.getLevel(), model.getVersion()), lModel);
+    assertEquals("InstanceError",test.getGraphicalObjectInstance().getId(),go.getId());
   }
 
   /**
@@ -70,10 +83,19 @@ public class TextGlyphTest {
    */
   @Test
   public void testGetOriginOfTextInstance() {
-    String str="Reference";
+    SBMLDocument d = new SBMLDocument(3,1);
+    Model model = d.createModel("extensionModel");
+
+    LayoutModelPlugin lModel = new LayoutModelPlugin(model);
+    Layout layout = lModel.createLayout("layout");
+
     TextGlyph test=new TextGlyph();
-    test.setOriginOfText(str);
-    assertTrue(test.getOriginOfTextInstance()==null);
+    ReactionGlyph rg=new ReactionGlyph("react_r1", model.getLevel(), model.getVersion());
+    layout.addTextGlyph(test);
+    layout.addReactionGlyph(rg);
+    test.setOriginOfText(rg);
+    model.addExtension(LayoutConstants.getNamespaceURI(model.getLevel(), model.getVersion()), lModel);
+    assertEquals("InstanceError",test.getOriginOfTextInstance().getId(),rg.getId());
   }
 
   /**
@@ -93,7 +115,8 @@ public class TextGlyphTest {
   @Test
   public void testIsSetGraphicalObject() {
     TextGlyph text=new TextGlyph();
-    text.setGraphicalObject("text");
+    GraphicalObject go=new GraphicalObject("Graphics");
+    text.setGraphicalObject(go);
     assertTrue(text.isSetGraphicalObject());
   }
 
@@ -102,9 +125,19 @@ public class TextGlyphTest {
    */
   @Test
   public void testIsSetGraphicalObjectInstance() {
+    SBMLDocument d = new SBMLDocument(3,1);
+    Model model = d.createModel("extensionModel");
+
+    LayoutModelPlugin lModel = new LayoutModelPlugin(model);
+    Layout layout = lModel.createLayout("layout");
+    model.addExtension(LayoutConstants.getNamespaceURI(model.getLevel(), model.getVersion()), lModel);
+
     TextGlyph test=new TextGlyph();
-    test.setGraphicalObject("testName");
-    assertTrue(!test.isSetGraphicalObjectInstance());
+    GraphicalObject go=new GraphicalObject("Graphics");
+    test.setGraphicalObject(go);
+    layout.addTextGlyph(test);
+    layout.addGraphicalObject(go);
+    assertTrue(test.isSetGraphicalObjectInstance());
   }
 
   /**
@@ -113,7 +146,7 @@ public class TextGlyphTest {
   @Test
   public void testIsSetOriginOfText() {
     TextGlyph test=new TextGlyph();
-    test.setReference("TextGlyph");
+    test.setOriginOfText("TextGlyph");
     assertTrue(test.isSetOriginOfText());
   }
 
@@ -133,10 +166,11 @@ public class TextGlyphTest {
    */
   @Test
   public void testSetGraphicalObject() {
-    String str="Graphics";
-    TextGlyph test=new TextGlyph();
-    test.setGraphicalObject(str);
-    assertTrue(str.equals(test.getGraphicalObject()));
+    String str="GraphicalObject";
+    TextGlyph text=new TextGlyph();
+    GraphicalObject go=new GraphicalObject(str);
+    text.setGraphicalObject(go);
+    assertTrue(str.equals(text.getGraphicalObject()));
 
   }
 
