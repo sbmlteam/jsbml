@@ -23,6 +23,8 @@ package org.sbml.jsbml.math.test;
 
 import static org.junit.Assert.assertTrue;
 
+import javax.swing.JFrame;
+
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
 
@@ -314,13 +316,13 @@ public class ASTNodeTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.ASTNode#log(ASTNode value)}.
+   * Test method for {@link org.sbml.jsbml.ASTNode#log(ASTNode base, ASTNode value)}.
    */
   @Test
   public void testLogBase10() {
-    ASTNode two = new ASTNode(2);
-    ASTNode log = ASTNode.log(two);
-    //assertTrue(log.isLog10());
+    ASTNode two = new ASTNode(2), ten = new ASTNode(10);
+    ASTNode log = ASTNode.log(ten, two);
+    assertTrue(log.isLog10());
     assertTrue(log.isFunction());
   }
 
@@ -328,9 +330,10 @@ public class ASTNodeTest {
    * Test method for {@link org.sbml.jsbml.ASTNode#log(ASTNode base, ASTNode value)}.
    */
   @Test
-  public void testLogWithBase() {
+  public void testLogBaseOther() {
     ASTNode two = new ASTNode(2), four = new ASTNode(4);
     ASTNode log = ASTNode.log(two, four);
+    assertTrue(! log.isLog10());
     assertTrue(log.isFunction());
   }
 
