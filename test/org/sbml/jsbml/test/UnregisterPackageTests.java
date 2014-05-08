@@ -46,7 +46,13 @@ import org.sbml.jsbml.ext.fbc.FBCSpeciesPlugin;
 import org.sbml.jsbml.ext.fbc.FluxBound;
 import org.sbml.jsbml.ext.fbc.FluxBound.Operation;
 import org.sbml.jsbml.ext.fbc.Objective;
+import org.sbml.jsbml.ext.groups.Group;
+import org.sbml.jsbml.ext.groups.GroupsConstants;
+import org.sbml.jsbml.ext.groups.GroupsModelPlugin;
+import org.sbml.jsbml.ext.groups.Member;
+import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
+import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.ext.qual.QualConstants;
 import org.sbml.jsbml.ext.qual.QualModelPlugin;
 import org.sbml.jsbml.ext.qual.QualitativeSpecies;
@@ -431,4 +437,101 @@ public class UnregisterPackageTests {
     clonedQs1.setInitialLevel(0);
     assertTrue(qs1.hashCode() != clonedQs1.hashCode());
   }
+  
+  @Test public void testGroups() {
+    
+    GroupsModelPlugin groupsModel = (GroupsModelPlugin) model.getPlugin(GroupsConstants.shortLabel);
+    Group group = groupsModel.createGroup();
+    group.setId("G1");
+    
+    // TODO - add it later when setId register and unregister the id - ((ListOfMemberConstraint) group.getListOfMemberConstraints()).setId("GLMC1");
+    
+    group.createMember("GM1");
+    group.createMemberWithIdRef("GM2", "S2");
+    Member member3 = group.createMemberWithIdRef("GM3", "S1");
+    member3.setMetaId("GM3");
+    group.createMemberConstraint("GMC1");
+    
+    assertTrue(groupsModel.getGroupCount() == 1);
+    assertTrue(group.getMemberCount() == 3);
+    assertTrue(group.getMemberConstraintCount() == 1);
+    
+    try {
+      Group g2 = groupsModel.createGroup();
+      g2.setId("G1");
+      assertTrue("We should not be allowed to have several element with the same id inside the same model", false);
+    } catch (IllegalArgumentException e) {
+        assertTrue(true);
+    } 
+    try {
+      groupsModel.createGroup("GM1");
+      assertTrue("We should not be allowed to have several element with the same id inside the same model", false);
+    } catch (IllegalArgumentException e) {
+        assertTrue(true);
+    } 
+    try {
+      groupsModel.createGroup("GMC1");
+      assertTrue("We should not be allowed to have several element with the same id inside the same model", false);
+    } catch (IllegalArgumentException e) {
+        assertTrue(true);
+    } 
+//    try {
+//      groupsModel.createGroup("GLMC1");
+//      assertTrue("We should not be allowed to have several element with the same id inside the same model", false);
+//    } catch (IllegalArgumentException e) {
+//        assertTrue(true);
+//    } 
+    assertTrue(groupsModel.getGroupCount() == 2);
+
+    try {
+      group.createMember("S1");
+      assertTrue("We should not be allowed to have several element with the same id inside the same model", false);
+    } catch (IllegalArgumentException e) {
+        assertTrue(true);
+    } 
+    try {
+      group.createMember("G1");
+      assertTrue("We should not be allowed to have several element with the same id inside the same model", false);
+    } catch (IllegalArgumentException e) {
+        assertTrue(true);
+    } 
+    assertTrue(group.getMemberCount() == 3);
+
+    SBMLDocument clonedDoc = doc.clone();
+    Model clonedModel = clonedDoc.getModel();
+    GroupsModelPlugin clonedGroupModelPlugin = (GroupsModelPlugin) clonedModel.getPlugin("groups");
+    
+    assertTrue(clonedGroupModelPlugin.getGroupCount() == 2);
+    assertTrue(clonedDoc.findSBase("GM3") != null);
+    assertTrue(clonedModel.findUniqueNamedSBase("GM3") != null);
+    assertTrue(clonedModel.findUniqueNamedSBase("G1") != null);
+    assertTrue(clonedModel.findUniqueNamedSBase("GMC1") != null);
+    
+  }
+  
+  @Test public void testLayout() {
+    
+    LayoutModelPlugin layoutModel = (LayoutModelPlugin) model.getPlugin(LayoutConstants.shortLabel);
+    Layout layout = layoutModel.createLayout("L1");
+    
+    layout.createCompartmentGlyph("LCG1");
+    layout.createGeneralGlyph("LGG1");
+    layout.createReactionGlyph("LRG1");
+    layout.createSpeciesGlyph("LSG1");
+    layout.createTextGlyph("LTG1");
+    
+    assertTrue(model.findUniqueNamedSBase("L1") != null);
+    assertTrue(model.findUniqueNamedSBase("LCG1") != null);
+    assertTrue(model.findUniqueNamedSBase("LGG1") != null);
+    assertTrue(model.findUniqueNamedSBase("LRG1") != null);
+    assertTrue(model.findUniqueNamedSBase("LSG1") != null);
+    assertTrue(model.findUniqueNamedSBase("LTG1") != null);
+    
+    SBMLDocument clonedDoc = doc.clone();
+    Model clonedModel = clonedDoc.getModel();
+
+    assertTrue(clonedModel.findUniqueNamedSBase("LRG1") != null);
+    
+  }
+  
 }

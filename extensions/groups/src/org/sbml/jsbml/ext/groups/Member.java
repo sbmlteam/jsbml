@@ -28,6 +28,7 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
  * @author Nicolas Rodriguez
@@ -35,7 +36,7 @@ import org.sbml.jsbml.SBase;
  * @since 1.0
  * @version $Rev$
  */
-public class Member extends AbstractNamedSBase {
+public class Member extends AbstractNamedSBase  implements UniqueNamedSBase {
 
   /**
    * Generated serial version identifier.
@@ -88,6 +89,52 @@ public class Member extends AbstractNamedSBase {
   @Override
   public Member clone() {
     return new Member(this);
+  }
+
+  
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 2671;
+    int result = super.hashCode();
+    result = prime * result + ((idRef == null) ? 0 : idRef.hashCode());
+    result = prime * result + ((metaIdRef == null) ? 0 : metaIdRef.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Member other = (Member) obj;
+    if (idRef == null) {
+      if (other.idRef != null) {
+        return false;
+      }
+    } else if (!idRef.equals(other.idRef)) {
+      return false;
+    }
+    if (metaIdRef == null) {
+      if (other.metaIdRef != null) {
+        return false;
+      }
+    } else if (!metaIdRef.equals(other.metaIdRef)) {
+      return false;
+    }
+    return true;
   }
 
   /**

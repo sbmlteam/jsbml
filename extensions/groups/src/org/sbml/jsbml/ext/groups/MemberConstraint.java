@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
  * 
@@ -33,7 +34,7 @@ import org.sbml.jsbml.LevelVersionError;
  * @since 1.0
  * @date 2013-11-18
  */
-public class MemberConstraint extends AbstractNamedSBase {
+public class MemberConstraint extends AbstractNamedSBase  implements UniqueNamedSBase {
 
   /**
    * Generated serial version identifier.
@@ -120,6 +121,54 @@ public class MemberConstraint extends AbstractNamedSBase {
   @Override
   public MemberConstraint clone() {
     return new MemberConstraint(this);
+  }
+
+  
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 2729;
+    int result = super.hashCode();
+    result = prime * result
+      + ((distinctAttribute == null) ? 0 : distinctAttribute.hashCode());
+    result = prime * result
+      + ((identicalAttribute == null) ? 0 : identicalAttribute.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    MemberConstraint other = (MemberConstraint) obj;
+    if (distinctAttribute == null) {
+      if (other.distinctAttribute != null) {
+        return false;
+      }
+    } else if (!distinctAttribute.equals(other.distinctAttribute)) {
+      return false;
+    }
+    if (identicalAttribute == null) {
+      if (other.identicalAttribute != null) {
+        return false;
+      }
+    } else if (!identicalAttribute.equals(other.identicalAttribute)) {
+      return false;
+    }
+    return true;
   }
 
   /**
