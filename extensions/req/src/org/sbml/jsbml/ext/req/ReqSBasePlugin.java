@@ -82,9 +82,7 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
     super(obj);
 
     if (obj.isSetListOfChangedMaths()) {
-      for (ChangedMath changedMath : obj.getListOfChangedMaths()) {
-        addChangedMath(changedMath.clone());
-      }
+      setListOfChangedMaths(obj.getListOfChangedMaths().clone());
     }
   }
 
@@ -175,12 +173,14 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
    */
   public ListOf<ChangedMath> getListOfChangedMaths() {
     if (!isSetListOfChangedMaths()) {
-      listOfChangedMaths = new ListOf<ChangedMath>(extendedSBase.getLevel(),
-          extendedSBase.getVersion());
+      listOfChangedMaths = new ListOf<ChangedMath>();
       // TODO : get the correct namespace from the SBMLdocument, otherwise don't set it yet.
       listOfChangedMaths.setNamespace(ReqConstants.namespaceURI);
       listOfChangedMaths.setSBaseListType(ListOf.Type.other);
-      extendedSBase.registerChild(listOfChangedMaths);
+      
+      if (isSetExtendedSBase()) {
+        extendedSBase.registerChild(listOfChangedMaths);
+      }
     }
 
     return listOfChangedMaths;
@@ -198,7 +198,9 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
     this.listOfChangedMaths.setSBaseListType(ListOf.Type.other); // Just in case
     // TODO - check namespaceURI as well
 
-    extendedSBase.registerChild(this.listOfChangedMaths);
+    if (isSetExtendedSBase()) {
+      extendedSBase.registerChild(this.listOfChangedMaths);
+    }
   }
 
   /**
@@ -278,7 +280,7 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
    * @return a new {@link ChangedMath} element
    */
   public ChangedMath createChangedMath(String id) {
-    ChangedMath changedMath = new ChangedMath(id, getLevel(), getVersion());
+    ChangedMath changedMath = new ChangedMath(id);
     addChangedMath(changedMath);
     return changedMath;
   }
