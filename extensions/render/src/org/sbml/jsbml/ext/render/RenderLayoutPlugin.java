@@ -56,7 +56,10 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
    */
   public RenderLayoutPlugin(RenderLayoutPlugin obj) {
     super(obj);
-    listOfLocalRenderInformation = obj.listOfLocalRenderInformation.clone();
+    
+    if (obj.isSetListOfLocalRenderInformation()) {
+      setListOfLocalRenderInformation(obj.getListOfLocalRenderInformation().clone());
+    }
   }
 
   /* (non-Javadoc)
@@ -131,11 +134,13 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
    */
   public ListOf<LocalRenderInformation> getListOfLocalRenderInformation() {
     if (!isSetListOfLocalRenderInformation()) {
-      SBase sBase = getExtendedSBase();
-      listOfLocalRenderInformation = new ListOf<LocalRenderInformation>(sBase.getLevel(), sBase.getVersion());
+      listOfLocalRenderInformation = new ListOf<LocalRenderInformation>();
       listOfLocalRenderInformation.setNamespace(RenderConstants.namespaceURI);
       listOfLocalRenderInformation.setSBaseListType(ListOf.Type.other);
-      sBase.registerChild(listOfLocalRenderInformation);
+      
+      if (isSetExtendedSBase()) {
+        extendedSBase.registerChild(listOfLocalRenderInformation);
+      }
     }
     return listOfLocalRenderInformation;
   }
@@ -155,7 +160,10 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
   public void setListOfLocalRenderInformation(ListOf<LocalRenderInformation> listOfLocalRenderInformation) {
     unsetListOfLocalRenderInformation();
     this.listOfLocalRenderInformation = listOfLocalRenderInformation;
-    getExtendedSBase().registerChild(this.listOfLocalRenderInformation);
+    
+    if (isSetExtendedSBase()) {
+      extendedSBase.registerChild(this.listOfLocalRenderInformation);
+    }
   }
 
   /**
@@ -221,8 +229,7 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
    * create a new LocalRenderInformation element and adds it to the ListOfLocalRenderInformation list
    */
   public LocalRenderInformation createLocalRenderInformation(String id) {
-    SBase sBase = getExtendedSBase();
-    LocalRenderInformation field = new LocalRenderInformation(id, sBase.getLevel(), sBase.getVersion());
+    LocalRenderInformation field = new LocalRenderInformation(id);
     addLocalRenderInformation(field);
     return field;
   }

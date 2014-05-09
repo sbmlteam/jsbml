@@ -105,7 +105,10 @@ public class LocalRenderInformation extends RenderInformationBase {
    */
   public LocalRenderInformation(LocalRenderInformation obj) {
     super(obj);
-    listOfLocalStyles = obj.listOfLocalStyles;
+    
+    if (obj.isSetListOfLocalStyles()) {
+    setListOfLocalStyles(obj.listOfLocalStyles.clone());
+    }
   }
 
   /* (non-Javadoc)
@@ -123,6 +126,45 @@ public class LocalRenderInformation extends RenderInformationBase {
   public void initDefaults() {
     setNamespace(RenderConstants.namespaceURI);
     listOfLocalStyles = null;
+  }
+
+  
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3229;
+    int result = super.hashCode();
+    result = prime * result
+      + ((listOfLocalStyles == null) ? 0 : listOfLocalStyles.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    LocalRenderInformation other = (LocalRenderInformation) obj;
+    if (listOfLocalStyles == null) {
+      if (other.listOfLocalStyles != null) {
+        return false;
+      }
+    } else if (!listOfLocalStyles.equals(other.listOfLocalStyles)) {
+      return false;
+    }
+    return true;
   }
 
   /**

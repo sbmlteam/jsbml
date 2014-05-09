@@ -86,6 +86,83 @@ public class LinearGradient extends GradientBase {
     z2 = 1d;
   }
 
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3217;
+    int result = super.hashCode();
+    result = prime * result + ((x1 == null) ? 0 : x1.hashCode());
+    result = prime * result + ((x2 == null) ? 0 : x2.hashCode());
+    result = prime * result + ((y1 == null) ? 0 : y1.hashCode());
+    result = prime * result + ((y2 == null) ? 0 : y2.hashCode());
+    result = prime * result + ((z1 == null) ? 0 : z1.hashCode());
+    result = prime * result + ((z2 == null) ? 0 : z2.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    LinearGradient other = (LinearGradient) obj;
+    if (x1 == null) {
+      if (other.x1 != null) {
+        return false;
+      }
+    } else if (!x1.equals(other.x1)) {
+      return false;
+    }
+    if (x2 == null) {
+      if (other.x2 != null) {
+        return false;
+      }
+    } else if (!x2.equals(other.x2)) {
+      return false;
+    }
+    if (y1 == null) {
+      if (other.y1 != null) {
+        return false;
+      }
+    } else if (!y1.equals(other.y1)) {
+      return false;
+    }
+    if (y2 == null) {
+      if (other.y2 != null) {
+        return false;
+      }
+    } else if (!y2.equals(other.y2)) {
+      return false;
+    }
+    if (z1 == null) {
+      if (other.z1 != null) {
+        return false;
+      }
+    } else if (!z1.equals(other.z1)) {
+      return false;
+    }
+    if (z2 == null) {
+      if (other.z2 != null) {
+        return false;
+      }
+    } else if (!z2.equals(other.z2)) {
+      return false;
+    }
+    return true;
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.GradientBase#getAllowsChildren()
    */

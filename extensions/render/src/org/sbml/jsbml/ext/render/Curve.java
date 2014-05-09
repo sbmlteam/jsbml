@@ -42,6 +42,8 @@ public class Curve extends GraphicalPrimitive1D {
   private static final long serialVersionUID = -1941713884972334826L;
   protected String startHead;
   protected String endHead;
+  
+  // TODO - check the naming of this listOf and the associated methods compared with libsbml
   protected ListOf<RenderPoint> listOfElements;
 
   /**
@@ -59,7 +61,10 @@ public class Curve extends GraphicalPrimitive1D {
     super();
     startHead = obj.startHead;
     endHead = obj.endHead;
-    listOfElements = obj.listOfElements;
+    
+    if (obj.isSetListOfElements()) {
+      setListOfElements(obj.getListOfElements().clone());
+    }
   }
 
   /* (non-Javadoc)
@@ -76,6 +81,61 @@ public class Curve extends GraphicalPrimitive1D {
   @Override
   public void initDefaults() {
     setNamespace(RenderConstants.namespaceURI);
+  }
+
+  
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3119;
+    int result = super.hashCode();
+    result = prime * result + ((endHead == null) ? 0 : endHead.hashCode());
+    result = prime * result
+      + ((listOfElements == null) ? 0 : listOfElements.hashCode());
+    result = prime * result + ((startHead == null) ? 0 : startHead.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Curve other = (Curve) obj;
+    if (endHead == null) {
+      if (other.endHead != null) {
+        return false;
+      }
+    } else if (!endHead.equals(other.endHead)) {
+      return false;
+    }
+    if (listOfElements == null) {
+      if (other.listOfElements != null) {
+        return false;
+      }
+    } else if (!listOfElements.equals(other.listOfElements)) {
+      return false;
+    }
+    if (startHead == null) {
+      if (other.startHead != null) {
+        return false;
+      }
+    } else if (!startHead.equals(other.startHead)) {
+      return false;
+    }
+    return true;
   }
 
   /**

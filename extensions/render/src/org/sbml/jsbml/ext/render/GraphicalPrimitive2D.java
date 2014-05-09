@@ -79,6 +79,48 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
     setNamespace(RenderConstants.namespaceURI);
   }
 
+  
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3169;
+    int result = super.hashCode();
+    result = prime * result + ((fill == null) ? 0 : fill.hashCode());
+    result = prime * result + ((fillRule == null) ? 0 : fillRule.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    GraphicalPrimitive2D other = (GraphicalPrimitive2D) obj;
+    if (fill == null) {
+      if (other.fill != null) {
+        return false;
+      }
+    } else if (!fill.equals(other.fill)) {
+      return false;
+    }
+    if (fillRule != other.fillRule) {
+      return false;
+    }
+    return true;
+  }
+
   /**
    * @return the value of fill
    */
@@ -195,6 +237,7 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
         setFill(value);
       }
       else if (attributeName.equals(RenderConstants.fillRule)) {
+        // TODO - add some checks in case the value is wrong. And we probably have to do some manual translation from the specs to the enum
         setFillRule(FillRule.valueOf(value));
       }
       else {

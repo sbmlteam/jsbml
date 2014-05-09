@@ -99,6 +99,52 @@ public class GradientStop extends AbstractSBase {
     return new GradientStop(this);
   }
 
+  
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3191;
+    int result = super.hashCode();
+    result = prime * result + ((offset == null) ? 0 : offset.hashCode());
+    result = prime * result + ((stopColor == null) ? 0 : stopColor.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    GradientStop other = (GradientStop) obj;
+    if (offset == null) {
+      if (other.offset != null) {
+        return false;
+      }
+    } else if (!offset.equals(other.offset)) {
+      return false;
+    }
+    if (stopColor == null) {
+      if (other.stopColor != null) {
+        return false;
+      }
+    } else if (!stopColor.equals(other.stopColor)) {
+      return false;
+    }
+    return true;
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
    */

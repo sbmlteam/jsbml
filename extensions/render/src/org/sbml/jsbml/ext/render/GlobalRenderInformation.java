@@ -60,7 +60,10 @@ public class GlobalRenderInformation extends RenderInformationBase {
    */
   public GlobalRenderInformation(GlobalRenderInformation obj) {
     super(obj);
-    listOfStyles = obj.listOfStyles;
+    
+    if (obj.isSetListOfStyles()) {
+      setListOfStyles(obj.getListOfStyles().clone());
+    }
   }
 
   /**
@@ -127,6 +130,44 @@ public class GlobalRenderInformation extends RenderInformationBase {
     setNamespace(RenderConstants.namespaceURI);
   }
 
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3067;
+    int result = super.hashCode();
+    result = prime * result
+      + ((listOfStyles == null) ? 0 : listOfStyles.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    GlobalRenderInformation other = (GlobalRenderInformation) obj;
+    if (listOfStyles == null) {
+      if (other.listOfStyles != null) {
+        return false;
+      }
+    } else if (!listOfStyles.equals(other.listOfStyles)) {
+      return false;
+    }
+    return true;
+  }
+  
 
   /**
    * @return {@code true}, if listOfStyles contains at least one element,

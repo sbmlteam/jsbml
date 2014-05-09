@@ -148,7 +148,10 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
   public GradientBase(GradientBase obj) {
     super(obj);
     spreadMethod = obj.spreadMethod;
-    listOfGradientStops = obj.listOfGradientStops;
+    
+    if (isSetListOfGradientStops()) {
+      setListOfGradientStops(obj.listOfGradientStops.clone());
+    }
   }
 
   /* (non-Javadoc)
@@ -166,6 +169,50 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
     setNamespace(RenderConstants.namespaceURI);
     spreadMethod = Spread.PAD;
     listOfGradientStops = new ListOf<GradientStop>();
+  }
+
+  
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3187;
+    int result = super.hashCode();
+    result = prime * result
+      + ((listOfGradientStops == null) ? 0 : listOfGradientStops.hashCode());
+    result = prime * result
+      + ((spreadMethod == null) ? 0 : spreadMethod.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    GradientBase other = (GradientBase) obj;
+    if (listOfGradientStops == null) {
+      if (other.listOfGradientStops != null) {
+        return false;
+      }
+    } else if (!listOfGradientStops.equals(other.listOfGradientStops)) {
+      return false;
+    }
+    if (spreadMethod != other.spreadMethod) {
+      return false;
+    }
+    return true;
   }
 
   /**
