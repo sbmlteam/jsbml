@@ -531,7 +531,39 @@ public class UnregisterPackageTests {
     Model clonedModel = clonedDoc.getModel();
 
     assertTrue(clonedModel.findUniqueNamedSBase("LRG1") != null);
+    assertTrue(clonedModel.findUniqueNamedSBase("L1") != null);
+    assertTrue(clonedModel.findUniqueNamedSBase("submodel1") != null);
+  
+    
+    layout.removeReactionGlyph(0);
+    layout.removeSpeciesGlyph("LSG1");
+    layout.removeTextGlyph(layout.getTextGlyph(0));
+    
+    assertTrue(model.findUniqueNamedSBase("LCG1") != null);
+    assertTrue(model.findUniqueNamedSBase("LGG1") != null);
+    assertTrue(model.findUniqueNamedSBase("LRG1") == null);
+    assertTrue(model.findUniqueNamedSBase("LSG1") == null);
+    assertTrue(model.findUniqueNamedSBase("LTG1") == null);
+
+    assertTrue(clonedModel.findUniqueNamedSBase("LCG1") != null);
+    assertTrue(clonedModel.findUniqueNamedSBase("LGG1") != null);
+    assertTrue(clonedModel.findUniqueNamedSBase("LRG1") != null);
+    assertTrue(clonedModel.findUniqueNamedSBase("LSG1") != null);
+    assertTrue(clonedModel.findUniqueNamedSBase("LTG1") != null);
+
+  }
+  
+  @Test public void testRender() {
     
   }
   
+  @Test public void testSpatial() {
+    
+  }
+
+  
+  @Test public void testMulti() {
+    // TODO - when the package code is updated
+  }
+
 }
