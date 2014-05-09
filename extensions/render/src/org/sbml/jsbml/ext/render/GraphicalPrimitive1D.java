@@ -22,6 +22,7 @@
 package org.sbml.jsbml.ext.render;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Map;
 
 import org.sbml.jsbml.PropertyUndefinedError;
@@ -107,7 +108,10 @@ public class GraphicalPrimitive1D extends Transformation2D {
     super();
     stroke = obj.stroke;
     strokeWidth = obj.strokeWidth;
-    strokeDashArray = obj.strokeDashArray;
+
+    if (obj.isSetStrokeDashArray()) {
+      setStrokeDashArray(obj.strokeDashArray.clone());
+    }
   }
 
   /* (non-Javadoc)
@@ -117,6 +121,59 @@ public class GraphicalPrimitive1D extends Transformation2D {
   public GraphicalPrimitive1D clone() {
     return new GraphicalPrimitive1D(this);
   }
+
+  
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3181;
+    int result = super.hashCode();
+    result = prime * result + ((stroke == null) ? 0 : stroke.hashCode());
+    result = prime * result + Arrays.hashCode(strokeDashArray);
+    result = prime * result
+      + ((strokeWidth == null) ? 0 : strokeWidth.hashCode());
+    return result;
+  }
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    GraphicalPrimitive1D other = (GraphicalPrimitive1D) obj;
+    if (stroke == null) {
+      if (other.stroke != null) {
+        return false;
+      }
+    } else if (!stroke.equals(other.stroke)) {
+      return false;
+    }
+    if (!Arrays.equals(strokeDashArray, other.strokeDashArray)) {
+      return false;
+    }
+    if (strokeWidth == null) {
+      if (other.strokeWidth != null) {
+        return false;
+      }
+    } else if (!strokeWidth.equals(other.strokeWidth)) {
+      return false;
+    }
+    return true;
+  }
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Transformation#getAllowsChildren()

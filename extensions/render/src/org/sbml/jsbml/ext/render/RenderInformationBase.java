@@ -122,9 +122,16 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
     programVersion = obj.programVersion;
     referenceRenderInformation = obj.referenceRenderInformation;
     backgroundColor = obj.backgroundColor;
-    listOfColorDefinitions = obj.listOfColorDefinitions;
-    listOfGradientDefintions = obj.listOfGradientDefintions;
-    listOfLineEndings = obj.listOfLineEndings;
+    
+    if (obj.isSetListOfColorDefinitions()) {
+      setListOfColorDefinitions(obj.getListOfColorDefinitions().clone());
+    }
+    if (obj.isSetListOfGradientDefintions()) {
+      setListOfGradientDefintions(obj.getListOfGradientDefintions().clone());
+    }
+    if (obj.isSetListOfLineEndings()) {
+      setListOfLineEndings(obj.getListOfLineEndings().clone());
+    }
   }
 
   /* (non-Javadoc)
@@ -147,6 +154,106 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
     listOfColorDefinitions = null;
     listOfGradientDefintions = null;
     listOfLineEndings = null;
+  }
+
+  
+  
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3041;
+    int result = super.hashCode();
+    result = prime * result
+      + ((backgroundColor == null) ? 0 : backgroundColor.hashCode());
+    result = prime
+      * result
+      + ((listOfColorDefinitions == null) ? 0
+        : listOfColorDefinitions.hashCode());
+    result = prime
+      * result
+      + ((listOfGradientDefintions == null) ? 0
+        : listOfGradientDefintions.hashCode());
+    result = prime * result
+      + ((listOfLineEndings == null) ? 0 : listOfLineEndings.hashCode());
+    result = prime * result
+      + ((programName == null) ? 0 : programName.hashCode());
+    result = prime * result
+      + ((programVersion == null) ? 0 : programVersion.hashCode());
+    result = prime
+      * result
+      + ((referenceRenderInformation == null) ? 0
+        : referenceRenderInformation.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    RenderInformationBase other = (RenderInformationBase) obj;
+    if (backgroundColor == null) {
+      if (other.backgroundColor != null) {
+        return false;
+      }
+    } else if (!backgroundColor.equals(other.backgroundColor)) {
+      return false;
+    }
+    if (listOfColorDefinitions == null) {
+      if (other.listOfColorDefinitions != null) {
+        return false;
+      }
+    } else if (!listOfColorDefinitions.equals(other.listOfColorDefinitions)) {
+      return false;
+    }
+    if (listOfGradientDefintions == null) {
+      if (other.listOfGradientDefintions != null) {
+        return false;
+      }
+    } else if (!listOfGradientDefintions.equals(other.listOfGradientDefintions)) {
+      return false;
+    }
+    if (listOfLineEndings == null) {
+      if (other.listOfLineEndings != null) {
+        return false;
+      }
+    } else if (!listOfLineEndings.equals(other.listOfLineEndings)) {
+      return false;
+    }
+    if (programName == null) {
+      if (other.programName != null) {
+        return false;
+      }
+    } else if (!programName.equals(other.programName)) {
+      return false;
+    }
+    if (programVersion == null) {
+      if (other.programVersion != null) {
+        return false;
+      }
+    } else if (!programVersion.equals(other.programVersion)) {
+      return false;
+    }
+    if (referenceRenderInformation == null) {
+      if (other.referenceRenderInformation != null) {
+        return false;
+      }
+    } else if (!referenceRenderInformation.equals(other.referenceRenderInformation)) {
+      return false;
+    }
+    return true;
   }
 
   /**

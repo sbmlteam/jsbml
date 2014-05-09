@@ -141,6 +141,101 @@ public class Group extends GraphicalPrimitive2D {
     setNamespace(RenderConstants.namespaceURI);
   }
 
+  
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3203;
+    int result = super.hashCode();
+    result = prime * result + ((endHead == null) ? 0 : endHead.hashCode());
+    result = prime * result
+      + ((fontFamily == null) ? 0 : fontFamily.hashCode());
+    result = prime * result + ((fontSize == null) ? 0 : fontSize.hashCode());
+    result = prime * result
+      + ((fontStyleItalic == null) ? 0 : fontStyleItalic.hashCode());
+    result = prime * result
+      + ((fontWeightBold == null) ? 0 : fontWeightBold.hashCode());
+    result = prime * result + ((id == null) ? 0 : id.hashCode());
+    result = prime * result + ((startHead == null) ? 0 : startHead.hashCode());
+    result = prime * result
+      + ((textAnchor == null) ? 0 : textAnchor.hashCode());
+    result = prime * result
+      + ((vTextAnchor == null) ? 0 : vTextAnchor.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Group other = (Group) obj;
+    if (endHead == null) {
+      if (other.endHead != null) {
+        return false;
+      }
+    } else if (!endHead.equals(other.endHead)) {
+      return false;
+    }
+    if (fontFamily != other.fontFamily) {
+      return false;
+    }
+    if (fontSize == null) {
+      if (other.fontSize != null) {
+        return false;
+      }
+    } else if (!fontSize.equals(other.fontSize)) {
+      return false;
+    }
+    if (fontStyleItalic == null) {
+      if (other.fontStyleItalic != null) {
+        return false;
+      }
+    } else if (!fontStyleItalic.equals(other.fontStyleItalic)) {
+      return false;
+    }
+    if (fontWeightBold == null) {
+      if (other.fontWeightBold != null) {
+        return false;
+      }
+    } else if (!fontWeightBold.equals(other.fontWeightBold)) {
+      return false;
+    }
+    if (id == null) {
+      if (other.id != null) {
+        return false;
+      }
+    } else if (!id.equals(other.id)) {
+      return false;
+    }
+    if (startHead == null) {
+      if (other.startHead != null) {
+        return false;
+      }
+    } else if (!startHead.equals(other.startHead)) {
+      return false;
+    }
+    if (textAnchor != other.textAnchor) {
+      return false;
+    }
+    if (vTextAnchor != other.vTextAnchor) {
+      return false;
+    }
+    return true;
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getAllowsChildren()
    */

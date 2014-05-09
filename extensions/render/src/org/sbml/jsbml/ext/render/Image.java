@@ -100,6 +100,125 @@ public class Image extends Transformation2D {
     z = 0d;
   }
 
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result
+      + ((absoluteHeight == null) ? 0 : absoluteHeight.hashCode());
+    result = prime * result
+      + ((absoluteWidth == null) ? 0 : absoluteWidth.hashCode());
+    result = prime * result + ((absoluteX == null) ? 0 : absoluteX.hashCode());
+    result = prime * result + ((absoluteY == null) ? 0 : absoluteY.hashCode());
+    result = prime * result + ((absoluteZ == null) ? 0 : absoluteZ.hashCode());
+    result = prime * result + ((height == null) ? 0 : height.hashCode());
+    result = prime * result + ((href == null) ? 0 : href.hashCode());
+    result = prime * result + ((width == null) ? 0 : width.hashCode());
+    result = prime * result + ((x == null) ? 0 : x.hashCode());
+    result = prime * result + ((y == null) ? 0 : y.hashCode());
+    result = prime * result + ((z == null) ? 0 : z.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Image other = (Image) obj;
+    if (absoluteHeight == null) {
+      if (other.absoluteHeight != null) {
+        return false;
+      }
+    } else if (!absoluteHeight.equals(other.absoluteHeight)) {
+      return false;
+    }
+    if (absoluteWidth == null) {
+      if (other.absoluteWidth != null) {
+        return false;
+      }
+    } else if (!absoluteWidth.equals(other.absoluteWidth)) {
+      return false;
+    }
+    if (absoluteX == null) {
+      if (other.absoluteX != null) {
+        return false;
+      }
+    } else if (!absoluteX.equals(other.absoluteX)) {
+      return false;
+    }
+    if (absoluteY == null) {
+      if (other.absoluteY != null) {
+        return false;
+      }
+    } else if (!absoluteY.equals(other.absoluteY)) {
+      return false;
+    }
+    if (absoluteZ == null) {
+      if (other.absoluteZ != null) {
+        return false;
+      }
+    } else if (!absoluteZ.equals(other.absoluteZ)) {
+      return false;
+    }
+    if (height == null) {
+      if (other.height != null) {
+        return false;
+      }
+    } else if (!height.equals(other.height)) {
+      return false;
+    }
+    if (href == null) {
+      if (other.href != null) {
+        return false;
+      }
+    } else if (!href.equals(other.href)) {
+      return false;
+    }
+    if (width == null) {
+      if (other.width != null) {
+        return false;
+      }
+    } else if (!width.equals(other.width)) {
+      return false;
+    }
+    if (x == null) {
+      if (other.x != null) {
+        return false;
+      }
+    } else if (!x.equals(other.x)) {
+      return false;
+    }
+    if (y == null) {
+      if (other.y != null) {
+        return false;
+      }
+    } else if (!y.equals(other.y)) {
+      return false;
+    }
+    if (z == null) {
+      if (other.z != null) {
+        return false;
+      }
+    } else if (!z.equals(other.z)) {
+      return false;
+    }
+    return true;
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Transformation#getAllowsChildren()
    */

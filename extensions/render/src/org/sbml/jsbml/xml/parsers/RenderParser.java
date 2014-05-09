@@ -28,8 +28,10 @@ import org.apache.log4j.Logger;
 import org.mangosdk.spi.ProviderFor;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.Layout;
+import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.ext.render.ColorDefinition;
 import org.sbml.jsbml.ext.render.Curve;
@@ -57,7 +59,7 @@ import org.sbml.jsbml.ext.render.Style;
  * @date 04.06.2012
  */
 @ProviderFor(ReadingParser.class)
-public class RenderParser extends AbstractReaderWriter {
+public class RenderParser extends AbstractReaderWriter  implements PackageParser {
 
   /**
    * The logger for this RenderParser
@@ -270,6 +272,49 @@ public class RenderParser extends AbstractReaderWriter {
   @Override
   public List<String> getNamespaces() {
     return RenderConstants.namespaces_L3;
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public SBasePlugin createPluginFor(SBase sbase) {
+
+    if (sbase != null) {
+      if (sbase instanceof Layout) {
+        return new RenderLayoutPlugin((Layout) sbase);
+      } else if (sbase instanceof ListOf<?>) {
+        if (sbase.getElementName().equals(LayoutConstants.listOfLayouts)) {
+          return new RenderListOfLayoutsPlugin((ListOf<Layout>) sbase);
+        }
+      }
+      // TODO - libsbml seems to have a Plugin for GraphicalObject as well RenderGraphicalObjectPlugin !!
+    }
+
+    return null;
+  }
+
+  @Override
+  public String getNamespaceFor(int level, int version, int packageVersion) {
+
+    if (level == 3 && version == 1 && packageVersion == 1) {
+      return RenderConstants.namespaceURI_L3V1V1;
+    }
+
+    return null;
+  }
+
+  @Override
+  public List<String> getPackageNamespaces() {
+    return RenderConstants.namespaces_L3;
+  }
+
+  @Override
+  public String getPackageName() {
+    return getShortLabel();
+  }
+
+  @Override
+  public boolean isRequired() {
+    return false;
   }
 
 }

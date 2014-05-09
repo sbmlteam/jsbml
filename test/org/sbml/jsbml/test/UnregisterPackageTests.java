@@ -56,6 +56,9 @@ import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.ext.qual.QualConstants;
 import org.sbml.jsbml.ext.qual.QualModelPlugin;
 import org.sbml.jsbml.ext.qual.QualitativeSpecies;
+import org.sbml.jsbml.ext.render.RenderConstants;
+import org.sbml.jsbml.ext.render.RenderLayoutPlugin;
+import org.sbml.jsbml.ext.render.RenderListOfLayoutsPlugin;
 
 /**
  * Tests the registration and un-registration of global or local id using package elements.
@@ -554,6 +557,28 @@ public class UnregisterPackageTests {
   }
   
   @Test public void testRender() {
+   
+    LayoutModelPlugin layoutModel = (LayoutModelPlugin) model.getPlugin(LayoutConstants.shortLabel);
+    Layout layout = layoutModel.createLayout("L1");
+
+    RenderListOfLayoutsPlugin renderListOfLayoutsPlugin = (RenderListOfLayoutsPlugin) layoutModel.getListOfLayouts().getPlugin(RenderConstants.shortLabel);
+    RenderLayoutPlugin renderLayoutPlugin = (RenderLayoutPlugin) layout.createPlugin(RenderConstants.shortLabel);
+    
+    renderListOfLayoutsPlugin.createGlobalRenderInformation("RGRI1");
+    
+    renderLayoutPlugin.createLocalRenderInformation("RLRI1");
+    renderLayoutPlugin.createLocalRenderInformation("RLRI2");
+
+    assertTrue(model.findUniqueNamedSBase("L1") != null);
+    assertTrue(model.findUniqueNamedSBase("RGRI1") != null);
+    assertTrue(model.findUniqueNamedSBase("RLRI1") != null);
+    
+    SBMLDocument clonedDoc = doc.clone();
+    Model clonedModel = clonedDoc.getModel();
+
+    assertTrue(clonedModel.findUniqueNamedSBase("L1") != null);
+    assertTrue(clonedModel.findUniqueNamedSBase("RLRI1") != null);
+    assertTrue(clonedModel.findUniqueNamedSBase("RGRI1") != null);
     
   }
   

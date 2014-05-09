@@ -60,6 +60,10 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
    */
   public RenderListOfLayoutsPlugin(RenderListOfLayoutsPlugin obj) {
     super(obj);
+    
+    if (obj.isSetListOfGlobalRenderInformation()) {
+      setListOfGlobalRenderInformation(obj.getListOfGlobalRenderInformation().clone());
+    }
   }
 
   /**
@@ -91,8 +95,7 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
    * create a new GlobalRenderInformation element and adds it to the ListOfGlobalRenderInformation list
    */
   public GlobalRenderInformation createGlobalRenderInformation(String id) {
-    SBase sBase = getExtendedSBase();
-    GlobalRenderInformation field = new GlobalRenderInformation(id, sBase.getLevel(), sBase.getVersion());
+    GlobalRenderInformation field = new GlobalRenderInformation(id);
     addGlobalRenderInformation(field);
     return field;
   }
@@ -142,11 +145,13 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
    */
   public ListOf<GlobalRenderInformation> getListOfGlobalRenderInformation() {
     if (!isSetListOfGlobalRenderInformation()) {
-      SBase sBase = getExtendedSBase();
-      listOfGlobalRenderInformation = new ListOf<GlobalRenderInformation>(sBase.getLevel(), sBase.getVersion());
+      listOfGlobalRenderInformation = new ListOf<GlobalRenderInformation>();
       listOfGlobalRenderInformation.setNamespace(RenderConstants.namespaceURI);
       listOfGlobalRenderInformation.setSBaseListType(ListOf.Type.other);
-      sBase.registerChild(listOfGlobalRenderInformation);
+      
+      if (isSetExtendedSBase()) {
+        extendedSBase.registerChild(listOfGlobalRenderInformation);
+      }
     }
     return listOfGlobalRenderInformation;
   }
@@ -205,7 +210,10 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
   public void setListOfGlobalRenderInformation(ListOf<GlobalRenderInformation> listOfGlobalRenderInformation) {
     unsetListOfGlobalRenderInformation();
     this.listOfGlobalRenderInformation = listOfGlobalRenderInformation;
-    getExtendedSBase().registerChild(this.listOfGlobalRenderInformation);
+    
+    if (isSetExtendedSBase()) {
+      extendedSBase.registerChild(this.listOfGlobalRenderInformation);
+    }
   }
 
   /**

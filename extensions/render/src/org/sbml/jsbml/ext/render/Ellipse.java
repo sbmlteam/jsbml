@@ -42,7 +42,11 @@ public class Ellipse extends GraphicalPrimitive2D {
   protected Double cx, cy, cz, rx, ry;
   protected Boolean absoluteCx, absoluteCy, absoluteCz, absoluteRx, absoluteRy;
 
-
+  // TODO - constructors missing + clone
+  
+  
+  
+  
   /**
    * @return the value of cx
    */
@@ -52,6 +56,119 @@ public class Ellipse extends GraphicalPrimitive2D {
     }
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(RenderConstants.cx, this);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3137;
+    int result = super.hashCode();
+    result = prime * result
+      + ((absoluteCx == null) ? 0 : absoluteCx.hashCode());
+    result = prime * result
+      + ((absoluteCy == null) ? 0 : absoluteCy.hashCode());
+    result = prime * result
+      + ((absoluteCz == null) ? 0 : absoluteCz.hashCode());
+    result = prime * result
+      + ((absoluteRx == null) ? 0 : absoluteRx.hashCode());
+    result = prime * result
+      + ((absoluteRy == null) ? 0 : absoluteRy.hashCode());
+    result = prime * result + ((cx == null) ? 0 : cx.hashCode());
+    result = prime * result + ((cy == null) ? 0 : cy.hashCode());
+    result = prime * result + ((cz == null) ? 0 : cz.hashCode());
+    result = prime * result + ((rx == null) ? 0 : rx.hashCode());
+    result = prime * result + ((ry == null) ? 0 : ry.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Ellipse other = (Ellipse) obj;
+    if (absoluteCx == null) {
+      if (other.absoluteCx != null) {
+        return false;
+      }
+    } else if (!absoluteCx.equals(other.absoluteCx)) {
+      return false;
+    }
+    if (absoluteCy == null) {
+      if (other.absoluteCy != null) {
+        return false;
+      }
+    } else if (!absoluteCy.equals(other.absoluteCy)) {
+      return false;
+    }
+    if (absoluteCz == null) {
+      if (other.absoluteCz != null) {
+        return false;
+      }
+    } else if (!absoluteCz.equals(other.absoluteCz)) {
+      return false;
+    }
+    if (absoluteRx == null) {
+      if (other.absoluteRx != null) {
+        return false;
+      }
+    } else if (!absoluteRx.equals(other.absoluteRx)) {
+      return false;
+    }
+    if (absoluteRy == null) {
+      if (other.absoluteRy != null) {
+        return false;
+      }
+    } else if (!absoluteRy.equals(other.absoluteRy)) {
+      return false;
+    }
+    if (cx == null) {
+      if (other.cx != null) {
+        return false;
+      }
+    } else if (!cx.equals(other.cx)) {
+      return false;
+    }
+    if (cy == null) {
+      if (other.cy != null) {
+        return false;
+      }
+    } else if (!cy.equals(other.cy)) {
+      return false;
+    }
+    if (cz == null) {
+      if (other.cz != null) {
+        return false;
+      }
+    } else if (!cz.equals(other.cz)) {
+      return false;
+    }
+    if (rx == null) {
+      if (other.rx != null) {
+        return false;
+      }
+    } else if (!rx.equals(other.rx)) {
+      return false;
+    }
+    if (ry == null) {
+      if (other.ry != null) {
+        return false;
+      }
+    } else if (!ry.equals(other.ry)) {
+      return false;
+    }
+    return true;
   }
 
   /**

@@ -34,7 +34,7 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  * @since 1.0
  * @date 16.05.2012
  */
-public class AbstractRenderPlugin extends AbstractSBasePlugin {
+public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
@@ -128,24 +128,22 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
   public AbstractRenderPlugin(AbstractRenderPlugin obj) {
     super(obj);
 
-    versionMinor = obj.versionMinor;
-    versionMajor = obj.versionMajor;
-    renderInformation = obj.renderInformation.clone();
+    if (obj.isSetVersionMinor()) {
+      setVersionMinor(obj.getVersionMinor());
+    }
+    if (obj.isSetVersionMajor()) {
+      setVersionMajor(obj.getVersionMajor());
+    }
+    if (obj.isSetRenderInformation()) {
+      setRenderInformation(obj.getRenderInformation().clone());
+    }
   }
 
-  /**
-   * clones this class
-   */
-  @Override
-  public AbstractRenderPlugin clone() {
-    return new AbstractRenderPlugin(this);
-  }
 
   /**
    * Initializes the default values using the namespace.
    */
   public void initDefaults() {
-    // TODO setNamespace(RenderConstants.namespaceURI);
     versionMajor = 0;
     versionMinor = 0;
   }
@@ -244,9 +242,8 @@ public class AbstractRenderPlugin extends AbstractSBasePlugin {
     if (isSetRenderInformation()) {
       return renderInformation;
     }
-    // This is necessary if we cannot return null here.
+
     return null;
-    //FIXME throw new PropertyUndefinedError(RenderConstants.renderInformation, this);
   }
 
   /**
