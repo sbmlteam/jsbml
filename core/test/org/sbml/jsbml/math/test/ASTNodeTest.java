@@ -452,6 +452,44 @@ public class ASTNodeTest {
   }
   
   /**
+   * Test method for {@link org.sbml.jsbml.ASTNode#toFormula()}.
+   */
+  @Test
+  public void testFormula() {
+    ASTNode numerator = new ASTNode(22), denominator = new ASTNode(7);
+    ASTNode frac = ASTNode.frac(numerator, denominator);
+    assertTrue(frac.toFormula().equalsIgnoreCase("22/7"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.ASTNode#toLaTeX()}.
+   */
+  @Test
+  public void testLaTeX() {
+    ASTNode exponent = new ASTNode(2);
+    ASTNode eNode = ASTNode.exp(exponent);
+    assertTrue(eNode.toLaTeX().equalsIgnoreCase("\\mathrm{e}^{2}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.ASTNode#toMathML()}.
+   */
+  @Test
+  public void testMathML() {
+    ASTNode numerator = new ASTNode(22), denominator = new ASTNode(7);
+    ASTNode frac = ASTNode.frac(numerator, denominator);
+    String mathml = "<?xml version='1.0' encoding='UTF-8'?>\n"
+                  + "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
+                  + "  <apply>\n"
+                  + "    <divide/>\n"
+                  + "    <cn type=\"integer\"> 22 </cn>\n"
+                  + "    <cn type=\"integer\"> 7 </cn>\n"
+                  + "  </apply>\n"
+                  + "</math>";
+    assertTrue(frac.toMathML().equalsIgnoreCase(mathml));
+  }
+  
+  /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isFunction()}.
    */
   @Test
