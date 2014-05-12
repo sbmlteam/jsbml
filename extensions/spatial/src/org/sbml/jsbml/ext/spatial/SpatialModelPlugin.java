@@ -65,9 +65,10 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin {
    * 
    */
   public Geometry createGeometry() {
-    geometry = new Geometry(getLevel(), getVersion());
-    geometry.setNamespace(SpatialConstants.getNamespaceURI(getLevel(), getVersion()));
-    getExtendedSBase().registerChild(geometry);
+    Geometry geometry = new Geometry();
+    
+    setGeometry(geometry);
+    
     return geometry;
   }
 
@@ -86,6 +87,11 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin {
   public void setGeometry(Geometry geometry) {
     Geometry oldGeometry = this.geometry;
     this.geometry = geometry;
+    
+    if (isSetExtendedSBase()) {
+      getExtendedSBase().registerChild(geometry);
+    }
+    
     firePropertyChange(SpatialConstants.geometry, oldGeometry, this.geometry);
   }
 
@@ -123,8 +129,9 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin {
    */
   public SpatialModelPlugin(SpatialModelPlugin spatialModelPlugin) {
     super(spatialModelPlugin);
+    
     if (spatialModelPlugin.isSetGeometry()) {
-      geometry = spatialModelPlugin.getGeometry().clone();
+      setGeometry(spatialModelPlugin.getGeometry().clone());
     }
   }
 
@@ -134,7 +141,11 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin {
    */
   @Override
   public Model getExtendedSBase() {
-    return (Model) super.getExtendedSBase();
+    if (isSetExtendedSBase()) {
+      return (Model) super.getExtendedSBase();
+    }
+    
+    return null;
   }
 
 

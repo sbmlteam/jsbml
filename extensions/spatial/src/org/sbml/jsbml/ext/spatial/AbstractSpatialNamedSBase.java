@@ -30,7 +30,6 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.ResourceManager;
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * @author Alex Thomas
@@ -188,14 +187,6 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetSpatialId()) {
       attributes.put(SpatialConstants.shortLabel + ":" + SpatialConstants.spatialId, getSpatialId());
-    }
-    if (isSetSBOTerm()) {
-      attributes.remove(TreeNodeChangeEvent.sboTerm);
-      attributes.put(SpatialConstants.shortLabel + ":" + TreeNodeChangeEvent.sboTerm, getSBOTermID());
-    }
-    if (isSetMetaId()) {
-      attributes.remove(TreeNodeChangeEvent.metaId);
-      attributes.put(SpatialConstants.shortLabel + ":" + TreeNodeChangeEvent.metaId, getMetaId());
     }
 
     return attributes;

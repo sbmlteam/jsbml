@@ -64,7 +64,7 @@ public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
     super(spr);
 
     if (spr.isSetIsLocal()) {
-      isLocal = new Boolean(spr.getIsLocal());
+      setIsLocal(new Boolean(spr.getIsLocal()));
     }
 
   }
@@ -93,7 +93,11 @@ public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
 
   @Override
   public Reaction getExtendedSBase() {
-    return (Reaction) super.getExtendedSBase();
+    if (isSetExtendedSBase()) {
+      return (Reaction) super.getExtendedSBase();
+    }
+    
+    return null;
   }
 
 
