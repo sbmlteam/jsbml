@@ -92,20 +92,19 @@ public class Geometry extends AbstractSBase {
   public Geometry(Geometry sb) {
     super(sb);
     if (sb.isSetCoordinateSystem()) {
-      coordinateSystem = new String(sb.getCoordinateSystem());
+      setCoordinateSystem(new String(sb.getCoordinateSystem()));
     }
     if (sb.isSetListOfAdjacentDomains()) {
-      listOfAdjacentDomains = sb.getListOfAdjacentDomains().clone();
+      setListOfAdjacentDomains(sb.getListOfAdjacentDomains().clone());
     }
     if (sb.isSetListOfDomains()) {
-      listOfDomains = sb.getListOfDomains().clone();
+      setListOfDomains(sb.getListOfDomains().clone());
     }
     if (sb.isSetListOfDomainTypes()) {
-      listOfDomainTypes = sb.getListOfDomainTypes().clone();
+      setListOfDomainTypes(sb.getListOfDomainTypes().clone());
     }
     if (sb.isSetListOfGeometryDefinitions()) {
-      listOfGeometryDefinitions = sb.getListOfGeometryDefinitions()
-          .clone();
+      setListOfGeometryDefinitions(sb.getListOfGeometryDefinitions().clone());
     }
   }
 

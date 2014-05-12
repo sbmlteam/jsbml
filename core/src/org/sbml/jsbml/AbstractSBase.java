@@ -972,6 +972,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       Object newValue) {
     // TODO - this method is used to add or remove SBase or SBasePlugin, we should make sure to handle the registration/un-registration
     // in those cases.
+    // TODO - the parent need to be set as well (would be done, if we call the registerChild method)
     
     super.firePropertyChange(propertyName, oldValue, newValue);
   }

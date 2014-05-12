@@ -44,14 +44,22 @@ public class SpatialParameterPlugin extends AbstractSpatialSBasePlugin {
    */
   private ParameterType param;
 
-
+  // TODO - even firing are missing
+  // TODO - create, unset methods missing
+  
+  // TODO - from the 0.85 spatial specs, there are more children defined and the parameter type was dropped
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getExtendedSBase()
    */
   @Override
   public Parameter getExtendedSBase() {
-    return (Parameter) super.getExtendedSBase();
+    if (isSetExtendedSBase()) {
+      return (Parameter) super.getExtendedSBase();
+    }
+    
+    return null;
   }
 
   /**
@@ -66,8 +74,9 @@ public class SpatialParameterPlugin extends AbstractSpatialSBasePlugin {
    */
   public SpatialParameterPlugin(SpatialParameterPlugin sb) {
     super(sb);
+    
     if (sb.isSetParamType()) {
-      param = sb.getParamType().clone();
+      setParamType(sb.getParamType().clone());
     }
   }
 
@@ -91,6 +100,10 @@ public class SpatialParameterPlugin extends AbstractSpatialSBasePlugin {
    */
   public void setParamType(ParameterType param) {
     this.param = param;
+    
+    if (isSetExtendedSBase()) {
+      extendedSBase.registerChild(param);
+    }    
   }
 
   /* (non-Javadoc)

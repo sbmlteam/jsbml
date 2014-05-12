@@ -24,6 +24,7 @@ package org.sbml.jsbml.ext.spatial;
 import java.util.Map;
 
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
@@ -58,7 +59,11 @@ public abstract class AbstractSpatialSBasePlugin extends AbstractSBasePlugin {
    */
   @Override
   public SBase getParent() {
-    return (SBase) getExtendedSBase().getParent();
+    if (isSetExtendedSBase()) {
+      return (SBase) getExtendedSBase().getParent();
+    }
+    
+    return null;
   }
 
   /* (non-Javadoc)
@@ -121,8 +126,9 @@ public abstract class AbstractSpatialSBasePlugin extends AbstractSBasePlugin {
   }
 
   public Model getModel() {
-    Model model = getSBMLDocument().getModel();
-    return model != null ? model : null;
+    SBMLDocument doc = getSBMLDocument();
+
+    return doc != null ? doc.getModel() : null;
   }
 
 

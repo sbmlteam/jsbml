@@ -165,6 +165,37 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
     return isSetExtendedSBase() ? getExtendedSBase().getSBMLDocument() : null;
   }
 
+  
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#fireNodeAddedEvent()
+   */
+  @Override
+  public void fireNodeAddedEvent() {
+    // TODO - see if we need to overwrite this method
+    super.fireNodeAddedEvent();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#fireNodeRemovedEvent()
+   */
+  @Override
+  public void fireNodeRemovedEvent() {
+    // TODO - see if we need to overwrite this method
+    super.fireNodeRemovedEvent();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#firePropertyChange(java.lang.String, java.lang.Object, java.lang.Object)
+   */
+  @Override
+  public void firePropertyChange(String propertyName, Object oldValue,
+    Object newValue) {
+    // TODO - we would need to call the extendedSBase.registerChild if the newValue is of type SBase ??
+    
+    super.firePropertyChange(propertyName, oldValue, newValue);
+  }
+
   /**
    * Sets the extended {@link SBase}.
    * 
@@ -189,7 +220,7 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
 
         if (child instanceof SBase) {
           this.extendedSBase.registerChild((SBase) child); 
-          // TODO - if an error occur, we might have to unregister the first children, from i - 1 down to 0 !!
+          // TODO - if an error occur, we might have to unregister the first children, from i - 1 down to 0 !! Do we do that for ListOf ??
         }
       }
     }

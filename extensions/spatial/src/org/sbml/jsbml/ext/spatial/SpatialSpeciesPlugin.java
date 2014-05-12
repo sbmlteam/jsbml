@@ -85,8 +85,9 @@ public class SpatialSpeciesPlugin extends AbstractSpatialSBasePlugin {
    */
   public SpatialSpeciesPlugin(SpatialSpeciesPlugin sb) {
     super(sb);
+    
     if (sb.isSetSpatial()) {
-      spatial = Boolean.valueOf(sb.isSpatial());
+      setSpatial(sb.isSpatial());
     }
   }
 
@@ -103,7 +104,11 @@ public class SpatialSpeciesPlugin extends AbstractSpatialSBasePlugin {
    */
   @Override
   public Species getExtendedSBase() {
-    return (Species) super.getExtendedSBase();
+    if (isSetExtendedSBase()) {
+      return (Species) super.getExtendedSBase();
+    }
+    
+    return null;
   }
 
 
@@ -165,16 +170,18 @@ public class SpatialSpeciesPlugin extends AbstractSpatialSBasePlugin {
     spatial = Boolean.valueOf(isSpatial);
 
     // Check if the compartment of the Species has a child of CompartmentMapping
-    Species species = getExtendedSBase();
-    Compartment compartment = species.getCompartmentInstance();
+    if (isSetExtendedSBase()) {
+      Species species = getExtendedSBase();
+      Compartment compartment = species.getCompartmentInstance();
 
-    if (compartment != null) {
-      SpatialCompartmentPlugin spatialCompartment = (SpatialCompartmentPlugin) compartment.getExtension(SpatialConstants.namespaceURI);
+      if (compartment != null) {
+        SpatialCompartmentPlugin spatialCompartment = (SpatialCompartmentPlugin) compartment.getExtension(SpatialConstants.namespaceURI);
 
-      boolean cmSet = spatialCompartment.isSetCompartmentMapping();
+        boolean cmSet = spatialCompartment.isSetCompartmentMapping();
 
-      if (!cmSet) {
-        throw new SBMLException(bundle.getString("COMPARTMENT_MAPPING_NOT_SET"));
+        if (!cmSet) {
+          throw new SBMLException(bundle.getString("COMPARTMENT_MAPPING_NOT_SET"));
+        }
       }
     }
 

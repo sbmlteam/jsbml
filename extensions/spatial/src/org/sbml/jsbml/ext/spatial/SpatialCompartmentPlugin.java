@@ -46,7 +46,11 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
   @SuppressWarnings("unchecked")
   @Override
   public ListOf<Compartment> getParent() {
-    return (ListOf<Compartment>) getExtendedSBase().getParent();
+    if (isSetExtendedSBase()) {
+      return (ListOf<Compartment>) getExtendedSBase().getParent();
+    }
+    
+    return null;
   }
 
   /* (non-Javadoc)
@@ -81,7 +85,11 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
    */
   @Override
   public Compartment getExtendedSBase() {
-    return (Compartment) super.getExtendedSBase();
+    if (isSetExtendedSBase()) {
+      return (Compartment) super.getExtendedSBase();
+    }
+    
+    return null;
   }
 
   /**
@@ -89,7 +97,11 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
    */
   public SpatialCompartmentPlugin(
     SpatialCompartmentPlugin spatialCompartmentPlugin) {
-    super(spatialCompartmentPlugin);//TODO: add in definition of ComparmentMapping
+    super(spatialCompartmentPlugin);
+    
+    if (spatialCompartmentPlugin.isSetCompartmentMapping()) {
+      setCompartmentMapping(spatialCompartmentPlugin.getCompartmentMapping().clone());
+    }
   }
 
   /* (non-Javadoc)

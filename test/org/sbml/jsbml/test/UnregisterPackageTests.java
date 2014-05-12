@@ -59,6 +59,9 @@ import org.sbml.jsbml.ext.qual.QualitativeSpecies;
 import org.sbml.jsbml.ext.render.RenderConstants;
 import org.sbml.jsbml.ext.render.RenderLayoutPlugin;
 import org.sbml.jsbml.ext.render.RenderListOfLayoutsPlugin;
+import org.sbml.jsbml.ext.spatial.Geometry;
+import org.sbml.jsbml.ext.spatial.SpatialConstants;
+import org.sbml.jsbml.ext.spatial.SpatialModelPlugin;
 
 /**
  * Tests the registration and un-registration of global or local id using package elements.
@@ -264,8 +267,6 @@ public class UnregisterPackageTests {
   }  
   
   // TODO - add tests using ReplacedBy as it is using the method firePropertyChange. 
-  
-  // TODO - add test with other packages
   
   
   @Test public void testFbc() {
@@ -583,12 +584,50 @@ public class UnregisterPackageTests {
   }
   
   @Test public void testSpatial() {
+    SpatialModelPlugin spatialModel  = (SpatialModelPlugin) model.getPlugin(SpatialConstants.shortLabel);
     
+    Geometry geometry = spatialModel.createGeometry();
+    geometry.setMetaId("SG1");
+    
+    // TODO - create plenty of spatial new objects to be able to test their id or metaid
+    
+    assertTrue(geometry.getParent() != null);
+    assertTrue(doc.findSBase("SG1").equals(geometry));
+    // TODO - add some tests for the id and metaids created
+        
+    // TODO - add some tests trying to add a new element using an existing id or metaid.
+    
+//    try {
+//      Group g2 = groupsModel.createGroup();
+//      g2.setId("G1");
+//      assertTrue("We should not be allowed to have several element with the same id inside the same model", false);
+//    } catch (IllegalArgumentException e) {
+//        assertTrue(true);
+//    } 
+
+    
+    // cloning to test if the ids or metaids are still registered properly
+    SpatialModelPlugin clonedSpatialModel  = spatialModel.clone();
+    SBMLDocument newDoc = new SBMLDocument(3, 1);
+    Model clonedModel = newDoc.createModel("clonedModel");
+    clonedModel.addExtension(SpatialConstants.shortLabel, clonedSpatialModel);
+    
+    Geometry clonedGeometry = clonedSpatialModel.getGeometry();
+    
+    assertTrue(clonedGeometry.equals(geometry));
+    assertTrue(clonedGeometry.getParent() != null); // parent should be set by the firePropertyChange method. id or metaid not registered at the moment when cloning
+
+    assertTrue(newDoc.findSBase("SG1").equals(geometry));    
+    // TODO - add again the same tests for the id and metaids on the new SBMLDocument and Model
   }
 
   
   @Test public void testMulti() {
     // TODO - when the package code is updated
+  }
+  
+  @Test public void testArrays() {
+    // TODO - when the package code is done
   }
 
 }
