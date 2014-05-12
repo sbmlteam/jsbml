@@ -22,6 +22,9 @@
 package org.sbml.jsbml.ext.qual;
 
 /**
+ * The transitionInputEffect is an enumeration of values used to indicate the effect of an {@link Input}
+ * {@link Transition} within the system. The possible values are none and consumption.
+ * 
  * @author Nicolas Rodriguez
  * @author Clemens Wrzodek
  * @version $Rev$

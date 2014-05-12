@@ -23,7 +23,11 @@ package org.sbml.jsbml.ext.comp;
 
 import java.util.Map;
 
+import org.sbml.jsbml.Model;
+
 /**
+ * A {@link ReplacedBy} object indicates when the parent object is to
+ * be replaced by another object.
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$
@@ -108,7 +112,16 @@ public class ReplacedBy extends SBaseRef {
   }
 
   /**
-   * Sets the value of submodelRef
+   * Sets the value of the required submodelRef attribute.
+   * 
+   * The required attribute submodelRef takes a value which must be
+   * the identifier of a {@link Submodel} object in the containing model.
+   * This attribute is analogous to the corresponding attribute on
+   * {@link ReplacedElement}; that is, the model referenced by the
+   * {@link Submodel} object establishes the object namespaces for the portRef,
+   * idRef, unitRef and metaIdRef attributes: only objects within the {@link Model}
+   * object may be referenced by those attributes.
+   * 
    */
   public void setSubmodelRef(String submodelRef) {
     String oldSubmodelRef = this.submodelRef;

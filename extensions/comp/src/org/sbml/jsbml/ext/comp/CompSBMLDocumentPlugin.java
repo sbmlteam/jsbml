@@ -34,6 +34,12 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
+ * The top level of an {@link SBMLDocument} is a container whose
+ * structure is defined by the object class SBML in the SBML Level
+ * 3 Version 1 Core specification. In Level 3 Core, this container
+ * can contain only one more, an object of class {@link Model}. The
+ * Hierarchical Model Composition package allows SBML documents to
+ * contain more than one model.
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$
@@ -71,7 +77,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   public CompSBMLDocumentPlugin(CompSBMLDocumentPlugin compSBMLDocumentPlugin)
   {
     super(compSBMLDocumentPlugin);
-    
+
     if (compSBMLDocumentPlugin.isSetListOfModelDefinitions()) {
       setListOfModelDefinitions(compSBMLDocumentPlugin.getListOfModelDefinitions().clone());
     }
@@ -91,7 +97,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   public ExternalModelDefinition getExternalModelDefinition(int index) {
     return getListOfExternalModelDefinitions().get(index);
   }
-  
+
   /**
    * Returns a {@link ExternalModelDefinition} element that has the given 'id' within
    * this {@link CompSBMLDocumentPlugin} or {@code null} if no such element can be found.
@@ -108,7 +114,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   }
 
 
-  
+
   /**
    * Returns the number of {@link ExternalModelDefinition} objects in this {@link CompSBMLDocumentPlugin}.
    * 
@@ -166,6 +172,10 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   }
 
   /**
+   * The listOfExternamModelDefinitions is an optional element of {@link CompSBMLDocumentPlugin}
+   * and defines external SBML document references within the {@link ExternalModelDefinition}
+   * object.
+   * 
    * Sets the given {@code ListOf<ExternalModelDefinition>}. If listOfExternalModelDefinitions
    * was defined before and contains some elements, they are all unset.
    *
@@ -204,9 +214,9 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    * @return {@code true} (as specified by {@link Collection.add})
    */
   public boolean addExternalModelDefinition(ExternalModelDefinition externalModelDefinition) {
-    
+
     // TODO - the externalModelDefinition id is in the main SId namespace, so would need to be registered in the main model !
-    
+
     return getListOfExternalModelDefinitions().add(externalModelDefinition);
   }
 
@@ -257,7 +267,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   public ModelDefinition getModelDefinition(int index) {
     return getListOfModelDefinitions().get(index);
   }
-  
+
   /**
    * Returns a {@link ModelDefinition} element that has the given 'id' within
    * this {@link CompSBMLDocumentPlugin} or {@code null} if no such element can be found.
@@ -273,7 +283,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
     return getListOfModelDefinitions().get(id);
   }
 
-  
+
   /**
    * Returns the number of {@link ModelDefinition} objects in this {@link CompSBMLDocumentPlugin}.
    * 
@@ -348,7 +358,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
     if (!isSetListOfModelDefinitions()) {
       if (extendedSBase != null) {
         listOfModelDefinitions = new ListOf<ModelDefinition>(extendedSBase.getLevel(),
-          extendedSBase.getVersion());
+            extendedSBase.getVersion());
       } else {
         listOfModelDefinitions = new ListOf<ModelDefinition>();
       }
@@ -362,6 +372,9 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   }
 
   /**
+   * listOfModelDefinitions is an optional list of {@link CompSBMLDocumentPlugin}
+   * which specifies {@link ModelDefinition}s for the SBML document.
+   * 
    * Sets the given {@code ListOf<ModelDefinition>}. If listOfModelDefinitions
    * was defined before and contains some elements, they are all unset.
    *
@@ -400,9 +413,9 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    * @return {@code true} (as specified by {@link Collection.add})
    */
   public boolean addModelDefinition(ModelDefinition modelDefinition) {
-    
+
     // TODO - the modelDefinition id is in the main SId namespace, so would need to be registered in the main model !
-    
+
     return getListOfModelDefinitions().add(modelDefinition);
   }
 
@@ -529,5 +542,5 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   public boolean getAllowsChildren() {
     return true;
   }
-  
+
 }

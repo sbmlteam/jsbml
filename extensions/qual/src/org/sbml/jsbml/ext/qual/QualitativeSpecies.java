@@ -26,12 +26,19 @@ import java.util.Map;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
 
 /**
+ * Similarly to the {@link Species} in SBML, the components of qualitative models refer to pools
+ * of entities that are considered indistinguishable and are each located in a specific
+ * {@link Compartment}. However, here components are characterised by their qualitative influences
+ * rather than by taking part in reactions. Therefore, we define the {@link QualitativeSpecies}
+ * element to represent such pools of entities.
+ * 
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
  * @author Clemens Wrzodek
@@ -48,20 +55,20 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   /**
    * 
    */
-  private String                compartment;
+  private String compartment;
   /**
    * 
    */
-  private Boolean               constant;             // TODO: extends/implements the jsbml interface
+  private Boolean constant;             // TODO: extends/implements the jsbml interface
   // that has the constant attribute.
   /**
    * 
    */
-  private Integer               initialLevel;
+  private Integer initialLevel;
   /**
    * 
    */
-  private Integer               maxLevel;
+  private Integer maxLevel;
 
   /**
    * 
@@ -200,6 +207,11 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   }
 
   /**
+   * The required attribute compartment is used to identify the {@link Compartment} in which
+   * the {@link QualitativeSpecies} is located. The attribute's value must be the identifier
+   * of an existing {@link Compartment} object in the model. This attribute is comparable
+   * with the compartment attribute on the {@link Species} element.
+   * 
    * @param compartment
    *        the compartment to set
    */
@@ -215,8 +227,6 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   }
 
   /**
-   * Sets the compartmentID of this {@link Species} to the id of
-   * 'compartment'.
    * 
    * @param compartment
    */
@@ -276,6 +286,20 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
 
 
   /**
+   * The required attribute constant, of type boolean, is used to indicate that the level of the
+   * {@link QualitativeSpecies} is fixed or can be varied. This attribute is comparable with
+   * the constant attribute on the {@link Species} element.
+   * 
+   * Typically, in a regulatory or influence graph a {@link QualitativeSpecies} may receive no
+   * interaction and if so, would appear only as an {@link Input} in the {@link Model} and have
+   * the value of the constant attribute set to "true". In other influence graphs or in Petri net
+   * models a {@link QualitativeSpecies} may occur as an {@link Input} whose level is changed by
+   * the Transition and would have constant set to "false".  The nature of changes to a
+   * {@link QualitativeSpecies} resulting from a {@link Transition} is also recorded using the
+   * transitionEffect attribute on the {@link Input} and may be set to "none" to indicate there
+   * is no change. This duplication of information provides a means of validating the modeller's
+   * intent and also allows entities on the borders of a system to be easily identified.
+   * 
    * @param constant
    *        the constant to set
    */
@@ -330,6 +354,10 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
 
 
   /**
+   * The initialLevel is a non-negative integer that defines the initial level of the
+   * {@link QualitativeSpecies} in its {@link Compartment}. This attribute is optional
+   * but cannot exceed the value of the maxLevel attribute, if both are set.
+   * 
    * @param initialLevel
    *        the initialLevel to set
    */
@@ -338,6 +366,8 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
     this.initialLevel = initialLevel;
     firePropertyChange(QualConstants.initialLevel, oldInitialLevel,
       this.initialLevel);
+
+    //TODO: Should there be a test to see if this value is greater than the maxLevel attribute, if it's set?
   }
 
 
@@ -386,6 +416,25 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
 
 
   /**
+   * The maxLevel is a non-negative integer that sets the maximal level of the {@link QualitativeSpecies}.
+   * This attribute is optional but when set, the level of the {@link QualitativeSpecies} must not exceed
+   * this value at any point in a simulation.
+   * 
+   * In logical models, the maxLevel must be coherent with the resultLevel values in the function terms
+   * defined for the corresponding transition, i.e. the {@link Model} must not contain a {@link FunctionTerm}
+   * that attempts to set a level that exceeds this value.
+   * 
+   * In Petri nets, this attribute is meant to define place capacities. Hence, a {@link Transition} is not
+   * enabled if the value resulting from its firing would exceed the maxLevel of one of its output places.
+   * The attribute is not required and even if explicitly stated, the restriction imposed by place capacities
+   * in a Petri net model must be encapsulated within the math element of the {@link FunctionTerm} elements.
+   * 
+   * This attribute can also be used to indicate the range of possible levels for a
+   * {@link QualitativeSpecies} whose constant attribute is true. This may seem a little contradictory,
+   * since if the constant attribute is true then the level associated with the {@link QualitativeSpecies}
+   * cannot vary. However, it provides additional information regarding the possible levels particularly
+   * in the case where no initialLevel has been set.
+   * 
    * @param maxLevel
    *        the maxLevel to set
    */

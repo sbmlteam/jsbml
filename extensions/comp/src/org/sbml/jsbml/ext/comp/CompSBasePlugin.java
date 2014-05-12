@@ -86,7 +86,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
     if (isSetExtendedSBase()) {
       return (SBase) getExtendedSBase().getParent();
     }
-    
+
     return null;
   }
 
@@ -147,7 +147,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
     return new CompSBasePlugin(this);
   }
 
-  
+
   /**
    * Initializes the default values using the namespace.
    */
@@ -178,7 +178,8 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Sets the value of replacedBy
+   * Sets the value of the optional replacedBy element.
+   * 
    */
   public void setReplacedBy(ReplacedBy replacedBy) {
     ReplacedBy oldReplacedBy = this.replacedBy;
@@ -240,7 +241,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
   public ReplacedElement getReplacedElement(int index) {
     return getListOfReplacedElements().get(index);
   }
-  
+
   /**
    * Returns a {@link ReplacedElement} element that has the given 'id' within
    * this {@link CompSBasePlugin} or {@code null} if no such element can be found.
@@ -302,7 +303,8 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 
   /**
    * Sets the listOfReplacedElements. If there was already some elements defined
-   * on listOfReplacedElements, the will be unset beforehand.
+   * on listOfReplacedElements, the will be unset beforehand. If present it must
+   * contain at least one {@link ReplacedElement} object.
    * 
    * @param listOfReplacedElements
    */

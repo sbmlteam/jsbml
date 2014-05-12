@@ -22,6 +22,10 @@
 package org.sbml.jsbml.ext.qual;
 
 /**
+ * The transitionOutputEffect is an enumeration of values used to indicate the effect of an
+ * {@link Output} {@link Transition} within the system. The possible values are production
+ * and assignmentLevel.
+ * 
  * @author Nicolas Rodriguez
  * @author Clemens Wrzodek
  * @version $Rev$

@@ -22,6 +22,9 @@
 package org.sbml.jsbml.ext.qual;
 
 /**
+ * The sign is an enumeration of values used to indicate direction of an {@link Input} within the
+ * system. The possible values are positive, negative, dual and unknown.
+ * 
  * @author Finja B&uuml;chel
  * @version $Rev$
  * @since 1.0

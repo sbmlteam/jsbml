@@ -26,13 +26,22 @@ import java.util.Map;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.StringTools;
 
 /**
+ * Each {@link Output} refers to a {@link QualitativeSpecies} that participates in (is affected by)
+ * the corresponding {@link Transition}. In Petri net models these are the output places of the
+ * transition. In a logical model, a {@link QualitativeSpecies} should be referenced in at most
+ * one ListOfOutputs, (that of the {@link Transition} defining the evolution of this species).
+ * When a {@link Transition} has several outputs, it is because the referenced species share the
+ * same regulators and the same logical rules.
+ * 
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
  * @author Florian Mittag
@@ -191,6 +200,11 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
 
 
   /**
+   * The required attribute qualitativeSpecies is used to identify the {@link QualitativeSpecies}
+   * that is the output of this {@link Transition}. The attribute's value must be the identifier
+   * of an existing {@link QualitativeSpecies} object in the {@link Model}. This attribute is
+   * comparable with the species attribute on the {@link SpeciesReference} element.
+   * 
    * @param qualitativeSpecies
    *        the qualitativeSpecies to set
    */
@@ -246,6 +260,15 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
 
 
   /**
+   * Each {@link Output} has a required attribute transitionEffect of type {@link OutputTransitionEffect}
+   * which describes how the {@link QualitativeSpecies} referenced by the {@link Output} is affected by
+   * the {@link Transition}.
+   * 
+   * In logical models the transitionEffect is set to "assignmentLevel" whilst in standard Petri nets it
+   * is set to "production". It is envisioned that to encode High Level Petri nets it will be necessary
+   * to allow the use of "assignmentLevel" as an {@link OutputTransitionEffect}; however considering the
+   * implications of this is left to future versions of the specification.
+   * 
    * @param transitionEffect
    *        the transitionEffect to set
    */
@@ -303,6 +326,22 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
 
 
   /**
+   * The outputLevel is a non-negative integer used along with the transitionEffect to specify
+   * the effect of the {@link Transition} on the corresponding {@link QualitativeSpecies}. It
+   * does not specify the result of a {@link Transition}; this is done by using the resultLevel
+   * attribute on a {@link FunctionTerm}. However, in Petri nets, it relates to the weight of the
+   * arc connecting the {@link Transition} to the output place and may be multiplied by the
+   * resultLevel in a "production" situation. In logical models there is no interpretation of the
+   * outputLevel attribute as the outcome of a {@link Transition} is always an assignment to
+   * the resultLevel defined by the {@link FunctionTerm}.
+   * 
+   * The outputLevel attribute is optional since if the transitionEffect is set to "assignmentLevel"
+   * (as in logical models), it has no meaning. However, where the transitionEffect of the
+   * {@link Output} is set to "production" (as in Petri net models) the resulting level of the
+   * {@link QualitativeSpecies} is the resultLevel from the appropriate {@link FunctionTerm} multiplied
+   * by the outputLevel. Since there are no default values in SBML Level 3, when the transitionEffect
+   * is set to "production" the outputLevel attribute must have a value.
+   * 
    * @param level
    *        the level to set
    */

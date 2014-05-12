@@ -23,7 +23,15 @@ package org.sbml.jsbml.ext.comp;
 
 import java.util.Map;
 
+import org.omg.Dynamic.Parameter;
+import org.sbml.jsbml.Model;
+
 /**
+ * 
+ * A {@link ReplacedElement} object is essentially  a pointer to a  submodel
+ * object that should be  considered "replaced". The object holding the
+ * {@link ReplacedElement} instance is the one <i>doing the replacing</i>; the object
+ * pointed to by the {@link ReplacedElement} object is the <i>object being replaced</i>.
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$
@@ -129,7 +137,15 @@ public class ReplacedElement extends SBaseRef {
   }
 
   /**
-   * Sets the value of submodelRef
+   * The required attribute submodelRef takes a value which must be
+   * the identifier of a {@link Submodel} object in the containing model.
+   * This attribute is analogous to the corresponding attribute on
+   * {@link ReplacedElement}; that is, the model referenced by the
+   * {@link Submodel} object establishes the object namespaces for the portRef,
+   * idRef, unitRef and metaIdRef attributes: only objects within the {@link Model}
+   * object may be referenced by those attributes.
+   * 
+   * Sets the value of the required submodelRef attribute.
    */
   public void setSubmodelRef(String submodelRef) {
     String oldSubmodelRef = this.submodelRef;
@@ -177,7 +193,18 @@ public class ReplacedElement extends SBaseRef {
   }
 
   /**
-   * Sets the value of deletion
+   * Sets the value of the optional deletion attribute.
+   * 
+   * The optional attribute deletion takes a value that must be the identifier of a
+   * {@link Deletion} object in the parentModel of the {@link ReplacedElement} (i.e.,
+   * the value of some {@link Deletion} object's id attribute). When deletion is set,
+   * it means the {@link ReplacedElement} object is actually an annotation to indicate
+   * that the replacement object replaces something deleted from a submodel. The use
+   * of the deletion attribute overrides the use of the attributes inherited from
+   * {@link SBaseRef}: instead of using portRef or idRef, the {@link ReplacedElement}
+   * instance sets deletion to the identifier of the {@link Deletion} object. In addition,
+   * the referenced {@link Deletion} must be a child of the {@link Submodel} referenced by
+   * the submodelRef attribute.
    */
   public void setDeletion(String deletion) {
     String oldDeletion = this.deletion;
@@ -226,7 +253,15 @@ public class ReplacedElement extends SBaseRef {
   }
 
   /**
-   * Sets the value of conversionFactor
+   * Sets the value of the optional conversionFactor attribute.
+   * 
+   * The {@link ReplacedElement} class's conversionFactor attribute,
+   * if present, defines how to transform or rescale the replaced object's
+   * value so that it is appropriate for the new contexts in which the
+   * object appears. This attribute takes a value that must refer to a
+   * {@link Parameter} object instance defined in the model. This parameter
+   * then acts as a conversion factor.
+   * 
    */
   public void setConversionFactor(String conversionFactor) {
     String oldConversionFactor = this.conversionFactor;
