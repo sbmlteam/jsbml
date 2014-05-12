@@ -28,6 +28,7 @@ import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
+ * This abstract class is used by Deletion and Port classes.
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$

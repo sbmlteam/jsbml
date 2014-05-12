@@ -37,6 +37,8 @@ import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
+ * The extended {@link Model} class adds two lists, one for holding
+ * {@link Submodel}s and the other for holding {@link Port}s.
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$
@@ -83,7 +85,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
     if (obj.isSetListOfPorts()) {
       setListOfPorts(obj.getListOfPorts().clone());
     }
-    
+
   }
 
   /**
@@ -124,7 +126,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
   public CompModelPlugin clone() {
     return new CompModelPlugin(this);
   }
-  
+
   /**
    * Creates a new Port element and adds it to the ListOfPorts list
    */
@@ -176,7 +178,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
     return mapOfPorts == null ? null : mapOfPorts.get(id);
   }
 
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.comp.CompSBasePlugin#getAllowsChildren()
    */
@@ -247,8 +249,8 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
       }
       listOfPorts.setNamespace(CompConstants.namespaceURI);
       listOfPorts.setSBaseListType(ListOf.Type.other);
-      
-      if (extendedSBase != null) {      
+
+      if (extendedSBase != null) {
         extendedSBase.registerChild(listOfPorts);
       }
     }
@@ -307,7 +309,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
   public Port getPort(int index) {
     return getListOfPorts().get(index);
   }
-  
+
   /**
    * Returns a {@link Port} element that has the given 'id' within
    * this {@link CompModelPlugin} or {@code null} if no such element can be found.
@@ -348,7 +350,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
   public Submodel getSubmodel(int index) {
     return getListOfSubmodels().get(index);
   }
-  
+
   /**
    * Returns a {@link Submodel} element that has the given 'id' within
    * this {@link CompModelPlugin} or {@code null} if no such element can be found.
@@ -422,7 +424,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
     if (!isSetListOfPorts()) {
       throw new IndexOutOfBoundsException(Integer.toString(i));
     }
-    
+
     getListOfPorts().remove(i);
   }
 
@@ -486,7 +488,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
   }
 
   /**
-   * Sets the given {@code ListOf<Port>}. If listOfPorts
+   * Sets the optional {@code ListOf<Port>}. If listOfPorts
    * was defined before and contains some elements, they are all unset.
    *
    * @param listOfPorts
@@ -503,7 +505,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
   }
 
   /**
-   * Sets the given {@code ListOf<Submodel>}. If listOfSubmodels
+   * Sets the optional {@code ListOf<Submodel>}. If listOfSubmodels
    * was defined before and contains some elements, they are all unset.
    *
    * @param listOfSubmodels
@@ -560,89 +562,89 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
 
   @Override
   public boolean accept(SBase sbase) {
-	  
-//	  System.out.println("DEBUG : CompModelPlugin accept method called !!");
-	  
-	  return sbase instanceof Port;
+
+    //	  System.out.println("DEBUG : CompModelPlugin accept method called !!");
+
+    return sbase instanceof Port;
   }
 
   @Override
   public boolean register(SBase sbase) {
-	  
-	  boolean success = true;
 
-	  if (sbase instanceof Port) {
-		  Port port = (Port) sbase;
-		  
-		  if (port.isSetId()) {
-			  String portId = port.getId();
-			  
-			  if (mapOfPorts == null) {
-				  mapOfPorts = new HashMap<String, Port>();
-			  }
-			  
-			  if (mapOfPorts.containsKey(portId)) {
-				  logger.error(MessageFormat.format(
-				          "A Port with the id \"{0}\" is already present in this model {1}. The new element will not be added to the model.",
-				          portId, (isSetExtendedSBase() ? ((Model) getExtendedSBase()).getId() : "")));
-				  success = false;
-			  } else {
+    boolean success = true;
 
-				  mapOfPorts.put(portId, port);
-				  
-				  if (logger.isDebugEnabled()) {
-					  logger.debug(MessageFormat.format("registered port id={0} in model {1}",
-							  portId, (isSetExtendedSBase() ? ((Model) getExtendedSBase()).getId() : "")));
-				  }
-			  }
-		  }
-	  } else {
-		  logger.error(MessageFormat.format(
-				  "Trying to register something that is not a Port: \"{0}\".", sbase));
-	  }
+    if (sbase instanceof Port) {
+      Port port = (Port) sbase;
 
-	  // TODO : register all the Port children if any !!
+      if (port.isSetId()) {
+        String portId = port.getId();
 
-	  return success;
+        if (mapOfPorts == null) {
+          mapOfPorts = new HashMap<String, Port>();
+        }
+
+        if (mapOfPorts.containsKey(portId)) {
+          logger.error(MessageFormat.format(
+            "A Port with the id \"{0}\" is already present in this model {1}. The new element will not be added to the model.",
+            portId, (isSetExtendedSBase() ? ((Model) getExtendedSBase()).getId() : "")));
+          success = false;
+        } else {
+
+          mapOfPorts.put(portId, port);
+
+          if (logger.isDebugEnabled()) {
+            logger.debug(MessageFormat.format("registered port id={0} in model {1}",
+              portId, (isSetExtendedSBase() ? ((Model) getExtendedSBase()).getId() : "")));
+          }
+        }
+      }
+    } else {
+      logger.error(MessageFormat.format(
+        "Trying to register something that is not a Port: \"{0}\".", sbase));
+    }
+
+    // TODO : register all the Port children if any !!
+
+    return success;
   }
 
   @Override
   public boolean unregister(SBase sbase) {
 
-	  boolean success = true;
+    boolean success = true;
 
-	  if (sbase instanceof Port) {
-		  Port port = (Port) sbase;
+    if (sbase instanceof Port) {
+      Port port = (Port) sbase;
 
-		  if (port.isSetId()) {
-			  String portId = port.getId();
+      if (port.isSetId()) {
+        String portId = port.getId();
 
-			  if (mapOfPorts == null) {
-				  return false;
-			  }
+        if (mapOfPorts == null) {
+          return false;
+        }
 
-			  if (mapOfPorts.containsKey(portId)) {
-				  mapOfPorts.remove(portId);
+        if (mapOfPorts.containsKey(portId)) {
+          mapOfPorts.remove(portId);
 
-				  if (logger.isDebugEnabled()) {
-					  logger.debug(MessageFormat.format("unregistered port id={0} in model {1}",
-							  portId, (isSetExtendedSBase() ? ((Model) getExtendedSBase()).getId() : "")));
-				  }
-			  } else {
+          if (logger.isDebugEnabled()) {
+            logger.debug(MessageFormat.format("unregistered port id={0} in model {1}",
+              portId, (isSetExtendedSBase() ? ((Model) getExtendedSBase()).getId() : "")));
+          }
+        } else {
 
-				  logger.error(MessageFormat.format(
-						  "A Port with the id \"{0}\" is not present in this model {1}. Nothing to be done.",
-						  portId, (isSetExtendedSBase() ? ((Model) getExtendedSBase()).getId() : "")));
-			  }
-		  }
-	  } else {
-		  logger.error(MessageFormat.format(
-				  "Trying to unregister something that is not a Port: \"{0}\".", sbase));
-	  }
+          logger.error(MessageFormat.format(
+            "A Port with the id \"{0}\" is not present in this model {1}. Nothing to be done.",
+            portId, (isSetExtendedSBase() ? ((Model) getExtendedSBase()).getId() : "")));
+        }
+      }
+    } else {
+      logger.error(MessageFormat.format(
+        "Trying to unregister something that is not a Port: \"{0}\".", sbase));
+    }
 
-	  // TODO : unregister all the Port children if any !!
+    // TODO : unregister all the Port children if any !!
 
-	  return success;
+    return success;
   }
 
 }

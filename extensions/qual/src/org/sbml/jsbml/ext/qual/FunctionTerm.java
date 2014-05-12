@@ -29,8 +29,9 @@ import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
 
 /**
- * Represents the FunctionTerm element from the SBML Qualitative models package,
- * see http://sbml.org/Community/Wiki/SBML_Level_3_Proposals/Qualitative_Models.
+ * Each {@link FunctionTerm} is also associated with a result and in addition to a Boolean
+ * function inside a Math element that can be used to set the conditions under which this term
+ * is selected.
  * 
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
@@ -142,7 +143,10 @@ public class FunctionTerm extends AbstractMathContainer {
 
 
   /**
-   * Sets the resultLevel.
+   * The result of a term is described by a resultLevel. This attribute is required. The resultLevel
+   * is a non-negative integer describing a level. The resultLevel is used; possibly together
+   * with the thresholdLevel or outputLevel to determine the level of a {@link QualitativeSpecies}
+   * resulting from the {@link Transition}.
    * 
    * @param resultLevel
    *        the resultLevel to set
@@ -214,7 +218,10 @@ public class FunctionTerm extends AbstractMathContainer {
   }
 
   /**
-   * Sets defaultTerm.
+   * Sets if this {@link FunctionTerm} is a defaultTerm. The defaultTerm defines the
+   * default result of a {@link Transition}. This term is used if there are no other
+   * {@link FunctionTerm} elements or if none of the Math elements of the {@link FunctionTerm}
+   * elements evaluates to "true".
    * 
    * @param defaultTerm the defaultTerm to set
    */

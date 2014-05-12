@@ -28,14 +28,18 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.omg.Dynamic.Parameter;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
+ * {@link Submodel}s are instantiations of models contained within other models.
+ * Submodel instances represent submodels contained within {@link CompModelPlugin}.
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$
@@ -182,7 +186,18 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * Sets the value of modelRef
+   * The whole purpose of a {@link Submodel} object
+   * is to instantiate a model definition, which is
+   * to say, either a {@link Model} object defined
+   * in the same enclosing SBML document, or a model
+   * defined in an external SBML document. The modelRef
+   * attribute is the means by which that model is
+   * identified. This required attribute must refer to
+   * the identifier of a Model or {@link ExternalModelDefinition}
+   * object within the enclosing SBML document (i.e., in the
+   * model namespace of the document).
+   * 
+   * Sets the value of the required modelRef
    */
   public void setModelRef(String modelRef) {
     String oldModelRef = this.modelRef;
@@ -231,7 +246,14 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * Sets the value of timeConversionFactor
+   * The optional timeConversionFactor attribute is provided to allow
+   * references and assumptions about the scale of time in the {@link Submodel}
+   * to be converted to the scale of time in the containing model. If set, it
+   * must be the identifier of a {@link Parameter} object in the parent {@link Model}
+   * object. The units of that {@link Parameter} object, if present, should reduce to
+   * being dimensionless, and the {@link Parameter} must be constant.
+   * 
+   * Sets the value of the optional timeConversionFactor
    */
   public void setTimeConversionFactor(String timeConversionFactor) {
     String oldTimeConversionFactor = this.timeConversionFactor;
@@ -280,7 +302,15 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * Sets the value of extentConversionFactor
+   * The optional extentConversionFactor attribute is provided to allow
+   * references and assumptions about the scale of a model's reaction
+   * extent to be converted to the scale of the containing model. If set,
+   * it must be the identifier of a {@link Parameter} object in the
+   * parent {@link Model} object. The units of that {@link Parameter}
+   * object, if present, should reduce to being dimensionless, and the
+   * {@link Parameter} must be constant.
+   * 
+   * Sets the value of the optional extentConversionFactor
    */
   public void setExtentConversionFactor(String extentConversionFactor) {
     String oldExtentConversionFactor = this.extentConversionFactor;
@@ -348,6 +378,10 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   *  This list specifies objects to be removed from the submodel when
+   *  composing the overall model. (The "removal" is mathematical and
+   *  conceptual, not physical.)
+   * 
    * Sets the given {@code ListOf<Deletion>}. If listOfDeletions
    * was defined before and contains some elements, they are all unset.
    *

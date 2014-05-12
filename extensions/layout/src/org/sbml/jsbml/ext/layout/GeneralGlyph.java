@@ -273,7 +273,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
    */
   public ReferenceGlyph createReferenceGlyphForList(String id) {
     ReferenceGlyph refGlyph = new ReferenceGlyph(id, getLevel(), getVersion());
-    addReferenceGlyph(refGlyph);
+    addSubGlyph(refGlyph);
     return refGlyph;
   }
 
@@ -419,19 +419,6 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
   public ReferenceGlyph createReferenceGlyph(String id) {
     ReferenceGlyph glyph = new ReferenceGlyph(id, getLevel(), getVersion());
     addReferenceGlyph(glyph);
-    return glyph;
-  }
-
-  /**
-   * Creates and adds a new {@link ReferenceGlyph}
-   * 
-   * @param id the identifier for the {@link ReferenceGlyph} to be created.
-   * @param glyph corresponding {@link GraphicalObject} ID.
-   * @return a new {@link ReferenceGlyph} that points to the given {@code glyph}.
-   */
-  public ReferenceGlyph createReferenceGlyph(String id, String speciesGlyph) {
-    ReferenceGlyph glyph = createReferenceGlyph(id);
-    glyph.setGlyph(speciesGlyph);
     return glyph;
   }
 

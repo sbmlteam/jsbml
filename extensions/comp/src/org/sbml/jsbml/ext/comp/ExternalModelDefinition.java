@@ -25,9 +25,16 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.UniqueNamedSBase;
+import org.sbml.jsbml.util.SubModel;
 
 /**
+ * The {@link ExternalModelDefinition} objects are model definitions - in and of themselves,
+ * they are definitions of the models but not uses of those models. The class provides a way
+ * to declare and identify them so that {@link Model} objects in the present {@link SBMLDocument}
+ * can use them in {@link SubModel} objects.
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$
@@ -151,7 +158,15 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
   }
 
   /**
-   * Sets the value of source
+   * Sets the value of the required source attribute.
+   * 
+   * The source attribute is used to locate the SBML document containing
+   * an {@link ExternalModelDefinition}. The value of the attribute must
+   * be a URI, which includes URLs, URNs, or relative/absolute file locations.
+   * The source attribute must refer specifically to an SBML Level 3 Version 1
+   * document. The entire file at the given location is referenced. The source
+   * attribute must have a value for every {@link ExternalModelDefinition}.
+   * 
    */
   public void setSource(String source) {
     String oldSource = this.source;
@@ -199,7 +214,22 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
   }
 
   /**
-   * Sets the value of modelRef
+   * Sets the value of the optional modelRef attribute.
+   * 
+   * modelRef is used to identify a {@link Model} or {@link ExternalModelDefinition}
+   * object within the SBML document located at source. The object referenced may be
+   * the main model in the document, or it may be a model definition contained in the
+   * SBML document's listOfModelDefinitions or listOfExternalModelDefinitions. Loops
+   * are not allowed: it must be possible to follow a chain of
+   * {@link ExternalModelDefinition} objects to its end in a {@link Model} object.
+   * 
+   * In core SBML, the id on {@link Model} is an optional attribute, and therefore, it
+   * is possible that the {@link Model} object in a given SBML document does not have
+   * an identifier. In that case, there is no value to give to the modelRef attribute
+   * in {@link ExternalModelDefinition}. If modelRef does not have a value, then the
+   * main model (i.e., the model element within the sbml element) in the referenced
+   * file is interpreted as being the model referenced by this {@link ExternalModelDefinition}
+   * instance.
    */
   public void setModelRef(String modelRef) {
     String oldModelRef = this.modelRef;
@@ -251,7 +281,14 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
   }
 
   /**
-   * Sets the value of md5
+   * Sets the value of the optional md5 attribute.
+   * 
+   * The md5 attribute takes a string value. If set, it must be an MD5 checksum value
+   * computed over the document referenced by source. This checksum can serve as a
+   * data integrity check over the contents of the source. Applications may use this
+   * to verify that the contents have not changed since the time that the
+   * {@link ExternalModelDefinition} reference was constructed.
+   * 
    */
   public void setMd5(String md5) {
     String oldMd5 = this.md5;

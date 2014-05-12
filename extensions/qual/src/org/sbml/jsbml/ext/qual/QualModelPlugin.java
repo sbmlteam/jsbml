@@ -33,6 +33,10 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
+ * The {@link QualModelPlugin} adds two lists, one for holding
+ * {@link QualitativeSpecies} and the other for holding
+ * {@link Transition}s.
+ * 
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
  * @author Florian Mittag
@@ -84,7 +88,7 @@ public class QualModelPlugin extends AbstractSBasePlugin {
     if (isSetExtendedSBase()) {
       return (SBMLDocument) getExtendedSBase().getParent();
     }
-    
+
     return null;
   }
 
@@ -122,7 +126,7 @@ public class QualModelPlugin extends AbstractSBasePlugin {
    */
   public QualModelPlugin(QualModelPlugin qualitativeModel) {
     super(qualitativeModel);
-    
+
     if (qualitativeModel.isSetListOfQualitativeSpecies()) {
       setListOfQualitativeSpecies(qualitativeModel.getListOfQualitativeSpecies().clone());
     }
@@ -344,7 +348,7 @@ public class QualModelPlugin extends AbstractSBasePlugin {
       listOfQualitativeSpecies = new ListOf<QualitativeSpecies>();
       listOfQualitativeSpecies.setNamespace(QualConstants.namespaceURI);
       listOfQualitativeSpecies.setSBaseListType(ListOf.Type.other);
-      
+
       if (isSetExtendedSBase()) {
         getModel().registerChild(listOfQualitativeSpecies);
       }
@@ -360,7 +364,7 @@ public class QualModelPlugin extends AbstractSBasePlugin {
       listOfTransitions = new ListOf<Transition>();
       listOfTransitions.setNamespace(QualConstants.namespaceURI);
       listOfTransitions.setSBaseListType(ListOf.Type.other);
-      
+
       if (isSetExtendedSBase()) {
         getModel().registerChild(listOfTransitions);
       }
@@ -401,7 +405,7 @@ public class QualModelPlugin extends AbstractSBasePlugin {
     if (isSetExtendedSBase()) {
       return (Model) extendedSBase;
     }
-    
+
     return null;
   }
 
@@ -516,7 +520,7 @@ public class QualModelPlugin extends AbstractSBasePlugin {
 
     return getListOfTransitions().size();
   }
-  
+
   /**
    * Returns {@code true} if the listOfQualitativeSpecies is set.
    * 
@@ -551,6 +555,8 @@ public class QualModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
+   * {@link QualModelPlugin} may contain at most one listOfQualitativeSpecies
+   * which must contain at least on {@link QualitativeSpecies}.
    * 
    * @param listOfQualitativeSpecies
    */
@@ -558,20 +564,22 @@ public class QualModelPlugin extends AbstractSBasePlugin {
     ListOf<QualitativeSpecies> listOfQualitativeSpecies) {
     unsetListOfQualitativeSpecies();
     this.listOfQualitativeSpecies = listOfQualitativeSpecies;
-    
+
     if (isSetExtendedSBase()) {
       getModel().registerChild(this.listOfQualitativeSpecies);
     }
   }
 
   /**
-   * 
+   * {@link QualModelPlugin} can contain at most one listOfTransitions which must contain
+   * at least one {@link Transition}.
+   * s
    * @param listOfTransitions
    */
   public void setListOfTransitions(ListOf<Transition> listOfTransitions) {
     unsetListOfTransitions();
     this.listOfTransitions = listOfTransitions;
-    
+
     if (isSetExtendedSBase()) {
       getModel().registerChild(this.listOfTransitions);
     }

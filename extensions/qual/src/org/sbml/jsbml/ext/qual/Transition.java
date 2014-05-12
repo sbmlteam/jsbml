@@ -33,6 +33,20 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
+ * A {@link Transition} defines the changes in level associated with the {@link QualitativeSpecies}
+ * that occur when a {@link Transition} is enabled.
+ * 
+ * In logical models a {@link Transition} is used to specify the logical rule associated with a
+ * {@link QualitativeSpecies} (that appears as an {@link Output} of this {@link Transition}).
+ * For example, the rule if A > 1 : B = 2 would be encapsulated as a {@link Transition} with
+ * {@link QualitativeSpecies} "A" as an {@link Input} and "B" as an {@link Output}; the
+ * if A > 1 rule being encoded by the math element of a {@link FunctionTerm} with the resultLevel
+ * attribute having a value "2".
+ * 
+ * In Petri net models a {@link Transition} is interpreted, using the common Petri net semantics, as events
+ * that might occur within the system causing tokens to be moved. See the package specification for an
+ * example.
+ * 
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
  * @author Florian Mittag
@@ -45,7 +59,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Generated serial version identifier.
    */
-  private static final long    serialVersionUID = 8343744362262634585L;
+  private static final long     serialVersionUID = 8343744362262634585L;
   /**
    * 
    */
@@ -333,8 +347,8 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return true;
   }
-  
-  
+
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
@@ -463,11 +477,11 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     final int prime = 1259;
     int result = super.hashCode();
     result = prime * result
-      + ((listOfFunctionTerms == null) ? 0 : listOfFunctionTerms.hashCode());
+        + ((listOfFunctionTerms == null) ? 0 : listOfFunctionTerms.hashCode());
     result = prime * result
-      + ((listOfInputs == null) ? 0 : listOfInputs.hashCode());
+        + ((listOfInputs == null) ? 0 : listOfInputs.hashCode());
     result = prime * result
-      + ((listOfOutputs == null) ? 0 : listOfOutputs.hashCode());
+        + ((listOfOutputs == null) ? 0 : listOfOutputs.hashCode());
     return result;
   }
 
@@ -627,7 +641,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * 
+   * The {@link Transition} element contains exactly one list of {@link FunctionTerm}s.
    * @param loft
    */
   public void setListOfFunctionTerms(ListOf<FunctionTerm> loft) {
@@ -637,7 +651,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * 
+   * The {@link Transition} element contains at most one list of {@link Input}s.
    * @param loi
    */
   public void setListOfInputs(ListOf<Input> loi) {
@@ -647,6 +661,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * The {@link Transition} element contains at most one list of {@link Output}s.
    * 
    * @param loo
    */

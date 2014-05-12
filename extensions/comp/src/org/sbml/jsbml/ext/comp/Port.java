@@ -24,6 +24,9 @@ package org.sbml.jsbml.ext.comp;
 import org.sbml.jsbml.LevelVersionError;
 
 /**
+ * The {@link Port} allows a modeler to design a {@link Submodel}
+ * such that other models interact with the {@link Submodel} through
+ * designated interfaces.
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$

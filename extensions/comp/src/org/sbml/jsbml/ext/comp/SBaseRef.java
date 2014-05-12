@@ -27,6 +27,7 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.UnitDefinition;
 
 
 /**
@@ -158,7 +159,13 @@ public class SBaseRef extends AbstractSBase {
   }
 
   /**
-   * Sets the value of portRef
+   * Sets the value of the optional portRef attribute.
+   * 
+   * As its name implies, this attribute is used to refer
+   * to a port identifier, in the case when the reference
+   * being constructed with the {@link SBaseRef} is
+   * intended to refer to a port on a submodel.
+   * 
    */
   public void setPortRef(String portRef) {
     String oldPortRef = this.portRef;
@@ -206,7 +213,15 @@ public class SBaseRef extends AbstractSBase {
   }
 
   /**
-   * Sets the value of idRef
+   * Sets the value of the optional idRef attribute.
+   * 
+   * As its name implies, this attribute is used to
+   * refer to a regular identifier (i.e., the value of
+   * an id attribute on some other object), in the case
+   * when the reference being constructed with the
+   * {@link SBaseRef} is intended to refer to an object
+   * that does not have a port identifier.
+   * 
    */
   public void setIdRef(String idRef) {
     String oldIdRef = this.idRef;
@@ -255,7 +270,18 @@ public class SBaseRef extends AbstractSBase {
   }
 
   /**
-   * Sets the value of unitRef
+   * Sets the value of the optional unitRef attribute
+   * 
+   * This attribute is used to refer to the identifier of a
+   * {@link UnitDefinition} object. The namespace of the
+   * UnitSIdRef value is the set of unit identifiers defined
+   * in the submodel, not the parent model.
+   * 
+   * Note that even though this attribute is of type UnitSIdRef,
+   * the reserved unit identifiers that are defined by SBML Level 3
+   * are not permitted as values of unitRef. Reserved unit
+   * identifiers may not be replaced or deleted.
+   * 
    */
   public void setUnitRef(String unitRef) {
     String oldUnitRef = this.unitRef;
@@ -303,7 +329,16 @@ public class SBaseRef extends AbstractSBase {
   }
 
   /**
-   * Sets the value of metaIdRef
+   * Sets the value of the optional metaIdRef attribute.
+   * 
+   * This attribute is used to refer to a metaid attribute value on some
+   * other object, in the case when the reference being constructed with
+   * the {@link SBaseRef} is intended to refer to an object that does not
+   * have a port identifier. The namespace of the metaIdRef value is the
+   * entire document in which the referenced model resides, but must refer
+   * to a subelement of the referenced model. Since meta identifiers are
+   * optional attributes of SBase, all SBML objects have the potential to
+   * have a meta identifier value.
    */
   public void setMetaIdRef(String metaIdRef) {
     String oldIdRef = this.metaIdRef;
@@ -363,7 +398,12 @@ public class SBaseRef extends AbstractSBase {
   }
 
   /**
-   * Sets the value of sBaseRef
+   * Sets the value of the optional sBaseRef element.
+   * 
+   * An {@link SBaseRef} object may have up to one subcomponent named
+   * sBaseRef, of type {@link SBaseRef}. This permits recursive structures
+   * to be constructed so that objects inside submodels can be referenced.
+   * 
    */
   public void setSBaseRef(SBaseRef sBaseRef) {
     SBaseRef oldSBaseRef = this.sBaseRef;

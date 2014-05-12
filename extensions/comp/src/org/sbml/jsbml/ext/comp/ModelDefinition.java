@@ -24,6 +24,11 @@ package org.sbml.jsbml.ext.comp;
 import org.sbml.jsbml.Model;
 
 /**
+ *  Holder class for model definitions, which are models.
+ *  However, modelDefinitions are non-instantiated models
+ *  that can be called by submodels within the {@link Model}
+ *  class of an SBML document, or can be called externally
+ *  with references stored in {@link ExternalModelDefinition}s.
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$

@@ -27,13 +27,19 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.StringTools;
 
 /**
+ * Each {@link Input} refers to a {@link QualitativeSpecies} that participates in the corresponding
+ * {@link Transition}. In Petri nets, these are the input places of the transition. In logical
+ * models, they are the regulators of the species whose behavior is defined by the {@link Transition}.
+ * 
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel
  * @author Florian Mittag
@@ -167,6 +173,12 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
 
 
   /**
+   * The sign of type {@link Sign} can be used as an indication as to whether the contribution
+   * of this {@link Input} is positive, negative, both (dual) or unknown. This enables a model
+   * to distinguish between stimulation and inhibition and can facilitate interpretation of the
+   * model without the mathematics. The sign is particularly used for visualization purposes and
+   * has no impact on the mathematical interpretation. This attribute is optional.
+   * 
    * @param sign
    *        the sign to set
    */
@@ -248,6 +260,11 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
 
 
   /**
+   * The required attribute qualitativeSpecies is used to identify the {@link QualitativeSpecies}
+   * that is the input of this {@link Transition}. The attribute's value must be the identifier
+   * of an existing {@link QualitativeSpecies} object in the {@link Model}. This attribute is
+   * comparable with the species attribute on the {@link SpeciesReference} element.
+   * 
    * @param qualitativeSpecies
    *        the qualitativeSpecies to set
    */
@@ -300,6 +317,13 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
 
 
   /**
+   * Each {@link Input} has a required attribute transitionEffect of type {@link InputTransitionEffect}
+   * which describes how the {@link QualitativeSpecies} referenced by the {@link Input} is affected by
+   * the {@link Transition}.
+   * 
+   * It should be noted that in logical models the transitionEffect is always set to "none", while in
+   * Petri nets, it can be set to "none" (indicating a read arc) or to "consumption".
+   * 
    * @param transitionEffect
    *        the transitionEffect to set
    */
@@ -352,6 +376,27 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
 
 
   /**
+   * The thresholdLevel is a non-negative integer that can be used to set the threshold level of
+   * the particular input. This attribute relates to the contribution of this input required for
+   * the transition to take place.
+   * 
+   * In logical regulatory models, it refers to the threshold level that must be reached or exceeded
+   * in order for the regulation to take place, while in a Petri net, it refers to the number of
+   * tokens required to enable the transition (weight of the arc connecting the input place to the
+   * transition). Whether the level of a {@link QualitativeSpecies} should reach or exceed the
+   * thresholdLevel in order for the {@link Transition} to occur will be encoded in the math elements
+   * of the {@link FunctionTerm}s listed for the given {@link Transition}.
+   * 
+   * The thresholdLevel is used by the {@link FunctionTerm}s associated with the containing
+   * {@link Transition} to determine the applicable resultLevel that should be applied.  The id of the
+   * {@link Input} represents this value and can be used in the math element of a {@link FunctionTerm}.
+   * When defined, this attribute should be coherent with the content of the {@link FunctionTerm}, i.e.
+   * if a number is used in the {@link FunctionTerm} to compare the current level of a species, this
+   * number must correspond to the thresholdLevel of the corresponding {@link Input}. Since a number
+   * can be used within the {@link FunctionTerm} to represent the thresholdLevel of an {@link Input}
+   * it is not compulsory to use this attribute to specify the value. A missing thresholdLevel attribute
+   * merely implies that the threshold is incorporated into the {@link FunctionTerm} using a number.
+   * 
    * @param thresholdLevel
    *        the thresholdLevel to set
    */
