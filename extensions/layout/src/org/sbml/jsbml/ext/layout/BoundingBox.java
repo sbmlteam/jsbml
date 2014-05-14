@@ -154,26 +154,26 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
   }
 
   /**
-   * Creates, sets and returns a {@link Position}
+   * Creates, sets and returns a {@link Point}
    * 
-   * @return new {@link Position} object.
+   * @return new {@link Point} object.
    */
-  public Position createPosition() {
-    Position p = new Position();
+  public Point createPosition() {
+    Point p = new Point(getLevel(), getVersion());
     setPosition(p);
     return p;
   }
 
   /**
-   * Creates, sets and returns a {@link Position} based on the
+   * Creates, sets and returns a {@link Point} based on the
    * given values.
    * @param x
    * @param y
    * @param z
-   * @return new {@link Position} object.
+   * @return new {@link Point} object.
    */
-  public Position createPosition(double x, double y, double z) {
-    Position p = new Position();
+  public Point createPosition(double x, double y, double z) {
+    Point p = new Point(getLevel(), getVersion());
     p.setX(x);
     p.setY(y);
     p.setZ(z);
@@ -339,9 +339,6 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
       oldValue.fireNodeRemovedEvent();
     }
     if (position != null) {
-      if (! (position instanceof Position)) {
-        position = new Position(position);
-      }
       position.fireNodeAddedEvent();
     }
   }

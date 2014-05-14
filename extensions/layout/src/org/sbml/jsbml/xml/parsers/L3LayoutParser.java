@@ -61,27 +61,23 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.SBasePlugin;
-import org.sbml.jsbml.ext.layout.BasePoint1;
-import org.sbml.jsbml.ext.layout.BasePoint2;
 import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
 import org.sbml.jsbml.ext.layout.CubicBezier;
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.layout.CurveSegment;
 import org.sbml.jsbml.ext.layout.Dimensions;
-import org.sbml.jsbml.ext.layout.End;
 import org.sbml.jsbml.ext.layout.GeneralGlyph;
 import org.sbml.jsbml.ext.layout.GraphicalObject;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.ext.layout.LineSegment;
-import org.sbml.jsbml.ext.layout.Position;
+import org.sbml.jsbml.ext.layout.Point;
 import org.sbml.jsbml.ext.layout.ReactionGlyph;
 import org.sbml.jsbml.ext.layout.ReferenceGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
-import org.sbml.jsbml.ext.layout.Start;
 import org.sbml.jsbml.ext.layout.TextGlyph;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
@@ -277,7 +273,7 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
       BoundingBox bbox = (BoundingBox) contextObject;
 
       if (elementName.equals(position)) {
-        Position position = new Position();
+        Point position = new Point();
         bbox.setPosition(position);
 
         return position;
@@ -306,25 +302,25 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
       CubicBezier curveSegment = (CubicBezier) contextObject;
 
       if (elementName.equals(start)) {
-        Start point = new Start();
+        Point point = new Point();
         curveSegment.setStart(point);
 
         return point;
       }
       else if (elementName.equals(end)) {
-        End point = new End();
+        Point point = new Point();
         curveSegment.setEnd(point);
 
         return point;
       }
       else if (elementName.equals(basePoint1)) {
-        BasePoint1 point = new BasePoint1();
+        Point point = new Point();
         curveSegment.setBasePoint1(point);
 
         return point;
       }
       else if (elementName.equals(basePoint2)) {
-        BasePoint2 point = new BasePoint2();
+        Point point = new Point();
         curveSegment.setBasePoint2(point);
 
         return point;
@@ -455,11 +451,17 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
     }
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.ReadingParser#getNamespaces()
+   */
   @Override
   public List<String> getNamespaces() {
     return LayoutConstants.all_L3_namespaces;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#getPackageNamespaces()
+   */
   @Override
   public List<String> getPackageNamespaces() {
     return LayoutConstants.namespaces_L3;
@@ -472,6 +474,9 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
     namespaces.add("http://www.w3.org/2001/XMLSchema-instance");
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#getNamespaceFor(int, int, int)
+   */
   @Override
   public String getNamespaceFor(int level, int version, int packageVersion) {
 
@@ -482,16 +487,25 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
     return null;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#getPackageName()
+   */
   @Override
   public String getPackageName() {
     return LayoutConstants.shortLabel;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#isRequired()
+   */
   @Override
   public boolean isRequired() {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#createPluginFor(org.sbml.jsbml.SBase)
+   */
   @Override
   public SBasePlugin createPluginFor(SBase sbase) {
 

@@ -41,6 +41,11 @@ Version 1.0-beta2 (xx-xx-2014)
 
 * Bug Fixes:
 
+  - The implementation of the layout package contained unnecessary classes that
+    all represented a Point object (Start, End, Position, BasePoint1, BasePoint2).
+    In order to avoid confusion and to simplify the implementation, those
+    classes have all been deleted.
+
   - The SBML qual attribute Output.outputLevel was not read properly from XML.
 
   - The required flag for the fbc package was set to true instead of false,

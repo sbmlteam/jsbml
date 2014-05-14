@@ -104,7 +104,7 @@ public class CubicBezier extends LineSegment {
    * @return new {@link Point} object.
    */
   public Point createBasePoint1() {
-    Point p = new BasePoint1();
+    Point p = new Point(getLevel(), getVersion());
     setBasePoint1(p);
     return p;
   }
@@ -118,7 +118,7 @@ public class CubicBezier extends LineSegment {
    * @return new {@link Point} object.
    */
   public Point createBasePoint1(double x, double y, double z) {
-    Point p = new BasePoint1();
+    Point p = new Point(getLevel(), getVersion());
     p.setX(x);
     p.setY(y);
     p.setZ(z);
@@ -132,7 +132,7 @@ public class CubicBezier extends LineSegment {
    * @return new {@link Point} object.
    */
   public Point createBasePoint2() {
-    Point p = new BasePoint2();
+    Point p = new Point(getLevel(), getVersion());
     setBasePoint2(p);
     return p;
   }
@@ -146,7 +146,7 @@ public class CubicBezier extends LineSegment {
    * @return new {@link Point} object.
    */
   public Point createBasePoint2(double x, double y, double z) {
-    Point p = new BasePoint2();
+    Point p = new Point(getLevel(), getVersion());
     p.setX(x);
     p.setY(y);
     p.setZ(z);
@@ -278,9 +278,6 @@ public class CubicBezier extends LineSegment {
       this.basePoint1 = null;
       oldValue.fireNodeRemovedEvent();
     }
-    if (!(basePoint1 instanceof BasePoint1)) {
-      basePoint1 = new BasePoint1(basePoint1);
-    }
     this.basePoint1 = basePoint1;
     registerChild(this.basePoint1);
   }
@@ -294,9 +291,6 @@ public class CubicBezier extends LineSegment {
       Point oldValue = this.basePoint2;
       this.basePoint2 = null;
       oldValue.fireNodeRemovedEvent();
-    }
-    if (!(basePoint2 instanceof BasePoint2)) {
-      basePoint2 = new BasePoint2(basePoint2);
     }
     this.basePoint2 = basePoint2;
     registerChild(this.basePoint2);

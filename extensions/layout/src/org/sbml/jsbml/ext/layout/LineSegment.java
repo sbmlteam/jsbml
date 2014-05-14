@@ -118,8 +118,8 @@ public class LineSegment extends CurveSegment {
    */
   @Override
   public Point createEnd() {
-    Point p = new End();
-    setStart(p);
+    Point p = new Point(getLevel(), getVersion());
+    setEnd(p);
     return p;
   }
 
@@ -133,7 +133,7 @@ public class LineSegment extends CurveSegment {
    */
   @Override
   public Point createEnd(double x, double y, double z) {
-    Point p = new End();
+    Point p = new Point(getLevel(), getVersion());
     p.setX(x);
     p.setY(y);
     p.setZ(z);
@@ -148,7 +148,7 @@ public class LineSegment extends CurveSegment {
    */
   @Override
   public Point createStart() {
-    Point p = new Start();
+    Point p = new Point(getLevel(), getVersion());
     setStart(p);
     return p;
   }
@@ -163,7 +163,7 @@ public class LineSegment extends CurveSegment {
    */
   @Override
   public Point createStart(double x, double y, double z) {
-    Point p = new Start();
+    Point p = new Point(getLevel(), getVersion());
     p.setX(x);
     p.setY(y);
     p.setZ(z);
@@ -222,8 +222,7 @@ public class LineSegment extends CurveSegment {
       index, +Math.min(pos, 0)));
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildCount()
    */
   @Override
@@ -238,8 +237,7 @@ public class LineSegment extends CurveSegment {
     return count;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.layout.CurveSegment#getEnd()
    */
   @Override
@@ -247,8 +245,7 @@ public class LineSegment extends CurveSegment {
     return end;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.layout.CurveSegment#getStart()
    */
   @Override
@@ -272,8 +269,7 @@ public class LineSegment extends CurveSegment {
     return hashCode;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.layout.CurveSegment#isSetEnd()
    */
   @Override
@@ -281,8 +277,7 @@ public class LineSegment extends CurveSegment {
     return end != null;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.layout.CurveSegment#isSetStart()
    */
   @Override
@@ -290,8 +285,7 @@ public class LineSegment extends CurveSegment {
     return start != null;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.layout.CurveSegment#setEnd(org.sbml.jsbml.ext.layout.Point)
    */
   @Override
@@ -299,24 +293,17 @@ public class LineSegment extends CurveSegment {
     if (this.end != null) {
       this.end.fireNodeRemovedEvent();
     }
-    if (!(end instanceof End)) {
-      end = new End(end);
-    }
     this.end = end;
     registerChild(this.end);
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.layout.CurveSegment#setStart(org.sbml.jsbml.ext.layout.Point)
    */
   @Override
   public void setStart(Point start) {
     if (this.start != null) {
       this.start.fireNodeRemovedEvent();
-    }
-    if (!(start instanceof Start)) {
-      start = new Start(start);
     }
     this.start = start;
     registerChild(this.start);

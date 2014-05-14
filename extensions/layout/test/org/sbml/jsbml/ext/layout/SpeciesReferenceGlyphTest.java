@@ -20,7 +20,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.layout;
 
 import static org.junit.Assert.assertEquals;
@@ -68,9 +67,9 @@ public class SpeciesReferenceGlyphTest {
     assertTrue(glyph.getChildCount() == 0);
   }
 
-/**
- * Test method for {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph#getCurve()}.
- */
+  /**
+   * Test method for {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph#getCurve()}.
+   */
   @Test
   public void testGetCurve() {
     SpeciesReferenceGlyph glyph = new SpeciesReferenceGlyph("glyph",3,1);

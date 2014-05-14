@@ -155,7 +155,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
   private ListOf<SpeciesType> listOfSpeciesTypes;
 
   /**
-   * Represents the listOfUnitDefinitions subnode of a model element.
+   * Represents the listOfUnitDefinitions sub-node of a model element.
    */
   private ListOf<UnitDefinition> listOfUnitDefinitions;
 
@@ -167,7 +167,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
 
   /**
    * For internal computation: a mapping between their identifiers and
-   * the {@link UniqueNamedSBase}s in {@link Model}s themself:
+   * the {@link UniqueNamedSBase}s in {@link Model}s themselves:
    */
   private Map<String, UniqueNamedSBase> mapOfUniqueNamedSBases;
 
@@ -311,22 +311,24 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
     initDefaults();
   }
 
-  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.IdManager#accept(org.sbml.jsbml.SBase)
+   */
   @Override
   public boolean accept(SBase sbase) {
-    
-//    if (sbase instanceof UniqueNamedSBase || sbase instanceof UnitDefinition 
-//        || sbase instanceof LocalParameter || sbase instanceof ListOf<?>)
-//      // TODO - check that we include everything needed. Should we accept everything ?? 
-//    {
-//      return true;
-//    }
+
+    //    if (sbase instanceof UniqueNamedSBase || sbase instanceof UnitDefinition
+    //        || sbase instanceof LocalParameter || sbase instanceof ListOf<?>)
+    //      // TODO - check that we include everything needed. Should we accept everything ??
+    //    {
+    //      return true;
+    //    }
 
     // accept everything, to be able to register or unregister recursively everything,
     // even if the first SBase given as no SId.
     return true;
   }
-  
+
   /**
    * Adds a Compartment instance to the listOfCompartments of this Model.
    * 
@@ -3812,11 +3814,14 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
     return isAttributeRead;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.IdManager#register(org.sbml.jsbml.SBase)
+   */
   @Override
   public boolean register(SBase sbase) {
     return registerIds(sbase.getParentSBMLObject(), sbase, true, false, null);
   }
-  
+
   /**
    * Registration of {@link LocalParameter} instances in the {@link Model}.
    * 
@@ -3924,8 +3929,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
               (mapOfUnitDefinitions.containsKey(id))))
       {
         logger.error(MessageFormat.format(
-          "An element with the id \"{0}\" is already present in this model {1}. The new element will not be added to the model.",
-          id, (isSetId() ? " " + getId() : "")));
+          "An element with the id \"{0}\" is already present in this model{1}. The new element will not be added to the model.",
+          id, (isSetId() ? " \"" + getId() + "\"" : "")));
         return false;
       }
       mapOfUniqueNamedSBases.put(id, unsb);
@@ -3981,7 +3986,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
      */
     boolean success = true;
     int idManagerAdded = 0;
-    
+
     if (logger.isDebugEnabled()) {
       logger.debug("registerIds (main): newElem = " + newElem.getElementName() + " (recursive = " + recursively + ")");
     }
@@ -4008,18 +4013,18 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
         {
           // Trying to find an IdManager for this element.
           IdManager idManager = getIdManager(newElem);
-          
+
           logger.debug("idManager found for '" + newElem + "' = " + idManager);
-          
+
           if (idManager != null && idManager != this) {
-            
+
             if (delete) {
               return success &= idManager.unregister(newElem);
             } else {
               return success &= idManager.register(newElem);
             }
           }
-          
+
           // in L3 packages we might have different id namespaces
           logger.error(MessageFormat.format(
             "registerIds: the object {0} is neither a UniqueNamedSBase, a LocalParameter or a UnitDefinition so its id will not be registered in the Model.",
@@ -4031,8 +4036,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
     }
 
     // in the case of deletion, we keep a List of IdManager to avoid having to do a recursive call
-    // each time to found the proper IdManager 
-    // Not sure if this code is needed any more !! but it could be used in the 'else' block above where we search for an IdManager 
+    // each time to found the proper IdManager
+    // Not sure if this code is needed any more !! but it could be used in the 'else' block above where we search for an IdManager
     if (delete) {
 
       if (idManagerList == null) {
@@ -4102,8 +4107,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
 
       return success;
     }
-    
-    // removing the idManager(s) added 
+
+    // removing the idManager(s) added
     if (delete && idManagerAdded > 0) {
       for (int i = idManagerAdded; i > 0; i--) {
         idManagerList.remove(idManagerList.size() - 1);
@@ -4948,11 +4953,14 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
     setVolumeUnits(volumeUnits != null ? volumeUnits.getId() : null);
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.IdManager#unregister(org.sbml.jsbml.SBase)
+   */
   @Override
   public boolean unregister(SBase sbase) {
     return registerIds(sbase.getParentSBMLObject(), sbase, true, true, null);
   }
-  
+
   /**
    * Sets the {@link #areaUnitsID} of this {@link Model} to {@code null}.
    */
