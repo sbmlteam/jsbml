@@ -41,8 +41,6 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.SBasePlugin;
-import org.sbml.jsbml.ext.layout.BasePoint1;
-import org.sbml.jsbml.ext.layout.BasePoint2;
 import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
 import org.sbml.jsbml.ext.layout.CubicBezier;
@@ -676,13 +674,13 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
           } else if (elementName.equals("basePoint1")) {
             CubicBezier lineSegment = (CubicBezier) contextObject;
 
-            BasePoint1 basePoint1 = (BasePoint1) newContextObject;
+            Point basePoint1 = (Point) newContextObject;
             lineSegment.setBasePoint1(basePoint1);
             setNamespace(basePoint1, namespaceURI);
             return basePoint1;
           } else if (elementName.equals("basePoint2")) {
             CubicBezier lineSegment = (CubicBezier) contextObject;
-            BasePoint2 basePoint2 = (BasePoint2) newContextObject;
+            Point basePoint2 = (Point) newContextObject;
             lineSegment.setBasePoint2(basePoint2);
             setNamespace(basePoint2, namespaceURI);
             return basePoint2;
@@ -811,6 +809,6 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
     return false;
   }
 
-  
-  
+
+
 }
