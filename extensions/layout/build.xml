@@ -238,7 +238,7 @@
 		<junit printsummary="yes" >
 			<!-- showoutput="yes" -->
 			<formatter type="plain"/>
-			<test name="org.sbml.jsbml.ext.layout.LayoutJUnitTests" outfile="layoutTestResults">
+			<test name="org.sbml.jsbml.ext.layout.test.LayoutJUnitTests" outfile="layoutTestResults">
 				<formatter type="plain"/>
 			</test>
 			<classpath>

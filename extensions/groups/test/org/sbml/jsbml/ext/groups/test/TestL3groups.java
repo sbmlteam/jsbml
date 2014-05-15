@@ -1,7 +1,7 @@
 /*
  *
- * @file    TestL3Layout.java
- * @brief   L3 Layout package unit tests
+ * @file    TestL3Group.java
+ * @brief   L3 Groups package unit tests
  *
  * @author  Nicolas Rodriguez (JSBML conversion)
  * @author  Akiya Jouraku (Java conversion)
@@ -29,8 +29,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.ext.layout;
-
+package org.sbml.jsbml.ext.groups.test;
 
 import java.io.IOException;
 import java.util.InvalidPropertiesFormatException;
@@ -42,27 +41,26 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.ext.layout.Layout;
-import org.sbml.jsbml.ext.layout.SpeciesGlyph;
+import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.ext.groups.Group;
+import org.sbml.jsbml.ext.groups.GroupsModelPlugin;
+import org.sbml.jsbml.ext.groups.Member;
 import org.sbml.jsbml.xml.stax.SBMLReader;
+import org.sbml.jsbml.xml.stax.SBMLWriter;
+import org.xml.sax.SAXException;
 
 /**
  * @author Nicolas Rodriguez
  * @since 1.0
  * @version $Rev$
  */
-public class TestL3Layout {
+public class TestL3groups {
 
-  /**
-   * 
-   */
   public static String DATA_FOLDER = null;
-  /**
-   * 
-   */
-  public static String LAYOUT_NAMESPACE = "http://www.sbml.org/sbml/level3/version1/layout/version1";
+  public static String GROUPS_NAMESPACE = "http://www.sbml.org/sbml/level3/version1/groups/version1";
 
   static {
+
     if (DATA_FOLDER == null) {
       DATA_FOLDER = System.getenv("DATA_FOLDER");
     }
@@ -72,30 +70,20 @@ public class TestL3Layout {
 
   }
 
-  /**
-   * 
-   * @param x
-   * @return
-   */
-  public boolean isNaN(double x)
-  {
+  public boolean isNaN(double x) {
     return Double.isNaN(x);
   }
 
-  /**
-   * 
-   * @throws Exception
-   */
-  @Before public void setUp() throws Exception
-  {
+  @Before
+  public void setUp() throws Exception {
   }
 
   /**
    * 
    * @throws Exception
    */
-  @After public void tearDown() throws Exception
-  {
+  @After
+  public void tearDown() throws Exception {
   }
 
   /**
@@ -105,42 +93,55 @@ public class TestL3Layout {
    * @throws IOException
    * @throws InvalidPropertiesFormatException
    */
-  @Test public void test_L3_Layout_read1() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException
-  {
-    if (DATA_FOLDER == null)
-    {
-      DATA_FOLDER = System.getProperty("user.dir") + "/extensions/layout/test/org/sbml/jsbml/xml/test/data";
-    }
-    String fileName = DATA_FOLDER + "/layout/GlycolysisLayout_small.xml";
+  @Test
+  public void test_L3_Groups_read1() throws XMLStreamException,
+  InvalidPropertiesFormatException, IOException,
+  ClassNotFoundException {
+    String fileName = DATA_FOLDER + "/groups/groups1.xml";
 
     SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
     Model model = doc.getModel();
 
-    System.out.println("Model extension objects: " + model.getExtension(LAYOUT_NAMESPACE));
-    LayoutModelPlugin extendedModel = (LayoutModelPlugin) model.getExtension(LAYOUT_NAMESPACE);
+    System.out.println("Model extension objects: "
+        + model.getExtension(GROUPS_NAMESPACE));
+    GroupsModelPlugin extendedModel = (GroupsModelPlugin) model
+        .getExtension(GROUPS_NAMESPACE);
 
-    System.out.println("Nb Layouts = " + extendedModel.getListOfLayouts().size());
+    System.out.println("Nb Groups = "
+        + extendedModel.getListOfGroups().size());
 
-    Layout layout = extendedModel.getLayout(0);
+    Group group = extendedModel.getGroup(0);
 
-    // System.out.println("Group sboTerm, id = " + group.getSBOTermID() + ", " + group.getId()); print dimension
-    System.out.println("Nb SpeciesGlyphs = " + layout.getListOfSpeciesGlyphs().size());
+    System.out.println("Group sboTerm, id = " + group.getSBOTermID() + ", "
+        + group.getId());
+    System.out.println("Nb Members = " + group.getListOfMembers().size());
 
-    SpeciesGlyph  speciesGlyph = layout.getSpeciesGlyph(0);
+    Member member = group.getMember(0);
 
-    // System.out.println("Member(0).symbol = " + member.getSymbol());
+    System.out.println("Member(0).idRef = " + member.getIdRef());
 
   }
 
   /**
    * 
+   * @throws XMLStreamException
+   * @throws InstantiationException
+   * @throws IllegalAccessException
+   * @throws ClassNotFoundException
+   * @throws IOException
+   * @throws InvalidPropertiesFormatException
+   * @throws SBMLException
+   * @throws SAXException
    */
-  @Test public void test_L3_Layout_write1()
-  {
-    String fileName = DATA_FOLDER + "/layout/GlycolysisLayout_small.xml";
+  @Test
+  public void test_L3_Groups_write1() throws XMLStreamException,
+  InstantiationException, IllegalAccessException,
+  InvalidPropertiesFormatException, IOException,
+  ClassNotFoundException, SBMLException, SAXException {
+    String fileName = DATA_FOLDER + "/groups/groups1.xml";
 
-    // SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
+    SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
 
-    // SBMLWriter.write(doc, DATA_FOLDER + "/layout/GlycolysisLayout_small_write.xml");
+    new SBMLWriter().write(doc, DATA_FOLDER + "/groups/groups1_write.xml");
   }
 }

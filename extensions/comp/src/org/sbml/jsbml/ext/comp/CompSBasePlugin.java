@@ -34,10 +34,25 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
 /**
+ * The {@link CompSBasePlugin} class extends the {@link SBase} class by adding an optional ListOf{@link ReplacedElement}s child and a single optional {@link ReplacedBy} child.
+ * 
+ * <p>The {@link CompSBasePlugin} class codifies the extensions to the {@link SBase} class defined in the 'Hierarchical Model Composition' package (“comp”).
+ * These extensions allows the modeler to define one or more {@link Submodel} elements which the parent {@link SBase} object replaces,
+ * and/or a single {@link Submodel} element which replaces the parent {@link SBase} object.
+ *  
+ * <br>This is accomplished through the addition of an optional ListOf{@link ReplacedElement}s child, which may contain one or more {@link ReplacedElement} 
+ * objects, each of which references a {@link Submodel} element to be replaced by the containing {@link SBase} object, and through the addition of a single
+ * optional {@link ReplacedBy} child, which references a {@link Submodel} element which is to replace the containing {@link SBase} object.
+ * 
+ * <p>If a single {@link SBase} element both contains a ListOf{@link ReplacedElement}s and has a {@link ReplacedBy} child, it and all the referenced
+ * {@link ReplacedElement} objects are to be replaced by the object referenced by the {@link ReplacedBy} element.
+ *  
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$
  * @since 1.0
+ * @see ReplacedElement
+ * @see ReplacedBy
  */
 public class CompSBasePlugin extends AbstractSBasePlugin {
 
