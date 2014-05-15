@@ -313,7 +313,7 @@
 		
 		<mkdir dir="${build.javadocs}"/>
 		<javadoc packagenames="org.*"
-            excludepackagenames="org.sbml.jsbml.test.*, org.sbml.jsbml.xml.test.*"
+            excludepackagenames="org.sbml.jsbml.**.test, org.sbml.jsbml.**.test.**"
 			sourcepath="${build.src}"
             destdir="${build.javadocs}"
             classpathref="classpath"
@@ -344,7 +344,7 @@
 			<link href="http://www.biojava.org/docs/api17" />
 			<tag name="sbml.deprecated" description="Deprecated in SBML since:" />
 			<tag name="libsbml.deprecated" description="Note: this method is kept here as it exist in libSBML." />
-			<tag name="jsbml.note" description="Note" />
+			<tag name="jsbml.note" description="Note:" />
 			<tag name="jsbml.warning" />
 			<tag name="doc.note" description="Documentation note" />
 

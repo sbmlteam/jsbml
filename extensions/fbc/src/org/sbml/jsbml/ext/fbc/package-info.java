@@ -23,11 +23,12 @@
 /**
  * Provides classes for the <a
  * href="http://sbml.org/Community/Wiki/SBML_Level_3_Proposals/Flux_Constraints">
- * Flux Balance Constraints package</a>.
+ * Flux Balance Constraints</a> package (FBC).
  * <p>
- * The current version of the package follow the <a href=
- * "http://sbml.org/Community/Wiki/SBML_Level_3_Proposals/Flux_Balance_Constraints_Proposal_(2012)"
- * >proposal by F. Bergmann</a>
+ * The current JSBML implementation of this package follow the FBC <a href=
+ * "http://identifiers.org/combine.specifications/sbml.level-3.version-1.fbc.version-1.release-1"
+ * >version 1 release 1</a> specifications.
+ * 
  * <p><img title="JSBML" alt="JSBML" height="54" src="http://sbml.org/images/7/79/xJsbml-logo-54px.png.pagespeed.ic.am7oEUtfpP.png">
  *
  * @author Nicolas Rodriguez

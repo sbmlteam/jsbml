@@ -18,7 +18,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.ext.qual;
+package org.sbml.jsbml.ext.qual.test;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.CVTerm;
@@ -26,6 +26,13 @@ import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.Species;
+import org.sbml.jsbml.ext.qual.FunctionTerm;
+import org.sbml.jsbml.ext.qual.InputTransitionEffect;
+import org.sbml.jsbml.ext.qual.OutputTransitionEffect;
+import org.sbml.jsbml.ext.qual.QualConstants;
+import org.sbml.jsbml.ext.qual.QualModelPlugin;
+import org.sbml.jsbml.ext.qual.QualitativeSpecies;
+import org.sbml.jsbml.ext.qual.Transition;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.filters.CVTermFilter;
 

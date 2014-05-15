@@ -5,13 +5,14 @@
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
  *
- * Copyright (C) 2009-2014 jointly by the following organizations:
+ * Copyright (C) 2009-2014  jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ * 6. Marquette University, Milwaukee, WI USA
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -19,38 +20,19 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.ext.fbc;
+package org.sbml.jsbml.ext.layout.test;
 
-import static org.junit.Assert.fail;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.SBMLReader;
-import org.sbml.jsbml.SBMLWriter;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
 /**
- * @author Andreas Dr&auml;ger
+ * @author Ibrahim Vazirabad
+ * @version $1713$
  * @since 1.0
- * @version $Rev$
+ * @date May 7, 2014
  */
-public class FBCWritingTest {
-
-  /**
-   * @throws java.lang.Exception
-   */
-  @Before
-  public void setUp() throws Exception {
-    SBMLDocument doc = SBMLReader.read(FBCWritingTest.class.getResourceAsStream("../../xml/test/data/fbc/MODEL_01186.xml"));
-    SBMLWriter.write(doc, System.out, ' ', (short) 2);
-  }
-
-  /**
-   * Test method for {@link org.sbml.jsbml.xml.parsers.FBCParser#writeAttributes(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)}.
-   */
-  @Test
-  public void testWriteAttributes() {
-    fail("Not yet implemented"); // TODO
-  }
-
+@RunWith(value=Suite.class)
+@SuiteClasses(value={TextGlyphTest.class, SpeciesReferenceGlyphTest.class})
+public class LayoutJUnitTests {
 }

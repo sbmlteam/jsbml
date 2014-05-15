@@ -1,11 +1,10 @@
 /*
  * $Id$
  * $URL$
- *
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- * 
+ *
  * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
@@ -20,47 +19,38 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.ext.layout;
+package org.sbml.jsbml.ext.fbc.test;
 
-import java.io.File;
-import java.io.IOException;
+import static org.junit.Assert.fail;
 
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
-import javax.swing.UIManager;
-import javax.xml.stream.XMLStreamException;
-
-import org.junit.Ignore;
-import org.sbml.jsbml.Model;
+import org.junit.Before;
+import org.junit.Test;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
+import org.sbml.jsbml.SBMLWriter;
 
 /**
  * @author Andreas Dr&auml;ger
- * @version $Rev$
  * @since 1.0
- * @date 26.05.2011
+ * @version $Rev$
  */
-@Ignore
-public class LayoutTest {
+public class FBCWritingTest {
 
   /**
-   * @param args
-   * @throws XMLStreamException
-   * @throws IOException
+   * @throws java.lang.Exception
    */
-  public static void main(String[] args) throws XMLStreamException, IOException {
-    SBMLDocument doc = SBMLReader.read(new File(args[0]));
-    Model model = doc.getModel();
-    LayoutModelPlugin sbase = (LayoutModelPlugin) model.getExtension("http://www.sbml.org/sbml/level3/version1/layout/version1");
-    //		Layout layout = sbase.getListOfLayouts().get(0);
-    //		layout.getDimensions();
-    try {
-      UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-    } catch (Exception exc) {
-    }
-    JOptionPane.showMessageDialog(null, new JScrollPane(new JTree(doc)));
+  @Before
+  public void setUp() throws Exception {
+    SBMLDocument doc = SBMLReader.read(FBCWritingTest.class.getResourceAsStream("../../xml/test/data/fbc/MODEL_01186.xml"));
+    SBMLWriter.write(doc, System.out, ' ', (short) 2);
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.xml.parsers.FBCParser#writeAttributes(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)}.
+   */
+  @Test
+  public void testWriteAttributes() {
+    fail("Not yet implemented"); // TODO
   }
 
 }

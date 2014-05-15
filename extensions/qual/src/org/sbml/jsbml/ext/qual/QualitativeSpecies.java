@@ -207,7 +207,9 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   }
 
   /**
-   * The required attribute compartment is used to identify the {@link Compartment} in which
+   * Sets the compartment attribute.
+   * 
+   * <p>The required attribute compartment is used to identify the {@link Compartment} in which
    * the {@link QualitativeSpecies} is located. The attribute's value must be the identifier
    * of an existing {@link Compartment} object in the model. This attribute is comparable
    * with the compartment attribute on the {@link Species} element.
@@ -286,7 +288,9 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
 
 
   /**
-   * The required attribute constant, of type boolean, is used to indicate that the level of the
+   * Sets the constant attribute.
+   * 
+   * <p>The required attribute constant, of type boolean, is used to indicate that the level of the
    * {@link QualitativeSpecies} is fixed or can be varied. This attribute is comparable with
    * the constant attribute on the {@link Species} element.
    * 
@@ -354,7 +358,9 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
 
 
   /**
-   * The initialLevel is a non-negative integer that defines the initial level of the
+   * Sets the initialLevel attribute.
+   * 
+   * <p>The initialLevel is a non-negative integer that defines the initial level of the
    * {@link QualitativeSpecies} in its {@link Compartment}. This attribute is optional
    * but cannot exceed the value of the maxLevel attribute, if both are set.
    * 
@@ -416,7 +422,9 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
 
 
   /**
-   * The maxLevel is a non-negative integer that sets the maximal level of the {@link QualitativeSpecies}.
+   * Sets the maxLevel attribute.
+   * 
+   * <p>The maxLevel is a non-negative integer that sets the maximal level of the {@link QualitativeSpecies}.
    * This attribute is optional but when set, the level of the {@link QualitativeSpecies} must not exceed
    * this value at any point in a simulation.
    * 
