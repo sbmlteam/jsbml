@@ -38,6 +38,13 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  */
 public abstract class CurveSegment extends AbstractNamedSBase {
 
+  /**
+   * 
+   * @author Sebastian Fr&oum;hlich
+   * @author Nicolas Rodriguez
+   * @version $Rev$
+   * @since 1.0
+   */
   public enum Type
   {
     CUBIC_BEZIER("CubicBezier"),
@@ -77,6 +84,9 @@ public abstract class CurveSegment extends AbstractNamedSBase {
       return xmlString;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Enum#toString()
+     */
     @Override
     public String toString() {
       return xmlString;
@@ -167,7 +177,6 @@ public abstract class CurveSegment extends AbstractNamedSBase {
    * @return a new {@link Point} object.
    */
   abstract public Point createStart(double x, double y, double z);
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#equals(java.lang.Object)
