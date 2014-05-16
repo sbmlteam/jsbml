@@ -42,7 +42,7 @@ import org.sbml.jsbml.ext.arrays.Index;
  * @date May 9, 2014
  */
 @ProviderFor(ReadingParser.class)
-public class ArraysParser extends AbstractReaderWriter implements PackageParser{
+public class ArraysParser extends AbstractReaderWriter implements PackageParser {
 
   private final Logger logger = Logger.getLogger(ArraysParser.class);
   
