@@ -10,11 +10,9 @@
                                 
                            -- Contributors --
 
-    Johannes Eichner, University of Tuebingen, Germany
     Michael Hucka, California Institute of Technology, USA
     Roland Keller, University of Tuebingen, Germany
     Victor Kofia, University of Toronto, Canada
-    Florian Mittag, University of Tuebingen, Germany
     Ibrahim Vazirabad, Marquette University, USA
     Leandro Watanabe, University of Utah, USA
      
@@ -25,9 +23,12 @@
     Alexander Diamantikos, University of Tuebingen, Germany
     Marine Dumousseau, European Bioinformatics Institute, UK
     Alexander Dörr, University of Tuebingen, Germany
+    Johannes Eichner, University of Tuebingen, Germany
     Sebastian Fröhlich, Leibniz Institute of Plant Genetics
       and Crop Plant Research (IPK), Gatersleben, Germany
+    Stephanie Hoffmann (Tscherneck), University of Tuebingen, Germany
     Jakob Matthes, University of Tuebingen, Germany
+    Florian Mittag, University of Tuebingen, Germany
     Sarah Rachel Müller vom Hagen, University of Tuebingen, Germany
     Eugen Netz, University of Tuebingen, Germany
     Alexander Peltzer, University of Tuebingen, Germany
