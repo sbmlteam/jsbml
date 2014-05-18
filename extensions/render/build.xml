@@ -12,6 +12,7 @@
     3. The California Institute of Technology, Pasadena, CA, USA
     4. The University of California, San Diego, La Jolla, CA, USA
     5. The Babraham Institute, Cambridge, UK
+    6. Marquette University, Milwaukee, WI, USA
 
     This library is free software; you can redistribute it and/or modify it
     under the terms of the GNU Lesser General Public License as published by
@@ -227,9 +228,26 @@
 	<!-- =================================================================== -->
 	<!-- Test the package                                              -->
 	<!-- =================================================================== -->
-	<target name="test" depends="jar">
-
-		<echo message="No junit test implemented for this package yet."/>
+	<target
+	  name="test"
+	  description="Test the render extension library"
+	  depends="jar">
+		
+		<echo message="There should be NO failures or errors."/>
+		<echo message=""/>
+		
+		<junit printsummary="yes" >
+			<!-- showoutput="yes" -->
+			<formatter type="plain"/>
+			<test name="org.sbml.jsbml.ext.render.test.RenderJUnitTests" outfile="renderTestResults">
+				<formatter type="plain"/>
+			</test>
+			<classpath>
+				<path refid="classpath"/>
+				<pathelement location="${build.dir}/${name}-${version}.jar"/>
+			</classpath>
+		</junit>
+		<echo message=""/>
 
 	</target>
 
