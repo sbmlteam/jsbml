@@ -11,7 +11,8 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ * 6. Marquette University, Milwaukee, WI, USA
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -39,14 +40,14 @@ public class Ellipse extends GraphicalPrimitive2D {
    * Generated serial version identifier
    */
   private static final long serialVersionUID = -7679215241987476130L;
-  protected Double cx, cy, cz, rx, ry;
+  protected Double cx=0d, cy, cz, rx, ry;
   protected Boolean absoluteCx, absoluteCy, absoluteCz, absoluteRx, absoluteRy;
 
   // TODO - constructors missing + clone
-  
-  
-  
-  
+
+
+
+
   /**
    * @return the value of cx
    */
