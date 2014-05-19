@@ -40,7 +40,7 @@ public class Ellipse extends GraphicalPrimitive2D {
    * Generated serial version identifier
    */
   private static final long serialVersionUID = -7679215241987476130L;
-  protected Double cx=0d, cy, cz, rx, ry;
+  protected Double cx, cy, cz, rx, ry;
   protected Boolean absoluteCx, absoluteCy, absoluteCz, absoluteRx, absoluteRy;
 
   // TODO - constructors missing + clone
@@ -183,7 +183,7 @@ public class Ellipse extends GraphicalPrimitive2D {
    * Set the value of cx
    */
   public void setCx(double cx) {
-    double oldCx = this.cx;
+    Double oldCx = this.cx;
     this.cx = cx;
     firePropertyChange(RenderConstants.cx, oldCx, this.cx);
   }
@@ -195,7 +195,7 @@ public class Ellipse extends GraphicalPrimitive2D {
    */
   public boolean unsetCx() {
     if (isSetCx()) {
-      double oldCx = cx;
+      Double oldCx = cx;
       cx = null;
       firePropertyChange(RenderConstants.cx, oldCx, cx);
       return true;
