@@ -23,6 +23,7 @@ package org.sbml.jsbml;
 
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -34,10 +35,85 @@ import org.sbml.jsbml.util.ValuePair;
 import org.sbml.jsbml.xml.XMLNode;
 
 /**
- * The interface to implement for each SBML component.
+ * The interface to implement for each SBML element.
+ * 
+ * <p>In addition to serving as the parent class for most other classes of objects in SBML, this base type is designed to 
+ * allow a modeler or a software package to attach arbitrary information to each major element in an SBML model. 
+ * 
+ * <p> {@link SBase} has an optional subelement called 'notes'.  It is intended to
+ * serve as a place for storing optional information intended to be seen by
+ * humans.  An example use of the 'notes' element would be to contain
+ * formatted user comments about the model element in which the 'notes'
+ * element is enclosed.  There are certain conditions on the XHTML content
+ * permitted inside the 'notes' element; please consult the <a
+ * target='_blank' href='http://sbml.org/Documents/Specifications'>SBML
+ * specification document</a> corresponding to the SBML Level and Version
+ * of your model for more information about the requirements for 'notes'
+ * content.
+ * 
+ * <p> {@link SBase} has another optional subelement called 'annotation'.  Whereas the
+ * 'notes' element described above is a container for content to be shown
+ * directly to humans, the 'annotation' element is a container for optional
+ * software-generated content <em>not</em> meant to be shown to humans.  The
+ * element's content type is <a target='_blank'
+ * href='http://www.w3.org/TR/2004/REC-xml-20040204/#elemdecls'>XML type
+ * 'any'</a>, allowing essentially arbitrary data content.  SBML places
+ * only a few restrictions on the organization of the content; these are
+ * intended to help software tools read and write the data as well as help
+ * reduce conflicts between annotations added by different tools.  As is
+ * the case with 'notes', it is important to refer to the <a
+ * target='_blank' href='http://sbml.org/Documents/Specifications'>SBML
+ * specification document</a> corresponding to the SBML Level and Version
+ * of your model for more information about the requirements for
+ * 'annotation' content.
+ *
+ * <p> It is worth pointing out that the 'annotation' element in the definition
+ * of {@link SBase} exists in order that software developers may attach optional
+ * application-specific data to the elements in an SBML model.  However, it
+ * is important that this facility not be misused.  In particular, it is
+ * <em>critical</em> that data essential to a model definition or that can
+ * be encoded in existing SBML elements is <em>not</em> stored in
+ * 'annotation'. {@link Parameter} values, functional dependencies between model
+ * elements, etc., should not be recorded as annotations.  It is crucial to
+ * keep in mind the fact that data placed in annotations can be freely
+ * ignored by software applications.  If such data affects the
+ * interpretation of a model, then software interoperability is greatly
+ * impeded.
+ * 
+ * <p> SBML Level 2 introduced an optional {@link SBase} attribute named 'metaid' for
+ * supporting metadata annotations using RDF (<a target='_blank'
+ * href='http://www.w3.org/RDF/'>Resource Description Format</a>). The
+ * attribute value has the data type <a
+ * href='http://www.w3.org/TR/REC-xml/#id'>XML ID</a>, the XML identifier
+ * type, which means each 'metaid' value must be globally unique within an
+ * SBML file.  (Importantly, this uniqueness criterion applies across any
+ * attribute with type <a href='http://www.w3.org/TR/REC-xml/#id'>XML
+ * ID</a>, not just the 'metaid' attribute used by SBML&mdash;something to
+ * be aware of if your application-specific XML content inside the
+ * 'annotation' subelement happens to use <a
+ * href='http://www.w3.org/TR/REC-xml/#id'>XML ID</a>.)  The 'metaid' value
+ * serves to identify a model component for purposes such as referencing
+ * that component from metadata placed within 'annotation' subelements.
+ * 
+ * <p> Beginning with SBML Level 2 Version 3, {@link SBase} also has an optional
+ * attribute named 'sboTerm' for supporting the use of the Systems Biology
+ * Ontology.  In SBML proper, the data type of the attribute is a string of
+ * the form 'SBO:NNNNNNN', where 'NNNNNNN' is a seven digit integer number;
+ * libSBML simplifies the representation by only storing the 'NNNNNNN'
+ * integer portion.  Thus, in libSBML, the 'sboTerm' attribute on {@link SBase} has
+ * data type <code>int</code>, and {@link SBO} identifiers are stored simply as integers.
+ * (For convenience, {@link SBase} offers methods for returning both the integer
+ * form and a text-string form of the {@link SBO} identifier.)  {@link SBO} terms are a
+ * type of optional annotation, and each different class of SBML object
+ * derived from {@link SBase} imposes its own requirements about the values
+ * permitted for 'sboTerm'.  Please consult the SBML Level&nbsp;2
+ * Version&nbsp;4 specification for more information about the use of {@link SBO}
+ * and the 'sboTerm' attribute.
+ * 
  * 
  * @author Andreas Dr&auml;ger
  * @author Marine Dumousseau
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */
@@ -163,54 +239,62 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public boolean equals(Object sbase);
 
   /**
-   * This method returns a list of all qualifiers of the given type.
+   * Returns a list of all the {@link CVTerm} with the given {@link Qualifier}.
    * 
-   * @param qualifier
-   * @return
+   * @param qualifier {@link Qualifier} used to filter the {@link CVTerm}s.
+   * @return a list of all the {@link CVTerm} with the given {@link Qualifier}.
    */
   public List<CVTerm> filterCVTerms(Qualifier qualifier);
 
   /**
-   * Queries the list of controlled vocabulary terms for those terms whose
-   * qualifier is of the given type and selects only those resources from
+   * Queries the list of controlled vocabulary terms ({@link CVTerm}) for those terms whose
+   * {@link Qualifier} is of the given type and selects only those resources from
    * these terms that contain the given pattern.
    * 
-   * @param qualifier
-   * @param pattern
-   *            for instance, '.*kegg.*' or '.*chebi.*'.
-   * @return
-   * @see String#matches(String)
+   * @param qualifier {@link Qualifier} used to filter the {@link CVTerm}s.
+   * @param pattern a regexp pattern, for instance, '.*kegg.*' or '.*chebi.*'.
+   * @return a list of resource URIs that matches the pattern.
+   * @see Pattern
    */
   public List<String> filterCVTerms(Qualifier qualifier, String pattern);
 
   /**
-   * A recursive implementation of {@link #filterCVTerms(Qualifier, String)}
+   * Returns a list of resource URIs for the given {@link Qualifier} that match the
+   * given pattern.
+   *         
+   * <p>This is a recursive implementation of {@link #filterCVTerms(Qualifier, String)}
    * that considers all child elements of the current instance of {@link SBase}
    * as well.
    * 
-   * @param qualifier
-   * @param pattern
+   * @param qualifier {@link Qualifier} used to filter the {@link CVTerm}s.
+   * @param pattern a regexp pattern, for instance, '.*kegg.*' or '.*chebi.*'.
    * @param recursive
-   *        decides whether or not considering all child elements of this
+   *        decides whether or not to consider all child elements of this
    *        {@link SBase} and collecting the matching {@link CVTerm}s of
    *        all children recursively. If this argument is {@code false}, the
    *        behavior of the method will be equivalent to calling
    *        {@link #filterCVTerms(Qualifier, String)}.
-   * @return A list of resources for the given {@link Qualifier} that match the
+   * @return a list of resources for the given {@link Qualifier} that match the
    *         given pattern.
    * @see #filterCVTerms(Qualifier, String)
-   * @see String#matches(String)
+   * @see Pattern
    */
   public List<String> filterCVTerms(Qualifier qualifier, String pattern,
     boolean recursive);
 
   /**
-   * @param qualifier
-   * @param recursive
+   * Returns a list of resource URIs for the given {@link Qualifier} that match the
+   * given patterns.
+   * 
+   * @param qualifier {@link Qualifier} used to filter the {@link CVTerm}s.
+   * @param recursive boolean used to decides whether or not to consider all child elements of this
+   *        {@link SBase} and collecting the matching {@link CVTerm}s of
+   *        all children recursively.
    * @param patterns
    *        an arbitrary list of patterns to be matched to the resources of each
    *        {@link CVTerm}.
-   * @return
+   * @return a list of resources for the given {@link Qualifier} that match the
+   *         given pattern.
    * @see #filterCVTerms(Qualifier, String, boolean)
    * @see CVTerm#filterResources(String...)
    */
@@ -237,14 +321,19 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public String getAnnotationString() throws XMLStreamException;
 
   /**
-   * 
-   * @param index
+   * Returns the {@link CVTerm} instance at the position 'index' in the list of
+   *         {@link CVTerm}s of this object.
+   *  
+   * @param index index of the element to return
    * @return the {@link CVTerm} instance at the position 'index' in the list of
    *         {@link CVTerm}s of this object.
+   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()) or if the 
+   * list of {@link CVTerm} is not set. 
    */
   public CVTerm getCVTerm(int index);
 
   /**
+   * Returns the list of {@link CVTerm}s of this object.
    * 
    * @return the list of {@link CVTerm}s of this object. If not yet set, this method
    *         initializes the annotation and returns an empty list.
@@ -384,10 +473,8 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public int getCVTermCount();
 
   /**
-   * This method is convenient when holding an object nested inside other
-   * objects in an SBML model. It allows direct access to the next SBML
-   * element containing it.
-   * 
+   * Returns the parent of this {@link SBase}.
+   *  
    * @return the parent SBML object.
    * @see #getParent()
    */
@@ -450,31 +537,36 @@ public interface SBase extends TreeNodeWithChangeSupport {
    */
   public int getVersion();
 
+
   /**
-   * 
-   * @return
+   * Returns a hash code value for this {@link SBase} instance.
+   *
+   * @return a hash code value for this {@link SBase} instance.
    * @see Object#hashCode()
    */
   @Override
   public int hashCode();
 
   /**
-   * 
+   * Returns {@code true} if the {@link Annotation} RDF 'about' attribute matches the metaid of this object.
+   *         
    * @return {@code true} if the {@link Annotation} 'about' {@link String} of this
    *         object matches the metaid of this object.
    */
   public boolean hasValidAnnotation();
 
   /**
-   * Predicate returning {@code true} or {@code false} depending on whether this object's
-   * level/version and name space values correspond to a valid SBML
+   * Returns {@code true} or {@code false} depending on whether this object's
+   * level/version and namespace values correspond to a valid SBML
    * specification.
    * 
-   * @return
+   * @return {@code true} if this object's level, version and namespace values 
+   * correspond to a valid SBML specification.
    */
   public boolean hasValidLevelVersionNamespaceCombination();
 
   /**
+   * Returns {@code true} if this object is extended by other packages.
    * 
    * @return {@code true} if this object is extended by other packages.
    */
@@ -521,8 +613,8 @@ public interface SBase extends TreeNodeWithChangeSupport {
 
 
   /**
-   * Predicate returning {@code true} or {@code false} depending on whether this object's
-   * 'annotation' sub-element exists and has content.
+   * Returns {@code true} or {@code false} depending on whether this object's
+   * 'annotation' sub-elements exists and have some content.
    * 
    * @return {@code true} if the {@link Annotation} instance of this object is not
    *         {@code null} and contains at least one {@link CVTerm} or one
@@ -532,14 +624,16 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public boolean isSetAnnotation();
 
   /**
+   * Returns {@code true} if the {@link History} instance of this object is set.
    * 
-   * @return {@code true} if the {@link Annotation} instance of this object
+   * @return {@code true} if the {@link History} instance of this object is set.
    */
   public boolean isSetHistory();
 
   /**
+   * Returns {@code true} if the level is set.
    * 
-   * @return {@code true} if the level is not {@code null}.
+   * @return {@code true} if the level is set.
    */
   public boolean isSetLevel();
 
@@ -553,7 +647,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public boolean isSetLevelAndVersion();
 
   /**
-   * Predicate returning {@code true} or {@code false} depending on whether this object's
+   * Returns {@code true} or {@code false} depending on whether this object's
    * 'metaid' attribute has been set.
    * 
    * @return {@code true} if the metaid is not {@code null}.
@@ -561,7 +655,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public boolean isSetMetaId();
 
   /**
-   * Predicate returning {@code true} or {@code false} depending on whether this object's
+   * Returns {@code true} or {@code false} depending on whether this object's
    * 'notes' sub-element exists and has content.
    * 
    * @return {@code true} if the notes {@link String} is not {@code null}.
@@ -589,7 +683,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public boolean isSetPlugin(String nameOrUri);
 
   /**
-   * Return {@code true} if the SBOTerm is set.
+   * Returns {@code true} if the SBOTerm is set.
    * 
    * @return {@code true} if the SBOTerm is set.
    * @see SBO
@@ -597,14 +691,17 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public boolean isSetSBOTerm();
 
   /**
+   * Returns {@code true} if the version is not {@code null}.
    * 
    * @return {@code true} if the version is not {@code null}.
    */
   public boolean isSetVersion();
 
   /**
-   * If the attribute is an id or name attribute, it will set the id or name
-   * of this object with the value of the XML attribute ('value').
+   * Sets the given attribute in this {@link SBase}.
+   * 
+   * <p>If the given attribute name is not recognized, nothing is done and
+   * {@code false} is returned.
    * 
    * @param attributeName
    *           localName of the XML attribute
@@ -626,6 +723,12 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * 
    * If the level and version of sbase are set but not valid, an {@link Exception} is
    * thrown.
+   * 
+   * @throws LevelVersionError
+   *             In case the given {@link SBase} has a different, but defined
+   *             Level/Version combination than this current {@link SBase}, an
+   *             {@link LevelVersionError} is thrown.
+   *
    */
   public void registerChild(SBase sbase) throws LevelVersionError;
 
@@ -671,6 +774,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public void setAnnotation(Annotation annotation);
 
   /**
+   * Sets the history.
    * 
    * @return the {@link History} instance of this object.
    */
@@ -716,7 +820,23 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Sets the value of the 'sboTerm' attribute.
    * 
-   * @param term
+   * <p> Beginning with SBML Level 2 Version 3, objects derived from {@link SBase} have
+   * an optional attribute named 'sboTerm' for supporting the use of the
+   * Systems Biology Ontology.  In SBML proper, the data type of the
+   * attribute is a string of the form 'SBO:NNNNNNN', where 'NNNNNNN' is a
+   * seven digit integer number; JSBML simplifies the representation by
+   * only storing the 'NNNNNNN' integer portion.  Thus, in JSBML, the
+   * 'sboTerm' attribute on {@link SBase} has data type <code>int</code>, and {@link SBO} identifiers
+   * are stored simply as integers. 
+   * 
+   * <p> {@link SBO} terms are a type of optional annotation, and each different class
+   * of SBML object derived from {@link SBase} imposes its own requirements about
+   * the values permitted for 'sboTerm'.  Please consult the SBML
+   * Level&nbsp;2 Version&nbsp;4 specification for more information about
+   * the use of {@link SBO} and the 'sboTerm' attribute.
+   * 
+   *
+   * @param term the NNNNNNN integer portion of the {@link SBO} identifier
    * @see SBO
    * @throws PropertyNotAvailableException in Level 1.
    */
@@ -725,7 +845,23 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Sets the value of the 'sboTerm' attribute.
    * 
-   * @param sboid
+   * <p> Beginning with SBML Level 2 Version 3, objects derived from {@link SBase} have
+   * an optional attribute named 'sboTerm' for supporting the use of the
+   * Systems Biology Ontology.  In SBML proper, the data type of the
+   * attribute is a string of the form 'SBO:NNNNNNN', where 'NNNNNNN' is a
+   * seven digit integer number; JSBML simplifies the representation by
+   * only storing the 'NNNNNNN' integer portion.  Thus, in JSBML, the
+   * 'sboTerm' attribute on {@link SBase} has data type <code>int</code>, and {@link SBO} identifiers
+   * are stored simply as integers. 
+   * 
+   * <p> {@link SBO} terms are a type of optional annotation, and each different class
+   * of SBML object derived from {@link SBase} imposes its own requirements about
+   * the values permitted for 'sboTerm'.  Please consult the SBML
+   * Level&nbsp;2 Version&nbsp;4 specification for more information about
+   * the use of {@link SBO} and the 'sboTerm' attribute.
+   * 
+   *
+   * @param sboid the {@link SBO} identifier of the form 'SBO:NNNNNNN'
    * @see SBO
    */
   public void setSBOTerm(String sboid);
@@ -799,6 +935,13 @@ public interface SBase extends TreeNodeWithChangeSupport {
   public void unsetSBOTerm();
 
   /**
+   * Returns a map with all the attributes of this {@link SBase} that
+   * need to be written out in XML. 
+   * 
+   * <p>The attribute name is used as a key
+   * and the attribute value as value. If a prefix is needed for the attribute name,
+   * it need to be set directly in this map.
+   * 
    * @return a {@link Map} containing the XML attributes of this object.
    */
   public Map<String, String> writeXMLAttributes();

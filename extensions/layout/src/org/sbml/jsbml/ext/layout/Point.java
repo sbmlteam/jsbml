@@ -32,7 +32,7 @@ import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
 
 /**
- * The representation of a point in the “layout” package.
+ * The representation of a point in the "layout" package.
  * 
  * <p>A {@link Point} is specified via the required attributes 'x', 'y' and an optional
  * attribute 'z', all of which are of type double. If the attribute z is not
