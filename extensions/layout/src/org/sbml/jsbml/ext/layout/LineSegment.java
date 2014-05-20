@@ -294,6 +294,10 @@ public class LineSegment extends CurveSegment {
       this.end.fireNodeRemovedEvent();
     }
     this.end = end;
+    
+    if (end != null) {
+      end.setElementName(LayoutConstants.end);
+    }
     registerChild(this.end);
   }
 
@@ -306,6 +310,10 @@ public class LineSegment extends CurveSegment {
       this.start.fireNodeRemovedEvent();
     }
     this.start = start;
+
+    if (start != null) {
+      start.setElementName(LayoutConstants.start);
+    }
     registerChild(this.start);
   }
 

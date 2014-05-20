@@ -32,7 +32,9 @@ import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
 
 /**
- * A {@link Point} is specified via the required attributes 'x', 'y' and an optional
+ * The representation of a point in the “layout” package.
+ * 
+ * <p>A {@link Point} is specified via the required attributes 'x', 'y' and an optional
  * attribute 'z', all of which are of type double. If the attribute z is not
  * specified, the object is a two dimensional object. The {@link Point} class also has
  * an optional attribute id of type SId. While not used in the {@link Layout} package,
@@ -58,19 +60,25 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   private static final Logger logger = Logger.getLogger(Point.class);
 
   /**
-   * 
+   * the x coordinate
    */
   private double x;
   /**
-   * 
+   * the y coordinate
    */
   private double y;
   /**
-   * 
+   * the z coordinate
    */
   private double z;
 
   /**
+   * The name to be used when writing this point to XML.
+   */
+  private String xmlElementName;
+  
+  /**
+   * Creates a new {@link Point} instance with all coordinates set to {@link Double#NaN}.
    * 
    */
   public Point() {
@@ -80,10 +88,11 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * Creates a new {@link Point} instance with the given x and y coordinates. z is set to {@link Double#NaN}.
    * 
-   * @param x
-   * @param y
-   * @param z
+   * @param x the x coordinate
+   * @param y the y coordinate
+   * @param z the z coordinate
    */
   public Point(double x, double y) {
     this();
@@ -93,10 +102,11 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * Creates a new {@link Point} instance with the given coordinates.
    * 
-   * @param x
-   * @param y
-   * @param z
+   * @param x the x coordinate
+   * @param y the y coordinate
+   * @param z the z coordinate
    */
   public Point(double x, double y, double z) {
     this();
@@ -106,12 +116,13 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * Creates a new {@link Point} instance with the given coordinates and level and version.
    * 
-   * @param x
-   * @param y
-   * @param z
-   * @param level
-   * @param version
+   * @param x the x coordinate
+   * @param y the y coordinate
+   * @param z the z coordinate
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Point(double x, double y, double z, int level, int version) {
     this(level, version);
@@ -121,9 +132,10 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * Creates a new {@link Point} instance with the given level and version,  all coordinates are set to {@link Double#NaN}.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Point(int level, int version) {
     super(level, version);
@@ -132,12 +144,14 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * Creates a new {@link Point} instance with all attributes cloned from the given {@link Point}.
    * 
-   * @param point
+   * @param point the {@link Point} instance to clone. 
    */
   public Point(Point point) {
     super(point);
     clonePointAttributes(point, this);
+    setElementName(point.getElementName());
   }
 
   /* (non-Javadoc)
@@ -149,6 +163,7 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * Clones the x, y and z coordinates from point to cloned.  
    * 
    * @param point
    * @param cloned
@@ -195,25 +210,37 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
     return equals;
   }
 
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getElementName()
+   */
+  @Override
+  public String getElementName() {    
+    return xmlElementName;
+  }
+
   /**
+   * Gets the x coordinate.
    * 
-   * @return
+   * @return the x coordinate.
    */
   public double getX() {
     return x;
   }
 
   /**
+   * Gets the y coordinate.
    * 
-   * @return
+   * @return the y coordinate.
    */
   public double getY() {
     return y;
   }
 
   /**
+   * Gets the z coordinate.
    * 
-   * @return
+   * @return the z coordinate.
    */
   public double getZ() {
     return z;
@@ -241,21 +268,27 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * @return
+   * Returns {@code true} if the x coordinate is set.
+   * 
+   * @return {@code true} if the x coordinate is set.
    */
   public boolean isSetX() {
     return !Double.isNaN(x);
   }
 
   /**
-   * @return
+   * Returns {@code true} if the y coordinate is set.
+   * 
+   * @return {@code true} if the y coordinate is set.
    */
   public boolean isSetY() {
     return !Double.isNaN(y);
   }
 
   /**
-   * @return
+   * Returns {@code true} if the z coordinate is set.
+   * 
+   * @return {@code true} if the z coordinate is set.
    */
   public boolean isSetZ() {
     return !Double.isNaN(z);
@@ -293,12 +326,26 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
     return isAttributeRead;
   }
 
+  
   /**
-   * The general {@link Point} class specifies the x, y, and z (optional) attributes
+   * Sets the name to be used when writing this {@link Point} to XML.
+   * 
+   * <p>This method should only be used internally.
+   * 
+   * @param elementName the xml element name.
+   */
+  void setElementName(String elementName) {
+    xmlElementName = elementName;
+  }
+  
+  /**
+   * Sets the x coordinate.
+   * 
+   * <p>The general {@link Point} class specifies the x, y, and z (optional) attributes
    * which defines the graphical location with respect to the coordinate system
    * of the {@link Layout} extension. The x attribute is required.
    * 
-   * @param x
+   * @param x the x coordinate to be set.
    */
   public void setX(double x) {
     Double oldX = this.x;
@@ -307,10 +354,12 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * The y attribute is required. For a more general description of the dimension
-   * attributes, see setX().
+   * Sets the y coordinate.
    * 
-   * @param y
+   * <p>The y attribute is required. For a more general description of the dimension
+   * attributes, see {@link #setX(double)}.
+   * 
+   * @param y the y coordinate to be set.
    */
   public void setY(double y) {
     Double oldY = this.y;
@@ -319,10 +368,12 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * The z attribute is optional. The layout is 2-dimensional if the z attribute is
+   * Sets the z coordinate.
+   * 
+   * <p>The z attribute is optional. The layout is 2-dimensional if the z attribute is
    * not specified.
    * 
-   * @param z
+   * @param z the z coordinate to be set.
    */
   public void setZ(double z) {
     Double oldZ = this.z;
@@ -372,5 +423,36 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
 
     return attributes;
   }
+  
+  /**
+   * Gets the x coordinate.
+   * 
+   * @return the x coordinate.
+   * @see #getX()
+   */
+  public double x() {
+    return x;
+  }
+
+  /**
+   * Gets the y coordinate.
+   * 
+   * @return the y coordinate.
+   * @see #getY()
+   */
+  public double y() {
+    return y;
+  }
+  
+  /**
+   * Gets the z coordinate.
+   * 
+   * @return the z coordinate.
+   * @see #getZ()
+   */
+  public double z() {
+    return z;
+  }
+
 
 }

@@ -80,10 +80,10 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
   public BoundingBox(BoundingBox boundingBox) {
     super(boundingBox);
     if (boundingBox.isSetDimensions()) {
-      dimensions = boundingBox.getDimensions().clone();
+      setDimensions(boundingBox.getDimensions().clone());
     }
     if (boundingBox.isSetPosition()) {
-      position = boundingBox.getPosition().clone();
+      setPosition(boundingBox.getPosition().clone());
     }
   }
 
@@ -339,8 +339,9 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
       oldValue.fireNodeRemovedEvent();
     }
     if (position != null) {
-      position.fireNodeAddedEvent();
+      position.setElementName(LayoutConstants.position);
     }
+    registerChild(position);
   }
 
   /* (non-Javadoc)

@@ -27,7 +27,6 @@ import java.util.Map;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBase;
 
 /**
  * @author Eugen Netz
@@ -181,31 +180,6 @@ public class ColorDefinition extends AbstractNamedSBase {
   @Override
   public boolean isIdMandatory() {
     return true;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
-   */
-  @Override
-  public boolean getAllowsChildren() {
-    return false;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
-   */
-  @Override
-  public int getChildCount() {
-    int count = 0;
-    return count;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-   */
-  @Override
-  public SBase getChildAt(int childIndex) {
-    return null;
   }
 
   /**
