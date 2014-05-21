@@ -38,6 +38,11 @@ import org.sbml.jsbml.util.StringTools;
 public class Index extends AbstractMathContainer {
 
   
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 2277400816974157871L;
+
   private String referencedAttribute;
   
   private int arrayDimension;
@@ -51,7 +56,6 @@ public class Index extends AbstractMathContainer {
   public Index() {
     super();
     initDefaults();
-    Index index = new Index();
   }
 
 
@@ -245,11 +249,11 @@ public class Index extends AbstractMathContainer {
     
     if(isSetArrayDimension()) {
       attributes.remove("arrayDimension");
-      attributes.put(ArraysConstants.shortLabel + ":getArrayDimension", ""+getArrayDimension());
+      attributes.put(ArraysConstants.shortLabel + ":arrayDimension", ""+getArrayDimension());
     }
     
     if(isSetReferencedAttribute()) {
-      attributes.remove("size");
+      attributes.remove("referencedAttribute");
       attributes.put(ArraysConstants.shortLabel + ":referencedAttribute", getReferencedAttribute());
     }
     
