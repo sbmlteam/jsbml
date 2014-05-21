@@ -45,6 +45,17 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin {
    */
   private static final long serialVersionUID = -5467877915615614247L;
 
+  
+
+/**
+ * 
+ */
+private ListOf<Index> listOfIndices;
+
+/**
+ * 
+ */
+private ListOf<Dimension> listOfDimensions;
 // TODO: Look at CompPlugin for IdManager
   //TODO: org.sbml.jsbml.test.UnregisterPackageTests.testCompPort()
 // TODO: Add types in ASTNode
@@ -232,6 +243,31 @@ public Index getIndex(int i) {
   return getListOfIndices().get(i);
 }
 
+/**
+ * Gets an element from the listOfIndices based on array dimension 
+ * and referenced attribute.
+ *
+ * @param i the index of the {@link Index} element to get.
+ * @return an element from the listOfIndices at the given index.
+ * @throws IndexOutOfBoundsException if the listOf is not set or
+ * if the index is out of bound (index < 0 || index > list.size).
+ */
+public Index getIndex(int dim, String attribute) {
+  if (!isSetListOfIndices()) {
+    return null;
+  }
+  ListOf<Index> list = getListOfIndices();
+  for(Index index : list) {
+    if(index.isSetArrayDimension() && index.isSetReferencedAttribute()) {
+      if(index.getArrayDimension() == dim 
+          && index.getReferencedAttribute().equals(attribute)) {
+        return index;
+      }
+    }
+  }
+  
+  return null;
+}
 
 /**
  * Returns the number of {@link Index}s in this {@link ArraysSBasePlugin}.
@@ -253,10 +289,6 @@ public int getNumIndices() {
   return getIndexCount();
 }
 
-/**
- * 
- */
-private ListOf<Index> listOfIndices;
 
 
   /**
@@ -404,6 +436,22 @@ private ListOf<Index> listOfIndices;
     return field;
   }
 
+  
+  /**
+   * Gets an element from the listOfDimensions at the given index.
+   *
+   * @param i the dimension of the {@link Dimension} element to get.
+   * @return an element from the listOfDimensions at the given index.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > 2).
+   */
+  public Dimension getDimension(int i) {
+    if (!isSetListOfDimensions()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    
+    return getListOfDimensions().get(i);
+  }
   /**
    * Gets an element from the listOfDimensions at the given arrayDimension.
    *
@@ -412,7 +460,7 @@ private ListOf<Index> listOfIndices;
    * @throws IndexOutOfBoundsException if the listOf is not set or
    * if the index is out of bound (index < 0 || index > 2).
    */
-  public Dimension getDimension(int i) {
+  public Dimension getDimensionByArrayDimension(int i) {
     if (!isSetListOfDimensions()) {
       throw new IndexOutOfBoundsException(Integer.toString(i));
     }
@@ -466,10 +514,7 @@ private ListOf<Index> listOfIndices;
     return getDimensionCount();
   }
 
-  /**
-   * 
-   */
-  private ListOf<Dimension> listOfDimensions;
+
   
 
   /* (non-Javadoc)
