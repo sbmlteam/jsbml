@@ -53,7 +53,8 @@ public class ArraysConstants {
     namespaces = new ArrayList<String>();
     namespaces.add(namespaceURI_L3V1V1);
   }
-
+  public static final String listOfDimensions = "listOfDimensions";
+  public static final String listOfIndices = "listOfIndices";
   public static final String arrayDimension = "arrayDimension";
   public static final String size = "size";
   public static final String referencedAttribute = "referencedAttribute";
