@@ -33,6 +33,7 @@ import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.ext.arrays.Index;
+import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 
 /**
@@ -110,25 +111,7 @@ public class ArraysParser extends AbstractReaderWriter implements PackageParser 
     String prefix, boolean hasAttributes, boolean hasNamespaces,
     Object contextObject) {
     // TODO Auto-generated method stub
-    if(contextObject instanceof SBase)
-    {
-      SBase sBase = (SBase) contextObject;
-      
-      if(elementName.equals("listOfDimensions")) {
-        
-        ArraysSBasePlugin arraysPlugin = (ArraysSBasePlugin) sBase.getPlugin(ArraysConstants.shortLabel);
-      
-       
-        return arraysPlugin.getListOfDimensions();
-      }
-      else if(elementName.equals("listOfIndices")) {
-        ArraysSBasePlugin arraysPlugin = (ArraysSBasePlugin) sBase.getPlugin(ArraysConstants.shortLabel);
-       
-        
-        return arraysPlugin.getListOfIndices();
-      }
-    }
-    else if(contextObject instanceof ListOf<?>)
+    if(contextObject instanceof ListOf<?>)
     {
       ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
       SBase sBase = listOf.getParent();
@@ -146,6 +129,22 @@ public class ArraysParser extends AbstractReaderWriter implements PackageParser 
       }
     }
     
+    else if(contextObject instanceof SBase)
+    {
+      SBase sBase = (SBase) contextObject;
+      
+      if(elementName.equals("listOfDimensions")) {
+        
+        ArraysSBasePlugin arraysPlugin = (ArraysSBasePlugin) sBase.getPlugin(ArraysConstants.shortLabel);
+
+        return arraysPlugin.getListOfDimensions();
+      }
+      else if(elementName.equals("listOfIndices")) {
+        ArraysSBasePlugin arraysPlugin = (ArraysSBasePlugin) sBase.getPlugin(ArraysConstants.shortLabel);
+
+        return arraysPlugin.getListOfIndices();
+      }
+    }
     return contextObject;
   }
 
@@ -164,4 +163,21 @@ public class ArraysParser extends AbstractReaderWriter implements PackageParser 
   public String getNamespaceURI() {
     return ArraysConstants.namespaceURI;
   }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
+   */
+  @Override
+  public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) {
+    
+    super.writeElement(xmlObject, sbmlElementToWrite);
+    
+    String name = xmlObject.getName();
+
+    if (name.equals("listOfIndexs")) {
+      xmlObject.setName("listOfIndices");
+    }
+  }
+  
+ 
 }
