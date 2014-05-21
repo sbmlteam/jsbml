@@ -23,6 +23,7 @@
 package org.sbml.jsbml.ext.arrays;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -31,6 +32,7 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
+import org.sbml.jsbml.util.IdManager;
 
 /**
  * @author Leandro Watanabe
@@ -38,24 +40,30 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  * @since 1.0
  * @date May 9, 2014
  */
-public class ArraysSBasePlugin extends AbstractSBasePlugin {
-  
+public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
+
   /**
    * 
    */
   private static final long serialVersionUID = -5467877915615614247L;
 
+
+
+  /**
+   * Maps between the {@link Dimension} identifiers and themselves.
+   */
+  Map<String, Dimension> mapOfDimensions;
   
+  /**
+   * 
+   */
+  private ListOf<Index> listOfIndices;
 
-/**
- * 
- */
-private ListOf<Index> listOfIndices;
-
-/**
- * 
- */
-private ListOf<Dimension> listOfDimensions;
+  /**
+   * 
+   */
+  private ListOf<Dimension> listOfDimensions;
+  
 // TODO: Look at CompPlugin for IdManager
   //TODO: org.sbml.jsbml.test.UnregisterPackageTests.testCompPort()
 // TODO: Add types in ASTNode
@@ -622,6 +630,67 @@ public int getNumIndices() {
     return attributes;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.IdManager#accept(org.sbml.jsbml.SBase)
+   */
+  @Override
+  public boolean accept(SBase sbase) {
+    return sbase instanceof Dimension;
+  }
 
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.IdManager#register(org.sbml.jsbml.SBase)
+   */
+  @Override
+  public boolean register(SBase sbase) {
 
+    boolean success = true;
+
+    if (sbase instanceof Dimension) {
+      Dimension dimension = (Dimension) sbase;
+
+      if (dimension.isSetId()) {
+        String portId = dimension.getId();
+
+        if (mapOfDimensions == null) {
+          mapOfDimensions = new HashMap<String, Dimension>();
+        }
+
+        if (mapOfDimensions.containsKey(portId)) {
+          success = false;
+        } else {
+          mapOfDimensions.put(portId, dimension);
+        }
+      }
+    } 
+    
+    return success;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.IdManager#unregister(org.sbml.jsbml.SBase)
+   */
+  @Override
+  public boolean unregister(SBase sbase) {
+
+    boolean success = true;
+
+    if (sbase instanceof Dimension) {
+      Dimension dimension = (Dimension) sbase;
+
+      if (dimension.isSetId()) {
+        String portId = dimension.getId();
+
+        if (mapOfDimensions == null) {
+          return false;
+        }
+
+        if (mapOfDimensions.containsKey(portId)) {
+          mapOfDimensions.remove(portId);
+        } 
+      }
+    } 
+    return success;
+  }
 }

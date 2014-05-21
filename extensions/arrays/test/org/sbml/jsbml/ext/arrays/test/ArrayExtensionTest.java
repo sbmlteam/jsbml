@@ -253,6 +253,7 @@ public class ArrayExtensionTest {
       index.setMath(new ASTNode());
       assertTrue(index.isSetMath());
   }
+  
   /**
    * Test if index referenced attribute is properly unset
    */
@@ -262,5 +263,31 @@ public class ArrayExtensionTest {
       index.setMath(new ASTNode());
       index.unsetMath();
       assertTrue(!index.isSetMath());
+  }
+  
+  /**
+   * Test if dimension ids can be set to same id iff they are part of
+   * different SBase. The id is locally scoped.
+   */
+  @Test
+  public void testDimensionIds() {
+    try{  
+      Species S1 = new Species();
+      ArraysSBasePlugin P1 = bindPluginToSpecies(S1);
+      Dimension D1 = new Dimension("i");
+      P1.addDimension(D1);
+      
+      Species S2 = new Species();
+      ArraysSBasePlugin P2 = bindPluginToSpecies(S2);
+      Dimension D2 = new Dimension("i");
+      P2.addDimension(D2);
+      
+      
+    }
+    catch(IllegalArgumentException e)
+    {
+      assertTrue(false);
+      e.printStackTrace();
+    }
   }
 }
