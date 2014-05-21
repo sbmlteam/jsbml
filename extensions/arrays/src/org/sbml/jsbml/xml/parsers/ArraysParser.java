@@ -175,7 +175,7 @@ public class ArraysParser extends AbstractReaderWriter implements PackageParser 
     String name = xmlObject.getName();
 
     if (name.equals("listOfIndexs")) {
-      xmlObject.setName("listOfIndices");
+      xmlObject.setName(ArraysConstants.listOfIndices);
     }
   }
   
