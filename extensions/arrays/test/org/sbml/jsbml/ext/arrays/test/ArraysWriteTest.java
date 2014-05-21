@@ -164,6 +164,25 @@ public class ArraysWriteTest {
     return result;
     
   }
+  
+  /**
+   * Test if given rule's index was set properly.
+   */
+  private boolean testRuleIndex(Model model, int child, String arraySize, int arrayDimension, ASTNode arrayMath)
+  {
+    
+    Rule r = model.getRule(child);
+    
+    ArraysSBasePlugin arraysSBasePluginRule = (ArraysSBasePlugin) r.getExtension("arrays");
+    
+    Index index = arraysSBasePluginRule.getIndex(arrayDimension, "variable");
+    
+    ASTNode math = index.getMath();
+    
+    return math.equals(arrayMath);
+    
+  }
+  
   @Test
   public void arrayReadTest() {
     try {
@@ -173,6 +192,7 @@ public class ArraysWriteTest {
       assertTrue(testParameterDimension(model, "X", "i", null, "n", 0));
       assertTrue(testParameterDimension(model, "Y", "j", null, "n", 0));
       assertTrue(testRuleDimension(model, 0, "k", null, "n", 0));
+      assertTrue(testRuleIndex(model,0,"n", 0, ASTNode.diff(new ASTNode(9), new ASTNode("i"))));
     } catch (XMLStreamException e) {
       assertTrue(false);
     }
