@@ -84,7 +84,7 @@ public class ArraysWriteTest {
 
     Y.addExtension(ArraysConstants.shortLabel, arraysSBasePluginY);
     // TODO: Implement id manager
-    Dimension dimY = new Dimension("j");
+    Dimension dimY = new Dimension("i");
     dimY.setSize(n.getId());
     dimY.setArrayDimension(0);
 
@@ -117,7 +117,10 @@ public class ArraysWriteTest {
     rule.setMath(ruleMath);
 
     SBMLWriter writer = new SBMLWriter();
+
+    
     writer.writeSBMLToFile(doc, path);
+    
     SBMLWriter.write(doc, System.out, ' ', (short) 2);
   }
 
@@ -190,7 +193,7 @@ public class ArraysWriteTest {
       SBMLWriter.write(doc, System.out, ' ', (short) 2);
       Model model = doc.getModel();
       assertTrue(testParameterDimension(model, "X", "i", null, "n", 0));
-      assertTrue(testParameterDimension(model, "Y", "j", null, "n", 0));
+      assertTrue(testParameterDimension(model, "Y", "i", null, "n", 0));
       assertTrue(testRuleDimension(model, 0, "k", null, "n", 0));
       assertTrue(testRuleIndex(model,0,"n", 0, ASTNode.diff(new ASTNode(9), new ASTNode("i"))));
     } catch (XMLStreamException e) {

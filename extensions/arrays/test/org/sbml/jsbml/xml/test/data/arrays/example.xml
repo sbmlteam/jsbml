@@ -10,7 +10,7 @@
       </parameter>
       <parameter id="Y">
         <arrays:listOfDimensions xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1">
-          <arrays:dimension arrays:id="j" arrays:size="n" arrays:arrayDimension="0"/>
+          <arrays:dimension arrays:id="i" arrays:size="n" arrays:arrayDimension="0"/>
         </arrays:listOfDimensions>
       </parameter>
     </listOfParameters>
