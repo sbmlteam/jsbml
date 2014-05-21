@@ -155,18 +155,6 @@ public class ArrayExtensionTest {
   }
   
   /**
-   * Test if array dimension is properly set
-   */
-  @Test
-  public void testDimensionBadArrayDimension() {
-    
-    Dimension dimension = new Dimension();
-    dimension.setArrayDimension(3);
-    assertTrue(false);
-    
-  }
-  
-  /**
    * Test if set can be unset
    */
   @Test
