@@ -23,6 +23,8 @@
 package org.sbml.jsbml.ext.arrays;
 
 import java.text.MessageFormat;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.tree.TreeNode;
 
@@ -38,7 +40,14 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  */
 public class ArraysSBasePlugin extends AbstractSBasePlugin {
   
-  // TODO Add types in ASTNode
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -5467877915615614247L;
+
+// TODO: Look at CompPlugin for IdManager
+  //TODO: org.sbml.jsbml.test.UnregisterPackageTests.testCompPort()
+// TODO: Add types in ASTNode
  /**
  * Creates an ArraysSBasePlugin instance 
  */
@@ -147,9 +156,9 @@ public void setListOfIndices(ListOf<Index> listOfIndices) {
  */
 public boolean unsetListOfIndices() {
   if (isSetListOfIndices()) {
-    ListOf<Index> oldIndexs = listOfIndices;
+    ListOf<Index> oldIndices = listOfIndices;
     listOfIndices = null;
-    oldIndexs.fireNodeRemovedEvent();
+    oldIndices.fireNodeRemovedEvent();
     return true;
   }
   return false;
@@ -559,5 +568,15 @@ private ListOf<Index> listOfIndices;
     // There is no attribute
     return false;
   }
+  
+  
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    // No attribute
+    Map<String, String> attributes = new TreeMap<String, String>();
+    return attributes;
+  }
+
+
 
 }
