@@ -298,7 +298,7 @@ public class Dimension extends AbstractNamedSBase implements UniqueNamedSBase{
     
     if(isSetArrayDimension()) {
       attributes.remove("arrayDimension");
-      attributes.put(ArraysConstants.shortLabel + ":getArrayDimension", ""+getArrayDimension());
+      attributes.put(ArraysConstants.shortLabel + ":arrayDimension", ""+getArrayDimension());
     }
     
     if(isSetSize()) {
