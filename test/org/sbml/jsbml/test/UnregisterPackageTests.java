@@ -37,6 +37,7 @@ import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
+import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.ext.comp.CompConstants;
 import org.sbml.jsbml.ext.comp.CompModelPlugin;
 import org.sbml.jsbml.ext.comp.CompSBMLDocumentPlugin;
@@ -629,14 +630,36 @@ public class UnregisterPackageTests {
   }
   
   @Test public void testArrays() {
-    // TODO - when the package code is done
     
     ArraysSBasePlugin arraysTestPlugin = (ArraysSBasePlugin) model.getPlugin(ArraysConstants.shortLabel);
     
     arraysTestPlugin.createDimension("AD1");
     
-    assertTrue(model.findNamedSBase("AD1") != null);
+    assertTrue(model.findNamedSBase("AD1") == null);
     
+    arraysTestPlugin = (ArraysSBasePlugin) model.getSpecies(0).getPlugin(ArraysConstants.shortLabel);
+    
+    arraysTestPlugin.createDimension("AD1");
+    arraysTestPlugin.createDimension("AD2");
+    
+    try {
+      arraysTestPlugin.createDimension("AD1");
+      assertTrue("We should not be allowed to have several dimensions with the same id inside the same ArraysSBasePlugin", false);
+    } catch (IllegalArgumentException e) {
+        assertTrue(true);
+    } 
+
+    Dimension d = arraysTestPlugin.createDimension();
+    
+    try {
+      d.setId("AD2");
+      assertTrue("We should not be allowed to have several dimensions with the same id inside the same ArraysSBasePlugin", false);
+    } catch (IllegalArgumentException e) {
+        assertTrue(true);
+    } 
+
+    assertTrue(arraysTestPlugin.getDimensionCount() == 3);
+    assertTrue(arraysTestPlugin.getDimension(2).isSetId() == false);
   }
 
 }

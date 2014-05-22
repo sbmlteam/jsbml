@@ -27,7 +27,6 @@ import java.util.Map;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.StringTools;
 
 
@@ -37,7 +36,7 @@ import org.sbml.jsbml.util.StringTools;
  * @since 1.0
  * @date May 11, 2014
  */
-public class Dimension extends AbstractNamedSBase implements UniqueNamedSBase{
+public class Dimension extends AbstractNamedSBase {
   
   /**
    * 
