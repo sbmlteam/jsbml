@@ -93,7 +93,7 @@
 		<property name="libSBMLio.module.base.dir" value="${basedir}/modules/libSBMLio" />
 
 		<property name="core.base.dir" value="${basedir}/core" />
-		<property name="package.names" value="comp fbc groups layout multi qual render req spatial" />
+		<property name="package.names" value="comp fbc groups layout multi qual render req spatial arrays" />
 
 		<filter token="year" value="${year}" />
 		<filter token="version" value="${version}" />
