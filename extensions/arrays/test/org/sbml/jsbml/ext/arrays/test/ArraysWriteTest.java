@@ -83,7 +83,6 @@ public class ArraysWriteTest {
     ArraysSBasePlugin arraysSBasePluginY = new ArraysSBasePlugin(Y);
 
     Y.addExtension(ArraysConstants.shortLabel, arraysSBasePluginY);
-    // TODO: Implement id manager
     Dimension dimY = new Dimension("i");
     dimY.setSize(n.getId());
     dimY.setArrayDimension(0);
@@ -97,7 +96,7 @@ public class ArraysWriteTest {
     ArraysSBasePlugin arraysSBasePluginRule = new ArraysSBasePlugin(rule);
     rule.addExtension(ArraysConstants.shortLabel, arraysSBasePluginRule);
     
-    Dimension dimRule = new Dimension("k");
+    Dimension dimRule = new Dimension("i");
     dimRule.setSize(n.getId());
     dimRule.setArrayDimension(0);
     arraysSBasePluginRule.addDimension(dimRule);

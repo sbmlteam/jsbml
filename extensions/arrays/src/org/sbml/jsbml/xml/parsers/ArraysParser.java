@@ -110,9 +110,10 @@ public class ArraysParser extends AbstractReaderWriter implements PackageParser 
   public Object processStartElement(String elementName, String uri,
     String prefix, boolean hasAttributes, boolean hasNamespaces,
     Object contextObject) {
-    // TODO Auto-generated method stub
+
     if(contextObject instanceof ListOf<?>)
     {
+      @SuppressWarnings("unchecked")
       ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
       SBase sBase = listOf.getParent();
       ArraysSBasePlugin arraysPlugin = (ArraysSBasePlugin) sBase.getPlugin(ArraysConstants.shortLabel);
