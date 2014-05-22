@@ -35,10 +35,20 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.util.IdManager;
 
 /**
+ * 
+ * The {@link ArraysSBasePlugin} class extends the {@link SBase} class by adding an optional ListOf{@link Dimension}s child and a single optional {@link Index} child.
+ * 
+ * <p>The {@link ArraysSBasePlugin} class codifies the extensions to the {@link SBase} class defined in the 'Arrays' package.
+ * These extensions allows the modeler to define one or more {@link Dimension} elements to indicate the parent {@link SBase} object is arrayed. In
+ * addition, these extensions allows the definition of one or more {@link Index} elements to reference the parent {@link SBase} that has
+ * one or more array dimensions.
+ *  
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
  * @date May 9, 2014
+ * @see Dimension
+ * @see Index
  */
 public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
 

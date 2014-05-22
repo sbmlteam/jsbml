@@ -30,6 +30,9 @@ import org.sbml.jsbml.util.StringTools;
 
 
 /**
+ * The {@link Index} is used to referenced an arrayed element specified in
+ * an attribute.
+ * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
@@ -43,10 +46,19 @@ public class Index extends AbstractMathContainer {
    */
   private static final long serialVersionUID = 2277400816974157871L;
 
+  /**
+   * 
+   */
   private String referencedAttribute;
   
+  /**
+   * 
+   */
   private int arrayDimension;
   
+  /**
+   * 
+   */
   private boolean isSetArrayDimension;
   
   

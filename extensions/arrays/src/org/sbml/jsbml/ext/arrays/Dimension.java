@@ -31,6 +31,10 @@ import org.sbml.jsbml.util.StringTools;
 
 
 /**
+ * 
+ * The {@link Dimension} is used to indicate the parent {@link SBase}
+ * is arrayed.
+ * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
