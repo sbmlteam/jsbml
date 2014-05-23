@@ -222,7 +222,7 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Gets the x coordinate.
    * 
-   * <p>Returns {@link Double#NaN} is {@link #isSetX()}
+   * <p>Returns {@link Double#NaN} if {@link #isSetX()}
    * return false.
    * 
    * @return the x coordinate.
@@ -234,7 +234,7 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Gets the y coordinate.
    * 
-   * <p>Returns {@link Double#NaN} is {@link #isSetY()}
+   * <p>Returns {@link Double#NaN} if {@link #isSetY()}
    * return false.
    * 
    * @return the y coordinate.
@@ -246,7 +246,7 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Gets the z coordinate.
    * 
-   * <p>Returns {@link Double#NaN} is {@link #isSetZ()}
+   * <p>Returns {@link Double#NaN} if {@link #isSetZ()}
    * return false.
    * 
    * @return the z coordinate.
