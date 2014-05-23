@@ -3634,7 +3634,9 @@ public class ASTNode extends AbstractTreeNode {
 
     String sType = type.toString();
 
-    logger.debug("setType called: typeBefore = " + this.type + " typeAfter= " + sType);
+    if (logger.isDebugEnabled()) {
+      logger.debug("setType called: typeBefore = " + this.type + " typeAfter= " + sType);
+    }
 
     if (sType.startsWith("NAME") || sType.startsWith("CONSTANT")) {
       // TODO: check, a user might have set some values before calling
