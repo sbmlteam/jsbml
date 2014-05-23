@@ -222,6 +222,9 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Gets the x coordinate.
    * 
+   * <p>Returns {@link Double#NaN} is {@link #isSetX()}
+   * return false.
+   * 
    * @return the x coordinate.
    */
   public double getX() {
@@ -231,6 +234,9 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Gets the y coordinate.
    * 
+   * <p>Returns {@link Double#NaN} is {@link #isSetY()}
+   * return false.
+   * 
    * @return the y coordinate.
    */
   public double getY() {
@@ -239,6 +245,9 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Gets the z coordinate.
+   * 
+   * <p>Returns {@link Double#NaN} is {@link #isSetZ()}
+   * return false.
    * 
    * @return the z coordinate.
    */
@@ -429,9 +438,10 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @return the x coordinate.
    * @see #getX()
+   * @libsbml.deprecated
    */
   public double x() {
-    return x;
+    return getX();
   }
 
   /**
@@ -439,9 +449,10 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @return the y coordinate.
    * @see #getY()
+   * @libsbml.deprecated
    */
   public double y() {
-    return y;
+    return getY();
   }
   
   /**
@@ -449,9 +460,10 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @return the z coordinate.
    * @see #getZ()
+   * @libsbml.deprecated
    */
   public double z() {
-    return z;
+    return getZ();
   }
 
 
