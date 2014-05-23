@@ -307,10 +307,6 @@
 			<fileset dir="${basedir}/" includes="LICENSE.txt NEWS.txt README AUTHORS.txt">
 			</fileset>
 		</copy>
-		<copy todir="${dist.dir}/licenses">
-			<fileset dir="${basedir}/licenses" includes="**/*">
-			</fileset>
-		</copy>
 
 		<copy todir="${dist.dir}/doc">
 			<fileset dir="${basedir}/doc" includes="**/*.pdf **/*.jpg **/*.java" excludes="posters/** publications/** templates/**">
