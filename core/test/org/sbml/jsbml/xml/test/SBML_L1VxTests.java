@@ -44,6 +44,7 @@ import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
 /**
+ * Tests reading SBML Level 1 version 1 or 2 files.
  * 
  * @author Nicolas Rodriguez
  * @since 0.8

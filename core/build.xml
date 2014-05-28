@@ -340,6 +340,7 @@
 				<provider classname="org.sbml.jsbml.xml.parsers.RenderParser"/>
 				<provider classname="org.sbml.jsbml.xml.parsers.SpatialParser"/>
 				<provider classname="org.sbml.jsbml.xml.parsers.CompParser"/>
+				<provider classname="org.sbml.jsbml.xml.parsers.ArraysParser" />
 	  	</service>
 		</jar>
 	</target>
@@ -372,19 +373,6 @@
 		</junit>
 		<echo message=""/>
 		
-		<junit printsummary="yes" >
-			<!-- showoutput="yes" -->
-			<formatter type="plain"/>
-			<test name="org.sbml.jsbml.math.test.ASTNodeTest" outfile="jsbmlTestResults">
-				<formatter type="plain"/>
-			</test>
-			<classpath>
-				<path refid="classpath"/>
-				<pathelement location="${build.dir}/${name}-${version}.jar"/>
-			</classpath>
-		</junit>
-		<echo message=""/>
-
 		<junit printsummary="yes" >
 			<!-- showoutput="yes" -->
 			<formatter type="plain"/>
