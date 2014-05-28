@@ -31,7 +31,7 @@
 	<!-- =================================================================== -->
 
 	<target description="Initialization target" name="init" unless="target.init.done">
-		
+
 		<property name="target.init.done" value="true"/>
 
 		<tstamp>
@@ -77,8 +77,8 @@
 		<property name="build.number" value="${DSTAMP}-${TSTAMP}" />
 		<property name="build.name" value="${version} (build ${build.number}, svn rev ${jsbml.revision})" />
 
-		<property name="src.dir" value="${basedir}/core/src" />
-		<property name="test.src.dir" value="${basedir}/core/test" />
+		<property name="src.dir" value="${basedir}/src" />
+		<property name="test.src.dir" value="${basedir}/test" />
 		<property name="build.dir" value="${basedir}/build" />
 		<property name="build.src" value="${basedir}/build/src" />
 		<property name="build.dest" value="${basedir}/build/classes" />
@@ -106,6 +106,7 @@
 		<path id="classpath">
 			<fileset dir="${jars.dir}" includes="*.jar *.zip"/>
 			<path location="${core.base.dir}/build/classes"/>
+			<fileset dir="${build.dir}" includes="*.jar *.zip"/>
 		</path>
 
 	</target>
@@ -178,18 +179,37 @@
 		<copy todir="${build.src}">
 			<fileset dir="${core.base.dir}/build/src" includes="**/*"/>
 		</copy>
-		
+
+	</target>
+
+	<!-- =================================================================== -->
+	<!-- Compiles the test directory                                         -->
+	<!-- =================================================================== -->
+	<target
+	  name="compile"
+	  description="Compiles the test directory"
+	  depends="prepare-src, package"
+	>
+		<javac srcdir="${test.src.dir}"
+           destdir="${build.dest}"
+           debug="${debug}"
+           optimize="${optimize}"
+           verbose="${verbose}"
+           source="1.6"
+           target="1.6"
+           classpathref="classpath">
+		</javac>
 	</target>
 
 
 
 	<!-- =================================================================== -->
-	<!-- Creates the class package           depends="prepare-src, package"                                 -->
+	<!-- Creates the class package                                           -->
 	<!-- =================================================================== -->
 	<target
 	  name="jar"
 	  description="Creates the class package"
-	  depends="prepare-src, package"
+	  depends="prepare-src, compile"
 	>
 		<jar
 		  jarfile="${dist.dir}/${name}-${version}.jar"
@@ -197,8 +217,9 @@
 		  filesetmanifest="mergewithoutmain"
 		  duplicate="preserve"
 		  index="true"
-		>	
+		>
 			<fileset dir="${core.base.dir}/build/classes" excludes="**/package-info.class **/package.html"/>
+			<fileset dir="${build.dest}" excludes="**/package-info.class **/package.html"/>
 			<zipgroupfileset dir="${build.dir}" includes="*.jar" excludes="**/package-info.class **/package.html"/>
 			<service type="org.sbml.jsbml.xml.parsers.ReadingParser">
 				<!-- This list need to be updated as soon as there is a new parser -->
@@ -214,6 +235,7 @@
 				<provider classname="org.sbml.jsbml.xml.parsers.RenderParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.SpatialParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.CompParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.ArraysParser" />
 			</service>
 
 		</jar>
@@ -256,10 +278,13 @@
 
 			<!-- we use the ${build.src} to include the sources of jsbml in the resulting jar -->
 			<fileset dir="${build.src}" />
+			<!-- all the dependencies jars -->
 			<zipgroupfileset dir="${jars.dir}" includes="*.jar" />
 			<!-- jsbml core classes -->
 			<fileset dir="${core.base.dir}/build/classes" />
-			<!-- all the dependencies jars -->
+			<!-- jsbml trunk test classes -->
+			<fileset dir="${build.dest}" />
+			<!-- all the package jars -->
 			<zipgroupfileset dir="${build.dir}" includes="*.jar" />
 			<!-- all L3 packages classes -->
 			<service type="org.sbml.jsbml.xml.parsers.ReadingParser">
@@ -276,6 +301,7 @@
 				<provider classname="org.sbml.jsbml.xml.parsers.RenderParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.SpatialParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.CompParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.ArraysParser" />
 			</service>
 		</jar>
 	</target>
@@ -290,14 +316,26 @@
 	  depends="jar"
 	>
 
-		<!-- Launching the tests for core -->
-		<!-- The variable DATA_FOLDER need to be declared previously in the environment: 
-		       export DATA_FOLDER=core/test/org/sbml/jsbml/xml/test/data -->
-		<ant dir="${core.base.dir}" target="test" inheritall="false"/>
-		
+		<!-- Launching the tests for core and packages -->
+		<!-- The variable DATA_FOLDER might need to be declared previously in the environment: 
+		       export DATA_FOLDER=core/test/org/sbml/jsbml/xml/test/data
+		-->
+		<echo message="There should be NO failures or errors."/>
+		<echo message=""/>
+		<echo message="You can see a detailled output of the tests on the file: jsbmlTestResults.txt"/>
+		<echo message=""/>
 
-		<!-- TODO - add some tests using the package here -->
-		<!-- TODO - loop over the package names to call the test target ? -->
+		<junit printsummary="yes" >
+			<formatter type="plain"/>
+			<test name="org.sbml.jsbml.test.AllTests" outfile="jsbmlTestResults">
+				<formatter type="plain"/>
+			</test>
+			<classpath>
+				<path refid="classpath"/>
+				<pathelement location="${dist.dir}/${name}-${version}.jar"/>
+			</classpath>
+		</junit>
+		<echo message=""/>
 
 	</target>
 
@@ -310,7 +348,7 @@
 	  depends="prepare-src, package"
 	  description="Creates the API documentation"
 	>
-		
+
 		<mkdir dir="${build.javadocs}"/>
 		<javadoc packagenames="org.*"
             excludepackagenames="org.sbml.jsbml.**.test, org.sbml.jsbml.**.test.**"
@@ -350,12 +388,12 @@
 
 		</javadoc>
 
-        <!--<property name="icon.file.src" value="${basedir}/core/doc/common/logo/JSBML.png"/>-->
-        <!--<property name="icon.file.dest" value="${basedir}/build/apidocs/resources/JSBML.png"/>-->
-        <!--<copy file="${icon.file.src}" tofile="${icon.file.dest}" verbose="true"/>-->
-        <!--<property name="icon.file.src2" value="${basedir}/javadoc.jpg"/>-->
-        <!--<property name="icon.file.dest2" value="${build.javadocs}/resources/javadoc.jpg"/>-->
-        <!--<copy file="${icon.file.src2}" tofile="${icon.file.dest2}" verbose="true"/>-->
+		<!--<property name="icon.file.src" value="${basedir}/core/doc/common/logo/JSBML.png"/>-->
+		<!--<property name="icon.file.dest" value="${basedir}/build/apidocs/resources/JSBML.png"/>-->
+		<!--<copy file="${icon.file.src}" tofile="${icon.file.dest}" verbose="true"/>-->
+		<!--<property name="icon.file.src2" value="${basedir}/javadoc.jpg"/>-->
+		<!--<property name="icon.file.dest2" value="${build.javadocs}/resources/javadoc.jpg"/>-->
+		<!--<copy file="${icon.file.src2}" tofile="${icon.file.dest2}" verbose="true"/>-->
 
 	</target>
 
@@ -386,12 +424,12 @@
 
 		<!-- Cleaning before starting -->
 		<antcall target="clean" />
-		
+
 		<!-- Creates the standard jar files -->
 		<antcall target="jar" />
 		<property name="package.target.done" value="true"/>
 		<property name="prepare.src.target.done" value="true"/>
-		
+
 		<antcall target="jar-src" />
 		<copy todir="${dist.root}" file="${dist.dir}/${name}-${version}.jar" />
 

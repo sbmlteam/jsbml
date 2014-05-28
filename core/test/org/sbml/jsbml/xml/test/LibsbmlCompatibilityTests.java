@@ -36,6 +36,9 @@ import org.sbml.jsbml.test.sbml.TestReadFromFile5;
 import org.sbml.jsbml.test.sbml.TestSpecies;
 
 /**
+ * JUnit suite of tests, including test classes imported from libSBML with as less changes as possible.
+ * 
+ * <p>Every changes should be commented in the test classes. 
  * 
  * @author Nicolas Rodriguez
  * @since 0.8
