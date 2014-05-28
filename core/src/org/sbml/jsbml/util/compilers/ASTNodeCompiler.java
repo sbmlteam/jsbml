@@ -30,8 +30,8 @@ import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.Unit;
-import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.Unit.Kind;
+import org.sbml.jsbml.UnitDefinition;
 
 /**
  * A compiler for abstract syntax trees. This compiler evaluates the values
@@ -698,6 +698,14 @@ public interface ASTNodeCompiler {
    */
   public ASTNodeValue unknownValue() throws SBMLException;
 
+  /**
+   * Dealing with a vector.
+   * 
+   * @return
+   * @throws SBMLException
+   */
+  public ASTNodeValue vector(List<ASTNode> nodes) throws SBMLException;
+  
   /**
    * Exclusive or.
    * 

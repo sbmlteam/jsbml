@@ -202,6 +202,30 @@ public class ArrayExtensionTest {
   }
   
   /**
+   * Test if dimension id can be the same for different species
+   */
+  @Test
+  public void testDimensionIdDifferentSBase() {
+    try
+    {
+      Species X = new Species(3,1);
+      ArraysSBasePlugin pluginX = bindPluginToSpecies(X);
+      Species Y = new Species(3,1);
+      ArraysSBasePlugin pluginY = bindPluginToSpecies(Y);
+      Dimension dim = new Dimension("dim", 3, 1);
+      Dimension dimCopy = new Dimension("dim", 3, 1);
+      pluginX.addDimension(dim);
+      pluginY.addDimension(dimCopy);
+      assertTrue(true);
+    }
+    catch(IllegalArgumentException e)
+    {
+      assertTrue(false);
+     //e.printStackTrace();
+    }
+  }
+  
+  /**
    * Test if index referenced attribute is properly set
    */
   @Test

@@ -344,7 +344,11 @@ public class ASTNode extends AbstractTreeNode {
     /**
      * 
      */
-    UNKNOWN;
+    UNKNOWN,
+    /**
+     * 
+     */
+    VECTOR;
 
     /**
      * Returns the {@link Type} corresponding to the given {@link String}.
@@ -529,6 +533,9 @@ public class ASTNode extends AbstractTreeNode {
       // arrays package additional mathML elements
       else if (type.equals("selector")) {
         return FUNCTION_SELECTOR;
+      }
+      else if (type.equals("vector")) {
+        return VECTOR;
       }
 
       // TODO: possible annotations: semantics, annotation, annotation-xml
@@ -1908,6 +1915,10 @@ public class ASTNode extends AbstractTreeNode {
     case RELATIONAL_LT:
       value = compiler.lt(getLeftChild(), getRightChild());
       break;
+    case VECTOR:
+      value = compiler.vector(getChildren());
+      value.setUIFlag(getChildCount() <= 1);
+      break;
     default: // UNKNOWN:
       value = compiler.unknownValue();
       break;
@@ -3075,6 +3086,16 @@ public class ASTNode extends AbstractTreeNode {
     return type == Type.NAME || type == Type.FUNCTION;
   }
 
+  /**
+   * Checks if this {@link ASTNode} represents a vector.
+   * 
+   * @return {@code true} if this {@link ASTNode} represents a vector, {@code false} otherwise.
+   */
+  public boolean isVector() {
+    return type == Type.VECTOR;
+  }
+
+ 
   /**
    * Returns {@code true} if this node represents the number zero (either as integer
    * or as real value).
