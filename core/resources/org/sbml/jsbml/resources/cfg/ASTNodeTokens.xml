@@ -99,5 +99,6 @@
   <entry key="plus">PLUS</entry>
   <entry key="minus">MINUS</entry>
   <entry key="divide">DIVIDE</entry>
-  <entry key="times">TIMES</entry>      
+  <entry key="times">TIMES</entry>
+  <entry key="vector">VECTOR</entry>
 </properties>

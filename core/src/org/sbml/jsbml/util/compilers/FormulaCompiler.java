@@ -1045,4 +1045,12 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
     return function("selector", nodes);
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#vector(java.util.List)
+   */
+  @Override
+  public ASTNodeValue vector(List<ASTNode> nodes) throws SBMLException {
+    return function("vector", nodes);
+  }
+
 }

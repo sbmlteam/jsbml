@@ -50,11 +50,11 @@ public class UnitsCompiler implements ASTNodeCompiler {
   /**
    * SBML level field
    */
-  private int level;
+  private final int level;
   /**
    * SBML version field
    */
-  private int version;
+  private final int version;
   /**
    * The model associated to this compiler.
    */
@@ -1348,6 +1348,14 @@ public class UnitsCompiler implements ASTNodeCompiler {
   @Override
   public ASTNodeValue selector(List<ASTNode> nodes) throws SBMLException {
     return function("selector", nodes);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#vector(java.util.List)
+   */
+  @Override
+  public ASTNodeValue vector(List<ASTNode> nodes) throws SBMLException {
+    return function("vector", nodes);
   }
 
 }

@@ -43,6 +43,7 @@ import org.sbml.jsbml.ext.arrays.Index;
 
 
 /**
+ * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
@@ -111,7 +112,7 @@ public class ArraysWriteTest {
     arraysSBasePluginRule.addIndex(indexRule);
     
     rule.setVariable("Y");
-    ASTNode ruleMath = new ASTNode("i");
+    ASTNode ruleMath = ASTNode.parseFormula("selector(X, i)");
     
     rule.setMath(ruleMath);
 
@@ -193,7 +194,7 @@ public class ArraysWriteTest {
       Model model = doc.getModel();
       assertTrue(testParameterDimension(model, "X", "i", null, "n", 0));
       assertTrue(testParameterDimension(model, "Y", "i", null, "n", 0));
-      assertTrue(testRuleDimension(model, 0, "k", null, "n", 0));
+      assertTrue(testRuleDimension(model, 0, "i", null, "n", 0));
       assertTrue(testRuleIndex(model,0,"n", 0, ASTNode.diff(new ASTNode(9), new ASTNode("i"))));
     } catch (XMLStreamException e) {
       assertTrue(false);

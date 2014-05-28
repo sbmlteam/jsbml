@@ -51,10 +51,10 @@ import org.sbml.jsbml.util.StringTools;
 public class MathMLXMLStreamCompiler {
 
   private String indent;
-  private XMLStreamWriter writer;
-  private Logger logger = Logger.getLogger(MathMLXMLStreamCompiler.class);
+  private final XMLStreamWriter writer;
+  private final Logger logger = Logger.getLogger(MathMLXMLStreamCompiler.class);
 
-  private FindUnitsCompiler findUnitsCompiler = new FindUnitsCompiler();
+  private final FindUnitsCompiler findUnitsCompiler = new FindUnitsCompiler();
 
   /**
    * Formats the real number in a valid way for mathML.
@@ -309,6 +309,9 @@ public class MathMLXMLStreamCompiler {
       case RELATIONAL_LEQ:
       case RELATIONAL_LT:
         compileRelationalOperator(astNode);
+        break;
+      case VECTOR:
+        compileVector(astNode);
         break;
       default: // UNKNOWN:
         logger.warn("!!!!! I don't know what to do with the node of type " + astNode.getType());
@@ -812,6 +815,28 @@ public class MathMLXMLStreamCompiler {
 
   }
 
+  private void compileVector(ASTNode astNode) {
+    String functionName = astNode.getType().toString().toLowerCase();
+    List<ASTNode> args = astNode.getListOfNodes();
+    try {
+
+      writer.writeCharacters(indent);
+      writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, functionName);
+      writer.writeCharacters("\n");
+      indent += "  ";
+
+      for (ASTNode arg : args) {
+        compile(arg);
+      }
+
+      writeEndElement();
+
+    } catch (XMLStreamException e) {
+      e.printStackTrace();
+    }
+    
+  }
+  
   private void function(String functionName, List<ASTNode> args) {
 
     function(functionName, args.toArray(new ASTNode[args.size()]));
