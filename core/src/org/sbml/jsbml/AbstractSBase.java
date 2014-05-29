@@ -896,11 +896,14 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       if (equals && sbase.isSetSBOTerm()) {
         equals &= sbase.getSBOTerm() == getSBOTerm();
       }
-      equals &= sbase.getLevelAndVersion().equals(getLevelAndVersion());
+      equals &= sbase.isSetLevelAndVersion() == isSetLevelAndVersion();
+      if (equals && sbase.isSetLevelAndVersion()) {
+        equals &= sbase.getLevelAndVersion().equals(getLevelAndVersion());
+      }
+      
       /*
        * Note: Listeners are not included in the equals check.
        */
-
 
       if ((extensions.size() > 0) &&
           (sbase.getExtensionPackages().size() == extensions.size())) {
