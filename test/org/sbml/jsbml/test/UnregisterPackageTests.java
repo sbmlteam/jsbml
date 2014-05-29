@@ -24,15 +24,20 @@ package org.sbml.jsbml.test;
 
 import static org.junit.Assert.assertTrue;
 
+import javax.xml.stream.XMLStreamException;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Constraint;
+import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
@@ -43,6 +48,7 @@ import org.sbml.jsbml.ext.comp.CompModelPlugin;
 import org.sbml.jsbml.ext.comp.CompSBMLDocumentPlugin;
 import org.sbml.jsbml.ext.comp.ModelDefinition;
 import org.sbml.jsbml.ext.comp.Port;
+import org.sbml.jsbml.ext.comp.Submodel;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
 import org.sbml.jsbml.ext.fbc.FBCSpeciesPlugin;
@@ -88,6 +94,9 @@ public class UnregisterPackageTests {
 
     compMainModel = (CompModelPlugin) model.getPlugin("comp");
     compMainModel.createSubmodel("submodel1");
+    LayoutModelPlugin layoutModelPlugin =  (LayoutModelPlugin) model.getPlugin("layout");
+    Layout layout = layoutModelPlugin.createLayout("layout1");
+    layout.setMetaId("layout_metaid1");
     
     Compartment comp = model.createCompartment("cell");
     comp.setMetaId("cell");
@@ -182,7 +191,7 @@ public class UnregisterPackageTests {
     
     // modelDefinition id belong to the id namespace of the main model
     // TODO - add test for those when implementation is done
-    // TODO - problem here, if a SBMLDocument is created with the main model element defined
+    // TODO - problem here, if a SBMLDocument is created without the main model element defined
     
     CompModelPlugin compModelDef2 = (CompModelPlugin) modelDef2.getPlugin("comp");
     
@@ -221,15 +230,11 @@ public class UnregisterPackageTests {
     assertTrue(model.findUniqueNamedSBase("subM1") == null);
     assertTrue(modelDef.findUniqueNamedSBase("subM1") == null);
     
-    System.out.println("BEFORE CLONING");
-    
     SBMLDocument clonedDoc = doc.clone();
     Model clonedModel = clonedDoc.getModel(); 
     CompModelPlugin compMainModelPluginCloned = (CompModelPlugin) clonedModel.getPlugin("comp");
     ModelDefinition clonedModelDef2 = ((CompSBMLDocumentPlugin) clonedDoc.getPlugin("comp")).getListOfModelDefinitions().get("modelDef2");
     CompModelPlugin clonedModelDef2Plugin = (CompModelPlugin) clonedModelDef2.getPlugin("comp");
-    
-    System.out.println("AFTER CLONING");
     
     assertTrue(model.getSpeciesCount() == 3);
         
@@ -271,6 +276,27 @@ public class UnregisterPackageTests {
   
   // TODO - add tests using ReplacedBy as it is using the method firePropertyChange. 
   
+  
+  @Test public void testCompCloning() {
+    
+    ListOf<Submodel> listOfSubmodels = compMainModel.getListOfSubmodels();
+    listOfSubmodels.setMetaId("metaid_listOfSubmodels");
+    
+    Submodel subModel2 = compMainModel.createSubmodel("submodel2");
+    subModel2.setMetaId("metaid_submodel2");
+    
+    SBMLDocument clonedDoc = new SBMLDocument(3, 1); 
+    clonedDoc.setModel(model.clone());
+    
+    try {
+      System.out.println(new SBMLWriter().writeSBMLToString(clonedDoc));
+    } catch (SBMLException e) {
+      e.printStackTrace();
+    } catch (XMLStreamException e) {
+      e.printStackTrace();
+    }
+    
+  }
   
   @Test public void testFbc() {
     
@@ -423,10 +449,12 @@ public class UnregisterPackageTests {
     QualModelPlugin clonedQualModel = (QualModelPlugin) clonedModel.getExtension(QualConstants.shortLabel);
     
     assertTrue(clonedModel.isSetPlugin(QualConstants.shortLabel) == true);
-    assertTrue(clonedModel.isSetPlugin(LayoutConstants.shortLabel) == false);
+    assertTrue(clonedModel.isSetPlugin(LayoutConstants.shortLabel) == true);
+    assertTrue(clonedModel.isSetPlugin(GroupsConstants.shortLabel) == false);
     assertTrue(clonedModel.isSetPlugin(CompConstants.shortLabel) == true);
     assertTrue(clonedDoc.isPackageEnabled(QualConstants.shortLabel) == true);
-    assertTrue(clonedDoc.isPackageEnabled(LayoutConstants.shortLabel) == false);
+    assertTrue(clonedDoc.isPackageEnabled(LayoutConstants.shortLabel) == true);
+    assertTrue(clonedDoc.isPackageEnabled(GroupsConstants.shortLabel) == false);
     assertTrue(clonedDoc.isPackageEnabled(CompConstants.shortLabel) == true);
     
     assertTrue(clonedQualModel.getQualitativeSpeciesCount() == 4);
@@ -527,6 +555,7 @@ public class UnregisterPackageTests {
     layout.createSpeciesGlyph("LSG1");
     layout.createTextGlyph("LTG1");
     
+    assertTrue(layoutModel.getLayoutCount() == 2);
     assertTrue(model.findUniqueNamedSBase("L1") != null);
     assertTrue(model.findUniqueNamedSBase("LCG1") != null);
     assertTrue(model.findUniqueNamedSBase("LGG1") != null);
