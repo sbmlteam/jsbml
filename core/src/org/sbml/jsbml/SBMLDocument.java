@@ -1308,7 +1308,7 @@ public class SBMLDocument extends AbstractSBase {
    */
   @Override
   public String toString() {
-    return "SBML Level " + getLevel() + " Version " + getVersion();
+    return "SBMLDocument Level " + getLevel() + " Version " + getVersion();
   }
 
   /**
