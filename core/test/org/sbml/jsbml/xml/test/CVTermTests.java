@@ -23,18 +23,25 @@ package org.sbml.jsbml.xml.test;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.stream.XMLStreamException;
+
+import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sbml.jsbml.CVTerm;
+import org.sbml.jsbml.CVTerm.Qualifier;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
+import org.sbml.jsbml.SBase;
 
 /**
  * Tests the {@link CVTerm} class.
@@ -52,7 +59,8 @@ public class CVTermTests {
   private SBMLDocument doc;
   private Model model;
   private Compartment compartment;
-
+  private CVTerm cvterm;
+  
   
   @BeforeClass public static void initialSetUp() {}
 
@@ -73,6 +81,10 @@ public class CVTermTests {
     compartment.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS_DESCRIBED_BY, "http://identifiers.org/pubmed/toDelete"));
     compartment.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS_PROPERTY_OF, "toDelete", "uri2", "uri3"));
     compartment.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_HAS_PART, HTTP_IDENTIFIERS_ORG_GO_GO_1222222));
+    
+    cvterm = new CVTerm();
+    // dummy resources to test pattern matching more easily
+    cvterm.addResources("abc mno xyz", "mno xyz ddd", "abc yyy rrr");
   }
 
   /**
@@ -102,15 +114,25 @@ public class CVTermTests {
   }
 
   /**
-   * @throws XMLStreamException 
-   * @throws SBMLException 
-   * 
+   * Writes an {@link SBMLDocument} to a String then reads it back and checks that
+   * the {@link CVTerm}s are the same. Tests as well the {@link CVTerm#removeFromParent()} method.
    */
-  @Test public void cvTermTest2() throws SBMLException, XMLStreamException {
+  @Test public void cvTermTest2() {
 
-    String docString = new SBMLWriter().writeSBMLToString(doc);
+    String docString = null;
+    try {
+      docString = new SBMLWriter().writeSBMLToString(doc);
+    } catch (SBMLException e) {
+      assertTrue(false);
+    } catch (XMLStreamException e) {
+      assertTrue(false);
+    }
     
-    doc = new SBMLReader().readSBMLFromString(docString);
+    try {
+      doc = new SBMLReader().readSBMLFromString(docString);
+    } catch (XMLStreamException e) {
+      assertTrue(false);
+    }
     model = doc.getModel();
     
     assertTrue(doc.getLevel() == 3 && doc.getVersion() == 1);
@@ -135,9 +157,10 @@ public class CVTermTests {
   }
 
   /**
+   * Tests the {@link SBase#removeCVTerm(int)} method.
    * 
    */
-  @Test public void cvTermTest3() {
+  @Test public void removeCVTermByIndexTest() {
 
     assertTrue(compartment.getCVTermCount() == 4);
     
@@ -157,9 +180,10 @@ public class CVTermTests {
   }
 
   /**
+   * Tests the {@link SBase#removeCVTerm(CVTerm)} method.
    * 
    */
-  @Test public void cvTermTest4() {
+  @Test public void removeCVTermByCVTermTest() {
 
     assertTrue(compartment.getCVTermCount() == 4);
     
@@ -180,9 +204,13 @@ public class CVTermTests {
   }
 
   /**
+   * Tests if an {@link IndexOutOfBoundsException} is properly thrown
+   * when an index is passed to the CVTerm related methods on {@link SBase}.
    * 
+   * @see SBase#getCVTerm(int)
+   * @see SBase#removeCVTerm(int)
    */
-  @Test public void cvTermTest5() {
+  @Test public void indexOutOfBoundsExceptionTest() {
 
     assertTrue(compartment.getCVTermCount() == 4);
     
@@ -218,4 +246,40 @@ public class CVTermTests {
     
   }
 
+  @Test
+  public void testFilterResources() throws Exception {
+    
+    // test that unmatched patterns should not return null list
+    Assert.assertNotNull("Unmatched patterns should not return null", cvterm.filterResources("invalid"));
+    
+    // test that matching patterns are appearing correctly
+    List<String> expectedResult = new ArrayList<String>();
+    expectedResult.add("abc mno xyz");
+    expectedResult.add("abc yyy rrr");
+    
+    Assert.assertEquals("Matching patterns are incorrect.", expectedResult, cvterm.filterResources("abc"));
+    
+    // test that duplicate patterns are handled correctly.
+    Assert.assertEquals("Matching patterns are incorrect for duplicate patterns.", expectedResult, cvterm.filterResources("abc", "abc", "abc","abc"));
+    
+    List<String> matchesList = model.filterCVTerms(Qualifier.BQB_IS, true, "^http");
+    
+    System.out.println("Recursive matches = " + matchesList);
+    
+    assertTrue(matchesList.size() == 1);
+    assertTrue(model.filterCVTerms(Qualifier.BQB_IS_PROPERTY_OF, true, "uri").size() == 2);
+  }
+  
+  @Test
+  public void testFilterResourcesDoesNotReturnDuplicates() throws Exception {
+    
+    List<String> expectedResult = new ArrayList<String>();
+    expectedResult.add("abc mno xyz");
+    expectedResult.add("mno xyz ddd");
+    expectedResult.add("abc yyy rrr");
+    
+    // test that returned resources does not have duplicates and order is maintained
+    Assert.assertEquals("Matching patterns are incorrect.", expectedResult, cvterm.filterResources("abc", "mno"));
+  }
+  
 }

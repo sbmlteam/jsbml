@@ -24,7 +24,6 @@ package org.sbml.jsbml;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -556,41 +555,68 @@ public class CVTerm extends AnnotationElement {
   }
 
   /**
-   * Returns a list of resources that contain the given pattern. This is
+   * Returns a list of resource URIs that contain the given pattern(s). This is
    * useful to obtain, e.g., all KEGG resources this term points to.
    * 
    * @param patterns
    *        an arbitrary number of patterns, e.g.,
-   *        {@code urn:miriam:kegg.reaction:R.*} or just {@code .*kegg.*} that
-   *        are matched to all resources using an
-   *        OR-operation, i.e.,
+   *        {@code urn:miriam:kegg.reaction:R.*}, {@code .*kegg.*}  or just {@code kegg} that
+   *        are matched to all resources using an OR-operation, i.e.,
    *        if just one of the patterns matches a resource, this resource will
    *        appear in the returned list.
    * @return A list of all resources that contain the given pattern. This list
    *         can be empty, but never {@code null}. The order of the resources
-   *         in that list will be identical to the order in this term.
-   * @see String#matches(String)
+   *         in that list will be identical to the order in this {@link CVTerm}.
+   * @see Pattern
+   * @see Matcher#find()
+   * 
    */
   public List<String> filterResources(String... patterns) {
-    if ((patterns != null) && (patterns.length > 0)) {
-      // Create a list with maximal length equal to the number of resources:
-      List<String> selectedResources = new ArrayList<String>(getResourceCount());
-      for (String regex : patterns) {
-        Pattern pattern = Pattern.compile(regex);
-        for (int i = 0; i < getResourceCount(); i++) {
-          if ((selectedResources.size() <= i) || (selectedResources.get(i) == null)) {
-            String resource = getResourceURI(i);
-            Matcher matcher = pattern.matcher(resource);
-            if (matcher.matches()) {
-              selectedResources.add(Math.max(0, Math.min(i, selectedResources.size() - 1)), resource);
-            }
-          }
-        }
-      }
-      return selectedResources;
+    Pattern pattern;
+    Pattern[] patternList = new Pattern[patterns.length];
+    
+    for (int i = 0; i < patternList.length; i++) {
+      pattern = Pattern.compile(patterns[i]);
+      patternList[i] = pattern;
     }
-    return new LinkedList<String>();
+    
+    return filterResources(patternList);
   }
+
+   /**
+    * Returns a list of resource URIs that contain the given {@link Pattern}(s). This is
+    * useful to obtain, e.g., all KEGG resources this term points to.
+    * 
+    * @param patterns
+    *        an arbitrary number of {@link Pattern}(s), e.g.,
+    *        {@code urn:miriam:kegg.reaction:R.*}, {@code .*kegg.*}  or just {@code kegg} that
+    *        are matched to all resources using an OR-operation, i.e.,
+    *        if just one of the patterns matches a resource, this resource will
+    *        appear in the returned list.
+    * @return A list of all resources that contain the given pattern. This list
+    *         can be empty, but never {@code null}. The order of the resources
+    *         in that list will be identical to the order in this term.
+    * @see Pattern
+    * @see Matcher#find()
+    */
+   public List<String> filterResources(Pattern... patterns) {
+     List<String> selectedResources = new ArrayList<String>();
+
+     for (int i = 0; i < getResourceCount(); i++) {
+       String resource = getResourceURI(i);
+       
+       for (Pattern pattern : patterns) {
+         Matcher matcher = pattern.matcher(resource); 
+     
+         if (matcher.find()) {
+           selectedResources.add(resource);
+           break;
+         }
+       }
+     }
+     
+     return selectedResources;
+   }
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
