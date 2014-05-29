@@ -906,9 +906,18 @@ public class ASTNode extends AbstractTreeNode {
    *             If the given formula is not of valid format or cannot be
    *             parsed for other reasons.
    */
-  public static ASTNode parseFormula(String formula) throws ParseException {
+  public static ASTNode parseFormula(String formula) throws ParseException {    
     FormulaParser parser = new FormulaParser(new StringReader(formula));
-    return parser.parse();
+    ASTNode result = null;
+    
+    try {
+      result = parser.parse();
+    } catch (Throwable e) {
+      // the javacc parser can throw some TokenMgrError at least
+      throw new ParseException(e);
+    }
+    
+    return result; 
   }
 
   /**
@@ -924,9 +933,18 @@ public class ASTNode extends AbstractTreeNode {
    *             If the given formula is not of valid format or cannot be
    *             parsed for other reasons.
    */
-  public static ASTNode parseFormula(String formula, IFormulaParser parser) throws Exception {
+  public static ASTNode parseFormula(String formula, IFormulaParser parser) throws ParseException {
     parser.ReInit(new StringReader(formula));
-    return parser.parse();
+    ASTNode result = null;
+    
+    try {
+      result = parser.parse();
+    } catch (Throwable e) {
+      // the javacc parser can throw some TokenMgrError at least
+      throw new ParseException(e);
+    }
+    
+    return result; 
   }
 
   /**

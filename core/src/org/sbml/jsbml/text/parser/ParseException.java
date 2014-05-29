@@ -44,15 +44,15 @@ public class ParseException extends Exception {
   private static final long serialVersionUID = 1L;
 
   /**
-   * This constructor is used by the method "generateParseException"
-   * in the generated parser.  Calling this constructor generates
-   * a new object of this type with the fields "currentToken",
+   * Creates a new {@link ParseException} instance with the fields "currentToken",
    * "expectedTokenSequences", and "tokenImage" set.
+   * 
+   * <p>This constructor is used by the method "generateParseException"
+   * in the generated javacc parser. 
    */
   public ParseException(Token currentTokenVal,
     int[][] expectedTokenSequencesVal,
-    String[] tokenImageVal
-      )
+    String[] tokenImageVal)
   {
     super(initialise(currentTokenVal, expectedTokenSequencesVal, tokenImageVal));
     currentToken = currentTokenVal;
@@ -70,15 +70,31 @@ public class ParseException extends Exception {
    * these constructors.
    */
 
+  /**
+   * Creates a new {@link ParseException} instance.
+   */
   public ParseException() {
     super();
   }
 
-  /** Constructor with message. */
+  /**
+   * Creates a new {@link ParseException} instance with the given message.
+   * 
+   * @param message a message that report the problem encountered.
+   */
   public ParseException(String message) {
     super(message);
   }
 
+  /**
+   * Creates a new {@link ParseException} instance that will warp the given {@link Throwable}.
+   * 
+   * @param e an {@link Exception} or {@link Error} that you want to warp into a {@link ParseException}.
+   */
+  public ParseException(Throwable e) {
+    super(e);
+  }
+  
 
   /**
    * This is the last token that has been consumed successfully.  If

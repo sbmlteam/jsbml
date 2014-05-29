@@ -46,5 +46,5 @@ public interface IFormulaParser {
 	
 	public void ReInit(InputStream stream);
 	
-	public ASTNode parse() throws Exception;
+	public ASTNode parse() throws ParseException;
 }
