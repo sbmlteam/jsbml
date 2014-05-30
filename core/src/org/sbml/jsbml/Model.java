@@ -286,6 +286,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
     if (model.isSetVolumeUnits()) {
       setVolumeUnits(model.getVolumeUnits());
     }
+    
+    // necessary if a comp ModelDefinition is cloned into a core Model for example
+    unsetNamespace();
   }
 
   /**

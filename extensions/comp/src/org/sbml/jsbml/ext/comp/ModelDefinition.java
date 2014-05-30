@@ -53,6 +53,9 @@ public class ModelDefinition extends Model {
 
   public ModelDefinition(Model model) {
     super(model);
+
+    // just in case we are cloning a Model that has a namespace set already.
+    unsetNamespace();
     init();
   }
 
