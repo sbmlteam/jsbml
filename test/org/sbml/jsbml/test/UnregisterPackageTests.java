@@ -278,16 +278,36 @@ public class UnregisterPackageTests {
   
   
   @Test public void testCompCloning() {
-    
+
+    assertTrue(model.findUniqueNamedSBase("layout1") != null);
+
     ListOf<Submodel> listOfSubmodels = compMainModel.getListOfSubmodels();
     listOfSubmodels.setMetaId("metaid_listOfSubmodels");
     
     Submodel subModel2 = compMainModel.createSubmodel("submodel2");
     subModel2.setMetaId("metaid_submodel2");
     
+    LayoutModelPlugin clonedLayout = (LayoutModelPlugin) model.getPlugin("layout").clone();
+    
     SBMLDocument clonedDoc = new SBMLDocument(3, 1); 
     clonedDoc.setModel(model.clone());
     
+    clonedDoc.getModel().unsetPlugin("layout");
+    
+    assertTrue(clonedDoc.getModel().findUniqueNamedSBase("layout1") == null);
+    assertTrue(clonedDoc.findSBase("layout_metaid1") == null);
+    
+    clonedDoc.getModel().addPlugin("layout", clonedLayout);
+    
+    assertTrue(clonedDoc.findSBase("layout_metaid1") != null);
+    assertTrue(clonedDoc.getModel().findUniqueNamedSBase("layout1") != null);
+    
+    // the SBasePlugin present is unset automatically in this case
+    clonedDoc.getModel().addPlugin("layout", clonedLayout.clone());
+
+    assertTrue(clonedDoc.findSBase("layout_metaid1") != null);
+    assertTrue(clonedDoc.getModel().findUniqueNamedSBase("layout1") != null);
+
     try {
       System.out.println(new SBMLWriter().writeSBMLToString(clonedDoc));
     } catch (SBMLException e) {
