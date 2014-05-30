@@ -57,20 +57,22 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
 
 
   /**
-   * 
-   * @param elm
+   * Creates a new instance {@link LayoutModelPlugin} cloned from the given {@link LayoutModelPlugin}.
+   *  
+   * @param elm the {@link LayoutModelPlugin} we want to clone.
    */
   public LayoutModelPlugin(LayoutModelPlugin elm) {
     super(elm);
-    // We don't clone the pointer to the containing model.
+    
     if (elm.isSetListOfLayouts()) {
       setListOfLayouts(elm.listOfLayouts.clone());
     }
   }
 
   /**
+   * Creates a new instance {@link LayoutModelPlugin} associate it with the given {@link Model}.
    * 
-   * @param model
+   * @param model the {@link Model} where this {@link LayoutModelPlugin} belong.
    */
   public LayoutModelPlugin(Model model) {
     super(model);
@@ -79,16 +81,23 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
 
 
   /**
+   * Adds the given {@link Layout} to the listOfLayouts.
    * 
-   * @param layout
+   * <p>The listOfLayouts is initialized if necessary.
+   * 
+   * @param layout the {@link Layout} instance to add.
+   * @see LayoutModelPlugin#addLayout(Layout)
    */
   public void add(Layout layout) {
     addLayout(layout);
   }
 
   /**
+   * Adds the given {@link Layout} to the listOfLayouts.
    * 
-   * @param layout
+   * <p>The listOfLayouts is initialized if necessary.
+   * 
+   * @param layout the {@link Layout} instance to add.
    */
   public void addLayout(Layout layout) {
     if (layout != null) {

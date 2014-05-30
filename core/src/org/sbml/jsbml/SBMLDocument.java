@@ -466,11 +466,16 @@ public class SBMLDocument extends AbstractSBase {
         checkMetaId(sbase.getMetaId());
       }
       metaIds.put(sbase.getMetaId(), sbase);
+      
+      if (logger.isDebugEnabled()) {
+        logger.debug("SBMLDocument - #collectMetaIds - node = '" + sbase + "'");
+      }
     }
     if (recursively) {
       Enumeration<TreeNode> children = sbase.children();
       while (children.hasMoreElements()) {
         TreeNode node = children.nextElement();
+        
         if (node instanceof SBase) {
           collectMetaIds(metaIds, (SBase) node, recursively, delete);
         }

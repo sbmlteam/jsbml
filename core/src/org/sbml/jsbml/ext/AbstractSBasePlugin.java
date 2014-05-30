@@ -210,21 +210,23 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
     
     // TODO - unregister children if extendedSBase was not null !!??
     // Or do we throw an exception asking to clone the object instead ??
-    
+    SBase oldExtendedSBase = this.extendedSBase;
     this.extendedSBase = extendedSBase;
     
-    
+    // changes in AbstractSBase#firePropertyChange might make this code unnecessary but we would need to update all the code
+    // to remove calls to registerChild that won't be necessary anymore and that would print a warning message
     if (getChildCount() > 0) {
       for (int i = 0; i < getChildCount(); i++) {
         TreeNode child = getChildAt(i);
 
         if (child instanceof SBase) {
           this.extendedSBase.registerChild((SBase) child); 
-          // TODO - if an error occur, we might have to unregister the first children, from i - 1 down to 0 !! Do we do that for ListOf ??
+          // TODO - if an error occur, we might have to unregister the first children, from i - 1 down to 0 ?
         }
       }
     }
 
+    firePropertyChange("extendedSBase", oldExtendedSBase, extendedSBase);
   }
 
   /*

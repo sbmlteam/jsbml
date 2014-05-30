@@ -371,6 +371,11 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
     if (packageParser != null) {
 
+      // unset the previous plugin if needed
+      if (extensions.get(packageParser.getPackageName()) != null) {
+        unsetPlugin(packageParser.getPackageName());
+      }
+      
       extensions.put(packageParser.getPackageName(), sbasePlugin);
 
       // Making sure that the correct extendedSBase is set in the SBasePlugin
@@ -976,6 +981,16 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     // TODO - this method is used to add or remove SBase or SBasePlugin, we should make sure to handle the registration/un-registration
     // in those cases.
     // TODO - the parent need to be set as well (would be done, if we call the registerChild method)
+    
+    if (oldValue != null && oldValue instanceof SBasePlugin) {
+      unregisterChild((SBasePlugin) oldValue);
+    }
+    
+    // This case is generally handled properly in the setters or in AbstractSBasePlugin#setExtendedSBase
+    // but it would be better and more consistent to handle it there
+//    if (newValue != null && newValue instanceof SBasePlugin) {
+//      registerChild((SBasePlugin) newValue);
+//    }
     
     super.firePropertyChange(propertyName, oldValue, newValue);
   }
@@ -1700,6 +1715,31 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
   }
 
+  
+  /**
+   * Registers recursively the given {@link SBasePlugin} from the {@link Model}
+   * and {@link SBMLDocument}.
+   * 
+   * @param sbasePlugin the {@link SBasePlugin} to register.
+   */
+  @SuppressWarnings("unused")
+  private void registerChild(SBasePlugin sbasePlugin)  {
+    // Could/Should be used by the method #firePropertyChange
+    
+    int childCount = sbasePlugin.getChildCount();
+    
+    if (childCount > 0) {
+      for (int i = 0; i < childCount; i++) {
+        TreeNode childNode = sbasePlugin.getChildAt(i);
+        
+        if (childNode instanceof SBase) {
+          registerChild((SBase) childNode);
+        }
+      }
+    }
+  }
+ 
+
   /**
    * Removes the given {@link CVTerm}.
    * 
@@ -1993,6 +2033,32 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
   }
 
+  /**
+   * Unregisters recursively the given {@link SBasePlugin} from the {@link Model}
+   * and {@link SBMLDocument}.
+   * 
+   * @param sbasePlugin the {@link SBasePlugin} to unregister.
+   */
+  private void unregisterChild(SBasePlugin sbasePlugin)  {
+
+    if (logger.isDebugEnabled()) {
+      logger.debug("AbstractSBase - #unregisterChild(SBasePlugin) - called on '" + sbasePlugin + "'");
+    }
+    
+    int childCount = sbasePlugin.getChildCount();
+    
+    if (childCount > 0) {
+      for (int i = 0; i < childCount; i++) {
+        TreeNode childNode = sbasePlugin.getChildAt(i);
+        
+        if (childNode instanceof SBase) {
+          unregisterChild((SBase) childNode);
+        }
+      }
+    }
+  }
+  
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBase#unsetAnnotation()
    */

@@ -3988,7 +3988,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
     int idManagerAdded = 0;
 
     if (logger.isDebugEnabled()) {
-      logger.debug("registerIds (main): newElem = " + newElem.getElementName() + " (recursive = " + recursively + ")");
+      logger.debug("registerIds (main): newElem = " + newElem.getElementName() + " (recursive = " + recursively + ", delete = " + delete + ")");
     }
 
     if (newElem instanceof NamedSBase)
@@ -4014,8 +4014,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
           // Trying to find an IdManager for this element.
           IdManager idManager = getIdManager(newElem);
 
-          logger.debug("idManager found for '" + newElem + "' = " + idManager);
-
+          if (logger.isDebugEnabled()) {
+            logger.debug("idManager found for '" + newElem + "' = " + idManager);
+          }
+          
           if (idManager != null && idManager != this) {
 
             if (delete) {
