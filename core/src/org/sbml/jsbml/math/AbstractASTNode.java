@@ -22,6 +22,12 @@
  */
 package org.sbml.jsbml.math;
 
+import java.util.List;
+
+import org.sbml.jsbml.AbstractTreeNode;
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.Model;
+
 
 /**
  * A node in the Abstract Syntax Tree (AST) representation 
@@ -32,5 +38,49 @@ package org.sbml.jsbml.math;
  * @since 1.0
  * @date May 30, 2014
  */
-public abstract class AbstractASTNode implements ASTNode2 {
+public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNode2 {
+  
+  /**
+   * Child nodes.
+   */
+  private List<AbstractASTNode> listOfNodes;
+
+  /**
+   * The container that holds this ASTNode.
+   */
+  private MathContainer parentSBMLObject;
+  
+  /**
+   * Returns the list of children of the current ASTNode.
+   * 
+   * @return the list of children of the current ASTNode.
+   */
+  public List<AbstractASTNode> getListOfNodes() {
+    return this.listOfNodes;
+  }
+  
+  /**
+   * Resets the parentSBMLObject to null recursively.
+   * 
+   * @param removed
+   */
+  public void resetParentSBMLObject(AbstractASTNode node) {
+    node.parentSBMLObject = null;
+    for (AbstractASTNode child : node.listOfNodes) {
+      resetParentSBMLObject(child);
+    }
+  }
+
+  /**
+   * This method is convenient when holding an object nested inside other
+   * objects in an SBML model. It allows direct access to the
+   * {@link MathContainer}; element containing it. From this
+   * {@link MathContainer} even the overall {@link Model} can be accessed.
+   * 
+   * @return the parent SBML object.
+   */
+  public MathContainer getParentSBMLObject() {
+    return this.parentSBMLObject;
+  }
+  
 }
