@@ -22,6 +22,8 @@
  */
 package org.sbml.jsbml.math;
 
+import javax.swing.tree.TreeNode;
+
 
 /**
  * An Abstract Syntax Tree (AST) node representing a number 
@@ -33,4 +35,36 @@ package org.sbml.jsbml.math;
  * @date May 30, 2014
  */
 public class ASTNumber extends AbstractASTNode {
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildAt(int)
+   */
+  @Override
+  public TreeNode getChildAt(int childIndex) {
+    return this.getListOfNodes().get(childIndex);
+  }
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    return this.getListOfNodes().size();
+  }
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getAllowsChildren()
+   */
+  @Override
+  public boolean getAllowsChildren() {
+    return false;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#clone()
+   */
+  @Override
+  public TreeNode clone() {
+    return null;
+  }
 }
