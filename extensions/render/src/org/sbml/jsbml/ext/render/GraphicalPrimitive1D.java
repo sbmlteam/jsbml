@@ -11,7 +11,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -45,7 +45,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
   private static final long serialVersionUID = 3705246334810811216L;
   protected String stroke;
   protected Short[] strokeDashArray;
-  protected Integer strokeWidth;
+  protected Double strokeWidth;
 
 
   /**
@@ -122,8 +122,8 @@ public class GraphicalPrimitive1D extends Transformation2D {
     return new GraphicalPrimitive1D(this);
   }
 
-  
-  
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -219,7 +219,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
   /**
    * @return the value of strokeWidth
    */
-  public Integer getStrokeWidth() {
+  public Double getStrokeWidth() {
     if (isSetStrokeWidth()) {
       return strokeWidth;
     }
@@ -260,8 +260,8 @@ public class GraphicalPrimitive1D extends Transformation2D {
   /**
    * Set the value of strokeWidth
    */
-  public void setStrokeWidth(Integer strokeWidth) {
-    Integer oldStrokeWidth = this.strokeWidth;
+  public void setStrokeWidth(Double strokeWidth) {
+    Double oldStrokeWidth = this.strokeWidth;
     this.strokeWidth = strokeWidth;
     firePropertyChange(RenderConstants.strokeWidth, oldStrokeWidth, this.strokeWidth);
   }
@@ -288,7 +288,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
    */
   public boolean unsetStrokeWidth() {
     if (isSetStrokeWidth()) {
-      Integer oldStrokeWidth = strokeWidth;
+      Double oldStrokeWidth = strokeWidth;
       strokeWidth = null;
       firePropertyChange(RenderConstants.strokeWidth, oldStrokeWidth, strokeWidth);
       return true;
@@ -336,7 +336,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
         setStrokeDashArray(XMLTools.decodeStringToArrayShort(value));
       }
       else if (attributeName.equals(RenderConstants.strokeWidth)) {
-        setStrokeWidth(StringTools.parseSBMLInt(value));
+        setStrokeWidth(StringTools.parseSBMLDouble(value));
       }
       else {
         isAttributeRead = false;

@@ -1,5 +1,5 @@
 /*
- * $Id:  RenderJUnitTests.java 1733 May 17, 2014 7:36:18 PM yvazirabad $
+ * $Id:  RenderJUnitTests.java 1771 May 17, 2014 7:36:18 PM yvazirabad $
  * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/extensions/render/test/org/sbml/jsbml/ext/render/test/RenderJUnitTests.java $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
@@ -29,13 +29,13 @@ import org.junit.runners.Suite.SuiteClasses;
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev 1733$
+ * @version $Rev 1771$
  * @since 1.0
  * @date May 17, 2014
  */
 @RunWith(value=Suite.class)
 @SuiteClasses(value={ColorDefinitionTest.class, CurveTest.class, EllipseTest.class,
-  LinearGradientTest.class, PolygonTest.class, RenderCubicBezierTest.class,
-  RectangleTest.class,TextTest.class})
+  LinearGradientTest.class, GraphicalPrimitive1DTest.class, GraphicalPrimitive2DTest.class,
+  PolygonTest.class, RenderCubicBezierTest.class, RectangleTest.class,TextTest.class})
 public class RenderJUnitTests {
 }
