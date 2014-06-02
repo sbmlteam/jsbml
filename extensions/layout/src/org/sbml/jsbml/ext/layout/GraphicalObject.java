@@ -84,7 +84,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
    */
   public GraphicalObject(GraphicalObject graphicalObject) {
     super(graphicalObject);
-    setBoundingBox(graphicalObject.getBoundingBox());
+    setBoundingBox(graphicalObject.getBoundingBox().clone());
   }
 
   /**
