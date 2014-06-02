@@ -47,6 +47,7 @@ public class TextTest {
   public void testGetFontFamily() {
     FontFamily fontType=FontFamily.MONOSPACE;
     Text textType=new Text();
+    assertTrue(!textType.isSetFontFamily());
     textType.setFontFamily(fontType);
     assertEquals("getFontFamily",fontType,textType.getFontFamily());
   }
@@ -59,6 +60,7 @@ public class TextTest {
   public void testGetFontSize() {
   short fontSize=18;
   Text textType=new Text();
+  assertTrue(!textType.isSetFontSize());
   textType.setFontSize(fontSize);
   assertEquals("getFontSizeError",fontSize,textType.getFontSize());
   }
@@ -71,6 +73,7 @@ public class TextTest {
   public void testGetTextAnchor() {
     TextAnchor anchor=TextAnchor.START;
     Text textType=new Text();
+    assertTrue(!textType.isSetTextAnchor());
     textType.setTextAnchor(anchor);
     assertEquals("getTextAnchorError",anchor,textType.getTextAnchor());
   }
@@ -94,8 +97,9 @@ public class TextTest {
   @Test
   public void testGetX() {
     Text textType=new Text();
+    assertTrue(!textType.isSetX());
     textType.setX(0.02d);
-    assertEquals(textType.getX(),0.02d,0.0001d);
+    assertEquals(textType.getX(),0.02d,0.00000001d);
   }
 
 
@@ -105,8 +109,9 @@ public class TextTest {
   @Test
   public void testGetY() {
     Text textType=new Text();
+    assertTrue(!textType.isSetY());
     textType.setY(0.02d);
-    assertEquals(textType.getY(),0.02d,0.0001d);
+    assertEquals(textType.getY(),0.02d,0.00000001d);
   }
 
 
@@ -116,8 +121,9 @@ public class TextTest {
   @Test
   public void testGetZ() {
     Text textType=new Text();
+    assertTrue(!textType.isSetZ());
     textType.setZ(0.02d);
-    assertEquals(textType.getZ(),0.02d,0.0001d);
+    assertEquals(textType.getZ(),0.02d,0.00000001d);
   }
 
 
@@ -127,6 +133,7 @@ public class TextTest {
   @Test
   public void testIsSetAbsoluteX() {
     Text textType=new Text();
+    assertTrue(!textType.isSetAbsoluteX());
     textType.setAbsoluteX(true);
     assertTrue(textType.isSetAbsoluteX());
   }
@@ -138,6 +145,7 @@ public class TextTest {
   @Test
   public void testIsSetAbsoluteY() {
     Text textType=new Text();
+    assertTrue(!textType.isSetAbsoluteY());
     textType.setAbsoluteY(true);
     assertTrue(textType.isSetAbsoluteY());
   }
@@ -149,6 +157,7 @@ public class TextTest {
   @Test
   public void testIsSetAbsoluteZ() {
     Text textType=new Text();
+    assertTrue(!textType.isSetAbsoluteZ());
     textType.setAbsoluteZ(true);
     assertTrue(textType.isSetAbsoluteZ());
   }
@@ -161,6 +170,7 @@ public class TextTest {
   public void testIsSetFontFamily() {
     FontFamily fontType=FontFamily.MONOSPACE;
     Text textType=new Text();
+    assertTrue(!textType.isSetFontFamily());
     textType.setFontFamily(fontType);
     assertTrue(textType.isSetFontFamily());
   }
@@ -173,6 +183,7 @@ public class TextTest {
   public void testIsSetFontSize() {
     short fontSize=18;
     Text textType=new Text();
+    assertTrue(!textType.isSetFontSize());
     textType.setFontSize(fontSize);
     assertTrue(textType.isSetFontSize());
   }
@@ -301,6 +312,7 @@ public class TextTest {
   public void testSetFontFamily() {
     FontFamily fontType=FontFamily.MONOSPACE;
     Text textType=new Text();
+    assertTrue(!textType.isSetFontFamily());
     textType.setFontFamily(fontType);
     assertEquals("setFontFamilyError",textType.getFontFamily(),fontType);
   }
@@ -313,6 +325,7 @@ public class TextTest {
   public void testSetFontSize() {
     short fontSize=19;
     Text textType=new Text();
+    assertTrue(!textType.isSetFontSize());
     textType.setFontSize(fontSize);
     assertEquals("setFontSizeError",textType.getFontSize(),fontSize);
   }
@@ -324,6 +337,7 @@ public class TextTest {
   @Test
   public void testSetFontStyleItalic() {
     Text textType=new Text();
+    assertTrue(!textType.isSetFontStyleItalic());
     textType.setFontStyleItalic(true);
     assertTrue(textType.isFontStyleItalic());
   }
@@ -349,6 +363,12 @@ public class TextTest {
     TextAnchor anchor=TextAnchor.END;
     textType.setTextAnchor(anchor);
     assertEquals("textAnchorError",anchor,textType.getTextAnchor());
+    anchor=TextAnchor.MIDDLE;
+    textType.setTextAnchor(anchor);
+    assertEquals("textAnchorError",anchor,textType.getTextAnchor());
+    anchor=TextAnchor.START;
+    textType.setTextAnchor(anchor);
+    assertEquals("textAnchorError",anchor,textType.getTextAnchor());
   }
 
 
@@ -361,6 +381,12 @@ public class TextTest {
     VTextAnchor anchor=VTextAnchor.BOTTOM;
     textType.setVTextAnchor(anchor);
     assertEquals("VTextAnchorError",anchor,textType.getVTextAnchor());
+    anchor=VTextAnchor.MIDDLE;
+    textType.setVTextAnchor(anchor);
+    assertEquals("VTextAnchorError",anchor,textType.getVTextAnchor());
+    anchor=VTextAnchor.TOP;
+    textType.setVTextAnchor(anchor);
+    assertEquals("VTextAnchorError",anchor,textType.getVTextAnchor());
   }
 
 
@@ -370,8 +396,9 @@ public class TextTest {
   @Test
   public void testSetX() {
     Text textType=new Text();
+    assertTrue(!textType.isSetX());
     textType.setX(0.02d);
-    assertEquals(textType.getX(),0.02d,0.0001d);
+    assertEquals(textType.getX(),0.02d,0.00000001d);
   }
 
 
@@ -381,8 +408,9 @@ public class TextTest {
   @Test
   public void testSetY() {
     Text textType=new Text();
+    assertTrue(!textType.isSetY());
     textType.setY(0.02d);
-    assertEquals(textType.getY(),0.02d,0.0001d);
+    assertEquals(textType.getY(),0.02d,0.00000001d);
   }
 
 
@@ -392,7 +420,8 @@ public class TextTest {
   @Test
   public void testSetZ() {
     Text textType=new Text();
+    assertTrue(!textType.isSetZ());
     textType.setZ(0.02d);
-    assertEquals(textType.getZ(),0.02d,0.0001d);
+    assertEquals(textType.getZ(),0.02d,0.00000001d);
   }
 }

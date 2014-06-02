@@ -92,4 +92,154 @@ public class ColorDefinitionTest {
     color.setValue(red);
     assertEquals("SetValueError",color.getValue(),red);
   }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.ext.render.ColorDefinition} and setting its ID
+   */
+  @Test
+  public void testColorDefinitionId() {
+    ColorDefinition color=new ColorDefinition("");
+    assertTrue(!color.isSetId());
+    assertTrue(color.getId().equals(""));
+    color.setId("black");
+    assertTrue(color.isSetId());
+    assertTrue(color.getId()  ==  "black");
+    color.unsetId();
+    assertTrue(!color.isSetId());
+    assertTrue(color.getId()  ==  "");
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.ext.render.ColorDefinition} and testing its setters
+   */
+  @Test
+  public void testColorDefinitionSetters()
+  {
+    Color colorValue=new Color(0);
+    ColorDefinition color=new ColorDefinition("",colorValue);
+    assertTrue(color.getValue().getRed() == 0);
+    assertTrue(color.getValue().getGreen() == 0);
+    assertTrue(color.getValue().getBlue() == 0);
+    assertTrue(color.getValue().getAlpha() == 255);
+    color.setValue(new Color(234,color.getValue().getGreen(),color.getValue().getBlue(),color.getValue().getAlpha()));
+    assertTrue(color.getValue().getRed() == 234);
+    assertTrue(color.getValue().getGreen() == 0);
+    assertTrue(color.getValue().getBlue() == 0);
+    assertTrue(color.getValue().getAlpha() == 255);
+    color.setValue(new Color(color.getValue().getRed(),145,color.getValue().getBlue(),color.getValue().getAlpha()));
+    assertTrue(color.getValue().getRed() == 234);
+    assertTrue(color.getValue().getGreen() == 145);
+    assertTrue(color.getValue().getBlue() == 0);
+    assertTrue(color.getValue().getAlpha() == 255);
+    color.setValue(new Color(color.getValue().getRed(),color.getValue().getGreen(),25,color.getValue().getAlpha()));
+    assertTrue(color.getValue().getRed() == 234);
+    assertTrue(color.getValue().getGreen() == 145);
+    assertTrue(color.getValue().getBlue() == 25);
+    assertTrue(color.getValue().getAlpha() == 255);
+    color.setValue(new Color(color.getValue().getRed(),color.getValue().getGreen(),color.getValue().getBlue(),5));
+    assertTrue(color.getValue().getRed() == 234);
+    assertTrue(color.getValue().getGreen() == 145);
+    assertTrue(color.getValue().getBlue() == 25);
+    assertTrue(color.getValue().getAlpha() == 5);
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.ext.render.ColorDefinition} and testing the use of Color.decode for hex color codes.
+   */
+  @Test
+  public void testColorDefinitionSetColorValue()
+  {
+    Color colorValue=new Color(0);
+    ColorDefinition color=new ColorDefinition("",colorValue);
+    assertTrue(color.getValue().getRed()==0);
+    assertTrue(color.getValue().getGreen()==0);
+    assertTrue(color.getValue().getBlue()==0);
+    assertTrue(color.getValue().getAlpha()==255);
+    // valid color definitions
+    color.setValue(Color.decode("#FFFFFFF"));
+    assertTrue(color.getValue().getRed()==255);
+    assertTrue(color.getValue().getGreen()==255);
+    assertTrue(color.getValue().getBlue()==255);
+    assertTrue(color.getValue().getAlpha()==255);
+    color.setValue((Color.decode("#00000000")));
+    assertTrue(color.getValue().getRed()==0);
+    assertTrue(color.getValue().getGreen()==0);
+    assertTrue(color.getValue().getBlue()==0);
+    assertTrue(color.getValue().getAlpha()==255);
+    color.setValue((Color.decode("#a93838")));
+    assertTrue(color.getValue().getRed()==169);
+    assertTrue(color.getValue().getGreen()==56);
+    assertTrue(color.getValue().getBlue()==56);
+    assertTrue(color.getValue().getAlpha()==255);
+    color.setValue((Color.decode("#305bb3")));
+    assertTrue(color.getValue().getRed()==48);
+    assertTrue(color.getValue().getGreen()==91);
+    assertTrue(color.getValue().getBlue()==179);
+    assertTrue(color.getValue().getAlpha()==255);
+    color.setValue((Color.decode("#FFFFFF")));
+    assertTrue(color.getValue().getRed()==255);
+    assertTrue(color.getValue().getGreen()==255);
+    assertTrue(color.getValue().getBlue()==255);
+    assertTrue(color.getValue().getAlpha()==255);
+    color.setValue((Color.decode("#000000")));
+    assertTrue(color.getValue().getRed()==0);
+    assertTrue(color.getValue().getGreen()==0);
+    assertTrue(color.getValue().getBlue()==0);
+    assertTrue(color.getValue().getAlpha()==255);
+    color.setValue((Color.decode("#113355")));
+    assertTrue(color.getValue().getRed()==17);
+    assertTrue(color.getValue().getGreen()==51);
+    assertTrue(color.getValue().getBlue()==85);
+    assertTrue(color.getValue().getAlpha()==255);
+    color.setValue((Color.decode("#F34A28")));
+    assertTrue(color.getValue().getRed()==243);
+    assertTrue(color.getValue().getGreen()==74);
+    assertTrue(color.getValue().getBlue()==40);
+    assertTrue(color.getValue().getAlpha()==255);
+    color.setValue((Color.decode("#892E36")));
+    assertTrue(color.getValue().getRed()==137);
+    assertTrue(color.getValue().getGreen()==46);
+    assertTrue(color.getValue().getBlue()==54);
+    assertTrue(color.getValue().getAlpha()==255);
+    color.setValue((Color.decode("#ffffff")));
+    assertTrue(color.getValue().getRed()==255);
+    assertTrue(color.getValue().getGreen()==255);
+    assertTrue(color.getValue().getBlue()==255);
+    assertTrue(color.getValue().getAlpha()==255);
+    color.setValue((Color.decode("#941784")));
+    assertTrue(color.getValue().getRed()==148);
+    assertTrue(color.getValue().getGreen()==23);
+    assertTrue(color.getValue().getBlue()==132);
+    assertTrue(color.getValue().getAlpha()==255);
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.ext.render.ColorDefinition} and testing the use of Color constructors
+   */
+  public void testColorDefinitionSetRGBA()
+  {
+    {
+    ColorDefinition color=new ColorDefinition("");
+    color.setValue(new Color(89,3,45,231));
+    assertTrue(color.getValue().getRed()==89);
+    assertTrue(color.getValue().getGreen()==3);
+    assertTrue(color.getValue().getBlue()==45);
+    assertTrue(color.getValue().getAlpha()==231);
+    color.setValue(new Color(34,157,201,49));
+    assertTrue(color.getValue().getRed()==34);
+    assertTrue(color.getValue().getGreen()==157);
+    assertTrue(color.getValue().getBlue()==201);
+    assertTrue(color.getValue().getAlpha()==49);
+    color.setValue(new Color(21,155,21));
+    assertTrue(color.getValue().getRed()==21);
+    assertTrue(color.getValue().getGreen()==155);
+    assertTrue(color.getValue().getBlue()==21);
+    assertTrue(color.getValue().getAlpha()==255);
+    color.setValue(new Color(253,92,177));
+    assertTrue(color.getValue().getRed()==253);
+    assertTrue(color.getValue().getGreen()==92);
+    assertTrue(color.getValue().getBlue()==177);
+    assertTrue(color.getValue().getAlpha()==255);
+  }
+   }
 }

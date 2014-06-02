@@ -45,7 +45,7 @@ public class EllipseTest {
     Ellipse ellipse=new Ellipse();
     double d=0.02d;
     ellipse.setCx(d);
-    assertEquals(ellipse.getCx(),d,0.0001d);
+    assertEquals(ellipse.getCx(),d,0.00000001d);
   }
 
 
@@ -81,7 +81,7 @@ public class EllipseTest {
     Ellipse ellipse=new Ellipse();
     double d=0.02d;
     ellipse.setCy(d);
-    assertEquals(ellipse.getCy(),d,0.0001d);
+    assertEquals(ellipse.getCy(),d,0.00000001d);
   }
 
 
@@ -117,7 +117,7 @@ public class EllipseTest {
     Ellipse ellipse=new Ellipse();
     double d=0.02d;
     ellipse.setCz(d);
-    assertEquals(ellipse.getCz(),d,0.0001d);
+    assertEquals(ellipse.getCz(),d,0.00000001d);
   }
 
 
@@ -153,7 +153,7 @@ public class EllipseTest {
     Ellipse ellipse=new Ellipse();
     double d=0.02d;
     ellipse.setRx(d);
-    assertEquals(ellipse.getRx(),d,0.0001d);
+    assertEquals(ellipse.getRx(),d,0.00000001d);
   }
 
 
@@ -189,7 +189,7 @@ public class EllipseTest {
     Ellipse ellipse=new Ellipse();
     double d=0.02d;
     ellipse.setRy(d);
-    assertEquals(ellipse.getRy(),d,0.0001d);
+    assertEquals(ellipse.getRy(),d,0.00000001d);
   }
 
 
