@@ -1,6 +1,6 @@
 /*
- * $Id:  RenderCubicBezierTest.java Jun 1, 2014 11:11:44 PM yvazirabad $
- * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/RenderCubicBezierTest.java $
+ * $Id:  RenderCubicBezierTest.java 1771 Jun 1, 2014 11:11:44 PM yvazirabad $
+ * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/extensions/render/test/org/sbml/jsbml/ext/render/test/RenderCubicBezierTest.java $
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -31,7 +31,7 @@ import org.sbml.jsbml.ext.render.RenderCubicBezier;
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev$
+ * @version 1771
  * @since 1.0
  * @date Jun 1, 2014
  */

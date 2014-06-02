@@ -11,7 +11,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -40,7 +40,7 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
    */
   private static final long serialVersionUID = -5666416071124784541L;
   protected String fill;
-  protected enum FillRule {
+  public enum FillRule {
     NONZERO,
     EVENODD,
   }
@@ -79,8 +79,8 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
     setNamespace(RenderConstants.namespaceURI);
   }
 
-  
-  
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
