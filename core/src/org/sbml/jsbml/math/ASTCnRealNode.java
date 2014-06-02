@@ -1,6 +1,6 @@
 /*
- * $Id:  ASTCnRealNode.java 1:50:52 PM victor-kofia $
- * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/math/ASTCnRealNode.java $
+ * $Id$
+ * $URL$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -37,23 +37,23 @@ public class ASTCnRealNode extends ASTCnNumberNode {
   /**
    * The value of this node
    */
-  private double value;
+  private Double value;
 
   /**
    * Return the value of this node
    * 
-   * @return double value
+   * @return Double value
    */
-  public double getValue() {
+  public Double getValue() {
     return value;
   }
 
   /**
    * Set the value of this node
    * 
-   * @param double value
+   * @param Double value
    */
-  public void setValue(double value) {
+  public void setValue(Double value) {
     this.value = value;
   }
   
