@@ -1,11 +1,11 @@
 /*
- * $Id:  ASTCnRationalNode.java 1:56:01 PM victor-kofia $
- * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/math/ASTCnRationalNode.java $
+ * $Id$
+ * $URL$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
+ * Copyright (C) 2009-2014  joIntegerly by the following organizations: 
  * 1. The University of Tuebingen, Germany 
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
  * 3. The California Institute of Technology, Pasadena, CA, USA 
@@ -37,46 +37,46 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
   /**
    * The numerator associated with this rational number
    */
-  private int numerator;
+  private Integer numerator;
   
   /**
    * The denominator associated with this rational number
    */
-  private int denominator;
+  private Integer denominator;
 
   /**
    * Get the value of the numerator
    * 
-   * @return int numerator
+   * @return Integer numerator
    */
-  public int getNumerator() {
+  public Integer getNumerator() {
     return numerator;
   }
 
   /**
    * Set the value of the numerator
    * 
-   * @param int numerator
+   * @param Integer numerator
    */
-  public void setNumerator(int numerator) {
+  public void setNumerator(Integer numerator) {
     this.numerator = numerator;
   }
 
   /**
    * Get the value of the denominator
    * 
-   * @return int denominator
+   * @return Integer denominator
    */
-  public int getDenominator() {
+  public Integer getDenominator() {
     return denominator;
   }
 
   /**
    * Set the value of the denominator
    * 
-   * @param int denominator
+   * @param Integer denominator
    */
-  public void setDenominator(int denominator) {
+  public void setDenominator(Integer denominator) {
     this.denominator = denominator;
   }
   

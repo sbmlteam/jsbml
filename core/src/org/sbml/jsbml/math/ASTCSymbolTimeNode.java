@@ -1,6 +1,6 @@
 /*
- * $Id:  ASTCSymbolTimeNode.java 2:04:33 PM victor-kofia $
- * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/math/ASTCSymbolTimeNode.java $
+ * $Id$
+ * $URL$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 

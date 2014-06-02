@@ -1,11 +1,11 @@
 /*
- * $Id:  ASTCnIntegerNode.java 1:31:19 PM victor-kofia $
- * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/math/ASTCnIntegerNode.java $
+ * $Id$
+ * $URL$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
+ * Copyright (C) 2009-2014  joIntegerly by the following organizations: 
  * 1. The University of Tuebingen, Germany 
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
  * 3. The California Institute of Technology, Pasadena, CA, USA 
@@ -24,7 +24,7 @@ package org.sbml.jsbml.math;
 
 
 /**
- * An Abstract Syntax Tree (AST) node representing an integer 
+ * An Abstract Syntax Tree (AST) node representing an Integereger 
  * in a mathematical expression
  * 
  * @author Victor Kofia
@@ -37,23 +37,23 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
   /**
    * The value of this node
    */
-  private int value;
+  private Integer value;
 
   /**
    * Return the value of this node
    * 
-   * @return int value
+   * @return Integer value
    */
-  public int getValue() {
+  public Integer getValue() {
     return value;
   }
 
   /**
    * Set the value of this node
    * 
-   * @param int value
+   * @param Integer value
    */
-  public void setValue(int value) {
+  public void setValue(Integer value) {
     this.value = value;
   }
   

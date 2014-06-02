@@ -1,6 +1,6 @@
 /*
- * $Id: package-info.java 11:04:15 AM victor-kofia $
- * $URL: http://svn.code.sf.net/p/jsbml/code/trunk/core/src/org/sbml/jsbml/math/package-info.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
