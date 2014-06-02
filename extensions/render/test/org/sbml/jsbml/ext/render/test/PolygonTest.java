@@ -28,6 +28,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.ext.render.Polygon;
+import org.sbml.jsbml.ext.render.RenderCubicBezier;
 import org.sbml.jsbml.ext.render.RenderPoint;
 
 
@@ -124,5 +125,32 @@ public class PolygonTest {
     assertTrue(!polygon.isSetListOfElements());
     polygon.setListOfElements(list);
     assertTrue(polygon.isSetListOfElements());
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.ext.render.Polygon#addElement(org.sbml.jsbml.ext.render.RenderPoint)}.
+   */
+  @Test
+  public void testAddElement()
+  {
+    Polygon polygon=new Polygon();
+    ListOf<RenderPoint> list=new ListOf<RenderPoint>();
+    polygon.setListOfElements(list);
+    System.out.println(polygon.getChildCount());
+    assertTrue(polygon.getListOfElements().getChildCount() == 0);
+    RenderPoint rP=new RenderPoint();
+    assertTrue(rP != null);
+    assertTrue( polygon.addElement(rP));
+    assertTrue( polygon.getListOfElements().getChildCount() == 1);
+    assertTrue( polygon.getListOfElements().get(0).equals(rP));
+    RenderPoint rP2 = new RenderPoint();
+    assertTrue (rP2 != null);
+    assertTrue( polygon.addElement(rP2));
+    assertTrue( polygon.getListOfElements().getChildCount() == 2);
+    RenderCubicBezier pCB = new RenderCubicBezier();
+    assertTrue( pCB != null);
+    assertTrue( polygon.addElement(pCB));
+    assertTrue( polygon.getListOfElements().getChildCount() == 3);
+    assertTrue( polygon.getListOfElements().get(1).equals(rP));
   }
 }
