@@ -45,7 +45,7 @@ public class ASTLambdaFunctionNode extends ASTFunction {
    * 
    * @return Integer numBvars
    */
-  public Integer getNumBvars() {
+  public int getNumBvars() {
     return numBvars;
   }
 
@@ -54,7 +54,7 @@ public class ASTLambdaFunctionNode extends ASTFunction {
    * 
    * @param Integer numBvars
    */
-  public void setNumBvars(Integer numBvars) {
+  public void setNumBvars(int numBvars) {
     this.numBvars = numBvars;
   }
   

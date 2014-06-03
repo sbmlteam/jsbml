@@ -50,7 +50,7 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
    * 
    * @return Integer numPiece
    */
-  public Integer getNumPiece() {
+  public int getNumPiece() {
     return numPiece;
   }
 
@@ -59,7 +59,7 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
    * 
    * @param Integer numPiece
    */
-  public void setNumPiece(Integer numPiece) {
+  public void setNumPiece(int numPiece) {
     this.numPiece = numPiece;
   }
   

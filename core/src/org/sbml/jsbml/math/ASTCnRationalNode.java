@@ -49,7 +49,7 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
    * 
    * @return Integer numerator
    */
-  public Integer getNumerator() {
+  public int getNumerator() {
     return numerator;
   }
 
@@ -58,7 +58,7 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
    * 
    * @param Integer numerator
    */
-  public void setNumerator(Integer numerator) {
+  public void setNumerator(int numerator) {
     this.numerator = numerator;
   }
 
@@ -67,7 +67,7 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
    * 
    * @return Integer denominator
    */
-  public Integer getDenominator() {
+  public int getDenominator() {
     return denominator;
   }
 
@@ -76,7 +76,7 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
    * 
    * @param Integer denominator
    */
-  public void setDenominator(Integer denominator) {
+  public void setDenominator(int denominator) {
     this.denominator = denominator;
   }
   

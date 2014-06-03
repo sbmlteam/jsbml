@@ -44,7 +44,7 @@ public class ASTCnRealNode extends ASTCnNumberNode {
    * 
    * @return Double value
    */
-  public Double getValue() {
+  public double getValue() {
     return value;
   }
 
@@ -53,7 +53,7 @@ public class ASTCnRealNode extends ASTCnNumberNode {
    * 
    * @param Double value
    */
-  public void setValue(Double value) {
+  public void setValue(double value) {
     this.value = value;
   }
   

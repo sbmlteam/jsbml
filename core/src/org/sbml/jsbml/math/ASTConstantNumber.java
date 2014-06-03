@@ -44,7 +44,7 @@ public class ASTConstantNumber extends ASTNumber {
    * 
    * @return Integer value
    */
-  public Integer getValue() {
+  public int getValue() {
     return value;
   }
 
@@ -53,7 +53,7 @@ public class ASTConstantNumber extends ASTNumber {
    * 
    * @param Integer value
    */
-  public void setValue(Integer value) {
+  public void setValue(int value) {
     this.value = value;
   }
   
