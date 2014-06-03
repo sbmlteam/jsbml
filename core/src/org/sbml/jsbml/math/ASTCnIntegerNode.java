@@ -53,7 +53,7 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
    * 
    * @param Integer value
    */
-  public void setValue(Integer value) {
+  public void setValue(int value) {
     this.value = value;
   }
   

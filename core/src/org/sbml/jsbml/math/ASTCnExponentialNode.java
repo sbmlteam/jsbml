@@ -49,7 +49,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode {
    * 
    * @return int exponent
    */
-  public Integer getExponent() {
+  public int getExponent() {
     return exponent;
   }
 
@@ -58,7 +58,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode {
    * 
    * @param int exponent
    */
-  public void setExponent(Integer exponent) {
+  public void setExponent(int exponent) {
     this.exponent = exponent;
   }
 
@@ -67,7 +67,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode {
    * 
    * @return double mantissa
    */
-  public Double getMantissa() {
+  public double getMantissa() {
     return mantissa;
   }
 
@@ -76,7 +76,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode {
    * 
    * @param double mantissa
    */
-  public void setMantissa(Double mantissa) {
+  public void setMantissa(double mantissa) {
     this.mantissa = mantissa;
   }
   
