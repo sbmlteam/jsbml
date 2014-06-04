@@ -22,8 +22,14 @@
  */
 package org.sbml.jsbml.math;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.AbstractTreeNode;
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 
 
 /**
@@ -36,6 +42,27 @@ import org.sbml.jsbml.SBMLException;
  * @date May 30, 2014
  */
 public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNode2 {
+
+  /**
+   * The container that holds this AbstractASTNode.
+   */
+  protected MathContainer parentSBMLObject;
+
+  /**
+   * Creates an empty {@link AbstractTreeNode}
+   */
+  public AbstractASTNode() {
+    super();
+  }
+
+  /**
+   * Constructor for cloning {@link AbstractTreeNode}
+   * 
+   * @param ASTFunction astFunction
+   */
+  public AbstractASTNode(ASTFunction astFunction) {
+    super(astFunction);
+  }
 
   /*
    * (non-Javadoc)
@@ -70,6 +97,32 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
   @Override
   public String toString() {
     return null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#setParent(javax.swing.tree.TreeNode)
+   */
+  @Override
+  protected void setParent(TreeNode parent) {
+    TreeNode oldValue = this.parent;
+    this.parent = parent;
+    if (parent instanceof TreeNodeWithChangeSupport) {
+      addAllChangeListeners(((TreeNodeWithChangeSupport) parent).getListOfTreeNodeChangeListeners());
+    }
+    firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldValue, this.parent);
+  }
+
+  /**
+   * This method is convenient when holding an object nested inside other
+   * objects in an SBML model. It allows direct access to the
+   * {@link MathContainer}; element containing it. From this
+   * {@link MathContainer} even the overall {@link Model} can be accessed.
+   * 
+   * @return the parent SBML object.
+   */
+  public MathContainer getParentSBMLObject() {
+    return parentSBMLObject;
   }
 
 }

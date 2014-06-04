@@ -22,13 +22,14 @@
  */
 package org.sbml.jsbml.math;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.MathContainer;
-import org.sbml.jsbml.Model;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.filters.Filter;
 
 
 /**
@@ -44,7 +45,7 @@ public class ASTFunction extends AbstractASTNode {
 
   /**
    * Sets the parent of the node and its children to the given value
-   * 
+   *
    * @param node the orphan node
    * @param parent the parent
    * @param depth the current depth in the {@link AbstractASTNode} tree.
@@ -57,7 +58,7 @@ public class ASTFunction extends AbstractASTNode {
 
   /**
    * Sets the Parent of the node and its children to the given value
-   * 
+   *
    * @param node the orphan node
    * @param parent the parent
    */
@@ -81,8 +82,30 @@ public class ASTFunction extends AbstractASTNode {
    * to its containing {@link MathContainer}.
    */
   public ASTFunction() {
+    super();
     parentSBMLObject = null;
     listOfNodes = null;
+    initDefaults();
+  }
+
+  /**
+   * Copy constructor; Creates a deep copy of the given {@link ASTFunction}.
+   * 
+   * @param astFunction
+   *            the {@link ASTFunction} to be copied.
+   */
+  public ASTFunction(ASTFunction astFunction) {
+    super(astFunction);
+    parentSBMLObject = null;
+    initDefaults();
+
+    if (astFunction.getChildCount() > 0) {
+      for (AbstractASTNode child : astFunction.listOfNodes) {
+        AbstractASTNode c = (AbstractASTNode) child.clone();
+        c.setParent(this);
+        listOfNodes.add(c);
+      }
+    }
   }
 
   /**
@@ -92,6 +115,10 @@ public class ASTFunction extends AbstractASTNode {
    *            the node to add as child.
    */
   public void addChild(AbstractASTNode child) {
+    listOfNodes.add(child);
+    setParentSBMLObject(child, parentSBMLObject, 0);
+    child.setParent(this);
+    child.fireNodeAddedEvent();
   }
 
   /* (non-Javadoc)
@@ -99,7 +126,7 @@ public class ASTFunction extends AbstractASTNode {
    */
   @Override
   public TreeNode clone() {
-    return null;
+    return new ASTFunction(this);
   }
 
   /* (non-Javadoc)
@@ -107,7 +134,7 @@ public class ASTFunction extends AbstractASTNode {
    */
   @Override
   public boolean getAllowsChildren() {
-    return false;
+    return true;
   }
 
   /**
@@ -129,7 +156,7 @@ public class ASTFunction extends AbstractASTNode {
    */
   @Override
   public TreeNode getChildAt(int childIndex) {
-    return null;
+    return getChild(childIndex);
   }
 
   /* (non-Javadoc)
@@ -137,29 +164,61 @@ public class ASTFunction extends AbstractASTNode {
    */
   @Override
   public int getChildCount() {
-    return 0;
+    return listOfNodes == null ? 0 : listOfNodes.size();
   }
 
+  /**
+   * Returns the list of children of the current ASTFunction.
+   * 
+   * @return the list of children of the current ASTFunction.
+   */
+  public List<AbstractASTNode> getChildren() {
+    return getListOfNodes();
+  }
 
   /**
-   * Returns the list of children of the current ASTNode.
+   * Returns the list of children of the current ASTFunction.
    * 
-   * @return the list of children of the current ASTNode.
+   * @return the list of children of the current ASTFunction.
    */
   public List<AbstractASTNode> getListOfNodes() {
     return listOfNodes;
   }
 
   /**
-   * This method is convenient when holding an object nested inside other
-   * objects in an SBML model. It allows direct access to the
-   * {@link MathContainer}; element containing it. From this
-   * {@link MathContainer} even the overall {@link Model} can be accessed.
+   * Returns the list of children of the current ASTFunction that satisfy the
+   * given filter.
    * 
-   * @return the parent SBML object.
+   * @param filter
+   * @return the list of children of the current ASTFunction that satisfy the
+   *         given filter.
    */
-  public MathContainer getParentSBMLObject() {
-    return parentSBMLObject;
+  public List<AbstractASTNode> getListOfNodes(Filter filter) {
+    ArrayList<AbstractASTNode> filteredList = new ArrayList<AbstractASTNode>();
+    for (AbstractASTNode node : listOfNodes) {
+      if (filter.accepts(node)) {
+        filteredList.add(node);
+      }
+    }
+    return filteredList;
+  }
+
+  /**
+   * Initializes the default values/attributes of the node.
+   */
+  private void initDefaults() {
+    ASTFunction old = this;
+    if (listOfNodes == null) {
+      listOfNodes = new ArrayList<AbstractASTNode>();
+    } else {
+      for (int i = listOfNodes.size() - 1; i >= 0; i--) {
+        // This also removes the pointer from the previous child to this object, i.e., its previous parent node.
+        AbstractASTNode removed = listOfNodes.remove(i);
+        resetParentSBMLObject(removed);
+        removed.fireNodeRemovedEvent();
+      }
+    }
+    firePropertyChange(TreeNodeChangeEvent.initialValue, old, this);
   }
 
   /**
@@ -170,15 +229,25 @@ public class ASTFunction extends AbstractASTNode {
    * @param n
    *            long the index of the {@link AbstractASTNode} being added
    * @param newChild
-   *            {@link ASTNode} to insert as the n<sup>th</sup> child
+   *            {@link AbstractASTNode} to insert as the n<sup>th</sup> child
    */
   public void insertChild(int n, AbstractASTNode newChild) {
+    listOfNodes.add(n, newChild);
+    setParentSBMLObject(newChild, parentSBMLObject, 0);
+    newChild.setParent(this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#resetParentSBMLObject(org.sbml.jsbml.math.AbstractASTNode)
+  /**
+   * Resets the parentSBMLObject to null
+   * 
+   * @param node
    */
   public void resetParentSBMLObject(AbstractASTNode node) {
+    if (node instanceof ASTNumber) {
+      node.parentSBMLObject = null;
+      return;
+    }
+    resetParentSBMLObject((ASTFunction) node);
   }
 
   /**
@@ -187,12 +256,16 @@ public class ASTFunction extends AbstractASTNode {
    * @param node
    */
   public void resetParentSBMLObject(ASTFunction node) {
+    node.parentSBMLObject = null;
+    for (AbstractASTNode child : node.listOfNodes) {
+      resetParentSBMLObject(child);
+    }
   }
 
   /**
    * <p>
-   * Swaps the children of this {@link AbstractASTNode} with the children of that
-   * {@link AbstractASTNode}.
+   * Swaps the children of this {@link ASTFunction} with the children of that
+   * {@link ASTFunction}.
    * </p>
    * <p>
    * Unfortunately, when swapping child nodes, we have to recursively traverse
@@ -202,7 +275,7 @@ public class ASTFunction extends AbstractASTNode {
    * </p>
    * <p>
    * In any case, the pointer from each sub-node to its parent must be changed.
-   * In contrast to other SBML elements, {@link AbstractASTNode}s have sub-nodes as
+   * In contrast to other SBML elements, {@link ASTFunction}s have sub-nodes as
    * direct children, i.e., there is no child called 'ListOfNodes'. The
    * {@code setParent} method is also not recursive.
    * </p>
@@ -214,7 +287,28 @@ public class ASTFunction extends AbstractASTNode {
    *        the other node whose children should be used to replace this
    *        node's children
    */
-  public void swapChildren(AbstractASTNode that) {
+  public void swapChildren(ASTFunction that) {
+    List<AbstractASTNode> swap = that.listOfNodes;
+    that.listOfNodes = listOfNodes;
+    listOfNodes = swap;
+    for (AbstractASTNode child : that.listOfNodes) {
+      if (that.getParentSBMLObject() != getParentSBMLObject()) {
+        setParentSBMLObject(child, that.getParentSBMLObject(), 0);
+      }
+      child.fireNodeRemovedEvent();
+      child.getListOfTreeNodeChangeListeners().removeAll(that.getListOfTreeNodeChangeListeners());
+      child.setParent(that);
+      child.fireNodeAddedEvent();
+    }
+    for (AbstractASTNode child : listOfNodes) {
+      if (that.getParentSBMLObject() != getParentSBMLObject()) {
+        setParentSBMLObject(child, getParentSBMLObject(), 0);
+      }
+      child.fireNodeRemovedEvent();
+      child.getListOfTreeNodeChangeListeners().removeAll(getListOfTreeNodeChangeListeners());
+      child.setParent(this);
+      child.fireNodeAddedEvent();
+    }
   }
 
 }
