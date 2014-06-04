@@ -11,7 +11,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -35,19 +35,19 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
 
 /**
  * The {@link CompSBasePlugin} class extends the {@link SBase} class by adding an optional ListOf{@link ReplacedElement}s child and a single optional {@link ReplacedBy} child.
- * 
- * <p>The {@link CompSBasePlugin} class codifies the extensions to the {@link SBase} class defined in the 'Hierarchical Model Composition' package (“comp”).
+ *
+ * <p>The {@link CompSBasePlugin} class codifies the extensions to the {@link SBase} class defined in the 'Hierarchical Model Composition' package (comp).
  * These extensions allows the modeler to define one or more {@link Submodel} elements which the parent {@link SBase} object replaces,
  * and/or a single {@link Submodel} element which replaces the parent {@link SBase} object.
- *  
- * <br>This is accomplished through the addition of an optional ListOf{@link ReplacedElement}s child, which may contain one or more {@link ReplacedElement} 
+ *
+ * <br>This is accomplished through the addition of an optional ListOf{@link ReplacedElement}s child, which may contain one or more {@link ReplacedElement}
  * objects, each of which references a {@link Submodel} element to be replaced by the containing {@link SBase} object, and through the addition of a single
  * optional {@link ReplacedBy} child, which references a {@link Submodel} element which is to replace the containing {@link SBase} object.
- * 
+ *
  * <p>If a single {@link SBase} element both contains a ListOf{@link ReplacedElement}s and has a {@link ReplacedBy} child, it and all the referenced
  * {@link ReplacedElement} objects are to be replaced by the object referenced by the {@link ReplacedBy} element.
- *  
- * 
+ *
+ *
  * @author Nicolas Rodriguez
  * @version $Rev$
  * @since 1.0
@@ -132,7 +132,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 
   /**
    * Creates a CompSBasePlugin instance with a level and version.
-   * 
+   *
    * @param level
    * @param version
    */
@@ -194,7 +194,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 
   /**
    * Sets the value of the optional replacedBy element.
-   * 
+   *
    */
   public void setReplacedBy(ReplacedBy replacedBy) {
     ReplacedBy oldReplacedBy = this.replacedBy;
@@ -235,7 +235,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
   /**
    * Returns {@code true}, if listOfReplacedElements contains at least one element,
    *         otherwise {@code false}
-   * 
+   *
    * @return {@code true}, if listOfReplacedElements contains at least one element,
    *         otherwise {@code false}
    */
@@ -248,7 +248,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 
   /**
    * Returns the n-th {@link ReplacedElement} object in this {@link CompSBasePlugin}.
-   * 
+   *
    * @param n an index
    * @return the {@link ReplacedElement} with the given index if it exists.
    * @throws IndexOutOfBoundsException
@@ -260,7 +260,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
   /**
    * Returns a {@link ReplacedElement} element that has the given 'id' within
    * this {@link CompSBasePlugin} or {@code null} if no such element can be found.
-   * 
+   *
    * @param id
    *        an id indicating a {@link ReplacedElement} element of the
    *        {@link CompSBasePlugin}.
@@ -274,7 +274,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 
   /**
    * Returns the number of {@link ReplacedElement} objects in this {@link CompSBasePlugin}.
-   * 
+   *
    * @return the number of {@link ReplacedElement} objects in this {@link CompSBasePlugin}.
    */
   public int getReplacedElementCount() {
@@ -287,7 +287,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 
   /**
    * Returns the listOfReplacedElements
-   * 
+   *
    * @return the listOfReplacedElements
    */
   public ListOf<ReplacedElement> getListOfReplacedElements() {
@@ -308,7 +308,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 
   /**
    * Returns the number of {@link ReplacedElement} of this {@link CompSBasePlugin}.
-   * 
+   *
    * @return the number of {@link ReplacedElement} of this {@link CompSBasePlugin}.
    * @libsbml.deprecated use {@link #getReplacedElementCount()}
    */
@@ -320,7 +320,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
    * Sets the listOfReplacedElements. If there was already some elements defined
    * on listOfReplacedElements, the will be unset beforehand. If present it must
    * contain at least one {@link ReplacedElement} object.
-   * 
+   *
    * @param listOfReplacedElements
    */
   public void setListOfReplacedElements(ListOf<ReplacedElement> listOfReplacedElements) {
@@ -334,7 +334,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
   /**
    * Returns {@code true}, if listOfReplacedElements contained at least one element,
    *         otherwise {@code false}
-   * 
+   *
    * @return {@code true}, if listOfReplacedElements contained at least one element,
    *         otherwise {@code false}
    */
@@ -351,7 +351,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
   /**
    * Adds a new element to listOfReplacedElements.
    * <p>listOfReplacedElements is initialized if necessary.
-   * 
+   *
    * @param replacedElement
    * @return {@code true} (as specified by {@link Collection.add})
    */
@@ -361,7 +361,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 
   /**
    * Removes an element from listOfReplacedElements.
-   * 
+   *
    * @param replacedElement the element to be removed from the list
    * @return {@code true} if this list contained the specified element
    * @see List#remove(Object)
@@ -375,7 +375,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 
   /**
    * Removes the ith element from the ListOfReplacedElements.
-   * 
+   *
    * @param i the index of the element to be removed
    * @throws IndexOutOfBoundsException if the listOf is not set or
    * if the index is out of bound (index < 0 || index > list.size).
