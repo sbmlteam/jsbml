@@ -25,8 +25,11 @@ package org.sbml.jsbml.ext.arrays.test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.StringReader;
+
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
 
 
@@ -57,5 +60,108 @@ public class MathTest {
 
   }
 
+  @Test
+  public void testEmptyInfixVector() {
 
+    ASTNode n = null;
+    String formula = "{ }";
+    FormulaParser parser = new FormulaParser(new StringReader(formula));
+    try {
+      n = parser.parse();
+      assertTrue(n.getType() == ASTNode.Type.VECTOR);
+    } catch (ParseException e) {
+      e.printStackTrace();
+      assertTrue(false);
+    }
+  }
+  
+  @Test
+  public void testInfixVector() {
+
+    ASTNode n = null;
+    String formula = "{1, 2}";
+    FormulaParser parser = new FormulaParser(new StringReader(formula));
+    try {
+      n = parser.parse();
+      assertTrue(n.getType() == ASTNode.Type.VECTOR);
+    } catch (ParseException e) {
+      e.printStackTrace();
+      assertTrue(false);
+    }
+  }
+
+  @Test
+  public void testInfixNestedVector() {
+
+    ASTNode n = null;
+    String formula = "{{1, 2}, {2, 1}}";
+    FormulaParser parser = new FormulaParser(new StringReader(formula));
+    try {
+      n = parser.parse();
+      assertTrue(n.getType() == ASTNode.Type.VECTOR);
+      assertTrue(n.getChild(0).getType() == ASTNode.Type.VECTOR);
+    } catch (ParseException e) {
+      e.printStackTrace();
+      assertTrue(false);
+    }
+  }
+  
+  @Test
+  public void testInfixSelector() {
+
+    ASTNode n = null;
+    String formula = "y[0]";
+    FormulaParser parser = new FormulaParser(new StringReader(formula));
+    try {
+      n = parser.parse();
+      assertTrue(n.getType() == ASTNode.Type.FUNCTION_SELECTOR);
+    } catch (ParseException e) {
+      e.printStackTrace();
+      assertTrue(false);
+    }
+  }
+  
+  @Test
+  public void testNestedInfixSelector() {
+
+    ASTNode n = null;
+    String formula = "y[0][2]";
+    FormulaParser parser = new FormulaParser(new StringReader(formula));
+    try {
+      n = parser.parse();
+      assertTrue(n.getType() == ASTNode.Type.FUNCTION_SELECTOR);
+    } catch (ParseException e) {
+      e.printStackTrace();
+      assertTrue(false);
+    }
+  }
+  
+  @Test
+  public void testInfixSelectorWithoutMath() {
+
+    ASTNode n = null;
+    String formula = "y[]";
+    FormulaParser parser = new FormulaParser(new StringReader(formula));
+    try {
+      n = parser.parse();
+      assertTrue(false);
+    } catch (ParseException e) {
+      assertTrue(true);
+    }
+  }
+  
+  @Test
+  public void testInfixSelectorWithoutArrayedObj() {
+
+    ASTNode n = null;
+    String formula = "[i]";
+    FormulaParser parser = new FormulaParser(new StringReader(formula));
+    try {
+      n = parser.parse();
+      assertTrue(false);
+    } catch (ParseException e) {
+      assertTrue(true);
+    }
+  }
+  
 }

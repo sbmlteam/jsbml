@@ -22,10 +22,13 @@
  */
 package org.sbml.jsbml.ext.arrays.test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.Event;
+import org.sbml.jsbml.EventAssignment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.Species;
@@ -59,7 +62,7 @@ public class ArrayExtensionTest {
     ArraysSBasePlugin arraysSBasePlugin = new ArraysSBasePlugin(spec);
     
     spec.addExtension(ArraysConstants.shortLabel, arraysSBasePlugin);
-    
+    //spec.addExtension("arrays", sbasePlugin);
     return arraysSBasePlugin;
   }
   /**
@@ -290,6 +293,39 @@ public class ArrayExtensionTest {
   }
   
   /**
+   * Test if id is locally scoped but unique across the hierarchy
+   */
+  @Test
+  public void testId() {
+     boolean test = true;
+     try{
+     SBMLDocument doc = new SBMLDocument(3,1);
+     Model m = doc.createModel();
+     Event e = m.createEvent();
+     EventAssignment a = e.createEventAssignment();
+     EventAssignment b = e.createEventAssignment();
+     ArraysSBasePlugin e_p = (ArraysSBasePlugin) e.createPlugin("arrays");
+     ArraysSBasePlugin a_p = (ArraysSBasePlugin) a.createPlugin("arrays");
+     ArraysSBasePlugin b_p = (ArraysSBasePlugin) b.createPlugin("arrays");
+     a_p.createDimension("i");
+     b_p.createDimension("i");
+     test = false;
+     assertFalse(test);
+     test = true;
+     e_p.createDimension("i");
+     }
+     catch(IllegalArgumentException e)
+     {
+       assertTrue(test);
+     }
+     catch(Exception e)
+     {
+       e.printStackTrace();
+       assertTrue(false);
+     }
+  }
+  
+  /**
    * Test if dimension ids can be set to same id iff they are part of
    * different SBase. The id is locally scoped.
    */
@@ -314,4 +350,70 @@ public class ArrayExtensionTest {
       e.printStackTrace();
     }
   }
+  
+  
+  /**
+   * Test removing elements even the case where it does not exist.
+   */
+  @Test
+  public void testRemoveDimension() {
+    try{  
+      Species S1 = new Species();
+      ArraysSBasePlugin P1 = bindPluginToSpecies(S1);
+      Dimension D1 = new Dimension("i");
+      P1.addDimension(D1);
+      
+      Dimension D2 = new Dimension("j");
+      
+      P1.removeDimension(D2);
+      assertTrue(P1.getDimensionCount() == 1);
+      P1.removeDimension("k");
+      assertTrue(P1.getDimensionCount() == 1);
+      P1.removeDimension("i");
+      assertTrue(P1.getDimensionCount() == 0);
+      
+    }
+    catch(Exception e)
+    {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
+  
+  /**
+   * Test removing elements even the case where it does not exist.
+   */
+  @Test
+  public void testRemoveDimensionByArrayDimension() {
+    try{  
+      Species S1 = new Species();
+      ArraysSBasePlugin P1 = bindPluginToSpecies(S1);
+      Dimension D1 = new Dimension("i");
+      P1.addDimension(D1);
+      D1.setArrayDimension(0);
+      Dimension D2 = new Dimension("j");
+      D2.setArrayDimension(1);
+      P1.addDimension(D2);
+      
+      assertTrue(P1.removeDimensionByArrayDimension(2) == null);
+      assertTrue(P1.removeDimensionByArrayDimension(1) == D2);
+      assertTrue(P1.removeDimensionByArrayDimension(0) == D1);
+      
+      Index I1 = new Index();
+      I1.setArrayDimension(0);
+      Index I2 = new Index();
+      I2.setArrayDimension(1);
+      
+      assertTrue(!P1.removeIndexByArrayDimension(2));
+      assertTrue(P1.removeIndexByArrayDimension(1));
+      assertTrue(P1.removeIndexByArrayDimension(0));
+      
+    }
+    catch(Exception e)
+    {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
+  
 }
