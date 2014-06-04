@@ -74,10 +74,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    */
   private ListOf<Dimension> listOfDimensions;
   
-// TODO: Look at CompPlugin for IdManager
-  //TODO: org.sbml.jsbml.test.UnregisterPackageTests.testCompPort()
-// TODO: Add types in ASTNode
- /**
+/**
  * Creates an ArraysSBasePlugin instance 
  */
 public ArraysSBasePlugin() {
@@ -220,6 +217,26 @@ public boolean removeIndex(Index field) {
   return false;
 }
 
+/**
+ * Removes an element from the listOfIndices based on array dimension.
+ *
+ * @param field the element with given array dimension to be removed from the list.
+ * @return true if the list contained the specified element with given array dimension and it was removed.
+ * @see List#remove(Object)
+ */
+public boolean removeIndexByArrayDimension(int arrayDim) {
+  if (isSetListOfIndices()) {
+    ListOf<Index> list = getListOfIndices();
+    for(Index index : list) {
+      if(index.isSetArrayDimension()) {
+        if(index.getArrayDimension() == arrayDim) {
+          return index.removeFromParent();
+        }
+      }
+    }
+  }
+  return false;
+}
 
 /**
  * Removes an element from the listOfIndices at the given index.
@@ -271,19 +288,17 @@ public Index getIndex(int i) {
  * if the index is out of bound (index < 0 || index > list.size).
  */
 public Index getIndex(int dim, String attribute) {
-  if (!isSetListOfIndices()) {
-    return null;
-  }
-  ListOf<Index> list = getListOfIndices();
-  for(Index index : list) {
-    if(index.isSetArrayDimension() && index.isSetReferencedAttribute()) {
-      if(index.getArrayDimension() == dim 
-          && index.getReferencedAttribute().equals(attribute)) {
-        return index;
+  if (isSetListOfIndices()) {
+    ListOf<Index> list = getListOfIndices();
+    for(Index index : list) {
+      if(index.isSetArrayDimension() && index.isSetReferencedAttribute()) {
+        if(index.getArrayDimension() == dim 
+            && index.getReferencedAttribute().equals(attribute)) {
+          return index;
+        }
       }
     }
   }
-  
   return null;
 }
 
@@ -420,6 +435,26 @@ public int getNumIndices() {
 
 
   /**
+   * Removes an element from the listOfDimensions by array dimension.
+   *
+   * @param arrayDim the array dimension of the element to be removed from the list.
+   * @return the removed element, if it was successfully found and removed or null.
+   */
+  public Dimension removeDimensionByArrayDimension(int arrayDim) {
+    if (isSetListOfDimensions()) {
+      Dimension dimension = getDimensionByArrayDimension(arrayDim);
+      
+      if(dimension != null) {
+        dimension.removeFromParent();
+      }
+      
+      return dimension;
+      
+    }
+    return null;
+  }
+  
+  /**
    * Removes an element from the listOfDimensions at the given index.
    *
    * @param i the index where to remove the {@link Dimension}.
@@ -474,25 +509,16 @@ public int getNumIndices() {
    * Gets an element from the listOfDimensions at the given arrayDimension.
    *
    * @param i the dimension of the {@link Dimension} element to get.
-   * @return an element from the listOfDimensions at the given index.
-   * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > 2).
+   * @return an element from the listOfDimensions at the given index or null.
    */
   public Dimension getDimensionByArrayDimension(int i) {
-    if (!isSetListOfDimensions()) {
-      throw new IndexOutOfBoundsException(Integer.toString(i));
-    }
-    
-    if(i < 0 || i > 2) {
-      throw new IndexOutOfBoundsException(Integer.toString(i));
-    }
-    
-    for(Dimension dim : getListOfDimensions()) {
-      if(dim.getArrayDimension() == i) {
-        return dim;
+    if (isSetListOfDimensions()) {
+      for(Dimension dim : getListOfDimensions()) {
+        if(dim.getArrayDimension() == i) {
+          return dim;
+        }
       }
     }
-    
     return null;
   }
 
@@ -703,4 +729,6 @@ public int getNumIndices() {
     } 
     return success;
   }
+  
+ 
 }
