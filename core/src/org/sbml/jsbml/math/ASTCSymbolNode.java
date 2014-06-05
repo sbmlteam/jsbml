@@ -34,37 +34,52 @@ package org.sbml.jsbml.math;
  */
 public interface ASTCSymbolNode extends ASTNode2 {
 
-
-  /**
-   * Returns the encodingURL of the MathML element represented by
-   * this ASTCiSymbolNode
-   * 
-   * @return String encodingURL
-   */
-  public String getEncodingURL();
-
-  /**
-   * Set the encodingURL of the MathML element represented by
-   * this ASTCiSymbolNode
-   * 
-   * @return String encodingURL
-   */
-  public void setEncodingURL(String encodingURL);
-
   /**
    * Returns the definitionURL of the MathML element represented by
-   * this ASTCiSymbolNode
+   * this ASTCSymbolNode
    * 
    * @return String definitionURL
    */
   public String getDefinitionURL();
 
   /**
+   * Returns the encodingURL of the MathML element represented by
+   * this ASTCSymbolNode
+   * 
+   * @return String encodingURL
+   */
+  public String getEncodingURL();
+
+  /**
+   * Returns the name of the MathML element represented by
+   * this ASTCSymbolNode
+   * 
+   * @return String name
+   */
+  public String getName();
+
+  /**
    * Set the encodingURL of the MathML element represented by
-   * this ASTCiSymbolNode
+   * this ASTCSymbolNode
    * 
    * @return String encodingURL
    */
   public void setDefinitionURL(String definitionURL);
+
+  /**
+   * Set the encodingURL of the MathML element represented by
+   * this ASTCSymbolNode
+   * 
+   * @return String encodingURL
+   */
+  public void setEncodingURL(String encodingURL);
+
+  /**
+   * Set the name of the MathML element represented by
+   * this ASTCSymbolNode
+   * 
+   * @return String encodingURL
+   */
+  public void setName(String name);
 
 }

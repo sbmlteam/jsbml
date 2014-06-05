@@ -35,6 +35,11 @@ public class ASTCSymbolDelayNode extends ASTBinaryFunctionNode implements
 ASTCSymbolNode {
 
   /**
+   * name attribute for MathML element
+   */
+  protected String name;
+
+  /**
    * definitionURL attribute for MathML element
    */
   protected String definitionURL;
@@ -55,6 +60,23 @@ ASTCSymbolNode {
 
   /*
    * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolNode#getEncodingURL()
+   */
+  @Override
+  public String getEncodingURL() {
+    return encodingURL;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolNode#getName()
+   */
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#setDefinitionURL(java.lang.String)
    */
   @Override
@@ -64,20 +86,19 @@ ASTCSymbolNode {
 
   /*
    * (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTCSymbolNode#getEncodingURL()
-   */
-  @Override
-  public String getEncodingURL() {
-    return encodingURL;
-  }
-
-  /*
-   * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#setEncodingURL(java.lang.String)
    */
   @Override
   public void setEncodingURL(String encodingURL) {
     this.encodingURL = encodingURL;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolNode#setName(java.lang.String)
+   */
+  @Override
+  public void setName(String name) {
+    this.name = name;
   }
 
 }

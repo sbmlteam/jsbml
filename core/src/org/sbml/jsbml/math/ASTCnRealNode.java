@@ -22,6 +22,8 @@
  */
 package org.sbml.jsbml.math;
 
+import org.sbml.jsbml.MathContainer;
+
 
 /**
  * An Abstract Syntax Tree (AST) node representing a real number
@@ -38,6 +40,26 @@ public class ASTCnRealNode extends ASTCnNumberNode {
    * The value of this node
    */
   private Double value;
+
+  /**
+   * Creates a new {@link ASTCnRealNode} that lacks a pointer
+   * to its containing {@link MathContainer}.
+   */
+  public ASTCnRealNode() {
+    super();
+    setType("real");
+  }
+
+  /**
+   * Copy constructor; Creates a deep copy of the given {@link ASTCnRealNode}.
+   * 
+   * @param cnRealNode
+   *            the {@link ASTCnRealNode} to be copied.
+   */
+  public ASTCnRealNode(ASTCnRealNode cnRealNode) {
+    super();
+    setType("real");
+  }
 
   /**
    * Return the value of this node

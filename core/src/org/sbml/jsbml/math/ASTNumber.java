@@ -52,7 +52,7 @@ public class ASTNumber extends AbstractASTNode {
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTNumber}.
    * 
-   * @param astNode
+   * @param astNumber
    *            the {@link ASTNumber} to be copied.
    */
   public ASTNumber(ASTNumber astNumber) {
