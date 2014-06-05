@@ -372,6 +372,7 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
   double d;
   int i;
   ASTNode node = new ASTNode();
+   ASTNode vector = null;
   ASTNode child, furtherChild;
   String s;
   String vals [ ];
@@ -405,7 +406,7 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     {if (true) return node;}
       break;
     default:
-      jj_la1[8] = jj_gen;
+      jj_la1[10] = jj_gen;
       if (jj_2_1(2)) {
         t = string();
         jj_consume_token(OPEN_PAR);
@@ -507,29 +508,93 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
           jj_consume_token(CLOSE_PAR);
     {if (true) return node;}
           break;
-        case MINUS:
-          jj_consume_token(MINUS);
-          node = Primary();
+        default:
+          jj_la1[11] = jj_gen;
+          if (jj_2_2(4)) {
+            t = jj_consume_token(STRING);
+                                    ASTNode selector = new ASTNode();
+                                    selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
+                                    selector.addChild(new ASTNode(t.image));
+            label_5:
+            while (true) {
+              jj_consume_token(LEFT_BRACKET);
+              node = TermLvl1();
+                                        selector.addChild(node);
+              jj_consume_token(RIGHT_BRACKET);
+              switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+              case LEFT_BRACKET:
+                ;
+                break;
+              default:
+                jj_la1[8] = jj_gen;
+                break label_5;
+              }
+            }
+   {if (true) return selector;}
+          } else {
+            switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+            case OPEN_PAR:
+              jj_consume_token(OPEN_PAR);
+              node = TermLvl1();
+              jj_consume_token(CLOSE_PAR);
+    {if (true) return node;}
+              break;
+            default:
+              jj_la1[12] = jj_gen;
+              if (jj_2_3(3)) {
+                jj_consume_token(LEFT_BRACES);
+                node = TermLvl1();
+    vector = new ASTNode();
+    vector.setType(ASTNode.Type.VECTOR);
+    vector.addChild(node);
+                label_6:
+                while (true) {
+                  switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+                  case SLPITTER:
+                    ;
+                    break;
+                  default:
+                    jj_la1[9] = jj_gen;
+                    break label_6;
+                  }
+                  jj_consume_token(SLPITTER);
+                  node = TermLvl1();
+      vector.addChild(node);
+                }
+                jj_consume_token(RIGHT_BRACES);
+    {if (true) return vector;}
+              } else {
+                switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+                case LEFT_BRACES:
+                  jj_consume_token(LEFT_BRACES);
+    vector = new ASTNode();
+    vector.setType(ASTNode.Type.VECTOR);
+                  jj_consume_token(RIGHT_BRACES);
+    {if (true) return vector;}
+                  break;
+                case MINUS:
+                  jj_consume_token(MINUS);
+                  node = Primary();
     ASTNode uiMinus = new ASTNode('-');
     uiMinus.addChild(node);
     {if (true) return uiMinus;}
-          break;
-        case NOT:
-          jj_consume_token(NOT);
-          node = TermLvl1();
+                  break;
+                case NOT:
+                  jj_consume_token(NOT);
+                  node = TermLvl1();
     ASTNode not = new ASTNode(Type.LOGICAL_NOT);
     not.addChild(node);
     {if (true) return not;}
-          break;
-        case LOG:
-          jj_consume_token(LOG);
-          child = Primary();
+                  break;
+                case LOG:
+                  jj_consume_token(LOG);
+                  child = Primary();
     node = new ASTNode(Type.FUNCTION_LN);
     node.addChild(child);
     {if (true) return node;}
-          break;
-        case STRING:
-          t = jj_consume_token(STRING);
+                  break;
+                case STRING:
+                  t = jj_consume_token(STRING);
     s = t.image;
     if (s.equalsIgnoreCase("true"))
     {
@@ -572,11 +637,15 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
       node = new ASTNode(s);
     }
     {if (true) return node;}
-          break;
-        default:
-          jj_la1[9] = jj_gen;
-          jj_consume_token(-1);
-          throw new ParseException();
+                  break;
+                default:
+                  jj_la1[13] = jj_gen;
+                  jj_consume_token(-1);
+                  throw new ParseException();
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -590,18 +659,265 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     finally { jj_save(0, xla); }
   }
 
+  private boolean jj_2_2(int xla) {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return !jj_3_2(); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(1, xla); }
+  }
+
+  private boolean jj_2_3(int xla) {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return !jj_3_3(); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(2, xla); }
+  }
+
+  private boolean jj_3R_10() {
+    if (jj_scan_token(SLPITTER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_24() {
+    if (jj_scan_token(INTEGER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_19() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_24()) {
+    jj_scanpos = xsp;
+    if (jj_3R_25()) {
+    jj_scanpos = xsp;
+    if (jj_3R_26()) {
+    jj_scanpos = xsp;
+    if (jj_3_1()) {
+    jj_scanpos = xsp;
+    if (jj_3R_27()) {
+    jj_scanpos = xsp;
+    if (jj_3_2()) {
+    jj_scanpos = xsp;
+    if (jj_3R_28()) {
+    jj_scanpos = xsp;
+    if (jj_3_3()) {
+    jj_scanpos = xsp;
+    if (jj_3R_29()) {
+    jj_scanpos = xsp;
+    if (jj_3R_30()) {
+    jj_scanpos = xsp;
+    if (jj_3R_31()) {
+    jj_scanpos = xsp;
+    if (jj_3R_32()) {
+    jj_scanpos = xsp;
+    if (jj_3R_33()) return true;
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_18() {
+    if (jj_scan_token(COMPARISON)) return true;
+    return false;
+  }
+
+  private boolean jj_3_3() {
+    if (jj_scan_token(LEFT_BRACES)) return true;
+    if (jj_3R_9()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_10()) { jj_scanpos = xsp; break; }
+    }
+    if (jj_scan_token(RIGHT_BRACES)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_28() {
+    if (jj_scan_token(OPEN_PAR)) return true;
+    if (jj_3R_9()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_33() {
+    if (jj_scan_token(STRING)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_23() {
+    if (jj_scan_token(MODULO)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_32() {
+    if (jj_scan_token(LOG)) return true;
+    if (jj_3R_19()) return true;
+    return false;
+  }
+
   private boolean jj_3_1() {
-    if (jj_3R_5()) return true;
+    if (jj_3R_7()) return true;
     if (jj_scan_token(OPEN_PAR)) return true;
     return false;
   }
 
-  private boolean jj_3R_5() {
+  private boolean jj_3R_20() {
+    if (jj_scan_token(POWER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_17() {
+    if (jj_scan_token(BOOLEAN_LOGIC)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_31() {
+    if (jj_scan_token(NOT)) return true;
+    if (jj_3R_9()) return true;
+    return false;
+  }
+
+  private boolean jj_3_2() {
+    if (jj_scan_token(STRING)) return true;
+    Token xsp;
+    if (jj_3R_8()) return true;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_8()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_13() {
+    if (jj_3R_19()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_20()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_27() {
+    if (jj_scan_token(OPEN_PAR)) return true;
+    if (jj_3R_9()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_30() {
+    if (jj_scan_token(MINUS)) return true;
+    if (jj_3R_19()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_16() {
+    if (jj_scan_token(MINUS)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_7() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_scan_token(22)) {
+    if (jj_scan_token(26)) {
     jj_scanpos = xsp;
-    if (jj_scan_token(23)) return true;
+    if (jj_scan_token(27)) return true;
+    }
+    return false;
+  }
+
+  private boolean jj_3R_22() {
+    if (jj_scan_token(DIVIDE)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_8() {
+    if (jj_scan_token(LEFT_BRACKET)) return true;
+    if (jj_3R_9()) return true;
+    if (jj_scan_token(RIGHT_BRACKET)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_26() {
+    if (jj_scan_token(EXPNUMBER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_12() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_15()) {
+    jj_scanpos = xsp;
+    if (jj_3R_16()) {
+    jj_scanpos = xsp;
+    if (jj_3R_17()) {
+    jj_scanpos = xsp;
+    if (jj_3R_18()) return true;
+    }
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_15() {
+    if (jj_scan_token(PLUS)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_29() {
+    if (jj_scan_token(LEFT_BRACES)) return true;
+    if (jj_scan_token(RIGHT_BRACES)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_21() {
+    if (jj_scan_token(TIMES)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_14() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_21()) {
+    jj_scanpos = xsp;
+    if (jj_3R_22()) {
+    jj_scanpos = xsp;
+    if (jj_3R_23()) return true;
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_9() {
+    if (jj_3R_11()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_12()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_25() {
+    if (jj_scan_token(NUMBER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_11() {
+    if (jj_3R_13()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_14()) { jj_scanpos = xsp; break; }
     }
     return false;
   }
@@ -617,15 +933,15 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
   private Token jj_scanpos, jj_lastpos;
   private int jj_la;
   private int jj_gen;
-  final private int[] jj_la1 = new int[10];
+  final private int[] jj_la1 = new int[14];
   static private int[] jj_la1_0;
   static {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0xc00000,0x4000001,0x200,0x3800,0x3800,0x30500,0x30500,0x80,0x68,0xe04400,};
+      jj_la1_0 = new int[] {0xc000000,0x40000001,0x200,0x3800,0x3800,0x300500,0x300500,0x80,0x40000,0x80,0x68,0x4000,0x4000,0xe010400,};
    }
-  final private JJCalls[] jj_2_rtns = new JJCalls[1];
+  final private JJCalls[] jj_2_rtns = new JJCalls[3];
   private boolean jj_rescan = false;
   private int jj_gc = 0;
 
@@ -640,7 +956,7 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -655,7 +971,7 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -666,7 +982,7 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -677,7 +993,7 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -687,7 +1003,7 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -697,7 +1013,7 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 10; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 14; i++) jj_la1[i] = -1;
     for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
@@ -809,12 +1125,12 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[27];
+    boolean[] la1tokens = new boolean[31];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 14; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -823,7 +1139,7 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
         }
       }
     }
-    for (int i = 0; i < 27; i++) {
+    for (int i = 0; i < 31; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;
@@ -850,7 +1166,7 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
 
   private void jj_rescan_token() {
     jj_rescan = true;
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < 3; i++) {
     try {
       JJCalls p = jj_2_rtns[i];
       do {
@@ -858,6 +1174,8 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
           jj_la = p.arg; jj_lastpos = jj_scanpos = p.first;
           switch (i) {
             case 0: jj_3_1(); break;
+            case 1: jj_3_2(); break;
+            case 2: jj_3_3(); break;
           }
         }
         p = p.next;
