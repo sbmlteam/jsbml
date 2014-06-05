@@ -23,6 +23,7 @@ package org.sbml.jsbml.test;
 
 import junit.framework.TestSuite;
 
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -60,4 +61,22 @@ public class AllTests {
     }
   }
 
+  /**
+   * Sets the environment correctly so that the test files are found, even
+   * when run through eclipse (with the standard eclipse setup, on trunk).
+   * 
+   */
+  @BeforeClass public static void setUp() {
+
+    if (System.getProperty("DATA_FOLDER") != null || System.getenv("DATA_FOLDER") != null) {
+      DATA_FOLDER = System.getProperty("DATA_FOLDER");
+      if (DATA_FOLDER == null) {
+        DATA_FOLDER = System.getenv("DATA_FOLDER");
+      }
+    } else {
+      System.setProperty("DATA_FOLDER", DATA_FOLDER);
+    }
+
+    System.out.println("AllTests - DATA_FOLDER SET to '" + DATA_FOLDER + "'");
+  }
 }
