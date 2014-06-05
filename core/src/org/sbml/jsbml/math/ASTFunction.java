@@ -44,19 +44,6 @@ import org.sbml.jsbml.util.filters.Filter;
 public class ASTFunction extends AbstractASTNode {
 
   /**
-   * Sets the parent of the node and its children to the given value
-   *
-   * @param node the orphan node
-   * @param parent the parent
-   * @param depth the current depth in the {@link AbstractASTNode} tree.
-   *            It is just here for testing purposes to track the depth in the tree
-   *            during the process.
-   */
-  private static void setParentSBMLObject(AbstractASTNode node, MathContainer parent,
-    int depth) {
-  }
-
-  /**
    * Sets the Parent of the node and its children to the given value
    *
    * @param node the orphan node
@@ -68,9 +55,22 @@ public class ASTFunction extends AbstractASTNode {
   }
 
   /**
+   * Sets the parent of the node and its children to the given value
+   *
+   * @param node the orphan node
+   * @param parent the parent
+   * @param depth the current depth in the {@link ASTNode2} tree.
+   *            It is just here for testing purposes to track the depth in the tree
+   *            during the process.
+   */
+  private static void setParentSBMLObject(ASTNode2 node, MathContainer parent,
+    int depth) {
+  }
+
+  /**
    * Child nodes.
    */
-  protected List<AbstractASTNode> listOfNodes;
+  protected List<ASTNode2> listOfNodes;
 
   /**
    * The container that holds this ASTFunctionNode.
@@ -98,12 +98,16 @@ public class ASTFunction extends AbstractASTNode {
     super(astFunction);
     parentSBMLObject = null;
     initDefaults();
-
     if (astFunction.getChildCount() > 0) {
-      for (AbstractASTNode child : astFunction.listOfNodes) {
-        AbstractASTNode c = (AbstractASTNode) child.clone();
-        c.setParent(this);
-        listOfNodes.add(c);
+      if (! isSetList()) {
+        listOfNodes = new ArrayList<ASTNode2>();
+      } else {
+        for (int i = listOfNodes.size() - 1; i >= 0; i--) {
+          ASTNode2 child = listOfNodes.get(i);
+          ASTNode2 c = (ASTNode2) child.clone();
+          c.setParent(this);
+          listOfNodes.add(c);
+        }
       }
     }
   }
@@ -114,11 +118,15 @@ public class ASTFunction extends AbstractASTNode {
    * @param child
    *            the node to add as child.
    */
-  public void addChild(AbstractASTNode child) {
-    listOfNodes.add(child);
-    setParentSBMLObject(child, parentSBMLObject, 0);
-    child.setParent(this);
-    child.fireNodeAddedEvent();
+  public void addChild(ASTNode2 child) {
+    if (isSetList())  {
+      listOfNodes = new ArrayList<ASTNode2>();
+    } else {
+      listOfNodes.add(child);
+      setParentSBMLObject(child, parentSBMLObject, 0);
+      child.setParent(this);
+      child.fireNodeAddedEvent();
+    }
   }
 
   /* (non-Javadoc)
@@ -142,13 +150,18 @@ public class ASTFunction extends AbstractASTNode {
    * 
    * @param index
    *            the index of the child to get
-   * @return the child of this {@link AbstractASTNode} with the given index.
+   * @return the child of this {@link ASTNode2} with the given index.<br>
+   *         null if no children exist
    * @throws IndexOutOfBoundsException
    *             - if the index is out of range (index < 0 || index >=
    *             size()).
    */
-  public AbstractASTNode getChild(int index) {
-    return listOfNodes.get(index);
+  public ASTNode2 getChild(int index) {
+    if (isSetList()) {
+      return listOfNodes.get(index);
+    } else {
+      return null;
+    }
   }
 
   /* (non-Javadoc)
@@ -156,7 +169,11 @@ public class ASTFunction extends AbstractASTNode {
    */
   @Override
   public TreeNode getChildAt(int childIndex) {
-    return getChild(childIndex);
+    if (isSetList()) {
+      return getChild(childIndex);
+    } else {
+      return null;
+    }
   }
 
   /* (non-Javadoc)
@@ -164,7 +181,7 @@ public class ASTFunction extends AbstractASTNode {
    */
   @Override
   public int getChildCount() {
-    return listOfNodes == null ? 0 : listOfNodes.size();
+    return isSetList() ? 0 : listOfNodes.size();
   }
 
   /**
@@ -172,7 +189,7 @@ public class ASTFunction extends AbstractASTNode {
    * 
    * @return the list of children of the current ASTFunction.
    */
-  public List<AbstractASTNode> getChildren() {
+  public List<ASTNode2> getChildren() {
     return getListOfNodes();
   }
 
@@ -181,7 +198,7 @@ public class ASTFunction extends AbstractASTNode {
    * 
    * @return the list of children of the current ASTFunction.
    */
-  public List<AbstractASTNode> getListOfNodes() {
+  public List<ASTNode2> getListOfNodes() {
     return listOfNodes;
   }
 
@@ -193,14 +210,18 @@ public class ASTFunction extends AbstractASTNode {
    * @return the list of children of the current ASTFunction that satisfy the
    *         given filter.
    */
-  public List<AbstractASTNode> getListOfNodes(Filter filter) {
-    ArrayList<AbstractASTNode> filteredList = new ArrayList<AbstractASTNode>();
-    for (AbstractASTNode node : listOfNodes) {
-      if (filter.accepts(node)) {
-        filteredList.add(node);
+  public List<ASTNode2> getListOfNodes(Filter filter) {
+    if (isSetList()) {
+      ArrayList<ASTNode2> filteredList = new ArrayList<ASTNode2>();
+      for (ASTNode2 node : listOfNodes) {
+        if (filter.accepts(node)) {
+          filteredList.add(node);
+        }
       }
+      return filteredList;
+    } else {
+      return null;
     }
-    return filteredList;
   }
 
   /**
@@ -208,12 +229,12 @@ public class ASTFunction extends AbstractASTNode {
    */
   private void initDefaults() {
     ASTFunction old = this;
-    if (listOfNodes == null) {
-      listOfNodes = new ArrayList<AbstractASTNode>();
+    if (! isSetList()) {
+      listOfNodes = new ArrayList<ASTNode2>();
     } else {
       for (int i = listOfNodes.size() - 1; i >= 0; i--) {
         // This also removes the pointer from the previous child to this object, i.e., its previous parent node.
-        AbstractASTNode removed = listOfNodes.remove(i);
+        ASTNode2 removed = listOfNodes.remove(i);
         resetParentSBMLObject(removed);
         removed.fireNodeRemovedEvent();
       }
@@ -222,44 +243,73 @@ public class ASTFunction extends AbstractASTNode {
   }
 
   /**
-   * Inserts the given {@link AbstractASTNode} at point n in the list of children of this
-   * {@link AbstractASTNode}. Inserting a child within an {@link AbstractASTNode} may result in an inaccurate
+   * Inserts the given {@link ASTNode2} at point n in the list of children of this
+   * {@link ASTNode2}. Inserting a child within an {@link ASTNode2} may result in an inaccurate
    * representation.
    * 
    * @param n
-   *            long the index of the {@link AbstractASTNode} being added
+   *            long the index of the {@link ASTNode2} being added
    * @param newChild
-   *            {@link AbstractASTNode} to insert as the n<sup>th</sup> child
+   *            {@link ASTNode2} to insert as the n<sup>th</sup> child
    */
-  public void insertChild(int n, AbstractASTNode newChild) {
+  public void insertChild(int n, ASTNode2 newChild) {
+    if (! isSetList()) {
+      listOfNodes = new ArrayList<ASTNode2>();
+    }
     listOfNodes.add(n, newChild);
     setParentSBMLObject(newChild, parentSBMLObject, 0);
     newChild.setParent(this);
   }
 
   /**
-   * Resets the parentSBMLObject to null
+   * Returns True iff listOfNodes has been set
    * 
-   * @param node
+   * @param null
+   * @return boolean
    */
-  public void resetParentSBMLObject(AbstractASTNode node) {
-    if (node instanceof ASTNumber) {
-      node.parentSBMLObject = null;
-      return;
+  private boolean isSetList() {
+    return listOfNodes != null;
+  }
+
+  /**
+   * Adds the given node as a child of this ASTNode2. This method adds child
+   * nodes from right to left.
+   * 
+   * @param child
+   *            an {@code ASTNode2}
+   */
+  public void prependChild(ASTNode2 child) {
+    if (! isSetList()) {
+      listOfNodes = new ArrayList<ASTNode2>();
     }
-    resetParentSBMLObject((ASTFunction) node);
+    listOfNodes.add(0, child);
+    setParentSBMLObject(child, parentSBMLObject, 0);
+    child.setParent(this);
   }
 
   /**
    * Resets the parentSBMLObject to null recursively.
    * 
-   * @param node
+   * @param {@link ASTFunction} node
    */
   public void resetParentSBMLObject(ASTFunction node) {
     node.parentSBMLObject = null;
-    for (AbstractASTNode child : node.listOfNodes) {
+    for (ASTNode2 child : node.listOfNodes) {
       resetParentSBMLObject(child);
     }
+  }
+
+  /**
+   * Resets the parentSBMLObject to null
+   * 
+   * @param {@link ASTNode2} node
+   */
+  public void resetParentSBMLObject(ASTNode2 node) {
+    if (node instanceof ASTNumber) {
+      ((ASTNumber)node).parentSBMLObject = null;
+      return;
+    }
+    resetParentSBMLObject((ASTFunction) node);
   }
 
   /**
@@ -288,26 +338,30 @@ public class ASTFunction extends AbstractASTNode {
    *        node's children
    */
   public void swapChildren(ASTFunction that) {
-    List<AbstractASTNode> swap = that.listOfNodes;
+    List<ASTNode2> swap = that.listOfNodes;
     that.listOfNodes = listOfNodes;
     listOfNodes = swap;
-    for (AbstractASTNode child : that.listOfNodes) {
-      if (that.getParentSBMLObject() != getParentSBMLObject()) {
-        setParentSBMLObject(child, that.getParentSBMLObject(), 0);
+    if (! that.isLeaf()) {
+      for (ASTNode2 child : that.listOfNodes) {
+        if (that.getParentSBMLObject() != getParentSBMLObject()) {
+          setParentSBMLObject(child, that.getParentSBMLObject(), 0);
+        }
+        child.fireNodeRemovedEvent();
+        child.getListOfTreeNodeChangeListeners().removeAll(that.getListOfTreeNodeChangeListeners());
+        child.setParent(that);
+        child.fireNodeAddedEvent();
       }
-      child.fireNodeRemovedEvent();
-      child.getListOfTreeNodeChangeListeners().removeAll(that.getListOfTreeNodeChangeListeners());
-      child.setParent(that);
-      child.fireNodeAddedEvent();
     }
-    for (AbstractASTNode child : listOfNodes) {
-      if (that.getParentSBMLObject() != getParentSBMLObject()) {
-        setParentSBMLObject(child, getParentSBMLObject(), 0);
+    if (! isLeaf()) {
+      for (ASTNode2 child : listOfNodes) {
+        if (that.getParentSBMLObject() != getParentSBMLObject()) {
+          setParentSBMLObject(child, getParentSBMLObject(), 0);
+        }
+        child.fireNodeRemovedEvent();
+        child.getListOfTreeNodeChangeListeners().removeAll(getListOfTreeNodeChangeListeners());
+        child.setParent(this);
+        child.fireNodeAddedEvent();
       }
-      child.fireNodeRemovedEvent();
-      child.getListOfTreeNodeChangeListeners().removeAll(getListOfTreeNodeChangeListeners());
-      child.setParent(this);
-      child.fireNodeAddedEvent();
     }
   }
 

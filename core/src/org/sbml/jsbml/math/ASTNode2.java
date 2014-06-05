@@ -22,6 +22,8 @@
  */
 package org.sbml.jsbml.math;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 
@@ -78,5 +80,18 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    * @return the representation of this node in MathML.
    */
   public String toMathML();
+
+  /**
+   * @param parent
+   *            the parent to set
+   */
+  public void setParent(TreeNode astNode2);
+
+  /**
+   * Clone ASTNode2
+   * 
+   * @return TreeNode node
+   */
+  public TreeNode clone();
 
 }

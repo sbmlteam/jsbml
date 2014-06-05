@@ -25,6 +25,7 @@ package org.sbml.jsbml.math;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
 /**
@@ -43,6 +44,9 @@ public class ASTNumber extends AbstractASTNode {
    * to its containing {@link MathContainer}.
    */
   public ASTNumber() {
+    super();
+    parentSBMLObject = null;
+    initDefaults();
   }
 
   /**
@@ -52,6 +56,25 @@ public class ASTNumber extends AbstractASTNode {
    *            the {@link ASTNumber} to be copied.
    */
   public ASTNumber(ASTNumber astNumber) {
+    super();
+    parentSBMLObject = null;
+    initDefaults();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#clone()
+   */
+  @Override
+  public TreeNode clone() {
+    return new ASTNumber(this);
+  }
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getAllowsChildren()
+   */
+  @Override
+  public boolean getAllowsChildren() {
+    return false;
   }
 
   /* (non-Javadoc)
@@ -70,19 +93,12 @@ public class ASTNumber extends AbstractASTNode {
     return 0;
   }
 
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#getAllowsChildren()
+  /**
+   * Initializes the default values/attributes of the node.
    */
-  @Override
-  public boolean getAllowsChildren() {
-    return false;
+  private void initDefaults() {
+    ASTNumber old = this;
+    firePropertyChange(TreeNodeChangeEvent.initialValue, old, this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractTreeNode#clone()
-   */
-  @Override
-  public TreeNode clone() {
-    return null;
-  }
 }

@@ -104,7 +104,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    * @see org.sbml.jsbml.AbstractTreeNode#setParent(javax.swing.tree.TreeNode)
    */
   @Override
-  protected void setParent(TreeNode parent) {
+  public void setParent(TreeNode parent) {
     TreeNode oldValue = this.parent;
     this.parent = parent;
     if (parent instanceof TreeNodeWithChangeSupport) {
@@ -123,6 +123,14 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    */
   public MathContainer getParentSBMLObject() {
     return parentSBMLObject;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#clone()
+   */
+  @Override
+  public TreeNode clone() {
+    return null;
   }
 
 }
