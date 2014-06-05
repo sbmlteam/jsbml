@@ -22,6 +22,8 @@
  */
 package org.sbml.jsbml.math;
 
+import org.sbml.jsbml.MathContainer;
+
 
 /**
  * An Abstract Syntax Tree (AST) node representing an Integer
@@ -38,6 +40,26 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
    * The value of this node
    */
   private Integer value;
+
+  /**
+   * Creates a new {@link ASTCnIntegerNode} that lacks a pointer
+   * to its containing {@link MathContainer}.
+   */
+  public ASTCnIntegerNode() {
+    super();
+    setType("integer");
+  }
+
+  /**
+   * Copy constructor; Creates a deep copy of the given {@link ASTCnIntegerNode}.
+   * 
+   * @param cnIntegerNode
+   *            the {@link ASTCnIntegerNode} to be copied.
+   */
+  public ASTCnIntegerNode(ASTCnIntegerNode cnIntegerNode) {
+    super(cnIntegerNode);
+    setType("integer");
+  }
 
   /**
    * Return the value of this node
