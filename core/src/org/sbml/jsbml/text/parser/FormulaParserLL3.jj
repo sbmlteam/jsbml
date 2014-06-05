@@ -237,6 +237,26 @@ TOKEN :
 
 TOKEN :
 {
+  < LEFT_BRACES : "{" >
+}
+
+TOKEN :
+{
+  < RIGHT_BRACES : "}" >
+}
+
+TOKEN :
+{
+  < LEFT_BRACKET : "[" >
+}
+
+TOKEN :
+{
+  < RIGHT_BRACKET : "]" >
+}
+
+TOKEN :
+{
   < COMPARISON :
 	  "<"
 	| "<="
@@ -365,6 +385,7 @@ private ASTNode TermLvl3() :
   ASTNode rightChild;
   ASTNode leftChild;
   ASTNode node = null;
+  
 }
 {
   leftChild = Primary()
@@ -526,6 +547,7 @@ private ASTNode Primary() throws NumberFormatException :
   double d;
   int i;
   ASTNode node = new ASTNode();
+   ASTNode vector = null;
   ASTNode child, furtherChild;
   String s;
   String vals [ ];
@@ -644,9 +666,52 @@ private ASTNode Primary() throws NumberFormatException :
     }
     return node;
   }
-| < OPEN_PAR > node = TermLvl1() < CLOSE_PAR >
+  | < OPEN_PAR > node = TermLvl1() < CLOSE_PAR >
   {
     return node;
+  }
+  | LOOKAHEAD(4)    t = < STRING >
+				  {
+				    ASTNode selector = new ASTNode();
+				    selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
+				    selector.addChild(new ASTNode(t.image));
+				  }
+				  ( < LEFT_BRACKET >
+	                (node = TermLvl1())
+	                {
+					selector.addChild(node);
+	                }
+				    < RIGHT_BRACKET >
+				  )+
+  {return selector; }
+ | < OPEN_PAR > node = TermLvl1() < CLOSE_PAR >
+  {
+    return node;
+  }
+| LOOKAHEAD(3) < LEFT_BRACES > node = TermLvl1()
+  {
+    vector = new ASTNode();
+    vector.setType(ASTNode.Type.VECTOR);
+    vector.addChild(node);
+  }
+   (
+    < SLPITTER > node = TermLvl1()
+    {
+      vector.addChild(node);
+    }
+  )*
+  < RIGHT_BRACES >
+  {
+    return vector;
+  }
+| < LEFT_BRACES >
+  {
+    vector = new ASTNode();
+    vector.setType(ASTNode.Type.VECTOR);
+  }
+  < RIGHT_BRACES >
+  {
+    return vector;
   }
 | < MINUS > node = Primary()
   {
