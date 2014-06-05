@@ -407,10 +407,10 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
   @Override
   public void firePropertyChange(String propertyName, Object oldValue,
     Object newValue) {
-    
+
     // TODO - if the property is of type TreeNode, we should set the parent of the new value
     // and unset the parent of the oldValue ??
-    
+
     if (listOfListeners.size() > 0) {
       short changeType = -1; // no property change at all
       if ((oldValue == null) && (newValue != null)) {
@@ -733,7 +733,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    * @param parent
    *            the parent to set
    */
-  protected void setParent(TreeNode parent) {
+  public void setParent(TreeNode parent) {
     TreeNode oldValue = this.parent;
     this.parent = parent;
     if (parent instanceof TreeNodeWithChangeSupport) {
