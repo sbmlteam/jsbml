@@ -46,7 +46,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
   /**
    * Set the child of this node
    * 
-   * @param ASTNode2 leftChild
+   * @param ASTNode2 child
    */
   public void setChild(ASTNode2 child) {
     insertChild(0, child);
