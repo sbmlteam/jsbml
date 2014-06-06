@@ -189,7 +189,7 @@ public class ArraysWriteTest {
   @Test
   public void arrayReadTest() {
     try {
-      SBMLDocument doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("../../../xml/test/data/arrays/example.xml"));
+      SBMLDocument doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/example.xml"));
       SBMLWriter.write(doc, System.out, ' ', (short) 2);
       Model model = doc.getModel();
       assertTrue(testParameterDimension(model, "X", "i", null, "n", 0));
