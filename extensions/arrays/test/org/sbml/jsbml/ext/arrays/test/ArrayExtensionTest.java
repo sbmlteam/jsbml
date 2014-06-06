@@ -399,9 +399,9 @@ public class ArrayExtensionTest {
       assertTrue(P1.removeDimensionByArrayDimension(1) == D2);
       assertTrue(P1.removeDimensionByArrayDimension(0) == D1);
       
-      Index I1 = new Index();
+      Index I1 = P1.createIndex();
       I1.setArrayDimension(0);
-      Index I2 = new Index();
+      Index I2 = P1.createIndex();
       I2.setArrayDimension(1);
       
       assertTrue(!P1.removeIndexByArrayDimension(2));
