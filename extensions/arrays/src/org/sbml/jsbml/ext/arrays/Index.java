@@ -271,5 +271,48 @@ public class Index extends AbstractMathContainer {
     
     return attributes;
   }
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 2647;
+    int result = super.hashCode();
+    result = prime * result + arrayDimension;
+    result = prime * result
+      + ((referencedAttribute == null) ? 0 : referencedAttribute.hashCode());
+    return result;
+  }
+
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Index other = (Index) obj;
+    if (arrayDimension != other.arrayDimension) {
+      return false;
+    }
+    if (referencedAttribute == null) {
+      if (other.referencedAttribute != null) {
+        return false;
+      }
+    } else if (!referencedAttribute.equals(other.referencedAttribute)) {
+      return false;
+    }
+    return true;
+  }
   
 }
