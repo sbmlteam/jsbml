@@ -33,4 +33,24 @@ package org.sbml.jsbml.math;
  * @date May 30, 2014
  */
 public class ASTUnaryFunctionNode extends ASTFunction {
+
+  /**
+   * Get the child of this node
+   * 
+   * @return ASTNode2 child
+   */
+  public ASTNode2 getChild() {
+    return getChild(0);
+  }
+
+  /**
+   * Set the child of this node
+   * 
+   * @param ASTNode2 leftChild
+   */
+  public void setChild(ASTNode2 child) {
+    insertChild(0, child);
+  }
+
+
 }
