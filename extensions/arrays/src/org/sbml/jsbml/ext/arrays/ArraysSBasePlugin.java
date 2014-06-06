@@ -729,6 +729,53 @@ public int getNumIndices() {
     } 
     return success;
   }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 2719;
+    int result = super.hashCode();
+    result = prime * result
+      + ((listOfDimensions == null) ? 0 : listOfDimensions.hashCode());
+    result = prime * result
+      + ((listOfIndices == null) ? 0 : listOfIndices.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    ArraysSBasePlugin other = (ArraysSBasePlugin) obj;
+    if (listOfDimensions == null) {
+      if (other.listOfDimensions != null) {
+        return false;
+      }
+    } else if (!listOfDimensions.equals(other.listOfDimensions)) {
+      return false;
+    }
+    if (listOfIndices == null) {
+      if (other.listOfIndices != null) {
+        return false;
+      }
+    } else if (!listOfIndices.equals(other.listOfIndices)) {
+      return false;
+    }
+    return true;
+  }
+  
   
  
 }
