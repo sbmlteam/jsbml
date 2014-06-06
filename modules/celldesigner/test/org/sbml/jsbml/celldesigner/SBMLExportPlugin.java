@@ -22,6 +22,9 @@
  */
 package org.sbml.jsbml.celldesigner;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import javax.swing.SwingWorker;
 import javax.xml.stream.XMLStreamException;
 
@@ -74,27 +77,31 @@ public class SBMLExportPlugin extends AbstractCellDesignerPlugin  {
   public void startPlugin() throws XMLStreamException {
     // Synchronize changes from this plug-in to CellDesigner:
     final PluginChangeListener changeListener = new PluginChangeListener(this);
-    SwingWorker<Model, Void> worker = new SwingWorker<Model, Void>() {
+    final SwingWorker<SBMLDocument, Void> worker = new SwingWorker<SBMLDocument, Void>() {
       @Override
-      protected Model doInBackground() throws Exception {
-        return getReader().convertModel(getSelectedModel());
-      }
-
-      @Override
-      protected void done() {
-
-        try {
-          Model model = get();
-          SBMLDocument doc = new SBMLDocument(model.getLevel(), model.getVersion());
-          doc.setModel(model);
-          doc.addTreeNodeChangeListener(changeListener);
-          new SBMLLayoutVisualizer(doc);
-          super.done();
-        } catch (Throwable exc) {
-          exc.printStackTrace();
-        }
+      protected SBMLDocument doInBackground() throws Exception {
+        Model model = getReader().convertModel(getSelectedModel());
+        SBMLDocument doc = new SBMLDocument(model.getLevel(), model.getVersion());
+        doc.setModel(model);
+        doc.addTreeNodeChangeListener(changeListener);
+        return doc;
       }
     };
+    worker.addPropertyChangeListener(new PropertyChangeListener() {
+
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        // TODO Auto-generated method stub
+        if (evt.getPropertyName().equals(SwingWorker.StateValue.DONE.toString())) {
+          try {
+            new SBMLLayoutVisualizer(worker.get());
+          } catch (Throwable e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
+        }
+      }
+    });
     worker.execute();
   }
 }
