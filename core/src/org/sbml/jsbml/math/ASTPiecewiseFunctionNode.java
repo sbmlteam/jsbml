@@ -58,6 +58,7 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
     }
     PropertyUndefinedError error = new PropertyUndefinedError("piecewise", this);
     throw error;
+    // TODO: Check strictness.
   }
 
   /**

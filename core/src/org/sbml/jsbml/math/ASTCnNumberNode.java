@@ -35,6 +35,7 @@ import org.sbml.jsbml.MathContainer;
  * @since 1.0
  * @date May 30, 2014
  */
+// TODO: Should this class be abstract?
 public class ASTCnNumberNode extends ASTNumber {
 
   /**
@@ -69,10 +70,10 @@ public class ASTCnNumberNode extends ASTNumber {
    * Get the numerical base of MathML element. Number (CDATA for XML DTD)
    * between 2 and 36.
    * 
-   * @param null
    * @return Double base
    */
   public Double getBase() {
+    // TODO: return a base type with check to avoid NPE.
     return base;
   }
 
@@ -92,6 +93,7 @@ public class ASTCnNumberNode extends ASTNumber {
    * @param Double base
    * @return null
    */
+  // TODO: work with base types, i.e., double.
   public void setBase(Double base) {
     this.base = base;
   }

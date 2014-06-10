@@ -54,8 +54,7 @@ ASTCSymbolNode {
    */
   public static final transient String URI_AVOGADRO_DEFINITION = "http://www.sbml.org/sbml/symbols/avogadro";
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#getDefinitionURL()
    */
   @Override
@@ -63,8 +62,7 @@ ASTCSymbolNode {
     return definitionURL;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#getEncodingURL()
    */
   @Override
@@ -80,8 +78,7 @@ ASTCSymbolNode {
     return name;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#setDefinitionURL(java.lang.String)
    */
   @Override
@@ -89,8 +86,7 @@ ASTCSymbolNode {
     this.definitionURL = definitionURL;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#setEncodingURL(java.lang.String)
    */
   @Override
@@ -103,6 +99,7 @@ ASTCSymbolNode {
    */
   @Override
   public void setName(String name) {
+    // TODO: As in all set methods we will have to do more: listeners need to be notified about the change (this applies to all other classes and set methods in this package as well). Hence, we should also create an abstract version of ASTCSymbolNode in order to avoid too much code duplication. We will have to copy the code to ASTCiNumberNode because we don't have multiple inheritance, but we should have at least one abstract super class for the remaining types.
     this.name = name;
   }
 

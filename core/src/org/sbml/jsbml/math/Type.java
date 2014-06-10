@@ -37,6 +37,7 @@ import org.sbml.jsbml.FunctionDefinition;
  * @since 1.0
  * @date Jun 10, 2014
  */
+// TODO: We can delete this class again because we can directly use ASTNode.Type and don't need this copy. Otherwise these both types will become out of sync and the effect to ease the transition from the old ASTNode to the new ASTNode2 will be hampered.
 public enum Type {
   /**
    * If the {@link ASTNode} represents Euler's constant, it should have

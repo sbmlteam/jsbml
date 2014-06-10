@@ -37,6 +37,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @since 1.0
  * @date May 30, 2014
  */
+// TODO: Should this class be abstract?
 public class ASTNumber extends AbstractASTNode {
 
   /**
@@ -66,6 +67,7 @@ public class ASTNumber extends AbstractASTNode {
    */
   @Override
   public TreeNode clone() {
+    // TODO: Make the return type more specific, or completely remove this method if the class becomes abstract. Cloning will not really work in derived classes, because not all properties will be copied, unless we override this method everywhere.
     return new ASTNumber(this);
   }
 
@@ -82,6 +84,7 @@ public class ASTNumber extends AbstractASTNode {
    */
   @Override
   public ASTNumber getChildAt(int childIndex) {
+    // TODO: Always throw IndexOutOfBoundsException.
     return null;
   }
 

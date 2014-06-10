@@ -32,7 +32,6 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
-import org.sbml.jsbml.util.compilers.ASTNode2Compiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
@@ -77,7 +76,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    */
   @Override
   public int getChildCount() {
-    // TODO Auto-generated method stub
+    // TODO Delete this method here, because we generally just don't know it.
     return 0;
   }
 
@@ -86,7 +85,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    */
   @Override
   public boolean getAllowsChildren() {
-    // TODO Auto-generated method stub
+    // TODO Delete this method here, because we generally just don't know it.
     return false;
   }
 
@@ -104,7 +103,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    */
   @Override
   public TreeNode clone() {
-    // TODO Auto-generated method stub
+    // TODO Delete this method here (this is an abstract class) and make the return type more specific in implementing classes.
     return null;
   }
 
@@ -122,15 +121,16 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    */
   public AbstractASTNode(ASTNode2 astFunction) {
     super(astFunction);
+    // TODO: Copy all variables in the given astFunction! BTW, for a name, just "ast" is sufficient.
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
   public ASTNodeValue compile(ASTNode2Compiler compiler) {
-    return null;
+    // TODO: We can consider to create an AbstractASTNode2Compiler this time -> Needs further discussion. The compile function can be overloaded and hence very specific for certain sub-types of ASTNode2.
+    return compiler.compile(this);
   }
 
   /* (non-Javadoc)
@@ -164,8 +164,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
     return strict;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#setParent(javax.swing.tree.TreeNode)
    */
   @Override
@@ -175,11 +174,11 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
     if (parent instanceof TreeNodeWithChangeSupport) {
       addAllChangeListeners(((TreeNodeWithChangeSupport) parent).getListOfTreeNodeChangeListeners());
     }
+    // Watch out! The parent is not necessarily the parentSBMLObject. It is the parent in the tree, which can be a MathContainer if this is the root of the AST. In this case, a call to setParentSBMLObject might be useful to update all references. But generally, the parent is another ASTNode2.
     firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldValue, this.parent);
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#setParentSBMLObject(org.sbml.jsbml.MathContainer)
    */
   @Override
@@ -202,33 +201,30 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
     this.type = type;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#toFormula()
    */
   @Override
   public String toFormula() throws SBMLException {
-    //TODO: Implement
+    //TODO: Implement using a call to a specialized ASTNode2Compiler
     return null;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#toLaTeX()
    */
   @Override
   public String toLaTeX() throws SBMLException {
-    //TODO: Implement
+    //TODO: Implement using a call to a specialized ASTNode2Compiler
     return null;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#toMathML()
    */
   @Override
   public String toMathML() {
-    //TODO: Implement
+    //TODO: Implement using a call to a specialized ASTNode2Compiler
     return null;
   }
 
@@ -237,12 +233,11 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    */
   @Override
   public String toString() {
-    //TODO: Implement
+    //TODO: Implement: This can be done automatically! Right-click in Eclipse, select Source > Generate toString() in the pop-up menu. Select the two variables strict and type, but not the parentSBMLObject! Thereby, use the StringBuilder option, do *not* skip null values, and select the option to list iterable elements without limitation. Generate toString() methods in all extending classes as well (later).
     return null;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#unsetParentSBMLObject()
    */
   @Override
