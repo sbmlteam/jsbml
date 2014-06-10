@@ -32,28 +32,4 @@ package org.sbml.jsbml.math;
  * @date May 30, 2014
  */
 public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
-
-  /**
-   * The type of this trigonometric function
-   */
-  private String type;
-
-  /**
-   * Get the type of this trigonometric function
-   * 
-   * @return String type
-   */
-  public String getType() {
-    return type;
-  }
-
-  /**
-   * Set the type of this trigonometric function
-   * 
-   * @param String type
-   */
-  public void setType(String type) {
-    this.type = type;
-  }
-
 }

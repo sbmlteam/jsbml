@@ -22,6 +22,8 @@
  */
 package org.sbml.jsbml;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.ext.SBasePlugin;
 
 /**
@@ -45,19 +47,38 @@ public class PropertyUndefinedError extends PropertyException {
    * Message to indicate that a certain property has not been set for the
    * current {@link SBase} in its level/version combination.
    */
-  public static final String PROPERTY_UNDEFINED_EXCEPTION_MSG = "The value for property {0} is not defined in {1} for Level {2,number,integer} and Version {3,number,integer}.";
+  public static final String PROPERTY_UNDEFINED_EXCEPTION_MSG_SBASE = "The value for property {0} is not defined in {1} for Level {2,number,integer} and Version {3,number,integer}.";
+
+  /**
+   * Message to indicate that a certain property has not been set for the
+   * current {@link TreeNode} in its level/version combination.
+   */
+  public static final String PROPERTY_UNDEFINED_EXCEPTION_MSG_TREE_NODE = "The value for property {0} is not defined in {1}.";
+
 
   /**
    * @param property
    * @param sbase
    */
   public PropertyUndefinedError(String property, SBase sbase) {
-    super(createMessage(PROPERTY_UNDEFINED_EXCEPTION_MSG, property, sbase));
+    super(createMessage(PROPERTY_UNDEFINED_EXCEPTION_MSG_SBASE, property, sbase));
   }
 
+  /**
+   * @param property
+   * @param sbasePlugin
+   */
   public PropertyUndefinedError(String property, SBasePlugin sbasePlugin) {
     // TODO: change to include package short name or namespace??
-    super(createMessage(PROPERTY_UNDEFINED_EXCEPTION_MSG, property, sbasePlugin));
+    super(createMessage(PROPERTY_UNDEFINED_EXCEPTION_MSG_SBASE, property, sbasePlugin));
+  }
+
+  /**
+   * @param property
+   * @param node
+   */
+  public PropertyUndefinedError(String property, TreeNode node) {
+    super(createMessage(PROPERTY_UNDEFINED_EXCEPTION_MSG_TREE_NODE, property, node));
   }
 
 }

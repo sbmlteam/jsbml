@@ -47,7 +47,6 @@ public class ASTCnRealNode extends ASTCnNumberNode {
    */
   public ASTCnRealNode() {
     super();
-    setType("real");
   }
 
   /**
@@ -58,7 +57,6 @@ public class ASTCnRealNode extends ASTCnNumberNode {
    */
   public ASTCnRealNode(ASTCnRealNode cnRealNode) {
     super();
-    setType("real");
   }
 
   /**

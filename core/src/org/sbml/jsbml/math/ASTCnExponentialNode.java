@@ -23,6 +23,7 @@
 package org.sbml.jsbml.math;
 
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.PropertyUndefinedError;
 
 
 /**
@@ -52,7 +53,6 @@ public class ASTCnExponentialNode extends ASTCnNumberNode {
    */
   public ASTCnExponentialNode() {
     super();
-    setType("exponent");
   }
 
   /**
@@ -64,16 +64,20 @@ public class ASTCnExponentialNode extends ASTCnNumberNode {
    */
   public ASTCnExponentialNode (ASTCnExponentialNode cnExponentialNode) {
     super(cnExponentialNode);
-    setType("exponent");
   }
 
   /**
-   * Get the exponent value of this node
+   * Get the exponent value of this node. Throws PropertyUndefinedError
+   * if no exponent value has been defined.
    * 
    * @return int exponent
    */
   public int getExponent() {
-    return isSetExponent() ? exponent : 0;
+    if (isSetExponent()) {
+      return exponent;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("exponent", this);
+    throw error;
   }
 
   /**
