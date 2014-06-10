@@ -870,7 +870,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     if (doc != null) {
       doc.enablePackage(packageURIOrName, enabled);
     } else {
-      logger.info("Package not enabled, could not find the SBMLDocument.");
+      logger.debug("Package not enabled, could not find the SBMLDocument.");
     }
   }
 
