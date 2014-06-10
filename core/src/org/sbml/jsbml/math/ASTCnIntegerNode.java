@@ -69,6 +69,7 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
     if (isSetValue()) {
       return value;
     }
+    // TODO: try to log the error if not strict (see ASTCnExponentialNode).
     PropertyUndefinedError error = new PropertyUndefinedError("integer", this);
     throw error;
   }

@@ -54,8 +54,7 @@ ASTCSymbolNode {
    */
   public static final transient String URI_DELAY_DEFINITION = "http://www.sbml.org/sbml/symbols/delay";
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#getDefinitionURL()
    */
   @Override
@@ -63,8 +62,7 @@ ASTCSymbolNode {
     return definitionURL;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#getEncodingURL()
    */
   @Override
@@ -80,8 +78,7 @@ ASTCSymbolNode {
     return name;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#setDefinitionURL(java.lang.String)
    */
   @Override

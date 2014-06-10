@@ -40,7 +40,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
    * @return ASTNode2 child
    */
   public ASTNode2 getChild() {
-    return (ASTNode2) getChildAt(0);
+    return getChildAt(0);
   }
 
   /**
@@ -49,6 +49,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
    * @param ASTNode2 child
    */
   public void setChild(ASTNode2 child) {
+    // TODO: Should we better replace the zeroth child with the given element?
     insertChild(0, child);
   }
 

@@ -44,8 +44,7 @@ ASTCSymbolNode {
    */
   public static final transient String URI_TIME_DEFINITION = "http://www.sbml.org/sbml/symbols/time";
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCiNumberNode#getDefinitionURL()
    */
   @Override
@@ -53,8 +52,7 @@ ASTCSymbolNode {
     return definitionURL;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#getEncodingURL()
    */
   @Override
@@ -62,8 +60,7 @@ ASTCSymbolNode {
     return encodingURL;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCiNumberNode#setDefinitionURL(java.lang.String)
    */
   @Override
@@ -71,8 +68,7 @@ ASTCSymbolNode {
     this.definitionURL = definitionURL;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#setEncodingURL(java.lang.String)
    */
   @Override

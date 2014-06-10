@@ -27,7 +27,6 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
-import org.sbml.jsbml.util.compilers.ASTNode2Compiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
@@ -65,7 +64,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    *             Thrown if an error occurs during the compilation process.
    * 
    */
-  public ASTNodeValue compile(ASTNode2Compiler compiler);
+  public ASTNodeValue compile(ASTNode2Compiler compiler); // TODO: ASTNode2Compiler is missing -> Compile error!
 
   /**
    * Returns the type of this ASTNode2.

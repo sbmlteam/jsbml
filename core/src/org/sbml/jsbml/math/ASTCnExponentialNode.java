@@ -22,6 +22,7 @@
  */
 package org.sbml.jsbml.math;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
 
@@ -36,6 +37,11 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @date May 30, 2014
  */
 public class ASTCnExponentialNode extends ASTCnNumberNode {
+
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final Logger logger = Logger.getLogger(ASTCnExponentialNode.class);
 
   /**
    * The exponent value of this node
@@ -77,7 +83,11 @@ public class ASTCnExponentialNode extends ASTCnNumberNode {
       return exponent;
     }
     PropertyUndefinedError error = new PropertyUndefinedError("exponent", this);
-    throw error;
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return 0;
   }
 
   /**

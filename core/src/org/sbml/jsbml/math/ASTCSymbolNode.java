@@ -32,6 +32,7 @@ package org.sbml.jsbml.math;
  * @since 1.0
  * @date May 30, 2014
  */
+// TODO: We need one further super-interface between this class and ASTNode2, because ASTCiNumberNode also has a name and definitionURL and should hence be compatible with the other types that have these properties.
 public interface ASTCSymbolNode extends ASTNode2 {
 
   /**

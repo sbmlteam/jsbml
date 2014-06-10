@@ -99,7 +99,7 @@ public class ASTFunction extends AbstractASTNode {
     parentSBMLObject = null;
     initDefaults();
     if (astFunction.getChildCount() > 0) {
-      if (! isSetList()) {
+      if (!isSetList()) {
         listOfNodes = new ArrayList<ASTNode2>();
       } else {
         for (int i = listOfNodes.size() - 1; i >= 0; i--) {
@@ -151,7 +151,7 @@ public class ASTFunction extends AbstractASTNode {
    */
   @Override
   public ASTNode2 getChildAt(int childIndex) {
-    if (! isSetList()) {
+    if (!isSetList()) {
       throw new IndexOutOfBoundsException(childIndex + " < child count");
     }
     return listOfNodes.get(childIndex);
@@ -337,7 +337,7 @@ public class ASTFunction extends AbstractASTNode {
     List<ASTNode2> swap = that.listOfNodes;
     that.listOfNodes = listOfNodes;
     listOfNodes = swap;
-    if (! that.isLeaf()) {
+    if (!that.isLeaf()) {
       for (ASTNode2 child : that.listOfNodes) {
         if (that.getParentSBMLObject() != getParentSBMLObject()) {
           setParentSBMLObject(child, that.getParentSBMLObject(), 0);
@@ -348,7 +348,7 @@ public class ASTFunction extends AbstractASTNode {
         child.fireNodeAddedEvent();
       }
     }
-    if (! isLeaf()) {
+    if (!isLeaf()) {
       for (ASTNode2 child : listOfNodes) {
         if (that.getParentSBMLObject() != getParentSBMLObject()) {
           setParentSBMLObject(child, getParentSBMLObject(), 0);

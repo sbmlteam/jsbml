@@ -40,7 +40,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
    * @return ASTNode2 leftChild
    */
   public ASTNode2 getLeftChild() {
-    return (ASTNode2) getChildAt(0);
+    return getChildAt(0);
   }
 
   /**
@@ -58,7 +58,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
    * @return ASTNode2 rightChild
    */
   public ASTNode2 getRightChild() {
-    return (ASTNode2) getChildAt(getChildCount() - 1);
+    return getChildAt(getChildCount() - 1);
   }
 
   /**
@@ -67,6 +67,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
    * @param ASTNode2 rightChild
    */
   public void setRightChild(ASTNode2 rightChild) {
+    // TODO: This would be just like adding a child. But what needs to be done here is a replacement of the right-most child by the given element.
     insertChild(getChildCount() - 1, rightChild);
   }
 }

@@ -62,6 +62,7 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
    *            the {@link ASTCnRationalNode} to be copied.
    */
   public ASTCnRationalNode(ASTCnRationalNode cnRationalNode) {
+    // TODO: Forward argument to super-clone constructor. Do this in all other classes as well.
     super();
   }
 
@@ -74,6 +75,7 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
     if (isSetDenominator()) {
       return denominator;
     }
+    // TODO: try to log the error if not strict (see ASTCnExponentialNode).
     PropertyUndefinedError error = new PropertyUndefinedError("denominator", this);
     throw error;
   }
@@ -87,6 +89,7 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
     if (isSetNumerator()) {
       return numerator;
     }
+    // TODO: try to log the error if not strict (see ASTCnExponentialNode).
     PropertyUndefinedError error = new PropertyUndefinedError("numerator", this);
     throw error;
   }
