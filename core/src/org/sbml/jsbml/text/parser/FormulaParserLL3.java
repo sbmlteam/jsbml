@@ -46,6 +46,9 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
 
   public static Properties stringToType = new Properties();
 
+  private boolean ignoreCase = false;
+
+
   static
   {
     String path = "cfg/ASTNodeTokens.xml";
@@ -61,6 +64,21 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     {
       throw new RuntimeException("Could not read configuration file " + Resource.class.getResource(path), e);
     }
+  }
+
+  /**
+   * Sets the case sensitivity of the parser, for the mathml elements.
+   *
+   * <p>The default behavior is to be case sensitive, meaning   * '{@code cos}' would be recognized as the mathematical <a href="http://www.w3.org/TR/MathML2/chapter4.html#contm.trig">cosinus</a> but
+   * '{@code Cos}', '{@code cOs}' or any other alternatives would be recognized    * as a name and read as a 'ci' element. If you pass {@code false} to this method
+   * all the different versions of {@code cos} would be recognized  as the mathematical
+   * <a href="http://www.w3.org/TR/MathML2/chapter4.html#contm.trig">cosinus</a>.  
+   *
+   * @param caseSensitive boolean to define if the parser should be case sensitive or not. 
+   */
+  public void setCaseSensitive(boolean caseSensitive)
+  {
+        this.ignoreCase = !caseSensitive;
   }
 
   private void checkSize(ArrayList < ASTNode > arguments, int i) throws ParseException
@@ -306,6 +324,7 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
       case BOOLEAN_LOGIC:
         t = jj_consume_token(BOOLEAN_LOGIC);
         rightChild = TermLvl2();
+      // TODO - do we want to ignore the case for those cases ? 
       s = t.image;
       if (s.equalsIgnoreCase("or") || s.equalsIgnoreCase("||"))
       {
@@ -429,51 +448,56 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     s = t.image;
     Type type = null;
 
-    if (stringToType.containsKey(s.toLowerCase()))
+    if (ignoreCase)
+    {
+          s = s.toLowerCase();
+    }
+
+    if (stringToType.containsKey(s))
     {
       type = ASTNode.Type.valueOf(stringToType.getProperty(s.toLowerCase()).toUpperCase());
     }
 
-    if (s.equalsIgnoreCase("pow") || s.equalsIgnoreCase("power"))
+    if (s.equals("pow") || s.equals("power"))
     {
       checkSize(arguments, 1);
       node.addChild(child);
     }
-    else if (s.equalsIgnoreCase("sqr"))
+    else if (s.equals("sqr"))
     {
       checkSize(arguments, 0);
       node.addChild(child);
       node.addChild(new ASTNode(2));
     }
-    else if (s.equalsIgnoreCase("sqrt"))
+    else if (s.equals("sqrt"))
     {
       checkSize(arguments, 0);
       node.addChild(new ASTNode(2));
       node.addChild(child);
     }
-    else if (s.equalsIgnoreCase("not"))
+    else if (s.equals("not"))
     {
       checkSize(arguments, 0);
       node.addChild(child);
       type = Type.LOGICAL_NOT;
     }
-    else if (s.equalsIgnoreCase("ln"))
+    else if (s.equals("ln"))
     {
       checkSize(arguments, 0);
       node.addChild(child);
       type = Type.FUNCTION_LN;
     }
-    else if (s.equalsIgnoreCase("lambda"))
+    else if (s.equals("lambda"))
     {
       node.addChild(child);
       type = Type.LAMBDA;
     }
-    else if (s.equalsIgnoreCase("piecewise"))
+    else if (s.equals("piecewise"))
     {
       node.addChild(child);
       type = Type.FUNCTION_PIECEWISE;
     }
-    else if (s.equalsIgnoreCase("modulo") || s.equalsIgnoreCase("mod"))
+    else if (s.equals("modulo") || s.equals("mod"))
     {
       checkSize(arguments, 1);
       ASTNode rightChild = arguments.get(0);
@@ -596,39 +620,45 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
                 case STRING:
                   t = jj_consume_token(STRING);
     s = t.image;
-    if (s.equalsIgnoreCase("true"))
+
+        if (ignoreCase)
+        {
+          s = s.toLowerCase();
+        }
+
+    if (s.equalsIgnoreCase("true")) // TODO - do we want to ignore the case for those ?
     {
       node = new ASTNode(Type.CONSTANT_TRUE);
     }
-    else if (s.equalsIgnoreCase("false"))
+    else if (s.equalsIgnoreCase("false"))  // TODO - do we want to ignore the case for those ?
     {
       node = new ASTNode(Type.CONSTANT_FALSE);
     }
-    else if (s.equalsIgnoreCase("pi"))
+    else if (s.equals("pi"))
     {
       node = new ASTNode(Type.CONSTANT_PI);
     }
-    else if (s.equalsIgnoreCase("avogadro"))
+    else if (s.equals("avogadro"))
     {
       node = new ASTNode(Type.NAME_AVOGADRO);
     }
-    else if (s.equalsIgnoreCase("time"))
+    else if (s.equals("time"))  // TODO - do we want to ignore the case for those ?
     {
       node = new ASTNode(Type.NAME_TIME);
     }
-    else if (s.equalsIgnoreCase("exponentiale"))
+    else if (s.equals("exponentiale"))
     {
       node = new ASTNode(Type.CONSTANT_E);
     }
-    else if (s.equalsIgnoreCase("-infinity") || s.equalsIgnoreCase("-INF"))
+    else if (s.equals("-infinity") || s.equals("-INF"))
     {
       node = new ASTNode(Double.NEGATIVE_INFINITY);
     }
-    else if (s.equalsIgnoreCase("infinity") || s.equalsIgnoreCase("INF"))
+    else if (s.equals("infinity") || s.equals("INF"))
     {
       node = new ASTNode(Double.POSITIVE_INFINITY);
     }
-    else if (s.equalsIgnoreCase("NotANumber") || s.equalsIgnoreCase("NaN"))
+    else if (s.equals("NotANumber") || s.equals("NaN"))  // TODO - do we want to ignore the case for those ?
     {
       node = new ASTNode(Double.NaN);
     }
@@ -673,8 +703,165 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     finally { jj_save(2, xla); }
   }
 
+  private boolean jj_3R_31() {
+    if (jj_scan_token(NOT)) return true;
+    if (jj_3R_9()) return true;
+    return false;
+  }
+
+  private boolean jj_3_2() {
+    if (jj_scan_token(STRING)) return true;
+    Token xsp;
+    if (jj_3R_8()) return true;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_8()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  private boolean jj_3_1() {
+    if (jj_3R_7()) return true;
+    if (jj_scan_token(OPEN_PAR)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_27() {
+    if (jj_scan_token(OPEN_PAR)) return true;
+    if (jj_3R_9()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_20() {
+    if (jj_scan_token(POWER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_17() {
+    if (jj_scan_token(BOOLEAN_LOGIC)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_30() {
+    if (jj_scan_token(MINUS)) return true;
+    if (jj_3R_19()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_13() {
+    if (jj_3R_19()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_20()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_8() {
+    if (jj_scan_token(LEFT_BRACKET)) return true;
+    if (jj_3R_9()) return true;
+    if (jj_scan_token(RIGHT_BRACKET)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_16() {
+    if (jj_scan_token(MINUS)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_7() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(26)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(27)) return true;
+    }
+    return false;
+  }
+
+  private boolean jj_3R_22() {
+    if (jj_scan_token(DIVIDE)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_29() {
+    if (jj_scan_token(LEFT_BRACES)) return true;
+    if (jj_scan_token(RIGHT_BRACES)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_26() {
+    if (jj_scan_token(EXPNUMBER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_12() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_15()) {
+    jj_scanpos = xsp;
+    if (jj_3R_16()) {
+    jj_scanpos = xsp;
+    if (jj_3R_17()) {
+    jj_scanpos = xsp;
+    if (jj_3R_18()) return true;
+    }
+    }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_15() {
+    if (jj_scan_token(PLUS)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_21() {
+    if (jj_scan_token(TIMES)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_14() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3R_21()) {
+    jj_scanpos = xsp;
+    if (jj_3R_22()) {
+    jj_scanpos = xsp;
+    if (jj_3R_23()) return true;
+    }
+    }
+    return false;
+  }
+
   private boolean jj_3R_10() {
     if (jj_scan_token(SLPITTER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_25() {
+    if (jj_scan_token(NUMBER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_9() {
+    if (jj_3R_11()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_12()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_11() {
+    if (jj_3R_13()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_14()) { jj_scanpos = xsp; break; }
+    }
     return false;
   }
 
@@ -754,171 +941,14 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     return false;
   }
 
-  private boolean jj_3R_23() {
-    if (jj_scan_token(MODULO)) return true;
-    return false;
-  }
-
   private boolean jj_3R_32() {
     if (jj_scan_token(LOG)) return true;
     if (jj_3R_19()) return true;
     return false;
   }
 
-  private boolean jj_3_1() {
-    if (jj_3R_7()) return true;
-    if (jj_scan_token(OPEN_PAR)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_20() {
-    if (jj_scan_token(POWER)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_17() {
-    if (jj_scan_token(BOOLEAN_LOGIC)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_31() {
-    if (jj_scan_token(NOT)) return true;
-    if (jj_3R_9()) return true;
-    return false;
-  }
-
-  private boolean jj_3_2() {
-    if (jj_scan_token(STRING)) return true;
-    Token xsp;
-    if (jj_3R_8()) return true;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_8()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_13() {
-    if (jj_3R_19()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_20()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_27() {
-    if (jj_scan_token(OPEN_PAR)) return true;
-    if (jj_3R_9()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_30() {
-    if (jj_scan_token(MINUS)) return true;
-    if (jj_3R_19()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_16() {
-    if (jj_scan_token(MINUS)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_7() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(26)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(27)) return true;
-    }
-    return false;
-  }
-
-  private boolean jj_3R_22() {
-    if (jj_scan_token(DIVIDE)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_8() {
-    if (jj_scan_token(LEFT_BRACKET)) return true;
-    if (jj_3R_9()) return true;
-    if (jj_scan_token(RIGHT_BRACKET)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_26() {
-    if (jj_scan_token(EXPNUMBER)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_12() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_15()) {
-    jj_scanpos = xsp;
-    if (jj_3R_16()) {
-    jj_scanpos = xsp;
-    if (jj_3R_17()) {
-    jj_scanpos = xsp;
-    if (jj_3R_18()) return true;
-    }
-    }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_15() {
-    if (jj_scan_token(PLUS)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_29() {
-    if (jj_scan_token(LEFT_BRACES)) return true;
-    if (jj_scan_token(RIGHT_BRACES)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_21() {
-    if (jj_scan_token(TIMES)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_14() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_21()) {
-    jj_scanpos = xsp;
-    if (jj_3R_22()) {
-    jj_scanpos = xsp;
-    if (jj_3R_23()) return true;
-    }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_9() {
-    if (jj_3R_11()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_12()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_25() {
-    if (jj_scan_token(NUMBER)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_11() {
-    if (jj_3R_13()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_14()) { jj_scanpos = xsp; break; }
-    }
+  private boolean jj_3R_23() {
+    if (jj_scan_token(MODULO)) return true;
     return false;
   }
 
