@@ -675,6 +675,7 @@ private ASTNode Primary() throws NumberFormatException :
     if (type != null)
     {
       node.setType(type);
+      // TODO - should we set the name of the ASTNode for FUNCTION, ...
     }
     else
     {
@@ -757,6 +758,7 @@ private ASTNode Primary() throws NumberFormatException :
 
 	if (ignoreCase)	{	  s = s.toLowerCase();
 	}
+	// TODO - should we set the name of the ASTNode
     
     if (s.equalsIgnoreCase("true")) // TODO - do we want to ignore the case for those ?
     {
