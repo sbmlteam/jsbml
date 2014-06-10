@@ -40,7 +40,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
    * @return ASTNode2 leftChild
    */
   public ASTNode2 getLeftChild() {
-    return getChild(0);
+    return (ASTNode2) getChildAt(0);
   }
 
   /**
@@ -58,7 +58,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
    * @return ASTNode2 rightChild
    */
   public ASTNode2 getRightChild() {
-    return getChild(1);
+    return (ASTNode2) getChildAt(getChildCount() - 1);
   }
 
   /**
@@ -67,6 +67,6 @@ public class ASTBinaryFunctionNode extends ASTFunction {
    * @param ASTNode2 rightChild
    */
   public void setRightChild(ASTNode2 rightChild) {
-    insertChild(1, rightChild);
+    insertChild(getChildCount() - 1, rightChild);
   }
 }

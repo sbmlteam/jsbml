@@ -24,12 +24,16 @@ package org.sbml.jsbml.math;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
+import org.sbml.jsbml.util.compilers.ASTNode2Compiler;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 /**
@@ -44,9 +48,65 @@ import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNode2 {
 
   /**
+   * A {@link Logger} for this class.
+   */
+  private static transient final Logger logger = Logger.getLogger(ASTNode.class);
+
+  /**
    * The container that holds this AbstractASTNode.
    */
   protected MathContainer parentSBMLObject;
+
+  /**
+   * Specifies strictness. When true, ASTUnaryFunction and ASTBinaryFunction
+   * nodes can only contain the specified # of children. When false, there is
+   * a bit of leeway (i.e. ASTUnaryFunction can contain more than one child)
+   * (not recommended).
+   * 
+   * @return boolean
+   */
+  protected boolean strict;
+
+  /**
+   * The type of this node
+   */
+  protected Type type;
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getAllowsChildren()
+   */
+  @Override
+  public boolean getAllowsChildren() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#getType()
+   */
+  @Override
+  public Type getType() {
+    // TODO Auto-generated method stub
+    return type;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#clone()
+   */
+  @Override
+  public TreeNode clone() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
   /**
    * Creates an empty {@link AbstractTreeNode}
@@ -60,43 +120,48 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    * 
    * @param ASTFunction astFunction
    */
-  public AbstractASTNode(ASTFunction astFunction) {
+  public AbstractASTNode(ASTNode2 astFunction) {
     super(astFunction);
   }
 
   /*
    * (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#toFormula()
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public String toFormula() throws SBMLException {
-    return null;
-  }
-
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#toLaTeX()
-   */
-  @Override
-  public String toLaTeX() throws SBMLException {
-    return null;
-  }
-
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#toMathML()
-   */
-  @Override
-  public String toMathML() {
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
     return null;
   }
 
   /* (non-Javadoc)
-   * @see java.lang.Object#toString()
+   * @see javax.swing.tree.TreeNode#getChildAt(int)
    */
   @Override
-  public String toString() {
-    return null;
+  public abstract ASTNode2 getChildAt(int childIndex);
+
+  /**
+   * This method is convenient when holding an object nested inside other
+   * objects in an SBML model. It allows direct access to the
+   * {@link MathContainer}; element containing it. From this
+   * {@link MathContainer} even the overall {@link Model} can be accessed.
+   * 
+   * @return the parent SBML object.
+   */
+  public MathContainer getParentSBMLObject() {
+    return parentSBMLObject;
+  }
+
+  /**
+   * Specifies strictness. When true, ASTUnaryFunction and ASTBinaryFunction
+   * nodes can only contain the specified # of children. When false, there is
+   * a bit of leeway (i.e. ASTUnaryFunction can contain more than one child)
+   * (not recommended).
+   * 
+   * @return boolean
+   */
+  @Override
+  public boolean isStrict() {
+    return strict;
   }
 
   /*
@@ -113,24 +178,76 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
     firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldValue, this.parent);
   }
 
-  /**
-   * This method is convenient when holding an object nested inside other
-   * objects in an SBML model. It allows direct access to the
-   * {@link MathContainer}; element containing it. From this
-   * {@link MathContainer} even the overall {@link Model} can be accessed.
-   * 
-   * @return the parent SBML object.
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#setParentSBMLObject(org.sbml.jsbml.MathContainer)
    */
-  public MathContainer getParentSBMLObject() {
-    return parentSBMLObject;
+  @Override
+  public void setParentSBMLObject(MathContainer container) {
+    for (int i = 0; i < getChildCount(); i++) {
+      ASTNode2 child = getChildAt(i);
+      child.setParentSBMLObject(container);
+    }
+    MathContainer oldParentSBMLObject = parentSBMLObject;
+    parentSBMLObject = container;
+    firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldParentSBMLObject, parentSBMLObject);
+  }
+
+  /**
+   * Set the type of the MathML element represented by this ASTCnNumberNode
+   * 
+   * @param Type type
+   */
+  public void setType(Type type) {
+    this.type = type;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#toFormula()
+   */
+  @Override
+  public String toFormula() throws SBMLException {
+    //TODO: Implement
+    return null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#toLaTeX()
+   */
+  @Override
+  public String toLaTeX() throws SBMLException {
+    //TODO: Implement
+    return null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#toMathML()
+   */
+  @Override
+  public String toMathML() {
+    //TODO: Implement
+    return null;
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractTreeNode#clone()
+   * @see java.lang.Object#toString()
    */
   @Override
-  public TreeNode clone() {
+  public String toString() {
+    //TODO: Implement
     return null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#unsetParentSBMLObject()
+   */
+  @Override
+  public void unsetParentSBMLObject() {
+    setParentSBMLObject(null);
   }
 
 }

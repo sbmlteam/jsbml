@@ -49,6 +49,11 @@ ASTCSymbolNode {
    */
   private String encodingURL;
 
+  /**
+   * The URI for the definition of the csymbol for delay.
+   */
+  public static final transient String URI_DELAY_DEFINITION = "http://www.sbml.org/sbml/symbols/delay";
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#getDefinitionURL()

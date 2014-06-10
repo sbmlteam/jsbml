@@ -23,6 +23,7 @@
 package org.sbml.jsbml.math;
 
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.PropertyUndefinedError;
 
 
 /**
@@ -47,7 +48,6 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
    */
   public ASTCnIntegerNode() {
     super();
-    setType("integer");
   }
 
   /**
@@ -58,7 +58,6 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
    */
   public ASTCnIntegerNode(ASTCnIntegerNode cnIntegerNode) {
     super(cnIntegerNode);
-    setType("integer");
   }
 
   /**
@@ -67,7 +66,11 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
    * @return Integer value
    */
   public int getValue() {
-    return value;
+    if (isSetValue()) {
+      return value;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("integer", this);
+    throw error;
   }
 
   /**
@@ -77,6 +80,16 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
    */
   public void setValue(int value) {
     this.value = value;
+  }
+
+  /**
+   * Returns True iff value has been set
+   * 
+   * @param null
+   * @return boolean
+   */
+  public boolean isSetValue() {
+    return value != null;
   }
 
 }

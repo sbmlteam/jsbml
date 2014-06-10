@@ -23,6 +23,8 @@ package org.sbml.jsbml;
 
 import java.text.MessageFormat;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.ext.SBasePlugin;
 
 /**
@@ -40,20 +42,6 @@ public abstract class PropertyException extends SBMLError {
    * Generated serial version identifier
    */
   private static final long serialVersionUID = -3416620362835594659L;
-
-  /**
-   * 
-   */
-  public PropertyException() {
-    super();
-  }
-
-  /**
-   * @param message
-   */
-  public PropertyException(String message) {
-    super(message);
-  }
 
   /**
    * Creates an error message pointing out that the property of the given name is not defined
@@ -80,6 +68,34 @@ public abstract class PropertyException extends SBMLError {
     return MessageFormat.format(baseMessage, property, sbasePlugin.getExtendedSBase().getElementName(),
       Integer.valueOf(sbasePlugin.getExtendedSBase().getLevel()), Integer.valueOf(sbasePlugin.getExtendedSBase().getVersion()));
   }
+
+  /**
+   * Creates an error message pointing out that the property of the given name is not defined
+   * in the Level/Version combination of the given {@link TreeNode}.
+   * 
+   * @param property
+   * @param node
+   * @return
+   */
+  static String createMessage(String baseMessage, String property, TreeNode node) {
+    return MessageFormat.format(baseMessage, property, node.getClass().getName());
+  }
+
+  /**
+   * 
+   */
+  public PropertyException() {
+    super();
+  }
+
+  /**
+   * @param message
+   */
+  public PropertyException(String message) {
+    super(message);
+  }
+
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBMLError#toString()

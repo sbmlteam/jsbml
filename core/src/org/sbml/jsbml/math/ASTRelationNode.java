@@ -33,30 +33,4 @@ package org.sbml.jsbml.math;
  * @date May 30, 2014
  */
 public class ASTRelationNode extends ASTFunction {
-
-  /**
-   * The relation type of this node
-   */
-  private String relationType;
-
-  /**
-   * Get the relation type of this node
-   * 
-   * @param null
-   * @return String relationType
-   */
-  public String getRelationType() {
-    return relationType;
-  }
-
-  /**
-   * Set the relation type of this node
-   * 
-   * @param String relationType
-   * @return null
-   */
-  public void setRelationType(String relationType) {
-    this.relationType = relationType;
-  }
-
 }

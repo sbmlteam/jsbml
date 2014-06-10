@@ -43,11 +43,6 @@ public class ASTCnNumberNode extends ASTNumber {
   private Double base;
 
   /**
-   * type attribute for MathML element
-   */
-  private String type;
-
-  /**
    * units attribute for MathML element
    */
   private String units;
@@ -82,15 +77,6 @@ public class ASTCnNumberNode extends ASTNumber {
   }
 
   /**
-   * Returns the type of the MathML element represented by this ASTCnNumberNode
-   * 
-   * @return String type
-   */
-  public String getType() {
-    return type;
-  }
-
-  /**
    * Returns the units of the MathML element represented by this ASTCnNumberNode
    * 
    * @return String units
@@ -108,15 +94,6 @@ public class ASTCnNumberNode extends ASTNumber {
    */
   public void setBase(Double base) {
     this.base = base;
-  }
-
-  /**
-   * Set the type of the MathML element represented by this ASTCnNumberNode
-   * 
-   * @param String type
-   */
-  public void setType(String type) {
-    this.type = type;
   }
 
   /**

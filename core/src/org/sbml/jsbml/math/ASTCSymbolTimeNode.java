@@ -39,6 +39,11 @@ ASTCSymbolNode {
    */
   private String encodingURL;
 
+  /**
+   * The URI for the definition of the csymbol for time.
+   */
+  public static final transient String URI_TIME_DEFINITION = "http://www.sbml.org/sbml/symbols/time";
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCiNumberNode#getDefinitionURL()
@@ -50,20 +55,20 @@ ASTCSymbolNode {
 
   /*
    * (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTCiNumberNode#setDefinitionURL(java.lang.String)
-   */
-  @Override
-  public void setDefinitionURL(String definitionURL) {
-    this.definitionURL = definitionURL;
-  }
-
-  /*
-   * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#getEncodingURL()
    */
   @Override
   public String getEncodingURL() {
     return encodingURL;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCiNumberNode#setDefinitionURL(java.lang.String)
+   */
+  @Override
+  public void setDefinitionURL(String definitionURL) {
+    this.definitionURL = definitionURL;
   }
 
   /*

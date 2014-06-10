@@ -49,6 +49,11 @@ ASTCSymbolNode {
    */
   private String encodingURL;
 
+  /**
+   * The URI for the definition of the csymbol for avogadro.
+   */
+  public static final transient String URI_AVOGADRO_DEFINITION = "http://www.sbml.org/sbml/symbols/avogadro";
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#getDefinitionURL()

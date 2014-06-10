@@ -81,7 +81,7 @@ public class ASTNumber extends AbstractASTNode {
    * @see javax.swing.tree.TreeNode#getChildAt(int)
    */
   @Override
-  public TreeNode getChildAt(int childIndex) {
+  public ASTNumber getChildAt(int childIndex) {
     return null;
   }
 

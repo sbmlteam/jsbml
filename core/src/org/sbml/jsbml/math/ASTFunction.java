@@ -49,7 +49,7 @@ public class ASTFunction extends AbstractASTNode {
    * @param node the orphan node
    * @param parent the parent
    */
-  static void setParentSBMLObject(ASTFunction node, MathContainer parent) {
+  static void setParentSBMLObject(ASTNode2 node, MathContainer parent) {
     node.setParent(parent);
     setParentSBMLObject(node, parent, 0);
   }
@@ -94,7 +94,7 @@ public class ASTFunction extends AbstractASTNode {
    * @param astFunction
    *            the {@link ASTFunction} to be copied.
    */
-  public ASTFunction(ASTFunction astFunction) {
+  public ASTFunction(ASTNode2 astFunction) {
     super(astFunction);
     parentSBMLObject = null;
     initDefaults();
@@ -145,35 +145,16 @@ public class ASTFunction extends AbstractASTNode {
     return true;
   }
 
-  /**
-   * Gets a child of this node according to an index number.
-   * 
-   * @param index
-   *            the index of the child to get
-   * @return the child of this {@link ASTNode2} with the given index.<br>
-   *         null if no children exist
-   * @throws IndexOutOfBoundsException
-   *             - if the index is out of range (index < 0 || index >=
-   *             size()).
-   */
-  public ASTNode2 getChild(int index) {
-    if (isSetList()) {
-      return listOfNodes.get(index);
-    } else {
-      return null;
-    }
-  }
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildAt(int)
    */
   @Override
-  public TreeNode getChildAt(int childIndex) {
-    if (isSetList()) {
-      return getChild(childIndex);
-    } else {
-      return null;
+  public ASTNode2 getChildAt(int childIndex) {
+    if (! isSetList()) {
+      throw new IndexOutOfBoundsException(childIndex + " < child count");
     }
+    return listOfNodes.get(childIndex);
   }
 
   /* (non-Javadoc)
@@ -228,14 +209,14 @@ public class ASTFunction extends AbstractASTNode {
    * Initializes the default values/attributes of the node.
    */
   private void initDefaults() {
-    ASTFunction old = this;
+    ASTNode2 old = this;
     if (! isSetList()) {
       listOfNodes = new ArrayList<ASTNode2>();
     } else {
       for (int i = listOfNodes.size() - 1; i >= 0; i--) {
         // This also removes the pointer from the previous child to this object, i.e., its previous parent node.
         ASTNode2 removed = listOfNodes.remove(i);
-        resetParentSBMLObject(removed);
+        removed.unsetParentSBMLObject();
         removed.fireNodeRemovedEvent();
       }
     }
@@ -288,28 +269,43 @@ public class ASTFunction extends AbstractASTNode {
   }
 
   /**
-   * Resets the parentSBMLObject to null recursively.
+   * Returns {@code true} if this node or one of its descendants contains some
+   * identifier with the given id. This method can be used to scan a formula
+   * for a specific parameter or species and detect whether this component is
+   * used by this formula. This search is done using a DFS.
    * 
-   * @param {@link ASTFunction} node
+   * @param id
+   *            the id of an SBML element.
+   * @return {@code true} if this node or one of its descendants contains the
+   *            given id.
    */
-  public void resetParentSBMLObject(ASTFunction node) {
-    node.parentSBMLObject = null;
-    for (ASTNode2 child : node.listOfNodes) {
-      resetParentSBMLObject(child);
-    }
+  public boolean refersTo(String id) {
+    //TODO: Implement
+    return true;
   }
 
   /**
-   * Resets the parentSBMLObject to null
+   * Replaces the n<sup>th</sup> child of this ASTNode2 with the given ASTNode2.
    * 
-   * @param {@link ASTNode2} node
+   * @param n
+   *            long the index of the child to replace
+   * @param newChild
+   *            {@link ASTNode2} to replace the n<sup>th</sup> child
+   * @return the element previously at the specified position
    */
-  public void resetParentSBMLObject(ASTNode2 node) {
-    if (node instanceof ASTNumber) {
-      ((ASTNumber)node).parentSBMLObject = null;
-      return;
-    }
-    resetParentSBMLObject((ASTFunction) node);
+  public ASTNode2 replaceChild(int n, ASTNode2 newChild) {
+    // Removing the node at position n
+    ASTNode2 oldChild = listOfNodes.remove(n);
+    oldChild.unsetParentSBMLObject();
+    oldChild.fireNodeRemovedEvent();
+
+    // Adding the new child at position n
+    setParentSBMLObject(newChild, parentSBMLObject, 0);
+    newChild.setParent(this);
+    listOfNodes.add(n, newChild);
+    newChild.addAllChangeListeners(getListOfTreeNodeChangeListeners());
+    newChild.fireNodeAddedEvent();
+    return newChild;
   }
 
   /**

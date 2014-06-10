@@ -23,6 +23,7 @@
 package org.sbml.jsbml.math;
 
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.PropertyUndefinedError;
 
 
 /**
@@ -52,7 +53,6 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
    */
   public ASTCnRationalNode() {
     super();
-    setType("rational");
   }
 
   /**
@@ -63,7 +63,6 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
    */
   public ASTCnRationalNode(ASTCnRationalNode cnRationalNode) {
     super();
-    setType("rational");
   }
 
   /**
@@ -72,7 +71,11 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
    * @return int denominator
    */
   public int getDenominator() {
-    return isSetDenominator() ? denominator : 0;
+    if (isSetDenominator()) {
+      return denominator;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("denominator", this);
+    throw error;
   }
 
   /**
@@ -81,7 +84,11 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
    * @return int numerator
    */
   public int getNumerator() {
-    return isSetNumerator() ? numerator : 0;
+    if (isSetNumerator()) {
+      return numerator;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("numerator", this);
+    throw error;
   }
 
   /**

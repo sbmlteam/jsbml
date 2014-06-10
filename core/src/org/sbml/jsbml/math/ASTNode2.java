@@ -24,8 +24,11 @@ package org.sbml.jsbml.math;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
+import org.sbml.jsbml.util.compilers.ASTNode2Compiler;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 /**
@@ -38,6 +41,61 @@ import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
  * @date May 30, 2014
  */
 public interface ASTNode2 extends TreeNodeWithChangeSupport {
+
+  /**
+   * Clone ASTNode2
+   * 
+   * @return TreeNode node
+   */
+  public TreeNode clone();
+
+  /**
+   * Compiles this {@link ASTNode2} and returns the result.
+   * 
+   * @param compiler
+   *            An instance of an {@link ASTNode2Compiler} that provides
+   *            methods to translate this {@link ASTNode2} into something
+   *            different.
+   * @return Some value wrapped in an {@link ASTNodeValue}. The content of the
+   *         wrapper depends on the {@link ASTNode2Compiler} used to create it.
+   *         However, this {@link ASTNode2} will ensure that level and version
+   *         are set appropriately according to this node's parent SBML
+   *         object.
+   * @throws SBMLException
+   *             Thrown if an error occurs during the compilation process.
+   * 
+   */
+  public ASTNodeValue compile(ASTNode2Compiler compiler);
+
+  /**
+   * Returns the type of this ASTNode2.
+   * 
+   * @return Type type
+   */
+  public Type getType();
+
+  /**
+   * Specifies strictness. When true, ASTUnaryFunction and ASTBinaryFunction
+   * nodes can only contain the specified # of children. When false, there is
+   * a bit of leeway (i.e. ASTUnaryFunction can contain more than one child)
+   * (not recommended).
+   * 
+   * @return boolean
+   */
+  public boolean isStrict();
+
+  /**
+   * @param parent
+   *            the parent to set
+   */
+  public void setParent(TreeNode astNode2);
+
+  /**
+   * Sets the parentSBMLObject to container recursively
+   * 
+   * @param MathContainer container
+   */
+  public void setParentSBMLObject(MathContainer container);
 
   /**
    * <p>
@@ -82,16 +140,10 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
   public String toMathML();
 
   /**
-   * @param parent
-   *            the parent to set
-   */
-  public void setParent(TreeNode astNode2);
-
-  /**
-   * Clone ASTNode2
+   * Unsets the parentSBMLObject to null recursively.
    * 
-   * @return TreeNode node
+   * @param {@link ASTNode2} node
    */
-  public TreeNode clone();
+  public void unsetParentSBMLObject();
 
 }
