@@ -611,6 +611,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
   @Override
   public boolean unregister(SBase sbase) {
 
+    // Always returning true at the moment to avoid exception when unregistering element
     boolean success = true;
 
     if (sbase instanceof Port) {
@@ -620,7 +621,10 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
         String portId = port.getId();
 
         if (mapOfPorts == null) {
-          return false;
+          logger.warn(MessageFormat.format(
+            "No Port have been registered in this model {0}. Nothing to be done.",
+            (isSetExtendedSBase() ? ((Model) getExtendedSBase()).getId() : "")));
+          return success;
         }
 
         if (mapOfPorts.containsKey(portId)) {
@@ -632,7 +636,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
           }
         } else {
 
-          logger.error(MessageFormat.format(
+          logger.warn(MessageFormat.format(
             "A Port with the id \"{0}\" is not present in this model {1}. Nothing to be done.",
             portId, (isSetExtendedSBase() ? ((Model) getExtendedSBase()).getId() : "")));
         }
