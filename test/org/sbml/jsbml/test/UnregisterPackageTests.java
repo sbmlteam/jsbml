@@ -31,6 +31,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Constraint;
+import org.sbml.jsbml.IdentifierException;
+import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
@@ -40,14 +42,18 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.ext.comp.CompConstants;
 import org.sbml.jsbml.ext.comp.CompModelPlugin;
 import org.sbml.jsbml.ext.comp.CompSBMLDocumentPlugin;
+import org.sbml.jsbml.ext.comp.CompSBasePlugin;
 import org.sbml.jsbml.ext.comp.ModelDefinition;
 import org.sbml.jsbml.ext.comp.Port;
+import org.sbml.jsbml.ext.comp.ReplacedBy;
+import org.sbml.jsbml.ext.comp.ReplacedElement;
 import org.sbml.jsbml.ext.comp.Submodel;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
@@ -274,8 +280,63 @@ public class UnregisterPackageTests {
         
   }  
   
-  // TODO - add tests using ReplacedBy as it is using the method firePropertyChange. 
-  
+  /**
+   * Tests the {@link ReplacedBy} class as it is using the method {@link AbstractSBasePlugin#firePropertyChange(String, Object, Object)}.
+   * 
+   */
+  @Test public void testCompReplacedBy() {
+    
+    Species s1 = model.getSpecies(0);
+    
+    CompSBasePlugin compSpecies = (CompSBasePlugin) s1.getPlugin("comp");
+    
+    ReplacedBy replacedBy = compSpecies.createReplacedBy();
+
+    // create an element with an existing metaid and check that this is not allowed
+    try {
+      replacedBy.setMetaId("S1");
+      assertTrue("We should not be allowed to have several element with the same metaid inside the same SBMLDocument", false);
+    } catch (IdentifierException e) {
+      assertTrue(true);
+    }
+ 
+    replacedBy.setMetaId("CRB1");
+    
+    assertTrue(doc.findSBase("CRB1").equals(replacedBy));
+    
+    compSpecies.createReplacedElement();
+    ReplacedElement replacedElement = compSpecies.createReplacedElement();
+    replacedElement.setMetaId("CRE2");
+
+    assertTrue(compSpecies.getReplacedElementCount() == 2);    
+    assertTrue(doc.findSBase("CRE2").equals(replacedElement));
+
+    replacedBy.removeFromParent();
+    
+    assertTrue(compSpecies.isSetReplacedBy() == false);    
+    assertTrue(doc.findSBase("CRB1") == null);
+    
+    replacedElement.removeFromParent();
+    
+    assertTrue(compSpecies.getReplacedElementCount() == 1);
+    assertTrue(doc.findSBase("CRE2") == null);
+  }
+
+  @Test public void testKineticLaw() {
+    
+    Reaction r1 = model.getReaction(0);
+    
+    KineticLaw kl = r1.createKineticLaw();
+    kl.setMetaId("KL1");
+    
+    assertTrue(r1.isSetKineticLaw() == true);
+    assertTrue(doc.findSBase("KL1").equals(kl));
+    
+    kl.removeFromParent();
+    
+    assertTrue(r1.isSetKineticLaw() == false);
+    assertTrue(doc.findSBase("KL1") == null);
+  }
   
   @Test public void testCompCloning() {
 
@@ -391,9 +452,9 @@ public class UnregisterPackageTests {
     
     model.unsetPlugin("fbc");
     
-//    assertTrue(model.findUniqueNamedSBase("FB2") == null); // TODO - fix firePropertyChange to register/un-register elements before putting that again
-//    assertTrue(model.findUniqueNamedSBase("O1") == null);
-//  assertTrue(doc.findSBase("FB1") == null);
+    assertTrue(model.findUniqueNamedSBase("FB2") == null);
+    assertTrue(model.findUniqueNamedSBase("O1") == null);
+    assertTrue(doc.findSBase("FB1") == null);
 
     Model clonedModel = model.clone();    
     clonedModel.addExtension("fbc", clonedFbcModel);

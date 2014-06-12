@@ -985,12 +985,19 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     if (oldValue != null && oldValue instanceof SBasePlugin) {
       unregisterChild((SBasePlugin) oldValue);
     }
+    if (oldValue != null && oldValue instanceof SBase) {
+      unregisterChild((SBase) oldValue);
+    }
     
     // This case is generally handled properly in the setters or in AbstractSBasePlugin#setExtendedSBase
     // but it would be better and more consistent to handle it there
 //    if (newValue != null && newValue instanceof SBasePlugin) {
 //      registerChild((SBasePlugin) newValue);
 //    }
+//  if (newValue != null && newValue instanceof SBase) {
+//  registerChild((SBase) newValue);
+//}
+    
     
     super.firePropertyChange(propertyName, oldValue, newValue);
   }

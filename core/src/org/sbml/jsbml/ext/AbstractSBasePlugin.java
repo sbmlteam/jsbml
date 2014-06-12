@@ -191,8 +191,20 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
   @Override
   public void firePropertyChange(String propertyName, Object oldValue,
     Object newValue) {
-    // TODO - we would need to call the extendedSBase.registerChild if the newValue is of type SBase ??
+    // TODO - this method is used to add or remove SBase or SBasePlugin, we should make sure to handle the registration/un-registration
+    // in those cases.
+    // the parent need to be set or unset as well (would be done, if we call the registerChild method)
     
+    if (oldValue != null && oldValue instanceof SBase && isSetExtendedSBase()) {
+      extendedSBase.unregisterChild((SBase) oldValue);
+    }
+    
+    // This case is generally handled properly in the setters 
+    // but it would be better and more consistent to handle it there
+//    if (newValue != null && newValue instanceof SBase && isSetExtendedSBase()) {
+//      extendedSBase.registerChild((SBase) newValue);
+//    }
+
     super.firePropertyChange(propertyName, oldValue, newValue);
   }
 
