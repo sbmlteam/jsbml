@@ -743,9 +743,11 @@ public class UnregisterPackageTests {
     
     ArraysSBasePlugin arraysTestPlugin = (ArraysSBasePlugin) model.getPlugin(ArraysConstants.shortLabel);
     
-    arraysTestPlugin.createDimension("AD1");
+    Dimension d1 = arraysTestPlugin.createDimension("AD1");
+    d1.setMetaId("AD1");
     
     assertTrue(model.findNamedSBase("AD1") == null);
+    assertTrue(doc.findSBase("AD1").equals(d1));
     
     arraysTestPlugin = (ArraysSBasePlugin) model.getSpecies(0).getPlugin(ArraysConstants.shortLabel);
     
@@ -760,6 +762,7 @@ public class UnregisterPackageTests {
     } 
 
     Dimension d = arraysTestPlugin.createDimension();
+    d.setMetaId("AD4");
     
     try {
       d.setId("AD2");
@@ -770,6 +773,19 @@ public class UnregisterPackageTests {
 
     assertTrue(arraysTestPlugin.getDimensionCount() == 3);
     assertTrue(arraysTestPlugin.getDimension(2).isSetId() == false);
+    assertTrue(doc.findSBase("AD4").equals(d));
+    
+    d1.removeFromParent();
+    
+    assertTrue(doc.findSBase("AD1") == null);
+    
+    d.removeFromParent();
+    arraysTestPlugin.removeDimension("AD2");
+    
+    assertTrue(arraysTestPlugin.getDimensionCount() == 1);
+    assertTrue(doc.findSBase("AD4") == null);
+    
+    // TODO - add tests for Index as well
   }
 
 }
