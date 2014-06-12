@@ -24,6 +24,7 @@ package org.sbml.jsbml.ext.comp;
 import java.util.Map;
 
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBase;
 
 /**
  * A {@link ReplacedBy} object indicates when the parent object is to
@@ -188,4 +189,20 @@ public class ReplacedBy extends SBaseRef {
 
     return isAttributeRead;
   }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#removeFromParent()
+   */
+  @Override
+  public boolean removeFromParent() {
+    if (parent != null && parent instanceof SBase) {
+      if (((SBase) parent).isSetPlugin(CompConstants.shortLabel)) {
+        CompSBasePlugin parentPlugin = (CompSBasePlugin) ((SBase) parent).getPlugin(CompConstants.shortLabel);
+        return parentPlugin.unsetReplacedBy();
+      }
+    }
+
+    return false;
+  }
+  
 }
