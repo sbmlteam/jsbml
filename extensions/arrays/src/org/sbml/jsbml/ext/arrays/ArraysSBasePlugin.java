@@ -29,7 +29,10 @@ import java.util.TreeMap;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.util.IdManager;
@@ -58,6 +61,10 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   private static final long serialVersionUID = -5467877915615614247L;
 
 
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final transient Logger logger = Logger.getLogger(Model.class);
 
   /**
    * Maps between the {@link Dimension} identifiers and themselves.
@@ -687,20 +694,45 @@ public int getNumIndices() {
       Dimension dimension = (Dimension) sbase;
 
       if (dimension.isSetId()) {
-        String portId = dimension.getId();
+        String id = dimension.getId();
 
         if (mapOfDimensions == null) {
           mapOfDimensions = new HashMap<String, Dimension>();
         }
 
-        if (mapOfDimensions.containsKey(portId)) {
+        if (mapOfDimensions.containsKey(id)) {
+          String elementName = null;
+          String elementId = null;
+          
+          if (isSetExtendedSBase()) {
+            elementName = getExtendedSBase().getElementName();
+            
+            if (getExtendedSBase() instanceof NamedSBase) {
+              elementId = "id[" + ((NamedSBase) getExtendedSBase()).getId() + "]";
+            } else if (getExtendedSBase().isSetMetaId()) {
+              elementId = "metaid[" + getExtendedSBase().getMetaId() + "]";
+            }
+          }
+          logger.error(MessageFormat.format(
+            "A Dimension with the id \"{0}\" is already present in this {1}{2}. The new element will not be added to the model.",
+            id, elementName, elementId != null ? " identified by " + elementId : ""));
           success = false;
         } else {
-          mapOfDimensions.put(portId, dimension);
+          mapOfDimensions.put(id, dimension);
+
+          if (logger.isDebugEnabled()) {
+            logger.debug(MessageFormat.format("registered Dimension id={0} in {1}",
+              id, (isSetExtendedSBase() ? getExtendedSBase().getElementName() : "")));
+          }
         }
       }
-    } 
-    
+    } else {
+      logger.error(MessageFormat.format(
+        "Trying to register something that is not a Dimension: \"{0}\".", sbase));
+    }
+
+    // TODO : register all the Port children if any !!
+   
     return success;
   }
 
@@ -710,23 +742,54 @@ public int getNumIndices() {
   @Override
   public boolean unregister(SBase sbase) {
 
+    // Always returning true at the moment to avoid exception when unregistering element
     boolean success = true;
 
     if (sbase instanceof Dimension) {
       Dimension dimension = (Dimension) sbase;
 
       if (dimension.isSetId()) {
-        String portId = dimension.getId();
+        String id = dimension.getId();
 
         if (mapOfDimensions == null) {
-          return false;
+          logger.warn(MessageFormat.format(
+            "No Dimension have been registered in this {0}. Nothing to be done.",
+            (isSetExtendedSBase() ? getExtendedSBase().getElementName() : "")));
+          return success;
         }
 
-        if (mapOfDimensions.containsKey(portId)) {
-          mapOfDimensions.remove(portId);
-        } 
+        if (mapOfDimensions.containsKey(id)) {
+          mapOfDimensions.remove(id);
+          if (logger.isDebugEnabled()) {
+            logger.debug(MessageFormat.format("unregistered Dimension id={0} in {1}",
+              id, (isSetExtendedSBase() ? getExtendedSBase().getElementName() : "")));
+          }
+        } else {
+
+          String elementName = null;
+          String elementId = null;
+          
+          if (isSetExtendedSBase()) {
+            elementName = getExtendedSBase().getElementName();
+            
+            if (getExtendedSBase() instanceof NamedSBase) {
+              elementId = "id[" + ((NamedSBase) getExtendedSBase()).getId() + "]";
+            } else if (getExtendedSBase().isSetMetaId()) {
+              elementId = "metaid[" + getExtendedSBase().getMetaId() + "]";
+            }
+          }
+          logger.warn(MessageFormat.format(
+            "A Dimension with the id \"{0}\" is not present in this {1}{2}. Nothing to be done.",
+            id, elementName, elementId != null ? " identified by " + elementId : ""));
+        }
       }
-    } 
+    } else {
+      logger.error(MessageFormat.format(
+        "Trying to unregister something that is not a Dimension: \"{0}\".", sbase));
+    }
+
+    // TODO : unregister all the Dimension children if any !!
+
     return success;
   }
 

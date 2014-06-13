@@ -115,13 +115,9 @@ public class ArraysWriteTest {
     ASTNode ruleMath = ASTNode.parseFormula("selector(X, i)");
     
     rule.setMath(ruleMath);
-
+    
     SBMLWriter writer = new SBMLWriter();
-
-    
     writer.writeSBMLToFile(doc, path);
-    
-    SBMLWriter.write(doc, System.out, ' ', (short) 2);
   }
 
   /**
@@ -197,6 +193,29 @@ public class ArraysWriteTest {
       assertTrue(testRuleDimension(model, 0, "i", null, "n", 0));
       assertTrue(testRuleIndex(model,0,"n", 0, ASTNode.diff(new ASTNode(9), new ASTNode("i"))));
     } catch (XMLStreamException e) {
+      e.printStackTrace();
+      assertTrue(false);
+    }
+  }
+  
+  @Test
+  public void testModelSetId() {
+    try {
+      SBMLDocument doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/example.xml"));
+      
+      Model m = doc.getModel();
+      
+      m.setId("new_model_id");
+
+      assertTrue(m.isSetId());
+      assertTrue(m.getId().equals("id_not_existing"));
+
+      doc.getModel().setId("id_not_existing");
+      
+      assertTrue(m.getId().equals("id_not_existing"));
+      
+    } catch (XMLStreamException e) {
+      e.printStackTrace();
       assertTrue(false);
     }
   }

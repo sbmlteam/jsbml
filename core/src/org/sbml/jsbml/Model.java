@@ -4015,7 +4015,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
         else
         {
           // Trying to find an IdManager for this element.
-          IdManager idManager = getIdManager(newElem);
+          IdManager idManager = ((AbstractSBase) newElem).getIdManager(newElem);
 
           if (logger.isDebugEnabled()) {
             logger.debug("idManager found for '" + newElem + "' = " + idManager);

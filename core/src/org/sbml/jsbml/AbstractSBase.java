@@ -1616,7 +1616,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         /*
          * Do the same for all identifiers under the old value.
          */
-        IdManager idManager = getIdManager((NamedSBase) oldChild);
+        IdManager idManager = ((AbstractSBase) oldChild).getIdManager((NamedSBase) oldChild);
         if (idManager != null) {
           idManager.unregister((NamedSBase) oldChild);
           NamedSBase newNsb = (NamedSBase) newChild;

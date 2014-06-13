@@ -314,7 +314,7 @@ NamedSBase {
     String oldId = this.id;
     
     IdManager idManager = getIdManager(this);
-    if ((oldId != null) && (idManager != null)) {
+    if (idManager != null) { // (oldId != null) // As the register and unregister are recursive, we need to call the unregister all the time until we have a non recursive method
       // Delete previous identifier only if defined.
       idManager.unregister(this); // TODO - do we need non recursive method on the IdManager interface ??
     }
