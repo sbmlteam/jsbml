@@ -165,10 +165,10 @@ UniqueNamedSBase {
   }
 
   /**
-   * Adds an EventAssignment instance to the list of EventAssignments of this
-   * Event.
+   * Adds a new {@link EventAssignment} to the listOfEventAssignments.
+   * <p>The listOfEventAssignments is initialized if necessary.
    * 
-   * @param eventass
+   * @param eventass the element to add to the list
    * @return {@code true} if the {@link #listOfEventAssignments} was
    *         changed as a result of this call.
    */
@@ -204,8 +204,9 @@ UniqueNamedSBase {
   }
 
   /**
+   * Creates a new {@link Delay} instance and sets it to this {@link Event}.
    * 
-   * @return
+   * @return the new {@link Delay} instance.
    */
   public Delay createDelay() {
     Delay d = new Delay(getLevel(), getVersion());
@@ -215,9 +216,10 @@ UniqueNamedSBase {
   }
 
   /**
+   * Creates a new {@link Delay} instance and sets it to this {@link Event}.
    * 
-   * @param math
-   * @return
+   * @param math the math expression for the new {@link Delay}
+   * @return the new {@link Delay} instance.
    */
   public Delay createDelay(ASTNode math) {
     Delay d = createDelay();
@@ -226,8 +228,9 @@ UniqueNamedSBase {
   }
 
   /**
+   * Creates a new {@link EventAssignment} element and adds it to the ListOfEventAssignments list.
    * 
-   * @return the new EventAssignment instance.
+   * @return the new {@link EventAssignment} instance.
    */
   public EventAssignment createEventAssignment() {
     EventAssignment ea = new EventAssignment(getLevel(), getVersion());
@@ -236,10 +239,11 @@ UniqueNamedSBase {
   }
 
   /**
+   * Creates a new {@link EventAssignment} element and adds it to the ListOfEventAssignments list.
    * 
-   * @param variable
-   * @param math
-   * @return
+   * @param variable the target of the new {@link EventAssignment}
+   * @param math the math expression for the new {@link EventAssignment}
+   * @return the new {@link EventAssignment} instance.
    */
   public EventAssignment createEventAssignment(String variable, ASTNode math) {
     EventAssignment ea = createEventAssignment();
@@ -249,17 +253,18 @@ UniqueNamedSBase {
   }
 
   /**
+   * Creates a new {@link EventAssignment} element and adds it to the ListOfEventAssignments list.
    * 
-   * @param variable
-   * @param math
-   * @return
+   * @param variable the target of the new {@link EventAssignment}
+   * @param math the math expression for the new {@link EventAssignment}
+   * @return the new {@link EventAssignment} instance.
    */
   public EventAssignment createEventAssignment(Variable variable, ASTNode math) {
     return createEventAssignment(variable.getId(), math);
   }
 
   /**
-   * Creates a new, empty {@link Priority}, adds it to this {@link Event} and
+   * Creates a new, empty {@link Priority}, sets it to this {@link Event} and
    * returns the {@link Priority}.
    * 
    * @return the newly created {@link Priority} object instance
@@ -271,9 +276,12 @@ UniqueNamedSBase {
   }
 
   /**
+   * Creates a new {@link Priority}, sets it to this {@link Event} and
+   * returns it.
    * 
-   * @param math
-   * @return
+   * @return the newly created {@link Priority} object instance
+   * @param math the {@link ASTNode} representing the expression to be set to the {@link Priority}
+   * @return the newly created {@link Priority} object instance
    */
   public Priority createPriority(ASTNode math) {
     Priority p = createPriority();
@@ -282,8 +290,9 @@ UniqueNamedSBase {
   }
 
   /**
+   * Creates a new {@link Trigger} instance and sets it to this {@link Event}.
    * 
-   * @return
+   * @return the new {@link Trigger} instance.
    */
   public Trigger createTrigger() {
     Trigger t = new Trigger(getLevel(), getVersion());
@@ -292,10 +301,11 @@ UniqueNamedSBase {
   }
 
   /**
+   * Creates a new {@link Trigger} instance and sets it to this {@link Event}.
    * 
    * @param initialValue
    * @param persistent
-   * @return
+   * @return the new {@link Trigger} instance.
    */
   public Trigger createTrigger(boolean initialValue, boolean persistent) {
     Trigger t = createTrigger();
@@ -305,11 +315,12 @@ UniqueNamedSBase {
   }
 
   /**
+   * Creates a new {@link Trigger} instance and sets it to this {@link Event}.
    * 
    * @param initialValue
    * @param persistent
-   * @param math
-   * @return
+   * @param math the math expression for the new {@link Trigger}
+   * @return the new {@link Trigger} instance.
    */
   public Trigger createTrigger(boolean initialValue, boolean persistent,
     ASTNode math) {
@@ -430,10 +441,12 @@ UniqueNamedSBase {
   }
 
   /**
-   * 
-   * @param n
-   * @return the nth EventAssignment instance of the list of EventAssignments
-   *         for this Event.
+   * Gets an element from the listOfEventAssignments at the given index.
+   *
+   * @param n the index of the {@link EventAssignment} element to get.
+   * @return an element from the listOfEventAssignments at the given index.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
    */
   public EventAssignment getEventAssignment(int n) {
     if (isSetListOfEventAssignments()) {
@@ -442,9 +455,25 @@ UniqueNamedSBase {
     throw new IndexOutOfBoundsException(Integer.toString(n));
   }
 
+
   /**
-   * 
-   * @return the list of eventAssignments of this Event.
+   * Gets an element from the listOfEventAssignments, with the given id.
+   *
+   * @param id the id of the {@link EventAssignment} element to get.
+   * @return an element from the listOfEventAssignments with the given id or null.
+   */
+  public EventAssignment getEventAssignment(String eventAssignmentId) {
+    if (isSetListOfEventAssignments()) {
+      return getListOfEventAssignments().get(eventAssignmentId);
+    }
+    return null;
+  }
+
+
+  /**
+   * Returns the listOfEventAssignments. Creates it if it is not already existing.
+   *
+s   * @return the list of eventAssignments of this Event.
    */
   public ListOf<EventAssignment> getListOfEventAssignments() {
     if (listOfEventAssignments == null) {
@@ -454,18 +483,21 @@ UniqueNamedSBase {
     return listOfEventAssignments;
   }
 
+
   /**
-   * @return the number of EventAssignments in the list of EventAssignements
-   *         of this Event.
-   * @libsbml.deprecated use {@link #getEventAssignmentCount()}
+   * Returns the number of {@link EventAssignment}s in this {@link Event}.
+   * 
+   * @return the number of {@link EventAssignment}s in this {@link Event}.
+   * @libsbml.deprecated same as {@link #getEventAssignmentCount()}
    */
   public int getNumEventAssignments() {
     return getEventAssignmentCount();
   }
 
   /**
-   * @return the number of EventAssignments in the list of EventAssignements
-   *         of this Event.
+   * Returns the number of {@link EventAssignment}s in this {@link Event}.
+   * 
+   * @return the number of {@link EventAssignment}s in this {@link Event}.
    */
   public int getEventAssignmentCount() {
     return listOfEventAssignments == null ? 0 : listOfEventAssignments.size();
@@ -618,6 +650,8 @@ UniqueNamedSBase {
   }
 
   /**
+   * Returns {@code true}, if listOfEventAssignments contains at least one element.
+   *
    * @return {@code true} if the listOfEventAssignments of this Event is not
    *         {@code null} and not empty;
    */
@@ -625,6 +659,7 @@ UniqueNamedSBase {
     return (listOfEventAssignments != null)
         && (listOfEventAssignments.size() > 0);
   }
+
 
   /**
    * 
@@ -721,9 +756,12 @@ UniqueNamedSBase {
   }
 
   /**
-   * 
-   * @param i
-   * @return the removed ith EventAssignment instance.
+   * Removes an element from the listOfEventAssignments at the given index.
+   *
+   * @param i the index where to remove the {@link EventAssignment}.
+   * @return the specified element, if it was successfully found and removed.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
    */
   public EventAssignment removeEventAssignment(int i) {
     if ((i >= getNumEventAssignments()) || (i < 0)) {
@@ -733,17 +771,18 @@ UniqueNamedSBase {
   }
 
   /**
-   * 
-   * @param id
-   * @return the removed EventAssignment instance which has 'id' as id.
+   * Removes an element from the listOfEventAssignments.
+   *
+   * @param id the id of the element to be removed from the list.
+   * @return the removed element, if it was successfully found and removed or null.
    */
   public EventAssignment removeEventAssignment(String id) {
     EventAssignment deletedEventAssignment = null;
     int index = 0;
 
-    for (EventAssignment reactant : getListOfEventAssignments()) {
-      if (reactant.getVariable().equals(id)) {
-        deletedEventAssignment = reactant;
+    for (EventAssignment eventAssignment : getListOfEventAssignments()) {
+      if (eventAssignment.getVariable().equals(id)) {
+        deletedEventAssignment = eventAssignment;
         break;
       }
       index++;
@@ -757,6 +796,22 @@ UniqueNamedSBase {
     // return listOfEventAssignments.remove(id);
   }
 
+
+  /**
+   * Removes an element from the listOfEventAssignments.
+   *
+   * @param eventAssignment the element to be removed from the list.
+   * @return true if the list contained the specified element and it was removed.
+   * @see List#remove(Object)
+   */
+  public boolean removeEventAssignment(EventAssignment eventAssignment) {
+    if (isSetListOfEventAssignments()) {
+      return getListOfEventAssignments().remove(eventAssignment);
+    }
+    return false;
+  }
+
+  
   /**
    * Sets the delay of this Event to 'delay'. It automatically sets the Delay
    * parentSBML object to this Event instance.
@@ -770,10 +825,8 @@ UniqueNamedSBase {
   }
 
   /**
-   * Sets the {@link #listOfEventAssignments} of this {@link Event} to
-   * 'listOfEventAssignments'. It automatically sets the SBMLParent object of
-   * the listOfEventAssignments and all the {@link EventAssignment}s in this list to
-   * this {@link Event} instance.
+   * Sets the given {@code ListOf<EventAssignment>}. If listOfEventAssignments
+   * was defined before and contains some elements, they are all unset.
    * 
    * @param listOfEventAssignments
    */
@@ -786,6 +839,7 @@ UniqueNamedSBase {
       registerChild(this.listOfEventAssignments);
     }
   }
+
 
   /**
    * @param priority
@@ -932,7 +986,7 @@ UniqueNamedSBase {
   }
 
   /**
-   * Removes the {@link #listOfEventAssignments} from this {@link Model} and
+   * Removes the {@link #listOfEventAssignments} from this {@link Event} and
    * notifies all registered instances of {@link TreeNodeChangeListener}.
    * 
    * @return {@code true} if calling this method lead to a change in this
