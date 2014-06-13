@@ -208,7 +208,7 @@ public class ArraysWriteTest {
       m.setId("new_model_id");
 
       assertTrue(m.isSetId());
-      assertTrue(m.getId().equals("id_not_existing"));
+      assertTrue(m.getId().equals("new_model_id"));
 
       doc.getModel().setId("id_not_existing");
       
