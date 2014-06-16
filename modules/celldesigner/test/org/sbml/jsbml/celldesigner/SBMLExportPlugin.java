@@ -1,6 +1,6 @@
 /*
- * $Id:  SBMLExportPlugin.java 1776 Jun 3, 2014 4:43:55 PM yvazirabad $
- * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/modules/celldesigner/test/org/sbml/jsbml/celldesigner/SBMLExportPlugin.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -31,9 +31,9 @@ import javax.xml.stream.XMLStreamException;
 import jp.sbi.celldesigner.plugin.PluginMenu;
 import jp.sbi.celldesigner.plugin.PluginMenuItem;
 
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.gui.SBMLLayoutVisualizer;
+import org.sbml.jsbml.gui.SwingWork;
 
 
 /**
@@ -77,24 +77,17 @@ public class SBMLExportPlugin extends AbstractCellDesignerPlugin  {
   public void startPlugin() throws XMLStreamException {
     // Synchronize changes from this plug-in to CellDesigner:
     final PluginChangeListener changeListener = new PluginChangeListener(this);
-    final SwingWorker<SBMLDocument, Void> worker = new SwingWorker<SBMLDocument, Void>() {
-      @Override
-      protected SBMLDocument doInBackground() throws Exception {
-        Model model = getReader().convertModel(getSelectedModel());
-        SBMLDocument doc = new SBMLDocument(model.getLevel(), model.getVersion());
-        doc.setModel(model);
-        doc.addTreeNodeChangeListener(changeListener);
-        return doc;
-      }
-    };
+    final SwingWorker<SBMLDocument, Void> worker = new SwingWork(getReader().convertModel(getSelectedModel()));
     worker.addPropertyChangeListener(new PropertyChangeListener() {
 
       @Override
       public void propertyChange(PropertyChangeEvent evt) {
         // TODO Auto-generated method stub
-        if (evt.getPropertyName().equals(SwingWorker.StateValue.DONE.toString())) {
+        if (evt.getPropertyName().equals("state") && evt.getNewValue().equals(SwingWorker.StateValue.DONE)) {
           try {
-            new SBMLLayoutVisualizer(worker.get());
+            SBMLDocument doc=worker.get();
+            doc.addTreeNodeChangeListener(changeListener);
+            new SBMLLayoutVisualizer(doc);
           } catch (Throwable e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -103,5 +96,14 @@ public class SBMLExportPlugin extends AbstractCellDesignerPlugin  {
       }
     });
     worker.execute();
+  }
+
+  /* (non-Javadoc)
+   * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+   */
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+    // TODO Auto-generated method stub
+
   }
 }

@@ -1,6 +1,6 @@
 /*
- * $Id:  RectangleTest.java 1733 May 14, 2014 7:33:53 PM yvazirabad $
- * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/extensions/render/test/org/sbml/jsbml/ext/render/test/RectangleTest.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -189,8 +189,8 @@ public class RectangleTest {
   @Test
   public void testIsSetAbsoluteZ() {
     Rectangle rectangle=new Rectangle();
-    rectangle.setAbsoluteY(true);
-    assertTrue(rectangle.isSetAbsoluteY());
+    rectangle.setAbsoluteZ(true);
+    assertTrue(rectangle.isSetAbsoluteZ());
   }
 
 

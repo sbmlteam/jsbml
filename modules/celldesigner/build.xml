@@ -458,6 +458,7 @@
       <src path="${jsbml.dir}/examples/test/src"/>
       <!-- Resources -->
       <src path="${jsbml.dir}/core/resources"/>
+   	  <src path="${jsbml.dir}/examples/resources"/>
       <src path="${jsbml.dir}/extensions/comp/resources"/>
       <src path="${jsbml.dir}/extensions/fbc/resources"/>
       <src path="${jsbml.dir}/extensions/groups/resources"/>
@@ -466,7 +467,7 @@
       <src path="${jsbml.dir}/extensions/qual/resources"/>
       <src path="${jsbml.dir}/extensions/render/resources"/>
       <src path="${jsbml.dir}/extensions/req/resources"/>
-        <src path="${jsbml.dir}/extensions/spatial/resources"/>
+      <src path="${jsbml.dir}/extensions/spatial/resources"/>
       </javac>
     
       <!--
@@ -582,7 +583,8 @@
         />
         <!-- Resources -->
         <fileset dir="${jsbml.dir}/core/resources"                 includes="**.txt, **/*.txt, **.xml, **/*.xml, **.properties, **/*.properties, **.cfg, **/*.cfg, **.obo, **/*.obo"/>
-        <fileset dir="${jsbml.dir}/extensions/comp/resources"      includes="**.txt, **/*.txt, **.xml, **/*.xml, **.properties, **/*.properties, **.cfg, **/*.cfg, **.obo, **/*.obo"/>
+        <fileset dir="${jsbml.dir}/examples/resources"             includes="**.txt, **/*.txt, **.xml, **/*.xml, **.properties, **/*.properties, **.cfg, **/*.cfg, **.obo, **/*.obo"/>
+      	<fileset dir="${jsbml.dir}/extensions/comp/resources"      includes="**.txt, **/*.txt, **.xml, **/*.xml, **.properties, **/*.properties, **.cfg, **/*.cfg, **.obo, **/*.obo"/>
         <fileset dir="${jsbml.dir}/extensions/fbc/resources"       includes="**.txt, **/*.txt, **.xml, **/*.xml, **.properties, **/*.properties, **.cfg, **/*.cfg, **.obo, **/*.obo"/>
         <fileset dir="${jsbml.dir}/extensions/groups/resources"    includes="**.txt, **/*.txt, **.xml, **/*.xml, **.properties, **/*.properties, **.cfg, **/*.cfg, **.obo, **/*.obo"/>
         <fileset dir="${jsbml.dir}/extensions/layout/resources"    includes="**.txt, **/*.txt, **.xml, **/*.xml, **.properties, **/*.properties, **.cfg, **/*.cfg, **.obo, **/*.obo"/>

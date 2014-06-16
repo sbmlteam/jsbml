@@ -37,6 +37,7 @@ public class JSBMLvisualizer extends JFrame {
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     getContentPane().add(new JScrollPane(new JTree(document)));
     pack();
+    setAlwaysOnTop(true);
     setLocationRelativeTo(null);
     setVisible(true);
   }
