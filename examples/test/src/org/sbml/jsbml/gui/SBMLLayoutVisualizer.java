@@ -1,6 +1,6 @@
 /*
- * $Id:  SBMLLayoutVisualizer.java 1776 Jun 3, 2014 5:44:17 PM yvazirabad $
- * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/examples/test/src/org/sbml/jsbml/gui/SBMLLayoutVisualizer.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -79,13 +79,14 @@ public class SBMLLayoutVisualizer extends JFrame implements ActionListener {
     contentPane.add(SBMLExportButton);
     pack();
     setLocationRelativeTo(null);
+    setAlwaysOnTop(true);
     setVisible(true);
   }
 
   /** @param args Expects a valid path to an SBML file. */
   public static void main(String[] args) throws Exception {
     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-    new JSBMLvisualizer(SBMLReader.read(new File(args[0])));
+    new SBMLLayoutVisualizer(SBMLReader.read(new File(args[0])));
   }
 
   /* (non-Javadoc)
@@ -94,12 +95,15 @@ public class SBMLLayoutVisualizer extends JFrame implements ActionListener {
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    JFileChooser chooser = new JFileChooser(System
-      .getProperties().getProperty("user.home") + "/Desktop");
+    JFileChooser chooser = new JFileChooser(new File(System
+      .getProperties().getProperty("user.home") + "/Desktop"));
+    SBMLFileFilter fileFilter=new SBMLFileFilter();
+    chooser.setFileFilter(fileFilter);
     int retrival = chooser.showSaveDialog(null);
     if (retrival == JFileChooser.APPROVE_OPTION) {
         try {
-            FileWriter fw = new FileWriter(chooser.getSelectedFile()+".xml");
+            File outputFile=chooser.getSelectedFile();
+            FileWriter fw = new FileWriter(outputFile+".xml");
             BufferedWriter out = new BufferedWriter(fw);
             out.write(SBMLString);
             out.close();
@@ -109,4 +113,6 @@ public class SBMLLayoutVisualizer extends JFrame implements ActionListener {
 
     }
   }
+
+
 }

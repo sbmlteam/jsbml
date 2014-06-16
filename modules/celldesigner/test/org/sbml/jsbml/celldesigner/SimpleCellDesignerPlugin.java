@@ -4,13 +4,13 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- * 
+ *
  * Copyright (C) 2009-2014  jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -20,21 +20,24 @@
  */
 package org.sbml.jsbml.celldesigner;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import javax.swing.SwingWorker;
 import javax.xml.stream.XMLStreamException;
 
 import jp.sbi.celldesigner.plugin.PluginMenu;
 import jp.sbi.celldesigner.plugin.PluginMenuItem;
 
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.gui.JSBMLvisualizer;
+import org.sbml.jsbml.gui.SwingWork;
 
 
 /**
  * A simple plug-in for CellDesigner that displays the SBML data structure as a
  * tree.
- * 
+ *
  * @author Andreas Dr&auml;ger
  * @version $Rev$
  * @since 1.0
@@ -69,33 +72,39 @@ public class SimpleCellDesignerPlugin extends AbstractCellDesignerPlugin {
 
   /**
    * Performs the action for which this plug-in is designed.
-   * 
+   *
    * @throws XMLStreamException If the given SBML model contains errors.
    */
   public void startPlugin() throws XMLStreamException {
     // Synchronize changes from this plug-in to CellDesigner:
     final PluginChangeListener changeListener = new PluginChangeListener(this);
-    SwingWorker<Model, Void> worker = new SwingWorker<Model, Void>() {
-      @Override
-      protected Model doInBackground() throws Exception {
-        return getReader().convertModel(getSelectedModel());
-      }
+    final SwingWorker<SBMLDocument, Void> worker = new SwingWork(getReader().convertModel(getSelectedModel()));
+    worker.addPropertyChangeListener(new PropertyChangeListener() {
 
       @Override
-      protected void done() {
-        try {
-          Model model = get();
-          SBMLDocument doc = new SBMLDocument(model.getLevel(), model.getVersion());
-          doc.setModel(model);
-          doc.addTreeNodeChangeListener(changeListener);
-          new JSBMLvisualizer(doc);
-          super.done();
-        } catch (Throwable exc) {
-          exc.printStackTrace();
+      public void propertyChange(PropertyChangeEvent evt) {
+        // TODO Auto-generated method stub
+        if (evt.getPropertyName().equals("state") && evt.getNewValue().equals(SwingWorker.StateValue.DONE)) {
+          try {
+            SBMLDocument doc=worker.get();
+            doc.addTreeNodeChangeListener(changeListener);
+            new JSBMLvisualizer(doc);
+          } catch (Throwable e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
         }
       }
-    };
+    });
     worker.execute();
   }
 
+  /* (non-Javadoc)
+   * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+   */
+  @Override
+  public void propertyChange(PropertyChangeEvent evt) {
+    // TODO Auto-generated method stub
+
+  }
 }

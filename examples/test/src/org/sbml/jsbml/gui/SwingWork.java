@@ -1,6 +1,6 @@
 /*
- * $Id:  RenderJUnitTests.java 1771 May 17, 2014 7:36:18 PM yvazirabad $
- * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/extensions/render/test/org/sbml/jsbml/ext/render/test/RenderJUnitTests.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -20,22 +20,33 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.ext.render.test;
+package org.sbml.jsbml.gui;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import javax.swing.SwingWorker;
+
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBMLDocument;
 
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev 1771$
+ * @version $Rev$
  * @since 1.0
- * @date May 17, 2014
+ * @date Jun 10, 2014
  */
-@RunWith(value=Suite.class)
-@SuiteClasses(value={ColorDefinitionTest.class, CurveTest.class, EllipseTest.class, GroupTest.class,
-  ImageTest.class, LinearGradientTest.class, GraphicalPrimitive1DTest.class, GraphicalPrimitive2DTest.class,
-  PolygonTest.class, RenderCubicBezierTest.class, RectangleTest.class,TextTest.class})
-public class RenderJUnitTests {
-}
+public class SwingWork extends SwingWorker<SBMLDocument, Void> {
+
+  Model model;
+
+  public SwingWork(Model m)
+  {
+    model=m;
+  }
+
+    @Override
+    protected SBMLDocument doInBackground() throws Exception {
+      SBMLDocument doc = new SBMLDocument(model.getLevel(), model.getVersion());
+      doc.setModel(model);
+      return doc;
+    }
+  };

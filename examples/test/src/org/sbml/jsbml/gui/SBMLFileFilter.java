@@ -1,6 +1,6 @@
 /*
- * $Id:  RenderJUnitTests.java 1771 May 17, 2014 7:36:18 PM yvazirabad $
- * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/extensions/render/test/org/sbml/jsbml/ext/render/test/RenderJUnitTests.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
@@ -20,22 +20,52 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.ext.render.test;
+package org.sbml.jsbml.gui;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import java.io.File;
+import java.io.FileFilter;
+import java.util.ResourceBundle;
+
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import org.sbml.jsbml.util.ResourceManager;
 
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev 1771$
+ * @version $Rev$
  * @since 1.0
- * @date May 17, 2014
+ * @date Jun 10, 2014
+ * File filter that permits GUI-based classes to display only .sbml and .xml files.
  */
-@RunWith(value=Suite.class)
-@SuiteClasses(value={ColorDefinitionTest.class, CurveTest.class, EllipseTest.class, GroupTest.class,
-  ImageTest.class, LinearGradientTest.class, GraphicalPrimitive1DTest.class, GraphicalPrimitive2DTest.class,
-  PolygonTest.class, RenderCubicBezierTest.class, RectangleTest.class,TextTest.class})
-public class RenderJUnitTests {
+public class SBMLFileFilter extends javax.swing.filechooser.FileFilter implements
+  FileFilter {
+
+  private final FileNameExtensionFilter filter;
+  private static final ResourceBundle bundle=ResourceManager.getBundle("org.sbml.jsbml.gui.UserMessages");
+
+  /**
+   *
+   */
+  public SBMLFileFilter() {
+    super();
+    filter= new FileNameExtensionFilter(
+       bundle.getString("sbmlFileFilter.EveryDescription"),"xml", "sbml");
+  }
+
+  /* (non-Javadoc)
+   * @see java.io.FileFilter#accept(java.io.File)
+   */
+  @Override
+  public boolean accept(File pathname) {
+    return filter.accept(pathname);
+  }
+
+  /* (non-Javadoc)
+   * @see javax.swing.filechooser.FileFilter#getDescription()
+   */
+  @Override
+  public String getDescription() {
+    return filter.getDescription();
+  }
 }
