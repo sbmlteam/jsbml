@@ -25,10 +25,12 @@ import java.text.MessageFormat;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.IdentifierException;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.UniqueNamedSBase;
+import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
@@ -207,7 +209,12 @@ public class ListOfMemberConstraint extends ListOf<MemberConstraint> implements 
     String property = TreeNodeChangeEvent.id;
     String oldId = this.id;
 
-    // TODO - unregister id
+    // unregister id
+    IdManager idManager = getIdManager(this);
+    if (idManager != null) { // (oldId != null) // As the register and unregister are recursive, we need to call the unregister all the time until we have a non recursive method
+      // Delete previous identifier only if defined.
+      idManager.unregister(this); // TODO - do we need non recursive method on the IdManager interface ??
+    }
 
     if ((id == null) || (id.trim().length() == 0)) {
       this.id = null;
@@ -215,12 +222,17 @@ public class ListOfMemberConstraint extends ListOf<MemberConstraint> implements 
       this.id = id;
     }
 
-    // TODO - register the id to the first IdentifierManager
-    // should be done by a protected method in AbstractSBase
-
+    // register the new id
+    // TODO - could it be done by a protected method in AbstractSBase
+    if ((idManager != null) && !idManager.register(this)) {
+      IdentifierException exc = new IdentifierException(this, this.id);
+      this.id = oldId; // restore the previous setting!
+      throw new IllegalArgumentException(exc);
+    }
+    
     firePropertyChange(property, oldId, this.id);
   }
-
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#setName(java.lang.String)
    */

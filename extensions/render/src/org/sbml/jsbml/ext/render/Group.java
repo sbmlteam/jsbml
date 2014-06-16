@@ -24,9 +24,12 @@ package org.sbml.jsbml.ext.render;
 import java.text.MessageFormat;
 import java.util.Map;
 
+import org.sbml.jsbml.IdentifierException;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.util.IdManager;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * @author Eugen Netz
@@ -37,6 +40,9 @@ import org.sbml.jsbml.SBase;
  * @since 1.0
  * @date 08.05.2012
  */
+
+// TODO - this class does not seems to exist in the libsbml implementation of the render package
+
 public class Group extends GraphicalPrimitive2D {
   /**
    * Generated serial version identifier
@@ -285,14 +291,32 @@ public class Group extends GraphicalPrimitive2D {
     return id != null;
   }
 
-  /**
-   * Set the value of id
-   */
+
   public void setId(String id) {
+    String property = getLevel() == 1 ? TreeNodeChangeEvent.name : TreeNodeChangeEvent.id;
     String oldId = this.id;
-    this.id = id;
-    firePropertyChange(RenderConstants.id, oldId, this.id);
+
+    IdManager idManager = getIdManager(this);
+    if (idManager != null) { // (oldId != null) // As the register and unregister are recursive, we need to call the unregister all the time until we have a non recursive method
+      // Delete previous identifier only if defined.
+      idManager.unregister(this); // TODO - do we need non recursive method on the IdManager interface ??
+    }
+
+    if ((id == null) || (id.trim().length() == 0)) {
+      this.id = null;
+    } else { // if (checkIdentifier(id)) {
+      this.id = id;
+    }
+
+    if ((idManager != null) && !idManager.register(this)) {
+      IdentifierException exc = new IdentifierException(this, this.id);
+      this.id = oldId; // restore the previous setting!
+      throw new IllegalArgumentException(exc);
+    }
+
+    firePropertyChange(property, oldId, this.id);
   }
+  
 
   /**
    * Unsets the variable id

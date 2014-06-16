@@ -196,27 +196,6 @@ public class ArraysWriteTest {
       e.printStackTrace();
       assertTrue(false);
     }
-  }
-  
-  @Test
-  public void testModelSetId() {
-    try {
-      SBMLDocument doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/example.xml"));
-      
-      Model m = doc.getModel();
-      
-      m.setId("new_model_id");
+  }  
 
-      assertTrue(m.isSetId());
-      assertTrue(m.getId().equals("new_model_id"));
-
-      doc.getModel().setId("id_not_existing");
-      
-      assertTrue(m.getId().equals("id_not_existing"));
-      
-    } catch (XMLStreamException e) {
-      e.printStackTrace();
-      assertTrue(false);
-    }
-  }
 }

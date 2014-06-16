@@ -39,6 +39,7 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
@@ -46,6 +47,7 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.Dimension;
+import org.sbml.jsbml.ext.arrays.test.ArraysWriteTest;
 import org.sbml.jsbml.ext.comp.CompConstants;
 import org.sbml.jsbml.ext.comp.CompModelPlugin;
 import org.sbml.jsbml.ext.comp.CompSBMLDocumentPlugin;
@@ -786,6 +788,30 @@ public class UnregisterPackageTests {
     assertTrue(doc.findSBase("AD4") == null);
     
     // TODO - add tests for Index as well
+  }
+
+  @Test
+  public void testSetId() {
+    try {
+      SBMLDocument doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/example.xml"));
+      
+      Model m = doc.getModel();
+      
+      m.setId("new_model_id");
+
+      assertTrue(m.isSetId());
+      assertTrue(m.getId().equals("new_model_id"));
+
+      doc.getModel().setId("id_not_existing");
+      
+      assertTrue(m.getId().equals("id_not_existing"));
+
+      // TODO - add tests for FunctionDefinition, Port, Deletion, ListOfMemberConstraints
+      
+    } catch (XMLStreamException e) {
+      e.printStackTrace();
+      assertTrue(false);
+    }
   }
 
 }
