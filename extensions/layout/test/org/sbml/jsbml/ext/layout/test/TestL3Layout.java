@@ -32,20 +32,20 @@
 package org.sbml.jsbml.ext.layout.test;
 
 
-import java.io.IOException;
-import java.util.InvalidPropertiesFormatException;
-
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SBMLReader;
+import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
-import org.sbml.jsbml.xml.stax.SBMLReader;
 
 /**
  * @author Nicolas Rodriguez
@@ -57,21 +57,12 @@ public class TestL3Layout {
   /**
    * 
    */
-  public static String DATA_FOLDER = null;
+  public static String DATA_FOLDER = "/org/sbml/jsbml/xml/test/data/layout";
   /**
    * 
    */
   public static String LAYOUT_NAMESPACE = "http://www.sbml.org/sbml/level3/version1/layout/version1";
 
-  static {
-    if (DATA_FOLDER == null) {
-      DATA_FOLDER = System.getenv("DATA_FOLDER");
-    }
-    if (DATA_FOLDER == null) {
-      DATA_FOLDER = System.getProperty("DATA_FOLDER");
-    }
-
-  }
 
   /**
    * 
@@ -101,20 +92,22 @@ public class TestL3Layout {
 
   /**
    * 
-   * @throws XMLStreamException
-   * @throws ClassNotFoundException
-   * @throws IOException
-   * @throws InvalidPropertiesFormatException
    */
-  @Test public void test_L3_Layout_read1() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException
+  @Test public void test_L3_Layout_read1()
   {
-    if (DATA_FOLDER == null)
-    {
-      DATA_FOLDER = System.getProperty("user.dir") + "/extensions/layout/test/org/sbml/jsbml/xml/test/data";
-    }
-    String fileName = DATA_FOLDER + "/layout/GlycolysisLayout_small.xml";
+    String filePath = DATA_FOLDER + "/GlycolysisLayout_small.xml";
 
-    SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
+    SBMLDocument doc = null;
+    try {
+      doc = SBMLReader.read(TestL3Layout.class.getResourceAsStream(filePath));
+    } catch (XMLStreamException e) {
+      // should never happen
+      e.printStackTrace();
+      Assert.fail();
+    }
+    
+    Assert.assertNotNull(doc);
+    
     Model model = doc.getModel();
 
     System.out.println("Model extension objects: " + model.getExtension(LAYOUT_NAMESPACE));
@@ -126,22 +119,76 @@ public class TestL3Layout {
 
     // System.out.println("Group sboTerm, id = " + group.getSBOTermID() + ", " + group.getId()); print dimension
     System.out.println("Nb SpeciesGlyphs = " + layout.getListOfSpeciesGlyphs().size());
-
+    Assert.assertTrue(layout.getListOfSpeciesGlyphs().size() == 5);
+    
     SpeciesGlyph  speciesGlyph = layout.getSpeciesGlyph(0);
+    Assert.assertTrue(speciesGlyph.getId().equals("glyph_Gluc"));
+    Assert.assertTrue(speciesGlyph.getSpecies().equals("Glucose"));
+    Assert.assertTrue(model.findNamedSBase("glyph_Gluc") != null);
 
+    layout.createGeneralGlyph("LGG1");
+    
     // System.out.println("Member(0).symbol = " + member.getSymbol());
 
+    try {
+      System.out.println(new SBMLWriter().writeSBMLToString(doc));
+    } catch (SBMLException e) {
+      // should never happen
+      e.printStackTrace();
+      Assert.fail();
+    } catch (XMLStreamException e) {
+      // should never happen
+      e.printStackTrace();
+      Assert.fail();
+    }
+    
+    SBMLDocument doc2 = new SBMLDocument(3, 1);
+    Model m2 = new Model(doc.getModel());
+    doc2.setModel(m2);
+
+    try {
+      System.out.println(new SBMLWriter().writeSBMLToString(doc2));
+    } catch (SBMLException e) {
+      // should never happen
+      e.printStackTrace();
+      Assert.fail();
+    } catch (XMLStreamException e) {
+      // should never happen
+      e.printStackTrace();
+      Assert.fail();
+    }
+
   }
 
-  /**
-   * 
-   */
-  @Test public void test_L3_Layout_write1()
-  {
-    String fileName = DATA_FOLDER + "/layout/GlycolysisLayout_small.xml";
-
-    // SBMLDocument doc = SBMLReader.readSBMLFile(fileName);
-
-    // SBMLWriter.write(doc, DATA_FOLDER + "/layout/GlycolysisLayout_small_write.xml");
-  }
+//  /**
+//   * 
+//   */
+//  @Test public void test_L3_Layout_write1()
+//  {
+//    String filePath = DATA_FOLDER + "/GlycolysisLayout_small.xml";
+//
+//    SBMLDocument doc = null;
+//    try {
+//      doc = SBMLReader.read(TestL3Layout.class.getResourceAsStream(filePath));
+//    } catch (XMLStreamException e) {
+//      // should never happen
+//      e.printStackTrace();
+//      Assert.fail();
+//    }
+//
+//    Assert.assertNotNull(doc);
+//    
+//    try {
+//      System.out.println(new SBMLWriter().writeSBMLToString(doc));
+//    } catch (SBMLException e) {
+//      // should never happen
+//      e.printStackTrace();
+//      Assert.fail();
+//    } catch (XMLStreamException e) {
+//      // should never happen
+//      e.printStackTrace();
+//      Assert.fail();
+//    }
+//    
+//  }
 }

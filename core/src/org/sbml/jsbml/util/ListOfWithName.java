@@ -67,7 +67,7 @@ public class ListOfWithName<T extends SBase> extends ListOf<T> {
    * 
    * @param listOf
    */
-  public ListOfWithName(ListOfWithName<T> listOf) {
+  public ListOfWithName(ListOfWithName<? extends SBase> listOf) {
     super(listOf);
     elementName = listOf.elementName;
   }
@@ -80,5 +80,15 @@ public class ListOfWithName<T extends SBase> extends ListOf<T> {
   {
     return elementName;
   }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ListOf#clone()
+   */
+  @Override
+  public ListOf<T> clone() {
+    return new ListOfWithName<T>(this);
+  }
+  
+  
 
 }
