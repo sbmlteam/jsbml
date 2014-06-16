@@ -21,10 +21,13 @@
  */
 package org.sbml.jsbml.ext.comp;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.IdentifierException;
 import org.sbml.jsbml.NamedSBase;
+import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
@@ -123,6 +126,26 @@ public abstract class AbstractNamedSBaseRef extends SBaseRef implements NamedSBa
     this(level, version);
     setId(id);
     setName(name);
+  }
+
+  /**
+   * Checks if the sID is a valid identifier.
+   * 
+   * @param sID
+   *            the identifier to be checked. If null or an invalid
+   *            identifier, an exception will be thrown.
+   * @return {@code true} only if the sID is a valid identifier.
+   *         Otherwise this method throws an {@link IllegalArgumentException}.
+   *         This is an intended behavior.
+   * @throws IllegalArgumentException
+   *             if the given id is not valid in this model.
+   */
+  boolean checkIdentifier(String sID) {
+    if ((sID == null) || ! AbstractNamedSBase.isValidId(sID, getLevel(), getVersion())) {
+      throw new IllegalArgumentException(MessageFormat.format(
+        "\"{0}\" is not a valid identifier for this {1}.", sID, getElementName()));
+    }
+    return true;
   }
 
   /* (non-Javadoc)
@@ -225,31 +248,27 @@ public abstract class AbstractNamedSBaseRef extends SBaseRef implements NamedSBa
     String property = getLevel() == 1 ? TreeNodeChangeEvent.name : TreeNodeChangeEvent.id;
     String oldId = this.id;
 
-    /*
-
-		  // TODO: check which model we should get to have the correct id namespace
-
-		Model model = getModel();
-    if ((oldId != null) && (model != null)) {
+    IdManager idManager = getIdManager(this);
+    if (idManager != null) { // (oldId != null) // As the register and unregister are recursive, we need to call the unregister all the time until we have a non recursive method
       // Delete previous identifier only if defined.
-      model.registerIds(this.getParent(), this, false, true);
+      idManager.unregister(this); // TODO - do we need non recursive method on the IdManager interface ??
     }
-     */
 
     if ((id == null) || (id.trim().length() == 0)) {
       this.id = null;
-    } else { // else if (checkIdentifier(id)) {
+    } else if (checkIdentifier(id)) {
       this.id = id;
     }
-    /*
-		if ((model != null) && !model.registerIds(this.getParent(), this, false, false)) {
-        IdentifierException exc = new IdentifierException(this, this.id);
-        this.id = oldId; // restore the previous setting!
-        throw new IllegalArgumentException(exc);
+
+    if ((idManager != null) && !idManager.register(this)) {
+      IdentifierException exc = new IdentifierException(this, this.id);
+      this.id = oldId; // restore the previous setting!
+      throw new IllegalArgumentException(exc);
     }
-     */
+
     firePropertyChange(property, oldId, this.id);
   }
+  
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#setName(java.lang.String)
