@@ -43,7 +43,7 @@ import org.sbml.jsbml.xml.test.Tests;
  */
 @RunWith(value=Suite.class)
 @SuiteClasses(value={Tests.class, LibsbmlCompatibilityTests.class, LayoutJUnitTests.class, RenderJUnitTests.class,
-  UnregisterPackageTests.class, ArraysJUnitTests.class})
+  UnregisterPackageTests.class, ArraysJUnitTests.class, DisablePackageTests.class})
 public class AllTests {
   
   public static String DATA_FOLDER = null;

@@ -232,8 +232,7 @@ public class SBMLDocument extends AbstractSBase {
 
   /**
    * Adds the package namespace declaration in this {@link SBMLDocument}, adds as well
-   * the required attribute for this package. This is a helper method until the methods
-   * enablePackage() are implemented.
+   * the required attribute for this package.
    * 
    * @param packageName the name or short label of the package, for example: layout, comp, qual, ...
    * @param packageURI the package namespace uri
@@ -243,6 +242,20 @@ public class SBMLDocument extends AbstractSBase {
     addDeclaredNamespace("xmlns:" + packageName, packageURI);
     getSBMLDocumentAttributes().put(packageName + ":required", Boolean.toString(required));
   }
+  
+  /**
+   * Removes the package namespace declaration in this {@link SBMLDocument}, removes as well
+   * the required attribute for this package.
+   * 
+   * @param packageName the name or short label of the package, for example: layout, comp, qual, ...
+   */
+  private void removePackageDeclaration(String packageName) 
+  {
+    getDeclaredNamespaces().remove("xmlns:" + packageName);
+    getSBMLDocumentAttributes().remove(packageName + ":required");    
+  }
+
+
 
   /**
    * Validates the {@link SBMLDocument} using the
@@ -562,17 +575,18 @@ public class SBMLDocument extends AbstractSBase {
         packageURI = packageParser.getPackageNamespaces().get(0);
       }
 
-      // TODO - check if the package is already present ?
-      // possible errors  PACKAGE_UNKNOWN, PACKAGE_VERSION_MISMATCH, PACKAGE_CONFLICTED_VERSION
+      // check if the package is already present ??
+      // possible libsbml errors  PACKAGE_UNKNOWN, PACKAGE_VERSION_MISMATCH, PACKAGE_CONFLICTED_VERSION
       enabledPackageMap.put(packageURI, enabled);
 
       if (enabled) {
         addPackageDeclaration(packageParser.getPackageName(), packageURI, packageParser.isRequired());
+      } else {
+        // remove the namespace declaration from the SBMLDocument
+        removePackageDeclaration(packageParser.getPackageName());
       }
     }
   }
-
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
@@ -904,7 +918,7 @@ public class SBMLDocument extends AbstractSBase {
       
       for (String packageURI : packageURIs) {
         if (enabledPackageMap.containsKey(packageURI)) {
-          return true;
+          return enabledPackageMap.get(packageURI);
         }
       }
     }
@@ -912,6 +926,49 @@ public class SBMLDocument extends AbstractSBase {
     return false;
   }
 
+  /**
+   * Returns {@code true} if the given SBML Level 3 package is enabled within the {@link SBMLDocument}, {@code false}
+   * if the package was disabled using the method {@link #disablePackage(String)} or {@code null} if this package
+   * was neither enabled or disabled on this {@link SBMLDocument}. 
+   * 
+   * <p>This method can be used, for example, by the {@link SBMLWriter} to know if a package was really disabled
+   * or if the user forgot to enable it.
+   * 
+   * @param packageURIOrName the name or URI of the package extension.
+   * @return {@code true} if the given SBML Level 3 package is enabled within the {@link SBMLDocument}, {@code false}
+   * if the package was disabled using the method {@link #disablePackage(String)} or {@code null} if this package
+   * was neither enabled or disabled on this {@link SBMLDocument}. 
+   */
+  public Boolean isPackageEnabledOrDisabled(String packageURIOrName) {
+
+    // Get the package URI is needed
+    PackageParser packageParser = ParserManager.getManager().getPackageParser(packageURIOrName);
+
+    if (packageParser != null) {
+      List<String> packageURIs = null;
+
+      if (packageURIOrName.equals(packageParser.getPackageName())) {
+        packageURIs = packageParser.getPackageNamespaces();
+      } else {
+        packageURIs = new ArrayList<String>();
+        packageURIs.add(packageURIOrName);
+      }
+
+      // This can happen when cloning a SBMLDocument, the AbstractSBase constructor
+      // would add any existing SBasePlugin before we initialize enabledPackageMap
+      if (enabledPackageMap == null) {
+        enabledPackageMap = new HashMap<String, Boolean>();
+      }
+      
+      for (String packageURI : packageURIs) {
+        if (enabledPackageMap.containsKey(packageURI)) {
+          return enabledPackageMap.get(packageURI);
+        }
+      }
+    }
+
+    return null;
+  }
 
   /**
    * Returns {@code true} if the list of errors is defined and contain at least one error.
