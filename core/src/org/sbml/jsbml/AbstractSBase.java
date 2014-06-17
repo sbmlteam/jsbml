@@ -1186,7 +1186,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   public int getExtensionCount() {
 
     if (extensions != null) {
-      extensions.size();
+      return extensions.size();
     }
     
     return 0;
@@ -1337,7 +1337,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
   @Override
   public int getNumPlugins() {
-    return extensions.size();
+    return getExtensionCount();
   }
 
   /**
