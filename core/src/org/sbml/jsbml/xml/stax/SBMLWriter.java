@@ -547,6 +547,8 @@ public class SBMLWriter {
     // to have the automatic indentation working, we should probably only be using StaxMate classes and not directly StAX
     // outputDocument.setIndentation("\n  ", 1, 1);
 
+    // TODO - check if we need to enable some packages
+    
     String SBMLNamespace = JSBML.getNamespaceFrom(sbmlDocument.getLevel(),
       sbmlDocument.getVersion());
     SMOutputContext context = outputDocument.getContext();
@@ -873,7 +875,7 @@ public class SBMLWriter {
     SMOutputElement smOutputParentElement,
     XMLStreamWriter streamWriter, Object parentObject, int indent)
         throws XMLStreamException, SBMLException
-        {
+  {
     String whiteSpaces = createIndentationString(indent);
 
     // Get the list of parsers to use.
@@ -909,12 +911,23 @@ public class SBMLWriter {
       {
         if (! (nextObjectToWrite instanceof SBase))
         {
-          logger.debug("Element '" + nextObjectToWrite.getClass().getSimpleName() +
+          logger.warn("Element '" + nextObjectToWrite.getClass().getSimpleName() +
               "' ignored because it is supposed to be written elsewhere (ASTNode, XMLNode, ..) ");
           // ASTNode, Annotation, Notes, Math, ... are written directly below, at the same time as SBase at the moment
           continue;
         }
 
+        SBase s = (SBase) nextObjectToWrite;
+        
+        // test if this element is part of a disabled package. Do not write the element if it is the case
+        if (s.getNamespace() != null) {
+          boolean isPackageEnabled = s.isPackageEnabled(s.getNamespace());
+          
+          if (!isPackageEnabled) {
+            continue;
+          }
+        }
+        
         // this new element might need a different writer than it's parent !!
         List<WritingParser> listOfChildPackages = getWritingParsers(nextObjectToWrite, smOutputParentElement.getNamespace().getURI());
         SBMLObjectForXML childXmlObject = new SBMLObjectForXML();
@@ -953,7 +966,7 @@ public class SBMLWriter {
         childParser.writeAttributes(childXmlObject, nextObjectToWrite);
 
         if (!childXmlObject.isSetName()) {
-          logger.debug("XML name not set, element ignored!");
+          logger.error("XML name not set, element ignored!");
           continue;
         }
 
@@ -963,7 +976,7 @@ public class SBMLWriter {
         SMNamespace namespace = null;
 
         if (childXmlObject.isSetNamespace()) {
-          namespace = smOutputParentElement.getNamespace(childXmlObject.getNamespace(), childXmlObject.getPrefix());
+          namespace = smOutputParentElement.getContext().getNamespace(childXmlObject.getNamespace(), childXmlObject.getPrefix());
         } else {
           namespace = smOutputParentElement.getNamespace();
         }
@@ -976,25 +989,23 @@ public class SBMLWriter {
           newOutPutElement.addAttribute(attributeName, childXmlObject.getAttributes().get(attributeName));
         }
 
-        if (nextObjectToWrite instanceof SBase) {
-          SBase s = (SBase) nextObjectToWrite;
-          if (s.isSetNotes()) {
-            writeNotes(s, newOutPutElement, streamWriter,
-              newOutPutElement.getNamespace()
-              .getURI(), indent + indentCount);
-            elementIsNested = true;
-          }
-          if (s.isSetAnnotation()) {
-            writeAnnotation(s, newOutPutElement,
-              streamWriter,
-              indent + indentCount, false);
-            elementIsNested = isClosedAnnotation = true;
-          }
-          if (s.getChildCount() > 0) {
-            // make sure that we'll have line breaks if an element has any sub elements.
-            elementIsNested = true;
-          }
+        if (s.isSetNotes()) {
+          writeNotes(s, newOutPutElement, streamWriter,
+            newOutPutElement.getNamespace()
+            .getURI(), indent + indentCount);
+          elementIsNested = true;
         }
+        if (s.isSetAnnotation()) {
+          writeAnnotation(s, newOutPutElement,
+            streamWriter,
+            indent + indentCount, false);
+          elementIsNested = isClosedAnnotation = true;
+        }
+        if (s.getChildCount() > 0) {
+          // make sure that we'll have line breaks if an element has any sub elements.
+          elementIsNested = true;
+        }
+
         if (nextObjectToWrite instanceof MathContainer) {
           MathContainer mathContainer = (MathContainer) nextObjectToWrite;
           if (mathContainer.getLevel() > 1) {
@@ -1035,7 +1046,7 @@ public class SBMLWriter {
       // write the indent before closing the element
       streamWriter.writeCharacters(whiteSpaces.substring(0, indent - indentCount));
     }
-        }
+  }
 
 
   /**
@@ -1046,6 +1057,8 @@ public class SBMLWriter {
    */
   private boolean isEmptyListOf(Object object)
   {
+    // TODO - relax this rule for L3V2 when it is out
+
     if (object instanceof ListOf<?>)
     {
       ListOf<?> list = (ListOf<?>) object;
