@@ -911,7 +911,7 @@ public class SBMLWriter {
       {
         if (! (nextObjectToWrite instanceof SBase))
         {
-          logger.warn("Element '" + nextObjectToWrite.getClass().getSimpleName() +
+          logger.debug("Element '" + nextObjectToWrite.getClass().getSimpleName() +
               "' ignored because it is supposed to be written elsewhere (ASTNode, XMLNode, ..) ");
           // ASTNode, Annotation, Notes, Math, ... are written directly below, at the same time as SBase at the moment
           continue;
