@@ -24,8 +24,6 @@ package org.sbml.jsbml.math;
 
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
-
-
 /**
  * An Abstract Syntax Tree (AST) node representing a constant number
  * in a mathematical expression.
@@ -89,6 +87,8 @@ public class ASTConstantNumber extends ASTNumber {
     this.value = value;
     firePropertyChange(TreeNodeChangeEvent.value, old, this.value);
   }
+
+  // TODO: Override clone method with specific return type.
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

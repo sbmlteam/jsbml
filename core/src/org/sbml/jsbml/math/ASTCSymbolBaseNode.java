@@ -22,7 +22,6 @@
  */
 package org.sbml.jsbml.math;
 
-
 /**
  * An Abstract Syntax Tree (AST) node representing a MathML element
  * that contains a definitionURL and name attribute.
@@ -41,7 +40,6 @@ public interface ASTCSymbolBaseNode extends ASTNode2 {
    * @return String definitionURL
    */
   public String getDefinitionURL();
-
 
   /**
    * Returns the name of the MathML element represented by

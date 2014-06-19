@@ -22,8 +22,6 @@
  */
 package org.sbml.jsbml.math;
 
-
-
 /**
  * An Abstract Syntax Tree (AST) node representing a hyperbolic function
  * 
@@ -50,6 +48,8 @@ public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
   public ASTHyperbolicNode(ASTHyperbolicNode node) {
     super(node);
   }
+
+  // TODO: Override clone method with specific return type.
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

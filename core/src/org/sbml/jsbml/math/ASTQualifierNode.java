@@ -22,7 +22,6 @@
  */
 package org.sbml.jsbml.math;
 
-
 /**
  * An Abstract Syntax Tree (AST) node representing a MathML qualifier element
  * in a mathematical expression.
@@ -50,6 +49,8 @@ public class ASTQualifierNode extends ASTFunction {
   public ASTQualifierNode(ASTQualifierNode node) {
     super(node);
   }
+
+  // TODO: Override clone method with specific return type.
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

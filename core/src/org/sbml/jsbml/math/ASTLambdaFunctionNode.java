@@ -42,7 +42,6 @@ public class ASTLambdaFunctionNode extends ASTFunction {
    */
   private static final Logger logger = Logger.getLogger(ASTLambdaFunctionNode.class);
 
-
   /**
    * The number of MathML bvar elements inside this
    * lambda function

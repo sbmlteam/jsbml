@@ -22,12 +22,9 @@
  */
 package org.sbml.jsbml.math;
 
-import javax.swing.tree.TreeNode;
-
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
-
 
 /**
  * An Abstract Syntax Tree (AST) node representing a MathML csymbol element
@@ -61,43 +58,34 @@ implements ASTCSymbolNode {
    */
   private String encodingURL;
 
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#clone()
    */
   @Override
-  public TreeNode clone() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
+  public abstract AbstractASTCSymbolNode clone();
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
   @Override
   public boolean getAllowsChildren() {
-    // TODO Auto-generated method stub
     return false;
   }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.AbstractASTNode#getChildAt(int)
    */
   @Override
   public ASTNode2 getChildAt(int childIndex) {
-    // TODO Auto-generated method stub
+    // TODO Always throw an IndexOutOfBoundsException
     return null;
   }
-
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildCount()
    */
   @Override
   public int getChildCount() {
-    // TODO Auto-generated method stub
     return 0;
   }
 
@@ -109,6 +97,7 @@ implements ASTCSymbolNode {
     if (isSetDefinitionURL()) {
       return definitionURL;
     }
+    // TODO: Create an interface or enum ASTConstants that contains literals, such as definitionURL etc. and use it here and subsequently.
     PropertyUndefinedError error = new PropertyUndefinedError("definitionURL", this);
     if (isStrict()) {
       throw error;
@@ -149,8 +138,7 @@ implements ASTCSymbolNode {
     return "";
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetDefinitionURL()
    */
   @Override
@@ -158,8 +146,7 @@ implements ASTCSymbolNode {
     return definitionURL != null;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#isSetEncodingURL()
    */
   @Override
@@ -167,8 +154,7 @@ implements ASTCSymbolNode {
     return encodingURL != null;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetName()
    */
   @Override
@@ -205,6 +191,5 @@ implements ASTCSymbolNode {
     this.name = name;
     firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
   }
-
 
 }

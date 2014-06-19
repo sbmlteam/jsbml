@@ -51,6 +51,8 @@ public class ASTLogicalOperatorNode extends ASTFunction {
     super(node);
   }
 
+  // TODO: Override clone method with specific return type.
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */

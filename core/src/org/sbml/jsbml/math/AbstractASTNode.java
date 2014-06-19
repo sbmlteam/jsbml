@@ -60,8 +60,8 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
 
   /**
    * Specifies strictness. When true, ASTUnaryFunction and ASTBinaryFunction
-   * nodes can only contain the specified # of children. When false, there is
-   * a bit of leeway (i.e. ASTUnaryFunction can contain more than one child)
+   * nodes can only contain the specified number of children. When false, there
+   * is a bit of leeway (i.e., ASTUnaryFunction can contain more than one child)
    * (not recommended).
    * 
    * @return boolean
@@ -131,13 +131,8 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
     return type;
   }
 
-  /**
-   * Specifies strictness. When true, ASTUnaryFunction and ASTBinaryFunction
-   * nodes can only contain the specified # of children. When false, there is
-   * a bit of leeway (i.e. ASTUnaryFunction can contain more than one child)
-   * (not recommended).
-   * 
-   * @return boolean
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#isStrict()
    */
   @Override
   public boolean isStrict() {

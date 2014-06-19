@@ -27,7 +27,6 @@ import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
-
 /**
  * An Abstract Syntax Tree (AST) node representing an exponent
  * in a mathematical expression
@@ -81,7 +80,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode {
    * Get the exponent value of this node. Throws PropertyUndefinedError
    * if no exponent value has been defined.
    * 
-   * @return int exponent
+   * @return exponent
    */
   public int getExponent() {
     if (isSetExponent()) {
@@ -145,6 +144,8 @@ public class ASTCnExponentialNode extends ASTCnNumberNode {
     this.mantissa = mantissa;
     firePropertyChange(TreeNodeChangeEvent.mantissa, old, this.mantissa);
   }
+
+  // TODO: Override clone method with specific return type.
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

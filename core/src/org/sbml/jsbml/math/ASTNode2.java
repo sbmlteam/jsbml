@@ -83,9 +83,10 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
   public Type getType();
 
   /**
-   * Specifies strictness. When true, ASTUnaryFunction and ASTBinaryFunction
-   * nodes can only contain the specified # of children. When false, there is
-   * a bit of leeway (i.e. ASTUnaryFunction can contain more than one child)
+   * Specifies strictness. When {@code true}, {@link ASTUnaryFunctionNode} and
+   * {@link ASTBinaryFunctionNode} nodes can only contain the specified # of
+   * children. When false, there is a bit of leeway (i.e.,
+   * {@link ASTUnaryFunctionNode} can contain more than one child)
    * (not recommended).
    * 
    * @return boolean

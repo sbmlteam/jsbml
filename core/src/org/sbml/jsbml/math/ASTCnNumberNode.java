@@ -132,6 +132,7 @@ public class ASTCnNumberNode extends ASTNumber {
    * @return null
    */
   // TODO: work with base types, i.e., double.
+  // TODO: in JavaDoc, you do not have to again declare the type of a parameter. Just use the name, here this is "base" (without quotes). In other words, remove "Double" after the @param keyword.
   public void setBase(Double base) {
     double old = this.base;
     this.base = base;
@@ -148,6 +149,8 @@ public class ASTCnNumberNode extends ASTNumber {
     this.units = units;
     firePropertyChange(TreeNodeChangeEvent.units, old, this.units);
   }
+
+  // TODO: Override clone method with specific return type.
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
