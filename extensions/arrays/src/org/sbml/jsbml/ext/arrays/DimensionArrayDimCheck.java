@@ -1,6 +1,6 @@
 /*
- * $Id:  IndexArrayDimCheck.java 8:41:08 PM lwatanabe $
- * $URL: IndexArrayDimCheck.java $
+ * $Id:  ArrayDimensionCheck.java 1:01:13 PM lwatanabe $
+ * $URL: ArrayDimensionCheck.java $
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -20,7 +20,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>. 
  * ---------------------------------------------------------------------------- 
  */
-package org.sbml.jsbml.ext.arrays.constraints;
+package org.sbml.jsbml.ext.arrays;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,26 +28,28 @@ import java.util.List;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.ext.arrays.ArraysConstants;
-import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
-import org.sbml.jsbml.ext.arrays.Dimension;
-import org.sbml.jsbml.ext.arrays.Index;
 import org.sbml.jsbml.util.Message;
 
 
 /**
+ * This checks if array dimension is either 0, 1, or 2 
+ * In addition, it checks if array dimension is 0 for
+ * the case that only one dimension object is present, and if
+ * array dimensions 0 and 1 are present if the SBase has two
+ * dimensions. Finally, this ensures array dimension is unique.
+ * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
- * @date Jun 18, 2014
+ * @date Jun 10, 2014
  */
-public class IndexArrayDimCheck implements ArraysConstraint {
+public class DimensionArrayDimCheck implements ArraysConstraint {
 
   private final Model model;
   private final SBase sbase;
   private final List<SBMLError> listOfErrors;
   
-  public IndexArrayDimCheck(Model model, SBase sbase)
+  public DimensionArrayDimCheck(Model model, SBase sbase)
   {
     this.model = model;
     this.sbase = sbase;
@@ -68,10 +70,10 @@ public class IndexArrayDimCheck implements ArraysConstraint {
     }
 
     
-    for(Index index : arraysSBasePlugin.getListOfIndices())
+    for(Dimension dim : arraysSBasePlugin.getListOfDimensions())
     {
-      if(index.getArrayDimension() > max) {
-        max = index.getArrayDimension();
+      if(dim.getArrayDimension() > max) {
+        max = dim.getArrayDimension();
       }
     }
     
@@ -109,10 +111,10 @@ public class IndexArrayDimCheck implements ArraysConstraint {
    * @param shortMsg
    */
   private void logArrayDimensionUniqueness(String shortMsg) {
-    int code = 20111, severity = 2, category = 0, line = -1, column = -1;
+    int code = 20104, severity = 2, category = 0, line = -1, column = -1;
 
     String pkg = "arrays";
-    String msg = "The  ListOfIndices  associated with an SBase object must not have multiple Index"+
+    String msg = "The ListOfDimensions associated with an SBase object must not have multiple Dimension"+
                  "objects with the same arrays:arrayDimension attribute. (Reference: SBML Level 3 Package"+ 
                  "Specification for Arrays, Version 1, Section 3.3 on page 6.)";
    
@@ -126,14 +128,14 @@ public class IndexArrayDimCheck implements ArraysConstraint {
    * @param shortMsg
    */
   private void logArrayDimensionMissing(String shortMsg) {
-    int code = 20110, severity = 2, category = 0, line = -1, column = -1;
+    int code = 20103, severity = 2, category = 0, line = -1, column = -1;
 
     String pkg = "arrays";
-    String msg = "The ListOfIndices associated with an SBase object must have a Index object"+
-                 "with arrays:arrayDimension attribute set to 0 before adding a Index object with"+
-                 "arrays:arrayDimension attribute set to 1. Similarly, the ListOfIndices in an SBase"+
-                 "object must have Index objects, where one of them has arrays:arrayDimension attribute"+
-                 "set to 0 and the other set to 1 before adding a Index object with arrays:arrayDimension"+
+    String msg = "The ListOfDimensions associated with an SBase object must have a Dimension object"+
+                 "with arrays:arrayDimension attribute set to 0 before adding a Dimension object with"+
+                 "arrays:arrayDimension attribute set to 1. Similarly, the ListOfDimensions in an SBase"+
+                 "object must have Dimension objects, where one of them has arrays:arrayDimension attribute"+
+                 "set to 0 and the other set to 1 before adding a Dimension object with arrays:arrayDimension"+
                  "attribute set to 2. (Reference: SBML Level 3 Package Specification for Arrays, Version 1,"+
                  "Section 3.3 on page 6.)";
    
@@ -177,5 +179,5 @@ public class IndexArrayDimCheck implements ArraysConstraint {
   public List<SBMLError> getListOfErrors() {
     return listOfErrors;
   }
-  
 }
+

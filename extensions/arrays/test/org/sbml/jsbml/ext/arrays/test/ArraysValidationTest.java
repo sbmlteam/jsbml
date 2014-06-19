@@ -35,8 +35,8 @@ import org.sbml.jsbml.Species;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
+import org.sbml.jsbml.ext.arrays.ArraysValidator;
 import org.sbml.jsbml.ext.arrays.Dimension;
-import org.sbml.jsbml.ext.arrays.validator.ArraysValidator;
 import org.sbml.jsbml.text.parser.ParseException;
 
 

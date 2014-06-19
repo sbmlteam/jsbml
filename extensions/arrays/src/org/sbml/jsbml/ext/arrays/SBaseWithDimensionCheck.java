@@ -20,7 +20,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>. 
  * ---------------------------------------------------------------------------- 
  */
-package org.sbml.jsbml.ext.arrays.constraints;
+package org.sbml.jsbml.ext.arrays;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +28,6 @@ import java.util.List;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.ext.arrays.ArraysConstants;
-import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.util.Message;
 
 
