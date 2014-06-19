@@ -22,7 +22,10 @@
  */
 package org.sbml.jsbml.math;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
 /**
@@ -37,6 +40,11 @@ import org.sbml.jsbml.MathContainer;
  */
 // TODO: Should this class be abstract?
 public class ASTCnNumberNode extends ASTNumber {
+
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final Logger logger = Logger.getLogger(ASTCnNumberNode.class);
 
   /**
    * Numerical base for MathML element
@@ -54,16 +62,20 @@ public class ASTCnNumberNode extends ASTNumber {
    */
   public ASTCnNumberNode() {
     super();
+    base = null;
+    setUnits(null);
   }
 
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTCnNumberNode}.
    * 
-   * @param cnNumberNode
+   * @param node
    *            the {@link ASTCnNumberNode} to be copied.
    */
-  public ASTCnNumberNode(ASTCnNumberNode cnNumberNode) {
-    super(cnNumberNode);
+  public ASTCnNumberNode(ASTCnNumberNode node) {
+    super(node);
+    setBase(node.getBase());
+    setUnits(node.getUnits());
   }
 
   /**
@@ -74,7 +86,7 @@ public class ASTCnNumberNode extends ASTNumber {
    */
   public Double getBase() {
     // TODO: return a base type with check to avoid NPE.
-    return base;
+    return isSetBase() ? base : Double.NaN;
   }
 
   /**
@@ -83,7 +95,33 @@ public class ASTCnNumberNode extends ASTNumber {
    * @return String units
    */
   public String getUnits() {
-    return units;
+    if (isSetUnits()) {
+      return units;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("units", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return "";
+  }
+
+  /**
+   * Returns True iff base has been set
+   * 
+   * @return boolean
+   */
+  private boolean isSetBase() {
+    return base != null;
+  }
+
+  /**
+   * Returns True iff units has been set
+   * 
+   * @return boolean
+   */
+  private boolean isSetUnits() {
+    return units != null;
   }
 
   /**
@@ -95,7 +133,9 @@ public class ASTCnNumberNode extends ASTNumber {
    */
   // TODO: work with base types, i.e., double.
   public void setBase(Double base) {
+    double old = this.base;
     this.base = base;
+    firePropertyChange(TreeNodeChangeEvent.base, old, this.base);
   }
 
   /**
@@ -104,7 +144,27 @@ public class ASTCnNumberNode extends ASTNumber {
    * @param String units
    */
   public void setUnits(String units) {
+    String old = this.units;
     this.units = units;
+    firePropertyChange(TreeNodeChangeEvent.units, old, this.units);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ASTCnNumberNode [base=");
+    builder.append(base);
+    builder.append(", units=");
+    builder.append(units);
+    builder.append(", strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append("]");
+    return builder.toString();
   }
 
 }

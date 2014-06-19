@@ -22,6 +22,11 @@
  */
 package org.sbml.jsbml.math;
 
+import org.apache.log4j.Logger;
+import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
+
+
 
 /**
  * An Abstract Syntax Tree (AST) node representing a MathML ci element
@@ -32,8 +37,13 @@ package org.sbml.jsbml.math;
  * @since 1.0
  * @date May 30, 2014
  */
-// TODO: This class requires a common super-interface to share the properties name and definitionURL with ASTCSymbolNode. Use Eclipse function extract interface.
-public class ASTCiNumberNode extends ASTNumber {
+public class ASTCiNumberNode extends ASTNumber implements
+ASTCSymbolBaseNode {
+
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final Logger logger = Logger.getLogger(ASTCiNumberNode.class);
 
   /**
    * definitionURL attribute for MathML element
@@ -46,39 +56,114 @@ public class ASTCiNumberNode extends ASTNumber {
   private String name;
 
   /**
-   * Returns the definitionURL of the MathML element represented by this ASTCiNumberNode
-   * 
-   * @return String definitionURL
+   * Creates a new {@link ASTCiNumberNode}.
    */
+  public ASTCiNumberNode() {
+    super();
+    setDefinitionURL(null);
+    setName(null);
+  }
+
+  /**
+   * Copy constructor; Creates a deep copy of the given {@link ASTCiNumberNode}.
+   * 
+   * @param node
+   *            the {@link ASTCiNumberNode} to be copied.
+   */
+  public ASTCiNumberNode(ASTCiNumberNode node) {
+    super(node);
+    setDefinitionURL(node.getDefinitionURL());
+    setName(node.getName());
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#getDefinitionURL()
+   */
+  @Override
   public String getDefinitionURL() {
-    return definitionURL;
+    if (isSetDefinitionURL()) {
+      return definitionURL;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("definitionURL", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return "";
   }
 
-  /**
-   * Set the definitionURL of the MathML element represented by this ASTCiNumberNode
-   * 
-   * @param String definitionURL
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#getName()
    */
-  public void setDefinitionURL(String definitionURL) {
-    this.definitionURL = definitionURL;
-  }
-
-  /**
-   * Returns the name of the MathML element represented by this ASTCiNumberNode
-   * 
-   * @return String name
-   */
+  @Override
   public String getName() {
-    return name;
+    if (isSetName()) {
+      return name;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("name", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return "";
   }
 
-  /**
-   * Set the name of the MathML element represented by this ASTCiNumberNode
-   * 
-   * @param String name
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetDefinitionURL()
    */
+  @Override
+  public boolean isSetDefinitionURL() {
+    return definitionURL != null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetName()
+   */
+  @Override
+  public boolean isSetName() {
+    return name != null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#setDefinitionURL(java.lang.String)
+   */
+  @Override
+  public void setDefinitionURL(String definitionURL) {
+    String old = this.definitionURL;
+    this.definitionURL = definitionURL;
+    firePropertyChange(TreeNodeChangeEvent.definitionURL, old, definitionURL);
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#setName(java.lang.String)
+   */
+  @Override
   public void setName(String name) {
+    String old = this.name;
     this.name = name;
+    firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ASTCiNumberNode [definitionURL=");
+    builder.append(definitionURL);
+    builder.append(", name=");
+    builder.append(name);
+    builder.append(", strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append("]");
+    return builder.toString();
   }
 
 }

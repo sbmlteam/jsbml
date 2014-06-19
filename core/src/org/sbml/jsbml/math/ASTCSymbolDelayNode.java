@@ -22,6 +22,11 @@
  */
 package org.sbml.jsbml.math;
 
+import org.apache.log4j.Logger;
+import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
+
+
 
 /**
  * An Abstract Syntax Tree (AST) node representing the delay function
@@ -33,6 +38,11 @@ package org.sbml.jsbml.math;
  */
 public class ASTCSymbolDelayNode extends ASTBinaryFunctionNode implements
 ASTCSymbolNode {
+
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final Logger logger = Logger.getLogger(ASTCSymbolDelayNode.class);
 
   /**
    * name attribute for MathML element
@@ -54,12 +64,43 @@ ASTCSymbolNode {
    */
   public static final transient String URI_DELAY_DEFINITION = "http://www.sbml.org/sbml/symbols/delay";
 
+  /**
+   * Creates a new {@link ASTCSymbolDelayNode}.
+   */
+  public ASTCSymbolDelayNode() {
+    super();
+    setName(null);
+    setDefinitionURL(null);
+    setEncodingURL(null);
+  }
+
+  /**
+   * Copy constructor; Creates a deep copy of the given {@link ASTCSymbolDelayNode}.
+   * 
+   * @param astFunction
+   *            the {@link ASTCSymbolDelayNode} to be copied.
+   */
+  public ASTCSymbolDelayNode(ASTCSymbolDelayNode node) {
+    super(node);
+    setName(node.getName());
+    setDefinitionURL(node.getDefinitionURL());
+    setEncodingURL(node.getEncodingURL());
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#getDefinitionURL()
    */
   @Override
   public String getDefinitionURL() {
-    return definitionURL;
+    if (isSetDefinitionURL()) {
+      return definitionURL;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("definitionURL", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return "";
   }
 
   /* (non-Javadoc)
@@ -67,7 +108,15 @@ ASTCSymbolNode {
    */
   @Override
   public String getEncodingURL() {
-    return encodingURL;
+    if (isSetEncodingURL()) {
+      return encodingURL;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("encodingURL", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return "";
   }
 
   /* (non-Javadoc)
@@ -75,7 +124,42 @@ ASTCSymbolNode {
    */
   @Override
   public String getName() {
-    return name;
+    if (isSetName()) {
+      return name;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("name", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return "";
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetDefinitionURL()
+   */
+  @Override
+  public boolean isSetDefinitionURL() {
+    return definitionURL != null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolNode#isSetEncodingURL()
+   */
+  @Override
+  public boolean isSetEncodingURL() {
+    return encodingURL != null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetName()
+   */
+  @Override
+  public boolean isSetName() {
+    return name != null;
   }
 
   /* (non-Javadoc)
@@ -83,16 +167,19 @@ ASTCSymbolNode {
    */
   @Override
   public void setDefinitionURL(String definitionURL) {
+    String old = this.definitionURL;
     this.definitionURL = definitionURL;
+    firePropertyChange(TreeNodeChangeEvent.definitionURL, old, encodingURL);
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#setEncodingURL(java.lang.String)
    */
   @Override
   public void setEncodingURL(String encodingURL) {
+    String old = this.encodingURL;
     this.encodingURL = encodingURL;
+    firePropertyChange(TreeNodeChangeEvent.encoding, old, this.encodingURL);
   }
 
   /* (non-Javadoc)
@@ -100,7 +187,30 @@ ASTCSymbolNode {
    */
   @Override
   public void setName(String name) {
+    // TODO: As in all set methods we will have to do more: listeners need to be notified about the change (this applies to all other classes and set methods in this package as well). Hence, we should also create an abstract version of ASTCSymbolNode in order to avoid too much code duplication. We will have to copy the code to ASTCiNumberNode because we don't have multiple inheritance, but we should have at least one abstract super class for the remaining types.
+    String old = this.name;
     this.name = name;
+    firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ASTCSymbolDelayNode [name=");
+    builder.append(name);
+    builder.append(", definitionURL=");
+    builder.append(definitionURL);
+    builder.append(", encodingURL=");
+    builder.append(encodingURL);
+    builder.append(", strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append("]");
+    return builder.toString();
   }
 
 }

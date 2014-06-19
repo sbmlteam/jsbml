@@ -24,9 +24,11 @@ package org.sbml.jsbml.math;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
+import org.sbml.jsbml.util.compilers.AbstractASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
@@ -52,11 +54,11 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    * Compiles this {@link ASTNode2} and returns the result.
    * 
    * @param compiler
-   *            An instance of an {@link ASTNode2Compiler} that provides
+   *            An instance of an {@link AbstractASTNodeCompiler} that provides
    *            methods to translate this {@link ASTNode2} into something
    *            different.
    * @return Some value wrapped in an {@link ASTNodeValue}. The content of the
-   *         wrapper depends on the {@link ASTNode2Compiler} used to create it.
+   *         wrapper depends on the {@link AbstractASTNodeCompiler} used to create it.
    *         However, this {@link ASTNode2} will ensure that level and version
    *         are set appropriately according to this node's parent SBML
    *         object.
@@ -64,7 +66,14 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    *             Thrown if an error occurs during the compilation process.
    * 
    */
-  public ASTNodeValue compile(ASTNode2Compiler compiler); // TODO: ASTNode2Compiler is missing -> Compile error!
+  public ASTNodeValue compile(AbstractASTNodeCompiler compiler); // TODO: ASTNode2Compiler is missing -> Compile error!
+
+  /**
+   * Sets the parentSBMLObject to container recursively
+   * 
+   * @return MathContainer container
+   */
+  public MathContainer getParentSBMLObject();
 
   /**
    * Returns the type of this ASTNode2.
@@ -137,6 +146,9 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    * @return the representation of this node in MathML.
    */
   public String toMathML();
+
+  @Override
+  public String toString();
 
   /**
    * Unsets the parentSBMLObject to null recursively.

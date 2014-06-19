@@ -33,4 +33,36 @@ package org.sbml.jsbml.math;
  * @date May 30, 2014
  */
 public class ASTRelationNode extends ASTFunction {
+
+  /**
+   * Creates a new {@link ASTRelationNode}.
+   */
+  public ASTRelationNode() {
+    super();
+  }
+
+  /**
+   * Copy constructor; Creates a deep copy of the given {@link ASTRelationNode}.
+   * 
+   * @param node
+   *            the {@link ASTRelationNode} to be copied.
+   */
+  public ASTRelationNode(ASTRelationNode node) {
+    super(node);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ASTRelationNode [strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append("]");
+    return builder.toString();
+  }
+
 }

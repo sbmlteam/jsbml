@@ -32,55 +32,29 @@ package org.sbml.jsbml.math;
  * @since 1.0
  * @date May 30, 2014
  */
-// TODO: We need one further super-interface between this class and ASTNode2, because ASTCiNumberNode also has a name and definitionURL and should hence be compatible with the other types that have these properties.
-public interface ASTCSymbolNode extends ASTNode2 {
-
-  /**
-   * Returns the definitionURL of the MathML element represented by
-   * this ASTCSymbolNode
-   * 
-   * @return String definitionURL
-   */
-  public String getDefinitionURL();
+public interface ASTCSymbolNode extends ASTCSymbolBaseNode {
 
   /**
    * Returns the encodingURL of the MathML element represented by
-   * this ASTCSymbolNode
+   * this {@link ASTCSymbolNode}
    * 
    * @return String encodingURL
    */
   public String getEncodingURL();
 
   /**
-   * Returns the name of the MathML element represented by
-   * this ASTCSymbolNode
+   * Returns True iff encodingURL has been set
    * 
-   * @return String name
+   * @return boolean
    */
-  public String getName();
+  public boolean isSetEncodingURL();
 
   /**
    * Set the encodingURL of the MathML element represented by
-   * this ASTCSymbolNode
+   * this {@link ASTCSymbolNode}
    * 
-   * @return String encodingURL
-   */
-  public void setDefinitionURL(String definitionURL);
-
-  /**
-   * Set the encodingURL of the MathML element represented by
-   * this ASTCSymbolNode
-   * 
-   * @return String encodingURL
+   * @param String encodingURL
    */
   public void setEncodingURL(String encodingURL);
-
-  /**
-   * Set the name of the MathML element represented by
-   * this ASTCSymbolNode
-   * 
-   * @return String encodingURL
-   */
-  public void setName(String name);
 
 }

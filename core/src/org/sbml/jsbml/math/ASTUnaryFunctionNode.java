@@ -23,6 +23,7 @@
 package org.sbml.jsbml.math;
 
 
+
 /**
  * An Abstract Syntax Tree (AST) node representing a function with only one
  * parameter
@@ -35,9 +36,26 @@ package org.sbml.jsbml.math;
 public class ASTUnaryFunctionNode extends ASTFunction {
 
   /**
+   * Creates a new {@link ASTUnaryFunctionNode}.
+   */
+  public ASTUnaryFunctionNode() {
+    super();
+  }
+
+  /**
+   * Copy constructor; Creates a deep copy of the given {@link ASTUnaryFunctionNode}.
+   * 
+   * @param node
+   *            the {@link ASTUnaryFunctionNode} to be copied.
+   */
+  public ASTUnaryFunctionNode(ASTUnaryFunctionNode node) {
+    super(node);
+  }
+
+  /**
    * Get the child of this node
    * 
-   * @return ASTNode2 child
+   * @return {@link ASTNode2} child
    */
   public ASTNode2 getChild() {
     return getChildAt(0);
@@ -46,11 +64,24 @@ public class ASTUnaryFunctionNode extends ASTFunction {
   /**
    * Set the child of this node
    * 
-   * @param ASTNode2 child
+   * @param {@link ASTNode2} child
    */
   public void setChild(ASTNode2 child) {
-    // TODO: Should we better replace the zeroth child with the given element?
-    insertChild(0, child);
+    replaceChild(0, child);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ASTUnaryFunctionNode [strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append("]");
+    return builder.toString();
   }
 
 }

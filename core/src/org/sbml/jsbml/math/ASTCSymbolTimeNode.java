@@ -22,6 +22,11 @@
  */
 package org.sbml.jsbml.math;
 
+import org.apache.log4j.Logger;
+import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
+
+
 
 /**
  * An Abstract Syntax Tree (AST) node representing time
@@ -35,6 +40,11 @@ public class ASTCSymbolTimeNode extends ASTCiNumberNode implements
 ASTCSymbolNode {
 
   /**
+   * A {@link Logger} for this class.
+   */
+  private static final Logger logger = Logger.getLogger(ASTCSymbolTimeNode.class);
+
+  /**
    * The encodingURL of this csymbol element
    */
   private String encodingURL;
@@ -42,14 +52,42 @@ ASTCSymbolNode {
   /**
    * The URI for the definition of the csymbol for time.
    */
-  public static final transient String URI_TIME_DEFINITION = "http://www.sbml.org/sbml/symbols/time";
+  public static final transient String URI_TIME_DEFINITION =
+      "http://www.sbml.org/sbml/symbols/time";
+
+  /**
+   * Creates a new {@link ASTCSymbolTimeNode}.
+   */
+  public ASTCSymbolTimeNode() {
+    super();
+    setEncodingURL(null);
+  }
+
+  /**
+   * Copy constructor; Creates a deep copy of the given {@link ASTCSymbolTimeNode}.
+   * 
+   * @param node
+   *            the {@link ASTCSymbolTimeNode} to be copied.
+   */
+  public ASTCSymbolTimeNode(ASTCSymbolTimeNode node) {
+    super(node);
+    setEncodingURL(node.getEncodingURL());
+  }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTCiNumberNode#getDefinitionURL()
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#getDefinitionURL()
    */
   @Override
   public String getDefinitionURL() {
-    return definitionURL;
+    if (isSetDefinitionURL()) {
+      return definitionURL;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("definitionURL", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return "";
   }
 
   /* (non-Javadoc)
@@ -57,15 +95,44 @@ ASTCSymbolNode {
    */
   @Override
   public String getEncodingURL() {
-    return encodingURL;
+    if (isSetEncodingURL()) {
+      return encodingURL;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("encodingURL", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return "";
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetDefinitionURL()
+   */
+  @Override
+  public boolean isSetDefinitionURL() {
+    return definitionURL != null;
+  }
+
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolNode#isSetEncodingURL()
+   */
+  @Override
+  public boolean isSetEncodingURL() {
+    return encodingURL != null;
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTCiNumberNode#setDefinitionURL(java.lang.String)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#setDefinitionURL(java.lang.String)
    */
   @Override
   public void setDefinitionURL(String definitionURL) {
+    String old = this.definitionURL;
     this.definitionURL = definitionURL;
+    firePropertyChange(TreeNodeChangeEvent.definitionURL, old, definitionURL);
   }
 
   /* (non-Javadoc)
@@ -73,7 +140,27 @@ ASTCSymbolNode {
    */
   @Override
   public void setEncodingURL(String encodingURL) {
+    String old = this.encodingURL;
     this.encodingURL = encodingURL;
+    firePropertyChange(TreeNodeChangeEvent.encoding, old, this.encodingURL);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ASTCSymbolTimeNode [encodingURL=");
+    builder.append(encodingURL);
+    builder.append(", definitionURL=");
+    builder.append(definitionURL);
+    builder.append(", strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append("]");
+    return builder.toString();
   }
 
 }

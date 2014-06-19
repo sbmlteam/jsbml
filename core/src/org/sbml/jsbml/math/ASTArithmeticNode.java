@@ -36,10 +36,20 @@ package org.sbml.jsbml.math;
 public class ASTArithmeticNode extends ASTFunction {
 
   /**
-   * @param astArithmeticNode
+   * Creates a new {@link ASTArithmeticNode}.
    */
-  public ASTArithmeticNode(ASTArithmeticNode astArithmeticNode) {
-    super(astArithmeticNode);
+  public ASTArithmeticNode() {
+    super();
+  }
+
+  /**
+   * Copy constructor; Creates a deep copy of the given {@link ASTArithmeticNode}.
+   * 
+   * @param node
+   *            the {@link ASTArithmeticNode} to be copied.
+   */
+  public ASTArithmeticNode(ASTArithmeticNode node) {
+    super(node);
   }
 
   /* (non-Javadoc)
@@ -48,6 +58,20 @@ public class ASTArithmeticNode extends ASTFunction {
   @Override
   public ASTArithmeticNode clone() {
     return new ASTArithmeticNode(this);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ASTArithmeticNode [strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append("]");
+    return builder.toString();
   }
 
 }
