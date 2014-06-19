@@ -25,6 +25,7 @@ package org.sbml.jsbml.math;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
 /**
@@ -59,17 +60,21 @@ public class ASTCnExponentialNode extends ASTCnNumberNode {
    */
   public ASTCnExponentialNode() {
     super();
+    exponent = null;
+    mantissa = null;
   }
 
   /**
    * Copy constructor; Creates a deep copy of the given
    * {@link ASTCnExponentialNode}.
    * 
-   * @param cnExponentialNode
+   * @param node
    *            the {@link ASTCnExponentialNode} to be copied.
    */
-  public ASTCnExponentialNode (ASTCnExponentialNode cnExponentialNode) {
-    super(cnExponentialNode);
+  public ASTCnExponentialNode (ASTCnExponentialNode node) {
+    super(node);
+    setExponent(node.getExponent());
+    setMantissa(node.getMantissa());
   }
 
   /**
@@ -125,7 +130,9 @@ public class ASTCnExponentialNode extends ASTCnNumberNode {
    * @param int exponent
    */
   public void setExponent(int exponent) {
+    Integer old = this.exponent;
     this.exponent = exponent;
+    firePropertyChange(TreeNodeChangeEvent.exponent, old, this.exponent);
   }
 
   /**
@@ -134,7 +141,27 @@ public class ASTCnExponentialNode extends ASTCnNumberNode {
    * @param double mantissa
    */
   public void setMantissa(double mantissa) {
+    Double old = this.mantissa;
     this.mantissa = mantissa;
+    firePropertyChange(TreeNodeChangeEvent.mantissa, old, this.mantissa);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ASTCnExponentialNode [exponent=");
+    builder.append(exponent);
+    builder.append(", mantissa=");
+    builder.append(mantissa);
+    builder.append(", strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append("]");
+    return builder.toString();
   }
 
 }

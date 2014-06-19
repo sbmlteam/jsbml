@@ -46,8 +46,9 @@ public class ASTNumber extends AbstractASTNode {
    */
   public ASTNumber() {
     super();
-    parentSBMLObject = null;
-    initDefaults();
+    setParentSBMLObject(null);
+    ASTNumber old = this;
+    firePropertyChange(TreeNodeChangeEvent.initialValue, old, this);
   }
 
   /**
@@ -58,8 +59,9 @@ public class ASTNumber extends AbstractASTNode {
    */
   public ASTNumber(ASTNumber astNumber) {
     super();
-    parentSBMLObject = null;
-    initDefaults();
+    setParentSBMLObject(null);
+    ASTNumber old = this;
+    firePropertyChange(TreeNodeChangeEvent.initialValue, old, this);
   }
 
   /* (non-Javadoc)
@@ -84,8 +86,7 @@ public class ASTNumber extends AbstractASTNode {
    */
   @Override
   public ASTNumber getChildAt(int childIndex) {
-    // TODO: Always throw IndexOutOfBoundsException.
-    return null;
+    throw new IndexOutOfBoundsException();
   }
 
   /* (non-Javadoc)
@@ -96,12 +97,18 @@ public class ASTNumber extends AbstractASTNode {
     return 0;
   }
 
-  /**
-   * Initializes the default values/attributes of the node.
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
    */
-  private void initDefaults() {
-    ASTNumber old = this;
-    firePropertyChange(TreeNodeChangeEvent.initialValue, old, this);
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ASTNumber [strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append("]");
+    return builder.toString();
   }
 
 }

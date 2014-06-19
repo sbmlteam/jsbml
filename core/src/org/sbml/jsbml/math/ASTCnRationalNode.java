@@ -22,8 +22,10 @@
  */
 package org.sbml.jsbml.math;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
 /**
@@ -36,6 +38,11 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @date May 30, 2014
  */
 public class ASTCnRationalNode extends ASTCnNumberNode {
+
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final Logger logger = Logger.getLogger(ASTCnRationalNode.class);
 
   /**
    * The numerator of this rational number
@@ -53,17 +60,20 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
    */
   public ASTCnRationalNode() {
     super();
+    numerator = null;
+    denominator = null;
   }
 
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTCnRationalNode}.
    * 
-   * @param cnRationalNode
+   * @param node
    *            the {@link ASTCnRationalNode} to be copied.
    */
-  public ASTCnRationalNode(ASTCnRationalNode cnRationalNode) {
-    // TODO: Forward argument to super-clone constructor. Do this in all other classes as well.
-    super();
+  public ASTCnRationalNode(ASTCnRationalNode node) {
+    super(node);
+    setNumerator(node.getNumerator());
+    setDenominator(node.getDenominator());
   }
 
   /**
@@ -75,9 +85,12 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
     if (isSetDenominator()) {
       return denominator;
     }
-    // TODO: try to log the error if not strict (see ASTCnExponentialNode).
     PropertyUndefinedError error = new PropertyUndefinedError("denominator", this);
-    throw error;
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return 0;
   }
 
   /**
@@ -89,9 +102,12 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
     if (isSetNumerator()) {
       return numerator;
     }
-    // TODO: try to log the error if not strict (see ASTCnExponentialNode).
     PropertyUndefinedError error = new PropertyUndefinedError("numerator", this);
-    throw error;
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return 0;
   }
 
   /**
@@ -120,7 +136,9 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
    * @param int denominator
    */
   public void setDenominator(int denominator) {
+    Integer old = this.denominator;
     this.denominator = denominator;
+    firePropertyChange(TreeNodeChangeEvent.denominator, old, this.denominator);
   }
 
   /**
@@ -129,7 +147,27 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
    * @param int numerator
    */
   public void setNumerator(int numerator) {
+    Integer old = this.numerator;
     this.numerator = numerator;
+    firePropertyChange(TreeNodeChangeEvent.numerator, old, this.numerator);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ASTCnRationalNode [numerator=");
+    builder.append(numerator);
+    builder.append(", denominator=");
+    builder.append(denominator);
+    builder.append(", strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append("]");
+    return builder.toString();
   }
 
 }

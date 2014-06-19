@@ -22,7 +22,9 @@
  */
 package org.sbml.jsbml.math;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
 /**
@@ -37,6 +39,11 @@ import org.sbml.jsbml.PropertyUndefinedError;
 public class ASTPiecewiseFunctionNode extends ASTFunction {
 
   /**
+   * A {@link Logger} for this class.
+   */
+  private static final Logger logger = Logger.getLogger(ASTPiecewiseFunctionNode.class);
+
+  /**
    * The number of piece elements associated with this MathML
    * piecewise element
    */
@@ -48,7 +55,28 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
   private boolean hasOtherwise;
 
   /**
-   * Get the number of piece elements in this piecewise element
+   * Creates a new {@link ASTPiecewiseFunctionNode}.
+   */
+  public ASTPiecewiseFunctionNode() {
+    super();
+    hasOtherwise = false;
+    numPiece = null;
+  }
+
+  /**
+   * Copy constructor; Creates a deep copy of the given {@link ASTPiecewiseFunctionNode}.
+   * 
+   * @param node
+   *            the {@link ASTPiecewiseFunctionNode} to be copied.
+   */
+  public ASTPiecewiseFunctionNode(ASTPiecewiseFunctionNode node) {
+    super(node);
+    hasOtherwise = node.hasOtherwise();
+    setNumPiece(node.getNumPiece());
+  }
+
+  /**
+   * Get the number of piece elements in this {@link ASTPiecewiseFunctionNode}
    * 
    * @return Integer numPiece
    */
@@ -57,26 +85,11 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
       return numPiece;
     }
     PropertyUndefinedError error = new PropertyUndefinedError("piecewise", this);
-    throw error;
-    // TODO: Check strictness.
-  }
-
-  /**
-   * Returns true iff numPiece has been set
-   * @param null
-   * @return boolean
-   */
-  private boolean isSetNumpiece() {
-    return numPiece != null;
-  }
-
-  /**
-   * Set the number of piece elements in this piecewise element
-   * 
-   * @param Integer numPiece
-   */
-  protected void setNumPiece(int numPiece) {
-    this.numPiece = numPiece;
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return 0;
   }
 
   /**
@@ -87,4 +100,43 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
   public boolean hasOtherwise() {
     return hasOtherwise;
   }
+
+  /**
+   * Returns true iff numPiece has been set
+   * 
+   * @return boolean
+   */
+  private boolean isSetNumpiece() {
+    return numPiece != null;
+  }
+
+  /**
+   * Set the number of piece elements in this {@link ASTPiecewiseFunctionNode}
+   * 
+   * @param Integer numPiece
+   */
+  protected void setNumPiece(int numPiece) {
+    Integer old = this.numPiece;
+    this.numPiece = numPiece;
+    firePropertyChange(TreeNodeChangeEvent.numPiece, old, this.numPiece);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ASTPiecewiseFunctionNode [numPiece=");
+    builder.append(numPiece);
+    builder.append(", hasOtherwise=");
+    builder.append(hasOtherwise);
+    builder.append(", strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append("]");
+    return builder.toString();
+  }
+
 }

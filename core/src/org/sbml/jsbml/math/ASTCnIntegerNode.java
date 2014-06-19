@@ -22,8 +22,10 @@
  */
 package org.sbml.jsbml.math;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
 /**
@@ -38,6 +40,11 @@ import org.sbml.jsbml.PropertyUndefinedError;
 public class ASTCnIntegerNode extends ASTCnNumberNode {
 
   /**
+   * A {@link Logger} for this class.
+   */
+  private static final Logger logger = Logger.getLogger(ASTCnIntegerNode.class);
+
+  /**
    * The value of this node
    */
   private Integer value;
@@ -48,16 +55,18 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
    */
   public ASTCnIntegerNode() {
     super();
+    value = null;
   }
 
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTCnIntegerNode}.
    * 
-   * @param cnIntegerNode
+   * @param node
    *            the {@link ASTCnIntegerNode} to be copied.
    */
-  public ASTCnIntegerNode(ASTCnIntegerNode cnIntegerNode) {
-    super(cnIntegerNode);
+  public ASTCnIntegerNode(ASTCnIntegerNode node) {
+    super(node);
+    setValue(node.getValue());
   }
 
   /**
@@ -69,9 +78,12 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
     if (isSetValue()) {
       return value;
     }
-    // TODO: try to log the error if not strict (see ASTCnExponentialNode).
     PropertyUndefinedError error = new PropertyUndefinedError("integer", this);
-    throw error;
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return 0;
   }
 
   /**
@@ -80,7 +92,9 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
    * @param Integer value
    */
   public void setValue(int value) {
+    Integer old = this.value;
     this.value = value;
+    firePropertyChange(TreeNodeChangeEvent.value, old, this.value);
   }
 
   /**
@@ -91,6 +105,22 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
    */
   public boolean isSetValue() {
     return value != null;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ASTCnIntegerNode [value=");
+    builder.append(value);
+    builder.append(", strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append("]");
+    return builder.toString();
   }
 
 }

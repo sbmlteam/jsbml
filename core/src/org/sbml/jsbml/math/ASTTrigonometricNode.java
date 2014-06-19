@@ -32,4 +32,36 @@ package org.sbml.jsbml.math;
  * @date May 30, 2014
  */
 public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
+
+  /**
+   * Creates a new {@link ASTTrigonometricNode}.
+   */
+  public ASTTrigonometricNode() {
+    super();
+  }
+
+  /**
+   * Copy constructor; Creates a deep copy of the given {@link ASTTrigonometricNode}.
+   * 
+   * @param node
+   *            the {@link ASTTrigonometricNode} to be copied.
+   */
+  public ASTTrigonometricNode(ASTTrigonometricNode node) {
+    super(node);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ASTTrigonometricNode [strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append("]");
+    return builder.toString();
+  }
+
 }

@@ -23,46 +23,62 @@
 package org.sbml.jsbml.math;
 
 
-
 /**
- * An Abstract Syntax Tree (AST) node representing a hyperbolic function
+ * An Abstract Syntax Tree (AST) node representing a MathML element
+ * that contains a definitionURL and name attribute.
  * 
  * @author Victor Kofia
  * @version $Rev$
  * @since 1.0
- * @date May 30, 2014
+ * @date Jun 18, 2014
  */
-public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
+public interface ASTCSymbolBaseNode extends ASTNode2 {
 
   /**
-   * Creates a new {@link ASTHyperbolicNode}.
-   */
-  public ASTHyperbolicNode() {
-    super();
-  }
-
-  /**
-   * Copy constructor; Creates a deep copy of the given {@link ASTHyperbolicNode}.
+   * Returns the definitionURL of the MathML element represented by
+   * this {@link ASTCSymbolBaseNode}
    * 
-   * @param node
-   *            the {@link ASTHyperbolicNode} to be copied.
+   * @return String definitionURL
    */
-  public ASTHyperbolicNode(ASTHyperbolicNode node) {
-    super(node);
-  }
+  public String getDefinitionURL();
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
+
+  /**
+   * Returns the name of the MathML element represented by
+   * this {@link ASTCSymbolBaseNode}
+   * 
+   * @return String name
    */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("ASTHyperbolicNode [strict=");
-    builder.append(strict);
-    builder.append(", type=");
-    builder.append(type);
-    builder.append("]");
-    return builder.toString();
-  }
+  public String getName();
+
+  /**
+   * Returns True iff definitionURL has been set
+   * 
+   * @return boolean
+   */
+  public boolean isSetDefinitionURL();
+
+  /**
+   * Returns True iff name has been set
+   * 
+   * @return boolean
+   */
+  public boolean isSetName();
+
+  /**
+   * Set the encodingURL of the MathML element represented by
+   * this {@link ASTCSymbolBaseNode}
+   * 
+   * @param String definitionURL
+   */
+  public void setDefinitionURL(String definitionURL);
+
+  /**
+   * Set the name of the MathML element represented by
+   * this {@link ASTCSymbolBaseNode}
+   * 
+   * @param String name
+   */
+  public void setName(String name);
 
 }

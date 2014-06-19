@@ -23,6 +23,7 @@
 package org.sbml.jsbml.math;
 
 
+
 /**
  * An Abstract Syntax Tree (AST) node representing a function with two
  * parameters
@@ -35,9 +36,28 @@ package org.sbml.jsbml.math;
 public class ASTBinaryFunctionNode extends ASTFunction {
 
   /**
+   * Creates a new {@link ASTBinaryFunctionNode}.
+   */
+  public ASTBinaryFunctionNode() {
+    super();
+  }
+
+  /**
+   * Copy constructor; Creates a deep copy of the given {@link ASTBinaryFunctionNode}.
+   * 
+   * @param node
+   *            the {@link ASTBinaryFunctionNode} to be copied.
+   */
+  public ASTBinaryFunctionNode(ASTBinaryFunctionNode node) {
+    super(node);
+    setLeftChild(node.getLeftChild());
+    setRightChild(node.getRightChild());
+  }
+
+  /**
    * Get the left child of this node
    * 
-   * @return ASTNode2 leftChild
+   * @return {@link ASTNode2} leftChild
    */
   public ASTNode2 getLeftChild() {
     return getChildAt(0);
@@ -46,16 +66,16 @@ public class ASTBinaryFunctionNode extends ASTFunction {
   /**
    * Set the left child of this node
    * 
-   * @param ASTNode2 leftChild
+   * @param {@link ASTNode2} leftChild
    */
   public void setLeftChild(ASTNode2 leftChild) {
-    insertChild(0, leftChild);
+    replaceChild(0, leftChild);
   }
 
   /**
    * Get the right child of this node
    * 
-   * @return ASTNode2 rightChild
+   * @return {@link ASTNode2} rightChild
    */
   public ASTNode2 getRightChild() {
     return getChildAt(getChildCount() - 1);
@@ -64,10 +84,23 @@ public class ASTBinaryFunctionNode extends ASTFunction {
   /**
    * Set the right child of this node
    * 
-   * @param ASTNode2 rightChild
+   * @param {@link ASTNode2} rightChild
    */
   public void setRightChild(ASTNode2 rightChild) {
-    // TODO: This would be just like adding a child. But what needs to be done here is a replacement of the right-most child by the given element.
-    insertChild(getChildCount() - 1, rightChild);
+    replaceChild(getChildCount() - 1, rightChild);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ASTBinaryFunctionNode [strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append("]");
+    return builder.toString();
   }
 }

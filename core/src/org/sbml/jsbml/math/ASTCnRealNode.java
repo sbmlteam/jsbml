@@ -23,6 +23,7 @@
 package org.sbml.jsbml.math;
 
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
 /**
@@ -47,16 +48,18 @@ public class ASTCnRealNode extends ASTCnNumberNode {
    */
   public ASTCnRealNode() {
     super();
+    value = null;
   }
 
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTCnRealNode}.
    * 
-   * @param cnRealNode
+   * @param node
    *            the {@link ASTCnRealNode} to be copied.
    */
-  public ASTCnRealNode(ASTCnRealNode cnRealNode) {
-    super();
+  public ASTCnRealNode(ASTCnRealNode node) {
+    super(node);
+    setValue(node.getValue());
   }
 
   /**
@@ -83,7 +86,25 @@ public class ASTCnRealNode extends ASTCnNumberNode {
    * @param double value
    */
   public void setValue(double value) {
+    Double old = this.value;
     this.value = value;
+    firePropertyChange(TreeNodeChangeEvent.value, old, this.value);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ASTCnRealNode [value=");
+    builder.append(value);
+    builder.append(", strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append("]");
+    return builder.toString();
   }
 
 }

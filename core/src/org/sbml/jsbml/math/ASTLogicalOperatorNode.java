@@ -33,4 +33,36 @@ package org.sbml.jsbml.math;
  * @date May 30, 2014
  */
 public class ASTLogicalOperatorNode extends ASTFunction {
+
+  /**
+   * Creates a new {@link ASTLogicalOperatorNode}.
+   */
+  public ASTLogicalOperatorNode() {
+    super();
+  }
+
+  /**
+   * Copy constructor; Creates a deep copy of the given {@link ASTLogicalOperatorNode}.
+   * 
+   * @param node
+   *            the {@link ASTLogicalOperatorNode} to be copied.
+   */
+  public ASTLogicalOperatorNode(ASTLogicalOperatorNode node) {
+    super(node);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ASTLogicalOperatorNode [strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append("]");
+    return builder.toString();
+  }
+
 }

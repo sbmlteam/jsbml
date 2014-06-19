@@ -22,6 +22,9 @@
  */
 package org.sbml.jsbml.math;
 
+import org.apache.log4j.Logger;
+import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * An Abstract Syntax Tree (AST) node representing a lambda function
@@ -35,10 +38,35 @@ package org.sbml.jsbml.math;
 public class ASTLambdaFunctionNode extends ASTFunction {
 
   /**
+   * A {@link Logger} for this class.
+   */
+  private static final Logger logger = Logger.getLogger(ASTLambdaFunctionNode.class);
+
+
+  /**
    * The number of MathML bvar elements inside this
    * lambda function
    */
   private Integer numBvars;
+
+  /**
+   * Creates a new {@link ASTLambdaFunctionNode}.
+   */
+  public ASTLambdaFunctionNode() {
+    super();
+    numBvars = null;
+  }
+
+  /**
+   * Copy constructor; Creates a deep copy of the given {@link ASTLambdaFunctionNode}.
+   * 
+   * @param node
+   *            the {@link ASTLambdaFunctionNode} to be copied.
+   */
+  public ASTLambdaFunctionNode(ASTLambdaFunctionNode node) {
+    super(node);
+    setNumBvars(node.getNumBvars());
+  }
 
   /**
    * Get the number of bvar elements
@@ -46,8 +74,24 @@ public class ASTLambdaFunctionNode extends ASTFunction {
    * @return Integer numBvars
    */
   public int getNumBvars() {
-    // TODO: avoid NPE, do check for strictness.
-    return numBvars;
+    if (isSetNumBVars()) {
+      return numBvars;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("lambda", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return 0;
+  }
+
+  /**
+   * Returns True iff numBvars is set
+   * 
+   * @return boolean
+   */
+  private boolean isSetNumBVars() {
+    return numBvars != null;
   }
 
   /**
@@ -55,9 +99,26 @@ public class ASTLambdaFunctionNode extends ASTFunction {
    * 
    * @param Integer numBvars
    */
-  public void setNumBvars(int numBvars) {
-    // TODO: notify listeners
+  protected void setNumBvars(int numBvars) {
+    Integer old = this.numBvars;
     this.numBvars = numBvars;
+    firePropertyChange(TreeNodeChangeEvent.numBvars, old, this.numBvars);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ASTLambdaFunctionNode [numBvars=");
+    builder.append(numBvars);
+    builder.append(", strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append("]");
+    return builder.toString();
   }
 
 }

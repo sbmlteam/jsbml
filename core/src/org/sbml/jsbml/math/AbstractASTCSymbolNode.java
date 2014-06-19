@@ -22,63 +22,87 @@
  */
 package org.sbml.jsbml.math;
 
+import javax.swing.tree.TreeNode;
+
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
 /**
- * An Abstract Syntax Tree (AST) node representing a MathML ci element
+ * An Abstract Syntax Tree (AST) node representing a MathML csymbol element
  * in a mathematical expression.
  * 
  * @author Victor Kofia
  * @version $Rev$
  * @since 1.0
- * @date May 30, 2014
+ * @date Jun 18, 2014
  */
-public class ASTCiFunctionNode extends ASTFunction implements
-ASTCSymbolBaseNode {
+public abstract class AbstractASTCSymbolNode extends AbstractASTNode
+implements ASTCSymbolNode {
 
   /**
    * A {@link Logger} for this class.
    */
-  private static final Logger logger = Logger.getLogger(ASTCiFunctionNode.class);
-
-  /**
-   * definitionURL attribute for MathML element
-   */
-  private String definitionURL;
+  private static final Logger logger = Logger.getLogger(AbstractASTCSymbolNode.class);
 
   /**
    * name attribute for MathML element
    */
-  private String name;
+  protected String name;
 
   /**
-   * Creates a new {@link ASTCiFunctionNode}.
+   * definitionURL attribute for MathML element
    */
-  public ASTCiFunctionNode() {
-    super();
-    setDefinitionURL(null);
-    setName(null);
+  protected String definitionURL;
+
+  /**
+   * encodingURL attribute for MathML element
+   */
+  private String encodingURL;
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#clone()
+   */
+  @Override
+  public TreeNode clone() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
-  /**
-   * Copy constructor; Creates a deep copy of the given {@link ASTCiFunctionNode}.
-   * 
-   * @param node
-   *            the {@link ASTCiFunctionNode} to be copied.
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
-  public ASTCiFunctionNode(ASTCiFunctionNode node) {
-    super(node);
-    setDefinitionURL(node.getDefinitionURL());
-    setName(node.getName());
+  @Override
+  public boolean getAllowsChildren() {
+    // TODO Auto-generated method stub
+    return false;
   }
 
-  /**
-   * Returns the definitionURL of the MathML element represented by this ASTCiFunctionNode
-   * 
-   * @return String definitionURL
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#getChildAt(int)
+   */
+  @Override
+  public ASTNode2 getChildAt(int childIndex) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#getDefinitionURL()
    */
   @Override
   public String getDefinitionURL() {
@@ -86,6 +110,22 @@ ASTCSymbolBaseNode {
       return definitionURL;
     }
     PropertyUndefinedError error = new PropertyUndefinedError("definitionURL", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return "";
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolNode#getEncodingURL()
+   */
+  @Override
+  public String getEncodingURL() {
+    if (isSetEncodingURL()) {
+      return encodingURL;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("encodingURL", this);
     if (isStrict()) {
       throw error;
     }
@@ -118,7 +158,17 @@ ASTCSymbolBaseNode {
     return definitionURL != null;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolNode#isSetEncodingURL()
+   */
+  @Override
+  public boolean isSetEncodingURL() {
+    return encodingURL != null;
+  }
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetName()
    */
   @Override
@@ -126,15 +176,24 @@ ASTCSymbolBaseNode {
     return name != null;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#setDefinitionURL(java.lang.String)
    */
   @Override
   public void setDefinitionURL(String definitionURL) {
     String old = this.definitionURL;
     this.definitionURL = definitionURL;
-    firePropertyChange(TreeNodeChangeEvent.definitionURL, old, this.definitionURL);
+    firePropertyChange(TreeNodeChangeEvent.definitionURL, old, encodingURL);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolNode#setEncodingURL(java.lang.String)
+   */
+  @Override
+  public void setEncodingURL(String encodingURL) {
+    String old = this.encodingURL;
+    this.encodingURL = encodingURL;
+    firePropertyChange(TreeNodeChangeEvent.encoding, old, this.encodingURL);
   }
 
   /* (non-Javadoc)
@@ -147,20 +206,5 @@ ASTCSymbolBaseNode {
     firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("ASTCiFunctionNode [definitionURL=");
-    builder.append(definitionURL);
-    builder.append(", strict=");
-    builder.append(strict);
-    builder.append(", type=");
-    builder.append(type);
-    builder.append("]");
-    return builder.toString();
-  }
 
 }

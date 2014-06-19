@@ -22,6 +22,9 @@
  */
 package org.sbml.jsbml.math;
 
+import org.sbml.jsbml.util.TreeNodeChangeEvent;
+
+
 
 /**
  * An Abstract Syntax Tree (AST) node representing a constant number
@@ -38,6 +41,25 @@ public class ASTConstantNumber extends ASTNumber {
    * This variable stores the value of the constant number
    */
   private Double value;
+
+  /**
+   * Creates a new {@link ASTConstantNumber}.
+   */
+  public ASTConstantNumber() {
+    super();
+    value = null;
+  }
+
+  /**
+   * Copy constructor; Creates a deep copy of the given {@link ASTConstantNumber}.
+   * 
+   * @param node
+   *            the {@link ASTConstantNumber} to be copied.
+   */
+  public ASTConstantNumber(ASTConstantNumber node) {
+    super(node);
+    setValue(node.getValue());
+  }
 
   /**
    * Get the value of this ASTConstantNumber
@@ -63,7 +85,25 @@ public class ASTConstantNumber extends ASTNumber {
    * @param Integer value
    */
   public void setValue(double value) {
+    Double old = this.value;
     this.value = value;
+    firePropertyChange(TreeNodeChangeEvent.value, old, this.value);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ASTConstantNumber [value=");
+    builder.append(value);
+    builder.append(", strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append("]");
+    return builder.toString();
   }
 
 }
