@@ -73,7 +73,14 @@ public class ArraysValidator {
     @SuppressWarnings("unchecked")
     Enumeration<TreeNode> children = node.children();
     if(node instanceof SBase) {
-      listOfErrors.addAll(DimensionValidator.validate(model, (SBase) node));
+      listOfErrors.addAll(ExtendedSBaseValidator.validate(model, (SBase) node));
+      if(node instanceof Dimension) {
+        listOfErrors.addAll(DimensionValidator.validate(model, (Dimension) node));
+      }
+      if(node instanceof Index) {
+        listOfErrors.addAll(IndexValidator.validate(model, (Index) node));
+      }
+      
     } 
 
     

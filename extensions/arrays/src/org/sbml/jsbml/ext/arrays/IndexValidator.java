@@ -1,6 +1,6 @@
 /*
- * $Id:  DimensionValidator.java 11:19:57 AM lwatanabe $
- * $URL: DimensionValidator.java $
+ * $Id:  IndexValidator.java 11:11:41 AM lwatanabe $
+ * $URL: IndexValidator.java $
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -35,8 +35,7 @@ import org.sbml.jsbml.SBMLError;
  * @since 1.0
  * @date Jun 19, 2014
  */
-public class DimensionValidator {
-
+public class IndexValidator {
   /**
    * Validates the given SBase object.
    * 
@@ -44,14 +43,14 @@ public class DimensionValidator {
    * @param sbase
    * @return
    */
-  public static List<SBMLError> validate(Model model, Dimension dim) {
+  public static List<SBMLError> validate(Model model, Index index) {
 
     List<ArraysConstraint> listOfConstraints = new ArrayList<ArraysConstraint>();
 
 
     List<SBMLError> listOfErrors = new ArrayList<SBMLError>();
 
-    addConstraints(model,dim, listOfConstraints);
+    addConstraints(model,index, listOfConstraints);
 
     for (ArraysConstraint constraint : listOfConstraints) {
       constraint.check();
@@ -68,14 +67,7 @@ public class DimensionValidator {
    * @param sbase
    * @param listOfConstraints
    */
-  private static void addConstraints(Model model, Dimension dim, List<ArraysConstraint> listOfConstraints) {
+  private static void addConstraints(Model model, Index index, List<ArraysConstraint> listOfConstraints) {
 
-      DimensionSizeCheck dimSizeCheck = new DimensionSizeCheck(model, dim);
-      listOfConstraints.add(dimSizeCheck);
   }
-
-
-
 }
-
-

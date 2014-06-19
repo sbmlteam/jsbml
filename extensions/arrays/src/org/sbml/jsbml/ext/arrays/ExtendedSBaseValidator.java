@@ -1,5 +1,5 @@
 /*
- * $Id:  DimensionValidator.java 11:19:57 AM lwatanabe $
+ * $Id:  DimensionValidator.java 12:16:01 PM lwatanabe $
  * $URL: DimensionValidator.java $
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
@@ -25,17 +25,26 @@ package org.sbml.jsbml.ext.arrays;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sbml.jsbml.Delay;
+import org.sbml.jsbml.FunctionDefinition;
+import org.sbml.jsbml.KineticLaw;
+import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Priority;
 import org.sbml.jsbml.SBMLError;
+import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.Trigger;
+import org.sbml.jsbml.Unit;
+import org.sbml.jsbml.UnitDefinition;
 
 
 /**
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
- * @date Jun 19, 2014
+ * @date Jun 18, 2014
  */
-public class DimensionValidator {
+public class ExtendedSBaseValidator{
 
   /**
    * Validates the given SBase object.
@@ -44,14 +53,14 @@ public class DimensionValidator {
    * @param sbase
    * @return
    */
-  public static List<SBMLError> validate(Model model, Dimension dim) {
+  public static List<SBMLError> validate(Model model, SBase sbase) {
 
     List<ArraysConstraint> listOfConstraints = new ArrayList<ArraysConstraint>();
 
 
     List<SBMLError> listOfErrors = new ArrayList<SBMLError>();
-
-    addConstraints(model,dim, listOfConstraints);
+    
+    addConstraints(model,sbase, listOfConstraints);
 
     for (ArraysConstraint constraint : listOfConstraints) {
       constraint.check();
@@ -68,14 +77,52 @@ public class DimensionValidator {
    * @param sbase
    * @param listOfConstraints
    */
-  private static void addConstraints(Model model, Dimension dim, List<ArraysConstraint> listOfConstraints) {
-
-      DimensionSizeCheck dimSizeCheck = new DimensionSizeCheck(model, dim);
-      listOfConstraints.add(dimSizeCheck);
+  private static void addConstraints(Model model, SBase sbase, List<ArraysConstraint> listOfConstraints) {
+    if(canHaveDimension(sbase)) {      
+      DimensionArrayDimCheck arrayDimCheck = new DimensionArrayDimCheck(model,sbase);
+      listOfConstraints.add(arrayDimCheck);
+    }
+    else {
+      SBaseWithDimensionCheck dimensionCheck = new SBaseWithDimensionCheck(model, sbase);
+      listOfConstraints.add(dimensionCheck);
+    }
   }
-
-
-
+  
+  /**
+   * Checks if this sbase can have a list of dimension
+   * @param sbase
+   * @return
+   */
+  private static boolean canHaveDimension(SBase sbase) {
+    
+    if(sbase instanceof Model) {
+      return false;
+    }
+    if(sbase instanceof FunctionDefinition) {
+      return false;
+    }
+    if(sbase instanceof Unit) {
+      return false;
+    }
+    if(sbase instanceof UnitDefinition) {
+      return false;
+    }
+    if(sbase instanceof KineticLaw) {
+      return false;
+    }
+    if(sbase instanceof Trigger) {
+      return false;
+    }
+    if(sbase instanceof Priority) {
+      return false;
+    }  
+    if(sbase instanceof Delay) {
+      return false;
+    }
+    if(sbase instanceof ListOf) {
+      return false;
+    }
+    return true;
+  }
+  
 }
-
-
