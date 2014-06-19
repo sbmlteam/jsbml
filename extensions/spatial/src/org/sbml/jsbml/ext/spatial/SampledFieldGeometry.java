@@ -61,10 +61,10 @@ public class SampledFieldGeometry extends GeometryDefinition {
   public SampledFieldGeometry(SampledFieldGeometry sampledFieldGeometry) {
     super(sampledFieldGeometry);
     if (isSetSampledField()) {
-      sampledField = sampledFieldGeometry.getSampledField().clone();
+      setSampledField(sampledFieldGeometry.getSampledField().clone());
     }
     if (isSetListOfSampledVolumes()) {
-      listOfSampledVolumes = sampledFieldGeometry.getListOfSampledVolumes().clone();
+      setListOfSampledVolumes(sampledFieldGeometry.getListOfSampledVolumes().clone());
     }
   }
 

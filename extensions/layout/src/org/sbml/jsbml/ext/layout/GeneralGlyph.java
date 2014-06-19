@@ -93,14 +93,14 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
   public GeneralGlyph(GeneralGlyph generalGlyph) {
     super(generalGlyph);
     if (generalGlyph.isSetCurve()) {
-      curve = generalGlyph.getCurve().clone();
+      setCurve(generalGlyph.getCurve().clone());
     }
     if (generalGlyph.isSetListOfReferenceGlyphs()) {
-      listOfReferenceGlyphs = generalGlyph
-          .getListOfReferenceGlyphs().clone();
+      setListOfReferenceGlyph(generalGlyph
+        .getListOfReferenceGlyphs().clone());
     }
     if (generalGlyph.isSetListOfSubGlyphs()) {
-      listOfSubGlyphs = generalGlyph.getListOfSubGlyphs().clone();
+      setListOfSubGlyphs(generalGlyph.getListOfSubGlyphs().clone());
     }
   }
 

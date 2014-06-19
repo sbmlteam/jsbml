@@ -100,10 +100,10 @@ public class TextGlyph extends AbstractReferenceGlyph {
   public TextGlyph(TextGlyph textGlyph) {
     super(textGlyph);
     if (textGlyph.isSetGraphicalObject()) {
-      graphicalObject = new String(textGlyph.getGraphicalObject());
+      setGraphicalObject(new String(textGlyph.getGraphicalObject()));
     }
     if (textGlyph.isSetText()) {
-      text = new String(textGlyph.getText());
+      setText(new String(textGlyph.getText()));
     }
   }
 

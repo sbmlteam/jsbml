@@ -109,7 +109,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
     super(obj);
     roleList = obj.roleList;
     typeList = obj.typeList;
-    group = obj.group;
+    setGroup(obj.getGroup().clone());
   }
 
 

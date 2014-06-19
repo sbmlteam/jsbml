@@ -53,7 +53,7 @@ public class CSGeometry extends GeometryDefinition {
   public CSGeometry(CSGeometry csg) {
     super(csg);
     if (csg.isSetListOfCSGObjects()) {
-      listOfCSGObjects = csg.getListOfCSGObjects().clone();
+      setListOfCSGObjects(csg.getListOfCSGObjects().clone());
     }
   }
 

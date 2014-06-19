@@ -128,13 +128,13 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     super(t);
 
     if (t.isSetListOfFunctionTerms()) {
-      setListOfFunctionTerms(t.listOfFunctionTerms.clone());
+      setListOfFunctionTerms(t.getListOfFunctionTerms().clone());
     }
     if (t.isSetListOfInputs()) {
-      setListOfInputs(t.listOfInputs.clone());
+      setListOfInputs(t.getListOfInputs().clone());
     }
     if (t.isSetListOfOutputs()) {
-      setListOfOutputs(t.listOfOutputs.clone());
+      setListOfOutputs(t.getListOfOutputs().clone());
     }
   }
 

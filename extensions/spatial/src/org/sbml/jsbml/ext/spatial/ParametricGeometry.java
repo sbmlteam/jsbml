@@ -58,11 +58,11 @@ public class ParametricGeometry extends GeometryDefinition {
     super(pg);
 
     if (pg.isSetListOfParametricObjects()) {
-      listOfParametricObjects = pg.getListOfParametricObjects().clone();
+      setListOfParametricObjects(pg.getListOfParametricObjects().clone());
     }
 
     if (pg.isSetListOfSpatialPoints()) {
-      listOfSpatialPoints = pg.getListOfSpatialPoints().clone();
+      setListOfSpatialPoints(pg.getListOfSpatialPoints().clone());
     }
 
   }

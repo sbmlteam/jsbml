@@ -88,13 +88,13 @@ public class ReferenceGlyph extends AbstractReferenceGlyph {
   public ReferenceGlyph(ReferenceGlyph speciesReferenceGlyph) {
     super(speciesReferenceGlyph);
     if (speciesReferenceGlyph.isSetCurve()) {
-      curve = speciesReferenceGlyph.getCurve().clone();
+      setCurve(speciesReferenceGlyph.getCurve().clone());
     }
     if (speciesReferenceGlyph.isSetRole()) {
-      role = speciesReferenceGlyph.getRole();
+      setRole(speciesReferenceGlyph.getRole());
     }
     if (speciesReferenceGlyph.isSetGlyph()) {
-      glyph = new String(speciesReferenceGlyph.getGlyph());
+      setGlyph(new String(speciesReferenceGlyph.getGlyph()));
     }
   }
 

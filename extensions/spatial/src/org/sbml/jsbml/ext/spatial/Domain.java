@@ -78,7 +78,7 @@ public class Domain extends AbstractSpatialNamedSBase {
   public Domain(Domain dm) {
     super(dm);
     if (dm.isSetListOfInteriorPoints()) {
-      listOfInteriorPoints = dm.getListOfInteriorPoints().clone();
+      setListOfInteriorPoints(dm.getListOfInteriorPoints().clone());
     }
     if (dm.isSetDomainType()) {
       domainType = new String(dm.getDomainType());

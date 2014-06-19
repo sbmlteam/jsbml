@@ -92,7 +92,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
     }
 
     if (sf.isSetImageData()) {
-      imageData = sf.getImageData().clone();
+      setImageData(sf.getImageData().clone());
     }
 
   }

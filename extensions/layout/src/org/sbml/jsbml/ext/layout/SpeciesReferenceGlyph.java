@@ -88,13 +88,13 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
   public SpeciesReferenceGlyph(SpeciesReferenceGlyph speciesReferenceGlyph) {
     super(speciesReferenceGlyph);
     if (speciesReferenceGlyph.isSetCurve()) {
-      curve = speciesReferenceGlyph.getCurve().clone();
+      setCurve(speciesReferenceGlyph.getCurve().clone());
     }
     if (speciesReferenceGlyph.isSetSpeciesReferenceRole()) {
-      role = SpeciesReferenceRole.valueOf(speciesReferenceGlyph.getSpeciesReferenceRole().toString());
+      setRole(SpeciesReferenceRole.valueOf(speciesReferenceGlyph.getSpeciesReferenceRole().toString()));
     }
     if (speciesReferenceGlyph.isSetSpeciesGlyph()) {
-      speciesGlyph = new String(speciesReferenceGlyph.getSpeciesGlyph());
+      setSpeciesGlyph(new String(speciesReferenceGlyph.getSpeciesGlyph()));
     }
   }
 
@@ -205,7 +205,7 @@ public class SpeciesReferenceGlyph extends AbstractReferenceGlyph {
 
   /**
    * 
-   * @return
+   * @return String id of the speciesGlyph
    */
   public String getSpeciesGlyph() {
     return speciesGlyph;
