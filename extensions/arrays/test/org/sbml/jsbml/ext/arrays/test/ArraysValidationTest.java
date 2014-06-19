@@ -48,99 +48,138 @@ import org.sbml.jsbml.text.parser.ParseException;
  */
 public class ArraysValidationTest {
 
- 
-/**
- * Test validation where a dimension has non-constant size.
- */
-@Test
-public void test00() {
-  System.out.println("Test 00");
-  
-  SBMLDocument doc = new SBMLDocument(3,1);
-  
-  Model model = doc.createModel();
-  
-  Species spec = new Species();
-  
-  Parameter param = new Parameter("n");
-  
-  param.setConstant(false);
-  
-  param.setValue(10);
-  
-  model.addSpecies(spec);
-  
-  model.addParameter(param);
-  
-  ArraysSBasePlugin arraysSBasePlugin = new ArraysSBasePlugin(spec);
-  
-  spec.addExtension(ArraysConstants.shortLabel, arraysSBasePlugin);
-  
-  Dimension dim = new Dimension();
-  
-  dim.setArrayDimension(0);
-  
-  dim.setSize("n");
-  
-  arraysSBasePlugin.addDimension(dim);
-  
-  ArraysValidator.validate(doc);
-  
-}
 
-/**
- * Test whether the validator reports an error if something
- * that cannot have dimension has one.
- */
-@Test
-public void test01() {
-  System.out.println("Test 01");
-  
-  SBMLDocument doc = new SBMLDocument(3,1);
-  
-  Model model = doc.createModel();
-  
-  Event event = new Event();
-  
-  Delay delay = new Delay();
-  
-  Trigger trigger = new Trigger();
-  
-  trigger.setMath(new ASTNode("true"));
-  try {
-    delay.setMath(ASTNode.parseFormula("3"));
-  } catch (ParseException e) {
-    assertTrue(false);
-    e.printStackTrace();
+  /**
+   * Test validation where a dimension has non-constant size.
+   */
+  @Test
+  public void test00() {
+    System.out.println("Test 00");
+
+    SBMLDocument doc = new SBMLDocument(3,1);
+
+    Model model = doc.createModel();
+
+    Species spec = new Species();
+
+    Parameter param = new Parameter("n");
+
+    param.setConstant(false);
+
+    param.setValue(10);
+
+    model.addSpecies(spec);
+
+    model.addParameter(param);
+
+    ArraysSBasePlugin arraysSBasePlugin = new ArraysSBasePlugin(spec);
+
+    spec.addExtension(ArraysConstants.shortLabel, arraysSBasePlugin);
+
+    Dimension dim = new Dimension();
+
+    dim.setArrayDimension(0);
+
+    dim.setSize("n");
+
+    arraysSBasePlugin.addDimension(dim);
+
+    ArraysValidator.validate(doc);
+
   }
-  
-  event.setDelay(delay);
-  
-  event.setTrigger(trigger);
-  
-  model.addEvent(event);
-  
-  Parameter param = new Parameter("n");
-  
-  param.setConstant(false);
-  
-  param.setValue(10);
-  
-  model.addParameter(param);
-  
-  ArraysSBasePlugin arraysSBasePlugin = new ArraysSBasePlugin(delay);
-  
-  delay.addExtension(ArraysConstants.shortLabel, arraysSBasePlugin);
-  
-  Dimension dim = new Dimension();
-  
-  dim.setArrayDimension(0);
-  
-  dim.setSize("n");
-  
-  arraysSBasePlugin.addDimension(dim);
-  
-  ArraysValidator.validate(doc);
-  
-}
+
+  /**
+   * Test whether the validator reports an error if something
+   * that cannot have dimension has one.
+   */
+  @Test
+  public void test01() {
+    System.out.println("Test 01");
+
+    SBMLDocument doc = new SBMLDocument(3,1);
+
+    Model model = doc.createModel();
+
+    Event event = new Event();
+
+    Delay delay = new Delay();
+
+    Trigger trigger = new Trigger();
+
+    trigger.setMath(new ASTNode("true"));
+    try {
+      delay.setMath(ASTNode.parseFormula("3"));
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+
+    event.setDelay(delay);
+
+    event.setTrigger(trigger);
+
+    model.addEvent(event);
+
+    Parameter param = new Parameter("n");
+
+    param.setConstant(false);
+
+    param.setValue(10);
+
+    model.addParameter(param);
+
+    ArraysSBasePlugin arraysSBasePlugin = new ArraysSBasePlugin(delay);
+
+    delay.addExtension(ArraysConstants.shortLabel, arraysSBasePlugin);
+
+    Dimension dim = new Dimension();
+
+    dim.setArrayDimension(0);
+
+    dim.setSize("n");
+
+    arraysSBasePlugin.addDimension(dim);
+
+    ArraysValidator.validate(doc);
+
+  }
+
+  /**
+   * Test validation where a dimension has non-constant size.
+   */
+  @Test
+  public void test02() {
+    System.out.println("Test 02");
+
+    SBMLDocument doc = new SBMLDocument(3,1);
+
+    Model model = doc.createModel();
+
+    Species spec = new Species();
+
+    Parameter param = new Parameter("n");
+
+    param.setConstant(true);
+
+    param.setValue(10);
+
+    model.addSpecies(spec);
+
+    model.addParameter(param);
+
+    ArraysSBasePlugin arraysSBasePlugin = new ArraysSBasePlugin(spec);
+
+    spec.addExtension(ArraysConstants.shortLabel, arraysSBasePlugin);
+
+    Dimension dim = new Dimension();
+
+    dim.setArrayDimension(2);
+
+    dim.setSize("n");
+
+    arraysSBasePlugin.addDimension(dim);
+
+    ArraysValidator.validate(doc);
+
+  }
 }

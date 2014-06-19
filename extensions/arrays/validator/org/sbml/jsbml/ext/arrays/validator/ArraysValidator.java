@@ -72,7 +72,6 @@ public class ArraysValidator {
     
     @SuppressWarnings("unchecked")
     Enumeration<TreeNode> children = node.children();
-    System.out.println(node.toString());
     if(node instanceof SBase) {
       listOfErrors.addAll(DimensionValidator.validate(model, (SBase) node));
     } 

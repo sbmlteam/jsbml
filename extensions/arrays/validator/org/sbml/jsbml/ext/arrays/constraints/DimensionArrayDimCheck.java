@@ -1,6 +1,6 @@
 /*
- * $Id:  DimensionSize.java 12:15:02 PM lwatanabe $
- * $URL: DimensionSize.java $
+ * $Id:  ArrayDimensionCheck.java 1:01:13 PM lwatanabe $
+ * $URL: ArrayDimensionCheck.java $
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
@@ -36,131 +35,112 @@ import org.sbml.jsbml.util.Message;
 
 
 /**
- * Checks if all dimension objects have size that is both
- * scalar and constant.
+ * This checks if array dimension is either 0, 1, or 2 
+ * In addition, it checks if array dimension is 0 for
+ * the case that only one dimension object is present, and if
+ * array dimensions 0 and 1 are present if the SBase has two
+ * dimensions. Finally, this ensures array dimension is unique.
  * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
  * @date Jun 10, 2014
  */
-public class DimensionSizeCheck implements ArraysConstraint{
-  Model model;
-  SBase sbase;
-  List<SBMLError> listOfErrors;
+public class DimensionArrayDimCheck implements ArraysConstraint {
+
+  private final Model model;
+  private final SBase sbase;
+  private final List<SBMLError> listOfErrors;
   
-  public DimensionSizeCheck(Model model, SBase sbase)
+  public DimensionArrayDimCheck(Model model, SBase sbase)
   {
     this.model = model;
     this.sbase = sbase;
     listOfErrors = new ArrayList<SBMLError>();
   }
-  
-  /**
-   * Validates a given sbase
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.arrays.constraints.ArraysConstraint#check()
    */
   @Override
-  public void check()
-  {
+  public void check() {
     ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
+
+    int max = -1;
     
     if(arraysSBasePlugin == null) {
       return;
     }
+
     
     for(Dimension dim : arraysSBasePlugin.getListOfDimensions())
     {
-      if(!dim.isSetSize()) {
-        System.err.println("Dimension size should have a value.");
+      if(dim.getArrayDimension() > max) {
+        max = dim.getArrayDimension();
+      }
+    }
+    
+    boolean[] isSetArrayDimAt = new boolean[max+1];
+    
+    for(Dimension dim : arraysSBasePlugin.getListOfDimensions())
+    {
+      int arrayDim = dim.getArrayDimension();
+
+      if(!isSetArrayDimAt[arrayDim]) {
+        isSetArrayDimAt[arrayDim] = true;
+      }
+      else 
+      {
+        System.err.println("Array Dimension should be unique.");
         String shortMsg = "";
-        logMissingDimensionAttribute(shortMsg);
-      }
-      else {
-        checkSize(dim.getSize());
+        logArrayDimensionUniqueness(shortMsg);
       }
     }
-  }
-  
-  /**
-   * Given an id, check if it points to a valid parameter that is
-   * both scalar and constant.
-   * 
-   * @param id - identifier that needs to be checked
-   */
-  private void checkSize(String id)
-  {
-    Parameter param = model.getParameter(id);
-    
-    if(param == null) {
-      System.err.println("Dimension size should point to an existing parameter.");
-      String shortMsg = "";
-      logDimensionSizeInconsistency(shortMsg);
-      return;
-    }
-    
-    if(!param.isConstant()) {
-      System.err.println("Dimension size should point to a CONSTANT parameter.");
-      String shortMsg = "";
-      logDimensionSizeNotConstant(shortMsg);
-    }
-    
-    //TODO: needs to check size
-    
-    ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) param.getExtension(ArraysConstants.shortLabel);
-    
-    if(arraysSBasePlugin != null) {
-      if(arraysSBasePlugin.getDimensionCount() > 0) {
-        System.err.println("Dimension size should point to scalar.");
+
+    for(int i = 0; i <= max; i++) {
+      if(!isSetArrayDimAt[i]) {
+        System.err.println("There is a Dimension with array dimension " + max + " but there is no array"
+          + " dimension at " + i);
         String shortMsg = "";
-        logDimensionSizeInconsistency(shortMsg);
+        logArrayDimensionMissing(shortMsg);
+        return;
       }
     }
-  }
-  
-  /**
-   * 
-   * @param shortMsg
-   */
-  private void logMissingDimensionAttribute(String shortMsg) {
-    int code = 20202, severity = 2, category = 0, line = -1, column = -1;
-
-    String pkg = "arrays";
-    String msg = "A Dimension object must have a value for the attributes"+
-                 "arrays:arrayDimension and arrays:size, and may additionally" +
-                 "have the attributes arrays:id and arrays:name. (Reference:"+
-                 "SBML Level 3 Package Specification for Arrays, Version 1, Section 3.3 on page 6.)";
-   
     
-    logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
   }
-  
+
   /**
    * 
    * @param shortMsg
    */
-  private void logDimensionSizeInconsistency(String shortMsg) {
-    int code = 20204, severity = 2, category = 0, line = -1, column = -1;
+  private void logArrayDimensionUniqueness(String shortMsg) {
+    int code = 20104, severity = 2, category = 0, line = -1, column = -1;
 
     String pkg = "arrays";
-    String msg = "The value of the arrays:size attribute, if set on a given Dimension object,"+
-                  "must be a valid SIdRef to an object of type Parameter. (Reference: " +
-                  "SBML Level 3 Package Specification for Arrays, Version 1, Section 3.3 on page 6.)";
-   
-    
-    logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
-  }
-  
-  /**
-   * 
-   * @param shortMsg
-   */
-  private void logDimensionSizeNotConstant(String shortMsg) {
-    int code = 20205, severity = 2, category = 0, line = -1, column = -1;
-
-    String pkg = "arrays";
-    String msg = "The value of the Parameter referenced by the arrays:size attribute"+
-                 "must be a non-negative scalar constant. (Reference: SBML Level 3 Package"+
+    String msg = "The ListOfDimensions associated with an SBase object must not have multiple Dimension"+
+                 "objects with the same arrays:arrayDimension attribute. (Reference: SBML Level 3 Package"+ 
                  "Specification for Arrays, Version 1, Section 3.3 on page 6.)";
+   
+    
+    logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
+  }
+  
+  
+  /**
+   * 
+   * @param shortMsg
+   */
+  private void logArrayDimensionMissing(String shortMsg) {
+    int code = 20103, severity = 2, category = 0, line = -1, column = -1;
+
+    String pkg = "arrays";
+    String msg = "The ListOfDimensions associated with an SBase object must have a Dimension object"+
+                 "with arrays:arrayDimension attribute set to 0 before adding a Dimension object with"+
+                 "arrays:arrayDimension attribute set to 1. Similarly, the ListOfDimensions in an SBase"+
+                 "object must have Dimension objects, where one of them has arrays:arrayDimension attribute"+
+                 "set to 0 and the other set to 1 before adding a Dimension object with arrays:arrayDimension"+
+                 "attribute set to 2. (Reference: SBML Level 3 Package Specification for Arrays, Version 1,"+
+                 "Section 3.3 on page 6.)";
    
     
     logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
@@ -192,9 +172,9 @@ public class DimensionSizeCheck implements ArraysConstraint{
     message.setMessage(shortMsg);
     error.setShortMessage(shortMessage);
     listOfErrors.add(error);
-    
-  }
 
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.arrays.constraints.ArraysConstraint#getListOfErrors()
    */
@@ -202,5 +182,5 @@ public class DimensionSizeCheck implements ArraysConstraint{
   public List<SBMLError> getListOfErrors() {
     return listOfErrors;
   }
-  
 }
+
