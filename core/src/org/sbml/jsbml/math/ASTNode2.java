@@ -27,8 +27,8 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.math.compiler.AbstractASTNodeCompiler;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
-import org.sbml.jsbml.util.compilers.AbstractASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 

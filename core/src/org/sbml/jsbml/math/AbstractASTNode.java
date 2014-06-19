@@ -31,9 +31,9 @@ import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.math.compiler.AbstractASTNodeCompiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
-import org.sbml.jsbml.util.compilers.AbstractASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
