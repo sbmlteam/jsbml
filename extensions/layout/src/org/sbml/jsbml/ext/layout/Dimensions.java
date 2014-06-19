@@ -92,17 +92,17 @@ public class Dimensions extends AbstractNamedSBase implements UniqueNamedSBase {
     depth = height = width = Double.NaN;
 
     if (dimensions.isSetDepth()) {
-      depth = dimensions.getDepth();
+      setDepth(dimensions.getDepth());
     } else {
       depth = Double.NaN;
     }
     if (dimensions.isSetHeight()) {
-      height = dimensions.getHeight();
+      setHeight(dimensions.getHeight());
     } else {
       height = Double.NaN;
     }
     if (dimensions.isSetWidth()) {
-      width = dimensions.getWidth();
+      setWidth(dimensions.getWidth());
     } else {
       width = Double.NaN;
     }

@@ -61,7 +61,7 @@ public class Polygon extends GraphicalPrimitive2D {
    */
   public Polygon(Polygon obj) {
     super(obj);
-    listOfElements = obj.listOfElements;
+    setListOfElements(obj.getListOfElements().clone());
   }
 
   /**
@@ -150,8 +150,12 @@ public class Polygon extends GraphicalPrimitive2D {
    */
   public void setListOfElements(ListOf<RenderPoint> listOfElements) {
     ListOf<RenderPoint> oldListOfElements = this.listOfElements;
-    this.listOfElements = listOfElements;
-    firePropertyChange(RenderConstants.listOfElements, oldListOfElements, this.listOfElements);
+
+    if (listOfElements != null) {
+      this.listOfElements = listOfElements;
+      registerChild(this.listOfElements);
+      firePropertyChange(RenderConstants.listOfElements, oldListOfElements, this.listOfElements);
+    }
   }
 
   /**

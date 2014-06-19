@@ -56,11 +56,11 @@ public class CSGHomogeneousTransformation extends CSGTransformation {
     super(csght);
 
     if (csght.isSetForwardTransformation()) {
-      forwardTransformation = csght.getForwardTransformation().clone();
+      setForwardTransformation(csght.getForwardTransformation().clone());
     }
 
     if (csght.isSetReverseTransformation()) {
-      reverseTransformation = csght.getReverseTransformation().clone();
+      setReverseTransformation(csght.getReverseTransformation().clone());
     }
   }
 

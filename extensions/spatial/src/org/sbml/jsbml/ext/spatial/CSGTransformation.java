@@ -53,7 +53,7 @@ public abstract class CSGTransformation extends CSGNode {
     super(csgt);
 
     if (csgt.isSetCSGNode()) {
-      csgNode = (CSGNode) csgt.getCSGNode().clone();
+      setCSGNode((CSGNode) csgt.getCSGNode().clone());
     }
 
   }

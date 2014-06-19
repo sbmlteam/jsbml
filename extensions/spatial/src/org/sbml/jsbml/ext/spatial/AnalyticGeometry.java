@@ -57,7 +57,7 @@ public class AnalyticGeometry extends GeometryDefinition {
   public AnalyticGeometry(AnalyticGeometry analyticGeometry) {
     super(analyticGeometry);
     if (analyticGeometry.isSetListOfAnalyticVolumes()) {
-      listOfAnalyticVolumes = analyticGeometry.getListOfAnalyticVolumes().clone();
+      setListOfAnalyticVolumes(analyticGeometry.getListOfAnalyticVolumes().clone());
     }
   }
 

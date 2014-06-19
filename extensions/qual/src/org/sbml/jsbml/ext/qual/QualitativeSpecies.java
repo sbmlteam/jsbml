@@ -152,10 +152,10 @@ public class QualitativeSpecies extends AbstractNamedSBase implements UniqueName
   public QualitativeSpecies(QualitativeSpecies qualSpecies) {
     super(qualSpecies);
 
-    compartment = qualSpecies.compartment;
-    constant = qualSpecies.constant;
-    initialLevel = qualSpecies.initialLevel;
-    maxLevel = qualSpecies.maxLevel;
+    setCompartment(qualSpecies.getCompartment());
+    setConstant(qualSpecies.getConstant());
+    setInitialLevel(qualSpecies.getInitialLevel());
+    setMaxLevel(qualSpecies.getMaxLevel());
   }
 
   /**

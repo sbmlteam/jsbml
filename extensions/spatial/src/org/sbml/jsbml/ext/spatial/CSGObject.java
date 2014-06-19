@@ -74,7 +74,7 @@ public class CSGObject extends AbstractSpatialNamedSBase {
     }
 
     if (csgo.isSetCSGNode()) {
-      csgNode = (CSGNode) csgo.getCSGNode().clone();
+      setCSGNode((CSGNode) csgo.getCSGNode().clone());
     }
 
   }

@@ -23,8 +23,12 @@ package org.sbml.jsbml.ext.layout;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.tree.TreeNode;
 
@@ -116,22 +120,22 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
     super(layout);
 
     if (layout.listOfAdditionalGraphicalObjects != null) {
-      listOfAdditionalGraphicalObjects = layout.listOfAdditionalGraphicalObjects.clone();
+      setListOfAdditionalGraphicalObjects(layout.getListOfAdditionalGraphicalObjects().clone());
     }
     if (layout.dimensions != null) {
-      dimensions = layout.dimensions.clone();
+      setDimensions(layout.getDimensions().clone());
     }
     if (layout.listOfCompartmentGlyphs != null) {
-      listOfCompartmentGlyphs = layout.listOfCompartmentGlyphs.clone();
+      setListOfCompartmentGlyphs(layout.getListOfCompartmentGlyphs().clone());
     }
     if (layout.listOfReactionGlyphs != null) {
-      listOfReactionGlyphs = layout.listOfReactionGlyphs.clone();
+      setListOfReactionGlyphs(layout.getListOfReactionGlyphs().clone());
     }
     if (layout.listOfSpeciesGlyphs != null) {
-      listOfSpeciesGlyphs = layout.listOfSpeciesGlyphs.clone();
+      setListOfSpeciesGlyphs(layout.getListOfSpeciesGlyphs().clone());
     }
     if (layout.listOfTextGlyphs != null) {
-      listOfTextGlyphs = layout.listOfTextGlyphs.clone();
+      setListOfTextGlyphs(layout.getListOfTextGlyphs().clone());
     }
 
   }
@@ -274,10 +278,10 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
     return containsGlyph(listOfSpeciesGlyphs, species);
   }
 
-  
-  // TODO - add methods to create GraphicalObject 
+
+  // TODO - add methods to create GraphicalObject
   // TODO - check the libsbml Layout java API to see if we could add some methods
-  
+
   /**
    * Creates and adds a new {@link CompartmentGlyph}.
    * 
@@ -700,8 +704,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   public int getNumCompartmentGlyphs() {
     return getCompartmentGlyphCount();
   }
-  
-  
+
+
   /**
    * 
    * @return
@@ -857,7 +861,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
     return getSpeciesGlyphCount();
   }
 
-  
+
   /**
    * 
    * @param i
@@ -1171,7 +1175,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
     return getListOfCompartmentGlyphs().remove(i);
   }
 
-  
+
   /**
    * Removes an element from the listOfReactionGlyphs.
    *
@@ -1261,7 +1265,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
     return getListOfSpeciesGlyphs().remove(i);
   }
 
-  
+
   /**
    * Removes an element from the listOfTextGlyphs.
    *
@@ -1274,6 +1278,45 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
       return getListOfTextGlyphs().remove(textGlyph);
     }
     return false;
+  }
+
+  /**
+   * Removes all singleton {@link SpeciesGlyph}s (no {@link SpeciesReferenceGlyph}
+   * in {@link ReactionGlyph}) and also removes their associated {@link TextGlyph}s
+   */
+  public boolean removeSingletons() {
+    // Collect species glyphs that are used first
+    Set<String> speciesGlyphsToKeep = new HashSet<String>();
+    if (isSetListOfReactionGlyphs()) {
+      for (ReactionGlyph rxnGlyph : getListOfReactionGlyphs()) {
+        for (SpeciesReferenceGlyph srg : rxnGlyph.getListOfSpeciesReferenceGlyphs()) {
+          speciesGlyphsToKeep.add(srg.getSpeciesGlyph());
+        }
+      }
+
+      Iterator<SpeciesGlyph> it = getListOfSpeciesGlyphs().iterator();
+      while(it.hasNext()) {
+        if (!speciesGlyphsToKeep.contains(it.next().getId())) {
+          it.remove();
+        }
+      }
+
+      Iterator<TextGlyph> it2 = getListOfTextGlyphs().iterator();
+      while(it2.hasNext()) {
+        GraphicalObject go = it2.next().getGraphicalObjectInstance();
+        if ((go instanceof SpeciesGlyph) &&
+            (!speciesGlyphsToKeep.contains(go.getId()))) {
+          it2.remove();
+        }
+      }
+
+      return true;
+
+    }
+
+    return false;
+
+
   }
 
 
@@ -1417,5 +1460,5 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 
     return attributes;
   }
-  
+
 }

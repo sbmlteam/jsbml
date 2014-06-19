@@ -103,10 +103,10 @@ SBaseWithUnit {
       unit = new String(coordComp.getUnits());
     }
     if (coordComp.isSetMinimum()) {
-      minimum = coordComp.getMinimum().clone();
+      setMinimum(coordComp.getMinimum().clone());
     }
     if (coordComp.isSetMaximum()) {
-      maximum = coordComp.getMaximum().clone();
+      setMaximum(coordComp.getMaximum().clone());
     }
   }
 

@@ -66,7 +66,7 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
     }
 
     if (po.isSetPolygonObject()) {
-      polygonObject = po.getPolygonObject().clone();
+      setPolygonObject(po.getPolygonObject().clone());
     }
 
   }

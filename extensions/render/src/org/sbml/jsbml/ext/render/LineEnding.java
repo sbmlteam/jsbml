@@ -58,9 +58,9 @@ public class LineEnding extends GraphicalPrimitive2D {
    */
   public LineEnding(LineEnding obj) {
     super(obj);
-    boundingBox = obj.boundingBox;
+    setBoundingBox(obj.getBoundingBox().clone());
     enableRotationMapping = obj.enableRotationMapping;
-    group = obj.group;
+    setGroup(obj.getGroup().clone());
   }
 
   /* (non-Javadoc)

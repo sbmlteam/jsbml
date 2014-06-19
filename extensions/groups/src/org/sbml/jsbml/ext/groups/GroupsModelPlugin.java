@@ -85,7 +85,7 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
     if (isSetExtendedSBase()) {
       return (SBMLDocument) getExtendedSBase().getParent();
     }
-    
+
     return null;
   }
 
@@ -123,14 +123,14 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
     super(groupModelPlugin);
     // We don't clone the pointer to the containing model.
     if (groupModelPlugin.listOfGroups != null) {
-      listOfGroups = groupModelPlugin.listOfGroups.clone();
+      setListOfGroups(groupModelPlugin.getListOfGroups().clone());
     }
   }
 
   private void initDefaults() {
     listOfGroups.setNamespace(GroupsConstants.namespaceURI);
     listOfGroups.setSBaseListType(ListOf.Type.other);
-    
+
     if (isSetExtendedSBase()) {
       extendedSBase.registerChild(listOfGroups);
     }
@@ -183,7 +183,7 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
   public int getNumGroups() {
     return getGroupCount();
   }
-  
+
   /**
    * 
    * @return
@@ -327,7 +327,7 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
   /**
    * Creates a new instance of {@link Group} and add it to this {@link GroupsModelPlugin}.
    * For each id in the memberIds array, a new {@link Member} instance is created and added to the {@link Group}
-   * as well. 
+   * as well.
    * 
    * 
    * @param id the id to be set to the new {@link Group}.

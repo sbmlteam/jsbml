@@ -79,10 +79,10 @@ public class LineSegment extends CurveSegment {
   public LineSegment(LineSegment lineSegment) {
     super(lineSegment);
     if (lineSegment.isSetStart()) {
-      start = lineSegment.getStart().clone();
+      setStart(lineSegment.getStart().clone());
     }
     if (lineSegment.isSetEnd()) {
-      end = lineSegment.getEnd().clone();
+      setEnd(lineSegment.getEnd().clone());
     }
   }
 
@@ -93,10 +93,10 @@ public class LineSegment extends CurveSegment {
   public LineSegment(CurveSegment lineSegment) {
     super(lineSegment);
     if (lineSegment.isSetStart()) {
-      start = lineSegment.getStart().clone();
+      setStart(lineSegment.getStart().clone());
     }
     if (lineSegment.isSetEnd()) {
-      end = lineSegment.getEnd().clone();
+      setEnd(lineSegment.getEnd().clone());
     }
 
     // Make sure that the type is set properly
@@ -294,7 +294,7 @@ public class LineSegment extends CurveSegment {
       this.end.fireNodeRemovedEvent();
     }
     this.end = end;
-    
+
     if (end != null) {
       end.setElementName(LayoutConstants.end);
     }

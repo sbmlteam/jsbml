@@ -57,7 +57,7 @@ public class PolygonObject extends AbstractSBase {
   public PolygonObject(PolygonObject po) {
     super(po);
     if (po.isSetPointIndex()) {
-      pointIndex = po.getPointIndex().clone();
+      setPointIndex(po.getPointIndex().clone());
     }
   }
 

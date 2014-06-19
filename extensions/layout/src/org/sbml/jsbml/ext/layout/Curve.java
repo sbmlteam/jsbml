@@ -69,7 +69,7 @@ public class Curve extends AbstractNamedSBase {
   public Curve(Curve curve) {
     super(curve);
     if (curve.isSetListOfCurveSegments()) {
-      listOfCurveSegments = curve.getListOfCurveSegments().clone();
+      setListOfCurveSegments(curve.getListOfCurveSegments().clone());
     }
   }
 

@@ -87,11 +87,11 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   public ReactionGlyph(ReactionGlyph reactionGlyph) {
     super(reactionGlyph);
     if (reactionGlyph.isSetCurve()) {
-      curve = reactionGlyph.getCurve().clone();
+      setCurve(reactionGlyph.getCurve().clone());
     }
     if (reactionGlyph.isSetListOfSpeciesReferencesGlyphs()) {
-      listOfSpeciesReferencesGlyph = reactionGlyph
-          .getListOfSpeciesReferenceGlyphs().clone();
+      setListOfSpeciesReferencesGlyph(reactionGlyph
+        .getListOfSpeciesReferenceGlyphs().clone());
     }
   }
 
