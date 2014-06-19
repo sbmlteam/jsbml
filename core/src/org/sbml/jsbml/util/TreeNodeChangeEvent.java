@@ -124,7 +124,9 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
   public static final String createdDate = "createdDate";
   public static final String creator = "creator";
   public static final String isExplicitlySetConstant = "isExplicitlySetConstant";
-
+  public static final String numBvars = "numBvars";
+  public static final String base = "base";
+  public static String numPiece = "numPiece";
 
   /*
    * Annotation
