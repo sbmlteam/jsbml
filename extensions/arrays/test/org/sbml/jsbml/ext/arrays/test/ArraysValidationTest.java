@@ -122,7 +122,7 @@ public class ArraysValidationTest {
 
     Parameter param = new Parameter("n");
 
-    param.setConstant(false);
+    param.setConstant(true);
 
     param.setValue(10);
 
