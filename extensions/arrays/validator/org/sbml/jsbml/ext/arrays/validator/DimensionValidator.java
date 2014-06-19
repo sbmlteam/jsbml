@@ -35,6 +35,7 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.ext.arrays.constraints.DimensionArrayDimCheck;
 import org.sbml.jsbml.ext.arrays.constraints.ArraysConstraint;
 import org.sbml.jsbml.ext.arrays.constraints.DimensionSizeCheck;
 import org.sbml.jsbml.ext.arrays.constraints.SBaseWithDimensionCheck;
@@ -83,6 +84,9 @@ public class DimensionValidator{
     if(canHaveDimension(sbase)) {
       DimensionSizeCheck dimSizeCheck = new DimensionSizeCheck(model, sbase);
       listOfConstraints.add(dimSizeCheck);
+      
+      DimensionArrayDimCheck arrayDimCheck = new DimensionArrayDimCheck(model,sbase);
+      listOfConstraints.add(arrayDimCheck);
     }
     else {
       SBaseWithDimensionCheck dimensionCheck = new SBaseWithDimensionCheck(model, sbase);
