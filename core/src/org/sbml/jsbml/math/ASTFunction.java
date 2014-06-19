@@ -31,7 +31,6 @@ import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.filters.Filter;
 
-
 /**
  * An Abstract Syntax Tree (AST) node representing a function
  * in a mathematical expression.
@@ -144,7 +143,6 @@ public class ASTFunction extends AbstractASTNode {
   public boolean getAllowsChildren() {
     return true;
   }
-
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildAt(int)

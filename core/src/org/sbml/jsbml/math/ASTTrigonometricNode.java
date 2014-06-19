@@ -22,7 +22,6 @@
  */
 package org.sbml.jsbml.math;
 
-
 /**
  * An Abstract Syntax Tree (AST) node representing a trigonometric function
  * 
@@ -49,6 +48,8 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
   public ASTTrigonometricNode(ASTTrigonometricNode node) {
     super(node);
   }
+
+  // TODO: Override clone method with specific return type.
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

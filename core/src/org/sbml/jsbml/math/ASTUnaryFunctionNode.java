@@ -22,8 +22,6 @@
  */
 package org.sbml.jsbml.math;
 
-
-
 /**
  * An Abstract Syntax Tree (AST) node representing a function with only one
  * parameter
@@ -69,6 +67,8 @@ public class ASTUnaryFunctionNode extends ASTFunction {
   public void setChild(ASTNode2 child) {
     replaceChild(0, child);
   }
+
+  // TODO: Override clone method with specific return type.
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

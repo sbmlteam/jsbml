@@ -152,6 +152,8 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
     firePropertyChange(TreeNodeChangeEvent.numerator, old, this.numerator);
   }
 
+  // TODO: Override clone method with specific return type.
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */

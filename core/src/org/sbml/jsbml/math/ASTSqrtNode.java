@@ -22,7 +22,6 @@
  */
 package org.sbml.jsbml.math;
 
-
 /**
  * An Abstract Syntax Tree (AST) node representing the square root function
  * 
@@ -49,6 +48,8 @@ public class ASTSqrtNode extends ASTUnaryFunctionNode {
   public ASTSqrtNode(ASTSqrtNode node) {
     super(node);
   }
+
+  // TODO: Override clone method with specific return type.
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

@@ -50,6 +50,8 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
     super(node);
   }
 
+  // TODO: Override clone method with specific return type.
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */

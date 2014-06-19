@@ -22,7 +22,6 @@
  */
 package org.sbml.jsbml.math;
 
-
 /**
  * An Abstract Syntax Tree (AST) node representing the times function
  * 
@@ -49,6 +48,8 @@ public class ASTTimesNode extends ASTBinaryFunctionNode {
   public ASTTimesNode(ASTTimesNode node) {
     super(node);
   }
+
+  // TODO: Override clone method with specific return type.
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

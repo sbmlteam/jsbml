@@ -63,6 +63,8 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
     numPiece = null;
   }
 
+  // TODO: Override clone method with specific return type.
+
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTPiecewiseFunctionNode}.
    * 

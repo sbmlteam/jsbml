@@ -26,7 +26,6 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
-
 /**
  * An Abstract Syntax Tree (AST) node representing a MathML ci element
  * in a mathematical expression.
@@ -146,6 +145,8 @@ ASTCSymbolBaseNode {
     this.name = name;
     firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
   }
+
+  // TODO: Override clone method with specific return type.
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

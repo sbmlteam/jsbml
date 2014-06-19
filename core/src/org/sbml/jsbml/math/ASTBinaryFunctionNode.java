@@ -81,6 +81,8 @@ public class ASTBinaryFunctionNode extends ASTFunction {
     return getChildAt(getChildCount() - 1);
   }
 
+  // TODO: Override clone method with specific return type.
+
   /**
    * Set the right child of this node
    * 

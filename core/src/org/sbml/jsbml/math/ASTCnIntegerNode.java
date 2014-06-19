@@ -27,7 +27,6 @@ import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
-
 /**
  * An Abstract Syntax Tree (AST) node representing an Integer
  * in a mathematical expression
@@ -97,12 +96,15 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
     firePropertyChange(TreeNodeChangeEvent.value, old, this.value);
   }
 
+  // TODO: Override clone method with specific return type.
+
   /**
    * Returns True iff value has been set
    * 
    * @param null
    * @return boolean
    */
+  // TODO: Make sure that JavaDoc matches the method's declaration, here is no parameter.
   public boolean isSetValue() {
     return value != null;
   }

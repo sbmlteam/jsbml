@@ -26,8 +26,6 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
-
-
 /**
  * An Abstract Syntax Tree (AST) node representing the delay function
  * 
@@ -135,8 +133,7 @@ ASTCSymbolNode {
     return "";
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetDefinitionURL()
    */
   @Override
@@ -144,8 +141,7 @@ ASTCSymbolNode {
     return definitionURL != null;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#isSetEncodingURL()
    */
   @Override
@@ -153,8 +149,7 @@ ASTCSymbolNode {
     return encodingURL != null;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetName()
    */
   @Override
@@ -192,6 +187,8 @@ ASTCSymbolNode {
     this.name = name;
     firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
   }
+
+  // TODO: Override clone method with specific return type.
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
