@@ -20,7 +20,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>. 
  * ---------------------------------------------------------------------------- 
  */
-package org.sbml.jsbml.ext.arrays.validator;
+package org.sbml.jsbml.ext.arrays;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,10 +35,6 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
-import org.sbml.jsbml.ext.arrays.constraints.DimensionArrayDimCheck;
-import org.sbml.jsbml.ext.arrays.constraints.ArraysConstraint;
-import org.sbml.jsbml.ext.arrays.constraints.DimensionSizeCheck;
-import org.sbml.jsbml.ext.arrays.constraints.SBaseWithDimensionCheck;
 
 
 /**
