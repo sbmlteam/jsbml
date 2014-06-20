@@ -11,7 +11,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
- * 
+ *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -85,12 +85,15 @@ import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.celldesigner.libsbml.LibSBMLReader;
 import org.sbml.jsbml.celldesigner.libsbml.LibSBMLUtils;
+import org.sbml.jsbml.ext.layout.Layout;
+import org.sbml.jsbml.ext.layout.LayoutConstants;
+import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.util.ProgressListener;
 import org.sbml.jsbml.util.SBMLtools;
 import org.sbml.libsbml.libsbml;
 
 /**
- * 
+ *
  * @author Andreas Dr&auml;ger
  * @version $Rev$
  * @since 0.8
@@ -99,13 +102,13 @@ import org.sbml.libsbml.libsbml;
 public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
 
   /**
-   * 
+   *
    */
-  private static final int level = 2;
+  private static final int level = 3;
   /**
-   * 
+   *
    */
-  private static final int version = 4;
+  private static final int version = 1;
 
   /**
    * A {@link Logger} for this class.
@@ -113,7 +116,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   private static final Logger logger = Logger.getLogger(PluginSBMLReader.class);
 
   /**
-   * 
+   *
    */
   private ProgressListener listener;
 
@@ -126,12 +129,12 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    */
   private Model model;
 
   /**
-   * 
+   *
    */
   private Set<Integer> possibleEnzymes;
 
@@ -152,7 +155,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   /**
    * get a model from the CellDesigner output, converts it to JSBML
    * format and stores it
-   * 
+   *
    * @param model
    * @throws XMLStreamException
    */
@@ -174,7 +177,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    */
   public PluginSBMLReader(Set<Integer> possibleEnzymes) {
     super();
@@ -182,14 +185,14 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    */
   public PluginSBMLReader() {
     this(SBO.getDefaultPossibleEnzymes());
   }
 
   /**
-   * 
+   *
    * @return
    */
   public int getNumErrors() {
@@ -197,7 +200,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    * @return
    */
   public int getErrorCount() {
@@ -221,7 +224,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    * @param compartment
    * @return
    * @throws XMLStreamException
@@ -252,7 +255,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    * @param compartmentType
    * @return
    * @throws XMLStreamException
@@ -264,7 +267,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    * @param constraint
    * @return
    * @throws XMLStreamException
@@ -286,7 +289,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    * @param event
    * @return
    * @throws XMLStreamException
@@ -311,7 +314,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    * @param eventass
    * @return
    * @throws XMLStreamException
@@ -330,7 +333,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    * @param functionDefinition
    * @return
    * @throws XMLStreamException
@@ -345,7 +348,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    * @param initialAssignment
    * @return
    * @throws XMLStreamException
@@ -365,7 +368,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    * @param kineticLaw
    * @return
    * @throws XMLStreamException
@@ -385,7 +388,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    * @param parameter
    * @return
    * @throws XMLStreamException
@@ -421,6 +424,12 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
     }
 
     model = new Model(originalModel.getId(), level, version);
+    String namespace = LayoutConstants.getNamespaceURI(model.getLevel(), model.getVersion());
+    LayoutModelPlugin modelPlugin = new LayoutModelPlugin(model);
+    model.addExtension(namespace, modelPlugin);
+    Layout layout = modelPlugin.createLayout("CellDesigner_Layout");
+
+
     PluginUtils.transferNamedSBaseProperties(originalModel, model);
     if (listener != null) {
       curr += originalModel.getNumCVTerms();
@@ -460,13 +469,24 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
 
     for (i = 0; i < originalModel.getNumCompartments(); i++) {
       model.addCompartment(readCompartment(originalModel.getCompartment(i)));
+      /*List<CompartmentGlyph> listOfCompartmentGlyphs=LayoutConverter.extractLayout(originalModel.getCompartment(i));
+      for (CompartmentGlyph cg:listOfCompartmentGlyphs)
+      {
+        layout.addCompartmentGlyph(cg);
+     }*/
       if (listener != null) {
         listener.progressUpdate(++curr, "Compartments");
       }
     }
 
     for (i = 0; i < originalModel.getNumSpecies(); i++) {
+      //PluginSpecies pSpecies=originalModel.getSpecies(i);
       model.addSpecies(readSpecies(originalModel.getSpecies(i)));
+     /*List<SpeciesGlyph> listOfSpeciesGlyphs=LayoutConverter.extractLayout(originalModel.getPluginSpeciesAlias(pSpecies.getId()));
+     for (SpeciesGlyph sg:listOfSpeciesGlyphs)
+     {
+        layout.addSpeciesGlyph(sg);
+     }*/
       if (listener != null) {
         listener.progressUpdate(++curr, "Species");
       }
@@ -524,7 +544,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    * @param modifierSpeciesReference
    * @return
    * @throws XMLStreamException
@@ -553,7 +573,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    * @param parameter
    * @return
    * @throws XMLStreamException
@@ -570,7 +590,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    * @param reac
    * @return
    * @throws XMLStreamException
@@ -607,7 +627,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    * @param rule
    * @return
    * @throws XMLStreamException
@@ -636,7 +656,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    * @param species
    * @return
    * @throws XMLStreamException
@@ -680,7 +700,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    * @param speciesReference
    * @return
    * @throws XMLStreamException
@@ -712,7 +732,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    * @param speciesType
    * @return
    * @throws XMLStreamException
@@ -724,7 +744,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    * @param unit
    * @return
    * @throws XMLStreamException
@@ -743,7 +763,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * 
+   *
    * @param unitDefinition
    * @return
    * @throws XMLStreamException
