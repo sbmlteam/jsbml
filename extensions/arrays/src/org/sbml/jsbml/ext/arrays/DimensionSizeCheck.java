@@ -22,13 +22,8 @@
  */
 package org.sbml.jsbml.ext.arrays;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
-import org.sbml.jsbml.SBMLError;
-import org.sbml.jsbml.util.Message;
 
 
 /**
@@ -40,16 +35,15 @@ import org.sbml.jsbml.util.Message;
  * @since 1.0
  * @date Jun 10, 2014
  */
-public class DimensionSizeCheck implements ArraysConstraint{
-  private final Model model;
+public class DimensionSizeCheck extends ArraysConstraint{
+  
   private final Dimension dim;
-  private final List<SBMLError> listOfErrors;
 
   public DimensionSizeCheck(Model model, Dimension dim)
   {
-    this.model = model;
+    super(model);
     this.dim = dim;
-    listOfErrors = new ArrayList<SBMLError>();
+    
   }
 
   /**
@@ -58,7 +52,10 @@ public class DimensionSizeCheck implements ArraysConstraint{
   @Override
   public void check()
   {
-
+    if(model == null || dim == null) {
+      return;
+    }
+    
     if(!dim.isSetSize()) {
       System.err.println("Dimension size should have a value.");
       String shortMsg = "";
@@ -159,43 +156,6 @@ public class DimensionSizeCheck implements ArraysConstraint{
 
 
     logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
-  }
-
-  /**
-   * 
-   * @param code
-   * @param severity
-   * @param category
-   * @param line
-   * @param column
-   * @param pkg
-   * @param msg
-   * @param shortMsg
-   */
-  private void logFailure(int code, int severity, int category, int line, int column, String pkg, String msg, String shortMsg) {
-    SBMLError error = new SBMLError();
-    error.setCode(code);
-    error.setSeverity(SBMLError.SEVERITY.values()[severity].name());
-    error.setCategory("");
-    error.setLine(line);
-    error.setColumn(column);
-    error.setPackage(pkg);
-    Message message = new Message();
-    message.setMessage(msg);
-    error.setMessage(message);
-    Message shortMessage = new Message();
-    message.setMessage(shortMsg);
-    error.setShortMessage(shortMessage);
-    listOfErrors.add(error);
-
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.arrays.constraints.ArraysConstraint#getListOfErrors()
-   */
-  @Override
-  public List<SBMLError> getListOfErrors() {
-    return listOfErrors;
   }
 
 }

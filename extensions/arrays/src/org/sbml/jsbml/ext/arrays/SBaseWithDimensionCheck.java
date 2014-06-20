@@ -22,13 +22,8 @@
  */
 package org.sbml.jsbml.ext.arrays;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.util.Message;
 
 
 /**
@@ -37,11 +32,9 @@ import org.sbml.jsbml.util.Message;
  * @since 1.0
  * @date Jun 18, 2014
  */
-public class SBaseWithDimensionCheck implements ArraysConstraint {
+public class SBaseWithDimensionCheck extends ArraysConstraint {
 
-  private final Model model;
   private final SBase sbase;
-  private final List<SBMLError> listOfErrors;
 
   /**
    * @param model
@@ -49,9 +42,8 @@ public class SBaseWithDimensionCheck implements ArraysConstraint {
    */
   public SBaseWithDimensionCheck(Model model, SBase sbase)
   {
-    this.model = model;
+    super(model);
     this.sbase = sbase;
-    listOfErrors = new ArrayList<SBMLError>();
   }
 
   /* (non-Javadoc)
@@ -87,41 +79,5 @@ public class SBaseWithDimensionCheck implements ArraysConstraint {
 
 
     logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
-  }
-
-  /**
-   * 
-   * @param code
-   * @param severity
-   * @param category
-   * @param line
-   * @param column
-   * @param pkg
-   * @param msg
-   * @param shortMsg
-   */
-  private void logFailure(int code, int severity, int category, int line, int column, String pkg, String msg, String shortMsg) {
-    SBMLError error = new SBMLError();
-    error.setCode(code);
-    error.setSeverity(SBMLError.SEVERITY.values()[severity].name());
-    error.setCategory("");
-    error.setLine(line);
-    error.setColumn(column);
-    error.setPackage(pkg);
-    Message message = new Message();
-    message.setMessage(msg);
-    error.setMessage(message);
-    Message shortMessage = new Message();
-    message.setMessage(shortMsg);
-    error.setShortMessage(shortMessage);
-    listOfErrors.add(error);
-
-  }
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.arrays.constraints.ArraysConstraint#getListOfErrors()
-   */
-  @Override
-  public List<SBMLError> getListOfErrors() {
-    return listOfErrors;
   }
 }

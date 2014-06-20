@@ -22,9 +22,12 @@
  */
 package org.sbml.jsbml.ext.arrays;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLError;
+import org.sbml.jsbml.util.Message;
 
 
 /**
@@ -34,10 +37,74 @@ import org.sbml.jsbml.SBMLError;
  * @since 1.0
  * @date Jun 13, 2014
  */
-public interface ArraysConstraint {
+public abstract class ArraysConstraint {
  
-  public abstract void check();
-
-  public abstract List<SBMLError> getListOfErrors();
+  /**
+   * 
+   */
+  protected List<SBMLError> listOfErrors;
   
+  /**
+   * 
+   */
+  protected Model model;
+  
+  /**
+   * 
+   */
+  public ArraysConstraint() {
+    model = null;
+    listOfErrors = new ArrayList<SBMLError>();
+  }
+  
+  /**
+   * 
+   * @param model
+   */
+  public ArraysConstraint(Model model) {
+    this.model = model;
+    listOfErrors = new ArrayList<SBMLError>();
+  }
+  
+  /**
+   * 
+   */
+  public abstract void check();
+  
+  /**
+   * 
+   * @return
+   */
+  public List<SBMLError> getListOfErrors() {
+    return listOfErrors;
+  }
+  
+  /**
+   * 
+   * @param code
+   * @param severity
+   * @param category
+   * @param line
+   * @param column
+   * @param pkg
+   * @param msg
+   * @param shortMsg
+   */
+  protected void logFailure(int code, int severity, int category, int line, int column, String pkg, String msg, String shortMsg) {
+    SBMLError error = new SBMLError();
+    error.setCode(code);
+    error.setSeverity(SBMLError.SEVERITY.values()[severity].name());
+    error.setCategory("");
+    error.setLine(line);
+    error.setColumn(column);
+    error.setPackage(pkg);
+    Message message = new Message();
+    message.setMessage(msg);
+    error.setMessage(message);
+    Message shortMessage = new Message();
+    message.setMessage(shortMsg);
+    error.setShortMessage(shortMessage);
+    listOfErrors.add(error);
+    
+  }
 }

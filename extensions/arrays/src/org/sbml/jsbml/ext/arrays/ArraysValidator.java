@@ -28,6 +28,7 @@ import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLError;
@@ -80,7 +81,9 @@ public class ArraysValidator {
       if(node instanceof Index) {
         listOfErrors.addAll(IndexValidator.validate(model, (Index) node));
       }
-      
+      if(node instanceof MathContainer) {
+        listOfErrors.addAll(ArraysMathValidator.validate(model, (MathContainer) node));
+      }
     } 
 
     
