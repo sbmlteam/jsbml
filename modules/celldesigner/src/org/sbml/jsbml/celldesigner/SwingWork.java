@@ -22,18 +22,14 @@
  */
 package org.sbml.jsbml.celldesigner;
 
-import java.awt.Dimension;
-import java.util.List;
-
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
 
 import jp.sbi.celldesigner.plugin.PluginModel;
 
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.ext.layout.LayoutConstants;
+import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 
 
 /**
@@ -47,64 +43,30 @@ public class SwingWork extends SwingWorker<SBMLDocument, Throwable> {
   PluginSBMLReader sbmlReader;
   PluginModel pluginModel;
 
-    /* (non-Javadoc)
-   * @see javax.swing.SwingWorker#process(java.util.List)
-   */
-  @Override
-  protected void process(List<Throwable> chunks) {
-    for (Throwable e:chunks)
-    {
-    StringBuilder builder = new StringBuilder();
-    if (e.getMessage()==null && e.getCause()!=null) {
-      builder.append(e.getCause().getMessage());
-    } else {
-      builder.append(e.getMessage());
-    }
-    builder.append("\n");
-    for (StackTraceElement element: e.getStackTrace())
-    {
-      builder.append(element.toString());
-      builder.append("\n");
-    }
-    if (e.getCause()!=null)
-    {
-      Throwable cause = e.getCause();
-      builder.append("Caused by:\n");
-      for (StackTraceElement element: cause.getStackTrace())
-      {
-        builder.append(element.toString());
-        builder.append("\n");
-      }
-    }
-    JTextArea area = new JTextArea(builder.toString());
-    JScrollPane pane = new JScrollPane(area);
-    pane.setPreferredSize(new Dimension(640, 480));
-    JOptionPane.showMessageDialog(null, pane,e.getClass().getSimpleName(),JOptionPane.ERROR_MESSAGE);
-    }
-  }
-
-    /**
+  /**
    * @param reader
    * @param selectedModel
    */
   public SwingWork(PluginSBMLReader reader, PluginModel selectedModel) {
     sbmlReader=reader;
     pluginModel=selectedModel;
-
   }
 
-    @Override
-    protected SBMLDocument doInBackground() throws Exception {
-      try{
-        Model model = sbmlReader.convertModel(pluginModel);
-        SBMLDocument doc = new SBMLDocument(model.getLevel(), model.getVersion());
-        doc.setModel(model);
-        return doc;
-      }
-      catch (Throwable e)
-      {
-        publish(e);
-      }
-      return null;
+  @Override
+  protected SBMLDocument doInBackground() throws Exception {
+    try{
+      Model model = sbmlReader.convertModel(pluginModel);
+      LayoutModelPlugin plugin = (LayoutModelPlugin) model.getExtension("layout");
+      SBMLDocument doc = new SBMLDocument(model.getLevel(), model.getVersion());
+      doc.setModel(model);
+      doc.addNamespace(LayoutConstants.shortLabel, "xmlns", LayoutConstants.getNamespaceURI(doc.getLevel(), doc.getVersion()));
+      doc.getSBMLDocumentAttributes().put(LayoutConstants.shortLabel + ":required", "false");
+      return doc;
     }
-  };
+    catch (Throwable e)
+    {
+      publish(e);
+    }
+    return null;
+  }
+};
