@@ -22,14 +22,13 @@
  */
 package org.sbml.jsbml.celldesigner;
 
-import java.util.List;
-
 import jp.sbi.celldesigner.plugin.PluginCompartment;
 import jp.sbi.celldesigner.plugin.PluginReaction;
 import jp.sbi.celldesigner.plugin.PluginSpeciesAlias;
 
+import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
-import org.sbml.jsbml.ext.layout.ReactionGlyph;
+import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.TextGlyph;
 
@@ -42,43 +41,48 @@ import org.sbml.jsbml.ext.layout.TextGlyph;
  */
 public class LayoutConverter {
 
-  private static List<CompartmentGlyph> cGlyphList;
-  private static List<TextGlyph> tGlyphList;
-  private static List<ReactionGlyph> rGlyphList;
-  private static List<SpeciesGlyph> sGlyphList;
+  final static double depth = 1d;
+  final static double z = 0d;
 
-  public static List<CompartmentGlyph> extractLayout(PluginCompartment pCompartment)
+  /**
+   * Extracts Compartment Layout data from CellDesigner
+   * @param pCompartment the PluginCompartment
+   * @param layout The Layout object
+   */
+  public static void extractLayout(PluginCompartment pCompartment, Layout layout)
   {
-    CompartmentGlyph cGlyph=new CompartmentGlyph();
-    cGlyph.getBoundingBox().getDimensions().setHeight(pCompartment.getHeight());
-    cGlyph.getBoundingBox().getDimensions().setWidth(pCompartment.getWidth());
-    cGlyph.getBoundingBox().getPosition().setX(pCompartment.getX());
-    cGlyph.getBoundingBox().getPosition().setY(pCompartment.getY());
-    cGlyphList.add(cGlyph);
-    TextGlyph tGlyph=new TextGlyph();
-    tGlyph.getBoundingBox().getPosition().setX(pCompartment.getNamePositionX());
-    tGlyph.getBoundingBox().getPosition().setY(pCompartment.getNamePositionY());
+    CompartmentGlyph cGlyph = layout.createCompartmentGlyph("cGlyph_" + pCompartment.getId());
+    cGlyph.createBoundingBox(pCompartment.getWidth(), pCompartment.getHeight(), depth, pCompartment.getX(), pCompartment.getY(), z);
+
+    TextGlyph tGlyph=layout.createTextGlyph("tGlyph_" + pCompartment.getId());
+    BoundingBox bBox = tGlyph.createBoundingBox();
+    bBox.createPosition(pCompartment.getNamePositionX(), pCompartment.getNamePositionY(), z);
     tGlyph.setOriginOfText(pCompartment.getId());
-    return cGlyphList;
   }
 
-  public static List<SpeciesGlyph> extractLayout(PluginSpeciesAlias pSpecies)
+  /**
+   * Extracts Species Layout data from CellDesigner
+   * @param pSpecies the PluginSpeciesAlias
+   * @param layout The Layout object
+   */
+  public static void extractLayout(PluginSpeciesAlias pSpecies, Layout layout)
   {
-    SpeciesGlyph sGlyph=new SpeciesGlyph();
-    sGlyph.getBoundingBox().getDimensions().setHeight(pSpecies.getHeight());
-    sGlyph.getBoundingBox().getDimensions().setWidth(pSpecies.getWidth());
-    sGlyph.getBoundingBox().getPosition().setX(pSpecies.getX());
-    sGlyph.getBoundingBox().getPosition().setY(pSpecies.getY());
-    sGlyphList.add(sGlyph);
-    TextGlyph tGlyph=new TextGlyph();
-    tGlyph.setOriginOfText(pSpecies.getSpecies().getId());
-    return sGlyphList;
+    SpeciesGlyph sGlyph=layout.createSpeciesGlyph("sGlyph_" + pSpecies.getAliasID());
+    sGlyph.createBoundingBox(pSpecies.getWidth(), pSpecies.getHeight(), depth, pSpecies.getX(), pSpecies.getY(), z);
+
+    TextGlyph tGlyph=layout.createTextGlyph("tGlyph_" + pSpecies.getAliasID());
+    tGlyph.setOriginOfText(pSpecies.getAliasID());
   }
 
-  public static List<ReactionGlyph> extractLayout(PluginReaction pReaction)
+  /**
+   * Extracts Reaction Layout data from CellDesigner
+   * @param pReaction  the PluginReaction
+   * @param layout The Layout object
+   */
+  public static void extractLayout(PluginReaction pReaction, Layout layout)
   {
-    ReactionGlyph rGlyph=new ReactionGlyph();
-    rGlyphList.add(rGlyph);
-    return rGlyphList;
+    layout.createReactionGlyph("rGlyph_"+pReaction.getId());
+    TextGlyph tGlyph=layout.createTextGlyph("tGlyph_" + pReaction.getId());
+    tGlyph.setOriginOfText(pReaction.getId());
   }
-  }
+}

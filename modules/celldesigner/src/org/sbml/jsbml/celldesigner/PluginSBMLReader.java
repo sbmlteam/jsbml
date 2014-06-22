@@ -40,6 +40,7 @@ import jp.sbi.celldesigner.plugin.PluginEventAssignment;
 import jp.sbi.celldesigner.plugin.PluginFunctionDefinition;
 import jp.sbi.celldesigner.plugin.PluginInitialAssignment;
 import jp.sbi.celldesigner.plugin.PluginKineticLaw;
+import jp.sbi.celldesigner.plugin.PluginListOf;
 import jp.sbi.celldesigner.plugin.PluginModel;
 import jp.sbi.celldesigner.plugin.PluginModifierSpeciesReference;
 import jp.sbi.celldesigner.plugin.PluginParameter;
@@ -88,6 +89,7 @@ import org.sbml.jsbml.celldesigner.libsbml.LibSBMLUtils;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
+import org.sbml.jsbml.gui.GUIErrorConsole;
 import org.sbml.jsbml.util.ProgressListener;
 import org.sbml.jsbml.util.SBMLtools;
 import org.sbml.libsbml.libsbml;
@@ -232,12 +234,12 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   private Compartment readCompartment(PluginCompartment compartment) throws XMLStreamException {
     Compartment c = new Compartment(compartment.getId(), level, version);
     PluginUtils.transferNamedSBaseProperties(compartment, c);
-    if ((compartment.getOutside() != null) && (compartment.getOutside().length() > 0)) {
+    if ((compartment.getOutside() != null) && (compartment.getOutside().length() > 0) && (c.getLevel() < 3)) {
       c.setOutside(compartment.getOutside());
     }
     if ((compartment.getCompartmentType() != null)
         && (compartment.getCompartmentType().length() > 0)
-        && (model.getCompartmentType(compartment.getCompartmentType()) != null)) {
+        && (model.getCompartmentType(compartment.getCompartmentType()) != null) && (c.getLevel() < 3)) {
       /*
        * Note: the third check is necessary because CellDesigner might return
        * one of its Compartment Classes as CompartmentType that has no real
@@ -306,7 +308,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
     for (int i = 0; i < event.getNumEventAssignments(); i++) {
       e.addEventAssignment(readEventAssignment(event.getEventAssignment(i)));
     }
-    if ((event.getTimeUnits() != null) && (event.getTimeUnits().length() > 0)) {
+    if ((event.getTimeUnits() != null) && (event.getTimeUnits().length() > 0) && (e.getLevel() < 3)) {
       e.setTimeUnits(event.getTimeUnits());
     }
     e.setUseValuesFromTriggerTime(event.getUseValuesFromTriggerTime());
@@ -402,144 +404,145 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    */
   @Override
   public Model convertModel(PluginModel originalModel) throws XMLStreamException {
+    try{
+      int total = 0, curr = 0;
 
-    int total = 0, curr = 0;
+      total = originalModel.getNumCVTerms();
+      total += originalModel.getNumUnitDefinitions();
+      total += originalModel.getNumFunctionDefinitions();
+      total += originalModel.getNumCompartmentTypes();
+      total += originalModel.getNumSpeciesTypes();
+      total += originalModel.getNumCompartments();
+      total += originalModel.getNumSpecies();
+      total += originalModel.getNumParameters();
+      total += originalModel.getNumInitialAssignments();
+      total += originalModel.getNumRules();
+      total += originalModel.getNumConstraints();
+      total += originalModel.getNumReactions();
+      total += originalModel.getNumEvents();
 
-    total = originalModel.getNumCVTerms();
-    total += originalModel.getNumUnitDefinitions();
-    total += originalModel.getNumFunctionDefinitions();
-    total += originalModel.getNumCompartmentTypes();
-    total += originalModel.getNumSpeciesTypes();
-    total += originalModel.getNumCompartments();
-    total += originalModel.getNumSpecies();
-    total += originalModel.getNumParameters();
-    total += originalModel.getNumInitialAssignments();
-    total += originalModel.getNumRules();
-    total += originalModel.getNumConstraints();
-    total += originalModel.getNumReactions();
-    total += originalModel.getNumEvents();
-
-    if (listener != null) {
-      listener.progressStart(total);
-    }
-
-    model = new Model(originalModel.getId(), level, version);
-    String namespace = LayoutConstants.getNamespaceURI(model.getLevel(), model.getVersion());
-    LayoutModelPlugin modelPlugin = new LayoutModelPlugin(model);
-    model.addExtension(namespace, modelPlugin);
-    Layout layout = modelPlugin.createLayout("CellDesigner_Layout");
-
-
-    PluginUtils.transferNamedSBaseProperties(originalModel, model);
-    if (listener != null) {
-      curr += originalModel.getNumCVTerms();
-      listener.progressUpdate(curr, null);
-    }
-
-    int i;
-    for (i = 0; i < originalModel.getNumUnitDefinitions(); i++) {
-      model.addUnitDefinition(readUnitDefinition(originalModel.getUnitDefinition(i)));
       if (listener != null) {
-        listener.progressUpdate(++curr, "Unit definitions");
+        listener.progressStart(total);
+      }
+
+      model = new Model(originalModel.getId(), level, version);
+
+      String namespace = LayoutConstants.getNamespaceURI(model.getLevel(), model.getVersion());
+      LayoutModelPlugin modelPlugin = new LayoutModelPlugin(model);
+      model.addExtension(namespace, modelPlugin);
+      Layout layout = modelPlugin.createLayout("CellDesigner_Layout");
+
+      PluginUtils.transferNamedSBaseProperties(originalModel, model);
+      if (listener != null) {
+        curr += originalModel.getNumCVTerms();
+        listener.progressUpdate(curr, null);
+      }
+
+      int i;
+      for (i = 0; i < originalModel.getNumUnitDefinitions(); i++) {
+        model.addUnitDefinition(readUnitDefinition(originalModel.getUnitDefinition(i)));
+        if (listener != null) {
+          listener.progressUpdate(++curr, "Unit definitions");
+        }
+      }
+
+      // This is something, libSBML wouldn't do...
+      SBMLtools.addPredefinedUnitDefinitions(model);
+      for (i = 0; i < originalModel.getNumFunctionDefinitions(); i++) {
+        model.addFunctionDefinition(readFunctionDefinition(originalModel.getFunctionDefinition(i)));
+        if (listener != null) {
+          listener.progressUpdate(++curr, "Funciton definitions");
+        }
+      }
+
+      for (i = 0; i < originalModel.getNumCompartmentTypes() && (model.getLevel() < 3); i++) {
+        model.addCompartmentType(readCompartmentType(originalModel.getCompartmentType(i)));
+        if (listener != null) {
+          listener.progressUpdate(++curr, "Compartment types");
+        }
+      }
+
+      for (i = 0; i < originalModel.getNumSpeciesTypes() && (model.getLevel() < 3); i++) {
+        model.addSpeciesType(readSpeciesType(originalModel.getSpeciesType(i)));
+        if (listener != null) {
+          listener.progressUpdate(++curr, "Species types");
+        }
+      }
+
+      for (i = 0; i < originalModel.getNumCompartments(); i++) {
+        PluginCompartment pCompartment = originalModel.getCompartment(i);
+        model.addCompartment(readCompartment(pCompartment));
+        LayoutConverter.extractLayout(pCompartment, layout);
+        if (listener != null) {
+          listener.progressUpdate(++curr, "Compartments");
+        }
+      }
+
+      for (i = 0; i < originalModel.getNumSpecies(); i++) {
+        PluginSpecies pSpecies = originalModel.getSpecies(i);
+        PluginListOf listOfAliases = pSpecies.getListOfSpeciesAlias();
+        for (int j=0;j<listOfAliases.size();j++)
+        {
+          LayoutConverter.extractLayout((PluginSpeciesAlias)listOfAliases.get(j), layout);
+        }
+        model.addSpecies(readSpecies(pSpecies));
+        if (listener != null) {
+          listener.progressUpdate(++curr, "Species");
+        }
+      }
+
+      for (i = 0; i < originalModel.getNumParameters(); i++) {
+        model.addParameter(readParameter(originalModel.getParameter(i)));
+        if (listener != null) {
+          listener.progressUpdate(++curr, "Parameters");
+        }
+      }
+
+      for (i = 0; i < originalModel.getNumInitialAssignments(); i++) {
+        model.addInitialAssignment(readInitialAssignment(originalModel.getInitialAssignment(i)));
+        if (listener != null) {
+          listener.progressUpdate(++curr, "Initial assignments");
+        }
+      }
+
+      for (i = 0; i < originalModel.getNumRules(); i++) {
+        model.addRule(readRule(originalModel.getRule(i)));
+        if (listener != null) {
+          listener.progressUpdate(++curr, "Rules");
+        }
+      }
+
+      for (i = 0; i < originalModel.getNumConstraints(); i++) {
+        model.addConstraint(readConstraint(originalModel.getConstraint(i)));
+        if (listener != null) {
+          listener.progressUpdate(++curr, "Constraints");
+        }
+      }
+
+      for (i = 0; i < originalModel.getNumReactions(); i++) {
+        PluginReaction pReaction = originalModel.getReaction(i);
+        model.addReaction(readReaction(pReaction));
+        LayoutConverter.extractLayout(pReaction, layout);
+        if (listener != null) {
+          listener.progressUpdate(++curr, "Reactions");
+        }
+      }
+
+      for (i = 0; i < originalModel.getNumEvents(); i++) {
+        model.addEvent(readEvent(originalModel.getEvent(i)));
+        if (listener != null) {
+          listener.progressUpdate(++curr, "Events");
+        }
+      }
+
+      if (listener != null) {
+        listener.progressFinish();
       }
     }
-
-    // This is something, libSBML wouldn't do...
-    SBMLtools.addPredefinedUnitDefinitions(model);
-    for (i = 0; i < originalModel.getNumFunctionDefinitions(); i++) {
-      model.addFunctionDefinition(readFunctionDefinition(originalModel.getFunctionDefinition(i)));
-      if (listener != null) {
-        listener.progressUpdate(++curr, "Funciton definitions");
-      }
+    catch (Throwable e)
+    {
+      new GUIErrorConsole(e);
     }
-
-    for (i = 0; i < originalModel.getNumCompartmentTypes(); i++) {
-      model.addCompartmentType(readCompartmentType(originalModel.getCompartmentType(i)));
-      if (listener != null) {
-        listener.progressUpdate(++curr, "Compartment types");
-      }
-    }
-
-    for (i = 0; i < originalModel.getNumSpeciesTypes(); i++) {
-      model.addSpeciesType(readSpeciesType(originalModel.getSpeciesType(i)));
-      if (listener != null) {
-        listener.progressUpdate(++curr, "Species types");
-      }
-    }
-
-    for (i = 0; i < originalModel.getNumCompartments(); i++) {
-      model.addCompartment(readCompartment(originalModel.getCompartment(i)));
-      /*List<CompartmentGlyph> listOfCompartmentGlyphs=LayoutConverter.extractLayout(originalModel.getCompartment(i));
-      for (CompartmentGlyph cg:listOfCompartmentGlyphs)
-      {
-        layout.addCompartmentGlyph(cg);
-     }*/
-      if (listener != null) {
-        listener.progressUpdate(++curr, "Compartments");
-      }
-    }
-
-    for (i = 0; i < originalModel.getNumSpecies(); i++) {
-      //PluginSpecies pSpecies=originalModel.getSpecies(i);
-      model.addSpecies(readSpecies(originalModel.getSpecies(i)));
-     /*List<SpeciesGlyph> listOfSpeciesGlyphs=LayoutConverter.extractLayout(originalModel.getPluginSpeciesAlias(pSpecies.getId()));
-     for (SpeciesGlyph sg:listOfSpeciesGlyphs)
-     {
-        layout.addSpeciesGlyph(sg);
-     }*/
-      if (listener != null) {
-        listener.progressUpdate(++curr, "Species");
-      }
-    }
-
-    for (i = 0; i < originalModel.getNumParameters(); i++) {
-      model.addParameter(readParameter(originalModel.getParameter(i)));
-      if (listener != null) {
-        listener.progressUpdate(++curr, "Parameters");
-      }
-    }
-
-    for (i = 0; i < originalModel.getNumInitialAssignments(); i++) {
-      model.addInitialAssignment(readInitialAssignment(originalModel.getInitialAssignment(i)));
-      if (listener != null) {
-        listener.progressUpdate(++curr, "Initial assignments");
-      }
-    }
-
-    for (i = 0; i < originalModel.getNumRules(); i++) {
-      model.addRule(readRule(originalModel.getRule(i)));
-      if (listener != null) {
-        listener.progressUpdate(++curr, "Rules");
-      }
-    }
-
-    for (i = 0; i < originalModel.getNumConstraints(); i++) {
-      model.addConstraint(readConstraint(originalModel.getConstraint(i)));
-      if (listener != null) {
-        listener.progressUpdate(++curr, "Constraints");
-      }
-    }
-
-    for (i = 0; i < originalModel.getNumReactions(); i++) {
-      model.addReaction(readReaction(originalModel.getReaction(i)));
-      if (listener != null) {
-        listener.progressUpdate(++curr, "Reactions");
-      }
-    }
-
-    for (i = 0; i < originalModel.getNumEvents(); i++) {
-      model.addEvent(readEvent(originalModel.getEvent(i)));
-      if (listener != null) {
-        listener.progressUpdate(++curr, "Events");
-      }
-    }
-
-    if (listener != null) {
-      listener.progressFinish();
-    }
-
-    // There are no SBasePlugins, i.e., no extension packages to be considered.
-
     return model;
   }
 
@@ -674,7 +677,9 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
     if (SBO.checkTerm(sbo)) {
       s.setSBOTerm(sbo);
     }
-    s.setCharge(species.getCharge());
+    if (model.getLevel()<3) {
+      s.setCharge(species.getCharge());
+    }
     if ((species.getCompartment() != null) && (species.getCompartment().length() > 0)) {
       s.setCompartment(model.getCompartment(species.getCompartment()));
     }
@@ -687,13 +692,13 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
       s.setInitialConcentration(species.getInitialConcentration());
     }
     // before L2V3...
-    if ((species.getSpatialSizeUnits() != null) && (species.getSpatialSizeUnits().length() > 0)) {
+    if ((species.getSpatialSizeUnits() != null) && (species.getSpatialSizeUnits().length() > 0) && (model.getLevel() < 3)) {
       s.setSpatialSizeUnits(species.getSpatialSizeUnits());
     }
     if (species.getSubstanceUnits().length() > 0) {
       s.setSubstanceUnits(species.getSubstanceUnits());
     }
-    if (species.getSpeciesType().length() > 0) {
+    if (species.getSpeciesType().length() > 0 && (model.getLevel() < 3)) {
       s.setSpeciesType(model.getSpeciesType(species.getSpeciesType()));
     }
     return s;
@@ -710,7 +715,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
     SpeciesReference spec = new SpeciesReference(level, version);
     PluginUtils.transferNamedSBaseProperties(speciesReference, spec);
     logger.debug("NamedSBase properties done");
-    if (speciesReference.getStoichiometryMath() != null) {
+    if ((speciesReference.getStoichiometryMath() != null) && (model.getLevel() < 3)) {
       spec.setStoichiometryMath(LibSBMLReader.readStoichiometricMath(speciesReference.getStoichiometryMath()));
       logger.debug("Reading stoichiometric math done");
     } else {
@@ -753,10 +758,10 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
     Unit u = new Unit(level, version);
     PluginUtils.transferSBaseProperties(unit, u);
     u.setKind(LibSBMLUtils.convertUnitKind(unit.getKind()));
-    u.setExponent(unit.getExponent());
+    u.setExponent((double) unit.getExponent());
     u.setMultiplier(unit.getMultiplier());
     u.setScale(unit.getScale());
-    if (u.isSetOffset()) {
+    if (u.isSetOffset() && (model.getLevel() < 3)) {
       u.setOffset(unit.getOffset());
     }
     return u;

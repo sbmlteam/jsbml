@@ -65,13 +65,13 @@ public class SBMLLayoutVisualizer extends JFrame implements ActionListener {
     Container contentPane = getContentPane();
     contentPane.setLayout(new FlowLayout());
     //creating Button and listening for click
-    Button SBMLExportButton=new Button("Export SBML to File");
+    Button SBMLExportButton = new Button("Export SBML to File");
     SBMLExportButton.addActionListener(this);
 
-    SBMLWriter writer=new SBMLWriter();
-    JTextArea SBMLViewerArea=new JTextArea(50,120);
+    SBMLWriter writer = new SBMLWriter();
+    JTextArea SBMLViewerArea = new JTextArea(50,120);
     //writing SBML to String
-    SBMLString=writer.writeSBMLToString(document);
+    SBMLString = writer.writeSBMLToString(document);
     //adding it to the Viewing Area
     SBMLViewerArea.append(SBMLString);
     contentPane.add(new JScrollPane(SBMLViewerArea));
@@ -101,16 +101,15 @@ public class SBMLLayoutVisualizer extends JFrame implements ActionListener {
     chooser.setFileFilter(fileFilter);
     int retrival = chooser.showSaveDialog(null);
     if (retrival == JFileChooser.APPROVE_OPTION) {
-        try {
-            File outputFile=chooser.getSelectedFile();
-            FileWriter fw = new FileWriter(outputFile+".xml");
-            BufferedWriter out = new BufferedWriter(fw);
-            out.write(SBMLString);
-            out.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
+      try {
+        File outputFile = chooser.getSelectedFile();
+        FileWriter fw = new FileWriter(outputFile+".xml");
+        BufferedWriter out = new BufferedWriter(fw);
+        out.write(SBMLString);
+        out.close();
+      } catch (Exception ex) {
+        ex.printStackTrace();
+      }
     }
   }
 
