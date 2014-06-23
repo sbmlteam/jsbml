@@ -31,6 +31,8 @@ import org.sbml.jsbml.util.Message;
 
 
 /**
+ * An {@link ArraysConstraint} object ensures that a given {@link Model} doesn't
+ * violate a certain validation rule defined in the arrays specification.
  * 
  * @author Leandro Watanabe
  * @version $Rev$
@@ -40,17 +42,17 @@ import org.sbml.jsbml.util.Message;
 public abstract class ArraysConstraint {
  
   /**
-   * 
+   * This is used to track {@link SBMLErrors} that are detected in the model.
    */
   protected List<SBMLError> listOfErrors;
   
   /**
-   * 
+   * A Model to be checked.
    */
   protected Model model;
   
   /**
-   * 
+   * Constructs an ArraysConstraint.
    */
   public ArraysConstraint() {
     model = null;
@@ -58,6 +60,7 @@ public abstract class ArraysConstraint {
   }
   
   /**
+   * Constructs an ArraysConstraint with a model.
    * 
    * @param model
    */
@@ -67,12 +70,14 @@ public abstract class ArraysConstraint {
   }
   
   /**
-   * 
+   * This function is used to check if the given model
+   * doesn't violate the constraint specified by this
+   * object.
    */
   public abstract void check();
   
   /**
-   * 
+   * Get the listOfErrors after checking the model.
    * @return
    */
   public List<SBMLError> getListOfErrors() {
@@ -80,6 +85,7 @@ public abstract class ArraysConstraint {
   }
   
   /**
+   * This is used to log an error when checking the given model.
    * 
    * @param code
    * @param severity

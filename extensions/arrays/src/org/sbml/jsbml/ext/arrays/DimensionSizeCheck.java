@@ -27,8 +27,8 @@ import org.sbml.jsbml.Parameter;
 
 
 /**
- * Checks if all dimension objects have size that is both
- * scalar and constant.
+ * Checks if the given {@link Dimension} object has size that is both
+ * scalar and constant. Also, the size should be a non-negative integer.
  * 
  * @author Leandro Watanabe
  * @version $Rev$
@@ -45,9 +45,9 @@ public class DimensionSizeCheck extends ArraysConstraint{
     this.dim = dim;
     
   }
-
-  /**
-   * Validates a given sbase
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.arrays.constraints.ArraysConstraint#check()
    */
   @Override
   public void check()
@@ -92,11 +92,16 @@ public class DimensionSizeCheck extends ArraysConstraint{
 
     // Test if it is an integer
     if(param.getValue() % 1 != 0) {
-      System.err.println("Dimension size should point to a CONSTANT parameter.");
+      System.err.println("Dimension size should point to a parameter with integer value.");
       String shortMsg = "";
       logDimensionSizeValueInconsistency(shortMsg);
     }
 
+    if(param.getValue()  > 0) {
+      System.err.println("Dimension size should point to a parameter with value greater than 0.");
+      String shortMsg = "";
+      logDimensionSizeValueInconsistency(shortMsg);
+    }
 
     ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) param.getExtension(ArraysConstants.shortLabel);
 
@@ -110,6 +115,7 @@ public class DimensionSizeCheck extends ArraysConstraint{
   }
 
   /**
+   * Log an error indicating that a required attribute value is not set.
    * 
    * @param shortMsg
    */
@@ -127,6 +133,8 @@ public class DimensionSizeCheck extends ArraysConstraint{
   }
 
   /**
+   * Log an error indicating that the size associated with the given dimension object
+   * doesn't point to a valid parameter.
    * 
    * @param shortMsg
    */
@@ -143,6 +151,8 @@ public class DimensionSizeCheck extends ArraysConstraint{
   }
 
   /**
+   * Log an error indicating that the given dimension has value that is not scalar or
+   * constant or non-negative integer.
    * 
    * @param shortMsg
    */

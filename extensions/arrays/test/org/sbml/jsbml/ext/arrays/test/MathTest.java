@@ -35,12 +35,19 @@ import org.sbml.jsbml.text.parser.ParseException;
 
 
 /**
+ * Test all sorts of cases involving MathML selector and vector.
+ * Also, test if infix parsing is working properly for these MathML constructs.
+ * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
  * @date May 27, 2014
  */
 public class MathTest {
+ 
+  /**
+   * Test if vector function is working as expected.
+   */
   @Test
   public void testASTNodeVector() {
 
@@ -61,6 +68,9 @@ public class MathTest {
 
   }
 
+  /**
+   * Test if we can construct empty vectors using the infix syntax.
+   */
   @Test
   public void testEmptyInfixVector() {
 
@@ -77,6 +87,9 @@ public class MathTest {
     }
   }
   
+  /**
+   * Test if we can construct 1D vectors using the infix syntax.
+   */
   @Test
   public void testInfixVector() {
 
@@ -95,6 +108,9 @@ public class MathTest {
     }
   }
 
+  /**
+   * Test if we can construct 2D vectors using the infix syntax.
+   */
   @Test
   public void testInfixNestedVector() {
 
@@ -117,6 +133,9 @@ public class MathTest {
     }
   }
   
+  /**
+   * Test if we can construct selector function using the infix syntax.
+   */
   @Test
   public void testInfixSelector() {
 
@@ -135,6 +154,10 @@ public class MathTest {
     }
   }
   
+  /**
+   * Test if we can construct selector function using the infix syntax
+   * for selecting an element from a 2D array.
+   */
   @Test
   public void testNestedInfixSelector() {
 
@@ -154,6 +177,10 @@ public class MathTest {
     }
   }
   
+  /**
+   * Test if the compiler prevents the user from constructing
+   * the selector function without math.
+   */
   @Test
   public void testInfixSelectorWithoutMath() {
 
@@ -168,6 +195,10 @@ public class MathTest {
     }
   }
   
+  /**
+   * Test if the compiler prevents the user from constructing
+   * the selector function without an identifier.
+   */
   @Test
   public void testInfixSelectorWithoutArrayedObj() {
 
@@ -182,6 +213,10 @@ public class MathTest {
     }
   }
 
+  /**
+   * Test if we can construct empty vectors using the infix syntax using
+   * the LL3 compiler.
+   */
   @Test
   public void testEmptyInfixVectorLL3() {
 
@@ -198,6 +233,10 @@ public class MathTest {
     }
   }
   
+  /**
+   * Test if we can construct 1D vectors using the infix syntax using
+   * the LL3 compiler.
+   */
   @Test
   public void testInfixVectorLL3() {
 
@@ -216,6 +255,10 @@ public class MathTest {
     }
   }
 
+  /**
+   * Test if we can construct 2D vectors using the infix syntax using
+   * the LL3 compiler.
+   */
   @Test
   public void testInfixNestedVectorLL3() {
 
@@ -235,6 +278,10 @@ public class MathTest {
     }
   }
   
+  /**
+   * Test if we can construct selector function using the infix syntax
+   * using the LL3 compiler.
+   */
   @Test
   public void testInfixSelectorLL3() {
 
@@ -251,6 +298,10 @@ public class MathTest {
     }
   }
   
+  /**
+   * Test if we can construct selector function using the infix syntax
+   * for selecting an element from a 2D array using the LL3 compiler.
+   */
   @Test
   public void testNestedInfixSelectorLL3() {
 
@@ -267,6 +318,10 @@ public class MathTest {
     }
   }
   
+  /**
+   * Test if the LL3 compiler prevents the user from constructing
+   * the selector function without math.
+   */
   @Test
   public void testInfixSelectorWithoutMathLL3() {
 
@@ -281,6 +336,10 @@ public class MathTest {
     }
   }
   
+  /**
+   * Test if the LL3 compiler prevents the user from constructing
+   * the selector function without an identifier.
+   */
   @Test
   public void testInfixSelectorWithoutArrayedObjLL3() {
 
@@ -295,6 +354,10 @@ public class MathTest {
     }
   }
   
+  /**
+   * Test if the infix notation works where the math is
+   * an equation.
+   */
   @Test
   public void testInfixSelectorWithFunction() {
 
@@ -311,6 +374,10 @@ public class MathTest {
     }
   }
   
+  /**
+   * Test if the infix notation using the LL3 compiler works where the math is
+   * an equation.
+   */
   @Test
   public void testInfixSelectorWithFunctionLL3() {
 
@@ -327,6 +394,9 @@ public class MathTest {
     }
   }
   
+  /**
+   * Test if you can make a vector of anything using the infix notation.
+   */
   @Test
   public void testInfixVectorWithFunction() {
 
@@ -343,6 +413,10 @@ public class MathTest {
     }
   }
   
+  
+  /**
+   * Test if you can make a vector of anything using the LL3 parser.
+   */
   @Test
   public void testInfixVectorWithFunctionLL3() {
 

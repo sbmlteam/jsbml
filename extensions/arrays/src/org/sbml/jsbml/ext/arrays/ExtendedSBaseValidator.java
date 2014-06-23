@@ -39,6 +39,9 @@ import org.sbml.jsbml.UnitDefinition;
 
 
 /**
+ * This validates a given {@link SBase} object in the context of a given model and makes sure that
+ * the  {@link SBase}  object is in accordance with the arrays package specification.
+ * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0

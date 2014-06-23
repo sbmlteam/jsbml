@@ -27,6 +27,8 @@ import org.sbml.jsbml.SBase;
 
 
 /**
+ * This checks if the {@link Index} objects of a given {@link SBase} have valid array dimension. 
+ * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
@@ -36,6 +38,12 @@ public class IndexArrayDimCheck extends ArraysConstraint {
 
   private final SBase sbase;
   
+  /**
+   * Constructs a new IndexArrayDimCheck with a model and sbase
+   * 
+   * @param model
+   * @param sbase
+   */
   public IndexArrayDimCheck(Model model, SBase sbase)
   {
     super(model);
@@ -98,6 +106,7 @@ public class IndexArrayDimCheck extends ArraysConstraint {
   }
 
   /**
+   * Log an error indicating that two or more index objects have the same array dimension.
    * 
    * @param shortMsg
    */
@@ -115,6 +124,8 @@ public class IndexArrayDimCheck extends ArraysConstraint {
   
   
   /**
+   * Log an error indicating a listOfIndices have a Index with array dimension n
+   * but not an Index with array dimension from 0...n-1.
    * 
    * @param shortMsg
    */

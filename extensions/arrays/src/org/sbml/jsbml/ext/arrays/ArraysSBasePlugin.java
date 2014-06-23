@@ -70,7 +70,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    * Maps between the {@link Dimension} identifiers and themselves.
    */
   Map<String, Dimension> mapOfDimensions;
-  
+
   /**
    * 
    */
@@ -80,254 +80,254 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    * 
    */
   private ListOf<Dimension> listOfDimensions;
-  
-/**
- * Creates an ArraysSBasePlugin instance 
- */
-public ArraysSBasePlugin() {
-  super();
-  initDefaults();
-}
 
-/**
- * Creates an ArraysSBasePlugin with a level and a version.
- *  
- * @param extendedSBase
- */
-public ArraysSBasePlugin(SBase extendedSBase) {
-  
-}
-
-/**
- * Clone constructor
- */
-public ArraysSBasePlugin(ArraysSBasePlugin obj) {
-  super(obj);
-  
-  if(obj.isSetListOfDimensions()) {
-    setListOfDimensions(obj.listOfDimensions.clone());
+  /**
+   * Creates an ArraysSBasePlugin instance 
+   */
+  public ArraysSBasePlugin() {
+    super();
+    initDefaults();
   }
-    
-  if(obj.isSetListOfIndices()){
-    setListOfIndices(obj.listOfIndices.clone());
+
+  /**
+   * Creates an ArraysSBasePlugin with a level and a version.
+   *  
+   * @param extendedSBase
+   */
+  public ArraysSBasePlugin(SBase extendedSBase) {
+
   }
-    
-}
 
+  /**
+   * Clone constructor
+   */
+  public ArraysSBasePlugin(ArraysSBasePlugin obj) {
+    super(obj);
 
-/**
- * clones this class
- */
-@Override
-public ArraysSBasePlugin clone() {
-  return new ArraysSBasePlugin(this);
-}
-
-
-/**
- * Initializes the default values using the namespace.
- */
-public void initDefaults() {
-
-}
-
-/**
- * Returns {@code true}, if listOfIndices contains at least one element.
- *
- * @return {@code true}, if listOfIndices contains at least one element, 
- *         otherwise {@code false}.
- */
-public boolean isSetListOfIndices() {
-  if ((listOfIndices == null) || listOfIndices.isEmpty()) {
-    return false;
-  }
-  return true;
-}
-
-
-/**
- * Returns the listOfIndices. Creates it if it is not already existing.
- *
- * @return the listOfIndices.
- */
-public ListOf<Index> getListOfIndices() {
-  if (!isSetListOfIndices()) {
-    listOfIndices = new ListOf<Index>();
-    listOfIndices.setNamespace(ArraysConstants.namespaceURI);
-    listOfIndices.setSBaseListType(ListOf.Type.other);
-     if (isSetExtendedSBase()) {
-      extendedSBase.registerChild(listOfIndices);
+    if(obj.isSetListOfDimensions()) {
+      setListOfDimensions(obj.listOfDimensions.clone());
     }
+
+    if(obj.isSetListOfIndices()){
+      setListOfIndices(obj.listOfIndices.clone());
+    }
+
   }
-  return listOfIndices;
-}
 
 
-/**
- * Sets the given {@code ListOf<Index>}. If listOfIndices
- * was defined before and contains some elements, they are all unset.
- *
- * @param listOfIndices.
- */
-public void setListOfIndices(ListOf<Index> listOfIndices) {
-  unsetListOfIndices();
-  this.listOfIndices = listOfIndices;
-  this.listOfIndices.setSBaseListType(ListOf.Type.other);
- 
-  if (isSetExtendedSBase()) {
-    extendedSBase.registerChild(this.listOfIndices);
+  /**
+   * clones this class
+   */
+  @Override
+  public ArraysSBasePlugin clone() {
+    return new ArraysSBasePlugin(this);
   }
-}
 
 
-/**
- * Returns {@code true}, if listOfIndices contain at least one element, 
- *         otherwise {@code false}.
- *
- * @return {@code true}, if listOfIndices contain at least one element, 
- *         otherwise {@code false}.
- */
-public boolean unsetListOfIndices() {
-  if (isSetListOfIndices()) {
-    ListOf<Index> oldIndices = listOfIndices;
-    listOfIndices = null;
-    oldIndices.fireNodeRemovedEvent();
+  /**
+   * Initializes the default values using the namespace.
+   */
+  public void initDefaults() {
+
+  }
+
+  /**
+   * Returns {@code true}, if listOfIndices contains at least one element.
+   *
+   * @return {@code true}, if listOfIndices contains at least one element, 
+   *         otherwise {@code false}.
+   */
+  public boolean isSetListOfIndices() {
+    if ((listOfIndices == null) || listOfIndices.isEmpty()) {
+      return false;
+    }
     return true;
   }
-  return false;
-}
 
 
-/**
- * Adds a new {@link Index} to the listOfIndices.
- * <p>The listOfIndices is initialized if necessary.
- *
- * @param field the element to add to the list
- * @return true (as specified by {@link Collection.add})
- */
-public boolean addIndex(Index field) {
-  return getListOfIndices().add(field);
-}
-
-
-/**
- * Removes an element from the listOfIndices.
- *
- * @param field the element to be removed from the list.
- * @return true if the list contained the specified element and it was removed.
- * @see List#remove(Object)
- */
-public boolean removeIndex(Index field) {
-  if (isSetListOfIndices()) {
-    return getListOfIndices().remove(field);
+  /**
+   * Returns the listOfIndices. Creates it if it is not already existing.
+   *
+   * @return the listOfIndices.
+   */
+  public ListOf<Index> getListOfIndices() {
+    if (!isSetListOfIndices()) {
+      listOfIndices = new ListOf<Index>();
+      listOfIndices.setNamespace(ArraysConstants.namespaceURI);
+      listOfIndices.setSBaseListType(ListOf.Type.other);
+      if (isSetExtendedSBase()) {
+        extendedSBase.registerChild(listOfIndices);
+      }
+    }
+    return listOfIndices;
   }
-  return false;
-}
 
-/**
- * Removes an element from the listOfIndices based on array dimension.
- *
- * @param field the element with given array dimension to be removed from the list.
- * @return true if the list contained the specified element with given array dimension and it was removed.
- * @see List#remove(Object)
- */
-public boolean removeIndexByArrayDimension(int arrayDim) {
-  if (isSetListOfIndices()) {
-    ListOf<Index> list = getListOfIndices();
-    for(Index index : list) {
-      if(index.isSetArrayDimension()) {
-        if(index.getArrayDimension() == arrayDim) {
-          return index.removeFromParent();
+
+  /**
+   * Sets the given {@code ListOf<Index>}. If listOfIndices
+   * was defined before and contains some elements, they are all unset.
+   *
+   * @param listOfIndices.
+   */
+  public void setListOfIndices(ListOf<Index> listOfIndices) {
+    unsetListOfIndices();
+    this.listOfIndices = listOfIndices;
+    this.listOfIndices.setSBaseListType(ListOf.Type.other);
+
+    if (isSetExtendedSBase()) {
+      extendedSBase.registerChild(this.listOfIndices);
+    }
+  }
+
+
+  /**
+   * Returns {@code true}, if listOfIndices contain at least one element, 
+   *         otherwise {@code false}.
+   *
+   * @return {@code true}, if listOfIndices contain at least one element, 
+   *         otherwise {@code false}.
+   */
+  public boolean unsetListOfIndices() {
+    if (isSetListOfIndices()) {
+      ListOf<Index> oldIndices = listOfIndices;
+      listOfIndices = null;
+      oldIndices.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+
+  /**
+   * Adds a new {@link Index} to the listOfIndices.
+   * <p>The listOfIndices is initialized if necessary.
+   *
+   * @param field the element to add to the list
+   * @return true (as specified by {@link Collection.add})
+   */
+  public boolean addIndex(Index field) {
+    return getListOfIndices().add(field);
+  }
+
+
+  /**
+   * Removes an element from the listOfIndices.
+   *
+   * @param field the element to be removed from the list.
+   * @return true if the list contained the specified element and it was removed.
+   * @see List#remove(Object)
+   */
+  public boolean removeIndex(Index field) {
+    if (isSetListOfIndices()) {
+      return getListOfIndices().remove(field);
+    }
+    return false;
+  }
+
+  /**
+   * Removes an element from the listOfIndices based on array dimension.
+   *
+   * @param field the element with given array dimension to be removed from the list.
+   * @return true if the list contained the specified element with given array dimension and it was removed.
+   * @see List#remove(Object)
+   */
+  public boolean removeIndexByArrayDimension(int arrayDim) {
+    if (isSetListOfIndices()) {
+      ListOf<Index> list = getListOfIndices();
+      for(Index index : list) {
+        if(index.isSetArrayDimension()) {
+          if(index.getArrayDimension() == arrayDim) {
+            return index.removeFromParent();
+          }
         }
       }
     }
+    return false;
   }
-  return false;
-}
 
-/**
- * Removes an element from the listOfIndices at the given index.
- *
- * @param i the index where to remove the {@link Index}.
- * @return the specified element, if it was successfully found and removed.
- * @throws IndexOutOfBoundsException if the listOf is not set or
- * if the index is out of bound (index < 0 || index > list.size).
- */
-public Index removeIndex(int i) {
-  if (!isSetListOfIndices()) {
-    throw new IndexOutOfBoundsException(Integer.toString(i));
+  /**
+   * Removes an element from the listOfIndices at the given index.
+   *
+   * @param i the index where to remove the {@link Index}.
+   * @return the specified element, if it was successfully found and removed.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public Index removeIndex(int i) {
+    if (!isSetListOfIndices()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfIndices().remove(i);
   }
-  return getListOfIndices().remove(i);
-}
 
 
-/**
- * Creates a new Index element and adds it to the listOfIndices list.
- */
-public Index createIndex() {
-  Index field = new Index();
-  addIndex(field);
-  return field;
-}
-
-/**
- * Gets an element from the listOfIndices at the given index.
- *
- * @param i the index of the {@link Index} element to get.
- * @return an element from the listOfIndices at the given index.
- * @throws IndexOutOfBoundsException if the listOf is not set or
- * if the index is out of bound (index < 0 || index > list.size).
- */
-public Index getIndex(int i) {
-  if (!isSetListOfIndices()) {
-    throw new IndexOutOfBoundsException(Integer.toString(i));
+  /**
+   * Creates a new Index element and adds it to the listOfIndices list.
+   */
+  public Index createIndex() {
+    Index field = new Index();
+    addIndex(field);
+    return field;
   }
-  return getListOfIndices().get(i);
-}
 
-/**
- * Gets an element from the listOfIndices based on array dimension 
- * and referenced attribute.
- *
- * @param i the index of the {@link Index} element to get.
- * @return an element from the listOfIndices at the given index.
- * @throws IndexOutOfBoundsException if the listOf is not set or
- * if the index is out of bound (index < 0 || index > list.size).
- */
-public Index getIndex(int dim, String attribute) {
-  if (isSetListOfIndices()) {
-    ListOf<Index> list = getListOfIndices();
-    for(Index index : list) {
-      if(index.isSetArrayDimension() && index.isSetReferencedAttribute()) {
-        if(index.getArrayDimension() == dim 
-            && index.getReferencedAttribute().equals(attribute)) {
-          return index;
+  /**
+   * Gets an element from the listOfIndices at the given index.
+   *
+   * @param i the index of the {@link Index} element to get.
+   * @return an element from the listOfIndices at the given index.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public Index getIndex(int i) {
+    if (!isSetListOfIndices()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfIndices().get(i);
+  }
+
+  /**
+   * Gets an element from the listOfIndices based on array dimension 
+   * and referenced attribute.
+   *
+   * @param i the index of the {@link Index} element to get.
+   * @return an element from the listOfIndices at the given index.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public Index getIndex(int dim, String attribute) {
+    if (isSetListOfIndices()) {
+      ListOf<Index> list = getListOfIndices();
+      for(Index index : list) {
+        if(index.isSetArrayDimension() && index.isSetReferencedAttribute()) {
+          if(index.getArrayDimension() == dim 
+              && index.getReferencedAttribute().equals(attribute)) {
+            return index;
+          }
         }
       }
     }
+    return null;
   }
-  return null;
-}
 
-/**
- * Returns the number of {@link Index}s in this {@link ArraysSBasePlugin}.
- * 
- * @return the number of {@link Index}s in this {@link ArraysSBasePlugin}.
- */
-public int getIndexCount() {
-  return isSetListOfIndices() ? getListOfIndices().size() : 0;
-}
+  /**
+   * Returns the number of {@link Index}s in this {@link ArraysSBasePlugin}.
+   * 
+   * @return the number of {@link Index}s in this {@link ArraysSBasePlugin}.
+   */
+  public int getIndexCount() {
+    return isSetListOfIndices() ? getListOfIndices().size() : 0;
+  }
 
 
-/**
- * Returns the number of {@link Index}s in this {@link ArraysSBasePlugin}.
- * 
- * @return the number of {@link Index}s in this {@link ArraysSBasePlugin}.
- * @libsbml.deprecated same as {@link #getIndexCount()}
- */
-public int getNumIndices() {
-  return getIndexCount();
-}
+  /**
+   * Returns the number of {@link Index}s in this {@link ArraysSBasePlugin}.
+   * 
+   * @return the number of {@link Index}s in this {@link ArraysSBasePlugin}.
+   * @libsbml.deprecated same as {@link #getIndexCount()}
+   */
+  public int getNumIndices() {
+    return getIndexCount();
+  }
 
 
 
@@ -355,7 +355,7 @@ public int getNumIndices() {
       listOfDimensions = new ListOf<Dimension>();
       listOfDimensions.setNamespace(ArraysConstants.namespaceURI);
       listOfDimensions.setSBaseListType(ListOf.Type.other);
-     
+
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfDimensions);
       }
@@ -374,7 +374,7 @@ public int getNumIndices() {
     unsetListOfDimensions();
     this.listOfDimensions = listOfDimensions;
     this.listOfDimensions.setSBaseListType(ListOf.Type.other);
-   
+
     if (isSetExtendedSBase()) {
       extendedSBase.registerChild(this.listOfDimensions);
     }
@@ -426,7 +426,7 @@ public int getNumIndices() {
   }
 
 
- 
+
   /**
    * Removes an element from the listOfDimensions.
    *
@@ -450,17 +450,17 @@ public int getNumIndices() {
   public Dimension removeDimensionByArrayDimension(int arrayDim) {
     if (isSetListOfDimensions()) {
       Dimension dimension = getDimensionByArrayDimension(arrayDim);
-      
+
       if(dimension != null) {
         dimension.removeFromParent();
       }
-      
+
       return dimension;
-      
+
     }
     return null;
   }
-  
+
   /**
    * Removes an element from the listOfDimensions at the given index.
    *
@@ -496,7 +496,7 @@ public int getNumIndices() {
     return field;
   }
 
-  
+
   /**
    * Gets an element from the listOfDimensions at the given index.
    *
@@ -509,7 +509,7 @@ public int getNumIndices() {
     if (!isSetListOfDimensions()) {
       throw new IndexOutOfBoundsException(Integer.toString(i));
     }
-    
+
     return getListOfDimensions().get(i);
   }
   /**
@@ -530,7 +530,7 @@ public int getNumIndices() {
   }
 
 
- 
+
   /**
    * Gets an element from the listOfDimensions, with the given id.
    *
@@ -566,14 +566,14 @@ public int getNumIndices() {
   }
 
 
-  
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
    */
   @Override
   public String getElementNamespace() {
-    
+
     return ArraysConstants.getNamespaceURI(getLevel(), getVersion());
   }
 
@@ -582,7 +582,7 @@ public int getNumIndices() {
    */
   @Override
   public String getPackageName() {
-    
+
     return ArraysConstants.packageName;
   }
 
@@ -615,28 +615,28 @@ public int getNumIndices() {
    */
   @Override
   public TreeNode getChildAt(int childIndex) {
-    
+
     if(childIndex < 0){
       throw new IndexOutOfBoundsException(childIndex + " < 0");
     }
-    
+
     int pos = 0;
     if(isSetListOfDimensions()) {
       if(pos == childIndex) {
         return getListOfDimensions();
       }
-      
+
       pos++;
     }
-    
+
     if(isSetListOfIndices()) {
       if(pos == childIndex) {
         return getListOfIndices();
       }
-      
+
       pos++;
     }
-        
+
     throw new IndexOutOfBoundsException(MessageFormat.format("Index {0,  number, integer} >= {1, number, integer}", childIndex, (Math.min(pos, 0))));
   }
 
@@ -645,7 +645,7 @@ public int getNumIndices() {
    */
   @Override
   public int getChildCount() {
-    
+
     int count = 0;
     if(isSetListOfDimensions()) {
       count++;
@@ -664,8 +664,8 @@ public int getNumIndices() {
     // There is no attribute
     return false;
   }
-  
-  
+
+
   @Override
   public Map<String, String> writeXMLAttributes() {
     // No attribute
@@ -681,7 +681,7 @@ public int getNumIndices() {
     return sbase instanceof Dimension;
   }
 
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.IdManager#register(org.sbml.jsbml.SBase)
    */
@@ -703,10 +703,10 @@ public int getNumIndices() {
         if (mapOfDimensions.containsKey(id)) {
           String elementName = null;
           String elementId = null;
-          
+
           if (isSetExtendedSBase()) {
             elementName = getExtendedSBase().getElementName();
-            
+
             if (getExtendedSBase() instanceof NamedSBase) {
               elementId = "id[" + ((NamedSBase) getExtendedSBase()).getId() + "]";
             } else if (getExtendedSBase().isSetMetaId()) {
@@ -732,7 +732,7 @@ public int getNumIndices() {
     }
 
     // TODO : register all the Port children if any !!
-   
+
     return success;
   }
 
@@ -768,10 +768,10 @@ public int getNumIndices() {
 
           String elementName = null;
           String elementId = null;
-          
+
           if (isSetExtendedSBase()) {
             elementName = getExtendedSBase().getElementName();
-            
+
             if (getExtendedSBase() instanceof NamedSBase) {
               elementId = "id[" + ((NamedSBase) getExtendedSBase()).getId() + "]";
             } else if (getExtendedSBase().isSetMetaId()) {
@@ -801,9 +801,9 @@ public int getNumIndices() {
     final int prime = 2719;
     int result = super.hashCode();
     result = prime * result
-      + ((listOfDimensions == null) ? 0 : listOfDimensions.hashCode());
+        + ((listOfDimensions == null) ? 0 : listOfDimensions.hashCode());
     result = prime * result
-      + ((listOfIndices == null) ? 0 : listOfIndices.hashCode());
+        + ((listOfIndices == null) ? 0 : listOfIndices.hashCode());
     return result;
   }
 
@@ -838,7 +838,7 @@ public int getNumIndices() {
     }
     return true;
   }
-  
-  
- 
+
+
+
 }

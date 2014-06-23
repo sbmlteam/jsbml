@@ -27,6 +27,9 @@ import org.sbml.jsbml.SBase;
 
 
 /**
+ * This checks that a given {@link Index} object references a valid referenced attribute and that
+ * it doesn't go out of bounds.
+ * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
@@ -54,6 +57,7 @@ public class IndexRefAttributeCheck extends ArraysConstraint {
       String refAttribute = index.getReferencedAttribute();
       SBase parent = index.getParentSBMLObject().getParentSBMLObject();
       String refValue = parent.writeXMLAttributes().get(refAttribute);
+      // TODO: split at ':'
       if(refValue == null) {
         //TODO: log error
         System.err.println("Cannot find referenced object.");
@@ -65,7 +69,7 @@ public class IndexRefAttributeCheck extends ArraysConstraint {
         //TODO: log error
         System.err.println("Dimension mismatch in index math.");
       }
-      String s = dim.writeXMLAttributes().get("i");
+      
       //TODO: needs to check bounds
       
   }

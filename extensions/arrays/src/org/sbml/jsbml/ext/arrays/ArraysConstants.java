@@ -27,6 +27,8 @@ import java.util.List;
 
 
 /**
+ * This is where the constants that are frequently used in the arrays package are defined.
+ * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
@@ -53,6 +55,7 @@ public class ArraysConstants {
     namespaces = new ArrayList<String>();
     namespaces.add(namespaceURI_L3V1V1);
   }
+  
   public static final String listOfDimensions = "listOfDimensions";
   public static final String listOfIndices = "listOfIndices";
   public static final String arrayDimension = "arrayDimension";
@@ -64,7 +67,9 @@ public class ArraysConstants {
   
   
   public static String packageName = "Arrays";
+  
   /**
+   * Returns the namespace URI associated with the arrays package.
    * @param level
    * @param version
    * @return

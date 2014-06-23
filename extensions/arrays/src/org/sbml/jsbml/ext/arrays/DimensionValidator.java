@@ -30,6 +30,9 @@ import org.sbml.jsbml.SBMLError;
 
 
 /**
+ * This validates a given {@link Dimension} object in the context of a given model and makes sure that
+ * the dimension object is in accordance with the arrays package specification.
+ * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0

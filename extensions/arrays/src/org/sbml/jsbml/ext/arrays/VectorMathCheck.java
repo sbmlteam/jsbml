@@ -66,6 +66,14 @@ public class VectorMathCheck extends ArraysConstraint {
     checkSizeRecursive(sizeByLevel, math, 0);
   }
 
+  /**
+   * This is used to determine how many levels deep the array is and what is the corresponding
+   * size of each level.
+   * 
+   * @param sizeByLevel
+   * @param node
+   * @param level
+   */
   private void getSizeRecursive(Map<Integer, Integer> sizeByLevel, ASTNode node, int level) {
     if(node.isVector()) {
       sizeByLevel.put(level, node.getChildCount());
@@ -87,11 +95,21 @@ public class VectorMathCheck extends ArraysConstraint {
     }
   }
 
+  /**
+   * This is used to check if the array is regular.
+   * 
+   * @param sizeByLevel
+   * @param node
+   * @param level
+   * @return
+   */
   private boolean checkSizeRecursive(Map<Integer, Integer> sizeByLevel, ASTNode node, int level) {
 
     if(!sizeByLevel.containsKey(level)) {
       if(!node.isVector()) {
         System.err.println("Vector is not regular");
+        String shortMsg = "";
+        logVectorInconsistency(shortMsg);
         return false;
       }
       return true;
@@ -108,17 +126,29 @@ public class VectorMathCheck extends ArraysConstraint {
         for(Dimension dim : arraysSBasePlugin.getListOfDimensions()) {
           String size = dim.getSize();
           Parameter p = model.getParameter(size);
-          sizeByLevel.put(level+dim.getArrayDimension(), (int) p.getValue());
+          int actual =  (int) p.getValue();
+          if(expected != actual) {
+            System.err.println("Vector is not regular");
+            String shortMsg = "";
+            logVectorInconsistency(shortMsg);
+            return false;
+          }
+
         }
+        return true;
       }
       else {
         System.err.println("Should be a vector instead of scalar");
+        String shortMsg = "";
+        logVectorInconsistency(shortMsg);
         return false;
       }
     }
 
     if(expected != node.getChildCount()) {
       System.err.println("Vector is not regular");
+      String shortMsg = "";
+      logVectorInconsistency(shortMsg);
       return false;
     }
 
@@ -133,6 +163,10 @@ public class VectorMathCheck extends ArraysConstraint {
     return true;
   }
 
+  /**
+   * Log an error to indicate that the vector is not regular.
+   * @param shortMsg
+   */
   private void logVectorInconsistency(String shortMsg) {
     int code = 10206, severity = 2, category = 0, line = -1, column = -1;
 
