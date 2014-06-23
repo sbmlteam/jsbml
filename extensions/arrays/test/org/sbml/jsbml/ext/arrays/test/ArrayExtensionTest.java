@@ -39,6 +39,8 @@ import org.sbml.jsbml.ext.arrays.Index;
 
 
 /**
+ * Test for {@link ArraysSBasePlugin}, {@link Dimension}, and {@link Index} classes.
+ * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0

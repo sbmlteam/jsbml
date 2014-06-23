@@ -30,12 +30,16 @@ import org.sbml.jsbml.SBMLError;
 
 
 /**
+ * This validates a given {@link Index} object in the context of a given model and makes sure that
+ * the {@link Index} object is in accordance with the arrays package specification.
+ * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
  * @date Jun 19, 2014
  */
 public class IndexValidator {
+  
   /**
    * Validates the given SBase object.
    * 

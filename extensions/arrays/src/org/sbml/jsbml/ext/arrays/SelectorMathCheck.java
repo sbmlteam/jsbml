@@ -29,6 +29,8 @@ import org.sbml.jsbml.SBase;
 
 
 /**
+ * This checks if the arguments of a selector function is correct.
+ * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
@@ -39,18 +41,18 @@ public class SelectorMathCheck extends ArraysConstraint {
   private final MathContainer mathContainer;
   
   /**
-   * 
+   * Constructs a new SelectorMathCheck with a model and mathContainer.
    * @param model
    * @param sbase
    * @param math
    */
-  public SelectorMathCheck(Model model, SBase sbase, MathContainer mathContainer) {
+  public SelectorMathCheck(Model model, MathContainer mathContainer) {
     super(model);
     this.mathContainer = mathContainer;
   }
-
-  /**
-   * 
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.arrays.constraints.ArraysConstraint#check()
    */
   @Override
   public void check()
@@ -104,6 +106,7 @@ public class SelectorMathCheck extends ArraysConstraint {
 
 
   /**
+   * Log an error indicating that the first argument of the selector math is invalid.
    * 
    * @param shortMsg
    */

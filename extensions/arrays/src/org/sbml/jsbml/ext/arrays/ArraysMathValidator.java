@@ -31,6 +31,9 @@ import org.sbml.jsbml.SBMLError;
 
 
 /**
+ * This checks a given {@link MathContainer} object math
+ * is in accordance with the arrays package specification.
+ * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0

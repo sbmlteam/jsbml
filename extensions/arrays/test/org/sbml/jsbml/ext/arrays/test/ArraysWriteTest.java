@@ -43,6 +43,7 @@ import org.sbml.jsbml.ext.arrays.Index;
 
 
 /**
+ * Test the writing and reading of arrays models.
  * 
  * @author Leandro Watanabe
  * @version $Rev$
@@ -51,9 +52,12 @@ import org.sbml.jsbml.ext.arrays.Index;
  */
 public class ArraysWriteTest {
 
-  
+  // This is the file we are dealing with
   final String path = "extensions/arrays/test/org/sbml/jsbml/xml/test/data/arrays/example.xml";
+  
   /**
+   * Constructs the model before the testing.
+   * 
    * @throws java.lang.Exception
    */
   @Before
@@ -182,6 +186,9 @@ public class ArraysWriteTest {
     
   }
   
+  /**
+   * Test if the model that was constructed in the setUp can be properly read.
+   */
   @Test
   public void arrayReadTest() {
     try {

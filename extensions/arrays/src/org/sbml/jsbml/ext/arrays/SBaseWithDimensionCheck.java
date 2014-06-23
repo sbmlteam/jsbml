@@ -27,6 +27,8 @@ import org.sbml.jsbml.SBase;
 
 
 /**
+ * This checks if the given {@link SBase} is allowed to have a listOfDimensions.
+ * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
@@ -37,6 +39,7 @@ public class SBaseWithDimensionCheck extends ArraysConstraint {
   private final SBase sbase;
 
   /**
+   * Creates a new SBaseWithDimensionCheck with a model and sbase.
    * @param model
    * @param sbase
    */
@@ -65,7 +68,7 @@ public class SBaseWithDimensionCheck extends ArraysConstraint {
   }
 
   /**
-   * 
+   * Log an error indicating this object cannot have a listOfDimensions but it does.
    * @param shortMsg
    */
   private void logDimensionError(String shortMsg) {

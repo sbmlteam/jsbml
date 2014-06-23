@@ -36,6 +36,9 @@ import org.sbml.jsbml.SBase;
 
 
 /**
+ * The {@link ArraysValidator} is used to ensure that an {@link SBMLDocument} does
+ * not violate any validation rules specified in the Arrays Package Specifications.
+ * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
@@ -44,7 +47,7 @@ import org.sbml.jsbml.SBase;
 public class ArraysValidator {
   
   /**
-   * Validates a given SBMLDocument
+   * Validates the given SBMLDocument
    * 
    * @param document - a document that needs to be validated
    * @return a list of errors

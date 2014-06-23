@@ -27,11 +27,7 @@ import org.sbml.jsbml.SBase;
 
 
 /**
- * This checks if array dimension is either 0, 1, or 2 
- * In addition, it checks if array dimension is 0 for
- * the case that only one dimension object is present, and if
- * array dimensions 0 and 1 are present if the SBase has two
- * dimensions. Finally, this ensures array dimension is unique.
+ * This checks if the {@link Dimension} objects of a given {@link SBase} have valid array dimension. 
  * 
  * @author Leandro Watanabe
  * @version $Rev$
@@ -42,6 +38,11 @@ public class DimensionArrayDimCheck extends ArraysConstraint {
 
   private final SBase sbase;
   
+  /**
+   * Constructs a DimensionArrayDimCheck with a model and sbase.
+   * @param model
+   * @param sbase
+   */
   public DimensionArrayDimCheck(Model model, SBase sbase)
   {
     super(model);
@@ -104,6 +105,7 @@ public class DimensionArrayDimCheck extends ArraysConstraint {
   }
 
   /**
+   * Log an error indicating that two or more Dimension objects have the same array dimension.
    * 
    * @param shortMsg
    */
@@ -121,6 +123,8 @@ public class DimensionArrayDimCheck extends ArraysConstraint {
   
   
   /**
+   * Log an error indicating a listOfDimensions have a Dimension with array dimension n
+   * but not a Dimension with array dimension from 0...n-1.
    * 
    * @param shortMsg
    */
