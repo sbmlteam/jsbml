@@ -63,10 +63,12 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
    * the x coordinate
    */
   private double x;
+
   /**
    * the y coordinate
    */
   private double y;
+
   /**
    * the z coordinate
    */
@@ -76,7 +78,7 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
    * The name to be used when writing this point to XML.
    */
   private String xmlElementName;
-  
+
   /**
    * Creates a new {@link Point} instance with all coordinates set to {@link Double#NaN}.
    * 
@@ -146,7 +148,7 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Creates a new {@link Point} instance with all attributes cloned from the given {@link Point}.
    * 
-   * @param point the {@link Point} instance to clone. 
+   * @param point the {@link Point} instance to clone.
    */
   public Point(Point point) {
     super(point);
@@ -163,7 +165,7 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * Clones the x, y and z coordinates from point to cloned.  
+   * Clones the x, y and z coordinates from point to cloned.
    * 
    * @param point
    * @param cloned
@@ -210,12 +212,11 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
     return equals;
   }
 
-  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getElementName()
    */
   @Override
-  public String getElementName() {    
+  public String getElementName() {
     return xmlElementName;
   }
 
@@ -335,7 +336,6 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
     return isAttributeRead;
   }
 
-  
   /**
    * Sets the name to be used when writing this {@link Point} to XML.
    * 
@@ -346,7 +346,7 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   void setElementName(String elementName) {
     xmlElementName = elementName;
   }
-  
+
   /**
    * Sets the x coordinate.
    * 
@@ -432,7 +432,7 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
 
     return attributes;
   }
-  
+
   /**
    * Gets the x coordinate.
    * 
@@ -454,7 +454,7 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   public double y() {
     return getY();
   }
-  
+
   /**
    * Gets the z coordinate.
    * 
@@ -465,6 +465,5 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
   public double z() {
     return getZ();
   }
-
 
 }

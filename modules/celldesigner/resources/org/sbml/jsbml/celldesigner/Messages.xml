@@ -42,7 +42,7 @@
   <entry key="NO_CORRESPONDING_CLASS_IN_CELLDESIGNER">No counter class for {0} in CellDesigner.</entry>
   <entry key="NO_SBO_TERM_DEFINED">No SBO term defined for {0}, using {1,number,integer} instead.</entry>
   <entry key="PARSING_OF_NODE_UNSUCCESSFUL">Parsing of node {0} not successful.</entry>
-  <entry key="PLUGINS_CURRENTLY_NOT_SUPPORTED">Plugins are currently not supported. The element {0} can therefore not be considered.</entry>
+  <entry key="PLUGINS_CURRENTLY_NOT_SUPPORTED">Plug-ins are currently not supported. The element {0} can therefore not be considered.</entry>
   <entry key="ROUNDING_ERROR">The value could not be correctly converted. Error: {0,number}</entry>
   <entry key="TRYING_TO_REMOVE_ELEMENT">Trying to remove {0} from element {1}, but there is no remove method. Please check the result.</entry>
   <entry key="UNUSED_FUNCTION_IN_MODEL">Unused function {0} in the model.</entry>
