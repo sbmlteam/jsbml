@@ -284,6 +284,15 @@ public class ArraysValidationTest {
       check.check();
       assertTrue(check.getListOfErrors().size() == 1);
       
+      //Test invalid vector of vectors
+      formula = "{ {  }, { }, { { { { } } } } }";
+      parser = new FormulaParser(new StringReader(formula));
+      n = parser.parse();
+      index.setMath(n);
+      check = new VectorMathCheck(m, index);
+      check.check();
+      assertTrue(check.getListOfErrors().size() == 1);
+      
       //Test valid vector of vectors
       formula = "{ { { },{ } }, { { },{ } }, { { },{ } } }";
       parser = new FormulaParser(new StringReader(formula));
