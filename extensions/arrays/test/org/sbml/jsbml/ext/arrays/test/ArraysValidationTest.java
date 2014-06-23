@@ -24,8 +24,11 @@ package org.sbml.jsbml.ext.arrays.test;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.StringReader;
+
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.Delay;
 import org.sbml.jsbml.Event;
 import org.sbml.jsbml.Model;
@@ -37,6 +40,9 @@ import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.ArraysValidator;
 import org.sbml.jsbml.ext.arrays.Dimension;
+import org.sbml.jsbml.ext.arrays.Index;
+import org.sbml.jsbml.ext.arrays.VectorMathCheck;
+import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
 
 
@@ -181,5 +187,104 @@ public class ArraysValidationTest {
 
     ArraysValidator.validate(doc);
 
+  }
+  
+  /**
+   * Test validation when index references an invalid attribute
+   */
+  @Test
+  public void test03() {
+    System.out.println("Test 03");
+    SBMLDocument doc = new SBMLDocument(3,1);
+    Model model = doc.createModel();
+  
+    Parameter n = new Parameter("n");
+    n.setValue(10);
+    n.setConstant(true);
+    model.addParameter(n);
+
+    Parameter X = new Parameter("X");
+
+    model.addParameter(X);
+    ArraysSBasePlugin arraysSBasePluginX = new ArraysSBasePlugin(X);
+
+    X.addExtension(ArraysConstants.shortLabel, arraysSBasePluginX);
+
+    Dimension dimX = new Dimension("i");
+    dimX.setSize(n.getId());
+    dimX.setArrayDimension(0);
+
+    arraysSBasePluginX.addDimension(dimX);
+
+    Parameter Y = new Parameter("Y");
+
+    model.addParameter(Y);
+    ArraysSBasePlugin arraysSBasePluginY = new ArraysSBasePlugin(Y);
+
+    Y.addExtension(ArraysConstants.shortLabel, arraysSBasePluginY);
+    Dimension dimY = new Dimension("i");
+    dimY.setSize(n.getId());
+    dimY.setArrayDimension(0);
+
+    arraysSBasePluginY.addDimension(dimY);
+
+    AssignmentRule rule = new AssignmentRule();
+    model.addRule(rule);
+    rule.setMetaId("rule");
+    
+    ArraysSBasePlugin arraysSBasePluginRule = new ArraysSBasePlugin(rule);
+    rule.addExtension(ArraysConstants.shortLabel, arraysSBasePluginRule);
+    
+    Dimension dimRule = new Dimension("i");
+    dimRule.setSize(n.getId());
+    dimRule.setArrayDimension(0);
+    arraysSBasePluginRule.addDimension(dimRule);
+    
+    Index indexRule = new Index();
+    indexRule.setArrayDimension(0);
+    indexRule.setReferencedAttribute("variables");
+    ASTNode indexMath = new ASTNode();
+    
+    indexMath = ASTNode.diff(new ASTNode(9), new ASTNode("i"));
+    indexRule.setMath(indexMath);
+    arraysSBasePluginRule.addIndex(indexRule);
+    
+    rule.setVariable("Y");
+    ASTNode ruleMath;
+    try {
+      ruleMath = ASTNode.parseFormula("selector(X, i)");
+      rule.setMath(ruleMath);
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+
+    ArraysValidator.validate(doc);
+  }
+  
+  /**
+   * 
+   */
+  @Test
+  public void test04() {
+    System.out.println("Test 04");
+    Model m = new Model();
+    Index index = new Index();
+    ASTNode n;
+    String formula = "{ { { },{ } }, { { },{ } }, { { },{ { } } } }";
+    FormulaParser parser = new FormulaParser(new StringReader(formula));
+    try {
+      n = parser.parse();
+      index.setMath(n);
+      index.setMath(n);
+      VectorMathCheck check = new VectorMathCheck(m, index);
+      check.check();
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+ 
+    
+    
   }
 }
