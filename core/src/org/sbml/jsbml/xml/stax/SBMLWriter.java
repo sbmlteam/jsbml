@@ -56,6 +56,7 @@ import org.codehaus.staxmate.out.SMOutputDocument;
 import org.codehaus.staxmate.out.SMOutputElement;
 import org.codehaus.staxmate.out.SMRootFragment;
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.JSBML;
@@ -921,9 +922,18 @@ public class SBMLWriter {
         
         // test if this element is part of a disabled package. Do not write the element if it is the case
         if (s.getNamespace() != null) {
-          boolean isPackageEnabled = s.isPackageEnabled(s.getNamespace());
+          SBMLDocument doc = s.getSBMLDocument();
+          Boolean isPackageEnabled = null;
           
-          if (!isPackageEnabled) {
+          if (doc != null) {
+            isPackageEnabled = doc.isPackageEnabledOrDisabled(s.getNamespace());
+          } else {
+            // Something is wrong - should not happen
+            isPackageEnabled = s.isPackageEnabled(s.getNamespace());
+            logger.warn("The SBMLDocument could not be found !!");
+          }
+
+          if (isPackageEnabled != null && isPackageEnabled.equals(Boolean.FALSE)) {
             continue;
           }
         }

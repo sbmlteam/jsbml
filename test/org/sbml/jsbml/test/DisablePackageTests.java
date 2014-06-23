@@ -35,6 +35,7 @@ import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.Species;
@@ -177,5 +178,48 @@ public class DisablePackageTests {
     }
   }
 
+  @Test public void testCloning() {
+    
+    SBMLDocument clonedDoc = new SBMLDocument(3, 1);
+    clonedDoc.setModel(model.clone());
+    
+    // package not enable after cloning something other than the SBMLDocument
+    assertTrue(clonedDoc.isPackageEnabled("comp") == false);
+    assertTrue(clonedDoc.isPackageEnabled("layout") == false);
+    
+    String docString;
+    try {
+      docString = new SBMLWriter().writeSBMLToString(clonedDoc);
+      
+      System.out.println("Document with only layout package:\n" + docString);
+      
+      SBMLDocument docWithoutPackNamespace = new SBMLReader().readSBMLFromString(docString);
 
+      // package enabled automatically after reading a wrong sbml file      
+      assertTrue(docWithoutPackNamespace.isPackageEnabled("comp") == true);
+      assertTrue(docWithoutPackNamespace.isPackageEnabled("layout") == true);
+      
+      assertTrue(docWithoutPackNamespace.getSBMLDocumentAttributes().containsKey("comp:required") == true);
+      assertTrue(docWithoutPackNamespace.getSBMLDocumentAttributes().containsKey("layout:required") == true);
+      assertTrue(docWithoutPackNamespace.getDeclaredNamespaces().containsKey("xmlns:layout") == true);
+      assertTrue(docWithoutPackNamespace.getDeclaredNamespaces().containsKey("xmlns:comp") == true);
+      
+      assertTrue(docWithoutPackNamespace.getModel().getExtensionCount() == 2);
+      assertTrue(docWithoutPackNamespace.getModel().isSetPlugin("layout"));
+      assertTrue(docWithoutPackNamespace.getModel().isSetPlugin(LayoutConstants.namespaceURI_L3V1V1));
+      assertTrue(docWithoutPackNamespace.getModel().getExtension("layout") != null);
+
+//      docString = new SBMLWriter().writeSBMLToString(docWithoutPackNamespace);      
+//      System.out.println("Document with only layout package:\n" + docString);
+
+    } catch (SBMLException e) {
+      e.printStackTrace();
+      assertTrue(false);
+    } catch (XMLStreamException e) {
+      e.printStackTrace();
+      assertTrue(false);
+    }
+    
+  }
+  
 }
