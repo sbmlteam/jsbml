@@ -90,6 +90,9 @@ public class VectorMathCheck extends ArraysConstraint {
       for(Dimension dim : arraysSBasePlugin.getListOfDimensions()) {
         String size = dim.getSize();
         Parameter p = model.getParameter(size);
+        if (p == null) {
+          continue;
+        }
         sizeByLevel.put(level+dim.getArrayDimension(), (int) p.getValue());
       }
     }
@@ -106,13 +109,10 @@ public class VectorMathCheck extends ArraysConstraint {
   private boolean checkSizeRecursive(Map<Integer, Integer> sizeByLevel, ASTNode node, int level) {
 
     if(!sizeByLevel.containsKey(level)) {
-      if(!node.isVector()) {
         System.err.println("Vector is not regular");
         String shortMsg = "";
         logVectorInconsistency(shortMsg);
         return false;
-      }
-      return true;
     }
 
 
@@ -126,6 +126,9 @@ public class VectorMathCheck extends ArraysConstraint {
         for(Dimension dim : arraysSBasePlugin.getListOfDimensions()) {
           String size = dim.getSize();
           Parameter p = model.getParameter(size);
+          if(p == null) {
+            return false;
+          }
           int actual =  (int) p.getValue();
           if(expected != actual) {
             System.err.println("Vector is not regular");
