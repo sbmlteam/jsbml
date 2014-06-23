@@ -331,7 +331,9 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
   public void processCharactersOf(String elementName, String characters,
     Object contextObject) {}
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.ReadingParser#processEndDocument(org.sbml.jsbml.SBMLDocument)
+   */
   @Override
   public void processEndDocument(SBMLDocument sbmlDocument)
   {
@@ -341,6 +343,9 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
       // filtering only on the ListOfLayouts
       List<? extends TreeNode> curveElements = sbmlDocument.getModel().getExtension(namespaceURI).filter(new Filter() {
 
+        /* (non-Javadoc)
+         * @see org.sbml.jsbml.util.filters.Filter#accepts(java.lang.Object)
+         */
         @Override
         public boolean accepts(Object o)
         {
@@ -714,6 +719,11 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
     return contextObject;
   }
 
+  /**
+   * 
+   * @param sbase
+   * @param namespace
+   */
   private void setNamespace(SBase sbase, String namespace)
   {
     // Setting the correct namespace to the object
@@ -766,11 +776,17 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
     }
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.ReadingParser#getNamespaces()
+   */
   @Override
   public List<String> getNamespaces() {
     return LayoutConstants.namespaces_L2;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#createPluginFor(org.sbml.jsbml.SBase)
+   */
   @Override
   public SBasePlugin createPluginFor(SBase sbase) {
 
@@ -785,6 +801,9 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
     return null;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#getNamespaceFor(int, int, int)
+   */
   @Override
   public String getNamespaceFor(int level, int version, int packageVersion) {
     if (level < 3) {
@@ -793,22 +812,29 @@ public class LayoutParser implements ReadingParser, WritingParser, PackageParser
     throw new IllegalArgumentException("");
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#getPackageNamespaces()
+   */
   @Override
   public List<String> getPackageNamespaces() {
     return getNamespaces();
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#getPackageName()
+   */
   @Override
   public String getPackageName() {
     // We have to set a different packageName than the L3LayoutParser so that the map in the ParserManager works properly
     return LayoutConstants.shortLabel + "_L2";
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#isRequired()
+   */
   @Override
   public boolean isRequired() {
     return false;
   }
-
-
 
 }

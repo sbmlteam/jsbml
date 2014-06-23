@@ -155,20 +155,23 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Adds an arbitrary additional {@link GraphicalObject}.
    * @param object
-   */
-  public void addGraphicalObject(GraphicalObject object) {
-    if (object != null) {
-      getListOfAdditionalGraphicalObjects().add(object);
-    }
-  }
-
-  /**
-   * Adds an arbitrary additional {@link GraphicalObject}.
-   * @param object
    * @libsbml.deprecated same as {@link #addGraphicalObject(GraphicalObject)}
    */
   public void addAdditionalGraphicalObject(GraphicalObject object) {
     addGraphicalObject(object);
+  }
+
+  /**
+   * Adds a new {@link CompartmentGlyph} to the listOfCompartmentGlyphs.
+   * <p>The listOfCompartmentGlyphs is initialized if necessary.
+   *
+   * @param compartmentGlyph the element to add to the list
+   * @return true (as specified by {@link Collection.add})
+   */
+  public void addCompartmentGlyph(CompartmentGlyph compartmentGlyph) {
+    if (compartmentGlyph != null) {
+      getListOfCompartmentGlyphs().add(compartmentGlyph);
+    }
   }
 
   /**
@@ -183,15 +186,12 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * Adds a new {@link CompartmentGlyph} to the listOfCompartmentGlyphs.
-   * <p>The listOfCompartmentGlyphs is initialized if necessary.
-   *
-   * @param compartmentGlyph the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * Adds an arbitrary additional {@link GraphicalObject}.
+   * @param object
    */
-  public void addCompartmentGlyph(CompartmentGlyph compartmentGlyph) {
-    if (compartmentGlyph != null) {
-      getListOfCompartmentGlyphs().add(compartmentGlyph);
+  public void addGraphicalObject(GraphicalObject object) {
+    if (object != null) {
+      getListOfAdditionalGraphicalObjects().add(object);
     }
   }
 
@@ -346,35 +346,6 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * Creates and adds a new {@link ReactionGlyph}.
-   * 
-   * @param id
-   *        the identifier of the {@link ReactionGlyph} to be created.
-   * @return a new {@link ReactionGlyph}.
-   * @see #createReactionGlyph(String, String)
-   */
-  public ReactionGlyph createReactionGlyph(String id) {
-    return createReactionGlyph(id, null);
-  }
-
-  /**
-   * Creates and adds a new {@link ReactionGlyph}.
-   * 
-   * @param id
-   *        the identifier of the {@link ReactionGlyph} to be created.
-   * @param reaction
-   *        {@link Reaction} ID.
-   * @return a new {@link ReactionGlyph}.
-   */
-  public ReactionGlyph createReactionGlyph(String id, String reaction) {
-    ReactionGlyph glyph = new ReactionGlyph(id, getLevel(), getVersion());
-    glyph.setReaction(reaction);
-    addReactionGlyph(glyph);
-    return glyph;
-  }
-
-
-  /**
    * Creates and adds a new {@link GeneralGlyph}.
    * 
    * @param id
@@ -399,6 +370,35 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
     GeneralGlyph glyph = new GeneralGlyph(id, getLevel(), getVersion());
     glyph.setReference(reference);
     addGeneralGlyph(glyph);
+    return glyph;
+  }
+
+
+  /**
+   * Creates and adds a new {@link ReactionGlyph}.
+   * 
+   * @param id
+   *        the identifier of the {@link ReactionGlyph} to be created.
+   * @return a new {@link ReactionGlyph}.
+   * @see #createReactionGlyph(String, String)
+   */
+  public ReactionGlyph createReactionGlyph(String id) {
+    return createReactionGlyph(id, null);
+  }
+
+  /**
+   * Creates and adds a new {@link ReactionGlyph}.
+   * 
+   * @param id
+   *        the identifier of the {@link ReactionGlyph} to be created.
+   * @param reaction
+   *        {@link Reaction} ID.
+   * @return a new {@link ReactionGlyph}.
+   */
+  public ReactionGlyph createReactionGlyph(String id, String reaction) {
+    ReactionGlyph glyph = new ReactionGlyph(id, getLevel(), getVersion());
+    glyph.setReaction(reaction);
+    addReactionGlyph(glyph);
     return glyph;
   }
 
@@ -696,17 +696,6 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * Returns the number of {@link CompartmentGlyph}s of this {@link Layout}.
-   * 
-   * @return the number of {@link CompartmentGlyph}s of this {@link Layout}.
-   * @libsbml.deprecated same as {@link #getCompartmentGlyphCount()}
-   */
-  public int getNumCompartmentGlyphs() {
-    return getCompartmentGlyphCount();
-  }
-
-
-  /**
    * 
    * @return
    */
@@ -727,7 +716,6 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return listOfAdditionalGraphicalObjects;
   }
-
 
   /**
    * 
@@ -782,6 +770,46 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
+   * Returns the number of {@link CompartmentGlyph}s of this {@link Layout}.
+   * 
+   * @return the number of {@link CompartmentGlyph}s of this {@link Layout}.
+   * @libsbml.deprecated same as {@link #getCompartmentGlyphCount()}
+   */
+  public int getNumCompartmentGlyphs() {
+    return getCompartmentGlyphCount();
+  }
+
+  /**
+   * Returns the number of {@link ReactionGlyph}s of this {@link Layout}.
+   * 
+   * @return the number of {@link ReactionGlyph}s of this {@link Layout}.
+   * @libsbml.deprecated same as {@link #getReactionGlyphCount()}
+   */
+  public int getNumReactionGlyphs() {
+    return getReactionGlyphCount();
+  }
+
+  /**
+   * Returns the number of {@link SpeciesGlyph}s of this {@link Layout}.
+   * 
+   * @return the number of {@link SpeciesGlyph}s of this {@link Layout}.
+   * @libsbml.deprecated same as {@link #getSpeciesGlyphCount()}
+   */
+  public int getNumSpeciesGlyphs() {
+    return getSpeciesGlyphCount();
+  }
+
+  /**
+   * Returns the number of {@link TextGlyph}s of this {@link Layout}.
+   * 
+   * @return the number of {@link TextGlyph}s of this {@link Layout}.
+   * @libsbml.deprecated same as {@link #getTextGlyphCount()}
+   */
+  public int getNumTextGlyphs() {
+    return getTextGlyphCount();
+  }
+
+  /**
    * 
    * @param i
    * @return
@@ -809,16 +837,6 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public int getReactionGlyphCount() {
     return isSetListOfReactionGlyphs() ? listOfReactionGlyphs.size() : 0;
-  }
-
-  /**
-   * Returns the number of {@link ReactionGlyph}s of this {@link Layout}.
-   * 
-   * @return the number of {@link ReactionGlyph}s of this {@link Layout}.
-   * @libsbml.deprecated same as {@link #getReactionGlyphCount()}
-   */
-  public int getNumReactionGlyphs() {
-    return getReactionGlyphCount();
   }
 
   /**
@@ -852,17 +870,6 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * Returns the number of {@link SpeciesGlyph}s of this {@link Layout}.
-   * 
-   * @return the number of {@link SpeciesGlyph}s of this {@link Layout}.
-   * @libsbml.deprecated same as {@link #getSpeciesGlyphCount()}
-   */
-  public int getNumSpeciesGlyphs() {
-    return getSpeciesGlyphCount();
-  }
-
-
-  /**
    * 
    * @param i
    * @return
@@ -890,16 +897,6 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public int getTextGlyphCount() {
     return isSetListOfTextGlyphs() ? listOfTextGlyphs.size() : 0;
-  }
-
-  /**
-   * Returns the number of {@link TextGlyph}s of this {@link Layout}.
-   * 
-   * @return the number of {@link TextGlyph}s of this {@link Layout}.
-   * @libsbml.deprecated same as {@link #getTextGlyphCount()}
-   */
-  public int getNumTextGlyphs() {
-    return getTextGlyphCount();
   }
 
   /* (non-Javadoc)
@@ -1011,127 +1008,6 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * This element is optional. If set, this list cannot be empty.
-   * 
-   * @param listOfAdditionalGraphicalObjects
-   */
-  public void setAddGraphicalObjects(ListOf<GraphicalObject> addGraphicalObjects) {
-    if (listOfAdditionalGraphicalObjects != null) {
-      listOfAdditionalGraphicalObjects.fireNodeRemovedEvent();
-    }
-    listOfAdditionalGraphicalObjects = addGraphicalObjects;
-    registerChild(listOfAdditionalGraphicalObjects);
-  }
-
-  /**
-   * The dimensions element of type {@link Dimensions} specifies the dimensions of this
-   * layout. This element is required. It holds the dimensions of all layout elements
-   * (care should be taken when using {@link CubicBezier}s, that the described curve also
-   * lies within the given dimensions).
-   * 
-   * @param dimensions
-   */
-  public void setDimensions(Dimensions dimensions) {
-    if (this.dimensions != null) {
-      this.dimensions.fireNodeRemovedEvent();
-    }
-    this.dimensions = dimensions;
-    registerChild(this.dimensions);
-  }
-
-  /**
-   * This element is optional. If set, this list cannot be empty. Most objects for
-   * which layout information is to be included in an SBML file have a corresponding
-   * object in {@link Model}. As there might be cases where the user wants to
-   * include object types in the layout that do fall in any of the other categories
-   * described below, we include a listOfAdditionalGraphicalObjects in each {@link Layout}
-   * object. This list holds an arbitrary number of {@link GraphicalObject} elements.
-   * The {@link GraphicalObject} only defines a bounding box in a specific place in the
-   * {@link Layout} without giving additional information about its contents.
-   * 
-   * The listOfAdditionalGraphicalObjects, when present, must contain one or more of the
-   * following elements: {@link GraphicalObject} or {@link GeneralGlyph}. When using a
-   * {@link GraphicalObject} it is recommended that some form of meta-information is provided.
-   * For additional relationships such as SBML events or rules, the {@link GeneralGlyph} can
-   * be used.
-   * 
-   * @param AdditionalGraphicalObjects
-   */
-  public void setListOfAdditionalGraphicalObjects(ListOf<GraphicalObject> additionalGraphicalObjects)
-  {
-    unsetListOfAdditionalGraphicalObjects();
-
-    if (additionalGraphicalObjects != null) {
-      listOfAdditionalGraphicalObjects = getListOfAdditionalGraphicalObjects(); // initializing a new ListOfWithName with the proper settings
-      listOfAdditionalGraphicalObjects.addAll(additionalGraphicalObjects);
-      registerChild(listOfAdditionalGraphicalObjects);
-    }
-  }
-
-  /**
-   * This element is optional. If set, this list cannot be empty. Also, not all
-   * {@link Compartment}s of a {@link Model} will need a corresponding {@link CompartmentGlyph}.
-   * 
-   * @param compartmentGlyphs
-   */
-  public void setListOfCompartmentGlyphs(ListOf<CompartmentGlyph> compartmentGlyphs) {
-    unsetListOfCompartmentGlyphs();
-    listOfCompartmentGlyphs = compartmentGlyphs;
-    if ((listOfCompartmentGlyphs != null) && (listOfCompartmentGlyphs.getSBaseListType() != ListOf.Type.other)) {
-      listOfCompartmentGlyphs.setSBaseListType(ListOf.Type.other);
-    }
-    registerChild(listOfCompartmentGlyphs);
-  }
-
-  /**
-   * This element is optional. If set, this list cannot be empty. Also, not all {@link Reaction}s
-   * of a {@link Model} need a corresponding {@link ReactionGlyph}.
-   * 
-   * @param reactionGlyphs
-   */
-  public void setListOfReactionGlyphs(ListOf<ReactionGlyph> reactionGlyphs) {
-    unsetListOfReactionGlyphs();
-    listOfReactionGlyphs = reactionGlyphs;
-    if (listOfReactionGlyphs != null) {
-      listOfReactionGlyphs.setSBaseListType(ListOf.Type.other);
-      registerChild(listOfReactionGlyphs);
-    }
-  }
-
-  /**
-   * This element is optional. If set, this list cannot be empty. Also, not all {@link Species}
-   * of a {@link Model} need a corresponding {@link SpeciesGlyph}.
-   * 
-   * @param speciesGlyphs
-   */
-  public void setListOfSpeciesGlyphs(ListOf<SpeciesGlyph> speciesGlyphs) {
-    unsetListOfSpeciesGlyphs();
-    if (speciesGlyphs == null) {
-      listOfSpeciesGlyphs = new ListOf<SpeciesGlyph>();
-    } else {
-      listOfSpeciesGlyphs = speciesGlyphs;
-    }
-    if (listOfSpeciesGlyphs != null) {
-      listOfSpeciesGlyphs.setSBaseListType(ListOf.Type.other);
-      registerChild(listOfSpeciesGlyphs);
-    }
-  }
-
-  /**
-   * This element is optional. If set, this list cannot be empty.
-   * 
-   * @param textGlyphs
-   */
-  public void setListOfTextGlyphs(ListOf<TextGlyph> textGlyphs) {
-    unsetListOfTextGlyphs();
-    listOfTextGlyphs = textGlyphs;
-    if (listOfTextGlyphs != null) {
-      listOfTextGlyphs.setSBaseListType(ListOf.Type.other);
-      registerChild(listOfTextGlyphs);
-    }
-  }
-
-  /**
    * Removes an element from the listOfCompartmentGlyphs.
    *
    * @param compartmentGlyph the element to be removed from the list.
@@ -1144,21 +1020,6 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
     }
     return false;
   }
-
-
-  /**
-   * Removes an element from the listOfCompartmentGlyphs.
-   *
-   * @param id the id of the element to be removed from the list.
-   * @return the removed element, if it was successfully found and removed or null.
-   */
-  public CompartmentGlyph removeCompartmentGlyph(String compartmentGlyphId) {
-    if (isSetListOfCompartmentGlyphs()) {
-      return getListOfCompartmentGlyphs().remove(compartmentGlyphId);
-    }
-    return null;
-  }
-
 
   /**
    * Removes an element from the listOfCompartmentGlyphs at the given index.
@@ -1175,6 +1036,83 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
     return getListOfCompartmentGlyphs().remove(i);
   }
 
+  /**
+   * Removes an element from the listOfCompartmentGlyphs.
+   *
+   * @param id the id of the element to be removed from the list.
+   * @return the removed element, if it was successfully found and removed or null.
+   */
+  public CompartmentGlyph removeCompartmentGlyph(String compartmentGlyphId) {
+    if (isSetListOfCompartmentGlyphs()) {
+      return getListOfCompartmentGlyphs().remove(compartmentGlyphId);
+    }
+    return null;
+  }
+
+  /**
+   * @param toBeRemoved
+   * @return the given element in case of a successful operation, {@code null}
+   *         otherwise.
+   */
+  public GeneralGlyph removeGeneralGlyph(GeneralGlyph toBeRemoved) {
+    if (isSetListOfAdditionalGraphicalObjects()
+        && getListOfAdditionalGraphicalObjects().contains(toBeRemoved)
+        && toBeRemoved.removeFromParent()) {
+      return toBeRemoved;
+    }
+    return null;
+  }
+
+  /**
+   * Removes an element from the {@link #listOfAdditionalGraphicalObjects} at
+   * the given index.
+   * 
+   * @param i the index where to remove the {@link GeneralGlyph}.
+   * @return the removed object
+   * @throws IndexOutOfBoundsException if the listOf is not set or if the index
+   * is out of bound (index < 0 || index > list.size).
+   * @throws ClassCastException if the additional graphical object at the given
+   * index is not an instance of {@link GeneralGlyph}. Note that the element is
+   * still removed, but an exception will be thrown. The element will not be
+   * re-inserted.
+   */
+  public GeneralGlyph removeGeneralGlyph(int i) {
+    if (!isSetListOfAdditionalGraphicalObjects()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return (GeneralGlyph) getListOfAdditionalGraphicalObjects().remove(i);
+  }
+
+  /**
+   * 
+   * @param id
+   * @return
+   * @throws ClassCastException if the additional graphical object with the
+   * given id is not an instance of {@link GeneralGlyph}. Note that the element
+   * is still removed, but an exception will be thrown. The element will not be
+   * re-inserted.
+   */
+  public GeneralGlyph removeGeneralGlyph(String id) {
+    if (isSetListOfAdditionalGraphicalObjects()) {
+      return (GeneralGlyph) getListOfAdditionalGraphicalObjects().remove(id);
+    }
+    return null;
+  }
+
+  /**
+   * Removes an element from the {@link #listOfReactionGlyphs} at the given index.
+   *
+   * @param i the index where to remove the {@link ReactionGlyph}.
+   * @return the specified element, if it was successfully found and removed.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public ReactionGlyph removeReactionGlyph(int i) {
+    if (!isSetListOfReactionGlyphs()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfReactionGlyphs().remove(i);
+  }
 
   /**
    * Removes an element from the listOfReactionGlyphs.
@@ -1190,7 +1128,6 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
     return false;
   }
 
-
   /**
    * Removes an element from the listOfReactionGlyphs.
    *
@@ -1202,82 +1139,6 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
       return getListOfReactionGlyphs().remove(reactionGlyphId);
     }
     return null;
-  }
-
-
-  /**
-   * Removes an element from the listOfReactionGlyphs at the given index.
-   *
-   * @param i the index where to remove the {@link ReactionGlyph}.
-   * @return the specified element, if it was successfully found and removed.
-   * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
-   */
-  public ReactionGlyph removeReactionGlyph(int i) {
-    if (!isSetListOfReactionGlyphs()) {
-      throw new IndexOutOfBoundsException(Integer.toString(i));
-    }
-    return getListOfReactionGlyphs().remove(i);
-  }
-
-
-  /**
-   * Removes an element from the listOfSpeciesGlyphs.
-   *
-   * @param speciesGlyph the element to be removed from the list.
-   * @return true if the list contained the specified element and it was removed.
-   * @see List#remove(Object)
-   */
-  public boolean removeSpeciesGlyph(SpeciesGlyph speciesGlyph) {
-    if (isSetListOfSpeciesGlyphs()) {
-      return getListOfSpeciesGlyphs().remove(speciesGlyph);
-    }
-    return false;
-  }
-
-
-  /**
-   * Removes an element from the listOfSpeciesGlyphs.
-   *
-   * @param id the id of the element to be removed from the list.
-   * @return the removed element, if it was successfully found and removed or null.
-   */
-  public SpeciesGlyph removeSpeciesGlyph(String speciesGlyphId) {
-    if (isSetListOfSpeciesGlyphs()) {
-      return getListOfSpeciesGlyphs().remove(speciesGlyphId);
-    }
-    return null;
-  }
-
-
-  /**
-   * Removes an element from the listOfSpeciesGlyphs at the given index.
-   *
-   * @param i the index where to remove the {@link SpeciesGlyph}.
-   * @return the specified element, if it was successfully found and removed.
-   * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
-   */
-  public SpeciesGlyph removeSpeciesGlyph(int i) {
-    if (!isSetListOfSpeciesGlyphs()) {
-      throw new IndexOutOfBoundsException(Integer.toString(i));
-    }
-    return getListOfSpeciesGlyphs().remove(i);
-  }
-
-
-  /**
-   * Removes an element from the listOfTextGlyphs.
-   *
-   * @param textGlyph the element to be removed from the list.
-   * @return true if the list contained the specified element and it was removed.
-   * @see List#remove(Object)
-   */
-  public boolean removeTextGlyph(TextGlyph textGlyph) {
-    if (isSetListOfTextGlyphs()) {
-      return getListOfTextGlyphs().remove(textGlyph);
-    }
-    return false;
   }
 
   /**
@@ -1319,20 +1180,47 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 
   }
 
+  /**
+   * Removes an element from the listOfSpeciesGlyphs at the given index.
+   *
+   * @param i the index where to remove the {@link SpeciesGlyph}.
+   * @return the specified element, if it was successfully found and removed.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public SpeciesGlyph removeSpeciesGlyph(int i) {
+    if (!isSetListOfSpeciesGlyphs()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfSpeciesGlyphs().remove(i);
+  }
 
   /**
-   * Removes an element from the listOfTextGlyphs.
+   * Removes an element from the listOfSpeciesGlyphs.
+   *
+   * @param speciesGlyph the element to be removed from the list.
+   * @return true if the list contained the specified element and it was removed.
+   * @see List#remove(Object)
+   */
+  public boolean removeSpeciesGlyph(SpeciesGlyph speciesGlyph) {
+    if (isSetListOfSpeciesGlyphs()) {
+      return getListOfSpeciesGlyphs().remove(speciesGlyph);
+    }
+    return false;
+  }
+
+  /**
+   * Removes an element from the listOfSpeciesGlyphs.
    *
    * @param id the id of the element to be removed from the list.
    * @return the removed element, if it was successfully found and removed or null.
    */
-  public TextGlyph removeTextGlyph(String textGlyphId) {
-    if (isSetListOfTextGlyphs()) {
-      return getListOfTextGlyphs().remove(textGlyphId);
+  public SpeciesGlyph removeSpeciesGlyph(String speciesGlyphId) {
+    if (isSetListOfSpeciesGlyphs()) {
+      return getListOfSpeciesGlyphs().remove(speciesGlyphId);
     }
     return null;
   }
-
 
   /**
    * Removes an element from the listOfTextGlyphs at the given index.
@@ -1347,6 +1235,160 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
       throw new IndexOutOfBoundsException(Integer.toString(i));
     }
     return getListOfTextGlyphs().remove(i);
+  }
+
+  /**
+   * Removes an element from the listOfTextGlyphs.
+   *
+   * @param id the id of the element to be removed from the list.
+   * @return the removed element, if it was successfully found and removed or null.
+   */
+  public TextGlyph removeTextGlyph(String textGlyphId) {
+    if (isSetListOfTextGlyphs()) {
+      return getListOfTextGlyphs().remove(textGlyphId);
+    }
+    return null;
+  }
+
+  /**
+   * Removes an element from the listOfTextGlyphs.
+   *
+   * @param textGlyph the element to be removed from the list.
+   * @return true if the list contained the specified element and it was removed.
+   * @see List#remove(Object)
+   */
+  public boolean removeTextGlyph(TextGlyph textGlyph) {
+    if (isSetListOfTextGlyphs()) {
+      return getListOfTextGlyphs().remove(textGlyph);
+    }
+    return false;
+  }
+
+
+  /**
+   * This element is optional. If set, this list cannot be empty.
+   * 
+   * @param listOfAdditionalGraphicalObjects
+   */
+  public void setAddGraphicalObjects(ListOf<GraphicalObject> addGraphicalObjects) {
+    if (listOfAdditionalGraphicalObjects != null) {
+      listOfAdditionalGraphicalObjects.fireNodeRemovedEvent();
+    }
+    listOfAdditionalGraphicalObjects = addGraphicalObjects;
+    registerChild(listOfAdditionalGraphicalObjects);
+  }
+
+
+  /**
+   * The dimensions element of type {@link Dimensions} specifies the dimensions of this
+   * layout. This element is required. It holds the dimensions of all layout elements
+   * (care should be taken when using {@link CubicBezier}s, that the described curve also
+   * lies within the given dimensions).
+   * 
+   * @param dimensions
+   */
+  public void setDimensions(Dimensions dimensions) {
+    if (this.dimensions != null) {
+      this.dimensions.fireNodeRemovedEvent();
+    }
+    this.dimensions = dimensions;
+    registerChild(this.dimensions);
+  }
+
+
+  /**
+   * This element is optional. If set, this list cannot be empty. Most objects for
+   * which layout information is to be included in an SBML file have a corresponding
+   * object in {@link Model}. As there might be cases where the user wants to
+   * include object types in the layout that do fall in any of the other categories
+   * described below, we include a listOfAdditionalGraphicalObjects in each {@link Layout}
+   * object. This list holds an arbitrary number of {@link GraphicalObject} elements.
+   * The {@link GraphicalObject} only defines a bounding box in a specific place in the
+   * {@link Layout} without giving additional information about its contents.
+   * 
+   * The listOfAdditionalGraphicalObjects, when present, must contain one or more of the
+   * following elements: {@link GraphicalObject} or {@link GeneralGlyph}. When using a
+   * {@link GraphicalObject} it is recommended that some form of meta-information is provided.
+   * For additional relationships such as SBML events or rules, the {@link GeneralGlyph} can
+   * be used.
+   * 
+   * @param AdditionalGraphicalObjects
+   */
+  public void setListOfAdditionalGraphicalObjects(ListOf<GraphicalObject> additionalGraphicalObjects)
+  {
+    unsetListOfAdditionalGraphicalObjects();
+
+    if (additionalGraphicalObjects != null) {
+      listOfAdditionalGraphicalObjects = getListOfAdditionalGraphicalObjects(); // initializing a new ListOfWithName with the proper settings
+      listOfAdditionalGraphicalObjects.addAll(additionalGraphicalObjects);
+      registerChild(listOfAdditionalGraphicalObjects);
+    }
+  }
+
+
+  /**
+   * This element is optional. If set, this list cannot be empty. Also, not all
+   * {@link Compartment}s of a {@link Model} will need a corresponding {@link CompartmentGlyph}.
+   * 
+   * @param compartmentGlyphs
+   */
+  public void setListOfCompartmentGlyphs(ListOf<CompartmentGlyph> compartmentGlyphs) {
+    unsetListOfCompartmentGlyphs();
+    listOfCompartmentGlyphs = compartmentGlyphs;
+    if ((listOfCompartmentGlyphs != null) && (listOfCompartmentGlyphs.getSBaseListType() != ListOf.Type.other)) {
+      listOfCompartmentGlyphs.setSBaseListType(ListOf.Type.other);
+    }
+    registerChild(listOfCompartmentGlyphs);
+  }
+
+  /**
+   * This element is optional. If set, this list cannot be empty. Also, not all {@link Reaction}s
+   * of a {@link Model} need a corresponding {@link ReactionGlyph}.
+   * 
+   * @param reactionGlyphs
+   */
+  public void setListOfReactionGlyphs(ListOf<ReactionGlyph> reactionGlyphs) {
+    unsetListOfReactionGlyphs();
+    listOfReactionGlyphs = reactionGlyphs;
+    if (listOfReactionGlyphs != null) {
+      listOfReactionGlyphs.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfReactionGlyphs);
+    }
+  }
+
+
+  /**
+   * This element is optional. If set, this list cannot be empty. Also, not all {@link Species}
+   * of a {@link Model} need a corresponding {@link SpeciesGlyph}.
+   * 
+   * @param speciesGlyphs
+   */
+  public void setListOfSpeciesGlyphs(ListOf<SpeciesGlyph> speciesGlyphs) {
+    unsetListOfSpeciesGlyphs();
+    if (speciesGlyphs == null) {
+      listOfSpeciesGlyphs = new ListOf<SpeciesGlyph>();
+    } else {
+      listOfSpeciesGlyphs = speciesGlyphs;
+    }
+    if (listOfSpeciesGlyphs != null) {
+      listOfSpeciesGlyphs.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfSpeciesGlyphs);
+    }
+  }
+
+
+  /**
+   * This element is optional. If set, this list cannot be empty.
+   * 
+   * @param textGlyphs
+   */
+  public void setListOfTextGlyphs(ListOf<TextGlyph> textGlyphs) {
+    unsetListOfTextGlyphs();
+    listOfTextGlyphs = textGlyphs;
+    if (listOfTextGlyphs != null) {
+      listOfTextGlyphs.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfTextGlyphs);
+    }
   }
 
   /* (non-Javadoc)

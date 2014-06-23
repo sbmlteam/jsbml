@@ -467,6 +467,9 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
     return LayoutConstants.namespaces_L3;
   }
 
+  /**
+   * 
+   */
   private static final List<String> namespaces = new ArrayList<String>();
 
   static {
