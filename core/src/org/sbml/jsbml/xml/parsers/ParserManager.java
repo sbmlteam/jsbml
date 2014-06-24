@@ -23,6 +23,7 @@ package org.sbml.jsbml.xml.parsers;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
 
@@ -39,15 +40,18 @@ public class ParserManager {
 
   private static ParserManager manager;
 
-  public HashMap<String, ReadingParser> readingParsers = new HashMap<String, ReadingParser>();
-  private HashMap<String, WritingParser> writingParsers = new HashMap<String, WritingParser>();
-  private HashMap<String, PackageParser> packageParsers = new HashMap<String, PackageParser>();
+  public Map<String, ReadingParser> readingParsers = new HashMap<String, ReadingParser>();
+  private Map<String, WritingParser> writingParsers = new HashMap<String, WritingParser>();
+  private Map<String, PackageParser> packageParsers = new HashMap<String, PackageParser>();
 
   /**
    * Map between the {@link PackageParser} namespace and package short name.
    */
-  private HashMap<String, String> namespaceToNameMap = new HashMap<String, String>();
+  private Map<String, String> namespaceToNameMap = new HashMap<String, String>();
 
+  /**
+   * A {@link Logger} for this class.
+   */
   private Logger logger = Logger.getLogger(ParserManager.class);
 
   /**
@@ -206,9 +210,9 @@ public class ParserManager {
    * 
    * @return a copy of the registered {@link ReadingParser}s map.
    */
-  public HashMap<String, ReadingParser> getReadingParsers() {
+  public Map<String, ReadingParser> getReadingParsers() {
 
-    HashMap<String, ReadingParser> clonedMap = new HashMap<String, ReadingParser>();
+    Map<String, ReadingParser> clonedMap = new HashMap<String, ReadingParser>();
 
     Iterator<ReadingParser> readingParserList = ServiceLoader.load(ReadingParser.class).iterator();
 
@@ -236,9 +240,9 @@ public class ParserManager {
    * 
    * @return a copy of the registered {@link WritingParser}s map.
    */
-  public HashMap<String, WritingParser> getWritingParsers() {
+  public Map<String, WritingParser> getWritingParsers() {
 
-    HashMap<String, WritingParser> clonedMap = new HashMap<String, WritingParser>();
+    Map<String, WritingParser> clonedMap = new HashMap<String, WritingParser>();
 
     Iterator<ReadingParser> readingParserList = ServiceLoader.load(ReadingParser.class).iterator();
 
@@ -284,7 +288,7 @@ public class ParserManager {
    * Gets the namespace for the given package name that correspond to the SBML level, version
    * and package version.
    * 
-   * <p>Returns null if the combined level, version and packageVersion is
+   * <p>Returns {@code null} if the combined level, version and packageVersion is
    * invalid or not known for this package.
    * 
    * @param level - the SBML level
@@ -305,6 +309,11 @@ public class ParserManager {
     return null;
   }
 
+  /**
+   * For testing purposes.
+   * 
+   * @param args
+   */
   public static void main(String[] args) {
     System.out.println(ParserManager.getManager().getReadingParsers());
     System.out.println(ParserManager.getManager().getReadingParsers());
@@ -313,7 +322,6 @@ public class ParserManager {
     System.out.println(ParserManager.getManager().getWritingParsers());
     System.out.println(ParserManager.getManager().getWritingParsers());
     System.out.println(ParserManager.getManager().writingParsers);
-
   }
 
 }

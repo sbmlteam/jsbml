@@ -328,7 +328,7 @@ public class OverdeterminationValidator {
    * This class represents the end node in the bipartite graph
    * 
    * @author Alexander D&ouml;rr
-   * @since 1.4
+   * @since 0.8
    */
   private class TerminalNode<T extends SBase> implements Node<T> {
 
@@ -336,7 +336,6 @@ public class OverdeterminationValidator {
      * Creates a new terminal node
      */
     public TerminalNode() {
-
     }
 
     /* (non-Javadoc)
@@ -470,13 +469,13 @@ public class OverdeterminationValidator {
       // Matching is already maximal or there is no maximal matching
       // (length of the next path would be greater than the longest
       // possible path in the graph)
-      if (matching.size() == equations.size()
-          || length > equations.size() * 2 - 3) {
+      if ((matching.size() == equations.size())
+          || (length > equations.size() * 2 - 3)) {
         break;
       }
 
       // Increment length by 2 because last edge has to be a matching
-      length = length + 2;
+      length += 2;
     }
 
   }
@@ -514,7 +513,7 @@ public class OverdeterminationValidator {
 
       }
       // New start and end node for this path found -> update path
-      if (start != null && end != null) {
+      if ((start != null) && (end != null)) {
         path.add(0, start);
         path.add(path.size(), end);
 
@@ -580,22 +579,20 @@ public class OverdeterminationValidator {
 
       // Create vertices and edges for products
       for (SpeciesReference sref : r.getListOfProducts()) {
-        if (!sref.getSpeciesInstance().isConstant()) {
-          variable = variableHash.get(sref.getSpeciesInstance());
-          if (!sref.getSpeciesInstance().getBoundaryCondition()) {
+        Species species = sref.getSpeciesInstance();
+        if (!species.isConstant()) {
+          variable = variableHash.get(species);
+          if (!species.getBoundaryCondition()) {
 
-            equation = equationHash.get(sref.getSpeciesInstance());
+            equation = equationHash.get(species);
             if (equation == null) {
-              equation = new InnerNode<SBase>(sref
-                  .getSpeciesInstance());
+              equation = new InnerNode<SBase>(species);
               equations.add(equation);
-              equationHash.put(sref.getSpeciesInstance(),
-                equation);
+              equationHash.put(species, equation);
               // link
               variable.addNode(equation);
               equation.addNode(variable);
               variableHash.put(variable.getValue(), variable);
-
             }
           }
         }
@@ -603,23 +600,20 @@ public class OverdeterminationValidator {
 
       // Create vertices and edges for reactants
       for (SpeciesReference sref : r.getListOfReactants()) {
+        Species species = sref.getSpeciesInstance();
+        if (!species.isConstant()) {
+          variable = variableHash.get(species);
+          if (!species.getBoundaryCondition()) {
 
-        if (!sref.getSpeciesInstance().isConstant()) {
-          variable = variableHash.get(sref.getSpeciesInstance());
-          if (!sref.getSpeciesInstance().getBoundaryCondition()) {
-
-            equation = equationHash.get(sref.getSpeciesInstance());
+            equation = equationHash.get(species);
             if (equation == null) {
-              equation = new InnerNode<SBase>(sref
-                  .getSpeciesInstance());
+              equation = new InnerNode<SBase>(species);
               equations.add(equation);
-              equationHash.put(sref.getSpeciesInstance(),
-                equation);
+              equationHash.put(species, equation);
               // link
               variable.addNode(equation);
               equation.addNode(variable);
               variableHash.put(variable.getValue(), variable);
-
             }
           }
         }
@@ -640,19 +634,16 @@ public class OverdeterminationValidator {
       Rule r = model.getRule(i);
       if (r instanceof RateRule) {
         equations.add(equation);
-        variable = variableHash.get(((RateRule) r)
-          .getVariableInstance());
+        variable = variableHash.get(((RateRule) r).getVariableInstance());
         // link
         variable.addNode(equation);
         equation.addNode(variable);
-
       }
 
       else if (r instanceof AssignmentRule) {
-        variable = variableHash.get(((AssignmentRule) r)
-          .getVariableInstance());
+        variable = variableHash.get(((AssignmentRule) r).getVariableInstance());
         // link
-        if (variable!=null) {
+        if (variable != null) {
           equations.add(equation);
           variable.addNode(equation);
           equation.addNode(variable);
@@ -667,7 +658,7 @@ public class OverdeterminationValidator {
       Rule r = model.getRule(i);
       if (r instanceof AlgebraicRule) {
         equations.add(equation);
-        // all identifiers withn the MathML of this AlgebraicRule
+        // all identifiers within the MathML of this AlgebraicRule
         svariables.clear();
         getVariables(null, model.getRule(i).getMath(), svariables, model.getLevel());
         // link rule with its variables
@@ -748,7 +739,7 @@ public class OverdeterminationValidator {
           first.deleteNode(stack.peek());
         }
 
-      }// else remove from stack
+      } // else remove from stack
       else {
         stack.pop();
       }
@@ -815,12 +806,14 @@ public class OverdeterminationValidator {
   private void getVariables(ListOf<LocalParameter> param, ASTNode node,
     List<SBase> variables, int level) {
     // found node with species
-    if ((node.getChildCount() == 0) && (node.isString()) && (node.getType() != Type.NAME_TIME) && (node.getType() != Type.NAME_AVOGADRO)) {
+    if ((node.getChildCount() == 0) && (node.isString()) &&
+        (node.getType() != Type.NAME_TIME) &&
+        (node.getType() != Type.NAME_AVOGADRO)) {
       if (!node.isConstant()) {
         if (param == null) {
           SBase variable=node.getVariable();
           if (level==1) {
-            int insertingPosition=0;
+            int insertingPosition = 0;
             for(SBase element:variables) {
               if (!(element instanceof Parameter) || (!((Parameter)element).isSetValue())) {
                 insertingPosition++;
@@ -837,7 +830,8 @@ public class OverdeterminationValidator {
             if (level==1) {
               int insertingPosition=0;
               for(SBase element:variables) {
-                if (!(element instanceof Parameter) || (!((Parameter)element).isSetValue())) {
+                if (!(element instanceof Parameter) ||
+                    (!((Parameter) element).isSetValue())) {
                   insertingPosition++;
                 }
               }
@@ -871,13 +865,11 @@ public class OverdeterminationValidator {
 
     for (int i = 0; i < model.getReactionCount(); i++) {
 
-      for (SpeciesReference sref : model.getReaction(i)
-          .getListOfProducts()) {
+      for (SpeciesReference sref : model.getReaction(i).getListOfProducts()) {
         reactants.add(sref.getSpecies());
       }
 
-      for (SpeciesReference sref : model.getReaction(i)
-          .getListOfReactants()) {
+      for (SpeciesReference sref : model.getReaction(i).getListOfReactants()) {
         reactants.add(sref.getSpecies());
       }
 
@@ -887,7 +879,6 @@ public class OverdeterminationValidator {
     buildGraph();
     buildMatching();
     augmentMatching();
-
   }
 
   /**
@@ -909,15 +900,10 @@ public class OverdeterminationValidator {
    * @param path
    */
   private void updateMatching(List<Node<SBase>> path) {
-    int index;
-    index = 1;
-    while (path.size() > index) {
+    for (int index = 1; path.size() > index; index += 2) {
       matching.remove(path.get(index).getValue());
-      matching.put(path.get(index).getValue(), path.get(index - 1)
-        .getValue());
-      index = index + 2;
-
+      matching.put(path.get(index).getValue(), path.get(index - 1).getValue());
     }
-
   }
+
 }

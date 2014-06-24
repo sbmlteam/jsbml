@@ -175,18 +175,18 @@ public class SBMLDocument extends AbstractSBase {
    * @param sb
    */
   public SBMLDocument(SBMLDocument sb) {
-    super(sb);    
+    super(sb);
 
     // the super constructor from AbstractSBase could have added stuff on this map already
     if (mappingFromMetaId2SBase == null) {
       mappingFromMetaId2SBase = new HashMap<String, SBase>();
-    }    
+    }
 
     // the super constructor from AbstractSBase could have added stuff on this map already
     if (SBMLDocumentAttributes == null) {
       SBMLDocumentAttributes = new HashMap<String, String>();
-    }    
-    
+    }
+
     // the super constructor from AbstractSBase could have added stuff on this map already
     if (enabledPackageMap == null) {
       enabledPackageMap = new HashMap<String, Boolean>();
@@ -915,7 +915,7 @@ public class SBMLDocument extends AbstractSBase {
       if (enabledPackageMap == null) {
         enabledPackageMap = new HashMap<String, Boolean>();
       }
-      
+
       for (String packageURI : packageURIs) {
         if (enabledPackageMap.containsKey(packageURI)) {
           return enabledPackageMap.get(packageURI);
@@ -1145,7 +1145,7 @@ public class SBMLDocument extends AbstractSBase {
     if (mappingFromMetaId2SBase == null) {
       mappingFromMetaId2SBase = new HashMap<String, SBase>();
     }
-    
+
     if (delete) {
       for (String key : metaIds.keySet()) {
         mappingFromMetaId2SBase.remove(key);

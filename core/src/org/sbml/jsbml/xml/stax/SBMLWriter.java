@@ -231,7 +231,7 @@ public class SBMLWriter {
   /**
    * contains the WritingParser instances of this class.
    */
-  private HashMap<String, WritingParser> instantiatedSBMLParsers = new HashMap<String, WritingParser>();
+  private Map<String, WritingParser> instantiatedSBMLParsers = new HashMap<String, WritingParser>();
 
   /**
    * Remember already issued warnings to avoid having multiple lines, saying
@@ -240,6 +240,9 @@ public class SBMLWriter {
    */
   private transient List<String> issuedWarnings = new ArrayList<String>();
 
+  /**
+   * A {@link Logger} for this class.
+   */
   Logger logger = Logger.getLogger(SBMLWriter.class);
 
 
@@ -549,7 +552,7 @@ public class SBMLWriter {
     // outputDocument.setIndentation("\n  ", 1, 1);
 
     // TODO - check if we need to enable some packages
-    
+
     String SBMLNamespace = JSBML.getNamespaceFrom(sbmlDocument.getLevel(),
       sbmlDocument.getVersion());
     SMOutputContext context = outputDocument.getContext();
@@ -876,7 +879,7 @@ public class SBMLWriter {
     SMOutputElement smOutputParentElement,
     XMLStreamWriter streamWriter, Object parentObject, int indent)
         throws XMLStreamException, SBMLException
-  {
+        {
     String whiteSpaces = createIndentationString(indent);
 
     // Get the list of parsers to use.
@@ -919,12 +922,12 @@ public class SBMLWriter {
         }
 
         SBase s = (SBase) nextObjectToWrite;
-        
+
         // test if this element is part of a disabled package. Do not write the element if it is the case
         if (s.getNamespace() != null) {
           SBMLDocument doc = s.getSBMLDocument();
           Boolean isPackageEnabled = null;
-          
+
           if (doc != null) {
             isPackageEnabled = doc.isPackageEnabledOrDisabled(s.getNamespace());
           } else {
@@ -937,7 +940,7 @@ public class SBMLWriter {
             continue;
           }
         }
-        
+
         // this new element might need a different writer than it's parent !!
         List<WritingParser> listOfChildPackages = getWritingParsers(nextObjectToWrite, smOutputParentElement.getNamespace().getURI());
         SBMLObjectForXML childXmlObject = new SBMLObjectForXML();
@@ -1056,7 +1059,7 @@ public class SBMLWriter {
       // write the indent before closing the element
       streamWriter.writeCharacters(whiteSpaces.substring(0, indent - indentCount));
     }
-  }
+        }
 
 
   /**

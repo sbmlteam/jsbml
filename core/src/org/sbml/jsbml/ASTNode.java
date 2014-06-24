@@ -906,18 +906,18 @@ public class ASTNode extends AbstractTreeNode {
    *             If the given formula is not of valid format or cannot be
    *             parsed for other reasons.
    */
-  public static ASTNode parseFormula(String formula) throws ParseException {    
+  public static ASTNode parseFormula(String formula) throws ParseException {
     FormulaParser parser = new FormulaParser(new StringReader(formula));
     ASTNode result = null;
-    
+
     try {
       result = parser.parse();
     } catch (Throwable e) {
       // the javacc parser can throw some TokenMgrError at least
       throw new ParseException(e);
     }
-    
-    return result; 
+
+    return result;
   }
 
   /**
@@ -936,15 +936,15 @@ public class ASTNode extends AbstractTreeNode {
   public static ASTNode parseFormula(String formula, IFormulaParser parser) throws ParseException {
     parser.ReInit(new StringReader(formula));
     ASTNode result = null;
-    
+
     try {
       result = parser.parse();
     } catch (Throwable e) {
       // the javacc parser can throw some TokenMgrError at least
       throw new ParseException(e);
     }
-    
-    return result; 
+
+    return result;
   }
 
   /**
@@ -2569,6 +2569,7 @@ public class ASTNode extends AbstractTreeNode {
           if (getParentSBMLObject() instanceof KineticLaw) {
             variable = ((KineticLaw) getParentSBMLObject()).getLocalParameter(getName());
           }
+          // TODO: Add a check if the parent is a FunctionDefinition that contains the variable in its list of parameters. If this is not the case, an error must be thrown!
           if (variable == null) {
             Model m = getParentSBMLObject().getModel();
             if (m != null) {
@@ -3113,7 +3114,6 @@ public class ASTNode extends AbstractTreeNode {
     return type == Type.VECTOR;
   }
 
- 
   /**
    * Returns {@code true} if this node represents the number zero (either as integer
    * or as real value).
