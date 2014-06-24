@@ -67,15 +67,15 @@ public class Ellipse extends GraphicalPrimitive2D {
     final int prime = 3137;
     int result = super.hashCode();
     result = prime * result
-      + ((absoluteCx == null) ? 0 : absoluteCx.hashCode());
+        + ((absoluteCx == null) ? 0 : absoluteCx.hashCode());
     result = prime * result
-      + ((absoluteCy == null) ? 0 : absoluteCy.hashCode());
+        + ((absoluteCy == null) ? 0 : absoluteCy.hashCode());
     result = prime * result
-      + ((absoluteCz == null) ? 0 : absoluteCz.hashCode());
+        + ((absoluteCz == null) ? 0 : absoluteCz.hashCode());
     result = prime * result
-      + ((absoluteRx == null) ? 0 : absoluteRx.hashCode());
+        + ((absoluteRx == null) ? 0 : absoluteRx.hashCode());
     result = prime * result
-      + ((absoluteRy == null) ? 0 : absoluteRy.hashCode());
+        + ((absoluteRy == null) ? 0 : absoluteRy.hashCode());
     result = prime * result + ((cx == null) ? 0 : cx.hashCode());
     result = prime * result + ((cy == null) ? 0 : cy.hashCode());
     result = prime * result + ((cz == null) ? 0 : cz.hashCode());
