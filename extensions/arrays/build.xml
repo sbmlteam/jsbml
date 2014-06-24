@@ -136,11 +136,6 @@
             excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip ">
 			</fileset>
 		</copy>
-		<copy todir="${build.src}" overwrite="yes">
-			<fileset dir="${basedir}/validator"
-            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip ">
-			</fileset>
-		</copy>
 
 		<copy todir="${build.src}" overwrite="yes">
 			<fileset 
