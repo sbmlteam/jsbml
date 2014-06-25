@@ -230,6 +230,31 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   }
 
   /**
+   * Returns the given selector as StringBuffer.
+   * 
+   * @param operator
+   * @param elements
+   * @return
+   */
+  private static final StringBuffer selector(Object... elements) {
+    List<Object> vsb = new Vector<Object>();
+    for (Object sb : elements) {
+      if (sb != null && sb.toString().length() > 0) {
+        vsb.add(sb);
+      }
+    }
+    StringBuffer equation = new StringBuffer();
+
+    if (vsb.size() > 0) {
+      equation.append(vsb.get(0));
+    }
+    for (int count = 1; count < vsb.size(); count++) {
+      append(equation, "[", vsb.get(count), "]");
+    }
+    return equation;
+  }
+  
+  /**
    * 
    * @param basis
    * @return
@@ -260,6 +285,34 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   public static final StringBuffer times(Object... factors) {
     return arith('*', factors);
+  }
+  
+  /**
+   * Returns the given vector as StringBuffer.
+   * 
+   * @param operator
+   * @param elements
+   * @return
+   */
+  private static final StringBuffer vector(Object... elements) {
+    List<Object> vsb = new Vector<Object>();
+    for (Object sb : elements) {
+      if (sb != null && sb.toString().length() > 0) {
+        vsb.add(sb);
+      }
+    }
+    StringBuffer equation = new StringBuffer();
+    equation.append("{");
+    
+    if (vsb.size() > 0) {
+      equation.append(vsb.get(0));
+    }
+    Character op = Character.valueOf(',');
+    for (int count = 1; count < vsb.size(); count++) {
+      append(equation, op, vsb.get(count));
+    }
+    equation.append("}");
+    return equation;
   }
 
   /* (non-Javadoc)
@@ -1042,7 +1095,13 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue selector(List<ASTNode> nodes) throws SBMLException {
-    return function("selector", nodes);
+    Object n[] = new ASTNodeValue[nodes.size()];
+    for (int i = 0; i < nodes.size(); i++) {
+      ASTNode ast = nodes.get(i);
+      n[i] = ast.compile(this);
+    }
+    
+    return new ASTNodeValue(selector(n).toString(), this);
   }
 
   /* (non-Javadoc)
@@ -1050,7 +1109,13 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue vector(List<ASTNode> nodes) throws SBMLException {
-    return function("vector", nodes);
+    Object n[] = new ASTNodeValue[nodes.size()];
+    for (int i = 0; i < nodes.size(); i++) {
+      ASTNode ast = nodes.get(i);
+      n[i] = ast.compile(this);
+    }
+    
+    return new ASTNodeValue(vector(n).toString(), this);
   }
 
 }
