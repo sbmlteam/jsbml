@@ -682,9 +682,13 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue minus(List<ASTNode> values) throws SBMLException {
     double result = 0;
-    for(ASTNode value : values) {
-      ASTNodeValue astNodeValue = value.compile(this);
-      result += astNodeValue.toDouble();
+    if(values.size() > 0) {
+      ASTNodeValue astNodeValue = values.get(0).compile(this);
+      result = astNodeValue.toDouble();
+    }
+    for(int i = 1; i < values.size(); ++i) {
+      ASTNodeValue astNodeValue = values.get(i).compile(this);
+      result -= astNodeValue.toDouble();
     }
     return new ASTNodeValue(result, this);
   }
@@ -901,13 +905,13 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue times(List<ASTNode> values) throws SBMLException {
     double result = 0;
-    for(ASTNode value : values) {
-      ASTNodeValue astNodeValue = value.compile(this);
-      if(astNodeValue.isNumber()) {
-        result *= astNodeValue.toDouble();
-      } else {
-        return unknownValue();
-      }
+    if(values.size() > 0) {
+      ASTNodeValue astNodeValue = values.get(0).compile(this);
+      result = astNodeValue.toDouble();
+    }
+    for(int i = 1; i < values.size(); ++i) {
+      ASTNodeValue astNodeValue = values.get(i).compile(this);
+      result *= astNodeValue.toDouble();
     }
     return new ASTNodeValue(result, this);
   }
