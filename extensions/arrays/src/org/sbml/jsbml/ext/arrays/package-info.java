@@ -1,6 +1,6 @@
 /*
- * $Id: package-info.java 9:40:29 PM lwatanabe $
- * $URL: package-info.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.

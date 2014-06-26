@@ -1,6 +1,6 @@
 /*
- * $Id:  ArraysMathValidator.java 7:21:26 PM lwatanabe $
- * $URL: ArraysMathValidator.java $
+ * $Id$
+ * $URL$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -20,27 +20,29 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>. 
  * ---------------------------------------------------------------------------- 
  */
-package org.sbml.jsbml.ext.arrays;
+package org.sbml.jsbml.ext.arrays.validator;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLError;
+import org.sbml.jsbml.ext.arrays.Dimension;
+import org.sbml.jsbml.ext.arrays.validator.constraints.ArraysConstraint;
+import org.sbml.jsbml.ext.arrays.validator.constraints.DimensionSizeCheck;
 
 
 /**
- * This checks a given {@link MathContainer} object math
- * is in accordance with the arrays package specification.
+ * This validates a given {@link Dimension} object in the context of a given model and makes sure that
+ * the dimension object is in accordance with the arrays package specification.
  * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
  * @date Jun 19, 2014
  */
-public class ArraysMathValidator {
-  
+public class DimensionValidator {
+
   /**
    * Validates the given SBase object.
    * 
@@ -48,14 +50,14 @@ public class ArraysMathValidator {
    * @param sbase
    * @return
    */
-  public static List<SBMLError> validate(Model model, MathContainer math) {
+  public static List<SBMLError> validate(Model model, Dimension dim) {
 
     List<ArraysConstraint> listOfConstraints = new ArrayList<ArraysConstraint>();
 
 
     List<SBMLError> listOfErrors = new ArrayList<SBMLError>();
 
-    addConstraints(model,math, listOfConstraints);
+    addConstraints(model,dim, listOfConstraints);
 
     for (ArraysConstraint constraint : listOfConstraints) {
       constraint.check();
@@ -72,10 +74,14 @@ public class ArraysMathValidator {
    * @param sbase
    * @param listOfConstraints
    */
-  private static void addConstraints(Model model, MathContainer math, List<ArraysConstraint> listOfConstraints) {
+  private static void addConstraints(Model model, Dimension dim, List<ArraysConstraint> listOfConstraints) {
 
-
+      DimensionSizeCheck dimSizeCheck = new DimensionSizeCheck(model, dim);
+      listOfConstraints.add(dimSizeCheck);
   }
 
 
+
 }
+
+

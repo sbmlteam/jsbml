@@ -1,6 +1,6 @@
 /*
- * $Id:  ArraysWriteTest.java 12:57:26 PM lwatanabe $
- * $URL: ArraysWriteTest.java $
+ * $Id$
+ * $URL$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -105,6 +105,7 @@ public class ArraysWriteTest {
     dimRule.setSize(n.getId());
     dimRule.setArrayDimension(0);
     arraysSBasePluginRule.addDimension(dimRule);
+   
     
     Index indexRule = new Index();
     indexRule.setArrayDimension(0);

@@ -1,6 +1,6 @@
 /*
- * $Id:  SelectorMathCheck.java 2:28:48 PM lwatanabe $
- * $URL: SelectorMathCheck.java $
+ * $Id$
+ * $URL$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -20,12 +20,14 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>. 
  * ---------------------------------------------------------------------------- 
  */
-package org.sbml.jsbml.ext.arrays;
+package org.sbml.jsbml.ext.arrays.validator.constraints;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.arrays.ArraysConstants;
+import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 
 
 /**
@@ -83,7 +85,7 @@ public class SelectorMathCheck extends ArraysConstraint {
       
       ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
       
-      if(arraysSBasePlugin.getDimensionCount() != math.getChildCount()-1)
+      if(arraysSBasePlugin.getDimensionCount() > math.getChildCount()-1)
       {
         System.err.println("Selector references an object with number of dimensions that doesn't match the number of arguments");
         String shortMsg = "";

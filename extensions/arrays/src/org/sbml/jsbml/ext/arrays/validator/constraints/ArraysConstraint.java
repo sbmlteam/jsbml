@@ -1,6 +1,6 @@
 /*
- * $Id:  ValidationConstraint.java 3:48:00 PM lwatanabe $
- * $URL: ValidationConstraint.java $
+ * $Id$
+ * $URL$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -20,7 +20,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>. 
  * ---------------------------------------------------------------------------- 
  */
-package org.sbml.jsbml.ext.arrays;
+package org.sbml.jsbml.ext.arrays.validator.constraints;
 
 import java.util.ArrayList;
 import java.util.List;

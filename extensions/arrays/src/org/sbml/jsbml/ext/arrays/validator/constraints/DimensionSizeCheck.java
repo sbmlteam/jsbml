@@ -1,6 +1,6 @@
 /*
- * $Id:  DimensionSize.java 12:15:02 PM lwatanabe $
- * $URL: DimensionSize.java $
+ * $Id$
+ * $URL$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -20,10 +20,13 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>. 
  * ---------------------------------------------------------------------------- 
  */
-package org.sbml.jsbml.ext.arrays;
+package org.sbml.jsbml.ext.arrays.validator.constraints;
 
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.ext.arrays.ArraysConstants;
+import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
+import org.sbml.jsbml.ext.arrays.Dimension;
 
 
 /**

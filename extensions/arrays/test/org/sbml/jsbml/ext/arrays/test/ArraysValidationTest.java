@@ -1,6 +1,6 @@
 /*
- * $Id:  ArraysValidationTest.java 12:21:09 PM lwatanabe $
- * $URL: ArraysValidationTest.java $
+ * $Id$
+ * $URL$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -38,12 +38,14 @@ import org.sbml.jsbml.Species;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
-import org.sbml.jsbml.ext.arrays.ArraysValidator;
 import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.ext.arrays.Index;
-import org.sbml.jsbml.ext.arrays.VectorMathCheck;
+import org.sbml.jsbml.ext.arrays.compiler.ArraysCompiler;
+import org.sbml.jsbml.ext.arrays.validator.ArraysValidator;
+import org.sbml.jsbml.ext.arrays.validator.constraints.VectorMathCheck;
 import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 /**
@@ -328,12 +330,88 @@ public class ArraysValidationTest {
       check = new VectorMathCheck(m, index);
       check.check();
       assertTrue(check.getListOfErrors().size() == 1);
-      
+      //TODO: check error code
+      //assertTrue(check.getListOfErrors().get(0).getCode() == 00000);
+      assertTrue(check.getListOfErrors().get(0).getPackage().equals("arrays"));
     } catch (ParseException e) {
       assertTrue(false);
       e.printStackTrace();
     }
   }
   
+  @Test
+  public void test05() {
+   
+    try {
+      SBMLDocument doc = new SBMLDocument(3,1);
+      Model model = doc.createModel();
+    
+      Parameter n = new Parameter("n");
+      n.setValue(6);
+      model.addParameter(n);
+
+      Parameter X = new Parameter("X");
+
+      model.addParameter(X);
+      ArraysSBasePlugin arraysSBasePluginX = new ArraysSBasePlugin(X);
+
+      X.addExtension(ArraysConstants.shortLabel, arraysSBasePluginX);
+
+      Dimension dimX = new Dimension("i");
+      dimX.setSize(n.getId());
+      dimX.setArrayDimension(0);
+
+      arraysSBasePluginX.addDimension(dimX);
+
+      Parameter Y = new Parameter("Y");
+
+      model.addParameter(Y);
+      ArraysSBasePlugin arraysSBasePluginY = new ArraysSBasePlugin(Y);
+
+      Y.addExtension(ArraysConstants.shortLabel, arraysSBasePluginY);
+      Dimension dimY = new Dimension("i");
+      dimY.setSize(n.getId());
+      dimY.setArrayDimension(0);
+
+      arraysSBasePluginY.addDimension(dimY);
+
+      AssignmentRule rule = new AssignmentRule();
+      model.addRule(rule);
+      rule.setMetaId("rule");
+      
+      ArraysSBasePlugin arraysSBasePluginRule = new ArraysSBasePlugin(rule);
+      rule.addExtension(ArraysConstants.shortLabel, arraysSBasePluginRule);
+      
+      Dimension dimRule = new Dimension("i");
+      dimRule.setSize(n.getId());
+      dimRule.setArrayDimension(0);
+      arraysSBasePluginRule.addDimension(dimRule);
+      
+      Index indexRule = new Index();
+      indexRule.setArrayDimension(0);
+      indexRule.setReferencedAttribute("variable");
+      ASTNode indexMath = new ASTNode();
+      
+      indexMath = ASTNode.diff(new ASTNode(9), new ASTNode("i"));
+      indexRule.setMath(indexMath);
+      arraysSBasePluginRule.addIndex(indexRule);
+      
+      rule.setVariable("Y");
+      ASTNode ruleMath = ASTNode.parseFormula("selector(vector(0, 1, 2, 3, 4, 5), i)");
+      
+      rule.setMath(ruleMath);
+      
+
+      ArraysCompiler compiler = new ArraysCompiler();
+      compiler.addValue("i", n.getValue() - 1);
+      ASTNodeValue value = rule.getMath().compile(compiler);
+      System.out.println(value.getValue());
+
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+   
+  }
   
 }

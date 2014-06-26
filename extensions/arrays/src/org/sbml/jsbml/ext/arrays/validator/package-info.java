@@ -22,6 +22,6 @@
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
- * @date May 15, 2014
+ * @date Jun 25, 2014
  */
-package org.sbml.jsbml.ext.arrays.test;
+package org.sbml.jsbml.ext.arrays.validator;

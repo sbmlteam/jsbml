@@ -1,6 +1,6 @@
 /*
- * $Id:  IndexValidator.java 11:11:41 AM lwatanabe $
- * $URL: IndexValidator.java $
+ * $Id$
+ * $URL$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -20,25 +20,27 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>. 
  * ---------------------------------------------------------------------------- 
  */
-package org.sbml.jsbml.ext.arrays;
+package org.sbml.jsbml.ext.arrays.validator;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLError;
+import org.sbml.jsbml.ext.arrays.validator.constraints.ArraysConstraint;
 
 
 /**
- * This validates a given {@link Index} object in the context of a given model and makes sure that
- * the {@link Index} object is in accordance with the arrays package specification.
+ * This checks a given {@link MathContainer} object math
+ * is in accordance with the arrays package specification.
  * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
  * @date Jun 19, 2014
  */
-public class IndexValidator {
+public class ArraysMathValidator {
   
   /**
    * Validates the given SBase object.
@@ -47,14 +49,14 @@ public class IndexValidator {
    * @param sbase
    * @return
    */
-  public static List<SBMLError> validate(Model model, Index index) {
+  public static List<SBMLError> validate(Model model, MathContainer math) {
 
     List<ArraysConstraint> listOfConstraints = new ArrayList<ArraysConstraint>();
 
 
     List<SBMLError> listOfErrors = new ArrayList<SBMLError>();
 
-    addConstraints(model,index, listOfConstraints);
+    addConstraints(model,math, listOfConstraints);
 
     for (ArraysConstraint constraint : listOfConstraints) {
       constraint.check();
@@ -71,9 +73,10 @@ public class IndexValidator {
    * @param sbase
    * @param listOfConstraints
    */
-  private static void addConstraints(Model model, Index index, List<ArraysConstraint> listOfConstraints) {
+  private static void addConstraints(Model model, MathContainer math, List<ArraysConstraint> listOfConstraints) {
 
-    IndexRefAttributeCheck refAttributeCheck = new IndexRefAttributeCheck(model, index);
-    listOfConstraints.add(refAttributeCheck);
+
   }
+
+
 }
