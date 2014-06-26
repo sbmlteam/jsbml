@@ -1,6 +1,6 @@
 /*
- * $Id:  SBasePlugin.java 9:29:24 PM lwatanabe $
- * $URL: SBasePlugin.java $
+ * $Id$
+ * $URL$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 

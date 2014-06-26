@@ -1,6 +1,6 @@
 /*
- * $Id:  DimensionValidator.java 12:16:01 PM lwatanabe $
- * $URL: DimensionValidator.java $
+ * $Id$
+ * $URL$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
@@ -20,7 +20,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>. 
  * ---------------------------------------------------------------------------- 
  */
-package org.sbml.jsbml.ext.arrays;
+package org.sbml.jsbml.ext.arrays.validator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +36,9 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.ext.arrays.validator.constraints.ArraysConstraint;
+import org.sbml.jsbml.ext.arrays.validator.constraints.DimensionArrayDimCheck;
+import org.sbml.jsbml.ext.arrays.validator.constraints.SBaseWithDimensionCheck;
 
 
 /**
