@@ -40,12 +40,10 @@ import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.ext.arrays.Index;
-import org.sbml.jsbml.ext.arrays.compiler.ArraysCompiler;
 import org.sbml.jsbml.ext.arrays.validator.ArraysValidator;
 import org.sbml.jsbml.ext.arrays.validator.constraints.VectorMathCheck;
 import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
-import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 /**
@@ -63,8 +61,7 @@ public class ArraysValidationTest {
    * Test validation where a dimension has non-constant size.
    */
   @Test
-  public void test00() {
-    System.out.println("Test 00");
+  public void constantParameterTest() {
 
     SBMLDocument doc = new SBMLDocument(3,1);
 
@@ -94,7 +91,8 @@ public class ArraysValidationTest {
 
     arraysSBasePlugin.addDimension(dim);
 
-    ArraysValidator.validate(doc);
+    assertTrue(ArraysValidator.validate(doc).size() != 0);
+
 
   }
 
@@ -103,8 +101,7 @@ public class ArraysValidationTest {
    * that cannot have dimension has one.
    */
   @Test
-  public void test01() {
-    System.out.println("Test 01");
+  public void sbaseWithDimensionCheck() {
 
     SBMLDocument doc = new SBMLDocument(3,1);
 
@@ -150,16 +147,16 @@ public class ArraysValidationTest {
 
     arraysSBasePlugin.addDimension(dim);
 
-    ArraysValidator.validate(doc);
+    assertTrue(ArraysValidator.validate(doc).size() != 0);
 
   }
 
   /**
-   * Test validation where a dimension has non-constant size.
+   * Test validation where there is a dimension with array dimension 2
+   * but not 0 and 1.
    */
   @Test
-  public void test02() {
-    System.out.println("Test 02");
+  public void arrayDimensionTest() {
 
     SBMLDocument doc = new SBMLDocument(3,1);
 
@@ -189,7 +186,7 @@ public class ArraysValidationTest {
 
     arraysSBasePlugin.addDimension(dim);
 
-    ArraysValidator.validate(doc);
+    assertTrue(ArraysValidator.validate(doc).size() != 0);
 
   }
   
@@ -197,8 +194,8 @@ public class ArraysValidationTest {
    * Test validation when index references an invalid attribute
    */
   @Test
-  public void test03() {
-    System.out.println("Test 03");
+  public void refAttributeTest() {
+    
     SBMLDocument doc = new SBMLDocument(3,1);
     Model model = doc.createModel();
   
@@ -263,7 +260,7 @@ public class ArraysValidationTest {
       e.printStackTrace();
     }
 
-    ArraysValidator.validate(doc);
+    assertTrue(ArraysValidator.validate(doc).size() != 0);
   }
   
   /**
@@ -271,8 +268,7 @@ public class ArraysValidationTest {
    * doesn't do anything when the model is valid.
    */
   @Test
-  public void test04() {
-    System.out.println("Test 04");
+  public void vectorTest() {
     try {
       // Test invalid vector of vectors
       Model m = new Model();
@@ -339,79 +335,6 @@ public class ArraysValidationTest {
     }
   }
   
-  @Test
-  public void test05() {
-   
-    try {
-      SBMLDocument doc = new SBMLDocument(3,1);
-      Model model = doc.createModel();
-    
-      Parameter n = new Parameter("n");
-      n.setValue(6);
-      model.addParameter(n);
 
-      Parameter X = new Parameter("X");
-
-      model.addParameter(X);
-      ArraysSBasePlugin arraysSBasePluginX = new ArraysSBasePlugin(X);
-
-      X.addExtension(ArraysConstants.shortLabel, arraysSBasePluginX);
-
-      Dimension dimX = new Dimension("i");
-      dimX.setSize(n.getId());
-      dimX.setArrayDimension(0);
-
-      arraysSBasePluginX.addDimension(dimX);
-
-      Parameter Y = new Parameter("Y");
-
-      model.addParameter(Y);
-      ArraysSBasePlugin arraysSBasePluginY = new ArraysSBasePlugin(Y);
-
-      Y.addExtension(ArraysConstants.shortLabel, arraysSBasePluginY);
-      Dimension dimY = new Dimension("i");
-      dimY.setSize(n.getId());
-      dimY.setArrayDimension(0);
-
-      arraysSBasePluginY.addDimension(dimY);
-
-      AssignmentRule rule = new AssignmentRule();
-      model.addRule(rule);
-      rule.setMetaId("rule");
-      
-      ArraysSBasePlugin arraysSBasePluginRule = new ArraysSBasePlugin(rule);
-      rule.addExtension(ArraysConstants.shortLabel, arraysSBasePluginRule);
-      
-      Dimension dimRule = new Dimension("i");
-      dimRule.setSize(n.getId());
-      dimRule.setArrayDimension(0);
-      arraysSBasePluginRule.addDimension(dimRule);
-      
-      Index indexRule = new Index();
-      indexRule.setArrayDimension(0);
-      indexRule.setReferencedAttribute("variable");
-      ASTNode indexMath = new ASTNode();
-      
-      indexMath = ASTNode.diff(new ASTNode(9), new ASTNode("i"));
-      indexRule.setMath(indexMath);
-      arraysSBasePluginRule.addIndex(indexRule);
-      
-      rule.setVariable("Y");
-      ASTNode ruleMath = ASTNode.parseFormula("selector(vector(0, 1, 2, 3, 4, 5), i)");
-      
-      rule.setMath(ruleMath);
-      
-
-      ArraysCompiler compiler = new ArraysCompiler();
-      compiler.addValue("i", n.getValue() - 1);
-      ASTNodeValue value = rule.getMath().compile(compiler);
-      System.out.println(value.getValue());
-
-    } catch (ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-   
-  }
   
 }
