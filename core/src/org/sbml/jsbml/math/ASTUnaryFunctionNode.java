@@ -51,6 +51,15 @@ public class ASTUnaryFunctionNode extends ASTFunction {
   public ASTUnaryFunctionNode(ASTUnaryFunctionNode node) {
     super(node);
   }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#clone()
+   */
+  @Override
+  public ASTUnaryFunctionNode clone() {
+    return new ASTUnaryFunctionNode(this);
+  }
 
   /**
    * Get the child of this node

@@ -49,6 +49,15 @@ public class ASTTimesNode extends ASTBinaryFunctionNode {
   public ASTTimesNode(ASTTimesNode node) {
     super(node);
   }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#clone()
+   */
+  @Override
+  public ASTTimesNode clone() {
+    return new ASTTimesNode(this);
+  }
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

@@ -73,6 +73,15 @@ ASTCSymbolNode {
     super(node);
     setEncodingURL(node.getEncodingURL());
   }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCiNumberNode#clone()
+   */
+  @Override
+  public ASTCSymbolTimeNode clone() {
+    return new ASTCSymbolTimeNode(this);
+  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#getDefinitionURL()

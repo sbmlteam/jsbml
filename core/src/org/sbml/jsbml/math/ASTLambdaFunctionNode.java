@@ -67,6 +67,35 @@ public class ASTLambdaFunctionNode extends ASTFunction {
     super(node);
     setNumBvars(node.getNumBvars());
   }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#clone()
+   */
+  @Override
+  public ASTLambdaFunctionNode clone() {
+    return new ASTLambdaFunctionNode(this);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (!super.equals(obj))
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    ASTLambdaFunctionNode other = (ASTLambdaFunctionNode) obj;
+    if (numBvars == null) {
+      if (other.numBvars != null)
+        return false;
+    } else if (!numBvars.equals(other.numBvars))
+      return false;
+    return true;
+  }
 
   /**
    * Get the number of bvar elements
@@ -83,6 +112,17 @@ public class ASTLambdaFunctionNode extends ASTFunction {
     }
     logger.warn(error);
     return 0;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + ((numBvars == null) ? 0 : numBvars.hashCode());
+    return result;
   }
 
   /**

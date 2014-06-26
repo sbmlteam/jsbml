@@ -23,6 +23,7 @@
 package org.sbml.jsbml.math;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
@@ -75,6 +76,40 @@ ASTCSymbolBaseNode {
     setDefinitionURL(node.getDefinitionURL());
     setName(node.getName());
   }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNumber#clone()
+   */
+  @Override
+  public ASTCiNumberNode clone() {
+    return new ASTCiNumberNode(this);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (!super.equals(obj))
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    ASTCiNumberNode other = (ASTCiNumberNode) obj;
+    if (definitionURL == null) {
+      if (other.definitionURL != null)
+        return false;
+    } else if (!definitionURL.equals(other.definitionURL))
+      return false;
+    if (name == null) {
+      if (other.name != null)
+        return false;
+    } else if (!name.equals(other.name))
+      return false;
+    return true;
+  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#getDefinitionURL()
@@ -109,6 +144,19 @@ ASTCSymbolBaseNode {
     return "";
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result
+      + ((definitionURL == null) ? 0 : definitionURL.hashCode());
+    result = prime * result + ((name == null) ? 0 : name.hashCode());
+    return result;
+  }
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetDefinitionURL()
@@ -125,6 +173,15 @@ ASTCSymbolBaseNode {
   @Override
   public boolean isSetName() {
     return name != null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#refersTo(java.lang.String)
+   */
+  @Override
+  public boolean refersTo(String id) {
+    return getName().equals(id);
   }
 
   /* (non-Javadoc)

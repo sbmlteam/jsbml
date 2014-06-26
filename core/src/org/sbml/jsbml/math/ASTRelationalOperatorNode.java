@@ -23,9 +23,8 @@
 package org.sbml.jsbml.math;
 
 
-
 /**
- * An Abstract Syntax Tree (AST) node representing an arithmetic
+ * An Abstract Syntax Tree (AST) node representing a relational
  * operator in a mathematical expression.
  * 
  * @author Victor Kofia
@@ -33,31 +32,32 @@ package org.sbml.jsbml.math;
  * @since 1.0
  * @date May 30, 2014
  */
-public class ASTArithmeticNode extends ASTFunction {
+public class ASTRelationalOperatorNode extends ASTFunction {
 
   /**
-   * Creates a new {@link ASTArithmeticNode}.
+   * Creates a new {@link ASTRelationalOperatorNode}.
    */
-  public ASTArithmeticNode() {
+  public ASTRelationalOperatorNode() {
     super();
   }
 
   /**
-   * Copy constructor; Creates a deep copy of the given {@link ASTArithmeticNode}.
+   * Copy constructor; Creates a deep copy of the given {@link ASTRelationalOperatorNode}.
    * 
    * @param node
-   *            the {@link ASTArithmeticNode} to be copied.
+   *            the {@link ASTRelationalOperatorNode} to be copied.
    */
-  public ASTArithmeticNode(ASTArithmeticNode node) {
+  public ASTRelationalOperatorNode(ASTRelationalOperatorNode node) {
     super(node);
   }
-
-  /* (non-Javadoc)
+  
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#clone()
    */
   @Override
-  public ASTArithmeticNode clone() {
-    return new ASTArithmeticNode(this);
+  public ASTRelationalOperatorNode clone() {
+    return new ASTRelationalOperatorNode(this);
   }
 
   /* (non-Javadoc)
@@ -66,7 +66,7 @@ public class ASTArithmeticNode extends ASTFunction {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("ASTArithmeticNode [strict=");
+    builder.append("ASTRelationNode [strict=");
     builder.append(strict);
     builder.append(", type=");
     builder.append(type);

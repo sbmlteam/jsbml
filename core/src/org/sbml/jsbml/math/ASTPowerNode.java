@@ -49,6 +49,15 @@ public class ASTPowerNode extends ASTBinaryFunctionNode {
   public ASTPowerNode(ASTPowerNode node) {
     super(node);
   }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#clone()
+   */
+  @Override
+  public ASTPowerNode clone() {
+    return new ASTPowerNode(this);
+  }
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

@@ -50,6 +50,15 @@ public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
   public ASTHyperbolicNode(ASTHyperbolicNode node) {
     super(node);
   }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTUnaryFunctionNode#clone()
+   */
+  @Override
+  public ASTHyperbolicNode clone() {
+    return new ASTHyperbolicNode(this);
+  }
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

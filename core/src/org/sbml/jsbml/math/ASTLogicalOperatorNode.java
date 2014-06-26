@@ -50,6 +50,15 @@ public class ASTLogicalOperatorNode extends ASTFunction {
   public ASTLogicalOperatorNode(ASTLogicalOperatorNode node) {
     super(node);
   }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#clone()
+   */
+  @Override
+  public ASTLogicalOperatorNode clone() {
+    return new ASTLogicalOperatorNode(this);
+  }
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

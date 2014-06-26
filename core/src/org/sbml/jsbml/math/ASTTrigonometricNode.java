@@ -49,6 +49,15 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
   public ASTTrigonometricNode(ASTTrigonometricNode node) {
     super(node);
   }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTUnaryFunctionNode#clone()
+   */
+  @Override
+  public ASTTrigonometricNode clone() {
+    return new ASTTrigonometricNode(this);
+  }
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

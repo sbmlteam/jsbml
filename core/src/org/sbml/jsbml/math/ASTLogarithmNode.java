@@ -39,6 +39,35 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
   public ASTLogarithmNode() {
     super();
   }
+  
+  /**
+   * Creates a new {@link ASTLogarithmNode} with base 10
+   * and value {@link ASTNode2}
+   * 
+   * @param value {@link ASTNode2}
+   */
+  public ASTLogarithmNode(ASTNode2 value) {
+    super();
+    // Left child
+    addChild(new ASTCnIntegerNode(10));
+    // Right child
+    addChild(value);
+  }
+  
+  /**
+   * Creates a new {@link ASTLogarithmNode} with base {@link ASTNode2}
+   * and value {@link ASTNode2}
+   * 
+   * @param base {@link ASTNode2}
+   * @param value {@link ASTNode2}
+   */
+  public ASTLogarithmNode(ASTNode2 base, ASTNode2 value) {
+    super();
+    // Left child
+    addChild(base);
+    // Right child
+    addChild(value);
+  }
 
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTLogarithmNode}.
@@ -48,6 +77,15 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
    */
   public ASTLogarithmNode(ASTLogarithmNode node) {
     super(node);
+  }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#clone()
+   */
+  @Override
+  public ASTLogarithmNode clone() {
+    return new ASTLogarithmNode(this);
   }
 
   /* (non-Javadoc)

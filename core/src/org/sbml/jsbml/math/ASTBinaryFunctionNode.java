@@ -53,6 +53,15 @@ public class ASTBinaryFunctionNode extends ASTFunction {
     setLeftChild(node.getLeftChild());
     setRightChild(node.getRightChild());
   }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#clone()
+   */
+  @Override
+  public ASTBinaryFunctionNode clone() {
+    return new ASTBinaryFunctionNode(this);
+  }
 
   /**
    * Get the left child of this node

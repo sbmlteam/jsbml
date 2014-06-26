@@ -66,7 +66,14 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    *             Thrown if an error occurs during the compilation process.
    * 
    */
-  public ASTNodeValue compile(AbstractASTNodeCompiler compiler); // TODO: ASTNode2Compiler is missing -> Compile error!
+  public ASTNodeValue compile(AbstractASTNodeCompiler compiler); 
+  
+  /**
+   * Get the id of this node
+   * 
+   * @return the id
+   */
+  public String getId();
 
   /**
    * Sets the parentSBMLObject to container recursively
@@ -76,11 +83,40 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
   public MathContainer getParentSBMLObject();
 
   /**
+   * Return the style of this node
+   * 
+   * @return the style
+   */
+  public String getStyle();
+
+  /**
    * Returns the type of this ASTNode2.
    * 
    * @return Type type
    */
   public Type getType();
+
+  /**
+   * Returns true iff id has been set
+   * 
+   * @return boolean
+   */
+  public boolean isSetId();
+  
+  /**
+   * Checks if a parent SBML object, i.e., a {@link MathContainer}, is set as a
+   * parent SBML object for this {@link ASTNode2}.
+   * 
+   * @return boolean
+   */
+  public boolean isSetParentSBMLObject();
+
+  /**
+   * Returns true iff style has been set
+   * 
+   * @return boolean
+   */
+  public boolean isSetStyle();
 
   /**
    * Specifies strictness. When true, ASTUnaryFunction and ASTBinaryFunction
@@ -93,18 +129,64 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
   public boolean isStrict();
 
   /**
+   * <p>
+   * Reduces this {@link ASTNode2} to a binary tree, e.g., if the formula in this
+   * {@link ASTNode2} is and(x, y, z) then the formula of the reduced node would
+   * be and(and(x, y), z).
+   * </p>
+   * <p>
+   * This method is not yet completed. Currently, only {@link Type#PLUS},
+   * {@link Type#TIMES}, {@link Type#LOGICAL_AND}, {@link Type#LOGICAL_OR} are
+   * touched by the method. All other nodes are left unchanged, but it traverses
+   * the entire tree rooted at this node.
+   * </p>
+   */
+  public void reduceToBinary();
+
+  /**
+   * Set the id of this node
+   * 
+   * @param id the id to set
+   */
+  public void setId(String id);
+
+  /**
    * @param parent
    *            the parent to set
    */
   public void setParent(TreeNode astNode2);
-
+  
   /**
    * Sets the parentSBMLObject to container recursively
    * 
    * @param MathContainer container
    */
   public void setParentSBMLObject(MathContainer container);
-
+  
+  /**
+   * Set the style of this node
+   * 
+   * @param style the style to set
+   */
+  public void setStyle(String style);
+  
+  /**
+   * Sets the type from a String. The method accept all the supported mathML
+   * elements, the possible types of cn elements or the possible definitionURL
+   * of csymbol elements.
+   * 
+   * @param typeStr
+   *            the type as a String.
+   */
+  public void setType(String typeStr);
+  
+  /**
+   * Set the type of the MathML element represented by this ASTCnNumberNode
+   * 
+   * @param Type type
+   */
+  public void setType(Type type);
+  
   /**
    * <p>
    * Converts this AbstractASTNode to a text string using a specific syntax for
@@ -128,7 +210,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    *             if there is a problem in the AbstractASTNode tree.
    */
   public String toFormula();
-
+  
   /**
    * Converts this node recursively into a LaTeX formatted String.
    * 
@@ -138,7 +220,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    *             if there is a problem in the AbstractASTNode tree.
    */
   public String toLaTeX();
-
+  
   /**
    * Converts this node recursively into a MathML string that corresponds to
    * the subset of MathML defined in the SBML specification.
@@ -146,7 +228,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    * @return the representation of this node in MathML.
    */
   public String toMathML();
-
+  
   @Override
   public String toString();
 

@@ -50,6 +50,15 @@ public class ASTQualifierNode extends ASTFunction {
   public ASTQualifierNode(ASTQualifierNode node) {
     super(node);
   }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#clone()
+   */
+  @Override
+  public ASTQualifierNode clone() {
+    return new ASTQualifierNode(this);
+  }
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

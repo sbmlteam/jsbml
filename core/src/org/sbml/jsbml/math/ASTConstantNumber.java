@@ -22,6 +22,7 @@
  */
 package org.sbml.jsbml.math;
 
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
@@ -49,6 +50,14 @@ public class ASTConstantNumber extends ASTNumber {
     super();
     value = null;
   }
+  
+  /**
+   * Creates a new {@link ASTConstantNumber} with value {@link double}.
+   */
+  public ASTConstantNumber(double value) {
+    super();
+    setValue(value);
+  }
 
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTConstantNumber}.
@@ -61,6 +70,35 @@ public class ASTConstantNumber extends ASTNumber {
     setValue(node.getValue());
   }
 
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNumber#clone()
+   */
+  @Override
+  public ASTConstantNumber clone() {
+    return new ASTConstantNumber(this);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (!super.equals(obj))
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    ASTConstantNumber other = (ASTConstantNumber) obj;
+    if (value == null) {
+      if (other.value != null)
+        return false;
+    } else if (!value.equals(other.value))
+      return false;
+    return true;
+  }
+
   /**
    * Get the value of this ASTConstantNumber
    * 
@@ -68,6 +106,17 @@ public class ASTConstantNumber extends ASTNumber {
    */
   public double getValue() {
     return isSetValue() ? value : Double.NaN;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + ((value == null) ? 0 : value.hashCode());
+    return result;
   }
 
   /**

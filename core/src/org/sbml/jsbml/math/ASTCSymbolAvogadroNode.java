@@ -86,6 +86,45 @@ ASTCSymbolNode {
     setDefinitionURL(node.getDefinitionURL());
     setEncodingURL(node.getEncodingURL());
   }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTConstantNumber#clone()
+   */
+  @Override
+  public ASTCSymbolAvogadroNode clone() {
+    return new ASTCSymbolAvogadroNode(this);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (!super.equals(obj))
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    ASTCSymbolAvogadroNode other = (ASTCSymbolAvogadroNode) obj;
+    if (definitionURL == null) {
+      if (other.definitionURL != null)
+        return false;
+    } else if (!definitionURL.equals(other.definitionURL))
+      return false;
+    if (encodingURL == null) {
+      if (other.encodingURL != null)
+        return false;
+    } else if (!encodingURL.equals(other.encodingURL))
+      return false;
+    if (name == null) {
+      if (other.name != null)
+        return false;
+    } else if (!name.equals(other.name))
+      return false;
+    return true;
+  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#getDefinitionURL()
@@ -135,6 +174,21 @@ ASTCSymbolNode {
     return "";
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result
+      + ((definitionURL == null) ? 0 : definitionURL.hashCode());
+    result = prime * result
+      + ((encodingURL == null) ? 0 : encodingURL.hashCode());
+    result = prime * result + ((name == null) ? 0 : name.hashCode());
+    return result;
+  }
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetDefinitionURL()
@@ -162,6 +216,15 @@ ASTCSymbolNode {
     return name != null;
   }
 
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#refersTo(java.lang.String)
+   */
+  @Override
+  public boolean refersTo(String id) {
+    return getName().equals(id);
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#setDefinitionURL(java.lang.String)
    */
@@ -171,7 +234,7 @@ ASTCSymbolNode {
     this.definitionURL = definitionURL;
     firePropertyChange(TreeNodeChangeEvent.definitionURL, old, encodingURL);
   }
-
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#setEncodingURL(java.lang.String)
    */

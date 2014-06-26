@@ -22,6 +22,8 @@
  */
 package org.sbml.jsbml.math;
 
+import org.sbml.jsbml.ASTNode;
+
 
 /**
  * An Abstract Syntax Tree (AST) node representing a MathML element
@@ -44,7 +46,7 @@ public interface ASTCSymbolBaseNode extends ASTNode2 {
 
 
   /**
-   * Returns the name of the MathML element represented by
+   * Returns the class name of the MathML element represented by
    * this {@link ASTCSymbolBaseNode}
    * 
    * @return String name
@@ -66,13 +68,26 @@ public interface ASTCSymbolBaseNode extends ASTNode2 {
   public boolean isSetName();
 
   /**
+   * Returns {@code true} if this node or one of its descendants contains some
+   * identifier with the given id. This method can be used to scan a formula
+   * for a specific parameter or species and detect whether this component is
+   * used by this formula. This search is done using a DFS.
+   * 
+   * @param id
+   *            the id of an SBML element.
+   * @return {@code true} if this node or one of its descendants contains the
+   *            given id.
+   */
+  public boolean refersTo(String id);
+
+  /**
    * Set the encodingURL of the MathML element represented by
    * this {@link ASTCSymbolBaseNode}
    * 
    * @param String definitionURL
    */
   public void setDefinitionURL(String definitionURL);
-
+  
   /**
    * Set the name of the MathML element represented by
    * this {@link ASTCSymbolBaseNode}

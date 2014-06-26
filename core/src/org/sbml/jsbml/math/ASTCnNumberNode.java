@@ -23,8 +23,12 @@
 package org.sbml.jsbml.math;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.Unit;
+import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.util.Maths;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
@@ -56,6 +60,8 @@ public class ASTCnNumberNode extends ASTNumber {
    */
   private String units;
 
+  private String variable;
+
   /**
    * Creates a new {@link ASTCnNumberNode} that lacks a pointer
    * to its containing {@link MathContainer}.
@@ -64,6 +70,19 @@ public class ASTCnNumberNode extends ASTNumber {
     super();
     base = null;
     setUnits(null);
+    setVariable(null);
+  }
+  
+  /**
+   * Creates a new {@link ASTCnNumberNode} that lacks a pointer
+   * to its containing {@link MathContainer} and has a variable
+   * {@link String}.
+   */
+  public ASTCnNumberNode(String variable) {
+    super();
+    base = null;
+    setUnits(null);
+    setVariable(variable);
   }
 
   /**
@@ -76,6 +95,39 @@ public class ASTCnNumberNode extends ASTNumber {
     super(node);
     setBase(node.getBase());
     setUnits(node.getUnits());
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNumber#clone()
+   */
+  @Override
+  public ASTCnNumberNode clone() {
+    return new ASTCnNumberNode(this);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (!super.equals(obj))
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    ASTCnNumberNode other = (ASTCnNumberNode) obj;
+    if (base == null) {
+      if (other.base != null)
+        return false;
+    } else if (!base.equals(other.base))
+      return false;
+    if (units == null) {
+      if (other.units != null)
+        return false;
+    } else if (!units.equals(other.units))
+      return false;
+    return true;
   }
 
   /**
@@ -107,6 +159,27 @@ public class ASTCnNumberNode extends ASTNumber {
   }
 
   /**
+   * Get the variable for this {@link ASTNumber} node
+   * 
+   * @return variable {@link String}
+   */
+  public String getVariable() {
+    return variable;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + ((base == null) ? 0 : base.hashCode());
+    result = prime * result + ((units == null) ? 0 : units.hashCode());
+    return result;
+  }
+
+  /**
    * Returns True iff base has been set
    * 
    * @return boolean
@@ -114,7 +187,7 @@ public class ASTCnNumberNode extends ASTNumber {
   private boolean isSetBase() {
     return base != null;
   }
-
+  
   /**
    * Returns True iff units has been set
    * 
@@ -124,6 +197,16 @@ public class ASTCnNumberNode extends ASTNumber {
     return units != null;
   }
 
+  /**
+   * Returns true iff this {@link ASTNumber} node 
+   * represents a variable. 
+   * 
+   * @return
+   */
+  public boolean isVariable() {
+    return this.variable != null;
+  }
+  
   /**
    * Set the numerical base of MathML element. Number (CDATA for XML DTD)
    * between 2 and 36
@@ -149,6 +232,17 @@ public class ASTCnNumberNode extends ASTNumber {
     firePropertyChange(TreeNodeChangeEvent.units, old, this.units);
   }
 
+  /**
+   * Set the variable for this {@link ASTNumber} node
+   * 
+   * @param variable {@link String}
+   */
+  private void setVariable(String variable) {
+    String old = this.variable;
+    this.variable = variable;
+    firePropertyChange(TreeNodeChangeEvent.variable, old, this.variable);
+  }
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
@@ -165,6 +259,16 @@ public class ASTCnNumberNode extends ASTNumber {
     builder.append(type);
     builder.append("]");
     return builder.toString();
+  }
+
+  /**
+   * Unset the units attribute.
+   * 
+   */
+  public void unsetUnits() {
+    String oldValue = units;
+    units = null;
+    firePropertyChange(TreeNodeChangeEvent.units, oldValue, null);
   }
 
 }

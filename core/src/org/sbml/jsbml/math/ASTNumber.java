@@ -22,11 +22,8 @@
  */
 package org.sbml.jsbml.math;
 
-import javax.swing.tree.TreeNode;
-
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
-
 
 /**
  * An Abstract Syntax Tree (AST) node representing a number
@@ -37,9 +34,8 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @since 1.0
  * @date May 30, 2014
  */
-// TODO: Should this class be abstract?
-public class ASTNumber extends AbstractASTNode {
-
+public abstract class ASTNumber extends AbstractASTNode {
+  
   /**
    * Creates a new {@link ASTNumber} that lacks a pointer
    * to its containing {@link MathContainer}.
@@ -64,14 +60,12 @@ public class ASTNumber extends AbstractASTNode {
     firePropertyChange(TreeNodeChangeEvent.initialValue, old, this);
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#clone()
    */
   @Override
-  public TreeNode clone() {
-    // TODO: Make the return type more specific, or completely remove this method if the class becomes abstract. Cloning will not really work in derived classes, because not all properties will be copied, unless we override this method everywhere.
-    return new ASTNumber(this);
-  }
+  public abstract ASTNumber clone();
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
@@ -80,7 +74,7 @@ public class ASTNumber extends AbstractASTNode {
   public boolean getAllowsChildren() {
     return false;
   }
-
+  
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildAt(int)
    */
@@ -88,7 +82,7 @@ public class ASTNumber extends AbstractASTNode {
   public ASTNumber getChildAt(int childIndex) {
     throw new IndexOutOfBoundsException();
   }
-
+  
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildCount()
    */
@@ -96,7 +90,7 @@ public class ASTNumber extends AbstractASTNode {
   public int getChildCount() {
     return 0;
   }
-
+  
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */

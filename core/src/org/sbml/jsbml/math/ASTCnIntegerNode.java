@@ -57,6 +57,14 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
     super();
     value = null;
   }
+  
+  /**
+   * Creates a new {@link ASTCnIntegerNode} with value {@int double}.
+   */
+  public ASTCnIntegerNode(int value) {
+    super();
+    setValue(value);
+  }
 
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTCnIntegerNode}.
@@ -67,6 +75,31 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
   public ASTCnIntegerNode(ASTCnIntegerNode node) {
     super(node);
     setValue(node.getValue());
+  }
+  
+  @Override
+  public ASTCnIntegerNode clone() {
+    return new ASTCnIntegerNode(this);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (!super.equals(obj))
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    ASTCnIntegerNode other = (ASTCnIntegerNode) obj;
+    if (value == null) {
+      if (other.value != null)
+        return false;
+    } else if (!value.equals(other.value))
+      return false;
+    return true;
   }
 
   /**
@@ -86,15 +119,15 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
     return 0;
   }
 
-  /**
-   * Set the value of this node
-   * 
-   * @param Integer value
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
    */
-  public void setValue(int value) {
-    Integer old = this.value;
-    this.value = value;
-    firePropertyChange(TreeNodeChangeEvent.value, old, this.value);
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + ((value == null) ? 0 : value.hashCode());
+    return result;
   }
 
   /**
@@ -105,6 +138,17 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
    */
   public boolean isSetValue() {
     return value != null;
+  }
+
+  /**
+   * Set the value of this node
+   * 
+   * @param Integer value
+   */
+  public void setValue(int value) {
+    Integer old = this.value;
+    this.value = value;
+    firePropertyChange(TreeNodeChangeEvent.value, old, this.value);
   }
 
   /* (non-Javadoc)

@@ -74,6 +74,37 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
     hasOtherwise = node.hasOtherwise();
     setNumPiece(node.getNumPiece());
   }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#clone()
+   */
+  @Override
+  public ASTPiecewiseFunctionNode clone() {
+    return new ASTPiecewiseFunctionNode(this);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (!super.equals(obj))
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    ASTPiecewiseFunctionNode other = (ASTPiecewiseFunctionNode) obj;
+    if (hasOtherwise != other.hasOtherwise)
+      return false;
+    if (numPiece == null) {
+      if (other.numPiece != null)
+        return false;
+    } else if (!numPiece.equals(other.numPiece))
+      return false;
+    return true;
+  }
 
   /**
    * Get the number of piece elements in this {@link ASTPiecewiseFunctionNode}
@@ -90,6 +121,18 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
     }
     logger.warn(error);
     return 0;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + (hasOtherwise ? 1231 : 1237);
+    result = prime * result + ((numPiece == null) ? 0 : numPiece.hashCode());
+    return result;
   }
 
   /**

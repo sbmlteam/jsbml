@@ -76,6 +76,40 @@ public class ASTCnExponentialNode extends ASTCnNumberNode {
     setExponent(node.getExponent());
     setMantissa(node.getMantissa());
   }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCnNumberNode#clone()
+   */
+  @Override
+  public ASTCnExponentialNode clone() {
+    return new ASTCnExponentialNode(this);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (!super.equals(obj))
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    ASTCnExponentialNode other = (ASTCnExponentialNode) obj;
+    if (exponent == null) {
+      if (other.exponent != null)
+        return false;
+    } else if (!exponent.equals(other.exponent))
+      return false;
+    if (mantissa == null) {
+      if (other.mantissa != null)
+        return false;
+    } else if (!mantissa.equals(other.mantissa))
+      return false;
+    return true;
+  }
 
   /**
    * Get the exponent value of this node. Throws PropertyUndefinedError
@@ -102,6 +136,18 @@ public class ASTCnExponentialNode extends ASTCnNumberNode {
    */
   public double getMantissa() {
     return isSetMantissa() ? mantissa : Double.NaN;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + ((exponent == null) ? 0 : exponent.hashCode());
+    result = prime * result + ((mantissa == null) ? 0 : mantissa.hashCode());
+    return result;
   }
 
   /**

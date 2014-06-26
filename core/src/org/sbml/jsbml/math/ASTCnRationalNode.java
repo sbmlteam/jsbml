@@ -75,6 +75,40 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
     setNumerator(node.getNumerator());
     setDenominator(node.getDenominator());
   }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCnNumberNode#clone()
+   */
+  @Override
+  public ASTCnRationalNode clone() {
+    return new ASTCnRationalNode(this);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (!super.equals(obj))
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    ASTCnRationalNode other = (ASTCnRationalNode) obj;
+    if (denominator == null) {
+      if (other.denominator != null)
+        return false;
+    } else if (!denominator.equals(other.denominator))
+      return false;
+    if (numerator == null) {
+      if (other.numerator != null)
+        return false;
+    } else if (!numerator.equals(other.numerator))
+      return false;
+    return true;
+  }
 
   /**
    * Get the value of the denominator
@@ -108,6 +142,19 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
     }
     logger.warn(error);
     return 0;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result
+      + ((denominator == null) ? 0 : denominator.hashCode());
+    result = prime * result + ((numerator == null) ? 0 : numerator.hashCode());
+    return result;
   }
 
   /**

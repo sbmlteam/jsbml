@@ -49,6 +49,15 @@ public class ASTDivideFunction extends ASTBinaryFunctionNode {
   public ASTDivideFunction(ASTDivideFunction node) {
     super(node);
   }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#clone()
+   */
+  @Override
+  public ASTDivideFunction clone() {
+    return new ASTDivideFunction(this);
+  }
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

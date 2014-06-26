@@ -27,7 +27,10 @@ import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.filters.Filter;
 
@@ -50,6 +53,7 @@ public class ASTFunction extends AbstractASTNode {
    * @param parent the parent
    */
   static void setParentSBMLObject(ASTNode2 node, MathContainer parent) {
+    //TODO: notify listeners only one time
     node.setParent(parent);
     setParentSBMLObject(node, parent, 0);
   }
@@ -65,6 +69,7 @@ public class ASTFunction extends AbstractASTNode {
    */
   private static void setParentSBMLObject(ASTNode2 node, MathContainer parent,
     int depth) {
+    //TODO: notify listeners only one time. parent may have already notified. 
   }
 
   /**
@@ -94,7 +99,7 @@ public class ASTFunction extends AbstractASTNode {
    * @param astFunction
    *            the {@link ASTFunction} to be copied.
    */
-  public ASTFunction(ASTNode2 astFunction) {
+  public ASTFunction(ASTFunction astFunction) {
     super(astFunction);
     setParentSBMLObject(null);
     initDefaults();
@@ -133,8 +138,44 @@ public class ASTFunction extends AbstractASTNode {
    * @see org.sbml.jsbml.AbstractTreeNode#clone()
    */
   @Override
-  public TreeNode clone() {
+  public ASTFunction clone() {
     return new ASTFunction(this);
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (!super.equals(obj))
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    ASTFunction other = (ASTFunction) obj;
+    if (listOfNodes == null) {
+      if (other.listOfNodes != null)
+        return false;
+    } else if (!listOfNodes.equals(other.listOfNodes))
+      return false;
+    if (parentSBMLObject == null) {
+      if (other.parentSBMLObject != null)
+        return false;
+    } else if (!parentSBMLObject.equals(other.parentSBMLObject))
+      return false;
+    return true;
+  }
+
+
+  /**
+   * Goes through the formula and identifies all global parameters that are
+   * referenced by this rate equation.
+   * 
+   * @return all global parameters that are referenced by this rate equation.
+   */
+  public List<Parameter> findReferencedGlobalParameters() {
+    return null;
   }
 
   /* (non-Javadoc)
@@ -144,7 +185,6 @@ public class ASTFunction extends AbstractASTNode {
   public boolean getAllowsChildren() {
     return true;
   }
-
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildAt(int)
@@ -205,6 +245,20 @@ public class ASTFunction extends AbstractASTNode {
     }
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result
+      + ((listOfNodes == null) ? 0 : listOfNodes.hashCode());
+    result = prime * result
+      + ((parentSBMLObject == null) ? 0 : parentSBMLObject.hashCode());
+    return result;
+  }
+
   /**
    * Initializes the default values/attributes of the node.
    */
@@ -222,7 +276,7 @@ public class ASTFunction extends AbstractASTNode {
     }
     firePropertyChange(TreeNodeChangeEvent.initialValue, old, this);
   }
-
+  
   /**
    * Inserts the given {@link ASTNode2} at point n in the list of children of this
    * {@link ASTNode2}. Inserting a child within an {@link ASTNode2} may result in an inaccurate
@@ -253,7 +307,7 @@ public class ASTFunction extends AbstractASTNode {
   }
 
   /**
-   * Adds the given node as a child of this ASTNode2. This method adds child
+   * Adds the given node as a child of this {@link ASTFunction}. This method adds child
    * nodes from right to left.
    * 
    * @param child
@@ -269,21 +323,47 @@ public class ASTFunction extends AbstractASTNode {
   }
 
   /**
-   * Returns {@code true} if this node or one of its descendants contains some
-   * identifier with the given id. This method can be used to scan a formula
-   * for a specific parameter or species and detect whether this component is
-   * used by this formula. This search is done using a DFS.
+   * Removes child n of this {@link ASTFunction}. Removing a child from an 
+   * {@link ASTFunction} may result in an inaccurate representation.
    * 
-   * @param id
-   *            the id of an SBML element.
-   * @return {@code true} if this node or one of its descendants contains the
-   *            given id.
+   * @param n
+   *            the index of the child to remove
+   * @return boolean indicating the success or failure of the operation
+   * 
    */
-  public boolean refersTo(String id) {
-    //TODO: Implement
-    return true;
+  public boolean removeChild(int n) {
+    if (! isSetList()) {
+      listOfNodes = new ArrayList<ASTNode2>();
+    }
+    if ((listOfNodes.size() > n) && (n >= 0)) {
+      ASTNode2 removed = listOfNodes.remove(n);
+      removed.unsetParentSBMLObject();
+      removed.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
   }
-
+  
+  /**
+   * Replaces occurrences of a name within this {@link ASTNode2} with the
+   * name/value/formula represented by the second argument {@link ASTNode2}, e.g., if
+   * the formula in this {@link ASTNode2} is x + y; bvar is x and arg is an {@link ASTNode2}
+   * representing the real value 3 ReplaceArgument substitutes 3 for x within
+   * this {@link ASTNode2}.
+   * 
+   * @param bvar
+   *            a string representing the variable name to be substituted
+   * @param arg
+   *            an {@link ASTNode2} representing the name/value/formula to substitute
+   */
+  public void replaceArgument(String bvar, ASTNode2 arg) {
+    if (! isSetList()) {
+      listOfNodes = new ArrayList<ASTNode2>();
+    }
+    int n = 0;
+    replaceChild(n, (ASTNode2) arg.clone());
+  }
+  
   /**
    * Replaces the n<sup>th</sup> child of this ASTNode2 with the given ASTNode2.
    * 
@@ -294,6 +374,9 @@ public class ASTFunction extends AbstractASTNode {
    * @return the element previously at the specified position
    */
   public ASTNode2 replaceChild(int n, ASTNode2 newChild) {
+    if (! isSetList()) {
+      listOfNodes = new ArrayList<ASTNode2>();
+    }
     // Removing the node at position n
     ASTNode2 oldChild = listOfNodes.remove(n);
     oldChild.unsetParentSBMLObject();

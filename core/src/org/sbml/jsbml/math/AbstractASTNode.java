@@ -30,6 +30,7 @@ import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.AbstractASTNodeCompiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
@@ -72,13 +73,24 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    * The type of this node
    */
   protected Type type;
+  
+  /**
+   * The style of this MathML element
+   */
+  protected String id;
+  
+  /**
+   * The style of this MathML element
+   */
+  protected String style;
 
   /**
    * Creates an empty {@link AbstractTreeNode}
    */
   public AbstractASTNode() {
     super();
-    setType(null);
+    setId(null);
+    setType(Type.UNKNOWN);
     setParentSBMLObject(null);
     setStrictness(true);
   }
@@ -90,6 +102,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    */
   public AbstractASTNode(ASTNode2 ast) {
     super(ast);
+    setId(ast.getId());
     setType(ast.getType());
     setParentSBMLObject(ast.getParentSBMLObject());
     setStrictness(ast.isStrict());
@@ -105,22 +118,86 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
   }
 
   /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (!super.equals(obj))
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    AbstractASTNode other = (AbstractASTNode) obj;
+    if (id == null) {
+      if (other.id != null)
+        return false;
+    } else if (!id.equals(other.id))
+      return false;
+    if (parentSBMLObject == null) {
+      if (other.parentSBMLObject != null)
+        return false;
+    } else if (!parentSBMLObject.equals(other.parentSBMLObject))
+      return false;
+    if (strict != other.strict)
+      return false;
+    if (style == null) {
+      if (other.style != null)
+        return false;
+    } else if (!style.equals(other.style))
+      return false;
+    if (type != other.type)
+      return false;
+    return true;
+  }
+
+  /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildAt(int)
    */
   @Override
   public abstract ASTNode2 getChildAt(int childIndex);
 
-  /**
-   * This method is convenient when holding an object nested inside other
-   * objects in an SBML model. It allows direct access to the
-   * {@link MathContainer}; element containing it. From this
-   * {@link MathContainer} even the overall {@link Model} can be accessed.
-   * 
-   * @return the parent SBML object.
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#getId()
+   */
+  @Override
+  public String getId() {
+    if (isSetId()) {
+      return id;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("id", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return "";
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#getParentSBMLObject()
    */
   @Override
   public MathContainer getParentSBMLObject() {
     return parentSBMLObject;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#getStyle()
+   */
+  @Override
+  public String getStyle() {
+    if (isSetStyle()) {
+      return style;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("style", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return "";
   }
 
   /* (non-Javadoc)
@@ -128,20 +205,70 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    */
   @Override
   public Type getType() {
-    return type;
+      return type;
+  }
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + ((id == null) ? 0 : id.hashCode());
+    result = prime * result
+      + ((parentSBMLObject == null) ? 0 : parentSBMLObject.hashCode());
+    result = prime * result + (strict ? 1231 : 1237);
+    result = prime * result + ((style == null) ? 0 : style.hashCode());
+    result = prime * result + ((type == null) ? 0 : type.hashCode());
+    return result;
   }
 
-  /**
-   * Specifies strictness. When true, ASTUnaryFunction and ASTBinaryFunction
-   * nodes can only contain the specified # of children. When false, there is
-   * a bit of leeway (i.e. ASTUnaryFunction can contain more than one child)
-   * (not recommended).
-   * 
-   * @return boolean
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#isSetId()
+   */
+  @Override
+  public boolean isSetId() {
+    return id != null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#isSetParentSBMLObject()
+   */
+  @Override
+  public boolean isSetParentSBMLObject() {
+    return id != null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#isSetStyle()
+   */
+  @Override
+  public boolean isSetStyle() {
+    return style != null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#isStrict()
    */
   @Override
   public boolean isStrict() {
     return strict;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#setId(java.lang.String)
+   */
+  @Override
+  public void setId(String id) {
+    String oldValue = this.id;
+    this.id = id;
+    firePropertyChange(TreeNodeChangeEvent.id, oldValue, id);
   }
 
   /* (non-Javadoc)
@@ -170,7 +297,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
     parentSBMLObject = container;
     firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldParentSBMLObject, parentSBMLObject);
   }
-
+  
   /**
    * Set the strictness of this node
    * 
@@ -180,16 +307,39 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
   private void setStrictness(boolean strict) {
     this.strict = strict;
   }
-
-  /**
-   * Set the type of the MathML element represented by this ASTCnNumberNode
-   * 
-   * @param Type type
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#setStyle(java.lang.String)
    */
-  public void setType(Type type) {
-    this.type = type;
+  @Override
+  public void setStyle(String style) {
+    String oldValue = this.style;
+    this.style = style;
+    firePropertyChange(TreeNodeChangeEvent.style, oldValue, style);
   }
 
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#setType(java.lang.String)
+   */
+  @Override
+  public void setType(String typeStr) {
+    Type type = Type.getTypeFor(typeStr);
+    setType(type);
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#setType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public void setType(Type type) {
+    Type oldValue = getType();
+    this.type = type;
+    firePropertyChange(TreeNodeChangeEvent.type, oldValue, type);
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#toFormula()
    */
@@ -237,6 +387,13 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
   @Override
   public void unsetParentSBMLObject() {
     setParentSBMLObject(null);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#reduceToBinary()
+   */
+  public void reduceToBinary() {
+    return;
   }
 
 }

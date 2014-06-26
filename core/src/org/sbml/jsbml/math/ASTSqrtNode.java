@@ -49,6 +49,15 @@ public class ASTSqrtNode extends ASTUnaryFunctionNode {
   public ASTSqrtNode(ASTSqrtNode node) {
     super(node);
   }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTUnaryFunctionNode#clone()
+   */
+  @Override
+  public ASTSqrtNode clone() {
+    return new ASTSqrtNode(this);
+  }
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
