@@ -1,6 +1,6 @@
 /*
- * $Id:  ArraysConstants.java 6:05:20 PM lwatanabe $
- * $URL: ArraysConstants.java $
+ * $Id$
+ * $URL$
  * ---------------------------------------------------------------------------- 
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
  * for the latest version of JSBML and more information about SBML. 
