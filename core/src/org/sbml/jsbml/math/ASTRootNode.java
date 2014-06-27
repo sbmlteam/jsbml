@@ -24,39 +24,53 @@ package org.sbml.jsbml.math;
 
 
 /**
- * An Abstract Syntax Tree (AST) node representing the square root function
+ * An Abstract Syntax Tree (AST) node representing a root function
  * 
  * @author Victor Kofia
  * @version $Rev$
  * @since 1.0
  * @date May 30, 2014
  */
-public class ASTSqrtNode extends ASTUnaryFunctionNode {
+public class ASTRootNode extends ASTBinaryFunctionNode {
 
   /**
-   * Creates a new {@link ASTSqrtNode}.
+   * Creates a new {@link ASTRootNode}.
    */
-  public ASTSqrtNode() {
+  public ASTRootNode() {
     super();
   }
 
   /**
-   * Copy constructor; Creates a deep copy of the given {@link ASTSqrtNode}.
+   * Copy constructor; Creates a deep copy of the given {@link ASTRootNode}.
    * 
    * @param node
-   *            the {@link ASTSqrtNode} to be copied.
+   *            the {@link ASTRootNode} to be copied.
    */
-  public ASTSqrtNode(ASTSqrtNode node) {
+  public ASTRootNode(ASTRootNode node) {
     super(node);
   }
+  
+  /**
+   * Creates a new {@link ASTRootNode} with the specified radicand and
+   * rootExponent.
+   * 
+   * @param rootExponent {@link ASTNode2}
+   * @param radicand {@link ASTNode2}
+   */
+  public ASTRootNode(ASTNode2 rootExponent, ASTNode2 radicand) {
+    super();
+    setLeftChild(rootExponent);
+    setRightChild(radicand);
+  }
+
   
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTUnaryFunctionNode#clone()
    */
   @Override
-  public ASTSqrtNode clone() {
-    return new ASTSqrtNode(this);
+  public ASTRootNode clone() {
+    return new ASTRootNode(this);
   }
 
   /* (non-Javadoc)

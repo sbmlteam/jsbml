@@ -577,8 +577,9 @@ public class ASTFactory {
    * @return a root {@link ASTNode2}.
    */
   public static ASTNode2 root(ASTNode2 rootExponent, ASTNode2 radicand) {
-    // TODO: IMPLEMENT
-    return null;
+    ASTRootNode root = new ASTRootNode(rootExponent, radicand);
+    root.unsetParentSBMLObject();
+    return root;
   }
 
 
@@ -589,7 +590,7 @@ public class ASTFactory {
    * @return a root {@link ASTNode2}.
    */
   public static ASTNode2 sqrt(ASTNode2 radicand) {
-    return root(new ASTSqrtNode(), radicand);
+    return root(new ASTRootNode(), radicand);
   }
 
 
