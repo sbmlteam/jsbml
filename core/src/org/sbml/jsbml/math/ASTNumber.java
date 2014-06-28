@@ -37,6 +37,11 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 public abstract class ASTNumber extends AbstractASTNode {
   
   /**
+   * 
+   */
+  private static final long serialVersionUID = -5149881530966539809L;
+
+  /**
    * Creates a new {@link ASTNumber} that lacks a pointer
    * to its containing {@link MathContainer}.
    */

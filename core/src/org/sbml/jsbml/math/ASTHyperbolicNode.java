@@ -35,6 +35,11 @@ package org.sbml.jsbml.math;
 public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
 
   /**
+   * 
+   */
+  private static final long serialVersionUID = -3473804919513699915L;
+
+  /**
    * Creates a new {@link ASTHyperbolicNode}.
    */
   public ASTHyperbolicNode() {

@@ -34,6 +34,11 @@ package org.sbml.jsbml.math;
 public class ASTTimesNode extends ASTBinaryFunctionNode {
 
   /**
+   * 
+   */
+  private static final long serialVersionUID = 6946535893613905831L;
+
+  /**
    * Creates a new {@link ASTTimesNode}.
    */
   public ASTTimesNode() {

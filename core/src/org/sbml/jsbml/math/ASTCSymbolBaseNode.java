@@ -22,9 +22,6 @@
  */
 package org.sbml.jsbml.math;
 
-import org.sbml.jsbml.ASTNode;
-
-
 /**
  * An Abstract Syntax Tree (AST) node representing a MathML element
  * that contains a definitionURL and name attribute.

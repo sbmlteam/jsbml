@@ -22,10 +22,7 @@
  */
 package org.sbml.jsbml.math;
 
-import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
-
-
 
 /**
  * An Abstract Syntax Tree (AST) node representing a constant number
@@ -38,6 +35,11 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  */
 public class ASTConstantNumber extends ASTNumber {
 
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -6872240196225149289L;
+  
   /**
    * This variable stores the value of the constant number
    */

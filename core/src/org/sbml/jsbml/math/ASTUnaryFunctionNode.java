@@ -36,6 +36,11 @@ package org.sbml.jsbml.math;
 public class ASTUnaryFunctionNode extends ASTFunction {
 
   /**
+   * 
+   */
+  private static final long serialVersionUID = -8088831456874690229L;
+
+  /**
    * Creates a new {@link ASTUnaryFunctionNode}.
    */
   public ASTUnaryFunctionNode() {

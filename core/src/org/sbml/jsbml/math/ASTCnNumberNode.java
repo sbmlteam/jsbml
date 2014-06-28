@@ -23,12 +23,8 @@
 package org.sbml.jsbml.math;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.Unit;
-import org.sbml.jsbml.ASTNode.Type;
-import org.sbml.jsbml.util.Maths;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
@@ -44,6 +40,11 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  */
 // TODO: Should this class be abstract?
 public class ASTCnNumberNode extends ASTNumber {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 5649353555778706414L;
 
   /**
    * A {@link Logger} for this class.

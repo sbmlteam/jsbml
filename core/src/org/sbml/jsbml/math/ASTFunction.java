@@ -25,12 +25,8 @@ package org.sbml.jsbml.math;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.tree.TreeNode;
-
-import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Parameter;
-import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.filters.Filter;
 
@@ -45,6 +41,11 @@ import org.sbml.jsbml.util.filters.Filter;
  * @date May 30, 2014
  */
 public class ASTFunction extends AbstractASTNode {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -6517879717740815227L;
 
   /**
    * Sets the Parent of the node and its children to the given value
@@ -89,6 +90,16 @@ public class ASTFunction extends AbstractASTNode {
   public ASTFunction() {
     super();
     setParentSBMLObject(null);
+    listOfNodes = null;
+    initDefaults();
+  }
+  
+  /**
+   * Creates a new {@link ASTFunction} with a pointer
+   * to the specified {@link MathContainer}.
+   */
+  public ASTFunction(MathContainer container) {
+    super(container);
     listOfNodes = null;
     initDefaults();
   }

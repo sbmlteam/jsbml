@@ -22,7 +22,6 @@
  */
 package org.sbml.jsbml.math;
 
-
 /**
  * An Abstract Syntax Tree (AST) node representing the divide function
  * 
@@ -32,6 +31,11 @@ package org.sbml.jsbml.math;
  * @date May 30, 2014
  */
 public class ASTDivideFunction extends ASTBinaryFunctionNode {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -3326276752533782545L;
 
   /**
    * Creates a new {@link ASTDivideFunction}.

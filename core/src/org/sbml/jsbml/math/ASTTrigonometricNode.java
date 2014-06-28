@@ -34,6 +34,11 @@ package org.sbml.jsbml.math;
 public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
 
   /**
+   * 
+   */
+  private static final long serialVersionUID = 8375728473620884311L;
+
+  /**
    * Creates a new {@link ASTTrigonometricNode}.
    */
   public ASTTrigonometricNode() {

@@ -35,6 +35,11 @@ package org.sbml.jsbml.math;
 public class ASTQualifierNode extends ASTFunction {
 
   /**
+   * 
+   */
+  private static final long serialVersionUID = 6765565477557495208L;
+
+  /**
    * Creates a new {@link ASTQualifierNode}.
    */
   public ASTQualifierNode() {

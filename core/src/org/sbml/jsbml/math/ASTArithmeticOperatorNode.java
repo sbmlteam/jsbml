@@ -22,11 +22,8 @@
  */
 package org.sbml.jsbml.math;
 
-import java.text.MessageFormat;
-
-import org.apache.log4j.Logger;
-import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
@@ -41,26 +38,18 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 public class ASTArithmeticOperatorNode extends ASTFunction {
   
   /**
-   * A {@link Logger} for this class.
+   * 
    */
-  private static final Logger logger = Logger.getLogger(ASTArithmeticOperatorNode.class);
-
+  private static final long serialVersionUID = -7712374792704509306L;
+  
   /**
-   * Creates a new {@link ASTArithmeticOperatorNode}.
+   * Creates a new {@link ASTArithmeticOperatorNode} without a pointer
+   * to its containing {@link MathContainer}.
    */
   public ASTArithmeticOperatorNode() {
     super();
   }
   
-  /**
-   * Creates a new {@link ASTArithmeticOperatorNode} of type
-   * {@link Type}.
-   */
-  public ASTArithmeticOperatorNode(Type type) {
-    super();
-    setType(type);
-  }
-
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTArithmeticOperatorNode}.
    * 
@@ -69,6 +58,33 @@ public class ASTArithmeticOperatorNode extends ASTFunction {
    */
   public ASTArithmeticOperatorNode(ASTArithmeticOperatorNode node) {
     super(node);
+  }
+  
+  /**
+   * Creates a new {@link ASTArithmeticOperatorNode} with a pointer
+   * to the specified {@link MathContainer}..
+   */
+  public ASTArithmeticOperatorNode(MathContainer container) {
+    super(container);
+  }
+  
+  /**
+   * Creates a new {@link ASTArithmeticOperatorNode} without a pointer
+   * to its containing {@link MathContainer} but of the specified 
+   * {@link Type}.
+   */
+  public ASTArithmeticOperatorNode(Type type) {
+    super();
+    setType(type);
+  }
+
+  /**
+   * Creates a new {@link ASTArithmeticOperatorNode} of type
+   * {@link Type} and container {@link MathContainer}.
+   */
+  public ASTArithmeticOperatorNode(Type type, MathContainer container) {
+    super(container);
+    setType(type);
   }
 
   /* (non-Javadoc)

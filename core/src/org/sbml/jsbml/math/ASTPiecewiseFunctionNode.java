@@ -39,6 +39,11 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 public class ASTPiecewiseFunctionNode extends ASTFunction {
 
   /**
+   * 
+   */
+  private static final long serialVersionUID = -8915335867694118907L;
+
+  /**
    * A {@link Logger} for this class.
    */
   private static final Logger logger = Logger.getLogger(ASTPiecewiseFunctionNode.class);

@@ -34,6 +34,11 @@ package org.sbml.jsbml.math;
 public class ASTRootNode extends ASTBinaryFunctionNode {
 
   /**
+   * 
+   */
+  private static final long serialVersionUID = -8803559492792642628L;
+
+  /**
    * Creates a new {@link ASTRootNode}.
    */
   public ASTRootNode() {

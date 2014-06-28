@@ -38,6 +38,11 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 public class ASTCnRealNode extends ASTCnNumberNode {
 
   /**
+   * 
+   */
+  private static final long serialVersionUID = 6142072741733701867L;
+  
+  /**
    * The value of this node
    */
   private Double value;
@@ -49,6 +54,16 @@ public class ASTCnRealNode extends ASTCnNumberNode {
   public ASTCnRealNode() {
     super();
     value = null;
+  }
+  
+  /**
+   * Creates a new {@link ASTCnRealNode} that lacks a pointer
+   * to its containing {@link MathContainer} but has the 
+   * specified value {@link double}.
+   */
+  public ASTCnRealNode(double value) {
+    super();
+    setValue(value);
   }
 
   /**

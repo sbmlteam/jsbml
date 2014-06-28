@@ -40,6 +40,11 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 public class ASTCnIntegerNode extends ASTCnNumberNode {
 
   /**
+   * 
+   */
+  private static final long serialVersionUID = 5478874063299110266L;
+
+  /**
    * A {@link Logger} for this class.
    */
   private static final Logger logger = Logger.getLogger(ASTCnIntegerNode.class);
@@ -59,7 +64,7 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
   }
   
   /**
-   * Creates a new {@link ASTCnIntegerNode} with value {@int double}.
+   * Creates a new {@link ASTCnIntegerNode} with value {@link int}.
    */
   public ASTCnIntegerNode(int value) {
     super();

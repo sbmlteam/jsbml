@@ -34,10 +34,23 @@ package org.sbml.jsbml.math;
 public class ASTPowerNode extends ASTBinaryFunctionNode {
 
   /**
+   * 
+   */
+  private static final long serialVersionUID = 460517738739696555L;
+
+  /**
    * Creates a new {@link ASTPowerNode}.
    */
   public ASTPowerNode() {
     super();
+  }
+  
+  /**
+   * Creates a new {@link ASTPowerNode} with the specified basis and
+   * exponent.
+   */
+  public ASTPowerNode(ASTNode2 basis, ASTNode2 exponent) {
+    super(basis, exponent);
   }
 
   /**

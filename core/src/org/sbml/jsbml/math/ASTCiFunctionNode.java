@@ -23,7 +23,6 @@
 package org.sbml.jsbml.math;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
@@ -39,6 +38,11 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  */
 public class ASTCiFunctionNode extends ASTFunction implements
 ASTCSymbolBaseNode {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -3672567229521583280L;
 
   /**
    * A {@link Logger} for this class.

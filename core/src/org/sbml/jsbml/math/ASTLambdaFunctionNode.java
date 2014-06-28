@@ -38,6 +38,12 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 public class ASTLambdaFunctionNode extends ASTFunction {
 
   /**
+   * 
+   */
+  private static final long serialVersionUID = 3189146748998908918L;
+
+
+  /**
    * A {@link Logger} for this class.
    */
   private static final Logger logger = Logger.getLogger(ASTLambdaFunctionNode.class);

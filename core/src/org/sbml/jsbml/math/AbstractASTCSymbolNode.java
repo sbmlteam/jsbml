@@ -42,6 +42,11 @@ public abstract class AbstractASTCSymbolNode extends AbstractASTNode
 implements ASTCSymbolNode {
 
   /**
+   * 
+   */
+  private static final long serialVersionUID = -8072410472034098179L;
+
+  /**
    * A {@link Logger} for this class.
    */
   private static final Logger logger = Logger.getLogger(AbstractASTCSymbolNode.class);

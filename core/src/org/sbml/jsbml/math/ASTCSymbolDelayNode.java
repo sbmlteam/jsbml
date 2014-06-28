@@ -26,8 +26,6 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
-
-
 /**
  * An Abstract Syntax Tree (AST) node representing the delay function
  * 
@@ -38,6 +36,11 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  */
 public class ASTCSymbolDelayNode extends ASTBinaryFunctionNode implements
 ASTCSymbolNode {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -5565842362242854303L;
 
   /**
    * A {@link Logger} for this class.

@@ -22,11 +22,8 @@
  */
 package org.sbml.jsbml.math;
 
-import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.ASTNode.Type;
-import org.sbml.jsbml.util.Maths;
+import org.sbml.jsbml.SBMLException;
 
 
 /**
@@ -40,49 +37,21 @@ import org.sbml.jsbml.util.Maths;
  */
 public class ASTFactory {
   
-  
   /**
-   * Creates a new node with the type of this node, moves all children of this
-   * node to this new node, sets the type of this node to the given operator,
-   * adds the new node as left child of this node and the given {@link ASTNode2} as the
-   * right child of this node. The parentSBMLObject of the whole resulting
-   * {@link ASTNode2} is then set to the parent of this node.
-   * 
-   * @param operator
-   *        The new type of this node. This has to be one of the
-   *        following: {@link Type#PLUS}, {@link Type#MINUS}, {@link Type#TIMES},
-   *        {@link Type#DIVIDE}, {@link Type#POWER},
-   *        {@link Type#FUNCTION_ROOT}. Otherwise an
-   *        {@link IllegalArgumentException} is thrown.
-   * @param astnode
-   *        The new right child of this node
-   * @throws IllegalArgumentException
-   *         if
-   *         <ul>
-   *         <li>this {@link ASTNode2} is zero ({@link #isZero()}) and the given
-   *         operator is {@link Type#DIVIDE}</li>
-   *         <li>the operator is not one of the following: {@link Type#PLUS},
-   *         {@link Type#MINUS}, {@link Type#TIMES}, {@link Type#DIVIDE},
-   *         {@link Type#POWER}, {@link Type#FUNCTION_ROOT}</li>
-   *         </ul>
-   */
-  public static ASTNode2 arithmeticOperation(Type operator, ASTNode2 node1, 
-                                         ASTNode2 node2) {
-    return null;
-  }
-  
-  public static ASTNode2 arithmeticOperation(Type operator, ASTNode2... node) {
-    return null;
-  }
-  
-  /**
-   * Creates a new {@link ASTNode2} of type MINUS and adds the given nodes as children
+   * Creates a new {@link ASTArithmeticOperatorNode} of type MINUS and adds the given nodes as children
    * 
    * @param ast the children of the new ASTNode
-   * @return a new {@link ASTNode2} of type MINUS and adds the given nodes as children
+   * @return a new {@link ASTArithmeticOperatorNode} of type MINUS and adds the given nodes as children
    */
-  public static ASTNode2 diff(ASTNode2... ast) {
-    return arithmeticOperation(Type.MINUS, ast);
+  public static ASTArithmeticOperatorNode diff(ASTNode2... ast) {
+    ASTArithmeticOperatorNode minus = new ASTArithmeticOperatorNode(Type.MINUS);
+    if (ast != null) {
+      for (ASTNode2 astNode : ast) {
+        minus.addChild(astNode);
+      }
+    }
+    reduceToBinary(minus);
+    return minus;
   }
   
   /**
@@ -91,34 +60,40 @@ public class ASTFactory {
    * @param numerator {@link ASTNode2}
    * @param denominator {@link ASTNode2}
    * 
-   * @return node {@link ASTNode2}
+   * @return node {@link ASTDivideFunction}
    */
-  public static ASTNode2 divideBy(ASTNode2 numerator, ASTNode2 denominator) {
-    return arithmeticOperation(Type.DIVIDE, numerator, denominator);
+  public static ASTDivideFunction divideBy(ASTNode2 numerator, ASTNode2 denominator) {
+    ASTDivideFunction frac = new ASTDivideFunction();
+    frac.addChild(numerator);
+    frac.addChild(denominator);
+    return frac;
   }
   
   /**
-   * Creates a new {@link ASTNode2} of type RELATIONAL_EQ.
+   * Creates a new {@link ASTRelationalOperatorNode} of type RELATIONAL_EQ.
    * 
    * @param left the left child.
    * @param right the right child.
-   * @return a new {@link ASTNode2} of type RELATIONAL_EQ.
+   * @return a new {@link ASTRelationalOperatorNode} of type RELATIONAL_EQ.
    */
-  public static ASTNode2 eq(ASTNode2 left, ASTNode2 right) {
-    return relational(Type.RELATIONAL_EQ, left, right);
+  public static ASTRelationalOperatorNode eq(ASTNode2 left, ASTNode2 right) {
+    ASTRelationalOperatorNode eq = new ASTRelationalOperatorNode(Type.RELATIONAL_EQ);
+    eq.addChild(left);
+    eq.addChild(right);
+    return eq;
   }
   
   /**
-   * Returns a new {@link ASTNode2} that represents Euler's constant raised by the
+   * Returns a new {@link ASTPowerNode} that represents Euler's constant raised by the
    * power of the given exponent.
    * 
    * @param exponent the exponent
-   * @return a new {@link ASTNode2} that represents Euler's constant raised by the
+   * @return a new {@link ASTPowerNode} that represents Euler's constant raised by the
    * power of the given exponent.
    */
-  public static ASTNode2 exp(ASTNode2 exponent) {
-    ASTNode2 e = new ASTConstantNumber(Math.E);
-    return raiseByThePowerOf(e, exponent);
+  public static ASTPowerNode exp(ASTNode2 exponent) {
+    ASTConstantNumber e = new ASTConstantNumber(Math.E);
+    return new ASTPowerNode(e, exponent);
   }
 
 
@@ -143,69 +118,98 @@ public class ASTFactory {
 
 
   /**
-   * Creates a new {@link ASTNode2} of type {@link ASTDivideFunction} with the given nodes as children.
+   * Creates a new {@link ASTDivideFunction} with the given nodes as children.
    * 
    * @param numerator the numerator {@link ASTNode2}
    * @param denominator the denominator {@link ASTNode2}
-   * @return a new {@link ASTNode2} of type {@link ASTDivideFunction} with the given nodes as children.
+   * @return a new {@link ASTDivideFunction} with the given nodes as children.
    */
-  public static ASTNode2 frac(ASTNode2 numerator, ASTNode2 denominator) {
-    return divideBy(numerator, denominator);
+  public static ASTDivideFunction frac(ASTNode2 numerator, ASTNode2 denominator) {
+    ASTDivideFunction frac = new ASTDivideFunction();
+    frac.addChild(numerator);
+    frac.addChild(denominator);
+    return frac;
   }
 
 
   /**
-   * Creates a new {@link ASTNode2} of type {@link ASTDivideFunction} with the given numerator
+   * Creates a new {@link ASTDivideFunction} with the given numerator 
    * and denominator.
    * 
    * @param numerator the numerator {@link int}
    * @param denominator the denominator {@link ASTNode2}
-   * @return a new {@link ASTNode2} of type {@link ASTDivideFunction} with the given numerator
+   * @return a new {@link ASTDivideFunction} with the given numerator
    * and denominator.
    */
-  public static ASTNode2 frac(int numerator, ASTNode2 denominator) {
-    return frac(new ASTCnIntegerNode(numerator), denominator);
+  public static ASTDivideFunction frac(int numerator, ASTNode2 denominator) {
+    ASTDivideFunction frac = new ASTDivideFunction();
+    frac.addChild(new ASTCnIntegerNode(numerator));
+    frac.addChild(denominator);
+    return frac;
   }
 
 
   /**
-   * Creates an {@link ASTNode2} representing greater or equal for
+   * Creates an {@link ASTRelationalOperatorNode} representing greater or equal for
    * the two given nodes.
    * 
    * @param left the left child.
    * @param right the right child.
-   * @return an {@link ASTNode2} representing greater or equal.
+   * @return an {@link ASTRelationalOperatorNode} representing greater or equal.
    */
-  public static ASTNode2 geq(ASTNode2 left, ASTNode2 right) {
-    return relational(Type.RELATIONAL_GEQ, left, right);
+  public static ASTRelationalOperatorNode geq(ASTNode2 left, ASTNode2 right) {
+    ASTRelationalOperatorNode geq = new ASTRelationalOperatorNode(Type.RELATIONAL_GEQ);
+    geq.addChild(left);
+    geq.addChild(right);
+    return geq;
   }
 
 
   /**
-   * Creates an {@link ASTNode2} representing greater than for
+   * Creates an {@link ASTRelationalOperatorNode} representing greater than for
    * the two given left and right child.
    * 
    * @param left the left child.
    * @param right the right child.
-   * @return an {@link ASTNode2} representing greater than for
+   * @return an {@link ASTRelationalOperatorNode} representing greater than for
    * the two given left and right child.
    */
-  public static ASTNode2 gt(ASTNode2 left, ASTNode2 right) {
-    return relational(Type.RELATIONAL_GT, left, right);
+  public static ASTRelationalOperatorNode gt(ASTNode2 left, ASTNode2 right) {
+    ASTRelationalOperatorNode gt = new ASTRelationalOperatorNode(Type.RELATIONAL_GT);
+    gt.addChild(left);
+    gt.addChild(right);
+    return gt;
   }
 
 
   /**
-   * Creates an {@link ASTNode2} representing less or equal for
+   * Creates an {@link ASTRelationalOperatorNode} representing less or equal for
    * the two given left and right child.
    * 
    * @param left the left child.
    * @param right the right child.
-   * @return an {@link ASTNode2} representing less or equal for
+   * @return an {@link ASTRelationalOperatorNode} representing less or equal for
    * the two given left and right child.
    */
-  public static ASTNode2 leq(ASTNode2 left, ASTNode2 right) {
-    return relational(Type.RELATIONAL_LEQ, left, right);
+  public static ASTRelationalOperatorNode leq(ASTNode2 left, ASTNode2 right) {
+    ASTRelationalOperatorNode leq = new ASTRelationalOperatorNode(Type.RELATIONAL_LEQ);
+    leq.addChild(left);
+    leq.addChild(right);
+    return leq;
+  }
+
+
+  /**
+   * Creates an {@link ASTLogarithmNode} representing a logarithm to base 10 of the given value.
+   * 
+   * @param value the value which is the argument of the logarithm.
+   * 
+   * @return an {@link ASTLogarithmNode} representing a logarithm to base 10 of the given value.
+   */
+  public static ASTLogarithmNode log(ASTNode2 value) {
+    ASTLogarithmNode log = new ASTLogarithmNode();
+    log.setLeftChild(value);
+    return log;
   }
 
 
@@ -222,62 +226,56 @@ public class ASTFactory {
    * @return An {@link ASTNode2} representing the logarithm of the given value
    *         with respect to the given base or to the base 10 if base is {@code null}.
    */
-  public static ASTNode2 log(ASTNode2 base, ASTNode2 value) {
+  public static ASTLogarithmNode log(ASTNode2 base, ASTNode2 value) {
     if (value == null) {
       throw new NullPointerException(
           "logarithm cannot be created for null values");
     }
-    ASTFunction log = new ASTLogarithmNode(base, value);
+    ASTLogarithmNode log = new ASTLogarithmNode(base, value);
     if (base != null) {
-      log.addChild(base);
+      log.setLeftChild(base);
     }
-    log.addChild(value);
+    log.setRightChild(value);
     log.setParentSBMLObject(log.getParentSBMLObject());
     return log;
   }
 
 
   /**
-   * Creates an {@link ASTNode2} representing a logarithm to base 10 of the given value.
-   * 
-   * @param value the value which is the argument of the logarithm.
-   * 
-   * @return an {@link ASTNode2} representing a logarithm to base 10 of the given value.
-   */
-  public static ASTNode2 log(ASTNode2 value) {
-    return log(null, value);
-  }
-
-
-  /**
-   * Creates a {@link ASTNode2} that performs a less than comparison between
+   * Creates a {@link ASTRelationalOperatorNode} that performs a less than comparison between
    * two {@link ASTNode2}s. The parent SBML object of the resulting node will
    * be taken from the left node.
    * 
    * @param left the left child.
    * @param right the right child.
    * 
-   * @return an {@link ASTNode2} that performs a less than comparison between
+   * @return an {@link ASTRelationalOperatorNode} that performs a less than comparison between
    * two {@link ASTNode2}s.
    */
-  public static ASTNode2 lt(ASTNode2 left, ASTNode2 right) {
-    return relational(Type.RELATIONAL_LT, left, right);
+  public static ASTRelationalOperatorNode lt(ASTNode2 left, ASTNode2 right) {
+    ASTRelationalOperatorNode lt = new ASTRelationalOperatorNode(Type.RELATIONAL_LT);
+    lt.addChild(left);
+    lt.addChild(right);
+    return lt;
   }
 
 
   /**
-   * Creates an {@link ASTNode2} that performs a less than comparison between a
+   * Creates an {@link ASTRelationalOperatorNode} that performs a less than comparison between a
    * variable and another {@link ASTNode2}. The parent SBML object will be
    * taken from the given {@link ASTNode2}.
    * 
    * @param variable the left child.
    * @param node the right child.
    * 
-   * @return an {@link ASTNode2} that performs a less than comparison between a
+   * @return an {@link ASTRelationalOperatorNode} that performs a less than comparison between a
    * variable and another {@link ASTNode2}.
    */
-  public static ASTNode2 lt(String variable, ASTNode2 node) {
-    return lt(new ASTCnNumberNode(variable), node);
+  public static ASTRelationalOperatorNode lt(String variable, ASTNode2 node) {
+    ASTRelationalOperatorNode lt = new ASTRelationalOperatorNode(Type.RELATIONAL_LT);
+    lt.addChild(node);
+    lt.addChild(new ASTCnNumberNode(variable));
+    return lt;
   }
 
 
@@ -287,13 +285,13 @@ public class ASTFactory {
    * @param node {@link ASTCnIntegerNode}
    * @param integer {@code int}
    * 
-   * @return node {@link ASTNode2}
+   * @return minus {@link ASTArithmeticOperatorNode}
    */
-  public static ASTNode2 minus(ASTCnIntegerNode node, int integer) {
-    if (node != null) {
-      node.setValue(node.getValue() + integer);
-    }
-    return node;
+  public static ASTArithmeticOperatorNode minus(ASTCnIntegerNode node, int integer) {
+    ASTArithmeticOperatorNode minus = new ASTArithmeticOperatorNode(Type.MINUS);
+    minus.addChild(node);
+    minus.addChild(new ASTCnIntegerNode(integer));
+    return minus;
   }
 
 
@@ -305,27 +303,16 @@ public class ASTFactory {
    * @param integer {@code int}
    * @param unitsID {@link String}
    * 
-   * @return node {@link ASTNode2}
+   * @return minus {@link ASTArithmeticOperatorNode}
    */
-  public static ASTNode2 minus(ASTCnIntegerNode node, int integer, String unitsID) {
-    if (node != null) {
-      node.setValue(node.getValue() + integer);
-      node.setUnits(unitsID);
-    }
-    return node;
-  }
-
-
-  /**
-   * Subtracts an {@link ASTNode2} from another {@link ASTNode2}.
-   * 
-   * @param node1 {@link ASTNode2}
-   * @param node2 {@link ASTNode2}
-   * 
-   * @return node {@link ASTNode2}
-   */
-  public static ASTNode2 minus(ASTNode2 node1, ASTNode2 node2) {
-    return arithmeticOperation(Type.MINUS, node1, node2);
+  public static ASTArithmeticOperatorNode minus(ASTCnIntegerNode node, int integer, 
+                                                String unitsID) {
+    ASTArithmeticOperatorNode minus = new ASTArithmeticOperatorNode(Type.MINUS);
+    minus.addChild(node);
+    ASTCnIntegerNode integerNode = new ASTCnIntegerNode(integer);
+    integerNode.setUnits(unitsID);
+    minus.addChild(integerNode);
+    return minus;
   }
 
 
@@ -335,32 +322,48 @@ public class ASTFactory {
    * @param node {@link ASTCnRealNode}
    * @param real {@link double}
    * 
-   * @return node {@link ASTCnRealNode}
+   * @return minus {@linkASTArithmeticOperatorNode}
    */
-  public static ASTNode2 minus(ASTCnRealNode node, double real) {
-    if (node != null) {
-      node.setValue(node.getValue() - real);
-    }
-    return node;
+  public static ASTArithmeticOperatorNode minus(ASTCnRealNode node, double real) {
+    ASTArithmeticOperatorNode minus = new ASTArithmeticOperatorNode(Type.MINUS);
+    minus.addChild(node);
+    minus.addChild(new ASTCnRealNode(real));
+    return minus;
+  }
+
+
+  /**
+   * Subtracts an {@link ASTNode2} from another {@link ASTNode2}.
+   * 
+   * @param node1 {@link ASTNode2}
+   * @param node2 {@link ASTNode2}
+   * 
+   * @return minus {@link ASTArithmeticOperatorNode}
+   */
+  public static ASTArithmeticOperatorNode minus(ASTNode2 node1, ASTNode2 node2) {
+    ASTArithmeticOperatorNode minus = new ASTArithmeticOperatorNode(Type.MINUS);
+    minus.addChild(node1);
+    minus.addChild(node2);
+    return minus;
   }
 
 
   /**
    * Multiplies an {@link ASTNode2} with the given nodes, i.e., all given nodes
-   * will be children of this node, whose type will be set to {@link Type#TIMES}.
+   * will be children of this {@link ASTArithmeticOperatorNode}, whose type will 
+   * be set to {@link Type#TIMES}.
    * 
    * @param nodes
    *            some {@code ASTNode2}
-   * @return node {@link ASTNode2}
+   * @return times {@link ASTArithmeticOperatorNode}
    */
-  public static ASTNode2 multiplyWith(ASTNode2... nodes) {
-    ASTNode2 node = null;
-    for (int i = 0; i < nodes.length; i++) {
-      node = nodes[i];
-      multiplyWith(node);
+  public static ASTArithmeticOperatorNode multiplyWith(ASTNode2... nodes) {
+    ASTArithmeticOperatorNode times = new ASTArithmeticOperatorNode(Type.TIMES);
+    for (ASTNode2 node : nodes) {
+      times.addChild(node);
     }
-    reduceToBinary(node);
-    return nodes[0];
+    reduceToBinary(times);
+    return times;
   }
 
 
@@ -370,10 +373,13 @@ public class ASTFactory {
    * @param node1 {@link ASTNode2}
    * @param node2 {@link ASTNode2}
    * 
-   * @return node {@link ASTNode2}
+   * @return times {@link ASTArithmeticOperatorNode}
    */
-  public static ASTNode2 multiplyWith(ASTNode2 node1, ASTNode2 node2) {
-    return arithmeticOperation(Type.TIMES, node1, node2);
+  public static ASTArithmeticOperatorNode multiplyWith(ASTNode2 node1, ASTNode2 node2) {
+    ASTArithmeticOperatorNode times = new ASTArithmeticOperatorNode(Type.TIMES);
+    times.addChild(node1);
+    times.addChild(node2);
+    return times;
   }
 
 
@@ -383,16 +389,19 @@ public class ASTFactory {
    * 
    * @param left the left child.
    * @param right the right child.
-   * @return an {@link ASTNode2} that performs a not equal comparison between
+   * @return an {@link ASTRelationalOperatorNode} that performs a not equal comparison between
    * two {@link ASTNode2}s.
    */
-  public static ASTNode2 neq(ASTNode2 left, ASTNode2 right) {
-    return relational(Type.RELATIONAL_NEQ, left, right);
+  public static ASTRelationalOperatorNode neq(ASTNode2 left, ASTNode2 right) {
+    ASTRelationalOperatorNode neq = new ASTRelationalOperatorNode(Type.RELATIONAL_NEQ);
+    neq.addChild(left);
+    neq.addChild(right);
+    return neq;
   }
 
 
   /**
-   * Creates a piecewise {@link ASTNode2}.
+   * Creates a piecewise {@link ASTPiecewiseFunctionNode}.
    * 
    * <p>At least one {@link ASTNode2} must be given
    * as a child. The parent SBML object of this first node will be the parent
@@ -401,16 +410,15 @@ public class ASTFactory {
    * @param node the parent SBML object of this node will be the parent
    * of the resulting {@link ASTNode2}.
    * @param nodes the children of the new piecewise ASTNode2
-   * @return a piecewise {@link ASTNode2}.
+   * @return a piecewise {@link ASTPiecewiseFunctionNode}.
    */
-  public static ASTNode2 piecewise(ASTNode2 node, ASTNode2... nodes) {
+  public static ASTPiecewiseFunctionNode piecewise(ASTNode2 node, ASTNode2... nodes) {
     ASTPiecewiseFunctionNode piecewise = new ASTPiecewiseFunctionNode();
     for (ASTNode2 n : nodes) {
       piecewise.addChild(n);
     }
-    if (nodes.length > 0) {
-      piecewise.unsetParentSBMLObject();
-    }
+    piecewise.setParentSBMLObject(node.getParentSBMLObject());
+    reduceToBinary(piecewise);
     return piecewise;
   }
 
@@ -421,13 +429,13 @@ public class ASTFactory {
    * @param node {@link ASTCnIntegerNode}
    * @param integer {@link int}
    * 
-   * @return node {@link ASTNode2}
+   * @return plus {@link ASTArithmeticOperatorNode}
    */
-  public static ASTNode2 plus(ASTCnIntegerNode node, int integer) {
-    if (node != null) {
-      node.setValue(node.getValue() + integer);
-    }
-    return node;
+  public static ASTArithmeticOperatorNode plus(ASTCnIntegerNode node, int integer) {
+    ASTArithmeticOperatorNode plus = new ASTArithmeticOperatorNode(Type.PLUS);
+    plus.addChild(node);
+    plus.addChild(new ASTCnIntegerNode(integer));
+    return plus;
   }
 
 
@@ -437,13 +445,13 @@ public class ASTFactory {
    * @param node {@link ASTCnRealNode}
    * @param real {@link double}
    * 
-   * @return node {@link ASTNode2}
+   * @return plus {@link ASTArithmeticOperatorNode}
    */
-  public static ASTNode2 plus(ASTCnRealNode node, double real) {
-    if (node != null) {
-      node.setValue(node.getValue() + real);
-    }
-    return node;
+  public static ASTArithmeticOperatorNode plus(ASTCnRealNode node, double real) {
+    ASTArithmeticOperatorNode plus = new ASTArithmeticOperatorNode(Type.PLUS);
+    plus.addChild(node);
+    plus.addChild(new ASTCnRealNode(real));
+    return plus;
   }
 
 
@@ -453,10 +461,13 @@ public class ASTFactory {
    * @param node1 {@link ASTNode2}
    * @param node2 {@link ASTNode2}
    * 
-   * @return node {@link ASTNode2}
+   * @return plus {@link ASTArithmeticOperatorNode}
    */
-  public static ASTNode2 plus(ASTNode2 node1, ASTNode2 node2) {
-    return arithmeticOperation(Type.PLUS, node1, node2);
+  public static ASTArithmeticOperatorNode plus(ASTNode2 node1, ASTNode2 node2) {
+    ASTArithmeticOperatorNode plus = new ASTArithmeticOperatorNode(Type.PLUS);
+    plus.addChild(node1);
+    plus.addChild(node2);
+    return plus;
   }
 
 
@@ -465,11 +476,10 @@ public class ASTFactory {
    * 
    * @param basis the basis
    * @param exponent the exponent
-   * @return a power {@link ASTNode2}.
+   * @return a power {@link ASTPowerNode}.
    */
-  public static ASTNode2 pow(ASTNode2 basis, ASTNode2 exponent) {
-    // TODO: IMPLEMENT
-    return null;
+  public static ASTPowerNode pow(ASTNode2 basis, ASTNode2 exponent) {
+    return new ASTPowerNode(basis, exponent);
   }
 
 
@@ -478,10 +488,10 @@ public class ASTFactory {
    * 
    * @param basis the basis
    * @param exponent the exponent
-   * @return a power {@link ASTNode2}.
+   * @return a power {@link ASTPowerNode}.
    */
-  public static ASTNode2 pow(ASTNode2 basis, double exponent) {
-    return raiseByThePowerOf(basis, exponent);
+  public static ASTPowerNode pow(ASTNode2 basis, double exponent) {
+    return new ASTPowerNode(basis, new ASTCnRealNode(exponent));
   }
 
 
@@ -490,38 +500,11 @@ public class ASTFactory {
    * 
    * @param basis the basis
    * @param exponent the exponent
-   * @return a power {@link ASTNode2}.
+   * @return a power {@link ASTPowerNode}.
    */
-  public static ASTNode2 pow(ASTNode2 basis, int exponent) {
-    return raiseByThePowerOf(basis, exponent);
+  public static ASTPowerNode pow(ASTNode2 basis, int exponent) {
+    return new ASTPowerNode(basis, new ASTCnIntegerNode(exponent));
   }
-
-
-  /**
-   * Raises this {@link ASTNode2} by the power of the value of the given node.
-   * 
-   * @param node1 {@link ASTNode2}
-   * @param node2 {@link ASTNode2}
-   * 
-   * @return the current node for convenience.
-   */
-  public static ASTNode2 raiseByThePowerOf(ASTNode2 node1, ASTNode2 node2) {
-    return arithmeticOperation(Type.POWER, node1, node2); 
-  }
-
-
-  /**
-   * Raises this {@link ASTNode2} by the power of the given number.
-   * 
-   * @param exponent
-   *            a double number.
-   * @return the current node for convenience.
-   */
-  public static ASTNode2 raiseByThePowerOf(ASTNode2 node, double exponent) {
-    // TODO: IMPLEMENT
-    return null;
-  }
-
 
   /**
    * <p>
@@ -543,89 +526,86 @@ public class ASTFactory {
     return;
   }
 
-
   /**
-   * Creates a relational {@link ASTNode2} of the given type with the two given
-   * children left and right.
-   * <p> Sets the parent SBML object of all nodes to
-   * the one provided by the left child.
+   * Creates a root of type {@link ASTNode2}.
    * 
-   * @param type the type of relational node.
-   * @param left the left child.
-   * @param right the right child.
-   * @return a relational {@link ASTNode2} of the given type with the two given
-   * children left and right.
+   * @param radicand the radicand {@link ASTNode2}
+   * @param rootExponent the exponent of the root element {@link ASTNode2}
+   * @return a root of type {@link ASTRootNode}.
    */
-  private static ASTNode2 relational(Type type, ASTNode2 left, ASTNode2 right) {
-    if ((left == null) || (right == null)) {
+  public static ASTRootNode root(ASTNode2 rootExponent, ASTNode2 radicand) {
+    if ((rootExponent == null) || (radicand == null)) {
       throw new NullPointerException(
-          "Cannot create a relational node with null arguments.");
+          "Cannot create a root node with null arguments.");
     }
-    ASTRelationalOperatorNode relational = new ASTRelationalOperatorNode();
-    relational.addChild(left);
-    relational.addChild(right);
-    relational.unsetParentSBMLObject();
-    return relational;
+    return new ASTRootNode(rootExponent, radicand);
   }
 
 
   /**
-   * Creates a root {@link ASTNode2}.
+   * Creates a square root of type {@link ASTRootNode} with the 
+   * specified radicand of type {@link ASTNode2}.
    * 
-   * @param radicand the radicand
-   * @param rootExponent the exponent of the root element.
-   * @return a root {@link ASTNode2}.
+   * @param radicand {@link ASTNode2}
+   * @return a root {@link ASTRootNode}.
    */
-  public static ASTNode2 root(ASTNode2 rootExponent, ASTNode2 radicand) {
-    ASTRootNode root = new ASTRootNode(rootExponent, radicand);
-    root.unsetParentSBMLObject();
-    return root;
+  public static ASTRootNode sqrt(ASTNode2 radicand) {
+    if (radicand == null) {
+      throw new NullPointerException(
+          "Cannot create a root node with null arguments");
+    }
+    return root(new ASTCnIntegerNode(2), radicand);
   }
 
 
   /**
-   * Creates a root {@link ASTNode2}.
+   * Creates an {@link ASTArithmeticOperatorNode} of type {@link Type.PLUS} and adds
+   * the given nodes as children.
    * 
-   * @param radicand
-   * @return a root {@link ASTNode2}.
+   * @param ast 
+   * @return an {@link ASTArithmeticOperatorNode} with the given nodes as children.
    */
-  public static ASTNode2 sqrt(ASTNode2 radicand) {
-    return root(new ASTRootNode(), radicand);
+  public static ASTArithmeticOperatorNode sum(ASTNode2... ast) {
+    ASTArithmeticOperatorNode plus = new ASTArithmeticOperatorNode(Type.PLUS);
+    if (ast != null) {
+      for (ASTNode2 astNode : ast) {
+        plus.addChild(astNode);
+      }
+    }
+    reduceToBinary(plus);
+    return plus;
   }
 
 
   /**
-   * Creates a new {@link ASTNode2} of type Plus with the given nodes as children.
+   * Creates an {@link ASTArithmeticOperatorNode} of type {@link Type.TIMES} and 
+   * adds the given nodes as children.
    * 
-   * @param ast the children nodes.
-   * @return a new {@link ASTNode2} of type Plus with the given nodes as children.
+   * @param ast 
+   * @return an {@link ASTArithmeticOperatorNode} with the given nodes as children.
    */
-  public static ASTNode2 sum(ASTNode2... ast) {
-    return arithmeticOperation(Type.PLUS, ast);
+  public static ASTArithmeticOperatorNode times(ASTNode2... ast) {
+    ASTArithmeticOperatorNode times = new ASTArithmeticOperatorNode(Type.TIMES);
+    if (ast != null) {
+      for (ASTNode2 astNode : ast) {
+        times.addChild(astNode);
+      }
+    }
+    reduceToBinary(times);
+    return times;
   }
 
 
   /**
-   * Creates an {@link ASTNode2} of type times and adds the given nodes as children.
-   * 
-   * @param ast
-   * @return an {@link ASTNode2} of type times and adds the given nodes as children.
-   */
-  public static ASTNode2 times(ASTNode2... ast) {
-    return arithmeticOperation(Type.TIMES, ast);
-  }
-
-
-  /**
-   * Creates a new {@link ASTNode2} that has exactly one child and which is of type
-   * minus, i.e., this negates what is encoded in ast.
+   * Creates a new {@link ASTArithmeticOperatorNode} that has exactly one child and
+   * which is of type {@link Type.MINUS}, i.e., this negates what is encoded in ast.
    * 
    * @param ast {@link ASTNode2}
    * 
-   * @return a new {@link ASTNode2} that has exactly one child and which is of type
-   * minus, i.e., this negates what is encoded in ast.
+   * @return a new {@link ASTArithmeticOperatorNode} that has exactly one child and
+   * which is of type minus, i.e., this negates what is encoded in ast.
    */
-  public static ASTNode2 uMinus(ASTNode2 ast) {
+  public static ASTArithmeticOperatorNode uMinus(ASTNode2 ast) {
     ASTArithmeticOperatorNode um = new ASTArithmeticOperatorNode(Type.MINUS);
     um.addChild(ast);
     return um;

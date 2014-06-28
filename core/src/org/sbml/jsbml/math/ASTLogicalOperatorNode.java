@@ -35,6 +35,11 @@ package org.sbml.jsbml.math;
 public class ASTLogicalOperatorNode extends ASTFunction {
 
   /**
+   * 
+   */
+  private static final long serialVersionUID = -4435213506053944443L;
+
+  /**
    * Creates a new {@link ASTLogicalOperatorNode}.
    */
   public ASTLogicalOperatorNode() {

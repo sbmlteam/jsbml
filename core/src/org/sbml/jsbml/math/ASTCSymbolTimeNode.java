@@ -40,6 +40,11 @@ public class ASTCSymbolTimeNode extends ASTCiNumberNode implements
 ASTCSymbolNode {
 
   /**
+   * 
+   */
+  private static final long serialVersionUID = 3788959657360296692L;
+
+  /**
    * A {@link Logger} for this class.
    */
   private static final Logger logger = Logger.getLogger(ASTCSymbolTimeNode.class);

@@ -22,6 +22,9 @@
  */
 package org.sbml.jsbml.math;
 
+import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.MathContainer;
+
 
 /**
  * An Abstract Syntax Tree (AST) node representing a relational
@@ -35,10 +38,26 @@ package org.sbml.jsbml.math;
 public class ASTRelationalOperatorNode extends ASTFunction {
 
   /**
-   * Creates a new {@link ASTRelationalOperatorNode}.
+   * 
+   */
+  private static final long serialVersionUID = 5739652236362075869L;
+
+  /**
+   * Creates a new {@link ASTRelationalOperatorNode} without a pointer
+   * to its containing {@link MathContainer}.
    */
   public ASTRelationalOperatorNode() {
     super();
+  }
+  
+  /**
+   * Creates a new {@link ASTRelationalOperatorNode} without a pointer
+   * to its containing {@link MathContainer} but with the specified 
+   * {@link Type}.
+   */
+  public ASTRelationalOperatorNode(Type type) {
+    super();
+    setType(type);
   }
 
   /**

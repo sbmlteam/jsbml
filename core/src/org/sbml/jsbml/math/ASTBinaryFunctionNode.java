@@ -36,10 +36,25 @@ package org.sbml.jsbml.math;
 public class ASTBinaryFunctionNode extends ASTFunction {
 
   /**
+   * 
+   */
+  private static final long serialVersionUID = -4036869111918452252L;
+
+  /**
    * Creates a new {@link ASTBinaryFunctionNode}.
    */
   public ASTBinaryFunctionNode() {
     super();
+  }
+  
+  /**
+   * Creates a new {@link ASTBinaryFunctionNode} with the specified
+   * children.
+   */
+  public ASTBinaryFunctionNode(ASTNode2 leftChild, ASTNode2 rightChild) {
+    super();
+    setLeftChild(leftChild);
+    setRightChild(rightChild);
   }
 
   /**

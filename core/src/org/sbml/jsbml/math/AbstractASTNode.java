@@ -29,7 +29,6 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.MathContainer;
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.AbstractASTNodeCompiler;
@@ -48,6 +47,11 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
  * @date May 30, 2014
  */
 public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNode2 {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -3581414034848792129L;
 
   /**
    * A {@link Logger} for this class.
@@ -85,13 +89,26 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
   protected String style;
 
   /**
-   * Creates an empty {@link AbstractTreeNode}
+   * Creates an empty {@link AbstractTreeNode} without a pointer
+   * to its containing {@link MathContainer}.
    */
   public AbstractASTNode() {
     super();
     setId(null);
     setType(Type.UNKNOWN);
     setParentSBMLObject(null);
+    setStrictness(true);
+  }
+  
+  /**
+   * Creates an empty {@link AbstractTreeNode} with a pointer
+   * to the specified {@link MathContainer}.
+   */
+  public AbstractASTNode(MathContainer container) {
+    super();
+    setId(null);
+    setType(Type.UNKNOWN);
+    setParentSBMLObject(container);
     setStrictness(true);
   }
 

@@ -40,6 +40,11 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 public class ASTCnExponentialNode extends ASTCnNumberNode {
 
   /**
+   * 
+   */
+  private static final long serialVersionUID = 2454959490592406140L;
+
+  /**
    * A {@link Logger} for this class.
    */
   private static final Logger logger = Logger.getLogger(ASTCnExponentialNode.class);

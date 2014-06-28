@@ -34,6 +34,11 @@ package org.sbml.jsbml.math;
 public class ASTLogarithmNode extends ASTBinaryFunctionNode {
 
   /**
+   * 
+   */
+  private static final long serialVersionUID = 5350043898749220594L;
+
+  /**
    * Creates a new {@link ASTLogarithmNode}.
    */
   public ASTLogarithmNode() {

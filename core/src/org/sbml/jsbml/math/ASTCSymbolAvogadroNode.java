@@ -40,6 +40,11 @@ public class ASTCSymbolAvogadroNode extends ASTConstantNumber implements
 ASTCSymbolNode {
 
   /**
+   * 
+   */
+  private static final long serialVersionUID = 8877555355478243825L;
+
+  /**
    * A {@link Logger} for this class.
    */
   private static final Logger logger = Logger.getLogger(ASTCSymbolAvogadroNode.class);
