@@ -321,7 +321,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    * @param boolean strict
    * @return null
    */
-  private void setStrictness(boolean strict) {
+  public void setStrictness(boolean strict) {
     this.strict = strict;
   }
   

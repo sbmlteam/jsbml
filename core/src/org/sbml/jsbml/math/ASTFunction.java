@@ -68,7 +68,7 @@ public class ASTFunction extends AbstractASTNode {
    *            It is just here for testing purposes to track the depth in the tree
    *            during the process.
    */
-  private static void setParentSBMLObject(ASTNode2 node, MathContainer parent,
+  protected static void setParentSBMLObject(ASTNode2 node, MathContainer parent,
     int depth) {
     //TODO: notify listeners only one time. parent may have already notified. 
   }
@@ -95,16 +95,6 @@ public class ASTFunction extends AbstractASTNode {
   }
   
   /**
-   * Creates a new {@link ASTFunction} with a pointer
-   * to the specified {@link MathContainer}.
-   */
-  public ASTFunction(MathContainer container) {
-    super(container);
-    listOfNodes = null;
-    initDefaults();
-  }
-
-  /**
    * Copy constructor; Creates a deep copy of the given {@link ASTFunction}.
    * 
    * @param astFunction
@@ -126,6 +116,16 @@ public class ASTFunction extends AbstractASTNode {
         }
       }
     }
+  }
+
+  /**
+   * Creates a new {@link ASTFunction} with a pointer
+   * to the specified {@link MathContainer}.
+   */
+  public ASTFunction(MathContainer container) {
+    super(container);
+    listOfNodes = null;
+    initDefaults();
   }
 
   /**
@@ -312,7 +312,7 @@ public class ASTFunction extends AbstractASTNode {
    * @param null
    * @return boolean
    */
-  private boolean isSetList() {
+  protected boolean isSetList() {
     return listOfNodes != null;
   }
 
@@ -388,17 +388,14 @@ public class ASTFunction extends AbstractASTNode {
       listOfNodes = new ArrayList<ASTNode2>();
     }
     // Removing the node at position n
-    ASTNode2 oldChild = listOfNodes.remove(n);
-    oldChild.unsetParentSBMLObject();
-    oldChild.fireNodeRemovedEvent();
+    ASTNode2 child = getChildAt(n);
+    removeChild(n);
 
     // Adding the new child at position n
-    setParentSBMLObject(newChild, parentSBMLObject, 0);
-    newChild.setParent(this);
-    listOfNodes.add(n, newChild);
-    newChild.addAllChangeListeners(getListOfTreeNodeChangeListeners());
-    newChild.fireNodeAddedEvent();
-    return newChild;
+    insertChild(n, newChild);
+    
+    // Return removed child
+    return child;
   }
 
   /**

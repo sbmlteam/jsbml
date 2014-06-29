@@ -22,6 +22,10 @@
  */
 package org.sbml.jsbml.math;
 
+import java.util.ArrayList;
+
+import org.apache.log4j.Logger;
+
 
 
 /**
@@ -39,6 +43,11 @@ public class ASTBinaryFunctionNode extends ASTFunction {
    * 
    */
   private static final long serialVersionUID = -4036869111918452252L;
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final Logger logger = Logger.getLogger(ASTBinaryFunctionNode.class);
 
   /**
    * Creates a new {@link ASTBinaryFunctionNode}.
@@ -47,16 +56,6 @@ public class ASTBinaryFunctionNode extends ASTFunction {
     super();
   }
   
-  /**
-   * Creates a new {@link ASTBinaryFunctionNode} with the specified
-   * children.
-   */
-  public ASTBinaryFunctionNode(ASTNode2 leftChild, ASTNode2 rightChild) {
-    super();
-    setLeftChild(leftChild);
-    setRightChild(rightChild);
-  }
-
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTBinaryFunctionNode}.
    * 
@@ -68,7 +67,37 @@ public class ASTBinaryFunctionNode extends ASTFunction {
     setLeftChild(node.getLeftChild());
     setRightChild(node.getRightChild());
   }
+
+  /**
+   * Creates a new {@link ASTBinaryFunctionNode} with the specified
+   * children.
+   */
+  public ASTBinaryFunctionNode(ASTNode2 leftChild, ASTNode2 rightChild) {
+    super();
+    setLeftChild(leftChild);
+    setRightChild(rightChild);
+  }
   
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#addChild(org.sbml.jsbml.math.ASTNode2)
+   */
+  @Override
+  public void addChild(ASTNode2 child) {
+    if (! isSetList())  {
+      listOfNodes = new ArrayList<ASTNode2>();
+    } 
+    if (isStrict() && getChildCount() == 2) {
+      logger.warn("Max child limit exceeded. To add more children " +
+                  "to ASTBinaryFunctionNode set strictness to false.");
+      throw new IndexOutOfBoundsException("max child limit exceeded");
+    }
+    listOfNodes.add(child);
+    setParentSBMLObject(child, parentSBMLObject, 0);
+    child.setParent(this);
+    child.fireNodeAddedEvent();
+  }
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#clone()
@@ -76,6 +105,18 @@ public class ASTBinaryFunctionNode extends ASTFunction {
   @Override
   public ASTBinaryFunctionNode clone() {
     return new ASTBinaryFunctionNode(this);
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#getChildAt(int)
+   */
+  @Override
+  public ASTNode2 getChildAt(int childIndex) {
+    if (!isSetList() || (isSetList() && isStrict() && childIndex > 2)) {
+      throw new IndexOutOfBoundsException(childIndex + " < child count");
+    }
+    return listOfNodes.get(childIndex);
   }
 
   /**
@@ -88,15 +129,6 @@ public class ASTBinaryFunctionNode extends ASTFunction {
   }
 
   /**
-   * Set the left child of this node
-   * 
-   * @param {@link ASTNode2} leftChild
-   */
-  public void setLeftChild(ASTNode2 leftChild) {
-    replaceChild(0, leftChild);
-  }
-
-  /**
    * Get the right child of this node
    * 
    * @return {@link ASTNode2} rightChild
@@ -105,6 +137,72 @@ public class ASTBinaryFunctionNode extends ASTFunction {
     return getChildAt(getChildCount() - 1);
   }
 
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#insertChild(int, org.sbml.jsbml.math.ASTNode2)
+   */
+  @Override
+  public void insertChild(int n, ASTNode2 newChild) {
+    if (! isSetList()) {
+      listOfNodes = new ArrayList<ASTNode2>();
+    }
+    if (isStrict() && (getChildCount() + 1) > 2) {
+      logger.warn("Max child limit exceeded. To add more children " +
+                  "to ASTBinaryFunctionNode set strictness to false.");
+      throw new IndexOutOfBoundsException("max child limit exceeded");
+    }
+    listOfNodes.add(n, newChild);
+    setParentSBMLObject(newChild, parentSBMLObject, 0);
+    newChild.setParent(this);
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#prependChild(org.sbml.jsbml.math.ASTNode2)
+   */
+  @Override
+  public void prependChild(ASTNode2 child) {
+    if (! isSetList()) {
+      listOfNodes = new ArrayList<ASTNode2>();
+    }
+    if (isStrict() && (getChildCount() + 1) > 2) {
+      logger.warn("Max child limit exceeded. To add more children " +
+                  "to ASTBinaryFunctionNode set strictness to false.");
+      throw new IndexOutOfBoundsException("max child limit exceeded");
+    }
+    listOfNodes.add(0, child);
+    setParentSBMLObject(child, parentSBMLObject, 0);
+    child.setParent(this);
+  }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#removeChild(int)
+   */
+  @Override
+  public boolean removeChild(int n) {
+    if (! isSetList()) {
+      listOfNodes = new ArrayList<ASTNode2>();
+    }
+    int childCount = isStrict() ? 2 : getChildCount();
+    if ((childCount > n) && (n >= 0)) {
+      ASTNode2 removed = listOfNodes.remove(n);
+      removed.unsetParentSBMLObject();
+      removed.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Set the left child of this node
+   * 
+   * @param {@link ASTNode2} leftChild
+   */
+  public void setLeftChild(ASTNode2 leftChild) {
+    replaceChild(0, leftChild);
+  }
+  
   /**
    * Set the right child of this node
    * 
@@ -113,7 +211,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
   public void setRightChild(ASTNode2 rightChild) {
     replaceChild(getChildCount() - 1, rightChild);
   }
-
+  
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
@@ -127,4 +225,5 @@ public class ASTBinaryFunctionNode extends ASTFunction {
     builder.append("]");
     return builder.toString();
   }
+
 }
