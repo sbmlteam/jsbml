@@ -129,21 +129,6 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
   public boolean isStrict();
 
   /**
-   * <p>
-   * Reduces this {@link ASTNode2} to a binary tree, e.g., if the formula in this
-   * {@link ASTNode2} is and(x, y, z) then the formula of the reduced node would
-   * be and(and(x, y), z).
-   * </p>
-   * <p>
-   * This method is not yet completed. Currently, only {@link Type#PLUS},
-   * {@link Type#TIMES}, {@link Type#LOGICAL_AND}, {@link Type#LOGICAL_OR} are
-   * touched by the method. All other nodes are left unchanged, but it traverses
-   * the entire tree rooted at this node.
-   * </p>
-   */
-  public void reduceToBinary();
-
-  /**
    * Set the id of this node
    * 
    * @param id the id to set

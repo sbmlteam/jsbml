@@ -89,7 +89,7 @@ public class ASTFunction extends AbstractASTNode {
    */
   public ASTFunction() {
     super();
-    setParentSBMLObject(null);
+    parentSBMLObject = null;
     listOfNodes = null;
     initDefaults();
   }
@@ -135,14 +135,13 @@ public class ASTFunction extends AbstractASTNode {
    *            the node to add as child.
    */
   public void addChild(ASTNode2 child) {
-    if (isSetList())  {
+    if (! isSetList())  {
       listOfNodes = new ArrayList<ASTNode2>();
-    } else {
-      listOfNodes.add(child);
-      setParentSBMLObject(child, parentSBMLObject, 0);
-      child.setParent(this);
-      child.fireNodeAddedEvent();
-    }
+    } 
+    listOfNodes.add(child);
+    setParentSBMLObject(child, parentSBMLObject, 0);
+    child.setParent(this);
+    child.fireNodeAddedEvent();
   }
 
   /* (non-Javadoc)
@@ -213,7 +212,7 @@ public class ASTFunction extends AbstractASTNode {
    */
   @Override
   public int getChildCount() {
-    return isSetList() ? 0 : listOfNodes.size();
+    return isSetList() ? listOfNodes.size() : 0;
   }
 
   /**

@@ -94,15 +94,6 @@ public class ASTArithmeticOperatorNode extends ASTFunction {
   public ASTArithmeticOperatorNode clone() {
     return new ASTArithmeticOperatorNode(this);
   }
-
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.math.AbstractASTNode#reduceToBinary()
-   */
-  @Override
-  public void reduceToBinary() {
-    return;
-  }
   
   /**
    * Sets the value of this {@link ASTArithmeticOperatorNode} to the given character. If 

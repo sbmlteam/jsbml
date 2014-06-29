@@ -508,22 +508,25 @@ public class ASTFactory {
 
   /**
    * <p>
-   * Reduces an {@link ASTNode2} to a binary tree, e.g., if the formula in the
-   * {@link ASTNode2} is and(x, y, z) then the formula of the reduced node would
+   * Reduces an {@link ASTFunction} to a binary tree, e.g., if the formula in the
+   * {@link ASTFunction} is and(x, y, z) then the formula of the reduced node would
    * be and(and(x, y), z).
    * </p>
-   * <p>
-   * This method is not yet completed. Currently, only {@link Type#PLUS},
-   * {@link Type#TIMES}, {@link Type#LOGICAL_AND}, {@link Type#LOGICAL_OR} are
-   * touched by the method. All other nodes are left unchanged, but it traverses
-   * the entire tree rooted at this node.
-   * </p>
-   * 
-   * @param node {@link ASTNode2}
+   * @param node {@link ASTFunction}
    */
-  private static void reduceToBinary(ASTNode2 node) {
-    // TODO: IMPLEMENT
-    return;
+  public static void reduceToBinary(ASTFunction node) {
+    if (node.getChildCount() > 2) {
+      ASTArithmeticOperatorNode operator = new ASTArithmeticOperatorNode(node.getType());
+      for (int i = node.getChildCount() - 1; i > 0; i--) {
+        operator.addChild(node.getListOfNodes().remove(i));
+      }
+      node.addChild(operator);
+    }
+    for (ASTNode2 child : node.getListOfNodes()) {
+      if (child instanceof ASTFunction) {
+        reduceToBinary((ASTFunction) child);
+      }
+    }
   }
 
   /**
