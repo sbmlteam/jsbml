@@ -42,9 +42,9 @@ import javax.swing.UIManager;
 public class CDPropertyChangeVis extends JFrame implements ActionListener {
   /** Generated serial version identifier */
   private static final long serialVersionUID = -6800051247041441688L;
-  Container contentPane= getContentPane();
+  Container contentPane = getContentPane();
   static JTextArea viewerArea = new JTextArea(50,120);
-  static String stuff="";
+  static String propertyChangeString = "";
 
   public CDPropertyChangeVis() {
     super("SBML/CD Test");
@@ -58,34 +58,34 @@ public class CDPropertyChangeVis extends JFrame implements ActionListener {
 
   public static void addSBase(String sbase)
   {
-    String sbaseAdded="\nSBase_Added: "+sbase;
+    String sbaseAdded = "\nSBase_Added: "+sbase;
     JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea(sbase)));
-    stuff+=sbaseAdded;
-    viewerArea.append(stuff);
+    propertyChangeString += sbaseAdded;
+    viewerArea.append(propertyChangeString);
   }
 
   public static void modelOpened(String sbase)
   {
-    String modelOpened="\nmodel_opened: "+sbase;
+    String modelOpened = "\nmodel_opened: "+sbase;
     JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea(sbase)));
-    stuff+=modelOpened;
-    viewerArea.append(stuff);
+    propertyChangeString += modelOpened;
+    viewerArea.append(propertyChangeString);
   }
 
   public static void modelClosed(String sbase)
   {
-    String modelClosed="\nmodel_closed: "+sbase;
+    String modelClosed = "\nmodel_closed: "+sbase;
     JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea(sbase)));
-    stuff+=modelClosed;
-    viewerArea.append(stuff);
+    propertyChangeString += modelClosed;
+    viewerArea.append(propertyChangeString);
   }
 
   public static void deleteSBase(String sbase)
   {
     String deleteSBase="\nsbase_deleted: "+sbase;
     JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea(sbase)));
-    stuff+=deleteSBase;
-    viewerArea.append(stuff);
+    propertyChangeString += deleteSBase;
+    viewerArea.append(propertyChangeString);
   }
 
   /** @param args Expects a valid path to an SBML file. */
