@@ -33,6 +33,7 @@ import org.sbml.jsbml.math.ASTArithmeticOperatorNode;
 import org.sbml.jsbml.math.ASTBinaryFunctionNode;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
 import org.sbml.jsbml.math.ASTFactory;
+import org.sbml.jsbml.math.ASTFunction;
 import org.sbml.jsbml.math.ASTUnaryFunctionNode;
 
 
@@ -304,4 +305,71 @@ public class ASTNode2Test {
     assertTrue(unary.removeChild(1));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTBinaryFunctionNode#swapChildren()}.
+   */
+  @Test
+  public void swapChildrenStrictBinaryFunction() {
+    ASTBinaryFunctionNode strict = new ASTBinaryFunctionNode();
+    ASTBinaryFunctionNode notStrict = new ASTBinaryFunctionNode();
+    notStrict.setStrictness(false);
+    notStrict.addChild(new ASTCnIntegerNode(15));
+    notStrict.addChild(new ASTCnIntegerNode(20));
+    notStrict.addChild(new ASTCnIntegerNode(25));
+    exception.expect(IndexOutOfBoundsException.class);
+    strict.swapChildren(notStrict);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTBinaryFunctionNode#swapChildren()}.
+   */
+  @Test
+  public void swapChildrenNotStrictBinaryFunction() {
+    ASTBinaryFunctionNode a = new ASTBinaryFunctionNode();
+    a.setStrictness(false);
+    a.addChild(new ASTCnIntegerNode(2));
+    a.addChild(new ASTCnIntegerNode(4));
+    a.addChild(new ASTCnIntegerNode(6));
+    ASTBinaryFunctionNode b = new ASTBinaryFunctionNode();
+    b.setStrictness(false);
+    b.addChild(new ASTCnIntegerNode(15));
+    b.addChild(new ASTCnIntegerNode(20));
+    b.addChild(new ASTCnIntegerNode(25));
+    b.addChild(new ASTCnIntegerNode(30));
+    a.swapChildren(b);
+    assertTrue((a.getChildCount() == 4) && (b.getChildCount() == 3));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#swapChildren()}.
+   */
+  @Test
+  public void swapChildrenStrictUnaryFunction() {
+    ASTUnaryFunctionNode strict = new ASTUnaryFunctionNode();
+    ASTUnaryFunctionNode notStrict = new ASTUnaryFunctionNode();
+    notStrict.setStrictness(false);
+    notStrict.addChild(new ASTCnIntegerNode(15));
+    notStrict.addChild(new ASTCnIntegerNode(20));
+    exception.expect(IndexOutOfBoundsException.class);
+    strict.swapChildren(notStrict);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTBinaryFunctionNode#swapChildren()}.
+   */
+  @Test
+  public void swapChildrenNotStrictUnaryFunction() {
+    ASTUnaryFunctionNode a = new ASTUnaryFunctionNode();
+    a.setStrictness(false);
+    a.addChild(new ASTCnIntegerNode(5));
+    ASTUnaryFunctionNode b = new ASTUnaryFunctionNode();
+    b.setStrictness(false);
+    b.addChild(new ASTCnIntegerNode(15));
+    b.addChild(new ASTCnIntegerNode(20));
+    b.addChild(new ASTCnIntegerNode(25));
+    a.swapChildren(b);
+    assertTrue((a.getChildCount() == 3) && (b.getChildCount() == 1));
+  }
+
+    
 }

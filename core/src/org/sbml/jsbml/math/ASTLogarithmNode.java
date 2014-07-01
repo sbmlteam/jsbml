@@ -54,9 +54,9 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
   public ASTLogarithmNode(ASTNode2 value) {
     super();
     // Left child
-    addChild(new ASTCnIntegerNode(10));
+    setLeftChild(new ASTCnIntegerNode(10));
     // Right child
-    addChild(value);
+    setRightChild(value);
   }
   
   /**
@@ -69,9 +69,9 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
   public ASTLogarithmNode(ASTNode2 base, ASTNode2 value) {
     super();
     // Left child
-    addChild(base);
+    setLeftChild(base);
     // Right child
-    addChild(value);
+    setRightChild(value);
   }
 
   /**

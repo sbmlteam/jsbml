@@ -23,6 +23,7 @@
 package org.sbml.jsbml.math;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -181,6 +182,22 @@ public class ASTUnaryFunctionNode extends ASTFunction {
    */
   public void setChild(ASTNode2 child) {
     replaceChild(0, child);
+  }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#swapChildren(org.sbml.jsbml.math.ASTFunction)
+   */
+  @Override
+  public void swapChildren(ASTFunction that) {
+    if (isStrict() && that.getChildCount() > 1) {
+      logger.warn("Max child limit exceeded. To add more children " +
+          "to ASTUnaryFunctionNode set strictness to false.");
+      throw new IndexOutOfBoundsException("max child limit exceeded");
+    }
+    List<ASTNode2> swap = that.listOfNodes;
+    that.listOfNodes = listOfNodes;
+    listOfNodes = swap;
   }
   
   /* (non-Javadoc)

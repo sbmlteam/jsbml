@@ -424,31 +424,12 @@ public class ASTFunction extends AbstractASTNode {
    *        node's children
    */
   public void swapChildren(ASTFunction that) {
+    if (! isSetList()) {
+      listOfNodes = new ArrayList<ASTNode2>();
+    }
     List<ASTNode2> swap = that.listOfNodes;
     that.listOfNodes = listOfNodes;
     listOfNodes = swap;
-    if (!that.isLeaf()) {
-      for (ASTNode2 child : that.listOfNodes) {
-        if (that.getParentSBMLObject() != getParentSBMLObject()) {
-          setParentSBMLObject(child, that.getParentSBMLObject(), 0);
-        }
-        child.fireNodeRemovedEvent();
-        child.getListOfTreeNodeChangeListeners().removeAll(that.getListOfTreeNodeChangeListeners());
-        child.setParent(that);
-        child.fireNodeAddedEvent();
-      }
-    }
-    if (!isLeaf()) {
-      for (ASTNode2 child : listOfNodes) {
-        if (that.getParentSBMLObject() != getParentSBMLObject()) {
-          setParentSBMLObject(child, getParentSBMLObject(), 0);
-        }
-        child.fireNodeRemovedEvent();
-        child.getListOfTreeNodeChangeListeners().removeAll(getListOfTreeNodeChangeListeners());
-        child.setParent(this);
-        child.fireNodeAddedEvent();
-      }
-    }
   }
 
   /* (non-Javadoc)
