@@ -473,6 +473,8 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
         PluginCompartment pCompartment = originalModel.getCompartment(i);
         model.addCompartment(readCompartment(pCompartment));
         LayoutConverter.extractLayout(pCompartment, layout);
+        layout.createDimensions("Layout_Size", originalModel.getCompartment(i).getWidth(),
+          originalModel.getCompartment(i).getHeight(), 1d);
         if (listener != null) {
           listener.progressUpdate(++curr, "Compartments");
         }
@@ -701,6 +703,10 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
     if (species.getSpeciesType().length() > 0 && (model.getLevel() < 3)) {
       s.setSpeciesType(model.getSpeciesType(species.getSpeciesType()));
     }
+    if (model.getLevel()>2) {
+      s.setConstant(false);
+      s.setCompartment(model.getCompartment(0));
+    }
     return s;
   }
 
@@ -729,7 +735,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
         spec.setSBOTerm(sbo);
       }
     }
-    if (spec.getLevel() > 3) {
+    if (spec.getLevel() > 2) {
       spec.setConstant(true);
     }
     spec.setSpecies(speciesReference.getSpecies());
