@@ -30,6 +30,7 @@ import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
+import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 import org.sbml.jsbml.ext.layout.TextGlyph;
 
 
@@ -65,13 +66,16 @@ public class LayoutConverter {
    * @param pSpecies the PluginSpeciesAlias
    * @param layout The Layout object
    */
-  public static void extractLayout(PluginSpeciesAlias pSpecies, Layout layout)
+  public static void extractLayout(PluginSpeciesAlias pSpeciesAlias, Layout layout)
   {
-    SpeciesGlyph sGlyph=layout.createSpeciesGlyph("sGlyph_" + pSpecies.getAliasID());
-    sGlyph.createBoundingBox(pSpecies.getWidth(), pSpecies.getHeight(), depth, pSpecies.getX(), pSpecies.getY(), z);
+    SpeciesGlyph sGlyph=layout.createSpeciesGlyph("sGlyph_" + pSpeciesAlias.getSpecies().getId());
+    sGlyph.createBoundingBox(pSpeciesAlias.getWidth(), pSpeciesAlias.getHeight(), depth, pSpeciesAlias.getX(), pSpeciesAlias.getY(), z);
 
-    TextGlyph tGlyph=layout.createTextGlyph("tGlyph_" + pSpecies.getAliasID());
-    tGlyph.setOriginOfText(pSpecies.getAliasID());
+    TextGlyph tGlyph=layout.createTextGlyph("tGlyph_" + pSpeciesAlias.getSpecies().getId());
+    BoundingBox bBox = tGlyph.createBoundingBox(pSpeciesAlias.getWidth(), pSpeciesAlias.getHeight(), depth);
+    //setting textGlyph position at center of speciesGlyph
+    bBox.createPosition(pSpeciesAlias.getX()+pSpeciesAlias.getWidth()/2, pSpeciesAlias.getY()+pSpeciesAlias.getHeight()/2, z);
+    tGlyph.setOriginOfText(pSpeciesAlias.getSpecies().getId());
   }
 
   /**
@@ -82,6 +86,18 @@ public class LayoutConverter {
   public static void extractLayout(PluginReaction pReaction, Layout layout)
   {
     layout.createReactionGlyph("rGlyph_"+pReaction.getId());
+    for (int i=0;i<pReaction.getNumReactants();i++)
+    {
+      SpeciesReferenceGlyph srGlyph=new SpeciesReferenceGlyph("srGlyph_"+pReaction.getId()+"_"+i);
+      srGlyph.setSpeciesGlyph("sGlyph_"+pReaction.getReactant(i).getSpeciesInstance().getId());
+      layout.getReactionGlyph("rGlyph_"+pReaction.getId()).addSpeciesReferenceGlyph(srGlyph);
+    }
+    for (int i=0;i<pReaction.getNumProducts();i++)
+    {
+      SpeciesReferenceGlyph srGlyph=new SpeciesReferenceGlyph("srGlyph_"+pReaction.getId()+"__"+i);
+      srGlyph.setSpeciesGlyph("sGlyph_"+pReaction.getProduct(i).getSpeciesInstance().getId());
+      layout.getReactionGlyph("rGlyph_"+pReaction.getId()).addSpeciesReferenceGlyph(srGlyph);
+    }
     TextGlyph tGlyph=layout.createTextGlyph("tGlyph_" + pReaction.getId());
     tGlyph.setOriginOfText(pReaction.getId());
   }
