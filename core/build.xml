@@ -166,7 +166,7 @@
 		<copy todir="${build.src}" overwrite="yes">
 			<fileset 
             dir="${src.dir}"
-            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip org/sbml/jsbml/math/**"> <!-- TODO remove org/sbml/jsbml/math from the filters when the package is ready --> 
+            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip"> <!-- removed org/sbml/jsbml/math from the filters for now --> 
 			</fileset>
 		</copy>
 
