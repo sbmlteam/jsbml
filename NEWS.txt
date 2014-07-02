@@ -6,6 +6,18 @@ Version 1.0-beta2 (xx-xx-2014)
 
 * New Features:
 
+- !!! changed default behavior for the infix parsing. Now it is case sensitive for mathML element...  
+
+- arrays package implemented, version 05/05/14. Only selector and vector supported for now.
+
+- added removeCVTerm methods in Annotation and SBase
+
+- IdManager ??
+
+- added some missing getter in the L3 packages classes.
+
+- Added support for vector and selector infix parsing to support the arrays package.
+
   - The class QualitativeModel in the qual package has been marked deprecated
     and should no longer be used. Aiming to achieve better compatibility to
     libSBML, the new class QualModelPlugin has been created to be used instead.
@@ -41,6 +53,25 @@ Version 1.0-beta2 (xx-xx-2014)
 
 * Bug Fixes:
 
+ - corrected the method SBase.appendNotes that contained several problem.
+ 
+ - corrected a bug when cloning a text XMLToken
+ 
+ - fixed the AbstractSBase equals method that could throw a NullPointerException
+   in some case.
+ 
+ - fixed the CVTerm.removeResource(String) method. Thanks for to Camille Laibe
+   who reported the problem (tracker item #80)
+
+ - fixed several issues when cloning 'comp' elements and L3 packages elements
+   in general. Thanks to Chris Myers and the ibiosim team for their help to 
+   find and fix all issues.
+
+ -    method ASTNode.parseFormula so that they catch any Exception or Error and throw a ParseException instead
+ 
+ -  added the support for the 'root' function in the parsing of math formula
+ 
+ 
   - The implementation of the layout package contained unnecessary classes that
     all represented a Point object (Start, End, Position, BasePoint1, BasePoint2).
     In order to avoid confusion and to simplify the implementation, those
@@ -62,6 +93,7 @@ Version 1.0-beta2 (xx-xx-2014)
     method.
     
   - ASTNode threw a NullPointerException when trying to un-set its variable.
+
 
 ======================================================================
 Version 1.0-beta1 (06-03-2014)
