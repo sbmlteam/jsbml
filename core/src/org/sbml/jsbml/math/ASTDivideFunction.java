@@ -43,6 +43,14 @@ public class ASTDivideFunction extends ASTBinaryFunctionNode {
   public ASTDivideFunction() {
     super();
   }
+  
+  /**
+   * Creates a new {@link ASTDivideFunction} with the specified numerator
+   * {@link ASTNode2} and denominator {@link ASTNode2}.
+   */
+  public ASTDivideFunction(ASTNode2 numerator, ASTNode2 denominator) {
+    super(numerator, denominator);
+  }
 
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTDivideFunctionNode}.

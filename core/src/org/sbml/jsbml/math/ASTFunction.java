@@ -133,8 +133,13 @@ public class ASTFunction extends AbstractASTNode {
    * 
    * @param child
    *            the node to add as child.
+   *            
+   * @throws NullPointerException if the child is null          
    */
   public void addChild(ASTNode2 child) {
+    if (child == null) {
+      throw new NullPointerException();
+    }
     if (! isSetList())  {
       listOfNodes = new ArrayList<ASTNode2>();
     } 
@@ -296,8 +301,14 @@ public class ASTFunction extends AbstractASTNode {
    *            long the index of the {@link ASTNode2} being added
    * @param newChild
    *            {@link ASTNode2} to insert as the n<sup>th</sup> child
+   *            
+   * @throws NullPointerException if the child is null      
+   *     
    */
   public void insertChild(int n, ASTNode2 newChild) {
+    if (newChild == null) {
+      throw new NullPointerException();
+    }
     if (! isSetList()) {
       listOfNodes = new ArrayList<ASTNode2>();
     }
@@ -322,8 +333,14 @@ public class ASTFunction extends AbstractASTNode {
    * 
    * @param child
    *            an {@code ASTNode2}
+   *            
+   * @throws NullPointerException if the child is null   
+   *        
    */
   public void prependChild(ASTNode2 child) {
+    if (child == null) {
+      throw new NullPointerException();
+    }
     if (! isSetList()) {
       listOfNodes = new ArrayList<ASTNode2>();
     }
@@ -365,6 +382,7 @@ public class ASTFunction extends AbstractASTNode {
    *            a string representing the variable name to be substituted
    * @param arg
    *            an {@link ASTNode2} representing the name/value/formula to substitute
+   *        
    */
   public void replaceArgument(String bvar, ASTNode2 arg) {
     if (! isSetList()) {
@@ -379,9 +397,12 @@ public class ASTFunction extends AbstractASTNode {
    * 
    * @param n
    *            long the index of the child to replace
+   *            
    * @param newChild
    *            {@link ASTNode2} to replace the n<sup>th</sup> child
+   *            
    * @return the element previously at the specified position
+   *       
    */
   public ASTNode2 replaceChild(int n, ASTNode2 newChild) {
     if (! isSetList()) {

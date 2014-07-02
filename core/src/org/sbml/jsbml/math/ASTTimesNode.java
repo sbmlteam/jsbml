@@ -24,7 +24,7 @@ package org.sbml.jsbml.math;
 
 
 /**
- * An Abstract Syntax Tree (AST) node representing the times function
+ * An Abstract Syntax Tree (AST) node representing the times operator
  * 
  * @author Victor Kofia
  * @version $Rev$
@@ -43,6 +43,18 @@ public class ASTTimesNode extends ASTBinaryFunctionNode {
    */
   public ASTTimesNode() {
     super();
+  }
+  
+  /**
+   * Creates a new {@link ASTTimesNode} with two children
+   * 
+   * @param leftChild {@link ASTNode2}
+   * 
+   * @param rightChild {@link ASTNode2}
+   * 
+   */
+  public ASTTimesNode(ASTNode2 leftChild, ASTNode2 rightChild) {
+    super(leftChild, rightChild);
   }
 
   /**

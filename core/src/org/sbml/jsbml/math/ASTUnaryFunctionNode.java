@@ -72,15 +72,22 @@ public class ASTUnaryFunctionNode extends ASTFunction {
    * 
    * @param child
    *            the node to add as child.
+   *            
+   * @throws NullPointerException if the child is null
+   * @throws IndexOutOfBoundsException if strictness is set to true
+   *            and max child limit has been exceeded          
    */
+  @Override
   public void addChild(ASTNode2 child) {
     if (! isSetList())  {
       listOfNodes = new ArrayList<ASTNode2>();
     } 
-    if (isStrict() && getChildCount() > 0) {
-      logger.warn("Max child limit exceeded. To add more children " +
-                  "to ASTUnaryFunctionNode set strictness to false.");
+    if (isStrict() && getChildCount() == 1) {
       throw new IndexOutOfBoundsException("max child limit exceeded");
+    }
+    if (getChildCount() == 1) {
+      logger.debug("Max child limit exceeded. To add more children " +
+          "to ASTUnaryFunctionNode set strictness to false.");
     }
     listOfNodes.add(child);
     setParentSBMLObject(child, parentSBMLObject, 0);
@@ -106,9 +113,9 @@ public class ASTUnaryFunctionNode extends ASTFunction {
     return getChildAt(0);
   }
 
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTFunction#getChildAt(int)
+  /**
+   * @throws IndexOutOfBoundsException if strictness is set to true
+   *            and max child limit has been exceeded          
    */
   @Override
   public ASTNode2 getChildAt(int childIndex) {
@@ -118,38 +125,61 @@ public class ASTUnaryFunctionNode extends ASTFunction {
     return listOfNodes.get(childIndex);
   }
 
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTFunction#insertChild(int, org.sbml.jsbml.math.ASTNode2)
+  /**
+   * Inserts the given {@link ASTNode2} at point n in the list of children of this
+   * {@link ASTNode2}. Inserting a child within an {@link ASTNode2} may result in an inaccurate
+   * representation.
+   * 
+   * @param n
+   *            long the index of the {@link ASTNode2} being added
+   * @param newChild
+   *            {@link ASTNode2} to insert as the n<sup>th</sup> child
+   *            
+   * @throws NullPointerException if the child is null
+   * @throws IndexOutOfBoundsException if strictness is set to true
+   *           and max child limit has been exceeded    
+   *     
    */
   @Override
   public void insertChild(int n, ASTNode2 newChild) {
     if (! isSetList()) {
       listOfNodes = new ArrayList<ASTNode2>();
     }
-    if (isStrict() && (getChildCount() + 1) > 1) {
-      logger.warn("Max child limit exceeded. To add more children " +
-                  "to ASTUnaryFunctionNode set strictness to false.");
+    if (isStrict() && getChildCount() == 1) {
       throw new IndexOutOfBoundsException("max child limit exceeded");
+    }
+    if (getChildCount() == 1) {
+      logger.debug("Max child limit exceeded. To add more children " +
+          "to ASTUnaryFunctionNode set strictness to false.");
     }
     listOfNodes.add(n, newChild);
     setParentSBMLObject(newChild, parentSBMLObject, 0);
     newChild.setParent(this);
   }
 
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTFunction#prependChild(org.sbml.jsbml.math.ASTNode2)
+  /**
+   * Adds the given node as a child of this {@link ASTBinaryFunctionNode}. 
+   * This method adds child nodes from right to left.
+   * 
+   * @param child
+   *            an {@code ASTNode2}
+   *            
+   * @throws NullPointerException if the child is null   
+   * @throws IndexOutOfBoundsException if strictness is set to true
+   *           and max child limit has been exceeded    
+   *           
    */
   @Override
   public void prependChild(ASTNode2 child) {
     if (! isSetList()) {
       listOfNodes = new ArrayList<ASTNode2>();
     }
-    if (isStrict() && (getChildCount() + 1) > 1) {
-      logger.warn("Max child limit exceeded. To add more children " +
-                  "to ASTUnaryFunctionNode set strictness to false.");
+    if (isStrict() && getChildCount() == 1) {
       throw new IndexOutOfBoundsException("max child limit exceeded");
+    }
+    if (getChildCount() == 1) {
+      logger.debug("Max child limit exceeded. To add more children " +
+          "to ASTUnaryFunctionNode set strictness to false.");
     }
     listOfNodes.add(0, child);
     setParentSBMLObject(child, parentSBMLObject, 0);
@@ -165,8 +195,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
     if (! isSetList()) {
       listOfNodes = new ArrayList<ASTNode2>();
     }
-    int childCount = isStrict() ? 1 : getChildCount();
-    if ((childCount > n) && (n >= 0)) {
+    if ((getChildCount() > n) && (n >= 0)) {
       ASTNode2 removed = listOfNodes.remove(n);
       removed.unsetParentSBMLObject();
       removed.fireNodeRemovedEvent();
@@ -184,16 +213,43 @@ public class ASTUnaryFunctionNode extends ASTFunction {
     replaceChild(0, child);
   }
   
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTFunction#swapChildren(org.sbml.jsbml.math.ASTFunction)
+  /**
+   * <p>
+   * Swaps the children of this {@link ASTFunction} with the children of that
+   * {@link ASTFunction}.
+   * </p>
+   * <p>
+   * Unfortunately, when swapping child nodes, we have to recursively traverse
+   * the entire subtrees in order to make sure that all pointers to the parent
+   * SBML object are correct. However, this must only be done if the parent SBML
+   * object of that differs from the one surrounding this node.
+   * </p>
+   * <p>
+   * In any case, the pointer from each sub-node to its parent must be changed.
+   * In contrast to other SBML elements, {@link ASTFunction}s have sub-nodes as
+   * direct children, i.e., there is no child called 'ListOfNodes'. The
+   * {@code setParent} method is also not recursive.
+   * </p>
+   * <p>
+   * However, this might cause many calls to listeners.
+   * </p>
+   * 
+   * @param that
+   *        the other node whose children should be used to replace this
+   *        node's children
+   *        
+   * @throws IndexOutOfBoundsException if strictness is set to true
+   *           and max child limit has been exceeded    
+   *           
    */
   @Override
   public void swapChildren(ASTFunction that) {
     if (isStrict() && that.getChildCount() > 1) {
-      logger.warn("Max child limit exceeded. To add more children " +
-          "to ASTUnaryFunctionNode set strictness to false.");
       throw new IndexOutOfBoundsException("max child limit exceeded");
+    }
+    if (that.getChildCount() > 1) {
+      logger.debug("Max child limit exceeded. To add more children " +
+          "to ASTUnaryFunctionNode set strictness to false.");
     }
     List<ASTNode2> swap = that.listOfNodes;
     that.listOfNodes = listOfNodes;

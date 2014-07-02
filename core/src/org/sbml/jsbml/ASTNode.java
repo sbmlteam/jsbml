@@ -297,6 +297,10 @@ public class ASTNode extends AbstractTreeNode {
      */
     POWER,
     /**
+     * 
+     */
+    PRODUCT,
+    /**
      * An {@link ASTNode} of this {@link Type} contains two integer values:
      * a numerator and a denominator.
      */
@@ -337,6 +341,10 @@ public class ASTNode extends AbstractTreeNode {
      * Not equal
      */
     RELATIONAL_NEQ,
+    /**
+     * 
+     */
+    SUM,
     /**
      * 
      */

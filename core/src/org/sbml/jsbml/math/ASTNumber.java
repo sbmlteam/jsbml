@@ -23,7 +23,6 @@
 package org.sbml.jsbml.math;
 
 import org.sbml.jsbml.MathContainer;
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * An Abstract Syntax Tree (AST) node representing a number
@@ -48,8 +47,6 @@ public abstract class ASTNumber extends AbstractASTNode {
   public ASTNumber() {
     super();
     setParentSBMLObject(null);
-    ASTNumber old = this;
-    firePropertyChange(TreeNodeChangeEvent.initialValue, old, this);
   }
 
   /**
@@ -61,8 +58,6 @@ public abstract class ASTNumber extends AbstractASTNode {
   public ASTNumber(ASTNumber astNumber) {
     super();
     setParentSBMLObject(null);
-    ASTNumber old = this;
-    firePropertyChange(TreeNodeChangeEvent.initialValue, old, this);
   }
 
   /*

@@ -49,29 +49,29 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
    * Creates a new {@link ASTLogarithmNode} with base 10
    * and value {@link ASTNode2}
    * 
-   * @param value {@link ASTNode2}
+   * @param value {@link ASTNode2} - must not be {@code null}
    */
   public ASTLogarithmNode(ASTNode2 value) {
     super();
-    // Left child
-    setLeftChild(new ASTCnIntegerNode(10));
-    // Right child
-    setRightChild(value);
+    setLeftChild(value);
   }
   
   /**
    * Creates a new {@link ASTLogarithmNode} with base {@link ASTNode2}
    * and value {@link ASTNode2}
    * 
-   * @param base {@link ASTNode2}
-   * @param value {@link ASTNode2}
+   * @param base {@link ASTNode2} - can be {@code null}; then a base of 10 will
+   * be assumed.
+   * @param value {@link ASTNode2} - must not be {@code null}
    */
   public ASTLogarithmNode(ASTNode2 base, ASTNode2 value) {
     super();
-    // Left child
-    setLeftChild(base);
-    // Right child
-    setRightChild(value);
+    if (base == null) {
+      setLeftChild(value);
+    } else {
+      setLeftChild(base);
+      setRightChild(value);
+    }
   }
 
   /**

@@ -89,22 +89,6 @@ ASTCSymbolNode {
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#getDefinitionURL()
-   */
-  @Override
-  public String getDefinitionURL() {
-    if (isSetDefinitionURL()) {
-      return definitionURL;
-    }
-    PropertyUndefinedError error = new PropertyUndefinedError("definitionURL", this);
-    if (isStrict()) {
-      throw error;
-    }
-    logger.warn(error);
-    return "";
-  }
-
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#getEncodingURL()
    */
   @Override
@@ -122,31 +106,11 @@ ASTCSymbolNode {
 
   /*
    * (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetDefinitionURL()
-   */
-  @Override
-  public boolean isSetDefinitionURL() {
-    return definitionURL != null;
-  }
-
-
-  /*
-   * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#isSetEncodingURL()
    */
   @Override
   public boolean isSetEncodingURL() {
     return encodingURL != null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#setDefinitionURL(java.lang.String)
-   */
-  @Override
-  public void setDefinitionURL(String definitionURL) {
-    String old = this.definitionURL;
-    this.definitionURL = definitionURL;
-    firePropertyChange(TreeNodeChangeEvent.definitionURL, old, definitionURL);
   }
 
   /* (non-Javadoc)
