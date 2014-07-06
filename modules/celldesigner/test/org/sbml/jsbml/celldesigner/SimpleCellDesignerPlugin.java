@@ -21,7 +21,6 @@
 package org.sbml.jsbml.celldesigner;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.SwingWorker;
 import javax.xml.stream.XMLStreamException;
@@ -31,7 +30,6 @@ import jp.sbi.celldesigner.plugin.PluginMenuItem;
 
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.gui.JSBMLvisualizer;
-import org.sbml.jsbml.gui.SwingWork;
 
 
 /**
@@ -77,25 +75,8 @@ public class SimpleCellDesignerPlugin extends AbstractCellDesignerPlugin {
    */
   public void startPlugin() throws XMLStreamException {
     // Synchronize changes from this plug-in to CellDesigner:
-    final PluginChangeListener changeListener = new PluginChangeListener(this);
-    final SwingWorker<SBMLDocument, Void> worker = new SwingWork(getReader().convertModel(getSelectedModel()));
-    worker.addPropertyChangeListener(new PropertyChangeListener() {
-
-      @Override
-      public void propertyChange(PropertyChangeEvent evt) {
-        // TODO Auto-generated method stub
-        if (evt.getPropertyName().equals("state") && evt.getNewValue().equals(SwingWorker.StateValue.DONE)) {
-          try {
-            SBMLDocument doc=worker.get();
-            doc.addTreeNodeChangeListener(changeListener);
-            new JSBMLvisualizer(doc);
-          } catch (Throwable e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-          }
-        }
-      }
-    });
+    SwingWorker<SBMLDocument, Throwable> worker = new SwingWork(getReader(),getSelectedModel());
+    worker.addPropertyChangeListener(this);
     worker.execute();
   }
 
@@ -104,7 +85,15 @@ public class SimpleCellDesignerPlugin extends AbstractCellDesignerPlugin {
    */
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
-    // TODO Auto-generated method stub
+    if (evt.getPropertyName().equals("state") && evt.getNewValue().equals(SwingWorker.StateValue.DONE)) {
+      try {
+        SBMLDocument doc = ((SwingWork)evt.getSource()).get();
+        doc.addTreeNodeChangeListener(new PluginChangeListener(this));
+        new JSBMLvisualizer(doc);
+      } catch (Throwable e) {
+        new GUIErrorConsole(e);
+      }
+    }
 
   }
 }

@@ -31,7 +31,6 @@ import jp.sbi.celldesigner.plugin.PluginMenu;
 import jp.sbi.celldesigner.plugin.PluginMenuItem;
 
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.gui.SBMLLayoutVisualizer;
 
 
 /**
@@ -73,6 +72,7 @@ public class SBMLExportPlugin extends AbstractCellDesignerPlugin  {
    * @throws XMLStreamException If the given SBML model contains errors.
    */
   public void startPlugin() throws XMLStreamException {
+    setStarted(true);
     // Synchronize changes from this plug-in to CellDesigner:
     SwingWorker<SBMLDocument, Throwable> worker = new SwingWork(getReader(),getSelectedModel());
     worker.addPropertyChangeListener(this);
