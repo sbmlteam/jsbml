@@ -23,6 +23,7 @@
 package org.sbml.jsbml.celldesigner;
 
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.SwingWorker;
 import javax.xml.stream.XMLStreamException;
@@ -32,8 +33,6 @@ import jp.sbi.celldesigner.plugin.PluginMenuItem;
 import jp.sbi.celldesigner.plugin.PluginSBase;
 
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.gui.CDPropertyChangeVis;
-import org.sbml.jsbml.gui.GUIErrorConsole;
 
 
 /**
@@ -42,10 +41,12 @@ import org.sbml.jsbml.gui.GUIErrorConsole;
  * @since 1.0
  * @date Jun 30, 2014
  */
-public class CellDesignerTest extends AbstractCellDesignerPlugin  {
+public class CellDesignerTest extends AbstractCellDesignerPlugin  implements PropertyChangeListener {
 
   public static final String ACTION = "Test CD Listeners";
   public static final String APPLICATION_NAME = "Test the Listeners";
+
+  private final CDPropertyChangeVis propertyChangeVis;
 
   /**
    * Creates a new CellDesigner plug-in with an entry in the menu bar.
@@ -53,6 +54,8 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin  {
   public CellDesignerTest() {
     super();
     addPluginMenu();
+    propertyChangeVis = new CDPropertyChangeVis();
+    setStarted(true);
   }
 
   /* (non-Javadoc)
@@ -75,6 +78,7 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin  {
    * @throws XMLStreamException If the given SBML model contains errors.
    */
   public void startPlugin() throws XMLStreamException {
+    setStarted(true);
     // Synchronize changes from this plug-in to CellDesigner:
     SwingWorker<SBMLDocument, Throwable> worker = new SwingWork(getReader(),getSelectedModel());
     worker.addPropertyChangeListener(this);
@@ -83,22 +87,41 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin  {
 
   @Override
   public void SBaseAdded(PluginSBase sbase) {
-    CDPropertyChangeVis.addSBase(sbase.toString());
+
+    propertyChangeVis.addSBase(sbase.toString());
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#modelSelectChanged(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  @Override
+  public void modelSelectChanged(PluginSBase sbase) {
+    // TODO Auto-generated method stub
+    super.modelSelectChanged(sbase);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#SBaseChanged(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  @Override
+  public void SBaseChanged(PluginSBase sbase) {
+    propertyChangeVis.changeSBase(sbase.toString());
   }
 
   @Override
   public void modelClosed(PluginSBase sbase) {
-    CDPropertyChangeVis.modelClosed(sbase.toString());
+    propertyChangeVis.modelClosed(sbase.toString());
   }
 
   @Override
   public void modelOpened(PluginSBase sbase) {
-    CDPropertyChangeVis.modelOpened(sbase.toString());
+    propertyChangeVis.modelOpened(sbase.toString());
   }
 
   @Override
   public void SBaseDeleted(PluginSBase sbase) {
-    CDPropertyChangeVis.deleteSBase(sbase.toString());
+    propertyChangeVis.deleteSBase(sbase.toString());
   }
 
   /* (non-Javadoc)

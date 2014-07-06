@@ -30,8 +30,6 @@ import javax.xml.stream.XMLStreamException;
 
 import jp.sbi.celldesigner.plugin.PluginAction;
 
-import org.sbml.jsbml.gui.GUIErrorConsole;
-
 
 /**
  * @author Ibrahim Vazirabad

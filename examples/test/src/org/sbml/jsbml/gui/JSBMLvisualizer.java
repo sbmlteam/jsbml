@@ -30,7 +30,6 @@ import javax.swing.UIManager;
 
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
-import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 
 /** Displays the content of an SBML file in a {@link JTree} */
 public class JSBMLvisualizer extends JFrame {
@@ -42,8 +41,7 @@ public class JSBMLvisualizer extends JFrame {
   public JSBMLvisualizer(SBMLDocument sbmlDocument) {
     super("JSBML viz");
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-    LayoutModelPlugin plugin=(LayoutModelPlugin) sbmlDocument.getModel().getExtension("layout");
-    getContentPane().add(new JScrollPane(new JTree(plugin.getLayout(0))));
+    getContentPane().add(new JScrollPane(new JTree(sbmlDocument)));
     pack();
     setAlwaysOnTop(true);
     setLocationRelativeTo(null);

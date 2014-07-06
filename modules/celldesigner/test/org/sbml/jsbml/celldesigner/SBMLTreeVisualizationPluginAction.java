@@ -44,7 +44,7 @@ public class SBMLTreeVisualizationPluginAction extends PluginAction {
   /**
    * The plugin that is triggered when this object receives appropriate actions.
    */
-  private SBMLTreeVisualizationPlugin plugin;
+  private final SBMLTreeVisualizationPlugin plugin;
 
   /**
    * 
@@ -60,6 +60,11 @@ public class SBMLTreeVisualizationPluginAction extends PluginAction {
    */
   @Override
   public void myActionPerformed(ActionEvent evt) {
+    if (!plugin.isStarted())
+    {
+      plugin.setStarted(true);
+    }
+
     if (evt.getSource() instanceof JMenuItem) {
       JMenuItem item = (JMenuItem) evt.getSource();
       if (item.getText().equals(SBMLTreeVisualizationPlugin.ACTION)) {

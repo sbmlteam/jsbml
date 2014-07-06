@@ -20,6 +20,8 @@
  */
 package org.sbml.jsbml.celldesigner;
 
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.SwingWorker;
@@ -29,7 +31,7 @@ import jp.sbi.celldesigner.plugin.PluginMenu;
 import jp.sbi.celldesigner.plugin.PluginMenuItem;
 
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.gui.JSBMLvisualizer;
+import org.sbml.jsbml.gui.SBMLStructureVisualizer;
 
 
 /**
@@ -43,8 +45,8 @@ import org.sbml.jsbml.gui.JSBMLvisualizer;
  */
 public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
 
-  public static final String ACTION = "Display full model tree";
-  public static final String APPLICATION_NAME = "Simple Plugin";
+  public static final String ACTION = "Display JSBML JTree";
+  public static final String APPLICATION_NAME = "SBML Structure Visualization";
 
   /**
    * Creates a new CellDesigner plug-in with an entry in the menu bar.
@@ -59,6 +61,7 @@ public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
    */
   @Override
   public void addPluginMenu() {
+    setStarted(true);
     // Initializing CellDesigner's menu entries
     PluginMenu menu = new PluginMenu(APPLICATION_NAME);
     PluginMenuItem menuItem = new PluginMenuItem(
@@ -89,9 +92,52 @@ public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
       try {
         SBMLDocument doc=((SwingWork)evt.getSource()).get();
         doc.addTreeNodeChangeListener(new PluginChangeListener(this));
-        new JSBMLvisualizer(doc);
+        SBMLStructureVisualizer visualizer = new SBMLStructureVisualizer(doc);
+        visualizer.addWindowListener(new WindowListener() {
+
+          @Override
+          public void windowOpened(WindowEvent e) {
+            // TODO Auto-generated method stub
+          }
+
+
+          @Override
+          public void windowIconified(WindowEvent e) {
+            // TODO Auto-generated method stub
+          }
+
+
+          @Override
+          public void windowDeiconified(WindowEvent e) {
+            // TODO Auto-generated method stub
+          }
+
+
+          @Override
+          public void windowDeactivated(WindowEvent e) {
+            // TODO Auto-generated method stub
+          }
+
+
+          @Override
+          public void windowClosing(WindowEvent e) {
+            // TODO Auto-generated method stub
+          }
+
+
+          @Override
+          public void windowClosed(WindowEvent e) {
+            setStarted(false);
+          }
+
+
+          @Override
+          public void windowActivated(WindowEvent e) {
+            // TODO Auto-generated method stub
+          }
+        });
       } catch (Throwable e) {
-        e.printStackTrace();
+        new GUIErrorConsole(e);
       }
     }
   }
