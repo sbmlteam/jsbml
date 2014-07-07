@@ -29,7 +29,7 @@ import jp.sbi.celldesigner.plugin.PluginModel;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
-import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
+import org.sbml.jsbml.ext.render.RenderConstants;
 
 
 /**
@@ -56,11 +56,13 @@ public class SwingWork extends SwingWorker<SBMLDocument, Throwable> {
   protected SBMLDocument doInBackground() throws Exception {
     try{
       Model model = sbmlReader.convertModel(pluginModel);
-      LayoutModelPlugin plugin = (LayoutModelPlugin) model.getExtension("layout");
       SBMLDocument doc = new SBMLDocument(model.getLevel(), model.getVersion());
       doc.setModel(model);
       doc.addNamespace(LayoutConstants.shortLabel, "xmlns", LayoutConstants.getNamespaceURI(doc.getLevel(), doc.getVersion()));
+      doc.addNamespace(RenderConstants.shortLabel, "xmlns", RenderConstants.getNamespaceURI(doc.getLevel(), doc.getVersion()));
       doc.getSBMLDocumentAttributes().put(LayoutConstants.shortLabel + ":required", "false");
+      doc.getSBMLDocumentAttributes().put(RenderConstants.shortLabel + ":required", "false");
+      //JOptionPane.showMessageDialog(null, new JScrollPane(new JTree(doc)));
       return doc;
     }
     catch (Throwable e)

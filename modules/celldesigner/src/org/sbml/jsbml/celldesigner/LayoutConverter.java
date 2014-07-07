@@ -23,6 +23,7 @@
 package org.sbml.jsbml.celldesigner;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -32,6 +33,7 @@ import jp.sbi.celldesigner.plugin.PluginCompartment;
 import jp.sbi.celldesigner.plugin.PluginReaction;
 import jp.sbi.celldesigner.plugin.PluginSpecies;
 import jp.sbi.celldesigner.plugin.PluginSpeciesAlias;
+import jp.sbi.celldesigner.plugin.DataObject.PluginRealLineInformationDataObjOfReactionLink;
 
 import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
@@ -93,26 +95,24 @@ public class LayoutConverter {
    */
   public static void extractLayout(PluginReaction pReaction, Layout layout)
   {
-    //arrays to help facilitate reaction positions
-    //one set of arraylists for all reactants, all products, and all modifiers
-    ArrayList<Double> reactantXCoordinates = new ArrayList<Double>();
-    ArrayList<Double> reactantYCoordinates = new ArrayList<Double>();
-    ArrayList<Double> reactantHeights = new ArrayList<Double>();
-    ArrayList<Double> reactantWidths = new ArrayList<Double>();
-
-    ArrayList<Double> productXCoordinates = new ArrayList<Double>();
-    ArrayList<Double> productYCoordinates = new ArrayList<Double>();
-    ArrayList<Double> productHeights = new ArrayList<Double>();
-    ArrayList<Double> productWidths = new ArrayList<Double>();
-
-    ArrayList<Double> modifierXCoordinates = new ArrayList<Double>();
-    ArrayList<Double> modifierYCoordinates = new ArrayList<Double>();
-    ArrayList<Double> modifierHeights = new ArrayList<Double>();
-    ArrayList<Double> modifierWidths = new ArrayList<Double>();
-
     //create ReactionGlyph
     layout.createReactionGlyph("rGlyph_"+pReaction.getId());
-
+    PluginRealLineInformationDataObjOfReactionLink link = pReaction.getAllMyPostionInfomations();
+    Vector<Object> speciesReferenceGlyphPieces = link.getPointsInLine();
+    Vector<Object> reactionLinkMembers = link.getReactionLinkMembers();
+    ArrayList<Double> reactionX = new ArrayList<Double>();
+    ArrayList<Double> reactionY = new ArrayList<Double>();
+    String s = "";
+    for (Object d:speciesReferenceGlyphPieces)
+    {
+      s+=d.toString()+"\n";
+    }
+    s+="LINK: "+link.getMidPointInLine();
+    //    for (Object o: reactionLinkMembers)
+    //    {
+    //      s+=((ReactionLink)o).toString()+"\n";
+    //    }
+    JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea(pReaction.getId()+"\n"+s)));
     //create SpeciesReferenceGlyphs for reactants
     for (int i = 0;i<pReaction.getNumReactants();i++)
     {
@@ -121,10 +121,6 @@ public class LayoutConverter {
       srGlyph.setRole(SpeciesReferenceRole.SUBSTRATE);
 
       PluginSpecies pSpecies = pReaction.getReactant(i).getSpeciesInstance();
-      reactantXCoordinates.add(pSpecies.getSpeciesAlias(0).getX());
-      reactantYCoordinates.add(pSpecies.getSpeciesAlias(0).getY());
-      reactantHeights.add(pSpecies.getSpeciesAlias(0).getHeight());
-      reactantWidths.add(pSpecies.getSpeciesAlias(0).getWidth());
       srGlyph.setSpeciesGlyph("sGlyph_"+pSpecies.getId());
       layout.getReactionGlyph("rGlyph_"+pReaction.getId()).addSpeciesReferenceGlyph(srGlyph);
     }
@@ -137,10 +133,6 @@ public class LayoutConverter {
       srGlyph.setRole(SpeciesReferenceRole.PRODUCT);
 
       PluginSpecies pSpecies = pReaction.getProduct(i).getSpeciesInstance();
-      productXCoordinates.add(pSpecies.getSpeciesAlias(0).getX());
-      productYCoordinates.add(pSpecies.getSpeciesAlias(0).getY());
-      productHeights.add(pSpecies.getSpeciesAlias(0).getHeight());
-      productWidths.add(pSpecies.getSpeciesAlias(0).getWidth());
 
       srGlyph.setSpeciesGlyph("sGlyph_"+pSpecies.getId());
       layout.getReactionGlyph("rGlyph_"+pReaction.getId()).addSpeciesReferenceGlyph(srGlyph);
@@ -154,97 +146,12 @@ public class LayoutConverter {
       srGlyph.setRole(SpeciesReferenceRole.MODIFIER);
 
       PluginSpecies pSpecies = pReaction.getModifier(i).getSpeciesInstance();
-      modifierXCoordinates.add(pSpecies.getSpeciesAlias(0).getX());
-      modifierYCoordinates.add(pSpecies.getSpeciesAlias(0).getY());
-      modifierHeights.add(pSpecies.getSpeciesAlias(0).getHeight());
-      modifierWidths.add(pSpecies.getSpeciesAlias(0).getWidth());
       srGlyph.setSpeciesGlyph("sGlyph_"+pSpecies.getId());
       layout.getReactionGlyph("rGlyph_"+pReaction.getId()).addSpeciesReferenceGlyph(srGlyph);
     }
 
-    //start calculating reactionGlyph positioning
-    double reactionWidth = 0, reactionHeight = 0;
-    double reactionXCoordinate = 0, reactionYCoordinate = 0;
-
-    //number of reactants and products are only 1
-    if (reactantXCoordinates.size() == 1 && productXCoordinates.size() == 1)
-    {
-      if (reactantXCoordinates.get(0)<productXCoordinates.get(0))
-      {
-        reactionXCoordinate=reactantXCoordinates.get(0)+reactantWidths.get(0);
-        reactionYCoordinate=reactantYCoordinates.get(0)+(reactantHeights.get(0)/2);
-        reactionWidth=productXCoordinates.get(0)-reactionXCoordinate;
-        reactionHeight=Math.abs((productYCoordinates.get(0)+productHeights.get(0)/2)-reactionYCoordinate);
-      }
-      else if (reactantXCoordinates.get(0)>=productXCoordinates.get(0))
-      {
-        reactionXCoordinate=reactantXCoordinates.get(0);
-        reactionYCoordinate=reactantYCoordinates.get(0)+(reactantHeights.get(0)/2);
-        reactionWidth=reactionXCoordinate-(productXCoordinates.get(0)+productWidths.get(0));
-        reactionHeight=Math.abs((productYCoordinates.get(0)+productHeights.get(0)/2)-reactionYCoordinate);
-      }
-    }
-
-    //multiple reactants, one product
-    else if (reactantXCoordinates.size()>1 && productXCoordinates.size() == 1)
-    {
-      reactionXCoordinate = 9999;
-      for (double d:reactantXCoordinates) {
-        if (d<reactionXCoordinate) {
-          reactionXCoordinate = d;
-        }
-        reactionXCoordinate = Math.min(reactionXCoordinate, productXCoordinates.get(0))+reactantWidths.get(0);
-        reactionWidth = Math.abs(reactionXCoordinate-productXCoordinates.get(0));
-      }
-      for (double d:reactantYCoordinates)
-      {
-        reactionYCoordinate = 9999;
-        if (d<reactionYCoordinate) {
-          reactionYCoordinate = d;
-        }
-        reactionYCoordinate = Math.max(reactionYCoordinate, productYCoordinates.get(0));
-        reactionHeight = Math.abs(reactionYCoordinate-productYCoordinates.get(0));
-      }
-    }
-    //one reactant, multiple products
-    else if (reactantXCoordinates.size() == 1 && productXCoordinates.size()>1)
-    {
-      reactionXCoordinate = 9999;
-      for (double d:productXCoordinates) {
-        if (d<reactionXCoordinate) {
-          reactionXCoordinate = d;
-        }
-        reactionXCoordinate = Math.max(reactionXCoordinate, reactantXCoordinates.get(0));
-        reactionWidth = Math.abs(reactionXCoordinate-reactantXCoordinates.get(0));
-      }
-      for (double d:productYCoordinates)
-      {
-        reactionYCoordinate = 9999;
-        if (d<reactionYCoordinate) {
-          reactionYCoordinate = d;
-        }
-        reactionYCoordinate = Math.max(reactionYCoordinate, reactantYCoordinates.get(0));
-        reactionHeight  =  Math.abs(reactionYCoordinate-reactantYCoordinates.get(0));
-      }
-    }
-
-    //adding modifier height/width to reaction
-    if (modifierYCoordinates.size() == 1)
-    {
-      double modifierHeight = Math.abs(reactionYCoordinate-modifierYCoordinates.get(0));
-      reactionHeight += modifierHeight;
-      double modifierWidth = Math.abs(reactionXCoordinate-modifierXCoordinates.get(0));
-      reactionWidth += modifierWidth;
-    }
-
-    //for debugging purposes
-    JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea(pReaction.getId()+" ID\n"+reactionXCoordinate+" X\n"+reactionYCoordinate
-      +" Y\n"+reactionHeight+" Height\n"+reactionWidth+" Width\n"+productXCoordinates.get(0)+" productX\n"+productYCoordinates.get(0)
-      +" productY\n"+reactantXCoordinates.get(0)+" reactionX\n"+reactantYCoordinates.get(0)+" reactY\n")));
-    layout.getReactionGlyph("rGlyph_"+pReaction.getId()).createBoundingBox(reactionWidth, reactionHeight, depth, reactionXCoordinate, reactionYCoordinate, z);
-
     TextGlyph tGlyph = layout.createTextGlyph("tGlyph_" + pReaction.getId());
-    tGlyph.createBoundingBox(15, 10, depth, reactionXCoordinate-10, reactionYCoordinate-10, z);
+    // tGlyph.createBoundingBox(15, 10, depth, reactionXCoordinate-10, reactionYCoordinate-10, z);
     tGlyph.setOriginOfText(pReaction.getId());
   }
 }

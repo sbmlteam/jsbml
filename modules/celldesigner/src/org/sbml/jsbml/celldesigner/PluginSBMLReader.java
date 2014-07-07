@@ -89,7 +89,9 @@ import org.sbml.jsbml.celldesigner.libsbml.LibSBMLUtils;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
-import org.sbml.jsbml.gui.GUIErrorConsole;
+import org.sbml.jsbml.ext.render.LocalRenderInformation;
+import org.sbml.jsbml.ext.render.RenderConstants;
+import org.sbml.jsbml.ext.render.RenderLayoutPlugin;
 import org.sbml.jsbml.util.ProgressListener;
 import org.sbml.jsbml.util.SBMLtools;
 import org.sbml.libsbml.libsbml;
@@ -427,10 +429,15 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
 
       model = new Model(originalModel.getId(), level, version);
 
-      String namespace = LayoutConstants.getNamespaceURI(model.getLevel(), model.getVersion());
+      String layoutNamespace = LayoutConstants.getNamespaceURI(model.getLevel(), model.getVersion());
+      String renderNamespace = RenderConstants.getNamespaceURI(model.getLevel(), model.getVersion());
       LayoutModelPlugin modelPlugin = new LayoutModelPlugin(model);
-      model.addExtension(namespace, modelPlugin);
       Layout layout = modelPlugin.createLayout("CellDesigner_Layout");
+
+      RenderLayoutPlugin renderPlugin = new RenderLayoutPlugin(layout);
+      renderPlugin.addLocalRenderInformation(new LocalRenderInformation(model.getLevel(), model.getVersion()));
+      model.addExtension(layoutNamespace, modelPlugin);
+      model.addExtension(renderNamespace, renderPlugin);
 
       PluginUtils.transferNamedSBaseProperties(originalModel, model);
       if (listener != null) {
@@ -473,6 +480,8 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
         PluginCompartment pCompartment = originalModel.getCompartment(i);
         model.addCompartment(readCompartment(pCompartment));
         LayoutConverter.extractLayout(pCompartment, layout);
+        RenderConverter.extractRenderInformation(pCompartment, renderPlugin);
+        //gets the compartment size
         layout.createDimensions("Layout_Size", originalModel.getCompartment(i).getWidth(),
           originalModel.getCompartment(i).getHeight(), 1d);
         if (listener != null) {
