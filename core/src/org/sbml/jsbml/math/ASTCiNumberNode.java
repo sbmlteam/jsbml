@@ -22,7 +22,16 @@
  */
 package org.sbml.jsbml.math;
 
+import java.text.MessageFormat;
+
+import javax.swing.tree.TreeNode;
+
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.CallableSBase;
+import org.sbml.jsbml.KineticLaw;
+import org.sbml.jsbml.LocalParameter;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
@@ -59,6 +68,13 @@ ASTCSymbolBaseNode {
    * name attribute for MathML element
    */
   private String name;
+  
+  /**
+   * A direct pointer to a referenced variable. This can save a lot of
+   * computation time because it will then not be necessary to query the
+   * corresponding model again and again for this variable.
+   */
+  private CallableSBase variable;
 
   /**
    * Creates a new {@link ASTCiNumberNode}.
@@ -115,6 +131,69 @@ ASTCSymbolBaseNode {
     return true;
   }
 
+  /**
+   * Returns the variable ({@link CallableSBase}) of this {@link ASTCiNumberNode}. 
+   * 
+   * @return the variable of this node
+   */
+  public CallableSBase getCallableSBase() {
+    if (variable == null) {
+      /*
+       * Possibly the name is just from the argument list
+       * of some function definition. Hence, it won't be
+       * possible to determine an element with the same
+       * identifier within the model. In this case, this
+       * warning is kind of senseless.
+       */
+      TreeNode parent = getParent();
+      if ((parent != null) && (parent instanceof ASTBinaryFunctionNode)) {
+        ASTBinaryFunctionNode parentNode = (ASTBinaryFunctionNode) parent;
+        if ((parentNode.getType() == Type.LAMBDA) && (parentNode.getRightChild() != this)) {
+          /*
+           * The second condition is important, because the argument list
+           * comprises only the first n children. Child n + 1 is the
+           * expression for the function.
+           */
+          logger.debug(MessageFormat.format(
+            "The name \"{0}\" represented by this node is an argument in a function call, i.e., a placeholder for some other element. No corresponding CallableSBase exists in the model",
+            getName()));
+          return variable;
+        }
+      }
+      if (getParentSBMLObject() != null) {
+        if (getParentSBMLObject() instanceof KineticLaw) {
+          variable = ((KineticLaw) getParentSBMLObject()).getLocalParameter(getName());
+        }
+        if (variable == null) {
+          Model m = getParentSBMLObject().getModel();
+          if (m != null) {
+            variable = m.findCallableSBase(getName());
+            if (variable instanceof LocalParameter) {
+              // in this case the parameter originates from a
+              // different kinetic law.
+              variable = null;
+            } else if (variable == null) {
+              // Could be any L3 package elements
+              // that is not a CallableSBase
+              // TODO: Actually, if something can be addressed in an ASTNode,
+              // it MUST implement CallableSBase, no matter in which extension
+              // package.
+              // variable = m.findNamedSBase(getName());
+              logger.debug(MessageFormat.format(
+                "Cannot find any element with id \"{0}\" in the model.",
+                getName()));
+            }
+          } else {
+            logger.debug(MessageFormat.format(
+              "This ASTNode is not yet linked to a model and can therefore not determine its variable \"{0}\".",
+              getName()));
+          }
+        }
+      }
+    }
+    return variable;
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#getDefinitionURL()
    */
@@ -130,7 +209,7 @@ ASTCSymbolBaseNode {
     logger.warn(error);
     return "";
   }
-
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#getName()
@@ -188,6 +267,25 @@ ASTCSymbolBaseNode {
     return getName().equals(id);
   }
 
+  /**
+   * Set an instance of {@link CallableSBase} as the variable of this 
+   * {@link ASTCiNumberNode}. Note that if the given variable does not
+   * have a declared {@code id} field, the pointer to this variable will 
+   * get lost when cloning this node. Only references to identifiers are
+   * permanently stored. The pointer can also not be written to an SBML 
+   * file without a valid identifier.
+   * 
+   * @param variable a pointer to a {@link CallableSBase}.
+   */
+  public void setCallableSBase(CallableSBase sbase) {
+    CallableSBase oldValue = this.variable;
+    if ((sbase != null) && sbase.isSetId()) {
+      name = sbase.getId();
+    }
+    this.variable = sbase;
+    firePropertyChange(TreeNodeChangeEvent.variable, oldValue, sbase);
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#setDefinitionURL(java.lang.String)
    */
@@ -208,7 +306,7 @@ ASTCSymbolBaseNode {
     this.name = name;
     firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
   }
-
+  
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */

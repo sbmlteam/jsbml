@@ -38,7 +38,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @since 1.0
  * @date Jun 18, 2014
  */
-public abstract class AbstractASTCSymbolNode extends AbstractASTNode
+public class AbstractASTCSymbolNode extends AbstractASTNode
 implements ASTCSymbolNode {
 
   /**
@@ -65,6 +65,14 @@ implements ASTCSymbolNode {
    * encodingURL attribute for MathML element
    */
   private String encodingURL;
+
+
+  /**
+   * @param variable
+   */
+  public AbstractASTCSymbolNode(String variable) {
+    setName(variable);
+  }
 
 
   /* (non-Javadoc)
@@ -258,5 +266,14 @@ implements ASTCSymbolNode {
     firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
   }
 
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#refersTo(java.lang.String)
+   */
+  @Override
+  public boolean refersTo(String id) {
+    // TODO Auto-generated method stub
+    return false;
+  }
 
 }
