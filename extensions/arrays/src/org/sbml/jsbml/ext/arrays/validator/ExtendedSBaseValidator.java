@@ -36,6 +36,8 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.ext.arrays.Dimension;
+import org.sbml.jsbml.ext.arrays.Index;
 import org.sbml.jsbml.ext.arrays.validator.constraints.ArraysConstraint;
 import org.sbml.jsbml.ext.arrays.validator.constraints.DimensionArrayDimCheck;
 import org.sbml.jsbml.ext.arrays.validator.constraints.SBaseWithDimensionCheck;
@@ -126,6 +128,12 @@ public class ExtendedSBaseValidator{
       return false;
     }
     if(sbase instanceof ListOf) {
+      return false;
+    }
+    if(sbase instanceof Dimension) {
+      return false;
+    }
+    if(sbase instanceof Index) {
       return false;
     }
     return true;

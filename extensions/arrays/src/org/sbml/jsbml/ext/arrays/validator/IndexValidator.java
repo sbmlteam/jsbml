@@ -29,7 +29,7 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.ext.arrays.Index;
 import org.sbml.jsbml.ext.arrays.validator.constraints.ArraysConstraint;
-import org.sbml.jsbml.ext.arrays.validator.constraints.IndexRefAttributeCheck;
+import org.sbml.jsbml.ext.arrays.validator.constraints.IndexAttributesCheck;
 
 
 /**
@@ -76,7 +76,7 @@ public class IndexValidator {
    */
   private static void addConstraints(Model model, Index index, List<ArraysConstraint> listOfConstraints) {
 
-    IndexRefAttributeCheck refAttributeCheck = new IndexRefAttributeCheck(model, index);
+    IndexAttributesCheck refAttributeCheck = new IndexAttributesCheck(model, index);
     listOfConstraints.add(refAttributeCheck);
   }
 }
