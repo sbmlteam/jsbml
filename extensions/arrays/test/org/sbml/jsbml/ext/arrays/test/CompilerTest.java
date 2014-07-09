@@ -26,7 +26,16 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.AssignmentRule;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.Species;
+import org.sbml.jsbml.ext.arrays.ArraysConstants;
+import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
+import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.ext.arrays.compiler.ArraysCompiler;
+import org.sbml.jsbml.ext.arrays.compiler.VectorCompiler;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
@@ -45,54 +54,54 @@ public class CompilerTest {
   public void arithTest() {
     try {
       ArraysCompiler compiler = new ArraysCompiler();
-      
+
       ASTNode plus = ASTNode.parseFormula("1+2+3+4");
       ASTNodeValue result = plus.compile(compiler);
       assertTrue(result.isNumber());
       assertTrue(result.toInteger() == 10);
-      
+
       ASTNode minus = ASTNode.parseFormula("5-3-1");
       result = minus.compile(compiler);
       assertTrue(result.isNumber());
       assertTrue(result.toInteger() == 1);
-      
+
       ASTNode times = ASTNode.parseFormula("10*10*10");
       result = times.compile(compiler);
       assertTrue(result.isNumber());
       assertTrue(result.toInteger() == 1000);
-      
+
       ASTNode divide = ASTNode.parseFormula("8/2/2");
       result = divide.compile(compiler);
       assertTrue(result.isNumber());
       assertTrue(result.toInteger() == 2);
-      
+
     } catch (ParseException e) {
       assertTrue(false);
       e.printStackTrace();
     }
   }
-  
+
   @Test
   public void inequalityTest() {
     try {
       ArraysCompiler compiler = new ArraysCompiler();
-      
+
       ASTNode lt = ASTNode.parseFormula("6 < 3");
       ASTNodeValue result = lt.compile(compiler);
       assertTrue(result.isBoolean());
       assertTrue(!result.toBoolean());
-      
+
       ASTNode leq = ASTNode.parseFormula("3 <= 3");
       result = leq.compile(compiler);
       assertTrue(result.isBoolean());
       assertTrue(result.toBoolean());
-      
+
     } catch (ParseException e) {
       assertTrue(false);
       e.printStackTrace();
     }
   }
-  
+
   @Test
   public void opsWithIdTest() {
     try {
@@ -103,10 +112,168 @@ public class CompilerTest {
       assertTrue(result.isNumber());
       assertTrue(result.toInteger() == 8);
 
+
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  public void callableSBaseTest() {
+    try {
+      SBMLDocument doc = new SBMLDocument(3,1);
+      Model m = doc.createModel();
+      Parameter p = m.createParameter("p");
+      p.setValue(4);
+      Parameter q = m.createParameter("q");
+      q.setValue(3);
+      AssignmentRule r = m.createAssignmentRule();
+      r.setMath(ASTNode.parseFormula("q*3-1"));
+      r.setVariable("p");
+
+      ArraysCompiler compiler = new ArraysCompiler();
+      assertTrue(r.getMath().compile(compiler).isNumber());
+      assertTrue(r.getMath().compile(compiler).toInteger() == 8);
+
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
+
+  @Test
+  public void testVectorMath() {
+    try {
+      Model model = new Model();
+      ASTNode vector = ASTNode.parseFormula("6+3 + { { {1,2}, {3,4} }, { {5,6}, {7,8} } } + 1 + { { {9,10}, {11,12} }, { {13,14}, {15,16} } }");
+
+      VectorCompiler compiler = new VectorCompiler(model);
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("{{{20,22},{24,26}},{{28,30},{32,34}}}"));
       
     } catch (ParseException e) {
       assertTrue(false);
       e.printStackTrace();
     }
   }
+  @Test
+  public void testVectorAbs() {
+    try {
+      Model model = new Model();
+      ASTNode vector = ASTNode.parseFormula("{{{{abs(-1)}}}}");
+      VectorCompiler compiler = new VectorCompiler(model);
+      vector.compile(compiler);
+
+      assertTrue(compiler.getNode().toFormula().equals("{{{{1}}}}"));
+      
+
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
+  @Test
+  public void testVectorDiffDims() {
+    try {
+      Model model = new Model();
+      ASTNode vector = ASTNode.parseFormula("{1,2} + {1}");
+      VectorCompiler compiler = new VectorCompiler(model);
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("unknown"));
+      vector = ASTNode.parseFormula("{1} + {1,2}");
+      compiler = new VectorCompiler(model);
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("unknown"));
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
+  
+  @Test
+  public void testVectorUMinus() {
+    try {
+      Model model = new Model();
+      ASTNode vector = ASTNode.parseFormula("-{{1,2,3}}");
+      VectorCompiler compiler = new VectorCompiler(model);
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("{{-1,-2,-3}}"));
+      vector = ASTNode.parseFormula("-(1)");
+      compiler = new VectorCompiler(model);
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("-1"));
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
+  
+  @Test
+  public void testVectorMinus() {
+    try {
+      Model model = new Model();
+      ASTNode vector = ASTNode.parseFormula("{{2,4,6}} - {{1,2,3}} - 1");
+      VectorCompiler compiler = new VectorCompiler(model);
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("{{0,1,2}}"));
+      
+      vector = ASTNode.parseFormula("6 - {{2, 3}}");
+      compiler = new VectorCompiler(model);
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("{{4,3}}"));
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
+  
+  @Test
+  public void testSBaseToVector() {
+    try {
+      SBMLDocument doc = new SBMLDocument(3,1);
+      Model model = doc.createModel();
+      Species s = model.createSpecies("s");
+      s.setValue(1);
+      Parameter p = model.createParameter("p");
+      p.setValue(2);
+      ArraysSBasePlugin arraysPlugin = new ArraysSBasePlugin(s);
+      s.addPlugin(ArraysConstants.shortLabel, arraysPlugin);
+      Dimension x = arraysPlugin.createDimension("x");
+      x.setArrayDimension(0);
+      x.setSize("p");
+      Dimension y = arraysPlugin.createDimension("y");
+      y.setArrayDimension(1);
+      y.setSize("p");
+      Dimension z = arraysPlugin.createDimension("z");
+      z.setArrayDimension(2);
+      z.setSize("p");
+      ASTNode vector = ASTNode.parseFormula("s");
+      VectorCompiler compiler = new VectorCompiler(model);
+      vector.compile(compiler);
+      //System.out.println(compiler.getNode());
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
+  
+  @Test
+  public void testFactorial() {
+    try {
+      Model model = new Model();
+      ASTNode vector = ASTNode.parseFormula("factorial(5)");
+      VectorCompiler compiler = new VectorCompiler(model);
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("120"));
+      vector = ASTNode.parseFormula("{{factorial(5),factorial(5),factorial(5)}}");
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("{{120,120,120}}"));
+      
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
+  
 }
