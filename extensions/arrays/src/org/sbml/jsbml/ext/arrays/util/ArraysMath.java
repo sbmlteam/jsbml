@@ -120,7 +120,7 @@ public class ArraysMath {
     Map<String, Double> dimensionSizes = getDimensionSizes(model, arraysSBasePlugin);
     
     if(math.getType() != ASTNode.Type.FUNCTION_SELECTOR) {
-      return false;
+      return true;
     }
     
     ASTNode obj = math.getChild(0);
