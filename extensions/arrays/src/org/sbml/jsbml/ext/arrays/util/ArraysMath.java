@@ -81,7 +81,7 @@ public class ArraysMath {
     else {
       return false;
     }
-    
+
     return true;
   }
   /**
@@ -96,16 +96,26 @@ public class ArraysMath {
 
     ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) parent.getExtension(ArraysConstants.shortLabel);
 
-    Dimension dimByArrayDim = arraysSBasePlugin.getDimensionByArrayDimension(index.getArrayDimension());
+    if(index.isSetReferencedAttribute()) {
+      String refValue = parent.writeXMLAttributes().get(index.getReferencedAttribute());
 
-    Map<String, Double> dimensionSizes = getDimensionSizes(model, arraysSBasePlugin);
+      SBase refSBase = model.findNamedSBase(refValue);
+      
+      ArraysSBasePlugin refSbasePlugin = (ArraysSBasePlugin) refSBase.getExtension(ArraysConstants.shortLabel);
+      
+      Dimension dimByArrayDim = arraysSBasePlugin.getDimensionByArrayDimension(index.getArrayDimension());
 
-    double size = dimensionSizes.get(dimByArrayDim.getId());
+      Map<String, Double> dimensionSizes = getDimensionSizes(model, arraysSBasePlugin);
 
-    return evaluateBounds(dimensionSizes, index.getMath(), size);
-    
+      Map<String, Double> refSBaseSizes = getDimensionSizes(model, refSbasePlugin);
+
+      double size = refSBaseSizes.get(dimByArrayDim.getId());
+
+      return evaluateBounds(dimensionSizes, index.getMath(), size);
+    }
+    return false;
   }
-  
+
   /**
    * 
    * @param model
@@ -113,33 +123,33 @@ public class ArraysMath {
    * @return
    */
   public static boolean evaluateSelectorBounds(Model model, MathContainer mathContainer) {
-     ASTNode math = mathContainer.getMath();
-    
+    ASTNode math = mathContainer.getMath();
+
     ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) mathContainer.getExtension(ArraysConstants.shortLabel);
 
     Map<String, Double> dimensionSizes = getDimensionSizes(model, arraysSBasePlugin);
-    
+
     if(math.getType() != ASTNode.Type.FUNCTION_SELECTOR) {
       return true;
     }
-    
+
     ASTNode obj = math.getChild(0);
 
     if(obj.isString())
     {
       boolean result = true;
-      
+
       SBase sbase = model.findNamedSBase(obj.toString());
-      
+
       ArraysSBasePlugin plugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
-      
+
       for(int i = 1; i < math.getChildCount(); ++i) {
         ASTNode index = math.getChild(i);
-        
+
         Dimension dim = plugin.getDimensionByArrayDimension(i-1);
-        
+
         Parameter param = model.getParameter(dim.getSize());
-        
+
         if(param != null) {
           double size = param.getValue();
           result &= evaluateBounds(dimensionSizes, index, size);
@@ -147,18 +157,18 @@ public class ArraysMath {
         else {
           return false;
         }
-        
+
         return result;
-        
+
       }
-      
+
     }
     else if(obj.isVector())
     {
       boolean result = true;
-      
+
       Map<Integer, Integer> vectorSizes = getVectorDimensionSizes(model, obj);
-      
+
       for(int i = 1; i < math.getChildCount(); ++i) {
         ASTNode index = math.getChild(i);
         double size = vectorSizes.get(i);
@@ -169,10 +179,10 @@ public class ArraysMath {
     else {
       return false;
     }
-    
+
     return true;
   }
-  
+
   /**
    * 
    * @param model
@@ -222,7 +232,7 @@ public class ArraysMath {
 
     return upperBound;
   }
-  
+
   /**
    * 
    * @param model
@@ -238,14 +248,14 @@ public class ArraysMath {
       }
     }
     ASTNode math = mathContainer.getMath();
-    
+
     ASTNodeValue value = math.compile(compiler);
-    
+
     return value.toBoolean();
-    
+
   }
-  
-  
+
+
   /**
    * 
    * @param math
