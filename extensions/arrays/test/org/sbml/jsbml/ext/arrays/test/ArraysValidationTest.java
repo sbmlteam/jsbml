@@ -26,6 +26,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.StringReader;
 
+import javax.xml.stream.XMLStreamException;
+
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.AssignmentRule;
@@ -34,6 +36,7 @@ import org.sbml.jsbml.Event;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
@@ -41,6 +44,7 @@ import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.ext.arrays.Index;
 import org.sbml.jsbml.ext.arrays.validator.ArraysValidator;
+import org.sbml.jsbml.ext.arrays.validator.constraints.SelectorMathCheck;
 import org.sbml.jsbml.ext.arrays.validator.constraints.VectorMathCheck;
 import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
@@ -283,6 +287,24 @@ public class ArraysValidationTest {
       assertTrue(check.getListOfErrors().size() == 1);
       
       //Test invalid vector of vectors
+      formula = "{ { { { } },{ } }, { { },{ } }, { { },{ } } }";
+      parser = new FormulaParser(new StringReader(formula));
+      n = parser.parse();
+      index.setMath(n);
+      check = new VectorMathCheck(m, index);
+      check.check();
+      assertTrue(check.getListOfErrors().size() == 1);
+      
+      //Test invalid vector of vectors
+      formula = "{ {{}}, {} }";
+      parser = new FormulaParser(new StringReader(formula));
+      n = parser.parse();
+      index.setMath(n);
+      check = new VectorMathCheck(m, index);
+      check.check();
+      assertTrue(check.getListOfErrors().size() == 1);
+      
+      //Test invalid vector of vectors
       formula = "{ {  }, { }, { { { { } } } } }";
       parser = new FormulaParser(new StringReader(formula));
       n = parser.parse();
@@ -329,10 +351,45 @@ public class ArraysValidationTest {
       //TODO: check error code
       //assertTrue(check.getListOfErrors().get(0).getCode() == 00000);
       assertTrue(check.getListOfErrors().get(0).getPackage().equals("arrays"));
+      
+      
     } catch (ParseException e) {
       assertTrue(false);
       e.printStackTrace();
     }
+  }
+  
+  @Test
+  public void testIndexMath() {
+    SBMLDocument doc;
+    try {
+      doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/example.xml"));
+      Model model = doc.getModel();
+      AssignmentRule rule = (AssignmentRule) model.getRule("Y");
+      SelectorMathCheck check = new SelectorMathCheck(model, rule);
+      check.check();
+      assertTrue(check.getListOfErrors().size() == 0);
+      Parameter p = model.createParameter("x");
+      p.setConstant(false);
+      p.setValue(5);
+      rule.setMath(ASTNode.parseFormula("X[3+p]"));
+      check = new SelectorMathCheck(model, rule);
+      check.check();
+      assertTrue(check.getListOfErrors().size() == 1);
+      
+      rule.setMath(ASTNode.parseFormula("X[i+5]"));
+      check = new SelectorMathCheck(model, rule);
+      check.check();
+      assertTrue(check.getListOfErrors().size() == 1);
+      
+    } catch (XMLStreamException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+    
   }
   
 
