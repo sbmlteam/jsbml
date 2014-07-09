@@ -22,7 +22,10 @@
  */
 package org.sbml.jsbml.celldesigner;
 
-import java.util.ArrayList;
+import java.awt.geom.Point2D;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
@@ -34,10 +37,14 @@ import jp.sbi.celldesigner.plugin.PluginReaction;
 import jp.sbi.celldesigner.plugin.PluginSpecies;
 import jp.sbi.celldesigner.plugin.PluginSpeciesAlias;
 import jp.sbi.celldesigner.plugin.DataObject.PluginRealLineInformationDataObjOfReactionLink;
+import jp.sbi.celldesigner.plugin.util.PluginSystemOutUtils;
 
+import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
+import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.layout.Layout;
+import org.sbml.jsbml.ext.layout.LineSegment;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
@@ -97,22 +104,7 @@ public class LayoutConverter {
   {
     //create ReactionGlyph
     layout.createReactionGlyph("rGlyph_"+pReaction.getId());
-    PluginRealLineInformationDataObjOfReactionLink link = pReaction.getAllMyPostionInfomations();
-    Vector<Object> speciesReferenceGlyphPieces = link.getPointsInLine();
-    Vector<Object> reactionLinkMembers = link.getReactionLinkMembers();
-    ArrayList<Double> reactionX = new ArrayList<Double>();
-    ArrayList<Double> reactionY = new ArrayList<Double>();
-    String s = "";
-    for (Object d:speciesReferenceGlyphPieces)
-    {
-      s+=d.toString()+"\n";
-    }
-    s+="LINK: "+link.getMidPointInLine();
-    //    for (Object o: reactionLinkMembers)
-    //    {
-    //      s+=((ReactionLink)o).toString()+"\n";
-    //    }
-    JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea(pReaction.getId()+"\n"+s)));
+
     //create SpeciesReferenceGlyphs for reactants
     for (int i = 0;i<pReaction.getNumReactants();i++)
     {
@@ -153,5 +145,96 @@ public class LayoutConverter {
     TextGlyph tGlyph = layout.createTextGlyph("tGlyph_" + pReaction.getId());
     // tGlyph.createBoundingBox(15, 10, depth, reactionXCoordinate-10, reactionYCoordinate-10, z);
     tGlyph.setOriginOfText(pReaction.getId());
+
+    PluginRealLineInformationDataObjOfReactionLink inputInfo = pReaction.getAllMyPostionInfomations();
+    PrintStream oldOut = System.out;
+    JTextArea textArea = new JTextArea();
+    if (inputInfo.getPointsInLine() != null) {
+      //grabbing main reaction axis
+      Vector reactionPoints = (Vector)inputInfo.getPointsInLine().get(0);
+      ListOf<SpeciesReferenceGlyph> list = layout.getReactionGlyph("rGlyph_"+pReaction.getId()).getListOfSpeciesReferenceGlyphs();
+      SpeciesReferenceGlyph srGlyph;
+      Curve curve;
+      if ((reactionPoints != null) && (reactionPoints.size() > 0)) {
+        //three cases
+        if (reactionPoints.size()==2)
+        {
+          Point2D.Double coordinatesReactant = (Point2D.Double) reactionPoints.get(0);
+          Point2D.Double coordinatesProduct = (Point2D.Double) reactionPoints.get(1);
+          LineSegment reactantSegment = new LineSegment();
+          LineSegment productSegment = new LineSegment();
+          reactantSegment.createStart(coordinatesReactant.x, coordinatesReactant.y, z);
+          int modifier=0;
+          if (coordinatesReactant.x<coordinatesProduct.x) {
+            modifier = 6;
+          } else {
+            modifier = -6;
+          }
+          reactantSegment.createEnd((coordinatesReactant.x+coordinatesProduct.x)/2-modifier, (coordinatesReactant.y+coordinatesProduct.y)/2, z);
+          productSegment.createStart((coordinatesReactant.x+coordinatesProduct.x)/2+modifier, (coordinatesReactant.y+coordinatesProduct.y)/2, z);
+          productSegment.createEnd(coordinatesProduct.x, coordinatesProduct.y, z);
+          //srGlyph will be first reactant
+          srGlyph = list.get("srGlyphReactant_"+pReaction.getId()+"_"
+              +pReaction.getReactant(0).getSpeciesInstance().getId());
+          curve = new Curve();
+          curve.addCurveSegment(reactantSegment);
+          srGlyph.setCurve(curve);
+          //srGlyph will be first product
+          srGlyph = list.get("srGlyphProduct_"+pReaction.getId()+"_"
+              +pReaction.getProduct(0).getSpeciesInstance().getId());
+          curve = new Curve();
+          curve.addCurveSegment(productSegment);
+          srGlyph.setCurve(curve);
+          //curve will represent ReactionGlyph now
+          curve = new Curve();
+          LineSegment rGlyphSegment=new LineSegment();
+          rGlyphSegment.setStart(reactantSegment.getEnd());
+          rGlyphSegment.setEnd(productSegment.getStart());
+          curve.addCurveSegment(rGlyphSegment);
+          layout.getReactionGlyph("rGlyph_"+pReaction.getId()).setCurve(curve);
+        }
+        else if (reactionPoints.size()==4)
+        {
+          List<Point2D.Double> listofCoordinates = reactionPoints;
+          LineSegment reactantSegment = new LineSegment();
+          LineSegment productSegment = new LineSegment();
+          reactantSegment.createStart(listofCoordinates.get(0).x, listofCoordinates.get(0).y, z);
+          reactantSegment.createEnd(listofCoordinates.get(1).x, listofCoordinates.get(1).y, z);
+          productSegment.createStart(listofCoordinates.get(2).x, listofCoordinates.get(2).y, z);
+          productSegment.createEnd(listofCoordinates.get(3).x, listofCoordinates.get(3).y, z);
+          //srGlyph will be first reactant
+          srGlyph = list.get("srGlyphReactant_"+pReaction.getId()+"_"
+              +pReaction.getReactant(0).getSpeciesInstance().getId());
+          curve = new Curve();
+          curve.addCurveSegment(reactantSegment);
+          srGlyph.setCurve(curve);
+          //srGlyph will be first product
+          srGlyph = list.get("srGlyphProduct_"+pReaction.getId()+"_"
+              +pReaction.getProduct(0).getSpeciesInstance().getId());
+          curve = new Curve();
+          curve.addCurveSegment(productSegment);
+          srGlyph.setCurve(curve);
+          //curve will represent ReactionGlyph now
+          curve = new Curve();
+          LineSegment rGlyphSegment=new LineSegment();
+          rGlyphSegment.setStart(reactantSegment.getEnd());
+          rGlyphSegment.setEnd(productSegment.getStart());
+          curve.addCurveSegment(rGlyphSegment);
+          layout.getReactionGlyph("rGlyph_"+pReaction.getId()).setCurve(curve);
+        }
+      }
+    }
+    try {
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      PrintStream newOut = new PrintStream(baos);
+
+      System.setOut(newOut);
+      PluginSystemOutUtils.printDebugInfoOfRealLineInformationOfReactionLink(inputInfo, 1);
+      textArea.setText(pReaction.getId()+"\n"+baos.toString());
+    } finally {
+      System.setOut(oldOut);
+    }
+
+    JOptionPane.showMessageDialog(null, new JScrollPane(textArea));
   }
 }
