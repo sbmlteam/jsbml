@@ -61,6 +61,9 @@ public class ASTCnNumberNode extends ASTNumber {
    */
   private String units;
 
+  /**
+   * variable attribute for MathML element
+   */
   private String variable;
 
   /**
@@ -75,18 +78,6 @@ public class ASTCnNumberNode extends ASTNumber {
   }
   
   /**
-   * Creates a new {@link ASTCnNumberNode} that lacks a pointer
-   * to its containing {@link MathContainer} and has a variable
-   * {@link String}.
-   */
-  public ASTCnNumberNode(String variable) {
-    super();
-    base = null;
-    setUnits(null);
-    setVariable(variable);
-  }
-
-  /**
    * Copy constructor; Creates a deep copy of the given {@link ASTCnNumberNode}.
    * 
    * @param node
@@ -96,6 +87,18 @@ public class ASTCnNumberNode extends ASTNumber {
     super(node);
     setBase(node.getBase());
     setUnits(node.getUnits());
+  }
+
+  /**
+   * Creates a new {@link ASTCnNumberNode} that lacks a pointer
+   * to its containing {@link MathContainer} and has a variable
+   * {@link String}.
+   */
+  public ASTCnNumberNode(String variable) {
+    super();
+    base = null;
+    setUnits(null);
+    setVariable(variable);
   }
 
   /* (non-Javadoc)

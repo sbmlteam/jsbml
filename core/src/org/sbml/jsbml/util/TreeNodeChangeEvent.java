@@ -127,6 +127,7 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
   public static final String numBvars = "numBvars";
   public static final String base = "base";
   public static String numPiece = "numPiece";
+  public static String mathMLClass = "class";
 
   /*
    * Annotation

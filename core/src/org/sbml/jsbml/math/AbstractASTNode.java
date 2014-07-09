@@ -87,6 +87,16 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    * The style of this MathML element
    */
   protected String style;
+  
+  /**
+   * name attribute for MathML element
+   */
+  protected String name;
+  
+  /**
+   * class attribute for MathML element
+   */
+  private String mathMLClass;
 
   /**
    * Creates an empty {@link AbstractTreeNode} without a pointer
@@ -101,18 +111,6 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
   }
   
   /**
-   * Creates an empty {@link AbstractTreeNode} with a pointer
-   * to the specified {@link MathContainer}.
-   */
-  public AbstractASTNode(MathContainer container) {
-    super();
-    setId(null);
-    setType(Type.UNKNOWN);
-    setParentSBMLObject(container);
-    setStrictness(true);
-  }
-
-  /**
    * Constructor for cloning {@link AbstractTreeNode}
    * 
    * @param ASTFunction astFunction
@@ -123,6 +121,18 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
     setType(ast.getType());
     setParentSBMLObject(ast.getParentSBMLObject());
     setStrictness(ast.isStrict());
+  }
+
+  /**
+   * Creates an empty {@link AbstractTreeNode} with a pointer
+   * to the specified {@link MathContainer}.
+   */
+  public AbstractASTNode(MathContainer container) {
+    super();
+    setId(null);
+    setType(Type.UNKNOWN);
+    setParentSBMLObject(container);
+    setStrictness(true);
   }
 
   /* (non-Javadoc)
@@ -193,13 +203,47 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
 
   /*
    * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#getMathMLClass()
+   */
+  @Override
+  public String getMathMLClass() {
+    if (isSetMathMLClass()) {
+      return mathMLClass;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("class", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return "";
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#getName()
+   */
+  @Override
+  public String getName() {
+    if (isSetName()) {
+      return name;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("name", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return "";
+  }
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#getParentSBMLObject()
    */
   @Override
   public MathContainer getParentSBMLObject() {
     return parentSBMLObject;
   }
-
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#getStyle()
@@ -224,7 +268,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
   public Type getType() {
       return type;
   }
-  
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -252,6 +296,24 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
 
   /*
    * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#isSetMathMLClass()
+   */
+  @Override
+  public boolean isSetMathMLClass() {
+    return mathMLClass != null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#isSetName()
+   */
+  @Override
+  public boolean isSetName() {
+    return name != null;
+  }
+
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#isSetParentSBMLObject()
    */
   @Override
@@ -267,7 +329,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
   public boolean isSetStyle() {
     return style != null;
   }
-
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#isStrict()
@@ -276,7 +338,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
   public boolean isStrict() {
     return strict;
   }
-
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#setId(java.lang.String)
@@ -288,6 +350,28 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
     firePropertyChange(TreeNodeChangeEvent.id, oldValue, id);
   }
 
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#setMathMLClass(java.lang.String)
+   */
+  @Override
+  public void setMathMLClass(String mathMLClass) {
+    String old = this.mathMLClass;
+    this.mathMLClass = mathMLClass;
+    firePropertyChange(TreeNodeChangeEvent.mathMLClass, old, this.mathMLClass);
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#setName(java.lang.String)
+   */
+  @Override
+  public void setName(String name) {
+    String old = this.name;
+    this.name = name;
+    firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#setParent(javax.swing.tree.TreeNode)
    */
@@ -314,7 +398,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
     parentSBMLObject = container;
     firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldParentSBMLObject, parentSBMLObject);
   }
-  
+
   /**
    * Set the strictness of this node
    * 
@@ -324,7 +408,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
   public void setStrictness(boolean strict) {
     this.strict = strict;
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#setStyle(java.lang.String)
@@ -356,7 +440,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
     this.type = type;
     firePropertyChange(TreeNodeChangeEvent.type, oldValue, type);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#toFormula()
    */
@@ -397,20 +481,13 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
     builder.append("]");
     return builder.toString();
   }
-
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#unsetParentSBMLObject()
    */
   @Override
   public void unsetParentSBMLObject() {
     setParentSBMLObject(null);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#reduceToBinary()
-   */
-  public void reduceToBinary() {
-    return;
   }
 
 }

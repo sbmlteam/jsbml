@@ -162,22 +162,6 @@ ASTCSymbolNode {
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTCSymbolNode#getName()
-   */
-  @Override
-  public String getName() {
-    if (isSetName()) {
-      return name;
-    }
-    PropertyUndefinedError error = new PropertyUndefinedError("name", this);
-    if (isStrict()) {
-      throw error;
-    }
-    logger.warn(error);
-    return "";
-  }
-
-  /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -212,15 +196,6 @@ ASTCSymbolNode {
 
   /*
    * (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetName()
-   */
-  @Override
-  public boolean isSetName() {
-    return name != null;
-  }
-
-  /*
-   * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#refersTo(java.lang.String)
    */
   @Override
@@ -246,17 +221,6 @@ ASTCSymbolNode {
     String old = this.encodingURL;
     this.encodingURL = encodingURL;
     firePropertyChange(TreeNodeChangeEvent.encoding, old, this.encodingURL);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTCSymbolNode#setName(java.lang.String)
-   */
-  @Override
-  public void setName(String name) {
-    // TODO: As in all set methods we will have to do more: listeners need to be notified about the change (this applies to all other classes and set methods in this package as well). Hence, we should also create an abstract version of ASTCSymbolNode in order to avoid too much code duplication. We will have to copy the code to ASTCiNumberNode because we don't have multiple inheritance, but we should have at least one abstract super class for the remaining types.
-    String old = this.name;
-    this.name = name;
-    firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
   }
 
   /* (non-Javadoc)

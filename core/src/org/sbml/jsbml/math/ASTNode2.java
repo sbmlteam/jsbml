@@ -76,6 +76,22 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
   public String getId();
 
   /**
+   * Returns the class of the MathML element represented by
+   * this {@link AbstractASTNode}
+   * 
+   * @return String name
+   */
+  public String getMathMLClass();
+
+  /**
+   * Returns the name of the MathML element represented by
+   * this {@link AbstractASTNode}
+   * 
+   * @return String name
+   */
+  public String getName();
+
+  /**
    * Sets the parentSBMLObject to container recursively
    * 
    * @return MathContainer container
@@ -88,7 +104,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    * @return the style
    */
   public String getStyle();
-
+  
   /**
    * Returns the type of this ASTNode2.
    * 
@@ -102,7 +118,21 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    * @return boolean
    */
   public boolean isSetId();
-  
+
+  /**
+   * Returns true iff mathMLClass has been set
+   * 
+   * @return boolean
+   */
+  public boolean isSetMathMLClass();
+
+  /**
+   * Returns True iff name has been set
+   * 
+   * @return boolean
+   */
+  public boolean isSetName();
+
   /**
    * Checks if a parent SBML object, i.e., a {@link MathContainer}, is set as a
    * parent SBML object for this {@link ASTNode2}.
@@ -110,14 +140,14 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    * @return boolean
    */
   public boolean isSetParentSBMLObject();
-
+  
   /**
    * Returns true iff style has been set
    * 
    * @return boolean
    */
   public boolean isSetStyle();
-
+  
   /**
    * Specifies strictness. When true, ASTUnaryFunction and ASTBinaryFunction
    * nodes can only contain the specified # of children. When false, there is
@@ -127,14 +157,30 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    * @return boolean
    */
   public boolean isStrict();
-
+  
   /**
    * Set the id of this node
    * 
    * @param id the id to set
    */
   public void setId(String id);
-
+  
+  /**
+   * Set the class of the MathML element represented by
+   * this {@link AbstractASTNode}
+   * 
+   * @param String name
+   */
+  public void setMathMLClass(String mathMLClass);
+  
+  /**
+   * Set the name of the MathML element represented by
+   * this {@link AbstractASTNode}
+   * 
+   * @param String name
+   */
+  public void setName(String name);
+  
   /**
    * @param parent
    *            the parent to set
@@ -154,7 +200,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    * @param style the style to set
    */
   public void setStyle(String style);
-  
+
   /**
    * Sets the type from a String. The method accept all the supported mathML
    * elements, the possible types of cn elements or the possible definitionURL
@@ -216,7 +262,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
   
   @Override
   public String toString();
-
+  
   /**
    * Unsets the parentSBMLObject to null recursively.
    * 

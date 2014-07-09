@@ -55,11 +55,6 @@ ASTCSymbolBaseNode {
   private String definitionURL;
 
   /**
-   * name attribute for MathML element
-   */
-  private String name;
-
-  /**
    * Creates a new {@link ASTCiFunctionNode}.
    */
   public ASTCiFunctionNode() {
@@ -133,22 +128,6 @@ ASTCSymbolBaseNode {
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#getName()
-   */
-  @Override
-  public String getName() {
-    if (isSetName()) {
-      return name;
-    }
-    PropertyUndefinedError error = new PropertyUndefinedError("name", this);
-    if (isStrict()) {
-      throw error;
-    }
-    logger.warn(error);
-    return "";
-  }
-
-  /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -168,14 +147,6 @@ ASTCSymbolBaseNode {
   @Override
   public boolean isSetDefinitionURL() {
     return definitionURL != null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetName()
-   */
-  @Override
-  public boolean isSetName() {
-    return name != null;
   }
 
   /*
@@ -205,16 +176,6 @@ ASTCSymbolBaseNode {
     String old = this.definitionURL;
     this.definitionURL = definitionURL;
     firePropertyChange(TreeNodeChangeEvent.definitionURL, old, this.definitionURL);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#setName(java.lang.String)
-   */
-  @Override
-  public void setName(String name) {
-    String old = this.name;
-    this.name = name;
-    firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
   }
 
   /* (non-Javadoc)
