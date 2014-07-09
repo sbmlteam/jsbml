@@ -898,6 +898,11 @@ public class ArraysCompiler implements ASTNodeCompiler{
 
       }
       return result.compile(this);
+    } else if(object.isVariable()) {
+      compile(object.getVariable());
+    } 
+    else if(object.isString()) {
+      compile(object.getName());
     }
     return unknownValue();
   }
