@@ -25,8 +25,11 @@ package org.sbml.jsbml.ext.arrays;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.StringTools;
 
 
@@ -40,8 +43,9 @@ import org.sbml.jsbml.util.StringTools;
  * @since 1.0
  * @date May 11, 2014
  */
-public class Dimension extends AbstractNamedSBase {
+public class Dimension extends AbstractNamedSBase implements CallableSBase {
   
+
   /**
    * 
    */
@@ -352,6 +356,45 @@ public class Dimension extends AbstractNamedSBase {
       return false;
     }
     return true;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBaseWithDerivedUnit#containsUndeclaredUnits()
+   */
+  @Override
+  public boolean containsUndeclaredUnits() {
+    if(isSetSize()) {
+      Parameter param = getModel().getParameter(size);
+      return param != null ? param.containsUndeclaredUnits() : false;
+    }
+    return false;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnitDefinition()
+   */
+  @Override
+  public UnitDefinition getDerivedUnitDefinition() {
+    if(isSetSize()) {
+      Parameter param = getModel().getParameter(size);
+      return param != null ? param.getDerivedUnitDefinition() : null;
+    }
+    return null;
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBaseWithDerivedUnit#getDerivedUnits()
+   */
+  @Override
+  public String getDerivedUnits() {
+    if(isSetSize()) {
+      Parameter param = getModel().getParameter(size);
+      return param != null ? param.getDerivedUnits() : null;
+    }
+    return null;
   }
   
   
