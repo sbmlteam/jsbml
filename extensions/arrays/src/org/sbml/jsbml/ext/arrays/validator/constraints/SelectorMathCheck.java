@@ -28,6 +28,7 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
+import org.sbml.jsbml.ext.arrays.util.ArraysMath;
 
 
 /**
@@ -65,8 +66,12 @@ public class SelectorMathCheck extends ArraysConstraint {
     
     ASTNode math = mathContainer.getMath();
     
+    if(math.getType() != ASTNode.Type.FUNCTION_SELECTOR) {
+      return;
+    }
+    
     if(math.getChildCount() == 0) {
-      System.err.println("Selector has wrong number of arguments");
+      //System.err.println("Selector has wrong number of arguments");
       String shortMsg = "";
       logSelectorInconsistency(shortMsg);
     }
@@ -79,15 +84,15 @@ public class SelectorMathCheck extends ArraysConstraint {
       
       if(sbase == null)
       {
-        System.err.println("Selector references non-valid object");
+        //System.err.println("Selector references non-valid object");
         return;
       }
       
       ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
       
-      if(arraysSBasePlugin.getDimensionCount() > math.getChildCount()-1)
+      if(arraysSBasePlugin.getDimensionCount() < math.getChildCount()-1)
       {
-        System.err.println("Selector references an object with number of dimensions that doesn't match the number of arguments");
+        //System.err.println("Selector references an object with number of dimensions that doesn't match the number of arguments");
         String shortMsg = "";
         logSelectorInconsistency(shortMsg);
       }
@@ -97,13 +102,31 @@ public class SelectorMathCheck extends ArraysConstraint {
     }
     else if(!obj.isVector())
     {
-      System.err.println("The first argument of selector should be a vector or valid SIdref");
+      //System.err.println("The first argument of selector should be a vector or valid SIdref");
       String shortMsg = "";
       logSelectorInconsistency(shortMsg);
     }
     
+    boolean isStaticComp = ArraysMath.isStaticallyComputable(model, mathContainer);
+    
+    if(!isStaticComp) {
+      //System.err.println("Selector should be statically computable");
+      String shortMsg = "";
+      logSelectorInconsistency(shortMsg);
+      return;
+    }
+    
+    
     // TODO: check if all arguments evaluate to an integer and that is less than the size of the array
 
+    boolean isBounded = ArraysMath.evaluateSelectorBounds(model, mathContainer);
+    
+    if(!isBounded) {
+      //System.err.println("Selector arguments other than first should not go out of bounds");
+      String shortMsg = "";
+      logSelectorInconsistency(shortMsg);
+    }
+    
   }
 
 

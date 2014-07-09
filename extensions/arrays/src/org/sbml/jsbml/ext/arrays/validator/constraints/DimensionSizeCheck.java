@@ -60,7 +60,7 @@ public class DimensionSizeCheck extends ArraysConstraint{
     }
     
     if(!dim.isSetSize()) {
-      System.err.println("Dimension size should have a value.");
+      //System.err.println("Dimension size should have a value.");
       String shortMsg = "";
       logMissingDimensionAttribute(shortMsg);
     }
@@ -81,27 +81,27 @@ public class DimensionSizeCheck extends ArraysConstraint{
     Parameter param = model.getParameter(id);
 
     if(param == null) {
-      System.err.println("Dimension size should point to an existing parameter.");
+      //System.err.println("Dimension size should point to an existing parameter.");
       String shortMsg = "";
       logDimensionSizeInvalid(shortMsg);
       return;
     }
 
     if(!param.isConstant()) {
-      System.err.println("Dimension size should point to a CONSTANT parameter.");
+      //System.err.println("Dimension size should point to a CONSTANT parameter.");
       String shortMsg = "";
       logDimensionSizeValueInconsistency(shortMsg);
     }
 
     // Test if it is an integer
     if(param.getValue() % 1 != 0) {
-      System.err.println("Dimension size should point to a parameter with integer value.");
+      //System.err.println("Dimension size should point to a parameter with integer value.");
       String shortMsg = "";
       logDimensionSizeValueInconsistency(shortMsg);
     }
 
     if(param.getValue()  > 0) {
-      System.err.println("Dimension size should point to a parameter with value greater than 0.");
+      //System.err.println("Dimension size should point to a parameter with value greater than 0.");
       String shortMsg = "";
       logDimensionSizeValueInconsistency(shortMsg);
     }
@@ -110,7 +110,7 @@ public class DimensionSizeCheck extends ArraysConstraint{
 
     if(arraysSBasePlugin != null) {
       if(arraysSBasePlugin.getDimensionCount() > 0) {
-        System.err.println("Dimension size should point to scalar.");
+        //System.err.println("Dimension size should point to scalar.");
         String shortMsg = "";
         logDimensionSizeInvalid(shortMsg);
       }

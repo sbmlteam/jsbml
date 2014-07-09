@@ -22,7 +22,6 @@
  */
 package org.sbml.jsbml.ext.arrays.validator.constraints;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.sbml.jsbml.ASTNode;
@@ -33,6 +32,7 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.Dimension;
+import org.sbml.jsbml.ext.arrays.util.ArraysMath;
 
 
 /**
@@ -63,42 +63,8 @@ public class VectorMathCheck extends ArraysConstraint {
     }
 
     ASTNode math = mathContainer.getMath();
-    Map<Integer, Integer> sizeByLevel = new HashMap<Integer, Integer>();
-    getSizeRecursive(sizeByLevel, math, 0);
-
+    Map<Integer, Integer> sizeByLevel = ArraysMath.getVectorDimensionSizes(model, math);
     checkSizeRecursive(sizeByLevel, math, 0);
-  }
-
-  /**
-   * This is used to determine how many levels deep the array is and what is the corresponding
-   * size of each level.
-   * 
-   * @param sizeByLevel
-   * @param node
-   * @param level
-   */
-  private void getSizeRecursive(Map<Integer, Integer> sizeByLevel, ASTNode node, int level) {
-    if(node.isVector()) {
-      sizeByLevel.put(level, node.getChildCount());
-      //System.out.println("At hierarchy level " + level + " size is " + node.getChildCount());
-      if(node.getChildCount() > 0) {
-        ASTNode child = node.getChild(0);
-        getSizeRecursive(sizeByLevel, child, level+1);
-      }
-    }
-    else if(node.isString()) {
-      String id = node.toString();
-      SBase sbase = model.findNamedSBase(id);
-      ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
-      for(Dimension dim : arraysSBasePlugin.getListOfDimensions()) {
-        String size = dim.getSize();
-        Parameter p = model.getParameter(size);
-        if (p == null) {
-          continue;
-        }
-        sizeByLevel.put(level+dim.getArrayDimension(), (int) p.getValue());
-      }
-    }
   }
 
   /**
@@ -112,7 +78,7 @@ public class VectorMathCheck extends ArraysConstraint {
   private boolean checkSizeRecursive(Map<Integer, Integer> sizeByLevel, ASTNode node, int level) {
 
     if(!sizeByLevel.containsKey(level)) {
-        System.err.println("Vector is not regular");
+        //System.err.println("Vector is not regular");
         String shortMsg = "";
         logVectorInconsistency(shortMsg);
         return false;
@@ -134,7 +100,7 @@ public class VectorMathCheck extends ArraysConstraint {
           }
           int actual =  (int) p.getValue();
           if(expected != actual) {
-            System.err.println("Vector is not regular");
+            //System.err.println("Vector is not regular");
             String shortMsg = "";
             logVectorInconsistency(shortMsg);
             return false;
@@ -144,7 +110,7 @@ public class VectorMathCheck extends ArraysConstraint {
         return true;
       }
       else {
-        System.err.println("Should be a vector instead of scalar");
+        //System.err.println("Should be a vector instead of scalar");
         String shortMsg = "";
         logVectorInconsistency(shortMsg);
         return false;
@@ -152,7 +118,7 @@ public class VectorMathCheck extends ArraysConstraint {
     }
 
     if(expected != node.getChildCount()) {
-      System.err.println("Vector is not regular");
+      //System.err.println("Vector is not regular");
       String shortMsg = "";
       logVectorInconsistency(shortMsg);
       return false;
@@ -163,7 +129,6 @@ public class VectorMathCheck extends ArraysConstraint {
       if(!checkSizeRecursive(sizeByLevel, child, level+1)) {
         return false;
       }
-
     }
 
     return true;

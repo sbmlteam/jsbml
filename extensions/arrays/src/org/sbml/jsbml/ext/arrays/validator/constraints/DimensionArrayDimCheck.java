@@ -89,7 +89,7 @@ public class DimensionArrayDimCheck extends ArraysConstraint {
       }
       else 
       {
-        System.err.println("Array Dimension should be unique.");
+        //System.err.println("Array Dimension should be unique.");
         String shortMsg = "";
         logArrayDimensionUniqueness(shortMsg);
       }
@@ -97,8 +97,8 @@ public class DimensionArrayDimCheck extends ArraysConstraint {
 
     for(int i = 0; i <= max; i++) {
       if(!isSetArrayDimAt[i]) {
-        System.err.println("There is a Dimension with array dimension " + max + " but there is no array"
-          + " dimension at " + i);
+        //System.err.println("There is a Dimension with array dimension " + max + " but there is no array"
+        //  + " dimension at " + i);
         String shortMsg = "";
         logArrayDimensionMissing(shortMsg);
         return;
