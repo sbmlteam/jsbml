@@ -38,8 +38,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @since 1.0
  * @date May 30, 2014
  */
-// TODO: Should this class be abstract?
-public class ASTCnNumberNode extends ASTNumber {
+public class ASTCnNumberNode<T> extends ASTNumber {
 
   /**
    * 
@@ -54,7 +53,7 @@ public class ASTCnNumberNode extends ASTNumber {
   /**
    * Numerical base for MathML element
    */
-  private Double base;
+  protected T number;
 
   /**
    * units attribute for MathML element
@@ -72,7 +71,7 @@ public class ASTCnNumberNode extends ASTNumber {
    */
   public ASTCnNumberNode() {
     super();
-    base = null;
+    number = null;
     setUnits(null);
     setVariable(null);
   }
@@ -83,9 +82,9 @@ public class ASTCnNumberNode extends ASTNumber {
    * @param node
    *            the {@link ASTCnNumberNode} to be copied.
    */
-  public ASTCnNumberNode(ASTCnNumberNode node) {
+  public ASTCnNumberNode(ASTCnNumberNode<T> node) {
     super(node);
-    setBase(node.getBase());
+    setNumber(node.getNumber());
     setUnits(node.getUnits());
   }
 
@@ -96,7 +95,7 @@ public class ASTCnNumberNode extends ASTNumber {
    */
   public ASTCnNumberNode(String variable) {
     super();
-    base = null;
+    number = null;
     setUnits(null);
     setVariable(variable);
   }
@@ -105,8 +104,8 @@ public class ASTCnNumberNode extends ASTNumber {
    * @see org.sbml.jsbml.math.ASTNumber#clone()
    */
   @Override
-  public ASTCnNumberNode clone() {
-    return new ASTCnNumberNode(this);
+  public ASTCnNumberNode<T> clone() {
+    return new ASTCnNumberNode<T>(this);
   }
 
   /* (non-Javadoc)
@@ -120,11 +119,11 @@ public class ASTCnNumberNode extends ASTNumber {
       return false;
     if (getClass() != obj.getClass())
       return false;
-    ASTCnNumberNode other = (ASTCnNumberNode) obj;
-    if (base == null) {
-      if (other.base != null)
+    ASTCnNumberNode<T> other = (ASTCnNumberNode<T>) obj;
+    if (number == null) {
+      if (other.number != null)
         return false;
-    } else if (!base.equals(other.base))
+    } else if (!number.equals(other.number))
       return false;
     if (units == null) {
       if (other.units != null)
@@ -138,11 +137,19 @@ public class ASTCnNumberNode extends ASTNumber {
    * Get the numerical base of MathML element. Number (CDATA for XML DTD)
    * between 2 and 36.
    * 
-   * @return Double base
+   * @return T number
+   * @throws PropertyUndefinedError
    */
-  public Double getBase() {
-    // TODO: return a base type with check to avoid NPE.
-    return isSetBase() ? base : Double.NaN;
+  public T getNumber() {
+    if (isSetNumber()) {
+      return this.number;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("number", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return null;
   }
 
   /**
@@ -178,7 +185,7 @@ public class ASTCnNumberNode extends ASTNumber {
   public int hashCode() {
     final int prime = 31;
     int result = super.hashCode();
-    result = prime * result + ((base == null) ? 0 : base.hashCode());
+    result = prime * result + ((number == null) ? 0 : number.hashCode());
     result = prime * result + ((units == null) ? 0 : units.hashCode());
     return result;
   }
@@ -188,8 +195,8 @@ public class ASTCnNumberNode extends ASTNumber {
    * 
    * @return boolean
    */
-  private boolean isSetBase() {
-    return base != null;
+  private boolean isSetNumber() {
+    return number != null;
   }
   
   /**
@@ -215,14 +222,12 @@ public class ASTCnNumberNode extends ASTNumber {
    * Set the numerical base of MathML element. Number (CDATA for XML DTD)
    * between 2 and 36
    * 
-   * @param Double base
-   * @return null
+   * @param Double number
    */
-  // TODO: work with base types, i.e., double.
-  public void setBase(Double base) {
-    double old = this.base;
-    this.base = base;
-    firePropertyChange(TreeNodeChangeEvent.base, old, this.base);
+  public void setNumber(T number) {
+    T old = this.number;
+    this.number = number;
+    firePropertyChange(TreeNodeChangeEvent.number, old, this.number);
   }
 
   /**
@@ -254,7 +259,7 @@ public class ASTCnNumberNode extends ASTNumber {
   public String toString() {
     StringBuilder builder = new StringBuilder();
     builder.append("ASTCnNumberNode [base=");
-    builder.append(base);
+    builder.append(number);
     builder.append(", units=");
     builder.append(units);
     builder.append(", strict=");

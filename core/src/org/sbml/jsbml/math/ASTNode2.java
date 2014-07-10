@@ -77,7 +77,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
 
   /**
    * Returns the class of the MathML element represented by
-   * this {@link AbstractASTNode}
+   * this {@link ASTNode2}
    * 
    * @return String name
    */
@@ -85,7 +85,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
 
   /**
    * Returns the name of the MathML element represented by
-   * this {@link AbstractASTNode}
+   * this {@link ASTNode2}
    * 
    * @return String name
    */
@@ -167,7 +167,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
   
   /**
    * Set the class of the MathML element represented by
-   * this {@link AbstractASTNode}
+   * this {@link ASTNode2}
    * 
    * @param String name
    */
@@ -175,7 +175,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
   
   /**
    * Set the name of the MathML element represented by
-   * this {@link AbstractASTNode}
+   * this {@link ASTNode2}
    * 
    * @param String name
    */
@@ -202,7 +202,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
   public void setStyle(String style);
 
   /**
-   * Sets the type from a String. The method accept all the supported mathML
+   * Sets the type from a String. This method accepts all the supported mathML
    * elements, the possible types of cn elements or the possible definitionURL
    * of csymbol elements.
    * 
@@ -212,7 +212,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
   public void setType(String typeStr);
   
   /**
-   * Set the type of the MathML element represented by this ASTCnNumberNode
+   * Set the type of the MathML element represented by this {@link ASTNode2}
    * 
    * @param Type type
    */
@@ -220,8 +220,8 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
   
   /**
    * <p>
-   * Converts this AbstractASTNode to a text string using a specific syntax for
-   * mathematical formulas.
+   * Converts this {@link ASTNode2} to a text string using a specific syntax 
+   * for mathematical formulas.
    * </p>
    * <p>
    * The text-string form of mathematical formulas produced by
@@ -238,7 +238,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    *         responsible for freeing it when it is no longer needed. {@code null} is
    *         returned if the given argument is {@code null}.
    * @throws SBMLException
-   *             if there is a problem in the AbstractASTNode tree.
+   *             if there is a problem in the {@link ASTNode2} tree.
    */
   public String toFormula();
   

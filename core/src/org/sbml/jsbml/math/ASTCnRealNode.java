@@ -23,6 +23,7 @@
 package org.sbml.jsbml.math;
 
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
@@ -35,17 +36,12 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @since 1.0
  * @date May 30, 2014
  */
-public class ASTCnRealNode extends ASTCnNumberNode {
+public class ASTCnRealNode extends ASTCnNumberNode<Double> {
 
   /**
    * 
    */
   private static final long serialVersionUID = 6142072741733701867L;
-  
-  /**
-   * The value of this node
-   */
-  private Double value;
 
   /**
    * Creates a new {@link ASTCnRealNode} that lacks a pointer
@@ -53,17 +49,17 @@ public class ASTCnRealNode extends ASTCnNumberNode {
    */
   public ASTCnRealNode() {
     super();
-    value = null;
+    number = null;
   }
   
   /**
    * Creates a new {@link ASTCnRealNode} that lacks a pointer
    * to its containing {@link MathContainer} but has the 
-   * specified value {@link double}.
+   * specified real value {@link double}.
    */
   public ASTCnRealNode(double value) {
     super();
-    setValue(value);
+    setReal(value);
   }
 
   /**
@@ -74,7 +70,6 @@ public class ASTCnRealNode extends ASTCnNumberNode {
    */
   public ASTCnRealNode(ASTCnRealNode node) {
     super(node);
-    setValue(node.getValue());
   }
   
   /*
@@ -98,21 +93,21 @@ public class ASTCnRealNode extends ASTCnNumberNode {
     if (getClass() != obj.getClass())
       return false;
     ASTCnRealNode other = (ASTCnRealNode) obj;
-    if (value == null) {
-      if (other.value != null)
+    if (number == null) {
+      if (other.number != null)
         return false;
-    } else if (!value.equals(other.value))
+    } else if (!number.equals(other.number))
       return false;
     return true;
   }
 
   /**
-   * Return the value of this node
+   * Get the real value of this node. 
    * 
-   * @return double value
+   * @return double real
    */
-  public double getValue() {
-    return isSetValue() ? value : Double.NaN;
+  public double getReal() {
+    return isSetReal() ? number : Double.NaN;
   }
 
   /* (non-Javadoc)
@@ -122,7 +117,7 @@ public class ASTCnRealNode extends ASTCnNumberNode {
   public int hashCode() {
     final int prime = 31;
     int result = super.hashCode();
-    result = prime * result + ((value == null) ? 0 : value.hashCode());
+    result = prime * result + ((number == null) ? 0 : number.hashCode());
     return result;
   }
 
@@ -131,8 +126,8 @@ public class ASTCnRealNode extends ASTCnNumberNode {
    * @param null
    * @return boolean
    */
-  public boolean isSetValue() {
-    return value != null;
+  public boolean isSetReal() {
+    return number != null;
   }
 
   /**
@@ -140,10 +135,10 @@ public class ASTCnRealNode extends ASTCnNumberNode {
    * 
    * @param double value
    */
-  public void setValue(double value) {
-    Double old = this.value;
-    this.value = value;
-    firePropertyChange(TreeNodeChangeEvent.value, old, this.value);
+  public void setReal(double real) {
+    Double old = this.number;
+    this.number = real;
+    firePropertyChange(TreeNodeChangeEvent.number, old, this.number);
   }
 
   /* (non-Javadoc)
@@ -153,7 +148,7 @@ public class ASTCnRealNode extends ASTCnNumberNode {
   public String toString() {
     StringBuilder builder = new StringBuilder();
     builder.append("ASTCnRealNode [value=");
-    builder.append(value);
+    builder.append(number);
     builder.append(", strict=");
     builder.append(strict);
     builder.append(", type=");

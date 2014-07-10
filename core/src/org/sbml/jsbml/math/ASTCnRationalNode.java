@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.ValuePair;
 
 
 /**
@@ -37,7 +38,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @since 1.0
  * @date May 30, 2014
  */
-public class ASTCnRationalNode extends ASTCnNumberNode {
+public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Double,Double>> {
 
   /**
    * 
@@ -50,23 +51,11 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
   private static final Logger logger = Logger.getLogger(ASTCnRationalNode.class);
 
   /**
-   * The numerator of this rational number
-   */
-  private Integer numerator;
-
-  /**
-   * The denominator of this rational number
-   */
-  private Integer denominator;
-
-  /**
    * Creates a new {@link ASTCnRationalNode} that lacks a pointer
    * to its containing {@link MathContainer}.
    */
   public ASTCnRationalNode() {
     super();
-    numerator = null;
-    denominator = null;
   }
 
   /**
@@ -77,8 +66,6 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
    */
   public ASTCnRationalNode(ASTCnRationalNode node) {
     super(node);
-    setNumerator(node.getNumerator());
-    setDenominator(node.getDenominator());
   }
   
   /*
@@ -90,76 +77,22 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
     return new ASTCnRationalNode(this);
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#equals(java.lang.Object)
+  /**
+   * Get the denominator value of this node.
+   * 
+   * @return double denominator
    */
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (!super.equals(obj))
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    ASTCnRationalNode other = (ASTCnRationalNode) obj;
-    if (denominator == null) {
-      if (other.denominator != null)
-        return false;
-    } else if (!denominator.equals(other.denominator))
-      return false;
-    if (numerator == null) {
-      if (other.numerator != null)
-        return false;
-    } else if (!numerator.equals(other.numerator))
-      return false;
-    return true;
+  public double getDenominator() {
+    return isSetDenominator() ? this.number.getV() : Double.NaN;
   }
 
   /**
-   * Get the value of the denominator
+   * Get the numerator value of this node.
    * 
-   * @return int denominator
+   * @return double numerator
    */
-  public int getDenominator() {
-    if (isSetDenominator()) {
-      return denominator;
-    }
-    PropertyUndefinedError error = new PropertyUndefinedError("denominator", this);
-    if (isStrict()) {
-      throw error;
-    }
-    logger.warn(error);
-    return 0;
-  }
-
-  /**
-   * Get the value of the numerator
-   * 
-   * @return int numerator
-   */
-  public int getNumerator() {
-    if (isSetNumerator()) {
-      return numerator;
-    }
-    PropertyUndefinedError error = new PropertyUndefinedError("numerator", this);
-    if (isStrict()) {
-      throw error;
-    }
-    logger.warn(error);
-    return 0;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
-   */
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = super.hashCode();
-    result = prime * result
-      + ((denominator == null) ? 0 : denominator.hashCode());
-    result = prime * result + ((numerator == null) ? 0 : numerator.hashCode());
-    return result;
+  public double getNumerator() {
+    return isSetNumerator() ? this.number.getL() : Double.NaN;
   }
 
   /**
@@ -169,7 +102,7 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
    * @return boolean
    */
   public boolean isSetDenominator() {
-    return denominator != null;
+    return this.number.getV() != null;
   }
 
   /**
@@ -179,47 +112,29 @@ public class ASTCnRationalNode extends ASTCnNumberNode {
    * @return boolean
    */
   public boolean isSetNumerator() {
-    return numerator != null;
+    return this.number.getL() != null;
   }
 
   /**
    * Set the value of the denominator
    * 
-   * @param int denominator
+   * @param double denominator
    */
-  public void setDenominator(int denominator) {
-    Integer old = this.denominator;
-    this.denominator = denominator;
-    firePropertyChange(TreeNodeChangeEvent.denominator, old, this.denominator);
+  public void setDenominator(double denominator) {
+    Double old = this.number.getV();
+    this.number.setV(denominator);
+    firePropertyChange(TreeNodeChangeEvent.denominator, old, this.number.getV());
   }
 
   /**
    * Set the value of the numerator
    * 
-   * @param int numerator
+   * @param double numerator
    */
-  public void setNumerator(int numerator) {
-    Integer old = this.numerator;
-    this.numerator = numerator;
-    firePropertyChange(TreeNodeChangeEvent.numerator, old, this.numerator);
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("ASTCnRationalNode [numerator=");
-    builder.append(numerator);
-    builder.append(", denominator=");
-    builder.append(denominator);
-    builder.append(", strict=");
-    builder.append(strict);
-    builder.append(", type=");
-    builder.append(type);
-    builder.append("]");
-    return builder.toString();
+  public void setNumerator(double numerator) {
+    Double old = this.number.getL();
+    this.number.setL(numerator);
+    firePropertyChange(TreeNodeChangeEvent.numerator, old, this.number.getL());
   }
 
 }

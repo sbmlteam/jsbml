@@ -125,9 +125,9 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
   public static final String creator = "creator";
   public static final String isExplicitlySetConstant = "isExplicitlySetConstant";
   public static final String numBvars = "numBvars";
-  public static final String base = "base";
-  public static String numPiece = "numPiece";
-  public static String mathMLClass = "class";
+  public static final String number = "number";
+  public static final String numPiece = "numPiece";
+  public static final String mathMLClass = "class";
 
   /*
    * Annotation

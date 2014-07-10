@@ -261,7 +261,7 @@ public class ASTFactory {
   public static ASTRelationalOperatorNode lt(String variable, ASTNode2 node) {
     ASTRelationalOperatorNode lt = new ASTRelationalOperatorNode(Type.RELATIONAL_LT);
     lt.addChild(node);
-    AbstractASTNode ci = new ASTCiNumberNode();
+    ASTCiNumberNode ci = new ASTCiNumberNode();
     ci.setName(variable);
     lt.addChild(ci);
     return lt;

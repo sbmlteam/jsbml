@@ -37,7 +37,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @since 1.0
  * @date May 30, 2014
  */
-public class ASTCnIntegerNode extends ASTCnNumberNode {
+public class ASTCnIntegerNode extends ASTCnNumberNode<Integer> {
 
   /**
    * 
@@ -50,17 +50,11 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
   private static final Logger logger = Logger.getLogger(ASTCnIntegerNode.class);
 
   /**
-   * The value of this node
-   */
-  private Integer value;
-
-  /**
    * Creates a new {@link ASTCnIntegerNode} that lacks a pointer
    * to its containing {@link MathContainer}.
    */
   public ASTCnIntegerNode() {
     super();
-    value = null;
   }
   
   /**
@@ -68,7 +62,7 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
    */
   public ASTCnIntegerNode(int value) {
     super();
-    setValue(value);
+    setInteger(value);
   }
 
   /**
@@ -79,7 +73,6 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
    */
   public ASTCnIntegerNode(ASTCnIntegerNode node) {
     super(node);
-    setValue(node.getValue());
   }
   
   @Override
@@ -99,22 +92,24 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
     if (getClass() != obj.getClass())
       return false;
     ASTCnIntegerNode other = (ASTCnIntegerNode) obj;
-    if (value == null) {
-      if (other.value != null)
+    if (number == null) {
+      if (other.number != null)
         return false;
-    } else if (!value.equals(other.value))
+    } else if (!number.equals(other.number))
       return false;
     return true;
   }
 
   /**
-   * Return the value of this node
+   * Get the integer value of this node. Throws PropertyUndefinedError
+   * if no integer value has been defined.
    * 
-   * @return Integer value
+   * @return int integer
+   * @throws PropertyUndefinedError
    */
-  public int getValue() {
-    if (isSetValue()) {
-      return value;
+  public int getInteger() {
+    if (isSetInteger()) {
+      return number;
     }
     PropertyUndefinedError error = new PropertyUndefinedError("integer", this);
     if (isStrict()) {
@@ -124,25 +119,14 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
     return 0;
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
-   */
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = super.hashCode();
-    result = prime * result + ((value == null) ? 0 : value.hashCode());
-    return result;
-  }
-
   /**
    * Returns True iff value has been set
    * 
    * @param null
    * @return boolean
    */
-  public boolean isSetValue() {
-    return value != null;
+  public boolean isSetInteger() {
+    return number != null;
   }
 
   /**
@@ -150,10 +134,10 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
    * 
    * @param Integer value
    */
-  public void setValue(int value) {
-    Integer old = this.value;
-    this.value = value;
-    firePropertyChange(TreeNodeChangeEvent.value, old, this.value);
+  public void setInteger(int value) {
+    Integer old = this.number;
+    this.number = value;
+    firePropertyChange(TreeNodeChangeEvent.number, old, this.number);
   }
 
   /* (non-Javadoc)
@@ -163,7 +147,7 @@ public class ASTCnIntegerNode extends ASTCnNumberNode {
   public String toString() {
     StringBuilder builder = new StringBuilder();
     builder.append("ASTCnIntegerNode [value=");
-    builder.append(value);
+    builder.append(number);
     builder.append(", strict=");
     builder.append(strict);
     builder.append(", type=");

@@ -26,6 +26,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.ValuePair;
 
 
 /**
@@ -37,7 +38,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @since 1.0
  * @date May 30, 2014
  */
-public class ASTCnExponentialNode extends ASTCnNumberNode {
+public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Double,Double>> {
 
   /**
    * 
@@ -50,23 +51,11 @@ public class ASTCnExponentialNode extends ASTCnNumberNode {
   private static final Logger logger = Logger.getLogger(ASTCnExponentialNode.class);
 
   /**
-   * The exponent value of this node
-   */
-  private Integer exponent;
-
-  /**
-   * The mantissa value of this node
-   */
-  private Double mantissa;
-
-  /**
    * Creates a new {@link ASTCnExponentialNode} that lacks a pointer
    * to its containing {@link MathContainer}.
    */
   public ASTCnExponentialNode() {
     super();
-    exponent = null;
-    mantissa = null;
   }
 
   /**
@@ -78,8 +67,6 @@ public class ASTCnExponentialNode extends ASTCnNumberNode {
    */
   public ASTCnExponentialNode (ASTCnExponentialNode node) {
     super(node);
-    setExponent(node.getExponent());
-    setMantissa(node.getMantissa());
   }
   
   /*
@@ -91,68 +78,22 @@ public class ASTCnExponentialNode extends ASTCnNumberNode {
     return new ASTCnExponentialNode(this);
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (!super.equals(obj))
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    ASTCnExponentialNode other = (ASTCnExponentialNode) obj;
-    if (exponent == null) {
-      if (other.exponent != null)
-        return false;
-    } else if (!exponent.equals(other.exponent))
-      return false;
-    if (mantissa == null) {
-      if (other.mantissa != null)
-        return false;
-    } else if (!mantissa.equals(other.mantissa))
-      return false;
-    return true;
-  }
-
   /**
-   * Get the exponent value of this node. Throws PropertyUndefinedError
-   * if no exponent value has been defined.
+   * Get the exponent value of this node.
    * 
-   * @return int exponent
+   * @return double exponent
    */
-  public int getExponent() {
-    if (isSetExponent()) {
-      return exponent;
-    }
-    PropertyUndefinedError error = new PropertyUndefinedError("exponent", this);
-    if (isStrict()) {
-      throw error;
-    }
-    logger.warn(error);
-    return 0;
+  public double getExponent() {
+    return isSetExponent() ? this.number.getL() : Double.NaN;
   }
 
   /**
-   * Set the mantissa value of this node
+   * Get the mantissa value of this node. 
    * 
    * @return double mantissa
    */
   public double getMantissa() {
-    return isSetMantissa() ? mantissa : Double.NaN;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
-   */
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = super.hashCode();
-    result = prime * result + ((exponent == null) ? 0 : exponent.hashCode());
-    result = prime * result + ((mantissa == null) ? 0 : mantissa.hashCode());
-    return result;
+    return isSetMantissa() ? this.number.getV() : Double.NaN;
   }
 
   /**
@@ -162,7 +103,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode {
    * @return boolean
    */
   public boolean isSetExponent() {
-    return exponent != null;
+    return this.number.getL() != null;
   }
 
   /**
@@ -172,18 +113,18 @@ public class ASTCnExponentialNode extends ASTCnNumberNode {
    * @return boolean
    */
   public boolean isSetMantissa() {
-    return mantissa != null;
+    return this.number.getV() != null;
   }
 
   /**
    * Set the exponent value of this node
    * 
-   * @param int exponent
+   * @param double exponent
    */
-  public void setExponent(int exponent) {
-    Integer old = this.exponent;
-    this.exponent = exponent;
-    firePropertyChange(TreeNodeChangeEvent.exponent, old, this.exponent);
+  public void setExponent(double exponent) {
+    Double old = this.number.getL();
+    this.number.setL(exponent);
+    firePropertyChange(TreeNodeChangeEvent.exponent, old, this.number.getL());
   }
 
   /**
@@ -192,27 +133,9 @@ public class ASTCnExponentialNode extends ASTCnNumberNode {
    * @param double mantissa
    */
   public void setMantissa(double mantissa) {
-    Double old = this.mantissa;
-    this.mantissa = mantissa;
-    firePropertyChange(TreeNodeChangeEvent.mantissa, old, this.mantissa);
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("ASTCnExponentialNode [exponent=");
-    builder.append(exponent);
-    builder.append(", mantissa=");
-    builder.append(mantissa);
-    builder.append(", strict=");
-    builder.append(strict);
-    builder.append(", type=");
-    builder.append(type);
-    builder.append("]");
-    return builder.toString();
+    Double old = this.number.getV();
+    this.number.setV(mantissa);
+    firePropertyChange(TreeNodeChangeEvent.mantissa, old, this.number.getV());
   }
 
 }
