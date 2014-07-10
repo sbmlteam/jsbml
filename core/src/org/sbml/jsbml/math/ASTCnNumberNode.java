@@ -183,7 +183,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
    */
   @Override
   public int hashCode() {
-    final int prime = 31;
+    final int prime = 1483;
     int result = super.hashCode();
     result = prime * result + ((number == null) ? 0 : number.hashCode());
     result = prime * result + ((units == null) ? 0 : units.hashCode());

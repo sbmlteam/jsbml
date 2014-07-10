@@ -125,7 +125,7 @@ public class ASTLambdaFunctionNode extends ASTFunction {
    */
   @Override
   public int hashCode() {
-    final int prime = 31;
+    final int prime = 1213;
     int result = super.hashCode();
     result = prime * result + ((numBvars == null) ? 0 : numBvars.hashCode());
     return result;

@@ -132,7 +132,7 @@ ASTCSymbolBaseNode {
    */
   @Override
   public int hashCode() {
-    final int prime = 31;
+    final int prime = 1129;
     int result = super.hashCode();
     result = prime * result
       + ((definitionURL == null) ? 0 : definitionURL.hashCode());

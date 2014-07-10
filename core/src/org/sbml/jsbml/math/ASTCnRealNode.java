@@ -115,7 +115,7 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
    */
   @Override
   public int hashCode() {
-    final int prime = 31;
+    final int prime = 1777;
     int result = super.hashCode();
     result = prime * result + ((number == null) ? 0 : number.hashCode());
     return result;

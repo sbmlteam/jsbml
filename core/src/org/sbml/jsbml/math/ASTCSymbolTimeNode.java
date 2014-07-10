@@ -94,6 +94,31 @@ implements ASTCSymbolNode {
   }
 
   /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (!super.equals(obj))
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    ASTCSymbolTimeNode other = (ASTCSymbolTimeNode) obj;
+    if (definitionURL == null) {
+      if (other.definitionURL != null)
+        return false;
+    } else if (!definitionURL.equals(other.definitionURL))
+      return false;
+    if (encodingURL == null) {
+      if (other.encodingURL != null)
+        return false;
+    } else if (!encodingURL.equals(other.encodingURL))
+      return false;
+    return true;
+  }
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#getDefinitionURL()
    */
   @Override
@@ -123,6 +148,20 @@ implements ASTCSymbolNode {
     }
     logger.warn(error);
     return "";
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 1277;
+    int result = super.hashCode();
+    result = prime * result
+      + ((definitionURL == null) ? 0 : definitionURL.hashCode());
+    result = prime * result
+      + ((encodingURL == null) ? 0 : encodingURL.hashCode());
+    return result;
   }
 
   /*

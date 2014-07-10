@@ -133,7 +133,7 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
    */
   @Override
   public int hashCode() {
-    final int prime = 31;
+    final int prime = 1223;
     int result = super.hashCode();
     result = prime * result + (hasOtherwise ? 1231 : 1237);
     result = prime * result + ((numPiece == null) ? 0 : numPiece.hashCode());

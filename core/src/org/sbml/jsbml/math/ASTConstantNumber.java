@@ -115,7 +115,7 @@ public class ASTConstantNumber extends ASTNumber {
    */
   @Override
   public int hashCode() {
-    final int prime = 31;
+    final int prime = 1583;
     int result = super.hashCode();
     result = prime * result + ((value == null) ? 0 : value.hashCode());
     return result;
