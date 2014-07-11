@@ -56,7 +56,7 @@ public class SBMLLayoutVisualizer extends JFrame implements ActionListener {
   /** @param document The sbml root node of an SBML file
    * @throws XMLStreamException
    * @throws SBMLException */
-  public SBMLLayoutVisualizer(SBMLDocument document) throws SBMLException, XMLStreamException {
+  public SBMLLayoutVisualizer(SBMLDocument document) throws XMLStreamException {
     super("SBML Layout Viz");
     sbmlDocument=document;
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -68,7 +68,7 @@ public class SBMLLayoutVisualizer extends JFrame implements ActionListener {
     SBMLExportButton.addActionListener(this);
 
     SBMLWriter writer = new SBMLWriter();
-    JTextArea SBMLViewerArea = new JTextArea(50,120);
+    JTextArea SBMLViewerArea = new JTextArea(50,150);
     //writing SBML to String
     String SBMLString = writer.writeSBMLToString(document);
     //adding it to the Viewing Area

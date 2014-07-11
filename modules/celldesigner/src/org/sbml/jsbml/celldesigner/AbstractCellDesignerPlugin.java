@@ -21,10 +21,20 @@
  */
 package org.sbml.jsbml.celldesigner;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.SwingWorker;
+import javax.xml.stream.XMLStreamException;
 
 import jp.sbi.celldesigner.plugin.CellDesignerPlugin;
+import jp.sbi.celldesigner.plugin.PluginModel;
 import jp.sbi.celldesigner.plugin.PluginSBase;
+
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBMLDocument;
 
 /**
  * A basic implementation of a CellDesigner plug-in that takes care of
@@ -35,7 +45,10 @@ import jp.sbi.celldesigner.plugin.PluginSBase;
  * @since 1.0
  * @date 13.02.2014
  */
-public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin implements PropertyChangeListener {
+public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin implements Runnable {
+
+  public static final String ACTION = "Abstract CellDesigner Plugin";
+  public static final String APPLICATION_NAME = "Abstraction";
 
   /**
    * Converts CellDesigner's plug-in data structure into a JSBML data structure.
@@ -45,6 +58,14 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
    * Creates CellDesigner's plug-in data structure for a given JSBML structure.
    */
   private PluginSBMLWriter writer;
+  /**
+   * A singular SBMLDocument associated with this plugin
+   */
+  protected SBMLDocument document;
+  /**
+   * Map of CellDesigner PluginModels and JSBML Models
+   */
+  protected Map<PluginModel, Model> modelMap= new HashMap<PluginModel, Model>();
 
   /**
    *
@@ -79,13 +100,53 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
     return writer;
   }
 
+  /**
+   * @throws XMLStreamException
+   * 
+   */
+  public void startPlugin() throws XMLStreamException {
+    setStarted(true);
+    // Synchronize changes from this plug-in to CellDesigner:
+    if (!modelMap.containsKey(getSelectedModel())) {
+      SwingWorker<SBMLDocument, Throwable> worker = new SwingWork(getReader(), getSelectedModel());
+      final AbstractCellDesignerPlugin plugin = this;
+      worker.addPropertyChangeListener(new PropertyChangeListener() {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+          if (evt.getPropertyName().equals("state") && evt.getNewValue().equals(SwingWorker.StateValue.DONE)) {
+            try {
+              SwingWork swing = (SwingWork)evt.getSource();
+              document = swing.get();
+              document.addTreeNodeChangeListener(new PluginChangeListener(plugin));
+              modelMap.put(swing.getPluginModel(), document.getModel());
+              run();
+            } catch (Throwable e) {
+              new GUIErrorConsole(e);
+            }
+          }
+        }
+      });
+      worker.execute();
+    } else {
+      run();
+    }
+  }
+
+
+  public SBMLDocument getSelectedSBMLDocument()
+  {
+    return document;
+  }
+
   /* (non-Javadoc)
    * @see jp.sbi.celldesigner.plugin.CellDesignerPlug#modelClosed(jp.sbi.celldesigner.plugin.PluginSBase)
    */
   @Override
   public void modelClosed(PluginSBase sbase) {
-    // TODO Auto-generated method stub
-    System.out.println("modelClosed " + sbase);
+    if (sbase instanceof PluginModel)
+    {
+      PluginModel pModel = (PluginModel)sbase;
+    }
   }
 
   /* (non-Javadoc)

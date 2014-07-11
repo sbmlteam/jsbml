@@ -22,16 +22,9 @@ package org.sbml.jsbml.celldesigner;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.beans.PropertyChangeEvent;
-
-import javax.swing.SwingWorker;
-import javax.xml.stream.XMLStreamException;
 
 import jp.sbi.celldesigner.plugin.PluginMenu;
 import jp.sbi.celldesigner.plugin.PluginMenuItem;
-
-import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.gui.SBMLStructureVisualizer;
 
 
 /**
@@ -61,7 +54,6 @@ public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
    */
   @Override
   public void addPluginMenu() {
-    setStarted(true);
     // Initializing CellDesigner's menu entries
     PluginMenu menu = new PluginMenu(APPLICATION_NAME);
     PluginMenuItem menuItem = new PluginMenuItem(
@@ -71,74 +63,51 @@ public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
     addCellDesignerPluginMenu(menu);
   }
 
-  /**
-   * Performs the action for which this plug-in is designed.
-   *
-   * @throws XMLStreamException If the given SBML model contains errors.
-   */
-  public void startPlugin() throws XMLStreamException {
-    // Synchronize changes from this plug-in to CellDesigner:
-    final SwingWorker<SBMLDocument, Throwable> worker = new SwingWork(getReader(),getSelectedModel());
-    worker.addPropertyChangeListener(this);
-    worker.execute();
-  }
-
-  /* (non-Javadoc)
-   * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-   */
   @Override
-  public void propertyChange(PropertyChangeEvent evt) {
-    if (evt.getPropertyName().equals("state") && evt.getNewValue().equals(SwingWorker.StateValue.DONE)) {
-      try {
-        SBMLDocument doc=((SwingWork)evt.getSource()).get();
-        doc.addTreeNodeChangeListener(new PluginChangeListener(this));
-        SBMLStructureVisualizer visualizer = new SBMLStructureVisualizer(doc);
-        visualizer.addWindowListener(new WindowListener() {
+  public void run() {
+    SBMLStructureVisualizer visualizer = new SBMLStructureVisualizer(getSelectedSBMLDocument());
+    visualizer.addWindowListener(new WindowListener() {
 
-          @Override
-          public void windowOpened(WindowEvent e) {
-            // TODO Auto-generated method stub
-          }
-
-
-          @Override
-          public void windowIconified(WindowEvent e) {
-            // TODO Auto-generated method stub
-          }
-
-
-          @Override
-          public void windowDeiconified(WindowEvent e) {
-            // TODO Auto-generated method stub
-          }
-
-
-          @Override
-          public void windowDeactivated(WindowEvent e) {
-            // TODO Auto-generated method stub
-          }
-
-
-          @Override
-          public void windowClosing(WindowEvent e) {
-            // TODO Auto-generated method stub
-          }
-
-
-          @Override
-          public void windowClosed(WindowEvent e) {
-            setStarted(false);
-          }
-
-
-          @Override
-          public void windowActivated(WindowEvent e) {
-            // TODO Auto-generated method stub
-          }
-        });
-      } catch (Throwable e) {
-        new GUIErrorConsole(e);
+      @Override
+      public void windowOpened(WindowEvent e) {
+        // TODO Auto-generated method stub
       }
-    }
+
+
+      @Override
+      public void windowIconified(WindowEvent e) {
+        // TODO Auto-generated method stub
+      }
+
+
+      @Override
+      public void windowDeiconified(WindowEvent e) {
+        // TODO Auto-generated method stub
+      }
+
+
+      @Override
+      public void windowDeactivated(WindowEvent e) {
+        // TODO Auto-generated method stub
+      }
+
+
+      @Override
+      public void windowClosing(WindowEvent e) {
+        // TODO Auto-generated method stub
+      }
+
+
+      @Override
+      public void windowClosed(WindowEvent e) {
+        setStarted(false);
+      }
+
+
+      @Override
+      public void windowActivated(WindowEvent e) {
+        // TODO Auto-generated method stub
+      }
+    });
   }
 }

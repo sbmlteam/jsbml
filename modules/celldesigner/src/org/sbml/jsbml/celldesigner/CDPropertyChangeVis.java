@@ -22,7 +22,9 @@
  */
 package org.sbml.jsbml.celldesigner;
 
+import java.awt.Button;
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -41,13 +43,17 @@ public class CDPropertyChangeVis extends JFrame implements ActionListener {
   /** Generated serial version identifier */
   private static final long serialVersionUID = -6800051247041441688L;
   Container contentPane = getContentPane();
-  private final JTextArea viewerArea = new JTextArea(50,120);
-  private String propertyChangeString = "";
+  private final JTextArea viewerArea = new JTextArea(30,75);
 
   public CDPropertyChangeVis() {
     super("SBML/CD Test");
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    contentPane.setLayout(new FlowLayout());
     contentPane.add(new JScrollPane(viewerArea));
+    //creating Button and listening for click
+    Button SBMLExportButton = new Button("Clear Display");
+    SBMLExportButton.addActionListener(this);
+    contentPane.add(SBMLExportButton);
     pack();
     setLocationRelativeTo(null);
     setAlwaysOnTop(true);
@@ -56,37 +62,38 @@ public class CDPropertyChangeVis extends JFrame implements ActionListener {
 
   public void addSBase(String sbase)
   {
-    String sbaseAdded = "\nSBase_Added: "+sbase;
-    propertyChangeString += sbaseAdded;
-    viewerArea.append(propertyChangeString);
+    String sbaseAdded = "\nSBase_Added:\t"+sbase;
+    viewerArea.append(sbaseAdded);
+  }
+
+  public void modelSelectChanged(String sbase)
+  {
+    String sbaseAdded = "\nModel_SelectChanged:\t"+sbase;
+    viewerArea.append(sbaseAdded);
   }
 
   public void modelOpened(String sbase)
   {
-    String modelOpened = "\nmodel_opened: "+sbase;
-    propertyChangeString += modelOpened;
-    viewerArea.append(propertyChangeString);
+    String modelOpened = "\nmodel_Opened:\t"+sbase;
+    viewerArea.append(modelOpened);
   }
 
   public void modelClosed(String sbase)
   {
-    String modelClosed = "\nmodel_closed: "+sbase;
-    propertyChangeString += modelClosed;
-    viewerArea.append(propertyChangeString);
+    String modelClosed = "\nmodel_Closed:\t"+sbase;
+    viewerArea.append(modelClosed);
   }
 
   public void deleteSBase(String sbase)
   {
-    String deleteSBase="\nsbase_deleted: "+sbase;
-    propertyChangeString += deleteSBase;
-    viewerArea.append(propertyChangeString);
+    String deleteSBase="\nSBase_Deleted:\t"+sbase;
+    viewerArea.append(deleteSBase);
   }
 
   public void changeSBase(String sbase)
   {
-    String changeSBase="\nsbase_changed: "+sbase;
-    propertyChangeString += changeSBase;
-    viewerArea.append(propertyChangeString);
+    String changeSBase="\nSBase_Changed:\t"+sbase;
+    viewerArea.append(changeSBase);
   }
 
   /* (non-Javadoc)
@@ -94,7 +101,6 @@ public class CDPropertyChangeVis extends JFrame implements ActionListener {
    */
   @Override
   public void actionPerformed(ActionEvent e) {
-    // TODO Auto-generated method stub
-
+    viewerArea.setText("");
   }
 }

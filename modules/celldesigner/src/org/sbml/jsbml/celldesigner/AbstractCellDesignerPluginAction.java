@@ -1,10 +1,10 @@
 /*
- * $Id:  SBMLExportPluginAction.java 1776 Jun 3, 2014 4:51:26 PM yvazirabad $
- * $URL: https://svn.code.sf.net/p/jsbml/code/trunk/modules/celldesigner/test/org/sbml/jsbml/celldesigner/SBMLExportPluginAction.java $
+ * $Id$
+ * $URL$
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
- *
+ * 
  * Copyright (C) 2009-2014  jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
@@ -12,7 +12,7 @@
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. Marquette University, Milwaukee, WI, USA
- *
+ * 
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation. A copy of the license agreement is provided
@@ -28,32 +28,29 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.xml.stream.XMLStreamException;
 
+import jp.sbi.celldesigner.plugin.PluginAction;
+
 
 /**
  * @author Ibrahim Vazirabad
- * @version $Rev 1776$
+ * @version $Rev$
  * @since 1.0
- * @date Jun 3, 2014
+ * @date Jul 8, 2014
  */
-public class SBMLExportPluginAction extends AbstractCellDesignerPluginAction {
-  /**
-   * Generated serial version identifier.
-   */
-  private static final long serialVersionUID = -2317705894273036740L;
+public abstract class AbstractCellDesignerPluginAction extends PluginAction {
 
   /**
    * The plugin that is triggered when this object receives appropriate actions.
    */
-  private final SBMLExportPlugin plugin;
+  private final AbstractCellDesignerPlugin plugin;
 
   /**
-   *
-   * @param plugin
+   * 
    */
-  public SBMLExportPluginAction(SBMLExportPlugin plugin) {
-    super(plugin);
+  public AbstractCellDesignerPluginAction(AbstractCellDesignerPlugin plugin)
+  {
+    super();
     this.plugin = plugin;
-
   }
 
   /* (non-Javadoc)
@@ -63,13 +60,13 @@ public class SBMLExportPluginAction extends AbstractCellDesignerPluginAction {
   public void myActionPerformed(ActionEvent evt) {
     if (evt.getSource() instanceof JMenuItem) {
       JMenuItem item = (JMenuItem) evt.getSource();
-      if (item.getText().equals(SBMLExportPlugin.ACTION)) {
+      if (item.getText().equals(AbstractCellDesignerPlugin.ACTION)) {
         try {
           plugin.startPlugin();
         } catch (XMLStreamException exc) {
           JOptionPane.showMessageDialog(item, exc.getMessage(),
             exc.getClass().toString(), JOptionPane.ERROR_MESSAGE);
-          exc.printStackTrace();
+          new GUIErrorConsole(exc);
         }
       }
     } else {
@@ -78,5 +75,4 @@ public class SBMLExportPluginAction extends AbstractCellDesignerPluginAction {
           JOptionPane.WARNING_MESSAGE);
     }
   }
-
 }

@@ -22,15 +22,13 @@
  */
 package org.sbml.jsbml.celldesigner;
 
-import java.beans.PropertyChangeEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
-import javax.swing.SwingWorker;
 import javax.xml.stream.XMLStreamException;
 
 import jp.sbi.celldesigner.plugin.PluginMenu;
 import jp.sbi.celldesigner.plugin.PluginMenuItem;
-
-import org.sbml.jsbml.SBMLDocument;
 
 
 /**
@@ -66,32 +64,60 @@ public class SBMLExportPlugin extends AbstractCellDesignerPlugin  {
     addCellDesignerPluginMenu(menu);
   }
 
-  /**
-   * Performs the action for which this plug-in is designed.
-   *
-   * @throws XMLStreamException If the given SBML model contains errors.
-   */
-  public void startPlugin() throws XMLStreamException {
-    setStarted(true);
-    // Synchronize changes from this plug-in to CellDesigner:
-    SwingWorker<SBMLDocument, Throwable> worker = new SwingWork(getReader(),getSelectedModel());
-    worker.addPropertyChangeListener(this);
-    worker.execute();
-  }
-
   /* (non-Javadoc)
    * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
    */
   @Override
-  public void propertyChange(PropertyChangeEvent evt) {
-    if (evt.getPropertyName().equals("state") && evt.getNewValue().equals(SwingWorker.StateValue.DONE)) {
-      try {
-        SBMLDocument doc = ((SwingWork)evt.getSource()).get();
-        doc.addTreeNodeChangeListener(new PluginChangeListener(this));
-        new SBMLLayoutVisualizer(doc);
-      } catch (Throwable e) {
-        e.printStackTrace();
-      }
+  public void run() {
+    SBMLLayoutVisualizer SBMLVisualizer = null;
+    try {
+      SBMLVisualizer = new SBMLLayoutVisualizer(getSelectedSBMLDocument());
+    } catch (XMLStreamException e1) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
     }
+    SBMLVisualizer.addWindowListener(new WindowListener() {
+
+      @Override
+      public void windowOpened(WindowEvent e) {
+        // TODO Auto-generated method stub
+      }
+
+
+      @Override
+      public void windowIconified(WindowEvent e) {
+        // TODO Auto-generated method stub
+      }
+
+
+      @Override
+      public void windowDeiconified(WindowEvent e) {
+        // TODO Auto-generated method stub
+      }
+
+
+      @Override
+      public void windowDeactivated(WindowEvent e) {
+        // TODO Auto-generated method stub
+      }
+
+
+      @Override
+      public void windowClosing(WindowEvent e) {
+        // TODO Auto-generated method stub
+      }
+
+
+      @Override
+      public void windowClosed(WindowEvent e) {
+        setStarted(false);
+      }
+
+
+      @Override
+      public void windowActivated(WindowEvent e) {
+        // TODO Auto-generated method stub
+      }
+    });
   }
 }
