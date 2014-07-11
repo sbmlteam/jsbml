@@ -23,7 +23,6 @@
 package org.sbml.jsbml.math;
 
 import org.sbml.jsbml.MathContainer;
-import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 

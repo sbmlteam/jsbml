@@ -195,7 +195,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
    * 
    * @return boolean
    */
-  private boolean isSetNumber() {
+  protected boolean isSetNumber() {
     return number != null;
   }
   

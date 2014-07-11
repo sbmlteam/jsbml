@@ -29,11 +29,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.ASTArithmeticOperatorNode;
 import org.sbml.jsbml.math.ASTBinaryFunctionNode;
+import org.sbml.jsbml.math.ASTCnExponentialNode;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
+import org.sbml.jsbml.math.ASTCnRationalNode;
+import org.sbml.jsbml.math.ASTCnRealNode;
 import org.sbml.jsbml.math.ASTFactory;
-import org.sbml.jsbml.math.ASTFunction;
 import org.sbml.jsbml.math.ASTUnaryFunctionNode;
 
 
@@ -370,6 +373,126 @@ public class ASTNode2Test {
     a.swapChildren(b);
     assertTrue((a.getChildCount() == 3) && (b.getChildCount() == 1));
   }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnIntegerNode#getInteger()}.
+   */
+  @Test
+  public void testASTCnIntegerWithValue() {
+    ASTCnIntegerNode integer = new ASTCnIntegerNode(10);
+    assertTrue(integer.getInteger() == 10);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnIntegerNode#getInteger()}.
+   */
+  @Test
+  public void testASTCnIntegerNoValue() {
+    ASTCnIntegerNode integer = new ASTCnIntegerNode();
+    exception.expect(PropertyUndefinedError.class);
+    integer.getInteger();
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnRealNode#getReal()}.
+   */
+  @Test
+  public void testASTCnRealWithValue() {
+    ASTCnRealNode real = new ASTCnRealNode(10.0);
+    assertTrue(real.getReal() == 10.0);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnRealNode#getReal()}.
+   */
+  @Test
+  public void testASTCnRealNoValue() {
+    ASTCnRealNode real = new ASTCnRealNode();
+    assertTrue(real.getReal() != Double.NaN);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnRationalNode#getNumerator()}.
+   */
+  @Test
+  public void testASTCnRationalNumeratorNoValue() {
+    ASTCnRationalNode rational = new ASTCnRationalNode();
+    rational.setDenominator(10.0);
+    assertTrue(rational.getNumerator() != Double.NaN);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnRationalNode#getNumerator()}.
+   */
+  @Test
+  public void testASTCnRationalNumeratorWithValue() {
+    ASTCnRationalNode rational = new ASTCnRationalNode();
+    rational.setNumerator(10.0);
+    rational.setDenominator(10.0);
+    assertTrue(rational.getNumerator() == 10.0);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnRationalNode#getDenominator()}.
+   */
+  @Test
+  public void testASTCnRationalDenominatorNoValue() {
+    ASTCnRationalNode rational = new ASTCnRationalNode();
+    rational.setNumerator(10.0);
+    assertTrue(rational.getDenominator() != Double.NaN);
+  }
 
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnRationalNode#getDenominator()}.
+   */
+  @Test
+  public void testASTCnRationalDenominatorWithValue() {
+    ASTCnRationalNode rational = new ASTCnRationalNode();
+    rational.setNumerator(10.0);
+    rational.setDenominator(10.0);
+    assertTrue(rational.getDenominator() == 10.0);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnExponentialNode#getMantissa()}.
+   */
+  @Test
+  public void testASTCnExponentialMantissaNoValue() {
+    ASTCnExponentialNode exponential = new ASTCnExponentialNode();
+    exponential.setExponent(10.0);
+    assertTrue(exponential.getMantissa() != Double.NaN);
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnExponentialNode#getMantissa()}.
+   */
+  @Test
+  public void testASTCnExponentialMantissaWithValue() {
+    ASTCnExponentialNode exponential = new ASTCnExponentialNode();
+    exponential.setExponent(10.0);
+    exponential.setMantissa(10.0);
+    assertTrue(exponential.getMantissa() == 10.0);
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnExponentialNode#getExponent()}.
+   */
+  @Test
+  public void testASTCnExponentialMantissaNoExponent() {
+    ASTCnExponentialNode exponential = new ASTCnExponentialNode();
+    exponential.setMantissa(10.0);
+    assertTrue(exponential.getExponent() != Double.NaN);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnExponentialNode#getExponent()}.
+   */
+  @Test
+  public void testASTCnExponentialMantissaWithExponent() {
+    ASTCnExponentialNode exponential = new ASTCnExponentialNode();
+    exponential.setExponent(10.0);
+    exponential.setMantissa(10.0);
+    assertTrue(exponential.getExponent() == 10.0);
+  }
     
 }

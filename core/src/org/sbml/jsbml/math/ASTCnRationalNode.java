@@ -121,6 +121,9 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Double,Double>>
    * @param double denominator
    */
   public void setDenominator(double denominator) {
+    if (! isSetNumber()) {
+      setNumber(new ValuePair<Double,Double>());
+    }
     Double old = this.number.getV();
     this.number.setV(denominator);
     firePropertyChange(TreeNodeChangeEvent.denominator, old, this.number.getV());
@@ -132,6 +135,9 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Double,Double>>
    * @param double numerator
    */
   public void setNumerator(double numerator) {
+    if (! isSetNumber()) {
+      setNumber(new ValuePair<Double,Double>());
+    }
     Double old = this.number.getL();
     this.number.setL(numerator);
     firePropertyChange(TreeNodeChangeEvent.numerator, old, this.number.getL());

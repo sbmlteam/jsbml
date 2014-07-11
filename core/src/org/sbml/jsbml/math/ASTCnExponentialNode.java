@@ -24,7 +24,6 @@ package org.sbml.jsbml.math;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.MathContainer;
-import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.ValuePair;
 
@@ -122,6 +121,9 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Double,Doubl
    * @param double exponent
    */
   public void setExponent(double exponent) {
+    if (! isSetNumber()) {
+      setNumber(new ValuePair<Double,Double>());
+    }
     Double old = this.number.getL();
     this.number.setL(exponent);
     firePropertyChange(TreeNodeChangeEvent.exponent, old, this.number.getL());
@@ -133,6 +135,9 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Double,Doubl
    * @param double mantissa
    */
   public void setMantissa(double mantissa) {
+    if (! isSetNumber()) {
+      setNumber(new ValuePair<Double,Double>());
+    }
     Double old = this.number.getV();
     this.number.setV(mantissa);
     firePropertyChange(TreeNodeChangeEvent.mantissa, old, this.number.getV());
