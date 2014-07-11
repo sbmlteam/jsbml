@@ -236,7 +236,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    * @param elements
    * @return
    */
-  private static final StringBuffer selector(Object... elements) {
+  protected static final StringBuffer selector(Object... elements) {
     List<Object> vsb = new Vector<Object>();
     for (Object sb : elements) {
       if (sb != null && sb.toString().length() > 0) {
@@ -294,7 +294,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    * @param elements
    * @return
    */
-  private static final StringBuffer vector(Object... elements) {
+  protected static final StringBuffer vector(Object... elements) {
     List<Object> vsb = new Vector<Object>();
     for (Object sb : elements) {
       if (sb != null && sb.toString().length() > 0) {
@@ -442,7 +442,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  private String checkBrackets(ASTNode node) throws SBMLException {
+  protected String checkBrackets(ASTNode node) throws SBMLException {
     String term = node.compile(this).toString();
 
     if (node.isSum() || node.isDifference() || node.isUMinus()) {
@@ -463,7 +463,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  private String checkDenominatorBrackets(ASTNode nodes) throws SBMLException {
+  protected String checkDenominatorBrackets(ASTNode nodes) throws SBMLException {
     if ((nodes.getType() == Type.POWER) && (nodes.getChildCount() > 1)
         && nodes.getRightChild().toString().equals("1")) {
       return checkDenominatorBrackets(nodes.getLeftChild());
@@ -780,7 +780,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  private String lambdaBody(List<ASTNode> nodes) throws SBMLException {
+  protected String lambdaBody(List<ASTNode> nodes) throws SBMLException {
     StringBuffer lambda = new StringBuffer();
     for (int i = 0; i < nodes.size(); i++) {
       if (i > 0) {
@@ -830,7 +830,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  private ASTNodeValue logicalOperation(String operator, List<ASTNode> nodes)
+  protected ASTNodeValue logicalOperation(String operator, List<ASTNode> nodes)
       throws SBMLException {
     StringBuffer value = new StringBuffer();
     boolean first = true;
@@ -951,7 +951,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  private String relation(ASTNode left, String symbol, ASTNode right)
+  protected String relation(ASTNode left, String symbol, ASTNode right)
       throws SBMLException {
 
     return concat((left.isRelational()) ? brackets(left) : left, symbol,

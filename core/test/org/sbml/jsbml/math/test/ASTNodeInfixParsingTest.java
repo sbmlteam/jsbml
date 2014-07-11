@@ -32,6 +32,13 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.ParseException;
 
+/**
+ * Tests related to {@link ASTNode#parseFormula(String)} and {@link ASTNode#parseFormula(String, IFormulaParser)}.
+ * 
+ * @author Nicolas Rodriguez
+ * @version $Rev$
+ * @since 1.0
+ */
 public class ASTNodeInfixParsingTest {
   
   final static FormulaParserLL3 caseSensitiveParser = new FormulaParserLL3(new StringReader(""));
