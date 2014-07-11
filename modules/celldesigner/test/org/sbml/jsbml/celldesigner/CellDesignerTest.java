@@ -22,17 +22,17 @@
  */
 package org.sbml.jsbml.celldesigner;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
-import javax.swing.SwingWorker;
-import javax.xml.stream.XMLStreamException;
-
+import jp.sbi.celldesigner.plugin.PluginCompartment;
 import jp.sbi.celldesigner.plugin.PluginMenu;
 import jp.sbi.celldesigner.plugin.PluginMenuItem;
+import jp.sbi.celldesigner.plugin.PluginModel;
+import jp.sbi.celldesigner.plugin.PluginReaction;
 import jp.sbi.celldesigner.plugin.PluginSBase;
-
-import org.sbml.jsbml.SBMLDocument;
+import jp.sbi.celldesigner.plugin.PluginSpecies;
+import jp.sbi.celldesigner.plugin.PluginSpeciesAlias;
 
 
 /**
@@ -41,7 +41,7 @@ import org.sbml.jsbml.SBMLDocument;
  * @since 1.0
  * @date Jun 30, 2014
  */
-public class CellDesignerTest extends AbstractCellDesignerPlugin  implements PropertyChangeListener {
+public class CellDesignerTest extends AbstractCellDesignerPlugin {
 
   public static final String ACTION = "Test CD Listeners";
   public static final String APPLICATION_NAME = "Test the Listeners";
@@ -72,33 +72,46 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin  implements Pro
     addCellDesignerPluginMenu(menu);
   }
 
-  /**
-   * Performs the action for which this plug-in is designed.
-   *
-   * @throws XMLStreamException If the given SBML model contains errors.
-   */
-  public void startPlugin() throws XMLStreamException {
-    setStarted(true);
-    // Synchronize changes from this plug-in to CellDesigner:
-    SwingWorker<SBMLDocument, Throwable> worker = new SwingWork(getReader(),getSelectedModel());
-    worker.addPropertyChangeListener(this);
-    worker.execute();
-  }
-
   @Override
   public void SBaseAdded(PluginSBase sbase) {
 
-    propertyChangeVis.addSBase(sbase.toString());
+    if (sbase instanceof PluginModel)
+    {
+      PluginModel pModel = (PluginModel) sbase;
+      propertyChangeVis.addSBase(pModel.getId());
+    }
+    else if (sbase instanceof PluginCompartment)
+    {
+      PluginCompartment pCompartment = (PluginCompartment) sbase;
+      propertyChangeVis.addSBase(pCompartment.getId());
+    }
+    else if (sbase instanceof PluginSpecies)
+    {
+      PluginSpecies pSpecies = (PluginSpecies) sbase;
+      propertyChangeVis.addSBase(pSpecies.getId());
+    }
+    else if (sbase instanceof PluginSpeciesAlias)
+    {
+      PluginSpeciesAlias pSpeciesAlias = (PluginSpeciesAlias) sbase;
+      propertyChangeVis.addSBase("alias_"+pSpeciesAlias.getSpecies().getId());
+    }
+    else if (sbase instanceof PluginReaction)
+    {
+      PluginReaction pReaction = (PluginReaction) sbase;
+      propertyChangeVis.addSBase(pReaction.getId());
+    }
   }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#modelSelectChanged(jp.sbi.celldesigner.plugin.PluginSBase)
    */
   @Override
   public void modelSelectChanged(PluginSBase sbase) {
-    // TODO Auto-generated method stub
-    super.modelSelectChanged(sbase);
+    if (sbase instanceof PluginModel)
+    {
+      PluginModel pModel = (PluginModel) sbase;
+      propertyChangeVis.modelSelectChanged(pModel.getId());
+    }
   }
 
   /* (non-Javadoc)
@@ -106,38 +119,125 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin  implements Pro
    */
   @Override
   public void SBaseChanged(PluginSBase sbase) {
-    propertyChangeVis.changeSBase(sbase.toString());
+    if (sbase instanceof PluginModel)
+    {
+      PluginModel pModel = (PluginModel) sbase;
+      propertyChangeVis.changeSBase(pModel.getId());
+    }
+    else if (sbase instanceof PluginCompartment)
+    {
+      PluginCompartment pCompartment = (PluginCompartment) sbase;
+      propertyChangeVis.changeSBase(pCompartment.getId());
+    }
+    else if (sbase instanceof PluginSpecies)
+    {
+      PluginSpecies pSpecies = (PluginSpecies) sbase;
+      propertyChangeVis.changeSBase(pSpecies.getId());
+    }
+    else if (sbase instanceof PluginSpeciesAlias)
+    {
+      PluginSpeciesAlias pSpeciesAlias = (PluginSpeciesAlias) sbase;
+      propertyChangeVis.changeSBase("alias_"+pSpeciesAlias.getSpecies().getId());
+    }
+    else if (sbase instanceof PluginReaction)
+    {
+      PluginReaction pReaction = (PluginReaction) sbase;
+      propertyChangeVis.changeSBase(pReaction.getId());
+    }
   }
 
   @Override
   public void modelClosed(PluginSBase sbase) {
-    propertyChangeVis.modelClosed(sbase.toString());
+    if (sbase instanceof PluginModel)
+    {
+      PluginModel pModel = (PluginModel) sbase;
+      propertyChangeVis.modelClosed(pModel.getId());
+    }
   }
 
   @Override
   public void modelOpened(PluginSBase sbase) {
-    propertyChangeVis.modelOpened(sbase.toString());
+    if (sbase instanceof PluginModel)
+    {
+      PluginModel pModel = (PluginModel) sbase;
+      propertyChangeVis.modelOpened(pModel.getId());
+    }
   }
 
   @Override
   public void SBaseDeleted(PluginSBase sbase) {
-    propertyChangeVis.deleteSBase(sbase.toString());
-  }
-
-  /* (non-Javadoc)
-   * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
-   */
-  @Override
-  public void propertyChange(PropertyChangeEvent evt) {
-    if (evt.getPropertyName().equals("state") && evt.getNewValue().equals(SwingWorker.StateValue.DONE)) {
-      try {
-        SBMLDocument doc = ((SwingWork)evt.getSource()).get();
-        doc.addTreeNodeChangeListener(new PluginChangeListener(this));
-        new CDPropertyChangeVis();
-      } catch (Throwable e) {
-        new GUIErrorConsole(e);
-      }
+    if (sbase instanceof PluginModel)
+    {
+      PluginModel pModel = (PluginModel) sbase;
+      propertyChangeVis.deleteSBase(pModel.getId());
+    }
+    else if (sbase instanceof PluginCompartment)
+    {
+      PluginCompartment pCompartment = (PluginCompartment) sbase;
+      propertyChangeVis.deleteSBase(pCompartment.getId());
+    }
+    else if (sbase instanceof PluginSpecies)
+    {
+      PluginSpecies pSpecies = (PluginSpecies) sbase;
+      propertyChangeVis.deleteSBase(pSpecies.getId());
+    }
+    else if (sbase instanceof PluginSpeciesAlias)
+    {
+      PluginSpeciesAlias pSpeciesAlias = (PluginSpeciesAlias) sbase;
+      propertyChangeVis.deleteSBase("alias_"+pSpeciesAlias.getSpecies().getId());
+    }
+    else if (sbase instanceof PluginReaction)
+    {
+      PluginReaction pReaction = (PluginReaction) sbase;
+      propertyChangeVis.deleteSBase(pReaction.getId());
     }
   }
-}
 
+  @Override
+  public void run() {
+    CDPropertyChangeVis CDvisualizer = new CDPropertyChangeVis();
+    CDvisualizer.addWindowListener(new WindowListener() {
+
+      @Override
+      public void windowOpened(WindowEvent e) {
+        // TODO Auto-generated method stub
+      }
+
+
+      @Override
+      public void windowIconified(WindowEvent e) {
+        // TODO Auto-generated method stub
+      }
+
+
+      @Override
+      public void windowDeiconified(WindowEvent e) {
+        // TODO Auto-generated method stub
+      }
+
+
+      @Override
+      public void windowDeactivated(WindowEvent e) {
+        // TODO Auto-generated method stub
+      }
+
+
+      @Override
+      public void windowClosing(WindowEvent e) {
+        // TODO Auto-generated method stub
+      }
+
+
+      @Override
+      public void windowClosed(WindowEvent e) {
+        setStarted(false);
+      }
+
+
+      @Override
+      public void windowActivated(WindowEvent e) {
+        // TODO Auto-generated method stub
+      }
+    });
+  }
+}

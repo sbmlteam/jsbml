@@ -28,8 +28,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.xml.stream.XMLStreamException;
 
-import jp.sbi.celldesigner.plugin.PluginAction;
-
 
 /**
  * @author Ibrahim Vazirabad
@@ -37,7 +35,7 @@ import jp.sbi.celldesigner.plugin.PluginAction;
  * @since 1.0
  * @date Jun 30, 2014
  */
-public class CellDesignerTestAction extends PluginAction{
+public class CellDesignerTestAction extends AbstractCellDesignerPluginAction {
   /**
    * Generated serial version identifier.
    */
@@ -53,7 +51,7 @@ public class CellDesignerTestAction extends PluginAction{
    * @param plugin
    */
   public CellDesignerTestAction(CellDesignerTest plugin) {
-    super();
+    super(plugin);
     this.plugin = plugin;
   }
 

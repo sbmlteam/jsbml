@@ -26,15 +26,13 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.xml.stream.XMLStreamException;
 
-import jp.sbi.celldesigner.plugin.PluginAction;
-
 /**
  * @author Andreas Dr&auml;ger
  * @version $Rev$
  * @since 1.0
  * @date 16.04.2014
  */
-public class SimpleCellDesignerPluginAction extends PluginAction {
+public class SimpleCellDesignerPluginAction extends AbstractCellDesignerPluginAction {
 
   /**
    * Generated serial version identifier.
@@ -44,14 +42,14 @@ public class SimpleCellDesignerPluginAction extends PluginAction {
   /**
    * The plugin that is triggered when this object receives appropriate actions.
    */
-  private SimpleCellDesignerPlugin plugin;
+  private final SimpleCellDesignerPlugin plugin;
 
   /**
    * 
    * @param plugin
    */
   public SimpleCellDesignerPluginAction(SimpleCellDesignerPlugin plugin) {
-    super();
+    super(plugin);
     this.plugin = plugin;
   }
 
@@ -77,5 +75,4 @@ public class SimpleCellDesignerPluginAction extends PluginAction {
           JOptionPane.WARNING_MESSAGE);
     }
   }
-
 }

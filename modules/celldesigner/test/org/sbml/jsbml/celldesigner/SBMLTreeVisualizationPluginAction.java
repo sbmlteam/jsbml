@@ -26,15 +26,13 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.xml.stream.XMLStreamException;
 
-import jp.sbi.celldesigner.plugin.PluginAction;
-
 /**
  * @author Andreas Dr&auml;ger
  * @version $Rev$
  * @since 1.0
  * @date 16.04.2014
  */
-public class SBMLTreeVisualizationPluginAction extends PluginAction {
+public class SBMLTreeVisualizationPluginAction extends AbstractCellDesignerPluginAction {
 
   /**
    * Generated serial version identifier.
@@ -51,7 +49,7 @@ public class SBMLTreeVisualizationPluginAction extends PluginAction {
    * @param plugin
    */
   public SBMLTreeVisualizationPluginAction(SBMLTreeVisualizationPlugin plugin) {
-    super();
+    super(plugin);
     this.plugin = plugin;
   }
 

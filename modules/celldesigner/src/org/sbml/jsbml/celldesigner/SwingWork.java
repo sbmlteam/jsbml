@@ -40,8 +40,16 @@ import org.sbml.jsbml.ext.render.RenderConstants;
  */
 public class SwingWork extends SwingWorker<SBMLDocument, Throwable> {
 
-  PluginSBMLReader sbmlReader;
-  PluginModel pluginModel;
+  private PluginSBMLReader sbmlReader;
+  private PluginModel pluginModel;
+
+  
+  /**
+   * @return the pluginModel
+   */
+  public PluginModel getPluginModel() {
+    return pluginModel;
+  }
 
   /**
    * @param reader
@@ -57,12 +65,11 @@ public class SwingWork extends SwingWorker<SBMLDocument, Throwable> {
     try{
       Model model = sbmlReader.convertModel(pluginModel);
       SBMLDocument doc = new SBMLDocument(model.getLevel(), model.getVersion());
-      doc.setModel(model);
       doc.addNamespace(LayoutConstants.shortLabel, "xmlns", LayoutConstants.getNamespaceURI(doc.getLevel(), doc.getVersion()));
       doc.addNamespace(RenderConstants.shortLabel, "xmlns", RenderConstants.getNamespaceURI(doc.getLevel(), doc.getVersion()));
       doc.getSBMLDocumentAttributes().put(LayoutConstants.shortLabel + ":required", "false");
       doc.getSBMLDocumentAttributes().put(RenderConstants.shortLabel + ":required", "false");
-      //JOptionPane.showMessageDialog(null, new JScrollPane(new JTree(doc)));
+      doc.setModel(model);
       return doc;
     }
     catch (Throwable e)
