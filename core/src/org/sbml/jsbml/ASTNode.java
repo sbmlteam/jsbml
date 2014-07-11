@@ -41,6 +41,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
+import org.sbml.jsbml.util.compilers.FormulaCompilerLibSBML;
 import org.sbml.jsbml.util.compilers.LaTeXCompiler;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.util.compilers.UnitsCompiler;
@@ -716,14 +717,44 @@ public class ASTNode extends AbstractTreeNode {
    *         mathematical formula. The caller owns the returned string and is
    *         responsible for freeing it when it is no longer needed. {@code null} is
    *         returned if the given argument is {@code null}.
-   * @throws SBMLException
+   * @throws SBMLException if the {@link ASTNode} is not well formed.
    * @see #toFormula()
    * 
    */
   public static String formulaToString(ASTNode tree) throws SBMLException {
+    if (tree == null) {
+      return null;
+    }
+
     return tree.toFormula();
   }
 
+  /**
+   * Returns the formula from the given {@link ASTNode} as an
+   * infix mathematical formula produce by the given {@link FormulaCompiler}.
+   * 
+   * 
+   * @param tree
+   *            the root of the ASTNode formula expression tree
+   * @param compiler the {@link FormulaCompiler} to use           
+   * @return the formula from the given AST as an infix 
+   *         mathematical formula. {@code null} is
+   *         returned if one of the given arguments is {@code null}.
+   * @throws SBMLException if the {@link ASTNode} is not well formed.
+   * @see #toFormula()
+   * @see FormulaCompiler
+   * @see FormulaCompilerLibSBML
+   * 
+   */
+  public static String formulaToString(ASTNode tree, FormulaCompiler compiler) throws SBMLException {
+    if (tree == null || compiler == null) {
+      return null;
+    }
+
+    return tree.toFormula(compiler);
+  }
+
+    
   /**
    * Creates a new {@link ASTNode} of type DIVIDE with the given nodes as children.
    * 
@@ -3926,24 +3957,22 @@ public class ASTNode extends AbstractTreeNode {
   }
 
   /**
-   * <p>
-   * Converts this ASTNode to a text string using a specific syntax for
+   * Converts this {@link ASTNode} to a text string using a specific syntax for
    * mathematical formulas.
-   * </p>
+   * 
    * <p>
    * The text-string form of mathematical formulas produced by
-   * formulaToString() and read by parseFormula() are simple C-inspired infix
+   * toFormula() and read by parseFormula() are simple C-inspired infix
    * notation taken from SBML Level 1. A formula in this text-string form
    * therefore can be handed to a program that understands SBML Level 1
    * mathematical expressions, or used as part of a formula translation
-   * system. The syntax is described in detail in the documentation for
-   * ASTNode.
+   * system. Be careful that the default {@link FormulaCompiler} used produce an output
+   * a bit different than pure SBML level 1 mathematical expressions, in particular
+   * for logical and relational operators.
    * </p>
    * 
-   * @return the formula from the given AST as an SBML Level 1 text-string
-   *         mathematical formula. The caller owns the returned string and is
-   *         responsible for freeing it when it is no longer needed. {@code null} is
-   *         returned if the given argument is {@code null}.
+   * @return the formula representing this {@link ASTNode} as an SBML Level 1 text-string
+   *         mathematical formula.
    * @throws SBMLException
    *             if there is a problem in the ASTNode tree.
    */
@@ -3951,6 +3980,24 @@ public class ASTNode extends AbstractTreeNode {
     return compile(new FormulaCompiler()).toString();
   }
 
+  /**
+   * Converts this {@link ASTNode} to a text string using a specific {@link FormulaCompiler}.
+   * 
+   * @return the formula representing this {@link ASTNode}. {@code null} is
+   *         returned if the given compiler is {@code null}.
+   * @throws SBMLException
+   *             if there is a problem in the ASTNode tree.
+   * @see FormulaCompiler
+   * @see FormulaCompilerLibSBML            
+   */
+  public String toFormula(FormulaCompiler compiler) throws SBMLException {
+    if (compiler == null) {
+      return null;
+    }
+    
+    return compile(compiler).toString();
+  }
+  
   /**
    * Converts this node recursively into a LaTeX formatted String.
    * 

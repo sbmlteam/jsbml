@@ -32,7 +32,9 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.resources.Resource;
+import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.util.compilers.FormulaCompiler;
 
 /**
  * Wrapper class for global methods and constants defined by JSBML.
@@ -128,13 +130,16 @@ public class JSBML {
    * The text-string form of mathematical formulas produced by
    * {@link ASTNode#formulaToString(ASTNode)} and read by
    * {@link ASTNode#parseFormula(String)} are simple C-inspired infix notation
-   * taken from SBML Level&nbsp;1. A formula in this text-string form therefore
-   * can be handed to a program that understands SBML Level&nbsp;1 mathematical
+   * taken from SBML Level 1. A formula in this text-string form therefore
+   * can be handed to a program that understands SBML Level 1 mathematical
    * expressions, or used as part of a formula translation system. The syntax is
    * described in detail in the libsbml documentation for <a href=
    * "http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/ASTNode.html"
    * >ASTNode</a>.
-   * <p>
+   * 
+   * <p>Be careful that the default {@link FormulaCompiler} used produce an output
+   * a bit different than pure SBML level 1 mathematical expressions, in particular
+   * for logical and relational operators.
    * 
    * @param tree
    *        the root of the {@link ASTNode} formula expression tree
@@ -143,9 +148,11 @@ public class JSBML {
    *         argument is {@code null}.
    * @throws SBMLException
    *         In case the given {@link ASTNode} tree contains invalid nodes.
+   * @see ASTNode#toFormula()
+   * @see ASTNode#toFormula(FormulaCompiler)
    */
   public static String formulaToString(ASTNode node) throws SBMLException {
-    return node.toFormula();
+    return ASTNode.formulaToString(node);
   }
 
   /**
@@ -229,6 +236,8 @@ public class JSBML {
    * @throws ParseException
    *             If the given formula is not of valid format or cannot be
    *             parsed for other reasons.
+   * @see ASTNode#parseFormula(String)
+   * @see ASTNode#parseFormula(String, IFormulaParser)            
    */
   public static ASTNode parseFormula(String formula) throws ParseException {
     return ASTNode.parseFormula(formula);
