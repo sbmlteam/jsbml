@@ -34,6 +34,7 @@ import org.sbml.jsbml.math.ASTArithmeticOperatorNode;
 import org.sbml.jsbml.math.ASTBinaryFunctionNode;
 import org.sbml.jsbml.math.ASTCnExponentialNode;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
+import org.sbml.jsbml.math.ASTCnNumberNode;
 import org.sbml.jsbml.math.ASTCnRationalNode;
 import org.sbml.jsbml.math.ASTCnRealNode;
 import org.sbml.jsbml.math.ASTFactory;
@@ -375,6 +376,27 @@ public class ASTNode2Test {
   }
   
   /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnNumberNode#getNumber()}.
+   */
+  @Test
+  public void testASTCnNumberNodeNoValue() {
+    ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
+    exception.expect(PropertyUndefinedError.class);
+    number.getNumber();
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnNumberNode#getNumber()}.
+   */
+  @Test
+  public void testASTCnNumberNodeWithValue() {
+    ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
+    number.setNumber(10);
+    assertTrue(number.getNumber() == 10);
+  }
+  
+  
+  /**
    * Test method for {@link org.sbml.jsbml.math.ASTCnIntegerNode#getInteger()}.
    */
   @Test
@@ -408,7 +430,7 @@ public class ASTNode2Test {
   @Test
   public void testASTCnRealNoValue() {
     ASTCnRealNode real = new ASTCnRealNode();
-    assertTrue(real.getReal() != Double.NaN);
+    assertTrue(Double.isNaN(real.getReal()));
   }
   
   /**
@@ -418,7 +440,7 @@ public class ASTNode2Test {
   public void testASTCnRationalNumeratorNoValue() {
     ASTCnRationalNode rational = new ASTCnRationalNode();
     rational.setDenominator(10.0);
-    assertTrue(rational.getNumerator() != Double.NaN);
+    assertTrue(Double.isNaN(rational.getNumerator()));
   }
   
   /**
@@ -439,7 +461,7 @@ public class ASTNode2Test {
   public void testASTCnRationalDenominatorNoValue() {
     ASTCnRationalNode rational = new ASTCnRationalNode();
     rational.setNumerator(10.0);
-    assertTrue(rational.getDenominator() != Double.NaN);
+    assertTrue(Double.isNaN(rational.getDenominator()));
   }
 
   /**
@@ -460,7 +482,7 @@ public class ASTNode2Test {
   public void testASTCnExponentialMantissaNoValue() {
     ASTCnExponentialNode exponential = new ASTCnExponentialNode();
     exponential.setExponent(10.0);
-    assertTrue(exponential.getMantissa() != Double.NaN);
+    assertTrue(Double.isNaN(exponential.getMantissa()));
   }
 
   /**
@@ -481,7 +503,7 @@ public class ASTNode2Test {
   public void testASTCnExponentialMantissaNoExponent() {
     ASTCnExponentialNode exponential = new ASTCnExponentialNode();
     exponential.setMantissa(10.0);
-    assertTrue(exponential.getExponent() != Double.NaN);
+    assertTrue(Double.isNaN(exponential.getExponent()));
   }
   
   /**

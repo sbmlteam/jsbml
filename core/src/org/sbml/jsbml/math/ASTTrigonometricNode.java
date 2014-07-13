@@ -22,6 +22,11 @@
  */
 package org.sbml.jsbml.math;
 
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
+
 
 /**
  * An Abstract Syntax Tree (AST) node representing a trigonometric function
@@ -44,6 +49,14 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
   public ASTTrigonometricNode() {
     super();
   }
+  
+  /**
+   * Creates a new {@link ASTTrigonometricNode} of type {@link Type}.
+   */
+  public ASTTrigonometricNode(Type type) {
+    super();
+    setType(type);
+  }
 
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTTrigonometricNode}.
@@ -62,6 +75,62 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
   @Override
   public ASTTrigonometricNode clone() {
     return new ASTTrigonometricNode(this);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
+    ASTNodeValue value = null;
+    switch(getType()) {
+    case FUNCTION_SEC:
+      value = compiler.sec(getChild());
+      break;    
+    case FUNCTION_ARCCOS:
+      value = compiler.arccos(getChild());
+      break;
+    case FUNCTION_ARCCOT:
+      value = compiler.arccot(getChild());
+      break;
+    case FUNCTION_ARCCSC:
+      value = compiler.arccsc(getChild());
+      break;
+    case FUNCTION_ARCSEC:
+      value = compiler.arcsec(getChild());
+      break;
+    case FUNCTION_ARCSIN:
+      value = compiler.arcsin(getChild());
+      break;
+    case FUNCTION_ARCTAN:
+      value = compiler.arctan(getChild());
+      break;
+    case FUNCTION_COS:
+      value = compiler.cos(getChild());
+      break;
+    case FUNCTION_COT:
+      value = compiler.cot(getChild());
+      break;
+    case FUNCTION_CSC:
+      value = compiler.csc(getChild());
+      break;
+    case FUNCTION_SIN:
+      value = compiler.sin(getChild());
+      break;
+    case FUNCTION_TAN:
+      value = compiler.tan(getChild());
+      break;
+    default: // UNKNOWN:
+      value = compiler.unknownValue();
+      break;
+    }
+    value.setType(getType());
+    MathContainer parent = getParentSBMLObject();
+    if (parent != null) {
+      value.setLevel(parent.getLevel());
+      value.setVersion(parent.getVersion());
+    }
+    return value;
   }
 
   /* (non-Javadoc)

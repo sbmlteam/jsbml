@@ -22,6 +22,11 @@
  */
 package org.sbml.jsbml.math;
 
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
+
 
 /**
  * An Abstract Syntax Tree (AST) node representing the logarithm function
@@ -43,6 +48,7 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
    */
   public ASTLogarithmNode() {
     super();
+    setType(Type.FUNCTION_LOG);
   }
   
   /**
@@ -53,7 +59,8 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
    */
   public ASTLogarithmNode(ASTNode2 value) {
     super();
-    setLeftChild(value);
+    setRightChild(value);
+    setType(Type.FUNCTION_LOG);
   }
   
   /**
@@ -72,6 +79,7 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
       setLeftChild(base);
       setRightChild(value);
     }
+    setType(Type.FUNCTION_LOG);
   }
 
   /**
@@ -82,6 +90,7 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
    */
   public ASTLogarithmNode(ASTLogarithmNode node) {
     super(node);
+    setType(Type.FUNCTION_LOG);
   }
   
   /*
@@ -91,6 +100,28 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
   @Override
   public ASTLogarithmNode clone() {
     return new ASTLogarithmNode(this);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
+    ASTNodeValue value = null;
+    if (getChildCount() == 2) {
+      value = compiler.log(getLeftChild(), getRightChild());
+    } else {
+      // CHECK: ln as opposed to log??
+//      value = compiler.ln(getLeftChild());
+      value = compiler.log(getRightChild());
+    }
+    value.setType(getType());
+    MathContainer parent = getParentSBMLObject();
+    if (parent != null) {
+      value.setLevel(parent.getLevel());
+      value.setVersion(parent.getVersion());
+    }
+    return value;
   }
 
   /* (non-Javadoc)

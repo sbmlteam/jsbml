@@ -22,6 +22,11 @@
  */
 package org.sbml.jsbml.math;
 
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
+
 
 /**
  * An Abstract Syntax Tree (AST) node representing the plus operator
@@ -43,6 +48,7 @@ public class ASTPlusNode extends ASTBinaryFunctionNode {
    */
   public ASTPlusNode() {
     super();
+    setType(Type.PLUS);
   }
   
   /**
@@ -55,6 +61,7 @@ public class ASTPlusNode extends ASTBinaryFunctionNode {
    */
   public ASTPlusNode(ASTNode2 leftChild, ASTNode2 rightChild) {
     super(leftChild, rightChild);
+    setType(Type.PLUS);
   }
 
   /**
@@ -65,6 +72,7 @@ public class ASTPlusNode extends ASTBinaryFunctionNode {
    */
   public ASTPlusNode(ASTPlusNode node) {
     super(node);
+    setType(Type.PLUS);
   }
   
   /*
@@ -74,6 +82,22 @@ public class ASTPlusNode extends ASTBinaryFunctionNode {
   @Override
   public ASTPlusNode clone() {
     return new ASTPlusNode(this);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
+    ASTNodeValue value = compiler.plus(getChildren());
+    value.setUIFlag(getChildCount() <= 1);
+    value.setType(getType());
+    MathContainer parent = getParentSBMLObject();
+    if (parent != null) {
+      value.setLevel(parent.getLevel());
+      value.setVersion(parent.getVersion());
+    }
+    return value;
   }
 
   /* (non-Javadoc)

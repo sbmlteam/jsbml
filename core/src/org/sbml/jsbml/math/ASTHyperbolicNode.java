@@ -22,6 +22,11 @@
  */
 package org.sbml.jsbml.math;
 
+import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
+
 
 
 /**
@@ -45,6 +50,16 @@ public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
   public ASTHyperbolicNode() {
     super();
   }
+  
+  /**
+   * Creates a new {@link ASTHyperbolicNode} of type {@link Type}
+   * 
+   * @param type
+   */
+  public ASTHyperbolicNode(Type type) {
+    super();
+    setType(type);
+  }
 
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTHyperbolicNode}.
@@ -63,6 +78,62 @@ public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
   @Override
   public ASTHyperbolicNode clone() {
     return new ASTHyperbolicNode(this);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
+    ASTNodeValue value = null;
+    switch(getType()) {
+    case FUNCTION_ARCCOSH:
+      value = compiler.arccosh(getChild());
+      break;
+    case FUNCTION_ARCCOTH:
+      value = compiler.arccoth(getChild());
+      break;
+    case FUNCTION_ARCCSCH:
+      value = compiler.arccsch(getChild());
+      break;
+    case FUNCTION_ARCSECH:
+      value = compiler.arcsech(getChild());
+      break;
+    case FUNCTION_ARCSINH:
+      value = compiler.arcsinh(getChild());
+      break;
+    case FUNCTION_ARCTANH:
+      value = compiler.arctanh(getChild());
+      break;
+    case FUNCTION_COSH:
+      value = compiler.cosh(getChild());
+      break;
+    case FUNCTION_COTH:
+      value = compiler.coth(getChild());
+      break;
+    case FUNCTION_CSCH:
+      value = compiler.csch(getChild());
+      break;
+    case FUNCTION_SECH:
+      value = compiler.sech(getChild());
+      break;
+    case FUNCTION_SINH:
+      value = compiler.sinh(getChild());
+      break;
+    case FUNCTION_TANH:
+      value = compiler.tanh(getChild());
+      break;
+    default: // UNKNOWN:
+      value = compiler.unknownValue();
+      break;
+    }
+    value.setType(getType());
+    MathContainer parent = getParentSBMLObject();
+    if (parent != null) {
+      value.setLevel(parent.getLevel());
+      value.setVersion(parent.getVersion());
+    }
+    return value;
   }
 
   /* (non-Javadoc)

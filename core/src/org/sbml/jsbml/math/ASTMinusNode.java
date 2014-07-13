@@ -22,6 +22,11 @@
  */
 package org.sbml.jsbml.math;
 
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
+
 
 /**
  * An Abstract Syntax Tree (AST) node representing the minus operator
@@ -43,6 +48,7 @@ public class ASTMinusNode extends ASTBinaryFunctionNode {
    */
   public ASTMinusNode() {
     super();
+    setType(Type.MINUS);
   }
   
   /**
@@ -53,6 +59,7 @@ public class ASTMinusNode extends ASTBinaryFunctionNode {
    */
   public ASTMinusNode(ASTMinusNode node) {
     super(node);
+    setType(Type.MINUS);
   }
 
   /**
@@ -65,6 +72,7 @@ public class ASTMinusNode extends ASTBinaryFunctionNode {
    */
   public ASTMinusNode(ASTNode2 leftChild, ASTNode2 rightChild) {
     super(leftChild, rightChild);
+    setType(Type.MINUS);
   }
   
   /*
@@ -74,6 +82,28 @@ public class ASTMinusNode extends ASTBinaryFunctionNode {
   @Override
   public ASTMinusNode clone() {
     return new ASTMinusNode(this);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
+    ASTNodeValue value = null;
+    if (getChildCount() < 2) {
+      value = compiler.uMinus(getLeftChild());
+      value.setUIFlag(true);
+    } else {
+      value = compiler.minus(getChildren());
+      value.setUIFlag(false);
+    }
+    value.setType(getType());
+    MathContainer parent = getParentSBMLObject();
+    if (parent != null) {
+      value.setLevel(parent.getLevel());
+      value.setVersion(parent.getVersion());
+    }
+    return value;
   }
 
   /* (non-Javadoc)

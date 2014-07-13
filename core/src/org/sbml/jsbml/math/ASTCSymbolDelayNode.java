@@ -23,8 +23,12 @@
 package org.sbml.jsbml.math;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 /**
  * An Abstract Syntax Tree (AST) node representing the delay function
@@ -61,6 +65,11 @@ ASTCSymbolNode {
    * encodingURL attribute for MathML element
    */
   private String encodingURL;
+  
+  /**
+   * units attribute for MathML element
+   */
+  private String units;
 
   /**
    * The URI for the definition of the csymbol for delay.
@@ -75,6 +84,7 @@ ASTCSymbolNode {
     setName(null);
     setDefinitionURL(null);
     setEncodingURL(null);
+    setType(Type.FUNCTION_DELAY);
   }
 
   /**
@@ -88,6 +98,7 @@ ASTCSymbolNode {
     setName(node.getName());
     setDefinitionURL(node.getDefinitionURL());
     setEncodingURL(node.getEncodingURL());
+    setType(Type.FUNCTION_DELAY);
   }
   
   /*
@@ -97,6 +108,22 @@ ASTCSymbolNode {
   @Override
   public ASTCSymbolDelayNode clone() {
     return new ASTCSymbolDelayNode(this);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
+    ASTNodeValue value = compiler.delay(getName(), getLeftChild(), getRightChild(),
+      getUnits());
+    value.setType(getType());
+    MathContainer parent = getParentSBMLObject();
+    if (parent != null) {
+      value.setLevel(parent.getLevel());
+      value.setVersion(parent.getVersion());
+    }
+    return value;
   }
 
   /* (non-Javadoc)
@@ -161,6 +188,15 @@ ASTCSymbolNode {
     return "";
   }
 
+  /**
+   * Get units attribute
+   * 
+   * @return the units
+   */
+  public String getUnits() {
+    return units;
+  }
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -221,6 +257,15 @@ ASTCSymbolNode {
     String old = this.encodingURL;
     this.encodingURL = encodingURL;
     firePropertyChange(TreeNodeChangeEvent.encoding, old, this.encodingURL);
+  }
+
+  /**
+   * Set units attribute
+   * 
+   * @param units the units to set
+   */
+  public void setUnits(String units) {
+    this.units = units;
   }
 
   /* (non-Javadoc)

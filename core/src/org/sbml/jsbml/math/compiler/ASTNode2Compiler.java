@@ -33,7 +33,6 @@ import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.math.ASTNode2;
-import org.sbml.jsbml.math.AbstractASTNode;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
@@ -44,7 +43,7 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
  * other operations on these data types. Recursion can be performed as follows:
  * 
  * <pre class="brush:java">
- *   public ASTNodeValue doSomeThing(AbstractASTNode ast) {
+ *   public ASTNodeValue doSomeThing(ASTNode2 ast) {
  *     ...
  *     ASTNodeValue child = ast.compile(this);
  *     ...
@@ -58,17 +57,17 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
  * @since 1.0
  * @date Jun 9, 2014
  */
-public interface AbstractASTNodeCompiler {
+public interface ASTNode2Compiler {
 
   /**
-   * The absolute value represented by the given {@link AbstractASTNode}.
+   * The absolute value represented by the given {@link ASTNode2}.
    * 
    * @param value
    *            Must be interpretable as a {@link Number}.
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue abs(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue abs(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -76,7 +75,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue and(List<AbstractASTNode> values) throws SBMLException;
+  public ASTNodeValue and(List<ASTNode2> values) throws SBMLException;
 
   /**
    * 
@@ -84,7 +83,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue arccos(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue arccos(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -92,7 +91,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue arccosh(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue arccosh(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -100,7 +99,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue arccot(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue arccot(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -108,7 +107,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue arccoth(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue arccoth(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -116,7 +115,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue arccsc(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue arccsc(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -124,7 +123,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue arccsch(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue arccsch(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -132,7 +131,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue arcsec(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue arcsec(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -140,7 +139,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue arcsech(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue arcsech(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -148,7 +147,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue arcsin(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue arcsin(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -156,7 +155,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue arcsinh(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue arcsinh(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -164,7 +163,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue arctan(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue arctan(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -172,7 +171,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue arctanh(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue arctanh(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -180,7 +179,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue ceiling(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue ceiling(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -205,6 +204,24 @@ public interface AbstractASTNodeCompiler {
    * @return
    */
   public ASTNodeValue compile(double mantissa, int exponent, String units);
+  
+  /**
+   * Creates an {@link ASTNodeValue} that represents a real number in
+   * scientific notation, i.e., mantissa * 10^exponent, and the given units.
+   * 
+   * @param mantissa
+   *            The number to be multiplied with ten to the power of the given
+   *            exponent.
+   * @param exponent
+   *            The exponent for the multiplier ten.
+   * @param units
+   *            The identifier of the units object associated with the number
+   *            represented by this element. Can be null if no units have been
+   *            defined.
+   * @return
+   */
+  public ASTNodeValue compile(double mantissa, double exponent, String units);
+
 
   /**
    * 
@@ -244,7 +261,7 @@ public interface AbstractASTNodeCompiler {
    * @param node
    * @return
    */
-  public ASTNodeValue compile(AbstractASTNode node);
+  public ASTNodeValue compile(ASTNode2 node);
 
   /**
    * A compiler will also have to deal with a name. The meaning of this can be
@@ -264,7 +281,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue cos(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue cos(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -272,7 +289,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue cosh(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue cosh(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -280,7 +297,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue cot(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue cot(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -288,7 +305,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue coth(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue coth(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -296,7 +313,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue csc(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue csc(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -304,7 +321,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue csch(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue csch(ASTNode2 value) throws SBMLException;
 
   /**
    * Evaluates delay functions.
@@ -320,7 +337,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue delay(String delayName, AbstractASTNode x, AbstractASTNode delay,
+  public ASTNodeValue delay(String delayName, ASTNode2 x, ASTNode2 delay,
     String timeUnits) throws SBMLException;
 
   /**
@@ -331,7 +348,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue eq(AbstractASTNode left, AbstractASTNode right) throws SBMLException;
+  public ASTNodeValue eq(ASTNode2 left, ASTNode2 right) throws SBMLException;
 
   /**
    * 
@@ -339,7 +356,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue exp(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue exp(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -347,7 +364,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue factorial(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue factorial(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -355,17 +372,17 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue floor(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue floor(ASTNode2 value) throws SBMLException;
 
   /**
-   * Fraction of two {@link AbstractASTNode}s
+   * Fraction of two {@link ASTNode2}s
    * 
    * @param numerator
    * @param denominator
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue frac(AbstractASTNode numerator, AbstractASTNode denominator)
+  public ASTNodeValue frac(ASTNode2 numerator, ASTNode2 denominator)
       throws SBMLException;
 
   /**
@@ -376,6 +393,16 @@ public interface AbstractASTNodeCompiler {
    * @return
    */
   public ASTNodeValue frac(int numerator, int denominator)
+      throws SBMLException;
+  
+  /**
+   * A fraction of two double values.
+   * 
+   * @param numerator
+   * @param denominator
+   * @return
+   */
+  public ASTNodeValue frac(double numerator, double denominator)
       throws SBMLException;
 
   /**
@@ -388,7 +415,7 @@ public interface AbstractASTNodeCompiler {
    * @throws SBMLException
    */
   public ASTNodeValue function(FunctionDefinition functionDefinition,
-    List<AbstractASTNode> args) throws SBMLException;
+    List<ASTNode2> args) throws SBMLException;
 
   /**
    * 
@@ -400,7 +427,7 @@ public interface AbstractASTNodeCompiler {
    * @throws SBMLException
    */
   public ASTNodeValue function(String functionDefinitionName,
-    List<AbstractASTNode> args) throws SBMLException;
+    List<ASTNode2> args) throws SBMLException;
 
   /**
    * Greater equal.
@@ -410,7 +437,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue geq(AbstractASTNode left, AbstractASTNode right) throws SBMLException;
+  public ASTNodeValue geq(ASTNode2 left, ASTNode2 right) throws SBMLException;
 
   /**
    * Creates an {@link ASTNodeValue} that represent's Avogadro's number.
@@ -467,7 +494,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue gt(AbstractASTNode left, AbstractASTNode right) throws SBMLException;
+  public ASTNodeValue gt(ASTNode2 left, ASTNode2 right) throws SBMLException;
 
   /**
    * The body of a {@link FunctionDefinition}.
@@ -477,7 +504,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue lambda(List<AbstractASTNode> values) throws SBMLException;
+  public ASTNodeValue lambda(List<ASTNode2> values) throws SBMLException;
 
   /**
    * Less equal.
@@ -487,7 +514,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue leq(AbstractASTNode left, AbstractASTNode right) throws SBMLException;
+  public ASTNodeValue leq(ASTNode2 left, ASTNode2 right) throws SBMLException;
 
   /**
    * Natural logarithm.
@@ -496,7 +523,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue ln(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue ln(ASTNode2 value) throws SBMLException;
 
   /**
    * Logarithm of the given value to base 10.
@@ -505,7 +532,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue log(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue log(ASTNode2 value) throws SBMLException;
 
   /**
    * Logarithm of the given value to the given base.
@@ -515,7 +542,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue log(AbstractASTNode base, AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue log(ASTNode2 base, ASTNode2 value) throws SBMLException;
 
   /**
    * Less than.
@@ -525,7 +552,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue lt(AbstractASTNode left, AbstractASTNode right) throws SBMLException;
+  public ASTNodeValue lt(ASTNode2 left, ASTNode2 right) throws SBMLException;
 
   /**
    * Subtraction.
@@ -534,7 +561,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue minus(List<AbstractASTNode> values) throws SBMLException;
+  public ASTNodeValue minus(List<ASTNode2> values) throws SBMLException;
 
   /**
    * Not equal.
@@ -544,7 +571,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue neq(AbstractASTNode left, AbstractASTNode right) throws SBMLException;
+  public ASTNodeValue neq(ASTNode2 left, ASTNode2 right) throws SBMLException;
 
   /**
    * 
@@ -553,7 +580,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue not(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue not(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -562,7 +589,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue or(List<AbstractASTNode> values) throws SBMLException;
+  public ASTNodeValue or(List<ASTNode2> values) throws SBMLException;
 
   /**
    * 
@@ -570,7 +597,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue piecewise(List<AbstractASTNode> values) throws SBMLException;
+  public ASTNodeValue piecewise(List<ASTNode2> values) throws SBMLException;
 
   /**
    * 
@@ -578,7 +605,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue plus(List<AbstractASTNode> values) throws SBMLException;
+  public ASTNodeValue plus(List<ASTNode2> values) throws SBMLException;
 
   /**
    * 
@@ -587,7 +614,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue pow(AbstractASTNode base, AbstractASTNode exponent)
+  public ASTNodeValue pow(ASTNode2 base, ASTNode2 exponent)
       throws SBMLException;
 
   /**
@@ -597,7 +624,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue root(AbstractASTNode rootExponent, AbstractASTNode radiant)
+  public ASTNodeValue root(ASTNode2 rootExponent, ASTNode2 radiant)
       throws SBMLException;
 
   /**
@@ -607,7 +634,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue root(double rootExponent, AbstractASTNode radiant)
+  public ASTNodeValue root(double rootExponent, ASTNode2 radiant)
       throws SBMLException;
 
   /**
@@ -616,7 +643,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue sec(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue sec(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -624,7 +651,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue sech(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue sech(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -632,7 +659,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue selector(List<AbstractASTNode> nodes) throws SBMLException;
+  public ASTNodeValue selector(List<ASTNode2> nodes) throws SBMLException;
 
   /**
    * 
@@ -640,7 +667,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue sin(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue sin(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -648,7 +675,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue sinh(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue sinh(ASTNode2 value) throws SBMLException;
 
   /**
    * Square root.
@@ -658,7 +685,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue sqrt(AbstractASTNode radiant) throws SBMLException;
+  public ASTNodeValue sqrt(ASTNode2 radiant) throws SBMLException;
 
   /**
    * The simulation time.
@@ -675,7 +702,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue tan(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue tan(ASTNode2 value) throws SBMLException;
 
   /**
    * 
@@ -683,29 +710,29 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue tanh(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue tanh(ASTNode2 value) throws SBMLException;
 
   /**
-   * Product of all given {@link AbstractASTNode}s.
+   * Product of all given {@link ASTNode2}s.
    * 
    * @param values
    *            These values must be interpretable to {@link Number}.
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue times(List<AbstractASTNode> values) throws SBMLException;
+  public ASTNodeValue times(List<ASTNode2> values) throws SBMLException;
 
   /**
-   * Unary minus, i.e., negation of the given {@link AbstractASTNode}.
+   * Unary minus, i.e., negation of the given {@link ASTNode2}.
    * 
    * @param value
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue uMinus(AbstractASTNode value) throws SBMLException;
+  public ASTNodeValue uMinus(ASTNode2 value) throws SBMLException;
 
   /**
-   * Dealing with a malformed {@link AbstractASTNode}.
+   * Dealing with a malformed {@link ASTNode2}.
    * 
    * @return
    * @throws SBMLException
@@ -718,7 +745,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue vector(List<AbstractASTNode> nodes) throws SBMLException;
+  public ASTNodeValue vector(List<ASTNode2> nodes) throws SBMLException;
 
   /**
    * Exclusive or.
@@ -729,7 +756,7 @@ public interface AbstractASTNodeCompiler {
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue xor(List<AbstractASTNode> values) throws SBMLException;
+  public ASTNodeValue xor(List<ASTNode2> values) throws SBMLException;
 
 
 }

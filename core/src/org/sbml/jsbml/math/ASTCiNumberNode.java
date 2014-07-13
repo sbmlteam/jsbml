@@ -32,7 +32,9 @@ import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 /**
@@ -90,6 +92,14 @@ ASTCSymbolBaseNode {
   @Override
   public ASTCiNumberNode clone() {
     return new ASTCiNumberNode(this);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
+    return null;
   }
 
   /* (non-Javadoc)

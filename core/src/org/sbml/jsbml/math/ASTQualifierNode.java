@@ -23,6 +23,7 @@
 package org.sbml.jsbml.math;
 
 
+
 /**
  * An Abstract Syntax Tree (AST) node representing a MathML qualifier element
  * in a mathematical expression.

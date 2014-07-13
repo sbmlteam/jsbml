@@ -31,7 +31,7 @@ import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.math.compiler.AbstractASTNodeCompiler;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
@@ -139,7 +139,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNodeValue compile(AbstractASTNodeCompiler compiler) {
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
     // TODO: We can consider to create an AbstractASTNode2Compiler this time -> Needs further discussion. The compile function can be overloaded and hence very specific for certain sub-types of ASTNode2.
     return compiler.compile(this);
   }

@@ -22,6 +22,11 @@
  */
 package org.sbml.jsbml.math;
 
+import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
+
 
 /**
  * An Abstract Syntax Tree (AST) node representing the times operator
@@ -43,6 +48,7 @@ public class ASTTimesNode extends ASTBinaryFunctionNode {
    */
   public ASTTimesNode() {
     super();
+    setType(Type.TIMES);
   }
   
   /**
@@ -55,6 +61,7 @@ public class ASTTimesNode extends ASTBinaryFunctionNode {
    */
   public ASTTimesNode(ASTNode2 leftChild, ASTNode2 rightChild) {
     super(leftChild, rightChild);
+    setType(Type.TIMES);
   }
 
   /**
@@ -65,6 +72,7 @@ public class ASTTimesNode extends ASTBinaryFunctionNode {
    */
   public ASTTimesNode(ASTTimesNode node) {
     super(node);
+    setType(Type.TIMES);
   }
   
   /*
@@ -74,6 +82,23 @@ public class ASTTimesNode extends ASTBinaryFunctionNode {
   @Override
   public ASTTimesNode clone() {
     return new ASTTimesNode(this);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
+    ASTNodeValue value = null;
+    value = compiler.times(getChildren());
+    value.setUIFlag(getChildCount() <= 1);
+    value.setType(getType());
+    MathContainer parent = getParentSBMLObject();
+    if (parent != null) {
+      value.setLevel(parent.getLevel());
+      value.setVersion(parent.getVersion());
+    }
+    return value;
   }
 
   /* (non-Javadoc)

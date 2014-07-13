@@ -23,7 +23,10 @@
 package org.sbml.jsbml.math;
 
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 /**
@@ -49,18 +52,9 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
   public ASTCnRealNode() {
     super();
     number = null;
+    setType(Type.REAL);
   }
   
-  /**
-   * Creates a new {@link ASTCnRealNode} that lacks a pointer
-   * to its containing {@link MathContainer} but has the 
-   * specified real value {@link double}.
-   */
-  public ASTCnRealNode(double value) {
-    super();
-    setReal(value);
-  }
-
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTCnRealNode}.
    * 
@@ -69,6 +63,18 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
    */
   public ASTCnRealNode(ASTCnRealNode node) {
     super(node);
+    setType(Type.REAL);
+  }
+
+  /**
+   * Creates a new {@link ASTCnRealNode} that lacks a pointer
+   * to its containing {@link MathContainer} but has the 
+   * specified real value {@link double}.
+   */
+  public ASTCnRealNode(double value) {
+    super();
+    setReal(value);
+    setType(Type.REAL);
   }
   
   /*
@@ -78,6 +84,28 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
   @Override
   public ASTCnRealNode clone() {
     return new ASTCnRealNode(this);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
+    ASTNodeValue value = null;
+    double real = getReal();
+    if (Double.isInfinite(real)) {
+      value = (real > 0d) ? compiler.getPositiveInfinity() : compiler
+        .getNegativeInfinity();
+    } else {
+      value = compiler.compile(real, getUnits());
+    }
+    value.setType(getType());
+    MathContainer parent = getParentSBMLObject();
+    if (parent != null) {
+      value.setLevel(parent.getLevel());
+      value.setVersion(parent.getVersion());
+    }
+    return value;
   }
 
   /* (non-Javadoc)

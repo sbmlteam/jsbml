@@ -23,8 +23,12 @@
 package org.sbml.jsbml.math;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 /**
@@ -66,6 +70,7 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
     super();
     hasOtherwise = false;
     numPiece = null;
+    setType(Type.FUNCTION_PIECEWISE);
   }
 
   /**
@@ -78,6 +83,7 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
     super(node);
     hasOtherwise = node.hasOtherwise();
     setNumPiece(node.getNumPiece());
+    setType(Type.FUNCTION_PIECEWISE);
   }
   
   /*
@@ -88,7 +94,23 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
   public ASTPiecewiseFunctionNode clone() {
     return new ASTPiecewiseFunctionNode(this);
   }
-
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
+    ASTNodeValue value = null;
+    value = compiler.piecewise(getChildren());
+    value.setUIFlag(getChildCount() <= 1);
+    value.setType(getType());
+    MathContainer parent = getParentSBMLObject();
+    if (parent != null) {
+      value.setLevel(parent.getLevel());
+      value.setVersion(parent.getVersion());
+    }
+    return value;
+  }
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */

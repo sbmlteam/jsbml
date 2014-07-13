@@ -22,6 +22,14 @@
  */
 package org.sbml.jsbml.math;
 
+import java.text.MessageFormat;
+
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
+
 /**
  * An Abstract Syntax Tree (AST) node representing the divide function
  * 
@@ -42,6 +50,7 @@ public class ASTDivideFunction extends ASTBinaryFunctionNode {
    */
   public ASTDivideFunction() {
     super();
+    setType(Type.DIVIDE);
   }
   
   /**
@@ -50,6 +59,7 @@ public class ASTDivideFunction extends ASTBinaryFunctionNode {
    */
   public ASTDivideFunction(ASTNode2 numerator, ASTNode2 denominator) {
     super(numerator, denominator);
+    setType(Type.DIVIDE);
   }
 
   /**
@@ -60,6 +70,7 @@ public class ASTDivideFunction extends ASTBinaryFunctionNode {
    */
   public ASTDivideFunction(ASTDivideFunction node) {
     super(node);
+    setType(Type.DIVIDE);
   }
   
   /*
@@ -69,6 +80,28 @@ public class ASTDivideFunction extends ASTBinaryFunctionNode {
   @Override
   public ASTDivideFunction clone() {
     return new ASTDivideFunction(this);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
+    ASTNodeValue value = null;
+    int childCount = getChildCount();
+    if (childCount != 2) {
+      throw new SBMLException(MessageFormat.format(
+        "Fractions must have one numerator and one denominator, here {0,number,integer} elements are given.",
+        childCount));
+    }
+    value = compiler.frac(getLeftChild(), getRightChild());
+    value.setType(getType());
+    MathContainer parent = getParentSBMLObject();
+    if (parent != null) {
+      value.setLevel(parent.getLevel());
+      value.setVersion(parent.getVersion());
+    }
+    return value;
   }
 
   /* (non-Javadoc)

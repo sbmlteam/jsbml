@@ -23,8 +23,12 @@
 package org.sbml.jsbml.math;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 
@@ -71,6 +75,7 @@ implements ASTCSymbolNode {
   public ASTCSymbolTimeNode() {
     super();
     setEncodingURL(null);
+    setType(Type.NAME_TIME);
   }
 
   /**
@@ -82,6 +87,7 @@ implements ASTCSymbolNode {
   public ASTCSymbolTimeNode(ASTCSymbolTimeNode node) {
     super(node);
     setEncodingURL(node.getEncodingURL());
+    setType(Type.NAME_TIME);
   }
   
   /*
@@ -91,6 +97,21 @@ implements ASTCSymbolNode {
   @Override
   public ASTCSymbolTimeNode clone() {
     return new ASTCSymbolTimeNode(this);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
+    ASTNodeValue value = compiler.symbolTime(getName());
+    value.setType(getType());
+    MathContainer parent = getParentSBMLObject();
+    if (parent != null) {
+      value.setLevel(parent.getLevel());
+      value.setVersion(parent.getVersion());
+    }
+    return value;
   }
 
   /* (non-Javadoc)

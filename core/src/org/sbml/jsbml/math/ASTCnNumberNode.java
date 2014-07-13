@@ -204,7 +204,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
    * 
    * @return boolean
    */
-  private boolean isSetUnits() {
+  protected boolean isSetUnits() {
     return units != null;
   }
 
@@ -214,7 +214,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
    * 
    * @return
    */
-  public boolean isVariable() {
+  public boolean isSetVariable() {
     return this.variable != null;
   }
   

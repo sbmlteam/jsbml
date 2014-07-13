@@ -22,7 +22,11 @@
  */
 package org.sbml.jsbml.math;
 
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 /**
  * An Abstract Syntax Tree (AST) node representing a constant number
@@ -54,14 +58,6 @@ public class ASTConstantNumber extends ASTNumber {
   }
   
   /**
-   * Creates a new {@link ASTConstantNumber} with value {@link double}.
-   */
-  public ASTConstantNumber(double value) {
-    super();
-    setValue(value);
-  }
-
-  /**
    * Copy constructor; Creates a deep copy of the given {@link ASTConstantNumber}.
    * 
    * @param node
@@ -70,6 +66,23 @@ public class ASTConstantNumber extends ASTNumber {
   public ASTConstantNumber(ASTConstantNumber node) {
     super(node);
     setValue(node.getValue());
+  }
+  
+  /**
+   * Creates a new {@link ASTConstantNumber} with value {@link double}.
+   */
+  public ASTConstantNumber(double value) {
+    super();
+    setValue(value);
+  }
+
+  /**
+   * Creates a new {@link ASTConstantNumber} of type {@link Type}.
+   */
+  public ASTConstantNumber(Type type) {
+    super();
+    value = null;
+    setType(type);
   }
 
   /*
@@ -80,7 +93,41 @@ public class ASTConstantNumber extends ASTNumber {
   public ASTConstantNumber clone() {
     return new ASTConstantNumber(this);
   }
-
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
+    ASTNodeValue value = null;
+    switch(getType()) {
+    case CONSTANT_PI:
+      value = compiler.getConstantPi();
+      break;
+    case CONSTANT_E:
+      value = compiler.getConstantE();
+      break;
+    case CONSTANT_TRUE:
+      value = compiler.getConstantTrue();
+      break;
+    case CONSTANT_FALSE:
+      value = compiler.getConstantFalse();
+      break;
+    case NAME_AVOGADRO:
+      value = compiler.getConstantAvogadro(getName());
+      break;
+    default: // UNKNOWN:
+      value = compiler.unknownValue();
+      break;
+    }
+    value.setType(getType());
+    MathContainer parent = getParentSBMLObject();
+    if (parent != null) {
+      value.setLevel(parent.getLevel());
+      value.setVersion(parent.getVersion());
+    }
+    return value;
+  }
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */

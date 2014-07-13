@@ -22,6 +22,11 @@
  */
 package org.sbml.jsbml.math;
 
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
+
 
 /**
  * An Abstract Syntax Tree (AST) node representing a logical operator
@@ -45,7 +50,7 @@ public class ASTLogicalOperatorNode extends ASTFunction {
   public ASTLogicalOperatorNode() {
     super();
   }
-
+  
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTLogicalOperatorNode}.
    * 
@@ -54,6 +59,15 @@ public class ASTLogicalOperatorNode extends ASTFunction {
    */
   public ASTLogicalOperatorNode(ASTLogicalOperatorNode node) {
     super(node);
+    setType(node.getType());
+  }
+
+  /**
+   * Creates a new {@link ASTLogicalOperatorNode} of type {@link Type}.
+   */
+  public ASTLogicalOperatorNode(Type type) {
+    super();
+    setType(type);
   }
   
   /*
@@ -63,6 +77,41 @@ public class ASTLogicalOperatorNode extends ASTFunction {
   @Override
   public ASTLogicalOperatorNode clone() {
     return new ASTLogicalOperatorNode(this);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
+    ASTNodeValue value = null;
+    switch(getType()) {
+    case LOGICAL_AND:
+      value = compiler.and(getChildren());
+      value.setUIFlag(getChildCount() <= 1);
+      break;
+    case LOGICAL_XOR:
+      value = compiler.xor(getChildren());
+      value.setUIFlag(getChildCount() <= 1);
+      break;
+    case LOGICAL_OR:
+      value = compiler.or(getChildren());
+      value.setUIFlag(getChildCount() <= 1);
+      break;
+    case LOGICAL_NOT:
+      value = compiler.not(getChildAt(0));
+      break;
+    default: // UNKNOWN:
+      value = compiler.unknownValue();
+      break;
+    }
+    value.setType(getType());
+    MathContainer parent = getParentSBMLObject();
+    if (parent != null) {
+      value.setLevel(parent.getLevel());
+      value.setVersion(parent.getVersion());
+    }
+    return value;
   }
 
   /* (non-Javadoc)

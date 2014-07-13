@@ -24,8 +24,11 @@ package org.sbml.jsbml.math;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.ValuePair;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 /**
@@ -55,6 +58,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Double,Doubl
    */
   public ASTCnExponentialNode() {
     super();
+    setType(Type.FUNCTION_EXP);
   }
 
   /**
@@ -66,6 +70,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Double,Doubl
    */
   public ASTCnExponentialNode (ASTCnExponentialNode node) {
     super(node);
+    setType(Type.FUNCTION_EXP);
   }
   
   /*
@@ -75,6 +80,22 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Double,Doubl
   @Override
   public ASTCnExponentialNode clone() {
     return new ASTCnExponentialNode(this);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
+    ASTNodeValue value = compiler.compile(getMantissa(), getExponent(),
+      isSetUnits() ? getUnits() : null);
+    value.setType(getType());
+    MathContainer parent = getParentSBMLObject();
+    if (parent != null) {
+      value.setLevel(parent.getLevel());
+      value.setVersion(parent.getVersion());
+    }
+    return value;
   }
 
   /**

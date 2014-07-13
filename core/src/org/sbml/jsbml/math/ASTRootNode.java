@@ -22,6 +22,11 @@
  */
 package org.sbml.jsbml.math;
 
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
+
 
 /**
  * An Abstract Syntax Tree (AST) node representing a root function
@@ -43,6 +48,7 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
    */
   public ASTRootNode() {
     super();
+    setType(Type.FUNCTION_ROOT);
   }
 
   /**
@@ -53,6 +59,7 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
    */
   public ASTRootNode(ASTRootNode node) {
     super(node);
+    setType(Type.FUNCTION_ROOT);
   }
   
   /**
@@ -66,6 +73,7 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
     super();
     setLeftChild(rootExponent);
     setRightChild(radicand);
+    setType(Type.FUNCTION_ROOT);
   }
 
   
@@ -76,6 +84,45 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
   @Override
   public ASTRootNode clone() {
     return new ASTRootNode(this);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
+    ASTNodeValue value = null;
+    ASTNode2 left = getLeftChild();
+    if (getChildCount() == 2) {
+      if (left instanceof ASTCnIntegerNode) {
+        int leftValue = ((ASTCnIntegerNode)left).getInteger();
+        if (leftValue == 2) {
+          value = compiler.sqrt(getRightChild());
+        } else {
+          value = compiler.root(leftValue, getRightChild());
+        }
+      } else if (left instanceof ASTCnRealNode) {
+        double leftValue = ((ASTCnRealNode)left).getReal();
+        if (leftValue == 2d) {
+          value = compiler.sqrt(getRightChild());
+        } else {
+          value = compiler.root(leftValue, getRightChild());
+        }
+      } else {
+        value = compiler.root(left, getRightChild());
+      }
+    } else if (getChildCount() == 1) {
+      value = compiler.sqrt(getRightChild());
+    } else {
+      value = compiler.root(left, getRightChild());
+    }
+    value.setType(getType());
+    MathContainer parent = getParentSBMLObject();
+    if (parent != null) {
+      value.setLevel(parent.getLevel());
+      value.setVersion(parent.getVersion());
+    }
+    return value;
   }
 
   /* (non-Javadoc)

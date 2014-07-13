@@ -24,9 +24,11 @@ package org.sbml.jsbml.math;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.MathContainer;
-import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.ValuePair;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 /**
@@ -56,6 +58,7 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Double,Double>>
    */
   public ASTCnRationalNode() {
     super();
+    setType(Type.RATIONAL);
   }
 
   /**
@@ -66,6 +69,7 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Double,Double>>
    */
   public ASTCnRationalNode(ASTCnRationalNode node) {
     super(node);
+    setType(Type.RATIONAL);
   }
   
   /*
@@ -75,6 +79,21 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Double,Double>>
   @Override
   public ASTCnRationalNode clone() {
     return new ASTCnRationalNode(this);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
+    ASTNodeValue value = compiler.frac(getNumerator(), getDenominator());
+    value.setType(getType());
+    MathContainer parent = getParentSBMLObject();
+    if (parent != null) {
+      value.setLevel(parent.getLevel());
+      value.setVersion(parent.getVersion());
+    }
+    return value;
   }
 
   /**
