@@ -255,7 +255,31 @@ public class ArraysMath {
 
   }
 
+  /**
+   * 
+   * @param model
+   * @param mathContainer
+   * @return
+   */
+  public static boolean isStaticallyComputable(Model model, MathContainer mathContainer, String...constantIds) {
+    StaticallyComputableCompiler compiler = new StaticallyComputableCompiler(model);
+    ArraysSBasePlugin plugin = (ArraysSBasePlugin) mathContainer.getExtension(ArraysConstants.shortLabel);
+    for(Dimension dim : plugin.getListOfDimensions()) {
+      if(dim.isSetId()) {
+        compiler.addConstantId(dim.getId());
+      }
+    }
+    for(String id : constantIds) {
+      compiler.addConstantId(id);  
+    }
+    ASTNode math = mathContainer.getMath();
 
+    ASTNodeValue value = math.compile(compiler);
+
+    return value.toBoolean();
+
+  }
+  
   /**
    * 
    * @param math
