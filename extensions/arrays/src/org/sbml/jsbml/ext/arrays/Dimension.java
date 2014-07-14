@@ -128,6 +128,7 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
     super(obj);
     size = obj.size;
     arrayDimension = obj.arrayDimension;
+    isSetArrayDimension = obj.isSetArrayDimension;
   }
 
 

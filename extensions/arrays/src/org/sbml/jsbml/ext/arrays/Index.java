@@ -87,7 +87,7 @@ public class Index extends AbstractMathContainer {
    */
   public Index(Index obj) {
     super(obj);
-    
+    isSetArrayDimension = obj.isSetArrayDimension;
     referencedAttribute = obj.referencedAttribute;
     arrayDimension = obj.arrayDimension;
    
