@@ -100,9 +100,9 @@ public class ArraysMath {
       String refValue = parent.writeXMLAttributes().get(index.getReferencedAttribute());
 
       SBase refSBase = model.findNamedSBase(refValue);
-      
+
       ArraysSBasePlugin refSbasePlugin = (ArraysSBasePlugin) refSBase.getExtension(ArraysConstants.shortLabel);
-      
+
       Dimension dimByArrayDim = arraysSBasePlugin.getDimensionByArrayDimension(index.getArrayDimension());
 
       Map<String, Double> dimensionSizes = getDimensionSizes(model, arraysSBasePlugin);
@@ -242,9 +242,11 @@ public class ArraysMath {
   public static boolean isStaticallyComputable(Model model, MathContainer mathContainer) {
     StaticallyComputableCompiler compiler = new StaticallyComputableCompiler(model);
     ArraysSBasePlugin plugin = (ArraysSBasePlugin) mathContainer.getExtension(ArraysConstants.shortLabel);
-    for(Dimension dim : plugin.getListOfDimensions()) {
-      if(dim.isSetId()) {
-        compiler.addConstantId(dim.getId());
+    if(plugin != null) {
+      for(Dimension dim : plugin.getListOfDimensions()) {
+        if(dim.isSetId()) {
+          compiler.addConstantId(dim.getId());
+        }
       }
     }
     ASTNode math = mathContainer.getMath();
@@ -264,9 +266,12 @@ public class ArraysMath {
   public static boolean isStaticallyComputable(Model model, MathContainer mathContainer, String...constantIds) {
     StaticallyComputableCompiler compiler = new StaticallyComputableCompiler(model);
     ArraysSBasePlugin plugin = (ArraysSBasePlugin) mathContainer.getExtension(ArraysConstants.shortLabel);
-    for(Dimension dim : plugin.getListOfDimensions()) {
-      if(dim.isSetId()) {
-        compiler.addConstantId(dim.getId());
+    if(plugin != null) 
+    {
+      for(Dimension dim : plugin.getListOfDimensions()) {
+        if(dim.isSetId()) {
+          compiler.addConstantId(dim.getId());
+        }
       }
     }
     for(String id : constantIds) {
@@ -279,7 +284,7 @@ public class ArraysMath {
     return value.toBoolean();
 
   }
-  
+
   /**
    * 
    * @param math
