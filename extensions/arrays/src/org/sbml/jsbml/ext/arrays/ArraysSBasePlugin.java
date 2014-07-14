@@ -291,8 +291,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    *
    * @param i the index of the {@link Index} element to get.
    * @return an element from the listOfIndices at the given index.
-   * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
    */
   public Index getIndex(int dim, String attribute) {
     if (isSetListOfIndices()) {
@@ -521,7 +519,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   public Dimension getDimensionByArrayDimension(int i) {
     if (isSetListOfDimensions()) {
       for(Dimension dim : getListOfDimensions()) {
-        if(dim.getArrayDimension() == i) {
+        if(dim.isSetArrayDimension() && dim.getArrayDimension() == i) {
           return dim;
         }
       }
