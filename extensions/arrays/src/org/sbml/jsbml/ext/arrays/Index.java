@@ -87,9 +87,12 @@ public class Index extends AbstractMathContainer {
    */
   public Index(Index obj) {
     super(obj);
-    isSetArrayDimension = obj.isSetArrayDimension;
-    referencedAttribute = obj.referencedAttribute;
-    arrayDimension = obj.arrayDimension;
+    if(obj.isSetArrayDimension()) {
+      setArrayDimension(obj.arrayDimension);
+    }
+    if(obj.isSetReferencedAttribute()) {
+      setReferencedAttribute(obj.referencedAttribute);
+    }
    
   }
 
@@ -120,8 +123,8 @@ public class Index extends AbstractMathContainer {
    */
   @Override
   public String toString() {
-    // TODO Auto-generated method stub
-    return null;
+    // TODO
+    return "";
   }
   
   
