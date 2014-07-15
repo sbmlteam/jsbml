@@ -179,7 +179,12 @@ public class ArraysFlattening {
   //    }
   //  }
 
-  //TODO
+  /**
+   * This method flattens out arrays objects of a given {@link SBMLDocument}.
+   * 
+   * @param document - the document you want to convert.
+   * @return new Document that is not associated with the arrays package.
+   */
   public static SBMLDocument convert(SBMLDocument document) {
     SBMLDocument flattenedDoc = document.clone();
     Model model = flattenedDoc.getModel();
@@ -198,6 +203,13 @@ public class ArraysFlattening {
     return flattenedDoc;
   }
 
+  /**
+   * This is recursively getting each TreeNode of a certain SBMLDocument.
+   * 
+   * @param model
+   * @param node
+   * @param sbases
+   */
   private static void convert(Model model, TreeNode node, List<SBase> sbases) {
 
     Enumeration<?> children = node.children();
@@ -209,6 +221,13 @@ public class ArraysFlattening {
     }
   }
 
+  /**
+   * This expands an SBase that has a list of Dimension objects.
+   * 
+   * @param model
+   * @param child
+   * @param sbases
+   */
   private static void expandDim(Model model, TreeNode child, List<SBase> sbases) {
     if(child instanceof SBase) {
       SBase sbase = ((SBase) child);
@@ -224,7 +243,17 @@ public class ArraysFlattening {
     }
   }
 
-
+  /**
+   * This method is transforming the attributes of a certain SBase object associated with the arrays package
+   * so that the SBase no longer uses the package.
+   * 
+   * @param model
+   * @param sbase
+   * @param parent
+   * @param arraysPlugin
+   * @param compiler
+   * @param dim
+   */
   private static void expandDim(Model model, SBase sbase, SBase parent, ArraysSBasePlugin arraysPlugin,ArraysCompiler compiler, int dim) {
 
     Dimension dimension = arraysPlugin.getDimensionByArrayDimension(dim);
@@ -260,6 +289,13 @@ public class ArraysFlattening {
     }
   }
 
+  /**
+   * Gets the size of a Dimension object.
+   * 
+   * @param model
+   * @param dimension
+   * @return
+   */
   private static int getSize(Model model, Dimension dimension) {
     if(dimension == null) {
       return 0;
@@ -276,6 +312,12 @@ public class ArraysFlattening {
     return (int) param.getValue();
   }
 
+  /**
+   * Add the new SBase to the corresponding ListOf object.
+   * 
+   * @param parent
+   * @param child
+   */
   private static void addToParent(SBase parent, SBase child) {
     if(parent instanceof ListOf<?>) {
       ListOf<SBase> parentList = (ListOf<SBase>) parent;
@@ -285,6 +327,15 @@ public class ArraysFlattening {
     throw new SBMLException();
   }
 
+  /**
+   * This is flattening index objects by replacing the dimension ids with the corresponding index value
+   * and updating the referenced attribute.
+   * 
+   * @param model
+   * @param arraysPlugin
+   * @param sbase
+   * @param compiler
+   */
   private static void convertIndex(Model model, ArraysSBasePlugin arraysPlugin, SBase sbase, ArraysCompiler compiler) {
     if(arraysPlugin.getIndexCount() < 1) {
       return;
@@ -318,6 +369,13 @@ public class ArraysFlattening {
 
   }
 
+  /**
+   * This updates the id of a NamedSBase.
+   * 
+   * @param arraysPlugin
+   * @param sbase
+   * @param index
+   */
   private static void updateNamedSBase(ArraysSBasePlugin arraysPlugin, NamedSBase sbase, int index) {
     //TODO: check if unique id
     if(sbase.isSetId()) {
@@ -327,6 +385,16 @@ public class ArraysFlattening {
     }
   }
 
+  /**
+   * This updates the dimension id that appears in the math.
+   * 
+   * @param model
+   * @param arraysPlugin
+   * @param sbase
+   * @param dimId
+   * @param index
+   * @throws ParseException
+   */
   private static void updateMathContainer(Model model, ArraysSBasePlugin arraysPlugin, MathContainer sbase, String dimId, int index) throws ParseException {
     if(sbase.isSetMath()) {
       String formula = sbase.getMath().toFormula().replaceAll(dimId, String.valueOf(index));
@@ -339,6 +407,12 @@ public class ArraysFlattening {
     }
   }
 
+  /**
+   * This updates the metaid of an SBase.
+   * @param arraysPlugin
+   * @param sbase
+   * @param index
+   */
   private static void updateSBase(ArraysSBasePlugin arraysPlugin, SBase sbase, int index) {
     if(sbase.isSetMetaId()) {
       String metaId = sbase.getMetaId();

@@ -29,6 +29,7 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
+import org.sbml.jsbml.InitialAssignment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Quantity;
@@ -707,38 +708,92 @@ public class VectorCompiler implements ASTNodeCompiler {
     if(arraysPlugin == null || arraysPlugin.getDimensionCount() == 0) {
       if(sbase instanceof Quantity) {
         Quantity quantity = (Quantity) sbase;
-        setNode(new ASTNode(quantity.getValue()));
-      } 
+        InitialAssignment assign = model.getInitialAssignment(quantity.getId());
+        if(assign == null) {
+          setNode(new ASTNode(quantity.getValue()));
+        } else {
+          assign.getMath().compile(this);
+        }
+      }
+      else {
+        unknownValue();
+      }
       //TODO
     }
     else {
       if(sbase instanceof Quantity) {
         Quantity quantity = (Quantity) sbase;
-        double value = quantity.getValue();
-        Dimension dim = arraysPlugin.getDimensionByArrayDimension(0);
-        Parameter p = model.getParameter(dim.getSize());
-        double size = p.getValue();
-        List<ASTNode> vector = new ArrayList<ASTNode>((int) size);
-        for(int j = 0; j < size; ++j) {
-          vector.add(new ASTNode(value));
-        }
-        vector(vector);
-        ASTNode vectorNode = getNode();
-        for(int i = 1; i < arraysPlugin.getDimensionCount(); ++i) {
-          dim = arraysPlugin.getDimensionByArrayDimension(i);
-          p = model.getParameter(dim.getSize());
-          size = p.getValue();
-          vector = new ArrayList<ASTNode>((int) size);
-          for(int j = 0; j < size; ++j) {
-            vector.add(vectorNode);
+        InitialAssignment assign = model.getInitialAssignment(quantity.getId());
+        if(assign != null) {
+          assign.getMath().compile(this);
+          ASTNode node = getNode();
+          if(node.isVector()) {
+            return;
+          } else {
+            setNode(constructVector(arraysPlugin, node));
           }
-          vector(vector);
-          vectorNode = getNode();
+        } else {
+          setNode(constructVector(arraysPlugin, quantity));
         }
+      }
+      else {
+        unknownValue();
       }
     }
   }
 
+  private ASTNode constructVector(ArraysSBasePlugin arraysPlugin, Quantity quantity) {
+    double value = quantity.getValue();
+    Dimension dim = arraysPlugin.getDimensionByArrayDimension(0);
+    Parameter p = model.getParameter(dim.getSize());
+    double size = p.getValue();
+    List<ASTNode> vector = new ArrayList<ASTNode>((int) size);
+    for(int j = 0; j < size; ++j) {
+      vector.add(new ASTNode(value));
+    }
+    vector(vector);
+    ASTNode vectorNode = getNode();
+    for(int i = 1; i < arraysPlugin.getDimensionCount(); ++i) {
+      dim = arraysPlugin.getDimensionByArrayDimension(i);
+      p = model.getParameter(dim.getSize());
+      size = p.getValue();
+      vector = new ArrayList<ASTNode>((int) size);
+      for(int j = 0; j < size; ++j) {
+        vector.add(vectorNode);
+      }
+      vector(vector);
+      vectorNode = getNode();
+    }
+    
+    return vectorNode;
+  }
+  
+  private ASTNode constructVector(ArraysSBasePlugin arraysPlugin, ASTNode node) {
+   
+    Dimension dim = arraysPlugin.getDimensionByArrayDimension(0);
+    Parameter p = model.getParameter(dim.getSize());
+    double size = p.getValue();
+    List<ASTNode> vector = new ArrayList<ASTNode>((int) size);
+    for(int j = 0; j < size; ++j) {
+      vector.add(node.clone());
+    }
+    vector(vector);
+    ASTNode vectorNode = getNode();
+    for(int i = 1; i < arraysPlugin.getDimensionCount(); ++i) {
+      dim = arraysPlugin.getDimensionByArrayDimension(i);
+      p = model.getParameter(dim.getSize());
+      size = p.getValue();
+      vector = new ArrayList<ASTNode>((int) size);
+      for(int j = 0; j < size; ++j) {
+        vector.add(vectorNode);
+      }
+      vector(vector);
+      vectorNode = getNode();
+    }
+    
+    return vectorNode;
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#cos(org.sbml.jsbml.ASTNode)
    */
@@ -1020,7 +1075,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       } else if(rightCompiled.isNumber()) {
         ASTNode result = leftCompiled.clone();
         try {
-        scalarVectorEq(result, rightCompiled);
+          scalarVectorEq(result, rightCompiled);
         }
         catch(SBMLException e) {
           unknownValue();
@@ -1035,7 +1090,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       if(rightCompiled.isVector()) {
         ASTNode result = rightCompiled.clone();
         try {
-        scalarVectorEq(result, leftCompiled);
+          scalarVectorEq(result, leftCompiled);
         }
         catch(SBMLException e) {
           unknownValue();
@@ -1249,7 +1304,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       if(rightCompiled.isVector()) {
         ASTNode result = leftCompiled.clone();
         try {
-        fracRecursive(leftCompiled, rightCompiled, result);
+          fracRecursive(leftCompiled, rightCompiled, result);
         }
         catch(SBMLException e) {
           unknownValue();
@@ -1259,7 +1314,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       } else if(rightCompiled.isNumber()) {
         ASTNode result = leftCompiled.clone();
         try {
-        scalarVectorFrac(result, rightCompiled);
+          scalarVectorFrac(result, rightCompiled);
         }
         catch(SBMLException e) {
           unknownValue();
@@ -1273,7 +1328,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       if(rightCompiled.isVector()) {
         ASTNode result = rightCompiled.clone();
         try {
-        scalarVectorFrac(result, leftCompiled);
+          scalarVectorFrac(result, leftCompiled);
         }
         catch(SBMLException e) {
           unknownValue();
@@ -1465,7 +1520,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       if(rightCompiled.isVector()) {
         ASTNode result = leftCompiled.clone();
         try {
-        gtRecursive(leftCompiled, rightCompiled, result);
+          gtRecursive(leftCompiled, rightCompiled, result);
         }
         catch(SBMLException e) {
           unknownValue();
@@ -1475,7 +1530,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       } else if(rightCompiled.isNumber()) {
         ASTNode result = leftCompiled.clone();
         try {
-        vectorScalarGt(result, rightCompiled);
+          vectorScalarGt(result, rightCompiled);
         }
         catch(SBMLException e) {
           unknownValue();
@@ -1489,7 +1544,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       if(rightCompiled.isVector()) {
         ASTNode result = rightCompiled.clone();
         try {
-        scalarVectorGt(leftCompiled, result);
+          scalarVectorGt(leftCompiled, result);
         }
         catch(SBMLException e) {
           unknownValue();
@@ -1649,7 +1704,7 @@ public class VectorCompiler implements ASTNodeCompiler {
     ASTNode compiled = getNode();
     if(compiled.isVector()) {
       try {
-      logRecursive(compiled);
+        logRecursive(compiled);
       }
       catch(SBMLException e) {
         unknownValue();
@@ -1709,7 +1764,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       if(rightCompiled.isVector()) {
         ASTNode result = leftCompiled.clone();
         try {
-        ltRecursive(leftCompiled, rightCompiled, result);
+          ltRecursive(leftCompiled, rightCompiled, result);
         }
         catch(SBMLException e) {
           unknownValue();
@@ -1719,7 +1774,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       } else if(rightCompiled.isNumber()) {
         ASTNode result = leftCompiled.clone();
         try {
-        vectorScalarLt(result, rightCompiled);
+          vectorScalarLt(result, rightCompiled);
         }
         catch(SBMLException e) {
           unknownValue();
@@ -1733,7 +1788,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       if(rightCompiled.isVector()) {
         ASTNode result = rightCompiled.clone();
         try {
-        scalarVectorLt(leftCompiled, result);
+          scalarVectorLt(leftCompiled, result);
         }
         catch(SBMLException e) {
           unknownValue();
@@ -1859,7 +1914,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       if(rightCompiled.isVector()) {
         ASTNode result = leftCompiled.clone();
         try {
-        neqRecursive(leftCompiled, rightCompiled, result);
+          neqRecursive(leftCompiled, rightCompiled, result);
         }
         catch(SBMLException e) {
           unknownValue();
@@ -2047,7 +2102,7 @@ public class VectorCompiler implements ASTNodeCompiler {
         unknownValue();
         return dummy;
       }
-      
+
     }
     else {
       out = new ASTNode(sumScalar);
