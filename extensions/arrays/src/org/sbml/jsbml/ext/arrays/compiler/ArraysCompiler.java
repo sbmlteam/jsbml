@@ -37,6 +37,8 @@ import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 /**
+ * This compiler is used to evaluate an {@link ASTNode} object to a real number.
+ * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
@@ -44,10 +46,13 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
  */
 public class ArraysCompiler implements ASTNodeCompiler{
 
+  /**
+   * This maps an id to a value.
+   */
   private Map<String, Double> idToValue;
 
   /**
-   * 
+   * Constructs an ArraysCompiler object. 
    */
   public ArraysCompiler() {
     idToValue = new HashMap<String, Double>();

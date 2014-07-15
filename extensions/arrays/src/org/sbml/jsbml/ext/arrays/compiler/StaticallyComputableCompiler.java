@@ -38,6 +38,9 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 /**
+ * This compiler is used to check if an {@link ASTNode} object contains only constant values or
+ * {@link Dimension} ids.
+ * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
@@ -45,14 +48,35 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
  */
 public class StaticallyComputableCompiler implements ASTNodeCompiler {
 
-  Model model;
-  List<String> constantIds;
+  /**
+   * This model gives context to the ASTNode being evaluated.
+   */
+  private final Model model;
+  
+  /**
+   * This list contains ids that can be included in the math.
+   */
+  private List<String> constantIds;
+  
+  /**
+   * Indicates if constantIds has been initialized.
+   */
   boolean isSetConstantIds;
   
+  /**
+   * Constructs a new StaticallyComputableCompiler object
+   * 
+   * @param model
+   */
   public StaticallyComputableCompiler(Model model) {
     this.model = model;
   }
   
+  /**
+   * Add an id to the list
+   * 
+   * @param id
+   */
   public void addConstantId(String id) {
     if(!isSetConstantIds) {
       constantIds = new ArrayList<String>();
@@ -60,6 +84,13 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
     constantIds.add(id);
   }
   
+  /**
+   * Removes an id from the list.
+   * 
+   * @param id
+   * 
+   * @return
+   */
   public boolean removeConstantId(String id) {
     if(isSetConstantIds) {
       return constantIds.remove(id);

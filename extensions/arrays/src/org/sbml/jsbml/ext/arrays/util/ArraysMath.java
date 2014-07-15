@@ -48,6 +48,8 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
 public class ArraysMath {
 
   /**
+   * This method is used to check if the math does not evaluate to a negative number or to a value greater or
+   * equal to a given size value.
    * 
    * @param dimensionSizes
    * @param math
@@ -84,14 +86,16 @@ public class ArraysMath {
 
     return true;
   }
+  
   /**
+   * This method is used to check if the index math does not go out of bounds.
    * 
    * @param model
    * @param index
    * @return
    */
   public static boolean evaluateIndexBounds(Model model, Index index) {
-
+    //TODO test it
     SBase parent = index.getParentSBMLObject().getParentSBMLObject();
 
     ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) parent.getExtension(ArraysConstants.shortLabel);
@@ -117,6 +121,7 @@ public class ArraysMath {
   }
 
   /**
+   * This is used to check if the arguments of a selector function does not go out of bounds.
    * 
    * @param model
    * @param mathContainer
@@ -184,6 +189,7 @@ public class ArraysMath {
   }
 
   /**
+   * This method maps a dimension id to the size of the dimension object.
    * 
    * @param model
    * @param arraysSBasePlugin
@@ -204,6 +210,7 @@ public class ArraysMath {
   }
 
   /**
+   * This method is used to get the lower bound index from a collection of Dimension objects. 
    * 
    * @param dimSizes
    * @return
@@ -219,6 +226,7 @@ public class ArraysMath {
   }
 
   /**
+   * This method is used to get the upper bound index from a collection of Dimension objects. 
    * 
    * @param dimSizes
    * @return
@@ -234,6 +242,7 @@ public class ArraysMath {
   }
 
   /**
+   * This method is used to determine whether a {@link MathContainer} object is statically computable.
    * 
    * @param model
    * @param mathContainer
@@ -258,6 +267,8 @@ public class ArraysMath {
   }
 
   /**
+   * This method is used to determine whether a {@link MathContainer} object is statically computable given
+   * a list of ids that can appear in the math.
    * 
    * @param model
    * @param mathContainer
@@ -286,6 +297,7 @@ public class ArraysMath {
   }
 
   /**
+   * This is used to obtain a map containing a pair of array depth level and its size.
    * 
    * @param math
    * @return
