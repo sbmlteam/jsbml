@@ -24,9 +24,12 @@ package org.sbml.jsbml.math.test;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.StringReader;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
 import org.sbml.jsbml.util.compilers.FormulaCompilerLibSBML;
@@ -43,11 +46,13 @@ public class ASTNodeFormulaToStringTest {
   final static FormulaCompiler defaultFormulaCompiler = new FormulaCompiler();
   final static FormulaCompiler formulaCompilerLibsbml = new FormulaCompilerLibSBML();
   
-  static ASTNode relationalAnd, logicalEq, simplePlus;
+  static ASTNode relationalAnd, relationalAnd2, relationalAnd3, logicalEq, simplePlus;
   
   @BeforeClass public static void init() {
     try {
       relationalAnd = ASTNode.parseFormula("x and y");
+      relationalAnd2 = ASTNode.parseFormula("x && y", new FormulaParserLL3(new StringReader("")));
+      relationalAnd3 = ASTNode.parseFormula("and(x, y)", new FormulaParserLL3(new StringReader("")));
       logicalEq = ASTNode.parseFormula("x == y");
       simplePlus = ASTNode.parseFormula("x + y");
       
@@ -72,6 +77,37 @@ public class ASTNodeFormulaToStringTest {
     assertTrue(formula.equals("x and y"));
   }
 
+  @Test public void relationalOperator2Tests() {
+
+    String formula = relationalAnd2.toFormula();
+    
+    assertTrue(formula.equals("x and y"));
+    
+    formula = relationalAnd2.toFormula(formulaCompilerLibsbml);
+    
+    assertTrue(formula.equals("x && y"));
+    
+    formula = relationalAnd2.toFormula(defaultFormulaCompiler);
+    
+    assertTrue(formula.equals("x and y"));
+  }
+
+  @Test public void relationalOperator3Tests() {
+
+    String formula = relationalAnd3.toFormula();
+    
+    assertTrue(formula.equals("x and y"));
+    
+    formula = relationalAnd3.toFormula(formulaCompilerLibsbml);
+    
+    assertTrue(formula.equals("x && y"));
+    
+    formula = relationalAnd3.toFormula(defaultFormulaCompiler);
+    
+    assertTrue(formula.equals("x and y"));
+  }
+
+  
   @Test public void logicalOperatorTests() {
 
     String formula = logicalEq.toFormula();
@@ -90,7 +126,7 @@ public class ASTNodeFormulaToStringTest {
   @Test public void simplePlusTests() {
 
     String formula = simplePlus.toFormula();
-    System.out.println(formula);
+
     assertTrue(formula.equals("x+y"));
     
     formula = simplePlus.toFormula(formulaCompilerLibsbml);
