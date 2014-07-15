@@ -51,10 +51,19 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
    */
   private static final long serialVersionUID = -2930232424549376654L;
 
+  /**
+   * Indicates the size of the dimension. Should be a valid id to a Parameter object.
+   */
   private String size;
   
+  /**
+   * Indicates which array dimension this object refers to.
+   */
   private int arrayDimension;
   
+  /**
+   * Indicates if the arrayDimension field has a value.
+   */
   private boolean isSetArrayDimension;
   
   /**
@@ -63,10 +72,7 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
   public Dimension() {
     super();
     initDefaults();
-    
-    
   }
-
 
   /**
    * Creates a Dimension instance with an id. 
@@ -126,9 +132,12 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
    */
   public Dimension(Dimension obj) {
     super(obj);
-    size = obj.size;
-    arrayDimension = obj.arrayDimension;
-    isSetArrayDimension = obj.isSetArrayDimension;
+    if(obj.isSetSize()) {
+      setSize(obj.size);
+    }
+    if(obj.isSetArrayDimension()) {
+      setArrayDimension(obj.arrayDimension);
+    }    
   }
 
 
