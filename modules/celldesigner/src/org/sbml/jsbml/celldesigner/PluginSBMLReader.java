@@ -233,7 +233,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * @return
    * @throws XMLStreamException
    */
-  private Compartment readCompartment(PluginCompartment compartment) throws XMLStreamException {
+  protected Compartment readCompartment(PluginCompartment compartment) throws XMLStreamException {
     Compartment c = new Compartment(compartment.getId(), level, version);
     PluginUtils.transferNamedSBaseProperties(compartment, c);
     if ((compartment.getOutside() != null) && (compartment.getOutside().length() > 0) && (c.getLevel() < 3)) {
@@ -480,7 +480,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
         PluginCompartment pCompartment = originalModel.getCompartment(i);
         model.addCompartment(readCompartment(pCompartment));
         LayoutConverter.extractLayout(pCompartment, layout);
-        RenderConverter.extractRenderInformation(pCompartment, renderPlugin);
+        //RenderConverter.extractRenderInformation(pCompartment, renderPlugin, layout);
         //gets the compartment size
         layout.createDimensions("Layout_Size", originalModel.getCompartment(i).getWidth(),
           originalModel.getCompartment(i).getHeight(), 1d);
@@ -609,7 +609,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * @return
    * @throws XMLStreamException
    */
-  private Reaction readReaction(PluginReaction reac) throws XMLStreamException {
+  protected Reaction readReaction(PluginReaction reac) throws XMLStreamException {
     logger.debug("Translating reaction " + reac.getId());
     Reaction reaction = new Reaction(reac.getId(), level, version);
     PluginUtils.transferNamedSBaseProperties(reac, reaction);
@@ -675,7 +675,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * @return
    * @throws XMLStreamException
    */
-  private Species readSpecies(PluginSpecies species) throws XMLStreamException {
+  protected Species readSpecies(PluginSpecies species) throws XMLStreamException {
     Species s = new Species(level, version);
     PluginUtils.transferNamedSBaseProperties(species, s);
     int sbo = SBO.convertAlias2SBO(species.getSpeciesAlias(0).getType());
