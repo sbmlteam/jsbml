@@ -74,12 +74,16 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
   public ASTLogarithmNode(ASTNode2 base, ASTNode2 value) {
     super();
     if (base == null) {
-      setRightChild(value);
+      setType(Type.FUNCTION_LOG);
     } else {
       setLeftChild(base);
-      setRightChild(value);
+      if (base.getType() == Type.CONSTANT_E) {
+        setType(Type.FUNCTION_LN);
+      } else {
+        setType(Type.FUNCTION_LOG);
+      }
     }
-    setType(Type.FUNCTION_LOG);
+    setRightChild(value);
   }
 
   /**
@@ -90,7 +94,7 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
    */
   public ASTLogarithmNode(ASTLogarithmNode node) {
     super(node);
-    setType(Type.FUNCTION_LOG);
+    setType(node.getType());
   }
   
   /*
@@ -109,10 +113,12 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
   public ASTNodeValue compile(ASTNode2Compiler compiler) {
     ASTNodeValue value = null;
     if (getChildCount() == 2) {
-      value = compiler.log(getLeftChild(), getRightChild());
+      if (getType() == Type.FUNCTION_LOG) {
+        value = compiler.log(getLeftChild(), getRightChild());
+      } else {
+        value = compiler.ln(getRightChild());
+      }
     } else {
-      // CHECK: ln as opposed to log??
-//      value = compiler.ln(getLeftChild());
       value = compiler.log(getRightChild());
     }
     value.setType(getType());

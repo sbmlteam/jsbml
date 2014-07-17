@@ -117,8 +117,8 @@ public class ASTFunction extends AbstractASTNode {
    */
   public ASTFunction(ASTFunction astFunction) {
     super(astFunction);
-    setParentSBMLObject(null);
-    setType(Type.FUNCTION);
+    setParentSBMLObject(astFunction.getParentSBMLObject());
+    setType(astFunction.getType());
     initDefaults();
     if (astFunction.getChildCount() > 0) {
       if (!isSetList()) {
@@ -445,7 +445,8 @@ public class ASTFunction extends AbstractASTNode {
    * @param newChild
    *            {@link ASTNode2} to replace the n<sup>th</sup> child
    *            
-   * @return the element previously at the specified position
+   * @return the element previously at the specified position or null if element
+   *         in question is non-existent
    *       
    */
   public ASTNode2 replaceChild(int n, ASTNode2 newChild) {
@@ -453,8 +454,13 @@ public class ASTFunction extends AbstractASTNode {
       listOfNodes = new ArrayList<ASTNode2>();
     }
     // Removing the node at position n
-    ASTNode2 child = getChildAt(n);
-    removeChild(n);
+    ASTNode2 child = null;
+    try {
+      child = getChildAt(n);
+      removeChild(n);
+    } catch (IndexOutOfBoundsException e) {
+      logger.warn("replaced child is non-existent. regular insert performed");
+    }
 
     // Adding the new child at position n
     insertChild(n, newChild);

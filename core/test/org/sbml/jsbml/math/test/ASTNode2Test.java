@@ -37,7 +37,9 @@ import org.sbml.jsbml.math.ASTCnIntegerNode;
 import org.sbml.jsbml.math.ASTCnNumberNode;
 import org.sbml.jsbml.math.ASTCnRationalNode;
 import org.sbml.jsbml.math.ASTCnRealNode;
+import org.sbml.jsbml.math.ASTConstantNumber;
 import org.sbml.jsbml.math.ASTFactory;
+import org.sbml.jsbml.math.ASTLogarithmNode;
 import org.sbml.jsbml.math.ASTUnaryFunctionNode;
 
 
@@ -439,8 +441,9 @@ public class ASTNode2Test {
   @Test
   public void testASTCnRationalNumeratorNoValue() {
     ASTCnRationalNode rational = new ASTCnRationalNode();
-    rational.setDenominator(10.0);
-    assertTrue(Double.isNaN(rational.getNumerator()));
+    rational.setDenominator(10);
+    exception.expect(PropertyUndefinedError.class);
+    rational.getNumerator();
   }
   
   /**
@@ -449,9 +452,9 @@ public class ASTNode2Test {
   @Test
   public void testASTCnRationalNumeratorWithValue() {
     ASTCnRationalNode rational = new ASTCnRationalNode();
-    rational.setNumerator(10.0);
-    rational.setDenominator(10.0);
-    assertTrue(rational.getNumerator() == 10.0);
+    rational.setNumerator(10);
+    rational.setDenominator(10);
+    assertTrue(rational.getNumerator() == 10);
   }
   
   /**
@@ -460,8 +463,9 @@ public class ASTNode2Test {
   @Test
   public void testASTCnRationalDenominatorNoValue() {
     ASTCnRationalNode rational = new ASTCnRationalNode();
-    rational.setNumerator(10.0);
-    assertTrue(Double.isNaN(rational.getDenominator()));
+    rational.setNumerator(10);
+    exception.expect(PropertyUndefinedError.class);
+    rational.getDenominator();
   }
 
   /**
@@ -470,9 +474,9 @@ public class ASTNode2Test {
   @Test
   public void testASTCnRationalDenominatorWithValue() {
     ASTCnRationalNode rational = new ASTCnRationalNode();
-    rational.setNumerator(10.0);
-    rational.setDenominator(10.0);
-    assertTrue(rational.getDenominator() == 10.0);
+    rational.setNumerator(10);
+    rational.setDenominator(10);
+    assertTrue(rational.getDenominator() == 10);
   }
   
   /**
@@ -481,8 +485,9 @@ public class ASTNode2Test {
   @Test
   public void testASTCnExponentialMantissaNoValue() {
     ASTCnExponentialNode exponential = new ASTCnExponentialNode();
-    exponential.setExponent(10.0);
-    assertTrue(Double.isNaN(exponential.getMantissa()));
+    exponential.setExponent(10);
+    exception.expect(PropertyUndefinedError.class);
+    exponential.getMantissa();
   }
 
   /**
@@ -491,9 +496,9 @@ public class ASTNode2Test {
   @Test
   public void testASTCnExponentialMantissaWithValue() {
     ASTCnExponentialNode exponential = new ASTCnExponentialNode();
-    exponential.setExponent(10.0);
-    exponential.setMantissa(10.0);
-    assertTrue(exponential.getMantissa() == 10.0);
+    exponential.setExponent(10);
+    exponential.setMantissa(10);
+    assertTrue(exponential.getMantissa() == 10);
   }
 
   /**
@@ -502,8 +507,9 @@ public class ASTNode2Test {
   @Test
   public void testASTCnExponentialMantissaNoExponent() {
     ASTCnExponentialNode exponential = new ASTCnExponentialNode();
-    exponential.setMantissa(10.0);
-    assertTrue(Double.isNaN(exponential.getExponent()));
+    exponential.setMantissa(10);
+    exception.expect(PropertyUndefinedError.class);
+    exponential.getExponent();
   }
   
   /**
@@ -512,9 +518,30 @@ public class ASTNode2Test {
   @Test
   public void testASTCnExponentialMantissaWithExponent() {
     ASTCnExponentialNode exponential = new ASTCnExponentialNode();
-    exponential.setExponent(10.0);
-    exponential.setMantissa(10.0);
-    assertTrue(exponential.getExponent() == 10.0);
+    exponential.setExponent(10);
+    exponential.setMantissa(10);
+    assertTrue(exponential.getExponent() == 10);
   }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#getType()}.
+   */
+  @Test
+  public void testASTLogarithmNodeDefaultBase10() {
+    ASTLogarithmNode log = new ASTLogarithmNode();
+    assertTrue(log.getType() == Type.FUNCTION_LOG);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#getType()}.
+   */
+  @Test
+  public void testASTLogarithmNodeNaturalLog() {
+    ASTConstantNumber e = new ASTConstantNumber(Type.CONSTANT_E);
+    ASTCnIntegerNode one = new ASTCnIntegerNode(1);
+    ASTLogarithmNode ln = new ASTLogarithmNode(e, one);
+    assertTrue(ln.getType() == Type.FUNCTION_LN);
+  }
+
     
 }

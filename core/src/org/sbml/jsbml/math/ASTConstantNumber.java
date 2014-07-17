@@ -48,6 +48,11 @@ public class ASTConstantNumber extends ASTNumber {
    * This variable stores the value of the constant number
    */
   private Double value;
+  
+  /**
+   * Avogadro's number
+   */
+  private final static double avogadro = 6.023e23;
 
   /**
    * Creates a new {@link ASTConstantNumber}.
@@ -70,6 +75,8 @@ public class ASTConstantNumber extends ASTNumber {
   
   /**
    * Creates a new {@link ASTConstantNumber} with value {@link double}.
+   * 
+   * @param double value
    */
   public ASTConstantNumber(double value) {
     super();
@@ -77,12 +84,28 @@ public class ASTConstantNumber extends ASTNumber {
   }
 
   /**
-   * Creates a new {@link ASTConstantNumber} of type {@link Type}.
+   * Creates a new {@link ASTConstantNumber} of type {@link Type}. Value
+   * associated with type is automatically set.
+   * 
+   * @param Type type
    */
   public ASTConstantNumber(Type type) {
     super();
     value = null;
     setType(type);
+    switch(type) {
+    case CONSTANT_E:
+      setValue(Math.E);
+      break;
+    case CONSTANT_PI:
+      setValue(Math.PI);
+      break;
+    case NAME_AVOGADRO:
+      setValue(avogadro);
+      break;
+    default: // UNKNOWN:
+      break;
+    }
   }
 
   /*
