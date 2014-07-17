@@ -89,22 +89,22 @@ public class ASTRelationalOperatorNode extends ASTFunction {
     ASTNodeValue value = null;
     switch(getType()) {
     case RELATIONAL_EQ:
-      value = compiler.eq(getChildAt(0), getChildAt(1));
+      value = compiler.eq(getChildAt(0), getChildAt(getChildCount() - 1));
       break;
     case RELATIONAL_GEQ:
-      value = compiler.geq(getChildAt(0), getChildAt(1));
+      value = compiler.geq(getChildAt(0), getChildAt(getChildCount() - 1));
       break;
     case RELATIONAL_GT:
-      value = compiler.gt(getChildAt(0), getChildAt(1));
+      value = compiler.gt(getChildAt(0), getChildAt(getChildCount() - 1));
       break;
     case RELATIONAL_NEQ:
-      value = compiler.neq(getChildAt(0), getChildAt(1));
+      value = compiler.neq(getChildAt(0), getChildAt(getChildCount() - 1));
       break;
     case RELATIONAL_LEQ:
-      value = compiler.leq(getChildAt(0), getChildAt(1));
+      value = compiler.leq(getChildAt(0), getChildAt(getChildCount() - 1));
       break;
     case RELATIONAL_LT:
-      value = compiler.lt(getChildAt(0), getChildAt(1));
+      value = compiler.lt(getChildAt(0), getChildAt(getChildCount() - 1));
       break;
     default: // UNKNOWN:
       value = compiler.unknownValue();
@@ -125,10 +125,22 @@ public class ASTRelationalOperatorNode extends ASTFunction {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("ASTRelationNode [strict=");
+    builder.append("ASTRelationalOperatorNode [listOfNodes=");
+    builder.append(listOfNodes);
+    builder.append(", parentSBMLObject=");
+    builder.append(parentSBMLObject);
+    builder.append(", strict=");
     builder.append(strict);
     builder.append(", type=");
     builder.append(type);
+    builder.append(", id=");
+    builder.append(id);
+    builder.append(", style=");
+    builder.append(style);
+    builder.append(", listOfListeners=");
+    builder.append(listOfListeners);
+    builder.append(", parent=");
+    builder.append(parent);
     builder.append("]");
     return builder.toString();
   }

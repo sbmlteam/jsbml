@@ -28,8 +28,10 @@ import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.CallableSBase;
+import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.LocalParameter;
+import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
@@ -63,6 +65,17 @@ ASTCSymbolBaseNode {
    * definitionURL attribute for MathML element
    */
   protected String definitionURL;
+  
+  /**
+   * refId attribute for MathML element
+   */
+  private String refId;
+
+  /**
+   * The name of the MathML element represented by this
+   * {@link ASTCiNumberNode}.
+   */
+  private String name;
 
   /**
    * Creates a new {@link ASTCiNumberNode}.
@@ -99,7 +112,26 @@ ASTCSymbolBaseNode {
    */
   @Override
   public ASTNodeValue compile(ASTNode2Compiler compiler) {
-    return null;
+    ASTNodeValue value = null;
+    CallableSBase variable = getReferenceInstance();
+    if (variable != null) {
+      if (variable instanceof FunctionDefinition) {
+        //TODO: Can CallableSBases have children??
+//        value = compiler.function((FunctionDefinition) variable,
+//          getChildren());
+      } else {
+        value = compiler.compile(variable);
+      }
+    } else {
+      value = compiler.compile(getName());
+    }
+    value.setType(getType());
+    MathContainer parent = getParentSBMLObject();
+    if (parent != null) {
+      value.setLevel(parent.getLevel());
+      value.setVersion(parent.getVersion());
+    }    
+    return value;
   }
 
   /* (non-Javadoc)
@@ -125,6 +157,38 @@ ASTCSymbolBaseNode {
     } else if (!name.equals(other.name))
       return false;
     return true;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#getDefinitionURL()
+   */
+  @Override
+  public String getDefinitionURL() {
+    if (isSetDefinitionURL()) {
+      return definitionURL;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("definitionURL", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return "";
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#getName()
+   */
+  @Override
+  public String getName() {
+    if (isSetName()) {
+      return name;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("name", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return "";
   }
 
   /**
@@ -173,15 +237,16 @@ ASTCSymbolBaseNode {
     return sbase;
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#getDefinitionURL()
+  /**
+   * Get refId attribute
+   * 
+   * @return the refId
    */
-  @Override
-  public String getDefinitionURL() {
-    if (isSetDefinitionURL()) {
-      return definitionURL;
+  public String getRefId() {
+    if (isSetRefId()) {
+      return refId;
     }
-    PropertyUndefinedError error = new PropertyUndefinedError("definitionURL", this);
+    PropertyUndefinedError error = new PropertyUndefinedError("refId", this);
     if (isStrict()) {
       throw error;
     }
@@ -211,6 +276,23 @@ ASTCSymbolBaseNode {
     return definitionURL != null;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetName()
+   */
+  @Override
+  public boolean isSetName() {
+    return name != null;
+  }
+
+  /**
+   * Return true iff refId is set
+   * 
+   * @return boolean
+   */
+  private boolean isSetRefId() {
+    return refId != null;
+  }
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#refersTo(java.lang.String)
@@ -218,6 +300,26 @@ ASTCSymbolBaseNode {
   @Override
   public boolean refersTo(String id) {
     return getName().equals(id);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#setDefinitionURL(java.lang.String)
+   */
+  @Override
+  public void setDefinitionURL(String definitionURL) {
+    String old = this.definitionURL;
+    this.definitionURL = definitionURL;
+    firePropertyChange(TreeNodeChangeEvent.definitionURL, old, definitionURL);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#setName(java.lang.String)
+   */
+  @Override
+  public void setName(String name) {
+    String old = this.name;
+    this.name = name;
+    firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
   }
 
   /**
@@ -233,17 +335,18 @@ ASTCSymbolBaseNode {
   public void setReference(CallableSBase sbase) {
     setName(sbase.getId());
   }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#setDefinitionURL(java.lang.String)
+  
+  /**
+   * Set refId attribute
+   * 
+   * @param refId the refId to set
    */
-  @Override
-  public void setDefinitionURL(String definitionURL) {
-    String old = this.definitionURL;
-    this.definitionURL = definitionURL;
-    firePropertyChange(TreeNodeChangeEvent.definitionURL, old, definitionURL);
+  public void setRefId(String refId) {
+    String old = this.refId;
+    this.refId = refId;
+    firePropertyChange(TreeNodeChangeEvent.refId, old, refId);
   }
-
+  
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
@@ -252,12 +355,24 @@ ASTCSymbolBaseNode {
     StringBuilder builder = new StringBuilder();
     builder.append("ASTCiNumberNode [definitionURL=");
     builder.append(definitionURL);
+    builder.append(", refId=");
+    builder.append(refId);
     builder.append(", name=");
     builder.append(name);
+    builder.append(", parentSBMLObject=");
+    builder.append(parentSBMLObject);
     builder.append(", strict=");
     builder.append(strict);
     builder.append(", type=");
     builder.append(type);
+    builder.append(", id=");
+    builder.append(id);
+    builder.append(", style=");
+    builder.append(style);
+    builder.append(", listOfListeners=");
+    builder.append(listOfListeners);
+    builder.append(", parent=");
+    builder.append(parent);
     builder.append("]");
     return builder.toString();
   }

@@ -25,8 +25,11 @@ package org.sbml.jsbml.math;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.filters.Filter;
 
@@ -46,6 +49,11 @@ public class ASTFunction extends AbstractASTNode {
    * 
    */
   private static final long serialVersionUID = -6517879717740815227L;
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static transient final Logger logger = Logger.getLogger(ASTFunction.class);
 
   /**
    * Sets the Parent of the node and its children to the given value
@@ -82,6 +90,12 @@ public class ASTFunction extends AbstractASTNode {
    * The container that holds this ASTFunctionNode.
    */
   protected MathContainer parentSBMLObject;
+  
+  /**
+   * The name of the MathML element represented by this
+   * {@link ASTFunction}.
+   */
+  private String name;
 
   /**
    * Creates a new {@link ASTFunction} that lacks a pointer
@@ -91,6 +105,7 @@ public class ASTFunction extends AbstractASTNode {
     super();
     parentSBMLObject = null;
     listOfNodes = null;
+    setType(Type.FUNCTION);
     initDefaults();
   }
   
@@ -103,6 +118,7 @@ public class ASTFunction extends AbstractASTNode {
   public ASTFunction(ASTFunction astFunction) {
     super(astFunction);
     setParentSBMLObject(null);
+    setType(Type.FUNCTION);
     initDefaults();
     if (astFunction.getChildCount() > 0) {
       if (!isSetList()) {
@@ -125,6 +141,7 @@ public class ASTFunction extends AbstractASTNode {
   public ASTFunction(MathContainer container) {
     super(container);
     listOfNodes = null;
+    setType(Type.FUNCTION);
     initDefaults();
   }
 
@@ -260,6 +277,24 @@ public class ASTFunction extends AbstractASTNode {
     }
   }
 
+  /**
+   * Returns the name of the MathML element represented by
+   * this {@link ASTFunction}
+   * 
+   * @return String name
+   */
+  public String getName() {
+    if (isSetName()) {
+      return name;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("name", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return "";
+  }
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -273,7 +308,7 @@ public class ASTFunction extends AbstractASTNode {
       + ((parentSBMLObject == null) ? 0 : parentSBMLObject.hashCode());
     return result;
   }
-
+  
   /**
    * Initializes the default values/attributes of the node.
    */
@@ -291,7 +326,7 @@ public class ASTFunction extends AbstractASTNode {
     }
     firePropertyChange(TreeNodeChangeEvent.initialValue, old, this);
   }
-  
+
   /**
    * Inserts the given {@link ASTNode2} at point n in the list of children of this
    * {@link ASTNode2}. Inserting a child within an {@link ASTNode2} may result in an inaccurate
@@ -328,6 +363,15 @@ public class ASTFunction extends AbstractASTNode {
   }
 
   /**
+   * Returns True iff name has been set
+   * 
+   * @return boolean
+   */
+  public boolean isSetName() {
+    return name != null;
+  }
+  
+  /**
    * Adds the given node as a child of this {@link ASTFunction}. This method adds child
    * nodes from right to left.
    * 
@@ -348,7 +392,7 @@ public class ASTFunction extends AbstractASTNode {
     setParentSBMLObject(child, parentSBMLObject, 0);
     child.setParent(this);
   }
-
+  
   /**
    * Removes child n of this {@link ASTFunction}. Removing a child from an 
    * {@link ASTFunction} may result in an inaccurate representation.
@@ -370,7 +414,7 @@ public class ASTFunction extends AbstractASTNode {
     }
     return false;
   }
-  
+
   /**
    * Replaces occurrences of a name within this {@link ASTNode2} with the
    * name/value/formula represented by the second argument {@link ASTNode2}, e.g., if
@@ -391,7 +435,7 @@ public class ASTFunction extends AbstractASTNode {
     int n = 0;
     replaceChild(n, (ASTNode2) arg.clone());
   }
-  
+
   /**
    * Replaces the n<sup>th</sup> child of this ASTNode2 with the given ASTNode2.
    * 
@@ -417,6 +461,18 @@ public class ASTFunction extends AbstractASTNode {
     
     // Return removed child
     return child;
+  }
+
+  /**
+   * Set the name of the MathML element represented by
+   * this {@link ASTFunction}
+   * 
+   * @param String name
+   */
+  public void setName(String name) {
+    String old = this.name;
+    this.name = name;
+    firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
   }
 
   /**
@@ -452,19 +508,22 @@ public class ASTFunction extends AbstractASTNode {
     that.listOfNodes = listOfNodes;
     listOfNodes = swap;
   }
-
+  
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("ASTFunction [strict=");
-    builder.append(strict);
-    builder.append(", type=");
-    builder.append(type);
+    builder.append("ASTFunction [listOfNodes=");
+    builder.append(listOfNodes);
+    builder.append(", parentSBMLObject=");
+    builder.append(parentSBMLObject);
+    builder.append(", name=");
+    builder.append(name);
     builder.append("]");
     return builder.toString();
   }
+
 
 }

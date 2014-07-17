@@ -22,9 +22,14 @@
  */
 package org.sbml.jsbml.math;
 
+import java.text.MessageFormat;
+
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 /**
  * An Abstract Syntax Tree (AST) node representing an arithmetic
@@ -95,6 +100,52 @@ public class ASTArithmeticOperatorNode extends ASTFunction {
     return new ASTArithmeticOperatorNode(this);
   }
   
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
+    ASTNodeValue value = null;
+    switch(getType()) {
+    case PLUS:
+      value = compiler.plus(getChildren());
+      value.setUIFlag(getChildCount() <= 1);
+      break;
+    case MINUS:
+      if (getChildCount() < 2) {
+        value = compiler.uMinus(getChildAt(0));
+        value.setUIFlag(true);
+      } else {
+        value = compiler.minus(getChildren());
+        value.setUIFlag(false);
+      }
+      break;
+    case TIMES:
+      value = compiler.times(getChildren());
+      value.setUIFlag(getChildCount() <= 1);
+      break;
+    case DIVIDE:
+      int childCount = getChildCount();
+      if (childCount != 2) {
+        throw new SBMLException(MessageFormat.format(
+          "Fractions must have one numerator and one denominator, here {0,number,integer} elements are given.",
+          childCount));
+      }
+      value = compiler.frac(getChildAt(0), getChildAt(getChildCount() - 1));
+      break;
+    default: // UNKNOWN:
+      value = compiler.unknownValue();
+      break;
+    }
+    value.setType(getType());
+    MathContainer parent = getParentSBMLObject();
+    if (parent != null) {
+      value.setLevel(parent.getLevel());
+      value.setVersion(parent.getVersion());
+    }
+    return value;
+  }
+  
   /**
    * Sets the value of this {@link ASTArithmeticOperatorNode} to the given character. If 
    * character is one of +, -, *, / or ^, the node type will be set accordingly. 
@@ -134,10 +185,22 @@ public class ASTArithmeticOperatorNode extends ASTFunction {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("ASTArithmeticNode [strict=");
+    builder.append("ASTArithmeticOperatorNode [listOfNodes=");
+    builder.append(listOfNodes);
+    builder.append(", parentSBMLObject=");
+    builder.append(parentSBMLObject);
+    builder.append(", strict=");
     builder.append(strict);
     builder.append(", type=");
     builder.append(type);
+    builder.append(", id=");
+    builder.append(id);
+    builder.append(", style=");
+    builder.append(style);
+    builder.append(", listOfListeners=");
+    builder.append(listOfListeners);
+    builder.append(", parent=");
+    builder.append(parent);
     builder.append("]");
     return builder.toString();
   }

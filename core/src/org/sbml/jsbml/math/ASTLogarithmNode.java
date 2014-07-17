@@ -74,7 +74,7 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
   public ASTLogarithmNode(ASTNode2 base, ASTNode2 value) {
     super();
     if (base == null) {
-      setLeftChild(value);
+      setRightChild(value);
     } else {
       setLeftChild(base);
       setRightChild(value);
@@ -130,10 +130,22 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("ASTLogarithmNode [strict=");
+    builder.append("ASTLogarithmNode [listOfNodes=");
+    builder.append(listOfNodes);
+    builder.append(", parentSBMLObject=");
+    builder.append(parentSBMLObject);
+    builder.append(", strict=");
     builder.append(strict);
     builder.append(", type=");
     builder.append(type);
+    builder.append(", id=");
+    builder.append(id);
+    builder.append(", style=");
+    builder.append(style);
+    builder.append(", listOfListeners=");
+    builder.append(listOfListeners);
+    builder.append(", parent=");
+    builder.append(parent);
     builder.append("]");
     return builder.toString();
   }

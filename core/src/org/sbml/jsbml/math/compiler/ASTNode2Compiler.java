@@ -332,13 +332,10 @@ public interface ASTNode2Compiler {
    * @param delay
    *            an expression of a positive duration time (the amoutn of
    *            delay)
-   * @param timeUnits
-   *            the units for the delay.
    * @return
    * @throws SBMLException
    */
-  public ASTNodeValue delay(String delayName, ASTNode2 x, ASTNode2 delay,
-    String timeUnits) throws SBMLException;
+  public ASTNodeValue delay(String delayName, ASTNode2 x, ASTNode2 delay) throws SBMLException;
 
   /**
    * Equal.

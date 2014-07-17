@@ -65,11 +65,6 @@ ASTCSymbolNode {
    * encodingURL attribute for MathML element
    */
   private String encodingURL;
-  
-  /**
-   * units attribute for MathML element
-   */
-  private String units;
 
   /**
    * The URI for the definition of the csymbol for delay.
@@ -115,8 +110,7 @@ ASTCSymbolNode {
    */
   @Override
   public ASTNodeValue compile(ASTNode2Compiler compiler) {
-    ASTNodeValue value = compiler.delay(getName(), getLeftChild(), getRightChild(),
-      getUnits());
+    ASTNodeValue value = compiler.delay(getName(), getLeftChild(), getRightChild());
     value.setType(getType());
     MathContainer parent = getParentSBMLObject();
     if (parent != null) {
@@ -188,15 +182,6 @@ ASTCSymbolNode {
     return "";
   }
 
-  /**
-   * Get units attribute
-   * 
-   * @return the units
-   */
-  public String getUnits() {
-    return units;
-  }
-
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -259,15 +244,6 @@ ASTCSymbolNode {
     firePropertyChange(TreeNodeChangeEvent.encoding, old, this.encodingURL);
   }
 
-  /**
-   * Set units attribute
-   * 
-   * @param units the units to set
-   */
-  public void setUnits(String units) {
-    this.units = units;
-  }
-
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
@@ -280,10 +256,22 @@ ASTCSymbolNode {
     builder.append(definitionURL);
     builder.append(", encodingURL=");
     builder.append(encodingURL);
+    builder.append(", listOfNodes=");
+    builder.append(listOfNodes);
+    builder.append(", parentSBMLObject=");
+    builder.append(parentSBMLObject);
     builder.append(", strict=");
     builder.append(strict);
     builder.append(", type=");
     builder.append(type);
+    builder.append(", id=");
+    builder.append(id);
+    builder.append(", style=");
+    builder.append(style);
+    builder.append(", listOfListeners=");
+    builder.append(listOfListeners);
+    builder.append(", parent=");
+    builder.append(parent);
     builder.append("]");
     return builder.toString();
   }

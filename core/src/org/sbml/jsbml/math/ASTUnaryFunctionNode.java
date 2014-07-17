@@ -26,6 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 
@@ -102,6 +105,38 @@ public class ASTUnaryFunctionNode extends ASTFunction {
   @Override
   public ASTUnaryFunctionNode clone() {
     return new ASTUnaryFunctionNode(this);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
+    ASTNodeValue value = null;
+    switch(getType()) {
+    case FUNCTION_ABS:
+      value = compiler.abs(getChild());
+      break;
+    case FUNCTION_CEILING:
+      value = compiler.ceiling(getChild());
+      break;
+    case FUNCTION_FACTORIAL:
+      value = compiler.factorial(getChild());
+      break;
+    case FUNCTION_FLOOR:
+      value = compiler.floor(getChild());
+      break;
+    default: // UNKNOWN:
+      value = compiler.unknownValue();
+      break;
+    }
+    value.setType(getType());
+    MathContainer parent = getParentSBMLObject();
+    if (parent != null) {
+      value.setLevel(parent.getLevel());
+      value.setVersion(parent.getVersion());
+    }
+    return value;
   }
 
   /**
@@ -262,10 +297,22 @@ public class ASTUnaryFunctionNode extends ASTFunction {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("ASTUnaryFunctionNode [strict=");
+    builder.append("ASTUnaryFunctionNode [listOfNodes=");
+    builder.append(listOfNodes);
+    builder.append(", parentSBMLObject=");
+    builder.append(parentSBMLObject);
+    builder.append(", strict=");
     builder.append(strict);
     builder.append(", type=");
     builder.append(type);
+    builder.append(", id=");
+    builder.append(id);
+    builder.append(", style=");
+    builder.append(style);
+    builder.append(", listOfListeners=");
+    builder.append(listOfListeners);
+    builder.append(", parent=");
+    builder.append(parent);
     builder.append("]");
     return builder.toString();
   }

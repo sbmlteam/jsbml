@@ -75,7 +75,20 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
     setRightChild(radicand);
     setType(Type.FUNCTION_ROOT);
   }
-
+  
+  /**
+   * Creates a new {@link ASTRootNode} with the specified radicand and
+   * rootExponent.
+   * 
+   * @param rootExponent {@link ASTNode2}
+   * @param radicand {@link ASTNode2}
+   */
+  public ASTRootNode(ASTNode2 radicand) {
+    super();
+    // TODO: Create a new node & set left child or leave left child as null??
+    setRightChild(radicand);
+    setType(Type.FUNCTION_ROOT);
+  }
   
   /*
    * (non-Javadoc)
@@ -131,10 +144,22 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("ASTSqrtNode [strict=");
+    builder.append("ASTRootNode [listOfNodes=");
+    builder.append(listOfNodes);
+    builder.append(", parentSBMLObject=");
+    builder.append(parentSBMLObject);
+    builder.append(", strict=");
     builder.append(strict);
     builder.append(", type=");
     builder.append(type);
+    builder.append(", id=");
+    builder.append(id);
+    builder.append(", style=");
+    builder.append(style);
+    builder.append(", listOfListeners=");
+    builder.append(listOfListeners);
+    builder.append(", parent=");
+    builder.append(parent);
     builder.append("]");
     return builder.toString();
   }

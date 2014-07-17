@@ -24,6 +24,7 @@ package org.sbml.jsbml.math;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
@@ -40,7 +41,7 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
  * @since 1.0
  * @date May 30, 2014
  */
-public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Double,Double>> {
+public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Integer,Integer>> {
 
   /**
    * 
@@ -99,19 +100,35 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Double,Double>>
   /**
    * Get the denominator value of this node.
    * 
-   * @return double denominator
+   * @return int denominator
    */
-  public double getDenominator() {
-    return isSetDenominator() ? this.number.getV() : Double.NaN;
+  public int getDenominator() {
+    if (isSetDenominator()) {
+      return number.getV();
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("denominator", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return 0;
   }
 
   /**
    * Get the numerator value of this node.
    * 
-   * @return double numerator
+   * @return int numerator
    */
-  public double getNumerator() {
-    return isSetNumerator() ? this.number.getL() : Double.NaN;
+  public int getNumerator() {
+    if (isSetNumerator()) {
+      return number.getL();
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("numerator", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return 0;
   }
 
   /**
@@ -137,13 +154,13 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Double,Double>>
   /**
    * Set the value of the denominator
    * 
-   * @param double denominator
+   * @param int denominator
    */
-  public void setDenominator(double denominator) {
+  public void setDenominator(int denominator) {
     if (! isSetNumber()) {
-      setNumber(new ValuePair<Double,Double>());
+      setNumber(new ValuePair<Integer,Integer>());
     }
-    Double old = this.number.getV();
+    Integer old = this.number.getV();
     this.number.setV(denominator);
     firePropertyChange(TreeNodeChangeEvent.denominator, old, this.number.getV());
   }
@@ -151,15 +168,41 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Double,Double>>
   /**
    * Set the value of the numerator
    * 
-   * @param double numerator
+   * @param int numerator
    */
-  public void setNumerator(double numerator) {
+  public void setNumerator(int numerator) {
     if (! isSetNumber()) {
-      setNumber(new ValuePair<Double,Double>());
+      setNumber(new ValuePair<Integer,Integer>());
     }
-    Double old = this.number.getL();
+    Integer old = this.number.getL();
     this.number.setL(numerator);
     firePropertyChange(TreeNodeChangeEvent.numerator, old, this.number.getL());
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ASTCnRationalNode [number=");
+    builder.append(number);
+    builder.append(", parentSBMLObject=");
+    builder.append(parentSBMLObject);
+    builder.append(", strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append(", id=");
+    builder.append(id);
+    builder.append(", style=");
+    builder.append(style);
+    builder.append(", listOfListeners=");
+    builder.append(listOfListeners);
+    builder.append(", parent=");
+    builder.append(parent);
+    builder.append("]");
+    return builder.toString();
   }
 
 }

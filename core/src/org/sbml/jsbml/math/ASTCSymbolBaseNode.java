@@ -42,12 +42,27 @@ public interface ASTCSymbolBaseNode extends ASTNode2 {
   public String getDefinitionURL();
 
   /**
+   * Returns the name of the MathML element represented by
+   * this {@link ASTCSymbolBaseNode}
+   * 
+   * @return String name
+   */
+  public String getName();
+
+  /**
    * Returns True iff definitionURL has been set
    * 
    * @return boolean
    */
   public boolean isSetDefinitionURL();
 
+  /**
+   * Returns True iff name has been set
+   * 
+   * @return boolean
+   */
+  public boolean isSetName();
+  
   /**
    * Returns {@code true} if this node or one of its descendants contains some
    * identifier with the given id. This method can be used to scan a formula
@@ -60,7 +75,7 @@ public interface ASTCSymbolBaseNode extends ASTNode2 {
    *            given id.
    */
   public boolean refersTo(String id);
-
+  
   /**
    * Set the encodingURL of the MathML element represented by
    * this {@link ASTCSymbolBaseNode}
@@ -68,5 +83,13 @@ public interface ASTCSymbolBaseNode extends ASTNode2 {
    * @param String definitionURL
    */
   public void setDefinitionURL(String definitionURL);
+  
+  /**
+   * Set the name of the MathML element represented by
+   * this {@link ASTCSymbolBaseNode}
+   * 
+   * @param String name
+   */
+  public void setName(String name);
   
 }

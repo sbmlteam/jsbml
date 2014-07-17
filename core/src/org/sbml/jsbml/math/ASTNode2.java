@@ -84,14 +84,6 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
   public String getMathMLClass();
 
   /**
-   * Returns the name of the MathML element represented by
-   * this {@link ASTNode2}
-   * 
-   * @return String name
-   */
-  public String getName();
-
-  /**
    * Sets the parentSBMLObject to container recursively
    * 
    * @return MathContainer container
@@ -125,13 +117,6 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    * @return boolean
    */
   public boolean isSetMathMLClass();
-
-  /**
-   * Returns True iff name has been set
-   * 
-   * @return boolean
-   */
-  public boolean isSetName();
 
   /**
    * Checks if a parent SBML object, i.e., a {@link MathContainer}, is set as a
@@ -172,14 +157,6 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    * @param String name
    */
   public void setMathMLClass(String mathMLClass);
-  
-  /**
-   * Set the name of the MathML element represented by
-   * this {@link ASTNode2}
-   * 
-   * @param String name
-   */
-  public void setName(String name);
   
   /**
    * @param parent

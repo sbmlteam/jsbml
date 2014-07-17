@@ -182,10 +182,22 @@ public class ASTLambdaFunctionNode extends ASTFunction {
     StringBuilder builder = new StringBuilder();
     builder.append("ASTLambdaFunctionNode [numBvars=");
     builder.append(numBvars);
+    builder.append(", listOfNodes=");
+    builder.append(listOfNodes);
+    builder.append(", parentSBMLObject=");
+    builder.append(parentSBMLObject);
     builder.append(", strict=");
     builder.append(strict);
     builder.append(", type=");
     builder.append(type);
+    builder.append(", id=");
+    builder.append(id);
+    builder.append(", style=");
+    builder.append(style);
+    builder.append(", listOfListeners=");
+    builder.append(listOfListeners);
+    builder.append(", parent=");
+    builder.append(parent);
     builder.append("]");
     return builder.toString();
   }

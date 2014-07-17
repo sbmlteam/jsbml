@@ -64,6 +64,12 @@ implements ASTCSymbolNode {
   protected String definitionURL;
 
   /**
+   * The name of the MathML element represented by this
+   * {@link ASTCSymbolTimeNode}.
+   */
+  private String name;
+
+  /**
    * The URI for the definition of the csymbol for time.
    */
   public static final transient String URI_TIME_DEFINITION =
@@ -172,6 +178,22 @@ implements ASTCSymbolNode {
   }
 
   /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#getName()
+   */
+  @Override
+  public String getName() {
+    if (isSetName()) {
+      return name;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("name", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return "";
+  }
+
+  /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -204,6 +226,14 @@ implements ASTCSymbolNode {
   }
 
   /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetName()
+   */
+  @Override
+  public boolean isSetName() {
+    return name != null;
+  }
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#refersTo(java.lang.String)
    */
   @Override
@@ -232,6 +262,16 @@ implements ASTCSymbolNode {
   }
 
   /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#setName(java.lang.String)
+   */
+  @Override
+  public void setName(String name) {
+    String old = this.name;
+    this.name = name;
+    firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
+  }
+
+  /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   @Override
@@ -241,10 +281,22 @@ implements ASTCSymbolNode {
     builder.append(encodingURL);
     builder.append(", definitionURL=");
     builder.append(definitionURL);
+    builder.append(", name=");
+    builder.append(name);
+    builder.append(", parentSBMLObject=");
+    builder.append(parentSBMLObject);
     builder.append(", strict=");
     builder.append(strict);
     builder.append(", type=");
     builder.append(type);
+    builder.append(", id=");
+    builder.append(id);
+    builder.append(", style=");
+    builder.append(style);
+    builder.append(", listOfListeners=");
+    builder.append(listOfListeners);
+    builder.append(", parent=");
+    builder.append(parent);
     builder.append("]");
     return builder.toString();
   }

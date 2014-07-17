@@ -22,9 +22,22 @@
  */
 package org.sbml.jsbml.math;
 
+import java.text.MessageFormat;
+
+import javax.swing.tree.TreeNode;
+
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.CallableSBase;
+import org.sbml.jsbml.FunctionDefinition;
+import org.sbml.jsbml.KineticLaw;
+import org.sbml.jsbml.LocalParameter;
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 /**
@@ -55,6 +68,17 @@ ASTCSymbolBaseNode {
   private String definitionURL;
 
   /**
+   * The name of the MathML element represented by this
+   * {@link ASTCiFunctionNode}.
+   */
+  private String name;
+
+  /**
+   * refId attribute for MathML element
+   */
+  private String refId;
+
+  /**
    * Creates a new {@link ASTCiFunctionNode}.
    */
   public ASTCiFunctionNode() {
@@ -62,7 +86,7 @@ ASTCSymbolBaseNode {
     setDefinitionURL(null);
     setName(null);
   }
-
+  
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTCiFunctionNode}.
    * 
@@ -82,10 +106,44 @@ ASTCSymbolBaseNode {
   @Override
   public ASTCiFunctionNode clone() {
     return new ASTCiFunctionNode(this);
+  } 
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#compile(org.sbml.jsbml.math.compiler.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
+    ASTNodeValue value = null;
+    CallableSBase variable = getReferenceInstance();
+    if (variable instanceof FunctionDefinition) {
+      value = compiler.function((FunctionDefinition) variable,
+        getChildren());
+    } else {
+      logger
+      .warn("ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
+          + getName()
+          + ", "
+          + getParentSBMLObject().getElementName()
+          + ")");
+      throw new SBMLException(
+        "ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
+            + getName() + ", " + getParentSBMLObject().getElementName()
+            + ")");
+      // value = compiler.compile(variable);
+    }
+    value.setType(getType());
+    MathContainer parent = getParentSBMLObject();
+    if (parent != null) {
+      value.setLevel(parent.getLevel());
+      value.setVersion(parent.getVersion());
+    }
+    return value;
   }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#equals(java.lang.Object)
+    
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#equals(java.lang.Object)
    */
   @Override
   public boolean equals(Object obj) {
@@ -109,6 +167,7 @@ ASTCSymbolBaseNode {
     return true;
   }
 
+
   /**
    * Returns the definitionURL of the MathML element represented by this ASTCiFunctionNode
    * 
@@ -127,8 +186,74 @@ ASTCSymbolBaseNode {
     return "";
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
+
+
+  /**
+   * Returns the variable ({@link CallableSBase}) of this {@link ASTCiFunctionNode}. 
+   * 
+   * @return the variable of this node
+   */
+  public CallableSBase getReferenceInstance() {
+    CallableSBase sbase = null;
+    TreeNode parent = getParent();
+    if ((parent != null) && (parent instanceof ASTLambdaFunctionNode)) {
+      ASTLambdaFunctionNode lambda = (ASTLambdaFunctionNode) parent;
+      if (lambda.getChildAt(getChildCount() - 1) != this) { 
+        logger.debug(MessageFormat.format(
+          "The name \"{0}\" represented by this node is an " +
+              "argument in a function call, i.e., a placeholder " +
+              "for some other element. No corresponding CallableSBase " +
+              "exists in the model",
+              getName()));
+        return sbase;
+      }
+    }
+    if (getParentSBMLObject() != null) {
+      if (getParentSBMLObject() instanceof KineticLaw) {
+        sbase = ((KineticLaw) getParentSBMLObject()).getLocalParameter(getName());
+      }
+      if (sbase == null) {
+        Model m = getParentSBMLObject().getModel();
+        if (m != null) {
+          sbase = m.findCallableSBase(getName());
+          if (sbase instanceof LocalParameter) {
+            sbase = null;
+          } else if (sbase == null) {
+            logger.debug(MessageFormat.format(
+              "Cannot find any element with id \"{0}\" in the model.",
+              getName()));
+          }
+        } else {
+          logger.debug(MessageFormat.format(
+            "This ASTCiNumberNode is not yet linked to a model and " +
+                "can therefore not determine its variable \"{0}\".",
+                getName()));
+        }
+      }
+    }
+    return sbase;
+  }
+
+  /**
+   * Get refId attribute
+   * 
+   * @return the refId
+   */
+  public String getRefId() {
+    if (isSetRefId()) {
+      return refId;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("refId", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return "";
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#hashCode()
    */
   @Override
   public int hashCode() {
@@ -147,6 +272,15 @@ ASTCSymbolBaseNode {
   @Override
   public boolean isSetDefinitionURL() {
     return definitionURL != null;
+  }
+
+  /**
+   * Return true iff refId is set
+   * 
+   * @return boolean
+   */
+  private boolean isSetRefId() {
+    return refId != null;
   }
 
   /*
@@ -178,6 +312,31 @@ ASTCSymbolBaseNode {
     firePropertyChange(TreeNodeChangeEvent.definitionURL, old, this.definitionURL);
   }
 
+  /**
+   * Set an instance of {@link CallableSBase} as the variable of this 
+   * {@link ASTCiFunctionNode}. Note that if the given variable does not
+   * have a declared {@code id} field, the pointer to this variable will 
+   * get lost when cloning this node. Only references to identifiers are
+   * permanently stored. The pointer can also not be written to an SBML 
+   * file without a valid identifier.
+   * 
+   * @param callableSBase a pointer to a {@link CallableSBase}.
+   */
+  public void setReference(CallableSBase sbase) {
+    setName(sbase.getId());
+  }
+
+  /**
+   * Set refId attribute
+   * 
+   * @param refId the refId to set
+   */
+  public void setRefId(String refId) {
+    String old = this.refId;
+    this.refId = refId;
+    firePropertyChange(TreeNodeChangeEvent.refId, old, refId);
+  }
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
@@ -186,10 +345,26 @@ ASTCSymbolBaseNode {
     StringBuilder builder = new StringBuilder();
     builder.append("ASTCiFunctionNode [definitionURL=");
     builder.append(definitionURL);
+    builder.append(", name=");
+    builder.append(name);
+    builder.append(", refId=");
+    builder.append(refId);
+    builder.append(", listOfNodes=");
+    builder.append(listOfNodes);
+    builder.append(", parentSBMLObject=");
+    builder.append(parentSBMLObject);
     builder.append(", strict=");
     builder.append(strict);
     builder.append(", type=");
     builder.append(type);
+    builder.append(", id=");
+    builder.append(id);
+    builder.append(", style=");
+    builder.append(style);
+    builder.append(", listOfListeners=");
+    builder.append(listOfListeners);
+    builder.append(", parent=");
+    builder.append(parent);
     builder.append("]");
     return builder.toString();
   }

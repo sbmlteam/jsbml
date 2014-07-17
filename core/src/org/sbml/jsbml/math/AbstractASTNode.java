@@ -25,7 +25,6 @@ package org.sbml.jsbml.math;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.MathContainer;
@@ -56,7 +55,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
   /**
    * A {@link Logger} for this class.
    */
-  private static transient final Logger logger = Logger.getLogger(ASTNode.class);
+  private static transient final Logger logger = Logger.getLogger(AbstractASTNode.class);
 
   /**
    * The container that holds this AbstractASTNode.
@@ -87,11 +86,6 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    * The style of this MathML element
    */
   protected String style;
-  
-  /**
-   * name attribute for MathML element
-   */
-  protected String name;
   
   /**
    * class attribute for MathML element
@@ -166,11 +160,6 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
         return false;
     } else if (!mathMLClass.equals(other.mathMLClass))
       return false;
-    if (name == null) {
-      if (other.name != null)
-        return false;
-    } else if (!name.equals(other.name))
-      return false;
     if (parentSBMLObject == null) {
       if (other.parentSBMLObject != null)
         return false;
@@ -230,23 +219,6 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
 
   /*
    * (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#getName()
-   */
-  @Override
-  public String getName() {
-    if (isSetName()) {
-      return name;
-    }
-    PropertyUndefinedError error = new PropertyUndefinedError("name", this);
-    if (isStrict()) {
-      throw error;
-    }
-    logger.warn(error);
-    return "";
-  }
-
-  /*
-   * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#getParentSBMLObject()
    */
   @Override
@@ -289,7 +261,6 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
     result = prime * result + ((id == null) ? 0 : id.hashCode());
     result = prime * result
       + ((mathMLClass == null) ? 0 : mathMLClass.hashCode());
-    result = prime * result + ((name == null) ? 0 : name.hashCode());
     result = prime * result
       + ((parentSBMLObject == null) ? 0 : parentSBMLObject.hashCode());
     result = prime * result + (strict ? 1231 : 1237);
@@ -315,16 +286,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
   public boolean isSetMathMLClass() {
     return mathMLClass != null;
   }
-
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#isSetName()
-   */
-  @Override
-  public boolean isSetName() {
-    return name != null;
-  }
-
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#isSetParentSBMLObject()
@@ -374,17 +336,6 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
     firePropertyChange(TreeNodeChangeEvent.mathMLClass, old, this.mathMLClass);
   }
 
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#setName(java.lang.String)
-   */
-  @Override
-  public void setName(String name) {
-    String old = this.name;
-    this.name = name;
-    firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
-  }
-  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#setParent(javax.swing.tree.TreeNode)
    */
@@ -487,10 +438,22 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("AbstractASTNode [strict=");
+    builder.append("AbstractASTNode [parentSBMLObject=");
+    builder.append(parentSBMLObject);
+    builder.append(", strict=");
     builder.append(strict);
     builder.append(", type=");
     builder.append(type);
+    builder.append(", id=");
+    builder.append(id);
+    builder.append(", style=");
+    builder.append(style);
+    builder.append(", mathMLClass=");
+    builder.append(mathMLClass);
+    builder.append(", listOfListeners=");
+    builder.append(listOfListeners);
+    builder.append(", parent=");
+    builder.append(parent);
     builder.append("]");
     return builder.toString();
   }

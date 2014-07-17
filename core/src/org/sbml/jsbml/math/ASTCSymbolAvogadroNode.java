@@ -60,6 +60,12 @@ ASTCSymbolNode {
   private String encodingURL;
 
   /**
+   * The name of the MathML element represented by this
+   * {@link ASTCSymbolAvogadroNode}.
+   */
+  private String name;
+
+  /**
    * The URI for the definition of the csymbol for avogadro.
    */
   public static final transient String URI_AVOGADRO_DEFINITION = "http://www.sbml.org/sbml/symbols/avogadro";
@@ -159,6 +165,22 @@ ASTCSymbolNode {
   }
 
   /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#getName()
+   */
+  @Override
+  public String getName() {
+    if (isSetName()) {
+      return name;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("name", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return "";
+  }
+
+  /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
   @Override
@@ -191,6 +213,14 @@ ASTCSymbolNode {
     return encodingURL != null;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetName()
+   */
+  @Override
+  public boolean isSetName() {
+    return name != null;
+  }
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#refersTo(java.lang.String)
@@ -209,7 +239,7 @@ ASTCSymbolNode {
     this.definitionURL = definitionURL;
     firePropertyChange(TreeNodeChangeEvent.definitionURL, old, encodingURL);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#setEncodingURL(java.lang.String)
    */
@@ -221,21 +251,41 @@ ASTCSymbolNode {
   }
 
   /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#setName(java.lang.String)
+   */
+  @Override
+  public void setName(String name) {
+    String old = this.name;
+    this.name = name;
+    firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
+  }
+
+  /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("ASTCSymbolAvogadroNode [name=");
-    builder.append(name);
-    builder.append(", definitionURL=");
+    builder.append("ASTCSymbolAvogadroNode [definitionURL=");
     builder.append(definitionURL);
     builder.append(", encodingURL=");
     builder.append(encodingURL);
+    builder.append(", name=");
+    builder.append(name);
+    builder.append(", parentSBMLObject=");
+    builder.append(parentSBMLObject);
     builder.append(", strict=");
     builder.append(strict);
     builder.append(", type=");
     builder.append(type);
+    builder.append(", id=");
+    builder.append(id);
+    builder.append(", style=");
+    builder.append(style);
+    builder.append(", listOfListeners=");
+    builder.append(listOfListeners);
+    builder.append(", parent=");
+    builder.append(parent);
     builder.append("]");
     return builder.toString();
   }

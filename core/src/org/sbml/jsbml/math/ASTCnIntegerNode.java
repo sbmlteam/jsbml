@@ -167,12 +167,22 @@ public class ASTCnIntegerNode extends ASTCnNumberNode<Integer> {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("ASTCnIntegerNode [value=");
+    builder.append("ASTCnIntegerNode [number=");
     builder.append(number);
+    builder.append(", parentSBMLObject=");
+    builder.append(parentSBMLObject);
     builder.append(", strict=");
     builder.append(strict);
     builder.append(", type=");
     builder.append(type);
+    builder.append(", id=");
+    builder.append(id);
+    builder.append(", style=");
+    builder.append(style);
+    builder.append(", listOfListeners=");
+    builder.append(listOfListeners);
+    builder.append(", parent=");
+    builder.append(parent);
     builder.append("]");
     return builder.toString();
   }
