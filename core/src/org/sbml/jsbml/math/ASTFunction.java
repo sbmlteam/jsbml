@@ -459,12 +459,10 @@ public class ASTFunction extends AbstractASTNode {
       child = getChildAt(n);
       removeChild(n);
     } catch (IndexOutOfBoundsException e) {
-      logger.warn("replaced child is non-existent. regular insert performed");
+      logger.warn("Child to be replaced is non-existent. Regular insertion performed.");
     }
-
     // Adding the new child at position n
     insertChild(n, newChild);
-    
     // Return removed child
     return child;
   }

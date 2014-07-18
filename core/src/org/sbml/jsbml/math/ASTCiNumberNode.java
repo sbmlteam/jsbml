@@ -67,15 +67,11 @@ ASTCSymbolBaseNode {
   protected String definitionURL;
   
   /**
-   * refId attribute for MathML element
-   */
-  private String refId;
-
-  /**
    * The name of the MathML element represented by this
    * {@link ASTCiNumberNode}.
    */
-  private String name;
+  private String refId;
+
 
   /**
    * Creates a new {@link ASTCiNumberNode}.
@@ -83,7 +79,7 @@ ASTCSymbolBaseNode {
   public ASTCiNumberNode() {
     super();
     setDefinitionURL(null);
-    setName(null);
+    setRefId(null);
   }
 
   /**
@@ -95,7 +91,7 @@ ASTCSymbolBaseNode {
   public ASTCiNumberNode(ASTCiNumberNode node) {
     super(node);
     setDefinitionURL(node.getDefinitionURL());
-    setName(node.getName());
+    setRefId(node.getRefId());
   }
 
   /*
@@ -123,7 +119,7 @@ ASTCSymbolBaseNode {
         value = compiler.compile(variable);
       }
     } else {
-      value = compiler.compile(getName());
+      value = compiler.compile(getRefId());
     }
     value.setType(getType());
     MathContainer parent = getParentSBMLObject();
@@ -151,10 +147,10 @@ ASTCSymbolBaseNode {
         return false;
     } else if (!definitionURL.equals(other.definitionURL))
       return false;
-    if (name == null) {
-      if (other.name != null)
+    if (refId == null) {
+      if (other.refId != null)
         return false;
-    } else if (!name.equals(other.name))
+    } else if (!refId.equals(other.refId))
       return false;
     return true;
   }
@@ -179,16 +175,9 @@ ASTCSymbolBaseNode {
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#getName()
    */
   @Override
+  @Deprecated
   public String getName() {
-    if (isSetName()) {
-      return name;
-    }
-    PropertyUndefinedError error = new PropertyUndefinedError("name", this);
-    if (isStrict()) {
-      throw error;
-    }
-    logger.warn(error);
-    return "";
+    return getRefId();
   }
 
   /**
@@ -207,30 +196,30 @@ ASTCSymbolBaseNode {
               "argument in a function call, i.e., a placeholder " +
               "for some other element. No corresponding CallableSBase " +
               "exists in the model",
-              getName()));
+              getRefId()));
         return sbase;
       }
     }
     if (getParentSBMLObject() != null) {
       if (getParentSBMLObject() instanceof KineticLaw) {
-        sbase = ((KineticLaw) getParentSBMLObject()).getLocalParameter(getName());
+        sbase = ((KineticLaw) getParentSBMLObject()).getLocalParameter(getRefId());
       }
       if (sbase == null) {
         Model m = getParentSBMLObject().getModel();
         if (m != null) {
-          sbase = m.findCallableSBase(getName());
+          sbase = m.findCallableSBase(getRefId());
           if (sbase instanceof LocalParameter) {
             sbase = null;
           } else if (sbase == null) {
             logger.debug(MessageFormat.format(
               "Cannot find any element with id \"{0}\" in the model.",
-              getName()));
+              getRefId()));
           }
         } else {
           logger.debug(MessageFormat.format(
             "This ASTCiNumberNode is not yet linked to a model and " +
                 "can therefore not determine its variable \"{0}\".",
-                getName()));
+                getRefId()));
         }
       }
     }
@@ -263,7 +252,7 @@ ASTCSymbolBaseNode {
     int result = super.hashCode();
     result = prime * result
         + ((definitionURL == null) ? 0 : definitionURL.hashCode());
-    result = prime * result + ((name == null) ? 0 : name.hashCode());
+    result = prime * result + ((refId == null) ? 0 : refId.hashCode());
     return result;
   }
 
@@ -280,8 +269,9 @@ ASTCSymbolBaseNode {
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetName()
    */
   @Override
+  @Deprecated
   public boolean isSetName() {
-    return name != null;
+    return false;
   }
 
   /**
@@ -299,7 +289,7 @@ ASTCSymbolBaseNode {
    */
   @Override
   public boolean refersTo(String id) {
-    return getName().equals(id);
+    return getRefId().equals(id);
   }
 
   /* (non-Javadoc)
@@ -316,12 +306,11 @@ ASTCSymbolBaseNode {
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#setName(java.lang.String)
    */
   @Override
+  @Deprecated
   public void setName(String name) {
-    String old = this.name;
-    this.name = name;
-    firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
+    setRefId(name);
   }
-
+  
   /**
    * Set an instance of {@link CallableSBase} as the variable of this 
    * {@link ASTCiNumberNode}. Note that if the given variable does not
@@ -333,7 +322,7 @@ ASTCSymbolBaseNode {
    * @param callableSBase a pointer to a {@link CallableSBase}.
    */
   public void setReference(CallableSBase sbase) {
-    setName(sbase.getId());
+    setRefId(sbase.getId());
   }
   
   /**
@@ -346,7 +335,7 @@ ASTCSymbolBaseNode {
     this.refId = refId;
     firePropertyChange(TreeNodeChangeEvent.refId, old, refId);
   }
-  
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
@@ -357,8 +346,6 @@ ASTCSymbolBaseNode {
     builder.append(definitionURL);
     builder.append(", refId=");
     builder.append(refId);
-    builder.append(", name=");
-    builder.append(name);
     builder.append(", parentSBMLObject=");
     builder.append(parentSBMLObject);
     builder.append(", strict=");

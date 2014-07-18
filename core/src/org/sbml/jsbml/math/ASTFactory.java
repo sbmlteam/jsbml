@@ -262,7 +262,7 @@ public class ASTFactory {
     ASTRelationalOperatorNode lt = new ASTRelationalOperatorNode(Type.RELATIONAL_LT);
     lt.addChild(node);
     ASTCiNumberNode ci = new ASTCiNumberNode();
-    ci.setName(variable);
+    ci.setRefId(variable);
     lt.addChild(ci);
     return lt;
   }
@@ -320,10 +320,10 @@ public class ASTFactory {
   public static ASTMinusNode minus(ASTNode2 node, int integer, 
                                                 String unitsID) {
     ASTMinusNode minus = new ASTMinusNode();
-    minus.setLeftChild(node);
+    minus.addChild(node);
     ASTCnIntegerNode integerNode = new ASTCnIntegerNode(integer);
     integerNode.setUnits(unitsID);
-    minus.setRightChild(integerNode);
+    minus.addChild(integerNode);
     return minus;
   }
 
@@ -607,7 +607,7 @@ public class ASTFactory {
    */
   public static ASTMinusNode uMinus(ASTNode2 ast) {
     ASTMinusNode um = new ASTMinusNode();
-    um.setLeftChild(ast);
+    um.addChild(ast);
     return um;
   }
   

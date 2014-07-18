@@ -71,8 +71,8 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
    */
   public ASTRootNode(ASTNode2 rootExponent, ASTNode2 radicand) {
     super();
-    setLeftChild(rootExponent);
-    setRightChild(radicand);
+    addChild(rootExponent);
+    addChild(radicand);
     setType(Type.FUNCTION_ROOT);
   }
   
@@ -85,8 +85,8 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
    */
   public ASTRootNode(ASTNode2 radicand) {
     super();
-    // TODO: Create a new node & set left child or leave left child as null??
-    setRightChild(radicand);
+    addChild(new ASTCnIntegerNode(2));
+    addChild(radicand);
     setType(Type.FUNCTION_ROOT);
   }
   

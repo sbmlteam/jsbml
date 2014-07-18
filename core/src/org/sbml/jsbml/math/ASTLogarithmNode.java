@@ -22,6 +22,9 @@
  */
 package org.sbml.jsbml.math;
 
+import java.util.ArrayList;
+
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
@@ -42,6 +45,11 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
    * 
    */
   private static final long serialVersionUID = 5350043898749220594L;
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final Logger logger = Logger.getLogger(ASTLogarithmNode.class);
 
   /**
    * Creates a new {@link ASTLogarithmNode}.
@@ -59,7 +67,8 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
    */
   public ASTLogarithmNode(ASTNode2 value) {
     super();
-    setRightChild(value);
+    addChild(new ASTCnIntegerNode(10));
+    addChild(value);
     setType(Type.FUNCTION_LOG);
   }
   
@@ -76,14 +85,14 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
     if (base == null) {
       setType(Type.FUNCTION_LOG);
     } else {
-      setLeftChild(base);
+      addChild(base);
       if (base.getType() == Type.CONSTANT_E) {
         setType(Type.FUNCTION_LN);
       } else {
         setType(Type.FUNCTION_LOG);
       }
     }
-    setRightChild(value);
+    addChild(value);
   }
 
   /**
@@ -155,5 +164,51 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
     builder.append("]");
     return builder.toString();
   }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTBinaryFunctionNode#addChild(org.sbml.jsbml.math.ASTNode2)
+   */
+  @Override
+  public void addChild(ASTNode2 child) {
+    if (! isSetList())  {
+      listOfNodes = new ArrayList<ASTNode2>();
+    } 
+    if (isStrict() && getChildCount() == 2) {
+      throw new IndexOutOfBoundsException("max child limit exceeded");
+    }
+    if (getChildCount() >= 2) {
+      logger.debug("Max child limit exceeded. To add more children " +
+                   "to ASTBinaryFunctionNode set strictness to false.");
+    }
+    listOfNodes.add(child);
+    setParentSBMLObject(child, parentSBMLObject, 0);
+    child.setParent(this);
+    child.fireNodeAddedEvent();
+    if (child.getType() == Type.CONSTANT_E && getChildCount() == 0) {
+      setType(Type.FUNCTION_LN);
+    }
+  }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTBinaryFunctionNode#insertChild(int, org.sbml.jsbml.math.ASTNode2)
+   */
+  @Override
+  public void insertChild(int n, ASTNode2 newChild) {
+    if (newChild == null) {
+      throw new NullPointerException();
+    }
+    if (! isSetList()) {
+      listOfNodes = new ArrayList<ASTNode2>();
+    }
+    listOfNodes.add(n, newChild);
+    setParentSBMLObject(newChild, parentSBMLObject, 0);
+    newChild.setParent(this);
+    if (n == 0 && newChild.getType() == Type.CONSTANT_E) {
+      setType(Type.FUNCTION_LN);
+    }
+  }
+
 
 }

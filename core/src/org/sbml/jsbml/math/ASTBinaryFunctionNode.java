@@ -65,8 +65,8 @@ public class ASTBinaryFunctionNode extends ASTFunction {
    */
   public ASTBinaryFunctionNode(ASTBinaryFunctionNode node) {
     super(node);
-    setLeftChild(node.getLeftChild());
-    setRightChild(node.getRightChild());
+    addChild(node.getLeftChild());
+    addChild(node.getRightChild());
   }
 
   /**
@@ -75,8 +75,8 @@ public class ASTBinaryFunctionNode extends ASTFunction {
    */
   public ASTBinaryFunctionNode(ASTNode2 leftChild, ASTNode2 rightChild) {
     super();
-    setLeftChild(leftChild);
-    setRightChild(rightChild);
+    addChild(leftChild);
+    addChild(rightChild);
   }
   
   /**
@@ -223,24 +223,6 @@ public class ASTBinaryFunctionNode extends ASTFunction {
       return true;
     }
     return false;
-  }
-
-  /**
-   * Set the left child of this node
-   * 
-   * @param {@link ASTNode2} leftChild
-   */
-  public void setLeftChild(ASTNode2 leftChild) {
-    replaceChild(0, leftChild);
-  }
-  
-  /**
-   * Set the right child of this node
-   * 
-   * @param {@link ASTNode2} rightChild
-   */
-  public void setRightChild(ASTNode2 rightChild) {
-    replaceChild(getChildCount() - 1, rightChild);
   }
   
   /**

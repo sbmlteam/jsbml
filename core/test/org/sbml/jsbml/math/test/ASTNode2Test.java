@@ -542,6 +542,17 @@ public class ASTNode2Test {
     ASTLogarithmNode ln = new ASTLogarithmNode(e, one);
     assertTrue(ln.getType() == Type.FUNCTION_LN);
   }
-
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#setType()}.
+   */
+  @Test
+  public void testASTLogarithmNodeNaturalLogReplace() {
+    ASTCnIntegerNode one = new ASTCnIntegerNode(1);
+    ASTLogarithmNode ln = new ASTLogarithmNode(one);
+    ASTConstantNumber e = new ASTConstantNumber(Type.CONSTANT_E);
+    ln.replaceChild(0, e);
+    assertTrue(ln.getType() == Type.FUNCTION_LN);
+  }
     
 }
