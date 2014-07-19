@@ -90,10 +90,8 @@ ASTCSymbolNode {
    */
   public ASTCSymbolDelayNode(ASTCSymbolDelayNode node) {
     super(node);
-    setName(node.getName());
     setDefinitionURL(node.getDefinitionURL());
     setEncodingURL(node.getEncodingURL());
-    setType(Type.FUNCTION_DELAY);
   }
   
   /*

@@ -59,7 +59,6 @@ public class ASTLogicalOperatorNode extends ASTFunction {
    */
   public ASTLogicalOperatorNode(ASTLogicalOperatorNode node) {
     super(node);
-    setType(node.getType());
   }
 
   /**

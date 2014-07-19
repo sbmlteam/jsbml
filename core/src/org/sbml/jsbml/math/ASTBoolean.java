@@ -22,6 +22,8 @@
  */
 package org.sbml.jsbml.math;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
@@ -29,58 +31,44 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 /**
- * An Abstract Syntax Tree (AST) node representing the minus operator
+ * An Abstract Syntax Tree (AST) node representing a boolean
  * 
  * @author Victor Kofia
  * @version $Rev$
  * @since 1.0
- * @date Jul 2, 2014
+ * @date Jul 18, 2014
  */
-public class ASTMinusNode extends ASTBinaryFunctionNode {
+public class ASTBoolean extends AbstractASTNode {
   
   /**
    * 
    */
-  private static final long serialVersionUID = 652890680815928656L;
+  private static final long serialVersionUID = 1L;
 
   /**
-   * Creates a new {@link ASTMinusNode}.
-   */
-  public ASTMinusNode() {
-    super();
-    setType(Type.MINUS);
-  }
-  
-  /**
-   * Copy constructor; Creates a deep copy of the given {@link ASTMinusNode}.
+   * Copy constructor; Creates a deep copy of the given {@link ASTBoolean}.
    * 
    * @param node
-   *            the {@link ASTMinusNode} to be copied.
+   *            the {@link ASTBoolean} to be copied.
    */
-  public ASTMinusNode(ASTMinusNode node) {
-    super(node);
-  }
-
-  /**
-   * Creates a new {@link ASTMinusNode} with two children
-   * 
-   * @param leftChild {@link ASTNode2}
-   * 
-   * @param rightChild {@link ASTNode2}
-   * 
-   */
-  public ASTMinusNode(ASTNode2 leftChild, ASTNode2 rightChild) {
-    super(leftChild, rightChild);
-    setType(Type.MINUS);
+  public ASTBoolean(ASTBoolean bool) {
+    super(bool);
   }
   
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTFunction#clone()
+  /**
+   * Creates a new {@link ASTBoolean}.
+   */
+  public ASTBoolean(Type type) {
+    super();
+    setType(type);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#clone()
    */
   @Override
-  public ASTMinusNode clone() {
-    return new ASTMinusNode(this);
+  public TreeNode clone() {
+    return new ASTBoolean(this);
   }
   
   /* (non-Javadoc)
@@ -89,12 +77,15 @@ public class ASTMinusNode extends ASTBinaryFunctionNode {
   @Override
   public ASTNodeValue compile(ASTNode2Compiler compiler) {
     ASTNodeValue value = null;
-    if (getChildCount() < 2) {
-      value = compiler.uMinus(getLeftChild());
-      value.setUIFlag(true);
-    } else {
-      value = compiler.minus(getChildren());
-      value.setUIFlag(false);
+    switch(getType()) {
+    case CONSTANT_TRUE:
+      value = compiler.getConstantTrue();
+      break;
+    case CONSTANT_FALSE:
+      value = compiler.getConstantFalse();
+      break;
+    default:
+      value = compiler.unknownValue();
     }
     value.setType(getType());
     MathContainer parent = getParentSBMLObject();
@@ -105,30 +96,29 @@ public class ASTMinusNode extends ASTBinaryFunctionNode {
     return value;
   }
 
+
   /* (non-Javadoc)
-   * @see java.lang.Object#toString()
+   * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
   @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("ASTMinusNode [listOfNodes=");
-    builder.append(listOfNodes);
-    builder.append(", parentSBMLObject=");
-    builder.append(parentSBMLObject);
-    builder.append(", strict=");
-    builder.append(strict);
-    builder.append(", type=");
-    builder.append(type);
-    builder.append(", id=");
-    builder.append(id);
-    builder.append(", style=");
-    builder.append(style);
-    builder.append(", listOfListeners=");
-    builder.append(listOfListeners);
-    builder.append(", parent=");
-    builder.append(parent);
-    builder.append("]");
-    return builder.toString();
+  public boolean getAllowsChildren() {
+    return false;
+  }
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildAt(int)
+   */
+  @Override
+  public ASTNumber getChildAt(int childIndex) {
+    throw new IndexOutOfBoundsException();
+  }
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    return 0;
   }
   
 }

@@ -77,7 +77,6 @@ public class ASTLambdaFunctionNode extends ASTFunction {
   public ASTLambdaFunctionNode(ASTLambdaFunctionNode node) {
     super(node);
     setNumBvars(node.getNumBvars());
-    setType(Type.LAMBDA);
   }
   
   /*

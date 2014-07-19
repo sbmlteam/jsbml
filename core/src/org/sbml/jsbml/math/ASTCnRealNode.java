@@ -63,7 +63,6 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
    */
   public ASTCnRealNode(ASTCnRealNode node) {
     super(node);
-    setType(Type.REAL);
   }
 
   /**

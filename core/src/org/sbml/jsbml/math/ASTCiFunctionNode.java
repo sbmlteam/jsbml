@@ -186,8 +186,6 @@ ASTCSymbolBaseNode {
     return "";
   }
 
-
-
   /**
    * Returns the variable ({@link CallableSBase}) of this {@link ASTCiFunctionNode}. 
    * 

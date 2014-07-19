@@ -46,7 +46,6 @@ public abstract class ASTNumber extends AbstractASTNode {
    */
   public ASTNumber() {
     super();
-    setParentSBMLObject(null);
   }
 
   /**
@@ -57,7 +56,6 @@ public abstract class ASTNumber extends AbstractASTNode {
    */
   public ASTNumber(ASTNumber astNumber) {
     super();
-    setParentSBMLObject(null);
   }
 
   /*

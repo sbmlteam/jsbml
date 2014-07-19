@@ -59,7 +59,6 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
    */
   public ASTRootNode(ASTRootNode node) {
     super(node);
-    setType(Type.FUNCTION_ROOT);
   }
   
   /**

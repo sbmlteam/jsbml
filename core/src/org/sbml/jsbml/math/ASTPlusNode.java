@@ -72,7 +72,6 @@ public class ASTPlusNode extends ASTBinaryFunctionNode {
    */
   public ASTPlusNode(ASTPlusNode node) {
     super(node);
-    setType(Type.PLUS);
   }
   
   /*

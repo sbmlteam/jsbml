@@ -65,8 +65,6 @@ public class ASTBinaryFunctionNode extends ASTFunction {
    */
   public ASTBinaryFunctionNode(ASTBinaryFunctionNode node) {
     super(node);
-    addChild(node.getLeftChild());
-    addChild(node.getRightChild());
   }
 
   /**

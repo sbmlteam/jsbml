@@ -72,7 +72,6 @@ public class ASTTimesNode extends ASTBinaryFunctionNode {
    */
   public ASTTimesNode(ASTTimesNode node) {
     super(node);
-    setType(Type.TIMES);
   }
   
   /*

@@ -80,6 +80,7 @@ implements ASTCSymbolNode {
    */
   public ASTCSymbolTimeNode() {
     super();
+    setDefinitionURL(null);
     setEncodingURL(null);
     setType(Type.NAME_TIME);
   }
@@ -92,8 +93,8 @@ implements ASTCSymbolNode {
    */
   public ASTCSymbolTimeNode(ASTCSymbolTimeNode node) {
     super(node);
+    setDefinitionURL(node.getDefinitionURL());
     setEncodingURL(node.getEncodingURL());
-    setType(Type.NAME_TIME);
   }
   
   /*

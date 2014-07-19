@@ -60,6 +60,16 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
   }
   
   /**
+   * Copy constructor; Creates a deep copy of the given {@link ASTLogarithmNode}.
+   * 
+   * @param node
+   *            the {@link ASTLogarithmNode} to be copied.
+   */
+  public ASTLogarithmNode(ASTLogarithmNode node) {
+    super(node);
+  }
+  
+  /**
    * Creates a new {@link ASTLogarithmNode} with base 10
    * and value {@link ASTNode2}
    * 
@@ -71,7 +81,7 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
     addChild(value);
     setType(Type.FUNCTION_LOG);
   }
-  
+
   /**
    * Creates a new {@link ASTLogarithmNode} with base {@link ASTNode2}
    * and value {@link ASTNode2}
@@ -93,76 +103,6 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
       }
     }
     addChild(value);
-  }
-
-  /**
-   * Copy constructor; Creates a deep copy of the given {@link ASTLogarithmNode}.
-   * 
-   * @param node
-   *            the {@link ASTLogarithmNode} to be copied.
-   */
-  public ASTLogarithmNode(ASTLogarithmNode node) {
-    super(node);
-    setType(node.getType());
-  }
-  
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTFunction#clone()
-   */
-  @Override
-  public ASTLogarithmNode clone() {
-    return new ASTLogarithmNode(this);
-  }
-  
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
-   */
-  @Override
-  public ASTNodeValue compile(ASTNode2Compiler compiler) {
-    ASTNodeValue value = null;
-    if (getChildCount() == 2) {
-      if (getType() == Type.FUNCTION_LOG) {
-        value = compiler.log(getLeftChild(), getRightChild());
-      } else {
-        value = compiler.ln(getRightChild());
-      }
-    } else {
-      value = compiler.log(getRightChild());
-    }
-    value.setType(getType());
-    MathContainer parent = getParentSBMLObject();
-    if (parent != null) {
-      value.setLevel(parent.getLevel());
-      value.setVersion(parent.getVersion());
-    }
-    return value;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("ASTLogarithmNode [listOfNodes=");
-    builder.append(listOfNodes);
-    builder.append(", parentSBMLObject=");
-    builder.append(parentSBMLObject);
-    builder.append(", strict=");
-    builder.append(strict);
-    builder.append(", type=");
-    builder.append(type);
-    builder.append(", id=");
-    builder.append(id);
-    builder.append(", style=");
-    builder.append(style);
-    builder.append(", listOfListeners=");
-    builder.append(listOfListeners);
-    builder.append(", parent=");
-    builder.append(parent);
-    builder.append("]");
-    return builder.toString();
   }
   
   /*
@@ -192,6 +132,39 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
   
   /*
    * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#clone()
+   */
+  @Override
+  public ASTLogarithmNode clone() {
+    return new ASTLogarithmNode(this);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNodeValue compile(ASTNode2Compiler compiler) {
+    ASTNodeValue value = null;
+    if (getChildCount() == 2) {
+      if (getType() == Type.FUNCTION_LOG) {
+        value = compiler.log(getLeftChild(), getRightChild());
+      } else {
+        value = compiler.ln(getRightChild());
+      }
+    } else {
+      value = compiler.log(getRightChild());
+    }
+    value.setType(getType());
+    MathContainer parent = getParentSBMLObject();
+    if (parent != null) {
+      value.setLevel(parent.getLevel());
+      value.setVersion(parent.getVersion());
+    }
+    return value;
+  }
+  
+  /*
+   * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTBinaryFunctionNode#insertChild(int, org.sbml.jsbml.math.ASTNode2)
    */
   @Override
@@ -208,6 +181,32 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
     if (n == 0 && newChild.getType() == Type.CONSTANT_E) {
       setType(Type.FUNCTION_LN);
     }
+  }
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ASTLogarithmNode [listOfNodes=");
+    builder.append(listOfNodes);
+    builder.append(", parentSBMLObject=");
+    builder.append(parentSBMLObject);
+    builder.append(", strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append(", id=");
+    builder.append(id);
+    builder.append(", style=");
+    builder.append(style);
+    builder.append(", listOfListeners=");
+    builder.append(listOfListeners);
+    builder.append(", parent=");
+    builder.append(parent);
+    builder.append("]");
+    return builder.toString();
   }
 
 

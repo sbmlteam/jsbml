@@ -70,7 +70,6 @@ public class ASTDivideFunction extends ASTBinaryFunctionNode {
    */
   public ASTDivideFunction(ASTDivideFunction node) {
     super(node);
-    setType(Type.DIVIDE);
   }
   
   /*

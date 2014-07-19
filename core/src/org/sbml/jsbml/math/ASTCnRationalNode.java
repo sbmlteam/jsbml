@@ -70,7 +70,6 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Integer,Integer
    */
   public ASTCnRationalNode(ASTCnRationalNode node) {
     super(node);
-    setType(Type.RATIONAL);
   }
   
   /*

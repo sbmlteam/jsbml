@@ -83,7 +83,6 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
     super(node);
     hasOtherwise = node.hasOtherwise();
     setNumPiece(node.getNumPiece());
-    setType(Type.FUNCTION_PIECEWISE);
   }
   
   /*

@@ -68,7 +68,6 @@ public class ASTPowerNode extends ASTBinaryFunctionNode {
    */
   public ASTPowerNode(ASTPowerNode node) {
     super(node);
-    setType(Type.POWER);
   }
   
   /*

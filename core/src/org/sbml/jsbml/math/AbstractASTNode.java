@@ -112,6 +112,8 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
   public AbstractASTNode(ASTNode2 ast) {
     super(ast);
     setId(ast.getId());
+    setStyle(ast.getStyle());
+    setMathMLClass(ast.getMathMLClass());
     setType(ast.getType());
     setParentSBMLObject(ast.getParentSBMLObject());
     setStrictness(ast.isStrict());
