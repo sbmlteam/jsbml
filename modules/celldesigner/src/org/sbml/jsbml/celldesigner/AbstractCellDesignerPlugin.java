@@ -24,10 +24,7 @@ package org.sbml.jsbml.celldesigner;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -77,11 +74,11 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
   /**
    * A singular SBMLDocument associated with this plugin
    */
-  protected SBMLDocument document;
+  protected SBMLDocument document = null;
   /**
-   * Map of CellDesigner PluginModels and JSBML Models
+   * 
    */
-  protected final Map<PluginModel, Model> modelMap = Collections.synchronizedMap(new HashMap<PluginModel, Model>());
+  final AbstractCellDesignerPlugin plugin = this;
 
   /**
    *
@@ -113,90 +110,72 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
   }
 
   /**
+   * 
+   * @return the SBMLDocument
+   */
+  protected SBMLDocument getSBMLDocument()
+  {
+    return document;
+  }
+
+  /**
    * @throws XMLStreamException
    * 
    */
   public void startPlugin() throws XMLStreamException {
     setStarted(true);
-    // Synchronize changes from this plug-in to CellDesigner:
-    if (!compareModels(getSelectedModel())) {
-      SwingWorker<SBMLDocument, Throwable> worker = new CellDesignerModelConverter(getReader(), getSelectedModel());
-      final AbstractCellDesignerPlugin plugin = this;
-      worker.addPropertyChangeListener(new PropertyChangeListener() {
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-          if (evt.getPropertyName().equals("state") && evt.getNewValue().equals(SwingWorker.StateValue.DONE)) {
-            try {
-              CellDesignerModelConverter swing = (CellDesignerModelConverter)evt.getSource();
-              //JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea("Called inside startPlugin")));
-              document = swing.get();
-              document.addTreeNodeChangeListener(new PluginChangeListener(plugin));
-              modelMap.put(swing.getPluginModel(), document.getModel());
-              run();
-            } catch (Throwable e) {
-              new GUIErrorConsole(e);
-            }
-          }
-        }
-      });
-      worker.execute();
-    } else {
-      run();
-    }
+    document = setSBMLDocument(getSelectedModel());
   }
 
-
-  public SBMLDocument getSelectedSBMLDocument()
+  /**
+   * 
+   * @return the current list of TreeNodeChangeListeners for this SBMLDocument
+   */
+  private List<TreeNodeChangeListener> copyTreeNodeChangeListeners()
   {
+    List<TreeNodeChangeListener> treeNodeList = null;
+    if (document.getTreeNodeChangeListenerCount()>0)
+    {
+      treeNodeList = new ArrayList<TreeNodeChangeListener>();
+      treeNodeList.addAll(document.getListOfTreeNodeChangeListeners());
+    }
+    return treeNodeList;
+  }
+
+  /**
+   * 
+   * @param pModel the PluginModel that is to be converted
+   * @return the SBMLDocument resulting from the CellDesigner-->JSBML conversion process
+   */
+  private SBMLDocument setSBMLDocument(PluginModel pModel)
+  {
+    SwingWorker<SBMLDocument, Throwable> worker = new SBMLDocumentWorker(getReader(), pModel);
+    worker.addPropertyChangeListener(new PropertyChangeListener() {
+      @Override
+      public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("state") && evt.getNewValue().equals(SwingWorker.StateValue.DONE)) {
+          try {
+            SBMLDocumentWorker swing = (SBMLDocumentWorker)evt.getSource();
+            document = swing.get();
+            document.addTreeNodeChangeListener(new PluginChangeListener(plugin));
+            run();
+          } catch (Throwable e) {
+            new GUIErrorConsole(e);
+          }
+        }
+      }
+    });
+    worker.execute();
     return document;
   }
 
-  public boolean compareModels(PluginModel sbase)
-  {
-    for (PluginModel key : modelMap.keySet()) {
-      PluginModel pModel = key;
-      //      JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea("checkSize of the mapInside: "+modelMap.size()+"\t"+sbase.getId().trim()+"\t"+pModel.getId().trim()+
-      //        "\t"+pModel.getId().trim().equals(sbase.getId().trim()))));
-      if (pModel.getId().trim().equals(sbase.getId().trim()))
-      {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public Model getAssociatedModel(PluginModel pModel)
-  {
-    for (Map.Entry<PluginModel, Model> entry : modelMap.entrySet()) {
-      PluginModel pluginModel = entry.getKey();
-      Model model = entry.getValue();
-      if (pluginModel.getId().equals(pModel.getId())) {
-        return model;
-      }
-    }
-    return null;
-  }
-
-  public void printMap()
-  {
-    String output = "";
-    for (Map.Entry<PluginModel, Model> entry : modelMap.entrySet()) {
-      PluginModel pModel = entry.getKey();
-      Model model = entry.getValue();
-      output += pModel.getId() + "\tmodel Id: " + model.getId() + "\tSize of the map: "+modelMap.size()+"\n";
-    }
-    JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea(output)));
-  }
 
   /* (non-Javadoc)
    * @see jp.sbi.celldesigner.plugin.CellDesignerPlug#modelClosed(jp.sbi.celldesigner.plugin.PluginSBase)
    */
   @Override
   public void modelClosed(PluginSBase sbase) {
-    if (sbase instanceof PluginModel)
-    {
-      PluginModel pModel = (PluginModel)sbase;
-    }
+    //seems like there is nothing to do here
   }
 
   /* (non-Javadoc)
@@ -204,18 +183,7 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
    */
   @Override
   public void modelOpened(PluginSBase sbase) {
-    if (sbase instanceof PluginModel)
-    {
-      PluginModel pModel = (PluginModel) sbase;
-      SwingWorker<SBMLDocument, Throwable> worker = new CellDesignerModelConverter(getReader(), pModel);
-      if (!compareModels(pModel)) {
-        try {
-          modelMap.put(pModel, reader.convertModel(pModel).getModel());
-        } catch (XMLStreamException e) {
-          new GUIErrorConsole(e);
-        }
-      }
-    }
+    //seems like there is nothing to do here
   }
 
   /* (non-Javadoc)
@@ -226,6 +194,7 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
     if (sbase instanceof PluginModel)
     {
       PluginModel pModel = (PluginModel)sbase;
+      document = setSBMLDocument(pModel);
     }
   }
 
@@ -234,8 +203,52 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
    */
   @Override
   public void SBaseAdded(PluginSBase sbase) {
-    // TODO Auto-generated method stub
-    System.out.println("SBaseAdded " + sbase);
+    Model model = document.getModel();
+    Layout layout = ((LayoutModelPlugin)model.getExtension("layout")).getLayout(0);
+    List<TreeNodeChangeListener> treeNodeList = copyTreeNodeChangeListeners();
+    document.removeAllTreeNodeChangeListeners();
+
+    if (sbase instanceof PluginCompartment)
+    {
+      PluginCompartment pCompartment = (PluginCompartment)sbase;
+      Compartment newCompartment = null;
+      try {
+        newCompartment = reader.readCompartment(pCompartment);
+      } catch (XMLStreamException e) {
+        new GUIErrorConsole(e);
+      }
+      model.addCompartment(newCompartment);
+      LayoutConverter.extractLayout((PluginCompartment)sbase, layout);
+    }
+    else if (sbase instanceof PluginSpecies)
+    {
+      PluginSpecies pSpecies = (PluginSpecies) sbase;
+      Species newSpecies = null;
+      try {
+        newSpecies = reader.readSpecies(pSpecies);
+      } catch (XMLStreamException e) {
+        new GUIErrorConsole(e);
+      }
+      model.addSpecies(newSpecies);
+    }
+    else if (sbase instanceof PluginSpeciesAlias)
+    {
+      PluginSpeciesAlias pSpeciesAlias = (PluginSpeciesAlias) sbase;
+      LayoutConverter.extractLayout(pSpeciesAlias, layout);
+    }
+    else if (sbase instanceof PluginReaction)
+    {
+      PluginReaction pReaction = (PluginReaction) sbase;
+      Reaction newReaction = null;
+      try {
+        newReaction = reader.readReaction(pReaction);
+      } catch (XMLStreamException e) {
+        new GUIErrorConsole(e);
+      }
+      model.addReaction(newReaction);
+      LayoutConverter.extractLayout(pReaction, layout);
+    }
+    document.addAllChangeListeners(treeNodeList);
   }
 
   /* (non-Javadoc)
@@ -243,15 +256,12 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
    */
   @Override
   public void SBaseChanged(PluginSBase sbase) {
-    PluginModel currentModel = getSelectedModel();
-    Model associatedJSBMLModel = getAssociatedModel(currentModel);
-    Layout layout = ((LayoutModelPlugin)associatedJSBMLModel.getExtension("layout")).getLayout(0);
-    List<TreeNodeChangeListener> treeNodeList = new ArrayList<TreeNodeChangeListener>();
-    document = new SBMLDocument(associatedJSBMLModel.getLevel(), associatedJSBMLModel.getVersion());
-    document.setModel(associatedJSBMLModel);
-
-    treeNodeList.addAll(document.getListOfTreeNodeChangeListeners());
+    Model model = document.getModel();
+    Layout layout = ((LayoutModelPlugin)model.getExtension("layout")).getLayout(0);
+    List<TreeNodeChangeListener> treeNodeList = copyTreeNodeChangeListeners();
+    JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea(""+document.getTreeNodeChangeListenerCount())));
     document.removeAllTreeNodeChangeListeners();
+    JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea(""+document.getTreeNodeChangeListenerCount())));
 
     if (sbase instanceof PluginCompartment)
     {
@@ -266,8 +276,8 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
       layout.removeCompartmentGlyph("cGlyph_" + pCompartment.getId());
       layout.removeTextGlyph("tGlyph_" + pCompartment.getId());
       LayoutConverter.extractLayout((PluginCompartment)sbase, layout);
-      associatedJSBMLModel.removeCompartment(newCompartment.getId());
-      associatedJSBMLModel.addCompartment(newCompartment);
+      model.removeCompartment(newCompartment.getId());
+      model.addCompartment(newCompartment);
     }
     else if (sbase instanceof PluginSpecies)
     {
@@ -278,8 +288,8 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
       } catch (XMLStreamException e) {
         new GUIErrorConsole(e);
       }
-      associatedJSBMLModel.removeSpecies(pSpecies.getId());
-      associatedJSBMLModel.addSpecies(newSpecies);
+      model.removeSpecies(pSpecies.getId());
+      model.addSpecies(newSpecies);
     }
     else if (sbase instanceof PluginSpeciesAlias)
     {
@@ -300,10 +310,9 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
       layout.removeReactionGlyph("rGlyph_" + pReaction.getId());
       layout.removeTextGlyph("tGlyph_" + pReaction.getId());
       LayoutConverter.extractLayout(pReaction, layout);
-      associatedJSBMLModel.removeReaction(newReaction.getId());
-      associatedJSBMLModel.addReaction(newReaction);
+      model.removeReaction(newReaction.getId());
+      model.addReaction(newReaction);
     }
-    document.setModel(associatedJSBMLModel);
     document.addAllChangeListeners(treeNodeList);
   }
 
@@ -312,8 +321,37 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
    */
   @Override
   public void SBaseDeleted(PluginSBase sbase) {
-    // TODO Auto-generated method stub
-    System.out.println("SBaseDeleted "  + sbase);
+    Model model = document.getModel();
+    Layout layout = ((LayoutModelPlugin)model.getExtension("layout")).getLayout(0);
+    List<TreeNodeChangeListener> treeNodeList = copyTreeNodeChangeListeners();
+    document.removeAllTreeNodeChangeListeners();
+    if (sbase instanceof PluginCompartment)
+    {
+      PluginCompartment pCompartment = (PluginCompartment)sbase;
+
+      layout.removeCompartmentGlyph("cGlyph_" + pCompartment.getId());
+      layout.removeTextGlyph("tGlyph_" + pCompartment.getId());
+      model.removeCompartment(pCompartment.getId());
+    }
+    else if (sbase instanceof PluginSpecies)
+    {
+      PluginSpecies pSpecies = (PluginSpecies) sbase;
+      model.removeSpecies(pSpecies.getId());
+    }
+    else if (sbase instanceof PluginSpeciesAlias)
+    {
+      PluginSpeciesAlias pSpeciesAlias = (PluginSpeciesAlias) sbase;
+      layout.removeSpeciesGlyph("sGlyph_" + pSpeciesAlias.getSpecies().getId());
+      layout.removeTextGlyph("tGlyph_" + pSpeciesAlias.getSpecies().getId());
+    }
+    else if (sbase instanceof PluginReaction)
+    {
+      PluginReaction pReaction = (PluginReaction) sbase;
+      layout.removeReactionGlyph("rGlyph_" + pReaction.getId());
+      layout.removeTextGlyph("tGlyph_" + pReaction.getId());
+      model.removeReaction(pReaction.getId());
+    }
+    document.addAllChangeListeners(treeNodeList);
   }
 
 }
