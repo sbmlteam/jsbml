@@ -84,7 +84,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
    */
   public GraphicalObject(GraphicalObject graphicalObject) {
     super(graphicalObject);
-    
+
     if (graphicalObject.isSetBoundingBox()) {
       setBoundingBox(graphicalObject.getBoundingBox().clone());
     }
@@ -332,7 +332,6 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 
     return attributes;
   }
-
 
   /**
    * Returns the value of metaidRef
