@@ -145,6 +145,7 @@ public class LayoutConverter {
 
     //starting the reaction position algorithm
     PluginRealLineInformationDataObjOfReactionLink inputInfo = pReaction.getAllMyPostionInfomations();
+    //debugReactionPosition(pReaction,inputInfo);
     if (inputInfo.getPointsInLine() != null) {
       //grabbing main reaction axis (usually first Vector in getPointsInLine()
       Vector mainReactionAxis = (Vector)inputInfo.getPointsInLine().get(0);
@@ -262,8 +263,8 @@ public class LayoutConverter {
           reactantSegment.setStart(new Point(coordinatesReactant.x, coordinatesReactant.y, z));
           reactantSegment.setEnd(new Point((coordinatesReactant.x+coordinatesProduct.x)/2-modifier,
             (coordinatesReactant.y+coordinatesProduct.y)/2, z));
-          JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea("reactants: "+reactantSegment.getStart().getElementName()+"\n"
-              +reactantSegment.getEnd().getElementName())));
+          // JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea("reactants: "+reactantSegment.getStart().getElementName()+"\n"
+          // +reactantSegment.getEnd().getElementName())));
           productSegment.setStart(new Point((coordinatesReactant.x+coordinatesProduct.x)/2+modifier,
             (coordinatesReactant.y+coordinatesProduct.y)/2, z));
           productSegment.setEnd(new Point(coordinatesProduct.x, coordinatesProduct.y, z));
@@ -350,17 +351,12 @@ public class LayoutConverter {
               }
               else if (reactionLinkMembers.size()>2)
               {
-                Point2D.Double reactant1 = (Point2D.Double) reactionLinkMembers.get(0);
-                Point2D.Double reactant2 = (Point2D.Double) reactionLinkMembers.get(1);
                 LineSegment segment = new LineSegment();
-                segment.setStart(new Point(reactant1.x, reactant1.y, z));
-                segment.setEnd(new Point(reactant2.x, reactant2.y, z));
                 curve = new Curve();
-                curve.addCurveSegment(segment);
-                for (int j = 1; j<reactionLinkMembers.size()-1; j++)
+                for (int j = 0; j<reactionLinkMembers.size()-1; j++)
                 {
-                  reactant1 = (Point2D.Double) reactionLinkMembers.get(j);
-                  reactant2 = (Point2D.Double) reactionLinkMembers.get(j+1);
+                  Point2D.Double reactant1 = (Point2D.Double) reactionLinkMembers.get(j);
+                  Point2D.Double reactant2 = (Point2D.Double) reactionLinkMembers.get(j+1);
                   segment = new LineSegment();
                   segment.setStart(new Point(reactant1.x, reactant1.y, z));
                   segment.setEnd(new Point(reactant2.x, reactant2.y, z));
@@ -404,17 +400,12 @@ public class LayoutConverter {
               }
               else if (reactionLinkMembers.size()>2)
               {
-                Point2D.Double product1 = (Point2D.Double) reactionLinkMembers.get(0);
-                Point2D.Double product2 = (Point2D.Double) reactionLinkMembers.get(1);
                 LineSegment segment = new LineSegment();
-                segment.setStart(new Point(product1.x, product1.y, z));
-                segment.setEnd(new Point(product2.x, product2.y, z));
                 curve = new Curve();
-                curve.addCurveSegment(segment);
-                for (int j = 1; j<reactionLinkMembers.size()-1; j++)
+                for (int j = 0; j<reactionLinkMembers.size()-1; j++)
                 {
-                  product1 = (Point2D.Double) reactionLinkMembers.get(i);
-                  product2 = (Point2D.Double) reactionLinkMembers.get(i+1);
+                  Point2D.Double product1 = (Point2D.Double) reactionLinkMembers.get(j);
+                  Point2D.Double product2 = (Point2D.Double) reactionLinkMembers.get(j+1);
                   segment = new LineSegment();
                   segment.setStart(new Point(product1.x, product1.y, z));
                   segment.setEnd(new Point(product2.x, product2.y, z));
@@ -459,18 +450,12 @@ public class LayoutConverter {
               }
               else if (reactionLinkMembers.size()>2)
               {
-                Point2D.Double modifier1 = (Point2D.Double) reactionLinkMembers.get(0);
-                Point2D.Double modifier2 = (Point2D.Double) reactionLinkMembers.get(1);
-                LineSegment segment = new LineSegment();
-                segment.setStart(new Point(modifier1.x, modifier1.y, z));
-                segment.setEnd(new Point(modifier2.x, modifier2.y, z));
                 curve = new Curve();
-                curve.addCurveSegment(segment);
                 for (int j = 0; j<reactionLinkMembers.size()-1; j++)
                 {
-                  modifier1 = (Point2D.Double) reactionLinkMembers.get(j);
-                  modifier2 = (Point2D.Double) reactionLinkMembers.get(j+1);
-                  segment = new LineSegment();
+                  Point2D.Double modifier1 = (Point2D.Double) reactionLinkMembers.get(j);
+                  Point2D.Double modifier2 = (Point2D.Double) reactionLinkMembers.get(j+1);
+                  LineSegment segment = new LineSegment();
                   segment.setStart(new Point(modifier1.x, modifier1.y, z));
                   segment.setEnd(new Point(modifier2.x, modifier2.y, z));
                   curve.addCurveSegment(segment);
@@ -491,6 +476,14 @@ public class LayoutConverter {
         }
       }
     }
+  }
+  /**
+   * if you ever run into trouble with reaction positioning, call this method to print reaction positions from CD
+   * @param pReaction
+   * @param inputInfo
+   */
+  private static void debugReactionPosition(PluginReaction pReaction, PluginRealLineInformationDataObjOfReactionLink inputInfo)
+  {
     PrintStream oldOut = System.out;
     JTextArea textArea = new JTextArea();
     try {
@@ -503,6 +496,6 @@ public class LayoutConverter {
     } finally {
       System.setOut(oldOut);
     }
-    //JOptionPane.showMessageDialog(null, new JScrollPane(textArea));
+    JOptionPane.showMessageDialog(null, new JScrollPane(textArea));
   }
 }
