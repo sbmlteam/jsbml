@@ -131,7 +131,7 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
    * @return new {@link Dimensions} object.
    */
   public Dimensions createDimensions() {
-    Dimensions d = new Dimensions();
+    Dimensions d = new Dimensions(getLevel(), getVersion());
     setDimensions(d);
     return d;
   }
@@ -145,10 +145,7 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
    * @return new {@link Dimensions} object.
    */
   public Dimensions createDimensions(double width, double height, double depth) {
-    Dimensions d = new Dimensions();
-    d.setWidth(width);
-    d.setHeight(height);
-    d.setDepth(depth);
+    Dimensions d = new Dimensions(width, height, depth, getLevel(), getVersion());
     setDimensions(d);
     return d;
   }
@@ -173,10 +170,7 @@ public class BoundingBox extends AbstractNamedSBase implements UniqueNamedSBase 
    * @return new {@link Point} object.
    */
   public Point createPosition(double x, double y, double z) {
-    Point p = new Point(getLevel(), getVersion());
-    p.setX(x);
-    p.setY(y);
-    p.setZ(z);
+    Point p = new Point(x, y, z, getLevel(), getVersion());
     setPosition(p);
     return p;
   }

@@ -24,7 +24,7 @@ package org.sbml.jsbml.ext.layout;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.AbstractNamedSBase;
+import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
@@ -36,7 +36,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @since 1.0
  * @version $Rev$
  */
-public abstract class CurveSegment extends AbstractNamedSBase {
+public abstract class CurveSegment extends AbstractSBase {
 
   /**
    * 
@@ -244,14 +244,6 @@ public abstract class CurveSegment extends AbstractNamedSBase {
     return type != null && type.equals(Type.CUBIC_BEZIER);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
-   */
-  @Override
-  public boolean isIdMandatory() {
-    return false;
-  }
-
   /**
    * 
    * @return
@@ -359,6 +351,5 @@ public abstract class CurveSegment extends AbstractNamedSBase {
 
     return attributes;
   }
-
 
 }
