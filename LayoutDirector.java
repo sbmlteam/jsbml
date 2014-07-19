@@ -360,7 +360,9 @@ public class LayoutDirector<P> implements Runnable {
         
         // 4. set layout dimensions
         // TODO this is the second call (see above)
-        layout.setDimensions(algorithm.createLayoutDimension());
+        if (!layout.isSetDimensions()) {
+          layout.setDimensions(algorithm.createLayoutDimension());
+        }
         
         builder.builderEnd();
   }
