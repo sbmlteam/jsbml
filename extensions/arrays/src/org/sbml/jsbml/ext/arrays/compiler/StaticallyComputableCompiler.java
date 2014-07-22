@@ -82,6 +82,7 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
       constantIds = new ArrayList<String>();
     }
     constantIds.add(id);
+    isSetConstantIds = true;
   }
   
   /**
@@ -93,7 +94,11 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
    */
   public boolean removeConstantId(String id) {
     if(isSetConstantIds) {
-      return constantIds.remove(id);
+      boolean success = constantIds.remove(id);
+      if(constantIds.isEmpty()) {
+        isSetConstantIds = false;
+      }
+      return success;
     }
     return false;
   }

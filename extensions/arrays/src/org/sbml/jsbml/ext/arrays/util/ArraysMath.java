@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.Assignment;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
@@ -36,6 +37,7 @@ import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.ext.arrays.Index;
 import org.sbml.jsbml.ext.arrays.compiler.ArraysCompiler;
 import org.sbml.jsbml.ext.arrays.compiler.StaticallyComputableCompiler;
+import org.sbml.jsbml.ext.arrays.compiler.VectorCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
@@ -86,7 +88,7 @@ public class ArraysMath {
 
     return true;
   }
-  
+
   /**
    * This method is used to check if the index math does not go out of bounds.
    * 
@@ -107,6 +109,10 @@ public class ArraysMath {
 
       ArraysSBasePlugin refSbasePlugin = (ArraysSBasePlugin) refSBase.getExtension(ArraysConstants.shortLabel);
 
+      if(refSbasePlugin == null) {
+        return false;
+      }
+
       Dimension dimByArrayDim = arraysSBasePlugin.getDimensionByArrayDimension(index.getArrayDimension());
 
       Map<String, Double> dimensionSizes = getDimensionSizes(model, arraysSBasePlugin);
@@ -118,6 +124,41 @@ public class ArraysMath {
       return evaluateBounds(dimensionSizes, index.getMath(), size);
     }
     return false;
+  }
+
+  /**
+   * This method checks if adding an {@link Index} object to a parent {@link SBase} object
+   * for referencing another {@link SBase} object does not cause out-of-bounds issues. 
+   * 
+   * @param model
+   * @param parent
+   * @param reference
+   * @param math
+   * @param arrayDim
+   * @return
+   */
+  public static boolean evaluateIndexBounds(Model model, SBase parent, String refAttribute, ASTNode math, int arrayDim) {
+    //TODO test it
+
+    String refId = parent.writeXMLAttributes().get(refAttribute);
+
+    SBase reference = model.findNamedSBase(refId);
+
+    ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) parent.getExtension(ArraysConstants.shortLabel);
+
+    ArraysSBasePlugin refSbasePlugin = (ArraysSBasePlugin) reference.getExtension(ArraysConstants.shortLabel);
+
+
+    Dimension dimByArrayDim = arraysSBasePlugin.getDimensionByArrayDimension(arrayDim);
+
+    Map<String, Double> dimensionSizes = getDimensionSizes(model, arraysSBasePlugin);
+
+    Map<String, Double> refSBaseSizes = getDimensionSizes(model, refSbasePlugin);
+
+    double size = refSBaseSizes.get(dimByArrayDim.getId());
+
+    return evaluateBounds(dimensionSizes, math, size);
+
   }
 
   /**
@@ -285,8 +326,10 @@ public class ArraysMath {
         }
       }
     }
-    for(String id : constantIds) {
-      compiler.addConstantId(id);  
+    if(constantIds != null) {
+      for(String id : constantIds) {
+        compiler.addConstantId(id);  
+      }
     }
     ASTNode math = mathContainer.getMath();
 
@@ -294,6 +337,103 @@ public class ArraysMath {
 
     return value.toBoolean();
 
+  }
+
+
+  public static boolean isVectorOperation(ASTNode math) {
+    boolean hasVector = false;
+
+    for(int i = 0; i < math.getChildCount(); ++i) {
+      if(math.getChild(i).isVector()) {
+        hasVector = true;
+        break;
+      }
+    }
+
+    return hasVector;
+  }
+  
+  /**
+   * 
+   * @param model
+   * @param mathContainer
+   * @return
+   */
+  public static boolean checkVectorMath(Model model, MathContainer mathContainer) {
+    VectorCompiler compiler = new VectorCompiler(model);
+
+    if(mathContainer.isSetMath()) {
+      ASTNode math = mathContainer.getMath();
+
+      boolean hasVector = isVectorOperation(math);
+
+      if(hasVector) 
+      {
+        math.compile(compiler);
+
+        ASTNode nodeCompiled = compiler.getNode();
+
+        if(nodeCompiled.isVector()) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  /**
+   * 
+   * @param model
+   * @param mathContainer
+   * @return
+   */
+  public static boolean checkVectorAssignment(Model model, MathContainer mathContainer) {
+    VectorCompiler compiler = new VectorCompiler(model);
+
+    if(mathContainer instanceof Assignment) {
+      Assignment assignment = (Assignment) mathContainer;
+
+      if(assignment.isSetMath()) {
+        ASTNode math = assignment.getMath();
+
+        boolean hasVector = isVectorOperation(math);
+
+        if(hasVector) 
+        {
+          math.compile(compiler);
+
+          ASTNode nodeCompiled = compiler.getNode();
+
+          if(assignment.isSetVariable()){
+            SBase variable = model.findNamedSBase(assignment.getVariable());
+            if(variable == null) {
+              return false;
+            }
+            Map<Integer, Integer> sizeOfRHS = getVectorDimensionSizes(model, nodeCompiled);
+            Map<Integer, Integer> sizeOfLHS = getVectorDimensionSizes(model, new ASTNode(assignment.getVariable()));
+
+            if(sizeOfRHS.size() != sizeOfLHS.size()) {
+              return false;
+            }
+
+            for(int i = 0; i < sizeOfRHS.size(); ++i) {
+              if(sizeOfRHS.get(i) != sizeOfLHS.get(i)) {
+                return false;
+              }
+            }
+          } else {
+            return false;
+          }
+        }
+
+      }
+
+    }
+    return true;
   }
 
   /**
@@ -328,13 +468,14 @@ public class ArraysMath {
       String id = node.toString();
       SBase sbase = model.findNamedSBase(id);
       ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
+      int maxDim = arraysSBasePlugin.getDimensionCount() - 1;
       for(Dimension dim : arraysSBasePlugin.getListOfDimensions()) {
         String size = dim.getSize();
         Parameter p = model.getParameter(size);
         if (p == null) {
           continue;
         }
-        sizeByLevel.put(level+dim.getArrayDimension(), (int) p.getValue());
+        sizeByLevel.put(level+maxDim-dim.getArrayDimension(), (int) p.getValue());
       }
     }
   }

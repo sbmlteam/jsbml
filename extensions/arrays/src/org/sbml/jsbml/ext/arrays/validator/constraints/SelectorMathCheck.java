@@ -41,6 +41,7 @@ import org.sbml.jsbml.ext.arrays.util.ArraysMath;
  */
 public class SelectorMathCheck extends ArraysConstraint {
 
+  // TODO: need to check each node in the tree and see if the node is selector
   private final MathContainer mathContainer;
   
   /**

@@ -370,6 +370,15 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
 
 
   /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "Dimension [size=" + size + ", arrayDimension=" + arrayDimension
+      + "]";
+  }
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.SBaseWithDerivedUnit#containsUndeclaredUnits()
    */
   @Override
