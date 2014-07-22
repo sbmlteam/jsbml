@@ -119,12 +119,12 @@ public class Index extends AbstractMathContainer {
 
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#toString()
+   * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
-    // TODO
-    return "";
+    return "Index [referencedAttribute=" + referencedAttribute
+      + ", arrayDimension=" + arrayDimension + "]";
   }
   
   

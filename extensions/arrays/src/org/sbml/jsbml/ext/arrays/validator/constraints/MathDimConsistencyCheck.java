@@ -22,8 +22,9 @@
  */
 package org.sbml.jsbml.ext.arrays.validator.constraints;
 
-import org.sbml.jsbml.Assignment;
+import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.ext.arrays.util.ArraysMath;
 
 
 /**
@@ -34,21 +35,49 @@ import org.sbml.jsbml.Model;
  */
 public class MathDimConsistencyCheck extends ArraysConstraint{
 
-  Assignment assignment;
-  
-  public MathDimConsistencyCheck(Model model, Assignment assignment) {
+  MathContainer mathContainer;
+
+  public MathDimConsistencyCheck(Model model, MathContainer mathContainer) {
     super(model);
-    this.assignment = assignment;  
+    this.mathContainer = mathContainer;  
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.arrays.validator.constraints.ArraysConstraint#check()
    */
   @Override
   public void check() {
-    
-    
+    if(model == null || mathContainer == null) {
+      return;
+    }
+
+    if(!ArraysMath.checkVectorMath(model, mathContainer)) {
+      String shortMsg = "";
+      logMathVectorIrregular(shortMsg);
+    }
+    if(!ArraysMath.checkVectorAssignment(model, mathContainer)) {
+      String shortMsg = "";
+      logMathVectorIrregular(shortMsg);
+    }
   }
-  
-  
+
+  /**
+   * Log an error indicating that the first argument of the selector math is invalid.
+   * 
+   * @param shortMsg
+   */
+  private void logMathVectorIrregular(String shortMsg) {
+    int code = 10211, severity = 0, category = 0, line = 0, column = 0;
+
+    String pkg = "arrays";
+    String msg = "For MathML operations with two or more operands involving MathML vectors or SBase objects with a list of Dimension"+
+        "objects, the number of dimensions and their size must agree for all operands unless the operand is a scalar type"+
+        "(i.e., it does not have a list of Dimension 31 objects). (Reference: SBML Level 3 Package Specification for"+
+        "Arrays, Version 1, Section 3.5 on page 10.)";
+
+
+    logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
+  }
+
+
 }
