@@ -22,16 +22,10 @@
  */
 package org.sbml.jsbml.celldesigner;
 
-import java.io.File;
-
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
-import javax.swing.UIManager;
-
-import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.SBMLReader;
-import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
+import javax.swing.tree.DefaultTreeModel;
 
 
 /**
@@ -47,20 +41,15 @@ public class SBMLStructureVisualizer extends JFrame {
   private static final long serialVersionUID = -6800051247041441688L;
 
   /** @param document The sbml root node of an SBML file */
-  public SBMLStructureVisualizer(SBMLDocument sbmlDocument) {
+  public SBMLStructureVisualizer(DefaultTreeModel tree) {
     super("JSBML viz");
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-    LayoutModelPlugin plugin=(LayoutModelPlugin) sbmlDocument.getModel().getExtension("layout");
-    getContentPane().add(new JScrollPane(new JTree(plugin.getLayout(0))));
+    DefaultTreeModel treeModel = tree;
+    JTree jTree = new JTree(treeModel);
+    getContentPane().add(new JScrollPane(jTree));
     pack();
     setAlwaysOnTop(true);
     setLocationRelativeTo(null);
     setVisible(true);
-  }
-
-  /** @param args Expects a valid path to an SBML file. */
-  public static void main(String[] args) throws Exception {
-    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-    new SBMLStructureVisualizer(SBMLReader.read(new File(args[0])));
   }
 }

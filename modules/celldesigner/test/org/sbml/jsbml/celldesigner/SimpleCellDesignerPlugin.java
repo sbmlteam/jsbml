@@ -20,12 +20,15 @@
  */
 package org.sbml.jsbml.celldesigner;
 
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
 import jp.sbi.celldesigner.plugin.PluginMenu;
 import jp.sbi.celldesigner.plugin.PluginMenuItem;
 
+import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.ext.layout.LayoutConstants;
+import org.sbml.jsbml.ext.render.RenderConstants;
 import org.sbml.jsbml.gui.JSBMLvisualizer;
 
 
@@ -67,48 +70,17 @@ public class SimpleCellDesignerPlugin extends AbstractCellDesignerPlugin {
 
   @Override
   public void run() {
-    JSBMLvisualizer visualizer = new JSBMLvisualizer(getSelectedSBMLDocument());
-    visualizer.addWindowListener(new WindowListener() {
-
-      @Override
-      public void windowOpened(WindowEvent e) {
-        // TODO Auto-generated method stub
-      }
-
-
-      @Override
-      public void windowIconified(WindowEvent e) {
-        // TODO Auto-generated method stub
-      }
-
-
-      @Override
-      public void windowDeiconified(WindowEvent e) {
-        // TODO Auto-generated method stub
-      }
-
-
-      @Override
-      public void windowDeactivated(WindowEvent e) {
-        // TODO Auto-generated method stub
-      }
-
-
-      @Override
-      public void windowClosing(WindowEvent e) {
-        // TODO Auto-generated method stub
-      }
-
+    SBMLDocument doc = getSBMLDocument();
+    doc.getModel().unsetExtension("layout");
+    doc.getModel().unsetExtension("render");
+    doc.getSBMLDocumentAttributes().remove(LayoutConstants.shortLabel + ":required");
+    doc.getSBMLDocumentAttributes().remove(RenderConstants.shortLabel + ":required");
+    JSBMLvisualizer visualizer = new JSBMLvisualizer(doc);
+    visualizer.addWindowListener(new WindowAdapter() {
 
       @Override
       public void windowClosed(WindowEvent e) {
         setStarted(false);
-      }
-
-
-      @Override
-      public void windowActivated(WindowEvent e) {
-        // TODO Auto-generated method stub
       }
     });
   }

@@ -86,14 +86,14 @@ public class LayoutConverter {
    */
   public static void extractLayout(PluginSpeciesAlias pSpeciesAlias, Layout layout)
   {
-    SpeciesGlyph sGlyph = layout.createSpeciesGlyph("sGlyph_" + pSpeciesAlias.getSpecies().getId());
+    SpeciesGlyph sGlyph = layout.createSpeciesGlyph("sGlyph_" + pSpeciesAlias.getAliasID());
     sGlyph.createBoundingBox(pSpeciesAlias.getWidth(), pSpeciesAlias.getHeight(), depth, pSpeciesAlias.getX(), pSpeciesAlias.getY(), z);
 
-    TextGlyph tGlyph = layout.createTextGlyph("tGlyph_" + pSpeciesAlias.getSpecies().getId());
+    TextGlyph tGlyph = layout.createTextGlyph("tGlyph_" + pSpeciesAlias.getAliasID());
     BoundingBox bBox  =  tGlyph.createBoundingBox(pSpeciesAlias.getWidth(), pSpeciesAlias.getHeight(), depth);
     //setting textGlyph position at center of speciesGlyph
     bBox.createPosition(pSpeciesAlias.getX()+pSpeciesAlias.getWidth()/2, pSpeciesAlias.getY()+pSpeciesAlias.getHeight()/2, z);
-    tGlyph.setOriginOfText(pSpeciesAlias.getSpecies().getId());
+    tGlyph.setOriginOfText(pSpeciesAlias.getAliasID());
   }
 
   /**
