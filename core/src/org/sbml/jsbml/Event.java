@@ -834,7 +834,7 @@ s   * @return the list of eventAssignments of this Event.
     ListOf<EventAssignment> listOfEventAssignments) {
     unsetListOfEventAssignments();
     this.listOfEventAssignments = listOfEventAssignments;
-    if ((this.listOfEventAssignments != null) && (this.listOfEventAssignments.getSBaseListType() != ListOf.Type.listOfEventAssignments)) {
+    if (this.listOfEventAssignments != null) {
       this.listOfEventAssignments.setSBaseListType(ListOf.Type.listOfEventAssignments);
       registerChild(this.listOfEventAssignments);
     }
