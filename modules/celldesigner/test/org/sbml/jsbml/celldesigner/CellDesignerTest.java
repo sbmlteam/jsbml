@@ -22,8 +22,8 @@
  */
 package org.sbml.jsbml.celldesigner;
 
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
 import jp.sbi.celldesigner.plugin.PluginCompartment;
 import jp.sbi.celldesigner.plugin.PluginMenu;
@@ -196,47 +196,11 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
   @Override
   public void run() {
     CDPropertyChangeVis CDvisualizer = new CDPropertyChangeVis();
-    CDvisualizer.addWindowListener(new WindowListener() {
-
-      @Override
-      public void windowOpened(WindowEvent e) {
-        // TODO Auto-generated method stub
-      }
-
-
-      @Override
-      public void windowIconified(WindowEvent e) {
-        // TODO Auto-generated method stub
-      }
-
-
-      @Override
-      public void windowDeiconified(WindowEvent e) {
-        // TODO Auto-generated method stub
-      }
-
-
-      @Override
-      public void windowDeactivated(WindowEvent e) {
-        // TODO Auto-generated method stub
-      }
-
-
-      @Override
-      public void windowClosing(WindowEvent e) {
-        // TODO Auto-generated method stub
-      }
-
+    CDvisualizer.addWindowListener(new WindowAdapter() {
 
       @Override
       public void windowClosed(WindowEvent e) {
         setStarted(false);
-      }
-
-
-      @Override
-      public void windowActivated(WindowEvent e) {
-        // TODO Auto-generated method stub
       }
     });
   }

@@ -26,9 +26,6 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
 import javax.xml.stream.XMLStreamException;
 
@@ -124,32 +121,7 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
    */
   public void startPlugin() throws XMLStreamException {
     setStarted(true);
-    document = setSBMLDocument(getSelectedModel());
-  }
-
-  /**
-   * 
-   * @return the current list of TreeNodeChangeListeners for this SBMLDocument
-   */
-  private List<TreeNodeChangeListener> copyTreeNodeChangeListeners()
-  {
-    List<TreeNodeChangeListener> treeNodeList = null;
-    if (document.getTreeNodeChangeListenerCount()>0)
-    {
-      treeNodeList = new ArrayList<TreeNodeChangeListener>();
-      treeNodeList.addAll(document.getListOfTreeNodeChangeListeners());
-    }
-    return treeNodeList;
-  }
-
-  /**
-   * 
-   * @param pModel the PluginModel that is to be converted
-   * @return the SBMLDocument resulting from the CellDesigner-->JSBML conversion process
-   */
-  private SBMLDocument setSBMLDocument(PluginModel pModel)
-  {
-    SwingWorker<SBMLDocument, Throwable> worker = new SBMLDocumentWorker(getReader(), pModel);
+    SwingWorker<SBMLDocument, Throwable> worker = new SBMLDocumentWorker(getReader(), getSelectedModel());
     worker.addPropertyChangeListener(new PropertyChangeListener() {
       @Override
       public void propertyChange(PropertyChangeEvent evt) {
@@ -166,9 +138,22 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
       }
     });
     worker.execute();
-    return document;
   }
 
+  /**
+   * 
+   * @return the current list of TreeNodeChangeListeners for this SBMLDocument
+   */
+  private List<TreeNodeChangeListener> copyTreeNodeChangeListeners()
+  {
+    List<TreeNodeChangeListener> treeNodeList = null;
+    if (document.getTreeNodeChangeListenerCount()>0)
+    {
+      treeNodeList = new ArrayList<TreeNodeChangeListener>();
+      treeNodeList.addAll(document.getListOfTreeNodeChangeListeners());
+    }
+    return treeNodeList;
+  }
 
   /* (non-Javadoc)
    * @see jp.sbi.celldesigner.plugin.CellDesignerPlug#modelClosed(jp.sbi.celldesigner.plugin.PluginSBase)
@@ -193,8 +178,14 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
   public void modelSelectChanged(PluginSBase sbase) {
     if (sbase instanceof PluginModel)
     {
-      PluginModel pModel = (PluginModel)sbase;
-      document = setSBMLDocument(pModel);
+      Model model;
+      try {
+        model = reader.convertModel((PluginModel)sbase);
+        document = new SBMLDocument(model.getLevel(), model.getVersion());
+        document.setModel(model);
+      } catch (XMLStreamException e) {
+        new GUIErrorConsole(e);
+      }
     }
   }
 
@@ -259,9 +250,7 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
     Model model = document.getModel();
     Layout layout = ((LayoutModelPlugin)model.getExtension("layout")).getLayout(0);
     List<TreeNodeChangeListener> treeNodeList = copyTreeNodeChangeListeners();
-    JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea(""+document.getTreeNodeChangeListenerCount())));
     document.removeAllTreeNodeChangeListeners();
-    JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea(""+document.getTreeNodeChangeListenerCount())));
 
     if (sbase instanceof PluginCompartment)
     {
@@ -269,15 +258,15 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
       Compartment newCompartment = null;
       try {
         newCompartment = reader.readCompartment(pCompartment);
+        model.removeCompartment(newCompartment.getId());
+        model.addCompartment(newCompartment);
       } catch (XMLStreamException e) {
         new GUIErrorConsole(e);
       }
 
       layout.removeCompartmentGlyph("cGlyph_" + pCompartment.getId());
       layout.removeTextGlyph("tGlyph_" + pCompartment.getId());
-      LayoutConverter.extractLayout((PluginCompartment)sbase, layout);
-      model.removeCompartment(newCompartment.getId());
-      model.addCompartment(newCompartment);
+      LayoutConverter.extractLayout(pCompartment, layout);
     }
     else if (sbase instanceof PluginSpecies)
     {
@@ -285,17 +274,17 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
       Species newSpecies = null;
       try {
         newSpecies = reader.readSpecies(pSpecies);
+        model.removeSpecies(pSpecies.getId());
+        model.addSpecies(newSpecies);
       } catch (XMLStreamException e) {
         new GUIErrorConsole(e);
       }
-      model.removeSpecies(pSpecies.getId());
-      model.addSpecies(newSpecies);
     }
     else if (sbase instanceof PluginSpeciesAlias)
     {
       PluginSpeciesAlias pSpeciesAlias = (PluginSpeciesAlias) sbase;
-      layout.removeSpeciesGlyph("sGlyph_" + pSpeciesAlias.getSpecies().getId());
-      layout.removeTextGlyph("tGlyph_" + pSpeciesAlias.getSpecies().getId());
+      layout.removeSpeciesGlyph("sGlyph_" + pSpeciesAlias.getAliasID());
+      layout.removeTextGlyph("tGlyph_" + pSpeciesAlias.getAliasID());
       LayoutConverter.extractLayout(pSpeciesAlias, layout);
     }
     else if (sbase instanceof PluginReaction)
@@ -303,15 +292,15 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
       PluginReaction pReaction = (PluginReaction) sbase;
       Reaction newReaction = null;
       try {
+        model.removeReaction(pReaction.getId());
         newReaction = reader.readReaction(pReaction);
+        model.addReaction(newReaction);
+        layout.removeReactionGlyph("rGlyph_" + pReaction.getId());
+        layout.removeTextGlyph("tGlyph_" + pReaction.getId());
+        LayoutConverter.extractLayout(pReaction, layout);
       } catch (XMLStreamException e) {
         new GUIErrorConsole(e);
       }
-      layout.removeReactionGlyph("rGlyph_" + pReaction.getId());
-      layout.removeTextGlyph("tGlyph_" + pReaction.getId());
-      LayoutConverter.extractLayout(pReaction, layout);
-      model.removeReaction(newReaction.getId());
-      model.addReaction(newReaction);
     }
     document.addAllChangeListeners(treeNodeList);
   }

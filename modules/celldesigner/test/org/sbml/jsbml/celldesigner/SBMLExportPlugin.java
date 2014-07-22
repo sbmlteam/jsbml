@@ -22,8 +22,8 @@
  */
 package org.sbml.jsbml.celldesigner;
 
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -71,52 +71,15 @@ public class SBMLExportPlugin extends AbstractCellDesignerPlugin  {
   public void run() {
     SBMLLayoutVisualizer SBMLVisualizer = null;
     try {
-      SBMLVisualizer = new SBMLLayoutVisualizer(getSelectedSBMLDocument());
+      SBMLVisualizer = new SBMLLayoutVisualizer(getSBMLDocument());
     } catch (XMLStreamException e1) {
       // TODO Auto-generated catch block
       e1.printStackTrace();
     }
-    SBMLVisualizer.addWindowListener(new WindowListener() {
-
-      @Override
-      public void windowOpened(WindowEvent e) {
-        // TODO Auto-generated method stub
-      }
-
-
-      @Override
-      public void windowIconified(WindowEvent e) {
-        // TODO Auto-generated method stub
-      }
-
-
-      @Override
-      public void windowDeiconified(WindowEvent e) {
-        // TODO Auto-generated method stub
-      }
-
-
-      @Override
-      public void windowDeactivated(WindowEvent e) {
-        // TODO Auto-generated method stub
-      }
-
-
-      @Override
-      public void windowClosing(WindowEvent e) {
-        // TODO Auto-generated method stub
-      }
-
-
+    SBMLVisualizer.addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosed(WindowEvent e) {
         setStarted(false);
-      }
-
-
-      @Override
-      public void windowActivated(WindowEvent e) {
-        // TODO Auto-generated method stub
       }
     });
   }

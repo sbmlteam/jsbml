@@ -20,11 +20,16 @@
  */
 package org.sbml.jsbml.celldesigner;
 
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+
+import javax.swing.tree.DefaultTreeModel;
 
 import jp.sbi.celldesigner.plugin.PluginMenu;
 import jp.sbi.celldesigner.plugin.PluginMenuItem;
+import jp.sbi.celldesigner.plugin.PluginSBase;
+
+import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 
 
 /**
@@ -38,8 +43,12 @@ import jp.sbi.celldesigner.plugin.PluginMenuItem;
  */
 public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
 
+
+
   public static final String ACTION = "Display JSBML JTree";
   public static final String APPLICATION_NAME = "SBML Structure Visualization";
+  protected DefaultTreeModel modelTree = null;
+  private LayoutModelPlugin plugin;
 
   /**
    * Creates a new CellDesigner plug-in with an entry in the menu bar.
@@ -63,50 +72,61 @@ public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
     addCellDesignerPluginMenu(menu);
   }
 
+  protected DefaultTreeModel getTreeModel()
+  {
+    return modelTree;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#SBaseAdded(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  @Override
+  public void SBaseAdded(PluginSBase sbase) {
+    super.SBaseAdded(sbase);
+    plugin = (LayoutModelPlugin) getSBMLDocument().getModel().getExtension("layout");
+    modelTree.setRoot(plugin.getLayout(0));
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#SBaseChanged(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  @Override
+  public void SBaseChanged(PluginSBase sbase) {
+    super.SBaseChanged(sbase);
+    plugin = (LayoutModelPlugin) getSBMLDocument().getModel().getExtension("layout");
+    modelTree.setRoot(plugin.getLayout(0));
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#SBaseDeleted(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  @Override
+  public void SBaseDeleted(PluginSBase sbase) {
+    super.SBaseDeleted(sbase);
+    plugin = (LayoutModelPlugin) getSBMLDocument().getModel().getExtension("layout");
+    modelTree.setRoot(plugin.getLayout(0));
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#modelSelectChanged(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  @Override
+  public void modelSelectChanged(PluginSBase sbase) {
+    super.modelSelectChanged(sbase);
+    plugin = (LayoutModelPlugin) getSBMLDocument().getModel().getExtension("layout");
+    modelTree.setRoot(plugin.getLayout(0));
+  }
+
   @Override
   public void run() {
-    SBMLStructureVisualizer visualizer = new SBMLStructureVisualizer(getSelectedSBMLDocument());
-    visualizer.addWindowListener(new WindowListener() {
-
-      @Override
-      public void windowOpened(WindowEvent e) {
-        // TODO Auto-generated method stub
-      }
-
-
-      @Override
-      public void windowIconified(WindowEvent e) {
-        // TODO Auto-generated method stub
-      }
-
-
-      @Override
-      public void windowDeiconified(WindowEvent e) {
-        // TODO Auto-generated method stub
-      }
-
-
-      @Override
-      public void windowDeactivated(WindowEvent e) {
-        // TODO Auto-generated method stub
-      }
-
-
-      @Override
-      public void windowClosing(WindowEvent e) {
-        // TODO Auto-generated method stub
-      }
-
+    plugin = (LayoutModelPlugin) getSBMLDocument().getModel().getExtension("layout");
+    modelTree = new DefaultTreeModel(plugin.getLayout(0));
+    SBMLStructureVisualizer visualizer = new SBMLStructureVisualizer(modelTree);
+    visualizer.addWindowListener(new WindowAdapter() {
 
       @Override
       public void windowClosed(WindowEvent e) {
         setStarted(false);
-      }
-
-
-      @Override
-      public void windowActivated(WindowEvent e) {
-        // TODO Auto-generated method stub
       }
     });
   }
