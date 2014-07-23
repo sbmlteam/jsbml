@@ -24,7 +24,9 @@ package org.sbml.jsbml.celldesigner;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.SwingWorker;
 import javax.xml.stream.XMLStreamException;
@@ -41,6 +43,7 @@ import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
@@ -248,9 +251,10 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
   @Override
   public void SBaseChanged(PluginSBase sbase) {
     Model model = document.getModel();
+    Map<PluginSBase, SBase> map = reader.getSBaseMappings();
     Layout layout = ((LayoutModelPlugin)model.getExtension("layout")).getLayout(0);
     List<TreeNodeChangeListener> treeNodeList = copyTreeNodeChangeListeners();
-    document.removeAllTreeNodeChangeListeners();
+    document.removeAllTreeNodeChangeListeners(true);
 
     if (sbase instanceof PluginCompartment)
     {
@@ -260,13 +264,14 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
         newCompartment = reader.readCompartment(pCompartment);
         model.removeCompartment(newCompartment.getId());
         model.addCompartment(newCompartment);
-      } catch (XMLStreamException e) {
+      } catch (Throwable e) {
         new GUIErrorConsole(e);
       }
 
       layout.removeCompartmentGlyph("cGlyph_" + pCompartment.getId());
       layout.removeTextGlyph("tGlyph_" + pCompartment.getId());
       LayoutConverter.extractLayout(pCompartment, layout);
+      map.put(pCompartment, newCompartment);
     }
     else if (sbase instanceof PluginSpecies)
     {
@@ -276,7 +281,7 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
         newSpecies = reader.readSpecies(pSpecies);
         model.removeSpecies(pSpecies.getId());
         model.addSpecies(newSpecies);
-      } catch (XMLStreamException e) {
+      } catch (Throwable e) {
         new GUIErrorConsole(e);
       }
     }
@@ -298,7 +303,7 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
         layout.removeReactionGlyph("rGlyph_" + pReaction.getId());
         layout.removeTextGlyph("tGlyph_" + pReaction.getId());
         LayoutConverter.extractLayout(pReaction, layout);
-      } catch (XMLStreamException e) {
+      } catch (Throwable e) {
         new GUIErrorConsole(e);
       }
     }
