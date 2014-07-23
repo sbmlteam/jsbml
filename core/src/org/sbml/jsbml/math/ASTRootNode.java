@@ -22,7 +22,9 @@
  */
 package org.sbml.jsbml.math;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
@@ -42,6 +44,11 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
    * 
    */
   private static final long serialVersionUID = -8803559492792642628L;
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final Logger logger = Logger.getLogger(ASTRootNode.class);
 
   /**
    * Creates a new {@link ASTRootNode}.
@@ -52,13 +59,15 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
   }
 
   /**
-   * Copy constructor; Creates a deep copy of the given {@link ASTRootNode}.
+   * Creates a new {@link ASTRootNode} with the specified radicand and
+   * a root exponent of 2.
    * 
-   * @param node
-   *            the {@link ASTRootNode} to be copied.
+   * @param rootExponent {@link ASTNode2}
+   * @param radicand {@link ASTNode2}
    */
-  public ASTRootNode(ASTRootNode node) {
-    super(node);
+  public ASTRootNode(ASTNode2 radicand) {
+    this();
+    addChild(radicand);
   }
   
   /**
@@ -69,24 +78,19 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
    * @param radicand {@link ASTNode2}
    */
   public ASTRootNode(ASTNode2 rootExponent, ASTNode2 radicand) {
-    super();
+    this();
     addChild(rootExponent);
     addChild(radicand);
-    setType(Type.FUNCTION_ROOT);
   }
   
   /**
-   * Creates a new {@link ASTRootNode} with the specified radicand and
-   * rootExponent.
+   * Copy constructor; Creates a deep copy of the given {@link ASTRootNode}.
    * 
-   * @param rootExponent {@link ASTNode2}
-   * @param radicand {@link ASTNode2}
+   * @param node
+   *            the {@link ASTRootNode} to be copied.
    */
-  public ASTRootNode(ASTNode2 radicand) {
-    super();
-    addChild(new ASTCnIntegerNode(2));
-    addChild(radicand);
-    setType(Type.FUNCTION_ROOT);
+  public ASTRootNode(ASTRootNode node) {
+    super(node);
   }
   
   /*
@@ -137,6 +141,83 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
     return value;
   }
 
+  /**
+   * Return the radicand of this {@link ASTRootNode}
+   * 
+   * @return radicand {@link ASTNode2}
+   */
+  public ASTNode2 getRadicand() {
+    if (isSetRightChild()) {
+      return getRightChild();      
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("radicand", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return null;
+  }
+  
+  /**
+   * Return the root exponent of this {@link ASTRootNode}
+   * 
+   * @return rootExponent {@link ASTNode2}
+   */
+  public ASTNode2 getRootExponent() {
+    if (getChildCount() > 1) {
+      return getLeftChild();      
+    }
+    return new ASTCnIntegerNode(2);
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTBinaryFunctionNode#isSetLeftChild()
+   */
+  @Override
+  public boolean isSetLeftChild() {
+    return true;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTBinaryFunctionNode#isSetRightChild()
+   */
+  @Override
+  public boolean isSetRightChild() {
+    return getChildCount() > 0;
+  }
+
+  /**
+   * Set the radicand of this {@link ASTRootNode}
+   * 
+   * @param radicand {@link ASTNode2}
+   */
+  public void setRadicand(ASTNode2 radicand) {
+    setRightChild(radicand);
+  }
+  
+  /**
+   * Set the root exponent of this {@link ASTRootNode}
+   * 
+   * @param rootExponent {@link ASTNode2}
+   */
+  public void setRootExponent(ASTNode2 rootExponent) {
+    switch(getChildCount()) {
+    case 0:
+      if (rootExponent instanceof ASTCnIntegerNode) {
+        if (((ASTCnIntegerNode)rootExponent).getInteger() != 2) {
+          addChild(rootExponent);          
+        }
+      }
+      break;
+    case 1:
+      insertChild(0, rootExponent);
+      break;
+    default:
+      replaceChild(0, rootExponent);
+      break;
+    }
+  }
+  
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */

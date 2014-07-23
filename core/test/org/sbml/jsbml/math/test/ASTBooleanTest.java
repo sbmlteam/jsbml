@@ -27,12 +27,13 @@ import static org.junit.Assert.*;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTBoolean;
 
 
 /**
- * Test cases for the ASTBoolean class
+ * Test cases for {@link ASTBoolean}
  * 
  * @author Victor Kofia
  * @version $Rev$
@@ -43,30 +44,23 @@ public class ASTBooleanTest {
   
   @Rule
   public ExpectedException exception = ExpectedException.none();
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#clone()}.
    */
   @Test
   public final void testClone() {
     ASTBoolean node = new ASTBoolean(Type.CONSTANT_TRUE);
-    node.setStyle("style");
-    node.setId("id");
-    node.setMathMLClass("class");
-    ASTBoolean unknown = (ASTBoolean) node.clone();
+    ASTBoolean unknown = node.clone();
     assertTrue(unknown.equals(node));
   }
-
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#ASTBoolean(org.sbml.jsbml.math.ASTBoolean)}.
    */
   @Test
   public final void testConstructorClone() {
     ASTBoolean node = new ASTBoolean(Type.CONSTANT_TRUE);
-    node.setStyle("style");
-    node.setId("id");
-    node.setMathMLClass("class");
     ASTBoolean unknown = new ASTBoolean(node);
     assertTrue(unknown.equals(node));
   }
@@ -89,7 +83,7 @@ public class ASTBooleanTest {
     exception.expect(IndexOutOfBoundsException.class);
     node.getChildAt(0);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#ASTBoolean#getAllowsChildren()}.
    */
@@ -98,6 +92,99 @@ public class ASTBooleanTest {
     ASTBoolean node = new ASTBoolean(Type.CONSTANT_TRUE);
     assertTrue(node.getChildCount() == 0);
   }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#ASTBoolean#getValue()}.
+   */
+  @Test
+  public final void testGetValueTrue() {
+    ASTBoolean node = new ASTBoolean(Type.CONSTANT_TRUE);
+    assertTrue(node.getValue());
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#ASTBoolean#getValue()}.
+   */
+  @Test
+  public final void testGetValueFalse() {
+    ASTBoolean node = new ASTBoolean(Type.CONSTANT_FALSE);
+    assertFalse(node.getValue());
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#ASTBoolean#getValue()}.
+   */
+  @Test
+  public final void testGetValueStrictException() {
+    ASTBoolean node = new ASTBoolean();
+    exception.expect(PropertyUndefinedError.class);
+    node.getValue();
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#ASTBoolean#getValue()}.
+   */
+  @Test
+  public final void testGetValueNonStrictException() {
+    ASTBoolean node = new ASTBoolean();
+    node.setStrictness(false);
+    assertFalse(node.getValue());
+  }
 
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isSetType()}.
+   */
+  @Test
+  public final void testIsSetTypeCONSTANT_FALSE() {
+    ASTBoolean node = new ASTBoolean(Type.CONSTANT_FALSE);
+    assertTrue(node.isSetType());
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isSetType()}.
+   */
+  @Test
+  public final void testIsSetTypeCONSTANT_TRUE() {
+    ASTBoolean node = new ASTBoolean(Type.CONSTANT_TRUE);
+    assertTrue(node.isSetType());
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isSetType()}.
+   */
+  @Test
+  public final void testIsSetTypeNull() {
+    ASTBoolean node = new ASTBoolean();
+    assertFalse(node.isSetType());
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isSetType()}.
+   */
+  @Test
+  public final void testIsSetTypeUnknown() {
+    ASTBoolean node = new ASTBoolean(Type.UNKNOWN);
+    assertFalse(node.isSetType());
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#setValue()}.
+   */
+  @Test
+  public final void testSetValueTrue() {
+    ASTBoolean node = new ASTBoolean();
+    node.setValue(true);
+    assertTrue(node.getType() == Type.CONSTANT_TRUE);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#setValue()}.
+   */
+  @Test
+  public final void testSetValueFalse() {
+    ASTBoolean node = new ASTBoolean();
+    node.setValue(false);
+    assertTrue(node.getType() == Type.CONSTANT_FALSE);
+  }
 
 }

@@ -29,7 +29,7 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 /**
- * An Abstract Syntax Tree (AST) node representing power
+ * An Abstract Syntax Tree (AST) node representing the power function
  * 
  * @author Victor Kofia
  * @version $Rev$

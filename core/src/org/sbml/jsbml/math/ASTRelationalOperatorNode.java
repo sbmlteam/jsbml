@@ -58,7 +58,7 @@ public class ASTRelationalOperatorNode extends ASTFunction {
    * {@link Type}.
    */
   public ASTRelationalOperatorNode(Type type) {
-    super();
+    this();
     setType(type);
   }
 

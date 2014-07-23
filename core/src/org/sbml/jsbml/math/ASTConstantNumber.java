@@ -22,10 +22,11 @@
  */
 package org.sbml.jsbml.math;
 
-import org.sbml.jsbml.MathContainer;
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 /**
@@ -45,21 +46,15 @@ public class ASTConstantNumber extends ASTNumber {
   private static final long serialVersionUID = -6872240196225149289L;
   
   /**
-   * This variable stores the value of the constant number
+   * A {@link Logger} for this class.
    */
-  private Double value;
-  
-  /**
-   * Avogadro's number
-   */
-  private final static double avogadro = 6.023e23;
+  private static final Logger logger = Logger.getLogger(ASTConstantNumber.class);
 
   /**
    * Creates a new {@link ASTConstantNumber}.
    */
   public ASTConstantNumber() {
     super();
-    value = null;
   }
   
   /**
@@ -79,7 +74,7 @@ public class ASTConstantNumber extends ASTNumber {
    * @param double value
    */
   public ASTConstantNumber(double value) {
-    super();
+    this();
     setValue(value);
   }
 
@@ -90,22 +85,8 @@ public class ASTConstantNumber extends ASTNumber {
    * @param Type type
    */
   public ASTConstantNumber(Type type) {
-    super();
-    value = null;
+    this();
     setType(type);
-    switch(type) {
-    case CONSTANT_E:
-      setValue(Math.E);
-      break;
-    case CONSTANT_PI:
-      setValue(Math.PI);
-      break;
-    case NAME_AVOGADRO:
-      setValue(avogadro);
-      break;
-    default: // UNKNOWN:
-      break;
-    }
   }
 
   /*
@@ -148,75 +129,73 @@ public class ASTConstantNumber extends ASTNumber {
     }
     return value;
   }
-  /* (non-Javadoc)
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (!super.equals(obj))
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    ASTConstantNumber other = (ASTConstantNumber) obj;
-    if (value == null) {
-      if (other.value != null)
-        return false;
-    } else if (!value.equals(other.value))
-      return false;
-    return true;
-  }
-
+  
   /**
-   * Get the value of this ASTConstantNumber
+   * Get the value of this {@link ASTConstantNumber}
    * 
-   * @return Integer value
+   * @return double value
    */
   public double getValue() {
-    return isSetValue() ? value : Double.NaN;
+    if (isSetType()) {
+      switch(getType()) {
+      case CONSTANT_PI:
+        return Math.PI;
+      case CONSTANT_E:
+        return Math.E;
+      case NAME_AVOGADRO:
+        return 6.023e23;
+      default:
+        break;
+      }
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("value", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return Double.NaN;
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#isSetType()
    */
   @Override
-  public int hashCode() {
-    final int prime = 1583;
-    int result = super.hashCode();
-    result = prime * result + ((value == null) ? 0 : value.hashCode());
-    return result;
-  }
-
-  /**
-   * Returns true iff a value has been set
-   * @param null
-   * @return boolean
-   */
-  public boolean isSetValue() {
-    return value != null;
+  public boolean isSetType() {
+    return type == Type.CONSTANT_E || type == Type.CONSTANT_PI 
+           || type == Type.NAME_AVOGADRO;
   }
 
   /**
    * Set the value of this ASTConstantNumber
    * 
-   * @param Integer value
+   * @param double value
    */
-  public void setValue(double value) {
-    Double old = this.value;
-    this.value = value;
-    firePropertyChange(TreeNodeChangeEvent.value, old, this.value);
+  private void setValue(double value) {
+    switch(Double.compare(value, Math.PI)){
+    case 0:
+      setType(Type.CONSTANT_PI);
+      break;
+    }
+    switch(Double.compare(value, Math.E)){
+    case 0:
+      setType(Type.CONSTANT_E);
+      break;
+    }
+    switch(Double.compare(value, 6.023e23)){
+    case 0:
+      setType(Type.NAME_AVOGADRO);
+      break;
+    }
   }
-
+  
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("ASTConstantNumber [value=");
-    builder.append(value);
-    builder.append(", parentSBMLObject=");
+    builder.append("ASTConstantNumber [parentSBMLObject=");
     builder.append(parentSBMLObject);
     builder.append(", strict=");
     builder.append(strict);

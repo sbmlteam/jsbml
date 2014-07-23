@@ -204,7 +204,7 @@ public class ASTFactory {
    * 
    * @return an {@link ASTLogarithmNode} representing a logarithm to base 10 of the given value.
    */
-  public static ASTLogarithmNode log(ASTNode2 value) {
+  public static ASTBinaryFunctionNode log(ASTNode2 value) {
     return new ASTLogarithmNode(null, value);
 
   }
@@ -223,7 +223,7 @@ public class ASTFactory {
    * @return An {@link ASTNode2} representing the logarithm of the given value
    *         with respect to the given base or to the base 10 if base is {@code null}.
    */
-  public static ASTLogarithmNode log(ASTNode2 base, ASTNode2 value) {
+  public static ASTBinaryFunctionNode log(ASTNode2 base, ASTNode2 value) {
     return new ASTLogarithmNode(base, value);
   }
 

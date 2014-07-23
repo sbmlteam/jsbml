@@ -65,7 +65,7 @@ public class ASTLogicalOperatorNode extends ASTFunction {
    * Creates a new {@link ASTLogicalOperatorNode} of type {@link Type}.
    */
   public ASTLogicalOperatorNode(Type type) {
-    super();
+    this();
     setType(type);
   }
   

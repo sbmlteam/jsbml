@@ -57,7 +57,7 @@ public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
    * @param type
    */
   public ASTHyperbolicNode(Type type) {
-    super();
+    this();
     setType(type);
   }
 

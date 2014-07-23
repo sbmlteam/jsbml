@@ -76,9 +76,8 @@ public class ASTCnIntegerNode extends ASTCnNumberNode<Integer> {
    * Creates a new {@link ASTCnIntegerNode} with value {@link int}.
    */
   public ASTCnIntegerNode(int value) {
-    super();
+    this();
     setInteger(value);
-    setType(Type.INTEGER);
   }
   
   @Override

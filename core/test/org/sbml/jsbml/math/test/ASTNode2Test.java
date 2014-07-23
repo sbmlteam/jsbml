@@ -37,13 +37,14 @@ import org.sbml.jsbml.math.ASTCnIntegerNode;
 import org.sbml.jsbml.math.ASTCnNumberNode;
 import org.sbml.jsbml.math.ASTCnRationalNode;
 import org.sbml.jsbml.math.ASTCnRealNode;
-import org.sbml.jsbml.math.ASTConstantNumber;
 import org.sbml.jsbml.math.ASTFactory;
-import org.sbml.jsbml.math.ASTLogarithmNode;
+import org.sbml.jsbml.math.ASTNode2;
 import org.sbml.jsbml.math.ASTUnaryFunctionNode;
 
 
 /**
+ * Test cases for {@link ASTNode2}
+ * 
  * @author Victor Kofia
  * @version $Rev$
  * @since 1.0
@@ -521,47 +522,6 @@ public class ASTNode2Test {
     exponential.setExponent(10);
     exponential.setMantissa(10);
     assertTrue(exponential.getExponent() == 10);
-  }
-  
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#getType()}.
-   */
-  @Test
-  public void testASTLogarithmNodeDefaultBase10() {
-    ASTLogarithmNode log = new ASTLogarithmNode();
-    assertTrue(log.getType() == Type.FUNCTION_LOG);
-  }
-  
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#getType()}.
-   */
-  @Test
-  public void testASTLogarithmNodeDefaultBase10wChild() {
-    ASTLogarithmNode log = new ASTLogarithmNode(new ASTCnIntegerNode(10));
-    assertTrue(log.getType() == Type.FUNCTION_LOG);
-  }
-  
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#getType()}.
-   */
-  @Test
-  public void testASTLogarithmNodeNaturalLog() {
-    ASTConstantNumber e = new ASTConstantNumber(Type.CONSTANT_E);
-    ASTCnIntegerNode one = new ASTCnIntegerNode(1);
-    ASTLogarithmNode ln = new ASTLogarithmNode(e, one);
-    assertTrue(ln.getType() == Type.FUNCTION_LN);
-  }
-  
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#setType()}.
-   */
-  @Test
-  public void testASTLogarithmNodeNaturalLogReplace() {
-    ASTCnIntegerNode one = new ASTCnIntegerNode(1);
-    ASTLogarithmNode ln = new ASTLogarithmNode(one);
-    ASTConstantNumber e = new ASTConstantNumber(Type.CONSTANT_E);
-    ln.replaceChild(0, e);
-    assertTrue(ln.getType() == Type.FUNCTION_LN);
   }
     
 }

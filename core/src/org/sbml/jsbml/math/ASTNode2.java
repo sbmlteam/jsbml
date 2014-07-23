@@ -84,7 +84,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
   public String getMathMLClass();
 
   /**
-   * Sets the parentSBMLObject to container recursively
+   * Return the parentSBMLObject of this {@link ASTNode2}
    * 
    * @return MathContainer container
    */
@@ -134,6 +134,13 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
   public boolean isSetStyle();
   
   /**
+   * Returns true iff type has been set
+   * 
+   * @return boolean
+   */
+  public boolean isSetType();
+  
+  /**
    * Specifies strictness. When true, ASTUnaryFunction and ASTBinaryFunction
    * nodes can only contain the specified # of children. When false, there is
    * a bit of leeway (i.e. ASTUnaryFunction can contain more than one child)
@@ -170,14 +177,14 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    * @param MathContainer container
    */
   public void setParentSBMLObject(MathContainer container);
-  
+
   /**
    * Set the style of this node
    * 
    * @param style the style to set
    */
   public void setStyle(String style);
-
+  
   /**
    * Sets the type from a String. This method accepts all the supported mathML
    * elements, the possible types of cn elements or the possible definitionURL
@@ -239,7 +246,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
   
   @Override
   public String toString();
-  
+
   /**
    * Unsets the parentSBMLObject to null recursively.
    * 

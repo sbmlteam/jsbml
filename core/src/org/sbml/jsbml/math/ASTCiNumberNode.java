@@ -90,8 +90,12 @@ ASTCSymbolBaseNode {
    */
   public ASTCiNumberNode(ASTCiNumberNode node) {
     super(node);
-    setDefinitionURL(node.getDefinitionURL());
-    setRefId(node.getRefId());
+    if (node.isSetDefinitionURL()) {
+      setDefinitionURL(node.getDefinitionURL());      
+    }
+    if (node.isSetRefId()) {
+      setRefId(node.getRefId());      
+    }
   }
 
   /*

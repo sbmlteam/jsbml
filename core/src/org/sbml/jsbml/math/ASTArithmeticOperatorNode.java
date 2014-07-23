@@ -79,7 +79,7 @@ public class ASTArithmeticOperatorNode extends ASTFunction {
    * {@link Type}.
    */
   public ASTArithmeticOperatorNode(Type type) {
-    super();
+    this();
     setType(type);
   }
 
@@ -88,7 +88,7 @@ public class ASTArithmeticOperatorNode extends ASTFunction {
    * {@link Type} and container {@link MathContainer}.
    */
   public ASTArithmeticOperatorNode(Type type, MathContainer container) {
-    super(container);
+    this(container);
     setType(type);
   }
 

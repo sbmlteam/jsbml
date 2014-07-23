@@ -24,8 +24,10 @@ package org.sbml.jsbml.math;
 
 import javax.swing.tree.TreeNode;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
@@ -39,11 +41,20 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
  * @date Jul 18, 2014
  */
 public class ASTBoolean extends AbstractASTNode {
-  
+
   /**
    * 
    */
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 7734825161484457512L;
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final Logger logger = Logger.getLogger(ASTBoolean.class);
+  
+  public ASTBoolean() {
+    super();
+  }
 
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTBoolean}.
@@ -59,7 +70,7 @@ public class ASTBoolean extends AbstractASTNode {
    * Creates a new {@link ASTBoolean}.
    */
   public ASTBoolean(Type type) {
-    super();
+    this();
     setType(type);
   }
 
@@ -67,7 +78,7 @@ public class ASTBoolean extends AbstractASTNode {
    * @see org.sbml.jsbml.AbstractTreeNode#clone()
    */
   @Override
-  public TreeNode clone() {
+  public ASTBoolean clone() {
     return new ASTBoolean(this);
   }
   
@@ -119,6 +130,41 @@ public class ASTBoolean extends AbstractASTNode {
   @Override
   public int getChildCount() {
     return 0;
+  }
+  
+  /**
+   * Get the value of this {@link ASTBoolean}
+   * 
+   * @return bool
+   */
+  public boolean getValue() {
+    if (isSetType()) {
+      return getType() == Type.CONSTANT_TRUE;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("boolean", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return false;
+  }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#isSetType()
+   */
+  @Override
+  public boolean isSetType() {
+    return type == Type.CONSTANT_TRUE || type == Type.CONSTANT_FALSE;
+  }
+  
+  /**
+   * Set the value of this {@link ASTBoolean}
+   * 
+   * @param bool
+   */
+  public void setValue(boolean bool) {
+    setType(bool ? Type.CONSTANT_TRUE : Type.CONSTANT_FALSE);
   }
   
 }

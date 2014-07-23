@@ -55,7 +55,7 @@ public abstract class ASTNumber extends AbstractASTNode {
    *            the {@link ASTNumber} to be copied.
    */
   public ASTNumber(ASTNumber astNumber) {
-    super();
+    super(astNumber);
   }
 
   /*

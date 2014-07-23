@@ -82,7 +82,9 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
   public ASTPiecewiseFunctionNode(ASTPiecewiseFunctionNode node) {
     super(node);
     hasOtherwise = node.hasOtherwise();
-    setNumPiece(node.getNumPiece());
+    if (node.isSetNumPiece()) {
+        setNumPiece(node.getNumPiece());
+    }
   }
   
   /*
@@ -138,7 +140,7 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
    * @return Integer numPiece
    */
   public int getNumPiece() {
-    if (isSetNumpiece()) {
+    if (isSetNumPiece()) {
       return numPiece;
     }
     PropertyUndefinedError error = new PropertyUndefinedError("piecewise", this);
@@ -175,7 +177,7 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
    * 
    * @return boolean
    */
-  private boolean isSetNumpiece() {
+  private boolean isSetNumPiece() {
     return numPiece != null;
   }
 

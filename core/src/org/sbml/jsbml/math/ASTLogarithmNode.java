@@ -76,10 +76,8 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
    * @param value {@link ASTNode2} - must not be {@code null}
    */
   public ASTLogarithmNode(ASTNode2 value) {
-    super();
-    addChild(new ASTCnIntegerNode(10));
+    this();
     addChild(value);
-    setType(Type.FUNCTION_LOG);
   }
 
   /**
@@ -91,15 +89,11 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
    * @param value {@link ASTNode2} - must not be {@code null}
    */
   public ASTLogarithmNode(ASTNode2 base, ASTNode2 value) {
-    super();
-    if (base == null) {
-      setType(Type.FUNCTION_LOG);
-    } else {
+    this();
+    if (base != null) {
       addChild(base);
       if (base.getType() == Type.CONSTANT_E) {
         setType(Type.FUNCTION_LN);
-      } else {
-        setType(Type.FUNCTION_LOG);
       }
     }
     addChild(value);
@@ -163,6 +157,27 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
     return value;
   }
   
+  /**
+   * Return the base of this {@link ASTLogarithmNode}
+   * 
+   * @return base {@link ASTNode2}
+   */
+  public ASTNode2 getBase() {
+    if (getChildCount() > 1) {
+      return getLeftChild();
+    }
+    return getType() == Type.FUNCTION_LOG ? new ASTCnIntegerNode(10) : getLeftChild();
+  }
+  
+  /**
+   * Return the value of this {@link ASTLogarithmNode}
+   * 
+   * @return value {@link ASTNode2}
+   */
+  public ASTNode2 getValue() {
+    return getRightChild();
+  }
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTBinaryFunctionNode#insertChild(int, org.sbml.jsbml.math.ASTNode2)
@@ -183,6 +198,41 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
     }
   }
   
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTBinaryFunctionNode#isSetLeftChild()
+   */
+  @Override
+  public boolean isSetLeftChild() {
+    switch(getType()) {
+    case FUNCTION_LOG:
+      return true;
+    default:
+      return getChildCount() > 0;
+    }
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTBinaryFunctionNode#isSetRightChild()
+   */
+  @Override
+  public boolean isSetRightChild() {
+    switch(getType()) {
+    case FUNCTION_LOG:
+      return getChildCount() > 0;
+    default:
+      return getChildCount() > 1;
+    }
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTBinaryFunctionNode#setLeftChild(org.sbml.jsbml.math.ASTNode2)
+   */
+  @Override
+  public void setLeftChild(ASTNode2 child) {
+    super.setLeftChild(child);
+    setType(child.getType() == Type.CONSTANT_E ? Type.FUNCTION_LN : Type.FUNCTION_LOG);      
+  }
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
@@ -208,6 +258,5 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
     builder.append("]");
     return builder.toString();
   }
-
 
 }

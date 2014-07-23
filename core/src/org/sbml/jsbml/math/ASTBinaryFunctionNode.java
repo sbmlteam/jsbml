@@ -72,7 +72,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
    * children.
    */
   public ASTBinaryFunctionNode(ASTNode2 leftChild, ASTNode2 rightChild) {
-    super();
+    this();
     addChild(leftChild);
     addChild(rightChild);
   }
@@ -127,7 +127,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
   }
 
   /**
-   * Get the left child of this node
+   * Get the left child of this {@link ASTBinaryFunctionNode}
    * 
    * @return {@link ASTNode2} leftChild
    */
@@ -136,7 +136,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
   }
 
   /**
-   * Get the right child of this node
+   * Get the right child of this {@link ASTBinaryFunctionNode}
    * 
    * @return {@link ASTNode2} rightChild
    */
@@ -176,6 +176,24 @@ public class ASTBinaryFunctionNode extends ASTFunction {
     newChild.setParent(this);
   }
 
+  /**
+   * Return true iff left child has been set
+   * 
+   * @return boolean
+   */
+  public boolean isSetLeftChild() {
+    return getChildCount() > 0;
+  }
+  
+  /**
+   * Return true iff right child has been set
+   * 
+   * @return boolean
+   */
+  public boolean isSetRightChild() {
+    return getChildCount() > 1;
+  }
+  
   /**
    * Adds the given node as a child of this {@link ASTBinaryFunctionNode}. 
    * This method adds child nodes from right to left.
@@ -221,6 +239,32 @@ public class ASTBinaryFunctionNode extends ASTFunction {
       return true;
     }
     return false;
+  }
+
+  /**
+   * Set the left child of this {@link ASTBinaryFunctionNode}
+   * 
+   * @param child {@link ASTNode2}
+   */
+  public void setLeftChild(ASTNode2 child) {
+    if (isSetLeftChild()) {
+      replaceChild(0, child);
+      return;
+    }
+    addChild(child);
+  }
+
+  /**
+   * Set the right child of this {@link ASTBinaryFunctionNode}
+   * 
+   * @param child {@link ASTNode2}
+   */
+  public void setRightChild(ASTNode2 child) {
+    if (isSetRightChild()) {
+      replaceChild(getChildCount() - 1, child);
+      return;
+    }
+    addChild(child);
   }
   
   /**

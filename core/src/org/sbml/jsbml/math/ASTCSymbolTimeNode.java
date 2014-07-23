@@ -93,8 +93,12 @@ implements ASTCSymbolNode {
    */
   public ASTCSymbolTimeNode(ASTCSymbolTimeNode node) {
     super(node);
-    setDefinitionURL(node.getDefinitionURL());
-    setEncodingURL(node.getEncodingURL());
+    if (node.isSetDefinitionURL()) {
+      setDefinitionURL(node.getDefinitionURL());
+    }
+    if (node.isSetEncodingURL()) {
+      setEncodingURL(node.getEncodingURL());      
+    }
   }
   
   /*

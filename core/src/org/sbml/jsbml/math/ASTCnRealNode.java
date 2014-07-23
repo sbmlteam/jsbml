@@ -71,9 +71,8 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
    * specified real value {@link double}.
    */
   public ASTCnRealNode(double value) {
-    super();
+    this();
     setReal(value);
-    setType(Type.REAL);
   }
   
   /*

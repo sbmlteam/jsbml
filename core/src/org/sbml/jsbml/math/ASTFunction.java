@@ -113,19 +113,21 @@ public class ASTFunction extends AbstractASTNode {
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTFunction}.
    * 
-   * @param astFunction
+   * @param other
    *            the {@link ASTFunction} to be copied.
    */
-  public ASTFunction(ASTFunction astFunction) {
-    super(astFunction);
-    setName(astFunction.getName());
+  public ASTFunction(ASTFunction other) {
+    super(other);
+    if (other.isSetName()) {
+      setName(other.getName());    
+    }
     initDefaults();
-    if (astFunction.getChildCount() > 0) {
+    if (other.getChildCount() > 0) {
       if (!isSetList()) {
         listOfNodes = new ArrayList<ASTNode2>();
       } else {
-        for (int i = listOfNodes.size() - 1; i >= 0; i--) {
-          ASTNode2 child = listOfNodes.get(i);
+        for (int i = 0; i < other.getChildCount(); i++) {
+          ASTNode2 child = other.getListOfNodes().get(i);
           ASTNode2 c = (ASTNode2) child.clone();
           c.setParent(this);
           listOfNodes.add(c);
@@ -190,6 +192,11 @@ public class ASTFunction extends AbstractASTNode {
       if (other.listOfNodes != null)
         return false;
     } else if (!listOfNodes.equals(other.listOfNodes))
+      return false;
+    if (name == null) {
+      if (other.name != null)
+        return false;
+    } else if (!name.equals(other.name))
       return false;
     if (parentSBMLObject == null) {
       if (other.parentSBMLObject != null)
@@ -300,10 +307,11 @@ public class ASTFunction extends AbstractASTNode {
    */
   @Override
   public int hashCode() {
-    final int prime = 1259;
+    final int prime = 31;
     int result = super.hashCode();
     result = prime * result
       + ((listOfNodes == null) ? 0 : listOfNodes.hashCode());
+    result = prime * result + ((name == null) ? 0 : name.hashCode());
     result = prime * result
       + ((parentSBMLObject == null) ? 0 : parentSBMLObject.hashCode());
     return result;
@@ -455,12 +463,9 @@ public class ASTFunction extends AbstractASTNode {
     }
     // Removing the node at position n
     ASTNode2 child = null;
-    try {
-      child = getChildAt(n);
-      removeChild(n);
-    } catch (IndexOutOfBoundsException e) {
-      logger.warn("Child to be replaced is non-existent. Regular insertion performed.");
-    }
+    child = getChildAt(n);
+    removeChild(n);
+
     // Adding the new child at position n
     insertChild(n, newChild);
     // Return removed child

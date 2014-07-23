@@ -58,7 +58,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
   private static transient final Logger logger = Logger.getLogger(AbstractASTNode.class);
 
   /**
-   * The container that holds this AbstractASTNode.
+   * The container that holds this { AbstractASTNode.
    */
   protected MathContainer parentSBMLObject;
 
@@ -111,11 +111,21 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    */
   public AbstractASTNode(ASTNode2 ast) {
     super(ast);
-    setId(ast.getId());
-    setStyle(ast.getStyle());
-    setMathMLClass(ast.getMathMLClass());
-    setType(ast.getType());
-    setParentSBMLObject(ast.getParentSBMLObject());
+    if (ast.isSetId()) {
+      setId(ast.getId());
+    }
+    if (ast.isSetStyle()) {
+      setStyle(ast.getStyle());
+    }
+    if (ast.isSetMathMLClass()) {
+      setMathMLClass(ast.getMathMLClass());
+    }
+    if (ast.isSetType()) {
+      setType(ast.getType());
+    }
+    if (ast.isSetParentSBMLObject()) {
+      setParentSBMLObject(ast.getParentSBMLObject());      
+    }
     setStrictness(ast.isStrict());
   }
 
@@ -124,11 +134,8 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    * to the specified {@link MathContainer}.
    */
   public AbstractASTNode(MathContainer container) {
-    super();
-    setId(null);
-    setType(Type.UNKNOWN);
+    this();
     setParentSBMLObject(container);
-    setStrictness(true);
   }
 
   /* (non-Javadoc)
@@ -225,7 +232,15 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    */
   @Override
   public MathContainer getParentSBMLObject() {
-    return parentSBMLObject;
+    if (isSetParentSBMLObject()) {
+      return parentSBMLObject;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("parentSBMLObject", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return null;
   }
   
   /*
@@ -250,7 +265,15 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    */
   @Override
   public Type getType() {
+    if (isSetType()) {
       return type;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("type", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return null;
   }
 
   /* (non-Javadoc)
@@ -295,7 +318,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    */
   @Override
   public boolean isSetParentSBMLObject() {
-    return id != null;
+    return parentSBMLObject != null;
   }
 
   /*
@@ -305,6 +328,15 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
   @Override
   public boolean isSetStyle() {
     return style != null;
+  }
+  
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#isSetType()
+   */
+  @Override
+  public boolean isSetType() {
+    return type != null;
   }
   
   /*
@@ -402,7 +434,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    */
   @Override
   public void setType(Type type) {
-    Type oldValue = getType();
+    Type oldValue = this.type;
     this.type = type;
     firePropertyChange(TreeNodeChangeEvent.type, oldValue, type);
   }
