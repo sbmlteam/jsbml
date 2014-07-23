@@ -74,7 +74,7 @@ public class LayoutConverter {
     cGlyph.createBoundingBox(pCompartment.getWidth(), pCompartment.getHeight(), depth, pCompartment.getX(), pCompartment.getY(), z);
 
     TextGlyph tGlyph = layout.createTextGlyph("tGlyph_" + pCompartment.getId());
-    BoundingBox bBox  =  tGlyph.createBoundingBox();
+    BoundingBox bBox  =  tGlyph.createBoundingBox(pCompartment.getName().length()*5,10,depth);
     bBox.createPosition(pCompartment.getNamePositionX(), pCompartment.getNamePositionY(), z);
     tGlyph.setOriginOfText(pCompartment.getId());
   }
@@ -86,14 +86,14 @@ public class LayoutConverter {
    */
   public static void extractLayout(PluginSpeciesAlias pSpeciesAlias, Layout layout)
   {
-    SpeciesGlyph sGlyph = layout.createSpeciesGlyph("sGlyph_" + pSpeciesAlias.getAliasID());
+    SpeciesGlyph sGlyph = layout.createSpeciesGlyph("sGlyph_" + pSpeciesAlias.getSpecies().getId());
     sGlyph.createBoundingBox(pSpeciesAlias.getWidth(), pSpeciesAlias.getHeight(), depth, pSpeciesAlias.getX(), pSpeciesAlias.getY(), z);
 
-    TextGlyph tGlyph = layout.createTextGlyph("tGlyph_" + pSpeciesAlias.getAliasID());
+    TextGlyph tGlyph = layout.createTextGlyph("tGlyph_" + pSpeciesAlias.getSpecies().getId());
     BoundingBox bBox  =  tGlyph.createBoundingBox(pSpeciesAlias.getWidth(), pSpeciesAlias.getHeight(), depth);
     //setting textGlyph position at center of speciesGlyph
     bBox.createPosition(pSpeciesAlias.getX()+pSpeciesAlias.getWidth()/2, pSpeciesAlias.getY()+pSpeciesAlias.getHeight()/2, z);
-    tGlyph.setOriginOfText(pSpeciesAlias.getAliasID());
+    tGlyph.setOriginOfText(pSpeciesAlias.getSpecies().getId());
   }
 
   /**
@@ -249,8 +249,6 @@ public class LayoutConverter {
         //reactions with only a start and end point
         else if (mainReactionAxis.size()==2 && inputInfo.getPointsInLine().size()==1)
         {
-          LineSegment productSegment = new LineSegment();
-          LineSegment rGlyphSegment = new LineSegment();
           Point2D.Double coordinatesReactant = (Point2D.Double) mainReactionAxis.get(0);
           Point2D.Double coordinatesProduct = (Point2D.Double) mainReactionAxis.get(1);
           int modifier=0;
@@ -263,26 +261,31 @@ public class LayoutConverter {
           reactantSegment.setStart(new Point(coordinatesReactant.x, coordinatesReactant.y, z));
           reactantSegment.setEnd(new Point((coordinatesReactant.x+coordinatesProduct.x)/2-modifier,
             (coordinatesReactant.y+coordinatesProduct.y)/2, z));
-          // JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea("reactants: "+reactantSegment.getStart().getElementName()+"\n"
-          // +reactantSegment.getEnd().getElementName())));
+          Point reactionGlyphStart = new Point(reactantSegment.getEnd());
+
+          LineSegment productSegment = new LineSegment();
           productSegment.setStart(new Point((coordinatesReactant.x+coordinatesProduct.x)/2+modifier,
             (coordinatesReactant.y+coordinatesProduct.y)/2, z));
           productSegment.setEnd(new Point(coordinatesProduct.x, coordinatesProduct.y, z));
+          Point reactionGlyphEnd = new Point(productSegment.getStart());
 
           //srGlyph will be first reactant
           srGlyph = list.get("srGlyphReactant_"+pReaction.getId()+"_"+pReaction.getReactant(0).getSpeciesInstance().getId());
           curve = new Curve();
           curve.addCurveSegment(reactantSegment);
           srGlyph.setCurve(curve);
+
           //srGlyph will be first product
           srGlyph = list.get("srGlyphProduct_"+pReaction.getId()+"_"+pReaction.getProduct(0).getSpeciesInstance().getId());
           curve = new Curve();
           curve.addCurveSegment(productSegment);
           srGlyph.setCurve(curve);
+
           //curve will now describe ReactionGlyph
           curve = new Curve();
-          rGlyphSegment.setStart(reactantSegment.getEnd());
-          rGlyphSegment.setEnd(productSegment.getStart());
+          LineSegment rGlyphSegment = new LineSegment();
+          rGlyphSegment.setStart(reactionGlyphStart);
+          rGlyphSegment.setEnd(reactionGlyphEnd);
           curve.addCurveSegment(rGlyphSegment);
           layout.getReactionGlyph("rGlyph_"+pReaction.getId()).setCurve(curve);
         }

@@ -26,6 +26,7 @@ import static org.sbml.jsbml.celldesigner.CellDesignerConstants.LINK_TO_CELLDESI
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.stream.XMLStreamException;
@@ -47,6 +48,7 @@ import jp.sbi.celldesigner.plugin.PluginParameter;
 import jp.sbi.celldesigner.plugin.PluginRateRule;
 import jp.sbi.celldesigner.plugin.PluginReaction;
 import jp.sbi.celldesigner.plugin.PluginRule;
+import jp.sbi.celldesigner.plugin.PluginSBase;
 import jp.sbi.celldesigner.plugin.PluginSpecies;
 import jp.sbi.celldesigner.plugin.PluginSpeciesAlias;
 import jp.sbi.celldesigner.plugin.PluginSpeciesReference;
@@ -79,6 +81,7 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLInputConverter;
 import org.sbml.jsbml.SBO;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.SpeciesType;
@@ -138,6 +141,10 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   private Model model;
 
   /**
+   * 
+   */
+  private Map<PluginSBase,SBase> mapOfSBases;
+  /**
    *
    */
   private Set<Integer> possibleEnzymes;
@@ -147,6 +154,15 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    */
   public Set<Integer> getPossibleEnzymes() {
     return possibleEnzymes;
+  }
+
+  /**
+   * 
+   * @return the mapping between PluginSBases and SBases
+   */
+  public Map<PluginSBase,SBase> getSBaseMappings()
+  {
+    return mapOfSBases;
   }
 
   /**
@@ -437,7 +453,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
       RenderLayoutPlugin renderPlugin = new RenderLayoutPlugin(layout);
       renderPlugin.addLocalRenderInformation(new LocalRenderInformation(model.getLevel(), model.getVersion()));
       model.addExtension(layoutNamespace, modelPlugin);
-      model.addExtension(renderNamespace, renderPlugin);
+      layout.addExtension(renderNamespace, renderPlugin);
 
       PluginUtils.transferNamedSBaseProperties(originalModel, model);
       if (listener != null) {

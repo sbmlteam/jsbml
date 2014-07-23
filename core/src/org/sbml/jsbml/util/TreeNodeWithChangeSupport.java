@@ -260,6 +260,8 @@ Serializable {
    */
   public void removeAllTreeNodeChangeListeners();
 
+  public void removeAllTreeNodeChangeListeners(boolean recursive);
+
   /**
    * Removes itself from its parent. This will remove the element from its
    * parent and remove the pointer from the element to its parent. If the
@@ -310,5 +312,13 @@ Serializable {
    * @see Map#keySet()
    */
   public abstract Set<Object> userObjectKeySet();
+
+  /**
+   * @param listeners
+   * @param recursive
+   * @return
+   */
+  public boolean addAllChangeListeners(
+    Collection<TreeNodeChangeListener> listeners, boolean recursive);
 
 }

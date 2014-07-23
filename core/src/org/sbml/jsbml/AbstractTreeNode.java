@@ -178,13 +178,26 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
   @Override
   public boolean addAllChangeListeners(
     Collection<TreeNodeChangeListener> listeners) {
+
+    return addAllChangeListeners(listeners, true);
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#addAllChangeListeners(java.util.Collection, boolean)
+   */
+  @Override
+  public boolean addAllChangeListeners(
+    Collection<TreeNodeChangeListener> listeners, boolean recursive) {
     boolean success = listOfListeners.addAll(listeners);
-    Enumeration<TreeNode> children = children();
-    while (children.hasMoreElements()) {
-      TreeNode node = children.nextElement();
-      if (node instanceof TreeNodeWithChangeSupport) {
-        success &= ((TreeNodeWithChangeSupport) node)
-            .addAllChangeListeners(listeners);
+    if (recursive) {
+      Enumeration<TreeNode> children = children();
+      while (children.hasMoreElements()) {
+        TreeNode node = children.nextElement();
+        if (node instanceof TreeNodeWithChangeSupport) {
+          success &= ((TreeNodeWithChangeSupport) node)
+              .addAllChangeListeners(listeners, recursive);
+        }
       }
     }
     return success;
@@ -226,7 +239,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
       /**
        * Total number of children in this enumeration.
        */
-      private int childCount = getChildCount();
+      private final int childCount = getChildCount();
       /**
        * Current position in the list of children.
        */
@@ -702,6 +715,23 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
   }
 
   /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeAllTreeNodeChangeListeners(boolean)
+   */
+  @Override
+  public void removeAllTreeNodeChangeListeners(boolean recursive) {
+    removeAllTreeNodeChangeListeners();
+    if (recursive) {
+      Enumeration<TreeNode> children = children();
+      while (children.hasMoreElements()) {
+        TreeNode node = children.nextElement();
+        if (node instanceof TreeNodeWithChangeSupport) {
+          ((TreeNodeWithChangeSupport) node).removeAllTreeNodeChangeListeners(recursive);
+        }
+      }
+    }
+  }
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#removeTreeNodeChangeListener(org.sbml.jsbml.util.TreeNodeChangeListener, boolean)
    */
   @Override
@@ -712,7 +742,7 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
       while (children.hasMoreElements()) {
         TreeNode node = children.nextElement();
         if (node instanceof TreeNodeWithChangeSupport) {
-          ((TreeNodeWithChangeSupport) node).removeTreeNodeChangeListener(listener);
+          ((TreeNodeWithChangeSupport) node).removeTreeNodeChangeListener(listener, recursive);
         }
       }
     }
