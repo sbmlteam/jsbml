@@ -93,6 +93,9 @@ Version 1.0-beta2 (xx-xx-2014)
     method.
     
   - ASTNode threw a NullPointerException when trying to un-set its variable.
+  
+  - AbstractTreeNode recursive method removeTreeNodeChangeListener(TreeNodeChangeListener, boolean)
+    was not actually recursive.
 
 
 ======================================================================
