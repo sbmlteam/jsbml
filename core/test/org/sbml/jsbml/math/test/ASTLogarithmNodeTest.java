@@ -81,7 +81,7 @@ public class ASTLogarithmNodeTest {
    * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#getType()}.
    */
   @Test
-  public void testDefaultBase10() {
+  public final void testDefaultBase10() {
     ASTBinaryFunctionNode log = new ASTLogarithmNode();
     assertTrue(log.getType() == Type.FUNCTION_LOG);
   }
@@ -90,7 +90,7 @@ public class ASTLogarithmNodeTest {
    * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#getType()}.
    */
   @Test
-  public void testDefaultBase10wChild() {
+  public final void testDefaultBase10wChild() {
     ASTBinaryFunctionNode log = new ASTLogarithmNode(new ASTCnIntegerNode(10));
     assertTrue(log.getType() == Type.FUNCTION_LOG);
   }
@@ -99,7 +99,7 @@ public class ASTLogarithmNodeTest {
    * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#getType()}.
    */
   @Test
-  public void testDefaultBase10wSetLeftChild() {
+  public final void testDefaultBase10wSetLeftChild() {
     ASTConstantNumber e = new ASTConstantNumber(Type.CONSTANT_E);
     ASTCnIntegerNode one = new ASTCnIntegerNode(1);
     ASTBinaryFunctionNode log = new ASTLogarithmNode(e, one);
@@ -171,7 +171,7 @@ public class ASTLogarithmNodeTest {
    * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#setType()}.
    */
   @Test
-  public void testNaturalLogReplace() {
+  public final void testNaturalLogReplace() {
     ASTCnIntegerNode one = new ASTCnIntegerNode(1);
     ASTBinaryFunctionNode ln = new ASTLogarithmNode(one);
     ASTConstantNumber e = new ASTConstantNumber(Type.CONSTANT_E);
@@ -183,7 +183,7 @@ public class ASTLogarithmNodeTest {
    * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#getType()}.
    */
   @Test
-  public void testNaturalLogWithConstructor() {
+  public final void testNaturalLogWithConstructor() {
     ASTConstantNumber e = new ASTConstantNumber(Type.CONSTANT_E);
     ASTCnIntegerNode one = new ASTCnIntegerNode(1);
     ASTBinaryFunctionNode ln = new ASTLogarithmNode(e, one);
@@ -194,7 +194,7 @@ public class ASTLogarithmNodeTest {
    * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#getType()}.
    */
   @Test
-  public void testNaturalLogWithSetLeftChild() {
+  public final void testNaturalLogWithSetLeftChild() {
     ASTConstantNumber e = new ASTConstantNumber(Type.CONSTANT_E);
     ASTCnIntegerNode one = new ASTCnIntegerNode(1);
     ASTBinaryFunctionNode ln = new ASTLogarithmNode(one);

@@ -72,8 +72,8 @@ public class ASTCnNumberNode<T> extends ASTNumber {
   public ASTCnNumberNode() {
     super();
     number = null;
-    setUnits(null);
-    setVariable(null);
+    units = null;
+    variable = null;
   }
   
   /**
@@ -89,6 +89,9 @@ public class ASTCnNumberNode<T> extends ASTNumber {
     }
     if (node.isSetUnits()) {
       setUnits(node.getUnits());      
+    }
+    if (node.isSetVariable()) {
+      setVariable(node.getVariable());
     }
   }
 

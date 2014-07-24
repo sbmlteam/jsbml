@@ -103,7 +103,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
     style = null;
     mathMLClass = null;
     parentSBMLObject = null;
-    strict = false;
+    strict = true;
   }
   
   /**
@@ -403,7 +403,6 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    * Set the strictness of this node
    * 
    * @param boolean strict
-   * @return null
    */
   public void setStrictness(boolean strict) {
     this.strict = strict;
