@@ -65,7 +65,9 @@ public class ASTConstantNumber extends ASTNumber {
    */
   public ASTConstantNumber(ASTConstantNumber node) {
     super(node);
-    setValue(node.getValue());
+    if (node.isSetValue()) {
+      setValue(node.getValue());      
+    }
   }
   
   /**
@@ -155,7 +157,7 @@ public class ASTConstantNumber extends ASTNumber {
     logger.warn(error);
     return Double.NaN;
   }
-
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.AbstractASTNode#isSetType()
@@ -167,25 +169,34 @@ public class ASTConstantNumber extends ASTNumber {
   }
 
   /**
+   * Returns true iff value has been set
+   * 
+   * @return boolean
+   */
+  private boolean isSetValue() {
+    return isSetType();
+  }
+
+  /**
    * Set the value of this ASTConstantNumber
    * 
    * @param double value
    */
-  private void setValue(double value) {
+  public void setValue(double value) {
     switch(Double.compare(value, Math.PI)){
     case 0:
       setType(Type.CONSTANT_PI);
-      break;
+      return;
     }
     switch(Double.compare(value, Math.E)){
     case 0:
       setType(Type.CONSTANT_E);
-      break;
+      return;
     }
     switch(Double.compare(value, 6.023e23)){
     case 0:
       setType(Type.NAME_AVOGADRO);
-      break;
+      return;
     }
   }
   

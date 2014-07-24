@@ -98,10 +98,12 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    */
   public AbstractASTNode() {
     super();
-    setId(null);
-    setType(Type.UNKNOWN);
-    setParentSBMLObject(null);
-    setStrictness(true);
+    id = null;
+    type = null;
+    style = null;
+    mathMLClass = null;
+    parentSBMLObject = null;
+    strict = false;
   }
   
   /**
@@ -281,7 +283,7 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    */
   @Override
   public int hashCode() {
-    final int prime = 1879;
+    final int prime = 31;
     int result = super.hashCode();
     result = prime * result + ((id == null) ? 0 : id.hashCode());
     result = prime * result
