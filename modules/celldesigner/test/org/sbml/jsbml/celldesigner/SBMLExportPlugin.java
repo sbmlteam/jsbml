@@ -79,6 +79,7 @@ public class SBMLExportPlugin extends AbstractCellDesignerPlugin  {
     SBMLVisualizer.addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosed(WindowEvent e) {
+        getReader().clearMap();
         setStarted(false);
       }
     });

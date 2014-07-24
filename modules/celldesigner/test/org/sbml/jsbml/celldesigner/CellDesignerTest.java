@@ -100,6 +100,10 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
       PluginReaction pReaction = (PluginReaction) sbase;
       propertyChangeVis.addSBase(pReaction.getId());
     }
+    else
+    {
+      propertyChangeVis.addSBase(sbase.toString());
+    }
   }
 
   /* (non-Javadoc)
@@ -111,6 +115,10 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
     {
       PluginModel pModel = (PluginModel) sbase;
       propertyChangeVis.modelSelectChanged(pModel.getId());
+    }
+    else
+    {
+      propertyChangeVis.addSBase(sbase.toString());
     }
   }
 
@@ -144,6 +152,10 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
       PluginReaction pReaction = (PluginReaction) sbase;
       propertyChangeVis.changeSBase(pReaction.getId());
     }
+    else
+    {
+      propertyChangeVis.addSBase(sbase.toString());
+    }
   }
 
   @Override
@@ -153,6 +165,10 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
       PluginModel pModel = (PluginModel) sbase;
       propertyChangeVis.modelClosed(pModel.getId());
     }
+    else
+    {
+      propertyChangeVis.addSBase(sbase.toString());
+    }
   }
 
   @Override
@@ -161,6 +177,10 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
     {
       PluginModel pModel = (PluginModel) sbase;
       propertyChangeVis.modelOpened(pModel.getId());
+    }
+    else
+    {
+      propertyChangeVis.addSBase(sbase.toString());
     }
   }
 
@@ -191,6 +211,10 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
       PluginReaction pReaction = (PluginReaction) sbase;
       propertyChangeVis.deleteSBase(pReaction.getId());
     }
+    else
+    {
+      propertyChangeVis.addSBase(sbase.toString());
+    }
   }
 
   @Override
@@ -201,6 +225,7 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
       @Override
       public void windowClosed(WindowEvent e) {
         setStarted(false);
+        getReader().clearMap();
       }
     });
   }
