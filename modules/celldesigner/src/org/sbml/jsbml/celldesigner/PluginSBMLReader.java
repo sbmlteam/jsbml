@@ -24,6 +24,7 @@ package org.sbml.jsbml.celldesigner;
 import static org.sbml.jsbml.celldesigner.CellDesignerConstants.LINK_TO_CELLDESIGNER;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -143,7 +144,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   /**
    * 
    */
-  private Map<PluginSBase,SBase> mapOfSBases;
+  private final Map<PluginSBase,Set<SBase>> mapOfSBases = new HashMap<PluginSBase,Set<SBase>>();
   /**
    *
    */
@@ -160,9 +161,17 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    * @return the mapping between PluginSBases and SBases
    */
-  public Map<PluginSBase,SBase> getSBaseMappings()
+  public Map<PluginSBase,Set<SBase>> getPluginSBase_SBaseMappings()
   {
     return mapOfSBases;
+  }
+
+  /**
+   * clears the Map
+   */
+  public void clearMap()
+  {
+    mapOfSBases.clear();
   }
 
   /**

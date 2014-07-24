@@ -70,17 +70,18 @@ public class SimpleCellDesignerPlugin extends AbstractCellDesignerPlugin {
 
   @Override
   public void run() {
-    SBMLDocument doc = getSBMLDocument();
-    doc.getModel().unsetExtension("layout");
-    doc.getModel().unsetExtension("render");
-    doc.getSBMLDocumentAttributes().remove(LayoutConstants.shortLabel + ":required");
-    doc.getSBMLDocumentAttributes().remove(RenderConstants.shortLabel + ":required");
-    JSBMLvisualizer visualizer = new JSBMLvisualizer(doc);
+    SBMLDocument document = getSBMLDocument();
+    document.getModel().unsetExtension("layout");
+    document.getModel().unsetExtension("render");
+    document.getSBMLDocumentAttributes().remove(LayoutConstants.shortLabel + ":required");
+    document.getSBMLDocumentAttributes().remove(RenderConstants.shortLabel + ":required");
+    JSBMLvisualizer visualizer = new JSBMLvisualizer(document);
     visualizer.addWindowListener(new WindowAdapter() {
 
       @Override
       public void windowClosed(WindowEvent e) {
         setStarted(false);
+        getReader().clearMap();
       }
     });
   }

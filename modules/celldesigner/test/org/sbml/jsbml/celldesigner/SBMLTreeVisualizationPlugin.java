@@ -127,6 +127,7 @@ public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
       @Override
       public void windowClosed(WindowEvent e) {
         setStarted(false);
+        getReader().clearMap();
       }
     });
   }

@@ -154,7 +154,7 @@ public class LayoutConverter {
         SpeciesReferenceGlyph srGlyph;
         Curve curve;
 
-        if (mainReactionAxis.size()==2 && inputInfo.getMidPointInLine()!=null && inputInfo.getPointsInLine().size()==3)
+        if (mainReactionAxis.size()==2 && inputInfo.getMidPointInLine()!=null && inputInfo.getPointsInLine().size()>3)
         {
           //need to get all points because 3 pronged reactions seem to be programmed oddly
           List<Point2D.Double> allReactionPoints = new Vector<Point2D.Double>();
@@ -290,35 +290,47 @@ public class LayoutConverter {
           layout.getReactionGlyph("rGlyph_"+pReaction.getId()).setCurve(curve);
         }
 
-        //reactions with four points describing the reaction (common type)
         else if (mainReactionAxis.size()==4)
         {
           LineSegment reactantSegment = new LineSegment();
-          LineSegment productSegment = new LineSegment();
-          LineSegment rGlyphSegment = new LineSegment();
           List<Point2D.Double> listOfCoordinates = mainReactionAxis;
+
           reactantSegment.setStart(new Point(listOfCoordinates.get(0).x, listOfCoordinates.get(0).y, z));
           reactantSegment.setEnd(new Point(listOfCoordinates.get(1).x, listOfCoordinates.get(1).y, z));
-          productSegment.setStart(new Point(listOfCoordinates.get(2).x, listOfCoordinates.get(2).y, z));
-          productSegment.setEnd(new Point(listOfCoordinates.get(3).x, listOfCoordinates.get(3).y, z));
-          //first reactant
-          srGlyph = list.get("srGlyphReactant_"+pReaction.getId()+"_"+pReaction.getReactant(0).getSpeciesInstance().getId());
           curve = new Curve();
           curve.addCurveSegment(reactantSegment);
+          reactantSegment = new LineSegment();
+          reactantSegment.setStart(new Point(listOfCoordinates.get(1).x, listOfCoordinates.get(1).y, z));
+          reactantSegment.setEnd(new Point((listOfCoordinates.get(1).x+listOfCoordinates.get(2).x)/2,
+            (listOfCoordinates.get(1).y+listOfCoordinates.get(2).y)/2, z));
+          curve.addCurveSegment(reactantSegment);
+          //first reactant
+          srGlyph = list.get("srGlyphReactant_"+pReaction.getId()+"_"+pReaction.getReactant(0).getSpeciesInstance().getId());
           srGlyph.setCurve(curve);
-          //first product
-          srGlyph = list.get("srGlyphProduct_"+pReaction.getId()+"_"+pReaction.getProduct(0).getSpeciesInstance().getId());
-          curve = new Curve();
-          curve.addCurveSegment(productSegment);
-          srGlyph.setCurve(curve);
+
           //curve will now describe ReactionGlyph
           curve = new Curve();
-          rGlyphSegment.setStart(new Point((reactantSegment.getEnd().x()+productSegment.getStart().x())/2-6,
-            (reactantSegment.getEnd().y()+productSegment.getStart().y())/2-6));
-          rGlyphSegment.setEnd(new Point((reactantSegment.getEnd().x()+productSegment.getStart().x())/2+6,
-            (reactantSegment.getEnd().y()+productSegment.getStart().y())/2+6));
+          LineSegment rGlyphSegment = new LineSegment();
+          rGlyphSegment.setStart(new Point(reactantSegment.getEnd().x()-6,
+            reactantSegment.getEnd().y()-6));
+          rGlyphSegment.setEnd(new Point(reactantSegment.getEnd().x()+6,
+            reactantSegment.getEnd().y()+6));
           curve.addCurveSegment(rGlyphSegment);
           layout.getReactionGlyph("rGlyph_"+pReaction.getId()).setCurve(curve);
+
+          LineSegment productSegment = new LineSegment();
+          productSegment.setStart(new Point((listOfCoordinates.get(1).x+listOfCoordinates.get(2).x)/2,
+            (listOfCoordinates.get(1).y+listOfCoordinates.get(2).y)/2, z));
+          productSegment.setEnd(new Point(listOfCoordinates.get(3).x, listOfCoordinates.get(3).y, z));
+          curve = new Curve();
+          curve.addCurveSegment(productSegment);
+          productSegment = new LineSegment();
+          productSegment.setStart(new Point(listOfCoordinates.get(2).x, listOfCoordinates.get(2).y, z));
+          productSegment.setEnd(new Point(listOfCoordinates.get(3).x, listOfCoordinates.get(3).y, z));
+          curve.addCurveSegment(productSegment);
+          //first product
+          srGlyph = list.get("srGlyphProduct_"+pReaction.getId()+"_"+pReaction.getProduct(0).getSpeciesInstance().getId());
+          srGlyph.setCurve(curve);
         }
 
         //collecting ReactionLink information
