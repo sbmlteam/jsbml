@@ -68,7 +68,7 @@ public class IndexArrayDimCheck extends ArraysConstraint {
 
     int max = -1;
     
-    if(arraysSBasePlugin == null) {
+    if(arraysSBasePlugin == null || arraysSBasePlugin.getIndexCount() == 0) {
       return;
     }
 
@@ -91,17 +91,17 @@ public class IndexArrayDimCheck extends ArraysConstraint {
       }
       else 
       {
-        //System.err.println("Array Dimension should be unique.");
-        String shortMsg = "";
+        String shortMsg = "A listOfIndices should have Index objects with"
+            + "unique attribute arrays:arrayDimension, but the value " + arrayDim +
+            "is used multiple times.";
         logArrayDimensionUniqueness(shortMsg);
       }
     }
 
     for(int i = 0; i <= max; i++) {
       if(!isSetArrayDimAt[i]) {
-        //System.err.println("There is a Dimension with array dimension " + max + " but there is no array"
-        //  + " dimension at " + i);
-        String shortMsg = "";
+        String shortMsg = "A listOfIndices should have an Index with arrays:arrayDimension " 
+            + i + "before adding an Index object with arrays:arrayDimension " + max;
         logArrayDimensionMissing(shortMsg);
         return;
       }

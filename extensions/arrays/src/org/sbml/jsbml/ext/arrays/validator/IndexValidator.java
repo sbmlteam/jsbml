@@ -78,5 +78,6 @@ public class IndexValidator {
 
     IndexAttributesCheck refAttributeCheck = new IndexAttributesCheck(model, index);
     listOfConstraints.add(refAttributeCheck);
+    
   }
 }

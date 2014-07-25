@@ -352,7 +352,7 @@ public class ArraysMath {
 
     return hasVector;
   }
-  
+
   /**
    * 
    * @param model
@@ -429,9 +429,7 @@ public class ArraysMath {
             return false;
           }
         }
-
       }
-
     }
     return true;
   }
@@ -467,10 +465,19 @@ public class ArraysMath {
     else if(node.isString()) {
       String id = node.toString();
       SBase sbase = model.findNamedSBase(id);
+      if(sbase == null) {
+        return;
+      }
       ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
+      if(arraysSBasePlugin == null || !arraysSBasePlugin.isSetListOfDimensions()) {
+        return;
+      }
       int maxDim = arraysSBasePlugin.getDimensionCount() - 1;
       for(Dimension dim : arraysSBasePlugin.getListOfDimensions()) {
         String size = dim.getSize();
+        if(size == null) {
+          continue;
+        }
         Parameter p = model.getParameter(size);
         if (p == null) {
           continue;
@@ -478,5 +485,74 @@ public class ArraysMath {
         sizeByLevel.put(level+maxDim-dim.getArrayDimension(), (int) p.getValue());
       }
     }
+  }
+
+  public static boolean isVectorBalanced(Model model, MathContainer mathContainer) {
+    if(model == null || mathContainer == null) {
+      return false;
+    }
+    ASTNode math = mathContainer.getMath();
+    if(math.isVector()) {
+      Map<Integer, Integer> sizeByLevel = ArraysMath.getVectorDimensionSizes(model, math);
+      return checkSizeRecursive(model, sizeByLevel, math, 0);
+    }
+    for(int i = 0; i < math.getChildCount(); ++i) {
+      Map<Integer, Integer> sizeByLevel = ArraysMath.getVectorDimensionSizes(model, math.getChild(i));
+      boolean isBalanced = checkSizeRecursive(model, sizeByLevel, math.getChild(i), 0);
+      if(!isBalanced) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * This is used to check if the array is regular.
+   * 
+   * @param sizeByLevel
+   * @param node
+   * @param level
+   * @return
+   */
+  private static boolean checkSizeRecursive(Model model, Map<Integer, Integer> sizeByLevel, ASTNode node, int level) {
+
+    if(!sizeByLevel.containsKey(level)) {
+      return false;
+    }
+    int expected = sizeByLevel.get(level);
+
+    if(!node.isVector()) {
+      if(node.isString()) {
+        String id = node.toString();
+        SBase sbase = model.findNamedSBase(id);
+        ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
+        for(Dimension dim : arraysSBasePlugin.getListOfDimensions()) {
+          String size = dim.getSize();
+          Parameter p = model.getParameter(size);
+          if(p == null) {
+            return false;
+          }
+          int actual =  (int) p.getValue();
+          if(expected != actual) {
+            return false;
+          }
+
+        }
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    if(expected != node.getChildCount()) {
+      return false;
+    }
+    for(int i = 0; i < node.getChildCount(); i++) {
+      ASTNode child = node.getChild(i);
+      if(!checkSizeRecursive(model, sizeByLevel, child, level+1)) {
+        return false;
+      }
+    }
+    return true;
   }
 }

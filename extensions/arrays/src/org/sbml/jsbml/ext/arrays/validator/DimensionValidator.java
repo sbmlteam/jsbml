@@ -78,6 +78,7 @@ public class DimensionValidator {
 
       DimensionSizeCheck dimSizeCheck = new DimensionSizeCheck(model, dim);
       listOfConstraints.add(dimSizeCheck);
+      
   }
 
 
