@@ -72,8 +72,7 @@ public class SelectorMathCheck extends ArraysConstraint {
     }
     
     if(math.getChildCount() == 0) {
-      //System.err.println("Selector has wrong number of arguments");
-      String shortMsg = "";
+      String shortMsg = "Selector MathML needs more than 1 argument.";
       logSelectorInconsistency(shortMsg);
     }
 

@@ -40,6 +40,7 @@ import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.ext.arrays.Index;
 import org.sbml.jsbml.ext.arrays.validator.constraints.ArraysConstraint;
 import org.sbml.jsbml.ext.arrays.validator.constraints.DimensionArrayDimCheck;
+import org.sbml.jsbml.ext.arrays.validator.constraints.IndexArrayDimCheck;
 import org.sbml.jsbml.ext.arrays.validator.constraints.SBaseWithDimensionCheck;
 
 
@@ -94,6 +95,9 @@ public class ExtendedSBaseValidator{
       SBaseWithDimensionCheck dimensionCheck = new SBaseWithDimensionCheck(model, sbase);
       listOfConstraints.add(dimensionCheck);
     }
+    
+    IndexArrayDimCheck indexArrayDimCheck = new IndexArrayDimCheck(model,sbase);
+    listOfConstraints.add(indexArrayDimCheck);
   }
   
   /**

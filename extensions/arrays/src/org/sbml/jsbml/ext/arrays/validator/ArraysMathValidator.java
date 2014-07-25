@@ -29,6 +29,7 @@ import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.ext.arrays.validator.constraints.ArraysConstraint;
+import org.sbml.jsbml.ext.arrays.validator.constraints.ArraysMathCheck;
 
 
 /**
@@ -74,8 +75,8 @@ public class ArraysMathValidator {
    * @param listOfConstraints
    */
   private static void addConstraints(Model model, MathContainer math, List<ArraysConstraint> listOfConstraints) {
-
-
+    ArraysMathCheck mathCheck = new ArraysMathCheck(model, math);
+    listOfConstraints.add(mathCheck);
   }
 
 

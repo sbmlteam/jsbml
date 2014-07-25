@@ -61,8 +61,8 @@ public class IndexAttributesCheck extends ArraysConstraint {
     
       String refAttribute = index.getReferencedAttribute();
       if(refAttribute == null) {
-        //System.err.println("Index need a ref attribute.");
-        String msg = "";
+        String msg = "Index objects should have a value for attribute arrays:referencedAttribute but "
+          + index.toString() + " doesn't have a value.";
         logIndexMissingAttribute(msg);
         return;
       }
@@ -72,45 +72,51 @@ public class IndexAttributesCheck extends ArraysConstraint {
       
       // TODO: split at ':'
       if(refValue == null) {
-        String msg = "";
+        String msg = "Index objects attribute arrays:referencedAttribute should reference a valid attribute but "
+            + index.toString() + " references an attribute that doesn't exist.";
         logInvalidRefAttribute(msg);
-        //System.err.println("Cannot find referenced object.");
         return;
       }
       
       SBase refSBase = model.findNamedSBase(refValue);
       
       if(refSBase == null) {
-        String msg = "";
+        String msg = "Index objects should reference a valid SIdRef "
+            + index.toString() + " references an unknown SBase.";
         logInvalidRefAttribute(msg);
-        //System.err.println("Cannot find referenced object.");
       }
 
       ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) refSBase.getExtension(ArraysConstants.shortLabel);
+      if(!index.isSetArrayDimension()) {
+        String msg = "Index objects should have attribute arrays:arrayDimension set but "
+            + refSBase.toString() + " doesn't.";
+        
+        logIndexMissingAttribute(msg);
+      }
       int arrayDimension = index.getArrayDimension();
       Dimension dim = arraysSBasePlugin.getDimensionByArrayDimension(arrayDimension);
       
       if(dim == null) {
-        String msg = "";
+        String msg = "The SIdRef of an Index object should have arrays:arrayDimension of same value of the Index object but "
+            + refSBase.toString() + " doesn't have a Dimension object with arrays:arrayDimension " + arrayDimension + ".";
         logDimensionMismatch(msg);
-        //System.err.println("Dimension mismatch in index math.");
       }
       
       boolean isStaticComp = ArraysMath.isStaticallyComputable(model, index);
       
       if(!isStaticComp) {
-        String msg = "";
+        String msg = "Index math should be statically computable, meaning that it should only contain dimension ids or constant values but "
+            + refSBase.toString() + " is not statically computable.";
         logNotStaticComp(msg);
-        //System.err.println("Math should be statically computable");
       }
       
       //TODO: needs to check all bounds
       boolean isBounded = ArraysMath.evaluateIndexBounds(model, index);
       
       if(!isBounded) {
-        String msg = "";
+        String msg = "Index math should not go out-of-bounds but "
+            + refSBase.toString() + " does.";
         logNotBounded(msg);
-        //System.err.println("Index should not go out of bounds");
 
       }
   }
