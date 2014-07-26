@@ -52,16 +52,6 @@ public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
   }
   
   /**
-   * Creates a new {@link ASTHyperbolicNode} of type {@link Type}
-   * 
-   * @param type
-   */
-  public ASTHyperbolicNode(Type type) {
-    this();
-    setType(type);
-  }
-
-  /**
    * Copy constructor; Creates a deep copy of the given {@link ASTHyperbolicNode}.
    * 
    * @param node
@@ -69,6 +59,16 @@ public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
    */
   public ASTHyperbolicNode(ASTHyperbolicNode node) {
     super(node);
+  }
+
+  /**
+   * Creates a new {@link ASTHyperbolicNode} of type {@link Type}
+   * 
+   * @param type
+   */
+  public ASTHyperbolicNode(Type type) {
+    this();
+    setType(type);
   }
   
   /*
@@ -134,6 +134,44 @@ public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
       value.setVersion(parent.getVersion());
     }
     return value;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTUnaryFunctionNode#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    if (type == null) {
+      return false;
+    }
+    switch(type) {
+    case FUNCTION_ARCCOSH:
+      return true;
+    case FUNCTION_ARCCOTH:
+      return true;
+    case FUNCTION_ARCCSCH:
+      return true;
+    case FUNCTION_ARCSECH:
+      return true;
+    case FUNCTION_ARCSINH:
+      return true;
+    case FUNCTION_ARCTANH:
+      return true;
+    case FUNCTION_COSH:
+      return true;
+    case FUNCTION_COTH:
+      return true;
+    case FUNCTION_CSCH:
+      return true;
+    case FUNCTION_SECH:
+      return true;
+    case FUNCTION_SINH:
+      return true;
+    case FUNCTION_TANH:
+      return true;
+    default: // UNKNOWN:
+      return false;
+    }  
   }
 
   /* (non-Javadoc)

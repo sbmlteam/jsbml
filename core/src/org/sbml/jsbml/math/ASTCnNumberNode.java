@@ -23,6 +23,7 @@
 package org.sbml.jsbml.math;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
@@ -195,6 +196,15 @@ public class ASTCnNumberNode<T> extends ASTNumber {
     return result;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    return type == Type.INTEGER || type == Type.RATIONAL || type == Type.REAL
+           || type == Type.FUNCTION_EXP;
+  }
+  
   /**
    * Returns True iff base has been set
    * 
@@ -203,7 +213,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
   protected boolean isSetNumber() {
     return number != null;
   }
-  
+
   /**
    * Returns True iff units has been set
    * 
@@ -212,7 +222,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
   protected boolean isSetUnits() {
     return units != null;
   }
-
+  
   /**
    * Returns true iff this {@link ASTNumber} node 
    * represents a variable. 
@@ -222,7 +232,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
   public boolean isSetVariable() {
     return this.variable != null;
   }
-  
+
   /**
    * Set the numerical base of MathML element. Number (CDATA for XML DTD)
    * between 2 and 36

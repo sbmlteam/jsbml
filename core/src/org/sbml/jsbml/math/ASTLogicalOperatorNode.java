@@ -114,6 +114,28 @@ public class ASTLogicalOperatorNode extends ASTFunction {
   }
 
   /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    if (type == null) {
+      return false;
+    }
+    switch(type) {
+    case LOGICAL_AND:
+      return true;
+    case LOGICAL_XOR:
+      return true;
+    case LOGICAL_OR:
+      return true;
+    case LOGICAL_NOT:
+      return true;
+    default: // UNKNOWN:
+      return false;
+    }
+  }
+
+  /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   @Override

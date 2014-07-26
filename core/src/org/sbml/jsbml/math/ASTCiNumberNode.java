@@ -27,6 +27,7 @@ import java.text.MessageFormat;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.KineticLaw;
@@ -260,6 +261,14 @@ ASTCSymbolBaseNode {
     return result;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    return type == Type.NAME;
+  }
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetDefinitionURL()
@@ -305,7 +314,7 @@ ASTCSymbolBaseNode {
     this.definitionURL = definitionURL;
     firePropertyChange(TreeNodeChangeEvent.definitionURL, old, definitionURL);
   }
-
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#setName(java.lang.String)
    */
@@ -328,7 +337,7 @@ ASTCSymbolBaseNode {
   public void setReference(CallableSBase sbase) {
     setRefId(sbase.getId());
   }
-  
+
   /**
    * Set refId attribute
    * 

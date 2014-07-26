@@ -168,6 +168,16 @@ public class ASTLogarithmNodeTest {
   }
   
   /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#isAllowableType()}.
+   */
+  @Test
+  public final void testIsAllowableType() {
+    ASTLogarithmNode log = new ASTLogarithmNode();
+    assertTrue(log.isAllowableType(Type.FUNCTION_LOG) && log.isAllowableType(Type.FUNCTION_LN)
+            && !log.isAllowableType(null));
+  }
+  
+  /**
    * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#setType()}.
    */
   @Test

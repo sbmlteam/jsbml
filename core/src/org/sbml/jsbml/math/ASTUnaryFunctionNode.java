@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
@@ -174,6 +175,26 @@ public class ASTUnaryFunctionNode extends ASTFunction {
     newChild.setParent(this);
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    if (type == null) {
+      return false;
+    }
+    switch(type) {
+    case FUNCTION_CEILING:
+      return true;    
+    case FUNCTION_ABS:
+      return true;    
+    case FUNCTION_FLOOR:
+      return true;    
+    default:
+      return false;
+    }
+  }
+  
   /**
    * Returns true iff the child of this node has been set
    * 
@@ -182,7 +203,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
   public boolean isSetChild() {
     return getChildCount() > 0;
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#prependChild(org.sbml.jsbml.math.ASTNode2)
@@ -203,7 +224,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
     setParentSBMLObject(child, parentSBMLObject, 0);
     child.setParent(this);
   }
-
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#removeChild(int)
@@ -252,7 +273,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
     that.listOfNodes = listOfNodes;
     listOfNodes = swap;
   }
-  
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */

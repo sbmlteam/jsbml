@@ -159,4 +159,42 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
     return builder.toString();
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    if (type == null) {
+      return false;
+    }
+    switch(type) {
+    case FUNCTION_SEC:
+      return true;    
+    case FUNCTION_ARCCOS:
+      return true;    
+    case FUNCTION_ARCCOT:
+      return true;    
+    case FUNCTION_ARCCSC:
+      return true;    
+    case FUNCTION_ARCSEC:
+      return true;    
+    case FUNCTION_ARCSIN:
+      return true;    
+    case FUNCTION_ARCTAN:
+      return true;    
+    case FUNCTION_COS:
+      return true;    
+    case FUNCTION_COT:
+      return true;    
+    case FUNCTION_CSC:
+      return true;    
+    case FUNCTION_SIN:
+      return true;    
+    case FUNCTION_TAN:
+      return true; 
+    default:
+      return false;
+    }
+  }
+
 }

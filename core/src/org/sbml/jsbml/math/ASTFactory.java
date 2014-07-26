@@ -61,10 +61,10 @@ public class ASTFactory {
    * @param numerator {@link ASTNode2}
    * @param denominator {@link ASTNode2}
    * 
-   * @return node {@link ASTDivideFunction}
+   * @return node {@link ASTDivideNode}
    */
-  public static ASTDivideFunction divideBy(ASTNode2 numerator, ASTNode2 denominator) {
-    return new ASTDivideFunction(numerator, denominator);
+  public static ASTDivideNode divideBy(ASTNode2 numerator, ASTNode2 denominator) {
+    return new ASTDivideNode(numerator, denominator);
   }
   
   /**
@@ -116,14 +116,14 @@ public class ASTFactory {
 
 
   /**
-   * Creates a new {@link ASTDivideFunction} with the given nodes as children.
+   * Creates a new {@link ASTDivideNode} with the given nodes as children.
    * 
    * @param numerator the numerator {@link ASTNode2}
    * @param denominator the denominator {@link ASTNode2}
-   * @return a new {@link ASTDivideFunction} with the given nodes as children.
+   * @return a new {@link ASTDivideNode} with the given nodes as children.
    */
-  public static ASTDivideFunction frac(ASTNode2 numerator, ASTNode2 denominator) {
-    ASTDivideFunction frac = new ASTDivideFunction();
+  public static ASTDivideNode frac(ASTNode2 numerator, ASTNode2 denominator) {
+    ASTDivideNode frac = new ASTDivideNode();
     frac.addChild(numerator);
     frac.addChild(denominator);
     return frac;
@@ -131,16 +131,16 @@ public class ASTFactory {
 
 
   /**
-   * Creates a new {@link ASTDivideFunction} with the given numerator 
+   * Creates a new {@link ASTDivideNode} with the given numerator 
    * and denominator.
    * 
    * @param numerator the numerator {@link int}
    * @param denominator the denominator {@link ASTNode2}
-   * @return a new {@link ASTDivideFunction} with the given numerator
+   * @return a new {@link ASTDivideNode} with the given numerator
    * and denominator.
    */
-  public static ASTDivideFunction frac(int numerator, ASTNode2 denominator) {
-    ASTDivideFunction frac = new ASTDivideFunction();
+  public static ASTDivideNode frac(int numerator, ASTNode2 denominator) {
+    ASTDivideNode frac = new ASTDivideNode();
     frac.addChild(new ASTCnIntegerNode(numerator));
     frac.addChild(denominator);
     return frac;

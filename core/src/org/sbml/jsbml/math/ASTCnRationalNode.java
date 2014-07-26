@@ -130,6 +130,14 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Integer,Integer
     return 0;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCnNumberNode#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    return type == Type.RATIONAL;
+  }
+
   /**
    * Returns True iff denominator has been set
    * 
@@ -137,7 +145,7 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Integer,Integer
    * @return boolean
    */
   public boolean isSetDenominator() {
-    return this.number.getV() != null;
+    return this.number == null ? false : this.number.getV() != null;
   }
 
   /**
@@ -147,7 +155,7 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Integer,Integer
    * @return boolean
    */
   public boolean isSetNumerator() {
-    return this.number.getL() != null;
+    return this.number == null ? false : this.number.getL() != null;
   }
 
   /**

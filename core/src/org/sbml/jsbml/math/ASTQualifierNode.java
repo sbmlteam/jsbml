@@ -22,6 +22,8 @@
  */
 package org.sbml.jsbml.math;
 
+import org.sbml.jsbml.ASTNode.Type;
+
 
 
 /**
@@ -46,7 +48,7 @@ public class ASTQualifierNode extends ASTFunction {
   public ASTQualifierNode() {
     super();
   }
-
+  
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTQualifierNode}.
    * 
@@ -56,6 +58,14 @@ public class ASTQualifierNode extends ASTFunction {
   public ASTQualifierNode(ASTQualifierNode node) {
     super(node);
   }
+
+  /**
+   * Creates a new {@link ASTQualifierNode} of the given type {@link Type}
+   */
+  public ASTQualifierNode(Type type) {
+    super();
+    setType(type);
+  }
   
   /*
    * (non-Javadoc)
@@ -64,6 +74,16 @@ public class ASTQualifierNode extends ASTFunction {
   @Override
   public ASTQualifierNode clone() {
     return new ASTQualifierNode(this);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    return type == Type.QUALIFIER_BVAR || type == Type.QUALIFIER_DEGREE
+        || type == Type.QUALIFIER_LOGBASE || type == Type.CONSTRUCTOR_PIECE
+        || type == Type.CONSTRUCTOR_OTHERWISE;
   }
 
   /* (non-Javadoc)

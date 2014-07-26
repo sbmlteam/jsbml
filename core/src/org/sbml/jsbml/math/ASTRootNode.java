@@ -171,6 +171,14 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
   }
   
   /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    return type == Type.FUNCTION_ROOT;
+  }
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTBinaryFunctionNode#isSetLeftChild()
    */
   @Override
@@ -185,7 +193,7 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
   public boolean isSetRightChild() {
     return getChildCount() > 0;
   }
-
+  
   /**
    * Set the radicand of this {@link ASTRootNode}
    * 
@@ -217,7 +225,7 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
       break;
     }
   }
-  
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */

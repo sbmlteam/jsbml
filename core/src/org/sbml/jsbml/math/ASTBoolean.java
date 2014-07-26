@@ -22,11 +22,9 @@
  */
 package org.sbml.jsbml.math;
 
-import javax.swing.tree.TreeNode;
-
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
@@ -149,6 +147,14 @@ public class ASTBoolean extends AbstractASTNode {
     return false;
   }
   
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    return type == Type.CONSTANT_TRUE || type == Type.CONSTANT_FALSE;
+  }
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.AbstractASTNode#isSetType()
@@ -157,7 +163,7 @@ public class ASTBoolean extends AbstractASTNode {
   public boolean isSetType() {
     return type == Type.CONSTANT_TRUE || type == Type.CONSTANT_FALSE;
   }
-  
+
   /**
    * Set the value of this {@link ASTBoolean}
    * 

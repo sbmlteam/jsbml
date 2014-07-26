@@ -33,7 +33,7 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 /**
- * An Abstract Syntax Tree (AST) node representing time
+ * An Abstract Syntax Tree (AST) node representing the time function
  * 
  * @author Victor Kofia
  * @version $Rev$
@@ -210,6 +210,14 @@ implements ASTCSymbolNode {
     result = prime * result
       + ((encodingURL == null) ? 0 : encodingURL.hashCode());
     return result;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    return type == Type.NAME_TIME;
   }
 
   /*

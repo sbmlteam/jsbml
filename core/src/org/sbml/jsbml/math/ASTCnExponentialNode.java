@@ -133,6 +133,14 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Inte
     return 0;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCnNumberNode#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    return type == Type.FUNCTION_EXP;
+  }
+
   /**
    * Returns True iff exponent has been set
    * 
@@ -140,7 +148,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Inte
    * @return boolean
    */
   public boolean isSetExponent() {
-    return this.number.getL() != null;
+    return this.number == null ? false : this.number.getL() != null;
   }
 
   /**
@@ -150,7 +158,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Inte
    * @return boolean
    */
   public boolean isSetMantissa() {
-    return this.number.getV() != null;
+    return this.number == null ? false : this.number.getV() != null;
   }
 
   /**

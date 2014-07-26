@@ -97,17 +97,18 @@ public class ASTBooleanTest {
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#ASTBoolean#getValue()}.
    */
   @Test
-  public final void testGetValueTrue() {
-    ASTBoolean node = new ASTBoolean(Type.CONSTANT_TRUE);
-    assertTrue(node.getValue());
+  public final void testGetValueFalse() {
+    ASTBoolean node = new ASTBoolean(Type.CONSTANT_FALSE);
+    assertFalse(node.getValue());
   }
   
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#ASTBoolean#getValue()}.
    */
   @Test
-  public final void testGetValueFalse() {
-    ASTBoolean node = new ASTBoolean(Type.CONSTANT_FALSE);
+  public final void testGetValueNonStrictException() {
+    ASTBoolean node = new ASTBoolean();
+    node.setStrictness(false);
     assertFalse(node.getValue());
   }
   
@@ -125,12 +126,38 @@ public class ASTBooleanTest {
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#ASTBoolean#getValue()}.
    */
   @Test
-  public final void testGetValueNonStrictException() {
-    ASTBoolean node = new ASTBoolean();
-    node.setStrictness(false);
-    assertFalse(node.getValue());
+  public final void testGetValueTrue() {
+    ASTBoolean node = new ASTBoolean(Type.CONSTANT_TRUE);
+    assertTrue(node.getValue());
   }
 
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isAllowableType()}.
+   */
+  @Test
+  public final void testIsAllowableTypeCONSTANT_FALSE() {
+    ASTBoolean node = new ASTBoolean();
+    assertTrue(node.isAllowableType(Type.CONSTANT_FALSE));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isAllowableType()}.
+   */
+  @Test
+  public final void testIsAllowableTypeCONSTANT_TRUE() {
+    ASTBoolean node = new ASTBoolean();
+    assertTrue(node.isAllowableType(Type.CONSTANT_TRUE));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isAllowableType()}.
+   */
+  @Test
+  public final void testIsAllowableTypeNull() {
+    ASTBoolean node = new ASTBoolean();
+    assertFalse(node.isAllowableType(null));
+  }
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isSetType()}.
    */
@@ -171,20 +198,20 @@ public class ASTBooleanTest {
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#setValue()}.
    */
   @Test
-  public final void testSetValueTrue() {
+  public final void testSetValueFalse() {
     ASTBoolean node = new ASTBoolean();
-    node.setValue(true);
-    assertTrue(node.getType() == Type.CONSTANT_TRUE);
+    node.setValue(false);
+    assertTrue(node.getType() == Type.CONSTANT_FALSE);
   }
   
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#setValue()}.
    */
   @Test
-  public final void testSetValueFalse() {
+  public final void testSetValueTrue() {
     ASTBoolean node = new ASTBoolean();
-    node.setValue(false);
-    assertTrue(node.getType() == Type.CONSTANT_FALSE);
+    node.setValue(true);
+    assertTrue(node.getType() == Type.CONSTANT_TRUE);
   }
 
 }

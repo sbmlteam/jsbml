@@ -28,6 +28,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
 import org.sbml.jsbml.math.ASTUnaryFunctionNode;
 
@@ -210,6 +211,16 @@ public class ASTUnaryFunctionNodeTest {
   }
   
   /**
+   * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#isAllowableType()}.
+   */
+  @Test
+  public final void testIsAllowableType() {
+    ASTUnaryFunctionNode A = new ASTUnaryFunctionNode();
+    assertTrue(A.isAllowableType(Type.FUNCTION_CEILING) && A.isAllowableType(Type.FUNCTION_FLOOR)
+            && A.isAllowableType(Type.FUNCTION_ABS) && !A.isAllowableType(null));
+  }
+
+  /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#prependChild(org.sbml.jsbml.math.ASTNode2)}.
    */
   @Test
@@ -219,7 +230,7 @@ public class ASTUnaryFunctionNodeTest {
     unary.prependChild(one);
     assertTrue(unary.getChildAt(0).equals(one));
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#prependChild(org.sbml.jsbml.math.ASTNode2)}.
    */
@@ -246,7 +257,7 @@ public class ASTUnaryFunctionNodeTest {
     exception.expect(IndexOutOfBoundsException.class);
     unary.prependChild(two);
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#removeChild(int)}.
    */
@@ -257,7 +268,7 @@ public class ASTUnaryFunctionNodeTest {
     unary.addChild(one);
     assertTrue(unary.removeChild(0) && unary.getChildCount() == 0);
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#removeChild(int)}.
    */
@@ -266,7 +277,7 @@ public class ASTUnaryFunctionNodeTest {
     ASTUnaryFunctionNode unary = new ASTUnaryFunctionNode();
     assertFalse(unary.removeChild(0));
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#setChild(org.sbml.jsbml.math.ASTNode2)}.
    */
@@ -277,7 +288,7 @@ public class ASTUnaryFunctionNodeTest {
     unary.setChild(one);
     assertTrue(unary.getChild().equals(one));
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#setChild(org.sbml.jsbml.math.ASTNode2)}.
    */

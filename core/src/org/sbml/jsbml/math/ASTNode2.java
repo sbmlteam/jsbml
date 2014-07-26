@@ -105,6 +105,13 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
   public Type getType();
 
   /**
+   * Returns true iff type is allowed in this {@link ASTNode2}
+   * 
+   * @return boolean
+   */
+  public boolean isAllowableType(Type type);
+
+  /**
    * Returns true iff id has been set
    * 
    * @return boolean
@@ -117,7 +124,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    * @return boolean
    */
   public boolean isSetMathMLClass();
-
+  
   /**
    * Checks if a parent SBML object, i.e., a {@link MathContainer}, is set as a
    * parent SBML object for this {@link ASTNode2}.
@@ -170,14 +177,14 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    *            the parent to set
    */
   public void setParent(TreeNode astNode2);
-  
+
   /**
    * Sets the parentSBMLObject to container recursively
    * 
    * @param MathContainer container
    */
   public void setParentSBMLObject(MathContainer container);
-
+  
   /**
    * Set the style of this node
    * 
@@ -243,10 +250,10 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    * @return the representation of this node in MathML.
    */
   public String toMathML();
-  
+
   @Override
   public String toString();
-
+  
   /**
    * Unsets the parentSBMLObject to null recursively.
    * 

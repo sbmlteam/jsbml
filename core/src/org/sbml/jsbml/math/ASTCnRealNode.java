@@ -146,6 +146,14 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
     return result;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCnNumberNode#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    return type == Type.REAL;
+  }
+
   /**
    * Returns true iff a value has been set
    * @param null

@@ -53,16 +53,6 @@ public class ASTRelationalOperatorNode extends ASTFunction {
   }
   
   /**
-   * Creates a new {@link ASTRelationalOperatorNode} without a pointer
-   * to its containing {@link MathContainer} but with the specified 
-   * {@link Type}.
-   */
-  public ASTRelationalOperatorNode(Type type) {
-    this();
-    setType(type);
-  }
-
-  /**
    * Copy constructor; Creates a deep copy of the given {@link ASTRelationalOperatorNode}.
    * 
    * @param node
@@ -70,6 +60,16 @@ public class ASTRelationalOperatorNode extends ASTFunction {
    */
   public ASTRelationalOperatorNode(ASTRelationalOperatorNode node) {
     super(node);
+  }
+
+  /**
+   * Creates a new {@link ASTRelationalOperatorNode} without a pointer
+   * to its containing {@link MathContainer} but with the specified 
+   * {@link Type}.
+   */
+  public ASTRelationalOperatorNode(Type type) {
+    this();
+    setType(type);
   }
   
   /*
@@ -119,6 +119,16 @@ public class ASTRelationalOperatorNode extends ASTFunction {
     return value;
   }
   
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    return type == Type.RELATIONAL_EQ || type == Type.RELATIONAL_GEQ
+        || type == Type.RELATIONAL_GT || type == Type.RELATIONAL_LEQ
+        || type == Type.RELATIONAL_LT || type == Type.RELATIONAL_NEQ;
+  }
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */

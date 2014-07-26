@@ -22,12 +22,9 @@
  */
 package org.sbml.jsbml.math;
 
-import org.apache.log4j.Logger;
-import org.sbml.jsbml.MathContainer;
-import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
@@ -48,28 +45,10 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
   private static final long serialVersionUID = -8915335867694118907L;
 
   /**
-   * A {@link Logger} for this class.
-   */
-  private static final Logger logger = Logger.getLogger(ASTPiecewiseFunctionNode.class);
-
-  /**
-   * The number of piece elements associated with this MathML
-   * piecewise element
-   */
-  private Integer numPiece;
-
-  /**
-   * True iff piecewise element contains an otherwise element
-   */
-  private boolean hasOtherwise;
-
-  /**
    * Creates a new {@link ASTPiecewiseFunctionNode}.
    */
   public ASTPiecewiseFunctionNode() {
     super();
-    hasOtherwise = false;
-    numPiece = null;
     setType(Type.FUNCTION_PIECEWISE);
   }
 
@@ -81,10 +60,6 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
    */
   public ASTPiecewiseFunctionNode(ASTPiecewiseFunctionNode node) {
     super(node);
-    hasOtherwise = node.hasOtherwise();
-    if (node.isSetNumPiece()) {
-        setNumPiece(node.getNumPiece());
-    }
   }
   
   /*
@@ -112,55 +87,13 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
     }
     return value;
   }
-  /* (non-Javadoc)
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (!super.equals(obj))
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    ASTPiecewiseFunctionNode other = (ASTPiecewiseFunctionNode) obj;
-    if (hasOtherwise != other.hasOtherwise)
-      return false;
-    if (numPiece == null) {
-      if (other.numPiece != null)
-        return false;
-    } else if (!numPiece.equals(other.numPiece))
-      return false;
-    return true;
-  }
-
   /**
    * Get the number of piece elements in this {@link ASTPiecewiseFunctionNode}
    * 
    * @return Integer numPiece
    */
   public int getNumPiece() {
-    if (isSetNumPiece()) {
-      return numPiece;
-    }
-    PropertyUndefinedError error = new PropertyUndefinedError("piecewise", this);
-    if (isStrict()) {
-      throw error;
-    }
-    logger.warn(error);
-    return 0;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
-   */
-  @Override
-  public int hashCode() {
-    final int prime = 1223;
-    int result = super.hashCode();
-    result = prime * result + (hasOtherwise ? 1231 : 1237);
-    result = prime * result + ((numPiece == null) ? 0 : numPiece.hashCode());
-    return result;
+    return getChildCount();
   }
 
   /**
@@ -169,27 +102,7 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
    * @return boolean hasOtherwise
    */
   public boolean hasOtherwise() {
-    return hasOtherwise;
-  }
-
-  /**
-   * Returns true iff numPiece has been set
-   * 
-   * @return boolean
-   */
-  private boolean isSetNumPiece() {
-    return numPiece != null;
-  }
-
-  /**
-   * Set the number of piece elements in this {@link ASTPiecewiseFunctionNode}
-   * 
-   * @param Integer numPiece
-   */
-  protected void setNumPiece(int numPiece) {
-    Integer old = this.numPiece;
-    this.numPiece = numPiece;
-    firePropertyChange(TreeNodeChangeEvent.numPiece, old, this.numPiece);
+    return (getChildCount() / 2) > 0;
   }
 
   /* (non-Javadoc)
@@ -198,11 +111,7 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("ASTPiecewiseFunctionNode [numPiece=");
-    builder.append(numPiece);
-    builder.append(", hasOtherwise=");
-    builder.append(hasOtherwise);
-    builder.append(", listOfNodes=");
+    builder.append("ASTPiecewiseFunctionNode [listOfNodes=");
     builder.append(listOfNodes);
     builder.append(", parentSBMLObject=");
     builder.append(parentSBMLObject);

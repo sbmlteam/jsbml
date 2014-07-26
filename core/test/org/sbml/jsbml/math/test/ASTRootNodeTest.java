@@ -27,6 +27,7 @@ import static org.junit.Assert.*;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
 import org.sbml.jsbml.math.ASTRootNode;
@@ -125,6 +126,15 @@ public class ASTRootNodeTest {
   }
   
   /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRootNode#isAllowableType()}.
+   */
+  @Test
+  public final void testIsAllowableType() {
+    ASTRootNode root = new ASTRootNode();
+    assertTrue(root.isAllowableType(Type.FUNCTION_ROOT) && !root.isAllowableType(null));
+  }
+  
+  /**
    * Test method for {@link org.sbml.jsbml.math.ASTRootNode#setRadicand()}.
    */
   @Test
@@ -140,10 +150,10 @@ public class ASTRootNodeTest {
    */
   @Test
   public final void testSetRootExponent() {
-    ASTRootNode squareRoot = new ASTRootNode(new ASTCnIntegerNode(4), new ASTCnIntegerNode(10000));
+    ASTRootNode root = new ASTRootNode(new ASTCnIntegerNode(4), new ASTCnIntegerNode(10000));
     ASTCnIntegerNode rootExponent = new ASTCnIntegerNode(10);
-    squareRoot.setRootExponent(rootExponent);
-    assertTrue(squareRoot.getRootExponent().equals(rootExponent));
+    root.setRootExponent(rootExponent);
+    assertTrue(root.getRootExponent().equals(rootExponent));
   }
   
 }

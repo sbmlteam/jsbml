@@ -139,6 +139,14 @@ public class ASTCnIntegerNode extends ASTCnNumberNode<Integer> {
     return 0;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTCnNumberNode#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    return type == Type.INTEGER;
+  }
+
   /**
    * Returns True iff value has been set
    * 

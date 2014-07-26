@@ -38,7 +38,7 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
  * @since 1.0
  * @date May 30, 2014
  */
-public class ASTDivideFunction extends ASTBinaryFunctionNode {
+public class ASTDivideNode extends ASTBinaryFunctionNode {
 
   /**
    * 
@@ -46,30 +46,30 @@ public class ASTDivideFunction extends ASTBinaryFunctionNode {
   private static final long serialVersionUID = -3326276752533782545L;
 
   /**
-   * Creates a new {@link ASTDivideFunction}.
+   * Creates a new {@link ASTDivideNode}.
    */
-  public ASTDivideFunction() {
+  public ASTDivideNode() {
     super();
     setType(Type.DIVIDE);
   }
   
-  /**
-   * Creates a new {@link ASTDivideFunction} with the specified numerator
-   * {@link ASTNode2} and denominator {@link ASTNode2}.
-   */
-  public ASTDivideFunction(ASTNode2 numerator, ASTNode2 denominator) {
-    super(numerator, denominator);
-    setType(Type.DIVIDE);
-  }
-
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTDivideFunctionNode}.
    * 
    * @param node
    *            the {@link ASTDivideFunctionNode} to be copied.
    */
-  public ASTDivideFunction(ASTDivideFunction node) {
+  public ASTDivideNode(ASTDivideNode node) {
     super(node);
+  }
+
+  /**
+   * Creates a new {@link ASTDivideNode} with the specified numerator
+   * {@link ASTNode2} and denominator {@link ASTNode2}.
+   */
+  public ASTDivideNode(ASTNode2 numerator, ASTNode2 denominator) {
+    super(numerator, denominator);
+    setType(Type.DIVIDE);
   }
   
   /*
@@ -77,8 +77,8 @@ public class ASTDivideFunction extends ASTBinaryFunctionNode {
    * @see org.sbml.jsbml.math.ASTFunction#clone()
    */
   @Override
-  public ASTDivideFunction clone() {
-    return new ASTDivideFunction(this);
+  public ASTDivideNode clone() {
+    return new ASTDivideNode(this);
   }
   
   /* (non-Javadoc)
@@ -101,6 +101,14 @@ public class ASTDivideFunction extends ASTBinaryFunctionNode {
       value.setVersion(parent.getVersion());
     }
     return value;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    return type == Type.DIVIDE;
   }
 
   /* (non-Javadoc)

@@ -89,6 +89,14 @@ public class ASTNode extends AbstractTreeNode {
     /**
      * 
      */
+    CONSTRUCTOR_PIECE,
+    /**
+     * 
+     */
+    CONSTRUCTOR_OTHERWISE,
+    /**
+     * 
+     */
     DIVIDE,
     /**
      * The type of an {@link ASTNode} containing a reference to a user-defined
@@ -300,6 +308,18 @@ public class ASTNode extends AbstractTreeNode {
      * 
      */
     PRODUCT,
+    /**
+     * 
+     */
+    QUALIFIER_BVAR,
+    /**
+     * 
+     */
+    QUALIFIER_DEGREE,
+    /**
+     * 
+     */
+    QUALIFIER_LOGBASE,
     /**
      * An {@link ASTNode} of this {@link Type} contains two integer values:
      * a numerator and a denominator.

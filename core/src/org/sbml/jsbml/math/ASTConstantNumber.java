@@ -113,11 +113,8 @@ public class ASTConstantNumber extends ASTNumber {
     case CONSTANT_E:
       value = compiler.getConstantE();
       break;
-    case CONSTANT_TRUE:
-      value = compiler.getConstantTrue();
-      break;
-    case CONSTANT_FALSE:
-      value = compiler.getConstantFalse();
+    case NAME_AVOGADRO:
+      value = compiler.getConstantAvogadro();
       break;
     default: // UNKNOWN:
       value = compiler.unknownValue();
@@ -158,6 +155,15 @@ public class ASTConstantNumber extends ASTNumber {
     return Double.NaN;
   }
   
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    return type == Type.CONSTANT_E || type == Type.CONSTANT_PI 
+        || type == Type.NAME_AVOGADRO;
+  }
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.AbstractASTNode#isSetType()
@@ -176,7 +182,7 @@ public class ASTConstantNumber extends ASTNumber {
   private boolean isSetValue() {
     return isSetType();
   }
-
+  
   /**
    * Set the value of this ASTConstantNumber
    * 
@@ -199,7 +205,7 @@ public class ASTConstantNumber extends ASTNumber {
       return;
     }
   }
-  
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */

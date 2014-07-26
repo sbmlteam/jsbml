@@ -155,6 +155,14 @@ public class ASTLambdaFunctionNode extends ASTFunction {
     return result;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    return type == Type.LAMBDA;
+  }
+
   /**
    * Returns True iff numBvars is set
    * 

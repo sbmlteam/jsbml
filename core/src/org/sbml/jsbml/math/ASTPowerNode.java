@@ -94,6 +94,24 @@ public class ASTPowerNode extends ASTBinaryFunctionNode {
     return value;
   }
 
+  /**
+   * Get the basis of this {@link ASTPowerNode}
+   * 
+   * @return basis {@link ASTNode2}
+   */
+  public ASTNode2 getBasis() {
+    return getLeftChild();
+  }
+  
+  /**
+   * Get the exponent of this {@link ASTPowerNode}
+   * 
+   * @return exponent {@link ASTNode2}
+   */
+  public ASTNode2 getExponent() {
+    return getRightChild();
+  }
+  
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
@@ -118,6 +136,14 @@ public class ASTPowerNode extends ASTBinaryFunctionNode {
     builder.append(parent);
     builder.append("]");
     return builder.toString();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    return type == Type.POWER;
   }
 
 }

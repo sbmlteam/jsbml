@@ -360,6 +360,14 @@ public class ASTFunction extends AbstractASTNode {
     newChild.setParent(this);
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    return false;
+  }
+
   /**
    * Returns True iff listOfNodes has been set
    * 
@@ -369,7 +377,7 @@ public class ASTFunction extends AbstractASTNode {
   protected boolean isSetList() {
     return listOfNodes != null;
   }
-
+  
   /**
    * Returns True iff name has been set
    * 
@@ -400,7 +408,7 @@ public class ASTFunction extends AbstractASTNode {
     setParentSBMLObject(child, parentSBMLObject, 0);
     child.setParent(this);
   }
-  
+
   /**
    * Removes child n of this {@link ASTFunction}. Removing a child from an 
    * {@link ASTFunction} may result in an inaccurate representation.
@@ -483,7 +491,7 @@ public class ASTFunction extends AbstractASTNode {
     this.name = name;
     firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
   }
-
+  
   /**
    * <p>
    * Swaps the children of this {@link ASTFunction} with the children of that
@@ -517,7 +525,7 @@ public class ASTFunction extends AbstractASTNode {
     that.listOfNodes = listOfNodes;
     listOfNodes = swap;
   }
-  
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */

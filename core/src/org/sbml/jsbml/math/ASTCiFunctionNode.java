@@ -27,6 +27,7 @@ import java.text.MessageFormat;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.KineticLaw;
@@ -265,6 +266,14 @@ ASTCSymbolBaseNode {
       + ((definitionURL == null) ? 0 : definitionURL.hashCode());
     result = prime * result + ((name == null) ? 0 : name.hashCode());
     return result;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    return type == Type.FUNCTION;
   }
 
   /*

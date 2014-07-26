@@ -23,6 +23,7 @@
 package org.sbml.jsbml.math;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
@@ -198,6 +199,14 @@ ASTCSymbolNode {
     return result;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTConstantNumber#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    return type == Type.NAME_AVOGADRO;
+  }
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetDefinitionURL()
@@ -215,7 +224,7 @@ ASTCSymbolNode {
   public boolean isSetEncodingURL() {
     return encodingURL != null;
   }
-
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetName()
    */
@@ -223,7 +232,7 @@ ASTCSymbolNode {
   public boolean isSetName() {
     return name != null;
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#refersTo(java.lang.String)

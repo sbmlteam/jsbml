@@ -199,6 +199,14 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
   }
   
   /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    return type == Type.FUNCTION_LOG || type == Type.FUNCTION_LN;
+  }
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTBinaryFunctionNode#isSetLeftChild()
    */
   @Override

@@ -146,6 +146,28 @@ public class ASTArithmeticOperatorNode extends ASTFunction {
     return value;
   }
   
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    if (type == null) {
+      return false;
+    }
+    switch(type) {
+    case PLUS:
+      return true;
+    case MINUS:
+      return true;
+    case TIMES:
+      return true;
+    case DIVIDE:
+      return true;
+    default: // UNKNOWN
+      return false;
+    }
+  }
+  
   /**
    * Sets the value of this {@link ASTArithmeticOperatorNode} to the given character. If 
    * character is one of +, -, *, / or ^, the node type will be set accordingly. 
@@ -178,7 +200,7 @@ public class ASTArithmeticOperatorNode extends ASTFunction {
     }
     firePropertyChange(TreeNodeChangeEvent.value, oldValue, type);
   }
-  
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
