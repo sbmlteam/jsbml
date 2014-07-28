@@ -287,8 +287,10 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
       return new ASTNodeValue(false, this);
     }
     
-    if(constantIds.contains(name)) {
-      return new ASTNodeValue(true, this);
+    if(isSetConstantIds) {
+      if(constantIds.contains(name)) {
+        return new ASTNodeValue(true, this);
+      }
     }
     
     return new ASTNodeValue(false, this);
