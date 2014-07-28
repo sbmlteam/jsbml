@@ -11,6 +11,7 @@
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
+ * 6. Marquette University, Milwaukee, WI, USA
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -54,7 +55,7 @@ import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
- * A basic implementation of a CellDesigner plug-in that takes care of
+ * An implementation of a CellDesigner plug-in that takes care of
  * synchronization between CellDesigner and corresponding JSBML data structures.
  *
  * @author Andreas Dr&auml;ger
@@ -76,7 +77,7 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
    */
   private PluginSBMLWriter writer;
   /**
-   * A singular SBMLDocument associated with this plugin
+   * The current SBMLDocument in this plugin
    */
   protected SBMLDocument document = null;
   /**
@@ -85,7 +86,7 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
   final AbstractCellDesignerPlugin plugin = this;
 
   /**
-   *
+   * Start up the minimal plugin read/write interface
    */
   public AbstractCellDesignerPlugin() {
     super();
@@ -123,11 +124,13 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
   }
 
   /**
-   * @throws Throwable
-   * 
+   * @throws XMLStreamException
+   * Get the SBMLDocument from the currently selected CellDesigner PluginModel
    */
-  public void startPlugin() throws XMLStreamException{
+  public void startPlugin() throws XMLStreamException
+  {
     setStarted(true);
+    getReader().clearMap();
     SwingWorker<SBMLDocument, Throwable> worker = new SBMLDocumentWorker(getReader(), getSelectedModel());
     worker.addPropertyChangeListener(new PropertyChangeListener() {
       @Override
@@ -148,12 +151,11 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
   }
 
   /**
-   * 
    * @return the current list of TreeNodeChangeListeners for this SBMLDocument
    */
   private List<TreeNodeChangeListener> copyTreeNodeChangeListeners()
   {
-    List<TreeNodeChangeListener> treeNodeList = null;
+    List<TreeNodeChangeListener> treeNodeList = new ArrayList<TreeNodeChangeListener>();
     if (document.getTreeNodeChangeListenerCount()>0)
     {
       treeNodeList = new ArrayList<TreeNodeChangeListener>();
@@ -167,7 +169,8 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
    */
   @Override
   public void modelClosed(PluginSBase sbase) {
-    //seems like there is nothing to do here
+    /*There is nothing to do when a CellDesigner model is closed. See modelSelectChanged(PluginSBase)
+     for events related to a model closing */
   }
 
   /* (non-Javadoc)
@@ -175,7 +178,8 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
    */
   @Override
   public void modelOpened(PluginSBase sbase) {
-    //seems like there is nothing to do here
+    /*modelOpened(PluginSBase sbase) is ALWAYS followed by a call to modelSelectChanged(PluginSBase)
+     *  See modelSelectChanged(PluginSBase) for events related to the opening of a new model */
   }
 
   /* (non-Javadoc)
@@ -183,34 +187,24 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
    */
   @Override
   public void modelSelectChanged(PluginSBase sbase) {
-    if (sbase instanceof PluginModel)
+    if (sbase instanceof PluginModel) //it will always be a PluginModel
     {
       Map<PluginSBase, Set<SBase>> map = reader.getPluginSBase_SBaseMappings();
-      Model model;
+      map.clear(); //The current model is changed. Time to clear the current mappings
       try {
         PluginModel pModel = (PluginModel)sbase;
-        model = reader.convertModel(pModel);
+        Model model = reader.convertModel(pModel);
         document = new SBMLDocument(model.getLevel(), model.getVersion());
         document.setModel(model);
 
         Set<SBase> sBaseSet = new HashSet<SBase>();
         sBaseSet.add(model);
-        if (map.isEmpty()) {
-          map.put(pModel, sBaseSet);
-        } else {
-          for (PluginSBase pluginSBase: map.keySet())
-          {
-            if (pluginSBase instanceof PluginModel)
-            {
-              PluginModel pluginModel = (PluginModel)pluginSBase;
-              if (pluginModel.getId().equals(pModel.getId())) {
-                map.put(pluginSBase, sBaseSet);
-                PluginUtils.transferNamedSBaseProperties(pModel, model);
-              }
-            }
-          }
-        }
-      } catch (Throwable e) {
+        PluginUtils.transferNamedSBaseProperties(pModel, model);
+
+        //the map was just cleared, so we can just add it with no worries.
+        map.put(pModel, sBaseSet);
+      }
+      catch (Throwable e) {
         new GUIErrorConsole(e);
       }
     }
@@ -234,19 +228,16 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
       try {
         newCompartment = reader.readCompartment(pCompartment);
         model.addCompartment(newCompartment);
-        LayoutConverter.extractLayout((PluginCompartment)sbase, layout);
+
+        Set<SBase> sBaseSet= LayoutConverter.extractLayout((PluginCompartment)sbase, layout);
+        sBaseSet.add(newCompartment);
+        map.put(pCompartment, sBaseSet);
+
         PluginUtils.transferNamedSBaseProperties(pCompartment, newCompartment);
-        PluginUtils.transferNamedSBaseProperties(pCompartment,
-          layout.getCompartmentGlyph("cGlyph_" + pCompartment.getId()));
-        PluginUtils.transferNamedSBaseProperties(pCompartment,
-          layout.getTextGlyph("tGlyph_" + pCompartment.getId()));
+
       } catch (Throwable e) {
         new GUIErrorConsole(e);
       }
-
-      Set<SBase> sBaseSet = new HashSet<SBase>();
-      sBaseSet.add(newCompartment);
-      map.put(pCompartment, sBaseSet);
     }
     else if (sbase instanceof PluginSpecies)
     {
@@ -256,6 +247,7 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
         newSpecies = reader.readSpecies(pSpecies);
         model.addSpecies(newSpecies);
         PluginUtils.transferNamedSBaseProperties(pSpecies, newSpecies);
+
       } catch (Throwable e) {
         new GUIErrorConsole(e);
       }
@@ -266,13 +258,15 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
     }
     else if (sbase instanceof PluginSpeciesAlias)
     {
-      PluginSpeciesAlias pSpeciesAlias = (PluginSpeciesAlias) sbase;
-      LayoutConverter.extractLayout(pSpeciesAlias, layout);
-      PluginUtils.transferNamedSBaseProperties(pSpeciesAlias,
-        layout.getSpeciesGlyph("sGlyph_" + pSpeciesAlias.getSpecies().getId()));
-      Set<SBase> sBaseSet = new HashSet<SBase>();
-      sBaseSet.add(layout.getSpeciesGlyph("sGlyph_" + pSpeciesAlias.getSpecies().getId()));
-      map.put(pSpeciesAlias, sBaseSet);
+      try {
+        PluginSpeciesAlias pSpeciesAlias = (PluginSpeciesAlias) sbase;
+        Set<SBase> sBaseSet = LayoutConverter.extractLayout(pSpeciesAlias, layout);
+
+        map.put(pSpeciesAlias, sBaseSet);
+      }
+      catch (Throwable e) {
+        new GUIErrorConsole(e);
+      }
     }
     else if (sbase instanceof PluginReaction)
     {
@@ -281,15 +275,17 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
       try {
         newReaction = reader.readReaction(pReaction);
         model.addReaction(newReaction);
-        LayoutConverter.extractLayout(pReaction, layout);
+        Set<SBase> sBaseSet = LayoutConverter.extractLayout(pReaction, layout);
+        sBaseSet.add(newReaction);
+
         PluginUtils.transferNamedSBaseProperties(pReaction, newReaction);
+
+        map.put(pReaction, sBaseSet);
       } catch (Throwable e) {
         new GUIErrorConsole(e);
       }
-      Set<SBase> sBaseSet = new HashSet<SBase>();
-      sBaseSet.add(newReaction);
-      map.put(pReaction, sBaseSet);
     }
+
     document.addAllChangeListeners(treeNodeList);
   }
 
@@ -298,33 +294,28 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
    */
   @Override
   public void SBaseChanged(PluginSBase sbase) {
-    Model model = document.getModel();
-    Map<PluginSBase, Set<SBase>> map = reader.getPluginSBase_SBaseMappings();
-    Layout layout = ((LayoutModelPlugin)model.getExtension("layout")).getLayout(0);
-    List<TreeNodeChangeListener> treeNodeList = copyTreeNodeChangeListeners();
-    document.removeAllTreeNodeChangeListeners(true);
+    try {
+      Map<PluginSBase, Set<SBase>> map = reader.getPluginSBase_SBaseMappings();
+      Model model = document.getModel();
+      Layout layout = ((LayoutModelPlugin)model.getExtension("layout")).getLayout(0);
+      List<TreeNodeChangeListener> treeNodeList = copyTreeNodeChangeListeners();
+      document.removeAllTreeNodeChangeListeners(true);
 
-    if (sbase instanceof PluginCompartment)
-    {
-      PluginCompartment pCompartment = (PluginCompartment)sbase;
-      Set<SBase> sBaseSet = new HashSet<SBase>();
-      Compartment newCompartment = null;
-
-      try {
+      if (sbase instanceof PluginCompartment)
+      {
+        PluginCompartment pCompartment = (PluginCompartment)sbase;
+        Compartment newCompartment = null;
         newCompartment = reader.readCompartment(pCompartment);
         model.removeCompartment(newCompartment.getId());
         model.addCompartment(newCompartment);
-        sBaseSet.add(newCompartment);
 
         layout.removeCompartmentGlyph("cGlyph_" + pCompartment.getId());
         layout.removeTextGlyph("tGlyph_" + pCompartment.getId());
-        LayoutConverter.extractLayout(pCompartment, layout);
-        PluginUtils.transferNamedSBaseProperties(pCompartment, newCompartment);
-        PluginUtils.transferNamedSBaseProperties(pCompartment,
-          layout.getCompartmentGlyph("cGlyph_" + pCompartment.getId()));
+        Set<SBase> sBaseSet = LayoutConverter.extractLayout(pCompartment, layout);
 
-        sBaseSet.add(layout.getCompartmentGlyph("cGlyph_" + pCompartment.getId()));
-        sBaseSet.add(layout.getTextGlyph("tGlyph_" + pCompartment.getId()));
+        PluginUtils.transferNamedSBaseProperties(pCompartment, newCompartment);
+
+        sBaseSet.add(newCompartment);
 
         if (map.isEmpty()) {
           map.put(pCompartment, sBaseSet);
@@ -340,27 +331,26 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
             }
           }
         }
-      } catch (Throwable e) {
-        new GUIErrorConsole(e);
       }
-    }
 
-    else if (sbase instanceof PluginSpecies)
-    {
-      PluginSpecies pSpecies = (PluginSpecies) sbase;
-      Set<SBase> listOfSBases = new HashSet<SBase>();
-      Species newSpecies = null;
+      else if (sbase instanceof PluginSpecies)
+      {
+        PluginSpecies pSpecies = (PluginSpecies) sbase;
+        Species newSpecies = null;
 
-      try {
         newSpecies = reader.readSpecies(pSpecies);
         model.removeSpecies(pSpecies.getId());
         model.addSpecies(newSpecies);
+
         PluginUtils.transferNamedSBaseProperties(pSpecies, newSpecies);
+
+        Set<SBase> listOfSBases = new HashSet<SBase>();
         listOfSBases.add(newSpecies);
 
         if (map.isEmpty()) {
           map.put(pSpecies, listOfSBases);
         } else {
+          String speciesID = "";
           for (PluginSBase pluginSBase: map.keySet())
           {
             if (pluginSBase instanceof PluginSpecies)
@@ -368,103 +358,88 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
               PluginSpecies species = (PluginSpecies)pluginSBase;
               if (species.getId().equals(pSpecies.getId())) {
                 map.put(pluginSBase, listOfSBases);
+                speciesID = species.getId();
               }
             }
+          }//only adds the mapping if the new sbase is an un-represented sbase
+          if (!pSpecies.getId().equals(speciesID)) {
+            map.put(pSpecies, listOfSBases);
           }
         }
-      } catch (Throwable e) {
-        new GUIErrorConsole(e);
       }
-    }
-    else if (sbase instanceof PluginSpeciesAlias)
-    {
-      Set<SBase> listOfSBases = new HashSet<SBase>();
-      try {
-        PluginSpeciesAlias pSpeciesAlias = (PluginSpeciesAlias) sbase;
-        layout.removeSpeciesGlyph("sGlyph_" + pSpeciesAlias.getSpecies().getId());
-        layout.removeTextGlyph("tGlyph_" + pSpeciesAlias.getSpecies().getId());
-        LayoutConverter.extractLayout(pSpeciesAlias, layout);
-        PluginUtils.transferNamedSBaseProperties(pSpeciesAlias,
-          layout.getSpeciesGlyph("sGlyph_" + pSpeciesAlias.getSpecies().getId()));
 
-        listOfSBases.add(layout.getSpeciesGlyph("sGlyph_" + pSpeciesAlias.getSpecies().getId()));
-        listOfSBases.add(layout.getTextGlyph("tGlyph_" + pSpeciesAlias.getSpecies().getId()));
+      else if (sbase instanceof PluginSpeciesAlias)
+      {
+        PluginSpeciesAlias pSpeciesAlias = (PluginSpeciesAlias) sbase;
+        layout.removeSpeciesGlyph("sGlyph_" + pSpeciesAlias.getAliasID());
+        layout.removeTextGlyph("tGlyph_" + pSpeciesAlias.getAliasID());
+        Set<SBase> listOfSBases = LayoutConverter.extractLayout(pSpeciesAlias, layout);
         if (map.isEmpty()) {
           map.put(pSpeciesAlias, listOfSBases);
-          JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea("emptymap: "+pSpeciesAlias)));
         } else {
-          String checker = "";
+          String speciesAliasID = "";
           for (PluginSBase pluginSBase: map.keySet())
           {
             if (pluginSBase instanceof PluginSpeciesAlias)
             {
               PluginSpeciesAlias speciesAlias = (PluginSpeciesAlias)pluginSBase;
-              if (speciesAlias.getSpecies().getId().equals(pSpeciesAlias.getSpecies().getId())) {
-                JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea("addition: "
-                    +"\t"+speciesAlias+"\t"+pSpeciesAlias)));
+              if (speciesAlias.getAliasID().equals(pSpeciesAlias.getAliasID())) {
                 map.put(speciesAlias, listOfSBases);
-                checker = speciesAlias.getSpecies().getId();
+                speciesAliasID = speciesAlias.getAliasID();
               }
             }
-          } //cannot determine if the new sbase is an un-represented sbase or a represented sbase under a new name
-          if (!pSpeciesAlias.getSpecies().getId().equals(checker)) {
+          } //only adds the mapping if the new sbase is an un-represented sbase
+          if (!pSpeciesAlias.getAliasID().equals(speciesAliasID)) {
             map.put(pSpeciesAlias, listOfSBases);
           }
         }
-      } catch (Throwable e) {
-        new GUIErrorConsole(e);
       }
-    }
-    else if (sbase instanceof PluginReaction)
-    {
-      Set<SBase> listOfSBases = new HashSet<SBase>();
-      PluginReaction pReaction = (PluginReaction) sbase;
-      Reaction newReaction = null;
-      try {
+
+      else if (sbase instanceof PluginReaction)
+      {
+        PluginReaction pReaction = (PluginReaction) sbase;
+        Reaction newReaction = null;
         model.removeReaction(pReaction.getId());
         newReaction = reader.readReaction(pReaction);
         model.addReaction(newReaction);
-        listOfSBases.add(newReaction);
 
         PluginUtils.transferNamedSBaseProperties(pReaction, newReaction);
+
         layout.removeReactionGlyph("rGlyph_" + pReaction.getId());
         layout.removeTextGlyph("tGlyph_" + pReaction.getId());
-        LayoutConverter.extractLayout(pReaction, layout);
-        // PluginUtils.transferNamedSBaseProperties(pReaction, layout.getReactionGlyph("rGlyph_" + pReaction.getId()));
-        //PluginUtils.transferNamedSBaseProperties(pReaction, layout.getTextGlyph("tGlyph_" + pReaction.getId()));
+        Set<SBase> listOfSBases = LayoutConverter.extractLayout(pReaction, layout);
 
-        listOfSBases.add(layout.getReactionGlyph("rGlyph_" + pReaction.getId()));
-        listOfSBases.add(layout.getReactionGlyph("tGlyph_" + pReaction.getId()));
+        listOfSBases.add(newReaction);
 
         if (map.isEmpty()) {
           map.put(pReaction, listOfSBases);
         } else {
+          String reactionID = "";
           for (PluginSBase pluginSBase: map.keySet())
           {
             if (pluginSBase instanceof PluginReaction)
             {
               PluginReaction reaction = (PluginReaction)pluginSBase;
-              if (reaction.getId().equals(reaction.getId())) {
-                map.put(pluginSBase, listOfSBases);
+              if (reaction.getId().equals(pReaction.getId())) {
+                map.put(reaction, listOfSBases);
+                reactionID = reaction.getId();
               }
             }
+          } //only adds the mapping if the new sbase is an un-represented sbase
+          if (!pReaction.getId().equals(reactionID)) {
+            map.put(pReaction, listOfSBases);
           }
-          map.put(pReaction, listOfSBases);
         }
 
-      } catch (Throwable e) {
-        new GUIErrorConsole(e);
       }
+      document.addAllChangeListeners(treeNodeList);
+      JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea(reader.printMap())));
     }
-
-    document.addAllChangeListeners(treeNodeList);
-    String ss = "";
-    for (PluginSBase s: map.keySet())
-    {
-      ss+=s.toString()+"\n";
+    catch (Throwable e) {
+      new GUIErrorConsole(e);
     }
-    JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea("completion:\n"+ss)));
   }
+
 
   /* (non-Javadoc)
    * @see jp\nbi.celldesigner.plugin.CellDesignerPlug#SBaseDeleted(jp.sbi.celldesigner.plugin.PluginSBase)
@@ -472,24 +447,27 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
   @Override
   public void SBaseDeleted(PluginSBase sbase) {
     Model model = document.getModel();
-    Map<PluginSBase, Set<SBase>> map = reader.getPluginSBase_SBaseMappings();
+    Map<PluginSBase, Set<SBase>> sBaseMap = reader.getPluginSBase_SBaseMappings();
     Layout layout = ((LayoutModelPlugin)model.getExtension("layout")).getLayout(0);
+
     List<TreeNodeChangeListener> treeNodeList = copyTreeNodeChangeListeners();
     document.removeAllTreeNodeChangeListeners(true);
+
     if (sbase instanceof PluginCompartment)
     {
       PluginCompartment pCompartment = (PluginCompartment)sbase;
 
       layout.removeCompartmentGlyph("cGlyph_" + pCompartment.getId());
       layout.removeTextGlyph("tGlyph_" + pCompartment.getId());
+
       model.removeCompartment(pCompartment.getId());
-      if (!map.isEmpty())
+
       {
-        for (PluginSBase pluginSBase: map.keySet())
+        for (PluginSBase pluginSBase: sBaseMap.keySet())
         {
           PluginCompartment compartment = (PluginCompartment)pluginSBase;
           if (compartment.getId().equals(pCompartment.getId())) {
-            map.remove(pluginSBase);
+            sBaseMap.remove(pluginSBase);
           }
         }
       }
@@ -498,13 +476,14 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
     {
       PluginSpecies pSpecies = (PluginSpecies) sbase;
       model.removeSpecies(pSpecies.getId());
-      if (!map.isEmpty())
+
+      if (!sBaseMap.isEmpty())
       {
-        for (PluginSBase pluginSBase: map.keySet())
+        for (PluginSBase pluginSBase: sBaseMap.keySet())
         {
           PluginSpecies species = (PluginSpecies)pluginSBase;
           if (species.getId().equals(pSpecies.getId())) {
-            map.remove(pluginSBase);
+            sBaseMap.remove(pluginSBase);
           }
         }
       }
@@ -512,15 +491,17 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
     else if (sbase instanceof PluginSpeciesAlias)
     {
       PluginSpeciesAlias pSpeciesAlias = (PluginSpeciesAlias) sbase;
-      layout.removeSpeciesGlyph("sGlyph_" + pSpeciesAlias.getSpecies().getId());
-      layout.removeTextGlyph("tGlyph_" + pSpeciesAlias.getSpecies().getId());
-      if (!map.isEmpty())
+
+      layout.removeSpeciesGlyph("sGlyph_" + pSpeciesAlias.getAliasID());
+      layout.removeTextGlyph("tGlyph_" + pSpeciesAlias.getAliasID());
+
+      if (!sBaseMap.isEmpty())
       {
-        for (PluginSBase pluginSBase: map.keySet())
+        for (PluginSBase pluginSBase: sBaseMap.keySet())
         {
           PluginSpeciesAlias speciesAlias = (PluginSpeciesAlias)pluginSBase;
-          if (speciesAlias.getSpecies().getId().equals(pSpeciesAlias.getSpecies().getId())) {
-            map.remove(pluginSBase);
+          if (speciesAlias.getAliasID().equals(pSpeciesAlias.getAliasID())) {
+            sBaseMap.remove(pluginSBase);
           }
         }
       }
@@ -528,18 +509,18 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
     else if (sbase instanceof PluginReaction)
     {
       PluginReaction pReaction = (PluginReaction) sbase;
+
       layout.removeReactionGlyph("rGlyph_" + pReaction.getId());
       layout.removeTextGlyph("tGlyph_" + pReaction.getId());
+
       model.removeReaction(pReaction.getId());
-      if (!map.isEmpty())
+
+      for (PluginSBase pluginSBase: sBaseMap.keySet())
       {
-        for (PluginSBase pluginSBase: map.keySet())
+        PluginReaction reaction = (PluginReaction)pluginSBase;
+        if (reaction.getId().equals(pReaction.getId()))
         {
-          PluginReaction reaction = (PluginReaction)pluginSBase;
-          if (reaction.getId().equals(reaction.getId()))
-          {
-            map.remove(pluginSBase);
-          }
+          sBaseMap.remove(pluginSBase);
         }
       }
     }

@@ -22,10 +22,14 @@
  */
 package org.sbml.jsbml.celldesigner;
 
+import static org.sbml.jsbml.celldesigner.CellDesignerConstants.LINK_TO_CELLDESIGNER;
+
 import java.awt.geom.Point2D;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.JOptionPane;
@@ -40,12 +44,14 @@ import jp.sbi.celldesigner.plugin.DataObject.PluginRealLineInformationDataObjOfR
 import jp.sbi.celldesigner.plugin.util.PluginSystemOutUtils;
 
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.layout.BoundingBox;
 import org.sbml.jsbml.ext.layout.CompartmentGlyph;
 import org.sbml.jsbml.ext.layout.Curve;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LineSegment;
 import org.sbml.jsbml.ext.layout.Point;
+import org.sbml.jsbml.ext.layout.ReactionGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
@@ -64,19 +70,32 @@ public class LayoutConverter {
   final static double z  =  0d;
 
   /**
+   * Converts CellDesigner's plug-in data structure into a JSBML data structure.
+   */
+  private static PluginSBMLReader reader = new PluginSBMLReader();
+
+  /**
    * Extracts Compartment Layout data from CellDesigner
    * @param pCompartment the PluginCompartment
    * @param layout The Layout object
    */
-  public static void extractLayout(PluginCompartment pCompartment, Layout layout)
+  public static Set<SBase> extractLayout(PluginCompartment pCompartment, Layout layout)
   {
+    Set<SBase> compartmentList = new HashSet<SBase>();
     CompartmentGlyph cGlyph  =  layout.createCompartmentGlyph("cGlyph_" + pCompartment.getId());
     cGlyph.createBoundingBox(pCompartment.getWidth(), pCompartment.getHeight(), depth, pCompartment.getX(), pCompartment.getY(), z);
+    compartmentList.add(cGlyph);
 
     TextGlyph tGlyph = layout.createTextGlyph("tGlyph_" + pCompartment.getId());
     BoundingBox bBox  =  tGlyph.createBoundingBox(pCompartment.getName().length()*5,10,depth);
     bBox.createPosition(pCompartment.getNamePositionX(), pCompartment.getNamePositionY(), z);
     tGlyph.setOriginOfText(pCompartment.getId());
+    compartmentList.add(tGlyph);
+
+    cGlyph.putUserObject(LINK_TO_CELLDESIGNER, pCompartment);
+    tGlyph.putUserObject(LINK_TO_CELLDESIGNER, pCompartment);
+
+    return compartmentList;
   }
 
   /**
@@ -84,16 +103,25 @@ public class LayoutConverter {
    * @param pSpecies the PluginSpeciesAlias
    * @param layout The Layout object
    */
-  public static void extractLayout(PluginSpeciesAlias pSpeciesAlias, Layout layout)
+  public static Set<SBase> extractLayout(PluginSpeciesAlias pSpeciesAlias, Layout layout)
   {
-    SpeciesGlyph sGlyph = layout.createSpeciesGlyph("sGlyph_" + pSpeciesAlias.getSpecies().getId());
+    Set<SBase> speciesAliasList = new HashSet<SBase>();
+    SpeciesGlyph sGlyph = layout.createSpeciesGlyph("sGlyph_" + pSpeciesAlias.getAliasID());
     sGlyph.createBoundingBox(pSpeciesAlias.getWidth(), pSpeciesAlias.getHeight(), depth, pSpeciesAlias.getX(), pSpeciesAlias.getY(), z);
+    speciesAliasList.add(sGlyph);
 
-    TextGlyph tGlyph = layout.createTextGlyph("tGlyph_" + pSpeciesAlias.getSpecies().getId());
+    TextGlyph tGlyph = layout.createTextGlyph("tGlyph_" + pSpeciesAlias.getAliasID());
     BoundingBox bBox  =  tGlyph.createBoundingBox(pSpeciesAlias.getWidth(), pSpeciesAlias.getHeight(), depth);
     //setting textGlyph position at center of speciesGlyph
     bBox.createPosition(pSpeciesAlias.getX()+pSpeciesAlias.getWidth()/2, pSpeciesAlias.getY()+pSpeciesAlias.getHeight()/2, z);
+    //origin of text? Set to Species or SpeciesAlias?
     tGlyph.setOriginOfText(pSpeciesAlias.getSpecies().getId());
+    speciesAliasList.add(tGlyph);
+
+    sGlyph.putUserObject(LINK_TO_CELLDESIGNER, pSpeciesAlias);
+    tGlyph.putUserObject(LINK_TO_CELLDESIGNER, pSpeciesAlias);
+
+    return speciesAliasList;
   }
 
   /**
@@ -101,10 +129,13 @@ public class LayoutConverter {
    * @param pReaction  the PluginReaction
    * @param layout The Layout object
    */
-  public static void extractLayout(PluginReaction pReaction, Layout layout)
+  public static Set<SBase> extractLayout(PluginReaction pReaction, Layout layout)
   {
+    Set<SBase> reactionList = new HashSet<SBase>();
     //create ReactionGlyph
-    layout.createReactionGlyph("rGlyph_"+pReaction.getId());
+    ReactionGlyph rGlyph = layout.createReactionGlyph("rGlyph_"+pReaction.getId());
+    rGlyph.putUserObject(LINK_TO_CELLDESIGNER, pReaction);
+    reactionList.add(rGlyph);
 
     //create SpeciesReferenceGlyphs for reactants
     for (int i = 0;i<pReaction.getNumReactants();i++)
@@ -115,6 +146,7 @@ public class LayoutConverter {
 
       PluginSpecies pSpecies = pReaction.getReactant(i).getSpeciesInstance();
       srGlyph.setSpeciesGlyph("sGlyph_"+pSpecies.getId());
+      reactionList.add(srGlyph);
       layout.getReactionGlyph("rGlyph_"+pReaction.getId()).addSpeciesReferenceGlyph(srGlyph);
     }
 
@@ -128,6 +160,7 @@ public class LayoutConverter {
       PluginSpecies pSpecies = pReaction.getProduct(i).getSpeciesInstance();
 
       srGlyph.setSpeciesGlyph("sGlyph_"+pSpecies.getId());
+      reactionList.add(srGlyph);
       layout.getReactionGlyph("rGlyph_"+pReaction.getId()).addSpeciesReferenceGlyph(srGlyph);
     }
 
@@ -140,6 +173,7 @@ public class LayoutConverter {
 
       PluginSpecies pSpecies = pReaction.getModifier(i).getSpeciesInstance();
       srGlyph.setSpeciesGlyph("sGlyph_"+pSpecies.getId());
+      reactionList.add(srGlyph);
       layout.getReactionGlyph("rGlyph_"+pReaction.getId()).addSpeciesReferenceGlyph(srGlyph);
     }
 
@@ -154,7 +188,73 @@ public class LayoutConverter {
         SpeciesReferenceGlyph srGlyph;
         Curve curve;
 
-        if (mainReactionAxis.size()==2 && inputInfo.getMidPointInLine()!=null && inputInfo.getPointsInLine().size()>3)
+        //calculating TextGlyph
+        Point2D.Double coordinates0 = (Point2D.Double) mainReactionAxis.get(0);
+        Point2D.Double coordinates1 = (Point2D.Double) mainReactionAxis.get(mainReactionAxis.size()-1);
+        TextGlyph tGlyph = layout.createTextGlyph("tGlyph_"+pReaction.getId());
+        tGlyph.setOriginOfText(pReaction.getId());
+        tGlyph.putUserObject(LINK_TO_CELLDESIGNER, pReaction);
+        reactionList.add(tGlyph);
+
+        double theta = Math.atan((coordinates1.y-coordinates0.y)/(coordinates1.x-coordinates0.x));
+        if ((coordinates1.x>coordinates0.x) && ((coordinates1.x-coordinates0.x)/(coordinates1.y-coordinates0.y))>1.5) //is west-east reaction
+        {
+          if (theta>=0)
+          {
+            tGlyph.createBoundingBox(20, 10, depth, coordinates0.x+5, coordinates0.y-5, z);
+          }
+          else if (theta<0)
+          {
+            tGlyph.createBoundingBox(20, 10, depth, coordinates0.x+5, coordinates0.y+5, z);
+          }
+        }
+        else if ((coordinates1.x<coordinates0.x) && ((coordinates1.x-coordinates0.x)/(coordinates1.y-coordinates0.y))>1.5) //is east-west reaction
+        {
+          if (theta>=0)
+          {
+            tGlyph.createBoundingBox(20, 10, depth, coordinates0.x-5, coordinates0.y-5, z);
+          }
+          else if (theta<0)
+          {
+            tGlyph.createBoundingBox(20, 10, depth, coordinates0.x-5, coordinates0.y+5, z);
+          }
+        }
+        else if ((coordinates1.y>coordinates0.y) && ((coordinates1.y-coordinates0.y)/(coordinates1.x-coordinates0.x))>1.5) //is north-south reaction
+        {
+          if (theta>=0)
+          {
+            tGlyph.createBoundingBox(20, 10, depth, coordinates0.x-25, coordinates0.y+5, z);
+          }
+          else if (theta<0)
+          {
+            tGlyph.createBoundingBox(20, 10, depth, coordinates0.x+5, coordinates0.y+5, z);
+          }
+        }
+        else if ((coordinates1.y<coordinates0.y) && ((coordinates1.y-coordinates0.y)/(coordinates1.x-coordinates0.x))>1.5) //is south-north reaction
+        {
+          if (theta>=0)
+          {
+            tGlyph.createBoundingBox(20, 10, depth, coordinates0.x+5, coordinates0.y-5, z);
+          }
+          else if (theta<0)
+          {
+            tGlyph.createBoundingBox(20, 10, depth, coordinates0.x-25, coordinates0.y+5, z);
+          }
+        }
+        else
+        {
+          if (theta>=0)
+          {
+            tGlyph.createBoundingBox(20, 10, depth, coordinates0.x+5, coordinates0.y+5, z);
+          }
+          else if (theta<0)
+          {
+            tGlyph.createBoundingBox(20, 10, depth, coordinates0.x+5, coordinates0.y-5, z);
+          }
+        }
+
+
+        if (mainReactionAxis.size()==2 && inputInfo.getMidPointInLine()!=null && inputInfo.getPointsInLine().size()>2)
         {
           //need to get all points because 3 pronged reactions seem to be programmed oddly
           List<Point2D.Double> allReactionPoints = new Vector<Point2D.Double>();
@@ -490,7 +590,9 @@ public class LayoutConverter {
           }
         }
       }
+      //PluginUtils.transferNamedSBaseProperties(pReaction, layout.getTextGlyph("tGlyph_" + pReaction.getId()));
     }
+    return reactionList;
   }
   /**
    * if you ever run into trouble with reaction positioning, call this method to print reaction positions from CD

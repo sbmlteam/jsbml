@@ -25,9 +25,11 @@ import static org.sbml.jsbml.celldesigner.CellDesignerConstants.LINK_TO_CELLDESI
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.xml.stream.XMLStreamException;
@@ -161,7 +163,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * 
    * @return the mapping between PluginSBases and SBases
    */
-  public Map<PluginSBase,Set<SBase>> getPluginSBase_SBaseMappings()
+  protected Map<PluginSBase,Set<SBase>> getPluginSBase_SBaseMappings()
   {
     return mapOfSBases;
   }
@@ -169,9 +171,21 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   /**
    * clears the Map
    */
-  public void clearMap()
+  protected void clearMap()
   {
     mapOfSBases.clear();
+  }
+
+  protected String printMap()
+  {
+    StringBuffer mapText = new StringBuffer();
+    Iterator<Entry<PluginSBase, Set<SBase>>> it = mapOfSBases.entrySet().iterator();
+    while (it.hasNext())
+    {
+      Map.Entry pairs = it.next();
+      mapText.append(pairs.getKey() + "\t" + pairs.getValue()+"\n");
+    }
+    return mapText.toString();
   }
 
   /**
@@ -503,8 +517,11 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
 
       for (i = 0; i < originalModel.getNumCompartments(); i++) {
         PluginCompartment pCompartment = originalModel.getCompartment(i);
-        model.addCompartment(readCompartment(pCompartment));
-        LayoutConverter.extractLayout(pCompartment, layout);
+        Set<SBase> list = LayoutConverter.extractLayout(pCompartment, layout);
+        Compartment compartment = readCompartment(pCompartment);
+        model.addCompartment(compartment);
+        list.add(compartment);
+        mapOfSBases.put(pCompartment, list);
         //RenderConverter.extractRenderInformation(pCompartment, renderPlugin, layout);
         //gets the compartment size
         layout.createDimensions("Layout_Size", originalModel.getCompartment(i).getWidth(),
@@ -517,11 +534,13 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
       for (i = 0; i < originalModel.getNumSpecies(); i++) {
         PluginSpecies pSpecies = originalModel.getSpecies(i);
         PluginListOf listOfAliases = pSpecies.getListOfSpeciesAlias();
+        Species species = readSpecies(pSpecies);
+        model.addSpecies(readSpecies(pSpecies));
         for (int j=0;j<listOfAliases.size();j++)
         {
-          LayoutConverter.extractLayout((PluginSpeciesAlias)listOfAliases.get(j), layout);
+          Set<SBase> list = LayoutConverter.extractLayout((PluginSpeciesAlias)listOfAliases.get(j), layout);
+          mapOfSBases.put(listOfAliases.get(j), list);
         }
-        model.addSpecies(readSpecies(pSpecies));
         if (listener != null) {
           listener.progressUpdate(++curr, "Species");
         }
@@ -557,8 +576,11 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
 
       for (i = 0; i < originalModel.getNumReactions(); i++) {
         PluginReaction pReaction = originalModel.getReaction(i);
-        model.addReaction(readReaction(pReaction));
-        LayoutConverter.extractLayout(pReaction, layout);
+        Reaction reaction = readReaction(pReaction);
+        model.addReaction(reaction);
+        Set<SBase> list = LayoutConverter.extractLayout(pReaction, layout);
+        list.add(reaction);
+        mapOfSBases.put(pReaction, list);
         if (listener != null) {
           listener.progressUpdate(++curr, "Reactions");
         }
