@@ -118,7 +118,7 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
     }
     else
     {
-      propertyChangeVis.addSBase(sbase.toString());
+      propertyChangeVis.modelSelectChanged(sbase.toString());
     }
   }
 
@@ -154,7 +154,7 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
     }
     else
     {
-      propertyChangeVis.addSBase(sbase.toString());
+      propertyChangeVis.changeSBase(sbase.toString());
     }
   }
 
@@ -167,7 +167,7 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
     }
     else
     {
-      propertyChangeVis.addSBase(sbase.toString());
+      propertyChangeVis.modelClosed(sbase.toString());
     }
   }
 
@@ -180,7 +180,7 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
     }
     else
     {
-      propertyChangeVis.addSBase(sbase.toString());
+      propertyChangeVis.modelOpened(sbase.toString());
     }
   }
 
@@ -213,7 +213,7 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
     }
     else
     {
-      propertyChangeVis.addSBase(sbase.toString());
+      propertyChangeVis.deleteSBase(sbase.toString());
     }
   }
 

@@ -10,6 +10,8 @@
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 5. The Babraham Institute, Cambridge, UK
+ * 6. Marquette University, Milwaukee, WI, USA
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -115,6 +117,16 @@ public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
     super.modelSelectChanged(sbase);
     plugin = (LayoutModelPlugin) getSBMLDocument().getModel().getExtension("layout");
     modelTree.setRoot(plugin.getLayout(0));
+  }
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#modelClosed(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  @Override
+  public void modelClosed(PluginSBase sbase) {
+    super.modelClosed(sbase);
+    modelTree.setRoot(null);
   }
 
   @Override
