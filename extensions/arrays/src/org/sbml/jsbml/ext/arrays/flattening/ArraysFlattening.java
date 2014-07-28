@@ -51,6 +51,7 @@ import org.sbml.jsbml.ext.arrays.compiler.VectorCompiler;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
+
 //TODO infix parsing selector where first arg is vector
 /**
  * @author Leandro Watanabe
@@ -59,6 +60,8 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
  * @date Jul 9, 2014
  */
 public class ArraysFlattening {
+
+  private static final ASTNode unknown = new ASTNode("unknown");
 
   /**
    * This method flattens out arrays objects of a given {@link SBMLDocument}.
@@ -71,19 +74,19 @@ public class ArraysFlattening {
     Model model = flattenedDoc.getModel();
     Map<SBase, List<Integer>> idToIndices = new HashMap<SBase, List<Integer>>();
     List<SBase> itemsToDelete = new ArrayList<SBase>();
-    
+
     convert(flattenedDoc, model, idToIndices, itemsToDelete);
     convertMath(flattenedDoc, model, idToIndices);
     removeSBases(itemsToDelete);
-    
+
     itemsToDelete = new ArrayList<SBase>();
     idToIndices = new HashMap<SBase, List<Integer>>();
-    
+
     convert(flattenedDoc, model, idToIndices, itemsToDelete);
     convertMath(flattenedDoc, model, idToIndices);
     removeSBases(itemsToDelete);
-    
-    
+
+
     return flattenedDoc;
   }
 
@@ -105,7 +108,7 @@ public class ArraysFlattening {
       convert(model, child, idToIndices, itemsToDelete);
     }
   }
-  
+
   /**
    * 
    * @param model
@@ -119,7 +122,7 @@ public class ArraysFlattening {
       convertMath(model, child, idToIndices);
     }
   }
-  
+
   /**
    * This is recursively getting each TreeNode of a certain SBMLDocument.
    * 
@@ -169,10 +172,10 @@ public class ArraysFlattening {
       MathContainer mathContainer = (MathContainer) child;
       mathContainer.getMath().compile(compiler);
       ASTNode math = compiler.getNode();
-      
+
       if(math.isVector()) {
         if(!idToIndices.containsKey(mathContainer.getParentSBMLObject())) {
-          
+
           return;
         }
         List<Integer> indices = idToIndices.get(mathContainer.getParentSBMLObject());
@@ -186,7 +189,7 @@ public class ArraysFlattening {
           math = math.getChild(indices.get(i));
         }
       }
-      
+
       try {
         List<Integer> tempList = idToIndices.get(mathContainer.getParentSBMLObject());
         idToIndices.remove(mathContainer.getParentSBMLObject());
@@ -382,8 +385,9 @@ public class ArraysFlattening {
       VectorCompiler compiler = new VectorCompiler(model, true);
       sbase.getMath().compile(compiler);
       ASTNode math = compiler.getNode();
-      
-      sbase.setMath(math);
+      if(!math.equals(unknown)) {
+        sbase.setMath(math);
+      }
       if(sbase.getMath().isVector()) {
         sbase.setMath(sbase.getMath().getChild(index));
       }
