@@ -234,6 +234,8 @@ public class FlatteningTest {
       SBMLDocument flattened = ArraysFlattening.convert(doc);
       SBMLWriter.write(flattened, System.out, ' ', (short) 2);
       System.out.println("\n-------------------------------------------");
+      assertTrue(flattened.getModel().getParameterCount() == 3);
+      assertTrue(flattened.getModel().getReactionCount() == 2);
     } catch (SBMLException e) {
       e.printStackTrace();
     } catch (XMLStreamException e) {
@@ -291,6 +293,8 @@ public class FlatteningTest {
       SBMLDocument flattened = ArraysFlattening.convert(doc);
       SBMLWriter.write(flattened, System.out, ' ', (short) 2);
       System.out.println("\n-------------------------------------------");
+      assertTrue(flattened.getModel().getEventCount() == 3);
+      assertTrue(flattened.getModel().getEvent(0).getEventAssignmentCount() == 3);
     } catch (SBMLException e) {
       e.printStackTrace();
     } catch (XMLStreamException e) {

@@ -53,7 +53,6 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 //TODO: need to check for errors
-//TODO: need to check init assignment
 //TODO: need to check if its name
 
 public class VectorCompiler implements ASTNodeCompiler {
@@ -94,6 +93,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Math.abs(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("abs(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -110,6 +112,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Math.abs(child.getReal()));
       } else if(child.isVector()) {
         absRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("abs(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -144,6 +148,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Math.acos(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("arccos(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -160,8 +167,9 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Math.acos(child.getReal()));
       } else if(child.isVector()) {
         arccosRecursive(value.getChild(i));
-      }
-      else {
+      } else if(useId){
+        value.getChild(i).setName("arccos(" +child.toString() + ")");
+      } else {
         throw new SBMLException();
       }
     }
@@ -186,6 +194,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Maths.arccosh(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("arccosh(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -202,6 +213,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Maths.arccosh(child.getReal()));
       } else if(child.isVector()) {
         arccoshRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("arccosh(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -228,6 +241,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Maths.arccot(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("arccot(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -244,6 +260,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Maths.arccot(child.getReal()));
       } else if(child.isVector()) {
         arccotRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("arccot(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -269,6 +287,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Maths.arccoth(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("arccoth(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -285,6 +306,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Maths.arccoth(child.getReal()));
       } else if(child.isVector()) {
         arccothRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("arccoth(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -310,6 +333,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Maths.arccsc(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("arccsc(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -326,6 +352,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Maths.arccsc(child.getReal()));
       } else if(child.isVector()) {
         arccscRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("arccsc(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -351,6 +379,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Maths.arccsch(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("arccsch(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -367,6 +398,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Maths.arccsch(child.getReal()));
       } else if(child.isVector()) {
         arccschRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("arccsch(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -392,6 +425,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Maths.arcsec(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("arcsec(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -408,6 +444,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Maths.arcsec(child.getReal()));
       } else if(child.isVector()) {
         arcsecRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("arcsec(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -433,6 +471,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Maths.arcsech(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("arcsech(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -449,6 +490,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Maths.arcsech(child.getReal()));
       } else if(child.isVector()) {
         arcsechRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("arcsech(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -474,6 +517,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Math.asin(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("arcsin(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -490,6 +536,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Math.asin(child.getReal()));
       } else if(child.isVector()) {
         arcsinRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("arcsin(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -509,6 +557,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Maths.arcsinh(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("arcsinh(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -525,6 +576,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Maths.arcsinh(child.getReal()));
       } else if(child.isVector()) {
         arcsinhRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("arcsinh(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -550,6 +603,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Math.atan(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("arctan(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -566,6 +622,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Math.atan(child.getReal()));
       } else if(child.isVector()) {
         arctanRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("arctan(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -591,6 +649,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Maths.arctanh(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("arctanh(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -607,6 +668,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Maths.arctanh(child.getReal()));
       } else if(child.isVector()) {
         arctanhRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("arctanh(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -632,6 +695,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Math.ceil(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("ceiling(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -648,6 +714,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Math.ceil(child.getReal()));
       } else if(child.isVector()) {
         ceilingRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("ceiling(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -659,7 +727,11 @@ public class VectorCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue compile(Compartment c) {
-    transformSBase(c);
+    if(useId) {
+      transformNamedSBase(c);
+    } else {
+      transformSBase(c);
+    }
     return dummy;
   }
 
@@ -902,6 +974,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Math.cos(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("cos(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -918,6 +993,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Math.cos(child.getReal()));
       } else if(child.isVector()) {
         cosRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("cos(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -943,6 +1020,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Math.cosh(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("cosh(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -959,6 +1039,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Math.cosh(child.getReal()));
       } else if(child.isVector()) {
         coshRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("cosh(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -984,6 +1066,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Maths.cot(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("cot(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -1000,6 +1085,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Maths.cot(child.getReal()));
       } else if(child.isVector()) {
         cotRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("cot(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -1025,6 +1112,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Maths.coth(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("coth(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -1041,6 +1131,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Maths.coth(child.getReal()));
       } else if(child.isVector()) {
         cothRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("coth(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -1066,6 +1158,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Maths.csc(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("csc(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -1082,6 +1177,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Maths.csc(child.getReal()));
       } else if(child.isVector()) {
         cscRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("csc(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -1107,6 +1204,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Maths.csch(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("csch(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -1123,6 +1223,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Maths.csch(child.getReal()));
       } else if(child.isVector()) {
         cschRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("csch(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -1272,6 +1374,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Math.exp(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("exp(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -1289,6 +1394,9 @@ public class VectorCompiler implements ASTNodeCompiler {
       } 
       else if(child.isVector()) {
         expRecursive(value.getChild(i));
+      } 
+      else if(useId){
+        value.getChild(i).setName("exp(" + child.toString() + ")");
       } 
       else {
         throw new SBMLException();
@@ -1316,6 +1424,9 @@ public class VectorCompiler implements ASTNodeCompiler {
       double result = Maths.factorial(compiled.getInteger());
       compiled.setValue(result);
     }
+    else if(compiled.isName()) {
+      compiled.setName("factorial(" + compiled.toString() + ")");
+    }
     else {
       compiled = new ASTNode("unknown");
     }
@@ -1332,6 +1443,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Maths.factorial(child.getInteger()));
       } else if(child.isVector()) {
         factorialRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("factorial(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -1356,6 +1469,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Math.floor(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("floor(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -1372,6 +1488,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Math.floor(child.getReal()));
       } else if(child.isVector()) {
         floorRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("floor(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -1762,6 +1880,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Math.log(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("ln(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -1778,6 +1899,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Math.log(child.getReal()));
       } else if(child.isVector()) {
         lnRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("ln(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -1803,6 +1926,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Math.log10(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("log(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -1819,6 +1945,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Math.log10(child.getReal()));
       } else if(child.isVector()) {
         logRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("log(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -2115,6 +2243,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     }
     else if(compiled.isBoolean()) {
       compiled.setValue(compiled.getInteger() == 1 ? 0 : 1);
+    }     
+    else if(compiled.isName()) {
+      compiled.setName("not(" + compiled.toString() + ")");
     }
     else {
       compiled.setName("unknown");
@@ -2132,6 +2263,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(child.getInteger() == 1 ? 0 : 1);
       } else if(child.isVector()) {
         floorRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("not(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -2174,14 +2307,14 @@ public class VectorCompiler implements ASTNodeCompiler {
     double sumScalar = 0;
     boolean isSetSumScalar = false;
     boolean hasIds = false;
-   
+
     if(scalars.size() > 0) {
       isSetSumScalar = true;
     }
     if(ids.size() > 0) {
       hasIds = true;
     }
-    
+
     for(ASTNode node : scalars) {
       sumScalar += node.getReal();
     }
@@ -2305,6 +2438,7 @@ public class VectorCompiler implements ASTNodeCompiler {
     }
   }
 
+  //TODO: useId
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#pow(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
    */
@@ -2402,7 +2536,7 @@ public class VectorCompiler implements ASTNodeCompiler {
         vectorLHS.getChild(i).setValue(Math.pow(result.getReal(), scalarRHS.getReal()));
       }
       else if(result.isVector()) {
-        scalarVectorNeq(child, scalarRHS);
+        scalarVectorPow(child, scalarRHS);
       } else {
         throw new SBMLException();
       }
@@ -2471,6 +2605,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Maths.sec(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("sec(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -2487,6 +2624,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Maths.sec(child.getReal()));
       } else if(child.isVector()) {
         secRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("sec(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -2511,6 +2650,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Maths.sech(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("sech(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -2527,6 +2669,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Maths.sech(child.getReal()));
       } else if(child.isVector()) {
         sechRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("sech(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -2575,6 +2719,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Math.sin(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("sin(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -2591,6 +2738,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Math.sin(child.getReal()));
       } else if(child.isVector()) {
         sinRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("sin(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -2616,6 +2765,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Math.sinh(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("sinh(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -2632,6 +2784,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Math.sinh(child.getReal()));
       } else if(child.isVector()) {
         sinhRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("sinh(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -2656,6 +2810,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     }
     else if(compiled.isNumber()) {
       compiled.setValue(Math.sqrt(compiled.getReal()));
+    } 
+    else if(compiled.isName()){
+     compiled.setName("sqrt(" +compiled.toString() + ")");
     }
     else {
       compiled.setName("unknown");
@@ -2673,6 +2830,8 @@ public class VectorCompiler implements ASTNodeCompiler {
         value.getChild(i).setValue(Math.sqrt(child.getReal()));
       } else if(child.isVector()) {
         sqrtRecursive(value.getChild(i));
+      } else if(useId){
+        value.getChild(i).setName("sqrt(" +child.toString() + ")");
       } else {
         throw new SBMLException();
       }
@@ -2707,6 +2866,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.isNumber()) {
       compiled.setValue(Math.tan(compiled.getReal()));
     }
+    else if(compiled.isName()) {
+      compiled.setName("tanh(" + compiled.toString() + ")");
+    }
     else {
       compiled.setName("unknown");
     }
@@ -2719,10 +2881,14 @@ public class VectorCompiler implements ASTNodeCompiler {
     for(int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
       ASTNode child = getNode();
-      if(child.isNumber()) {
-        value.getChild(i).setValue(Math.tan(child.getReal()));
-      } else if(child.isVector()) {
+      if(child.isVector()) {
         tanRecursive(value.getChild(i));
+      }
+      else if(useId) {
+        value.getChild(i).setName("tan("+value.toString()+")");
+      }
+      else if(child.isNumber()) {
+        value.getChild(i).setValue(Math.tan(child.getReal()));
       } else {
         throw new SBMLException();
       }
@@ -2745,6 +2911,9 @@ public class VectorCompiler implements ASTNodeCompiler {
         return dummy;
       }
     }
+    else if(compiled.isName()) {
+      compiled.setName("tanh(" + compiled.toString() + ")");
+    }
     else if(compiled.isNumber()) {
       compiled.setValue(Math.tanh(compiled.getReal()));
     }
@@ -2760,11 +2929,16 @@ public class VectorCompiler implements ASTNodeCompiler {
     for(int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
       ASTNode child = getNode();
-      if(child.isNumber()) {
-        value.getChild(i).setValue(Math.tanh(child.getReal()));
-      } else if(child.isVector()) {
+      if(child.isVector()) {
         tanhRecursive(value.getChild(i));
-      } else {
+      }
+      else if(useId) {
+        value.getChild(i).setName("tanh(" + child.toString() + ")");
+      }
+      else if(child.isNumber()) {
+        value.getChild(i).setValue(Math.tanh(child.getReal()));
+      } 
+      else {
         throw new SBMLException();
       }
     }
@@ -2787,14 +2961,14 @@ public class VectorCompiler implements ASTNodeCompiler {
     double sumScalar = 1;
     boolean isSetSumScalar = false;
     boolean hasIds = false;
-   
+
     if(scalars.size() > 0) {
       isSetSumScalar = true;
     }
     if(ids.size() > 0) {
       hasIds = true;
     }
-    
+
     for(ASTNode node : scalars) {
       sumScalar *= node.getReal();
     }

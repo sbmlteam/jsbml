@@ -22,8 +22,15 @@
  */
 package org.sbml.jsbml.ext.arrays.validator.constraints;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.ext.arrays.ArraysConstants;
+import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.util.ArraysMath;
 
 
@@ -35,7 +42,8 @@ import org.sbml.jsbml.ext.arrays.util.ArraysMath;
  */
 public class ArraysMathCheck extends ArraysConstraint{
 
-  MathContainer mathContainer;
+  //TODO: get right messages
+  private final MathContainer mathContainer;
 
   public ArraysMathCheck(Model model, MathContainer mathContainer) {
     super(model);
@@ -47,7 +55,7 @@ public class ArraysMathCheck extends ArraysConstraint{
    */
   @Override
   public void check() {
-    if(model == null || mathContainer == null) {
+    if(model == null || mathContainer == null || !mathContainer.isSetMath()) {
       return;
     }
     if(!ArraysMath.isVectorBalanced(model, mathContainer)) {
@@ -62,10 +70,102 @@ public class ArraysMathCheck extends ArraysConstraint{
     }
     if(!ArraysMath.checkVectorAssignment(model, mathContainer)) {
       String shortMsg = "When there is an assignment, then it must the the case that the left-hand matches the"
-        + " right-hand size in dimension sizes but " + mathContainer.toString() + " doesn't.";
+          + " right-hand size in dimension sizes but " + mathContainer.toString() + " doesn't.";
       logMathVectorIrregular(shortMsg);
     }
-    
+
+    List<ASTNode> selectorNodes = getSelectorNodes(mathContainer);
+    for(ASTNode selectorNode : selectorNodes) {
+      checkSelector(selectorNode);
+    }
+  }
+
+  private void checkSelector(ASTNode math) {
+
+    if(math.getChildCount() == 0) {
+      String shortMsg = "Selector MathML needs more than 1 argument.";
+      logSelectorInconsistency(shortMsg);
+    }
+
+    ASTNode obj = math.getChild(0);
+
+    if(obj.isString())
+    {
+      SBase sbase = model.findNamedSBase(obj.toString());
+
+      if(sbase == null)
+      {
+        String shortMsg = "The first argument of " +
+            math.toString() + " does not have a valid SIdRef.";
+        logSelectorInconsistency(shortMsg);
+        return;
+      }
+
+      ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
+
+      if(arraysSBasePlugin.getDimensionCount() < math.getChildCount()-1)
+      {
+        String shortMsg = "Selector number of arguments of " +
+            math.toString() + " is inconsistency .";
+        logSelectorInconsistency(shortMsg);
+      }
+
+
+
+    }
+    else if(!obj.isVector())
+    {
+      String shortMsg = "The first argument of a selector object should be a vector or an arrayed object and " +
+          math.toString() + " violates this condition.";
+      logSelectorInconsistency(shortMsg);
+    }
+
+    boolean isStaticComp = ArraysMath.isStaticallyComputable(model, mathContainer);
+
+    if(!isStaticComp) {
+      String shortMsg = "Selector arguments other than first should either be dimensions id or constant and " +
+          math.toString() + " has invalid math.";
+      logSelectorInconsistency(shortMsg);
+      return;
+    }
+
+    boolean isBounded = ArraysMath.evaluateSelectorBounds(model, mathContainer);
+
+    if(!isBounded) {
+      String shortMsg = "Selector arguments other than first should not go out of bounds but " +
+          math.toString() + " does.";
+      logSelectorInconsistency(shortMsg);
+    }
+
+  }
+
+  /**
+   * Get all the selector ASTNodes in the given math.
+   * 
+   * @param math
+   * @return
+   */
+  private List<ASTNode> getSelectorNodes(MathContainer mathContainer) {
+    ASTNode math = mathContainer.getMath();
+    List<ASTNode> listOfNodes = new ArrayList<ASTNode>();
+    getSelectorNodes(math, listOfNodes);
+    return listOfNodes;
+  }
+
+  /**
+   * Recursively checks if a node is of type FUNCTION_SELECTOR. If so,
+   * add to the list of selector nodes.
+   * 
+   * @param math
+   * @param listOfNodes
+   */
+  private void getSelectorNodes(ASTNode math, List<ASTNode> listOfNodes) {
+    if(math.getType() == ASTNode.Type.FUNCTION_SELECTOR) {
+      listOfNodes.add(math);
+    }
+    for(int i = 0; i < math.getChildCount(); ++i) {
+      getSelectorNodes(math.getChild(i), listOfNodes);
+    }
   }
 
   /**
@@ -100,4 +200,19 @@ public class ArraysMathCheck extends ArraysConstraint{
     logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
   }
 
+  /**
+   * Log an error indicating that the first argument of the selector math is invalid.
+   * 
+   * @param shortMsg
+   */
+  private void logSelectorInconsistency(String shortMsg) {
+    int code = 10207, severity = 0, category = 0, line = 0, column = 0;
+
+    String pkg = "arrays";
+    String msg = "The first argument of a MathML selector must be a MathML vector object or a valid identifier" +
+        "to an SBase object extended with a list of Dimension objects. (Reference: SBML Level 3 Package" +
+        "Specification for Arrays, Version 1, Section 3.5 on page 10.)";
+
+    logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
+  }
 }
