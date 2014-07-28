@@ -39,6 +39,7 @@ import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.Trigger;
@@ -302,6 +303,25 @@ public class FlatteningTest {
     } catch (ParseException e) {
       e.printStackTrace();
     }
+  }
+  
+  @Test
+  public void testBioModelFlattening() {
+    SBMLDocument doc;
+    try {
+      doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/BIOMD0000000012.xml"));
+      Model model = doc.getModel();
+      boolean success = true;
+      for(int i = 0; i < model.getRuleCount(); ++i) {
+        if(model.getRule(i).equals(new ASTNode("unknown"))) {
+          success = false;
+        }
+      }
+      assertTrue(success);
+    } catch (XMLStreamException e) {
+      assertTrue(false);
+    }
+   
   }
 
 }

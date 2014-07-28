@@ -193,8 +193,10 @@ public class ArraysFlattening {
       try {
         List<Integer> tempList = idToIndices.get(mathContainer.getParentSBMLObject());
         idToIndices.remove(mathContainer.getParentSBMLObject());
-        mathContainer.setMath(ASTNode.parseFormula(math.toString()));
-        idToIndices.put(mathContainer.getParentSBMLObject(), tempList);
+        if(!math.equals(unknown)) {
+          mathContainer.setMath(ASTNode.parseFormula(math.toString()));
+          idToIndices.put(mathContainer.getParentSBMLObject(), tempList);
+        }
       } catch (ParseException e) {
         e.printStackTrace();
       }
