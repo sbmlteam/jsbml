@@ -43,9 +43,9 @@ import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.ext.arrays.Index;
+import org.sbml.jsbml.ext.arrays.util.ArraysMath;
 import org.sbml.jsbml.ext.arrays.validator.ArraysValidator;
-import org.sbml.jsbml.ext.arrays.validator.constraints.SelectorMathCheck;
-import org.sbml.jsbml.ext.arrays.validator.constraints.VectorMathCheck;
+import org.sbml.jsbml.ext.arrays.validator.constraints.ArraysMathCheck;
 import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
 
@@ -282,7 +282,7 @@ public class ArraysValidationTest {
       FormulaParser parser = new FormulaParser(new StringReader(formula));
       n = parser.parse();
       index.setMath(n);
-      VectorMathCheck check = new VectorMathCheck(m, index);
+      ArraysMathCheck check = new ArraysMathCheck(m, index);
       check.check();
       assertTrue(check.getListOfErrors().size() == 1);
       
@@ -291,7 +291,7 @@ public class ArraysValidationTest {
       parser = new FormulaParser(new StringReader(formula));
       n = parser.parse();
       index.setMath(n);
-      check = new VectorMathCheck(m, index);
+      check = new ArraysMathCheck(m, index);
       check.check();
       assertTrue(check.getListOfErrors().size() == 1);
       
@@ -300,7 +300,7 @@ public class ArraysValidationTest {
       parser = new FormulaParser(new StringReader(formula));
       n = parser.parse();
       index.setMath(n);
-      check = new VectorMathCheck(m, index);
+      check = new ArraysMathCheck(m, index);
       check.check();
       assertTrue(check.getListOfErrors().size() == 1);
       
@@ -309,7 +309,7 @@ public class ArraysValidationTest {
       parser = new FormulaParser(new StringReader(formula));
       n = parser.parse();
       index.setMath(n);
-      check = new VectorMathCheck(m, index);
+      check = new ArraysMathCheck(m, index);
       check.check();
       assertTrue(check.getListOfErrors().size() == 1);
       
@@ -318,7 +318,7 @@ public class ArraysValidationTest {
       parser = new FormulaParser(new StringReader(formula));
       n = parser.parse();
       index.setMath(n);
-      check = new VectorMathCheck(m, index);
+      check = new ArraysMathCheck(m, index);
       check.check();
       assertTrue(check.getListOfErrors().size() == 0);
       
@@ -336,7 +336,7 @@ public class ArraysValidationTest {
       parser = new FormulaParser(new StringReader(formula));
       n = parser.parse();
       index.setMath(n);
-      check = new VectorMathCheck(m, index);
+      check = new ArraysMathCheck(m, index);
       check.check();
       assertTrue(check.getListOfErrors().size() == 0);
       
@@ -345,7 +345,7 @@ public class ArraysValidationTest {
       parser = new FormulaParser(new StringReader(formula));
       n = parser.parse();
       index.setMath(n);
-      check = new VectorMathCheck(m, index);
+      check = new ArraysMathCheck(m, index);
       check.check();
       assertTrue(check.getListOfErrors().size() == 1);
       //TODO: check error code
@@ -366,19 +366,19 @@ public class ArraysValidationTest {
       doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/example.xml"));
       Model model = doc.getModel();
       AssignmentRule rule = (AssignmentRule) model.getRule("Y");
-      SelectorMathCheck check = new SelectorMathCheck(model, rule);
+      ArraysMathCheck check = new ArraysMathCheck(model, rule);
       check.check();
       assertTrue(check.getListOfErrors().size() == 0);
       Parameter p = model.createParameter("x");
       p.setConstant(false);
       p.setValue(5);
       rule.setMath(ASTNode.parseFormula("X[3+p]"));
-      check = new SelectorMathCheck(model, rule);
+      check = new ArraysMathCheck(model, rule);
       check.check();
       assertTrue(check.getListOfErrors().size() == 1);
       
       rule.setMath(ASTNode.parseFormula("X[i+5]"));
-      check = new SelectorMathCheck(model, rule);
+      check = new ArraysMathCheck(model, rule);
       check.check();
       assertTrue(check.getListOfErrors().size() == 1);
       
@@ -392,6 +392,149 @@ public class ArraysValidationTest {
     
   }
   
+  /**
+   * Test validation where there is a dimension with array dimension 2
+   * but not 0 and 1.
+   */
+  @Test
+  public void staticallyComputableTest() {
 
+    SBMLDocument doc;
+    try {
+      doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/example.xml"));
+      Model model = doc.getModel();
+      AssignmentRule rule = (AssignmentRule) model.getRule("Y");
+      ArraysMathCheck check = new ArraysMathCheck(model, rule);
+      check.check();
+      assertTrue(check.getListOfErrors().size() == 0);
+      Parameter p = model.createParameter("x");
+      p.setConstant(false);
+      p.setValue(5);
+      rule.setMath(ASTNode.parseFormula("X[3+p]"));
+      Index index = new Index();
+      index.setMath(ASTNode.parseFormula("X[3+d0]"));
+      ArraysMath.isStaticallyComputable(model, index, new String[]{"d0"});
+    } catch (XMLStreamException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    } catch (NullPointerException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
   
+  /**
+   * Test validation where there is a dimension with array dimension 2
+   * but not 0 and 1.
+   */
+  @Test
+  public void isStaticallyComputableWithIdListTest() {
+    try {
+    SBMLDocument doc = new SBMLDocument(3,1);
+    Model model = doc.createModel();
+    String[] ids = new String[]{"i","j"};
+    Index index = new Index();
+    index.setMath(ASTNode.parseFormula("i"));
+      assertTrue(ArraysMath.isStaticallyComputable(model, index, ids));
+    } catch (ParseException e) {
+      assertTrue(false);
+    }
+  }
+  
+  /**
+   * Check if validation detects when index math goes out of bounds.
+   */
+  @Test
+  public void checkIndexBounds() {
+    try {
+      SBMLDocument doc = new SBMLDocument(3,1);
+      Model m = doc.createModel();
+      AssignmentRule r = m.createAssignmentRule();
+      
+      r.setVariable("p");
+      r.setMath(ASTNode.parseFormula("3"));
+      
+      Parameter p = m.createParameter("p");
+      p.setValue(3);
+      ArraysSBasePlugin paramPlugin = new ArraysSBasePlugin(p);
+      p.addExtension(ArraysConstants.shortLabel, paramPlugin);
+      Dimension pDim = paramPlugin.createDimension("i");
+      pDim.setSize("n");
+      pDim.setArrayDimension(0);
+      
+      Parameter size = m.createParameter("n");
+      size.setConstant(true);
+      size.setValue(10);
+
+      ArraysSBasePlugin plugin = new ArraysSBasePlugin(r);
+      r.addExtension(ArraysConstants.shortLabel, plugin);
+      r.setMath(ASTNode.parseFormula("3"));
+      
+      Dimension dim = plugin.createDimension("i");
+      dim.setSize("n");
+      dim.setArrayDimension(0);
+      
+      Index index = plugin.createIndex();
+      index.setArrayDimension(0);
+      index.setReferencedAttribute("variable");
+      index.setMath(ASTNode.parseFormula("10-i"));
+      
+      assertTrue(!ArraysMath.evaluateIndexBounds(m, index));
+      index.setMath(ASTNode.parseFormula("9-i"));
+      assertTrue(ArraysMath.evaluateIndexBounds(m, index));
+      
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
+ 
+  /**
+   * Check if validation detects when the LHS and the RHS doesn't agree in dimension sizes.
+   */
+  @Test
+  public void checkVectorMathConsistency() {
+    try {
+      SBMLDocument doc = new SBMLDocument(3,1);
+      Model m = doc.createModel();
+      AssignmentRule r = m.createAssignmentRule();
+      r.setVariable("p");
+      r.setMath(ASTNode.parseFormula("{{1,2,3},{1,2,3},{1,2,3}}"));
+      
+      Parameter p = m.createParameter("p");
+      p.setValue(3);
+      ArraysSBasePlugin paramPlugin = new ArraysSBasePlugin(p);
+      p.addExtension(ArraysConstants.shortLabel, paramPlugin);
+      
+      Dimension pDim0 = paramPlugin.createDimension("i");
+      pDim0.setSize("n");
+      pDim0.setArrayDimension(0);
+      Dimension pDim1 = paramPlugin.createDimension("j");
+      pDim1.setSize("n");
+      pDim1.setArrayDimension(1);
+      
+      Parameter size = m.createParameter("n");
+      size.setConstant(true);
+      size.setValue(3);
+
+      
+      ArraysMathCheck check = new ArraysMathCheck(m, r);
+      check.check();
+      
+      assertTrue(ArraysMath.checkVectorMath(m, r));
+      assertTrue(ArraysMath.checkVectorAssignment(m, r));
+      
+      r.setMath(ASTNode.parseFormula("{{1,2,3},{1,2,3},{1,2,3}, {1,2,3}}"));
+      check = new ArraysMathCheck(m, r);
+      check.check();
+      assertTrue(!ArraysMath.checkVectorAssignment(m, r));
+      
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
 }

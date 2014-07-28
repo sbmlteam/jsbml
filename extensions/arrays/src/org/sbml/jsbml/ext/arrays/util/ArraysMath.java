@@ -496,13 +496,6 @@ public class ArraysMath {
       Map<Integer, Integer> sizeByLevel = ArraysMath.getVectorDimensionSizes(model, math);
       return checkSizeRecursive(model, sizeByLevel, math, 0);
     }
-    for(int i = 0; i < math.getChildCount(); ++i) {
-      Map<Integer, Integer> sizeByLevel = ArraysMath.getVectorDimensionSizes(model, math.getChild(i));
-      boolean isBalanced = checkSizeRecursive(model, sizeByLevel, math.getChild(i), 0);
-      if(!isBalanced) {
-        return false;
-      }
-    }
     return true;
   }
 
