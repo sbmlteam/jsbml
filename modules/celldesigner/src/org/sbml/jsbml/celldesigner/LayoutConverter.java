@@ -180,7 +180,7 @@ public class LayoutConverter {
     //starting the reaction position algorithm
     PluginRealLineInformationDataObjOfReactionLink inputInfo = pReaction.getAllMyPostionInfomations();
     //debugReactionPosition(pReaction,inputInfo);
-    if (inputInfo.getPointsInLine() != null) {
+    if (inputInfo!= null && inputInfo.getPointsInLine() != null) {
       //grabbing main reaction axis (usually first Vector in getPointsInLine()
       Vector mainReactionAxis = (Vector)inputInfo.getPointsInLine().get(0);
       ListOf<SpeciesReferenceGlyph> list = layout.getReactionGlyph("rGlyph_"+pReaction.getId()).getListOfSpeciesReferenceGlyphs();
@@ -188,71 +188,12 @@ public class LayoutConverter {
         SpeciesReferenceGlyph srGlyph;
         Curve curve;
 
-        //calculating TextGlyph
-        Point2D.Double coordinates0 = (Point2D.Double) mainReactionAxis.get(0);
-        Point2D.Double coordinates1 = (Point2D.Double) mainReactionAxis.get(mainReactionAxis.size()-1);
+        //calculating TextGlyph position
         TextGlyph tGlyph = layout.createTextGlyph("tGlyph_"+pReaction.getId());
         tGlyph.setOriginOfText(pReaction.getId());
         tGlyph.putUserObject(LINK_TO_CELLDESIGNER, pReaction);
         reactionList.add(tGlyph);
-
-        double theta = Math.atan((coordinates1.y-coordinates0.y)/(coordinates1.x-coordinates0.x));
-        if ((coordinates1.x>coordinates0.x) && ((coordinates1.x-coordinates0.x)/(coordinates1.y-coordinates0.y))>1.5) //is west-east reaction
-        {
-          if (theta>=0)
-          {
-            tGlyph.createBoundingBox(20, 10, depth, coordinates0.x+5, coordinates0.y-5, z);
-          }
-          else if (theta<0)
-          {
-            tGlyph.createBoundingBox(20, 10, depth, coordinates0.x+5, coordinates0.y+5, z);
-          }
-        }
-        else if ((coordinates1.x<coordinates0.x) && ((coordinates1.x-coordinates0.x)/(coordinates1.y-coordinates0.y))>1.5) //is east-west reaction
-        {
-          if (theta>=0)
-          {
-            tGlyph.createBoundingBox(20, 10, depth, coordinates0.x-5, coordinates0.y-5, z);
-          }
-          else if (theta<0)
-          {
-            tGlyph.createBoundingBox(20, 10, depth, coordinates0.x-5, coordinates0.y+5, z);
-          }
-        }
-        else if ((coordinates1.y>coordinates0.y) && ((coordinates1.y-coordinates0.y)/(coordinates1.x-coordinates0.x))>1.5) //is north-south reaction
-        {
-          if (theta>=0)
-          {
-            tGlyph.createBoundingBox(20, 10, depth, coordinates0.x-25, coordinates0.y+5, z);
-          }
-          else if (theta<0)
-          {
-            tGlyph.createBoundingBox(20, 10, depth, coordinates0.x+5, coordinates0.y+5, z);
-          }
-        }
-        else if ((coordinates1.y<coordinates0.y) && ((coordinates1.y-coordinates0.y)/(coordinates1.x-coordinates0.x))>1.5) //is south-north reaction
-        {
-          if (theta>=0)
-          {
-            tGlyph.createBoundingBox(20, 10, depth, coordinates0.x+5, coordinates0.y-5, z);
-          }
-          else if (theta<0)
-          {
-            tGlyph.createBoundingBox(20, 10, depth, coordinates0.x-25, coordinates0.y+5, z);
-          }
-        }
-        else
-        {
-          if (theta>=0)
-          {
-            tGlyph.createBoundingBox(20, 10, depth, coordinates0.x+5, coordinates0.y+5, z);
-          }
-          else if (theta<0)
-          {
-            tGlyph.createBoundingBox(20, 10, depth, coordinates0.x+5, coordinates0.y-5, z);
-          }
-        }
-
+        tGlyph.createBoundingBox(20, 10, depth, pReaction.getLabelX(), pReaction.getLabelY(), z);
 
         if (mainReactionAxis.size()==2 && inputInfo.getMidPointInLine()!=null && inputInfo.getPointsInLine().size()>2)
         {

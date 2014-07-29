@@ -92,6 +92,9 @@ import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.celldesigner.libsbml.LibSBMLReader;
 import org.sbml.jsbml.celldesigner.libsbml.LibSBMLUtils;
+import org.sbml.jsbml.ext.fbc.FBCConstants;
+import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
+import org.sbml.jsbml.ext.fbc.FBCSpeciesPlugin;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
@@ -478,6 +481,25 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
       model.addExtension(layoutNamespace, modelPlugin);
       layout.addExtension(renderNamespace, renderPlugin);
 
+      if (model.getLevel()>2)
+      {
+        boolean chargePresent = false;
+        for (int i = 0; i < originalModel.getNumSpecies(); i++) {
+          PluginSpecies pSpecies = originalModel.getSpecies(i);
+          if (pSpecies.getCharge()!=0)
+          {
+            chargePresent = true;
+            break;
+          }
+        }
+        if (chargePresent)
+        {
+          String FBCNamespace = FBCConstants.getNamespaceURI(model.getLevel(), model.getVersion());
+          FBCModelPlugin FBCPlugin = new FBCModelPlugin(model);
+          model.addExtension(FBCNamespace, FBCPlugin);
+        }
+      }
+
       PluginUtils.transferNamedSBaseProperties(originalModel, model);
       if (listener != null) {
         curr += originalModel.getNumCVTerms();
@@ -737,6 +759,11 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
     }
     if (model.getLevel()<3) {
       s.setCharge(species.getCharge());
+    }
+    if (model.getExtension("fbc")!=null)
+    {
+      FBCSpeciesPlugin fbcSpecies = new FBCSpeciesPlugin(s);
+      fbcSpecies.setCharge(species.getCharge());
     }
     if ((species.getCompartment() != null) && (species.getCompartment().length() > 0)) {
       s.setCompartment(model.getCompartment(species.getCompartment()));

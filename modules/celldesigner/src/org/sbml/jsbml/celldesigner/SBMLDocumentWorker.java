@@ -22,12 +22,16 @@
  */
 package org.sbml.jsbml.celldesigner;
 
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
 
 import jp.sbi.celldesigner.plugin.PluginModel;
 
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.render.RenderConstants;
 
@@ -40,10 +44,10 @@ import org.sbml.jsbml.ext.render.RenderConstants;
  */
 public class SBMLDocumentWorker extends SwingWorker<SBMLDocument, Throwable> {
 
-  private PluginSBMLReader sbmlReader;
-  private PluginModel pluginModel;
+  private final PluginSBMLReader sbmlReader;
+  private final PluginModel pluginModel;
 
-  
+
   /**
    * @return the pluginModel
    */
@@ -70,6 +74,12 @@ public class SBMLDocumentWorker extends SwingWorker<SBMLDocument, Throwable> {
       doc.getSBMLDocumentAttributes().put(LayoutConstants.shortLabel + ":required", "false");
       doc.getSBMLDocumentAttributes().put(RenderConstants.shortLabel + ":required", "false");
       doc.setModel(model);
+      if (doc.getModel().getExtension("fbc")!=null)
+      {
+        JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea("fbc addded: "+doc.getModel().getExtension("fbc").toString()+"\t"+doc.getLevel())));
+        doc.addNamespace(FBCConstants.shortLabel, "xmlns", FBCConstants.getNamespaceURI(doc.getLevel(), doc.getVersion()));
+        doc.getSBMLDocumentAttributes().put(FBCConstants.shortLabel + ":required", "false");
+      }
       return doc;
     }
     catch (Throwable e)
