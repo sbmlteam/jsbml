@@ -306,6 +306,32 @@ public abstract class CurveSegment extends AbstractSBase {
   }
 
   /**
+   * 
+   * @return
+   */
+  public Point removeEnd() {
+    if (!isSetEnd()) {
+      return null;
+    }
+    Point end = getEnd();
+    setEnd(null);
+    return end;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public Point removeStart() {
+    if (!isSetStart()) {
+      return null;
+    }
+    Point start = getStart();
+    setStart(null);
+    return start;
+  }
+
+  /**
    * Sets the {@code End} {@link Point} of this {@link CurveSegment}.
    * 
    * @param start the {@code End} {@link Point} to set

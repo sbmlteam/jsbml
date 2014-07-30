@@ -267,6 +267,32 @@ public class CubicBezier extends LineSegment {
   }
 
   /**
+   * 
+   * @return
+   */
+  public Point removeBasePoint1() {
+    if (!isSetBasePoint1()) {
+      return null;
+    }
+    Point bp1 = getBasePoint1();
+    setBasePoint1(null);
+    return bp1;
+  }
+
+  /**
+   * 
+   * @return
+   */
+  public Point removeBasePoint2() {
+    if (!isSetBasePoint2()) {
+      return null;
+    }
+    Point bp2 = getBasePoint2();
+    setBasePoint2(null);
+    return bp2;
+  }
+
+  /**
    * basePoint1 specifies represents the base point closer
    * to the start point.
    * 
@@ -279,7 +305,7 @@ public class CubicBezier extends LineSegment {
       oldValue.fireNodeRemovedEvent();
     }
     this.basePoint1 = basePoint1;
-    
+
     if (basePoint1 != null) {
       basePoint1.setElementName(LayoutConstants.basePoint1);
     }
@@ -297,7 +323,7 @@ public class CubicBezier extends LineSegment {
       oldValue.fireNodeRemovedEvent();
     }
     this.basePoint2 = basePoint2;
-    
+
     if (basePoint2 != null) {
       basePoint2.setElementName(LayoutConstants.basePoint2);
     }

@@ -263,7 +263,18 @@ public class TextGlyph extends AbstractReferenceGlyph {
    * @param graphicalObject
    */
   public void setGraphicalObject(GraphicalObject graphicalObject) {
-    setGraphicalObject(graphicalObject.getId());
+    if (graphicalObject == null) {
+      unsetGraphicalObject();
+    } else {
+      setGraphicalObject(graphicalObject.getId());
+    }
+  }
+
+  /**
+   * 
+   */
+  public void unsetGraphicalObject() {
+    setGraphicalObject((String) null);
   }
 
   /**

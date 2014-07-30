@@ -191,7 +191,14 @@ public abstract class AbstractReferenceGlyph extends GraphicalObject {
    */
   @Override
   public String toString() {
-    return getElementName() + " [" + (isSetReference() ? getReference() : "") + ']';
+    StringBuilder sb = new StringBuilder();
+    sb.append(getElementName());
+    sb.append(" [id=");
+    sb.append(isSetId() ? getId() : "null");
+    sb.append(", reference=");
+    sb.append(isSetReference() ? getReference() : "null");
+    sb.append(']');
+    return sb.toString();
   }
 
   /**

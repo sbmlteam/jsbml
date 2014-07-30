@@ -62,7 +62,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   /**
    * 
    */
-  private ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyph;
+  private ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyphs;
 
   /**
    * 
@@ -115,7 +115,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
 
   /**
    * Appends the specified element to the end of the
-   * {@link #listOfSpeciesReferencesGlyph}.
+   * {@link #listOfSpeciesReferencesGlyphs}.
    * 
    * @param glyph
    * @return {@code true} (as specified by {@link Collection#add(E)})
@@ -240,19 +240,19 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   }
 
   /**
-   * If the {@link #listOfSpeciesReferencesGlyph} has not yet been initialized, this
+   * If the {@link #listOfSpeciesReferencesGlyphs} has not yet been initialized, this
    * will be done by this method.
    * 
-   * @return the {@link #listOfSpeciesReferencesGlyph}
+   * @return the {@link #listOfSpeciesReferencesGlyphs}
    */
   public ListOf<SpeciesReferenceGlyph> getListOfSpeciesReferenceGlyphs() {
     if (!isSetListOfSpeciesReferencesGlyphs()) {
-      listOfSpeciesReferencesGlyph = new ListOf<SpeciesReferenceGlyph>();
-      listOfSpeciesReferencesGlyph.setNamespace(LayoutConstants.namespaceURI);
-      listOfSpeciesReferencesGlyph.setSBaseListType(ListOf.Type.other);
-      registerChild(listOfSpeciesReferencesGlyph);
+      listOfSpeciesReferencesGlyphs = new ListOf<SpeciesReferenceGlyph>();
+      listOfSpeciesReferencesGlyphs.setNamespace(LayoutConstants.namespaceURI);
+      listOfSpeciesReferencesGlyphs.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfSpeciesReferencesGlyphs);
     }
-    return listOfSpeciesReferencesGlyph;
+    return listOfSpeciesReferencesGlyphs;
   }
 
   /**
@@ -309,7 +309,7 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
    * @return
    */
   public boolean isSetListOfSpeciesReferencesGlyphs() {
-    return listOfSpeciesReferencesGlyph != null;
+    return listOfSpeciesReferencesGlyphs != null;
   }
 
   /**
@@ -371,8 +371,8 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   public void setListOfSpeciesReferencesGlyph(
     ListOf<SpeciesReferenceGlyph> listOfSpeciesReferencesGlyph) {
     unsetListOfSpeciesReferencesGlyph();
-    this.listOfSpeciesReferencesGlyph = listOfSpeciesReferencesGlyph;
-    registerChild(this.listOfSpeciesReferencesGlyph);
+    listOfSpeciesReferencesGlyphs = listOfSpeciesReferencesGlyph;
+    registerChild(listOfSpeciesReferencesGlyphs);
   }
 
   /**
@@ -397,10 +397,10 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
   /**
    * 
    */
-  private void unsetListOfSpeciesReferencesGlyph() {
-    if (listOfSpeciesReferencesGlyph != null) {
-      ListOf<SpeciesReferenceGlyph> oldValue = listOfSpeciesReferencesGlyph;
-      listOfSpeciesReferencesGlyph = null;
+  public void unsetListOfSpeciesReferencesGlyph() {
+    if (listOfSpeciesReferencesGlyphs != null) {
+      ListOf<SpeciesReferenceGlyph> oldValue = listOfSpeciesReferencesGlyphs;
+      listOfSpeciesReferencesGlyphs = null;
       oldValue.fireNodeRemovedEvent();
     }
   }
