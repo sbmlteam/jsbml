@@ -167,8 +167,17 @@ public class LayoutConverter {
     //create SpeciesReferenceGlyphs for modifiers
     for (int i = 0;i<pReaction.getNumModifiers();i++)
     {
-      SpeciesReferenceGlyph srGlyph = new SpeciesReferenceGlyph("srGlyphModifier_" + pReaction.getId()+ "_" +
+      SpeciesReferenceGlyph srGlyph = new SpeciesReferenceGlyph("srGlyphModifier_" + pReaction.getId() + "_" +
           pReaction.getModifier(i).getSpeciesInstance().getId());
+
+      //a few published models make the same species a modifier twice, causing an ID conflict for srGlyph. We need to work around this.
+      for (SpeciesReferenceGlyph ref: layout.getReactionGlyph("rGlyph_"+pReaction.getId()).getListOfSpeciesReferenceGlyphs())
+      {
+        if (ref.getId().equals(srGlyph.getId()))
+        {
+          srGlyph.setId(srGlyph.getId()+"_2");
+        }
+      }
       srGlyph.setRole(SpeciesReferenceRole.MODIFIER);
 
       PluginSpecies pSpecies = pReaction.getModifier(i).getSpeciesInstance();
@@ -181,7 +190,7 @@ public class LayoutConverter {
     PluginRealLineInformationDataObjOfReactionLink inputInfo = pReaction.getAllMyPostionInfomations();
     //debugReactionPosition(pReaction,inputInfo);
     if (inputInfo!= null && inputInfo.getPointsInLine() != null) {
-      //grabbing main reaction axis (usually first Vector in getPointsInLine()
+      //grabbing main reaction axis
       Vector mainReactionAxis = (Vector)inputInfo.getPointsInLine().get(0);
       ListOf<SpeciesReferenceGlyph> list = layout.getReactionGlyph("rGlyph_"+pReaction.getId()).getListOfSpeciesReferenceGlyphs();
       if ((mainReactionAxis != null) && (mainReactionAxis.size() > 0)) {
@@ -193,7 +202,7 @@ public class LayoutConverter {
         tGlyph.setOriginOfText(pReaction.getId());
         tGlyph.putUserObject(LINK_TO_CELLDESIGNER, pReaction);
         reactionList.add(tGlyph);
-        tGlyph.createBoundingBox(20, 10, depth, pReaction.getLabelX(), pReaction.getLabelY(), z);
+        tGlyph.createBoundingBox(20, 10, depth, pReaction.getLabelX()+10, pReaction.getLabelY()+10, z);
 
         if (mainReactionAxis.size()==2 && inputInfo.getMidPointInLine()!=null && inputInfo.getPointsInLine().size()>2)
         {
@@ -362,7 +371,7 @@ public class LayoutConverter {
           LineSegment productSegment = new LineSegment();
           productSegment.setStart(new Point((listOfCoordinates.get(1).x+listOfCoordinates.get(2).x)/2,
             (listOfCoordinates.get(1).y+listOfCoordinates.get(2).y)/2, z));
-          productSegment.setEnd(new Point(listOfCoordinates.get(3).x, listOfCoordinates.get(3).y, z));
+          productSegment.setEnd(new Point(listOfCoordinates.get(2).x, listOfCoordinates.get(2).y, z));
           curve = new Curve();
           curve.addCurveSegment(productSegment);
           productSegment = new LineSegment();
@@ -439,7 +448,7 @@ public class LayoutConverter {
                 Point2D.Double productBegin = (Point2D.Double) reactionLinkMembers.get(0);
                 Point2D.Double productEnd = (Point2D.Double) reactionLinkMembers.get(1);
                 reactantSegment.setStart(new Point(productBegin.x, productBegin.y, z));
-                reactantSegment.setEnd(new Point(productEnd.x, productBegin.y, z));
+                reactantSegment.setEnd(new Point(productEnd.x, productEnd.y, z));
                 //adding next product
                 for (int j = 1; j < pReaction.getNumProducts(); j++)
                 {
@@ -537,6 +546,7 @@ public class LayoutConverter {
   }
   /**
    * if you ever run into trouble with reaction positioning, call this method to print reaction positions from CD
+   * Call this statement after inputInfo is initialized in extractLayout(pReaction): debugReactionPosition(pReaction,inputInfo);
    * @param pReaction
    * @param inputInfo
    */
