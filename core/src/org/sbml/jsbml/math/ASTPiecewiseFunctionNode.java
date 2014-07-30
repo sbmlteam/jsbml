@@ -91,9 +91,9 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
   /**
    * Get the number of piece elements in this {@link ASTPiecewiseFunctionNode}
    * 
-   * @return Integer numPiece
+   * @return Integer - the number of piece elements in this {@link ASTPiecewiseFunctionNode}
    */
-  public int getNumPiece() {
+  public int getPieceCount() {
     if (! isSetList()) {
       return 0;
     }

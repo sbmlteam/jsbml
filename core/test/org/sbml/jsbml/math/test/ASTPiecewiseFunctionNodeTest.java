@@ -76,16 +76,16 @@ public class ASTPiecewiseFunctionNodeTest {
   }
   
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTPiecewiseFunctionNode#getNumPiece()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTPiecewiseFunctionNode#getPieceCount()}.
    */
   @Test
   public final void testGetNumPiece() {
     ASTPiecewiseFunctionNode piecewise = new ASTPiecewiseFunctionNode();
-    assertTrue(piecewise.getNumPiece() == 0);
+    assertTrue(piecewise.getPieceCount() == 0);
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTPiecewiseFunctionNode#getNumPiece()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTPiecewiseFunctionNode#getPieceCount()}.
    */
   @Test
   public final void testGetNumPieceWithChildren() {
@@ -93,7 +93,7 @@ public class ASTPiecewiseFunctionNodeTest {
     piecewise.addChild(new ASTQualifierNode(Type.CONSTRUCTOR_PIECE));
     piecewise.addChild(new ASTQualifierNode(Type.CONSTRUCTOR_PIECE));
     piecewise.addChild(new ASTQualifierNode(Type.CONSTRUCTOR_OTHERWISE));
-    assertTrue(piecewise.getNumPiece() == 2);
+    assertTrue(piecewise.getPieceCount() == 2);
   }
 
   /**

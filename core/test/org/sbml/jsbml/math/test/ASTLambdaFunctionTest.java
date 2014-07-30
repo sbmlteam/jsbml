@@ -26,7 +26,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.math.ASTCiFunctionNode;
 import org.sbml.jsbml.math.ASTLambdaFunctionNode;
+import org.sbml.jsbml.math.ASTPlusNode;
 import org.sbml.jsbml.math.ASTQualifierNode;
 
 
@@ -79,6 +81,36 @@ public class ASTLambdaFunctionTest {
   public final void testIsAllowableType() {
     ASTLambdaFunctionNode lambda = new ASTLambdaFunctionNode();
     assertTrue(lambda.isAllowableType(Type.LAMBDA) && !lambda.isAllowableType(null));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLambdaFunctionNode#getBvarCount()}.
+   */
+  @Test
+  public final void testGetBvarCount() {
+    ASTLambdaFunctionNode lambda = new ASTLambdaFunctionNode();
+    assertTrue(lambda.getBvarCount() == 0);
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLambdaFunctionNode#getBvarCount()}.
+   */
+  @Test
+  public final void testGetBvarCountWithChildren() {
+    ASTLambdaFunctionNode lambda = new ASTLambdaFunctionNode();
+    ASTQualifierNode bvarX = new ASTQualifierNode(Type.QUALIFIER_BVAR);
+    ASTCiFunctionNode x = new ASTCiFunctionNode();
+    x.setName("x");
+    bvarX.addChild(x);
+    ASTCiFunctionNode y = new ASTCiFunctionNode();
+    x.setName("y");
+    ASTQualifierNode bvarY = new ASTQualifierNode(Type.QUALIFIER_BVAR);
+    bvarY.addChild(y);
+    lambda.addChild(bvarX);
+    lambda.addChild(bvarY);
+    ASTPlusNode plus = new ASTPlusNode(x, y);
+    lambda.addChild(plus);
+    assertTrue(lambda.getBvarCount() == 2);
   }
   
 }

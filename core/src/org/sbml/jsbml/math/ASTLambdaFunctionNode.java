@@ -22,12 +22,10 @@
  */
 package org.sbml.jsbml.math;
 
-import org.apache.log4j.Logger;
-import org.sbml.jsbml.MathContainer;
-import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 /**
@@ -46,25 +44,11 @@ public class ASTLambdaFunctionNode extends ASTFunction {
    */
   private static final long serialVersionUID = 3189146748998908918L;
 
-
-  /**
-   * A {@link Logger} for this class.
-   */
-  private static final Logger logger = Logger.getLogger(ASTLambdaFunctionNode.class);
-
-
-  /**
-   * The number of MathML bvar elements inside this
-   * lambda function
-   */
-  private Integer numBvars;
-
   /**
    * Creates a new {@link ASTLambdaFunctionNode}.
    */
   public ASTLambdaFunctionNode() {
     super();
-    numBvars = null;
     setType(Type.LAMBDA);
   }
 
@@ -76,9 +60,6 @@ public class ASTLambdaFunctionNode extends ASTFunction {
    */
   public ASTLambdaFunctionNode(ASTLambdaFunctionNode node) {
     super(node);
-    if (node.isSetNumBVars()) {
-      setNumBvars(node.getNumBvars());
-    }
   }
   
   /*
@@ -107,52 +88,20 @@ public class ASTLambdaFunctionNode extends ASTFunction {
     return value;
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#equals(java.lang.Object)
-   */
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (!super.equals(obj))
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    ASTLambdaFunctionNode other = (ASTLambdaFunctionNode) obj;
-    if (numBvars == null) {
-      if (other.numBvars != null)
-        return false;
-    } else if (!numBvars.equals(other.numBvars))
-      return false;
-    return true;
-  }
-
   /**
-   * Get the number of bvar elements
+   * Get the number of bvar elements in this {@link ASTLambdaFunctionNode}
    * 
    * @return Integer numBvars
    */
-  public int getNumBvars() {
-    if (isSetNumBVars()) {
-      return numBvars;
+  public int getBvarCount() {
+    if (! isSetList()) {
+      return 0;
     }
-    PropertyUndefinedError error = new PropertyUndefinedError("lambda", this);
-    if (isStrict()) {
-      throw error;
+    int i = 0;
+    for (ASTNode2 node : getListOfNodes()) {
+      i = node.getType() == ASTNode.Type.QUALIFIER_BVAR ? i + 1 : i;
     }
-    logger.warn(error);
-    return 0;
-  }
-
-  /* (non-Javadoc)
-   * @see java.lang.Object#hashCode()
-   */
-  @Override
-  public int hashCode() {
-    final int prime = 1213;
-    int result = super.hashCode();
-    result = prime * result + ((numBvars == null) ? 0 : numBvars.hashCode());
-    return result;
+    return i;
   }
 
   /* (non-Javadoc)
@@ -163,35 +112,13 @@ public class ASTLambdaFunctionNode extends ASTFunction {
     return type == Type.LAMBDA;
   }
 
-  /**
-   * Returns True iff numBvars is set
-   * 
-   * @return boolean
-   */
-  private boolean isSetNumBVars() {
-    return numBvars != null;
-  }
-
-  /**
-   * Set the number of bvar elements
-   * 
-   * @param Integer numBvars
-   */
-  protected void setNumBvars(int numBvars) {
-    Integer old = this.numBvars;
-    this.numBvars = numBvars;
-    firePropertyChange(TreeNodeChangeEvent.numBvars, old, this.numBvars);
-  }
-
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("ASTLambdaFunctionNode [numBvars=");
-    builder.append(numBvars);
-    builder.append(", listOfNodes=");
+    builder.append("ASTLambdaFunctionNode [listOfNodes=");
     builder.append(listOfNodes);
     builder.append(", parentSBMLObject=");
     builder.append(parentSBMLObject);
