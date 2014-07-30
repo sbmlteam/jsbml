@@ -211,11 +211,7 @@ public class ASTRootNode extends ASTBinaryFunctionNode {
   public void setRootExponent(ASTNode2 rootExponent) {
     switch(getChildCount()) {
     case 0:
-      if (rootExponent instanceof ASTCnIntegerNode) {
-        if (((ASTCnIntegerNode)rootExponent).getInteger() != 2) {
-          addChild(rootExponent);          
-        }
-      }
+      addChild(rootExponent);          
       break;
     case 1:
       insertChild(0, rootExponent);

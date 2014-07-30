@@ -27,8 +27,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
-import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.ASTCSymbolDelayNode;
 
 
@@ -73,58 +73,16 @@ public class ASTCSymbolDelayNodeTest {
   @Test
   public final void testGetDefinitionURL() {
     ASTCSymbolDelayNode delay = new ASTCSymbolDelayNode();
-    delay.setDefinitionURL("definitionURL");
-    assertTrue(delay.getDefinitionURL().equals("definitionURL"));
+    assertTrue(delay.getDefinitionURL().equals(ASTNode.URI_DELAY_DEFINITION));
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolDelayNode#getDefinitionURL()}.
-   */
-  @Test
-  public final void testGetDefinitionURLNonExistent() {
-    ASTCSymbolDelayNode delay = new ASTCSymbolDelayNode();
-    exception.expect(PropertyUndefinedError.class);
-    delay.getDefinitionURL();
-  }
-
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolDelayNode#getDefinitionURL()}.
-   */
-  @Test
-  public final void testGetDefinitionURLNonExistentNonStrict() {
-    ASTCSymbolDelayNode delay = new ASTCSymbolDelayNode();
-    delay.setStrictness(false);
-    assertTrue(delay.getDefinitionURL().length() == 0);
-  }
-
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolDelayNode#getEncodingURL()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolDelayNode#getEncoding()}.
    */
   @Test
   public final void testGetEncodingURL() {
     ASTCSymbolDelayNode delay = new ASTCSymbolDelayNode();
-    delay.setEncodingURL("encoding");
-    assertTrue(delay.getEncodingURL().equals("encoding"));
-  }
-
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolDelayNode#getEncodingURL()}.
-   */
-  @Test
-  public final void testGetEncodingURLNonExistent() {
-    ASTCSymbolDelayNode delay = new ASTCSymbolDelayNode();
-    exception.expect(PropertyUndefinedError.class);
-    delay.getEncodingURL();
-  }
-
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolDelayNode#getEncodingURL()}.
-   */
-  @Test
-  public final void testGetEncodingURLNonExistentNonStrict() {
-    ASTCSymbolDelayNode delay = new ASTCSymbolDelayNode();
-    delay.setStrictness(false);
-    assertTrue(delay.getEncodingURL().length() == 0);
+    assertTrue(delay.getEncoding().equals("text"));
   }
 
   /**
@@ -142,17 +100,15 @@ public class ASTCSymbolDelayNodeTest {
   @Test
   public final void testIsSetDefinitionURL() {
     ASTCSymbolDelayNode delay = new ASTCSymbolDelayNode();
-    delay.setDefinitionURL("definitionURL");
     assertTrue(delay.isSetDefinitionURL());
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolDelayNode#isSetEncodingURL()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolDelayNode#isSetEncoding()}.
    */
   @Test
   public final void testIsSetEncodingURL() {
     ASTCSymbolDelayNode delay = new ASTCSymbolDelayNode();
-    delay.setEncodingURL("encoding");
-    assertTrue(delay.isSetEncodingURL());
+    assertTrue(delay.isSetEncoding());
   }
 }

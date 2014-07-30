@@ -23,8 +23,10 @@
 package org.sbml.jsbml.math;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.Maths;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
@@ -58,7 +60,7 @@ ASTCSymbolNode {
   /**
    * encodingURL attribute for MathML element
    */
-  private String encodingURL;
+  private String encoding;
 
   /**
    * The name of the MathML element represented by this
@@ -67,18 +69,13 @@ ASTCSymbolNode {
   private String name;
 
   /**
-   * The URI for the definition of the csymbol for avogadro.
-   */
-  public static final transient String URI_AVOGADRO_DEFINITION = "http://www.sbml.org/sbml/symbols/avogadro";
-
-  /**
    * Creates a new {@link ASTCSymbolAvogadroNode}.
    */
   public ASTCSymbolAvogadroNode() {
     super();
     setName(null);
-    setDefinitionURL(null);
-    setEncodingURL(null);
+    setDefinitionURL(ASTNode.URI_AVOGADRO_DEFINITION);
+    setEncoding("text");
   }
 
   /**
@@ -92,8 +89,8 @@ ASTCSymbolNode {
     if (isSetDefinitionURL()) {
       setDefinitionURL(node.getDefinitionURL());
     }
-    if (isSetEncodingURL()) {
-      setEncodingURL(node.getEncodingURL());      
+    if (isSetEncoding()) {
+      setEncoding(node.getEncoding());      
     }
   }
   
@@ -123,10 +120,10 @@ ASTCSymbolNode {
         return false;
     } else if (!definitionURL.equals(other.definitionURL))
       return false;
-    if (encodingURL == null) {
-      if (other.encodingURL != null)
+    if (encoding == null) {
+      if (other.encoding != null)
         return false;
-    } else if (!encodingURL.equals(other.encodingURL))
+    } else if (!encoding.equals(other.encoding))
       return false;
     if (name == null) {
       if (other.name != null)
@@ -156,9 +153,9 @@ ASTCSymbolNode {
    * @see org.sbml.jsbml.math.ASTCSymbolNode#getEncodingURL()
    */
   @Override
-  public String getEncodingURL() {
-    if (isSetEncodingURL()) {
-      return encodingURL;
+  public String getEncoding() {
+    if (isSetEncoding()) {
+      return encoding;
     }
     PropertyUndefinedError error = new PropertyUndefinedError("encodingURL", this);
     if (isStrict()) {
@@ -184,6 +181,14 @@ ASTCSymbolNode {
     return "";
   }
 
+  /**
+   * 
+   * 
+   */
+  public double getValue() {
+    return Maths.AVOGADRO_L3V1;
+  }
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -194,7 +199,7 @@ ASTCSymbolNode {
     result = prime * result
       + ((definitionURL == null) ? 0 : definitionURL.hashCode());
     result = prime * result
-      + ((encodingURL == null) ? 0 : encodingURL.hashCode());
+      + ((encoding == null) ? 0 : encoding.hashCode());
     result = prime * result + ((name == null) ? 0 : name.hashCode());
     return result;
   }
@@ -215,16 +220,16 @@ ASTCSymbolNode {
   public boolean isSetDefinitionURL() {
     return definitionURL != null;
   }
-
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#isSetEncodingURL()
    */
   @Override
-  public boolean isSetEncodingURL() {
-    return encodingURL != null;
+  public boolean isSetEncoding() {
+    return encoding != null;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetName()
    */
@@ -242,24 +247,28 @@ ASTCSymbolNode {
     return getName().equals(id);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTCSymbolNode#setDefinitionURL(java.lang.String)
+  /**
+   * Set the definitionURL of the MathML element represented by
+   * this {@link ASTCSymbolAvogadroNode}
+   * 
+   * @param String definitionURL
    */
-  @Override
-  public void setDefinitionURL(String definitionURL) {
+  private void setDefinitionURL(String definitionURL) {
     String old = this.definitionURL;
     this.definitionURL = definitionURL;
-    firePropertyChange(TreeNodeChangeEvent.definitionURL, old, encodingURL);
+    firePropertyChange(TreeNodeChangeEvent.definitionURL, old, encoding);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTCSymbolNode#setEncodingURL(java.lang.String)
+  /**
+   * Set the encoding of the MathML element represented by
+   * this {@link ASTCSymbolAvogadroNode}
+   * 
+   * @param String encoding
    */
-  @Override
-  public void setEncodingURL(String encodingURL) {
-    String old = this.encodingURL;
-    this.encodingURL = encodingURL;
-    firePropertyChange(TreeNodeChangeEvent.encoding, old, this.encodingURL);
+  private void setEncoding(String encoding) {
+    String old = this.encoding;
+    this.encoding = encoding;
+    firePropertyChange(TreeNodeChangeEvent.encoding, old, this.encoding);
   }
 
   /* (non-Javadoc)
@@ -271,7 +280,7 @@ ASTCSymbolNode {
     this.name = name;
     firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
   }
-
+  
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
@@ -281,7 +290,7 @@ ASTCSymbolNode {
     builder.append("ASTCSymbolAvogadroNode [definitionURL=");
     builder.append(definitionURL);
     builder.append(", encodingURL=");
-    builder.append(encodingURL);
+    builder.append(encoding);
     builder.append(", name=");
     builder.append(name);
     builder.append(", parentSBMLObject=");

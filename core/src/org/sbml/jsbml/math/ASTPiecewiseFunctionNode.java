@@ -22,6 +22,7 @@
  */
 package org.sbml.jsbml.math;
 
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
@@ -93,7 +94,14 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
    * @return Integer numPiece
    */
   public int getNumPiece() {
-    return getChildCount();
+    if (! isSetList()) {
+      return 0;
+    }
+    int i = 0;
+    for (ASTNode2 node : getListOfNodes()) {
+      i = node.getType() == ASTNode.Type.CONSTRUCTOR_PIECE ? i + 1 : i;
+    }
+    return i;
   }
 
   /**
@@ -102,7 +110,17 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
    * @return boolean hasOtherwise
    */
   public boolean hasOtherwise() {
-    return (getChildCount() / 2) > 0;
+    if (! isSetList()) {
+      return false;
+    }
+    ASTNode2 node = null;
+    for (int i = getChildCount() - 1 ; i >= 0; i--) {
+      node = listOfNodes.get(i);
+      if (node.getType() == ASTNode.Type.CONSTRUCTOR_OTHERWISE) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /* (non-Javadoc)

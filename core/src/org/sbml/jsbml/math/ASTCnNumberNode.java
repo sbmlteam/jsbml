@@ -181,7 +181,15 @@ public class ASTCnNumberNode<T> extends ASTNumber {
    * @return variable {@link String}
    */
   public String getVariable() {
-    return variable;
+    if (isSetVariable()) {
+      return variable;
+    }
+    PropertyUndefinedError error = new PropertyUndefinedError("variable", this);
+    if (isStrict()) {
+      throw error;
+    }
+    logger.warn(error);
+    return "";
   }
 
   /* (non-Javadoc)
@@ -229,7 +237,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
    * 
    * @return
    */
-  public boolean isSetVariable() {
+  protected boolean isSetVariable() {
     return this.variable != null;
   }
 
@@ -261,7 +269,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
    * 
    * @param variable {@link String}
    */
-  private void setVariable(String variable) {
+  public void setVariable(String variable) {
     String old = this.variable;
     this.variable = variable;
     firePropertyChange(TreeNodeChangeEvent.variable, old, this.variable);

@@ -27,6 +27,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.ASTCSymbolAvogadroNode;
@@ -71,58 +72,16 @@ public class ASTCSymbolAvogadroNodeTest {
   @Test
   public final void testGetDefinitionURL() {
     ASTCSymbolAvogadroNode avogadro = new ASTCSymbolAvogadroNode();
-    avogadro.setDefinitionURL("definitionURL");
-    assertTrue(avogadro.getDefinitionURL().equals("definitionURL"));
+    assertTrue(avogadro.getDefinitionURL().equals(ASTNode.URI_AVOGADRO_DEFINITION));
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolAvogadroNode#getDefinitionURL()}.
-   */
-  @Test
-  public final void testGetDefinitionURLNonExistent() {
-    ASTCSymbolAvogadroNode avogadro = new ASTCSymbolAvogadroNode();
-    exception.expect(PropertyUndefinedError.class);
-    avogadro.getDefinitionURL();
-  }
-
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolAvogadroNode#getDefinitionURL()}.
-   */
-  @Test
-  public final void testGetDefinitionURLNonExistentNonStrict() {
-    ASTCSymbolAvogadroNode avogadro = new ASTCSymbolAvogadroNode();
-    avogadro.setStrictness(false);
-    assertTrue(avogadro.getDefinitionURL().length() == 0);
-  }
-
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolAvogadroNode#getEncodingURL()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolAvogadroNode#getEncoding()}.
    */
   @Test
   public final void testGetEncodingURL() {
     ASTCSymbolAvogadroNode avogadro = new ASTCSymbolAvogadroNode();
-    avogadro.setEncodingURL("encoding");
-    assertTrue(avogadro.getEncodingURL().equals("encoding"));
-  }
-
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolAvogadroNode#getEncodingURL()}.
-   */
-  @Test
-  public final void testGetEncodingURLNonExistent() {
-    ASTCSymbolAvogadroNode avogadro = new ASTCSymbolAvogadroNode();
-    exception.expect(PropertyUndefinedError.class);
-    avogadro.getEncodingURL();
-  }
-
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolAvogadroNode#getEncodingURL()}.
-   */
-  @Test
-  public final void testGetEncodingURLNonExistentNonStrict() {
-    ASTCSymbolAvogadroNode avogadro = new ASTCSymbolAvogadroNode();
-    avogadro.setStrictness(false);
-    assertTrue(avogadro.getEncodingURL().length() == 0);
+    assertTrue(avogadro.getEncoding().equals("text"));
   }
 
   /**
@@ -170,18 +129,16 @@ public class ASTCSymbolAvogadroNodeTest {
   @Test
   public final void testIsSetDefinitionURL() {
     ASTCSymbolAvogadroNode avogadro = new ASTCSymbolAvogadroNode();
-    avogadro.setDefinitionURL("definitionURL");
     assertTrue(avogadro.isSetDefinitionURL());
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolAvogadroNode#isSetEncodingURL()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolAvogadroNode#isSetEncoding()}.
    */
   @Test
   public final void testIsSetEncodingURL() {
     ASTCSymbolAvogadroNode avogadro = new ASTCSymbolAvogadroNode();
-    avogadro.setEncodingURL("encoding");
-    assertTrue(avogadro.isSetEncodingURL());
+    assertTrue(avogadro.isSetEncoding());
   }
 
 }

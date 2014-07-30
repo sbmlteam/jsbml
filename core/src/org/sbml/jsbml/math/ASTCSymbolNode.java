@@ -35,26 +35,18 @@ package org.sbml.jsbml.math;
 public interface ASTCSymbolNode extends ASTCSymbolBaseNode {
 
   /**
-   * Returns the encodingURL of the MathML element represented by
+   * Returns the encoding of the MathML element represented by
    * this {@link ASTCSymbolNode}
    * 
-   * @return String encodingURL
+   * @return String encoding
    */
-  public String getEncodingURL();
+  public String getEncoding();
 
   /**
-   * Returns True iff encodingURL has been set
+   * Returns True iff encoding has been set
    * 
    * @return boolean
    */
-  public boolean isSetEncodingURL();
-
-  /**
-   * Set the encodingURL of the MathML element represented by
-   * this {@link ASTCSymbolNode}
-   * 
-   * @param String encodingURL
-   */
-  public void setEncodingURL(String encodingURL);
+  public boolean isSetEncoding();
 
 }

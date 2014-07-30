@@ -77,14 +77,6 @@ public interface ASTCSymbolBaseNode extends ASTNode2 {
   public boolean refersTo(String id);
   
   /**
-   * Set the encodingURL of the MathML element represented by
-   * this {@link ASTCSymbolBaseNode}
-   * 
-   * @param String definitionURL
-   */
-  public void setDefinitionURL(String definitionURL);
-  
-  /**
    * Set the name of the MathML element represented by
    * this {@link ASTCSymbolBaseNode}
    * 

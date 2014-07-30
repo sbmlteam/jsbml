@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.ASTCSymbolTimeNode;
@@ -70,61 +71,18 @@ public class ASTCSymbolTimeNodeTest {
   @Test
   public final void testGetDefinitionURL() {
     ASTCSymbolTimeNode time = new ASTCSymbolTimeNode();
-    time.setDefinitionURL("definitionURL");
-    assertTrue(time.getDefinitionURL().equals("definitionURL"));
+    assertTrue(time.getDefinitionURL().equals(ASTNode.URI_TIME_DEFINITION));
   }
   
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolTimeNode#getDefinitionURL()}.
-   */
-  @Test
-  public final void testGetDefinitionURLNonExistent() {
-    ASTCSymbolTimeNode time = new ASTCSymbolTimeNode();
-    exception.expect(PropertyUndefinedError.class);
-    time.getDefinitionURL();
-  }
-  
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolTimeNode#getDefinitionURL()}.
-   */
-  @Test
-  public final void testGetDefinitionURLNonExistentNonStrict() {
-    ASTCSymbolTimeNode time = new ASTCSymbolTimeNode();
-    time.setStrictness(false);
-    assertTrue(time.getDefinitionURL().length() == 0);
-  }
-
-
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolTimeNode#getEncodingURL()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolTimeNode#getEncoding()}.
    */
   @Test
   public final void testGetEncodingURL() {
     ASTCSymbolTimeNode time = new ASTCSymbolTimeNode();
-    time.setEncodingURL("encoding");
-    assertTrue(time.getEncodingURL().equals("encoding"));
+    assertTrue(time.getEncoding().equals("text"));
   }
   
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolTimeNode#getEncodingURL()}.
-   */
-  @Test
-  public final void testGetEncodingURLNonExistent() {
-    ASTCSymbolTimeNode time = new ASTCSymbolTimeNode();
-    exception.expect(PropertyUndefinedError.class);
-    time.getEncodingURL();
-  }
-
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolTimeNode#getEncodingURL()}.
-   */
-  @Test
-  public final void testGetEncodingURLNonExistentNonStrict() {
-    ASTCSymbolTimeNode time = new ASTCSymbolTimeNode();
-    time.setStrictness(false);
-    assertTrue(time.getEncodingURL().length() == 0);
-  }
-
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCSymbolTimeNode#getName()}.
    */
@@ -152,7 +110,7 @@ public class ASTCSymbolTimeNodeTest {
   public final void testGetNameNonExistentNonStrict() {
     ASTCSymbolTimeNode time = new ASTCSymbolTimeNode();
     time.setStrictness(false);
-    assertTrue(time.getName().length() == 0);
+    assertTrue(time.getName().isEmpty());
   }
 
   /**
@@ -164,28 +122,23 @@ public class ASTCSymbolTimeNodeTest {
     assertTrue(time.isAllowableType(Type.NAME_TIME) && !time.isAllowableType(null));
   }
 
-
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCSymbolTimeNode#isSetDefinitionURL()}.
    */
   @Test
   public final void testIsSetDefinitionURL() {
     ASTCSymbolTimeNode time = new ASTCSymbolTimeNode();
-    time.setDefinitionURL("definitionURL");
     assertTrue(time.isSetDefinitionURL());
   }
 
-
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolTimeNode#isSetEncodingURL()}.
+   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolTimeNode#isSetEncoding()}.
    */
   @Test
   public final void testIsSetEncodingURL() {
     ASTCSymbolTimeNode time = new ASTCSymbolTimeNode();
-    time.setEncodingURL("encoding");
-    assertTrue(time.isSetEncodingURL());
+    assertTrue(time.isSetEncoding());
   }
-
 
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCSymbolTimeNode#isSetName()}.

@@ -106,7 +106,6 @@ public class ASTFunction extends AbstractASTNode {
     setParentSBMLObject(null);
     listOfNodes = null;
     setName(null);
-    setType(Type.FUNCTION);
     initDefaults();
   }
   
@@ -365,7 +364,7 @@ public class ASTFunction extends AbstractASTNode {
    */
   @Override
   public boolean isAllowableType(Type type) {
-    return false;
+    return type.name().startsWith("FUNCTION");
   }
 
   /**

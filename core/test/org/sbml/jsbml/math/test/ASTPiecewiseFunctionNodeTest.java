@@ -90,19 +90,19 @@ public class ASTPiecewiseFunctionNodeTest {
   @Test
   public final void testGetNumPieceWithChildren() {
     ASTPiecewiseFunctionNode piecewise = new ASTPiecewiseFunctionNode();
-    piecewise.addChild(new ASTRelationalOperatorNode(Type.RELATIONAL_EQ));
-    piecewise.addChild(new ASTLogicalOperatorNode(Type.LOGICAL_AND));
-    piecewise.addChild(new ASTQualifierNode(Type.QUALIFIER_BVAR));
-    assertTrue(piecewise.getNumPiece() == 3);
+    piecewise.addChild(new ASTQualifierNode(Type.CONSTRUCTOR_PIECE));
+    piecewise.addChild(new ASTQualifierNode(Type.CONSTRUCTOR_PIECE));
+    piecewise.addChild(new ASTQualifierNode(Type.CONSTRUCTOR_OTHERWISE));
+    assertTrue(piecewise.getNumPiece() == 2);
   }
 
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTPiecewiseFunctionNode#hasOtherwise()}.
    */
   @Test
-  public final void testHasOtherwiseWithEven() {
+  public final void testHasOtherwise() {
     ASTPiecewiseFunctionNode piecewise = new ASTPiecewiseFunctionNode();
-    assertTrue(!piecewise.hasOtherwise());
+    assertFalse(piecewise.hasOtherwise());
   }
   
   /**
@@ -111,9 +111,9 @@ public class ASTPiecewiseFunctionNodeTest {
   @Test
   public final void testHasOtherwiseWithOdd() {
     ASTPiecewiseFunctionNode piecewise = new ASTPiecewiseFunctionNode();
-    piecewise.addChild(new ASTRelationalOperatorNode(Type.RELATIONAL_EQ));
-    piecewise.addChild(new ASTLogicalOperatorNode(Type.LOGICAL_AND));
-    piecewise.addChild(new ASTQualifierNode(Type.QUALIFIER_BVAR));
+    piecewise.addChild(new ASTQualifierNode(Type.CONSTRUCTOR_PIECE));
+    piecewise.addChild(new ASTQualifierNode(Type.CONSTRUCTOR_PIECE));
+    piecewise.addChild(new ASTQualifierNode(Type.CONSTRUCTOR_OTHERWISE));
     assertTrue(piecewise.hasOtherwise());
   }
 

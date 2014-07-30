@@ -49,7 +49,7 @@ public class ASTCnIntegerNodeTest {
    * Test method for {@link org.sbml.jsbml.math.ASTCnIntegerNode#getInteger()}.
    */
   @Test
-  public void testASTCnIntegerNoValue() {
+  public void testGetIntegerNoValue() {
     ASTCnIntegerNode integer = new ASTCnIntegerNode();
     exception.expect(PropertyUndefinedError.class);
     integer.getInteger();
@@ -59,7 +59,7 @@ public class ASTCnIntegerNodeTest {
    * Test method for {@link org.sbml.jsbml.math.ASTCnIntegerNode#getInteger()}.
    */
   @Test
-  public void testASTCnIntegerWithValue() {
+  public void testGetIntegerWithValue() {
     ASTCnIntegerNode integer = new ASTCnIntegerNode(10);
     assertTrue(integer.getInteger() == 10);
   }

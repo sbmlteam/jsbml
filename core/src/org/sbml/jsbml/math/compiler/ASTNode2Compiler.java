@@ -435,6 +435,13 @@ public interface ASTNode2Compiler {
    * @throws SBMLException
    */
   public ASTNodeValue geq(ASTNode2 left, ASTNode2 right) throws SBMLException;
+  
+  /**
+   * Creates an {@link ASTNodeValue} that represent's Avogadro's number.
+   * 
+   * @return value {@link ASTNodeValue}
+   */
+  public ASTNodeValue getConstantAvogadro();
 
   /**
    * Creates an {@link ASTNodeValue} that represent's Avogadro's number.

@@ -381,18 +381,19 @@ public class ASTFactory {
   /**
    * Creates a piecewise {@link ASTPiecewiseFunctionNode}.
    * 
-   * <p>At least one {@link ASTNode2} must be given
+   * <p>At least one {@link ASTQualifierNode} must be given
    * as a child. The parent SBML object of this first node will be the parent
-   * of the resulting {@link ASTNode2}.
+   * of the resulting {@link ASTPiecewiseFunctionNode}.
    * 
    * @param node the parent SBML object of this node will be the parent
-   * of the resulting {@link ASTNode2}.
+   * of the resulting {@link ASTPiecewiseFunctionNode}.
    * @param nodes the children of the new piecewise ASTNode2
    * @return a piecewise {@link ASTPiecewiseFunctionNode}.
    */
-  public static ASTPiecewiseFunctionNode piecewise(ASTNode2 node, ASTNode2... nodes) {
+  // TODO: specific parameters or non-specific parameters??
+  public static ASTPiecewiseFunctionNode piecewise(ASTQualifierNode node, ASTQualifierNode... nodes) {
     ASTPiecewiseFunctionNode piecewise = new ASTPiecewiseFunctionNode();
-    for (ASTNode2 n : nodes) {
+    for (ASTQualifierNode n : nodes) {
       piecewise.addChild(n);
     }
     piecewise.setParentSBMLObject(node.getParentSBMLObject());

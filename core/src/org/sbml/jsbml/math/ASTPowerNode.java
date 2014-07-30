@@ -113,6 +113,14 @@ public class ASTPowerNode extends ASTBinaryFunctionNode {
   }
   
   /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    return type == Type.POWER;
+  }
+
+  /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   @Override
@@ -136,14 +144,6 @@ public class ASTPowerNode extends ASTBinaryFunctionNode {
     builder.append(parent);
     builder.append("]");
     return builder.toString();
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
-   */
-  @Override
-  public boolean isAllowableType(Type type) {
-    return type == Type.POWER;
   }
 
 }

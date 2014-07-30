@@ -23,6 +23,7 @@
 package org.sbml.jsbml.math;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.ASTNode.Type;
@@ -54,9 +55,9 @@ implements ASTCSymbolNode {
   private static final Logger logger = Logger.getLogger(ASTCSymbolTimeNode.class);
 
   /**
-   * The encodingURL of this csymbol element
+   * The encoding of this csymbol element
    */
-  private String encodingURL;
+  private String encoding;
   
   /**
    * definitionURL attribute for MathML element
@@ -70,18 +71,12 @@ implements ASTCSymbolNode {
   private String name;
 
   /**
-   * The URI for the definition of the csymbol for time.
-   */
-  public static final transient String URI_TIME_DEFINITION =
-      "http://www.sbml.org/sbml/symbols/time";
-
-  /**
    * Creates a new {@link ASTCSymbolTimeNode}.
    */
   public ASTCSymbolTimeNode() {
     super();
-    setDefinitionURL(null);
-    setEncodingURL(null);
+    setDefinitionURL(ASTNode.URI_TIME_DEFINITION);
+    setEncoding("text");
     setType(Type.NAME_TIME);
   }
 
@@ -96,8 +91,8 @@ implements ASTCSymbolNode {
     if (node.isSetDefinitionURL()) {
       setDefinitionURL(node.getDefinitionURL());
     }
-    if (node.isSetEncodingURL()) {
-      setEncodingURL(node.getEncodingURL());      
+    if (node.isSetEncoding()) {
+      setEncoding(node.getEncoding());      
     }
   }
   
@@ -142,10 +137,10 @@ implements ASTCSymbolNode {
         return false;
     } else if (!definitionURL.equals(other.definitionURL))
       return false;
-    if (encodingURL == null) {
-      if (other.encodingURL != null)
+    if (encoding == null) {
+      if (other.encoding != null)
         return false;
-    } else if (!encodingURL.equals(other.encodingURL))
+    } else if (!encoding.equals(other.encoding))
       return false;
     return true;
   }
@@ -170,9 +165,9 @@ implements ASTCSymbolNode {
    * @see org.sbml.jsbml.math.ASTCSymbolNode#getEncodingURL()
    */
   @Override
-  public String getEncodingURL() {
-    if (isSetEncodingURL()) {
-      return encodingURL;
+  public String getEncoding() {
+    if (isSetEncoding()) {
+      return encoding;
     }
     PropertyUndefinedError error = new PropertyUndefinedError("encodingURL", this);
     if (isStrict()) {
@@ -208,7 +203,7 @@ implements ASTCSymbolNode {
     result = prime * result
       + ((definitionURL == null) ? 0 : definitionURL.hashCode());
     result = prime * result
-      + ((encodingURL == null) ? 0 : encodingURL.hashCode());
+      + ((encoding == null) ? 0 : encoding.hashCode());
     return result;
   }
 
@@ -234,8 +229,8 @@ implements ASTCSymbolNode {
    * @see org.sbml.jsbml.math.ASTCSymbolNode#isSetEncodingURL()
    */
   @Override
-  public boolean isSetEncodingURL() {
-    return encodingURL != null;
+  public boolean isSetEncoding() {
+    return encoding != null;
   }
 
   /* (non-Javadoc)
@@ -254,24 +249,28 @@ implements ASTCSymbolNode {
     return getName().equals(id);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#setDefinitionURL(java.lang.String)
+  /**
+   * Set the definitionURL of the MathML element represented by
+   * this {@link ASTCSymbolTimeNode}
+   * 
+   * @param String definitionURL
    */
-  @Override
-  public void setDefinitionURL(String definitionURL) {
+  private void setDefinitionURL(String definitionURL) {
     String old = this.definitionURL;
     this.definitionURL = definitionURL;
     firePropertyChange(TreeNodeChangeEvent.definitionURL, old, definitionURL);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTCSymbolNode#setEncodingURL(java.lang.String)
+  /**
+   * Set the encoding of the MathML element represented by
+   * this {@link ASTCSymbolTimeNode}
+   * 
+   * @param String encoding
    */
-  @Override
-  public void setEncodingURL(String encodingURL) {
-    String old = this.encodingURL;
-    this.encodingURL = encodingURL;
-    firePropertyChange(TreeNodeChangeEvent.encoding, old, this.encodingURL);
+  private void setEncoding(String encoding) {
+    String old = this.encoding;
+    this.encoding = encoding;
+    firePropertyChange(TreeNodeChangeEvent.encoding, old, this.encoding);
   }
 
   /* (non-Javadoc)
@@ -291,7 +290,7 @@ implements ASTCSymbolNode {
   public String toString() {
     StringBuilder builder = new StringBuilder();
     builder.append("ASTCSymbolTimeNode [encodingURL=");
-    builder.append(encodingURL);
+    builder.append(encoding);
     builder.append(", definitionURL=");
     builder.append(definitionURL);
     builder.append(", name=");

@@ -27,6 +27,7 @@ import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.util.Maths;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 /**
@@ -142,7 +143,7 @@ public class ASTConstantNumber extends ASTNumber {
       case CONSTANT_E:
         return Math.E;
       case NAME_AVOGADRO:
-        return 6.023e23;
+        return Maths.AVOGADRO_L3V1;
       default:
         break;
       }

@@ -141,32 +141,18 @@ public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
    */
   @Override
   public boolean isAllowableType(Type type) {
-    if (type == null) {
-      return false;
-    }
     switch(type) {
     case FUNCTION_ARCCOSH:
-      return true;
     case FUNCTION_ARCCOTH:
-      return true;
     case FUNCTION_ARCCSCH:
-      return true;
     case FUNCTION_ARCSECH:
-      return true;
     case FUNCTION_ARCSINH:
-      return true;
     case FUNCTION_ARCTANH:
-      return true;
     case FUNCTION_COSH:
-      return true;
     case FUNCTION_COTH:
-      return true;
     case FUNCTION_CSCH:
-      return true;
     case FUNCTION_SECH:
-      return true;
     case FUNCTION_SINH:
-      return true;
     case FUNCTION_TANH:
       return true;
     default: // UNKNOWN:

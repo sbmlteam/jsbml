@@ -22,6 +22,8 @@
  */
 package org.sbml.jsbml.math;
 
+import java.text.MessageFormat;
+
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
@@ -45,7 +47,8 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
  * @since 1.0
  * @date May 30, 2014
  */
-public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNode2 {
+public abstract class AbstractASTNode extends AbstractTreeNode 
+implements ASTNode2 {
 
   /**
    * 
@@ -435,6 +438,9 @@ public abstract class AbstractASTNode extends AbstractTreeNode implements ASTNod
    */
   @Override
   public void setType(Type type) {
+    if (type != null && !isAllowableType(type)) {
+      throw new IllegalArgumentException(MessageFormat.format("Class {0} cannot be used in conjunction with type {1}.", getClass().getSimpleName(), type));
+    }
     Type oldValue = this.type;
     this.type = type;
     firePropertyChange(TreeNodeChangeEvent.type, oldValue, type);

@@ -305,11 +305,13 @@ ASTCSymbolBaseNode {
     return getRefId().equals(id);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#setDefinitionURL(java.lang.String)
+  /**
+   * Set the definitionURL of the MathML element represented by
+   * this {@link ASTCSymbolCiNumberNode}
+   * 
+   * @param String definitionURL
    */
-  @Override
-  public void setDefinitionURL(String definitionURL) {
+  private void setDefinitionURL(String definitionURL) {
     String old = this.definitionURL;
     this.definitionURL = definitionURL;
     firePropertyChange(TreeNodeChangeEvent.definitionURL, old, definitionURL);
