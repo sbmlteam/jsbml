@@ -473,32 +473,19 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
 
       String layoutNamespace = LayoutConstants.getNamespaceURI(model.getLevel(), model.getVersion());
       String renderNamespace = RenderConstants.getNamespaceURI(model.getLevel(), model.getVersion());
+      String FBCNamespace = FBCConstants.getNamespaceURI(model.getLevel(), model.getVersion());
+
       LayoutModelPlugin modelPlugin = new LayoutModelPlugin(model);
       Layout layout = modelPlugin.createLayout("CellDesigner_Layout");
 
       RenderLayoutPlugin renderPlugin = new RenderLayoutPlugin(layout);
       renderPlugin.addLocalRenderInformation(new LocalRenderInformation(model.getLevel(), model.getVersion()));
+
+      FBCModelPlugin FBCPlugin = new FBCModelPlugin(model);
+
+      model.addExtension(FBCNamespace, FBCPlugin);
       model.addExtension(layoutNamespace, modelPlugin);
       layout.addExtension(renderNamespace, renderPlugin);
-
-      if (model.getLevel()>2)
-      {
-        boolean chargePresent = false;
-        for (int i = 0; i < originalModel.getNumSpecies(); i++) {
-          PluginSpecies pSpecies = originalModel.getSpecies(i);
-          if (pSpecies.getCharge()!=0)
-          {
-            chargePresent = true;
-            break;
-          }
-        }
-        if (chargePresent)
-        {
-          String FBCNamespace = FBCConstants.getNamespaceURI(model.getLevel(), model.getVersion());
-          FBCModelPlugin FBCPlugin = new FBCModelPlugin(model);
-          model.addExtension(FBCNamespace, FBCPlugin);
-        }
-      }
 
       PluginUtils.transferNamedSBaseProperties(originalModel, model);
       if (listener != null) {
@@ -760,9 +747,10 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
     if (model.getLevel()<3) {
       s.setCharge(species.getCharge());
     }
-    if (model.getExtension("fbc")!=null)
+    else
     {
-      FBCSpeciesPlugin fbcSpecies = new FBCSpeciesPlugin(s);
+      FBCSpeciesPlugin fbcSpecies = (FBCSpeciesPlugin)s.getPlugin(FBCConstants.getNamespaceURI(model.getLevel(),
+        model.getVersion()));
       fbcSpecies.setCharge(species.getCharge());
     }
     if ((species.getCompartment() != null) && (species.getCompartment().length() > 0)) {
