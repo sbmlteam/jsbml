@@ -709,9 +709,12 @@ private ASTNode Primary() throws NumberFormatException :
   {
     return node;
   }
-| LOOKAHEAD(3) < LEFT_BRACES > node = TermLvl1()
+|  LOOKAHEAD(2) < LEFT_BRACES > node = TermLvl1()
   {
+    ASTNode selector = new ASTNode();
     vector = new ASTNode();
+    boolean isSelector = false;
+	selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
     vector.setType(ASTNode.Type.VECTOR);
     vector.addChild(node);
   }
@@ -723,8 +726,17 @@ private ASTNode Primary() throws NumberFormatException :
   )*
   < RIGHT_BRACES >
   {
-    return vector;
+	selector.addChild(vector);
   }
+  ( < LEFT_BRACKET >
+    (node = TermLvl1())
+	{
+	  isSelector = true;
+	  selector.addChild(node);
+	}
+    < RIGHT_BRACKET >
+  )*
+  {return isSelector ? selector : vector; }
 | < LEFT_BRACES >
   {
     vector = new ASTNode();

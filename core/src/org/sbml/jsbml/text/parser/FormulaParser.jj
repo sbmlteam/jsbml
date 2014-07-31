@@ -588,11 +588,8 @@ private ASTNode Primary() throws NumberFormatException :
     }
     return node;
   }
-| < OPEN_PAR > node = TermLvl1() < CLOSE_PAR >
-  {
-    return node;
-  }
-  | LOOKAHEAD(4)    t = < STRING >
+  |
+  LOOKAHEAD(4)    t = < STRING >
 				  {
 				    ASTNode selector = new ASTNode();
 				    selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
@@ -606,12 +603,17 @@ private ASTNode Primary() throws NumberFormatException :
 				    < RIGHT_BRACKET >
 				  )+
   {return selector; }
- | < OPEN_PAR > node = TermLvl1() < CLOSE_PAR >
+ |
+ < OPEN_PAR > node = TermLvl1() < CLOSE_PAR >
   {
     return node;
   }
-| LOOKAHEAD(3) < LEFT_BRACES > node = TermLvl1()
+|
+  LOOKAHEAD(2) < LEFT_BRACES > node = TermLvl1()
   {
+    ASTNode selector = new ASTNode();
+    boolean isSelector = false;
+	selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
     vector.setType(ASTNode.Type.VECTOR);
     vector.addChild(node);
   }
@@ -621,11 +623,19 @@ private ASTNode Primary() throws NumberFormatException :
       vector.addChild(node);
     }
   )*
-  < RIGHT_BRACES >
-  {
-    return vector;
+  < RIGHT_BRACES >  {	selector.addChild(vector);
   }
-| < LEFT_BRACES >
+  ( < LEFT_BRACKET >
+    (node = TermLvl1())
+	{
+	  isSelector = true;
+	  selector.addChild(node);
+	}
+    < RIGHT_BRACKET >
+  )*
+  {return isSelector ? selector : vector; }
+|
+ < LEFT_BRACES >
   {
     vector.setType(ASTNode.Type.VECTOR);
   }
