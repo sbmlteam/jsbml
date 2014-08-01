@@ -86,6 +86,7 @@ ASTCSymbolBaseNode {
     super();
     setDefinitionURL(null);
     setName(null);
+    setType(Type.FUNCTION);
   }
   
   /**
@@ -135,7 +136,6 @@ ASTCSymbolBaseNode {
         "ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
             + getName() + ", " + getParentSBMLObject().getElementName()
             + ")");
-      // value = compiler.compile(variable);
     }
     value.setType(getType());
     MathContainer parent = getParentSBMLObject();
@@ -294,6 +294,14 @@ ASTCSymbolBaseNode {
     return refId != null;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#isSetType()
+   */
+  @Override
+  public boolean isSetType() {
+    return type == Type.FUNCTION;
+  }
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#refersTo(java.lang.String)
@@ -318,7 +326,7 @@ ASTCSymbolBaseNode {
    * 
    * @param String definitionURL
    */
-  private void setDefinitionURL(String definitionURL) {
+  public void setDefinitionURL(String definitionURL) {
     String old = this.definitionURL;
     this.definitionURL = definitionURL;
     firePropertyChange(TreeNodeChangeEvent.definitionURL, old, this.definitionURL);

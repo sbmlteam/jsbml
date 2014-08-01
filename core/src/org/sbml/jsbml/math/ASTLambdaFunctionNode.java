@@ -22,6 +22,8 @@
  */
 package org.sbml.jsbml.math;
 
+import java.util.ArrayList;
+
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
@@ -136,6 +138,36 @@ public class ASTLambdaFunctionNode extends ASTFunction {
     builder.append(parent);
     builder.append("]");
     return builder.toString();
+  }
+
+  /**
+   * Replaces occurrences of a name within this {@link ASTLambdaFunctionNode} with the
+   * name/value/formula represented by the second argument {@link ASTNode2}, e.g., if
+   * the formula in this {@link ASTLambdaFunctionNode} is x + y; bvar is x and arg is an 
+   * {@link ASTLambdaFunctionNode} representing the real value 3 ReplaceArgument substitutes
+   * 3 for x within this {@link ASTLambdaFunctionNode}.
+   * 
+   * @param bvar
+   *            a string representing the variable name to be substituted
+   * @param arg
+   *            an {@link ASTNode2} representing the name/value/formula to substitute
+   *        
+   */
+  public void replaceArgument(String bvar, ASTNode2 arg) {
+    if (! isSetList()) {
+      listOfNodes = new ArrayList<ASTNode2>();
+    }
+    int n = 0;
+    for (ASTNode2 child : listOfNodes) {
+      if (child.getType() == Type.QUALIFIER_BVAR) {
+        if (((ASTQualifierNode)child).getName().equals(bvar)) {
+          replaceChild(n, arg.clone());
+        } else if (child.getChildCount() > 0) {
+          ((ASTLambdaFunctionNode)child).replaceArgument(bvar, arg);
+        }
+      }
+      n++;
+    }
   }
 
 }

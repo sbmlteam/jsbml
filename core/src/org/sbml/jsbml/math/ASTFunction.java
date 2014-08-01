@@ -28,7 +28,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
-import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.filters.Filter;
@@ -56,32 +55,6 @@ public class ASTFunction extends AbstractASTNode {
   private static transient final Logger logger = Logger.getLogger(ASTFunction.class);
 
   /**
-   * Sets the Parent of the node and its children to the given value
-   *
-   * @param node the orphan node
-   * @param parent the parent
-   */
-  static void setParentSBMLObject(ASTNode2 node, MathContainer parent) {
-    //TODO: notify listeners only one time
-    node.setParent(parent);
-    setParentSBMLObject(node, parent, 0);
-  }
-
-  /**
-   * Sets the parent of the node and its children to the given value
-   *
-   * @param node the orphan node
-   * @param parent the parent
-   * @param depth the current depth in the {@link ASTNode2} tree.
-   *            It is just here for testing purposes to track the depth in the tree
-   *            during the process.
-   */
-  protected static void setParentSBMLObject(ASTNode2 node, MathContainer parent,
-    int depth) {
-    //TODO: notify listeners only one time. parent may have already notified. 
-  }
-
-  /**
    * Child nodes.
    */
   protected List<ASTNode2> listOfNodes;
@@ -106,7 +79,6 @@ public class ASTFunction extends AbstractASTNode {
     setParentSBMLObject(null);
     listOfNodes = null;
     setName(null);
-    initDefaults();
   }
   
   /**
@@ -120,17 +92,15 @@ public class ASTFunction extends AbstractASTNode {
     if (other.isSetName()) {
       setName(other.getName());    
     }
-    initDefaults();
     if (other.getChildCount() > 0) {
       if (!isSetList()) {
         listOfNodes = new ArrayList<ASTNode2>();
-      } else {
-        for (int i = 0; i < other.getChildCount(); i++) {
-          ASTNode2 child = other.getListOfNodes().get(i);
-          ASTNode2 c = (ASTNode2) child.clone();
-          c.setParent(this);
-          listOfNodes.add(c);
-        }
+      }
+      for (int i = 0; i < other.getChildCount(); i++) {
+        ASTNode2 child = other.getListOfNodes().get(i);
+        ASTNode2 c = (ASTNode2) child.clone();
+        c.setParent(this);
+        listOfNodes.add(c);
       }
     }
   }
@@ -142,7 +112,6 @@ public class ASTFunction extends AbstractASTNode {
   public ASTFunction(MathContainer container) {
     super(container);
     listOfNodes = null;
-    setType(Type.FUNCTION);
     initDefaults();
   }
 
@@ -162,7 +131,7 @@ public class ASTFunction extends AbstractASTNode {
       listOfNodes = new ArrayList<ASTNode2>();
     } 
     listOfNodes.add(child);
-    setParentSBMLObject(child, parentSBMLObject, 0);
+    ASTFactory.setParentSBMLObject(child, parentSBMLObject);
     child.setParent(this);
     child.fireNodeAddedEvent();
   }
@@ -203,17 +172,6 @@ public class ASTFunction extends AbstractASTNode {
     } else if (!parentSBMLObject.equals(other.parentSBMLObject))
       return false;
     return true;
-  }
-
-
-  /**
-   * Goes through the formula and identifies all global parameters that are
-   * referenced by this rate equation.
-   * 
-   * @return all global parameters that are referenced by this rate equation.
-   */
-  public List<Parameter> findReferencedGlobalParameters() {
-    return null;
   }
 
   /* (non-Javadoc)
@@ -355,7 +313,7 @@ public class ASTFunction extends AbstractASTNode {
       listOfNodes = new ArrayList<ASTNode2>();
     }
     listOfNodes.add(n, newChild);
-    setParentSBMLObject(newChild, parentSBMLObject, 0);
+    ASTFactory.setParentSBMLObject(newChild, parentSBMLObject);
     newChild.setParent(this);
   }
 
@@ -404,7 +362,7 @@ public class ASTFunction extends AbstractASTNode {
       listOfNodes = new ArrayList<ASTNode2>();
     }
     listOfNodes.add(0, child);
-    setParentSBMLObject(child, parentSBMLObject, 0);
+    ASTFactory.setParentSBMLObject(child, parentSBMLObject);
     child.setParent(this);
   }
 
@@ -431,27 +389,6 @@ public class ASTFunction extends AbstractASTNode {
   }
 
   /**
-   * Replaces occurrences of a name within this {@link ASTNode2} with the
-   * name/value/formula represented by the second argument {@link ASTNode2}, e.g., if
-   * the formula in this {@link ASTNode2} is x + y; bvar is x and arg is an {@link ASTNode2}
-   * representing the real value 3 ReplaceArgument substitutes 3 for x within
-   * this {@link ASTNode2}.
-   * 
-   * @param bvar
-   *            a string representing the variable name to be substituted
-   * @param arg
-   *            an {@link ASTNode2} representing the name/value/formula to substitute
-   *        
-   */
-  public void replaceArgument(String bvar, ASTNode2 arg) {
-    if (! isSetList()) {
-      listOfNodes = new ArrayList<ASTNode2>();
-    }
-    int n = 0;
-    replaceChild(n, (ASTNode2) arg.clone());
-  }
-
-  /**
    * Replaces the n<sup>th</sup> child of this ASTNode2 with the given ASTNode2.
    * 
    * @param n
@@ -468,14 +405,10 @@ public class ASTFunction extends AbstractASTNode {
     if (! isSetList()) {
       listOfNodes = new ArrayList<ASTNode2>();
     }
-    // Removing the node at position n
     ASTNode2 child = null;
     child = getChildAt(n);
     removeChild(n);
-
-    // Adding the new child at position n
     insertChild(n, newChild);
-    // Return removed child
     return child;
   }
 

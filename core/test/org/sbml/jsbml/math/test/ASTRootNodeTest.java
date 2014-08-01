@@ -111,12 +111,10 @@ public class ASTRootNodeTest {
    */
   @Test
   public final void testGetSquareRootExponentWithRadicand() {
-    
     ASTRootNode squareRoot = new ASTRootNode(new ASTCnIntegerNode(49));
-    squareRoot.setRootExponent(new ASTCnIntegerNode(1));
-    
-    
-    assertTrue(squareRoot.getRootExponent().equals(new ASTCnIntegerNode(2)));
+    ASTCnIntegerNode integer = new ASTCnIntegerNode(10);
+    squareRoot.setRootExponent(integer);
+    assertTrue(squareRoot.getRootExponent().equals(integer));
   }
 
   /**

@@ -116,7 +116,7 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
                    "to ASTBinaryFunctionNode set strictness to false.");
     }
     listOfNodes.add(child);
-    setParentSBMLObject(child, parentSBMLObject, 0);
+    ASTFactory.setParentSBMLObject(child, parentSBMLObject);
     child.setParent(this);
     child.fireNodeAddedEvent();
     if (child.getType() == Type.CONSTANT_E && getChildCount() == 0) {
@@ -191,7 +191,7 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
       listOfNodes = new ArrayList<ASTNode2>();
     }
     listOfNodes.add(n, newChild);
-    setParentSBMLObject(newChild, parentSBMLObject, 0);
+    ASTFactory.setParentSBMLObject(newChild, parentSBMLObject);
     newChild.setParent(this);
     if (n == 0 && newChild.getType() == Type.CONSTANT_E) {
       setType(Type.FUNCTION_LN);

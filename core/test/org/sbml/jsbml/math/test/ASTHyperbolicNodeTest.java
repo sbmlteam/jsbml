@@ -57,7 +57,6 @@ public class ASTHyperbolicNodeTest {
   public final void testCloneWithChildren() {
     ASTHyperbolicNode sinh = new ASTHyperbolicNode();
     sinh.addChild(new ASTCnIntegerNode(1));
-    sinh.addChild(new ASTCnIntegerNode(5));
     ASTHyperbolicNode unknown = sinh.clone();
     assertTrue(sinh.equals(unknown));
   }
@@ -79,7 +78,7 @@ public class ASTHyperbolicNodeTest {
   public final void testIsAllowableType() {
     ASTHyperbolicNode sinh = new ASTHyperbolicNode();
     assertTrue(sinh.isAllowableType(Type.FUNCTION_ARCCOSH) && sinh.isAllowableType(Type.FUNCTION_ARCCOTH)
-            && sinh.isAllowableType(Type.FUNCTION_ARCCSCH) && sinh.isAllowableType(Type.FUNCTION_ARCCSCH)
+            && sinh.isAllowableType(Type.FUNCTION_ARCCSCH)
             && sinh.isAllowableType(Type.FUNCTION_ARCSECH) && sinh.isAllowableType(Type.FUNCTION_ARCSINH)
             && sinh.isAllowableType(Type.FUNCTION_ARCTANH) && sinh.isAllowableType(Type.FUNCTION_COSH)
             && sinh.isAllowableType(Type.FUNCTION_COTH) && sinh.isAllowableType(Type.FUNCTION_CSCH)

@@ -23,6 +23,7 @@
 package org.sbml.jsbml.math;
 
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
 
 
@@ -610,6 +611,21 @@ public class ASTFactory {
     ASTMinusNode um = new ASTMinusNode();
     um.addChild(ast);
     return um;
+  }
+  
+  /**
+   * Sets the Parent of the node and its children to the given value
+   *
+   * @param node the orphan node
+   * @param parent the parent
+   */
+  static void setParentSBMLObject(ASTNode2 node, MathContainer parent) {
+    node.setParent(parent);
+    if (node.getChildCount() > 0) {
+      for (ASTNode2 child : ((ASTFunction)node).getChildren()) {
+        setParentSBMLObject(child, parent);        
+      }
+    }
   }
   
 }

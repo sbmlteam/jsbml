@@ -61,7 +61,7 @@ implements ASTNode2 {
   private static transient final Logger logger = Logger.getLogger(AbstractASTNode.class);
 
   /**
-   * The container that holds this { AbstractASTNode.
+   * The container that holds this {@link AbstractASTNode}.
    */
   protected MathContainer parentSBMLObject;
 

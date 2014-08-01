@@ -141,6 +141,9 @@ public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
    */
   @Override
   public boolean isAllowableType(Type type) {
+    if (type == null) {
+      return false;
+    }
     switch(type) {
     case FUNCTION_ARCCOSH:
     case FUNCTION_ARCCOTH:

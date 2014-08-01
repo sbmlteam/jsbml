@@ -23,17 +23,21 @@
 package org.sbml.jsbml.math;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
@@ -81,6 +85,7 @@ ASTCSymbolBaseNode {
     super();
     setDefinitionURL(null);
     setRefId(null);
+    setType(Type.NAME);
   }
 
   /**
@@ -158,6 +163,23 @@ ASTCSymbolBaseNode {
     } else if (!refId.equals(other.refId))
       return false;
     return true;
+  }
+
+  /**
+   * Goes through the formula and identifies all global parameters that are
+   * referenced by this rate equation.
+   * 
+   * @return all global parameters that are referenced by this rate equation.
+   */
+  public List<Parameter> findReferencedGlobalParameters() {
+    ArrayList<Parameter> pList = new ArrayList<Parameter>();
+    if (getType().equals(ASTNode.Type.NAME)
+        && (getReferenceInstance() instanceof Parameter)
+        && (getParentSBMLObject().getModel().getParameter(
+          getReferenceInstance().getId()) != null)) {
+      pList.add((Parameter) getReferenceInstance());
+    }
+    return pList;
   }
 
   /* (non-Javadoc)
@@ -296,6 +318,14 @@ ASTCSymbolBaseNode {
     return refId != null;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#isSetType()
+   */
+  @Override
+  public boolean isSetType() {
+    return type == Type.NAME;
+  }
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#refersTo(java.lang.String)
@@ -304,19 +334,19 @@ ASTCSymbolBaseNode {
   public boolean refersTo(String id) {
     return getRefId().equals(id);
   }
-
+  
   /**
    * Set the definitionURL of the MathML element represented by
    * this {@link ASTCSymbolCiNumberNode}
    * 
    * @param String definitionURL
    */
-  private void setDefinitionURL(String definitionURL) {
+  public void setDefinitionURL(String definitionURL) {
     String old = this.definitionURL;
     this.definitionURL = definitionURL;
     firePropertyChange(TreeNodeChangeEvent.definitionURL, old, definitionURL);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#setName(java.lang.String)
    */
@@ -325,7 +355,7 @@ ASTCSymbolBaseNode {
   public void setName(String name) {
     setRefId(name);
   }
-  
+
   /**
    * Set an instance of {@link CallableSBase} as the variable of this 
    * {@link ASTCiNumberNode}. Note that if the given variable does not
@@ -339,7 +369,7 @@ ASTCSymbolBaseNode {
   public void setReference(CallableSBase sbase) {
     setRefId(sbase.getId());
   }
-
+  
   /**
    * Set refId attribute
    * 
@@ -378,5 +408,5 @@ ASTCSymbolBaseNode {
     builder.append("]");
     return builder.toString();
   }
-
+  
 }

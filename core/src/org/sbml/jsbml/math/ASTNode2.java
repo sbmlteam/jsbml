@@ -46,9 +46,9 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
   /**
    * Clone ASTNode2
    * 
-   * @return TreeNode node
+   * @return ASTNode2 node
    */
-  public TreeNode clone();
+  public ASTNode2 clone();
 
   /**
    * Compiles this {@link ASTNode2} and returns the result.

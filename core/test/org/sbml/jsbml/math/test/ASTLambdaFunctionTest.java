@@ -112,5 +112,31 @@ public class ASTLambdaFunctionTest {
     lambda.addChild(plus);
     assertTrue(lambda.getBvarCount() == 2);
   }
+
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTFunction#replaceArgument(java.lang.String, org.sbml.jsbml.math.ASTNode2)}.
+   */
+  @Test
+  public final void testReplaceArgument() {
+    ASTLambdaFunctionNode lambda = new ASTLambdaFunctionNode();
+    
+    ASTQualifierNode bvarX = new ASTQualifierNode(Type.QUALIFIER_BVAR);
+    bvarX.setName("bvarX");
+    ASTCiFunctionNode x = new ASTCiFunctionNode();
+    x.setName("x");
+    bvarX.addChild(x);
+    lambda.addChild(bvarX);
+    
+    ASTQualifierNode bvarY = new ASTQualifierNode(Type.QUALIFIER_BVAR);
+    bvarY.setName("bvarY");
+    ASTCiFunctionNode y = new ASTCiFunctionNode();
+    y.setName("y");
+    bvarY.addChild(y);
+    
+    lambda.replaceArgument("bvarX", bvarY);
+    
+    assertTrue(lambda.getChildAt(0).equals(bvarY));
+  }
   
 }

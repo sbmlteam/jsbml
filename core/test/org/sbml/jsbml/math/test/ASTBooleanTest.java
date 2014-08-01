@@ -186,15 +186,6 @@ public class ASTBooleanTest {
   }
   
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isSetType()}.
-   */
-  @Test
-  public final void testIsSetTypeUnknown() {
-    ASTBoolean node = new ASTBoolean(Type.UNKNOWN);
-    assertFalse(node.isSetType());
-  }
-  
-  /**
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#setValue()}.
    */
   @Test

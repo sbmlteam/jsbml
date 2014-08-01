@@ -86,10 +86,10 @@ ASTCSymbolNode {
    */
   public ASTCSymbolAvogadroNode(ASTCSymbolAvogadroNode node) {
     super(node);
-    if (isSetDefinitionURL()) {
+    if (node.isSetDefinitionURL()) {
       setDefinitionURL(node.getDefinitionURL());
     }
-    if (isSetEncoding()) {
+    if (node.isSetEncoding()) {
       setEncoding(node.getEncoding());      
     }
   }

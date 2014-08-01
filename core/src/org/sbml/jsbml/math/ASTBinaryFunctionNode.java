@@ -100,7 +100,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
                    "to ASTBinaryFunctionNode set strictness to false.");
     }
     listOfNodes.add(child);
-    setParentSBMLObject(child, parentSBMLObject, 0);
+    ASTFactory.setParentSBMLObject(child, parentSBMLObject);
     child.setParent(this);
     child.fireNodeAddedEvent();
   }
@@ -172,7 +172,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
                    "to ASTBinaryFunctionNode set strictness to false.");
     }
     listOfNodes.add(n, newChild);
-    setParentSBMLObject(newChild, parentSBMLObject, 0);
+    ASTFactory.setParentSBMLObject(newChild, parentSBMLObject);
     newChild.setParent(this);
   }
 
@@ -219,7 +219,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
                    "to ASTBinaryFunctionNode set strictness to false.");
     }
     listOfNodes.add(0, child);
-    setParentSBMLObject(child, parentSBMLObject, 0);
+    ASTFactory.setParentSBMLObject(child, parentSBMLObject);
     child.setParent(this);
   }
   

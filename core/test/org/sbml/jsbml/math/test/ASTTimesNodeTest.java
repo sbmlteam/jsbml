@@ -76,7 +76,7 @@ public class ASTTimesNodeTest {
   @Test
   public final void testIsAllowableType() {
     ASTTimesNode times = new ASTTimesNode();
-    assertTrue(times.isAllowableType(Type.TIMES) && times.isAllowableType(null));
+    assertTrue(times.isAllowableType(Type.TIMES) && !times.isAllowableType(null));
   }
   
 }

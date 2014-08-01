@@ -31,6 +31,7 @@ import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.ASTConstantNumber;
+import org.sbml.jsbml.util.Maths;
 
 
 /**
@@ -82,7 +83,7 @@ public class ASTConstantNumberTest {
   @Test
   public final void testGetValueAvogadrosConstant() {
     ASTConstantNumber constant = new ASTConstantNumber(Type.NAME_AVOGADRO);
-    assertTrue(Double.compare(constant.getValue(), 6.023e23) == 0);
+    assertTrue(Double.compare(constant.getValue(), Maths.AVOGADRO_L3V1) == 0);
   }
   
   /**

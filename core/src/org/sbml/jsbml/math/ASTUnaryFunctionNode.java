@@ -88,7 +88,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
       listOfNodes = new ArrayList<ASTNode2>();
     } 
     listOfNodes.add(child);
-    setParentSBMLObject(child, parentSBMLObject, 0);
+    ASTFactory.setParentSBMLObject(child, parentSBMLObject);
     child.setParent(this);
     child.fireNodeAddedEvent();
   }
@@ -171,7 +171,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
       listOfNodes = new ArrayList<ASTNode2>();
     }
     listOfNodes.add(n, newChild);
-    setParentSBMLObject(newChild, parentSBMLObject, 0);
+    ASTFactory.setParentSBMLObject(newChild, parentSBMLObject);
     newChild.setParent(this);
   }
 
@@ -221,7 +221,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
       listOfNodes = new ArrayList<ASTNode2>();
     }
     listOfNodes.add(0, child);
-    setParentSBMLObject(child, parentSBMLObject, 0);
+    ASTFactory.setParentSBMLObject(child, parentSBMLObject);
     child.setParent(this);
   }
   

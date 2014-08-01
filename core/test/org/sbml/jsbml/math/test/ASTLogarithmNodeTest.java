@@ -137,17 +137,6 @@ public class ASTLogarithmNodeTest {
   }
   
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#getBase()}.
-   */
-  @Test
-  public final void testGetNonExistentBase() {
-    ASTLogarithmNode log = new ASTLogarithmNode();
-    log.setType(Type.UNKNOWN);
-    exception.expect(IndexOutOfBoundsException.class);
-    log.getBase();
-  }
-  
-  /**
    * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#getValue()}.
    */
   @Test
