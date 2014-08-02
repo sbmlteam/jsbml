@@ -114,32 +114,6 @@ public class ASTLambdaFunctionNode extends ASTFunction {
     return type == Type.LAMBDA;
   }
 
-  /* (non-Javadoc)
-   * @see java.lang.Object#toString()
-   */
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("ASTLambdaFunctionNode [listOfNodes=");
-    builder.append(listOfNodes);
-    builder.append(", parentSBMLObject=");
-    builder.append(parentSBMLObject);
-    builder.append(", strict=");
-    builder.append(strict);
-    builder.append(", type=");
-    builder.append(type);
-    builder.append(", id=");
-    builder.append(id);
-    builder.append(", style=");
-    builder.append(style);
-    builder.append(", listOfListeners=");
-    builder.append(listOfListeners);
-    builder.append(", parent=");
-    builder.append(parent);
-    builder.append("]");
-    return builder.toString();
-  }
-
   /**
    * Replaces occurrences of a name within this {@link ASTLambdaFunctionNode} with the
    * name/value/formula represented by the second argument {@link ASTNode2}, e.g., if
@@ -168,6 +142,32 @@ public class ASTLambdaFunctionNode extends ASTFunction {
       }
       n++;
     }
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append("ASTLambdaFunctionNode [listOfNodes=");
+    builder.append(listOfNodes);
+    builder.append(", parentSBMLObject=");
+    builder.append(parentSBMLObject);
+    builder.append(", strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append(", id=");
+    builder.append(id);
+    builder.append(", style=");
+    builder.append(style);
+    builder.append(", listOfListeners=");
+    builder.append(listOfListeners);
+    builder.append(", parent=");
+    builder.append(parent);
+    builder.append("]");
+    return builder.toString();
   }
 
 }

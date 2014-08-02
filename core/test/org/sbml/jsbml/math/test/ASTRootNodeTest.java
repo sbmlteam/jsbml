@@ -77,6 +77,14 @@ public class ASTRootNodeTest {
   }
   
   /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRootNode#getChildCount()}.
+   */
+  @Test
+  public final void testGetChildCount() {
+    assertTrue(true);
+  }
+  
+  /**
    * Test method for {@link org.sbml.jsbml.math.ASTRootNode#getRadicand()}.
    */
   @Test
@@ -85,7 +93,8 @@ public class ASTRootNodeTest {
     exception.expect(PropertyUndefinedError.class);
     squareRoot.getRadicand();
   }
-  
+
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRootNode#getRootExponent()}.
    */
@@ -95,7 +104,6 @@ public class ASTRootNodeTest {
     ASTRootNode root = new ASTRootNode(ten, new ASTCnIntegerNode(1000));
     assertTrue(root.getRootExponent().equals(ten));
   }
-
 
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRootNode#getRootExponent()}.
@@ -116,7 +124,7 @@ public class ASTRootNodeTest {
     squareRoot.setRootExponent(integer);
     assertTrue(squareRoot.getRootExponent().equals(integer));
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTRootNode#getRadicand()}.
    */

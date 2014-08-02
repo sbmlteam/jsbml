@@ -156,12 +156,11 @@ public class ASTArithmeticOperatorNode extends ASTFunction {
     }
     switch(type) {
     case PLUS:
-      return true;
     case MINUS:
-      return true;
     case TIMES:
-      return true;
     case DIVIDE:
+    case SUM:
+    case PRODUCT:
       return true;
     default: // UNKNOWN
       return false;
