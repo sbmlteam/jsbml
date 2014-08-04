@@ -27,6 +27,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTCiFunctionNode;
+import org.sbml.jsbml.math.ASTCiNumberNode;
 import org.sbml.jsbml.math.ASTLambdaFunctionNode;
 import org.sbml.jsbml.math.ASTPlusNode;
 import org.sbml.jsbml.math.ASTQualifierNode;
@@ -103,7 +104,7 @@ public class ASTLambdaFunctionTest {
     x.setName("x");
     bvarX.addChild(x);
     ASTCiFunctionNode y = new ASTCiFunctionNode();
-    x.setName("y");
+    y.setName("y");
     ASTQualifierNode bvarY = new ASTQualifierNode(Type.QUALIFIER_BVAR);
     bvarY.addChild(y);
     lambda.addChild(bvarX);
@@ -112,7 +113,6 @@ public class ASTLambdaFunctionTest {
     lambda.addChild(plus);
     assertTrue(lambda.getBvarCount() == 2);
   }
-
   
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTFunction#replaceArgument(java.lang.String, org.sbml.jsbml.math.ASTNode2)}.
@@ -137,6 +137,27 @@ public class ASTLambdaFunctionTest {
     lambda.replaceArgument("bvarX", bvarY);
     
     assertTrue(lambda.getChildAt(0).equals(bvarY));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLambdaFunctionNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormula() {
+    ASTLambdaFunctionNode lambda = new ASTLambdaFunctionNode();
+    ASTQualifierNode bvarX = new ASTQualifierNode(Type.QUALIFIER_BVAR);
+    ASTCiNumberNode x = new ASTCiNumberNode();
+    x.setRefId("x");
+    bvarX.addChild(x);
+    ASTCiNumberNode y = new ASTCiNumberNode();
+    y.setRefId("y");
+    ASTQualifierNode bvarY = new ASTQualifierNode(Type.QUALIFIER_BVAR);
+    bvarY.addChild(y);
+    lambda.addChild(bvarX);
+    lambda.addChild(bvarY);
+    ASTPlusNode plus = new ASTPlusNode(x, y);
+    lambda.addChild(plus);
+    assertTrue(lambda.toFormula().equals("lambda(x, y, x+y)"));
   }
   
 }

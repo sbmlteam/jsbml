@@ -355,4 +355,48 @@ public class ASTUnaryFunctionNodeTest {
     A.swapChildren(B);
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaAbs() {
+    ASTCnIntegerNode negativeFive = new ASTCnIntegerNode(-5);
+    ASTUnaryFunctionNode abs = new ASTUnaryFunctionNode(Type.FUNCTION_ABS);
+    abs.setChild(negativeFive);
+    assertTrue(abs.toFormula().equals("abs(-5)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaCeil() {
+    ASTCnIntegerNode negativeFive = new ASTCnIntegerNode(-5);
+    ASTUnaryFunctionNode ceil = new ASTUnaryFunctionNode(Type.FUNCTION_CEILING);
+    ceil.setChild(negativeFive);
+    assertTrue(ceil.toFormula().equals("ceil(-5)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaFactorial() {
+    ASTCnIntegerNode five = new ASTCnIntegerNode(5);
+    ASTUnaryFunctionNode factorial = new ASTUnaryFunctionNode(Type.FUNCTION_FACTORIAL);
+    factorial.setChild(five);
+    assertTrue(factorial.toFormula().equals("(5)!"));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaFloor() {
+    ASTCnIntegerNode five = new ASTCnIntegerNode(5);
+    ASTUnaryFunctionNode floor = new ASTUnaryFunctionNode(Type.FUNCTION_FLOOR);
+    floor.setChild(five);
+    assertTrue(floor.toFormula().equals("floor(5)"));
+  }
+  
 }

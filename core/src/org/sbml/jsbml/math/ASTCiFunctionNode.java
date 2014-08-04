@@ -37,8 +37,9 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.math.compiler.ASTNode2Value;
+import org.sbml.jsbml.math.compiler.FormulaCompiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
-import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 /**
@@ -119,8 +120,8 @@ ASTCSymbolBaseNode {
    * @see org.sbml.jsbml.math.AbstractASTNode#compile(org.sbml.jsbml.math.compiler.ASTNode2Compiler)
    */
   @Override
-  public ASTNodeValue compile(ASTNode2Compiler compiler) {
-    ASTNodeValue value = null;
+  public ASTNode2Value compile(ASTNode2Compiler compiler) {
+    ASTNode2Value value = null;
     CallableSBase variable = getReferenceInstance();
     if (variable instanceof FunctionDefinition) {
       value = compiler.function((FunctionDefinition) variable,
@@ -138,10 +139,12 @@ ASTCSymbolBaseNode {
             + ")");
     }
     value.setType(getType());
-    MathContainer parent = getParentSBMLObject();
-    if (parent != null) {
-      value.setLevel(parent.getLevel());
-      value.setVersion(parent.getVersion());
+    if (isSetParentSBMLObject()) {
+      MathContainer parent = getParentSBMLObject();
+      if (parent != null) {
+        value.setLevel(parent.getLevel());
+        value.setVersion(parent.getVersion());
+      }      
     }
     return value;
   }
@@ -198,20 +201,22 @@ ASTCSymbolBaseNode {
    */
   public CallableSBase getReferenceInstance() {
     CallableSBase sbase = null;
-    TreeNode parent = getParent();
-    if ((parent != null) && (parent instanceof ASTLambdaFunctionNode)) {
-      ASTLambdaFunctionNode lambda = (ASTLambdaFunctionNode) parent;
-      if (lambda.getChildAt(getChildCount() - 1) != this) { 
-        logger.debug(MessageFormat.format(
-          "The name \"{0}\" represented by this node is an " +
-              "argument in a function call, i.e., a placeholder " +
-              "for some other element. No corresponding CallableSBase " +
-              "exists in the model",
-              getName()));
-        return sbase;
+    if (isSetParent()) {
+      TreeNode parent = getParent();
+      if (parent instanceof ASTLambdaFunctionNode) {
+        ASTLambdaFunctionNode lambda = (ASTLambdaFunctionNode) parent;
+        if (lambda.getChildAt(getChildCount() - 1) != this) { 
+          logger.debug(MessageFormat.format(
+            "The name \"{0}\" represented by this node is an " +
+                "argument in a function call, i.e., a placeholder " +
+                "for some other element. No corresponding CallableSBase " +
+                "exists in the model",
+                getName()));
+          return sbase;
+        }
       }
     }
-    if (getParentSBMLObject() != null) {
+    if (isSetParentSBMLObject()) {
       if (getParentSBMLObject() instanceof KineticLaw) {
         sbase = ((KineticLaw) getParentSBMLObject()).getLocalParameter(getName());
       }
@@ -355,6 +360,14 @@ ASTCSymbolBaseNode {
     String old = this.refId;
     this.refId = refId;
     firePropertyChange(TreeNodeChangeEvent.refId, old, refId);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toFormula()
+   */
+  @Override
+  public String toFormula() throws SBMLException {
+    return compile(new FormulaCompiler()).toString();
   }
 
   /* (non-Javadoc)

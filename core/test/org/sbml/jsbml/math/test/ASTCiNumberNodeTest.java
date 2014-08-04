@@ -173,4 +173,14 @@ public class ASTCiNumberNodeTest {
     ci.setType(Type.UNKNOWN);
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormula() {
+    ASTCiNumberNode ci = new ASTCiNumberNode();
+    ci.setRefId("x");
+    assertTrue(ci.toFormula().equals("x"));
+  }
+  
 }

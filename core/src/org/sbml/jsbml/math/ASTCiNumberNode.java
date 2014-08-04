@@ -29,8 +29,8 @@ import java.util.List;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.KineticLaw;
@@ -39,9 +39,11 @@ import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.math.compiler.ASTNode2Value;
+import org.sbml.jsbml.math.compiler.FormulaCompiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
-import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 /**
@@ -117,8 +119,8 @@ ASTCSymbolBaseNode {
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNodeValue compile(ASTNode2Compiler compiler) {
-    ASTNodeValue value = null;
+  public ASTNode2Value compile(ASTNode2Compiler compiler) {
+    ASTNode2Value value = null;
     CallableSBase variable = getReferenceInstance();
     if (variable != null) {
       if (variable instanceof FunctionDefinition) {
@@ -132,11 +134,13 @@ ASTCSymbolBaseNode {
       value = compiler.compile(getRefId());
     }
     value.setType(getType());
-    MathContainer parent = getParentSBMLObject();
-    if (parent != null) {
-      value.setLevel(parent.getLevel());
-      value.setVersion(parent.getVersion());
-    }    
+    if (isSetParentSBMLObject()) {
+      MathContainer parent = getParentSBMLObject();
+      if (parent != null) {
+        value.setLevel(parent.getLevel());
+        value.setVersion(parent.getVersion());
+      }      
+    }
     return value;
   }
 
@@ -227,7 +231,7 @@ ASTCSymbolBaseNode {
         return sbase;
       }
     }
-    if (getParentSBMLObject() != null) {
+    if (isSetParentSBMLObject()) {
       if (getParentSBMLObject() instanceof KineticLaw) {
         sbase = ((KineticLaw) getParentSBMLObject()).getLocalParameter(getRefId());
       }
@@ -379,6 +383,14 @@ ASTCSymbolBaseNode {
     String old = this.refId;
     this.refId = refId;
     firePropertyChange(TreeNodeChangeEvent.refId, old, refId);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toFormula()
+   */
+  @Override
+  public String toFormula() throws SBMLException {
+    return compile(new FormulaCompiler()).toString();
   }
 
   /* (non-Javadoc)

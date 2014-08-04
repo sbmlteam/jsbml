@@ -112,4 +112,14 @@ public class ASTCnIntegerNodeTest {
     ASTCnIntegerNode notSet = new ASTCnIntegerNode();
     assertTrue(isSet.isSetInteger() && !notSet.isSetInteger());
   }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnIntegerNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormula() {
+    ASTCnIntegerNode ten = new ASTCnIntegerNode(10);
+    assertTrue(ten.toFormula().equals("10"));
+  }
+
 }

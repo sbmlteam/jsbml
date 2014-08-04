@@ -23,13 +23,15 @@
 package org.sbml.jsbml.math;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.math.compiler.ASTNode2Value;
+import org.sbml.jsbml.math.compiler.FormulaCompiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.ValuePair;
-import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 /**
@@ -85,13 +87,15 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Integer,Integer
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNodeValue compile(ASTNode2Compiler compiler) {
-    ASTNodeValue value = compiler.frac(getNumerator(), getDenominator());
+  public ASTNode2Value compile(ASTNode2Compiler compiler) {
+    ASTNode2Value value = compiler.frac(getNumerator(), getDenominator());
     value.setType(getType());
-    MathContainer parent = getParentSBMLObject();
-    if (parent != null) {
-      value.setLevel(parent.getLevel());
-      value.setVersion(parent.getVersion());
+    if (isSetParentSBMLObject()) {
+      MathContainer parent = getParentSBMLObject();
+      if (parent != null) {
+        value.setLevel(parent.getLevel());
+        value.setVersion(parent.getVersion());
+      }      
     }
     return value;
   }
@@ -184,6 +188,14 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Integer,Integer
     Integer old = this.number.getL();
     this.number.setL(numerator);
     firePropertyChange(TreeNodeChangeEvent.numerator, old, this.number.getL());
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toFormula()
+   */
+  @Override
+  public String toFormula() throws SBMLException {
+    return compile(new FormulaCompiler()).toString();
   }
 
   /* (non-Javadoc)

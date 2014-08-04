@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.math.ASTBoolean;
 import org.sbml.jsbml.math.ASTLogicalOperatorNode;
 
 
@@ -78,6 +79,49 @@ public class ASTLogicalOperatorNodeTest {
     assertTrue(operator.isAllowableType(Type.LOGICAL_AND) && operator.isAllowableType(Type.LOGICAL_NOT)
             && operator.isAllowableType(Type.LOGICAL_OR) && operator.isAllowableType(Type.LOGICAL_XOR)
             && !operator.isAllowableType(null));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLogicalOperatorNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaAnd() {
+    ASTLogicalOperatorNode operator = new ASTLogicalOperatorNode(Type.LOGICAL_AND);
+    operator.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    operator.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(operator.toFormula().equals("true and false"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLogicalOperatorNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaOr() {
+    ASTLogicalOperatorNode operator = new ASTLogicalOperatorNode(Type.LOGICAL_OR);
+    operator.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    operator.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(operator.toFormula().equals("true or false"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLogicalOperatorNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaNot() {
+    ASTLogicalOperatorNode operator = new ASTLogicalOperatorNode(Type.LOGICAL_NOT);
+    operator.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    assertTrue(operator.toFormula().equals("not(true)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLogicalOperatorNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaXor() {
+    ASTLogicalOperatorNode operator = new ASTLogicalOperatorNode(Type.LOGICAL_XOR);
+    operator.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    operator.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(operator.toFormula().equals("true xor false"));
   }
   
 }

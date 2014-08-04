@@ -55,7 +55,7 @@ public class ASTCSymbolAvogadroNodeTest {
     ASTCSymbolAvogadroNode unknown = avogadro.clone();
     assertTrue(avogadro.equals(unknown));
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCSymbolAvogadroNode#ASTCSymbolAvogadroNode(org.sbml.jsbml.math.ASTCSymbolAvogadroNode)}.
    */
@@ -111,7 +111,16 @@ public class ASTCSymbolAvogadroNodeTest {
   public final void testGetNameNonExistentNonStrict() {
     ASTCSymbolAvogadroNode avogadro = new ASTCSymbolAvogadroNode();
     avogadro.setStrictness(false);
-    assertTrue(avogadro.getName().length() == 0);
+    assertTrue(avogadro.getName().isEmpty());
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolAvogadroNode#getType()}.
+   */
+  @Test
+  public final void testGetType() {
+    ASTCSymbolAvogadroNode avogadro = new ASTCSymbolAvogadroNode();
+    assertTrue(avogadro.getType() == Type.NAME_AVOGADRO);
   }
 
   /**
@@ -139,6 +148,15 @@ public class ASTCSymbolAvogadroNodeTest {
   public final void testIsSetEncodingURL() {
     ASTCSymbolAvogadroNode avogadro = new ASTCSymbolAvogadroNode();
     assertTrue(avogadro.isSetEncoding());
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolAvogadroNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormula() {
+    ASTCSymbolAvogadroNode avogadro = new ASTCSymbolAvogadroNode();
+    assertTrue(avogadro.toFormula().equals("avogadro"));
   }
 
 }

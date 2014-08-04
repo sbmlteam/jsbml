@@ -43,7 +43,7 @@ public interface ASTCSymbolNode extends ASTCSymbolBaseNode {
   public String getEncoding();
 
   /**
-   * Returns True iff encoding has been set
+   * Returns true iff encoding has been set
    * 
    * @return boolean
    */

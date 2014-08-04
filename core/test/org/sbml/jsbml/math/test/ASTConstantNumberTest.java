@@ -128,7 +128,7 @@ public class ASTConstantNumberTest {
    * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#isAllowableType()}.
    */
   @Test
-  public final void testIsAllowableTypeCONSTANT_E() {
+  public final void testIsAllowableTypeConstantE() {
     ASTConstantNumber node = new ASTConstantNumber();
     assertTrue(node.isAllowableType(Type.CONSTANT_E));
   }
@@ -137,7 +137,7 @@ public class ASTConstantNumberTest {
    * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#isAllowableType()}.
    */
   @Test
-  public final void testIsAllowableTypeCONSTANT_PI() {
+  public final void testIsAllowableTypeConstantPi() {
     ASTConstantNumber node = new ASTConstantNumber();
     assertTrue(node.isAllowableType(Type.CONSTANT_PI));
   }
@@ -146,7 +146,7 @@ public class ASTConstantNumberTest {
    * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#isAllowableType()}.
    */
   @Test
-  public final void testIsAllowableTypeNAME_AVOGADRO() {
+  public final void testIsAllowableTypeNameAvogadro() {
     ASTConstantNumber node = new ASTConstantNumber();
     assertTrue(node.isAllowableType(Type.NAME_AVOGADRO));
   }
@@ -164,7 +164,7 @@ public class ASTConstantNumberTest {
    * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#isSetType()}.
    */
   @Test
-  public final void testIsSetTypeCONSTANT_E() {
+  public final void testIsSetTypeConstantE() {
     ASTConstantNumber node = new ASTConstantNumber(Type.CONSTANT_E);
     assertTrue(node.isSetType());
   }
@@ -173,7 +173,7 @@ public class ASTConstantNumberTest {
    * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#isSetType()}.
    */
   @Test
-  public final void testIsSetTypeCONSTANT_PI() {
+  public final void testIsSetTypeConstantPi() {
     ASTConstantNumber node = new ASTConstantNumber(Type.CONSTANT_PI);
     assertTrue(node.isSetType());
   }
@@ -182,7 +182,7 @@ public class ASTConstantNumberTest {
    * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#isSetType()}.
    */
   @Test
-  public final void testIsSetTypeNAME_AVOGADRO() {
+  public final void testIsSetTypeNameAvogadro() {
     ASTConstantNumber node = new ASTConstantNumber(Type.NAME_AVOGADRO);
     assertTrue(node.isSetType());
   }
@@ -202,7 +202,7 @@ public class ASTConstantNumberTest {
   @Test
   public final void testSetValueAvogadrosConstant() {
     ASTConstantNumber constant = new ASTConstantNumber();
-    constant.setValue(6.023e23);
+    constant.setValue(Maths.AVOGADRO_L3V1);
     assertTrue(constant.getType() == Type.NAME_AVOGADRO);
   }
   
@@ -224,6 +224,36 @@ public class ASTConstantNumberTest {
     ASTConstantNumber constant = new ASTConstantNumber();
     constant.setValue(Math.PI);
     assertTrue(constant.getType() == Type.CONSTANT_PI);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaE() {
+    ASTConstantNumber constant = new ASTConstantNumber();
+    constant.setValue(Math.E);
+    assertTrue(constant.toFormula().equals("e"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaNameAvogadro() {
+    ASTConstantNumber constant = new ASTConstantNumber();
+    constant.setValue(Maths.AVOGADRO_L3V1);
+    assertTrue(constant.toFormula().equals("avogadro"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaPi() {
+    ASTConstantNumber constant = new ASTConstantNumber();
+    constant.setValue(Math.PI);
+    assertTrue(constant.toFormula().equals("pi"));
   }
 
 }

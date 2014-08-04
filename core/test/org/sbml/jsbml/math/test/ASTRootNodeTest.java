@@ -166,4 +166,13 @@ public class ASTRootNodeTest {
     assertTrue(root.getRootExponent().equals(rootExponent));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRootNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormula() {
+    ASTRootNode root = new ASTRootNode(new ASTCnIntegerNode(4), new ASTCnIntegerNode(10000));
+    assertTrue(root.toFormula().equals("(10000)^(1/4.0)"));
+  }
+  
 }

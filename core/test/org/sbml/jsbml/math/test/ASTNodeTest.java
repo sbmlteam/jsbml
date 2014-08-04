@@ -28,6 +28,8 @@ import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
 
 /**
+ * Test cases for {@link ASTNode}
+ * 
  * @author Victor Kofia
  * @version $Rev$
  * @since 1.0

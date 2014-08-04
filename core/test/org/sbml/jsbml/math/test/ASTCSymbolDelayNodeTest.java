@@ -30,6 +30,7 @@ import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTCSymbolDelayNode;
+import org.sbml.jsbml.math.ASTCnIntegerNode;
 
 
 /**
@@ -52,6 +53,18 @@ public class ASTCSymbolDelayNodeTest {
   @Test
   public final void testClone() {
     ASTCSymbolDelayNode delay = new ASTCSymbolDelayNode();
+    ASTCSymbolDelayNode unknown = delay.clone();
+    assertTrue(delay.equals(unknown));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolDelayNode#clone()}.
+   */
+  @Test
+  public final void testCloneWithChildren() {
+    ASTCSymbolDelayNode delay = new ASTCSymbolDelayNode();
+    delay.addChild(new ASTCnIntegerNode(5));
+    delay.addChild(new ASTCnIntegerNode(10));
     ASTCSymbolDelayNode unknown = delay.clone();
     assertTrue(delay.equals(unknown));
   }
@@ -111,4 +124,16 @@ public class ASTCSymbolDelayNodeTest {
     ASTCSymbolDelayNode delay = new ASTCSymbolDelayNode();
     assertTrue(delay.isSetEncoding());
   }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolDelayNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormula() {
+    ASTCSymbolDelayNode delay = new ASTCSymbolDelayNode();
+    delay.addChild(new ASTCnIntegerNode(5));
+    delay.addChild(new ASTCnIntegerNode(10));
+    assertTrue(delay.toFormula().equals("delay(5, 10)"));
+  }
+  
 }

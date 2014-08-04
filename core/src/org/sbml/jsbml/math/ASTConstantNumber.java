@@ -26,9 +26,11 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.math.compiler.ASTNode2Value;
+import org.sbml.jsbml.math.compiler.FormulaCompiler;
 import org.sbml.jsbml.util.Maths;
-import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 /**
  * An Abstract Syntax Tree (AST) node representing a constant number
@@ -69,6 +71,9 @@ public class ASTConstantNumber extends ASTNumber {
     if (node.isSetValue()) {
       setValue(node.getValue());      
     }
+    if (node.isSetType()) {
+      setType(node.getType());
+    }
   }
   
   /**
@@ -105,8 +110,8 @@ public class ASTConstantNumber extends ASTNumber {
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNodeValue compile(ASTNode2Compiler compiler) {
-    ASTNodeValue value = null;
+  public ASTNode2Value compile(ASTNode2Compiler compiler) {
+    ASTNode2Value value = null;
     switch(getType()) {
     case CONSTANT_PI:
       value = compiler.getConstantPi();
@@ -115,17 +120,22 @@ public class ASTConstantNumber extends ASTNumber {
       value = compiler.getConstantE();
       break;
     case NAME_AVOGADRO:
-      value = compiler.getConstantAvogadro();
+      // TODO: getConstantAvogadro() requests an optional 'name'
+      // but since ASTConstantNumber is nothing more than a 
+      // specialized ASTNumber, there is no name attribute
+       value = compiler.getConstantAvogadro("x");        
       break;
     default: // UNKNOWN:
       value = compiler.unknownValue();
       break;
     }
     value.setType(getType());
-    MathContainer parent = getParentSBMLObject();
-    if (parent != null) {
-      value.setLevel(parent.getLevel());
-      value.setVersion(parent.getVersion());
+    if (isSetParentSBMLObject()) {
+      MathContainer parent = getParentSBMLObject();
+      if (parent != null) {
+        value.setLevel(parent.getLevel());
+        value.setVersion(parent.getVersion());
+      }      
     }
     return value;
   }
@@ -200,11 +210,19 @@ public class ASTConstantNumber extends ASTNumber {
       setType(Type.CONSTANT_E);
       return;
     }
-    switch(Double.compare(value, 6.023e23)){
+    switch(Double.compare(value, Maths.AVOGADRO_L3V1)){
     case 0:
       setType(Type.NAME_AVOGADRO);
       return;
     }
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toFormula()
+   */
+  @Override
+  public String toFormula() throws SBMLException {
+    return compile(new FormulaCompiler()).toString();
   }
 
   /* (non-Javadoc)

@@ -111,4 +111,13 @@ public class ASTCnRealNodeTest {
     assertTrue(real.getReal() == 10.0);
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnRealNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormula() {
+    ASTCnRealNode real = new ASTCnRealNode(10.0);
+    assertTrue(real.toFormula().equals("10.0"));
+  }
+  
 }

@@ -22,11 +22,13 @@
  */
 package org.sbml.jsbml.math.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode.Type;
-import org.sbml.jsbml.math.ASTLogicalOperatorNode;
+import org.sbml.jsbml.math.ASTCiNumberNode;
+import org.sbml.jsbml.math.ASTCnIntegerNode;
 import org.sbml.jsbml.math.ASTPiecewiseFunctionNode;
 import org.sbml.jsbml.math.ASTQualifierNode;
 import org.sbml.jsbml.math.ASTRelationalOperatorNode;
@@ -58,9 +60,18 @@ public class ASTPiecewiseFunctionNodeTest {
   @Test
   public final void testCloneWithChildren() {
     ASTPiecewiseFunctionNode piecewise = new ASTPiecewiseFunctionNode();
-    piecewise.addChild(new ASTRelationalOperatorNode(Type.RELATIONAL_EQ));
-    piecewise.addChild(new ASTLogicalOperatorNode(Type.LOGICAL_AND));
-    piecewise.addChild(new ASTQualifierNode(Type.QUALIFIER_BVAR));
+    ASTQualifierNode piece = new ASTQualifierNode(Type.CONSTRUCTOR_PIECE);
+    piece.addChild(new ASTCnIntegerNode(0));
+    ASTRelationalOperatorNode geq = new ASTRelationalOperatorNode(Type.RELATIONAL_GEQ);
+    ASTCiNumberNode x = new ASTCiNumberNode();
+    x.setRefId("x");
+    geq.addChild(x);
+    geq.addChild(new ASTCnIntegerNode(10));
+    piece.addChild(geq);
+    piecewise.addChild(piece);
+    ASTQualifierNode otherwise = new ASTQualifierNode(Type.CONSTRUCTOR_OTHERWISE);
+    otherwise.addChild(new ASTCnIntegerNode(1));
+    piecewise.addChild(otherwise);
     ASTPiecewiseFunctionNode unknown = piecewise.clone();
     assertTrue(piecewise.equals(unknown));
   }
@@ -79,7 +90,7 @@ public class ASTPiecewiseFunctionNodeTest {
    * Test method for {@link org.sbml.jsbml.math.ASTPiecewiseFunctionNode#getPieceCount()}.
    */
   @Test
-  public final void testGetNumPiece() {
+  public final void testGetPieceCount() {
     ASTPiecewiseFunctionNode piecewise = new ASTPiecewiseFunctionNode();
     assertTrue(piecewise.getPieceCount() == 0);
   }
@@ -88,19 +99,28 @@ public class ASTPiecewiseFunctionNodeTest {
    * Test method for {@link org.sbml.jsbml.math.ASTPiecewiseFunctionNode#getPieceCount()}.
    */
   @Test
-  public final void testGetNumPieceWithChildren() {
+  public final void testGetPieceCountWithChildren() {
     ASTPiecewiseFunctionNode piecewise = new ASTPiecewiseFunctionNode();
-    piecewise.addChild(new ASTQualifierNode(Type.CONSTRUCTOR_PIECE));
-    piecewise.addChild(new ASTQualifierNode(Type.CONSTRUCTOR_PIECE));
-    piecewise.addChild(new ASTQualifierNode(Type.CONSTRUCTOR_OTHERWISE));
-    assertTrue(piecewise.getPieceCount() == 2);
+    ASTQualifierNode piece = new ASTQualifierNode(Type.CONSTRUCTOR_PIECE);
+    piece.addChild(new ASTCnIntegerNode(0));
+    ASTRelationalOperatorNode geq = new ASTRelationalOperatorNode(Type.RELATIONAL_GEQ);
+    ASTCiNumberNode x = new ASTCiNumberNode();
+    x.setRefId("x");
+    geq.addChild(x);
+    geq.addChild(new ASTCnIntegerNode(10));
+    piece.addChild(geq);
+    piecewise.addChild(piece);
+    ASTQualifierNode otherwise = new ASTQualifierNode(Type.CONSTRUCTOR_OTHERWISE);
+    otherwise.addChild(new ASTCnIntegerNode(1));
+    piecewise.addChild(otherwise);
+    assertTrue(piecewise.getPieceCount() == 1);
   }
 
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTPiecewiseFunctionNode#hasOtherwise()}.
    */
   @Test
-  public final void testHasOtherwise() {
+  public final void testHasOtherwiseFalse() {
     ASTPiecewiseFunctionNode piecewise = new ASTPiecewiseFunctionNode();
     assertFalse(piecewise.hasOtherwise());
   }
@@ -109,12 +129,42 @@ public class ASTPiecewiseFunctionNodeTest {
    * Test method for {@link org.sbml.jsbml.math.ASTPiecewiseFunctionNode#hasOtherwise()}.
    */
   @Test
-  public final void testHasOtherwiseWithOdd() {
+  public final void testHasOtherwiseTrue() {
     ASTPiecewiseFunctionNode piecewise = new ASTPiecewiseFunctionNode();
-    piecewise.addChild(new ASTQualifierNode(Type.CONSTRUCTOR_PIECE));
-    piecewise.addChild(new ASTQualifierNode(Type.CONSTRUCTOR_PIECE));
-    piecewise.addChild(new ASTQualifierNode(Type.CONSTRUCTOR_OTHERWISE));
+    ASTQualifierNode piece = new ASTQualifierNode(Type.CONSTRUCTOR_PIECE);
+    piece.addChild(new ASTCnIntegerNode(0));
+    ASTRelationalOperatorNode geq = new ASTRelationalOperatorNode(Type.RELATIONAL_GEQ);
+    ASTCiNumberNode x = new ASTCiNumberNode();
+    x.setRefId("x");
+    geq.addChild(x);
+    geq.addChild(new ASTCnIntegerNode(10));
+    piece.addChild(geq);
+    piecewise.addChild(piece);
+    ASTQualifierNode otherwise = new ASTQualifierNode(Type.CONSTRUCTOR_OTHERWISE);
+    otherwise.addChild(new ASTCnIntegerNode(1));
+    piecewise.addChild(otherwise);
     assertTrue(piecewise.hasOtherwise());
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTPiecewiseFunctionNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormula() {
+    ASTPiecewiseFunctionNode piecewise = new ASTPiecewiseFunctionNode();
+    ASTQualifierNode piece = new ASTQualifierNode(Type.CONSTRUCTOR_PIECE);
+    piece.addChild(new ASTCnIntegerNode(0));
+    ASTRelationalOperatorNode geq = new ASTRelationalOperatorNode(Type.RELATIONAL_GEQ);
+    ASTCiNumberNode x = new ASTCiNumberNode();
+    x.setRefId("x");
+    geq.addChild(x);
+    geq.addChild(new ASTCnIntegerNode(10));
+    piece.addChild(geq);
+    piecewise.addChild(piece);
+    ASTQualifierNode otherwise = new ASTQualifierNode(Type.CONSTRUCTOR_OTHERWISE);
+    otherwise.addChild(new ASTCnIntegerNode(1));
+    piecewise.addChild(otherwise);
+    assertTrue(piecewise.toFormula().equals("piecewise(0, 1)"));
   }
 
 }

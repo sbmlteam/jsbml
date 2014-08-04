@@ -79,4 +79,13 @@ public class ASTPlusNodeTest {
     assertTrue(plus.isAllowableType(Type.PLUS) && !plus.isAllowableType(null));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTPlusNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormula() {
+    ASTPlusNode plus = new ASTPlusNode(new ASTCnIntegerNode(1), new ASTCnIntegerNode(1));
+    assertTrue(plus.toFormula().equals("1+1"));
+  }
+  
 }

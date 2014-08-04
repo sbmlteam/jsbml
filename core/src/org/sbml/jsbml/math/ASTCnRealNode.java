@@ -22,11 +22,13 @@
  */
 package org.sbml.jsbml.math;
 
-import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.math.compiler.ASTNode2Value;
+import org.sbml.jsbml.math.compiler.FormulaCompiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
-import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 /**
@@ -88,20 +90,24 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNodeValue compile(ASTNode2Compiler compiler) {
-    ASTNodeValue value = null;
+  public ASTNode2Value compile(ASTNode2Compiler compiler) {
+    ASTNode2Value value = null;
     double real = getReal();
     if (Double.isInfinite(real)) {
       value = (real > 0d) ? compiler.getPositiveInfinity() : compiler
         .getNegativeInfinity();
     } else {
+      // TODO: Can units be optional in this case? What if an ASTCnRealNode
+      // does not have units.
       value = compiler.compile(real, getUnits());
     }
     value.setType(getType());
-    MathContainer parent = getParentSBMLObject();
-    if (parent != null) {
-      value.setLevel(parent.getLevel());
-      value.setVersion(parent.getVersion());
+    if (isSetParentSBMLObject()) {
+      MathContainer parent = getParentSBMLObject();
+      if (parent != null) {
+        value.setLevel(parent.getLevel());
+        value.setVersion(parent.getVersion());
+      }      
     }
     return value;
   }
@@ -172,6 +178,14 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
     Double old = this.number;
     this.number = real;
     firePropertyChange(TreeNodeChangeEvent.number, old, this.number);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toFormula()
+   */
+  @Override
+  public String toFormula() throws SBMLException {
+    return compile(new FormulaCompiler()).toString();
   }
 
   /* (non-Javadoc)

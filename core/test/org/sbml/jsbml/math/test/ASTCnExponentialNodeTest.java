@@ -161,4 +161,15 @@ public class ASTCnExponentialNodeTest {
     assertTrue(isSet.isSetMantissa() && !notSet.isSetMantissa());
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnExponentialNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormula() {
+    ASTCnExponentialNode exponential = new ASTCnExponentialNode();
+    exponential.setExponent(2);
+    exponential.setMantissa(7);
+    assertTrue(exponential.toFormula().equals("7E2"));
+  }
+  
 }

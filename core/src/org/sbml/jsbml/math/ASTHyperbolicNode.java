@@ -24,9 +24,10 @@ package org.sbml.jsbml.math;
 
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
-import org.sbml.jsbml.util.compilers.ASTNodeValue;
-
+import org.sbml.jsbml.math.compiler.ASTNode2Value;
+import org.sbml.jsbml.math.compiler.FormulaCompiler;
 
 
 /**
@@ -84,8 +85,8 @@ public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNodeValue compile(ASTNode2Compiler compiler) {
-    ASTNodeValue value = null;
+  public ASTNode2Value compile(ASTNode2Compiler compiler) {
+    ASTNode2Value value = null;
     switch(getType()) {
     case FUNCTION_ARCCOSH:
       value = compiler.arccosh(getChild());
@@ -128,10 +129,12 @@ public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
       break;
     }
     value.setType(getType());
-    MathContainer parent = getParentSBMLObject();
-    if (parent != null) {
-      value.setLevel(parent.getLevel());
-      value.setVersion(parent.getVersion());
+    if (isSetParentSBMLObject()) {
+      MathContainer parent = getParentSBMLObject();
+      if (parent != null) {
+        value.setLevel(parent.getLevel());
+        value.setVersion(parent.getVersion());
+      }      
     }
     return value;
   }
@@ -158,9 +161,17 @@ public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
     case FUNCTION_SINH:
     case FUNCTION_TANH:
       return true;
-    default: // UNKNOWN:
+    default:
       return false;
     }  
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toFormula()
+   */
+  @Override
+  public String toFormula() throws SBMLException {
+    return compile(new FormulaCompiler()).toString();
   }
 
   /* (non-Javadoc)

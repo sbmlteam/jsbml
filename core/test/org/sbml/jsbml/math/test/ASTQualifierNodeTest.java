@@ -96,4 +96,14 @@ public class ASTQualifierNodeTest {
                !qualifier.isAllowableType(null));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTQualifierNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaBvar() {
+    ASTQualifierNode qualifier = new ASTQualifierNode(Type.QUALIFIER_BVAR);
+    qualifier.addChild(new ASTCnIntegerNode(1));
+    assertTrue(qualifier.toFormula().equals("1"));
+  }
+  
 }

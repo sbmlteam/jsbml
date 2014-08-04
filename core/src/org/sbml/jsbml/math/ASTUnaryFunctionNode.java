@@ -28,9 +28,10 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
-import org.sbml.jsbml.util.compilers.ASTNodeValue;
-
+import org.sbml.jsbml.math.compiler.ASTNode2Value;
+import org.sbml.jsbml.math.compiler.FormulaCompiler;
 
 
 /**
@@ -59,6 +60,14 @@ public class ASTUnaryFunctionNode extends ASTFunction {
    */
   public ASTUnaryFunctionNode() {
     super();
+  }
+  
+  /**
+   * Creates a new {@link ASTUnaryFunctionNode} of type {@link Type}
+   */
+  public ASTUnaryFunctionNode(Type type) {
+    super();
+    setType(type);
   }
 
   /**
@@ -106,8 +115,8 @@ public class ASTUnaryFunctionNode extends ASTFunction {
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNodeValue compile(ASTNode2Compiler compiler) {
-    ASTNodeValue value = null;
+  public ASTNode2Value compile(ASTNode2Compiler compiler) {
+    ASTNode2Value value = null;
     switch(getType()) {
     case FUNCTION_ABS:
       value = compiler.abs(getChild());
@@ -126,10 +135,12 @@ public class ASTUnaryFunctionNode extends ASTFunction {
       break;
     }
     value.setType(getType());
-    MathContainer parent = getParentSBMLObject();
-    if (parent != null) {
-      value.setLevel(parent.getLevel());
-      value.setVersion(parent.getVersion());
+    if (isSetParentSBMLObject()) {
+      MathContainer parent = getParentSBMLObject();
+      if (parent != null) {
+        value.setLevel(parent.getLevel());
+        value.setVersion(parent.getVersion());
+      }      
     }
     return value;
   }
@@ -184,10 +195,9 @@ public class ASTUnaryFunctionNode extends ASTFunction {
       return false;
     }
     switch(type) {
-    case FUNCTION_CEILING:
-      return true;    
     case FUNCTION_ABS:
-      return true;    
+    case FUNCTION_CEILING:
+    case FUNCTION_FACTORIAL:
     case FUNCTION_FLOOR:
       return true;    
     default:
@@ -272,6 +282,14 @@ public class ASTUnaryFunctionNode extends ASTFunction {
     List<ASTNode2> swap = that.listOfNodes;
     that.listOfNodes = listOfNodes;
     listOfNodes = swap;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toFormula()
+   */
+  @Override
+  public String toFormula() throws SBMLException {
+    return compile(new FormulaCompiler()).toString();
   }
 
   /* (non-Javadoc)

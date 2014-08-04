@@ -150,4 +150,14 @@ public class ASTCSymbolTimeNodeTest {
     assertTrue(time.isSetName());
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolTimeNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormula() {
+    ASTCSymbolTimeNode time = new ASTCSymbolTimeNode();
+    time.setName("x");
+    assertTrue(time.toFormula().equals("x"));
+  }
+  
 }

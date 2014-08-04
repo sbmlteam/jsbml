@@ -152,4 +152,15 @@ public class ASTCnRationalNodeTest {
     assertTrue(isSet.isSetNumerator() && !notSet.isSetNumerator());
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnRationalNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormula() {
+    ASTCnRationalNode rational = new ASTCnRationalNode();
+    rational.setNumerator(1);
+    rational.setDenominator(2);
+    assertTrue(rational.toFormula().equals("1/2"));
+  }
+  
 }

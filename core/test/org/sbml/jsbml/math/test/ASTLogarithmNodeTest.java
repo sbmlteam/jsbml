@@ -196,9 +196,28 @@ public class ASTLogarithmNodeTest {
   public final void testNaturalLogWithSetLeftChild() {
     ASTConstantNumber e = new ASTConstantNumber(Type.CONSTANT_E);
     ASTCnIntegerNode one = new ASTCnIntegerNode(1);
-    ASTBinaryFunctionNode ln = new ASTLogarithmNode(one);
+    ASTLogarithmNode ln = new ASTLogarithmNode(one);
     ln.setLeftChild(e);
     assertTrue(ln.getType() == Type.FUNCTION_LN);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaLog() {
+    ASTLogarithmNode log = new ASTLogarithmNode(new ASTCnIntegerNode(1));
+    assertTrue(log.toFormula().equals("log10(1)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaNaturalLog() {
+    ASTConstantNumber e = new ASTConstantNumber(Type.CONSTANT_E);
+    ASTLogarithmNode ln = new ASTLogarithmNode(e, new ASTCnIntegerNode(1));
+    assertTrue(ln.toFormula().equals("log(1)"));
   }
 
 }

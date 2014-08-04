@@ -79,4 +79,13 @@ public class ASTMinusNodeTest {
     assertTrue(minus.isAllowableType(Type.MINUS) && !minus.isAllowableType(null));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTMinusNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormula() {
+    ASTMinusNode minus = new ASTMinusNode(new ASTCnIntegerNode(1), new ASTCnIntegerNode(1));
+    assertTrue(minus.toFormula().equals("1-1"));
+  }
+  
 }

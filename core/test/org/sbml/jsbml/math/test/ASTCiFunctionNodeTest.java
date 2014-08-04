@@ -178,4 +178,13 @@ public class ASTCiFunctionNodeTest {
     ci.setType(Type.UNKNOWN);
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCiFunctionNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormula() {
+    ASTCiFunctionNode ci = new ASTCiFunctionNode();
+    assertTrue(ci.toFormula().equals("x"));
+  }
+  
 }

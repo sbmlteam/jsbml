@@ -49,6 +49,15 @@ public class ASTDivideNodeTest {
     ASTDivideNode unknown = divide.clone();
     assertTrue(divide.equals(unknown));
   }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTDivideNode#getType()}.
+   */
+  @Test
+  public final void testGetType() {
+    ASTDivideNode divide = new ASTDivideNode();
+    assertTrue(divide.getType() == Type.DIVIDE);
+  }
 
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTDivideNode#clone()}.
@@ -77,6 +86,15 @@ public class ASTDivideNodeTest {
   public final void testIsAllowableType() {
     ASTDivideNode divide = new ASTDivideNode();
     assertTrue(divide.isAllowableType(Type.DIVIDE) && !divide.isAllowableType(null));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTDivideNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormula() {
+    ASTDivideNode divide = new ASTDivideNode(new ASTCnIntegerNode(1), new ASTCnIntegerNode(2));
+    assertTrue(divide.toFormula().equals("1/2"));
   }
   
 }

@@ -76,6 +76,7 @@ ASTCSymbolNode {
     setName(null);
     setDefinitionURL(ASTNode.URI_AVOGADRO_DEFINITION);
     setEncoding("text");
+    setType(Type.NAME_AVOGADRO);
   }
 
   /**
@@ -181,10 +182,11 @@ ASTCSymbolNode {
     return "";
   }
 
-  /**
-   * 
-   * 
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTConstantNumber#getValue()
    */
+  @Override
   public double getValue() {
     return Maths.AVOGADRO_L3V1;
   }

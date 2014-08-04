@@ -210,7 +210,7 @@ public class ASTFunctionTest {
   public final void testGetListOfNodesFilterNotInitialized() {
     ASTFunction function = new ASTFunction();
     NameFilter filter = new NameFilter("id#", "name#");
-    assertTrue(function.getListOfNodes(filter) == null);
+    assertTrue(function.getListOfNodes(filter).size() == 0);
   }
 
 //  /**
@@ -490,33 +490,6 @@ public class ASTFunctionTest {
     b.addChild(new ASTCnIntegerNode(30));
     a.swapChildren(b);
     assertTrue((a.getChildCount() == 4) && (b.getChildCount() == 3));
-  }
-
-  /**
-   * Test method for {@link org.sbml.jsbml.math.AbstractASTNode#toFormula()}.
-   */
-  @Test
-  public final void testToFormula() {
-    // TODO: Awaiting toFormula method implementation
-    assertTrue(true);
-  }
-
-  /**
-   * Test method for {@link org.sbml.jsbml.math.AbstractASTNode#toLaTeX()}.
-   */
-  @Test
-  public final void testToLaTeX() {
-    // TODO: Awaiting toLaTeX method implementation
-    assertTrue(true);
-  }
-
-  /**
-   * Test method for {@link org.sbml.jsbml.math.AbstractASTNode#toMathML()}.
-   */
-  @Test
-  public final void testToMathML() {
-    // TODO: Awaiting toMathML method implementation
-    assertTrue(true);
   }
 
   /**

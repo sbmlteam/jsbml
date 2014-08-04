@@ -23,9 +23,11 @@
 package org.sbml.jsbml.math;
 
 import org.sbml.jsbml.ASTNode.Type;
-import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
-import org.sbml.jsbml.util.compilers.ASTNodeValue;
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.math.compiler.ASTNode2Value;
+import org.sbml.jsbml.math.compiler.FormulaCompiler;
 
 
 /**
@@ -85,8 +87,8 @@ public class ASTRelationalOperatorNode extends ASTFunction {
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNodeValue compile(ASTNode2Compiler compiler) {
-    ASTNodeValue value = null;
+  public ASTNode2Value compile(ASTNode2Compiler compiler) {
+    ASTNode2Value value = null;
     switch(getType()) {
     case RELATIONAL_EQ:
       value = compiler.eq(getChildAt(0), getChildAt(getChildCount() - 1));
@@ -111,10 +113,12 @@ public class ASTRelationalOperatorNode extends ASTFunction {
       break;
     }
     value.setType(getType());
-    MathContainer parent = getParentSBMLObject();
-    if (parent != null) {
-      value.setLevel(parent.getLevel());
-      value.setVersion(parent.getVersion());
+    if (isSetParentSBMLObject()) {
+      MathContainer parent = getParentSBMLObject();
+      if (parent != null) {
+        value.setLevel(parent.getLevel());
+        value.setVersion(parent.getVersion());
+      }      
     }
     return value;
   }
@@ -127,6 +131,14 @@ public class ASTRelationalOperatorNode extends ASTFunction {
     return type == Type.RELATIONAL_EQ || type == Type.RELATIONAL_GEQ
         || type == Type.RELATIONAL_GT || type == Type.RELATIONAL_LEQ
         || type == Type.RELATIONAL_LT || type == Type.RELATIONAL_NEQ;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toFormula()
+   */
+  @Override
+  public String toFormula() throws SBMLException {
+    return compile(new FormulaCompiler()).toString();
   }
 
   /* (non-Javadoc)

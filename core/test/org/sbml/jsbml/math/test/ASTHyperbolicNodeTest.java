@@ -86,4 +86,104 @@ public class ASTHyperbolicNodeTest {
             && sinh.isAllowableType(Type.FUNCTION_TANH) && !sinh.isAllowableType(null));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaArccosh() {
+    ASTHyperbolicNode arccosh = new ASTHyperbolicNode(Type.FUNCTION_ARCCOSH);
+    arccosh.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arccosh.toFormula().equals("acosh(2)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaArccsch() {
+    ASTHyperbolicNode arccsch = new ASTHyperbolicNode(Type.FUNCTION_ARCCSCH);
+    arccsch.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arccsch.toFormula().equals("acsch(2)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaArcsech() {
+    ASTHyperbolicNode arcsech = new ASTHyperbolicNode(Type.FUNCTION_ARCSECH);
+    arcsech.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arcsech.toFormula().equals("asech(2)"));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaArcsinh() {
+    ASTHyperbolicNode arcsinh = new ASTHyperbolicNode(Type.FUNCTION_ARCSINH);
+    arcsinh.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arcsinh.toFormula().equals("asinh(2)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaArctanh() {
+    ASTHyperbolicNode arctanh = new ASTHyperbolicNode(Type.FUNCTION_ARCTANH);
+    arctanh.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arctanh.toFormula().equals("atanh(2)"));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaCosh() {
+    ASTHyperbolicNode cosh = new ASTHyperbolicNode(Type.FUNCTION_COSH);
+    cosh.addChild(new ASTCnIntegerNode(2));
+    assertTrue(cosh.toFormula().equals("cosh(2)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaCsch() {
+    ASTHyperbolicNode csch = new ASTHyperbolicNode(Type.FUNCTION_CSCH);
+    csch.addChild(new ASTCnIntegerNode(2));
+    assertTrue(csch.toFormula().equals("csch(2)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaSech() {
+    ASTHyperbolicNode sech = new ASTHyperbolicNode(Type.FUNCTION_SECH);
+    sech.addChild(new ASTCnIntegerNode(2));
+    assertTrue(sech.toFormula().equals("sech(2)"));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaSinh() {
+    ASTHyperbolicNode sinh = new ASTHyperbolicNode(Type.FUNCTION_SINH);
+    sinh.addChild(new ASTCnIntegerNode(2));
+    assertTrue(sinh.toFormula().equals("sinh(2)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaTanh() {
+    ASTHyperbolicNode tanh = new ASTHyperbolicNode(Type.FUNCTION_TANH);
+    tanh.addChild(new ASTCnIntegerNode(2));
+    assertTrue(tanh.toFormula().equals("tanh(2)"));
+  }
+  
 }

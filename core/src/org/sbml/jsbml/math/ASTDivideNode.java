@@ -24,11 +24,12 @@ package org.sbml.jsbml.math;
 
 import java.text.MessageFormat;
 
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
-import org.sbml.jsbml.util.compilers.ASTNodeValue;
+import org.sbml.jsbml.math.compiler.ASTNode2Value;
+import org.sbml.jsbml.math.compiler.FormulaCompiler;
 
 /**
  * An Abstract Syntax Tree (AST) node representing the divide function
@@ -85,8 +86,8 @@ public class ASTDivideNode extends ASTBinaryFunctionNode {
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNodeValue compile(ASTNode2Compiler compiler) {
-    ASTNodeValue value = null;
+  public ASTNode2Value compile(ASTNode2Compiler compiler) {
+    ASTNode2Value value = null;
     int childCount = getChildCount();
     if (childCount != 2) {
       throw new SBMLException(MessageFormat.format(
@@ -95,10 +96,12 @@ public class ASTDivideNode extends ASTBinaryFunctionNode {
     }
     value = compiler.frac(getLeftChild(), getRightChild());
     value.setType(getType());
-    MathContainer parent = getParentSBMLObject();
-    if (parent != null) {
-      value.setLevel(parent.getLevel());
-      value.setVersion(parent.getVersion());
+    if (isSetParentSBMLObject()) {
+      MathContainer parent = getParentSBMLObject();
+      if (parent != null) {
+        value.setLevel(parent.getLevel());
+        value.setVersion(parent.getVersion());
+      }      
     }
     return value;
   }
@@ -109,6 +112,14 @@ public class ASTDivideNode extends ASTBinaryFunctionNode {
   @Override
   public boolean isAllowableType(Type type) {
     return type == Type.DIVIDE;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toFormula()
+   */
+  @Override
+  public String toFormula() throws SBMLException {
+    return compile(new FormulaCompiler()).toString();
   }
 
   /* (non-Javadoc)

@@ -25,10 +25,12 @@ package org.sbml.jsbml.math;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
-import org.sbml.jsbml.util.compilers.ASTNodeValue;
+import org.sbml.jsbml.math.compiler.ASTNode2Value;
+import org.sbml.jsbml.math.compiler.FormulaCompiler;
 
 
 /**
@@ -137,8 +139,8 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNodeValue compile(ASTNode2Compiler compiler) {
-    ASTNodeValue value = null;
+  public ASTNode2Value compile(ASTNode2Compiler compiler) {
+    ASTNode2Value value = null;
     if (getChildCount() == 2) {
       if (getType() == Type.FUNCTION_LOG) {
         value = compiler.log(getLeftChild(), getRightChild());
@@ -149,10 +151,12 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
       value = compiler.log(getRightChild());
     }
     value.setType(getType());
-    MathContainer parent = getParentSBMLObject();
-    if (parent != null) {
-      value.setLevel(parent.getLevel());
-      value.setVersion(parent.getVersion());
+    if (isSetParentSBMLObject()) {
+      MathContainer parent = getParentSBMLObject();
+      if (parent != null) {
+        value.setLevel(parent.getLevel());
+        value.setVersion(parent.getVersion());
+      }      
     }
     return value;
   }
@@ -239,6 +243,14 @@ public class ASTLogarithmNode extends ASTBinaryFunctionNode {
   public void setLeftChild(ASTNode2 child) {
     super.setLeftChild(child);
     setType(child.getType() == Type.CONSTANT_E ? Type.FUNCTION_LN : Type.FUNCTION_LOG);      
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toFormula()
+   */
+  @Override
+  public String toFormula() throws SBMLException {
+    return compile(new FormulaCompiler()).toString();
   }
 
   /* (non-Javadoc)

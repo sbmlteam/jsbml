@@ -28,8 +28,8 @@ import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
-import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 
 /**
@@ -57,7 +57,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    *            An instance of an {@link ASTNode2Compiler} that provides
    *            methods to translate this {@link ASTNode2} into something
    *            different.
-   * @return Some value wrapped in an {@link ASTNodeValue}. The content of the
+   * @return Some value wrapped in an {@link ASTNode2Value}. The content of the
    *         wrapper depends on the {@link ASTNode2Compiler} used to create it.
    *         However, this {@link ASTNode2} will ensure that level and version
    *         are set appropriately according to this node's parent SBML
@@ -66,7 +66,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    *             Thrown if an error occurs during the compilation process.
    * 
    */
-  public ASTNodeValue compile(ASTNode2Compiler compiler); 
+  public ASTNode2Value compile(ASTNode2Compiler compiler); 
   
   /**
    * Get the id of this node

@@ -228,17 +228,18 @@ public class ASTFunction extends AbstractASTNode {
    *         given filter.
    */
   public List<ASTNode2> getListOfNodes(Filter filter) {
+    if (filter == null) {
+      throw new IndexOutOfBoundsException();
+    }
+    ArrayList<ASTNode2> filteredList = new ArrayList<ASTNode2>();
     if (isSetList()) {
-      ArrayList<ASTNode2> filteredList = new ArrayList<ASTNode2>();
       for (ASTNode2 node : listOfNodes) {
         if (filter.accepts(node)) {
           filteredList.add(node);
         }
       }
-      return filteredList;
-    } else {
-      return null;
     }
+    return filteredList;
   }
 
   /**

@@ -22,10 +22,12 @@
  */
 package org.sbml.jsbml.math;
 
-import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
-import org.sbml.jsbml.util.compilers.ASTNodeValue;
+import org.sbml.jsbml.math.compiler.ASTNode2Value;
+import org.sbml.jsbml.math.compiler.FormulaCompiler;
 
 
 /**
@@ -51,14 +53,6 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
   }
   
   /**
-   * Creates a new {@link ASTTrigonometricNode} of type {@link Type}.
-   */
-  public ASTTrigonometricNode(Type type) {
-    super();
-    setType(type);
-  }
-
-  /**
    * Copy constructor; Creates a deep copy of the given {@link ASTTrigonometricNode}.
    * 
    * @param node
@@ -66,6 +60,14 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
    */
   public ASTTrigonometricNode(ASTTrigonometricNode node) {
     super(node);
+  }
+
+  /**
+   * Creates a new {@link ASTTrigonometricNode} of type {@link Type}.
+   */
+  public ASTTrigonometricNode(Type type) {
+    super();
+    setType(type);
   }
   
   /*
@@ -81,8 +83,8 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNodeValue compile(ASTNode2Compiler compiler) {
-    ASTNodeValue value = null;
+  public ASTNode2Value compile(ASTNode2Compiler compiler) {
+    ASTNode2Value value = null;
     switch(getType()) {
     case FUNCTION_SEC:
       value = compiler.sec(getChild());
@@ -125,14 +127,51 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
       break;
     }
     value.setType(getType());
-    MathContainer parent = getParentSBMLObject();
-    if (parent != null) {
-      value.setLevel(parent.getLevel());
-      value.setVersion(parent.getVersion());
+    if (isSetParentSBMLObject()) {
+      MathContainer parent = getParentSBMLObject();
+      if (parent != null) {
+        value.setLevel(parent.getLevel());
+        value.setVersion(parent.getVersion());
+      }      
     }
     return value;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    if (type == null) {
+      return false;
+    }
+    switch(type) {
+    case FUNCTION_SEC:
+    case FUNCTION_ARCCOS:
+    case FUNCTION_ARCCOT:
+    case FUNCTION_ARCCSC:
+    case FUNCTION_ARCSEC:
+    case FUNCTION_ARCSIN:
+    case FUNCTION_ARCTAN:
+    case FUNCTION_COS:
+    case FUNCTION_COT:
+    case FUNCTION_CSC:
+    case FUNCTION_SIN:
+    case FUNCTION_TAN:
+      return true; 
+    default:
+      return false;
+    }
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toFormula()
+   */
+  @Override
+  public String toFormula() throws SBMLException {
+    return compile(new FormulaCompiler()).toString();
+  }
+  
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
@@ -158,43 +197,4 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
     builder.append("]");
     return builder.toString();
   }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
-   */
-  @Override
-  public boolean isAllowableType(Type type) {
-    if (type == null) {
-      return false;
-    }
-    switch(type) {
-    case FUNCTION_SEC:
-      return true;    
-    case FUNCTION_ARCCOS:
-      return true;    
-    case FUNCTION_ARCCOT:
-      return true;    
-    case FUNCTION_ARCCSC:
-      return true;    
-    case FUNCTION_ARCSEC:
-      return true;    
-    case FUNCTION_ARCSIN:
-      return true;    
-    case FUNCTION_ARCTAN:
-      return true;    
-    case FUNCTION_COS:
-      return true;    
-    case FUNCTION_COT:
-      return true;    
-    case FUNCTION_CSC:
-      return true;    
-    case FUNCTION_SIN:
-      return true;    
-    case FUNCTION_TAN:
-      return true; 
-    default:
-      return false;
-    }
-  }
-
 }

@@ -22,10 +22,12 @@
  */
 package org.sbml.jsbml.math;
 
-import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
-import org.sbml.jsbml.util.compilers.ASTNodeValue;
+import org.sbml.jsbml.math.compiler.ASTNode2Value;
+import org.sbml.jsbml.math.compiler.FormulaCompiler;
 
 
 /**
@@ -87,8 +89,8 @@ public class ASTMinusNode extends ASTBinaryFunctionNode {
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNodeValue compile(ASTNode2Compiler compiler) {
-    ASTNodeValue value = null;
+  public ASTNode2Value compile(ASTNode2Compiler compiler) {
+    ASTNode2Value value = null;
     if (getChildCount() < 2) {
       value = compiler.uMinus(getLeftChild());
       value.setUIFlag(true);
@@ -97,10 +99,12 @@ public class ASTMinusNode extends ASTBinaryFunctionNode {
       value.setUIFlag(false);
     }
     value.setType(getType());
-    MathContainer parent = getParentSBMLObject();
-    if (parent != null) {
-      value.setLevel(parent.getLevel());
-      value.setVersion(parent.getVersion());
+    if (isSetParentSBMLObject()) {
+      MathContainer parent = getParentSBMLObject();
+      if (parent != null) {
+        value.setLevel(parent.getLevel());
+        value.setVersion(parent.getVersion());
+      }      
     }
     return value;
   }
@@ -111,6 +115,14 @@ public class ASTMinusNode extends ASTBinaryFunctionNode {
   @Override
   public boolean isAllowableType(Type type) {
     return type == Type.MINUS;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toFormula()
+   */
+  @Override
+  public String toFormula() throws SBMLException {
+    return compile(new FormulaCompiler()).toString();
   }
 
   /* (non-Javadoc)

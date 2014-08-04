@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.math.ASTCnIntegerNode;
 import org.sbml.jsbml.math.ASTTrigonometricNode;
 
 
@@ -82,6 +83,106 @@ public class ASTTrigonometricNodeTest {
             && sin.isAllowableType(Type.FUNCTION_COT) && sin.isAllowableType(Type.FUNCTION_CSC)
             && sin.isAllowableType(Type.FUNCTION_SEC) && sin.isAllowableType(Type.FUNCTION_SIN)
             && sin.isAllowableType(Type.FUNCTION_TAN) && !sin.isAllowableType(null));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaSin() {
+    ASTTrigonometricNode sin = new ASTTrigonometricNode(Type.FUNCTION_SIN);
+    sin.addChild(new ASTCnIntegerNode(2));
+    assertTrue(sin.toFormula().equals("sin(2)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaCos() {
+    ASTTrigonometricNode cos = new ASTTrigonometricNode(Type.FUNCTION_COS);
+    cos.addChild(new ASTCnIntegerNode(2));
+    assertTrue(cos.toFormula().equals("cos(2)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaTan() {
+    ASTTrigonometricNode tan = new ASTTrigonometricNode(Type.FUNCTION_TAN);
+    tan.addChild(new ASTCnIntegerNode(2));
+    assertTrue(tan.toFormula().equals("tan(2)"));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaSec() {
+    ASTTrigonometricNode sec = new ASTTrigonometricNode(Type.FUNCTION_SEC);
+    sec.addChild(new ASTCnIntegerNode(2));
+    assertTrue(sec.toFormula().equals("sec(2)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaCsc() {
+    ASTTrigonometricNode csc = new ASTTrigonometricNode(Type.FUNCTION_CSC);
+    csc.addChild(new ASTCnIntegerNode(2));
+    assertTrue(csc.toFormula().equals("csc(2)"));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaArcsin() {
+    ASTTrigonometricNode arcsin = new ASTTrigonometricNode(Type.FUNCTION_ARCSIN);
+    arcsin.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arcsin.toFormula().equals("asin(2)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaArccos() {
+    ASTTrigonometricNode arccos = new ASTTrigonometricNode(Type.FUNCTION_ARCCOS);
+    arccos.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arccos.toFormula().equals("acos(2)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaArctan() {
+    ASTTrigonometricNode arctan = new ASTTrigonometricNode(Type.FUNCTION_ARCTAN);
+    arctan.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arctan.toFormula().equals("atan(2)"));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaArcsec() {
+    ASTTrigonometricNode arcsec = new ASTTrigonometricNode(Type.FUNCTION_ARCSEC);
+    arcsec.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arcsec.toFormula().equals("asec(2)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaArccsc() {
+    ASTTrigonometricNode arccsc = new ASTTrigonometricNode(Type.FUNCTION_ARCCSC);
+    arccsc.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arccsc.toFormula().equals("acsc(2)"));
   }
   
 }

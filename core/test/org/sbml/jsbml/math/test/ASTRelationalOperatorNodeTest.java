@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.math.ASTBoolean;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
 import org.sbml.jsbml.math.ASTRelationalOperatorNode;
 
@@ -92,6 +93,72 @@ public class ASTRelationalOperatorNodeTest {
             && operator.isAllowableType(Type.RELATIONAL_GT) && operator.isAllowableType(Type.RELATIONAL_LEQ)
             && operator.isAllowableType(Type.RELATIONAL_LT) && operator.isAllowableType(Type.RELATIONAL_NEQ)
             && ! operator.isAllowableType(null));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaEq() {
+    ASTRelationalOperatorNode eq = new ASTRelationalOperatorNode(Type.RELATIONAL_EQ);
+    eq.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    eq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(eq.toFormula().equals("true == false"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaGeq() {
+    ASTRelationalOperatorNode geq = new ASTRelationalOperatorNode(Type.RELATIONAL_GEQ);
+    geq.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    geq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(geq.toFormula().equals("true >= false"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaGt() {
+    ASTRelationalOperatorNode gt = new ASTRelationalOperatorNode(Type.RELATIONAL_GT);
+    gt.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    gt.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(gt.toFormula().equals("true > false"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaLeq() {
+    ASTRelationalOperatorNode leq = new ASTRelationalOperatorNode(Type.RELATIONAL_LEQ);
+    leq.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    leq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(leq.toFormula().equals("true <= false"));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaLt() {
+    ASTRelationalOperatorNode lt = new ASTRelationalOperatorNode(Type.RELATIONAL_LT);
+    lt.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    lt.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(lt.toFormula().equals("true < false"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormulaNeq() {
+    ASTRelationalOperatorNode neq = new ASTRelationalOperatorNode(Type.RELATIONAL_NEQ);
+    neq.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    neq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(neq.toFormula().equals("true != false"));
   }
   
 }

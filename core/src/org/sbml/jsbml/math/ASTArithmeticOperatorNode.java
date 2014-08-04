@@ -28,8 +28,9 @@ import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.math.compiler.ASTNode2Value;
+import org.sbml.jsbml.math.compiler.FormulaCompiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
-import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
 /**
  * An Abstract Syntax Tree (AST) node representing an arithmetic
@@ -104,8 +105,8 @@ public class ASTArithmeticOperatorNode extends ASTFunction {
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNodeValue compile(ASTNode2Compiler compiler) {
-    ASTNodeValue value = null;
+  public ASTNode2Value compile(ASTNode2Compiler compiler) {
+    ASTNode2Value value = null;
     switch(getType()) {
     case PLUS:
       value = compiler.plus(getChildren());
@@ -138,10 +139,12 @@ public class ASTArithmeticOperatorNode extends ASTFunction {
       break;
     }
     value.setType(getType());
-    MathContainer parent = getParentSBMLObject();
-    if (parent != null) {
-      value.setLevel(parent.getLevel());
-      value.setVersion(parent.getVersion());
+    if (isSetParentSBMLObject()) {
+      MathContainer parent = getParentSBMLObject();
+      if (parent != null) {
+        value.setLevel(parent.getLevel());
+        value.setVersion(parent.getVersion());
+      }      
     }
     return value;
   }
@@ -179,25 +182,30 @@ public class ASTArithmeticOperatorNode extends ASTFunction {
     Type oldValue = type;
     switch (value) {
     case '+':
-      type = Type.PLUS;
+      setType(Type.PLUS);
       break;
     case '-':
-      type = Type.MINUS;
+      setType(Type.MINUS);
       break;
     case '*':
-      type = Type.TIMES;
+      setType(Type.TIMES);
       break;
     case '/':
-      type = Type.DIVIDE;
-      break;
-    case '^':
-      type = Type.POWER;
+      setType(Type.DIVIDE);
       break;
     default:
-      type = Type.UNKNOWN;
+      setType(Type.UNKNOWN);
       break;
     }
     firePropertyChange(TreeNodeChangeEvent.value, oldValue, type);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toFormula()
+   */
+  @Override
+  public String toFormula() throws SBMLException {
+    return compile(new FormulaCompiler()).toString();
   }
 
   /* (non-Javadoc)

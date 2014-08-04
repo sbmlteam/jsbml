@@ -79,4 +79,13 @@ public class ASTTimesNodeTest {
     assertTrue(times.isAllowableType(Type.TIMES) && !times.isAllowableType(null));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTimesNode#toFormula()}.
+   */
+  @Test
+  public final void testCloneToFormula() {
+    ASTTimesNode times = new ASTTimesNode(new ASTCnIntegerNode(1), new ASTCnIntegerNode(5));
+    assertTrue(times.toFormula().equals("1*5"));
+  }
+  
 }

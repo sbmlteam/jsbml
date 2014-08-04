@@ -22,7 +22,10 @@
  */
 package org.sbml.jsbml.math;
 
+import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.math.compiler.ASTNode2Value;
 
 
 
@@ -77,6 +80,46 @@ public class ASTQualifierNode extends ASTFunction {
   }
 
   /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNode2Value compile(ASTNode2Compiler compiler) {
+    ASTNode2Value value = null;
+    switch(getType()) {
+    case CONSTRUCTOR_PIECE:
+//    value = compiler.piece(getChildren());
+      return getChildAt(0).compile(compiler);
+//    break;
+    case CONSTRUCTOR_OTHERWISE:
+//      value = compiler.otherwise(getChildren());
+        return getChildAt(0).compile(compiler);
+//      break;
+    case QUALIFIER_BVAR:
+//      value = compiler.bvar(getChildren());
+      return getChildAt(0).compile(compiler);
+//      break;
+    case QUALIFIER_DEGREE:
+      value = compiler.degree(getChildren());
+      break;
+    case QUALIFIER_LOGBASE:
+      value = compiler.logbase(getChildren());
+      break;
+    default:
+      value = compiler.unknownValue();
+      break;
+    }
+    value.setType(getType());
+    if (isSetParentSBMLObject()) {
+      MathContainer parent = getParentSBMLObject();
+      if (parent != null) {
+        value.setLevel(parent.getLevel());
+        value.setVersion(parent.getVersion());
+      }      
+    }
+    return value;
+  }
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTFunction#isAllowableType(org.sbml.jsbml.ASTNode.Type)
    */
   @Override
@@ -85,7 +128,7 @@ public class ASTQualifierNode extends ASTFunction {
         || type == Type.QUALIFIER_LOGBASE || type == Type.CONSTRUCTOR_PIECE
         || type == Type.CONSTRUCTOR_OTHERWISE;
   }
-
+  
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */

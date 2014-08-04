@@ -79,4 +79,13 @@ public class ASTPowerNodeTest {
     assertTrue(power.isAllowableType(Type.POWER) && !power.isAllowableType(null));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTPowerNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormula() {
+    ASTPowerNode power = new ASTPowerNode(new ASTCnIntegerNode(2), new ASTCnIntegerNode(5));
+    assertTrue(power.toFormula().equals("2^5"));
+  }
+  
 }
