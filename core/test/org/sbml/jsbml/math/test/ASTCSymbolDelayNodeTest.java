@@ -136,4 +136,15 @@ public class ASTCSymbolDelayNodeTest {
     assertTrue(delay.toFormula().equals("delay(5, 10)"));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolDelayNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeX() {
+    ASTCSymbolDelayNode delay = new ASTCSymbolDelayNode();
+    delay.addChild(new ASTCnIntegerNode(5));
+    delay.addChild(new ASTCnIntegerNode(10));
+    assertTrue(delay.toLaTeX().equals("\\mathrm{delay}\\left(5, 10\\right)"));
+  }
+  
 }

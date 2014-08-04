@@ -88,4 +88,13 @@ public class ASTMinusNodeTest {
     assertTrue(minus.toFormula().equals("1-1"));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTMinusNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeX() {
+    ASTMinusNode minus = new ASTMinusNode(new ASTCnIntegerNode(1), new ASTCnIntegerNode(1));
+    assertTrue(minus.toLaTeX().equals("1-1"));
+  }
+  
 }

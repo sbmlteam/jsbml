@@ -172,4 +172,15 @@ public class ASTCnExponentialNodeTest {
     assertTrue(exponential.toFormula().equals("7E2"));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnExponentialNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeX() {
+    ASTCnExponentialNode exponential = new ASTCnExponentialNode();
+    exponential.setExponent(2);
+    exponential.setMantissa(7);
+    assertTrue(exponential.toLaTeX().equals("7\\cdot 10^{2}"));
+  }
+  
 }

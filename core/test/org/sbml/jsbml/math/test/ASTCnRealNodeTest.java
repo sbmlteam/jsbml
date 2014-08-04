@@ -43,7 +43,7 @@ public class ASTCnRealNodeTest {
 
   @Rule
   public ExpectedException exception = ExpectedException.none();
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCnRealNode#clone()}.
    */
@@ -53,7 +53,7 @@ public class ASTCnRealNodeTest {
     ASTCnRealNode unknown = real.clone();
     assertTrue(real.equals(unknown));
   }
-  
+   
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCnRealNode#clone()}.
    */
@@ -63,7 +63,7 @@ public class ASTCnRealNodeTest {
     ASTCnRealNode unknown = real.clone();
     assertTrue(real.equals(unknown));
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCnRealNode#ASTCnRealNode(org.sbml.jsbml.math.ASTCnRealNode)}.
    */
@@ -73,7 +73,7 @@ public class ASTCnRealNodeTest {
     ASTCnRealNode unknown = new ASTCnRealNode(real);
     assertTrue(real.equals(unknown));
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCnRealNode#isAllowableType(org.sbml.jsbml.ASTNode.Type)}.
    */
@@ -117,7 +117,16 @@ public class ASTCnRealNodeTest {
   @Test
   public final void testToFormula() {
     ASTCnRealNode real = new ASTCnRealNode(10.0);
-    assertTrue(real.toFormula().equals("10.0"));
+    assertTrue(real.toFormula().equals("10"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnRealNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeX() {
+    ASTCnRealNode real = new ASTCnRealNode(10.0);
+    assertTrue(real.toLaTeX().equals("10"));
   }
   
 }

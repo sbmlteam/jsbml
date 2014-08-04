@@ -124,4 +124,46 @@ public class ASTLogicalOperatorNodeTest {
     assertTrue(operator.toFormula().equals("true xor false"));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLogicalOperatorNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXAnd() {
+    ASTLogicalOperatorNode operator = new ASTLogicalOperatorNode(Type.LOGICAL_AND);
+    operator.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    operator.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(operator.toLaTeX().equals("\\mathrm{true}\\wedge \\mathrm{false}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLogicalOperatorNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXOr() {
+    ASTLogicalOperatorNode operator = new ASTLogicalOperatorNode(Type.LOGICAL_OR);
+    operator.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    operator.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(operator.toLaTeX().equals("\\mathrm{true}\\lor \\mathrm{false}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLogicalOperatorNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXNot() {
+    ASTLogicalOperatorNode operator = new ASTLogicalOperatorNode(Type.LOGICAL_NOT);
+    operator.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    assertTrue(operator.toLaTeX().equals("\\neg \\mathrm{true}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLogicalOperatorNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXXor() {
+    ASTLogicalOperatorNode operator = new ASTLogicalOperatorNode(Type.LOGICAL_XOR);
+    operator.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    operator.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(operator.toLaTeX().equals("\\mathrm{true}\\oplus \\mathrm{false}"));
+  }  
 }

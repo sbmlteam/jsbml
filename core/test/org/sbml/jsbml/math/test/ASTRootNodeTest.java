@@ -175,4 +175,12 @@ public class ASTRootNodeTest {
     assertTrue(root.toFormula().equals("(10000)^(1/4.0)"));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRootNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeX() {
+    ASTRootNode root = new ASTRootNode(new ASTCnIntegerNode(4), new ASTCnIntegerNode(10000));
+    assertTrue(root.toLaTeX().equals("\\sqrt[4.0]{10000}"));
+  }  
 }

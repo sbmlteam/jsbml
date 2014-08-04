@@ -233,6 +233,13 @@ public interface ASTNode2Compiler {
    * @return
    */
   public ASTNode2Value compile(double real, String units);
+  
+  /**
+   * 
+   * @param real
+   * @return
+   */
+  public ASTNode2Value compile(double real);
 
   /**
    * 

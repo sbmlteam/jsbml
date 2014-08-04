@@ -183,4 +183,14 @@ public class ASTCiNumberNodeTest {
     assertTrue(ci.toFormula().equals("x"));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeX() {
+    ASTCiNumberNode ci = new ASTCiNumberNode();
+    ci.setRefId("x");
+    assertTrue(ci.toLaTeX().equals("x"));
+  }
+  
 }

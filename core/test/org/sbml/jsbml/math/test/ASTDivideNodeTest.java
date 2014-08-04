@@ -97,4 +97,13 @@ public class ASTDivideNodeTest {
     assertTrue(divide.toFormula().equals("1/2"));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTDivideNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeX() {
+    ASTDivideNode divide = new ASTDivideNode(new ASTCnIntegerNode(1), new ASTCnIntegerNode(2));
+    assertTrue(divide.toLaTeX().equals("\\frac{1}{2}"));
+  }  
+  
 }

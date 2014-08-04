@@ -219,5 +219,24 @@ public class ASTLogarithmNodeTest {
     ASTLogarithmNode ln = new ASTLogarithmNode(e, new ASTCnIntegerNode(1));
     assertTrue(ln.toFormula().equals("log(1)"));
   }
-
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXLog() {
+    ASTLogarithmNode log = new ASTLogarithmNode(new ASTCnIntegerNode(1));
+    assertTrue(log.toLaTeX().equals("\\log{\\left(1\\right)}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXNaturalLog() {
+    ASTConstantNumber e = new ASTConstantNumber(Type.CONSTANT_E);
+    ASTLogarithmNode ln = new ASTLogarithmNode(e, new ASTCnIntegerNode(1));
+    assertTrue(ln.toLaTeX().equals("\\ln{\\left(1\\right)}"));
+  }
+  
 }

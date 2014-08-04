@@ -163,4 +163,15 @@ public class ASTCnRationalNodeTest {
     assertTrue(rational.toFormula().equals("1/2"));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnRationalNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeX() {
+    ASTCnRationalNode rational = new ASTCnRationalNode();
+    rational.setNumerator(1);
+    rational.setDenominator(2);
+    assertTrue(rational.toLaTeX().equals("\\frac{1}{2}"));
+  }
+  
 }

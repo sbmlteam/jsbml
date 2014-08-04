@@ -255,5 +255,35 @@ public class ASTConstantNumberTest {
     constant.setValue(Math.PI);
     assertTrue(constant.toFormula().equals("pi"));
   }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXE() {
+    ASTConstantNumber constant = new ASTConstantNumber();
+    constant.setValue(Math.E);
+    assertTrue(constant.toLaTeX().equals("\\mathrm{e}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXNameAvogadro() {
+    ASTConstantNumber constant = new ASTConstantNumber();
+    constant.setValue(Maths.AVOGADRO_L3V1);
+    assertTrue(constant.toLaTeX().equals("avogadro"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXPi() {
+    ASTConstantNumber constant = new ASTConstantNumber();
+    constant.setValue(Math.PI);
+    assertTrue(constant.toLaTeX().equals("\\pi"));
+  }
 
 }

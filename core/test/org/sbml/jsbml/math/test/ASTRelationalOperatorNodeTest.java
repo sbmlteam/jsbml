@@ -161,4 +161,70 @@ public class ASTRelationalOperatorNodeTest {
     assertTrue(neq.toFormula().equals("true != false"));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXEq() {
+    ASTRelationalOperatorNode eq = new ASTRelationalOperatorNode(Type.RELATIONAL_EQ);
+    eq.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    eq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(eq.toLaTeX().equals("\\mathrm{true} = \\mathrm{false}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXGeq() {
+    ASTRelationalOperatorNode geq = new ASTRelationalOperatorNode(Type.RELATIONAL_GEQ);
+    geq.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    geq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(geq.toLaTeX().equals("\\mathrm{true} \\geq \\mathrm{false}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXGt() {
+    ASTRelationalOperatorNode gt = new ASTRelationalOperatorNode(Type.RELATIONAL_GT);
+    gt.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    gt.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(gt.toLaTeX().equals("\\mathrm{true} > \\mathrm{false}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXLeq() {
+    ASTRelationalOperatorNode leq = new ASTRelationalOperatorNode(Type.RELATIONAL_LEQ);
+    leq.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    leq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(leq.toLaTeX().equals("\\mathrm{true} \\leq \\mathrm{false}"));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXLt() {
+    ASTRelationalOperatorNode lt = new ASTRelationalOperatorNode(Type.RELATIONAL_LT);
+    lt.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    lt.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(lt.toLaTeX().equals("\\mathrm{true} < \\mathrm{false}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXNeq() {
+    ASTRelationalOperatorNode neq = new ASTRelationalOperatorNode(Type.RELATIONAL_NEQ);
+    neq.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    neq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(neq.toLaTeX().equals("\\mathrm{true} \\neq \\mathrm{false}"));
+  }
+  
 }

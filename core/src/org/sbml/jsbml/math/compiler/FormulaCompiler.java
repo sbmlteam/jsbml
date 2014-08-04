@@ -305,120 +305,135 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
     return equation;
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#abs(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#abs(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value abs(ASTNode2 node) throws SBMLException {
     return function("abs", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#and(java.util.List)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#and(java.util.List)
    */
   @Override
   public ASTNode2Value and(List<ASTNode2> nodes) throws SBMLException {
     return logicalOperation(" and ", nodes);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arccos(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#arccos(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value arccos(ASTNode2 node) throws SBMLException {
     return function("acos", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arccosh(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#arccosh(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value arccosh(ASTNode2 node) throws SBMLException {
     return function("acosh", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arccot(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#arccot(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value arccot(ASTNode2 node) throws SBMLException {
     return function("acot", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arccoth(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#arccoth(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value arccoth(ASTNode2 node) throws SBMLException {
     return function("acoth", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arccsc(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#arccsc(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value arccsc(ASTNode2 node) throws SBMLException {
     return function("acsc", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arccsch(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#arccsch(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value arccsch(ASTNode2 node) throws SBMLException {
     return function("acsch", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arcsec(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#arcsec(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value arcsec(ASTNode2 node) throws SBMLException {
     return function("asec", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arcsech(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#arcsech(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value arcsech(ASTNode2 node) throws SBMLException {
     return function("asech", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arcsin(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#arcsin(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value arcsin(ASTNode2 node) throws SBMLException {
     return function("asin", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arcsinh(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#arcsinh(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value arcsinh(ASTNode2 node) throws SBMLException {
     return function("asinh", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arctan(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#arctan(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value arctan(ASTNode2 node) throws SBMLException {
     return function("atan", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arctanh(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#arctanh(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value arctanh(ASTNode2 node) throws SBMLException {
     return function("atanh", node);
   }
 
-  /* (non-Javadoc)
-   * @seeorg.sbml.jsbml.util.compilers.ASTNode2Compiler#ceiling(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#ceiling(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value ceiling(ASTNode2 node) throws SBMLException {
@@ -475,16 +490,18 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
     return term;
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#compile(org.sbml.jsbml.Compartment)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#compile(org.sbml.jsbml.Compartment)
    */
   @Override
   public ASTNode2Value compile(Compartment c) {
     return new ASTNode2Value(c.getId(), this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#compile(double, int, java.lang.String)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#compile(double, int, java.lang.String)
    */
   @Override
   public ASTNode2Value compile(double mantissa, int exponent, String units) {
@@ -498,88 +515,99 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
         .format(mantissa), "E", exponent).toString(), this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#compile(double, java.lang.String)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#compile(double, java.lang.String)
    */
   @Override
   public ASTNode2Value compile(double real, String units) {
     return new ASTNode2Value(toString(Locale.ENGLISH, real), this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#compile(int, java.lang.String)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#compile(int, java.lang.String)
    */
   @Override
   public ASTNode2Value compile(int integer, String units) {
     return new ASTNode2Value(integer, this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#compile(org.sbml.jsbml.CallableSBase)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#compile(org.sbml.jsbml.CallableSBase)
    */
   @Override
   public ASTNode2Value compile(CallableSBase variable) {
     return new ASTNode2Value(variable.getId(), this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#compile(java.lang.String)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#compile(java.lang.String)
    */
   @Override
   public ASTNode2Value compile(String name) {
     return new ASTNode2Value(name, this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#cos(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#cos(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value cos(ASTNode2 node) throws SBMLException {
     return function("cos", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#cosh(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#cosh(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value cosh(ASTNode2 node) throws SBMLException {
     return function("cosh", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#cot(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#cot(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value cot(ASTNode2 node) throws SBMLException {
     return function("cot", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#coth(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#coth(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value coth(ASTNode2 node) throws SBMLException {
     return function("coth", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#csc(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#csc(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value csc(ASTNode2 node) throws SBMLException {
     return function("csc", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#csch(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#csch(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value csch(ASTNode2 node) throws SBMLException {
     return function("csch", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#delay(java.lang.String, org.sbml.jsbml.ASTNode2, double, java.lang.String)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#delay(java.lang.String, org.sbml.jsbml.math.ASTNode2, org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value delay(String delayName, ASTNode2 x, ASTNode2 y) throws SBMLException {
@@ -587,24 +615,27 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
       y.compile(this), ")").toString(), this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#eq(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#eq(org.sbml.jsbml.math.ASTNode2, org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value eq(ASTNode2 left, ASTNode2 right) throws SBMLException {
     return new ASTNode2Value(relation(left, " == ", right), this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#exp(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#exp(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value exp(ASTNode2 node) throws SBMLException {
     return function("exp", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#factorial(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#factorial(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value factorial(ASTNode2 node) {
@@ -614,15 +645,16 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 
   /*
    * (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#floor(org.sbml.jsbml.ASTNode)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#floor(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value floor(ASTNode2 node) throws SBMLException {
     return function("floor", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#frac(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#frac(org.sbml.jsbml.math.ASTNode2, org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value frac(ASTNode2 numerator, ASTNode2 denominator)
@@ -634,8 +666,9 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
         this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#frac(int, int)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#frac(int, int)
    */
   @Override
   public ASTNode2Value frac(int numerator, int denominator) {
@@ -647,8 +680,9 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
           : compile(denominator, null)).toString(), this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#function(org.sbml.jsbml.FunctionDefinition, java.util.List)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#function(org.sbml.jsbml.FunctionDefinition, java.util.List)
    */
   @Override
   public ASTNode2Value function(FunctionDefinition func, List<ASTNode2> nodes)
@@ -688,80 +722,90 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
       .toString(), this);
       }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#geq(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#geq(org.sbml.jsbml.math.ASTNode2, org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value geq(ASTNode2 left, ASTNode2 right) throws SBMLException {
     return new ASTNode2Value(relation(left, " >= ", right), this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#getConstantAvogadro(java.lang.String)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#getConstantAvogadro(java.lang.String)
    */
   @Override
   public ASTNode2Value getConstantAvogadro(String name) {
     return new ASTNode2Value("avogadro", this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#getConstantE()
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#getConstantE()
    */
   @Override
   public ASTNode2Value getConstantE() {
     return new ASTNode2Value(Character.toString('e'), this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#getConstantFalse()
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#getConstantFalse()
    */
   @Override
   public ASTNode2Value getConstantFalse() {
     return new ASTNode2Value(false, this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#getConstantPi()
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#getConstantPi()
    */
   @Override
   public ASTNode2Value getConstantPi() {
     return new ASTNode2Value("pi", this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#getConstantTrue()
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#getConstantTrue()
    */
   @Override
   public ASTNode2Value getConstantTrue() {
     return new ASTNode2Value(true, this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#getNegativeInfinity()
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#getNegativeInfinity()
    */
   @Override
   public ASTNode2Value getNegativeInfinity() {
     return new ASTNode2Value(Double.NEGATIVE_INFINITY, this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#getPositiveInfinity()
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#getPositiveInfinity()
    */
   @Override
   public ASTNode2Value getPositiveInfinity() {
     return new ASTNode2Value(Double.POSITIVE_INFINITY, this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#gt(org.sbml.jsbml.ASTNode,  org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#gt(org.sbml.jsbml.math.ASTNode2, org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value gt(ASTNode2 left, ASTNode2 right) throws SBMLException {
     return new ASTNode2Value(relation(left, " > ", right), this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#lambda(java.util.List)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#lambda(java.util.List)
    */
   @Override
   public ASTNode2Value lambda(List<ASTNode2> nodes) throws SBMLException {
@@ -789,32 +833,36 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
     return lambda.toString();
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#leq(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#leq(org.sbml.jsbml.math.ASTNode2, org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value leq(ASTNode2 left, ASTNode2 right) throws SBMLException {
     return new ASTNode2Value(relation(left, " <= ", right), this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#ln(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#ln(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value ln(ASTNode2 node) throws SBMLException {
     return function("log", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#log(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#log(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value log(ASTNode2 node) throws SBMLException {
     return function("log10", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#log(org.sbml.jsbml.ASTNode2, org.sbml.jsbml.ASTNode2)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#log(org.sbml.jsbml.math.ASTNode2, org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value log(ASTNode2 left, ASTNode2 right) throws SBMLException {
@@ -848,16 +896,18 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
     return new ASTNode2Value(value.toString(), this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#lt(org.sbml.jsbml.ASTNode,  org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#lt(org.sbml.jsbml.math.ASTNode2, org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value lt(ASTNode2 left, ASTNode2 right) throws SBMLException {
     return new ASTNode2Value(relation(left, " < ", right), this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#minus(java.util.List)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#minus(java.util.List)
    */
   @Override
   public ASTNode2Value minus(List<ASTNode2> nodes) throws SBMLException {
@@ -879,40 +929,45 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#neq(org.sbml.jsbml.ASTNode,  org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#neq(org.sbml.jsbml.math.ASTNode2, org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value neq(ASTNode2 left, ASTNode2 right) throws SBMLException {
     return new ASTNode2Value(relation(left, " != ", right), this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#not(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#not(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value not(ASTNode2 node) throws SBMLException {
     return function("not", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#or(java.util.List)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#or(java.util.List)
    */
   @Override
   public ASTNode2Value or(List<ASTNode2> nodes) throws SBMLException {
     return logicalOperation(" or ", nodes);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#piecewise(java.util.List)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#piecewise(java.util.List)
    */
   @Override
   public ASTNode2Value piecewise(List<ASTNode2> nodes) throws SBMLException {
     return function("piecewise", nodes);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#plus(java.util.List)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#plus(java.util.List)
    */
   @Override
   public ASTNode2Value plus(List<ASTNode2> nodes) throws SBMLException {
@@ -933,8 +988,9 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#pow(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#pow(org.sbml.jsbml.math.ASTNode2, org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value pow(ASTNode2 left, ASTNode2 right) throws SBMLException {
@@ -956,68 +1012,75 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
       (right instanceof ASTRelationalOperatorNode) ? brackets(right) : right.toFormula()).toString();
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#root(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#root(org.sbml.jsbml.math.ASTNode2, org.sbml.jsbml.math.ASTNode2)
    */
   @Override
-  public ASTNode2Value root(ASTNode2 rootExponent, ASTNode2 radiant)
+  public ASTNode2Value root(ASTNode2 rootExponent, ASTNode2 radicand)
       throws SBMLException
       {
     // Writing the root function as '(radiant)^(1/(rootExponent))'
     // TODO: need to reduce the number of parenthesis when possible
 
     return new ASTNode2Value(StringTools.concat(Character.valueOf('('),
-      radiant.compile(this), Character.valueOf(')'), "^", "(1/(",
+      radicand.compile(this), Character.valueOf(')'), "^", "(1/(",
       rootExponent.compile(this), "))").toString(), this);
       }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#root(double, org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#root(double, org.sbml.jsbml.math.ASTNode2)
    */
   @Override
-  public ASTNode2Value root(double rootExponent, ASTNode2 radiant)
+  public ASTNode2Value root(double rootExponent, ASTNode2 radicand)
       throws SBMLException {
     // Writing the root function as '(radiant)^(1/rootExponent)'
 
     return new ASTNode2Value(StringTools.concat(Character.valueOf('('),
-      radiant.compile(this), Character.valueOf(')'), "^", "(1/",
+      radicand.compile(this), Character.valueOf(')'), "^", "(1/",
       rootExponent, ")").toString(), this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#sec(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#sec(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value sec(ASTNode2 node) throws SBMLException {
     return function("sec", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#sech(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#sech(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value sech(ASTNode2 node) throws SBMLException {
     return function("sech", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#sin(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#sin(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value sin(ASTNode2 node) throws SBMLException {
     return function("sin", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#sinh(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#sinh(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value sinh(ASTNode2 node) throws SBMLException {
     return function("sinh", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#sqrt(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#sqrt(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value sqrt(ASTNode2 node) throws SBMLException {
@@ -1025,32 +1088,36 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
       node.compile(this), Character.valueOf(')'), "^", "(0.5)").toString(), this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#symbolTime(java.lang.String)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#symbolTime(java.lang.String)
    */
   @Override
   public ASTNode2Value symbolTime(String time) {
     return new ASTNode2Value(time, this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#tan(org.sbml.jsbml.ASTNode2)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#tan(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value tan(ASTNode2 node) throws SBMLException {
     return function("tan", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#tanh(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#tanh(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value tanh(ASTNode2 node) throws SBMLException {
     return function("tanh", node);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#times(java.util.List)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#times(java.util.List)
    */
   @Override
   public ASTNode2Value times(List<ASTNode2> nodes) throws SBMLException {
@@ -1062,8 +1129,9 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
     return new ASTNode2Value(times(n).toString(), this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#uMinus(org.sbml.jsbml.ASTNode)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#uMinus(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
   public ASTNode2Value uMinus(ASTNode2 node) throws SBMLException {
@@ -1071,8 +1139,9 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
       checkBrackets(node)).toString(), this);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#unknownValue()
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#unknownValue()
    */
   @Override
   public ASTNode2Value unknownValue() throws SBMLException {
@@ -1080,8 +1149,9 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
         "cannot write unknown syntax tree nodes to a formula String");
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#xor(java.util.List)
+  /*
+   * (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#xor(java.util.List)
    */
   @Override
   public ASTNode2Value xor(List<ASTNode2> nodes) throws SBMLException {
@@ -1204,6 +1274,13 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
     // TODO Auto-generated method stub
     return null;
   }
-  
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#compile(double)
+   */
+  @Override
+  public ASTNode2Value compile(double real) {
+    return new ASTNode2Value(toString(Locale.ENGLISH, real), this);
+  }
   
 }

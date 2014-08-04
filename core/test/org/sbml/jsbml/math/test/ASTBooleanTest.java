@@ -209,19 +209,36 @@ public class ASTBooleanTest {
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#toFormula()}.
    */
   @Test
-  public final void testToFormulaTrue() {
-    ASTBoolean node = new ASTBoolean(Type.CONSTANT_TRUE);
-    assertTrue(node.toFormula().equals("true"));
+  public final void testToFormulaFalse() {
+    ASTBoolean node = new ASTBoolean(Type.CONSTANT_FALSE);
+    assertTrue(node.toFormula().equals("false"));
   }
   
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#toFormula()}.
    */
   @Test
-  public final void testToFormulaFalse() {
-    ASTBoolean node = new ASTBoolean(Type.CONSTANT_FALSE);
-    assertTrue(node.toFormula().equals("false"));
+  public final void testToFormulaTrue() {
+    ASTBoolean node = new ASTBoolean(Type.CONSTANT_TRUE);
+    assertTrue(node.toFormula().equals("true"));
   }
 
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXFalse() {
+    ASTBoolean node = new ASTBoolean(Type.CONSTANT_FALSE);
+    assertTrue(node.toLaTeX().equals("\\mathrm{false}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXTrue() {
+    ASTBoolean node = new ASTBoolean(Type.CONSTANT_TRUE);
+    assertTrue(node.toLaTeX().equals("\\mathrm{true}"));
+  }
 
 }

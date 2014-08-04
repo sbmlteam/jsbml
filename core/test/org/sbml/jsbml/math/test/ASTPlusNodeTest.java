@@ -88,4 +88,13 @@ public class ASTPlusNodeTest {
     assertTrue(plus.toFormula().equals("1+1"));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTPlusNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeX() {
+    ASTPlusNode plus = new ASTPlusNode(new ASTCnIntegerNode(1), new ASTCnIntegerNode(1));
+    assertTrue(plus.toLaTeX().equals("1+1"));
+  }
+  
 }

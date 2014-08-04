@@ -160,4 +160,13 @@ public class ASTCSymbolTimeNodeTest {
     assertTrue(time.toFormula().equals("x"));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolTimeNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeX() {
+    ASTCSymbolTimeNode time = new ASTCSymbolTimeNode();
+    time.setName("x");
+    assertTrue(time.toLaTeX().equals("\\mathrm{x}"));
+  }  
 }

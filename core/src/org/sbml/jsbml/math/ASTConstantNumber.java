@@ -30,6 +30,7 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.math.compiler.FormulaCompiler;
+import org.sbml.jsbml.math.compiler.LaTeXCompiler;
 import org.sbml.jsbml.util.Maths;
 
 /**
@@ -123,7 +124,7 @@ public class ASTConstantNumber extends ASTNumber {
       // TODO: getConstantAvogadro() requests an optional 'name'
       // but since ASTConstantNumber is nothing more than a 
       // specialized ASTNumber, there is no name attribute
-       value = compiler.getConstantAvogadro("x");        
+       value = compiler.getConstantAvogadro("avogadro");        
       break;
     default: // UNKNOWN:
       value = compiler.unknownValue();
@@ -223,6 +224,14 @@ public class ASTConstantNumber extends ASTNumber {
   @Override
   public String toFormula() throws SBMLException {
     return compile(new FormulaCompiler()).toString();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toLaTeX()
+   */
+  @Override
+  public String toLaTeX() throws SBMLException {
+    return compile(new LaTeXCompiler()).toString();
   }
 
   /* (non-Javadoc)

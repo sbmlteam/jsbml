@@ -185,4 +185,104 @@ public class ASTTrigonometricNodeTest {
     assertTrue(arccsc.toFormula().equals("acsc(2)"));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXArccos() {
+    ASTTrigonometricNode arccos = new ASTTrigonometricNode(Type.FUNCTION_ARCCOS);
+    arccos.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arccos.toLaTeX().equals("\\arccos{2}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXArccsc() {
+    ASTTrigonometricNode arccsc = new ASTTrigonometricNode(Type.FUNCTION_ARCCSC);
+    arccsc.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arccsc.toLaTeX().equals("\\mathrm{arccsc}\\left(2\\right)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXArcsec() {
+    ASTTrigonometricNode arcsec = new ASTTrigonometricNode(Type.FUNCTION_ARCSEC);
+    arcsec.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arcsec.toLaTeX().equals("\\mathrm{arcsec}\\left(2\\right)"));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXArcsin() {
+    ASTTrigonometricNode arcsin = new ASTTrigonometricNode(Type.FUNCTION_ARCSIN);
+    arcsin.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arcsin.toLaTeX().equals("\\mathrm{arcsin}\\left(2\\right)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXArctan() {
+    ASTTrigonometricNode arctan = new ASTTrigonometricNode(Type.FUNCTION_ARCTAN);
+    arctan.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arctan.toLaTeX().equals("\\mathrm{arctan}\\left(2\\right)"));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXCos() {
+    ASTTrigonometricNode cos = new ASTTrigonometricNode(Type.FUNCTION_COS);
+    cos.addChild(new ASTCnIntegerNode(2));
+    assertTrue(cos.toLaTeX().equals("\\cos{\\left(2\\right)}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXCsc() {
+    ASTTrigonometricNode csc = new ASTTrigonometricNode(Type.FUNCTION_CSC);
+    csc.addChild(new ASTCnIntegerNode(2));
+    assertTrue(csc.toLaTeX().equals("\\csc{\\left(2\\right)}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXSec() {
+    ASTTrigonometricNode sec = new ASTTrigonometricNode(Type.FUNCTION_SEC);
+    sec.addChild(new ASTCnIntegerNode(2));
+    assertTrue(sec.toLaTeX().equals("\\sec{\\left(2\\right)}"));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXSin() {
+    ASTTrigonometricNode sin = new ASTTrigonometricNode(Type.FUNCTION_SIN);
+    sin.addChild(new ASTCnIntegerNode(2));
+    assertTrue(sin.toLaTeX().equals("\\sin{\\left(2\\right)}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXTan() {
+    ASTTrigonometricNode tan = new ASTTrigonometricNode(Type.FUNCTION_TAN);
+    tan.addChild(new ASTCnIntegerNode(2));
+    assertTrue(tan.toLaTeX().equals("\\tan{\\left(2\\right)}"));
+  }
+  
 }

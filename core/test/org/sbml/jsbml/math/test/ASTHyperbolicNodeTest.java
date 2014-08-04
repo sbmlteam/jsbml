@@ -186,4 +186,104 @@ public class ASTHyperbolicNodeTest {
     assertTrue(tanh.toFormula().equals("tanh(2)"));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXArccosh() {
+    ASTHyperbolicNode arccosh = new ASTHyperbolicNode(Type.FUNCTION_ARCCOSH);
+    arccosh.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arccosh.toLaTeX().equals("\\mathrm{arccosh}\\left(2\\right)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXArccsch() {
+    ASTHyperbolicNode arccsch = new ASTHyperbolicNode(Type.FUNCTION_ARCCSCH);
+    arccsch.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arccsch.toLaTeX().equals("\\mathrm{arccsch}\\left(2\\right)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXArcsech() {
+    ASTHyperbolicNode arcsech = new ASTHyperbolicNode(Type.FUNCTION_ARCSECH);
+    arcsech.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arcsech.toLaTeX().equals("\\mathrm{arcsech}\\left(2\\right)"));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXArcsinh() {
+    ASTHyperbolicNode arcsinh = new ASTHyperbolicNode(Type.FUNCTION_ARCSINH);
+    arcsinh.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arcsinh.toLaTeX().equals("\\mathrm{arcsinh}\\left(2\\right)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXArctanh() {
+    ASTHyperbolicNode arctanh = new ASTHyperbolicNode(Type.FUNCTION_ARCTANH);
+    arctanh.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arctanh.toLaTeX().equals("\\arctanh{\\left(2\\right)}"));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXCosh() {
+    ASTHyperbolicNode cosh = new ASTHyperbolicNode(Type.FUNCTION_COSH);
+    cosh.addChild(new ASTCnIntegerNode(2));
+    assertTrue(cosh.toLaTeX().equals("\\cosh{\\left(2\\right)}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXCsch() {
+    ASTHyperbolicNode csch = new ASTHyperbolicNode(Type.FUNCTION_CSCH);
+    csch.addChild(new ASTCnIntegerNode(2));
+    assertTrue(csch.toLaTeX().equals("\\mathrm{csch}\\left(2\\right)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXSech() {
+    ASTHyperbolicNode sech = new ASTHyperbolicNode(Type.FUNCTION_SECH);
+    sech.addChild(new ASTCnIntegerNode(2));
+    assertTrue(sech.toLaTeX().equals("\\mathrm{sech}\\left(2\\right)"));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXSinh() {
+    ASTHyperbolicNode sinh = new ASTHyperbolicNode(Type.FUNCTION_SINH);
+    sinh.addChild(new ASTCnIntegerNode(2));
+    assertTrue(sinh.toLaTeX().equals("\\sinh{\\left(2\\right)}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXTanh() {
+    ASTHyperbolicNode tanh = new ASTHyperbolicNode(Type.FUNCTION_TANH);
+    tanh.addChild(new ASTCnIntegerNode(2));
+    assertTrue(tanh.toLaTeX().equals("\\tanh{\\left(2\\right)}"));
+  }
+  
 }

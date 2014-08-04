@@ -184,7 +184,18 @@ public class ASTCiFunctionNodeTest {
   @Test
   public final void testToFormula() {
     ASTCiFunctionNode ci = new ASTCiFunctionNode();
+    ci.setName("x");
     assertTrue(ci.toFormula().equals("x"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCiFunctionNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeX() {
+    ASTCiFunctionNode ci = new ASTCiFunctionNode();
+    ci.setName("x");
+    assertTrue(ci.toLaTeX().equals("x"));
   }
   
 }

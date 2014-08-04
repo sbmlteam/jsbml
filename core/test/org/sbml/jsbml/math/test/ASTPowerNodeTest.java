@@ -88,4 +88,13 @@ public class ASTPowerNodeTest {
     assertTrue(power.toFormula().equals("2^5"));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTPowerNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeX() {
+    ASTPowerNode power = new ASTPowerNode(new ASTCnIntegerNode(2), new ASTCnIntegerNode(5));
+    assertTrue(power.toLaTeX().equals("2^{5}"));
+  }
+  
 }

@@ -83,9 +83,18 @@ public class ASTTimesNodeTest {
    * Test method for {@link org.sbml.jsbml.math.ASTTimesNode#toFormula()}.
    */
   @Test
-  public final void testCloneToFormula() {
+  public final void testToFormula() {
     ASTTimesNode times = new ASTTimesNode(new ASTCnIntegerNode(1), new ASTCnIntegerNode(5));
     assertTrue(times.toFormula().equals("1*5"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTimesNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeX() {
+    ASTTimesNode times = new ASTTimesNode(new ASTCnIntegerNode(1), new ASTCnIntegerNode(5));
+    assertTrue(times.toLaTeX().equals("1\\cdot 5"));
   }
   
 }

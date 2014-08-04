@@ -32,6 +32,7 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.math.compiler.FormulaCompiler;
+import org.sbml.jsbml.math.compiler.LaTeXCompiler;
 
 
 /**
@@ -63,14 +64,6 @@ public class ASTUnaryFunctionNode extends ASTFunction {
   }
   
   /**
-   * Creates a new {@link ASTUnaryFunctionNode} of type {@link Type}
-   */
-  public ASTUnaryFunctionNode(Type type) {
-    super();
-    setType(type);
-  }
-
-  /**
    * Copy constructor; Creates a deep copy of the given {@link ASTUnaryFunctionNode}.
    * 
    * @param node
@@ -78,6 +71,14 @@ public class ASTUnaryFunctionNode extends ASTFunction {
    */
   public ASTUnaryFunctionNode(ASTUnaryFunctionNode node) {
     super(node);
+  }
+
+  /**
+   * Creates a new {@link ASTUnaryFunctionNode} of type {@link Type}
+   */
+  public ASTUnaryFunctionNode(Type type) {
+    super();
+    setType(type);
   }
   
   /*
@@ -290,6 +291,14 @@ public class ASTUnaryFunctionNode extends ASTFunction {
   @Override
   public String toFormula() throws SBMLException {
     return compile(new FormulaCompiler()).toString();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toLaTeX()
+   */
+  @Override
+  public String toLaTeX() throws SBMLException {
+    return compile(new LaTeXCompiler()).toString();
   }
 
   /* (non-Javadoc)

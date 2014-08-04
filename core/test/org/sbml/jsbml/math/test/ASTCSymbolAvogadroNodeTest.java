@@ -158,5 +158,14 @@ public class ASTCSymbolAvogadroNodeTest {
     ASTCSymbolAvogadroNode avogadro = new ASTCSymbolAvogadroNode();
     assertTrue(avogadro.toFormula().equals("avogadro"));
   }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolAvogadroNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeX() {
+    ASTCSymbolAvogadroNode avogadro = new ASTCSymbolAvogadroNode();
+    assertTrue(avogadro.toLaTeX().equals("avogadro"));
+  }
 
 }

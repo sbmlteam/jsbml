@@ -31,6 +31,7 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.math.compiler.FormulaCompiler;
+import org.sbml.jsbml.math.compiler.LaTeXCompiler;
 
 /**
  * An Abstract Syntax Tree (AST) node representing a lambda function
@@ -154,6 +155,14 @@ public class ASTLambdaFunctionNode extends ASTFunction {
   @Override
   public String toFormula() throws SBMLException {
     return compile(new FormulaCompiler()).toString();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toLaTeX()
+   */
+  @Override
+  public String toLaTeX() throws SBMLException {
+    return compile(new LaTeXCompiler()).toString();
   }
 
   /* (non-Javadoc)

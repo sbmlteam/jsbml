@@ -399,4 +399,47 @@ public class ASTUnaryFunctionNodeTest {
     assertTrue(floor.toFormula().equals("floor(5)"));
   }
   
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXAbs() {
+    ASTCnIntegerNode negativeFive = new ASTCnIntegerNode(-5);
+    ASTUnaryFunctionNode abs = new ASTUnaryFunctionNode(Type.FUNCTION_ABS);
+    abs.setChild(negativeFive);
+    assertTrue(abs.toLaTeX().equals("\\left\\lvert-5\\right\\rvert"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXCeil() {
+    ASTCnIntegerNode negativeFive = new ASTCnIntegerNode(-5);
+    ASTUnaryFunctionNode ceil = new ASTUnaryFunctionNode(Type.FUNCTION_CEILING);
+    ceil.setChild(negativeFive);
+    assertTrue(ceil.toLaTeX().equals("\\left\\lceil -5\\right\\rceil "));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXFactorial() {
+    ASTCnIntegerNode five = new ASTCnIntegerNode(5);
+    ASTUnaryFunctionNode factorial = new ASTUnaryFunctionNode(Type.FUNCTION_FACTORIAL);
+    factorial.setChild(five);
+    assertTrue(factorial.toLaTeX().equals("\\left(5\\right)!"));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXFloor() {
+    ASTCnIntegerNode five = new ASTCnIntegerNode(5);
+    ASTUnaryFunctionNode floor = new ASTUnaryFunctionNode(Type.FUNCTION_FLOOR);
+    floor.setChild(five);
+    assertTrue(floor.toLaTeX().equals("\\left\\lfloor 5\\right\\rfloor "));
+  }  
 }

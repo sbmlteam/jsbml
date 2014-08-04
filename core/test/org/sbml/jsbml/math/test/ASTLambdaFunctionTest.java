@@ -76,15 +76,6 @@ public class ASTLambdaFunctionTest {
   }
   
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTLambdaFunctionNode#isAllowableType()}.
-   */
-  @Test
-  public final void testIsAllowableType() {
-    ASTLambdaFunctionNode lambda = new ASTLambdaFunctionNode();
-    assertTrue(lambda.isAllowableType(Type.LAMBDA) && !lambda.isAllowableType(null));
-  }
-  
-  /**
    * Test method for {@link org.sbml.jsbml.math.ASTLambdaFunctionNode#getBvarCount()}.
    */
   @Test
@@ -92,7 +83,7 @@ public class ASTLambdaFunctionTest {
     ASTLambdaFunctionNode lambda = new ASTLambdaFunctionNode();
     assertTrue(lambda.getBvarCount() == 0);
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTLambdaFunctionNode#getBvarCount()}.
    */
@@ -112,6 +103,15 @@ public class ASTLambdaFunctionTest {
     ASTPlusNode plus = new ASTPlusNode(x, y);
     lambda.addChild(plus);
     assertTrue(lambda.getBvarCount() == 2);
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLambdaFunctionNode#isAllowableType()}.
+   */
+  @Test
+  public final void testIsAllowableType() {
+    ASTLambdaFunctionNode lambda = new ASTLambdaFunctionNode();
+    assertTrue(lambda.isAllowableType(Type.LAMBDA) && !lambda.isAllowableType(null));
   }
   
   /**
@@ -158,6 +158,27 @@ public class ASTLambdaFunctionTest {
     ASTPlusNode plus = new ASTPlusNode(x, y);
     lambda.addChild(plus);
     assertTrue(lambda.toFormula().equals("lambda(x, y, x+y)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLambdaFunctionNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeX() {
+    ASTLambdaFunctionNode lambda = new ASTLambdaFunctionNode();
+    ASTQualifierNode bvarX = new ASTQualifierNode(Type.QUALIFIER_BVAR);
+    ASTCiNumberNode x = new ASTCiNumberNode();
+    x.setRefId("x");
+    bvarX.addChild(x);
+    ASTCiNumberNode y = new ASTCiNumberNode();
+    y.setRefId("y");
+    ASTQualifierNode bvarY = new ASTQualifierNode(Type.QUALIFIER_BVAR);
+    bvarY.addChild(y);
+    lambda.addChild(bvarX);
+    lambda.addChild(bvarY);
+    ASTPlusNode plus = new ASTPlusNode(x, y);
+    lambda.addChild(plus);
+    assertTrue(lambda.toLaTeX().equals("\\lambda\\left(x, y\\right) = x+y"));
   }
   
 }

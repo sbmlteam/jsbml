@@ -166,5 +166,26 @@ public class ASTPiecewiseFunctionNodeTest {
     piecewise.addChild(otherwise);
     assertTrue(piecewise.toFormula().equals("piecewise(0, 1)"));
   }
-
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTPiecewiseFunctionNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeX() {
+    ASTPiecewiseFunctionNode piecewise = new ASTPiecewiseFunctionNode();
+    ASTQualifierNode piece = new ASTQualifierNode(Type.CONSTRUCTOR_PIECE);
+    piece.addChild(new ASTCnIntegerNode(0));
+    ASTRelationalOperatorNode geq = new ASTRelationalOperatorNode(Type.RELATIONAL_GEQ);
+    ASTCiNumberNode x = new ASTCiNumberNode();
+    x.setRefId("x");
+    geq.addChild(x);
+    geq.addChild(new ASTCnIntegerNode(10));
+    piece.addChild(geq);
+    piecewise.addChild(piece);
+    ASTQualifierNode otherwise = new ASTQualifierNode(Type.CONSTRUCTOR_OTHERWISE);
+    otherwise.addChild(new ASTCnIntegerNode(1));
+    piecewise.addChild(otherwise);
+    assertTrue(piecewise.toLaTeX().equals("\\begin{dcases}\n"
+                                        + "0 & \\text{if\\ } 1\\end{dcases}"));
+  }
 }
