@@ -25,6 +25,7 @@ import static org.sbml.jsbml.celldesigner.CellDesignerConstants.LINK_TO_CELLDESI
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -98,7 +99,9 @@ import org.sbml.jsbml.ext.fbc.FBCSpeciesPlugin;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
+import org.sbml.jsbml.ext.render.Group;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
+import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.RenderConstants;
 import org.sbml.jsbml.ext.render.RenderLayoutPlugin;
 import org.sbml.jsbml.util.ProgressListener;
@@ -186,7 +189,10 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
     while (it.hasNext())
     {
       Map.Entry pairs = it.next();
-      mapText.append(pairs.getKey() + "\t" + pairs.getValue()+"\n");
+      String key = pairs.getKey().toString().substring(27,
+        pairs.getKey().toString().indexOf("@"));
+
+      mapText.append(key + "\t" + pairs.getValue()+"\n");
     }
     return mapText.toString();
   }
@@ -479,7 +485,9 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
       Layout layout = modelPlugin.createLayout("CellDesigner_Layout");
 
       RenderLayoutPlugin renderPlugin = new RenderLayoutPlugin(layout);
-      renderPlugin.addLocalRenderInformation(new LocalRenderInformation(model.getLevel(), model.getVersion()));
+      LocalRenderInformation localRenderInformation = new LocalRenderInformation(model.getLevel(), model.getVersion());
+      renderPlugin.addLocalRenderInformation(localRenderInformation);
+      localRenderInformation.addLocalStyle(new LocalStyle(new Group(model.getLevel(), model.getVersion())));
 
       FBCModelPlugin FBCPlugin = new FBCModelPlugin(model);
 
@@ -531,7 +539,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
         model.addCompartment(compartment);
         list.add(compartment);
         mapOfSBases.put(pCompartment, list);
-        //RenderConverter.extractRenderInformation(pCompartment, renderPlugin, layout);
+        RenderConverter.extractRenderInformation(pCompartment, renderPlugin.getLocalRenderInformation(0), layout);
         //gets the compartment size
         layout.createDimensions("Layout_Size", originalModel.getCompartment(i).getWidth(),
           originalModel.getCompartment(i).getHeight(), 1d);
@@ -544,7 +552,12 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
         PluginSpecies pSpecies = originalModel.getSpecies(i);
         PluginListOf listOfAliases = pSpecies.getListOfSpeciesAlias();
         Species species = readSpecies(pSpecies);
-        model.addSpecies(readSpecies(pSpecies));
+        model.addSpecies(species);
+
+        Set<SBase> speciesList = new HashSet<SBase>();
+        speciesList.add(species);
+        mapOfSBases.put(pSpecies, speciesList);
+
         for (int j=0;j<listOfAliases.size();j++)
         {
           Set<SBase> list = LayoutConverter.extractLayout((PluginSpeciesAlias)listOfAliases.get(j), layout);
