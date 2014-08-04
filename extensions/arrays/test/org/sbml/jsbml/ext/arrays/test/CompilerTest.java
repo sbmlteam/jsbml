@@ -29,8 +29,10 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.Species;
+import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.Dimension;
@@ -276,4 +278,68 @@ public class CompilerTest {
     }
   }
   
+  @Test
+  public void testBinaryOp() {
+    try {
+      Model model = new Model();
+      ASTNode vector = ASTNode.parseFormula("eq(5,3+2)");
+      VectorCompiler compiler = new VectorCompiler(model);
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("1"));
+      vector = ASTNode.parseFormula("eq(5, {{1,3,5}})");
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("{{0,0,1}}"));
+      compiler = new VectorCompiler(model, true);
+      vector = ASTNode.parseFormula("eq(5, {{1,3,5}})");
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("{{5==1,5==3,5==5}}") ||
+        compiler.getNode().toFormula().replaceAll(" ", "").equals("{{1==5,3==5,5==5}}"));
+      vector = ASTNode.parseFormula("eq(X, {{{X},{Y},{0}}})");
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("{{{X==X},{Y==X},{0==X}}}") ||
+        compiler.getNode().toFormula().replaceAll(" ", "").equals("{{{X==X},{X==Y},{X==0}}}"));
+      vector = ASTNode.parseFormula("eq({{X}}, {{X}})");
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("{{X==X}}"));
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
+  
+  @Test
+  public void testSpecRefToVector() {
+    try {
+      SBMLDocument doc = new SBMLDocument(3,1);
+      Model model = doc.createModel();
+      Species s = model.createSpecies("s");
+      s.setValue(1);
+      Parameter p = model.createParameter("p");
+      p.setValue(2);
+      Reaction r = model.createReaction("r");
+      SpeciesReference ref = r.createReactant(s);
+      ref.setId("S");
+      
+      ArraysSBasePlugin arraysPlugin = new ArraysSBasePlugin(r);
+      r.addPlugin(ArraysConstants.shortLabel, arraysPlugin);
+      Dimension x = arraysPlugin.createDimension("x");
+      x.setArrayDimension(0);
+      x.setSize("p");
+      
+      arraysPlugin = new ArraysSBasePlugin(ref);
+      ref.addPlugin(ArraysConstants.shortLabel, arraysPlugin);
+      x = arraysPlugin.createDimension("x");
+      x.setArrayDimension(0);
+      x.setSize("p");
+      
+      ASTNode vector = ASTNode.parseFormula("S");
+      VectorCompiler compiler = new VectorCompiler(model, true);
+      vector.compile(compiler);
+      
+      assertTrue(compiler.getNode().toFormula().equals("{{S_0_0,S_0_1},{S_1_0,S_1_1}}"));
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
 }

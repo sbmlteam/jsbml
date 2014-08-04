@@ -432,4 +432,39 @@ public class MathTest {
       assertTrue(false);
     }
   }
+  
+  @Test
+  public void testInfixVectorSelector() {
+
+    ASTNode n = null;
+    String formula = "{1, 2}[0]";
+    FormulaParser parser = new FormulaParser(new StringReader(formula));
+    try {
+      n = parser.parse();
+      assertTrue(n.getType() == ASTNode.Type.FUNCTION_SELECTOR);
+      assertTrue(n.getChildCount() == 2);
+      assertTrue(n.getChild(0).equals(ASTNode.parseFormula("{1,2}")));
+      assertTrue(n.getChild(1).equals(new ASTNode(0)));
+    } catch (ParseException e) {
+      assertTrue(false);
+    }
+  }
+  
+  @Test
+  public void testInfixVectorSelectorLL3() {
+
+    ASTNode n = null;
+    String formula = "{1, 2}[0]";
+    FormulaParserLL3 parser = new FormulaParserLL3(new StringReader(formula));
+    try {
+      n = parser.parse();
+      assertTrue(n.getType() == ASTNode.Type.FUNCTION_SELECTOR);
+      assertTrue(n.getChildCount() == 2);
+      assertTrue(n.getChild(0).equals(ASTNode.parseFormula("{1,2}")));
+      assertTrue(n.getChild(1).equals(new ASTNode(0)));
+    } catch (ParseException e) {
+      assertTrue(false);
+    }
+  }
+  
 }
