@@ -23,9 +23,13 @@
 package org.sbml.jsbml.celldesigner;
 
 import jp.sbi.celldesigner.plugin.PluginCompartment;
+import jp.sbi.celldesigner.plugin.PluginSpeciesAlias;
 
+import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.render.ColorDefinition;
+import org.sbml.jsbml.ext.render.Group;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
+import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.RenderLayoutPlugin;
 
 
@@ -37,10 +41,23 @@ import org.sbml.jsbml.ext.render.RenderLayoutPlugin;
  */
 public class RenderConverter {
 
-  public static void extractRenderInformation(PluginCompartment pCompartment, RenderLayoutPlugin render)
+  public static void extractRenderInformation(PluginCompartment pCompartment, LocalRenderInformation renderInfo, Layout layout)
+  {
+    renderInfo.addColorDefinition(new ColorDefinition(pCompartment.getId(), pCompartment.getLineColor()));
+    LocalStyle localStyle = renderInfo.getListOfLocalStyles().getFirst();
+    String[] compartmentIDList = new String[1];
+    compartmentIDList[0] = "cGlyph_"+pCompartment.getId();
+
+    localStyle.setIDList(compartmentIDList);
+    Group group = localStyle.getGroup();
+    group.setStroke(pCompartment.getId());
+    group.setStrokeWidth(pCompartment.getThickness());
+  }
+
+  public static void extractRenderInformation(PluginSpeciesAlias pSpeciesAlias, RenderLayoutPlugin render)
   {
     LocalRenderInformation LRI=render.getLocalRenderInformation(0);
-    LRI.addColorDefinition(new ColorDefinition(pCompartment.getId()+"_Color",pCompartment.getLineColor()));
+    LRI.addColorDefinition(new ColorDefinition(pSpeciesAlias.getSpecies().getId()+"_Color", pSpeciesAlias.getColor()));
   }
 
 }

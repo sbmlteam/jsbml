@@ -115,7 +115,7 @@ public class LayoutConverter {
     //setting textGlyph position at center of speciesGlyph
     bBox.createPosition(pSpeciesAlias.getX()+pSpeciesAlias.getWidth()/2, pSpeciesAlias.getY()+pSpeciesAlias.getHeight()/2, z);
     //origin of text? Set to Species or SpeciesAlias?
-    tGlyph.setOriginOfText(pSpeciesAlias.getSpecies().getId());
+    tGlyph.setOriginOfText(pSpeciesAlias.getAliasID());
     speciesAliasList.add(tGlyph);
 
     sGlyph.putUserObject(LINK_TO_CELLDESIGNER, pSpeciesAlias);
