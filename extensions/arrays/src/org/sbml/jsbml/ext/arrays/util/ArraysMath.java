@@ -30,6 +30,7 @@ import org.sbml.jsbml.Assignment;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
@@ -229,6 +230,30 @@ public class ArraysMath {
     return true;
   }
 
+  /**
+   * Gets the size of a Dimension object.
+   * 
+   * @param model
+   * @param dimension
+   * @return
+   */
+  public static int getSize(Model model, Dimension dimension) {
+    if(dimension == null) {
+      return 0;
+    }
+
+    String sizeRef = dimension.getSize();
+
+    Parameter param = model.getParameter(sizeRef);
+
+    if(param == null || !param.isSetValue()) {
+      throw new SBMLException();
+    }
+
+    return (int) param.getValue();
+  }
+
+  
   /**
    * This method maps a dimension id to the size of the dimension object.
    * 

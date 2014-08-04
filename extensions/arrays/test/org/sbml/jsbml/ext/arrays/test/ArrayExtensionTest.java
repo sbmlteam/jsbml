@@ -31,6 +31,7 @@ import org.sbml.jsbml.Event;
 import org.sbml.jsbml.EventAssignment;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
@@ -418,4 +419,21 @@ public class ArrayExtensionTest {
     }
   }
   
+  @Test
+  public void testDimensionId() {
+    try{    
+      Species S1 = new Species("X");
+      ArraysSBasePlugin P1 = bindPluginToSpecies(S1);
+      SBMLDocument doc = P1.getSBMLDocument();
+      Model model = doc.getModel();
+      Species S2 = model.createSpecies("Y");
+      Dimension D1 = P1.createDimension("X");
+      SBMLWriter.write(doc, System.out, ' ', (short)2);
+    }
+    catch(Exception e)
+    {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
 }

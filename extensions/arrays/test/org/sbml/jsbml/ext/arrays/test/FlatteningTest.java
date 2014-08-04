@@ -42,6 +42,7 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.Species;
+import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
@@ -120,23 +121,26 @@ public class FlatteningTest {
       model.addParameter(X);
       InitialAssignment ia = model.createInitialAssignment();
       ia.setVariable("X");
-      ia.setMath(ASTNode.parseFormula("{1,2,3,4,5,6,7,8,9,10}"));
+      ia.setMath(ASTNode.parseFormula("selector({1,2,3,4,5,6,7,8,9,10},i)"));
       ArraysSBasePlugin iaArraysPlugin = new ArraysSBasePlugin(ia);
       ia.addExtension(ArraysConstants.shortLabel, iaArraysPlugin);
       Dimension iaDim = iaArraysPlugin.createDimension("i");
       iaDim.setArrayDimension(0);
       iaDim.setSize("n");
+      Index indX = iaArraysPlugin.createIndex();
+      indX.setArrayDimension(0);
+      indX.setReferencedAttribute("symbol");
+      indX.setMath(new ASTNode("i"));
+      
+      Parameter Y = new Parameter("Y");
       ArraysSBasePlugin arraysSBasePluginX = new ArraysSBasePlugin(X);
-
       X.addExtension(ArraysConstants.shortLabel, arraysSBasePluginX);
 
       Dimension dimX = new Dimension("i");
       dimX.setSize(n.getId());
       dimX.setArrayDimension(0);
-
       arraysSBasePluginX.addDimension(dimX);
-
-      Parameter Y = new Parameter("Y");
+  
 
       model.addParameter(Y);
       Y.setValue(2);
@@ -273,15 +277,18 @@ public class FlatteningTest {
       Trigger trigger = e.createTrigger();
       trigger.setMath(ASTNode.parseFormula("{true, true, true}"));
       EventAssignment assign = e.createEventAssignment();
-      assign.setMath(ASTNode.parseFormula("{1, 10, 100}"));
+      assign.setMath(ASTNode.parseFormula("{1, 10, 100}[i]"));
       assign.setVariable("X");
 
       ArraysSBasePlugin eventAssignPlugin = new ArraysSBasePlugin(assign);
       assign.addExtension(ArraysConstants.shortLabel, eventAssignPlugin);
-      Dimension dimAssign = eventAssignPlugin.createDimension("i");
+      Dimension dimAssign = eventAssignPlugin.createDimension("j");
       dimAssign.setSize(n.getId());
       dimAssign.setArrayDimension(0);
-
+      Index ind = eventAssignPlugin.createIndex();
+      ind.setReferencedAttribute("variable");
+      ind.setArrayDimension(0);
+      ind.setMath(ASTNode.parseFormula("j"));
       ArraysSBasePlugin eventPlugin = new ArraysSBasePlugin(e);
       e.addExtension(ArraysConstants.shortLabel, eventPlugin);
       Dimension dim = eventPlugin.createDimension("i");
@@ -306,22 +313,217 @@ public class FlatteningTest {
   }
   
   @Test
+  public void testEventAssignmentWithParentDimension() {
+    try {
+      SBMLDocument doc = new SBMLDocument(3,1);
+      Model model = doc.createModel();
+
+      Parameter n = new Parameter("n");
+      model.addParameter(n);
+      n.setValue(3);
+
+      Parameter X = new Parameter("X");
+      X.setValue(1);
+      model.addParameter(X);
+      ArraysSBasePlugin arraysSBasePluginX = new ArraysSBasePlugin(X);
+      X.addExtension(ArraysConstants.shortLabel, arraysSBasePluginX);
+      Dimension dimX = arraysSBasePluginX.createDimension("i");
+      dimX.setSize(n.getId());
+      dimX.setArrayDimension(0);
+
+      Event e = model.createEvent();
+      e.setId("event");
+      Delay delay = e.createDelay();
+      delay.setMath(ASTNode.parseFormula("{1,2,3}"));
+      e.setDelay(delay);
+      Trigger trigger = e.createTrigger();
+      trigger.setMath(ASTNode.parseFormula("{true, true, true}"));
+      
+      ArraysSBasePlugin eventPlugin = new ArraysSBasePlugin(e);
+      e.addExtension(ArraysConstants.shortLabel, eventPlugin);
+      Dimension dim = eventPlugin.createDimension("i");
+      dim.setSize(n.getId());
+      dim.setArrayDimension(0);
+      
+      EventAssignment assign = e.createEventAssignment();
+      assign.setMath(ASTNode.parseFormula("{1, 10, 100}[i]"));
+      assign.setVariable("X");
+      ArraysSBasePlugin eventAssignPlugin = new ArraysSBasePlugin(assign);
+      assign.addExtension(ArraysConstants.shortLabel, eventAssignPlugin);
+      Index ind = eventAssignPlugin.createIndex();
+      ind.setReferencedAttribute("variable");
+      ind.setArrayDimension(0);
+      ind.setMath(ASTNode.parseFormula("i"));
+     
+
+
+      SBMLWriter.write(doc, System.out, ' ', (short) 2);
+      System.out.println("\n-------------------------------------------");
+      SBMLDocument flattened = ArraysFlattening.convert(doc);
+      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
+      System.out.println("\n-------------------------------------------");
+      assertTrue(flattened.getModel().getEventCount() == 3);
+      assertTrue(flattened.getModel().getEvent(0).getEventAssignmentCount() == 1);
+    } catch (SBMLException e) {
+      e.printStackTrace();
+    } catch (XMLStreamException e) {
+      e.printStackTrace();
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+  }
+  
+  @Test
   public void testBioModelFlattening() {
     SBMLDocument doc;
     try {
       doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/BIOMD0000000012.xml"));
-      Model model = doc.getModel();
-      boolean success = true;
-      for(int i = 0; i < model.getRuleCount(); ++i) {
-        if(model.getRule(i).equals(new ASTNode("unknown"))) {
-          success = false;
-        }
-      }
-      assertTrue(success);
+      SBMLDocument flattened = ArraysFlattening.convert(doc);
+
+      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
+      //assertTrue(doc.equals(flattened));
     } catch (XMLStreamException e) {
       assertTrue(false);
     }
    
   }
+  
+  @Test
+  public void testSpeciesReference() {
+    try {
+      SBMLDocument doc = new SBMLDocument(3,1);
+      Model model = doc.createModel();
 
+      Parameter n = new Parameter("n");
+      model.addParameter(n);
+      n.setValue(2);
+
+      Parameter X = new Parameter("X");
+      model.addParameter(X);
+      X.setValue(1);
+
+      Species A = model.createSpecies("A");
+      A.setValue(5);
+      ArraysSBasePlugin arraysSBasePluginA = new ArraysSBasePlugin(A);
+      A.addExtension(ArraysConstants.shortLabel, arraysSBasePluginA);
+      Dimension dimA = arraysSBasePluginA.createDimension("i");
+      dimA.setSize(n.getId());
+      dimA.setArrayDimension(0);
+      Species B = model.createSpecies("B");
+      B.setValue(5);
+      ArraysSBasePlugin arraysSBasePluginB = new ArraysSBasePlugin(B);
+      B.addExtension(ArraysConstants.shortLabel, arraysSBasePluginB);
+      Dimension dimB = arraysSBasePluginB.createDimension("i");
+      dimB.setSize(n.getId());
+      dimB.setArrayDimension(0);
+      Reaction r = model.createReaction();
+      SpeciesReference a = r.createReactant(A);
+      ArraysSBasePlugin arraysSBasePlugina = new ArraysSBasePlugin(a);
+      a.addExtension(ArraysConstants.shortLabel, arraysSBasePlugina);
+      Index inda = arraysSBasePlugina.createIndex();
+      inda.setReferencedAttribute("species");
+      inda.setArrayDimension(0);
+      inda.setMath(ASTNode.parseFormula("1-i"));
+      SpeciesReference b = r.createProduct(B);
+      ArraysSBasePlugin arraysSBasePluginb = new ArraysSBasePlugin(b);
+      b.addExtension(ArraysConstants.shortLabel, arraysSBasePluginb);
+      Index indb = arraysSBasePluginb.createIndex();
+      indb.setReferencedAttribute("species");
+      indb.setArrayDimension(0);
+      indb.setMath(ASTNode.parseFormula("i"));
+      r.setId("reaction");
+      KineticLaw k = r.createKineticLaw();
+      k.setMath(ASTNode.parseFormula("B[i] - X*A[1-i]"));
+      ArraysSBasePlugin reactPlugin = new ArraysSBasePlugin(r);
+      r.addExtension(ArraysConstants.shortLabel, reactPlugin);
+      Dimension dim = reactPlugin.createDimension("i");
+      dim.setSize(n.getId());
+      dim.setArrayDimension(0);
+      SBMLWriter.write(doc, System.out, ' ', (short) 2);
+      System.out.println("\n-------------------------------------------");
+      SBMLDocument flattened = ArraysFlattening.convert(doc);
+      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
+      System.out.println("\n-------------------------------------------");
+    } catch (SBMLException e) {
+      e.printStackTrace();
+    } catch (XMLStreamException e) {
+      e.printStackTrace();
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+  }
+  
+  @Test
+  public void testSpeciesReferenceImplicitDim() {
+    try {
+      SBMLDocument doc = new SBMLDocument(3,1);
+      Model model = doc.createModel();
+
+      Parameter n = new Parameter("n");
+      model.addParameter(n);
+      n.setValue(2);
+
+      Parameter X = new Parameter("X");
+      model.addParameter(X);
+      X.setValue(1);
+
+      Species A = model.createSpecies("A");
+      A.setValue(5);
+      ArraysSBasePlugin arraysSBasePluginA = new ArraysSBasePlugin(A);
+      A.addExtension(ArraysConstants.shortLabel, arraysSBasePluginA);
+      Dimension dimA = arraysSBasePluginA.createDimension("i");
+      dimA.setSize(n.getId());
+      dimA.setArrayDimension(0);
+      Species B = model.createSpecies("B");
+      B.setValue(5);
+      ArraysSBasePlugin arraysSBasePluginB = new ArraysSBasePlugin(B);
+      B.addExtension(ArraysConstants.shortLabel, arraysSBasePluginB);
+      Dimension dimB = arraysSBasePluginB.createDimension("i");
+      dimB.setSize(n.getId());
+      dimB.setArrayDimension(0);
+      Reaction r = model.createReaction();
+      ArraysSBasePlugin reactArraysPlugin = new ArraysSBasePlugin(r);
+      r.addExtension(ArraysConstants.shortLabel, reactArraysPlugin);
+      Dimension dim = reactArraysPlugin.createDimension("i");
+      dim.setSize("n");
+      dim.setArrayDimension(0);
+      r.setId("reaction");
+      KineticLaw k = r.createKineticLaw();
+      k.setMath(ASTNode.parseFormula("B - X*A"));
+      
+      SpeciesReference a = r.createReactant(A);
+      a.setId("a");
+      ArraysSBasePlugin arraysSBasePlugina = new ArraysSBasePlugin(a);
+      a.addExtension(ArraysConstants.shortLabel, arraysSBasePlugina);
+      dim = arraysSBasePlugina.createDimension("j");
+      dim.setSize("n");
+      dim.setArrayDimension(0);
+      Index inda = arraysSBasePlugina.createIndex();
+      inda.setReferencedAttribute("species");
+      inda.setArrayDimension(0);
+      inda.setMath(ASTNode.parseFormula("j"));
+      SpeciesReference b = r.createProduct(B);
+      b.setId("b");
+      ArraysSBasePlugin arraysSBasePluginb = new ArraysSBasePlugin(b);
+      b.addExtension(ArraysConstants.shortLabel, arraysSBasePluginb);
+      dim = arraysSBasePluginb.createDimension("j");
+      dim.setSize("n");
+      dim.setArrayDimension(0);
+      Index indb = arraysSBasePluginb.createIndex();
+      indb.setReferencedAttribute("species");
+      indb.setArrayDimension(0);
+      indb.setMath(ASTNode.parseFormula("j"));
+      SBMLWriter.write(doc, System.out, ' ', (short) 2);
+      System.out.println("\n-------------------------------------------");
+      SBMLDocument flattened = ArraysFlattening.convert(doc);
+      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
+      System.out.println("\n-------------------------------------------");
+    } catch (SBMLException e) {
+      e.printStackTrace();
+    } catch (XMLStreamException e) {
+      e.printStackTrace();
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+  }
 }
