@@ -282,6 +282,15 @@ public class ReactionGlyph extends AbstractReferenceGlyph {
     return getListOfSpeciesReferenceGlyphs().get(i);
   }
 
+  /**
+   * 
+   * @param srGlyphId
+   * @return
+   */
+  public SpeciesReferenceGlyph getSpeciesReferenceGlyph(String srGlyphId) {
+    return getListOfSpeciesReferenceGlyphs().firstHit(new NamedSBaseReferenceFilter(srGlyphId));
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#hashCode()
    */
