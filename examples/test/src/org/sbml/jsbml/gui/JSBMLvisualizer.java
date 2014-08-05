@@ -21,15 +21,10 @@
  */
 package org.sbml.jsbml.gui;
 
-import java.io.File;
-
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
-import javax.swing.UIManager;
-
-import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.SBMLReader;
+import javax.swing.tree.DefaultTreeModel;
 
 /** Displays the content of an SBML file in a {@link JTree} */
 public class JSBMLvisualizer extends JFrame {
@@ -38,20 +33,15 @@ public class JSBMLvisualizer extends JFrame {
   private static final long serialVersionUID = -6800051247041441688L;
 
   /** @param document The sbml root node of an SBML file */
-  public JSBMLvisualizer(SBMLDocument sbmlDocument) {
+  public JSBMLvisualizer(DefaultTreeModel tree) {
     super("JSBML viz");
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-    getContentPane().add(new JScrollPane(new JTree(sbmlDocument)));
+    DefaultTreeModel treeModel = tree;
+    JTree jTree = new JTree(treeModel);
+    getContentPane().add(new JScrollPane(jTree));
     pack();
     setAlwaysOnTop(true);
     setLocationRelativeTo(null);
     setVisible(true);
   }
-
-  /** @param args Expects a valid path to an SBML file. */
-  public static void main(String[] args) throws Exception {
-    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-    new JSBMLvisualizer(SBMLReader.read(new File(args[0])));
-  }
-
 }
