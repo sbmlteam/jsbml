@@ -23,12 +23,12 @@ package org.sbml.jsbml.celldesigner;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.tree.DefaultTreeModel;
+
 import jp.sbi.celldesigner.plugin.PluginMenu;
 import jp.sbi.celldesigner.plugin.PluginMenuItem;
+import jp.sbi.celldesigner.plugin.PluginSBase;
 
-import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.ext.layout.LayoutConstants;
-import org.sbml.jsbml.ext.render.RenderConstants;
 import org.sbml.jsbml.gui.JSBMLvisualizer;
 
 
@@ -45,6 +45,7 @@ public class SimpleCellDesignerPlugin extends AbstractCellDesignerPlugin {
 
   public static final String ACTION = "Display full model tree";
   public static final String APPLICATION_NAME = "Simple Plugin";
+  protected DefaultTreeModel modelTree = null;
 
   /**
    * Creates a new CellDesigner plug-in with an entry in the menu bar.
@@ -68,14 +69,48 @@ public class SimpleCellDesignerPlugin extends AbstractCellDesignerPlugin {
     addCellDesignerPluginMenu(menu);
   }
 
+
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#modelSelectChanged(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  @Override
+  public void modelSelectChanged(PluginSBase sbase) {
+    super.modelSelectChanged(sbase);
+    modelTree.setRoot(getSBMLDocument());
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#SBaseAdded(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  @Override
+  public void SBaseAdded(PluginSBase sbase) {
+    super.SBaseAdded(sbase);
+    modelTree.setRoot(getSBMLDocument());
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#SBaseChanged(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  @Override
+  public void SBaseChanged(PluginSBase sbase) {
+    super.SBaseChanged(sbase);
+    modelTree.setRoot(getSBMLDocument());
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#SBaseDeleted(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  @Override
+  public void SBaseDeleted(PluginSBase sbase) {
+    super.SBaseDeleted(sbase);
+    modelTree.setRoot(getSBMLDocument());
+  }
+
   @Override
   public void run() {
-    SBMLDocument document = getSBMLDocument();
-    document.getModel().unsetExtension("layout");
-    document.getModel().unsetExtension("render");
-    document.getSBMLDocumentAttributes().remove(LayoutConstants.shortLabel + ":required");
-    document.getSBMLDocumentAttributes().remove(RenderConstants.shortLabel + ":required");
-    JSBMLvisualizer visualizer = new JSBMLvisualizer(document);
+    modelTree = new DefaultTreeModel(getSBMLDocument());
+    JSBMLvisualizer visualizer = new JSBMLvisualizer(modelTree);
     visualizer.addWindowListener(new WindowAdapter() {
 
       @Override

@@ -37,12 +37,23 @@ import javax.swing.SwingWorker;
 import javax.xml.stream.XMLStreamException;
 
 import jp.sbi.celldesigner.plugin.CellDesignerPlugin;
+import jp.sbi.celldesigner.plugin.PluginAlgebraicRule;
+import jp.sbi.celldesigner.plugin.PluginAssignmentRule;
 import jp.sbi.celldesigner.plugin.PluginCompartment;
+import jp.sbi.celldesigner.plugin.PluginCompartmentType;
+import jp.sbi.celldesigner.plugin.PluginConstraint;
+import jp.sbi.celldesigner.plugin.PluginEvent;
+import jp.sbi.celldesigner.plugin.PluginFunctionDefinition;
+import jp.sbi.celldesigner.plugin.PluginInitialAssignment;
 import jp.sbi.celldesigner.plugin.PluginModel;
+import jp.sbi.celldesigner.plugin.PluginParameter;
+import jp.sbi.celldesigner.plugin.PluginRateRule;
 import jp.sbi.celldesigner.plugin.PluginReaction;
 import jp.sbi.celldesigner.plugin.PluginSBase;
 import jp.sbi.celldesigner.plugin.PluginSpecies;
 import jp.sbi.celldesigner.plugin.PluginSpeciesAlias;
+import jp.sbi.celldesigner.plugin.PluginSpeciesType;
+import jp.sbi.celldesigner.plugin.PluginUnitDefinition;
 
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
@@ -233,6 +244,61 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
       PluginReaction pReaction = (PluginReaction) sbase;
       PluginSBaseEventUtils.pluginReactionAdded(reader, pReaction, map, document);
     }
+    else if (sbase instanceof PluginParameter)
+    {
+      PluginParameter pParameter = (PluginParameter) sbase;
+      PluginSBaseEventUtils.pluginParameterAdded(reader, pParameter, map, document);
+    }
+    else if (sbase instanceof PluginAlgebraicRule)
+    {
+      PluginAlgebraicRule pAlgebraicRule = (PluginAlgebraicRule) sbase;
+      PluginSBaseEventUtils.pluginAlgebraicRuleAdded(reader, pAlgebraicRule, map, document);
+    }
+    else if (sbase instanceof PluginAssignmentRule)
+    {
+      PluginAssignmentRule pAssignmentRule = (PluginAssignmentRule) sbase;
+      PluginSBaseEventUtils.pluginAssignmentRuleAdded(reader, pAssignmentRule, map, document);
+    }
+    else if (sbase instanceof PluginRateRule)
+    {
+      PluginRateRule pRateRule = (PluginRateRule) sbase;
+      PluginSBaseEventUtils.pluginRateRuleAdded(reader, pRateRule, map, document);
+    }
+    else if (sbase instanceof PluginUnitDefinition)
+    {
+      PluginUnitDefinition pUnitDefinition = (PluginUnitDefinition) sbase;
+      PluginSBaseEventUtils.pluginUnitDefinitionAdded(reader, pUnitDefinition, map, document);
+    }
+    else if (sbase instanceof PluginInitialAssignment)
+    {
+      PluginInitialAssignment pInitialAssignment = (PluginInitialAssignment) sbase;
+      PluginSBaseEventUtils.pluginInitialAssignmentAdded(reader, pInitialAssignment, map, document);
+    }
+    else if (sbase instanceof PluginEvent)
+    {
+      PluginEvent pEvent = (PluginEvent)sbase;
+      PluginSBaseEventUtils.pluginEventAdded(reader, pEvent, map, document);
+    }
+    else if (sbase instanceof PluginConstraint)
+    {
+      PluginConstraint pConstraint = (PluginConstraint)sbase;
+      PluginSBaseEventUtils.pluginConstraintAdded(reader, pConstraint, map, document);
+    }
+    else if (sbase instanceof PluginFunctionDefinition)
+    {
+      PluginFunctionDefinition pFunctionDefinition = (PluginFunctionDefinition)sbase;
+      PluginSBaseEventUtils.pluginFunctionDefinitionAdded(reader, pFunctionDefinition, map, document);
+    }
+    else if (sbase instanceof PluginCompartmentType)
+    {
+      PluginCompartmentType pCompartmentType = (PluginCompartmentType)sbase;
+      PluginSBaseEventUtils.pluginCompartmentTypeAdded(reader, pCompartmentType, map, document);
+    }
+    else if (sbase instanceof PluginSpeciesType)
+    {
+      PluginSpeciesType pSpeciesType = (PluginSpeciesType)sbase;
+      PluginSBaseEventUtils.pluginSpeciesTypeAdded(reader, pSpeciesType, map, document);
+    }
 
     document.addAllChangeListeners(treeNodeList);
   }
@@ -261,13 +327,58 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
       else if (sbase instanceof PluginSpeciesAlias)
       {
         PluginSpeciesAlias pSpeciesAlias = (PluginSpeciesAlias) sbase;
-        PluginSBaseEventUtils.pluginSpeciesAliasChangedOrDeleted(reader, getSelectedModel(), map, document, pSpeciesAlias);
+        PluginSBaseEventUtils.pluginSpeciesAliasChanged(reader, getSelectedModel(), map, document);
       }
 
       else if (sbase instanceof PluginReaction)
       {
         PluginSBaseEventUtils.pluginReactionChangedOrDeleted(reader, getSelectedModel(), map, document);
       }
+      else if (sbase instanceof PluginParameter)
+      {
+        PluginSBaseEventUtils.pluginParameterChangedOrDeleted(reader, getSelectedModel(), map, document);
+      }
+      else if (sbase instanceof PluginAlgebraicRule)
+      {
+        PluginSBaseEventUtils.pluginRuleChangedOrDeleted(reader, getSelectedModel(), map, document);
+      }
+      else if (sbase instanceof PluginAssignmentRule)
+      {
+        PluginSBaseEventUtils.pluginRuleChangedOrDeleted(reader, getSelectedModel(), map, document);
+      }
+      else if (sbase instanceof PluginRateRule)
+      {
+        PluginSBaseEventUtils.pluginRuleChangedOrDeleted(reader, getSelectedModel(), map, document);
+      }
+      else if (sbase instanceof PluginUnitDefinition)
+      {
+        PluginSBaseEventUtils.pluginUnitDefinitionChangedOrDeleted(reader, getSelectedModel(), map, document);
+      }
+      else if (sbase instanceof PluginInitialAssignment)
+      {
+        PluginSBaseEventUtils.pluginInitialAssignmentChangedOrDeleted(reader, getSelectedModel(), map, document);
+      }
+      else if (sbase instanceof PluginEvent)
+      {
+        PluginSBaseEventUtils.pluginEventChangedOrDeleted(reader, getSelectedModel(), map, document);
+      }
+      else if (sbase instanceof PluginConstraint)
+      {
+        PluginSBaseEventUtils.pluginConstraintChangedOrDeleted(reader, getSelectedModel(), map, document);
+      }
+      else if (sbase instanceof PluginFunctionDefinition)
+      {
+        PluginSBaseEventUtils.pluginFunctionDefinitionChangedOrDeleted(reader, getSelectedModel(), map, document);
+      }
+      else if (sbase instanceof PluginCompartmentType)
+      {
+        PluginSBaseEventUtils.pluginCompartmentTypeChangedOrDeleted(reader, getSelectedModel(), map, document);
+      }
+      else if (sbase instanceof PluginSpeciesType)
+      {
+        PluginSBaseEventUtils.pluginSpeciesTypeChangedOrDeleted(reader, getSelectedModel(), map, document);
+      }
+
       JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea(reader.printMap())));
       document.addAllChangeListeners(treeNodeList);
     }
@@ -299,11 +410,55 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
     else if (sbase instanceof PluginSpeciesAlias)
     {
       PluginSpeciesAlias pSpeciesAlias = (PluginSpeciesAlias) sbase;
-      PluginSBaseEventUtils.pluginSpeciesAliasChangedOrDeleted(reader, getSelectedModel(), map, document, pSpeciesAlias);
+      PluginSBaseEventUtils.pluginSpeciesAliasDeleted(reader, getSelectedModel(), map, document, pSpeciesAlias);
     }
     else if (sbase instanceof PluginReaction)
     {
       PluginSBaseEventUtils.pluginReactionChangedOrDeleted(reader, getSelectedModel(), map, document);
+    }
+    else if (sbase instanceof PluginParameter)
+    {
+      PluginSBaseEventUtils.pluginParameterChangedOrDeleted(reader, getSelectedModel(), map, document);
+    }
+    else if (sbase instanceof PluginAlgebraicRule)
+    {
+      PluginSBaseEventUtils.pluginRuleChangedOrDeleted(reader, getSelectedModel(), map, document);
+    }
+    else if (sbase instanceof PluginAssignmentRule)
+    {
+      PluginSBaseEventUtils.pluginRuleChangedOrDeleted(reader, getSelectedModel(), map, document);
+    }
+    else if (sbase instanceof PluginRateRule)
+    {
+      PluginSBaseEventUtils.pluginRuleChangedOrDeleted(reader, getSelectedModel(), map, document);
+    }
+    else if (sbase instanceof PluginUnitDefinition)
+    {
+      PluginSBaseEventUtils.pluginUnitDefinitionChangedOrDeleted(reader, getSelectedModel(), map, document);
+    }
+    else if (sbase instanceof PluginInitialAssignment)
+    {
+      PluginSBaseEventUtils.pluginInitialAssignmentChangedOrDeleted(reader, getSelectedModel(), map, document);
+    }
+    else if (sbase instanceof PluginEvent)
+    {
+      PluginSBaseEventUtils.pluginEventChangedOrDeleted(reader, getSelectedModel(), map, document);
+    }
+    else if (sbase instanceof PluginConstraint)
+    {
+      PluginSBaseEventUtils.pluginConstraintChangedOrDeleted(reader, getSelectedModel(), map, document);
+    }
+    else if (sbase instanceof PluginFunctionDefinition)
+    {
+      PluginSBaseEventUtils.pluginFunctionDefinitionChangedOrDeleted(reader, getSelectedModel(), map, document);
+    }
+    else if (sbase instanceof PluginCompartmentType)
+    {
+      PluginSBaseEventUtils.pluginCompartmentTypeChangedOrDeleted(reader, getSelectedModel(), map, document);
+    }
+    else if (sbase instanceof PluginSpeciesType)
+    {
+      PluginSBaseEventUtils.pluginSpeciesTypeChangedOrDeleted(reader, getSelectedModel(), map, document);
     }
 
     document.addAllChangeListeners(treeNodeList);
