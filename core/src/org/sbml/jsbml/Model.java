@@ -286,7 +286,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
     if (model.isSetVolumeUnits()) {
       setVolumeUnits(model.getVolumeUnits());
     }
-    
+
     // necessary if a comp ModelDefinition is cloned into a core Model for example
     unsetNamespace();
   }
@@ -3931,9 +3931,13 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
           || ((unsb.getLevel() == 1) && (mapOfUnitDefinitions != null) &&
               (mapOfUnitDefinitions.containsKey(id))))
       {
+        NamedSBase elem = mapOfUniqueNamedSBases.get(id);
+        if (elem == null) {
+          elem = mapOfUnitDefinitions.get(id);
+        }
         logger.error(MessageFormat.format(
-          "An element with the id \"{0}\" is already present in this model{1}. The new element will not be added to the model.",
-          id, (isSetId() ? " \"" + getId() + "\"" : "")));
+          "An element of type {2} with the id \"{0}\" is already present in this model{1}. The new element will not be added to the model.",
+          id, (isSetId() ? " \"" + getId() + "\"" : ""), elem.getElementName()));
         return false;
       }
       mapOfUniqueNamedSBases.put(id, unsb);
@@ -4020,7 +4024,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
           if (logger.isDebugEnabled()) {
             logger.debug("idManager found for '" + newElem + "' = " + idManager);
           }
-          
+
           if (idManager != null && idManager != this) {
 
             if (delete) {
