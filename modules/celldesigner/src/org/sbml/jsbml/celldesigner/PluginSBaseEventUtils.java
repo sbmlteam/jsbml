@@ -611,7 +611,7 @@ public class PluginSBaseEventUtils {
     }
   }
 
-  public static void pluginReactionChangedOrDeleted(PluginSBMLReader reader, PluginModel pModel,
+  public static void pluginReactionChanged(PluginSBMLReader reader, PluginModel pModel,
     Map<PluginSBase, Set<SBase>> map, SBMLDocument document)
   {
     try {
@@ -647,6 +647,51 @@ public class PluginSBaseEventUtils {
         Reaction reaction = reader.readReaction(pModel.getReaction(i));
         model.addReaction(reaction);
         Set<SBase> listOfSBases = LayoutConverter.extractLayout(pModel.getReaction(i), layout);
+        map.put(pModel.getReaction(i), listOfSBases);
+      }
+    }
+    catch (Throwable e) {
+      new GUIErrorConsole(e);
+    }
+  }
+
+  public static void pluginReactionDeleted(PluginSBMLReader reader, PluginModel pModel,
+    Map<PluginSBase, Set<SBase>> map, SBMLDocument document, PluginReaction pReaction)
+  {
+    try {
+      Layout layout = ((LayoutModelPlugin)document.getModel().getExtension("layout")).getLayout(0);
+
+      Model model = document.getModel();
+      for (int i = 0; i<pModel.getNumReactions(); i++)
+      {
+        layout.removeTextGlyph("tGlyph_" + pModel.getReaction(i).getId());
+      }
+
+      while (model.getReactionCount() != 0)
+      {
+        model.removeReaction(0);
+      }
+
+      while (layout.getReactionGlyphCount()!=0)
+      {
+        layout.removeReactionGlyph(0);
+      }
+      Iterator<PluginSBase> it = map.keySet().iterator();
+      while (it.hasNext())
+      {
+        PluginSBase pSBase = it.next();
+        if (pSBase instanceof PluginReaction)
+        {
+          it.remove();
+        }
+      }
+
+      for (int i = 0; i<pModel.getNumReactions(); i++)
+      {
+        Reaction reaction = reader.readReaction(pModel.getReaction(i));
+        model.addReaction(reaction);
+        Set<SBase> listOfSBases = LayoutConverter.extractLayout(pModel.getReaction(i), layout);
+        layout.removeTextGlyph("tGlyph_" + pReaction.getId());
         map.put(pModel.getReaction(i), listOfSBases);
       }
     }

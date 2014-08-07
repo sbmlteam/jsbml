@@ -299,7 +299,7 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
       PluginSpeciesType pSpeciesType = (PluginSpeciesType)sbase;
       PluginSBaseEventUtils.pluginSpeciesTypeAdded(reader, pSpeciesType, map, document);
     }
-
+    JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea(reader.printMap())));
     document.addAllChangeListeners(treeNodeList);
   }
 
@@ -326,13 +326,12 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
 
       else if (sbase instanceof PluginSpeciesAlias)
       {
-        PluginSpeciesAlias pSpeciesAlias = (PluginSpeciesAlias) sbase;
         PluginSBaseEventUtils.pluginSpeciesAliasChanged(reader, getSelectedModel(), map, document);
       }
 
       else if (sbase instanceof PluginReaction)
       {
-        PluginSBaseEventUtils.pluginReactionChangedOrDeleted(reader, getSelectedModel(), map, document);
+        PluginSBaseEventUtils.pluginReactionChanged(reader, getSelectedModel(), map, document);
       }
       else if (sbase instanceof PluginParameter)
       {
@@ -378,8 +377,6 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
       {
         PluginSBaseEventUtils.pluginSpeciesTypeChangedOrDeleted(reader, getSelectedModel(), map, document);
       }
-
-      JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea(reader.printMap())));
       document.addAllChangeListeners(treeNodeList);
     }
     catch (Throwable e) {
@@ -414,7 +411,8 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
     }
     else if (sbase instanceof PluginReaction)
     {
-      PluginSBaseEventUtils.pluginReactionChangedOrDeleted(reader, getSelectedModel(), map, document);
+      PluginReaction pReaction = (PluginReaction) sbase;
+      PluginSBaseEventUtils.pluginReactionDeleted(reader, getSelectedModel(), map, document, pReaction);
     }
     else if (sbase instanceof PluginParameter)
     {
@@ -460,7 +458,7 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
     {
       PluginSBaseEventUtils.pluginSpeciesTypeChangedOrDeleted(reader, getSelectedModel(), map, document);
     }
-
+    JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea(reader.printMap())));
     document.addAllChangeListeners(treeNodeList);
   }
 }
