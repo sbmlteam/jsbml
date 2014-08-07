@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -228,7 +229,10 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
       RenderLayoutPlugin renderPlugin = new RenderLayoutPlugin(layout);
       LocalRenderInformation localRenderInformation = new LocalRenderInformation(model.getLevel(), model.getVersion());
       renderPlugin.addLocalRenderInformation(localRenderInformation);
-      localRenderInformation.addLocalStyle(new LocalStyle(new Group(model.getLevel(), model.getVersion())));
+      localRenderInformation.addLocalStyle(new LocalStyle("compartmentStyle", model.getLevel(), model.getVersion(),
+        new Group(model.getLevel(), model.getVersion())));
+      localRenderInformation.addLocalStyle(new LocalStyle("speciesAliasStyle", model.getLevel(), model.getVersion(),
+        new Group(model.getLevel(), model.getVersion())));
 
       FBCModelPlugin FBCPlugin = new FBCModelPlugin(model);
 
@@ -316,6 +320,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
         for (int j=0;j<listOfAliases.size();j++)
         {
           Set<SBase> list = LayoutConverter.extractLayout((PluginSpeciesAlias)listOfAliases.get(j), layout);
+          RenderConverter.extractRenderInformation((PluginSpeciesAlias)listOfAliases.get(j), renderPlugin.getLocalRenderInformation(0), layout);
           mapOfSBases.put(listOfAliases.get(j), list);
         }
         if (listener != null) {
@@ -476,14 +481,23 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   {
     StringBuffer mapText = new StringBuffer();
     Iterator<Entry<PluginSBase, Set<SBase>>> it = mapOfSBases.entrySet().iterator();
-    while (it.hasNext())
+    Map<String, Set<SBase>> treeMap = new TreeMap<String, Set<SBase>>();
+
+    for (int i =0; it.hasNext(); i++)
     {
       Entry<PluginSBase, Set<SBase>> pairs = it.next();
       String key = pairs.getKey().toString().substring(27,
         pairs.getKey().toString().indexOf("@"));
-
-      mapText.append(key + "\t" + pairs.getValue()+"\n");
+      treeMap.put(key+"_"+i, pairs.getValue());
     }
+
+    Iterator<Entry<String, Set<SBase>>> newIt = treeMap.entrySet().iterator();
+    while (newIt.hasNext())
+    {
+      Entry<String, Set<SBase>> pairs = newIt.next();
+      mapText.append(pairs.getKey().substring(0, pairs.getKey().indexOf("_"))+"\t"+pairs.getValue()+"\n");
+    }
+
     return mapText.toString();
   }
 

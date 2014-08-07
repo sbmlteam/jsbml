@@ -27,10 +27,12 @@ import jp.sbi.celldesigner.plugin.PluginSpeciesAlias;
 
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.render.ColorDefinition;
+import org.sbml.jsbml.ext.render.Ellipse;
 import org.sbml.jsbml.ext.render.Group;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
 import org.sbml.jsbml.ext.render.LocalStyle;
-import org.sbml.jsbml.ext.render.RenderLayoutPlugin;
+import org.sbml.jsbml.ext.render.Polygon;
+import org.sbml.jsbml.ext.render.Rectangle;
 
 
 /**
@@ -41,23 +43,85 @@ import org.sbml.jsbml.ext.render.RenderLayoutPlugin;
  */
 public class RenderConverter {
 
+  final static double depth  =  1d;
+  final static double z  =  0d;
+
   public static void extractRenderInformation(PluginCompartment pCompartment, LocalRenderInformation renderInfo, Layout layout)
   {
     renderInfo.addColorDefinition(new ColorDefinition(pCompartment.getId(), pCompartment.getLineColor()));
-    LocalStyle localStyle = renderInfo.getListOfLocalStyles().getFirst();
-    String[] compartmentIDList = new String[1];
-    compartmentIDList[0] = "cGlyph_"+pCompartment.getId();
+    LocalStyle localStyle = renderInfo.getListOfLocalStyles().get("compartmentStyle");
+    String[] iDList = new String[1];
+    iDList[0] = "cGlyph_"+pCompartment.getId();
 
-    localStyle.setIDList(compartmentIDList);
+    if (!localStyle.isSetIDList()) {
+      localStyle.setIDList(iDList);
+    }
+    else
+    {
+      String[] augmentedIDList = new String[localStyle.getIDList().length+1];
+      for (int i = 0; i<localStyle.getIDList().length; i++)
+      {
+        augmentedIDList[i] = localStyle.getIDList()[i];
+      }
+      augmentedIDList[localStyle.getIDList().length] = "cGlyph_" + pCompartment.getId();
+      localStyle.setIDList(augmentedIDList);
+    }
     Group group = localStyle.getGroup();
+    Rectangle rectangle = new Rectangle();
+    rectangle.setX(pCompartment.getX());
+    rectangle.setY(pCompartment.getY());
+    rectangle.setZ(z);
+    group.registerChild(rectangle);
     group.setStroke(pCompartment.getId());
     group.setStrokeWidth(pCompartment.getThickness());
   }
 
-  public static void extractRenderInformation(PluginSpeciesAlias pSpeciesAlias, RenderLayoutPlugin render)
+  public static void extractRenderInformation(PluginSpeciesAlias pSpeciesAlias, LocalRenderInformation renderInfo, Layout layout)
   {
-    LocalRenderInformation LRI=render.getLocalRenderInformation(0);
-    LRI.addColorDefinition(new ColorDefinition(pSpeciesAlias.getSpecies().getId()+"_Color", pSpeciesAlias.getColor()));
-  }
+    renderInfo.addColorDefinition(new ColorDefinition(pSpeciesAlias.getAliasID(), pSpeciesAlias.getColor()));
+    LocalStyle localStyle = renderInfo.getListOfLocalStyles().get("speciesAliasStyle");
+    String[] iDList = new String[1];
+    iDList[0] = "sGlyph_" + pSpeciesAlias.getAliasID();
 
+    if (!localStyle.isSetIDList())
+    {
+      localStyle.setIDList(iDList);
+    }
+    else
+    {
+      String[] augmentedIDList = new String[localStyle.getIDList().length+1];
+      for (int i = 0; i<localStyle.getIDList().length; i++)
+      {
+        augmentedIDList[i] = localStyle.getIDList()[i];
+      }
+      augmentedIDList[localStyle.getIDList().length] = "sGlyph_" + pSpeciesAlias.getAliasID();
+      localStyle.setIDList(augmentedIDList);
+    }
+
+    Group group = localStyle.getGroup();
+    String speciesName = pSpeciesAlias.getType();
+
+    if (speciesName.equals("SIMPLE MOLECULE") || speciesName.equals("ION") || speciesName.equals("DRUG"))
+    {
+      Ellipse ellipse = new Ellipse();
+      ellipse.setCx(pSpeciesAlias.getX());
+      ellipse.setCy(pSpeciesAlias.getY());
+      ellipse.setCz(z);
+      group.registerChild(ellipse);
+    }
+    else if (speciesName.equals("GENE") || speciesName.equals("PROTEIN"))
+    {
+      Rectangle rectangle = new Rectangle();
+      rectangle.setX(pSpeciesAlias.getX());
+      rectangle.setY(pSpeciesAlias.getY());
+      rectangle.setZ(z);
+      group.registerChild(rectangle);
+    }
+    else if (speciesName.equals("RNA") || speciesName.equals("PHENOTYPE") || speciesName.equals("RECEPTOR"))
+    {
+      Polygon polygon = new Polygon();
+      polygon.setStroke(pSpeciesAlias.getAliasID());
+      group.registerChild(polygon);
+    }
+  }
 }
