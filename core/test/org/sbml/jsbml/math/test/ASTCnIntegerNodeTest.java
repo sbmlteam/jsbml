@@ -46,25 +46,6 @@ public class ASTCnIntegerNodeTest {
   public ExpectedException exception = ExpectedException.none();
 
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCnIntegerNode#getInteger()}.
-   */
-  @Test
-  public void testGetIntegerNoValue() {
-    ASTCnIntegerNode integer = new ASTCnIntegerNode();
-    exception.expect(PropertyUndefinedError.class);
-    integer.getInteger();
-  }
-
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCnIntegerNode#getInteger()}.
-   */
-  @Test
-  public void testGetIntegerWithValue() {
-    ASTCnIntegerNode integer = new ASTCnIntegerNode(10);
-    assertTrue(integer.getInteger() == 10);
-  }
-
-  /**
    * Test method for {@link org.sbml.jsbml.math.ASTCnIntegerNode#clone()}.
    */
   @Test
@@ -95,6 +76,25 @@ public class ASTCnIntegerNodeTest {
   }
 
   /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnIntegerNode#getInteger()}.
+   */
+  @Test
+  public void testGetIntegerNoValue() {
+    ASTCnIntegerNode integer = new ASTCnIntegerNode();
+    exception.expect(PropertyUndefinedError.class);
+    integer.getInteger();
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnIntegerNode#getInteger()}.
+   */
+  @Test
+  public void testGetIntegerWithValue() {
+    ASTCnIntegerNode integer = new ASTCnIntegerNode(10);
+    assertTrue(integer.getInteger() == 10);
+  }
+
+  /**
    * Test method for {@link org.sbml.jsbml.math.ASTCnIntegerNode#isAllowableType(org.sbml.jsbml.ASTNode.Type)}.
    */
   @Test
@@ -107,7 +107,7 @@ public class ASTCnIntegerNodeTest {
    * Test method for {@link org.sbml.jsbml.math.ASTCnIntegerNode#isSetInteger()}.
    */
   @Test
-  public final void testIsSetReal() {
+  public final void testIsSetInteger() {
     ASTCnIntegerNode isSet = new ASTCnIntegerNode(10);
     ASTCnIntegerNode notSet = new ASTCnIntegerNode();
     assertTrue(isSet.isSetInteger() && !notSet.isSetInteger());
@@ -120,6 +120,15 @@ public class ASTCnIntegerNodeTest {
   public final void testToFormula() {
     ASTCnIntegerNode ten = new ASTCnIntegerNode(10);
     assertTrue(ten.toFormula().equals("10"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnIntegerNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeX() {
+    ASTCnIntegerNode ten = new ASTCnIntegerNode(10);
+    assertTrue(ten.toLaTeX().equals("10"));
   }
 
 }

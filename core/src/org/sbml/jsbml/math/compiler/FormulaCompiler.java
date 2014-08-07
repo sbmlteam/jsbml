@@ -47,7 +47,6 @@ import org.sbml.jsbml.util.StringTools;
  * content of {@link ASTNode2}s. These can be used to save equations in SBML with
  * older than Level 2.
  * 
- * @author Alexander D&ouml;rr
  * @author Andreas Dr&auml;ger
  * @author Victor Kofia
  * @version $Rev$
@@ -444,7 +443,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 * @return
 	 * @throws SBMLException
 	 */
-	protected String checkBrackets(ASTNode2 node) throws SBMLException {
+	protected <T> ASTNode2Value<?> checkBrackets(ASTNode2 node) throws SBMLException {
 		String term = node.compile(this).toString();
 		switch(node.getType()) {
 		case SUM:
@@ -459,7 +458,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 		default:
 			break;
 		}
-		return term;
+		return new ASTNode2Value<String>(term, this);
 	}
 
 	/**
@@ -469,7 +468,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 * @return
 	 * @throws SBMLException
 	 */
-	protected String checkDenominatorBrackets(ASTNode2 nodes) throws SBMLException {
+	protected <T> ASTNode2Value<?> checkDenominatorBrackets(ASTNode2 nodes) throws SBMLException {
 		if ((nodes.getType() == Type.POWER) && (nodes.getChildCount() > 1)
 				&& ((ASTPowerNode)nodes).getExponent().toString().equals("1")) {
 			return checkDenominatorBrackets(nodes);
@@ -484,7 +483,16 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 		default:
 			break;
 		}
-		return term;
+		return new ASTNode2Value<String>(term, this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#compile(org.sbml.jsbml.CallableSBase)
+	 */
+	@Override
+	public <T> ASTNode2Value<?> compile(CallableSBase variable) {
+		return new ASTNode2Value<String>(variable.getId(), this);
 	}
 
 	/* (non-Javadoc)
@@ -492,7 +500,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> compile(Compartment c) {
-		return new ASTNode2Value(c.getId(), this);
+		return new ASTNode2Value<String>(c.getId(), this);
 	}
 
 	/* (non-Javadoc)
@@ -501,10 +509,10 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	@Override
 	public <T> ASTNode2Value<?> compile(double mantissa, int exponent, String units) {
 		if (exponent == 0) {
-			return new ASTNode2Value(mantissa, this);
+			return new ASTNode2Value<Double>(mantissa, this);
 		}
 
-		return new ASTNode2Value(concat(
+		return new ASTNode2Value<String>(concat(
 				(new DecimalFormat(StringTools.REAL_FORMAT,
 						new DecimalFormatSymbols(Locale.ENGLISH)))
 						.format(mantissa), "E", exponent).toString(), this);
@@ -515,7 +523,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> compile(double real, String units) {
-		return new ASTNode2Value(toString(Locale.ENGLISH, real), this);
+		return new ASTNode2Value<String>(toString(Locale.ENGLISH, real), this);
 	}
 
 	/*
@@ -524,16 +532,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> compile(int integer, String units) {
-		return new ASTNode2Value(integer, this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#compile(org.sbml.jsbml.CallableSBase)
-	 */
-	@Override
-	public <T> ASTNode2Value<?> compile(CallableSBase variable) {
-		return new ASTNode2Value(variable.getId(), this);
+		return new ASTNode2Value<Integer>(integer, this);
 	}
 
 	/*
@@ -542,7 +541,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> compile(String name) {
-		return new ASTNode2Value(name, this);
+		return new ASTNode2Value<String>(name, this);
 	}
 
 	/*
@@ -605,7 +604,8 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> delay(String delayName, ASTNode2 x, ASTNode2 y) throws SBMLException {
-		return new ASTNode2Value(concat("delay(", x.compile(this), ", ",
+		delayName = delayName == null ? "delay" : delayName;
+	  return new ASTNode2Value<String>(concat(delayName, "(", x.compile(this), ", ",
 				y.compile(this), ")").toString(), this);
 	}
 
@@ -615,7 +615,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> eq(ASTNode2 left, ASTNode2 right) throws SBMLException {
-		return new ASTNode2Value(relation(left, " == ", right), this);
+		return new ASTNode2Value<String>(relation(left, " == ", right).toString(), this);
 	}
 
 	/*
@@ -633,7 +633,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> factorial(ASTNode2 node) {
-		return new ASTNode2Value(append(brackets(node.toFormula()), Character.valueOf('!'))
+		return new ASTNode2Value<String>(append(brackets(node.toFormula()), Character.valueOf('!'))
 				.toString(), this);
 	}
 
@@ -653,7 +653,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	@Override
 	public <T> ASTNode2Value<?> frac(ASTNode2 numerator, ASTNode2 denominator)
 			throws SBMLException {
-		return new ASTNode2Value(
+		return new ASTNode2Value<String>(
 				concat(checkBrackets(numerator),
 						Character.valueOf('/'),
 						checkDenominatorBrackets(denominator)).toString(),
@@ -666,7 +666,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> frac(int numerator, int denominator) {
-		return new ASTNode2Value(concat(
+		return new ASTNode2Value<String>(concat(
 				numerator < 0 ? brackets(compile(numerator, null)) : compile(
 						numerator, null),
 						Character.valueOf('/'),
@@ -690,14 +690,24 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 * @return
 	 * @throws SBMLException
 	 */
-	protected <T> ASTNode2Value<T> function(String name, ASTNode2... nodes)
+	protected <T> ASTNode2Value<?> function(String name, ASTNode2... nodes)
 			throws SBMLException {
 		ArrayList<ASTNode2> l = new ArrayList<ASTNode2>();
 		for (ASTNode2 node : nodes) {
 			l.add(node);
 		}
-		return new ASTNode2Value(concat(name, brackets(lambdaBody(l))).toString(), this);
+		return new ASTNode2Value<String>(concat(name, brackets(lambdaBody(l))).toString(), this);
 	}
+
+	/* (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#function(java.lang.String, java.util.List)
+   */
+  @Override
+  public <T> ASTNode2Value<?> function(String functionDefinitionName,
+    List<ASTNode2> args) throws SBMLException {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
 	/**
 	 * 
@@ -716,7 +726,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> geq(ASTNode2 left, ASTNode2 right) throws SBMLException {
-		return new ASTNode2Value(relation(left, " >= ", right), this);
+		return new ASTNode2Value<String>(relation(left, " >= ", right).toString(), this);
 	}
 
 	/* (non-Javadoc)
@@ -724,7 +734,8 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> getConstantAvogadro(String name) {
-		return new ASTNode2Value("avogadro", this);
+	  name = name == null ? "avogadro" : name;
+		return new ASTNode2Value<String>(name, this);
 	}
 
 	/*
@@ -733,7 +744,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> getConstantE() {
-		return new ASTNode2Value(Character.toString('e'), this);
+		return new ASTNode2Value<String>(Character.toString('e'), this);
 	}
 
 	/*
@@ -742,7 +753,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> getConstantFalse() {
-		return new ASTNode2Value(false, this);
+		return new ASTNode2Value<Boolean>(false, this);
 	}
 
 	/*
@@ -751,7 +762,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> getConstantPi() {
-		return new ASTNode2Value("pi", this);
+		return new ASTNode2Value<String>("pi", this);
 	}
 
 	/*
@@ -760,7 +771,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> getConstantTrue() {
-		return new ASTNode2Value(true, this);
+		return new ASTNode2Value<Boolean>(true, this);
 	}
 
 	/*
@@ -769,7 +780,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> getNegativeInfinity() {
-		return new ASTNode2Value(Double.NEGATIVE_INFINITY, this);
+		return new ASTNode2Value<Double>(Double.NEGATIVE_INFINITY, this);
 	}
 
 	/*
@@ -778,7 +789,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> getPositiveInfinity() {
-		return new ASTNode2Value(Double.POSITIVE_INFINITY, this);
+		return new ASTNode2Value<Double>(Double.POSITIVE_INFINITY, this);
 	}
 
 	/*
@@ -787,7 +798,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> gt(ASTNode2 left, ASTNode2 right) throws SBMLException {
-		return new ASTNode2Value(relation(left, " > ", right), this);
+		return new ASTNode2Value<String>(relation(left, " > ", right).toString(), this);
 	}
 
 	/* (non-Javadoc)
@@ -795,7 +806,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> lambda(List<ASTNode2> nodes) throws SBMLException {
-		return new ASTNode2Value(StringTools.concat("lambda",
+		return new ASTNode2Value<String>(StringTools.concat("lambda",
 				brackets(lambdaBody(nodes))).toString(), this);
 	}
 
@@ -825,7 +836,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> leq(ASTNode2 left, ASTNode2 right) throws SBMLException {
-		return new ASTNode2Value(relation(left, " <= ", right), this);
+		return new ASTNode2Value<String>(relation(left, " <= ", right).toString(), this);
 	}
 
 	/*
@@ -862,7 +873,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 * @return
 	 * @throws SBMLException
 	 */
-	protected <T> ASTNode2Value<T> logicalOperation(String operator, List<ASTNode2> nodes)
+	protected <T> ASTNode2Value<?> logicalOperation(String operator, List<ASTNode2> nodes)
 			throws SBMLException {
 		StringBuffer value = new StringBuffer();
 		boolean first = true;
@@ -879,7 +890,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 				value.append(node.compile(this).toString());
 			}
 		}
-		return new ASTNode2Value(value.toString(), this);
+		return new ASTNode2Value<String>(value.toString(), this);
 	}
 
 	/*
@@ -888,7 +899,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> lt(ASTNode2 left, ASTNode2 right) throws SBMLException {
-		return new ASTNode2Value(relation(left, " < ", right), this);
+		return new ASTNode2Value<String>(relation(left, " < ", right).toString(), this);
 	}
 
 	/*
@@ -898,7 +909,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	@Override
 	public <T> ASTNode2Value<?> minus(List<ASTNode2> nodes) throws SBMLException {
 		if (nodes.size() == 0) {
-			return new ASTNode2Value("", this);
+			return new ASTNode2Value<String>("", this);
 		}
 
 		StringBuffer minus = new StringBuffer();
@@ -911,7 +922,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 			}
 			minus.append(checkBrackets(nodes.get(i)));
 		}
-		return new ASTNode2Value(minus.toString(), this);
+		return new ASTNode2Value<String>(minus.toString(), this);
 
 	}
 
@@ -921,7 +932,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> neq(ASTNode2 left, ASTNode2 right) throws SBMLException {
-		return new ASTNode2Value(relation(left, " != ", right), this);
+		return new ASTNode2Value<String>(relation(left, " != ", right).toString(), this);
 	}
 
 	/*
@@ -957,7 +968,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	public <T> ASTNode2Value<?> plus(List<ASTNode2> nodes) throws SBMLException {
 		StringBuffer plus = new StringBuffer();
 		if (nodes.size() == 0) {
-			return new ASTNode2Value("", this);
+			return new ASTNode2Value<String>("", this);
 		}
 
 		plus.append(nodes.get(0).toFormula());
@@ -968,7 +979,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 			plus.append(checkBrackets(nodes.get(i)));
 
 		}
-		return new ASTNode2Value(plus.toString(), this);
+		return new ASTNode2Value<String>(plus.toString(), this);
 
 	}
 
@@ -978,7 +989,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> pow(ASTNode2 left, ASTNode2 right) throws SBMLException {
-		return new ASTNode2Value(pow(left.compile(this), right.compile(this)).toString(), this);
+		return new ASTNode2Value<String>(pow(left.compile(this), right.compile(this)).toString(), this);
 	}
 
 	/**
@@ -989,11 +1000,11 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 * @return
 	 * @throws SBMLException
 	 */
-	protected String relation(ASTNode2 left, String symbol, ASTNode2 right)
+	protected <T> ASTNode2Value<?> relation(ASTNode2 left, String symbol, ASTNode2 right)
 			throws SBMLException {
 
-		return concat((left instanceof ASTRelationalOperatorNode) ? brackets(left) : left.toFormula(), symbol,
-				(right instanceof ASTRelationalOperatorNode) ? brackets(right) : right.toFormula()).toString();
+		return new ASTNode2Value<String>(concat((left instanceof ASTRelationalOperatorNode) ? brackets(left) : left.toFormula(), symbol,
+				(right instanceof ASTRelationalOperatorNode) ? brackets(right) : right.toFormula()).toString(), this);
 	}
 
 	/*
@@ -1002,12 +1013,10 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> root(ASTNode2 rootExponent, ASTNode2 radicand)
-			throws SBMLException
-			{
+			throws SBMLException {
 		// Writing the root function as '(radiant)^(1/(rootExponent))'
 		// TODO: need to reduce the number of parenthesis when possible
-
-		return new ASTNode2Value(StringTools.concat(Character.valueOf('('),
+		return new ASTNode2Value<String>(StringTools.concat(Character.valueOf('('),
 				radicand.compile(this), Character.valueOf(')'), "^", "(1/(",
 				rootExponent.compile(this), "))").toString(), this);
 			}
@@ -1021,7 +1030,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 			throws SBMLException {
 		// Writing the root function as '(radiant)^(1/rootExponent)'
 
-		return new ASTNode2Value(StringTools.concat(Character.valueOf('('),
+		return new ASTNode2Value<String>(StringTools.concat(Character.valueOf('('),
 				radicand.compile(this), Character.valueOf(')'), "^", "(1/",
 				rootExponent, ")").toString(), this);
 	}
@@ -1042,6 +1051,20 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	@Override
 	public <T> ASTNode2Value<?> sech(ASTNode2 node) throws SBMLException {
 		return function("sech", node);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#selector(java.util.List)
+	 */
+	@Override
+	public <T> ASTNode2Value<?> selector(List<ASTNode2> nodes) throws SBMLException {
+		Object n[] = new ASTNode2Value[nodes.size()];
+		for (int i = 0; i < nodes.size(); i++) {
+			ASTNode2 ast = nodes.get(i);
+			n[i] = ast.compile(this);
+		}
+
+		return new ASTNode2Value<String>(selector(n).toString(), this);
 	}
 
 	/*
@@ -1068,7 +1091,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> sqrt(ASTNode2 node) throws SBMLException {
-		return new ASTNode2Value(StringTools.concat(Character.valueOf('('),
+		return new ASTNode2Value<String>(StringTools.concat(Character.valueOf('('),
 				node.compile(this), Character.valueOf(')'), "^", "(0.5)").toString(), this);
 	}
 
@@ -1078,7 +1101,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> symbolTime(String time) {
-		return new ASTNode2Value(time, this);
+		return new ASTNode2Value<String>(time, this);
 	}
 
 	/*
@@ -1105,7 +1128,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> times(List<ASTNode2> nodes) throws SBMLException {
-		ASTNode2Value n[] = new ASTNode2Value<?>[nodes.size()];
+		ASTNode2Value<?> n[] = new ASTNode2Value<?>[nodes.size()];
 		for (int i = 0; i < nodes.size(); i++) {
 			ASTNode2 ast = nodes.get(i);
 			n[i] = new ASTNode2Value<String>(checkBrackets(ast).toString(), this);
@@ -1119,7 +1142,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 	 */
 	@Override
 	public <T> ASTNode2Value<?> uMinus(ASTNode2 node) throws SBMLException {
-		return new ASTNode2Value(concat(Character.valueOf('-'),
+		return new ASTNode2Value<String>(concat(Character.valueOf('-'),
 				checkBrackets(node)).toString(), this);
 	}
 
@@ -1133,29 +1156,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 				"cannot write unknown syntax tree nodes to a formula String");
 	}
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#xor(java.util.List)
-	 */
-	@Override
-	public <T> ASTNode2Value<?> xor(List<ASTNode2> nodes) throws SBMLException {
-		return logicalOperation(" xor ", nodes);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#selector(java.util.List)
-	 */
-	@Override
-	public <T> ASTNode2Value<?> selector(List<ASTNode2> nodes) throws SBMLException {
-		Object n[] = new ASTNode2Value[nodes.size()];
-		for (int i = 0; i < nodes.size(); i++) {
-			ASTNode2 ast = nodes.get(i);
-			n[i] = ast.compile(this);
-		}
-
-		return new ASTNode2Value(selector(n).toString(), this);
-	}
-
-	/* (non-Javadoc)
+  /* (non-Javadoc)
 	 * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#vector(java.util.List)
 	 */
 	@Override
@@ -1169,49 +1170,12 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
 		return new ASTNode2Value<String>(vector(n).toString(), this);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#compile(double, double, java.lang.String)
+  /* (non-Javadoc)
+	 * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#xor(java.util.List)
 	 */
 	@Override
-	public <T> ASTNode2Value<?> compile(double mantissa, double exponent, String units) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#compile(org.sbml.jsbml.math.ASTNode2)
-	 */
-	@Override
-	public <T> ASTNode2Value<?> compile(ASTNode2 node) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#frac(double, double)
-	 */
-	@Override
-	public <T> ASTNode2Value<?> frac(double numerator, double denominator)
-			throws SBMLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#compile(int)
-	 */
-	@Override
-	public <T> ASTNode2Value<?> compile(int integer) {
-		return new ASTNode2Value<Integer>(integer, this);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#delay(org.sbml.jsbml.math.ASTNode2, org.sbml.jsbml.math.ASTNode2)
-	 */
-	@Override
-	public <T> ASTNode2Value<?> delay(ASTNode2 x, ASTNode2 y) throws SBMLException {
-		return new ASTNode2Value<String>(concat("delay(", x.compile(this), ", ",
-				y.compile(this), ")").toString(), this);
+	public <T> ASTNode2Value<?> xor(List<ASTNode2> nodes) throws SBMLException {
+		return logicalOperation(" xor ", nodes);
 	}
 
 }

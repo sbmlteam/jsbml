@@ -86,8 +86,8 @@ public class ASTPowerNode extends ASTBinaryFunctionNode {
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNode2Value compile(ASTNode2Compiler compiler) {
-    ASTNode2Value value = compiler.pow(getLeftChild(), getRightChild());
+  public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
+    ASTNode2Value<?> value = compiler.pow(getLeftChild(), getRightChild());
     value.setType(getType());
     if (isSetParentSBMLObject()) {
       MathContainer parent = getParentSBMLObject();

@@ -22,15 +22,19 @@
  */
 package org.sbml.jsbml.math.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.FunctionDefinition;
+import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.ASTCiFunctionNode;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
+import org.sbml.jsbml.math.ASTLambdaFunctionNode;
 
 
 /**
@@ -178,24 +182,37 @@ public class ASTCiFunctionNodeTest {
     ci.setType(Type.UNKNOWN);
   }
   
+//  /**
+//   * Test method for {@link org.sbml.jsbml.math.ASTCiFunctionNode#toFormula()}.
+//   */
+//  @Test
+//  public final void testToFormula() {
+//    ASTCiFunctionNode ci = new ASTCiFunctionNode();
+//    ci.setName("x");
+//    KineticLaw law = new KineticLaw();
+//    ci.setParentSBMLObject(law);
+//    System.out.println(ci.toLaTeX());
+//    assertTrue(ci.toLaTeX().equals("x"));
+//  }
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiFunctionNode#toFormula()}.
    */
   @Test
-  public final void testToFormula() {
+  public final void testToFormulaNoVariable() {
     ASTCiFunctionNode ci = new ASTCiFunctionNode();
-    ci.setName("x");
-    assertTrue(ci.toFormula().equals("x"));
+    exception.expect(SBMLException.class);
+    ci.toFormula();
   }
   
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiFunctionNode#toLaTeX()}.
    */
   @Test
-  public final void testToLaTeX() {
+  public final void testToLaTeXNoVariable() {
     ASTCiFunctionNode ci = new ASTCiFunctionNode();
-    ci.setName("x");
-    assertTrue(ci.toLaTeX().equals("x"));
+    exception.expect(SBMLException.class);
+    ci.toLaTeX();
   }
   
 }

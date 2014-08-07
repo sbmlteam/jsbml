@@ -116,8 +116,8 @@ public class ASTUnaryFunctionNode extends ASTFunction {
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNode2Value compile(ASTNode2Compiler compiler) {
-    ASTNode2Value value = null;
+  public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
+    ASTNode2Value<?> value = null;
     switch(getType()) {
     case FUNCTION_ABS:
       value = compiler.abs(getChild());

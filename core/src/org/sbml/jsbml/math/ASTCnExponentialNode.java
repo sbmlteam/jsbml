@@ -90,8 +90,8 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Inte
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNode2Value compile(ASTNode2Compiler compiler) {
-    ASTNode2Value value = compiler.compile(getMantissa(), getExponent(),
+  public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
+    ASTNode2Value<?> value = compiler.compile(getMantissa(), getExponent(),
       isSetUnits() ? getUnits() : null);
     value.setType(getType());
     if (isSetParentSBMLObject()) {

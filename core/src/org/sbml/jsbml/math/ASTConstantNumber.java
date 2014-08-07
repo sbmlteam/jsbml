@@ -31,7 +31,6 @@ import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.math.compiler.FormulaCompiler;
 import org.sbml.jsbml.math.compiler.LaTeXCompiler;
-import org.sbml.jsbml.util.Maths;
 
 /**
  * An Abstract Syntax Tree (AST) node representing a constant number
@@ -111,20 +110,14 @@ public class ASTConstantNumber extends ASTNumber {
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNode2Value compile(ASTNode2Compiler compiler) {
-    ASTNode2Value value = null;
+  public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
+    ASTNode2Value<?> value = null;
     switch(getType()) {
     case CONSTANT_PI:
       value = compiler.getConstantPi();
       break;
     case CONSTANT_E:
       value = compiler.getConstantE();
-      break;
-    case NAME_AVOGADRO:
-      // TODO: getConstantAvogadro() requests an optional 'name'
-      // but since ASTConstantNumber is nothing more than a 
-      // specialized ASTNumber, there is no name attribute
-       value = compiler.getConstantAvogadro("avogadro");        
       break;
     default: // UNKNOWN:
       value = compiler.unknownValue();
@@ -153,8 +146,6 @@ public class ASTConstantNumber extends ASTNumber {
         return Math.PI;
       case CONSTANT_E:
         return Math.E;
-      case NAME_AVOGADRO:
-        return Maths.AVOGADRO_L3V1;
       default:
         break;
       }
@@ -172,8 +163,7 @@ public class ASTConstantNumber extends ASTNumber {
    */
   @Override
   public boolean isAllowableType(Type type) {
-    return type == Type.CONSTANT_E || type == Type.CONSTANT_PI 
-        || type == Type.NAME_AVOGADRO;
+    return type == Type.CONSTANT_E || type == Type.CONSTANT_PI;
   }
 
   /*
@@ -182,8 +172,7 @@ public class ASTConstantNumber extends ASTNumber {
    */
   @Override
   public boolean isSetType() {
-    return type == Type.CONSTANT_E || type == Type.CONSTANT_PI 
-           || type == Type.NAME_AVOGADRO;
+    return type == Type.CONSTANT_E || type == Type.CONSTANT_PI;
   }
 
   /**
@@ -209,11 +198,6 @@ public class ASTConstantNumber extends ASTNumber {
     switch(Double.compare(value, Math.E)){
     case 0:
       setType(Type.CONSTANT_E);
-      return;
-    }
-    switch(Double.compare(value, Maths.AVOGADRO_L3V1)){
-    case 0:
-      setType(Type.NAME_AVOGADRO);
       return;
     }
   }

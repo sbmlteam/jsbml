@@ -205,24 +205,6 @@ public interface ASTNode2Compiler {
 	public <T> ASTNode2Value<?> compile(double mantissa, int exponent, String units);
 
 	/**
-	 * Creates an {@link ASTNode2Value} that represents a real number in
-	 * scientific notation, i.e., mantissa * 10^exponent, and the given units.
-	 * 
-	 * @param mantissa
-	 *            The number to be multiplied with ten to the power of the given
-	 *            exponent.
-	 * @param exponent
-	 *            The exponent for the multiplier ten.
-	 * @param units
-	 *            The identifier of the units object associated with the number
-	 *            represented by this element. Can be null if no units have been
-	 *            defined.
-	 * @return
-	 */
-	public <T> ASTNode2Value<?> compile(double mantissa, double exponent, String units);
-
-
-	/**
 	 * 
 	 * @param real
 	 * @param units
@@ -233,13 +215,6 @@ public interface ASTNode2Compiler {
 	 * @return
 	 */
 	public <T> ASTNode2Value<?> compile(double real, String units);
-
-	/**
-	 * 
-	 * @param real
-	 * @return
-	 */
-	public <T> ASTNode2Value<?> compile(double real);
 
 	/**
 	 * 
@@ -255,27 +230,12 @@ public interface ASTNode2Compiler {
 
 	/**
 	 * 
-	 * @param integer
-	 *
-	 * @return
-	 */
-	public <T> ASTNode2Value<?> compile(int integer);
-
-	/**
-	 * 
 	 * @param variable
 	 * @return
 	 * @throws SBMLException
 	 */
 	public <T> ASTNode2Value<?> compile(CallableSBase variable)
 			throws SBMLException;
-
-	/**
-	 * 
-	 * @param node
-	 * @return
-	 */
-	public <T> ASTNode2Value<?> compile(ASTNode2 node);
 
 	/**
 	 * A compiler will also have to deal with a name. The meaning of this can be
@@ -288,14 +248,6 @@ public interface ASTNode2Compiler {
 	 * @return
 	 */
 	public <T> ASTNode2Value<?> compile(String name);
-
-	/**
-	 * 
-	 * @param value
-	 * @return
-	 * @throws SBMLException
-	 */
-	public <T> ASTNode2Value<?> bvar(List<ASTNode2> value) throws SBMLException;
 
 	/**
 	 * 
@@ -360,18 +312,6 @@ public interface ASTNode2Compiler {
 	public <T> ASTNode2Value<?> delay(String delayName, ASTNode2 x, ASTNode2 delay) throws SBMLException;
 
 	/**
-	 * Evaluates delay functions.
-	 * 
-	 * @param x
-	 * @param delay
-	 *            an expression of a positive duration time (the amoutn of
-	 *            delay)
-	 * @return
-	 * @throws SBMLException
-	 */
-	public <T> ASTNode2Value<?> delay(ASTNode2 x, ASTNode2 delay) throws SBMLException;
-
-	/**
 	 * Equal.
 	 * 
 	 * @param left
@@ -425,17 +365,7 @@ public interface ASTNode2Compiler {
 	 */
 	public <T> ASTNode2Value<?> frac(int numerator, int denominator)
 			throws SBMLException;
-
-	/**
-	 * A fraction of two double values.
-	 * 
-	 * @param numerator
-	 * @param denominator
-	 * @return
-	 */
-	public <T> ASTNode2Value<?> frac(double numerator, double denominator)
-			throws SBMLException;
-
+	
 	/**
 	 * 
 	 * @param functionDefinition
@@ -457,7 +387,7 @@ public interface ASTNode2Compiler {
 	 * @return
 	 * @throws SBMLException
 	 */
-	public <T> ASTNode2Value<?> function(String functionDefinitionName,
+	public <T> ASTNode2Value<?> function(T functionDefinitionName,
 			List<ASTNode2> args) throws SBMLException;
 
 	/**
@@ -789,28 +719,13 @@ public interface ASTNode2Compiler {
 	 */
 	public <T> ASTNode2Value<?> xor(List<ASTNode2> values) throws SBMLException;
 
-	/**
-	 * @param children
-	 * @return
-	 */
-	public <T> ASTNode2Value<?> otherwise(List<ASTNode2> children);
-
-	/**
-	 * @param children
-	 * @return
-	 */
-	public <T> ASTNode2Value<?> piece(List<ASTNode2> children);
-
-	/**
-	 * @param children
-	 * @return
-	 */
-	public <T> ASTNode2Value<?> degree(List<ASTNode2> children);
-
-	/**
-	 * @param children
-	 * @return
-	 */
-	public <T> ASTNode2Value<?> logbase(List<ASTNode2> children);
+  /**
+   * @param functionDefinitionName
+   * @param args
+   * @return
+   * @throws SBMLException
+   */
+  public <T> ASTNode2Value<?> function(String functionDefinitionName, List<ASTNode2> args)
+    throws SBMLException;
 
 }

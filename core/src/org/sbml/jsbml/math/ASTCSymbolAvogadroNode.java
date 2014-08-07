@@ -24,8 +24,11 @@ package org.sbml.jsbml.math;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.util.Maths;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
@@ -102,6 +105,32 @@ ASTCSymbolNode {
   @Override
   public ASTCSymbolAvogadroNode clone() {
     return new ASTCSymbolAvogadroNode(this);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTConstantNumber#compile(org.sbml.jsbml.math.compiler.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
+    ASTNode2Value<?> value = null;
+    switch(getType()) {
+    case NAME_AVOGADRO:
+       value = isSetName() ? compiler.getConstantAvogadro(getName()) 
+         : compiler.getConstantAvogadro(null);        
+      break;
+    default: // UNKNOWN:
+      value = compiler.unknownValue();
+      break;
+    }
+    value.setType(getType());
+    if (isSetParentSBMLObject()) {
+      MathContainer parent = getParentSBMLObject();
+      if (parent != null) {
+        value.setLevel(parent.getLevel());
+        value.setVersion(parent.getVersion());
+      }      
+    }
+    return value;
   }
 
   /* (non-Javadoc)
@@ -213,7 +242,7 @@ ASTCSymbolNode {
   public boolean isAllowableType(Type type) {
     return type == Type.NAME_AVOGADRO;
   }
-
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#isSetDefinitionURL()
@@ -222,7 +251,7 @@ ASTCSymbolNode {
   public boolean isSetDefinitionURL() {
     return definitionURL != null;
   }
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolNode#isSetEncodingURL()
@@ -272,7 +301,7 @@ ASTCSymbolNode {
     this.encoding = encoding;
     firePropertyChange(TreeNodeChangeEvent.encoding, old, this.encoding);
   }
-
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#setName(java.lang.String)
    */
@@ -282,7 +311,7 @@ ASTCSymbolNode {
     this.name = name;
     firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
   }
-  
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
@@ -311,6 +340,14 @@ ASTCSymbolNode {
     builder.append(parent);
     builder.append("]");
     return builder.toString();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTConstantNumber#isSetType()
+   */
+  @Override
+  public boolean isSetType() {
+    return type == Type.NAME_AVOGADRO;
   }
 
 }

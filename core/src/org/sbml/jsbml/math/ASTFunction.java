@@ -29,6 +29,8 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.filters.Filter;
 
@@ -231,7 +233,7 @@ public class ASTFunction extends AbstractASTNode {
     if (filter == null) {
       throw new IndexOutOfBoundsException();
     }
-    ArrayList<ASTNode2> filteredList = new ArrayList<ASTNode2>();
+    ArrayList<ASTNode2> filteredList = new ArrayList<ASTNode2>(getChildCount());
     if (isSetList()) {
       for (ASTNode2 node : listOfNodes) {
         if (filter.accepts(node)) {
@@ -475,4 +477,13 @@ public class ASTFunction extends AbstractASTNode {
     return builder.toString();
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.math.compiler.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+  
 }

@@ -79,8 +79,8 @@ public class ASTPiecewiseFunctionNode extends ASTFunction {
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNode2Value compile(ASTNode2Compiler compiler) {
-    ASTNode2Value value = null;
+  public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
+    ASTNode2Value<?> value = null;
     value = compiler.piecewise(getChildren());
     value.setUIFlag(getChildCount() <= 1);
     value.setType(getType());

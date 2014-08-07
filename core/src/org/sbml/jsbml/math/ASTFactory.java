@@ -53,7 +53,6 @@ public class ASTFactory {
     for (ASTNode2 astNode : ast) {
       diff.addChild(astNode);
     }
-    reduceToBinary(diff);
     return diff;
   }
   
@@ -497,7 +496,6 @@ public class ASTFactory {
     for (ASTNode2 astNode : ast) {
       product.addChild(astNode);
     }
-    reduceToBinary(product);
     return product;
   }
 
@@ -508,22 +506,50 @@ public class ASTFactory {
    * be and(and(x, y), z).
    * </p>
    * @param node {@link ASTFunction}
+   * @return binaryNode {@link ASTBinaryFunctionNode}
    */
-  public static void reduceToBinary(ASTFunction node) {
-    if (node.getChildCount() > 2) {
-      ASTArithmeticOperatorNode operator = new ASTArithmeticOperatorNode(node.getType());
-      for (int i = node.getChildCount() - 1; i > 0; i--) {
-        operator.addChild(node.getListOfNodes().remove(i));
-      }
-      node.addChild(operator);
+  public static ASTBinaryFunctionNode reduceToBinary(ASTFunction node) {
+    ASTBinaryFunctionNode rootNode = null, childOperator = null;
+    switch(node.getType()) {
+    case SUM:
+      rootNode = new ASTPlusNode();
+      childOperator = new ASTPlusNode();
+      break;
+    case PRODUCT:
+      rootNode = new ASTTimesNode();
+      childOperator = new ASTTimesNode();
+      break;
+    case MINUS:
+      rootNode = (ASTBinaryFunctionNode) (node instanceof ASTMinusNode ? node 
+      : new ASTMinusNode());
+      childOperator = new ASTMinusNode();
+      break;
+    case TIMES:
+    case PLUS:
+      rootNode = (ASTBinaryFunctionNode) node;
+      childOperator = node.getType() == Type.PLUS ? new ASTPlusNode() 
+      : new ASTTimesNode();
+      break;
+    default:
+      throw new IllegalArgumentException("Argument must be of type SUM or PRODUCT");
     }
-    for (ASTNode2 child : node.getListOfNodes()) {
-      if (child instanceof ASTFunction) {
-        reduceToBinary((ASTFunction) child);
+    if (node.getChildCount() <= 2) {
+      if (!rootNode.equals(node)) {
+        rootNode.swapChildren(node);        
       }
+      return rootNode;
     }
+    if (!rootNode.equals(node)) {
+      rootNode.addChild(node.getChildAt(0));        
+    }
+    childOperator.setStrictness(false);
+    for (int i = node.getChildCount() - 1; i > 0; i--) {
+      childOperator.addChild(node.getListOfNodes().remove(i));
+    }
+    rootNode.addChild(reduceToBinary(childOperator));
+    childOperator.setStrictness(true);
+    return rootNode;
   }
-
 
   /**
    * Creates a root of type {@link ASTNode2}.
@@ -552,7 +578,6 @@ public class ASTFactory {
     }
   }
 
-
   /**
    * Creates a square root of type {@link ASTRootNode} with the 
    * specified radicand of type {@link ASTNode2}.
@@ -580,7 +605,6 @@ public class ASTFactory {
     for (ASTNode2 astNode : ast) {
       sum.addChild(astNode);
     }
-    reduceToBinary(sum);
     return sum;
   }
   

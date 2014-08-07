@@ -88,8 +88,8 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Integer,Integer
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNode2Value compile(ASTNode2Compiler compiler) {
-    ASTNode2Value value = compiler.frac(getNumerator(), getDenominator());
+  public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
+    ASTNode2Value<?> value = compiler.frac(getNumerator(), getDenominator());
     value.setType(getType());
     if (isSetParentSBMLObject()) {
       MathContainer parent = getParentSBMLObject();

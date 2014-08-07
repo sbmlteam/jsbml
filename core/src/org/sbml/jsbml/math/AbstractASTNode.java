@@ -144,14 +144,6 @@ implements ASTNode2 {
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
-   */
-  @Override
-  public ASTNode2Value compile(ASTNode2Compiler compiler) {
-    return compiler.compile(this);
-  }
-
-  /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
@@ -406,6 +398,7 @@ implements ASTNode2 {
    * 
    * @param boolean strict
    */
+  @Override
   public void setStrictness(boolean strict) {
     this.strict = strict;
   }
@@ -450,7 +443,6 @@ implements ASTNode2 {
    */
   @Override
   public String toFormula() throws SBMLException {
-    //TODO: Implement using a call to a specialized ASTNode2Compiler
     return null;
   }
 
@@ -459,7 +451,6 @@ implements ASTNode2 {
    */
   @Override
   public String toLaTeX() throws SBMLException {
-    //TODO: Implement using a call to a specialized ASTNode2Compiler
     return null;
   }
 
@@ -468,7 +459,6 @@ implements ASTNode2 {
    */
   @Override
   public String toMathML() {
-    //TODO: Implement using a call to a specialized ASTNode2Compiler
     return null;
   }
 
@@ -504,6 +494,20 @@ implements ASTNode2 {
   @Override
   public void unsetParentSBMLObject() {
     setParentSBMLObject(null);
+  }
+  
+  protected ASTNode2Value<?> processValue(ASTNode2Value<?> value) {
+    if (value != null) {
+      value.setType(getType());
+      if (isSetParentSBMLObject()) {
+        MathContainer parent = getParentSBMLObject();
+        if (parent != null) {
+          value.setLevel(parent.getLevel());
+          value.setVersion(parent.getVersion());
+        }      
+      }      
+    }
+    return value;
   }
 
 }

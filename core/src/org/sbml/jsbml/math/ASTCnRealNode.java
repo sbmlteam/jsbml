@@ -91,20 +91,14 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNode2Value compile(ASTNode2Compiler compiler) {
-    ASTNode2Value value = null;
+  public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
+    ASTNode2Value<?> value = null;
     double real = getReal();
     if (Double.isInfinite(real)) {
       value = (real > 0d) ? compiler.getPositiveInfinity() : compiler
         .getNegativeInfinity();
     } else {
-      // TODO: Can units be optional in this case? What if an ASTCnRealNode
-      // does not have units.
-      if (isSetUnits()) {
-        value = compiler.compile(real, getUnits());        
-      } else {
-        value = compiler.compile(real);
-      }
+        value = isSetUnits() ? compiler.compile(real, getUnits()) : compiler.compile(real, null);        
     }
     value.setType(getType());
     if (isSetParentSBMLObject()) {

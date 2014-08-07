@@ -24,8 +24,11 @@ package org.sbml.jsbml.math;
 
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
+import org.sbml.jsbml.math.compiler.FormulaCompiler;
+import org.sbml.jsbml.math.compiler.LaTeXCompiler;
 
 
 
@@ -83,26 +86,15 @@ public class ASTQualifierNode extends ASTFunction {
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNode2Value compile(ASTNode2Compiler compiler) {
-    ASTNode2Value value = null;
+  public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
+    ASTNode2Value<?> value = null;
     switch(getType()) {
     case CONSTRUCTOR_PIECE:
-//    value = compiler.piece(getChildren());
-      return getChildAt(0).compile(compiler);
-//    break;
     case CONSTRUCTOR_OTHERWISE:
-//      value = compiler.otherwise(getChildren());
-        return getChildAt(0).compile(compiler);
-//      break;
     case QUALIFIER_BVAR:
-//      value = compiler.bvar(getChildren());
-      return getChildAt(0).compile(compiler);
-//      break;
     case QUALIFIER_DEGREE:
-      value = compiler.degree(getChildren());
-      break;
     case QUALIFIER_LOGBASE:
-      value = compiler.logbase(getChildren());
+      value = getChildAt(0).compile(compiler);
       break;
     default:
       value = compiler.unknownValue();
@@ -129,6 +121,22 @@ public class ASTQualifierNode extends ASTFunction {
         || type == Type.CONSTRUCTOR_OTHERWISE;
   }
   
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toFormula()
+   */
+  @Override
+  public String toFormula() throws SBMLException {
+    return compile(new FormulaCompiler()).toString();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toLaTeX()
+   */
+  @Override
+  public String toLaTeX() throws SBMLException {
+    return compile(new LaTeXCompiler()).toString();
+  }
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */

@@ -110,13 +110,10 @@ ASTCSymbolNode {
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNode2Value compile(ASTNode2Compiler compiler) {
-    ASTNode2Value value = null;
-    if (isSetName()) {
-      value = compiler.delay(getName(), getLeftChild(), getRightChild());
-    } else {
-      value = compiler.delay(getLeftChild(), getRightChild());
-    }
+  public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
+    ASTNode2Value<?> value = null;
+    value = isSetName() ? compiler.delay(getName(), getLeftChild(), getRightChild()) 
+            : compiler.delay(null, getLeftChild(), getRightChild());
     value.setType(getType());
     if (isSetParentSBMLObject()) {
       MathContainer parent = getParentSBMLObject();

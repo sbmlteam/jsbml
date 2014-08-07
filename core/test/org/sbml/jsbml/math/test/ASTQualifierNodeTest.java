@@ -39,7 +39,7 @@ import org.sbml.jsbml.math.ASTQualifierNode;
  * @date Jul 24, 2014
  */
 public class ASTQualifierNodeTest {
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTQualifierNode#clone()}.
    */

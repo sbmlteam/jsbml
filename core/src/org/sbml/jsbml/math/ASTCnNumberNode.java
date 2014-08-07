@@ -26,6 +26,8 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
@@ -112,6 +114,14 @@ public class ASTCnNumberNode<T> extends ASTNumber {
   @Override
   public ASTCnNumberNode<T> clone() {
     return new ASTCnNumberNode<T>(this);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.math.compiler.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
+    return null;
   }
 
   /* (non-Javadoc)
@@ -203,7 +213,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
     result = prime * result + ((units == null) ? 0 : units.hashCode());
     return result;
   }
-
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#isAllowableType(org.sbml.jsbml.ASTNode.Type)
    */
@@ -212,7 +222,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
     return type == Type.INTEGER || type == Type.RATIONAL || type == Type.REAL
            || type == Type.FUNCTION_EXP;
   }
-  
+
   /**
    * Returns True iff base has been set
    * 
@@ -221,7 +231,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
   protected boolean isSetNumber() {
     return number != null;
   }
-
+  
   /**
    * Returns True iff units has been set
    * 
@@ -230,7 +240,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
   protected boolean isSetUnits() {
     return units != null;
   }
-  
+
   /**
    * Returns true iff this {@link ASTNumber} node 
    * represents a variable. 

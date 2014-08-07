@@ -80,8 +80,8 @@ public class ASTLambdaFunctionNode extends ASTFunction {
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNode2Value compile(ASTNode2Compiler compiler) {
-    ASTNode2Value value = null;
+  public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
+    ASTNode2Value<?> value = null;
     value = compiler.lambda(getChildren());
     value.setUIFlag(getChildCount() <= 1);
     value.setType(getType());
@@ -135,6 +135,7 @@ public class ASTLambdaFunctionNode extends ASTFunction {
   public void replaceArgument(String bvar, ASTNode2 arg) {
     if (! isSetList()) {
       listOfNodes = new ArrayList<ASTNode2>();
+      return;
     }
     int n = 0;
     for (ASTNode2 child : listOfNodes) {

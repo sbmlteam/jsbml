@@ -86,8 +86,8 @@ public class ASTBoolean extends AbstractASTNode {
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNode2Value compile(ASTNode2Compiler compiler) {
-    ASTNode2Value value = null;
+  public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
+    ASTNode2Value<?> value = null;
     switch(getType()) {
     case CONSTANT_TRUE:
       value = compiler.getConstantTrue();

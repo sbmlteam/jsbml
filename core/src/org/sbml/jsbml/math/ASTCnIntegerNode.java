@@ -92,9 +92,9 @@ public class ASTCnIntegerNode extends ASTCnNumberNode<Integer> {
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
-  public ASTNode2Value compile(ASTNode2Compiler compiler) {
-    ASTNode2Value value = isSetUnits() ? compiler.compile(getInteger(), getUnits()) 
-                          : compiler.compile(getInteger());
+  public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
+    ASTNode2Value<?> value = isSetUnits() ? compiler.compile(getInteger(), getUnits()) 
+                          : compiler.compile(getInteger(), null);
     value.setType(getType());
     if (isSetParentSBMLObject()) {
       MathContainer parent = getParentSBMLObject();

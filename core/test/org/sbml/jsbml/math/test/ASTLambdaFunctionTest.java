@@ -115,7 +115,7 @@ public class ASTLambdaFunctionTest {
   }
   
   /**
-   * Test method for {@link org.sbml.jsbml.math.ASTFunction#replaceArgument(java.lang.String, org.sbml.jsbml.math.ASTNode2)}.
+   * Test method for {@link org.sbml.jsbml.math.ASTLambdaFunction#replaceArgument(java.lang.String, org.sbml.jsbml.math.ASTNode2)}.
    */
   @Test
   public final void testReplaceArgument() {

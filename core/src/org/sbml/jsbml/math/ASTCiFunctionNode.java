@@ -121,23 +121,24 @@ ASTCSymbolBaseNode {
    * @see org.sbml.jsbml.math.AbstractASTNode#compile(org.sbml.jsbml.math.compiler.ASTNode2Compiler)
    */
   @Override
-  public ASTNode2Value compile(ASTNode2Compiler compiler) {
-    ASTNode2Value value = null;
+  public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
+    ASTNode2Value<?> value = null;
     CallableSBase variable = getReferenceInstance();
     if (variable instanceof FunctionDefinition) {
       value = compiler.function((FunctionDefinition) variable,
         getChildren());
     } else {
-      logger
-      .warn("ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
-          + getName()
-          + ", "
-          + getParentSBMLObject().getElementName()
-          + ")");
-      throw new SBMLException(
-        "ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
-            + getName() + ", " + getParentSBMLObject().getElementName()
-            + ")");
+//      logger
+//      .warn("ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
+//          + getName()
+//          + ", "
+//          + getParentSBMLObject().getElementName()
+//          + ")");
+//      throw new SBMLException(
+//        "ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
+//            + getName() + ", " + getParentSBMLObject().getElementName()
+//            + ")");
+        throw new SBMLException();
     }
     value.setType(getType());
     if (isSetParentSBMLObject()) {

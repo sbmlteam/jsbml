@@ -66,7 +66,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    *             Thrown if an error occurs during the compilation process.
    * 
    */
-  public ASTNode2Value compile(ASTNode2Compiler compiler); 
+  public ASTNode2Value<?> compile(ASTNode2Compiler compiler); 
   
   /**
    * Get the id of this node
@@ -260,5 +260,7 @@ public interface ASTNode2 extends TreeNodeWithChangeSupport {
    * @param {@link ASTNode2} node
    */
   public void unsetParentSBMLObject();
+
+  public abstract void setStrictness(boolean strict);
 
 }

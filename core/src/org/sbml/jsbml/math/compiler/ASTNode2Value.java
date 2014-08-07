@@ -371,7 +371,7 @@ public class ASTNode2Value<T> {
 			return ((Boolean) getValue()).booleanValue();
 		}
 		if (isCallableSBase()) {
-			ASTNode2Value<T> value = compiler.compile((CallableSBase) getValue());
+			ASTNode2Value<?> value = compiler.compile((CallableSBase) getValue());
 			if (value.isBoolean()) {
 				return ((Boolean) value.getValue()).booleanValue();
 			} else if (value.isNumber()) {
@@ -434,7 +434,7 @@ public class ASTNode2Value<T> {
 		if (isString()) {
 			// actually no way to to obtain the namedSBase from a model
 			// because no reference to the model is stored here.
-			ASTNode2Value<T> value = compiler.compile(toString());
+			ASTNode2Value<?> value = compiler.compile(toString());
 			if (value.isCallableSBase()) {
 				return (CallableSBase) value;
 			}
@@ -478,7 +478,7 @@ public class ASTNode2Value<T> {
 					: 0d);
 		}
 		if (isCallableSBase()) {
-			ASTNode2Value value = compiler
+		  ASTNode2Value<?> value = compiler
 					.compile((CallableSBase) getValue());
 			if (value.isNumber()) {
 				return ((Number) value.getValue()).doubleValue();
