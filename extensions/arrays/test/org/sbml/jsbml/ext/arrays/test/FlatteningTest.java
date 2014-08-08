@@ -215,8 +215,15 @@ public class FlatteningTest {
       
       InitialAssignment ia = model.createInitialAssignment();
       ia.setVariable("X");
-      ia.setMath(ASTNode.parseFormula("{0.1, 0.01}"));
-
+      ia.setMath(ASTNode.parseFormula("2"));
+      
+      ArraysSBasePlugin arraysSBasePluginAssignment = new ArraysSBasePlugin(ia);
+      ia.addExtension(ArraysConstants.shortLabel, arraysSBasePluginAssignment);
+      Index indX = arraysSBasePluginX.createIndex();
+      indX.setMath(ASTNode.parseFormula("1"));
+      indX.setReferencedAttribute("symbol");
+      indX.setArrayDimension(0);
+      
       Species A = model.createSpecies("A");
       A.setValue(5);
       Species B = model.createSpecies("B");

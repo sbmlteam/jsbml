@@ -57,10 +57,8 @@ import org.sbml.jsbml.ext.arrays.util.ArraysMath;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
-
-//TODO infix parsing selector where first arg is vector
-//TODO update math to use right id
 /**
+ * 
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
@@ -93,6 +91,7 @@ public class ArraysFlattening {
   }
 
   /**
+   * This method removes a list of SBase from the respective parent. 
    * 
    * @param itemsToDelete
    */
@@ -103,6 +102,7 @@ public class ArraysFlattening {
   }
 
   /**
+   * Iterate through the events in the model and convert the events using the arrays package.
    * 
    * @param model
    * @param idToIndices
@@ -117,6 +117,8 @@ public class ArraysFlattening {
   }
 
   /**
+   * When an event is converted, the MathContainer objects (trigger, delay, and priority) are expanded.
+   * The event is expanded afterwards in case it is an array.
    * 
    * @param model
    * @param event
@@ -180,6 +182,7 @@ public class ArraysFlattening {
   }
 
   /**
+   * This method is inlining the event objects present in an array.
    * 
    * @param model
    * @param arraysPlugin
@@ -204,22 +207,32 @@ public class ArraysFlattening {
       updateNamedSBase(arraysPlugin, clone, i);
       updateSBase(arraysPlugin, clone, i);
       if(event.isSetDelay()) {
-        if(!clone.getDelay().getMath().isVector() || clone.getDelay().getMath().getChildCount() < i) {
-          throw new SBMLException();
+        if(clone.getDelay().getMath().isVector()) {
+          if(clone.getDelay().getMath().getChildCount() > i) {
+            clone.getDelay().setMath(clone.getDelay().getMath().getChild(i));
+          } else {
+            throw new SBMLException();
+          }
         }
-        clone.getDelay().setMath(clone.getDelay().getMath().getChild(i));
       }
       if(event.isSetTrigger()) {
-        if(!clone.getTrigger().getMath().isVector() || clone.getTrigger().getMath().getChildCount() < i) {
-          throw new SBMLException();
+        if(clone.getTrigger().getMath().isVector()) {
+          if(clone.getTrigger().getMath().getChildCount() > i) {
+            clone.getTrigger().setMath(clone.getTrigger().getMath().getChild(i));
+          } else {
+            throw new SBMLException();
+          }
         }
-        clone.getTrigger().setMath(clone.getTrigger().getMath().getChild(i));
+
       }
       if(event.isSetPriority()) {
-        if(!clone.getPriority().getMath().isVector() || clone.getPriority().getMath().getChildCount() < i) {
-          throw new SBMLException();
+        if(clone.getPriority().getMath().isVector()) {
+          if(clone.getPriority().getMath().getChildCount() > i) {
+            clone.getPriority().setMath(clone.getPriority().getMath().getChild(i));
+          } else {
+            throw new SBMLException();
+          }
         }
-        clone.getPriority().setMath(clone.getPriority().getMath().getChild(i));
       }
       updateEventAssignmentIndex(model, clone, dimension, i);
       expandEvent(model, arraysPlugin, parent, clone, dim-1);
@@ -227,6 +240,8 @@ public class ArraysFlattening {
   }
 
   /**
+   * This updates the index math of the EventAssignments of a certain Event object that utlizes the 
+   * Dimension id of the parent Event.
    * 
    * @param model
    * @param event
@@ -241,12 +256,7 @@ public class ArraysFlattening {
     for(EventAssignment eventAssignment : event.getListOfEventAssignments()) {
       if(eventAssignment.isSetMath()) {
         ASTNode math = eventAssignment.getMath();
-        String formula = math.toFormula().replaceAll(dimension.getId(), String.valueOf(index));
-        try {
-          eventAssignment.setMath(ASTNode.parseFormula(formula));
-        } catch (ParseException e) {
-          e.printStackTrace();
-        }
+        eventAssignment.setMath(replaceDimensionId(math, dimension.getId(), index));
       }
       updateIndexMath(eventAssignment, dimension, index);
     }
@@ -288,12 +298,8 @@ public class ArraysFlattening {
       ASTNode kineticMath = kinetic.getMath();
       kineticMath.compile(compiler);
       ASTNode math = compiler.getNode();
-      try {
-        if(!math.equals(unknown)) {
-          kinetic.setMath(ASTNode.parseFormula(math.toFormula()));
-        }
-      } catch (ParseException e) {
-        e.printStackTrace();
+      if(!math.equals(unknown)) {
+        kinetic.setMath(math);
       }
     }
 
@@ -317,7 +323,7 @@ public class ArraysFlattening {
       updateNamedSBase(arraysPlugin, ref, index);
     }
   }
-  
+
   /**
    * 
    * @param model
@@ -343,11 +349,15 @@ public class ArraysFlattening {
       updateSBase(arraysPlugin, clone, i);
       if(reaction.isSetKineticLaw()) {
         ASTNode math = clone.getKineticLaw().getMath();
-        String formula = math.toFormula().replaceAll(dimension.getId(), String.valueOf(i));
-        try {
-          clone.getKineticLaw().setMath(ASTNode.parseFormula(formula));
-        } catch (ParseException e) {
-          e.printStackTrace();
+        clone.getKineticLaw().setMath(replaceDimensionId(math, dimension.getId(), i));
+        if( clone.isSetKineticLaw()) {
+          if(clone.getKineticLaw().getMath().isVector()) {
+            if(clone.getKineticLaw().getMath().getChildCount() > i) {
+              clone.getKineticLaw().setMath(clone.getKineticLaw().getMath().getChild(i));
+            } else {
+              throw new SBMLException();
+            }
+          }
         }
       }
       updateSpecRefId(arraysPlugin, clone, i);
@@ -393,12 +403,7 @@ public class ArraysFlattening {
       for(Index i : plugin.getListOfIndices()) {
         if(i.isSetMath()) {
           ASTNode math = i.getMath();
-          String formula = math.toFormula().replaceAll(dimension.getId(), String.valueOf(index));
-          try {
-            i.setMath(ASTNode.parseFormula(formula));
-          } catch (ParseException e) {
-            e.printStackTrace();
-          }
+          i.setMath(replaceDimensionId(math, dimension.getId(), index));
         }
       }
     }  
@@ -416,6 +421,10 @@ public class ArraysFlattening {
       TreeNode child = children.nextElement();
       convert(model, child, itemsToDelete);
     }
+    //    for(int i = doc.getChildCount() - 1; i >= 0; i--) {
+    //      ((SBase)doc.getChildAt(i);
+    //      
+    //    }
   }
 
   /**
@@ -483,10 +492,8 @@ public class ArraysFlattening {
       ASTNode math = compiler.getNode();
       if(!math.equals(unknown)) {
         try {
-          mathContainer.setMath(ASTNode.parseFormula(math.toFormula()));
+          mathContainer.setMath(math);
         } catch (SBMLException e) {
-          e.printStackTrace();
-        } catch (ParseException e) {
           e.printStackTrace();
         }
       }
@@ -648,9 +655,10 @@ public class ArraysFlattening {
    */
   private static void updateMathContainer(Model model, ArraysSBasePlugin arraysPlugin, MathContainer sbase, String dimId, int index) throws ParseException {
     if(sbase.isSetMath()) {
-      String formula = sbase.getMath().toFormula().replaceAll(dimId, String.valueOf(index));
-      sbase.setMath(ASTNode.parseFormula(formula));
-
+      //String formula = sbase.getMath().toFormula().replaceAll(dimId, String.valueOf(index));
+      //sbase.setMath(ASTNode.parseFormula(formula));
+      sbase.setMath(replaceDimensionId(sbase.getMath(), dimId, index));
+      //sbase.getMath().replaceArgument(dimId, new ASTNode(index));
       VectorCompiler compiler = new VectorCompiler(model, true);
       sbase.getMath().compile(compiler);
       ASTNode math = compiler.getNode();
@@ -676,5 +684,23 @@ public class ArraysFlattening {
     }
   }
 
+  private static ASTNode replaceDimensionId(ASTNode math, String id, int index) {
+    ASTNode clone = math.clone();
+    recursiveReplaceDimensionId(clone, id, index);
+    return clone;
+  }
+
+  private static void recursiveReplaceDimensionId(ASTNode math, String id, int index) {
+    if(math.getChildCount() == 0) {
+      if(math.isString() && math.getName().equals(id)) {
+        math.setValue(index);
+      }
+      return;
+    }
+
+    for(int i = 0; i < math.getChildCount(); ++i) {
+      recursiveReplaceDimensionId(math.getChild(i), id, index);
+    }
+  }
 }
 

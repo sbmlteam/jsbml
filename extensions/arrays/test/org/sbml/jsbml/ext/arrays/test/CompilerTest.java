@@ -27,6 +27,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.AssignmentRule;
+import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.Reaction;
@@ -337,6 +338,144 @@ public class CompilerTest {
       vector.compile(compiler);
       
       assertTrue(compiler.getNode().toFormula().equals("{{S_0_0,S_0_1},{S_1_0,S_1_1}}"));
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
+  
+  @Test
+  public void testInequalityOp() {
+    try {
+      Model model = new Model();
+      ASTNode vector = ASTNode.parseFormula("lt(5,3+2)");
+      VectorCompiler compiler = new VectorCompiler(model);
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("0"));
+      vector = ASTNode.parseFormula("lt(2, 3)");
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("1"));
+      vector = ASTNode.parseFormula("lt(2, {{1,3,5}})");
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("{{0,1,1}}"));
+      compiler = new VectorCompiler(model, true);
+      vector = ASTNode.parseFormula("lt(5, {{1,3,5}})");
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("{{5<1,5<3,5<5}}"));
+      vector = ASTNode.parseFormula("lt({{{X},{Y},{0}}}, X)");
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("{{{X<X},{Y<X},{0<X}}}"));
+      vector = ASTNode.parseFormula("{{1},{2}} < {{X},{Y}}");
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("{{1<X},{2<Y}}"));
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
+  
+  
+  @Test
+  public void testUMinusOp() {
+    try {
+      Model model = new Model();
+      ASTNode vector = ASTNode.parseFormula("-{1,2,3,4,5}");
+      VectorCompiler compiler = new VectorCompiler(model);
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("{-1,-2,-3,-4,-5}"));
+      compiler = new VectorCompiler(model, true);
+      vector = ASTNode.parseFormula("-{{X,Y}}");
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("{{-X,-Y}}"));
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
+  
+  
+  @Test
+  public void testAbsOp() {
+    try {
+      Model model = new Model();
+      ASTNode vector = ASTNode.parseFormula("abs({-1,2,-3,4,-5})");
+      VectorCompiler compiler = new VectorCompiler(model);
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("{1,2,3,4,5}"));
+      vector = ASTNode.parseFormula("abs(-1)");
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("1"));
+      compiler = new VectorCompiler(model, true);
+      vector = ASTNode.parseFormula("abs({{-X,Y}})");
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("{{abs(-X),abs(Y)}}"));
+      vector = ASTNode.parseFormula("abs(-X)");
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("abs(-X)"));
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
+  
+  @Test
+  public void testBooleanOp() {
+    try {
+      Model model = new Model();
+      ASTNode vector = ASTNode.parseFormula("1 and {0,1}");
+      VectorCompiler compiler = new VectorCompiler(model);
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("{0,1}"));
+      compiler = new VectorCompiler(model, true);
+      vector = ASTNode.parseFormula("{a,b,c} and {d,e,f} ");
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").replaceAll("and", "&&").equals("{a&&d,b&&e,c&&f}"));
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
+  
+  @Test
+  public void testFunctDef() {
+    try {
+      SBMLDocument doc = new SBMLDocument(3,1);
+      Model model = doc.createModel();
+      FunctionDefinition x = model.createFunctionDefinition("func");
+      ASTNode math = new ASTNode(ASTNode.Type.LAMBDA);
+      math.addChild(new ASTNode("x"));
+      math.addChild(new ASTNode("y"));
+      math.addChild(ASTNode.parseFormula("x+y"));
+      x.setMath(math);
+      ASTNode vector = ASTNode.parseFormula("func(1,2)");
+      VectorCompiler compiler = new VectorCompiler(model);
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("3"));
+      math = new ASTNode(ASTNode.Type.LAMBDA);
+      math.addChild(new ASTNode("x"));
+      math.addChild(new ASTNode("x"));
+      x.setMath(math);
+      vector = ASTNode.parseFormula("func(1)");
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("1"));
+      compiler = new VectorCompiler(model, true);
+      vector = ASTNode.parseFormula("func({1,2,3})");
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("{1,2,3}"));
+      vector = ASTNode.parseFormula("func(X)");
+      Parameter n = new Parameter("n");
+      model.addParameter(n);
+      n.setValue(2);
+      Parameter X = new Parameter("X");
+      X.setValue(1);
+      model.addParameter(X);
+      ArraysSBasePlugin arraysSBasePluginX = new ArraysSBasePlugin(X);
+      X.addExtension(ArraysConstants.shortLabel, arraysSBasePluginX);
+      Dimension dimX = arraysSBasePluginX.createDimension("i");
+      dimX.setSize(n.getId());
+      dimX.setArrayDimension(0);
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("{X_0,X_1}"));
     } catch (ParseException e) {
       assertTrue(false);
       e.printStackTrace();
