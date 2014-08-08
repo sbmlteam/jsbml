@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Toronto, Toronto, ON, Canada
  * 
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.math.compiler;
 
@@ -41,22 +41,20 @@ import org.sbml.jsbml.util.StringTools;
  * Converts {@link ASTNode2Value} objects into a LaTeX {@link String} to be
  * included into scientific writings or to be displayed in a GUI.
  * 
- * @author Andreas Dr&auml;ger 
+ * @author Andreas Dr&auml;ger
  * @author Victor Kofia
  * @version $Rev$
  * @since 1.0
  * @date Aug 4, 2014
  */
 public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
-  
-  
+
   /**
    * Requires LaTeX package booktabs. Produces a fancy line at the bottom of a
    * table. This variable also includes the {@code end{longtable}}
    * command and a new line.
    */
-  public static final String bottomrule = "\\bottomrule\\end{longtable}"
-      + newLine();
+  public static final String bottomrule = "\\bottomrule\\end{longtable}" + newLine();
 
   /**
    * The constant pi
@@ -67,14 +65,12 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * Surrounded by new line symbols. The begin of a description environment in
    * LaTeX.
    */
-  public static final String descriptionBegin = "\\begin{description}"
-      + newLine();
+  public static final String descriptionBegin = "\\begin{description}" + newLine();
 
   /**
    * Surrounded by new line symbols. The end of a description environment.
    */
-  public static final String descriptionEnd = "\\end{description}"
-      + newLine();
+  public static final String descriptionEnd = "\\end{description}" + newLine();
 
   /**
    * Surrounded by new line symbols. Begin equation. This type of equation
@@ -82,8 +78,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * automatic line breaks (LaTeX will compute the optimal place for line
    * breaks). Unfortunately, this does not work for very long denominators.
    */
-  public static final String eqBegin = newLine() + "\\begin{dmath}"
-      + newLine(); // equation
+  public static final String eqBegin = newLine() + "\\begin{dmath}" + newLine(); // equation
 
   /**
    * End equation; cf. eqBegin. Surrounded by new line symbols.
@@ -337,7 +332,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#abs(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> abs(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<String> abs(ASTNode2 value) throws SBMLException {
     StringBuffer abs = new StringBuffer("\\left\\lvert");
     abs.append(value.compile(this).toString());
     abs.append("\\right\\rvert");
@@ -348,7 +343,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#and(java.util.List)
    */
   @Override
-  public <T> ASTNode2Value<?> and(List<ASTNode2> nodes) throws SBMLException {
+  public <T> ASTNode2Value<String> and(List<ASTNode2> nodes) throws SBMLException {
     return logicalOperation(wedge, nodes);
   }
 
@@ -356,16 +351,16 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arccos(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> arccos(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<String> arccos(ASTNode2 value) throws SBMLException {
     return new ASTNode2Value<String>(command("arccos", value.compile(this))
-      .toString(), this);
+        .toString(), this);
   }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arccosh(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> arccosh(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<String> arccosh(ASTNode2 value) throws SBMLException {
     return new ASTNode2Value<String>(function("arccosh", value).toString(), this);
   }
 
@@ -373,7 +368,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arccot(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> arccot(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<String> arccot(ASTNode2 value) throws SBMLException {
     return new ASTNode2Value<String>(function("arcot", value).toString(), this);
   }
 
@@ -381,7 +376,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arccoth(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> arccoth(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<String> arccoth(ASTNode2 value) throws SBMLException {
     return new ASTNode2Value<String>(function("arccoth", value).toString(), this);
   }
 
@@ -389,7 +384,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arccsc(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> arccsc(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<String> arccsc(ASTNode2 value) throws SBMLException {
     return new ASTNode2Value<String>(function("arccsc", value).toString(), this);
   }
 
@@ -397,7 +392,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arccsch(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> arccsch(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<String> arccsch(ASTNode2 value) throws SBMLException {
     return new ASTNode2Value<String>(function("arccsch", value).toString(), this);
   }
 
@@ -405,7 +400,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arcsec(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> arcsec(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<String> arcsec(ASTNode2 value) throws SBMLException {
     return new ASTNode2Value<String>(function("arcsec", value).toString(), this);
   }
 
@@ -413,7 +408,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arcsech(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> arcsech(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<String> arcsech(ASTNode2 value) throws SBMLException {
     return new ASTNode2Value<String>(function("arcsech", value).toString(), this);
   }
 
@@ -421,7 +416,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arcsin(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> arcsin(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<String> arcsin(ASTNode2 value) throws SBMLException {
     return new ASTNode2Value<String>(function("arcsin", value).toString(), this);
   }
 
@@ -429,7 +424,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arcsinh(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> arcsinh(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<String> arcsinh(ASTNode2 value) throws SBMLException {
     return new ASTNode2Value<String>(function("arcsinh", value).toString(), this);
   }
 
@@ -437,7 +432,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arctan(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> arctan(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<String> arctan(ASTNode2 value) throws SBMLException {
     return new ASTNode2Value<String>(function("arctan", value).toString(), this);
   }
 
@@ -445,7 +440,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#arctanh(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> arctanh(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<String> arctanh(ASTNode2 value) throws SBMLException {
     return new ASTNode2Value<String>(function("\\arctanh", value).toString(), this);
   }
 
@@ -468,7 +463,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#ceiling(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> ceiling(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<String> ceiling(ASTNode2 value) throws SBMLException {
     StringBuffer ceiling = new StringBuffer("\\left\\lceil ");
     ceiling.append(value.compile(this).toString());
     ceiling.append("\\right\\rceil ");
@@ -514,7 +509,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#compile(org.sbml.jsbml.CallableSBase)
    */
   @Override
-  public <T> ASTNode2Value<?> compile(CallableSBase variable) {
+  public <T> ASTNode2Value<String> compile(CallableSBase variable) {
     if (variable instanceof Species) {
       Species species = (Species) variable;
       Compartment c = species.getCompartmentInstance();
@@ -537,7 +532,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
     // TODO: more special cases of names!!! PARAMETER, FUNCTION DEF,
     // REACTION.
     return new ASTNode2Value<String>(mathtt(maskSpecialChars(variable.getId()))
-      .toString(), this);
+        .toString(), this);
     // else if (variable instanceof Parameter) {
     // return new StringBuffer("parameter");
     // }
@@ -550,7 +545,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * length or a point.
    */
   @Override
-  public <T> ASTNode2Value<?> compile(Compartment c) {
+  public <T> ASTNode2Value<String> compile(Compartment c) {
     StringBuffer value = new StringBuffer();
     switch ((int) c.getSpatialDimensions()) {
     case 3:
@@ -574,7 +569,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#compile(double, int, java.lang.String)
    */
   @Override
-  public <T> ASTNode2Value<?> compile(double mantissa, int exponent, String units) {
+  public <T> ASTNode2Value<String> compile(double mantissa, int exponent, String units) {
     StringBuffer sb = concat(format(mantissa), "\\cdot 10^{", exponent, "}");
 
     // return (mantissa < 0.0) ? new ASTNode2Value<String>(brackets(sb).toString(),
@@ -587,7 +582,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#compile(double, java.lang.String)
    */
   @Override
-  public <T> ASTNode2Value<?> compile(double real, String units) {
+  public <T> ASTNode2Value<String> compile(double real, String units) {
     // TODO: deal with Units.
     return new ASTNode2Value<String>(format(real).toString(), this);
   }
@@ -596,16 +591,17 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#compile(int, java.lang.String)
    */
   @Override
-  public <T> ASTNode2Value<?> compile(int integer, String units) {
-    // TODO: deal with Units.
-    return new ASTNode2Value<Integer>(integer, this);
+  public <T> ASTNode2Value<Integer> compile(int integer, String units) {
+    ASTNode2Value<Integer> value = new ASTNode2Value<Integer>(integer, this);
+    // TODO: value.setUnits(units);
+    return value;
   }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#compile(java.lang.String)
    */
   @Override
-  public <T> ASTNode2Value<?> compile(String name) {
+  public <T> ASTNode2Value<String> compile(String name) {
     return new ASTNode2Value<String>(maskSpecialChars(name), this);
   }
 
@@ -613,7 +609,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#cos(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> cos(ASTNode2 node) throws SBMLException {
+  public <T> ASTNode2Value<String> cos(ASTNode2 node) throws SBMLException {
     return new ASTNode2Value<String>(function("\\cos", node).toString(), this);
   }
 
@@ -621,7 +617,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#cosh(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> cosh(ASTNode2 node) throws SBMLException {
+  public <T> ASTNode2Value<String> cosh(ASTNode2 node) throws SBMLException {
     return new ASTNode2Value<String>(function("\\cosh", node).toString(), this);
   }
 
@@ -629,7 +625,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#cot(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> cot(ASTNode2 node) throws SBMLException {
+  public <T> ASTNode2Value<String> cot(ASTNode2 node) throws SBMLException {
     return new ASTNode2Value<String>(function("\\cot", node).toString(), this);
   }
 
@@ -637,7 +633,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#coth(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> coth(ASTNode2 node) throws SBMLException {
+  public <T> ASTNode2Value<String> coth(ASTNode2 node) throws SBMLException {
     return new ASTNode2Value<String>(function("\\coth", node).toString(), this);
   }
 
@@ -645,7 +641,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#csc(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> csc(ASTNode2 node) throws SBMLException {
+  public <T> ASTNode2Value<String> csc(ASTNode2 node) throws SBMLException {
     return new ASTNode2Value<String>(function("\\csc", node).toString(), this);
   }
 
@@ -653,7 +649,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#csch(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> csch(ASTNode2 node) throws SBMLException {
+  public <T> ASTNode2Value<String> csch(ASTNode2 node) throws SBMLException {
     return new ASTNode2Value<String>(function("csch", node).toString(), this);
   }
 
@@ -662,7 +658,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#delay(java.lang.String, org.sbml.jsbml.math.ASTNode2, org.sbml.jsbml.math.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> delay(String delayName, ASTNode2 x, ASTNode2 delay) throws SBMLException {
+  public <T> ASTNode2Value<String> delay(String delayName, ASTNode2 x, ASTNode2 delay) throws SBMLException {
     delayName = delayName == null ? "delay" : delayName;
     return new ASTNode2Value<String>(concat(
       mathrm(maskSpecialChars(delayName)),
@@ -694,7 +690,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#eq(org.sbml.jsbml.ASTNode2, org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> eq(ASTNode2 left, ASTNode2 right) throws SBMLException {
+  public <T> ASTNode2Value<String> eq(ASTNode2 left, ASTNode2 right) throws SBMLException {
     return new ASTNode2Value<String>(relation(left, " = ", right).toString(), this);
   }
 
@@ -702,7 +698,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#exp(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> exp(ASTNode2 node) throws SBMLException {
+  public <T> ASTNode2Value<String> exp(ASTNode2 node) throws SBMLException {
     return new ASTNode2Value<String>(function("\\exp", node).toString(), this);
   }
 
@@ -710,7 +706,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#factorial(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> factorial(ASTNode2 node) throws SBMLException {
+  public <T> ASTNode2Value<String> factorial(ASTNode2 node) throws SBMLException {
     StringBuilder value;
     if (!(node.getChildCount() == 1)) {
       value = brackets(node.compile(this).toString());
@@ -725,7 +721,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#floor(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> floor(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<String> floor(ASTNode2 value) throws SBMLException {
     StringBuilder floor = new StringBuilder("\\left\\lfloor ");
     floor.append(value.compile(this).toString());
     floor.append("\\right\\rfloor ");
@@ -764,7 +760,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNode2Compiler#frac(org.sbml.jsbml.ASTNode2, org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> frac(ASTNode2 numerator, ASTNode2 denominator)
+  public <T> ASTNode2Value<String> frac(ASTNode2 numerator, ASTNode2 denominator)
       throws SBMLException {
     return new ASTNode2Value<String>(command("frac", numerator.compile(this),
       denominator.compile(this)).toString(), this);
@@ -774,7 +770,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNode2Compiler#frac(int, int)
    */
   @Override
-  public <T> ASTNode2Value<?> frac(int numerator, int denominator) {
+  public <T> ASTNode2Value<String> frac(int numerator, int denominator) {
     return new ASTNode2Value<String>(frac(Integer.valueOf(numerator),
       Integer.valueOf(denominator)).toString(), this);
   }
@@ -793,7 +789,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNode2Compiler#function(org.sbml.jsbml.FunctionDefinition, org.sbml.jsbml.ASTNode2Value[])
    */
   @Override
-  public <T> ASTNode2Value<?> function(FunctionDefinition fun, List<ASTNode2> args)
+  public <T> ASTNode2Value<String> function(FunctionDefinition fun, List<ASTNode2> args)
       throws SBMLException {
     StringBuffer value = new StringBuffer();
     int length;
@@ -848,7 +844,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#function(java.lang.String, java.util.List)
    */
   @Override
-  public <T> ASTNode2Value<?> function(String functionDefinitionName,
+  public <T> ASTNode2Value<String> function(String functionDefinitionName,
     List<ASTNode2> args) throws SBMLException
     {
     StringBuffer value = new StringBuffer();
@@ -896,7 +892,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#function(java.lang.Object, java.util.List)
    */
   @Override
-  public <T> ASTNode2Value<?> function(T functionDefinitionName,
+  public <T> ASTNode2Value<String> function(T functionDefinitionName,
     List<ASTNode2> args) throws SBMLException {
     // TODO Auto-generated method stub
     return null;
@@ -906,16 +902,15 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNode2Compiler#greaterEqual(org.sbml.jsbml.ASTNode2, org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> geq(ASTNode2 left, ASTNode2 right) throws SBMLException {
-    return new ASTNode2Value<String>(relation(left, " \\geq ", right).toString(),
-      this);
+  public <T> ASTNode2Value<String> geq(ASTNode2 left, ASTNode2 right) throws SBMLException {
+    return new ASTNode2Value<String>(relation(left, " \\geq ", right).toString(), this);
   }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#getConstantAvogadro(java.lang.String)
    */
   @Override
-  public <T> ASTNode2Value<?> getConstantAvogadro(String name) {
+  public <T> ASTNode2Value<String> getConstantAvogadro(String name) {
     return new ASTNode2Value<String>(maskSpecialChars(name == null ? "avogadro" : name), this);
   }
 
@@ -923,7 +918,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNode2Compiler#getConstantE()
    */
   @Override
-  public <T> ASTNode2Value<?> getConstantE() {
+  public <T> ASTNode2Value<String> getConstantE() {
     return new ASTNode2Value<String>(new String(CONSTANT_E), this);
   }
 
@@ -931,7 +926,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNode2Compiler#getConstantFalse()
    */
   @Override
-  public <T> ASTNode2Value<?> getConstantFalse() {
+  public <T> ASTNode2Value<String> getConstantFalse() {
     return new ASTNode2Value<String>(new String(CONSTANT_FALSE), this);
   }
 
@@ -939,7 +934,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNode2Compiler#getConstantPi()
    */
   @Override
-  public <T> ASTNode2Value<?> getConstantPi() {
+  public <T> ASTNode2Value<String> getConstantPi() {
     return new ASTNode2Value<String>(new String(CONSTANT_PI), this);
   }
 
@@ -947,7 +942,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNode2Compiler#getConstantTrue()
    */
   @Override
-  public <T> ASTNode2Value<?> getConstantTrue() {
+  public <T> ASTNode2Value<String> getConstantTrue() {
     return new ASTNode2Value<String>(new String(CONSTANT_TRUE), this);
   }
 
@@ -985,7 +980,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNode2Compiler#getNegativeInfinity()
    */
   @Override
-  public <T> ASTNode2Value<?> getNegativeInfinity() {
+  public <T> ASTNode2Value<String> getNegativeInfinity() {
     return new ASTNode2Value<String>(new String(NEGATIVE_ININITY), this);
   }
 
@@ -993,7 +988,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNode2Compiler#getPositiveInfinity()
    */
   @Override
-  public <T> ASTNode2Value<?> getPositiveInfinity() {
+  public <T> ASTNode2Value<String> getPositiveInfinity() {
     return new ASTNode2Value<String>(new String(POSITIVE_INFINITY), this);
   }
 
@@ -1001,7 +996,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNode2Compiler#greaterThan(org.sbml.jsbml.ASTNode2, org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> gt(ASTNode2 left, ASTNode2 right) throws SBMLException {
+  public <T> ASTNode2Value<String> gt(ASTNode2 left, ASTNode2 right) throws SBMLException {
     return new ASTNode2Value<String>(relation(left, " > ", right).toString(), this);
   }
 
@@ -1050,7 +1045,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNode2Compiler#lambda(org.sbml.jsbml.ASTNode2[])
    */
   @Override
-  public <T> ASTNode2Value<?> lambda(List<ASTNode2> nodes) throws SBMLException {
+  public <T> ASTNode2Value<String> lambda(List<ASTNode2> nodes) throws SBMLException {
     return function((FunctionDefinition) null, nodes);
   }
 
@@ -1058,16 +1053,16 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNode2Compiler#lessEqual(org.sbml.jsbml.ASTNode2, org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> leq(ASTNode2 left, ASTNode2 right) throws SBMLException {
+  public <T> ASTNode2Value<String> leq(ASTNode2 left, ASTNode2 right) throws SBMLException {
     return new ASTNode2Value<String>(relation(left, " \\leq ", right).toString(),
-      this);
+        this);
   }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ASTNode2Compiler#ln(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> ln(ASTNode2 node) throws SBMLException {
+  public <T> ASTNode2Value<String> ln(ASTNode2 node) throws SBMLException {
     return new ASTNode2Value<String>(function("\\ln", node).toString(), this);
   }
 
@@ -1075,7 +1070,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNode2Compiler#log(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> log(ASTNode2 node) throws SBMLException {
+  public <T> ASTNode2Value<String> log(ASTNode2 node) throws SBMLException {
     return log(null, node);
   }
 
@@ -1083,7 +1078,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNode2Compiler#log(org.sbml.jsbml.ASTNode2, org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> log(ASTNode2 base, ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<String> log(ASTNode2 base, ASTNode2 value) throws SBMLException {
     StringBuilder v = new StringBuilder("\\log");
     if (base != null) {
       StringTools.append(v, "_{", base.compile(this), "}");
@@ -1100,7 +1095,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @return
    * @throws SBMLException
    */
-  private <T> ASTNode2Value<?> logicalOperation(String symbol, List<ASTNode2> values)
+  private <T> ASTNode2Value<String> logicalOperation(String symbol, List<ASTNode2> values)
       throws SBMLException {
     StringBuffer value = new StringBuffer();
     int i = 0;
@@ -1161,7 +1156,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNode2Compiler#lessThan(org.sbml.jsbml.ASTNode2, org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> lt(ASTNode2 left, ASTNode2 right) throws SBMLException {
+  public <T> ASTNode2Value<String> lt(ASTNode2 left, ASTNode2 right) throws SBMLException {
     return new ASTNode2Value<String>(relation(left, " < ", right).toString(), this);
   }
 
@@ -1242,7 +1237,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNode2Compiler#minus(org.sbml.jsbml.ASTNode2[])
    */
   @Override
-  public <T> ASTNode2Value<?> minus(List<ASTNode2> nodes) throws SBMLException {
+  public <T> ASTNode2Value<String> minus(List<ASTNode2> nodes) throws SBMLException {
     if (nodes.size() == 0) {
       return new ASTNode2Value<String>("", this);
     }
@@ -1260,16 +1255,16 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNode2Compiler#notEqual(org.sbml.jsbml.ASTNode2, org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> neq(ASTNode2 left, ASTNode2 right) throws SBMLException {
+  public <T> ASTNode2Value<String> neq(ASTNode2 left, ASTNode2 right) throws SBMLException {
     return new ASTNode2Value<String>(concat(left.toLaTeX(), " \\neq ", right.compile(this))
-      .toString(), this);
+        .toString(), this);
   }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ASTNode2Compiler#not(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> not(ASTNode2 node) throws SBMLException {
+  public <T> ASTNode2Value<String> not(ASTNode2 node) throws SBMLException {
     return new ASTNode2Value<String>(concat(
       "\\neg ",
       (node.getChildCount() == 0) ? node.compile(this)
@@ -1280,7 +1275,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNode2Compiler#or(org.sbml.jsbml.ASTNode2[])
    */
   @Override
-  public <T> ASTNode2Value<?> or(List<ASTNode2> nodes) throws SBMLException {
+  public <T> ASTNode2Value<String> or(List<ASTNode2> nodes) throws SBMLException {
     return logicalOperation(or, nodes);
   }
 
@@ -1288,7 +1283,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNode2Compiler#piecewise(org.sbml.jsbml.ASTNode2[])
    */
   @Override
-  public <T> ASTNode2Value<?> piecewise(List<ASTNode2> nodes) throws SBMLException {
+  public <T> ASTNode2Value<String> piecewise(List<ASTNode2> nodes) throws SBMLException {
     StringBuilder v = new StringBuilder("\\begin{dcases}");
     v.append(newLine());
     for (int i = 0; i < nodes.size() - 1; i++) {
@@ -1308,7 +1303,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNode2Compiler#plus(org.sbml.jsbml.ASTNode2[])
    */
   @Override
-  public <T> ASTNode2Value<?> plus(List<ASTNode2> nodes) throws SBMLException {
+  public <T> ASTNode2Value<String> plus(List<ASTNode2> nodes) throws SBMLException {
     if (nodes.size() > 0) {
       StringBuilder value = new StringBuilder();
 
@@ -1329,7 +1324,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#pow(org.sbml.jsbml.ASTNode2, org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> pow(ASTNode2 base, ASTNode2 exponent)
+  public <T> ASTNode2Value<String> pow(ASTNode2 base, ASTNode2 exponent)
       throws SBMLException {
     StringBuilder value = new StringBuilder();
     value.append(base.compile(this));
@@ -1371,7 +1366,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#root(org.sbml.jsbml.ASTNode2, org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> root(ASTNode2 rootExponent, ASTNode2 value)
+  public <T> ASTNode2Value<String> root(ASTNode2 rootExponent, ASTNode2 value)
       throws SBMLException {
     if (rootExponent.getType() == Type.REAL && (((ASTCnRealNode)rootExponent).getReal() == 2d)) {
       return sqrt(value);
@@ -1384,7 +1379,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#root(double, org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> root(double rootExponent, ASTNode2 radiant)
+  public <T> ASTNode2Value<String> root(double rootExponent, ASTNode2 radiant)
       throws SBMLException {
     if (rootExponent == 2d) {
       return sqrt(radiant);
@@ -1397,7 +1392,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#sec(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> sec(ASTNode2 node) throws SBMLException {
+  public <T> ASTNode2Value<String> sec(ASTNode2 node) throws SBMLException {
     return new ASTNode2Value<String>(function("\\sec", node).toString(), this);
   }
 
@@ -1405,7 +1400,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#sech(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> sech(ASTNode2 node) throws SBMLException {
+  public <T> ASTNode2Value<String> sech(ASTNode2 node) throws SBMLException {
     return new ASTNode2Value<String>(function("sech", node).toString(), this);
   }
 
@@ -1423,7 +1418,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#selector(java.util.List)
    */
   @Override
-  public <T> ASTNode2Value<?> selector(List<ASTNode2> nodes) throws SBMLException {
+  public <T> ASTNode2Value<String> selector(List<ASTNode2> nodes) throws SBMLException {
     return function("selector", nodes);
   }
 
@@ -1439,7 +1434,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#sin(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> sin(ASTNode2 node) throws SBMLException {
+  public <T> ASTNode2Value<String> sin(ASTNode2 node) throws SBMLException {
     return new ASTNode2Value<String>(function("\\sin", node).toString(), this);
   }
 
@@ -1447,7 +1442,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#sinh(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> sinh(ASTNode2 node) throws SBMLException {
+  public <T> ASTNode2Value<String> sinh(ASTNode2 node) throws SBMLException {
     return new ASTNode2Value<String>(function("\\sinh", node).toString(), this);
   }
 
@@ -1455,9 +1450,9 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#sqrt(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> sqrt(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<String> sqrt(ASTNode2 value) throws SBMLException {
     return new ASTNode2Value<String>(
-      command("sqrt", value.compile(this)).toString(), this);
+        command("sqrt", value.compile(this)).toString(), this);
   }
 
   /**
@@ -1484,7 +1479,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#symbolTime(java.lang.String)
    */
   @Override
-  public <T> ASTNode2Value<?> symbolTime(String time) {
+  public <T> ASTNode2Value<String> symbolTime(String time) {
     return new ASTNode2Value<String>(mathrm(time).toString(), this);
   }
 
@@ -1492,7 +1487,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#tan(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> tan(ASTNode2 node) throws SBMLException {
+  public <T> ASTNode2Value<String> tan(ASTNode2 node) throws SBMLException {
     return new ASTNode2Value<String>(function("\\tan", node).toString(), this);
   }
 
@@ -1500,7 +1495,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#tanh(org.sbml.jsbml.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> tanh(ASTNode2 node) throws SBMLException {
+  public <T> ASTNode2Value<String> tanh(ASTNode2 node) throws SBMLException {
     return new ASTNode2Value<String>(function("\\tanh", node).toString(), this);
   }
 
@@ -1540,7 +1535,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#times(java.util.List)
    */
   @Override
-  public <T> ASTNode2Value<?> times(List<ASTNode2> values) throws SBMLException {
+  public <T> ASTNode2Value<String> times(List<ASTNode2> values) throws SBMLException {
     if (values.size() == 0) {
       return new ASTNode2Value<String>("", this);
     }
@@ -1561,7 +1556,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#uMinus(org.sbml.jsbml.math.ASTNode2)
    */
   @Override
-  public <T> ASTNode2Value<?> uMinus(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<String> uMinus(ASTNode2 value) throws SBMLException {
 
     StringBuffer v = new StringBuffer();
     v.append('-');
@@ -1574,7 +1569,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#unknownValue()
    */
   @Override
-  public <T> ASTNode2Value<?> unknownValue() {
+  public <T> ASTNode2Value<String> unknownValue() {
     return new ASTNode2Value<String>(mathtext(" unknown ").toString(), this);
   }
 
@@ -1614,7 +1609,7 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#vector(java.util.List)
    */
   @Override
-  public <T> ASTNode2Value<?> vector(List<ASTNode2> nodes) throws SBMLException {
+  public <T> ASTNode2Value<String> vector(List<ASTNode2> nodes) throws SBMLException {
     return function("vector", nodes);
   }
 
@@ -1622,9 +1617,8 @@ public class LaTeXCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNode2Compiler#xor(java.util.List)
    */
   @Override
-  public <T> ASTNode2Value<?> xor(List<ASTNode2> nodes) throws SBMLException {
+  public <T> ASTNode2Value<String> xor(List<ASTNode2> nodes) throws SBMLException {
     return logicalOperation(xor, nodes);
   }
 
-  
 }
