@@ -22,17 +22,21 @@
  */
 package org.sbml.jsbml.celldesigner;
 
-import java.awt.Button;
+import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.xml.stream.XMLStreamException;
 
@@ -62,20 +66,25 @@ public class SBMLLayoutVisualizer extends JFrame implements ActionListener {
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     //set FlowLayout
     Container contentPane = getContentPane();
-    contentPane.setLayout(new FlowLayout());
     //creating Button and listening for click
-    Button SBMLExportButton = new Button("Export SBML to File");
+    JButton SBMLExportButton = new JButton("Export SBML to File");
     SBMLExportButton.addActionListener(this);
+    SBMLExportButton.setIcon(new ImageIcon("C:\\Users\\Yusef-PC\\workspace\\JSBML\\modules\\celldesigner\\resources\\org\\sbml\\jsbml\\celldesigner\\save_file.png"));
+    SBMLExportButton.setVerticalTextPosition(SwingConstants.BOTTOM);
+    SBMLExportButton.setHorizontalTextPosition(SwingConstants.CENTER);
 
     SBMLWriter writer = new SBMLWriter();
-    JTextArea SBMLViewerArea = new JTextArea(50,150);
+    JTextArea SBMLViewerArea = new JTextArea(40,100);
     //writing SBML to String
     String SBMLString = writer.writeSBMLToString(document);
     //adding it to the Viewing Area
     SBMLViewerArea.append(SBMLString);
-    contentPane.add(new JScrollPane(SBMLViewerArea));
-    //Adding Button to the Pane
-    contentPane.add(SBMLExportButton);
+    contentPane.add(new JScrollPane(SBMLViewerArea), BorderLayout.CENTER);
+    //Adding JToolBar to the Pane
+    JToolBar toolBar = new JToolBar("Export SBML to File");
+    toolBar.setLayout(new FlowLayout(FlowLayout.CENTER));
+    toolBar.add(SBMLExportButton);
+    contentPane.add(toolBar, BorderLayout.PAGE_START);
     pack();
     setLocationRelativeTo(null);
     setAlwaysOnTop(true);

@@ -50,6 +50,7 @@ public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
   public static final String ACTION = "Display JSBML JTree";
   public static final String APPLICATION_NAME = "SBML Structure Visualization";
   protected DefaultTreeModel modelTree = null;
+  protected SBMLStructureVisualizer visualizer;
   private LayoutModelPlugin plugin;
 
   /**
@@ -87,6 +88,7 @@ public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
     super.SBaseAdded(sbase);
     plugin = (LayoutModelPlugin) getSBMLDocument().getModel().getExtension("layout");
     modelTree.setRoot(plugin.getLayout(0));
+    visualizer.expandTree();
   }
 
   /* (non-Javadoc)
@@ -94,9 +96,16 @@ public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
    */
   @Override
   public void SBaseChanged(PluginSBase sbase) {
-    super.SBaseChanged(sbase);
-    plugin = (LayoutModelPlugin) getSBMLDocument().getModel().getExtension("layout");
-    modelTree.setRoot(plugin.getLayout(0));
+    try
+    {
+      super.SBaseChanged(sbase);
+      plugin = (LayoutModelPlugin) getSBMLDocument().getModel().getExtension("layout");
+      modelTree.setRoot(plugin.getLayout(0));
+      visualizer.expandTree();
+    }
+    catch (Throwable e){
+      new GUIErrorConsole(e);
+    }
   }
 
   /* (non-Javadoc)
@@ -107,6 +116,7 @@ public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
     super.SBaseDeleted(sbase);
     plugin = (LayoutModelPlugin) getSBMLDocument().getModel().getExtension("layout");
     modelTree.setRoot(plugin.getLayout(0));
+    visualizer.expandTree();
   }
 
   /* (non-Javadoc)
@@ -117,6 +127,7 @@ public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
     super.modelSelectChanged(sbase);
     plugin = (LayoutModelPlugin) getSBMLDocument().getModel().getExtension("layout");
     modelTree.setRoot(plugin.getLayout(0));
+    visualizer.expandTree();
   }
 
 
@@ -133,7 +144,7 @@ public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
   public void run() {
     plugin = (LayoutModelPlugin) getSBMLDocument().getModel().getExtension("layout");
     modelTree = new DefaultTreeModel(plugin.getLayout(0));
-    SBMLStructureVisualizer visualizer = new SBMLStructureVisualizer(modelTree);
+    visualizer = new SBMLStructureVisualizer(modelTree);
     visualizer.addWindowListener(new WindowAdapter() {
 
       @Override

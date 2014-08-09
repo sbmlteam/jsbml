@@ -30,9 +30,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
 import javax.xml.stream.XMLStreamException;
 
@@ -299,8 +296,8 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
       PluginSpeciesType pSpeciesType = (PluginSpeciesType)sbase;
       PluginSBaseEventUtils.pluginSpeciesTypeAdded(reader, pSpeciesType, map, document);
     }
-    JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea(reader.printMap())));
     document.addAllChangeListeners(treeNodeList);
+    //reader.printMap();
   }
 
   /* (non-Javadoc)
@@ -378,6 +375,7 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
         PluginSBaseEventUtils.pluginSpeciesTypeChangedOrDeleted(reader, getSelectedModel(), map, document);
       }
       document.addAllChangeListeners(treeNodeList);
+      //reader.printMap();
     }
     catch (Throwable e) {
       new GUIErrorConsole(e);
@@ -458,7 +456,7 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
     {
       PluginSBaseEventUtils.pluginSpeciesTypeChangedOrDeleted(reader, getSelectedModel(), map, document);
     }
-    JOptionPane.showMessageDialog(null, new JScrollPane(new JTextArea(reader.printMap())));
     document.addAllChangeListeners(treeNodeList);
+    //reader.printMap();
   }
 }

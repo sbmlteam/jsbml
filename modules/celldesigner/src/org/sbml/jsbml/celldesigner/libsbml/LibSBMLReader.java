@@ -45,13 +45,13 @@ import org.sbml.jsbml.util.ProgressListener;
  * @author Andreas Dr&auml;ger
  * @version $Rev$
  * @since 1.0
- * @date 03.02.2014
+ * +@date 03.02.2014
  */
 @SuppressWarnings("deprecation")
 public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model> {
 
   public static Trigger readTrigger(org.sbml.libsbml.Trigger trigger) throws XMLStreamException {
-    Trigger trig = new Trigger((int) trigger.getLevel(), (int) trigger.getVersion());
+    Trigger trig = new Trigger();
     LibSBMLUtils.transferSBaseProperties(trig, trigger);
     //    if (trigger.isSetInitialValue()) {
     //      trig.setInitialValue(trigger.getInitialValue());
@@ -66,7 +66,7 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
   }
 
   public static Delay readDelay(org.sbml.libsbml.Delay delay) {
-    Delay de = new Delay((int) delay.getLevel(), (int) delay.getVersion());
+    Delay de = new Delay();
     LibSBMLUtils.transferSBaseProperties(delay, de);
     if (delay.isSetMath()) {
       de.setMath(LibSBMLUtils.convert(delay.getMath(), de));
@@ -75,7 +75,7 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
   }
 
   public static StoichiometryMath readStoichiometricMath(org.sbml.libsbml.StoichiometryMath stoichiometryMath) throws XMLStreamException {
-    StoichiometryMath sm = new StoichiometryMath((int) stoichiometryMath.getLevel(), (int) stoichiometryMath.getVersion());
+    StoichiometryMath sm = new StoichiometryMath();
     LibSBMLUtils.transferSBaseProperties(sm, stoichiometryMath);
     if (stoichiometryMath.isSetMath()) {
       sm.setMath(LibSBMLUtils.convert(stoichiometryMath.getMath(), sm));

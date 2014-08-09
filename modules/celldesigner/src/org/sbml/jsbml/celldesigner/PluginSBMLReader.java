@@ -23,6 +23,7 @@ package org.sbml.jsbml.celldesigner;
 
 import static org.sbml.jsbml.celldesigner.CellDesignerConstants.LINK_TO_CELLDESIGNER;
 
+import java.awt.Dimension;
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,6 +35,9 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.xml.stream.XMLStreamException;
 
 import jp.sbi.celldesigner.plugin.PluginAlgebraicRule;
@@ -298,7 +302,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
         model.addCompartment(compartment);
         list.add(compartment);
         mapOfSBases.put(pCompartment, list);
-        RenderConverter.extractRenderInformation(pCompartment, renderPlugin.getLocalRenderInformation(0), layout);
+        //RenderConverter.extractRenderInformation(pCompartment, renderPlugin.getLocalRenderInformation(0), layout);
         //gets the compartment size
         layout.createDimensions("Layout_Size", originalModel.getCompartment(i).getWidth(),
           originalModel.getCompartment(i).getHeight(), 1d);
@@ -320,7 +324,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
         for (int j=0;j<listOfAliases.size();j++)
         {
           Set<SBase> list = LayoutConverter.extractLayout((PluginSpeciesAlias)listOfAliases.get(j), layout);
-          RenderConverter.extractRenderInformation((PluginSpeciesAlias)listOfAliases.get(j), renderPlugin.getLocalRenderInformation(0), layout);
+          //RenderConverter.extractRenderInformation((PluginSpeciesAlias)listOfAliases.get(j), renderPlugin.getLocalRenderInformation(0), layout);
           mapOfSBases.put(listOfAliases.get(j), list);
         }
         if (listener != null) {
@@ -477,7 +481,8 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
     return new LinkedList<SBMLException>();
   }
 
-  protected String printMap()
+
+  protected void printMap()
   {
     StringBuffer mapText = new StringBuffer();
     Iterator<Entry<PluginSBase, Set<SBase>>> it = mapOfSBases.entrySet().iterator();
@@ -497,8 +502,9 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
       Entry<String, Set<SBase>> pairs = newIt.next();
       mapText.append(pairs.getKey().substring(0, pairs.getKey().indexOf("_"))+"\t"+pairs.getValue()+"\n");
     }
-
-    return mapText.toString();
+    JScrollPane pane = new JScrollPane(new JTextArea(mapText.toString()));
+    pane.setPreferredSize(new Dimension(640, 480));
+    JOptionPane.showMessageDialog(null,pane);
   }
 
   /**
