@@ -107,6 +107,15 @@ public class SimpleCellDesignerPlugin extends AbstractCellDesignerPlugin {
     modelTree.setRoot(getSBMLDocument());
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#modelClosed(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  @Override
+  public void modelClosed(PluginSBase sbase) {
+    super.modelClosed(sbase);
+    modelTree.setRoot(null);
+  }
+
   @Override
   public void run() {
     modelTree = new DefaultTreeModel(getSBMLDocument());

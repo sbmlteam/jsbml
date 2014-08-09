@@ -39,17 +39,26 @@ public class SBMLStructureVisualizer extends JFrame {
 
   /** Generated serial version identifier */
   private static final long serialVersionUID = -6800051247041441688L;
+  protected JTree jTree;
 
   /** @param document The sbml root node of an SBML file */
   public SBMLStructureVisualizer(DefaultTreeModel tree) {
     super("JSBML viz");
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     DefaultTreeModel treeModel = tree;
-    JTree jTree = new JTree(treeModel);
+    jTree = new JTree(treeModel);
+    expandTree();
     getContentPane().add(new JScrollPane(jTree));
     pack();
     setAlwaysOnTop(true);
     setLocationRelativeTo(null);
     setVisible(true);
+  }
+
+  public void expandTree()
+  {
+    for (int i = 0; i < jTree.getRowCount(); i++) {
+      jTree.expandRow(i);
+    }
   }
 }

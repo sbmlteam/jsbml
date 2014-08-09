@@ -22,15 +22,19 @@
  */
 package org.sbml.jsbml.celldesigner;
 
-import java.awt.Button;
+import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 
 
 /**
@@ -48,12 +52,20 @@ public class CDPropertyChangeVis extends JFrame implements ActionListener {
   public CDPropertyChangeVis() {
     super("SBML/CD Test");
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-    contentPane.setLayout(new FlowLayout());
-    contentPane.add(new JScrollPane(viewerArea));
+    contentPane.setLayout(new BorderLayout());
+    contentPane.add(new JScrollPane(viewerArea), BorderLayout.CENTER);
     //creating Button and listening for click
-    Button SBMLExportButton = new Button("Clear Display");
-    SBMLExportButton.addActionListener(this);
-    contentPane.add(SBMLExportButton);
+    JButton clearConsole = new JButton("Clear Display");
+    clearConsole.addActionListener(this);
+    clearConsole.setIcon(new ImageIcon("C:\\Users\\Yusef-PC\\workspace\\JSBML\\modules\\celldesigner\\resources\\org\\sbml\\jsbml\\celldesigner\\clear_display.png"));
+    clearConsole.setVerticalTextPosition(SwingConstants.BOTTOM);
+    clearConsole.setHorizontalTextPosition(SwingConstants.CENTER);
+
+    JToolBar toolBar = new JToolBar("Clear Display");
+    //toolBar.setFloatable(false);
+    toolBar.add(clearConsole);
+    toolBar.setLayout(new FlowLayout(FlowLayout.CENTER));
+    contentPane.add(toolBar, BorderLayout.PAGE_START);
     pack();
     setLocationRelativeTo(null);
     setAlwaysOnTop(true);

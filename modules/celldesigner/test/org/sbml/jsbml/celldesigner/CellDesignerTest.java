@@ -25,14 +25,25 @@ package org.sbml.jsbml.celldesigner;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import jp.sbi.celldesigner.plugin.PluginAlgebraicRule;
+import jp.sbi.celldesigner.plugin.PluginAssignmentRule;
 import jp.sbi.celldesigner.plugin.PluginCompartment;
+import jp.sbi.celldesigner.plugin.PluginCompartmentType;
+import jp.sbi.celldesigner.plugin.PluginConstraint;
+import jp.sbi.celldesigner.plugin.PluginEvent;
+import jp.sbi.celldesigner.plugin.PluginFunctionDefinition;
+import jp.sbi.celldesigner.plugin.PluginInitialAssignment;
 import jp.sbi.celldesigner.plugin.PluginMenu;
 import jp.sbi.celldesigner.plugin.PluginMenuItem;
 import jp.sbi.celldesigner.plugin.PluginModel;
+import jp.sbi.celldesigner.plugin.PluginParameter;
+import jp.sbi.celldesigner.plugin.PluginRateRule;
 import jp.sbi.celldesigner.plugin.PluginReaction;
 import jp.sbi.celldesigner.plugin.PluginSBase;
 import jp.sbi.celldesigner.plugin.PluginSpecies;
 import jp.sbi.celldesigner.plugin.PluginSpeciesAlias;
+import jp.sbi.celldesigner.plugin.PluginSpeciesType;
+import jp.sbi.celldesigner.plugin.PluginUnitDefinition;
 
 
 /**
@@ -100,6 +111,50 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
       PluginReaction pReaction = (PluginReaction) sbase;
       propertyChangeVis.addSBase(pReaction.getId());
     }
+    else if (sbase instanceof PluginParameter)
+    {
+      propertyChangeVis.addSBase(((PluginParameter)sbase).getId());
+    }
+    else if (sbase instanceof PluginAlgebraicRule)
+    {
+      propertyChangeVis.addSBase(((PluginAlgebraicRule)sbase).toString());
+    }
+    else if (sbase instanceof PluginAssignmentRule)
+    {
+      propertyChangeVis.addSBase(((PluginAssignmentRule)sbase).toString());
+    }
+    else if (sbase instanceof PluginRateRule)
+    {
+      propertyChangeVis.addSBase(((PluginRateRule)sbase).toString());
+    }
+    else if (sbase instanceof PluginUnitDefinition)
+    {
+      propertyChangeVis.addSBase(((PluginUnitDefinition)sbase).getId());
+    }
+    else if (sbase instanceof PluginInitialAssignment)
+    {
+      propertyChangeVis.addSBase(((PluginInitialAssignment)sbase).toString());
+    }
+    else if (sbase instanceof PluginEvent)
+    {
+      propertyChangeVis.addSBase(((PluginEvent)sbase).getId());
+    }
+    else if (sbase instanceof PluginConstraint)
+    {
+      propertyChangeVis.addSBase(((PluginConstraint)sbase).toString());
+    }
+    else if (sbase instanceof PluginFunctionDefinition)
+    {
+      propertyChangeVis.addSBase(((PluginFunctionDefinition)sbase).getId());
+    }
+    else if (sbase instanceof PluginCompartmentType)
+    {
+      propertyChangeVis.addSBase(((PluginCompartmentType)sbase).getId());
+    }
+    else if (sbase instanceof PluginSpeciesType)
+    {
+      propertyChangeVis.addSBase(((PluginSpeciesType)sbase).getId());
+    }
     else
     {
       propertyChangeVis.addSBase(sbase.toString());
@@ -151,6 +206,50 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
     {
       PluginReaction pReaction = (PluginReaction) sbase;
       propertyChangeVis.changeSBase(pReaction.getId());
+    }
+    else if (sbase instanceof PluginParameter)
+    {
+      propertyChangeVis.changeSBase(((PluginParameter)sbase).getId());
+    }
+    else if (sbase instanceof PluginAlgebraicRule)
+    {
+      propertyChangeVis.changeSBase(((PluginAlgebraicRule)sbase).toString());
+    }
+    else if (sbase instanceof PluginAssignmentRule)
+    {
+      propertyChangeVis.changeSBase(((PluginAssignmentRule)sbase).toString());
+    }
+    else if (sbase instanceof PluginRateRule)
+    {
+      propertyChangeVis.changeSBase(((PluginRateRule)sbase).toString());
+    }
+    else if (sbase instanceof PluginUnitDefinition)
+    {
+      propertyChangeVis.changeSBase(((PluginUnitDefinition)sbase).getId());
+    }
+    else if (sbase instanceof PluginInitialAssignment)
+    {
+      propertyChangeVis.changeSBase(((PluginInitialAssignment)sbase).toString());
+    }
+    else if (sbase instanceof PluginEvent)
+    {
+      propertyChangeVis.changeSBase(((PluginEvent)sbase).getId());
+    }
+    else if (sbase instanceof PluginConstraint)
+    {
+      propertyChangeVis.changeSBase(((PluginConstraint)sbase).toString());
+    }
+    else if (sbase instanceof PluginFunctionDefinition)
+    {
+      propertyChangeVis.changeSBase(((PluginFunctionDefinition)sbase).getId());
+    }
+    else if (sbase instanceof PluginCompartmentType)
+    {
+      propertyChangeVis.changeSBase(((PluginCompartmentType)sbase).getId());
+    }
+    else if (sbase instanceof PluginSpeciesType)
+    {
+      propertyChangeVis.changeSBase(((PluginSpeciesType)sbase).getId());
     }
     else
     {
@@ -210,6 +309,50 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
     {
       PluginReaction pReaction = (PluginReaction) sbase;
       propertyChangeVis.deleteSBase(pReaction.getId());
+    }
+    else if (sbase instanceof PluginParameter)
+    {
+      propertyChangeVis.deleteSBase(((PluginParameter)sbase).getId());
+    }
+    else if (sbase instanceof PluginAlgebraicRule)
+    {
+      propertyChangeVis.deleteSBase(((PluginAlgebraicRule)sbase).toString());
+    }
+    else if (sbase instanceof PluginAssignmentRule)
+    {
+      propertyChangeVis.deleteSBase(((PluginAssignmentRule)sbase).toString());
+    }
+    else if (sbase instanceof PluginRateRule)
+    {
+      propertyChangeVis.deleteSBase(((PluginRateRule)sbase).toString());
+    }
+    else if (sbase instanceof PluginUnitDefinition)
+    {
+      propertyChangeVis.deleteSBase(((PluginUnitDefinition)sbase).getId());
+    }
+    else if (sbase instanceof PluginInitialAssignment)
+    {
+      propertyChangeVis.deleteSBase(((PluginInitialAssignment)sbase).toString());
+    }
+    else if (sbase instanceof PluginEvent)
+    {
+      propertyChangeVis.deleteSBase(((PluginEvent)sbase).getId());
+    }
+    else if (sbase instanceof PluginConstraint)
+    {
+      propertyChangeVis.deleteSBase(((PluginConstraint)sbase).toString());
+    }
+    else if (sbase instanceof PluginFunctionDefinition)
+    {
+      propertyChangeVis.deleteSBase(((PluginFunctionDefinition)sbase).getId());
+    }
+    else if (sbase instanceof PluginCompartmentType)
+    {
+      propertyChangeVis.deleteSBase(((PluginCompartmentType)sbase).getId());
+    }
+    else if (sbase instanceof PluginSpeciesType)
+    {
+      propertyChangeVis.deleteSBase(((PluginSpeciesType)sbase).getId());
     }
     else
     {

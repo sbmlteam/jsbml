@@ -112,7 +112,7 @@ public class LayoutConverter {
     TextGlyph tGlyph = layout.createTextGlyph("tGlyph_" + pSpeciesAlias.getAliasID());
     BoundingBox bBox  =  tGlyph.createBoundingBox(pSpeciesAlias.getWidth(), pSpeciesAlias.getHeight(), depth);
     //setting textGlyph position at center of speciesGlyph
-    bBox.createPosition(pSpeciesAlias.getX()+pSpeciesAlias.getWidth()/2, pSpeciesAlias.getY()+pSpeciesAlias.getHeight()/2, z);
+    bBox.createPosition(pSpeciesAlias.getX(), pSpeciesAlias.getY(), z);
     //origin of text? Set to Species or SpeciesAlias?
     tGlyph.setOriginOfText(pSpeciesAlias.getSpecies().getId());
     speciesAliasList.add(tGlyph);
