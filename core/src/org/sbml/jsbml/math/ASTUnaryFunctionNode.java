@@ -27,12 +27,12 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode.Type;
-import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.math.compiler.FormulaCompiler;
 import org.sbml.jsbml.math.compiler.LaTeXCompiler;
+import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
 
 
 /**
@@ -54,7 +54,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
   /**
    * A {@link Logger} for this class.
    */
-  private static final Logger logger = Logger.getLogger(ASTBinaryFunctionNode.class);
+  private static final Logger logger = Logger.getLogger(ASTUnaryFunctionNode.class);
 
   /**
    * Creates a new {@link ASTUnaryFunctionNode}.
@@ -125,6 +125,9 @@ public class ASTUnaryFunctionNode extends ASTFunction {
     case FUNCTION_CEILING:
       value = compiler.ceiling(getChild());
       break;
+    case FUNCTION_EXP:
+      value = compiler.exp(getChild());
+      break;
     case FUNCTION_FACTORIAL:
       value = compiler.factorial(getChild());
       break;
@@ -135,15 +138,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
       value = compiler.unknownValue();
       break;
     }
-    value.setType(getType());
-    if (isSetParentSBMLObject()) {
-      MathContainer parent = getParentSBMLObject();
-      if (parent != null) {
-        value.setLevel(parent.getLevel());
-        value.setVersion(parent.getVersion());
-      }      
-    }
-    return value;
+    return processValue(value);
   }
 
   /**
@@ -192,18 +187,19 @@ public class ASTUnaryFunctionNode extends ASTFunction {
    */
   @Override
   public boolean isAllowableType(Type type) {
-    if (type == null) {
-      return false;
+    if (type != null) {
+      switch(type) {
+      case FUNCTION_ABS:
+      case FUNCTION_CEILING:
+      case FUNCTION_EXP:
+      case FUNCTION_FACTORIAL:
+      case FUNCTION_FLOOR:
+        return true;    
+      default:
+        return false;
+      }      
     }
-    switch(type) {
-    case FUNCTION_ABS:
-    case FUNCTION_CEILING:
-    case FUNCTION_FACTORIAL:
-    case FUNCTION_FLOOR:
-      return true;    
-    default:
-      return false;
-    }
+    return false;
   }
   
   /**
@@ -299,6 +295,19 @@ public class ASTUnaryFunctionNode extends ASTFunction {
   @Override
   public String toLaTeX() throws SBMLException {
     return compile(new LaTeXCompiler()).toString();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toMathML()
+   */
+  @Override
+  public String toMathML() {
+    try {
+      return MathMLXMLStreamCompiler.toMathML(this);
+    } catch (RuntimeException e) {
+      logger.error("Unable to create MathML");
+      return null;
+    }
   }
 
   /* (non-Javadoc)

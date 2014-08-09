@@ -30,6 +30,7 @@ import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.ASTCiNumberNode;
+import org.sbml.jsbml.math.ASTFactory;
 
 
 /**
@@ -191,6 +192,16 @@ public class ASTCiNumberNodeTest {
     ASTCiNumberNode ci = new ASTCiNumberNode();
     ci.setRefId("x");
     assertTrue(ci.toLaTeX().equals("x"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathML() {
+    ASTCiNumberNode ci = new ASTCiNumberNode();
+    ci.setRefId("x");
+    assertTrue(ci.toMathML().equals(ASTFactory.parseMathML("ci-number.xml")));
   }
   
 }

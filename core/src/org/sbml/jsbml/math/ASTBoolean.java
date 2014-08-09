@@ -24,13 +24,13 @@ package org.sbml.jsbml.math;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode.Type;
-import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.math.compiler.FormulaCompiler;
 import org.sbml.jsbml.math.compiler.LaTeXCompiler;
+import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
 
 /**
  * An Abstract Syntax Tree (AST) node representing a boolean
@@ -98,15 +98,7 @@ public class ASTBoolean extends AbstractASTNode {
     default:
       value = compiler.unknownValue();
     }
-    value.setType(getType());
-    if (isSetParentSBMLObject()) {
-      MathContainer parent = getParentSBMLObject();
-      if (parent != null) {
-        value.setLevel(parent.getLevel());
-        value.setVersion(parent.getVersion());
-      }      
-    }
-    return value;
+    return processValue(value);
   }
 
 
@@ -191,6 +183,19 @@ public class ASTBoolean extends AbstractASTNode {
   @Override
   public String toLaTeX() throws SBMLException {
     return compile(new LaTeXCompiler()).toString();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toMathML()
+   */
+  @Override
+  public String toMathML() {
+    try {
+      return MathMLXMLStreamCompiler.toMathML(this);
+    } catch (RuntimeException e) {
+      logger.error("Unable to create MathML");
+      return null;
+    }
   }
   
 }

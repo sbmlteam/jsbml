@@ -28,6 +28,7 @@ import org.junit.Test;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTBoolean;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
+import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTRelationalOperatorNode;
 
 
@@ -225,6 +226,72 @@ public class ASTRelationalOperatorNodeTest {
     neq.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
     neq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
     assertTrue(neq.toLaTeX().equals("\\mathrm{true} \\neq \\mathrm{false}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLEq() {
+    ASTRelationalOperatorNode eq = new ASTRelationalOperatorNode(Type.RELATIONAL_EQ);
+    eq.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    eq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(eq.toMathML().equals(ASTFactory.parseMathML("eq.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLGeq() {
+    ASTRelationalOperatorNode geq = new ASTRelationalOperatorNode(Type.RELATIONAL_GEQ);
+    geq.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    geq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(geq.toMathML().equals(ASTFactory.parseMathML("geq.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLGt() {
+    ASTRelationalOperatorNode gt = new ASTRelationalOperatorNode(Type.RELATIONAL_GT);
+    gt.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    gt.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(gt.toMathML().equals(ASTFactory.parseMathML("gt.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLLeq() {
+    ASTRelationalOperatorNode leq = new ASTRelationalOperatorNode(Type.RELATIONAL_LEQ);
+    leq.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    leq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(leq.toMathML().equals(ASTFactory.parseMathML("leq.xml")));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLLt() {
+    ASTRelationalOperatorNode lt = new ASTRelationalOperatorNode(Type.RELATIONAL_LT);
+    lt.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    lt.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(lt.toMathML().equals(ASTFactory.parseMathML("lt.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRelationalOperatorNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLNeq() {
+    ASTRelationalOperatorNode neq = new ASTRelationalOperatorNode(Type.RELATIONAL_NEQ);
+    neq.addChild(new ASTBoolean(Type.CONSTANT_TRUE));
+    neq.addChild(new ASTBoolean(Type.CONSTANT_FALSE));
+    assertTrue(neq.toMathML().equals(ASTFactory.parseMathML("neq.xml")));
   }
   
 }

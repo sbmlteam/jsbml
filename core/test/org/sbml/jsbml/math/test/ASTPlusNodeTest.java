@@ -27,6 +27,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
+import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTPlusNode;
 
 
@@ -95,6 +96,15 @@ public class ASTPlusNodeTest {
   public final void testToLaTeX() {
     ASTPlusNode plus = new ASTPlusNode(new ASTCnIntegerNode(1), new ASTCnIntegerNode(1));
     assertTrue(plus.toLaTeX().equals("1+1"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTPlusNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathML() {
+    ASTPlusNode plus = new ASTPlusNode(new ASTCnIntegerNode(1), new ASTCnIntegerNode(1));
+    assertTrue(plus.toMathML().equals(ASTFactory.parseMathML("plus.xml")));
   }
   
 }

@@ -32,7 +32,6 @@ import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.LocalParameter;
-import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
@@ -40,6 +39,7 @@ import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.math.compiler.FormulaCompiler;
 import org.sbml.jsbml.math.compiler.LaTeXCompiler;
+import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
@@ -140,15 +140,7 @@ ASTCSymbolBaseNode {
 //            + ")");
         throw new SBMLException();
     }
-    value.setType(getType());
-    if (isSetParentSBMLObject()) {
-      MathContainer parent = getParentSBMLObject();
-      if (parent != null) {
-        value.setLevel(parent.getLevel());
-        value.setVersion(parent.getVersion());
-      }      
-    }
-    return value;
+    return processValue(value);
   }
     
   /*
@@ -378,6 +370,19 @@ ASTCSymbolBaseNode {
   @Override
   public String toLaTeX() throws SBMLException {
     return compile(new LaTeXCompiler()).toString();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toMathML()
+   */
+  @Override
+  public String toMathML() {
+    try {
+      return MathMLXMLStreamCompiler.toMathML(this);
+    } catch (RuntimeException e) {
+      logger.error("Unable to create MathML");
+      return null;
+    }
   }
 
   /* (non-Javadoc)

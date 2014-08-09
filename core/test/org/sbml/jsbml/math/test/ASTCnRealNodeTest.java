@@ -29,6 +29,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTCnRealNode;
+import org.sbml.jsbml.math.ASTFactory;
 
 
 /**
@@ -127,6 +128,15 @@ public class ASTCnRealNodeTest {
   public final void testToLaTeX() {
     ASTCnRealNode real = new ASTCnRealNode(10.0);
     assertTrue(real.toLaTeX().equals("10"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnRealNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathML() {
+    ASTCnRealNode real = new ASTCnRealNode(10.0);
+    assertTrue(real.toMathML().equals(ASTFactory.parseMathML("real.xml")));
   }
   
 }

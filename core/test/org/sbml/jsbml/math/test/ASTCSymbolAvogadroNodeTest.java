@@ -31,6 +31,7 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.ASTCSymbolAvogadroNode;
+import org.sbml.jsbml.math.ASTFactory;
 
 
 /**
@@ -166,6 +167,15 @@ public class ASTCSymbolAvogadroNodeTest {
   public final void testToLaTeX() {
     ASTCSymbolAvogadroNode avogadro = new ASTCSymbolAvogadroNode();
     assertTrue(avogadro.toLaTeX().equals("avogadro"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolAvogadroNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathML() {
+    ASTCSymbolAvogadroNode avogadro = new ASTCSymbolAvogadroNode();
+    assertTrue(avogadro.toMathML().equals(ASTFactory.parseMathML("csymbol-avogadro.xml")));
   }
 
 }

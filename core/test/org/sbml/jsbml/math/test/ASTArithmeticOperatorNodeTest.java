@@ -22,14 +22,15 @@
  */
 package org.sbml.jsbml.math.test;
 
+import junit.framework.TestCase;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTArithmeticOperatorNode;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
-
-import junit.framework.TestCase;
+import org.sbml.jsbml.math.ASTFactory;
 
 /**
  * Test cases for {@link ASTArithmeticOperatorNode}
@@ -225,4 +226,49 @@ public class ASTArithmeticOperatorNodeTest extends TestCase {
     times.addChild(new ASTCnIntegerNode(1));
     assertTrue(times.toLaTeX().equals("1\\cdot 1"));
   }  
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLDivide() {
+    ASTArithmeticOperatorNode divide = new ASTArithmeticOperatorNode(Type.DIVIDE);
+    divide.addChild(new ASTCnIntegerNode(1));
+    divide.addChild(new ASTCnIntegerNode(1));
+    assertTrue(divide.toMathML().equals(ASTFactory.parseMathML("divide.xml")));  
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLMinus() {
+    ASTArithmeticOperatorNode minus = new ASTArithmeticOperatorNode(Type.MINUS);
+    minus.addChild(new ASTCnIntegerNode(1));
+    minus.addChild(new ASTCnIntegerNode(1));
+    assertTrue(minus.toMathML().equals(ASTFactory.parseMathML("minus.xml")));  
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLPlus() {
+    ASTArithmeticOperatorNode plus = new ASTArithmeticOperatorNode(Type.PLUS);
+    plus.addChild(new ASTCnIntegerNode(1));
+    plus.addChild(new ASTCnIntegerNode(1));
+    assertTrue(plus.toMathML().equals(ASTFactory.parseMathML("plus.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTArithmeticOperatorNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLTimes() {
+    ASTArithmeticOperatorNode times = new ASTArithmeticOperatorNode(Type.TIMES);
+    times.addChild(new ASTCnIntegerNode(1));
+    times.addChild(new ASTCnIntegerNode(1));
+    assertTrue(times.toMathML().equals(ASTFactory.parseMathML("times.xml")));
+  }  
+  
 }

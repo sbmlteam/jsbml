@@ -30,6 +30,7 @@ import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTBoolean;
+import org.sbml.jsbml.math.ASTFactory;
 
 
 /**
@@ -135,7 +136,7 @@ public class ASTBooleanTest {
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isAllowableType()}.
    */
   @Test
-  public final void testIsAllowableTypeCONSTANT_FALSE() {
+  public final void testIsAllowableTypeConstantFalse() {
     ASTBoolean node = new ASTBoolean();
     assertTrue(node.isAllowableType(Type.CONSTANT_FALSE));
   }
@@ -144,7 +145,7 @@ public class ASTBooleanTest {
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isAllowableType()}.
    */
   @Test
-  public final void testIsAllowableTypeCONSTANT_TRUE() {
+  public final void testIsAllowableTypeConstantTrue() {
     ASTBoolean node = new ASTBoolean();
     assertTrue(node.isAllowableType(Type.CONSTANT_TRUE));
   }
@@ -162,7 +163,7 @@ public class ASTBooleanTest {
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isSetType()}.
    */
   @Test
-  public final void testIsSetTypeCONSTANT_FALSE() {
+  public final void testIsSetTypeConstantFalse() {
     ASTBoolean node = new ASTBoolean(Type.CONSTANT_FALSE);
     assertTrue(node.isSetType());
   }
@@ -171,7 +172,7 @@ public class ASTBooleanTest {
    * Test method for {@link org.sbml.jsbml.math.ASTBoolean#isSetType()}.
    */
   @Test
-  public final void testIsSetTypeCONSTANT_TRUE() {
+  public final void testIsSetTypeConstantTrue() {
     ASTBoolean node = new ASTBoolean(Type.CONSTANT_TRUE);
     assertTrue(node.isSetType());
   }
@@ -240,5 +241,23 @@ public class ASTBooleanTest {
     ASTBoolean node = new ASTBoolean(Type.CONSTANT_TRUE);
     assertTrue(node.toLaTeX().equals("\\mathrm{true}"));
   }
-
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLFalse() {
+    ASTBoolean node = new ASTBoolean(Type.CONSTANT_FALSE);
+    assertTrue(node.toMathML().equals(ASTFactory.parseMathML("boolean-false.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTBoolean#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLTrue() {
+    ASTBoolean node = new ASTBoolean(Type.CONSTANT_TRUE);
+    assertTrue(node.toMathML().equals(ASTFactory.parseMathML("boolean-true.xml")));
+  }
+  
 }

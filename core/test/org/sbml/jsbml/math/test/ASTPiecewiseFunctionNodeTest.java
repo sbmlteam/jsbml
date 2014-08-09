@@ -29,7 +29,9 @@ import org.junit.Test;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTCiNumberNode;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
+import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTPiecewiseFunctionNode;
+import org.sbml.jsbml.math.ASTPlusNode;
 import org.sbml.jsbml.math.ASTQualifierNode;
 import org.sbml.jsbml.math.ASTRelationalOperatorNode;
 
@@ -188,4 +190,27 @@ public class ASTPiecewiseFunctionNodeTest {
     assertTrue(piecewise.toLaTeX().equals("\\begin{dcases}\n"
                                         + "0 & \\text{if\\ } 1\\end{dcases}"));
   }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTPiecewiseFunctionNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathML() {
+    ASTPiecewiseFunctionNode piecewise = new ASTPiecewiseFunctionNode();
+    ASTQualifierNode piece = new ASTQualifierNode(Type.CONSTRUCTOR_PIECE);
+    piece.addChild(new ASTCnIntegerNode(0));
+    ASTRelationalOperatorNode geq = new ASTRelationalOperatorNode(Type.RELATIONAL_GEQ);
+    ASTCiNumberNode x = new ASTCiNumberNode();
+    x.setRefId("x");
+    geq.addChild(x);
+    geq.addChild(new ASTCnIntegerNode(10));
+    piece.addChild(geq);
+    piecewise.addChild(piece);
+    ASTQualifierNode otherwise = new ASTQualifierNode(Type.CONSTRUCTOR_OTHERWISE);
+    ASTPlusNode plus = new ASTPlusNode(new ASTCnIntegerNode(2), new ASTCnIntegerNode(28));
+    otherwise.addChild(plus);
+    piecewise.addChild(otherwise);
+    assertTrue(piecewise.toMathML().equals(ASTFactory.parseMathML("piecewise.xml")));
+  }
+  
 }

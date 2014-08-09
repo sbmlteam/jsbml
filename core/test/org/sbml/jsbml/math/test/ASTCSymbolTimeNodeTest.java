@@ -30,6 +30,7 @@ import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.ASTCSymbolTimeNode;
+import org.sbml.jsbml.math.ASTFactory;
 
 
 /**
@@ -144,10 +145,19 @@ public class ASTCSymbolTimeNodeTest {
    * Test method for {@link org.sbml.jsbml.math.ASTCSymbolTimeNode#isSetName()}.
    */
   @Test
-  public final void testIsSetName() {
+  public final void testIsSetNameTrue() {
     ASTCSymbolTimeNode time = new ASTCSymbolTimeNode();
-    time.setName("name");
+    time.setName("csymbol-time");
     assertTrue(time.isSetName());
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolTimeNode#isSetName()}.
+   */
+  @Test
+  public final void testIsSetNameFalse() {
+    ASTCSymbolTimeNode time = new ASTCSymbolTimeNode();
+    assertFalse(time.isSetName());
   }
   
   /**
@@ -156,8 +166,7 @@ public class ASTCSymbolTimeNodeTest {
   @Test
   public final void testToFormula() {
     ASTCSymbolTimeNode time = new ASTCSymbolTimeNode();
-    time.setName("x");
-    assertTrue(time.toFormula().equals("x"));
+    assertTrue(time.toFormula().equals("time"));
   }
   
   /**
@@ -166,7 +175,16 @@ public class ASTCSymbolTimeNodeTest {
   @Test
   public final void testToLaTeX() {
     ASTCSymbolTimeNode time = new ASTCSymbolTimeNode();
-    time.setName("x");
-    assertTrue(time.toLaTeX().equals("\\mathrm{x}"));
+    assertTrue(time.toLaTeX().equals("\\mathrm{time}"));
   }  
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolTimeNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathML() {
+    ASTCSymbolTimeNode time = new ASTCSymbolTimeNode();
+    assertTrue(time.toMathML().equals(ASTFactory.parseMathML("csymbol-time.xml")));
+  }  
+  
 }

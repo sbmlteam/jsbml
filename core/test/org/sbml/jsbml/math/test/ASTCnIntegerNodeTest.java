@@ -30,6 +30,7 @@ import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
+import org.sbml.jsbml.math.ASTFactory;
 
 
 /**
@@ -129,6 +130,15 @@ public class ASTCnIntegerNodeTest {
   public final void testToLaTeX() {
     ASTCnIntegerNode ten = new ASTCnIntegerNode(10);
     assertTrue(ten.toLaTeX().equals("10"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnIntegerNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathML() {
+    ASTCnIntegerNode ten = new ASTCnIntegerNode(10);
+    assertTrue(ten.toMathML().equals(ASTFactory.parseMathML("integer.xml")));
   }
 
 }

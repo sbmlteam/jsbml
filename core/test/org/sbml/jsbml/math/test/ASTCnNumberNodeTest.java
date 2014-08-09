@@ -163,7 +163,8 @@ public class ASTCnNumberNodeTest {
   public void testIsAllowableType() {
     ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
     assertTrue(number.isAllowableType(Type.INTEGER) && number.isAllowableType(Type.REAL)
-            && number.isAllowableType(Type.RATIONAL) && !number.isAllowableType(null));
+            && number.isAllowableType(Type.RATIONAL) && number.isAllowableType(Type.REAL_E)
+            && !number.isAllowableType(null));
   }  
   
   

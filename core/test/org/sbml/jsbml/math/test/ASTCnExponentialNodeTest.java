@@ -27,8 +27,10 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.ASTCnExponentialNode;
+import org.sbml.jsbml.math.ASTFactory;
 
 
 /**
@@ -181,6 +183,44 @@ public class ASTCnExponentialNodeTest {
     exponential.setExponent(2);
     exponential.setMantissa(7);
     assertTrue(exponential.toLaTeX().equals("7\\cdot 10^{2}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnExponentialNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathML() {
+    ASTCnExponentialNode exponential = new ASTCnExponentialNode();
+    exponential.setExponent(2);
+    exponential.setMantissa(7);
+    assertTrue(exponential.toMathML().equals(ASTFactory.parseMathML("exponential.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnExponentialNode#getType()}.
+   */
+  @Test
+  public final void testGetType() {
+    ASTCnExponentialNode exponential = new ASTCnExponentialNode();
+    assertTrue(exponential.getType() == Type.REAL_E);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnExponentialNode#isSetType()}.
+   */
+  @Test
+  public final void testIsSetType() {
+    ASTCnExponentialNode exponential = new ASTCnExponentialNode();
+    assertTrue(exponential.isSetType());
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnExponentialNode#isAllowableType()}.
+   */
+  @Test
+  public final void testIsAllowableType() {
+    ASTCnExponentialNode exponential = new ASTCnExponentialNode();
+    assertTrue(exponential.isAllowableType(Type.REAL_E) && !exponential.isAllowableType(null));
   }
   
 }

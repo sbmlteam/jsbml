@@ -30,6 +30,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
+import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTUnaryFunctionNode;
 
 
@@ -217,7 +218,8 @@ public class ASTUnaryFunctionNodeTest {
   public final void testIsAllowableType() {
     ASTUnaryFunctionNode A = new ASTUnaryFunctionNode();
     assertTrue(A.isAllowableType(Type.FUNCTION_CEILING) && A.isAllowableType(Type.FUNCTION_FLOOR)
-            && A.isAllowableType(Type.FUNCTION_ABS) && !A.isAllowableType(null));
+            && A.isAllowableType(Type.FUNCTION_ABS) && A.isAllowableType(Type.FUNCTION_EXP)
+            && !A.isAllowableType(null));
   }
 
   /**
@@ -381,6 +383,17 @@ public class ASTUnaryFunctionNodeTest {
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toFormula()}.
    */
   @Test
+  public final void testToFormulaExp() {
+    ASTCnIntegerNode negativeFive = new ASTCnIntegerNode(-5);
+    ASTUnaryFunctionNode exp = new ASTUnaryFunctionNode(Type.FUNCTION_EXP);
+    exp.setChild(negativeFive);
+    assertTrue(exp.toFormula().equals("exp(-5)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toFormula()}.
+   */
+  @Test
   public final void testToFormulaFactorial() {
     ASTCnIntegerNode five = new ASTCnIntegerNode(5);
     ASTUnaryFunctionNode factorial = new ASTUnaryFunctionNode(Type.FUNCTION_FACTORIAL);
@@ -425,6 +438,18 @@ public class ASTUnaryFunctionNodeTest {
    * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toLaTeX()}.
    */
   @Test
+  public final void testToLaTeXExp() {
+    ASTCnIntegerNode negativeFive = new ASTCnIntegerNode(-5);
+    ASTUnaryFunctionNode exp = new ASTUnaryFunctionNode(Type.FUNCTION_EXP);
+    exp.setChild(negativeFive);
+    assertTrue(exp.toLaTeX().equals("\\exp{\\left(-5\\right)}"));
+  }
+
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toLaTeX()}.
+   */
+  @Test
   public final void testToLaTeXFactorial() {
     ASTCnIntegerNode five = new ASTCnIntegerNode(5);
     ASTUnaryFunctionNode factorial = new ASTUnaryFunctionNode(Type.FUNCTION_FACTORIAL);
@@ -442,4 +467,60 @@ public class ASTUnaryFunctionNodeTest {
     floor.setChild(five);
     assertTrue(floor.toLaTeX().equals("\\left\\lfloor 5\\right\\rfloor "));
   }  
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLAbs() {
+    ASTCnIntegerNode negativeFive = new ASTCnIntegerNode(-5);
+    ASTUnaryFunctionNode abs = new ASTUnaryFunctionNode(Type.FUNCTION_ABS);
+    abs.setChild(negativeFive);
+    assertTrue(abs.toMathML().equals(ASTFactory.parseMathML("abs.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLCeil() {
+    ASTCnIntegerNode negativeFive = new ASTCnIntegerNode(-5);
+    ASTUnaryFunctionNode ceil = new ASTUnaryFunctionNode(Type.FUNCTION_CEILING);
+    ceil.setChild(negativeFive);
+    assertTrue(ceil.toMathML().equals(ASTFactory.parseMathML("ceil.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLExp() {
+    ASTCnIntegerNode negativeFive = new ASTCnIntegerNode(-5);
+    ASTUnaryFunctionNode exp = new ASTUnaryFunctionNode(Type.FUNCTION_EXP);
+    exp.setChild(negativeFive);
+    assertTrue(exp.toMathML().equals(ASTFactory.parseMathML("exp.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLFactorial() {
+    ASTCnIntegerNode five = new ASTCnIntegerNode(5);
+    ASTUnaryFunctionNode factorial = new ASTUnaryFunctionNode(Type.FUNCTION_FACTORIAL);
+    factorial.setChild(five);
+    assertTrue(factorial.toMathML().equals(ASTFactory.parseMathML("factorial.xml")));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTUnaryFunctionNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLFloor() {
+    ASTCnIntegerNode five = new ASTCnIntegerNode(5);
+    ASTUnaryFunctionNode floor = new ASTUnaryFunctionNode(Type.FUNCTION_FLOOR);
+    floor.setChild(five);
+    assertTrue(floor.toMathML().equals(ASTFactory.parseMathML("floor.xml")));
+  }    
+  
 }

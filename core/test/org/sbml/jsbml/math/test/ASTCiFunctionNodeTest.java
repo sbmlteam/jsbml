@@ -28,13 +28,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode.Type;
-import org.sbml.jsbml.FunctionDefinition;
-import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.ASTCiFunctionNode;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
-import org.sbml.jsbml.math.ASTLambdaFunctionNode;
 
 
 /**
@@ -188,9 +185,6 @@ public class ASTCiFunctionNodeTest {
 //  @Test
 //  public final void testToFormula() {
 //    ASTCiFunctionNode ci = new ASTCiFunctionNode();
-//    ci.setName("x");
-//    KineticLaw law = new KineticLaw();
-//    ci.setParentSBMLObject(law);
 //    System.out.println(ci.toLaTeX());
 //    assertTrue(ci.toLaTeX().equals("x"));
 //  }

@@ -22,13 +22,14 @@
  */
 package org.sbml.jsbml.math;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode.Type;
-import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.math.compiler.FormulaCompiler;
 import org.sbml.jsbml.math.compiler.LaTeXCompiler;
+import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
 
 
 /**
@@ -46,6 +47,10 @@ public class ASTRelationalOperatorNode extends ASTFunction {
    * 
    */
   private static final long serialVersionUID = 5739652236362075869L;
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final Logger logger = Logger.getLogger(ASTRelationalOperatorNode.class);
 
   /**
    * Creates a new {@link ASTRelationalOperatorNode} without a pointer
@@ -113,15 +118,7 @@ public class ASTRelationalOperatorNode extends ASTFunction {
       value = compiler.unknownValue();
       break;
     }
-    value.setType(getType());
-    if (isSetParentSBMLObject()) {
-      MathContainer parent = getParentSBMLObject();
-      if (parent != null) {
-        value.setLevel(parent.getLevel());
-        value.setVersion(parent.getVersion());
-      }      
-    }
-    return value;
+    return processValue(value);
   }
   
   /* (non-Javadoc)
@@ -129,9 +126,20 @@ public class ASTRelationalOperatorNode extends ASTFunction {
    */
   @Override
   public boolean isAllowableType(Type type) {
-    return type == Type.RELATIONAL_EQ || type == Type.RELATIONAL_GEQ
-        || type == Type.RELATIONAL_GT || type == Type.RELATIONAL_LEQ
-        || type == Type.RELATIONAL_LT || type == Type.RELATIONAL_NEQ;
+    if (type != null) {
+      switch(type) {
+      case RELATIONAL_EQ:
+      case RELATIONAL_GEQ:
+      case RELATIONAL_GT:
+      case RELATIONAL_LEQ:
+      case RELATIONAL_LT:
+      case RELATIONAL_NEQ:
+        return true;    
+      default:
+        return false;
+      }      
+    }
+    return false;
   }
 
   /* (non-Javadoc)
@@ -148,6 +156,19 @@ public class ASTRelationalOperatorNode extends ASTFunction {
   @Override
   public String toLaTeX() throws SBMLException {
     return compile(new LaTeXCompiler()).toString();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toMathML()
+   */
+  @Override
+  public String toMathML() {
+    try {
+      return MathMLXMLStreamCompiler.toMathML(this);
+    } catch (RuntimeException e) {
+      logger.error("Unable to create MathML");
+      return null;
+    }
   }
 
   /* (non-Javadoc)

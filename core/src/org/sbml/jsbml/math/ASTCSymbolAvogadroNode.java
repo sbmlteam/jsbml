@@ -24,7 +24,6 @@ package org.sbml.jsbml.math;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
@@ -115,22 +114,13 @@ ASTCSymbolNode {
     ASTNode2Value<?> value = null;
     switch(getType()) {
     case NAME_AVOGADRO:
-       value = isSetName() ? compiler.getConstantAvogadro(getName()) 
-         : compiler.getConstantAvogadro(null);        
+       value = compiler.getConstantAvogadro(isSetName() ? getName() : null);        
       break;
     default: // UNKNOWN:
       value = compiler.unknownValue();
       break;
     }
-    value.setType(getType());
-    if (isSetParentSBMLObject()) {
-      MathContainer parent = getParentSBMLObject();
-      if (parent != null) {
-        value.setLevel(parent.getLevel());
-        value.setVersion(parent.getVersion());
-      }      
-    }
-    return value;
+    return processValue(value);
   }
 
   /* (non-Javadoc)
@@ -269,6 +259,14 @@ ASTCSymbolNode {
     return name != null;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTConstantNumber#isSetType()
+   */
+  @Override
+  public boolean isSetType() {
+    return type == Type.NAME_AVOGADRO;
+  }
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#refersTo(java.lang.String)
@@ -289,7 +287,7 @@ ASTCSymbolNode {
     this.definitionURL = definitionURL;
     firePropertyChange(TreeNodeChangeEvent.definitionURL, old, encoding);
   }
-
+  
   /**
    * Set the encoding of the MathML element represented by
    * this {@link ASTCSymbolAvogadroNode}
@@ -301,7 +299,7 @@ ASTCSymbolNode {
     this.encoding = encoding;
     firePropertyChange(TreeNodeChangeEvent.encoding, old, this.encoding);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTCSymbolBaseNode#setName(java.lang.String)
    */
@@ -340,14 +338,6 @@ ASTCSymbolNode {
     builder.append(parent);
     builder.append("]");
     return builder.toString();
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTConstantNumber#isSetType()
-   */
-  @Override
-  public boolean isSetType() {
-    return type == Type.NAME_AVOGADRO;
   }
 
 }

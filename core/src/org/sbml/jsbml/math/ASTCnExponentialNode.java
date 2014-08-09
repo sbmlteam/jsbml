@@ -31,6 +31,7 @@ import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.math.compiler.FormulaCompiler;
 import org.sbml.jsbml.math.compiler.LaTeXCompiler;
+import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.ValuePair;
 
@@ -62,7 +63,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Inte
    */
   public ASTCnExponentialNode() {
     super();
-    setType(Type.FUNCTION_EXP);
+    setType(Type.REAL_E);
   }
 
   /**
@@ -74,7 +75,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Inte
    */
   public ASTCnExponentialNode (ASTCnExponentialNode node) {
     super(node);
-    setType(Type.FUNCTION_EXP);
+    setType(Type.REAL_E);
   }
   
   /*
@@ -93,15 +94,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Inte
   public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
     ASTNode2Value<?> value = compiler.compile(getMantissa(), getExponent(),
       isSetUnits() ? getUnits() : null);
-    value.setType(getType());
-    if (isSetParentSBMLObject()) {
-      MathContainer parent = getParentSBMLObject();
-      if (parent != null) {
-        value.setLevel(parent.getLevel());
-        value.setVersion(parent.getVersion());
-      }      
-    }
-    return value;
+    return processValue(value);
   }
 
   /**
@@ -143,7 +136,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Inte
    */
   @Override
   public boolean isAllowableType(Type type) {
-    return type == Type.FUNCTION_EXP;
+    return type == Type.REAL_E;
   }
 
   /**
@@ -208,6 +201,19 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Inte
   @Override
   public String toLaTeX() throws SBMLException {
     return compile(new LaTeXCompiler()).toString();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toMathML()
+   */
+  @Override
+  public String toMathML() {
+    try {
+      return MathMLXMLStreamCompiler.toMathML(this);
+    } catch (RuntimeException e) {
+      logger.error("Unable to create MathML");
+      return null;
+    }
   }
 
   /* (non-Javadoc)

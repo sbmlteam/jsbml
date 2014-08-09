@@ -22,6 +22,10 @@
  */
 package org.sbml.jsbml.math;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
@@ -380,6 +384,30 @@ public class ASTFactory {
 
 
   /**
+   * Return String representation of specified MathML file
+   * 
+   * @param fileName
+   * @return contents
+   */
+  public static String parseMathML(String fileName) {
+    File file = new File("core\\src\\org\\sbml\\jsbml\\math\\compiler\\resources\\" + fileName);
+    StringBuffer fileContents = new StringBuffer("");
+    try {
+      Scanner scan = new Scanner(file);
+      while (scan.hasNextLine()) {
+        fileContents.append(scan.nextLine());
+        fileContents.append("\n");
+      }
+      fileContents.deleteCharAt(fileContents.length() - 1);
+      scan.close();
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+    return fileContents.toString();
+  }
+
+
+  /**
    * Creates a piecewise {@link ASTPiecewiseFunctionNode}.
    * 
    * <p>At least one {@link ASTQualifierNode} must be given
@@ -467,7 +495,6 @@ public class ASTFactory {
     return new ASTPowerNode(basis, new ASTCnRealNode(exponent));
   }
 
-
   /**
    * Creates a power {@link ASTPowerNode} with an {@link ASTNode2} 
    * basis and an integer exponent.
@@ -551,6 +578,7 @@ public class ASTFactory {
     return rootNode;
   }
 
+
   /**
    * Creates a root of type {@link ASTNode2}.
    * 
@@ -561,7 +589,6 @@ public class ASTFactory {
   public static ASTRootNode root(ASTNode2 rootExponent, ASTNode2 radicand) {
     return rootExponent != null ? new ASTRootNode(rootExponent, radicand) : new ASTRootNode(radicand);
   }
-
 
   /**
    * Sets the Parent of the node and its children to the given value
@@ -577,7 +604,7 @@ public class ASTFactory {
       }
     }
   }
-
+  
   /**
    * Creates a square root of type {@link ASTRootNode} with the 
    * specified radicand of type {@link ASTNode2}.
@@ -619,7 +646,7 @@ public class ASTFactory {
   public static ASTTimesNode times(ASTNode2 node1, ASTNode2 node2) {
     return new ASTTimesNode(node1, node2);
   }
-  
+
   /**
    * Adds a real number to {@link ASTNode2}
    * 
@@ -631,7 +658,7 @@ public class ASTFactory {
   public static ASTTimesNode times(ASTNode2 node1, double real) {
     return new ASTTimesNode(node1, new ASTCnRealNode(real));
   }
-
+  
   /**
    * Adds an integer to {@link ASTNode2}
    * 

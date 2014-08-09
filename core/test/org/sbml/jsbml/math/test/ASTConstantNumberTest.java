@@ -31,7 +31,7 @@ import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.ASTConstantNumber;
-import org.sbml.jsbml.util.Maths;
+import org.sbml.jsbml.math.ASTFactory;
 
 
 /**
@@ -228,5 +228,25 @@ public class ASTConstantNumberTest {
     constant.setValue(Math.PI);
     assertTrue(constant.toLaTeX().equals("\\pi"));
   }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLE() {
+    ASTConstantNumber constant = new ASTConstantNumber();
+    constant.setValue(Math.E);
+    assertTrue(constant.toMathML().equals(ASTFactory.parseMathML("e.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTConstantNumber#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLPi() {
+    ASTConstantNumber constant = new ASTConstantNumber();
+    constant.setValue(Math.PI);
+    assertTrue(constant.toMathML().equals(ASTFactory.parseMathML("pi.xml")));
+  }  
 
 }

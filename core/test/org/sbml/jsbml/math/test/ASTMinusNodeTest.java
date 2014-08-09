@@ -27,6 +27,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
+import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTMinusNode;
 
 
@@ -95,6 +96,15 @@ public class ASTMinusNodeTest {
   public final void testToLaTeX() {
     ASTMinusNode minus = new ASTMinusNode(new ASTCnIntegerNode(1), new ASTCnIntegerNode(1));
     assertTrue(minus.toLaTeX().equals("1-1"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTMinusNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathML() {
+    ASTMinusNode minus = new ASTMinusNode(new ASTCnIntegerNode(1), new ASTCnIntegerNode(1));
+    assertTrue(minus.toMathML().equals(ASTFactory.parseMathML("minus.xml")));
   }
   
 }

@@ -27,6 +27,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
+import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTTimesNode;
 
 
@@ -95,6 +96,15 @@ public class ASTTimesNodeTest {
   public final void testToLaTeX() {
     ASTTimesNode times = new ASTTimesNode(new ASTCnIntegerNode(1), new ASTCnIntegerNode(5));
     assertTrue(times.toLaTeX().equals("1\\cdot 5"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTimesNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathML() {
+    ASTTimesNode times = new ASTTimesNode(new ASTCnIntegerNode(1), new ASTCnIntegerNode(1));
+    assertTrue(times.toMathML().equals(ASTFactory.parseMathML("times.xml")));
   }
   
 }

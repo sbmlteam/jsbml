@@ -30,7 +30,9 @@ import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTCSymbolDelayNode;
+import org.sbml.jsbml.math.ASTCiNumberNode;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
+import org.sbml.jsbml.math.ASTFactory;
 
 
 /**
@@ -145,6 +147,18 @@ public class ASTCSymbolDelayNodeTest {
     delay.addChild(new ASTCnIntegerNode(5));
     delay.addChild(new ASTCnIntegerNode(10));
     assertTrue(delay.toLaTeX().equals("\\mathrm{delay}\\left(5, 10\\right)"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCSymbolDelayNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathML() {
+    ASTCSymbolDelayNode delay = new ASTCSymbolDelayNode();
+    ASTCiNumberNode ci = new ASTCiNumberNode();
+    ci.setRefId("x");
+    delay.addChild(ci);
+    assertTrue(delay.toMathML().equals(ASTFactory.parseMathML("csymbol-delay.xml")));
   }
   
 }

@@ -28,6 +28,7 @@ import org.junit.Test;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
 import org.sbml.jsbml.math.ASTDivideNode;
+import org.sbml.jsbml.math.ASTFactory;
 
 
 /**
@@ -105,5 +106,14 @@ public class ASTDivideNodeTest {
     ASTDivideNode divide = new ASTDivideNode(new ASTCnIntegerNode(1), new ASTCnIntegerNode(2));
     assertTrue(divide.toLaTeX().equals("\\frac{1}{2}"));
   }  
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTDivideNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathML() {
+    ASTDivideNode divide = new ASTDivideNode(new ASTCnIntegerNode(1), new ASTCnIntegerNode(1));
+    assertTrue(divide.toMathML().equals(ASTFactory.parseMathML("divide.xml")));
+  } 
   
 }

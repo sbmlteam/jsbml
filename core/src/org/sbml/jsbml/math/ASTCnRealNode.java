@@ -22,6 +22,7 @@
  */
 package org.sbml.jsbml.math;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
@@ -29,6 +30,7 @@ import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.math.compiler.FormulaCompiler;
 import org.sbml.jsbml.math.compiler.LaTeXCompiler;
+import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
@@ -47,6 +49,10 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
    * 
    */
   private static final long serialVersionUID = 6142072741733701867L;
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final Logger logger = Logger.getLogger(ASTCnRealNode.class);
 
   /**
    * Creates a new {@link ASTCnRealNode} that lacks a pointer
@@ -100,15 +106,7 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
     } else {
         value = isSetUnits() ? compiler.compile(real, getUnits()) : compiler.compile(real, null);        
     }
-    value.setType(getType());
-    if (isSetParentSBMLObject()) {
-      MathContainer parent = getParentSBMLObject();
-      if (parent != null) {
-        value.setLevel(parent.getLevel());
-        value.setVersion(parent.getVersion());
-      }      
-    }
-    return value;
+    return processValue(value);
   }
 
   /* (non-Javadoc)
@@ -160,6 +158,31 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
   }
 
   /**
+   * Returns {@code true} if this {@link ASTCnRealNode} represents the special IEEE 754 value infinity,
+   * {@code false} otherwise.
+   * 
+   * @return {@code true} if this {@link ASTCnRealNode} is the special IEEE 754 value 
+   * infinity,
+   *         {@code false} otherwise.
+   */
+  public boolean isInfinity() {
+    double real = getReal();
+    return Double.isInfinite(real) && (real > 0d);
+  }
+
+  /**
+   * Returns {@code true} if this {@link ASTCnRealNode} represents the special IEEE 754 value 'negative
+   * infinity' {@link Double#NEGATIVE_INFINITY}, {@code false} otherwise.
+   * 
+   * @return {@code true} if this {@link ASTCnRealNode} is {@link Double#NEGATIVE_INFINITY}, {@code false}
+   *         otherwise.
+   */
+  public boolean isNegInfinity() {
+    double real = getReal();
+    return Double.isInfinite(real) && (real < 0);
+  }
+
+  /**
    * Returns true iff a value has been set
    * @param null
    * @return boolean
@@ -186,13 +209,26 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
   public String toFormula() throws SBMLException {
     return compile(new FormulaCompiler()).toString();
   }
-
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.AbstractASTNode#toLaTeX()
    */
   @Override
   public String toLaTeX() throws SBMLException {
     return compile(new LaTeXCompiler()).toString();
+  }
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toMathML()
+   */
+  @Override
+  public String toMathML() {
+    try {
+      return MathMLXMLStreamCompiler.toMathML(this);
+    } catch (RuntimeException e) {
+      logger.error("Unable to create MathML");
+      return null;
+    }
   }
 
   /* (non-Javadoc)

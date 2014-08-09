@@ -32,7 +32,6 @@ import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.TreeNodeWithChangeSupport;
@@ -344,6 +343,27 @@ implements ASTNode2 {
     return strict;
   }
   
+  /**
+   * Set the type, level and version of the specified
+   * {@link ASTNode2Value} value.
+   * 
+   * @param value {@link ASTNode2Value}
+   * @return value {@link ASTNode2Value}
+   */
+  protected ASTNode2Value<?> processValue(ASTNode2Value<?> value) {
+    if (value != null) {
+      value.setType(getType());
+      if (isSetParentSBMLObject()) {
+        MathContainer parent = getParentSBMLObject();
+        if (parent != null) {
+          value.setLevel(parent.getLevel());
+          value.setVersion(parent.getVersion());
+        }      
+      }      
+    }
+    return value;
+  }
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#setId(java.lang.String)
@@ -461,7 +481,7 @@ implements ASTNode2 {
   public String toMathML() {
     return null;
   }
-
+  
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
@@ -494,20 +514,6 @@ implements ASTNode2 {
   @Override
   public void unsetParentSBMLObject() {
     setParentSBMLObject(null);
-  }
-  
-  protected ASTNode2Value<?> processValue(ASTNode2Value<?> value) {
-    if (value != null) {
-      value.setType(getType());
-      if (isSetParentSBMLObject()) {
-        MathContainer parent = getParentSBMLObject();
-        if (parent != null) {
-          value.setLevel(parent.getLevel());
-          value.setVersion(parent.getVersion());
-        }      
-      }      
-    }
-    return value;
   }
 
 }

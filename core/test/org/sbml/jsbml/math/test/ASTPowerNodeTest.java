@@ -27,6 +27,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
+import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTPowerNode;
 
 
@@ -95,6 +96,15 @@ public class ASTPowerNodeTest {
   public final void testToLaTeX() {
     ASTPowerNode power = new ASTPowerNode(new ASTCnIntegerNode(2), new ASTCnIntegerNode(5));
     assertTrue(power.toLaTeX().equals("2^{5}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTPowerNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathML() {
+    ASTPowerNode power = new ASTPowerNode(new ASTCnIntegerNode(2), new ASTCnIntegerNode(5));
+    assertTrue(power.toMathML().equals(ASTFactory.parseMathML("power.xml")));
   }
   
 }

@@ -121,6 +121,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
    */
   @Override
   public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
+    //TODO: 
     return null;
   }
 
@@ -220,7 +221,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
   @Override
   public boolean isAllowableType(Type type) {
     return type == Type.INTEGER || type == Type.RATIONAL || type == Type.REAL
-           || type == Type.FUNCTION_EXP;
+           || type == Type.REAL_E;
   }
 
   /**
@@ -237,7 +238,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
    * 
    * @return boolean
    */
-  protected boolean isSetUnits() {
+  public boolean isSetUnits() {
     return units != null;
   }
 

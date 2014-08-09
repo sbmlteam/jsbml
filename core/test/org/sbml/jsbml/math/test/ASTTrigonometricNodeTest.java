@@ -27,6 +27,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
+import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTTrigonometricNode;
 
 
@@ -283,6 +284,106 @@ public class ASTTrigonometricNodeTest {
     ASTTrigonometricNode tan = new ASTTrigonometricNode(Type.FUNCTION_TAN);
     tan.addChild(new ASTCnIntegerNode(2));
     assertTrue(tan.toLaTeX().equals("\\tan{\\left(2\\right)}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLArccos() {
+    ASTTrigonometricNode arccos = new ASTTrigonometricNode(Type.FUNCTION_ARCCOS);
+    arccos.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arccos.toMathML().equals(ASTFactory.parseMathML("arccos.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLArccsc() {
+    ASTTrigonometricNode arccsc = new ASTTrigonometricNode(Type.FUNCTION_ARCCSC);
+    arccsc.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arccsc.toMathML().equals(ASTFactory.parseMathML("arccsc.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLArcsec() {
+    ASTTrigonometricNode arcsec = new ASTTrigonometricNode(Type.FUNCTION_ARCSEC);
+    arcsec.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arcsec.toMathML().equals(ASTFactory.parseMathML("arcsec.xml")));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLArcsin() {
+    ASTTrigonometricNode arcsin = new ASTTrigonometricNode(Type.FUNCTION_ARCSIN);
+    arcsin.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arcsin.toMathML().equals(ASTFactory.parseMathML("arcsin.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLArctan() {
+    ASTTrigonometricNode arctan = new ASTTrigonometricNode(Type.FUNCTION_ARCTAN);
+    arctan.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arctan.toMathML().equals(ASTFactory.parseMathML("arctan.xml")));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLCos() {
+    ASTTrigonometricNode cos = new ASTTrigonometricNode(Type.FUNCTION_COS);
+    cos.addChild(new ASTCnIntegerNode(2));
+    assertTrue(cos.toMathML().equals(ASTFactory.parseMathML("cos.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLCsc() {
+    ASTTrigonometricNode csc = new ASTTrigonometricNode(Type.FUNCTION_CSC);
+    csc.addChild(new ASTCnIntegerNode(2));
+    assertTrue(csc.toMathML().equals(ASTFactory.parseMathML("csc.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLSec() {
+    ASTTrigonometricNode sec = new ASTTrigonometricNode(Type.FUNCTION_SEC);
+    sec.addChild(new ASTCnIntegerNode(2));
+    assertTrue(sec.toMathML().equals(ASTFactory.parseMathML("sec.xml")));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLSin() {
+    ASTTrigonometricNode sin = new ASTTrigonometricNode(Type.FUNCTION_SIN);
+    sin.addChild(new ASTCnIntegerNode(2));
+    assertTrue(sin.toMathML().equals(ASTFactory.parseMathML("sin.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTTrigonometricNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLTan() {
+    ASTTrigonometricNode tan = new ASTTrigonometricNode(Type.FUNCTION_TAN);
+    tan.addChild(new ASTCnIntegerNode(2));
+    assertTrue(tan.toMathML().equals(ASTFactory.parseMathML("tan.xml")));
   }
   
 }

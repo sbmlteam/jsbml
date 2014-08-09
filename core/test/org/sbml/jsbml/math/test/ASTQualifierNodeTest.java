@@ -103,6 +103,7 @@ public class ASTQualifierNodeTest {
   public final void testToFormulaBvar() {
     ASTQualifierNode qualifier = new ASTQualifierNode(Type.QUALIFIER_BVAR);
     qualifier.addChild(new ASTCnIntegerNode(1));
+    System.out.println(qualifier.toFormula());
     assertTrue(qualifier.toFormula().equals("1"));
   }
   

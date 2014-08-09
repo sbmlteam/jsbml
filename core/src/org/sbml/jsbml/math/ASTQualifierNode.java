@@ -22,7 +22,6 @@
  */
 package org.sbml.jsbml.math;
 
-import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
@@ -100,15 +99,7 @@ public class ASTQualifierNode extends ASTFunction {
       value = compiler.unknownValue();
       break;
     }
-    value.setType(getType());
-    if (isSetParentSBMLObject()) {
-      MathContainer parent = getParentSBMLObject();
-      if (parent != null) {
-        value.setLevel(parent.getLevel());
-        value.setVersion(parent.getVersion());
-      }      
-    }
-    return value;
+    return processValue(value);
   }
 
   /* (non-Javadoc)
@@ -116,9 +107,19 @@ public class ASTQualifierNode extends ASTFunction {
    */
   @Override
   public boolean isAllowableType(Type type) {
-    return type == Type.QUALIFIER_BVAR || type == Type.QUALIFIER_DEGREE
-        || type == Type.QUALIFIER_LOGBASE || type == Type.CONSTRUCTOR_PIECE
-        || type == Type.CONSTRUCTOR_OTHERWISE;
+    if (type != null) {
+      switch(type) {
+      case QUALIFIER_BVAR:
+      case QUALIFIER_DEGREE:
+      case QUALIFIER_LOGBASE:
+      case CONSTRUCTOR_PIECE:
+      case CONSTRUCTOR_OTHERWISE:
+        return true;    
+      default:
+        return false;
+      }      
+    }
+    return false;
   }
   
   /* (non-Javadoc)

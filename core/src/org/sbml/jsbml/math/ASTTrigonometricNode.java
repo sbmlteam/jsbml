@@ -22,13 +22,14 @@
  */
 package org.sbml.jsbml.math;
 
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode.Type;
-import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.math.compiler.FormulaCompiler;
 import org.sbml.jsbml.math.compiler.LaTeXCompiler;
+import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
 
 
 /**
@@ -45,6 +46,11 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
    * 
    */
   private static final long serialVersionUID = 8375728473620884311L;
+  
+  /**
+   * A {@link Logger} for this class.
+   */
+  private static final Logger logger = Logger.getLogger(ASTTrigonometricNode.class);
 
   /**
    * Creates a new {@link ASTTrigonometricNode}.
@@ -127,15 +133,7 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
       value = compiler.unknownValue();
       break;
     }
-    value.setType(getType());
-    if (isSetParentSBMLObject()) {
-      MathContainer parent = getParentSBMLObject();
-      if (parent != null) {
-        value.setLevel(parent.getLevel());
-        value.setVersion(parent.getVersion());
-      }      
-    }
-    return value;
+    return processValue(value);
   }
 
   /* (non-Javadoc)
@@ -143,26 +141,26 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
    */
   @Override
   public boolean isAllowableType(Type type) {
-    if (type == null) {
-      return false;
+    if (type != null) {
+      switch(type) {
+      case FUNCTION_SEC:
+      case FUNCTION_ARCCOS:
+      case FUNCTION_ARCCOT:
+      case FUNCTION_ARCCSC:
+      case FUNCTION_ARCSEC:
+      case FUNCTION_ARCSIN:
+      case FUNCTION_ARCTAN:
+      case FUNCTION_COS:
+      case FUNCTION_COT:
+      case FUNCTION_CSC:
+      case FUNCTION_SIN:
+      case FUNCTION_TAN:
+        return true; 
+      default:
+        return false;
+      }
     }
-    switch(type) {
-    case FUNCTION_SEC:
-    case FUNCTION_ARCCOS:
-    case FUNCTION_ARCCOT:
-    case FUNCTION_ARCCSC:
-    case FUNCTION_ARCSEC:
-    case FUNCTION_ARCSIN:
-    case FUNCTION_ARCTAN:
-    case FUNCTION_COS:
-    case FUNCTION_COT:
-    case FUNCTION_CSC:
-    case FUNCTION_SIN:
-    case FUNCTION_TAN:
-      return true; 
-    default:
-      return false;
-    }
+    return false;
   }
 
   /* (non-Javadoc)
@@ -179,6 +177,19 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
   @Override
   public String toLaTeX() throws SBMLException {
     return compile(new LaTeXCompiler()).toString();
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.AbstractASTNode#toMathML()
+   */
+  @Override
+  public String toMathML() {
+    try {
+      return MathMLXMLStreamCompiler.toMathML(this);
+    } catch (RuntimeException e) {
+      logger.error("Unable to create MathML");
+      return null;
+    }
   }
 
   /* (non-Javadoc)

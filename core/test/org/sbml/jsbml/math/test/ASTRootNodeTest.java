@@ -30,6 +30,7 @@ import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
+import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTRootNode;
 
 
@@ -183,4 +184,14 @@ public class ASTRootNodeTest {
     ASTRootNode root = new ASTRootNode(new ASTCnIntegerNode(4), new ASTCnIntegerNode(10000));
     assertTrue(root.toLaTeX().equals("\\sqrt[4.0]{10000}"));
   }  
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTRootNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathML() {
+    ASTRootNode root = new ASTRootNode(new ASTCnIntegerNode(4), new ASTCnIntegerNode(10000));
+    assertTrue(root.toMathML().equals(ASTFactory.parseMathML("root.xml")));
+  }  
+  
 }

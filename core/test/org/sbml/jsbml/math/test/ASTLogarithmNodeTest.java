@@ -31,6 +31,7 @@ import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTBinaryFunctionNode;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
 import org.sbml.jsbml.math.ASTConstantNumber;
+import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTLogarithmNode;
 
 
@@ -237,6 +238,25 @@ public class ASTLogarithmNodeTest {
     ASTConstantNumber e = new ASTConstantNumber(Type.CONSTANT_E);
     ASTLogarithmNode ln = new ASTLogarithmNode(e, new ASTCnIntegerNode(1));
     assertTrue(ln.toLaTeX().equals("\\ln{\\left(1\\right)}"));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLLog() {
+    ASTLogarithmNode log = new ASTLogarithmNode(new ASTCnIntegerNode(1));
+    assertTrue(log.toMathML().equals(ASTFactory.parseMathML("log.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTLogarithmNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLNaturalLog() {
+    ASTConstantNumber e = new ASTConstantNumber(Type.CONSTANT_E);
+    ASTLogarithmNode ln = new ASTLogarithmNode(e, new ASTCnIntegerNode(1));
+    assertTrue(ln.toMathML().equals(ASTFactory.parseMathML("ln.xml")));
   }
   
 }

@@ -27,6 +27,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
+import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTHyperbolicNode;
 
 
@@ -285,5 +286,106 @@ public class ASTHyperbolicNodeTest {
     tanh.addChild(new ASTCnIntegerNode(2));
     assertTrue(tanh.toLaTeX().equals("\\tanh{\\left(2\\right)}"));
   }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLArccosh() {
+    ASTHyperbolicNode arccosh = new ASTHyperbolicNode(Type.FUNCTION_ARCCOSH);
+    arccosh.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arccosh.toMathML().equals(ASTFactory.parseMathML("arccosh.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLArccsch() {
+    ASTHyperbolicNode arccsch = new ASTHyperbolicNode(Type.FUNCTION_ARCCSCH);
+    arccsch.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arccsch.toMathML().equals(ASTFactory.parseMathML("arccsch.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLArcsech() {
+    ASTHyperbolicNode arcsech = new ASTHyperbolicNode(Type.FUNCTION_ARCSECH);
+    arcsech.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arcsech.toMathML().equals(ASTFactory.parseMathML("arcsech.xml")));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLArcsinh() {
+    ASTHyperbolicNode arcsinh = new ASTHyperbolicNode(Type.FUNCTION_ARCSINH);
+    arcsinh.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arcsinh.toMathML().equals(ASTFactory.parseMathML("arcsinh.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLArctanh() {
+    ASTHyperbolicNode arctanh = new ASTHyperbolicNode(Type.FUNCTION_ARCTANH);
+    arctanh.addChild(new ASTCnIntegerNode(2));
+    assertTrue(arctanh.toMathML().equals(ASTFactory.parseMathML("arctanh.xml")));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLCosh() {
+    ASTHyperbolicNode cosh = new ASTHyperbolicNode(Type.FUNCTION_COSH);
+    cosh.addChild(new ASTCnIntegerNode(2));
+    assertTrue(cosh.toMathML().equals(ASTFactory.parseMathML("cosh.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLCsch() {
+    ASTHyperbolicNode csch = new ASTHyperbolicNode(Type.FUNCTION_CSCH);
+    csch.addChild(new ASTCnIntegerNode(2));
+    assertTrue(csch.toMathML().equals(ASTFactory.parseMathML("csch.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLSech() {
+    ASTHyperbolicNode sech = new ASTHyperbolicNode(Type.FUNCTION_SECH);
+    sech.addChild(new ASTCnIntegerNode(2));
+    assertTrue(sech.toMathML().equals(ASTFactory.parseMathML("sech.xml")));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLSinh() {
+    ASTHyperbolicNode sinh = new ASTHyperbolicNode(Type.FUNCTION_SINH);
+    sinh.addChild(new ASTCnIntegerNode(2));
+    assertTrue(sinh.toMathML().equals(ASTFactory.parseMathML("sinh.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTHyperbolicNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLTanh() {
+    ASTHyperbolicNode tanh = new ASTHyperbolicNode(Type.FUNCTION_TANH);
+    tanh.addChild(new ASTCnIntegerNode(2));
+    assertTrue(tanh.toMathML().equals(ASTFactory.parseMathML("tanh.xml")));
+  }
+
   
 }

@@ -147,6 +147,14 @@ public class ASTFunction extends AbstractASTNode {
   }
 
   /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.math.compiler.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
+    return null;
+  }
+
+  /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
   @Override
@@ -261,7 +269,7 @@ public class ASTFunction extends AbstractASTNode {
     logger.warn(error);
     return "";
   }
-
+  
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -276,7 +284,7 @@ public class ASTFunction extends AbstractASTNode {
       + ((parentSBMLObject == null) ? 0 : parentSBMLObject.hashCode());
     return result;
   }
-  
+
   /**
    * Initializes the default values/attributes of the node.
    */
@@ -327,7 +335,7 @@ public class ASTFunction extends AbstractASTNode {
   public boolean isAllowableType(Type type) {
     return type.name().startsWith("FUNCTION");
   }
-
+  
   /**
    * Returns True iff listOfNodes has been set
    * 
@@ -346,7 +354,7 @@ public class ASTFunction extends AbstractASTNode {
   public boolean isSetName() {
     return name != null;
   }
-  
+
   /**
    * Adds the given node as a child of this {@link ASTFunction}. This method adds child
    * nodes from right to left.
@@ -414,7 +422,7 @@ public class ASTFunction extends AbstractASTNode {
     insertChild(n, newChild);
     return child;
   }
-
+  
   /**
    * Set the name of the MathML element represented by
    * this {@link ASTFunction}
@@ -426,7 +434,7 @@ public class ASTFunction extends AbstractASTNode {
     this.name = name;
     firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
   }
-  
+
   /**
    * <p>
    * Swaps the children of this {@link ASTFunction} with the children of that
@@ -475,15 +483,6 @@ public class ASTFunction extends AbstractASTNode {
     builder.append(name);
     builder.append("]");
     return builder.toString();
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.math.compiler.ASTNode2Compiler)
-   */
-  @Override
-  public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
-    // TODO Auto-generated method stub
-    return null;
   }
   
 }
