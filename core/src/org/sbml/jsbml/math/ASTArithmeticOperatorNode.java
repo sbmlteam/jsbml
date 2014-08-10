@@ -163,8 +163,8 @@ public class ASTArithmeticOperatorNode extends ASTFunction {
       case SUM:
       case PRODUCT:
         return true;
-      default: // UNKNOWN
-        return false;
+      default:
+        break;
       }
     }
     return false;

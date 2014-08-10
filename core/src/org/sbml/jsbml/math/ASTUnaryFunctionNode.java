@@ -196,7 +196,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
       case FUNCTION_FLOOR:
         return true;    
       default:
-        return false;
+        break;
       }      
     }
     return false;

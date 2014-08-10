@@ -43,6 +43,24 @@ import org.sbml.jsbml.SBMLException;
 public class ASTFactory {
   
   /**
+   * Creates an {@link ASTLogicalOperatorNode} of type {@link Type.LOGICAL_AND} and 
+   * adds the given nodes as children.
+   * 
+   * @param ast 
+   * @return an {@link ASTLogicalOperatorNode} with the given nodes as children.
+   */
+  public static ASTLogicalOperatorNode and(ASTNode2... ast) {
+    if (ast == null) {
+      throw new NullPointerException();
+    }
+    ASTLogicalOperatorNode and = new ASTLogicalOperatorNode(Type.LOGICAL_AND);
+    for (ASTNode2 astNode : ast) {
+      and.addChild(astNode);
+    }
+    return and;
+  }
+  
+  /**
    * Creates a new {@link ASTArithmeticOperatorNode} of type MINUS and adds the given nodes as children.
    * Resulting abstract syntax tree will be reduced to binary form.
    * 
@@ -85,7 +103,8 @@ public class ASTFactory {
     eq.addChild(right);
     return eq;
   }
-  
+
+
   /**
    * Returns a new {@link ASTPowerNode} that represents Euler's constant raised by the
    * power of the given exponent.
@@ -384,6 +403,44 @@ public class ASTFactory {
 
 
   /**
+   * Creates an {@link ASTLogicalOperatorNode} of type {@link Type.LOGICAL_NOT} and 
+   * adds the given nodes as children.
+   * 
+   * @param ast 
+   * @return an {@link ASTLogicalOperatorNode} with the given nodes as children.
+   */
+  public static ASTLogicalOperatorNode not(ASTNode2... ast) {
+    if (ast == null) {
+      throw new NullPointerException();
+    }
+    ASTLogicalOperatorNode not = new ASTLogicalOperatorNode(Type.LOGICAL_NOT);
+    for (ASTNode2 astNode : ast) {
+      not.addChild(astNode);
+    }
+    return not;
+  }
+
+
+  /**
+   * Creates an {@link ASTLogicalOperatorNode} of type {@link Type.LOGICAL_OR} and 
+   * adds the given nodes as children.
+   * 
+   * @param ast 
+   * @return an {@link ASTLogicalOperatorNode} with the given nodes as children.
+   */
+  public static ASTLogicalOperatorNode or(ASTNode2... ast) {
+    if (ast == null) {
+      throw new NullPointerException();
+    }
+    ASTLogicalOperatorNode or = new ASTLogicalOperatorNode(Type.LOGICAL_OR);
+    for (ASTNode2 astNode : ast) {
+      or.addChild(astNode);
+    }
+    return or;
+  }
+
+
+  /**
    * Return String representation of specified MathML file
    * 
    * @param fileName
@@ -457,7 +514,6 @@ public class ASTFactory {
     return new ASTPlusNode(node, new ASTCnRealNode(real));
   }
 
-
   /**
    * Adds an integer number to {@link ASTNode2}.
    * 
@@ -470,7 +526,6 @@ public class ASTFactory {
     return new ASTPlusNode(node, new ASTCnIntegerNode(integer));
   }
 
-
   /**
    * Creates a power {@link ASTNode2}.
    * 
@@ -481,8 +536,7 @@ public class ASTFactory {
   public static ASTPowerNode pow(ASTNode2 basis, ASTNode2 exponent) {
     return new ASTPowerNode(basis, exponent);
   }
-
-
+  
   /**
    * Creates a power {@link ASTPowerNode} with an {@link ASTNode2} 
    * basis and a real exponent.
@@ -494,7 +548,7 @@ public class ASTFactory {
   public static ASTPowerNode pow(ASTNode2 basis, double exponent) {
     return new ASTPowerNode(basis, new ASTCnRealNode(exponent));
   }
-
+  
   /**
    * Creates a power {@link ASTPowerNode} with an {@link ASTNode2} 
    * basis and an integer exponent.
@@ -506,11 +560,10 @@ public class ASTFactory {
   public static ASTPowerNode pow(ASTNode2 basis, int exponent) {
     return new ASTPowerNode(basis, new ASTCnIntegerNode(exponent));
   }
-
+  
   /**
    * Creates an {@link ASTArithmeticOperatorNode} of type {@link Type.PRODUCT} and 
-   * adds the given nodes as children. Resulting abstract syntax tree will be reduced 
-   * to binary form.
+   * adds the given nodes as children.
    * 
    * @param ast 
    * @return an {@link ASTArithmeticOperatorNode} with the given nodes as children.
@@ -525,7 +578,7 @@ public class ASTFactory {
     }
     return product;
   }
-
+  
   /**
    * <p>
    * Reduces an {@link ASTFunction} to a binary tree, e.g., if the formula in the
@@ -577,8 +630,7 @@ public class ASTFactory {
     childOperator.setStrictness(true);
     return rootNode;
   }
-
-
+  
   /**
    * Creates a root of type {@link ASTNode2}.
    * 
@@ -589,6 +641,7 @@ public class ASTFactory {
   public static ASTRootNode root(ASTNode2 rootExponent, ASTNode2 radicand) {
     return rootExponent != null ? new ASTRootNode(rootExponent, radicand) : new ASTRootNode(radicand);
   }
+
 
   /**
    * Sets the Parent of the node and its children to the given value
@@ -604,7 +657,7 @@ public class ASTFactory {
       }
     }
   }
-  
+
   /**
    * Creates a square root of type {@link ASTRootNode} with the 
    * specified radicand of type {@link ASTNode2}.
@@ -618,8 +671,7 @@ public class ASTFactory {
   
   /**
    * Creates an {@link ASTArithmeticOperatorNode} of type {@link Type.SUM} and adds
-   * the given nodes as children. Resulting abstract syntax tree will be reduced to 
-   * binary form.
+   * the given nodes as children.
    * 
    * @param ast 
    * @return an {@link ASTArithmeticOperatorNode} with the given nodes as children.
@@ -646,7 +698,7 @@ public class ASTFactory {
   public static ASTTimesNode times(ASTNode2 node1, ASTNode2 node2) {
     return new ASTTimesNode(node1, node2);
   }
-
+  
   /**
    * Adds a real number to {@link ASTNode2}
    * 
@@ -658,7 +710,7 @@ public class ASTFactory {
   public static ASTTimesNode times(ASTNode2 node1, double real) {
     return new ASTTimesNode(node1, new ASTCnRealNode(real));
   }
-  
+
   /**
    * Adds an integer to {@link ASTNode2}
    * 
@@ -684,6 +736,24 @@ public class ASTFactory {
     ASTMinusNode um = new ASTMinusNode();
     um.addChild(ast);
     return um;
+  }
+  
+  /**
+   * Creates an {@link ASTLogicalOperatorNode} of type {@link Type.LOGICAL_XOR} and 
+   * adds the given nodes as children.
+   * 
+   * @param ast 
+   * @return an {@link ASTLogicalOperatorNode} with the given nodes as children.
+   */
+  public static ASTLogicalOperatorNode xor(ASTNode2... ast) {
+    if (ast == null) {
+      throw new NullPointerException();
+    }
+    ASTLogicalOperatorNode xor = new ASTLogicalOperatorNode(Type.LOGICAL_XOR);
+    for (ASTNode2 astNode : ast) {
+      xor.addChild(astNode);
+    }
+    return xor;
   }
   
 }

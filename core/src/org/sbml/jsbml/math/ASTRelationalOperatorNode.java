@@ -136,7 +136,7 @@ public class ASTRelationalOperatorNode extends ASTFunction {
       case RELATIONAL_NEQ:
         return true;    
       default:
-        return false;
+        break;
       }      
     }
     return false;

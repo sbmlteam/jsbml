@@ -40,7 +40,7 @@ import org.sbml.jsbml.math.ASTNode2;
 public class FindUnitsCompiler implements ASTNode2Compiler {
 
   private boolean isUnitsDefined = false;
-  private final ASTNode2Value dummyValue = new ASTNode2Value("dummy", null);
+  private final ASTNode2Value<String> dummyValue = new ASTNode2Value<String>("dummy", null);
 
   public boolean isUnitsDefined() {
     return isUnitsDefined;

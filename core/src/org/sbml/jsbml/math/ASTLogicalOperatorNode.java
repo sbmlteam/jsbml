@@ -128,7 +128,7 @@ public class ASTLogicalOperatorNode extends ASTFunction {
       case LOGICAL_NOT:
         return true;
       default:
-        return false;
+        break;
       }      
     }
     return false;

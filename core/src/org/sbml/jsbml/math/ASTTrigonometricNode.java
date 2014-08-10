@@ -157,7 +157,7 @@ public class ASTTrigonometricNode extends ASTUnaryFunctionNode {
       case FUNCTION_TAN:
         return true; 
       default:
-        return false;
+        break;
       }
     }
     return false;

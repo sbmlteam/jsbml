@@ -116,7 +116,7 @@ public class ASTQualifierNode extends ASTFunction {
       case CONSTRUCTOR_OTHERWISE:
         return true;    
       default:
-        return false;
+        break;
       }      
     }
     return false;

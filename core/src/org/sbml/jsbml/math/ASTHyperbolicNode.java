@@ -159,7 +159,7 @@ public class ASTHyperbolicNode extends ASTUnaryFunctionNode {
       case FUNCTION_TANH:
         return true;
       default:
-        return false;
+        break;
       }
     }  
     return false;
