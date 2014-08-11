@@ -127,39 +127,7 @@ public class ArraysMath {
     return false;
   }
 
-/**
- * 
- * @param model
- * @param index
- * @param dimensionSizes
- * @return
- */
-  public static boolean evaluateIndexBounds(Model model, Index index,  Map<String, Double> dimensionSizes) {
-    SBase parent = index.getParentSBMLObject().getParentSBMLObject();
 
-    ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) parent.getExtension(ArraysConstants.shortLabel);
-
-    if(index.isSetReferencedAttribute()) {
-      String refValue = parent.writeXMLAttributes().get(index.getReferencedAttribute());
-
-      SBase refSBase = model.findNamedSBase(refValue);
-
-      ArraysSBasePlugin refSbasePlugin = (ArraysSBasePlugin) refSBase.getExtension(ArraysConstants.shortLabel);
-
-      if(refSbasePlugin == null) {
-        return false;
-      }
-
-      Dimension dimByArrayDim = arraysSBasePlugin.getDimensionByArrayDimension(index.getArrayDimension());
-
-      Map<String, Double> refSBaseSizes = getDimensionSizes(model, refSbasePlugin);
-
-      double size = refSBaseSizes.get(dimByArrayDim.getId());
-
-      return evaluateBounds(dimensionSizes, index.getMath(), size);
-    }
-    return false;
-  }
   /**
    * This method checks if adding an {@link Index} object to a parent {@link SBase} object
    * for referencing another {@link SBase} object does not cause out-of-bounds issues. 
@@ -286,7 +254,7 @@ public class ArraysMath {
     return (int) param.getValue();
   }
 
-  
+
   /**
    * This method maps a dimension id to the size of the dimension object.
    * 
@@ -375,15 +343,7 @@ public class ArraysMath {
    */
   public static boolean isStaticallyComputable(Model model, MathContainer mathContainer, String...constantIds) {
     StaticallyComputableCompiler compiler = new StaticallyComputableCompiler(model);
-    ArraysSBasePlugin plugin = (ArraysSBasePlugin) mathContainer.getExtension(ArraysConstants.shortLabel);
-    if(plugin != null) 
-    {
-      for(Dimension dim : plugin.getListOfDimensions()) {
-        if(dim.isSetId()) {
-          compiler.addConstantId(dim.getId());
-        }
-      }
-    }
+    
     if(constantIds != null) {
       for(String id : constantIds) {
         compiler.addConstantId(id);  
@@ -397,7 +357,28 @@ public class ArraysMath {
 
   }
 
+  /**
+   * This method is used to determine whether a {@link MathContainer} object is statically computable given
+   * a list of ids that can appear in the math.
+   * 
+   * @param model
+   * @param mathContainer
+   * @return
+   */
+  public static boolean isStaticallyComputable(Model model, ASTNode math, String...constantIds) {
+    StaticallyComputableCompiler compiler = new StaticallyComputableCompiler(model);
+    
+    if(constantIds != null) {
+      for(String id : constantIds) {
+        compiler.addConstantId(id);  
+      }
+    }
 
+    ASTNodeValue value = math.compile(compiler);
+
+    return value.toBoolean();
+
+  }
   public static boolean isVectorOperation(ASTNode math) {
     boolean hasVector = false;
 
