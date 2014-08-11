@@ -127,7 +127,33 @@ public class ArraysMath {
     return false;
   }
 
+  /**
+   * This method checks if adding an {@link Index} object to a parent {@link SBase} object
+   * for referencing another {@link SBase} object does not cause out-of-bounds issues. 
+   * 
+   * @param model
+   * @param parent
+   * @param reference
+   * @param math
+   * @param arrayDim
+   * @return
+   */
+  public static boolean evaluateIndexBounds(Model model, SBase reference, int arrayDim, ASTNode math, Map<String, Double> dimSizes) {
+    //TODO test it
 
+    ArraysSBasePlugin refSbasePlugin = (ArraysSBasePlugin) reference.getExtension(ArraysConstants.shortLabel);
+
+    Dimension dim = refSbasePlugin.getDimensionByArrayDimension(arrayDim);
+    
+    Parameter paramSize = model.getParameter(dim.getSize());
+    
+    double size = paramSize.getValue();
+
+    return evaluateBounds(dimSizes, math, size);
+
+  }
+  
+  
   /**
    * This method checks if adding an {@link Index} object to a parent {@link SBase} object
    * for referencing another {@link SBase} object does not cause out-of-bounds issues. 
