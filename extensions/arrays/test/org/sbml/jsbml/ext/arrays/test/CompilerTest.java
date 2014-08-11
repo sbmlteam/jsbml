@@ -481,4 +481,25 @@ public class CompilerTest {
       e.printStackTrace();
     }
   }
+  
+  @Test
+  public void testPiecewise() {
+    try {
+      Model model = new Model();
+      ASTNode vector = ASTNode.parseFormula("piecewise(1,1)");
+      VectorCompiler compiler = new VectorCompiler(model);
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().equals("1"));
+      compiler = new VectorCompiler(model, true);
+      vector = ASTNode.parseFormula("piecewise( { 1, 2 } , { x > 5, y > 5 }, { 0, 0 } )");
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("{piecewise(1,x>5,0),piecewise(2,y>5,0)}"));
+      vector = ASTNode.parseFormula("piecewise( { 1, 2 } , { x > 5, y > 5 }, 0 )");
+      vector.compile(compiler);
+      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("{piecewise(1,x>5,0),piecewise(2,y>5,0)}"));
+    } catch (ParseException e) {
+      assertTrue(false);
+      e.printStackTrace();
+    }
+  }
 }

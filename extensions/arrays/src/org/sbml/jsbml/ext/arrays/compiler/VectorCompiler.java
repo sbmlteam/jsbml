@@ -58,7 +58,6 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
 //TODO: need to check if its name
 //TODO: SBMLException error id
 //TODO: need to test functions. might have warnings
-//TODO: need to create astnode with correct type, add child, and replace child with clone
 public class VectorCompiler implements ASTNodeCompiler {
 
   private final ASTNodeValue dummy = new ASTNodeValue("dummy", null);
@@ -2933,16 +2932,19 @@ public class VectorCompiler implements ASTNodeCompiler {
   public ASTNodeValue piecewise(List<ASTNode> values) throws SBMLException {
     boolean isVector = false;
     List<ASTNode> compiledValues = new ArrayList<ASTNode>();
+    ASTNode vector = new ASTNode();
     for(ASTNode value : values) {
       value.compile(this);
       ASTNode compiledValue = getNode();
       compiledValues.add(compiledValue);
       if(compiledValue.isVector()) {
         isVector = true;
+        vector = compiledValue.clone();
       }
     }
     if(isVector) {
-      //TODO;
+      piecewiseRecursive(values, vector);
+      setNode(vector);
     } else {
       if(useId) {
         ASTNode piecewise = new ASTNode(ASTNode.Type.FUNCTION_PIECEWISE);
@@ -2969,7 +2971,32 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
-  
+  private void piecewiseRecursive(List<ASTNode> values, ASTNode vector) throws SBMLException{
+    if(!vector.isVector()) {
+      vector.setType(ASTNode.Type.FUNCTION_PIECEWISE);
+      vector.getChildren().clear();
+      for(ASTNode value : values) {
+        vector.addChild(value);
+      }
+      return;
+    }
+
+    for(int i = 0; i < vector.getChildCount(); ++i) {
+      List<ASTNode> children = new ArrayList<ASTNode>();
+      for(ASTNode value : values) {
+        if(value.getChildCount() == 0) {
+          children.add(value.clone());
+        } else if(value.isVector()) {
+          if(value.getChildCount() != vector.getChildCount()) {
+            throw new SBMLException();
+          }
+          children.add(value.getChild(i).clone());
+        }
+      }
+      piecewiseRecursive(children, vector.getChild(i));
+    }
+    
+  }
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#plus(java.util.List)
    */
