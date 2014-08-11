@@ -74,7 +74,7 @@ public abstract class ArraysConstraint {
    * doesn't violate the constraint specified by this
    * object.
    */
-  public abstract void check();
+  public abstract void check(); // TODO: return list of errors
   
   /**
    * Get the listOfErrors after checking the model.

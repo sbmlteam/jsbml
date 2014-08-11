@@ -583,7 +583,6 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue function(String functionDefinitionName, List<ASTNode> args)
       throws SBMLException {
-    // TODO Auto-generated method stub
     return unknownValue();
   }
 

@@ -127,6 +127,39 @@ public class ArraysMath {
     return false;
   }
 
+/**
+ * 
+ * @param model
+ * @param index
+ * @param dimensionSizes
+ * @return
+ */
+  public static boolean evaluateIndexBounds(Model model, Index index,  Map<String, Double> dimensionSizes) {
+    SBase parent = index.getParentSBMLObject().getParentSBMLObject();
+
+    ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) parent.getExtension(ArraysConstants.shortLabel);
+
+    if(index.isSetReferencedAttribute()) {
+      String refValue = parent.writeXMLAttributes().get(index.getReferencedAttribute());
+
+      SBase refSBase = model.findNamedSBase(refValue);
+
+      ArraysSBasePlugin refSbasePlugin = (ArraysSBasePlugin) refSBase.getExtension(ArraysConstants.shortLabel);
+
+      if(refSbasePlugin == null) {
+        return false;
+      }
+
+      Dimension dimByArrayDim = arraysSBasePlugin.getDimensionByArrayDimension(index.getArrayDimension());
+
+      Map<String, Double> refSBaseSizes = getDimensionSizes(model, refSbasePlugin);
+
+      double size = refSBaseSizes.get(dimByArrayDim.getId());
+
+      return evaluateBounds(dimensionSizes, index.getMath(), size);
+    }
+    return false;
+  }
   /**
    * This method checks if adding an {@link Index} object to a parent {@link SBase} object
    * for referencing another {@link SBase} object does not cause out-of-bounds issues. 
