@@ -736,8 +736,8 @@ public class ASTNode extends AbstractTreeNode {
    * 
    * @param tree
    *            the root of the ASTNode formula expression tree
-   * @param compiler the {@link FormulaCompiler} to use           
-   * @return the formula from the given AST as an infix 
+   * @param compiler the {@link FormulaCompiler} to use
+   * @return the formula from the given AST as an infix
    *         mathematical formula. {@code null} is
    *         returned if one of the given arguments is {@code null}.
    * @throws SBMLException if the {@link ASTNode} is not well formed.
@@ -754,7 +754,7 @@ public class ASTNode extends AbstractTreeNode {
     return tree.toFormula(compiler);
   }
 
-    
+
   /**
    * Creates a new {@link ASTNode} of type DIVIDE with the given nodes as children.
    * 
@@ -1913,7 +1913,7 @@ public class ASTNode extends AbstractTreeNode {
           // value = compiler.compile(variable);
         }
       } else {
-        logger.warn(MessageFormat.format(
+        logger.debug(MessageFormat.format(
           "ASTNode of type FUNCTION but the variable is null: ({0}, {1})! Check that your object is linked to a Model.",
           getName(), (getParentSBMLObject() != null ? getParentSBMLObject().getElementName() : null)));
         value = compiler.function(getName(), getChildren());
@@ -3988,16 +3988,16 @@ public class ASTNode extends AbstractTreeNode {
    * @throws SBMLException
    *             if there is a problem in the ASTNode tree.
    * @see FormulaCompiler
-   * @see FormulaCompilerLibSBML            
+   * @see FormulaCompilerLibSBML
    */
   public String toFormula(FormulaCompiler compiler) throws SBMLException {
     if (compiler == null) {
       return null;
     }
-    
+
     return compile(compiler).toString();
   }
-  
+
   /**
    * Converts this node recursively into a LaTeX formatted String.
    * 
