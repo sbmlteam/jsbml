@@ -32,15 +32,12 @@ import org.sbml.jsbml.math.ASTNode2;
 import org.sbml.jsbml.math.ASTBoolean;
 import org.sbml.jsbml.math.ASTCnExponentialNode;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
-import org.sbml.jsbml.math.ASTCnRationalNode;
 import org.sbml.jsbml.math.ASTCnRealNode;
 import org.sbml.jsbml.math.ASTConstantNumber;
 import org.sbml.jsbml.math.ASTCSymbolAvogadroNode;
-import org.sbml.jsbml.math.ASTCSymbolDelayNode;
 import org.sbml.jsbml.math.ASTCSymbolTimeNode;
 import org.sbml.jsbml.math.ASTDivideNode;
 import org.sbml.jsbml.math.ASTFunction;
-import org.sbml.jsbml.math.ASTHyperbolicNode;
 import org.sbml.jsbml.math.ASTLambdaFunctionNode;
 import org.sbml.jsbml.math.ASTLogarithmNode;
 import org.sbml.jsbml.math.ASTLogicalOperatorNode;
@@ -52,7 +49,6 @@ import org.sbml.jsbml.math.ASTQualifierNode;
 import org.sbml.jsbml.math.ASTRelationalOperatorNode;
 import org.sbml.jsbml.math.ASTRootNode;
 import org.sbml.jsbml.math.ASTTimesNode;
-import org.sbml.jsbml.math.ASTTrigonometricNode;
 import org.sbml.jsbml.math.ASTUnaryFunctionNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.resources.Resource;
@@ -603,6 +599,11 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     finally { jj_save(2, xla); }
   }
 
+  private boolean jj_3R_22() {
+    if (jj_scan_token(DIVIDE)) return true;
+    return false;
+  }
+
   private boolean jj_3R_17() {
     if (jj_scan_token(BOOLEAN_LOGIC)) return true;
     return false;
@@ -611,6 +612,17 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
   private boolean jj_3R_27() {
     if (jj_scan_token(LEFT_BRACES)) return true;
     if (jj_scan_token(RIGHT_BRACES)) return true;
+    return false;
+  }
+
+  private boolean jj_3_2() {
+    if (jj_scan_token(STRING)) return true;
+    Token xsp;
+    if (jj_3R_9()) return true;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_9()) { jj_scanpos = xsp; break; }
+    }
     return false;
   }
 
@@ -626,17 +638,6 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
 
   private boolean jj_3R_21() {
     if (jj_scan_token(TIMES)) return true;
-    return false;
-  }
-
-  private boolean jj_3_2() {
-    if (jj_scan_token(STRING)) return true;
-    Token xsp;
-    if (jj_3R_9()) return true;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_9()) { jj_scanpos = xsp; break; }
-    }
     return false;
   }
 
@@ -665,13 +666,6 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     return false;
   }
 
-  private boolean jj_3R_9() {
-    if (jj_scan_token(LEFT_BRACKET)) return true;
-    if (jj_3R_10()) return true;
-    if (jj_scan_token(RIGHT_BRACKET)) return true;
-    return false;
-  }
-
   private boolean jj_3R_12() {
     Token xsp;
     xsp = jj_scanpos;
@@ -690,6 +684,13 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
 
   private boolean jj_3R_15() {
     if (jj_scan_token(PLUS)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_9() {
+    if (jj_scan_token(LEFT_BRACKET)) return true;
+    if (jj_3R_10()) return true;
+    if (jj_scan_token(RIGHT_BRACKET)) return true;
     return false;
   }
 
@@ -831,11 +832,6 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
   private boolean jj_3R_28() {
     if (jj_scan_token(MINUS)) return true;
     if (jj_3R_19()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_22() {
-    if (jj_scan_token(DIVIDE)) return true;
     return false;
   }
 

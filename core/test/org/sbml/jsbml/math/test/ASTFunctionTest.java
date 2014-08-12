@@ -410,6 +410,15 @@ public class ASTFunctionTest {
   }
   
   /**
+   * Test method for {@link org.sbml.jsbml.math.ASTFunction#isAllowableType()}.
+   */
+  @Test
+  public final void testIsAllowableType() {
+    ASTFunction function = new ASTFunction();
+    assertTrue(function.isAllowableType(Type.VECTOR));
+  }
+  
+  /**
    * Test method for {@link org.sbml.jsbml.math.ASTFunction#prependChild(org.sbml.jsbml.math.ASTNode2)}.
    */
   @Test

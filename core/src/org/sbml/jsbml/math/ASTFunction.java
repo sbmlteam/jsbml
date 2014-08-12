@@ -333,7 +333,7 @@ public class ASTFunction extends AbstractASTNode {
    */
   @Override
   public boolean isAllowableType(Type type) {
-    return type.name().startsWith("FUNCTION");
+    return type == Type.VECTOR || type.name().startsWith("FUNCTION");
   }
   
   /**
