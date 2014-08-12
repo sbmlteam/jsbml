@@ -543,7 +543,7 @@
       filesetmanifest="mergewithoutmain"
       index="true"
       indexMetaInf="true"
-  	  jarfile="${basedir}/lib/jsbml-1.0-incl-libs.jar"
+      jarfile="${basedir}/lib/jsbml-${jsbml.version}-incl-libs.jar"
       level="9"
       manifestencoding="utf-8"
       strict="warn"
@@ -673,17 +673,12 @@
         includes="org/**.class org/**/*.class"
         excludes="**/.svn*, **/package-info.class"
       />
-      	<!-- <zipfileset includes="org/sbml/jsbml/gui/**.class" excludes="**/.svn*, **/package-info.class" src="${basedir}/lib/jsbml-${jsbml.version}-incl-libs.jar"/>-->
-      	<zipfileset includes="org/sbml/jsbml/gui/**.class" excludes="**/.svn*, **/package-info.class" src="${basedir}/lib/jsbml-1.0-incl-libs.jar"/>
-      </jar>
-    	  <exec executable="cmd">
-    	    <arg value="/c"/>
-    	    <arg value="C:/Users/Yusef-PC/Desktop/CellDesignerUpdater.bat"/>
-    	    <arg value="-p"/>
-    	  </exec>
+      <zipfileset includes="org/sbml/jsbml/gui/**.class" excludes="**/.svn*, **/package-info.class" src="${basedir}/lib/jsbml-${jsbml.version}-incl-libs.jar"/>
+    </jar>
 
   </target>
 
 </project>
 
 <!-- End of file -->
+
