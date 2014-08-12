@@ -104,7 +104,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
 
   /**
    * Tests whether the String representation of the given object contains any
-   * arithmetic symbols and if the given object is already sorrounded by
+   * arithmetic symbols and if the given object is already surrounded by
    * brackets.
    * 
    * @param something
@@ -253,7 +253,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
     }
     return equation;
   }
-  
+
   /**
    * 
    * @param basis
@@ -286,7 +286,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   public static final StringBuffer times(Object... factors) {
     return arith('*', factors);
   }
-  
+
   /**
    * Returns the given vector as StringBuffer.
    * 
@@ -303,7 +303,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
     }
     StringBuffer equation = new StringBuffer();
     equation.append("{");
-    
+
     if (vsb.size() > 0) {
       equation.append(vsb.get(0));
     }
@@ -328,7 +328,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue and(List<ASTNode> nodes) throws SBMLException {
-    return logicalOperation(" and ", nodes);
+    return logicalOperation(" && ", nodes);
   }
 
   /* (non-Javadoc)
@@ -894,7 +894,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue not(ASTNode node) throws SBMLException {
-    return function("not", node);
+    return function("!", node);
   }
 
   /* (non-Javadoc)
@@ -902,7 +902,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue or(List<ASTNode> nodes) throws SBMLException {
-    return logicalOperation(" or ", nodes);
+    return logicalOperation(" || ", nodes);
   }
 
   /* (non-Javadoc)
@@ -1100,7 +1100,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
       ASTNode ast = nodes.get(i);
       n[i] = ast.compile(this);
     }
-    
+
     return new ASTNodeValue(selector(n).toString(), this);
   }
 
@@ -1114,7 +1114,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
       ASTNode ast = nodes.get(i);
       n[i] = ast.compile(this);
     }
-    
+
     return new ASTNodeValue(vector(n).toString(), this);
   }
 
