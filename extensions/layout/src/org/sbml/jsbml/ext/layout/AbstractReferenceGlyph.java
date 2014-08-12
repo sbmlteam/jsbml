@@ -69,7 +69,7 @@ public abstract class AbstractReferenceGlyph extends GraphicalObject {
   public AbstractReferenceGlyph(AbstractReferenceGlyph glyph) {
     super(glyph);
     if (glyph.isSetReference()) {
-      setName(glyph.getReference());
+      setName(glyph.getReference()); // TODO - this setName call seems strange !!
       setReference(glyph.getReference());
     }
   }
