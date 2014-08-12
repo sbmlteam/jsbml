@@ -11,7 +11,8 @@
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
- * 5. The Babraham Institute, Cambridge, UK 
+ * 5. The Babraham Institute, Cambridge, UK
+ * 6. The University of Toronto, Toronto, ON, Canada
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -23,12 +24,39 @@
 package org.sbml.jsbml.text.parser;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
-import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.math.ASTNode2;
+import org.sbml.jsbml.math.ASTBoolean;
+import org.sbml.jsbml.math.ASTCnExponentialNode;
+import org.sbml.jsbml.math.ASTCnIntegerNode;
+import org.sbml.jsbml.math.ASTCnRationalNode;
+import org.sbml.jsbml.math.ASTCnRealNode;
+import org.sbml.jsbml.math.ASTConstantNumber;
+import org.sbml.jsbml.math.ASTCSymbolAvogadroNode;
+import org.sbml.jsbml.math.ASTCSymbolDelayNode;
+import org.sbml.jsbml.math.ASTCSymbolTimeNode;
+import org.sbml.jsbml.math.ASTDivideNode;
+import org.sbml.jsbml.math.ASTFunction;
+import org.sbml.jsbml.math.ASTHyperbolicNode;
+import org.sbml.jsbml.math.ASTLambdaFunctionNode;
+import org.sbml.jsbml.math.ASTLogarithmNode;
+import org.sbml.jsbml.math.ASTLogicalOperatorNode;
+import org.sbml.jsbml.math.ASTMinusNode;
+import org.sbml.jsbml.math.ASTPiecewiseFunctionNode;
+import org.sbml.jsbml.math.ASTPowerNode;
+import org.sbml.jsbml.math.ASTPlusNode;
+import org.sbml.jsbml.math.ASTQualifierNode;
+import org.sbml.jsbml.math.ASTRelationalOperatorNode;
+import org.sbml.jsbml.math.ASTRootNode;
+import org.sbml.jsbml.math.ASTTimesNode;
+import org.sbml.jsbml.math.ASTTrigonometricNode;
+import org.sbml.jsbml.math.ASTUnaryFunctionNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.resources.Resource;
+import org.sbml.jsbml.text.parser.IFormulaParser;
 
 /**
  * Class used to parse infix mathematical formula and returns a representation of it as an Abstract Syntax Tree (AST).
@@ -38,6 +66,7 @@ import org.sbml.jsbml.resources.Resource;
  *
  * @author Alexander D&ouml;rr
  * @author Nicolas Rodriguez
+ * @author Victor Kofia
  * @since 0.8
  * @version $Rev$
  */
@@ -61,7 +90,7 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     }
   }
 
-  private void checkSize(ArrayList < ASTNode > arguments, int i) throws ParseException
+  private void checkSize(ArrayList < ASTNode2 > arguments, int i) throws ParseException
   {
     if (arguments.size() > i)
     {
@@ -69,30 +98,9 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     }
   }
 
-  private Integer getInteger(ASTNode node)
+  private Integer getInteger(ASTNode2 node)
   {
-    if (node.isUMinus())
-    {
-      if (node.getChild(0).isInteger())
-      {
-        return - node.getChild(0).getInteger();
-      }
-      else
-      {
-        return null;
-      }
-    }
-    else
-    {
-      if (node.isInteger())
-      {
-        return node.getInteger();
-      }
-      else
-      {
-        return null;
-      }
-    }
+    return node.getType() == Type.INTEGER ? ((ASTCnIntegerNode)node).getInteger() : null;
   }
 
   final public Token string() throws ParseException {
@@ -113,15 +121,15 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  final public ASTNode parse() throws ParseException {
-  ASTNode node = null;
+  final public ASTNode2 parse() throws ParseException {
+  ASTNode2 node = null;
     node = Expression();
     {if (true) return node;}
     throw new Error("Missing return statement in function");
   }
 
-  final private ASTNode Expression() throws ParseException {
-  ASTNode value = null;
+  final private ASTNode2 Expression() throws ParseException {
+  ASTNode2 value = null;
     value = TermLvl1();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case 0:
@@ -139,10 +147,9 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  final private ASTNode TermLvl3() throws ParseException {
-  ASTNode rightChild;
-  ASTNode leftChild;
-  ASTNode node = null;
+  final private ASTNode2 TermLvl3() throws ParseException {
+  ASTNode2 rightChild = null;
+  ASTNode2 leftChild = null;
     leftChild = Primary();
     label_1:
     while (true) {
@@ -159,16 +166,16 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
       case POWER:
         jj_consume_token(POWER);
         rightChild = Primary();
-      node = new ASTNode(Type.POWER);
-      node.addChild(leftChild);
-      node.addChild(rightChild);
-      leftChild = node;
+      ASTPowerNode power = new ASTPowerNode();
+      power.addChild(leftChild);
+      power.addChild(rightChild);
+      leftChild = power;
         break;
       case FACTORIAL:
         jj_consume_token(FACTORIAL);
-      node = new ASTNode(Type.FUNCTION_FACTORIAL);
-      node.addChild(leftChild);
-      leftChild = node;
+      ASTUnaryFunctionNode factorial = new ASTUnaryFunctionNode(Type.FUNCTION_FACTORIAL);
+      factorial.addChild(leftChild);
+      leftChild = factorial;
         break;
       default:
         jj_la1[3] = jj_gen;
@@ -180,10 +187,10 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  final private ASTNode TermLvl2() throws ParseException {
-  ASTNode rightChild;
-  ASTNode leftChild;
-  ASTNode node = null;
+  final private ASTNode2 TermLvl2() throws ParseException {
+  ASTNode2 node = null;
+  ASTNode2 rightChild = null;
+  ASTNode2 leftChild = null;
     leftChild = TermLvl3();
     label_2:
     while (true) {
@@ -200,9 +207,9 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
       case TIMES:
         jj_consume_token(TIMES);
         rightChild = TermLvl3();
-      node = new ASTNode('*');
-      node.addChild(leftChild);
-      node.addChild(rightChild);
+      node = new ASTTimesNode();
+      ((ASTTimesNode)node).addChild(leftChild);
+      ((ASTTimesNode)node).addChild(rightChild);
       leftChild = node;
         break;
       case DIVIDE:
@@ -213,16 +220,12 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
       right = getInteger(rightChild);
       if (left != null && right != null)
       {
-        node = new ASTNode();
-        node.setValue(left, right);
+        node = new ASTDivideNode(leftChild, rightChild);
         leftChild = node;
       }
       else
       {
-        node = new ASTNode('/');
-        node.addChild(leftChild);
-        node.addChild(rightChild);
-        leftChild = node;
+        {if (true) throw new ParseException();}
       }
         break;
       default:
@@ -235,10 +238,10 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  final private ASTNode TermLvl1() throws ParseException {
-  ASTNode rightChild = null;
-  ASTNode leftChild;
-  ASTNode node = null;
+  final private ASTNode2 TermLvl1() throws ParseException {
+  ASTNode2 node = null;
+  ASTNode2 rightChild = null;
+  ASTNode2 leftChild = null;
   Token t;
   String s;
   Type type = null;
@@ -260,71 +263,29 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
       case PLUS:
         jj_consume_token(PLUS);
         rightChild = TermLvl2();
-      node = new ASTNode('+');
-      node.addChild(leftChild);
-      node.addChild(rightChild);
+      node = new ASTPlusNode(leftChild, rightChild);
       leftChild = node;
         break;
       case MINUS:
         jj_consume_token(MINUS);
         rightChild = TermLvl2();
-      node = new ASTNode('-');
-      node.addChild(leftChild);
-      node.addChild(rightChild);
+      node = new ASTMinusNode(leftChild, rightChild);
       leftChild = node;
         break;
       case BOOLEAN_LOGIC:
         t = jj_consume_token(BOOLEAN_LOGIC);
         rightChild = TermLvl2();
-      s = t.image;
-      if (s.equalsIgnoreCase("or"))
-      {
-        type = ASTNode.Type.LOGICAL_OR;
-      }
-      else if (s.equalsIgnoreCase("and"))
-      {
-        type = ASTNode.Type.LOGICAL_AND;
-      }
-      else if (s.equalsIgnoreCase("xor"))
-      {
-        type = ASTNode.Type.LOGICAL_XOR;
-      }
-      node = new ASTNode(type);
-      node.addChild(leftChild);
-      node.addChild(rightChild);
+      node = new ASTLogicalOperatorNode(Type.getTypeFor(t.image));
+      ((ASTLogicalOperatorNode)node).addChild(leftChild);
+      ((ASTLogicalOperatorNode)node).addChild(rightChild);
       leftChild = node;
         break;
       case COMPARISON:
         t = jj_consume_token(COMPARISON);
         rightChild = TermLvl2();
-      s = t.image;
-      if (s.equalsIgnoreCase("<"))
-      {
-        type = ASTNode.Type.RELATIONAL_LT;
-      }
-      else if (s.equalsIgnoreCase(">"))
-      {
-        type = ASTNode.Type.RELATIONAL_GT;
-      }
-      else if (s.equalsIgnoreCase("=="))
-      {
-        type = ASTNode.Type.RELATIONAL_EQ;
-      }
-      else if (s.equalsIgnoreCase("!="))
-      {
-        type = ASTNode.Type.RELATIONAL_NEQ;
-      }
-      else if (s.equalsIgnoreCase(">="))
-      {
-        type = ASTNode.Type.RELATIONAL_GEQ;
-      }
-      else if (s.equalsIgnoreCase("<="))
-      {
-        type = ASTNode.Type.RELATIONAL_LEQ;
-      }
-      node = new ASTNode(type);
-      node.addChild(leftChild);
-      node.addChild(rightChild);
+      node = new ASTRelationalOperatorNode(Type.getTypeFor(t.image));
+      ((ASTRelationalOperatorNode)node).addChild(leftChild);
+      ((ASTRelationalOperatorNode)node).addChild(rightChild);
       leftChild = node;
         break;
       default:
@@ -337,27 +298,27 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     throw new Error("Missing return statement in function");
   }
 
-  final private ASTNode Primary() throws ParseException, NumberFormatException {
+  final private ASTNode2 Primary() throws ParseException, NumberFormatException {
   Token t;
   double d;
   int i;
-  ASTNode node = new ASTNode();
-  ASTNode vector = new ASTNode();
-  ASTNode child, furtherChild;
+  ASTNode2 node = null;
+  ASTFunction vector = new ASTFunction();
+  ASTNode2 child, furtherChild;
   String s;
   String vals [ ];
-  ArrayList < ASTNode > arguments = new ArrayList < ASTNode > ();
+  ArrayList < ASTNode2 > arguments = new ArrayList < ASTNode2 > ();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case INTEGER:
       t = jj_consume_token(INTEGER);
     i = Integer.parseInt(t.image);
-    node.setValue(i);
+    node = new ASTCnIntegerNode(i);
     {if (true) return node;}
       break;
     case NUMBER:
       t = jj_consume_token(NUMBER);
     d = Double.parseDouble(t.image);
-    node.setValue(d);
+    node = new ASTCnRealNode(d);
     {if (true) return node;}
       break;
     case EXPNUMBER:
@@ -372,11 +333,13 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     {
       i = Integer.parseInt(vals [ 1 ]);
     }
-    node.setValue(Double.parseDouble(vals [ 0 ]), i);
+    node = new ASTCnExponentialNode();
+    ((ASTCnExponentialNode)node).setMantissa(Double.parseDouble(vals [ 0 ]));
+    ((ASTCnExponentialNode)node).setExponent(i);
     {if (true) return node;}
       break;
     default:
-      jj_la1[11] = jj_gen;
+      jj_la1[12] = jj_gen;
       if (jj_2_1(2)) {
         t = string();
         jj_consume_token(OPEN_PAR);
@@ -401,66 +364,88 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
 
     if (stringToType.containsKey(s.toLowerCase()))
     {
-      type = ASTNode.Type.valueOf(stringToType.getProperty(s.toLowerCase()).toUpperCase());
+      type = Type.valueOf(stringToType.getProperty(s.toLowerCase()).toUpperCase());
     }
 
     if (s.equalsIgnoreCase("pow"))
     {
       checkSize(arguments, 1);
-      node.addChild(child);
+      node = new ASTPowerNode();
+      ((ASTPowerNode)node).addChild(child);
     }
     else if (s.equalsIgnoreCase("sqr"))
     {
       checkSize(arguments, 0);
-      node.addChild(child);
-      node.addChild(new ASTNode(2));
+      node = new ASTRootNode(child);
     }
     else if (s.equalsIgnoreCase("sqrt"))
     {
       checkSize(arguments, 0);
-      node.addChild(new ASTNode(2));
-      node.addChild(child);
+      node = new ASTRootNode(child);
     }
     else if (s.equalsIgnoreCase("not"))
     {
       checkSize(arguments, 0);
-      node.addChild(child);
-      type = Type.LOGICAL_NOT;
+      node = new ASTLogicalOperatorNode(Type.LOGICAL_NOT);
+      ((ASTLogicalOperatorNode)node).addChild(child);
     }
+    else if (s.equalsIgnoreCase("log") || s.equalsIgnoreCase("log10"))
+    {
+      checkSize(arguments, 0);
+      node = new ASTLogarithmNode(new ASTCnIntegerNode(10), child);
+    }
+
     else if (s.equalsIgnoreCase("ln"))
     {
       checkSize(arguments, 0);
-      node.addChild(child);
-      type = Type.FUNCTION_LN;
+      node = new ASTLogarithmNode(new ASTConstantNumber(Math.E), child);
     }
     else if (s.equalsIgnoreCase("lambda"))
     {
-      node.addChild(child);
-      type = Type.LAMBDA;
+          node = new ASTLambdaFunctionNode();
+          ASTQualifierNode bvar = new ASTQualifierNode(Type.QUALIFIER_BVAR);
+          bvar.addChild(child);
+      ((ASTLambdaFunctionNode)node).addChild(bvar);
     }
     else if (s.equalsIgnoreCase("piecewise"))
     {
-      node.addChild(child);
-      type = Type.FUNCTION_PIECEWISE;
+      node = new ASTPiecewiseFunctionNode();
+      ((ASTPiecewiseFunctionNode)node).addChild(child);
     }
     else
     {
-      node.addChild(child);
+      {if (true) throw new ParseException(MessageFormat.format("{0} is not recognized", s));}
     }
 
-    if (type != null)
+    if (node != null && node instanceof ASTFunction)
     {
-      node.setType(type);
-    }
-    else
-    {
-      node.setName(s);
-    }
-    for (ASTNode argument : arguments)
-    {
-      node.addChild(argument);
+          for (ASTNode2 argument : arguments)
+          {
+            ((ASTFunction)node).addChild(argument);
+          }
     }
     {if (true) return node;}
+      } else if (jj_2_2(4)) {
+        t = jj_consume_token(STRING);
+                                    ASTFunction selector = new ASTFunction();
+                                    selector.setType(Type.FUNCTION_SELECTOR);
+                                    selector.addChild(new ASTRelationalOperatorNode(Type.getTypeFor(t.image)));
+        label_5:
+        while (true) {
+          jj_consume_token(LEFT_BRACKET);
+          node = TermLvl1();
+                                        selector.addChild(node);
+          jj_consume_token(RIGHT_BRACKET);
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case LEFT_BRACKET:
+            ;
+            break;
+          default:
+            jj_la1[9] = jj_gen;
+            break label_5;
+          }
+        }
+   {if (true) return selector;}
       } else {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case OPEN_PAR:
@@ -470,135 +455,125 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     {if (true) return node;}
           break;
         default:
-          jj_la1[12] = jj_gen;
-          if (jj_2_2(4)) {
-            t = jj_consume_token(STRING);
-                                    ASTNode selector = new ASTNode();
-                                    selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
-                                    selector.addChild(new ASTNode(t.image));
-            label_5:
+          jj_la1[13] = jj_gen;
+          if (jj_2_3(2)) {
+            jj_consume_token(LEFT_BRACES);
+            node = TermLvl1();
+    ASTFunction selector = new ASTFunction();
+    boolean isSelector = false;
+        selector.setType(Type.FUNCTION_SELECTOR);
+    vector.setType(Type.VECTOR);
+    vector.addChild(node);
+            label_6:
             while (true) {
-              jj_consume_token(LEFT_BRACKET);
+              switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+              case SLPITTER:
+                ;
+                break;
+              default:
+                jj_la1[10] = jj_gen;
+                break label_6;
+              }
+              jj_consume_token(SLPITTER);
               node = TermLvl1();
-                                        selector.addChild(node);
-              jj_consume_token(RIGHT_BRACKET);
+      vector.addChild(node);
+            }
+            jj_consume_token(RIGHT_BRACES);
+        selector.addChild(vector);
+            label_7:
+            while (true) {
               switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
               case LEFT_BRACKET:
                 ;
                 break;
               default:
-                jj_la1[9] = jj_gen;
-                break label_5;
+                jj_la1[11] = jj_gen;
+                break label_7;
               }
+              jj_consume_token(LEFT_BRACKET);
+              node = TermLvl1();
+          isSelector = true;
+          selector.addChild(node);
+              jj_consume_token(RIGHT_BRACKET);
             }
-   {if (true) return selector;}
+   {if (true) return isSelector ? selector : vector;}
           } else {
             switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-            case OPEN_PAR:
-              jj_consume_token(OPEN_PAR);
-              node = TermLvl1();
-              jj_consume_token(CLOSE_PAR);
-    {if (true) return node;}
+            case LEFT_BRACES:
+              jj_consume_token(LEFT_BRACES);
+    vector.setType(Type.VECTOR);
+              jj_consume_token(RIGHT_BRACES);
+    {if (true) return vector;}
               break;
-            default:
-              jj_la1[13] = jj_gen;
-              if (jj_2_3(3)) {
-                jj_consume_token(LEFT_BRACES);
-                node = TermLvl1();
-    vector.setType(ASTNode.Type.VECTOR);
-    vector.addChild(node);
-                label_6:
-                while (true) {
-                  switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-                  case SLPITTER:
-                    ;
-                    break;
-                  default:
-                    jj_la1[10] = jj_gen;
-                    break label_6;
-                  }
-                  jj_consume_token(SLPITTER);
-                  node = TermLvl1();
-      vector.addChild(node);
-                }
-                jj_consume_token(RIGHT_BRACES);
-    {if (true) return vector;}
-              } else {
-                switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-                case LEFT_BRACES:
-                  jj_consume_token(LEFT_BRACES);
-    vector.setType(ASTNode.Type.VECTOR);
-                  jj_consume_token(RIGHT_BRACES);
-    {if (true) return vector;}
-                  break;
-                case MINUS:
-                  jj_consume_token(MINUS);
-                  node = Primary();
-    ASTNode uiMinus = new ASTNode('-');
+            case MINUS:
+              jj_consume_token(MINUS);
+              node = Primary();
+    ASTMinusNode uiMinus = new ASTMinusNode();
     uiMinus.addChild(node);
     {if (true) return uiMinus;}
-                  break;
-                case NOT:
-                  jj_consume_token(NOT);
-                  node = TermLvl1();
-    ASTNode not = new ASTNode(Type.LOGICAL_NOT);
+              break;
+            case NOT:
+              jj_consume_token(NOT);
+              node = TermLvl1();
+    ASTLogicalOperatorNode not = new ASTLogicalOperatorNode(Type.LOGICAL_NOT);
     not.addChild(node);
     {if (true) return not;}
-                  break;
-                case LOG:
-                  jj_consume_token(LOG);
-                  child = Primary();
-    node = new ASTNode(Type.FUNCTION_LN);
-    node.addChild(child);
-    {if (true) return node;}
-                  break;
-                case STRING:
-                  t = jj_consume_token(STRING);
+              break;
+            case LOG:
+              jj_consume_token(LOG);
+              child = Primary();
+    ASTLogarithmNode log = new ASTLogarithmNode(new ASTConstantNumber(Math.E), child);
+    {if (true) return log;}
+              break;
+            case STRING:
+              t = jj_consume_token(STRING);
     s = t.image;
     if (s.equalsIgnoreCase("true"))
     {
-      node = new ASTNode(Type.CONSTANT_TRUE);
+      node = new ASTBoolean(Type.CONSTANT_TRUE);
     }
     else if (s.equalsIgnoreCase("false"))
     {
-      node = new ASTNode(Type.CONSTANT_FALSE);
+      node = new ASTBoolean(Type.CONSTANT_FALSE);
     }
     else if (s.equalsIgnoreCase("pi"))
     {
-      node = new ASTNode(Type.CONSTANT_PI);
+      node = new ASTConstantNumber(Type.CONSTANT_PI);
     }
     else if (s.equalsIgnoreCase("avogadro"))
     {
-      node = new ASTNode(Type.NAME_AVOGADRO);
+      node = new ASTCSymbolAvogadroNode();
     }
     else if (s.equalsIgnoreCase("time"))
     {
-      node = new ASTNode(Type.NAME_TIME);
+      node = new ASTCSymbolTimeNode();
     }
     else if (s.equalsIgnoreCase("exponentiale"))
     {
-      node = new ASTNode(Type.CONSTANT_E);
+      node = new ASTConstantNumber(Type.CONSTANT_E);
     }
     else if (s.equalsIgnoreCase("-infinity"))
     {
-      node = new ASTNode(Double.NEGATIVE_INFINITY);
+      node = new ASTCnRealNode(Double.NEGATIVE_INFINITY);
     }
     else if (s.equalsIgnoreCase("infinity"))
     {
-      node = new ASTNode(Double.POSITIVE_INFINITY);
+      node = new ASTCnRealNode(Double.POSITIVE_INFINITY);
+    }
+    else if (s.equalsIgnoreCase("e"))
+    {
+      node = new ASTConstantNumber(Math.E);
     }
     else
     {
-      node = new ASTNode(s);
+      {if (true) throw new ParseException();}
     }
     {if (true) return node;}
-                  break;
-                default:
-                  jj_la1[14] = jj_gen;
-                  jj_consume_token(-1);
-                  throw new ParseException();
-                }
-              }
+              break;
+            default:
+              jj_la1[14] = jj_gen;
+              jj_consume_token(-1);
+              throw new ParseException();
             }
           }
         }
@@ -628,45 +603,14 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     finally { jj_save(2, xla); }
   }
 
-  private boolean jj_3R_32() {
-    if (jj_scan_token(STRING)) return true;
-    return false;
-  }
-
   private boolean jj_3R_17() {
     if (jj_scan_token(BOOLEAN_LOGIC)) return true;
     return false;
   }
 
-  private boolean jj_3R_22() {
-    if (jj_scan_token(DIVIDE)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_31() {
-    if (jj_scan_token(LOG)) return true;
-    if (jj_3R_19()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_16() {
-    if (jj_scan_token(MINUS)) return true;
-    return false;
-  }
-
-  private boolean jj_3_2() {
-    if (jj_scan_token(STRING)) return true;
-    Token xsp;
-    if (jj_3R_8()) return true;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_8()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_21() {
-    if (jj_scan_token(TIMES)) return true;
+  private boolean jj_3R_27() {
+    if (jj_scan_token(LEFT_BRACES)) return true;
+    if (jj_scan_token(RIGHT_BRACES)) return true;
     return false;
   }
 
@@ -680,14 +624,51 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     return false;
   }
 
-  private boolean jj_3R_30() {
-    if (jj_scan_token(NOT)) return true;
+  private boolean jj_3R_21() {
+    if (jj_scan_token(TIMES)) return true;
+    return false;
+  }
+
+  private boolean jj_3_2() {
+    if (jj_scan_token(STRING)) return true;
+    Token xsp;
     if (jj_3R_9()) return true;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_9()) { jj_scanpos = xsp; break; }
+    }
     return false;
   }
 
   private boolean jj_3R_25() {
     if (jj_scan_token(EXPNUMBER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_16() {
+    if (jj_scan_token(MINUS)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_11() {
+    if (jj_3R_13()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_14()) { jj_scanpos = xsp; break; }
+    }
+    return false;
+  }
+
+  private boolean jj_3R_24() {
+    if (jj_scan_token(NUMBER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_9() {
+    if (jj_scan_token(LEFT_BRACKET)) return true;
+    if (jj_3R_10()) return true;
+    if (jj_scan_token(RIGHT_BRACKET)) return true;
     return false;
   }
 
@@ -712,47 +693,13 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     return false;
   }
 
-  private boolean jj_3R_11() {
-    if (jj_3R_13()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_14()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_26() {
-    if (jj_scan_token(OPEN_PAR)) return true;
-    if (jj_3R_9()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_29() {
-    if (jj_scan_token(MINUS)) return true;
-    if (jj_3R_19()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_9() {
+  private boolean jj_3R_10() {
     if (jj_3R_11()) return true;
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
       if (jj_3R_12()) { jj_scanpos = xsp; break; }
     }
-    return false;
-  }
-
-  private boolean jj_3R_24() {
-    if (jj_scan_token(NUMBER)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_8() {
-    if (jj_scan_token(LEFT_BRACKET)) return true;
-    if (jj_3R_9()) return true;
-    if (jj_scan_token(RIGHT_BRACKET)) return true;
     return false;
   }
 
@@ -772,13 +719,13 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     jj_scanpos = xsp;
     if (jj_3_1()) {
     jj_scanpos = xsp;
-    if (jj_3R_26()) {
-    jj_scanpos = xsp;
     if (jj_3_2()) {
     jj_scanpos = xsp;
-    if (jj_3R_27()) {
+    if (jj_3R_26()) {
     jj_scanpos = xsp;
     if (jj_3_3()) {
+    jj_scanpos = xsp;
+    if (jj_3R_27()) {
     jj_scanpos = xsp;
     if (jj_3R_28()) {
     jj_scanpos = xsp;
@@ -786,9 +733,7 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     jj_scanpos = xsp;
     if (jj_3R_30()) {
     jj_scanpos = xsp;
-    if (jj_3R_31()) {
-    jj_scanpos = xsp;
-    if (jj_3R_32()) return true;
+    if (jj_3R_31()) return true;
     }
     }
     }
@@ -800,32 +745,32 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     }
     }
     }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_28() {
-    if (jj_scan_token(LEFT_BRACES)) return true;
-    if (jj_scan_token(RIGHT_BRACES)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_18() {
-    if (jj_scan_token(COMPARISON)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_34() {
-    if (jj_scan_token(FACTORIAL)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_10() {
-    if (jj_scan_token(SLPITTER)) return true;
     return false;
   }
 
   private boolean jj_3R_33() {
+    if (jj_scan_token(FACTORIAL)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_31() {
+    if (jj_scan_token(STRING)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_30() {
+    if (jj_scan_token(LOG)) return true;
+    if (jj_3R_19()) return true;
+    return false;
+  }
+
+  private boolean jj_3_3() {
+    if (jj_scan_token(LEFT_BRACES)) return true;
+    if (jj_3R_10()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_32() {
     if (jj_scan_token(POWER)) return true;
     return false;
   }
@@ -833,22 +778,22 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
   private boolean jj_3R_20() {
     Token xsp;
     xsp = jj_scanpos;
-    if (jj_3R_33()) {
+    if (jj_3R_32()) {
     jj_scanpos = xsp;
-    if (jj_3R_34()) return true;
+    if (jj_3R_33()) return true;
     }
     return false;
   }
 
-  private boolean jj_3_3() {
-    if (jj_scan_token(LEFT_BRACES)) return true;
-    if (jj_3R_9()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_10()) { jj_scanpos = xsp; break; }
-    }
-    if (jj_scan_token(RIGHT_BRACES)) return true;
+  private boolean jj_3_1() {
+    if (jj_3R_8()) return true;
+    if (jj_scan_token(OPEN_PAR)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_29() {
+    if (jj_scan_token(NOT)) return true;
+    if (jj_3R_10()) return true;
     return false;
   }
 
@@ -862,13 +807,13 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     return false;
   }
 
-  private boolean jj_3R_27() {
+  private boolean jj_3R_26() {
     if (jj_scan_token(OPEN_PAR)) return true;
-    if (jj_3R_9()) return true;
+    if (jj_3R_10()) return true;
     return false;
   }
 
-  private boolean jj_3R_7() {
+  private boolean jj_3R_8() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(26)) {
@@ -878,9 +823,19 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     return false;
   }
 
-  private boolean jj_3_1() {
-    if (jj_3R_7()) return true;
-    if (jj_scan_token(OPEN_PAR)) return true;
+  private boolean jj_3R_18() {
+    if (jj_scan_token(COMPARISON)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_28() {
+    if (jj_scan_token(MINUS)) return true;
+    if (jj_3R_19()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_22() {
+    if (jj_scan_token(DIVIDE)) return true;
     return false;
   }
 
@@ -901,7 +856,7 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0xc000000,0x40000001,0x2200,0x2200,0x1800,0x1800,0x300500,0x300500,0x80,0x40000,0x80,0x68,0x4000,0x4000,0xe010400,};
+      jj_la1_0 = new int[] {0xc000000,0x40000001,0x2200,0x2200,0x1800,0x1800,0x300500,0x300500,0x80,0x40000,0x80,0x40000,0x68,0x4000,0xe010400,};
    }
   final private JJCalls[] jj_2_rtns = new JJCalls[3];
   private boolean jj_rescan = false;

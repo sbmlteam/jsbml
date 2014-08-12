@@ -101,7 +101,6 @@ public class ASTBoolean extends AbstractASTNode {
     return processValue(value);
   }
 
-
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */

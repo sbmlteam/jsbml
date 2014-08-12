@@ -11,7 +11,8 @@
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
- * 5. The Babraham Institute, Cambridge, UK 
+ * 5. The Babraham Institute, Cambridge, UK
+ * 6. The University of Toronto, Toronto, ON, Canada
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -22,12 +23,39 @@
  */
 package org.sbml.jsbml.text.parser;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
-import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.math.ASTNode2;
+import org.sbml.jsbml.math.ASTBoolean;
+import org.sbml.jsbml.math.ASTCnExponentialNode;
+import org.sbml.jsbml.math.ASTCnIntegerNode;
+import org.sbml.jsbml.math.ASTCnRationalNode;
+import org.sbml.jsbml.math.ASTCnRealNode;
+import org.sbml.jsbml.math.ASTConstantNumber;
+import org.sbml.jsbml.math.ASTCSymbolAvogadroNode;
+import org.sbml.jsbml.math.ASTCSymbolDelayNode;
+import org.sbml.jsbml.math.ASTCSymbolTimeNode;
+import org.sbml.jsbml.math.ASTDivideNode;
+import org.sbml.jsbml.math.ASTFunction;
+import org.sbml.jsbml.math.ASTHyperbolicNode;
+import org.sbml.jsbml.math.ASTLambdaFunctionNode;
+import org.sbml.jsbml.math.ASTLogarithmNode;
+import org.sbml.jsbml.math.ASTLogicalOperatorNode;
+import org.sbml.jsbml.math.ASTMinusNode;
+import org.sbml.jsbml.math.ASTPiecewiseFunctionNode;
+import org.sbml.jsbml.math.ASTPowerNode;
+import org.sbml.jsbml.math.ASTPlusNode;
+import org.sbml.jsbml.math.ASTQualifierNode;
+import org.sbml.jsbml.math.ASTRelationalOperatorNode;
+import org.sbml.jsbml.math.ASTRootNode;
+import org.sbml.jsbml.math.ASTTimesNode;
+import org.sbml.jsbml.math.ASTTrigonometricNode;
+import org.sbml.jsbml.math.ASTUnaryFunctionNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.resources.Resource;
+import org.sbml.jsbml.text.parser.IFormulaParser;
 
 /** Token Manager. */
 public class FormulaParserTokenManager implements FormulaParserConstants

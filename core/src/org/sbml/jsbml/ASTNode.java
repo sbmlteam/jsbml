@@ -480,17 +480,17 @@ public class ASTNode extends AbstractTreeNode {
       }
 
       // Relational operators
-      else if (type.equals("eq")) {
+      else if (type.equals("eq") || type.equals("=")) {
         return RELATIONAL_EQ;
-      } else if (type.equals("neq")) {
+      } else if (type.equals("neq") || type.equals("!")) {
         return RELATIONAL_NEQ;
-      } else if (type.equals("gt")) {
+      } else if (type.equals("gt") || type.equals(">")) {
         return RELATIONAL_GT;
-      } else if (type.equals("lt")) {
+      } else if (type.equals("lt") || type.equals("<")) {
         return RELATIONAL_LT;
-      } else if (type.equals("geq")) {
+      } else if (type.equals("geq") || type.equals(">=")) {
         return RELATIONAL_GEQ;
-      } else if (type.equals("leq")) {
+      } else if (type.equals("leq") || type.equals("<=")) {
         return RELATIONAL_LEQ;
       }
 
@@ -939,7 +939,7 @@ public class ASTNode extends AbstractTreeNode {
     ASTNode result = null;
     
     try {
-      result = parser.parse();
+      result = (ASTNode) parser.parse();
     } catch (Throwable e) {
       // the javacc parser can throw some TokenMgrError at least
       throw new ParseException(e);
@@ -966,7 +966,7 @@ public class ASTNode extends AbstractTreeNode {
     ASTNode result = null;
     
     try {
-      result = parser.parse();
+      result = (ASTNode) parser.parse();
     } catch (Throwable e) {
       // the javacc parser can throw some TokenMgrError at least
       throw new ParseException(e);

@@ -40,6 +40,7 @@ import org.sbml.jsbml.math.ASTConstantNumber;
 import org.sbml.jsbml.math.ASTDivideNode;
 import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTLogarithmNode;
+import org.sbml.jsbml.math.ASTLogicalOperatorNode;
 import org.sbml.jsbml.math.ASTMinusNode;
 import org.sbml.jsbml.math.ASTNode2;
 import org.sbml.jsbml.math.ASTPiecewiseFunctionNode;
@@ -50,6 +51,7 @@ import org.sbml.jsbml.math.ASTRelationalOperatorNode;
 import org.sbml.jsbml.math.ASTRootNode;
 import org.sbml.jsbml.math.ASTTimesNode;
 import org.sbml.jsbml.math.ASTUnaryFunctionNode;
+import org.sbml.jsbml.text.parser.ParseException;
 
 
 /**
@@ -335,6 +337,176 @@ public class ASTFactoryTest {
   }
   
   /**
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#parseFormula(java.lang.String)}.
+   */
+  @Test
+  public final void testParseFormulaBooleanLogic() {
+    boolean status = false;
+    try {
+      ASTLogicalOperatorNode and = (ASTLogicalOperatorNode) ASTFactory.parseFormula("false and true");
+      status = and.getType() == Type.LOGICAL_AND
+            && ((ASTBoolean)and.getChildAt(0)).getValue() == false
+            && ((ASTBoolean)and.getChildAt(1)).getValue() == true;
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    assertTrue(status);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#parseFormula(java.lang.String)}.
+   */
+  @Test
+  public final void testParseFormulaDivide() {
+    boolean status = false;
+    try {
+      ASTDivideNode divide = (ASTDivideNode) ASTFactory.parseFormula("1000/25");
+      status = divide.getType() == Type.DIVIDE
+            && ((ASTCnIntegerNode)divide.getLeftChild()).getInteger() == 1000
+            && ((ASTCnIntegerNode)divide.getRightChild()).getInteger() == 25;
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    assertTrue(status);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#parseFormula(java.lang.String)}.
+   */
+  @Test
+  public final void testParseFormulaLn() {
+    boolean status = false;
+    try {
+      ASTLogarithmNode ln = (ASTLogarithmNode) ASTFactory.parseFormula("ln(8)");
+      status = ln.getType() == Type.FUNCTION_LN
+            && ((ASTConstantNumber)ln.getLeftChild()).getValue() == Math.E
+            && ((ASTCnIntegerNode)ln.getRightChild()).getInteger() == 8;
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    assertTrue(status);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#parseFormula(java.lang.String)}.
+   */
+  @Test
+  public final void testParseFormulaLogDefaultBase10() {
+    boolean status = false;
+    try {
+      ASTLogarithmNode log = (ASTLogarithmNode) ASTFactory.parseFormula("log(100)");
+      status = log.getType() == Type.FUNCTION_LOG
+            && ((ASTCnIntegerNode)log.getLeftChild()).getInteger() == 10
+            && ((ASTCnIntegerNode)log.getRightChild()).getInteger() == 100;
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    assertTrue(status);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#parseFormula(java.lang.String)}.
+   */
+  @Test
+  public final void testParseFormulaLogDefaultBase10Alternate() {
+    boolean status = false;
+    try {
+      ASTLogarithmNode log = (ASTLogarithmNode) ASTFactory.parseFormula("log10(100)");
+      status = log.getType() == Type.FUNCTION_LOG
+            && ((ASTCnIntegerNode)log.getLeftChild()).getInteger() == 10
+            && ((ASTCnIntegerNode)log.getRightChild()).getInteger() == 100;
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    assertTrue(status);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#parseFormula(java.lang.String)}.
+   */
+  @Test
+  public final void testParseFormulaMinus() {
+    boolean status = false;
+    try {
+      ASTMinusNode minus = (ASTMinusNode) ASTFactory.parseFormula("50-10");
+      status = minus.getType() == Type.MINUS 
+            && ((ASTCnIntegerNode)minus.getLeftChild()).getInteger() == 50
+            && ((ASTCnIntegerNode)minus.getRightChild()).getInteger() == 10;
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    assertTrue(status);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#parseFormula(java.lang.String)}.
+   */
+  @Test
+  public final void testParseFormulaPlus() {
+    boolean status = false;
+    try {
+      ASTPlusNode plus = (ASTPlusNode) ASTFactory.parseFormula("5+10");
+      status = plus.getType() == Type.PLUS 
+            && ((ASTCnIntegerNode)plus.getLeftChild()).getInteger() == 5
+            && ((ASTCnIntegerNode)plus.getRightChild()).getInteger() == 10;
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    assertTrue(status);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#parseFormula(java.lang.String)}.
+   */
+  @Test
+  public final void testParseFormulaPower() {
+    boolean status = false;
+    try {
+      ASTPowerNode power = (ASTPowerNode) ASTFactory.parseFormula("e^5");
+      status = power.getType() == Type.POWER
+            && ((ASTConstantNumber)power.getLeftChild()).getValue() == Math.E
+            && ((ASTCnIntegerNode)power.getRightChild()).getInteger() == 5;
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    assertTrue(status);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#parseFormula(java.lang.String)}.
+   */
+  @Test
+  public final void testParseFormulaRelationalOperator() {
+    boolean status = false;
+    try {
+      ASTRelationalOperatorNode geq = (ASTRelationalOperatorNode) ASTFactory.parseFormula("5 >= 10");
+      status = geq.getType() == Type.RELATIONAL_GEQ
+          && ((ASTCnIntegerNode)geq.getChildAt(0)).getInteger() == 5
+          && ((ASTCnIntegerNode)geq.getChildAt(1)).getInteger() == 10;
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    assertTrue(status);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#parseFormula(java.lang.String)}.
+   */
+  @Test
+  public final void testParseFormulaTimes() {
+    boolean status = false;
+    try {
+      ASTTimesNode times = (ASTTimesNode) ASTFactory.parseFormula("7*9");
+      status = times.getType() == Type.TIMES
+            && ((ASTCnIntegerNode)times.getLeftChild()).getInteger() == 7
+            && ((ASTCnIntegerNode)times.getRightChild()).getInteger() == 9;
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    assertTrue(status);
+  }
+  
+  /**
    * Test method for {@link org.sbml.jsbml.math.ASTFactory#piecewise(org.sbml.jsbml.math.ASTQualifierNode, org.sbml.jsbml.math.ASTQualifierNode)}.
    */
   @Test
@@ -375,8 +547,7 @@ public class ASTFactoryTest {
             && plus.getLeftChild().equals(four)
             && unknown.getType() == Type.INTEGER
             && ((ASTCnIntegerNode)unknown).getInteger() == 8);
-  }
-  
+  }  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTFactory#plus(org.sbml.jsbml.math.ASTNode2, double)}.
    */
@@ -458,7 +629,7 @@ public class ASTFactoryTest {
     exception.expect(NullPointerException.class);
     ASTNode2[] list = null;
     ASTFactory.product(list);
-  }
+  }  
   
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTFactory#reduceToBinary()}.
@@ -472,7 +643,7 @@ public class ASTFactoryTest {
     ASTArithmeticOperatorNode diff = ASTFactory.diff(integers);
     ASTMinusNode minus = (ASTMinusNode) ASTFactory.reduceToBinary(diff);
     assertTrue(countType(minus, Type.MINUS) == 9);
-  }
+  }   
   
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTFactory#reduceToBinary()}.
@@ -509,7 +680,8 @@ public class ASTFactoryTest {
     ASTArithmeticOperatorNode sum = ASTFactory.sum(integers);
     ASTPlusNode plus = (ASTPlusNode) ASTFactory.reduceToBinary(sum);
     assertTrue(countType(plus, Type.PLUS) == 9);
-  }  
+  }
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTFactory#root(org.sbml.jsbml.math.ASTNode2, org.sbml.jsbml.math.ASTNode2)}.
    */
@@ -583,7 +755,7 @@ public class ASTFactoryTest {
     assertTrue(times.getChildCount() == 2
             && times.getLeftChild().equals(five)
             && times.getRightChild().equals(ten));
-  }  
+  }
   
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTFactory#times(org.sbml.jsbml.math.ASTNode2, int)}.
@@ -597,7 +769,7 @@ public class ASTFactoryTest {
             && times.getLeftChild().equals(five)
             && unknown.getType() == Type.INTEGER 
             && ((ASTCnIntegerNode)unknown).getInteger() == 10);
-  }   
+  }
   
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTFactory#times(org.sbml.jsbml.math.ASTNode2, double)}.
@@ -611,7 +783,7 @@ public class ASTFactoryTest {
             && times.getLeftChild().equals(five)
             && unknown.getType() == Type.REAL 
             && ((ASTCnRealNode)unknown).getReal() == 10.0);
-  }
+  }  
   
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTFactory#uMinus(org.sbml.jsbml.math.ASTNode2)}.

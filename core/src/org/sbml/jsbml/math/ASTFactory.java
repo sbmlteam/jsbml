@@ -24,11 +24,14 @@ package org.sbml.jsbml.math;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.StringReader;
 import java.util.Scanner;
 
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.text.parser.FormulaParser;
+import org.sbml.jsbml.text.parser.ParseException;
 
 
 /**
@@ -441,6 +444,32 @@ public class ASTFactory {
 
 
   /**
+   * Parses a text-string mathematical formula and an Abstract Syntax Tree
+   * representation.
+   * 
+   * @param formula
+   *            a text-string mathematical formula.
+   * @return an {@link ASTNode2} representing the formula.
+   * @throws ParseException
+   *             If the given formula is not of valid format or cannot be
+   *             parsed for other reasons.
+   */
+  public static ASTNode2 parseFormula(String formula) throws ParseException {
+    FormulaParser parser = new FormulaParser(new StringReader(formula));
+    ASTNode2 result = null;
+    
+    try {
+      result = parser.parse();
+    } catch (Throwable e) {
+      // the javacc parser can throw some TokenMgrError at least
+      throw new ParseException(e);
+    }
+    
+    return result; 
+  }
+
+
+  /**
    * Return String representation of specified MathML file
    * 
    * @param fileName
@@ -501,7 +530,6 @@ public class ASTFactory {
     return new ASTPlusNode(node1, node2);
   }
 
-
   /**
    * Adds a real number to {@link ASTNode2}.
    * 
@@ -525,7 +553,7 @@ public class ASTFactory {
   public static ASTPlusNode plus(ASTNode2 node, int integer) {
     return new ASTPlusNode(node, new ASTCnIntegerNode(integer));
   }
-
+  
   /**
    * Creates a power {@link ASTNode2}.
    * 
@@ -630,7 +658,8 @@ public class ASTFactory {
     childOperator.setStrictness(true);
     return rootNode;
   }
-  
+
+
   /**
    * Creates a root of type {@link ASTNode2}.
    * 
@@ -641,7 +670,6 @@ public class ASTFactory {
   public static ASTRootNode root(ASTNode2 rootExponent, ASTNode2 radicand) {
     return rootExponent != null ? new ASTRootNode(rootExponent, radicand) : new ASTRootNode(radicand);
   }
-
 
   /**
    * Sets the Parent of the node and its children to the given value
@@ -657,7 +685,7 @@ public class ASTFactory {
       }
     }
   }
-
+  
   /**
    * Creates a square root of type {@link ASTRootNode} with the 
    * specified radicand of type {@link ASTNode2}.
@@ -698,7 +726,7 @@ public class ASTFactory {
   public static ASTTimesNode times(ASTNode2 node1, ASTNode2 node2) {
     return new ASTTimesNode(node1, node2);
   }
-  
+
   /**
    * Adds a real number to {@link ASTNode2}
    * 
@@ -710,7 +738,7 @@ public class ASTFactory {
   public static ASTTimesNode times(ASTNode2 node1, double real) {
     return new ASTTimesNode(node1, new ASTCnRealNode(real));
   }
-
+  
   /**
    * Adds an integer to {@link ASTNode2}
    * 

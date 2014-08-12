@@ -45,7 +45,7 @@ import org.sbml.jsbml.util.ValuePair;
  * @since 1.0
  * @date May 30, 2014
  */
-public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Integer>> {
+public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Double>> {
 
   /**
    * 
@@ -117,9 +117,9 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Inte
   /**
    * Get the mantissa value of this node. 
    * 
-   * @return int mantissa
+   * @return double mantissa
    */
-  public int getMantissa() {
+  public double getMantissa() {
     if (isSetMantissa()) {
       return number.getV();
     }
@@ -166,7 +166,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Inte
    */
   public void setExponent(int exponent) {
     if (! isSetNumber()) {
-      setNumber(new ValuePair<Integer,Integer>());
+      setNumber(new ValuePair<Integer,Double>());
     }
     Integer old = this.number.getL();
     this.number.setL(exponent);
@@ -176,13 +176,13 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Inte
   /**
    * Get the mantissa value of this node
    * 
-   * @param int mantissa
+   * @param double mantissa
    */
-  public void setMantissa(int mantissa) {
+  public void setMantissa(double mantissa) {
     if (! isSetNumber()) {
-      setNumber(new ValuePair<Integer,Integer>());
+      setNumber(new ValuePair<Integer,Double>());
     }
-    Integer old = this.number.getV();
+    Double old = this.number.getV();
     this.number.setV(mantissa);
     firePropertyChange(TreeNodeChangeEvent.mantissa, old, this.number.getV());
   }
