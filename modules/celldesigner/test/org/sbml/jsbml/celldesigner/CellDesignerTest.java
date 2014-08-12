@@ -37,6 +37,7 @@ import jp.sbi.celldesigner.plugin.PluginMenu;
 import jp.sbi.celldesigner.plugin.PluginMenuItem;
 import jp.sbi.celldesigner.plugin.PluginModel;
 import jp.sbi.celldesigner.plugin.PluginParameter;
+import jp.sbi.celldesigner.plugin.PluginProtein;
 import jp.sbi.celldesigner.plugin.PluginRateRule;
 import jp.sbi.celldesigner.plugin.PluginReaction;
 import jp.sbi.celldesigner.plugin.PluginSBase;
@@ -85,75 +86,79 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
 
   @Override
   public void SBaseAdded(PluginSBase sbase) {
-
     if (sbase instanceof PluginModel)
     {
       PluginModel pModel = (PluginModel) sbase;
-      propertyChangeVis.addSBase(pModel.getId());
+      propertyChangeVis.addSBase(" PluginModel: " + pModel.getId());
     }
     else if (sbase instanceof PluginCompartment)
     {
       PluginCompartment pCompartment = (PluginCompartment) sbase;
-      propertyChangeVis.addSBase(pCompartment.getId());
+      propertyChangeVis.addSBase(" PluginCompartment: " + pCompartment.getId());
     }
     else if (sbase instanceof PluginSpecies)
     {
       PluginSpecies pSpecies = (PluginSpecies) sbase;
-      propertyChangeVis.addSBase(pSpecies.getId());
+      propertyChangeVis.addSBase(" PluginSpecies: " + pSpecies.getId());
     }
     else if (sbase instanceof PluginSpeciesAlias)
     {
       PluginSpeciesAlias pSpeciesAlias = (PluginSpeciesAlias) sbase;
-      propertyChangeVis.addSBase("alias_"+pSpeciesAlias.getSpecies().getId());
+      propertyChangeVis.addSBase(" PluginSpeciesAlias: " + pSpeciesAlias.getAliasID());
     }
     else if (sbase instanceof PluginReaction)
     {
       PluginReaction pReaction = (PluginReaction) sbase;
-      propertyChangeVis.addSBase(pReaction.getId());
+      propertyChangeVis.addSBase(" PluginReaction: " + pReaction.getId());
     }
     else if (sbase instanceof PluginParameter)
     {
-      propertyChangeVis.addSBase(((PluginParameter)sbase).getId());
+      propertyChangeVis.addSBase(" PluginParameter: " + ((PluginParameter)sbase).getId());
     }
     else if (sbase instanceof PluginAlgebraicRule)
     {
-      propertyChangeVis.addSBase(((PluginAlgebraicRule)sbase).toString());
+      propertyChangeVis.addSBase(" PluginAlgebraicRule: " + ((PluginAlgebraicRule)sbase).getFormula());
     }
     else if (sbase instanceof PluginAssignmentRule)
     {
-      propertyChangeVis.addSBase(((PluginAssignmentRule)sbase).toString());
+      propertyChangeVis.addSBase(" PluginAssignmentRule: " + ((PluginAssignmentRule)sbase).getFormula());
     }
     else if (sbase instanceof PluginRateRule)
     {
-      propertyChangeVis.addSBase(((PluginRateRule)sbase).toString());
+      propertyChangeVis.addSBase(" PluginRateRule: " + ((PluginRateRule)sbase).getFormula());
     }
     else if (sbase instanceof PluginUnitDefinition)
     {
-      propertyChangeVis.addSBase(((PluginUnitDefinition)sbase).getId());
+      propertyChangeVis.addSBase(" PluginUnitDefinition: " + ((PluginUnitDefinition)sbase).getId());
     }
     else if (sbase instanceof PluginInitialAssignment)
     {
-      propertyChangeVis.addSBase(((PluginInitialAssignment)sbase).toString());
+      propertyChangeVis.addSBase(" PluginInitialAssignment: " + ((PluginInitialAssignment)sbase).getMath());
     }
     else if (sbase instanceof PluginEvent)
     {
-      propertyChangeVis.addSBase(((PluginEvent)sbase).getId());
+      propertyChangeVis.addSBase(" PluginEvent: " + ((PluginEvent)sbase).getId());
     }
     else if (sbase instanceof PluginConstraint)
     {
-      propertyChangeVis.addSBase(((PluginConstraint)sbase).toString());
+      propertyChangeVis.addSBase(" PluginConstraint: " + ((PluginConstraint)sbase).getMath()+"\t"
+          +((PluginConstraint)sbase).getMessage());
     }
     else if (sbase instanceof PluginFunctionDefinition)
     {
-      propertyChangeVis.addSBase(((PluginFunctionDefinition)sbase).getId());
+      propertyChangeVis.addSBase(" PluginFunctionDefinition: " + ((PluginFunctionDefinition)sbase).getId());
     }
     else if (sbase instanceof PluginCompartmentType)
     {
-      propertyChangeVis.addSBase(((PluginCompartmentType)sbase).getId());
+      propertyChangeVis.addSBase(" PluginCompartmentType: " + ((PluginCompartmentType)sbase).getId());
     }
     else if (sbase instanceof PluginSpeciesType)
     {
-      propertyChangeVis.addSBase(((PluginSpeciesType)sbase).getId());
+      propertyChangeVis.addSBase(" PluginSpeciesType: " + ((PluginSpeciesType)sbase).getId());
+    }
+    else if (sbase instanceof PluginProtein)
+    {
+      propertyChangeVis.addSBase(" PluginProtein: " + ((PluginProtein)sbase).getName());
     }
     else
     {
@@ -185,71 +190,76 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
     if (sbase instanceof PluginModel)
     {
       PluginModel pModel = (PluginModel) sbase;
-      propertyChangeVis.changeSBase(pModel.getId());
+      propertyChangeVis.changeSBase(" PluginModel: " + pModel.getId());
     }
     else if (sbase instanceof PluginCompartment)
     {
       PluginCompartment pCompartment = (PluginCompartment) sbase;
-      propertyChangeVis.changeSBase(pCompartment.getId());
+      propertyChangeVis.changeSBase(" PluginCompartment: " + pCompartment.getId());
     }
     else if (sbase instanceof PluginSpecies)
     {
       PluginSpecies pSpecies = (PluginSpecies) sbase;
-      propertyChangeVis.changeSBase(pSpecies.getId());
+      propertyChangeVis.changeSBase(" PluginSpecies: " + pSpecies.getId());
     }
     else if (sbase instanceof PluginSpeciesAlias)
     {
       PluginSpeciesAlias pSpeciesAlias = (PluginSpeciesAlias) sbase;
-      propertyChangeVis.changeSBase("alias_"+pSpeciesAlias.getSpecies().getId());
+      propertyChangeVis.changeSBase(" PluginSpeciesAlias: " + pSpeciesAlias.getAliasID());
     }
     else if (sbase instanceof PluginReaction)
     {
       PluginReaction pReaction = (PluginReaction) sbase;
-      propertyChangeVis.changeSBase(pReaction.getId());
+      propertyChangeVis.changeSBase(" PluginReaction: " + pReaction.getId());
     }
     else if (sbase instanceof PluginParameter)
     {
-      propertyChangeVis.changeSBase(((PluginParameter)sbase).getId());
+      propertyChangeVis.changeSBase(" PluginParameter: " + ((PluginParameter)sbase).getId());
     }
     else if (sbase instanceof PluginAlgebraicRule)
     {
-      propertyChangeVis.changeSBase(((PluginAlgebraicRule)sbase).toString());
+      propertyChangeVis.changeSBase(" PluginAlgebraicRule: " + ((PluginAlgebraicRule)sbase).getFormula());
     }
     else if (sbase instanceof PluginAssignmentRule)
     {
-      propertyChangeVis.changeSBase(((PluginAssignmentRule)sbase).toString());
+      propertyChangeVis.changeSBase(" PluginAssignmentRule: " + ((PluginAssignmentRule)sbase).getFormula());
     }
     else if (sbase instanceof PluginRateRule)
     {
-      propertyChangeVis.changeSBase(((PluginRateRule)sbase).toString());
+      propertyChangeVis.changeSBase(" PluginRateRule: " + ((PluginRateRule)sbase).getFormula());
     }
     else if (sbase instanceof PluginUnitDefinition)
     {
-      propertyChangeVis.changeSBase(((PluginUnitDefinition)sbase).getId());
+      propertyChangeVis.changeSBase(" PluginUnitDefinition: " + ((PluginUnitDefinition)sbase).getId());
     }
     else if (sbase instanceof PluginInitialAssignment)
     {
-      propertyChangeVis.changeSBase(((PluginInitialAssignment)sbase).toString());
+      propertyChangeVis.changeSBase(" PluginInitialAssignment: " + ((PluginInitialAssignment)sbase).getMath());
     }
     else if (sbase instanceof PluginEvent)
     {
-      propertyChangeVis.changeSBase(((PluginEvent)sbase).getId());
+      propertyChangeVis.changeSBase(" PluginEvent: " + ((PluginEvent)sbase).getId());
     }
     else if (sbase instanceof PluginConstraint)
     {
-      propertyChangeVis.changeSBase(((PluginConstraint)sbase).toString());
+      propertyChangeVis.changeSBase(" PluginConstraint: " + ((PluginConstraint)sbase).getMath()+"\t"
+          +((PluginConstraint)sbase).getMessage());
     }
     else if (sbase instanceof PluginFunctionDefinition)
     {
-      propertyChangeVis.changeSBase(((PluginFunctionDefinition)sbase).getId());
+      propertyChangeVis.changeSBase(" PluginFunctionDefinition: " + ((PluginFunctionDefinition)sbase).getId());
     }
     else if (sbase instanceof PluginCompartmentType)
     {
-      propertyChangeVis.changeSBase(((PluginCompartmentType)sbase).getId());
+      propertyChangeVis.changeSBase(" PluginCompartmentType: " + ((PluginCompartmentType)sbase).getId());
     }
     else if (sbase instanceof PluginSpeciesType)
     {
-      propertyChangeVis.changeSBase(((PluginSpeciesType)sbase).getId());
+      propertyChangeVis.changeSBase(" PluginSpeciesType: " + ((PluginSpeciesType)sbase).getId());
+    }
+    else if (sbase instanceof PluginProtein)
+    {
+      propertyChangeVis.changeSBase(" PluginProtein: " + ((PluginProtein)sbase).getName());
     }
     else
     {
@@ -288,71 +298,76 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
     if (sbase instanceof PluginModel)
     {
       PluginModel pModel = (PluginModel) sbase;
-      propertyChangeVis.deleteSBase(pModel.getId());
+      propertyChangeVis.deleteSBase(" PluginModel: " + pModel.getId());
     }
     else if (sbase instanceof PluginCompartment)
     {
       PluginCompartment pCompartment = (PluginCompartment) sbase;
-      propertyChangeVis.deleteSBase(pCompartment.getId());
+      propertyChangeVis.deleteSBase(" PluginCompartment: " + pCompartment.getId());
     }
     else if (sbase instanceof PluginSpecies)
     {
       PluginSpecies pSpecies = (PluginSpecies) sbase;
-      propertyChangeVis.deleteSBase(pSpecies.getId());
+      propertyChangeVis.deleteSBase(" PluginSpecies: " + pSpecies.getId());
     }
     else if (sbase instanceof PluginSpeciesAlias)
     {
       PluginSpeciesAlias pSpeciesAlias = (PluginSpeciesAlias) sbase;
-      propertyChangeVis.deleteSBase("alias_"+pSpeciesAlias.getSpecies().getId());
+      propertyChangeVis.deleteSBase(" PluginSpeciesAlias: " + pSpeciesAlias.getAliasID());
     }
     else if (sbase instanceof PluginReaction)
     {
       PluginReaction pReaction = (PluginReaction) sbase;
-      propertyChangeVis.deleteSBase(pReaction.getId());
+      propertyChangeVis.deleteSBase(" PluginReaction: " + pReaction.getId());
     }
     else if (sbase instanceof PluginParameter)
     {
-      propertyChangeVis.deleteSBase(((PluginParameter)sbase).getId());
+      propertyChangeVis.deleteSBase(" PluginParameter: " + ((PluginParameter)sbase).getId());
     }
     else if (sbase instanceof PluginAlgebraicRule)
     {
-      propertyChangeVis.deleteSBase(((PluginAlgebraicRule)sbase).toString());
+      propertyChangeVis.deleteSBase(" PluginAlgebraicRule: " + ((PluginAlgebraicRule)sbase).getFormula());
     }
     else if (sbase instanceof PluginAssignmentRule)
     {
-      propertyChangeVis.deleteSBase(((PluginAssignmentRule)sbase).toString());
+      propertyChangeVis.deleteSBase(" PluginAssignmentRule: " + ((PluginAssignmentRule)sbase).getFormula());
     }
     else if (sbase instanceof PluginRateRule)
     {
-      propertyChangeVis.deleteSBase(((PluginRateRule)sbase).toString());
+      propertyChangeVis.deleteSBase(" PluginRateRule: " + ((PluginRateRule)sbase).getFormula());
     }
     else if (sbase instanceof PluginUnitDefinition)
     {
-      propertyChangeVis.deleteSBase(((PluginUnitDefinition)sbase).getId());
+      propertyChangeVis.deleteSBase(" PluginUnitDefinition: " + ((PluginUnitDefinition)sbase).getId());
     }
     else if (sbase instanceof PluginInitialAssignment)
     {
-      propertyChangeVis.deleteSBase(((PluginInitialAssignment)sbase).toString());
+      propertyChangeVis.deleteSBase(" PluginInitialAssignment: " + ((PluginInitialAssignment)sbase).getMath());
     }
     else if (sbase instanceof PluginEvent)
     {
-      propertyChangeVis.deleteSBase(((PluginEvent)sbase).getId());
+      propertyChangeVis.deleteSBase(" PluginEvent: " + ((PluginEvent)sbase).getId());
     }
     else if (sbase instanceof PluginConstraint)
     {
-      propertyChangeVis.deleteSBase(((PluginConstraint)sbase).toString());
+      propertyChangeVis.deleteSBase(" PluginConstraint: " + ((PluginConstraint)sbase).getMath()+"\t"
+          +((PluginConstraint)sbase).getMessage());
     }
     else if (sbase instanceof PluginFunctionDefinition)
     {
-      propertyChangeVis.deleteSBase(((PluginFunctionDefinition)sbase).getId());
+      propertyChangeVis.deleteSBase(" PluginFunctionDefinition: " + ((PluginFunctionDefinition)sbase).getId());
     }
     else if (sbase instanceof PluginCompartmentType)
     {
-      propertyChangeVis.deleteSBase(((PluginCompartmentType)sbase).getId());
+      propertyChangeVis.deleteSBase(" PluginCompartmentType: " + ((PluginCompartmentType)sbase).getId());
     }
     else if (sbase instanceof PluginSpeciesType)
     {
-      propertyChangeVis.deleteSBase(((PluginSpeciesType)sbase).getId());
+      propertyChangeVis.deleteSBase(" PluginSpeciesType: " + ((PluginSpeciesType)sbase).getId());
+    }
+    else if (sbase instanceof PluginProtein)
+    {
+      propertyChangeVis.deleteSBase(" PluginProtein: " + ((PluginProtein)sbase).getName());
     }
     else
     {

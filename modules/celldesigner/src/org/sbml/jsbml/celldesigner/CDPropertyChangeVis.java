@@ -57,7 +57,7 @@ public class CDPropertyChangeVis extends JFrame implements ActionListener {
     //creating Button and listening for click
     JButton clearConsole = new JButton("Clear Display");
     clearConsole.addActionListener(this);
-    clearConsole.setIcon(new ImageIcon("C:\\Users\\Yusef-PC\\workspace\\JSBML\\modules\\celldesigner\\resources\\org\\sbml\\jsbml\\celldesigner\\clear_display.png"));
+    clearConsole.setIcon(new ImageIcon(this.getClass().getResource("/org/sbml/jsbml/celldesigner/clear_display.png")));
     clearConsole.setVerticalTextPosition(SwingConstants.BOTTOM);
     clearConsole.setHorizontalTextPosition(SwingConstants.CENTER);
 
@@ -67,8 +67,8 @@ public class CDPropertyChangeVis extends JFrame implements ActionListener {
     toolBar.setLayout(new FlowLayout(FlowLayout.CENTER));
     contentPane.add(toolBar, BorderLayout.PAGE_START);
     pack();
-    setLocationRelativeTo(null);
     setAlwaysOnTop(true);
+    setLocationRelativeTo(null);
     setVisible(true);
   }
 
