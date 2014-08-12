@@ -61,7 +61,7 @@ public class SBMLLayoutVisualizer extends JFrame implements ActionListener {
    * @throws XMLStreamException
    * @throws SBMLException */
   public SBMLLayoutVisualizer(SBMLDocument document) throws XMLStreamException {
-    super("SBML Layout Viz");
+    super("SBML Visualization");
     sbmlDocument=document;
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     //set FlowLayout
@@ -69,7 +69,7 @@ public class SBMLLayoutVisualizer extends JFrame implements ActionListener {
     //creating Button and listening for click
     JButton SBMLExportButton = new JButton("Export SBML to File");
     SBMLExportButton.addActionListener(this);
-    SBMLExportButton.setIcon(new ImageIcon("C:\\Users\\Yusef-PC\\workspace\\JSBML\\modules\\celldesigner\\resources\\org\\sbml\\jsbml\\celldesigner\\save_file.png"));
+    SBMLExportButton.setIcon(new ImageIcon(this.getClass().getResource("/org/sbml/jsbml/celldesigner/save_file.png")));
     SBMLExportButton.setVerticalTextPosition(SwingConstants.BOTTOM);
     SBMLExportButton.setHorizontalTextPosition(SwingConstants.CENTER);
 
@@ -86,8 +86,8 @@ public class SBMLLayoutVisualizer extends JFrame implements ActionListener {
     toolBar.add(SBMLExportButton);
     contentPane.add(toolBar, BorderLayout.PAGE_START);
     pack();
-    setLocationRelativeTo(null);
     setAlwaysOnTop(true);
+    setLocationRelativeTo(null);
     setVisible(true);
   }
 
@@ -117,6 +117,4 @@ public class SBMLLayoutVisualizer extends JFrame implements ActionListener {
       }
     }
   }
-
-
 }
