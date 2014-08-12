@@ -1319,9 +1319,33 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
     unsetListOfAdditionalGraphicalObjects();
 
     if (additionalGraphicalObjects != null) {
-      listOfAdditionalGraphicalObjects = getListOfAdditionalGraphicalObjects(); // initializing a new ListOfWithName with the proper settings
-      listOfAdditionalGraphicalObjects.addAll(additionalGraphicalObjects);
-      registerChild(listOfAdditionalGraphicalObjects);
+      boolean registerDone = false;
+
+      // in case, the ListOf was created by hand by a user without the proper class, we need to make a copy of the list
+      if ((! (additionalGraphicalObjects instanceof ListOfWithName<?>)) 
+          || (! additionalGraphicalObjects.getElementName().equals(LayoutConstants.listOfAdditionalGraphicalObjects))) 
+      {      
+        listOfAdditionalGraphicalObjects = getListOfAdditionalGraphicalObjects(); // initializing a new ListOfWithName with the proper settings
+        registerDone = true;
+
+        // Need to reset the parent of all the given list to prevent warning when we add them to the real new list
+        for (GraphicalObject go : additionalGraphicalObjects) {
+          go.setParent(null);
+        }
+      
+        // now adding all the cloned GraphicalObject to the real new list
+        listOfAdditionalGraphicalObjects.addAll(additionalGraphicalObjects);
+      }  
+      
+      if (!registerDone) {
+        listOfAdditionalGraphicalObjects = additionalGraphicalObjects;
+        registerChild(listOfAdditionalGraphicalObjects);
+      }
+      
+      if ((listOfAdditionalGraphicalObjects != null) && (listOfAdditionalGraphicalObjects.getSBaseListType() != ListOf.Type.other)) {
+        listOfAdditionalGraphicalObjects.setSBaseListType(ListOf.Type.other);
+      }
+      
     }
   }
 
