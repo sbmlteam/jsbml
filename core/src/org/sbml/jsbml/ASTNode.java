@@ -418,13 +418,13 @@ public class ASTNode extends AbstractTreeNode {
       }
 
       // Logical operators
-      else if (type.equals("and")) {
+      else if (type.equals("and") || type.equals("&&")) {
         return LOGICAL_AND;
-      } else if (type.equals("or")) {
+      } else if (type.equals("or") || type.equals("||")) {
         return LOGICAL_OR;
       } else if (type.equals("xor")) {
         return LOGICAL_XOR;
-      } else if (type.equals("not")) {
+      } else if (type.equals("not") || type.equals("!")) {
         return LOGICAL_NOT;
       }
 

@@ -50,10 +50,10 @@ import org.sbml.jsbml.util.filters.NameFilter;
  * @date Jul 27, 2014
  */
 public class ASTFunctionTest {
-
+  
   @Rule
   public ExpectedException exception = ExpectedException.none();
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTFunction#addChild(org.sbml.jsbml.math.ASTNode2)}.
    */
@@ -74,7 +74,7 @@ public class ASTFunctionTest {
     function.addChild(integer);
     assertTrue(function.getChildAt(0).equals(integer));
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTFunction#clone()}.
    */
@@ -106,7 +106,7 @@ public class ASTFunctionTest {
     ASTFunction unknown = new ASTFunction(function);
     assertTrue(function.equals(unknown));
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTFunction#getAllowsChildren()}.
    */
@@ -115,7 +115,7 @@ public class ASTFunctionTest {
     ASTFunction function = new ASTFunction();
     assertTrue(function.getAllowsChildren());
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTFunction#getChildCount()}.
    */
@@ -135,7 +135,7 @@ public class ASTFunctionTest {
     function.addChild(new ASTCnIntegerNode(50));
     assertTrue(function.getChildCount() == 2);
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTFunction#getChildren()}.
    */
@@ -155,7 +155,7 @@ public class ASTFunctionTest {
     function.addChild(new ASTCnIntegerNode(50));
     assertTrue(function.getChildren().getClass().equals(ArrayList.class));
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.AbstractASTNode#getId()}.
    */
@@ -176,7 +176,7 @@ public class ASTFunctionTest {
     exception.expect(PropertyUndefinedError.class);
     x.getId();
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.AbstractASTNode#getId()}.
    */
@@ -212,7 +212,7 @@ public class ASTFunctionTest {
     NameFilter filter = new NameFilter("id#", "name#");
     assertTrue(function.getListOfNodes(filter).size() == 0);
   }
-
+  
 //  /**
 //   * Test method for {@link org.sbml.jsbml.math.ASTFunction#getListOfNodes(org.sbml.jsbml.util.filters.Filter)}.
 //   */
@@ -237,7 +237,7 @@ public class ASTFunctionTest {
     ASTFunction function = new ASTFunction();
     assertTrue(function.getListOfNodes() == null);
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTFunction#getListOfNodes()}.
    */
@@ -259,7 +259,7 @@ public class ASTFunctionTest {
     x.setMathMLClass(mathMLClass);
     assertTrue(x.getMathMLClass().equals(mathMLClass));
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.AbstractASTNode#getMathMLClass()}.
    */
@@ -279,7 +279,7 @@ public class ASTFunctionTest {
     x.setStrictness(false);
     assertTrue(x.getMathMLClass().isEmpty());
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.AbstractASTNode#getParent(javax.swing.tree.TreeNode)}.
    */
@@ -294,7 +294,7 @@ public class ASTFunctionTest {
     y.setParent(plus);
     assertTrue(x.getParent().equals(plus) && y.getParent().equals(plus));
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.AbstractASTNode#getParent(javax.swing.tree.TreeNode)}.
    */
@@ -317,7 +317,7 @@ public class ASTFunctionTest {
     function.setParentSBMLObject(rule);
     assertTrue(function.getParentSBMLObject().equals(rule));
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.AbstractASTNode#getParentSBMLObject()}.
    */
@@ -347,7 +347,7 @@ public class ASTFunctionTest {
     ASTFunction function = new ASTFunction(rule);
     assertTrue(function.getParentSBMLObject().equals(rule));
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.AbstractASTNode#getStyle()}.
    */
@@ -459,7 +459,7 @@ public class ASTFunctionTest {
     function.addChild(new ASTCnIntegerNode(50));
     assertTrue(function.removeChild(0) && function.getChildCount() == 0);
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTFunction#replaceChild(int, org.sbml.jsbml.math.ASTNode2)}.
    */
@@ -500,7 +500,7 @@ public class ASTFunctionTest {
     a.swapChildren(b);
     assertTrue((a.getChildCount() == 4) && (b.getChildCount() == 3));
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.AbstractASTNode#unsetParentSBMLObject()}.
    */

@@ -227,9 +227,9 @@ TOKEN :
 TOKEN :
 {
   < AND :
-    "and"
-  | "And"
-  | "AND" >
+    "And"
+  | "AND"
+  | "&&" >
 }
 
 TOKEN :
@@ -237,7 +237,7 @@ TOKEN :
   < OR :
     "OR"
   | "Or"
-  | "or" >
+  | "||" >
 }
 
 TOKEN :
@@ -251,9 +251,9 @@ TOKEN :
 TOKEN :
 {
   < NOT :
-    "not"
-  | "NOT"
-  | "Not" >
+    "NOT"
+  | "Not"
+  | "!" >
 }
 
 TOKEN :
