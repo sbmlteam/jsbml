@@ -3937,7 +3937,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
         }
         logger.error(MessageFormat.format(
           "An element of type {2} with the id \"{0}\" is already present in this model{1}. The new element will not be added to the model.",
-          id, (isSetId() ? " \"" + getId() + "\"" : ""), elem.getElementName()));
+          id, (isSetId() ? " \"" + getId() + "\"" : ""), elem != null ? elem.getElementName() : "'unknown'"));
         return false;
       }
       mapOfUniqueNamedSBases.put(id, unsb);
