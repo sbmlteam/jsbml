@@ -910,13 +910,15 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
        * Note: Listeners are not included in the equals check.
        */
 
+      // TODO - why not using the equals method on the SBasePlugin objects directly ?
       if ((extensions.size() > 0) &&
           (sbase.getExtensionPackages().size() == extensions.size())) {
 
         for (Map.Entry<String,SBasePlugin> entry : extensions.entrySet()) {
           Map<String, String> objectAttr = sbase.getExtension(entry.getKey()).writeXMLAttributes();
           Map<String, String> currentAttr = entry.getValue().writeXMLAttributes();
-          if (currentAttr!=null) {
+          
+          if (objectAttr != null) {
             equals &= objectAttr.equals(currentAttr);
           }
         }
