@@ -357,43 +357,10 @@ public class ASTFactoryTest {
    * Test method for {@link org.sbml.jsbml.math.ASTFactory#parseFormula(java.lang.String)}.
    */
   @Test
-  public final void testParseFormulaBooleanLogicOr() {
-    boolean status = false;
-    try {
-      ASTLogicalOperatorNode or = (ASTLogicalOperatorNode) ASTFactory.parseFormula("false || true");
-      status = or.getType() == Type.LOGICAL_OR
-            && ((ASTBoolean)or.getChildAt(0)).getValue() == false
-            && ((ASTBoolean)or.getChildAt(1)).getValue() == true;
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-    assertTrue(status);
-  }
-  
-  /**
-   * Test method for {@link xorg.sbml.jsbml.math.ASTFactxory#parseFxormula(java.lang.String)}.
-   */
-  @Test
-  public final void testParseFxormulaBooleanLogicXor() {
-    boolean status = false;
-    try {
-      ASTLogicalOperatorNode xor = (ASTLogicalOperatorNode) ASTFactory.parseFormula("false xor true");
-      status = xor.getType() == Type.LOGICAL_XOR
-            && ((ASTBoolean)xor.getChildAt(0)).getValue() == false
-            && ((ASTBoolean)xor.getChildAt(1)).getValue() == true;
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-    assertTrue(status);
-  }  
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTFactory#parseFormula(java.lang.String)}.
-   */
-  @Test
   public final void testParseFormulaBooleanLogicNot() {
     boolean status = false;
     try {
-      ASTLogicalOperatorNode not = (ASTLogicalOperatorNode) ASTFactory.parseFormula("! false");
+      ASTNode2 not = ASTFactory.parseFormula("!false");
       status = not.getType() == Type.LOGICAL_NOT
             && ((ASTBoolean)not.getChildAt(0)).getValue() == false;
     } catch (ParseException e) {
@@ -406,18 +373,35 @@ public class ASTFactoryTest {
    * Test method for {@link org.sbml.jsbml.math.ASTFactory#parseFormula(java.lang.String)}.
    */
   @Test
-  public final void testParseFormulaFactorial() {
+  public final void testParseFormulaBooleanLogicOr() {
     boolean status = false;
     try {
-      ASTUnaryFunctionNode factorial = (ASTUnaryFunctionNode) ASTFactory.parseFormula("10!");
-      status = factorial.getType() == Type.FUNCTION_FACTORIAL
-            && ((ASTCnIntegerNode)factorial.getChild()).getInteger() == 10;
+      ASTLogicalOperatorNode or = (ASTLogicalOperatorNode) ASTFactory.parseFormula("false || true");
+      status = or.getType() == Type.LOGICAL_OR
+            && ((ASTBoolean)or.getChildAt(0)).getValue() == false
+            && ((ASTBoolean)or.getChildAt(1)).getValue() == true;
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    assertTrue(status);
+  }  
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#parseFormula(java.lang.String)}.
+   */
+  @Test
+  public final void testParseFormulaBooleanLogicXor() {
+    boolean status = false;
+    try {
+      ASTLogicalOperatorNode xor = (ASTLogicalOperatorNode) ASTFactory.parseFormula("false xor true");
+      status = xor.getType() == Type.LOGICAL_XOR
+            && ((ASTBoolean)xor.getChildAt(0)).getValue() == false
+            && ((ASTBoolean)xor.getChildAt(1)).getValue() == true;
     } catch (ParseException e) {
       e.printStackTrace();
     }
     assertTrue(status);
   }
-
   
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTFactory#parseFormula(java.lang.String)}.
@@ -430,6 +414,22 @@ public class ASTFactoryTest {
       status = divide.getType() == Type.DIVIDE
             && ((ASTCnIntegerNode)divide.getLeftChild()).getInteger() == 1000
             && ((ASTCnIntegerNode)divide.getRightChild()).getInteger() == 25;
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    assertTrue(status);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#parseFormula(java.lang.String)}.
+   */
+  @Test
+  public final void testParseFormulaFactorialStringToken() {
+    boolean status = false;
+    try {
+      ASTUnaryFunctionNode factorial = (ASTUnaryFunctionNode) ASTFactory.parseFormula("factorial(10)");
+      status = factorial.getType() == Type.FUNCTION_FACTORIAL
+            && ((ASTCnIntegerNode)factorial.getChild()).getInteger() == 10;
     } catch (ParseException e) {
       e.printStackTrace();
     }

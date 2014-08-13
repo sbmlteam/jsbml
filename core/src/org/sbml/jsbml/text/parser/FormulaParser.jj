@@ -178,7 +178,7 @@ TOKEN :
 
 TOKEN :
 {
-  < FACTORIAL : "!" >
+  < FACTORIAL : "factorial" >
 }
 
 TOKEN :
@@ -253,6 +253,7 @@ TOKEN :
   < NOT :
     "NOT"
   | "Not"
+  | "not"
   | "!" >
 }
 
@@ -283,6 +284,7 @@ Token string() :
 {
   (
     t = < LOG >
+  | t = < FACTORIAL > 
   | t = < STRING >
   )
   {
@@ -331,7 +333,12 @@ private ASTNode2 TermLvl3() :
 {
   leftChild = Primary()
   (
-    < POWER > rightChild = Primary()
+    < NOT > rightChild = Primary()
+    {
+      ASTUnaryFunctionNode not = new ASTUnaryFunctionNode(Type.LOGICAL_NOT);
+      not.addChild(leftChild);
+    }
+  | < POWER > rightChild = Primary()
     {
       ASTPowerNode power = new ASTPowerNode();
       power.addChild(leftChild);
@@ -488,8 +495,13 @@ private ASTNode2 Primary() throws NumberFormatException :
     {
       type = Type.valueOf(stringToType.getProperty(s.toLowerCase()).toUpperCase());
     }
-    
-    if (s.equalsIgnoreCase("pow"))
+    if (s.equalsIgnoreCase("factorial"))
+    {
+      checkSize(arguments, 1);
+      node = new ASTUnaryFunctionNode(Type.FUNCTION_FACTORIAL);
+      ((ASTUnaryFunctionNode)node).addChild(child);
+    }
+    else if (s.equalsIgnoreCase("pow"))
     {
       checkSize(arguments, 1);
       node = new ASTPowerNode();

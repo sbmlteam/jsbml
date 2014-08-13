@@ -107,7 +107,7 @@ public interface FormulaParserConstants {
     "\"-\"",
     "\"*\"",
     "\"/\"",
-    "\"!\"",
+    "\"factorial\"",
     "\"(\"",
     "\")\"",
     "\"{\"",
