@@ -2282,7 +2282,16 @@ public class VectorCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue lambda(List<ASTNode> values) throws SBMLException {
-    values.get(values.size() - 1).compile(this);
+    if(useId) {
+      ASTNode value = new ASTNode(ASTNode.Type.LAMBDA);
+      for(ASTNode node : values) {
+        node.compile(this);
+        value.addChild(getNode());
+      }
+      setNode(value);
+    } else {
+      values.get(values.size() - 1).compile(this);
+    }
     return dummy;
   }
 
