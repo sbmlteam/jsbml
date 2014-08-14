@@ -322,6 +322,9 @@ public class ArraysFlattening {
     for(SpeciesReference ref : reaction.getListOfProducts()) {
       updateNamedSBase(arraysPlugin, ref, index);
     }
+    for(ModifierSpeciesReference ref : reaction.getListOfModifiers()) {
+      updateNamedSBase(arraysPlugin, ref, index);
+    }
   }
 
   /**

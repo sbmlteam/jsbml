@@ -145,8 +145,12 @@ public class ArraysMath {
 
     Dimension dim = refSbasePlugin.getDimensionByArrayDimension(arrayDim);
     
-    Parameter paramSize = model.getParameter(dim.getSize());
+    if(dim == null) {
+      return false;
+    }
     
+    Parameter paramSize = model.getParameter(dim.getSize());
+   
     double size = paramSize.getValue();
 
     return evaluateBounds(dimSizes, math, size);
