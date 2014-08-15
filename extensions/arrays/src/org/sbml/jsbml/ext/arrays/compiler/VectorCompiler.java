@@ -1121,8 +1121,9 @@ public class VectorCompiler implements ASTNodeCompiler {
       size = ArraysMath.getSize(model, dim);
       vector = new ArrayList<ASTNode>((int) size);
       for(int j = 0; j < size; ++j) {
-        updateASTNodeName(vectorNode.clone(), j);
-        vector.add(vectorNode);
+        ASTNode clone = vectorNode.clone();
+        updateASTNodeName(clone, j);
+        vector.add(clone);
       }
       vector(vector);
       vectorNode = getNode();
