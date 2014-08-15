@@ -90,7 +90,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
   @Override
   public void addChild(ASTNode2 child) {
     if (! isSetList())  {
-      listOfNodes = new ArrayList<ASTNode2>();
+      listOfNodes = new ArrayList<ASTNode2>(2);
     } 
     if (isStrict() && getChildCount() == 2) {
       throw new IndexOutOfBoundsException("max child limit exceeded");
@@ -162,7 +162,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
   @Override
   public void insertChild(int n, ASTNode2 newChild) {
     if (! isSetList()) {
-      listOfNodes = new ArrayList<ASTNode2>();
+      listOfNodes = new ArrayList<ASTNode2>(2);
     }
     if (isStrict() && getChildCount() == 2) {
       throw new IndexOutOfBoundsException("max child limit exceeded");
@@ -209,7 +209,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
   @Override
   public void prependChild(ASTNode2 child) {
     if (! isSetList()) {
-      listOfNodes = new ArrayList<ASTNode2>();
+      listOfNodes = new ArrayList<ASTNode2>(2);
     }
     if (isStrict() && getChildCount() == 2) {
       throw new IndexOutOfBoundsException("max child limit exceeded");
@@ -230,7 +230,7 @@ public class ASTBinaryFunctionNode extends ASTFunction {
   @Override
   public boolean removeChild(int n) {
     if (! isSetList()) {
-      listOfNodes = new ArrayList<ASTNode2>();
+      listOfNodes = new ArrayList<ASTNode2>(2);
     }
     if ((getChildCount() > n) && (n >= 0)) {
       ASTNode2 removed = listOfNodes.remove(n);

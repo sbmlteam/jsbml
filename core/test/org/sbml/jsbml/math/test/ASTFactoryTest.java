@@ -373,6 +373,23 @@ public class ASTFactoryTest {
    * Test method for {@link org.sbml.jsbml.math.ASTFactory#parseFormula(java.lang.String)}.
    */
   @Test
+  public final void testParseFormulaBooleanLogicNotStringToken() {
+    boolean status = false;
+    try {
+      ASTNode2 not = ASTFactory.parseFormula("not false");
+      status = not.getType() == Type.LOGICAL_NOT
+            && ((ASTBoolean)not.getChildAt(0)).getValue() == false;
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    assertTrue(status);
+  }
+
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#parseFormula(java.lang.String)}.
+   */
+  @Test
   public final void testParseFormulaBooleanLogicOr() {
     boolean status = false;
     try {
@@ -424,7 +441,7 @@ public class ASTFactoryTest {
    * Test method for {@link org.sbml.jsbml.math.ASTFactory#parseFormula(java.lang.String)}.
    */
   @Test
-  public final void testParseFormulaFactorialStringToken() {
+  public final void testParseFormulaFactorial() {
     boolean status = false;
     try {
       ASTUnaryFunctionNode factorial = (ASTUnaryFunctionNode) ASTFactory.parseFormula("factorial(10)");

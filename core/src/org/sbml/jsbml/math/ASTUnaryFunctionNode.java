@@ -95,7 +95,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
           "to ASTUnaryFunctionNode set strictness to false.");
     }
     if (! isSetList())  {
-      listOfNodes = new ArrayList<ASTNode2>();
+      listOfNodes = new ArrayList<ASTNode2>(1);
     } 
     listOfNodes.add(child);
     ASTFactory.setParentSBMLObject(child, parentSBMLObject);
@@ -175,7 +175,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
       logger.debug("Max child limit exceeded");
     }
     if (! isSetList()) {
-      listOfNodes = new ArrayList<ASTNode2>();
+      listOfNodes = new ArrayList<ASTNode2>(1);
     }
     listOfNodes.add(n, newChild);
     ASTFactory.setParentSBMLObject(newChild, parentSBMLObject);
@@ -225,7 +225,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
           "to ASTUnaryFunctionNode set strictness to false.");
     }
     if (! isSetList()) {
-      listOfNodes = new ArrayList<ASTNode2>();
+      listOfNodes = new ArrayList<ASTNode2>(1);
     }
     listOfNodes.add(0, child);
     ASTFactory.setParentSBMLObject(child, parentSBMLObject);
@@ -242,7 +242,7 @@ public class ASTUnaryFunctionNode extends ASTFunction {
       return false;
     }
     if (! isSetList()) {
-      listOfNodes = new ArrayList<ASTNode2>();
+      listOfNodes = new ArrayList<ASTNode2>(1);
     }
     ASTNode2 removed = listOfNodes.remove(n);
     removed.unsetParentSBMLObject();
