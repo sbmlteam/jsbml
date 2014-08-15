@@ -565,7 +565,7 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
     if (variable instanceof Species) {
       Species species = (Species) variable;
       Compartment c = species.getCompartmentInstance();
-      boolean concentration = !species.getHasOnlySubstanceUnits()
+      boolean concentration = !species.getHasOnlySubstanceUnits() && (c != null)
           && (0 < c.getSpatialDimensions());
       StringBuffer value = new StringBuffer();
       if (concentration) {
