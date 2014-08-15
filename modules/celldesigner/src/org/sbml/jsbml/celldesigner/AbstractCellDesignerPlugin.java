@@ -84,7 +84,7 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
    */
   protected SBMLDocument document = null;
   /**
-   * 
+   * An instance of AbstractCellDesignerPlugin.
    */
   final AbstractCellDesignerPlugin plugin = this;
 
@@ -127,8 +127,17 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
   }
 
   /**
+   * Visualizes underlying HashMap which stores all
+   * PluginSBases and their associated JSBML objects.
+   */
+  private void printMap()
+  {
+    reader.printMap();
+  }
+
+  /**
    * @throws XMLStreamException
-   * Get the SBMLDocument from the currently selected CellDesigner PluginModel
+   * Get the SBMLDocument from the currently selected CellDesigner PluginModel and run the plugin.
    */
   public void startPlugin() throws XMLStreamException
   {
@@ -169,30 +178,38 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
   /* (non-Javadoc)
    * @see jp.sbi.celldesigner.plugin.CellDesignerPlug#modelClosed(jp.sbi.celldesigner.plugin.PluginSBase)
    */
+  /**
+   * There is nothing that needs to be done when a CellDesigner model is closed. See {@link #modelSelectChanged(PluginSBase)}
+   * for events related to a model closing.
+   */
   @Override
   public void modelClosed(PluginSBase sbase) {
-    /*There is nothing to do in this class when a CellDesigner model is closed. See modelSelectChanged(PluginSBase)
-     for events related to a model closing */
   }
 
   /* (non-Javadoc)
    * @see jp.sbi.celldesigner.plugin.CellDesignerPlug#modelOpened(jp.sbi.celldesigner.plugin.PluginSBase)
    */
+  /**
+   * This method is always followed by a call to modelSelectChanged(PluginSBase). <p>
+   * See {@link #modelSelectChanged(PluginSBase)} for events related to the opening of a new model.
+   */
   @Override
   public void modelOpened(PluginSBase sbase) {
-    /*modelOpened(PluginSBase sbase) is ALWAYS followed by a call to modelSelectChanged(PluginSBase)
-     *  See modelSelectChanged(PluginSBase) for events related to the opening of a new model */
   }
 
   /* (non-Javadoc)
    * @see jp.sbi.celldesigner.plugin.CellDesignerPlug#modelSelectChanged(jp.sbi.celldesigner.plugin.PluginSBase)
    */
+  /**
+   * Called by CellDesigner when a new CellDesigner model is focused on by the user. As such, we need to
+   * convert this model to JSBML and add the model to the HashMap which stores all PluginSBases and their associated JSBML objects.
+   */
   @Override
   public void modelSelectChanged(PluginSBase sbase) {
-    if (sbase instanceof PluginModel) //it will always be a PluginModel, but just making 100% sure
+    if (sbase instanceof PluginModel)
     {
       Map<PluginSBase, Set<SBase>> map = reader.getPluginSBase_SBaseMappings();
-      map.clear(); //The current model is changed. Time to clear the current mappings
+      map.clear();
       try {
         PluginModel pModel = (PluginModel)sbase;
         Model model = reader.convertModel(pModel);
@@ -203,7 +220,6 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
         sBaseSet.add(model);
         PluginUtils.transferNamedSBaseProperties(pModel, model);
 
-        //the map was just cleared, so we can just add it with no worries.
         map.put(pModel, sBaseSet);
       }
       catch (Throwable e) {
@@ -214,6 +230,10 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
 
   /* (non-Javadoc)
    * @see jp.sbi.celldesigner.plugin.CellDesignerPlug#SBaseAdded(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  /**
+   * Called by CellDesigner when a new PluginSBase is added to the CellDesigner Model. The identity of the
+   * PluginSBase is determined and then passed onto another method for addition.
    */
   @Override
   public void SBaseAdded(PluginSBase sbase) {
@@ -297,11 +317,15 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
       PluginSBaseEventUtils.pluginSpeciesTypeAdded(reader, pSpeciesType, map, document);
     }
     document.addAllChangeListeners(treeNodeList);
-    //reader.printMap();
   }
 
   /* (non-Javadoc)
    * @see jp.sbi.celldesigner.plugin.CellDesignerPlug#SBaseChanged(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  /**
+   * Called by CellDesigner when a PluginSBase is changed. The identity of the PluginSBase is
+   * determined and then passed onto another method for rebuilding of the HashMap which stores all
+   * PluginSBases and their associated JSBML objects.
    */
   @Override
   public void SBaseChanged(PluginSBase sbase) {
@@ -324,6 +348,7 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
       else if (sbase instanceof PluginSpeciesAlias)
       {
         PluginSBaseEventUtils.pluginSpeciesAliasChanged(reader, getSelectedModel(), map, document);
+        printMap();
       }
 
       else if (sbase instanceof PluginReaction)
@@ -375,7 +400,6 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
         PluginSBaseEventUtils.pluginSpeciesTypeChangedOrDeleted(reader, getSelectedModel(), map, document);
       }
       document.addAllChangeListeners(treeNodeList);
-      //reader.printMap();
     }
     catch (Throwable e) {
       new GUIErrorConsole(e);
@@ -385,6 +409,11 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
 
   /* (non-Javadoc)
    * @see jp\nbi.celldesigner.plugin.CellDesignerPlug#SBaseDeleted(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  /**
+   * Called by CellDesigner when a PluginSBase is deleted. The identity of the PluginSBase is
+   * determined and then passed onto another method for rebuilding of the HashMap which stores all
+   * PluginSBases and their associated JSBML objects.
    */
   @Override
   public void SBaseDeleted(PluginSBase sbase) {
@@ -406,6 +435,7 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
     {
       PluginSpeciesAlias pSpeciesAlias = (PluginSpeciesAlias) sbase;
       PluginSBaseEventUtils.pluginSpeciesAliasDeleted(reader, getSelectedModel(), map, document, pSpeciesAlias);
+      printMap();
     }
     else if (sbase instanceof PluginReaction)
     {
@@ -457,6 +487,5 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
       PluginSBaseEventUtils.pluginSpeciesTypeChangedOrDeleted(reader, getSelectedModel(), map, document);
     }
     document.addAllChangeListeners(treeNodeList);
-    //reader.printMap();
   }
 }

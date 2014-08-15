@@ -147,7 +147,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   private Model model;
 
   /**
-   * 
+   * A mapping between a PluginSBase and a Set of derived JSBML SBases.
    */
   private final Map<PluginSBase,Set<SBase>> mapOfSBases = new HashMap<PluginSBase,Set<SBase>>();
 
@@ -188,7 +188,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * clears the Map
+   * clears the HashMap
    */
   protected void clearMap()
   {
@@ -197,6 +197,10 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBMLReader#readModel(java.lang.Object)
+   */
+  /**
+   * Converts all PluginSBases inside the PluginModel to their JSBML counterparts.
+   * @return the JSBML Model.
    */
   @Override
   public Model convertModel(PluginModel originalModel) throws XMLStreamException {
@@ -233,6 +237,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
       RenderLayoutPlugin renderPlugin = new RenderLayoutPlugin(layout);
       LocalRenderInformation localRenderInformation = new LocalRenderInformation(model.getLevel(), model.getVersion());
       renderPlugin.addLocalRenderInformation(localRenderInformation);
+
       localRenderInformation.addLocalStyle(new LocalStyle("compartmentStyle", model.getLevel(), model.getVersion(),
         new Group(model.getLevel(), model.getVersion())));
       localRenderInformation.addLocalStyle(new LocalStyle("speciesAliasStyle", model.getLevel(), model.getVersion(),
@@ -304,8 +309,8 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
         mapOfSBases.put(pCompartment, list);
         //RenderConverter.extractRenderInformation(pCompartment, renderPlugin.getLocalRenderInformation(0), layout);
         //gets the compartment size
-        layout.createDimensions("Layout_Size", originalModel.getCompartment(i).getWidth(),
-          originalModel.getCompartment(i).getHeight(), 1d);
+        layout.createDimensions("Layout_Size", originalModel.getCompartment(i).getWidth()+30,
+          originalModel.getCompartment(i).getHeight()+30, 1d);
         if (listener != null) {
           listener.progressUpdate(++curr, "Compartments");
         }
@@ -324,7 +329,8 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
         for (int j=0;j<listOfAliases.size();j++)
         {
           Set<SBase> list = LayoutConverter.extractLayout((PluginSpeciesAlias)listOfAliases.get(j), layout);
-          //RenderConverter.extractRenderInformation((PluginSpeciesAlias)listOfAliases.get(j), renderPlugin.getLocalRenderInformation(0), layout);
+          //RenderConverter.extractRenderInformation((PluginSpeciesAlias)listOfAliases.get(j),
+          //renderPlugin.getLocalRenderInformation(0), layout);
           mapOfSBases.put(listOfAliases.get(j), list);
         }
         if (listener != null) {
@@ -435,7 +441,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   * @return the model
+   * @return the JSBML Model
    */
   public Model getModel() {
     return model;
@@ -459,7 +465,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
 
   /**
    * 
-   * @return the mapping between PluginSBases and SBases
+   * @return the mapping between PluginSBases and the Set of derived SBases
    */
   protected Map<PluginSBase,Set<SBase>> getPluginSBase_SBaseMappings()
   {
@@ -481,19 +487,23 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
     return new LinkedList<SBMLException>();
   }
 
-
+  /**
+   * Prints a list of the HashMap alphabetized by PluginSBase in a GUI window.
+   */
   protected void printMap()
   {
     StringBuffer mapText = new StringBuffer();
     Iterator<Entry<PluginSBase, Set<SBase>>> it = mapOfSBases.entrySet().iterator();
     Map<String, Set<SBase>> treeMap = new TreeMap<String, Set<SBase>>();
 
+    final int indexOfPluginSBaseName = 27;
+    final String atSymbolBeforeHashcode = "@";
     for (int i =0; it.hasNext(); i++)
     {
       Entry<PluginSBase, Set<SBase>> pairs = it.next();
-      String key = pairs.getKey().toString().substring(27,
-        pairs.getKey().toString().indexOf("@"));
-      treeMap.put(key+"_"+i, pairs.getValue());
+      String pluginSBaseName = pairs.getKey().toString().
+          substring(indexOfPluginSBaseName, pairs.getKey().toString().indexOf(atSymbolBeforeHashcode));
+      treeMap.put(pluginSBaseName+"_"+i, pairs.getValue());
     }
 
     Iterator<Entry<String, Set<SBase>>> newIt = treeMap.entrySet().iterator();
@@ -504,7 +514,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
     }
     JScrollPane pane = new JScrollPane(new JTextArea(mapText.toString()));
     pane.setPreferredSize(new Dimension(640, 480));
-    JOptionPane.showMessageDialog(null,pane);
+    JOptionPane.showMessageDialog(null,pane, "HashMap",JOptionPane.INFORMATION_MESSAGE);
   }
 
   /**

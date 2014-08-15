@@ -35,17 +35,16 @@ import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 
 
 /**
- * A simple plug-in for CellDesigner that displays the SBML data structure as a
- * tree.
+ * A simple plugin for CellDesigner that displays the SBML Layout Extension portion
+ * of a SBML file as a {@link #DefaultTreeModel}. When the Layout Extension internals
+ * are changed by CellDesigner, the tree will refresh itself and all nodes will become unexpanded.
  *
- * @author Andreas Dr&auml;ger
+ * @author Ibrahim Vazirabad
  * @version $Rev$
  * @since 1.0
  * @date 16.04.2014
  */
 public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
-
-
 
   public static final String ACTION = "Display JSBML JTree";
   public static final String APPLICATION_NAME = "SBML Structure Visualization";
@@ -74,13 +73,11 @@ public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
     addCellDesignerPluginMenu(menu);
   }
 
-  protected DefaultTreeModel getTreeModel()
-  {
-    return modelTree;
-  }
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#SBaseAdded(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  /**
+   * Gets the new Layout and refreshes the modelTree with the new Layout.
    */
   @Override
   public void SBaseAdded(PluginSBase sbase) {
@@ -91,6 +88,9 @@ public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#SBaseChanged(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  /**
+   * Gets the new Layout and refreshes the modelTree with the new Layout.
    */
   @Override
   public void SBaseChanged(PluginSBase sbase) {
@@ -108,6 +108,9 @@ public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#SBaseDeleted(jp.sbi.celldesigner.plugin.PluginSBase)
    */
+  /**
+   * Gets the new Layout and refreshes the modelTree with the new Layout.
+   */
   @Override
   public void SBaseDeleted(PluginSBase sbase) {
     super.SBaseDeleted(sbase);
@@ -117,6 +120,9 @@ public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#modelSelectChanged(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  /**
+   * Gets the new Layout and refreshes the modelTree with the new Layout.
    */
   @Override
   public void modelSelectChanged(PluginSBase sbase) {
@@ -129,12 +135,18 @@ public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#modelClosed(jp.sbi.celldesigner.plugin.PluginSBase)
    */
+  /**
+   * If the CellDesigner model is closed, we nullify the Tree.
+   */
   @Override
   public void modelClosed(PluginSBase sbase) {
     super.modelClosed(sbase);
     modelTree.setRoot(null);
   }
 
+  /**
+   * Initializes plugin and sets WindowClosed() events.
+   */
   @Override
   public void run() {
     plugin = (LayoutModelPlugin) getSBMLDocument().getModel().getExtension("layout");

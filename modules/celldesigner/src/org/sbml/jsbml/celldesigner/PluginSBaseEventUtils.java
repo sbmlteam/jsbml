@@ -77,10 +77,10 @@ import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 public class PluginSBaseEventUtils {
 
   /**
-   * @param reader
+   * @param reader Translates CellDesigner objects to JSBML objects.
    * @param pAlgebraicRule
-   * @param map
-   * @param document
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects. HashMap which stores all PluginSBases and associated JSBML objects. @param map HashMap which stores all PluginSBases and associated JSBML objects. HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument} The {@link org.sbml.jsbml.SBMLDocument}
    */
   public static void pluginAlgebraicRuleAdded(PluginSBMLReader reader, PluginAlgebraicRule pAlgebraicRule,
     Map<PluginSBase, Set<SBase>> map, SBMLDocument document)
@@ -98,10 +98,10 @@ public class PluginSBaseEventUtils {
   }
 
   /**
-   * @param reader
-   * @param pAssignmentRule
-   * @param map
-   * @param document
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pAssignmentRule the PluginAssignmentRule.
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
    */
   public static void pluginAssignmentRuleAdded(PluginSBMLReader reader, PluginAssignmentRule pAssignmentRule,
     Map<PluginSBase, Set<SBase>> map, SBMLDocument document)
@@ -118,6 +118,13 @@ public class PluginSBaseEventUtils {
     }
   }
 
+  /**
+   * 
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pCompartment The PluginCompartment.
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
+   */
   public static void pluginCompartmentAdded(PluginSBMLReader reader, PluginCompartment pCompartment,
     Map<PluginSBase, Set<SBase>> map, SBMLDocument document)
   {
@@ -138,6 +145,13 @@ public class PluginSBaseEventUtils {
     }
   }
 
+  /**
+   * 
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pCompartment The PluginCompartment.
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
+   */
   public static void pluginCompartmentChanged(PluginSBMLReader reader, PluginCompartment pCompartment,
     Map<PluginSBase, Set<SBase>> map, SBMLDocument document)
   {
@@ -177,6 +191,13 @@ public class PluginSBaseEventUtils {
     }
   }
 
+  /**
+   * 
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pCompartment The PluginCompartment.
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
+   */
   public static void pluginCompartmentDeleted(PluginSBMLReader reader, PluginCompartment pCompartment,
     Map<PluginSBase, Set<SBase>> map, SBMLDocument document)
   {
@@ -200,10 +221,10 @@ public class PluginSBaseEventUtils {
   }
 
   /**
-   * @param reader
-   * @param pCompartmentType
-   * @param map
-   * @param document
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pCompartmentType The PluginCompartmentType
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects. HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
    */
   public static void pluginCompartmentTypeAdded(PluginSBMLReader reader,
     PluginCompartmentType pCompartmentType, Map<PluginSBase, Set<SBase>> map,
@@ -221,10 +242,10 @@ public class PluginSBaseEventUtils {
   }
 
   /**
-   * @param reader
-   * @param pModel
-   * @param map
-   * @param document
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pModel The PluginModel
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects. HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
    */
   public static void pluginCompartmentTypeChangedOrDeleted(
     PluginSBMLReader reader, PluginModel pModel,
@@ -262,10 +283,10 @@ public class PluginSBaseEventUtils {
   }
 
   /**
-   * @param reader
-   * @param pConstraint
-   * @param map
-   * @param document
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pConstraint The PluginConstraint.
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects. HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
    */
   public static void pluginConstraintAdded(PluginSBMLReader reader,
     PluginConstraint pConstraint, Map<PluginSBase, Set<SBase>> map,
@@ -283,10 +304,10 @@ public class PluginSBaseEventUtils {
   }
 
   /**
-   * @param reader
-   * @param pModel
-   * @param map
-   * @param document
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pModel The PluginModel
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects. HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
    */
   public static void pluginConstraintChangedOrDeleted(PluginSBMLReader reader,
     PluginModel pModel, Map<PluginSBase, Set<SBase>> map,
@@ -323,10 +344,10 @@ public class PluginSBaseEventUtils {
   }
 
   /**
-   * @param reader
-   * @param pEvent
-   * @param map
-   * @param document
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pEvent The PluginEvent
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects. HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
    */
   public static void pluginEventAdded(PluginSBMLReader reader,
     PluginEvent pEvent, Map<PluginSBase, Set<SBase>> map, SBMLDocument document) {
@@ -343,10 +364,10 @@ public class PluginSBaseEventUtils {
   }
 
   /**
-   * @param reader
-   * @param pModel
-   * @param map
-   * @param document
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pModel The PluginModel
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects. HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
    */
   public static void pluginEventChangedOrDeleted(PluginSBMLReader reader,
     PluginModel pModel, Map<PluginSBase, Set<SBase>> map,
@@ -384,10 +405,10 @@ public class PluginSBaseEventUtils {
   }
 
   /**
-   * @param reader
+   * @param reader Translates CellDesigner objects to JSBML objects.
    * @param pFunctionDefinition
-   * @param map
-   * @param document
+   * @param map  HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
    */
   public static void pluginFunctionDefinitionAdded(PluginSBMLReader reader,
     PluginFunctionDefinition pFunctionDefinition,
@@ -406,10 +427,10 @@ public class PluginSBaseEventUtils {
   }
 
   /**
-   * @param reader
-   * @param pModel
-   * @param map
-   * @param document
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pModel The PluginModel
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects. HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
    */
   public static void pluginFunctionDefinitionChangedOrDeleted(
     PluginSBMLReader reader, PluginModel pModel,
@@ -447,10 +468,10 @@ public class PluginSBaseEventUtils {
   }
 
   /**
-   * @param reader
+   * @param reader Translates CellDesigner objects to JSBML objects.
    * @param pInitialAssignment
-   * @param map
-   * @param document
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
    */
   public static void pluginInitialAssignmentAdded(PluginSBMLReader reader, PluginInitialAssignment pInitialAssignment,
     Map<PluginSBase, Set<SBase>> map, SBMLDocument document)
@@ -468,10 +489,10 @@ public class PluginSBaseEventUtils {
   }
 
   /**
-   * @param reader
-   * @param pModel
-   * @param map
-   * @param document
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pModel The PluginModel
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
    */
   public static void pluginInitialAssignmentChangedOrDeleted(PluginSBMLReader reader, PluginModel pModel,
     Map<PluginSBase, Set<SBase>> map, SBMLDocument document)
@@ -509,10 +530,10 @@ public class PluginSBaseEventUtils {
   }
 
   /**
-   * @param reader
+   * @param reader Translates CellDesigner objects to JSBML objects.
    * @param pParameter
-   * @param map
-   * @param document
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
    */
   public static void pluginParameterAdded(PluginSBMLReader reader, PluginParameter pParameter, Map<PluginSBase,
     Set<SBase>> map, SBMLDocument document)
@@ -530,10 +551,10 @@ public class PluginSBaseEventUtils {
   }
 
   /**
-   * @param reader
-   * @param pModel
-   * @param map
-   * @param document
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pModel The PluginModel
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects. HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
    */
   public static void pluginParameterChangedOrDeleted(PluginSBMLReader reader, PluginModel pModel,
     Map<PluginSBase, Set<SBase>> map, SBMLDocument document)
@@ -571,10 +592,10 @@ public class PluginSBaseEventUtils {
   }
 
   /**
-   * @param reader
+   * @param reader Translates CellDesigner objects to JSBML objects.
    * @param pRateRule
-   * @param map
-   * @param document
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
    */
   public static void pluginRateRuleAdded(PluginSBMLReader reader, PluginRateRule pRateRule,
     Map<PluginSBase, Set<SBase>> map, SBMLDocument document)
@@ -591,6 +612,13 @@ public class PluginSBaseEventUtils {
     }
   }
 
+  /**
+   * 
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pReaction
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
+   */
   public static void pluginReactionAdded(PluginSBMLReader reader, PluginReaction pReaction,
     Map<PluginSBase, Set<SBase>> map, SBMLDocument document)
   {
@@ -611,6 +639,13 @@ public class PluginSBaseEventUtils {
     }
   }
 
+  /**
+   * 
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pModel The PluginModel
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
+   */
   public static void pluginReactionChanged(PluginSBMLReader reader, PluginModel pModel,
     Map<PluginSBase, Set<SBase>> map, SBMLDocument document)
   {
@@ -654,7 +689,14 @@ public class PluginSBaseEventUtils {
       new GUIErrorConsole(e);
     }
   }
-
+  /**
+   * 
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pModel The PluginModel
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
+   * @param pReaction
+   */
   public static void pluginReactionDeleted(PluginSBMLReader reader, PluginModel pModel,
     Map<PluginSBase, Set<SBase>> map, SBMLDocument document, PluginReaction pReaction)
   {
@@ -701,10 +743,10 @@ public class PluginSBaseEventUtils {
   }
 
   /**
-   * @param reader
-   * @param pModel
-   * @param map
-   * @param document
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pModel The PluginModel
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects. HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
    */
   public static void pluginRuleChangedOrDeleted(PluginSBMLReader reader, PluginModel pModel,
     Map<PluginSBase, Set<SBase>> map, SBMLDocument document)
@@ -741,6 +783,13 @@ public class PluginSBaseEventUtils {
     }
   }
 
+  /**
+   * 
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pSpecies
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
+   */
   public static void pluginSpeciesAdded(PluginSBMLReader reader, PluginSpecies pSpecies,
     Map<PluginSBase, Set<SBase>> map, SBMLDocument document)
   {
@@ -759,6 +808,12 @@ public class PluginSBaseEventUtils {
     }
   }
 
+  /**
+   * 
+   * @param pSpeciesAlias
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
+   */
   public static void pluginSpeciesAliasAdded(PluginSpeciesAlias pSpeciesAlias, Map<PluginSBase, Set<SBase>> map,
     SBMLDocument document)
   {
@@ -772,6 +827,13 @@ public class PluginSBaseEventUtils {
     }
   }
 
+  /**
+   * 
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pModel The PluginModel
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
+   */
   public static void pluginSpeciesAliasChanged(PluginSBMLReader reader, PluginModel pModel,
     Map<PluginSBase, Set<SBase>> map, SBMLDocument document)
   {
@@ -808,6 +870,13 @@ public class PluginSBaseEventUtils {
     }
   }
 
+  /**
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pModel The PluginModel
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
+   * @param pSpeciesAlias
+   */
   public static void pluginSpeciesAliasDeleted(PluginSBMLReader reader, PluginModel pModel,
     Map<PluginSBase, Set<SBase>> map, SBMLDocument document, PluginSpeciesAlias pSpeciesAlias)
   {
@@ -837,6 +906,7 @@ public class PluginSBaseEventUtils {
         Set<SBase> listOfSBases = LayoutConverter.extractLayout((PluginSpeciesAlias)
           pModel.getListOfAllSpeciesAlias().get(i), layout);
         layout.removeTextGlyph("tGlyph_" + pSpeciesAlias.getAliasID());
+        layout.removeSpeciesGlyph("sGlyph_"+pSpeciesAlias.getAliasID());
         map.put(pModel.getListOfAllSpeciesAlias().get(i), listOfSBases);
       }
     }
@@ -845,6 +915,13 @@ public class PluginSBaseEventUtils {
     }
   }
 
+  /**
+   * 
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pModel The PluginModel
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
+   */
   public static void pluginSpeciesChangedOrDeleted(PluginSBMLReader reader, PluginModel pModel,
     Map<PluginSBase, Set<SBase>> map, SBMLDocument document)
   {
@@ -880,10 +957,10 @@ public class PluginSBaseEventUtils {
   }
 
   /**
-   * @param reader
+   * @param reader Translates CellDesigner objects to JSBML objects.
    * @param pSpeciesType
-   * @param map
-   * @param document
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
    */
   public static void pluginSpeciesTypeAdded(PluginSBMLReader reader,
     PluginSpeciesType pSpeciesType, Map<PluginSBase, Set<SBase>> map,
@@ -901,10 +978,10 @@ public class PluginSBaseEventUtils {
   }
 
   /**
-   * @param reader
-   * @param pModel
-   * @param map
-   * @param document
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pModel The PluginModel
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
    */
   public static void pluginSpeciesTypeChangedOrDeleted(PluginSBMLReader reader,
     PluginModel pModel, Map<PluginSBase, Set<SBase>> map,
@@ -942,10 +1019,10 @@ public class PluginSBaseEventUtils {
   }
 
   /**
-   * @param reader
+   * @param reader Translates CellDesigner objects to JSBML objects.
    * @param pUnitDefinition
-   * @param map
-   * @param document
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
    */
   public static void pluginUnitDefinitionAdded(PluginSBMLReader reader, PluginUnitDefinition pUnitDefinition,
     Map<PluginSBase, Set<SBase>> map, SBMLDocument document)
@@ -963,10 +1040,10 @@ public class PluginSBaseEventUtils {
   }
 
   /**
-   * @param reader
-   * @param pModel
-   * @param map
-   * @param document
+   * @param reader Translates CellDesigner objects to JSBML objects.
+   * @param pModel The PluginModel
+   * @param map HashMap which stores all PluginSBases and associated JSBML objects.
+   * @param document The {@link org.sbml.jsbml.SBMLDocument}
    */
   public static void pluginUnitDefinitionChangedOrDeleted(PluginSBMLReader reader, PluginModel pModel,
     Map<PluginSBase, Set<SBase>> map, SBMLDocument document)

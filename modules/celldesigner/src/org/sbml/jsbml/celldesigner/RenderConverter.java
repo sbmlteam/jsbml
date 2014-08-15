@@ -46,6 +46,12 @@ public class RenderConverter {
   final static double depth  =  1d;
   final static double z  =  0d;
 
+  /**
+   * 
+   * @param pCompartment
+   * @param renderInfo
+   * @param layout
+   */
   public static void extractRenderInformation(PluginCompartment pCompartment, LocalRenderInformation renderInfo, Layout layout)
   {
     renderInfo.addColorDefinition(new ColorDefinition(pCompartment.getId(), pCompartment.getLineColor()));
@@ -76,6 +82,12 @@ public class RenderConverter {
     group.setStrokeWidth(pCompartment.getThickness());
   }
 
+  /**
+   * 
+   * @param pSpeciesAlias
+   * @param renderInfo
+   * @param layout
+   */
   public static void extractRenderInformation(PluginSpeciesAlias pSpeciesAlias, LocalRenderInformation renderInfo, Layout layout)
   {
     renderInfo.addColorDefinition(new ColorDefinition(pSpeciesAlias.getAliasID(), pSpeciesAlias.getColor()));

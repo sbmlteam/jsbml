@@ -34,7 +34,7 @@ public class JSBMLvisualizer extends JFrame {
 
   /** @param document The sbml root node of an SBML file */
   public JSBMLvisualizer(DefaultTreeModel tree) {
-    super("JSBML viz");
+    super("SBML Structure Visualization");
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     DefaultTreeModel treeModel = tree;
     JTree jTree = new JTree(treeModel);

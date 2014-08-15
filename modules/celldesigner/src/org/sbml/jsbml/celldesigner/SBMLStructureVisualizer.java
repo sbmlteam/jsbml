@@ -27,7 +27,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeModel;
 
-
 /**
  * @author Ibrahim Vazirabad
  * @version $Rev$
