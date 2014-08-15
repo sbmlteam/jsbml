@@ -84,6 +84,76 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
     addCellDesignerPluginMenu(menu);
   }
 
+  /**
+   * Sends model ID when CellDesigner model closed.
+   */
+  @Override
+  public void modelClosed(PluginSBase sbase) {
+    if (sbase instanceof PluginModel)
+    {
+      PluginModel pModel = (PluginModel) sbase;
+      propertyChangeVis.modelClosed(pModel.getId());
+    }
+    else
+    {
+      propertyChangeVis.modelClosed(sbase.toString());
+    }
+  }
+
+  /**
+   * Sends model ID when CellDesigner model closed.
+   */
+  @Override
+  public void modelOpened(PluginSBase sbase) {
+    if (sbase instanceof PluginModel)
+    {
+      PluginModel pModel = (PluginModel) sbase;
+      propertyChangeVis.modelOpened(pModel.getId());
+    }
+    else
+    {
+      propertyChangeVis.modelOpened(sbase.toString());
+    }
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#modelSelectChanged(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  /**
+   * Sends model ID when CellDesigner model selected on the canvas.
+   */
+  @Override
+  public void modelSelectChanged(PluginSBase sbase) {
+    if (sbase instanceof PluginModel)
+    {
+      PluginModel pModel = (PluginModel) sbase;
+      propertyChangeVis.modelSelectChanged(pModel.getId());
+    }
+    else
+    {
+      propertyChangeVis.modelSelectChanged(sbase.toString());
+    }
+  }
+
+  /**
+   * Performs related to the plugin window closing.
+   */
+  @Override
+  public void run() {
+    CDPropertyChangeVis CDvisualizer = new CDPropertyChangeVis();
+    CDvisualizer.addWindowListener(new WindowAdapter() {
+
+      @Override
+      public void windowClosed(WindowEvent e) {
+        setStarted(false);
+        getReader().clearMap();
+      }
+    });
+  }
+
+  /**
+   * Sends IDs of PluginSBases when they are added to a CellDesigner model.
+   */
   @Override
   public void SBaseAdded(PluginSBase sbase) {
     if (sbase instanceof PluginModel)
@@ -167,23 +237,10 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#modelSelectChanged(jp.sbi.celldesigner.plugin.PluginSBase)
-   */
-  @Override
-  public void modelSelectChanged(PluginSBase sbase) {
-    if (sbase instanceof PluginModel)
-    {
-      PluginModel pModel = (PluginModel) sbase;
-      propertyChangeVis.modelSelectChanged(pModel.getId());
-    }
-    else
-    {
-      propertyChangeVis.modelSelectChanged(sbase.toString());
-    }
-  }
-
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#SBaseChanged(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  /**
+   * Sends IDs of PluginSBases when they are changed in a CellDesigner model.
    */
   @Override
   public void SBaseChanged(PluginSBase sbase) {
@@ -268,32 +325,9 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
   }
 
   @Override
-  public void modelClosed(PluginSBase sbase) {
-    if (sbase instanceof PluginModel)
-    {
-      PluginModel pModel = (PluginModel) sbase;
-      propertyChangeVis.modelClosed(pModel.getId());
-    }
-    else
-    {
-      propertyChangeVis.modelClosed(sbase.toString());
-    }
-  }
-
-  @Override
-  public void modelOpened(PluginSBase sbase) {
-    if (sbase instanceof PluginModel)
-    {
-      PluginModel pModel = (PluginModel) sbase;
-      propertyChangeVis.modelOpened(pModel.getId());
-    }
-    else
-    {
-      propertyChangeVis.modelOpened(sbase.toString());
-    }
-  }
-
-  @Override
+  /**
+   * Sends IDs of PluginSBases when they are deleted in a CellDesigner model.
+   */
   public void SBaseDeleted(PluginSBase sbase) {
     if (sbase instanceof PluginModel)
     {
@@ -373,18 +407,5 @@ public class CellDesignerTest extends AbstractCellDesignerPlugin {
     {
       propertyChangeVis.deleteSBase(sbase.toString());
     }
-  }
-
-  @Override
-  public void run() {
-    CDPropertyChangeVis CDvisualizer = new CDPropertyChangeVis();
-    CDvisualizer.addWindowListener(new WindowAdapter() {
-
-      @Override
-      public void windowClosed(WindowEvent e) {
-        setStarted(false);
-        getReader().clearMap();
-      }
-    });
   }
 }

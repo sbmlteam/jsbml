@@ -25,13 +25,13 @@ package org.sbml.jsbml.celldesigner;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.xml.stream.XMLStreamException;
-
 import jp.sbi.celldesigner.plugin.PluginMenu;
 import jp.sbi.celldesigner.plugin.PluginMenuItem;
 
 
 /**
+ * A simple plugin for CellDesigner that visualizes and exports SBML files.
+ * 
  * @author Ibrahim Vazirabad
  * @version $Rev 1776$
  * @since 1.0
@@ -67,18 +67,21 @@ public class SBMLExportPlugin extends AbstractCellDesignerPlugin  {
   /* (non-Javadoc)
    * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
    */
+  /**
+   * Initializes plugin and sets WindowClosed() events.
+   */
   @Override
   public void run() {
     SBMLLayoutVisualizer SBMLVisualizer = null;
     try {
       SBMLVisualizer = new SBMLLayoutVisualizer(getSBMLDocument());
-    } catch (XMLStreamException e1) {
-      // TODO Auto-generated catch block
-      e1.printStackTrace();
+    }
+    catch (Throwable e) {
+      new GUIErrorConsole(e);
     }
     SBMLVisualizer.addWindowListener(new WindowAdapter() {
       @Override
-      public void windowClosed(WindowEvent e) {
+      public void windowClosed(WindowEvent event) {
         getReader().clearMap();
         setStarted(false);
       }

@@ -69,19 +69,17 @@ public class LayoutConverter {
   final static double z  =  0d;
 
   /**
-   * Converts CellDesigner's plug-in data structure into a JSBML data structure.
-   */
-  private static PluginSBMLReader reader = new PluginSBMLReader();
-
-  /**
-   * Extracts Compartment Layout data from CellDesigner
+   *
+   * Extracts Compartment Layout data from CellDesigner.
    * @param pCompartment the PluginCompartment
    * @param layout The Layout object
+   * @return a Set of SBases which are related to the CellDesigner Compartment.
    */
   public static Set<SBase> extractLayout(PluginCompartment pCompartment, Layout layout)
   {
     Set<SBase> compartmentList = new HashSet<SBase>();
     CompartmentGlyph cGlyph  =  layout.createCompartmentGlyph("cGlyph_" + pCompartment.getId());
+    cGlyph.setReference(pCompartment.getId());
     cGlyph.createBoundingBox(pCompartment.getWidth(), pCompartment.getHeight(), depth, pCompartment.getX(), pCompartment.getY(), z);
     compartmentList.add(cGlyph);
 
@@ -89,6 +87,7 @@ public class LayoutConverter {
     BoundingBox bBox  =  tGlyph.createBoundingBox(pCompartment.getName().length()*5,10,depth);
     bBox.createPosition(pCompartment.getNamePositionX(), pCompartment.getNamePositionY(), z);
     tGlyph.setOriginOfText(pCompartment.getId());
+    tGlyph.setGraphicalObject(cGlyph);
     compartmentList.add(tGlyph);
 
     cGlyph.putUserObject(LINK_TO_CELLDESIGNER, pCompartment);
@@ -98,23 +97,24 @@ public class LayoutConverter {
   }
 
   /**
-   * Extracts Species Layout data from CellDesigner
+   * Extracts Species Layout data from CellDesigner.
    * @param pSpecies the PluginSpeciesAlias
    * @param layout The Layout object
+   * @return a Set of SBases which are related to the CellDesigner Species.
    */
   public static Set<SBase> extractLayout(PluginSpeciesAlias pSpeciesAlias, Layout layout)
   {
     Set<SBase> speciesAliasList = new HashSet<SBase>();
     SpeciesGlyph sGlyph = layout.createSpeciesGlyph("sGlyph_" + pSpeciesAlias.getAliasID());
+    sGlyph.setReference(pSpeciesAlias.getSpecies().getId());
     sGlyph.createBoundingBox(pSpeciesAlias.getWidth(), pSpeciesAlias.getHeight(), depth, pSpeciesAlias.getX(), pSpeciesAlias.getY(), z);
     speciesAliasList.add(sGlyph);
 
     TextGlyph tGlyph = layout.createTextGlyph("tGlyph_" + pSpeciesAlias.getAliasID());
-    BoundingBox bBox  =  tGlyph.createBoundingBox(pSpeciesAlias.getWidth(), pSpeciesAlias.getHeight(), depth);
-    //setting textGlyph position at center of speciesGlyph
-    bBox.createPosition(pSpeciesAlias.getX(), pSpeciesAlias.getY(), z);
-    //origin of text? Set to Species or SpeciesAlias?
+    tGlyph.createBoundingBox(pSpeciesAlias.getWidth(), pSpeciesAlias.getHeight(), depth,
+      pSpeciesAlias.getX(), pSpeciesAlias.getY(), z);
     tGlyph.setOriginOfText(pSpeciesAlias.getSpecies().getId());
+    tGlyph.setGraphicalObject(sGlyph);
     speciesAliasList.add(tGlyph);
 
     sGlyph.putUserObject(LINK_TO_CELLDESIGNER, pSpeciesAlias);
@@ -124,17 +124,26 @@ public class LayoutConverter {
   }
 
   /**
-   * Extracts Reaction Layout data from CellDesigner
+   * Extracts Reaction Layout data from CellDesigner.
    * @param pReaction  the PluginReaction
    * @param layout The Layout object
+   * @return a Set of SBases which are related to the CellDesigner Reaction.
    */
   public static Set<SBase> extractLayout(PluginReaction pReaction, Layout layout)
   {
     Set<SBase> reactionList = new HashSet<SBase>();
-    //create ReactionGlyph
     ReactionGlyph rGlyph = layout.createReactionGlyph("rGlyph_"+pReaction.getId());
-    rGlyph.putUserObject(LINK_TO_CELLDESIGNER, pReaction);
+    rGlyph.setReference(pReaction.getId());
     reactionList.add(rGlyph);
+
+    TextGlyph tGlyph = layout.createTextGlyph("tGlyph_"+pReaction.getId());
+    tGlyph.createBoundingBox(20, 10, depth, pReaction.getLabelX()+5, pReaction.getLabelY()+5, z);
+    tGlyph.setOriginOfText(pReaction.getId());
+    tGlyph.setGraphicalObject(rGlyph);
+    reactionList.add(tGlyph);
+
+    rGlyph.putUserObject(LINK_TO_CELLDESIGNER, pReaction);
+    tGlyph.putUserObject(LINK_TO_CELLDESIGNER, pReaction);
 
     //create SpeciesReferenceGlyphs for reactants
     for (int i = 0;i<pReaction.getNumReactants();i++)
@@ -146,6 +155,8 @@ public class LayoutConverter {
       PluginSpeciesAlias pSpeciesAlias = pReaction.getReactant(i).getSpeciesInstance().getSpeciesAlias(0);
       srGlyph.setSpeciesGlyph("sGlyph_"+pSpeciesAlias.getAliasID());
       reactionList.add(srGlyph);
+      srGlyph.setReference(pReaction.getId());
+
       layout.getReactionGlyph("rGlyph_"+pReaction.getId()).addSpeciesReferenceGlyph(srGlyph);
     }
 
@@ -159,6 +170,8 @@ public class LayoutConverter {
       PluginSpeciesAlias pSpeciesAlias = pReaction.getProduct(i).getSpeciesInstance().getSpeciesAlias(0);
       srGlyph.setSpeciesGlyph("sGlyph_"+pSpeciesAlias.getAliasID());
       reactionList.add(srGlyph);
+      srGlyph.setReference(pReaction.getId());
+
       layout.getReactionGlyph("rGlyph_"+pReaction.getId()).addSpeciesReferenceGlyph(srGlyph);
     }
 
@@ -168,8 +181,10 @@ public class LayoutConverter {
       SpeciesReferenceGlyph srGlyph = new SpeciesReferenceGlyph("srGlyphModifier_" + pReaction.getId() + "_" +
           pReaction.getModifier(i).getSpeciesInstance().getId());
 
-      //a few published models make the same species a modifier twice, causing an ID conflict for srGlyph. We need to work around this.
-      for (SpeciesReferenceGlyph ref: layout.getReactionGlyph("rGlyph_"+pReaction.getId()).getListOfSpeciesReferenceGlyphs())
+      //a few published models make the same species a modifier twice,
+      //causing an ID conflict for srGlyph. We need to work around this.
+      for (SpeciesReferenceGlyph ref: layout.
+          getReactionGlyph("rGlyph_"+pReaction.getId()).getListOfSpeciesReferenceGlyphs())
       {
         if (ref.getId().equals(srGlyph.getId()))
         {
@@ -181,12 +196,13 @@ public class LayoutConverter {
       PluginSpeciesAlias pSpeciesAlias = pReaction.getModifier(i).getSpeciesInstance().getSpeciesAlias(0);
       srGlyph.setSpeciesGlyph("sGlyph_"+pSpeciesAlias.getAliasID());
       reactionList.add(srGlyph);
+      srGlyph.setReference(pReaction.getId());
+
       layout.getReactionGlyph("rGlyph_"+pReaction.getId()).addSpeciesReferenceGlyph(srGlyph);
     }
 
     //starting the reaction position algorithm
     PluginRealLineInformationDataObjOfReactionLink inputInfo = pReaction.getAllMyPostionInfomations();
-    //debugReactionPosition(pReaction,inputInfo);
     if (inputInfo!= null && inputInfo.getPointsInLine() != null) {
       //grabbing main reaction axis
       Vector mainReactionAxis = (Vector)inputInfo.getPointsInLine().get(0);
@@ -194,13 +210,6 @@ public class LayoutConverter {
       if ((mainReactionAxis != null) && (mainReactionAxis.size() > 0)) {
         SpeciesReferenceGlyph srGlyph;
         Curve curve;
-
-        //calculating TextGlyph position
-        TextGlyph tGlyph = layout.createTextGlyph("tGlyph_"+pReaction.getId());
-        tGlyph.setOriginOfText(pReaction.getId());
-        tGlyph.putUserObject(LINK_TO_CELLDESIGNER, pReaction);
-        reactionList.add(tGlyph);
-        tGlyph.createBoundingBox(20, 10, depth, pReaction.getLabelX()+5, pReaction.getLabelY()+5, z);
 
         if (mainReactionAxis.size()>2 && inputInfo.getMidPointInLine()!=null && inputInfo.getPointsInLine().size()>1)
         {
@@ -769,12 +778,13 @@ public class LayoutConverter {
     return reactionList;
   }
   /**
-   * if you ever run into trouble with reaction positioning, call this method to print reaction positions from CD
-   * Call this statement after inputInfo is initialized in extractLayout(pReaction): debugReactionPosition(pReaction,inputInfo);
-   * @param pReaction
-   * @param inputInfo
+   * Prints reaction positioning data from CellDesigner (great debugging method).<p>
+   * Call this method after inputInfo is initialized in {@link #extractLayout(PluginReaction, Layout)}
+   * @param pReaction The reaction that is to be debugged.
+   * @param inputInfo the DataObject associated with the Reaction.
    */
-  private static void debugReactionPosition(PluginReaction pReaction, PluginRealLineInformationDataObjOfReactionLink inputInfo)
+  private static void debugReactionPosition(PluginReaction pReaction,
+    PluginRealLineInformationDataObjOfReactionLink inputInfo)
   {
     PrintStream oldOut = System.out;
     JTextArea textArea = new JTextArea();

@@ -49,12 +49,13 @@ public class CDPropertyChangeVis extends JFrame implements ActionListener {
   Container contentPane = getContentPane();
   private final JTextArea viewerArea = new JTextArea(30,75);
 
+  /**
+   * Adds objects related to the CellDesigner Console GUI.
+   */
   public CDPropertyChangeVis() {
-    super("SBML/CD Test");
+    super("CellDesigner Event Console");
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-    contentPane.setLayout(new BorderLayout());
-    contentPane.add(new JScrollPane(viewerArea), BorderLayout.CENTER);
-    //creating Button and listening for click
+
     JButton clearConsole = new JButton("Clear Display");
     clearConsole.addActionListener(this);
     clearConsole.setIcon(new ImageIcon(this.getClass().getResource("/org/sbml/jsbml/celldesigner/clear_display.png")));
@@ -62,10 +63,12 @@ public class CDPropertyChangeVis extends JFrame implements ActionListener {
     clearConsole.setHorizontalTextPosition(SwingConstants.CENTER);
 
     JToolBar toolBar = new JToolBar("Clear Display");
-    //toolBar.setFloatable(false);
     toolBar.add(clearConsole);
     toolBar.setLayout(new FlowLayout(FlowLayout.CENTER));
-    contentPane.add(toolBar, BorderLayout.PAGE_START);
+
+    contentPane.setLayout(new BorderLayout());
+    contentPane.add(new JScrollPane(viewerArea), BorderLayout.CENTER);
+    contentPane.add(toolBar, BorderLayout.PAGE_END);
     pack();
     setAlwaysOnTop(true);
     setLocationRelativeTo(null);

@@ -33,8 +33,9 @@ import org.sbml.jsbml.gui.JSBMLvisualizer;
 
 
 /**
- * A simple plug-in for CellDesigner that displays the SBML data structure as a
- * tree.
+ * A simple plugin for CellDesigner that displays the SBML data structure as a
+ * {@link #DefaultTreeModel}. When the underlying SBMLDocument is changed by CellDesigner,
+ * the tree will refresh itself and all nodes will become unexpanded.
  *
  * @author Andreas Dr&auml;ger
  * @version $Rev$
@@ -74,6 +75,9 @@ public class SimpleCellDesignerPlugin extends AbstractCellDesignerPlugin {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#modelSelectChanged(jp.sbi.celldesigner.plugin.PluginSBase)
    */
+  /**
+   * After the model is changed, refreshes the Tree by resetting the Root node.
+   */
   @Override
   public void modelSelectChanged(PluginSBase sbase) {
     super.modelSelectChanged(sbase);
@@ -82,6 +86,9 @@ public class SimpleCellDesignerPlugin extends AbstractCellDesignerPlugin {
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#SBaseAdded(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  /**
+   * After a PluginSBase addition, refreshes the Tree by resetting the Root node.
    */
   @Override
   public void SBaseAdded(PluginSBase sbase) {
@@ -92,6 +99,9 @@ public class SimpleCellDesignerPlugin extends AbstractCellDesignerPlugin {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#SBaseChanged(jp.sbi.celldesigner.plugin.PluginSBase)
    */
+  /**
+   * After a PluginSBase modification, refreshes the Tree by resetting the Root node.
+   */
   @Override
   public void SBaseChanged(PluginSBase sbase) {
     super.SBaseChanged(sbase);
@@ -100,6 +110,9 @@ public class SimpleCellDesignerPlugin extends AbstractCellDesignerPlugin {
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#SBaseDeleted(jp.sbi.celldesigner.plugin.PluginSBase)
+   */
+  /**
+   * After a PluginSBase deletion, refreshes the Tree by resetting the Root node.
    */
   @Override
   public void SBaseDeleted(PluginSBase sbase) {
@@ -110,12 +123,18 @@ public class SimpleCellDesignerPlugin extends AbstractCellDesignerPlugin {
   /* (non-Javadoc)
    * @see org.sbml.jsbml.celldesigner.AbstractCellDesignerPlugin#modelClosed(jp.sbi.celldesigner.plugin.PluginSBase)
    */
+  /**
+   * If the CellDesigner model is closed, we nullify the Tree.
+   */
   @Override
   public void modelClosed(PluginSBase sbase) {
     super.modelClosed(sbase);
     modelTree.setRoot(null);
   }
 
+  /**
+   * Initializes plugin and sets WindowClosed() events.
+   */
   @Override
   public void run() {
     modelTree = new DefaultTreeModel(getSBMLDocument());

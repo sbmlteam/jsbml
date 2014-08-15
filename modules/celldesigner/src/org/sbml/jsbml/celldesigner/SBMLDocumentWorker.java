@@ -61,6 +61,9 @@ public class SBMLDocumentWorker extends SwingWorker<SBMLDocument, Throwable> {
     pluginModel=selectedModel;
   }
 
+  /**
+   * Receives the Model from the PluginSBMLReader and creates a SBMLDocument with Level 3 Extensions.
+   */
   @Override
   protected SBMLDocument doInBackground() throws Exception {
     try{

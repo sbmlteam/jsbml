@@ -26,7 +26,6 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.xml.stream.XMLStreamException;
 
 
 /**
@@ -66,10 +65,8 @@ public class SBMLExportPluginAction extends AbstractCellDesignerPluginAction {
       if (item.getText().equals(SBMLExportPlugin.ACTION)) {
         try {
           plugin.startPlugin();
-        } catch (XMLStreamException exc) {
-          JOptionPane.showMessageDialog(item, exc.getMessage(),
-            exc.getClass().toString(), JOptionPane.ERROR_MESSAGE);
-          exc.printStackTrace();
+        } catch (Throwable e) {
+          new GUIErrorConsole(e);
         }
       }
     } else {
