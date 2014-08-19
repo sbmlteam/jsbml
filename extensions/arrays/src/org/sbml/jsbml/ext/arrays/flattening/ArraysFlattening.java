@@ -214,6 +214,8 @@ public class ArraysFlattening {
             throw new SBMLException();
           }
         }
+        ASTNode math = clone.getDelay().getMath();
+        clone.getDelay().setMath(replaceDimensionId(math, dimension.getId(), i));
       }
       if(event.isSetTrigger()) {
         if(clone.getTrigger().getMath().isVector()) {
@@ -223,7 +225,8 @@ public class ArraysFlattening {
             throw new SBMLException();
           }
         }
-
+        ASTNode math = clone.getTrigger().getMath();
+        clone.getTrigger().setMath(replaceDimensionId(math, dimension.getId(), i));
       }
       if(event.isSetPriority()) {
         if(clone.getPriority().getMath().isVector()) {
@@ -233,6 +236,8 @@ public class ArraysFlattening {
             throw new SBMLException();
           }
         }
+        ASTNode math = clone.getPriority().getMath();
+        clone.getPriority().setMath(replaceDimensionId(math, dimension.getId(), i));
       }
       updateEventAssignmentIndex(model, clone, dimension, i);
       expandEvent(model, arraysPlugin, parent, clone, dim-1);
