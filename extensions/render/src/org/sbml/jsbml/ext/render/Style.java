@@ -22,12 +22,13 @@
 package org.sbml.jsbml.ext.render;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Map;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
@@ -66,7 +67,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public Style(Group group) {
     super();
-    this.group = group;
+    setGroup(group);
     initDefaults();
   }
 
@@ -92,13 +93,15 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public Style(String id, int level, int version, Group group) {
     super(id, level, version);
-    if (getLevelAndVersion().compareTo(
-      Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
-      Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
-      throw new LevelVersionError(getElementName(), level, version);
-    }
-    this.group = group;
+
+    // Removed to potentially support SBML Level 2 Render
+//    if (getLevelAndVersion().compareTo(
+//      Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
+//      Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
+//      throw new LevelVersionError(getElementName(), level, version);
+//    }
     initDefaults();
+    setGroup(group);
   }
 
 
@@ -107,9 +110,12 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public Style(Style obj) {
     super(obj);
-    roleList = obj.roleList;
+    roleList = obj.roleList; // TODO - do a proper copy of the arrays
     typeList = obj.typeList;
-    setGroup(obj.getGroup().clone());
+    
+    if (obj.isSetGroup()) {
+      setGroup(obj.getGroup().clone());
+    }
   }
 
 
@@ -123,32 +129,42 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
     return new Style(this);
   }
 
-
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
    */
   @Override
   public boolean getAllowsChildren() {
-    return false;
+    return true;
   }
 
-
-  /*
-   * (non-Javadoc)
+  
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
    */
   @Override
-  public SBase getChildAt(int childIndex) {
-    if (childIndex < 0) {
-      throw new IndexOutOfBoundsException(childIndex + " < 0");
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(index + " < 0");
     }
-    int pos = 0;
-    throw new IndexOutOfBoundsException(MessageFormat.format(
-      "Index {0,number,integer} >= {1,number,integer}", childIndex,
-      +Math.min(pos, 0)));
-  }
+    int count = super.getChildCount(), pos = 0;
+    if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
+    }
 
+     if (isSetGroup()) {
+       if (pos == index) {
+         return getGroup();
+       }
+       pos++;
+     }
+
+    throw new IndexOutOfBoundsException(MessageFormat.format(
+      "Index {0,number,integer} >= {1,number,integer}", index,
+      +((int) Math.min(pos, 0))));
+  }
 
   /*
    * (non-Javadoc)
@@ -156,7 +172,12 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   @Override
   public int getChildCount() {
-    int count = 0;
+    int count = super.getChildCount();
+    
+    if (isSetGroup()) {
+      count++;
+    }
+    
     return count;
   }
 
@@ -206,22 +227,66 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    * Set the value of group
    */
   public void setGroup(Group group) {
-    Group oldGroup = this.group;
+    unsetGroup();
     this.group = group;
-    firePropertyChange(RenderConstants.group, oldGroup, this.group);
+    registerChild(group);
+    
   }
 
 
-  /*
-   * (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#toString()
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
-    // TODO Auto-generated method stub
-    return null;
+    return "Style [group=" + group + ", roleList=" + Arrays.toString(roleList)
+      + ", typeList=" + Arrays.toString(typeList) + "]";
   }
 
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3083;
+    int result = super.hashCode();
+    result = prime * result + ((group == null) ? 0 : group.hashCode());
+    result = prime * result + Arrays.hashCode(roleList);
+    result = prime * result + Arrays.hashCode(typeList);
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Style other = (Style) obj;
+    if (group == null) {
+      if (other.group != null) {
+        return false;
+      }
+    } else if (!group.equals(other.group)) {
+      return false;
+    }
+    if (!Arrays.equals(roleList, other.roleList)) {
+      return false;
+    }
+    if (!Arrays.equals(typeList, other.typeList)) {
+      return false;
+    }
+    return true;
+  }
 
   /**
    * Unsets the variable group
@@ -233,7 +298,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
     if (isSetGroup()) {
       Group oldGroup = group;
       group = null;
-      firePropertyChange(RenderConstants.group, oldGroup, group);
+      oldGroup.fireNodeRemovedEvent();
       return true;
     }
     return false;

@@ -100,6 +100,18 @@ public class GraphicalPrimitive1D extends Transformation2D {
     super();
     initDefaults();
   }
+    
+  /**
+   * Creates an GraphicalPrimitive1D instance
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
+   */
+  public GraphicalPrimitive1D(int level, int version) {
+    super(level, version);
+    initDefaults();
+  }
+
 
   /**
    * Clone constructor

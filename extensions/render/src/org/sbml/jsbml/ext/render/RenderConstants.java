@@ -126,7 +126,7 @@ public class RenderConstants {
   public static final String absoluteFy = "absolute-fy";
   public static final String absoluteFz = "absolute-fz";
   public static final String listOfElements = "list-of-elements";
-  public static final String id = "SId";
+  public static final String id = "id";
   public static final String href = "href";
   public static final String enableRotationMapping = "enable-rotation-mapping";
   public static final String group = "g";

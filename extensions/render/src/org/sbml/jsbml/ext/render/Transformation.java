@@ -22,6 +22,7 @@
 package org.sbml.jsbml.ext.render;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractSBase;
@@ -41,7 +42,7 @@ public class Transformation extends AbstractSBase {
    * Generated serial version identifier
    */
   private static final long serialVersionUID = 1845276761656867150L;
-  protected Double[] transform = new Double[12];
+  protected Double[] transform; // TODO - why using the Double class instance of the double primitive !?
 
   /**
    * Creates an Transformation instance
@@ -52,11 +53,22 @@ public class Transformation extends AbstractSBase {
   }
 
   /**
+   * Creates an Transformation instance
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
+   */
+  public Transformation(int level, int version) {
+    super(level, version);
+    initDefaults();
+  }
+
+  /**
    * Clone constructor
    */
   public Transformation(Transformation obj) {
     super(obj);
-    transform = obj.transform;
+    transform = obj.transform; // TODO - do a proper copy of the array
   }
 
   /* (non-Javadoc)
@@ -104,13 +116,46 @@ public class Transformation extends AbstractSBase {
     setNamespace(RenderConstants.namespaceURI);
   }
 
+  
+  
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#toString()
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3191;
+    int result = super.hashCode();
+    result = prime * result + Arrays.hashCode(transform);
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Transformation other = (Transformation) obj;
+    if (!Arrays.equals(transform, other.transform)) {
+      return false;
+    }
+    return true;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
    */
   @Override
   public String toString() {
-    // TODO Auto-generated method stub
-    return null;
+    return "Transformation [transform=" + Arrays.toString(transform) + "]";
   }
 
   /* (non-Javadoc)
@@ -119,8 +164,8 @@ public class Transformation extends AbstractSBase {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
+
     if (isSetTransform()) {
-      attributes.remove(RenderConstants.transform);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.transform,
         XMLTools.encodeArrayDoubleToString(transform));
     }

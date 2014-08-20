@@ -48,13 +48,22 @@ public class Transformation2D extends Transformation {
     super();
     initDefaults();
   }
+  
+  
+
+  public Transformation2D(int level, int version) {
+    super(level, version);
+    initDefaults();
+  }
+
+
 
   /**
    * Clone constructor
    */
   public Transformation2D(Transformation2D obj) {
     super(obj);
-    transform = obj.transform;
+    transform = obj.transform; // TODO - do a copy of the array !!
   }
 
   /* (non-Javadoc)

@@ -172,10 +172,12 @@ public class XMLTools {
     String s = "";
 
     for (int i = 0; i < array.length; i++) {
-      if (!s.isEmpty()) {
-        s +=", ";
+      if (array[i] != null) {
+        if (!s.isEmpty()) {
+          s +=", ";
+        }
+        s += StringTools.toString(Locale.ENGLISH, array[i]);
       }
-      s += StringTools.toString(Locale.ENGLISH, array[i]);
     }
     return s;
   }
