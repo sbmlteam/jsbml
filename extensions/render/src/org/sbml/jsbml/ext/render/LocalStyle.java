@@ -21,6 +21,7 @@
  */
 package org.sbml.jsbml.ext.render;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import org.sbml.jsbml.PropertyUndefinedError;
@@ -73,6 +74,45 @@ public class LocalStyle extends Style {
     super(id, level, version, group);
   }
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3301;
+    int result = super.hashCode();
+    result = prime * result + Arrays.hashCode(idList);
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    LocalStyle other = (LocalStyle) obj;
+    if (!Arrays.equals(idList, other.idList)) {
+      return false;
+    }
+    return true;
+  }
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "LocalStyle [idList=" + Arrays.toString(idList) + "]";
+  }
 
   /**
    * @return the value of idList

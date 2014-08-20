@@ -25,9 +25,10 @@ import java.text.MessageFormat;
 import java.util.Map;
 
 import org.sbml.jsbml.IdentifierException;
-import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
@@ -36,6 +37,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @author Alexander Diamantikos
  * @author Jakob Matthes
  * @author Jan Rudolph
+ * @author Nicolas Rodriguez
  * @version $Rev$
  * @since 1.0
  * @date 08.05.2012
@@ -43,7 +45,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 // TODO - this class does not seems to exist in the libsbml implementation of the render package
 
-public class Group extends GraphicalPrimitive2D {
+public class Group extends GraphicalPrimitive2D implements UniqueNamedSBase {
   /**
    * Generated serial version identifier
    */
@@ -106,22 +108,27 @@ public class Group extends GraphicalPrimitive2D {
    * @param version
    */
   public Group(String id, String name, int level, int version) {
-    super();
+    super(level, version);
     this.id = id;
-    if (getLevelAndVersion().compareTo(Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
-      Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
-      throw new LevelVersionError(getElementName(), level, version);
-    }
+
+    // Removed to potentially support SBML Level 2 Render
+    //    if (getLevelAndVersion().compareTo(Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
+    //      Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
+    //      throw new LevelVersionError(getElementName(), level, version);
+    //    }
+    
     initDefaults();
   }
 
+  // TODO - implement the ListOfDrawableObjects child
+  
   /**
    * Clone constructor
    */
   public Group(Group obj) {
     super(obj);
-    id = obj.id;
-    fontFamily = obj.fontFamily;
+    id = obj.id; 
+    fontFamily = obj.fontFamily; // TODO - do a proper cloning of the Objects + use the setters !!
     fontSize = obj.fontSize;
     fontStyleItalic = obj.fontStyleItalic;
     fontWeightBold = obj.fontWeightBold;
@@ -242,6 +249,18 @@ public class Group extends GraphicalPrimitive2D {
     return true;
   }
 
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "Group [id=" + id + ", fontFamily=" + fontFamily + ", fontSize="
+      + fontSize + ", fontWeightBold=" + fontWeightBold + ", fontStyleItalic="
+      + fontStyleItalic + ", textAnchor=" + textAnchor + ", vTextAnchor="
+      + vTextAnchor + ", startHead=" + startHead + ", endHead=" + endHead + "]";
+  }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getAllowsChildren()
    */
@@ -271,6 +290,14 @@ public class Group extends GraphicalPrimitive2D {
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", childIndex,
       +Math.min(pos, 0)));
+  }  
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getElementName()
+   */
+  @Override
+  public String getElementName() {
+    return "g";
   }
 
   /**
@@ -281,7 +308,7 @@ public class Group extends GraphicalPrimitive2D {
       return id;
     }
     // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.id, this);
+    throw new PropertyUndefinedError(RenderConstants.id, this); // TODO - do the same behavior as for the AbstractNamedSBase.getId method
   }
 
   /**
@@ -323,14 +350,12 @@ public class Group extends GraphicalPrimitive2D {
    * @return {@code true}, if id was set before,
    *         otherwise {@code false}
    */
-  public boolean unsetId() {
+  public void unsetId() {
     if (isSetId()) {
       String oldId = id;
       id = null;
-      firePropertyChange(RenderConstants.id, oldId, id);
-      return true;
+      firePropertyChange(RenderConstants.id, oldId, id); // TODO - need to unregister the id
     }
-    return false;
   }
 
   /**
@@ -765,6 +790,34 @@ public class Group extends GraphicalPrimitive2D {
       }
     }
     return isAttributeRead;
+  }
+
+  // TODO - May be the UniqueNamedSBase interface should not extends NamedSBase ???
+  
+  @Override
+  public String getName() {
+    // does nothing, the RenderGroup class has no attribute 'name'
+    return null;
+  }
+
+  @Override
+  public boolean isIdMandatory() {
+    return false;
+  }
+
+  @Override
+  public boolean isSetName() {
+    return false;
+  }
+
+  @Override
+  public void setName(String name) {
+    throw new SBMLException("The RenderGroup class has no attribute 'name', so you cannot use this method on this class, sorry.");
+  }
+
+  @Override
+  public void unsetName() {
+    // does nothing, the RenderGroup class has no attribute 'name'
   }
 
 }

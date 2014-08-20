@@ -47,10 +47,21 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
   protected FillRule fillRule;
 
   /**
-   * Creates an GraphicalPrimitive2D instance
+   * Creates an {@link GraphicalPrimitive2D} instance
    */
   public GraphicalPrimitive2D() {
     super();
+    initDefaults();
+  }
+  
+  /**
+   * Creates an {@link GraphicalPrimitive2D} instance
+   * 
+   * @param level the SBML level
+   * @param version the SBML version
+   */
+  public GraphicalPrimitive2D(int level, int version) {
+    super(level, version);
     initDefaults();
   }
 

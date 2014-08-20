@@ -73,6 +73,8 @@ import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.ext.qual.QualConstants;
 import org.sbml.jsbml.ext.qual.QualModelPlugin;
 import org.sbml.jsbml.ext.qual.QualitativeSpecies;
+import org.sbml.jsbml.ext.render.LocalRenderInformation;
+import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.RenderConstants;
 import org.sbml.jsbml.ext.render.RenderLayoutPlugin;
 import org.sbml.jsbml.ext.render.RenderListOfLayoutsPlugin;
@@ -682,12 +684,35 @@ public class UnregisterPackageTests {
     
     renderListOfLayoutsPlugin.createGlobalRenderInformation("RGRI1");
     
-    renderLayoutPlugin.createLocalRenderInformation("RLRI1");
+    LocalRenderInformation lri1 = renderLayoutPlugin.createLocalRenderInformation("RLRI1");
     renderLayoutPlugin.createLocalRenderInformation("RLRI2");
 
+    org.sbml.jsbml.ext.render.Group g1 = new org.sbml.jsbml.ext.render.Group("RGr1", 3, 1);
+    g1.setFill("fillTest");
+    g1.setStroke("testStroke");
+    LocalStyle ls1 = new LocalStyle(3, 1, g1);
+    ls1.setId("RLS1");
+    lri1.addLocalStyle(ls1);
+
+//    System.out.println("nb Child of LocalStyle 1 = " + ls1.getChildCount());
+//    System.out.println("Child 0 of LocalStyle 1 = " + ls1.getChildAt(0));    
+//    
+//    try {
+//      System.out.println(new SBMLWriter().writeSBMLToString(doc));
+//    } catch (SBMLException e) {
+//      // TODO Auto-generated catch block
+//      e.printStackTrace();
+//    } catch (XMLStreamException e) {
+//      // TODO Auto-generated catch block
+//      e.printStackTrace();
+//    }
+//    
+    
     assertTrue(model.findUniqueNamedSBase("L1") != null);
     assertTrue(model.findUniqueNamedSBase("RGRI1") != null);
     assertTrue(model.findUniqueNamedSBase("RLRI1") != null);
+    assertTrue(model.findUniqueNamedSBase("RLS1") != null);
+    assertTrue(model.findUniqueNamedSBase("RGr1") != null);
     
     SBMLDocument clonedDoc = doc.clone();
     Model clonedModel = clonedDoc.getModel();
@@ -695,6 +720,9 @@ public class UnregisterPackageTests {
     assertTrue(clonedModel.findUniqueNamedSBase("L1") != null);
     assertTrue(clonedModel.findUniqueNamedSBase("RLRI1") != null);
     assertTrue(clonedModel.findUniqueNamedSBase("RGRI1") != null);
+    assertTrue(clonedModel.findUniqueNamedSBase("RLS1") != null);
+    assertTrue(clonedModel.findUniqueNamedSBase("RGr1") != null);
+    
     
   }
   
