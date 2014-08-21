@@ -21,12 +21,10 @@
  */
 package org.sbml.jsbml.ext.render;
 
-import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Map;
 
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -184,37 +182,6 @@ public class GraphicalPrimitive1D extends Transformation2D {
       return false;
     }
     return true;
-  }
-
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.Transformation#getAllowsChildren()
-   */
-  @Override
-  public boolean getAllowsChildren() {
-    return false;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.Transformation#getChildAt(int)
-   */
-  @Override
-  public SBase getChildAt(int childIndex) {
-    if (childIndex < 0) {
-      throw new IndexOutOfBoundsException(childIndex + " < 0");
-    }
-    int pos = 0;
-    throw new IndexOutOfBoundsException(MessageFormat.format(
-      "Index {0,number,integer} >= {1,number,integer}", childIndex,
-      +Math.min(pos, 0)));
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.Transformation#getChildCount()
-   */
-  @Override
-  public int getChildCount() {
-    return 0;
   }
 
   /**

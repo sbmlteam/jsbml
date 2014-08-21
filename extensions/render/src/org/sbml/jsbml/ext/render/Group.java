@@ -22,12 +22,16 @@
 package org.sbml.jsbml.ext.render;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
+import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.IdentifierException;
+import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
@@ -43,7 +47,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @date 08.05.2012
  */
 
-// TODO - this class does not seems to exist in the libsbml implementation of the render package
+// TODO - this class does not seems to exist in the libsbml implementation of the render package, it is named RenderGroup
 
 public class Group extends GraphicalPrimitive2D implements UniqueNamedSBase {
   /**
@@ -59,6 +63,11 @@ public class Group extends GraphicalPrimitive2D implements UniqueNamedSBase {
   private String startHead;
   private String endHead;
 
+  /**
+   * 
+   */
+  private ListOf<Transformation2D> listOfElements;
+  
   /**
    * Creates an Group instance
    */
@@ -120,22 +129,39 @@ public class Group extends GraphicalPrimitive2D implements UniqueNamedSBase {
     initDefaults();
   }
 
-  // TODO - implement the ListOfDrawableObjects child
-  
   /**
    * Clone constructor
    */
   public Group(Group obj) {
     super(obj);
-    id = obj.id; 
-    fontFamily = obj.fontFamily; // TODO - do a proper cloning of the Objects + use the setters !!
-    fontSize = obj.fontSize;
-    fontStyleItalic = obj.fontStyleItalic;
-    fontWeightBold = obj.fontWeightBold;
-    textAnchor = obj.textAnchor;
-    vTextAnchor = obj.vTextAnchor;
-    startHead = obj.startHead;
-    endHead = obj.endHead;
+    
+    if (obj.isSetId()) {
+      setId(obj.getId());
+    }
+    if (obj.isSetFontFamily()) {
+      setFontFamily(obj.getFontFamily());
+    }
+    if (obj.isSetFontSize()) {
+      setFontSize(obj.getFontSize());
+    }
+    if (obj.isSetFontStyleItalic()) {
+      setFontStyleItalic(obj.getFontStyleItalic());
+    }
+    if (obj.isSetFontWeightBold()) {
+      setFontWeightBold(obj.getFontWeightBold());
+    }
+    if (obj.isSetTextAnchor()) {
+      setTextAnchor(obj.getTextAnchor());
+    }
+    if (obj.isSetVTextAnchor()) {
+      setVTextAnchor(obj.getVTextAnchor());
+    }
+    if (obj.isSetStartHead()) {
+      setStartHead(obj.getStartHead());
+    }
+    if (obj.isSetEndHead()) {
+      setEndHead(obj.getEndHead());
+    }
   }
 
   /* (non-Javadoc)
@@ -177,6 +203,9 @@ public class Group extends GraphicalPrimitive2D implements UniqueNamedSBase {
       + ((textAnchor == null) ? 0 : textAnchor.hashCode());
     result = prime * result
       + ((vTextAnchor == null) ? 0 : vTextAnchor.hashCode());
+    result = prime * result
+        + ((listOfElements == null) ? 0 : listOfElements.hashCode());
+    
     return result;
   }
 
@@ -246,6 +275,14 @@ public class Group extends GraphicalPrimitive2D implements UniqueNamedSBase {
     if (vTextAnchor != other.vTextAnchor) {
       return false;
     }
+    
+    if (listOfElements == null) {
+      if (other.listOfElements != null) {
+        return false;
+      }
+    } else if (!listOfElements.equals(other.listOfElements)) {
+      return false;
+    }
     return true;
   }
 
@@ -258,7 +295,7 @@ public class Group extends GraphicalPrimitive2D implements UniqueNamedSBase {
     return "Group [id=" + id + ", fontFamily=" + fontFamily + ", fontSize="
       + fontSize + ", fontWeightBold=" + fontWeightBold + ", fontStyleItalic="
       + fontStyleItalic + ", textAnchor=" + textAnchor + ", vTextAnchor="
-      + vTextAnchor + ", startHead=" + startHead + ", endHead=" + endHead + "]";
+      + vTextAnchor + ", startHead=" + startHead + ", endHead=" + endHead + ", listOfElements=" + listOfElements + "]";
   }
 
   /* (non-Javadoc)
@@ -266,7 +303,7 @@ public class Group extends GraphicalPrimitive2D implements UniqueNamedSBase {
    */
   @Override
   public boolean getAllowsChildren() {
-    return false;
+    return true;
   }
 
   /* (non-Javadoc)
@@ -274,23 +311,45 @@ public class Group extends GraphicalPrimitive2D implements UniqueNamedSBase {
    */
   @Override
   public int getChildCount() {
-    int count = 0;
+    int count = super.getChildCount();
+    
+    if (isSetListOfElements()) {
+      count += getListOfElements().size();
+    }
     return count;
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getChildAt(int)
+   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
    */
   @Override
-  public SBase getChildAt(int childIndex) {
-    if (childIndex < 0) {
-      throw new IndexOutOfBoundsException(childIndex + " < 0");
+  public TreeNode getChildAt(int index) {
+    if (index < 0) {
+      throw new IndexOutOfBoundsException(index + " < 0");
     }
-    int pos = 0;
+
+    int count = super.getChildCount(), pos = 0;
+    
+    if (index < count) {
+      return super.getChildAt(index);
+    } else {
+      index -= count;
+    }
+
+     if (isSetListOfElements()) {
+       
+       for (Transformation2D drawable : getListOfElements()) {
+         if (pos == index) {
+           return drawable;
+         }
+         pos++;
+       }
+     }
+
     throw new IndexOutOfBoundsException(MessageFormat.format(
-      "Index {0,number,integer} >= {1,number,integer}", childIndex,
-      +Math.min(pos, 0)));
-  }  
+      "Index {0,number,integer} >= {1,number,integer}", index,
+      +((int) Math.min(pos, 0))));
+  }
   
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getElementName()
@@ -443,6 +502,17 @@ public class Group extends GraphicalPrimitive2D implements UniqueNamedSBase {
   }
 
   /**
+   * Returns the value of fontWeightBold
+   * 
+   * @return the value of fontWeightBold
+   */
+  public boolean getFontWeightBold() {
+    return isFontWeightBold();
+  }
+  
+  /**
+   * Returns the value of fontWeightBold
+   * 
    * @return the value of fontWeightBold
    */
   public boolean isFontWeightBold() {
@@ -485,6 +555,17 @@ public class Group extends GraphicalPrimitive2D implements UniqueNamedSBase {
   }
 
   /**
+   * Returns the value of fontStyleItalic
+   * 
+   * @return the value of fontStyleItalic
+   */
+  public boolean getFontStyleItalic() {
+    return isFontStyleItalic();    
+  }
+  
+  /**
+   * Returns the value of fontStyleItalic
+   * 
    * @return the value of fontStyleItalic
    */
   public boolean isFontStyleItalic() {
@@ -496,6 +577,8 @@ public class Group extends GraphicalPrimitive2D implements UniqueNamedSBase {
   }
 
   /**
+   * Returns whether fontStyleItalic is set
+   * 
    * @return whether fontStyleItalic is set
    */
   public boolean isSetFontStyleItalic() {
@@ -694,6 +777,264 @@ public class Group extends GraphicalPrimitive2D implements UniqueNamedSBase {
     return false;
   }
 
+  
+  /**
+   * Returns {@code true}, if listOfElements contains at least one element.
+   *
+   * @return {@code true}, if listOfElements contains at least one element, 
+   *         otherwise {@code false}.
+   */
+  public boolean isSetListOfElements() {
+    if ((listOfElements == null) || listOfElements.isEmpty()) {
+      return false;
+    }
+    return true;
+  }
+
+
+  /**
+   * Returns the listOfElements. Creates it if it is not already existing.
+   *
+   * @return the listOfElements.
+   */
+  public ListOf<Transformation2D> getListOfElements() {
+    if (!isSetListOfElements()) {
+      listOfElements = new ListOf<Transformation2D>();
+      listOfElements.setNamespace(RenderConstants.namespaceURI);
+      listOfElements.setSBaseListType(ListOf.Type.other);
+
+      registerChild(listOfElements);
+    }
+    return listOfElements;
+  }
+
+
+  /**
+   * Sets the given {@code ListOf<Transformation2D>}. If listOfElements
+   * was defined before and contains some elements, they are all unset.
+   *
+   * @param listOfElements.
+   */
+  public void setListOfElements(ListOf<Transformation2D> listOfElements) {
+    unsetListOfElements();
+    this.listOfElements = listOfElements;
+    this.listOfElements.setSBaseListType(ListOf.Type.other);
+
+    registerChild(listOfElements);  
+  }
+
+
+  /**
+   * Returns {@code true}, if listOfElements contain at least one element, 
+   *         otherwise {@code false}.
+   *
+   * @return {@code true}, if listOfElements contain at least one element, 
+   *         otherwise {@code false}.
+   */
+  public boolean unsetListOfElements() {
+    if (isSetListOfElements()) {
+      ListOf<Transformation2D> oldElements = this.listOfElements;
+      this.listOfElements = null;
+      oldElements.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+
+  /**
+   * Adds a new {@link Transformation2D} to the listOfElements.
+   * <p>The listOfElements is initialized if necessary.
+   *
+   * @param field the element to add to the list
+   * @return true (as specified by {@link Collection.add})
+   */
+  public boolean addElement(Transformation2D field) {
+    return getListOfElements().add(field);
+  }
+
+
+  /**
+   * Removes an element from the listOfElements.
+   *
+   * @param field the element to be removed from the list.
+   * @return true if the list contained the specified element and it was removed.
+   * @see List#remove(Object)
+   */
+  public boolean removeElement(Transformation2D field) {
+    if (isSetListOfElements()) {
+      return getListOfElements().remove(field);
+    }
+    return false;
+  }
+
+
+  /**
+   * Removes an element from the listOfElements.
+   *
+   * @param id the id of the element to be removed from the list.
+   * @return the removed element, if it was successfully found and removed or null.
+   */
+  public Transformation2D removeElement(String fieldId) {
+    if (isSetListOfElements()) {
+      return getListOfElements().remove(fieldId);
+    }
+    return null;
+  }
+
+
+  /**
+   * Removes an element from the listOfElements at the given index.
+   *
+   * @param i the index where to remove the {@link Transformation2D}.
+   * @return the specified element, if it was successfully found and removed.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public Transformation2D removeElement(int i) {
+    if (!isSetListOfElements()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfElements().remove(i);
+  }
+
+  /**
+   * Creates a new {@link Curve} element, adds it to the ListOfElements list and returns it.
+   */
+  public Curve createCurve() {
+    Curve curve = new Curve();
+    addElement(curve);
+    
+    return curve;
+  }
+
+  /**
+   * Creates a new {@link Ellipse} element, adds it to the ListOfElements list and returns it.
+   */
+  public Ellipse createEllipse() {
+    Ellipse ellipse = new Ellipse();
+    addElement(ellipse);
+    
+    return ellipse;
+  }
+
+  /**
+   * Creates a new {@link Image} element, adds it to the ListOfElements list and returns it.
+   */
+  public Image createImage() {
+    Image image = new Image();
+    addElement(image);
+    
+    return image;
+  }
+
+  /**
+   * Creates a new {@link Polygon} element, adds it to the ListOfElements list and returns it.
+   */
+  public Polygon createPolygon() {
+    Polygon polygon = new Polygon();
+    addElement(polygon);
+    
+    return polygon;
+  }
+
+  /**
+   * Creates a new {@link Rectangle} element, adds it to the ListOfElements list and returns it.
+   */
+  public Rectangle createRectangle() {
+    Rectangle rectangle = new Rectangle();
+    addElement(rectangle);
+    
+    return rectangle;
+  }
+
+  /**
+   * Creates a new {@link Group} element, adds it to the ListOfElements list and returns it.
+   */
+  public Group createRenderGroup() {
+    Group group = new Group();
+    addElement(group);
+    
+    return group;
+  }
+  
+  /**
+   * Creates a new {@link Text} element, adds it to the ListOfElements list and returns it.
+   */
+  public Text createText() {
+    Text rectangle = new Text();
+    addElement(rectangle);
+    
+    return rectangle;
+  }
+
+
+  /**
+   * Gets an element from the listOfElements at the given index.
+   *
+   * @param i the index of the {@link Transformation2D} element to get.
+   * @return an element from the listOfElements at the given index.
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size).
+   */
+  public Transformation2D getElement(int i) {
+    if (!isSetListOfElements()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    return getListOfElements().get(i);
+  }
+
+
+  /**
+   * Gets an element from the listOfElements, with the given id.
+   *
+   * @param id the id of the {@link Transformation2D} element to get.
+   * @return an element from the listOfElements with the given id or null.
+   */
+  public Transformation2D getElement(String fieldId) {
+    if (isSetListOfElements()) {
+      return getListOfElements().get(fieldId);
+    }
+    return null;
+  }
+
+
+  /**
+   * Returns the number of {@link Transformation2D}s in this {@link Group}.
+   * 
+   * @return the number of {@link Transformation2D}s in this {@link Group}.
+   */
+  public int getElementCount() {
+    return isSetListOfElements() ? getListOfElements().size() : 0;
+  }
+
+
+  /**
+   * Returns the number of {@link Transformation2D}s in this {@link Group}.
+   * 
+   * @return the number of {@link Transformation2D}s in this {@link Group}.
+   * @libsbml.deprecated same as {@link #getElementCount()}
+   */
+  public int getNumElements() {
+    return getElementCount();
+  }
+
+  /**
+   * Adds the given element to the end of the list of children elements.
+   * 
+   *
+   * @see #createEllipse()
+   * @see #createRectangle()
+   * @see #createPolygon()
+   * @see #createText()
+   * @see #createCurve()
+   * @see #createRenderGroup()
+   * @see #createImage()
+   */
+  public void addChildElement(Transformation2D pChild) {
+    
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
    */
@@ -706,42 +1047,34 @@ public class Group extends GraphicalPrimitive2D implements UniqueNamedSBase {
         getId());
     }
     if (isSetFontFamily()) {
-      attributes.remove(RenderConstants.fontFamily);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fontFamily,
         getFontFamily().toString().toLowerCase());
     }
     if (isSetTextAnchor()) {
-      attributes.remove(RenderConstants.textAnchor);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.textAnchor,
         getTextAnchor().toString().toLowerCase());
     }
     if (isSetVTextAnchor()) {
-      attributes.remove(RenderConstants.vTextAnchor);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.vTextAnchor,
         getVTextAnchor().toString().toLowerCase());
     }
     if (isSetFontSize()) {
-      attributes.remove(RenderConstants.fontSize);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.fontSize,
         Short.toString(getFontSize()));
     }
     if (isSetStartHead()) {
-      attributes.remove(RenderConstants.startHead);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.startHead,
         getStartHead());
     }
     if (isSetEndHead()) {
-      attributes.remove(RenderConstants.endHead);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.endHead,
         getEndHead());
     }
     if (isSetFontStyleItalic()) {
-      attributes.remove(RenderConstants.fontStyleItalic);
       attributes.put(RenderConstants.fontStyleItalic,
         XMLTools.fontStyleItalicToString(isFontStyleItalic()));
     }
     if (isSetFontWeightBold()) {
-      attributes.remove(RenderConstants.fontWeightBold);
       attributes.put(RenderConstants.fontWeightBold,
         XMLTools.fontWeightBoldToString(isFontWeightBold()));
     }

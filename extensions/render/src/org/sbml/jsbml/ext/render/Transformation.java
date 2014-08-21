@@ -21,12 +21,10 @@
  */
 package org.sbml.jsbml.ext.render;
 
-import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Map;
 
 import org.sbml.jsbml.AbstractSBase;
-import org.sbml.jsbml.SBase;
 
 /**
  * @author Eugen Netz
@@ -77,36 +75,6 @@ public class Transformation extends AbstractSBase {
   @Override
   public Transformation clone() {
     return new Transformation(this);
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
-   */
-  @Override
-  public boolean getAllowsChildren() {
-    return false;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
-   */
-  @Override
-  public SBase getChildAt(int childIndex) {
-    if (childIndex < 0) {
-      throw new IndexOutOfBoundsException(childIndex + " < 0");
-    }
-    int pos = 0;
-    throw new IndexOutOfBoundsException(MessageFormat.format(
-      "Index {0,number,integer} >= {1,number,integer}", childIndex,
-      +Math.min(pos, 0)));
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
-   */
-  @Override
-  public int getChildCount() {
-    return 0;
   }
 
   /**

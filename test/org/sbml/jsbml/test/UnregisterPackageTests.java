@@ -73,6 +73,7 @@ import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.ext.qual.QualConstants;
 import org.sbml.jsbml.ext.qual.QualModelPlugin;
 import org.sbml.jsbml.ext.qual.QualitativeSpecies;
+import org.sbml.jsbml.ext.render.Image;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
 import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.RenderConstants;
@@ -693,7 +694,14 @@ public class UnregisterPackageTests {
     LocalStyle ls1 = new LocalStyle(3, 1, g1);
     ls1.setId("RLS1");
     lri1.addLocalStyle(ls1);
-
+    g1.createRectangle().setX(4.5);
+    g1.createText().setAbsoluteX(true);
+    Image image = g1.createImage();
+    image.setAbsoluteX(false);
+    image.setX(33.);
+    
+    image.setMetaId("RI1");
+    
 //    System.out.println("nb Child of LocalStyle 1 = " + ls1.getChildCount());
 //    System.out.println("Child 0 of LocalStyle 1 = " + ls1.getChildAt(0));    
 //    
@@ -713,6 +721,7 @@ public class UnregisterPackageTests {
     assertTrue(model.findUniqueNamedSBase("RLRI1") != null);
     assertTrue(model.findUniqueNamedSBase("RLS1") != null);
     assertTrue(model.findUniqueNamedSBase("RGr1") != null);
+    assertTrue(doc.findSBase("RI1") != null);
     
     SBMLDocument clonedDoc = doc.clone();
     Model clonedModel = clonedDoc.getModel();

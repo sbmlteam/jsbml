@@ -36,7 +36,7 @@ import org.sbml.jsbml.SBase;
  * @since 1.0
  * @date 08.05.2012
  */
-public class Image extends Transformation2D {
+public class Image extends Transformation2D { // TODO - need to extends UniqueNamedSBase, NamedSBase 
   /**
    * Generated serial version identifier
    */
@@ -257,8 +257,8 @@ public class Image extends Transformation2D {
     if (isSetAbsoluteHeight()) {
       return absoluteHeight;
     }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteHeight, this);
+
+    return true;
   }
 
   /**
@@ -299,8 +299,8 @@ public class Image extends Transformation2D {
     if (isSetAbsoluteWidth()) {
       return absoluteWidth;
     }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteWidth, this);
+
+    return true;
   }
 
   /**
@@ -341,8 +341,8 @@ public class Image extends Transformation2D {
     if (isSetAbsoluteX()) {
       return absoluteX;
     }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteX, this);
+
+    return true;
   }
 
   /**
@@ -383,8 +383,8 @@ public class Image extends Transformation2D {
     if (isSetAbsoluteY()) {
       return absoluteY;
     }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteY, this);
+
+    return true;
   }
 
   /**
@@ -425,8 +425,8 @@ public class Image extends Transformation2D {
     if (isSetAbsoluteZ()) {
       return absoluteZ;
     }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteZ, this);
+
+    return true;
   }
 
   /**
