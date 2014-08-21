@@ -126,8 +126,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     if (isSetAbsoluteX()) {
       return absoluteX;
     }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteX, this);
+
+    return true; // TODO - we probably need to store all coordinate as String as they can contain arithmetic operation !!
   }
 
   /**
@@ -172,8 +172,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     if (isSetAbsoluteY()) {
       return absoluteY;
     }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteY, this);
+
+    return true;
   }
 
   /**
@@ -218,8 +218,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     if (isSetAbsoluteZ()) {
       return absoluteZ;
     }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteZ, this);
+
+    return true;
   }
 
   /**
@@ -263,8 +263,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     if (isSetAbsoluteRx()) {
       return absoluteRx;
     }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteRx, this);
+
+    return true;
   }
 
   /**
@@ -305,8 +305,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     if (isSetAbsoluteRy()) {
       return absoluteRy;
     }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteRy, this);
+
+    return true;
   }
 
   /**
@@ -347,8 +347,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     if (isSetAbsoluteHeight()) {
       return absoluteHeight;
     }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteHeight, this);
+
+    return true;
   }
 
   /**
@@ -389,8 +389,8 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     if (isSetAbsoluteWidth()) {
       return absoluteWidth;
     }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(RenderConstants.absoluteWidth, this);
+
+    return true;
   }
 
   /**
@@ -747,7 +747,6 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     Map<String, String> attributes = super.writeXMLAttributes();
 
     if (isSetX()) {
-      attributes.remove(RenderConstants.x);
       attributes.put(RenderConstants.shortLabel + ':' + RenderConstants.x,
         XMLTools.positioningToString(getX(), isAbsoluteX()));
     }
