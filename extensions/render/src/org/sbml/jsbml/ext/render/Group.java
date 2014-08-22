@@ -37,6 +37,17 @@ import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
+ * The {@link Group} class from the SBML render extension is used to group graphical primitives together
+ * to create composite representations from simple primitives.
+ * <p>
+ * The {@link Group} class is derived from {@link GraphicalPrimitive2D} and inherits all its methods and attributes.
+ * In addition to those, the class defines attributes to specify text render properties (@see Text),
+ * curve decorations (@see RenderCurve), an id and a list of child elements which can be any 
+ * graphical primitive or other groups.
+ * <p>
+ * The attributes of a group are inherited by all children of the group unless they specify 
+ * the attribute themselves.
+ * 
  * @author Eugen Netz
  * @author Alexander Diamantikos
  * @author Jakob Matthes
@@ -44,11 +55,8 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @author Nicolas Rodriguez
  * @version $Rev$
  * @since 1.0
- * @date 08.05.2012
+ * @date $Date$
  */
-
-// TODO - this class does not seems to exist in the libsbml implementation of the render package, it is named RenderGroup
-
 public class Group extends GraphicalPrimitive2D implements UniqueNamedSBase {
   /**
    * Generated serial version identifier
