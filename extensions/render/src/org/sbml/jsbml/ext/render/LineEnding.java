@@ -43,7 +43,7 @@ public class LineEnding extends GraphicalPrimitive2D {
   private static final long serialVersionUID = 938880502591638386L;
   private Boolean enableRotationMapping;
   private BoundingBox boundingBox;
-  private Group group;
+  private RenderGroup group;
 
   /**
    * Creates an LineEnding instance
@@ -156,7 +156,7 @@ public class LineEnding extends GraphicalPrimitive2D {
   /**
    * @return the value of group
    */
-  public Group getGroup() {
+  public RenderGroup getGroup() {
     if (isSetGroup()) {
       return group;
     }
@@ -174,8 +174,8 @@ public class LineEnding extends GraphicalPrimitive2D {
   /**
    * Set the value of group
    */
-  public void setGroup(Group group) {
-    Group oldGroup = this.group;
+  public void setGroup(RenderGroup group) {
+    RenderGroup oldGroup = this.group;
     this.group = group;
     firePropertyChange(RenderConstants.group, oldGroup, this.group);
   }
@@ -187,7 +187,7 @@ public class LineEnding extends GraphicalPrimitive2D {
    */
   public boolean unsetGroup() {
     if (isSetGroup()) {
-      Group oldGroup = group;
+      RenderGroup oldGroup = group;
       group = null;
       firePropertyChange(RenderConstants.group, oldGroup, group);
       return true;

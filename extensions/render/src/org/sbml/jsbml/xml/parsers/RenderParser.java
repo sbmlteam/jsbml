@@ -34,11 +34,11 @@ import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 import org.sbml.jsbml.ext.render.ColorDefinition;
-import org.sbml.jsbml.ext.render.Curve;
+import org.sbml.jsbml.ext.render.RenderCurve;
 import org.sbml.jsbml.ext.render.GlobalRenderInformation;
 import org.sbml.jsbml.ext.render.GradientBase;
 import org.sbml.jsbml.ext.render.GradientStop;
-import org.sbml.jsbml.ext.render.Group;
+import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.LineEnding;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
 import org.sbml.jsbml.ext.render.Polygon;
@@ -161,7 +161,7 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
     else if (contextObject instanceof Style) {
       Style style = (Style) contextObject;
       if (elementName.equals(RenderConstants.group)) {
-        Group g = new Group();
+        RenderGroup g = new RenderGroup();
         style.setGroup(g);
 
         return g;
@@ -189,15 +189,15 @@ public class RenderParser extends AbstractReaderWriter  implements PackageParser
         return bbox;
       }
       else if (elementName.equals(RenderConstants.group)) {
-        Group g = new Group();
+        RenderGroup g = new RenderGroup();
         lineEnding.setGroup(g);
 
         return g;
       }
     }
 
-    else if (contextObject instanceof Curve) {
-      Curve curve = (Curve) contextObject;
+    else if (contextObject instanceof RenderCurve) {
+      RenderCurve curve = (RenderCurve) contextObject;
       SBase newElement = null;
 
       if (elementName.equals(RenderConstants.listOfElements)) {

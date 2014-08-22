@@ -77,6 +77,7 @@ import org.sbml.jsbml.ext.render.Image;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
 import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.RenderConstants;
+import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.RenderLayoutPlugin;
 import org.sbml.jsbml.ext.render.RenderListOfLayoutsPlugin;
 import org.sbml.jsbml.ext.spatial.Geometry;
@@ -688,7 +689,7 @@ public class UnregisterPackageTests {
     LocalRenderInformation lri1 = renderLayoutPlugin.createLocalRenderInformation("RLRI1");
     renderLayoutPlugin.createLocalRenderInformation("RLRI2");
 
-    org.sbml.jsbml.ext.render.Group g1 = new org.sbml.jsbml.ext.render.Group("RGr1", 3, 1);
+    RenderGroup g1 = new RenderGroup("RGr1", 3, 1);
     g1.setFill("fillTest");
     g1.setStroke("testStroke");
     LocalStyle ls1 = new LocalStyle(3, 1, g1);
