@@ -46,7 +46,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    * Generated serial version identifier
    */
   private static final long serialVersionUID = -4660813321564690910L;
-  protected Group group;
+  protected RenderGroup group;
   protected String[] roleList;
   protected String[] typeList;
 
@@ -65,7 +65,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param group
    */
-  public Style(Group group) {
+  public Style(RenderGroup group) {
     super();
     setGroup(group);
     initDefaults();
@@ -78,7 +78,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param level
    * @param version
    */
-  public Style(int level, int version, Group group) {
+  public Style(int level, int version, RenderGroup group) {
     this(null, level, version, group);
   }
 
@@ -91,7 +91,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    * @param version
    * @param group
    */
-  public Style(String id, int level, int version, Group group) {
+  public Style(String id, int level, int version, RenderGroup group) {
     super(id, level, version);
 
     // Removed to potentially support SBML Level 2 Render
@@ -185,7 +185,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * @return the value of group
    */
-  public Group getGroup() {
+  public RenderGroup getGroup() {
     if (isSetGroup()) {
       return group;
     }
@@ -226,7 +226,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Set the value of group
    */
-  public void setGroup(Group group) {
+  public void setGroup(RenderGroup group) {
     unsetGroup();
     this.group = group;
     registerChild(group);
@@ -296,7 +296,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public boolean unsetGroup() {
     if (isSetGroup()) {
-      Group oldGroup = group;
+      RenderGroup oldGroup = group;
       group = null;
       oldGroup.fireNodeRemovedEvent();
       return true;

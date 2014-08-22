@@ -27,7 +27,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.sbml.jsbml.ext.render.FontFamily;
-import org.sbml.jsbml.ext.render.Group;
+import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.TextAnchor;
 import org.sbml.jsbml.ext.render.VTextAnchor;
 
@@ -41,29 +41,29 @@ import org.sbml.jsbml.ext.render.VTextAnchor;
 public class GroupTest {
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#getAllowsChildren()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#getAllowsChildren()}.
    */
   @Test
   public void testGetAllowsChildren() {
-    assertTrue(!new Group().getAllowsChildren());
+    assertTrue(!new RenderGroup().getAllowsChildren());
   }
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#getChildCount()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#getChildCount()}.
    */
   @Test
   public void testGetChildCount() {
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     assertEquals("childCountError",g.getChildCount(),0);
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#getId()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#getId()}.
    */
   @Test
   public void testGetId() {
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     String id="newGroup";
     g.setId(id);
     assertEquals(id,g.getId());
@@ -71,11 +71,11 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#isSetId()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#isSetId()}.
    */
   @Test
   public void testIsSetId() {
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     String id="newGroup";
     g.setId(id);
     assertTrue(g.isSetId());
@@ -83,11 +83,11 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#setId(java.lang.String)}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#setId(java.lang.String)}.
    */
   @Test
   public void testSetId() {
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     String id="newGroup";
     g.setId(id);
     assertEquals(id,g.getId());
@@ -95,12 +95,12 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#getFontFamily()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#getFontFamily()}.
    */
   @Test
   public void testGetFontFamily() {
     FontFamily fontType=FontFamily.MONOSPACE;
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     assertTrue(!g.isSetFontFamily());
     g.setFontFamily(fontType);
     assertEquals("getFontFamily",fontType,g.getFontFamily());
@@ -108,12 +108,12 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#isSetFontFamily()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#isSetFontFamily()}.
    */
   @Test
   public void testIsSetFontFamily() {
     FontFamily fontType=FontFamily.MONOSPACE;
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     assertTrue(!g.isSetFontFamily());
     g.setFontFamily(fontType);
     assertTrue(g.isSetFontFamily());
@@ -121,12 +121,12 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#setFontFamily(org.sbml.jsbml.ext.render.FontFamily)}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#setFontFamily(org.sbml.jsbml.ext.render.FontFamily)}.
    */
   @Test
   public void testSetFontFamily() {
     FontFamily fontType=FontFamily.MONOSPACE;
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     assertTrue(!g.isSetFontFamily());
     g.setFontFamily(fontType);
     assertEquals("setFontFamilyError",g.getFontFamily(),fontType);
@@ -134,12 +134,12 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#getFontSize()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#getFontSize()}.
    */
   @Test
   public void testGetFontSize() {
     short fontSize=18;
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     assertTrue(!g.isSetFontSize());
     g.setFontSize(fontSize);
     assertEquals("getFontSizeError",Short.valueOf(fontSize),g.getFontSize());
@@ -147,12 +147,12 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#isSetFontSize()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#isSetFontSize()}.
    */
   @Test
   public void testIsSetFontSize() {
     short fontSize=18;
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     assertTrue(!g.isSetFontSize());
     g.setFontSize(fontSize);
     assertTrue(g.isSetFontSize());
@@ -160,12 +160,12 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#setFontSize(java.lang.Short)}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#setFontSize(java.lang.Short)}.
    */
   @Test
   public void testSetFontSize() {
     short fontSize=19;
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     assertTrue(!g.isSetFontSize());
     g.setFontSize(fontSize);
     assertEquals("getFontSizeError",Short.valueOf(fontSize),g.getFontSize());
@@ -173,55 +173,55 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#isFontWeightBold()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#isFontWeightBold()}.
    */
   @Test
   public void testIsFontWeightBold() {
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     g.setFontWeightBold(true);
     assertTrue(g.isFontWeightBold());
   }
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#isSetFontWeightBold()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#isSetFontWeightBold()}.
    */
   @Test
   public void testIsSetFontWeightBold() {
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     g.setFontWeightBold(false);
     assertTrue(g.isSetFontWeightBold());
   }
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#setFontWeightBold(java.lang.Boolean)}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#setFontWeightBold(java.lang.Boolean)}.
    */
   @Test
   public void testSetFontWeightBold() {
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     g.setFontWeightBold(true);
     assertTrue(g.isFontWeightBold());
   }
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#isFontStyleItalic()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#isFontStyleItalic()}.
    */
   @Test
   public void testIsFontStyleItalic() {
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     g.setFontStyleItalic(true);
     assertTrue(g.isFontStyleItalic());
   }
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#isSetFontStyleItalic()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#isSetFontStyleItalic()}.
    */
   @Test
   public void testIsSetFontStyleItalic() {
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     assertTrue(!g.isSetFontStyleItalic());
     g.setFontStyleItalic(true);
     assertTrue(g.isSetFontStyleItalic());
@@ -229,11 +229,11 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#setFontStyleItalic(java.lang.Boolean)}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#setFontStyleItalic(java.lang.Boolean)}.
    */
   @Test
   public void testSetFontStyleItalic() {
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     assertTrue(!g.isSetFontStyleItalic());
     g.setFontStyleItalic(false);
     assertTrue(g.isSetFontStyleItalic());
@@ -241,11 +241,11 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#getStartHead()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#getStartHead()}.
    */
   @Test
   public void testGetStartHead() {
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     String startH="s1";
     g.setStartHead(startH);
     assertEquals(startH,g.getStartHead());
@@ -253,11 +253,11 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#isSetStartHead()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#isSetStartHead()}.
    */
   @Test
   public void testIsSetStartHead() {
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     String startH="s1";
     g.setStartHead(startH);
     assertTrue(g.isSetStartHead());
@@ -265,11 +265,11 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#setStartHead(java.lang.String)}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#setStartHead(java.lang.String)}.
    */
   @Test
   public void testSetStartHead() {
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     String startH="s1";
     g.setStartHead(startH);
     assertEquals(startH,g.getStartHead());
@@ -277,11 +277,11 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#getEndHead()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#getEndHead()}.
    */
   @Test
   public void testGetEndHead() {
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     String endH="s2";
     g.setStartHead(endH);
     assertEquals(endH,g.getStartHead());
@@ -289,11 +289,11 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#isSetEndHead()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#isSetEndHead()}.
    */
   @Test
   public void testIsSetEndHead() {
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     String endH="s2";
     g.setEndHead(endH);
     assertTrue(g.isSetEndHead());
@@ -301,11 +301,11 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#setEndHead(java.lang.String)}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#setEndHead(java.lang.String)}.
    */
   @Test
   public void testSetEndHead() {
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     String endH="s2";
     g.setEndHead(endH);
     assertEquals(endH,g.getEndHead());
@@ -313,12 +313,12 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#getTextAnchor()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#getTextAnchor()}.
    */
   @Test
   public void testGetTextAnchor() {
     TextAnchor anchor=TextAnchor.START;
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     assertTrue(!g.isSetTextAnchor());
     g.setTextAnchor(anchor);
     assertEquals("getTextAnchorError",anchor,g.getTextAnchor());
@@ -326,11 +326,11 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#isSetTextAnchor()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#isSetTextAnchor()}.
    */
   @Test
   public void testIsSetTextAnchor() {
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     TextAnchor anchor=TextAnchor.MIDDLE;
     assertTrue(!g.isSetTextAnchor());
     g.setTextAnchor(anchor);
@@ -339,11 +339,11 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#setTextAnchor(org.sbml.jsbml.ext.render.TextAnchor)}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#setTextAnchor(org.sbml.jsbml.ext.render.TextAnchor)}.
    */
   @Test
   public void testSetTextAnchor() {
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     TextAnchor anchor=TextAnchor.END;
     g.setTextAnchor(anchor);
     assertEquals("textAnchorError",anchor,g.getTextAnchor());
@@ -357,23 +357,23 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#getVTextAnchor()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#getVTextAnchor()}.
    */
   @Test
   public void testGetVTextAnchor() {
     VTextAnchor anchor=VTextAnchor.BOTTOM;
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     g.setVTextAnchor(anchor);
     assertEquals("getTextAnchorError",anchor,g.getVTextAnchor());
   }
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#isSetVTextAnchor()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#isSetVTextAnchor()}.
    */
   @Test
   public void testIsSetVTextAnchor() {
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     VTextAnchor anchor=VTextAnchor.BOTTOM;
     assertTrue(!g.isSetVTextAnchor());
     g.setVTextAnchor(anchor);
@@ -382,11 +382,11 @@ public class GroupTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Group#setVTextAnchor(org.sbml.jsbml.ext.render.VTextAnchor)}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderGroup#setVTextAnchor(org.sbml.jsbml.ext.render.VTextAnchor)}.
    */
   @Test
   public void testSetVTextAnchor() {
-    Group g=new Group();
+    RenderGroup g=new RenderGroup();
     VTextAnchor anchor=VTextAnchor.BOTTOM;
     g.setVTextAnchor(anchor);
     assertEquals("VTextAnchorError",anchor,g.getVTextAnchor());

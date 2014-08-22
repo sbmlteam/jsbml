@@ -27,7 +27,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.ext.render.Curve;
+import org.sbml.jsbml.ext.render.RenderCurve;
 import org.sbml.jsbml.ext.render.RenderPoint;
 
 
@@ -40,11 +40,11 @@ import org.sbml.jsbml.ext.render.RenderPoint;
 public class CurveTest {
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Curve#getStartHead()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderCurve#getStartHead()}.
    */
   @Test
   public void testGetStartHead() {
-    Curve curve=new Curve();
+    RenderCurve curve=new RenderCurve();
     String position="position";
     curve.setStartHead(position);
     assertEquals("startHeadError",position,curve.getStartHead());
@@ -52,11 +52,11 @@ public class CurveTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Curve#isSetStartHead()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderCurve#isSetStartHead()}.
    */
   @Test
   public void testIsSetStartHead() {
-    Curve curve=new Curve();
+    RenderCurve curve=new RenderCurve();
     String position="position";
     curve.setStartHead(position);
     assertTrue(curve.isSetStartHead());
@@ -64,11 +64,11 @@ public class CurveTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Curve#setStartHead(java.lang.String)}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderCurve#setStartHead(java.lang.String)}.
    */
   @Test
   public void testSetStartHead() {
-    Curve curve=new Curve();
+    RenderCurve curve=new RenderCurve();
     String position="position";
     curve.setStartHead(position);
     assertEquals("startHeadError",position,curve.getStartHead());
@@ -76,11 +76,11 @@ public class CurveTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Curve#getEndHead()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderCurve#getEndHead()}.
    */
   @Test
   public void testGetEndHead() {
-    Curve curve=new Curve();
+    RenderCurve curve=new RenderCurve();
     String position="position";
     curve.setEndHead(position);
     assertEquals("startHeadError",position,curve.getEndHead());
@@ -88,11 +88,11 @@ public class CurveTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Curve#isSetEndHead()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderCurve#isSetEndHead()}.
    */
   @Test
   public void testIsSetEndHead() {
-    Curve curve=new Curve();
+    RenderCurve curve=new RenderCurve();
     String position="position";
     curve.setEndHead(position);
     assertTrue(curve.isSetEndHead());
@@ -100,11 +100,11 @@ public class CurveTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Curve#setEndHead(java.lang.String)}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderCurve#setEndHead(java.lang.String)}.
    */
   @Test
   public void testSetEndHead() {
-    Curve curve=new Curve();
+    RenderCurve curve=new RenderCurve();
     String position="position";
     curve.setEndHead(position);
     assertEquals("startHeadError",position,curve.getEndHead());
@@ -112,11 +112,11 @@ public class CurveTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Curve#getListOfElements()}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderCurve#getListOfElements()}.
    */
   @Test
   public void testGetListOfElements() {
-    Curve curve=new Curve();
+    RenderCurve curve=new RenderCurve();
     ListOf<RenderPoint> list=new ListOf<RenderPoint>();
     RenderPoint point=new RenderPoint();
     point.setX(.01d);
@@ -129,7 +129,7 @@ public class CurveTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Curve#setListOfElements(org.sbml.jsbml.ListOf)}.
+   * Test method for {@link org.sbml.jsbml.ext.render.RenderCurve#setListOfElements(org.sbml.jsbml.ListOf)}.
    */
   @Test
   public void testSetListOfElements() {
@@ -139,7 +139,7 @@ public class CurveTest {
     point.setY(.01d);
     point.setZ(.01d);
     list.add(point);
-    Curve curve=new Curve();
+    RenderCurve curve=new RenderCurve();
     assertTrue(!curve.isSetListOfElements());
     curve.setListOfElements(list);
     assertTrue(curve.isSetListOfElements());
