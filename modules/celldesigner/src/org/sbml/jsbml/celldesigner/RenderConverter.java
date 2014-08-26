@@ -28,7 +28,7 @@ import jp.sbi.celldesigner.plugin.PluginSpeciesAlias;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.render.ColorDefinition;
 import org.sbml.jsbml.ext.render.Ellipse;
-import org.sbml.jsbml.ext.render.Group;
+import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
 import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.Polygon;
@@ -72,7 +72,7 @@ public class RenderConverter {
       augmentedIDList[localStyle.getIDList().length] = "cGlyph_" + pCompartment.getId();
       localStyle.setIDList(augmentedIDList);
     }
-    Group group = localStyle.getGroup();
+    RenderGroup group = localStyle.getGroup();
     Rectangle rectangle = new Rectangle();
     rectangle.setX(pCompartment.getX());
     rectangle.setY(pCompartment.getY());
@@ -110,7 +110,7 @@ public class RenderConverter {
       localStyle.setIDList(augmentedIDList);
     }
 
-    Group group = localStyle.getGroup();
+    RenderGroup group = localStyle.getGroup();
     String speciesName = pSpeciesAlias.getType();
 
     if (speciesName.equals("SIMPLE MOLECULE") || speciesName.equals("ION") || speciesName.equals("DRUG"))

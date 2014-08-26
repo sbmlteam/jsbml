@@ -104,10 +104,10 @@ import org.sbml.jsbml.ext.fbc.FBCSpeciesPlugin;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
-import org.sbml.jsbml.ext.render.Group;
 import org.sbml.jsbml.ext.render.LocalRenderInformation;
 import org.sbml.jsbml.ext.render.LocalStyle;
 import org.sbml.jsbml.ext.render.RenderConstants;
+import org.sbml.jsbml.ext.render.RenderGroup;
 import org.sbml.jsbml.ext.render.RenderLayoutPlugin;
 import org.sbml.jsbml.util.ProgressListener;
 import org.sbml.jsbml.util.SBMLtools;
@@ -239,9 +239,9 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
       renderPlugin.addLocalRenderInformation(localRenderInformation);
 
       localRenderInformation.addLocalStyle(new LocalStyle("compartmentStyle", model.getLevel(), model.getVersion(),
-        new Group(model.getLevel(), model.getVersion())));
+        new RenderGroup(model.getLevel(), model.getVersion())));
       localRenderInformation.addLocalStyle(new LocalStyle("speciesAliasStyle", model.getLevel(), model.getVersion(),
-        new Group(model.getLevel(), model.getVersion())));
+        new RenderGroup(model.getLevel(), model.getVersion())));
 
       FBCModelPlugin FBCPlugin = new FBCModelPlugin(model);
 
