@@ -40,7 +40,7 @@ public interface FormulaParserLL3Constants {
   /** RegularExpression Id. */
   int EXPNUMBER = 6;
   /** RegularExpression Id. */
-  int SLPITTER = 7;
+  int SPLITTER = 7;
   /** RegularExpression Id. */
   int PLUS = 8;
   /** RegularExpression Id. */
@@ -100,7 +100,7 @@ public interface FormulaParserLL3Constants {
     "<DIGIT>",
     "<NUMBER>",
     "<EXPNUMBER>",
-    "<SLPITTER>",
+    "<SPLITTER>",
     "\"+\"",
     "\"^\"",
     "\"-\"",
