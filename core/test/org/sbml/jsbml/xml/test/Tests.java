@@ -26,6 +26,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 import org.sbml.jsbml.math.test.ASTNodeInfixParsingTest;
 import org.sbml.jsbml.math.test.ASTNodeTest;
+import org.sbml.jsbml.math.test.TestInfixOperatorPrecedence;
 import org.sbml.jsbml.test.RemoveFromParentTest;
 
 /**
@@ -38,7 +39,7 @@ import org.sbml.jsbml.test.RemoveFromParentTest;
 @RunWith(value=Suite.class)
 @SuiteClasses(value={SBML_L1VxTests.class, SBML_L2V1Test.class, CheckConsistencyTests.class, GetNotesStringTests.class,
   UnregisterTests.class, RemoveFromParentTest.class, CVTermTests.class, RemoveFromParentTest.class, ASTNodeTest.class,
-  ASTNodeInfixParsingTest.class})
+  ASTNodeInfixParsingTest.class, TestInfixOperatorPrecedence.class})
 public class Tests {
 
 }
