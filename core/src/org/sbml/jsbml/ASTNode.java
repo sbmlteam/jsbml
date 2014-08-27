@@ -33,7 +33,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.Unit.Kind;
-import org.sbml.jsbml.text.parser.FormulaParser;
+import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.Maths;
@@ -938,7 +938,7 @@ public class ASTNode extends AbstractTreeNode {
    *             parsed for other reasons.
    */
   public static ASTNode parseFormula(String formula) throws ParseException {
-    FormulaParser parser = new FormulaParser(new StringReader(formula));
+    FormulaParserLL3 parser = new FormulaParserLL3(new StringReader(formula));
     ASTNode result = null;
 
     try {
