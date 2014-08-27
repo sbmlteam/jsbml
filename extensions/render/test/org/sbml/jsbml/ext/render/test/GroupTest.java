@@ -45,7 +45,7 @@ public class GroupTest {
    */
   @Test
   public void testGetAllowsChildren() {
-    assertTrue(!new RenderGroup().getAllowsChildren());
+    assertTrue(new RenderGroup().getAllowsChildren());
   }
 
 
