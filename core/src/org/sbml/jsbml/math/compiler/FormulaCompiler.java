@@ -504,9 +504,9 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#compile(double, int, java.lang.String)
    */
   @Override
-  public <T> ASTNode2Value<?> compile(double mantissa, int exponent, String units) {
+  public <T> ASTNode2Value<String> compile(double mantissa, int exponent, String units) {
     if (exponent == 0) {
-      return new ASTNode2Value<Double>(mantissa, this);
+      return new ASTNode2Value<String>(StringTools.toString(Locale.ENGLISH, mantissa), this);
     }
     return new ASTNode2Value<String>(concat(
       (new DecimalFormat(StringTools.REAL_FORMAT,
@@ -591,7 +591,6 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
    */
   @Override
   public <T> ASTNode2Value<String> delay(String delayName, ASTNode2 x, ASTNode2 y) throws SBMLException {
-    delayName = delayName == null ? "delay" : delayName;
     return new ASTNode2Value<String>(concat(delayName, "(", x.compile(this), ", ",
       y.compile(this), ")").toString(), this);
   }
@@ -714,7 +713,6 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
    */
   @Override
   public <T> ASTNode2Value<String> getConstantAvogadro(String name) {
-    name = name == null ? "avogadro" : name;
     return new ASTNode2Value<String>(name, this);
   }
 
@@ -730,8 +728,8 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#getConstantFalse()
    */
   @Override
-  public <T> ASTNode2Value<Boolean> getConstantFalse() {
-    return new ASTNode2Value<Boolean>(false, this);
+  public <T> ASTNode2Value<String> getConstantFalse() {
+    return new ASTNode2Value<String>(Boolean.FALSE.toString(), this);
   }
 
   /* (non-Javadoc)
@@ -746,8 +744,8 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#getConstantTrue()
    */
   @Override
-  public <T> ASTNode2Value<Boolean> getConstantTrue() {
-    return new ASTNode2Value<Boolean>(true, this);
+  public <T> ASTNode2Value<String> getConstantTrue() {
+    return new ASTNode2Value<String>(Boolean.TRUE.toString(), this);
   }
 
   /* (non-Javadoc)

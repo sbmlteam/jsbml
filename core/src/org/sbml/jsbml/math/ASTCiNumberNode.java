@@ -23,20 +23,13 @@
 package org.sbml.jsbml.math;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.CallableSBase;
-import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
@@ -119,19 +112,7 @@ ASTCSymbolBaseNode {
    */
   @Override
   public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
-    ASTNode2Value<?> value = null;
-    CallableSBase variable = getReferenceInstance();
-    if (variable != null) {
-      if (variable instanceof FunctionDefinition) {
-        //TODO: Can CallableSBases have children??
-//        value = compiler.function((FunctionDefinition) variable,
-//          getChildren());
-      } else {
-        value = compiler.compile(variable);
-      }
-    } else {
-      value = compiler.compile(getRefId());
-    }
+    ASTNode2Value<?> value = isSetRefId() ? compiler.compile(getRefId()) : null;
     return processValue(value);
   }
 
@@ -158,23 +139,6 @@ ASTCSymbolBaseNode {
     } else if (!refId.equals(other.refId))
       return false;
     return true;
-  }
-
-  /**
-   * Goes through the formula and identifies all global parameters that are
-   * referenced by this rate equation.
-   * 
-   * @return all global parameters that are referenced by this rate equation.
-   */
-  public List<Parameter> findReferencedGlobalParameters() {
-    ArrayList<Parameter> pList = new ArrayList<Parameter>();
-    if (getType().equals(ASTNode.Type.NAME)
-        && (getReferenceInstance() instanceof Parameter)
-        && (getParentSBMLObject().getModel().getParameter(
-          getReferenceInstance().getId()) != null)) {
-      pList.add((Parameter) getReferenceInstance());
-    }
-    return pList;
   }
 
   /* (non-Javadoc)
@@ -209,25 +173,13 @@ ASTCSymbolBaseNode {
    */
   public CallableSBase getReferenceInstance() {
     CallableSBase sbase = null;
-    TreeNode parent = getParent();
-    if ((parent != null) && (parent instanceof ASTLambdaFunctionNode)) {
-      ASTLambdaFunctionNode lambda = (ASTLambdaFunctionNode) parent;
-      if (lambda.getChildAt(getChildCount() - 1) != this) { 
-        logger.debug(MessageFormat.format(
-          "The name \"{0}\" represented by this node is an " +
-              "argument in a function call, i.e., a placeholder " +
-              "for some other element. No corresponding CallableSBase " +
-              "exists in the model",
-              getRefId()));
-        return sbase;
-      }
-    }
     if (isSetParentSBMLObject()) {
       if (getParentSBMLObject() instanceof KineticLaw) {
-        sbase = ((KineticLaw) getParentSBMLObject()).getLocalParameter(getRefId());
+        sbase = isSetRefId() ? ((KineticLaw) getParentSBMLObject())
+                .getLocalParameter(getRefId()): null;
       }
       if (sbase == null) {
-        Model m = getParentSBMLObject().getModel();
+        Model m = isSetParentSBMLObject() ? getParentSBMLObject().getModel() : null;
         if (m != null) {
           sbase = m.findCallableSBase(getRefId());
           if (sbase instanceof LocalParameter) {
@@ -239,8 +191,8 @@ ASTCSymbolBaseNode {
           }
         } else {
           logger.debug(MessageFormat.format(
-            "This ASTCiNumberNode is not yet linked to a model and " +
-                "can therefore not determine its variable \"{0}\".",
+            "This ASTCiNumberNode is not yet linked to a model. " +
+                "No element with id \"{0}\" could be found.",
                 getRefId()));
         }
       }

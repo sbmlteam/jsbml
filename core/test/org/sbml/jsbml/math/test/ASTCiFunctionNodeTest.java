@@ -185,8 +185,23 @@ public class ASTCiFunctionNodeTest {
 //  @Test
 //  public final void testToFormula() {
 //    ASTCiFunctionNode ci = new ASTCiFunctionNode();
-//    System.out.println(ci.toLaTeX());
-//    assertTrue(ci.toLaTeX().equals("x"));
+//    
+//    ASTLambdaFunctionNode lambda = new ASTLambdaFunctionNode();
+//    ASTQualifierNode bvar = new ASTQualifierNode(Type.QUALIFIER_BVAR);
+//    ASTCiNumberNode variable = new ASTCiNumberNode();
+//    variable.setRefId("x");
+//    bvar.addChild(variable);
+//    lambda.addChild(bvar);
+//    ASTPowerNode pow = ASTFactory.pow(variable, 10);
+//    lambda.addChild(pow);
+//    
+//    FunctionDefinition function = new FunctionDefinition();
+//    function.setId("pow3");
+//    function.setMath(lambda);
+//    
+//    ci.setRefId("pow3");
+//    
+//    assertTrue(ci.toFormula().equals("2^3"));
 //  }
   
   /**

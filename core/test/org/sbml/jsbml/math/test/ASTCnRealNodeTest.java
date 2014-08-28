@@ -131,12 +131,51 @@ public class ASTCnRealNodeTest {
   }
   
   /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnRealNode#toLaTeX()}.
+   */
+  @Test
+  public final void testToLaTeXNaN() {
+    ASTCnRealNode nan = new ASTCnRealNode(Double.NaN);
+    System.out.println(nan.toLaTeX());
+    assertTrue(nan.toLaTeX().equals("10"));
+  }
+  
+  /**
    * Test method for {@link org.sbml.jsbml.math.ASTCnRealNode#toMathML()}.
    */
   @Test
   public final void testToMathML() {
     ASTCnRealNode real = new ASTCnRealNode(10.0);
     assertTrue(real.toMathML().equals(ASTFactory.parseMathML("real.xml")));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnRealNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLNaN() {
+    ASTCnRealNode nan = new ASTCnRealNode(Double.NaN);
+    assertTrue(nan.toMathML().equals(ASTFactory.parseMathML("NaN.xml")));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnRealNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLPlusInfinity() {
+    ASTCnRealNode plusInfinity = new ASTCnRealNode(Double.POSITIVE_INFINITY);
+    String mathML = ASTFactory.parseMathML("infinity.xml");
+    assertTrue(plusInfinity.toMathML().equals(mathML));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnRealNode#toMathML()}.
+   */
+  @Test
+  public final void testToMathMLMinusInfinity() {
+    ASTCnRealNode minusInfinity = new ASTCnRealNode(Double.NEGATIVE_INFINITY);
+    String mathML = ASTFactory.parseMathML("minus-infinity.xml");
+    assertTrue(minusInfinity.toMathML().equals(mathML));
   }
   
 }

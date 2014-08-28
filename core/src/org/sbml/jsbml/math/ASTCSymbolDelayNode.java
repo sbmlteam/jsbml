@@ -113,7 +113,7 @@ ASTCSymbolNode {
   public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
     ASTNode2Value<?> value = null;
     value = isSetName() ? compiler.delay(getName(), getLeftChild(), getRightChild()) 
-            : compiler.delay(null, getLeftChild(), getRightChild());
+            : compiler.delay("delay", getLeftChild(), getRightChild());
     return processValue(value);
   }
 

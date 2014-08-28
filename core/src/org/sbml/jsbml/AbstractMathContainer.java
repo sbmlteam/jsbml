@@ -27,6 +27,7 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.math.ASTNode2;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;

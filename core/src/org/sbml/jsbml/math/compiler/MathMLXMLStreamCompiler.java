@@ -527,6 +527,8 @@ public class MathMLXMLStreamCompiler {
       writer.writeCharacters("\n");
       writer.writeCharacters(indent + "  ");
       writer.writeEmptyElement(ASTNode.URI_MATHML_DEFINITION, "infinity");
+      writer.writeCharacters("\n");
+      writer.writeCharacters(indent);
       writer.writeEndElement();
       writer.writeCharacters("\n");
     } catch (XMLStreamException e) {

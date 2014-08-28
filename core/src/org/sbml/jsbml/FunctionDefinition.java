@@ -390,9 +390,10 @@ CallableSBase, UniqueNamedSBase {
     if (getLevel() < 2) {
       // throw new PropertyNotAvailableError(SBaseChangedEvent.id, this);
       // We can use internally ASTNode even if working on level 1 model !!
+      throw new PropertyNotAvailableException("Level 1 not supported", this);
     }
 
-    if (!math.isLambda()) {
+    if (math.getType() != ASTNode.Type.LAMBDA) {
       throw new IllegalArgumentException(String.format(
         ILLEGAL_ASTNODE_TYPE_MSG, ASTNode.Type.LAMBDA, math
         .getType()));

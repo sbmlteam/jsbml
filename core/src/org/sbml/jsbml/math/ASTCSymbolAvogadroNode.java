@@ -114,7 +114,7 @@ ASTCSymbolNode {
     ASTNode2Value<?> value = null;
     switch(getType()) {
     case NAME_AVOGADRO:
-       value = compiler.getConstantAvogadro(isSetName() ? getName() : null);        
+       value = compiler.getConstantAvogadro(isSetName() ? getName() : "avogadro");        
       break;
     default: // UNKNOWN:
       value = compiler.unknownValue();
