@@ -982,8 +982,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     Object newValue) {
     // TODO - this method is used to add or remove SBase or SBasePlugin, we should make sure to handle the registration/un-registration
     // in those cases.
-    // TODO - the parent need to be set as well (would be done, if we call the registerChild method)
 
+    // the parent need to be set as well (would be done, if we call the registerChild method)
+    if (newValue != null && newValue instanceof SBasePlugin) {
+      ((AbstractTreeNode) newValue).setParent(this);
+    }
+    
     if (oldValue != null && oldValue instanceof SBasePlugin) {
       unregisterChild((SBasePlugin) oldValue);
     }
@@ -1771,7 +1775,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   public CVTerm removeCVTerm(int index) {
     return getAnnotation().removeCVTerm(index);
   }
-
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBase#setAnnotation(org.sbml.jsbml.Annotation)
    */

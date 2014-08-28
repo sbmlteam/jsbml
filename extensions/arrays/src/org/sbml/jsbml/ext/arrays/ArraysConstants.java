@@ -66,7 +66,7 @@ public class ArraysConstants {
   public static final String index = "index";
   
   
-  public static String packageName = "Arrays";
+  public static String packageName = "arrays";
   
   /**
    * Returns the namespace URI associated with the arrays package.

@@ -814,7 +814,11 @@ public class UnregisterPackageTests {
     assertTrue(arraysTestPlugin.getDimensionCount() == 3);
     assertTrue(arraysTestPlugin.getDimension(2).isSetId() == false);
     assertTrue(doc.findSBase("AD4").equals(d));
-    
+
+    // TODO - add tests for Index as well
+    // TODO - test cloning
+
+    // Testing removeFromParent
     d1.removeFromParent();
     
     assertTrue(doc.findSBase("AD1") == null);
@@ -824,8 +828,17 @@ public class UnregisterPackageTests {
     
     assertTrue(arraysTestPlugin.getDimensionCount() == 1);
     assertTrue(doc.findSBase("AD4") == null);
+
+    arraysTestPlugin.getDimension(0).setMetaId("AD_metaid1");
+
+    assertTrue(doc.findSBase("AD_metaid1") != null);
+
+    arraysTestPlugin.removeFromParent();
     
-    // TODO - add tests for Index as well
+    assertTrue(doc.findSBase("AD_metaid1") == null);
+    
+    assertTrue(model.getSpecies(0).getExtensionCount() == 0);
+
   }
 
   @Test
