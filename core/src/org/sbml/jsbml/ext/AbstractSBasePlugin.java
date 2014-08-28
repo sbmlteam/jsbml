@@ -241,6 +241,25 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
     firePropertyChange("extendedSBase", oldExtendedSBase, extendedSBase);
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#removeFromParent()
+   */
+  @Override
+  public boolean removeFromParent() {
+    
+    if (getParentSBMLObject() != null) {
+      SBase parentSBase = getParentSBMLObject();
+      int n = parentSBase.getExtensionCount();
+      parentSBase.unsetExtension(getPackageName());
+
+      return n > parentSBase.getExtensionCount(); 
+    }
+    
+    return super.removeFromParent();
+  }
+
+
+  
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()

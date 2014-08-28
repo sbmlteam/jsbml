@@ -581,7 +581,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   @Override
   public String getPackageName() {
 
-    return ArraysConstants.packageName;
+    return ArraysConstants.shortLabel;
   }
 
   /* (non-Javadoc)
