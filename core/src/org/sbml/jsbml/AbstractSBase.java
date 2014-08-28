@@ -315,7 +315,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         addExtension(new String(key), clonedPlugin);
       }
     }
-    // cloning namespace ?
+    // cloning namespace
     if (sb.getNamespace() != null) {
       elementNamespace = sb.getNamespace();
     }
@@ -905,28 +905,30 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       if (equals && sbase.isSetLevelAndVersion()) {
         equals &= sbase.getLevelAndVersion().equals(getLevelAndVersion());
       }
+      equals &= sbase.getNamespace() == getNamespace();
 
+      if (declaredNamespaces == null) {
+        if (sbase.getDeclaredNamespaces() != null) {
+          return false;
+        }
+      } else if (!declaredNamespaces.equals(sbase.getDeclaredNamespaces())) {
+        return false;
+      }
+ 
+      
       /*
-       * Note: Listeners are not included in the equals check.
+       * Note: Listeners, ignoredExtensions and ignoredXMLElements are not included in the equals check.
        */
 
-      // TODO - why not using the equals method on the SBasePlugin objects directly ?
-      if ((extensions.size() > 0) &&
-          (sbase.getExtensionPackages().size() == extensions.size())) {
-
-        for (Map.Entry<String,SBasePlugin> entry : extensions.entrySet()) {
-          Map<String, String> objectAttr = sbase.getExtension(entry.getKey()).writeXMLAttributes();
-          Map<String, String> currentAttr = entry.getValue().writeXMLAttributes();
-          
-          if (objectAttr != null) {
-            equals &= objectAttr.equals(currentAttr);
-          }
-        }
-      }
+      // Notes, Annotation and extension SBasePlugins are tested in AbstractTreeNode.equals()
+      // as they are part of the children returned by #getChildAt(int i) 
     }
+    
     return equals;
   }
 
+  
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier)
    */
@@ -1433,6 +1435,16 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     if (isSetSBOTerm()) {
       hashCode += prime * getSBOTerm();
     }
+    if (elementNamespace != null) {
+      hashCode = prime * hashCode + elementNamespace.hashCode();
+    }
+    if (declaredNamespaces != null) {
+      hashCode = prime * hashCode + declaredNamespaces.hashCode();
+    }
+
+    // Notes, Annotation and extension SBasePlugins are taken into account in AbstractTreeNode.hashCode()
+    // as they are part of the children returned by #getChildAt(int i) 
+
     return hashCode + prime * getLevelAndVersion().hashCode();
   }
 
