@@ -24,6 +24,7 @@ package org.sbml.jsbml.ext.arrays.compiler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.CallableSBase;
@@ -63,20 +64,36 @@ public class VectorCompiler implements ASTNodeCompiler {
   private final ASTNodeValue dummy = new ASTNodeValue("dummy", null);
   private final Model model;
   private ASTNode node;
+  private Map<String, ASTNode> idToVector;
+  private boolean isSetIdToVector;
   private final boolean useId;
 
   public VectorCompiler(Model model) {
     this.model = model;
     node = new ASTNode();
     useId = false;
+    isSetIdToVector = false;
   }
 
   public VectorCompiler(Model model, boolean useId) {
     this.model = model;
     node = new ASTNode();
     this.useId = useId;
+    isSetIdToVector = false;
   }
 
+  public VectorCompiler(Model model, boolean useId, Map<String, ASTNode> idToVector) {
+    this.model = model;
+    node = new ASTNode();
+    this.useId = useId;
+    this.idToVector = idToVector;
+    if(idToVector == null) {
+      isSetIdToVector = false;
+    } else {
+      isSetIdToVector = true;
+    }
+  }
+  
   public ASTNode getNode() {
     return node;
   }
@@ -85,6 +102,28 @@ public class VectorCompiler implements ASTNodeCompiler {
     this.node = node;
   }
 
+  public void setIdToVector(Map<String, ASTNode> idToVector) {
+    this.idToVector = idToVector;
+    if(idToVector == null) {
+      isSetIdToVector = false;
+    } else {
+      isSetIdToVector = true;
+    }
+  }
+  
+  public void clearIdToVector() {
+    idToVector.clear();
+    isSetIdToVector = false;
+  }
+  
+  public boolean isSetIdToVector() {
+    if(idToVector != null && isSetIdToVector) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#abs(org.sbml.jsbml.ASTNode)
    */
@@ -1064,7 +1103,11 @@ public class VectorCompiler implements ASTNodeCompiler {
     SBase sbase = model.findNamedSBase(name);
     if(sbase != null) {
       if(useId) {
-        transformNamedSBase(sbase);
+        if(isSetIdToVector() && idToVector.containsKey(name)) {
+          setNode(idToVector.get(name));
+        } else {
+          transformNamedSBase(sbase);
+        }
       } else {
         transformSBase(sbase);
       }
@@ -1123,6 +1166,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       for(int j = 0; j < size; ++j) {
         ASTNode clone = vectorNode.clone();
         updateASTNodeName(clone, j);
+        //TODO check if clone is unique
         vector.add(clone);
       }
       vector(vector);
@@ -4027,7 +4071,11 @@ public class VectorCompiler implements ASTNodeCompiler {
         updateASTNodeName(child, value);
       }
     } else if(node.isName()) {
-      node.setName(value + node.getName());
+      String appendName = node.getName();
+      while(model.findNamedSBase(value + appendName) != null) {
+        appendName = "_" + appendName;
+      } 
+      node.setName(value + appendName);
     } else {
       node.setName("unknown");
     }
