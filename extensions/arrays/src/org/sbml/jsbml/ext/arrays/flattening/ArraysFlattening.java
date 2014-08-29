@@ -24,8 +24,10 @@ package org.sbml.jsbml.ext.arrays.flattening;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.swing.tree.TreeNode;
@@ -66,6 +68,7 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
  */
 public class ArraysFlattening {
 
+  //TODO: metaid event has implicit dimension
   private static final ASTNode unknown = new ASTNode("unknown");
 
   /**
@@ -79,13 +82,16 @@ public class ArraysFlattening {
     Model model = flattenedDoc.getModel();
 
     List<SBase> itemsToDelete = new ArrayList<SBase>();
-    convertEvents(model, itemsToDelete);
-    convertReactions(model, itemsToDelete);
+    Map<String, ASTNode> idToVector = new HashMap<String, ASTNode>();
+    getVectors(flattenedDoc.getModel(), idToVector);
+
+    convertEvents(model, itemsToDelete, idToVector);
+    convertReactions(model, itemsToDelete, idToVector);
     removeSBases(itemsToDelete);
 
     itemsToDelete = new ArrayList<SBase>();
-    convert(flattenedDoc, model, itemsToDelete);
-    convertMath(flattenedDoc, model);
+    convert(flattenedDoc, model, itemsToDelete, idToVector);
+    convertMath(flattenedDoc, model, idToVector);
     removeSBases(itemsToDelete);
     return flattenedDoc;
   }
@@ -101,6 +107,26 @@ public class ArraysFlattening {
     }
   }
 
+
+  private static void getVectors(SBase sbase, Map<String, ASTNode> ids) {
+    for(int i = sbase.getChildCount() - 1; i >= 0; i--) {
+      TreeNode node = sbase.getChildAt(i);
+      if(node instanceof NamedSBase) {
+        NamedSBase namedSbase = (NamedSBase)sbase.getChildAt(i);
+        ASTNode idMath = new ASTNode(namedSbase.getId());
+        VectorCompiler compiler = new VectorCompiler(sbase.getModel(), true);
+        idMath.compile(compiler);
+        idMath = compiler.getNode();
+        if(idMath.isVector()) {
+          ids.put(namedSbase.getId(), idMath);
+        }
+      }
+      if(node instanceof SBase) {
+        getVectors((SBase)node, ids);
+      }
+    }
+  }
+
   /**
    * Iterate through the events in the model and convert the events using the arrays package.
    * 
@@ -108,11 +134,12 @@ public class ArraysFlattening {
    * @param idToIndices
    * @param itemsToDelete
    */
-  private static void convertEvents (Model model, List<SBase> itemsToDelete) {
+  private static void convertEvents (Model model, List<SBase> itemsToDelete, Map<String, ASTNode> idToVector) {
     Enumeration<TreeNode> children = model.getListOfEvents().children();
+
     while(children.hasMoreElements()) {
       Event event = (Event)children.nextElement();
-      convertEvent(model, event, itemsToDelete);
+      convertEvent(model, event, itemsToDelete, idToVector);
     }
   }
 
@@ -125,7 +152,7 @@ public class ArraysFlattening {
    * @param itemsToDelete
    * @throws SBMLException
    */
-  private static void convertEvent (Model model, Event event, List<SBase> itemsToDelete) throws SBMLException {
+  private static void convertEvent (Model model, Event event, List<SBase> itemsToDelete, Map<String, ASTNode> idToVector) throws SBMLException {
     ArraysSBasePlugin plugin = (ArraysSBasePlugin) event.getExtension(ArraysConstants.shortLabel);
 
     if(plugin == null) {
@@ -134,7 +161,7 @@ public class ArraysFlattening {
 
     int dim = plugin.getDimensionCount() - 1;
 
-    VectorCompiler compiler = new VectorCompiler(model, true);
+    VectorCompiler compiler = new VectorCompiler(model, true, idToVector);
     if(event.isSetTrigger()) {
       Trigger trigger = event.getTrigger();
       ASTNode triggerMath = trigger.getMath();
@@ -175,7 +202,7 @@ public class ArraysFlattening {
       }
     }
 
-    expandEvent(model, plugin, model.getListOfEvents(), event, dim);
+    expandEvent(model, plugin, model.getListOfEvents(), event, idToVector.get(event.getId()), dim);
 
     itemsToDelete.add(event);
 
@@ -190,13 +217,15 @@ public class ArraysFlattening {
    * @param event
    * @param dim
    */
-  private static void expandEvent (Model model, ArraysSBasePlugin arraysPlugin, SBase parent, Event event, int dim) {
+  private static void expandEvent (Model model, ArraysSBasePlugin arraysPlugin, SBase parent, Event event, ASTNode vector, int dim) {
     Dimension dimension = arraysPlugin.getDimensionByArrayDimension(dim);
 
     if(dimension == null) {      
       event.unsetExtension(ArraysConstants.shortLabel); 
-
-      addToParent(parent, event);
+      if(event.isSetId() && vector.isName()) {
+        event.setId(vector.getName());
+      }
+      addToParent(model, parent, event);
       return;
     }
 
@@ -204,8 +233,7 @@ public class ArraysFlattening {
 
     for(int i = 0; i < size; i++) {
       Event clone = event.clone();
-      updateNamedSBase(arraysPlugin, clone, i);
-      updateSBase(arraysPlugin, clone, i);
+      updateSBase(model.getSBMLDocument(), arraysPlugin, clone, i);
       if(event.isSetDelay()) {
         if(clone.getDelay().getMath().isVector()) {
           if(clone.getDelay().getMath().getChildCount() > i) {
@@ -240,7 +268,10 @@ public class ArraysFlattening {
         clone.getPriority().setMath(replaceDimensionId(math, dimension.getId(), i));
       }
       updateEventAssignmentIndex(model, clone, dimension, i);
-      expandEvent(model, arraysPlugin, parent, clone, dim-1);
+      updateEventChildrenMetaId(model, arraysPlugin, clone, i);
+      ASTNode nodeCopy = vector.clone();
+      nodeCopy = nodeCopy.getChild(i); 
+      expandEvent(model, arraysPlugin, parent, clone, nodeCopy, dim-1);
     }
   }
 
@@ -273,11 +304,11 @@ public class ArraysFlattening {
    * @param idToIndices
    * @param itemsToDelete
    */
-  private static void convertReactions (Model model, List<SBase> itemsToDelete) {
+  private static void convertReactions (Model model, List<SBase> itemsToDelete, Map<String, ASTNode> idToVector) {
     Enumeration<TreeNode> children = model.getListOfReactions().children();
     while(children.hasMoreElements()) {
       Reaction reaction = (Reaction)children.nextElement();
-      convertReaction(model, reaction, itemsToDelete);
+      convertReaction(model, reaction, itemsToDelete, idToVector);
     }
   }
 
@@ -288,7 +319,7 @@ public class ArraysFlattening {
    * @param itemsToDelete
    * @throws SBMLException
    */
-  private static void convertReaction (Model model, Reaction reaction, List<SBase> itemsToDelete) throws SBMLException {
+  private static void convertReaction (Model model, Reaction reaction, List<SBase> itemsToDelete, Map<String, ASTNode> idToVector) throws SBMLException {
     ArraysSBasePlugin plugin = (ArraysSBasePlugin) reaction.getExtension(ArraysConstants.shortLabel);
 
     if(plugin == null) {
@@ -297,7 +328,7 @@ public class ArraysFlattening {
 
     int dim = plugin.getDimensionCount() - 1;
 
-    VectorCompiler compiler = new VectorCompiler(model, true);
+    VectorCompiler compiler = new VectorCompiler(model, true, idToVector);
     if(reaction.isSetKineticLaw()) {
       KineticLaw kinetic = reaction.getKineticLaw();
       ASTNode kineticMath = kinetic.getMath();
@@ -308,7 +339,7 @@ public class ArraysFlattening {
       }
     }
 
-    expandReaction(model, plugin, model.getListOfReactions(), reaction, dim);
+    expandReaction(model, plugin, model.getListOfReactions(), reaction, idToVector,idToVector.get(reaction.getId()), dim);
     itemsToDelete.add(reaction);
 
   }
@@ -319,19 +350,99 @@ public class ArraysFlattening {
    * @param reaction
    * @param index
    */
-  private static void updateSpecRefId(ArraysSBasePlugin arraysPlugin, Reaction reaction, int index) {
+  private static void updateSpecRefId(Model model, ArraysSBasePlugin arraysPlugin, Reaction reaction, Map<String, ASTNode> idToVector, int index) {
 
     for(SpeciesReference ref : reaction.getListOfReactants()) {
-      updateNamedSBase(arraysPlugin, ref, index);
+      if(ref.isSetId())
+      {
+        String id = ref.getId();
+        ASTNode node = idToVector.get(id).getChild(index);
+        String appendId = "_" + index;
+        while(model.findNamedSBase(id + appendId) != null) {
+          appendId = "_" + appendId;
+        }
+        ref.setId(id+appendId);
+        if(node != null) {
+          idToVector.put(id+appendId, node);
+        }
+      }
     }
     for(SpeciesReference ref : reaction.getListOfProducts()) {
-      updateNamedSBase(arraysPlugin, ref, index);
+      if(ref.isSetId())
+      {
+        String id = ref.getId();
+        ASTNode node = idToVector.get(id).getChild(index);
+        String appendId = "_" + index;
+        while(model.findNamedSBase(id + appendId) != null) {
+          appendId = "_" + appendId;
+        }
+        ref.setId(id+appendId);
+        if(node != null) {
+          idToVector.put(id+appendId, node);
+        }
+      }
     }
     for(ModifierSpeciesReference ref : reaction.getListOfModifiers()) {
-      updateNamedSBase(arraysPlugin, ref, index);
+      if(ref.isSetId())
+      {
+        String id = ref.getId();
+        ASTNode node = idToVector.get(id).getChild(index);
+        String appendId = "_" + index;
+        while(model.findNamedSBase(id + appendId) != null) {
+          appendId = "_" + appendId;
+        }
+        ref.setId(id+appendId);
+        if(node != null) {
+          idToVector.put(id+appendId, node);
+        }
+      }
     }
   }
 
+  /**
+   * 
+   * @param arraysPlugin
+   * @param reaction
+   * @param index
+   */
+  private static void updateReactionChildrenMetaId(Model model, ArraysSBasePlugin arraysPlugin, Reaction reaction, int index) {
+
+    SBMLDocument doc = model.getSBMLDocument();
+    if(reaction.isSetKineticLaw()) {
+      updateSBase(doc, arraysPlugin, reaction.getKineticLaw(), index);
+    }
+    for(SpeciesReference ref : reaction.getListOfReactants()) {
+      updateSBase(doc, arraysPlugin, ref, index);
+    }
+    for(SpeciesReference ref : reaction.getListOfProducts()) {
+      updateSBase(doc, arraysPlugin, ref, index);
+    }
+    for(ModifierSpeciesReference ref : reaction.getListOfModifiers()) {
+      updateSBase(doc, arraysPlugin, ref, index);
+    }
+  }
+
+  /**
+   * 
+   * @param arraysPlugin
+   * @param reaction
+   * @param index
+   */
+  private static void updateEventChildrenMetaId(Model model, ArraysSBasePlugin arraysPlugin, Event event, int index) {
+    SBMLDocument doc = model.getSBMLDocument();
+    if(event.isSetDelay()) {
+      updateSBase(doc, arraysPlugin, event.getDelay(), index);
+    }
+    if(event.isSetPriority()) {
+      updateSBase(doc, arraysPlugin, event.getPriority(), index);
+    }
+    if(event.isSetTrigger()) {
+      updateSBase(doc, arraysPlugin, event.getTrigger(), index);
+    }
+    for(EventAssignment ea : event.getListOfEventAssignments()) {
+      updateSBase(doc, arraysPlugin, ea, index);
+    }
+  }
   /**
    * 
    * @param model
@@ -340,12 +451,15 @@ public class ArraysFlattening {
    * @param reaction
    * @param dim
    */
-  private static void expandReaction (Model model, ArraysSBasePlugin arraysPlugin, SBase parent, Reaction reaction, int dim) {
+  private static void expandReaction (Model model, ArraysSBasePlugin arraysPlugin, SBase parent, Reaction reaction, Map<String, ASTNode> idToVector,ASTNode vector, int dim) {
     Dimension dimension = arraysPlugin.getDimensionByArrayDimension(dim);
 
     if(dimension == null) {
       reaction.unsetExtension(ArraysConstants.shortLabel); 
-      addToParent(parent, reaction);
+      if(reaction.isSetId() && vector.isName()) {
+        reaction.setId(vector.getName());
+      }
+      addToParent(model, parent, reaction);
       return;
     }
 
@@ -353,8 +467,7 @@ public class ArraysFlattening {
 
     for(int i = 0; i < size; i++) {
       Reaction clone = reaction.clone();
-      updateNamedSBase(arraysPlugin, clone, i);
-      updateSBase(arraysPlugin, clone, i);
+      updateSBase(model.getSBMLDocument(), arraysPlugin, clone, i);
       if(reaction.isSetKineticLaw()) {
         ASTNode math = clone.getKineticLaw().getMath();
         clone.getKineticLaw().setMath(replaceDimensionId(math, dimension.getId(), i));
@@ -368,9 +481,12 @@ public class ArraysFlattening {
           }
         }
       }
-      updateSpecRefId(arraysPlugin, clone, i);
+      updateSpecRefId(model, arraysPlugin, clone, idToVector, i);
+      updateReactionChildrenMetaId(model, arraysPlugin, clone, i);
       updateSpecRefIndex(model, clone, dimension, i);
-      expandReaction(model, arraysPlugin, parent, clone, dim-1);
+      ASTNode nodeCopy = vector.clone();
+      nodeCopy = nodeCopy.getChild(i); 
+      expandReaction(model, arraysPlugin, parent, clone, idToVector, nodeCopy, dim-1);
     }
   }
 
@@ -423,11 +539,11 @@ public class ArraysFlattening {
    * @param idToIndices
    * @param itemsToDelete
    */
-  private static void convert (SBMLDocument doc, Model model, List<SBase> itemsToDelete) {
+  private static void convert (SBMLDocument doc, Model model, List<SBase> itemsToDelete, Map<String, ASTNode> idToVector) {
     Enumeration<TreeNode> children = doc.children();
     while(children.hasMoreElements()) {
       TreeNode child = children.nextElement();
-      convert(model, child, itemsToDelete);
+      convert(model, child, itemsToDelete, idToVector);
     }
     //    for(int i = doc.getChildCount() - 1; i >= 0; i--) {
     //      ((SBase)doc.getChildAt(i);
@@ -442,14 +558,14 @@ public class ArraysFlattening {
    * @param node
    * @param sbases
    */
-  private static void convert(Model model, TreeNode node, List<SBase> sbases) {
+  private static void convert(Model model, TreeNode node, List<SBase> sbases, Map<String, ASTNode> idToVector) {
 
     Enumeration<?> children = node.children();
 
     while(children.hasMoreElements()) {
       TreeNode child = (TreeNode) children.nextElement();
-      expandDim(model, child, sbases);
-      convert(model, child, sbases);
+      expandDim(model, child, sbases, idToVector);
+      convert(model, child, sbases, idToVector);
     }
   }
 
@@ -459,11 +575,11 @@ public class ArraysFlattening {
    * @param idToIndices
    * @param itemsToDelete
    */
-  private static void convertMath (SBMLDocument doc, Model model) {
+  private static void convertMath (SBMLDocument doc, Model model, Map<String, ASTNode> idToVector) {
     Enumeration<TreeNode> children = doc.children();
     while(children.hasMoreElements()) {
       TreeNode child = children.nextElement();
-      convertMath(model, child);
+      convertMath(model, child, idToVector);
     }
   }
 
@@ -475,26 +591,25 @@ public class ArraysFlattening {
    * @param node
    * @param sbases
    */
-  private static void convertMath(Model model, TreeNode node) {
+  private static void convertMath(Model model, TreeNode node, Map<String, ASTNode> idToVector) {
 
     Enumeration<?> children = node.children();
     while(children.hasMoreElements()) {
       TreeNode child = (TreeNode) children.nextElement();
-      convertArraysMath(model, child);
-      convertMath(model, child);
+      convertArraysMath(model, child, idToVector);
+      convertMath(model, child, idToVector);
     }
   }
 
   /**
-   * This expands an SBase that has a list of Dimension objects.
    * 
    * @param model
    * @param child
    * @param sbases
    */
-  private static void convertArraysMath(Model model, TreeNode child) {
+  private static void convertArraysMath(Model model, TreeNode child, Map<String, ASTNode> idToVector) {
     if(child instanceof MathContainer) {
-      VectorCompiler compiler = new VectorCompiler(model, true);
+      VectorCompiler compiler = new VectorCompiler(model, true, idToVector);
       MathContainer mathContainer = (MathContainer) child;
       mathContainer.getMath().compile(compiler);
       ASTNode math = compiler.getNode();
@@ -515,7 +630,7 @@ public class ArraysFlattening {
    * @param child
    * @param sbases
    */
-  private static void expandDim(Model model, TreeNode child, List<SBase> sbases) {
+  private static void expandDim(Model model, TreeNode child, List<SBase> sbases, Map<String, ASTNode> idToVector) {
     if(child instanceof SBase) {
       SBase sbase = ((SBase) child);
       ArraysSBasePlugin arraysPlugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
@@ -525,8 +640,11 @@ public class ArraysFlattening {
       sbases.add(sbase);
       int dim = arraysPlugin.getDimensionCount() - 1;
       ArraysCompiler compiler = new ArraysCompiler();
-
-      expandDim(model, sbase, sbase.getParentSBMLObject(), arraysPlugin, compiler, dim);
+      if(child instanceof NamedSBase) {
+        expandDim(model, sbase, sbase.getParentSBMLObject(), arraysPlugin, compiler, idToVector.get(((NamedSBase) child).getId()),dim, idToVector);
+      } else {
+        expandDim(model, sbase, sbase.getParentSBMLObject(), arraysPlugin, compiler, dim, idToVector);
+      }
     }
   }
 
@@ -541,14 +659,17 @@ public class ArraysFlattening {
    * @param compiler
    * @param dim
    */
-  private static void expandDim(Model model, SBase sbase, SBase parent, ArraysSBasePlugin arraysPlugin,ArraysCompiler compiler, int dim) {
+  private static void expandDim(Model model, SBase sbase, SBase parent, ArraysSBasePlugin arraysPlugin,ArraysCompiler compiler, ASTNode vector, int dim, Map<String, ASTNode> idToVector) {
 
     Dimension dimension = arraysPlugin.getDimensionByArrayDimension(dim);
 
     if(dimension == null) {
       sbase.unsetExtension(ArraysConstants.shortLabel); 
-      addToParent(parent, sbase);
-      convertIndex(model, arraysPlugin, sbase, compiler);
+      if(((NamedSBase)sbase).isSetId() && vector.isName()) {
+        ((NamedSBase)sbase).setId(vector.getName());
+      }
+      addToParent(model, parent, sbase);
+      convertIndex(model, arraysPlugin, sbase, compiler, idToVector);
       return;
     }
 
@@ -556,21 +677,58 @@ public class ArraysFlattening {
 
     for(int i = 0; i < size; i++) {
       SBase clone = sbase.clone();
-      updateSBase(arraysPlugin, clone, i);
-      if(sbase instanceof NamedSBase) {
-        updateNamedSBase(arraysPlugin, (NamedSBase) clone, i);
-      }
-      if(sbase instanceof MathContainer) {
-        try {
-          updateMathContainer(model, arraysPlugin, (MathContainer) clone, dimension.getId(), i);
-        } catch (ParseException e) {
+      ASTNode nodeCopy = vector.clone();
+      nodeCopy = nodeCopy.getChild(i);
+      updateSBase(model.getSBMLDocument(), arraysPlugin, clone, i);
+          
 
-        }
+      if(sbase instanceof MathContainer) {
+        updateMathContainer(model, arraysPlugin, (MathContainer) clone, dimension.getId(), i, idToVector);
       }
 
       compiler.addValue(dimension.getId(), i);
 
-      expandDim(model, clone, parent, arraysPlugin,compiler, dim-1);
+      expandDim(model, clone, parent, arraysPlugin,compiler, nodeCopy, dim-1, idToVector);
+
+    }
+  }
+
+
+  /**
+   * This method is transforming the attributes of a certain SBase object associated with the arrays package
+   * so that the SBase no longer uses the package.
+   * 
+   * @param model
+   * @param sbase
+   * @param parent
+   * @param arraysPlugin
+   * @param compiler
+   * @param dim
+   */
+  private static void expandDim(Model model, SBase sbase, SBase parent, ArraysSBasePlugin arraysPlugin,ArraysCompiler compiler, int dim, Map<String, ASTNode> idToVector) {
+
+    Dimension dimension = arraysPlugin.getDimensionByArrayDimension(dim);
+
+    if(dimension == null) {
+      sbase.unsetExtension(ArraysConstants.shortLabel); 
+      addToParent(model, parent, sbase);
+      convertIndex(model, arraysPlugin, sbase, compiler, idToVector);
+      return;
+    }
+
+    int size = ArraysMath.getSize(model, dimension);
+
+    for(int i = 0; i < size; i++) {
+      SBase clone = sbase.clone();
+      updateSBase(model.getSBMLDocument(), arraysPlugin, clone, i);
+
+      if(sbase instanceof MathContainer) {
+        updateMathContainer(model, arraysPlugin, (MathContainer) clone, dimension.getId(), i, idToVector);
+      }
+
+      compiler.addValue(dimension.getId(), i);
+
+      expandDim(model, clone, parent, arraysPlugin,compiler, dim-1, idToVector);
 
     }
   }
@@ -581,10 +739,19 @@ public class ArraysFlattening {
    * @param parent
    * @param child
    */
-  private static void addToParent(SBase parent, SBase child) {
+  private static void addToParent(Model model, SBase parent, SBase child) {
     if(parent instanceof ListOf<?>) {
       @SuppressWarnings("unchecked")
       ListOf<SBase> parentList = (ListOf<SBase>) parent;
+      //      if(child instanceof NamedSBase) {
+      //        NamedSBase namedSbase = (NamedSBase) child;
+      //        String id = namedSbase.getId();
+      //        while(model.findNamedSBase(id) != null) {
+      //          id = id.replaceFirst("_", "__");
+      //        }
+      //        namedSbase.setId(id);
+      //        //TODO: need to return a map so I know which ids have extra _
+      //      }
       parentList.add(child);
       return;
     }
@@ -600,7 +767,7 @@ public class ArraysFlattening {
    * @param sbase
    * @param compiler
    */
-  private static void convertIndex(Model model, ArraysSBasePlugin arraysPlugin, SBase sbase, ArraysCompiler compiler) {
+  private static void convertIndex(Model model, ArraysSBasePlugin arraysPlugin, SBase sbase, ArraysCompiler compiler, Map<String, ASTNode> idToVector) {
     if(arraysPlugin.getIndexCount() < 1) {
       return;
     }
@@ -618,6 +785,7 @@ public class ArraysFlattening {
 
     for(String attribute : attributes) {
       String temp = sbase.writeXMLAttributes().get(attribute);
+      ASTNode vector = idToVector.get(temp);
       for(int i = maxIndex; i >= 0; i--) {
         Index index = arraysPlugin.getIndex(i, attribute);
         if(index == null) {
@@ -625,31 +793,16 @@ public class ArraysFlattening {
         }
         ASTNodeValue value = index.getMath().compile(compiler);
         if(value.isNumber()) {
-          temp += "_" + value.toInteger();
+          vector = vector.getChild(value.toInteger());
         } else {
           continue;
         }
       }
-      sbase.readAttribute(attribute, "", temp);
+      sbase.readAttribute(attribute, "", vector.getName());
     }
 
   }
 
-  /**
-   * This updates the id of a NamedSBase.
-   * 
-   * @param arraysPlugin
-   * @param sbase
-   * @param index
-   */
-  private static void updateNamedSBase(ArraysSBasePlugin arraysPlugin, NamedSBase sbase, int index) {
-    //TODO: check if unique id
-    if(sbase.isSetId()) {
-      String id = sbase.getId();
-      String newId = id + "_" + index;
-      sbase.setId(newId);
-    }
-  }
 
   /**
    * This updates the dimension id that appears in the math.
@@ -661,13 +814,13 @@ public class ArraysFlattening {
    * @param index
    * @throws ParseException
    */
-  private static void updateMathContainer(Model model, ArraysSBasePlugin arraysPlugin, MathContainer sbase, String dimId, int index) throws ParseException {
+  private static void updateMathContainer(Model model, ArraysSBasePlugin arraysPlugin, MathContainer sbase, String dimId, int index, Map<String, ASTNode> idToVector) {
     if(sbase.isSetMath()) {
       //String formula = sbase.getMath().toFormula().replaceAll(dimId, String.valueOf(index));
       //sbase.setMath(ASTNode.parseFormula(formula));
       sbase.setMath(replaceDimensionId(sbase.getMath(), dimId, index));
       //sbase.getMath().replaceArgument(dimId, new ASTNode(index));
-      VectorCompiler compiler = new VectorCompiler(model, true);
+      VectorCompiler compiler = new VectorCompiler(model, true, idToVector);
       sbase.getMath().compile(compiler);
       ASTNode math = compiler.getNode();
       if(!math.equals(unknown)) {
@@ -682,13 +835,16 @@ public class ArraysFlattening {
    * @param sbase
    * @param index
    */
-  private static void updateSBase(ArraysSBasePlugin arraysPlugin, SBase sbase, int index) {
+  private static void updateSBase(SBMLDocument doc, ArraysSBasePlugin arraysPlugin, SBase sbase, int index) {
     //TODO check if unique
-    SBMLDocument document = sbase.getSBMLDocument();
     if(sbase.isSetMetaId()) {
       String metaId = sbase.getMetaId();
-      String newMetaId = metaId + "_" + index;
-      sbase.setMetaId(newMetaId);
+      
+      String appendId = "_" + index;
+      while(doc.findSBase(metaId + appendId) != null) {
+        appendId = "_" + appendId;
+      }
+      sbase.setMetaId(metaId+appendId);
     }
   }
 
