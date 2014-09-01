@@ -163,7 +163,7 @@ public class SBMLErrorLog {
    * it easy to check for the presence of error objects with specific
    * severity levels.
    * <p>
-   * @param severity a value from the enumeration {@link SBMLError#SEVERITY}
+   * @param severity a value from the enumeration {@link SBMLError.SEVERITY}
    * <p>
    * @return a count of the number of errors with the given severity code.
    * <p>

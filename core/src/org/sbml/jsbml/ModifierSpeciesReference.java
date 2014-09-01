@@ -36,24 +36,25 @@ public class ModifierSpeciesReference extends SimpleSpeciesReference {
   private static final long serialVersionUID = 6033910247622532704L;
 
   /**
-   * Creates a ModifierSpeciesReference instance.
+   * Creates a {@link ModifierSpeciesReference} instance.
    */
   public ModifierSpeciesReference() {
     super();
   }
 
   /**
+   * Creates a {@link ModifierSpeciesReference} instance.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public ModifierSpeciesReference(int level, int version) {
     super(level, version);
   }
 
   /**
-   * Creates a ModifierSpeciesReference instance from a given
-   * ModifierSpeciesReference.
+   * Creates a {@link ModifierSpeciesReference} instance from a given
+   * {@link ModifierSpeciesReference}.
    * 
    * @param modifierSpeciesReference
    */
@@ -63,27 +64,29 @@ public class ModifierSpeciesReference extends SimpleSpeciesReference {
   }
 
   /**
-   * Creates a ModifierSpeciesReference instance from a given Species.
+   * Creates a {@link ModifierSpeciesReference} instance from a given {@link Species}.
    * 
-   * @param modifierSpeciesReference
+   * @param species
    */
   public ModifierSpeciesReference(Species species) {
     super(species);
   }
 
   /**
+   * Creates a {@link ModifierSpeciesReference} instance.
    * 
-   * @param id
+   * @param id the modifier SId
    */
   public ModifierSpeciesReference(String id) {
     super(id);
   }
 
   /**
+   * Creates a {@link ModifierSpeciesReference} instance.
    * 
-   * @param id
-   * @param level
-   * @param version
+   * @param id the modifier SId
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public ModifierSpeciesReference(String id, int level, int version) {
     super(id, level, version);

@@ -67,9 +67,8 @@ Variable {
    * Creates a Symbol instance from a level and version. By default, value,
    * unitsID, constant are {@code null}.
    * 
-   * @param id
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Symbol(int level, int version) {
     super(level, version);
@@ -77,6 +76,7 @@ Variable {
   }
 
   /**
+   * Creates a Symbol instance.
    * 
    * @param quantity
    */
@@ -86,6 +86,7 @@ Variable {
   }
 
   /**
+   * Creates a Symbol instance.
    * 
    * @param id
    */

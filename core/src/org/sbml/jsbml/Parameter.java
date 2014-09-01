@@ -44,7 +44,7 @@ public class Parameter extends Symbol {
   private static final long serialVersionUID = 3300762892435768291L;
 
   /**
-   * Creates a Parameter instance.
+   * Creates a {@link Parameter} instance.
    */
   public Parameter() {
     super();
@@ -52,11 +52,10 @@ public class Parameter extends Symbol {
   }
 
   /**
-   * Creates a Parameter instance from an id, level and version.
+   * Creates a {@link Parameter} instance from a level and version.
    * 
-   * @param id
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Parameter(int level, int version) {
     super(level, version);
@@ -64,7 +63,9 @@ public class Parameter extends Symbol {
   }
 
   /**
-   * This constructor allows the creation of a global {@link Parameter} based on a
+   * Creates a {@link Parameter} instance from a given {@link LocalParameter}.
+   * 
+   * <p>This constructor allows the creation of a global {@link Parameter} based on a
    * {@link LocalParameter}. It creates a new {@link Parameter} object that will have the
    * same attributes than the {@link LocalParameter}. Its constant attribute will be
    * set to true.
@@ -80,7 +81,7 @@ public class Parameter extends Symbol {
   }
 
   /**
-   * Creates a Parameter instance from a given Parameter.
+   * Creates a {@link Parameter} instance from a given {@link Parameter}.
    * 
    * @param p
    */
@@ -89,6 +90,7 @@ public class Parameter extends Symbol {
   }
 
   /**
+   * Creates a {@link Parameter} instance from an id.
    * 
    * @param id
    */
@@ -98,8 +100,11 @@ public class Parameter extends Symbol {
   }
 
   /**
+   * Creates a {@link Parameter} instance from an id, level and version.
    * 
    * @param id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Parameter(String id, int level, int version) {
     super(id, level, version);

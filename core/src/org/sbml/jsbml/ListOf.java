@@ -460,7 +460,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
    * @param element
    *            the item to be added to the list.
    * @return {@code true} if this could be successfully appended.
-   * @see #add(T)
+   * @see #add(SBase)
    */
   @SuppressWarnings("unchecked")
   public boolean append(T element) throws LevelVersionError {
@@ -812,7 +812,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
   /**
    * Specialized method to remove a named SBase according to its unique id.
    * 
-   * @param id
+   * @param removeId
    *            the id of the object to be removed.
    * @return success or failure.
    */
@@ -950,9 +950,9 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
    * 
    * @param listType
    */
-  public void setSBaseListType(Type currentList) {
+  public void setSBaseListType(Type listType) {
     Type oldType = this.listType;
-    this.listType = currentList;
+    this.listType = listType;
     firePropertyChange(TreeNodeChangeEvent.baseListType, oldType, listType);
   }
 

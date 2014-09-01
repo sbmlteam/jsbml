@@ -37,23 +37,25 @@ public class RateRule extends ExplicitRule {
   private static final long serialVersionUID = -1631920547145001765L;
 
   /**
-   * Creates a RateRule instance. By default, the variableID is {@code null}.
+   * Creates a {@link RateRule} instance. By default, the variableID is {@code null}.
    */
   public RateRule() {
     super();
   }
 
   /**
+   * Creates a new {@link RateRule} instance.
    * 
-   * @param math
-   * @param level
-   * @param version
+   * @param math the ASTNode representing the mathematic formula of this rule.
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public RateRule(ASTNode math, int level, int version) {
     super(math, level, version);
   }
 
   /**
+   * Creates a new {@link RateRule} instance.
    * 
    * @param math
    * @param parameter
@@ -63,6 +65,7 @@ public class RateRule extends ExplicitRule {
   }
 
   /**
+   * Creates a new {@link RateRule} instance.
    * 
    * @param variable
    * @param math
@@ -72,15 +75,17 @@ public class RateRule extends ExplicitRule {
   }
 
   /**
-   * Creates a RateRule instance from a given RateRule.
+   * Creates a {@link RateRule} instance from a given RateRule.
    * 
-   * @param sb
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public RateRule(int level, int version) {
     super(level, version);
   }
 
   /**
+   * Creates a new {@link RateRule} instance.
    * 
    * @param parameter
    */
@@ -89,6 +94,7 @@ public class RateRule extends ExplicitRule {
   }
 
   /**
+   * Creates a new {@link RateRule} instance.
    * 
    * @param parameter
    * @param math
@@ -98,6 +104,8 @@ public class RateRule extends ExplicitRule {
   }
 
   /**
+   * Creates a new {@link RateRule} instance cloned from the given {@link RateRule}.
+   * 
    * @param sb
    */
   public RateRule(RateRule sb) {
@@ -105,7 +113,7 @@ public class RateRule extends ExplicitRule {
   }
 
   /**
-   * Creates a RateRule instance from a given Symbol. Takes level and version
+   * Creates a {@link RateRule} instance from a given Symbol. Takes level and version
    * from the variable.
    * 
    * @param variable
@@ -115,7 +123,7 @@ public class RateRule extends ExplicitRule {
   }
 
   /**
-   * Creates a RateRule instance cloned from the given {@link ExplicitRule}
+   * Creates a {@link RateRule} instance cloned from the given {@link ExplicitRule}
    * 
    * @param rule
    */
@@ -124,7 +132,7 @@ public class RateRule extends ExplicitRule {
   }
 
   /**
-   * Creates a RateRule instance from a given Symbol and ASTNode. Takes level
+   * Creates a {@link RateRule} instance from a given Symbol and ASTNode. Takes level
    * and version from the variable.
    * 
    * @param variable

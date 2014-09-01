@@ -139,7 +139,6 @@ public class SBMLDocument extends AbstractSBase {
    * this object is itself. The model is {@code null}. The SBMLDocumentAttributes and
    * the SBMLDocumentNamespaces are empty.
    * 
-   * @param sb
    */
   public SBMLDocument() {
     super();
@@ -156,8 +155,8 @@ public class SBMLDocument extends AbstractSBase {
    * parent SBML object of this object is itself. The model is {@code null}. The
    * SBMLDocumentAttributes and the SBMLDocumentNamespaces are empty.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public SBMLDocument(int level, int version) {
     this();
@@ -755,7 +754,7 @@ public class SBMLDocument extends AbstractSBase {
    * 
    * @return the number of errors or warnings encountered during consistency checking.
    * @libsbml.deprecated
-   * @see {@link #getErrorCount()}
+   * @see #getErrorCount()
    */
   public int getNumErrors() {
     return getErrorCount();
@@ -1183,63 +1182,58 @@ public class SBMLDocument extends AbstractSBase {
    * second argument ({@code apply}, a boolean) indicates whether to turn it on
    * (value of {@code true}) or off (value of {@code false}).
    * <p>
-   * * The possible categories (values to the argument {@code category}) are the
-   * set of values from the {@link CHECK_CATEGORYH} enumeration.
+   * The possible categories (values to the argument {@code category}) are the
+   * set of values from the {@link SBMLValidator.CHECK_CATEGORY} enumeration.
    * The following are the possible choices:
    * <p>
-   * <p>
-   * <li> {@link GENERAL_CONSISTENCY}:
+   * <ul>
+   * <li> {@link SBMLValidator.CHECK_CATEGORY#GENERAL_CONSISTENCY}:
    * Correctness and consistency of specific SBML language constructs.
    * Performing this set of checks is highly recommended.  With respect to
    * the SBML specification, these concern failures in applying the
    * validation rules numbered 2xxxx in the Level&nbsp;2 Versions&nbsp;2, 3
    * and&nbsp;4 specifications.
-   * <p>
-   * <li> {@link IDENTIFIER_CONSISTENCY}:
+   * <li> {@link SBMLValidator.CHECK_CATEGORY#IDENTIFIER_CONSISTENCY}:
    * Correctness and consistency of identifiers used for model entities.
    * An example of inconsistency would be using a species identifier in a
    * reaction rate formula without first having declared the species.  With
    * respect to the SBML specification, these concern failures in applying
    * the validation rules numbered 103xx in the Level&nbsp;2
    * Versions&nbsp;2, 3 and&nbsp;4 specifications.
-   * <p>
-   * <li> {@link UNITS_CONSISTENCY}:
+   * <li> {@link SBMLValidator.CHECK_CATEGORY#UNITS_CONSISTENCY}:
    * Consistency of measurement units associated with quantities in a
    * model.  With respect to the SBML specification, these concern failures
    * in applying the validation rules numbered 105xx in the Level&nbsp;2
    * Versions&nbsp;2, 3 and&nbsp;4 specifications.
-   * <p>
-   * <li> {@link MATHML_CONSISTENCY}:
+   * <li> {@link SBMLValidator.CHECK_CATEGORY#MATHML_CONSISTENCY}:
    * Syntax of MathML constructs.  With respect to the SBML specification,
    * these concern failures in applying the validation rules numbered 102xx
    * in the Level&nbsp;2 Versions&nbsp;2, 3 and&nbsp;4 specifications.
-   * <p>
-   * <li> {@link SBO_CONSISTENCY}:
+   * <li> {@link SBMLValidator.CHECK_CATEGORY#SBO_CONSISTENCY}:
    * Consistency and validity of SBO identifiers (if any) used in the
    * model.  With respect to the SBML specification, these concern failures
    * in applying the validation rules numbered 107xx in the Level&nbsp;2
    * Versions&nbsp;2, 3 and&nbsp;4 specifications.
-   * <p>
-   * <li> {@link OVERDETERMINED_MODEL}:
+   * <li> {@link SBMLValidator.CHECK_CATEGORY#OVERDETERMINED_MODEL}:
    * Static analysis of whether the system of equations implied by a model
    * is mathematically overdetermined.  With respect to the SBML
    * specification, this is validation rule #10601 in the SBML Level&nbsp;2
    * Versions&nbsp;2, 3 and&nbsp;4 specifications.
-   * <p>
-   * <li> {@link MODELING_PRACTICE}:
+   * <li> {@link SBMLValidator.CHECK_CATEGORY#MODELING_PRACTICE}:
    * Additional checks for recommended good modeling practice. (These are
    * tests performed by libSBML and do not have equivalent SBML validation
    * rules.)
+   * </ul>
    * <p>
    * <em>By default, all validation checks are applied</em> to the model in
-   * an {@link SBMLDocument} object <em>unless</em> {@link SBMLDocument#setConsistencyChecks(int, boolean)}  is called to
+   * an {@link SBMLDocument} object <em>unless</em> {@link SBMLDocument#setConsistencyChecks(CHECK_CATEGORY, boolean)}  is called to
    * indicate that only a subset should be applied.  Further, this default
    * (i.e., performing all checks) applies separately to <em>each new
    * {@link SBMLDocument} object</em> created.  In other words, each time a model
    * is read using {@link SBMLReader#readSBML(String)} , {@link SBMLReader#readSBMLFromString(String)}, a new
    * {@link SBMLDocument} is created and for that document, a call to
    * {@link SBMLDocument#checkConsistency()} will default to applying all possible checks.
-   * Calling programs must invoke {@link SBMLDocument#setConsistencyChecks(int, boolean)}  for each such new
+   * Calling programs must invoke {@link SBMLDocument#setConsistencyChecks(CHECK_CATEGORY, boolean)}  for each such new
    * model if they wish to change the consistency checks applied.
    * <p>
    * @param category a value drawn from JSBML#JSBML.SBML_VALIDATOR_* indicating the

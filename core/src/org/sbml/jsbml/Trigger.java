@@ -223,12 +223,12 @@ public class Trigger extends AbstractMathContainer {
   }
 
   /**
-   * Can only be set if Level >= 3.
+   * Can only be set if Level &gt;= 3.
    * 
    * @param initialValue
    *            the initialValue to set
    * @throws PropertyNotAvailableException
-   *             if Level < 3.
+   *             if Level &lt; 3.
    */
   public void setInitialValue(boolean initialValue) {
     if (getLevel() < 3) {
@@ -240,12 +240,12 @@ public class Trigger extends AbstractMathContainer {
   }
 
   /**
-   * Can only be set if Level >= 3.
+   * Can only be set if Level &gt;= 3.
    * 
    * @param persistent
    *            the persistent to set
    * @throws PropertyNotAvailableException
-   *             if Level < 3.
+   *             if Level &lt; 3.
    */
   public void setPersistent(boolean persistent) {
     if (getLevel() < 3) {

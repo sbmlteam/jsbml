@@ -27,8 +27,8 @@ import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.xml.XMLException;
 
 /**
- * Representation of errors, warnings and other diagnostics. <br/>
- * <br/>
+ * Representation of errors, warnings and other diagnostics. <br>
+ * <br>
  * For more details, see the <a href=
  * "http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/SBMLError.html"
  * >libSBML SBMLError javadoc</a>
@@ -144,7 +144,7 @@ public class SBMLError extends XMLException {
    * 
    * @return the code of this {@link SBMLError}.
    * 
-   * @see the appendix on the SBML specifications about validations rules.
+   * @doc.note See the appendix on the SBML specifications about validations rules.
    */
   public int getCode() {
     return code;
@@ -283,7 +283,7 @@ public class SBMLError extends XMLException {
    * 
    * @param code
    * 
-   * @see the appendix on the SBML specifications about validations rules.
+   * @doc.note See the appendix on the SBML specifications about validations rules.
    */
   public void setCode(int code) {
     this.code = code;
@@ -302,7 +302,7 @@ public class SBMLError extends XMLException {
   /**
    * Sets the message of this {@link SBMLError}.
    * 
-   * @param messageObj
+   * @param message
    */
   public void setMessage(Message message) {
     this.message = message;

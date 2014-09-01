@@ -704,7 +704,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
    * Returns {@code true} if this {@link Model} contains a reference to the given
    * {@link UniqueNamedSBase}.
    * 
-   * @param units
+   * @param id
    * @return {@code true} if this {@link Model} contains a reference to the given
    *         {@link UniqueNamedSBase}.
    */
@@ -2784,9 +2784,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
   }
 
   /**
-   * Returns the number of {@link SpeciesReferences}s of this {@link Model}.
+   * Returns the number of {@link SpeciesReference}s of this {@link Model}.
    * 
-   * @return the number of {@link SpeciesReferences}s of this {@link Model}.
+   * @return the number of {@link SpeciesReference}s of this {@link Model}.
    * @libsbml.deprecated use {@link #getSpeciesReferenceCount()}
    */
   public int getNumSpeciesReferences() {
@@ -2970,7 +2970,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
   /**
    * Gets the n-th {@link Reaction} object in this Model.
    * 
-   * @param reactionIndex
+   * @param n the reaction index
    * @return the n-th {@link Reaction} of this Model.
    */
   public Reaction getReaction(int n) {
@@ -3100,9 +3100,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
   }
 
   /**
-   * Returns the number of {@link SpeciesReferences}s of this {@link Model}.
+   * Returns the number of {@link SpeciesReference}s of this {@link Model}.
    * 
-   * @return the number of {@link SpeciesReferences}s of this {@link Model}.
+   * @return the number of {@link SpeciesReference}s of this {@link Model}.
    */
   public int getSpeciesReferenceCount() {
     int count = 0;
@@ -4471,7 +4471,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
    * 
    * @param areaUnitsID
    * @throws PropertyNotAvailableException
-   *             if Level < 3.
+   *             if Level &lt; 3.
    */
   public void setAreaUnits(String areaUnitsID) {
     if (getLevel() < 3) {
@@ -4521,7 +4521,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
    * 'conversionFactorID'.
    * 
    * @param conversionFactorID
-   * @throws PropertyNotAvailableException if Level < 3.
+   * @throws PropertyNotAvailableException if Level &lt; 3.
    */
   public void setConversionFactor(String conversionFactorID) {
     if (getLevel() < 3) {
@@ -4578,7 +4578,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
    * 
    * @param lengthUnitsID
    * @throws PropertyNotAvailableException
-   *             if Level < 3.
+   *             if Level &lt; 3.
    */
   public void setLengthUnits(String lengthUnitsID) {
     if (getLevel() < 3) { throw new PropertyNotAvailableException(
@@ -4845,7 +4845,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
    * 
    * @param substanceUnitsID
    * @throws PropertyNotAvailableException
-   *             if Level < 3.
+   *             if Level &lt; 3.
    */
   public void setSubstanceUnits(String substanceUnitsID) {
     if (getLevel() < 3) {
@@ -4885,7 +4885,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
    * 
    * @param timeUnitsID
    * @throws PropertyNotAvailableException
-   *             if Level < 3.
+   *             if Level &lt; 3.
    */
   public void setTimeUnits(String timeUnitsID) {
     if (getLevel() < 3) {
@@ -4927,7 +4927,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
    * 
    * @param volumeUnitsID
    * @throws PropertyNotAvailableException
-   *             if Level < 3.
+   *             if Level &lt; 3.
    */
   public void setVolumeUnits(String volumeUnitsID) {
     if (getLevel() < 3) {

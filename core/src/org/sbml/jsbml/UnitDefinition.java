@@ -827,7 +827,6 @@ public class UnitDefinition extends AbstractNamedSBase {
    * Convenience function for testing if a given unit definition is a variant
    * of the predefined unit identifier 'length'.
    * 
-   * @param two
    * @return {@code true} if this UnitDefinition is a variant of the predefined unit
    *         length, meaning metres with only arbitrary variations in scale or
    *         multiplier values; false otherwise.
@@ -1108,8 +1107,8 @@ public class UnitDefinition extends AbstractNamedSBase {
   /**
    * Simplifies the {@link UnitDefinition} so that any {@link Unit} objects
    * occurring within the {@link #listOfUnits} occurs only once. {@link Unit}s
-   * of {@link Kind} {@link Kind.INVALID} are treated like
-   * {@link Kind.DIMENSIONLESS} units and will therefore tend to disappear by
+   * of {@link Kind} {@link Kind#INVALID} are treated like
+   * {@link Kind#DIMENSIONLESS} units and will therefore tend to disappear by
    * merging with other units.
    * 
    * @return a pointer to the simplified {@link UnitDefinition}.
