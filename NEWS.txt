@@ -1,33 +1,46 @@
 	       JSBML NEWS -- History of user-visible changes
 
 ======================================================================
-Version 1.0-beta2 (xx-xx-2014)
+Version 1.0-rc1 (xx-09-2014)
 ======================================================================
 
 * New Features:
 
-- !!! changed default behavior for the infix parsing. Now it is case sensitive for mathML element...  
+  - Changed the default behavior of the parsing of math infix formula.
+    The methods concerned are JSBML#parseFormula and ASTNode#parseFormula.
+    The changes include a different operator precedence, to match the one
+    used in the L3 libSBML parser. The parsing is also case sensitive for
+    mathML element and boolean operator are supported differently, '&&' and
+    '||' are used instead of 'and' and 'or'. Please consult the javadoc of 
+    those methods for more details, it is also explain there what to do if
+    you want to keep the old behavior.  
 
-- arrays package implemented, version 05/05/14. Only selector and vector supported for now.
+  - Arrays package implemented, version 05/05/14. Only selector and vector
+    supported for now. Validations, flattening available.
 
-- added removeCVTerm methods in Annotation and SBase
+  - Added removeCVTerm methods in Annotation and SBase.
 
-- IdManager ??
+  - An IdManager interface has been introduced to help deal with the
+    different id namespace in SBML core and in the different packages.
 
-- added some missing getter in the L3 packages classes.
+  - Added some missing getter in the L3 packages classes.
 
-- Added support for vector and selector infix parsing to support the arrays package.
+  - Added support for vector and selector infix parsing to support the arrays
+    package.
 
   - The class QualitativeModel in the qual package has been marked deprecated
     and should no longer be used. Aiming to achieve better compatibility to
-    libSBML, the new class QualModelPlugin has been created to be used instead.
+    libSBML, the new class QualModelPlugin has been created to be used
+    instead.
 
-  - JSBML now provides a convenient ModelBuilder that can be used to create SBML
-    models with a significantly lower  number of lines of code for the end user.
+  - JSBML now provides a convenient ModelBuilder that can be used to create
+    SBML models with a significantly lower  number of lines of code for the
+    end user.
     
-  - Improved Java source code documentation (in particular CVTerm)
+  - Improved Java source code documentation (in particular CVTerm).
   
-  - JSBML no longer creates Unit objects that are lacking required attributes.
+  - JSBML no longer creates Unit objects that are lacking required
+    attributes.
   
   - The SBMLDocument has now a convenient method to access all metaIds within
     the document in form of an unmodifiable Collection.
@@ -40,44 +53,62 @@ Version 1.0-beta2 (xx-xx-2014)
   - The toString() methods in UnitDefinition and SpeciesReferences have been
     improved and are now more informative.
     
-  - The suffix "_base", which is used for the identifiers of UnitDefinitions
-    that represent a base unit has been extracted to a static field variable in
-    order to be more easily re-usable.
+  - Species and Compartment 'containsUndeclaredUnits' method has been
+    overridden because in SBML L3 Species and Compartments can inherit a
+    default unit from the Model. This is now considered. In this case,
+    containsUndeclaredUnits will return false even if the object itself does
+    not explicitly declare its unit. This is important because the unit of
+    the element is not undefined.
     
-  - Species and Compartment the containsUndeclaredUnits method has been
-    overridden because in SBML L3 Species and Compartments can inherit a default
-    unit from the Model. This is now considered. In this case,
-    containsUndeclaredUnits will return false even if the object itself does not
-    explicitly declare its unit. This is important because the unit of the
-    element is not undefined.
+  - Added some missing methods to manipulate EvenAssignment in Event and
+    improved the javadoc of the Event class.
+  
+  - Added missing methods to remove GeneralGlyph objects from a Layout object
+    and added other missing remove or unset methods in the layout package.
+  
+  - Added missing remove and unset methods in layout
 
 * Bug Fixes:
 
- - corrected the method SBase.appendNotes that contained several problem.
- 
- - corrected a bug when cloning a text XMLToken
- 
- - fixed the AbstractSBase equals method that could throw a NullPointerException
-   in some case.
- 
- - fixed the CVTerm.removeResource(String) method. Thanks for to Camille Laibe
-   who reported the problem (tracker item #80)
+  - Corrected the method AbstractSBase#getExtensionCount that was always
+    returning 0.
 
- - fixed several issues when cloning 'comp' elements and L3 packages elements
-   in general. Thanks to Chris Myers and the ibiosim team for their help to 
-   find and fix all issues.
+  - Corrected the SBMLWriter so that disabled packages are not written to XML
+    any more (they are still cloned).
+  
+  - Corrected the method SBase.appendNotes that contained several problems.
+ 
+  - Corrected a bug when cloning a text XMLToken.
+ 
+  - Fixed the AbstractSBase equals method that could throw a
+    NullPointerException in some cases and was not testing all fields.
+ 
+  - Fixed the CVTerm.removeResource(String) method. Thanks to Camille
+    Laibe who reported the problem (tracker item #80).
 
- -    method ASTNode.parseFormula so that they catch any Exception or Error and throw a ParseException instead
- 
- -  added the support for the 'root' function in the parsing of math formula
- 
- 
-  - The implementation of the layout package contained unnecessary classes that
-    all represented a Point object (Start, End, Position, BasePoint1, BasePoint2).
-    In order to avoid confusion and to simplify the implementation, those
-    classes have all been deleted.
+  - Fixed several issues when cloning 'comp' elements and L3 packages
+    elements in general. Thanks to Chris Myers and the ibiosim team for their
+    help to find and fix all issues.
 
-  - The SBML qual attribute Output.outputLevel was not read properly from XML.
+  - Corrected the method ASTNode.parseFormula so that they catch any
+    Exception or Error and throw a ParseException instead.
+ 
+  - Added the support for the 'root' function in the parsing of math formula.
+  
+  - Corrected a bug in Event#setListOfEventAssignments method that prevented
+    the listOfEventAssignments to be registered properly in the model (ids and
+    metaids registered).
+    
+  - Corrected the removeFromParent method to make it working for SBasePlugin
+    instances.
+ 
+  - The implementation of the layout package contained unnecessary classes
+    that all represented a Point object (Start, End, Position, BasePoint1,
+    BasePoint2). In order to avoid confusion and to simplify the
+    implementation, those classes have all been deleted.
+
+  - The SBML qual attribute Output.outputLevel was not read properly from
+    XML.
 
   - The required flag for the fbc package was set to true instead of false,
     thanks to Chris Myers for reporting this problem.
@@ -94,10 +125,22 @@ Version 1.0-beta2 (xx-xx-2014)
     
   - ASTNode threw a NullPointerException when trying to un-set its variable.
   
-  - AbstractTreeNode recursive method removeTreeNodeChangeListener(TreeNodeChangeListener, boolean)
-    was not actually recursive.
+  - The AbstractTreeNode recursive method 
+    removeTreeNodeChangeListener(TreeNodeChangeListener, boolean) was not
+    actually recursive.
 
+  - Fixed severals bugs in the experimental render package. Renamed the Group
+    class to RenderGroup and the Curve class to RenderCurve. Added the 
+    possibility to add children to a RenderGroup and corrected
+    the way it was written to XML.
 
+  - Corrected the method Layout#setListOfAdditionalGraphicalObjects to avoid
+    the warnings when cloning the list and to avoid to create a new list when
+    not needed.
+    
+  - Solved source for potential NullPointerException in LaTeXCompiler.
+  
+  
 ======================================================================
 Version 1.0-beta1 (06-03-2014)
 ======================================================================
