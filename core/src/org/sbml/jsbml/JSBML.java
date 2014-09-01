@@ -141,7 +141,7 @@ public class JSBML {
    * a bit different than pure SBML level 1 mathematical expressions, in particular
    * for logical and relational operators.
    * 
-   * @param tree
+   * @param node
    *        the root of the {@link ASTNode} formula expression tree
    * @return the formula from the given AST as an SBML Level 1 text-string
    *         mathematical formula. {@code null} is returned if the given
@@ -258,7 +258,7 @@ public class JSBML {
   /**
    * Reads an SBML document from the given file.
    *	
-   * @param filename
+   * @param fileName
    *            the file name.
    * @return an {@code SBMLDocument} object.
    * @throws XMLStreamException

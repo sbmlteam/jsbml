@@ -34,7 +34,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * Contains all the history information about a {@link Model} (or other
- * {@link SBase} if level >= 3).
+ * {@link SBase} if level &gt;= 3).
  * 
  * @author Marine Dumousseau
  * @author Andreas Dr&auml;ger

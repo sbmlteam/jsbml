@@ -186,7 +186,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
    * Adds a copy of the given Parameter object to the list of local parameters
    * in this KineticLaw.
    * 
-   * @param p
+   * @param parameter
    * @return {@code true} if the {@link #listOfLocalParameters} was
    *         changed as a result of this call.
    * @deprecated use {@link #addLocalParameter(LocalParameter)}.
@@ -197,10 +197,10 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
   }
 
   /**
-   * This method creates a new {@link LocalParameter} with identical
+   * Creates a new {@link LocalParameter} with identical
    * properties as the given {@link Parameter} and adds this new
    * {@link LocalParameter} to this {@link KineticLaw}'s
-   * {@link #listOfLocalParameter}s.
+   * {@code listOfLocalParameter}s.
    * 
    * @param p
    * @deprecated A {@link KineticLaw} can only contain instances of
@@ -229,7 +229,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
   }
 
   /**
-   * @param string
+   * @param id
    * @return
    */
   public LocalParameter createLocalParameter(String id) {
@@ -782,7 +782,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
   /**
    * Removes a {@link LocalParameter} from this object based on its 'id'.
    * 
-   * @param i
+   * @param id
    * @return {@code true} if the operation was performed successfully.
    */
   public boolean removeLocalParameter(String id) {

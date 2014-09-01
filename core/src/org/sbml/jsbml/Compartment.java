@@ -712,7 +712,7 @@ public class Compartment extends Symbol {
    * 
    * @param size
    * @throws PropertyNotAvailableException
-   *             in case of Level < 2.
+   *             in case of Level &lt; 2.
    */
   public void setSize(double size) {
     if (getLevel() < 2) {
@@ -726,8 +726,8 @@ public class Compartment extends Symbol {
    * 
    * @param spatialDimension
    * @throws IllegalArgumentException
-   *             if spatialDimension < 0 or if spatialDimension > 3
-   * @throws PropertyNotAvailableException if Level < 2.
+   *             if spatialDimension &lt; 0 or if spatialDimension &gt; 3
+   * @throws PropertyNotAvailableException if Level &lt; 2.
    */
   public void setSpatialDimensions(double spatialDimension) {
     if (getLevel() < 2) {
@@ -762,7 +762,7 @@ public class Compartment extends Symbol {
    * 
    * @param spatialDimensions
    * @throws IllegalArgumentException
-   *             if spatialDimension < 0 or if spatialDimension > 3
+   *             if spatialDimension &lt; 0 or if spatialDimension &gt; 3
    */
   public void setSpatialDimensions(short spatialDimensions) {
     setSpatialDimensions((int) spatialDimensions);

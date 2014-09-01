@@ -447,9 +447,8 @@ public class Unit extends AbstractSBase {
 
     /**
      * Creates a unit ontology identifier for this {@link Kind} if possible
-     * and returns it. See {@link http
-     * ://obo.cvs.sourceforge.net/viewvc/obo/obo
-     * /ontology/phenotype/unit.obo} for more information.
+     * and returns it. See <a href="http://obo.cvs.sourceforge.net/viewvc/obo/obo/ontology/phenotype/unit.obo">the Unit Ontology</a>
+     * for more information.
      * 
      * @return the unit ontology identifier for this {@link Kind} or null if
      *         this {@link Kind} has no corresponding type in the unit
@@ -473,8 +472,9 @@ public class Unit extends AbstractSBase {
 
     /**
      * Looks for the corresponding unit ontology resource for this
-     * {@link Kind}. Please visit {@link http://bioportal.bioontology.org/visualize/44519/?conceptid=UO%3A0000003}
-     * and {@link http://www.ebi.ac.uk/miriam/main/datatypes/MIR:00000136}
+     * {@link Kind}. Please visit <a href="http://bioportal.bioontology.org/visualize/44519/?conceptid=UO%3A0000003">
+     * http://bioportal.bioontology.org/visualize/44519/?conceptid=UO%3A0000003</a>
+     * and <a href="http://www.ebi.ac.uk/miriam/main/datatypes/MIR:00000136">http://www.ebi.ac.uk/miriam/main/datatypes/MIR:00000136</a>
      * for more details.
      * 
      * @return the unit ontology number of this {@link Kind} or -1 if no
@@ -1764,12 +1764,12 @@ public class Unit extends AbstractSBase {
 
   /**
    * Predicate for testing whether this Unit is of the {@link Kind}
-   * {@link DIMENSIONLESS}. A unit is also dimensionless if it does not
+   * {@link Kind#DIMENSIONLESS}. A unit is also dimensionless if it does not
    * declare an offset and at the same time its exponent is zero. In this case
    * the unit represents a dimensionless quantity.
    * 
    * @return True if this unit represents a dimensionless quantity, i.e., its
-   *         {@link Kind} is {@link DIMENSIONLESS} or offset = exponent = 0
+   *         {@link Kind} is {@link Kind#DIMENSIONLESS} or offset = exponent = 0
    */
   public boolean isDimensionless() {
     return (kind == Kind.DIMENSIONLESS)
@@ -2281,7 +2281,7 @@ public class Unit extends AbstractSBase {
    * 
    * @param multiplier
    * @throws PropertyNotAvailableException
-   *             if Level < 2 and the given {@code multiplier != 1}.
+   *             if Level &lt; 2 and the given {@code multiplier != 1}.
    */
   public void setMultiplier(double multiplier) {
     if ((getLevel() < 2) && (multiplier != 1d)) {

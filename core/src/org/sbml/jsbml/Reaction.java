@@ -98,8 +98,10 @@ UniqueNamedSBase {
   }
 
   /**
+   * Creates a new Reaction instance from a given SBML level and version.
    * 
-   * @param id
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public Reaction(int level, int version) {
     super(level, version);
@@ -538,7 +540,7 @@ UniqueNamedSBase {
   }
 
   /**
-   * Only available if Level >= 3.
+   * Only available if Level &gt;= 3.
    * 
    * @return the compartmentID of this {@link Reaction}. The empty
    *         {@link String} if it is not set.
@@ -1188,11 +1190,11 @@ UniqueNamedSBase {
 
   /**
    * Sets the compartmentID of this Reaction to 'compartmentID'. This method
-   * is only available for Level >= 3.
+   * is only available for Level &gt;= 3.
    * 
    * @param compartmentID
    * @throws PropertyNotAvailableException
-   *             if Level < 3.
+   *             if Level &lt; 3.
    */
   public void setCompartment(String compartmentID) {
     if (getLevel() < 3) {

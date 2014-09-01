@@ -446,7 +446,7 @@ UniqueNamedSBase {
    * @param n the index of the {@link EventAssignment} element to get.
    * @return an element from the listOfEventAssignments at the given index.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public EventAssignment getEventAssignment(int n) {
     if (isSetListOfEventAssignments()) {
@@ -459,7 +459,7 @@ UniqueNamedSBase {
   /**
    * Gets an element from the listOfEventAssignments, with the given id.
    *
-   * @param id the id of the {@link EventAssignment} element to get.
+   * @param eventAssignmentId the id of the {@link EventAssignment} element to get.
    * @return an element from the listOfEventAssignments with the given id or null.
    */
   public EventAssignment getEventAssignment(String eventAssignmentId) {
@@ -548,11 +548,13 @@ s   * @return the list of eventAssignments of this Event.
   }
 
   /**
+   * Returns the {@link UnitDefinition} instance of the model which matches
+   * the timesUnitsID of this {@link Event}.
    * 
    * @return the {@link UnitDefinition} instance of the model which matches
    *         the timesUnitsID of this {@link Event}. Returns {@code null} if there is
-   *         no {@link UnitDefinition} id which matches the
-   *         {@link #timeUnitsID} of this {@link Event}.
+   *         no {@link UnitDefinition} id which matches the value of the
+   *         {@code timeUnits} attribute of this {@link Event}.
    * @deprecated
    */
   @Deprecated
@@ -761,7 +763,7 @@ s   * @return the list of eventAssignments of this Event.
    * @param i the index where to remove the {@link EventAssignment}.
    * @return the specified element, if it was successfully found and removed.
    * @throws IndexOutOfBoundsException if the listOf is not set or
-   * if the index is out of bound (index < 0 || index > list.size).
+   * if the index is out of bound (index &lt; 0 || index &gt; list.size).
    */
   public EventAssignment removeEventAssignment(int i) {
     if ((i >= getNumEventAssignments()) || (i < 0)) {
@@ -802,7 +804,7 @@ s   * @return the list of eventAssignments of this Event.
    *
    * @param eventAssignment the element to be removed from the list.
    * @return true if the list contained the specified element and it was removed.
-   * @see List#remove(Object)
+   * @see List#remove
    */
   public boolean removeEventAssignment(EventAssignment eventAssignment) {
     if (isSetListOfEventAssignments()) {
@@ -844,7 +846,7 @@ s   * @return the list of eventAssignments of this Event.
   /**
    * @param priority
    *            the priority to set
-   * @throws PropertyNotAvailableException if Level < 3.
+   * @throws PropertyNotAvailableException if Level &lt; 3.
    */
   public void setPriority(Priority priority) {
     if (getLevel() < 3) {

@@ -52,6 +52,7 @@ public class IdentifierException extends SBMLException {
   public static final String DUPLICATE_IDENTIFIER_MSG = "Cannot set duplicate {0}identifier {1} for {2}.";
 
   /**
+   * Creates a new {@link IdentifierException} instance.
    * 
    * @param sb
    * @param id
@@ -64,7 +65,9 @@ public class IdentifierException extends SBMLException {
   }
 
   /**
-   * @param abstractSBase
+   * Creates a new {@link IdentifierException} instance.
+   * 
+   * @param sb
    * @param metaId
    */
   public IdentifierException(SBase sb, String metaId) {

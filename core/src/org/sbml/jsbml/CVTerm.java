@@ -64,7 +64,7 @@ public class CVTerm extends AnnotationElement {
 
   /**
    * This {@code enum} list all the possible MIRIAM qualifiers.
-   * @see http://co.mbine.org/standards/qualifiers
+   * @doc.note See http://co.mbine.org/standards/qualifiers
    * 
    */
   public static enum Qualifier {
@@ -881,7 +881,7 @@ public class CVTerm extends AnnotationElement {
    * 
    * @param index
    * @return the removed URI.
-   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size())
+   * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;= size())
    */
   public String removeResource(int index) {
     return resourceURIs.remove(index);
@@ -903,7 +903,7 @@ public class CVTerm extends AnnotationElement {
    * @param qualifier
    * @throws IllegalArgumentException if the {@link Qualifier} is not a biological one or if
    * the {@link Type} was not set to {@link Type#BIOLOGICAL_QUALIFIER}.
-   * @see  {@link #setQualifier(Qualifier)}
+   * @see  #setQualifier(Qualifier)
    */
   public void setBiologicalQualifierType(Qualifier qualifier) {
     if (qualifier != null) {
@@ -943,7 +943,7 @@ public class CVTerm extends AnnotationElement {
    * @param qualifier
    * @throws IllegalArgumentException if the {@link Qualifier} is not a model one or if
    * the {@link Type} was not set to {@link Type#MODEL_QUALIFIER}.
-   * @see  {@link #setQualifier(Qualifier)}
+   * @see #setQualifier(Qualifier)
    */
   public void setModelQualifierType(Qualifier qualifier) {
     if (qualifier != null) {
@@ -1010,7 +1010,7 @@ public class CVTerm extends AnnotationElement {
    * {@link Qualifier#BQB_UNKNOWN} or {@link Qualifier#BQM_UNKNOWN}.
    * 
    * @param type
-   * @see  {@link #setQualifier(Qualifier)}
+   * @see  #setQualifier(Qualifier)
    */
   public void setQualifierType(Type type) {
     if ((type == Type.MODEL_QUALIFIER)
