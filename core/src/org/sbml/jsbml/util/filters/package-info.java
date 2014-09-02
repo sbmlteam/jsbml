@@ -21,9 +21,9 @@
  */
 
 /**
- * Filter are useful to decide whether or not to accept a certain item.
- * All classes in this package implement the interface Filter that can
- * be used to, e.g., select entries from a {@link ListOf} object.
+ * Filters are useful to decide whether or not to accept a certain item.
+ * All classes in this package implement the interface {@link org.sbml.jsbml.util.filters.Filter} that can
+ * be used to, e.g., select entries from a {@link org.sbml.jsbml.ListOf} object.
  * 
  * @version $Rev$
  * @since 0.8

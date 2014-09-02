@@ -57,9 +57,10 @@ implements UniqueNamedSBase {
   }
 
   /**
+   * Creates a SimpleSpeciesReference instance. 
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public SimpleSpeciesReference(int level, int version) {
     this(null, level, version);
@@ -80,15 +81,15 @@ implements UniqueNamedSBase {
   /**
    * Creates a SimpleSpeciesReference instance from a given Species.
    * 
-   * @param ssr
+   * @param species
    */
-  public SimpleSpeciesReference(Species s) {
-    this(s.getLevel(), s.getVersion());
-    speciesID = s.isSetId() ? new String(s.getId()) : null;
+  public SimpleSpeciesReference(Species species) {
+    this(species.getLevel(), species.getVersion());
+    speciesID = species.isSetId() ? new String(species.getId()) : null;
   }
 
   /**
-   * 
+   * Creates a SimpleSpeciesReference instance. 
    * @param id
    */
   public SimpleSpeciesReference(String id) {
@@ -96,21 +97,23 @@ implements UniqueNamedSBase {
   }
 
   /**
-   * 
+   * Creates a SimpleSpeciesReference instance.
+   *  
    * @param id
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public SimpleSpeciesReference(String id, int level, int version) {
     this(id, null, level, version);
   }
 
   /**
+   * Creates a SimpleSpeciesReference instance. 
    * 
    * @param id
    * @param name
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public SimpleSpeciesReference(String id, String name, int level, int version) {
     super(id, name, level, version);

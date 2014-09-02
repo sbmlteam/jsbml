@@ -138,7 +138,7 @@ public class FormulaCompilerNoPiecewise extends FormulaCompiler {
   /**
    * Sets the {@link String} that will be used to replace ' and ' (the mathML
    * &#60;and&#62; element) in the boolean expressions. The default value used
-   * is ' & '. If null is given, no replacement will be performed.
+   * is ' &amp; '. If null is given, no replacement will be performed.
    * 
    * @param andReplacement
    */

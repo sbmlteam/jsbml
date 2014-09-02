@@ -291,10 +291,12 @@ public abstract class XMLToken extends AbstractTreeNode {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> OPERATION_FAILED
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#OPERATION_FAILED}
+   * </ul>
    * <p>
-   * @jsbml.note if local name with the same namespace URI already exists in the
+   * @jsbml.note if a local name with the same namespace URI already exists in the
    * attribute set, its value and prefix will be replaced.
    * <p>
    */
@@ -332,10 +334,12 @@ public abstract class XMLToken extends AbstractTreeNode {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> OPERATION_FAILED
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#OPERATION_FAILED}
+   * </ul>
    * <p>
-   * @jsbml.note if local name with the same namespace URI already exists in the
+   * @jsbml.note if a local name with the same namespace URI already exists in the
    * attribute set, its value and prefix will be replaced.
    * <p>
    */
@@ -375,10 +379,12 @@ public abstract class XMLToken extends AbstractTreeNode {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> OPERATION_FAILED
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#OPERATION_FAILED}
+   * </ul>
    * <p>
-   * @jsbml.note if local name with the same namespace URI already exists in the
+   * @jsbml.note if a local name with the same namespace URI already exists in the
    * attribute set, its value and prefix will be replaced.
    * <p>
    */
@@ -419,8 +425,10 @@ public abstract class XMLToken extends AbstractTreeNode {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> OPERATION_FAILED
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#OPERATION_FAILED}
+   * </ul>
    */
   public int addAttr(XMLTriple triple, String value) {
 
@@ -457,8 +465,10 @@ public abstract class XMLToken extends AbstractTreeNode {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> OPERATION_FAILED
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#OPERATION_FAILED}
+   * </ul>
    */
   public int addNamespace(String uri) {
 
@@ -492,8 +502,10 @@ public abstract class XMLToken extends AbstractTreeNode {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> OPERATION_FAILED
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#OPERATION_FAILED}
+   * </ul>
    * @throws IllegalArgumentException if one of the arguments is null or if the prefix is malformed.
    */
   public int addNamespace(String uri, String prefix) {
@@ -553,8 +565,10 @@ public abstract class XMLToken extends AbstractTreeNode {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> OPERATION_FAILED
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#OPERATION_FAILED}
+   * </ul>
    */
   public int clearAttributes() {
 
@@ -579,8 +593,10 @@ public abstract class XMLToken extends AbstractTreeNode {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> OPERATION_FAILED
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#OPERATION_FAILED}
+   * </ul>
    */
   public int clearNamespaces() {
 
@@ -1297,9 +1313,11 @@ public abstract class XMLToken extends AbstractTreeNode {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> OPERATION_FAILED
-   * <li> INDEX_EXCEEDS_SIZE
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#OPERATION_FAILED}
+   * <li> {@link JSBML#INDEX_EXCEEDS_SIZE}
+   * </ul>
    */
   public int removeAttr(int n) {
 
@@ -1324,8 +1342,10 @@ public abstract class XMLToken extends AbstractTreeNode {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> OPERATION_FAILED
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#OPERATION_FAILED}
+   * </ul>
    */
   public int removeAttr(String name) {
 
@@ -1351,8 +1371,10 @@ public abstract class XMLToken extends AbstractTreeNode {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> OPERATION_FAILED
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#OPERATION_FAILED}
+   * </ul>
    */
   public int removeAttr(String name, String uri) {
 
@@ -1377,8 +1399,10 @@ public abstract class XMLToken extends AbstractTreeNode {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> OPERATION_FAILED
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#OPERATION_FAILED}
+   * </ul>
    */
   public int removeAttr(XMLTriple triple) {
 
@@ -1404,9 +1428,11 @@ public abstract class XMLToken extends AbstractTreeNode {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> OPERATION_FAILED
-   * <li> INDEX_EXCEEDS_SIZE
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#OPERATION_FAILED}
+   * <li> {@link JSBML#INDEX_EXCEEDS_SIZE}
+   * </ul>
    */
   public int removeNamespace(int index) {
 
@@ -1428,8 +1454,10 @@ public abstract class XMLToken extends AbstractTreeNode {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> OPERATION_FAILED
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#OPERATION_FAILED}
+   * </ul>
    */
   public int removeNamespace(String prefix) {
 
@@ -1452,8 +1480,10 @@ public abstract class XMLToken extends AbstractTreeNode {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> OPERATION_FAILED
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#OPERATION_FAILED}
+   * </ul>
    * <p>
    * @jsbml.note This function replaces the existing {@link XMLAttributes} with the new one.
    */
@@ -1484,6 +1514,8 @@ public abstract class XMLToken extends AbstractTreeNode {
 
 
   /**
+   * Sets the characters in this {@link XMLToken}.
+   * 
    * @param chars the characters to set
    */
   public void setCharacters(String chars) {
@@ -1498,7 +1530,9 @@ public abstract class XMLToken extends AbstractTreeNode {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * </ul>
    */
   public int setEnd() {
 
@@ -1514,8 +1548,10 @@ public abstract class XMLToken extends AbstractTreeNode {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> OPERATION_FAILED
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#OPERATION_FAILED}
+   * </ul>
    */
   public int setEOF() {
     boolean oldValue = isEOF;
@@ -1534,8 +1570,10 @@ public abstract class XMLToken extends AbstractTreeNode {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> OPERATION_FAILED
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#OPERATION_FAILED}
+   * </ul>
    * 
    * <p>
    * @jsbml.note This function replaces the existing {@link XMLNamespaces} with the new one.
@@ -1573,8 +1611,10 @@ public abstract class XMLToken extends AbstractTreeNode {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> OPERATION_FAILED
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#OPERATION_FAILED}
+   * </ul>
    */
   public int setTriple(XMLTriple triple) {
 
@@ -1608,7 +1648,9 @@ public abstract class XMLToken extends AbstractTreeNode {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * </ul>
    */
   public int unsetEnd() {
 

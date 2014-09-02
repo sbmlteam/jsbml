@@ -312,7 +312,7 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
   private boolean printNameIfAvailable;
 
   /**
-   * 
+   * Creates a new {@link LaTeXCompiler} instance.
    * 
    */
   public LaTeXCompiler() {
@@ -320,8 +320,9 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
   }
 
   /**
+   * Creates a new {@link LaTeXCompiler} instance.
    * 
-   * @param settings
+   * @param namesInEquations
    */
   public LaTeXCompiler(boolean namesInEquations) {
     setPrintNameIfAvailable(namesInEquations);

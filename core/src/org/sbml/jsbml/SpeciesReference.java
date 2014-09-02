@@ -88,7 +88,6 @@ Variable {
    * or equal to 3, the constant, stoichiometryMath and stoichiometry are
    * {@code null}.
    * 
-   * @param spec
    */
   public SpeciesReference() {
     super();
@@ -96,9 +95,10 @@ Variable {
   }
 
   /**
+   * Creates a SpeciesReference instance.
    * 
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public SpeciesReference(int level, int version) {
     this(null, level, version);
@@ -109,7 +109,7 @@ Variable {
    * level is superior or equal to 3, the constant, stoichiometryMath and
    * stoichiometry are {@code null}.
    * 
-   * @param speciesReference
+   * @param species
    */
   public SpeciesReference(Species species) {
     super(species);
@@ -146,6 +146,7 @@ Variable {
   }
 
   /**
+   * Creates a SpeciesReference instance.
    * 
    * @param id
    */
@@ -155,21 +156,23 @@ Variable {
   }
 
   /**
+   * Creates a SpeciesReference instance.
    * 
    * @param id
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public SpeciesReference(String id, int level, int version) {
     this(id, null, level, version);
   }
 
   /**
+   * Creates a SpeciesReference instance.
    * 
    * @param id
    * @param name
-   * @param level
-   * @param version
+   * @param level the SBML level
+   * @param version the SBML version
    */
   public SpeciesReference(String id, String name, int level, int version) {
     super(id, name, level, version);
@@ -330,7 +333,7 @@ Variable {
   /**
    * 
    * @return the stoichiometry value of this {@link SpeciesReference} if it is
-   *         set, otherwise, depending on the Level attribute, 1 for Level < 3
+   *         set, otherwise, depending on the Level attribute, 1 for Level &lt; 3
    *         or {@link Double#NaN}.
    */
   public double getStoichiometry() {
@@ -544,7 +547,7 @@ Variable {
   }
 
   /**
-   * Sets the {@link StoichiometryMath} of this {@link SpeciesReference).
+   * Sets the {@link StoichiometryMath} of this {@link SpeciesReference}.
    * 
    * @param math
    * @deprecated

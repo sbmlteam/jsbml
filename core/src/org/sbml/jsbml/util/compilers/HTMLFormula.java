@@ -48,7 +48,7 @@ public class HTMLFormula extends MathMLCompiler {
 
   /**
    * HTML code for the reversible reaction arrow whose upper side is directed
-   * to the right &ldquo;&#x21cc;&rdquo;.
+   * to the right &ldquo;&#8652;&rdquo;.
    */
   public static final String REVERSIBLE_REACTION_ARROW = "&#x21cc;";
 

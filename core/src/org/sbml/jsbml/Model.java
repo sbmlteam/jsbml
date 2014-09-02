@@ -4538,7 +4538,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
    * 
    * @param extentUnitsID
    * @throws PropertyNotAvailableException
-   *             if Level < 3.
+   *             if Level &lt; 3.
    */
   public void setExtentUnits(String extentUnitsID) {
     if (getLevel() < 3) {

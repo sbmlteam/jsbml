@@ -865,7 +865,7 @@ public class Species extends Symbol {
    *             Version 1. Since Level 2 Version 2 it has been marked as a
    *             deprecated property, but has been completely removed in SBML
    *             Level 3.
-   * @throws PropertyNotAvailableException if Level >= 3.
+   * @throws PropertyNotAvailableException if Level &gt;= 3.
    */
   @Deprecated
   public void setCharge(int charge) {
@@ -917,7 +917,7 @@ public class Species extends Symbol {
 
   /**
    * Sets the conversionFactorID of this {@link Species} to the id of
-   * 'conversionFactor'. This is only possible if Level >= 3.
+   * 'conversionFactor'. This is only possible if Level &gt;= 3.
    * 
    * @param conversionFactor
    */
@@ -928,10 +928,10 @@ public class Species extends Symbol {
 
   /**
    * Sets the conversionFactorID of this {@link Species} to
-   * 'conversionFactorID'. This is only possible if Level >= 3.
+   * 'conversionFactorID'. This is only possible if Level &gt;= 3.
    * 
    * @param conversionFactorID
-   * @throws PropertyNotAvailableException if Level < 3.
+   * @throws PropertyNotAvailableException if Level &lt; 3.
    */
   public void setConversionFactor(String conversionFactorID) {
     if (getLevel() < 3) {
@@ -953,7 +953,7 @@ public class Species extends Symbol {
    * Sets hasOnlySubstanceUnits Boolean
    * 
    * @param hasOnlySubstanceUnits
-   * @throws PropertyNotAvailableException if Level < 2.
+   * @throws PropertyNotAvailableException if Level &lt; 2.
    */
   public void setHasOnlySubstanceUnits(boolean hasOnlySubstanceUnits) {
     if (getLevel() < 2) {

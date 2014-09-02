@@ -51,7 +51,7 @@ public abstract class AnnotationElement extends AbstractTreeNode {
   /**
    * Clone constructor.
    * 
-   * @param annotation
+   * @param annotation the {@link AnnotationElement} to copy.
    */
   public AnnotationElement(AnnotationElement annotation) {
     super(annotation);

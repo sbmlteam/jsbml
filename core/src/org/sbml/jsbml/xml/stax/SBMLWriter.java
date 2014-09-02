@@ -56,7 +56,6 @@ import org.codehaus.staxmate.out.SMOutputDocument;
 import org.codehaus.staxmate.out.SMOutputElement;
 import org.codehaus.staxmate.out.SMRootFragment;
 import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.Annotation;
 import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.JSBML;
@@ -394,8 +393,7 @@ public class SBMLWriter {
    * <p> Allowed are
    * only tabs and white spaces, i.e., {@code '\t'} and {@code ' '}.
    * 
-   * @param the character to be used for indentation
-   *            the indentSymbol to set
+   * @param indentSymbol the character to be used for indentation
    */
   public void setIndentationChar(char indentSymbol) {
     if ((indentSymbol != ' ') && (indentSymbol != '\t')) {

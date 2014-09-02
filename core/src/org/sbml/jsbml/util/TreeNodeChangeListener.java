@@ -25,6 +25,8 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.SBMLDocument;
+
 /**
  * A listener interface that allows applications to get notified if the state of
  * any {@link TreeNode} object changes.
@@ -52,9 +54,9 @@ public interface TreeNodeChangeListener extends PropertyChangeListener {
    * is also provided. In this way, an implementing class
    * can identify the location within the tree where it was before.
    * 
-   * @param node
-   *        This element is not longer part of the {@link SBMLDocument}.
+   * @param event
+   *        The event containing information about the removed {@link TreeNode}.
    */
-  public void nodeRemoved(TreeNodeRemovedEvent evt);
+  public void nodeRemoved(TreeNodeRemovedEvent event);
 
 }

@@ -32,7 +32,7 @@ import org.sbml.jsbml.RateRule;
  * {@link SBMLCoreParser#processEndDocument(org.sbml.jsbml.SBMLDocument)} if the
  * level of the model is equal to 1, we loop over the list of rules and clone
  * the rules into {@link RateRule} or {@link AssignmentRule}.
- * <p/>
+ * <p>
  * As this class is supposed to be used only inside the {@link SBMLCoreParser},
  * it's visibility is put at the package level.
  * 

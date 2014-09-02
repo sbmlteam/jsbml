@@ -22,6 +22,7 @@
 package org.sbml.jsbml;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -804,7 +805,7 @@ s   * @return the list of eventAssignments of this Event.
    *
    * @param eventAssignment the element to be removed from the list.
    * @return true if the list contained the specified element and it was removed.
-   * @see List#remove
+   * @see List#remove(Object)
    */
   public boolean removeEventAssignment(EventAssignment eventAssignment) {
     if (isSetListOfEventAssignments()) {

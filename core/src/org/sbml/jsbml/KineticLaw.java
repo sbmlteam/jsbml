@@ -819,7 +819,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
   /**
    * Removes a {@link LocalParameter} from this object based on its 'id'.
    * 
-   * @param i
+   * @param id
    * @return {@code true} if the operation was performed successfully.
    * @deprecated use {@link #removeLocalParameter(String)}
    */

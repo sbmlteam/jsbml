@@ -45,7 +45,7 @@ public interface SBaseWithUnit extends SBaseWithDerivedUnit {
 
   /**
    * 
-   * @return The UnitDefinition instance which has the {@link #unitsID} of
+   * @return The {@link UnitDefinition} instance which has the {@code unitsID} of
    *         this {@link SBaseWithUnit} as id. Null if it doesn't
    *         exist. In case that the unit of this {@link SBaseWithUnit}
    *         represents a base {@link Unit}, a new {@link UnitDefinition} will

@@ -482,7 +482,7 @@
 			<tag name="jsbml.note" description="Note"/>
 			<tag name="jsbml.warning"/>
 			<tag name="doc.note"  description="Documentation note"/>
-
+			<tag name="date" description="Last modified:" />
 		</javadoc>
 	</target>
 

@@ -575,9 +575,11 @@ public class Annotation extends AnnotationElement {
    * 
    * <p>An {@link Annotation} is initialized if
    * at least one of the following is true:
+   * <ul>
    * <li> there is some non RDF annotation
    * <li> one or more {@link CVTerm} are defined
    * <li> there is an history defined.
+   * </ul>
    * 
    * @return {@code true} if the Annotation is initialized
    */
@@ -654,8 +656,10 @@ public class Annotation extends AnnotationElement {
    * 
    * <p>An Annotation is initialized if
    * at least one of the following is true:
+   * <ul>
    * <li> one or more CVTerm are defined
    * <li> there is an history defined.
+   * </ul>
    * <p>
    * 
    * @return {@code true} if the RDF part of the Annotation is initialized
@@ -717,7 +721,7 @@ public class Annotation extends AnnotationElement {
    * 
    * @param index the index
    * @return the removed {@link CVTerm}.
-   * @throws IndexOutOfBoundsException  if the index is out of range (index < 0 || index >= size())
+   * @throws IndexOutOfBoundsException  if the index is out of range (index &lt; 0 || index &gt;= size())
    */
   public CVTerm removeCVTerm(int index) {
     if (listOfCVTerms == null) {
@@ -787,7 +791,7 @@ public class Annotation extends AnnotationElement {
   /**
    * Sets the value of the non RDF annotations
    * 
-   * @param nonRDFAnnotation
+   * @param nonRDFAnnotationStr
    * @throws XMLStreamException
    */
   public void setNonRDFAnnotation(String nonRDFAnnotationStr) throws XMLStreamException {
@@ -797,8 +801,7 @@ public class Annotation extends AnnotationElement {
   }
 
   /**
-   * Clears the {@link List} of {@link CVTerm}s and removes unnecessary
-   * entries from the {@link #rdfAnnotationNamespaces}.
+   * Clears the {@link List} of {@link CVTerm}s.
    */
   public void unsetCVTerms() {
     if (listOfCVTerms != null) {
@@ -841,7 +844,7 @@ public class Annotation extends AnnotationElement {
    * {@link SBase}.
    * 
    * @param prefix the prefix of the namespace to add
-   * @param namespace the namespace to add
+   * @param uri the namespace uri
    * 
    */
   public void addDeclaredNamespace(String prefix, String uri)
