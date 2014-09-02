@@ -547,7 +547,6 @@ public class ASTNodeValue {
    * This method is analog to the toDouble method but tries to convert this
    * value into an integer.
    * 
-   * @param compiler
    * @return
    * @throws SBMLException
    */
@@ -601,7 +600,7 @@ public class ASTNodeValue {
    *         In case this {@link ASTNodeValue} contains an instance of
    *         {@link Boolean}, zero is returned for false and one for true. If
    *         the value is null or cannot be converted to any number,
-   *         {@link Double.NaN} will be returned. Note that if the value of
+   *         {@link Double#NaN} will be returned. Note that if the value of
    *         this container is an instance of
    *         {@link CallableSBase}, the value can only be
    *         converted to a number if the compiler associated with this

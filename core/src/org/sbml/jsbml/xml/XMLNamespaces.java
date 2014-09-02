@@ -164,7 +164,9 @@ public class XMLNamespaces {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * </ul>
    * <p>
    */
   public int add(String uri, String prefix) {
@@ -190,12 +192,13 @@ public class XMLNamespaces {
    * is already present in this {@link XMLNamespaces} object.
    * <p>
    * @param uri a string, the uri for the namespace
-   * @param prefix a string, the prefix for the namespace
    * <p>
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * </ul>
    * <p>
    */
   public int add(String uri) {
@@ -214,8 +217,10 @@ public class XMLNamespaces {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> INDEX_EXCEEDS_SIZE
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#INDEX_EXCEEDS_SIZE}
+   * </ul>
    */
   public int remove(int index) {
 
@@ -244,7 +249,9 @@ public class XMLNamespaces {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * </ul>
    * <p>
    * @see #remove(int index)
    */
@@ -264,7 +271,9 @@ public class XMLNamespaces {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * </ul>
    * <p>
    * @see #remove(int index)
    */

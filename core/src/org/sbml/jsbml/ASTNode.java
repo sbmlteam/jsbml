@@ -2199,7 +2199,7 @@ public class ASTNode extends AbstractTreeNode {
    *            the index of the child to get
    * @return the child of this {@link ASTNode} with the given index.
    * @throws IndexOutOfBoundsException
-   *             - if the index is out of range (index < 0 || index >=
+   *             - if the index is out of range (index &lt; 0 || index &gt;=
    *             size()).
    */
   public ASTNode getChild(int index) {
@@ -2967,7 +2967,7 @@ public class ASTNode extends AbstractTreeNode {
 
   /**
    * Returns {@code true} if this node is a MathML relational operator, meaning ==,
-   * >=, >, <, and !=.
+   * &gt;=, &gt;, &lt;, &lt;=, and !=.
    * 
    * @return {@code true} if this ASTNode is a MathML relational operator, {@code false}
    *         otherwise.

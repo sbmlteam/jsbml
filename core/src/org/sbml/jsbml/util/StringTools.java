@@ -362,7 +362,7 @@ public class StringTools {
    * @param valueAsStr
    *            a double as a String
    * @return the String as a double. If the String is not a valid double
-   *         number, {@link Double.NaN} is returned.
+   *         number, {@link Double#NaN} is returned.
    */
   public static double parseSBMLDouble(String valueAsStr) {
 

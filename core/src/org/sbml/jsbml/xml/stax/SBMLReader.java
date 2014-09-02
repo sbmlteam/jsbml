@@ -171,7 +171,7 @@ public class SBMLReader {
 
   /**
    * Reads the file that is passed as argument and write it to the console,
-   * using the method {@link SBMLWriter.write}.
+   * using the method {@link SBMLWriter#write(SBMLDocument, java.io.OutputStream)}.
    * 
    * @param args the command line arguments, we are taking the first one as
    * the file name to read.

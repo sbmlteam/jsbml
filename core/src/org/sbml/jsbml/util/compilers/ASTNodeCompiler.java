@@ -378,7 +378,7 @@ public interface ASTNodeCompiler {
 
   /**
    * 
-   * @param functionDefinition name
+   * @param functionDefinitionName
    * @param args
    *            Values to be inserted into the parameter list of the
    *            function.
@@ -614,7 +614,7 @@ public interface ASTNodeCompiler {
 
   /**
    * 
-   * @param value
+   * @param nodes
    * @return
    * @throws SBMLException
    */

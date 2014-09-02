@@ -173,15 +173,15 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Appends 'notes' to the notes String of this object.
    * 
-   * @param notes
-   * @throws XMLStreamException
+   * @param notes the notes to be added.
+   * @throws XMLStreamException if an error occurs while parsing the notes String.
    */
   public void appendNotes(String notes) throws XMLStreamException;
 
   /**
    * Appends 'notes' to the notes of this object.
    * 
-   * @param notes
+   * @param notes the notes to be added.
    */
   public void appendNotes(XMLNode notes);
 
@@ -223,6 +223,8 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * Enables or disables the given SBML Level 3 package on this {@link SBMLDocument}.
    * 
    * @param packageURIOrName a package namespace URI or package name
+   * @param enabled a boolean to tell if the package need to be enabled or disabled. It {@code true}
+   * the package will be enabled, otherwise it will be disabled.
    */
   public void enablePackage(String packageURIOrName, boolean enabled);
 
@@ -230,7 +232,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * Returns {@code true} if and only if the given {@link SBase} has exactly the same
    * properties like this {@link SBase} instance.
    * 
-   * @param sbase
+   * @param sbase the {@link SBase} to be compared to.
    * @return {@code true} if and only if the given {@link Object} is an instance of
    *         {@link SBase} that has exactly the same properties like this
    *         SBase instance.
@@ -316,7 +318,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * 
    * @return the content of the 'annotation' sub-element of this object as a
    * String.
-   * @throws XMLStreamException
+   * @throws XMLStreamException if an error occurs while writing the {@link XMLNode} to a String 
    */
   public String getAnnotationString() throws XMLStreamException;
 
@@ -327,7 +329,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * @param index index of the element to return
    * @return the {@link CVTerm} instance at the position 'index' in the list of
    *         {@link CVTerm}s of this object.
-   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size()) or if the 
+   * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;= size()) or if the 
    * list of {@link CVTerm} is not set. 
    */
   public CVTerm getCVTerm(int index);
@@ -395,7 +397,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * not set.
    * 
    * @return the SBML level of this SBML object.
-   * @see getVersion()
+   * @see #getVersion()
    */
   public int getLevel();
 
@@ -445,7 +447,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * 
    * @return the notes sub-element of this object as a {@link String}. If no
    *         notes are set, an empty {@link String} will be returned.
-   * @throws XMLStreamException
+   * @throws XMLStreamException if an error occurs while writing the {@link XMLNode} to a String.
    */
   public String getNotesString() throws XMLStreamException;
 
@@ -533,7 +535,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * Return -1 if it is not set.
    * 
    * @return the SBML version of this SBML object.
-   * @see getLevel()
+   * @see #getLevel()
    */
   public int getVersion();
 
@@ -724,6 +726,8 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * If the level and version of sbase are set but not valid, an {@link Exception} is
    * thrown.
    * 
+   * @param sbase the {@link SBase} to be registered.
+   * 
    * @throws LevelVersionError
    *             In case the given {@link SBase} has a different, but defined
    *             Level/Version combination than this current {@link SBase}, an
@@ -736,6 +740,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * Unregisters recursively the given SBase from the {@link Model}
    * and {@link SBMLDocument}.
    * 
+   * @param sbase the {@link SBase} to be unregistered.
    */
   public void unregisterChild(SBase sbase);
 
@@ -752,7 +757,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * 
    * @param index the index
    * @return the removed {@link CVTerm}.
-   * @throws IndexOutOfBoundsException  if the index is out of range (index < 0 || index >= size())
+   * @throws IndexOutOfBoundsException  if the index is out of range (index &lt; 0 || index &gt;= size())
    */
   public CVTerm removeCVTerm(int index);
 
@@ -760,23 +765,23 @@ public interface SBase extends TreeNodeWithChangeSupport {
   /**
    * Removes the given {@link TreeNodeChangeListener} from this element.
    * 
-   * @param l
+   * @param listener the listener to be removed.
    */
   @Override
-  public void removeTreeNodeChangeListener(TreeNodeChangeListener l);
+  public void removeTreeNodeChangeListener(TreeNodeChangeListener listener);
 
   /**
    * Sets the value of the 'annotation' sub-element of this SBML object to a
    * copy of annotation given as an {@link Annotation} instance.
    * 
-   * @param annotation
+   * @param annotation the annotation of this {@link SBase}
    */
   public void setAnnotation(Annotation annotation);
 
   /**
    * Sets the history.
    * 
-   * @return the {@link History} instance of this object.
+   * @param history the history of this {@link SBase}
    */
   public void setHistory(History history);
 
@@ -785,24 +790,24 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * object is set and 'level' is different with the SBML parent level, an
    * {@link Exception} is thrown.
    * 
-   * @param level
+   * @param level the SBML level.
    */
   public void setLevel(int level);
 
   /**
    * Sets the metaid value with 'metaid'.
    * 
-   * @param metaid
+   * @param metaid the meatId to be set.
    * @throws PropertyNotAvailableException
-   *             in Level 1.
+   *             in SBML level 1, as this attribute was introduced only from SBML level 2.
    */
   public void setMetaId(String metaid);
 
   /**
    * Sets the notes with 'notes'.
    * 
-   * @param notes
-   * @throws XMLStreamException
+   * @param notes the notes for this {@link SBase}.
+   * @throws XMLStreamException if an error occurs while parsing the notes.
    */
   public void setNotes(String notes) throws XMLStreamException;
 
@@ -810,6 +815,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * Sets the {@code XMLNode} containing the notes sub-element of
    * this object.
    * 
+   * @param notesXMLNode the notes for this {@link SBase}.
    */
   public void setNotes(XMLNode notesXMLNode);
 
@@ -876,6 +882,8 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * If the level and version of sbase are set but not valid, an {@link Exception} is
    * thrown.
    * 
+   * @param sbase the child {@link SBase}
+   * 
    * @deprecated use {@link #registerChild(SBase)}
    */
   @Deprecated
@@ -886,7 +894,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * object is set and 'version' is different with the SBMLparent version, an
    * {@link Exception} is thrown.
    * 
-   * @param level
+   * @param version the SBML version
    */
   public void setVersion(int version);
 

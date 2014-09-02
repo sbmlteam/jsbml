@@ -58,6 +58,7 @@ import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
  * the necessary dependencies.
  * 
  * <p> You do not need to fill all of the parameter arrays. Here is how the sub-{@link Model} generation works:
+ * <ul>
  * <li>If you give some {@link Compartment} ids, all the species inside these {@link Compartment} are included.
  * <li>If you give some {@link Species} ids (and all added {@link Species} from the {@link Compartment}s), all the {@link Reaction}s where one of these {@link Species} is present are included
  * <li>All the {@link Species} involved in the {@link Reaction}s given as parameter or added automatically from the given {@link Species} are included.
@@ -66,6 +67,7 @@ import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
  * <li>All the {@link Rule}s and events passed as parameter along the one needed are included.
  * <li>All the global {@link Parameter}s are added automatically at the moment, without checking if there are used or not.
  * <li>All the {@link FunctionDefinition}s used in the included MathML are added automatically.
+ * </ul>
  * 
  * @author Nicolas Rodriguez
  * @author chenli
@@ -98,6 +100,7 @@ public class SubModel {
    * the necessary dependencies.
    * <p>
    * You do not need to fill all of the parameter arrays. Here is how the sub-{@link Model} generation works:
+   * <ul>
    * <li>If you give some {@link Compartment} ids, all the species inside these {@link Compartment} are included.
    * <li>If you give some {@link Species} ids (and all added {@link Species} from the {@link Compartment}s), all the {@link Reaction}s where one of these {@link Species} is present are included
    * <li>All the {@link Species} involved in the {@link Reaction}s given as parameter or added automatically from the given {@link Species} are included.
@@ -106,6 +109,7 @@ public class SubModel {
    * <li>All the {@link Rule}s and events passed as parameter along the one needed are included.
    * <li>All the global {@link Parameter}s are added automatically at the moment, without checking if there are used or not.
    * <li>All the {@link FunctionDefinition}s used in the included MathML are added automatically.
+   * </ul>
    *
    * <p>
    * @param model the SBML model where we want to extract a sub-model.

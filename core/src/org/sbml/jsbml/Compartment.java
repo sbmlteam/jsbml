@@ -842,7 +842,7 @@ public class Compartment extends Symbol {
    * @param unitDefinition
    * 
    * @throws IllegalArgumentException
-   *             if spatialDimensions <= 0.
+   *             if spatialDimensions &lt;= 0.
    * 
    */
   @Override

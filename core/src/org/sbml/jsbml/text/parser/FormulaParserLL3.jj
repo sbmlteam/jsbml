@@ -67,8 +67,8 @@ import org.sbml.jsbml.text.parser.IFormulaParser;
 <tr><td><code>-, !</code></td><td>negation and boolean 'not'</td><td>unary</td><td align="center">6</td><td>right</td></tr>
 <tr><td><code>*, /, %</code></td><td>multiplication, division, and modulo</td><td>binary</td><td align="center">5</td><td>left</td></tr>
 <tr><td><code>+, -</code></td><td>addition and subtraction</td><td>binary</td><td align="center">4</td><td>left</td></tr>
-<tr><td><code>==, &lt;, &gt;, &lt=, &gt=, !=</code></td><td>boolean equality, inequality, and comparison</td><td>binary</td><td align="center">3</td><td>left</td></tr>
-<tr><td><code>&&, ||</code></td><td>boolean 'and' and 'or'</td><td>binary</td><td align="center">2</td><td>left</td></tr>
+<tr><td><code>==, &lt;, &gt;, &lt;=, &gt;=, !=</code></td><td>boolean equality, inequality, and comparison</td><td>binary</td><td align="center">3</td><td>left</td></tr>
+<tr><td><code>&amp;&amp;, ||</code></td><td>boolean 'and' and 'or'</td><td>binary</td><td align="center">2</td><td>left</td></tr>
 <tr><td><code>,</code></td><td>argument delimiter</td><td>binary</td><td align="center">1</td><td>left</td></tr>
 
 <caption class="top-caption">Expression operators and their precedence in the
@@ -86,8 +86,8 @@ import org.sbml.jsbml.text.parser.IFormulaParser;
  * expression <code>a + b * c</code> is evaluated as <code>a + (b * c)</code>
  * because the @c * operator has higher precedence.  The
  * <b>Associates</b> column shows how the order of similar precedence
- * operations is determined; for example, <code>a && b || c</code> is
- * evaluated as <code>(a && b) || c</code> because the <code>&&</code> and <code>||</code>
+ * operations is determined; for example, <code>a &amp;&amp; b || c</code> is
+ * evaluated as <code>(a &amp;&amp; b) || c</code> because the <code>&amp;&amp;</code> and <code>||</code>
  * operators are left-associative and have the same precedence.
  <p>
  * The function call syntax consists of a function name, followed by an opening parenthesis token,

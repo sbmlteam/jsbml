@@ -49,7 +49,7 @@ public interface ProgressListener extends EventListener {
    * Reports the current progress to this listener, i.e., progress &lt; total.
    * Note that with every call of this method an increasing progress must be
    * reported, i.e., two subsequent calls of this method must ensure that
-   * p<sub>1</sub> &lt; p<sub>2</sub> (where p<sub>1</sub> and p</sub>2</sub>
+   * p<sub>1</sub> &lt; p<sub>2</sub> (where p<sub>1</sub> and p<sub>2</sub>
    * are the arguments passed to this method in the two subsequent calls).
    * 
    * @param progress

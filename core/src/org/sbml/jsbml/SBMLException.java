@@ -154,26 +154,24 @@ public class SBMLException extends XMLException {
   /**
    * Error codes.
    * 
-   * @author Andreas Dr&auml;ger <a
-   *         href="mailto:andreas.draeger@uni-tuebingen.de"
-   *         >andreas.draeger@uni-tuebingen.de</a>
+   * @author Andreas Dr&auml;ger <a href="mailto:andreas.draeger@uni-tuebingen.de">andreas.draeger@uni-tuebingen.de</a>
    * @date 2009-10-16
    */
   public enum Code {
     /**
-     * Annotation on <sbml> not permitted in SBML Level 1
+     * Annotation on &lt;sbml&gt; not permitted in SBML Level 1
      */
     AnnotationNotesNotAllowedLevel1,
     /**
-     * <ci>'s value is not a component in this model
+     * &lt;ci&gt;'s value is not a component in this model
      */
     ApplyCiMustBeModelComponent,
     /**
-     * <ci> does not refer to a function definition
+     * &lt;ci&gt; does not refer to a function definition
      */
     ApplyCiMustBeUserFunction,
     /**
-     * Arguments to <eq> or <neq> have inconsistent data types
+     * Arguments to &lt;eq&gt; or &lt;neq&gt; have inconsistent data types
      */
     ArgsToEqNeedSameType,
     /**
@@ -193,7 +191,7 @@ public class SBMLException extends XMLException {
      */
     AssignRuleSpeciesMismatch,
     /**
-     * Invalid <csymbol> definitionURL attribute value
+     * Invalid &lt;csymbol&gt; definitionURL attribute value
      */
     BadCsymbolDefinitionURLValue,
     /**
@@ -213,7 +211,7 @@ public class SBMLException extends XMLException {
      */
     BothAmountAndConcentrationSet,
     /**
-     * Cannot use both stoichiometry and <stoichiometryMath> simultaneously
+     * Cannot use both stoichiometry and &lt;stoichiometryMath&gt; simultaneously
      */
     BothStoichiometryAndMath,
     /**
@@ -468,7 +466,7 @@ public class SBMLException extends XMLException {
      */
     Invalid3DCompartmentUnits,
     /**
-     * Invalid forward reference in <apply><ci>...</ci></apply> value
+     * Invalid forward reference in &lt;apply&gt;&lt;ci&gt;...&lt;/ci&gt;&lt;/apply&gt; value
      */
     InvalidApplyCiInLambda,
     /**
@@ -480,7 +478,7 @@ public class SBMLException extends XMLException {
      */
     InvalidAssignRuleVariable,
     /**
-     * Unknown <ci> reference in <lambda>
+     * Unknown &lt;ci&gt; reference in &lt;lambda&gt;
      */
     InvalidCiInLambda,
     /**
@@ -676,7 +674,7 @@ public class SBMLException extends XMLException {
      */
     KineticLawNotSubstancePerTime,
     /**
-     * Cannot use <kineticLaw> parameter outside local scope
+     * Cannot use &lt;kineticLaw&gt; parameter outside local scope
      */
     KineticLawParametersAreLocalOnly,
     /**
@@ -684,7 +682,7 @@ public class SBMLException extends XMLException {
      */
     L1V1CompartmentVolumeReqd,
     /**
-     * Use of <lambda> not permitted outside of a <functionDefinition>
+     * Use of &lt;lambda&gt; not permitted outside of a &lt;functionDefinition&gt;
      */
     LambdaOnlyAllowedInFunctionDef,
     /**
@@ -936,7 +934,7 @@ public class SBMLException extends XMLException {
      */
     NotesNotInXHTMLNamespace,
     /**
-     * <csymbol> for time used within the <math> of a function definition
+     * &lt;csymbol&gt; for time used within the &lt;math&gt; of a function definition
      */
     NoTimeSymbolInFunctionDef,
     /**
@@ -993,11 +991,11 @@ public class SBMLException extends XMLException {
      */
     ParameterShouldHaveUnits,
     /**
-     * Second argument of <piece> must yield a boolean value
+     * Second argument of &lt;piece&gt; must yield a boolean value
      */
     PieceNeedsBoolean,
     /**
-     * <piecewise> terms have inconsistent data types
+     * &lt;piecewise&gt; terms have inconsistent data types
      */
     PiecewiseNeedsConsistentTypes,
     /**
@@ -1077,7 +1075,7 @@ public class SBMLException extends XMLException {
      */
     SpeciesTypeNotValidComponent,
     /**
-     * lt;stoichiometryMath> not supported in SBML Level 1
+     * lt;stoichiometryMath&gt; not supported in SBML Level 1
      */
     StoichiometryMathNotValidComponent,
     /**
@@ -1133,7 +1131,7 @@ public class SBMLException extends XMLException {
      */
     TriggerMathNotBoolean,
     /**
-     * Undeclared species referenced in <stoichiometryMath> formula
+     * Undeclared species referenced in &lt;stoichiometryMath&gt; formula
      */
     UndeclaredSpeciesInStoichMath,
     /**
@@ -1260,29 +1258,35 @@ public class SBMLException extends XMLException {
   private Type type;
 
   /**
-   * 
+   * Creates a new {@link SBMLException} instance.
    */
   public SBMLException() {
     super();
   }
 
   /**
-   * @param message
+   * Creates a new {@link SBMLException} instance.
+   * 
+   * @param message the exception message.
    */
   public SBMLException(String message) {
     super(message);
   }
 
   /**
-   * @param message
-   * @param cause
+   * Creates a new {@link SBMLException} instance.
+   * 
+   * @param message the exception message.
+   * @param cause a {@link Throwable} that is the cause of the original problem.
    */
   public SBMLException(String message, Throwable cause) {
     super(message, cause);
   }
 
   /**
-   * @param cause
+   * Creates a new {@link SBMLException} instance.
+   * 
+   * @param cause a {@link Throwable} that is the cause of the original problem.
    */
   public SBMLException(Throwable cause) {
     super(cause);

@@ -461,7 +461,7 @@ SBaseWithUnit {
   /**
    * Sets the unitsID of this object with the id of 'units'.
    * 
-   * @param variable
+   * @param units the unit of this rule.
    * @deprecated This is a requirement for Level 1 Version 1 and Version 2,
    *             but can only be used in conjunction with {@link Parameter}s.
    *             In this case this {@link AssignmentRule} represents the SBML

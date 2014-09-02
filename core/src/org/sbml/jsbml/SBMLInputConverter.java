@@ -71,7 +71,7 @@ public interface SBMLInputConverter<T> {
    *         method {@link #convertModel(Object)}. Typically, the identical
    *         result can also be obtained by calling
    *         {@link Model#getUserObject(Object)} with
-   *         {@link #ORIGINAL_MODEL_KEY} as parameter.
+   *         {@code ORIGINAL_MODEL_KEY} as parameter.
    */
   public T getOriginalModel();
 

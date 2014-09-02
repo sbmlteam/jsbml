@@ -35,7 +35,7 @@ public interface Assignment extends MathContainer {
   /**
    * Error message to indicate that a {@link SpeciesReference} cannot be used
    * as the {@link Variable} in this {@link Assignment} because the SBML Level
-   * < 3.
+   * &lt; 3.
    */
   public static final String ILLEGAL_VARIABLE_EXCEPTION_MSG = "Cannot set SpeciesReference %s as the Variable in %s for SBML Level < 3";
 

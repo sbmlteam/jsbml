@@ -362,7 +362,7 @@ public class SBMLValidator {
    * 
    * <p>
    * You can control the consistency checks that are performed when
-   * {@link #checkConsistency()} is called with the {@link HashMap} of
+   * {@link #checkConsistency(String)} is called with the {@link HashMap} of
    * parameters given.
    * It will fill the {@link SBMLErrorLog}
    * with {@link SBMLError}s for each problem within this whole model.
@@ -417,7 +417,7 @@ public class SBMLValidator {
 
 
   /**
-   * Parses the XML String returned by the libSBML online validator or web services.
+   * Parses the XML {@link String} returned by the libSBML online validator or web services.
    * 
    * <p>
    * It will fill the {@link SBMLErrorLog}
@@ -428,8 +428,7 @@ public class SBMLValidator {
    * due to warnings @em or errors.  Callers should inspect the severity
    * flag in the individual SBMLError objects to determine the nature of the failures.
    * 
-   * @param fileName a file name
-   * @param parameters parameters for the libsbml checkConsistency()
+   * @param xmlValidationString an XML {@link String} representing an SBML model.
    * @return an {@link SBMLErrorLog} containing the list of errors.
    * 
    * @see <a href="http://sbml.org/Facilities/Validator/Validator_Web_API">sbml.org Validator Web API</a>

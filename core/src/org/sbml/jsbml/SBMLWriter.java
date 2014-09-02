@@ -144,7 +144,7 @@ public class SBMLWriter implements Cloneable, Serializable {
    * @throws IOException
    *             if it is not possible to write to the given file, e.g., due
    *             to an invalid file name or missing permissions.
-   * @see {@link #write(SBMLDocument, File, String, String)}
+   * @see #write(SBMLDocument, File, String, String)
    */
   public static void write(SBMLDocument sbmlDocument, File file,
     String programName, String programVersion, char indentChar,
@@ -365,14 +365,14 @@ public class SBMLWriter implements Cloneable, Serializable {
   private org.sbml.jsbml.xml.stax.SBMLWriter sbmlWriter;
 
   /**
-   * Creates a new {@link SBMLwriter}.
+   * Creates a new {@link SBMLWriter}.
    */
   public SBMLWriter() {
     this(null, null);
   }
 
   /**
-   * Creates a new {@link SBMLwriter} that uses the given character for
+   * Creates a new {@link SBMLWriter} that uses the given character for
    * indentation of the XML representation of SBML data structures (with the
    * given number of such symbols).
    * 
@@ -398,7 +398,7 @@ public class SBMLWriter implements Cloneable, Serializable {
   }
 
   /**
-   * Creates a new {@link SBMLwriter} for the program with the given name and
+   * Creates a new {@link SBMLWriter} for the program with the given name and
    * version.
    * 
    * @param programName
@@ -416,7 +416,7 @@ public class SBMLWriter implements Cloneable, Serializable {
   }
 
   /**
-   * Creates a new {@link SBMLwriter} for the program with the given name and
+   * Creates a new {@link SBMLWriter} for the program with the given name and
    * version that uses the given character for indentation of the XML
    * representation of SBML data structures (with the given number of such
    * symbols).
@@ -565,7 +565,9 @@ public class SBMLWriter implements Cloneable, Serializable {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * <li> {@link  JSBML.OPERATION_SUCCESS}
+   * <ul>
+   * <li> {@link  JSBML#OPERATION_SUCCESS}
+   * </ul>
    * <p>
    * @see #setProgramVersion(String version)
    */
@@ -595,7 +597,9 @@ public class SBMLWriter implements Cloneable, Serializable {
    * @return integer value indicating success/failure of the
    * function.  The possible values
    * returned by this function are:
-   * <li> {@link  JSBML.OPERATION_SUCCESS}
+   * <ul>
+   * <li> {@link  JSBML#OPERATION_SUCCESS}
+   * </ul>
    * <p>
    * @see #setProgramName(String name)
    */

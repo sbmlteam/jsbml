@@ -241,13 +241,13 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   }
 
   /**
-   * Creates an {@link AbstractSBase} instance with the given Level and
+   * Creates an {@link AbstractSBase} instance with the given SBML Level and
    * Version.
    * 
    * <p>
    * By default, the sboTerm is -1, the metaid, notes,
    * {@link #parent}, {@link #annotation}, and notes are {@code null}. The
-   * {@link #setOfListeners} list and the {@link #extensions} {@link Map} are
+   * {@link #declaredNamespaces} list and the {@link #extensions} {@link Map} are
    * empty.
    * 
    * @param level
@@ -1781,7 +1781,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * 
    * @param index the index
    * @return the removed {@link CVTerm}.
-   * @throws IndexOutOfBoundsException  if the index is out of range (index < 0 || index >= size())
+   * @throws IndexOutOfBoundsException  if the index is out of range (index &lt; 0 || index &gt;= size())
    */
   @Override
   public CVTerm removeCVTerm(int index) {

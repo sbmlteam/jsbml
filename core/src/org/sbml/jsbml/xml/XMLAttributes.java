@@ -115,6 +115,8 @@ public class XMLAttributes {
 
   /**
    * Copy constructor; creates a copy of this {@link XMLAttributes} set.
+   * 
+   * @param orig the {@link XMLAttributes} to copy.
    */
   public XMLAttributes(XMLAttributes orig) {
 
@@ -150,7 +152,9 @@ public class XMLAttributes {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * </ul>
    * <p>
    * @jsbml.note if local name with the same namespace URI already exists in this
    * attribute set, its value and prefix will be replaced.
@@ -176,7 +180,9 @@ public class XMLAttributes {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * </ul>
    * <p>
    * @jsbml.note if local name with the same namespace URI already exists in this
    * attribute set, its value and prefix will be replaced.
@@ -202,7 +208,9 @@ public class XMLAttributes {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * </ul>
    * <p>
    * @jsbml.note if local name with the same namespace URI already exists in this
    * attribute set, its value and prefix will be replaced.
@@ -231,7 +239,9 @@ public class XMLAttributes {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * </ul>
    */
   public int add(XMLTriple triple, String value) {
 
@@ -250,8 +260,10 @@ public class XMLAttributes {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> INDEX_EXCEEDS_SIZE
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#INDEX_EXCEEDS_SIZE}
+   * </ul>
    */
   public int removeResource(int n) {
 
@@ -276,8 +288,10 @@ public class XMLAttributes {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> INDEX_EXCEEDS_SIZE
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#INDEX_EXCEEDS_SIZE}
+   * </ul>
    */
   public int remove(int n) {
 
@@ -295,8 +309,10 @@ public class XMLAttributes {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> OPERATION_FAILED;
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#OPERATION_FAILED}
+   * </ul>
    */
   public int remove(String name, String uri) {
 
@@ -322,8 +338,10 @@ public class XMLAttributes {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> OPERATION_FAILED;
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#OPERATION_FAILED}
+   * </ul>
    */
   public int remove(String name) {
 
@@ -348,7 +366,9 @@ public class XMLAttributes {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * </ul>
    */
   public int remove(XMLTriple triple) {
 
@@ -371,7 +391,9 @@ public class XMLAttributes {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * </ul>
    */
   public int clear() {
 

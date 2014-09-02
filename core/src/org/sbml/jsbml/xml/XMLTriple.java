@@ -37,10 +37,8 @@ package org.sbml.jsbml.xml;
  * namespace qualifier.  An {@link XMLTriple} instance carries up to three data items:
  * <p>
  * <ul>
- * <p>
  * <li> The name of the attribute or element; that is, the attribute name
- * as it appears in an XML document or data stream;
- * <p>
+ * as it appears in an XML document or data stream;</li>
  * <li> The XML namespace prefix (if any) of the attribute.  For example,
  * in the following fragment of XML, the namespace prefix is the string
  * {@code mysim} and it appears on both the element
@@ -48,12 +46,10 @@ package org.sbml.jsbml.xml;
  * both the element and the attribute are stored as {@link XMLTriple} objects,
  * their <i>prefix</i> is {@code mysim}.
  * <div class='fragment'><pre class="brush:xml">
-		&lt;mysim:someelement mysim:attribA='value' /&gt;
-		</pre></div>
- * <p>
+ *	&lt;mysim:someelement mysim:attribA='value' /&gt;
+ *	</pre></div></li>
  * <li> The XML namespace URI with which the prefix is associated.  In
- * XML, every namespace used must be declared and mapped to a URI.
- * <p>
+ * XML, every namespace used must be declared and mapped to a URI.</li>
  * </ul>
  * <p>
  * {@link XMLTriple} objects are the lowest-level data item in the XML layer

@@ -29,6 +29,7 @@ import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
@@ -85,7 +86,7 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  *   // ...
  * } else if (xn.isEOF()) {
  *   // root node is a dummy node
- *   for (int i = 0; i < xn.getChildCount(); i++) {
+ *   for (int i = 0; i $lt; xn.getChildCount(); i++) {
  *     // access to each child node of the dummy node.
  *     XMLNode xnChild = xn.getChild(i);
  *     // ...
@@ -128,9 +129,6 @@ public class XMLNode extends XMLToken {
    * 
    * @param xmlstr
    *        {@link String} to be converted to a XML node.
-   * @param xmlns
-   *        {@link XMLNamespaces} the namespaces to set (default value is
-   *        {@code null}).
    * @jsbml.note The caller owns the returned {@link XMLNode} and is responsible
    *             for deleting it.
    *             The returned {@link XMLNode} object is a dummy root (container)
@@ -265,7 +263,7 @@ public class XMLNode extends XMLToken {
   /**
    * Creates a new {@link XMLNode} by copying token.
    * <p>
-   * @param token {@link XMLToken} to be copied to {@link XMLNode}
+   * @param orig {@link XMLToken} to be copied to {@link XMLNode}
    */
   public XMLNode(XMLToken orig) {
     if (orig.triple != null) {
@@ -410,8 +408,10 @@ public class XMLNode extends XMLToken {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
-   * <li> OPERATION_FAILED
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * <li> {@link JSBML#OPERATION_FAILED}
+   * </ul>
    * <p>
    * @jsbml.note The given node is added at the end of the children list.
    */
@@ -464,9 +464,9 @@ public class XMLNode extends XMLToken {
   /**
    * Returns the child {@link XMLNode} at index childIndex.
    * 
-   * @param childIndex
+   * @param childIndex the index.
    * @return the child {@link XMLNode} at index childIndex.
-   * @throws IndexOutOfBoundsException if the index is out of range (index < 0 || index >= size())
+   * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;= size())
    * @libsbml.deprecated you could use {@link #getChildAt(int)}
    */
   public XMLNode getChild(int childIndex) {
@@ -545,7 +545,9 @@ public class XMLNode extends XMLToken {
    * @return integer value indicating success/failure of the
    * function.   The possible values
    * returned by this function are:
-   * <li> OPERATION_SUCCESS
+   * <ul>
+   * <li> {@link JSBML#OPERATION_SUCCESS}
+   * </ul>
    */
   public int removeChildren() {
     List<XMLNode> removedChildren = childrenElements;
@@ -561,7 +563,7 @@ public class XMLNode extends XMLToken {
    * Returns a string representation of this {@link XMLNode}.
    * <p>
    * @return a string derived from this {@link XMLNode}.
-   * @throws XMLStreamException
+   * @throws XMLStreamException if an error occurs while writing the {@link XMLNode} to {@link String}.
    */
   public String toXMLString() throws XMLStreamException {
     if (isText() && (getChildCount() == 0)) {
@@ -604,9 +606,16 @@ public class XMLNode extends XMLToken {
   }
 
   /**
+   * Removes the first occurrence of the specified element from this list.
+   * 
+   * <p>If this list does not contain the element, it is unchanged. More formally, removes 
+   * the element with the lowest index i such that (o==null ? get(i)==null : o.equals(get(i)))
+   *  (if such an element exists). Returns true if this list contained the specified element 
+   *  (or equivalently, if this list changed as a result of the call).
+   * 
    * 
    * @param xmlNode
-   * @return
+   * @return true if the {@link XMLNode} was found and removed.
    */
   public boolean removeChild(XMLNode xmlNode) {
     return childrenElements.remove(xmlNode);
