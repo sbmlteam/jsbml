@@ -26,7 +26,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.Parameter;
+import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.math.ASTFactory;
 
 /**
  * Test cases for {@link ASTNode}
@@ -52,8 +53,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testGetChildCount() {
-    ASTNode loneNode = new ASTNode();
-    assertTrue(loneNode.getChildCount() == 0);
+    ASTNode node = new ASTNode(Type.FUNCTION);
+    assertTrue(node.getChildCount() == 0);
   }
   
   /**
@@ -62,11 +63,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testInteger() {
-    ASTNode integerNode = new ASTNode(21);
-    assertTrue(integerNode.isInteger());
-    assertTrue(integerNode.getInteger() == 21);
-    integerNode.setValue(27);
-    assertTrue(integerNode.getInteger() == 27);
+    ASTNode integer = new ASTNode(21);
+    assertTrue(integer.isInteger() && integer.getInteger() == 21);
   }
 
 
@@ -76,11 +74,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testReal() {
-    ASTNode realNode = new ASTNode(3.14);
-    assertTrue(realNode.isReal());
-    assertTrue(realNode.getReal() == 3.14);
-    realNode.setValue(6.28);
-    assertTrue(realNode.getReal() == 6.28);
+    ASTNode real = new ASTNode(3.14);
+    assertTrue(real.isReal() && real.getReal() == 3.14);
   }
 
 
@@ -88,9 +83,9 @@ public class ASTNodeTest {
    * Test method for {@link org.sbml.jsbml.ASTNode#isOne()}.
    */
   @Test
-  public void testIntegerValueOne() {
-    ASTNode integerNode = new ASTNode(1);
-    assertTrue(integerNode.isOne());
+  public void testIntegerIsOne() {
+    ASTNode one = new ASTNode(1);
+    assertTrue(one.isOne());
   }
 
 
@@ -98,36 +93,27 @@ public class ASTNodeTest {
    * Test method for {@link org.sbml.jsbml.ASTNode#isOne()}.
    */
   @Test
-  public void testRealValueOne() {
-    ASTNode realNode = new ASTNode(1.0);
-    assertTrue(realNode.isOne());
+  public void testRealIsOne() {
+    ASTNode one = new ASTNode(1d);
+    assertTrue(one.isOne());
   }
   
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isNumber()}.
    */
   @Test
-  public void testRealNumber() {
-    ASTNode realNum = new ASTNode(1.0);
-    assertTrue(realNum.isNumber());
+  public void testRealIsNumber() {
+    ASTNode real = new ASTNode(1d);
+    assertTrue(real.isNumber());
   }
   
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#isNumber()}.
    */
   @Test
-  public void testIntegerNumber() {
-    ASTNode integerNum = new ASTNode(1);
-    assertTrue(integerNum.isNumber());
-  }
-  
-  /**
-   * Test method for {@link org.sbml.jsbml.ASTNode#isName()}.
-   */
-  @Test
-  public void testName() {
-    ASTNode name = new ASTNode("Reaction");
-    assertTrue(name.isName());
+  public void testIntegerIsNumber() {
+    ASTNode integer = new ASTNode(1);
+    assertTrue(integer.isNumber());
   }
   
   /**
@@ -135,8 +121,7 @@ public class ASTNodeTest {
    */
   @Test
   public void testLambda() {
-    ASTNode lambda = new ASTNode();
-    lambda.setType("lambda");
+    ASTNode lambda = new ASTNode(Type.LAMBDA);
     assertTrue(lambda.isLambda());
   }
   
@@ -148,15 +133,11 @@ public class ASTNodeTest {
    */
   @Test
   public final void testRealE() {
-    ASTNode realENode = new ASTNode(0.14, 4);
-    assertTrue(realENode.isReal());
-    assertTrue(realENode.getReal() == 1400.0);
-    assertTrue(realENode.getMantissa() == 0.14);
-    assertTrue(realENode.getExponent() == 4);
-    realENode.setValue(0.27, 3);
-    assertTrue(realENode.getReal() == 270.0);
-    assertTrue(realENode.getMantissa() == 0.27);
-    assertTrue(realENode.getExponent() == 3);
+    ASTNode realE = new ASTNode(0.14, 4);
+    assertTrue(realE.isReal()&& 
+               realE.getType() == Type.REAL_E &&
+               realE.getMantissa() == 0.14 &&
+               realE.getExponent() == 4);
   }
 
 
@@ -167,11 +148,11 @@ public class ASTNodeTest {
    */
   @Test
   public void testRational() {
-    ASTNode rationalNode = new ASTNode();
+    ASTNode rationalNode = new ASTNode(Type.RATIONAL);
     rationalNode.setValue(22, 7);
-    assertTrue(rationalNode.isReal());
-    assertTrue(rationalNode.getNumerator() == 22);
-    assertTrue(rationalNode.getDenominator() == 7);
+    assertTrue(rationalNode.isRational() &&
+               rationalNode.getNumerator() == 22 &&
+               rationalNode.getDenominator() == 7);
   }
 
   /**
@@ -181,9 +162,10 @@ public class ASTNodeTest {
   public void testRelationalEq() {
     ASTNode one = new ASTNode(1), two = new ASTNode(2);
     ASTNode relationalEq = ASTNode.eq(one, two);
-    assertTrue(relationalEq.isRelational());
-    assertTrue(relationalEq.getLeftChild().equals(one));
-    assertTrue(relationalEq.getRightChild().equals(two));
+    assertTrue(relationalEq.isRelational() &&
+               relationalEq.getType() == Type.RELATIONAL_EQ &&
+               relationalEq.getLeftChild().equals(one) &&
+               relationalEq.getRightChild().equals(two));
   }
 
   /**
@@ -193,9 +175,9 @@ public class ASTNodeTest {
   public void testRelationalGeq() {
     ASTNode five = new ASTNode(5), three = new ASTNode(3);
     ASTNode geq = ASTNode.geq(five, three);
-    assertTrue(geq.isRelational());
-    assertTrue(geq.getLeftChild().equals(five));
-    assertTrue(geq.getRightChild().equals(three));
+    assertTrue(geq.isRelational() &&
+               geq.getLeftChild().equals(five) &&
+               geq.getRightChild().equals(three));
   }
 
   /**
@@ -205,9 +187,9 @@ public class ASTNodeTest {
   public void testRelationalGt() {
     ASTNode six = new ASTNode(6), two = new ASTNode(2);
     ASTNode gt = ASTNode.gt(six, two);
-    assertTrue(gt.isRelational());
-    assertTrue(gt.getLeftChild().equals(six));
-    assertTrue(gt.getRightChild().equals(two));
+    assertTrue(gt.isRelational() &&
+               gt.getLeftChild().equals(six) &&
+               gt.getRightChild().equals(two));
   }
 
   /**
@@ -217,9 +199,9 @@ public class ASTNodeTest {
   public void testRelationalLeq() {
     ASTNode three = new ASTNode(3), one = new ASTNode(1);
     ASTNode leq = ASTNode.leq(one, three);
-    assertTrue(leq.isRelational());
-    assertTrue(leq.getLeftChild().equals(one));
-    assertTrue(leq.getRightChild().equals(three));
+    assertTrue(leq.isRelational() && 
+               leq.getLeftChild().equals(one) &&
+               leq.getRightChild().equals(three));
   }
 
   /**
@@ -229,9 +211,9 @@ public class ASTNodeTest {
   public void testRelationalLt() {
     ASTNode seven = new ASTNode(7), five = new ASTNode(5);
     ASTNode lt = ASTNode.lt(five, seven);
-    assertTrue(lt.isRelational());
-    assertTrue(lt.getLeftChild().equals(five));
-    assertTrue(lt.getRightChild().equals(seven));
+    assertTrue(lt.isRelational() &&
+               lt.getLeftChild().equals(five) &&
+               lt.getRightChild().equals(seven));
   }
 
   /**
@@ -241,19 +223,9 @@ public class ASTNodeTest {
   public void testRelationalNeq() {
     ASTNode nine = new ASTNode(9), ten = new ASTNode(10);
     ASTNode neq = ASTNode.neq(nine, ten);
-    assertTrue(neq.isRelational());
-    assertTrue(neq.getLeftChild().equals(nine));
-    assertTrue(neq.getRightChild().equals(ten));
-  }
-  
-  /**
-   * Test method for {@link org.sbml.jsbml.ASTNode#isBoolean()}.
-   */
-  @Test
-  public void testRelationalBoolean() {
-    ASTNode nine = new ASTNode(9), ten = new ASTNode(10);
-    ASTNode relationalBoolean = ASTNode.neq(nine, ten);
-    assertTrue(relationalBoolean.isBoolean());
+    assertTrue(neq.isRelational() &&
+               neq.getLeftChild().equals(nine) &&
+               neq.getRightChild().equals(ten));
   }
 
   /**
@@ -261,28 +233,25 @@ public class ASTNodeTest {
    */
   @Test
   public void testMinus() {
-    ASTNode[] nodeList = new ASTNode[10];
-    for (int i = 0; i < 10; i++) {
-      nodeList[i] = new ASTNode(i);
-    }
-    ASTNode minus = ASTNode.diff(nodeList);
-    assertTrue(minus.isOperator());
-    assertTrue(minus.isDifference());
-    for (int j = 0; j < 10; j++) {
-      assertTrue(minus.getChild(j).equals(nodeList[j]));
-    }
+    ASTNode one = new ASTNode(1), two = new ASTNode(2);
+    ASTNode minus = ASTNode.diff(one, two);
+    assertTrue(minus.isOperator() &&
+               minus.getType() == Type.MINUS &&
+               minus.getLeftChild().equals(one) &&
+               minus.getRightChild().equals(two));
   }
 
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#sum(ASTNode... ast)}.
    */
   @Test
-  public void testPlus() {
+  public void testSum() {
     ASTNode four = new ASTNode(4), eight = new ASTNode(8);
-    ASTNode plus = ASTNode.sum(four, eight);
-    assertTrue(plus.isOperator());
-    assertTrue(plus.getLeftChild().equals(four));
-    assertTrue(plus.getRightChild().equals(eight));
+    ASTNode sum = ASTNode.sum(four, eight);
+    assertTrue(sum.isOperator() &&
+               sum.getType() == Type.SUM && 
+               sum.getLeftChild().equals(four) &&
+               sum.getRightChild().equals(eight));
   }
 
   /**
@@ -292,9 +261,24 @@ public class ASTNodeTest {
   public void testTimes() {
     ASTNode five = new ASTNode(5), four = new ASTNode(4);
     ASTNode times = ASTNode.times(five, four);
-    assertTrue(times.isOperator());
-    assertTrue(times.getLeftChild().equals(five));
-    assertTrue(times.getRightChild().equals(four));
+    assertTrue(times.isOperator() &&
+               times.getType() == Type.PRODUCT &&
+               times.getLeftChild().equals(five) &&
+               times.getRightChild().equals(four));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.ASTNode#multiplyWith(ASTNode ast)}.
+   */
+  @Test
+  public void testMultiplyWith() {
+    ASTNode five = new ASTNode(5);
+    ASTNode four = new ASTNode(4);
+    ASTNode times = five.multiplyWith(four);
+    assertTrue(times.isOperator() &&
+               times.getType() == ASTNode.Type.TIMES &&
+               times.getLeftChild().equals(five) &&
+               times.getRightChild().equals(four));
   }
 
   /**
@@ -303,8 +287,8 @@ public class ASTNodeTest {
   @Test
   public void testPower() {
     ASTNode exponent = new ASTNode(2);
-    ASTNode eNode = ASTNode.exp(exponent);
-    assertTrue(eNode.isOperator());
+    ASTNode e = ASTNode.exp(exponent);
+    assertTrue(e.isOperator() && e.getType() == Type.POWER);
   }
 
   /**
@@ -314,7 +298,7 @@ public class ASTNodeTest {
   public void testFrac() {
     ASTNode numerator = new ASTNode(22), denominator = new ASTNode(7);
     ASTNode frac = ASTNode.frac(numerator, denominator);
-    assertTrue(frac.isOperator());
+    assertTrue(frac.isOperator() && frac.getType() == Type.DIVIDE);
   }
 
   /**
@@ -322,21 +306,19 @@ public class ASTNodeTest {
    */
   @Test
   public void testLogBase10() {
-    ASTNode two = new ASTNode(2), ten = new ASTNode(10);
-    ASTNode log = ASTNode.log(ten, two);
-    assertTrue(log.isLog10());
-    assertTrue(log.isFunction());
+    ASTNode two = new ASTNode(2);
+    ASTNode log = ASTNode.log(two);
+    assertTrue(log.isFunction() && log.isLog10());
   }
 
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#log(ASTNode base, ASTNode value)}.
    */
   @Test
-  public void testLogBaseOther() {
-    ASTNode two = new ASTNode(2), four = new ASTNode(4);
-    ASTNode log = ASTNode.log(two, four);
-    assertTrue(! log.isLog10());
-    assertTrue(log.isFunction());
+  public void testNaturalLog() {
+    ASTNode e = new ASTNode(Math.E), four = new ASTNode(4);
+    ASTNode ln = ASTNode.log(e, four);
+    assertTrue(! ln.isLog10() && ln.isFunction() && ln.getType() == Type.FUNCTION_LN);
   }
 
   /**
@@ -346,17 +328,7 @@ public class ASTNodeTest {
   public void testPow() {
     ASTNode two = new ASTNode(2), three = new ASTNode(3);
     ASTNode pow = ASTNode.pow(two, three);
-    assertTrue(pow.isOperator());
-  }
-  
-  /**
-   * Test method for {@link org.sbml.jsbml.ASTNode#isPiecewise()}.
-   */
-  @Test
-  public void testPiecewise() {
-    ASTNode plus = new ASTNode('+'), minus = new ASTNode('-');
-    ASTNode piecewise = ASTNode.piecewise(plus, minus);
-    assertTrue(piecewise.isPiecewise());
+    assertTrue(pow.isOperator() && pow.getType() == Type.POWER);
   }
   
   /**
@@ -391,7 +363,7 @@ public class ASTNodeTest {
    */
   @Test
   public void testRealValMinusOne() {
-    ASTNode minusOne = new ASTNode(-1.0);
+    ASTNode minusOne = new ASTNode(-1d);
     assertTrue(minusOne.isMinusOne());
   }
   
@@ -400,8 +372,7 @@ public class ASTNodeTest {
    */
   @Test
   public void testLogicalAND() {
-    ASTNode logicalAND = new ASTNode();
-    logicalAND.setType("and");
+    ASTNode logicalAND = new ASTNode(Type.LOGICAL_AND);
     assertTrue(logicalAND.isLogical());
   }
   
@@ -410,8 +381,7 @@ public class ASTNodeTest {
    */
   @Test
   public void testLogicalOR() {
-    ASTNode logicalOR = new ASTNode();
-    logicalOR.setType("or");
+    ASTNode logicalOR = new ASTNode(Type.LOGICAL_OR);
     assertTrue(logicalOR.isLogical());
   }
   
@@ -420,8 +390,7 @@ public class ASTNodeTest {
    */
   @Test
   public void testLogicalXOR() {
-    ASTNode logicalXOR = new ASTNode();
-    logicalXOR.setType("xor");
+    ASTNode logicalXOR = new ASTNode(Type.LOGICAL_XOR);
     assertTrue(logicalXOR.isLogical());
   }
   
@@ -430,19 +399,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testLogicalNOT() {
-    ASTNode logicalNOT = new ASTNode();
-    logicalNOT.setType("not");
+    ASTNode logicalNOT = new ASTNode(Type.LOGICAL_NOT);
     assertTrue(logicalNOT.isLogical());
-  }
-  
-  /**
-   * Test method for {@link org.sbml.jsbml.ASTNode#isBoolean()}.
-   */
-  @Test
-  public void testLogicalBoolean() {
-    ASTNode logicalBoolean = new ASTNode();
-    logicalBoolean.setType("not");
-    assertTrue(logicalBoolean.isBoolean());
   }
   
   /**
@@ -459,9 +417,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testFormula() {
-    ASTNode numerator = new ASTNode(22), denominator = new ASTNode(7);
-    ASTNode frac = ASTNode.frac(numerator, denominator);
-    assertTrue(frac.toFormula().equalsIgnoreCase("22/7"));
+    ASTNode ten = new ASTNode(10d);
+    assertTrue(ten.toFormula().equalsIgnoreCase("10"));
   }
   
   /**
@@ -469,9 +426,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testLaTeX() {
-    ASTNode exponent = new ASTNode(2);
-    ASTNode eNode = ASTNode.exp(exponent);
-    assertTrue(eNode.toLaTeX().equalsIgnoreCase("\\mathrm{e}^{2}"));
+    ASTNode ten = new ASTNode(10d);
+    assertTrue(ten.toLaTeX().equalsIgnoreCase("10"));
   }
   
   /**
@@ -479,17 +435,9 @@ public class ASTNodeTest {
    */
   @Test
   public void testMathML() {
-    ASTNode numerator = new ASTNode(22), denominator = new ASTNode(7);
-    ASTNode frac = ASTNode.frac(numerator, denominator);
-    String mathml = "<?xml version='1.0' encoding='UTF-8'?>\n"
-                  + "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n"
-                  + "  <apply>\n"
-                  + "    <divide/>\n"
-                  + "    <cn type=\"integer\"> 22 </cn>\n"
-                  + "    <cn type=\"integer\"> 7 </cn>\n"
-                  + "  </apply>\n"
-                  + "</math>";
-    assertTrue(frac.toMathML().equalsIgnoreCase(mathml));
+    ASTNode ten = new ASTNode(10d);
+    String mathml = ASTFactory.parseMathML("real.xml");
+    assertTrue(ten.toMathML().equalsIgnoreCase(mathml));
   }
   
   /**
@@ -497,9 +445,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testCos() {
-    ASTNode cos = new ASTNode();
-    cos.setType("cos");
-    assertTrue(cos.isFunction());
+    ASTNode cos = new ASTNode(Type.FUNCTION_COS);
+    assertTrue(cos.isFunction() && cos.getType() == Type.FUNCTION_COS);
   }
   
   /**
@@ -507,9 +454,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testSin() {
-    ASTNode sin = new ASTNode();
-    sin.setType("sin");
-    assertTrue(sin.isFunction());
+    ASTNode sin = new ASTNode(Type.FUNCTION_SIN);
+    assertTrue(sin.isFunction() && sin.getType() == Type.FUNCTION_SIN);
   }
   
   /**
@@ -517,9 +463,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testTan() {
-    ASTNode tan = new ASTNode();
-    tan.setType("tan");
-    assertTrue(tan.isFunction());
+    ASTNode tan = new ASTNode(Type.FUNCTION_TAN);
+    assertTrue(tan.isFunction() && tan.getType() == Type.FUNCTION_TAN);
   }
   
   /**
@@ -527,9 +472,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testSec() {
-    ASTNode sec = new ASTNode();
-    sec.setType("sec");
-    assertTrue(sec.isFunction());
+    ASTNode sec = new ASTNode(Type.FUNCTION_SEC);
+    assertTrue(sec.isFunction() && sec.getType() == Type.FUNCTION_SEC);
   }
   
   /**
@@ -537,9 +481,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testCsc() {
-    ASTNode csc = new ASTNode();
-    csc.setType("csc");
-    assertTrue(csc.isFunction());
+    ASTNode csc = new ASTNode(Type.FUNCTION_CSC);
+    assertTrue(csc.isFunction() && csc.getType() == Type.FUNCTION_CSC);
   }
   
   /**
@@ -547,9 +490,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testCot() {
-    ASTNode cot = new ASTNode();
-    cot.setType("cot");
-    assertTrue(cot.isFunction());
+    ASTNode cot = new ASTNode(Type.FUNCTION_COT);
+    assertTrue(cot.isFunction() && cot.getType() == Type.FUNCTION_COT);
   }
   
   /**
@@ -557,9 +499,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testSinh() {
-    ASTNode sinh = new ASTNode();
-    sinh.setType("sinh");
-    assertTrue(sinh.isFunction());
+    ASTNode sinh = new ASTNode(Type.FUNCTION_SINH);
+    assertTrue(sinh.isFunction() && sinh.getType() == Type.FUNCTION_SINH);
   }
   
   /**
@@ -567,9 +508,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testCosh() {
-    ASTNode cosh = new ASTNode();
-    cosh.setType("cosh");
-    assertTrue(cosh.isFunction());
+    ASTNode cosh = new ASTNode(Type.FUNCTION_COSH);
+    assertTrue(cosh.isFunction() && cosh.getType() == Type.FUNCTION_COSH);
   }
   
   /**
@@ -577,9 +517,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testTanh() {
-    ASTNode tanh = new ASTNode();
-    tanh.setType("tanh");
-    assertTrue(tanh.isFunction());
+    ASTNode tanh = new ASTNode(Type.FUNCTION_TANH);
+    assertTrue(tanh.isFunction() && tanh.getType() == Type.FUNCTION_TANH);
   }
   
   /**
@@ -587,9 +526,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testSech() {
-    ASTNode sech = new ASTNode();
-    sech.setType("sech");
-    assertTrue(sech.isFunction());
+    ASTNode sech = new ASTNode(Type.FUNCTION_SECH);
+    assertTrue(sech.isFunction() && sech.getType() == Type.FUNCTION_SECH);
   }
   
   /**
@@ -597,9 +535,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testCsch() {
-    ASTNode csch = new ASTNode();
-    csch.setType("csch");
-    assertTrue(csch.isFunction());
+    ASTNode csch = new ASTNode(Type.FUNCTION_CSCH);
+    assertTrue(csch.isFunction() && csch.getType() == Type.FUNCTION_CSCH);
   }
   
   /**
@@ -607,9 +544,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testCoth() {
-    ASTNode coth = new ASTNode();
-    coth.setType("coth");
-    assertTrue(coth.isFunction());
+    ASTNode coth = new ASTNode(Type.FUNCTION_COTH);
+    assertTrue(coth.isFunction() && coth.getType() == Type.FUNCTION_COTH);
   }
   
   /**
@@ -617,9 +553,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testArcSin() {
-    ASTNode arcSin = new ASTNode();
-    arcSin.setType("arcsin");
-    assertTrue(arcSin.isFunction());
+    ASTNode arcSin = new ASTNode(Type.FUNCTION_ARCSIN);
+    assertTrue(arcSin.isFunction() && arcSin.getType() == Type.FUNCTION_ARCSIN);
   }
   
   /**
@@ -627,9 +562,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testArcCos() {
-    ASTNode arcCos = new ASTNode();
-    arcCos.setType("arccos");
-    assertTrue(arcCos.isFunction());
+    ASTNode arcCos = new ASTNode(Type.FUNCTION_ARCCOS);
+    assertTrue(arcCos.isFunction() && arcCos.getType() == Type.FUNCTION_ARCCOS);
   }
   
   /**
@@ -637,9 +571,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testArcTan() {
-    ASTNode arcTan = new ASTNode();
-    arcTan.setType("arctan");
-    assertTrue(arcTan.isFunction());
+    ASTNode arcTan = new ASTNode(Type.FUNCTION_ARCTAN);
+    assertTrue(arcTan.isFunction() && arcTan.getType() == Type.FUNCTION_ARCTAN);
   }
   
   /**
@@ -647,9 +580,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testArcSec() {
-    ASTNode arcSec = new ASTNode();
-    arcSec.setType("arcsec");
-    assertTrue(arcSec.isFunction());
+    ASTNode arcSec = new ASTNode(Type.FUNCTION_ARCSEC);
+    assertTrue(arcSec.isFunction() && arcSec.getType() == Type.FUNCTION_ARCSEC);
   }
   
   /**
@@ -657,9 +589,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testArcCsc() {
-    ASTNode arcCsc = new ASTNode();
-    arcCsc.setType("arccsc");
-    assertTrue(arcCsc.isFunction());
+    ASTNode arcCsc = new ASTNode(Type.FUNCTION_ARCCSC);
+    assertTrue(arcCsc.isFunction() && arcCsc.getType() == Type.FUNCTION_ARCCSC);
   }
   
   /**
@@ -667,9 +598,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testArcCot() {
-    ASTNode arcCot = new ASTNode();
-    arcCot.setType("arccot");
-    assertTrue(arcCot.isFunction());
+    ASTNode arcCot = new ASTNode(Type.FUNCTION_ARCCOT);
+    assertTrue(arcCot.isFunction() && arcCot.getType() == Type.FUNCTION_ARCCOT);
   }
   
   /**
@@ -677,9 +607,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testArcSinh() {
-    ASTNode arcSinh = new ASTNode();
-    arcSinh.setType("arcsinh");
-    assertTrue(arcSinh.isFunction());
+    ASTNode arcSinh = new ASTNode(Type.FUNCTION_ARCSINH);
+    assertTrue(arcSinh.isFunction() && arcSinh.getType() == Type.FUNCTION_ARCSINH);
   }
   
   /**
@@ -687,9 +616,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testArcCosh() {
-    ASTNode arcCosh = new ASTNode();
-    arcCosh.setType("arccosh");
-    assertTrue(arcCosh.isFunction());
+    ASTNode arcCosh = new ASTNode(Type.FUNCTION_ARCCOSH);
+    assertTrue(arcCosh.isFunction() && arcCosh.getType() == Type.FUNCTION_ARCCOSH);
   }
   
   /**
@@ -697,9 +625,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testArcTanh() {
-    ASTNode arcTanh = new ASTNode();
-    arcTanh.setType("arctanh");
-    assertTrue(arcTanh.isFunction());
+    ASTNode arcTanh = new ASTNode(Type.FUNCTION_ARCTANH);
+    assertTrue(arcTanh.isFunction() && arcTanh.getType() == Type.FUNCTION_ARCTANH);
   }
   
   /**
@@ -707,9 +634,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testArcSech() {
-    ASTNode arcSech = new ASTNode();
-    arcSech.setType("arcsech");
-    assertTrue(arcSech.isFunction());
+    ASTNode arcSech = new ASTNode(Type.FUNCTION_ARCSECH);
+    assertTrue(arcSech.isFunction() && arcSech.getType() == Type.FUNCTION_ARCSECH);
   }
   
   /**
@@ -717,9 +643,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testArcCsch() {
-    ASTNode arcCsch = new ASTNode();
-    arcCsch.setType("arccsch");
-    assertTrue(arcCsch.isFunction());
+    ASTNode arcCsch = new ASTNode(Type.FUNCTION_ARCCSCH);
+    assertTrue(arcCsch.isFunction() && arcCsch.getType() == Type.FUNCTION_ARCCSCH);
   }
   
   /**
@@ -727,9 +652,8 @@ public class ASTNodeTest {
    */
   @Test
   public void testArcCoth() {
-    ASTNode arcCoth = new ASTNode();
-    arcCoth.setType("arccoth");
-    assertTrue(arcCoth.isFunction());
+    ASTNode arcCoth = new ASTNode(Type.FUNCTION_ARCCOTH);
+    assertTrue(arcCoth.isFunction() && arcCoth.getType() == Type.FUNCTION_ARCCOTH);
   }
   
 }

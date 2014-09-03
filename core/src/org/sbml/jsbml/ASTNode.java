@@ -33,16 +33,37 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.Unit.Kind;
+import org.sbml.jsbml.math.ASTBinaryFunctionNode;
+import org.sbml.jsbml.math.ASTCiFunctionNode;
+import org.sbml.jsbml.math.ASTCnExponentialNode;
+import org.sbml.jsbml.math.ASTCnIntegerNode;
+import org.sbml.jsbml.math.ASTCnRationalNode;
+import org.sbml.jsbml.math.ASTCnRealNode;
+import org.sbml.jsbml.math.ASTCSymbolDelayNode;
+import org.sbml.jsbml.math.ASTConstantNumber;
+import org.sbml.jsbml.math.ASTFactory;
+import org.sbml.jsbml.math.ASTFunction;
+import org.sbml.jsbml.math.ASTHyperbolicNode;
+import org.sbml.jsbml.math.ASTLambdaFunctionNode;
+import org.sbml.jsbml.math.ASTLogarithmNode;
+import org.sbml.jsbml.math.ASTLogicalOperatorNode;
+import org.sbml.jsbml.math.ASTMinusNode;
+import org.sbml.jsbml.math.ASTPowerNode;
+import org.sbml.jsbml.math.ASTRelationalOperatorNode;
+import org.sbml.jsbml.math.ASTUnaryFunctionNode;
+import org.sbml.jsbml.math.ASTRootNode;
+import org.sbml.jsbml.math.ASTNode2;
+import org.sbml.jsbml.math.ASTTrigonometricNode;
 import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.Maths;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
-import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
-import org.sbml.jsbml.util.compilers.ASTNodeValue;
-import org.sbml.jsbml.util.compilers.FormulaCompiler;
-import org.sbml.jsbml.util.compilers.LaTeXCompiler;
-import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
+import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
+import org.sbml.jsbml.math.compiler.ASTNode2Value;
+import org.sbml.jsbml.math.compiler.FormulaCompiler;
+import org.sbml.jsbml.math.compiler.LaTeXCompiler;
+import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.util.compilers.UnitsCompiler;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.xml.stax.SBMLReader;
@@ -377,7 +398,7 @@ public class ASTNode extends AbstractTreeNode {
      * 
      */
     VECTOR;
-
+  
     /**
      * Returns the {@link Type} corresponding to the given {@link String}.
      * 
@@ -416,7 +437,7 @@ public class ASTNode extends AbstractTreeNode {
       } else if (type.equals("factorial")) {
         return FUNCTION_FACTORIAL;
       }
-
+  
       // Logical operators
       else if (type.equals("and") || type.equals("&&")) {
         return LOGICAL_AND;
@@ -427,7 +448,7 @@ public class ASTNode extends AbstractTreeNode {
       } else if (type.equals("not") || type.equals("!")) {
         return LOGICAL_NOT;
       }
-
+  
       // Trigonometric operators
       else if (type.equals("cos")) {
         return FUNCTION_COS;
@@ -478,7 +499,7 @@ public class ASTNode extends AbstractTreeNode {
       } else if (type.equals("arccoth")) {
         return FUNCTION_ARCCOTH;
       }
-
+  
       // Relational operators
       else if (type.equals("eq") || type.equals("=")) {
         return RELATIONAL_EQ;
@@ -493,7 +514,7 @@ public class ASTNode extends AbstractTreeNode {
       } else if (type.equals("leq") || type.equals("<=")) {
         return RELATIONAL_LEQ;
       }
-
+  
       // token: cn, ci, csymbol, sep
       // for ci, we have to check if it is a functionDefinition
       // for cn, we pass the type attribute to this function to determine the
@@ -515,14 +536,14 @@ public class ASTNode extends AbstractTreeNode {
         return UNKNOWN;
       } else if (type.equals("sep")) {
         return UNKNOWN;
-      } else if (type.equals(URI_TIME_DEFINITION)) {
+      } else if (type.equals(ASTNode.URI_TIME_DEFINITION)) {
         return NAME_TIME;
-      } else if (type.equals(URI_DELAY_DEFINITION)) {
+      } else if (type.equals(ASTNode.URI_DELAY_DEFINITION)) {
         return FUNCTION_DELAY;
-      } else if (type.equals(URI_AVOGADRO_DEFINITION)) {
+      } else if (type.equals(ASTNode.URI_AVOGADRO_DEFINITION)) {
         return NAME_AVOGADRO;
       }
-
+  
       // general: apply, piecewise, piece, otherwise, lambda, bvar
       else if (type.equals("lambda")) {
         return LAMBDA;
@@ -535,14 +556,14 @@ public class ASTNode extends AbstractTreeNode {
       } else if (type.equals("otherwise")) {
         // nothing to do, node ignore when parsing
       }
-
+  
       // qualifiers: degree, logbase
       else if (type.equals("degree")) {
         // nothing to do, node ignore when parsing
       } else if (type.equals("logbase")) {
         // nothing to do, node ignore when parsing
       }
-
+  
       // constants: true, false, notanumber, pi, infinity, exponentiale
       else if (type.equals("true")) {
         return CONSTANT_TRUE;
@@ -557,7 +578,7 @@ public class ASTNode extends AbstractTreeNode {
       } else if (type.equals("exponentiale")) {
         return CONSTANT_E;
       }
-
+  
       // arrays package additional mathML elements
       else if (type.equals("selector")) {
         return FUNCTION_SELECTOR;
@@ -565,12 +586,12 @@ public class ASTNode extends AbstractTreeNode {
       else if (type.equals("vector")) {
         return VECTOR;
       }
-
+  
       // TODO: possible annotations: semantics, annotation, annotation-xml
-
+  
       return UNKNOWN;
     }
-
+  
     /**
      * Checks whether this type is valid for the given SBML
      * Level/Version combination.
@@ -586,7 +607,7 @@ public class ASTNode extends AbstractTreeNode {
       // TODO
       return false;
     }
-
+  
   }
 
   /**
@@ -637,7 +658,7 @@ public class ASTNode extends AbstractTreeNode {
    * of the given double value.
    */
   public static ASTNode abs(double d, MathContainer parent) {
-    ASTNode abs = new ASTNode(Type.FUNCTION_ABS, parent);
+    ASTNode abs = new ASTNode(ASTNode.Type.FUNCTION_ABS, parent);
     abs.addChild(new ASTNode(d, parent));
     return abs;
   }
@@ -652,7 +673,7 @@ public class ASTNode extends AbstractTreeNode {
    * of the given integer value.
    */
   public static ASTNode abs(int integer, MathContainer parent) {
-    ASTNode abs = new ASTNode(Type.FUNCTION_ABS, parent);
+    ASTNode abs = new ASTNode(ASTNode.Type.FUNCTION_ABS, parent);
     abs.addChild(new ASTNode(integer, parent));
     return abs;
   }
@@ -664,12 +685,12 @@ public class ASTNode extends AbstractTreeNode {
    * @param ast the children of the new ASTNode
    * @return a new {@link ASTNode} of type {@code operator} and adds the given nodes as children.
    */
-  private static ASTNode arithmethicOperation(Type operator, ASTNode... ast) {
+  private static ASTNode arithmethicOperation(ASTNode.Type operator, ASTNode... ast) {
     ArrayList<ASTNode> astList = new ArrayList<ASTNode>();
     if (ast != null) {
       for (ASTNode node : ast) {
         if ((node != null)
-            && !((operator == Type.TIMES) && node.isOne() && (ast.length > 1))) {
+            && !((operator == ASTNode.Type.TIMES) && node.isOne() && (ast.length > 1))) {
           astList.add(node);
         }
       }
@@ -680,9 +701,9 @@ public class ASTNode extends AbstractTreeNode {
     if (astList.size() == 1) {
       return astList.get(0).clone();
     }
-    if ((operator == Type.PLUS) || (operator == Type.MINUS)
-        || (operator == Type.TIMES) || (operator == Type.DIVIDE)
-        || (operator == Type.POWER)) {
+    if ((operator == ASTNode.Type.PLUS) || (operator == ASTNode.Type.MINUS)
+        || (operator == ASTNode.Type.TIMES) || (operator == ASTNode.Type.DIVIDE)
+        || (operator == ASTNode.Type.POWER)) {
       MathContainer mc = astList.get(0).parentSBMLObject;
       ASTNode arithmetic = new ASTNode(operator, mc);
       for (ASTNode nodes : astList) {
@@ -706,7 +727,11 @@ public class ASTNode extends AbstractTreeNode {
    * @return a new {@link ASTNode} of type MINUS and adds the given nodes as children
    */
   public static ASTNode diff(ASTNode... ast) {
-    return arithmethicOperation(Type.MINUS, ast);
+    ASTNode2[] ast2 = new ASTNode2[ast.length];
+    for (int i = 0; i < ast.length; i++) {
+      ast2[i] = ast[i].toASTNode2();
+    }
+    return new ASTNode(ASTFactory.diff(ast2));
   }
 
   /**
@@ -717,7 +742,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return a new {@link ASTNode} of type RELATIONAL_EQ.
    */
   public static ASTNode eq(ASTNode left, ASTNode right) {
-    return relational(Type.RELATIONAL_EQ, left, right);
+    return new ASTNode(ASTFactory.eq(left.toASTNode2(), right.toASTNode2()));
   }
 
   /**
@@ -729,8 +754,7 @@ public class ASTNode extends AbstractTreeNode {
    * power of the given exponent.
    */
   public static ASTNode exp(ASTNode exponent) {
-    ASTNode e = new ASTNode(Type.CONSTANT_E, exponent.getParentSBMLObject());
-    return e.raiseByThePowerOf(exponent);
+    return new ASTNode(ASTFactory.exp(exponent.toASTNode2()));
   }
 
   /**
@@ -760,7 +784,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return a new {@link ASTNode} of type DIVIDE with the given nodes as children.
    */
   public static ASTNode frac(ASTNode numerator, ASTNode denominator) {
-    return numerator.divideBy(denominator);
+    return new ASTNode(ASTFactory.frac(numerator.toASTNode2(), denominator.toASTNode2()));
   }
 
   /**
@@ -815,7 +839,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return an {@link ASTNode} representing greater or equal.
    */
   public static ASTNode geq(ASTNode left, ASTNode right) {
-    return relational(Type.RELATIONAL_GEQ, left, right);
+    return new ASTNode(ASTFactory.geq(left.toASTNode2(), right.toASTNode2()));
   }
 
   /**
@@ -828,7 +852,7 @@ public class ASTNode extends AbstractTreeNode {
    * the two given left and right child.
    */
   public static ASTNode gt(ASTNode left, ASTNode right) {
-    return relational(Type.RELATIONAL_GT, left, right);
+    return new ASTNode(ASTFactory.gt(left.toASTNode2(), right.toASTNode2()));
   }
 
   /**
@@ -841,7 +865,7 @@ public class ASTNode extends AbstractTreeNode {
    * the two given left and right child.
    */
   public static ASTNode leq(ASTNode left, ASTNode right) {
-    return relational(Type.RELATIONAL_LEQ, left, right);
+    return new ASTNode(ASTFactory.leq(left.toASTNode2(), right.toASTNode2()));
   }
 
   /**
@@ -851,7 +875,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return an {@link ASTNode} representing a logarithm to base 10 of the given value.
    */
   public static ASTNode log(ASTNode value) {
-    return log(null, value);
+    return new ASTNode(ASTFactory.log(value.toASTNode2()));
   }
 
   /**
@@ -868,18 +892,7 @@ public class ASTNode extends AbstractTreeNode {
    *         with respect to the given base or to the base 10 if base is {@code null}.
    */
   public static ASTNode log(ASTNode base, ASTNode value) {
-    if (value == null) {
-      throw new NullPointerException(
-          "logarithm cannot be created for null values");
-    }
-    ASTNode log = new ASTNode(Type.FUNCTION_LOG, value
-      .getParentSBMLObject());
-    if (base != null) {
-      log.addChild(base);
-    }
-    log.addChild(value);
-    setParentSBMLObject(log, log.getParentSBMLObject(), 0);
-    return log;
+    return new ASTNode(ASTFactory.log(base.toASTNode2(), value.toASTNode2()));
   }
 
   /**
@@ -893,7 +906,7 @@ public class ASTNode extends AbstractTreeNode {
    * two {@link ASTNode}s.
    */
   public static ASTNode lt(ASTNode left, ASTNode right) {
-    return relational(Type.RELATIONAL_LT, left, right);
+    return new ASTNode(ASTFactory.lt(left.toASTNode2(), right.toASTNode2()));
   }
 
   /**
@@ -920,7 +933,7 @@ public class ASTNode extends AbstractTreeNode {
    * two {@link ASTNode}s.
    */
   public static ASTNode neq(ASTNode left, ASTNode right) {
-    return relational(Type.RELATIONAL_NEQ, left, right);
+    return new ASTNode(ASTFactory.neq(left.toASTNode2(), right.toASTNode2()));
   }
 
   /**
@@ -988,7 +1001,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return a piecewise {@link ASTNode}.
    */
   public static ASTNode piecewise(ASTNode node, ASTNode... nodes) {
-    ASTNode piecewise = new ASTNode(Type.FUNCTION_PIECEWISE, node
+    ASTNode piecewise = new ASTNode(ASTNode.Type.FUNCTION_PIECEWISE, node
       .getParentSBMLObject());
     for (ASTNode n : nodes) {
       piecewise.addChild(n);
@@ -1007,17 +1020,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return a power {@link ASTNode}.
    */
   public static ASTNode pow(ASTNode basis, ASTNode exponent) {
-    if (!(exponent.isInteger() && exponent.getInteger() == 1)
-        && !(exponent.getType() == Type.REAL && exponent.getReal() == 1d)) {
-      if ((exponent.isInteger() && exponent.getInteger() == 0)
-          || (exponent.getType() == Type.REAL && exponent.getReal() == 0d)) {
-        basis = new ASTNode(1, basis.getParentSBMLObject());
-      } else {
-        setParentSBMLObject(exponent, basis.getParentSBMLObject(), 0);
-        basis.raiseByThePowerOf(exponent);
-      }
-    }
-    return basis;
+    return new ASTNode(ASTFactory.pow(basis.toASTNode2(), exponent.toASTNode2()));
   }
 
   /**
@@ -1090,7 +1093,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return a relational {@link ASTNode} of the given type with the two given
    * children left and right.
    */
-  private static ASTNode relational(Type type, ASTNode left, ASTNode right) {
+  private static ASTNode relational(ASTNode.Type type, ASTNode left, ASTNode right) {
     if ((left == null) || (right == null)) {
       throw new NullPointerException(
           "Cannot create a relational node with null arguments.");
@@ -1110,7 +1113,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return a root {@link ASTNode}.
    */
   public static ASTNode root(ASTNode rootExponent, ASTNode radicand) {
-    ASTNode root = new ASTNode(Type.FUNCTION_ROOT, radicand
+    ASTNode root = new ASTNode(ASTNode.Type.FUNCTION_ROOT, radicand
       .getParentSBMLObject());
     root.addChild(rootExponent);
     root.addChild(radicand);
@@ -1163,7 +1166,11 @@ public class ASTNode extends AbstractTreeNode {
    * @return a new {@link ASTNode} of type Plus with the given nodes as children.
    */
   public static ASTNode sum(ASTNode... ast) {
-    return arithmethicOperation(Type.PLUS, ast);
+    ASTNode2[] ast2 = new ASTNode2[ast.length];
+    for (int i = 0; i < ast.length; i++) {
+      ast2[i] = ast[i].toASTNode2();
+    }
+    return new ASTNode(ASTFactory.sum(ast2));
   }
 
   /**
@@ -1183,13 +1190,17 @@ public class ASTNode extends AbstractTreeNode {
   }
 
   /**
-   * Creates an {@link ASTNode} of type times and adds the given nodes as children.
+   * Creates an {@link ASTNode} of type product and adds the given nodes as children.
    * 
    * @param ast
-   * @return an {@link ASTNode} of type times and adds the given nodes as children.
+   * @return an {@link ASTNode} of type product and adds the given nodes as children.
    */
   public static ASTNode times(ASTNode... ast) {
-    return arithmethicOperation(Type.TIMES, ast);
+    ASTNode2[] ast2 = new ASTNode2[ast.length];
+    for (int i = 0; i < ast.length; i++) {
+      ast2[i] = ast[i].toASTNode2();
+    }
+    return new ASTNode(ASTFactory.product(ast2));
   }
 
   /**
@@ -1217,7 +1228,7 @@ public class ASTNode extends AbstractTreeNode {
    * minus, i.e., this negates what is encoded in ast.
    */
   public static ASTNode uMinus(ASTNode ast) {
-    ASTNode um = new ASTNode(Type.MINUS, ast.getParentSBMLObject());
+    ASTNode um = new ASTNode(ASTNode.Type.MINUS, ast.getParentSBMLObject());
     um.addChild(ast);
     return um;
   }
@@ -1303,7 +1314,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * The type of this ASTNode.
    */
-  private Type type;
+  private ASTNode.Type type;
 
   /**
    * Since Level 3 SBML allows to equip numbers with unit identifiers. In this
@@ -1366,7 +1377,7 @@ public class ASTNode extends AbstractTreeNode {
    * @param nsb
    */
   public ASTNode(CallableSBase nsb) {
-    this(Type.NAME);
+    this(ASTNode.Type.NAME);
     setVariable(nsb);
   }
 
@@ -1377,7 +1388,7 @@ public class ASTNode extends AbstractTreeNode {
    * @param parent
    */
   public ASTNode(CallableSBase nsb, MathContainer parent) {
-    this(Type.NAME, parent);
+    this(ASTNode.Type.NAME, parent);
     setVariable(nsb);
   }
 
@@ -1410,8 +1421,14 @@ public class ASTNode extends AbstractTreeNode {
    * @param real
    */
   public ASTNode(double real) {
-    this(Type.REAL);
-    setValue(real);
+    switch(Double.compare(real, Math.E)) {
+    case 0:
+      astnode2 = new ASTConstantNumber(Math.E);
+      break;
+    default:
+      astnode2 = new ASTCnRealNode(real);
+      break;
+    }
   }
 
   /**
@@ -1421,8 +1438,9 @@ public class ASTNode extends AbstractTreeNode {
    * @param exponent
    */
   public ASTNode(double mantissa, int exponent) {
-    this(Type.REAL_E);
-    setValue(mantissa, exponent);
+    astnode2 = new ASTCnExponentialNode();
+    ((ASTCnExponentialNode)astnode2).setMantissa(mantissa);
+    ((ASTCnExponentialNode)astnode2).setExponent(exponent);
   }
 
   /**
@@ -1433,7 +1451,7 @@ public class ASTNode extends AbstractTreeNode {
    * @param parent
    */
   public ASTNode(double mantissa, int exponent, MathContainer parent) {
-    this(Type.REAL_E, parent);
+    this(ASTNode.Type.REAL_E, parent);
     setValue(mantissa, exponent);
   }
 
@@ -1444,7 +1462,7 @@ public class ASTNode extends AbstractTreeNode {
    * @param parent
    */
   public ASTNode(double real, MathContainer parent) {
-    this(Type.REAL, parent);
+    this(ASTNode.Type.REAL, parent);
     setValue(real);
   }
 
@@ -1454,7 +1472,7 @@ public class ASTNode extends AbstractTreeNode {
    * @param integer
    */
   public ASTNode(int integer) {
-    this(integer, null);
+    astnode2 = new ASTCnIntegerNode(integer);
   }
 
   /**
@@ -1479,7 +1497,7 @@ public class ASTNode extends AbstractTreeNode {
    * @param parent
    */
   public ASTNode(int integer, String unitsID, MathContainer parent) {
-    this(Type.INTEGER, parent);
+    this(ASTNode.Type.INTEGER, parent);
     setValue(integer);
     if (unitsID != null) {
       setUnits(unitsID);
@@ -1510,7 +1528,7 @@ public class ASTNode extends AbstractTreeNode {
    * @param name  the name of this ASTNode
    */
   public ASTNode(String name) {
-    this(Type.NAME);
+    this(ASTNode.Type.NAME);
     setName(name);
   }
 
@@ -1522,19 +1540,114 @@ public class ASTNode extends AbstractTreeNode {
    *            the parent SBML object.
    */
   public ASTNode(String name, MathContainer parent) {
-    this(Type.NAME, parent);
+    this(ASTNode.Type.NAME, parent);
     setName(name);
   }
 
   /**
-   * Creates a new {@link ASTNode} of the given {@link Type} but without a
+   * Creates a new {@link ASTNode} of the given {@link ASTNode.Type} but without a
    * pointer to its {@link MathContainer}.
    * 
    * @param type
    */
-  public ASTNode(Type type) {
-    this();
-    setType(type);
+  public ASTNode(ASTNode.Type type) {
+    switch(type) {
+    case LAMBDA:
+      astnode2 = new ASTLambdaFunctionNode();
+      break;
+    case LOGICAL_AND:
+      astnode2 = new ASTLogicalOperatorNode(Type.LOGICAL_AND);
+      break;
+    case LOGICAL_OR:
+      astnode2 = new ASTLogicalOperatorNode(Type.LOGICAL_OR);
+      break;
+    case LOGICAL_NOT:
+      astnode2 = new ASTLogicalOperatorNode(Type.LOGICAL_NOT);
+      break;
+    case LOGICAL_XOR:
+      astnode2 = new ASTLogicalOperatorNode(Type.LOGICAL_XOR);
+      break;
+    case RATIONAL:
+      astnode2 = new ASTCnRationalNode();
+      break;
+    case FUNCTION:
+      astnode2 = new ASTCiFunctionNode();
+      break;
+    case FUNCTION_ARCCSC:
+      astnode2 = new ASTTrigonometricNode(Type.FUNCTION_ARCCSC);
+      break;
+    case FUNCTION_ARCCOS:
+      astnode2 = new ASTTrigonometricNode(Type.FUNCTION_ARCCOS);
+      break;
+    case FUNCTION_ARCCOT:
+      astnode2 = new ASTTrigonometricNode(Type.FUNCTION_ARCCOT);
+      break;
+    case FUNCTION_ARCSIN:
+      astnode2 = new ASTTrigonometricNode(Type.FUNCTION_ARCSIN);
+      break;
+    case FUNCTION_ARCSEC:
+      astnode2 = new ASTTrigonometricNode(Type.FUNCTION_ARCSEC);
+      break;
+    case FUNCTION_ARCTAN:
+      astnode2 = new ASTTrigonometricNode(Type.FUNCTION_ARCTAN);
+      break;
+    case FUNCTION_CSC:
+      astnode2 = new ASTTrigonometricNode(Type.FUNCTION_CSC);
+      break;
+    case FUNCTION_COS:
+      astnode2 = new ASTTrigonometricNode(Type.FUNCTION_COS);
+      break;
+    case FUNCTION_COT:
+      astnode2 = new ASTTrigonometricNode(Type.FUNCTION_COT);
+      break;
+    case FUNCTION_SIN:
+      astnode2 = new ASTTrigonometricNode(Type.FUNCTION_SIN);
+      break;
+    case FUNCTION_SEC:
+      astnode2 = new ASTTrigonometricNode(Type.FUNCTION_SEC);
+      break;
+    case FUNCTION_TAN:
+      astnode2 = new ASTTrigonometricNode(Type.FUNCTION_TAN);
+      break;
+    case FUNCTION_ARCCSCH:
+      astnode2 = new ASTHyperbolicNode(Type.FUNCTION_ARCCSCH);
+      break;
+    case FUNCTION_ARCCOSH:
+      astnode2 = new ASTHyperbolicNode(Type.FUNCTION_ARCCOSH);
+      break;
+    case FUNCTION_ARCCOTH:
+      astnode2 = new ASTHyperbolicNode(Type.FUNCTION_ARCCOTH);
+      break;
+    case FUNCTION_ARCSINH:
+      astnode2 = new ASTHyperbolicNode(Type.FUNCTION_ARCSINH);
+      break;
+    case FUNCTION_ARCSECH:
+      astnode2 = new ASTHyperbolicNode(Type.FUNCTION_ARCSECH);
+      break;
+    case FUNCTION_ARCTANH:
+      astnode2 = new ASTHyperbolicNode(Type.FUNCTION_ARCTANH);
+      break;
+    case FUNCTION_CSCH:
+      astnode2 = new ASTHyperbolicNode(Type.FUNCTION_CSCH);
+      break;
+    case FUNCTION_COSH:
+      astnode2 = new ASTHyperbolicNode(Type.FUNCTION_COSH);
+      break;
+    case FUNCTION_COTH:
+      astnode2 = new ASTHyperbolicNode(Type.FUNCTION_COTH);
+      break;
+    case FUNCTION_SINH:
+      astnode2 = new ASTHyperbolicNode(Type.FUNCTION_SINH);
+      break;
+    case FUNCTION_SECH:
+      astnode2 = new ASTHyperbolicNode(Type.FUNCTION_SECH);
+      break;
+    case FUNCTION_TANH:
+      astnode2 = new ASTHyperbolicNode(Type.FUNCTION_TANH);
+      break;
+    default:
+      break;
+    }
   }
 
   /**
@@ -1545,7 +1658,7 @@ public class ASTNode extends AbstractTreeNode {
    * @param parent
    *            the parent SBML object.
    */
-  public ASTNode(Type type, MathContainer parent) {
+  public ASTNode(ASTNode.Type type, MathContainer parent) {
     this(parent);
     setType(type);
   }
@@ -1589,14 +1702,14 @@ public class ASTNode extends AbstractTreeNode {
    *         {@link Type#POWER}, {@link Type#FUNCTION_ROOT}</li>
    *         </ul>
    */
-  private void arithmeticOperation(Type operator, ASTNode astnode) {
-    if ((operator == Type.PLUS) || (operator == Type.MINUS)
-        || (operator == Type.TIMES) || (operator == Type.DIVIDE)
-        || (operator == Type.POWER) || (operator == Type.FUNCTION_ROOT)) {
-      if (astnode.isZero() && (operator == Type.DIVIDE)) {
+  private void arithmeticOperation(ASTNode.Type operator, ASTNode astnode) {
+    if ((operator == ASTNode.Type.PLUS) || (operator == ASTNode.Type.MINUS)
+        || (operator == ASTNode.Type.TIMES) || (operator == ASTNode.Type.DIVIDE)
+        || (operator == ASTNode.Type.POWER) || (operator == ASTNode.Type.FUNCTION_ROOT)) {
+      if (astnode.isZero() && (operator == ASTNode.Type.DIVIDE)) {
         throw new IllegalArgumentException("Cannot divide by zero.");
       }
-      if (!(astnode.isOne() && ((operator == Type.TIMES) || (operator == Type.DIVIDE)))) {
+      if (!(astnode.isOne() && ((operator == ASTNode.Type.TIMES) || (operator == ASTNode.Type.DIVIDE)))) {
         /*
          * Here we want to restructure the tree by making an equivalent of the current node
          * being a child of the current node. This node will then become of some different type.
@@ -1617,7 +1730,7 @@ public class ASTNode extends AbstractTreeNode {
          */
         swapChildren(swap);
         setType(operator);
-        if (operator == Type.FUNCTION_ROOT) {
+        if (operator == ASTNode.Type.FUNCTION_ROOT) {
           addChild(astnode);
           addChild(swap);
         } else {
@@ -1656,8 +1769,8 @@ public class ASTNode extends AbstractTreeNode {
    *             Thrown if an error occurs during the compilation process.
    * 
    */
-  public ASTNodeValue compile(ASTNodeCompiler compiler) throws SBMLException {
-    ASTNodeValue value;
+  public ASTNode2Value compile(ASTNode2Compiler compiler) throws SBMLException {
+    ASTNode2Value value;
     switch (getType()) {
     /*
      * Numbers
@@ -1678,23 +1791,24 @@ public class ASTNode extends AbstractTreeNode {
        * Operators
        */
     case POWER:
-      value = compiler.pow(getLeftChild(), getRightChild());
+      value = compiler.pow(((ASTPowerNode)toASTNode2()).getChildAt(0), ((ASTPowerNode)toASTNode2()).getChildAt(
+                          ((ASTPowerNode)toASTNode2()).getChildCount() - 1));
       break;
     case PLUS:
-      value = compiler.plus(getChildren());
+      value = compiler.plus(((ASTFunction)toASTNode2()).getChildren());
       value.setUIFlag(getChildCount() <= 1);
       break;
     case MINUS:
       if (getChildCount() < 2) {
-        value = compiler.uMinus(getLeftChild());
+        value = compiler.uMinus(((ASTMinusNode)toASTNode2()).getChildAt(0));
         value.setUIFlag(true);
       } else {
-        value = compiler.minus(getChildren());
+        value = compiler.minus(((ASTFunction)toASTNode2()).getChildren());
         value.setUIFlag(false);
       }
       break;
     case TIMES:
-      value = compiler.times(getChildren());
+      value = compiler.times(((ASTFunction)toASTNode2()).getChildren());
       value.setUIFlag(getChildCount() <= 1);
       break;
     case DIVIDE:
@@ -1704,7 +1818,8 @@ public class ASTNode extends AbstractTreeNode {
           "Fractions must have one numerator and one denominator, here {0,number,integer} elements are given.",
           childCount));
       }
-      value = compiler.frac(getLeftChild(), getRightChild());
+      value = compiler.frac(((ASTCnRationalNode)toASTNode2()).getChildAt(0), ((ASTCnRationalNode)toASTNode2()).getChildAt(
+                           ((ASTCnRationalNode)toASTNode2()).getChildCount() - 1));
       break;
     case RATIONAL:
       value = compiler.frac(getNumerator(), getDenominator());
@@ -1712,28 +1827,28 @@ public class ASTNode extends AbstractTreeNode {
     case NAME_TIME:
       value = compiler.symbolTime(getName());
       break;
-    case FUNCTION_DELAY:
-      value = compiler.delay(getName(), getLeftChild(), getRightChild(),
-        getUnits());
-      break;
-      /*
-       * Names of identifiers: parameters, functions, species etc.
-       */
-    case NAME:
-      if (variable == null) {
-        variable = getVariable();
-      }
-      if (variable != null) {
-        if (variable instanceof FunctionDefinition) {
-          value = compiler.function((FunctionDefinition) variable,
-            getChildren());
-        } else {
-          value = compiler.compile(variable);
-        }
-      } else {
-        value = compiler.compile(getName());
-      }
-      break;
+//    case FUNCTION_DELAY:
+//      value = compiler.delay(getName(), ((ASTCSymbolDelayNode)toASTNode2()).getChildAt(0), getRightChild(),
+//        getUnits());
+//      break;
+//      /*
+//       * Names of identifiers: parameters, functions, species etc.
+//       */
+//    case NAME:
+//      if (variable == null) {
+//        variable = getVariable();
+//      }
+//      if (variable != null) {
+//        if (variable instanceof FunctionDefinition) {
+//          value = compiler.function((FunctionDefinition) variable,
+//            getChildren());
+//        } else {
+//          value = compiler.compile(variable);
+//        }
+//      } else {
+//        value = compiler.compile(getName());
+//      }
+//      break;
       /*
        * Type: pi, e, true, false, Avogadro
        */
@@ -1761,208 +1876,231 @@ public class ASTNode extends AbstractTreeNode {
        */
     case FUNCTION_LOG:
       if (getChildCount() == 2) {
-        value = compiler.log(getLeftChild(), getRightChild());
+        value = compiler.log(((ASTLogarithmNode)toASTNode2()).getChildAt(0), 
+                            ((ASTLogarithmNode)toASTNode2()).getChildAt(
+                            ((ASTLogarithmNode)toASTNode2()).getChildCount() - 1));
       } else {
-        value = compiler.log(getRightChild());
+        value = compiler.log(((ASTLogarithmNode)toASTNode2()).getChildAt(
+                            ((ASTLogarithmNode)toASTNode2()).getChildCount() - 1));
       }
       break;
     case FUNCTION_ABS:
-      value = compiler.abs(getRightChild());
+      value = compiler.abs(((ASTUnaryFunctionNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_ARCCOS:
-      value = compiler.arccos(getLeftChild());
+      value = compiler.arccos(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_ARCCOSH:
-      value = compiler.arccosh(getLeftChild());
+      value = compiler.arccosh(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_ARCCOT:
-      value = compiler.arccot(getLeftChild());
+      value = compiler.arccot(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_ARCCOTH:
-      value = compiler.arccoth(getLeftChild());
+      value = compiler.arccoth(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_ARCCSC:
-      value = compiler.arccsc(getLeftChild());
+      value = compiler.arccsc(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_ARCCSCH:
-      value = compiler.arccsch(getLeftChild());
+      value = compiler.arccsch(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_ARCSEC:
-      value = compiler.arcsec(getLeftChild());
+      value = compiler.arcsec(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_ARCSECH:
-      value = compiler.arcsech(getLeftChild());
+      value = compiler.arcsech(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_ARCSIN:
-      value = compiler.arcsin(getLeftChild());
+      value = compiler.arcsin(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_ARCSINH:
-      value = compiler.arcsinh(getLeftChild());
+      value = compiler.arcsinh(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_ARCTAN:
-      value = compiler.arctan(getLeftChild());
+      value = compiler.arctan(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_ARCTANH:
-      value = compiler.arctanh(getLeftChild());
+      value = compiler.arctanh(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_CEILING:
-      value = compiler.ceiling(getLeftChild());
+      value = compiler.ceiling(((ASTUnaryFunctionNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_COS:
-      value = compiler.cos(getLeftChild());
+      value = compiler.cos(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_COSH:
-      value = compiler.cosh(getLeftChild());
+      value = compiler.cosh(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_COT:
-      value = compiler.cot(getLeftChild());
+      value = compiler.cot(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_COTH:
-      value = compiler.coth(getLeftChild());
+      value = compiler.coth(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_CSC:
-      value = compiler.csc(getLeftChild());
+      value = compiler.csc(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_CSCH:
-      value = compiler.csch(getLeftChild());
+      value = compiler.csch(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_EXP:
-      value = compiler.exp(getLeftChild());
+      value = compiler.exp((ASTFunction)toASTNode2().getChildAt(0));
       break;
     case FUNCTION_FACTORIAL:
-      value = compiler.factorial(getLeftChild());
+      value = compiler.factorial(((ASTUnaryFunctionNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_FLOOR:
-      value = compiler.floor(getLeftChild());
+      value = compiler.floor(((ASTUnaryFunctionNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_LN:
-      value = compiler.ln(getLeftChild());
+      value = compiler.ln(((ASTLogarithmNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_POWER:
-      value = compiler.pow(getLeftChild(), getRightChild());
+      value = compiler.pow(((ASTPowerNode)toASTNode2()).getChildAt(0), ((ASTPowerNode)toASTNode2()).getChildAt(
+                          ((ASTPowerNode)toASTNode2()).getChildCount() - 1));
       break;
     case FUNCTION_ROOT:
-      ASTNode left = getLeftChild();
+      ASTNode2 left = ((ASTFunction)toASTNode2()).getChildAt(0);
       if (getChildCount() == 2) {
-        if (left.isInteger()) {
-          int leftValue = left.getInteger();
+        if (left.getType() == Type.INTEGER) {
+          int leftValue = ((ASTCnIntegerNode)left).getInteger();
           if (leftValue == 2) {
-            value = compiler.sqrt(getRightChild());
+            value = compiler.sqrt(((ASTRootNode)toASTNode2()).getChildAt(
+                                 ((ASTRootNode)toASTNode2()).getChildCount() - 1));
           } else {
-            value = compiler.root(leftValue, getRightChild());
+            value = compiler.root(leftValue, ((ASTRootNode)toASTNode2()).getChildAt(
+                                 ((ASTRootNode)toASTNode2()).getChildCount() - 1));
           }
-        } else if (left.isReal()) {
-          double leftValue = left.getReal();
+        } else if (left.getType() == Type.REAL) {
+          double leftValue = ((ASTCnRealNode)left).getReal();
           if (leftValue == 2d) {
-            value = compiler.sqrt(getRightChild());
+            value = compiler.sqrt(((ASTRootNode)toASTNode2()).getChildAt(
+                                 ((ASTRootNode)toASTNode2()).getChildCount() - 1));
           } else {
-            value = compiler.root(leftValue, getRightChild());
+            value = compiler.root(leftValue, ((ASTRootNode)toASTNode2()).getChildAt(
+                                 ((ASTRootNode)toASTNode2()).getChildCount() - 1));
           }
         } else {
-          value = compiler.root(left, getRightChild());
+          value = compiler.root(left, ((ASTRootNode)toASTNode2()).getChildAt(
+            ((ASTRootNode)toASTNode2()).getChildCount() - 1));
         }
       } else if (getChildCount() == 1) {
-        value = compiler.sqrt(getRightChild());
+        value = compiler.sqrt(((ASTRootNode)toASTNode2()).getChildAt(
+          ((ASTRootNode)toASTNode2()).getChildCount() - 1));
       } else {
-        value = compiler.root(left, getRightChild());
+        value = compiler.root(left, ((ASTRootNode)toASTNode2()).getChildAt(
+          ((ASTRootNode)toASTNode2()).getChildCount() - 1));
       }
       break;
     case FUNCTION_SEC:
-      value = compiler.sec(getLeftChild());
+      value = compiler.sec(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_SECH:
-      value = compiler.sech(getLeftChild());
+      value = compiler.sech(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_SELECTOR:
-      value = compiler.selector(getChildren());
+      value = compiler.selector(((ASTFunction)toASTNode2()).getChildren());
       break;
     case FUNCTION_SIN:
-      value = compiler.sin(getLeftChild());
+      value = compiler.sin(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_SINH:
-      value = compiler.sinh(getLeftChild());
+      value = compiler.sinh(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_TAN:
-      value = compiler.tan(getLeftChild());
+      value = compiler.tan(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
       break;
     case FUNCTION_TANH:
-      value = compiler.tanh(getLeftChild());
+      value = compiler.tanh(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
       break;
-    case FUNCTION: {
-      if (variable == null) {
-        variable = getVariable();
-      }
-      if (variable != null) {
-        if (variable instanceof FunctionDefinition) {
-          value = compiler.function((FunctionDefinition) variable,
-            getChildren());
-        } else {
-          logger
-          .warn("ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
-              + getName()
-              + ", "
-              + getParentSBMLObject().getElementName()
-              + ")");
-          throw new SBMLException(
-            "ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
-                + getName() + ", " + getParentSBMLObject().getElementName()
-                + ")");
-          // value = compiler.compile(variable);
-        }
-      } else {
-        logger.warn(MessageFormat.format(
-          "ASTNode of type FUNCTION but the variable is null: ({0}, {1})! Check that your object is linked to a Model.",
-          getName(), (getParentSBMLObject() != null ? getParentSBMLObject().getElementName() : null)));
-        value = compiler.function(getName(), getChildren());
-      }
-      break;
-    }
-    case FUNCTION_PIECEWISE:
-      value = compiler.piecewise(getChildren());
-      value.setUIFlag(getChildCount() <= 1);
-      break;
-    case LAMBDA:
-      value = compiler.lambda(getChildren());
-      value.setUIFlag(getChildCount() <= 1);
-      break;
-      /*
-       * Logical and relational functions
-       */
-    case LOGICAL_AND:
-      value = compiler.and(getChildren());
-      value.setUIFlag(getChildCount() <= 1);
-      break;
-    case LOGICAL_XOR:
-      value = compiler.xor(getChildren());
-      value.setUIFlag(getChildCount() <= 1);
-      break;
-    case LOGICAL_OR:
-      value = compiler.or(getChildren());
-      value.setUIFlag(getChildCount() <= 1);
-      break;
+//    case FUNCTION: {
+//      if (variable == null) {
+//        variable = getVariable();
+//      }
+//      if (variable != null) {
+//        if (variable instanceof FunctionDefinition) {
+//          value = compiler.function((FunctionDefinition) variable,
+//            ((ASTFunction)toASTNode2()).getChildren());
+//        } else {
+//          logger
+//          .warn("ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
+//              + getName()
+//              + ", "
+//              + getParentSBMLObject().getElementName()
+//              + ")");
+//          throw new SBMLException(
+//            "ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
+//                + getName() + ", " + getParentSBMLObject().getElementName()
+//                + ")");
+//          // value = compiler.compile(variable);
+//        }
+//      } else {
+//        logger.warn(MessageFormat.format(
+//          "ASTNode of type FUNCTION but the variable is null: ({0}, {1})! Check that your object is linked to a Model.",
+//          getName(), (getParentSBMLObject() != null ? getParentSBMLObject().getElementName() : null)));
+//        value = compiler.function(getName(), (ASTFunction)toASTNode2()).getChildren());
+//      }
+//      break;
+//    }
+//    case FUNCTION_PIECEWISE:
+//      value = compiler.piecewise((ASTFunction)toASTNode2()).getChildren());
+//      value.setUIFlag(getChildCount() <= 1);
+//      break;
+//    case LAMBDA:
+//      value = compiler.lambda((ASTFunction)toASTNode2()).getChildren());
+//      value.setUIFlag(getChildCount() <= 1);
+//      break;
+//      /*
+//       * Logical and relational functions
+//       */
+//    case LOGICAL_AND:
+//      value = compiler.and(getChildren());
+//      value.setUIFlag(getChildCount() <= 1);
+//      break;
+//    case LOGICAL_XOR:
+//      value = compiler.xor(getChildren());
+//      value.setUIFlag(getChildCount() <= 1);
+//      break;
+//    case LOGICAL_OR:
+//      value = compiler.or((ASTLogicalOperatorNode)toASTNode2().children());
+//      value.setUIFlag(getChildCount() <= 1);
+//      break;
     case LOGICAL_NOT:
-      value = compiler.not(getLeftChild());
+      value = compiler.not((ASTLogicalOperatorNode)toASTNode2().getChildAt(0));
       break;
     case RELATIONAL_EQ:
-      value = compiler.eq(getLeftChild(), getRightChild());
+      value = compiler.eq((ASTRelationalOperatorNode)toASTNode2().getChildAt(0), 
+        ((ASTRelationalOperatorNode)toASTNode2()).getChildAt(
+          ((ASTRelationalOperatorNode)toASTNode2()).getChildCount() - 1));
       break;
     case RELATIONAL_GEQ:
-      value = compiler.geq(getLeftChild(), getRightChild());
+      value = compiler.geq((ASTRelationalOperatorNode)toASTNode2().getChildAt(0), 
+        ((ASTRelationalOperatorNode)toASTNode2()).getChildAt(
+          ((ASTRelationalOperatorNode)toASTNode2()).getChildCount() - 1));
       break;
     case RELATIONAL_GT:
-      value = compiler.gt(getLeftChild(), getRightChild());
+      value = compiler.gt((ASTRelationalOperatorNode)toASTNode2().getChildAt(0), 
+        ((ASTRelationalOperatorNode)toASTNode2()).getChildAt(
+          ((ASTRelationalOperatorNode)toASTNode2()).getChildCount() - 1));
       break;
     case RELATIONAL_NEQ:
-      value = compiler.neq(getLeftChild(), getRightChild());
+      value = compiler.neq((ASTRelationalOperatorNode)toASTNode2().getChildAt(0), 
+        ((ASTRelationalOperatorNode)toASTNode2()).getChildAt(
+          ((ASTRelationalOperatorNode)toASTNode2()).getChildCount() - 1));
       break;
     case RELATIONAL_LEQ:
-      value = compiler.leq(getLeftChild(), getRightChild());
+      value = compiler.leq((ASTRelationalOperatorNode)toASTNode2().getChildAt(0), 
+        ((ASTRelationalOperatorNode)toASTNode2()).getChildAt(
+          ((ASTRelationalOperatorNode)toASTNode2()).getChildCount() - 1));
       break;
     case RELATIONAL_LT:
-      value = compiler.lt(getLeftChild(), getRightChild());
+      value = compiler.lt((ASTRelationalOperatorNode)toASTNode2().getChildAt(0), 
+        ((ASTRelationalOperatorNode)toASTNode2()).getChildAt(
+          ((ASTRelationalOperatorNode)toASTNode2()).getChildCount() - 1));
       break;
     case VECTOR:
-      value = compiler.vector(getChildren());
+      value = compiler.vector(((ASTFunction)toASTNode2()).getChildren());
       value.setUIFlag(getChildCount() <= 1);
       break;
     default: // UNKNOWN:
@@ -2000,12 +2138,12 @@ public class ASTNode extends AbstractTreeNode {
         return true;
       }
       if (isString()) {
-        if ((type == Type.NAME_TIME) && (isSetParentSBMLObject())) {
+        if ((type == ASTNode.Type.NAME_TIME) && (isSetParentSBMLObject())) {
           Model model = getParentSBMLObject().getModel();
           if ((model != null) && model.isSetTimeUnits()) {
             return false;
           }
-        } else if ((type == Type.NAME_AVOGADRO) || (getVariable() != null)
+        } else if ((type == ASTNode.Type.NAME_AVOGADRO) || (getVariable() != null)
             && (!getVariable().containsUndeclaredUnits())) {
           return false;
         }
@@ -2045,7 +2183,7 @@ public class ASTNode extends AbstractTreeNode {
     if (compiler == null) {
       compiler = new UnitsCompiler(level, version);
     }
-    return compile(compiler).getUnits().simplify();
+    return compile((ASTNode2Compiler) compiler).getUnits().simplify();
   }
 
   /**
@@ -2056,7 +2194,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return the current node for convenience.
    */
   public ASTNode divideBy(ASTNode ast) {
-    arithmeticOperation(Type.DIVIDE, ast);
+    arithmeticOperation(ASTNode.Type.DIVIDE, ast);
     return this;
   }
 
@@ -2076,57 +2214,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   @Override
   public boolean equals(Object object) {
-    boolean equal = super.equals(object);
-    if (equal) {
-      ASTNode ast = (ASTNode) object;
-      equal &= ast.getType() == type;
-
-      if (isInteger() && ast.isInteger()) {
-        equal &= ast.getInteger() == getInteger();
-      }
-      if (isString() && ast.isString()) {
-        equal &= ast.isSetName() == isSetName();
-        if (equal && isSetName()) {
-          equal &= ast.getName().equals(getName());
-        }
-      }
-      if (isRational() && ast.isRational()) {
-        equal &= ast.getNumerator() == getNumerator()
-            && ast.getDenominator() == getDenominator();
-      }
-      if ((ast.getType() == Type.REAL_E) && (type == Type.REAL_E)) {
-        equal &= ast.getMantissa() == getMantissa()
-            && ast.getExponent() == getExponent();
-      } else if (isReal() && ast.isReal()) {
-        equal &= ast.getReal() == getReal();
-      }
-
-      equal &= isSetClassName() == ast.isSetClassName();
-      if (equal && isSetClassName()) {
-        equal &= getClassName().equals(ast.getClassName());
-      }
-      equal &= isSetDefinitionURL() == ast.isSetDefinitionURL();
-      if (equal && isSetDefinitionURL()) {
-        equal &= getDefinitionURL().equals(ast.getDefinitionURL());
-      }
-      equal &= isSetEncoding() == ast.isSetEncoding();
-      if (equal && isSetEncoding()) {
-        equal &= getEncoding().equals(ast.getEncoding());
-      }
-      equal &= isSetId() == ast.isSetId();
-      if (equal && isSetId()) {
-        equal &= getId().equals(ast.getId());
-      }
-      equal &= isSetStyle() == ast.isSetStyle();
-      if (equal && isSetStyle()) {
-        equal &= getStyle().equals(ast.getStyle());
-      }
-      equal &= isSetUnits() == ast.isSetUnits();
-      if (equal && isSetUnits()) {
-        equal &= getUnits().equals(ast.getUnits());
-      }
-    }
-    return equal;
+    return toASTNode2().equals(((ASTNode)object).toASTNode2());  
   }
 
   /**
@@ -2200,7 +2288,7 @@ public class ASTNode extends AbstractTreeNode {
    *             size()).
    */
   public ASTNode getChild(int index) {
-    return listOfNodes.get(index);
+    return new ASTNode((ASTNode) toASTNode2().getChildAt(index));
   }
 
   /* (non-Javadoc)
@@ -2216,7 +2304,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   @Override
   public int getChildCount() {
-    return listOfNodes == null ? 0 : listOfNodes.size();
+    return toASTNode2().getChildCount();
   }
 
   /**
@@ -2257,7 +2345,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   public int getDenominator() {
     if (isRational()) {
-      return denominator;
+      return ((ASTCnRationalNode)toASTNode2()).getDenominator();
     }
     throw new IllegalArgumentException(
         "getDenominator() should be called only when getType() == RATIONAL.");
@@ -2282,8 +2370,9 @@ public class ASTNode extends AbstractTreeNode {
    *             if the method is called on a node that is not of type real.
    */
   public int getExponent() {
-    if (type == Type.REAL || type == Type.REAL_E) {
-      return exponent;
+    Type type = toASTNode2().getType();
+    if (type == ASTNode.Type.REAL || type == ASTNode.Type.REAL_E) {
+      return ((ASTCnExponentialNode)toASTNode2()).getExponent();
     }
     throw new IllegalArgumentException(
         "getExponent() should be called only when getType() == REAL_E or REAL");
@@ -2308,7 +2397,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   public int getInteger() {
     if (isInteger()) {
-      return numerator;
+      return ((ASTCnIntegerNode)toASTNode2()).getInteger();
     }
     throw new IllegalArgumentException(
         "getInteger() should be called only when getType() == INTEGER");
@@ -2321,7 +2410,7 @@ public class ASTNode extends AbstractTreeNode {
    *         getChild(0);
    */
   public ASTNode getLeftChild() {
-    return getChild(0);
+    return new ASTNode(((ASTFunction)toASTNode2()).getChildAt(0));
   }
 
   /**
@@ -2361,8 +2450,9 @@ public class ASTNode extends AbstractTreeNode {
    * @return the value of the mantissa of this ASTNode.
    */
   public double getMantissa() {
-    if ((type == Type.REAL) || type == Type.REAL_E) {
-      return mantissa;
+    Type type = toASTNode2().getType();
+    if ((type == ASTNode.Type.REAL) || type == ASTNode.Type.REAL_E) {
+      return ((ASTCnExponentialNode)toASTNode2()).getMantissa();
     }
     throw new IllegalArgumentException(
         "getMantissa() should be called only when getType() == REAL or REAL_E");
@@ -2396,7 +2486,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   public int getNumerator() {
     if (isRational()) {
-      return numerator;
+      return ((ASTCnRationalNode)toASTNode2()).getNumerator();
     }
     throw new IllegalArgumentException(
         "getNumerator() should be called only when isRational()");
@@ -2434,13 +2524,14 @@ public class ASTNode extends AbstractTreeNode {
    *             if this node is not of type real.
    */
   public double getReal() {
-    if (isReal() || (type == Type.CONSTANT_E) || (type == Type.CONSTANT_PI) || (type == Type.NAME_AVOGADRO)) {
+    Type type = toASTNode2().getType();
+    if (isReal() || (type == ASTNode.Type.CONSTANT_E) || (type == ASTNode.Type.CONSTANT_PI) || (type == ASTNode.Type.NAME_AVOGADRO)) {
       switch (type) {
       case NAME_AVOGADRO:
         // TODO: in case that there will be different values for this constant in later versions, we will need a LV check here.
         return Maths.AVOGADRO_L3V1;
       case REAL:
-        return mantissa;
+        return ((ASTCnRealNode)toASTNode2()).getReal();
       case REAL_E:{
         //  mantissa * Math.pow(10, getExponent())) ==> this formula does not give exact values.
         // for example: mantissa = 3.0, exponent = -17 ==> 2.9999999999999994E-17 instead of 3.0E-17
@@ -2496,7 +2587,8 @@ public class ASTNode extends AbstractTreeNode {
    *         {@code getListOfNodes().getLast()}.
    */
   public ASTNode getRightChild() {
-    return listOfNodes.get(listOfNodes.size() - 1);
+    return new ASTNode(((ASTFunction)toASTNode2()).getChildAt
+               (((ASTFunction)toASTNode2()).getChildCount() - 1));
   }
 
   /**
@@ -2505,7 +2597,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return the style of the mathML element represented by this ASTNode.
    */
   public String getStyle() {
-    return style;
+    return toASTNode2().getStyle();
   }
 
   /**
@@ -2513,8 +2605,8 @@ public class ASTNode extends AbstractTreeNode {
    * 
    * @return the type of this node.
    */
-  public Type getType() {
-    return type;
+  public ASTNode.Type getType() {
+    return toASTNode2().getType();
   }
 
   /**
@@ -2581,7 +2673,7 @@ public class ASTNode extends AbstractTreeNode {
         TreeNode parent = getParent();
         if ((parent != null) && (parent instanceof ASTNode)) {
           ASTNode parentNode = (ASTNode) parent;
-          if ((parentNode.getType() == Type.LAMBDA) && (parentNode.getRightChild() != this)) {
+          if ((parentNode.getType() == ASTNode.Type.LAMBDA) && (parentNode.getRightChild() != this)) {
             /*
              * The second condition is important, because the argument list
              * comprises only the first n children. Child n + 1 is the
@@ -2691,9 +2783,9 @@ public class ASTNode extends AbstractTreeNode {
    */
   private void initDefaults() {
     ASTNode old = this;
-    logger.debug("initDefaults called! type was " + (type == null ? Type.UNKNOWN : type));
+    logger.debug("initDefaults called! type was " + (type == null ? ASTNode.Type.UNKNOWN : type));
 
-    type = Type.UNKNOWN;
+    type = ASTNode.Type.UNKNOWN;
 
     id = null;
     style = null;
@@ -2746,7 +2838,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return {@code true} if this ASTNode is a boolean, {@code false} otherwise.
    */
   public boolean isBoolean() {
-    return type == Type.CONSTANT_FALSE || type == Type.CONSTANT_TRUE
+    return type == ASTNode.Type.CONSTANT_FALSE || type == ASTNode.Type.CONSTANT_TRUE
         || isLogical() || isRelational();
   }
 
@@ -2757,7 +2849,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   public boolean isConstant() {
     return type.toString().startsWith("CONSTANT")
-        || type == Type.NAME_AVOGADRO;
+        || type == ASTNode.Type.NAME_AVOGADRO;
   }
 
   /**
@@ -2767,7 +2859,7 @@ public class ASTNode extends AbstractTreeNode {
    *         otherwise.
    */
   public boolean isDifference() {
-    return type == Type.MINUS;
+    return type == ASTNode.Type.MINUS;
   }
 
   /**
@@ -2781,6 +2873,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return {@code true} if this {@link ASTNode} is a function, {@code false} otherwise.
    */
   public boolean isFunction() {
+    Type type = toASTNode2().getType();
     return type.toString().startsWith("FUNCTION");
   }
 
@@ -2792,11 +2885,7 @@ public class ASTNode extends AbstractTreeNode {
    *         {@code false} otherwise.
    */
   public boolean isInfinity() {
-    if (isReal()) {
-      double real = getReal();
-      return Double.isInfinite(real) && (real > 0d);
-    }
-    return false;
+    return isReal() && ((ASTCnRealNode)toASTNode2()).isInfinity();
   }
 
   /**
@@ -2805,7 +2894,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return {@code true} if this ASTNode is of type INTEGER, {@code false} otherwise.
    */
   public boolean isInteger() {
-    return type == Type.INTEGER;
+    return toASTNode2().getType() == ASTNode.Type.INTEGER;
   }
 
   /**
@@ -2814,7 +2903,8 @@ public class ASTNode extends AbstractTreeNode {
    * @return {@code true} if this ASTNode is of type LAMBDA, {@code false} otherwise.
    */
   public boolean isLambda() {
-    return type == Type.LAMBDA;
+    Type type = toASTNode2().getType();
+    return type == ASTNode.Type.LAMBDA;
   }
 
   /**
@@ -2827,9 +2917,8 @@ public class ASTNode extends AbstractTreeNode {
    *         otherwise.
    */
   public boolean isLog10() {
-    return type == Type.FUNCTION_LOG && listOfNodes.size() == 2
-        && getLeftChild().isInteger()
-        && getLeftChild().getInteger() == 10;
+    Type type = toASTNode2().getType();
+    return type == ASTNode.Type.FUNCTION_LOG;
   }
 
   /**
@@ -2839,6 +2928,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return {@code true} if this ASTNode is a MathML logical operator.
    */
   public boolean isLogical() {
+    Type type = toASTNode2().getType();
     return type.toString().startsWith("LOGICAL_");
   }
 
@@ -2864,8 +2954,9 @@ public class ASTNode extends AbstractTreeNode {
    *         L2 (MathML) or the special symbols time or Avogadro.
    */
   public boolean isName() {
-    return (type == Type.NAME) || (type == Type.NAME_TIME)
-        || (type == Type.NAME_AVOGADRO);
+    Type type = toASTNode2().getType();
+    return (type == ASTNode.Type.NAME) || (type == ASTNode.Type.NAME_TIME)
+        || (type == ASTNode.Type.NAME_AVOGADRO);
   }
 
   /**
@@ -2886,11 +2977,7 @@ public class ASTNode extends AbstractTreeNode {
    *         otherwise.
    */
   public boolean isNegInfinity() {
-    if (isReal()) {
-      double real = getReal();
-      return Double.isInfinite(real) && (real < 0);
-    }
-    return false;
+    return isReal() && ((ASTCnRealNode)toASTNode2()).isNegInfinity();
   }
 
   /**
@@ -2925,8 +3012,10 @@ public class ASTNode extends AbstractTreeNode {
    * @return {@code true} if this ASTNode is an operator.
    */
   public boolean isOperator() {
-    return type == Type.PLUS || type == Type.MINUS || type == Type.TIMES
-        || type == Type.DIVIDE || type == Type.POWER;
+    Type type = toASTNode2().getType();
+    return type == ASTNode.Type.PLUS || type == ASTNode.Type.MINUS || type == ASTNode.Type.TIMES
+        || type == ASTNode.Type.DIVIDE || type == ASTNode.Type.POWER || type == ASTNode.Type.SUM
+        || type == ASTNode.Type.PRODUCT;
   }
 
   /**
@@ -2936,7 +3025,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return {@code true} if this ASTNode is a MathML piecewise function
    */
   public boolean isPiecewise() {
-    return type == Type.FUNCTION_PIECEWISE;
+    return type == ASTNode.Type.FUNCTION_PIECEWISE;
   }
 
   /**
@@ -2945,7 +3034,8 @@ public class ASTNode extends AbstractTreeNode {
    * @return {@code true} if this ASTNode is of type {@link Type#RATIONAL}.
    */
   public boolean isRational() {
-    return type == Type.RATIONAL;
+    Type type = toASTNode2().getType();
+    return type == ASTNode.Type.RATIONAL;
   }
 
   /**
@@ -2957,8 +3047,9 @@ public class ASTNode extends AbstractTreeNode {
    *         {@code false} otherwise.
    */
   public boolean isReal() {
-    return type == Type.REAL || type == Type.REAL_E
-        || type == Type.RATIONAL;
+    Type type = toASTNode2().getType();
+    return type == ASTNode.Type.REAL || type == ASTNode.Type.REAL_E
+        || type == ASTNode.Type.RATIONAL;
   }
 
   /**
@@ -2969,9 +3060,10 @@ public class ASTNode extends AbstractTreeNode {
    *         otherwise.
    */
   public boolean isRelational() {
-    return type == Type.RELATIONAL_EQ || type == Type.RELATIONAL_GEQ
-        || type == Type.RELATIONAL_GT || type == Type.RELATIONAL_LEQ
-        || type == Type.RELATIONAL_LT || type == Type.RELATIONAL_NEQ;
+    Type type = toASTNode2().getType();
+    return type == ASTNode.Type.RELATIONAL_EQ || type == ASTNode.Type.RELATIONAL_GEQ
+        || type == ASTNode.Type.RELATIONAL_GT || type == ASTNode.Type.RELATIONAL_LEQ
+        || type == ASTNode.Type.RELATIONAL_LT || type == ASTNode.Type.RELATIONAL_NEQ;
   }
 
   /**
@@ -3056,7 +3148,7 @@ public class ASTNode extends AbstractTreeNode {
    *         otherwise.
    */
   public boolean isSqrt() {
-    return type == Type.FUNCTION_ROOT && listOfNodes.size() == 2
+    return type == ASTNode.Type.FUNCTION_ROOT && listOfNodes.size() == 2
         && getLeftChild().isInteger()
         && getLeftChild().getInteger() == 2;
   }
@@ -3070,7 +3162,7 @@ public class ASTNode extends AbstractTreeNode {
    * @see #isName()
    */
   public boolean isString() {
-    return isName() || (type == Type.FUNCTION);
+    return isName() || (type == ASTNode.Type.FUNCTION);
   }
 
   /**
@@ -3079,7 +3171,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return {@code true} if this {@link ASTNode} represents a sum, {@code false} otherwise.
    */
   public boolean isSum() {
-    return type == Type.PLUS;
+    return type == ASTNode.Type.PLUS;
   }
 
   /**
@@ -3095,7 +3187,8 @@ public class ASTNode extends AbstractTreeNode {
    * @return {@code true} if this ASTNode is a unary minus, {@code false} otherwise.
    */
   public boolean isUMinus() {
-    return (type == Type.MINUS) && (getChildCount() == 1);
+    Type type = toASTNode2().getType();
+    return (type == ASTNode.Type.MINUS) && (getChildCount() == 1);
   }
 
   /**
@@ -3120,7 +3213,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return {@code true} if this ASTNode is of type {@link Type#UNKNOWN}, {@code false} otherwise.
    */
   public boolean isUnknown() {
-    return type == Type.UNKNOWN;
+    return type == ASTNode.Type.UNKNOWN;
   }
 
   /**
@@ -3129,7 +3222,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return {@code true} if this node represents a {@link Variable}.
    */
   public boolean isVariable() {
-    return type == Type.NAME || type == Type.FUNCTION;
+    return type == ASTNode.Type.NAME || type == ASTNode.Type.FUNCTION;
   }
 
   /**
@@ -3138,7 +3231,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return {@code true} if this {@link ASTNode} represents a vector, {@code false} otherwise.
    */
   public boolean isVector() {
-    return type == Type.VECTOR;
+    return type == ASTNode.Type.VECTOR;
   }
 
  
@@ -3161,7 +3254,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return the current node for convenience.
    */
   public ASTNode minus(ASTNode ast) {
-    arithmeticOperation(Type.MINUS, ast);
+    arithmeticOperation(ASTNode.Type.MINUS, ast);
     return this;
   }
 
@@ -3207,8 +3300,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return the current node for convenience.
    */
   public ASTNode multiplyWith(ASTNode ast) {
-    arithmeticOperation(Type.TIMES, ast);
-    return this;
+    return new ASTNode(ASTFactory.multiplyWith(toASTNode2(), ast.toASTNode2()));
   }
 
   /**
@@ -3246,7 +3338,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return the current node for convenience.
    */
   public ASTNode plus(ASTNode ast) {
-    arithmeticOperation(Type.PLUS, ast);
+    arithmeticOperation(ASTNode.Type.PLUS, ast);
     return this;
   }
 
@@ -3307,7 +3399,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return the current node for convenience.
    */
   public ASTNode raiseByThePowerOf(ASTNode exponent) {
-    arithmeticOperation(Type.POWER, exponent);
+    arithmeticOperation(ASTNode.Type.POWER, exponent);
     return this;
   }
 
@@ -3373,7 +3465,7 @@ public class ASTNode extends AbstractTreeNode {
       int i;
       switch (type) {
       case PLUS:
-        ASTNode plus = new ASTNode(Type.PLUS, parentSBMLObject);
+        ASTNode plus = new ASTNode(ASTNode.Type.PLUS, parentSBMLObject);
         for (i = getChildCount() - 1; i > 0; i--) {
           plus.addChild(listOfNodes.remove(i));
         }
@@ -3384,7 +3476,7 @@ public class ASTNode extends AbstractTreeNode {
         logger.debug(MessageFormat.format("MINUS node with {0,number,integer} children left unchanged", getChildCount()));
         break;
       case TIMES:
-        ASTNode times = new ASTNode(Type.TIMES, parentSBMLObject);
+        ASTNode times = new ASTNode(ASTNode.Type.TIMES, parentSBMLObject);
         for (i = getChildCount() - 1; i > 0; i--) {
           times.addChild(listOfNodes.remove(i));
         }
@@ -3399,14 +3491,14 @@ public class ASTNode extends AbstractTreeNode {
         logger.debug(MessageFormat.format("DIVIDE node with {0,number,integer} children left unchanged", getChildCount()));
         break;
       case LOGICAL_AND:
-        ASTNode and = new ASTNode(Type.LOGICAL_AND, parentSBMLObject);
+        ASTNode and = new ASTNode(ASTNode.Type.LOGICAL_AND, parentSBMLObject);
         for (i = getChildCount() - 1; i > 0; i--) {
           and.addChild(listOfNodes.remove(i));
         }
         addChild(and);
         break;
       case LOGICAL_OR:
-        ASTNode or = new ASTNode(Type.LOGICAL_OR, parentSBMLObject);
+        ASTNode or = new ASTNode(ASTNode.Type.LOGICAL_OR, parentSBMLObject);
         for (i = getChildCount() - 1; i > 0; i--) {
           or.addChild(listOfNodes.remove(i));
         }
@@ -3543,25 +3635,25 @@ public class ASTNode extends AbstractTreeNode {
    *            the character value to which the node's value should be set.
    */
   public void setCharacter(char value) {
-    Type oldValue = type;
+    ASTNode.Type oldValue = type;
     switch (value) {
     case '+':
-      type = Type.PLUS;
+      type = ASTNode.Type.PLUS;
       break;
     case '-':
-      type = Type.MINUS;
+      type = ASTNode.Type.MINUS;
       break;
     case '*':
-      type = Type.TIMES;
+      type = ASTNode.Type.TIMES;
       break;
     case '/':
-      type = Type.DIVIDE;
+      type = ASTNode.Type.DIVIDE;
       break;
     case '^':
-      type = Type.POWER;
+      type = ASTNode.Type.POWER;
       break;
     default:
-      type = Type.UNKNOWN;
+      type = ASTNode.Type.UNKNOWN;
       break;
     }
     firePropertyChange(TreeNodeChangeEvent.value, oldValue, type);
@@ -3638,10 +3730,10 @@ public class ASTNode extends AbstractTreeNode {
     String oldValue = this.name; // TODO: if oldValue != null ==> set variable = null or update it ??
     this.name = name;
     firePropertyChange(TreeNodeChangeEvent.name, oldValue, name);
-    if ((!type.toString().startsWith("NAME")) && (type != Type.FUNCTION)
-        && (type != Type.FUNCTION_DELAY)) {
-      Type oldType = type;
-      type = variable == null ? Type.FUNCTION : Type.NAME;
+    if ((!type.toString().startsWith("NAME")) && (type != ASTNode.Type.FUNCTION)
+        && (type != ASTNode.Type.FUNCTION_DELAY)) {
+      ASTNode.Type oldType = type;
+      type = variable == null ? ASTNode.Type.FUNCTION : ASTNode.Type.NAME;
       firePropertyChange(TreeNodeChangeEvent.type, oldType, type);
     }
   }
@@ -3667,18 +3759,7 @@ public class ASTNode extends AbstractTreeNode {
    *            the type as a String.
    */
   public void setType(String typeStr) {
-    // System.out.println("ASTNode: setType(String) called.");
-    Type type = Type.getTypeFor(typeStr);
-    setType(type);
-    if (type != Type.UNKNOWN) {
-      if (type == Type.REAL) {
-        if (typeStr.equals("notanumber")) {
-          setValue(Double.NaN);
-        } else if (typeStr.equals("infinity")) {
-          setValue(Double.POSITIVE_INFINITY);
-        }
-      }
-    }
+    toASTNode2().setType(typeStr);
   }
 
   /**
@@ -3689,45 +3770,8 @@ public class ASTNode extends AbstractTreeNode {
    * @param type
    *            the type to which this node should be set
    */
-  // TODO: javadoc not synchronized, we are not reseting previously stored
-  // values but we are modifying the name.
-  // TODO: we should probably simplify the code to avoid future problems
-  public void setType(Type type) {
-
-    // TODO: check that the calls to initDefaults() do not delete anything
-    // important when reading the XML file, see MathMLStaxParser.java
-    // System.out.println("ASTNode: setType(Type) called: type = " +
-    // type);
-
-    String sType = type.toString();
-
-    if (logger.isDebugEnabled()) {
-      logger.debug("setType called: typeBefore = " + this.type + " typeAfter= " + sType);
-    }
-
-    if (sType.startsWith("NAME") || sType.startsWith("CONSTANT")) {
-      // TODO: check, a user might have set some values before calling
-      // the setType()
-      initDefaults();
-    }
-    // TODO: setting the name should not be necessary and a user could have
-    // set a name before calling setType
-    if (type == Type.NAME_TIME) {
-      name = "time";
-      definitionURL = URI_TIME_DEFINITION;
-    } else if (type == Type.FUNCTION_DELAY) {
-      initDefaults();
-      name = "delay";
-      definitionURL = URI_DELAY_DEFINITION;
-    } else if (type == Type.NAME_AVOGADRO) {
-      initDefaults();
-      name = "Avogadro's number";
-      setValue(Maths.AVOGADRO_L3V1);
-      definitionURL = URI_AVOGADRO_DEFINITION;
-    }
-    Type oldValue = getType();
-    this.type = type;
-    firePropertyChange(TreeNodeChangeEvent.type, oldValue, type);
+  public void setType(ASTNode.Type type) {
+    toASTNode2().setType(type);
   }
 
   /**
@@ -3793,10 +3837,10 @@ public class ASTNode extends AbstractTreeNode {
    *            set
    */
   public void setValue(double value) {
-    Type oldType = type;
+    ASTNode.Type oldType = type;
     double oldMantissa = mantissa;
     int oldExponent = exponent;
-    type = Type.REAL;
+    type = ASTNode.Type.REAL;
     firePropertyChange(TreeNodeChangeEvent.type, oldType, type);
     mantissa = value;
     firePropertyChange(TreeNodeChangeEvent.mantissa, oldMantissa, mantissa);
@@ -3814,10 +3858,10 @@ public class ASTNode extends AbstractTreeNode {
    *            the exponent of this node's real-numbered value
    */
   public void setValue(double mantissa, int exponent) {
-    Type oldType = type;
+    ASTNode.Type oldType = type;
     double oldMantissa = this.mantissa;
     int oldExponent = this.exponent;
-    type = Type.REAL_E;
+    type = ASTNode.Type.REAL_E;
     firePropertyChange(TreeNodeChangeEvent.type, oldType, type);
     this.mantissa = mantissa;
     firePropertyChange(TreeNodeChangeEvent.mantissa, oldMantissa, mantissa);
@@ -3832,10 +3876,10 @@ public class ASTNode extends AbstractTreeNode {
    * @param value
    */
   public void setValue(int value) {
-    Type oldType = type;
+    ASTNode.Type oldType = type;
     int oldNumerator = numerator;
     int oldDenominator = denominator;
-    type = Type.INTEGER;
+    type = ASTNode.Type.INTEGER;
     firePropertyChange(TreeNodeChangeEvent.type, oldType, type);
     numerator = value;
     firePropertyChange(TreeNodeChangeEvent.numerator, oldNumerator, numerator);
@@ -3853,15 +3897,8 @@ public class ASTNode extends AbstractTreeNode {
    *            the denominator value of the rational
    */
   public void setValue(int numerator, int denominator) {
-    Type oldType = type;
-    int oldNumerator = this.numerator;
-    int oldDenominator = this.denominator;
-    type = Type.RATIONAL;
-    firePropertyChange(TreeNodeChangeEvent.type, oldType, type);
-    this.numerator = numerator;
-    firePropertyChange(TreeNodeChangeEvent.numerator, oldNumerator, numerator);
-    this.denominator = denominator;
-    firePropertyChange(TreeNodeChangeEvent.denominator, oldDenominator, denominator);
+    ((ASTCnRationalNode)toASTNode2()).setNumerator(numerator);
+    ((ASTCnRationalNode)toASTNode2()).setDenominator(denominator);
   }
 
   /**
@@ -3877,9 +3914,9 @@ public class ASTNode extends AbstractTreeNode {
   public void setVariable(CallableSBase variable) {
     CallableSBase oldValue = this.variable;
     if (variable instanceof FunctionDefinition) {
-      type = Type.FUNCTION;
+      type = ASTNode.Type.FUNCTION;
     } else {
-      type = Type.NAME;
+      type = ASTNode.Type.NAME;
     }
     if ((variable != null) && variable.isSetId()) {
       /*
@@ -3900,7 +3937,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return the current node for convenience.
    */
   public ASTNode sqrt() {
-    arithmeticOperation(Type.FUNCTION_ROOT, new ASTNode(2, getParentSBMLObject()));
+    arithmeticOperation(ASTNode.Type.FUNCTION_ROOT, new ASTNode(2, getParentSBMLObject()));
     return this;
   }
 
@@ -3999,7 +4036,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   public String toMathML() {
     try {
-      return MathMLXMLStreamCompiler.toMathML(this);
+      return MathMLXMLStreamCompiler.toMathML(toASTNode2());
     } catch (RuntimeException e) {
       // added to prevent a crash when we cannot create the mathML
       // TODO: log the exception
@@ -4064,7 +4101,7 @@ public class ASTNode extends AbstractTreeNode {
         variable = null;
         variable = getVariable();
         firePropertyChange(TreeNodeChangeEvent.variable, oldValue, variable);
-      } else if ((type != Type.NAME_TIME) && (type != Type.NAME_AVOGADRO)) {
+      } else if ((type != ASTNode.Type.NAME_TIME) && (type != ASTNode.Type.NAME_AVOGADRO)) {
         // Try to register a direct link to the variable (if the name represent one).
         variable = getVariable();
       }
@@ -4073,5 +4110,25 @@ public class ASTNode extends AbstractTreeNode {
       child.updateVariables();
     }
   }
+  
+  /**
+   * Return the {@link ASTNode2} corresponding to the current {@link ASTNode}
+   * @return node {@link ASTNode2}
+   */
+  public ASTNode2 toASTNode2() {
+    return astnode2;
+  }
+  
+  /**
+   * Create a new node of type {@link ASTNode} from the given
+   * {@link ASTNode2}
+   * 
+   * @param node {@link ASTNode2}
+   */
+  public ASTNode(ASTNode2 node) {
+    astnode2 = node;
+  }
+  
+  private ASTNode2 astnode2;
 
 }
