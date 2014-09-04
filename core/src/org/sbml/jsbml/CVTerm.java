@@ -194,11 +194,44 @@ public class CVTerm extends AnnotationElement {
      * the referenced resource (modeling object B). This relation might be used
      * to link a model or a kinetic law to the literature that describes it.
      */
-    BQM_IS_DESCRIBED_BY,
+    BQM_IS_DESCRIBED_BY,    
+    /**
+     * Represents the MIRIAM model qualifier 'isInstanceOf': 
+     * the modelling object represented by the model element is an instance
+     * of the subject of the referenced resource (modelling object B). 
+     * For instance, this qualifier might be used to link a specific model
+     * with its generic form.
+     */
+    BQM_IS_INSTANCE_OF,
+    /**
+     * Represents the MIRIAM model qualifier 'hasInstance': 
+     * the modelling object represented by the model element has for instance
+     * (is a class of) the subject of the referenced resource (modelling object B).
+     * For instance, this qualifier might be used to link a generic model with its
+     * specific forms.
+     */
+    BQM_HAS_INSTANCE,
     /**
      * Represents an unknown MIRIAM model qualifier.
      */
     BQM_UNKNOWN;
+
+    private static final String HAS_INSTANCE = "hasInstance";
+    private static final String IS_INSTANCE_OF = "isInstanceOf";
+    private static final String IS_DERIVED_FROM = "isDerivedFrom";
+    private static final String OCCURS_IN = "occursIn";
+    private static final String IS_VERSION_OF = "isVersionOf";
+    private static final String IS_PART_OF = "isPartOf";
+    private static final String IS_HOMOLOG_TO = "isHomologTo";
+    private static final String IS_ENCODED_BY = "isEncodedBy";
+    private static final String IS_DESCRIBED_BY = "isDescribedBy";
+    private static final String IS = "is";
+    private static final String IS_PROPERTY_OF = "isPropertyOf";
+    private static final String HAS_TAXON = "hasTaxon";
+    private static final String HAS_PROPERTY = "hasProperty";
+    private static final String HAS_VERSION = "hasVersion";
+    private static final String HAS_PART = "hasPart";
+    private static final String ENCODES = "encodes";
 
     /**
      * Returns a name corresponding to this Qualifier Object.
@@ -209,37 +242,42 @@ public class CVTerm extends AnnotationElement {
 
       switch (this) {
       case BQB_ENCODES:
-        return "encodes";
+        return ENCODES;
       case BQB_HAS_PART:
-        return "hasPart";
+        return HAS_PART;
       case BQB_HAS_VERSION:
-        return "hasVersion";
+        return HAS_VERSION;
       case BQB_HAS_PROPERTY:
-        return "hasProperty";
+        return HAS_PROPERTY;
       case BQB_HAS_TAXON:
-        return "hasTaxon";
+        return HAS_TAXON;
       case BQB_IS_PROPERTY_OF:
-        return "isPropertyOf";
+        return IS_PROPERTY_OF;
       case BQB_IS:
-        return "is";
+        return IS;
       case BQB_IS_DESCRIBED_BY:
-        return "isDescribedBy";
+        return IS_DESCRIBED_BY;
       case BQB_IS_ENCODED_BY:
-        return "isEncodedBy";
+        return IS_ENCODED_BY;
       case BQB_IS_HOMOLOG_TO:
-        return "isHomologTo";
+        return IS_HOMOLOG_TO;
       case BQB_IS_PART_OF:
-        return "isPartOf";
+        return IS_PART_OF;
       case BQB_IS_VERSION_OF:
-        return "isVersionOf";
+        return IS_VERSION_OF;
       case BQB_OCCURS_IN:
-        return "occursIn";
+        return OCCURS_IN;
       case BQM_IS:
-        return "is";
+        return IS;
       case BQM_IS_DESCRIBED_BY:
-        return "isDescribedBy";
+        return IS_DESCRIBED_BY;
       case BQM_IS_DERIVED_FROM:
-        return "isDerivedFrom";
+        return IS_DERIVED_FROM;
+      case BQM_IS_INSTANCE_OF:
+        return IS_INSTANCE_OF;
+      case BQM_HAS_INSTANCE:
+        return HAS_INSTANCE;
+        
       default:
         return "unknownQualifier";
       }
@@ -247,31 +285,31 @@ public class CVTerm extends AnnotationElement {
 
     public static Qualifier getBiologicalQualifierFor(String elementNameEquivalent) {
 
-      if (elementNameEquivalent.equals("encodes")) {
+      if (elementNameEquivalent.equals(ENCODES)) {
         return BQB_ENCODES;
-      } else if (elementNameEquivalent.equals("hasPart")) {
+      } else if (elementNameEquivalent.equals(HAS_PART)) {
         return BQB_HAS_PART;
-      } else if (elementNameEquivalent.equals("hasVersion")) {
+      } else if (elementNameEquivalent.equals(HAS_VERSION)) {
         return BQB_HAS_VERSION;
-      } else if (elementNameEquivalent.equals("hasProperty")) {
+      } else if (elementNameEquivalent.equals(HAS_PROPERTY)) {
         return BQB_HAS_PROPERTY;
-      } else if (elementNameEquivalent.equals("hasTaxon")) {
+      } else if (elementNameEquivalent.equals(HAS_TAXON)) {
         return BQB_HAS_TAXON;
-      } else if (elementNameEquivalent.equals("isPropertyOf")) {
+      } else if (elementNameEquivalent.equals(IS_PROPERTY_OF)) {
         return BQB_IS_PROPERTY_OF;
-      } else if (elementNameEquivalent.equals("is")) {
+      } else if (elementNameEquivalent.equals(IS)) {
         return BQB_IS;
-      } else if (elementNameEquivalent.equals("isDescribedBy")) {
+      } else if (elementNameEquivalent.equals(IS_DESCRIBED_BY)) {
         return BQB_IS_DESCRIBED_BY;
-      } else if (elementNameEquivalent.equals("isEncodedBy")) {
+      } else if (elementNameEquivalent.equals(IS_ENCODED_BY)) {
         return BQB_IS_ENCODED_BY;
-      } else if (elementNameEquivalent.equals("isHomologTo")) {
+      } else if (elementNameEquivalent.equals(IS_HOMOLOG_TO)) {
         return BQB_IS_HOMOLOG_TO;
-      } else if (elementNameEquivalent.equals("isPartOf")) {
+      } else if (elementNameEquivalent.equals(IS_PART_OF)) {
         return BQB_IS_PART_OF;
-      } else if (elementNameEquivalent.equals("isVersionOf")) {
+      } else if (elementNameEquivalent.equals(IS_VERSION_OF)) {
         return BQB_IS_VERSION_OF;
-      } else if (elementNameEquivalent.equals("occursIn")) {
+      } else if (elementNameEquivalent.equals(OCCURS_IN)) {
         return BQB_OCCURS_IN;
       }
 
@@ -280,12 +318,16 @@ public class CVTerm extends AnnotationElement {
 
     public static Qualifier getModelQualifierFor(String elementNameEquivalent) {
 
-      if (elementNameEquivalent.equals("is")) {
+      if (elementNameEquivalent.equals(IS)) {
         return BQM_IS;
-      } else if (elementNameEquivalent.equals("isDescribedBy")) {
+      } else if (elementNameEquivalent.equals(IS_DESCRIBED_BY)) {
         return BQM_IS_DESCRIBED_BY;
-      } else if (elementNameEquivalent.equals("isDerivedFrom")) {
+      } else if (elementNameEquivalent.equals(IS_DERIVED_FROM)) {
         return BQM_IS_DERIVED_FROM;
+      } else if (elementNameEquivalent.equals(IS_INSTANCE_OF)) {
+        return BQM_IS_INSTANCE_OF;
+      } else if (elementNameEquivalent.equals(HAS_INSTANCE)) {
+        return BQM_HAS_INSTANCE;
       }
 
       return BQM_UNKNOWN;
