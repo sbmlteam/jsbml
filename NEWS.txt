@@ -15,32 +15,19 @@ Version 1.0-rc1 (xx-09-2014)
     those methods for more details, it is also explain there what to do if
     you want to keep the old behavior.  
 
-  - Arrays package implemented, version 05/05/14. Only selector and vector
-    supported for now. Validations, flattening available.
+  - Added two new BioModels.net qualifiers, bqmodel:isIntanceOf and
+    bqmodel:hasInstance.
 
   - Added removeCVTerm methods in Annotation and SBase.
 
   - An IdManager interface has been introduced to help deal with the
     different id namespace in SBML core and in the different packages.
 
-  - Added some missing getter in the L3 packages classes.
-
-  - Added support for vector and selector infix parsing to support the arrays
-    package.
-
-  - The class QualitativeModel in the qual package has been marked deprecated
-    and should no longer be used. Aiming to achieve better compatibility to
-    libSBML, the new class QualModelPlugin has been created to be used
-    instead.
-
   - JSBML now provides a convenient ModelBuilder that can be used to create
     SBML models with a significantly lower  number of lines of code for the
     end user.
     
   - Improved Java source code documentation (in particular CVTerm).
-  
-  - JSBML no longer creates Unit objects that are lacking required
-    attributes.
   
   - The SBMLDocument has now a convenient method to access all metaIds within
     the document in form of an unmodifiable Collection.
@@ -53,6 +40,9 @@ Version 1.0-rc1 (xx-09-2014)
   - The toString() methods in UnitDefinition and SpeciesReferences have been
     improved and are now more informative.
     
+  - JSBML no longer creates Unit objects that are lacking required
+    attributes.
+  
   - Species and Compartment 'containsUndeclaredUnits' method has been
     overridden because in SBML L3 Species and Compartments can inherit a
     default unit from the Model. This is now considered. In this case,
@@ -63,10 +53,30 @@ Version 1.0-rc1 (xx-09-2014)
   - Added some missing methods to manipulate EvenAssignment in Event and
     improved the javadoc of the Event class.
   
+  - Added some missing getter in the L3 packages classes.
+
+ * arrays package:
+ 
+  - Arrays package implemented, version 05/05/14. Only selector and vector
+    supported for now. Validations, flattening available.
+
+  - Added support for vector and selector infix parsing to support the arrays
+    package.
+
+ * layout package:
+
   - Added missing methods to remove GeneralGlyph objects from a Layout object
     and added other missing remove or unset methods in the layout package.
   
   - Added missing remove and unset methods in layout
+
+ * qual package:
+
+  - The class QualitativeModel in the qual package has been marked deprecated
+    and should no longer be used. Aiming to achieve better compatibility to
+    libSBML, the new class QualModelPlugin has been created to be used
+    instead.
+
 
 * Bug Fixes:
 
@@ -86,14 +96,14 @@ Version 1.0-rc1 (xx-09-2014)
   - Fixed the CVTerm.removeResource(String) method. Thanks to Camille
     Laibe who reported the problem (tracker item #80).
 
-  - Fixed several issues when cloning 'comp' elements and L3 packages
-    elements in general. Thanks to Chris Myers and the ibiosim team for their
-    help to find and fix all issues.
-
   - Corrected the method ASTNode.parseFormula so that they catch any
     Exception or Error and throw a ParseException instead.
  
   - Added the support for the 'root' function in the parsing of math formula.
+
+  - The FormulaParserLL3 was not reading properly formula like 
+    'kf * S0 * S1'. Only two arguments were read instead of three or more.
+    Thanks to Chris Myers for reporting this problem.
   
   - Corrected a bug in Event#setListOfEventAssignments method that prevented
     the listOfEventAssignments to be registered properly in the model (ids and
@@ -101,21 +111,6 @@ Version 1.0-rc1 (xx-09-2014)
     
   - Corrected the removeFromParent method to make it working for SBasePlugin
     instances.
- 
-  - The implementation of the layout package contained unnecessary classes
-    that all represented a Point object (Start, End, Position, BasePoint1,
-    BasePoint2). In order to avoid confusion and to simplify the
-    implementation, those classes have all been deleted.
-
-  - The SBML qual attribute Output.outputLevel was not read properly from
-    XML.
-
-  - The required flag for the fbc package was set to true instead of false,
-    thanks to Chris Myers for reporting this problem.
-
-  - The FormulaParserLL3 was not reading properly formula like 
-    'kf * S0 * S1'. Only two arguments were read instead of three or more.
-    Thanks to Chris Myers for reporting this problem.
 
   - The ListOf.remove(String) will not throw a ClassCastException anymore
     when used on list that do not contain elements with id.
@@ -129,17 +124,42 @@ Version 1.0-rc1 (xx-09-2014)
     removeTreeNodeChangeListener(TreeNodeChangeListener, boolean) was not
     actually recursive.
 
-  - Fixed severals bugs in the experimental render package. Renamed the Group
-    class to RenderGroup and the Curve class to RenderCurve. Added the 
-    possibility to add children to a RenderGroup and corrected
-    the way it was written to XML.
+  - Solved source for potential NullPointerException in LaTeXCompiler.
+
+ * comp package:
+  
+  - Fixed several issues when cloning 'comp' elements and L3 packages
+    elements in general. Thanks to Chris Myers and the ibiosim team for their
+    help to find and fix all issues.
+
+ * fbc package:
+ 
+  - The required flag for the fbc package was set to true instead of false,
+    thanks to Chris Myers for reporting this problem.
+
+ * layout package:
+ 
+  - The implementation of the layout package contained unnecessary classes
+    that all represented a Point object (Start, End, Position, BasePoint1,
+    BasePoint2). In order to avoid confusion and to simplify the
+    implementation, those classes have all been deleted.
 
   - Corrected the method Layout#setListOfAdditionalGraphicalObjects to avoid
     the warnings when cloning the list and to avoid to create a new list when
     not needed.
     
-  - Solved source for potential NullPointerException in LaTeXCompiler.
-  
+ * qual package:
+ 
+  - The SBML qual attribute Output.outputLevel was not read properly from
+    XML.
+
+ * render package:
+ 
+  - Fixed severals bugs in the experimental render package. Renamed the Group
+    class to RenderGroup and the Curve class to RenderCurve. Added the 
+    possibility to add children to a RenderGroup and corrected
+    the way it was written to XML.
+ 
   
 ======================================================================
 Version 1.0-beta1 (06-03-2014)
