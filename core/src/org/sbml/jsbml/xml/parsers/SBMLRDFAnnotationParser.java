@@ -1329,7 +1329,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 		{
 			int trueIndex = getTrueIndexOf(parent, elementName, elementNamespaceURI, index - 1);
 			
-			if (trueIndex != -1 && trueIndex < parent.getChildCount()) 
+			if (trueIndex != -1 && ((trueIndex + 1) < parent.getChildCount())) 
 			{
 				XMLNode nextNode = parent.getChildAt(trueIndex + 1);
 				
