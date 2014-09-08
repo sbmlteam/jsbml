@@ -40,8 +40,9 @@ Version 1.0-rc1 (xx-09-2014)
   - The toString() methods in UnitDefinition and SpeciesReferences have been
     improved and are now more informative.
     
-  - JSBML no longer creates Unit objects that are lacking required
-    attributes.
+  - Internally, JSBML no longer creates Unit objects that lack required
+    attributes when reading models.  (However, this does not prevent users
+    from creating new Unit objects without such attributes.)
   
   - Species and Compartment 'containsUndeclaredUnits' method has been
     overridden because in SBML L3 Species and Compartments can inherit a
@@ -55,7 +56,7 @@ Version 1.0-rc1 (xx-09-2014)
   
   - Added some missing getter in the L3 packages classes.
 
- * arrays package:
+ * Support for SBML Level 3 'arrays' package:
  
   - Arrays package implemented, version 05/05/14. Only selector and vector
     supported for now. Validations, flattening available.
@@ -63,14 +64,14 @@ Version 1.0-rc1 (xx-09-2014)
   - Added support for vector and selector infix parsing to support the arrays
     package.
 
- * layout package:
+ * Support for SBML Level 3 'Layout' package:
 
   - Added missing methods to remove GeneralGlyph objects from a Layout object
     and added other missing remove or unset methods in the layout package.
   
   - Added missing remove and unset methods in layout
 
- * qual package:
+ * Support for SBML Level 3 'Qual' package:
 
   - The class QualitativeModel in the qual package has been marked deprecated
     and should no longer be used. Aiming to achieve better compatibility to
