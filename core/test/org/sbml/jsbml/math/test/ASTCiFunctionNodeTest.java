@@ -195,11 +195,13 @@ public class ASTCiFunctionNodeTest {
 //    ASTPowerNode pow = ASTFactory.pow(variable, 10);
 //    lambda.addChild(pow);
 //    
-//    FunctionDefinition function = new FunctionDefinition();
+//    FunctionDefinition function = new FunctionDefinition(3, 1);
 //    function.setId("pow3");
-//    function.setMath(lambda);
+//    function.setMath(new ASTNode(lambda));
 //    
+//    KineticLaw kineticLaw = new KineticLaw();
 //    ci.setRefId("pow3");
+//    ci.setParentSBMLObject(kineticLaw);
 //    
 //    assertTrue(ci.toFormula().equals("2^3"));
 //  }

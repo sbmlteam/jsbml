@@ -32,6 +32,7 @@ import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.math.compiler.FormulaCompiler;
@@ -355,6 +356,24 @@ ASTCSymbolBaseNode {
       logger.error("Unable to create MathML");
       return null;
     }
+  }
+  
+  /**
+   * Returns {@code true} or {@code false} depending on whether this
+   * {@link ASTCiNumberNode} refers to elements such as parameters or 
+   * numbers with undeclared units.
+   * 
+   * A return value of {@code true} indicates that the {@code UnitDefinition}
+   * returned by {@link Variable#getDerivedUnitDefinition()} may not accurately
+   * represent the units of the expression.
+   * 
+   * @return {@code true} if the math expression of this {@link ASTCiNumberNode}
+   *         includes parameters/numbers with undeclared units,
+   *         {@code false} otherwise.
+   */
+  public boolean containsUndeclaredUnits() {
+    // TODO: Needs to be implemented
+    return false;
   }
 
   /* (non-Javadoc)

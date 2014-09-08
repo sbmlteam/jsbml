@@ -28,6 +28,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
@@ -184,6 +185,30 @@ public class ASTFunction extends AbstractASTNode {
     return true;
   }
 
+  /**
+   * Goes through the formula and identifies all global parameters that are
+   * referenced by this rate equation.
+   * 
+   * @return all global parameters that are referenced by this rate equation.
+   */
+  public List<Parameter> findReferencedGlobalParameters() {
+    // TODO: Needs to be verified
+    ArrayList<Parameter> pList = new ArrayList<Parameter>();
+    if (getType() == Type.FUNCTION
+        && ((ASTCiFunctionNode)this).getReferenceInstance() instanceof Parameter
+        && getParentSBMLObject().getModel().getParameter(
+            ((ASTCiFunctionNode)this).getReferenceInstance().getId()) != null) {
+      pList.add((Parameter) ((ASTCiFunctionNode)this).getReferenceInstance());
+    }
+    for (ASTNode2 child : getListOfNodes()) {
+      if (child instanceof ASTCiFunctionNode) {
+        pList.addAll(((ASTCiFunctionNode)child)
+            .findReferencedGlobalParameters());        
+      }
+    }
+    return pList;
+  }
+
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
@@ -251,7 +276,7 @@ public class ASTFunction extends AbstractASTNode {
     }
     return filteredList;
   }
-
+  
   /**
    * Returns the name of the MathML element represented by
    * this {@link ASTFunction}
@@ -269,7 +294,7 @@ public class ASTFunction extends AbstractASTNode {
     logger.warn(error);
     return "";
   }
-  
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -327,7 +352,7 @@ public class ASTFunction extends AbstractASTNode {
     ASTFactory.setParentSBMLObject(newChild, parentSBMLObject);
     newChild.setParent(this);
   }
-
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#isAllowableType(org.sbml.jsbml.ASTNode.Type)
    */
@@ -345,7 +370,7 @@ public class ASTFunction extends AbstractASTNode {
   protected boolean isSetList() {
     return listOfNodes != null;
   }
-  
+
   /**
    * Returns True iff name has been set
    * 
@@ -398,7 +423,7 @@ public class ASTFunction extends AbstractASTNode {
     }
     return false;
   }
-
+  
   /**
    * Replaces the n<sup>th</sup> child of this ASTNode2 with the given ASTNode2.
    * 
@@ -422,7 +447,7 @@ public class ASTFunction extends AbstractASTNode {
     insertChild(n, newChild);
     return child;
   }
-  
+
   /**
    * Set the name of the MathML element represented by
    * this {@link ASTFunction}
@@ -468,7 +493,7 @@ public class ASTFunction extends AbstractASTNode {
     that.listOfNodes = listOfNodes;
     listOfNodes = swap;
   }
-
+  
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */

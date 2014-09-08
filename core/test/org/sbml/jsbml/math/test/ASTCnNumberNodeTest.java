@@ -127,6 +127,25 @@ public class ASTCnNumberNodeTest {
   }
   
   /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnNumberNode#hasUnits()}.
+   */
+  @Test
+  public void testHasUnitsExists() {
+    ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
+    number.setUnits("mg");
+    assertTrue(number.hasUnits());
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnNumberNode#hasUnits()}.
+   */
+  @Test
+  public void testHasUnitsNonExistent() {
+    ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
+    assertTrue(! number.hasUnits());
+  }
+  
+  /**
    * Test method for {@link org.sbml.jsbml.math.ASTCnNumberNode#getVariable()}.
    */
   @Test

@@ -24,8 +24,6 @@ package org.sbml.jsbml.math.test;
 
 import static org.junit.Assert.assertTrue;
 
-import javax.swing.tree.TreeNode;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -66,24 +64,16 @@ public class ASTFactoryTest {
 
   @Rule
   public ExpectedException exception = ExpectedException.none();
-
+  
   /**
-   * Counts the number of nodes that have {@link Type} type
-   * in the tree rooted at node.
-   * 
-   * @param node {@link ASTNode2}
-   * @param type {@link Type}
-   * @return int
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#arithmeticOperation(org.sbml.jsbml.ASTNode.Type, org.sbml.jsbml.math.ASTNode2)}.
    */
-  public int countType(ASTNode2 node, Type type) {
-    int count = node.getType() == type ? 1 : 0;
-    for (int i  = 0; i < node.getChildCount(); i++) {
-      TreeNode child = node.getChildAt(i);
-      if (child instanceof ASTNode2) {
-        count += countType((ASTNode2) child, type);        
-      }
-    }
-    return count;
+  @Test
+  public final void testArithmeticOperation() {
+    ASTCnIntegerNode ten = new ASTCnIntegerNode(1);
+    ASTCnIntegerNode four = new ASTCnIntegerNode(4);
+    ASTArithmeticOperatorNode operator = ASTFactory.arithmeticOperation(Type.PLUS, ten, four);
+    assertTrue(operator.getType() == Type.PLUS && operator.getChildCount() == 2);
   }
   
   /**
@@ -725,7 +715,7 @@ public class ASTFactoryTest {
     }
     ASTArithmeticOperatorNode diff = ASTFactory.diff(integers);
     ASTMinusNode minus = (ASTMinusNode) ASTFactory.reduceToBinary(diff);
-    assertTrue(countType(minus, Type.MINUS) == 9);
+    assertTrue(ASTFactory.countType(minus, Type.MINUS) == 9);
   }   
   
   /**
@@ -748,7 +738,7 @@ public class ASTFactoryTest {
     }
     ASTArithmeticOperatorNode product = ASTFactory.product(integers);
     ASTTimesNode times = (ASTTimesNode) ASTFactory.reduceToBinary(product);
-    assertTrue(countType(times, Type.TIMES) == 9);
+    assertTrue(ASTFactory.countType(times, Type.TIMES) == 9);
   }
   
   /**
@@ -762,7 +752,7 @@ public class ASTFactoryTest {
     }
     ASTArithmeticOperatorNode sum = ASTFactory.sum(integers);
     ASTPlusNode plus = (ASTPlusNode) ASTFactory.reduceToBinary(sum);
-    assertTrue(countType(plus, Type.PLUS) == 9);
+    assertTrue(ASTFactory.countType(plus, Type.PLUS) == 9);
   }
   
   /**

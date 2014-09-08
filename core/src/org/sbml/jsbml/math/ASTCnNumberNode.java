@@ -25,9 +25,14 @@ package org.sbml.jsbml.math;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.Unit.Kind;
+import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
+import org.sbml.jsbml.math.compiler.UnitsCompiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
@@ -325,5 +330,58 @@ public class ASTCnNumberNode<T> extends ASTNumber {
     units = null;
     firePropertyChange(TreeNodeChangeEvent.units, oldValue, null);
   }
+  
+  /**
+   * Returns {@code true} if the current {@link ASTCnNumberNode} or 
+   * any of its descendants has a unit defined.
+   * 
+   * @return {@code true} if the current {@link ASTCnNumberNode} or 
+   * any of its descendants has a unit defined.
+   */
+   public boolean hasUnits()  {
+     return isSetUnits();
+   }
+   
+   /**
+    * Creates or obtains a {@link UnitDefinition} corresponding to the unit
+    * that has been set for this {@link ASTCnNumberNode} and returns a pointer to it.
+    * Note that in case that this {@link ASTCnNumberNode} is associated with a
+    * {@link Kind}, the created {@link UnitDefinition} will not be part of the
+    * model, it is just a container for the {@link Kind}.
+    * 
+    * @return A {@link UnitDefinition} or {@code null}.
+    */
+   public UnitDefinition getUnitsInstance() {
+     // TODO: Needs to be implemented. I'm not sure that this method even belongs
+     // in this class. Does it belong in both ASTCiFunctionNode & ASTCiNumberNode or no?
+     return null;
+   }
+   
+   /**
+    * Evaluates recursively this {@link ASTCnNumberNode} and creates a new 
+    * UnitDefinition with respect to all referenced elements.
+    * 
+    * @return the derived unit of the node.
+    * @throws SBMLException
+    *             if they are problems going through the {@link ASTNode2} tree.
+    */
+   public UnitDefinition deriveUnit() throws SBMLException {
+     MathContainer container = isSetParentSBMLObject() ? getParentSBMLObject() : null;
+     int level = -1;
+     int version = -1;
+     if (container != null) {
+       level = container.getLevel();
+       version = container.getVersion();
+     }
+     UnitsCompiler compiler = null;
+     if (isSetParentSBMLObject()) {
+       Model model = getParentSBMLObject().getModel();
+       compiler = new UnitsCompiler(model);
+     }
+     if (compiler == null) {
+       compiler = new UnitsCompiler(level, version);
+     }
+     return compile(compiler).getUnits().simplify();
+   }
 
 }

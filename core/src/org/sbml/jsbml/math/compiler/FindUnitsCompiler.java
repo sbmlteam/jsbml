@@ -29,9 +29,16 @@ import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.ASTNode2;
+import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 
 
 /**
+ * Finds if an ASTNode is using any units attribute.
+ * 
+ * This {@link ASTNodeCompiler} is basically empty, only methods related to
+ * 'cn' elements are implemented
+ * 
+ * @author Nicolas Rodriguez
  * @author Victor Kofia
  * @version $Rev$
  * @since 1.0

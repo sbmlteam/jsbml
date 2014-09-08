@@ -25,7 +25,10 @@ package org.sbml.jsbml.math;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.StringReader;
+import java.util.Arrays;
 import java.util.Scanner;
+
+import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
@@ -64,6 +67,40 @@ public class ASTFactory {
   }
   
   /**
+   * Creates a new {@link ASTArithmeticOperatorNode} of type {@code operator} and adds 
+   * the given nodes as children.
+   * 
+   * @param operator the type of arithmetic operation
+   * @param ast the children of the new ASTNode
+   * @return a new {@link ASTNode2} of type {@code operator} and adds the given nodes as 
+   * children.
+   */
+	public static ASTArithmeticOperatorNode arithmeticOperation(Type operator, ASTNode2... list) {
+		ASTArithmeticOperatorNode node = new ASTArithmeticOperatorNode(operator);
+		node.getListOfNodes().addAll(Arrays.asList(list));
+		return node;
+	}
+  
+  /**
+   * Counts the number of nodes that have {@link Type} type
+   * in the tree rooted at node.
+   * 
+   * @param node {@link ASTNode2}
+   * @param type {@link Type}
+   * @return int
+   */
+  public static int countType(ASTNode2 node, Type type) {
+    int count = node.getType() == type ? 1 : 0;
+    for (int i  = 0; i < node.getChildCount(); i++) {
+      TreeNode child = node.getChildAt(i);
+      if (child instanceof ASTNode2) {
+        count += countType((ASTNode2) child, type);        
+      }
+    }
+    return count;
+  }
+  
+  /**
    * Creates a new {@link ASTArithmeticOperatorNode} of type MINUS and adds the given nodes as children.
    * Resulting abstract syntax tree will be reduced to binary form.
    * 
@@ -80,7 +117,8 @@ public class ASTFactory {
     }
     return diff;
   }
-  
+
+
   /**
    * Divides an {@link ASTNode2} by another {@link ASTNode2}
    * 
@@ -92,7 +130,8 @@ public class ASTFactory {
   public static ASTDivideNode divideBy(ASTNode2 numerator, ASTNode2 denominator) {
     return new ASTDivideNode(numerator, denominator);
   }
-  
+
+
   /**
    * Creates a new {@link ASTRelationalOperatorNode} of type RELATIONAL_EQ.
    * 
@@ -492,7 +531,6 @@ public class ASTFactory {
     return fileContents.toString();
   }
 
-
   /**
    * Creates a piecewise {@link ASTPiecewiseFunctionNode}.
    * 
@@ -517,7 +555,6 @@ public class ASTFactory {
     return piecewise;
   }
 
-
   /**
    * Adds an {@link ASTNode2} to an {@link ASTNode2}.
    * 
@@ -529,7 +566,7 @@ public class ASTFactory {
   public static ASTPlusNode plus(ASTNode2 node1, ASTNode2 node2) {
     return new ASTPlusNode(node1, node2);
   }
-
+  
   /**
    * Adds a real number to {@link ASTNode2}.
    * 
@@ -541,7 +578,7 @@ public class ASTFactory {
   public static ASTPlusNode plus(ASTNode2 node, double real) {
     return new ASTPlusNode(node, new ASTCnRealNode(real));
   }
-
+  
   /**
    * Adds an integer number to {@link ASTNode2}.
    * 
@@ -588,7 +625,8 @@ public class ASTFactory {
   public static ASTPowerNode pow(ASTNode2 basis, int exponent) {
     return new ASTPowerNode(basis, new ASTCnIntegerNode(exponent));
   }
-  
+
+
   /**
    * Creates an {@link ASTArithmeticOperatorNode} of type {@link Type.PRODUCT} and 
    * adds the given nodes as children.
@@ -606,7 +644,7 @@ public class ASTFactory {
     }
     return product;
   }
-  
+
   /**
    * <p>
    * Reduces an {@link ASTFunction} to a binary tree, e.g., if the formula in the
@@ -658,8 +696,26 @@ public class ASTFactory {
     childOperator.setStrictness(true);
     return rootNode;
   }
-
-
+  
+  /**
+   * Creates a relational {@link ASTRelationalOperatorNode} of the given type with 
+   * the two given children left and right.
+   * <p> Sets the parent SBML object of all nodes to
+   * the one provided by the left child.
+   * 
+   * @param type the type of relational node.
+   * @param left the left child.
+   * @param right the right child.
+   * @return a relational {@link ASTRelationalOperatorNode} of the given type with 
+   * the two given children left and right.
+   */
+  public static ASTRelationalOperatorNode relational(Type type, ASTNode2 a, ASTNode2 b) {
+	  ASTRelationalOperatorNode operator = new ASTRelationalOperatorNode(type);
+	  operator.addChild(a);
+	  operator.addChild(b);
+	  return operator;
+  }
+  
   /**
    * Creates a root of type {@link ASTNode2}.
    * 
@@ -670,7 +726,7 @@ public class ASTFactory {
   public static ASTRootNode root(ASTNode2 rootExponent, ASTNode2 radicand) {
     return rootExponent != null ? new ASTRootNode(rootExponent, radicand) : new ASTRootNode(radicand);
   }
-
+  
   /**
    * Sets the Parent of the node and its children to the given value
    *
@@ -685,7 +741,7 @@ public class ASTFactory {
       }
     }
   }
-  
+
   /**
    * Creates a square root of type {@link ASTRootNode} with the 
    * specified radicand of type {@link ASTNode2}.
@@ -726,7 +782,7 @@ public class ASTFactory {
   public static ASTTimesNode times(ASTNode2 node1, ASTNode2 node2) {
     return new ASTTimesNode(node1, node2);
   }
-
+  
   /**
    * Adds a real number to {@link ASTNode2}
    * 
@@ -750,7 +806,7 @@ public class ASTFactory {
   public static ASTTimesNode times(ASTNode2 node1, int integer) {
     return new ASTTimesNode(node1, new ASTCnIntegerNode(integer));
   }
-  
+
   /**
    * Creates a new {@link ASTMinusNode} that has exactly one child and
    * which is of type {@link Type.MINUS}, i.e., this negates what is encoded in ast.
