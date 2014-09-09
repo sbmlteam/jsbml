@@ -10,10 +10,10 @@ Version 1.0-rc1 (xx-09-2014)
     The methods concerned are JSBML#parseFormula and ASTNode#parseFormula.
     The changes include a different operator precedence, to match the one
     used in the L3 libSBML parser. The parsing is also case sensitive for
-    mathML element and boolean operator are supported differently, '&&' and
-    '||' are used instead of 'and' and 'or'. Please consult the javadoc of 
-    those methods for more details, it is also explain there what to do if
-    you want to keep the old behavior.  
+    mathML elements. Boolean operators are now differently interpreted:
+    '&&' and '||' are used instead of 'and' and 'or'. Please consult the
+    JavaDoc of those methods for more details, it is also explain there
+    what to do if you want to keep the old behavior.
 
   - Added two new BioModels.net qualifiers, bqmodel:isIntanceOf and
     bqmodel:hasInstance.
@@ -41,7 +41,7 @@ Version 1.0-rc1 (xx-09-2014)
     improved and are now more informative.
     
   - Internally, JSBML no longer creates Unit objects that lack required
-    attributes when reading models.  (However, this does not prevent users
+    attributes when reading models. (However, this does not prevent users
     from creating new Unit objects without such attributes.)
   
   - Species and Compartment 'containsUndeclaredUnits' method has been
@@ -52,7 +52,7 @@ Version 1.0-rc1 (xx-09-2014)
     the element is not undefined.
     
   - Added some missing methods to manipulate EvenAssignment in Event and
-    improved the javadoc of the Event class.
+    improved the JavaDoc of the Event class.
   
   - Added some missing getter in the L3 packages classes.
 
@@ -66,10 +66,9 @@ Version 1.0-rc1 (xx-09-2014)
 
  * Support for SBML Level 3 'Layout' package:
 
-  - Added missing methods to remove GeneralGlyph objects from a Layout object
-    and added other missing remove or unset methods in the layout package.
+  - Added missing methods to remove GeneralGlyph objects from a Layout object.
   
-  - Added missing remove and unset methods in layout
+  - Added further missing remove or unset methods in the layout package.
 
  * Support for SBML Level 3 'Qual' package:
 
@@ -104,7 +103,7 @@ Version 1.0-rc1 (xx-09-2014)
 
   - The FormulaParserLL3 was not reading properly formula like 
     'kf * S0 * S1'. Only two arguments were read instead of three or more.
-    Thanks to Chris Myers for reporting this problem.
+    Thanks to Chris J. Myers for reporting this problem.
   
   - Corrected a bug in Event#setListOfEventAssignments method that prevented
     the listOfEventAssignments to be registered properly in the model (ids and
@@ -130,13 +129,13 @@ Version 1.0-rc1 (xx-09-2014)
  * Support for SBML Level 3 'Comp' package:
   
   - Fixed several issues when cloning 'comp' elements and L3 packages
-    elements in general. Thanks to Chris Myers and the ibiosim team for their
-    help to find and fix all issues.
+    elements in general. Thanks to Chris J. Myers and the iBioSim team for
+    their help to find and fix all issues.
 
  * Support for SBML Level 3 'Fbc' package:
  
   - The required flag for the fbc package was set to true instead of false,
-    thanks to Chris Myers for reporting this problem.
+    thanks to Chris J. Myers for reporting this problem.
 
  * Support for SBML Level 3 'Layout' package:
  
@@ -156,9 +155,9 @@ Version 1.0-rc1 (xx-09-2014)
 
  * Support for SBML Level 3 'Render' package:
  
-  - Fixed severals bugs in the experimental render package. Renamed the Group
-    class to RenderGroup and the Curve class to RenderCurve. Added the 
-    possibility to add children to a RenderGroup and corrected
+  - Fixed severals bugs in the experimental render package. Renamed the
+    Group class to RenderGroup and the Curve class to RenderCurve. Added
+    the possibility to add children to a RenderGroup and corrected
     the way it was written to XML.
  
   
