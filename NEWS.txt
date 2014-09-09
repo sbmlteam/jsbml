@@ -56,7 +56,7 @@ Version 1.0-rc1 (xx-09-2014)
   
   - Added some missing getter in the L3 packages classes.
 
- * Support for SBML Level 3 'arrays' package:
+ * Support for SBML Level 3 'Arrays' package:
  
   - Arrays package implemented, version 05/05/14. Only selector and vector
     supported for now. Validations, flattening available.
@@ -127,18 +127,18 @@ Version 1.0-rc1 (xx-09-2014)
 
   - Solved source for potential NullPointerException in LaTeXCompiler.
 
- * comp package:
+ * Support for SBML Level 3 'Comp' package:
   
   - Fixed several issues when cloning 'comp' elements and L3 packages
     elements in general. Thanks to Chris Myers and the ibiosim team for their
     help to find and fix all issues.
 
- * fbc package:
+ * Support for SBML Level 3 'Fbc' package:
  
   - The required flag for the fbc package was set to true instead of false,
     thanks to Chris Myers for reporting this problem.
 
- * layout package:
+ * Support for SBML Level 3 'Layout' package:
  
   - The implementation of the layout package contained unnecessary classes
     that all represented a Point object (Start, End, Position, BasePoint1,
@@ -149,12 +149,12 @@ Version 1.0-rc1 (xx-09-2014)
     the warnings when cloning the list and to avoid to create a new list when
     not needed.
     
- * qual package:
+ * Support for SBML Level 3 'Qual' package:
  
   - The SBML qual attribute Output.outputLevel was not read properly from
     XML.
 
- * render package:
+ * Support for SBML Level 3 'Render' package:
  
   - Fixed severals bugs in the experimental render package. Renamed the Group
     class to RenderGroup and the Curve class to RenderCurve. Added the 
