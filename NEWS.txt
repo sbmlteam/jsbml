@@ -17,6 +17,9 @@ Version 1.0-rc1 (xx-09-2014)
 
   - Added two new BioModels.net qualifiers, bqmodel:isIntanceOf and
     bqmodel:hasInstance.
+    
+  - BioJava was updated to the latest version and the dependency is
+    now to biojava3-ontology.   
 
   - Added removeCVTerm methods in Annotation and SBase.
 

@@ -28,12 +28,12 @@
     <parent>
         <groupId>org.sbml.jsbml.modules</groupId>
         <artifactId>modules</artifactId>
-        <version>1.0-a1-SNAPSHOT</version>
+        <version>1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>org.sbml.jsbml.modules.android</groupId>
     <artifactId>jsbml_modules_android</artifactId>
-    <version>1.0-a1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 </project>
