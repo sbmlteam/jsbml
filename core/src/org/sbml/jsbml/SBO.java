@@ -31,10 +31,10 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.biojava.bio.Annotation;
-import org.biojava.ontology.Ontology;
-import org.biojava.ontology.Synonym;
-import org.biojava.ontology.io.OboParser;
+import org.biojava3.ontology.utils.Annotation;
+import org.biojava3.ontology.Ontology;
+import org.biojava3.ontology.Synonym;
+import org.biojava3.ontology.io.OboParser;
 import org.sbml.jsbml.resources.Resource;
 import org.sbml.jsbml.util.StringTools;
 
@@ -256,14 +256,14 @@ public class SBO {
     /**
      * The underlying BioJava {@link org.biojava.ontology.Term}.
      */
-    private org.biojava.ontology.Term term;
+    private org.biojava3.ontology.Term term;
 
     /**
      * Creates a new Term instance.
      * 
      * @param term a {@link org.biojava.ontology.Term} object
      */
-    private Term(org.biojava.ontology.Term term) {
+    private Term(org.biojava3.ontology.Term term) {
       if (term == null) {
         throw new NullPointerException("Term must not be null.");
       }
@@ -412,7 +412,7 @@ public class SBO {
      * @return the underlying BioJava
      * {@link org.biojava.ontology.Term}.
      */
-    public org.biojava.ontology.Term getTerm() {
+    public org.biojava3.ontology.Term getTerm() {
       return term;
     }
 
@@ -455,7 +455,7 @@ public class SBO {
     /**
      * The BioJava {@link org.biojava.ontology.Triple}.
      */
-    private org.biojava.ontology.Triple triple;
+    private org.biojava3.ontology.Triple triple;
 
     /**
      * Creates a new {@link Triple} from a given corresponding object from
@@ -463,7 +463,7 @@ public class SBO {
      * 
      * @param triple
      */
-    private Triple(org.biojava.ontology.Triple triple) {
+    private Triple(org.biojava3.ontology.Triple triple) {
       if (triple == null) {
         throw new NullPointerException("Triple must not be null.");
       }
@@ -550,7 +550,7 @@ public class SBO {
      * @return the original BioJava
      * {@link org.biojava.ontology.Triple}.
      */
-    public org.biojava.ontology.Triple getTriple() {
+    public org.biojava3.ontology.Triple getTriple() {
       return triple;
     }
 
@@ -1373,11 +1373,11 @@ public class SBO {
    */
   public static Set<Term> getTerms() {
     if (terms.size() < sbo.getTerms().size()) {
-      for (org.biojava.ontology.Term term : sbo.getTerms()) {
+      for (org.biojava3.ontology.Term term : sbo.getTerms()) {
 
-        if (term instanceof org.biojava.ontology.Triple) {
+        if (term instanceof org.biojava3.ontology.Triple) {
           // does nothing
-        } else if (term instanceof org.biojava.ontology.Term) {
+        } else if (term instanceof org.biojava3.ontology.Term) {
           terms.add(new Term(term));
         }
       }
@@ -1494,7 +1494,7 @@ public class SBO {
    */
   public static Set<Triple> getTriples(Term subject, Term predicate, Term object) {
     Set<Triple> triples = new HashSet<Triple>();
-    for (org.biojava.ontology.Triple triple : sbo.getTriples(
+    for (org.biojava3.ontology.Triple triple : sbo.getTriples(
       subject != null ? subject.getTerm() : null,
         object != null ? object.getTerm() : null,
           predicate != null ? predicate.getTerm() : null)) {
@@ -1629,9 +1629,9 @@ public class SBO {
     if (subject.equals(object)) {
       return true;
     }
-    Set<org.biojava.ontology.Triple> relations = sbo.getTriples(
+    Set<org.biojava3.ontology.Triple> relations = sbo.getTriples(
       subject != null ? subject.getTerm() : null, null, null);
-    for (org.biojava.ontology.Triple triple : relations) {
+    for (org.biojava3.ontology.Triple triple : relations) {
       if (triple.getObject().equals(object.getTerm())) {
         return true;
       }
@@ -2337,4 +2337,19 @@ public class SBO {
     return checkTerm(sboTerm) ? Integer.parseInt(sboTerm.substring(4)) : -1;
   }
 
+  public static void main(String[] args) {
+    int i = 0; 
+  for (Term term : getTerms()) {
+          if (!term.isObsolete()) {
+                  System.out.printf("%s\n", Term.printTerm(term));
+                  System.out.printf("%s\n", term.getTerm());
+                  // System.out.printf("%s\n\n", term.);
+                  
+                  i++;
+          }
+  }
+  System.out.println("\nThere is " + i + " terms in the SBO ontology.");
+    
+
+  }
 }
