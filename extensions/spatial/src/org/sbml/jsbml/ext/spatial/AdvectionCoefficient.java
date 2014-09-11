@@ -21,13 +21,19 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
+import java.text.MessageFormat;
+import java.util.Map;
+
+import org.sbml.jsbml.PropertyUndefinedError;
+
+
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
  * @since 1.0
  * @version $Rev$
  */
-public class AdvectionCoefficient extends Coefficient {
+public class AdvectionCoefficient extends ParameterType {
 
 
   /**
@@ -35,26 +41,158 @@ public class AdvectionCoefficient extends Coefficient {
    */
   private static final long serialVersionUID = 8982184068116596444L;
 
-  /**
-   * 
-   */
+  private CoordinateKind coordinate;
+
+
   public AdvectionCoefficient() {
     super();
   }
 
+
   /**
-   * @param sb
+   * @param node
    */
-  public AdvectionCoefficient(AdvectionCoefficient sb) {
-    super(sb);
+  public AdvectionCoefficient(AdvectionCoefficient advCoeff) {
+    super(advCoeff);
+    if (advCoeff.isSetCoordinate()) {
+      coordinate = advCoeff.getCoordinate();
+    }
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#clone()
+
+  /**
+   * @param level
+   * @param version
    */
+  public AdvectionCoefficient(int level, int version) {
+    super(level, version);
+  }
+
+
+  /**
+   * 
+   * @param id
+   * @param level
+   * @param version
+   */
+  public AdvectionCoefficient(String id, int level, int version) {
+    super(level, version);
+  }
+
+
   @Override
   public AdvectionCoefficient clone() {
     return new AdvectionCoefficient(this);
+  }
+
+
+  @Override
+  public boolean equals(Object object) {
+    boolean equal = super.equals(object);
+    if (equal) {
+      AdvectionCoefficient advCoeff = (AdvectionCoefficient) object;
+      equal &= advCoeff.isSetCoordinate() == isSetCoordinate();
+      if (equal && isSetCoordinate()) {
+        equal &= advCoeff.getCoordinate().equals(getCoordinate());
+      }
+    }
+    return equal;
+  }
+
+
+  /**
+   * Returns the value of coordinate
+   *
+   * @return the value of coordinate
+   */
+  public CoordinateKind getCoordinate() {
+    if (isSetCoordinate()) {
+      return coordinate;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(SpatialConstants.coordinate, this);
+  }
+
+
+  /**
+   * Returns whether coordinate is set
+   *
+   * @return whether coordinate is set
+   */
+  public boolean isSetCoordinate() {
+    return this.coordinate != null;
+  }
+
+
+  /**
+   * Sets the value of coordinate
+   */
+  public void setCoordinate(CoordinateKind coordinate) {
+    CoordinateKind oldCoordinate = this.coordinate;
+    this.coordinate = coordinate;
+    firePropertyChange(SpatialConstants.coordinate, oldCoordinate, this.coordinate);
+  }
+
+
+  /**
+   * Unsets the variable coordinate
+   *
+   * @return {@code true}, if coordinate was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetCoordinate() {
+    if (isSetCoordinate()) {
+      CoordinateKind oldCoordinate = this.coordinate;
+      this.coordinate = null;
+      firePropertyChange(SpatialConstants.coordinate, oldCoordinate, this.coordinate);
+      return true;
+    }
+    return false;
+  }
+
+
+  @Override
+  public int hashCode() {
+    final int prime = 983;//Change this prime number
+    int hashCode = super.hashCode();
+    if (isSetCoordinate()) {
+      hashCode += prime * getCoordinate().hashCode();
+    }
+    return hashCode;
+  }
+
+
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetCoordinate()) {
+      attributes.remove("coordinate");
+      attributes.put(SpatialConstants.shortLabel + ":coordinate", getCoordinate().toString());
+    }
+    return attributes;
+  }
+
+
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
+        && (SpatialConstants.shortLabel == prefix);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(SpatialConstants.coordinate)) {
+        try {
+          setCoordinate(CoordinateKind.valueOf(value));
+        } catch (Exception e) {
+          MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
+            SpatialConstants.coordinate);
+        }
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
   }
 
 

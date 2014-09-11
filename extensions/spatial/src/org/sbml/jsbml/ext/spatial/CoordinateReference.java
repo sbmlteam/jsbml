@@ -24,7 +24,7 @@ package org.sbml.jsbml.ext.spatial;
 import java.text.MessageFormat;
 import java.util.Map;
 
-import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.AbstractSBase;
 
 
 
@@ -36,7 +36,7 @@ import org.sbml.jsbml.util.StringTools;
  * @since 1.0
  * @date 09.09.2011
  */
-public abstract class Coefficient extends ParameterType {
+public abstract class CoordinateReference extends AbstractSBase {
 
   /**
    * Generated serial version identifier.
@@ -46,22 +46,22 @@ public abstract class Coefficient extends ParameterType {
   /**
    * 
    */
-  private Integer coordinateIndex;
+  private CoordinateKind coordinate;
 
   /**
    * 
    */
-  public Coefficient() {
+  public CoordinateReference() {
     super();
   }
 
   /**
    * @param coefficient
    */
-  public Coefficient(Coefficient coefficient) {
+  public CoordinateReference(CoordinateReference coefficient) {
     super(coefficient);
-    if (coefficient.isSetCoordinateIndex()) {
-      coordinateIndex = Integer.valueOf(coefficient.getCoordinateIndex());
+    if (coefficient.isSetCoordinate()) {
+      coordinate = coefficient.getCoordinate();
     }
 
   }
@@ -71,7 +71,7 @@ public abstract class Coefficient extends ParameterType {
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
   @Override
-  public abstract Coefficient clone();
+  public abstract CoordinateReference clone();
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
@@ -80,33 +80,33 @@ public abstract class Coefficient extends ParameterType {
   public boolean equals(Object object) {
     boolean equal = super.equals(object);
     if (equal) {
-      Coefficient dc = (Coefficient) object;
-      equal &= dc.isSetCoordinateIndex() == isSetCoordinateIndex();
-      equal &= dc.getCoordinateIndex() == getCoordinateIndex();
+      CoordinateReference dc = (CoordinateReference) object;
+      equal &= dc.isSetCoordinate() == isSetCoordinate();
+      equal &= dc.getCoordinate() == getCoordinate();
     }
     return equal;
   }
 
   /**
-   * @return the coordinateIndex
+   * @return the coordinate
    */
-  public int getCoordinateIndex() {
-    return coordinateIndex.intValue();
+  public CoordinateKind getCoordinate() {
+    return coordinate;
   }
 
   /**
    * @return
    */
-  public boolean isSetCoordinateIndex() {
-    return coordinateIndex != null;
+  public boolean isSetCoordinate() {
+    return coordinate != null;
   }
 
 
   /**
-   * @param coordinateIndex the coordinateIndex to set
+   * @param coordinate the coordinate to set
    */
-  public void setCoordinateIndex(Integer coordinateIndex) {
-    this.coordinateIndex = coordinateIndex;
+  public void setCoordinate(CoordinateKind coordinate) {
+    this.coordinate = coordinate;
   }
 
 
@@ -114,8 +114,8 @@ public abstract class Coefficient extends ParameterType {
   public int hashCode() {
     final int prime = 983;//Change this prime number
     int hashCode = super.hashCode();
-    if (isSetCoordinateIndex()) {
-      hashCode += prime * getCoordinateIndex();
+    if (isSetCoordinate()) {
+      hashCode += prime * getCoordinate().hashCode();
     }
     return hashCode;
   }
@@ -124,10 +124,10 @@ public abstract class Coefficient extends ParameterType {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
-    if (isSetCoordinateIndex()) {
-      attributes.remove("coordinateIndex");
-      attributes.put(SpatialConstants.shortLabel + ":coordinateIndex",
-        String.valueOf(getCoordinateIndex()));
+    if (isSetCoordinate()) {
+      attributes.remove("coordinate");
+      attributes.put(SpatialConstants.shortLabel + ":coordinate",
+        String.valueOf(getCoordinate()));
     }
     return attributes;
   }
@@ -139,13 +139,13 @@ public abstract class Coefficient extends ParameterType {
         && (SpatialConstants.shortLabel == prefix);
     if (!isAttributeRead) {
       isAttributeRead = true;
-      if (attributeName.equals(SpatialConstants.coordinateIndex)) {
+      if (attributeName.equals(SpatialConstants.coordinate)) {
         try {
-          setCoordinateIndex(StringTools.parseSBMLInt(value));
+          setCoordinate(CoordinateKind.valueOf(value));
         } catch (Exception e) {
           MessageFormat.format(
             SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.coordinateIndex);
+            SpatialConstants.coordinate);
         }
       }
       else {

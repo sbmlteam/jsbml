@@ -42,15 +42,27 @@ public class BoundaryCondition extends ParameterType {
    * @version $Rev$
    * @since 0.8
    */
-  public static enum Type {
+  public static enum BoundaryKind {
     /**
      * Neumann
      */
-    FLUX,
+    NEUMANN,
     /**
      * Dirichlet
      */
-    VALUE;
+    DIRICHLET,
+    /**
+     * Robin value coefficient
+     */
+    ROBIN_VALUECOEFFICIENT,
+    /**
+     * Robin inward normal gradient coefficient
+     */
+    ROBIN_INWARDNORMALGRADIENTCOEFFICIENT,
+    /**
+     * Robin sum
+     */
+    ROBIN_SUM;
   }
 
   /**
@@ -71,7 +83,7 @@ public class BoundaryCondition extends ParameterType {
   /**
    * 
    */
-  private Type type;
+  private BoundaryKind type;
 
   /**
    * 
@@ -156,7 +168,7 @@ public class BoundaryCondition extends ParameterType {
    *
    * @return the value of type
    */
-  public Type getType() {
+  public BoundaryKind getType() {
     if (isSetType()) {
       return type;
     }
@@ -178,8 +190,8 @@ public class BoundaryCondition extends ParameterType {
   /**
    * Sets the value of type
    */
-  public void setType(Type type) {
-    Type oldType = this.type;
+  public void setType(BoundaryKind type) {
+    BoundaryKind oldType = this.type;
     this.type = type;
     firePropertyChange(SpatialConstants.type, oldType, this.type);
   }
@@ -188,7 +200,7 @@ public class BoundaryCondition extends ParameterType {
     if (!Pattern.matches("[a-z]*", type)) {
       throw new SBMLException("The value is not all lower-case.");
     }
-    setType(Type.valueOf(type.toUpperCase()));
+    setType(BoundaryKind.valueOf(type.toUpperCase()));
   }
 
   /**
@@ -199,7 +211,7 @@ public class BoundaryCondition extends ParameterType {
    */
   public boolean unsetType() {
     if (isSetType()) {
-      Type oldType = type;
+      BoundaryKind oldType = type;
       type = null;
       firePropertyChange(SpatialConstants.type, oldType, type);
       return true;
@@ -340,10 +352,14 @@ public class BoundaryCondition extends ParameterType {
     if (!isAttributeRead) {
       isAttributeRead = true;
       if (attributeName.equals(SpatialConstants.type)) {
-        //        if (!Pattern.matches("[a-z]*", value)) {
-        //          throw new SBMLException("The value is not all lower-case.");
-        //        }
-        setType(Type.valueOf(value.toUpperCase()));
+        if (!Pattern.matches("[a-z]*", value)) {
+          throw new SBMLException("The value is not all lower-case.");
+        }
+        try {
+          setType(value);
+        } catch (Exception e) {
+          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.type);
+        }
       }
       else if (attributeName.equals(SpatialConstants.coordinateBoundary)) {
         try {

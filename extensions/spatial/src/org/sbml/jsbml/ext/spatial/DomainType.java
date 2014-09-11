@@ -21,6 +21,7 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import org.sbml.jsbml.PropertyUndefinedError;
@@ -44,7 +45,7 @@ public class DomainType extends AbstractSpatialNamedSBase {
   /**
    * 
    */
-  private Integer spatialDimension;
+  private Integer spatialDimensions;
 
   // private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
@@ -60,8 +61,8 @@ public class DomainType extends AbstractSpatialNamedSBase {
    */
   public DomainType(DomainType sb) {
     super(sb);
-    if (sb.isSetSpatialDimension()) {
-      spatialDimension = Integer.valueOf(sb.getSpatialDimension());
+    if (sb.isSetSpatialDimensions()) {
+      spatialDimensions = Integer.valueOf(sb.getSpatialDimensions());
     }
   }
 
@@ -99,9 +100,9 @@ public class DomainType extends AbstractSpatialNamedSBase {
     boolean equal = super.equals(object);
     if (equal) {
       DomainType dt = (DomainType) object;
-      equal &= dt.isSetSpatialDimension() == isSetSpatialDimension();
-      if (equal && isSetSpatialDimension()) {
-        equal &= dt.getSpatialDimension() == getSpatialDimension();
+      equal &= dt.isSetSpatialDimensions() == isSetSpatialDimensions();
+      if (equal && isSetSpatialDimensions()) {
+        equal &= dt.getSpatialDimensions() == getSpatialDimensions();
       }
     }
     return equal;
@@ -113,12 +114,12 @@ public class DomainType extends AbstractSpatialNamedSBase {
    *
    * @return the value of spatialDimension
    */
-  public int getSpatialDimension() {
-    if (isSetSpatialDimension()) {
-      return spatialDimension;
+  public int getSpatialDimensions() {
+    if (isSetSpatialDimensions()) {
+      return spatialDimensions;
     }
     // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(SpatialConstants.spatialDimension, this);
+    throw new PropertyUndefinedError(SpatialConstants.spatialDimensions, this);
   }
 
 
@@ -127,21 +128,21 @@ public class DomainType extends AbstractSpatialNamedSBase {
    *
    * @return whether spatialDimension is set
    */
-  public boolean isSetSpatialDimension() {
-    return spatialDimension != null;
+  public boolean isSetSpatialDimensions() {
+    return spatialDimensions != null;
   }
 
 
   /**
    * Sets the value of spatialDimension
    */
-  public void setSpatialDimension(int spatialDimension) {
-    Integer oldSpatialDimension = this.spatialDimension;
+  public void setSpatialDimensions(int spatialDimension) {
+    Integer oldSpatialDimension = this.spatialDimensions;
     if (!((spatialDimension >= 0) && (spatialDimension <= 3))) {
       throw new SBMLException("Not a valid spatial dimension. Must be 0, 1, 2, or 3.");
     }
-    this.spatialDimension = spatialDimension;
-    firePropertyChange(SpatialConstants.spatialDimension, oldSpatialDimension, this.spatialDimension);
+    this.spatialDimensions = spatialDimension;
+    firePropertyChange(SpatialConstants.spatialDimensions, oldSpatialDimension, this.spatialDimensions);
   }
 
 
@@ -152,10 +153,10 @@ public class DomainType extends AbstractSpatialNamedSBase {
    *         otherwise {@code false}
    */
   public boolean unsetSpatialDimension() {
-    if (isSetSpatialDimension()) {
-      int oldSpatialDimension = spatialDimension;
-      spatialDimension = null;
-      firePropertyChange(SpatialConstants.spatialDimension, oldSpatialDimension, spatialDimension);
+    if (isSetSpatialDimensions()) {
+      int oldSpatialDimension = spatialDimensions;
+      spatialDimensions = null;
+      firePropertyChange(SpatialConstants.spatialDimensions, oldSpatialDimension, spatialDimensions);
       return true;
     }
     return false;
@@ -166,8 +167,8 @@ public class DomainType extends AbstractSpatialNamedSBase {
   public int hashCode() {
     final int prime = 1489;//Change this prime number
     int hashCode = super.hashCode();
-    if (isSetSpatialDimension()) {
-      hashCode += prime * getSpatialDimension();
+    if (isSetSpatialDimensions()) {
+      hashCode += prime * getSpatialDimensions();
     }
     return hashCode;
   }
@@ -180,8 +181,8 @@ public class DomainType extends AbstractSpatialNamedSBase {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
-    if (isSetSpatialDimension()) {
-      attributes.put(SpatialConstants.shortLabel + ":" + SpatialConstants.spatialDimension, String.valueOf(getSpatialDimension()));
+    if (isSetSpatialDimensions()) {
+      attributes.put(SpatialConstants.shortLabel + ":" + SpatialConstants.spatialDimensions, String.valueOf(getSpatialDimensions()));
     }
     return attributes;
   }
@@ -196,12 +197,12 @@ public class DomainType extends AbstractSpatialNamedSBase {
 
     if (!isAttributeRead) {
       isAttributeRead = true;
-      if (attributeName.equals(SpatialConstants.spatialDimension)) {
+      if (attributeName.equals(SpatialConstants.spatialDimensions)) {
         try {
-          setSpatialDimension(StringTools.parseSBMLInt(value));
+          setSpatialDimensions(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
-          //          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-          //            SpatialConstants.spatialDimension);
+          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
+            SpatialConstants.spatialDimensions);
           isAttributeRead = false;
         }
       }
@@ -219,7 +220,7 @@ public class DomainType extends AbstractSpatialNamedSBase {
   public String toString() {
     StringBuilder builder = new StringBuilder();
     builder.append("DomainType [spatialDimension=");
-    builder.append(spatialDimension);
+    builder.append(spatialDimensions);
     builder.append("]");
     return builder.toString();
   }

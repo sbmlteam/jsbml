@@ -22,10 +22,15 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.util.IdManager;
 
 /**
  * @author Alex Thomas
@@ -33,7 +38,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
  * @since 1.0
  * @date Dec 10, 2013
  */
-public class SpatialModelPlugin extends AbstractSpatialSBasePlugin {
+public class SpatialModelPlugin extends AbstractSpatialSBasePlugin implements IdManager {
 
 
 
@@ -43,6 +48,13 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin {
   private static final long serialVersionUID = 8449591192464040411L;
 
   private Geometry geometry;
+
+  private HashMap<String, SpatialNamedSBase> spatialIdMap;
+
+  /**
+   * A logger for this class.
+   */
+  private static final transient Logger logger = Logger.getLogger(SpatialModelPlugin.class);
 
   /**
    * Returns the value of geometry
@@ -66,9 +78,9 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin {
    */
   public Geometry createGeometry() {
     Geometry geometry = new Geometry();
-    
+
     setGeometry(geometry);
-    
+
     return geometry;
   }
 
@@ -87,11 +99,11 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin {
   public void setGeometry(Geometry geometry) {
     Geometry oldGeometry = this.geometry;
     this.geometry = geometry;
-    
+
     if (isSetExtendedSBase()) {
       getExtendedSBase().registerChild(geometry);
     }
-    
+
     firePropertyChange(SpatialConstants.geometry, oldGeometry, this.geometry);
   }
 
@@ -129,7 +141,7 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin {
    */
   public SpatialModelPlugin(SpatialModelPlugin spatialModelPlugin) {
     super(spatialModelPlugin);
-    
+
     if (spatialModelPlugin.isSetGeometry()) {
       setGeometry(spatialModelPlugin.getGeometry().clone());
     }
@@ -144,7 +156,7 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin {
     if (isSetExtendedSBase()) {
       return (Model) super.getExtendedSBase();
     }
-    
+
     return null;
   }
 
@@ -202,6 +214,109 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin {
   @Override
   public SpatialModelPlugin clone() {
     return new SpatialModelPlugin(this);
+  }
+
+  @Override
+  public boolean accept(SBase sbase) {
+
+    logger.debug(String.format("accept called on %s", sbase.getElementName()));
+
+    if (sbase instanceof SpatialNamedSBase) {
+      return true;
+    }
+
+    if (sbase instanceof ListOf<?>) {
+      ListOf<?> listOf = (ListOf<?>) sbase;
+
+      if (listOf.size() > 0 && listOf.get(0) instanceof SpatialNamedSBase) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  @Override
+  public boolean register(SBase sbase) {
+
+    boolean success = true;
+
+    if (sbase instanceof SpatialNamedSBase) {
+      SpatialNamedSBase spatialSBase = (SpatialNamedSBase) sbase;
+
+      if (spatialSBase.isSetSpatialId()) {
+        String id = spatialSBase.getSpatialId();
+
+        if (spatialIdMap == null) {
+          spatialIdMap = new HashMap<String, SpatialNamedSBase>();
+        }
+
+        if (spatialIdMap.containsKey(id)) {
+
+          logger.error(MessageFormat.format(
+            "The spatial id \"{0}\" is already present in the spatial model assigned to the model {1}. The new element will not be added to the model.",
+            id, (isSetExtendedSBase() ? getExtendedSBase().getId() : "")));
+          success = false;
+        } else {
+          spatialIdMap.put(id, spatialSBase);
+
+          if (logger.isDebugEnabled()) {
+            logger.debug(MessageFormat.format("registered spatial id={0} in {1}",
+              id, (isSetExtendedSBase() ? getExtendedSBase().getElementName() : "")));
+          }
+        }
+
+      }
+    } else {
+      logger.error(MessageFormat.format(
+        "Trying to register something that does not have a spatialId: \"{0}\".", sbase));
+    }
+
+    // Register all spatial model children if any
+
+    return success;
+  }
+
+  @Override
+  public boolean unregister(SBase sbase) {
+
+    // Always returning true at the moment to avoid exception when unregistering element
+    boolean success = true;
+
+    if (sbase instanceof SpatialNamedSBase) {
+      SpatialNamedSBase spatialSbase = (SpatialNamedSBase) sbase;
+
+      if (spatialSbase.isSetSpatialId()) {
+        String id = spatialSbase.getSpatialId();
+
+        if (spatialIdMap == null) {
+          logger.warn(MessageFormat.format(
+            "No elements with spatial ids have been registered in this {0}. Nothing to be done.",
+            (isSetExtendedSBase() ? getExtendedSBase().getElementName() : "")));
+          return success;
+        }
+
+        if (spatialIdMap.containsKey(id)) {
+          spatialIdMap.remove(id);
+          if (logger.isDebugEnabled()) {
+            logger.debug(MessageFormat.format("unregistered spatial id={0} in {1}",
+              id, (isSetExtendedSBase() ? getExtendedSBase().getElementName() : "")));
+          }
+        } else {
+
+          logger.warn(MessageFormat.format(
+            "The spatial id \"{0}\" is not present in this model {1}. Nothing to be done.",
+            id, (isSetExtendedSBase() ? getExtendedSBase().getId() : "")));
+        }
+      }
+    } else {
+      logger.error(MessageFormat.format(
+        "Trying to unregister something that does not have a spatial id: \"{0}\".", sbase));
+    }
+
+    // Unregister all spatial model children if any
+
+    return success;
   }
 
 }

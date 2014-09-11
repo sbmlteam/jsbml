@@ -271,16 +271,6 @@ public class Domain extends AbstractSpatialNamedSBase {
     return interiorPoint;
   }
 
-  /**
-   * TODO: optionally, create additional create methods with more
-   * variables, for instance "bar" variable
-   */
-  // public InteriorPoint createInteriorPoint(String id, int bar) {
-  //   InteriorPoint interiorPoint = createInteriorPoint(id);
-  //   interiorPoint.setBar(bar);
-  //   return interiorPoint;
-  // }
-
 
   /*
    * (non-Javadoc)

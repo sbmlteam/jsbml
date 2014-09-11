@@ -28,11 +28,11 @@ import java.util.ResourceBundle;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * @author Alex Thomas
@@ -40,7 +40,20 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * @since 1.0
  * @version $Rev$
  */
-public class Geometry extends AbstractSBase {
+public class Geometry extends AbstractSpatialNamedSBase {
+
+  /**
+   * 
+   * @author Alex Thomas
+   * @version $Rev$
+   * @since 0.8
+   */
+  public static enum GeometryKind {
+    /**
+     * cartesian
+     */
+    CARTESIAN;
+  }
 
   /**
    * Generated serial version identifier.
@@ -75,7 +88,12 @@ public class Geometry extends AbstractSBase {
   /**
    * 
    */
-  private String coordinateSystem;
+  private ListOf<SampledField> listOfSampledFields;
+
+  /**
+   * 
+   */
+  private GeometryKind coordinateSystem;
 
   private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
@@ -92,7 +110,7 @@ public class Geometry extends AbstractSBase {
   public Geometry(Geometry sb) {
     super(sb);
     if (sb.isSetCoordinateSystem()) {
-      setCoordinateSystem(new String(sb.getCoordinateSystem()));
+      setCoordinateSystem(sb.getCoordinateSystem());
     }
     if (sb.isSetListOfAdjacentDomains()) {
       setListOfAdjacentDomains(sb.getListOfAdjacentDomains().clone());
@@ -106,6 +124,13 @@ public class Geometry extends AbstractSBase {
     if (sb.isSetListOfGeometryDefinitions()) {
       setListOfGeometryDefinitions(sb.getListOfGeometryDefinitions().clone());
     }
+    if (sb.isSetListOfSampledFields()) {
+      setListOfSampledFields(sb.getListOfSampledFields().clone());
+    }
+  }
+
+  public Geometry (String id, int level, int version) {
+    super(id, level, version);
   }
 
   /**
@@ -158,6 +183,11 @@ public class Geometry extends AbstractSBase {
       if (equal && isSetListOfGeometryDefinitions()) {
         equal &= gm.getListOfGeometryDefinitions().equals(getListOfGeometryDefinitions());
       }
+      equal &= gm.isSetListOfSampledFields() == isSetListOfSampledFields();
+      if (equal && isSetListOfSampledFields()) {
+        equal &= gm.getListOfSampledFields() == getListOfSampledFields();
+      }
+
     }
     return equal;
   }
@@ -168,7 +198,7 @@ public class Geometry extends AbstractSBase {
    *
    * @return the value of coordinateSystem
    */
-  public String getCoordinateSystem() {
+  public GeometryKind getCoordinateSystem() {
     if (isSetCoordinateSystem()) {
       return coordinateSystem;
     }
@@ -190,8 +220,8 @@ public class Geometry extends AbstractSBase {
   /**
    * Sets the value of coordinateSystem
    */
-  public void setCoordinateSystem(String coordinateSystem) {
-    String oldCoordinateSystem = this.coordinateSystem;
+  public void setCoordinateSystem(GeometryKind coordinateSystem) {
+    GeometryKind oldCoordinateSystem = this.coordinateSystem;
     this.coordinateSystem = coordinateSystem;
     firePropertyChange(SpatialConstants.coordinateSystem, oldCoordinateSystem, this.coordinateSystem);
   }
@@ -205,12 +235,139 @@ public class Geometry extends AbstractSBase {
    */
   public boolean unsetCoordinateSystem() {
     if (isSetCoordinateSystem()) {
-      String oldCoordinateSystem = coordinateSystem;
+      GeometryKind oldCoordinateSystem = coordinateSystem;
       coordinateSystem = null;
       firePropertyChange(SpatialConstants.coordinateSystem, oldCoordinateSystem, coordinateSystem);
       return true;
     }
     return false;
+  }
+
+
+  /**
+   * Returns {@code true}, if listOfSampledFields contains at least one element.
+   *
+   * @return {@code true}, if listOfSampledFields contains at least one element,
+   *         otherwise {@code false}
+   */
+  public boolean isSetListOfSampledFields() {
+    if ((listOfSampledFields == null) || listOfSampledFields.isEmpty()) {
+      return false;
+    }
+    return true;
+  }
+
+
+  /**
+   * Returns the listOfSampledFields. Creates it if it is not already existing.
+   *
+   * @return the listOfSampledFields
+   */
+  public ListOf<SampledField> getListOfSampledFields() {
+    if (!isSetListOfSampledFields()) {
+      listOfSampledFields = new ListOf<SampledField>(getLevel(),
+          getVersion());
+      listOfSampledFields.setNamespace(SpatialConstants.namespaceURI);
+      listOfSampledFields.setSBaseListType(ListOf.Type.other);
+      registerChild(listOfSampledFields);
+    }
+    return listOfSampledFields;
+  }
+
+
+  /**
+   * Sets the given {@code ListOf<SampledField>}. If listOfSampledFields
+   * was defined before and contains some elements, they are all unset.
+   *
+   * @param listOfSampledFields
+   */
+  public void setListOfSampledFields(ListOf<SampledField> listOfSampledFields) {
+    unsetListOfSampledFields();
+    this.listOfSampledFields = listOfSampledFields;
+    registerChild(this.listOfSampledFields);
+  }
+
+
+  /**
+   * Returns {@code true}, if listOfSampledFields contain at least one element,
+   *         otherwise {@code false}
+   *
+   * @return {@code true}, if listOfSampledFields contain at least one element,
+   *         otherwise {@code false}
+   */
+  public boolean unsetListOfSampledFields() {
+    if (isSetListOfSampledFields()) {
+      ListOf<SampledField> oldSampledFields = this.listOfSampledFields;
+      this.listOfSampledFields = null;
+      oldSampledFields.fireNodeRemovedEvent();
+      return true;
+    }
+    return false;
+  }
+
+
+  /**
+   * Adds a new {@link SampledField} to the listOfSampledFields.
+   * <p>The listOfSampledFields is initialized if necessary.
+   *
+   * @param sampledField the element to add to the list
+   * @return true (as specified by {@link Collection.add})
+   */
+  public boolean addSampledField(SampledField sampledField) {
+    return getListOfSampledFields().add(sampledField);
+  }
+
+
+  /**
+   * Removes an element from the listOfSampledFields.
+   *
+   * @param sampledField the element to be removed from the list
+   * @return true if the list contained the specified element
+   * @see List#remove(Object)
+   */
+  public boolean removeSampledField(SampledField sampledField) {
+    if (isSetListOfSampledFields()) {
+      return getListOfSampledFields().remove(sampledField);
+    }
+    return false;
+  }
+
+
+  /**
+   * Removes an element from the listOfSampledFields at the given index.
+   *
+   * @param i the index where to remove the {@link SampledField}
+   * @throws IndexOutOfBoundsException if the listOf is not set or
+   * if the index is out of bound (index < 0 || index > list.size)
+   */
+  public void removeSampledField(int i) {
+    if (!isSetListOfSampledFields()) {
+      throw new IndexOutOfBoundsException(Integer.toString(i));
+    }
+    getListOfSampledFields().remove(i);
+  }
+
+  public void removeSampledField(String id) {
+    getListOfSampledFields().removeFirst(new NameFilter(id));
+  }
+
+  /**
+   * Creates a new SampledField element and adds it to the ListOfSampledFields list
+   */
+  public SampledField createSampledField() {
+    return createSampledField(null);
+  }
+
+
+  /**
+   * Creates a new {@link SampledField} element and adds it to the ListOfSampledFields list
+   *
+   * @return a new {@link SampledField} element
+   */
+  public SampledField createSampledField(String id) {
+    SampledField sampledField = new SampledField(id, getLevel(), getVersion());
+    addSampledField(sampledField);
+    return sampledField;
   }
 
 
@@ -317,13 +474,9 @@ public class Geometry extends AbstractSBase {
   }
 
 
-  /**
-   * TODO: if the ID is mandatory for GeometryDefinition objects,
-   * one should also add this methods
-   */
-  //public void removeGeometryDefinition(String id) {
-  //  getListOfGeometryDefinitions().removeFirst(new NameFilter(id));
-  //}
+  public void removeGeometryDefinition(String id) {
+    getListOfGeometryDefinitions().removeFirst(new NameFilter(id));
+  }
   /**
    * Creates a new GeometryDefinition element and adds it to the ListOfGeometryDefinitions list
    */
@@ -343,6 +496,20 @@ public class Geometry extends AbstractSBase {
     return createParametricGeometry(null);
   }
 
+  public MixedGeometry createMixedGeometry() {
+    return createMixedGeometry(null);
+  }
+
+  /**
+   * Creates a new {@link GeometryDefinition} element and adds it to the ListOfGeometryDefinitions list
+   *
+   * @return a new {@link GeometryDefinition} element
+   */
+  public MixedGeometry createMixedGeometry(String id) {
+    MixedGeometry def = new MixedGeometry(id, getLevel(), getVersion());
+    addGeometryDefinition(def);
+    return def;
+  }
 
   /**
    * Creates a new {@link GeometryDefinition} element and adds it to the ListOfGeometryDefinitions list
@@ -372,16 +539,6 @@ public class Geometry extends AbstractSBase {
     addGeometryDefinition(def);
     return def;
   }
-
-  /**
-   * TODO: optionally, create additional create methods with more
-   * variables, for instance "bar" variable
-   */
-  // public GeometryDefinition createGeometryDefinition(String id, int bar) {
-  //   GeometryDefinition geometryDefinition = createGeometryDefinition(id);
-  //   geometryDefinition.setBar(bar);
-  //   return geometryDefinition;
-  // }
 
   /**
    * Returns {@code true}, if listOfAdjacentDomains contains at least one element.
@@ -485,14 +642,9 @@ public class Geometry extends AbstractSBase {
     getListOfAdjacentDomains().remove(i);
   }
 
-
-  /**
-   * TODO: if the ID is mandatory for AdjacentDomain objects,
-   * one should also add this methods
-   */
-  //public void removeAdjacentDomain(String id) {
-  //  getListOfAdjacentDomains().removeFirst(new NameFilter(id));
-  //}
+  public void removeAdjacentDomain(String id) {
+    getListOfAdjacentDomains().removeFirst(new NameFilter(id));
+  }
   /**
    * Creates a new AdjacentDomain element and adds it to the ListOfAdjacentDomains list
    */
@@ -512,15 +664,6 @@ public class Geometry extends AbstractSBase {
     return adjacentDomains;
   }
 
-  /**
-   * TODO: optionally, create additional create methods with more
-   * variables, for instance "bar" variable
-   */
-  // public AdjacentDomain createAdjacentDomain(String id, int bar) {
-  //   AdjacentDomain adjacentDomains = createAdjacentDomain(id);
-  //   adjacentDomains.setBar(bar);
-  //   return adjacentDomains;
-  // }
 
   /**
    * Returns {@code true}, if listOfDomainTypes contains at least one element.
@@ -625,13 +768,9 @@ public class Geometry extends AbstractSBase {
   }
 
 
-  /**
-   * TODO: if the ID is mandatory for DomainType objects,
-   * one should also add this methods
-   */
-  //public void removeDomainType(String id) {
-  //  getListOfDomainTypes().removeFirst(new NameFilter(id));
-  //}
+  public void removeDomainType(String id) {
+    getListOfDomainTypes().removeFirst(new NameFilter(id));
+  }
   /**
    * Creates a new DomainType element and adds it to the ListOfDomainTypes list
    */
@@ -650,16 +789,6 @@ public class Geometry extends AbstractSBase {
     addDomainType(domainType);
     return domainType;
   }
-
-  /**
-   * TODO: optionally, create additional create methods with more
-   * variables, for instance "bar" variable
-   */
-  // public DomainType createDomainType(String id, int bar) {
-  //   DomainType domainType = createDomainType(id);
-  //   domainType.setBar(bar);
-  //   return domainType;
-  // }
 
 
   /**
@@ -764,14 +893,9 @@ public class Geometry extends AbstractSBase {
     getListOfDomains().remove(i);
   }
 
-
-  /**
-   * TODO: if the ID is mandatory for Domain objects,
-   * one should also add this methods
-   */
-  //public void removeDomain(String id) {
-  //  getListOfDomains().removeFirst(new NameFilter(id));
-  //}
+  public void removeDomain(String id) {
+    getListOfDomains().removeFirst(new NameFilter(id));
+  }
   /**
    * Creates a new Domain element and adds it to the ListOfDomains list
    */
@@ -790,17 +914,6 @@ public class Geometry extends AbstractSBase {
     addDomain(domain);
     return domain;
   }
-
-  /**
-   * TODO: optionally, create additional create methods with more
-   * variables, for instance "bar" variable
-   */
-  // public Domain createDomain(String id, int bar) {
-  //   Domain domain = createDomain(id);
-  //   domain.setBar(bar);
-  //   return domain;
-  // }
-
 
 
   /**
@@ -905,14 +1018,9 @@ public class Geometry extends AbstractSBase {
     getListOfCoordinateComponents().remove(i);
   }
 
-
-  /**
-   * TODO: if the ID is mandatory for CoordinateComponent objects,
-   * one should also add this methods
-   */
-  //public void removeCoordinateComponent(String id) {
-  //  getListOfCoordinateComponents().removeFirst(new NameFilter(id));
-  //}
+  public void removeCoordinateComponent(String id) {
+    getListOfCoordinateComponents().removeFirst(new NameFilter(id));
+  }
   /**
    * Creates a new CoordinateComponent element and adds it to the ListOfCoordinateComponents list
    */
@@ -952,7 +1060,7 @@ public class Geometry extends AbstractSBase {
       isAttributeRead = true;
       if (attributeName.equals(SpatialConstants.coordinateSystem)) {
         try {
-          setCoordinateSystem(value);
+          setCoordinateSystem(GeometryKind.valueOf(value));
         } catch (Exception e) {
           MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
             SpatialConstants.coordinateSystem);
@@ -973,7 +1081,7 @@ public class Geometry extends AbstractSBase {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetCoordinateSystem()) {
       attributes.remove("coordinateSystem");
-      attributes.put(SpatialConstants.shortLabel + ':' + SpatialConstants.coordinateSystem, coordinateSystem);
+      attributes.put(SpatialConstants.shortLabel + ':' + SpatialConstants.coordinateSystem, coordinateSystem.toString());
     }
     if (isSetSBOTerm()) {
       attributes.remove(TreeNodeChangeEvent.sboTerm);
@@ -983,6 +1091,7 @@ public class Geometry extends AbstractSBase {
       attributes.remove(TreeNodeChangeEvent.metaId);
       attributes.put(SpatialConstants.shortLabel + ":" + TreeNodeChangeEvent.metaId, getMetaId());
     }
+    //TODO: Not sure why sboTerm and metaId are written here...?
 
     return attributes;
   }
@@ -1024,6 +1133,9 @@ public class Geometry extends AbstractSBase {
       count++;
     }
     if (isSetListOfGeometryDefinitions()) {
+      count++;
+    }
+    if (isSetListOfSampledFields()) {
       count++;
     }
     return count;
@@ -1070,6 +1182,11 @@ public class Geometry extends AbstractSBase {
         return getListOfGeometryDefinitions();
       }
       pos++;
+    }
+    if (isSetListOfSampledFields()) {
+      if (pos == index) {
+        return getListOfSampledFields();
+      }
     }
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", index,

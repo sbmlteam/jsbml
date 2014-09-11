@@ -23,13 +23,14 @@ package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import javax.swing.tree.TreeNode;
+import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.StringTools;
+import org.sbml.jsbml.xml.XMLNode;
+
 
 /**
  * @author Alex Thomas
@@ -39,121 +40,122 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class SampledField extends AbstractSpatialNamedSBase {
 
+  public enum DataKind {
+    DOUBLE, FLOAT, UINT8, UINT16, UINT32
+  }
+
+  public enum CompressionKind {
+    UNCOMPRESSED, DEFLATED
+  }
+
+  public enum InterpolationKind {
+    NEARESTNEIGHBOR, LINEAR
+  }
+
   /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 4345673559248715940L;
 
-  private String dataType;
+  private DataKind dataType;
   private Integer numSamples1;
   private Integer numSamples2;
   private Integer numSamples3;
-  private String interpolationType;
-  private String encoding;
-  private ImageData imageData;
+  private InterpolationKind interpolation;
+  private CompressionKind compression;
+  private XMLNode data;
 
-  private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
-  /**
-   * 
-   */
   public SampledField() {
     super();
   }
+
 
   /**
    * @param node
    */
   public SampledField(SampledField sf) {
     super(sf);
-
-    if (sf.isSetDataType()) {
-      dataType = new String(sf.getDataType());
-    }
-
-    if (sf.isSetInterpolationType()) {
-      interpolationType = new String(sf.getInterpolationType());
-    }
-
-    if (sf.isSetEncoding()) {
-      encoding = new String(sf.getEncoding());
-    }
-
     if (sf.isSetNumSamples1()) {
-      numSamples1 = new Integer(sf.getNumSamples1());
+      numSamples1 = sf.getNumSamples1();
     }
-
     if (sf.isSetNumSamples2()) {
-      numSamples2 = new Integer(sf.getNumSamples2());
+      numSamples2 = sf.getNumSamples2();
     }
-
     if (sf.isSetNumSamples3()) {
-      numSamples3 = new Integer(sf.getNumSamples3());
+      numSamples3 = sf.getNumSamples3();
     }
-
-    if (sf.isSetImageData()) {
-      setImageData(sf.getImageData().clone());
+    if (sf.isSetDataType()) {
+      setDataType(sf.getDataType());
+    }
+    if (sf.isSetCompression()) {
+      setCompression(sf.getCompression());
+    }
+    if (sf.isSetInterpolation()) {
+      setInterpolation(sf.getInterpolation());
     }
 
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractTreeNode#clone()
+
+  /**
+   * @param level
+   * @param version
    */
+  public SampledField(int level, int version) {
+    super(level, version);
+  }
+
+
+  /**
+   * 
+   * @param id
+   * @param level
+   * @param version
+   */
+  public SampledField(String id, int level, int version) {
+    super(id, level, version);
+  }
+
+
   @Override
   public SampledField clone() {
     return new SampledField(this);
   }
 
 
-  /**
-   * Returns the value of dataType
-   *
-   * @return the value of dataType
-   */
-  public String getDataType() {
-    if (isSetDataType()) {
-      return dataType;
+  @Override
+  public boolean equals(Object object) {
+    boolean equal = super.equals(object);
+    if (equal) {
+      SampledField sf = (SampledField) object;
+
+      equal &= sf.isSetNumSamples1() == isSetNumSamples1();
+      if (equal && isSetNumSamples1()) {
+        equal &= sf.getNumSamples1() == getNumSamples1();
+      }
+      equal &= sf.isSetNumSamples2() == isSetNumSamples2();
+      if (equal && isSetNumSamples2()) {
+        equal &= sf.getNumSamples2() == getNumSamples2();
+      }
+      equal &= sf.isSetNumSamples3() == isSetNumSamples3();
+      if (equal && isSetNumSamples3()) {
+        equal &= sf.getNumSamples3() == getNumSamples3();
+      }
+      equal &= sf.isSetCompression() == isSetCompression();
+      if (equal && isSetCompression()) {
+        equal &= sf.getCompression().equals(getCompression());
+      }
+      equal &= sf.isSetInterpolation() == isSetInterpolation();
+      if (equal && isSetInterpolation()) {
+        equal &= sf.getInterpolation().equals(getInterpolation());
+      }
+      equal &= sf.isSetDataType() == isSetDataType();
+      if (equal && isSetDataType()) {
+        equal &= sf.getDataType().equals(getDataType());
+      }
     }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(SpatialConstants.dataType, this);
-  }
-
-
-  /**
-   * Returns whether dataType is set
-   *
-   * @return whether dataType is set
-   */
-  public boolean isSetDataType() {
-    return dataType != null;
-  }
-
-
-  /**
-   * Sets the value of dataType
-   */
-  public void setDataType(String dataType) {
-    String oldDataType = this.dataType;
-    this.dataType = dataType;
-    firePropertyChange(SpatialConstants.dataType, oldDataType, this.dataType);
-  }
-
-
-  /**
-   * Unsets the variable dataType
-   *
-   * @return {@code true}, if dataType was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetDataType() {
-    if (isSetDataType()) {
-      String oldDataType = dataType;
-      dataType = null;
-      firePropertyChange(SpatialConstants.dataType, oldDataType, dataType);
-      return true;
-    }
-    return false;
+    return equal;
   }
 
 
@@ -177,7 +179,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
    * @return whether numSamples1 is set
    */
   public boolean isSetNumSamples1() {
-    return numSamples1 != null;
+    return this.numSamples1 != null;
   }
 
 
@@ -199,9 +201,9 @@ public class SampledField extends AbstractSpatialNamedSBase {
    */
   public boolean unsetNumSamples1() {
     if (isSetNumSamples1()) {
-      int oldNumSamples1 = numSamples1;
-      numSamples1 = null;
-      firePropertyChange(SpatialConstants.numSamples1, oldNumSamples1, numSamples1);
+      int oldNumSamples1 = this.numSamples1;
+      this.numSamples1 = null;
+      firePropertyChange(SpatialConstants.numSamples1, oldNumSamples1, this.numSamples1);
       return true;
     }
     return false;
@@ -228,7 +230,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
    * @return whether numSamples2 is set
    */
   public boolean isSetNumSamples2() {
-    return numSamples2 != null;
+    return this.numSamples2 != null;
   }
 
 
@@ -250,13 +252,14 @@ public class SampledField extends AbstractSpatialNamedSBase {
    */
   public boolean unsetNumSamples2() {
     if (isSetNumSamples2()) {
-      int oldNumSamples2 = numSamples2;
-      numSamples2 = null;
-      firePropertyChange(SpatialConstants.numSamples2, oldNumSamples2, numSamples2);
+      int oldNumSamples2 = this.numSamples2;
+      this.numSamples2 = null;
+      firePropertyChange(SpatialConstants.numSamples2, oldNumSamples2, this.numSamples2);
       return true;
     }
     return false;
   }
+
 
 
   /**
@@ -279,7 +282,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
    * @return whether numSamples3 is set
    */
   public boolean isSetNumSamples3() {
-    return numSamples3 != null;
+    return this.numSamples3 != null;
   }
 
 
@@ -301,9 +304,58 @@ public class SampledField extends AbstractSpatialNamedSBase {
    */
   public boolean unsetNumSamples3() {
     if (isSetNumSamples3()) {
-      int oldNumSamples3 = numSamples3;
-      numSamples3 = null;
-      firePropertyChange(SpatialConstants.numSamples3, oldNumSamples3, numSamples3);
+      int oldNumSamples3 = this.numSamples3;
+      this.numSamples3 = null;
+      firePropertyChange(SpatialConstants.numSamples3, oldNumSamples3, this.numSamples3);
+      return true;
+    }
+    return false;
+  }
+  /**
+   * Returns the value of dataType
+   *
+   * @return the value of dataType
+   */
+  public DataKind getDataType() {
+    if (isSetDataType()) {
+      return dataType;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(SpatialConstants.dataType, this);
+  }
+
+
+  /**
+   * Returns whether dataType is set
+   *
+   * @return whether dataType is set
+   */
+  public boolean isSetDataType() {
+    return this.dataType != null;
+  }
+
+
+  /**
+   * Sets the value of dataType
+   */
+  public void setDataType(DataKind dataType) {
+    DataKind oldDataType = this.dataType;
+    this.dataType = dataType;
+    firePropertyChange(SpatialConstants.dataType, oldDataType, this.dataType);
+  }
+
+
+  /**
+   * Unsets the variable dataType
+   *
+   * @return {@code true}, if dataType was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetDataType() {
+    if (isSetDataType()) {
+      DataKind oldDataType = this.dataType;
+      this.dataType = null;
+      firePropertyChange(SpatialConstants.dataType, oldDataType, this.dataType);
       return true;
     }
     return false;
@@ -311,50 +363,50 @@ public class SampledField extends AbstractSpatialNamedSBase {
 
 
   /**
-   * Returns the value of interpolationType
+   * Returns the value of compression
    *
-   * @return the value of interpolationType
+   * @return the value of compression
    */
-  public String getInterpolationType() {
-    if (isSetInterpolationType()) {
-      return interpolationType;
+  public CompressionKind getCompression() {
+    if (isSetCompression()) {
+      return compression;
     }
     // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(SpatialConstants.interpolationType, this);
+    throw new PropertyUndefinedError(SpatialConstants.compression, this);
   }
 
 
   /**
-   * Returns whether interpolationType is set
+   * Returns whether compression is set
    *
-   * @return whether interpolationType is set
+   * @return whether compression is set
    */
-  public boolean isSetInterpolationType() {
-    return interpolationType != null;
+  public boolean isSetCompression() {
+    return this.compression != null;
   }
 
 
   /**
-   * Sets the value of interpolationType
+   * Sets the value of compression
    */
-  public void setInterpolationType(String interpolationType) {
-    String oldInterpolationType = this.interpolationType;
-    this.interpolationType = interpolationType;
-    firePropertyChange(SpatialConstants.interpolationType, oldInterpolationType, this.interpolationType);
+  public void setCompression(CompressionKind compression) {
+    CompressionKind oldCompression = this.compression;
+    this.compression = compression;
+    firePropertyChange(SpatialConstants.compression, oldCompression, this.compression);
   }
 
 
   /**
-   * Unsets the variable interpolationType
+   * Unsets the variable compression
    *
-   * @return {@code true}, if interpolationType was set before,
+   * @return {@code true}, if compression was set before,
    *         otherwise {@code false}
    */
-  public boolean unsetInterpolationType() {
-    if (isSetInterpolationType()) {
-      String oldInterpolationType = interpolationType;
-      interpolationType = null;
-      firePropertyChange(SpatialConstants.interpolationType, oldInterpolationType, interpolationType);
+  public boolean unsetCompression() {
+    if (isSetCompression()) {
+      CompressionKind oldCompression = this.compression;
+      this.compression = null;
+      firePropertyChange(SpatialConstants.compression, oldCompression, this.compression);
       return true;
     }
     return false;
@@ -362,50 +414,50 @@ public class SampledField extends AbstractSpatialNamedSBase {
 
 
   /**
-   * Returns the value of encoding
+   * Returns the value of interpolation
    *
-   * @return the value of encoding
+   * @return the value of interpolation
    */
-  public String getEncoding() {
-    if (isSetEncoding()) {
-      return encoding;
+  public InterpolationKind getInterpolation() {
+    if (isSetInterpolation()) {
+      return interpolation;
     }
     // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(SpatialConstants.encoding, this);
+    throw new PropertyUndefinedError(SpatialConstants.interpolation, this);
   }
 
 
   /**
-   * Returns whether encoding is set
+   * Returns whether interpolation is set
    *
-   * @return whether encoding is set
+   * @return whether interpolation is set
    */
-  public boolean isSetEncoding() {
-    return encoding != null;
+  public boolean isSetInterpolation() {
+    return this.interpolation != null;
   }
 
 
   /**
-   * Sets the value of encoding
+   * Sets the value of interpolation
    */
-  public void setEncoding(String encoding) {
-    String oldEncoding = this.encoding;
-    this.encoding = encoding;
-    firePropertyChange(SpatialConstants.encoding, oldEncoding, this.encoding);
+  public void setInterpolation(InterpolationKind interpolation) {
+    InterpolationKind oldInterpolation = this.interpolation;
+    this.interpolation = interpolation;
+    firePropertyChange(SpatialConstants.interpolation, oldInterpolation, this.interpolation);
   }
 
 
   /**
-   * Unsets the variable encoding
+   * Unsets the variable interpolation
    *
-   * @return {@code true}, if encoding was set before,
+   * @return {@code true}, if interpolation was set before,
    *         otherwise {@code false}
    */
-  public boolean unsetEncoding() {
-    if (isSetEncoding()) {
-      String oldEncoding = encoding;
-      encoding = null;
-      firePropertyChange(SpatialConstants.encoding, oldEncoding, encoding);
+  public boolean unsetInterpolation() {
+    if (isSetInterpolation()) {
+      InterpolationKind oldInterpolation = this.interpolation;
+      this.interpolation = null;
+      firePropertyChange(SpatialConstants.interpolation, oldInterpolation, this.interpolation);
       return true;
     }
     return false;
@@ -413,50 +465,70 @@ public class SampledField extends AbstractSpatialNamedSBase {
 
 
   /**
-   * Returns the value of imageData
+   * Returns the value of data
    *
-   * @return the value of imageData
+   * @return the value of data
    */
-  public ImageData getImageData() {
-    if (isSetImageData()) {
-      return imageData;
+  public String getDataString() {
+    if (isSetData()) {
+      return data.getCharacters();
     }
     // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(SpatialConstants.imageData, this);
+    throw new PropertyUndefinedError(SpatialConstants.data, this);
   }
 
-
   /**
-   * Returns whether imageData is set
+   * Returns the value of data
    *
-   * @return whether imageData is set
+   * @return the value of data
    */
-  public boolean isSetImageData() {
-    return imageData != null;
+  public XMLNode getData() {
+    if (isSetData()) {
+      return data;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(SpatialConstants.data, this);
   }
 
 
   /**
-   * Sets the value of imageData
-   */
-  public void setImageData(ImageData imageData) {
-    ImageData oldImageData = this.imageData;
-    this.imageData = imageData;
-    firePropertyChange(SpatialConstants.imageData, oldImageData, this.imageData);
-  }
-
-
-  /**
-   * Unsets the variable imageData
+   * Returns whether data is set
    *
-   * @return {@code true}, if imageData was set before,
+   * @return whether data is set
+   */
+  public boolean isSetData() {
+    return this.data != null;
+  }
+
+
+  /**
+   * Sets the value of data
+   * @throws XMLStreamException
+   */
+  public void setData(String data) throws XMLStreamException {
+    setData(XMLNode.convertStringToXMLNode(data));
+  }
+
+  /**
+   * Sets the value of data
+   */
+  public void setData(XMLNode data) {
+    XMLNode oldData = this.data;
+    this.data = data;
+    firePropertyChange(SpatialConstants.data, oldData, this.data);
+  }
+
+  /**
+   * Unsets the variable data
+   *
+   * @return {@code true}, if data was set before,
    *         otherwise {@code false}
    */
-  public boolean unsetImageData() {
-    if (isSetImageData()) {
-      ImageData oldImageData = imageData;
-      imageData = null;
-      firePropertyChange(SpatialConstants.imageData, oldImageData, imageData);
+  public boolean unsetData() {
+    if (isSetData()) {
+      XMLNode oldData = this.data;
+      this.data = null;
+      firePropertyChange(SpatialConstants.data, oldData, this.data);
       return true;
     }
     return false;
@@ -472,7 +544,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
   @Override
   public int getChildCount() {
     int count = super.getChildCount();
-    if (isSetImageData()) {
+    if (isSetData()) {
       count++;
     }
     return count;
@@ -490,9 +562,9 @@ public class SampledField extends AbstractSpatialNamedSBase {
     } else {
       index -= count;
     }
-    if (isSetImageData()) {
+    if (isSetData()) {
       if (pos == index) {
-        return getImageData();
+        return getData(); // Need to address!
       }
       pos++;
     }
@@ -504,20 +576,8 @@ public class SampledField extends AbstractSpatialNamedSBase {
 
   @Override
   public int hashCode() {
-    final int prime = 421;
+    final int prime = 983;//Change this prime number
     int hashCode = super.hashCode();
-    if (isSetDataType()) {
-      hashCode += prime * getDataType().hashCode();
-    }
-
-    if (isSetEncoding()) {
-      hashCode += prime * getEncoding().hashCode();
-    }
-
-    if (isSetInterpolationType()) {
-      hashCode += prime * getInterpolationType().hashCode();
-    }
-
     if (isSetNumSamples1()) {
       hashCode += prime * getNumSamples1();
     }
@@ -530,6 +590,17 @@ public class SampledField extends AbstractSpatialNamedSBase {
       hashCode += prime * getNumSamples3();
     }
 
+    if (isSetDataType()) {
+      hashCode += prime * getDataType().hashCode();
+    }
+
+    if (isSetCompression()) {
+      hashCode += prime * getCompression().hashCode();
+    }
+
+    if (isSetInterpolation()) {
+      hashCode += prime * getInterpolation().hashCode();
+    }
     return hashCode;
   }
 
@@ -537,15 +608,9 @@ public class SampledField extends AbstractSpatialNamedSBase {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
-    if (isSetDataType()) {
-      attributes.remove("dataType");
-      attributes.put(SpatialConstants.shortLabel + ":dataType", getDataType());
-    }
-
     if (isSetNumSamples1()) {
       attributes.remove("numSamples1");
-      attributes.put(SpatialConstants.shortLabel + ":numSamples1",
-        String.valueOf(getNumSamples1()));
+      attributes.put(SpatialConstants.shortLabel + ":numSamples1", String.valueOf(getNumSamples1()));
     }
 
     if (isSetNumSamples2()) {
@@ -553,27 +618,26 @@ public class SampledField extends AbstractSpatialNamedSBase {
       attributes.put(SpatialConstants.shortLabel + ":numSamples2",
         String.valueOf(getNumSamples2()));
     }
-
     if (isSetNumSamples3()) {
       attributes.remove("numSamples3");
       attributes.put(SpatialConstants.shortLabel + ":numSamples3",
         String.valueOf(getNumSamples3()));
     }
-
-
-    if (isSetInterpolationType()) {
-      attributes.remove("interpolationType");
-      attributes.put(SpatialConstants.shortLabel + ":interpolationType",
-        getInterpolationType());
+    if (isSetDataType()) {
+      attributes.remove("dataType");
+      attributes.put(SpatialConstants.shortLabel + ":dataType",
+        getDataType().toString());
     }
-
-    if (isSetEncoding()) {
-      attributes.remove("encoding");
-      attributes.put(SpatialConstants.shortLabel + ":encoding",
-        getEncoding());
+    if (isSetCompression()) {
+      attributes.remove("compression");
+      attributes.put(SpatialConstants.shortLabel + ":compression",
+        getCompression().toString());
     }
-
-
+    if (isSetInterpolation()) {
+      attributes.remove("interpolation");
+      attributes.put(SpatialConstants.shortLabel + ":interpolation",
+        getInterpolation().toString());
+    }
     return attributes;
   }
 
@@ -584,35 +648,12 @@ public class SampledField extends AbstractSpatialNamedSBase {
         && (SpatialConstants.shortLabel == prefix);
     if (!isAttributeRead) {
       isAttributeRead = true;
-      if (attributeName.equals(SpatialConstants.dataType)) {
-        try {
-          setDataType(value);
-        } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.dataType);
-        }
-      }
-      else if (attributeName.equals(SpatialConstants.interpolationType)) {
-        try {
-          setInterpolationType(value);
-        } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.interpolationType);
-        }
-      }
-      else if (attributeName.equals(SpatialConstants.encoding)) {
-        try {
-          setEncoding(value);
-        } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.encoding);
-        }
-      }
-      else if (attributeName.equals(SpatialConstants.numSamples1)) {
+      if (attributeName.equals(SpatialConstants.numSamples1)) {
         try {
           setNumSamples1(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
+          MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
             SpatialConstants.numSamples1);
         }
       }
@@ -620,16 +661,36 @@ public class SampledField extends AbstractSpatialNamedSBase {
         try {
           setNumSamples2(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.numSamples2);
+          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.numSamples2);
         }
       }
       else if (attributeName.equals(SpatialConstants.numSamples3)) {
         try {
           setNumSamples3(StringTools.parseSBMLInt(value));
         } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.numSamples3);
+          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.numSamples3);
+        }
+      }
+
+      else if (attributeName.equals(SpatialConstants.interpolation)) {
+        try {
+          setInterpolation(InterpolationKind.valueOf(value));
+        } catch (Exception e) {
+          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.interpolation);
+        }
+      }
+      else if (attributeName.equals(SpatialConstants.compression)) {
+        try {
+          setCompression(CompressionKind.valueOf(value));
+        } catch (Exception e) {
+          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.compression);
+        }
+      }
+      else if (attributeName.equals(SpatialConstants.dataType)) {
+        try {
+          setDataType(DataKind.valueOf(value));
+        } catch (Exception e) {
+          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.dataType);
         }
       }
       else {
@@ -638,6 +699,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
     }
     return isAttributeRead;
   }
+
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
@@ -653,52 +715,14 @@ public class SampledField extends AbstractSpatialNamedSBase {
     builder.append(numSamples2);
     builder.append(", numSamples3=");
     builder.append(numSamples3);
-    builder.append(", interpolationType=");
-    builder.append(interpolationType);
-    builder.append(", encoding=");
-    builder.append(encoding);
+    builder.append(", interpolation=");
+    builder.append(interpolation);
+    builder.append(", compression=");
+    builder.append(compression);
+    builder.append(", data=");
+    builder.append(data);
     builder.append("]");
     return builder.toString();
-  }
-
-  @Override
-  public boolean equals(Object object) {
-    boolean equal = super.equals(object);
-    if (equal) {
-      SampledField sf = (SampledField) object;
-
-      equal &= sf.isSetDataType() == isSetDataType();
-      if (equal && isSetDataType()) {
-        equal &= sf.getDataType().equals(getDataType());
-      }
-
-      equal &= sf.isSetNumSamples1() == isSetNumSamples1();
-      if (equal && isSetNumSamples1()) {
-        equal &= sf.getNumSamples1() == getNumSamples1();
-      }
-
-      equal &= sf.isSetNumSamples2() == isSetNumSamples2();
-      if (equal && isSetNumSamples2()) {
-        equal &= sf.getNumSamples2() == getNumSamples2();
-      }
-
-      equal &= sf.isSetNumSamples3() == isSetNumSamples3();
-      if (equal && isSetNumSamples3()) {
-        equal &= sf.getNumSamples3() == getNumSamples3();
-      }
-
-      equal &= sf.isSetEncoding() == isSetEncoding();
-      if (equal && isSetEncoding()) {
-        equal &= sf.getEncoding().equals(getEncoding());
-      }
-
-      equal &= sf.isSetInterpolationType() == isSetInterpolationType();
-      if (equal && isSetInterpolationType()) {
-        equal &= sf.getInterpolationType().equals(getInterpolationType());
-      }
-
-    }
-    return equal;
   }
 
 

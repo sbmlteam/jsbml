@@ -233,6 +233,14 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
     getListOfSubGlyphs().remove(i);
   }
 
+  public void removeGeneralGlyph(int i) {
+    removeSubGlyph(i);
+  }
+
+  public void removeGeneralGlyph(GraphicalObject subGlyph) {
+    removeSubGlyph(subGlyph);
+  }
+
 
   /**
    * Creates a new {@link ReferenceGlyph} element and adds it to the ListOfSubGlyphs list

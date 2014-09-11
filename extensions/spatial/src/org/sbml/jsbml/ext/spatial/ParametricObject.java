@@ -37,8 +37,12 @@ import org.sbml.jsbml.PropertyUndefinedError;
  */
 public class ParametricObject extends AbstractSpatialNamedSBase {
 
-  private String polygonType;
-  private String domain;
+  public enum PolygonKind {
+    TRIANGLE, QUADRILATERAL;
+  }
+
+  private PolygonKind polygonType;
+  private String domainType;
   private PolygonObject polygonObject;
   /**
    * Generated serial version identifier.
@@ -57,12 +61,12 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
   public ParametricObject(ParametricObject po) {
     super(po);
 
-    if (po.isSetDomain()) {
-      domain = new String(po.getDomain());
+    if (po.isSetDomainType()) {
+      domainType = new String(po.getDomainType());
     }
 
     if (po.isSetPolygonType()) {
-      polygonType = new String(po.getPolygonType());
+      setPolygonType(po.getPolygonType());
     }
 
     if (po.isSetPolygonObject()) {
@@ -104,9 +108,9 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
     if (equal) {
       ParametricObject po = (ParametricObject) object;
 
-      equal &= po.isSetDomain() == isSetDomain();
-      if (equal && isSetDomain()) {
-        equal &= po.getDomain().equals(getDomain());
+      equal &= po.isSetDomainType() == isSetDomainType();
+      if (equal && isSetDomainType()) {
+        equal &= po.getDomainType().equals(getDomainType());
       }
 
       equal &= po.isSetPolygonType() == isSetPolygonType();
@@ -128,7 +132,7 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
    *
    * @return the value of polygonType
    */
-  public String getPolygonType() {
+  public PolygonKind getPolygonType() {
     if (isSetPolygonType()) {
       return polygonType;
     }
@@ -151,7 +155,14 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
    * Sets the value of polygonType
    */
   public void setPolygonType(String polygonType) {
-    String oldPolygonType = this.polygonType;
+    setPolygonType(PolygonKind.valueOf(polygonType));
+  }
+
+  /**
+   * Sets the value of polygonType
+   */
+  public void setPolygonType(PolygonKind polygonType) {
+    PolygonKind oldPolygonType = this.polygonType;
     this.polygonType = polygonType;
     firePropertyChange(SpatialConstants.polygonType, oldPolygonType, this.polygonType);
   }
@@ -165,7 +176,7 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
    */
   public boolean unsetPolygonType() {
     if (isSetPolygonType()) {
-      String oldPolygonType = polygonType;
+      PolygonKind oldPolygonType = polygonType;
       polygonType = null;
       firePropertyChange(SpatialConstants.polygonType, oldPolygonType, polygonType);
       return true;
@@ -178,9 +189,9 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
    *
    * @return the value of domain
    */
-  public String getDomain() {
-    if (isSetDomain()) {
-      return domain;
+  public String getDomainType() {
+    if (isSetDomainType()) {
+      return domainType;
     }
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(SpatialConstants.domain, this);
@@ -192,18 +203,18 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
    *
    * @return whether domain is set
    */
-  public boolean isSetDomain() {
-    return domain != null;
+  public boolean isSetDomainType() {
+    return domainType != null;
   }
 
 
   /**
    * Sets the value of domain
    */
-  public void setDomain(String domain) {
-    String oldDomain = this.domain;
-    this.domain = domain;
-    firePropertyChange(SpatialConstants.domain, oldDomain, this.domain);
+  public void setDomainType(String domain) {
+    String oldDomain = this.domainType;
+    this.domainType = domain;
+    firePropertyChange(SpatialConstants.domain, oldDomain, this.domainType);
   }
 
 
@@ -214,10 +225,10 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
    *         otherwise {@code false}
    */
   public boolean unsetDomain() {
-    if (isSetDomain()) {
-      String oldDomain = domain;
-      domain = null;
-      firePropertyChange(SpatialConstants.domain, oldDomain, domain);
+    if (isSetDomainType()) {
+      String oldDomain = domainType;
+      domainType = null;
+      firePropertyChange(SpatialConstants.domain, oldDomain, domainType);
       return true;
     }
     return false;
@@ -317,8 +328,8 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
   public int hashCode() {
     final int prime = 983;//Change this prime number
     int hashCode = super.hashCode();
-    if (isSetDomain()) {
-      hashCode += prime * getDomain().hashCode();
+    if (isSetDomainType()) {
+      hashCode += prime * getDomainType().hashCode();
     }
     if (isSetPolygonType()) {
       hashCode += prime * getPolygonType().hashCode();
@@ -330,15 +341,15 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
-    if (isSetDomain()) {
-      attributes.remove("domain");
-      attributes.put(SpatialConstants.shortLabel + ":domain", getDomain());
+    if (isSetDomainType()) {
+      attributes.remove("domainType");
+      attributes.put(SpatialConstants.shortLabel + ":domainType", getDomainType());
     }
 
     if (isSetPolygonType()) {
       attributes.remove("polygonType");
       attributes.put(SpatialConstants.shortLabel + ":polygonType",
-        getPolygonType());
+        getPolygonType().toString());
     }
 
     return attributes;
@@ -351,12 +362,12 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
         && (SpatialConstants.shortLabel == prefix);
     if (!isAttributeRead) {
       isAttributeRead = true;
-      if (attributeName.equals(SpatialConstants.domain)) {
+      if (attributeName.equals(SpatialConstants.domainType)) {
         try {
-          setDomain(value);
+          setDomainType(value);
         } catch (Exception e) {
           MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.domain);
+            SpatialConstants.domainType);
         }
       }
 
@@ -384,7 +395,7 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
     builder.append("ParametricObject [polygonType=");
     builder.append(polygonType);
     builder.append(", domain=");
-    builder.append(domain);
+    builder.append(domainType);
     builder.append("]");
     return builder.toString();
   }

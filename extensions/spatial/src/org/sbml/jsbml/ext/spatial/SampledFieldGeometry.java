@@ -23,12 +23,14 @@ package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.util.filters.NameFilter;
 
 
 /**
@@ -45,7 +47,7 @@ public class SampledFieldGeometry extends GeometryDefinition {
   private static final long serialVersionUID = -1541677165317653439L;
 
   private ListOf<SampledVolume> listOfSampledVolumes;
-  private SampledField sampledField;
+  private String sampledField;
 
   /**
    * 
@@ -60,9 +62,11 @@ public class SampledFieldGeometry extends GeometryDefinition {
    */
   public SampledFieldGeometry(SampledFieldGeometry sampledFieldGeometry) {
     super(sampledFieldGeometry);
-    if (isSetSampledField()) {
-      setSampledField(sampledFieldGeometry.getSampledField().clone());
+
+    if (sampledFieldGeometry.isSetSampledField()) {
+      sampledField = new String(sampledFieldGeometry.getSampledField());
     }
+
     if (isSetListOfSampledVolumes()) {
       setListOfSampledVolumes(sampledFieldGeometry.getListOfSampledVolumes().clone());
     }
@@ -107,7 +111,7 @@ public class SampledFieldGeometry extends GeometryDefinition {
    *
    * @return the value of sampledField
    */
-  public SampledField getSampledField() {
+  public String getSampledField() {
     if (isSetSampledField()) {
       return sampledField;
     }
@@ -129,8 +133,8 @@ public class SampledFieldGeometry extends GeometryDefinition {
   /**
    * Sets the value of sampledField
    */
-  public void setSampledField(SampledField sampledField) {
-    SampledField oldSampledField = this.sampledField;
+  public void setSampledField(String sampledField) {
+    String oldSampledField = this.sampledField;
     this.sampledField = sampledField;
     firePropertyChange(SpatialConstants.sampledField, oldSampledField, this.sampledField);
   }
@@ -144,7 +148,7 @@ public class SampledFieldGeometry extends GeometryDefinition {
    */
   public boolean unsetSampledField() {
     if (isSetSampledField()) {
-      SampledField oldSampledField = sampledField;
+      String oldSampledField = sampledField;
       sampledField = null;
       firePropertyChange(SpatialConstants.sampledField, oldSampledField, sampledField);
       return true;
@@ -264,13 +268,9 @@ public class SampledFieldGeometry extends GeometryDefinition {
   }
 
 
-  /**
-   * TODO: if the ID is mandatory for SampledVolume objects,
-   * one should also add this methods
-   */
-  //public void removeSampledVolume(String id) {
-  //  getListOfSampledVolumes().removeFirst(new NameFilter(id));
-  //}
+  public void removeSampledVolume(String id) {
+    getListOfSampledVolumes().removeFirst(new NameFilter(id));
+  }
   /**
    * Creates a new SampledVolume element and adds it to the ListOfSampledVolumes list
    */
@@ -290,19 +290,6 @@ public class SampledFieldGeometry extends GeometryDefinition {
     return sampledVolume;
   }
 
-  /**
-   * TODO: optionally, create additional create methods with more
-   * variables, for instance "bar" variable
-   */
-  // public SampledVolume createSampledVolume(String id, int bar) {
-  //   SampledVolume sampledVolume = createSampledVolume(id);
-  //   sampledVolume.setBar(bar);
-  //   return sampledVolume;
-  // }
-  /**
-   * 
-   */
-
 
 
   @Override
@@ -315,9 +302,6 @@ public class SampledFieldGeometry extends GeometryDefinition {
   public int getChildCount() {
     int count = super.getChildCount();
     if (isSetListOfSampledVolumes()) {
-      count++;
-    }
-    if (isSetSampledField()) {
       count++;
     }
     return count;
@@ -341,15 +325,54 @@ public class SampledFieldGeometry extends GeometryDefinition {
       }
       pos++;
     }
-    if (isSetSampledField()) {
-      if (pos == index) {
-        return getSampledField();
-      }
-      pos++;
-    }
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", index,
       +Math.min(pos, 0)));
+  }
+
+
+  @Override
+  public int hashCode() {
+    final int prime = 983;//Change this prime number
+    int hashCode = super.hashCode();
+    if (isSetSampledField()) {
+      hashCode += prime * getSampledField().hashCode();
+    }
+    return hashCode;
+  }
+
+
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetSampledField()) {
+      attributes.remove("sampledField");
+      attributes.put(SpatialConstants.shortLabel + ":sampledField", getSampledField());
+    }
+    return attributes;
+  }
+
+
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
+        && (SpatialConstants.shortLabel == prefix);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(SpatialConstants.sampledField)) {
+        try {
+          setSampledField(value);
+        } catch (Exception e) {
+          MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
+            SpatialConstants.sampledField);
+        }
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
   }
 
 }

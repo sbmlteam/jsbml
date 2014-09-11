@@ -31,6 +31,7 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * @author Alex Thomas
@@ -40,11 +41,11 @@ import org.sbml.jsbml.SBMLException;
  */
 public class CSGSetOperator extends CSGNode {
 
-  public static enum OperationType {
+  public static enum SetOperation {
 
     UNION,
     INTERSECTION,
-    DIFFERENCE;
+    RELATIVECOMPONENT;
   }
 
   /**
@@ -52,7 +53,10 @@ public class CSGSetOperator extends CSGNode {
    */
   private static final long serialVersionUID = 3448308755493169761L;
 
-  private OperationType operationType;
+  private SetOperation operationType;
+
+  private String complementA;
+  private String complementB;
 
   private ListOf<CSGNode> listOfCSGNodes;
 
@@ -67,11 +71,19 @@ public class CSGSetOperator extends CSGNode {
   public CSGSetOperator(CSGSetOperator csgso) {
     super(csgso);
     if (csgso.isSetListOfCSGNodes()) {
-      listOfCSGNodes = csgso.getListOfCSGNodes().clone();
+      setListOfCSGNodes(csgso.getListOfCSGNodes().clone());
     }
 
     if (csgso.isSetOperationType()) {
       operationType = csgso.getOperationType();
+    }
+
+    if (csgso.isSetComplementA()) {
+      complementA = new String(csgso.getComplementA());
+    }
+
+    if (csgso.isSetComplementB()) {
+      complementB = new String(csgso.getComplementB());
     }
   }
 
@@ -117,8 +129,120 @@ public class CSGSetOperator extends CSGNode {
       if (equal && isSetListOfCSGNodes()) {
         equal &= csgso.getListOfCSGNodes().equals(getListOfCSGNodes());
       }
+
+      equal &= csgso.isSetComplementA() == isSetComplementA();
+      if (equal && isSetComplementA()) {
+        equal &= csgso.getComplementA().equals(getComplementA());
+      }
+
+      equal &= csgso.isSetComplementB() == isSetComplementB();
+      if (equal && isSetComplementB()) {
+        equal &= csgso.getComplementB().equals(getComplementB());
+      }
     }
     return equal;
+  }
+
+
+  /**
+   * Returns the value of complementA
+   *
+   * @return the value of complementA
+   */
+  public String getComplementA() {
+    if (isSetComplementA()) {
+      return complementA;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(SpatialConstants.complementA, this);
+  }
+
+
+  /**
+   * Returns whether complementA is set
+   *
+   * @return whether complementA is set
+   */
+  public boolean isSetComplementA() {
+    return this.complementA != null;
+  }
+
+
+  /**
+   * Sets the value of complementA
+   */
+  public void setComplementA(String complementA) {
+    String oldComplementA = this.complementA;
+    this.complementA = complementA;
+    firePropertyChange(SpatialConstants.complementA, oldComplementA, this.complementA);
+  }
+
+
+  /**
+   * Unsets the variable complementA
+   *
+   * @return {@code true}, if complementA was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetComplementA() {
+    if (isSetComplementA()) {
+      String oldComplementA = this.complementA;
+      this.complementA = null;
+      firePropertyChange(SpatialConstants.complementA, oldComplementA, this.complementA);
+      return true;
+    }
+    return false;
+  }
+
+
+  /**
+   * Returns the value of complementB
+   *
+   * @return the value of complementB
+   */
+  public String getComplementB() {
+    if (isSetComplementB()) {
+      return complementB;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(SpatialConstants.complementB, this);
+  }
+
+
+  /**
+   * Returns whether complementB is set
+   *
+   * @return whether complementB is set
+   */
+  public boolean isSetComplementB() {
+    return this.complementB != null;
+  }
+
+
+  /**
+   * Sets the value of complementB
+   */
+  public void setComplementB(String complementB) {
+    String oldComplementB = this.complementB;
+    this.complementB = complementB;
+    firePropertyChange(SpatialConstants.complementB, oldComplementB, this.complementB);
+  }
+
+
+  /**
+   * Unsets the variable complementB
+   *
+   * @return {@code true}, if complementB was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetComplementB() {
+    if (isSetComplementB()) {
+      String oldComplementB = this.complementB;
+      this.complementB = null;
+      firePropertyChange(SpatialConstants.complementB, oldComplementB, this.complementB);
+      return true;
+    }
+    return false;
   }
 
 
@@ -127,7 +251,7 @@ public class CSGSetOperator extends CSGNode {
    *
    * @return the value of operationType
    */
-  public OperationType getOperationType() {
+  public SetOperation getOperationType() {
     if (isSetOperationType()) {
       return operationType;
     }
@@ -149,8 +273,8 @@ public class CSGSetOperator extends CSGNode {
   /**
    * Sets the value of operationType
    */
-  public void setOperationType(OperationType operationType) {
-    OperationType oldOperationType = this.operationType;
+  public void setOperationType(SetOperation operationType) {
+    SetOperation oldOperationType = this.operationType;
     this.operationType = operationType;
     firePropertyChange(SpatialConstants.operationType, oldOperationType, this.operationType);
   }
@@ -164,7 +288,7 @@ public class CSGSetOperator extends CSGNode {
    */
   public boolean unsetOperationType() {
     if (isSetOperationType()) {
-      OperationType oldOperationType = operationType;
+      SetOperation oldOperationType = operationType;
       operationType = null;
       firePropertyChange(SpatialConstants.operationType, oldOperationType, operationType);
       return true;
@@ -276,14 +400,9 @@ public class CSGSetOperator extends CSGNode {
     getListOfCSGNodes().remove(i);
   }
 
-
-  /**
-   * TODO: if the ID is mandatory for CSGNode objects,
-   * one should also add this methods
-   */
-  //public void removeCSGNode(String id) {
-  //  getListOfCSGNodes().removeFirst(new NameFilter(id));
-  //}
+  public void removeCSGNode(String id) {
+    getListOfCSGNodes().removeFirst(new NameFilter(id));
+  }
   /**
    * Creates a new CSGNode element and adds it to the ListOfCSGNodes list
    */
@@ -393,18 +512,6 @@ public class CSGSetOperator extends CSGNode {
     return csgNode;
   }
 
-  /**
-   * TODO: optionally, create additional create methods with more
-   * variables, for instance "bar" variable
-   */
-  // public CSGNode createCSGNode(String id, int bar) {
-  //   CSGNode csgNode = createCSGNode(id);
-  //   csgNode.setBar(bar);
-  //   return csgNode;
-  // }
-  /**
-   * 
-   */
 
 
   @Override
@@ -464,6 +571,18 @@ public class CSGSetOperator extends CSGNode {
       attributes.remove("operationType");
       attributes.put(SpatialConstants.shortLabel + ":operationType", getOperationType().toString());
     }
+
+    if (isSetComplementA()) {
+      attributes.remove("complementA");
+      attributes.put(SpatialConstants.shortLabel + ":complementA",
+        getComplementA());
+    }
+
+    if (isSetComplementB()) {
+      attributes.remove("complementB");
+      attributes.put(SpatialConstants.shortLabel + ":complementB",
+        getComplementB());
+    }
     return attributes;
   }
 
@@ -478,7 +597,23 @@ public class CSGSetOperator extends CSGNode {
         if (!Pattern.matches("[a-z]*", value)) {
           throw new SBMLException("The value is not all lower-case.");
         }
-        setOperationType(OperationType.valueOf(value.toUpperCase()));
+        setOperationType(SetOperation.valueOf(value.toUpperCase()));
+      }
+
+      else if (attributeName.equals(SpatialConstants.complementA)) {
+        try {
+          setComplementA(value);
+        } catch (Exception e) {
+          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.complementA);
+        }
+      }
+
+      else if (attributeName.equals(SpatialConstants.complementB)) {
+        try {
+          setComplementB(value);
+        } catch (Exception e) {
+          MessageFormat.format(SpatialConstants.bundle.getString("COULD_NOT_READ"), value, SpatialConstants.complementB);
+        }
       }
       else {
         isAttributeRead = false;
@@ -496,6 +631,12 @@ public class CSGSetOperator extends CSGNode {
     StringBuilder builder = new StringBuilder();
     builder.append("CSGSetOperator [operationType=");
     builder.append(operationType);
+    builder.append(", complementA=");
+    builder.append(complementA);
+    builder.append(", complementB=");
+    builder.append(complementB);
+    builder.append(", listOfCSGNodes=");
+    builder.append(listOfCSGNodes);
     builder.append("]");
     return builder.toString();
   }

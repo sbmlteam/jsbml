@@ -36,12 +36,44 @@ import org.sbml.jsbml.util.ResourceManager;
  */
 public class CSGPrimitive extends CSGNode{
 
+  public enum PrimitiveKind {
+    /**
+     * sphere
+     */
+    SPHERE,
+    /**
+     * cube
+     */
+    CUBE,
+    /**
+     * cylinder
+     */
+    CYLINDER,
+    /**
+     * cone
+     */
+    CONE,
+    /**
+     * circle
+     */
+    CIRCLE,
+    /**
+     * square
+     */
+    SQUARE,
+    /**
+     * rightTriangle
+     */
+    RIGHTTRIANGLE;
+
+  }
+
   /**
    * 
    */
   private static final long serialVersionUID = -6783804853380306509L;
 
-  private String primitiveType;
+  private PrimitiveKind primitiveType;
 
   private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
@@ -59,7 +91,7 @@ public class CSGPrimitive extends CSGNode{
 
 
     if (csgp.isSetPrimitiveType()) {
-      primitiveType = new String(csgp.getPrimitiveType());
+      primitiveType = csgp.getPrimitiveType();
     }
 
   }
@@ -110,7 +142,7 @@ public class CSGPrimitive extends CSGNode{
    *
    * @return the value of primitiveType
    */
-  public String getPrimitiveType() {
+  public PrimitiveKind getPrimitiveType() {
     if (isSetPrimitiveType()) {
       return primitiveType;
     }
@@ -133,11 +165,17 @@ public class CSGPrimitive extends CSGNode{
    * Sets the value of primitiveType
    */
   public void setPrimitiveType(String primitiveType) {
-    String oldPrimitiveType = this.primitiveType;
+    setPrimitiveType(PrimitiveKind.valueOf(primitiveType));
+  }
+
+  /**
+   * Sets the value of primitiveType
+   */
+  public void setPrimitiveType(PrimitiveKind primitiveType) {
+    PrimitiveKind oldPrimitiveType = this.primitiveType;
     this.primitiveType = primitiveType;
     firePropertyChange(SpatialConstants.primitiveType, oldPrimitiveType, this.primitiveType);
   }
-
 
   /**
    * Unsets the variable primitiveType
@@ -147,7 +185,7 @@ public class CSGPrimitive extends CSGNode{
    */
   public boolean unsetPrimitiveType() {
     if (isSetPrimitiveType()) {
-      String oldPrimitiveType = primitiveType;
+      PrimitiveKind oldPrimitiveType = primitiveType;
       primitiveType = null;
       firePropertyChange(SpatialConstants.primitiveType, oldPrimitiveType, primitiveType);
       return true;
@@ -172,7 +210,7 @@ public class CSGPrimitive extends CSGNode{
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetPrimitiveType()) {
       attributes.remove("primitiveType");
-      attributes.put(SpatialConstants.shortLabel + ":primitiveType", getPrimitiveType());
+      attributes.put(SpatialConstants.shortLabel + ":primitiveType", getPrimitiveType().toString());
     }
     return attributes;
   }

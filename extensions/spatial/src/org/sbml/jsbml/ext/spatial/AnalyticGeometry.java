@@ -28,6 +28,7 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * @author Alex Thomas
@@ -185,14 +186,9 @@ public class AnalyticGeometry extends GeometryDefinition {
     getListOfAnalyticVolumes().remove(i);
   }
 
-
-  /**
-   * TODO: if the ID is mandatory for AnalyticVolume objects,
-   * one should also add this methods
-   */
-  //public void removeAnalyticVolume(String id) {
-  //  getListOfAnalyticVolumes().removeFirst(new NameFilter(id));
-  //}
+  public void removeAnalyticVolume(String id) {
+    getListOfAnalyticVolumes().removeFirst(new NameFilter(id));
+  }
   /**
    * Creates a new AnalyticVolume element and adds it to the ListOfAnalyticVolumes list
    */

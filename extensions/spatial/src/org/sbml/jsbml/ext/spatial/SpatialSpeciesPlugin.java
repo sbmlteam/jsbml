@@ -22,16 +22,12 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.Compartment;
-import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.Model;
-import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.util.ResourceManager;
@@ -85,7 +81,7 @@ public class SpatialSpeciesPlugin extends AbstractSpatialSBasePlugin {
    */
   public SpatialSpeciesPlugin(SpatialSpeciesPlugin sb) {
     super(sb);
-    
+
     if (sb.isSetSpatial()) {
       setSpatial(sb.isSpatial());
     }
@@ -107,7 +103,7 @@ public class SpatialSpeciesPlugin extends AbstractSpatialSBasePlugin {
     if (isSetExtendedSBase()) {
       return (Species) super.getExtendedSBase();
     }
-    
+
     return null;
   }
 
@@ -265,66 +261,66 @@ public class SpatialSpeciesPlugin extends AbstractSpatialSBasePlugin {
     return equal;
   }
 
-
-  public boolean coefficientCheck() {
-    boolean check = true;
-    Model model = getModel();
-    ListOf<Parameter> params = model.getListOfParameters();
-    ListOf<DiffusionCoefficient> diffCoeffs = new ListOf<DiffusionCoefficient>();
-    ListOf<AdvectionCoefficient> advCoeffs = new ListOf<AdvectionCoefficient>();
-
-    for (Parameter p: params) {
-      SpatialParameterPlugin paramPlugin =
-          (SpatialParameterPlugin) p.getExtension(SpatialConstants.packageName);
-
-      if (paramPlugin != null) {
-        ParameterType paramType = paramPlugin.getParamType();
-        if (paramType.isSetSpeciesReference()) {
-          if (equals(paramType.getSpeciesInstance())) {
-
-            if (paramType instanceof DiffusionCoefficient) {
-              diffCoeffs.add((DiffusionCoefficient) paramType);
-            }
-            else if (paramType instanceof AdvectionCoefficient) {
-              advCoeffs.add((AdvectionCoefficient) paramType);
-            }
-          }
-        }
-      }
-    }
-
-    HashSet<Integer> coordDimensions = new HashSet<Integer>();
-
-    // Now you have a list of Parameter Type coefficients, go through and check if there is one
-    if (diffCoeffs.isEmpty()) {
-      if  (advCoeffs.isEmpty()) {
-        check = false;
-        throw new SBMLException("There is no species Id set for this parameter.");
-      } else {
-        for (AdvectionCoefficient ac : advCoeffs) {
-          if (coordDimensions.contains(ac.getCoordinateIndex())) {
-            check = false;
-          } else {
-            coordDimensions.add(ac.getCoordinateIndex());
-          }
-        }
-      }
-    } else {
-
-      coordDimensions = new HashSet<Integer>();
-
-      for (DiffusionCoefficient dc : diffCoeffs) {
-        if (coordDimensions.contains(dc.getCoordinateIndex())) {
-          check = false;
-        } else {
-          coordDimensions.add(dc.getCoordinateIndex());
-        }
-      }
-    }
-
-    return check;
-
-  }
+  //  TODO: redo coefficientCheck for species object
+  //  public boolean coefficientCheck() {
+  //    boolean check = true;
+  //    Model model = getModel();
+  //    ListOf<Parameter> params = model.getListOfParameters();
+  //    ListOf<DiffusionCoefficient> diffCoeffs = new ListOf<DiffusionCoefficient>();
+  //    ListOf<AdvectionCoefficient> advCoeffs = new ListOf<AdvectionCoefficient>();
+  //
+  //    for (Parameter p: params) {
+  //      SpatialParameterPlugin paramPlugin =
+  //          (SpatialParameterPlugin) p.getExtension(SpatialConstants.packageName);
+  //
+  //      if (paramPlugin != null) {
+  //        ParameterType paramType = paramPlugin.getParamType();
+  //        if (paramType.isSetSpeciesReference()) {
+  //          if (equals(paramType.getSpeciesInstance())) {
+  //
+  //            if (paramType instanceof DiffusionCoefficient) {
+  //              diffCoeffs.add((DiffusionCoefficient) paramType);
+  //            }
+  //            else if (paramType instanceof AdvectionCoefficient) {
+  //              advCoeffs.add((AdvectionCoefficient) paramType);
+  //            }
+  //          }
+  //        }
+  //      }
+  //    }
+  //
+  //    HashSet<Integer> coordDimensions = new HashSet<Integer>();
+  //
+  //    // Now you have a list of Parameter Type coefficients, go through and check if there is one
+  //    if (diffCoeffs.isEmpty()) {
+  //      if  (advCoeffs.isEmpty()) {
+  //        check = false;
+  //        throw new SBMLException("There is no species Id set for this parameter.");
+  //      } else {
+  //        for (AdvectionCoefficient ac : advCoeffs) {
+  //          if (coordDimensions.contains(ac.getCoordinateIndex())) {
+  //            check = false;
+  //          } else {
+  //            coordDimensions.add(ac.getCoordinateIndex());
+  //          }
+  //        }
+  //      }
+  //    } else {
+  //
+  //      coordDimensions = new HashSet<Integer>();
+  //
+  //      for (DiffusionCoefficient dc : diffCoeffs) {
+  //        if (coordDimensions.contains(dc.getCoordinateIndex())) {
+  //          check = false;
+  //        } else {
+  //          coordDimensions.add(dc.getCoordinateIndex());
+  //        }
+  //      }
+  //    }
+  //
+  //    return check;
+  //
+  //  }
 
 
 }
