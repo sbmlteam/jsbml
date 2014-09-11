@@ -523,7 +523,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
   }
   
   /**
-   * Normalize a given rotation angle, i.e. express the angle in the range from
+   * Normalize a given rotation angle, i.e., express the angle in the range from
    * 0° to 90° (excluding 90°).
    * 
    * @param rotationAngle in degrees
