@@ -101,6 +101,14 @@ public class ParameterType extends AbstractSBase {
     return model != null ? model.getSpecies(getSpeciesReference()) : null;
   }
 
+  /**
+   * 
+   * @return
+   */
+  public Species getVariableInstance() {
+    return getSpeciesInstance();
+  }
+
   public Geometry getGeometryInstance() {
 
     Model model = getModel();
@@ -121,10 +129,16 @@ public class ParameterType extends AbstractSBase {
     return isSetSpeciesReference() ? speciesRef : "";
   }
 
-
+  public String getVariable() {
+    return getSpeciesReference();
+  }
 
   public boolean isSetSpeciesReference() {
     return speciesRef == null ? false : true;
+  }
+
+  public boolean isSetVariable() {
+    return isSetSpeciesReference();
   }
 
   /**
@@ -132,6 +146,10 @@ public class ParameterType extends AbstractSBase {
    * @return
    */
   public boolean isSetSpId() {
+    return spId != null;
+  }
+
+  public boolean isSetSpatialRef() {
     return spId != null;
   }
 
@@ -146,6 +164,10 @@ public class ParameterType extends AbstractSBase {
   public void setSpeciesReference(String speciesRef) {
     this.speciesRef = speciesRef;
 
+  }
+
+  public void setVariable(String speciesRef) {
+    setSpeciesReference(speciesRef);
   }
 
 
@@ -240,8 +262,8 @@ public class ParameterType extends AbstractSBase {
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetSpId()) {
-      attributes.remove("spatialId");
-      attributes.put(SpatialConstants.shortLabel + ":spatialId", getSpId());
+      attributes.remove("spatialRef");
+      attributes.put(SpatialConstants.shortLabel + ":spatialRef", getSpId());
     }
     if (isSetSpeciesReference()) {
       attributes.remove("variable");

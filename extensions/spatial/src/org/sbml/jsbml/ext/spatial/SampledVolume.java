@@ -341,7 +341,6 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
-    //  TODO: this must be done for each class attribute
     if (isSetSampledValue()) {
       attributes.remove("sampledValue");
       attributes.put(SpatialConstants.shortLabel + ":sampledValue", String.valueOf(getSampledValue()));

@@ -30,7 +30,9 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
+import org.sbml.jsbml.xml.XMLNode;
 
 /**
  * {@link FBCModelPlugin} is the extended {@link Model} class for the FBC package.
@@ -87,9 +89,9 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   @Override
   public Model getParent() {
     if (isSetExtendedSBase()) {
-      return (Model) getExtendedSBase().getParent();
+      return (Model) getExtendedSBase();
     }
-    
+
     return null;
   }
 
@@ -290,10 +292,10 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
     if (isSetListOfFluxBounds()) {
       return listOfFluxBounds.size();
     }
-    
+
     return 0;
   }
-  
+
   /**
    * Returns the listOfFluxBounds. Creates it if it is not already existing.
    *
@@ -304,7 +306,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
       listOfFluxBounds = new ListOf<FluxBound>();
       listOfFluxBounds.setNamespace(FBCConstants.namespaceURI);
       listOfFluxBounds.setSBaseListType(ListOf.Type.other);
-      
+
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfFluxBounds);
       }
@@ -323,7 +325,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
       listOfObjectives = new ListOfObjectives();
       listOfObjectives.setNamespace(FBCConstants.namespaceURI);
       listOfObjectives.setSBaseListType(ListOf.Type.other);
-      
+
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfObjectives);
       }
@@ -352,10 +354,10 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
     if (isSetListOfObjectives()) {
       return listOfObjectives.size();
     }
-    
+
     return 0;
   }
- 
+
   /**
    * Return the number of {@link FluxBound} in this {@link FBCModelPlugin}.
    * 
@@ -365,7 +367,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   public int getNumFluxBound() {
     return getFluxBoundCount();
   }
-  
+
   /**
    * Return the number of {@link FluxBound} in this {@link FBCModelPlugin}.
    * 
@@ -491,7 +493,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   public void setListOfFluxBounds(ListOf<FluxBound> listOfFluxBounds) {
     unsetListOfFluxBounds();
     this.listOfFluxBounds = listOfFluxBounds;
-    
+
     if (isSetExtendedSBase()) {
       extendedSBase.registerChild(this.listOfFluxBounds);
     }
@@ -506,7 +508,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   public void setListOfObjectives(ListOfObjectives listOfObjectives) {
     unsetListOfObjectives();
     this.listOfObjectives = listOfObjectives;
-    
+
     if (isSetExtendedSBase()) {
       extendedSBase.registerChild(this.listOfObjectives);
     }
@@ -573,6 +575,40 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   @Override
   public Map<String, String> writeXMLAttributes() {
     return null;
+  }
+
+  public void setNotesKeyToUserObject(String key) {
+    Model model = getParent();
+    ListOf<Reaction> rxns = model.getListOfReactions();
+
+    for (Reaction r : rxns) {
+      String val = recurseAndFind(r.getNotes(), key);
+      if (val != null) {
+        r.putUserObject(key, val);
+      }
+    }
+
+  }
+
+  private String recurseAndFind(XMLNode xmlNode, String key) {
+
+    if (xmlNode.getChildCount() == 0) {
+      if (xmlNode.getCharacters().startsWith(key)) {
+        return xmlNode.getCharacters().replace(key, "").trim();
+      }
+    } else {
+      for (int i = 0; i < xmlNode.getChildCount(); i++) {
+        String potential = recurseAndFind(xmlNode.getChildAt(i), key);
+        if (!(potential == null)) {
+          return potential;
+        } else {
+          continue;
+        }
+      }
+    }
+
+    return null;
+
   }
 
 }

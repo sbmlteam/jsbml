@@ -62,7 +62,7 @@ public abstract class AbstractSpatialSBasePlugin extends AbstractSBasePlugin {
     if (isSetExtendedSBase()) {
       return (SBase) getExtendedSBase().getParent();
     }
-    
+
     return null;
   }
 

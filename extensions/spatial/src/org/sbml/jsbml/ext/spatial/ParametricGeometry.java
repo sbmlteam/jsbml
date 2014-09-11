@@ -27,7 +27,6 @@ import java.util.Collection;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.SBMLException;
 
 /**
  * @author Alex Thomas
@@ -198,11 +197,7 @@ public class ParametricGeometry extends GeometryDefinition {
    */
   public boolean removeParametricObject(ParametricObject parametricObject) {
     if (isSetListOfParametricObjects()) {
-      if (getListOfParametricObjects().size() == 1) {
-        return false; //There must be at least one ParametricObject defined for this list
-      } else {
-        return getListOfParametricObjects().remove(parametricObject);
-      }
+      return getListOfParametricObjects().remove(parametricObject);
     }
     return false;
   }
@@ -219,9 +214,9 @@ public class ParametricGeometry extends GeometryDefinition {
     if (!isSetListOfParametricObjects()) {
       throw new IndexOutOfBoundsException(Integer.toString(i));
     }
-    if (getListOfParametricObjects().size() == 1) {
-      throw new SBMLException("There must be at least one ParametricObject defined for this list");
-    }
+    //    if (getListOfParametricObjects().size() == 1) {
+    //      throw new SBMLException("There must be at least one ParametricObject defined for this list");
+    //    }
     getListOfParametricObjects().remove(i);
   }
 
@@ -252,15 +247,6 @@ public class ParametricGeometry extends GeometryDefinition {
     return parametricObject;
   }
 
-  /**
-   * TODO: optionally, create additional create methods with more
-   * variables, for instance "bar" variable
-   */
-  // public ParametricObject createParametricObject(String id, int bar) {
-  //   ParametricObject parametricObject = createParametricObject(id);
-  //   parametricObject.setBar(bar);
-  //   return parametricObject;
-  // }
   /**
    * 
    */
@@ -349,11 +335,7 @@ public class ParametricGeometry extends GeometryDefinition {
    */
   public boolean removeSpatialPoint(SpatialPoint spatialPoint) {
     if (isSetListOfSpatialPoints()) {
-      if (getListOfSpatialPoints().size() == 1) {
-        return false;
-      } else {
-        return getListOfSpatialPoints().remove(spatialPoint);
-      }
+      return getListOfSpatialPoints().remove(spatialPoint);
     }
     return false;
   }
@@ -370,9 +352,9 @@ public class ParametricGeometry extends GeometryDefinition {
     if (!isSetListOfSpatialPoints()) {
       throw new IndexOutOfBoundsException(Integer.toString(i));
     }
-    if (getListOfSpatialPoints().size() == 1) {
-      throw new SBMLException("There must be at least one SpatialPoint defined for this list");
-    }
+    //    if (getListOfSpatialPoints().size() == 1) {
+    //      throw new SBMLException("There must be at least one SpatialPoint defined for this list");
+    //    }
     getListOfSpatialPoints().remove(i);
   }
 
@@ -403,15 +385,7 @@ public class ParametricGeometry extends GeometryDefinition {
     return spatialPoint;
   }
 
-  /**
-   * TODO: optionally, create additional create methods with more
-   * variables, for instance "bar" variable
-   */
-  // public SpatialPoint createSpatialPoint(String id, int bar) {
-  //   SpatialPoint spatialPoint = createSpatialPoint(id);
-  //   spatialPoint.setBar(bar);
-  //   return spatialPoint;
-  // }
+
   /**
    * 
    */

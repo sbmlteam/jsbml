@@ -34,7 +34,6 @@ import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.ResourceManager;
-import org.sbml.jsbml.util.StringTools;
 
 /**
  * @author Alex Thomas
@@ -50,29 +49,21 @@ SBaseWithUnit {
    */
   private static final long serialVersionUID = -3561130269969678307L;
 
-  /**
-   * 
-   */
-  private String componentType;
 
   /**
    * 
    */
-  private Integer coordinateIndex;
+  private CoordinateKind type;
 
   /**
    * 
    */
-  private Boundary maximum;
+  private Boundary boundaryMaximum;
 
   /**
    * 
    */
-  private Boundary minimum;
-
-  // TODO - add the boundaryFixed child, add componentType and coodinateType, two new Enum
-  // TODO - rename the methods to be closer to the attribute name in the specifications ??
-  // TODO - add create methods for boundaryMin, boundaryMax and boundaryFixed
+  private Boundary boundaryMinimum;
 
   /**
    * 
@@ -93,20 +84,17 @@ SBaseWithUnit {
    */
   public CoordinateComponent(CoordinateComponent coordComp) {
     super(coordComp);
-    if (coordComp.isSetComponentType()) {
-      componentType = new String(coordComp.getComponentType());
-    }
-    if (coordComp.isSetCoordinateIndex()) {
-      coordinateIndex = Integer.valueOf(coordComp.getCoordinateIndex());
+    if (coordComp.isSetType()) {
+      type = coordComp.getType();
     }
     if (coordComp.isSetUnits()) {
       unit = new String(coordComp.getUnits());
     }
-    if (coordComp.isSetMinimum()) {
-      setMinimum(coordComp.getMinimum().clone());
+    if (coordComp.isSetBoundaryMinimum()) {
+      setBoundaryMinimum(coordComp.getBoundaryMinimum().clone());
     }
-    if (coordComp.isSetMaximum()) {
-      setMaximum(coordComp.getMaximum().clone());
+    if (coordComp.isSetBoundaryMaximum()) {
+      setBoundaryMaximum(coordComp.getBoundaryMaximum().clone());
     }
   }
 
@@ -137,13 +125,13 @@ SBaseWithUnit {
   }
 
   /**
-   * Returns the value of minimum
+   * Returns the value of boundaryMinimum
    *
-   * @return the value of minimum
+   * @return the value of boundaryMinimum
    */
-  public Boundary getMinimum() {
-    if (isSetMinimum()) {
-      return minimum;
+  public Boundary getBoundaryMinimum() {
+    if (isSetBoundaryMinimum()) {
+      return boundaryMinimum;
     }
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(SpatialConstants.boundaryMinimum, this);
@@ -151,49 +139,49 @@ SBaseWithUnit {
 
 
   /**
-   * Returns whether minimum is set
+   * Returns whether boundaryMinimum is set
    *
-   * @return whether minimum is set
+   * @return whether boundaryMinimum is set
    */
-  public boolean isSetMinimum() {
-    return minimum != null;
+  public boolean isSetBoundaryMinimum() {
+    return boundaryMinimum != null;
   }
 
 
   /**
-   * Sets the value of minimum
+   * Sets the value of boundaryMinimum
    */
-  public void setMinimum(Boundary minimum) {
-    Boundary oldMinimum = this.minimum;
-    this.minimum = minimum;
-    firePropertyChange(SpatialConstants.boundaryMinimum, oldMinimum, this.minimum);
+  public void setBoundaryMinimum(Boundary boundaryMinimum) {
+    Boundary oldMinimum = this.boundaryMinimum;
+    this.boundaryMinimum = boundaryMinimum;
+    firePropertyChange(SpatialConstants.boundaryMinimum, oldMinimum, this.boundaryMinimum);
   }
 
 
   /**
-   * Unsets the variable minimum
+   * Unsets the variable boundaryMinimum
    *
-   * @return {@code true}, if minimum was set before,
+   * @return {@code true}, if boundaryMinimum was set before,
    *         otherwise {@code false}
    */
-  public boolean unsetMinimum() {
-    if (isSetMinimum()) {
-      Boundary oldMinimum = minimum;
-      minimum = null;
-      firePropertyChange(SpatialConstants.boundaryMinimum, oldMinimum, minimum);
+  public boolean unsetBoundaryMinimum() {
+    if (isSetBoundaryMinimum()) {
+      Boundary oldMinimum = boundaryMinimum;
+      boundaryMinimum = null;
+      firePropertyChange(SpatialConstants.boundaryMinimum, oldMinimum, boundaryMinimum);
       return true;
     }
     return false;
   }
 
   /**
-   * Returns the value of maximum
+   * Returns the value of boundaryMaximum
    *
-   * @return the value of maximum
+   * @return the value of boundaryMaximum
    */
-  public Boundary getMaximum() {
-    if (isSetMaximum()) {
-      return maximum;
+  public Boundary getBoundaryMaximum() {
+    if (isSetBoundaryMaximum()) {
+      return boundaryMaximum;
     }
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(SpatialConstants.boundaryMaximum, this);
@@ -201,136 +189,88 @@ SBaseWithUnit {
 
 
   /**
-   * Returns whether maximum is set
+   * Returns whether boundaryMaximum is set
    *
-   * @return whether maximum is set
+   * @return whether boundaryMaximum is set
    */
-  public boolean isSetMaximum() {
-    return maximum != null;
+  public boolean isSetBoundaryMaximum() {
+    return boundaryMaximum != null;
   }
 
 
   /**
-   * Sets the value of maximum
+   * Sets the value of boundaryMaximum
    */
-  public void setMaximum(Boundary maximum) {
-    Boundary oldMaximum = maximum;
-    this.maximum = maximum;
-    firePropertyChange(SpatialConstants.boundaryMaximum, oldMaximum, maximum);
+  public void setBoundaryMaximum(Boundary boundaryMaximum) {
+    Boundary oldMaximum = boundaryMaximum;
+    this.boundaryMaximum = boundaryMaximum;
+    firePropertyChange(SpatialConstants.boundaryMaximum, oldMaximum, boundaryMaximum);
   }
 
 
   /**
-   * Unsets the variable maximum
+   * Unsets the variable boundaryMaximum
    *
-   * @return {@code true}, if maximum was set before,
+   * @return {@code true}, if boundaryMaximum was set before,
    *         otherwise {@code false}
    */
-  public boolean unsetMaximum() {
-    if (isSetMaximum()) {
-      Boundary oldMaximum = maximum;
-      maximum = null;
-      firePropertyChange(SpatialConstants.boundaryMaximum, oldMaximum, maximum);
+  public boolean unsetBoundaryMaximum() {
+    if (isSetBoundaryMaximum()) {
+      Boundary oldMaximum = boundaryMaximum;
+      boundaryMaximum = null;
+      firePropertyChange(SpatialConstants.boundaryMaximum, oldMaximum, boundaryMaximum);
       return true;
     }
     return false;
   }
 
+
+
   /**
-   * Returns the value of coordinateIndex
+   * Returns the value of type
    *
-   * @return the value of coordinateIndex
+   * @return the value of type
    */
-  public int getCoordinateIndex() {
-    if (isSetCoordinateIndex()) {
-      return coordinateIndex;
+  public CoordinateKind getType() {
+    if (isSetType()) {
+      return type;
     }
     // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(SpatialConstants.index, this);
+    throw new PropertyUndefinedError(SpatialConstants.type, this);
   }
 
 
   /**
-   * Returns whether coordinateIndex is set
+   * Returns whether type is set
    *
-   * @return whether coordinateIndex is set
+   * @return whether type is set
    */
-  public boolean isSetCoordinateIndex() {
-    return coordinateIndex != null;
+  public boolean isSetType() {
+    return this.type != null;
   }
 
 
   /**
-   * Sets the value of coordinateIndex
+   * Sets the value of type
    */
-  public void setCoordinateIndex(int coordinateIndex) {
-    int oldCoordinateIndex = this.coordinateIndex;
-    this.coordinateIndex = coordinateIndex;
-    firePropertyChange(SpatialConstants.index, oldCoordinateIndex, this.coordinateIndex);
+  public void setType(CoordinateKind type) {
+    CoordinateKind oldType = this.type;
+    this.type = type;
+    firePropertyChange(SpatialConstants.type, oldType, this.type);
   }
 
 
   /**
-   * Unsets the variable coordinateIndex
+   * Unsets the variable type
    *
-   * @return {@code true}, if coordinateIndex was set before,
+   * @return {@code true}, if type was set before,
    *         otherwise {@code false}
    */
-  public boolean unsetCoordinateIndex() {
-    if (isSetCoordinateIndex()) {
-      int oldCoordinateIndex = coordinateIndex;
-      coordinateIndex = null;
-      firePropertyChange(SpatialConstants.index, oldCoordinateIndex, coordinateIndex);
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * Returns the value of componentType
-   *
-   * @return the value of componentType
-   */
-  public String getComponentType() {
-    if (isSetComponentType()) {
-      return componentType;
-    }
-    // This is necessary if we cannot return null here.
-    throw new PropertyUndefinedError(SpatialConstants.componentType, this);
-  }
-
-
-  /**
-   * Returns whether componentType is set
-   *
-   * @return whether componentType is set
-   */
-  public boolean isSetComponentType() {
-    return componentType != null;
-  }
-
-
-  /**
-   * Sets the value of componentType
-   */
-  public void setComponentType(String componentType) {
-    String oldComponentType = this.componentType;
-    this.componentType = componentType;
-    firePropertyChange(SpatialConstants.componentType, oldComponentType, this.componentType);
-  }
-
-
-  /**
-   * Unsets the variable componentType
-   *
-   * @return {@code true}, if componentType was set before,
-   *         otherwise {@code false}
-   */
-  public boolean unsetComponentType() {
-    if (isSetComponentType()) {
-      String oldComponentType = componentType;
-      componentType = null;
-      firePropertyChange(SpatialConstants.componentType, oldComponentType, componentType);
+  public boolean unsetType() {
+    if (isSetType()) {
+      CoordinateKind oldType = this.type;
+      this.type = null;
+      firePropertyChange(SpatialConstants.type, oldType, this.type);
       return true;
     }
     return false;
@@ -354,21 +294,17 @@ SBaseWithUnit {
     boolean equal = super.equals(object);
     if (equal) {
       CoordinateComponent cc = (CoordinateComponent) object;
-      equal &= cc.isSetComponentType() == isSetComponentType();
-      if (equal && isSetComponentType()) {
-        equal &= cc.getComponentType().equals(getComponentType());
+      equal &= cc.isSetType() == isSetType();
+      if (equal && isSetType()) {
+        equal &= cc.getType().equals(getType());
       }
-      equal &= cc.isSetCoordinateIndex() == isSetCoordinateIndex();
-      if (equal && isSetCoordinateIndex()) {
-        equal &= cc.getCoordinateIndex() == getCoordinateIndex();
+      equal &= cc.isSetBoundaryMinimum() == isSetBoundaryMinimum();
+      if (equal && isSetBoundaryMinimum()) {
+        equal &= cc.getBoundaryMinimum().equals(getBoundaryMinimum());
       }
-      equal &= cc.isSetMinimum() == isSetMinimum();
-      if (equal && isSetMinimum()) {
-        equal &= cc.getMinimum().equals(getMinimum());
-      }
-      equal &= cc.isSetMaximum() == isSetMaximum();
-      if (equal && isSetMaximum()) {
-        equal &= cc.getMaximum().equals(getMaximum());
+      equal &= cc.isSetBoundaryMaximum() == isSetBoundaryMaximum();
+      if (equal && isSetBoundaryMaximum()) {
+        equal &= cc.getBoundaryMaximum().equals(getBoundaryMaximum());
       }
       equal &= cc.isSetUnits() == isSetUnits();
       if (equal && isSetUnits()) {
@@ -387,15 +323,15 @@ SBaseWithUnit {
       throw new IndexOutOfBoundsException(childIndex + " < 0");
     }
     int pos = 0;
-    if (isSetMinimum()) {
+    if (isSetBoundaryMinimum()) {
       if (childIndex == pos)  {
-        return getMinimum();
+        return getBoundaryMinimum();
       }
       pos++;
     }
-    if (isSetMaximum()) {
+    if (isSetBoundaryMaximum()) {
       if (childIndex == pos) {
-        return getMaximum();
+        return getBoundaryMaximum();
       }
       pos++;
     }
@@ -410,10 +346,10 @@ SBaseWithUnit {
   @Override
   public int getChildCount() {
     int childCount = super.getChildCount();
-    if (isSetMinimum()) {
+    if (isSetBoundaryMinimum()) {
       childCount++;
     }
-    if (isSetMaximum()) {
+    if (isSetBoundaryMaximum()) {
       childCount++;
     }
     return childCount;
@@ -507,11 +443,8 @@ SBaseWithUnit {
   public int hashCode() {
     final int prime = 947;
     int hashCode = super.hashCode();
-    if (isSetComponentType()) {
-      hashCode += prime * getComponentType().hashCode();
-    }
-    if (isSetCoordinateIndex()) {
-      hashCode += prime * getCoordinateIndex();
+    if (isSetType()) {
+      hashCode += prime * getType().hashCode();
     }
     if (isSetUnits()) {
       hashCode += prime * getUnits().hashCode();
@@ -558,13 +491,9 @@ SBaseWithUnit {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
-    if (isSetComponentType()) {
-      attributes.remove("componentType");
-      attributes.put(SpatialConstants.shortLabel + ":componentType", getComponentType());
-    }
-    if (isSetCoordinateIndex()) {
-      attributes.remove("coordinateIndex");
-      attributes.put(SpatialConstants.shortLabel+":coordinateIndex", String.valueOf(getCoordinateIndex()));
+    if (isSetType()) {
+      attributes.remove("type");
+      attributes.put(SpatialConstants.shortLabel+":type", String.valueOf(getType()));
     }
     if (isSetUnits()) {
       attributes.remove("unit");
@@ -583,21 +512,13 @@ SBaseWithUnit {
     if (!isAttributeRead) {
       isAttributeRead = true;
 
-      if (attributeName.equals(SpatialConstants.componentType)) {
+      if (attributeName.equals(SpatialConstants.type)) {
         try {
-          setComponentType(value);
+          setType(CoordinateKind.valueOf(value));
         }
         catch (Exception e) {
           MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.componentType);
-        }
-      }
-      else if (attributeName.equals(SpatialConstants.index)) {
-        try {
-          setCoordinateIndex(StringTools.parseSBMLInt(value));
-        } catch (Exception e) {
-          MessageFormat.format(bundle.getString("COULD_NOT_READ"), value,
-            SpatialConstants.index);
+            SpatialConstants.type);
         }
       }
       else if (attributeName.equals(SpatialConstants.unit)) {
@@ -623,13 +544,13 @@ SBaseWithUnit {
   public String toString() {
     StringBuilder builder = new StringBuilder();
     builder.append("CoordinateComponent [componentType=");
-    builder.append(componentType);
-    builder.append(", coordinateIndex=");
-    builder.append(coordinateIndex);
-    builder.append(", maximum=");
-    builder.append(maximum);
-    builder.append(", minimum=");
-    builder.append(minimum);
+    builder.append(type);
+    builder.append(", type=");
+    builder.append(type);
+    builder.append(", boundaryMaximum=");
+    builder.append(boundaryMaximum);
+    builder.append(", boundaryMinimum=");
+    builder.append(boundaryMinimum);
     builder.append(", unit=");
     builder.append(unit);
     builder.append("]");

@@ -65,7 +65,7 @@ public class SpatialConstants {
   public static final String diffusionCoefficient = "diffusionCoefficient";
   public static final String advectionCoefficient = "advectionCoefficient";
   public static final String boundaryCondition = "boundaryCondition";
-  public static final String coordinateIndex = "coordinateIndex";
+  public static final String coordinate = "coordinate";
   public static final String domain1 = "domain1";
   public static final String domain2 = "domain2";
   public static final String geometry = "geometry";
@@ -80,7 +80,7 @@ public class SpatialConstants {
   public static final String unit = "unit";
   public static final String value = "value";
   public static final String spatialId = "spatialId";
-  public static final String spatialDimension = "spatialDimension";
+  public static final String spatialDimensions = "spatialDimensions";
   public static final String domainType = "domainType";
   public static final String coord1 = "coord1";
   public static final String coord2 = "coord2";
@@ -95,7 +95,6 @@ public class SpatialConstants {
   public static final String numSamples1 = "numSamples1";
   public static final String numSamples2 = "numSamples2";
   public static final String numSamples3 = "numSamples3";
-  public static final String interpolationType = "interpolationType";
   public static final String encoding = "encoding";
   public static final String imageData = "imageData";
   public static final String csgNode = "csgNode";
@@ -164,6 +163,18 @@ public class SpatialConstants {
   public static final String listOfParametricObjects = "listOfParametricObjects";
   public static final String spatialPoint = "spatialPoint";
   public static final String parametricObject = "parametricObject";
+  public static final String diffusionKind = "diffusionKind";
+
+  public static final String coordinateReference1 = "coordinateReference1";
+  public static final String coordinateReference2 = "coordinateReference2";
+
+  public static final String isActive = "isActive";
+
+  public static final String complementA = "complementA";
+  public static final String complementB = "complementB";
+  public static final String interpolation = "interpolation";
+  public static final String compression = "compression";
+  public static final String data = "data";
 
   /**
    * @param level

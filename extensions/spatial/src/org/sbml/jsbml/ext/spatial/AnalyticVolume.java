@@ -41,21 +41,21 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  */
 public class AnalyticVolume extends AbstractMathContainer implements SpatialNamedSBase{
 
-  public static enum FunctionType {
+  public static enum FunctionKind {
     /**
      * Math child element contains an inequality
      */
     LAYERED,
-    /**
-     * Shape is represented by a real-valued function whose sign
-     * indicates coverage by the shap
-     */
-    R_FUNCTION;
+    //    /**
+    //     * Shape is represented by a real-valued function whose sign
+    //     * indicates coverage by the shape
+    //     */
+    //    R_FUNCTION;
   }
 
   String spatialId;
   private String domainType;
-  private FunctionType functionType;
+  private FunctionKind functionType;
   private Integer ordinal;
 
   /**
@@ -138,7 +138,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
    *
    * @return the value of functionType
    */
-  public FunctionType getFunctionType() {
+  public FunctionKind getFunctionType() {
     if (isSetFunctionType()) {
       return functionType;
     }
@@ -160,8 +160,8 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
   /**
    * Sets the value of functionType
    */
-  public void setFunctionType(FunctionType functionType) {
-    FunctionType oldFunctionType = this.functionType;
+  public void setFunctionType(FunctionKind functionType) {
+    FunctionKind oldFunctionType = this.functionType;
     this.functionType = functionType;
     firePropertyChange(SpatialConstants.functionType, oldFunctionType, this.functionType);
   }
@@ -175,7 +175,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
    */
   public boolean unsetFunctionType() {
     if (isSetFunctionType()) {
-      FunctionType oldFunctionType = functionType;
+      FunctionKind oldFunctionType = functionType;
       functionType = null;
       firePropertyChange(SpatialConstants.functionType, oldFunctionType, functionType);
       return true;
@@ -410,7 +410,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
         if (!Pattern.matches("[a-z]*", value)) {
           throw new SBMLException("The value is not all lower-case.");
         }
-        setFunctionType(FunctionType.valueOf(value.toUpperCase()));
+        setFunctionType(FunctionKind.valueOf(value.toUpperCase()));
       }
       else {
         isAttributeRead = false;

@@ -21,6 +21,12 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
+import java.text.MessageFormat;
+import java.util.Map;
+
+import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.util.StringTools;
+
 
 /**
  * @author Alex Thomas
@@ -34,38 +40,169 @@ public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
    */
   private static final long serialVersionUID = 211166389798247646L;
 
-  /**
-   * 
-   */
+  private Boolean isActive;
+
+
   public GeometryDefinition() {
     super();
   }
 
-  public GeometryDefinition(int level, int version) {
-    super(level,version);
-  }
 
-  public GeometryDefinition(String id, int level, int version) {
-    super(id,level,version);
-  }
   /**
    * @param node
    */
   public GeometryDefinition(GeometryDefinition gd) {
     super(gd);
+    if (gd.isSetIsActive()) {
+      setIsActive(gd.getIsActive());
+    }
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
+
+  /**
+   * @param level
+   * @param version
    */
+  public GeometryDefinition(int level, int version) {
+    super(level, version);
+  }
+
+
+  /**
+   * 
+   * @param id
+   * @param level
+   * @param version
+   */
+  public GeometryDefinition(String id, int level, int version) {
+    super(id, level, version);
+  }
+
+
   @Override
   public boolean equals(Object object) {
-    return super.equals(object);
+    boolean equal = super.equals(object);
+    if (equal) {
+      GeometryDefinition gd = (GeometryDefinition) object;
+      equal &= gd.isSetIsActive() == isSetIsActive();
+      if (equal && isSetIsActive()) {
+        equal &= gd.getIsActive() == getIsActive();
+      }
+    }
+    return equal;
   }
 
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
   @Override
   public String toString() {
-    return super.toString();
+    StringBuilder builder = new StringBuilder();
+    builder.append("GeometryDefinition [isActive=");
+    builder.append(isActive);
+    builder.append("]");
+    return builder.toString();
+  }
+
+
+  /**
+   * Returns the value of isActive
+   *
+   * @return the value of isActive
+   */
+  public Boolean getIsActive() {
+    if (isSetIsActive()) {
+      return isActive;
+    }
+    // This is necessary if we cannot return null here.
+    throw new PropertyUndefinedError(SpatialConstants.isActive, this);
+  }
+
+  public boolean isActive() {
+    return getIsActive();
+  }
+
+
+  /**
+   * Returns whether isActive is set
+   *
+   * @return whether isActive is set
+   */
+  public boolean isSetIsActive() {
+    return this.isActive != null;
+  }
+
+
+  /**
+   * Sets the value of isActive
+   */
+  public void setIsActive(boolean isActive) {
+    boolean oldIsActive = this.isActive;
+    this.isActive = isActive;
+    firePropertyChange(SpatialConstants.isActive, oldIsActive, this.isActive);
+  }
+
+
+  /**
+   * Unsets the variable isActive
+   *
+   * @return {@code true}, if isActive was set before,
+   *         otherwise {@code false}
+   */
+  public boolean unsetIsActive() {
+    if (isSetIsActive()) {
+      boolean oldIsActive = this.isActive;
+      this.isActive = null;
+      firePropertyChange(SpatialConstants.isActive, oldIsActive, this.isActive);
+      return true;
+    }
+    return false;
+  }
+
+
+  @Override
+  public int hashCode() {
+    final int prime = 983;//Change this prime number
+    int hashCode = super.hashCode();
+    if (isSetIsActive()) {
+      hashCode += prime * getIsActive().hashCode();
+    }
+    return hashCode;
+  }
+
+
+  @Override
+  public Map<String, String> writeXMLAttributes() {
+    Map<String, String> attributes = super.writeXMLAttributes();
+    if (isSetIsActive()) {
+      attributes.remove("isActive");
+      attributes.put(SpatialConstants.shortLabel + ":isActive", getIsActive().toString());
+    }
+    return attributes;
+  }
+
+
+  @Override
+  public boolean readAttribute(String attributeName, String prefix, String value) {
+    boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
+        && (SpatialConstants.shortLabel == prefix);
+    if (!isAttributeRead) {
+      isAttributeRead = true;
+      if (attributeName.equals(SpatialConstants.isActive)) {
+        try {
+          setIsActive(StringTools.parseSBMLBoolean(value));
+        } catch (Exception e) {
+          MessageFormat.format(
+            SpatialConstants.bundle.getString("COULD_NOT_READ"), value,
+            SpatialConstants.isActive);
+        }
+      }
+      else {
+        isAttributeRead = false;
+      }
+    }
+    return isAttributeRead;
   }
 
 }

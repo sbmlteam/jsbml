@@ -160,7 +160,12 @@ public class InteriorPoint extends AbstractSBase {
    * Sets the value of coord1
    */
   public void setCoord1(double coord1) {
-    double oldCoord1 = this.coord1;
+    Double oldCoord1;
+    if (isSetCoord1()) {
+      oldCoord1 = this.coord1;
+    } else {
+      oldCoord1 = null;
+    }
     this.coord1 = coord1;
     firePropertyChange(SpatialConstants.coord1, oldCoord1, this.coord1);
   }
@@ -210,7 +215,12 @@ public class InteriorPoint extends AbstractSBase {
    * Sets the value of coord2
    */
   public void setCoord2(double coord2) {
-    double oldCoord2 = this.coord2;
+    Double oldCoord2;
+    if (isSetCoord2()) {
+      oldCoord2 = this.coord2;
+    } else {
+      oldCoord2 = null;
+    }
     this.coord2 = coord2;
     firePropertyChange(SpatialConstants.coord2, oldCoord2, this.coord2);
   }
@@ -260,7 +270,12 @@ public class InteriorPoint extends AbstractSBase {
    * Sets the value of coord3
    */
   public void setCoord3(Double coord3) {
-    Double oldCoord3 = this.coord3;
+    Double oldCoord3;
+    if (isSetCoord3()) {
+      oldCoord3 = this.coord1;
+    } else {
+      oldCoord3 = null;
+    }
     this.coord3 = coord3;
     firePropertyChange(SpatialConstants.coord3, oldCoord3, this.coord3);
   }
