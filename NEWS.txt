@@ -73,7 +73,7 @@ Version 1.0-rc1 (xx-09-2014)
   
   - Added further missing remove or unset methods in the layout package.
 
- * Support for SBML Level 3 'Qual' package:
+ * Support for SBML Level 3 'Qualitative Models (qual)' package:
 
   - The class QualitativeModel in the qual package has been marked deprecated
     and should no longer be used. Aiming to achieve better compatibility to
@@ -129,13 +129,13 @@ Version 1.0-rc1 (xx-09-2014)
 
   - Solved source for potential NullPointerException in LaTeXCompiler.
 
- * Support for SBML Level 3 'Comp' package:
+ * Support for SBML Level 3 'Hierarchical Model Composition (comp)' package:
   
   - Fixed several issues when cloning 'comp' elements and L3 packages
     elements in general. Thanks to Chris J. Myers and the iBioSim team for
     their help to find and fix all issues.
 
- * Support for SBML Level 3 'Fbc' package:
+ * Support for SBML Level 3 'Flux Balance Constraints (fbc)' package:
  
   - The required flag for the fbc package was set to true instead of false,
     thanks to Chris J. Myers for reporting this problem.
@@ -151,12 +151,12 @@ Version 1.0-rc1 (xx-09-2014)
     the warnings when cloning the list and to avoid to create a new list when
     not needed.
     
- * Support for SBML Level 3 'Qual' package:
+ * Support for SBML Level 3 'Qualitative Models (qual)' package:
  
   - The SBML qual attribute Output.outputLevel was not read properly from
     XML.
 
- * Support for SBML Level 3 'Render' package:
+ * Support for SBML Level 3 'Rendering (render)' package:
  
   - Fixed severals bugs in the experimental render package. Renamed the
     Group class to RenderGroup and the Curve class to RenderCurve. Added
