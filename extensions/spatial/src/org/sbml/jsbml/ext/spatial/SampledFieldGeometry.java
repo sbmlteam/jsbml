@@ -346,7 +346,6 @@ public class SampledFieldGeometry extends GeometryDefinition {
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
     if (isSetSampledField()) {
-      attributes.remove("sampledField");
       attributes.put(SpatialConstants.shortLabel + ":sampledField", getSampledField());
     }
     return attributes;
