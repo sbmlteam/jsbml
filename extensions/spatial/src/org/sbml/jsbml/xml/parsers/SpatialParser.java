@@ -57,7 +57,6 @@ import org.sbml.jsbml.ext.spatial.Domain;
 import org.sbml.jsbml.ext.spatial.DomainType;
 import org.sbml.jsbml.ext.spatial.Geometry;
 import org.sbml.jsbml.ext.spatial.GeometryDefinition;
-import org.sbml.jsbml.ext.spatial.ImageData;
 import org.sbml.jsbml.ext.spatial.InteriorPoint;
 import org.sbml.jsbml.ext.spatial.ParametricGeometry;
 import org.sbml.jsbml.ext.spatial.ParametricObject;
@@ -84,6 +83,8 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 @ProviderFor(ReadingParser.class)
 public class SpatialParser extends AbstractReaderWriter implements PackageParser {
 
+  // TODO - check that it is properly updated to the 0.88 draft specs
+  
   private Logger logger = Logger.getLogger(SpatialParser.class);
 
   /**
@@ -271,11 +272,11 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
       CoordinateComponent cc = (CoordinateComponent) contextObject;
       if (elementName.equals(SpatialConstants.boundaryMinimum)) {
         Boundary boundary = new Boundary();
-        cc.setMinimum(boundary);
+        cc.setBoundaryMinimum(boundary);
         return boundary;
       } else if (elementName.equals(SpatialConstants.boundaryMaximum)) {
         Boundary boundary = new Boundary();
-        cc.setMaximum(boundary);
+        cc.setBoundaryMaximum(boundary);
         return boundary;
       }
 
@@ -296,18 +297,19 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
       if (elementName.equals(SpatialConstants.listOfSampledVolumes)){
         ListOf<SampledVolume> listOfSampledVolumes = sfg.getListOfSampledVolumes();
         return listOfSampledVolumes;
-      } else if (elementName.equals(SpatialConstants.sampledField)){
-        SampledField sf = new SampledField();
-        sfg.setSampledField(sf);
-        return sf;
+//      } else if (elementName.equals(SpatialConstants.sampledField)){
+//        SampledField sf = new SampledField(); // SampleField is not a child anymore in 0.88 but just a SIdRef
+//        sfg.setSampledField(sf);
+//        return sf;
       }
     } else if (contextObject instanceof SampledField) {
-      SampledField sf = (SampledField) contextObject;
-      if (elementName.equals(SpatialConstants.imageData)){
-        ImageData im = new ImageData();
-        sf.setImageData(im);
-        return im;
-      }
+//      SampledField sf = (SampledField) contextObject; // No more child in 0.88
+//      if (elementName.equals(SpatialConstants.imageData)){
+//        ImageData im = new ImageData();
+//        sf.setImageData(im);
+//        // sf.set
+//        return im;
+//      }
     } else if (contextObject instanceof CSGeometry) {
       CSGeometry csg = (CSGeometry) contextObject;
       if (elementName.equals(SpatialConstants.listOfCSGObjects)){

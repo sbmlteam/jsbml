@@ -80,6 +80,10 @@ Version 1.0-rc1 (xx-09-2014)
     libSBML, the new class QualModelPlugin has been created to be used
     instead.
 
+ * Support for SBML Level 3 'Spatial Processes (spatial)' package:
+ 
+  - Updated to implement version 0.88 of the draft specifications.
+  
 
 * Bug Fixes:
 
