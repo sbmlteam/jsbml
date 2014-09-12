@@ -4010,7 +4010,21 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
         }
         else if ((newNsb instanceof LocalParameter) && (parent.getParent() != null))
         {
-          success &= registerId((KineticLaw) parent.getParent(), (LocalParameter) newNsb, delete, true);
+          // check if the LocalParameter is already registered in the KL
+          KineticLaw kl = (KineticLaw) parent.getParent();
+          boolean alreadyRegistered = true;
+          LocalParameter localParam = (LocalParameter) newNsb;
+          String localParameterId = localParam.isSetId() ? localParam.getId() : null;
+          
+          if (localParameterId != null && kl.getLocalParameter(localParameterId) == null) {
+            alreadyRegistered = false;
+          }
+
+          if (logger.isDebugEnabled()) {
+            logger.debug("registerIds (main): LP id = " + localParameterId + " (registered = " + alreadyRegistered + ")");
+          }
+          
+          success &= registerId(kl, localParam, delete, alreadyRegistered);
         }
         else if (newNsb instanceof UnitDefinition)
         {
@@ -4090,9 +4104,22 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
         TreeNode child = newElem.getChildAt(i);
         if (child instanceof SBase) {
           if (child instanceof LocalParameter) {
-            // The local parameter have already been registered in the KineticLaw in this case
+            // check if the LocalParameter is already registered in the KL
             logger.debug("registerIds (main): registering a LocalParameter.");
-            success &= registerId((KineticLaw) parent, (LocalParameter) child, delete, true);
+            KineticLaw kl = (KineticLaw) parent;
+            boolean alreadyRegistered = true;
+            LocalParameter localParam = (LocalParameter) child;
+            String localParameterId = localParam.isSetId() ? localParam.getId() : null;
+            
+            if (localParameterId != null && kl.getLocalParameter(localParameterId) == null) {
+              alreadyRegistered = false;
+            }
+
+            if (logger.isDebugEnabled()) {
+              logger.debug("registerIds (main): LP id = " + localParameterId + " (registered = " + alreadyRegistered + ")");
+            }
+            
+            success &= registerId(kl, localParam, delete, alreadyRegistered);
 
             // we still need to register recursively the children of a LocalParameter
             if (child.getChildCount() > 0) {
