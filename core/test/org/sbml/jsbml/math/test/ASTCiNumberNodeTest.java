@@ -69,7 +69,79 @@ public class ASTCiNumberNodeTest {
     ASTCiNumberNode unknown = new ASTCiNumberNode(ci);
     assertTrue(ci.equals(unknown));
   }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#containUndeclaredUnits()}.
+   */
+  @Test
+  public final void testContainsUndeclaredUnitsFalse() {
+    Parameter tau = new Parameter(3, 1);
+    tau.setName("tau2");
+    tau.setId("parameter_0000009");
+    tau.setValue(10);
+    tau.setUnits("seconds");
+    tau.setConstant(true);
+    Model model = new Model(3, 1);
+    model.addParameter(tau);
+    Constraint constraint = new Constraint(3, 1);
+    model.addConstraint(constraint);
+    ASTCiNumberNode ci = new ASTCiNumberNode();
+    ci.setParentSBMLObject(constraint);
+    ci.setReference(tau);
+    assertTrue(!ci.containsUndeclaredUnits());    
+  }
 
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#containUndeclaredUnits()}.
+   */
+  @Test
+  public final void testContainsUndeclaredUnitsTrue() {
+    Parameter tau = new Parameter(2, 4);
+    tau.setName("tau2");
+    tau.setId("parameter_0000009");
+    tau.setValue(10);
+    tau.setConstant(true);
+    Model model = new Model(2, 4);
+    model.addParameter(tau);
+    Constraint constraint = new Constraint(2, 4);
+    model.addConstraint(constraint);
+    ASTCiNumberNode ci = new ASTCiNumberNode();
+    ci.setParentSBMLObject(constraint);
+    ci.setReference(tau);
+    assertTrue(ci.containsUndeclaredUnits());    
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#getDefinitionURL()}.
+   */
+  @Test
+  public final void testGetDefinitionURLExists() {
+    ASTCiNumberNode ci = new ASTCiNumberNode();
+    String url = "http://some-url.com";
+    ci.setDefinitionURL(url);
+    assertTrue(ci.getDefinitionURL().equals(url));
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#getDefinitionURL()}.
+   */
+  @Test
+  public final void testGetDefinitionURLNonExistent() {
+    ASTCiNumberNode ci = new ASTCiNumberNode();
+    exception.expect(PropertyUndefinedError.class);
+    ci.getDefinitionURL();
+  }
+
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#getDefinitionURL()}.
+   */
+  @Test
+  public final void testGetDefinitionURLNonExistentNonStrict() {
+    ASTCiNumberNode ci = new ASTCiNumberNode();
+    ci.setStrictness(false);
+    assertTrue(ci.getDefinitionURL().isEmpty());
+  }
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#getReferenceInstance()}.
    */
@@ -105,7 +177,7 @@ public class ASTCiNumberNodeTest {
     ci.setReference(tau);
     assertTrue(ci.getReferenceInstance().equals(tau));    
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#getReferenceInstance()}.
    */
@@ -122,7 +194,7 @@ public class ASTCiNumberNodeTest {
     ci.setReference(tau);
     assertTrue(ci.getReferenceInstance() == null);    
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#getReferenceInstance()}.
    */
@@ -136,52 +208,6 @@ public class ASTCiNumberNodeTest {
     ASTCiNumberNode ci = new ASTCiNumberNode();
     ci.setReference(tau);
     assertTrue(ci.getReferenceInstance() == null);    
-  }
-  
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#getReferenceInstance()}.
-   */
-  @Test
-  public final void testRefersTo() {
-    Parameter tau = new Parameter();
-    tau.setId("tau2");
-    tau.setValue(3e-2);
-    tau.setUnits("seconds");
-    tau.setConstant(true);
-    ASTCiNumberNode ci = new ASTCiNumberNode();
-    ci.setReference(tau);
-    assertTrue(ci.refersTo("tau2"));    
-  }
-  
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#getDefinitionURL()}.
-   */
-  @Test
-  public final void testGetDefinitionURLExists() {
-    ASTCiNumberNode ci = new ASTCiNumberNode();
-    String url = "http://some-url.com";
-    ci.setDefinitionURL(url);
-    assertTrue(ci.getDefinitionURL().equals(url));
-  }
-  
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#getDefinitionURL()}.
-   */
-  @Test
-  public final void testGetDefinitionURLNonExistent() {
-    ASTCiNumberNode ci = new ASTCiNumberNode();
-    exception.expect(PropertyUndefinedError.class);
-    ci.getDefinitionURL();
-  }
-  
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#getDefinitionURL()}.
-   */
-  @Test
-  public final void testGetDefinitionURLNonExistentNonStrict() {
-    ASTCiNumberNode ci = new ASTCiNumberNode();
-    ci.setStrictness(false);
-    assertTrue(ci.getDefinitionURL().isEmpty());
   }
   
   /**
@@ -231,6 +257,21 @@ public class ASTCiNumberNodeTest {
   public final void testIsSetType() {
     ASTCiNumberNode ci = new ASTCiNumberNode();
     assertTrue(ci.isSetType());
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCiNumberNode#getReferenceInstance()}.
+   */
+  @Test
+  public final void testRefersTo() {
+    Parameter tau = new Parameter();
+    tau.setId("tau2");
+    tau.setValue(3e-2);
+    tau.setUnits("seconds");
+    tau.setConstant(true);
+    ASTCiNumberNode ci = new ASTCiNumberNode();
+    ci.setReference(tau);
+    assertTrue(ci.refersTo("tau2"));    
   }
   
   /**
@@ -297,5 +338,5 @@ public class ASTCiNumberNodeTest {
     ci.setReference(tau);
     assertTrue(ci.toFormula().equals("tau2"));
   }
-  
+
 }

@@ -24,7 +24,6 @@ package org.sbml.jsbml;
 import java.io.StringReader;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -71,11 +70,8 @@ import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
-import org.sbml.jsbml.util.Maths;
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
-import org.sbml.jsbml.util.compilers.UnitsCompiler;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
@@ -698,7 +694,7 @@ public class ASTNode extends AbstractTreeNode {
    * @param ast the children of the new ASTNode
    * @return a new {@link ASTNode} of type {@code operator} and adds the given nodes as children.
    */
-  private static ASTNode arithmethicOperation(ASTNode.Type operator, ASTNode... ast) {
+  private static ASTNode arithmethicOperation(Type operator, ASTNode... ast) {
     ASTNode2[] list = new ASTNode2[ast.length];
     for (int i = 0; i < ast.length; i++) {
       list[i] = ast[i].toASTNode2();
@@ -1458,7 +1454,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   public ASTNode(MathContainer parent) {
     this();
-
+    // TODO: 
   }
 
   /**
@@ -1912,7 +1908,7 @@ public class ASTNode extends AbstractTreeNode {
   public boolean containsUndeclaredUnits() {
     return astnode2 instanceof ASTCiNumberNode ? 
       ((ASTCiNumberNode)astnode2).containsUndeclaredUnits() : 
-      ((ASTCiFunctionNode)astnode2).containsUndeclaredUnits();
+      true;
   }
 
   /**
@@ -2338,6 +2334,7 @@ public class ASTNode extends AbstractTreeNode {
    * @return A {@link UnitDefinition} or {@code null}.
    */
   public UnitDefinition getUnitsInstance() {
+    // TODO: Also ASTCiFunctionNodes should have getUnitsInstance()
     return astnode2 instanceof ASTCnNumberNode 
         ? ((ASTCnNumberNode<?>)astnode2).getUnitsInstance() : null;
   }
@@ -2979,7 +2976,8 @@ public class ASTNode extends AbstractTreeNode {
     ASTCSymbolBaseNode ci = nsb instanceof FunctionDefinition ? 
              new ASTCiFunctionNode() : new ASTCiNumberNode();
     ci.setName(nsb.getId());
-    return new ASTNode(ASTFactory.pow(astnode2, ci));
+    astnode2 = ASTFactory.pow(astnode2, ci);
+    return this;
   }
 
   /**

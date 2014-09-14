@@ -27,9 +27,11 @@ import java.text.MessageFormat;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.CallableSBase;
+import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Variable;
@@ -115,6 +117,37 @@ ASTCSymbolBaseNode {
   public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
     ASTNode2Value<?> value = isSetRefId() ? compiler.compile(getRefId()) : null;
     return processValue(value);
+  }
+
+  /**
+   * Returns {@code true} or {@code false} depending on whether this
+   * {@link ASTCiNumberNode} refers to elements such as parameters or 
+   * numbers with undeclared units.
+   * 
+   * A return value of {@code true} indicates that the {@code UnitDefinition}
+   * returned by {@link Variable#getDerivedUnitDefinition()} may not accurately
+   * represent the units of the expression.
+   * 
+   * @return {@code true} if the math expression of this {@link ASTCiNumberNode}
+   *         includes parameters/numbers with undeclared units,
+   *         {@code false} otherwise.
+   */
+  public boolean containsUndeclaredUnits() {
+    // TODO: Throw an exception if reference is not of type
+    // Compartment or Parameter?
+    if (isSetRefId()) {
+      CallableSBase reference = getReferenceInstance();
+      if (reference instanceof Compartment) {
+        return ! ((Compartment)reference).isSetUnits();
+      } else if (reference instanceof Parameter) {
+        return ! ((Parameter)reference).isSetUnits();
+      } else {
+        logger.warn("This ASTCiNumberNode does not refer to a CallableSBase "
+               + "that contains units (Species, Reaction, SpeciesReference).");
+        return true;
+      }
+    }
+    return false;
   }
 
   /* (non-Javadoc)
@@ -265,7 +298,7 @@ ASTCSymbolBaseNode {
   private boolean isSetRefId() {
     return refId != null;
   }
-
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.AbstractASTNode#isSetType()
    */
@@ -282,7 +315,7 @@ ASTCSymbolBaseNode {
   public boolean refersTo(String id) {
     return getRefId().equals(id);
   }
-  
+
   /**
    * Set the definitionURL of the MathML element represented by
    * this {@link ASTCSymbolCiNumberNode}
@@ -303,7 +336,7 @@ ASTCSymbolBaseNode {
   public void setName(String name) {
     setRefId(name);
   }
-
+  
   /**
    * Set an instance of {@link CallableSBase} as the variable of this 
    * {@link ASTCiNumberNode}. Note that if the given variable does not
@@ -317,7 +350,7 @@ ASTCSymbolBaseNode {
   public void setReference(CallableSBase sbase) {
     setRefId(sbase.getId());
   }
-  
+
   /**
    * Set refId attribute
    * 
@@ -344,7 +377,7 @@ ASTCSymbolBaseNode {
   public String toLaTeX() throws SBMLException {
     return compile(new LaTeXCompiler()).toString();
   }
-
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.AbstractASTNode#toMathML()
    */
@@ -356,24 +389,6 @@ ASTCSymbolBaseNode {
       logger.error("Unable to create MathML");
       return null;
     }
-  }
-  
-  /**
-   * Returns {@code true} or {@code false} depending on whether this
-   * {@link ASTCiNumberNode} refers to elements such as parameters or 
-   * numbers with undeclared units.
-   * 
-   * A return value of {@code true} indicates that the {@code UnitDefinition}
-   * returned by {@link Variable#getDerivedUnitDefinition()} may not accurately
-   * represent the units of the expression.
-   * 
-   * @return {@code true} if the math expression of this {@link ASTCiNumberNode}
-   *         includes parameters/numbers with undeclared units,
-   *         {@code false} otherwise.
-   */
-  public boolean containsUndeclaredUnits() {
-    // TODO: Needs to be implemented
-    return false;
   }
 
   /* (non-Javadoc)

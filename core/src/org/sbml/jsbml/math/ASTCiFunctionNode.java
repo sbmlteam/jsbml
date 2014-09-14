@@ -38,7 +38,6 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.math.compiler.FormulaCompiler;
@@ -145,40 +144,6 @@ ASTCSymbolBaseNode {
             + ")");
     }
     return processValue(value);
-  }
-    
-  /**
-   * Returns {@code true} or {@code false} depending on whether this
-   * {@link ASTCiFunctionNode} refers to elements such as parameters or 
-   * numbers with undeclared units.
-   * 
-   * A return value of {@code true} indicates that the {@code UnitDefinition}
-   * returned by {@link Variable#getDerivedUnitDefinition()} may not accurately
-   * represent the units of the expression.
-   * 
-   * @return {@code true} if the math expression of this {@link ASTCiFunctionNode}
-   *         includes parameters/numbers with undeclared units,
-   *         {@code false} otherwise.
-   */
-  public boolean containsUndeclaredUnits() {
-    // TODO: Needs to be verified
-    if (isLeaf()) {
-        if ((type == Type.NAME_TIME) && (isSetParentSBMLObject())) {
-          Model model = getParentSBMLObject().getModel();
-          if ((model != null) && model.isSetTimeUnits()) {
-            return false;
-          }
-        }
-        return true;
-    } else {
-      for (ASTNode2 child : getListOfNodes()) {
-        if (child instanceof ASTCiFunctionNode 
-            && ((ASTCiFunctionNode)child).containsUndeclaredUnits()) {
-          return true;
-        }
-      }
-    }
-    return false;
   }
 
   /*
