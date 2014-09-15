@@ -104,7 +104,7 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
       value = (real > 0d) ? compiler.getPositiveInfinity() : compiler
         .getNegativeInfinity();
     } else {
-        value = isSetUnits() ? compiler.compile(real, getUnits()) : compiler.compile(real, null);        
+        value = isSetUnits() ? compiler.compile(real, getUnits().toString()) : compiler.compile(real, null);        
     }
     return processValue(value);
   }

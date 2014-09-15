@@ -311,6 +311,25 @@ public class ASTFunction extends AbstractASTNode {
   }
 
   /**
+   * Returns {@code true} if any one of the descendants of this 
+   * {@link ASTFunction} has a unit defined.
+   * 
+   * @return {@code true}
+   */
+  public boolean hasUnits()  {
+    boolean hasUnits = false;
+    for (ASTNode2 child : getChildren()) {
+      if (child instanceof ASTCnNumberNode) {
+        hasUnits = ((ASTCnNumberNode<?>) child).hasUnits();
+        if (hasUnits) {
+          break;
+        }
+      }
+    }
+    return hasUnits;
+  }
+
+  /**
    * Initializes the default values/attributes of the node.
    */
   private void initDefaults() {
@@ -327,7 +346,7 @@ public class ASTFunction extends AbstractASTNode {
     }
     firePropertyChange(TreeNodeChangeEvent.initialValue, old, this);
   }
-
+  
   /**
    * Inserts the given {@link ASTNode2} at point n in the list of children of this
    * {@link ASTNode2}. Inserting a child within an {@link ASTNode2} may result in an inaccurate
@@ -360,7 +379,7 @@ public class ASTFunction extends AbstractASTNode {
   public boolean isAllowableType(Type type) {
     return type == Type.VECTOR || type.name().startsWith("FUNCTION");
   }
-  
+
   /**
    * Returns True iff listOfNodes has been set
    * 
@@ -401,7 +420,7 @@ public class ASTFunction extends AbstractASTNode {
     ASTFactory.setParentSBMLObject(child, parentSBMLObject);
     child.setParent(this);
   }
-
+  
   /**
    * Removes child n of this {@link ASTFunction}. Removing a child from an 
    * {@link ASTFunction} may result in an inaccurate representation.
@@ -423,7 +442,7 @@ public class ASTFunction extends AbstractASTNode {
     }
     return false;
   }
-  
+
   /**
    * Replaces the n<sup>th</sup> child of this ASTNode2 with the given ASTNode2.
    * 
@@ -459,7 +478,7 @@ public class ASTFunction extends AbstractASTNode {
     this.name = name;
     firePropertyChange(TreeNodeChangeEvent.name, old, this.name);
   }
-
+  
   /**
    * <p>
    * Swaps the children of this {@link ASTFunction} with the children of that
@@ -509,5 +528,5 @@ public class ASTFunction extends AbstractASTNode {
     builder.append("]");
     return builder.toString();
   }
-  
+
 }

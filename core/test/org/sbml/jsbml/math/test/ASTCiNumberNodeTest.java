@@ -34,6 +34,7 @@ import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.math.ASTCiNumberNode;
 
 
@@ -79,7 +80,9 @@ public class ASTCiNumberNodeTest {
     tau.setName("tau2");
     tau.setId("parameter_0000009");
     tau.setValue(10);
-    tau.setUnits("seconds");
+    Unit unit = new Unit(3, 1);
+    unit.setKind(Unit.Kind.SECOND);
+    tau.setUnits(unit);
     tau.setConstant(true);
     Model model = new Model(3, 1);
     model.addParameter(tau);

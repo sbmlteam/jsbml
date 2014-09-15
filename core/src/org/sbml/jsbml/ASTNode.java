@@ -2321,7 +2321,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   public String getUnits() {
     return astnode2 instanceof ASTCnNumberNode ? ((ASTCnNumberNode<?>)astnode2)
-        .getUnits() : null;
+        .getUnits().getKind().getName() : null;
   }
 
   /**
@@ -2847,7 +2847,9 @@ public class ASTNode extends AbstractTreeNode {
    */
   public ASTNode minus(int integer, String unitsID) {
     ASTCnIntegerNode node = new ASTCnIntegerNode(integer);
-    node.setUnits(unitsID);
+    Unit units = new Unit();
+    units.setKind(Unit.Kind.valueOf(unitsID));
+    node.setUnits(units);
     return new ASTNode(ASTFactory.minus(astnode2, node));
   }
 
@@ -3319,7 +3321,9 @@ public class ASTNode extends AbstractTreeNode {
    *             of a unit definition.
    */
   public void setUnits(String unitId) {
-    ((ASTCnNumberNode<?>)astnode2).setUnits(unitId);
+    Unit units = new Unit();
+    units.setKind(Unit.Kind.valueOf(unitId));
+    ((ASTCnNumberNode<?>)astnode2).setUnits(units);
   }
 
   /**
@@ -3327,7 +3331,9 @@ public class ASTNode extends AbstractTreeNode {
    * @param unit
    */
   public void setUnits(Unit.Kind unit) {
-    ((ASTCnNumberNode<?>)astnode2).setUnits(unit.toString().toLowerCase());
+    Unit units = new Unit();
+    units.setKind(unit);
+    ((ASTCnNumberNode<?>)astnode2).setUnits(units);
   }
 
   /**
@@ -3335,7 +3341,7 @@ public class ASTNode extends AbstractTreeNode {
    * @param ud
    */
   public void setUnits(UnitDefinition ud) {
-    ((ASTCnNumberNode<?>)astnode2).setUnits(ud.getId());
+    ((ASTCnNumberNode<?>)astnode2).setUnits(ud.getListOfUnits().get(0));
   }
 
   /**

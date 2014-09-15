@@ -33,7 +33,9 @@ import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
+import org.sbml.jsbml.math.ASTCnNumberNode;
 import org.sbml.jsbml.math.ASTFunction;
 import org.sbml.jsbml.math.ASTNode2;
 import org.sbml.jsbml.math.ASTPiecewiseFunctionNode;
@@ -410,6 +412,31 @@ public class ASTFunctionTest {
   }
   
   /**
+   * Test method for {@link org.sbml.jsbml.math.ASTFunction#hasUnits()}.
+   */
+  @Test
+  public final void testHasUnitsFalse() {
+    ASTFunction a = new ASTFunction();
+    ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
+    a.addChild(number);
+    assertTrue(!a.hasUnits());
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTFunction#hasUnits()}.
+   */
+  @Test
+  public final void testHasUnitsTrue() {
+    ASTFunction a = new ASTFunction();
+    ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
+    Unit unit = new Unit(3, 1);
+    unit.setKind(Unit.Kind.MOLE);
+    number.setUnits(unit);
+    a.addChild(number);
+    assertTrue(a.hasUnits());
+  }
+  
+  /**
    * Test method for {@link org.sbml.jsbml.math.ASTFunction#isAllowableType()}.
    */
   @Test
@@ -514,5 +541,6 @@ public class ASTFunctionTest {
     function.unsetParentSBMLObject();
     assertTrue(isSetParentSBMLObject && function.getParentSBMLObject() == null);
   }
+
   
 }

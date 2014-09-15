@@ -94,7 +94,7 @@ public class ASTCnIntegerNode extends ASTCnNumberNode<Integer> {
    */
   @Override
   public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
-    ASTNode2Value<?> value = isSetUnits() ? compiler.compile(getInteger(), getUnits()) 
+    ASTNode2Value<?> value = isSetUnits() ? compiler.compile(getInteger(), getUnits().toString()) 
                           : compiler.compile(getInteger(), null);
     return processValue(value);
   }

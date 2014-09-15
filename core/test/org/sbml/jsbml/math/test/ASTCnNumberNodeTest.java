@@ -30,6 +30,8 @@ import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.math.ASTCnNumberNode;
+import org.sbml.jsbml.Unit;
+import org.sbml.jsbml.UnitDefinition;
 
 
 /**
@@ -77,6 +79,19 @@ public class ASTCnNumberNodeTest {
   }
 
   /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnNumberNode#deriveUnit()}.
+   */
+  @Test
+  public void testDeriveUnit() {
+    // TODO: Implement UnitsCompiler class first
+    ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
+    Unit joule = new Unit();
+    joule.setKind(Unit.Kind.JOULE);
+    number.setUnits(joule);
+    assertTrue(false);
+  }
+
+  /**
    * Test method for {@link org.sbml.jsbml.math.ASTCnNumberNode#getNumber()}.
    */
   @Test
@@ -85,7 +100,7 @@ public class ASTCnNumberNodeTest {
     exception.expect(PropertyUndefinedError.class);
     number.getNumber();
   }
-
+  
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCnNumberNode#getNumber()}.
    */
@@ -102,8 +117,24 @@ public class ASTCnNumberNodeTest {
   @Test
   public void testGetUnitsExists() {
     ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
-    number.setUnits("mg");
-    assertTrue(number.getUnits().equals("mg"));
+    Unit joule = new Unit(3, 1);
+    joule.setKind(Unit.Kind.JOULE);
+    number.setUnits(joule);
+    assertTrue(number.getUnits().equals(joule));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnNumberNode#getUnitsInstance()}.
+   */
+  @Test
+  public void testGetUnitsInstance() {
+    ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
+    Unit joule = new Unit();
+    joule.setKind(Unit.Kind.JOULE);
+    number.setUnits(joule);
+    UnitDefinition unitsInstance = number.getUnitsInstance();
+    assertTrue(unitsInstance != null && unitsInstance.getChildCount() == 1
+        && unitsInstance.getListOfUnits().get(0).equals(joule));
   }
   
   /**
@@ -115,7 +146,7 @@ public class ASTCnNumberNodeTest {
     exception.expect(PropertyUndefinedError.class);
     number.getNumber();
   }
-  
+
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCnNumberNode#getUnits()}.
    */
@@ -123,26 +154,7 @@ public class ASTCnNumberNodeTest {
   public void testGetUnitsNonExistentNonStrict() {
     ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
     number.setStrictness(false);
-    assertTrue(number.getUnits().isEmpty());
-  }
-  
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCnNumberNode#hasUnits()}.
-   */
-  @Test
-  public void testHasUnitsExists() {
-    ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
-    number.setUnits("mg");
-    assertTrue(number.hasUnits());
-  }
-
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTCnNumberNode#hasUnits()}.
-   */
-  @Test
-  public void testHasUnitsNonExistent() {
-    ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
-    assertTrue(! number.hasUnits());
+    assertTrue(number.getUnits() == null);
   }
   
   /**
@@ -176,6 +188,27 @@ public class ASTCnNumberNodeTest {
   }  
   
   /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnNumberNode#hasUnits()}.
+   */
+  @Test
+  public void testHasUnitsExists() {
+    ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
+    Unit unit = new Unit(3, 1);
+    unit.setKind(Unit.Kind.MOLE);
+    number.setUnits(unit);
+    assertTrue(number.hasUnits());
+  }  
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnNumberNode#hasUnits()}.
+   */
+  @Test
+  public void testHasUnitsNonExistent() {
+    ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
+    assertTrue(! number.hasUnits());
+  }
+  
+  /**
    * Test method for {@link org.sbml.jsbml.math.ASTCnNumberNode#isAllowableType()}.
    */
   @Test
@@ -184,7 +217,6 @@ public class ASTCnNumberNodeTest {
     assertTrue(number.isAllowableType(Type.INTEGER) && number.isAllowableType(Type.REAL)
             && number.isAllowableType(Type.RATIONAL) && number.isAllowableType(Type.REAL_E)
             && !number.isAllowableType(null));
-  }  
-  
+  }
   
 }

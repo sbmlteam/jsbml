@@ -93,7 +93,7 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Doub
   @Override
   public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
     ASTNode2Value<?> value = compiler.compile(getMantissa(), getExponent(),
-      isSetUnits() ? getUnits() : null);
+      isSetUnits() ? getUnits().toString() : null);
     return processValue(value);
   }
 

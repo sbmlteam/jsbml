@@ -28,6 +28,7 @@ import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
@@ -66,7 +67,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
   /**
    * units attribute for MathML element
    */
-  private String units;
+  private Unit units;
 
   /**
    * variable attribute for MathML element
@@ -126,9 +127,37 @@ public class ASTCnNumberNode<T> extends ASTNumber {
    */
   @Override
   public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
-    //TODO: 
+    //TODO: Method is unnecessary as ASTCnNumberNode is never called directly.
+    // Maybe make ASTCnNumberNode abstract?
     return null;
   }
+
+  /**
+    * Evaluates recursively this {@link ASTCnNumberNode} and creates a new 
+    * UnitDefinition with respect to all referenced elements.
+    * 
+    * @return the derived unit of the node.
+    * @throws SBMLException
+    *             if they are problems going through the {@link ASTNode2} tree.
+    */
+   public UnitDefinition deriveUnit() throws SBMLException {
+     MathContainer container = isSetParentSBMLObject() ? getParentSBMLObject() : null;
+     int level = -1;
+     int version = -1;
+     if (container != null) {
+       level = container.getLevel();
+       version = container.getVersion();
+     }
+     UnitsCompiler compiler = null;
+     if (isSetParentSBMLObject()) {
+       Model model = getParentSBMLObject().getModel();
+       compiler = new UnitsCompiler(model);
+     }
+     if (compiler == null) {
+       compiler = new UnitsCompiler(level, version);
+     }
+     return compile(compiler).getUnits().simplify();
+   }
 
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
@@ -141,7 +170,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
       return false;
     if (getClass() != obj.getClass())
       return false;
-    ASTCnNumberNode<T> other = (ASTCnNumberNode<T>) obj;
+    ASTCnNumberNode<?> other = (ASTCnNumberNode<?>) obj;
     if (number == null) {
       if (other.number != null)
         return false;
@@ -177,9 +206,9 @@ public class ASTCnNumberNode<T> extends ASTNumber {
   /**
    * Returns the units of the MathML element represented by this ASTCnNumberNode
    * 
-   * @return String units
+   * @return Unit units
    */
-  public String getUnits() {
+  public Unit getUnits() {
     if (isSetUnits()) {
       return units;
     }
@@ -188,9 +217,39 @@ public class ASTCnNumberNode<T> extends ASTNumber {
       throw error;
     }
     logger.warn(error);
-    return "";
+    return null;
   }
 
+  /**
+    * Creates or obtains a {@link UnitDefinition} corresponding to the unit
+    * that has been set for this {@link ASTCnNumberNode} and returns a pointer to it.
+    * Note that in case that this {@link ASTCnNumberNode} is associated with a
+    * {@link Kind}, the created {@link UnitDefinition} will not be part of the
+    * model, it is just a container for the {@link Kind}.
+    * 
+    * @return A {@link UnitDefinition} or {@code null}.
+    */
+   public UnitDefinition getUnitsInstance() {
+     if (isSetUnits()) {
+       MathContainer container = isSetParentSBMLObject() ? getParentSBMLObject() : null;
+       int level = -1;
+       int version = -1;
+       if (container != null) {
+         level = container.getLevel();
+         version = container.getVersion();
+       }
+       UnitDefinition unitDefinition = new UnitDefinition(level, version);
+       unitDefinition.addUnit(units);
+       return unitDefinition;
+     }
+     PropertyUndefinedError error = new PropertyUndefinedError("units", this);
+     if (isStrict()) {
+       throw error;
+     }
+     logger.warn(error);
+     return null;
+   }
+  
   /**
    * Get the variable for this {@link ASTNumber} node
    * 
@@ -220,6 +279,17 @@ public class ASTCnNumberNode<T> extends ASTNumber {
     return result;
   }
   
+  /**
+   * Returns {@code true} if the current {@link ASTCnNumberNode} or 
+   * any of its descendants has a unit defined.
+   * 
+   * @return {@code true} if the current {@link ASTCnNumberNode} or 
+   * any of its descendants has a unit defined.
+   */
+   public boolean hasUnits()  {
+     return isSetUnits();
+   }
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#isAllowableType(org.sbml.jsbml.ASTNode.Type)
    */
@@ -237,7 +307,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
   protected boolean isSetNumber() {
     return number != null;
   }
-  
+
   /**
    * Returns True iff units has been set
    * 
@@ -272,14 +342,14 @@ public class ASTCnNumberNode<T> extends ASTNumber {
   /**
    * Set the units of the MathML element represented by this ASTCnNumberNode
    * 
-   * @param String units
+   * @param Unit units
    */
-  public void setUnits(String units) {
-    String old = this.units;
+  public void setUnits(Unit units) {
+    Unit old = this.units;
     this.units = units;
     firePropertyChange(TreeNodeChangeEvent.units, old, this.units);
   }
-
+  
   /**
    * Set the variable for this {@link ASTNumber} node
    * 
@@ -290,8 +360,8 @@ public class ASTCnNumberNode<T> extends ASTNumber {
     this.variable = variable;
     firePropertyChange(TreeNodeChangeEvent.variable, old, this.variable);
   }
-
-  /* (non-Javadoc)
+   
+   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   @Override
@@ -320,68 +390,15 @@ public class ASTCnNumberNode<T> extends ASTNumber {
     builder.append("]");
     return builder.toString();
   }
-
-  /**
+   
+   /**
    * Unset the units attribute.
    * 
    */
   public void unsetUnits() {
-    String oldValue = units;
+    Unit oldValue = units;
     units = null;
     firePropertyChange(TreeNodeChangeEvent.units, oldValue, null);
   }
-  
-  /**
-   * Returns {@code true} if the current {@link ASTCnNumberNode} or 
-   * any of its descendants has a unit defined.
-   * 
-   * @return {@code true} if the current {@link ASTCnNumberNode} or 
-   * any of its descendants has a unit defined.
-   */
-   public boolean hasUnits()  {
-     return isSetUnits();
-   }
-   
-   /**
-    * Creates or obtains a {@link UnitDefinition} corresponding to the unit
-    * that has been set for this {@link ASTCnNumberNode} and returns a pointer to it.
-    * Note that in case that this {@link ASTCnNumberNode} is associated with a
-    * {@link Kind}, the created {@link UnitDefinition} will not be part of the
-    * model, it is just a container for the {@link Kind}.
-    * 
-    * @return A {@link UnitDefinition} or {@code null}.
-    */
-   public UnitDefinition getUnitsInstance() {
-     // TODO: Needs to be implemented. I'm not sure that this method even belongs
-     // in this class. Does it belong in both ASTCiFunctionNode & ASTCiNumberNode or no?
-     return null;
-   }
-   
-   /**
-    * Evaluates recursively this {@link ASTCnNumberNode} and creates a new 
-    * UnitDefinition with respect to all referenced elements.
-    * 
-    * @return the derived unit of the node.
-    * @throws SBMLException
-    *             if they are problems going through the {@link ASTNode2} tree.
-    */
-   public UnitDefinition deriveUnit() throws SBMLException {
-     MathContainer container = isSetParentSBMLObject() ? getParentSBMLObject() : null;
-     int level = -1;
-     int version = -1;
-     if (container != null) {
-       level = container.getLevel();
-       version = container.getVersion();
-     }
-     UnitsCompiler compiler = null;
-     if (isSetParentSBMLObject()) {
-       Model model = getParentSBMLObject().getModel();
-       compiler = new UnitsCompiler(model);
-     }
-     if (compiler == null) {
-       compiler = new UnitsCompiler(level, version);
-     }
-     return compile(compiler).getUnits().simplify();
-   }
 
 }

@@ -33,6 +33,7 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
 
@@ -384,7 +385,7 @@ public class ASTFactory {
    * @return minus {@link ASTMinusNode}
    */
   public static ASTMinusNode minus(ASTNode2 node, int integer, 
-                                                String unitsID) {
+                                                Unit unitsID) {
     ASTMinusNode minus = new ASTMinusNode();
     minus.addChild(node);
     ASTCnIntegerNode integerNode = new ASTCnIntegerNode(integer);

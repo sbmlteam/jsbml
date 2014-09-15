@@ -29,6 +29,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.AssignmentRule;
+import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.math.ASTArithmeticOperatorNode;
 import org.sbml.jsbml.math.ASTBoolean;
 import org.sbml.jsbml.math.ASTCiNumberNode;
@@ -289,14 +290,15 @@ public class ASTFactoryTest {
   @Test
   public final void testMinusWithIntegerAndUnits() {
     ASTCnIntegerNode one = new ASTCnIntegerNode(1);
-    String unitsId = "mg";
-    ASTMinusNode minus = ASTFactory.minus(one, 5, unitsId);
+    Unit joule = new Unit(3, 1);
+    joule.setKind(Unit.Kind.JOULE);
+    ASTMinusNode minus = ASTFactory.minus(one, 5, joule);
     ASTNode2 unknown = minus.getRightChild();
     assertTrue(minus.getChildCount() == 2 
         && minus.getLeftChild().equals(one)
         && unknown.getType() == Type.INTEGER
         && ((ASTCnIntegerNode)unknown).getInteger() == 5
-        && ((ASTCnIntegerNode)unknown).getUnits().equals(unitsId));
+        && ((ASTCnIntegerNode)unknown).getUnits().equals(joule));
   }
   
   /**
