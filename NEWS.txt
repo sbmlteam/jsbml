@@ -6,14 +6,14 @@ Version 1.0-rc1 (xx-09-2014)
 
 * New Features:
 
-  - Changed the default behavior of the parsing of math infix formula.
+  - Changed the default behaviour of the parsing of math infix formula.
     The methods concerned are JSBML#parseFormula and ASTNode#parseFormula.
     The changes include a different operator precedence, to match the one
     used in the L3 libSBML parser. The parsing is also case sensitive for
     mathML elements. Boolean operators are now differently interpreted:
     '&&' and '||' are used instead of 'and' and 'or'. Please consult the
     JavaDoc of those methods for more details, it is also explain there
-    what to do if you want to keep the old behavior.
+    what to do if you want to keep the old behaviour.
 
   - Added two new BioModels.net qualifiers, bqmodel:isIntanceOf and
     bqmodel:hasInstance.
