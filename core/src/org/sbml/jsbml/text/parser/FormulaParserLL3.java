@@ -37,9 +37,17 @@ import org.sbml.jsbml.text.parser.IFormulaParser;
  * Support almost the same syntax as defined in <a href="http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/libsbml.html#parseL3Formula(java.lang.String)">
  * the LibSBML L3 parser</a>. The things not supported for now are the units associated with numbers.
  *
-
-
- <p>
+ * <p>
+ * Parsing of the various MathML functions and constants are all
+ * case-sensitive by default: names such as 
+ * <code>Cos</code> and <code>COS</code> are not parsed as the MathML cosine
+ * operator, <code>&lt;cos&gt;</code>.
+ *
+ * <p> You can change this behaviour by using the {@link #setCaseSensitive(boolean)}
+ * method.
+ *
+ *
+ * <p>
  * <table border="0" width="95%"
        class="centered text-table normal-font alt-row-colors"
        style="padding-bottom: 0.5em">
@@ -420,12 +428,6 @@ in the text-string formula syntax.</caption>
 </table>
 
 
- <p>
- * Parsing of the various MathML functions and constants are all
- * case-sensitive by default: function names such as 
- * <code>Cos</code> and <code>COS</code> are not parsed as the MathML cosine
- * operator, <code>&lt;cos&gt;</code>.
- *
  *
  *
  * @author Alexander D&ouml;rr

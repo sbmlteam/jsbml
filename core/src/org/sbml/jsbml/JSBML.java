@@ -23,6 +23,7 @@ package org.sbml.jsbml;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.text.MessageFormat;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Map;
@@ -32,9 +33,13 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.resources.Resource;
+import org.sbml.jsbml.text.parser.FormulaParser;
+import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
+import org.sbml.jsbml.util.compilers.FormulaCompilerLibSBML;
+import org.sbml.jsbml.util.compilers.FormulaCompilerNoPiecewise;
 
 /**
  * Wrapper class for global methods and constants defined by JSBML.
@@ -139,7 +144,9 @@ public class JSBML {
    * 
    * <p>Be careful that the default {@link FormulaCompiler} used produce an output
    * a bit different than pure SBML level 1 mathematical expressions, in particular
-   * for logical and relational operators.
+   * for logical and relational operators. If the default output is not convenient
+   * for you, you can easily extends one of the existing FormulaCompiler and overwrite
+   * the methods where you want a different output.
    * 
    * @param node
    *        the root of the {@link ASTNode} formula expression tree
@@ -150,6 +157,9 @@ public class JSBML {
    *         In case the given {@link ASTNode} tree contains invalid nodes.
    * @see ASTNode#toFormula()
    * @see ASTNode#toFormula(FormulaCompiler)
+   * @see FormulaCompiler
+   * @see FormulaCompilerLibSBML
+   * @see FormulaCompilerNoPiecewise
    */
   public static String formulaToString(ASTNode node) throws SBMLException {
     return ASTNode.formulaToString(node);
@@ -229,15 +239,52 @@ public class JSBML {
   /**
    * Parses a text-string mathematical formula and returns a representation as
    * an Abstract Syntax Tree.
-   *	
+   *
+   * <p>
+   * Support the syntax defined in {@link FormulaParserLL3} which is almost the same syntax as defined in
+   * <a href="http://sbml.org/Software/libSBML/docs/java-api/org/sbml/libsbml/libsbml.html#parseL3Formula(java.lang.String)">
+   * the LibSBML L3 parser</a>. The things not supported for now are the units associated with numbers.
+   *
+   * <p>
+   * Parsing of the various MathML functions and constants are all
+   * case-sensitive by default: names such as 
+   * <code>Cos</code> and <code>COS</code> are not parsed as the MathML cosine
+   * operator, <code>&lt;cos&gt;</code>. As well, if you have an SBML entities (species, parameter, ...) that
+   * has an id identical to one of the supported mathML element, the parser will interpret the String as the
+   * mathML element and not the SBML entity.
+   * 
+   * <p> You can change this behaviour by using the {@link FormulaParserLL3#setCaseSensitive(boolean)}
+   * method and using the {@link ASTNode#parseFormula(String, IFormulaParser)} method instead of this one:
+<p><pre><blockquote> 
+   FormulaParserLL3 caseSensitiveParser = new FormulaParserLL3(new StringReader(""));
+   caseInsensitiveParser.setCaseSensitive(false);
+   ASTNode n = ASTNode.parseFormula("Cos(x)", caseInsensitiveParser);
+</pre></blockquote></p>
+   *
+   * <p> This method has a different behaviour since JSBML-1.0 compare to JSBML-0.8. There is a different
+   * operator precedence, the parsing is now case sensitive for mathML elements and boolean operators are 
+   * now differently interpreted: '&&' and '||' are used instead of 'and' and 'or'.<br>	
+   * If you want to use the parser used in JSBML-0.8, you can do that by using the {@link FormulaParser}
+   * parser class and using the {@link ASTNode#parseFormula(String, IFormulaParser)} method instead of this one:
+<p><pre><blockquote> 
+   FormulaParser oldParser = new FormulaParser(new StringReader(""));
+
+   ASTNode n = ASTNode.parseFormula("x and y", oldParser);
+</pre></blockquote></p>
+   *  
+   * <p> If you are not satisfied with the behaviour of the existing parsers, you can create
+   * your own, you just need to implement the {@link IFormulaParser} interface.  
+   * 
    * @param formula
    *            a text-string mathematical formula.
-   * @return an {@code ASTNode} representing the formula.
+   * @return an {@link ASTNode} representing the formula.
    * @throws ParseException
    *             If the given formula is not of valid format or cannot be
    *             parsed for other reasons.
    * @see ASTNode#parseFormula(String)
-   * @see ASTNode#parseFormula(String, IFormulaParser)            
+   * @see ASTNode#parseFormula(String, IFormulaParser)
+   * @see FormulaParserLL3
+   * @see FormulaParser            
    */
   public static ASTNode parseFormula(String formula) throws ParseException {
     return ASTNode.parseFormula(formula);
