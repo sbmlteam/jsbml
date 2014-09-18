@@ -93,7 +93,7 @@
 		<property name="libSBMLio.module.base.dir" value="${basedir}/modules/libSBMLio" />
 
 		<property name="core.base.dir" value="${basedir}/core" />
-		<property name="package.names" value="comp fbc groups layout multi qual render req spatial arrays" />
+		<property name="package.names" value="arrays comp fbc groups layout multi qual render req spatial" />
 
 		<filter token="year" value="${year}" />
 		<filter token="version" value="${version}" />
@@ -151,6 +151,7 @@
 	  name="prepare"
 	  description="Prepares the build directory"
 	  depends="init"
+		unless="prepare.src.target.done"
 	>
 		<mkdir dir="${build.dir}" />
 		<mkdir dir="${build.dest}" />
@@ -226,6 +227,8 @@
 				<provider classname="org.sbml.jsbml.xml.parsers.SBMLCoreParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.XMLNodeReader" />
 				<provider classname="org.sbml.jsbml.xml.parsers.MathMLStaxParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.ArraysParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.CompParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.FBCParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.GroupsParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.L3LayoutParser" />
@@ -233,9 +236,8 @@
 				<provider classname="org.sbml.jsbml.xml.parsers.MultiParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.QualParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.RenderParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.ReqParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.SpatialParser" />
-				<provider classname="org.sbml.jsbml.xml.parsers.CompParser" />
-				<provider classname="org.sbml.jsbml.xml.parsers.ArraysParser" />
 			</service>
 
 		</jar>
@@ -417,28 +419,27 @@
 	<target
 	  name="dist"
 	  description="Creates the distribution"
-	  depends="init"
+		depends="init"
 	>
 
-		<property name="prepare.src.target.done" value="true"/>
-
 		<!-- Cleaning before starting -->
-		<antcall target="clean" />
+		<antcall target="clean" inheritrefs="true" inheritall="true"/>
 
 		<!-- Creates the standard jar files -->
-		<antcall target="jar" />
+		<antcall target="jar" inheritrefs="true" inheritall="true"/>
+
 		<property name="package.target.done" value="true"/>
 		<property name="prepare.src.target.done" value="true"/>
-
-		<antcall target="jar-src" />
+		
+		<antcall target="jar-src" inheritrefs="true" inheritall="true"/>
 		<copy todir="${dist.root}" file="${dist.dir}/${name}-${version}.jar" />
 
 		<!-- Creates the jar file including all the dependencies -->
-		<antcall target="bigjar" />
+		<antcall target="bigjar"  inheritrefs="true" inheritall="true"/>
 		<copy todir="${dist.root}" file="${dist.dir}/${name}-${version}-with-dependencies.jar" />
 
 		<!-- Creates and copy the generated javadoc -->
-		<antcall target="jar-javadoc" />
+		<antcall target="jar-javadoc" inheritrefs="true" inheritall="true"/>
 
 		<copy todir="${dist.dir}/doc/api">
 			<fileset dir="${build.javadocs}/" includes="**/*"/>
@@ -468,7 +469,7 @@
 		</copy>
 
 		<!-- create the modules files -->
-		<antcall target="module-dist" />
+		<antcall target="module-dist"   inheritrefs="true" inheritall="true"/>
 
 		<!-- Creates the archives to be distributed -->
 		<zip basedir="${dist.root}" destfile="${dist.root}/${name}-${version}-full.zip" includes="${name}-${version}/**" />
@@ -540,7 +541,7 @@
 
 		<property name="package.target.done" value="true"/>
 
-		<foreach list="${package.names}" delimiter=" " param="packagename" target="prepare-package" />
+		<foreach list="${package.names}" delimiter=" " param="packagename" target="prepare-package" inheritall="true" inheritrefs="true"/>
 
 	</target>
 

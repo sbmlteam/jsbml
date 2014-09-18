@@ -28,7 +28,7 @@
   basedir="."
 >
 
-	
+
 	<!-- =================================================================== -->
 	<!-- Initialization target                                               -->
 	<!-- =================================================================== -->
@@ -49,13 +49,13 @@
 		<property name="year" value="${YEAR}"/>
 
 		<echo message="Determining the revision number of JSBML"/>
-    <exec executable="svn" outputproperty="svninfo.xml">
-      <arg line="info --xml"/>
-    </exec>
-    <xmlproperty collapseAttributes="true">
-      <propertyresource name="svninfo.xml"/>
-    </xmlproperty>
-    <property name="jsbml.revision" value="${info.entry.revision}"/>
+		<exec executable="svn" outputproperty="svninfo.xml">
+			<arg line="info --xml"/>
+		</exec>
+		<xmlproperty collapseAttributes="true">
+			<propertyresource name="svninfo.xml"/>
+		</xmlproperty>
+		<property name="jsbml.revision" value="${info.entry.revision}"/>
 
 		<echo message="-----------   ${Name} ${version} [${year}] ------------"/>
 		<echo message="-----------     ${TODAY}   ------------"/>
@@ -100,7 +100,7 @@
 		<path id="classpath">
 			<fileset dir="${jars.dir}" includes="*.jar *.zip">
 			</fileset>
-		</path>	
+		</path>
 
 	</target>
 
@@ -142,8 +142,8 @@
 	  description="Prepares the build directory"
 	  depends="init"
 	>
-	  <mkdir dir="${build.dir}"/>
-	  <echo message="Done"/>
+		<mkdir dir="${build.dir}"/>
+		<echo message="Done"/>
 	</target>
 
 	<!-- =================================================================== -->
@@ -166,7 +166,8 @@
 		<copy todir="${build.src}" overwrite="yes">
 			<fileset 
             dir="${src.dir}"
-            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip org/sbml/jsbml/math/**"> <!-- TODO remove org/sbml/jsbml/math from the filters when the package is ready --> 
+            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip org/sbml/jsbml/math/**">
+				<!-- TODO remove org/sbml/jsbml/math from the filters when the package is ready -->
 			</fileset>
 		</copy>
 
@@ -239,28 +240,28 @@
            target="1.6"
            classpathref="classpath">
 		</javac>
-		
+
 		<property name="api.version" value="1.0-beta"/>
 		<property name="vendor" value="The JSBML Team"/>
-		
+
 		<manifest file="${build.dest}/META-INF/MANIFEST.MF">
-          <attribute name="Bundle-Name"            value="${Name}"/>
-          <attribute name="Built-By"               value="${user.name}"/>
-          <attribute name="Built-Date"             value="${TODAY}"/>
-          <attribute name="Bundle-Version"         value="${version}"/>
-          <attribute name="Bundle-Revision"        value="${jsbml.revision}"/>
-          <attribute name="Bundle-Vendor"          value="${vendor}"/>
-          <attribute name="Bundle-RequiredExecutionEnvironment" value="JavaSE-1.6"/>
-		  <attribute name="Created-By"             value="${vendor}"/>
-		  <section name="${Name}">
-			<attribute name="Specification-Title"    value="${Name}"/>
-			<attribute name="Specification-Version"  value="${api.version}"/>
-			<attribute name="Specification-Vendor"   value="${vendor}"/>
-			<attribute name="Implementation-Title"   value="${Name}"/>
-			<attribute name="Implementation-Version" value="${version}, Revision ${jsbml.revision} (Build ${build.number})"/>
-			<attribute name="Implementation-Vendor"  value="${vendor}"/>
-	        <attribute name="Implementation-URL"     value="http://sbml.org/Software/JSBML/"/>
-		  </section>
+			<attribute name="Bundle-Name"            value="${Name}"/>
+			<attribute name="Built-By"               value="${user.name}"/>
+			<attribute name="Built-Date"             value="${TODAY}"/>
+			<attribute name="Bundle-Version"         value="${version}"/>
+			<attribute name="Bundle-Revision"        value="${jsbml.revision}"/>
+			<attribute name="Bundle-Vendor"          value="${vendor}"/>
+			<attribute name="Bundle-RequiredExecutionEnvironment" value="JavaSE-1.6"/>
+			<attribute name="Created-By"             value="${vendor}"/>
+			<section name="${Name}">
+				<attribute name="Specification-Title"    value="${Name}"/>
+				<attribute name="Specification-Version"  value="${api.version}"/>
+				<attribute name="Specification-Vendor"   value="${vendor}"/>
+				<attribute name="Implementation-Title"   value="${Name}"/>
+				<attribute name="Implementation-Version" value="${version}, Revision ${jsbml.revision} (Build ${build.number})"/>
+				<attribute name="Implementation-Vendor"  value="${vendor}"/>
+				<attribute name="Implementation-URL"     value="http://sbml.org/Software/JSBML/"/>
+			</section>
 		</manifest>
 
 	</target>
@@ -291,7 +292,7 @@
 	  description="Creates the class package and includes all the dependencies jars into a big jsbml jar file"
 	  depends="prepare-src"
 	>
-	  <jar
+		<jar
 	  	basedir="${build.src}"
 	  	includes="**/*.java"
 	  	index="true"
@@ -316,7 +317,7 @@
             includes="**/*.png **/*.gif **/*.xsd **/*.tmpl **/data/* **/*.xml **/*.cfg **/*.obo **/*.properties **/*.java" >
 			</fileset>
 		</copy>
-		
+
 		<jar
           basedir="${build.dest}"
 		  duplicate="preserve"
@@ -325,23 +326,24 @@
 		  jarfile="${build.dir}/${name}-${version}-with-dependencies.jar"
 		  manifest="${build.dest}/META-INF/MANIFEST.MF"
 		>
-		  <zipgroupfileset dir="${jars.dir}" includes="*.jar"/>
-	      <service type="org.sbml.jsbml.xml.parsers.ReadingParser">
-	    	<!-- This list need to be updated as soon as there is a new parser -->
-	    	<provider classname="org.sbml.jsbml.xml.parsers.SBMLCoreParser"/>		
-	    	<provider classname="org.sbml.jsbml.xml.parsers.XMLNodeReader"/>
-	    	<provider classname="org.sbml.jsbml.xml.parsers.MathMLStaxParser"/>
-	    	<provider classname="org.sbml.jsbml.xml.parsers.FBCParser"/>
-		  	<provider classname="org.sbml.jsbml.xml.parsers.GroupsParser"/>
-				<provider classname="org.sbml.jsbml.xml.parsers.L3LayoutParser"/>
-				<provider classname="org.sbml.jsbml.xml.parsers.LayoutParser"/>
-				<provider classname="org.sbml.jsbml.xml.parsers.MultiParser"/>
-				<provider classname="org.sbml.jsbml.xml.parsers.QualParser"/>
-				<provider classname="org.sbml.jsbml.xml.parsers.RenderParser"/>
-				<provider classname="org.sbml.jsbml.xml.parsers.SpatialParser"/>
-				<provider classname="org.sbml.jsbml.xml.parsers.CompParser"/>
+			<zipgroupfileset dir="${jars.dir}" includes="*.jar"/>
+			<service type="org.sbml.jsbml.xml.parsers.ReadingParser">
+				<!-- This list need to be updated as soon as there is a new parser -->
+				<provider classname="org.sbml.jsbml.xml.parsers.SBMLCoreParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.XMLNodeReader" />
+				<provider classname="org.sbml.jsbml.xml.parsers.MathMLStaxParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.ArraysParser" />
-	  	</service>
+				<provider classname="org.sbml.jsbml.xml.parsers.CompParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.FBCParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.GroupsParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.L3LayoutParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.LayoutParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.MultiParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.QualParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.RenderParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.ReqParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.SpatialParser" />
+			</service>
 		</jar>
 	</target>
 
@@ -372,7 +374,7 @@
 			</classpath>
 		</junit>
 		<echo message=""/>
-		
+
 		<junit printsummary="yes" >
 			<!-- showoutput="yes" -->
 			<formatter type="plain"/>
@@ -401,7 +403,7 @@
 			</classpath>
 		</junit>
 	-->
-		
+
 	</target>
 
 	<!-- =================================================================== -->
@@ -442,7 +444,7 @@
 	 name="update-sbo"
 	 description="Updates the SBO Ontology file"
 	>
-	  <get
+		<get
 		src="http://www.ebi.ac.uk/sbo/exports/Main/SBO_OBO.obo"
 		dest="${basedir}/resources/org/sbml/jsbml/resources/cfg/SBO_OBO.obo"
 	  	verbose="on"
@@ -494,7 +496,7 @@
 	  description="Creates the javadocs jar package"
 	  depends="javadoc"
 	>
-	  <jar
+		<jar
 		jarfile="${build.dir}/${name}-${version}-javadoc.jar"
 		basedir="${build.javadocs}"
 	  />
@@ -612,15 +614,15 @@
 
 		<mkdir dir="${dist.dir}/modules"/>
 
-		<property file="${cellDesigner.module.base.dir}/celldesigner-build.properties"/>  		
-		<property file="${libSBMLio.module.base.dir}/libSBMLio-build.properties"/>  		
+		<property file="${cellDesigner.module.base.dir}/celldesigner-build.properties"/>
+		<property file="${libSBMLio.module.base.dir}/libSBMLio-build.properties"/>
 
 		<!--
 	    <echo message="Value read from celldesigner properties file = ${celldesigner.name}" />
 		<echo message="Value read from celldesigner properties file = ${celldesigner.version}" />
 	    <echo message="Value read from libSBMLio properties file = ${libSBMLio.name}" />
 		-->
-		
+
 		<ant dir="${cellDesigner.module.base.dir}" inheritAll="false" inheritRefs="false">
 			<target name="dist"/>
 		</ant>
@@ -636,7 +638,7 @@
 		<copy todir="${dist.dir}/modules/${libSBMLio.name}-${libSBMLio.version}">
 			<fileset dir="${libSBMLio.module.base.dir}/dist/${libSBMLio.name}-${libSBMLio.version}"  includes="*.jar"/>
 		</copy>
-		
+
 	</target>
 
 
@@ -648,10 +650,10 @@
 	  description="Cleans everything"
 	  depends="init"
 	>
-	  <delete includeEmptyDirs="true" quiet="yes">
-	    <fileset dir="${build.dir}" includes="**/*"/>
-	  </delete>
-	  <delete dir="${dist.root}" includeEmptyDirs="true" quiet="yes"/>
+		<delete includeEmptyDirs="true" quiet="yes">
+			<fileset dir="${build.dir}" includes="**/*"/>
+		</delete>
+		<delete dir="${dist.root}" includeEmptyDirs="true" quiet="yes"/>
 	</target>
 
 </project>
