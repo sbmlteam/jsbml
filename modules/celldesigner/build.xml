@@ -83,6 +83,8 @@
   	
   	<property name="jsbml.build.dest" value="${basedir}/../../core/build"/>
   	<property name="jsbml.jars.dir" value="${basedir}/../../core/lib"/>
+  	<property name="jsbml.package.jars.dir" value="${basedir}/../../build"/>
+  	<property name="examples.src.dir" value="${basedir}/../../examples/test/src"/>
   	
     <filter token="year" value="${year}"/>
     <filter token="version" value="${version}"/>
@@ -94,8 +96,9 @@
     <!-- adjust the settings to your local environment -->
     <path  id="classpath">
       <fileset dir="${jars.dir}" includes="*.jar *.zip"/>
-	  <dirset dir="${jsbml.build.dest}" includes="classes"/>
+	    <dirset dir="${jsbml.build.dest}" includes="classes"/>
       <fileset dir="${jsbml.jars.dir}" includes="*.jar *.zip"/>
+    	<fileset dir="${jsbml.package.jars.dir}" includes="*.jar"/>
     </path>
   	
     <echo message="jsbml build dir = ${jsbml.build.dest}"/> 
@@ -167,10 +170,19 @@
   	<copy todir="${build.src}" overwrite="yes">
   	        <fileset 
   	            dir="${test.src.dir}"
-  	        	includes="org/sbml/jsbml/**"
+  	          	includes="org/sbml/jsbml/**"
   	            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip ">
   	        </fileset>
-  	    </copy>
+  	</copy>
+  	
+  	<!-- copy some examples java files used in the tests of this module -->
+  	<copy todir="${build.src}" overwrite="yes">
+  	        <fileset 
+  	            dir="${examples.src.dir}"
+  	          	includes="org/sbml/jsbml/gui/**"
+  	            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip ">
+  	        </fileset>
+  	</copy>
   </target>
 
   <!-- =================================================================== -->
