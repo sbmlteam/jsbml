@@ -225,9 +225,8 @@ ASTCSymbolBaseNode {
           }
         } else {
           logger.debug(MessageFormat.format(
-            "This ASTCiNumberNode is not yet linked to a model. " +
-                "No element with id \"{0}\" could be found.",
-                getRefId()));
+            "This ASTCiNumberNode is not yet linked to a model. " 
+          + "No element with id \"{0}\" could be found.", getRefId()));
         }
       }
     }

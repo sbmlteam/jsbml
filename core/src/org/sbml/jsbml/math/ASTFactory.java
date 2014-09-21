@@ -736,11 +736,6 @@ public class ASTFactory {
    */
   public static void setParentSBMLObject(ASTNode2 node, MathContainer parent) {
     node.setParentSBMLObject(parent);
-    if (node.getChildCount() > 0) {
-      for (ASTNode2 child : ((ASTFunction)node).getChildren()) {
-        setParentSBMLObject(child, parent);        
-      }
-    }
   }
 
   /**

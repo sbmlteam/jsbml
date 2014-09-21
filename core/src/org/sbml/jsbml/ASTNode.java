@@ -983,6 +983,9 @@ public class ASTNode extends AbstractTreeNode {
    */
   public static ASTNode piecewise(ASTNode node, ASTNode... nodes) {
     // TODO: ASTFactory.piecewise() only accepts ASTQualifierNode[]
+    // A few assumptions are being made here: i.e. that every pair
+    // of ASTNodes in list nodes consists of a node that has a number
+    // type and another node that is a relational operator.
     ASTQualifierNode qualifier = null;
     ASTQualifierNode[] qualifiers = null;
     if (node != null && nodes.length > 0) {
@@ -1964,7 +1967,9 @@ public class ASTNode extends AbstractTreeNode {
    * @return all global parameters that are referenced by this rate equation.
    */
   public List<Parameter> findReferencedGlobalParameters() {
-    return ((ASTFunction)astnode2).findReferencedGlobalParameters();
+    return astnode2 instanceof ASTFunction ? 
+        ((ASTFunction)astnode2).findReferencedGlobalParameters() 
+        : new ArrayList<Parameter>();
   }
 
   /* (non-Javadoc)

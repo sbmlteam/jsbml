@@ -26,20 +26,26 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.AssignmentRule;
+import org.sbml.jsbml.Constraint;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.Unit;
+import org.sbml.jsbml.math.ASTCiNumberNode;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
 import org.sbml.jsbml.math.ASTCnNumberNode;
 import org.sbml.jsbml.math.ASTFunction;
 import org.sbml.jsbml.math.ASTNode2;
 import org.sbml.jsbml.math.ASTPiecewiseFunctionNode;
 import org.sbml.jsbml.math.ASTPlusNode;
+import org.sbml.jsbml.math.ASTTimesNode;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 
@@ -107,6 +113,47 @@ public class ASTFunctionTest {
     ASTFunction function = new ASTFunction();
     ASTFunction unknown = new ASTFunction(function);
     assertTrue(function.equals(unknown));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTFunction#ASTFunction(org.sbml.jsbml.math.ASTFunction)}.
+   */
+  @Test
+  public final void testFindReferencedGlobalParameters() {
+    Model model = new Model();
+    Constraint constraint = new Constraint();
+    model.addConstraint(constraint);
+    
+    ASTTimesNode times = new ASTTimesNode();
+    times.setParentSBMLObject(constraint);
+    
+    Parameter tau = new Parameter();
+    tau.setId("tau2");
+    tau.setValue(3e-2);
+    tau.setUnits("seconds");
+    tau.setConstant(true);
+    model.addParameter(tau);
+    ASTCiNumberNode tauCi = new ASTCiNumberNode();
+    tauCi.setReference(tau);
+    
+    Parameter alpha = new Parameter();
+    alpha.setId("alpha2");
+    alpha.setValue(3e-2);
+    alpha.setUnits("seconds");
+    alpha.setConstant(true);
+    model.addParameter(alpha);
+    ASTCiNumberNode alphaCi = new ASTCiNumberNode();
+    alphaCi.setReference(alpha);
+    
+    ASTPlusNode plus = new ASTPlusNode();
+    plus.addChild(alphaCi);
+    plus.addChild(new ASTCnIntegerNode(2));
+    times.addChild(tauCi);
+    times.addChild(plus);
+    
+    List<Parameter> params = times.findReferencedGlobalParameters();
+    
+    assertTrue(params.size() == 2 && params.contains(tau) && params.contains(alpha));
   }
   
   /**

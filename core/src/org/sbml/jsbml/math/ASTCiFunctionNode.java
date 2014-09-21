@@ -23,8 +23,6 @@
 package org.sbml.jsbml.math;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
@@ -35,7 +33,6 @@ import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.KineticLaw;
 import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
-import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
@@ -170,29 +167,6 @@ ASTCSymbolBaseNode {
     } else if (!name.equals(other.name))
       return false;
     return true;
-  }
-
-  /**
-   * Goes through the formula and identifies all global parameters that are
-   * referenced by this rate equation.
-   * 
-   * @return all global parameters that are referenced by this rate equation.
-   */
-  public List<Parameter> findReferencedGlobalParameters() {
-    // TODO: Still need to recurse on (any) children
-    ArrayList<Parameter> pList = new ArrayList<Parameter>();
-    CallableSBase reference = getReferenceInstance();
-    if (reference != null && reference instanceof Parameter) {
-      Model model = reference.getModel();
-      Parameter parameter = null;
-      if (model != null) {
-        parameter = model.getParameter(reference.getId());
-      }
-      if (model != null && parameter != null) {
-        pList.add((Parameter) reference);
-      }
-    }
-    return pList;
   }
 
   /**

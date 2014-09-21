@@ -404,10 +404,6 @@ implements ASTNode2 {
    */
   @Override
   public void setParentSBMLObject(MathContainer container) {
-    for (int i = 0; i < getChildCount(); i++) {
-      ASTNode2 child = getChildAt(i);
-      child.setParentSBMLObject(container);
-    }
     MathContainer oldParentSBMLObject = parentSBMLObject;
     parentSBMLObject = container;
     firePropertyChange(TreeNodeChangeEvent.parentSBMLObject, oldParentSBMLObject, parentSBMLObject);
