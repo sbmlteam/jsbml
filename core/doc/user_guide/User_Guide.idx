@@ -489,66 +489,66 @@
 \indexentry{PluginSBMLWriter@\leavevmode {\color  {black}\textup  {\texttt  {PluginSBMLWriter}}}|hyperpage}{29}
 \indexentry{TreeNodeChangeListener@\leavevmode {\color  {black}\textup  {\texttt  {TreeNodeChangeListener}}}|hyperpage}{30}
 \indexentry{libSBML!compatibility module|hyperpage}{30}
-\indexentry{Android|hyperpage}{30}
-\indexentry{SBML!Level 3|hyperpage}{32}
-\indexentry{SBML!Level 3|hyperpage}{32}
-\indexentry{SBML!Level 3|hyperpage}{32}
-\indexentry{SBML!Level 3|hyperpage}{32}
-\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{32}
-\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{32}
-\indexentry{SBasePlugin@\leavevmode {\color  {black}\textup  {\texttt  {SBasePlugin}}}|hyperpage}{32}
-\indexentry{AbstractSBasePlugin@\leavevmode {\color  {black}\textup  {\texttt  {AbstractSBasePlugin}}}|hyperpage}{32}
-\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{32}
-\indexentry{SBase@\leavevmode {\color  {black}\textup  {\texttt  {SBase}}}|hyperpage}{32}
+\indexentry{Android|hyperpage}{31}
+\indexentry{SBML!Level 3|hyperpage}{33}
+\indexentry{SBML!Level 3|hyperpage}{33}
+\indexentry{SBML!Level 3|hyperpage}{33}
+\indexentry{SBML!Level 3|hyperpage}{33}
+\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{33}
+\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{33}
+\indexentry{SBasePlugin@\leavevmode {\color  {black}\textup  {\texttt  {SBasePlugin}}}|hyperpage}{33}
 \indexentry{AbstractSBasePlugin@\leavevmode {\color  {black}\textup  {\texttt  {AbstractSBasePlugin}}}|hyperpage}{33}
 \indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{33}
 \indexentry{SBase@\leavevmode {\color  {black}\textup  {\texttt  {SBase}}}|hyperpage}{33}
-\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{33}
-\indexentry{AbstractSBasePlugin@\leavevmode {\color  {black}\textup  {\texttt  {AbstractSBasePlugin}}}|hyperpage}{33}
-\indexentry{Species@\leavevmode {\color  {black}\textup  {\texttt  {Species}}}|hyperpage}{33}
-\indexentry{Compartment@\leavevmode {\color  {black}\textup  {\texttt  {Compartment}}}|hyperpage}{33}
-\indexentry{UniqueNamedSBase@\leavevmode {\color  {black}\textup  {\texttt  {UniqueNamedSBase}}}|hyperpage}{34}
-\indexentry{SBML!Level 3|hyperpage}{34}
-\indexentry{LevelVersionError@\leavevmode {\color  {black}\textup  {\texttt  {LevelVersionError}}}|hyperpage}{34}
-\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{35}
-\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{35}
-\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{35}
-\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{35}
-\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{35}
-\indexentry{TreeNode@\leavevmode {\color  {black}\textup  {\texttt  {TreeNode}}}|hyperpage}{35}
-\indexentry{AbstractTreeNode@\leavevmode {\color  {black}\textup  {\texttt  {AbstractTreeNode}}}|hyperpage}{37}
-\indexentry{SBase@\leavevmode {\color  {black}\textup  {\texttt  {SBase}}}!\leavevmode {\color  {black}\textup  {\texttt  {AbstractSBase}}}@\leavevmode {\color  {black}\textup  {\texttt  {AbstractSBase}}}|hyperpage}{37}
-\indexentry{AbstractTreeNode@\leavevmode {\color  {black}\textup  {\texttt  {AbstractTreeNode}}}|hyperpage}{37}
-\indexentry{SBase@\leavevmode {\color  {black}\textup  {\texttt  {SBase}}}!\leavevmode {\color  {black}\textup  {\texttt  {AbstractSBase}}}@\leavevmode {\color  {black}\textup  {\texttt  {AbstractSBase}}}|hyperpage}{37}
-\indexentry{AbstractReaderWriter@\leavevmode {\color  {black}\textup  {\texttt  {AbstractReaderWriter}}}|hyperpage}{39}
-\indexentry{String@\leavevmode {\color  {black}\textup  {\texttt  {String}}}|hyperpage}{39}
-\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{39}
-\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{39}
-\indexentry{LocalParameter@\leavevmode {\color  {black}\textup  {\texttt  {LocalParameter}}}|hyperpage}{44}
-\indexentry{Parameter@\leavevmode {\color  {black}\textup  {\texttt  {Parameter}}}|hyperpage}{44}
-\indexentry{Boolean|hyperpage}{44}
-\indexentry{constant|hyperpage}{44}
-\indexentry{parameter!\code{constant}|hyperpage}{44}
-\indexentry{Parameter@\leavevmode {\color  {black}\textup  {\texttt  {Parameter}}}|hyperpage}{44}
-\indexentry{Variable@\leavevmode {\color  {black}\textup  {\texttt  {Variable}}}|hyperpage}{44}
-\indexentry{rule|hyperpage}{44}
-\indexentry{Event@\leavevmode {\color  {black}\textup  {\texttt  {Event}}}|hyperpage}{44}
-\indexentry{InitialAssignment@\leavevmode {\color  {black}\textup  {\texttt  {InitialAssignment}}}|hyperpage}{44}
-\indexentry{LocalParameter@\leavevmode {\color  {black}\textup  {\texttt  {LocalParameter}}}|hyperpage}{44}
-\indexentry{model|hyperpage}{44}
-\indexentry{Parameter@\leavevmode {\color  {black}\textup  {\texttt  {Parameter}}}|hyperpage}{44}
-\indexentry{LocalParameter@\leavevmode {\color  {black}\textup  {\texttt  {LocalParameter}}}|hyperpage}{44}
-\indexentry{TreeNode@\leavevmode {\color  {black}\textup  {\texttt  {TreeNode}}}|hyperpage}{44}
-\indexentry{graphical user interface!swing@\code{swing}|hyperpage}{44}
-\indexentry{TreeNode@\leavevmode {\color  {black}\textup  {\texttt  {TreeNode}}}|hyperpage}{44}
-\indexentry{HeadlessException@\leavevmode {\color  {black}\textup  {\texttt  {HeadlessException}}}|hyperpage}{44}
-\indexentry{TreeNode@\leavevmode {\color  {black}\textup  {\texttt  {TreeNode}}}|hyperpage}{44}
-\indexentry{TreeNode@\leavevmode {\color  {black}\textup  {\texttt  {TreeNode}}}|hyperpage}{44}
-\indexentry{TreeNode@\leavevmode {\color  {black}\textup  {\texttt  {TreeNode}}}|hyperpage}{44}
-\indexentry{Android|hyperpage}{44}
-\indexentry{extension packages|hyperpage}{44}
-\indexentry{SBML!Level~3|hyperpage}{45}
-\indexentry{SBML!extension packages|hyperpage}{45}
-\indexentry{SBase@\leavevmode {\color  {black}\textup  {\texttt  {SBase}}}!\leavevmode {\color  {black}\textup  {\texttt  {{toSBML()}}}}@\leavevmode {\color  {black}\textup  {\texttt  {{toSBML()}}}}|hyperpage}{45}
-\indexentry{libSBML!compatibility module|hyperpage}{45}
-\indexentry{Ontology|hyperpage}{45}
+\indexentry{AbstractSBasePlugin@\leavevmode {\color  {black}\textup  {\texttt  {AbstractSBasePlugin}}}|hyperpage}{34}
+\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{34}
+\indexentry{SBase@\leavevmode {\color  {black}\textup  {\texttt  {SBase}}}|hyperpage}{34}
+\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{34}
+\indexentry{AbstractSBasePlugin@\leavevmode {\color  {black}\textup  {\texttt  {AbstractSBasePlugin}}}|hyperpage}{34}
+\indexentry{Species@\leavevmode {\color  {black}\textup  {\texttt  {Species}}}|hyperpage}{34}
+\indexentry{Compartment@\leavevmode {\color  {black}\textup  {\texttt  {Compartment}}}|hyperpage}{34}
+\indexentry{UniqueNamedSBase@\leavevmode {\color  {black}\textup  {\texttt  {UniqueNamedSBase}}}|hyperpage}{35}
+\indexentry{SBML!Level 3|hyperpage}{35}
+\indexentry{LevelVersionError@\leavevmode {\color  {black}\textup  {\texttt  {LevelVersionError}}}|hyperpage}{35}
+\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{36}
+\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{36}
+\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{36}
+\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{36}
+\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{36}
+\indexentry{TreeNode@\leavevmode {\color  {black}\textup  {\texttt  {TreeNode}}}|hyperpage}{36}
+\indexentry{AbstractTreeNode@\leavevmode {\color  {black}\textup  {\texttt  {AbstractTreeNode}}}|hyperpage}{38}
+\indexentry{SBase@\leavevmode {\color  {black}\textup  {\texttt  {SBase}}}!\leavevmode {\color  {black}\textup  {\texttt  {AbstractSBase}}}@\leavevmode {\color  {black}\textup  {\texttt  {AbstractSBase}}}|hyperpage}{38}
+\indexentry{AbstractTreeNode@\leavevmode {\color  {black}\textup  {\texttt  {AbstractTreeNode}}}|hyperpage}{38}
+\indexentry{SBase@\leavevmode {\color  {black}\textup  {\texttt  {SBase}}}!\leavevmode {\color  {black}\textup  {\texttt  {AbstractSBase}}}@\leavevmode {\color  {black}\textup  {\texttt  {AbstractSBase}}}|hyperpage}{38}
+\indexentry{AbstractReaderWriter@\leavevmode {\color  {black}\textup  {\texttt  {AbstractReaderWriter}}}|hyperpage}{40}
+\indexentry{String@\leavevmode {\color  {black}\textup  {\texttt  {String}}}|hyperpage}{40}
+\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{40}
+\indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{40}
+\indexentry{LocalParameter@\leavevmode {\color  {black}\textup  {\texttt  {LocalParameter}}}|hyperpage}{45}
+\indexentry{Parameter@\leavevmode {\color  {black}\textup  {\texttt  {Parameter}}}|hyperpage}{45}
+\indexentry{Boolean|hyperpage}{45}
+\indexentry{constant|hyperpage}{45}
+\indexentry{parameter!\code{constant}|hyperpage}{45}
+\indexentry{Parameter@\leavevmode {\color  {black}\textup  {\texttt  {Parameter}}}|hyperpage}{45}
+\indexentry{Variable@\leavevmode {\color  {black}\textup  {\texttt  {Variable}}}|hyperpage}{45}
+\indexentry{rule|hyperpage}{45}
+\indexentry{Event@\leavevmode {\color  {black}\textup  {\texttt  {Event}}}|hyperpage}{45}
+\indexentry{InitialAssignment@\leavevmode {\color  {black}\textup  {\texttt  {InitialAssignment}}}|hyperpage}{45}
+\indexentry{LocalParameter@\leavevmode {\color  {black}\textup  {\texttt  {LocalParameter}}}|hyperpage}{45}
+\indexentry{model|hyperpage}{45}
+\indexentry{Parameter@\leavevmode {\color  {black}\textup  {\texttt  {Parameter}}}|hyperpage}{45}
+\indexentry{LocalParameter@\leavevmode {\color  {black}\textup  {\texttt  {LocalParameter}}}|hyperpage}{45}
+\indexentry{TreeNode@\leavevmode {\color  {black}\textup  {\texttt  {TreeNode}}}|hyperpage}{45}
+\indexentry{graphical user interface!swing@\code{swing}|hyperpage}{45}
+\indexentry{TreeNode@\leavevmode {\color  {black}\textup  {\texttt  {TreeNode}}}|hyperpage}{45}
+\indexentry{HeadlessException@\leavevmode {\color  {black}\textup  {\texttt  {HeadlessException}}}|hyperpage}{45}
+\indexentry{TreeNode@\leavevmode {\color  {black}\textup  {\texttt  {TreeNode}}}|hyperpage}{45}
+\indexentry{TreeNode@\leavevmode {\color  {black}\textup  {\texttt  {TreeNode}}}|hyperpage}{45}
+\indexentry{TreeNode@\leavevmode {\color  {black}\textup  {\texttt  {TreeNode}}}|hyperpage}{45}
+\indexentry{Android|hyperpage}{45}
+\indexentry{extension packages|hyperpage}{45}
+\indexentry{SBML!Level~3|hyperpage}{46}
+\indexentry{SBML!extension packages|hyperpage}{46}
+\indexentry{SBase@\leavevmode {\color  {black}\textup  {\texttt  {SBase}}}!\leavevmode {\color  {black}\textup  {\texttt  {{toSBML()}}}}@\leavevmode {\color  {black}\textup  {\texttt  {{toSBML()}}}}|hyperpage}{46}
+\indexentry{libSBML!compatibility module|hyperpage}{46}
+\indexentry{Ontology|hyperpage}{46}
