@@ -941,14 +941,16 @@ public class PluginSBaseEventUtils {
           it.remove();
         }
       }
-
-      for (int i = 0; i<pModel.getNumSpecies(); i++)
+      if (pModel!=null)
       {
-        Species species = reader.readSpecies(pModel.getSpecies(i));
-        model.addSpecies(species);
-        Set<SBase> listOfSBases = new HashSet<SBase>();
-        listOfSBases.add(species);
-        map.put(pModel.getSpecies(i), listOfSBases);
+        for (int i = 0; i<pModel.getNumSpecies(); i++)
+        {
+          Species species = reader.readSpecies(pModel.getSpecies(i));
+          model.addSpecies(species);
+          Set<SBase> listOfSBases = new HashSet<SBase>();
+          listOfSBases.add(species);
+          map.put(pModel.getSpecies(i), listOfSBases);
+        }
       }
     }
     catch (Throwable e) {

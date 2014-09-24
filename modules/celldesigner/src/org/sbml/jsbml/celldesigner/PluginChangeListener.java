@@ -30,6 +30,7 @@ import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
 import javax.swing.tree.TreeNode;
+import javax.xml.stream.XMLStreamException;
 
 import jp.sbi.celldesigner.plugin.CellDesignerPlugin;
 import jp.sbi.celldesigner.plugin.PluginAssignmentRule;
@@ -132,7 +133,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
   /**
    * A reference to the main CellDesigner plugin.
    */
-  private CellDesignerPlugin plugin;
+  private final CellDesignerPlugin plugin;
 
   /**
    * This listener only deals with one model, the model that is selected by the
@@ -146,8 +147,9 @@ public class PluginChangeListener implements TreeNodeChangeListener {
   /**
    * 
    * @param plugin
+   * @throws XMLStreamException
    */
-  public PluginChangeListener(CellDesignerPlugin plugin) {
+  public PluginChangeListener(CellDesignerPlugin plugin) throws XMLStreamException {
     this.plugin = plugin;
     plugModel = plugin.getSelectedModel();
   }
@@ -175,6 +177,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
             pList = plugModel.getListOfUnitDefinitions();
           } else if (node instanceof Reaction) {
             plugSBase = PluginUtils.convertReaction((Reaction) nsb);
+            LayoutPluginChangeListener.convertLayoutData(plugSBase, plugModel);
             plugModel.addReaction((PluginReaction) plugSBase);
             pList = plugModel.getListOfReactions();
           } else if (node instanceof SpeciesType) {
@@ -365,6 +368,7 @@ public class PluginChangeListener implements TreeNodeChangeListener {
     if (node instanceof SBase) {
       PluginSBase psbase = (PluginSBase) ((SBase) node).getUserObject(LINK_TO_CELLDESIGNER);
       if (node instanceof NamedSBase) {
+
         NamedSBase nsb = (NamedSBase) node;
         if (node instanceof UnitDefinition) {
           plugModel.removeUnitDefinition(nsb.getId());
@@ -377,6 +381,10 @@ public class PluginChangeListener implements TreeNodeChangeListener {
           plugin.notifySBaseDeleted(psbase);
         } else if (node instanceof Reaction) {
           plugModel.removeReaction(nsb.getId());
+          try {
+            LayoutPluginChangeListener.removeLayoutData(nsb, plugModel);
+          } catch (XMLStreamException e) {
+          }
           plugin.notifySBaseDeleted(psbase);
         } else if (node instanceof SimpleSpeciesReference) {
           SimpleSpeciesReference simspec = (SimpleSpeciesReference) node;
