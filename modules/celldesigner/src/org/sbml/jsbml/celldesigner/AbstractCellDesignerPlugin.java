@@ -348,7 +348,6 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
       else if (sbase instanceof PluginSpeciesAlias)
       {
         PluginSBaseEventUtils.pluginSpeciesAliasChanged(reader, getSelectedModel(), map, document);
-        printMap();
       }
 
       else if (sbase instanceof PluginReaction)
@@ -435,7 +434,6 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
     {
       PluginSpeciesAlias pSpeciesAlias = (PluginSpeciesAlias) sbase;
       PluginSBaseEventUtils.pluginSpeciesAliasDeleted(reader, getSelectedModel(), map, document, pSpeciesAlias);
-      printMap();
     }
     else if (sbase instanceof PluginReaction)
     {
