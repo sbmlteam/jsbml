@@ -7,9 +7,13 @@ Creating a JDiff report between JSBML 1.0-beta1 and 1.0-rc1
 
 <target name="jdiff_report" depends="">
 
+  <property environment="env" />
+
   <!-- This variable is used by the Ant JDiff task. Set it to the
        location where the jdiff package was unpacked -->
-  <property name="JDIFF_HOME" value="/home/rodrigue/src/jdiff/jdiff-1.1.1" />
+  <fail unless="env.JDIFF_HOME" message="you have to define the 'JDIFF_HOME' variable to the path where you unpacked the jdiff distribution."/>
+
+  <property name="JDIFF_HOME" value="${env.JDIFF_HOME}" />
 
   <taskdef name="jdiff" 
            classname="jdiff.JDiffAntTask" 
