@@ -1,8 +1,8 @@
 	       JSBML NEWS -- History of user-visible changes
 
-======================================================================
+===========================================================================
 Version 1.0-rc1 (24-09-2014)
-======================================================================
+===========================================================================
 
 * New Features:
 
@@ -32,16 +32,16 @@ Version 1.0-rc1 (24-09-2014)
     
   - Improved Java source code documentation (in particular CVTerm).
   
-  - The SBMLDocument has now a convenient method to access all metaIds within
-    the document in form of an unmodifiable Collection.
+  - The SBMLDocument has now a convenient method to access all metaIds
+    within the document in form of an unmodifiable Collection.
     
   - The SBO class provides more methods to access those terms that are of
     particular interest for SBGN displays.
 
   - A general Pair of arbitrary values now generalizes ValuePair.
   
-  - The toString() methods in UnitDefinition and SpeciesReferences have been
-    improved and are now more informative.
+  - The toString() methods in UnitDefinition and SpeciesReferences have
+    been improved and are now more informative.
     
   - Internally, JSBML no longer creates Unit objects that lack required
     attributes when reading models. (However, this does not prevent users
@@ -50,9 +50,9 @@ Version 1.0-rc1 (24-09-2014)
   - Species and Compartment 'containsUndeclaredUnits' method has been
     overridden because in SBML L3 Species and Compartments can inherit a
     default unit from the Model. This is now considered. In this case,
-    containsUndeclaredUnits will return false even if the object itself does
-    not explicitly declare its unit. This is important because the unit of
-    the element is not undefined.
+    containsUndeclaredUnits will return false even if the object itself
+    does not explicitly declare its unit. This is important because the
+    unit of the element is not undefined.
     
   - Added some missing methods to manipulate EvenAssignment in Event and
     improved the JavaDoc of the Event class.
@@ -64,21 +64,22 @@ Version 1.0-rc1 (24-09-2014)
   - Arrays package implemented, version 05/05/14. Only selector and vector
     supported for now. Validations, flattening available.
 
-  - Added support for vector and selector infix parsing to support the arrays
-    package.
+  - Added support for vector and selector infix parsing to support the
+    arrays package.
 
  * Support for SBML Level 3 'Layout' package:
 
-  - Added missing methods to remove GeneralGlyph objects from a Layout object.
+  - Added missing methods to remove GeneralGlyph objects from a Layout
+    object.
   
   - Added further missing remove or unset methods in the layout package.
 
  * Support for SBML Level 3 'Qualitative Models (qual)' package:
 
-  - The class QualitativeModel in the qual package has been marked deprecated
-    and should no longer be used. Aiming to achieve better compatibility to
-    libSBML, the new class QualModelPlugin has been created to be used
-    instead.
+  - The class QualitativeModel in the qual package has been marked
+    deprecated and should no longer be used. Aiming to achieve better
+    compatibility to libSBML, the new class QualModelPlugin has been
+    created to be used instead.
 
  * Support for SBML Level 3 'Spatial Processes (spatial)' package:
  
@@ -90,8 +91,8 @@ Version 1.0-rc1 (24-09-2014)
   - Corrected the method AbstractSBase#getExtensionCount that was always
     returning 0.
 
-  - Corrected the SBMLWriter so that disabled packages are not written to XML
-    any more (they are still cloned).
+  - Corrected the SBMLWriter so that disabled packages are not written to
+    XML any more (they are still cloned).
   
   - Corrected the method SBase.appendNotes that contained several problems.
  
@@ -106,18 +107,19 @@ Version 1.0-rc1 (24-09-2014)
   - Corrected the method ASTNode.parseFormula so that they catch any
     Exception or Error and throw a ParseException instead.
  
-  - Added the support for the 'root' function in the parsing of math formula.
+  - Added the support for the 'root' function in the parsing of math
+    formula.
 
   - The FormulaParserLL3 was not reading properly formula like 
     'kf * S0 * S1'. Only two arguments were read instead of three or more.
     Thanks to Chris J. Myers for reporting this problem.
   
-  - Corrected a bug in Event#setListOfEventAssignments method that prevented
-    the listOfEventAssignments to be registered properly in the model (ids and
-    metaids registered).
+  - Corrected a bug in Event#setListOfEventAssignments method that
+    prevented the listOfEventAssignments to be registered properly in the
+    model (ids and metaids registered).
     
-  - Corrected the removeFromParent method to make it working for SBasePlugin
-    instances.
+  - Corrected the removeFromParent method to make it working for
+    SBasePlugin instances.
 
   - The ListOf.remove(String) will not throw a ClassCastException anymore
     when used on list that do not contain elements with id.
@@ -125,7 +127,8 @@ Version 1.0-rc1 (24-09-2014)
   - The static method JSBML.read(String) was not calling the right helper 
     method.
     
-  - ASTNode threw a NullPointerException when trying to un-set its variable.
+  - ASTNode threw a NullPointerException when trying to un-set its
+    variable.
   
   - The AbstractTreeNode recursive method 
     removeTreeNodeChangeListener(TreeNodeChangeListener, boolean) was not
@@ -133,7 +136,8 @@ Version 1.0-rc1 (24-09-2014)
 
   - Solved source for potential NullPointerException in LaTeXCompiler.
 
- * Support for SBML Level 3 'Hierarchical Model Composition (comp)' package:
+ * Support for SBML Level 3 'Hierarchical Model Composition (comp)' 
+   package:
   
   - Fixed several issues when cloning 'comp' elements and L3 packages
     elements in general. Thanks to Chris J. Myers and the iBioSim team for
@@ -151,9 +155,9 @@ Version 1.0-rc1 (24-09-2014)
     BasePoint2). In order to avoid confusion and to simplify the
     implementation, those classes have all been deleted.
 
-  - Corrected the method Layout#setListOfAdditionalGraphicalObjects to avoid
-    the warnings when cloning the list and to avoid to create a new list when
-    not needed.
+  - Corrected the method Layout#setListOfAdditionalGraphicalObjects to
+    avoid the warnings when cloning the list and to avoid to create a new
+    list when not needed.
     
  * Support for SBML Level 3 'Qualitative Models (qual)' package:
  
@@ -834,9 +838,9 @@ Version 0.8-b2 (18-04-2011)
     block (the official SBML annotation scheme) is not supported at the 
     moment. 
   
-============================================================================
+===========================================================================
 Version 0.8-b1 (04-02-2011)
-============================================================================
+===========================================================================
 
 This the first beta release of JSBML 0.8, JSBML is a community-driven
 project to create a free, open-source, pure Java library for reading,
@@ -853,8 +857,8 @@ For more details, please visit http://sbml.org/Software/JSBML
     to Paulo Maia for reporting this.
 
 * Known issues:
-  - problem of output indentation for notes, when there is several top level 
-    elements.
+  - problem of output indentation for notes, when there is several top
+    level elements.
   
   - the method SBMLDocument.checkConsistency() is not working. There is a 
     problem in the parsing of the XML return by the sbml.org validator.
@@ -865,17 +869,20 @@ For more details, please visit http://sbml.org/Software/JSBML
     least have several mirrors. We will have to see how it performs.
 
   - in a mathML block, if one 'ci'element is suppose to represent a
-    functionDefinition but the id is not a valid id, the type of the ASTNode
-    is not set properly, so there are some errors when trying to use the
-    corresponding ASTNode tree. (cf model generated by COBRA) 
+    functionDefinition but the id is not a valid id, the type of the
+    ASTNode is not set properly, so there are some errors when trying to
+    use the corresponding ASTNode tree. (cf model generated by COBRA) 
 
------------------------------------------------------------------------------
+---------------------------------------------------------------------------
 $URL$
 Last Modified: $Date$
 Last Modified By: $Author$
+
+The line should not have more than 76 characters to avoid them being put
+over two lines when sending the release email.
 
 The following is for [X]Emacs users.  Please leave in place.
 Local Variables:
 fill-column: 77
 End:
------------------------------------------------------------------------------
+---------------------------------------------------------------------------
