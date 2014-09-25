@@ -18,6 +18,17 @@ Creating a JDiff report between JSBML 1.0-beta1 and 1.0-rc1
   <!-- need to have run the build ant script in the beta1 and trunk folder in order
        to generate this report --> 
 
+  <ant dir="../../../tags/jsbml-1.0-beta1" inheritAll="false" inheritRefs="false">
+    <target name="clean" />
+    <target name="bigjar" />
+  </ant>
+
+  <ant dir="../../" inheritAll="false" inheritRefs="false">
+    <target name="clean" />
+    <target name="bigjar" />
+  </ant>
+  
+
   <taskdef name="jdiff" 
            classname="jdiff.JDiffAntTask" 
            classpath="${JDIFF_HOME}/antjdiff.jar" />
