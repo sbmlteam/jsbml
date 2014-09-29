@@ -24,7 +24,9 @@ package org.sbml.jsbml.math.test;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTFactory;
@@ -38,14 +40,17 @@ import org.sbml.jsbml.math.ASTFactory;
  * @date May 1, 2014
  */
 public class ASTNodeTest {
+  
+  @Rule
+  public ExpectedException exception = ExpectedException.none();
 
   /**
    * Test method for {@link org.sbml.jsbml.ASTNode#getChildren()}.
    */
   @Test
   public final void testNoChildren() {
-    ASTNode loneNode = new ASTNode();
-    assertTrue(loneNode.getChildren().size() == 0);
+    ASTNode node = new ASTNode();
+    assertTrue(node.getChildCount() == 0);
   }
 
   /**

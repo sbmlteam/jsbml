@@ -191,24 +191,20 @@ public class ASTFunction extends AbstractASTNode {
    * 
    * @return all global parameters that are referenced by this rate rule.
    */
-  public List<Parameter> findReferencedGlobalParameters() {
-    ArrayList<Parameter> pList = new ArrayList<Parameter>();
+  public List<CallableSBase> findReferencedCallableSBases() {
+    ArrayList<CallableSBase> pList = new ArrayList<CallableSBase>();
     if (isSetList()) {
       for (ASTNode2 child : getListOfNodes()) {
+        CallableSBase reference = null;
         if (child instanceof ASTCiNumberNode) {
-          CallableSBase reference = ((ASTCiNumberNode)child).getReferenceInstance();
-          if (reference != null && reference instanceof Parameter) {
-            Model model = reference.getModel();
-            Parameter parameter = null;
-            if (model != null) {
-              parameter = model.getParameter(reference.getId());
-            }
-            if (model != null && parameter != null) {
-              pList.add((Parameter) reference);
-            }
-          }
+          reference = ((ASTCiNumberNode)child).getReferenceInstance();
+        } else if (child instanceof ASTCiFunctionNode) {
+          reference = ((ASTCiFunctionNode)child).getReferenceInstance();
         } else if (child instanceof ASTFunction) {
-          pList.addAll(((ASTFunction)child).findReferencedGlobalParameters());          
+          pList.addAll(((ASTFunction)child).findReferencedCallableSBases());          
+        }
+        if (reference != null) {
+          pList.add(reference);
         }
       }      
     }
@@ -257,6 +253,9 @@ public class ASTFunction extends AbstractASTNode {
    * @return the list of children of the current ASTFunction.
    */
   public List<ASTNode2> getListOfNodes() {
+    if (! isSetList()) {
+      listOfNodes = new ArrayList<ASTNode2>();
+    }
     return listOfNodes;
   }
 

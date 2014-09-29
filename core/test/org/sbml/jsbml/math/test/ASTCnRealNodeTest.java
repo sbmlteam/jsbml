@@ -136,8 +136,8 @@ public class ASTCnRealNodeTest {
   @Test
   public final void testToLaTeXNaN() {
     ASTCnRealNode nan = new ASTCnRealNode(Double.NaN);
-    System.out.println(nan.toLaTeX());
-    assertTrue(nan.toLaTeX().equals("10"));
+    System.out.println("'" + nan.toLaTeX() + "'");
+    assertTrue(nan.toLaTeX().equals("NaN"));
   }
   
   /**

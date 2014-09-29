@@ -24,14 +24,9 @@ package org.sbml.jsbml.math;
 
 import java.text.MessageFormat;
 
-import javax.swing.tree.TreeNode;
-
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode.Type;
-import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.FunctionDefinition;
-import org.sbml.jsbml.KineticLaw;
-import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
@@ -123,8 +118,7 @@ ASTCSymbolBaseNode {
   @Override
   public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
     ASTNode2Value<?> value = null;
-    // TODO: Do the checking in the compiler
-    CallableSBase variable = getReferenceInstance();
+    FunctionDefinition variable = getReferenceInstance();
     if (variable instanceof FunctionDefinition) {
       value = compiler.function((FunctionDefinition) variable,
         getChildren());
@@ -188,51 +182,26 @@ ASTCSymbolBaseNode {
   }
 
   /**
-   * Returns the variable ({@link CallableSBase}) of this {@link ASTCiFunctionNode}. 
+   * Returns the variable ({@link FunctionDefinition}) of this {@link ASTCiFunctionNode}. 
    * 
    * @return the variable of this node
    */
-  public CallableSBase getReferenceInstance() {
-    CallableSBase sbase = null;
-    if (isSetParent()) {
-      TreeNode parent = getParent();
-      if (parent instanceof ASTLambdaFunctionNode) {
-        ASTLambdaFunctionNode lambda = (ASTLambdaFunctionNode) parent;
-        if (lambda.getChildAt(getChildCount() - 1) != this) { 
-          logger.debug(MessageFormat.format(
-            "The name \"{0}\" represented by this node is an " +
-                "argument in a function call, i.e., a placeholder " +
-                "for some other element. No corresponding CallableSBase " +
-                "exists in the model",
-                getName()));
-          return sbase;
-        }
+  public FunctionDefinition getReferenceInstance() {
+    FunctionDefinition function = null;
+    Model m = isSetParentSBMLObject() ? getParentSBMLObject().getModel() : null;
+    if (m != null) {
+      function = m.getFunctionDefinition(getRefId());
+      if (function == null) {
+        logger.debug(MessageFormat.format(
+          "Cannot find any element with id \"{0}\" in the model.",
+          getRefId()));
       }
+    } else {
+      logger.debug(MessageFormat.format(
+        "This ASTCiFunctionNode is not yet linked to a model. " 
+      + "No element with id \"{0}\" could be found.", getRefId()));
     }
-    if (isSetParentSBMLObject()) {
-      if (getParentSBMLObject() instanceof KineticLaw) {
-        sbase = ((KineticLaw) getParentSBMLObject()).getLocalParameter(getName());
-      }
-      if (sbase == null) {
-        Model m = getParentSBMLObject().getModel();
-        if (m != null) {
-          sbase = m.findCallableSBase(getName());
-          if (sbase instanceof LocalParameter) {
-            sbase = null;
-          } else if (sbase == null) {
-            logger.debug(MessageFormat.format(
-              "Cannot find any element with id \"{0}\" in the model.",
-              getName()));
-          }
-        } else {
-          logger.debug(MessageFormat.format(
-            "This ASTCiNumberNode is not yet linked to a model and " +
-                "can therefore not determine its variable \"{0}\".",
-                getName()));
-        }
-      }
-    }
-    return sbase;
+    return function;
   }
 
   /**
@@ -331,17 +300,17 @@ ASTCSymbolBaseNode {
   }
 
   /**
-   * Set an instance of {@link CallableSBase} as the variable of this 
+   * Set an instance of {@link FunctionDefinition} as the variable of this 
    * {@link ASTCiFunctionNode}. Note that if the given variable does not
    * have a declared {@code id} field, the pointer to this variable will 
    * get lost when cloning this node. Only references to identifiers are
    * permanently stored. The pointer can also not be written to an SBML 
    * file without a valid identifier.
    * 
-   * @param callableSBase a pointer to a {@link CallableSBase}.
+   * @param function a pointer to a {@link FunctionDefinition}.
    */
-  public void setReference(CallableSBase sbase) {
-    setName(sbase.getId());
+  public void setReference(FunctionDefinition function) {
+    setRefId(function.getId());
   }
 
   /**
@@ -360,7 +329,10 @@ ASTCSymbolBaseNode {
    */
   @Override
   public String toFormula() throws SBMLException {
-    return compile(new FormulaCompiler()).toString();
+    if (isSetRefId()) {
+      return compile(new FormulaCompiler()).toString();      
+    }
+    throw new SBMLException();
   }
 
   /* (non-Javadoc)
@@ -368,7 +340,10 @@ ASTCSymbolBaseNode {
    */
   @Override
   public String toLaTeX() throws SBMLException {
-    return compile(new LaTeXCompiler()).toString();
+    if (isSetRefId()) {
+      return compile(new LaTeXCompiler()).toString();      
+    }
+    throw new SBMLException();
   }
 
   /* (non-Javadoc)
@@ -377,7 +352,10 @@ ASTCSymbolBaseNode {
   @Override
   public String toMathML() {
     try {
-      return MathMLXMLStreamCompiler.toMathML(this);
+      if (isSetRefId()) {
+        return MathMLXMLStreamCompiler.toMathML(this);        
+      }
+      throw new SBMLException();
     } catch (RuntimeException e) {
       logger.error("Unable to create MathML");
       return null;

@@ -27,11 +27,20 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.Constraint;
+import org.sbml.jsbml.FunctionDefinition;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTCiFunctionNode;
+import org.sbml.jsbml.math.ASTCiNumberNode;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
+import org.sbml.jsbml.math.ASTFactory;
+import org.sbml.jsbml.math.ASTLambdaFunctionNode;
+import org.sbml.jsbml.math.ASTPowerNode;
+import org.sbml.jsbml.math.ASTQualifierNode;
 
 
 /**
@@ -179,32 +188,38 @@ public class ASTCiFunctionNodeTest {
     ci.setType(Type.UNKNOWN);
   }
   
-//  /**
-//   * Test method for {@link org.sbml.jsbml.math.ASTCiFunctionNode#toFormula()}.
-//   */
-//  @Test
-//  public final void testToFormula() {
-//    ASTCiFunctionNode ci = new ASTCiFunctionNode();
-//    
-//    ASTLambdaFunctionNode lambda = new ASTLambdaFunctionNode();
-//    ASTQualifierNode bvar = new ASTQualifierNode(Type.QUALIFIER_BVAR);
-//    ASTCiNumberNode variable = new ASTCiNumberNode();
-//    variable.setRefId("x");
-//    bvar.addChild(variable);
-//    lambda.addChild(bvar);
-//    ASTPowerNode pow = ASTFactory.pow(variable, 10);
-//    lambda.addChild(pow);
-//    
-//    FunctionDefinition function = new FunctionDefinition(3, 1);
-//    function.setId("pow3");
-//    function.setMath(new ASTNode(lambda));
-//    
-//    KineticLaw kineticLaw = new KineticLaw();
-//    ci.setRefId("pow3");
-//    ci.setParentSBMLObject(kineticLaw);
-//    
-//    assertTrue(ci.toFormula().equals("2^3"));
-//  }
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCiFunctionNode#toFormula()}.
+   */
+  @Test
+  public final void testToFormula() {
+    // TODO: This test case might not be consistent with how real SBML elements
+    // are manipulated. Verify.
+    ASTCiFunctionNode ci = new ASTCiFunctionNode();
+
+    Model model = new Model(3, 1);    
+    
+    ASTLambdaFunctionNode lambda = new ASTLambdaFunctionNode();
+    ASTQualifierNode bvar = new ASTQualifierNode(Type.QUALIFIER_BVAR);
+    ASTCiNumberNode variable = new ASTCiNumberNode();
+    variable.setRefId("x");
+    bvar.addChild(variable);
+    lambda.addChild(bvar);
+    ASTPowerNode pow = ASTFactory.pow(variable, 10);
+    lambda.addChild(pow);
+    
+    FunctionDefinition function = new FunctionDefinition(3, 1);
+    function.setId("pow3");
+    function.setMath(new ASTNode(lambda));
+    model.addFunctionDefinition(function);
+    
+    Constraint constraint = new Constraint();
+    model.addConstraint(constraint);
+    ci.setRefId("pow3");
+    ci.setParentSBMLObject(constraint);
+    
+    assertTrue(ci.toFormula().equals("pow3()"));
+  }
   
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTCiFunctionNode#toFormula()}.

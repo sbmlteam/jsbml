@@ -1260,6 +1260,14 @@ public class ASTNode extends AbstractTreeNode {
    * A {@link Logger} for this class.
    */
   private static transient final Logger logger = Logger.getLogger(ASTNode.class);
+  
+  /**
+   * Returns true iff astnode2 has been set
+   * @return {@link boolean} {@code true}
+   */
+  private boolean isSetASTNode2() {
+    return astnode2 != null;
+  }
 
   /**
    * Creates a new {@link ASTNode} of unspecified type and without a pointer
@@ -1560,11 +1568,11 @@ public class ASTNode extends AbstractTreeNode {
           value = (real > 0d) ? compiler.getPositiveInfinity() : compiler
               .getNegativeInfinity();
         } else {
-          value = compiler.compile(real, getUnits());
+          value = compiler.compile(real, isSetUnits() ? getUnits() : null);
         }
         break;
       case INTEGER:
-        value = compiler.compile(getInteger(), getUnits());
+        value = compiler.compile(getInteger(), isSetUnits() ? getUnits() : null);
         break;
         /*
          * Operators
@@ -1887,7 +1895,10 @@ public class ASTNode extends AbstractTreeNode {
         break;
     }
     value.setType(getType());
-    MathContainer parent = getParentSBMLObject();
+    MathContainer parent = null;
+    if (isSetParentSBMLObject()) {
+      parent = getParentSBMLObject();
+    }
     if (parent != null) {
       value.setLevel(parent.getLevel());
       value.setVersion(parent.getVersion());
@@ -1968,7 +1979,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   public List<Parameter> findReferencedGlobalParameters() {
     return astnode2 instanceof ASTFunction ? 
-        ((ASTFunction)astnode2).findReferencedGlobalParameters() 
+        ((ASTFunction)astnode2).findReferencedCallableSBases() 
         : new ArrayList<Parameter>();
   }
 
@@ -2023,7 +2034,8 @@ public class ASTNode extends AbstractTreeNode {
    *             size()).
    */
   public ASTNode getChild(int index) {
-    return new ASTNode((ASTNode) astnode2.getChildAt(index));
+    return astnode2 instanceof ASTFunction ? new ASTNode(((ASTFunction)astnode2)
+        .getListOfNodes().get(index)) : null;
   }
 
   /* (non-Javadoc)
@@ -2039,7 +2051,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   @Override
   public int getChildCount() {
-    return astnode2.getChildCount();
+    return isSetASTNode2() ? astnode2.getChildCount() : 0;
   }
 
   /**

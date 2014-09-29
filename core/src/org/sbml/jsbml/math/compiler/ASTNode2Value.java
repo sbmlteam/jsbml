@@ -24,11 +24,11 @@ package org.sbml.jsbml.math.compiler;
 
 import java.io.IOException;
 
-import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.math.ASTNode2;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 import org.sbml.jsbml.xml.parsers.MathMLParser;

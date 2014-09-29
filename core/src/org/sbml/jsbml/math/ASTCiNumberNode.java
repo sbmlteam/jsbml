@@ -33,6 +33,7 @@ import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.QuantityWithUnit;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
@@ -133,17 +134,15 @@ ASTCSymbolBaseNode {
    *         {@code false} otherwise.
    */
   public boolean containsUndeclaredUnits() {
-    // TODO: Throw an exception if reference is not of type
-    // Compartment or Parameter?
     if (isSetRefId()) {
       CallableSBase reference = getReferenceInstance();
-      if (reference instanceof Compartment) {
-        return ! ((Compartment)reference).isSetUnits();
-      } else if (reference instanceof Parameter) {
-        return ! ((Parameter)reference).isSetUnits();
+      if (reference != null && reference instanceof QuantityWithUnit) {
+        return ! ((QuantityWithUnit)reference).isSetUnits();
       } else {
-        logger.warn("This ASTCiNumberNode does not refer to a CallableSBase "
-               + "that contains units (Species, Reaction, SpeciesReference).");
+        // TODO: reaction doesn't have units but may still have undeclared units
+        // in kinetic law.
+        // arrays or other packages
+        logger.warn("??");
         return true;
       }
     }

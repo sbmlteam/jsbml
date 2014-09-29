@@ -151,7 +151,7 @@ public class ASTFunctionTest {
     times.addChild(tauCi);
     times.addChild(plus);
     
-    List<Parameter> params = times.findReferencedGlobalParameters();
+    List<Parameter> params = times.findReferencedCallableSBases();
     
     assertTrue(params.size() == 2 && params.contains(tau) && params.contains(alpha));
   }

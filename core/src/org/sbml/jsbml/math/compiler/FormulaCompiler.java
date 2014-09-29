@@ -752,16 +752,16 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
    * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#getNegativeInfinity()
    */
   @Override
-  public <T> ASTNode2Value<Double> getNegativeInfinity() {
-    return new ASTNode2Value<Double>(Double.NEGATIVE_INFINITY, this);
+  public <T> ASTNode2Value<String> getNegativeInfinity() {
+    return new ASTNode2Value<String>(StringTools.toString(Locale.ENGLISH, Double.NEGATIVE_INFINITY), this);
   }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#getPositiveInfinity()
    */
   @Override
-  public <T> ASTNode2Value<Double> getPositiveInfinity() {
-    return new ASTNode2Value<Double>(Double.POSITIVE_INFINITY, this);
+  public <T> ASTNode2Value<String> getPositiveInfinity() {
+    return new ASTNode2Value<String>(StringTools.toString(Locale.ENGLISH, Double.POSITIVE_INFINITY), this);
   }
 
   /* (non-Javadoc)
