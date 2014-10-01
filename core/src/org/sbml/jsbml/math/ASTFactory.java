@@ -22,8 +22,8 @@
  */
 package org.sbml.jsbml.math;
 
-import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -516,17 +516,19 @@ public class ASTFactory {
    * @return contents
    */
   public static String parseMathML(String fileName) {
-    File file = new File("core\\src\\org\\sbml\\jsbml\\math\\compiler\\resources\\" + fileName);
+    InputStream stream = ASTFactory.class.getResourceAsStream("/org/sbml/jsbml/math/compiler/resources/" + fileName);
+    
     StringBuffer fileContents = new StringBuffer("");
     try {
-      Scanner scan = new Scanner(file);
+      Scanner scan = new Scanner(stream);
+
       while (scan.hasNextLine()) {
         fileContents.append(scan.nextLine());
         fileContents.append("\n");
       }
       fileContents.deleteCharAt(fileContents.length() - 1);
       scan.close();
-    } catch (FileNotFoundException e) {
+    } catch (NullPointerException e) {
       e.printStackTrace();
     }
     return fileContents.toString();
