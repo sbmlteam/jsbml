@@ -43,8 +43,8 @@
 
 		<property name="Name" value="JSBML"/>
 		<property name="name" value="jsbml"/>
-		<property name="version" value="1.0-b1"/>
-		<property name="api.version" value="1.0"/>
+		<property name="version" value="1.1-a1"/>
+		<property name="api.version" value="1.1"/>
 
 		<property name="year" value="${YEAR}"/>
 
@@ -166,7 +166,7 @@
 		<copy todir="${build.src}" overwrite="yes">
 			<fileset 
             dir="${src.dir}"
-            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip"> <!-- removed org/sbml/jsbml/math from the filters for now --> 
+            excludes="**/.svn*, **/*.class, **/*~, **/*.tgz, **/*.zip org/sbml/jsbml/math/compiler/UnitsCompiler.java"> <!-- removed org/sbml/jsbml/math from the filters for now --> 
 			</fileset>
 		</copy>
 

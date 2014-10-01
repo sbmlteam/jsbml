@@ -33,6 +33,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.AssignmentRule;
+import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
@@ -151,7 +152,7 @@ public class ASTFunctionTest {
     times.addChild(tauCi);
     times.addChild(plus);
     
-    List<Parameter> params = times.findReferencedCallableSBases();
+    List<CallableSBase> params = times.findReferencedCallableSBases();
     
     assertTrue(params.size() == 2 && params.contains(tau) && params.contains(alpha));
   }

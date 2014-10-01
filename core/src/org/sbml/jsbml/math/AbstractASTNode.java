@@ -142,6 +142,14 @@ implements ASTNode2 {
     setParentSBMLObject(container);
   }
 
+  
+  
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#clone()
+   */
+  @Override
+  public abstract ASTNode2 clone();
+
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */

@@ -25,7 +25,6 @@ package org.sbml.jsbml.math;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Unit;
@@ -33,7 +32,6 @@ import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
-import org.sbml.jsbml.math.compiler.UnitsCompiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
@@ -148,6 +146,8 @@ public class ASTCnNumberNode<T> extends ASTNumber {
        level = container.getLevel();
        version = container.getVersion();
      }
+     
+     /*
      UnitsCompiler compiler = null;
      if (isSetParentSBMLObject()) {
        Model model = getParentSBMLObject().getModel();
@@ -157,6 +157,9 @@ public class ASTCnNumberNode<T> extends ASTNumber {
        compiler = new UnitsCompiler(level, version);
      }
      return compile(compiler).getUnits().simplify();
+     */
+     // TODO - implements when the math.UnitsCompiler is implemented
+     return null;
    }
 
   /* (non-Javadoc)

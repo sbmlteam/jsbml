@@ -34,7 +34,7 @@ import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Unit;
-import org.sbml.jsbml.text.parser.FormulaParser;
+import org.sbml.jsbml.text.parser.FormulaParserASTNode2;
 import org.sbml.jsbml.text.parser.ParseException;
 
 
@@ -495,11 +495,11 @@ public class ASTFactory {
    *             parsed for other reasons.
    */
   public static ASTNode2 parseFormula(String formula) throws ParseException {
-    FormulaParser parser = new FormulaParser(new StringReader(formula));
+    FormulaParserASTNode2 parser = new FormulaParserASTNode2(new StringReader(formula));
     ASTNode2 result = null;
     
     try {
-      result = parser.parse();
+      result = parser.parse().toASTNode2();
     } catch (Throwable e) {
       // the javacc parser can throw some TokenMgrError at least
       throw new ParseException(e);

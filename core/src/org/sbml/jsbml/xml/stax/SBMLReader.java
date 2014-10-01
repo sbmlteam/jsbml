@@ -67,8 +67,6 @@ import org.sbml.jsbml.xml.parsers.ReadingParser;
 import org.sbml.jsbml.xml.parsers.SBMLCoreParser;
 import org.sbml.jsbml.xml.parsers.XMLNodeReader;
 
-import sun.reflect.annotation.AnnotationParser;
-
 import com.ctc.wstx.stax.WstxInputFactory;
 
 /**

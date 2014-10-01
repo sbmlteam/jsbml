@@ -8,7 +8,7 @@ options
   static = false;
 }
 
-PARSER_BEGIN(FormulaParser)
+PARSER_BEGIN(FormulaParserASTNode2)
 /*
  * $Id: FormulaParser.jj 1668 2014-03-12 18:14:29Z andreas-draeger $
  * $URL: svn+ssh://niko-rodrigue@svn.code.sf.net/p/jsbml/code/trunk/core/files/FormulaParser.jj $
@@ -21,7 +21,8 @@ PARSER_BEGIN(FormulaParser)
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
- * 5. The Babraham Institute, Cambridge, UK 
+ * 5. The Babraham Institute, Cambridge, UK
+ * 6. The University of Toronto, Toronto, ON, Canada
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -33,12 +34,36 @@ PARSER_BEGIN(FormulaParser)
 package org.sbml.jsbml.text.parser;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.math.ASTNode2;
+import org.sbml.jsbml.math.ASTBoolean;
+import org.sbml.jsbml.math.ASTCnExponentialNode;
+import org.sbml.jsbml.math.ASTCnIntegerNode;
+import org.sbml.jsbml.math.ASTCnRealNode;
+import org.sbml.jsbml.math.ASTConstantNumber;
+import org.sbml.jsbml.math.ASTCSymbolAvogadroNode;
+import org.sbml.jsbml.math.ASTCSymbolTimeNode;
+import org.sbml.jsbml.math.ASTDivideNode;
+import org.sbml.jsbml.math.ASTFunction;
+import org.sbml.jsbml.math.ASTLambdaFunctionNode;
+import org.sbml.jsbml.math.ASTLogarithmNode;
+import org.sbml.jsbml.math.ASTLogicalOperatorNode;
+import org.sbml.jsbml.math.ASTMinusNode;
+import org.sbml.jsbml.math.ASTPiecewiseFunctionNode;
+import org.sbml.jsbml.math.ASTPowerNode;
+import org.sbml.jsbml.math.ASTPlusNode;
+import org.sbml.jsbml.math.ASTQualifierNode;
+import org.sbml.jsbml.math.ASTRelationalOperatorNode;
+import org.sbml.jsbml.math.ASTRootNode;
+import org.sbml.jsbml.math.ASTTimesNode;
+import org.sbml.jsbml.math.ASTUnaryFunctionNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.resources.Resource;
+import org.sbml.jsbml.text.parser.IFormulaParser;
 
 /**
  * Class used to parse infix mathematical formula and returns a representation of it as an Abstract Syntax Tree (AST).
@@ -48,10 +73,11 @@ import org.sbml.jsbml.resources.Resource;
  *
  * @author Alexander D&ouml;rr
  * @author Nicolas Rodriguez
+ * @author Victor Kofia
  * @since 0.8
  * @version $Rev: 1668 $
  */
-public class FormulaParser implements IFormulaParser
+public class FormulaParserASTNode2 implements IFormulaParser
 {
   public static Properties stringToType = new Properties();
 
@@ -72,7 +98,7 @@ public class FormulaParser implements IFormulaParser
     }
   } 
   
-  private void checkSize(ArrayList < ASTNode > arguments, int i) throws ParseException
+  private void checkSize(ArrayList < ASTNode2 > arguments, int i) throws ParseException
   {
     if (arguments.size() > i)
     {
@@ -80,34 +106,13 @@ public class FormulaParser implements IFormulaParser
     }
   }
 
-  private Integer getInteger(ASTNode node)
+  private Integer getInteger(ASTNode2 node)
   {
-    if (node.isUMinus())
-    {
-      if (node.getChild(0).isInteger())
-      {
-        return - node.getChild(0).getInteger();
-      }
-      else
-      {
-        return null;
-      }
-    }
-    else
-    {
-      if (node.isInteger())
-      {
-        return node.getInteger();
-      }
-      else
-      {
-        return null;
-      }
-    }
+    return node.getType() == Type.INTEGER ? ((ASTCnIntegerNode)node).getInteger() : null;
   }
 }
 
-PARSER_END(FormulaParser)
+PARSER_END(FormulaParserASTNode2)
 
 SKIP :
 {
@@ -174,7 +179,7 @@ TOKEN :
 
 TOKEN :
 {
-  < FACTORIAL : "!" >
+  < FACTORIAL : "factorial" >
 }
 
 TOKEN :
@@ -223,9 +228,9 @@ TOKEN :
 TOKEN :
 {
   < AND :
-    "and"
-  | "And"
-  | "AND" >
+    "And"
+  | "AND"
+  | "&&" >
 }
 
 TOKEN :
@@ -233,7 +238,7 @@ TOKEN :
   < OR :
     "OR"
   | "Or"
-  | "or" >
+  | "||" >
 }
 
 TOKEN :
@@ -247,9 +252,10 @@ TOKEN :
 TOKEN :
 {
   < NOT :
-    "not"
-  | "NOT"
-  | "Not" >
+    "NOT"
+  | "Not"
+  | "not"
+  | "!" >
 }
 
 TOKEN :
@@ -279,6 +285,7 @@ Token string() :
 {
   (
     t = < LOG >
+  | t = < FACTORIAL > 
   | t = < STRING >
   )
   {
@@ -295,18 +302,18 @@ TOKEN :
 
 ASTNode parse() :
 {
-  ASTNode node = null;
+  ASTNode2 node = null;
 }
 {
   node = Expression()
   {
-    return node;
+    return new ASTNode(node);
   }
 }
 
-private ASTNode Expression() :
+private ASTNode2 Expression() :
 {
-  ASTNode value = null;
+  ASTNode2 value = null;
 }
 {
   value = TermLvl1()
@@ -319,27 +326,31 @@ private ASTNode Expression() :
   }
 }
 
-private ASTNode TermLvl3() :
+private ASTNode2 TermLvl3() :
 {
-  ASTNode rightChild;
-  ASTNode leftChild;
-  ASTNode node = null;
+  ASTNode2 rightChild = null;
+  ASTNode2 leftChild = null;
 }
 {
   leftChild = Primary()
   (
-    < POWER > rightChild = Primary()
+    < NOT > rightChild = Primary()
     {
-      node = new ASTNode(Type.POWER);
-      node.addChild(leftChild);
-      node.addChild(rightChild);
-      leftChild = node;
+      ASTUnaryFunctionNode not = new ASTUnaryFunctionNode(Type.LOGICAL_NOT);
+      not.addChild(leftChild);
+    }
+  | < POWER > rightChild = Primary()
+    {
+      ASTPowerNode power = new ASTPowerNode();
+      power.addChild(leftChild);
+      power.addChild(rightChild);
+      leftChild = power;
     }
   | < FACTORIAL >
     {
-      node = new ASTNode(Type.FUNCTION_FACTORIAL);
-      node.addChild(leftChild);
-      leftChild = node;
+      ASTUnaryFunctionNode factorial = new ASTUnaryFunctionNode(Type.FUNCTION_FACTORIAL);
+      factorial.addChild(leftChild);
+      leftChild = factorial;
     }
   )*
   {
@@ -347,20 +358,20 @@ private ASTNode TermLvl3() :
   }
 }
 
-private ASTNode TermLvl2() :
+private ASTNode2 TermLvl2() :
 {
-  ASTNode rightChild;
-  ASTNode leftChild;
-  ASTNode node = null;
+  ASTNode2 node = null;
+  ASTNode2 rightChild = null;
+  ASTNode2 leftChild = null;
 }
 {
   leftChild = TermLvl3()
   (
     < TIMES > rightChild = TermLvl3()
     {
-      node = new ASTNode('*');
-      node.addChild(leftChild);
-      node.addChild(rightChild);
+      node = new ASTTimesNode();
+      ((ASTTimesNode)node).addChild(leftChild);
+      ((ASTTimesNode)node).addChild(rightChild);
       leftChild = node;
     }
   | < DIVIDE > rightChild = TermLvl3()
@@ -370,16 +381,12 @@ private ASTNode TermLvl2() :
       right = getInteger(rightChild);
       if (left != null && right != null)
       {
-        node = new ASTNode();
-        node.setValue(left, right);
+        node = new ASTDivideNode(leftChild, rightChild);
         leftChild = node;
       }
       else
       {
-        node = new ASTNode('/');
-        node.addChild(leftChild);
-        node.addChild(rightChild);
-        leftChild = node;
+        throw new ParseException();
       }
     }
   )*
@@ -388,11 +395,11 @@ private ASTNode TermLvl2() :
   }
 }
 
-private ASTNode TermLvl1() :
+private ASTNode2 TermLvl1() :
 {
-  ASTNode rightChild = null;
-  ASTNode leftChild;
-  ASTNode node = null;
+  ASTNode2 node = null;
+  ASTNode2 rightChild = null;
+  ASTNode2 leftChild = null;
   Token t;
   String s;
   Type type = null;
@@ -402,68 +409,26 @@ private ASTNode TermLvl1() :
   (
     < PLUS > rightChild = TermLvl2()
     {
-      node = new ASTNode('+');
-      node.addChild(leftChild);
-      node.addChild(rightChild);
+      node = new ASTPlusNode(leftChild, rightChild);
       leftChild = node;
     }
   | < MINUS > rightChild = TermLvl2()
     {
-      node = new ASTNode('-');
-      node.addChild(leftChild);
-      node.addChild(rightChild);
+      node = new ASTMinusNode(leftChild, rightChild);
       leftChild = node;
     }
   | t = < BOOLEAN_LOGIC > rightChild = TermLvl2()
     {
-      s = t.image;
-      if (s.equalsIgnoreCase("or"))
-      {
-        type = ASTNode.Type.LOGICAL_OR;
-      }
-      else if (s.equalsIgnoreCase("and"))
-      {
-        type = ASTNode.Type.LOGICAL_AND;
-      }
-      else if (s.equalsIgnoreCase("xor"))
-      {
-        type = ASTNode.Type.LOGICAL_XOR;
-      }
-      node = new ASTNode(type);
-      node.addChild(leftChild);
-      node.addChild(rightChild);
+      node = new ASTLogicalOperatorNode(Type.getTypeFor(t.image));
+      ((ASTLogicalOperatorNode)node).addChild(leftChild);
+      ((ASTLogicalOperatorNode)node).addChild(rightChild);
       leftChild = node;
     }
   | t = < COMPARISON > rightChild = TermLvl2()
     {
-      s = t.image;
-      if (s.equalsIgnoreCase("<"))
-      {
-        type = ASTNode.Type.RELATIONAL_LT;
-      }
-      else if (s.equalsIgnoreCase(">"))
-      {
-        type = ASTNode.Type.RELATIONAL_GT;
-      }
-      else if (s.equalsIgnoreCase("=="))
-      {
-        type = ASTNode.Type.RELATIONAL_EQ;
-      }
-      else if (s.equalsIgnoreCase("!="))
-      {
-        type = ASTNode.Type.RELATIONAL_NEQ;
-      }
-      else if (s.equalsIgnoreCase(">="))
-      {
-        type = ASTNode.Type.RELATIONAL_GEQ;
-      }
-      else if (s.equalsIgnoreCase("<="))
-      {
-        type = ASTNode.Type.RELATIONAL_LEQ;
-      }
-      node = new ASTNode(type);
-      node.addChild(leftChild);
-      node.addChild(rightChild);
+      node = new ASTRelationalOperatorNode(Type.getTypeFor(t.image));
+      ((ASTRelationalOperatorNode)node).addChild(leftChild);
+      ((ASTRelationalOperatorNode)node).addChild(rightChild);
       leftChild = node;
     }
   )*
@@ -472,29 +437,29 @@ private ASTNode TermLvl1() :
   }
 }
 
-private ASTNode Primary() throws NumberFormatException :
+private ASTNode2 Primary() throws NumberFormatException :
 {
   Token t;
   double d;
   int i;
-  ASTNode node = new ASTNode();
-  ASTNode vector = new ASTNode();
-  ASTNode child, furtherChild;
+  ASTNode2 node = null;
+  ASTFunction vector = new ASTFunction();
+  ASTNode2 child, furtherChild;
   String s;
   String vals [ ];
-  ArrayList < ASTNode > arguments = new ArrayList < ASTNode > ();
+  ArrayList < ASTNode2 > arguments = new ArrayList < ASTNode2 > ();
 }
 {
   t = < INTEGER >
   {
     i = Integer.parseInt(t.image);
-    node.setValue(i);
+    node = new ASTCnIntegerNode(i);
     return node;
   }
 | t = < NUMBER >
   {
     d = Double.parseDouble(t.image);
-    node.setValue(d);
+    node = new ASTCnRealNode(d);
     return node;
   }
 | t = < EXPNUMBER >
@@ -509,7 +474,9 @@ private ASTNode Primary() throws NumberFormatException :
     {
       i = Integer.parseInt(vals [ 1 ]);
     }
-    node.setValue(Double.parseDouble(vals [ 0 ]), i);
+    node = new ASTCnExponentialNode();
+    ((ASTCnExponentialNode)node).setMantissa(Double.parseDouble(vals [ 0 ]));
+    ((ASTCnExponentialNode)node).setExponent(i);
     return node;
   }
 | LOOKAHEAD(2)
@@ -527,73 +494,79 @@ private ASTNode Primary() throws NumberFormatException :
     
     if (stringToType.containsKey(s.toLowerCase()))
     {
-      type = ASTNode.Type.valueOf(stringToType.getProperty(s.toLowerCase()).toUpperCase());
+      type = Type.valueOf(stringToType.getProperty(s.toLowerCase()).toUpperCase());
     }
-    
-    if (s.equalsIgnoreCase("pow"))
+    if (s.equalsIgnoreCase("factorial"))
     {
       checkSize(arguments, 1);
-      node.addChild(child);
+      node = new ASTUnaryFunctionNode(Type.FUNCTION_FACTORIAL);
+      ((ASTUnaryFunctionNode)node).addChild(child);
+    }
+    else if (s.equalsIgnoreCase("pow"))
+    {
+      checkSize(arguments, 1);
+      node = new ASTPowerNode();
+      ((ASTPowerNode)node).addChild(child);
     }
     else if (s.equalsIgnoreCase("sqr"))
     {
       checkSize(arguments, 0);
-      node.addChild(child);
-      node.addChild(new ASTNode(2));
+      node = new ASTRootNode(child);
     }
     else if (s.equalsIgnoreCase("sqrt"))
     {
       checkSize(arguments, 0);
-      node.addChild(new ASTNode(2));
-      node.addChild(child);
+      node = new ASTRootNode(child);
     }
     else if (s.equalsIgnoreCase("not"))
     {
       checkSize(arguments, 0);
-      node.addChild(child);
-      type = Type.LOGICAL_NOT;
+      node = new ASTLogicalOperatorNode(Type.LOGICAL_NOT);
+      ((ASTLogicalOperatorNode)node).addChild(child);
     }
+    else if (s.equalsIgnoreCase("log") || s.equalsIgnoreCase("log10"))
+    {
+      checkSize(arguments, 0);
+      node = new ASTLogarithmNode(new ASTCnIntegerNode(10), child);
+    }
+    
     else if (s.equalsIgnoreCase("ln"))
     {
       checkSize(arguments, 0);
-      node.addChild(child);
-      type = Type.FUNCTION_LN;
+      node = new ASTLogarithmNode(new ASTConstantNumber(Math.E), child);
     }
     else if (s.equalsIgnoreCase("lambda"))
     {
-      node.addChild(child);
-      type = Type.LAMBDA;
+	  node = new ASTLambdaFunctionNode();
+	  ASTQualifierNode bvar = new ASTQualifierNode(Type.QUALIFIER_BVAR);
+	  bvar.addChild(child);
+      ((ASTLambdaFunctionNode)node).addChild(bvar);
     }
     else if (s.equalsIgnoreCase("piecewise"))
     {
-      node.addChild(child);
-      type = Type.FUNCTION_PIECEWISE;
+      node = new ASTPiecewiseFunctionNode();
+      ((ASTPiecewiseFunctionNode)node).addChild(child);
     }
     else
     {
-      node.addChild(child);
+      throw new ParseException(MessageFormat.format("{0} is not recognized", s));
     }
-    
-    if (type != null)
+
+    if (node != null && node instanceof ASTFunction)
     {
-      node.setType(type);
-    }
-    else
-    {
-      node.setName(s);
-    }
-    for (ASTNode argument : arguments)
-    {
-      node.addChild(argument);
+	  for (ASTNode2 argument : arguments)
+	  {
+	    ((ASTFunction)node).addChild(argument);
+	  }
     }
     return node;
   }
   |
   LOOKAHEAD(4)    t = < STRING >
 				  {
-				    ASTNode selector = new ASTNode();
-				    selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
-				    selector.addChild(new ASTNode(t.image));
+				    ASTFunction selector = new ASTFunction();
+				    selector.setType(Type.FUNCTION_SELECTOR);
+				    selector.addChild(new ASTRelationalOperatorNode(Type.getTypeFor(t.image)));
 				  }
 				  ( < LEFT_BRACKET >
 	                (node = TermLvl1())
@@ -611,10 +584,10 @@ private ASTNode Primary() throws NumberFormatException :
 |
   LOOKAHEAD(2) < LEFT_BRACES > node = TermLvl1()
   {
-    ASTNode selector = new ASTNode();
+    ASTFunction selector = new ASTFunction();
     boolean isSelector = false;
-	selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
-    vector.setType(ASTNode.Type.VECTOR);
+	selector.setType(Type.FUNCTION_SELECTOR);
+    vector.setType(Type.VECTOR);
     vector.addChild(node);
   }
    (
@@ -623,7 +596,9 @@ private ASTNode Primary() throws NumberFormatException :
       vector.addChild(node);
     }
   )*
-  < RIGHT_BRACES >  {	selector.addChild(vector);
+  < RIGHT_BRACES >
+  {
+	selector.addChild(vector);
   }
   ( < LEFT_BRACKET >
     (node = TermLvl1())
@@ -637,7 +612,7 @@ private ASTNode Primary() throws NumberFormatException :
 |
  < LEFT_BRACES >
   {
-    vector.setType(ASTNode.Type.VECTOR);
+    vector.setType(Type.VECTOR);
   }
   < RIGHT_BRACES >
   {
@@ -645,60 +620,63 @@ private ASTNode Primary() throws NumberFormatException :
   }
 | < MINUS > node = Primary()
   {
-    ASTNode uiMinus = new ASTNode('-');
+    ASTMinusNode uiMinus = new ASTMinusNode();
     uiMinus.addChild(node);
     return uiMinus;
   }
 | < NOT > node = TermLvl1()
   {
-    ASTNode not = new ASTNode(Type.LOGICAL_NOT);
+    ASTLogicalOperatorNode not = new ASTLogicalOperatorNode(Type.LOGICAL_NOT);
     not.addChild(node);
     return not;
   }
 | < LOG > child = Primary()
   {
-    node = new ASTNode(Type.FUNCTION_LN);
-    node.addChild(child);
-    return node;
+    ASTLogarithmNode log = new ASTLogarithmNode(new ASTConstantNumber(Math.E), child);
+    return log;
   }
 | t = < STRING >
   {
     s = t.image;
     if (s.equalsIgnoreCase("true"))
     {
-      node = new ASTNode(Type.CONSTANT_TRUE);
+      node = new ASTBoolean(Type.CONSTANT_TRUE);
     }
     else if (s.equalsIgnoreCase("false"))
     {
-      node = new ASTNode(Type.CONSTANT_FALSE);
+      node = new ASTBoolean(Type.CONSTANT_FALSE);
     }
     else if (s.equalsIgnoreCase("pi"))
     {
-      node = new ASTNode(Type.CONSTANT_PI);
+      node = new ASTConstantNumber(Type.CONSTANT_PI);
     }
     else if (s.equalsIgnoreCase("avogadro"))
     {
-      node = new ASTNode(Type.NAME_AVOGADRO);
+      node = new ASTCSymbolAvogadroNode();
     }
     else if (s.equalsIgnoreCase("time"))
     {
-      node = new ASTNode(Type.NAME_TIME);
+      node = new ASTCSymbolTimeNode();
     }
     else if (s.equalsIgnoreCase("exponentiale"))
     {
-      node = new ASTNode(Type.CONSTANT_E);
+      node = new ASTConstantNumber(Type.CONSTANT_E);
     }
     else if (s.equalsIgnoreCase("-infinity"))
     {
-      node = new ASTNode(Double.NEGATIVE_INFINITY);
+      node = new ASTCnRealNode(Double.NEGATIVE_INFINITY);
     }
     else if (s.equalsIgnoreCase("infinity"))
     {
-      node = new ASTNode(Double.POSITIVE_INFINITY);
+      node = new ASTCnRealNode(Double.POSITIVE_INFINITY);
+    }
+    else if (s.equalsIgnoreCase("e"))
+    {
+      node = new ASTConstantNumber(Math.E);
     }
     else
     {
-      node = new ASTNode(s);
+      throw new ParseException();
     }
     return node;
   }
