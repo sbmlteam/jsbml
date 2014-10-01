@@ -362,7 +362,7 @@ public class SBMLWriter implements Cloneable, Serializable {
   /**
    * The actual writer.
    */
-  private org.sbml.jsbml.xml.stax.SBMLWriter sbmlWriter;
+  protected org.sbml.jsbml.xml.stax.SBMLWriter sbmlWriter;
 
   /**
    * Creates a new {@link SBMLWriter}.
