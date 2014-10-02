@@ -395,9 +395,9 @@ Variable {
     // See
     // http://sbml.org/Community/Wiki/SBML_Level_3_Core/Reaction_changes/Changes_to_stoichiometry
     if (level <= 2) {
-      constant = Boolean.valueOf(true);
-      stoichiometry = Double.valueOf(1d);
-      denominator = Integer.valueOf(1);
+      constant = true;
+      stoichiometry = 1d;
+      denominator = 1;
     } else {
       isSetConstant = false;
       isSetDenominator = false;

@@ -147,7 +147,9 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
   @Override
   public boolean accept(SBase sbase) {
     
-    logger.debug(String.format("accept called on %s", sbase.getElementName()));
+    if (logger.isDebugEnabled()) {
+      logger.debug(String.format("accept called on %s", sbase.getElementName()));
+    }
     
     if (sbase instanceof LocalParameter) {
       return true;
@@ -672,7 +674,9 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
   @Override
   public boolean register(SBase sbase) {
     
-    logger.debug(String.format("register called on %s", sbase.toString()));
+    if (logger.isDebugEnabled()) {
+      logger.debug(String.format("register called on %s", sbase.toString()));
+    }
     
     return register(sbase, false); 
   }
@@ -720,7 +724,9 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
    */
   boolean registerLocalParameter(LocalParameter parameter, boolean delete) {
 
-    logger.debug(String.format("registerLocalParameter called, unregister =  %s", delete));
+    if (logger.isDebugEnabled()) {
+      logger.debug(String.format("registerLocalParameter called, unregister =  %s", delete));
+    }
     
     boolean success = true;
 
@@ -729,7 +735,9 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
       if (delete) {
         if (mapOfLocalParameters != null) {
           mapOfLocalParameters.remove(id); // success = true all the time when deleting. Because when passing a ListOf with twice the same local parameter id, it would fail if we test the return value of mapOfLocalParameters.remove(id)
-          logger.debug(String.format("removed id=%s from %s", id, toString()));
+          if (logger.isDebugEnabled()) {
+            logger.debug(String.format("removed id=%s from %s", id, toString()));
+          }
         }
       } else {
         if (mapOfLocalParameters == null) {
@@ -744,7 +752,10 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
         }
         mapOfLocalParameters.put(id, parameter);
         success = true;
-        logger.debug(String.format("registered id=%s in %s", id, toString()));
+        
+        if (logger.isDebugEnabled()) {
+          logger.debug(String.format("registered id=%s in %s", id, toString()));
+        }
       }
     }
 
@@ -1079,8 +1090,9 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
   @Override
   public boolean unregister(SBase sbase) {
 
-    logger.debug(String.format("unregister called on %s", sbase.toString()));
-
+    if (logger.isDebugEnabled()) {
+      logger.debug(String.format("unregister called on %s", sbase.toString()));
+    }
     
     return register(sbase, true); 
   }

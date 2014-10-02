@@ -548,13 +548,14 @@ public abstract class XMLToken extends AbstractTreeNode {
    * Appends characters to this XML text content.
    */
   public void append(String chars) {
+    StringBuilder oldValue = characters;
+
     if (characters == null) {
       characters = new StringBuilder(chars);
     } else {
       characters.append(chars);
     }
-    String oldValue = characters.toString();
-    firePropertyChange(TreeNodeChangeEvent.text, oldValue, characters.toString());
+    firePropertyChange(TreeNodeChangeEvent.text, oldValue, characters);
   }
 
 

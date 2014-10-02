@@ -34,7 +34,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.UUID;
 
 import javax.swing.tree.TreeNode;
@@ -143,8 +142,8 @@ public class SBMLDocument extends AbstractSBase {
   public SBMLDocument() {
     super();
     model = null;
-    mappingFromMetaId2SBase = new TreeMap<String, SBase>();
-    SBMLDocumentAttributes = new TreeMap<String, String>();
+    mappingFromMetaId2SBase = new HashMap<String, SBase>();
+    SBMLDocumentAttributes = new HashMap<String, String>();
     enabledPackageMap = new HashMap<String, Boolean>();
     // setParentSBML(this);
     checkConsistencyParameters.put(CHECK_CATEGORY.UNITS_CONSISTENCY.name(), false);
