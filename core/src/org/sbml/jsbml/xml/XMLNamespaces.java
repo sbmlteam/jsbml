@@ -22,6 +22,7 @@
 package org.sbml.jsbml.xml;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.sbml.jsbml.JSBML;
 
@@ -65,7 +66,7 @@ public class XMLNamespaces {
   /**
    * HashMap<Prefix, URI>
    */
-  LinkedHashMap<String, String> namespaces = new LinkedHashMap<String, String>();
+  Map<String, String> namespaces; //  = new LinkedHashMap<String, String>();
 
   /**
    * Equality comparison method for XMLNamespaces.
@@ -82,9 +83,11 @@ public class XMLNamespaces {
     if (sb instanceof XMLNamespaces) {
       XMLNamespaces namespaces2 = (XMLNamespaces) sb;
 
-      for (String prefix : namespaces.keySet()) {
-        if (!getURI(prefix).equals(namespaces2.getURI(prefix))) {
-          return false;
+      if (namespaces != null) {
+        for (String prefix : namespaces.keySet()) {
+          if (!getURI(prefix).equals(namespaces2.getURI(prefix))) {
+            return false;
+          }
         }
       }
 
@@ -102,10 +105,12 @@ public class XMLNamespaces {
   @Override
   public int hashCode()
   {
-    int hashcode = 0;
+    int hashcode = 1721;
 
-    for (String prefix : namespaces.keySet()) {
-      hashcode += prefix.hashCode() + getURI(prefix).hashCode();
+    if (namespaces != null) {
+      for (String prefix : namespaces.keySet()) {
+        hashcode += prefix.hashCode() + getURI(prefix).hashCode();
+      }
     }
 
     return hashcode;
@@ -126,10 +131,11 @@ public class XMLNamespaces {
    */
   public XMLNamespaces(XMLNamespaces orig) {
 
-    for (String prefix : orig.namespaces.keySet()) {
-      namespaces.put(new String(prefix), new String(orig.getURI(prefix)));
+    if (orig.namespaces != null) {
+      for (String prefix : orig.namespaces.keySet()) {
+        namespaces.put(new String(prefix), new String(orig.getURI(prefix)));
+      }
     }
-
   }
 
 
@@ -171,7 +177,7 @@ public class XMLNamespaces {
    */
   public int add(String uri, String prefix) {
 
-    namespaces.put(prefix, uri);
+    getNamespaces().put(prefix, uri);
 
     return JSBML.OPERATION_SUCCESS;
   }
@@ -203,7 +209,7 @@ public class XMLNamespaces {
    */
   public int add(String uri) {
 
-    namespaces.put("", uri);
+    getNamespaces().put("", uri);
 
     return JSBML.OPERATION_SUCCESS;
   }
@@ -224,6 +230,10 @@ public class XMLNamespaces {
    */
   public int remove(int index) {
 
+    if (namespaces == null) {
+      return JSBML.OPERATION_SUCCESS;
+    }
+    
     if (index < 0 || index >= namespaces.size()) {
       return JSBML.INDEX_EXCEEDS_SIZE;
     }
@@ -257,7 +267,9 @@ public class XMLNamespaces {
    */
   public int remove(String prefix) {
 
-    namespaces.remove(prefix);
+    if (namespaces != null) {
+      namespaces.remove(prefix);
+    }
 
     return JSBML.OPERATION_SUCCESS;
 
@@ -279,8 +291,10 @@ public class XMLNamespaces {
    */
   public int clear() {
 
-    namespaces.clear();
-
+    if (namespaces != null) {
+      namespaces.clear();
+    }
+    
     return JSBML.OPERATION_SUCCESS;
 
   }
@@ -302,13 +316,15 @@ public class XMLNamespaces {
 
     int index = -1;
 
-    int i = 0;
-    for (String prefix : namespaces.keySet()) {
-      if (namespaces.get(prefix).equals(uri)) {
-        index = i;
-        break;
+    if (namespaces != null) {
+      int i = 0;
+      for (String prefix : namespaces.keySet()) {
+        if (namespaces.get(prefix).equals(uri)) {
+          index = i;
+          break;
+        }
+        i++;
       }
-      i++;
     }
 
     return index;
@@ -334,7 +350,7 @@ public class XMLNamespaces {
     int index = -1;
 
     int i = 0;
-    for (String currentPrefix : namespaces.keySet()) {
+    for (String currentPrefix : getNamespaces().keySet()) {
       if (currentPrefix.equals(prefix)) {
         index = i;
         break;
@@ -355,10 +371,21 @@ public class XMLNamespaces {
    */
   public int getLength() {
 
+    if (namespaces == null) {
+      return 0;
+    }
+    
     return namespaces.size();
 
   }
 
+  private Map<String, String> getNamespaces() {
+    if (namespaces == null) {
+      namespaces = new LinkedHashMap<String, String>();
+    }
+    
+    return namespaces;
+  }
 
   /**
    * Gets the prefix of an XML namespace declaration by its position.
@@ -378,12 +405,14 @@ public class XMLNamespaces {
    */
   public String getPrefix(int index) {
 
-    int i = 0;
-    for (String prefix : namespaces.keySet()) {
-      if (i == index) {
-        return prefix;
+    if (namespaces != null) {
+      int i = 0;
+      for (String prefix : namespaces.keySet()) {
+        if (i == index) {
+          return prefix;
+        }
+        i++;
       }
-      i++;
     }
 
     return "";
@@ -405,9 +434,11 @@ public class XMLNamespaces {
    */
   public String getPrefix(String uri) {
 
-    for (String prefix : namespaces.keySet()) {
-      if (namespaces.get(prefix).equals(uri)) {
-        return prefix;
+    if (namespaces != null) {
+      for (String prefix : namespaces.keySet()) {
+        if (namespaces.get(prefix).equals(uri)) {
+          return prefix;
+        }
       }
     }
 
@@ -434,12 +465,14 @@ public class XMLNamespaces {
    */
   public String getURI(int index) {
 
-    int i = 0;
-    for (String prefix : namespaces.keySet()) {
-      if (i == index) {
-        return namespaces.get(prefix);
+    if (namespaces != null) {
+      int i = 0;
+      for (String prefix : namespaces.keySet()) {
+        if (i == index) {
+          return namespaces.get(prefix);
+        }
+        i++;
       }
-      i++;
     }
 
     return "";
@@ -463,14 +496,15 @@ public class XMLNamespaces {
    */
   public String getURI(String prefix) {
 
-    for (String currentPrefix : namespaces.keySet()) {
-      if (currentPrefix.equals(prefix)) {
-        return namespaces.get(currentPrefix);
+    if (namespaces != null) {
+      for (String currentPrefix : namespaces.keySet()) {
+        if (currentPrefix.equals(prefix)) {
+          return namespaces.get(currentPrefix);
+        }
       }
     }
 
     return "";
-
   }
 
 
@@ -489,14 +523,15 @@ public class XMLNamespaces {
    */
   public String getURI() {
 
-    for (String currentPrefix : namespaces.keySet()) {
-      if (currentPrefix.equals("")) {
-        return namespaces.get(currentPrefix);
+    if (namespaces != null) {
+      for (String currentPrefix : namespaces.keySet()) {
+        if (currentPrefix.equals("")) {
+          return namespaces.get(currentPrefix);
+        }
       }
     }
 
     return "";
-
   }
 
 
@@ -508,7 +543,7 @@ public class XMLNamespaces {
    */
   public boolean isEmpty() {
 
-    return namespaces.size() == 0;
+    return namespaces == null || namespaces.size() == 0;
 
   }
 
@@ -524,6 +559,10 @@ public class XMLNamespaces {
    */
   public boolean hasURI(String uri) {
 
+    if (namespaces == null) {
+      return false;
+    }
+    
     return namespaces.containsValue(uri);
 
   }
@@ -541,8 +580,11 @@ public class XMLNamespaces {
    */
   public boolean hasPrefix(String prefix) {
 
+    if (namespaces == null) {
+      return false;
+    }
+    
     return namespaces.containsKey(prefix);
-
   }
 
 
@@ -559,9 +601,10 @@ public class XMLNamespaces {
    */
   public boolean hasNS(String uri, String prefix) {
 
-    if (uri == null || prefix == null) {
+    if (uri == null || prefix == null || namespaces == null) {
       return false;
     }
+    
     String uri2 = namespaces.get(prefix);
 
     if (uri.equals(uri2)) {
@@ -569,7 +612,6 @@ public class XMLNamespaces {
     }
 
     return false;
-
   }
 
 }
