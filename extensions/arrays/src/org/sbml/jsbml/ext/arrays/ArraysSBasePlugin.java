@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Utah, Salt Lake City, UT, USA
  *
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.ext.arrays;
 
@@ -38,14 +38,17 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.util.IdManager;
 
 /**
+ * The {@link ArraysSBasePlugin} class extends the {@link SBase} class by adding
+ * an optional ListOf{@link Dimension}s child and a single optional
+ * {@link Index} child.
+ * <p>
+ * The {@link ArraysSBasePlugin} class codifies the extensions to the
+ * {@link SBase} class defined in the 'Arrays' package. These extensions allows
+ * the modeler to define one or more {@link Dimension} elements to indicate the
+ * parent {@link SBase} object is arrayed. In addition, these extensions allows
+ * the definition of one or more {@link Index} elements to reference the parent
+ * {@link SBase} that has one or more array dimensions.
  * 
- * The {@link ArraysSBasePlugin} class extends the {@link SBase} class by adding an optional ListOf{@link Dimension}s child and a single optional {@link Index} child.
- * 
- * <p>The {@link ArraysSBasePlugin} class codifies the extensions to the {@link SBase} class defined in the 'Arrays' package.
- * These extensions allows the modeler to define one or more {@link Dimension} elements to indicate the parent {@link SBase} object is arrayed. In
- * addition, these extensions allows the definition of one or more {@link Index} elements to reference the parent {@link SBase} that has
- * one or more array dimensions.
- *  
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
@@ -82,7 +85,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   private ListOf<Dimension> listOfDimensions;
 
   /**
-   * Creates an ArraysSBasePlugin instance 
+   * Creates an ArraysSBasePlugin instance
    */
   public ArraysSBasePlugin() {
     super();
@@ -91,7 +94,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
 
   /**
    * Creates an ArraysSBasePlugin with a level and a version.
-   *  
+   * 
    * @param extendedSBase
    */
   public ArraysSBasePlugin(SBase extendedSBase) {
@@ -104,25 +107,23 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   public ArraysSBasePlugin(ArraysSBasePlugin obj) {
     super(obj);
 
-    if(obj.isSetListOfDimensions()) {
+    if (obj.isSetListOfDimensions()) {
       setListOfDimensions(obj.listOfDimensions.clone());
     }
 
-    if(obj.isSetListOfIndices()){
+    if (obj.isSetListOfIndices()){
       setListOfIndices(obj.listOfIndices.clone());
     }
 
   }
 
-
-  /**
-   * clones this class
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
    */
   @Override
   public ArraysSBasePlugin clone() {
     return new ArraysSBasePlugin(this);
   }
-
 
   /**
    * Initializes the default values using the namespace.
@@ -134,7 +135,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   /**
    * Returns {@code true}, if listOfIndices contains at least one element.
    *
-   * @return {@code true}, if listOfIndices contains at least one element, 
+   * @return {@code true}, if listOfIndices contains at least one element,
    *         otherwise {@code false}.
    */
   public boolean isSetListOfIndices() {
@@ -143,7 +144,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
     }
     return true;
   }
-
 
   /**
    * Returns the listOfIndices. Creates it if it is not already existing.
@@ -162,7 +162,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
     return listOfIndices;
   }
 
-
   /**
    * Sets the given {@code ListOf<Index>}. If listOfIndices
    * was defined before and contains some elements, they are all unset.
@@ -179,12 +178,11 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
     }
   }
 
-
   /**
-   * Returns {@code true}, if listOfIndices contain at least one element, 
+   * Returns {@code true}, if listOfIndices contain at least one element,
    *         otherwise {@code false}.
    *
-   * @return {@code true}, if listOfIndices contain at least one element, 
+   * @return {@code true}, if listOfIndices contain at least one element,
    *         otherwise {@code false}.
    */
   public boolean unsetListOfIndices() {
@@ -197,7 +195,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
     return false;
   }
 
-
   /**
    * Adds a new {@link Index} to the listOfIndices.
    * <p>The listOfIndices is initialized if necessary.
@@ -208,7 +205,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   public boolean addIndex(Index field) {
     return getListOfIndices().add(field);
   }
-
 
   /**
    * Removes an element from the listOfIndices.
@@ -234,9 +230,9 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   public boolean removeIndexByArrayDimension(int arrayDim) {
     if (isSetListOfIndices()) {
       ListOf<Index> list = getListOfIndices();
-      for(Index index : list) {
-        if(index.isSetArrayDimension()) {
-          if(index.getArrayDimension() == arrayDim) {
+      for (Index index : list) {
+        if (index.isSetArrayDimension()) {
+          if (index.getArrayDimension() == arrayDim) {
             return index.removeFromParent();
           }
         }
@@ -259,7 +255,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
     }
     return getListOfIndices().remove(i);
   }
-
 
   /**
    * Creates a new Index element and adds it to the listOfIndices list.
@@ -286,7 +281,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   }
 
   /**
-   * Gets an element from the listOfIndices based on array dimension 
+   * Gets an element from the listOfIndices based on array dimension
    * and referenced attribute.
    *
    * @param i the index of the {@link Index} element to get.
@@ -295,9 +290,9 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   public Index getIndex(int dim, String attribute) {
     if (isSetListOfIndices()) {
       ListOf<Index> list = getListOfIndices();
-      for(Index index : list) {
-        if(index.isSetArrayDimension() && index.isSetReferencedAttribute()) {
-          if(index.getArrayDimension() == dim 
+      for (Index index : list) {
+        if (index.isSetArrayDimension() && index.isSetReferencedAttribute()) {
+          if (index.getArrayDimension() == dim
               && index.getReferencedAttribute().equals(attribute)) {
             return index;
           }
@@ -316,7 +311,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
     return isSetListOfIndices() ? getListOfIndices().size() : 0;
   }
 
-
   /**
    * Returns the number of {@link Index}s in this {@link ArraysSBasePlugin}.
    * 
@@ -327,12 +321,10 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
     return getIndexCount();
   }
 
-
-
   /**
    * Returns {@code true}, if listOfDimensions contains at least one element.
    *
-   * @return {@code true}, if listOfDimensions contains at least one element, 
+   * @return {@code true}, if listOfDimensions contains at least one element,
    *         otherwise {@code false}.
    */
   public boolean isSetListOfDimensions() {
@@ -341,7 +333,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
     }
     return true;
   }
-
 
   /**
    * Returns the listOfDimensions. Creates it if it is not already existing.
@@ -361,7 +352,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
     return listOfDimensions;
   }
 
-
   /**
    * Sets the given {@code ListOf<Dimension>}. If listOfDimensions
    * was defined before and contains some elements, they are all unset.
@@ -378,12 +368,11 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
     }
   }
 
-
   /**
-   * Returns {@code true}, if listOfDimensions contain at least one element, 
+   * Returns {@code true}, if listOfDimensions contain at least one element,
    *         otherwise {@code false}.
    *
-   * @return {@code true}, if listOfDimensions contain at least one element, 
+   * @return {@code true}, if listOfDimensions contain at least one element,
    *         otherwise {@code false}.
    */
   public boolean unsetListOfDimensions() {
@@ -396,7 +385,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
     return false;
   }
 
-
   /**
    * Adds a new {@link Dimension} to the listOfDimensions.
    * <p>The listOfDimensions is initialized if necessary.
@@ -407,7 +395,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   public boolean addDimension(Dimension field) {
     return getListOfDimensions().add(field);
   }
-
 
   /**
    * Removes an element from the listOfDimensions.
@@ -423,8 +410,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
     return false;
   }
 
-
-
   /**
    * Removes an element from the listOfDimensions.
    *
@@ -438,7 +423,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
     return null;
   }
 
-
   /**
    * Removes an element from the listOfDimensions by array dimension.
    *
@@ -449,7 +433,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
     if (isSetListOfDimensions()) {
       Dimension dimension = getDimensionByArrayDimension(arrayDim);
 
-      if(dimension != null) {
+      if (dimension != null) {
         dimension.removeFromParent();
       }
 
@@ -474,14 +458,12 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
     return getListOfDimensions().remove(i);
   }
 
-
   /**
    * Creates a new Dimension element and adds it to the ListOfDimensions list.
    */
   public Dimension createDimension() {
     return createDimension(null);
   }
-
 
   /**
    * Creates a new {@link Dimension} element and adds it to the ListOfDimensions list.
@@ -493,7 +475,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
     addDimension(field);
     return field;
   }
-
 
   /**
    * Gets an element from the listOfDimensions at the given index.
@@ -518,16 +499,14 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    */
   public Dimension getDimensionByArrayDimension(int i) {
     if (isSetListOfDimensions()) {
-      for(Dimension dim : getListOfDimensions()) {
-        if(dim.isSetArrayDimension() && dim.getArrayDimension() == i) {
+      for (Dimension dim : getListOfDimensions()) {
+        if (dim.isSetArrayDimension() && dim.getArrayDimension() == i) {
           return dim;
         }
       }
     }
     return null;
   }
-
-
 
   /**
    * Gets an element from the listOfDimensions, with the given id.
@@ -542,7 +521,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
     return null;
   }
 
-
   /**
    * Returns the number of {@link Dimension}s in this {@link ArraysSBasePlugin}.
    * 
@@ -551,7 +529,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   public int getDimensionCount() {
     return isSetListOfDimensions() ? getListOfDimensions().size() : 0;
   }
-
 
   /**
    * Returns the number of {@link Dimension}s in this {@link ArraysSBasePlugin}.
@@ -562,9 +539,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   public int getNumDimensions() {
     return getDimensionCount();
   }
-
-
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
@@ -614,21 +588,21 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   @Override
   public TreeNode getChildAt(int childIndex) {
 
-    if(childIndex < 0){
+    if (childIndex < 0){
       throw new IndexOutOfBoundsException(childIndex + " < 0");
     }
 
     int pos = 0;
-    if(isSetListOfDimensions()) {
-      if(pos == childIndex) {
+    if (isSetListOfDimensions()) {
+      if (pos == childIndex) {
         return getListOfDimensions();
       }
 
       pos++;
     }
 
-    if(isSetListOfIndices()) {
-      if(pos == childIndex) {
+    if (isSetListOfIndices()) {
+      if (pos == childIndex) {
         return getListOfIndices();
       }
 
@@ -645,10 +619,10 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   public int getChildCount() {
 
     int count = 0;
-    if(isSetListOfDimensions()) {
+    if (isSetListOfDimensions()) {
       count++;
     }
-    if(isSetListOfIndices()) {
+    if (isSetListOfIndices()) {
       count++;
     }
     return count;
@@ -663,7 +637,9 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
     return false;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     // No attribute
@@ -678,7 +654,6 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   public boolean accept(SBase sbase) {
     return sbase instanceof Dimension;
   }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.IdManager#register(org.sbml.jsbml.SBase)
@@ -711,15 +686,22 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
               elementId = "metaid[" + getExtendedSBase().getMetaId() + "]";
             }
           }
-          logger.error(MessageFormat.format(
-            "A Dimension with the id \"{0}\" is already present in this {1}{2}. The new element will not be added to the model.",
-            id, elementName, elementId != null ? " identified by " + elementId : ""));
-          success = false;
+
+          if (mapOfDimensions.get(id) == sbase) {
+            // TODO: This fixes a bug related to a local scoping of parameters, but needs to be tested more carefully.
+            success = true;
+          } else {
+            logger.error(MessageFormat.format(
+              "A Dimension with the id \"{0}\" is already present in this {1}{2}. The new element will not be added to the model.",
+              id, elementName, elementId != null ? " identified by " + elementId : ""));
+
+            success = false;
+          }
         } else {
           mapOfDimensions.put(id, dimension);
 
           if (logger.isDebugEnabled()) {
-            logger.debug(MessageFormat.format("registered Dimension id={0} in {1}",
+            logger.debug(MessageFormat.format("registered Dimension id=\"{0}\" in {1}",
               id, (isSetExtendedSBase() ? getExtendedSBase().getElementName() : "")));
           }
         }
@@ -836,7 +818,5 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
     }
     return true;
   }
-
-
 
 }

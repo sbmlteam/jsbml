@@ -49,7 +49,6 @@ import org.sbml.jsbml.xml.XMLTriple;
 import org.sbml.jsbml.xml.parsers.PackageParser;
 import org.sbml.jsbml.xml.parsers.ParserManager;
 
-
 /**
  * The base class for each {@link SBase} component.
  * 
@@ -914,21 +913,21 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       } else if (!declaredNamespaces.equals(sbase.getDeclaredNamespaces())) {
         return false;
       }
- 
-      
+
+
       /*
        * Note: Listeners, ignoredExtensions and ignoredXMLElements are not included in the equals check.
        */
 
       // Notes, Annotation and extension SBasePlugins are tested in AbstractTreeNode.equals()
-      // as they are part of the children returned by #getChildAt(int i) 
+      // as they are part of the children returned by #getChildAt(int i)
     }
-    
+
     return equals;
   }
 
-  
-  
+
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBase#filterCVTerms(org.sbml.jsbml.CVTerm.Qualifier)
    */
@@ -989,7 +988,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     if (newValue != null && newValue instanceof SBasePlugin) {
       ((AbstractTreeNode) newValue).setParent(this);
     }
-    
+
     if (oldValue != null && oldValue instanceof SBasePlugin) {
       unregisterChild((SBasePlugin) oldValue);
     }
@@ -1343,6 +1342,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     return getCVTermCount();
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#getNumPlugins()
+   */
   @Override
   public int getNumPlugins() {
     return getExtensionCount();
@@ -1443,7 +1445,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     }
 
     // Notes, Annotation and extension SBasePlugins are taken into account in AbstractTreeNode.hashCode()
-    // as they are part of the children returned by #getChildAt(int i) 
+    // as they are part of the children returned by #getChildAt(int i)
 
     return hashCode + prime * getLevelAndVersion().hashCode();
   }
@@ -1710,8 +1712,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       IdManager idManager = getIdManager(sbase);
 
       // If possible, recursively register all ids of the SBase in our model:
-      if ((idManager != null)
-          && !idManager.register(sbase)) {
+      if ((idManager != null) && !idManager.register(sbase)) {
         // Something went wrong: We have to restore the previous state:
         if (sbase instanceof AbstractSBase) {
           if (oldParent == null) {
@@ -1722,8 +1723,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         }
         sbase.addAllChangeListeners(listeners);
 
-        throw new IllegalArgumentException(MessageFormat.format("Cannot register {0}.",
-          sbase.getElementName()));
+        throw new IllegalArgumentException(MessageFormat.format(
+          "Cannot register {0}.", sbase.getElementName()));
       }
 
       /*
@@ -1787,7 +1788,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   public CVTerm removeCVTerm(int index) {
     return getAnnotation().removeCVTerm(index);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.SBase#setAnnotation(org.sbml.jsbml.Annotation)
    */
@@ -2024,7 +2025,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @see org.sbml.jsbml.SBase#unregisterChild(org.sbml.jsbml.SBase)
    */
   @Override
-  public void unregisterChild(SBase sbase)  {
+  public void unregisterChild(SBase sbase) {
 
     if (logger.isDebugEnabled()) {
       logger.debug("unregister called !! " + sbase.getElementName() + " "
@@ -2038,7 +2039,6 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
         // unregister recursively all metaIds.
         doc.registerMetaIds(sbase, true, true);
       }
-
 
       IdManager idManager = getIdManager(sbase);
 

@@ -47,7 +47,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
    * Exception to be displayed in case that an illegal variant of unit is to
    * be set for this {@link SBaseWithUnit}.
    */
-  private static final String ILLEGAL_UNIT_KIND_EXCEPTION_MSG = "Cannot set unit %s because only variants of substance or time units are acceptable.";
+  private static final String ILLEGAL_UNIT_KIND_EXCEPTION_MSG = "Cannot set unit {0} because only variants of substance or time units are acceptable.";
   /**
    * A logger for this class.
    */
@@ -144,25 +144,28 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
     parentReaction.setKineticLaw(this);
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.IdManager#accept(org.sbml.jsbml.SBase)
+   */
   @Override
   public boolean accept(SBase sbase) {
-    
+
     if (logger.isDebugEnabled()) {
-      logger.debug(String.format("accept called on %s", sbase.getElementName()));
+      logger.debug(MessageFormat.format("accept called on {0}", sbase.getElementName()));
     }
-    
+
     if (sbase instanceof LocalParameter) {
       return true;
     }
-    
+
     if (sbase instanceof ListOf<?>) {
       ListOf<?> listOf = (ListOf<?>) sbase;
-    
+
       if (listOf.size() > 0 && listOf.get(0) instanceof LocalParameter) {
         return true; // accept also ListOf<LocalParameter>
       }
     }
-    
+
     return false;
   }
 
@@ -671,16 +674,19 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
     return isAttributeRead;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.IdManager#register(org.sbml.jsbml.SBase)
+   */
   @Override
   public boolean register(SBase sbase) {
-    
+
     if (logger.isDebugEnabled()) {
-      logger.debug(String.format("register called on %s", sbase.toString()));
+      logger.debug(MessageFormat.format("register called on {0}", sbase.toString()));
     }
-    
-    return register(sbase, false); 
+
+    return register(sbase, false);
   }
-  
+
   /**
    * 
    * @param sbase
@@ -688,17 +694,17 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
    * @return
    */
   private boolean register(SBase sbase, boolean unregister) {
-    
+
     boolean success = true;
-    
+
     if (sbase instanceof LocalParameter) {
       success = registerLocalParameter((LocalParameter) sbase, unregister);
     } else if (sbase instanceof ListOf<?>) {
       for (Object lp : ((ListOf<?>) sbase)) {
-        success &= registerLocalParameter((LocalParameter) lp, unregister);        
+        success &= registerLocalParameter((LocalParameter) lp, unregister);
       }
     }
-    
+
     if (success) {
       // in this case, we need to register the LocalParameter in the Model as well,
       // as the Model keep a Map of LocalParameter ids.
@@ -712,11 +718,11 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
         }
       }
     }
-    
-    return success; 
+
+    return success;
   }
 
-  
+
   /**
    * @param parameter
    * @param delete
@@ -725,9 +731,9 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
   boolean registerLocalParameter(LocalParameter parameter, boolean delete) {
 
     if (logger.isDebugEnabled()) {
-      logger.debug(String.format("registerLocalParameter called, unregister =  %s", delete));
+      logger.debug(MessageFormat.format("registerLocalParameter called, unregister = {0}", delete));
     }
-    
+
     boolean success = true;
 
     if (parameter.isSetId()) {
@@ -736,7 +742,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
         if (mapOfLocalParameters != null) {
           mapOfLocalParameters.remove(id); // success = true all the time when deleting. Because when passing a ListOf with twice the same local parameter id, it would fail if we test the return value of mapOfLocalParameters.remove(id)
           if (logger.isDebugEnabled()) {
-            logger.debug(String.format("removed id=%s from %s", id, toString()));
+            logger.debug(MessageFormat.format("removed id=\"{0}\" from {1}", id, toString()));
           }
         }
       } else {
@@ -744,17 +750,17 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
           mapOfLocalParameters = new HashMap<String, LocalParameter>();
         }
         if (mapOfLocalParameters.containsKey(id)) {
-          logger.error(String.format(
-            "A local parameter with the id '%s' is already present in the %s. The new element will not be added to the list.",
+          logger.error(MessageFormat.format(
+            "A local parameter with the id ''{0}'' is already present in the {1}. The new element will not be added to the list.",
             id, getListOfLocalParameters().getElementName()));
-          throw new IllegalArgumentException(String.format(
-            "Cannot set duplicate identifier '%s'.", id));
+          throw new IllegalArgumentException(MessageFormat.format(
+            "Cannot set duplicate identifier ''{0}''.", id));
         }
         mapOfLocalParameters.put(id, parameter);
         success = true;
-        
+
         if (logger.isDebugEnabled()) {
-          logger.debug(String.format("registered id=%s in %s", id, toString()));
+          logger.debug(MessageFormat.format("registered id=\"{0}\" in {1}", id, toString()));
         }
       }
     }
@@ -873,9 +879,9 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
       catch (IllegalArgumentException e) {
 
         // The listOf is wrong so we unset all the local parameters
-        unsetListOfLocalParameters();        
-        
-        logger.error(String.format("The list of local parameters will not be set as some ids are duplicated."));
+        unsetListOfLocalParameters();
+
+        logger.error("The list of local parameters will not be set as some ids are duplicated.");
         throw e;
       }
 
@@ -1010,7 +1016,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
   @Deprecated
   public void setUnits(Unit unit) {
     if (!unit.isVariantOfSubstance() && !unit.isVariantOfTime()) {
-      throw new IllegalArgumentException(String.format(
+      throw new IllegalArgumentException(MessageFormat.format(
         ILLEGAL_UNIT_KIND_EXCEPTION_MSG, unit.toString()));
     }
     if ((unit.getExponent() != 1) || (unit.getScale() != 0)
@@ -1060,7 +1066,7 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
           }
         }
       } else {
-        throw new IllegalArgumentException(String.format(
+        throw new IllegalArgumentException(MessageFormat.format(
           ILLEGAL_UNIT_KIND_EXCEPTION_MSG, UnitDefinition
           .printUnits(units, true)));
       }
@@ -1084,17 +1090,20 @@ public class KineticLaw extends AbstractMathContainer implements SBaseWithUnit, 
       parentId = getParent().getId();
     }
 
-    return String.format("%s(%s)", getElementName(), parentId);
+    return MessageFormat.format("{0}({1})", getElementName(), parentId);
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.IdManager#unregister(org.sbml.jsbml.SBase)
+   */
   @Override
   public boolean unregister(SBase sbase) {
 
     if (logger.isDebugEnabled()) {
-      logger.debug(String.format("unregister called on %s", sbase.toString()));
+      logger.debug(MessageFormat.format("unregister called on {0}", sbase.toString()));
     }
-    
-    return register(sbase, true); 
+
+    return register(sbase, true);
   }
 
   /**
