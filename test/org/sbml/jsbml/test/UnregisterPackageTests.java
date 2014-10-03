@@ -841,6 +841,44 @@ public class UnregisterPackageTests {
 
   }
 
+  @Test public void testArraysUnsetListOfDimentsions() {
+    
+    SpeciesReference sp1 = (SpeciesReference) model.findNamedSBase("SP1");
+    
+    ArraysSBasePlugin arraysTestPlugin = (ArraysSBasePlugin) sp1.getPlugin(ArraysConstants.shortLabel);
+    
+    Dimension d1 = arraysTestPlugin.createDimension("AD1");
+    d1.setMetaId("AD1");
+
+    arraysTestPlugin.createDimension("AD2");
+    
+    assertTrue(model.findNamedSBase("AD1") == null);
+    assertTrue(doc.findSBase("AD1").equals(d1));
+
+    assertTrue(arraysTestPlugin.getDimensionCount() == 2);
+    assertTrue(arraysTestPlugin.getNumDimensions() == 2);
+    assertTrue(arraysTestPlugin.getDimension(0).isSetId() == true);
+
+    arraysTestPlugin.unsetListOfDimensions();
+    
+    assertTrue(arraysTestPlugin.getDimensionCount() == 0);
+    assertTrue(model.findNamedSBase("AD1") == null);
+    assertTrue(doc.findSBase("AD1") == null);
+    assertTrue(arraysTestPlugin.getDimension("AD1") == null);
+    assertTrue(arraysTestPlugin.getDimension("AD2") == null);
+    
+    arraysTestPlugin.createDimension("AD1").setMetaId("AD1");;
+    arraysTestPlugin.createDimension("AD2");
+    arraysTestPlugin.createDimension("AD3");
+    
+    assertTrue(arraysTestPlugin.getDimensionCount() == 3);
+    assertTrue(model.findNamedSBase("AD1") == null);
+    assertTrue(doc.findSBase("AD1") != null);
+    assertTrue(arraysTestPlugin.getDimension("AD1") != null);
+    assertTrue(arraysTestPlugin.getDimension("AD2") != null);
+    
+  }
+
   @Test
   public void testSetId() {
     try {
