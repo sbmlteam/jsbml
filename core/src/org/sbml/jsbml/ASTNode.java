@@ -62,6 +62,7 @@ import org.sbml.jsbml.math.ASTRootNode;
 import org.sbml.jsbml.math.ASTTimesNode;
 import org.sbml.jsbml.math.ASTTrigonometricNode;
 import org.sbml.jsbml.math.ASTUnaryFunctionNode;
+import org.sbml.jsbml.math.ASTUnknown;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.text.parser.FormulaParser;
@@ -1275,6 +1276,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   public ASTNode() {
     super();
+    setType(Type.UNKNOWN);
   }
 
   /**
@@ -3651,6 +3653,7 @@ public class ASTNode extends AbstractTreeNode {
         astnode2 = new ASTHyperbolicNode(Type.FUNCTION_TANH);
         break;
       default:
+        astnode2 = ASTUnknown.getInstance();
         break;
     }
   }
@@ -3664,7 +3667,8 @@ public class ASTNode extends AbstractTreeNode {
    *            the type as a String.
    */
   public void setType(String typeStr) {
-    astnode2.setType(typeStr);
+    Type type = Type.getTypeFor(typeStr);
+    setType(type);
   }
 
   /**

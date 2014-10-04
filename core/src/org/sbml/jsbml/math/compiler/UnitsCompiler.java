@@ -25,6 +25,7 @@ package org.sbml.jsbml.math.compiler;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.CallableSBase;
@@ -36,9 +37,15 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.math.ASTArithmeticOperatorNode;
+import org.sbml.jsbml.math.ASTCnIntegerNode;
 import org.sbml.jsbml.math.ASTCnNumberNode;
+import org.sbml.jsbml.math.ASTCnRationalNode;
+import org.sbml.jsbml.math.ASTLambdaFunctionNode;
+import org.sbml.jsbml.math.ASTMinusNode;
 import org.sbml.jsbml.math.ASTNode2;
 import org.sbml.jsbml.util.Maths;
+import org.sbml.jsbml.util.StringTools;
 
 /**
  * Derives the units from mathematical operations.
@@ -67,7 +74,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * Necessary for function definitions to remember the units of the argument
    * list.
    */
-  private HashMap<String, ASTNode2Value> namesToUnits;
+  private HashMap<String, ASTNode2Value<?>> namesToUnits;
 
   /**
    * 
@@ -84,7 +91,8 @@ public class UnitsCompiler implements ASTNode2Compiler {
   public UnitsCompiler(int level, int version) {
     this.level = level;
     this.version = version;
-    namesToUnits = new HashMap<String, ASTNode2Value>();
+    // TODO: Specify specific type T i.e. ASTNode2Value<Double>
+    namesToUnits = new HashMap<String, ASTNode2Value<?>>();
   }
 
   /**
@@ -100,10 +108,10 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#abs(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value abs(ASTNode2 value) throws SBMLException {
-    ASTNode2Value v = new ASTNode2Value(this);
-    if (value.isDifference() || value.isSum() || value.isUMinus()
-        || value.isNumber()) {
+  public <T> ASTNode2Value<Double> abs(ASTNode2 value) throws SBMLException {
+    ASTNode2Value<Double> v = new ASTNode2Value<Double>(this);
+    if (value instanceof ASTArithmeticOperatorNode || value instanceof ASTMinusNode
+        || value instanceof ASTCnNumberNode) {
       v.setValue(Double.valueOf(Math.abs(value.compile(this).toDouble())));
     }
     return v;
@@ -113,10 +121,10 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#and(org.sbml.jsbml.ASTNode2Value[])
    */
   @Override
-  public ASTNode2Value and(List<ASTNode2> values) throws SBMLException {
-    ASTNode2Value value = dimensionless();
+  public <T> ASTNode2Value<Boolean> and(List<ASTNode2> values) throws SBMLException {
+    ASTNode2Value<Boolean> value = dimensionless();
     boolean val = true;
-    for (ASTNode v : values) {
+    for (ASTNode2 v : values) {
       val &= v.compile(this).toBoolean();
     }
     value.setValue(val);
@@ -127,11 +135,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#arccos(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value arccos(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> arccos(ASTNode2 value) throws SBMLException {
+    // TODO: Specify specific type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Math.acos(v.toDouble()));
-
     return v;
   }
 
@@ -139,11 +147,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#arccosh(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value arccosh(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> arccosh(ASTNode2 value) throws SBMLException {
+    // TODO: Specify specific type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Maths.arccosh(v.toDouble()));
-
     return v;
   }
 
@@ -151,11 +159,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#arccot(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value arccot(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> arccot(ASTNode2 value) throws SBMLException {
+    // TODO: Specify specific type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Maths.arccot(v.toDouble()));
-
     return v;
   }
 
@@ -163,11 +171,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#arccoth(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value arccoth(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> arccoth(ASTNode2 value) throws SBMLException {
+    // TODO: Specify specific type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Maths.arccoth(v.toDouble()));
-
     return v;
   }
 
@@ -175,11 +183,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#arccsc(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value arccsc(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> arccsc(ASTNode2 value) throws SBMLException {
+    // TODO: Specify specific type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Maths.arccsc(v.toDouble()));
-
     return v;
   }
 
@@ -187,11 +195,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#arccsch(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value arccsch(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> arccsch(ASTNode2 value) throws SBMLException {
+    // TODO: Specify specific type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Maths.arccsch(v.toDouble()));
-
     return v;
   }
 
@@ -199,11 +207,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#arcsec(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value arcsec(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> arcsec(ASTNode2 value) throws SBMLException {
+    // TODO: Specify specific type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Maths.arcsec(v.toDouble()));
-
     return v;
   }
 
@@ -211,11 +219,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#arcsech(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value arcsech(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> arcsech(ASTNode2 value) throws SBMLException {
+    // TODO: Specify specific type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Maths.arcsech(v.toDouble()));
-
     return v;
   }
 
@@ -223,11 +231,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#arcsin(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value arcsin(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> arcsin(ASTNode2 value) throws SBMLException {
+    // TODO: Specify specific type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Math.asin(v.toDouble()));
-
     return v;
   }
 
@@ -235,11 +243,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#arcsinh(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value arcsinh(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> arcsinh(ASTNode2 value) throws SBMLException {
+    // TODO: Specify specific type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Maths.arcsinh(v.toDouble()));
-
     return v;
   }
 
@@ -247,11 +255,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#arctan(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value arctan(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> arctan(ASTNode2 value) throws SBMLException {
+    // TODO: Specify specific type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Math.atan(v.toDouble()));
-
     return v;
   }
 
@@ -259,11 +267,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#arctanh(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value arctanh(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> arctanh(ASTNode2 value) throws SBMLException {
+    // TODO: Specify specific type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Maths.arctanh(v.toDouble()));
-
     return v;
   }
 
@@ -271,10 +279,10 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#ceiling(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value ceiling(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> ceiling(ASTNode2 value) throws SBMLException {
+    // TODO: Specify specific type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     v.setValue(Math.ceil(v.toDouble()));
-
     return v;
   }
 
@@ -284,10 +292,10 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @param b
    * @return
    */
-  public ASTNode2Value compile(boolean b) {
+  public <T> ASTNode2Value<Boolean> compile(boolean b) {
     UnitDefinition ud = new UnitDefinition(level, version);
     ud.addUnit(Kind.DIMENSIONLESS);
-    ASTNode2Value value = new ASTNode2Value(b, this);
+    ASTNode2Value<Boolean> value = new ASTNode2Value<Boolean>(b, this);
     value.setUnits(ud);
     return value;
   }
@@ -296,7 +304,8 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#compile(org.sbml.jsbml.Compartment)
    */
   @Override
-  public ASTNode2Value compile(Compartment c) {
+  // TODO: Verify specific type T i.e. ASTNode2Value<CallableSBase>
+  public <T> ASTNode2Value<CallableSBase> compile(Compartment c) {
     return compile((CallableSBase) c);
   }
 
@@ -304,7 +313,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#compile(double, int, java.lang.String)
    */
   @Override
-  public ASTNode2Value compile(double mantissa, int exponent, String units) {
+  public <T> ASTNode2Value<String> compile(double mantissa, int exponent, String units) {
     return compile(mantissa * Math.pow(10, exponent), units);
   }
 
@@ -312,8 +321,8 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#compile(double, java.lang.String)
    */
   @Override
-  public ASTNode2Value compile(double real, String units) {
-    ASTNode2Value v = new ASTNode2Value(real, this);
+  public <T> ASTNode2Value<String> compile(double real, String units) {
+    ASTNode2Value<String> v = new ASTNode2Value<String>(StringTools.toString(Locale.ENGLISH, real), this);
     UnitDefinition ud;
     if (Unit.Kind.isValidUnitKindString(units, level, version)) {
       ud = new UnitDefinition(level, version);
@@ -332,7 +341,8 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#compile(int, java.lang.String)
    */
   @Override
-  public ASTNode2Value compile(int integer, String units) {
+  // TODO: Specify specific type T i.e. ASTNode2Value<Integer>
+  public <T> ASTNode2Value compile(int integer, String units) {
     return compile((double) integer, units);
   }
 
@@ -340,8 +350,9 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#compile(org.sbml.jsbml.CallableSBase)
    */
   @Override
-  public ASTNode2Value compile(CallableSBase variable) {
-    ASTNode2Value value = new ASTNode2Value(variable, this);
+  public <T> ASTNode2Value<CallableSBase> compile(CallableSBase variable) {
+    // TODO: Specify specific type T i.e. ASTNode2Value<CallableSBase>
+    ASTNode2Value value = new ASTNode2Value<CallableSBase>(variable, this);
     if (variable instanceof Quantity) {
       Quantity q = (Quantity) variable;
       if (q.isSetValue()) {
@@ -356,22 +367,23 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#compile(java.lang.String)
    */
   @Override
-  public ASTNode2Value compile(String name) {
+  // TODO: Specify specific type T i.e. ASTNode2Value<String>
+  public <T> ASTNode2Value<?> compile(String name) {
     if (namesToUnits.containsKey(name)) {
       return namesToUnits.get(name);
     }
-    return new ASTNode2Value(this);
+    return new ASTNode2Value<String>(this);
   }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ASTNodeCompiler#cos(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value cos(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> cos(ASTNode2 value) throws SBMLException {
+    // TODO: Specify specific type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Math.cos(v.toDouble()));
-
     return v;
   }
 
@@ -379,11 +391,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#cosh(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value cosh(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> cosh(ASTNode2 value) throws SBMLException {
+    // TODO: Specify specific type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Math.cosh(v.toDouble()));
-
     return v;
   }
 
@@ -391,11 +403,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#cot(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value cot(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> cot(ASTNode2 value) throws SBMLException {
+    // TODO: Specify specific type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Maths.cot(v.toDouble()));
-
     return v;
   }
 
@@ -403,11 +415,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#coth(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value coth(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> coth(ASTNode2 value) throws SBMLException {
+    // TODO: Specify specific type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Maths.coth(v.toDouble()));
-
     return v;
   }
 
@@ -415,11 +427,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#csc(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value csc(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> csc(ASTNode2 value) throws SBMLException {
+    // TODO: Specify specific type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Maths.csc(v.toDouble()));
-
     return v;
   }
 
@@ -427,11 +439,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#csch(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value csch(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> csch(ASTNode2 value) throws SBMLException {
+    // TODO: Specify specific type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Maths.csch(v.toDouble()));
-
     return v;
   }
 
@@ -439,7 +451,8 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#delay(java.lang.String, org.sbml.jsbml.ASTNode2Value, double, java.lang.String)
    */
   @Override
-  public ASTNode2Value delay(String delayName, ASTNode2 x, ASTNode2 delay) 
+  // TODO: Specify specific type T i.e. ASTNode2Value<String>
+  public <T> ASTNode2Value<?> delay(String delayName, ASTNode2 x, ASTNode2 delay) 
   throws SBMLException {
     /*
      * This represents a delay function. The delay function has the form
@@ -453,7 +466,6 @@ public class UnitsCompiler implements ASTNode2Compiler {
      */
     UnitDefinition value = x.compile(this).getUnits().clone();
     UnitDefinition time = delay.compile(this).getUnits().clone();
-
     if (model.getTimeUnitsInstance() != null) {
       if (!UnitDefinition.areEquivalent(model.getTimeUnitsInstance(),
         time)) {
@@ -468,7 +480,6 @@ public class UnitsCompiler implements ASTNode2Compiler {
     }
     // not the correct value, need insight into time scale to return
     // the correct value
-
     return new ASTNode2Value(value, this);
   }
 
@@ -478,7 +489,8 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * 
    * @return
    */
-  private ASTNode2Value dimensionless() {
+  // TODO: Specify type generic type T i.e. ASTNode2Value<?>
+  private <T> ASTNode2Value dimensionless() {
     UnitDefinition ud = new UnitDefinition(level, version);
     ud.addUnit(Unit.Kind.DIMENSIONLESS);
     return new ASTNode2Value(ud, this);
@@ -488,14 +500,13 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#equal(org.sbml.jsbml.ASTNode2Value, org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value eq(ASTNode2 left, ASTNode2 right) throws SBMLException {
+  public <T> ASTNode2Value<Boolean> eq(ASTNode2 left, ASTNode2 right) throws SBMLException {
+    // TODO: Specify type T i.e. ASTNode2Value<Boolean>
     ASTNode2Value v = dimensionless(), leftvalue, rightvalue;
     leftvalue = left.compile(this);
     rightvalue = right.compile(this);
     unifyUnits(leftvalue, rightvalue);
-
     v.setValue(leftvalue.toDouble() == rightvalue.toDouble());
-
     return v;
   }
 
@@ -503,10 +514,9 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#exp(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value exp(ASTNode2 value) throws SBMLException {
-    ASTNode2Value v = value.compile(this);
+  public <T> ASTNode2Value<?> exp(ASTNode2 value) throws SBMLException {
+    ASTNode2Value<?> v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
-
     return pow(getConstantE(), v);
   }
 
@@ -514,11 +524,12 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#factorial(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value factorial(ASTNode2 value) throws SBMLException {
-    ASTNode2Value v = new ASTNode2Value(Maths.factorial((int) Math
+  public <T> ASTNode2Value<Long> factorial(ASTNode2 value) throws SBMLException {
+    // TODO: Perform unit test to verify type T (Long)
+    ASTNode2Value<Long> v = new ASTNode2Value<Long>(Maths.factorial((int) Math
       .round(value.compile(this).toDouble())), this);
-    if (value instanceof ASTCnNumberNode  && ((ASTCnNumberNode)value).isSetUnits()) {
-      v.setUnits(((ASTCnNumberNode)value).getUnitsInstance());
+    if (value instanceof ASTCnNumberNode  && ((ASTCnNumberNode<?>)value).isSetUnits()) {
+      v.setUnits(((ASTCnNumberNode<?>)value).getUnitsInstance());
     } else {
       v.setLevel(level);
       v.setVersion(version);
@@ -531,10 +542,10 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#floor(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value floor(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> floor(ASTNode2 value) throws SBMLException {
+    // TODO: Specify type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     v.setValue(Math.floor(v.toDouble()));
-
     return v;
   }
 
@@ -542,14 +553,14 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#frac(org.sbml.jsbml.ASTNode2Value, org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value frac(ASTNode2 numerator, ASTNode2 denominator)
+  public <T> ASTNode2Value<Double> frac(ASTNode2 numerator, ASTNode2 denominator)
       throws SBMLException {
     UnitDefinition ud = numerator.compile(this).getUnits().clone();
     UnitDefinition denom = denominator.compile(this).getUnits().clone();
     setLevelAndVersion(ud);
     setLevelAndVersion(denom);
     ud.divideBy(denom);
-    ASTNode2Value value = new ASTNode2Value(ud, this);
+    ASTNode2Value<Double> value = new ASTNode2Value<Double>(ud, this);
     value.setValue(numerator.compile(this).toDouble()
       / denominator.compile(this).toDouble());
     return value;
@@ -570,18 +581,20 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#function(org.sbml.jsbml.FunctionDefinition, org.sbml.jsbml.ASTNode2Value[])
    */
   @Override
-  public ASTNode2Value function(FunctionDefinition function, List<ASTNode2> args)
+  public <T> ASTNode2Value<String> function(FunctionDefinition function, List<ASTNode2> args)
       throws SBMLException {
-    ASTNode lambda = function.getMath();
-    HashMap<String, ASTNode2Value> argValues = new HashMap<String, ASTNode2Value>();
+    ASTLambdaFunctionNode lambda = (ASTLambdaFunctionNode) function.getMath().toASTNode2();
+    HashMap<String, ASTNode2Value<?>> argValues = new HashMap<String, ASTNode2Value<?>>();
     for (int i = 0; i < args.size(); i++) {
-      argValues.put(lambda.getChild(i).compile(this).toString(), args
+      // TODO: Check getChildAt() method ... 
+      argValues.put(lambda.getChildAt(i).compile(this).toString(), args
         .get(i).compile(this));
 
     }
     try {
       namesToUnits = argValues;
-      ASTNode2Value value = lambda.getRightChild().compile(this);
+      // TODO: Check getChildAt() method ... 
+      ASTNode2Value value = lambda.getChildAt(lambda.getChildCount() - 1).compile(this);
       namesToUnits.clear();
       return value;
     } catch (SBMLException e) {
@@ -593,24 +606,24 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#function(java.lang.String, java.util.List)
    */
   @Override
-  public ASTNode2Value function(String functionDefinitionName,
+  public <T> ASTNode2Value<String> function(String functionDefinitionName,
     List<ASTNode2> args) throws SBMLException {
-    // TODO: Not sure what to do
-    return new ASTNode2Value(this);
+    // TODO: Implement
+    //return new ASTNode2Value(this);
+    return null;
   }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ASTNodeCompiler#greaterEqual(org.sbml.jsbml.ASTNode2Value, org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value geq(ASTNode2 left, ASTNode2 right) throws SBMLException {
+  public <T> ASTNode2Value<Boolean> geq(ASTNode2 left, ASTNode2 right) throws SBMLException {
+    // TODO: Specify type T i.e. ASTNode2Value<Boolean>
     ASTNode2Value v = dimensionless(), leftvalue, rightvalue;
     leftvalue = left.compile(this);
     rightvalue = right.compile(this);
     unifyUnits(leftvalue, rightvalue);
-
     v.setValue(leftvalue.toDouble() >= rightvalue.toDouble());
-
     return v;
   }
 
@@ -618,9 +631,9 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#getConstantAvogadro(java.lang.String)
    */
   @Override
-  public ASTNode2Value getConstantAvogadro(String name) {
+  public <T> ASTNode2Value<Double> getConstantAvogadro(String name) {
     // TODO: If there is a different value in a later SBML specification, this must be checked here.
-    ASTNode2Value value = new ASTNode2Value(Maths.AVOGADRO_L3V1, this);
+    ASTNode2Value<Double> value = new ASTNode2Value<Double>(Maths.AVOGADRO_L3V1, this);
     UnitDefinition perMole = new UnitDefinition(level, version);
     perMole.setLevel(level);
     perMole.setId("per_mole");
@@ -633,8 +646,8 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#getConstantE()
    */
   @Override
-  public ASTNode2Value getConstantE() {
-    ASTNode2Value v = dimensionless();
+  public <T> ASTNode2Value<Double> getConstantE() {
+    ASTNode2Value<Double> v = dimensionless();
     v.setValue(Math.E);
     return v;
   }
@@ -643,8 +656,8 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#getConstantFalse()
    */
   @Override
-  public ASTNode2Value getConstantFalse() {
-    ASTNode2Value v = dimensionless();
+  public <T> ASTNode2Value<Boolean> getConstantFalse() {
+    ASTNode2Value<Boolean> v = dimensionless();
     v.setValue(false);
     return v;
   }
@@ -653,8 +666,8 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#getConstantPi()
    */
   @Override
-  public ASTNode2Value getConstantPi() {
-    ASTNode2Value v = dimensionless();
+  public <T> ASTNode2Value<Double> getConstantPi() {
+    ASTNode2Value<Double> v = dimensionless();
     v.setValue(Math.PI);
     return v;
   }
@@ -663,8 +676,8 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#getConstantTrue()
    */
   @Override
-  public ASTNode2Value getConstantTrue() {
-    ASTNode2Value v = dimensionless();
+  public <T> ASTNode2Value<Boolean> getConstantTrue() {
+    ASTNode2Value<Boolean> v = dimensionless();
     v.setValue(true);
     return v;
   }
@@ -673,7 +686,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#getNegativeInfinity()
    */
   @Override
-  public ASTNode2Value<String> getNegativeInfinity() {
+  public <T> ASTNode2Value<String> getNegativeInfinity() {
     return compile(Double.NEGATIVE_INFINITY, Unit.Kind.DIMENSIONLESS
       .toString().toLowerCase());
   }
@@ -682,7 +695,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#getPositiveInfinity()
    */
   @Override
-  public ASTNode2Value<String> getPositiveInfinity() {
+  public <T> ASTNode2Value<String> getPositiveInfinity() {
     return compile(Double.POSITIVE_INFINITY, Unit.Kind.DIMENSIONLESS
       .toString().toLowerCase());
   }
@@ -691,14 +704,13 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#greaterThan(org.sbml.jsbml.ASTNode2Value, org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value gt(ASTNode2 left, ASTNode2 right) throws SBMLException {
+  public <T> ASTNode2Value<Boolean> gt(ASTNode2 left, ASTNode2 right) throws SBMLException {
+    // TODO: Specify type T i.e. ASTNode2Value<Boolean>
     ASTNode2Value v = dimensionless(), leftvalue, rightvalue;
     leftvalue = left.compile(this);
     rightvalue = right.compile(this);
     unifyUnits(leftvalue, rightvalue);
-
     v.setValue(leftvalue.toDouble() > rightvalue.toDouble());
-
     return v;
   }
 
@@ -707,7 +719,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * 
    * @return
    */
-  private ASTNode2Value invalid() {
+  private <T> ASTNode2Value<?> invalid() {
     UnitDefinition ud = new UnitDefinition(level, version);
     ud.addUnit(new Unit(level, version));
     return new ASTNode2Value(ud, this);
@@ -717,7 +729,8 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#lambda(org.sbml.jsbml.ASTNode2Value[])
    */
   @Override
-  public ASTNode2Value lambda(List<ASTNode2> values) throws SBMLException {
+  // TODO: Specify generic type T i.e. ASTNode2Value<?>
+  public <T> ASTNode2Value<?> lambda(List<ASTNode2> values) throws SBMLException {
     for (int i = 0; i < values.size() - 1; i++) {
       namesToUnits.put(values.get(i).toString(),
         values.get(i).compile(this));
@@ -730,14 +743,12 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#lessEqual(org.sbml.jsbml.ASTNode2Value, org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value leq(ASTNode2 left, ASTNode2 right) throws SBMLException {
+  public ASTNode2Value<?> leq(ASTNode2 left, ASTNode2 right) throws SBMLException {
     ASTNode2Value v = dimensionless(), leftvalue, rightvalue;
     leftvalue = left.compile(this);
     rightvalue = right.compile(this);
     unifyUnits(leftvalue, rightvalue);
-
     v.setValue(leftvalue.toDouble() <= rightvalue.toDouble());
-
     return v;
   }
 
@@ -745,11 +756,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#ln(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value ln(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> ln(ASTNode2 value) throws SBMLException {
+    // TODO: Specify type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Maths.ln(v.toDouble()));
-
     return v;
   }
 
@@ -757,11 +768,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#log(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value log(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> log(ASTNode2 value) throws SBMLException {
+    // TODO: Specify type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Maths.log(v.toDouble()));
-
     return v;
   }
 
@@ -769,13 +780,13 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#log(org.sbml.jsbml.ASTNode2Value, org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value log(ASTNode2 number, ASTNode2 base) throws SBMLException {
+  public <T> ASTNode2Value<Double> log(ASTNode2 number, ASTNode2 base) throws SBMLException {
+    // TODO: Specify type T i.e. ASTNode2Value<Double>
     ASTNode2Value v = number.compile(this);
     ASTNode2Value b = base.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     checkForDimensionlessOrInvalidUnits(b.getUnits());
     v.setValue(Maths.log(v.toDouble(), b.toDouble()));
-
     return v;
   }
 
@@ -783,14 +794,13 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#lessThan(org.sbml.jsbml.ASTNode2Value, org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value lt(ASTNode2 left, ASTNode2 right) throws SBMLException {
-    ASTNode2Value v = dimensionless(), leftvalue, rightvalue;
+  // TODO: Specify generic type T i.e. ASTNode2Value<?>
+  public <T> ASTNode2Value<?> lt(ASTNode2 left, ASTNode2 right) throws SBMLException {
+    ASTNode2Value<?> v = dimensionless(), leftvalue, rightvalue;
     leftvalue = left.compile(this);
     rightvalue = right.compile(this);
     unifyUnits(leftvalue, rightvalue);
-
     v.setValue(leftvalue.toDouble() < rightvalue.toDouble());
-
     return v;
   }
 
@@ -798,7 +808,8 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#minus(org.sbml.jsbml.ASTNode2Value[])
    */
   @Override
-  public ASTNode2Value minus(List<ASTNode2> values) throws SBMLException {
+  // TODO: Specify generic type T i.e. ASTNode2Value<?>
+  public <T> ASTNode2Value<?> minus(List<ASTNode2> values) throws SBMLException {
     ASTNode2Value value = new ASTNode2Value(this);
     if (values.size() == 0) {
       return value;
@@ -838,14 +849,13 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#notEqual(org.sbml.jsbml.ASTNode2Value, org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value neq(ASTNode2 left, ASTNode2 right) throws SBMLException {
-    ASTNode2Value v = dimensionless(), leftvalue, rightvalue;
+  // TODO: Specify type T i.e. ASTNode2Value<Boolean>
+  public ASTNode2Value<?> neq(ASTNode2 left, ASTNode2 right) throws SBMLException {
+    ASTNode2Value<?> v = dimensionless(), leftvalue, rightvalue;
     leftvalue = left.compile(this);
     rightvalue = right.compile(this);
     unifyUnits(leftvalue, rightvalue);
-
     v.setValue(leftvalue.toDouble() != rightvalue.toDouble());
-
     return v;
   }
 
@@ -853,8 +863,8 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#not(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value not(ASTNode2 value) throws SBMLException {
-    ASTNode2Value v = dimensionless();
+  public <T> ASTNode2Value<Boolean> not(ASTNode2 value) throws SBMLException {
+    ASTNode2Value<Boolean> v = dimensionless();
     v.setValue(!value.compile(this).toBoolean());
     return v;
   }
@@ -863,8 +873,8 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#or(org.sbml.jsbml.ASTNode2Value[])
    */
   @Override
-  public ASTNode2Value or(List<ASTNode2> values) throws SBMLException {
-    ASTNode2Value v = dimensionless();
+  public <T> ASTNode2Value<Boolean> or(List<ASTNode2> values) throws SBMLException {
+    ASTNode2Value<Boolean> v = dimensionless();
     v.setValue(false);
     for (ASTNode2 value : values) {
       if (value.compile(this).toBoolean()) {
@@ -879,15 +889,14 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#piecewise(org.sbml.jsbml.ASTNode2Value[])
    */
   @Override
-  public ASTNode2Value piecewise(List<ASTNode2> values) throws SBMLException {
+  public <T> ASTNode2Value<?> piecewise(List<ASTNode2> values) throws SBMLException {
     int i = 0;
-
-    ASTNode2Value compiledvalues[] = new ASTNode2Value[values.size()];
+    ASTNode2Value<?> compiledvalues[] = new ASTNode2Value<?>[values.size()];
     for (ASTNode2 node : values) {
       compiledvalues[i++] = node.compile(this);
     }
     if (values.size() > 2) {
-      ASTNode2Value node = compiledvalues[0];
+      ASTNode2Value<?> node = compiledvalues[0];
       for (i = 2; i < values.size(); i += 2) {
         if (!UnitDefinition.areEquivalent(node.getUnits(),
           compiledvalues[i].getUnits())) {
@@ -900,22 +909,19 @@ public class UnitsCompiler implements ASTNode2Compiler {
         }
       }
     }
-
     for (i = 1; i < compiledvalues.length - 1; i += 2) {
       if (compiledvalues[i].toBoolean()) {
         return compiledvalues[i - 1];
       }
     }
-
     return values.get(i - 1).compile(this);
-
   }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ASTNodeCompiler#plus(org.sbml.jsbml.ASTNode2Value[])
    */
   @Override
-  public ASTNode2Value plus(List<ASTNode2> values) throws SBMLException {
+  public <T> ASTNode2Value<?> plus(List<ASTNode2> values) throws SBMLException {
     ASTNode2Value value = new ASTNode2Value(this);
 
     if (values.size() == 0) {
@@ -1040,10 +1046,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#pow(org.sbml.jsbml.ASTNode2Value, org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value pow(ASTNode2 base, ASTNode2 exponent)
+  public <T> ASTNode2Value<?> pow(ASTNode2 base, ASTNode2 exponent)
       throws SBMLException {
-    if (exponent.isSetUnits()) {
-      checkForDimensionlessOrInvalidUnits(exponent.getUnitsInstance());
+    if (exponent instanceof ASTCnNumberNode) {
+      checkForDimensionlessOrInvalidUnits(((ASTCnNumberNode)exponent)
+           .getUnitsInstance());
     }
 
     return pow(base.compile(this), exponent.compile(this));
@@ -1056,7 +1063,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @return
    * @throws SBMLException
    */
-  private ASTNode2Value pow(ASTNode2Value base, ASTNode2Value exponent)
+  private <T> ASTNode2Value<?> pow(ASTNode2Value base, ASTNode2Value exponent)
       throws SBMLException {
     double exp = Double.NaN, v;
     v = exponent.toDouble();
@@ -1064,14 +1071,14 @@ public class UnitsCompiler implements ASTNode2Compiler {
     if (exp == 0d) {
       UnitDefinition ud = new UnitDefinition(level, version);
       ud.addUnit(Kind.DIMENSIONLESS);
-      ASTNode2Value value = new ASTNode2Value(ud, this);
+      ASTNode2Value<Integer> value = new ASTNode2Value<Integer>(ud, this);
       value.setValue(Integer.valueOf(1));
       return value;
     }
     if (!Double.isNaN(exp)) {
       return root(exp, base);
     }
-
+    // TODO: 
     return new ASTNode2Value(this);
   }
 
@@ -1084,10 +1091,8 @@ public class UnitsCompiler implements ASTNode2Compiler {
   private void checkForDimensionlessOrInvalidUnits(UnitDefinition units) {
     units.simplify();
     String illegal = null;
-
     if (units.getUnitCount() == 1) {
       Kind kind = units.getUnit(0).getKind();
-
       if ((kind != Kind.DIMENSIONLESS) && (kind != Kind.ITEM)
           && (kind != Kind.RADIAN) && (kind != Kind.STERADIAN)
           && (kind != Kind.INVALID)) {
@@ -1108,31 +1113,25 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#root(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
    */
   @Override
-  public ASTNode2Value root(ASTNode2 rootExponent, ASTNode2 radiant)
+  public <T> ASTNode2Value<Double> root(ASTNode2 rootExponent, ASTNode2 radiant)
       throws SBMLException {
-    if (rootExponent.isSetUnits()) {
-      checkForDimensionlessOrInvalidUnits(rootExponent.getUnitsInstance());
-    }
-    if (rootExponent.isNumber()) {
-
-      if (!(rootExponent.isInteger() || rootExponent.isRational())) {
-        checkForDimensionlessOrInvalidUnits(rootExponent
+    if (rootExponent instanceof ASTCnNumberNode) {
+      if (!(rootExponent instanceof ASTCnIntegerNode 
+             || rootExponent instanceof ASTCnRationalNode)) {
+        checkForDimensionlessOrInvalidUnits(((ASTCnNumberNode)rootExponent)
           .getUnitsInstance());
       }
-
       return root(rootExponent.compile(this).toDouble(), radiant);
     }
-
-    return new ASTNode2Value(this);
+    return new ASTNode2Value<Double>(this);
   }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ASTNodeCompiler#root(double, org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value root(double rootExponent, ASTNode2 radiant)
+  public <T> ASTNode2Value<Double> root(double rootExponent, ASTNode2 radiant)
       throws SBMLException {
-
     return root(rootExponent, radiant.compile(this));
   }
 
@@ -1143,7 +1142,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @return
    * @throws SBMLException
    */
-  private ASTNode2Value root(double rootExponent, ASTNode2Value radiant)
+  private <T> ASTNode2Value<Double> root(double rootExponent, ASTNode2Value radiant)
       throws SBMLException {
     UnitDefinition ud = radiant.getUnits().clone();
     for (Unit u : ud.getListOfUnits()) {
@@ -1152,13 +1151,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
           "Cannot perform power or root operation due to incompatibility with a unit exponent. Given are {0,number} as the exponent of the unit and {1,number} as the root exponent for the current computation.",
           u.getExponent(), rootExponent));
       }
-
       if (!(u.isDimensionless() || u.isInvalid())) {
         u.setExponent(u.getExponent() / rootExponent);
       }
-
     }
-    ASTNode2Value value = new ASTNode2Value(ud, this);
+    ASTNode2Value<Double> value = new ASTNode2Value<Double>(ud, this);
     value.setValue(Double.valueOf(Math.pow(radiant.toDouble(), 1d / rootExponent)));
     return value;
   }
@@ -1167,11 +1164,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#sec(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value sec(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> sec(ASTNode2 value) throws SBMLException {
+    // TODO: Type T needs to be specified i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Maths.sec(v.toDouble()));
-
     return v;
   }
 
@@ -1179,11 +1176,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#sech(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value sech(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> sech(ASTNode2 value) throws SBMLException {
+    // TODO: Type T needs to be specified i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Maths.sech(v.toDouble()));
-
     return v;
   }
 
@@ -1210,11 +1207,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#sin(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value sin(ASTNode2 value) throws SBMLException {
+  public ASTNode2Value<?> sin(ASTNode2 value) throws SBMLException {
+    // TODO: Type T needs to be specified i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Math.sin(v.toDouble()));
-
     return v;
   }
 
@@ -1222,11 +1219,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#sinh(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value sinh(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> sinh(ASTNode2 value) throws SBMLException {
+    // TODO: Type T needs to be specified i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Math.sinh(v.toDouble()));
-
     return v;
   }
 
@@ -1234,7 +1231,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#sqrt(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value sqrt(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> sqrt(ASTNode2 value) throws SBMLException {
     return root(2d, value);
   }
 
@@ -1242,7 +1239,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#symbolTime(java.lang.String)
    */
   @Override
-  public ASTNode2Value symbolTime(String time) {
+  public <T> ASTNode2Value<Double> symbolTime(String time) {
     UnitDefinition ud;
     if (model != null) {
       ud = model.getTimeUnitsInstance();
@@ -1255,7 +1252,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
     if (ud == null) {
       ud = invalid().getUnits();
     }
-    ASTNode2Value value = new ASTNode2Value(ud, this);
+    ASTNode2Value<Double> value = new ASTNode2Value<Double>(ud, this);
     value.setValue(Double.valueOf(1d));
     return value;
   }
@@ -1264,11 +1261,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#tan(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value tan(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> tan(ASTNode2 value) throws SBMLException {
+    // TODO: Type T needs to be specified i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Math.tan(v.toDouble()));
-
     return v;
   }
 
@@ -1276,11 +1273,11 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#tanh(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value tanh(ASTNode2 value) throws SBMLException {
+  public <T> ASTNode2Value<Double> tanh(ASTNode2 value) throws SBMLException {
+    // TODO: Type T needs to be specified i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     checkForDimensionlessOrInvalidUnits(v.getUnits());
     v.setValue(Math.tanh(v.toDouble()));
-
     return v;
   }
 
@@ -1288,19 +1285,18 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#times(org.sbml.jsbml.ASTNode2Value[])
    */
   @Override
-  public ASTNode2Value times(List<ASTNode2> values) throws SBMLException {
+  public <T> ASTNode2Value<Double> times(List<ASTNode2> values) throws SBMLException {
     UnitDefinition ud = new UnitDefinition(level, version);
     UnitDefinition v;
     double d = 1d;
-
     for (ASTNode2 value : values) {
-      ASTNode2Value av = value.compile(this);
+      ASTNode2Value<?> av = value.compile(this);
       v = av.getUnits().clone();
       setLevelAndVersion(v);
       ud.multiplyWith(v);
       d *= av.toDouble();
     }
-    ASTNode2Value value = new ASTNode2Value(ud, this);
+    ASTNode2Value<Double> value = new ASTNode2Value(ud, this);
     value.setValue(Double.valueOf(d));
 
     return value;
@@ -1310,10 +1306,10 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#uiMinus(org.sbml.jsbml.ASTNode2Value)
    */
   @Override
-  public ASTNode2Value uMinus(ASTNode2 value) throws SBMLException {
+  public ASTNode2Value<?> uMinus(ASTNode2 value) throws SBMLException {
+    // TODO: Type T needs to be specified i.e. ASTNode2Value<Double>
     ASTNode2Value v = value.compile(this);
     v.setValue(-v.toDouble());
-
     return v;
   }
 
@@ -1321,7 +1317,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#unknownValue()
    */
   @Override
-  public ASTNode2Value unknownValue() {
+  public <T> ASTNode2Value<?> unknownValue() {
     return invalid();
   }
 
@@ -1329,8 +1325,8 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.ASTNodeCompiler#xor(org.sbml.jsbml.ASTNode2Value[])
    */
   @Override
-  public ASTNode2Value xor(List<ASTNode2> values) throws SBMLException {
-    ASTNode2Value value = dimensionless();
+  public <T> ASTNode2Value<Boolean> xor(List<ASTNode2> values) throws SBMLException {
+    ASTNode2Value<Boolean> value = dimensionless();
     boolean v = false;
     for (int i = 0; i < values.size(); i++) {
       if (values.get(i).compile(this).toBoolean()) {
@@ -1349,7 +1345,7 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#selector(java.util.List)
    */
   @Override
-  public ASTNode2Value selector(List<ASTNode2> nodes) throws SBMLException {
+  public <T> ASTNode2Value<String> selector(List<ASTNode2> nodes) throws SBMLException {
     return function("selector", nodes);
   }
 
@@ -1357,8 +1353,18 @@ public class UnitsCompiler implements ASTNode2Compiler {
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#vector(java.util.List)
    */
   @Override
-  public ASTNode2Value vector(List<ASTNode2> nodes) throws SBMLException {
+  public <T> ASTNode2Value<String> vector(List<ASTNode2> nodes) throws SBMLException {
     return function("vector", nodes);
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.compiler.ASTNode2Compiler#function(java.lang.Object, java.util.List)
+   */
+  @Override
+  public <T> ASTNode2Value<?> function(T functionDefinitionName,
+      List<ASTNode2> args) throws SBMLException {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }
