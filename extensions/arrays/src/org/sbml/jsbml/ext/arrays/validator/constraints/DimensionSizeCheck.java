@@ -101,7 +101,7 @@ public class DimensionSizeCheck extends ArraysConstraint{
       logDimensionSizeValueInconsistency(shortMsg);
     }
 
-    if(param.getValue()  > 0) {
+    if(param.getValue()  < 0) {
       String shortMsg = "The attribute arrays:size of a Dimension object should point to a parameter that has a non-negative"
         + "integer value but " + dim.toString() + "has a negative value.";
       logDimensionSizeValueInconsistency(shortMsg);
