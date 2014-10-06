@@ -332,17 +332,21 @@ public class Unit extends AbstractSBase {
      *         particular SBML level and version, {@code false} otherwise.
      * @see Unit#isPredefined(String, int)
      */
-    public static boolean isValidUnitKindString(String unitKind, int level, int version) {
+    public static boolean isValidUnitKindString(String unitKind, int level, int version) {      
       if ((unitKind != null) && (unitKind.length() > 0)) {
         try {
           // We need to do that as our enum is upper case and sbml
           // kind are lower case in the SBML XML representation.
-          Kind uk = Kind.valueOf(unitKind.toUpperCase());
+          Kind uk = Kind.valueOf(unitKind.toUpperCase()); // TODO - check how efficient this call is. Having a HashMap might be better
           return uk.isDefinedIn(level, version);
         } catch (IllegalArgumentException exc) {
-          logger.debug("isValidUnitKindString exception : " + exc.getMessage());
+          // logger.info("Unit.isValidUnitKindString - KindString = '" + unitKind + "'");
+          if (logger.isDebugEnabled()) {
+            logger.debug("isValidUnitKindString exception : " + exc.getMessage());
+          }
         }
       }
+      
       return false;
     }
 

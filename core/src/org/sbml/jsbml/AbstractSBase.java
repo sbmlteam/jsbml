@@ -1282,8 +1282,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
   @Override
   public ValuePair<Integer, Integer> getLevelAndVersion() {
     if (lv == null) {
-      lv = new ValuePair<Integer, Integer>(Integer.valueOf(-1),
-          Integer.valueOf(-1));
+      lv = new ValuePair<Integer, Integer>(-1, -1);
     }
     return lv;
   }
@@ -1826,7 +1825,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       }
     }
     Integer oldLevel = getLevelAndVersion().getL();
-    lv.setL(Integer.valueOf(level));
+    lv.setL(level);
     firePropertyChange(TreeNodeChangeEvent.level, oldLevel, lv.getL());
   }
 
@@ -2011,7 +2010,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       }
     }
     Integer oldVersion = getLevelAndVersion().getV();
-    lv.setV(Integer.valueOf(version));
+    lv.setV(version);
     firePropertyChange(TreeNodeChangeEvent.version, oldVersion, version);
   }
 
