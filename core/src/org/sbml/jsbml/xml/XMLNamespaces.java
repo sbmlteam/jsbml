@@ -132,6 +132,8 @@ public class XMLNamespaces {
   public XMLNamespaces(XMLNamespaces orig) {
 
     if (orig.namespaces != null) {
+      namespaces = new LinkedHashMap<String, String>();
+      
       for (String prefix : orig.namespaces.keySet()) {
         namespaces.put(new String(prefix), new String(orig.getURI(prefix)));
       }
