@@ -89,6 +89,7 @@
         <module>android</module>
         <module>celldesigner</module>
         <module>libSBMLio</module>
+        <module>tidy</module>
     </modules>
     
 </project>
