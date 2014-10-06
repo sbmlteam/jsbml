@@ -116,6 +116,10 @@ public class ArraysMath {
 
       Dimension dimByArrayDim = arraysSBasePlugin.getDimensionByArrayDimension(index.getArrayDimension());
 
+      if(dimByArrayDim == null) {
+        return false;
+      }
+      
       Map<String, Double> dimensionSizes = getDimensionSizes(model, arraysSBasePlugin);
 
       Map<String, Double> refSBaseSizes = getDimensionSizes(model, refSbasePlugin);
@@ -151,6 +155,10 @@ public class ArraysMath {
     
     Parameter paramSize = model.getParameter(dim.getSize());
    
+    if(paramSize == null) {
+      return false;
+    }
+    
     double size = paramSize.getValue();
 
     return evaluateBounds(dimSizes, math, size);
@@ -180,9 +188,12 @@ public class ArraysMath {
 
     ArraysSBasePlugin refSbasePlugin = (ArraysSBasePlugin) reference.getExtension(ArraysConstants.shortLabel);
 
-
     Dimension dimByArrayDim = arraysSBasePlugin.getDimensionByArrayDimension(arrayDim);
-
+    
+    if(dimByArrayDim == null) {
+      return false;
+    }
+    
     Map<String, Double> dimensionSizes = getDimensionSizes(model, arraysSBasePlugin);
 
     Map<String, Double> refSBaseSizes = getDimensionSizes(model, refSbasePlugin);
