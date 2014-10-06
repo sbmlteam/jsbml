@@ -319,9 +319,6 @@
 	>
 
 		<!-- Launching the tests for core and packages -->
-		<!-- The variable DATA_FOLDER might need to be declared previously in the environment: 
-		       export DATA_FOLDER=core/test/org/sbml/jsbml/xml/test/data
-		-->
 		<echo message="There should be NO failures or errors."/>
 		<echo message=""/>
 		<echo message="You can see a detailled output of the tests on the file: jsbmlTestResults.txt"/>

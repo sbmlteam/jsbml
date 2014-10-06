@@ -390,9 +390,6 @@
 
 		<!--
 		<junit printsummary="yes" >
-			<jvmarg value="-DDATA_FOLDER=${build.dest}/org/sbml/jsbml/xml/test/data/"/>
-			<sysproperty key="DATA_FOLDER" value="${build.dest}/org/sbml/jsbml/xml/test/data"/>
-
 			<formatter type="plain"/>
 			<test name="org.sbml.jsbml.test.sbml.TestIncompatibilities" outfile="incompatibilitiesTestResults">
 				<formatter type="plain"/>
@@ -421,9 +418,6 @@
 
 		<junit printsummary="yes" >
 			<!-- showoutput="yes" -->
-			<jvmarg value="-DDATA_FOLDER=${build.dest}/org/sbml/jsbml/xml/test/data/"/>
-			<sysproperty key="DATA_FOLDER" value="${build.dest}/org/sbml/jsbml/xml/test/data"/>
-
 			<formatter type="plain"/>
 			<test name="org.sbml.jsbml.xml.test.CheckConsistencyTests" outfile="sbmlOnlineValidatorTestResults">
 				<formatter type="plain"/>

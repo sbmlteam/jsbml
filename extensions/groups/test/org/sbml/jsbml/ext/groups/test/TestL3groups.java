@@ -31,8 +31,7 @@
  */
 package org.sbml.jsbml.ext.groups.test;
 
-import java.io.IOException;
-import java.util.InvalidPropertiesFormatException;
+import java.io.InputStream;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -41,13 +40,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.ext.groups.Group;
 import org.sbml.jsbml.ext.groups.GroupsModelPlugin;
 import org.sbml.jsbml.ext.groups.Member;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 import org.sbml.jsbml.xml.stax.SBMLWriter;
-import org.xml.sax.SAXException;
 
 /**
  * @author Nicolas Rodriguez
@@ -56,19 +53,8 @@ import org.xml.sax.SAXException;
  */
 public class TestL3groups {
 
-  public static String DATA_FOLDER = null;
   public static String GROUPS_NAMESPACE = "http://www.sbml.org/sbml/level3/version1/groups/version1";
 
-  static {
-
-    if (DATA_FOLDER == null) {
-      DATA_FOLDER = System.getenv("DATA_FOLDER");
-    }
-    if (DATA_FOLDER == null) {
-      DATA_FOLDER = System.getProperty("DATA_FOLDER");
-    }
-
-  }
 
   public boolean isNaN(double x) {
     return Double.isNaN(x);
@@ -78,28 +64,17 @@ public class TestL3groups {
   public void setUp() throws Exception {
   }
 
-  /**
-   * 
-   * @throws Exception
-   */
   @After
   public void tearDown() throws Exception {
   }
 
   /**
    * 
-   * @throws XMLStreamException
-   * @throws ClassNotFoundException
-   * @throws IOException
-   * @throws InvalidPropertiesFormatException
    */
   @Test
-  public void test_L3_Groups_read1() throws XMLStreamException,
-  InvalidPropertiesFormatException, IOException,
-  ClassNotFoundException {
-    String fileName = DATA_FOLDER + "/groups/groups1.xml";
-
-    SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
+  public void test_L3_Groups_read1() throws XMLStreamException {
+    InputStream fileStream = TestL3groups.class.getResourceAsStream("/org/sbml/jsbml/test/data/groups/groups1.xml");  
+    SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
     Model model = doc.getModel();
 
     System.out.println("Model extension objects: "
@@ -124,24 +99,16 @@ public class TestL3groups {
 
   /**
    * 
-   * @throws XMLStreamException
-   * @throws InstantiationException
-   * @throws IllegalAccessException
-   * @throws ClassNotFoundException
-   * @throws IOException
-   * @throws InvalidPropertiesFormatException
-   * @throws SBMLException
-   * @throws SAXException
    */
   @Test
-  public void test_L3_Groups_write1() throws XMLStreamException,
-  InstantiationException, IllegalAccessException,
-  InvalidPropertiesFormatException, IOException,
-  ClassNotFoundException, SBMLException, SAXException {
-    String fileName = DATA_FOLDER + "/groups/groups1.xml";
+  public void test_L3_Groups_write1() throws XMLStreamException {
+    InputStream fileStream = TestL3groups.class.getResourceAsStream("/org/sbml/jsbml/test/data/groups/groups1.xml");    
+    SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
 
-    SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
-
-    new SBMLWriter().write(doc, DATA_FOLDER + "/groups/groups1_write.xml");
+    String docStr = new SBMLWriter().writeSBMLToString(doc);
+    
+    // TODO - do some extra tests on the written file
+    
+    
   }
 }

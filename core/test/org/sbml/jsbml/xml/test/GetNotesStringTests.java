@@ -25,6 +25,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -32,6 +33,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
+import org.sbml.jsbml.test.sbml.TestReadFromFile5;
 
 /**
  * 
@@ -39,21 +41,6 @@ import org.sbml.jsbml.SBMLReader;
  * @version $Rev$
  */
 public class GetNotesStringTests {
-
-
-  public static String DATA_FOLDER = null;
-
-  static {
-
-    DATA_FOLDER = "test/org/sbml/jsbml/xml/test/data";
-
-    if (System.getProperty("DATA_FOLDER") != null || System.getenv("DATA_FOLDER") != null) {
-      DATA_FOLDER = System.getProperty("DATA_FOLDER");
-      if (DATA_FOLDER == null) {
-        DATA_FOLDER = System.getenv("DATA_FOLDER");
-      }
-    }
-  }
 
   /**
    * 
@@ -65,9 +52,9 @@ public class GetNotesStringTests {
    * Tries to use getNotesString on a model without a notes element.
    */
   @Test public void getNotesStringOnModel() throws IOException, XMLStreamException {
-    String fileName = DATA_FOLDER + "/libsbml-test-data/l1v1-minimal.xml";
+    InputStream fileStream = GetNotesStringTests.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/libsbml-test-data/l1v1-minimal.xml");
+    SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
 
-    SBMLDocument doc = new SBMLReader().readSBML(fileName);
     assertNotNull(doc.getModel().getNotesString());
     assertTrue(doc.getModel().getNotesString() == "");
   }
