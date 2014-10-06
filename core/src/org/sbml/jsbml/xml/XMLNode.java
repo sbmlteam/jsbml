@@ -201,7 +201,7 @@ public class XMLNode extends XMLToken {
   /**
    * 
    */
-  private List<XMLNode> childrenElements = new ArrayList<XMLNode>();
+  private List<XMLNode> childrenElements = null;
 
   /**
    * Creates a new empty {@link XMLNode} with no children.
@@ -251,7 +251,8 @@ public class XMLNode extends XMLToken {
   public XMLNode(XMLNode orig) {
     super(orig);
 
-    if (orig.childrenElements.size() > 0) {
+    if (orig.childrenElements != null && orig.childrenElements.size() > 0) {
+      childrenElements = new ArrayList<XMLNode>();
       for (XMLNode origchildren : orig.childrenElements) {
         childrenElements.add(origchildren.clone());
       }
@@ -424,9 +425,12 @@ public class XMLNode extends XMLToken {
     if (isEnd()) {
       unsetEnd();
     }
-
     // TODO: there are more tests in libsbml XMLNode.cpp, check if we need them, like isEOF()
 
+    if (childrenElements == null) {
+      childrenElements = new ArrayList<XMLNode>();
+    }
+    
     childrenElements.add(node);
     node.fireNodeAddedEvent();
     node.parent = this;
@@ -506,6 +510,9 @@ public class XMLNode extends XMLToken {
       //			childrenElements.add(node);
       throw new IndexOutOfBoundsException(Integer.toString(n));
     } else {
+      if (childrenElements == null) {
+        childrenElements = new ArrayList<XMLNode>();
+      }
       childrenElements.add(n, node);
       node.fireNodeAddedEvent();
     }
@@ -532,7 +539,7 @@ public class XMLNode extends XMLToken {
    * @jsbml.note The caller owns the returned node and is responsible for deleting it.
    */
   public XMLNode removeChild(int n) {
-    if ((n < 0) || (getChildCount() < n)) {
+    if ((n < 0) || (getChildCount() < n) || (childrenElements == null)) {
       return null;
     }
     XMLNode oldNode =  childrenElements.remove(n);
@@ -550,12 +557,14 @@ public class XMLNode extends XMLToken {
    * </ul>
    */
   public int removeChildren() {
-    List<XMLNode> removedChildren = childrenElements;
-    childrenElements.clear();
-    for(XMLNode child : removedChildren) {
-      child.fireNodeRemovedEvent();
+    if (childrenElements != null) {
+      List<XMLNode> removedChildren = childrenElements;
+      childrenElements.clear();
+      for(XMLNode child : removedChildren) {
+        child.fireNodeRemovedEvent();
+      }
     }
-
+    
     return OPERATION_SUCCESS;
   }
 
@@ -618,6 +627,10 @@ public class XMLNode extends XMLToken {
    * @return true if the {@link XMLNode} was found and removed.
    */
   public boolean removeChild(XMLNode xmlNode) {
+    if (childrenElements == null) {
+      return false;
+    }
+    
     return childrenElements.remove(xmlNode);
   }
 
