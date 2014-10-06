@@ -2937,10 +2937,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
     //      }
     //    }
     if (listOfPredefinedUnitDefinitions != null) {
-      for (UnitDefinition unitDefinition : listOfPredefinedUnitDefinitions) {
-        // TODO: It can never happen that a unitDef has the id that is a unit kind.
-        if (unitDefinition.getId().equals(unitKind)
-            || unitDefinition.getId().equals(unitKind + UnitDefinition.BASE_UNIT_SUFFIX))
+      String unitKindPredefinedId = unitKind + UnitDefinition.BASE_UNIT_SUFFIX;
+      for (UnitDefinition unitDefinition : listOfPredefinedUnitDefinitions) { // Having a Map instead of a list would be much better
+        // It can never happen that a unitDef has the id that is a unit kind. // "unitDefinition.getId().equals(unitKind) ||"
+        if (unitDefinition.getId().equals(unitKindPredefinedId))
         {
           return unitDefinition;
         }
