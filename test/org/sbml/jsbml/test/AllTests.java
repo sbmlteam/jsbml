@@ -46,38 +46,9 @@ import org.sbml.jsbml.xml.test.Tests;
   UnregisterPackageTests.class, ArraysJUnitTests.class, DisablePackageTests.class})
 public class AllTests {
   
-  public static String DATA_FOLDER = null;
-
-  static {
-
-    DATA_FOLDER = "core/test/org/sbml/jsbml/xml/test/data";
-
-    if (System.getProperty("DATA_FOLDER") != null || System.getenv("DATA_FOLDER") != null) {
-      DATA_FOLDER = System.getProperty("DATA_FOLDER");
-      if (DATA_FOLDER == null) {
-        DATA_FOLDER = System.getenv("DATA_FOLDER");
-      }
-    } else {
-      System.setProperty("DATA_FOLDER", DATA_FOLDER);
-    }
-  }
-
   /**
-   * Sets the environment correctly so that the test files are found, even
-   * when run through eclipse (with the standard eclipse setup, on trunk).
+   * Sets the environment
    * 
    */
-  @BeforeClass public static void setUp() {
-
-    if (System.getProperty("DATA_FOLDER") != null || System.getenv("DATA_FOLDER") != null) {
-      DATA_FOLDER = System.getProperty("DATA_FOLDER");
-      if (DATA_FOLDER == null) {
-        DATA_FOLDER = System.getenv("DATA_FOLDER");
-      }
-    } else {
-      System.setProperty("DATA_FOLDER", DATA_FOLDER);
-    }
-
-    System.out.println("AllTests - DATA_FOLDER SET to '" + DATA_FOLDER + "'");
-  }
+  @BeforeClass public static void setUp() {}
 }

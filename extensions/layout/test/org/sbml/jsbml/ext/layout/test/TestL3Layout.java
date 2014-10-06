@@ -57,7 +57,7 @@ public class TestL3Layout {
   /**
    * 
    */
-  public static String DATA_FOLDER = "/org/sbml/jsbml/xml/test/data/layout";
+  public static String DATA_PATH = "/org/sbml/jsbml/xml/test/data/layout";
   /**
    * 
    */
@@ -95,7 +95,7 @@ public class TestL3Layout {
    */
   @Test public void test_L3_Layout_read1()
   {
-    String filePath = DATA_FOLDER + "/GlycolysisLayout_small.xml";
+    String filePath = DATA_PATH + "/GlycolysisLayout_small.xml";
 
     SBMLDocument doc = null;
     try {
@@ -165,7 +165,7 @@ public class TestL3Layout {
 //   */
 //  @Test public void test_L3_Layout_write1()
 //  {
-//    String filePath = DATA_FOLDER + "/GlycolysisLayout_small.xml";
+//    String filePath = DATA_PATH + "/GlycolysisLayout_small.xml";
 //
 //    SBMLDocument doc = null;
 //    try {

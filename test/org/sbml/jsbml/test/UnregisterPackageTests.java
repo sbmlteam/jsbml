@@ -841,7 +841,7 @@ public class UnregisterPackageTests {
 
   }
 
-  @Test public void testArraysUnsetListOfDimentsions() {
+  @Test public void testArraysUnsetListOfDimensions() {
     
     SpeciesReference sp1 = (SpeciesReference) model.findNamedSBase("SP1");
     

@@ -24,6 +24,9 @@ package org.sbml.jsbml.ext.arrays.test;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+import java.io.IOException;
+
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.Before;
@@ -53,7 +56,8 @@ import org.sbml.jsbml.ext.arrays.Index;
 public class ArraysWriteTest {
 
   // This is the file we are dealing with
-  final String path = "extensions/arrays/test/org/sbml/jsbml/xml/test/data/arrays/example.xml";
+  final String path = System.getProperty("java.io.tmpdir") + File.separator + "jsbml-arrays-example.xml";
+  
   
   /**
    * Constructs the model before the testing.
@@ -124,7 +128,8 @@ public class ArraysWriteTest {
     SBMLWriter writer = new SBMLWriter();
     writer.writeSBMLToFile(doc, path);
   }
-
+ 
+  
   /**
    * Test if given parameter's plugin was set properly.
    */
@@ -189,11 +194,12 @@ public class ArraysWriteTest {
   
   /**
    * Test if the model that was constructed in the setUp can be properly read.
+   * @throws IOException 
    */
   @Test
-  public void arrayReadTest() {
+  public void arrayReadTest() throws IOException {
     try {
-      SBMLDocument doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/example.xml"));
+      SBMLDocument doc = SBMLReader.read(new File(path));
       SBMLWriter.write(doc, System.out, ' ', (short) 2);
       Model model = doc.getModel();
       assertTrue(testParameterDimension(model, "X", "i", null, "n", 0));

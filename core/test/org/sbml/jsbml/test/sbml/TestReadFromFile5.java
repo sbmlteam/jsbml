@@ -26,7 +26,7 @@
  */
 package org.sbml.jsbml.test.sbml;
 
-import java.io.IOException;
+import java.io.InputStream;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -54,21 +54,6 @@ import org.sbml.jsbml.UnitDefinition;
  * @version $Rev$
  */
 public class TestReadFromFile5 {
-
-  public static String DATA_FOLDER = null;
-
-  static {
-
-	  DATA_FOLDER = "test/org/sbml/jsbml/xml/test/data";
-
-	  if (System.getProperty("DATA_FOLDER") != null || System.getenv("DATA_FOLDER") != null) {
-		  DATA_FOLDER = System.getProperty("DATA_FOLDER");
-		  if (DATA_FOLDER == null) {
-			  DATA_FOLDER = System.getenv("DATA_FOLDER");
-		  }
-	  }
-  }
-
 
   /**
    * 
@@ -217,19 +202,14 @@ public class TestReadFromFile5 {
     Parameter p1;
     ListOf<Species> los;
     Species s1;
-    String filename = new String( DATA_FOLDER + "/libsbml-test-data/" );
-    filename += "l2v1-assignment.xml";
+    InputStream fileStream = TestReadFromFile5.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/libsbml-test-data/l2v1-assignment.xml");
+
     try {
-      d = reader.readSBML(filename);
-    } catch (IOException e) {
-      e.printStackTrace();
-      assert(false);
+      d = reader.readSBMLFromStream(fileStream);
     } catch (XMLStreamException e) {
       e.printStackTrace();
       assert(false);
     }
-
-    System.out.println(" TestReadFromFile 5: reading done.");
 
     assertTrue( d.getLevel() == 2 );
     assertTrue( d.getVersion() == 1 );
