@@ -22,16 +22,15 @@
  */
 package org.sbml.jsbml.math.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.math.ASTCnNumberNode;
-import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
+import org.sbml.jsbml.math.ASTCnNumberNode;
 
 
 /**
@@ -85,10 +84,9 @@ public class ASTCnNumberNodeTest {
   public void testDeriveUnit() {
     // TODO: Implement UnitsCompiler class first
     ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
-    Unit joule = new Unit();
-    joule.setKind(Unit.Kind.JOULE);
-    number.setUnits(joule);
-    assertTrue(false);
+    number.setUnits("joule");
+    UnitDefinition unitDefinition = number.deriveUnit();
+    assertTrue(unitDefinition.getUnitCount() == 1);
   }
 
   /**
@@ -117,10 +115,8 @@ public class ASTCnNumberNodeTest {
   @Test
   public void testGetUnitsExists() {
     ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
-    Unit joule = new Unit(3, 1);
-    joule.setKind(Unit.Kind.JOULE);
-    number.setUnits(joule);
-    assertTrue(number.getUnits().equals(joule));
+    number.setUnits("joule");
+    assertTrue(number.getUnits().equals("joule"));
   }
   
   /**
@@ -129,12 +125,10 @@ public class ASTCnNumberNodeTest {
   @Test
   public void testGetUnitsInstance() {
     ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
-    Unit joule = new Unit();
-    joule.setKind(Unit.Kind.JOULE);
-    number.setUnits(joule);
+    number.setUnits("joule");
     UnitDefinition unitsInstance = number.getUnitsInstance();
     assertTrue(unitsInstance != null && unitsInstance.getChildCount() == 1
-        && unitsInstance.getListOfUnits().get(0).equals(joule));
+        && unitsInstance.getListOfUnits().get(0).equals("joule"));
   }
   
   /**
@@ -193,9 +187,7 @@ public class ASTCnNumberNodeTest {
   @Test
   public void testHasUnitsExists() {
     ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
-    Unit unit = new Unit(3, 1);
-    unit.setKind(Unit.Kind.MOLE);
-    number.setUnits(unit);
+    number.setUnits("unit");
     assertTrue(number.hasUnits());
   }  
   

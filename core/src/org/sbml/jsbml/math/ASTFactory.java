@@ -22,7 +22,6 @@
  */
 package org.sbml.jsbml.math;
 
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.util.Arrays;
@@ -33,7 +32,6 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.text.parser.FormulaParserASTNode2;
 import org.sbml.jsbml.text.parser.ParseException;
 
@@ -385,7 +383,7 @@ public class ASTFactory {
    * @return minus {@link ASTMinusNode}
    */
   public static ASTMinusNode minus(ASTNode2 node, int integer, 
-                                                Unit unitsID) {
+                                                String unitsID) {
     ASTMinusNode minus = new ASTMinusNode();
     minus.addChild(node);
     ASTCnIntegerNode integerNode = new ASTCnIntegerNode(integer);

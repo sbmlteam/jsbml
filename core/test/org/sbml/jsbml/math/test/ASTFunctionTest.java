@@ -38,7 +38,6 @@ import org.sbml.jsbml.Constraint;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.math.ASTCiNumberNode;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
 import org.sbml.jsbml.math.ASTCnNumberNode;
@@ -477,9 +476,7 @@ public class ASTFunctionTest {
   public final void testHasUnitsTrue() {
     ASTFunction a = new ASTFunction();
     ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
-    Unit unit = new Unit(3, 1);
-    unit.setKind(Unit.Kind.MOLE);
-    number.setUnits(unit);
+    number.setUnits("mole");
     a.addChild(number);
     assertTrue(a.hasUnits());
   }

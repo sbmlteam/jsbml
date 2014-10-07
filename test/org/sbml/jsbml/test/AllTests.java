@@ -30,6 +30,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import org.sbml.jsbml.ext.arrays.test.ArraysJUnitTests;
 import org.sbml.jsbml.ext.layout.test.LayoutJUnitTests;
 import org.sbml.jsbml.ext.render.test.RenderJUnitTests;
+import org.sbml.jsbml.xml.test.ASTNode2Tests;
 import org.sbml.jsbml.xml.test.LibsbmlCompatibilityTests;
 import org.sbml.jsbml.xml.test.Tests;
 
@@ -43,7 +44,7 @@ import org.sbml.jsbml.xml.test.Tests;
  */
 @RunWith(value=Suite.class)
 @SuiteClasses(value={Tests.class, LibsbmlCompatibilityTests.class, LayoutJUnitTests.class, RenderJUnitTests.class,
-  UnregisterPackageTests.class, ArraysJUnitTests.class, DisablePackageTests.class})
+  UnregisterPackageTests.class, ArraysJUnitTests.class, DisablePackageTests.class, ASTNode2Tests.class})
 public class AllTests {
   
   public static String DATA_FOLDER = null;

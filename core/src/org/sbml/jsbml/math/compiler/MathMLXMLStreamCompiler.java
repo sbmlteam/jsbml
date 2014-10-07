@@ -443,7 +443,7 @@ public class MathMLXMLStreamCompiler {
       writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "cn");
       writer.writeAttribute("type", "integer"); // writer.writeAttribute(ASTNode.URI_MATHML_DEFINITION, "type", "integer");
       if (integer.isSetUnits()) {
-        writer.writeAttribute("sbml:units", integer.getUnits().getKind().getName());
+        writer.writeAttribute("sbml:units", integer.getUnits());
       }
       writer.writeCharacters(" ");
       writer.writeCharacters(Integer.toString(integer.getInteger()));
@@ -611,7 +611,7 @@ public class MathMLXMLStreamCompiler {
       writer.writeAttribute("type", "rational");
       writer.writeCharacters(" ");
       if (rational.isSetUnits()) {
-        writer.writeAttribute("sbml:units", rational.getUnits().getKind().getName());
+        writer.writeAttribute("sbml:units", rational.getUnits());
       }
       writer.writeCharacters(Integer.toString(rational.getNumerator()));
       writer.writeCharacters(" ");
@@ -646,7 +646,7 @@ public class MathMLXMLStreamCompiler {
       writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "cn");
       writer.writeAttribute("type", "real");
       if (real.isSetUnits()) {
-        writer.writeAttribute(" sbml:units", real.getUnits().getKind().getName());
+        writer.writeAttribute(" sbml:units", real.getUnits());
       }
       writer.writeCharacters(" ");
       // We need the DecimalFormat to have number like 0.000166, that get transformed into 1.66E-4 which is
@@ -668,7 +668,7 @@ public class MathMLXMLStreamCompiler {
       writer.writeAttribute("type", "e-notation");
       writer.writeCharacters(" ");
       if (exponential.isSetUnits()) {
-        writer.writeAttribute("sbml:units", exponential.getUnits().getKind().getName());
+        writer.writeAttribute("sbml:units", exponential.getUnits());
       }
       writer.writeCharacters(realFormat.format(exponential.getMantissa()));
       writer.writeCharacters(" ");

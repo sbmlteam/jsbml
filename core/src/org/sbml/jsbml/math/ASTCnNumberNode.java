@@ -25,13 +25,14 @@ package org.sbml.jsbml.math;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
+import org.sbml.jsbml.math.compiler.UnitsCompiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
@@ -65,7 +66,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
   /**
    * units attribute for MathML element
    */
-  private Unit units;
+  private String units;
 
   /**
    * variable attribute for MathML element
@@ -146,8 +147,6 @@ public class ASTCnNumberNode<T> extends ASTNumber {
        level = container.getLevel();
        version = container.getVersion();
      }
-     
-     /*
      UnitsCompiler compiler = null;
      if (isSetParentSBMLObject()) {
        Model model = getParentSBMLObject().getModel();
@@ -157,9 +156,6 @@ public class ASTCnNumberNode<T> extends ASTNumber {
        compiler = new UnitsCompiler(level, version);
      }
      return compile(compiler).getUnits().simplify();
-     */
-     // TODO - implements when the math.UnitsCompiler is implemented
-     return null;
    }
 
   /* (non-Javadoc)
@@ -209,9 +205,9 @@ public class ASTCnNumberNode<T> extends ASTNumber {
   /**
    * Returns the units of the MathML element represented by this ASTCnNumberNode
    * 
-   * @return Unit units
+   * @return String units
    */
-  public Unit getUnits() {
+  public String getUnits() {
     if (isSetUnits()) {
       return units;
     }
@@ -345,10 +341,10 @@ public class ASTCnNumberNode<T> extends ASTNumber {
   /**
    * Set the units of the MathML element represented by this ASTCnNumberNode
    * 
-   * @param Unit units
+   * @param String units
    */
-  public void setUnits(Unit units) {
-    Unit old = this.units;
+  public void setUnits(String units) {
+    String old = this.units;
     this.units = units;
     firePropertyChange(TreeNodeChangeEvent.units, old, this.units);
   }
@@ -399,7 +395,7 @@ public class ASTCnNumberNode<T> extends ASTNumber {
    * 
    */
   public void unsetUnits() {
-    Unit oldValue = units;
+    String oldValue = units;
     units = null;
     firePropertyChange(TreeNodeChangeEvent.units, oldValue, null);
   }
