@@ -101,6 +101,9 @@ public class SBMLReader {
    */
   private static SBMLCoreParser sbmlCoreParser = new SBMLCoreParser();
 
+  private transient Logger logger = Logger.getLogger(SBMLReader.class);
+
+
 
   /**
    * Creates the ReadingParser instances and stores them in a
@@ -529,8 +532,6 @@ public class SBMLReader {
     int level = -1, version = -1;
     Object lastElement = null;
 
-    Logger logger = Logger.getLogger(SBMLReader.class);
-
     // Read all the elements of the file
     while (xmlEventReader.hasNext()) {
       event = xmlEventReader.nextEvent();
@@ -839,7 +840,6 @@ public class SBMLReader {
   private ReadingParser processStartElement(StartElement startElement, QName currentNode,
     Boolean isHTML, Stack<Object> sbmlElements, boolean isInsideAnnotation)
   {
-    Logger logger = Logger.getLogger(SBMLReader.class);
     ReadingParser parser = null;
 
     String elementNamespace = currentNode.getNamespaceURI();
@@ -936,7 +936,6 @@ public class SBMLReader {
   private void processNamespaces(Iterator<Namespace> nam, QName currentNode,
     Stack<Object> sbmlElements,	ReadingParser parser, boolean hasAttributes)
   {
-    Logger logger = Logger.getLogger(SBMLReader.class);
     ReadingParser namespaceParser = null;
 
     while (nam.hasNext()) {
@@ -987,7 +986,6 @@ public class SBMLReader {
     Stack<Object> sbmlElements, ReadingParser parser, boolean hasAttributes,
     boolean isInsideAnnotation)
   {
-    Logger logger = Logger.getLogger(SBMLReader.class);
     ReadingParser attributeParser = null;
 
     while (att.hasNext()) {
@@ -1046,8 +1044,6 @@ public class SBMLReader {
     Boolean isHTML, int level, int version, ReadingParser parser,
     Stack<Object> sbmlElements, boolean isInsideAnnotation)
   {
-    Logger logger = Logger.getLogger(SBMLReader.class);
-
     if (logger.isDebugEnabled()) {
       logger.debug("event.isEndElement: stack.size = " + sbmlElements.size());
       logger.debug("event.isEndElement: element name = " + currentNode.getLocalPart());
