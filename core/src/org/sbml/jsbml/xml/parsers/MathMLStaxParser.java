@@ -148,8 +148,10 @@ public class MathMLStaxParser implements ReadingParser {
   public void processCharactersOf(String elementName, String characters, Object contextObject) {
     // process the text content of the mathMl node, mainly ci, cn and csymbol should have content
 
-    logger.debug("processCharactersOf called");
-    logger.debug("processCharactersOf : element name = " + elementName + ", characters = " + characters);
+    if (logger.isDebugEnabled()) {
+      logger.debug("processCharactersOf called");
+      logger.debug("processCharactersOf : element name = " + elementName + ", characters = " + characters);
+    }
 
     // Depending of the type of ASTNode, we need to do different things
     if (! (contextObject instanceof ASTNode)) {
@@ -173,9 +175,10 @@ public class MathMLStaxParser implements ReadingParser {
 
     if (isFunctionDefinition)
     {
-      logger.debug("MathMLStaxParser : processCharactersOf : function found !!");
-
-      logger.debug("Model : " + astNode.getParentSBMLObject().getModel() + ", functionDef = " + functionDef);
+      if (logger.isDebugEnabled()) {
+        logger.debug("MathMLStaxParser : processCharactersOf : function found !!");
+        logger.debug("Model : " + astNode.getParentSBMLObject().getModel() + ", functionDef = " + functionDef);
+      }
 
       if (astNode.getParentSBMLObject().getModel() != null && functionDef == null)
       {
@@ -228,16 +231,19 @@ public class MathMLStaxParser implements ReadingParser {
   public boolean processEndElement(String elementName, String prefix,
     boolean isNested, Object contextObject) {
 
-    logger.debug("processEndElement called");
-    logger.debug("processEndElement : element name = " + elementName);
+    if (logger.isDebugEnabled()) {
+      logger.debug("processEndElement called");
+      logger.debug("processEndElement : element name = " + elementName);
+    }
+    
     if (elementName.equals("sep")) {
       return false;
     } else if (contextObject instanceof MathContainer) {
-      try {
-        // logger.debug("processEndElement : formula = " + ((MathContainer) contextObject).getMath());
-      } catch (Exception e) {
-        System.out.println("MathMLStaxParser : processEndElement : Exception " + e.getLocalizedMessage());
-      }
+//      try {
+//        logger.debug("processEndElement : formula = " + ((MathContainer) contextObject).getMath());
+//      } catch (Exception e) {
+//        logger.debug("Exception while reading mathML: " + e.getLocalizedMessage());
+//      }
       return false;
 
     } else if (contextObject instanceof ASTNode) {
@@ -247,7 +253,9 @@ public class MathMLStaxParser implements ReadingParser {
       if ((astNode.isFunction() || astNode.isOperator() || astNode.isRelational() ||
           astNode.isLogical()) && !elementName.equals("apply") && !elementName.equals("piecewise"))
       {
-        logger.debug("processEndElement : stack stay the same. ASTNode type = " + astNode.getType());
+        if (logger.isDebugEnabled()) {
+          logger.debug("processEndElement : stack stay the same. ASTNode type = " + astNode.getType());
+        }
         return false;
 
       }
@@ -277,10 +285,12 @@ public class MathMLStaxParser implements ReadingParser {
   public Object processStartElement(String elementName, String uri, String prefix,
     boolean hasAttributes, boolean hasNamespaces, Object contextObject) {
 
-    logger.debug("processStartElement called");
-    logger.debug("processStartElement: element name = " + elementName); // +
-    // ", prefix = " + prefix + ", hasAttributes = " + hasAttributes + ", hasNamespace = " + hasNamespaces);
-    // + ", " + contextObject);
+    if (logger.isDebugEnabled()) {
+      logger.debug("processStartElement called");
+      logger.debug("processStartElement: element name = " + elementName); // +
+      // ", prefix = " + prefix + ", hasAttributes = " + hasAttributes + ", hasNamespace = " + hasNamespaces);
+      // + ", " + contextObject);
+    }
 
     if (elementName.equals("math") || elementName.equals("apply") || elementName.equals("sep")
         || elementName.equals("piece") || elementName.equals("otherwise")
