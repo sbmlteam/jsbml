@@ -59,6 +59,13 @@ public class ASTUnknown implements ASTNode2 {
   
   private static ASTUnknown instance;
   
+  public static ASTUnknown getInstance() {
+    if (instance == null) {
+      instance = new ASTUnknown();
+    }
+    return instance;
+  }
+  
   /**
    * Create a new {@link ASTUnknown} object. This constructor is set to 
    * private in order to prevent more than one {@link ASTUnknown} from
@@ -69,13 +76,6 @@ public class ASTUnknown implements ASTNode2 {
    */
   private ASTUnknown() {
     
-  }
-  
-  public static ASTUnknown getInstance() {
-    if (instance == null) {
-      instance = new ASTUnknown();
-    }
-    return instance;
   }
 
   /* (non-Javadoc)
@@ -108,12 +108,34 @@ public class ASTUnknown implements ASTNode2 {
   }
 
   /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#children()
+   */
+  @Override
+  public Enumeration children() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#clearUserObjects()
    */
   @Override
   public void clearUserObjects() {
     // TODO Auto-generated method stub
 
+  }
+
+  public ASTNode2 clone() {
+    return this;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.math.compiler.ASTNode2Compiler)
+   */
+  @Override
+  public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
+    // TODO Auto-generated method stub
+    return null;
   }
 
   /* (non-Javadoc)
@@ -183,10 +205,82 @@ public class ASTUnknown implements ASTNode2 {
   }
 
   /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getAllowsChildren()
+   */
+  @Override
+  public boolean getAllowsChildren() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildAt(int)
+   */
+  @Override
+  public TreeNode getChildAt(int childIndex) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildCount()
+   */
+  @Override
+  public int getChildCount() {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#getId()
+   */
+  @Override
+  public String getId() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getIndex(javax.swing.tree.TreeNode)
+   */
+  @Override
+  public int getIndex(TreeNode node) {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#getListOfTreeNodeChangeListeners()
    */
   @Override
   public List<TreeNodeChangeListener> getListOfTreeNodeChangeListeners() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#getMathMLClass()
+   */
+  @Override
+  public String getMathMLClass() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getParent()
+   */
+  @Override
+  public TreeNode getParent() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#getParentSBMLObject()
+   */
+  @Override
+  public MathContainer getParentSBMLObject() {
     // TODO Auto-generated method stub
     return null;
   }
@@ -201,12 +295,29 @@ public class ASTUnknown implements ASTNode2 {
   }
 
   /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#getStyle()
+   */
+  @Override
+  public String getStyle() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#getTreeNodeChangeListenerCount()
    */
   @Override
   public int getTreeNodeChangeListenerCount() {
     // TODO Auto-generated method stub
     return 0;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#getType()
+   */
+  @Override
+  public Type getType() {
+    return Type.UNKNOWN;
   }
 
   /* (non-Javadoc)
@@ -219,10 +330,45 @@ public class ASTUnknown implements ASTNode2 {
   }
 
   /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#isAllowableType(org.sbml.jsbml.ASTNode.Type)
+   */
+  @Override
+  public boolean isAllowableType(Type type) {
+    return type == Type.UNKNOWN;
+  }
+
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#isLeaf()
+   */
+  @Override
+  public boolean isLeaf() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#isRoot()
    */
   @Override
   public boolean isRoot() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#isSetId()
+   */
+  @Override
+  public boolean isSetId() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#isSetMathMLClass()
+   */
+  @Override
+  public boolean isSetMathMLClass() {
     // TODO Auto-generated method stub
     return false;
   }
@@ -237,10 +383,46 @@ public class ASTUnknown implements ASTNode2 {
   }
 
   /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#isSetParentSBMLObject()
+   */
+  @Override
+  public boolean isSetParentSBMLObject() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#isSetStyle()
+   */
+  @Override
+  public boolean isSetStyle() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#isSetType()
+   */
+  @Override
+  public boolean isSetType() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#isSetUserObjects()
    */
   @Override
   public boolean isSetUserObjects() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#isStrict()
+   */
+  @Override
+  public boolean isStrict() {
     // TODO Auto-generated method stub
     return false;
   }
@@ -301,195 +483,6 @@ public class ASTUnknown implements ASTNode2 {
   }
 
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#userObjectKeySet()
-   */
-  @Override
-  public Set<Object> userObjectKeySet() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#getChildAt(int)
-   */
-  @Override
-  public TreeNode getChildAt(int childIndex) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#getChildCount()
-   */
-  @Override
-  public int getChildCount() {
-    // TODO Auto-generated method stub
-    return 0;
-  }
-
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#getParent()
-   */
-  @Override
-  public TreeNode getParent() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#getIndex(javax.swing.tree.TreeNode)
-   */
-  @Override
-  public int getIndex(TreeNode node) {
-    // TODO Auto-generated method stub
-    return 0;
-  }
-
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#getAllowsChildren()
-   */
-  @Override
-  public boolean getAllowsChildren() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#isLeaf()
-   */
-  @Override
-  public boolean isLeaf() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  /* (non-Javadoc)
-   * @see javax.swing.tree.TreeNode#children()
-   */
-  @Override
-  public Enumeration children() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.math.compiler.ASTNode2Compiler)
-   */
-  @Override
-  public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#getId()
-   */
-  @Override
-  public String getId() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#getMathMLClass()
-   */
-  @Override
-  public String getMathMLClass() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#getParentSBMLObject()
-   */
-  @Override
-  public MathContainer getParentSBMLObject() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#getStyle()
-   */
-  @Override
-  public String getStyle() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#getType()
-   */
-  @Override
-  public Type getType() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#isAllowableType(org.sbml.jsbml.ASTNode.Type)
-   */
-  @Override
-  public boolean isAllowableType(Type type) {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#isSetId()
-   */
-  @Override
-  public boolean isSetId() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#isSetMathMLClass()
-   */
-  @Override
-  public boolean isSetMathMLClass() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#isSetParentSBMLObject()
-   */
-  @Override
-  public boolean isSetParentSBMLObject() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#isSetStyle()
-   */
-  @Override
-  public boolean isSetStyle() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#isSetType()
-   */
-  @Override
-  public boolean isSetType() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#isStrict()
-   */
-  @Override
-  public boolean isStrict() {
-    // TODO Auto-generated method stub
-    return false;
-  }
-
-  /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#setId(java.lang.String)
    */
   @Override
@@ -521,6 +514,15 @@ public class ASTUnknown implements ASTNode2 {
    */
   @Override
   public void setParentSBMLObject(MathContainer container) {
+    // TODO Auto-generated method stub
+
+  }
+
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.math.ASTNode2#setStrictness(boolean)
+   */
+  @Override
+  public void setStrictness(boolean strict) {
     // TODO Auto-generated method stub
 
   }
@@ -587,18 +589,14 @@ public class ASTUnknown implements ASTNode2 {
     // TODO Auto-generated method stub
 
   }
-
+  
   /* (non-Javadoc)
-   * @see org.sbml.jsbml.math.ASTNode2#setStrictness(boolean)
+   * @see org.sbml.jsbml.util.TreeNodeWithChangeSupport#userObjectKeySet()
    */
   @Override
-  public void setStrictness(boolean strict) {
+  public Set<Object> userObjectKeySet() {
     // TODO Auto-generated method stub
-
-  }
-  
-  public ASTNode2 clone() {
-    return this;
+    return null;
   }
 
 }

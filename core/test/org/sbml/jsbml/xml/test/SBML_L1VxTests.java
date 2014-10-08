@@ -57,7 +57,7 @@ public class SBML_L1VxTests {
 
   static {
 
-    DATA_FOLDER = "test/org/sbml/jsbml/xml/test/data";
+    DATA_FOLDER = "core/test/org/sbml/jsbml/xml/test/data";
 
     if (System.getProperty("DATA_FOLDER") != null || System.getenv("DATA_FOLDER") != null) {
       DATA_FOLDER = System.getProperty("DATA_FOLDER");

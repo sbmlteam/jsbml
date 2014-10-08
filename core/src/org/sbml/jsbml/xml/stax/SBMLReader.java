@@ -328,6 +328,8 @@ public class SBMLReader {
    */
   public SBMLDocument readSBMLFile(String fileName)
       throws XMLStreamException, IOException {
+    File file = new File(fileName);
+    System.out.println(file.getAbsolutePath());
     return readSBML(new File(fileName));
   }
 

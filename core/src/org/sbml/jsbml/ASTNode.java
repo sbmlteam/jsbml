@@ -933,14 +933,12 @@ public class ASTNode extends AbstractTreeNode {
   public static ASTNode parseFormula(String formula) throws ParseException {    
     FormulaParser parser = new FormulaParser(new StringReader(formula));
     ASTNode result = null;
-
     try {
       result = parser.parse();
     } catch (Throwable e) {
       // The JavaCC parser can throw a TokenMgrError at least
       throw new ParseException(e);
     }
-
     return result; 
   }
 

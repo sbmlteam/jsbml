@@ -189,15 +189,6 @@ public class ASTFunctionTest {
    * Test method for {@link org.sbml.jsbml.math.ASTFunction#getChildren()}.
    */
   @Test
-  public final void testGetChildrenNonExistent() {
-    ASTFunction function = new ASTFunction();
-    assertTrue(function.getChildren() == null);
-  }
-  
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTFunction#getChildren()}.
-   */
-  @Test
   public final void testGetChildrenWithChildren() {
     ASTFunction function = new ASTFunction();
     function.addChild(new ASTCnIntegerNode(10));
@@ -277,15 +268,6 @@ public class ASTFunctionTest {
 //    ArrayList<ASTNode2> listOfNodes = (ArrayList<ASTNode2>) function.getListOfNodes(filter);
 //    assertTrue(listOfNodes.size() == 1 && listOfNodes.get(0).equals(reaction));
 //  }
-  
-  /**
-   * Test method for {@link org.sbml.jsbml.math.ASTFunction#getListOfNodes()}.
-   */
-  @Test
-  public final void testGetListOfNodesNonExistent() {
-    ASTFunction function = new ASTFunction();
-    assertTrue(function.getListOfNodes() == null);
-  }
   
   /**
    * Test method for {@link org.sbml.jsbml.math.ASTFunction#getListOfNodes()}.
