@@ -200,10 +200,14 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 
     } else if (node instanceof TreeNodeAdapter) {
       TreeNodeAdapter treeNodeAd = (TreeNodeAdapter) node;
-      logger.log(Level.DEBUG, String.format("Cannot add node" + treeNodeAd.getClass().getSimpleName()));
+      if (logger.isDebugEnabled()) {
+        logger.debug(MessageFormat.format("Cannot add node {0}", treeNodeAd.getClass().getSimpleName()));
+      }
     } else if (node instanceof XMLToken) {
       XMLToken token = (XMLToken) node;
-      logger.log(Level.DEBUG, String.format("Cannot add node" + token.getClass().getSimpleName()));
+      if (logger.isDebugEnabled()) {
+        logger.debug(MessageFormat.format("Cannot add node {0}", token.getClass().getSimpleName()));
+      }
     }
   }
 

@@ -455,8 +455,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
         time)) {
         throw new IllegalArgumentException(
           new UnitException(
-            String.format(
-              "Units of time in a delay function do not match. Given %s and %s.",
+            MessageFormat.format(
+              "Units of time in a delay function do not match. Given {0} and {1}.",
               UnitDefinition.printUnits(model
                 .getTimeUnitsInstance()),
                 UnitDefinition.printUnits(time))));
@@ -890,8 +890,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
           compiledvalues[i].getUnits())) {
           throw new IllegalArgumentException(
             new UnitException(
-              String.format(
-                "Units of some return values in a piecewise function do not match. Given %s and %s.",
+              MessageFormat.format(
+                "Units of some return values in a piecewise function do not match. Given {0} and {1}.",
                 UnitDefinition.printUnits(node.getUnits(), true),
                 UnitDefinition.printUnits(compiledvalues[i].getUnits(), true))));
         }
@@ -1024,8 +1024,8 @@ public class UnitsCompiler implements ASTNodeCompiler {
 
     } else {
       throw new UnitException(
-        String.format(
-          "Cannot combine the units %s and %s in addition, subtraction, comparison or any equivalent operation.",
+        MessageFormat.format(
+          "Cannot combine the units {0} and {1} in addition, subtraction, comparison or any equivalent operation.",
           UnitDefinition.printUnits(left.getUnits(), true),
           UnitDefinition.printUnits(right.getUnits(), true)));
 

@@ -24,6 +24,7 @@ package org.sbml.jsbml.util.compilers;
 import java.io.StringWriter;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -193,8 +194,8 @@ public class MathMLXMLStreamCompiler {
       case DIVIDE:
         if (astNode.getChildCount() != 2) {
           // TODO: add it to an error log like libsbml ?
-          logger.warn(String.format(
-            "compile: Type.DIVIDE: getChildCount() = %d but required is 2!",
+          logger.warn(MessageFormat.format(
+            "compile: Type.DIVIDE: getChildCount() = {0,number,integer} but required is 2!",
             astNode.getChildCount()));
         }
       case POWER:
@@ -834,9 +835,9 @@ public class MathMLXMLStreamCompiler {
     } catch (XMLStreamException e) {
       e.printStackTrace();
     }
-    
+
   }
-  
+
   private void function(String functionName, List<ASTNode> args) {
 
     function(functionName, args.toArray(new ASTNode[args.size()]));

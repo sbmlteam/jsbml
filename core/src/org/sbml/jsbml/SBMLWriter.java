@@ -615,7 +615,7 @@ public class SBMLWriter implements Cloneable, Serializable {
   @Override
   public String toString() {
     return String.format(
-      "%s [programName=%s, programVersion=%s, indentationChar=%c, indentationCount=%d]",
+      "%s [programName=\"%s\", programVersion=\"%s\", indentationChar='%c', indentationCount=%d]",
       getClass().getSimpleName(), programName,
       programVersion, sbmlWriter.getIndentationChar(),
       sbmlWriter.getIndentationCount());

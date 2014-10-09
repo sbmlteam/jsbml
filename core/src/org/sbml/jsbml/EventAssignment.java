@@ -21,6 +21,7 @@
  */
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
@@ -90,7 +91,7 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
     if (m != null) {
       Variable nsb = getModel().findVariable(variable);
       if (nsb == null) {
-        throw new IllegalArgumentException(String.format(
+        throw new IllegalArgumentException(MessageFormat.format(
           NO_SUCH_VARIABLE_EXCEPTION_MSG,
           m.getId(), variable));
       }
@@ -214,7 +215,7 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
   public void setVariable(Variable variable) {
     if (!variable.isConstant()) {
       if ((getLevel() < 3) && (variable instanceof SpeciesReference)) {
-        throw new IllegalArgumentException(String.format(
+        throw new IllegalArgumentException(MessageFormat.format(
           ILLEGAL_VARIABLE_EXCEPTION_MSG, variable.getId(),
           getElementName()));
       }
@@ -224,7 +225,7 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
         unsetVariable();
       }
     } else {
-      throw new IllegalArgumentException(String.format(
+      throw new IllegalArgumentException(MessageFormat.format(
         ILLEGAL_CONSTANT_VARIABLE_MSG, variable.getId(),
         getElementName()));
     }

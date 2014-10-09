@@ -21,6 +21,7 @@
  */
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import org.sbml.jsbml.util.IdManager;
@@ -40,12 +41,12 @@ public class FunctionDefinition extends AbstractMathContainer implements
 CallableSBase, UniqueNamedSBase {
 
   // TODO - for L3V2, we probably will need to have AbstractMathContainer extending AbstractNamedSBase ??
-  
+
   /**
    * Error message to indicate that an incorrect {@link ASTNode#Type} has been passed
    * to a method.
    */
-  private static final String ILLEGAL_ASTNODE_TYPE_MSG = "Math element is expected to be of type %s, but given is %s.";
+  private static final String ILLEGAL_ASTNODE_TYPE_MSG = "Math element is expected to be of type {0}, but given is {1}.";
   /**
    * Generated serial version identifier.
    */
@@ -97,8 +98,8 @@ CallableSBase, UniqueNamedSBase {
   public FunctionDefinition(int level, int version) {
     super(level, version);
     if (getLevel() < 2) {
-      throw new IllegalArgumentException(String.format(
-        "Cannot create a %s with Level = %s.", getElementName(),
+      throw new IllegalArgumentException(MessageFormat.format(
+        "Cannot create a {0} with Level = {1,number,integer}.", getElementName(),
         getLevel()));
     }
   }
@@ -116,7 +117,7 @@ CallableSBase, UniqueNamedSBase {
   public FunctionDefinition(String id, ASTNode lambda, int level, int version) {
     super(lambda, level, version);
     if (!lambda.isLambda()) {
-      throw new IllegalArgumentException(String.format(
+      throw new IllegalArgumentException(MessageFormat.format(
         ILLEGAL_ASTNODE_TYPE_MSG,
         ASTNode.Type.LAMBDA, lambda.getType()));
     }
@@ -160,8 +161,8 @@ CallableSBase, UniqueNamedSBase {
   boolean checkIdentifier(String sID) {
     if ((sID == null)
         || !AbstractNamedSBase.isValidId(sID, getLevel(), getVersion())) {
-      throw new IllegalArgumentException(String.format(
-        "\"%s\" is not a valid identifier.", sID));
+      throw new IllegalArgumentException(MessageFormat.format(
+        "\"{0}\" is not a valid identifier.", sID));
     }
     return true;
   }
@@ -208,7 +209,7 @@ CallableSBase, UniqueNamedSBase {
   public ASTNode getArgument(int n) {
     if (getArgumentCount() < n) {
       throw new IndexOutOfBoundsException(String.format(
-        "No such argument with index %d.", n));
+        "No such argument with index {0,number,integer}.", n));
     }
     return getMath().getChild(n);
   }
@@ -362,7 +363,7 @@ CallableSBase, UniqueNamedSBase {
     }
     String property = TreeNodeChangeEvent.id;
     String oldId = this.id;
-    
+
     IdManager idManager = getIdManager(this);
     if ((oldId != null) && (idManager != null)) {
       // Delete previous identifier only if defined.
@@ -381,7 +382,7 @@ CallableSBase, UniqueNamedSBase {
     firePropertyChange(property, oldId, this.id);
   }
 
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractMathContainer#setMath(org.sbml.jsbml.ASTNode)
    */
@@ -393,9 +394,8 @@ CallableSBase, UniqueNamedSBase {
     }
 
     if (!math.isLambda()) {
-      throw new IllegalArgumentException(String.format(
-        ILLEGAL_ASTNODE_TYPE_MSG, ASTNode.Type.LAMBDA, math
-        .getType()));
+      throw new IllegalArgumentException(MessageFormat.format(
+        ILLEGAL_ASTNODE_TYPE_MSG, ASTNode.Type.LAMBDA, math.getType()));
     }
     super.setMath(math);
   }
