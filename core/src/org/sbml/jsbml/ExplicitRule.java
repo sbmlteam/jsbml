@@ -502,16 +502,16 @@ SBaseWithUnit {
     if (variable != null) {
       if (variable.isConstant()) {
         throw new IllegalArgumentException(
-          String.format(ILLEGAL_CONSTANT_VARIABLE_MSG,
+          MessageFormat.format(ILLEGAL_CONSTANT_VARIABLE_MSG,
             variable.getId(), getElementName()));
       }
       if (isSetUnits() && !(variable instanceof Parameter)) {
-        throw new IllegalArgumentException(String.format(
-          "Variable expected to be an instance of Parameter because a Unit attribute is set already, but given is an %s.",
+        throw new IllegalArgumentException(MessageFormat.format(
+          "Variable expected to be an instance of Parameter because a Unit attribute is set already, but given is an instance of {0}.",
           variable.getElementName()));
       }
       if ((getLevel() < 3) && (variable instanceof SpeciesReference)) {
-        throw new IllegalArgumentException(String.format(
+        throw new IllegalArgumentException(MessageFormat.format(
           ILLEGAL_VARIABLE_EXCEPTION_MSG, variable.getId(),
           getElementName()));
       }

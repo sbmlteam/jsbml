@@ -24,6 +24,7 @@ package org.sbml.jsbml.util;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Properties;
@@ -268,8 +269,8 @@ public class StringTools {
     StringBuilder sb = new StringBuilder();
     if (initialString != null) {
       if (initialString.length() > length) {
-        throw new IllegalArgumentException(String.format(
-          "Initial String %s is already longer than %d digits.", initialString,
+        throw new IllegalArgumentException(MessageFormat.format(
+          "Initial String {0} is already longer than {1,number,integer} digits.", initialString,
           length));
       }
       sb.append(initialString);
@@ -500,7 +501,7 @@ public class StringTools {
     }
 
     if (((int) value) - value == 0) {
-      return String.format("%d", Integer.valueOf((int) value));
+      return String.format(locale, "%d", Integer.valueOf((int) value));
     }
 
     if ((Math.abs(value) < 1E-4) || (1E4 < Math.abs(value))) {

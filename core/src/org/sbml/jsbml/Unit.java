@@ -332,7 +332,7 @@ public class Unit extends AbstractSBase {
      *         particular SBML level and version, {@code false} otherwise.
      * @see Unit#isPredefined(String, int)
      */
-    public static boolean isValidUnitKindString(String unitKind, int level, int version) {      
+    public static boolean isValidUnitKindString(String unitKind, int level, int version) {
       if ((unitKind != null) && (unitKind.length() > 0)) {
         try {
           // We need to do that as our enum is upper case and sbml
@@ -346,7 +346,7 @@ public class Unit extends AbstractSBase {
           }
         }
       }
-      
+
       return false;
     }
 
@@ -1550,7 +1550,7 @@ public class Unit extends AbstractSBase {
         break;
       }
     }
-    return String.format("10^(%d)", getScale());
+    return String.format("%d^(%d)", 10, getScale());
   }
 
   /**
@@ -1610,7 +1610,7 @@ public class Unit extends AbstractSBase {
         break;
       }
     }
-    return String.format("10^(%d)", getScale());
+    return String.format("%d^(%d)", 10, getScale());
   }
 
   /**

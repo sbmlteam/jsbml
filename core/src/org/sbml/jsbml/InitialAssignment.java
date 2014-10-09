@@ -21,6 +21,7 @@
  */
 package org.sbml.jsbml;
 
+import java.text.MessageFormat;
 import java.util.Map;
 
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
@@ -76,8 +77,8 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
     super(level, version);
     if (getLevelAndVersion().compareTo(Integer.valueOf(2),
       Integer.valueOf(2)) < 0) {
-      throw new IllegalArgumentException(String.format(
-        "Cannot create a %s with Level = %s and Version = &s.",
+      throw new IllegalArgumentException(MessageFormat.format(
+        "Cannot create a {0} with Level = {1,number,integer} and Version = {2,number,integer}.",
         getElementName(), getLevel(), getVersion()));
     }
   }
@@ -132,7 +133,7 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
       nsb = m.findVariable(variable);
     }
     if (nsb == null) {
-      throw new IllegalArgumentException(String.format(
+      throw new IllegalArgumentException(MessageFormat.format(
         NO_SUCH_VARIABLE_EXCEPTION_MSG, m.getId(), variable));
     }
     setVariable(nsb.getId());
@@ -289,8 +290,7 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
   @Override
   public void setVariable(Variable variable) {
     if ((getLevel() < 3) && (variable != null) && (variable instanceof SpeciesReference)) {
-      throw new IllegalArgumentException(String.format(
-        Assignment.ILLEGAL_VARIABLE_EXCEPTION_MSG,
+      throw new IllegalArgumentException(MessageFormat.format(
         variable.getId(), getElementName()));
     }
     setVariable(variable != null ? variable.getId() : null);

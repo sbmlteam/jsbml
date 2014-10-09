@@ -567,7 +567,7 @@ public class ASTNode extends AbstractTreeNode {
    * Message to indicate that an {@link ASTNode.Type} type has been chosen
    * which cannot be used as an operator.
    */
-  public static final transient String INVALID_OPERATOR_MSG = "Invalid operator %s. The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER.";
+  public static final transient String INVALID_OPERATOR_MSG = "Invalid operator {0}. The operator must be one of the following constants: PLUS, MINUS, TIMES, DIVIDE, or POWER.";
 
   /**
    * Generated serial version identifier.
@@ -668,7 +668,7 @@ public class ASTNode extends AbstractTreeNode {
       }
       return arithmetic;
     } else {
-      throw new IllegalArgumentException(String.format(
+      throw new IllegalArgumentException(MessageFormat.format(
         INVALID_OPERATOR_MSG, operator));
     }
   }
@@ -938,7 +938,7 @@ public class ASTNode extends AbstractTreeNode {
    *
    * <p>
    * Parsing of the various MathML functions and constants are all
-   * case-sensitive by default: names such as 
+   * case-sensitive by default: names such as
    * <code>Cos</code> and <code>COS</code> are not parsed as the MathML cosine
    * operator, <code>&lt;cos&gt;</code>. As well, if you have an SBML entities (species, parameter, ...) that
    * has an id identical to one of the supported mathML element, the parser will interpret the String as the
@@ -946,25 +946,25 @@ public class ASTNode extends AbstractTreeNode {
    * 
    * <p> You can change this behaviour by using the {@link FormulaParserLL3#setCaseSensitive(boolean)}
    * method and using the {@link ASTNode#parseFormula(String, IFormulaParser)} method instead of this one:
-<p><pre><blockquote> 
+<p><pre><blockquote>
    FormulaParserLL3 caseSensitiveParser = new FormulaParserLL3(new StringReader(""));
    caseInsensitiveParser.setCaseSensitive(false);
    ASTNode n = ASTNode.parseFormula("Cos(x)", caseInsensitiveParser);
 </pre></blockquote></p>
    *
    * <p> This method has a different behaviour since JSBML-1.0 compare to JSBML-0.8. There is a different
-   * operator precedence, the parsing is now case sensitive for mathML elements and boolean operators are 
-   * now differently interpreted: '&&' and '||' are used instead of 'and' and 'or'.<br>	
+   * operator precedence, the parsing is now case sensitive for mathML elements and boolean operators are
+   * now differently interpreted: '&&' and '||' are used instead of 'and' and 'or'.<br>
    * If you want to use the parser used in JSBML-0.8, you can do that by using the {@link FormulaParser}
    * parser class and using the {@link ASTNode#parseFormula(String, IFormulaParser)} method instead of this one:
-<p><pre><blockquote> 
+<p><pre><blockquote>
    FormulaParser oldParser = new FormulaParser(new StringReader(""));
 
    ASTNode n = ASTNode.parseFormula("x and y", oldParser);
 </pre></blockquote></p>
-   *  
+   * 
    * <p> If you are not satisfied with the behaviour of the existing parsers, you can create
-   * your own, you just need to implement the {@link IFormulaParser} interface.  
+   * your own, you just need to implement the {@link IFormulaParser} interface.
    * 
    * @param formula
    *            a text-string mathematical formula.
@@ -974,7 +974,7 @@ public class ASTNode extends AbstractTreeNode {
    *             parsed for other reasons.
    * @see ASTNode#parseFormula(String, IFormulaParser)
    * @see FormulaParserLL3
-   * @see FormulaParser            
+   * @see FormulaParser
    */
   public static ASTNode parseFormula(String formula) throws ParseException {
     FormulaParserLL3 parser = new FormulaParserLL3(new StringReader(formula));
@@ -998,23 +998,23 @@ public class ASTNode extends AbstractTreeNode {
    *
    * <p> You can for example use you own parser or use an existing parser with different options.
    * 
-   * <p>For example, you can change the behaviour of the {@link FormulaParserLL3} class by using the 
+   * <p>For example, you can change the behaviour of the {@link FormulaParserLL3} class by using the
    * {@link FormulaParserLL3#setCaseSensitive(boolean)} method:
-<p><pre><blockquote> 
+<p><pre><blockquote>
    FormulaParserLL3 caseSensitiveParser = new FormulaParserLL3(new StringReader(""));
    caseInsensitiveParser.setCaseSensitive(false);
    ASTNode n = ASTNode.parseFormula("Cos(x)", caseInsensitiveParser);
 </pre></blockquote></p>
    *
    * <p> You can as well use the {@link FormulaParser} class to get the same parsing behaviour as in JSBML-0.8:
-<p><pre><blockquote> 
+<p><pre><blockquote>
    FormulaParser oldParser = new FormulaParser(new StringReader(""));
 
    ASTNode n = ASTNode.parseFormula("x and y", oldParser);
 </pre></blockquote></p>
-   *  
+   * 
    * <p> If you are not satisfied with the behaviour of the existing parsers, you can create
-   * your own, you just need to implement the {@link IFormulaParser} interface.  
+   * your own, you just need to implement the {@link IFormulaParser} interface.
    * 
    * 
    * @param formula
@@ -1027,7 +1027,7 @@ public class ASTNode extends AbstractTreeNode {
    *             parsed for other reasons.
    * @see ASTNode#parseFormula(String)
    * @see FormulaParserLL3
-   * @see FormulaParser            
+   * @see FormulaParser
    */
   public static ASTNode parseFormula(String formula, IFormulaParser parser) throws ParseException {
     parser.ReInit(new StringReader(formula));
@@ -1695,7 +1695,7 @@ public class ASTNode extends AbstractTreeNode {
         setParentSBMLObject(astnode, getParentSBMLObject(), 0);
       }
     } else {
-      throw new IllegalArgumentException(String.format(
+      throw new IllegalArgumentException(MessageFormat.format(
         INVALID_OPERATOR_MSG, operator));
     }
   }

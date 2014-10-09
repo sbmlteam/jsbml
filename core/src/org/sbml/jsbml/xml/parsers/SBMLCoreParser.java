@@ -385,7 +385,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               if (speciesReference.isSetSpecies()
                   && !speciesReference.isSetSpeciesInstance()) {
-                log4jLogger.warn(String.format("No Species matches the speciesID '%s' of %s.",
+                log4jLogger.warn(MessageFormat.format("No Species matches the speciesID ''{0}'' of {1}.",
                   speciesReference.getId(), speciesReference.getElementName()));
               }
             }
@@ -397,7 +397,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
 
               if (speciesReference.isSetSpecies()
                   && !speciesReference.isSetSpeciesInstance()) {
-                log4jLogger.warn(String.format("No Species matches the speciesID '%s' of %s.",
+                log4jLogger.warn(String.format("No Species matches the speciesID ''{0}'' of {1}.",
                   speciesReference.getId(), speciesReference.getElementName()));
               }
             }
@@ -410,7 +410,7 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
               if (modifierSpeciesReference.isSetSpecies()
                   && !modifierSpeciesReference
                   .isSetSpeciesInstance()) {
-                log4jLogger.warn(String.format("No Species matches the speciesID '%s' of %s.",
+                log4jLogger.warn(MessageFormat.format("No Species matches the speciesID ''{0}'' of {1}.",
                   modifierSpeciesReference.getId(), modifierSpeciesReference.getElementName()));
               }
             }
@@ -431,8 +431,8 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
                     .getLocalParameter(j);
                 if (parameter.isSetUnits()
                     && !parameter.isSetUnitsInstance()) {
-                  log4jLogger.warn(String.format(
-                    "No UnitDefinition matches the unitsID '%s'of the parameter %s.",
+                  log4jLogger.warn(MessageFormat.format(
+                    "No UnitDefinition matches the unitsID ''{0}''of the parameter {1}.",
                     parameter.getUnits(), parameter.getId()));
                 }
               }

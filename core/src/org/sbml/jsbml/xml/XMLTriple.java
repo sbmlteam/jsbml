@@ -21,6 +21,8 @@
  */
 package org.sbml.jsbml.xml;
 
+import java.text.MessageFormat;
+
 /**
  * Representation of a qualified XML name.
  * <p>
@@ -178,8 +180,8 @@ public class XMLTriple {
       name = tokens[1].trim();
       prefix = tokens[2].trim();
     } else {
-      throw new IllegalArgumentException(String.format(
-        "Cannot create an XMLTriple with the argument '%s' and the separator '%s'.",
+      throw new IllegalArgumentException(MessageFormat.format(
+        "Cannot create an XMLTriple with the argument ''{0}'' and the separator ''{1}''.",
         triplet, sepchar));
     }
   }

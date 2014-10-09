@@ -21,6 +21,7 @@
  */
 package org.sbml.jsbml.xml.parsers;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -235,15 +236,15 @@ public class MathMLStaxParser implements ReadingParser {
       logger.debug("processEndElement called");
       logger.debug("processEndElement : element name = " + elementName);
     }
-    
+
     if (elementName.equals("sep")) {
       return false;
     } else if (contextObject instanceof MathContainer) {
-//      try {
-//        logger.debug("processEndElement : formula = " + ((MathContainer) contextObject).getMath());
-//      } catch (Exception e) {
-//        logger.debug("Exception while reading mathML: " + e.getLocalizedMessage());
-//      }
+      //      try {
+      //        logger.debug("processEndElement : formula = " + ((MathContainer) contextObject).getMath());
+      //      } catch (Exception e) {
+      //        logger.debug("Exception while reading mathML: " + e.getLocalizedMessage());
+      //      }
       return false;
 
     } else if (contextObject instanceof ASTNode) {
@@ -371,8 +372,8 @@ public class MathMLStaxParser implements ReadingParser {
    */
   public void setIndent(int indent) {
     if ((indent < 0) || (Short.MAX_VALUE < indent)) {
-      throw new IllegalArgumentException(String.format(
-        "indent %d is out of the range [0, %d].",
+      throw new IllegalArgumentException(MessageFormat.format(
+        "indent {0,number,integer} is out of the range [0, {1,number,integer}].",
         indent, Short.toString(Short.MAX_VALUE)));
     }
     this.indent = (short) indent;

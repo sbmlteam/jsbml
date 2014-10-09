@@ -194,17 +194,17 @@ public class CVTerm extends AnnotationElement {
      * the referenced resource (modeling object B). This relation might be used
      * to link a model or a kinetic law to the literature that describes it.
      */
-    BQM_IS_DESCRIBED_BY,    
+    BQM_IS_DESCRIBED_BY,
     /**
-     * Represents the MIRIAM model qualifier 'isInstanceOf': 
+     * Represents the MIRIAM model qualifier 'isInstanceOf':
      * the modelling object represented by the model element is an instance
-     * of the subject of the referenced resource (modelling object B). 
+     * of the subject of the referenced resource (modelling object B).
      * For instance, this qualifier might be used to link a specific model
      * with its generic form.
      */
     BQM_IS_INSTANCE_OF,
     /**
-     * Represents the MIRIAM model qualifier 'hasInstance': 
+     * Represents the MIRIAM model qualifier 'hasInstance':
      * the modelling object represented by the model element has for instance
      * (is a class of) the subject of the referenced resource (modelling object B).
      * For instance, this qualifier might be used to link a generic model with its
@@ -277,7 +277,7 @@ public class CVTerm extends AnnotationElement {
         return IS_INSTANCE_OF;
       case BQM_HAS_INSTANCE:
         return HAS_INSTANCE;
-        
+
       default:
         return "unknownQualifier";
       }
@@ -411,7 +411,7 @@ public class CVTerm extends AnnotationElement {
    * Message to indicate an illegal combination of a {@link Type} and a
    * {@link Qualifier} attribute.
    */
-  private static final String INVALID_TYPE_AND_QUALIFIER_COMBINATION_MSG = "Invalid combination of type %s with qualifier %s.";
+  private static final String INVALID_TYPE_AND_QUALIFIER_COMBINATION_MSG = "Invalid combination of type {0} with qualifier {1}.";
 
   /**
    * Generated serial version identifier.
@@ -616,49 +616,49 @@ public class CVTerm extends AnnotationElement {
   public List<String> filterResources(String... patterns) {
     Pattern pattern;
     Pattern[] patternList = new Pattern[patterns.length];
-    
+
     for (int i = 0; i < patternList.length; i++) {
       pattern = Pattern.compile(patterns[i]);
       patternList[i] = pattern;
     }
-    
+
     return filterResources(patternList);
   }
 
-   /**
-    * Returns a list of resource URIs that contain the given {@link Pattern}(s). This is
-    * useful to obtain, e.g., all KEGG resources this term points to.
-    * 
-    * @param patterns
-    *        an arbitrary number of {@link Pattern}(s), e.g.,
-    *        {@code urn:miriam:kegg.reaction:R.*}, {@code .*kegg.*}  or just {@code kegg} that
-    *        are matched to all resources using an OR-operation, i.e.,
-    *        if just one of the patterns matches a resource, this resource will
-    *        appear in the returned list.
-    * @return A list of all resources that contain the given pattern. This list
-    *         can be empty, but never {@code null}. The order of the resources
-    *         in that list will be identical to the order in this term.
-    * @see Pattern
-    * @see Matcher#find()
-    */
-   public List<String> filterResources(Pattern... patterns) {
-     List<String> selectedResources = new ArrayList<String>();
+  /**
+   * Returns a list of resource URIs that contain the given {@link Pattern}(s). This is
+   * useful to obtain, e.g., all KEGG resources this term points to.
+   * 
+   * @param patterns
+   *        an arbitrary number of {@link Pattern}(s), e.g.,
+   *        {@code urn:miriam:kegg.reaction:R.*}, {@code .*kegg.*}  or just {@code kegg} that
+   *        are matched to all resources using an OR-operation, i.e.,
+   *        if just one of the patterns matches a resource, this resource will
+   *        appear in the returned list.
+   * @return A list of all resources that contain the given pattern. This list
+   *         can be empty, but never {@code null}. The order of the resources
+   *         in that list will be identical to the order in this term.
+   * @see Pattern
+   * @see Matcher#find()
+   */
+  public List<String> filterResources(Pattern... patterns) {
+    List<String> selectedResources = new ArrayList<String>();
 
-     for (int i = 0; i < getResourceCount(); i++) {
-       String resource = getResourceURI(i);
-       
-       for (Pattern pattern : patterns) {
-         Matcher matcher = pattern.matcher(resource); 
-     
-         if (matcher.find()) {
-           selectedResources.add(resource);
-           break;
-         }
-       }
-     }
-     
-     return selectedResources;
-   }
+    for (int i = 0; i < getResourceCount(); i++) {
+      String resource = getResourceURI(i);
+
+      for (Pattern pattern : patterns) {
+        Matcher matcher = pattern.matcher(resource);
+
+        if (matcher.find()) {
+          selectedResources.add(resource);
+          break;
+        }
+      }
+    }
+
+    return selectedResources;
+  }
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
@@ -955,14 +955,13 @@ public class CVTerm extends AnnotationElement {
           this.qualifier = qualifier;
           firePropertyChange(TreeNodeChangeEvent.qualifier, oldValue, qualifier);
         } else {
-          throw new IllegalArgumentException(String.format(
+          throw new IllegalArgumentException(MessageFormat.format(
             INVALID_TYPE_AND_QUALIFIER_COMBINATION_MSG, type,
             qualifier));
         }
       } else {
-        throw new IllegalArgumentException(String.format(
-          "%s is not a valid Biological Qualifier.", qualifier
-          .toString()));
+        throw new IllegalArgumentException(MessageFormat.format(
+          "{0} is not a valid Biological Qualifier.", qualifier.toString()));
       }
     }
   }
@@ -999,9 +998,8 @@ public class CVTerm extends AnnotationElement {
               "Model qualifier types can only be applyed if the type is set to Model Qualifier.");
         }
       } else {
-        throw new IllegalArgumentException(String.format(
-          "%s is not a valid Model !ualifier.", qualifier
-          .toString()));
+        throw new IllegalArgumentException(MessageFormat.format(
+          "{0} is not a valid Model Qualifier.", qualifier.toString()));
       }
     }
   }

@@ -564,12 +564,12 @@ public class SBMLWriter {
      * which version of JSBML was used for this purpose.
      */
     if ((programName != null) && (programName.length() > 0)) {
-      String date = String.format("%1$tY-%1$tm-%1$td %1$tR", Calendar.getInstance().getTime());
-      String msg = " Created by {0} version {1} on {2} with JSBML version {3}. ";
       outputDocument.addComment(
-        MessageFormat.format(msg, programName, (programVersion != null)
-          && (programVersion.length() > 0) ? programVersion
-            : "?", date, JSBML.getJSBMLDottedVersion()));
+        MessageFormat.format(
+          " Created by {0} version {1} on {2,date,yyyy-mm-dd} at {2,time,kk:mm:ss z} with JSBML version {3}. ",
+          (programName != null) && (programName.length() > 0) ? programName : "?",
+            (programVersion != null)  && (programVersion.length() > 0) ? programVersion : "?",
+              Calendar.getInstance().getTime(), JSBML.getJSBMLDottedVersion()));
       outputDocument.addCharacters("\n");
     }
 

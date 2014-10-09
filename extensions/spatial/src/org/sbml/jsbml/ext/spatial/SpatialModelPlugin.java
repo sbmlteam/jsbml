@@ -40,8 +40,6 @@ import org.sbml.jsbml.util.IdManager;
  */
 public class SpatialModelPlugin extends AbstractSpatialSBasePlugin implements IdManager {
 
-
-
   /**
    * Generated serial version ID
    */
@@ -122,6 +120,7 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin implements Id
     }
     return false;
   }
+
   /**
    * 
    */
@@ -147,8 +146,7 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin implements Id
     }
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getExtendedSBase()
    */
   @Override
@@ -156,13 +154,10 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin implements Id
     if (isSetExtendedSBase()) {
       return (Model) super.getExtendedSBase();
     }
-
     return null;
   }
 
-
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#writeXMLAttributes()
    */
   @Override
@@ -216,10 +211,14 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin implements Id
     return new SpatialModelPlugin(this);
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.IdManager#accept(org.sbml.jsbml.SBase)
+   */
   @Override
   public boolean accept(SBase sbase) {
-
-    logger.debug(String.format("accept called on %s", sbase.getElementName()));
+    if (logger.isDebugEnabled()) {
+      logger.debug(MessageFormat.format("accept called on {0}", sbase.getElementName()));
+    }
 
     if (sbase instanceof SpatialNamedSBase) {
       return true;
@@ -228,7 +227,7 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin implements Id
     if (sbase instanceof ListOf<?>) {
       ListOf<?> listOf = (ListOf<?>) sbase;
 
-      if (listOf.size() > 0 && listOf.get(0) instanceof SpatialNamedSBase) {
+      if ((listOf.size() > 0) && (listOf.get(0) instanceof SpatialNamedSBase)) {
         return true;
       }
     }
@@ -236,6 +235,9 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin implements Id
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.IdManager#register(org.sbml.jsbml.SBase)
+   */
   @Override
   public boolean register(SBase sbase) {
 
@@ -277,6 +279,9 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin implements Id
     return success;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.util.IdManager#unregister(org.sbml.jsbml.SBase)
+   */
   @Override
   public boolean unregister(SBase sbase) {
 

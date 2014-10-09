@@ -108,13 +108,13 @@ public class ListOfSpecies extends ListOf<org.sbml.jsbml.Species> {
 	 */
 	public boolean add(Species e) {
 		if (e.getLevel() != getLevel()) {
-			throw new IllegalArgumentException(String.format(
-					"Level mismatch between %s in L %d and %s in L %d",
+			throw new IllegalArgumentException(MessageFormat.format(
+					"Level mismatch between {0} in L {1,number,integer} and {2} in L {3,number,integer}",
 					getClass().getSimpleName(), getLevel(), e.getClass()
 							.getSimpleName(), e.getLevel()));
 		} else if (e.getVersion() != getVersion()) {
-			throw new IllegalArgumentException(String.format(
-					"Version mismatch between %s in V %d and %s in V %d",
+			throw new IllegalArgumentException(MessageFormat.format(
+					"Version mismatch between {0} in V {1,number,integer} and {2} in V {3,number,integer}",
 					getClass().getSimpleName(), getVersion(), e.getClass()
 							.getSimpleName(), e.getVersion()));
 		}

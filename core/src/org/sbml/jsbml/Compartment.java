@@ -46,14 +46,14 @@ public class Compartment extends Symbol {
    * This message will be displayed if the user tries to set the spatial
    * dimensions of this element to a value other than 0, 1, 2, or 3.
    */
-  private static final String ERROR_MESSAGE_INVALID_DIM = "Spatial dimensions must be within {0, 3}, but %f was given.";
+  private static final String ERROR_MESSAGE_INVALID_DIM = "Spatial dimensions must be within '{0, 3}', but {0,number} was given.";
 
   /**
    * This is the error message to be displayed if an application tries to set
    * units or size attribute for this compartment but the spatial dimensions
    * have been set to zero.
    */
-  private static final String ERROR_MESSAGE_ZERO_DIM = "Cannot set %s for compartment %s if the spatial dimensions are zero.";
+  private static final String ERROR_MESSAGE_ZERO_DIM = "Cannot set {0} for compartment {1} if the spatial dimensions are zero.";
 
   /**
    * A {@link Logger} for this class.
@@ -744,7 +744,7 @@ public class Compartment extends Symbol {
       firePropertyChange(TreeNodeChangeEvent.spatialDimensions,
         oldSpatialDimensions, spatialDimensions);
     } else {
-      throw new IllegalArgumentException(String.format(
+      throw new IllegalArgumentException(MessageFormat.format(
         ERROR_MESSAGE_INVALID_DIM, spatialDimension));
     }
   }
@@ -792,7 +792,7 @@ public class Compartment extends Symbol {
     if (Double.isNaN(specDim) || (0 < specDim)) {
       super.setUnits(units);
     } else {
-      throw new IllegalArgumentException(String.format(
+      throw new IllegalArgumentException(MessageFormat.format(
         ERROR_MESSAGE_ZERO_DIM, "units", getId()));
     }
   }
@@ -810,7 +810,7 @@ public class Compartment extends Symbol {
     if (0 < getSpatialDimensions()) {
       super.setUnits(unit);
     } else {
-      throw new IllegalArgumentException(String.format(
+      throw new IllegalArgumentException(MessageFormat.format(
         ERROR_MESSAGE_ZERO_DIM, "unit", getId()));
     }
   }
@@ -831,7 +831,7 @@ public class Compartment extends Symbol {
     if (0 < getSpatialDimensions()) {
       super.setUnits(unitKind);
     } else {
-      throw new IllegalArgumentException(String.format(
+      throw new IllegalArgumentException(MessageFormat.format(
         ERROR_MESSAGE_ZERO_DIM, "unit kind", getId()));
     }
   }
@@ -864,7 +864,7 @@ public class Compartment extends Symbol {
     if ((dim > 0d) || Double.isNaN(dim)) {
       super.setValue(value);
     } else {
-      throw new IllegalArgumentException(String.format(
+      throw new IllegalArgumentException(MessageFormat.format(
         ERROR_MESSAGE_ZERO_DIM, "size", getId()));
     }
   }
