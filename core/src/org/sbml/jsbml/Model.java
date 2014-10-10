@@ -2939,8 +2939,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
     if (listOfPredefinedUnitDefinitions != null) {
       String unitKindPredefinedId = unitKind + UnitDefinition.BASE_UNIT_SUFFIX;
       for (UnitDefinition unitDefinition : listOfPredefinedUnitDefinitions) { // Having a Map instead of a list would be much better
-        // It can never happen that a unitDef has the id that is a unit kind. // "unitDefinition.getId().equals(unitKind) ||"
-        if (unitDefinition.getId().equals(unitKindPredefinedId))
+        // For volume, substance, time, area and lenght, the id can be equals to the given unit kind.        
+        if (unitDefinition.getId().equals(unitKind) || unitDefinition.getId().equals(unitKindPredefinedId))
         {
           return unitDefinition;
         }
