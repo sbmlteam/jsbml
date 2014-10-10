@@ -290,7 +290,7 @@ public class InitialAssignment extends AbstractMathContainer implements Assignme
   @Override
   public void setVariable(Variable variable) {
     if ((getLevel() < 3) && (variable != null) && (variable instanceof SpeciesReference)) {
-      throw new IllegalArgumentException(MessageFormat.format(
+      throw new IllegalArgumentException(MessageFormat.format(Assignment.ILLEGAL_VARIABLE_EXCEPTION_MSG,
         variable.getId(), getElementName()));
     }
     setVariable(variable != null ? variable.getId() : null);
