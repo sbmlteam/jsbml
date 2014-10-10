@@ -1122,8 +1122,24 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 			rdfNode.addNamespace(JSBML.URI_PURL_TERMS, "dcterms");		
 		}
 		if (contextObject.getCVTermCount() > 0) {
-			rdfNode.addNamespace(CVTerm.URI_BIOMODELS_NET_MODEL_QUALIFIERS, "bqmodel");			
-			rdfNode.addNamespace(CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS, "bqbiol");
+		  boolean needBqModel = false;
+		  boolean needBqBiol = false;
+		  
+		  for (CVTerm cvTerm : contextObject.getCVTerms()) {
+		    if (cvTerm.isBiologicalQualifier()) {
+		      needBqBiol = true;
+		    }
+		    if (cvTerm.isModelQualifier()) {
+		      needBqModel = true;
+		    }
+		  }
+
+		  if (needBqModel) {
+		    rdfNode.addNamespace(CVTerm.URI_BIOMODELS_NET_MODEL_QUALIFIERS, "bqmodel");
+		  }
+		  if (needBqBiol) {
+		    rdfNode.addNamespace(CVTerm.URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS, "bqbiol");
+		  }
 		}
 		
 		
