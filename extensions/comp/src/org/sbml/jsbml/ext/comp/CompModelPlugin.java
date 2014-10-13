@@ -583,7 +583,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
           mapOfPorts = new HashMap<String, Port>();
         }
 
-        if (mapOfPorts.containsKey(portId)) {
+        if (mapOfPorts.containsKey(portId) && mapOfPorts.get(portId) != sbase) {
           logger.error(MessageFormat.format(
             "A Port with the id \"{0}\" is already present in this model {1}. The new element will not be added to the model.",
             portId, (isSetExtendedSBase() ? ((Model) getExtendedSBase()).getId() : "")));
