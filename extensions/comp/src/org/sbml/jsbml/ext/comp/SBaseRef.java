@@ -409,7 +409,8 @@ public class SBaseRef extends AbstractSBase {
     SBaseRef oldSBaseRef = this.sBaseRef;
     this.sBaseRef = sBaseRef;
     firePropertyChange(CompConstants.sBaseRef, oldSBaseRef, this.sBaseRef);
-    // TODO: need to register the new sBaseRef in the model/document
+    // registering the new sBaseRef in the model/document // Could be done in org.sbml.jsbml.AbstractSBase.firePropertyChange(String, Object, Object)
+    registerChild(sBaseRef);
   }
 
   /**
