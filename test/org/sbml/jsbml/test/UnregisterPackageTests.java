@@ -56,6 +56,7 @@ import org.sbml.jsbml.ext.comp.ModelDefinition;
 import org.sbml.jsbml.ext.comp.Port;
 import org.sbml.jsbml.ext.comp.ReplacedBy;
 import org.sbml.jsbml.ext.comp.ReplacedElement;
+import org.sbml.jsbml.ext.comp.SBaseRef;
 import org.sbml.jsbml.ext.comp.Submodel;
 import org.sbml.jsbml.ext.fbc.FBCConstants;
 import org.sbml.jsbml.ext.fbc.FBCModelPlugin;
@@ -386,6 +387,74 @@ public class UnregisterPackageTests {
 
   }
 
+  
+  /**
+   * The Port 'id' is registered a first time in the CompSBasePlugin
+   * when it is created. And a second time when the plugin is added
+   * to the Model.
+   * 
+   */
+  @Test public void testCompRegisteringTwice() {
+      Reaction r2 = model.createReaction("R2");
+      SpeciesReference ref = new SpeciesReference(3,1);
+      ref.setId("SP3");
+      ref.setSpecies("S1");
+      CompSBasePlugin sBasePlugin = (CompSBasePlugin) ref.getPlugin(CompConstants.shortLabel);
+      ReplacedBy replacedBy = sBasePlugin.createReplacedBy();
+      replacedBy.setIdRef("S1");
+      replacedBy.setMetaId("CMeta1");
+      r2.addReactant(ref);
+      
+      assertTrue(doc.findSBase("CMeta1").equals(replacedBy));  
+      ref.unsetPlugin(CompConstants.shortLabel);
+      assertTrue(doc.findSBase("CMeta1") == null);
+      
+      CompModelPlugin comp = new CompModelPlugin(model);
+
+      Port port = comp.createPort();
+      port.setId("c");
+      port.setIdRef("s");
+      port.setMetaId("CPortMeta1");
+      SBaseRef sbaseRef = port.createSBaseRef();
+      sbaseRef.setPortRef("S1");
+      sbaseRef.setMetaId("CMeta1");
+      SBaseRef sbaseRefRecursive = sbaseRef.createSBaseRef();
+      sbaseRefRecursive.setMetaId("CMeta2");
+      
+      model.addExtension(CompConstants.namespaceURI, comp);
+
+      assertTrue(doc.findSBase("CPortMeta1").equals(port));  
+      assertTrue(doc.findSBase("CMeta2").equals(sbaseRefRecursive));
+      assertTrue(doc.findSBase("CMeta1").equals(sbaseRef));
+
+      String docString = null;
+      
+      try {
+        docString = new SBMLWriter().writeSBMLToString(doc);
+        
+        SBMLDocument docReadFromStr = new SBMLReader().readSBMLFromString(docString);
+        
+        assertTrue(docReadFromStr.findSBase("CMeta1").equals(sbaseRef));  
+        assertTrue(docReadFromStr.findSBase("CMeta2").equals(sbaseRefRecursive));
+        assertTrue(docReadFromStr.findSBase("CPortMeta1").equals(port));  
+        
+      } catch (SBMLException e) {
+        e.printStackTrace();
+        assertTrue(false);
+      } catch (XMLStreamException e) {
+        e.printStackTrace();
+        assertTrue(false);
+      }
+      
+      SBMLDocument clonedDoc = doc.clone();
+      
+      assertTrue(clonedDoc.findSBase("CPortMeta1") != null);  
+      assertTrue(clonedDoc.findSBase("CMeta1").equals(sbaseRef));  
+      assertTrue(clonedDoc.findSBase("CMeta2").equals(sbaseRefRecursive));
+      
+  }
+  
+  
   @Test public void testFbc() {
 
     FBCModelPlugin fbcModel = (FBCModelPlugin) model.getPlugin(FBCConstants.namespaceURI_L3V1V1);
@@ -842,10 +911,30 @@ public class UnregisterPackageTests {
 
   }
 
+  /**
+   * The Dimension 'id' is registered a first time in the ArraysSBasePlugin
+   * when it is created. And a second time when the SpeciesReference is added
+   * to the Reaction.
+   * 
+   */
+  @Test public void testArraysRegisteringTwice() {
+    Reaction r2 = model.createReaction("R2");
+    SpeciesReference ref = new SpeciesReference(3,1);
+    ref.setId("SP3");
+    ref.setSpecies("S1");
+    ArraysSBasePlugin sBasePlugin = (ArraysSBasePlugin) ref.getPlugin(ArraysConstants.shortLabel);
+    Dimension dimX = sBasePlugin.createDimension("rd0");
+    dimX.setSize("n");
+    dimX.setArrayDimension(0);
+    dimX.setMetaId("ADMeta1");
+    r2.addReactant(ref);
+    
+    assertTrue(doc.findSBase("ADMeta1").equals(dimX));
+  }
+  
   @Test public void testArraysUnsetListOfDimensions() {
 
-    SpeciesReference sp1 = (SpeciesReference) model.findNamedSBase("SP1");
-
+    SpeciesReference sp1 = (SpeciesReference) model.findNamedSBase("SP1");    
     ArraysSBasePlugin arraysTestPlugin = (ArraysSBasePlugin) sp1.getPlugin(ArraysConstants.shortLabel);
 
     Dimension d1 = arraysTestPlugin.createDimension("AD1");

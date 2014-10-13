@@ -127,6 +127,9 @@ public class SBaseRef extends AbstractSBase {
     if (obj.isSetMetaIdRef()) {
       setMetaIdRef(obj.getMetaIdRef());
     }
+    if (obj.isSetSBaseRef()) {
+      setSBaseRef(obj.getSBaseRef());
+    }
   }
 
   @Override

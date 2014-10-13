@@ -23,7 +23,9 @@
 package org.sbml.jsbml.ext.arrays;
 
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -31,7 +33,6 @@ import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
@@ -67,7 +68,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   /**
    * A {@link Logger} for this class.
    */
-  private static final transient Logger logger = Logger.getLogger(Model.class);
+  private static final transient Logger logger = Logger.getLogger(ArraysSBasePlugin.class);
 
   /**
    * Maps between the {@link Dimension} identifiers and themselves.
@@ -687,8 +688,8 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
             }
           }
 
-          if (mapOfDimensions.get(id) == sbase) {
-            // TODO: This fixes a bug related to a local scoping of parameters, but needs to be tested more carefully.
+          if (mapOfDimensions.get(id) == sbase) { 
+           // Allow to call several times the register method on the same object. Happens when the SBasePlugin is created before being added to the SBMLDocument
             success = true;
           } else {
             logger.error(MessageFormat.format(
