@@ -127,6 +127,62 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
     return new CompModelPlugin(this);
   }
 
+  
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3371;
+    int result = super.hashCode();
+    result = prime * result
+      + ((listOfPorts == null) ? 0 : listOfPorts.hashCode());
+    result = prime * result
+      + ((listOfSubmodels == null) ? 0 : listOfSubmodels.hashCode());
+    result = prime * result
+      + ((mapOfPorts == null) ? 0 : mapOfPorts.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    CompModelPlugin other = (CompModelPlugin) obj;
+    if (listOfPorts == null) {
+      if (other.listOfPorts != null) {
+        return false;
+      }
+    } else if (!listOfPorts.equals(other.listOfPorts)) {
+      return false;
+    }
+    if (listOfSubmodels == null) {
+      if (other.listOfSubmodels != null) {
+        return false;
+      }
+    } else if (!listOfSubmodels.equals(other.listOfSubmodels)) {
+      return false;
+    }
+    if (mapOfPorts == null) {
+      if (other.mapOfPorts != null) {
+        return false;
+      }
+    } else if (!mapOfPorts.equals(other.mapOfPorts)) {
+      return false;
+    }
+    return true;
+  }
+
   /**
    * Creates a new Port element and adds it to the ListOfPorts list
    */

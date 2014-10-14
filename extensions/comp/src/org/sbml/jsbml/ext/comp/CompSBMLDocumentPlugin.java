@@ -157,6 +157,58 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   public CompSBMLDocumentPlugin clone() {
     return new CompSBMLDocumentPlugin(this);
   }
+  
+  
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3343;
+    int result = super.hashCode();
+    result = prime
+      * result
+      + ((listOfExternalModelDefinitions == null) ? 0
+        : listOfExternalModelDefinitions.hashCode());
+    result = prime
+      * result
+      + ((listOfModelDefinitions == null) ? 0
+        : listOfModelDefinitions.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    CompSBMLDocumentPlugin other = (CompSBMLDocumentPlugin) obj;
+    if (listOfExternalModelDefinitions == null) {
+      if (other.listOfExternalModelDefinitions != null) {
+        return false;
+      }
+    } else if (!listOfExternalModelDefinitions.equals(other.listOfExternalModelDefinitions)) {
+      return false;
+    }
+    if (listOfModelDefinitions == null) {
+      if (other.listOfModelDefinitions != null) {
+        return false;
+      }
+    } else if (!listOfModelDefinitions.equals(other.listOfModelDefinitions)) {
+      return false;
+    }
+    return true;
+  }
 
   /**
    * Returns {@code true}, if listOfExternalModelDefinitions contains at least one element.

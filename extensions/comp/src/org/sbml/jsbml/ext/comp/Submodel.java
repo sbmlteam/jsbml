@@ -137,8 +137,6 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
     }
   }
 
-  // TODO: equals, hashCode
-
   /**
    * clones this class
    */
@@ -154,6 +152,72 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
     setNamespace(CompConstants.namespaceURI);
   }
 
+  
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime
+      * result
+      + ((extentConversionFactor == null) ? 0
+        : extentConversionFactor.hashCode());
+    result = prime * result
+      + ((listOfDeletions == null) ? 0 : listOfDeletions.hashCode());
+    result = prime * result + ((modelRef == null) ? 0 : modelRef.hashCode());
+    result = prime * result
+      + ((timeConversionFactor == null) ? 0 : timeConversionFactor.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    Submodel other = (Submodel) obj;
+    if (extentConversionFactor == null) {
+      if (other.extentConversionFactor != null) {
+        return false;
+      }
+    } else if (!extentConversionFactor.equals(other.extentConversionFactor)) {
+      return false;
+    }
+    if (listOfDeletions == null) {
+      if (other.listOfDeletions != null) {
+        return false;
+      }
+    } else if (!listOfDeletions.equals(other.listOfDeletions)) {
+      return false;
+    }
+    if (modelRef == null) {
+      if (other.modelRef != null) {
+        return false;
+      }
+    } else if (!modelRef.equals(other.modelRef)) {
+      return false;
+    }
+    if (timeConversionFactor == null) {
+      if (other.timeConversionFactor != null) {
+        return false;
+      }
+    } else if (!timeConversionFactor.equals(other.timeConversionFactor)) {
+      return false;
+    }
+    return true;
+  }
 
   @Override
   public boolean isIdMandatory() {
