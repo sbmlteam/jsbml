@@ -246,34 +246,34 @@ public class JSBML {
    *
    * <p>
    * Parsing of the various MathML functions and constants are all
-   * case-sensitive by default: names such as 
-   * '<code>Cos</code>' and '<code>COS</code>' are not parsed as the MathML cosine
-   * operator, '<code>&lt;cos&gt;</code>'.
+   * case-sensitive by default: names such as
+   * '{@code Cos}' and '{@code COS}' are not parsed as the MathML cosine
+   * operator, '{@code <cos>}'.
    * As well, if you have an SBML entities (species, parameter, ...) that
    * has an id identical to one of the supported mathML element, the parser will interpret the String as the
    * mathML element and not the SBML entity.
    * 
    * <p> You can change this behaviour by using the {@link FormulaParserLL3#setCaseSensitive(boolean)}
    * method and using the {@link ASTNode#parseFormula(String, IFormulaParser)} method instead of this one:
-<p><pre><blockquote> 
+<p><pre><blockquote>
    FormulaParserLL3 caseSensitiveParser = new FormulaParserLL3(new StringReader(""));
    caseInsensitiveParser.setCaseSensitive(false);
    ASTNode n = ASTNode.parseFormula("Cos(x)", caseInsensitiveParser);
 </pre></blockquote></p>
    *
    * <p> This method has a different behaviour since JSBML-1.0 compare to JSBML-0.8. There is a different
-   * operator precedence, the parsing is now case sensitive for mathML elements and boolean operators are 
-   * now differently interpreted: '&&' and '||' are used instead of 'and' and 'or'.<br>	
+   * operator precedence, the parsing is now case sensitive for mathML elements and boolean operators are
+   * now differently interpreted: '&&' and '||' are used instead of 'and' and 'or'.<br>
    * If you want to use the parser used in JSBML-0.8, you can do that by using the {@link FormulaParser}
    * parser class and using the {@link ASTNode#parseFormula(String, IFormulaParser)} method instead of this one:
-<p><pre><blockquote> 
+<p><pre><blockquote>
    FormulaParser oldParser = new FormulaParser(new StringReader(""));
 
    ASTNode n = ASTNode.parseFormula("x and y", oldParser);
 </pre></blockquote></p>
-   *  
+   * 
    * <p> If you are not satisfied with the behaviour of the existing parsers, you can create
-   * your own, you just need to implement the {@link IFormulaParser} interface.  
+   * your own, you just need to implement the {@link IFormulaParser} interface.
    * 
    * @param formula
    *            a text-string mathematical formula.
@@ -284,7 +284,7 @@ public class JSBML {
    * @see ASTNode#parseFormula(String)
    * @see ASTNode#parseFormula(String, IFormulaParser)
    * @see FormulaParserLL3
-   * @see FormulaParser            
+   * @see FormulaParser
    */
   public static ASTNode parseFormula(String formula) throws ParseException {
     return ASTNode.parseFormula(formula);

@@ -939,8 +939,8 @@ public class ASTNode extends AbstractTreeNode {
    * <p>
    * Parsing of the various MathML functions and constants are all
    * case-sensitive by default: names such as
-   * <code>Cos</code> and <code>COS</code> are not parsed as the MathML cosine
-   * operator, <code>&lt;cos&gt;</code>. As well, if you have an SBML entities (species, parameter, ...) that
+   * {@code Cos} and {@code COS} are not parsed as the MathML cosine
+   * operator, {@code <cos>}. As well, if you have an SBML entities (species, parameter, ...) that
    * has an id identical to one of the supported mathML element, the parser will interpret the String as the
    * mathML element and not the SBML entity.
    * 

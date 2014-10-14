@@ -430,7 +430,7 @@ public class XMLNode extends XMLToken {
     if (childrenElements == null) {
       childrenElements = new ArrayList<XMLNode>();
     }
-    
+
     childrenElements.add(node);
     node.fireNodeAddedEvent();
     node.parent = this;
@@ -564,7 +564,7 @@ public class XMLNode extends XMLToken {
         child.fireNodeRemovedEvent();
       }
     }
-    
+
     return OPERATION_SUCCESS;
   }
 
@@ -616,28 +616,28 @@ public class XMLNode extends XMLToken {
 
   /**
    * Removes the first occurrence of the specified element from this list.
-   * 
-   * <p>If this list does not contain the element, it is unchanged. More formally, removes 
-   * the element with the lowest index i such that (o==null ? get(i)==null : o.equals(get(i)))
-   *  (if such an element exists). Returns true if this list contained the specified element 
-   *  (or equivalently, if this list changed as a result of the call).
-   * 
+   * <p>
+   * If this list does not contain the element, it is unchanged. More formally,
+   * removes the element with the lowest index i such that
+   * {@code (o == null ? get(i) == null : o.equals(get(i)))} (if such an
+   * element exists). Returns {@code true} if this list contained the specified
+   * element (or equivalently, if this list changed as a result of the call).
    * 
    * @param xmlNode
-   * @return true if the {@link XMLNode} was found and removed.
+   * @return {@code true} if the {@link XMLNode} was found and removed.
    */
   public boolean removeChild(XMLNode xmlNode) {
     if (childrenElements == null) {
       return false;
     }
-    
+
     return childrenElements.remove(xmlNode);
   }
 
   /**
    * Gets the first direct child element of this {@link XMLNode} with the given local name and namespace.
    * 
-   * <p>If <code>null</code> or an empty {@link String} is given for either the elementName or
+   * <p>If {@code null} or an empty {@link String} is given for either the elementName or
    * the elementURI, it is interpreted as any name or namespace. This is the same as passing the
    * special value "*".
    * 
@@ -671,23 +671,29 @@ public class XMLNode extends XMLToken {
   }
 
   /**
-   * Gets all the direct children of this {@link XMLNode} with the given local name and namespace.
+   * Gets all the direct children of this {@link XMLNode} with the given local
+   * name and namespace.
+   * <p>
+   * If {@code null} or an empty {@link String} is given for either the
+   * elementName or the elementURI, it is interpreted as any name or namespace.
+   * This is the same as passing the special value "*".
    * 
-   * <p>If <code>null</code> or an empty {@link String} is given for either the elementName or
-   * the elementURI, it is interpreted as any name or namespace. This is the same as passing the
-   * special value "*".
-   * 
-   * @param elementName - The local name of the elements to match on. The special value "*" matches all local names.
-   * @param elementURI - The namespace URI of the elements to match on. The special value "*" matches all namespaces.
-   * @return all the direct children of this {@link XMLNode} with the given local name and namespace.
+   * @param elementName
+   *        - The local name of the elements to match on. The special value "*"
+   *        matches all local names.
+   * @param elementURI
+   *        - The namespace URI of the elements to match on. The special value
+   *        "*" matches all namespaces.
+   * @return all the direct children of this {@link XMLNode} with the given
+   *         local name and namespace.
    */
   public List<XMLNode> getChildElements(String elementName, String elementURI)
   {
     // checking the inputs
-    if (elementName == null || elementName.trim().length() == 0) {
+    if ((elementName == null) || (elementName.trim().length() == 0)) {
       elementName = "*";
     }
-    if (elementURI == null || elementURI.trim().length() == 0) {
+    if ((elementURI == null) || (elementURI.trim().length() == 0)) {
       elementURI = "*";
     }
 

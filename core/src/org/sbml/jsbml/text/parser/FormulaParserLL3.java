@@ -11,7 +11,7 @@
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
  * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
- * 5. The Babraham Institute, Cambridge, UK 
+ * 5. The Babraham Institute, Cambridge, UK
  *
  * This library is free software; you can redistribute it and/or modify it
  * under the terms of the GNU Lesser General Public License as published by
@@ -26,10 +26,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
+
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.resources.Resource;
-import org.sbml.jsbml.text.parser.IFormulaParser;
 
 /**
  * Class used to parse infix mathematical formula and returns a representation of it as an Abstract Syntax Tree (AST).
@@ -39,9 +39,9 @@ import org.sbml.jsbml.text.parser.IFormulaParser;
  *
  * <p>
  * Parsing of the various MathML functions and constants are all
- * case-sensitive by default: names such as 
- * <code>Cos</code> and <code>COS</code> are not parsed as the MathML cosine
- * operator, <code>&lt;cos&gt;</code>.
+ * case-sensitive by default: names such as
+ * {@code Cos} and {@code COS} are not parsed as the MathML cosine
+ * operator, {@code <cos>}.
  *
  * <p> You can change this behaviour by using the {@link #setCaseSensitive(boolean)}
  * method.
@@ -59,15 +59,15 @@ import org.sbml.jsbml.text.parser.IFormulaParser;
      <th align="left">Associates</th>
  </tr>
 <tr><td><em>name</em></td><td>symbol reference</td><td>operand</td><td align="center">8</td><td>n/a</td></tr>
-<tr><td><code>(</code><em>expression</em><code>)</code></td><td>expression grouping</td><td>operand</td><td align="center">8</td><td>n/a</td></tr>
-<tr><td><code>f(</code><em>...</em><code>)</code></td><td>function call</td><td>prefix</td><td align="center">8</td><td>left</td></tr>
-<tr><td><code>^</code></td><td>power</td><td>binary</td><td align="center">7</td><td>left</td></tr>
-<tr><td><code>-, !</code></td><td>negation and boolean 'not'</td><td>unary</td><td align="center">6</td><td>right</td></tr>
-<tr><td><code>*, /, %</code></td><td>multiplication, division, and modulo</td><td>binary</td><td align="center">5</td><td>left</td></tr>
-<tr><td><code>+, -</code></td><td>addition and subtraction</td><td>binary</td><td align="center">4</td><td>left</td></tr>
-<tr><td><code>==, &lt;, &gt;, &lt;=, &gt;=, !=</code></td><td>boolean equality, inequality, and comparison</td><td>binary</td><td align="center">3</td><td>left</td></tr>
-<tr><td><code>&amp;&amp;, ||</code></td><td>boolean 'and' and 'or'</td><td>binary</td><td align="center">2</td><td>left</td></tr>
-<tr><td><code>,</code></td><td>argument delimiter</td><td>binary</td><td align="center">1</td><td>left</td></tr>
+<tr><td>{@code (}<em>expression</em>{@code )}</td><td>expression grouping</td><td>operand</td><td align="center">8</td><td>n/a</td></tr>
+<tr><td>{@code f(}<em>...</em>{@code )}</td><td>function call</td><td>prefix</td><td align="center">8</td><td>left</td></tr>
+<tr><td>{@code ^}</td><td>power</td><td>binary</td><td align="center">7</td><td>left</td></tr>
+<tr><td>{@code -, !}</td><td>negation and boolean 'not'</td><td>unary</td><td align="center">6</td><td>right</td></tr>
+<tr><td>{@code *, /, %}</td><td>multiplication, division, and modulo</td><td>binary</td><td align="center">5</td><td>left</td></tr>
+<tr><td>{@code +, -}</td><td>addition and subtraction</td><td>binary</td><td align="center">4</td><td>left</td></tr>
+<tr><td>{@code ==, <, >, <=, >=, !=}</td><td>boolean equality, inequality, and comparison</td><td>binary</td><td align="center">3</td><td>left</td></tr>
+<tr><td>{@code &&, ||}</td><td>boolean 'and' and 'or'</td><td>binary</td><td align="center">2</td><td>left</td></tr>
+<tr><td>{@code ,}</td><td>argument delimiter</td><td>binary</td><td align="center">1</td><td>left</td></tr>
 
 <caption class="top-caption">Expression operators and their precedence in the
  text-string format for mathematical expressions.
@@ -76,16 +76,16 @@ import org.sbml.jsbml.text.parser.IFormulaParser;
 
 
  <p>
- * In the table above, <em>operand</em> implies the construct is an operand, 
- * <em>prefix</em> implies the operation is applied to the following arguments, 
+ * In the table above, <em>operand</em> implies the construct is an operand,
+ * <em>prefix</em> implies the operation is applied to the following arguments,
  * <em>unary</em> implies there is one argument, and <em>binary</em> implies there are
  * two arguments.  The values in the <b>Precedence</b> column show how the
  * order of different types of operation are determined.  For example, the
- * expression <code>a + b * c</code> is evaluated as <code>a + (b * c)</code>
+ * expression {@code a + b * c} is evaluated as {@code a + (b * c)}
  * because the @c * operator has higher precedence.  The
  * <b>Associates</b> column shows how the order of similar precedence
- * operations is determined; for example, <code>a &amp;&amp; b || c</code> is
- * evaluated as <code>(a &amp;&amp; b) || c</code> because the <code>&amp;&amp;</code> and <code>||</code>
+ * operations is determined; for example, {@code a && b || c} is
+ * evaluated as {@code (a && b) || c} because the {@code &&} and {@code ||}
  * operators are left-associative and have the same precedence.
  <p>
  * The function call syntax consists of a function name, followed by an opening parenthesis token,
@@ -101,7 +101,7 @@ import org.sbml.jsbml.text.parser.IFormulaParser;
  * functions added in SBML Level 2 and Level 3:
  <p>
 
-  * <table border="0" width="95%" 
+ * <table border="0" width="95%"
        class="centered text-table normal-font alt-row-colors">
  <tr>
      <th align="left" width="60">Name</th>
@@ -110,312 +110,312 @@ import org.sbml.jsbml.text.parser.IFormulaParser;
      <th align="left" width="90">Argument Constraints</th>
      <th align="left" width="90">Result constraints</th>
  </tr>
-<tr><td><code>abs</code></td>   
-    <td><em>x</em></td> 
+<tr><td>{@code abs}</td>
+    <td><em>x</em></td>
     <td>Absolute value of <em>x</em>.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>acos</code>, <code>arccos</code></td>
+<tr><td>{@code acos}, {@code arccos}</td>
     <td><em>x</em></td>
     <td>Arccosine of <em>x</em> in radians.</td>
     <td>&ndash;1.0 &le; <em>x</em> &le; 1.0</td>
     <td>0 &le; <em>acos(x)</em> &le; &pi;</td>
 </tr>
-<tr><td><code>acosh</code>, <code>arccosh</code></td>
+<tr><td>{@code acosh}, {@code arccosh}</td>
     <td><em>x</em></td>
     <td>Hyperbolic arccosine of <em>x</em> in radians.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>acot</code>, <code>arccot</code></td>
+<tr><td>{@code acot}, {@code arccot}</td>
     <td><em>x</em></td>
     <td>Arccotangent of <em>x</em> in radians.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>acoth</code>, <code>arccoth</code></td>
+<tr><td>{@code acoth}, {@code arccoth}</td>
     <td><em>x</em></td>
     <td>Hyperbolic arccotangent of <em>x</em> in radians.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>acsc</code>, <code>arccsc</code></td>
+<tr><td>{@code acsc}, {@code arccsc}</td>
     <td><em>x</em></td>
     <td>Arccosecant of <em>x</em> in radians.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>acsch</code>, <code>arccsch</code></td>
+<tr><td>{@code acsch}, {@code arccsch}</td>
     <td><em>x</em></td>
     <td>Hyperbolic arccosecant of <em>x</em> in radians.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>asec</code>, <code>arcsec</code></td>
+<tr><td>{@code asec}, {@code arcsec}</td>
     <td><em>x</em></td>
     <td>Arcsecant of <em>x</em> in radians.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>asech</code>, <code>arcsech</code></td>
+<tr><td>{@code asech}, {@code arcsech}</td>
     <td><em>x</em></td>
     <td>Hyperbolic arcsecant of <em>x</em> in radians.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>asin</code>, <code>arcsin</code></td>
+<tr><td>{@code asin}, {@code arcsin}</td>
     <td><em>x</em></td><td>Arcsine of <em>x</em> in radians.</td>
     <td>&ndash;1.0 &le; <em>x</em> &le; 1.0</td>
     <td>0 &le; <em>asin(x)</em> &le; &pi;</td>
 </tr>
-<tr><td><code>atan</code>, <code>arctan</code></td>
+<tr><td>{@code atan}, {@code arctan}</td>
     <td><em>x</em></td>
     <td>Arctangent of <em>x</em> in radians.</td>
     <td></td>
     <td>0 &le; <em>atan(x)</em> &le; &pi;</td>
 </tr>
-<tr><td><code>atanh</code>, <code>arctanh</code></td>
+<tr><td>{@code atanh}, {@code arctanh}</td>
     <td><em>x</em></td>
     <td>Hyperbolic arctangent of <em>x</em> in radians.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>ceil</code>, <code>ceiling</code></td>
+<tr><td>{@code ceil}, {@code ceiling}</td>
     <td><em>x</em></td>
     <td>Smallest number not less than <em>x</em> whose value is an exact integer.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>cos</code></td>
+<tr><td>{@code cos}</td>
     <td><em>x</em></td>
     <td>Cosine of <em>x</em></td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>cosh</code></td>
+<tr><td>{@code cosh}</td>
     <td><em>x</em></td>
     <td>Hyperbolic cosine of <em>x</em>.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>cot</code></td>
+<tr><td>{@code cot}</td>
     <td><em>x</em></td>
     <td>Cotangent of <em>x</em>.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>coth</code></td>
+<tr><td>{@code coth}</td>
     <td><em>x</em></td>
     <td>Hyperbolic cotangent of <em>x</em>.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>csc</code></td>
+<tr><td>{@code csc}</td>
     <td><em>x</em></td>
     <td>Cosecant of <em>x</em>.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>csch</code></td>
+<tr><td>{@code csch}</td>
     <td><em>x</em></td>
     <td>Hyperbolic cosecant of <em>x</em>.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>delay</code></td>
+<tr><td>{@code delay}</td>
     <td><em>x, y</em></td>
     <td>The value of <em>x</em> at <em>y</em> time units in the past.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>factorial</code></td>
+<tr><td>{@code factorial}</td>
     <td><em>n</em></td>
     <td>The factorial of <em>n</em>. Factorials are defined by <em>n! = n*(n&ndash;1)* ... * 1</em>.</td>
     <td><em>n</em> must be an integer.</td>
     <td></td>
 </tr>
-<tr><td><code>exp</code></td>
+<tr><td>{@code exp}</td>
     <td><em>x</em></td>
     <td><em>e</em><sup><em> x</em></sup>, where <em>e</em> is the base of the natural logarithm.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>floor</code></td>
+<tr><td>{@code floor}</td>
     <td><em>x</em></td>
     <td>The largest number not greater than <em>x</em> whose value is an exact integer.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>ln</code></td>
+<tr><td>{@code ln}</td>
     <td><em>x</em></td>
     <td>Natural logarithm of <em>x</em>.</td>
     <td><em>x</em> &gt; 0</td>
     <td></td>
 </tr>
-<tr><td><code>log</code></td>
+<tr><td>{@code log}</td>
     <td><em>x</em></td>
     <td>By default, the base 10 logarithm of <em>x</em>, but can be set to be the natural logarithm of <em>x</em>, or to be an illegal construct.</td>
     <td><em>x</em> &gt; 0</td>
     <td></td>
 </tr>
-<tr><td><code>log</code></td>
+<tr><td>{@code log}</td>
     <td><em>x, y</em></td>
     <td>The base <em>x</em> logarithm of <em>y</em>.</td>
     <td><em>y</em> &gt; 0</td>
     <td></td>
 </tr>
-<tr><td><code>log10</code></td>
+<tr><td>{@code log10}</td>
     <td><em>x</em></td>
     <td>Base 10 logarithm of <em>x</em>.</td>
     <td><em>x</em> &gt; 0</td>
     <td></td>
 </tr>
-<tr><td><code>piecewise</code></td>
+<tr><td>{@code piecewise}</td>
     <td><em>x1, y1, [x2, y2,] [...] [z]</em></td>
     <td>A piecewise function: if (<em>y1</em>), <em>x1</em>.  Otherwise, if (<em>y2</em>), <em>x2</em>, etc.  Otherwise, z. </td>
     <td><em>y1, y2, y3 [etc]</em> must be boolean</td>
     <td></td>
 </tr>
-<tr><td><code>pow</code>, <code>power</code> </td>
+<tr><td>{@code pow}, {@code power} </td>
     <td><em>x, y</em></td>
     <td><em>x</em><sup><em> y</em></sup>.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>root</code></td>
+<tr><td>{@code root}</td>
     <td><em>b, x</em></td>
     <td>The root base <em>b</em> of <em>x</em>.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>sec</code></td>
+<tr><td>{@code sec}</td>
     <td><em>x</em></td>
     <td>Secant of <em>x</em>.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>sech</code></td>
+<tr><td>{@code sech}</td>
     <td><em>x</em></td>
     <td>Hyperbolic secant of <em>x</em>.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>sqr</code></td>
+<tr><td>{@code sqr}</td>
     <td><em>x</em></td>
     <td><em>x</em><sup><em>2</em></sup>.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>sqrt</code></td>
+<tr><td>{@code sqrt}</td>
     <td><em>x</em></td>
     <td>&radic;<em>x</em>.</td>
     <td><em>x</em> &gt; 0</td>
     <td><em>sqrt(x)</em> &ge; 0</td>
 </tr>
-<tr><td><code>sin</code></td>
+<tr><td>{@code sin}</td>
     <td><em>x</em></td>
     <td>Sine of <em>x</em>.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>sinh</code></td>
+<tr><td>{@code sinh}</td>
     <td><em>x</em></td>
     <td>Hyperbolic sine of <em>x</em>.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>tan</code></td>
+<tr><td>{@code tan}</td>
     <td><em>x</em></td>
     <td>Tangent of <em>x</em>.</td>
     <td>x &ne; n*&pi;/2, for odd integer <em>n</em></td>
     <td></td>
 </tr>
-<tr><td><code>tanh</code></td>
+<tr><td>{@code tanh}</td>
     <td><em>x</em></td>
     <td>Hyperbolic tangent of <em>x</em>.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>and</code></td>
+<tr><td>{@code and}</td>
     <td><em>x, y, z...</em></td>
-    <td>Boolean <em>and(x, y, z...)</em>: returns <code>true</code> if all of its arguments are true.  Note that <code>and</code> is an n-ary function, taking 0 or more arguments, and that <code>and()</code> returns <code>true</code>.</td>
+    <td>Boolean <em>and(x, y, z...)</em>: returns {@code true} if all of its arguments are true.  Note that {@code and} is an n-ary function, taking 0 or more arguments, and that {@code and()} returns {@code true}.</td>
     <td>All arguments must be boolean</td>
     <td></td>
 </tr>
-<tr><td><code>not</code></td>
+<tr><td>{@code not}</td>
     <td><em>x</em></td>
     <td>Boolean <em>not(x)</em></td>
     <td><em>x</em> must be boolean</td>
     <td></td>
 </tr>
-<tr><td><code>or</code></td>
+<tr><td>{@code or}</td>
     <td><em>x, y, z...</em></td>
-    <td>Boolean <em>or(x, y, z...)</em>: returns <code>true</code> if at least one of its arguments is true.  Note that <code>or</code> is an n-ary function, taking 0 or more arguments, and that <code>or()</code> returns <code>false</code>.</td>
+    <td>Boolean <em>or(x, y, z...)</em>: returns {@code true} if at least one of its arguments is true.  Note that {@code or} is an n-ary function, taking 0 or more arguments, and that {@code or()} returns {@code false}.</td>
     <td>All arguments must be boolean</td>
     <td></td>
 </tr>
-<tr><td><code>xor</code></td>
+<tr><td>{@code xor}</td>
     <td><em>x, y, z...</em></td>
-    <td>Boolean <em>xor(x, y, z...)</em>: returns <code>true</code> if an odd number of its arguments is true.  Note that <code>xor</code> is an n-ary function, taking 0 or more arguments, and that <code>xor()</code> returns <code>false</code>.</td>
+    <td>Boolean <em>xor(x, y, z...)</em>: returns {@code true} if an odd number of its arguments is true.  Note that {@code xor} is an n-ary function, taking 0 or more arguments, and that {@code xor()} returns {@code false}.</td>
     <td>All arguments must be boolean</td>
     <td></td>
 </tr>
-<tr><td><code>eq</code></td>
+<tr><td>{@code eq}</td>
     <td><em>x, y, z...</em></td>
-    <td>Boolean <em>eq(x, y, z...)</em>: returns <code>true</code> if all arguments are equal.  Note that <code>eq</code> is an n-ary function, but must take 2 or more arguments.</td>
+    <td>Boolean <em>eq(x, y, z...)</em>: returns {@code true} if all arguments are equal.  Note that {@code eq} is an n-ary function, but must take 2 or more arguments.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>geq</code></td>
+<tr><td>{@code geq}</td>
     <td><em>x, y, z...</em></td>
-    <td>Boolean <em>geq(x, y, z...)</em>: returns <code>true</code> if each argument is greater than or equal to the argument following it.  Note that <code>geq</code> is an n-ary function, but must take 2 or more arguments.</td>
+    <td>Boolean <em>geq(x, y, z...)</em>: returns {@code true} if each argument is greater than or equal to the argument following it.  Note that {@code geq} is an n-ary function, but must take 2 or more arguments.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>gt</code></td>
+<tr><td>{@code gt}</td>
     <td><em>x, y, z...</em></td>
-    <td>Boolean <em>gt(x, y, z...)</em>: returns <code>true</code> if each argument is greater than the argument following it.  Note that <code>gt</code> is an n-ary function, but must take 2 or more arguments.</td>
+    <td>Boolean <em>gt(x, y, z...)</em>: returns {@code true} if each argument is greater than the argument following it.  Note that {@code gt} is an n-ary function, but must take 2 or more arguments.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>leq</code></td>
+<tr><td>{@code leq}</td>
     <td><em>x, y, z...</em></td>
-    <td>Boolean <em>leq(x, y, z...)</em>: returns <code>true</code> if each argument is less than or equal to the argument following it.  Note that <code>leq</code> is an n-ary function, but must take 2 or more arguments.</td>
+    <td>Boolean <em>leq(x, y, z...)</em>: returns {@code true} if each argument is less than or equal to the argument following it.  Note that {@code leq} is an n-ary function, but must take 2 or more arguments.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>lt</code></td>
+<tr><td>{@code lt}</td>
     <td><em>x, y, z...</em></td>
-    <td>Boolean <em>lt(x, y, z...)</em>: returns <code>true</code> if each argument is less than the argument following it.  Note that <code>lt</code> is an n-ary function, but must take 2 or more arguments.</td>
+    <td>Boolean <em>lt(x, y, z...)</em>: returns {@code true} if each argument is less than the argument following it.  Note that {@code lt} is an n-ary function, but must take 2 or more arguments.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>neq</code></td>
+<tr><td>{@code neq}</td>
     <td><em>x, y</em></td>
-    <td>Boolean <em>x</em> != <em>y</em>: returns <code>true</code> unless x and y are equal.</td>
+    <td>Boolean <em>x</em> != <em>y</em>: returns {@code true} unless x and y are equal.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>plus</code></td>
+<tr><td>{@code plus}</td>
     <td><em>x, y, z...</em></td>
-    <td><em>x</em> + <em>y</em> + <em>z</em> + <em>...</em>: The sum of the arguments of the function.  Note that <code>plus</code> is an n-ary function taking 0 or more arguments, and that <code>plus()</code> returns <code>0</code>.</td>
+    <td><em>x</em> + <em>y</em> + <em>z</em> + <em>...</em>: The sum of the arguments of the function.  Note that {@code plus} is an n-ary function taking 0 or more arguments, and that {@code plus()} returns {@code 0}.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>times</code></td>
+<tr><td>{@code times}</td>
     <td><em>x, y, z...</em></td>
-    <td><em>x</em> * <em>y</em> * <em>z</em> * <em>...</em>: The product of the arguments of the function.  Note that <code>times</code> is an n-ary function taking 0 or more arguments, and that <code>times()</code> returns <code>1</code>.</td>
+    <td><em>x</em> * <em>y</em> * <em>z</em> * <em>...</em>: The product of the arguments of the function.  Note that {@code times} is an n-ary function taking 0 or more arguments, and that {@code times()} returns {@code 1}.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>minus</code></td>
+<tr><td>{@code minus}</td>
     <td><em>x, y</em></td>
     <td><em>x</em> &ndash; <em>y</em>.</td>
     <td></td>
     <td></td>
 </tr>
-<tr><td><code>divide</code></td>
+<tr><td>{@code divide}</td>
     <td><em>x, y</em></td>
     <td><em>x</em> / <em>y</em>.</td>
     <td></td>
@@ -426,9 +426,6 @@ import org.sbml.jsbml.text.parser.IFormulaParser;
 in the text-string formula syntax.</caption>
 
 </table>
-
-
- *
  *
  * @author Alexander D&ouml;rr
  * @author Nicolas Rodriguez
@@ -464,16 +461,16 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
    *
    * <p>The default behavior is to be case sensitive, meaning
    * '{@code cos}' would be recognized as the mathematical <a href="http://www.w3.org/TR/MathML2/chapter4.html#contm.trig">cosinus</a> but
-   * '{@code Cos}', '{@code cOs}' or any other alternatives would be recognized 
+   * '{@code Cos}', '{@code cOs}' or any other alternatives would be recognized
    * as a name and read as a 'ci' element. If you pass {@code false} to this method
    * all the different versions of {@code cos} would be recognized  as the mathematical
-   * <a href="http://www.w3.org/TR/MathML2/chapter4.html#contm.trig">cosinus</a>.  
+   * <a href="http://www.w3.org/TR/MathML2/chapter4.html#contm.trig">cosinus</a>.
    *
-   * @param caseSensitive boolean to define if the parser should be case sensitive or not. 
+   * @param caseSensitive boolean to define if the parser should be case sensitive or not.
    */
   public void setCaseSensitive(boolean caseSensitive)
   {
-        this.ignoreCase = !caseSensitive;
+    ignoreCase = !caseSensitive;
   }
 
   private void checkSize(ArrayList < ASTNode > arguments, int i) throws ParseException
@@ -510,44 +507,44 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     }
   }
 
-/**
- * Returns a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
- *
- * <p/> The formula produced for 'a % b' or modulo(a, b) is 'piecewise(floor(a/b), gt(a/b, 0), ceil(a/b))'
- *
- * @param leftChild
- * @param rightChild
- * @return a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
- * @see http://sbml.org/Documents/FAQ#Why_can.27t_I_use_the_.3Crem.3E_operator_in_SBML_MathML.3F
- */
+  /**
+   * Returns a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
+   *
+   * <p/> The formula produced for 'a % b' or modulo(a, b) is 'piecewise(floor(a/b), gt(a/b, 0), ceil(a/b))'
+   *
+   * @param leftChild
+   * @param rightChild
+   * @return a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
+   * @see http://sbml.org/Documents/FAQ#Why_can.27t_I_use_the_.3Crem.3E_operator_in_SBML_MathML.3F
+   */
   private ASTNode createModulo(ASTNode leftChild, ASTNode rightChild)
   {
-      ASTNode node = new ASTNode(ASTNode.Type.FUNCTION_PIECEWISE);
+    ASTNode node = new ASTNode(ASTNode.Type.FUNCTION_PIECEWISE);
 
-          ASTNode floorNode = new ASTNode(ASTNode.Type.FUNCTION_FLOOR);
-          ASTNode aDividedByB = new ASTNode(ASTNode.Type.DIVIDE);
-          aDividedByB.addChild(leftChild);
-          aDividedByB.addChild(rightChild);
+    ASTNode floorNode = new ASTNode(ASTNode.Type.FUNCTION_FLOOR);
+    ASTNode aDividedByB = new ASTNode(ASTNode.Type.DIVIDE);
+    aDividedByB.addChild(leftChild);
+    aDividedByB.addChild(rightChild);
 
-          floorNode.addChild(aDividedByB);
-          node.addChild(floorNode);
+    floorNode.addChild(aDividedByB);
+    node.addChild(floorNode);
 
-          ASTNode greaterThan = new ASTNode(ASTNode.Type.RELATIONAL_GT);
-          greaterThan.addChild(aDividedByB.clone());
-          greaterThan.addChild(new ASTNode(0));
+    ASTNode greaterThan = new ASTNode(ASTNode.Type.RELATIONAL_GT);
+    greaterThan.addChild(aDividedByB.clone());
+    greaterThan.addChild(new ASTNode(0));
 
-          node.addChild(greaterThan);
+    node.addChild(greaterThan);
 
-          ASTNode ceilNode = new ASTNode(ASTNode.Type.FUNCTION_CEILING);
-          ceilNode.addChild(aDividedByB.clone());
+    ASTNode ceilNode = new ASTNode(ASTNode.Type.FUNCTION_CEILING);
+    ceilNode.addChild(aDividedByB.clone());
 
-          node.addChild(ceilNode);
+    node.addChild(ceilNode);
 
-          return node;
+    return node;
   }
 
   final public Token string() throws ParseException {
-  Token t;
+    Token t;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case LOG:
       t = jj_consume_token(LOG);
@@ -560,19 +557,24 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
       jj_consume_token(-1);
       throw new ParseException();
     }
-    {if (true) return t;}
+    {if (true) {
+      return t;
+    }}
     throw new Error("Missing return statement in function");
   }
 
+  @Override
   final public ASTNode parse() throws ParseException {
-  ASTNode node = null;
+    ASTNode node = null;
     node = expression();
-    {if (true) return node;}
+    {if (true) {
+      return node;
+    }}
     throw new Error("Missing return statement in function");
   }
 
   final private ASTNode expression() throws ParseException {
-  ASTNode value = null;
+    ASTNode value = null;
     value = termLevel2();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case 0:
@@ -586,229 +588,243 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
       jj_consume_token(-1);
       throw new ParseException();
     }
-    {if (true) return value;}
+    {if (true) {
+      return value;
+    }}
     throw new Error("Missing return statement in function");
   }
 
   final private ASTNode termLevel2() throws ParseException {
-  ASTNode rightChild = null;
-  ASTNode leftChild;
-  ASTNode node = null;
-  Token t;
+    ASTNode rightChild = null;
+    ASTNode leftChild;
+    ASTNode node = null;
+    Token t;
     leftChild = termLevel3();
     label_1:
-    while (true) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case BOOLEAN_LOGIC:
-        ;
-        break;
-      default:
-        jj_la1[2] = jj_gen;
-        break label_1;
-      }
-      t = jj_consume_token(BOOLEAN_LOGIC);
-      rightChild = termLevel3();
-      // TODO - do we want to ignore the case for those cases ? 
-      String s = t.image;
-      Type type = null;
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case BOOLEAN_LOGIC:
+          ;
+          break;
+        default:
+          jj_la1[2] = jj_gen;
+          break label_1;
+        }
+        t = jj_consume_token(BOOLEAN_LOGIC);
+        rightChild = termLevel3();
+        // TODO - do we want to ignore the case for those cases ?
+        String s = t.image;
+        Type type = null;
 
-      if (s.equalsIgnoreCase("or") || s.equalsIgnoreCase("||"))
-      {
-        type = ASTNode.Type.LOGICAL_OR;
-      }
-      else if (s.equalsIgnoreCase("and") || s.equalsIgnoreCase("&&"))
-      {
-        type = ASTNode.Type.LOGICAL_AND;
-      }
-      else if (s.equalsIgnoreCase("xor"))
-      {
-        type = ASTNode.Type.LOGICAL_XOR;
-      }
-      node = new ASTNode(type);
-      node.addChild(leftChild);
-      node.addChild(rightChild);
-      leftChild = node;
-    }
-        {if (true) return leftChild;}
-    throw new Error("Missing return statement in function");
-  }
-
-  final private ASTNode termLevel3() throws ParseException {
-  ASTNode rightChild = null;
-  ASTNode leftChild;
-  ASTNode node = null;
-  Token t;
-    leftChild = termLevel4();
-    label_2:
-    while (true) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case COMPARISON:
-        ;
-        break;
-      default:
-        jj_la1[3] = jj_gen;
-        break label_2;
-      }
-      t = jj_consume_token(COMPARISON);
-      rightChild = termLevel4();
-      String s = t.image;
-      Type type = null;
-
-      if (s.equalsIgnoreCase("<"))
-      {
-        type = ASTNode.Type.RELATIONAL_LT;
-      }
-      else if (s.equalsIgnoreCase(">"))
-      {
-        type = ASTNode.Type.RELATIONAL_GT;
-      }
-      else if (s.equalsIgnoreCase("=="))
-      {
-        type = ASTNode.Type.RELATIONAL_EQ;
-      }
-      else if (s.equalsIgnoreCase("!="))
-      {
-        type = ASTNode.Type.RELATIONAL_NEQ;
-      }
-      else if (s.equalsIgnoreCase(">="))
-      {
-        type = ASTNode.Type.RELATIONAL_GEQ;
-      }
-      else if (s.equalsIgnoreCase("<="))
-      {
-        type = ASTNode.Type.RELATIONAL_LEQ;
-      }
-      node = new ASTNode(type);
-      node.addChild(leftChild);
-      node.addChild(rightChild);
-      leftChild = node;
-    }
-        {if (true) return leftChild;}
-    throw new Error("Missing return statement in function");
-  }
-
-  final private ASTNode termLevel4() throws ParseException {
-  ASTNode rightChild = null;
-  ASTNode leftChild;
-  ASTNode node = null;
-    leftChild = termLevel5();
-    label_3:
-    while (true) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case PLUS:
-      case MINUS:
-        ;
-        break;
-      default:
-        jj_la1[4] = jj_gen;
-        break label_3;
-      }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case PLUS:
-        jj_consume_token(PLUS);
-        rightChild = termLevel5();
-      node = new ASTNode('+');
-      node.addChild(leftChild);
-      node.addChild(rightChild);
-      leftChild = node;
-        break;
-      case MINUS:
-        jj_consume_token(MINUS);
-        rightChild = termLevel5();
-      node = new ASTNode('-');
-      node.addChild(leftChild);
-      node.addChild(rightChild);
-      leftChild = node;
-        break;
-      default:
-        jj_la1[5] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
-      }
-    }
-        {if (true) return leftChild;}
-    throw new Error("Missing return statement in function");
-  }
-
-  final private ASTNode termLevel5() throws ParseException {
-  ASTNode rightChild = null;
-  ASTNode leftChild;
-  ASTNode node = null;
-    leftChild = termLevel6();
-    label_4:
-    while (true) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case TIMES:
-      case DIVIDE:
-      case MODULO:
-        ;
-        break;
-      default:
-        jj_la1[6] = jj_gen;
-        break label_4;
-      }
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case TIMES:
-        jj_consume_token(TIMES);
-        rightChild = termLevel6();
-      node = new ASTNode('*');
-      node.addChild(leftChild);
-      node.addChild(rightChild);
-      leftChild = node;
-        break;
-      case DIVIDE:
-        jj_consume_token(DIVIDE);
-        rightChild = termLevel6();
-      Integer left, right;
-      left = getInteger(leftChild);
-      right = getInteger(rightChild);
-      // TODO - check if libsbml behave the same way
-      if (left != null && right != null) // Node transformed into a ASTNode.Type.RATIONAL number if both left and right are integer      
-      {
-        node = new ASTNode();
-        node.setValue(left, right);
-        leftChild = node;
-      }
-      else
-      {
-        node = new ASTNode('/');
+        if (s.equalsIgnoreCase("or") || s.equalsIgnoreCase("||"))
+        {
+          type = ASTNode.Type.LOGICAL_OR;
+        }
+        else if (s.equalsIgnoreCase("and") || s.equalsIgnoreCase("&&"))
+        {
+          type = ASTNode.Type.LOGICAL_AND;
+        }
+        else if (s.equalsIgnoreCase("xor"))
+        {
+          type = ASTNode.Type.LOGICAL_XOR;
+        }
+        node = new ASTNode(type);
         node.addChild(leftChild);
         node.addChild(rightChild);
         leftChild = node;
       }
-        break;
-      case MODULO:
-        jj_consume_token(MODULO);
-        rightChild = termLevel6();
-      node = createModulo(leftChild, rightChild);
-      leftChild = node;
-        break;
-      default:
-        jj_la1[7] = jj_gen;
-        jj_consume_token(-1);
-        throw new ParseException();
+    {if (true) {
+      return leftChild;
+    }}
+    throw new Error("Missing return statement in function");
+  }
+
+  final private ASTNode termLevel3() throws ParseException {
+    ASTNode rightChild = null;
+    ASTNode leftChild;
+    ASTNode node = null;
+    Token t;
+    leftChild = termLevel4();
+    label_2:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case COMPARISON:
+          ;
+          break;
+        default:
+          jj_la1[3] = jj_gen;
+          break label_2;
+        }
+        t = jj_consume_token(COMPARISON);
+        rightChild = termLevel4();
+        String s = t.image;
+        Type type = null;
+
+        if (s.equalsIgnoreCase("<"))
+        {
+          type = ASTNode.Type.RELATIONAL_LT;
+        }
+        else if (s.equalsIgnoreCase(">"))
+        {
+          type = ASTNode.Type.RELATIONAL_GT;
+        }
+        else if (s.equalsIgnoreCase("=="))
+        {
+          type = ASTNode.Type.RELATIONAL_EQ;
+        }
+        else if (s.equalsIgnoreCase("!="))
+        {
+          type = ASTNode.Type.RELATIONAL_NEQ;
+        }
+        else if (s.equalsIgnoreCase(">="))
+        {
+          type = ASTNode.Type.RELATIONAL_GEQ;
+        }
+        else if (s.equalsIgnoreCase("<="))
+        {
+          type = ASTNode.Type.RELATIONAL_LEQ;
+        }
+        node = new ASTNode(type);
+        node.addChild(leftChild);
+        node.addChild(rightChild);
+        leftChild = node;
       }
-    }
-    {if (true) return leftChild;}
+    {if (true) {
+      return leftChild;
+    }}
+    throw new Error("Missing return statement in function");
+  }
+
+  final private ASTNode termLevel4() throws ParseException {
+    ASTNode rightChild = null;
+    ASTNode leftChild;
+    ASTNode node = null;
+    leftChild = termLevel5();
+    label_3:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case PLUS:
+        case MINUS:
+          ;
+          break;
+        default:
+          jj_la1[4] = jj_gen;
+          break label_3;
+        }
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case PLUS:
+          jj_consume_token(PLUS);
+          rightChild = termLevel5();
+          node = new ASTNode('+');
+          node.addChild(leftChild);
+          node.addChild(rightChild);
+          leftChild = node;
+          break;
+        case MINUS:
+          jj_consume_token(MINUS);
+          rightChild = termLevel5();
+          node = new ASTNode('-');
+          node.addChild(leftChild);
+          node.addChild(rightChild);
+          leftChild = node;
+          break;
+        default:
+          jj_la1[5] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
+      }
+    {if (true) {
+      return leftChild;
+    }}
+    throw new Error("Missing return statement in function");
+  }
+
+  final private ASTNode termLevel5() throws ParseException {
+    ASTNode rightChild = null;
+    ASTNode leftChild;
+    ASTNode node = null;
+    leftChild = termLevel6();
+    label_4:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case TIMES:
+        case DIVIDE:
+        case MODULO:
+          ;
+          break;
+        default:
+          jj_la1[6] = jj_gen;
+          break label_4;
+        }
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case TIMES:
+          jj_consume_token(TIMES);
+          rightChild = termLevel6();
+          node = new ASTNode('*');
+          node.addChild(leftChild);
+          node.addChild(rightChild);
+          leftChild = node;
+          break;
+        case DIVIDE:
+          jj_consume_token(DIVIDE);
+          rightChild = termLevel6();
+          Integer left, right;
+          left = getInteger(leftChild);
+          right = getInteger(rightChild);
+          // TODO - check if libsbml behave the same way
+          if (left != null && right != null) // Node transformed into a ASTNode.Type.RATIONAL number if both left and right are integer
+          {
+            node = new ASTNode();
+            node.setValue(left, right);
+            leftChild = node;
+          }
+          else
+          {
+            node = new ASTNode('/');
+            node.addChild(leftChild);
+            node.addChild(rightChild);
+            leftChild = node;
+          }
+          break;
+        case MODULO:
+          jj_consume_token(MODULO);
+          rightChild = termLevel6();
+          node = createModulo(leftChild, rightChild);
+          leftChild = node;
+          break;
+        default:
+          jj_la1[7] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
+      }
+    {if (true) {
+      return leftChild;
+    }}
     throw new Error("Missing return statement in function");
   }
 
   final private ASTNode termLevel6() throws ParseException {
-  ASTNode node = null;
+    ASTNode node = null;
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case MINUS:
       jj_consume_token(MINUS);
       node = termLevel7();
-    ASTNode uiMinus = new ASTNode('-');
-    uiMinus.addChild(node);
-    {if (true) return uiMinus;}
+      ASTNode uiMinus = new ASTNode('-');
+      uiMinus.addChild(node);
+      {if (true) {
+        return uiMinus;
+      }}
       break;
     case NOT:
       jj_consume_token(NOT);
       node = termLevel7();
-    ASTNode not = new ASTNode(Type.LOGICAL_NOT);
-    not.addChild(node);
-    {if (true) return not;}
+      ASTNode not = new ASTNode(Type.LOGICAL_NOT);
+      not.addChild(node);
+      {if (true) {
+        return not;
+      }}
       break;
     case INTEGER:
     case NUMBER:
@@ -818,7 +834,9 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     case LOG:
     case STRING:
       node = termLevel7();
-    {if (true) return node;}
+      {if (true) {
+        return node;
+      }}
       break;
     default:
       jj_la1[8] = jj_gen;
@@ -829,68 +847,76 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
   }
 
   final private ASTNode termLevel7() throws ParseException {
-  ASTNode rightChild;
-  ASTNode leftChild;
-  ASTNode node = null;
+    ASTNode rightChild;
+    ASTNode leftChild;
+    ASTNode node = null;
     leftChild = termLevel8();
     label_5:
-    while (true) {
-      switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case POWER:
-        ;
-        break;
-      default:
-        jj_la1[9] = jj_gen;
-        break label_5;
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+        case POWER:
+          ;
+          break;
+        default:
+          jj_la1[9] = jj_gen;
+          break label_5;
+        }
+        jj_consume_token(POWER);
+        rightChild = termLevel8();
+        node = new ASTNode(Type.POWER);
+        node.addChild(leftChild);
+        node.addChild(rightChild);
+        leftChild = node;
       }
-      jj_consume_token(POWER);
-      rightChild = termLevel8();
-      node = new ASTNode(Type.POWER);
-      node.addChild(leftChild);
-      node.addChild(rightChild);
-      leftChild = node;
-    }
-    {if (true) return leftChild;}
+    {if (true) {
+      return leftChild;
+    }}
     throw new Error("Missing return statement in function");
   }
 
   final private ASTNode termLevel8() throws ParseException, NumberFormatException {
-  Token t;
-  double d;
-  int i;
-  ASTNode node = new ASTNode();
-  ASTNode vector = null;
-  ASTNode child, furtherChild;
-  String s;
-  String vals [ ];
-  ArrayList < ASTNode > arguments = new ArrayList < ASTNode > ();
+    Token t;
+    double d;
+    int i;
+    ASTNode node = new ASTNode();
+    ASTNode vector = null;
+    ASTNode child, furtherChild;
+    String s;
+    String vals [ ];
+    ArrayList < ASTNode > arguments = new ArrayList < ASTNode > ();
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
     case INTEGER:
       t = jj_consume_token(INTEGER);
-    i = Integer.parseInt(t.image); // Could use StringTools.parseXXX methods here but not doing so allow to support different locale ??
-    node.setValue(i);
-    {if (true) return node;}
+      i = Integer.parseInt(t.image); // Could use StringTools.parseXXX methods here but not doing so allow to support different locale ??
+      node.setValue(i);
+      {if (true) {
+        return node;
+      }}
       break;
     case NUMBER:
       t = jj_consume_token(NUMBER);
-    d = Double.parseDouble(t.image);
-    node.setValue(d);
-    {if (true) return node;}
+      d = Double.parseDouble(t.image);
+      node.setValue(d);
+      {if (true) {
+        return node;
+      }}
       break;
     case EXPNUMBER:
       t = jj_consume_token(EXPNUMBER);
-    s = t.image;
-    vals = s.toLowerCase().split("e");
-    if (vals [ 1 ].startsWith("+"))
-    {
-      i = Integer.parseInt(vals [ 1 ].substring(1));
-    }
-    else
-    {
-      i = Integer.parseInt(vals [ 1 ]);
-    }
-    node.setValue(Double.parseDouble(vals [ 0 ]), i);
-    {if (true) return node;}
+      s = t.image;
+      vals = s.toLowerCase().split("e");
+      if (vals [ 1 ].startsWith("+"))
+      {
+        i = Integer.parseInt(vals [ 1 ].substring(1));
+      }
+      else
+      {
+        i = Integer.parseInt(vals [ 1 ]);
+      }
+      node.setValue(Double.parseDouble(vals [ 0 ]), i);
+      {if (true) {
+        return node;
+      }}
       break;
     default:
       jj_la1[14] = jj_gen;
@@ -899,226 +925,240 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
         jj_consume_token(OPEN_PAR);
         child = termLevel2();
         label_6:
-        while (true) {
-          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-          case SPLITTER:
-            ;
-            break;
-          default:
-            jj_la1[10] = jj_gen;
-            break label_6;
+          while (true) {
+            switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+            case SPLITTER:
+              ;
+              break;
+            default:
+              jj_la1[10] = jj_gen;
+              break label_6;
+            }
+            jj_consume_token(SPLITTER);
+            furtherChild = termLevel2();
+            arguments.add(furtherChild);
           }
-          jj_consume_token(SPLITTER);
-          furtherChild = termLevel2();
-      arguments.add(furtherChild);
-        }
         jj_consume_token(CLOSE_PAR);
-    s = t.image;
-    Type type = null;
-    if (ignoreCase)
-    {
-      s = s.toLowerCase();
-    }
-    if (stringToType.containsKey(s))
-    {
-      type = ASTNode.Type.valueOf(stringToType.getProperty(s.toLowerCase()).toUpperCase());
-    }
-    if (s.equals("pow") || s.equals("power"))
-    {
-      checkSize(arguments, 1);
-      node.addChild(child);
-    }
-    else if (s.equals("sqr"))
-    {
-      checkSize(arguments, 0);
-      node.addChild(child);
-      node.addChild(new ASTNode(2));
-    }
-    else if (s.equals("sqrt"))
-    {
-      checkSize(arguments, 0);
-      node.addChild(new ASTNode(2));
-      node.addChild(child);
-    }
-    else if (s.equals("not"))
-    {
-      checkSize(arguments, 0);
-      node.addChild(child);
-      type = Type.LOGICAL_NOT;
-    }
-    else if (s.equals("ln"))
-    {
-      checkSize(arguments, 0);
-      node.addChild(child);
-      type = Type.FUNCTION_LN;
-    }
-    else if (s.equals("lambda"))
-    {
-      node.addChild(child);
-      type = Type.LAMBDA;
-    }
-    else if (s.equals("piecewise"))
-    {
-      node.addChild(child);
-      type = Type.FUNCTION_PIECEWISE;
-    }
-    else if (s.equals("modulo") || s.equals("mod"))
-    {
-      checkSize(arguments, 1);
-      ASTNode rightChild = arguments.get(0);
-      arguments.clear();
-      node = createModulo(child, rightChild);
-      {if (true) return node;}
-    }
-    else
-    {
-      node.addChild(child);
-    }
-    if (type != null)
-    {
-      node.setType(type);
-      // TODO - should we set the name of the ASTNode for FUNCTION, ...
-    }
-    else
-    {
-      node.setName(s);
-    }
-    for (ASTNode argument : arguments)
-    {
-      node.addChild(argument);
-    }
-    {if (true) return node;}
+        s = t.image;
+        Type type = null;
+        if (ignoreCase)
+        {
+          s = s.toLowerCase();
+        }
+        if (stringToType.containsKey(s))
+        {
+          type = ASTNode.Type.valueOf(stringToType.getProperty(s.toLowerCase()).toUpperCase());
+        }
+        if (s.equals("pow") || s.equals("power"))
+        {
+          checkSize(arguments, 1);
+          node.addChild(child);
+        }
+        else if (s.equals("sqr"))
+        {
+          checkSize(arguments, 0);
+          node.addChild(child);
+          node.addChild(new ASTNode(2));
+        }
+        else if (s.equals("sqrt"))
+        {
+          checkSize(arguments, 0);
+          node.addChild(new ASTNode(2));
+          node.addChild(child);
+        }
+        else if (s.equals("not"))
+        {
+          checkSize(arguments, 0);
+          node.addChild(child);
+          type = Type.LOGICAL_NOT;
+        }
+        else if (s.equals("ln"))
+        {
+          checkSize(arguments, 0);
+          node.addChild(child);
+          type = Type.FUNCTION_LN;
+        }
+        else if (s.equals("lambda"))
+        {
+          node.addChild(child);
+          type = Type.LAMBDA;
+        }
+        else if (s.equals("piecewise"))
+        {
+          node.addChild(child);
+          type = Type.FUNCTION_PIECEWISE;
+        }
+        else if (s.equals("modulo") || s.equals("mod"))
+        {
+          checkSize(arguments, 1);
+          ASTNode rightChild = arguments.get(0);
+          arguments.clear();
+          node = createModulo(child, rightChild);
+          {if (true) {
+            return node;
+          }}
+        }
+        else
+        {
+          node.addChild(child);
+        }
+        if (type != null)
+        {
+          node.setType(type);
+          // TODO - should we set the name of the ASTNode for FUNCTION, ...
+        }
+        else
+        {
+          node.setName(s);
+        }
+        for (ASTNode argument : arguments)
+        {
+          node.addChild(argument);
+        }
+        {if (true) {
+          return node;
+        }}
       } else {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case OPEN_PAR:
           jj_consume_token(OPEN_PAR);
           node = termLevel2();
           jj_consume_token(CLOSE_PAR);
-    {if (true) return node;}
+          {if (true) {
+            return node;
+          }}
           break;
         default:
           jj_la1[15] = jj_gen;
           if (jj_2_2(4)) {
             t = jj_consume_token(STRING);
-    ASTNode selector = new ASTNode();
-    selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
-    selector.addChild(new ASTNode(t.image));
+            ASTNode selector = new ASTNode();
+            selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
+            selector.addChild(new ASTNode(t.image));
             label_7:
-            while (true) {
-              jj_consume_token(LEFT_BRACKET);
-              node = termLevel2();
-      selector.addChild(node);
-              jj_consume_token(RIGHT_BRACKET);
-              switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-              case LEFT_BRACKET:
-                ;
-                break;
-              default:
-                jj_la1[11] = jj_gen;
-                break label_7;
+              while (true) {
+                jj_consume_token(LEFT_BRACKET);
+                node = termLevel2();
+                selector.addChild(node);
+                jj_consume_token(RIGHT_BRACKET);
+                switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+                case LEFT_BRACKET:
+                  ;
+                  break;
+                default:
+                  jj_la1[11] = jj_gen;
+                  break label_7;
+                }
               }
-            }
-    {if (true) return selector;}
+            {if (true) {
+              return selector;
+            }}
           } else if (jj_2_3(2)) {
             jj_consume_token(LEFT_BRACES);
             node = termLevel2();
-    ASTNode selector = new ASTNode();
-    vector = new ASTNode();
-    boolean isSelector = false;
-    selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
-    vector.setType(ASTNode.Type.VECTOR);
-    vector.addChild(node);
+            ASTNode selector = new ASTNode();
+            vector = new ASTNode();
+            boolean isSelector = false;
+            selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
+            vector.setType(ASTNode.Type.VECTOR);
+            vector.addChild(node);
             label_8:
-            while (true) {
-              switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-              case SPLITTER:
-                ;
-                break;
-              default:
-                jj_la1[12] = jj_gen;
-                break label_8;
+              while (true) {
+                switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+                case SPLITTER:
+                  ;
+                  break;
+                default:
+                  jj_la1[12] = jj_gen;
+                  break label_8;
+                }
+                jj_consume_token(SPLITTER);
+                node = termLevel2();
+                vector.addChild(node);
               }
-              jj_consume_token(SPLITTER);
-              node = termLevel2();
-      vector.addChild(node);
-            }
             jj_consume_token(RIGHT_BRACES);
-    selector.addChild(vector);
+            selector.addChild(vector);
             label_9:
-            while (true) {
-              switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-              case LEFT_BRACKET:
-                ;
-                break;
-              default:
-                jj_la1[13] = jj_gen;
-                break label_9;
+              while (true) {
+                switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+                case LEFT_BRACKET:
+                  ;
+                  break;
+                default:
+                  jj_la1[13] = jj_gen;
+                  break label_9;
+                }
+                jj_consume_token(LEFT_BRACKET);
+                node = termLevel2();
+                isSelector = true;
+                selector.addChild(node);
+                jj_consume_token(RIGHT_BRACKET);
               }
-              jj_consume_token(LEFT_BRACKET);
-              node = termLevel2();
-      isSelector = true;
-      selector.addChild(node);
-              jj_consume_token(RIGHT_BRACKET);
-            }
-    {if (true) return isSelector ? selector : vector;}
+            {if (true) {
+              return isSelector ? selector : vector;
+            }}
           } else {
             switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
             case LEFT_BRACES:
               jj_consume_token(LEFT_BRACES);
-    vector = new ASTNode();
-    vector.setType(ASTNode.Type.VECTOR);
+              vector = new ASTNode();
+              vector.setType(ASTNode.Type.VECTOR);
               jj_consume_token(RIGHT_BRACES);
-    {if (true) return vector;}
+              {if (true) {
+                return vector;
+              }}
               break;
             case STRING:
               t = jj_consume_token(STRING);
-    s = t.image;
-    if (ignoreCase)
-    {
-      s = s.toLowerCase();
-    }
-    // TODO - should we set the name of the ASTNode
-    if (s.equalsIgnoreCase("true")) // TODO - do we want to ignore the case for those ?
-    {
-      node = new ASTNode(Type.CONSTANT_TRUE);
-    }
-    else if (s.equalsIgnoreCase("false")) // TODO - do we want to ignore the case for those ?
-    {
-      node = new ASTNode(Type.CONSTANT_FALSE);
-    }
-    else if (s.equals("pi"))
-    {
-      node = new ASTNode(Type.CONSTANT_PI);
-    }
-    else if (s.equals("avogadro"))
-    {
-      node = new ASTNode(Type.NAME_AVOGADRO);
-    }
-    else if (s.equals("time")) // TODO - do we want to ignore the case for those ?
-    {
-      node = new ASTNode(Type.NAME_TIME);
-    }
-    else if (s.equals("exponentiale"))
-    {
-      node = new ASTNode(Type.CONSTANT_E);
-    }
-    else if (s.equals("-infinity") || s.equals("-INF"))
-    {
-      node = new ASTNode(Double.NEGATIVE_INFINITY);
-    }
-    else if (s.equals("infinity") || s.equals("INF"))
-    {
-      node = new ASTNode(Double.POSITIVE_INFINITY);
-    }
-    else if (s.equals("NotANumber") || s.equals("NaN")) // TODO - do we want to ignore the case for those ?
-    {
-      node = new ASTNode(Double.NaN);
-    }
-    else
-    {
-      node = new ASTNode(s);
-    }
-    {if (true) return node;}
+              s = t.image;
+              if (ignoreCase)
+              {
+                s = s.toLowerCase();
+              }
+              // TODO - should we set the name of the ASTNode
+              if (s.equalsIgnoreCase("true")) // TODO - do we want to ignore the case for those ?
+              {
+                node = new ASTNode(Type.CONSTANT_TRUE);
+              }
+              else if (s.equalsIgnoreCase("false")) // TODO - do we want to ignore the case for those ?
+              {
+                node = new ASTNode(Type.CONSTANT_FALSE);
+              }
+              else if (s.equals("pi"))
+              {
+                node = new ASTNode(Type.CONSTANT_PI);
+              }
+              else if (s.equals("avogadro"))
+              {
+                node = new ASTNode(Type.NAME_AVOGADRO);
+              }
+              else if (s.equals("time")) // TODO - do we want to ignore the case for those ?
+              {
+                node = new ASTNode(Type.NAME_TIME);
+              }
+              else if (s.equals("exponentiale"))
+              {
+                node = new ASTNode(Type.CONSTANT_E);
+              }
+              else if (s.equals("-infinity") || s.equals("-INF"))
+              {
+                node = new ASTNode(Double.NEGATIVE_INFINITY);
+              }
+              else if (s.equals("infinity") || s.equals("INF"))
+              {
+                node = new ASTNode(Double.POSITIVE_INFINITY);
+              }
+              else if (s.equals("NotANumber") || s.equals("NaN")) // TODO - do we want to ignore the case for those ?
+              {
+                node = new ASTNode(Double.NaN);
+              }
+              else
+              {
+                node = new ASTNode(s);
+              }
+              {if (true) {
+                return node;
+              }}
               break;
             default:
               jj_la1[16] = jj_gen;
@@ -1154,7 +1194,9 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
   }
 
   private boolean jj_3R_32() {
-    if (jj_scan_token(INTEGER)) return true;
+    if (jj_scan_token(INTEGER)) {
+      return true;
+    }
     return false;
   }
 
@@ -1162,47 +1204,59 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_32()) {
-    jj_scanpos = xsp;
-    if (jj_3R_33()) {
-    jj_scanpos = xsp;
-    if (jj_3R_34()) {
-    jj_scanpos = xsp;
-    if (jj_3_1()) {
-    jj_scanpos = xsp;
-    if (jj_3R_35()) {
-    jj_scanpos = xsp;
-    if (jj_3_2()) {
-    jj_scanpos = xsp;
-    if (jj_3_3()) {
-    jj_scanpos = xsp;
-    if (jj_3R_36()) {
-    jj_scanpos = xsp;
-    if (jj_3R_37()) return true;
-    }
-    }
-    }
-    }
-    }
-    }
-    }
+      jj_scanpos = xsp;
+      if (jj_3R_33()) {
+        jj_scanpos = xsp;
+        if (jj_3R_34()) {
+          jj_scanpos = xsp;
+          if (jj_3_1()) {
+            jj_scanpos = xsp;
+            if (jj_3R_35()) {
+              jj_scanpos = xsp;
+              if (jj_3_2()) {
+                jj_scanpos = xsp;
+                if (jj_3_3()) {
+                  jj_scanpos = xsp;
+                  if (jj_3R_36()) {
+                    jj_scanpos = xsp;
+                    if (jj_3R_37()) {
+                      return true;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
     return false;
   }
 
   private boolean jj_3_3() {
-    if (jj_scan_token(LEFT_BRACES)) return true;
-    if (jj_3R_12()) return true;
+    if (jj_scan_token(LEFT_BRACES)) {
+      return true;
+    }
+    if (jj_3R_12()) {
+      return true;
+    }
     return false;
   }
 
   private boolean jj_3R_26() {
-    if (jj_scan_token(TIMES)) return true;
+    if (jj_scan_token(TIMES)) {
+      return true;
+    }
     return false;
   }
 
   private boolean jj_3R_24() {
-    if (jj_scan_token(NOT)) return true;
-    if (jj_3R_29()) return true;
+    if (jj_scan_token(NOT)) {
+      return true;
+    }
+    if (jj_3R_29()) {
+      return true;
+    }
     return false;
   }
 
@@ -1210,22 +1264,28 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_26()) {
-    jj_scanpos = xsp;
-    if (jj_3R_27()) {
-    jj_scanpos = xsp;
-    if (jj_3R_28()) return true;
-    }
+      jj_scanpos = xsp;
+      if (jj_3R_27()) {
+        jj_scanpos = xsp;
+        if (jj_3R_28()) {
+          return true;
+        }
+      }
     }
     return false;
   }
 
   private boolean jj_3R_37() {
-    if (jj_scan_token(STRING)) return true;
+    if (jj_scan_token(STRING)) {
+      return true;
+    }
     return false;
   }
 
   private boolean jj_3R_17() {
-    if (jj_3R_19()) return true;
+    if (jj_3R_19()) {
+      return true;
+    }
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
@@ -1238,49 +1298,75 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_23()) {
-    jj_scanpos = xsp;
-    if (jj_3R_24()) {
-    jj_scanpos = xsp;
-    if (jj_3R_25()) return true;
-    }
+      jj_scanpos = xsp;
+      if (jj_3R_24()) {
+        jj_scanpos = xsp;
+        if (jj_3R_25()) {
+          return true;
+        }
+      }
     }
     return false;
   }
 
   private boolean jj_3R_23() {
-    if (jj_scan_token(MINUS)) return true;
-    if (jj_3R_29()) return true;
+    if (jj_scan_token(MINUS)) {
+      return true;
+    }
+    if (jj_3R_29()) {
+      return true;
+    }
     return false;
   }
 
   private boolean jj_3R_11() {
-    if (jj_scan_token(LEFT_BRACKET)) return true;
-    if (jj_3R_12()) return true;
-    if (jj_scan_token(RIGHT_BRACKET)) return true;
+    if (jj_scan_token(LEFT_BRACKET)) {
+      return true;
+    }
+    if (jj_3R_12()) {
+      return true;
+    }
+    if (jj_scan_token(RIGHT_BRACKET)) {
+      return true;
+    }
     return false;
   }
 
   private boolean jj_3R_36() {
-    if (jj_scan_token(LEFT_BRACES)) return true;
-    if (jj_scan_token(RIGHT_BRACES)) return true;
+    if (jj_scan_token(LEFT_BRACES)) {
+      return true;
+    }
+    if (jj_scan_token(RIGHT_BRACES)) {
+      return true;
+    }
     return false;
   }
 
   private boolean jj_3_1() {
-    if (jj_3R_10()) return true;
-    if (jj_scan_token(OPEN_PAR)) return true;
+    if (jj_3R_10()) {
+      return true;
+    }
+    if (jj_scan_token(OPEN_PAR)) {
+      return true;
+    }
     return false;
   }
 
   private boolean jj_3R_28() {
-    if (jj_scan_token(MODULO)) return true;
+    if (jj_scan_token(MODULO)) {
+      return true;
+    }
     return false;
   }
 
   private boolean jj_3_2() {
-    if (jj_scan_token(STRING)) return true;
+    if (jj_scan_token(STRING)) {
+      return true;
+    }
     Token xsp;
-    if (jj_3R_11()) return true;
+    if (jj_3R_11()) {
+      return true;
+    }
     while (true) {
       xsp = jj_scanpos;
       if (jj_3R_11()) { jj_scanpos = xsp; break; }
@@ -1289,28 +1375,40 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
   }
 
   private boolean jj_3R_22() {
-    if (jj_scan_token(MINUS)) return true;
+    if (jj_scan_token(MINUS)) {
+      return true;
+    }
     return false;
   }
 
   private boolean jj_3R_31() {
-    if (jj_scan_token(POWER)) return true;
+    if (jj_scan_token(POWER)) {
+      return true;
+    }
     return false;
   }
 
   private boolean jj_3R_35() {
-    if (jj_scan_token(OPEN_PAR)) return true;
-    if (jj_3R_12()) return true;
+    if (jj_scan_token(OPEN_PAR)) {
+      return true;
+    }
+    if (jj_3R_12()) {
+      return true;
+    }
     return false;
   }
 
   private boolean jj_3R_14() {
-    if (jj_scan_token(BOOLEAN_LOGIC)) return true;
+    if (jj_scan_token(BOOLEAN_LOGIC)) {
+      return true;
+    }
     return false;
   }
 
   private boolean jj_3R_29() {
-    if (jj_3R_30()) return true;
+    if (jj_3R_30()) {
+      return true;
+    }
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
@@ -1320,7 +1418,9 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
   }
 
   private boolean jj_3R_12() {
-    if (jj_3R_13()) return true;
+    if (jj_3R_13()) {
+      return true;
+    }
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
@@ -1333,24 +1433,32 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_21()) {
-    jj_scanpos = xsp;
-    if (jj_3R_22()) return true;
+      jj_scanpos = xsp;
+      if (jj_3R_22()) {
+        return true;
+      }
     }
     return false;
   }
 
   private boolean jj_3R_21() {
-    if (jj_scan_token(PLUS)) return true;
+    if (jj_scan_token(PLUS)) {
+      return true;
+    }
     return false;
   }
 
   private boolean jj_3R_16() {
-    if (jj_scan_token(COMPARISON)) return true;
+    if (jj_scan_token(COMPARISON)) {
+      return true;
+    }
     return false;
   }
 
   private boolean jj_3R_15() {
-    if (jj_3R_17()) return true;
+    if (jj_3R_17()) {
+      return true;
+    }
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
@@ -1360,12 +1468,16 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
   }
 
   private boolean jj_3R_34() {
-    if (jj_scan_token(EXPNUMBER)) return true;
+    if (jj_scan_token(EXPNUMBER)) {
+      return true;
+    }
     return false;
   }
 
   private boolean jj_3R_13() {
-    if (jj_3R_15()) return true;
+    if (jj_3R_15()) {
+      return true;
+    }
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
@@ -1375,17 +1487,23 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
   }
 
   private boolean jj_3R_33() {
-    if (jj_scan_token(NUMBER)) return true;
+    if (jj_scan_token(NUMBER)) {
+      return true;
+    }
     return false;
   }
 
   private boolean jj_3R_27() {
-    if (jj_scan_token(DIVIDE)) return true;
+    if (jj_scan_token(DIVIDE)) {
+      return true;
+    }
     return false;
   }
 
   private boolean jj_3R_25() {
-    if (jj_3R_29()) return true;
+    if (jj_3R_29()) {
+      return true;
+    }
     return false;
   }
 
@@ -1393,8 +1511,10 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     Token xsp;
     xsp = jj_scanpos;
     if (jj_scan_token(26)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(27)) return true;
+      jj_scanpos = xsp;
+      if (jj_scan_token(27)) {
+        return true;
+      }
     }
     return false;
   }
@@ -1413,18 +1533,18 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
   final private int[] jj_la1 = new int[17];
   static private int[] jj_la1_0;
   static {
-      jj_la1_init_0();
-   }
-   private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0xc000000,0x40000001,0x200000,0x100000,0x500,0x500,0x3800,0x3800,0xe014468,0x200,0x80,0x40000,0x80,0x40000,0x68,0x4000,0x8010000,};
-   }
+    jj_la1_init_0();
+  }
+  private static void jj_la1_init_0() {
+    jj_la1_0 = new int[] {0xc000000,0x40000001,0x200000,0x100000,0x500,0x500,0x3800,0x3800,0xe014468,0x200,0x80,0x40000,0x80,0x40000,0x68,0x4000,0x8010000,};
+  }
   final private JJCalls[] jj_2_rtns = new JJCalls[3];
   private boolean jj_rescan = false;
   private int jj_gc = 0;
 
   /** Constructor with InputStream. */
   public FormulaParserLL3(java.io.InputStream stream) {
-     this(stream, null);
+    this(stream, null);
   }
   /** Constructor with InputStream and supplied encoding */
   public FormulaParserLL3(java.io.InputStream stream, String encoding) {
@@ -1433,23 +1553,33 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
+    for (int i = 0; i < 17; i++) {
+      jj_la1[i] = -1;
+    }
+    for (int i = 0; i < jj_2_rtns.length; i++) {
+      jj_2_rtns[i] = new JJCalls();
+    }
   }
 
   /** Reinitialise. */
+  @Override
   public void ReInit(java.io.InputStream stream) {
-     ReInit(stream, null);
+    ReInit(stream, null);
   }
   /** Reinitialise. */
+  @Override
   public void ReInit(java.io.InputStream stream, String encoding) {
     try { jj_input_stream.ReInit(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
     token_source.ReInit(jj_input_stream);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
+    for (int i = 0; i < 17; i++) {
+      jj_la1[i] = -1;
+    }
+    for (int i = 0; i < jj_2_rtns.length; i++) {
+      jj_2_rtns[i] = new JJCalls();
+    }
   }
 
   /** Constructor. */
@@ -1459,19 +1589,28 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
+    for (int i = 0; i < 17; i++) {
+      jj_la1[i] = -1;
+    }
+    for (int i = 0; i < jj_2_rtns.length; i++) {
+      jj_2_rtns[i] = new JJCalls();
+    }
   }
 
   /** Reinitialise. */
+  @Override
   public void ReInit(java.io.Reader stream) {
     jj_input_stream.ReInit(stream, 1, 1);
     token_source.ReInit(jj_input_stream);
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
+    for (int i = 0; i < 17; i++) {
+      jj_la1[i] = -1;
+    }
+    for (int i = 0; i < jj_2_rtns.length; i++) {
+      jj_2_rtns[i] = new JJCalls();
+    }
   }
 
   /** Constructor with generated Token Manager. */
@@ -1480,8 +1619,12 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
+    for (int i = 0; i < 17; i++) {
+      jj_la1[i] = -1;
+    }
+    for (int i = 0; i < jj_2_rtns.length; i++) {
+      jj_2_rtns[i] = new JJCalls();
+    }
   }
 
   /** Reinitialise. */
@@ -1490,14 +1633,21 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 17; i++) jj_la1[i] = -1;
-    for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
+    for (int i = 0; i < 17; i++) {
+      jj_la1[i] = -1;
+    }
+    for (int i = 0; i < jj_2_rtns.length; i++) {
+      jj_2_rtns[i] = new JJCalls();
+    }
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
     Token oldToken;
-    if ((oldToken = token).next != null) token = token.next;
-    else token = token.next = token_source.getNextToken();
+    if ((oldToken = token).next != null) {
+      token = token.next;
+    } else {
+      token = token.next = token_source.getNextToken();
+    }
     jj_ntk = -1;
     if (token.kind == kind) {
       jj_gen++;
@@ -1506,7 +1656,9 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
         for (int i = 0; i < jj_2_rtns.length; i++) {
           JJCalls c = jj_2_rtns[i];
           while (c != null) {
-            if (c.gen < jj_gen) c.first = null;
+            if (c.gen < jj_gen) {
+              c.first = null;
+            }
             c = c.next;
           }
         }
@@ -1534,38 +1686,51 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
     if (jj_rescan) {
       int i = 0; Token tok = token;
       while (tok != null && tok != jj_scanpos) { i++; tok = tok.next; }
-      if (tok != null) jj_add_error_token(kind, i);
+      if (tok != null) {
+        jj_add_error_token(kind, i);
+      }
     }
-    if (jj_scanpos.kind != kind) return true;
-    if (jj_la == 0 && jj_scanpos == jj_lastpos) throw jj_ls;
+    if (jj_scanpos.kind != kind) {
+      return true;
+    }
+    if (jj_la == 0 && jj_scanpos == jj_lastpos) {
+      throw jj_ls;
+    }
     return false;
   }
 
 
-/** Get the next Token. */
+  /** Get the next Token. */
   final public Token getNextToken() {
-    if (token.next != null) token = token.next;
-    else token = token.next = token_source.getNextToken();
+    if (token.next != null) {
+      token = token.next;
+    } else {
+      token = token.next = token_source.getNextToken();
+    }
     jj_ntk = -1;
     jj_gen++;
     return token;
   }
 
-/** Get the specific Token. */
+  /** Get the specific Token. */
   final public Token getToken(int index) {
     Token t = token;
     for (int i = 0; i < index; i++) {
-      if (t.next != null) t = t.next;
-      else t = t.next = token_source.getNextToken();
+      if (t.next != null) {
+        t = t.next;
+      } else {
+        t = t.next = token_source.getNextToken();
+      }
     }
     return t;
   }
 
   private int jj_ntk() {
-    if ((jj_nt=token.next) == null)
+    if ((jj_nt=token.next) == null) {
       return (jj_ntk = (token.next=token_source.getNextToken()).kind);
-    else
+    } else {
       return (jj_ntk = jj_nt.kind);
+    }
   }
 
   private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();
@@ -1575,7 +1740,9 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
   private int jj_endpos;
 
   private void jj_add_error_token(int kind, int pos) {
-    if (pos >= 100) return;
+    if (pos >= 100) {
+      return;
+    }
     if (pos == jj_endpos + 1) {
       jj_lasttokens[jj_endpos++] = kind;
     } else if (jj_endpos != 0) {
@@ -1595,7 +1762,9 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
           break jj_entries_loop;
         }
       }
-      if (pos != 0) jj_lasttokens[(jj_endpos = pos) - 1] = kind;
+      if (pos != 0) {
+        jj_lasttokens[(jj_endpos = pos) - 1] = kind;
+      }
     }
   }
 
@@ -1644,19 +1813,19 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
   private void jj_rescan_token() {
     jj_rescan = true;
     for (int i = 0; i < 3; i++) {
-    try {
-      JJCalls p = jj_2_rtns[i];
-      do {
-        if (p.gen > jj_gen) {
-          jj_la = p.arg; jj_lastpos = jj_scanpos = p.first;
-          switch (i) {
+      try {
+        JJCalls p = jj_2_rtns[i];
+        do {
+          if (p.gen > jj_gen) {
+            jj_la = p.arg; jj_lastpos = jj_scanpos = p.first;
+            switch (i) {
             case 0: jj_3_1(); break;
             case 1: jj_3_2(); break;
             case 2: jj_3_3(); break;
+            }
           }
-        }
-        p = p.next;
-      } while (p != null);
+          p = p.next;
+        } while (p != null);
       } catch(LookaheadSuccess ls) { }
     }
     jj_rescan = false;
