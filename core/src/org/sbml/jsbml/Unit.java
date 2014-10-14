@@ -2176,7 +2176,7 @@ public class Unit extends AbstractSBase {
    * {@link #multiplier}.
    * If this logarithm is either an integer or nearly an integer (with an
    * accepted
-   * error of 10<sup>-24</sup>), it is added to the {@link #scale} and the
+   * error of 10<sup>-15</sup>), it is added to the {@link #scale} and the
    * {@link #multiplier} is set to 1.
    * Note that it is not always possible to remove the {@link #multiplier}
    * without loosing information. In order to avoid computational errors,
@@ -2185,15 +2185,21 @@ public class Unit extends AbstractSBase {
    * @return a pointer to this {@link Unit}.
    */
   public Unit removeMultiplier() {
-    if (isSetMultiplier() && (getMultiplier() != 1d)) {
-      double exp = Math.log10(getMultiplier());
-      if (Maths.isInt(exp)) {
-        setScale(getScale() + ((int) exp));
-        setMultiplier(1d);
-      } else if (Math.round(exp) - exp < 1E-15) {
-        // 1E-15 is an acceptable noise range due to the limitation of doubles to 17 decimal positions.
-        setScale(getScale() + ((int) Math.round(exp)));
-        setMultiplier(1d);
+    if (isSetMultiplier()) {
+      double multiplier = getMultiplier();
+      if (multiplier != 1d) {
+        double exp = Math.log10(multiplier);
+        if (Maths.isInt(exp)) {
+          setScale(getScale() + ((int) exp));
+          setMultiplier(1d);
+        } else {
+          long round = Math.round(exp);
+          if (Math.abs(round - exp) < 1E-15) {
+            // 1E-15 is an acceptable noise range due to the limitation of doubles to 17 decimal positions.
+            setScale(getScale() + ((int) round));
+            setMultiplier(1d);
+          }
+        }
       }
     }
     return this;
