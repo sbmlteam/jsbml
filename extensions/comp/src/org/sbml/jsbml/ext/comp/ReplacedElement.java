@@ -105,6 +105,60 @@ public class ReplacedElement extends SBaseRef {
 
 
   /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3167;
+    int result = super.hashCode();
+    result = prime * result
+      + ((conversionFactor == null) ? 0 : conversionFactor.hashCode());
+    result = prime * result + ((deletion == null) ? 0 : deletion.hashCode());
+    result = prime * result
+      + ((submodelRef == null) ? 0 : submodelRef.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    ReplacedElement other = (ReplacedElement) obj;
+    if (conversionFactor == null) {
+      if (other.conversionFactor != null) {
+        return false;
+      }
+    } else if (!conversionFactor.equals(other.conversionFactor)) {
+      return false;
+    }
+    if (deletion == null) {
+      if (other.deletion != null) {
+        return false;
+      }
+    } else if (!deletion.equals(other.deletion)) {
+      return false;
+    }
+    if (submodelRef == null) {
+      if (other.submodelRef != null) {
+        return false;
+      }
+    } else if (!submodelRef.equals(other.submodelRef)) {
+      return false;
+    }
+    return true;
+  }
+
+  /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
   @Override

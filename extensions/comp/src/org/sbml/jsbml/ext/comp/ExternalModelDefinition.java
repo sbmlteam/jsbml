@@ -134,6 +134,58 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 
 
 
+  /* (non-Javadoc)
+   * @see java.lang.Object#hashCode()
+   */
+  @Override
+  public int hashCode() {
+    final int prime = 3209;
+    int result = super.hashCode();
+    result = prime * result + ((md5 == null) ? 0 : md5.hashCode());
+    result = prime * result + ((modelRef == null) ? 0 : modelRef.hashCode());
+    result = prime * result + ((source == null) ? 0 : source.hashCode());
+    return result;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#equals(java.lang.Object)
+   */
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!super.equals(obj)) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    ExternalModelDefinition other = (ExternalModelDefinition) obj;
+    if (md5 == null) {
+      if (other.md5 != null) {
+        return false;
+      }
+    } else if (!md5.equals(other.md5)) {
+      return false;
+    }
+    if (modelRef == null) {
+      if (other.modelRef != null) {
+        return false;
+      }
+    } else if (!modelRef.equals(other.modelRef)) {
+      return false;
+    }
+    if (source == null) {
+      if (other.source != null) {
+        return false;
+      }
+    } else if (!source.equals(other.source)) {
+      return false;
+    }
+    return true;
+  }
+
   /**
    * Returns the value of source or an empty {@link String} if it is not set.
    * 
