@@ -123,8 +123,8 @@ public class ArraysMathCheck extends ArraysConstraint{
     boolean isStaticComp = ArraysMath.isStaticallyComputable(model, mathContainer);
 
     if(!isStaticComp) {
-      String shortMsg = "Selector arguments other than first should either be dimensions id or constant and " +
-          math.toString() + " has invalid math.";
+      String shortMsg = "Selector arguments other than first should either be dimensions id or constant but " +
+          math.toString() + " violates this condition.";
       logSelectorInconsistency(shortMsg);
       return;
     }
@@ -133,7 +133,7 @@ public class ArraysMathCheck extends ArraysConstraint{
 
     if(!isBounded) {
       String shortMsg = "Selector arguments other than first should not go out of bounds but " +
-          math.toString() + " does.";
+          math.toString() + " violates this condition.";
       logSelectorInconsistency(shortMsg);
     }
 

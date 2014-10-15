@@ -22,11 +22,13 @@
  */
 package org.sbml.jsbml.ext.arrays.validator.constraints;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
-import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.ext.arrays.Index;
 
 
@@ -66,7 +68,7 @@ public class IndexArrayDimCheck extends ArraysConstraint {
     
     ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
 
-    int max = -1;
+    Map<String, Integer> attributeToMaxDim = new HashMap<String, Integer>();
     
     if(arraysSBasePlugin == null || arraysSBasePlugin.getIndexCount() == 0) {
       return;
@@ -75,37 +77,50 @@ public class IndexArrayDimCheck extends ArraysConstraint {
     
     for(Index index : arraysSBasePlugin.getListOfIndices())
     {
-      if(index.getArrayDimension() > max) {
-        max = index.getArrayDimension();
+      if(!attributeToMaxDim.containsKey(index.getReferencedAttribute())
+          || index.getArrayDimension() > attributeToMaxDim.get(index.getReferencedAttribute())) {
+        attributeToMaxDim.put(index.getReferencedAttribute(), index.getArrayDimension());
       }
     }
     
-    boolean[] isSetArrayDimAt = new boolean[max+1];
-    
-    for(Dimension dim : arraysSBasePlugin.getListOfDimensions())
+    for(String attribute : attributeToMaxDim.keySet())
     {
-      int arrayDim = dim.getArrayDimension();
-
-      if(!isSetArrayDimAt[arrayDim]) {
-        isSetArrayDimAt[arrayDim] = true;
-      }
-      else 
+      int max = attributeToMaxDim.get(attribute);
+      
+      boolean[] isSetArrayDimAt = new boolean[max+1];
+      
+      for(Index index : arraysSBasePlugin.getListOfIndices())
       {
-        String shortMsg = "A listOfIndices should have Index objects with"
-            + "unique attribute arrays:arrayDimension, but the value " + arrayDim +
-            "is used multiple times.";
-        logArrayDimensionUniqueness(shortMsg);
-      }
-    }
+        
+        if(!index.getReferencedAttribute().equals(attribute))
+        {
+          continue;
+        }
+        
+        int arrayDim = index.getArrayDimension();
 
-    for(int i = 0; i <= max; i++) {
-      if(!isSetArrayDimAt[i]) {
-        String shortMsg = "A listOfIndices should have an Index with arrays:arrayDimension " 
-            + i + "before adding an Index object with arrays:arrayDimension " + max;
-        logArrayDimensionMissing(shortMsg);
-        return;
+        if(!isSetArrayDimAt[arrayDim]) {
+          isSetArrayDimAt[arrayDim] = true;
+        }
+        else 
+        {
+          String shortMsg = "A listOfIndices should have Index objects with"
+              + "unique attribute arrays:arrayDimension, but the value " + arrayDim +
+              "is used multiple times.";
+          logArrayDimensionUniqueness(shortMsg);
+        }
+      }
+
+      for(int i = 0; i <= max; i++) {
+        if(!isSetArrayDimAt[i]) {
+          String shortMsg = "A listOfIndices should have an Index with arrays:arrayDimension " 
+              + i + " before adding an Index object with arrays:arrayDimension " + max;
+          logArrayDimensionMissing(shortMsg);
+          return;
+        }
       }
     }
+   
     
   }
 

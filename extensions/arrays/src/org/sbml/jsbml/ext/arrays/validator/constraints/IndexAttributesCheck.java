@@ -114,7 +114,7 @@ public class IndexAttributesCheck extends ArraysConstraint {
       boolean isBounded = ArraysMath.evaluateIndexBounds(model, index);
       
       if(!isBounded) {
-        String msg = "Index math should not go out-of-bounds but "
+        String msg = "Index math should not go out-of-bounds but index for "
             + refSBase.toString() + " does.";
         logNotBounded(msg);
 

@@ -22,16 +22,23 @@
  */
 package org.sbml.jsbml.ext.arrays.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Assignment;
+import org.sbml.jsbml.EventAssignment;
+import org.sbml.jsbml.KineticLaw;
+import org.sbml.jsbml.LocalParameter;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
+import org.sbml.jsbml.ModifierSpeciesReference;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
+import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.Dimension;
@@ -103,6 +110,8 @@ public class ArraysMath {
 
     ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) parent.getExtension(ArraysConstants.shortLabel);
 
+    ArraysSBasePlugin parentArraysSBasePlugin = getParentPlugin(index, parent);
+    
     if(index.isSetReferencedAttribute()) {
       String refValue = parent.writeXMLAttributes().get(index.getReferencedAttribute());
 
@@ -114,13 +123,17 @@ public class ArraysMath {
         return false;
       }
 
-      Dimension dimByArrayDim = arraysSBasePlugin.getDimensionByArrayDimension(index.getArrayDimension());
+      Dimension dimByArrayDim = refSbasePlugin.getDimensionByArrayDimension(index.getArrayDimension());
 
       if(dimByArrayDim == null) {
         return false;
       }
-      
+
       Map<String, Double> dimensionSizes = getDimensionSizes(model, arraysSBasePlugin);
+
+      if(parentArraysSBasePlugin != null) {
+        dimensionSizes.putAll(getDimensionSizes(model, parentArraysSBasePlugin));
+      }
 
       Map<String, Double> refSBaseSizes = getDimensionSizes(model, refSbasePlugin);
 
@@ -148,24 +161,24 @@ public class ArraysMath {
     ArraysSBasePlugin refSbasePlugin = (ArraysSBasePlugin) reference.getExtension(ArraysConstants.shortLabel);
 
     Dimension dim = refSbasePlugin.getDimensionByArrayDimension(arrayDim);
-    
+
     if(dim == null) {
       return false;
     }
-    
+
     Parameter paramSize = model.getParameter(dim.getSize());
-   
+
     if(paramSize == null) {
       return false;
     }
-    
+
     double size = paramSize.getValue();
 
     return evaluateBounds(dimSizes, math, size);
 
   }
-  
-  
+
+
   /**
    * This method checks if adding an {@link Index} object to a parent {@link SBase} object
    * for referencing another {@link SBase} object does not cause out-of-bounds issues. 
@@ -186,15 +199,21 @@ public class ArraysMath {
 
     ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) parent.getExtension(ArraysConstants.shortLabel);
 
+    ArraysSBasePlugin parentArraysSBasePlugin = (ArraysSBasePlugin) parent.getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
+
     ArraysSBasePlugin refSbasePlugin = (ArraysSBasePlugin) reference.getExtension(ArraysConstants.shortLabel);
 
-    Dimension dimByArrayDim = arraysSBasePlugin.getDimensionByArrayDimension(arrayDim);
-    
+    Dimension dimByArrayDim = refSbasePlugin.getDimensionByArrayDimension(arrayDim);
+
     if(dimByArrayDim == null) {
       return false;
     }
-    
+
     Map<String, Double> dimensionSizes = getDimensionSizes(model, arraysSBasePlugin);
+
+    if(parentArraysSBasePlugin != null) {
+      dimensionSizes.putAll(getDimensionSizes(model,parentArraysSBasePlugin));
+    }
 
     Map<String, Double> refSBaseSizes = getDimensionSizes(model, refSbasePlugin);
 
@@ -216,8 +235,15 @@ public class ArraysMath {
 
     ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) mathContainer.getExtension(ArraysConstants.shortLabel);
 
+    ArraysSBasePlugin parentArraysSBasePlugin = getParentPlugin(mathContainer, mathContainer.getParentSBMLObject());
+    
     Map<String, Double> dimensionSizes = getDimensionSizes(model, arraysSBasePlugin);
 
+    if(parentArraysSBasePlugin != null)
+    {
+      dimensionSizes.putAll(getDimensionSizes(model, parentArraysSBasePlugin));
+    }
+    
     if(math.getType() != ASTNode.Type.FUNCTION_SELECTOR) {
       return true;
     }
@@ -306,6 +332,10 @@ public class ArraysMath {
   public static Map<String, Double> getDimensionSizes(Model model, ArraysSBasePlugin arraysSBasePlugin) {
     Map<String, Double> dimensionValue = new HashMap<String, Double>();
 
+    if(arraysSBasePlugin == null) {
+      return dimensionValue;
+    }
+
     for(Dimension dim : arraysSBasePlugin.getListOfDimensions()) {
       if(dim.isSetId()) {
         Parameter size = model.getParameter(dim.getSize());
@@ -349,6 +379,79 @@ public class ArraysMath {
     return upperBound;
   }
 
+  public static ArraysSBasePlugin getParentPlugin(Index index, SBase parent)
+  {
+    if(parent instanceof SpeciesReference)
+    {
+      return (ArraysSBasePlugin) parent.getParentSBMLObject().getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
+    }
+    else if(parent instanceof ModifierSpeciesReference)
+    {
+      return (ArraysSBasePlugin) parent.getParentSBMLObject().getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
+    }
+    else if(parent instanceof EventAssignment)
+    {
+      return (ArraysSBasePlugin) parent.getParentSBMLObject().getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
+    }
+    else
+    {
+      return (ArraysSBasePlugin) parent.getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
+    }
+  }
+  
+  public static ArraysSBasePlugin getParentPlugin(MathContainer math, SBase parent)
+  {
+    if(math instanceof SpeciesReference)
+    {
+      return (ArraysSBasePlugin) parent.getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
+    }
+    else if(math instanceof ModifierSpeciesReference)
+    {
+      return (ArraysSBasePlugin) parent.getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
+    }
+    else if(math instanceof EventAssignment)
+    {
+      return (ArraysSBasePlugin) parent.getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
+    }
+    else
+    {
+      return (ArraysSBasePlugin) parent.getExtension(ArraysConstants.shortLabel);
+    }
+  }
+
+  /**
+   * This method is used to determine whether a {@link MathContainer} object is statically computable.
+   * 
+   * @param model
+   * @param mathContainer
+   * @return
+   */
+  public static boolean isStaticallyComputable(Model model, Index index) {
+    SBase parent = index.getParentSBMLObject().getParentSBMLObject();
+    ArraysSBasePlugin plugin = (ArraysSBasePlugin) parent.getExtension(ArraysConstants.shortLabel);
+    ArraysSBasePlugin parentArraysSBasePlugin = getParentPlugin(index, parent);
+
+    List<String> dimensionIds = new ArrayList<String>();
+    if(plugin != null) {
+      for(Dimension dim : plugin.getListOfDimensions()) {
+        if(dim.isSetId()) {
+          dimensionIds.add(dim.getId());
+        }
+      }
+    }
+
+    if(parentArraysSBasePlugin != null) {
+      for(Dimension dim : parentArraysSBasePlugin.getListOfDimensions()) {
+        if(dim.isSetId()) {
+          dimensionIds.add(dim.getId());
+        }
+      }
+    }
+
+    return isStaticallyComputable(model, index, dimensionIds.toArray(new String[dimensionIds.size()]));
+
+  }
+
   /**
    * This method is used to determine whether a {@link MathContainer} object is statically computable.
    * 
@@ -357,20 +460,37 @@ public class ArraysMath {
    * @return
    */
   public static boolean isStaticallyComputable(Model model, MathContainer mathContainer) {
-    StaticallyComputableCompiler compiler = new StaticallyComputableCompiler(model);
     ArraysSBasePlugin plugin = (ArraysSBasePlugin) mathContainer.getExtension(ArraysConstants.shortLabel);
+    ArraysSBasePlugin parentArraysSBasePlugin = getParentPlugin(mathContainer, mathContainer.getParentSBMLObject());
+    List<String> dimensionIds = new ArrayList<String>();
     if(plugin != null) {
       for(Dimension dim : plugin.getListOfDimensions()) {
         if(dim.isSetId()) {
-          compiler.addConstantId(dim.getId());
+          dimensionIds.add(dim.getId());
         }
       }
     }
-    ASTNode math = mathContainer.getMath();
 
-    ASTNodeValue value = math.compile(compiler);
+    if(parentArraysSBasePlugin != null) {
+      for(Dimension dim : parentArraysSBasePlugin.getListOfDimensions()) {
+        if(dim.isSetId()) {
+          dimensionIds.add(dim.getId());
+        }
+      }
+    }
+    
+    if(mathContainer instanceof KineticLaw)
+    {
+      KineticLaw law = (KineticLaw) mathContainer;
+      for(LocalParameter local : law.getListOfLocalParameters())
+      {
+        if(local.isSetId()) {
+          dimensionIds.add(local.getId());
+        }
+      }
+    }
 
-    return value.toBoolean();
+    return isStaticallyComputable(model, mathContainer, dimensionIds.toArray(new String[dimensionIds.size()]));
 
   }
 
@@ -384,7 +504,7 @@ public class ArraysMath {
    */
   public static boolean isStaticallyComputable(Model model, MathContainer mathContainer, String...constantIds) {
     StaticallyComputableCompiler compiler = new StaticallyComputableCompiler(model);
-    
+
     if(constantIds != null) {
       for(String id : constantIds) {
         compiler.addConstantId(id);  
@@ -408,7 +528,7 @@ public class ArraysMath {
    */
   public static boolean isStaticallyComputable(Model model, ASTNode math, String...constantIds) {
     StaticallyComputableCompiler compiler = new StaticallyComputableCompiler(model);
-    
+
     if(constantIds != null) {
       for(String id : constantIds) {
         compiler.addConstantId(id);  
