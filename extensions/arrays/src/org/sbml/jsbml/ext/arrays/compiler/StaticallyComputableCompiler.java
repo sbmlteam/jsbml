@@ -31,6 +31,7 @@ import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
+import org.sbml.jsbml.Quantity;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
@@ -269,6 +270,9 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
     if(variable instanceof Variable) {
       Variable var = (Variable) variable;
       return new ASTNodeValue(var.isConstant(), this);
+    }
+    else if(variable instanceof Quantity) {
+      return new ASTNodeValue(true, this);
     }
     return unknownValue();
   }

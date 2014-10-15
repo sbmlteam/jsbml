@@ -90,8 +90,8 @@ public class DimensionArrayDimCheck extends ArraysConstraint {
       else 
       {
         String shortMsg = "A listOfDimensions should have Dimension objects with"
-          + "unique attribute arrays:arrayDimension, but the value " + arrayDim +
-          "is used multiple times.";
+          + " unique attribute arrays:arrayDimension, but the value " + arrayDim +
+          " is used multiple times.";
         logArrayDimensionUniqueness(shortMsg);
       }
     }
