@@ -64,7 +64,7 @@ public class ASTCnIntegerNode extends ASTCnNumberNode<Integer> {
     super();
     setType(Type.INTEGER);
   }
-  
+
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTCnIntegerNode}.
    * 
@@ -83,19 +83,19 @@ public class ASTCnIntegerNode extends ASTCnNumberNode<Integer> {
     this();
     setInteger(value);
   }
-  
+
   @Override
   public ASTCnIntegerNode clone() {
     return new ASTCnIntegerNode(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
   @Override
   public ASTNode2Value<?> compile(ASTNode2Compiler compiler) {
-    ASTNode2Value<?> value = isSetUnits() ? compiler.compile(getInteger(), getUnits().toString()) 
-                          : compiler.compile(getInteger(), null);
+    ASTNode2Value<?> value = isSetUnits() ? compiler.compile(getInteger(), getUnits().toString())
+      : compiler.compile(getInteger(), null);
     return processValue(value);
   }
 
@@ -104,18 +104,23 @@ public class ASTCnIntegerNode extends ASTCnNumberNode<Integer> {
    */
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (!super.equals(obj))
+    }
+    if (!super.equals(obj)) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     ASTCnIntegerNode other = (ASTCnIntegerNode) obj;
     if (number == null) {
-      if (other.number != null)
+      if (other.number != null) {
         return false;
-    } else if (!number.equals(other.number))
+      }
+    } else if (!number.equals(other.number)) {
       return false;
+    }
     return true;
   }
 
@@ -162,9 +167,9 @@ public class ASTCnIntegerNode extends ASTCnNumberNode<Integer> {
    * @param Integer value
    */
   public void setInteger(int value) {
-    Integer old = this.number;
-    this.number = value;
-    firePropertyChange(TreeNodeChangeEvent.number, old, this.number);
+    Integer old = number;
+    number = value;
+    firePropertyChange(TreeNodeChangeEvent.number, old, number);
   }
 
   /* (non-Javadoc)
@@ -202,22 +207,17 @@ public class ASTCnIntegerNode extends ASTCnNumberNode<Integer> {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("ASTCnIntegerNode [number=");
-    builder.append(number);
-    builder.append(", parentSBMLObject=");
-    builder.append(parentSBMLObject);
+    builder.append(getClass().getSimpleName());
+    builder.append(" [number=");
+    builder.append(isSetNumber() ? number : "null");
     builder.append(", strict=");
     builder.append(strict);
     builder.append(", type=");
-    builder.append(type);
+    builder.append(isSetType() ? type : "null");
     builder.append(", id=");
-    builder.append(id);
+    builder.append(isSetId() ? id : "null");
     builder.append(", style=");
-    builder.append(style);
-    builder.append(", listOfListeners=");
-    builder.append(listOfListeners);
-    builder.append(", parent=");
-    builder.append(parent);
+    builder.append(isSetStyle() ? style : "null");
     builder.append("]");
     return builder.toString();
   }
