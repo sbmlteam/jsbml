@@ -37,6 +37,7 @@ import org.sbml.jsbml.math.ASTCnRealNode;
 import org.sbml.jsbml.math.ASTConstantNumber;
 import org.sbml.jsbml.math.ASTDivideNode;
 import org.sbml.jsbml.math.ASTFactory;
+import org.sbml.jsbml.math.ASTLambdaFunctionNode;
 import org.sbml.jsbml.math.ASTLogarithmNode;
 import org.sbml.jsbml.math.ASTLogicalOperatorNode;
 import org.sbml.jsbml.math.ASTMinusNode;
@@ -572,6 +573,21 @@ public class ASTFactoryTest {
       status = times.getType() == Type.TIMES
             && ((ASTCnIntegerNode)times.getLeftChild()).getInteger() == 7
             && ((ASTCnIntegerNode)times.getRightChild()).getInteger() == 9;
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+    assertTrue(status);
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTFactory#parseFormula(java.lang.String)}.
+   */
+  @Test
+  public final void testParseFormulaLambda() {
+    boolean status = false;
+    try {
+      ASTLambdaFunctionNode lambda = (ASTLambdaFunctionNode) ASTFactory.parseFormula("lambda(x)");
+      status = lambda.getType() == Type.LAMBDA;
     } catch (ParseException e) {
       e.printStackTrace();
     }

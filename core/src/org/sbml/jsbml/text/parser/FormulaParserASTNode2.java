@@ -31,6 +31,7 @@ import java.util.Properties;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.math.ASTNode2;
 import org.sbml.jsbml.math.ASTBoolean;
+import org.sbml.jsbml.math.ASTCiNumberNode;
 import org.sbml.jsbml.math.ASTCnExponentialNode;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
 import org.sbml.jsbml.math.ASTCnRealNode;
@@ -222,18 +223,19 @@ public class FormulaParserASTNode2 implements IFormulaParser, FormulaParserASTNo
       case DIVIDE:
         jj_consume_token(DIVIDE);
         rightChild = TermLvl3();
-      Integer left, right;
-      left = getInteger(leftChild);
-      right = getInteger(rightChild);
-      if (left != null && right != null)
-      {
+      //Integer left, right;
+      //left = getInteger(leftChild);
+      //right = getInteger(rightChild);
+      //if (left != null && right != null)
+      //{
         node = new ASTDivideNode(leftChild, rightChild);
         leftChild = node;
-      }
-      else
-      {
-        {if (true) throw new ParseException();}
-      }
+      //}
+      //else
+      //{
+      //  throw new ParseException();
+      //}
+
         break;
       default:
         jj_la1[5] = jj_gen;
@@ -375,13 +377,13 @@ public class FormulaParserASTNode2 implements IFormulaParser, FormulaParserASTNo
     }
     if (s.equalsIgnoreCase("factorial"))
     {
-      checkSize(arguments, 1);
+      checkSize(arguments, 0);
       node = new ASTUnaryFunctionNode(Type.FUNCTION_FACTORIAL);
       ((ASTUnaryFunctionNode)node).addChild(child);
     }
     else if (s.equalsIgnoreCase("pow"))
     {
-      checkSize(arguments, 1);
+      checkSize(arguments, 0);
       node = new ASTPowerNode();
       ((ASTPowerNode)node).addChild(child);
     }
@@ -415,8 +417,9 @@ public class FormulaParserASTNode2 implements IFormulaParser, FormulaParserASTNo
     else if (s.equalsIgnoreCase("lambda"))
     {
           node = new ASTLambdaFunctionNode();
-          ASTQualifierNode bvar = new ASTQualifierNode(Type.QUALIFIER_BVAR);
-          bvar.addChild(child);
+          ASTQualifierNode bvar = null;
+      bvar = new ASTQualifierNode(Type.QUALIFIER_BVAR);
+      bvar.addChild(child);
       ((ASTLambdaFunctionNode)node).addChild(bvar);
     }
     else if (s.equalsIgnoreCase("piecewise"))
@@ -427,14 +430,6 @@ public class FormulaParserASTNode2 implements IFormulaParser, FormulaParserASTNo
     else
     {
       {if (true) throw new ParseException(MessageFormat.format("{0} is not recognized", s));}
-    }
-
-    if (node != null && node instanceof ASTFunction)
-    {
-          for (ASTNode2 argument : arguments)
-          {
-            ((ASTFunction)node).addChild(argument);
-          }
     }
     {if (true) return node;}
       } else if (jj_2_2(4)) {
@@ -576,6 +571,11 @@ public class FormulaParserASTNode2 implements IFormulaParser, FormulaParserASTNo
     {
       node = new ASTConstantNumber(Math.E);
     }
+    else if (!s.isEmpty())
+    {
+      node = new ASTCiNumberNode();
+      ((ASTCiNumberNode)node).setRefId(s);
+    }
     else
     {
       {if (true) throw new ParseException();}
@@ -615,23 +615,14 @@ public class FormulaParserASTNode2 implements IFormulaParser, FormulaParserASTNo
     finally { jj_save(2, xla); }
   }
 
-  private boolean jj_3R_14() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3R_21()) {
-    jj_scanpos = xsp;
-    if (jj_3R_22()) return true;
-    }
-    return false;
-  }
-
-  private boolean jj_3R_21() {
-    if (jj_scan_token(TIMES)) return true;
-    return false;
-  }
-
   private boolean jj_3R_25() {
     if (jj_scan_token(EXPNUMBER)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_27() {
+    if (jj_scan_token(LEFT_BRACES)) return true;
+    if (jj_scan_token(RIGHT_BRACES)) return true;
     return false;
   }
 
@@ -640,10 +631,14 @@ public class FormulaParserASTNode2 implements IFormulaParser, FormulaParserASTNo
     return false;
   }
 
-  private boolean jj_3R_9() {
-    if (jj_scan_token(LEFT_BRACKET)) return true;
-    if (jj_3R_10()) return true;
-    if (jj_scan_token(RIGHT_BRACKET)) return true;
+  private boolean jj_3_2() {
+    if (jj_scan_token(STRING)) return true;
+    Token xsp;
+    if (jj_3R_9()) return true;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3R_9()) { jj_scanpos = xsp; break; }
+    }
     return false;
   }
 
@@ -680,6 +675,13 @@ public class FormulaParserASTNode2 implements IFormulaParser, FormulaParserASTNo
 
   private boolean jj_3R_15() {
     if (jj_scan_token(PLUS)) return true;
+    return false;
+  }
+
+  private boolean jj_3R_9() {
+    if (jj_scan_token(LEFT_BRACKET)) return true;
+    if (jj_3R_10()) return true;
+    if (jj_scan_token(RIGHT_BRACKET)) return true;
     return false;
   }
 
@@ -738,13 +740,18 @@ public class FormulaParserASTNode2 implements IFormulaParser, FormulaParserASTNo
     return false;
   }
 
+  private boolean jj_3R_34() {
+    if (jj_scan_token(FACTORIAL)) return true;
+    return false;
+  }
+
   private boolean jj_3R_31() {
     if (jj_scan_token(STRING)) return true;
     return false;
   }
 
-  private boolean jj_3R_34() {
-    if (jj_scan_token(FACTORIAL)) return true;
+  private boolean jj_3R_33() {
+    if (jj_scan_token(POWER)) return true;
     return false;
   }
 
@@ -760,23 +767,6 @@ public class FormulaParserASTNode2 implements IFormulaParser, FormulaParserASTNo
     return false;
   }
 
-  private boolean jj_3R_29() {
-    if (jj_scan_token(NOT)) return true;
-    if (jj_3R_10()) return true;
-    return false;
-  }
-
-  private boolean jj_3R_33() {
-    if (jj_scan_token(POWER)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_26() {
-    if (jj_scan_token(OPEN_PAR)) return true;
-    if (jj_3R_10()) return true;
-    return false;
-  }
-
   private boolean jj_3_1() {
     if (jj_3R_8()) return true;
     if (jj_scan_token(OPEN_PAR)) return true;
@@ -785,12 +775,6 @@ public class FormulaParserASTNode2 implements IFormulaParser, FormulaParserASTNo
 
   private boolean jj_3R_32() {
     if (jj_scan_token(NOT)) return true;
-    return false;
-  }
-
-  private boolean jj_3R_28() {
-    if (jj_scan_token(MINUS)) return true;
-    if (jj_3R_19()) return true;
     return false;
   }
 
@@ -804,6 +788,18 @@ public class FormulaParserASTNode2 implements IFormulaParser, FormulaParserASTNo
     if (jj_3R_34()) return true;
     }
     }
+    return false;
+  }
+
+  private boolean jj_3R_29() {
+    if (jj_scan_token(NOT)) return true;
+    if (jj_3R_10()) return true;
+    return false;
+  }
+
+  private boolean jj_3R_26() {
+    if (jj_scan_token(OPEN_PAR)) return true;
+    if (jj_3R_10()) return true;
     return false;
   }
 
@@ -835,30 +831,34 @@ public class FormulaParserASTNode2 implements IFormulaParser, FormulaParserASTNo
     return false;
   }
 
+  private boolean jj_3R_28() {
+    if (jj_scan_token(MINUS)) return true;
+    if (jj_3R_19()) return true;
+    return false;
+  }
+
   private boolean jj_3R_22() {
     if (jj_scan_token(DIVIDE)) return true;
     return false;
   }
 
-  private boolean jj_3R_27() {
-    if (jj_scan_token(LEFT_BRACES)) return true;
-    if (jj_scan_token(RIGHT_BRACES)) return true;
+  private boolean jj_3R_17() {
+    if (jj_scan_token(BOOLEAN_LOGIC)) return true;
     return false;
   }
 
-  private boolean jj_3_2() {
-    if (jj_scan_token(STRING)) return true;
+  private boolean jj_3R_14() {
     Token xsp;
-    if (jj_3R_9()) return true;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3R_9()) { jj_scanpos = xsp; break; }
+    xsp = jj_scanpos;
+    if (jj_3R_21()) {
+    jj_scanpos = xsp;
+    if (jj_3R_22()) return true;
     }
     return false;
   }
 
-  private boolean jj_3R_17() {
-    if (jj_scan_token(BOOLEAN_LOGIC)) return true;
+  private boolean jj_3R_21() {
+    if (jj_scan_token(TIMES)) return true;
     return false;
   }
 

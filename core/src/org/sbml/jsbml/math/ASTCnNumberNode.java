@@ -140,6 +140,14 @@ public class ASTCnNumberNode<T> extends ASTNumber {
     *             if they are problems going through the {@link ASTNode2} tree.
     */
    public UnitDefinition deriveUnit() throws SBMLException {
+     // TODO: 
+     /*
+      * if there's a unit defined:
+      *    base unit <- get unit definition and return it
+      *    unitdefinition <- return unit definition
+      * else
+      *   return null
+      */
      MathContainer container = isSetParentSBMLObject() ? getParentSBMLObject() : null;
      int level = -1;
      int version = -1;
@@ -237,9 +245,15 @@ public class ASTCnNumberNode<T> extends ASTNumber {
          level = container.getLevel();
          version = container.getVersion();
        }
-       UnitDefinition unitDefinition = new UnitDefinition(level, version);
-       unitDefinition.addUnit(units);
-       return unitDefinition;
+       // TODO: 
+       Model model = null;
+       if (isSetParentSBMLObject()) {
+         model = getParentSBMLObject().getModel();         
+       }
+       if (model != null) {
+         return model.getUnitDefinition(units);
+       }
+       return null;
      }
      PropertyUndefinedError error = new PropertyUndefinedError("units", this);
      if (isStrict()) {

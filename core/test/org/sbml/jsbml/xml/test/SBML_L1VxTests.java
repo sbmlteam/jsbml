@@ -24,6 +24,7 @@ package org.sbml.jsbml.xml.test;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.InvalidPropertiesFormatException;
 
 import javax.xml.stream.XMLStreamException;
@@ -52,21 +53,6 @@ import org.sbml.jsbml.xml.stax.SBMLReader;
  */
 public class SBML_L1VxTests {
 
-
-  public static String DATA_FOLDER = null;
-
-  static {
-
-    DATA_FOLDER = "core/test/org/sbml/jsbml/xml/test/data";
-
-    if (System.getProperty("DATA_FOLDER") != null || System.getenv("DATA_FOLDER") != null) {
-      DATA_FOLDER = System.getProperty("DATA_FOLDER");
-      if (DATA_FOLDER == null) {
-        DATA_FOLDER = System.getenv("DATA_FOLDER");
-      }
-    }
-  }
-
   /**
    * 
    */
@@ -82,9 +68,9 @@ public class SBML_L1VxTests {
    */
   @SuppressWarnings("deprecation")
   @Test public void readL1V2Branch() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
-    String fileName = DATA_FOLDER + "/libsbml-test-data/l1v2-branch.xml";
+    InputStream fileStream = SBML_L1VxTests.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/libsbml-test-data/l1v2-branch.xml");
+    SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
 
-    SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
     Model model = doc.getModel();
 
     assertTrue(doc.getLevel() == 1 && doc.getVersion() == 2);
@@ -145,9 +131,9 @@ public class SBML_L1VxTests {
    * @throws InvalidPropertiesFormatException
    */
   @Test public void readL1V1Units() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
-    String fileName = DATA_FOLDER + "/libsbml-test-data/l1v1-units.xml";
+    InputStream fileStream = SBML_L1VxTests.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/libsbml-test-data/l1v1-units.xml");
+    SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
 
-    SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
     Model model = doc.getModel();
 
     assertTrue(doc.getLevel() == 1 && doc.getVersion() == 1);
@@ -196,9 +182,9 @@ public class SBML_L1VxTests {
    */
   @Test public void readL1V1Rules() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
 
-    String fileName = DATA_FOLDER + "/libsbml-test-data/l1v1-rules.xml";
+    InputStream fileStream = SBML_L1VxTests.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/libsbml-test-data/l1v1-rules.xml");
+    SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
 
-    SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
     Model model = doc.getModel();
 
     assertTrue(doc.getLevel() == 1 && doc.getVersion() == 1);

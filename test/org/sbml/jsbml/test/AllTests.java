@@ -51,7 +51,7 @@ public class AllTests {
 
   static {
 
-    DATA_FOLDER = "core/test/org/sbml/jsbml/xml/test/data";
+    DATA_FOLDER = AllTests.class.getResource("../xml/test/data").getPath();
 
     if (System.getProperty("DATA_FOLDER") != null || System.getenv("DATA_FOLDER") != null) {
       DATA_FOLDER = System.getProperty("DATA_FOLDER");

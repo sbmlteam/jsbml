@@ -30,6 +30,7 @@ import java.util.Properties;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.math.ASTNode2;
 import org.sbml.jsbml.math.ASTBoolean;
+import org.sbml.jsbml.math.ASTCiNumberNode;
 import org.sbml.jsbml.math.ASTCnExponentialNode;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
 import org.sbml.jsbml.math.ASTCnRealNode;

@@ -24,6 +24,7 @@ package org.sbml.jsbml.xml.test;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.InvalidPropertiesFormatException;
 
@@ -55,20 +56,6 @@ import org.xml.sax.SAXException;
  */
 public class SBML_L2V1Test {
 
-  public static String DATA_FOLDER = null;
-
-  static {
-
-    DATA_FOLDER = "core/test/org/sbml/jsbml/xml/test/data";
-
-    if (System.getProperty("DATA_FOLDER") != null || System.getenv("DATA_FOLDER") != null) {
-      DATA_FOLDER = System.getProperty("DATA_FOLDER");
-      if (DATA_FOLDER == null) {
-        DATA_FOLDER = System.getenv("DATA_FOLDER");
-      }
-    }
-  }
-
   @BeforeClass public static void initialSetUp() {}
 
   /**
@@ -78,17 +65,11 @@ public class SBML_L2V1Test {
 
   /**
    * 
-   * @throws XMLStreamException
-   * @throws ClassNotFoundException
-   * @throws IOException
-   * @throws InvalidPropertiesFormatException
    */
   @SuppressWarnings("deprecation")
   @Test public void read1() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
-    // URL fileUrl = this.getClass().getResource("./data/BIOMD0000000025.xml");
-    String fileName = DATA_FOLDER + "/l2v1/BIOMD0000000025.xml";
-
-    SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
+    InputStream fileStream = SBML_L2V1Test.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v1/BIOMD0000000025.xml");
+    SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
     Model model = doc.getModel();
 
     assertTrue(doc.getLevel() == 2 && doc.getVersion() == 1);
@@ -169,28 +150,20 @@ public class SBML_L2V1Test {
 
   /**
    * 
-   * @throws XMLStreamException
-   * @throws ClassNotFoundException
-   * @throws IOException
-   * @throws InvalidPropertiesFormatException
    */
   @Test public void read2() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
-    String fileName = DATA_FOLDER + "/l2v1/BIOMD0000000227.xml";
+    InputStream fileStream = SBML_L2V1Test.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v1/BIOMD0000000227.xml");
+    SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
 
-    new SBMLReader().readSBMLFile(fileName);
+    // TODO - do some tests on this model !!
   }
 
   /**
    * 
-   * @throws XMLStreamException
-   * @throws ClassNotFoundException
-   * @throws IOException
-   * @throws InvalidPropertiesFormatException
    */
   @Test public void read3() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
-    String fileName = DATA_FOLDER + "/l2v4/BIOMD0000000228.xml"; // l2v4
-
-    SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
+    InputStream fileStream = SBML_L2V1Test.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v4/BIOMD0000000228.xml");
+    SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
     Model model = doc.getModel();
 
     assertTrue(doc.getLevel() == 2 && doc.getVersion() == 4);
@@ -246,15 +219,10 @@ public class SBML_L2V1Test {
 
   /**
    * 
-   * @throws XMLStreamException
-   * @throws ClassNotFoundException
-   * @throws IOException
-   * @throws InvalidPropertiesFormatException
    */
   @Test public void read4() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
-    String fileName = DATA_FOLDER + "/l2v4/BIOMD0000000229.xml"; // l2v4
-
-    SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
+    InputStream fileStream = SBML_L2V1Test.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v4/BIOMD0000000229.xml");
+    SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
     Model model = doc.getModel();
 
     assertTrue(doc.getLevel() == 2 && doc.getVersion() == 4);
@@ -287,15 +255,10 @@ public class SBML_L2V1Test {
 
   /**
    * 
-   * @throws XMLStreamException
-   * @throws ClassNotFoundException
-   * @throws IOException
-   * @throws InvalidPropertiesFormatException
    */
   @Test public void read5() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
-    String fileName = DATA_FOLDER + "/l2v3/BIOMD0000000191.xml"; // l2v3
-
-    SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
+    InputStream fileStream = SBML_L2V1Test.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v3/BIOMD0000000191.xml");
+    SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
     Model model = doc.getModel();
 
     assertTrue(doc.getLevel() == 2 && doc.getVersion() == 3);
@@ -340,22 +303,13 @@ public class SBML_L2V1Test {
 
   /**
    * 
-   * @throws XMLStreamException
-   * @throws InstantiationException
-   * @throws IllegalAccessException
-   * @throws ClassNotFoundException
-   * @throws IOException
-   * @throws InvalidPropertiesFormatException
-   * @throws SBMLException
-   * @throws SAXException
    */
   @Test public void write1() throws XMLStreamException, InstantiationException, IllegalAccessException, InvalidPropertiesFormatException, IOException, ClassNotFoundException, SBMLException, SAXException{
-    String fileName = DATA_FOLDER + "/l2v1/BIOMD0000000025.xml";
+    InputStream fileStream = SBML_L2V1Test.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v1/BIOMD0000000025.xml");
+    SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
 
-    SBMLDocument doc = new SBMLReader().readSBMLFile(fileName);
+    String resultFile = new SBMLWriter().writeSBMLToString(doc);
 
-    String resultFileName = "biomd-025.xml";
-
-    new SBMLWriter().write(doc, resultFileName);
+    // TODO - re-read the file and do some test on it
   }
 }

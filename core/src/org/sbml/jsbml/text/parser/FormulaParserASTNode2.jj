@@ -41,6 +41,7 @@ import java.util.Properties;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.math.ASTNode2;
 import org.sbml.jsbml.math.ASTBoolean;
+import org.sbml.jsbml.math.ASTCiNumberNode;
 import org.sbml.jsbml.math.ASTCnExponentialNode;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
 import org.sbml.jsbml.math.ASTCnRealNode;
@@ -376,18 +377,8 @@ private ASTNode2 TermLvl2() :
     }
   | < DIVIDE > rightChild = TermLvl3()
     {
-      Integer left, right;
-      left = getInteger(leftChild);
-      right = getInteger(rightChild);
-      if (left != null && right != null)
-      {
-        node = new ASTDivideNode(leftChild, rightChild);
-        leftChild = node;
-      }
-      else
-      {
-        throw new ParseException();
-      }
+      node = new ASTDivideNode(leftChild, rightChild);
+      leftChild = node;
     }
   )*
   {
@@ -498,13 +489,13 @@ private ASTNode2 Primary() throws NumberFormatException :
     }
     if (s.equalsIgnoreCase("factorial"))
     {
-      checkSize(arguments, 1);
+      checkSize(arguments, 0);
       node = new ASTUnaryFunctionNode(Type.FUNCTION_FACTORIAL);
       ((ASTUnaryFunctionNode)node).addChild(child);
     }
     else if (s.equalsIgnoreCase("pow"))
     {
-      checkSize(arguments, 1);
+      checkSize(arguments, 0);
       node = new ASTPowerNode();
       ((ASTPowerNode)node).addChild(child);
     }
@@ -538,8 +529,9 @@ private ASTNode2 Primary() throws NumberFormatException :
     else if (s.equalsIgnoreCase("lambda"))
     {
 	  node = new ASTLambdaFunctionNode();
-	  ASTQualifierNode bvar = new ASTQualifierNode(Type.QUALIFIER_BVAR);
-	  bvar.addChild(child);
+	  ASTQualifierNode bvar = null;
+      bvar = new ASTQualifierNode(Type.QUALIFIER_BVAR);
+      bvar.addChild(child);
       ((ASTLambdaFunctionNode)node).addChild(bvar);
     }
     else if (s.equalsIgnoreCase("piecewise"))
@@ -550,14 +542,6 @@ private ASTNode2 Primary() throws NumberFormatException :
     else
     {
       throw new ParseException(MessageFormat.format("{0} is not recognized", s));
-    }
-
-    if (node != null && node instanceof ASTFunction)
-    {
-	  for (ASTNode2 argument : arguments)
-	  {
-	    ((ASTFunction)node).addChild(argument);
-	  }
     }
     return node;
   }
@@ -673,6 +657,9 @@ private ASTNode2 Primary() throws NumberFormatException :
     else if (s.equalsIgnoreCase("e"))
     {
       node = new ASTConstantNumber(Math.E);
+    }
+    else if (!s.isEmpty())    {      node = new ASTCiNumberNode();
+      ((ASTCiNumberNode)node).setRefId(s);
     }
     else
     {

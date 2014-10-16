@@ -29,6 +29,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.math.ASTCnNumberNode;
 
@@ -84,7 +85,7 @@ public class ASTCnNumberNodeTest {
   public void testDeriveUnit() {
     // TODO: Implement UnitsCompiler class first
     ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
-    number.setUnits("joule");
+    number.setUnits(Unit.Kind.AMPERE.getName());
     UnitDefinition unitDefinition = number.deriveUnit();
     assertTrue(unitDefinition.getUnitCount() == 1);
   }
@@ -125,10 +126,10 @@ public class ASTCnNumberNodeTest {
   @Test
   public void testGetUnitsInstance() {
     ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
-    number.setUnits("joule");
+    number.setUnits(Unit.Kind.AMPERE.getName());
     UnitDefinition unitsInstance = number.getUnitsInstance();
     assertTrue(unitsInstance != null && unitsInstance.getChildCount() == 1
-        && unitsInstance.getListOfUnits().get(0).equals("joule"));
+        && unitsInstance.getListOfUnits().get(0).equals(Unit.Kind.AMPERE.getName()));
   }
   
   /**

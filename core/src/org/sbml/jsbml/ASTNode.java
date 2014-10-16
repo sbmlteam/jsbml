@@ -33,6 +33,7 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.math.ASTArithmeticOperatorNode;
+import org.sbml.jsbml.math.ASTBinaryFunctionNode;
 import org.sbml.jsbml.math.ASTBoolean;
 import org.sbml.jsbml.math.ASTCSymbolBaseNode;
 import org.sbml.jsbml.math.ASTCSymbolNode;
@@ -70,9 +71,9 @@ import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
-import org.sbml.jsbml.util.compilers.FormulaCompiler;
-import org.sbml.jsbml.util.compilers.LaTeXCompiler;
-import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
+import org.sbml.jsbml.math.compiler.FormulaCompiler;
+import org.sbml.jsbml.math.compiler.LaTeXCompiler;
+import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
@@ -931,15 +932,7 @@ public class ASTNode extends AbstractTreeNode {
    *             parsed for other reasons.
    */
   public static ASTNode parseFormula(String formula) throws ParseException {    
-    FormulaParser parser = new FormulaParser(new StringReader(formula));
-    ASTNode result = null;
-    try {
-      result = parser.parse();
-    } catch (Throwable e) {
-      // The JavaCC parser can throw a TokenMgrError at least
-      throw new ParseException(e);
-    }
-    return result; 
+    return new ASTNode(ASTFactory.parseFormula(formula)); 
   }
 
   /**
@@ -1559,8 +1552,17 @@ public class ASTNode extends AbstractTreeNode {
    *             Thrown if an error occurs during the compilation process.
    * 
    */
-  public ASTNodeValue compile(ASTNodeCompiler compiler) throws SBMLException {
-    ASTNodeValue value;
+  public ASTNode2Value<?> compile(ASTNode2Compiler compiler) throws SBMLException {
+    ASTNode2Value<?> value;
+    ASTNode2 leftChild = null, rightChild = null;
+    List<ASTNode2> children = null;
+    if (astnode2 instanceof ASTFunction) {
+      children = ((ASTFunction)astnode2).getListOfNodes();
+      if (astnode2 instanceof ASTBinaryFunctionNode) {
+        leftChild = children.get(0);
+        rightChild = children.get(astnode2.getChildCount() - 1);        
+      }
+    }
     switch (getType()) {
     /*
      * Numbers
@@ -1571,33 +1573,33 @@ public class ASTNode extends AbstractTreeNode {
         value = (real > 0d) ? compiler.getPositiveInfinity() : compiler
           .getNegativeInfinity();
       } else {
-        value = compiler.compile(real, getUnits());
+        value = compiler.compile(real, isSetUnits() ? getUnits().toString() : null);
       }
       break;
     case INTEGER:
-      value = compiler.compile(getInteger(), getUnits());
+      value = compiler.compile(getInteger(), isSetUnits() ? getUnits().toString() : null);
       break;
       /*
        * Operators
        */
     case POWER:
-      value = compiler.pow(getLeftChild(), getRightChild());
+      value = compiler.pow(leftChild, rightChild);
       break;
     case PLUS:
-      value = compiler.plus(getChildren());
+      value = compiler.plus(children);
       value.setUIFlag(getChildCount() <= 1);
       break;
     case MINUS:
       if (getChildCount() < 2) {
-        value = compiler.uMinus(getLeftChild());
+        value = compiler.uMinus(leftChild);
         value.setUIFlag(true);
       } else {
-        value = compiler.minus(getChildren());
+        value = compiler.minus(children);
         value.setUIFlag(false);
       }
       break;
     case TIMES:
-      value = compiler.times(getChildren());
+      value = compiler.times(children);
       value.setUIFlag(getChildCount() <= 1);
       break;
     case DIVIDE:
@@ -1607,7 +1609,7 @@ public class ASTNode extends AbstractTreeNode {
           "Fractions must have one numerator and one denominator, here {0,number,integer} elements are given.",
           childCount));
       }
-      value = compiler.frac(getLeftChild(), getRightChild());
+      value = compiler.frac(leftChild, rightChild);
       break;
     case RATIONAL:
       value = compiler.frac(getNumerator(), getDenominator());
@@ -1616,8 +1618,7 @@ public class ASTNode extends AbstractTreeNode {
       value = compiler.symbolTime(getName());
       break;
     case FUNCTION_DELAY:
-      value = compiler.delay(getName(), getLeftChild(), getRightChild(),
-        getUnits());
+      value = compiler.delay(getName(), leftChild, rightChild);
       break;
       /*
        * Names of identifiers: parameters, functions, species etc.
@@ -1628,7 +1629,7 @@ public class ASTNode extends AbstractTreeNode {
       if (variable != null) {
         if (variable instanceof FunctionDefinition) {
           value = compiler.function((FunctionDefinition) variable,
-            getChildren());
+            children);
         } else {
           value = compiler.compile(variable);
         }
@@ -1663,132 +1664,131 @@ public class ASTNode extends AbstractTreeNode {
        */
     case FUNCTION_LOG:
       if (getChildCount() == 2) {
-        value = compiler.log(getLeftChild(), getRightChild());
+        value = compiler.log(leftChild, rightChild);
       } else {
-        value = compiler.log(getRightChild());
+        value = compiler.log(rightChild);
       }
       break;
     case FUNCTION_ABS:
-      value = compiler.abs(getRightChild());
+      value = compiler.abs(rightChild);
       break;
     case FUNCTION_ARCCOS:
-      value = compiler.arccos(getLeftChild());
+      value = compiler.arccos(leftChild);
       break;
     case FUNCTION_ARCCOSH:
-      value = compiler.arccosh(getLeftChild());
+      value = compiler.arccosh(leftChild);
       break;
     case FUNCTION_ARCCOT:
-      value = compiler.arccot(getLeftChild());
+      value = compiler.arccot(leftChild);
       break;
     case FUNCTION_ARCCOTH:
-      value = compiler.arccoth(getLeftChild());
+      value = compiler.arccoth(leftChild);
       break;
     case FUNCTION_ARCCSC:
-      value = compiler.arccsc(getLeftChild());
+      value = compiler.arccsc(leftChild);
       break;
     case FUNCTION_ARCCSCH:
-      value = compiler.arccsch(getLeftChild());
+      value = compiler.arccsch(leftChild);
       break;
     case FUNCTION_ARCSEC:
-      value = compiler.arcsec(getLeftChild());
+      value = compiler.arcsec(leftChild);
       break;
     case FUNCTION_ARCSECH:
-      value = compiler.arcsech(getLeftChild());
+      value = compiler.arcsech(leftChild);
       break;
     case FUNCTION_ARCSIN:
-      value = compiler.arcsin(getLeftChild());
+      value = compiler.arcsin(leftChild);
       break;
     case FUNCTION_ARCSINH:
-      value = compiler.arcsinh(getLeftChild());
+      value = compiler.arcsinh(leftChild);
       break;
     case FUNCTION_ARCTAN:
-      value = compiler.arctan(getLeftChild());
+      value = compiler.arctan(leftChild);
       break;
     case FUNCTION_ARCTANH:
-      value = compiler.arctanh(getLeftChild());
+      value = compiler.arctanh(leftChild);
       break;
     case FUNCTION_CEILING:
-      value = compiler.ceiling(getLeftChild());
+      value = compiler.ceiling(leftChild);
       break;
     case FUNCTION_COS:
-      value = compiler.cos(getLeftChild());
+      value = compiler.cos(leftChild);
       break;
     case FUNCTION_COSH:
-      value = compiler.cosh(getLeftChild());
+      value = compiler.cosh(leftChild);
       break;
     case FUNCTION_COT:
-      value = compiler.cot(getLeftChild());
+      value = compiler.cot(leftChild);
       break;
     case FUNCTION_COTH:
-      value = compiler.coth(getLeftChild());
+      value = compiler.coth(leftChild);
       break;
     case FUNCTION_CSC:
-      value = compiler.csc(getLeftChild());
+      value = compiler.csc(leftChild);
       break;
     case FUNCTION_CSCH:
-      value = compiler.csch(getLeftChild());
+      value = compiler.csch(leftChild);
       break;
     case FUNCTION_EXP:
-      value = compiler.exp(getLeftChild());
+      value = compiler.exp(leftChild);
       break;
     case FUNCTION_FACTORIAL:
-      value = compiler.factorial(getLeftChild());
+      value = compiler.factorial(leftChild);
       break;
     case FUNCTION_FLOOR:
-      value = compiler.floor(getLeftChild());
+      value = compiler.floor(leftChild);
       break;
     case FUNCTION_LN:
-      value = compiler.ln(getLeftChild());
+      value = compiler.ln(leftChild);
       break;
     case FUNCTION_POWER:
-      value = compiler.pow(getLeftChild(), getRightChild());
+      value = compiler.pow(leftChild, rightChild);
       break;
     case FUNCTION_ROOT:
-      ASTNode left = getLeftChild();
       if (getChildCount() == 2) {
-        if (left.isInteger()) {
-          int leftValue = left.getInteger();
+        if (leftChild instanceof ASTCnIntegerNode) {
+          int leftValue = ((ASTCnIntegerNode)leftChild).getInteger();
           if (leftValue == 2) {
-            value = compiler.sqrt(getRightChild());
+            value = compiler.sqrt(rightChild);
           } else {
-            value = compiler.root(leftValue, getRightChild());
+            value = compiler.root(leftValue, rightChild);
           }
-        } else if (left.isReal()) {
-          double leftValue = left.getReal();
+        } else if (leftChild instanceof ASTCnRealNode) {
+          double leftValue = ((ASTCnRealNode)leftChild).getReal();
           if (leftValue == 2d) {
-            value = compiler.sqrt(getRightChild());
+            value = compiler.sqrt(rightChild);
           } else {
-            value = compiler.root(leftValue, getRightChild());
+            value = compiler.root(leftValue, rightChild);
           }
         } else {
-          value = compiler.root(left, getRightChild());
+          value = compiler.root(leftChild, rightChild);
         }
       } else if (getChildCount() == 1) {
-        value = compiler.sqrt(getRightChild());
+        value = compiler.sqrt(rightChild);
       } else {
-        value = compiler.root(left, getRightChild());
+        value = compiler.root(leftChild, rightChild);
       }
       break;
     case FUNCTION_SEC:
-      value = compiler.sec(getLeftChild());
+      value = compiler.sec(leftChild);
       break;
     case FUNCTION_SECH:
-      value = compiler.sech(getLeftChild());
+      value = compiler.sech(leftChild);
       break;
     case FUNCTION_SELECTOR:
-      value = compiler.selector(getChildren());
+      value = compiler.selector(children);
       break;
     case FUNCTION_SIN:
-      value = compiler.sin(getLeftChild());
+      value = compiler.sin(leftChild);
       break;
     case FUNCTION_SINH:
-      value = compiler.sinh(getLeftChild());
+      value = compiler.sinh(leftChild);
       break;
     case FUNCTION_TAN:
-      value = compiler.tan(getLeftChild());
+      value = compiler.tan(leftChild);
       break;
     case FUNCTION_TANH:
-      value = compiler.tanh(getLeftChild());
+      value = compiler.tanh(leftChild);
       break;
     case FUNCTION: {
       variable = getVariable();
@@ -1796,7 +1796,7 @@ public class ASTNode extends AbstractTreeNode {
       if (variable != null) {
         if (variable instanceof FunctionDefinition) {
           value = compiler.function((FunctionDefinition) variable,
-            getChildren());
+            children);
         } else {
           logger
           .warn("ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
@@ -1814,56 +1814,56 @@ public class ASTNode extends AbstractTreeNode {
         logger.debug(MessageFormat.format(
           "ASTNode of type FUNCTION but the variable is null: ({0}, {1})! Check that your object is linked to a Model.",
           getName(), (getParentSBMLObject() != null ? getParentSBMLObject().getElementName() : null)));
-        value = compiler.function(getName(), getChildren());
+        value = compiler.function(getName(), children);
       }
       break;
     }
     case FUNCTION_PIECEWISE:
-      value = compiler.piecewise(getChildren());
+      value = compiler.piecewise(children);
       value.setUIFlag(getChildCount() <= 1);
       break;
     case LAMBDA:
-      value = compiler.lambda(getChildren());
+      value = compiler.lambda(children);
       value.setUIFlag(getChildCount() <= 1);
       break;
       /*
        * Logical and relational functions
        */
     case LOGICAL_AND:
-      value = compiler.and(getChildren());
+      value = compiler.and(children);
       value.setUIFlag(getChildCount() <= 1);
       break;
     case LOGICAL_XOR:
-      value = compiler.xor(getChildren());
+      value = compiler.xor(children);
       value.setUIFlag(getChildCount() <= 1);
       break;
     case LOGICAL_OR:
-      value = compiler.or(getChildren());
+      value = compiler.or(children);
       value.setUIFlag(getChildCount() <= 1);
       break;
     case LOGICAL_NOT:
-      value = compiler.not(getLeftChild());
+      value = compiler.not(leftChild);
       break;
     case RELATIONAL_EQ:
-      value = compiler.eq(getLeftChild(), getRightChild());
+      value = compiler.eq(leftChild, rightChild);
       break;
     case RELATIONAL_GEQ:
-      value = compiler.geq(getLeftChild(), getRightChild());
+      value = compiler.geq(leftChild, rightChild);
       break;
     case RELATIONAL_GT:
-      value = compiler.gt(getLeftChild(), getRightChild());
+      value = compiler.gt(leftChild, rightChild);
       break;
     case RELATIONAL_NEQ:
-      value = compiler.neq(getLeftChild(), getRightChild());
+      value = compiler.neq(leftChild, rightChild);
       break;
     case RELATIONAL_LEQ:
-      value = compiler.leq(getLeftChild(), getRightChild());
+      value = compiler.leq(leftChild, rightChild);
       break;
     case RELATIONAL_LT:
-      value = compiler.lt(getLeftChild(), getRightChild());
+      value = compiler.lt(leftChild, rightChild);
       break;
     case VECTOR:
-      value = compiler.vector(getChildren());
+      value = compiler.vector(children);
       value.setUIFlag(getChildCount() <= 1);
       break;
     default: // UNKNOWN:
@@ -1871,379 +1871,15 @@ public class ASTNode extends AbstractTreeNode {
       break;
     }
     value.setType(getType());
-    MathContainer parent = getParentSBMLObject();
-    if (parent != null) {
-      value.setLevel(parent.getLevel());
-      value.setVersion(parent.getVersion());
-    }
-    return value;
-  }
-
-  /**
-   * Compiles this {@link ASTNode} and returns the result.
-   * 
-   * @param compiler
-   *            An instance of an {@link ASTNodeCompiler} that provides
-   *            methods to translate this {@link ASTNode} into something
-   *            different.
-   * @return Some value wrapped in an {@link ASTNodeValue}. The content of the
-   *         wrapper depends on the {@link ASTNodeCompiler} used to create it.
-   *         However, this {@link ASTNode} will ensure that level and version
-   *         are set appropriately according to this node's parent SBML
-   *         object.
-   * @throws SBMLException
-   *             Thrown if an error occurs during the compilation process.
-   * 
-   */
-  public ASTNode2Value<?> compile2(ASTNode2Compiler compiler) throws SBMLException {
-    ASTNode2Value<?> value;
-    switch (getType()) {
-      /*
-       * Numbers
-       */
-      case REAL:
-        double real = getReal();
-        if (Double.isInfinite(real)) {
-          value = (real > 0d) ? compiler.getPositiveInfinity() : compiler
-              .getNegativeInfinity();
-        } else {
-          value = compiler.compile(real, isSetUnits() ? getUnits() : null);
-        }
-        break;
-      case INTEGER:
-        value = compiler.compile(getInteger(), isSetUnits() ? getUnits() : null);
-        break;
-        /*
-         * Operators
-         */
-      case POWER:
-        value = compiler.pow(((ASTPowerNode)toASTNode2()).getChildAt(0), ((ASTPowerNode)toASTNode2()).getChildAt(
-            ((ASTPowerNode)toASTNode2()).getChildCount() - 1));
-        break;
-      case PLUS:
-        value = compiler.plus(((ASTFunction)toASTNode2()).getChildren());
-        value.setUIFlag(getChildCount() <= 1);
-        break;
-      case MINUS:
-        if (getChildCount() < 2) {
-          value = compiler.uMinus(((ASTMinusNode)toASTNode2()).getChildAt(0));
-          value.setUIFlag(true);
-        } else {
-          value = compiler.minus(((ASTFunction)toASTNode2()).getChildren());
-          value.setUIFlag(false);
-        }
-        break;
-      case TIMES:
-        value = compiler.times(((ASTFunction)toASTNode2()).getChildren());
-        value.setUIFlag(getChildCount() <= 1);
-        break;
-      case DIVIDE:
-        int childCount = getChildCount();
-        if (childCount != 2) {
-          throw new SBMLException(MessageFormat.format(
-              "Fractions must have one numerator and one denominator, here {0,number,integer} elements are given.",
-              childCount));
-        }
-        value = compiler.frac(((ASTCnRationalNode)toASTNode2()).getChildAt(0), ((ASTCnRationalNode)toASTNode2()).getChildAt(
-            ((ASTCnRationalNode)toASTNode2()).getChildCount() - 1));
-        break;
-      case RATIONAL:
-        value = compiler.frac(getNumerator(), getDenominator());
-        break;
-      case NAME_TIME:
-        value = compiler.symbolTime(getName());
-        break;
-        //    case FUNCTION_DELAY:
-        //      value = compiler.delay(getName(), ((ASTCSymbolDelayNode)toASTNode2()).getChildAt(0), getRightChild(),
-        //        getUnits());
-        //      break;
-        //      /*
-        //       * Names of identifiers: parameters, functions, species etc.
-        //       */
-        //    case NAME:
-        //      if (variable == null) {
-        //        variable = getVariable();
-        //      }
-        //      if (variable != null) {
-        //        if (variable instanceof FunctionDefinition) {
-        //          value = compiler.function((FunctionDefinition) variable,
-        //            getChildren());
-        //        } else {
-        //          value = compiler.compile(variable);
-        //        }
-        //      } else {
-        //        value = compiler.compile(getName());
-        //      }
-        //      break;
-        /*
-         * Type: pi, e, true, false, Avogadro
-         */
-      case CONSTANT_PI:
-        value = compiler.getConstantPi();
-        break;
-      case CONSTANT_E:
-        value = compiler.getConstantE();
-        break;
-      case CONSTANT_TRUE:
-        value = compiler.getConstantTrue();
-        break;
-      case CONSTANT_FALSE:
-        value = compiler.getConstantFalse();
-        break;
-      case NAME_AVOGADRO:
-        value = compiler.getConstantAvogadro(getName());
-        break;
-      case REAL_E:
-        value = compiler.compile(getMantissa(), getExponent(),
-            isSetUnits() ? getUnits() : null);
-        break;
-        /*
-         * Basic Functions
-         */
-      case FUNCTION_LOG:
-        if (getChildCount() == 2) {
-          value = compiler.log(((ASTLogarithmNode)toASTNode2()).getChildAt(0), 
-              ((ASTLogarithmNode)toASTNode2()).getChildAt(
-                  ((ASTLogarithmNode)toASTNode2()).getChildCount() - 1));
-        } else {
-          value = compiler.log(((ASTLogarithmNode)toASTNode2()).getChildAt(
-              ((ASTLogarithmNode)toASTNode2()).getChildCount() - 1));
-        }
-        break;
-      case FUNCTION_ABS:
-        value = compiler.abs(((ASTUnaryFunctionNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_ARCCOS:
-        value = compiler.arccos(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_ARCCOSH:
-        value = compiler.arccosh(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_ARCCOT:
-        value = compiler.arccot(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_ARCCOTH:
-        value = compiler.arccoth(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_ARCCSC:
-        value = compiler.arccsc(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_ARCCSCH:
-        value = compiler.arccsch(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_ARCSEC:
-        value = compiler.arcsec(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_ARCSECH:
-        value = compiler.arcsech(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_ARCSIN:
-        value = compiler.arcsin(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_ARCSINH:
-        value = compiler.arcsinh(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_ARCTAN:
-        value = compiler.arctan(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_ARCTANH:
-        value = compiler.arctanh(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_CEILING:
-        value = compiler.ceiling(((ASTUnaryFunctionNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_COS:
-        value = compiler.cos(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_COSH:
-        value = compiler.cosh(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_COT:
-        value = compiler.cot(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_COTH:
-        value = compiler.coth(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_CSC:
-        value = compiler.csc(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_CSCH:
-        value = compiler.csch(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_EXP:
-        value = compiler.exp((ASTFunction)toASTNode2().getChildAt(0));
-        break;
-      case FUNCTION_FACTORIAL:
-        value = compiler.factorial(((ASTUnaryFunctionNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_FLOOR:
-        value = compiler.floor(((ASTUnaryFunctionNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_LN:
-        value = compiler.ln(((ASTLogarithmNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_POWER:
-        value = compiler.pow(((ASTPowerNode)toASTNode2()).getChildAt(0), ((ASTPowerNode)toASTNode2()).getChildAt(
-            ((ASTPowerNode)toASTNode2()).getChildCount() - 1));
-        break;
-      case FUNCTION_ROOT:
-        ASTNode2 left = ((ASTFunction)toASTNode2()).getChildAt(0);
-        if (getChildCount() == 2) {
-          if (left.getType() == Type.INTEGER) {
-            int leftValue = ((ASTCnIntegerNode)left).getInteger();
-            if (leftValue == 2) {
-              value = compiler.sqrt(((ASTRootNode)toASTNode2()).getChildAt(
-                  ((ASTRootNode)toASTNode2()).getChildCount() - 1));
-            } else {
-              value = compiler.root(leftValue, ((ASTRootNode)toASTNode2()).getChildAt(
-                  ((ASTRootNode)toASTNode2()).getChildCount() - 1));
-            }
-          } else if (left.getType() == Type.REAL) {
-            double leftValue = ((ASTCnRealNode)left).getReal();
-            if (leftValue == 2d) {
-              value = compiler.sqrt(((ASTRootNode)toASTNode2()).getChildAt(
-                  ((ASTRootNode)toASTNode2()).getChildCount() - 1));
-            } else {
-              value = compiler.root(leftValue, ((ASTRootNode)toASTNode2()).getChildAt(
-                  ((ASTRootNode)toASTNode2()).getChildCount() - 1));
-            }
-          } else {
-            value = compiler.root(left, ((ASTRootNode)toASTNode2()).getChildAt(
-                ((ASTRootNode)toASTNode2()).getChildCount() - 1));
-          }
-        } else if (getChildCount() == 1) {
-          value = compiler.sqrt(((ASTRootNode)toASTNode2()).getChildAt(
-              ((ASTRootNode)toASTNode2()).getChildCount() - 1));
-        } else {
-          value = compiler.root(left, ((ASTRootNode)toASTNode2()).getChildAt(
-              ((ASTRootNode)toASTNode2()).getChildCount() - 1));
-        }
-        break;
-      case FUNCTION_SEC:
-        value = compiler.sec(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_SECH:
-        value = compiler.sech(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_SELECTOR:
-        value = compiler.selector(((ASTFunction)toASTNode2()).getChildren());
-        break;
-      case FUNCTION_SIN:
-        value = compiler.sin(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_SINH:
-        value = compiler.sinh(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_TAN:
-        value = compiler.tan(((ASTTrigonometricNode)toASTNode2()).getChildAt(0));
-        break;
-      case FUNCTION_TANH:
-        value = compiler.tanh(((ASTHyperbolicNode)toASTNode2()).getChildAt(0));
-        break;
-        //    case FUNCTION: {
-        //      if (variable == null) {
-        //        variable = getVariable();
-        //      }
-        //      if (variable != null) {
-        //        if (variable instanceof FunctionDefinition) {
-        //          value = compiler.function((FunctionDefinition) variable,
-        //            ((ASTFunction)toASTNode2()).getChildren());
-        //        } else {
-        //          logger
-        //          .warn("ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
-        //              + getName()
-        //              + ", "
-        //              + getParentSBMLObject().getElementName()
-        //              + ")");
-        //          throw new SBMLException(
-        //            "ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
-        //                + getName() + ", " + getParentSBMLObject().getElementName()
-        //                + ")");
-        //          // value = compiler.compile(variable);
-        //        }
-        //      } else {
-        //        logger.warn(MessageFormat.format(
-        //          "ASTNode of type FUNCTION but the variable is null: ({0}, {1})! Check that your object is linked to a Model.",
-        //          getName(), (getParentSBMLObject() != null ? getParentSBMLObject().getElementName() : null)));
-        //        value = compiler.function(getName(), (ASTFunction)toASTNode2()).getChildren());
-        //      }
-        //      break;
-        //    }
-        //    case FUNCTION_PIECEWISE:
-        //      value = compiler.piecewise((ASTFunction)toASTNode2()).getChildren());
-        //      value.setUIFlag(getChildCount() <= 1);
-        //      break;
-        //    case LAMBDA:
-        //      value = compiler.lambda((ASTFunction)toASTNode2()).getChildren());
-        //      value.setUIFlag(getChildCount() <= 1);
-        //      break;
-        //      /*
-        //       * Logical and relational functions
-        //       */
-        //    case LOGICAL_AND:
-        //      value = compiler.and(getChildren());
-        //      value.setUIFlag(getChildCount() <= 1);
-        //      break;
-        //    case LOGICAL_XOR:
-        //      value = compiler.xor(getChildren());
-        //      value.setUIFlag(getChildCount() <= 1);
-        //      break;
-        //    case LOGICAL_OR:
-        //      value = compiler.or((ASTLogicalOperatorNode)toASTNode2().children());
-        //      value.setUIFlag(getChildCount() <= 1);
-        //      break;
-      case LOGICAL_NOT:
-        value = compiler.not((ASTLogicalOperatorNode)toASTNode2().getChildAt(0));
-        break;
-      case RELATIONAL_EQ:
-        value = compiler.eq((ASTRelationalOperatorNode)toASTNode2().getChildAt(0), 
-            ((ASTRelationalOperatorNode)toASTNode2()).getChildAt(
-                ((ASTRelationalOperatorNode)toASTNode2()).getChildCount() - 1));
-        break;
-      case RELATIONAL_GEQ:
-        value = compiler.geq((ASTRelationalOperatorNode)toASTNode2().getChildAt(0), 
-            ((ASTRelationalOperatorNode)toASTNode2()).getChildAt(
-                ((ASTRelationalOperatorNode)toASTNode2()).getChildCount() - 1));
-        break;
-      case RELATIONAL_GT:
-        value = compiler.gt((ASTRelationalOperatorNode)toASTNode2().getChildAt(0), 
-            ((ASTRelationalOperatorNode)toASTNode2()).getChildAt(
-                ((ASTRelationalOperatorNode)toASTNode2()).getChildCount() - 1));
-        break;
-      case RELATIONAL_NEQ:
-        value = compiler.neq((ASTRelationalOperatorNode)toASTNode2().getChildAt(0), 
-            ((ASTRelationalOperatorNode)toASTNode2()).getChildAt(
-                ((ASTRelationalOperatorNode)toASTNode2()).getChildCount() - 1));
-        break;
-      case RELATIONAL_LEQ:
-        value = compiler.leq((ASTRelationalOperatorNode)toASTNode2().getChildAt(0), 
-            ((ASTRelationalOperatorNode)toASTNode2()).getChildAt(
-                ((ASTRelationalOperatorNode)toASTNode2()).getChildCount() - 1));
-        break;
-      case RELATIONAL_LT:
-        value = compiler.lt((ASTRelationalOperatorNode)toASTNode2().getChildAt(0), 
-            ((ASTRelationalOperatorNode)toASTNode2()).getChildAt(
-                ((ASTRelationalOperatorNode)toASTNode2()).getChildCount() - 1));
-        break;
-      case VECTOR:
-        value = compiler.vector(((ASTFunction)toASTNode2()).getChildren());
-        value.setUIFlag(getChildCount() <= 1);
-        break;
-      default: // UNKNOWN:
-        value = compiler.unknownValue();
-        break;
-    }
-    value.setType(getType());
-    MathContainer parent = null;
     if (isSetParentSBMLObject()) {
-      parent = getParentSBMLObject();
-    }
-    if (parent != null) {
-      value.setLevel(parent.getLevel());
-      value.setVersion(parent.getVersion());
-    }
+      MathContainer parent = getParentSBMLObject();
+      if (parent != null) {
+        value.setLevel(parent.getLevel());
+        value.setVersion(parent.getVersion());
+      }      
+    }      
     return value;
-  }
+ }
 
   /**
    * Returns {@code true} or {@code false} depending on whether this
@@ -3554,6 +3190,7 @@ public class ASTNode extends AbstractTreeNode {
    *            the type to which this node should be set
    */
   public void setType(ASTNode.Type type) {
+    ASTNode2 old = astnode2;
     switch(type) {
       case LAMBDA:
         astnode2 = new ASTLambdaFunctionNode();
@@ -3652,6 +3289,9 @@ public class ASTNode extends AbstractTreeNode {
         astnode2 = ASTUnknown.getInstance();
         break;
     }
+    if (old != null && astnode2 instanceof ASTFunction) {
+      ((ASTFunction)astnode2).swapChildren((ASTFunction)old);
+    }      
   }
 
   /**
@@ -3875,7 +3515,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   public String toMathML() {
     try {
-      return MathMLXMLStreamCompiler.toMathML(this);
+      return MathMLXMLStreamCompiler.toMathML(astnode2);
     } catch (RuntimeException e) {
       // added to prevent a crash when we cannot create the mathML
       // TODO: log the exception
