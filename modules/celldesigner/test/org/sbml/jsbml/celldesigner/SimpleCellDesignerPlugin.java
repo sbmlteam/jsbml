@@ -140,7 +140,6 @@ public class SimpleCellDesignerPlugin extends AbstractCellDesignerPlugin {
     modelTree = new DefaultTreeModel(getSBMLDocument());
     JSBMLvisualizer visualizer = new JSBMLvisualizer(modelTree);
     visualizer.addWindowListener(new WindowAdapter() {
-
       @Override
       public void windowClosed(WindowEvent e) {
         setStarted(false);

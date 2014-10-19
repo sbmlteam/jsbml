@@ -153,7 +153,6 @@ public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
     modelTree = new DefaultTreeModel(plugin.getLayout(0));
     SBMLStructureVisualizer visualizer = new SBMLStructureVisualizer(modelTree);
     visualizer.addWindowListener(new WindowAdapter() {
-
       @Override
       public void windowClosed(WindowEvent e) {
         setStarted(false);

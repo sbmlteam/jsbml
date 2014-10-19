@@ -75,16 +75,16 @@ public class SBMLExportPlugin extends AbstractCellDesignerPlugin  {
     SBMLLayoutVisualizer SBMLVisualizer = null;
     try {
       SBMLVisualizer = new SBMLLayoutVisualizer(getSBMLDocument());
+      SBMLVisualizer.addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosed(WindowEvent event) {
+          getReader().clearMap();
+          setStarted(false);
+        }
+      });
     }
     catch (Throwable e) {
       new GUIErrorConsole(e);
     }
-    SBMLVisualizer.addWindowListener(new WindowAdapter() {
-      @Override
-      public void windowClosed(WindowEvent event) {
-        getReader().clearMap();
-        setStarted(false);
-      }
-    });
   }
 }
