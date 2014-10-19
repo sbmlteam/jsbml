@@ -59,7 +59,7 @@ public class TreeNodeRemovedEvent extends EventObject {
    * The previous parent node in the tree, i.e., the node that was the parent of
    * the deleted node (see {@link #getSource()}) before the deletion.
    */
-  private TreeNode previousParent;
+  private final TreeNode previousParent;
 
   /**
    * Creates a new {@link TreeNodeRemovedEvent} that contains information about
@@ -72,9 +72,9 @@ public class TreeNodeRemovedEvent extends EventObject {
    *        the node that was the parent node of the removed element, may be
    *        {@code null} if the node didn't have a parent.
    */
-  public TreeNodeRemovedEvent(TreeNode source, TreeNode previousParent) {
+  public TreeNodeRemovedEvent(TreeNode source, TreeNode prevParent) {
     super(source);
-    previousParent = previousParent;
+    previousParent = prevParent;
   }
 
   /**
