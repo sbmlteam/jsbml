@@ -156,8 +156,7 @@ public class FormulaCompiler extends StringTools implements ASTNode2Compiler {
   public static final StringBuffer frac(Object numerator, Object denominator) {
     return brackets(arith('/',
       (containsArith(numerator) ? brackets(numerator) : numerator),
-      containsArith(denominator) ? brackets(denominator)
-        : denominator));
+       containsArith(denominator) ? brackets(denominator) : denominator));
   }
 
   /**

@@ -46,7 +46,7 @@ public class ASTBoolean extends AbstractASTNode {
    * 
    */
   private static final long serialVersionUID = 7734825161484457512L;
-  
+
   /**
    * A {@link Logger} for this class.
    */
@@ -55,7 +55,7 @@ public class ASTBoolean extends AbstractASTNode {
   public ASTBoolean() {
     super();
   }
-
+  
   /**
    * Copy constructor; Creates a deep copy of the given {@link ASTBoolean}.
    * 
@@ -65,7 +65,7 @@ public class ASTBoolean extends AbstractASTNode {
   public ASTBoolean(ASTBoolean bool) {
     super(bool);
   }
-  
+
   /**
    * Creates a new {@link ASTBoolean}.
    */
@@ -73,7 +73,7 @@ public class ASTBoolean extends AbstractASTNode {
     this();
     setType(type);
   }
-
+  
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#clone()
    */
@@ -81,7 +81,7 @@ public class ASTBoolean extends AbstractASTNode {
   public ASTBoolean clone() {
     return new ASTBoolean(this);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.math.ASTNode2#compile(org.sbml.jsbml.util.compilers.ASTNode2Compiler)
    */
@@ -100,7 +100,7 @@ public class ASTBoolean extends AbstractASTNode {
     }
     return processValue(value);
   }
-
+  
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
@@ -124,7 +124,7 @@ public class ASTBoolean extends AbstractASTNode {
   public int getChildCount() {
     return 0;
   }
-  
+
   /**
    * Get the value of this {@link ASTBoolean}
    * 
@@ -158,7 +158,7 @@ public class ASTBoolean extends AbstractASTNode {
   public boolean isSetType() {
     return type == Type.CONSTANT_TRUE || type == Type.CONSTANT_FALSE;
   }
-
+  
   /**
    * Set the value of this {@link ASTBoolean}
    * 
@@ -195,6 +195,27 @@ public class ASTBoolean extends AbstractASTNode {
       logger.error("Unable to create MathML");
       return null;
     }
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder();
+    builder.append(getClass().getSimpleName());
+    builder.append(" [strict=");
+    builder.append(strict);
+    builder.append(", type=");
+    builder.append(isSetType() ? type : "null");
+    builder.append(", id=");
+    builder.append(isSetId() ? id : "null");
+    builder.append(", style=");
+    builder.append(isSetStyle() ? style : "null");
+    builder.append(", class=");
+    builder.append(isSetMathMLClass() ? mathMLClass : "null");
+    builder.append("]");
+    return builder.toString();
   }
   
 }

@@ -35,8 +35,11 @@ import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.math.ASTArithmeticOperatorNode;
 import org.sbml.jsbml.math.ASTBinaryFunctionNode;
 import org.sbml.jsbml.math.ASTBoolean;
+import org.sbml.jsbml.math.ASTCSymbolAvogadroNode;
 import org.sbml.jsbml.math.ASTCSymbolBaseNode;
+import org.sbml.jsbml.math.ASTCSymbolDelayNode;
 import org.sbml.jsbml.math.ASTCSymbolNode;
+import org.sbml.jsbml.math.ASTCSymbolTimeNode;
 import org.sbml.jsbml.math.ASTCiFunctionNode;
 import org.sbml.jsbml.math.ASTCiNumberNode;
 import org.sbml.jsbml.math.ASTCnExponentialNode;
@@ -64,18 +67,16 @@ import org.sbml.jsbml.math.ASTTimesNode;
 import org.sbml.jsbml.math.ASTTrigonometricNode;
 import org.sbml.jsbml.math.ASTUnaryFunctionNode;
 import org.sbml.jsbml.math.ASTUnknown;
-import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
-import org.sbml.jsbml.util.compilers.ASTNodeValue;
-import org.sbml.jsbml.util.compilers.FormulaCompiler;
-import org.sbml.jsbml.util.compilers.LaTeXCompiler;
-import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
+import org.sbml.jsbml.util.compilers.FormulaCompiler;
+import org.sbml.jsbml.util.compilers.LaTeXCompiler;
+import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
@@ -2682,7 +2683,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   @Override
   public TreeNode getParent() {
-    return astnode2.getParent();
+    return astnode2.isSetParent() ? astnode2.getParent() : null;
   }
 
   /**
@@ -2694,7 +2695,9 @@ public class ASTNode extends AbstractTreeNode {
    * @return the parent SBML object.
    */
   public MathContainer getParentSBMLObject() {
-    return astnode2.getParentSBMLObject();
+    return astnode2.isSetParentSBMLObject()
+        ? astnode2.getParentSBMLObject()
+        : null;
   }
 
   /**
@@ -2765,7 +2768,10 @@ public class ASTNode extends AbstractTreeNode {
    * @return the units attribute.
    */
   public String getUnits() {
-    return astnode2 instanceof ASTCnNumberNode
+    if (!(astnode2 instanceof ASTCnNumberNode)) {
+      return null;
+    }
+    return ((ASTCnNumberNode<?>) astnode2).isSetUnits()
         ? ((ASTCnNumberNode<?>) astnode2).getUnits()
         : null;
   }
@@ -3653,7 +3659,7 @@ public class ASTNode extends AbstractTreeNode {
    * @param name
    */
   // TODO: javadoc not synchronized with the code, we are not using
-  // isOperator() or isNumber() but may be we should.
+  // isOperator() or isNumber() but maybe we should.
   public void setName(String name) {
     if (astnode2 instanceof ASTFunction) {
       ((ASTFunction) astnode2).setName(name);
@@ -3683,6 +3689,83 @@ public class ASTNode extends AbstractTreeNode {
   public void setType(ASTNode.Type type) {
     ASTNode2 old = astnode2;
     switch (type) {
+      case CONSTANT_E :
+        astnode2 = new ASTConstantNumber(Math.E);
+        break;
+      case CONSTANT_FALSE:
+        astnode2 = new ASTBoolean(Type.CONSTANT_FALSE);
+        break;
+      case CONSTANT_PI :
+        astnode2 = new ASTConstantNumber(Math.PI);
+        break;
+      case CONSTANT_TRUE :
+        astnode2 = new ASTBoolean(Type.CONSTANT_TRUE);
+        break;
+      case CONSTRUCTOR_PIECE :
+        astnode2 = new ASTQualifierNode(Type.CONSTRUCTOR_PIECE);
+        break;
+      case CONSTRUCTOR_OTHERWISE : 
+        astnode2 = new ASTQualifierNode(Type.CONSTRUCTOR_OTHERWISE);
+        break;
+      //case FUNCTION_EXP :
+      //astnode2 = ;
+      //break;
+      case DIVIDE :
+        astnode2 = new ASTDivideNode();
+        break;
+      case FUNCTION_ABS : 
+        astnode2 = new ASTUnaryFunctionNode(Type.FUNCTION_ABS);
+        break;
+      case FUNCTION_CEILING: 
+        astnode2 = new ASTUnaryFunctionNode(Type.FUNCTION_CEILING);
+        break;
+      case FUNCTION_DELAY :
+        astnode2 = new ASTCSymbolDelayNode();
+        break;
+      case FUNCTION_FACTORIAL : 
+        astnode2 = new ASTUnaryFunctionNode(Type.FUNCTION_FACTORIAL);
+        break;
+      case FUNCTION_FLOOR  : 
+        astnode2 = new ASTUnaryFunctionNode(Type.FUNCTION_FLOOR);
+        break;
+      case FUNCTION_LN : 
+        astnode2 = new ASTLogarithmNode();
+        ((ASTLogarithmNode)astnode2).addChild(new ASTConstantNumber(Math.E));
+        break;
+      case FUNCTION_LOG : 
+        astnode2 = new ASTLogarithmNode();
+        break;
+      case FUNCTION_PIECEWISE : 
+        astnode2 = new ASTPiecewiseFunctionNode();
+        break;
+      case FUNCTION_POWER :
+        astnode2 = new ASTPowerNode();
+        break;
+      case FUNCTION_ROOT : 
+        astnode2 = new ASTRootNode();
+        break;
+      case FUNCTION_SELECTOR : 
+        astnode2 = new ASTFunction();
+        astnode2.setType(Type.FUNCTION_SELECTOR);
+        break;
+      case SUM :
+        astnode2 = new ASTArithmeticOperatorNode(Type.SUM);
+        break;
+      case REAL :
+        astnode2 = new ASTCnRealNode();
+        break;
+      case REAL_E : 
+        astnode2 = new ASTCnExponentialNode();
+        break;
+      case PRODUCT :
+        astnode2 = new ASTArithmeticOperatorNode(Type.PRODUCT);
+        break;
+      case INTEGER :
+        astnode2 = new ASTCnIntegerNode();
+        break;
+      case TIMES :
+        astnode2 = new ASTArithmeticOperatorNode(Type.TIMES);
+        break;
       case LAMBDA :
         astnode2 = new ASTLambdaFunctionNode();
         break;
@@ -3697,6 +3780,18 @@ public class ASTNode extends AbstractTreeNode {
         break;
       case LOGICAL_XOR :
         astnode2 = new ASTLogicalOperatorNode(Type.LOGICAL_XOR);
+        break;
+      case MINUS : 
+        astnode2 = new ASTMinusNode();
+        break;
+      case NAME :
+        astnode2 = new ASTCiNumberNode();
+        break;
+      case NAME_AVOGADRO : 
+        astnode2 = new ASTCSymbolAvogadroNode();
+        break;
+      case NAME_TIME : 
+        astnode2 = new ASTCSymbolTimeNode();
         break;
       case RATIONAL :
         astnode2 = new ASTCnRationalNode();
@@ -3776,12 +3871,21 @@ public class ASTNode extends AbstractTreeNode {
       case FUNCTION_TANH :
         astnode2 = new ASTHyperbolicNode(Type.FUNCTION_TANH);
         break;
+      case VECTOR : 
+        astnode2 = new ASTFunction();
+        astnode2.setType(Type.VECTOR);
+        break;
+      case PLUS : 
+        astnode2 = new ASTArithmeticOperatorNode(Type.PLUS);
+        break;
       default :
         astnode2 = ASTUnknown.getInstance();
         break;
     }
-    if (old != null && astnode2 instanceof ASTFunction) {
-      ((ASTFunction) astnode2).swapChildren((ASTFunction) old);
+    if (old != null && old instanceof ASTFunction) { 
+      if (astnode2 instanceof ASTFunction) {
+        ((ASTFunction) astnode2).swapChildren((ASTFunction) old);        
+      }
     }
   }
 

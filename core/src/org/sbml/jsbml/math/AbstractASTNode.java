@@ -92,7 +92,7 @@ implements ASTNode2 {
   /**
    * class attribute for MathML element
    */
-  private String mathMLClass;
+  protected String mathMLClass;
 
   /**
    * Creates an empty {@link AbstractTreeNode} without a pointer
@@ -492,22 +492,17 @@ implements ASTNode2 {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("AbstractASTNode [parentSBMLObject=");
-    builder.append(parentSBMLObject);
-    builder.append(", strict=");
+    builder.append(getClass().getSimpleName());
+    builder.append(" [strict=");
     builder.append(strict);
     builder.append(", type=");
-    builder.append(type);
+    builder.append(isSetType() ? type : "null");
     builder.append(", id=");
-    builder.append(id);
+    builder.append(isSetId() ? id : "null");
     builder.append(", style=");
-    builder.append(style);
-    builder.append(", mathMLClass=");
-    builder.append(mathMLClass);
-    builder.append(", listOfListeners=");
-    builder.append(listOfListeners);
-    builder.append(", parent=");
-    builder.append(parent);
+    builder.append(isSetStyle() ? style : "null");
+    builder.append(", class=");
+    builder.append(isSetMathMLClass() ? mathMLClass : "null");
     builder.append("]");
     return builder.toString();
   }

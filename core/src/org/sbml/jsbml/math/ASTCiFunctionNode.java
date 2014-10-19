@@ -125,13 +125,14 @@ ASTCSymbolBaseNode {
     } else {
       logger
       .warn("ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
-          + getRefId()
+          + (isSetRefId() ? getRefId() : "null")
           + ", "
-          + getParentSBMLObject().getElementName()
+          + (isSetParentSBMLObject() ? getParentSBMLObject().getElementName() : null)
           + ")");
       throw new SBMLException(
         "ASTNode of type FUNCTION but the variable is not a FunctionDefinition! ("
-            + getName() + ", " + getParentSBMLObject().getElementName()
+            + (isSetName() ? getName() : "null") + ", " 
+            + (isSetParentSBMLObject() ? getParentSBMLObject().getElementName() : "null")
             + ")");
     }
     return processValue(value);
@@ -190,16 +191,16 @@ ASTCSymbolBaseNode {
     FunctionDefinition function = null;
     Model m = isSetParentSBMLObject() ? getParentSBMLObject().getModel() : null;
     if (m != null) {
-      function = m.getFunctionDefinition(getRefId());
+      function = isSetRefId() ? m.getFunctionDefinition(getRefId()) : null;
       if (function == null) {
         logger.debug(MessageFormat.format(
           "Cannot find any element with id \"{0}\" in the model.",
-          getRefId()));
+          isSetRefId() ? getRefId() : null));
       }
     } else {
       logger.debug(MessageFormat.format(
         "This ASTCiFunctionNode is not yet linked to a model. " 
-      + "No element with id \"{0}\" could be found.", getRefId()));
+      + "No element with id \"{0}\" could be found.", isSetRefId() ? getRefId() : null));
     }
     return function;
   }
@@ -368,28 +369,17 @@ ASTCSymbolBaseNode {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("ASTCiFunctionNode [definitionURL=");
-    builder.append(definitionURL);
-    builder.append(", name=");
-    builder.append(name);
-    builder.append(", refId=");
-    builder.append(refId);
-    builder.append(", listOfNodes=");
-    builder.append(listOfNodes);
-    builder.append(", parentSBMLObject=");
-    builder.append(parentSBMLObject);
-    builder.append(", strict=");
+    builder.append(getClass().getSimpleName());
+    builder.append(" [strict=");
     builder.append(strict);
     builder.append(", type=");
-    builder.append(type);
+    builder.append(isSetType() ? type : "null");
     builder.append(", id=");
-    builder.append(id);
+    builder.append(isSetId() ? id : "null");
     builder.append(", style=");
-    builder.append(style);
-    builder.append(", listOfListeners=");
-    builder.append(listOfListeners);
-    builder.append(", parent=");
-    builder.append(parent);
+    builder.append(isSetStyle() ? style : "null");
+    builder.append(", class=");
+    builder.append(isSetMathMLClass() ? mathMLClass : "null");
     builder.append("]");
     return builder.toString();
   }

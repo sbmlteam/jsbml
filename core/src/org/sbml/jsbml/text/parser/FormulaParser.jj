@@ -370,7 +370,7 @@ private ASTNode TermLvl2() :
       right = getInteger(rightChild);
       if (left != null && right != null)
       {
-        node = new ASTNode();
+        node = new ASTNode(Type.RATIONAL);
         node.setValue(left, right);
         leftChild = node;
       }
@@ -477,7 +477,7 @@ private ASTNode Primary() throws NumberFormatException :
   Token t;
   double d;
   int i;
-  ASTNode node = new ASTNode();
+  ASTNode node = null;
   ASTNode vector = new ASTNode();
   ASTNode child, furtherChild;
   String s;
@@ -488,12 +488,14 @@ private ASTNode Primary() throws NumberFormatException :
   t = < INTEGER >
   {
     i = Integer.parseInt(t.image);
+    node = new ASTNode(Type.INTEGER);
     node.setValue(i);
     return node;
   }
 | t = < NUMBER >
   {
     d = Double.parseDouble(t.image);
+    node = new ASTNode(Type.REAL);
     node.setValue(d);
     return node;
   }
@@ -509,6 +511,7 @@ private ASTNode Primary() throws NumberFormatException :
     {
       i = Integer.parseInt(vals [ 1 ]);
     }
+    node = new ASTNode(Type.FUNCTION_EXP);
     node.setValue(Double.parseDouble(vals [ 0 ]), i);
     return node;
   }
@@ -533,53 +536,61 @@ private ASTNode Primary() throws NumberFormatException :
     if (s.equalsIgnoreCase("pow"))
     {
       checkSize(arguments, 1);
+      type = Type.FUNCTION_POWER;
+      node = new ASTNode(type);
       node.addChild(child);
     }
     else if (s.equalsIgnoreCase("sqr"))
     {
       checkSize(arguments, 0);
+      type = Type.FUNCTION_EXP;
+      node = new ASTNode(type);
       node.addChild(child);
       node.addChild(new ASTNode(2));
     }
     else if (s.equalsIgnoreCase("sqrt"))
     {
       checkSize(arguments, 0);
+      type = Type.FUNCTION_ROOT;
+      node = new ASTNode(type);
       node.addChild(new ASTNode(2));
       node.addChild(child);
     }
     else if (s.equalsIgnoreCase("not"))
     {
       checkSize(arguments, 0);
-      node.addChild(child);
       type = Type.LOGICAL_NOT;
+      node = new ASTNode(type);
+      node.addChild(child);
     }
     else if (s.equalsIgnoreCase("ln"))
     {
       checkSize(arguments, 0);
-      node.addChild(child);
       type = Type.FUNCTION_LN;
+      node = new ASTNode(type);
+      node.addChild(child);
     }
     else if (s.equalsIgnoreCase("lambda"))
     {
-      node.addChild(child);
       type = Type.LAMBDA;
+      node = new ASTNode(type);
+      node.addChild(child);
     }
     else if (s.equalsIgnoreCase("piecewise"))
     {
-      node.addChild(child);
       type = Type.FUNCTION_PIECEWISE;
+      node = new ASTNode(type);
+      node.addChild(child);
     }
     else
     {
+      node = new ASTNode(Type.FUNCTION);
       node.addChild(child);
     }
     
-    if (type != null)
+    if (type == null)
     {
-      node.setType(type);
-    }
-    else
-    {
+      node = new ASTNode();
       node.setName(s);
     }
     for (ASTNode argument : arguments)

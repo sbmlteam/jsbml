@@ -32,7 +32,6 @@ import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
-import org.sbml.jsbml.math.compiler.UnitsCompiler;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 
@@ -148,22 +147,15 @@ public class ASTCnNumberNode<T> extends ASTNumber {
       * else
       *   return null
       */
-     MathContainer container = isSetParentSBMLObject() ? getParentSBMLObject() : null;
-     int level = -1;
-     int version = -1;
-     if (container != null) {
-       level = container.getLevel();
-       version = container.getVersion();
+     if (! isSetUnits()) {
+       return null;
      }
-     UnitsCompiler compiler = null;
-     if (isSetParentSBMLObject()) {
-       Model model = getParentSBMLObject().getModel();
-       compiler = new UnitsCompiler(model);
-     }
-     if (compiler == null) {
-       compiler = new UnitsCompiler(level, version);
-     }
-     return compile(compiler).getUnits().simplify();
+     //UnitDefinition unitDefinition = getUnitsInstance();
+     //if (unitDefinition == null) {
+     UnitDefinition unitDefinition = new UnitDefinition();
+     unitDefinition.addUnit(getUnits());       
+     //}
+     return unitDefinition;
    }
 
   /* (non-Javadoc)
@@ -380,26 +372,17 @@ public class ASTCnNumberNode<T> extends ASTNumber {
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("ASTCnNumberNode [number=");
-    builder.append(number);
-    builder.append(", units=");
-    builder.append(units);
-    builder.append(", variable=");
-    builder.append(variable);
-    builder.append(", parentSBMLObject=");
-    builder.append(parentSBMLObject);
-    builder.append(", strict=");
+    builder.append(getClass().getSimpleName());
+    builder.append(" [strict=");
     builder.append(strict);
     builder.append(", type=");
-    builder.append(type);
+    builder.append(isSetType() ? type : "null");
     builder.append(", id=");
-    builder.append(id);
+    builder.append(isSetId() ? id : "null");
     builder.append(", style=");
-    builder.append(style);
-    builder.append(", listOfListeners=");
-    builder.append(listOfListeners);
-    builder.append(", parent=");
-    builder.append(parent);
+    builder.append(isSetStyle() ? style : "null");
+    builder.append(", class=");
+    builder.append(isSetMathMLClass() ? mathMLClass : "null");
     builder.append("]");
     return builder.toString();
   }

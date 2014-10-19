@@ -83,9 +83,8 @@ public class ASTCnNumberNodeTest {
    */
   @Test
   public void testDeriveUnit() {
-    // TODO: Implement UnitsCompiler class first
     ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
-    number.setUnits(Unit.Kind.AMPERE.getName());
+    number.setUnits("COULOMB");
     UnitDefinition unitDefinition = number.deriveUnit();
     assertTrue(unitDefinition.getUnitCount() == 1);
   }

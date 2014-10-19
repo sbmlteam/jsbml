@@ -1021,7 +1021,7 @@ private ASTNode termLevel8() throws NumberFormatException :
   Token t;
   double d;
   int i;
-  ASTNode node = new ASTNode();
+  ASTNode node = null;
   ASTNode vector = null;
   ASTNode child, furtherChild;
   String s;
@@ -1032,12 +1032,14 @@ private ASTNode termLevel8() throws NumberFormatException :
   t = < INTEGER >
   {
     i = Integer.parseInt(t.image); // Could use StringTools.parseXXX methods here but not doing so allow to support different locale ??
+    node = new ASTNode(Type.INTEGER);
     node.setValue(i);
     return node;
   }
 | t = < NUMBER >
   {
     d = Double.parseDouble(t.image);
+    node = new ASTNode(Type.REAL);
     node.setValue(d);
     return node;
   }
@@ -1053,6 +1055,7 @@ private ASTNode termLevel8() throws NumberFormatException :
     {
       i = Integer.parseInt(vals [ 1 ]);
     }
+    node = new ASTNode(Type.REAL_E);
     node.setValue(Double.parseDouble(vals [ 0 ]), i);
     return node;
   }
@@ -1080,41 +1083,48 @@ private ASTNode termLevel8() throws NumberFormatException :
     if (s.equals("pow") || s.equals("power"))
     {
       checkSize(arguments, 1);
+      node = new ASTNode(Type.POWER);
       node.addChild(child);
     }
     else if (s.equals("sqr"))
     {
       checkSize(arguments, 0);
+      node = new ASTNode(Type.FUNCTION_ROOT);
       node.addChild(child);
       node.addChild(new ASTNode(2));
     }
     else if (s.equals("sqrt"))
     {
       checkSize(arguments, 0);
+      node = new ASTNode(Type.FUNCTION_ROOT);
       node.addChild(new ASTNode(2));
       node.addChild(child);
     }
     else if (s.equals("not"))
     {
       checkSize(arguments, 0);
-      node.addChild(child);
       type = Type.LOGICAL_NOT;
+      node = new ASTNode(type);
+      node.addChild(child);
     }
     else if (s.equals("ln"))
     {
       checkSize(arguments, 0);
-      node.addChild(child);
       type = Type.FUNCTION_LN;
+      node = new ASTNode(type);
+      node.addChild(child);
     }
     else if (s.equals("lambda"))
     {
-      node.addChild(child);
       type = Type.LAMBDA;
+      node = new ASTNode(type);
+      node.addChild(child);
     }
     else if (s.equals("piecewise"))
     {
-      node.addChild(child);
       type = Type.FUNCTION_PIECEWISE;
+      node = new ASTNode(type);
+      node.addChild(child);
     }
     else if (s.equals("modulo") || s.equals("mod"))
     {
@@ -1126,16 +1136,14 @@ private ASTNode termLevel8() throws NumberFormatException :
     }
     else
     {
+      node = new ASTNode(Type.FUNCTION);
+      node.setName(s);
       node.addChild(child);
     }
-    if (type != null)
+    if (type == null)
     {
-      node.setType(type);
+      node = new ASTNode();
       // TODO - should we set the name of the ASTNode for FUNCTION, ...
-    }
-    else
-    {
-      node.setName(s);
     }
     for (ASTNode argument : arguments)
     {
@@ -1152,8 +1160,7 @@ private ASTNode termLevel8() throws NumberFormatException :
 | LOOKAHEAD(4)
   t = < STRING >
   {
-    ASTNode selector = new ASTNode();
-    selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
+    ASTNode selector = new ASTNode(ASTNode.Type.FUNCTION_SELECTOR);
     selector.addChild(new ASTNode(t.image));
   }
   (
@@ -1173,11 +1180,9 @@ private ASTNode termLevel8() throws NumberFormatException :
 | LOOKAHEAD(2)
   < LEFT_BRACES > node = termLevel2()
   {
-    ASTNode selector = new ASTNode();
-    vector = new ASTNode();
+    ASTNode selector = new ASTNode(Type.FUNCTION_SELECTOR);
+    vector = new ASTNode(Type.VECTOR);
     boolean isSelector = false;
-    selector.setType(ASTNode.Type.FUNCTION_SELECTOR);
-    vector.setType(ASTNode.Type.VECTOR);
     vector.addChild(node);
   }
   (
@@ -1207,8 +1212,7 @@ private ASTNode termLevel8() throws NumberFormatException :
   // empty vector/array: {}
 | < LEFT_BRACES >
   {
-    vector = new ASTNode();
-    vector.setType(ASTNode.Type.VECTOR);
+    vector = new ASTNode(Type.VECTOR);
   }
   < RIGHT_BRACES >
   {

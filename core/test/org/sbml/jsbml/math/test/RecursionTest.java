@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.math.ASTNode2;
 import org.sbml.jsbml.text.parser.ParseException;
@@ -42,8 +43,9 @@ public class RecursionTest {
    * @throws ParseException
    */
   public static void main(String[] args) throws ParseException {
-    ASTNode2 ast = ASTFactory.parseFormula("3 + 5");
-    JOptionPane.showMessageDialog(null, new JScrollPane(new JTree(ast)));
+    ASTNode ast = ASTNode.parseFormula("1/1");
+    System.out.println(ast.getType());
+    //JOptionPane.showMessageDialog(null, new JScrollPane(new JTree(ast)));
     System.out.println(ast.toFormula());
   }
 

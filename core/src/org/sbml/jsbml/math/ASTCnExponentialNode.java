@@ -222,22 +222,17 @@ public class ASTCnExponentialNode extends ASTCnNumberNode<ValuePair<Integer,Doub
   @Override
   public String toString() {
     StringBuilder builder = new StringBuilder();
-    builder.append("ASTCnExponentialNode [number=");
-    builder.append(number);
-    builder.append(", parentSBMLObject=");
-    builder.append(parentSBMLObject);
-    builder.append(", strict=");
+    builder.append(getClass().getSimpleName());
+    builder.append(" [strict=");
     builder.append(strict);
     builder.append(", type=");
-    builder.append(type);
+    builder.append(isSetType() ? type : "null");
     builder.append(", id=");
-    builder.append(id);
+    builder.append(isSetId() ? id : "null");
     builder.append(", style=");
-    builder.append(style);
-    builder.append(", listOfListeners=");
-    builder.append(listOfListeners);
-    builder.append(", parent=");
-    builder.append(parent);
+    builder.append(isSetStyle() ? style : "null");
+    builder.append(", class=");
+    builder.append(isSetMathMLClass() ? mathMLClass : "null");
     builder.append("]");
     return builder.toString();
   }
