@@ -59,7 +59,7 @@ public class TreeNodeRemovedEvent extends EventObject {
    * The previous parent node in the tree, i.e., the node that was the parent of
    * the deleted node (see {@link #getSource()}) before the deletion.
    */
-  private TreeNode previosParent;
+  private TreeNode previousParent;
 
   /**
    * Creates a new {@link TreeNodeRemovedEvent} that contains information about
@@ -74,7 +74,7 @@ public class TreeNodeRemovedEvent extends EventObject {
    */
   public TreeNodeRemovedEvent(TreeNode source, TreeNode previousParent) {
     super(source);
-    previosParent = previousParent;
+    previousParent = previousParent;
   }
 
   /**
@@ -102,7 +102,7 @@ public class TreeNodeRemovedEvent extends EventObject {
    * @see #getSource()
    */
   public TreeNode getPreviousParent() {
-    return previosParent;
+    return previousParent;
   }
 
   /* (non-Javadoc)
@@ -124,9 +124,9 @@ public class TreeNodeRemovedEvent extends EventObject {
       builder.append("source=");
       builder.append(source);
     }
-    if (previosParent != null) {
-      builder.append("previosParent=");
-      builder.append(previosParent);
+    if (previousParent != null) {
+      builder.append("previousParent=");
+      builder.append(previousParent);
       builder.append(", ");
     }
     builder.append(']');

@@ -260,6 +260,9 @@ Serializable {
    */
   public void removeAllTreeNodeChangeListeners();
 
+  /**
+   * Removes all tree node change listeners recursively from this element.
+   */
   public void removeAllTreeNodeChangeListeners(boolean recursive);
 
   /**

@@ -206,12 +206,15 @@ public class LayoutConverter {
 
       //starting the reaction position algorithm
       PluginRealLineInformationDataObjOfReactionLink inputInfo = pReaction.getAllMyPostionInfomations();
-      //debugReactionPosition(pReaction, inputInfo);
+      debugReactionPosition(pReaction, inputInfo);
       if (inputInfo!= null && inputInfo.getPointsInLine() != null) {
         ListOf<SpeciesReferenceGlyph> list = layout.getReactionGlyph("rGlyph_"+pReaction.getId()).getListOfSpeciesReferenceGlyphs();
         if (inputInfo.getPointsInLine().size()==1)
         {
           Vector mainReactionAxis = (Vector)inputInfo.getPointsInLine().get(0);
+          mainReactionAxis.set(0, new Point2D.Double(3d, 4d));
+          inputInfo.setPointsInLine(mainReactionAxis);
+
           LineSegment reactantSegment;
           LineSegment productSegment;
           LineSegment rGlyphSegment = new LineSegment();
@@ -402,7 +405,8 @@ public class LayoutConverter {
                 CubicBezier cbProductSegment = new CubicBezier();
 
                 Point2D.Double[] coords = pReaction.getCoordinatesOfConnectionPoint();
-                if (rtnLinesInfo.getTypeOfLine().equals("Curve"))
+                if (rtnLinesInfo!=null && rtnLinesInfo.getTypeOfLine()!=null &&
+                    rtnLinesInfo.getTypeOfLine().equals("Curve"))
                 {
                   cbProductSegment.setStart(new Point(productBegin.x, productBegin.y, z));
                   cbProductSegment.setEnd(new Point(productEnd.x, productEnd.y, z));
@@ -421,14 +425,17 @@ public class LayoutConverter {
                   if (!srGlyph.isSetCurve())
                   {
                     Curve curve = new Curve();
-                    if (rtnLinesInfo.getTypeOfLine().equals("Curve"))
+                    if (rtnLinesInfo!=null && rtnLinesInfo.getTypeOfLine()!=null)
                     {
-                      curve.addCurveSegment(cbProductSegment);
-                    } else {
-                      curve.addCurveSegment(reactantSegment);
+                      if (rtnLinesInfo.getTypeOfLine().equals("Curve"))
+                      {
+                        curve.addCurveSegment(cbProductSegment);
+                      } else {
+                        curve.addCurveSegment(reactantSegment);
+                      }
+                      srGlyph.setCurve(curve);
+                      break;
                     }
-                    srGlyph.setCurve(curve);
-                    break;
                   }
                 }
               }

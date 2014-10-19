@@ -443,7 +443,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   /**
    * @return the JSBML Model
    */
-  public Model getModel() {
+  protected Model getModel() {
     return model;
   }
 

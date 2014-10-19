@@ -22,17 +22,21 @@
  */
 package org.sbml.jsbml.celldesigner;
 
-import javax.xml.stream.XMLStreamException;
-
+import jp.sbi.celldesigner.plugin.PluginCompartment;
+import jp.sbi.celldesigner.plugin.PluginListOf;
 import jp.sbi.celldesigner.plugin.PluginModel;
-import jp.sbi.celldesigner.plugin.PluginSBase;
+import jp.sbi.celldesigner.plugin.PluginReaction;
+import jp.sbi.celldesigner.plugin.PluginSpeciesAlias;
 
-import org.sbml.jsbml.Model;
-import org.sbml.jsbml.NamedSBase;
-import org.sbml.jsbml.Reaction;
-import org.sbml.jsbml.Species;
+import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.ext.layout.CompartmentGlyph;
+import org.sbml.jsbml.ext.layout.GraphicalObject;
 import org.sbml.jsbml.ext.layout.Layout;
-import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
+import org.sbml.jsbml.ext.layout.ReactionGlyph;
+import org.sbml.jsbml.ext.layout.SpeciesGlyph;
+import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
+import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
+import org.sbml.jsbml.ext.layout.TextGlyph;
 
 
 /**
@@ -43,29 +47,129 @@ import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
  */
 public class LayoutPluginChangeListener {
 
-  private static Model JSBMLModel;
-  private static final PluginSBMLReader sbmlReader = new PluginSBMLReader();
-
-  public static void convertLayoutData(PluginSBase pReaction, PluginModel plugModel) throws XMLStreamException
+  public static void addOrChangeGlyphInfoToCellDesigner(GraphicalObject glyph, PluginModel plugModel)
   {
-    JSBMLModel = sbmlReader.convertModel(plugModel);
-    Layout layout = ((LayoutModelPlugin)JSBMLModel.getExtension("layout")).getLayout(0);
+    if (glyph instanceof ReactionGlyph)
+    {
+      String cellDesignerID = glyph.getId().substring(glyph.getId().indexOf("_")+1);
+      PluginReaction pReaction = plugModel.getReaction(cellDesignerID);
+      ReactionGlyph rGlyph = (ReactionGlyph)glyph;
 
+      if (pReaction != null)
+      {
+        ListOf<SpeciesReferenceGlyph> list = rGlyph.getListOfSpeciesReferenceGlyphs();
+        for (SpeciesReferenceGlyph sr: list)
+        {
+          SpeciesReferenceRole role = sr.getSpeciesReferenceRole();
+
+        }
+      }
+    }
+    //finished
+    else if (glyph instanceof SpeciesGlyph)
+    {
+      SpeciesGlyph sGlyph = (SpeciesGlyph)glyph;
+      String speciesID = sGlyph.getReference().substring(sGlyph.getReference().indexOf("_")+1); //refers to species;
+      if (speciesID!=null)
+      {
+        PluginSpeciesAlias pAlias = plugModel.getSpecies(speciesID).getSpeciesAlias(0);
+        if (pAlias != null)
+        {
+          pAlias.setFramePosition(sGlyph.getBoundingBox().getPosition().getX(),
+            sGlyph.getBoundingBox().getPosition().getY());
+          pAlias.setFrameSize(sGlyph.getBoundingBox().getDimensions().getWidth(),
+            sGlyph.getBoundingBox().getDimensions().getHeight());
+        }
+      }
+    }
+    //finished
+    else if (glyph instanceof CompartmentGlyph)
+    {
+      CompartmentGlyph cGlyph = (CompartmentGlyph)glyph;
+      String cellDesignerID = cGlyph.getReference(); //refers to compartment;
+      if (cellDesignerID!=null)
+      {
+        PluginCompartment pCompartment = plugModel.getCompartment(cellDesignerID);
+        if (pCompartment != null)
+        {
+          pCompartment.setX(cGlyph.getBoundingBox().getPosition().getX());
+          pCompartment.setY(cGlyph.getBoundingBox().getPosition().getY());
+          pCompartment.setHeight(cGlyph.getBoundingBox().getDimensions().getHeight());
+          pCompartment.setWidth(cGlyph.getBoundingBox().getDimensions().getWidth());
+        }
+      }
+    }
   }
 
-  public static void removeLayoutData(NamedSBase sbase, PluginModel plugModel) throws XMLStreamException
+  public static void removeGlyphInfoFromCellDesigner(GraphicalObject glyph, PluginModel plugModel)
   {
-    JSBMLModel = sbmlReader.convertModel(plugModel);
-    Layout layout = ((LayoutModelPlugin)JSBMLModel.getExtension("layout")).getLayout(0);
-    if (sbase instanceof Reaction)
+    Layout layout = (Layout) glyph.getModel().getExtension("layout");
+    if (glyph instanceof ReactionGlyph)
     {
-      layout.removeReactionGlyph("rGlyph+"+sbase.getId());
-      layout.removeTextGlyph("tGlyph_"+sbase.getId());
+      String cellDesignerID = glyph.getId().substring(glyph.getId().indexOf("_")+1);
+      PluginReaction pReaction = plugModel.getReaction(cellDesignerID);
+      ReactionGlyph rGlyph = (ReactionGlyph)glyph;
+      if (pReaction != null)
+      {
+
+      }
     }
-    else if (sbase instanceof Species)
+    //finished
+    else if (glyph instanceof SpeciesGlyph)
     {
-      layout.removeSpeciesGlyph("sGlyph+"+sbase.getId());
-      layout.removeTextGlyph("tGlyph_"+sbase.getId());
+      SpeciesGlyph sGlyph = (SpeciesGlyph)glyph;
+      String speciesID = sGlyph.getReference().substring(sGlyph.getReference().indexOf("_")+1); //refers to species;
+      String speciesAliasID = sGlyph.getId().substring(sGlyph.getId().indexOf("_")+1); //refers to speciesAlias;
+      if (speciesID!=null)
+      {
+        //get all PluginSpeciesAliases for a particular species.
+        PluginListOf list = plugModel.getListOfAllSpeciesAlias(speciesID);
+        for (int i = 0; i<list.size(); i++)
+        {
+          list.remove(0);
+        }
+      }
+      //remove TextGlyphs
+      ListOf<TextGlyph> list = layout.getListOfTextGlyphs();
+      for (int i = 0; i<list.size(); i++)
+      {
+        TextGlyph tGlyph = list.get(i);
+        if (tGlyph.getId().substring(tGlyph.getId().indexOf("_")+1).equals(speciesAliasID))
+        {
+          list.remove(i);
+          i--;
+        }
+      }
+    }
+    //finished
+    else if (glyph instanceof CompartmentGlyph)
+    {
+      CompartmentGlyph cGlyph = (CompartmentGlyph)glyph;
+      String cellDesignerID = cGlyph.getReference(); //refers to compartment;
+      if (cellDesignerID!=null)
+      {
+        PluginListOf listOfCompartments = plugModel.getListOfCompartments();
+        for (int i = 0; i<listOfCompartments.size(); i++)
+        {
+          PluginCompartment pCompartment = (PluginCompartment)listOfCompartments.get(i);
+          if (pCompartment.getId().equals(cellDesignerID))
+          {
+            listOfCompartments.remove(i);
+            i--;
+          }
+        }
+        //remove TextGlyphs
+        ListOf<TextGlyph> listOfTextGlyphs = layout.getListOfTextGlyphs();
+        for (int i = 0; i<listOfTextGlyphs.size(); i++)
+        {
+          TextGlyph tGlyph = listOfTextGlyphs.get(i);
+          if (tGlyph.getId().substring(tGlyph.getId().indexOf("_")+1).equals(cellDesignerID))
+          {
+            listOfTextGlyphs.remove(i);
+            i--;
+          }
+        }
+      }
     }
   }
 }

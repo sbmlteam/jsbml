@@ -102,6 +102,7 @@ import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.celldesigner.libsbml.LibSBMLUtils;
 import org.sbml.jsbml.ext.SBasePlugin;
+import org.sbml.jsbml.ext.layout.GraphicalObject;
 import org.sbml.jsbml.util.ResourceManager;
 import org.sbml.jsbml.util.SBMLtools;
 import org.sbml.jsbml.util.TreeNodeAdapter;
@@ -167,7 +168,11 @@ public class PluginChangeListener implements TreeNodeChangeListener {
 
         if (node instanceof NamedSBase) {
           NamedSBase nsb = (NamedSBase) node;
-          if (node instanceof CompartmentType) {
+          if (node instanceof GraphicalObject)
+          {
+            LayoutPluginChangeListener.addOrChangeGlyphInfoToCellDesigner((GraphicalObject)node, plugModel);
+          }
+          else if (node instanceof CompartmentType) {
             plugSBase = PluginUtils.convertCompartmentType((CompartmentType) nsb);
             plugModel.addCompartmentType((PluginCompartmentType) plugSBase);
             pList = plugModel.getListOfCompartments();
@@ -177,7 +182,6 @@ public class PluginChangeListener implements TreeNodeChangeListener {
             pList = plugModel.getListOfUnitDefinitions();
           } else if (node instanceof Reaction) {
             plugSBase = PluginUtils.convertReaction((Reaction) nsb);
-            LayoutPluginChangeListener.convertLayoutData(plugSBase, plugModel);
             plugModel.addReaction((PluginReaction) plugSBase);
             pList = plugModel.getListOfReactions();
           } else if (node instanceof SpeciesType) {
@@ -370,7 +374,11 @@ public class PluginChangeListener implements TreeNodeChangeListener {
       if (node instanceof NamedSBase) {
 
         NamedSBase nsb = (NamedSBase) node;
-        if (node instanceof UnitDefinition) {
+        if (node instanceof GraphicalObject)
+        {
+          LayoutPluginChangeListener.removeGlyphInfoFromCellDesigner((GraphicalObject)nsb, plugModel);
+        }
+        else if (node instanceof UnitDefinition) {
           plugModel.removeUnitDefinition(nsb.getId());
           plugin.notifySBaseDeleted(psbase);
         } else if (node instanceof CompartmentType) {
@@ -381,10 +389,6 @@ public class PluginChangeListener implements TreeNodeChangeListener {
           plugin.notifySBaseDeleted(psbase);
         } else if (node instanceof Reaction) {
           plugModel.removeReaction(nsb.getId());
-          try {
-            LayoutPluginChangeListener.removeLayoutData(nsb, plugModel);
-          } catch (XMLStreamException e) {
-          }
           plugin.notifySBaseDeleted(psbase);
         } else if (node instanceof SimpleSpeciesReference) {
           SimpleSpeciesReference simspec = (SimpleSpeciesReference) node;
@@ -421,6 +425,11 @@ public class PluginChangeListener implements TreeNodeChangeListener {
           plugModel.removeCompartment(nsb.getId());
           plugin.notifySBaseDeleted(psbase);
         } else if (node instanceof Species) {
+          PluginListOf listofSpeciesAliases = plugModel.getSpecies(nsb.getId()).getListOfSpeciesAlias();
+          for (int i = 0; i < listofSpeciesAliases.size(); i++)
+          {
+            listofSpeciesAliases.remove(0);
+          }
           plugModel.removeSpecies(nsb.getId());
           plugin.notifySBaseDeleted(psbase);
         } else if (node instanceof Parameter) {
@@ -1068,6 +1077,10 @@ public class PluginChangeListener implements TreeNodeChangeListener {
       logger.log(Level.DEBUG, MessageFormat.format(
         bundle.getString("CANNOT_FIRE_PROPERTY_CHANGE"),
         evtSrc.getClass().getSimpleName()));
+    }
+    else if (evtSrc instanceof GraphicalObject)
+    {
+      LayoutPluginChangeListener.addOrChangeGlyphInfoToCellDesigner((GraphicalObject)evtSrc, plugModel);
     }
   }
 
