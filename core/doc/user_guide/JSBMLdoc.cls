@@ -92,6 +92,7 @@
 \RequirePackage[square,numbers,sort]{natbib}
 \RequirePackage{tocloft}
 \RequirePackage{suffix}
+\RequirePackage{microtype}
 
 % We use the "optional" package to indicate whether to generate a grayscale
 % vs a color version of the document without having to alter the .tex file
@@ -544,7 +545,7 @@
   \begin{center}%
     \let \footnote \thanks
     \@puttitle
-    \vskip 0.5em%
+    \vskip 1em%
     \ifx\@version\undefined
     \relax
     \else
@@ -672,7 +673,7 @@
 % The References heading needs to be fixed up to account for shift
 % we apply to section headings.  These defs are modified from article.cls.
 
-\bibliographystyle{siam}
+\bibliographystyle{plain}
 
 \renewenvironment{thebibliography}[1]{%
   \chapter*{References}%
