@@ -8,3 +8,6 @@
 *.aux
 *.bbl
 auto
+User_Guide.toc
+User_Guide.bbl
+*~
