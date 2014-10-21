@@ -1,26 +1,26 @@
 \indexentry{Java Runtime Environment (JRE)|hyperpage}{4}
 \indexentry{Java Development Kit (JDK)|hyperpage}{4}
 \indexentry{Ontology|hyperpage}{4}
-\indexentry{JTree@\leavevmode {\color  {black}\textup  {\texttt  {JTree}}}|hyperpage}{8}
+\indexentry{JTree@\leavevmode {\color  {black}\textup  {\texttt  {JTree}}}|hyperpage}{7}
+\indexentry{SBMLDocument@\leavevmode {\color  {black}\textup  {\texttt  {SBMLDocument}}}|hyperpage}{7}
+\indexentry{SBML!XML file|hyperpage}{7}
+\indexentry{SBMLReader@\leavevmode {\color  {black}\textup  {\texttt  {SBMLReader}}}|hyperpage}{7}
+\indexentry{SBMLReader@\leavevmode {\color  {black}\textup  {\texttt  {SBMLReader}}}|hyperpage}{7}
+\indexentry{SBMLDocument@\leavevmode {\color  {black}\textup  {\texttt  {SBMLDocument}}}|hyperpage}{7}
+\indexentry{JFrame@\leavevmode {\color  {black}\textup  {\texttt  {JFrame}}}|hyperpage}{7}
+\indexentry{SBMLDocument@\leavevmode {\color  {black}\textup  {\texttt  {SBMLDocument}}}|hyperpage}{7}
+\indexentry{JFrame@\leavevmode {\color  {black}\textup  {\texttt  {JFrame}}}|hyperpage}{7}
+\indexentry{SBase@\leavevmode {\color  {black}\textup  {\texttt  {SBase}}}|hyperpage}{7}
+\indexentry{TreeNode@\leavevmode {\color  {black}\textup  {\texttt  {TreeNode}}}|hyperpage}{7}
+\indexentry{JTree@\leavevmode {\color  {black}\textup  {\texttt  {JTree}}}|hyperpage}{7}
+\indexentry{SBMLDocument@\leavevmode {\color  {black}\textup  {\texttt  {SBMLDocument}}}|hyperpage}{7}
 \indexentry{SBMLDocument@\leavevmode {\color  {black}\textup  {\texttt  {SBMLDocument}}}|hyperpage}{8}
-\indexentry{SBML!XML file|hyperpage}{8}
-\indexentry{SBMLReader@\leavevmode {\color  {black}\textup  {\texttt  {SBMLReader}}}|hyperpage}{8}
-\indexentry{SBMLReader@\leavevmode {\color  {black}\textup  {\texttt  {SBMLReader}}}|hyperpage}{8}
-\indexentry{SBMLDocument@\leavevmode {\color  {black}\textup  {\texttt  {SBMLDocument}}}|hyperpage}{8}
-\indexentry{JFrame@\leavevmode {\color  {black}\textup  {\texttt  {JFrame}}}|hyperpage}{8}
-\indexentry{SBMLDocument@\leavevmode {\color  {black}\textup  {\texttt  {SBMLDocument}}}|hyperpage}{8}
-\indexentry{JFrame@\leavevmode {\color  {black}\textup  {\texttt  {JFrame}}}|hyperpage}{8}
 \indexentry{SBase@\leavevmode {\color  {black}\textup  {\texttt  {SBase}}}|hyperpage}{8}
 \indexentry{TreeNode@\leavevmode {\color  {black}\textup  {\texttt  {TreeNode}}}|hyperpage}{8}
+\indexentry{SBML!test cases|hyperpage}{8}
 \indexentry{JTree@\leavevmode {\color  {black}\textup  {\texttt  {JTree}}}|hyperpage}{8}
-\indexentry{SBMLDocument@\leavevmode {\color  {black}\textup  {\texttt  {SBMLDocument}}}|hyperpage}{8}
+\indexentry{SBMLReader@\leavevmode {\color  {black}\textup  {\texttt  {SBMLReader}}}|hyperpage}{8}
 \indexentry{graphical user interface!\code{JFrame}|hyperpage}{8}
-\indexentry{SBMLDocument@\leavevmode {\color  {black}\textup  {\texttt  {SBMLDocument}}}|hyperpage}{9}
-\indexentry{SBase@\leavevmode {\color  {black}\textup  {\texttt  {SBase}}}|hyperpage}{9}
-\indexentry{TreeNode@\leavevmode {\color  {black}\textup  {\texttt  {TreeNode}}}|hyperpage}{9}
-\indexentry{SBML!test cases|hyperpage}{9}
-\indexentry{JTree@\leavevmode {\color  {black}\textup  {\texttt  {JTree}}}|hyperpage}{9}
-\indexentry{SBMLReader@\leavevmode {\color  {black}\textup  {\texttt  {SBMLReader}}}|hyperpage}{9}
 \indexentry{SBMLDocument@\leavevmode {\color  {black}\textup  {\texttt  {SBMLDocument}}}|hyperpage}{9}
 \indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{9}
 \indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{9}
@@ -40,7 +40,7 @@
 \indexentry{C++|hyperpage}{12}
 \indexentry{SBML!specification|hyperpage}{12}
 \indexentry{JSBML!type hierarchy|hyperpage}{12}
-\indexentry{application   programming interface!JSBML|hyperpage}{12}
+\indexentry{application programming interface!JSBML|hyperpage}{12}
 \indexentry{application programming interface!libSBML|hyperpage}{12}
 \indexentry{SBase@\leavevmode {\color  {black}\textup  {\texttt  {SBase}}}|hyperpage}{12}
 \indexentry{SBase@\leavevmode {\color  {black}\textup  {\texttt  {SBase}}}|hyperpage}{12}
@@ -220,7 +220,7 @@
 \indexentry{String@\leavevmode {\color  {black}\textup  {\texttt  {String}}}|hyperpage}{20}
 \indexentry{MathML|hyperpage}{20}
 \indexentry{ASTNode@\leavevmode {\color  {black}\textup  {\texttt  {ASTNode}}}|hyperpage}{20}
-\indexentry{LaTeX@\textlatin  {\LaTeX  }|hyperpage}{20}
+\indexentry{LaTeX@\LaTeX|hyperpage}{20}
 \indexentry{ASTNode@\leavevmode {\color  {black}\textup  {\texttt  {ASTNode}}}|hyperpage}{20}
 \indexentry{Parameter@\leavevmode {\color  {black}\textup  {\texttt  {Parameter}}}|hyperpage}{20}
 \indexentry{LocalParameter@\leavevmode {\color  {black}\textup  {\texttt  {LocalParameter}}}|hyperpage}{20}
@@ -326,7 +326,7 @@
 \indexentry{Model@\leavevmode {\color  {black}\textup  {\texttt  {Model}}}|hyperpage}{22}
 \indexentry{KineticLaw@\leavevmode {\color  {black}\textup  {\texttt  {KineticLaw}}}|hyperpage}{22}
 \indexentry{SBML!Level~1|hyperpage}{22}
-\indexentry{application   programming interface!JSBML|hyperpage}{22}
+\indexentry{application programming interface!JSBML|hyperpage}{22}
 \indexentry{UnitDefinition@\leavevmode {\color  {black}\textup  {\texttt  {UnitDefinition}}}|hyperpage}{22}
 \indexentry{KineticLaw@\leavevmode {\color  {black}\textup  {\texttt  {KineticLaw}}}|hyperpage}{22}
 \indexentry{UnitDefinition@\leavevmode {\color  {black}\textup  {\texttt  {UnitDefinition}}}|hyperpage}{22}
@@ -482,14 +482,14 @@
 \indexentry{TreeNodeChangeListener@\leavevmode {\color  {black}\textup  {\texttt  {TreeNodeChangeListener}}}|hyperpage}{29}
 \indexentry{libSBML!LD\_LIBRARY\_PATH@\leavevmode {\color  {black}\textup  {\texttt  {LD\_LIBRARY\_PATH}}}|hyperpage}{29}
 \indexentry{operating system|hyperpage}{29}
-\indexentry{application programming   interface!CellDesigner|hyperpage}{29}
+\indexentry{application programming interface!CellDesigner|hyperpage}{29}
 \indexentry{model!CellDesigner|hyperpage}{29}
 \indexentry{CellDesigner!plugin|hyperpage}{29}
 \indexentry{CellDesigner!\code{PluginAction}|hyperpage}{29}
 \indexentry{PluginSBMLWriter@\leavevmode {\color  {black}\textup  {\texttt  {PluginSBMLWriter}}}|hyperpage}{29}
-\indexentry{TreeNodeChangeListener@\leavevmode {\color  {black}\textup  {\texttt  {TreeNodeChangeListener}}}|hyperpage}{30}
-\indexentry{libSBML!compatibility module|hyperpage}{30}
-\indexentry{Android|hyperpage}{31}
+\indexentry{TreeNodeChangeListener@\leavevmode {\color  {black}\textup  {\texttt  {TreeNodeChangeListener}}}|hyperpage}{32}
+\indexentry{libSBML!compatibility module|hyperpage}{32}
+\indexentry{Android|hyperpage}{32}
 \indexentry{SBML!Level 3|hyperpage}{33}
 \indexentry{SBML!Level 3|hyperpage}{33}
 \indexentry{SBML!Level 3|hyperpage}{33}
