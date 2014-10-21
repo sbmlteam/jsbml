@@ -56,7 +56,7 @@ around the corresponding JSBML methods.
 
 \begin{sidewaysfigure}[p]
   \centering
-  \includegraphics[width=0.98\textwidth]{../common/img/FullTypeHierarchy.pdf}
+  \includegraphics[width=0.97\textwidth]{../common/img/FullTypeHierarchy.pdf}
   \caption[The type hierarchy of the main SBML constructs in JSBML]{The
     type hierarchy of the main SBML constructs in JSBML. The elements
     colored in yellow, \code{Creator} and \code{History}, correspond to
@@ -85,8 +85,8 @@ Wherever multiple SBML elements defined in at least one SBML Level/Version
 combination \index{SBML!specification} share attributes, JSBML
 \index{JSBML!type hierarchy} provides a common superclass, or at least a
 common interface, that gathers methods for manipulating the shared
-properties. Consequently, JSBML's type hierarchy \index{application
-  programming interface!JSBML} is richer than libSBML's (see
+properties. Consequently, JSBML's type hierarchy
+\index{application programming interface!JSBML} is richer than libSBML's (see
 \vrefrange{fig:TypeHierarchy}{fig:MathContainerHierarchy}).
 
 Just as in libSBML, \index{application programming interface!libSBML} all
@@ -434,7 +434,7 @@ and evaluation of abstract syntax trees (ASTs) that represent mathematical
 formulas. These can be parsed either from \String{}s containing formulas in a
 C-like infix syntax, or from a MathML \index{MathML} representation.  JSBML's
 \ASTNode class provides various methods to transform ASTs to other formats,
-for instance, \code{String}s in \latex syntax.  Several static methods also
+for instance, \code{String}s in \LaTeX \index{LaTeX@\LaTeX} syntax.  Several static methods also
 make it easy to create syntax trees.  The next example creates a new
 \ASTNode which represents the sum of the two other nodes:
 
@@ -649,8 +649,8 @@ to the \Model.
 
 In case of \KineticLaw it is even more difficult, because SBML
 Level~1\index{SBML!Level~1} provides the ability to set the substance unit
-and the time unit separately. To unify the API\index{application
-  programming interface!JSBML}, we decided to also provide methods that
+and the time unit separately. To unify the API
+\index{application programming interface!JSBML}, we decided to also provide methods that
 allow the user to simply pass one \UnitDefinition or its identifier to
 \KineticLaw.  These methods then try to guess if a substance unit or time
 unit is given. Furthermore, it is possible to pass a \UnitDefinition
@@ -1194,14 +1194,15 @@ JSBML data structure with corresponding libSBML data structures.
 \end{figure}
 
 
-\subsection{The \codeNC{CellDesigner} module: turning a JSBML-based
-  application into a CellDesigner plugin}
+\subsection{\textls[-20]{The \codeNC{CellDesigner} module: turning a
+    JSBML-based application into a CellDesigner plugin}}
 
 Once an application has been implemented based on JSBML, it can easily be
 accessed from CellDesigner's plugin menu~\citep{Funahashi2003}. To support
 this, it is necessary to extend two classes that are defined in
-CellDesigner's plugin API. \index{application programming
-  interface!CellDesigner} \vrefrange{lst:PluginAction}{lst:Plugin}
+CellDesigner's plugin API. 
+\index{application programming interface!CellDesigner}
+\vrefrange{lst:PluginAction}{lst:Plugin}
 show a simple example of (1) how to pass a model\index{model!CellDesigner}
 data structure in a CellDesigner plugin to the translator in JSBML, and (2)
 \index{CellDesigner!plugin} \index{CellDesigner!\code{PluginAction}}%
@@ -1230,6 +1231,8 @@ the data structure. Note that the program in \vref{lst:Plugin} is
 only completed by implementing the methods from the superclass,
 \code{CellDesignerPlugin}. In this example it is sufficient to leave the
 implementation empty.
+
+\clearpage
 
 As of JSBML version 1.0, this module also contains a specialized
 implementation of the \TreeNodeChangeListener{} interface for
