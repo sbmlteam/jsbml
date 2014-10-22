@@ -67,6 +67,7 @@ public class VectorCompiler implements ASTNodeCompiler {
   private Map<String, ASTNode> idToVector;
   private boolean isSetIdToVector;
   private final boolean useId;
+  private NamedSBase sbase;
 
   public VectorCompiler(Model model) {
     this.model = model;
@@ -82,6 +83,16 @@ public class VectorCompiler implements ASTNodeCompiler {
     isSetIdToVector = false;
   }
 
+  public VectorCompiler(Model model, NamedSBase sbase, boolean useId) {
+    this.model = model;
+    node = new ASTNode();
+    this.useId = useId;
+    this.sbase = sbase;
+    isSetIdToVector = false;
+  }
+
+
+
   public VectorCompiler(Model model, boolean useId, Map<String, ASTNode> idToVector) {
     this.model = model;
     node = new ASTNode();
@@ -93,7 +104,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       isSetIdToVector = true;
     }
   }
-  
+
   public ASTNode getNode() {
     return node;
   }
@@ -110,12 +121,12 @@ public class VectorCompiler implements ASTNodeCompiler {
       isSetIdToVector = true;
     }
   }
-  
+
   public void clearIdToVector() {
     idToVector.clear();
     isSetIdToVector = false;
   }
-  
+
   public boolean isSetIdToVector() {
     if(idToVector != null && isSetIdToVector) {
       return true;
@@ -123,7 +134,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       return false;
     }
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#abs(org.sbml.jsbml.ASTNode)
    */
@@ -1111,7 +1122,20 @@ public class VectorCompiler implements ASTNodeCompiler {
       } else {
         transformSBase(sbase);
       }
-    } else {
+    } 
+    else if(this.sbase != null && this.sbase.getId().equals(name)) {
+      if(useId) {
+        if(isSetIdToVector() && idToVector.containsKey(name)) {
+          setNode(idToVector.get(name));
+        } else {
+          transformNamedSBase(this.sbase);
+        }
+      } else {
+        transformSBase(this.sbase);
+      }
+    } 
+    else
+    {
       if(useId) {
         setNode(new ASTNode(name));
       }
@@ -1967,7 +1991,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       }
       return;
     }
-    
+
     for(int i = 0; i < node.getChildCount(); ++i) {
       right.compile(this);
       ASTNode rightResult = getNode();
@@ -2032,20 +2056,33 @@ public class VectorCompiler implements ASTNodeCompiler {
   @Override
   public ASTNodeValue function(FunctionDefinition functionDefinition,
     List<ASTNode> args) throws SBMLException {
-    ASTNode math = functionDefinition.getBody();
-    if(functionDefinition.getArgumentCount() != args.size()) {
-      throw new SBMLException();
-    }
-    
-    for(int i = 0; i < functionDefinition.getArgumentCount(); i++) {
-      ASTNode arg = functionDefinition.getArgument(i);
-      if(arg.isString()) {
-        math = replaceMath(math, arg.toString(), args.get(i));
+    //ASTNode math = functionDefinition.getBody();
+
+
+    if(functionDefinition != null) {
+      if(useId) {
+        if(isSetIdToVector() && idToVector.containsKey(functionDefinition.getId())) {
+          setNode(idToVector.get(functionDefinition.getId()));
+        } else {
+          transformNamedSBase(functionDefinition);
+        }
       } else {
-        throw new SBMLException();
+        transformSBase(functionDefinition);
       }
     }
-    math.compile(this);
+
+    //    if(functionDefinition.getArgumentCount() != args.size()) {
+    //      throw new SBMLException();
+    //    }
+    //    for(int i = 0; i < functionDefinition.getArgumentCount(); i++) {
+    //      ASTNode arg = functionDefinition.getArgument(i);
+    //      if(arg.isString()) {
+    //        math = replaceMath(math, arg.toString(), args.get(i));
+    //      } else {
+    //        throw new SBMLException();
+    //      }
+    //    }
+    //    math.compile(this);
     return dummy;
   }
 
@@ -2170,7 +2207,7 @@ public class VectorCompiler implements ASTNodeCompiler {
     }
     return true;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#gt(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
    */
@@ -2740,7 +2777,7 @@ public class VectorCompiler implements ASTNodeCompiler {
         }
       }
       else {
-          throw new SBMLException();
+        throw new SBMLException();
       }
       return;
     }
@@ -3021,7 +3058,7 @@ public class VectorCompiler implements ASTNodeCompiler {
         }
       }
     }
-   
+
     return dummy;
   }
 
@@ -3049,7 +3086,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       }
       piecewiseRecursive(children, vector.getChild(i));
     }
-    
+
   }
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#plus(java.util.List)
@@ -3360,7 +3397,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       recursiveReplaceDimensionId(math.getChild(i), bvar, value);
     }
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#root(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
    */
@@ -4048,7 +4085,7 @@ public class VectorCompiler implements ASTNodeCompiler {
 
     return constructVector(arraysPlugin, (NamedSBase)sbase);
   }
-  
+
 
 
   private void updateASTNodeName(ASTNode node, int value) {
@@ -4080,7 +4117,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       node.setName("unknown");
     }
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#uMinus(org.sbml.jsbml.ASTNode)
    */

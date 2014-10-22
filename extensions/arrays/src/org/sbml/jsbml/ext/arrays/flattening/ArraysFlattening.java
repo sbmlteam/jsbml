@@ -56,6 +56,8 @@ import org.sbml.jsbml.ext.arrays.Index;
 import org.sbml.jsbml.ext.arrays.compiler.ArraysCompiler;
 import org.sbml.jsbml.ext.arrays.compiler.VectorCompiler;
 import org.sbml.jsbml.ext.arrays.util.ArraysMath;
+import org.sbml.jsbml.ext.comp.Port;
+import org.sbml.jsbml.ext.comp.SBaseRef;
 import org.sbml.jsbml.text.parser.ParseException;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
@@ -90,7 +92,7 @@ public class ArraysFlattening {
     removeSBases(itemsToDelete);
 
     itemsToDelete = new ArrayList<SBase>();
-    convert(flattenedDoc, model, itemsToDelete, idToVector);
+    convert(flattenedDoc, model, new ArraysCompiler(), itemsToDelete, idToVector);
     convertMath(flattenedDoc, model, idToVector);
     removeSBases(itemsToDelete);
     return flattenedDoc;
@@ -107,14 +109,13 @@ public class ArraysFlattening {
     }
   }
 
-
   private static void getVectors(SBase sbase, Map<String, ASTNode> ids) {
     for(int i = sbase.getChildCount() - 1; i >= 0; i--) {
       TreeNode node = sbase.getChildAt(i);
       if(node instanceof NamedSBase) {
         NamedSBase namedSbase = (NamedSBase)sbase.getChildAt(i);
         ASTNode idMath = new ASTNode(namedSbase.getId());
-        VectorCompiler compiler = new VectorCompiler(sbase.getModel(), true);
+        VectorCompiler compiler = new VectorCompiler(sbase.getModel(), namedSbase, true);
         idMath.compile(compiler);
         idMath = compiler.getNode();
         if(idMath.isVector()) {
@@ -126,6 +127,8 @@ public class ArraysFlattening {
       }
     }
   }
+
+
 
   /**
    * Iterate through the events in the model and convert the events using the arrays package.
@@ -539,11 +542,11 @@ public class ArraysFlattening {
    * @param idToIndices
    * @param itemsToDelete
    */
-  private static void convert (SBMLDocument doc, Model model, List<SBase> itemsToDelete, Map<String, ASTNode> idToVector) {
+  private static void convert (SBMLDocument doc, Model model, ArraysCompiler compiler,List<SBase> itemsToDelete, Map<String, ASTNode> idToVector) {
     Enumeration<TreeNode> children = doc.children();
     while(children.hasMoreElements()) {
       TreeNode child = children.nextElement();
-      convert(model, child, itemsToDelete, idToVector);
+      convert(model, child, compiler, itemsToDelete, idToVector);
     }
     //    for(int i = doc.getChildCount() - 1; i >= 0; i--) {
     //      ((SBase)doc.getChildAt(i);
@@ -558,14 +561,15 @@ public class ArraysFlattening {
    * @param node
    * @param sbases
    */
-  private static void convert(Model model, TreeNode node, List<SBase> sbases, Map<String, ASTNode> idToVector) {
+  private static void convert(Model model, TreeNode node, 
+    ArraysCompiler compiler, List<SBase> sbases, Map<String, ASTNode> idToVector) {
 
     Enumeration<?> children = node.children();
 
     while(children.hasMoreElements()) {
       TreeNode child = (TreeNode) children.nextElement();
-      expandDim(model, child, sbases, idToVector);
-      convert(model, child, sbases, idToVector);
+      expandDim(model, child, compiler, sbases, idToVector);
+      convert(model, child, compiler, sbases, idToVector);
     }
   }
 
@@ -630,7 +634,7 @@ public class ArraysFlattening {
    * @param child
    * @param sbases
    */
-  private static void expandDim(Model model, TreeNode child, List<SBase> sbases, Map<String, ASTNode> idToVector) {
+  private static void expandDim(Model model, TreeNode child, ArraysCompiler compiler, List<SBase> sbases, Map<String, ASTNode> idToVector) {
     if(child instanceof SBase) {
       SBase sbase = ((SBase) child);
       ArraysSBasePlugin arraysPlugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
@@ -639,7 +643,6 @@ public class ArraysFlattening {
       }
       sbases.add(sbase);
       int dim = arraysPlugin.getDimensionCount() - 1;
-      ArraysCompiler compiler = new ArraysCompiler();
       if(child instanceof NamedSBase) {
         expandDim(model, sbase, sbase.getParentSBMLObject(), arraysPlugin, compiler, idToVector.get(((NamedSBase) child).getId()),dim, idToVector);
       } else {
@@ -647,7 +650,7 @@ public class ArraysFlattening {
       }
     }
   }
-
+  
   /**
    * This method is transforming the attributes of a certain SBase object associated with the arrays package
    * so that the SBase no longer uses the package.
@@ -680,7 +683,7 @@ public class ArraysFlattening {
       ASTNode nodeCopy = vector.clone();
       nodeCopy = nodeCopy.getChild(i);
       updateSBase(model.getSBMLDocument(), arraysPlugin, clone, i);
-          
+
 
       if(sbase instanceof MathContainer) {
         updateMathContainer(model, arraysPlugin, (MathContainer) clone, dimension.getId(), i, idToVector);
@@ -750,10 +753,19 @@ public class ArraysFlattening {
       //          id = id.replaceFirst("_", "__");
       //        }
       //        namedSbase.setId(id);
-      //        //TODO: need to return a map so I know which ids have extra _
+      //      
       //      }
       parentList.add(child);
       return;
+    }
+    if(parent instanceof Port)
+    {
+      if(child instanceof SBaseRef)
+      {
+        Port port = ((Port)parent);
+        port.setSBaseRef(((SBaseRef)child));
+        return;
+      }
     }
     throw new SBMLException();
   }
@@ -784,26 +796,55 @@ public class ArraysFlattening {
     }
 
     for(String attribute : attributes) {
-      String temp = sbase.writeXMLAttributes().get(attribute);
-      ASTNode vector = idToVector.get(temp);
-      for(int i = maxIndex; i >= 0; i--) {
-        Index index = arraysPlugin.getIndex(i, attribute);
-        if(index == null) {
-          continue;
-        }
-        ASTNodeValue value = index.getMath().compile(compiler);
-        if(value.isNumber()) {
-          vector = vector.getChild(value.toInteger());
-        } else {
-          continue;
-        }
+      String indexValue = getIndexedId(arraysPlugin, sbase, attribute, maxIndex, compiler, idToVector);
+      String[] parse = attribute.split(":");
+      if(parse.length == 2) {
+        sbase.readAttribute(parse[1], parse[0], indexValue);
+      } else {
+        sbase.readAttribute(attribute, "", indexValue);
       }
-      sbase.readAttribute(attribute, "", vector.getName());
     }
 
   }
 
 
+  public static String getIndexedId(ArraysSBasePlugin arraysPlugin, SBase sbase, String attribute, int maxIndex, ArraysCompiler compiler, Map<String, ASTNode> idToVector)
+  {
+    String temp = sbase.writeXMLAttributes().get(attribute);
+    ASTNode vector = idToVector.get(temp);
+    if(vector == null)
+    {
+      String append = "_";
+      for(int i = maxIndex; i >= 0; i--) {
+        Index index = arraysPlugin.getIndex(i, attribute);
+        if(index == null) {
+          throw new SBMLException();
+        }
+        ASTNodeValue value = index.getMath().compile(compiler);
+        if(value.isNumber()) {
+          append = append + "_" + value.toInteger();
+        } else {
+          throw new SBMLException();
+        }
+      }
+      return temp + append;
+    }
+    else{
+      for(int i = maxIndex; i >= 0; i--) {
+        Index index = arraysPlugin.getIndex(i, attribute);
+        if(index == null) {
+          throw new SBMLException();
+        }
+        ASTNodeValue value = index.getMath().compile(compiler);
+        if(value.isNumber()) {
+          vector = vector.getChild(value.toInteger());
+        } else {
+          throw new SBMLException();
+        }
+      }
+      return vector.getName();
+    }
+  }
   /**
    * This updates the dimension id that appears in the math.
    * 
@@ -839,7 +880,7 @@ public class ArraysFlattening {
     //TODO check if unique
     if(sbase.isSetMetaId()) {
       String metaId = sbase.getMetaId();
-      
+
       String appendId = "_" + index;
       while(doc.findSBase(metaId + appendId) != null) {
         appendId = "_" + appendId;
