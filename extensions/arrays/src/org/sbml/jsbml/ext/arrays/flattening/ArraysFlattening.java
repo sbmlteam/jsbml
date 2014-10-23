@@ -644,9 +644,9 @@ public class ArraysFlattening {
       sbases.add(sbase);
       int dim = arraysPlugin.getDimensionCount() - 1;
       if(child instanceof NamedSBase) {
-        expandDim(model, sbase, sbase.getParentSBMLObject(), arraysPlugin, compiler, idToVector.get(((NamedSBase) child).getId()),dim, idToVector);
+        expandDim(model, sbase.clone(), sbase.getParentSBMLObject(), arraysPlugin, compiler, idToVector.get(((NamedSBase) child).getId()),dim, idToVector);
       } else {
-        expandDim(model, sbase, sbase.getParentSBMLObject(), arraysPlugin, compiler, dim, idToVector);
+        expandDim(model, sbase.clone(), sbase.getParentSBMLObject(), arraysPlugin, compiler, dim, idToVector);
       }
     }
   }
@@ -671,8 +671,9 @@ public class ArraysFlattening {
       if(((NamedSBase)sbase).isSetId() && vector.isName()) {
         ((NamedSBase)sbase).setId(vector.getName());
       }
-      addToParent(model, parent, sbase);
+
       convertIndex(model, arraysPlugin, sbase, compiler, idToVector);
+      addToParent(model, parent, sbase);
       return;
     }
 
@@ -714,8 +715,8 @@ public class ArraysFlattening {
 
     if(dimension == null) {
       sbase.unsetExtension(ArraysConstants.shortLabel); 
-      addToParent(model, parent, sbase);
       convertIndex(model, arraysPlugin, sbase, compiler, idToVector);
+      addToParent(model, parent, sbase);
       return;
     }
 
