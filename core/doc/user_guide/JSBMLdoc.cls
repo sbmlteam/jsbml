@@ -291,7 +291,7 @@
 \definecolor{lightgray}{gray}{0.8}
 \definecolor{mediumgray}{gray}{0.5}
 \definecolor{darkgray}{gray}{0.3}
-\definecolor{almostblack}{gray}{0.22}
+\definecolor{almostblack}{gray}{0.25}
 \definecolor{lightyellow}{rgb}{0.98,0.94,0.7}
 \definecolor{verylightyellow}{rgb}{0.97,0.95,0.85}
 \definecolor{darkblue}{rgb}{0.1,0.4,0.55}
@@ -549,7 +549,7 @@
     \ifx\@version\undefined
     \relax
     \else
-    {\large Version: \@version}%
+    {\large JSBML Version: \@version}%
     \fi
     \vskip 3em%
     {\lineskip .5em%
