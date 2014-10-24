@@ -161,18 +161,19 @@ located in the folder ``\dirname\code{/lib}''.
 \subsection{Setting up Eclipse}
 \label{sec:SettingUpEclipse}
 
-To setup eclipse, in general, you have to add the src, test and resources 
-folder to your eclipse build path. As well as any jar files included in the
-lib folder.
+To set up Eclipse to work with JSBML, first add the \texttt{src},
+\texttt{test} and \texttt{resources} folder of the JSBML distribution to your
+Eclipse build path, and add all of the \texttt{.jar} files found in the
+\texttt{lib} folder.
 
-Then, you need to do an extra step to configure the annotation processor, as 
-the different parsers in JSBML are registered automatically using java annotation.
+Next, you need to do an extra step to configure the annotation processor,
+because the different parsers in JSBML are registered automatically using
+Java annotations.  To configure the annotation processor in Eclipse, follow
+the instructions found on the web page
+\url{https://code.google.com/p/spi/wiki/EclipseSettings}.
 
-To configure the annotation processor, follow the instructions in the page 
-\url{https://code.google.com/p/spi/wiki/EclipseSettings}
-
-You can run the ParserManager class to check that the list of parsers are not 
-empty and that they contain the parsers you need.
+Finally, you can run the \code{ParserManager} class to check that the list of
+parsers are not empty and that they contain the parsers you need.
 
 
 \subsection{Optional extensions, modules and examples available for JSBML}
