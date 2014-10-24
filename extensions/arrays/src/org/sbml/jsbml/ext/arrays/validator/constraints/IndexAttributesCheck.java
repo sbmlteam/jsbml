@@ -84,6 +84,7 @@ public class IndexAttributesCheck extends ArraysConstraint {
         String msg = "Index objects should reference a valid SIdRef "
             + index.toString() + " references an unknown SBase.";
         logInvalidRefAttribute(msg);
+        return;
       }
 
       ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) refSBase.getExtension(ArraysConstants.shortLabel);

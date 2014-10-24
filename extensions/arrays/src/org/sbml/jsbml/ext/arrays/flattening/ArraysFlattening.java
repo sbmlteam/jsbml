@@ -644,7 +644,7 @@ public class ArraysFlattening {
       sbases.add(sbase);
       int dim = arraysPlugin.getDimensionCount() - 1;
       if(child instanceof NamedSBase) {
-        expandDim(model, sbase.clone(), sbase.getParentSBMLObject(), arraysPlugin, compiler, idToVector.get(((NamedSBase) child).getId()),dim, idToVector);
+        expandDim(model, (NamedSBase)sbase.clone(), sbase.getParentSBMLObject(), arraysPlugin, compiler, idToVector.get(((NamedSBase) child).getId()),dim, idToVector);
       } else {
         expandDim(model, sbase.clone(), sbase.getParentSBMLObject(), arraysPlugin, compiler, dim, idToVector);
       }
@@ -662,14 +662,14 @@ public class ArraysFlattening {
    * @param compiler
    * @param dim
    */
-  private static void expandDim(Model model, SBase sbase, SBase parent, ArraysSBasePlugin arraysPlugin,ArraysCompiler compiler, ASTNode vector, int dim, Map<String, ASTNode> idToVector) {
+  private static void expandDim(Model model, NamedSBase sbase, SBase parent, ArraysSBasePlugin arraysPlugin,ArraysCompiler compiler, ASTNode vector, int dim, Map<String, ASTNode> idToVector) {
 
     Dimension dimension = arraysPlugin.getDimensionByArrayDimension(dim);
 
     if(dimension == null) {
       sbase.unsetExtension(ArraysConstants.shortLabel); 
-      if(((NamedSBase)sbase).isSetId() && vector.isName()) {
-        ((NamedSBase)sbase).setId(vector.getName());
+      if(sbase.isSetId() && vector.isName()) {
+        sbase.setId(vector.getName());
       }
 
       convertIndex(model, arraysPlugin, sbase, compiler, idToVector);
@@ -680,7 +680,7 @@ public class ArraysFlattening {
     int size = ArraysMath.getSize(model, dimension);
 
     for(int i = 0; i < size; i++) {
-      SBase clone = sbase.clone();
+      NamedSBase clone = (NamedSBase) sbase.clone();
       ASTNode nodeCopy = vector.clone();
       nodeCopy = nodeCopy.getChild(i);
       updateSBase(model.getSBMLDocument(), arraysPlugin, clone, i);
