@@ -668,7 +668,7 @@ public class ArraysFlattening {
 
     if(dimension == null) {
       sbase.unsetExtension(ArraysConstants.shortLabel); 
-      if(sbase.isSetId() && vector.isName()) {
+      if(sbase.isSetId() && vector != null && vector.isName()) {
         sbase.setId(vector.getName());
       }
 
