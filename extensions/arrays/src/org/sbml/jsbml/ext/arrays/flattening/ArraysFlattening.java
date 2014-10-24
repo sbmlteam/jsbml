@@ -815,7 +815,7 @@ public class ArraysFlattening {
     ASTNode vector = idToVector.get(temp);
     if(vector == null)
     {
-      String append = "_";
+      String append = "";
       for(int i = maxIndex; i >= 0; i--) {
         Index index = arraysPlugin.getIndex(i, attribute);
         if(index == null) {
