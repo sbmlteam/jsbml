@@ -641,8 +641,17 @@ public class ArraysFlattening {
       if(arraysPlugin == null) {
         return;
       }
-      sbases.add(sbase);
       int dim = arraysPlugin.getDimensionCount() - 1;
+      
+      if(dim < 0) {
+        convertIndex(model, arraysPlugin, sbase, compiler, idToVector);
+
+        sbase.unsetExtension(ArraysConstants.shortLabel); 
+        return;
+      }
+
+      sbases.add(sbase);
+      
       if(child instanceof NamedSBase) {
         expandDim(model, (NamedSBase)sbase.clone(), sbase.getParentSBMLObject(), arraysPlugin, compiler, idToVector.get(((NamedSBase) child).getId()),dim, idToVector);
       } else {
