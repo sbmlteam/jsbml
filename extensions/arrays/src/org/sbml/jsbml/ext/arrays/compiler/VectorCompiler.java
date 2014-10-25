@@ -2070,6 +2070,15 @@ public class VectorCompiler implements ASTNodeCompiler {
         transformSBase(functionDefinition);
       }
     }
+    
+    ASTNode newNode = getNode();
+    
+    for(ASTNode child : args)
+    {
+      newNode.addChild(child);
+    }
+    
+    setNode(newNode);
 
     //    if(functionDefinition.getArgumentCount() != args.size()) {
     //      throw new SBMLException();

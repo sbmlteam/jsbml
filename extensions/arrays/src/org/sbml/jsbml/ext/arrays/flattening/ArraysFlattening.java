@@ -95,6 +95,7 @@ public class ArraysFlattening {
     convert(flattenedDoc, model, new ArraysCompiler(), itemsToDelete, idToVector);
     convertMath(flattenedDoc, model, idToVector);
     removeSBases(itemsToDelete);
+    
     return flattenedDoc;
   }
 
@@ -653,9 +654,11 @@ public class ArraysFlattening {
       sbases.add(sbase);
       
       if(child instanceof NamedSBase) {
-        expandDim(model, (NamedSBase)sbase.clone(), sbase.getParentSBMLObject(), arraysPlugin, compiler, idToVector.get(((NamedSBase) child).getId()),dim, idToVector);
+        expandDim(model, (NamedSBase)sbase.clone(), sbase.getParentSBMLObject(),
+          arraysPlugin, compiler, sbases, idToVector.get(((NamedSBase) child).getId()),
+          dim, idToVector);
       } else {
-        expandDim(model, sbase.clone(), sbase.getParentSBMLObject(), arraysPlugin, compiler, dim, idToVector);
+        expandDim(model, sbase.clone(), sbase.getParentSBMLObject(), arraysPlugin, compiler, sbases, dim, idToVector);
       }
     }
   }
@@ -671,7 +674,8 @@ public class ArraysFlattening {
    * @param compiler
    * @param dim
    */
-  private static void expandDim(Model model, NamedSBase sbase, SBase parent, ArraysSBasePlugin arraysPlugin,ArraysCompiler compiler, ASTNode vector, int dim, Map<String, ASTNode> idToVector) {
+  private static void expandDim(Model model, NamedSBase sbase, SBase parent, ArraysSBasePlugin arraysPlugin,ArraysCompiler compiler,
+    List<SBase> sbases, ASTNode vector, int dim, Map<String, ASTNode> idToVector) {
 
     Dimension dimension = arraysPlugin.getDimensionByArrayDimension(dim);
 
@@ -683,6 +687,10 @@ public class ArraysFlattening {
 
       convertIndex(model, arraysPlugin, sbase, compiler, idToVector);
       addToParent(model, parent, sbase);
+      for(int i = sbase.getChildCount() - 1; i >= 0; i--)
+      {
+        convert(model, sbase.getChildAt(i), compiler, sbases, idToVector);
+      }
       return;
     }
 
@@ -701,7 +709,7 @@ public class ArraysFlattening {
 
       compiler.addValue(dimension.getId(), i);
 
-      expandDim(model, clone, parent, arraysPlugin,compiler, nodeCopy, dim-1, idToVector);
+      expandDim(model, clone, parent, arraysPlugin,compiler, sbases, nodeCopy, dim-1, idToVector);
 
     }
   }
@@ -718,7 +726,7 @@ public class ArraysFlattening {
    * @param compiler
    * @param dim
    */
-  private static void expandDim(Model model, SBase sbase, SBase parent, ArraysSBasePlugin arraysPlugin,ArraysCompiler compiler, int dim, Map<String, ASTNode> idToVector) {
+  private static void expandDim(Model model, SBase sbase, SBase parent, ArraysSBasePlugin arraysPlugin,ArraysCompiler compiler, List<SBase> sbases, int dim, Map<String, ASTNode> idToVector) {
 
     Dimension dimension = arraysPlugin.getDimensionByArrayDimension(dim);
 
@@ -726,6 +734,10 @@ public class ArraysFlattening {
       sbase.unsetExtension(ArraysConstants.shortLabel); 
       convertIndex(model, arraysPlugin, sbase, compiler, idToVector);
       addToParent(model, parent, sbase);
+      for(int i = sbase.getChildCount() - 1; i >= 0; i--)
+      {
+        convert(model, sbase.getChildAt(i), compiler, sbases, idToVector);
+      }
       return;
     }
 
@@ -741,7 +753,7 @@ public class ArraysFlattening {
 
       compiler.addValue(dimension.getId(), i);
 
-      expandDim(model, clone, parent, arraysPlugin,compiler, dim-1, idToVector);
+      expandDim(model, clone, parent, arraysPlugin,compiler, sbases, dim-1, idToVector);
 
     }
   }
