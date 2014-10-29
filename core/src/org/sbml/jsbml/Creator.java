@@ -24,12 +24,12 @@ package org.sbml.jsbml;
 import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import javax.swing.tree.TreeNode;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.validator.SyntaxChecker;
 
 /**
  * Contains all the information about a creator of a {@link Model} (or other
@@ -362,26 +362,10 @@ public class Creator extends AnnotationElement {
    * @return {@link JSBML#OPERATION_SUCCESS}
    */
   public int setEmail(String email) {
-    /*
-     * ^                     # start of the line
-     *   [_A-Za-z0-9-]+      # must start with string in the bracket [ ], must contains one or more (+)
-     *   (                   # start of group #1
-     *     \\.[_A-Za-z0-9-]+ # follow by a dot "." and string in the bracket [ ], must contains one or more (+)
-     *   )*                  # end of group #1, this group is optional (*)
-     *   @                   # must contains a "@" symbol
-     *   [A-Za-z0-9-]+       # follow by string in the bracket [ ], must contains one or more (+)
-     *   (                   # start of group #2 - first level TLD checking
-     *     \\.[A-Za-z0-9-]+  # follow by a dot "." and string in the bracket [ ], must contains one or more (+)
-     *   )*                  # end of group #2, this group is optional (*)
-     *   (                   # start of group #3 - second level TLD checking
-     *     \\.[A-Za-z]{2,}   # follow by a dot "." and string in the bracket [ ], with minimum length of 2
-     *   )                   # end of group #3
-     *$                      # end of the line
-     */
-    final String emailPattern = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-    if ((email != null) && !Pattern.matches(emailPattern, email)) {
-      logger.warn(MessageFormat.format("Invalid e-mail address {0}", email));
-      throw new IllegalArgumentException(MessageFormat.format("Invalid e-mail address {0}", email));
+    if ((email != null) && !SyntaxChecker.isValidEmailAddress(email)) {
+      String errorMessage = MessageFormat.format("Invalid e-mail address {0}", email);
+      logger.warn(errorMessage); // TODO: Do we really need both: exception and error?
+      throw new IllegalArgumentException(errorMessage);
     }
     String oldValue = this.email;
     this.email = email;
@@ -442,6 +426,7 @@ public class Creator extends AnnotationElement {
    * @param attributeValue
    * @deprecated those other attributes are not saved when writing the model
    */
+  @Deprecated
   public void setOtherAttribute(String attributeName, String attributeValue) {
     if (attributeName == null) {
       return;
@@ -454,6 +439,7 @@ public class Creator extends AnnotationElement {
    * @return
    * @deprecated those other attributes are not saved when writing the model
    */
+  @Deprecated
   public Map<String, String> getOtherAttributes() {
 
     if (!isSetOtherAttributes()) {
@@ -467,6 +453,7 @@ public class Creator extends AnnotationElement {
    * @return
    * @deprecated those other attributes are not saved when writing the model
    */
+  @Deprecated
   public boolean isSetOtherAttributes() {
     return otherAttributes != null;
   }
@@ -477,6 +464,7 @@ public class Creator extends AnnotationElement {
    * @return
    * @deprecated those other attributes are not saved when writing the model
    */
+  @Deprecated
   public String getOtherAttribute(String attributeName) {
     if (attributeName == null) {
       return null;

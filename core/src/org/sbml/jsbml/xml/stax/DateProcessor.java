@@ -163,7 +163,7 @@ public class DateProcessor {
    */
   public final String formatToW3CDTF(String datetime) {
 
-    if (datetime == null || datetime.trim().length() == 0) {
+    if ((datetime == null) || (datetime.trim().length() == 0)) {
       throw new NullPointerException("Datetime can not be NULL.");
     }
 
