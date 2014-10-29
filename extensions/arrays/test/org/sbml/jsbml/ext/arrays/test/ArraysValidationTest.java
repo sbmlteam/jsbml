@@ -25,6 +25,7 @@ package org.sbml.jsbml.ext.arrays.test;
 import static org.junit.Assert.assertTrue;
 
 import java.io.StringReader;
+import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -36,6 +37,7 @@ import org.sbml.jsbml.Event;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLError;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.Trigger;
@@ -535,6 +537,28 @@ public class ArraysValidationTest {
     } catch (ParseException e) {
       assertTrue(false);
       e.printStackTrace();
+    }
+  }
+  
+  @Test
+  public void testReactionModel() {
+    SBMLDocument doc;
+    try {
+      doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/reactionArrayTest.xml"));
+      assertTrue(ArraysValidator.validate(doc).size() == 0);
+    } catch (XMLStreamException e) {
+      assertTrue(false);
+    }
+  }
+  
+  @Test
+  public void testCompModel() {
+    SBMLDocument doc;
+    try {
+      doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/SubModel.xml"));
+      List<SBMLError> errors = ArraysValidator.validate(doc);
+    } catch (XMLStreamException e) {
+      assertTrue(false);
     }
   }
 }

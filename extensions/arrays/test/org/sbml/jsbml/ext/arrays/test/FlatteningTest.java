@@ -730,5 +730,65 @@ public class FlatteningTest {
     } catch (ParseException e) {
       e.printStackTrace();
     }
+    
   }
+
+  @Test
+  public void testCompModel() {
+    SBMLDocument doc;
+    try {
+      doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/SubModel.xml"));
+      SBMLWriter.write(doc, System.out, ' ', (short) 2);
+      SBMLDocument flattened = ArraysFlattening.convert(doc);
+      System.out.println("\n-------------------------------------------");
+      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
+      System.out.println("\n-------------------------------------------");
+      doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/SubSubModel.xml"));
+      SBMLWriter.write(doc, System.out, ' ', (short) 2);
+      flattened = ArraysFlattening.convert(doc);
+      System.out.println("\n-------------------------------------------");
+      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
+      //assertTrue(doc.equals(flattened));
+    } catch (XMLStreamException e) {
+      assertTrue(false);
+    }
+   
+  }
+  
+  @Test
+  public void testFunctionDef() {
+    SBMLDocument doc;
+    try {
+      doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/VoteModel.xml"));
+      SBMLWriter.write(doc, System.out, ' ', (short) 2);
+      SBMLDocument flattened = ArraysFlattening.convert(doc);
+
+      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
+      
+      
+      //assertTrue(doc.equals(flattened));
+    } catch (XMLStreamException e) {
+      assertTrue(false);
+    }
+   
+  }
+  
+  @Test
+  public void testFBC() {
+    SBMLDocument doc;
+    try {
+      doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/NEWFBC.xml"));
+      SBMLWriter.write(doc, System.out, ' ', (short) 2);
+      SBMLDocument flattened = ArraysFlattening.convert(doc);
+      
+      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
+
+    } catch (XMLStreamException e) {
+      assertTrue(false);
+    }
+   
+  }
+  
+  
 }
+
