@@ -459,9 +459,9 @@ public class CompilerTest {
       vector.compile(compiler);
       assertTrue(compiler.getNode().toFormula().equals("1"));
       compiler = new VectorCompiler(model, true);
-      vector = ASTNode.parseFormula("func({1,2,3})");
+      vector = ASTNode.parseFormula("func({1,2,3}+{0,0,0})");
       vector.compile(compiler);
-      assertTrue(compiler.getNode().toFormula().equals("{1,2,3}"));
+      assertTrue(compiler.getNode().getChild(0).toFormula().equals("{1,2,3}"));
       vector = ASTNode.parseFormula("func(X)");
       Parameter n = new Parameter("n");
       model.addParameter(n);
@@ -475,7 +475,7 @@ public class CompilerTest {
       dimX.setSize(n.getId());
       dimX.setArrayDimension(0);
       vector.compile(compiler);
-      assertTrue(compiler.getNode().toFormula().equals("{X_0,X_1}"));
+      assertTrue(compiler.getNode().getChild(0).toFormula().equals("{X_0,X_1}"));
     } catch (ParseException e) {
       assertTrue(false);
       e.printStackTrace();

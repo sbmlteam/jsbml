@@ -96,8 +96,6 @@ public class FlatteningTest {
 
       SBMLDocument flattened = ArraysFlattening.convert(document);
 
-      //SBMLWriter.write(flattened, System.out, ' ', (short) 2);
-
       assertTrue(flattened.getModel().getSpeciesCount() == 4);
 
     } catch (SBMLException e) {
@@ -388,7 +386,14 @@ public class FlatteningTest {
       SBMLDocument flattened = ArraysFlattening.convert(doc);
 
       SBMLWriter.write(flattened, System.out, ' ', (short) 2);
-      //assertTrue(doc.equals(flattened));
+      
+      assertTrue(doc.getModel().getCompartmentCount() == flattened.getModel().getCompartmentCount());
+      assertTrue(doc.getModel().getSpeciesCount() == flattened.getModel().getSpeciesCount());
+      assertTrue(doc.getModel().getParameterCount() == flattened.getModel().getParameterCount());
+      assertTrue(doc.getModel().getReactionCount() == flattened.getModel().getReactionCount());
+      assertTrue(doc.getModel().getRuleCount() == flattened.getModel().getRuleCount());
+      assertTrue(doc.getModel().getFunctionDefinitionCount() == flattened.getModel().getFunctionDefinitionCount());
+      assertTrue(doc.getModel().getConstraintCount() == flattened.getModel().getConstraintCount());
     } catch (XMLStreamException e) {
       assertTrue(false);
     }
@@ -400,15 +405,12 @@ public class FlatteningTest {
     try {
       SBMLDocument doc = new SBMLDocument(3,1);
       Model model = doc.createModel();
-
       Parameter n = new Parameter("n");
       model.addParameter(n);
       n.setValue(2);
-
       Parameter X = new Parameter("X");
       model.addParameter(X);
       X.setValue(1);
-
       Species A = model.createSpecies("A");
       A.setValue(5);
       ArraysSBasePlugin arraysSBasePluginA = new ArraysSBasePlugin(A);
@@ -451,6 +453,9 @@ public class FlatteningTest {
       SBMLDocument flattened = ArraysFlattening.convert(doc);
       SBMLWriter.write(flattened, System.out, ' ', (short) 2);
       System.out.println("\n-------------------------------------------");
+      assertTrue(flattened.getModel().getSpeciesCount() == 4);
+      assertTrue(flattened.getModel().findNamedSBase(flattened.getModel().getReaction(0).getReactant(0).getSpecies()) != null);
+      assertTrue(flattened.getModel().findNamedSBase(flattened.getModel().getReaction(0).getProduct(0).getSpecies()) != null);
     } catch (SBMLException e) {
       e.printStackTrace();
     } catch (XMLStreamException e) {
@@ -525,6 +530,12 @@ public class FlatteningTest {
       SBMLDocument flattened = ArraysFlattening.convert(doc);
       SBMLWriter.write(flattened, System.out, ' ', (short) 2);
       System.out.println("\n-------------------------------------------");
+      
+      assertTrue(flattened.getModel().findNamedSBase(flattened.getModel().getReaction(0).getReactant(0).getSpecies()) != null);
+      assertTrue(flattened.getModel().findNamedSBase(flattened.getModel().getReaction(0).getReactant(1).getSpecies()) != null);
+      assertTrue(flattened.getModel().findNamedSBase(flattened.getModel().getReaction(0).getProduct(0).getSpecies())  != null);
+      assertTrue(flattened.getModel().findNamedSBase(flattened.getModel().getReaction(0).getProduct(1).getSpecies())  != null);
+      
     } catch (SBMLException e) {
       e.printStackTrace();
     } catch (XMLStreamException e) {
@@ -532,22 +543,6 @@ public class FlatteningTest {
     } catch (ParseException e) {
       e.printStackTrace();
     }
-  }
-  
-  @Test
-  public void testReactionModel() {
-    SBMLDocument doc;
-    try {
-      doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/arrayTest.xml"));
-      SBMLWriter.write(doc, System.out, ' ', (short) 2);
-      SBMLDocument flattened = ArraysFlattening.convert(doc);
-
-      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
-      //assertTrue(doc.equals(flattened));
-    } catch (XMLStreamException e) {
-      assertTrue(false);
-    }
-   
   }
   
   @Test
@@ -630,6 +625,12 @@ public class FlatteningTest {
       SBMLDocument flattened = ArraysFlattening.convert(doc);
       SBMLWriter.write(flattened, System.out, ' ', (short) 2);
       System.out.println("\n-------------------------------------------");
+      
+      assertTrue(flattened.getModel().findNamedSBase("X_0") != null);
+      assertTrue(flattened.getModel().findNamedSBase("X__0") != null);
+      assertTrue(flattened.getModel().findNamedSBase("X___0") != null);
+      assertTrue(flattened.getModel().findNamedSBase("X____0") != null);
+      assertTrue(flattened.getModel().findNamedSBase("X") == null);
     } catch (SBMLException e) {
       e.printStackTrace();
     } catch (XMLStreamException e) {
@@ -639,99 +640,7 @@ public class FlatteningTest {
     }
   }
   
-  @Test
-  public void testSpecRefAssign() {
-    try {
-      SBMLDocument doc = new SBMLDocument(3,1);
-      Model model = doc.createModel();
-
-      Parameter n = new Parameter("n");
-      model.addParameter(n);
-      n.setValue(2);
-
-      Parameter X = new Parameter("X");
-      model.addParameter(X);
-      X.setValue(1);
-
-      Species A = model.createSpecies("A");
-      A.setValue(5);
-      ArraysSBasePlugin arraysSBasePluginA = new ArraysSBasePlugin(A);
-      A.addExtension(ArraysConstants.shortLabel, arraysSBasePluginA);
-      Dimension dimA = arraysSBasePluginA.createDimension("i");
-      dimA.setSize(n.getId());
-      dimA.setArrayDimension(0);
-      Species B = model.createSpecies("B");
-      B.setValue(5);
-      ArraysSBasePlugin arraysSBasePluginB = new ArraysSBasePlugin(B);
-      B.addExtension(ArraysConstants.shortLabel, arraysSBasePluginB);
-      Dimension dimB = arraysSBasePluginB.createDimension("i");
-      dimB.setSize(n.getId());
-      dimB.setArrayDimension(0);
-      Reaction r = model.createReaction();
-      ArraysSBasePlugin reactArraysPlugin = new ArraysSBasePlugin(r);
-      r.addExtension(ArraysConstants.shortLabel, reactArraysPlugin);
-      Dimension dim = reactArraysPlugin.createDimension("i");
-      dim.setSize("n");
-      dim.setArrayDimension(0);
-      r.setId("reaction");
-      KineticLaw k = r.createKineticLaw();
-      k.setMath(ASTNode.parseFormula("B - X*A"));
-      
-      SpeciesReference a = r.createReactant(A);
-      a.setId("a");
-      ArraysSBasePlugin arraysSBasePlugina = new ArraysSBasePlugin(a);
-      a.addExtension(ArraysConstants.shortLabel, arraysSBasePlugina);
-      dim = arraysSBasePlugina.createDimension("j");
-      dim.setSize("n");
-      dim.setArrayDimension(0);
-      Index inda = arraysSBasePlugina.createIndex();
-      inda.setReferencedAttribute("species");
-      inda.setArrayDimension(0);
-      inda.setMath(ASTNode.parseFormula("j"));
-      SpeciesReference b = r.createProduct(B);
-      b.setId("b");
-      ArraysSBasePlugin arraysSBasePluginb = new ArraysSBasePlugin(b);
-      b.addExtension(ArraysConstants.shortLabel, arraysSBasePluginb);
-      dim = arraysSBasePluginb.createDimension("j");
-      dim.setSize("n");
-      dim.setArrayDimension(0);
-      Index indb = arraysSBasePluginb.createIndex();
-      indb.setReferencedAttribute("species");
-      indb.setArrayDimension(0);
-      indb.setMath(ASTNode.parseFormula("j"));
-      
-      AssignmentRule rule = new AssignmentRule();
-      model.addRule(rule);
-      rule.setVariable("b");
-      ArraysSBasePlugin arraysSBasePluginRule = new ArraysSBasePlugin(rule);
-      rule.addExtension(ArraysConstants.shortLabel, arraysSBasePluginRule);
-
-      Index indexRule = arraysSBasePluginRule.createIndex();
-      indexRule.setArrayDimension(0);
-      indexRule.setReferencedAttribute("variable");
-      ASTNode indexMath = new ASTNode(0);
-      indexRule.setMath(indexMath);
-      indexRule = arraysSBasePluginRule.createIndex();
-      indexRule.setArrayDimension(1);
-      indexRule.setReferencedAttribute("variable");
-      indexMath = new ASTNode(1);
-      indexRule.setMath(indexMath);
-
-      rule.setMath(ASTNode.parseFormula("3"));
-      SBMLWriter.write(doc, System.out, ' ', (short) 2);
-      System.out.println("\n-------------------------------------------");
-      SBMLDocument flattened = ArraysFlattening.convert(doc);
-      SBMLWriter.write(flattened, System.out, ' ', (short) 2);
-      System.out.println("\n-------------------------------------------");
-    } catch (SBMLException e) {
-      e.printStackTrace();
-    } catch (XMLStreamException e) {
-      e.printStackTrace();
-    } catch (ParseException e) {
-      e.printStackTrace();
-    }
-    
-  }
+ 
 
   @Test
   public void testCompModel() {
@@ -748,7 +657,7 @@ public class FlatteningTest {
       flattened = ArraysFlattening.convert(doc);
       System.out.println("\n-------------------------------------------");
       SBMLWriter.write(flattened, System.out, ' ', (short) 2);
-      //assertTrue(doc.equals(flattened));
+      
     } catch (XMLStreamException e) {
       assertTrue(false);
     }
@@ -765,8 +674,6 @@ public class FlatteningTest {
 
       SBMLWriter.write(flattened, System.out, ' ', (short) 2);
       
-      
-      //assertTrue(doc.equals(flattened));
     } catch (XMLStreamException e) {
       assertTrue(false);
     }

@@ -47,7 +47,7 @@ import org.sbml.jsbml.ext.arrays.Index;
  * @date Jun 15, 2014
  */
 public class ArraysValidator {
-  
+
   /**
    * Validates the given SBMLDocument
    * 
@@ -58,15 +58,52 @@ public class ArraysValidator {
     List<SBMLError> listOfErrors = new ArrayList<SBMLError>();
 
     Enumeration<TreeNode> children = document.children();
-    
+
     while(children.hasMoreElements()) {
       TreeNode child = children.nextElement();
       validate(document.getModel(), child, listOfErrors);
     }
-   
+
     return listOfErrors;
   }
-  
+
+
+
+  /**
+   * 
+   * Validates the given SBMLDocument
+   * 
+   * @param document - a document that needs to be validated
+   * @param filter - a flag that indicates whether you want to 
+   * filter out comp warnings.
+   * 
+   * @return
+   */
+  public static List<SBMLError> validate(SBMLDocument document, boolean filter) {
+    List<SBMLError> listOfErrors = validate(document);
+    boolean hasAdded = false;
+    if(filter) {
+      for(int i = listOfErrors.size() - 1; i >= 0; i--)
+      {
+        SBMLError error = listOfErrors.get(i);
+
+        if(error.getCode() == -1)
+        {
+          if(!hasAdded){
+            hasAdded = true;
+          }
+          else
+          {
+            listOfErrors.remove(error);
+          }
+        }
+      }
+    }
+
+    return listOfErrors;
+  }
+
+
   /**
    * Recursively checks all nodes in the document.
    * 
@@ -75,7 +112,7 @@ public class ArraysValidator {
    * @param listOfErrors
    */
   private static void validate(Model model, TreeNode node, List<SBMLError> listOfErrors) {
-    
+
     @SuppressWarnings("unchecked")
     Enumeration<TreeNode> children = node.children();
     if(node instanceof SBase) {
@@ -91,12 +128,12 @@ public class ArraysValidator {
       }
     } 
 
-    
+
     while(children.hasMoreElements()) {
       TreeNode child = children.nextElement();
       validate(model, child, listOfErrors);
     }
-    
+
   }
 
 }
