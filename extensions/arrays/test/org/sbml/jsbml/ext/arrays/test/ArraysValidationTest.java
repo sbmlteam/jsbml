@@ -556,7 +556,15 @@ public class ArraysValidationTest {
     SBMLDocument doc;
     try {
       doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/SubModel.xml"));
-      List<SBMLError> errors = ArraysValidator.validate(doc);
+      List<SBMLError> errors = ArraysValidator.validate(doc, true);
+      int count = 0;
+      for(int i = 0; i < errors.size(); i++)
+      {
+        if(errors.get(i).getCode() == -1) {
+          count++;
+        }
+      }
+      assertTrue(count == 1);
     } catch (XMLStreamException e) {
       assertTrue(false);
     }

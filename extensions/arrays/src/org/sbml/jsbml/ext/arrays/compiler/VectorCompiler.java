@@ -81,6 +81,7 @@ public class VectorCompiler implements ASTNodeCompiler {
     node = new ASTNode();
     this.useId = useId;
     isSetIdToVector = false;
+
   }
 
   public VectorCompiler(Model model, NamedSBase sbase, boolean useId) {
@@ -2056,8 +2057,6 @@ public class VectorCompiler implements ASTNodeCompiler {
   @Override
   public ASTNodeValue function(FunctionDefinition functionDefinition,
     List<ASTNode> args) throws SBMLException {
-    //ASTNode math = functionDefinition.getBody();
-
 
     if(functionDefinition != null) {
       if(useId) {
@@ -2066,32 +2065,41 @@ public class VectorCompiler implements ASTNodeCompiler {
         } else {
           transformNamedSBase(functionDefinition);
         }
-      } else {
-        transformSBase(functionDefinition);
+
+        ASTNode newNode = getNode();
+
+        for(ASTNode child : args)
+        {
+          child.compile(this);
+          newNode.addChild(getNode());
+        }
+
+        setNode(newNode);
+
+      }
+      else {
+        ASTNode math = functionDefinition.getBody();
+        if(functionDefinition.getArgumentCount() != args.size()) {
+          throw new SBMLException();
+        }
+        for(int i = 0; i < functionDefinition.getArgumentCount(); i++) {
+          ASTNode arg = functionDefinition.getArgument(i);
+          if(arg.isString()) {
+            math = replaceMath(math, arg.toString(), args.get(i));
+          } else {
+            throw new SBMLException();
+          }
+        }
+        math.compile(this);
       }
     }
-    
-    ASTNode newNode = getNode();
-    
-    for(ASTNode child : args)
+    else
     {
-      newNode.addChild(child);
+      unknownValue();
     }
-    
-    setNode(newNode);
 
-    //    if(functionDefinition.getArgumentCount() != args.size()) {
-    //      throw new SBMLException();
-    //    }
-    //    for(int i = 0; i < functionDefinition.getArgumentCount(); i++) {
-    //      ASTNode arg = functionDefinition.getArgument(i);
-    //      if(arg.isString()) {
-    //        math = replaceMath(math, arg.toString(), args.get(i));
-    //      } else {
-    //        throw new SBMLException();
-    //      }
-    //    }
-    //    math.compile(this);
+
+
     return dummy;
   }
 

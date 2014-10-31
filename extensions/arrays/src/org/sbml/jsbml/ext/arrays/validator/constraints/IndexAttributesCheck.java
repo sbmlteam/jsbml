@@ -22,6 +22,9 @@
  */
 package org.sbml.jsbml.ext.arrays.validator.constraints;
 
+import java.text.MessageFormat;
+
+import org.apache.log4j.Logger;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
@@ -42,7 +45,9 @@ import org.sbml.jsbml.ext.arrays.util.ArraysMath;
  */
 public class IndexAttributesCheck extends ArraysConstraint {
 
-  Index index;
+  private final Index index;
+  
+  private static final Logger logger = Logger.getLogger(IndexAttributesCheck.class);
 
   public IndexAttributesCheck(Model model, Index index)
   {
@@ -55,121 +60,181 @@ public class IndexAttributesCheck extends ArraysConstraint {
    */
   @Override
   public void check() {
+    boolean isComp = false;
+    
     if(model == null || index == null) {
       return;
     }
-    
-      String refAttribute = index.getReferencedAttribute();
-      if(refAttribute == null) {
-        String msg = "Index objects should have a value for attribute arrays:referencedAttribute but "
-          + index.toString() + " doesn't have a value.";
-        logIndexMissingAttribute(msg);
-        return;
+
+    String refAttribute = index.getReferencedAttribute();
+
+    if(index.getParentSBMLObject() == null || index.getParentSBMLObject().getParentSBMLObject() == null)
+    {
+      logger.debug(MessageFormat.format(
+        "WARNING: Index objects must be associated with a parent but {0} does not have a parent."
+        + "Therefore, validation on Index {0} cannot be performed.",
+        index));
+      return;
+    }
+
+    SBase parent = index.getParentSBMLObject().getParentSBMLObject();
+
+    if(refAttribute == null) {
+      String msg = "Index objects should have a value for attribute arrays:referencedAttribute. However, the referenced attribute"
+        + "of Index" + index.toString() + " for object " + parent.toString() + " doesn't have a value.";
+      logIndexMissingAttribute(msg);
+      return;
+    }
+
+    String[] parse = refAttribute.split(":");
+
+    if(parse.length == 2 && parse[0].equals("comp"))
+    {
+      isComp = true;
+    }
+
+    String refValue = parent.writeXMLAttributes().get(refAttribute);
+
+    // TODO: split at ':'
+    if(refValue == null) {
+      if(isComp)
+      {
+        String shortMsg ="Array validation has encountered indices for references to variables defined outside this SBML document,"
+            + "so it currently cannot validate whether these indices are valid.";
+        String msg = "";
+        logWarning(msg, shortMsg);
       }
-      
-      SBase parent = index.getParentSBMLObject().getParentSBMLObject();
-      String refValue = parent.writeXMLAttributes().get(refAttribute);
-      
-      // TODO: split at ':'
-      if(refValue == null) {
+      else
+      {
         String msg = "Index objects attribute arrays:referencedAttribute should reference a valid attribute but "
-            + index.toString() + " references an attribute that doesn't exist.";
+            + index.toString() + " of object " + parent.toString() + " references an attribute that doesn't exist.";
         logInvalidRefAttribute(msg);
-        return;
       }
-      
-      SBase refSBase = model.findNamedSBase(refValue);
-      
-      if(refSBase == null) {
-        String msg = "Index objects should reference a valid SIdRef "
-            + index.toString() + " references an unknown SBase.";
-        logInvalidRefAttribute(msg);
-        return;
-      }
+      return;
+    }
 
-      ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) refSBase.getExtension(ArraysConstants.shortLabel);
-      if(!index.isSetArrayDimension()) {
-        String msg = "Index objects should have attribute arrays:arrayDimension set but "
-            + refSBase.toString() + " doesn't.";
-        
-        logIndexMissingAttribute(msg);
+    SBase refSBase = model.findNamedSBase(refValue);
+
+    if(refSBase == null) {
+      if(isComp)
+      {
+        String shortMsg ="Array validation has encountered indices for references to variables defined outside this SBML document,"
+            + "so it currently cannot validate whether these indices are valid.";
+        String msg = "";
+        logWarning(msg, shortMsg);
       }
-      int arrayDimension = index.getArrayDimension();
-      Dimension dim = arraysSBasePlugin.getDimensionByArrayDimension(arrayDimension);
-      
-      if(dim == null) {
-        String msg = "The SIdRef of an Index object should have arrays:arrayDimension of same value of the Index object but "
-            + refSBase.toString() + " doesn't have a Dimension object with arrays:arrayDimension " + arrayDimension + ".";
-        logDimensionMismatch(msg);
+      else
+      {
+      String msg = "Index objects should reference a valid SIdRef but "
+          + index.toString() + " of object " + parent.toString() + " references an unknown SBase.";
+      logInvalidRefAttribute(msg);
       }
-      
-      boolean isStaticComp = ArraysMath.isStaticallyComputable(model, index);
-      
-      if(!isStaticComp) {
-        String msg = "Index math should be statically computable, meaning that it should only contain dimension ids or constant values but "
-            + refSBase.toString() + " is not statically computable.";
-        logNotStaticComp(msg);
+      return;
+    }
+
+    ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) refSBase.getExtension(ArraysConstants.shortLabel);
+    if(!index.isSetArrayDimension()) {
+      String msg = "Index objects should have a value for attribute arrays:arrayDimension but SBase "
+          + parent.toString() + " has index "
+          + index.toString() + " without a value for arrays:arrayDimension.";
+
+      logIndexMissingAttribute(msg);
+    }
+    int arrayDimension = index.getArrayDimension();
+    Dimension dim = arraysSBasePlugin.getDimensionByArrayDimension(arrayDimension);
+
+    if(dim == null) {
+      String msg = "The SIdRef of an Index object should have arrays:arrayDimension of same value of the Index object."
+        + "Index " + index.toString() + " is referring to arrays:arrayDimension " + arrayDimension + " but "
+          + refSBase.toString() + " doesn't have a Dimension object with arrays:arrayDimension " + arrayDimension + ".";
+      logDimensionMismatch(msg);
+    }
+
+    boolean isStaticComp = ArraysMath.isStaticallyComputable(model, index);
+
+    if(!isStaticComp) {
+      String msg = "Index math should be statically computable, meaning that it should only contain dimension ids or constant values but index "
+          + index.toString() + " of object " + parent.toString() + " is not statically computable.";
+      logNotStaticComp(msg);
+    }
+
+    //TODO: needs to check all bounds
+    boolean isBounded = ArraysMath.evaluateIndexBounds(model, index);
+
+    if(!isBounded) {
+      if(isComp)
+      {
+        String shortMsg ="Array validation has encountered indices for references to variables defined outside this SBML document,"
+            + "so it currently cannot validate whether these indices are valid.";
+        String msg = "";
+        logWarning(msg, shortMsg);
       }
-      
-      //TODO: needs to check all bounds
-      boolean isBounded = ArraysMath.evaluateIndexBounds(model, index);
-      
-      if(!isBounded) {
-        String msg = "Index math should not go out-of-bounds but index for "
-            + refSBase.toString() + " does.";
-        logNotBounded(msg);
+      else
+      {
+      String msg = "Index math should not go out-of-bounds but index "
+          + index.toString() + " of object " + parent.toString() + " goes out-of-bounds.";
+      logNotBounded(msg);
 
       }
+    }
   }
 
 
+  private void logWarning(String msg, String shortMsg) {
+    int code = -1, severity = 1, category = 0, line = -1, column = -1;
+
+    String pkg = "arrays";
+  
+    logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
+  }
+  
   private void logDimensionMismatch(String shortMsg) {
     int code = 20305, severity = 2, category = 0, line = -1, column = -1;
 
     String pkg = "arrays";
     String msg = "The object referenced by the SIdRef indicated by the arrays:referencedAttribute attribute"+
-                 "must include an arrays:arrayDimension matching the arrays:arrayDimension for"+
-                 "the Index. (Reference: SBML Level 3 Package Specification for Arrays, Version 1, Section 3.4 on 37 page 8.)";
+        "must include an arrays:arrayDimension matching the arrays:arrayDimension for"+
+        "the Index. (Reference: SBML Level 3 Package Specification for Arrays, Version 1, Section 3.4 on 37 page 8.)";
 
 
     logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
   }
-  
+
   private void logNotBounded(String shortMsg) {
     int code = 20308, severity = 2, category = 0, line = -1, column = -1;
 
     String pkg = "arrays";
     String msg = "For each possible value of each Dimension id (i.e., 0 to size-1 of the Dimension referred to)"+
-                 "that appears in the MathML math element, there should be no array out-of-bounds problems. Namely," +
-                 "it must evaluate to a non-negative integer that is less than the size of the corresponding"
-                 + " Dimension for the object being indexed.";
+        "that appears in the MathML math element, there should be no array out-of-bounds problems. Namely," +
+        "it must evaluate to a non-negative integer that is less than the size of the corresponding"
+        + " Dimension for the object being indexed.";
 
 
 
     logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
   }
-  
+
   private void logNotStaticComp(String shortMsg) {
     int code = 20307, severity = 2, category = 0, line = -1, column = -1;
 
     String pkg = "arrays";
     String msg = "The MathML math element in an Index object must be statically computable. In other words,"+
-                 "any identifier that appears in the math element, other than a Dimension id for the object with" +
-                 "this Index , must be a constant. (Reference: SBML Level 3 Package Specification for Arrays,"+
-                 "Version 1, Section 3.4 on page 8.)";
+        "any identifier that appears in the math element, other than a Dimension id for the object with" +
+        "this Index , must be a constant. (Reference: SBML Level 3 Package Specification for Arrays,"+
+        "Version 1, Section 3.4 on page 8.)";
 
 
 
     logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
   }
-  
+
   private void logIndexMissingAttribute(String shortMsg) {
     int code = 20302, severity = 2, category = 0, line = -1, column = -1;
 
     String pkg = "arrays";
     String msg = "An Index object must have a value for the attributes arrays:arrayDimension," +
-                 "and arrays:referencedAttribute . (Reference: SBML Level 3 Package Specification"+
-                 "for Arrays, Version 1, Section 3.4 on page 8.)";
+        "and arrays:referencedAttribute . (Reference: SBML Level 3 Package Specification"+
+        "for Arrays, Version 1, Section 3.4 on page 8.)";
 
 
     logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
@@ -180,8 +245,8 @@ public class IndexAttributesCheck extends ArraysConstraint {
 
     String pkg = "arrays";
     String msg = "The value of the arrays:referencedAttribute attribute, if set on a given Index object, must"+
-                 "be an existing attribute of type SIdRef with a value that references a valid SId. (Reference:"+
-                 "SBML Level 3 Package Specification for Arrays, Version 1, Section 3.4 on page 8.)";
+        "be an existing attribute of type SIdRef with a value that references a valid SId. (Reference:"+
+        "SBML Level 3 Package Specification for Arrays, Version 1, Section 3.4 on page 8.)";
 
 
     logFailure(code, severity, category, line, column, pkg, msg, shortMsg);
