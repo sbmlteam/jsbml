@@ -1202,7 +1202,7 @@ accessed from CellDesigner's plugin menu~\citep{Funahashi2003}. To support
 this, it is necessary to extend two classes that are defined in
 CellDesigner's plugin API. 
 \index{application programming interface!CellDesigner}
-\vrefrange{lst:PluginAction}{lst:Plugin}
+\vrefrange{lst:PluginAction}{lst:Plugin1}
 show a simple example of (1) how to pass a model\index{model!CellDesigner}
 data structure in a CellDesigner plugin to the translator in JSBML, and (2)
 \index{CellDesigner!plugin} \index{CellDesigner!\code{PluginAction}}%
@@ -1216,27 +1216,33 @@ in a tree, like the example in \fig{fig:JSBMLvisualizer-output}.
   \label{lst:PluginAction}
 \end{figure}
 
-\begin{figure}[thb]
-  \exampleFile{src/SimpleCellDesignerPlugin.java}
-  \caption{A simple example for a CellDesigner plugin using JSBML as a
-    communication layer.}
-  \label{lst:Plugin}
-\end{figure}
-
-The examples in \vrefrange{lst:PluginAction}{lst:Plugin} only show
-how to translate a plugin's data structure from CellDesigner into a
-corresponding JSBML data structure. With the help of the class
-\PluginSBMLWriter it is possible to notify CellDesigner about changes in
-the data structure. Note that the program in \vref{lst:Plugin} is
-only completed by implementing the methods from the superclass,
-\code{CellDesignerPlugin}. In this example it is sufficient to leave the
+\vrefrange{lst:PluginAction}{lst:Plugin2} only show how to translate a
+plugin's data structure from CellDesigner into a JSBML data structure. With
+the help of the class \PluginSBMLWriter, it is possible to notify
+CellDesigner about changes in the data structure. Note that the program in
+\fig{lst:Plugin1} is only completed by implementing the methods from the
+superclass, \code{CellDesignerPlugin}; it is sufficient to leave the
 implementation empty.
-
-\clearpage
 
 As of JSBML version 1.0, this module also contains a specialized
 implementation of the \TreeNodeChangeListener{} interface for
 synchronization of changes in JSBML's data structures with CellDesigner.
+
+\begin{figure}[thb]
+  \exampleFile[style = java, lastline = 64]{src/SimpleCellDesignerPlugin.java}
+  \caption{A simple example for a CellDesigner plugin using JSBML as a
+    communication layer. Continued in next figure.}
+  \label{lst:Plugin1}
+\end{figure}
+
+\begin{figure}[thb]
+  \exampleFile[style = java, firstline = 65]{src/SimpleCellDesignerPlugin.java}
+  \caption{(Continued.) A simple example for a CellDesigner plugin using JSBML as a
+    communication layer.}
+  \label{lst:Plugin2}
+\end{figure}
+
+\clearpage
 
 \subsection{The \codeNC{libSBMLcompat} module: a JSBML compatibility
   module for libSBML}
