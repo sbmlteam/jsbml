@@ -818,6 +818,7 @@
 
 \lstdefinestyle{java}{%
     language=Java,%
+    numbers=left,
     keywordstyle=\ttfamily\bfseries\color{black}}
 
 \lstdefinestyle{bash}{%
@@ -830,8 +831,8 @@
   {\lstset{#1}\examplespacing \csname lst@SetFirstLabel\endcsname}
   {\regularspacing \csname lst@SaveFirstLabel\endcsname}
 
-\newcommand{\exampleFile}[2][numbers=left,style=java]{%
-  \lstset{#1}\examplespacing\lstinputlisting{#2}\regularspacing}
+\newcommand{\exampleFile}[2][style=java]{%
+  \examplespacing\lstinputlisting[#1]{#2}\regularspacing}
 
 
 % Margin note commands.
