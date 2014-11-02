@@ -120,10 +120,9 @@ NamedSBase {
    */
   public AbstractNamedSBase() {
     super();
-    id = null;
-    name = null;
+    initDefaults();
   }
-
+  
   /**
    * Creates an {@link AbstractNamedSBase} from a given {@link AbstractNamedSBase}.
    * 
@@ -143,9 +142,8 @@ NamedSBase {
    * @param version the SBML version
    */
   public AbstractNamedSBase(int level, int version) {
-    this();
-    setLevel(level);
-    setVersion(version);
+    super(level, version);
+    initDefaults();
   }
 
   /**
@@ -257,6 +255,14 @@ NamedSBase {
       hashCode += prime * getName().hashCode();
     }
     return hashCode;
+  }
+
+  /**
+   * Initializes id and name fields to {@code null}.
+   */
+  private void initDefaults() {
+    id = null;
+    name = null;
   }
 
   /* (non-Javadoc)
