@@ -42,6 +42,7 @@ import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.math.ASTCSymbolBaseNode;
 import org.sbml.jsbml.math.ASTCSymbolDelayNode;
 import org.sbml.jsbml.math.ASTCSymbolNode;
+import org.sbml.jsbml.math.ASTCiFunctionNode;
 import org.sbml.jsbml.math.ASTCnExponentialNode;
 import org.sbml.jsbml.math.ASTCnIntegerNode;
 import org.sbml.jsbml.math.ASTCnRationalNode;
@@ -216,7 +217,7 @@ public class MathMLXMLStreamCompiler {
       if (node.getChildCount() > 0) { // In case the id is not a valid functionDefinition id, the type is set to NAME
         // TODO: check for SBML level 3 where the order of the listOf is not mandatory any more.
         // TODO: check how and when we put the type FUNCTION to a node.
-        compileUserFunction((ASTFunction) node);
+        compileUserFunction((ASTCiFunctionNode) node);
       } else {
         compileCi((ASTCSymbolBaseNode) node);
       }
@@ -286,7 +287,7 @@ public class MathMLXMLStreamCompiler {
       compileRootElement((ASTRootNode) node);
       break;
     case FUNCTION:
-      compileUserFunction((ASTFunction) node);
+      compileUserFunction((ASTCiFunctionNode) node);
       break;
     case FUNCTION_PIECEWISE:
       compilePiecewise((ASTPiecewiseFunctionNode) node);
@@ -721,13 +722,13 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
-  private void compileUserFunction(ASTFunction astNode) {
+  private void compileUserFunction(ASTCiFunctionNode astNode) {
     try {
       writer.writeCharacters(indent);
       writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "apply");
       writer.writeCharacters("\n");
       indent += "  ";
-      compileCi((ASTCSymbolBaseNode) astNode);
+      compileCi(astNode);
       for (ASTNode2 arg : astNode.getChildren()) {
         compile(arg);
       }

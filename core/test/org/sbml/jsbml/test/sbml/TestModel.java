@@ -712,6 +712,7 @@ public class TestModel {
     scr = (AssignmentRule) M.getRule(1);
     cvr = (AssignmentRule) M.getRule(2);
     pr = (AssignmentRule) M.getRule(3);
+    scr.getFormula();
     assertTrue(ar.getFormula().equals("x+1")); // .equals("x + 1")
     assertTrue(scr.getFormula().equals("k*t/(1+k)")); // .equals("k * t/(1 + k)"));
     assertTrue(cvr.getFormula().equals("0.1*t")); // .equals("0.10 * t"));

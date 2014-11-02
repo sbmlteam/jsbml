@@ -2652,8 +2652,18 @@ public class ASTNode extends AbstractTreeNode {
    *           if the method is called on nodes that are operators or numbers.
    */
   public String getName() {
-    if (isName()) {
-      return ((ASTCiNumberNode) astnode2).getRefId();
+    if (astnode2 instanceof ASTCiNumberNode) {
+      if (((ASTCiNumberNode)astnode2).isSetRefId()) {
+        return ((ASTCiNumberNode) astnode2).getRefId();        
+      } else {
+        return null;
+      }
+    } else if (astnode2 instanceof ASTCiFunctionNode) {
+      if (((ASTCiFunctionNode)astnode2).isSetRefId()) {
+        return ((ASTCiFunctionNode) astnode2).getRefId();        
+      } else {
+        return null;
+      }
     }
     throw new IllegalArgumentException(
         "getName() should be called only when !isNumber() && !isOperator()");
@@ -2695,9 +2705,10 @@ public class ASTNode extends AbstractTreeNode {
    * @return the parent SBML object.
    */
   public MathContainer getParentSBMLObject() {
-    return astnode2.isSetParentSBMLObject()
-        ? astnode2.getParentSBMLObject()
-        : null;
+    if (! astnode2.isSetParentSBMLObject()) {
+      return null;
+    }
+    return astnode2.getParentSBMLObject();
   }
 
   /**
@@ -2801,12 +2812,13 @@ public class ASTNode extends AbstractTreeNode {
    *           if {@link #isVariable()} returns {@code false}.
    */
   public CallableSBase getVariable() {
-    if (isName()) {
+    if (astnode2 instanceof ASTCiNumberNode) {
       return ((ASTCiNumberNode) astnode2).getReferenceInstance();
     } else if (astnode2 instanceof ASTCiFunctionNode) {
       return ((ASTCiFunctionNode) astnode2).getReferenceInstance();
+    } else {
+      return null;      
     }
-    return null;
   }
 
   /*
@@ -2974,7 +2986,7 @@ public class ASTNode extends AbstractTreeNode {
    *         Avogadro.
    */
   public boolean isName() {
-    return astnode2 instanceof ASTCiNumberNode;
+    return astnode2 instanceof ASTCiNumberNode || astnode2 instanceof ASTCiFunctionNode;
   }
 
   /**
@@ -3661,10 +3673,10 @@ public class ASTNode extends AbstractTreeNode {
   // TODO: javadoc not synchronized with the code, we are not using
   // isOperator() or isNumber() but maybe we should.
   public void setName(String name) {
-    if (astnode2 instanceof ASTFunction) {
-      ((ASTFunction) astnode2).setName(name);
-    } else if (astnode2 instanceof ASTCSymbolBaseNode) {
-      ((ASTCSymbolBaseNode) astnode2).setName(name);
+    if (astnode2 instanceof ASTCiFunctionNode) {
+      ((ASTCiFunctionNode) astnode2).setRefId(name);
+    } else if (astnode2 instanceof ASTCiNumberNode) {
+      ((ASTCiNumberNode) astnode2).setRefId(name);
     }
   }
 
@@ -3707,9 +3719,9 @@ public class ASTNode extends AbstractTreeNode {
       case CONSTRUCTOR_OTHERWISE : 
         astnode2 = new ASTQualifierNode(Type.CONSTRUCTOR_OTHERWISE);
         break;
-      //case FUNCTION_EXP :
-      //astnode2 = ;
-      //break;
+      case FUNCTION_EXP :
+        astnode2 = new ASTUnaryFunctionNode(Type.FUNCTION_EXP);
+        break;
       case DIVIDE :
         astnode2 = new ASTDivideNode();
         break;
@@ -3948,7 +3960,8 @@ public class ASTNode extends AbstractTreeNode {
    *          the double format number to which this node's value should be set
    */
   public void setValue(double value) {
-    if (astnode2 instanceof ASTCnRealNode) {
+    if (!(astnode2 instanceof ASTCnRealNode)) {
+      setType(Type.REAL);
       ((ASTCnRealNode) astnode2).setReal(value);
     }
   }

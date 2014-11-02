@@ -235,15 +235,7 @@ implements ASTNode2 {
    */
   @Override
   public MathContainer getParentSBMLObject() {
-    if (isSetParentSBMLObject()) {
-      return parentSBMLObject;
-    }
-    PropertyUndefinedError error = new PropertyUndefinedError("parentSBMLObject", this);
-    if (isStrict()) {
-      throw error;
-    }
-    logger.warn(error);
-    return null;
+     return parentSBMLObject;
   }
   
   /*

@@ -28,6 +28,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.sbml.jsbml.ASTNode.Type;
+import org.sbml.jsbml.Constraint;
+import org.sbml.jsbml.MathContainer;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
@@ -84,7 +87,7 @@ public class ASTCnNumberNodeTest {
   @Test
   public void testDeriveUnit() {
     ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
-    number.setUnits("COULOMB");
+    number.setUnits(Unit.Kind.COULOMB.getName());
     UnitDefinition unitDefinition = number.deriveUnit();
     assertTrue(unitDefinition.getUnitCount() == 1);
   }
@@ -123,12 +126,32 @@ public class ASTCnNumberNodeTest {
    * Test method for {@link org.sbml.jsbml.math.ASTCnNumberNode#getUnitsInstance()}.
    */
   @Test
-  public void testGetUnitsInstance() {
+  public void testGetUnitsInstanceExists() {
+    int level = -1, version = -1;
+    Model model = new Model(level, version);
+    Constraint constraint = new Constraint(level, version);
+    model.addConstraint(constraint);
+    Unit ampere = new Unit(Unit.Kind.AMPERE, level, version);
+    UnitDefinition unitDefinition = new UnitDefinition();
+    unitDefinition.addUnit(ampere);
+    unitDefinition.setId("ampere");
+    model.addUnitDefinition(unitDefinition);
+    ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
+    number.setParentSBMLObject(constraint);
+    number.setUnits(unitDefinition.getId());
+    UnitDefinition unitsInstance = number.getUnitsInstance();
+    assertTrue(unitsInstance != null && unitsInstance.equals(unitDefinition));
+  }
+  
+  /**
+   * Test method for {@link org.sbml.jsbml.math.ASTCnNumberNode#getUnitsInstance()}.
+   */
+  @Test
+  public void testGetUnitsInstanceNonExistent() {
     ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
     number.setUnits(Unit.Kind.AMPERE.getName());
     UnitDefinition unitsInstance = number.getUnitsInstance();
-    assertTrue(unitsInstance != null && unitsInstance.getChildCount() == 1
-        && unitsInstance.getListOfUnits().get(0).equals(Unit.Kind.AMPERE.getName()));
+    assertTrue(unitsInstance == null);
   }
   
   /**

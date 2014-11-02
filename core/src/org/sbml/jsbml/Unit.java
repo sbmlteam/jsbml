@@ -243,6 +243,20 @@ public class Unit extends AbstractSBase {
     public static Set<Kind> getUnitKindsDefinedIn(int level, int version) {
       Kind[] kinds = {};
       switch (level) {
+      case -1:
+        switch (version) {
+          case -1:
+            kinds = new Kind[] { AMPERE, BECQUEREL, CANDELA, CELSIUS,
+                COULOMB, DIMENSIONLESS, FARAD, GRAM, GRAY, HENRY,
+                HERTZ, ITEM, JOULE, KATAL, KELVIN, KILOGRAM, LITER,
+                LITRE, LUMEN, LUX, METER, METRE, MOLE, NEWTON, OHM,
+                PASCAL, RADIAN, SECOND, SIEMENS, SIEVERT,
+                STERADIAN, TESLA, VOLT, WATT, WEBER };
+              break;
+           default:
+             break;
+        }
+        break;
       case 1:
         switch (version) {
         case 1:

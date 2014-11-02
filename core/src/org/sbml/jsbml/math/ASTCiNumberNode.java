@@ -291,7 +291,7 @@ ASTCSymbolBaseNode {
    * 
    * @return boolean
    */
-  private boolean isSetRefId() {
+  public boolean isSetRefId() {
     return refId != null;
   }
   

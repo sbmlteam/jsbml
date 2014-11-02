@@ -258,7 +258,7 @@ ASTCSymbolBaseNode {
    * 
    * @return boolean
    */
-  private boolean isSetRefId() {
+  public boolean isSetRefId() {
     return refId != null;
   }
 
@@ -376,6 +376,8 @@ ASTCSymbolBaseNode {
     builder.append(isSetType() ? type : "null");
     builder.append(", id=");
     builder.append(isSetId() ? id : "null");
+    builder.append(", refId=");
+    builder.append(isSetRefId() ? refId : "null");
     builder.append(", style=");
     builder.append(isSetStyle() ? style : "null");
     builder.append(", class=");

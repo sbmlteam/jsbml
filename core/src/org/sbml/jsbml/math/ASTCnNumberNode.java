@@ -28,6 +28,7 @@ import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
@@ -150,12 +151,17 @@ public class ASTCnNumberNode<T> extends ASTNumber {
      if (! isSetUnits()) {
        return null;
      }
-     //UnitDefinition unitDefinition = getUnitsInstance();
-     //if (unitDefinition == null) {
-     UnitDefinition unitDefinition = new UnitDefinition();
-     unitDefinition.addUnit(getUnits());       
-     //}
-     return unitDefinition;
+     int level = -1;
+     int version = -1;
+     MathContainer parent = getParentSBMLObject();
+     if (parent != null) {
+       level = parent.getLevel();
+       version = parent.getVersion();
+     }
+     if (Unit.Kind.isValidUnitKindString(getUnits(), level, version)) {
+       return UnitDefinition.getPredefinedUnit(getUnits(), level, version);
+     }
+     return getUnitsInstance();
    }
 
   /* (non-Javadoc)

@@ -582,6 +582,13 @@ private ASTNode Primary() throws NumberFormatException :
       node = new ASTNode(type);
       node.addChild(child);
     }
+    else if (s.equalsIgnoreCase("selector"))
+    {
+      type = Type.FUNCTION;
+      node = new ASTNode(type);
+      node.setName("selector");
+      node.addChild(child);
+    }
     else
     {
       node = new ASTNode(Type.FUNCTION);

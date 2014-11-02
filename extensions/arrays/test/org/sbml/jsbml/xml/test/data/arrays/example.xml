@@ -17,6 +17,11 @@
     <listOfRules>
       <assignmentRule metaid="rule" variable="Y">
         <math xmlns="http://www.w3.org/1998/Math/MathML">        
+          <apply>
+            <ci> selector </ci>
+            <ci> X </ci>
+            <ci> i </ci>
+          </apply>
         </math>
               <arrays:listOfDimensions xmlns:arrays="http://www.sbml.org/sbml/level3/version1/arrays/version1">
           <arrays:dimension arrays:id="i" arrays:size="n" arrays:arrayDimension="0"/>
@@ -27,6 +32,7 @@
               <apply>
                 <minus/>
                 <cn type="integer"> 9 </cn>
+                <ci> i </ci>
               </apply>
             </math>
                     </arrays:index>
