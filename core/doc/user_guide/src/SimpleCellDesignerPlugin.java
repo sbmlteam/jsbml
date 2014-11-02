@@ -8,16 +8,10 @@ import jp.sbi.celldesigner.plugin.PluginMenuItem;
 import jp.sbi.celldesigner.plugin.PluginSBase;
 import org.sbml.jsbml.gui.JSBMLvisualizer;
 
-
 /**
  * A simple plugin for CellDesigner that displays the SBML data structure as a
  * {@link #DefaultTreeModel}. When the underlying SBMLDocument is changed by CellDesigner,
  * the tree will refresh itself and all nodes will become unexpanded.
- *
- * @author Andreas Dr&auml;ger
- * @version $Rev$
- * @since 1.0
- * @date 16.04.2014
  */
 public class SimpleCellDesignerPlugin extends AbstractCellDesignerPlugin {
 
