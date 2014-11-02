@@ -95,7 +95,7 @@ SBML objects derived from SBML's \SBase extend the JSBML abstract class
 This allows more complex relations to be defined between derived data
 types. In contrast to libSBML, JSBML's \SBase extends the interface
 \TreeNodeWithChangeSupport, which in turn extends three other interfaces:
-\Cloneable, \Serializable, and \TreeNode (\vref*{fig:SBase}).
+\Cloneable, \Serializable, and \TreeNode (\fig*{fig:SBase}).
 This brings with it various advantages. One is that, because all elements
 defined in JSBML \index{cloning} override the \code{clone()} method from
 the class \code{java.lang.Object}, \index{Object@\code{Object}} all JSBML
@@ -1099,7 +1099,7 @@ systems have analogous facilities):
 \subsection{Some example configurations}
 \ifthenelse{\boolean{includeCodeExample}}{}{\index{logging!configuration}}%
 
-\vref*{fig:log4j-simple-example} gives a short example of a log4j
+\fig{fig:log4j-simple-example} gives a short example of a log4j
 configuration file.  The effect of this particular configuration is to
 change the threshold of all loggers in the \code{org.sbml.jsbml.util}
 package to \code{DEBUG}, which results in all changes that happen to SBML
@@ -1171,7 +1171,7 @@ want to switch slowly from libSBML to JSBML, you may still read and write
 SBML models using libSBML in conjunction with JSBML.
 
 To facilitate this, the module \code{libSBMLio} provides classes
-\LibSBMLReader and \LibSBMLWriter.  \vref{lst:LibSBMLio} provides a short
+\LibSBMLReader and \LibSBMLWriter.  \fig{lst:LibSBMLio} provides a short
 code example illustrating the use of \LibSBMLReader.  The program displays the
 content of an SBML file in a \JTree, similar to what is shown in
 \fig{fig:JSBMLvisualizer-output}.
@@ -1229,14 +1229,14 @@ implementation of the \TreeNodeChangeListener{} interface for
 synchronization of changes in JSBML's data structures with CellDesigner.
 
 \begin{figure}[thb]
-  \exampleFile[style = java, lastline = 64]{src/SimpleCellDesignerPlugin.java}
+  \exampleFile[style = java, lastline = 66]{src/SimpleCellDesignerPlugin.java}
   \caption{A simple example for a CellDesigner plugin using JSBML as a
     communication layer. Continued in next figure.}
   \label{lst:Plugin1}
 \end{figure}
 
 \begin{figure}[thb]
-  \exampleFile[style = java, firstline = 65]{src/SimpleCellDesignerPlugin.java}
+  \exampleFile[style = java, firstline = 67]{src/SimpleCellDesignerPlugin.java}
   \caption{(Continued.) A simple example for a CellDesigner plugin using JSBML as a
     communication layer.}
   \label{lst:Plugin2}

@@ -110,7 +110,7 @@ public class ExampleModel extends AbstractSBasePlugin {
   \label{lst:ModelExtClass}
 \end{figure}
 
-\vref*{lst:ModelExtClass} shows the beginnings of the definition for
+\fig{lst:ModelExtClass} shows the beginnings of the definition for
 a class named \code{ExampleModel} that extends the plain SBML
 \Model. Technically, an extension really only needs to implement the
 \SBasePlugin interface, but because the abstract class \AbstractSBasePlugin
@@ -133,7 +133,7 @@ ability to attach a list of \code{Foo} objects to an extended version of
 \Model.  We show in \sec{sec:listofs} how to create the list
 structure; here, we focus on the definition of \code{Foo}.  We define the
 class \code{Foo} by extending \AbstractSBasePlugin, and add methods for
-working with the attributes.  In \vref{lst:DefaultModelExtFooBar},
+working with the attributes.  In \fig{lst:DefaultModelExtFooBar},
 we list the code so far, focusing on just one of the attributes,
 \emph{bar}.
 
@@ -176,7 +176,7 @@ public boolean unsetBar() {
   \label{lst:DefaultModelExtFooBar}
 \end{figure}
 
-A few points about the code of \vref{lst:DefaultModelExtFooBar} are worth
+A few points about the code of \fig{lst:DefaultModelExtFooBar} are worth
 mentioning.  The identifiers on SBML components are often required to be
 unique; for many components, the scope of uniqueness is the entire set of
 main SBML components (e.g., \Species, \Compartment{}s, etc.), but some have
@@ -188,7 +188,7 @@ should implement the JSBML interface \UniqueNamedSBase; in our example, this
 is taken care of by the abstract superclasses, so nothing needs to be done
 explicitly here.
 
-The code in \vref{lst:DefaultModelExtFooBar} illustrates
+The code in \fig{lst:DefaultModelExtFooBar} illustrates
 another point, the need call to \code{firePropertyChange()} in set and
 unset methods.  This is needed in order to ensure that all listeners are
 notified about changes to the objects.  Finally, note that in cases that
@@ -259,7 +259,7 @@ Attempting to define a separate constructor for every possible combination
 of arguments can lead to a combinatorial explosion, resulting in complex
 class definitions, confusing code, and excessive maintenance costs, so it
 is better to decide which combinations of arguments are the most common and
-focus on them.  In \vref{lst:ModelExtFooConstructors}, we show a
+focus on them.  In \fig{lst:ModelExtFooConstructors}, we show a
 recommended selection of constructors.  They include a constructor that
 takes an identifier only, another that takes SBML Level and Version values
 only, and another that takes all arguments together.  If you delegate the
@@ -278,7 +278,7 @@ extended \Model itself, but it does introduce the ability to have a list of
 implemented using Java generics and the class \code{ListOf}, such that the
 type of the list will be \code{ListOf<Foo>}.  (Unlike in libSBML, there
 will not be an actual separate \code{ListOfFoo} class.)  In
-\vref{lst:ModelExtListOfFoosBasic}, we show the basic implementation
+\fig{lst:ModelExtListOfFoosBasic}, we show the basic implementation
 of the methods that would be added to \Model to handle
 \code{ListOf<Foo>}: \code{isSetListOfFoos()}, \code{getListOfFoos()},
 \code{setListOfFoos(ListOf<Foo>)}, and \code{unsetListOfFoos()}.
@@ -324,7 +324,7 @@ Typically, when adding and removing Foo objects to the \Model, direct
 access to the actual \code{ListOf} object is not necessary.  To add and
 remove \code{Foo} objects from a given SBML model, it is more convenient to
 have methods to add and remove on \code{Foo} object at a time.  We show
-such methods in \vref{lst:ModelExtAddRemoveFoos}.  The methods also
+such methods in \fig{lst:ModelExtAddRemoveFoos}.  The methods also
 do some additional consistency checking as part of their work.
 
 \begin{figure}[t]
@@ -392,7 +392,7 @@ public SBase getChildAt(int childIndex) {
 
 To let a \code{ListOfFoo} appear as a child of the standard \Model, some
 important methods for \TreeNode need to be implemented (see
-\vref{lst:ModelExtChildren}).  Method \code{getAllowsChildren()} should
+\fig{lst:ModelExtChildren}).  Method \code{getAllowsChildren()} should
 return \code{true} in this case, since this extension allows children.  The
 child count and the indices of the children is a bit more complicated,
 because they vary with the number of non-empty \code{ListOf}s.  So, for
@@ -406,7 +406,7 @@ object's index may shift. )
 
 Since a newly created instance of type \code{Foo} is not part of the model
 unless it is added to it, \code{create*} methods should be provided that
-take care of all that (see \vref{lst:ModelExtCreateMethods}).
+take care of all that (see \fig{lst:ModelExtCreateMethods}).
 These create methods should be part of the model to which the \code{Foo}
 instance is to be added, in this case \code{ExampleModel}.
 
@@ -456,7 +456,7 @@ maps or hash sets and such. The relationship between \code{equals} and
 hash codes must be the same. Vice versa, whenever their hash codes are
 different, they cannot be equal.
 
-\ref{lst:ModelExtEquals} and \vref{lst:ModelExtHashCode} are examples
+\fig{lst:ModelExtEquals} and \fig{lst:ModelExtHashCode} are examples
 of how to write these methods for the class \code{Foo} with the attribute
 \code{bar}.  Since \code{equals} accepts general objects, it first needs to
 check if the passed object is of the same class as the object it is called
@@ -508,7 +508,7 @@ public int hashCode() {
  \label{lst:ModelExtHashCode}
 \end{figure}
 
-\ref{lst:ModelExtClone} and~\vref{lst:ModelExtCloneFoo} illustrates
+fig{lst:ModelExtClone} and~\fig{lst:ModelExtCloneFoo} illustrates
 implementations of \code{clone()} methods.  To clone an object, the call to
 the \code{clone()} method is delegated to a constructor of that class that
 takes an instance of itself as argument.  There, all the elements of the
@@ -561,7 +561,7 @@ to extend the \AbstractReaderWriter that extends both interfaces, and then imple
 the required methods in a generic way. To
 implement the parser, in this case the \code{ExampleParser}, one should
 start with two members and two simple methods, as shown in
-\vref{lst:ModelExtParserClass}. As this code fragment shows, an additional class
+\fig{lst:ModelExtParserClass}. As this code fragment shows, an additional class
 \code{ExampleConstants} and an enum \code{ExampleListType} are used. The class \code{ExampleConstants}
 is used to keep track of all the static \String{}s used in the extension so that we are sure 
 that the same value is used everywhere. The enum  \code{ExampleListType} can be used to keep
@@ -679,7 +679,7 @@ public Object processStartElement(String elementName, String prefix,
   \label{lst:ModelExtParserStartElement}
 \end{figure}
 
-The \code{processEndElement()} (see \vref{lst:ModelExtParserEndElement}) 
+The \code{processEndElement()} (see \fig{lst:ModelExtParserEndElement}) 
 method is called when a closing tag is
 encountered.  The \code{groupList} attribute needs to be updated to reflect the step
 up in the tree of nested elements.  In this example, if the end of
@@ -707,7 +707,7 @@ public boolean processEndElement(String elementName, String prefix,
 
 The attributes of an XML element are read into the corresponding object via
 the \code{readAttributes()} method that must be implemented for each class.
-An example is shown in \vref{lst:ModelExtReadAttributes} for the example class
+An example is shown in \fig{lst:ModelExtReadAttributes} for the example class
 \code{Foo}. The \code{AbstractReaderWriter} will use these methods to set
 the attribute values into the java objects.
 
@@ -752,7 +752,7 @@ tags, one could alter the name of the XML object in this method.
 
 The actual writing of XML attributes must be implemented in each of the
 classes in the \code{writeXMLAttributes()}.  An example is shown in 
-\vref{lst:ModelExtCreateXMLAttributes} for the class \code{Foo}.
+\fig{lst:ModelExtCreateXMLAttributes} for the class \code{Foo}.
 Then the \code{AbstractReaderWriter} class will use these methods to write
 the attributes.
 
@@ -793,7 +793,7 @@ extension that need to be implemented.
 \begin{itemize}[leftmargin=2em]
 
 \item Add the extension to an existing model (see
-  \vref{lst:ModelExtClass}).
+  \fig{lst:ModelExtClass}).
 
 \item Add the five necessary methods for each class attribute:
 
@@ -809,12 +809,12 @@ extension that need to be implemented.
 
   \end{itemize}
 
-\item Add the default constructors (see \vref{lst:ModelExtFooConstructors}).
+\item Add the default constructors (see \fig{lst:ModelExtFooConstructors}).
 
 \item If the class has children, check if all list methods are implemented
-  (see the program fragments in \ref{lst:ModelExtChildren},
-  \ref{lst:ModelExtListOfFoosBasic}, \ref{lst:ModelExtAddRemoveFoos},
-  \ref{lst:ModelExtChildren}):
+  (see the program fragments in \fig{lst:ModelExtChildren},
+  \fig{lst:ModelExtListOfFoosBasic}, \fig{lst:ModelExtAddRemoveFoos},
+  \fig{lst:ModelExtChildren}):
 
   \begin{itemize}
     
@@ -841,29 +841,29 @@ extension that need to be implemented.
   \end{itemize}
 
 \item All necessary create methods are implemented (see 
-  \vref{lst:ModelExtCreateMethods}).
+  \fig{lst:ModelExtCreateMethods}).
 
 \item Implement the \code{equals()} method (see 
-  \vref{lst:ModelExtEquals}).
+  \fig{lst:ModelExtEquals}).
 
 \item Implement the \code{hashCode()} method (see 
-  \vref{lst:ModelExtHashCode}).
+  \fig{lst:ModelExtHashCode}).
 
 \item Implement the \code{clone()} method (see 
-  \vref{lst:ModelExtClone} and \vref{lst:ModelExtCloneFoo}).
+  \fig{lst:ModelExtClone} and \fig{lst:ModelExtCloneFoo}).
 
 \item Implement the \code{toString()} method.
 
 \item Implement the \code{writeXMLAttribute()} method (see 
-  \vref{lst:ModelExtCreateXMLAttributes}).
+  \fig{lst:ModelExtCreateXMLAttributes}).
 
 \item Implement the \code{readAttribute(String, String, String)} method (see 
-  \vref{lst:ModelExtReadAttributes}).
+  \fig{lst:ModelExtReadAttributes}).
   
 \item Implement the reader/writer method (see 
-  \vref{lst:ModelExtParserClass},
-  \vref{lst:ModelExtParserStartElement}, and
-  \vref{lst:ModelExtParserEndElement}).
+  \fig{lst:ModelExtParserClass},
+  \fig{lst:ModelExtParserStartElement}, and
+  \fig{lst:ModelExtParserEndElement}).
 \end{itemize}
 
 
