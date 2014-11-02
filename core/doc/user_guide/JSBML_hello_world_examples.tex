@@ -15,14 +15,7 @@ elaborate programs.
 
 \subsection{Reading and visualizing an \codeNC{SBMLDocument} object}
 
-\begin{figure}[b]
-  \exampleFile{src/JSBMLvisualizer.java}
-  \caption{Parsing and visualizing the content of an SBML file.}
-  \label{fig:JSBMLvisualizer-source}
-  \index{graphical user interface!\code{JFrame}}
-\end{figure}
-
-\vref*{fig:JSBMLvisualizer-source} shows the listing of a very simple
+\fig{fig:JSBMLvisualizer-source} shows the listing of a very simple
 program called ``\code{JSBMLvisualizer}''. When it is run, it expects to
 be given the path name of a valid SBML file as \index{SBML!XML file} its
 sole argument. The program uses the static method \code{read()} defined
@@ -59,7 +52,14 @@ your particular computer; we do not show an exact value here because it
 depends on where you have installed the JAR files for JSBML and the
 third-party libraries.
 
-\begin{wrapfigure}[24]{r}{2.55in}
+\begin{figure}[ht]
+  \exampleFile{src/JSBMLvisualizer.java}
+  \caption{Parsing and visualizing the content of an SBML file.}
+  \label{fig:JSBMLvisualizer-source}
+  \index{graphical user interface!\code{JFrame}}
+\end{figure}
+
+\begin{wrapfigure}[27]{r}{2.55in}
   \centering
   \vspace*{-1em}
   \setlength{\captionmargin}{1.8em}
@@ -72,7 +72,7 @@ third-party libraries.
     implement the interface \TreeNode.}
   \label{fig:JSBMLvisualizer-output}
 \end{wrapfigure}
-\vref*{fig:JSBMLvisualizer-output} shows the example output when
+\fig{fig:JSBMLvisualizer-output} shows the example output when
 applying the program to an SBML test model. \index{SBML!test cases} Each
 element in the model shows up as an item in the hierarchy displayed by the
 Java \JTree object. In the working application, the user can click on the
@@ -133,7 +133,7 @@ representation of the SBML model.
 
 \section{More examples}
 
-\vref*{lst:LibSBMLio} illustrates the conversion of libSBML data structures
+\fig{lst:LibSBMLio} illustrates the conversion of libSBML data structures
 into JSBML data objects. \fig{lst:PluginAction} demonstrates the
 implementation of CellDesigner's abstract class \code{PluginAction} and
 \fig{lst:Plugin1} gives a complete example for writing CellDesigner plugins
