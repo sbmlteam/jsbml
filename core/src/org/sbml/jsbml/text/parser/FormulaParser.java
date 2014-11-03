@@ -458,9 +458,8 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     }
     else if (s.equalsIgnoreCase("selector"))
     {
-      type = Type.FUNCTION;
+      type = Type.FUNCTION_SELECTOR;
       node = new ASTNode(type);
-      node.setName("selector");
       node.addChild(child);
     }
     else
@@ -753,12 +752,6 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     return false;
   }
 
-  private boolean jj_3_3() {
-    if (jj_scan_token(LEFT_BRACES)) return true;
-    if (jj_3R_10()) return true;
-    return false;
-  }
-
   private boolean jj_3R_23() {
     if (jj_scan_token(INTEGER)) return true;
     return false;
@@ -801,6 +794,12 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     }
     }
     }
+    return false;
+  }
+
+  private boolean jj_3_3() {
+    if (jj_scan_token(LEFT_BRACES)) return true;
+    if (jj_3R_10()) return true;
     return false;
   }
 
@@ -869,6 +868,16 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     return false;
   }
 
+  private boolean jj_3R_8() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_scan_token(26)) {
+    jj_scanpos = xsp;
+    if (jj_scan_token(27)) return true;
+    }
+    return false;
+  }
+
   private boolean jj_3_2() {
     if (jj_scan_token(STRING)) return true;
     Token xsp;
@@ -876,16 +885,6 @@ public class FormulaParser implements IFormulaParser, FormulaParserConstants {
     while (true) {
       xsp = jj_scanpos;
       if (jj_3R_9()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
-  private boolean jj_3R_8() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_scan_token(26)) {
-    jj_scanpos = xsp;
-    if (jj_scan_token(27)) return true;
     }
     return false;
   }
