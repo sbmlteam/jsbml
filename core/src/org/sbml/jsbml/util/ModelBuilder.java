@@ -291,7 +291,7 @@ public class ModelBuilder {
    * @return
    */
   public Reaction buildReaction(String id, String name, Compartment compartment, boolean fast, boolean reversible) {
-    return buildReaction(id, name, compartment.getId(), fast, reversible);
+    return buildReaction(id, name, compartment != null ? compartment.getId() : null, fast, reversible);
   }
 
   /**
@@ -307,7 +307,9 @@ public class ModelBuilder {
     Model model = getModel();
     Reaction r = model.createReaction(id);
     r.setName(name);
-    r.setCompartment(compartment);
+    if (compartment != null) {
+      r.setCompartment(compartment);
+    }
     r.setFast(fast);
     r.setReversible(reversible);
     return r;

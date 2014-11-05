@@ -785,22 +785,22 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     return getHistory();
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.SBase#createPlugin(java.lang.String)
+   */
   @Override
   public SBasePlugin createPlugin(String nameOrUri) {
-
     // use always the package name in the map
     PackageParser packageParser = ParserManager.getManager().getPackageParser(nameOrUri);
 
     if (packageParser != null) {
-
       SBasePlugin sbasePlugin = packageParser.createPluginFor(this);
       addExtension(nameOrUri, sbasePlugin);
       return sbasePlugin;
     }
 
-    throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!!", nameOrUri));
+    throw new IllegalArgumentException(MessageFormat.format("The package namespace or name ''{0}'' is unknown!", nameOrUri));
   }
-
 
   /**
    * Disables the given SBML Level 3 package on this {@link SBMLDocument}.

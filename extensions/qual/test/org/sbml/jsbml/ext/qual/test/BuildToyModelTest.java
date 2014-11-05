@@ -65,7 +65,7 @@ public class BuildToyModelTest {
     Model model = sbmlDoc.createModel("m_default_name");
 
     model.getHistory().addModifiedDate(Calendar.getInstance().getTime());
-    model.getAnnotation().addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "urn:miriam:obo.go:GO%3A1234567"));
+    model.getAnnotation().addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "http://identifiers.org/obo.go/GO:1234567"));
 
     QualModelPlugin qModel = new QualModelPlugin(model);
 
@@ -84,7 +84,7 @@ public class BuildToyModelTest {
     g0.setMaxLevel(1);
     g0.setInitialLevel(0);
 
-    g0.getAnnotation().addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "urn:miriam:obo.go:GO%3A1234567"));
+    g0.getAnnotation().addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "http://identifiers.org/obo.go/GO:1234567"));
     g0.setNotes("<notes>\n\t<body xmlns=\"http://www.w3.org/1999/xhtml\">\n\t\t<p>TestNotes parsing &#285; &#65;</p>\n\t</body>\n</notes>");
 
     QualitativeSpecies g1 = qModel.createQualitativeSpecies("G1", comp1.getId(), false);
@@ -97,7 +97,7 @@ public class BuildToyModelTest {
     g2.setMaxLevel(2);
     g2.setInitialLevel(2);
 
-    g2.getAnnotation().addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "urn:miriam:obo.go:GO%3A1234567"));
+    g2.getAnnotation().addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS, "http://identifiers.org/obo.go/GO:1234567"));
     g2.getHistory().addModifiedDate(Calendar.getInstance().getTime());
 
     QualitativeSpecies g3 = qModel.createQualitativeSpecies("G3", comp1.getId(), true);
