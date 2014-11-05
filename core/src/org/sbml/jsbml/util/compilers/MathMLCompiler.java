@@ -51,8 +51,9 @@ import org.w3c.dom.Node;
  * @date 2010-05-18
  * @since 0.8
  * @version $Rev$
+ * @deprecated use {@link MathMLXMLStreamCompiler} instead.
  */
-@SuppressWarnings("deprecation")
+@Deprecated
 public class MathMLCompiler implements ASTNodeCompiler {
 
   /**
@@ -427,7 +428,8 @@ public class MathMLCompiler implements ASTNodeCompiler {
    */
   private ASTNodeValue createCiElement(String name) {
     lastElementCreated = document.createElement("ci");
-    lastElementCreated.setTextContent(writeName(name.trim()));
+    lastElementCreated.setNodeValue(writeName(name.trim()));
+    //lastElementCreated.setTextContent(writeName(name.trim()));
     return new ASTNodeValue(lastElementCreated, this);
   }
 
@@ -469,7 +471,8 @@ public class MathMLCompiler implements ASTNodeCompiler {
     }
     String type = value instanceof Integer ? "integer" : "real";
     lastElementCreated.setAttribute("type", type);
-    lastElementCreated.setTextContent(writeName(value));
+    lastElementCreated.setNodeValue(writeName(value));
+    //lastElementCreated.setTextContent(writeName(value));
     return lastElementCreated;
   }
 
@@ -495,7 +498,8 @@ public class MathMLCompiler implements ASTNodeCompiler {
     lastElementCreated = document.createElement("csymbol");
     lastElementCreated.setAttribute("encoding", "text");
     lastElementCreated.setAttribute("definitionURL", definitionURI);
-    lastElementCreated.setTextContent(writeName(name));
+    lastElementCreated.setNodeValue(writeName(name));
+    //lastElementCreated.setTextContent(writeName(name));
     return lastElementCreated;
   }
 
