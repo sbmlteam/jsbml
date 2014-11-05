@@ -1,0 +1,113 @@
+#!/usr/local/bin/dot
+#
+# dot -Tpdf type_hierarchy.dot -otype_hierarchy.pdf && acroread type_hierarchy.pdf &
+# dot -Tpng type_hierarchy.dot -otype_hierarchy.png
+#
+# $Id: type_hierarchy.dot 
+# $URL: svn://svn.code.sf.net/p/jsbml/code/trunk/extensions/dyn/doc/img/type_hierarchy.dot $
+
+/*
+ * Overview of the dynamic structures extension type hierarchy
+ */
+ 
+
+strict digraph G{
+
+	 nodesep=0.25;
+ 	ranksep=0.5;
+
+	 edge [
+	   fontname="Helvetica",
+	   fontsize=10,
+ 	  labelfontname="Helvetica",
+	   labelfontsize=10
+	 ];
+	 node [
+	   fontname="Helvetica",
+	   fontsize=10,
+	   shape=box
+ 	];
+ 	
+   /*******************
+   * Java base types *
+   *******************/
+
+  subgraph clusterJava {
+    fontname="Helvetica";
+    fontsize=12;
+    style="filled";
+    fillcolor="#FFE4E1"
+    color="#ffffff"
+    label="Java data types";
+    labelloc=t;
+    labeljust=c;
+
+    // Interfaces
+    Cloneable                              [label="<<interface>>\nCloneable"];
+    Comparable                             [label="<<interface>>\nComparable"];
+    Serializable                           [label="<<interface>>\nSerializable"];
+  }
+  
+  subgraph clusterDyn {
+    fontname="Helvetica";
+    fontsize=12;
+    style="filled";
+    fillcolor="#d2ffd2"
+    color="#ffffff"
+    label="Dynamic Structures extension";
+    labelloc=t;
+    labeljust=c;
+
+    // Objects
+    DynSBasePlugin 								 [label="DynSBase\nPlugin"];
+    DynCompartmentPlugin                         [label="DynCompartment\nPlugin"];
+    DynEventPlugin                         		 [label="DynEvent\nPlugin"];
+	CBO 										 [label="CBO"];
+	DynElement 									 [label="DynElement"];
+	SpatialComponent 							 [label="SpatialComponent"];
+  
+    /*
+     * Inheritance graph
+     */
+     DynSBasePlugin  -> DynCompartmentPlugin   [dir=back,arrowtail=empty];
+     DynSBasePlugin  -> DynEventPlugin         [dir=back,arrowtail=empty];
+  }
+  
+   /*******************
+   * SBML data types *
+   *******************/
+  
+ 	/*
+ 	 * Interfaces
+ 	 */
+ 	
+ 	SBase                                    [label="<<interface>>\nSBase"];
+ 	NamedSBase				                 [label="<<interface>>\nNamed\nSBase"];
+ 	UniqueNamedSBase                         [label="<<interface>>\nUniqueNamed\nSBase"]; 
+	SBasePlugin			                 	 [label="<<interface>>\nSBase\nPlugin"];
+   	
+   /*
+   * Abstract data types
+   */
+ 	AbstractSBase                            [label="Abstract\nSBase", style="filled", fillcolor="#F0F8FF"];
+	AbstractNamedSBase                       [label="Abstract\nNamedSBase", style="filled", fillcolor="#F0F8FF"];
+	AbstractSBasePlugin                      [label="Abstract\nSBasePlugin", style="filled", fillcolor="#F0F8FF"];
+  
+     /*
+     * Inheritance graph
+     */
+     Cloneable  			-> CBO   					 [dir=back,arrowtail=empty,style=dashed];
+     Comparable  			-> CBO      	     		 [dir=back,arrowtail=empty,style=dashed];
+	 Serializable  			-> CBO  			 		 [dir=back,arrowtail=empty,style=dashed];
+	 SBasePlugin     		-> AbstractSBasePlugin       [dir=back,arrowtail=empty,style=dashed];
+	 AbstractSBasePlugin    -> DynSBasePlugin   		 [dir=back,arrowtail=empty];
+	 AbstractNamedSBase		-> DynElement				 [dir=back,arrowtail=empty];
+     AbstractNamedSBase		-> SpatialComponent			 [dir=back,arrowtail=empty];
+	 UniqueNamedSBase		-> DynElement				 [dir=back,arrowtail=empty,style=dashed];
+     UniqueNamedSBase		-> SpatialComponent			 [dir=back,arrowtail=empty,style=dashed];
+	 AbstractSBase		    -> AbstractNamedSBase	     [dir=back,arrowtail=empty];
+	 SBase		            -> AbstractSBase	         [dir=back,arrowtail=empty,style=dashed];
+	 NamedSBase		        -> UniqueNamedSBase			 [dir=back,arrowtail=empty,style=dashed];
+	 SBase		            -> NamedSBase	         [dir=back,arrowtail=empty,style=dashed];
+	 
+}
