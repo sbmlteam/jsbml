@@ -1,3 +1,25 @@
+/*
+ * $Id$
+ * $URL$
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
+ *
+ * Copyright (C) 2009-2014 jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
+ * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 5. The Babraham Institute, Cambridge, UK
+ * 6. Boston University, Boston, MA, USA
+ * 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
+ */
 package org.sbml.jsbml.ext.dyn.test;
 
 import java.io.InputStream;
@@ -20,103 +42,104 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
 /**
  * @author Harold Gomez
  * @since 1.0
+ * @version $Rev$
  */
 public class TestL3Dyn {
 
-	public static String DYN_NAMESPACE = "http://www.sbml.org/sbml/level3/version1/dyn/version1";
+  public static String DYN_NAMESPACE = "http://www.sbml.org/sbml/level3/version1/dyn/version1";
 
-	@Before
-	public void setUp() throws Exception {
-	}
+  @Before
+  public void setUp() throws Exception {
+  }
 
-	@After
-	public void tearDown() throws Exception {
-	}
+  @After
+  public void tearDown() throws Exception {
+  }
 
-	/**
-	 * Tests whether extended models can be read properly
-	 */
-	@Test
-	public void test_L3_dyn_read() throws XMLStreamException {
-		InputStream fileStream = TestL3Dyn.class
-				.getResourceAsStream("/org/sbml/jsbml/xml/test/data/dyn/dynUseCase.xml");
-		SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
-		Model model = doc.getModel();
-		
-		//Check whether the dyn extension elements are being read in properly!
-		System.out.println(doc.getExtensionPackages());
-		
-		DynEventPlugin extendedEvent;
-		Event tempEvent;
-		Object tempObject;
-		ListOf<DynElement> dynElementList;
-		for (int i = 0; i < model.getEventCount(); i++) {
-			tempObject = model.getEvent(i).getExtension(DYN_NAMESPACE);
-			if (tempObject != null) {
-				extendedEvent = (DynEventPlugin) tempObject;
-				tempEvent = (Event) extendedEvent.getExtendedSBase();
-				System.out.println("Extended event id = " + tempEvent.getId()
-						+ ", applyToAll = " + extendedEvent.getApplyToAll());
+  /**
+   * Tests whether extended models can be read properly
+   */
+  @Test
+  public void test_L3_dyn_read() throws XMLStreamException {
+    InputStream fileStream = TestL3Dyn.class
+        .getResourceAsStream("/org/sbml/jsbml/xml/test/data/dyn/dynUseCase.xml");
+    SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
+    Model model = doc.getModel();
 
-				dynElementList = extendedEvent.getListOfDynElements();
-				System.out.println("Nb DynElements = " + dynElementList.size());
+    //Check whether the dyn extension elements are being read in properly!
+    System.out.println(doc.getExtensionPackages());
 
-				for (int j = 0; j < dynElementList.size(); j++) {
-					System.out.println("DynElement idRef = "
-							+ dynElementList.get(j).getIdRef()
-							+ ", metaIdRef = "
-							+ dynElementList.get(j).getMetaId());
-				}
-			}
-		}
+    DynEventPlugin extendedEvent;
+    Event tempEvent;
+    Object tempObject;
+    ListOf<DynElement> dynElementList;
+    for (int i = 0; i < model.getEventCount(); i++) {
+      tempObject = model.getEvent(i).getExtension(DYN_NAMESPACE);
+      if (tempObject != null) {
+        extendedEvent = (DynEventPlugin) tempObject;
+        tempEvent = (Event) extendedEvent.getExtendedSBase();
+        System.out.println("Extended event id = " + tempEvent.getId()
+          + ", applyToAll = " + extendedEvent.getApplyToAll());
 
-		DynCompartmentPlugin extendedCompartment;
-		Compartment tempCompartment;
-		ListOf<SpatialComponent> spatialComponentList;
-		for (int i = 0; i < model.getCompartmentCount(); i++) {
-			tempObject = model.getCompartment(i).getExtension(DYN_NAMESPACE);
-			if (tempObject != null) {
-				extendedCompartment = (DynCompartmentPlugin) tempObject;
-				tempCompartment = (Compartment) extendedCompartment
-						.getExtendedSBase();
-				System.out.println("Extended compartment id = "
-						+ tempCompartment.getId());
+        dynElementList = extendedEvent.getListOfDynElements();
+        System.out.println("Nb DynElements = " + dynElementList.size());
 
-				spatialComponentList = extendedCompartment
-						.getListOfSpatialComponents();
-				System.out.println("Nb SpatialComponents = "
-						+ spatialComponentList.size());
+        for (int j = 0; j < dynElementList.size(); j++) {
+          System.out.println("DynElement idRef = "
+              + dynElementList.get(j).getIdRef()
+              + ", metaIdRef = "
+              + dynElementList.get(j).getMetaId());
+        }
+      }
+    }
 
-				for (int j = 0; j < spatialComponentList.size(); j++) {
-					System.out.println("SpatialComponent spatialIndex = "
-							+ spatialComponentList.get(j).getSpatialIndex()
-							+ ", variable = "
-							+ spatialComponentList.get(j).getVariable());
-				}
-			}
-		}
-	}
+    DynCompartmentPlugin extendedCompartment;
+    Compartment tempCompartment;
+    ListOf<SpatialComponent> spatialComponentList;
+    for (int i = 0; i < model.getCompartmentCount(); i++) {
+      tempObject = model.getCompartment(i).getExtension(DYN_NAMESPACE);
+      if (tempObject != null) {
+        extendedCompartment = (DynCompartmentPlugin) tempObject;
+        tempCompartment = (Compartment) extendedCompartment
+            .getExtendedSBase();
+        System.out.println("Extended compartment id = "
+            + tempCompartment.getId());
 
-	/**
-	 * Tests whether extended model components can be written out properly
-	 */
-	@Test
-	public void test_L3_dyn_write() throws XMLStreamException {
+        spatialComponentList = extendedCompartment
+            .getListOfSpatialComponents();
+        System.out.println("Nb SpatialComponents = "
+            + spatialComponentList.size());
 
-		// Tests round-trip read/write functionality
-		InputStream fileStream = TestL3Dyn.class
-				.getResourceAsStream("/org/sbml/jsbml/xml/test/data/dyn/dynUseCase.xml");
-		SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
-		new SBMLWriter().writeSBMLToString(doc);
+        for (int j = 0; j < spatialComponentList.size(); j++) {
+          System.out.println("SpatialComponent spatialIndex = "
+              + spatialComponentList.get(j).getSpatialIndex()
+              + ", variable = "
+              + spatialComponentList.get(j).getVariable());
+        }
+      }
+    }
+  }
 
-		// Add more tests for writing different elements when CBO support is
-		// available
-	}
+  /**
+   * Tests whether extended model components can be written out properly
+   */
+  @Test
+  public void test_L3_dyn_write() throws XMLStreamException {
 
-	public static void main(String[] args) throws XMLStreamException {
-		TestL3Dyn tests= new TestL3Dyn();
-		tests.test_L3_dyn_read();
-		tests.test_L3_dyn_write();
-	}
+    // Tests round-trip read/write functionality
+    InputStream fileStream = TestL3Dyn.class
+        .getResourceAsStream("/org/sbml/jsbml/xml/test/data/dyn/dynUseCase.xml");
+    SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
+    new SBMLWriter().writeSBMLToString(doc);
+
+    // Add more tests for writing different elements when CBO support is
+    // available
+  }
+
+  public static void main(String[] args) throws XMLStreamException {
+    TestL3Dyn tests= new TestL3Dyn();
+    tests.test_L3_dyn_read();
+    tests.test_L3_dyn_write();
+  }
 
 }
