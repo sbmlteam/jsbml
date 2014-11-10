@@ -185,14 +185,19 @@ public class DynSBasePlugin extends AbstractSBasePlugin {
   public boolean readAttribute(String attributeName, String prefix,
     String value) {
     boolean isAttributeRead = false;
+    
     if (attributeName.equals(DynConstants.cboTerm)) {
       try {
+        if (value.startsWith("http://")) {
+          value = value.substring(value.lastIndexOf("#") + 1); // TODO - investigate why the biojava ontology class does not work with url ids?
+        }
         setCBOTerm(CBO.getTerm(value));
         isAttributeRead = true;
       } catch (Exception e) {
         MessageFormat.format(
           DynConstants.bundle.getString("COULD_NOT_READ_CBO"), value,
           DynConstants.cboTerm);
+        e.printStackTrace(); // TODO - we need to do something with the Message !!
       }
 
     }
@@ -212,11 +217,11 @@ public class DynSBasePlugin extends AbstractSBasePlugin {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
+    
     if (isSetCBOTerm()) {
-      attributes.put(DynConstants.shortLabel + ":cboTerm",
-        cboTerm.getId());
-
+      attributes.put(DynConstants.shortLabel + ":cboTerm", cboTerm.getId());
     }
+    
     return attributes;
   }
 
