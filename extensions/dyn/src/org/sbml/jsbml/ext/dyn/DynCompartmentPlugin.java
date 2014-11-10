@@ -23,8 +23,11 @@
 package org.sbml.jsbml.ext.dyn;
 
 import java.text.MessageFormat;
-import java.util.Map;
+import java.util.Collection;
+import java.util.List;
+
 import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.ListOf;
 
@@ -279,17 +282,6 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
   public String toString() {
     return "DynCompartmentPlugin [listOfSpatialComponents="
         + listOfSpatialComponents + "]";
-  }
-
-  @Override
-  public Map<String, String> writeXMLAttributes() {
-    return null;
-  }
-
-  @Override
-  public boolean readAttribute(String attributeName, String prefix,
-    String value) {
-    return false;
   }
 
 }

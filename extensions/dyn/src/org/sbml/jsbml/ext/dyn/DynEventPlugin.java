@@ -359,18 +359,20 @@ public class DynEventPlugin extends DynSBasePlugin {
   @Override
   public boolean readAttribute(String attributeName, String prefix,
     String value) {
-    boolean isAttributeRead = false;
-    if (attributeName.equals(DynConstants.applyToAll)) {
+    
+    boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
+    
+    if (!isAttributeRead && attributeName.equals(DynConstants.applyToAll)) {
       try {
         setApplyToAll(StringTools.parseSBMLBoolean(value));
         isAttributeRead = true;
       } catch (Exception e) {
         MessageFormat.format(
           DynConstants.bundle.getString("COULD_NOT_READ_EVENT"), value,
-          DynConstants.applyToAll);
+          DynConstants.applyToAll); // TODO - do something with the message !!
       }
-
     }
+    
     return isAttributeRead;
   }
 

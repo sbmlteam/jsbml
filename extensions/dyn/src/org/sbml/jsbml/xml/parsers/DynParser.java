@@ -167,13 +167,13 @@ public class DynParser extends AbstractReaderWriter implements PackageParser {
       Event event = (Event) contextObject;
       DynEventPlugin dynEvent = null;
       if (event.getExtension(DynConstants.namespaceURI) != null) {
-        dynEvent = (DynEventPlugin) event
-            .getExtension(DynConstants.namespaceURI);
+        dynEvent = (DynEventPlugin) event.getExtension(DynConstants.namespaceURI);
       } else {
         dynEvent = new DynEventPlugin(event);
         event.addExtension(DynConstants.namespaceURI, dynEvent);
       }
       contextObject = dynEvent;
+      elementName = dynEvent.getClass().getSimpleName();
     }
     /*		else if (attributeName.equals(DynConstants.cboTerm)) {
 			SBase component = (SBase) contextObject;

@@ -23,7 +23,11 @@
 package org.sbml.jsbml.ext.dyn.test;
 
 import java.io.InputStream;
+
 import javax.xml.stream.XMLStreamException;
+
+import junit.framework.Assert;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,6 +50,8 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
  */
 public class TestL3Dyn {
 
+  // TODO - replace the println by assertion to be able to do the test automatically
+  
   public static String DYN_NAMESPACE = "http://www.sbml.org/sbml/level3/version1/dyn/version1";
 
   @Before
@@ -130,8 +136,14 @@ public class TestL3Dyn {
     InputStream fileStream = TestL3Dyn.class
         .getResourceAsStream("/org/sbml/jsbml/xml/test/data/dyn/dynUseCase.xml");
     SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
-    new SBMLWriter().writeSBMLToString(doc);
+    String docString = new SBMLWriter().writeSBMLToString(doc);
 
+    // System.out.println(docString);
+    
+    SBMLDocument docReRead = new SBMLReader().readSBMLFromString(docString);
+    
+    Assert.assertTrue(docReRead.isPackageEnabled(DYN_NAMESPACE));
+    
     // Add more tests for writing different elements when CBO support is
     // available
   }

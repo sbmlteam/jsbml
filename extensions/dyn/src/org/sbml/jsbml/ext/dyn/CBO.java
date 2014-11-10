@@ -562,6 +562,9 @@ public class CBO {
       i++;
     }
     System.out.println("\nThere is " + i + " terms in the CBO ontology.");
+    
+    System.out.println("Get CellDeath by name = " + Term.printTerm(getTerm("CellDeath")));
+    System.out.println("Get CellDeath by id (url) = " + Term.printTerm(getTerm("http://cbo.biocomplexity.indiana.edu/svn/cbo/trunk/CBO_1_0.owl#CellDeath")));
 
   }
 }
