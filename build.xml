@@ -93,7 +93,7 @@
 		<property name="libSBMLio.module.base.dir" value="${basedir}/modules/libSBMLio" />
 
 		<property name="core.base.dir" value="${basedir}/core" />
-		<property name="package.names" value="arrays comp fbc groups layout multi qual render req spatial" />
+		<property name="package.names" value="arrays comp dyn fbc groups layout multi qual render req spatial" />
 
 		<filter token="year" value="${year}" />
 		<filter token="version" value="${version}" />
@@ -229,6 +229,7 @@
 				<provider classname="org.sbml.jsbml.xml.parsers.MathMLStaxParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.ArraysParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.CompParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.DynParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.FBCParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.GroupsParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.L3LayoutParser" />
@@ -294,6 +295,9 @@
 				<provider classname="org.sbml.jsbml.xml.parsers.SBMLCoreParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.XMLNodeReader" />
 				<provider classname="org.sbml.jsbml.xml.parsers.MathMLStaxParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.ArraysParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.CompParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.DynParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.FBCParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.GroupsParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.L3LayoutParser" />
@@ -301,9 +305,8 @@
 				<provider classname="org.sbml.jsbml.xml.parsers.MultiParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.QualParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.RenderParser" />
+				<provider classname="org.sbml.jsbml.xml.parsers.ReqParser" />
 				<provider classname="org.sbml.jsbml.xml.parsers.SpatialParser" />
-				<provider classname="org.sbml.jsbml.xml.parsers.CompParser" />
-				<provider classname="org.sbml.jsbml.xml.parsers.ArraysParser" />
 			</service>
 		</jar>
 	</target>
