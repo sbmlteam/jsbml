@@ -106,6 +106,8 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
       return ((1 <= version) && (version <= 4));
     case 3:
       return ((1 <= version) && (version <= 1));
+    case -1:
+      return (version == -1);
     default:
       return false;
     }
@@ -222,16 +224,10 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    */
   public AbstractSBase(int level, int version) {
     this();
-    if ((0 < level) && (level < 4)) {
-      lv.setL(Integer.valueOf(level));
-    } else {
-      lv.setL(null);
-    }
-    if ((0 < version)) {
-      lv.setV(Integer.valueOf(version));
-    } else {
-      lv.setV(null);
-    }
+
+    lv.setL(level);
+    lv.setV(version);
+
     if (!hasValidLevelVersionNamespaceCombination()) {
       throw new LevelVersionError(this);
     }
