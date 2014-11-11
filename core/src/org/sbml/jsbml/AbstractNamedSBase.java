@@ -105,9 +105,7 @@ NamedSBase {
    * @param version the SBML version
    */
   public AbstractNamedSBase(int level, int version) {
-    this();
-    setLevel(level);
-    setVersion(version);
+    super(level, version);
   }
 
   /**
@@ -125,7 +123,7 @@ NamedSBase {
   }
 
   /**
-   * Creates an AbctractNamedSBase from an id, level and version.
+   * Creates an {@link AbstractNamedSBase} from an id, level and version.
    * 
    * @param id the id of this {@code AbstractNamedSBase}
    * @param level the SBML level
