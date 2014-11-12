@@ -24,7 +24,7 @@ package org.sbml.jsbml.test;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.math.parser.ParseException;
 
 /**
  * 

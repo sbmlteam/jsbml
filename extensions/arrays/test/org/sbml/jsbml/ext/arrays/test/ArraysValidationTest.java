@@ -37,7 +37,7 @@ import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.ext.arrays.validator.ArraysValidator;
-import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.math.parser.ParseException;
 
 
 /**

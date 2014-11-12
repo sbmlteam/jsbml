@@ -29,9 +29,9 @@ import java.io.StringReader;
 
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.text.parser.FormulaParser;
-import org.sbml.jsbml.text.parser.FormulaParserLL3;
-import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.math.parser.FormulaParserLL3;
+import org.sbml.jsbml.math.parser.FormulaParser;
+import org.sbml.jsbml.math.parser.ParseException;
 
 
 /**
@@ -352,7 +352,8 @@ public class MathTest {
     try {
       n = parser.parse();
       assertTrue(n.getType() == ASTNode.Type.VECTOR);
-      assertTrue(n.equals(ASTNode.parseFormula("vector(sin(x), 96+21, 6^2, boo)")));
+      ASTNode node = ASTNode.parseFormula("vector(sin(x), 96+21, 6^2, boo)");
+      assertTrue(n.equals(node));
     } catch (ParseException e) {
       e.printStackTrace();
       assertTrue(false);

@@ -25,8 +25,8 @@ import java.io.StringReader;
 
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.JSBML;
-import org.sbml.jsbml.text.parser.FormulaParserLL3;
-import org.sbml.jsbml.text.parser.IFormulaParser;
+import org.sbml.jsbml.math.parser.FormulaParserLL3;
+import org.sbml.jsbml.math.parser.IFormulaParser;
 
 /**
  * 

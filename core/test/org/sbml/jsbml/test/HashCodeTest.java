@@ -36,7 +36,7 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.Species;
-import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.math.parser.ParseException;
 
 /**
  * @author Andreas Dr&auml;ger

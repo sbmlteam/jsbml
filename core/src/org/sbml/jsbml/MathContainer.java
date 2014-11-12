@@ -21,7 +21,7 @@
  */
 package org.sbml.jsbml;
 
-import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.math.parser.ParseException;
 import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
@@ -89,6 +89,7 @@ public interface MathContainer extends SBaseWithDerivedUnit {
    *             {@link ASTNode} object from your formula {@link String}.
    * @throws ParseException
    *             If the given formula is invalid or cannot be parsed properly.
+   * @throws org.sbml.jsbml.math.parser.ParseException 
    * @throws PropertyNotAvailableException
    *             When trying to set this attribute and the Level is set to a
    *             value other than 1, this will throw an error.

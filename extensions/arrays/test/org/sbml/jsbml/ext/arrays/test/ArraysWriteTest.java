@@ -116,8 +116,7 @@ public class ArraysWriteTest {
     
     rule.setMath(ruleMath);
     
-    SBMLWriter writer = new SBMLWriter();
-    writer.writeSBMLToFile(doc, path);
+    SBMLWriter writer = new SBMLWriter(); writer.writeSBMLToFile(doc, path);
   }
 
   /**

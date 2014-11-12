@@ -355,8 +355,7 @@ public class ASTFunctionTest {
   @Test
   public final void testGetParentSBMLObjectNonExistent() {
     ASTFunction function = new ASTFunction();
-    exception.expect(PropertyUndefinedError.class);
-    function.getParentSBMLObject();
+    assertTrue(function.getParentSBMLObject() == null);
   }
   
   /**

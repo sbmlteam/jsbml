@@ -32,7 +32,7 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.text.parser.FormulaParserASTNode2;
+import org.sbml.jsbml.math.parser.FormulaParserASTNode2;
 import org.sbml.jsbml.text.parser.ParseException;
 
 
@@ -500,7 +500,7 @@ public class ASTFactory {
       result = parser.parse().toASTNode2();
     } catch (Throwable e) {
       // the javacc parser can throw some TokenMgrError at least
-      throw new ParseException(e);
+      throw new ParseException(e.getMessage());
     }
     
     return result; 

@@ -35,6 +35,7 @@ import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.math.ASTCnNumberNode;
+import org.sbml.jsbml.util.ModelBuilder;
 
 
 /**
@@ -128,14 +129,12 @@ public class ASTCnNumberNodeTest {
   @Test
   public void testGetUnitsInstanceExists() {
     int level = -1, version = -1;
-    Model model = new Model(level, version);
+    ModelBuilder builder = new ModelBuilder(level, version);
+    Model model = builder.getModel();
     Constraint constraint = new Constraint(level, version);
     model.addConstraint(constraint);
-    Unit ampere = new Unit(Unit.Kind.AMPERE, level, version);
-    UnitDefinition unitDefinition = new UnitDefinition();
-    unitDefinition.addUnit(ampere);
-    unitDefinition.setId("ampere");
-    model.addUnitDefinition(unitDefinition);
+    UnitDefinition unitDefinition = builder.buildUnitDefinition("a", "");
+    ModelBuilder.buildUnit(unitDefinition, 1d, 0, Unit.Kind.AMPERE, 1d);
     ASTCnNumberNode<Integer> number = new ASTCnNumberNode<Integer>();
     number.setParentSBMLObject(constraint);
     number.setUnits(unitDefinition.getId());

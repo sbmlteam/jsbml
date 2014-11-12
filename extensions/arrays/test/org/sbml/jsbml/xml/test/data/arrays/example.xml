@@ -18,7 +18,7 @@
       <assignmentRule metaid="rule" variable="Y">
         <math xmlns="http://www.w3.org/1998/Math/MathML">        
           <apply>
-            <ci> selector </ci>
+            <selector/>
             <ci> X </ci>
             <ci> i </ci>
           </apply>

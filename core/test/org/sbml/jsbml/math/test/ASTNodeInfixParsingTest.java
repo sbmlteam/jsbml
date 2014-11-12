@@ -29,8 +29,8 @@ import java.io.StringReader;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.text.parser.FormulaParserLL3;
-import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.math.parser.FormulaParserLL3;
+import org.sbml.jsbml.math.parser.ParseException;
 
 public class ASTNodeInfixParsingTest {
   

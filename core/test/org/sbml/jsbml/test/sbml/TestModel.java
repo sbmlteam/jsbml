@@ -63,7 +63,7 @@ import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.Unit;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.UnitDefinition;
-import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.math.parser.ParseException;
 
 /**
  * @author  Nicolas Rodriguez
@@ -714,7 +714,7 @@ public class TestModel {
     pr = (AssignmentRule) M.getRule(3);
     scr.getFormula();
     assertTrue(ar.getFormula().equals("x+1")); // .equals("x + 1")
-    assertTrue(scr.getFormula().equals("k*t/(1+k)")); // .equals("k * t/(1 + k)"));
+    assertTrue(scr.getFormula().equals("(k*t)/(1+k)")); // .equals("k * t/(1 + k)"));
     assertTrue(cvr.getFormula().equals("0.1*t")); // .equals("0.10 * t"));
     assertTrue(pr.getFormula().equals("k3/k2"));
   }

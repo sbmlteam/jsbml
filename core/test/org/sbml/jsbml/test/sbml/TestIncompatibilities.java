@@ -35,7 +35,7 @@ import org.sbml.jsbml.EventAssignment;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Trigger;
-import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.math.parser.ParseException;
 
 /**
  * 

@@ -4,6 +4,7 @@
  * ----------------------------------------------------------------------------
  * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
  * for the latest version of JSBML and more information about SBML.
+ *
  * Copyright (C) 2009-2014 jointly by the following organizations:
  * 1. The University of Tuebingen, Germany
  * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
@@ -18,35 +19,14 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-package org.sbml.jsbml.math.test;
-
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
-
-import org.sbml.jsbml.ASTNode;
-import org.sbml.jsbml.math.ASTFactory;
-import org.sbml.jsbml.math.ASTNode2;
-import org.sbml.jsbml.math.parser.ParseException;
 
 /**
+ * Provides classes to parse formula
+ * Strings and to convert these into abstract syntax tree data structures.
+ * All these classes are generated automatically using JavaCC. The JSBML
+ * source code distribution contains the grammar specification necessary
+ * for this in the files folder (FormulaParser.jj).
  * 
- * @author Andreas Dr&auml;ger
- * @version $Rev$
- * @since 1.0
- * @date 16.10.2014
+ * @author Alexander D&ouml;rr
  */
-public class RecursionTest {
-
-  /**
-   * @param args
-   * @throws ParseException
-   */
-  public static void main(String[] args) throws ParseException {
-    ASTNode ast = ASTNode.parseFormula("3 * 1/1");
-    System.out.println(ast.getType());
-    JOptionPane.showMessageDialog(null, new JScrollPane(new JTree(ast)));
-    System.out.println(ast.toFormula());
-  }
-
-}
+package org.sbml.jsbml.math.parser;

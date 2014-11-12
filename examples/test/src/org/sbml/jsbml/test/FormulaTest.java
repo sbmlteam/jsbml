@@ -26,7 +26,7 @@ import org.sbml.jsbml.AssignmentRule;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.math.parser.ParseException;
 
 /**
  * @author Andreas Dr&auml;ger

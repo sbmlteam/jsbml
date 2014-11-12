@@ -444,7 +444,6 @@ public class MathMLXMLStreamCompiler {
       writer.writeCharacters(indent);
       writer.writeStartElement(ASTNode.URI_MATHML_DEFINITION, "cn");
       writer.writeAttribute("type", "integer"); // writer.writeAttribute(ASTNode.URI_MATHML_DEFINITION, "type", "integer");
-
       if (astNode.isSetUnits()) {
         writer.writeAttribute("sbml:units", astNode.getUnits());
       }

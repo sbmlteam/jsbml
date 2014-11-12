@@ -69,9 +69,9 @@ import org.sbml.jsbml.math.ASTUnaryFunctionNode;
 import org.sbml.jsbml.math.ASTUnknown;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
-import org.sbml.jsbml.text.parser.FormulaParser;
-import org.sbml.jsbml.text.parser.IFormulaParser;
-import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.math.parser.IFormulaParser;
+import org.sbml.jsbml.math.parser.FormulaParser;
+import org.sbml.jsbml.math.parser.ParseException;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
@@ -983,7 +983,7 @@ public class ASTNode extends AbstractTreeNode {
       result = parser.parse();
     } catch (Throwable e) {
       // The JavaCC parser can throw a TokenMgrError at least
-      throw new ParseException(e);
+      throw new ParseException();
     }
     return result;
   }
@@ -1009,7 +1009,7 @@ public class ASTNode extends AbstractTreeNode {
       result = parser.parse();
     } catch (Throwable e) {
       // The JavaCC parser can throw a TokenMgrError at least
-      throw new ParseException(e);
+      throw new ParseException();
     }
 
     return result;
@@ -2456,7 +2456,9 @@ public class ASTNode extends AbstractTreeNode {
    */
   public ASTNode getChild(int index) {
     if (isSetASTNode2() && (astnode2 instanceof ASTFunction)) {
-      return new ASTNode(((ASTFunction) astnode2).getChildAt(index));
+      ASTNode child  = new ASTNode(((ASTFunction) astnode2).getChildAt(index));
+      child.parent = this;
+      return child;
     }
     return null;
   }
@@ -2652,21 +2654,21 @@ public class ASTNode extends AbstractTreeNode {
    *           if the method is called on nodes that are operators or numbers.
    */
   public String getName() {
+    if (isNumber() || isOperator()) {
+      throw new IllegalArgumentException(
+          "getName() should be called only when !isNumber() && !isOperator()");
+    }
+    String name = null;
     if (astnode2 instanceof ASTCiNumberNode) {
       if (((ASTCiNumberNode)astnode2).isSetRefId()) {
-        return ((ASTCiNumberNode) astnode2).getRefId();        
-      } else {
-        return null;
+        name = ((ASTCiNumberNode) astnode2).getRefId();        
       }
     } else if (astnode2 instanceof ASTCiFunctionNode) {
       if (((ASTCiFunctionNode)astnode2).isSetRefId()) {
-        return ((ASTCiFunctionNode) astnode2).getRefId();        
-      } else {
-        return null;
+        name = ((ASTCiFunctionNode) astnode2).getRefId();        
       }
     }
-    throw new IllegalArgumentException(
-        "getName() should be called only when !isNumber() && !isOperator()");
+    return name;
   }
 
   /**
@@ -3042,7 +3044,8 @@ public class ASTNode extends AbstractTreeNode {
    * @return {@code true} if this ASTNode is an operator.
    */
   public boolean isOperator() {
-    return astnode2 instanceof ASTPlusNode || astnode2 instanceof ASTMinusNode
+    return astnode2 instanceof ASTPlusNode 
+        || astnode2 instanceof ASTMinusNode
         || astnode2 instanceof ASTTimesNode
         || astnode2 instanceof ASTDivideNode
         || astnode2 instanceof ASTPowerNode
@@ -3960,8 +3963,7 @@ public class ASTNode extends AbstractTreeNode {
    *          the double format number to which this node's value should be set
    */
   public void setValue(double value) {
-    if (!(astnode2 instanceof ASTCnRealNode)) {
-      setType(Type.REAL);
+    if (astnode2 instanceof ASTCnRealNode) {
       ((ASTCnRealNode) astnode2).setReal(value);
     }
   }

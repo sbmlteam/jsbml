@@ -24,6 +24,7 @@ package org.sbml.jsbml.xml.test;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -32,6 +33,7 @@ import org.junit.Test;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLError.SEVERITY;
 import org.sbml.jsbml.SBMLReader;
+import org.sbml.jsbml.test.sbml.TestReadFromFile5;
 import org.sbml.jsbml.validator.SBMLValidator;
 
 /**
@@ -43,20 +45,6 @@ import org.sbml.jsbml.validator.SBMLValidator;
 public class CheckConsistencyTests {
 
 
-  public static String DATA_FOLDER = null;
-
-  static {
-
-    DATA_FOLDER = "test/org/sbml/jsbml/xml/test/data";
-
-    if (System.getProperty("DATA_FOLDER") != null || System.getenv("DATA_FOLDER") != null) {
-      DATA_FOLDER = System.getProperty("DATA_FOLDER");
-      if (DATA_FOLDER == null) {
-        DATA_FOLDER = System.getenv("DATA_FOLDER");
-      }
-    }
-  }
-
   /**
    * 
    */
@@ -67,10 +55,9 @@ public class CheckConsistencyTests {
    * Tries to validate biomodels file with id BIOMD0000000228.
    */
   @Test public void checkConsistency() throws IOException, XMLStreamException {
-    String fileName = DATA_FOLDER + "/l2v4/BIOMD0000000228.xml";
-
-    SBMLDocument doc = new SBMLReader().readSBML(fileName);
-
+    InputStream fileStream = TestReadFromFile5.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v4/BIOMD0000000228.xml");
+    SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
+    
     int nbErrors = doc.checkConsistency();
 
     if (nbErrors > 0) {
@@ -86,28 +73,20 @@ public class CheckConsistencyTests {
    * Tries to validate biomodels file with id BIOMD0000000025, with all checks on.
    */
   @Test public void checkConsistencyAllChecks() throws IOException, XMLStreamException {
-    String fileName = DATA_FOLDER + "/l2v1/BIOMD0000000025.xml";
-
-    SBMLDocument doc = new SBMLReader().readSBML(fileName);
-
+    InputStream fileStream = TestReadFromFile5.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v1/BIOMD0000000025.xml");
+    SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
     doc.setConsistencyChecks(SBMLValidator.CHECK_CATEGORY.UNITS_CONSISTENCY, true);
-
     int nbErrors = doc.checkConsistency();
-
     int numRealErrors = doc.getErrorLog().getNumFailsWithSeverity(SEVERITY.ERROR);
     if (numRealErrors > 0) {
       System.out.println("# Found " + numRealErrors + " VALIDATION ERRORS !!!");
       doc.printErrors(System.out);
     }
-
     System.out.println("Found " + nbErrors + " errors/warnings on Biomodels 025 with the unit checking turned on.");
     assertTrue(nbErrors > 0);
-
     assertTrue(doc.getErrorLog().getNumFailsWithSeverity(SEVERITY.ERROR) == 0);
-
     assertTrue(nbErrors == doc.getErrorCount());
     assertTrue(nbErrors == doc.getErrorLog().getValidationErrors().size());
-
   }
 
   // TODO: test that the different possible consistency checks can be put on or off.
@@ -118,9 +97,9 @@ public class CheckConsistencyTests {
    * Tries to validate biomodels file with id BIOMD0000000228.
    */
   @Test public void checkConsistency228() throws IOException, XMLStreamException {
-    String fileName = DATA_FOLDER + "/l2v4/BIOMD0000000228.xml";
+    InputStream fileStream = TestReadFromFile5.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v4/BIOMD0000000228.xml");
+    SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
 
-    SBMLDocument doc = new SBMLReader().readSBML(fileName);
     try {
       int nbErrors = doc.checkConsistency();
 
@@ -136,9 +115,9 @@ public class CheckConsistencyTests {
    * Tries to validate biomodels file with id BIOMD0000000025.
    */
   @Test public void checkConsistency025() throws IOException, XMLStreamException {
-    String fileName = DATA_FOLDER + "/l2v1/BIOMD0000000025.xml";
+    InputStream fileStream = TestReadFromFile5.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v1/BIOMD0000000025.xml");
+    SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
 
-    SBMLDocument doc = new SBMLReader().readSBML(fileName);
     try {
       int nbErrors = doc.checkConsistency();
 
