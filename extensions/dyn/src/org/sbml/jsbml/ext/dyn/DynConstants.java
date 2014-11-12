@@ -31,7 +31,7 @@ import org.sbml.jsbml.util.ResourceManager;
 /**
  * Contains some constants related to the Dynamic Structures package.
  * 
- * @author Harold Gomez
+ * @author Harold G&oacute;mez
  * @since 1.0
  * @version $Rev$
  */

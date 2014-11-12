@@ -51,7 +51,7 @@ import org.sbml.jsbml.ext.dyn.SpatialComponent;
  * WritingParser).
  * 
  *
- * @author Harold Gomez
+ * @author Harold G&oacute;mez
  * @since 1.0
  * @version $Rev$
  */

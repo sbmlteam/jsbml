@@ -30,7 +30,7 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.ext.dyn.CBO.Term;
 
 /**
- * @author Harold Gomez
+ * @author Harold G&oacute;mez
  * @since 1.0
  * @version $Rev$
  */
@@ -189,7 +189,7 @@ public class DynSBasePlugin extends AbstractSBasePlugin {
     if (attributeName.equals(DynConstants.cboTerm)) {
       try {
         if (value.startsWith("http://")) {
-          value = value.substring(value.lastIndexOf("#") + 1); // TODO - investigate why the biojava ontology class does not work with url ids?
+          value = value.substring(value.lastIndexOf("#") + 1); 
         }
         setCBOTerm(CBO.getTerm(value));
         isAttributeRead = true;
@@ -197,7 +197,7 @@ public class DynSBasePlugin extends AbstractSBasePlugin {
         MessageFormat.format(
           DynConstants.bundle.getString("COULD_NOT_READ_CBO"), value,
           DynConstants.cboTerm);
-        e.printStackTrace(); // TODO - we need to do something with the Message !!
+        e.printStackTrace();
       }
 
     }

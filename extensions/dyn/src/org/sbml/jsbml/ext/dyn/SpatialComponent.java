@@ -29,7 +29,7 @@ import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
- * @author Harold Gomez
+ * @author Harold G&oacute;mez
  * @since 1.0
  * @version $Rev$
  */
