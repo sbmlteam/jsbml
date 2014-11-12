@@ -28,7 +28,7 @@ package org.sbml.jsbml.ext.dyn;
  * bound to a Cartesian coordinate system. This has been defined in version 1 of
  * the Dynamic Structures specification.
  * 
- * @author Harold Gomez
+ * @author Harold G&oacute;mez
  * @since 1.0
  * @version $Rev$
  */

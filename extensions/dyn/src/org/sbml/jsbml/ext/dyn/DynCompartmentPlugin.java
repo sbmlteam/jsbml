@@ -32,7 +32,7 @@ import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.ListOf;
 
 /**
- * @author Harold Gomez
+ * @author Harold G&oacute;mez
  * @since 1.0
  * @version $Rev$
  */

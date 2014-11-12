@@ -30,7 +30,7 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.util.StringTools;
 
 /**
- * @author Harold Gomez
+ * @author Harold G&oacute;mez
  * @since 1.0
  * @version $Rev$
  */
@@ -369,7 +369,8 @@ public class DynEventPlugin extends DynSBasePlugin {
       } catch (Exception e) {
         MessageFormat.format(
           DynConstants.bundle.getString("COULD_NOT_READ_EVENT"), value,
-          DynConstants.applyToAll); // TODO - do something with the message !!
+          DynConstants.applyToAll);
+        e.printStackTrace();
       }
     }
     

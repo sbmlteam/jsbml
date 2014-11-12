@@ -66,7 +66,7 @@ import org.sbml.jsbml.util.StringTools;
  * vocabularies (CVs) such as CBO. This is the purpose of the cboTerm provided
  * through the extended SBase class in this package.
  * 
- * @author Harold Gomez
+ * @author Harold G&oacute;mez
  * @since 1.0
  * @version $Rev$
  */
