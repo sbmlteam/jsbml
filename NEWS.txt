@@ -8,6 +8,10 @@ Version 1.0-rc2 (??-??-2014)
 
   - Solved error #82 in Unit.removeMultiplier. Thanks to Christian Thöns
     for pointing this out.
+    
+  - The registerChild method now returns a boolean value to indicate if the
+    operation was successfully completed. This prevents users from adding
+    duplicates to ListOf objects.
 
 ===========================================================================
 Version 1.0-rc1 (24-09-2014)

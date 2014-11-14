@@ -1629,7 +1629,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @see org.sbml.jsbml.SBase#registerChild(org.sbml.jsbml.SBase)
    */
   @Override
-  public void registerChild(SBase sbase) throws LevelVersionError {
+  public boolean registerChild(SBase sbase) throws LevelVersionError {
     if ((sbase != null) && (sbase.getParent() != null)) {
       if (sbase.getParent() == this) {
         logger.warn(MessageFormat.format(
@@ -1640,7 +1640,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           "SBase {0} is associated to the different parent {1}. Please remove it there before adding it to this {2} or add a clone of it to this element.",
           sbase, sbase.getParent(), this));
       }
-      return;
+      return false;
     }
 
     if ((sbase != null) && checkLevelAndVersionCompatibility(sbase)) {
@@ -1699,7 +1699,11 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
       // Notify all listeners that a new node has been added to this subtree:
       sbase.fireNodeAddedEvent();
+
+      return true;
     }
+
+    return false;
   }
 
 
