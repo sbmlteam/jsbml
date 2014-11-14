@@ -108,6 +108,9 @@ public class IdRegistrationTest {
       System.err.println(exc.getLocalizedMessage());
       assertTrue(!c2.getId().equals(c1.getId()));
     }
+
+    assertTrue(!model.addCompartment(c1));
+
     // remove ListOfCompartments
     ListOf<Compartment> listOfC = model.getListOfCompartments();
     model.unsetListOfCompartments();

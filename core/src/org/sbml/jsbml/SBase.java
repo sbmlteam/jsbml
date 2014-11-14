@@ -765,17 +765,19 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * as it is used internally within JSBML to maintain the hierarchical document
    * structure.
    * If the level and version of sbase are set but not valid, an
-   * {@link Exception} is
-   * thrown.
+   * {@link Exception} is thrown.
    * 
    * @param sbase
    *        the {@link SBase} to be registered.
+   * @return {@code true} if the element could successfully be registered,
+   *         {@code false} otherwise, e.g., if the element has already been
+   *         registered.
    * @throws LevelVersionError
    *         In case the given {@link SBase} has a different, but defined
    *         Level/Version combination than this current {@link SBase}, an
    *         {@link LevelVersionError} is thrown.
    */
-  public void registerChild(SBase sbase) throws LevelVersionError;
+  public boolean registerChild(SBase sbase) throws LevelVersionError;
 
   /**
    * Unregisters recursively the given SBase from the {@link Model}
