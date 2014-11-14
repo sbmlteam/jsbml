@@ -1633,12 +1633,12 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     if ((sbase != null) && (sbase.getParent() != null)) {
       if (sbase.getParent() == this) {
         logger.warn(MessageFormat.format(
-          "Trying to register SBase {0}, that is already associated with this model!",
-          sbase));
+          "Trying to register {0} ''{1}'', which is already registered under {2} ''{3}''.",
+          sbase.getElementName(), sbase, getElementName(), this));
       } else {
         logger.warn(MessageFormat.format(
-          "SBase {0} is associated to the different parent {1}. Please remove it there before adding it to this {2} or add a clone of it to this element.",
-          sbase, sbase.getParent(), this));
+          "{0} ''{1}'' is associated to the different parent ''{1}''. Please remove it there before adding it to this ''{2}'' or add a clone of it to this element.",
+          sbase.getClass().getSimpleName(), sbase, sbase.getParent(), this));
       }
       return false;
     }

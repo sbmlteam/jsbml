@@ -393,11 +393,13 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
      * something goes wrong, we have to revert this action.
      */
     try {
-      if (listOf.add(element) && !registerChild(element)) {
+      if (listOf.add(element)) {
+        if (registerChild(element)) {
+          return true;
+        }
         listOf.remove(listOf.size() - 1);
-        return false;
       }
-      return true;
+      return false;
     } catch (RuntimeException exc) {
       if (logger.isDebugEnabled()) {
         logger.debug(MessageFormat.format(
