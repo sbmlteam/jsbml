@@ -67,7 +67,7 @@ import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.StringTools;
-import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
+import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.xml.XMLNode;
 import org.sbml.jsbml.xml.parsers.ParserManager;
 import org.sbml.jsbml.xml.parsers.WritingParser;
@@ -757,7 +757,7 @@ public class SBMLWriter {
       SMOutputElement mathElement = element.addElement(mathMLNamespace, "math");
       MathMLXMLStreamCompiler compiler = new MathMLXMLStreamCompiler(
         writer, createIndentationString(indent + indentCount));
-      boolean isSBMLNamespaceNeeded = compiler.isSBMLNamespaceNeeded(m.getMath());
+      boolean isSBMLNamespaceNeeded = compiler.isSBMLNamespaceNeeded(m.getMath().toASTNode2());
 
       // TODO: add all other namespaces !!
 
@@ -786,7 +786,7 @@ public class SBMLWriter {
       writer.writeCharacters(whitespaces);
       writer.writeCharacters("\n");
 
-      compiler.compile(m.getMath());
+      compiler.compile(m.getMath().toASTNode2());
 
       writer.writeCharacters(whitespaces);
     }

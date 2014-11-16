@@ -31,6 +31,7 @@ import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.math.ASTFactory;
 import org.sbml.jsbml.util.StringTools;
 
 /**
@@ -118,15 +119,13 @@ public class MathMLStaxParser implements ReadingParser {
     // ", value = " + value + ", prefix = " + prefix + ", " + isLastAttribute + ", " + contextObject);
 
     // Possible value : type, id, style, class, encoding, definitionURL ...
-    if (attributeName.equals("type")) {
-      astNode.setIsSetNumberType(true);
-    }
     if (attributeName.equals("definitionURL")) {
       astNode.setDefinitionURL(value);
     }
 
     if (attributeName.equals("type") || attributeName.equals("definitionURL")) {
-      astNode.setType(value);
+      // TODO: 
+      // astNode.setType(value);
       // System.out.println("MathMLStaxParser : processAttribute : astNode Type = " + astNode.getType());
     } else if (attributeName.equals("id")) {
       astNode.setId(value);
@@ -334,8 +333,12 @@ public class MathMLStaxParser implements ReadingParser {
       return null;
     }
 
-    ASTNode astNode = new ASTNode(mathContainer);
+    ASTNode astNode = new ASTNode();
+    if (elementName.equalsIgnoreCase("cn") && hasAttributes) {
+      // TODO: 
+    }
     astNode.setType(elementName);
+    ASTFactory.setParentSBMLObject(astNode.toASTNode2(), mathContainer);
 
     if (setMath) {
       mathContainer.setMath(astNode);

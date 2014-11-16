@@ -33,7 +33,7 @@ import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.MathContainer;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.math.parser.FormulaParserASTNode2;
-import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.math.parser.ParseException;
 
 
 /**

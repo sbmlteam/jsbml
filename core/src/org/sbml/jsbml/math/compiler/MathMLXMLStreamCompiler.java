@@ -316,7 +316,7 @@ public class MathMLXMLStreamCompiler {
       compileVector((ASTFunction) node);
       break;
     default: // UNKNOWN:
-      logger.warn("!!!!! I don't know what to do with the node of type " + node.getType());
+      logger.warn("!!!!! I don't know what to do with the node of type " + node.getType() + " " + node);
       break;
     }
   }

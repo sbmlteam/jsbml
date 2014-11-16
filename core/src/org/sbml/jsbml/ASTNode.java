@@ -69,14 +69,14 @@ import org.sbml.jsbml.math.ASTUnaryFunctionNode;
 import org.sbml.jsbml.math.ASTUnknown;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
-import org.sbml.jsbml.math.parser.IFormulaParser;
+import org.sbml.jsbml.math.compiler.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.math.parser.FormulaParser;
+import org.sbml.jsbml.math.parser.IFormulaParser;
 import org.sbml.jsbml.math.parser.ParseException;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
 import org.sbml.jsbml.util.compilers.LaTeXCompiler;
-import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
@@ -528,13 +528,13 @@ public class ASTNode extends AbstractTreeNode {
       // for cn, we pass the type attribute to this function to determine the
       // proper astNode type
       // for csymbol, we pass the definitionURL
-      else if (type.equalsIgnoreCase("real") || type.equals("cn")) {
+      else if (type.equalsIgnoreCase("real")) {
         // we put the type by default to real in case the type attribute is
         // not define on the cn element.
         return REAL;
       } else if (type.equalsIgnoreCase("e-notation")) {
         return REAL_E;
-      } else if (type.equalsIgnoreCase("integer")) {
+      } else if (type.equalsIgnoreCase("integer") || type.equalsIgnoreCase("cn")) {
         return INTEGER;
       } else if (type.equalsIgnoreCase("rational")) {
         return RATIONAL;
@@ -725,7 +725,13 @@ public class ASTNode extends AbstractTreeNode {
     for (int i = 0; i < ast.length; i++) {
       ast2[i] = ast[i].toASTNode2();
     }
-    return new ASTNode(ASTFactory.diff(ast2));
+    ASTNode node = null;
+    if (ast.length == 2) {
+      node = new ASTNode(ASTFactory.minus(ast2[0], ast2[1]));
+    } else {
+      node = new ASTNode(ASTFactory.diff(ast2));
+    }
+    return node;
   }
 
   /**
@@ -1394,8 +1400,8 @@ public class ASTNode extends AbstractTreeNode {
    *          the parent SBML object.
    */
   public ASTNode(ASTNode.Type type, MathContainer parent) {
-    this(parent);
     setType(type);
+    setParentSBMLObject(this, parent);
   }
 
   /**
@@ -1554,7 +1560,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   public ASTNode(MathContainer parent) {
     this();
-    // TODO:
+    setParentSBMLObject(this, parent);
   }
 
   /**
@@ -2388,7 +2394,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   @Override
   public boolean equals(Object object) {
-    return astnode2.equals(((ASTNode) object).toASTNode2());
+    return astnode2.equals(((ASTNode)object).toASTNode2());
   }
 
   /**
@@ -3772,6 +3778,24 @@ public class ASTNode extends AbstractTreeNode {
       case REAL_E : 
         astnode2 = new ASTCnExponentialNode();
         break;
+      case RELATIONAL_EQ:
+        astnode2 = new ASTRelationalOperatorNode(Type.RELATIONAL_EQ);
+        break;
+      case RELATIONAL_GEQ:
+        astnode2 = new ASTRelationalOperatorNode(Type.RELATIONAL_GEQ);
+        break;
+      case RELATIONAL_GT:
+        astnode2 = new ASTRelationalOperatorNode(Type.RELATIONAL_GT);
+        break;
+      case RELATIONAL_LEQ:
+        astnode2 = new ASTRelationalOperatorNode(Type.RELATIONAL_LEQ);
+        break;
+      case RELATIONAL_LT:
+        astnode2 = new ASTRelationalOperatorNode(Type.RELATIONAL_LT);
+        break;
+      case RELATIONAL_NEQ:
+        astnode2 = new ASTRelationalOperatorNode(Type.RELATIONAL_NEQ);
+        break;
       case PRODUCT :
         astnode2 = new ASTArithmeticOperatorNode(Type.PRODUCT);
         break;
@@ -3915,6 +3939,15 @@ public class ASTNode extends AbstractTreeNode {
   public void setType(String typeStr) {
     Type type = Type.getTypeFor(typeStr);
     setType(type);
+    if (type != Type.UNKNOWN) {
+      if (type == Type.REAL) {
+        if (typeStr.equals("notanumber")) {
+          setValue(Double.NaN);
+        } else if (typeStr.equals("infinity")) {
+          setValue(Double.POSITIVE_INFINITY);
+        }
+      }
+    }
   }
 
   /**
@@ -4127,7 +4160,7 @@ public class ASTNode extends AbstractTreeNode {
    */
   public String toMathML() {
     try {
-      return MathMLXMLStreamCompiler.toMathML(this);
+      return MathMLXMLStreamCompiler.toMathML(astnode2);
     } catch (RuntimeException e) {
       // added to prevent a crash when we cannot create the mathML
       // TODO: log the exception

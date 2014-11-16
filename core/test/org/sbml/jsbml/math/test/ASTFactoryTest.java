@@ -50,7 +50,7 @@ import org.sbml.jsbml.math.ASTRelationalOperatorNode;
 import org.sbml.jsbml.math.ASTRootNode;
 import org.sbml.jsbml.math.ASTTimesNode;
 import org.sbml.jsbml.math.ASTUnaryFunctionNode;
-import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.math.parser.ParseException;
 
 
 /**

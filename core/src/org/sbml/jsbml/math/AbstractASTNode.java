@@ -281,8 +281,6 @@ implements ASTNode2 {
     result = prime * result + ((id == null) ? 0 : id.hashCode());
     result = prime * result
       + ((mathMLClass == null) ? 0 : mathMLClass.hashCode());
-    result = prime * result
-      + ((parentSBMLObject == null) ? 0 : parentSBMLObject.hashCode());
     result = prime * result + (strict ? 1231 : 1237);
     result = prime * result + ((style == null) ? 0 : style.hashCode());
     result = prime * result + ((type == null) ? 0 : type.hashCode());

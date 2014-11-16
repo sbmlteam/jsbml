@@ -308,8 +308,6 @@ public class ASTFunction extends AbstractASTNode {
     result = prime * result
       + ((listOfNodes == null) ? 0 : listOfNodes.hashCode());
     result = prime * result + ((name == null) ? 0 : name.hashCode());
-    result = prime * result
-      + ((parentSBMLObject == null) ? 0 : parentSBMLObject.hashCode());
     return result;
   }
 

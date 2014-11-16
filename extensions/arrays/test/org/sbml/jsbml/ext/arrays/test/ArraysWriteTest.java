@@ -177,8 +177,9 @@ public class ArraysWriteTest {
     
     ASTNode math = index.getMath();
     
-    return math.equals(arrayMath);
-    
+    // TODO: 
+    // return math.equals(arrayMath);
+    return math.toString().equals(arrayMath.toString());
   }
   
   @Test
