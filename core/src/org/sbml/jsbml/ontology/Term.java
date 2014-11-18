@@ -75,6 +75,7 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
     for (Term parent : term.getParentTerms()) {
       StringTools.append(sb, "\nis_a ", parent, " ! ", parent.getName());
     }
+
     return sb.toString();
   }
 
@@ -206,13 +207,13 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
    */
   public Set<Term> getParentTerms() {
 
-    Set<Triple> parentRelationShip = SBO.getTriples(this, SBO.getTerm("is_a"), null);
     Set<Term> parents = new HashSet<Term>();
 
-    for (Triple triple : parentRelationShip) {
-      parents.add(triple.getObject());
+    for (org.biojava3.ontology.Triple triple : term.getOntology().getTriples(term, null, term.getOntology().getTerm("is_a")))
+    {
+      parents.add(new Term(triple.getObject()));
     }
-
+    
     return parents;
   }
 

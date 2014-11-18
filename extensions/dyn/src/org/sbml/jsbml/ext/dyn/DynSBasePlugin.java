@@ -24,10 +24,13 @@ package org.sbml.jsbml.ext.dyn;
 
 import java.text.MessageFormat;
 import java.util.Map;
+
 import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
-import org.sbml.jsbml.ext.dyn.CBO.Term;
+import org.sbml.jsbml.ontology.Term;
+
 
 /**
  * @author Harold G&oacute;mez
