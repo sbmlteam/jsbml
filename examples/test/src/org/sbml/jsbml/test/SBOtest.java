@@ -22,7 +22,7 @@
 package org.sbml.jsbml.test;
 
 import org.sbml.jsbml.SBO;
-import org.sbml.jsbml.SBO.Term;
+import org.sbml.jsbml.ontology.Term;
 
 /**
  * @author Andreas Dr&auml;ger
