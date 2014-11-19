@@ -47,7 +47,7 @@ public abstract class CSGTransformation extends CSGNode {
 
 
   /**
-   * @param node
+   * @param csgt
    */
   public CSGTransformation(CSGTransformation csgt) {
     super(csgt);

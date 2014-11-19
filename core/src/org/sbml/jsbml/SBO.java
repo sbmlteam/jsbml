@@ -1000,8 +1000,8 @@ public class SBO {
    * Return the set of terms of the SBO Ontology.
    * 
    * <p> This methods return only Term object and no Triple object that represent the
-   * relationship between terms. If you want to access the full set of {@link org.biojava.ontology.Term}
-   * containing also the {@link org.biojava.ontology.Triple}, use {@link SBO#getOntology()}
+   * relationship between terms. If you want to access the full set of {@link org.biojava3.ontology.Term}
+   * containing also the {@link org.biojava3.ontology.Triple}, use {@link SBO#getOntology()}
    * to get the underlying biojava object.
    * 
    * @return the set of terms of the SBO Ontology.
@@ -1124,8 +1124,8 @@ public class SBO {
    * @param object the object to search for, or {@code null}.
    * @return a set of Triple which match the supplied subject, predicate and object.
    * 
-   * @see org.biojava.ontology.Ontology#getTriples(org.biojava.ontology.Term,
-   *      org.biojava.ontology.Term, org.biojava.ontology.Term)
+   * @see org.biojava3.ontology.Ontology#getTriples(org.biojava3.ontology.Term,
+   *      org.biojava3.ontology.Term, org.biojava3.ontology.Term)
    */
   public static Set<Triple> getTriples(Term subject, Term predicate, Term object) {
     Set<Triple> triples = new HashSet<Triple>();
@@ -1973,18 +1973,18 @@ public class SBO {
   }
 
   public static void main(String[] args) {
-    int i = 0; 
-  for (Term term : getTerms()) {
-          if (!term.isObsolete()) {
-                  System.out.printf("%s\n", Term.printTerm(term));
-                  System.out.printf("%s\n", term.getTerm());
-                  // System.out.printf("%s\n\n", term.);
-                  
-                  i++;
-          }
-  }
-  System.out.println("\nThere is " + i + " terms in the SBO ontology.");
-    
+    int i = 0;
+    for (Term term : getTerms()) {
+      if (!term.isObsolete()) {
+        System.out.printf("%s\n", Term.printTerm(term));
+        System.out.printf("%s\n", term.getTerm());
+        // System.out.printf("%s\n\n", term.);
+
+        i++;
+      }
+    }
+    System.out.println("\nThere is " + i + " terms in the SBO ontology.");
+
 
   }
 }

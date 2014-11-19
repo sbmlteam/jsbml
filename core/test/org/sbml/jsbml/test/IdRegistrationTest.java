@@ -55,7 +55,7 @@ public class IdRegistrationTest {
   private static final transient Logger logger = Logger.getLogger(IdRegistrationTest.class);
 
   /**
-   * @param args
+   * 
    */
   @Test
   public void idTest() {

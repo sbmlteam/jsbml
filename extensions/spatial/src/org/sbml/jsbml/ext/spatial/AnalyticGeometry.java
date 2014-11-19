@@ -23,6 +23,7 @@ package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
@@ -143,7 +144,7 @@ public class AnalyticGeometry extends GeometryDefinition {
    * <p>The listOfAnalyticVolumes is initialized if necessary.
    *
    * @param analyticVolume the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return true (as specified by {@link Collection#add})
    */
   public boolean addAnalyticVolume(AnalyticVolume analyticVolume) {
     return getListOfAnalyticVolumes().add(analyticVolume);

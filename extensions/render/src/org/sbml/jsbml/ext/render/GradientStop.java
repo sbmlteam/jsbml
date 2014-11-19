@@ -53,7 +53,7 @@ public class GradientStop extends AbstractSBase {
    * Creates a GradientStop instance with an offset and a color.
    * 
    * @param offset
-   * @param color
+   * @param stopColor
    */
   public GradientStop(Double offset, String stopColor) {
     this.offset = offset;
@@ -64,7 +64,7 @@ public class GradientStop extends AbstractSBase {
    * Creates a GradientStop instance with an offset, color, level, and version.
    * 
    * @param offset
-   * @param color
+   * @param stopColor
    * @param level
    * @param version
    */
@@ -99,8 +99,8 @@ public class GradientStop extends AbstractSBase {
     return new GradientStop(this);
   }
 
-  
-  
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */

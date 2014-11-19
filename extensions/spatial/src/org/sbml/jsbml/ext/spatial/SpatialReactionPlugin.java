@@ -58,7 +58,7 @@ public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
   }
 
   /**
-   * @param node
+   * @param spr
    */
   public SpatialReactionPlugin(SpatialReactionPlugin spr) {
     super(spr);
@@ -96,7 +96,7 @@ public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
     if (isSetExtendedSBase()) {
       return (Reaction) super.getExtendedSBase();
     }
-    
+
     return null;
   }
 

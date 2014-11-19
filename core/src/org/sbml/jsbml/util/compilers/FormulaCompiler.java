@@ -230,9 +230,8 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   }
 
   /**
-   * Returns the given selector as StringBuffer.
+   * Returns the given selector as {@link StringBuffer}.
    * 
-   * @param operator
    * @param elements
    * @return
    */
@@ -288,9 +287,8 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   }
 
   /**
-   * Returns the given vector as StringBuffer.
+   * Returns the given vector as {@link StringBuffer}.
    * 
-   * @param operator
    * @param elements
    * @return
    */
@@ -685,10 +683,10 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   @Override
   public ASTNodeValue function(String name, List<ASTNode> nodes)
       throws SBMLException
-      {
+  {
     return new ASTNodeValue(concat(name, brackets(lambdaBody(nodes)))
       .toString(), this);
-      }
+  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#geq(org.sbml.jsbml.ASTNode, org.sbml.jsbml.ASTNode)
@@ -964,14 +962,14 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
   @Override
   public ASTNodeValue root(ASTNode rootExponent, ASTNode radiant)
       throws SBMLException
-      {
+  {
     // Writing the root function as '(radiant)^(1/(rootExponent))'
     // TODO: need to reduce the number of parenthesis when possible
 
     return new ASTNodeValue(StringTools.concat(Character.valueOf('('),
       radiant.compile(this), Character.valueOf(')'), "^", "(1/(",
       rootExponent.compile(this), "))").toString(), this);
-      }
+  }
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#root(double, org.sbml.jsbml.ASTNode)

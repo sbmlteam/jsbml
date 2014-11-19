@@ -23,6 +23,7 @@ package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -73,7 +74,7 @@ public class Domain extends AbstractSpatialNamedSBase {
   }
 
   /**
-   * @param sb
+   * @param dm
    */
   public Domain(Domain dm) {
     super(dm);
@@ -215,7 +216,7 @@ public class Domain extends AbstractSpatialNamedSBase {
    * <p>The listOfInteriorPoints is initialized if necessary.
    *
    * @param interiorPoint the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return true (as specified by {@link Collection#add})
    */
   public boolean addInteriorPoint(InteriorPoint interiorPoint) {
     return getListOfInteriorPoints().add(interiorPoint);

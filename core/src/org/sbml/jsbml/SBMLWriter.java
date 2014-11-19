@@ -582,7 +582,7 @@ public class SBMLWriter implements Cloneable, Serializable {
    * write out the {@link SBMLDocument}.
    * <p>
    * If the program version and name are set (see
-   * {@link setProgramName(String name)}), the
+   * {@link #setProgramName(String name)}), the
    * following XML comment, intended for human consumption, will be written
    * at the beginning of the document:
    * <div class='fragment'>

@@ -440,10 +440,11 @@ Variable {
   }
 
   /**
-   * 
-   * @return {@code true} if the {@link StoichiometryMath} of this {@link SpeciesReference} is not
-   *         {@code null}.
+   * @return {@code true} if the {@link StoichiometryMath} of this
+   *         {@link SpeciesReference} is not {@code null}.
+   * @deprecated since SBML L3V1
    */
+  @Deprecated
   public boolean isSetStoichiometryMath() {
     return stoichiometryMath != null;
   }

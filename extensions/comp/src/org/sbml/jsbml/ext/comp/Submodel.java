@@ -152,7 +152,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
     setNamespace(CompConstants.namespaceURI);
   }
 
-  
+
 
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
@@ -162,14 +162,14 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
     final int prime = 31;
     int result = super.hashCode();
     result = prime
-      * result
-      + ((extentConversionFactor == null) ? 0
-        : extentConversionFactor.hashCode());
+        * result
+        + ((extentConversionFactor == null) ? 0
+          : extentConversionFactor.hashCode());
     result = prime * result
-      + ((listOfDeletions == null) ? 0 : listOfDeletions.hashCode());
+        + ((listOfDeletions == null) ? 0 : listOfDeletions.hashCode());
     result = prime * result + ((modelRef == null) ? 0 : modelRef.hashCode());
     result = prime * result
-      + ((timeConversionFactor == null) ? 0 : timeConversionFactor.hashCode());
+        + ((timeConversionFactor == null) ? 0 : timeConversionFactor.hashCode());
     return result;
   }
 
@@ -479,7 +479,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
    * <p>The listOfDeletions is initialized if necessary.
    *
    * @param deletion the element to add to the list
-   * @return {@code true} (as specified by {@link Collection.add})
+   * @return {@code true} (as specified by {@link Collection#add})
    */
   public boolean addDeletion(Deletion deletion) {
     return getListOfDeletions().add(deletion);
@@ -516,7 +516,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Removes an element from the listOfDeletions with the given id.
    *
-   * @param i the id of the {@link Deletion} element to remove.
+   * @param id the id of the {@link Deletion} element to remove.
    */
   public void removeDeletion(String id) {
     getListOfDeletions().removeFirst(new NameFilter(id));

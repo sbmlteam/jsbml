@@ -34,20 +34,19 @@ public class SpatialSymbolReference extends ParameterType {
    */
   private static final long serialVersionUID = -8906622500258765056L;
 
-
-
+  /**
+   * 
+   */
   public SpatialSymbolReference() {
     super();
   }
 
-
   /**
-   * @param node
+   * @param classvar
    */
   public SpatialSymbolReference(SpatialSymbolReference classvar) {
     super(classvar);
   }
-
 
   /**
    * @param level
@@ -57,13 +56,17 @@ public class SpatialSymbolReference extends ParameterType {
     super(level, version);
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.ParameterType#clone()
+   */
   @Override
   public SpatialSymbolReference clone() {
     return new SpatialSymbolReference(this);
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.ParameterType#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(Object object) {
     return super.equals(object);

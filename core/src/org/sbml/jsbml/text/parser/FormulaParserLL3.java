@@ -515,7 +515,7 @@ public class FormulaParserLL3 implements IFormulaParser, FormulaParserLL3Constan
    * @param leftChild
    * @param rightChild
    * @return a piecewise {@link ASTNode} representing the modulo operation between the left and right child given.
-   * @see http://sbml.org/Documents/FAQ#Why_can.27t_I_use_the_.3Crem.3E_operator_in_SBML_MathML.3F
+   * @see "http://sbml.org/Documents/FAQ#Why_can.27t_I_use_the_.3Crem.3E_operator_in_SBML_MathML.3F"
    */
   private ASTNode createModulo(ASTNode leftChild, ASTNode rightChild)
   {

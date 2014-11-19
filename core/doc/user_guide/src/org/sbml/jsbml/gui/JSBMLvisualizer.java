@@ -1,17 +1,14 @@
 package org.sbml.jsbml.gui;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeModel;
+import java.io.File;
+import javax.swing.*;
+import org.sbml.jsbml.*;
 
 public class JSBMLvisualizer extends JFrame {
-  /** @param document The sbml root node of an SBML file */
-  public JSBMLvisualizer(DefaultTreeModel tree) {
+  /** @param tree The sbml root node of an SBML file */
+  public JSBMLvisualizer(SBase tree) {
     super("SBML Structure Visualization");
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-    DefaultTreeModel treeModel = tree;
-    JTree jTree = new JTree(treeModel);
-    getContentPane().add(new JScrollPane(jTree));
+    getContentPane().add(new JScrollPane(new JTree(tree)));
     pack();
     setAlwaysOnTop(true);
     setLocationRelativeTo(null);

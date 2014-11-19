@@ -24,6 +24,7 @@ package org.sbml.jsbml.ext.layout;
 import java.awt.Event;
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -39,10 +40,12 @@ import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.util.ListOfWithName;
 
 /**
- * The {@link GeneralGlyph} is used to facilitate the representation of elements other than {@link Compartment},
- * {@link Species} and {@link Reaction} and thus can be used for the display of relationships of {@link Rule} or
- * elements defined by other SBML packages. It closely follows the structure of the {@link ReactionGlyph}.
- * {@link GeneralGlyph} is defined to have an optional attribute reference as well as the elements curve,
+ * The {@link GeneralGlyph} is used to facilitate the representation of elements
+ * other than {@link Compartment}, {@link Species} and {@link Reaction} and thus
+ * can be used for the display of relationships of {@link Rule} or
+ * elements defined by other SBML packages. It closely follows the structure of
+ * the {@link ReactionGlyph}. {@link GeneralGlyph} is defined to have an
+ * optional attribute reference as well as the elements curve,
  * listOfReferenceGlyphs and listOfSubGlyphs.
  * 
  * @author Nicolas Rodriguez
@@ -199,7 +202,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
    * <p>The listOfSubGlyphs is initialized if necessary.
    *
    * @param subGlyph the element to add to the list
-   * @return {@code true} (as specified by {@link Collection.add})
+   * @return {@code true} (as specified by {@link Collection#add})
    */
   public boolean addSubGlyph(GraphicalObject subGlyph) {
     return getListOfSubGlyphs().add(subGlyph);
@@ -220,9 +223,9 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
   }
 
   /**
-   * Removes an element from the listOfSubGlyphs at the given index.
+   * Removes an element from the {@link #listOfSubGlyphs} at the given index.
    *
-   * @param i the index where to remove the {@link SubGlyph}
+   * @param i the index where to remove the {@link GraphicalObject}
    * @throws IndexOutOfBoundsException if the listOf is not set or
    * if the index is out of bound (index < 0 || index > list.size)
    */
@@ -399,7 +402,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
    * {@link #listOfReferenceGlyphs}.
    * 
    * @param glyph
-   * @return {@code true} (as specified by {@link Collection#add(E)})
+   * @return {@code true} (as specified by {@link Collection#add})
    * @throws NullPointerException
    *             if the specified element is null and this list does not
    *             permit null elements

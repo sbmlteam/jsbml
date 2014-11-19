@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Utah, Salt Lake City, UT, USA
  *
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.ext.arrays.compiler;
 
@@ -52,7 +52,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   private Map<String, Double> idToValue;
 
   /**
-   * Constructs an ArraysCompiler object. 
+   * Constructs an ArraysCompiler object.
    */
   public ArraysCompiler() {
     idToValue = new HashMap<String, Double>();
@@ -62,7 +62,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   /**
    * Returns {@code true}, if idToValue contains at least one element.
    *
-   * @return {@code true}, if idToValue contains at least one element, 
+   * @return {@code true}, if idToValue contains at least one element,
    *         otherwise {@code false}.
    */
   public boolean isSetidToValue() {
@@ -90,7 +90,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
    * Sets the given map. If idToValue
    * was defined before and contains some elements, they are all unset.
    *
-   * @param idToValue.
+   * @param idToValue
    */
   public void setidToValue(Map<String, Double> idToValue) {
     unsetidToValue();
@@ -99,10 +99,10 @@ public class ArraysCompiler implements ASTNodeCompiler{
 
 
   /**
-   * Returns {@code true}, if idToValue contain at least one element, 
+   * Returns {@code true}, if idToValue contain at least one element,
    *         otherwise {@code false}.
    *
-   * @return {@code true}, if idToValue contain at least one element, 
+   * @return {@code true}, if idToValue contain at least one element,
    *         otherwise {@code false}.
    */
   public boolean unsetidToValue() {
@@ -120,10 +120,10 @@ public class ArraysCompiler implements ASTNodeCompiler{
    *
    * @param name the element name to add to the map
    * @param value the value of the element to add to the map
-   * @return true (as specified by {@link Map.put})
+   * @return as specified by {@link Map#put}
    */
-  public void addValue(String name, double value) {
-    getMapIdToValue().put(name, value);
+  public Double addValue(String name, double value) {
+    return getMapIdToValue().put(name, value);
   }
 
   /**
@@ -177,7 +177,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
    * @see org.sbml.jsbml.util.compilers.ASTNodeCompiler#and(java.util.List)
    */
   @Override
-  public ASTNodeValue and(List<ASTNode> values) throws SBMLException { 
+  public ASTNodeValue and(List<ASTNode> values) throws SBMLException {
     boolean result;
     if(values.size() > 0) {
       result = values.get(0).compile(this).toBoolean();
@@ -399,7 +399,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
       Quantity quantity = (Quantity) variable;
       return new ASTNodeValue(quantity.getValue(), this);
     }
-      
+
     return unknownValue();
   }
 
@@ -820,7 +820,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
       } else {
         return unknownValue();
       }
-     
+
     }
     return new ASTNodeValue(result, this);
   }
@@ -904,7 +904,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
       return result.compile(this);
     } else if(object.isVariable()) {
       compile(object.getVariable());
-    } 
+    }
     else if(object.isString()) {
       compile(object.getName());
     }

@@ -88,7 +88,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
    * Creates a GradientBase instance with an id, name, level, and version.
    * 
    * @param id
-   * @param name
+   * @param stop
    * @param level
    * @param version
    */
@@ -148,7 +148,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
   public GradientBase(GradientBase obj) {
     super(obj);
     spreadMethod = obj.spreadMethod;
-    
+
     if (isSetListOfGradientStops()) {
       setListOfGradientStops(obj.listOfGradientStops.clone());
     }
@@ -171,8 +171,8 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
     listOfGradientStops = new ListOf<GradientStop>();
   }
 
-  
-  
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -181,9 +181,9 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
     final int prime = 3187;
     int result = super.hashCode();
     result = prime * result
-      + ((listOfGradientStops == null) ? 0 : listOfGradientStops.hashCode());
+        + ((listOfGradientStops == null) ? 0 : listOfGradientStops.hashCode());
     result = prime * result
-      + ((spreadMethod == null) ? 0 : spreadMethod.hashCode());
+        + ((spreadMethod == null) ? 0 : spreadMethod.hashCode());
     return result;
   }
 

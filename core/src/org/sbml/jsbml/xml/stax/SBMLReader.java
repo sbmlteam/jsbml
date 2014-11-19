@@ -127,8 +127,7 @@ public class SBMLReader {
   }
 
   /**
-   * Associates any unknown namespaces with the {@link AnnotationParser}.
-   * 
+   * Associates any unknown namespaces with the {@link AnnotationReader}.
    */
   private void addAnnotationParsers(StartElement startElement)
   {
@@ -389,7 +388,7 @@ public class SBMLReader {
    */
   public ASTNode readMathML(String mathML, TreeNodeChangeListener listener, MathContainer parent)
       throws XMLStreamException
-      {
+  {
     astNodeParent = parent;
 
     Object object = readXMLFromString(mathML, listener);
@@ -400,7 +399,7 @@ public class SBMLReader {
       }
     }
     return null;
-      }
+  }
 
   /**
    * 
@@ -833,8 +832,8 @@ public class SBMLReader {
    * @param startElement
    * @param currentNode
    * @param isHTML
-   * @param initializedParsers
    * @param sbmlElements
+   * @param isInsideAnnotation
    * @return
    */
   private ReadingParser processStartElement(StartElement startElement, QName currentNode,
@@ -929,8 +928,8 @@ public class SBMLReader {
    * 
    * @param nam
    * @param currentNode
-   * @param initializedParsers
    * @param sbmlElements
+   * @param parser
    * @param hasAttributes
    */
   private void processNamespaces(Iterator<Namespace> nam, QName currentNode,
@@ -977,10 +976,10 @@ public class SBMLReader {
    * 
    * @param att
    * @param currentNode
-   * @param initializedParsers
    * @param sbmlElements
    * @param parser
    * @param hasAttributes
+   * @param isInsideAnnotation
    */
   private void processAttributes(Iterator<Attribute> att, QName currentNode,
     Stack<Object> sbmlElements, ReadingParser parser, boolean hasAttributes,
@@ -1037,7 +1036,7 @@ public class SBMLReader {
    * @param version
    * @param parser
    * @param sbmlElements
-   * @param isRDFSBMLSpecificAnnotation
+   * @param isInsideAnnotation
    * @return
    */
   private SBMLDocument processEndElement(QName currentNode, Boolean isNested, Boolean isText,

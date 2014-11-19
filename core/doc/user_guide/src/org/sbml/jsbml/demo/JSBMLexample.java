@@ -1,3 +1,4 @@
+package org.sbml.jsbml.demo;
 import java.beans.PropertyChangeEvent;
 
 import javax.swing.tree.TreeNode;

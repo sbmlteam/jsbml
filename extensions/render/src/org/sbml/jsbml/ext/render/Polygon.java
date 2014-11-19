@@ -65,7 +65,7 @@ public class Polygon extends GraphicalPrimitive2D {
   }
 
   /**
-   * @param renderPoint
+   * @param element
    */
   public boolean addElement(RenderPoint element) {
     return getListOfElements().add(element);

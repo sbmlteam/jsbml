@@ -78,9 +78,7 @@ public class GroupsParser extends AbstractReaderWriter implements PackageParser 
 
   /**
    * 
-   * @see org.sbml.jsbml.xml.parsers.ReadingParser#processStartElement(String
-   *      elementName, String prefix, boolean hasAttributes, boolean
-   *      hasNamespaces, Object contextObject)
+   * @see org.sbml.jsbml.xml.parsers.ReadingParser#processStartElement(String, String, String, boolean, boolean, Object)
    */
   @Override
   // Create the proper object and link it to his parent.

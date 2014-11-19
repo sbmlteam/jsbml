@@ -154,7 +154,7 @@ public class ParameterType extends AbstractSBase {
   }
 
   /**
-   * @param variable the variable to set
+   * @param spId the variable to set
    */
   public void setSpId(String spId) {
     this.spId = spId;
@@ -171,8 +171,7 @@ public class ParameterType extends AbstractSBase {
   }
 
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
    */
   @Override

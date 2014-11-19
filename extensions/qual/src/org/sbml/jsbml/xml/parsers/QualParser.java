@@ -38,7 +38,7 @@ import org.sbml.jsbml.ext.qual.Input;
 import org.sbml.jsbml.ext.qual.Output;
 import org.sbml.jsbml.ext.qual.QualConstants;
 import org.sbml.jsbml.ext.qual.QualList;
-import org.sbml.jsbml.ext.qual.QualitativeModel;
+import org.sbml.jsbml.ext.qual.QualModelPlugin;
 import org.sbml.jsbml.ext.qual.QualitativeSpecies;
 import org.sbml.jsbml.ext.qual.Transition;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
@@ -81,7 +81,7 @@ public class QualParser extends AbstractReaderWriter implements PackageParser {
     List<Object> listOfElementsToWrite = new ArrayList<Object>();
 
     if (sbase instanceof Model) {
-      QualitativeModel modelGE = (QualitativeModel) ((Model) sbase).getExtension(QualConstants.namespaceURI);
+      QualModelPlugin modelGE = (QualModelPlugin) ((Model) sbase).getExtension(QualConstants.namespaceURI);
 
       Enumeration<TreeNode> children = modelGE.children();
 
@@ -138,9 +138,7 @@ public class QualParser extends AbstractReaderWriter implements PackageParser {
 
   /**
    * 
-   * @see org.sbml.jsbml.xml.parsers.ReadingParser#processStartElement(String
-   *      elementName, String prefix, boolean hasAttributes, boolean
-   *      hasNamespaces, Object contextObject)
+   * @see org.sbml.jsbml.xml.parsers.ReadingParser#processStartElement(String, String, String, boolean, boolean, Object)
    */
   @Override
   // Create the proper object and link it to his parent.
@@ -151,12 +149,12 @@ public class QualParser extends AbstractReaderWriter implements PackageParser {
 
     if (contextObject instanceof Model) {
       Model model = (Model) contextObject;
-      QualitativeModel qualModel = null;
+      QualModelPlugin qualModel = null;
 
       if (model.getExtension(QualConstants.namespaceURI) != null) {
-        qualModel = (QualitativeModel) model.getExtension(QualConstants.namespaceURI);
+        qualModel = (QualModelPlugin) model.getExtension(QualConstants.namespaceURI);
       } else {
-        qualModel = new QualitativeModel(model);
+        qualModel = new QualModelPlugin(model);
         model.addExtension(QualConstants.namespaceURI, qualModel);
       }
 
@@ -194,7 +192,7 @@ public class QualParser extends AbstractReaderWriter implements PackageParser {
 
       if (elementName.equals("transition") && groupList.equals(QualList.listOfTransitions)) {
         Model model = (Model) listOf.getParentSBMLObject();
-        QualitativeModel extendeModel = (QualitativeModel) model.getExtension(QualConstants.namespaceURI);
+        QualModelPlugin extendeModel = (QualModelPlugin) model.getExtension(QualConstants.namespaceURI);
 
         Transition transition = new Transition();
         extendeModel.addTransition(transition);
@@ -202,7 +200,7 @@ public class QualParser extends AbstractReaderWriter implements PackageParser {
 
       } else if ((elementName.equals("qualitativeSpecies")) && groupList.equals(QualList.listOfQualitativeSpecies)) {
         Model model = (Model) listOf.getParentSBMLObject();
-        QualitativeModel extendeModel = (QualitativeModel) model.getExtension(QualConstants.namespaceURI);
+        QualModelPlugin extendeModel = (QualModelPlugin) model.getExtension(QualConstants.namespaceURI);
 
         QualitativeSpecies qualSpecies = new QualitativeSpecies();
         extendeModel.addQualitativeSpecies(qualSpecies);
@@ -275,6 +273,9 @@ public class QualParser extends AbstractReaderWriter implements PackageParser {
     return QualConstants.namespaceURI;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#getNamespaceFor(int, int, int)
+   */
   @Override
   public String getNamespaceFor(int level, int version,	int packageVersion) {
 
@@ -285,33 +286,47 @@ public class QualParser extends AbstractReaderWriter implements PackageParser {
     return null;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.ReadingParser#getNamespaces()
+   */
   @Override
   public List<String> getNamespaces() {
     return QualConstants.namespaces;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#getPackageNamespaces()
+   */
   @Override
   public List<String> getPackageNamespaces() {
     return getNamespaces();
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#getPackageName()
+   */
   @Override
   public String getPackageName() {
     return getShortLabel();
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#isRequired()
+   */
   @Override
   public boolean isRequired() {
     return true;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#createPluginFor(org.sbml.jsbml.SBase)
+   */
   @Override
   public SBasePlugin createPluginFor(SBase sbase) {
 
     if (sbase != null) {
       if (sbase instanceof Model) {
-        return new QualitativeModel((Model) sbase);
+        return new QualModelPlugin((Model) sbase);
       }
     }
 

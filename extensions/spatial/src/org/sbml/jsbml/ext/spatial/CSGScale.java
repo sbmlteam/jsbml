@@ -51,7 +51,7 @@ public class CSGScale extends CSGTransformation {
 
 
   /**
-   * @param node
+   * @param csgt
    */
   public CSGScale(CSGScale csgt) {
     super(csgt);

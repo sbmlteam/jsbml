@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Utah, Salt Lake City, UT, USA
  *
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.ext.arrays.flattening;
 
@@ -95,12 +95,12 @@ public class ArraysFlattening {
     convert(flattenedDoc, model, new ArraysCompiler(), itemsToDelete, idToVector);
     convertMath(flattenedDoc, model, idToVector);
     removeSBases(itemsToDelete);
-    
+
     return flattenedDoc;
   }
 
   /**
-   * This method removes a list of SBase from the respective parent. 
+   * This method removes a list of SBase from the respective parent.
    * 
    * @param itemsToDelete
    */
@@ -129,14 +129,13 @@ public class ArraysFlattening {
     }
   }
 
-
-
   /**
-   * Iterate through the events in the model and convert the events using the arrays package.
+   * Iterate through the events in the model and convert the events using the
+   * arrays package.
    * 
    * @param model
-   * @param idToIndices
    * @param itemsToDelete
+   * @param idToVector
    */
   private static void convertEvents (Model model, List<SBase> itemsToDelete, Map<String, ASTNode> idToVector) {
     Enumeration<TreeNode> children = model.getListOfEvents().children();
@@ -224,8 +223,8 @@ public class ArraysFlattening {
   private static void expandEvent (Model model, ArraysSBasePlugin arraysPlugin, SBase parent, Event event, ASTNode vector, int dim) {
     Dimension dimension = arraysPlugin.getDimensionByArrayDimension(dim);
 
-    if(dimension == null) {      
-      event.unsetExtension(ArraysConstants.shortLabel); 
+    if(dimension == null) {
+      event.unsetExtension(ArraysConstants.shortLabel);
       if(event.isSetId() && vector.isName()) {
         event.setId(vector.getName());
       }
@@ -274,13 +273,13 @@ public class ArraysFlattening {
       updateEventAssignmentIndex(model, clone, dimension, i);
       updateEventChildrenMetaId(model, arraysPlugin, clone, i);
       ASTNode nodeCopy = vector.clone();
-      nodeCopy = nodeCopy.getChild(i); 
+      nodeCopy = nodeCopy.getChild(i);
       expandEvent(model, arraysPlugin, parent, clone, nodeCopy, dim-1);
     }
   }
 
   /**
-   * This updates the index math of the EventAssignments of a certain Event object that utlizes the 
+   * This updates the index math of the EventAssignments of a certain Event object that utlizes the
    * Dimension id of the parent Event.
    * 
    * @param model
@@ -305,8 +304,8 @@ public class ArraysFlattening {
   /**
    * 
    * @param model
-   * @param idToIndices
    * @param itemsToDelete
+   * @param idToVector
    */
   private static void convertReactions (Model model, List<SBase> itemsToDelete, Map<String, ASTNode> idToVector) {
     Enumeration<TreeNode> children = model.getListOfReactions().children();
@@ -428,8 +427,9 @@ public class ArraysFlattening {
 
   /**
    * 
+   * @param model
    * @param arraysPlugin
-   * @param reaction
+   * @param event
    * @param index
    */
   private static void updateEventChildrenMetaId(Model model, ArraysSBasePlugin arraysPlugin, Event event, int index) {
@@ -459,7 +459,7 @@ public class ArraysFlattening {
     Dimension dimension = arraysPlugin.getDimensionByArrayDimension(dim);
 
     if(dimension == null) {
-      reaction.unsetExtension(ArraysConstants.shortLabel); 
+      reaction.unsetExtension(ArraysConstants.shortLabel);
       if(reaction.isSetId() && vector.isName()) {
         reaction.setId(vector.getName());
       }
@@ -489,7 +489,7 @@ public class ArraysFlattening {
       updateReactionChildrenMetaId(model, arraysPlugin, clone, i);
       updateSpecRefIndex(model, clone, dimension, i);
       ASTNode nodeCopy = vector.clone();
-      nodeCopy = nodeCopy.getChild(i); 
+      nodeCopy = nodeCopy.getChild(i);
       expandReaction(model, arraysPlugin, parent, clone, idToVector, nodeCopy, dim-1);
     }
   }
@@ -534,14 +534,16 @@ public class ArraysFlattening {
           i.setMath(replaceDimensionId(math, dimension.getId(), index));
         }
       }
-    }  
+    }
   }
 
   /**
    * 
+   * @param doc
    * @param model
-   * @param idToIndices
+   * @param compiler
    * @param itemsToDelete
+   * @param idToVector
    */
   private static void convert (SBMLDocument doc, Model model, ArraysCompiler compiler,List<SBase> itemsToDelete, Map<String, ASTNode> idToVector) {
     Enumeration<TreeNode> children = doc.children();
@@ -551,7 +553,7 @@ public class ArraysFlattening {
     }
     //    for(int i = doc.getChildCount() - 1; i >= 0; i--) {
     //      ((SBase)doc.getChildAt(i);
-    //      
+    //
     //    }
   }
 
@@ -562,7 +564,7 @@ public class ArraysFlattening {
    * @param node
    * @param sbases
    */
-  private static void convert(Model model, TreeNode node, 
+  private static void convert(Model model, TreeNode node,
     ArraysCompiler compiler, List<SBase> sbases, Map<String, ASTNode> idToVector) {
 
     Enumeration<?> children = node.children();
@@ -576,9 +578,9 @@ public class ArraysFlattening {
 
   /**
    * 
+   * @param doc
    * @param model
-   * @param idToIndices
-   * @param itemsToDelete
+   * @param idToVector
    */
   private static void convertMath (SBMLDocument doc, Model model, Map<String, ASTNode> idToVector) {
     Enumeration<TreeNode> children = doc.children();
@@ -594,7 +596,7 @@ public class ArraysFlattening {
    * 
    * @param model
    * @param node
-   * @param sbases
+   * @param idToVector
    */
   private static void convertMath(Model model, TreeNode node, Map<String, ASTNode> idToVector) {
 
@@ -610,7 +612,7 @@ public class ArraysFlattening {
    * 
    * @param model
    * @param child
-   * @param sbases
+   * @param idToVector
    */
   private static void convertArraysMath(Model model, TreeNode child, Map<String, ASTNode> idToVector) {
     if(child instanceof MathContainer) {
@@ -643,16 +645,16 @@ public class ArraysFlattening {
         return;
       }
       int dim = arraysPlugin.getDimensionCount() - 1;
-      
+
       if(dim < 0) {
         convertIndex(model, arraysPlugin, sbase, compiler, idToVector);
 
-        sbase.unsetExtension(ArraysConstants.shortLabel); 
+        sbase.unsetExtension(ArraysConstants.shortLabel);
         return;
       }
 
       sbases.add(sbase);
-      
+
       if(child instanceof NamedSBase) {
         expandDim(model, (NamedSBase)sbase.clone(), sbase.getParentSBMLObject(),
           arraysPlugin, compiler, sbases, idToVector.get(((NamedSBase) child).getId()),
@@ -662,7 +664,7 @@ public class ArraysFlattening {
       }
     }
   }
-  
+
   /**
    * This method is transforming the attributes of a certain SBase object associated with the arrays package
    * so that the SBase no longer uses the package.
@@ -680,7 +682,7 @@ public class ArraysFlattening {
     Dimension dimension = arraysPlugin.getDimensionByArrayDimension(dim);
 
     if(dimension == null) {
-      sbase.unsetExtension(ArraysConstants.shortLabel); 
+      sbase.unsetExtension(ArraysConstants.shortLabel);
       if(sbase.isSetId() && vector != null && vector.isName()) {
         sbase.setId(vector.getName());
       }
@@ -731,7 +733,7 @@ public class ArraysFlattening {
     Dimension dimension = arraysPlugin.getDimensionByArrayDimension(dim);
 
     if(dimension == null) {
-      sbase.unsetExtension(ArraysConstants.shortLabel); 
+      sbase.unsetExtension(ArraysConstants.shortLabel);
       convertIndex(model, arraysPlugin, sbase, compiler, idToVector);
       addToParent(model, parent, sbase);
       for(int i = sbase.getChildCount() - 1; i >= 0; i--)
@@ -775,7 +777,7 @@ public class ArraysFlattening {
       //          id = id.replaceFirst("_", "__");
       //        }
       //        namedSbase.setId(id);
-      //      
+      //
       //      }
       parentList.add(child);
       return;
@@ -867,6 +869,7 @@ public class ArraysFlattening {
       return vector.getName();
     }
   }
+
   /**
    * This updates the dimension id that appears in the math.
    * 
@@ -875,7 +878,7 @@ public class ArraysFlattening {
    * @param sbase
    * @param dimId
    * @param index
-   * @throws ParseException
+   * @param idToVector
    */
   private static void updateMathContainer(Model model, ArraysSBasePlugin arraysPlugin, MathContainer sbase, String dimId, int index, Map<String, ASTNode> idToVector) {
     if(sbase.isSetMath()) {

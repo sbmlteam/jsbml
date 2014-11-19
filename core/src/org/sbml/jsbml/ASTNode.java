@@ -3592,7 +3592,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Resets the parentSBMLObject to null recursively.
    * 
-   * @param removed
+   * @param node
    */
   private void resetParentSBMLObject(ASTNode node) {
 

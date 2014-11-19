@@ -39,7 +39,7 @@ public class SBMLStructureVisualizer extends JFrame {
   /** Generated serial version identifier */
   private static final long serialVersionUID = -6800051247041441688L;
 
-  /** @param document The sbml root node of an SBML file */
+  /** @param tree The sbml root node of an SBML file */
   public SBMLStructureVisualizer(DefaultTreeModel tree) {
     super("SBML Layout Visualization");
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);

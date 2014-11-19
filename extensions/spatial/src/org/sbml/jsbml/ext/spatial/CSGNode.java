@@ -43,7 +43,7 @@ public abstract class CSGNode extends AbstractSpatialNamedSBase {
 
 
   /**
-   * @param node
+   * @param csgn
    */
   public CSGNode(CSGNode csgn) {
     super(csgn);

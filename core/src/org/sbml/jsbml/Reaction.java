@@ -313,8 +313,6 @@ UniqueNamedSBase {
    * {@link #listOfProducts} and returns it.
    * 
    * @return a new {@link SpeciesReference} object.
-   * 
-   * @return
    */
   public SpeciesReference createProduct() {
     return createProduct((String) null);
@@ -385,8 +383,6 @@ UniqueNamedSBase {
    * {@link #listOfReactants} and returns it.
    * 
    * @return a new SpeciesReference object.
-   * 
-   * @return
    */
   public SpeciesReference createReactant() {
     return createReactant((String) null);

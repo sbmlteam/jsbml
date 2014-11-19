@@ -167,7 +167,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    * Sets the given {@code ListOf<Index>}. If listOfIndices
    * was defined before and contains some elements, they are all unset.
    *
-   * @param listOfIndices.
+   * @param listOfIndices
    */
   public void setListOfIndices(ListOf<Index> listOfIndices) {
     unsetListOfIndices();
@@ -201,7 +201,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    * <p>The listOfIndices is initialized if necessary.
    *
    * @param field the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return true (as specified by {@link Collection#add})
    */
   public boolean addIndex(Index field) {
     return getListOfIndices().add(field);
@@ -224,8 +224,10 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   /**
    * Removes an element from the listOfIndices based on array dimension.
    *
-   * @param field the element with given array dimension to be removed from the list.
-   * @return true if the list contained the specified element with given array dimension and it was removed.
+   * @param arrayDim
+   *        the element with given array dimension to be removed from the list.
+   * @return true if the list contained the specified element with given array
+   *         dimension and it was removed.
    * @see List#remove(Object)
    */
   public boolean removeIndexByArrayDimension(int arrayDim) {
@@ -285,7 +287,8 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    * Gets an element from the listOfIndices based on array dimension
    * and referenced attribute.
    *
-   * @param i the index of the {@link Index} element to get.
+   * @param dim the index of the {@link Index} element to get.
+   * @param attribute
    * @return an element from the listOfIndices at the given index.
    */
   public Index getIndex(int dim, String attribute) {
@@ -357,7 +360,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    * Sets the given {@code ListOf<Dimension>}. If listOfDimensions
    * was defined before and contains some elements, they are all unset.
    *
-   * @param listOfDimensions.
+   * @param listOfDimensions
    */
   public void setListOfDimensions(ListOf<Dimension> listOfDimensions) {
     unsetListOfDimensions();
@@ -391,7 +394,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
    * <p>The listOfDimensions is initialized if necessary.
    *
    * @param field the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return true (as specified by {@link Collection#add})
    */
   public boolean addDimension(Dimension field) {
     return getListOfDimensions().add(field);
@@ -414,7 +417,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   /**
    * Removes an element from the listOfDimensions.
    *
-   * @param id the id of the element to be removed from the list.
+   * @param fieldId the id of the element to be removed from the list.
    * @return the removed element, if it was successfully found and removed or null.
    */
   public Dimension removeDimension(String fieldId) {
@@ -512,8 +515,8 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
   /**
    * Gets an element from the listOfDimensions, with the given id.
    *
-   * @param id the id of the {@link Dimension} element to get.
-   * @return an element from the listOfDimensions with the given id or null.
+   * @param fieldId the id of the {@link Dimension} element to get.
+   * @return an element from the listOfDimensions with the given id or {@code null}.
    */
   public Dimension getDimension(String fieldId) {
     if (isSetListOfDimensions()) {
@@ -688,8 +691,8 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
             }
           }
 
-          if (mapOfDimensions.get(id) == sbase) { 
-           // Allow to call several times the register method on the same object. Happens when the SBasePlugin is created before being added to the SBMLDocument
+          if (mapOfDimensions.get(id) == sbase) {
+            // Allow to call several times the register method on the same object. Happens when the SBasePlugin is created before being added to the SBMLDocument
             success = true;
           } else {
             logger.error(MessageFormat.format(

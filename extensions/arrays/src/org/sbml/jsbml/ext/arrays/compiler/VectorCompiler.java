@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Utah, Salt Lake City, UT, USA
  *
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.ext.arrays.compiler;
 
@@ -304,7 +304,7 @@ public class VectorCompiler implements ASTNodeCompiler {
         ASTNode result = getNode();
         if(result.isVector()) {
           nodes.add(result.getChild(i));
-        } 
+        }
       }
       andRecursive(nodes, node.getChild(i));
     }
@@ -313,8 +313,8 @@ public class VectorCompiler implements ASTNodeCompiler {
 
   /**
    * 
-   * @param values
-   * @param node
+   * @param vector
+   * @param scalar
    */
   private void scalarVectorAnd(ASTNode vector, ASTNode scalar) {
     for(int i = 0; i < vector.getChildCount(); ++i) {
@@ -323,7 +323,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       ASTNode result = getNode();
       if(result.isVector()) {
         scalarVectorAnd(child, scalar);
-      } 
+      }
       else if(useId) {
         ASTNode nodeValue = new ASTNode(ASTNode.Type.LOGICAL_AND, vector.getChild(i).getParentSBMLObject());
         nodeValue.addChild(result.clone());
@@ -494,7 +494,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       value.getChild(i).compile(this);
       ASTNode child = getNode();
       if(child.isVector()) {
-        arccotRecursive(value.getChild(i));  
+        arccotRecursive(value.getChild(i));
       } else if(useId){
         ASTNode arccotValue = new ASTNode(ASTNode.Type.FUNCTION_ARCCOT, child.getParentSBMLObject());
         arccotValue.addChild(child.clone());
@@ -795,7 +795,7 @@ public class VectorCompiler implements ASTNodeCompiler {
         unknownValue();
         return dummy;
       }
-    } 
+    }
     else if(useId) {
       if(compiled.toString().equals("unknown")) {
         compiled.setName("unknown");
@@ -845,7 +845,7 @@ public class VectorCompiler implements ASTNodeCompiler {
     ASTNode compiled = getNode();
     if(compiled.isVector()) {
       arcsinhRecursive(compiled);
-    } 
+    }
     else if(useId) {
       if(compiled.toString().equals("unknown")) {
         compiled.setName("unknown");
@@ -968,7 +968,7 @@ public class VectorCompiler implements ASTNodeCompiler {
     }
     else if(compiled.isNumber()) {
       compiled.setValue(Maths.arctanh(compiled.getReal()));
-    }  
+    }
     else {
       compiled.setName("unknown");
     }
@@ -1123,7 +1123,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       } else {
         transformSBase(sbase);
       }
-    } 
+    }
     else if(this.sbase != null && this.sbase.getId().equals(name)) {
       if(useId) {
         if(isSetIdToVector() && idToVector.containsKey(name)) {
@@ -1134,7 +1134,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       } else {
         transformSBase(this.sbase);
       }
-    } 
+    }
     else
     {
       if(useId) {
@@ -1268,7 +1268,7 @@ public class VectorCompiler implements ASTNodeCompiler {
         unknownValue();
         return dummy;
       }
-    } 
+    }
     else if(useId) {
       if(compiled.toString().equals("unknown")) {
         compiled.setName("unknown");
@@ -1544,7 +1544,7 @@ public class VectorCompiler implements ASTNodeCompiler {
         unknownValue();
         return dummy;
       }
-    } 
+    }
     else if(useId) {
       if(compiled.toString().equals("unknown")) {
         compiled.setName("unknown");
@@ -1632,7 +1632,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       } else {
         unknownValue();
       }
-    } 
+    }
     else if(leftCompiled.isNumber() || useId) {
       if(rightCompiled.isVector()) {
         ASTNode result = rightCompiled.clone();
@@ -1669,7 +1669,8 @@ public class VectorCompiler implements ASTNodeCompiler {
 
   /**
    * 
-   * @param values
+   * @param right
+   * @param left
    * @param node
    */
   private void eqRecursive(ASTNode right, ASTNode left, ASTNode node) throws IndexOutOfBoundsException, SBMLException{
@@ -1706,8 +1707,8 @@ public class VectorCompiler implements ASTNodeCompiler {
 
   /**
    * 
-   * @param values
-   * @param node
+   * @param vector
+   * @param scalar
    */
   private void scalarVectorEq(ASTNode vector, ASTNode scalar) {
     for(int i = 0; i < vector.getChildCount(); ++i) {
@@ -1769,15 +1770,15 @@ public class VectorCompiler implements ASTNodeCompiler {
       ASTNode child = getNode();
       if(child.isVector()) {
         expRecursive(value.getChild(i));
-      } 
+      }
       else if(useId){
         ASTNode expValue = new ASTNode(ASTNode.Type.FUNCTION_EXP, child.getParentSBMLObject());
         expValue.addChild(child.clone());
         value.replaceChild(i, expValue);
-      } 
+      }
       else if(child.isNumber()) {
         value.getChild(i).setValue(Math.exp(child.getReal()));
-      } 
+      }
       else {
         throw new SBMLException();
       }
@@ -1968,7 +1969,8 @@ public class VectorCompiler implements ASTNodeCompiler {
 
   /**
    * 
-   * @param values
+   * @param left
+   * @param right
    * @param node
    */
   private void fracRecursive(ASTNode left, ASTNode right, ASTNode node) throws IndexOutOfBoundsException{
@@ -2208,16 +2210,16 @@ public class VectorCompiler implements ASTNodeCompiler {
       }
       else if (value.isNumber()){
         scalars.add(value);
-      } 
+      }
       else if (value.isName()){
         if(value.getName().equals("unknown")) {
           return false;
         }
         ids.add(value);
-      } 
+      }
       else if (useId){
         ids.add(value);
-      } 
+      }
       else {
         return false;
       }
@@ -2294,8 +2296,10 @@ public class VectorCompiler implements ASTNodeCompiler {
 
   /**
    * 
-   * @param values
+   * @param left
+   * @param right
    * @param node
+   * @throws IndexOutOfBoundsException
    */
   private void gtRecursive(ASTNode left, ASTNode right, ASTNode node) throws IndexOutOfBoundsException{
     if(node.getChildCount() == 0) {
@@ -2332,8 +2336,8 @@ public class VectorCompiler implements ASTNodeCompiler {
 
   /**
    * 
-   * @param values
-   * @param node
+   * @param vectorLHS
+   * @param scalarRHS
    */
   private void vectorScalarGt(ASTNode vectorLHS, ASTNode scalarRHS) {
     for(int i = 0; i < vectorLHS.getChildCount(); ++i) {
@@ -2355,8 +2359,8 @@ public class VectorCompiler implements ASTNodeCompiler {
 
   /**
    * 
-   * @param values
-   * @param node
+   * @param scalarLHS
+   * @param vectorRHS
    */
   private void scalarVectorGt(ASTNode scalarLHS, ASTNode vectorRHS) {
     for(int i = 0; i < vectorRHS.getChildCount(); ++i) {
@@ -2599,8 +2603,10 @@ public class VectorCompiler implements ASTNodeCompiler {
 
   /**
    * 
-   * @param values
+   * @param left
+   * @param right
    * @param node
+   * @throws IndexOutOfBoundsException
    */
   private void ltRecursive(ASTNode left, ASTNode right, ASTNode node) throws IndexOutOfBoundsException{
     if(node.getChildCount() == 0) {
@@ -2637,8 +2643,8 @@ public class VectorCompiler implements ASTNodeCompiler {
 
   /**
    * 
-   * @param values
-   * @param node
+   * @param vectorLHS
+   * @param scalarRHS
    */
   private void vectorScalarLt(ASTNode vectorLHS, ASTNode scalarRHS) {
     for(int i = 0; i < vectorLHS.getChildCount(); ++i) {
@@ -2660,8 +2666,8 @@ public class VectorCompiler implements ASTNodeCompiler {
 
   /**
    * 
-   * @param values
-   * @param node
+   * @param scalarLHS
+   * @param vectorRHS
    */
   private void scalarVectorLt(ASTNode scalarLHS, ASTNode vectorRHS) {
     for(int i = 0; i < vectorRHS.getChildCount(); ++i) {
@@ -2738,7 +2744,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       } else {
         unknownValue();
       }
-    } 
+    }
     else if(leftCompiled.isNumber() || useId) {
       if(rightCompiled.isVector()) {
         ASTNode result = rightCompiled.clone();
@@ -2775,8 +2781,10 @@ public class VectorCompiler implements ASTNodeCompiler {
 
   /**
    * 
-   * @param values
+   * @param right
+   * @param left
    * @param node
+   * @throws IndexOutOfBoundsException
    */
   private void neqRecursive(ASTNode right, ASTNode left, ASTNode node) throws IndexOutOfBoundsException{
     if(node.getChildCount() == 0) {
@@ -2813,8 +2821,8 @@ public class VectorCompiler implements ASTNodeCompiler {
 
   /**
    * 
-   * @param values
-   * @param node
+   * @param vector
+   * @param scalar
    */
   private void scalarVectorNeq(ASTNode vector, ASTNode scalar) {
     for(int i = 0; i < vector.getChildCount(); ++i) {
@@ -2861,7 +2869,7 @@ public class VectorCompiler implements ASTNodeCompiler {
     }
     else if(compiled.isBoolean()) {
       compiled.setValue(compiled.getInteger() == 1 ? 0 : 1);
-    }   
+    }
     else {
       compiled.setName("unknown");
     }
@@ -2995,7 +3003,7 @@ public class VectorCompiler implements ASTNodeCompiler {
         ASTNode result = getNode();
         if(result.isVector()) {
           nodes.add(result.getChild(i));
-        } 
+        }
       }
       orRecursive(nodes, node.getChild(i));
     }
@@ -3004,8 +3012,8 @@ public class VectorCompiler implements ASTNodeCompiler {
 
   /**
    * 
-   * @param values
-   * @param node
+   * @param vector
+   * @param scalar
    */
   private void scalarVectorOr(ASTNode vector, ASTNode scalar) {
     for(int i = 0; i < vector.getChildCount(); ++i) {
@@ -3014,7 +3022,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       ASTNode result = getNode();
       if(result.isVector()) {
         scalarVectorOr(child, scalar);
-      } 
+      }
       else if(useId) {
         ASTNode nodeValue = new ASTNode(ASTNode.Type.LOGICAL_OR, vector.getChild(i).getParentSBMLObject());
         nodeValue.addChild(result.clone());
@@ -3222,8 +3230,8 @@ public class VectorCompiler implements ASTNodeCompiler {
 
   /**
    * 
-   * @param values
-   * @param node
+   * @param vector
+   * @param scalar
    */
   private void scalarVectorPlus(ASTNode vector, ASTNode scalar) {
     for(int i = 0; i < vector.getChildCount(); ++i) {
@@ -3232,7 +3240,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       ASTNode result = getNode();
       if(result.isVector()) {
         scalarVectorPlus(child, scalar);
-      } 
+      }
       else if(useId) {
         ASTNode nodeValue = new ASTNode(ASTNode.Type.PLUS, vector.getChild(i).getParentSBMLObject());
         nodeValue.addChild(result.clone());
@@ -3318,8 +3326,10 @@ public class VectorCompiler implements ASTNodeCompiler {
 
   /**
    * 
-   * @param values
+   * @param left
+   * @param right
    * @param node
+   * @throws IndexOutOfBoundsException
    */
   private void powRecursive(ASTNode left, ASTNode right, ASTNode node) throws IndexOutOfBoundsException{
     if(node.getChildCount() == 0) {
@@ -3352,8 +3362,8 @@ public class VectorCompiler implements ASTNodeCompiler {
 
   /**
    * 
-   * @param values
-   * @param node
+   * @param vectorLHS
+   * @param scalarRHS
    */
   private void vectorScalarPow(ASTNode vectorLHS, ASTNode scalarRHS) {
     for(int i = 0; i < vectorLHS.getChildCount(); ++i) {
@@ -3375,8 +3385,8 @@ public class VectorCompiler implements ASTNodeCompiler {
 
   /**
    * 
-   * @param values
-   * @param node
+   * @param scalarLHS
+   * @param vectorRHS
    */
   private void scalarVectorPow(ASTNode scalarLHS, ASTNode vectorRHS) {
     for(int i = 0; i < vectorRHS.getChildCount(); ++i) {
@@ -3570,7 +3580,7 @@ public class VectorCompiler implements ASTNodeCompiler {
               unknownValue();
               return dummy;
             }
-          } 
+          }
           else {
             int indexValue = (int)index.getReal();
             vector = vector.getChild(indexValue);
@@ -3727,7 +3737,7 @@ public class VectorCompiler implements ASTNodeCompiler {
     }
     else if(compiled.isNumber()) {
       compiled.setValue(Math.sqrt(compiled.getReal()));
-    } 
+    }
     else {
       compiled.setName("unknown");
     }
@@ -3872,7 +3882,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       }
       else if(child.isNumber()) {
         value.getChild(i).setValue(Math.tanh(child.getReal()));
-      } 
+      }
       else {
         throw new SBMLException();
       }
@@ -3976,7 +3986,7 @@ public class VectorCompiler implements ASTNodeCompiler {
         ASTNode result = getNode();
         if(result.isVector()) {
           nodes.add(result.getChild(i));
-        } 
+        }
       }
       timesRecursive(nodes, node.getChild(i));
     }
@@ -3985,8 +3995,8 @@ public class VectorCompiler implements ASTNodeCompiler {
 
   /**
    * 
-   * @param values
-   * @param node
+   * @param vector
+   * @param scalar
    */
   private void scalarVectorTimes(ASTNode vector, ASTNode scalar) {
     for(int i = 0; i < vector.getChildCount(); ++i) {
@@ -3995,7 +4005,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       ASTNode result = getNode();
       if(result.isVector()) {
         scalarVectorTimes(child, scalar);
-      } 
+      }
       else if(useId) {
         ASTNode nodeValue = new ASTNode(ASTNode.Type.TIMES, vector.getChild(i).getParentSBMLObject());
         nodeValue.addChild(result.clone());
@@ -4128,7 +4138,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       String appendName = node.getName();
       while(model.findNamedSBase(value + appendName) != null) {
         appendName = "_" + appendName;
-      } 
+      }
       node.setName(value + appendName);
     } else {
       node.setName("unknown");
@@ -4154,7 +4164,7 @@ public class VectorCompiler implements ASTNodeCompiler {
     else if(compiled.equals(new ASTNode("unknown"))) {
       unknownValue();
       return dummy;
-    } 
+    }
     else if(compiled.isNumber()) {
       compiled.setValue(-value.getReal());
     }
@@ -4333,7 +4343,7 @@ public class VectorCompiler implements ASTNodeCompiler {
         ASTNode result = getNode();
         if(result.isVector()) {
           nodes.add(result.getChild(i));
-        } 
+        }
       }
       xorRecursive(nodes, node.getChild(i));
     }
@@ -4342,8 +4352,8 @@ public class VectorCompiler implements ASTNodeCompiler {
 
   /**
    * 
-   * @param values
-   * @param node
+   * @param vector
+   * @param scalar
    */
   private void scalarVectorXor(ASTNode vector, ASTNode scalar) {
     for(int i = 0; i < vector.getChildCount(); ++i) {
@@ -4352,7 +4362,7 @@ public class VectorCompiler implements ASTNodeCompiler {
       ASTNode result = getNode();
       if(result.isVector()) {
         scalarVectorXor(child, scalar);
-      } 
+      }
       else if(useId) {
         ASTNode nodeValue = new ASTNode(ASTNode.Type.LOGICAL_XOR, vector.getChild(i).getParentSBMLObject());
         nodeValue.addChild(result.clone());

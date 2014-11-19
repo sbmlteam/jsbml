@@ -141,16 +141,16 @@ public class CBO {
   }
 
   /**
-   * Return the set of terms of the CBO Ontology.
+   * Return the set of terms of the CBO.
    * 
    * <p>
    * This methods return only Term object and no Triple object that represent
    * the relationship between terms. If you want to access the full set of
-   * {@link org.biojava.ontology.Term} containing also the
-   * {@link org.biojava.ontology.Triple}, use {@link CBO#getOntology()} to get
+   * {@link org.biojava3.ontology.Term} containing also the
+   * {@link org.biojava3.ontology.Triple}, use {@link CBO#getOntology()} to get
    * the underlying biojava object.
    * 
-   * @return the set of terms of the CBO Ontology.
+   * @return the set of terms of the CBO.
    */
   public static Set<Term> getTerms() {
     if (terms.size() < cbo.getTerms().size()) {
@@ -180,8 +180,8 @@ public class CBO {
    * @return a set of Triple which match the supplied subject, predicate and
    *         object.
    * 
-   * @see org.biojava.ontology.Ontology#getTriples(org.biojava.ontology.Term,
-   *      org.biojava.ontology.Term, org.biojava.ontology.Term)
+   * @see org.biojava3.ontology.Ontology#getTriples(org.biojava3.ontology.Term,
+   *      org.biojava3.ontology.Term, org.biojava3.ontology.Term)
    */
   public static Set<Triple> getTriples(Term subject, Term predicate,
     Term object) {
@@ -203,7 +203,7 @@ public class CBO {
       i++;
     }
     System.out.println("\nThere is " + i + " terms in the CBO ontology.");
-    
+
     System.out.println("Get CellDeath by name = " + Term.printTerm(getTerm("CellDeath")));
     System.out.println("Get CellDeath by id (url) = " + Term.printTerm(getTerm("http://cbo.biocomplexity.indiana.edu/svn/cbo/trunk/CBO_1_0.owl#CellDeath")));
 

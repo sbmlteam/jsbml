@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.validator.SyntaxChecker;
 
 /**
  * Represents the functionDefinition XML element of a SBML file. Since
@@ -43,7 +44,7 @@ CallableSBase, UniqueNamedSBase {
   // TODO - for L3V2, we probably will need to have AbstractMathContainer extending AbstractNamedSBase ??
 
   /**
-   * Error message to indicate that an incorrect {@link ASTNode#Type} has been passed
+   * Error message to indicate that an incorrect {@link ASTNode.Type} has been passed
    * to a method.
    */
   private static final String ILLEGAL_ASTNODE_TYPE_MSG = "Math element is expected to be of type {0}, but given is {1}.";
@@ -160,7 +161,7 @@ CallableSBase, UniqueNamedSBase {
    */
   boolean checkIdentifier(String sID) {
     if ((sID == null)
-        || !AbstractNamedSBase.isValidId(sID, getLevel(), getVersion())) {
+        || !SyntaxChecker.isValidId(sID, getLevel(), getVersion())) {
       throw new IllegalArgumentException(MessageFormat.format(
         "\"{0}\" is not a valid identifier.", sID));
     }

@@ -76,7 +76,7 @@ public class SyntaxChecker {
    *   </tr><tr>
    *     <td>{@code (}                   </td><td>start of group #3 - second level TLD checking</td>
    *   </tr><tr>
-   *     <td>{@code \\.[A-Za-z]{2,}}     </td><td>follow by a dot "." and string in the bracket [ ], with minimum length of 2</td>
+   *     <td><code>\\.[A-Za-z]{2,}</code>     </td><td>follow by a dot "." and string in the bracket [ ], with minimum length of 2</td>
    *   </tr><tr>
    *     <td>{@code )}                   </td><td>end of group #3</td>
    *   </tr><tr>

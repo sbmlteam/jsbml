@@ -282,7 +282,6 @@ UniqueNamedSBase {
    * 
    * @return the newly created {@link Priority} object instance
    * @param math the {@link ASTNode} representing the expression to be set to the {@link Priority}
-   * @return the newly created {@link Priority} object instance
    */
   public Priority createPriority(ASTNode math) {
     Priority p = createPriority();
@@ -814,7 +813,7 @@ s   * @return the list of eventAssignments of this Event.
     return false;
   }
 
-  
+
   /**
    * Sets the delay of this Event to 'delay'. It automatically sets the Delay
    * parentSBML object to this Event instance.

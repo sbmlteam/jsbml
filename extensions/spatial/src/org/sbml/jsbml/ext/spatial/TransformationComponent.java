@@ -47,13 +47,15 @@ public class TransformationComponent extends AbstractSBase {
   private Double[] components;
   private Integer componentsLength;
 
+  /**
+   * 
+   */
   public TransformationComponent() {
     super();
   }
 
-
   /**
-   * @param node
+   * @param tc
    */
   public TransformationComponent(TransformationComponent tc) {
     super(tc);
@@ -73,13 +75,17 @@ public class TransformationComponent extends AbstractSBase {
     super(level, version);
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
   @Override
   public TransformationComponent clone() {
     return new TransformationComponent(this);
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(Object object) {
     boolean equal = super.equals(object);
@@ -92,7 +98,6 @@ public class TransformationComponent extends AbstractSBase {
     }
     return equal;
   }
-
 
   /**
    * Returns the value of components
@@ -172,6 +177,9 @@ public class TransformationComponent extends AbstractSBase {
     return componentsLength != null;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 983;//Change this prime number
@@ -182,7 +190,9 @@ public class TransformationComponent extends AbstractSBase {
     return hashCode;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -208,7 +218,9 @@ public class TransformationComponent extends AbstractSBase {
     return attributes;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
@@ -241,7 +253,6 @@ public class TransformationComponent extends AbstractSBase {
     return isAttributeRead;
   }
 
-
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
@@ -255,6 +266,5 @@ public class TransformationComponent extends AbstractSBase {
     builder.append("]");
     return builder.toString();
   }
-
 
 }

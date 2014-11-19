@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Utah, Salt Lake City, UT, USA
  *
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.ext.arrays;
 
@@ -29,9 +29,9 @@ import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.StringTools;
-
 
 /**
  * 
@@ -44,7 +44,7 @@ import org.sbml.jsbml.util.StringTools;
  * @date May 11, 2014
  */
 public class Dimension extends AbstractNamedSBase implements CallableSBase {
-  
+
 
   /**
    * 
@@ -55,19 +55,19 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
    * Indicates the size of the dimension. Should be a valid id to a Parameter object.
    */
   private String size;
-  
+
   /**
    * Indicates which array dimension this object refers to.
    */
   private int arrayDimension;
-  
+
   /**
    * Indicates if the arrayDimension field has a value.
    */
   private boolean isSetArrayDimension;
-  
+
   /**
-   * Creates an Dimension instance 
+   * Creates an Dimension instance
    */
   public Dimension() {
     super();
@@ -75,7 +75,7 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
   }
 
   /**
-   * Creates a Dimension instance with an id. 
+   * Creates a Dimension instance with an id.
    * 
    * @param id
    */
@@ -86,7 +86,7 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
 
 
   /**
-   * Creates a Dimension instance with a level and version. 
+   * Creates a Dimension instance with a level and version.
    * 
    * @param level
    * @param version
@@ -97,7 +97,7 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
 
 
   /**
-   * Creates a Dimension instance with an id, level, and version. 
+   * Creates a Dimension instance with an id, level, and version.
    * 
    * @param id
    * @param level
@@ -109,7 +109,7 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
 
 
   /**
-   * Creates a Dimension instance with an id, name, level, and version. 
+   * Creates a Dimension instance with an id, name, level, and version.
    * 
    * @param id
    * @param name
@@ -137,7 +137,7 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
     }
     if(obj.isSetArrayDimension()) {
       setArrayDimension(obj.arrayDimension);
-    }    
+    }
   }
 
 
@@ -159,8 +159,8 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
     isSetArrayDimension = false;
     size = null;
   }
-  
-  
+
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
    */
@@ -169,7 +169,7 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
     return false;
   }
 
-  
+
   /**
    * Returns the value of size
    *
@@ -185,9 +185,9 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
 
 
   /**
-   * Returns whether size is set 
+   * Returns whether size is set
    *
-   * @return whether size is set 
+   * @return whether size is set
    */
   public boolean isSetSize() {
     return size != null;
@@ -205,9 +205,9 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
 
 
   /**
-   * Unsets the variable size 
+   * Unsets the variable size
    *
-   * @return {@code true}, if size was set before, 
+   * @return {@code true}, if size was set before,
    *         otherwise {@code false}
    */
   public boolean unsetSize() {
@@ -219,9 +219,9 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
     }
     return false;
   }
-  
-  
-  
+
+
+
   /**
    * Returns the value of arrayDimension
    *
@@ -237,9 +237,9 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
 
 
   /**
-   * Returns whether arrayDimension is set 
+   * Returns whether arrayDimension is set
    *
-   * @return whether arrayDimension is set 
+   * @return whether arrayDimension is set
    */
   public boolean isSetArrayDimension() {
     return isSetArrayDimension;
@@ -258,9 +258,9 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
 
 
   /**
-   * Unsets the variable arrayDimension 
+   * Unsets the variable arrayDimension
    *
-   * @return {@code true}, if arrayDimension was set before, 
+   * @return {@code true}, if arrayDimension was set before,
    *         otherwise {@code false}
    */
   public boolean unsetArrayDimension() {
@@ -273,33 +273,33 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
     }
     return false;
   }
-  
+
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value)
   {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-    
+
     if(!isAttributeRead) {
       isAttributeRead = true;
-      
-      
+
+
       if(attributeName.equals(ArraysConstants.arrayDimension)) {
         setArrayDimension(StringTools.parseSBMLInt(value));
       }
-      
+
       else if(attributeName.equals(ArraysConstants.size)) {
         setSize(value);
       }
-      
+
       else {
         isAttributeRead = false;
       }
-      
+
     }
-    
+
     return isAttributeRead;
   }
-  
+
   @Override
   public Map<String, String> writeXMLAttributes()
   {
@@ -312,17 +312,17 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
       attributes.remove("name");
       attributes.put(ArraysConstants.shortLabel + ":name", getName());
     }
-    
+
     if(isSetArrayDimension()) {
       attributes.remove("arrayDimension");
       attributes.put(ArraysConstants.shortLabel + ":arrayDimension", ""+getArrayDimension());
     }
-    
+
     if(isSetSize()) {
       attributes.remove("size");
       attributes.put(ArraysConstants.shortLabel + ":size", getSize());
     }
-    
+
     return attributes;
   }
 
@@ -375,7 +375,7 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
   @Override
   public String toString() {
     return "Dimension [size=" + size + ", arrayDimension=" + arrayDimension
-      + "]";
+        + "]";
   }
 
   /* (non-Javadoc)
@@ -415,6 +415,6 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
     }
     return null;
   }
-  
-  
+
+
 }

@@ -133,8 +133,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
   /**
    * Creates a CompSBasePlugin instance with a level and version.
    *
-   * @param level
-   * @param version
+   * @param extendedSBase
    */
   public CompSBasePlugin(SBase extendedSBase) {
     super(extendedSBase);
@@ -180,11 +179,11 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
     final int prime = 3359;
     int result = super.hashCode();
     result = prime
-      * result
-      + ((listOfReplacedElements == null) ? 0
-        : listOfReplacedElements.hashCode());
+        * result
+        + ((listOfReplacedElements == null) ? 0
+          : listOfReplacedElements.hashCode());
     result = prime * result
-      + ((replacedBy == null) ? 0 : replacedBy.hashCode());
+        + ((replacedBy == null) ? 0 : replacedBy.hashCode());
     return result;
   }
 
@@ -299,7 +298,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
   /**
    * Returns the n-th {@link ReplacedElement} object in this {@link CompSBasePlugin}.
    *
-   * @param n an index
+   * @param index an index
    * @return the {@link ReplacedElement} with the given index if it exists.
    * @throws IndexOutOfBoundsException
    */
@@ -403,7 +402,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
    * <p>listOfReplacedElements is initialized if necessary.
    *
    * @param replacedElement
-   * @return {@code true} (as specified by {@link Collection.add})
+   * @return {@code true} (as specified by {@link Collection#add})
    */
   public boolean addReplacedElement(ReplacedElement replacedElement) {
     return getListOfReplacedElements().add(replacedElement);

@@ -23,8 +23,12 @@
 package org.sbml.jsbml.ext.dyn;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+
 import javax.swing.tree.TreeNode;
+
 import org.sbml.jsbml.Event;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.util.StringTools;
@@ -242,7 +246,7 @@ public class DynEventPlugin extends DynSBasePlugin {
    *
    * @param dynElement
    *            the element to add to the list
-   * @return {@code true} (as specified by {@link Collection.add})
+   * @return {@code true} (as specified by {@link Collection#add})
    */
   public boolean addDynElement(DynElement dynElement) {
     return getListOfDynElements().add(dynElement);
@@ -359,9 +363,9 @@ public class DynEventPlugin extends DynSBasePlugin {
   @Override
   public boolean readAttribute(String attributeName, String prefix,
     String value) {
-    
+
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-    
+
     if (!isAttributeRead && attributeName.equals(DynConstants.applyToAll)) {
       try {
         setApplyToAll(StringTools.parseSBMLBoolean(value));
@@ -373,7 +377,7 @@ public class DynEventPlugin extends DynSBasePlugin {
         e.printStackTrace();
       }
     }
-    
+
     return isAttributeRead;
   }
 

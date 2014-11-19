@@ -74,7 +74,7 @@ public class DiffusionCoefficient extends ParameterType {
 
 
   /**
-   * @param node
+   * @param diffCoeff
    */
   public DiffusionCoefficient(DiffusionCoefficient diffCoeff) {
     super(diffCoeff);
@@ -164,7 +164,7 @@ public class DiffusionCoefficient extends ParameterType {
    * @return whether coordinateReference1 is set
    */
   public boolean isSetCoordinateReference1() {
-    return this.coordinateReference1 != null;
+    return coordinateReference1 != null;
   }
 
 
@@ -186,9 +186,9 @@ public class DiffusionCoefficient extends ParameterType {
    */
   public boolean unsetCoordinateReference1() {
     if (isSetCoordinateReference1()) {
-      CoordinateKind oldCoordinateReference1 = this.coordinateReference1;
-      this.coordinateReference1 = null;
-      firePropertyChange(SpatialConstants.coordinateReference1, oldCoordinateReference1, this.coordinateReference1);
+      CoordinateKind oldCoordinateReference1 = coordinateReference1;
+      coordinateReference1 = null;
+      firePropertyChange(SpatialConstants.coordinateReference1, oldCoordinateReference1, coordinateReference1);
       return true;
     }
     return false;
@@ -215,7 +215,7 @@ public class DiffusionCoefficient extends ParameterType {
    * @return whether coordinateReference2 is set
    */
   public boolean isSetCoordinateReference2() {
-    return this.coordinateReference2 != null;
+    return coordinateReference2 != null;
   }
 
 
@@ -237,9 +237,9 @@ public class DiffusionCoefficient extends ParameterType {
    */
   public boolean unsetCoordinateReference2() {
     if (isSetCoordinateReference2()) {
-      CoordinateKind oldCoordinateReference2 = this.coordinateReference2;
-      this.coordinateReference2 = null;
-      firePropertyChange(SpatialConstants.coordinateReference2, oldCoordinateReference2, this.coordinateReference2);
+      CoordinateKind oldCoordinateReference2 = coordinateReference2;
+      coordinateReference2 = null;
+      firePropertyChange(SpatialConstants.coordinateReference2, oldCoordinateReference2, coordinateReference2);
       return true;
     }
     return false;
@@ -266,7 +266,7 @@ public class DiffusionCoefficient extends ParameterType {
    * @return whether diffusionKind is set
    */
   public boolean isSetDiffusionKind() {
-    return this.diffusionKind != null;
+    return diffusionKind != null;
   }
 
 
@@ -288,9 +288,9 @@ public class DiffusionCoefficient extends ParameterType {
    */
   public boolean unsetDiffusionKind() {
     if (isSetDiffusionKind()) {
-      DiffusionKind oldDiffusionKind = this.diffusionKind;
-      this.diffusionKind = null;
-      firePropertyChange(SpatialConstants.diffusionKind, oldDiffusionKind, this.diffusionKind);
+      DiffusionKind oldDiffusionKind = diffusionKind;
+      diffusionKind = null;
+      firePropertyChange(SpatialConstants.diffusionKind, oldDiffusionKind, diffusionKind);
       return true;
     }
     return false;

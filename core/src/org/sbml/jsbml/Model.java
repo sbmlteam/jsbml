@@ -2508,7 +2508,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
   /**
    * Returns all {@link ModifierSpeciesReference}s, registered in
    * any {@link Reaction}.
-   * @return
+   * 
    * @return all {@link ModifierSpeciesReference} contained in this {@link Model}.
    */
   public Set<ModifierSpeciesReference> getModifierSpeciesReferences() {
@@ -2821,7 +2821,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
    * 
    * @return the number of {@link StoichiometryMath} in the {@link Model}.
    * @libsbml.deprecated use {@link #getStoichiometryMathCount()}
+   * @deprecated since SBML L3V1.
    */
+  @Deprecated
   public int getNumStoichiometryMath() {
     return getStoichiometryMathCount();
   }
@@ -2939,7 +2941,7 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
     if (listOfPredefinedUnitDefinitions != null) {
       String unitKindPredefinedId = unitKind + UnitDefinition.BASE_UNIT_SUFFIX;
       for (UnitDefinition unitDefinition : listOfPredefinedUnitDefinitions) { // Having a Map instead of a list would be much better
-        // For volume, substance, time, area and lenght, the id can be equals to the given unit kind.        
+        // For volume, substance, time, area and lenght, the id can be equals to the given unit kind.
         if (unitDefinition.getId().equals(unitKind) || unitDefinition.getId().equals(unitKindPredefinedId))
         {
           return unitDefinition;
@@ -3174,7 +3176,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
    * Returns the number of {@link StoichiometryMath} in the {@link Model}.
    * 
    * @return the number of {@link StoichiometryMath} in the {@link Model}.
+   * @deprecated since SBML L3V1
    */
+  @Deprecated
   public int getStoichiometryMathCount() {
     int count = 0;
     for (Reaction r : getListOfReactions()) {
@@ -3903,7 +3907,6 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
   /**
    * 
    * @param unsb
-   * @param recursively
    * @param delete
    * @return
    */

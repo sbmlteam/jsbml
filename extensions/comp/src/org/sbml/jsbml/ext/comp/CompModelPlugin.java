@@ -102,7 +102,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    * <p>The listOfPorts is initialized if necessary.
    *
    * @param port the element to add to the list
-   * @return {@code true} (as specified by {@link Collection.add})
+   * @return {@code true} (as specified by {@link Collection#add})
    */
   public boolean addPort(Port port) {
     return getListOfPorts().add(port);
@@ -113,7 +113,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
    * <p>The listOfSubmodels is initialized if necessary.
    *
    * @param submodel the element to add to the list
-   * @return {@code true} (as specified by {@link Collection.add})
+   * @return {@code true} (as specified by {@link Collection#add})
    */
   public boolean addSubmodel(Submodel submodel) {
     return getListOfSubmodels().add(submodel);
@@ -127,7 +127,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
     return new CompModelPlugin(this);
   }
 
-  
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -136,11 +136,11 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
     final int prime = 3371;
     int result = super.hashCode();
     result = prime * result
-      + ((listOfPorts == null) ? 0 : listOfPorts.hashCode());
+        + ((listOfPorts == null) ? 0 : listOfPorts.hashCode());
     result = prime * result
-      + ((listOfSubmodels == null) ? 0 : listOfSubmodels.hashCode());
+        + ((listOfSubmodels == null) ? 0 : listOfSubmodels.hashCode());
     result = prime * result
-      + ((mapOfPorts == null) ? 0 : mapOfPorts.hashCode());
+        + ((mapOfPorts == null) ? 0 : mapOfPorts.hashCode());
     return result;
   }
 
@@ -358,7 +358,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
   /**
    * Returns the n-th {@link Port} object in this {@link CompModelPlugin}.
    * 
-   * @param n an index
+   * @param index an index
    * @return the {@link Port} with the given index if it exists.
    * @throws IndexOutOfBoundsException
    */
@@ -399,7 +399,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
   /**
    * Returns the n-th {@link Submodel} object in this {@link CompModelPlugin}.
    * 
-   * @param n an index
+   * @param index an index
    * @return the {@link Submodel} with the given index if it exists.
    * @throws IndexOutOfBoundsException
    */

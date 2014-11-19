@@ -295,11 +295,11 @@ public class StringTools {
    * string, until it reaches the given {@code length}.
    * @param length
    * @param symbol
-   * @param stringBuilder
+   * @param sb
    * @return
    */
   private static String fill(int length, char symbol, StringBuilder sb) {
-    if (length<=sb.length()) {
+    if (length <= sb.length()) {
       return sb.toString();
     }
 
@@ -308,7 +308,7 @@ public class StringTools {
     Arrays.fill(ret, symbol);
 
     // Copy previous content at the end of the array
-    if (sb.length()>0) {
+    if (sb.length() > 0) {
       char[] sbArray = sb.toString().toCharArray();
       System.arraycopy(sbArray, 0, ret, length-sb.length(), sbArray.length);
     }

@@ -52,8 +52,6 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Creates a Style instance with a group
-   * 
-   * @param group
    */
   public Style() {
     super();
@@ -95,11 +93,11 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
     super(id, level, version);
 
     // Removed to potentially support SBML Level 2 Render
-//    if (getLevelAndVersion().compareTo(
-//      Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
-//      Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
-//      throw new LevelVersionError(getElementName(), level, version);
-//    }
+    //    if (getLevelAndVersion().compareTo(
+    //      Integer.valueOf(RenderConstants.MIN_SBML_LEVEL),
+    //      Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
+    //      throw new LevelVersionError(getElementName(), level, version);
+    //    }
     initDefaults();
     setGroup(group);
   }
@@ -112,7 +110,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
     super(obj);
     roleList = obj.roleList; // TODO - do a proper copy of the arrays
     typeList = obj.typeList;
-    
+
     if (obj.isSetGroup()) {
       setGroup(obj.getGroup().clone());
     }
@@ -138,7 +136,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
     return true;
   }
 
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
    */
@@ -154,16 +152,16 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
       index -= count;
     }
 
-     if (isSetGroup()) {
-       if (pos == index) {
-         return getGroup();
-       }
-       pos++;
-     }
+    if (isSetGroup()) {
+      if (pos == index) {
+        return getGroup();
+      }
+      pos++;
+    }
 
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", index,
-      +((int) Math.min(pos, 0))));
+      +Math.min(pos, 0)));
   }
 
   /*
@@ -173,11 +171,11 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
   @Override
   public int getChildCount() {
     int count = super.getChildCount();
-    
+
     if (isSetGroup()) {
       count++;
     }
-    
+
     return count;
   }
 
@@ -230,7 +228,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
     unsetGroup();
     this.group = group;
     registerChild(group);
-    
+
   }
 
 
@@ -240,7 +238,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
   @Override
   public String toString() {
     return "Style [group=" + group + ", roleList=" + Arrays.toString(roleList)
-      + ", typeList=" + Arrays.toString(typeList) + "]";
+        + ", typeList=" + Arrays.toString(typeList) + "]";
   }
 
 

@@ -1637,7 +1637,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
           sbase.getElementName(), sbase, getElementName(), this));
       } else {
         logger.warn(MessageFormat.format(
-          "{0} ''{1}'' is associated to the different parent ''{1}''. Please remove it there before adding it to this ''{2}'' or add a clone of it to this element.",
+          "{0} ''{1}'' is associated to the different parent ''{2}''. Please remove it there before adding it to this ''{3}'' or add a clone of it to this element.",
           sbase.getClass().getSimpleName(), sbase, sbase.getParent(), this));
       }
       return false;
@@ -1916,7 +1916,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
    * @throws LevelVersionError
    *         if the SBML Level and Version configuration of the new parent
    *         differs from the one of this {@link SBase}.
-   * @see {@link #setParentSBML(SBase)}
+   * @see #setParentSBML(SBase)
    */
   protected void setParentSBMLObject(SBase sbase) throws LevelVersionError {
     if (sbase instanceof AbstractSBase) {

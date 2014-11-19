@@ -275,7 +275,7 @@ public class Curve extends AbstractNamedSBase {
   }
 
   /**
-   * Removes the {@link #listOfLineSegments} from this {@link Model} and notifies
+   * Removes the {@link #listOfCurveSegments} from this {@link Model} and notifies
    * all registered instances of {@link TreeNodeChangeListener}.
    * 
    * @return {@code true} if calling this method lead to a change in this

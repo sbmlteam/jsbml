@@ -65,10 +65,7 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * Creates a ReqSBasePlugin instance with a level and version.
-   * 
-   * @param level
-   * @param version
+   * Creates a {@link ReqSBasePlugin} instance with a level and version.
    */
   public ReqSBasePlugin(SBase sbase) {
     super(sbase);
@@ -177,7 +174,7 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
       // TODO : get the correct namespace from the SBMLdocument, otherwise don't set it yet.
       listOfChangedMaths.setNamespace(ReqConstants.namespaceURI);
       listOfChangedMaths.setSBaseListType(ListOf.Type.other);
-      
+
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfChangedMaths);
       }
@@ -224,7 +221,7 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
    * <p>The listOfChangedMaths is initialized if necessary.
    *
    * @param changedMath the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return true (as specified by {@link Collection#add})
    */
   public boolean addChangedMath(ChangedMath changedMath) {
     return getListOfChangedMaths().add(changedMath);

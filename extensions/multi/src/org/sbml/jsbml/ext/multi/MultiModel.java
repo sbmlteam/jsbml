@@ -111,7 +111,7 @@ public class MultiModel extends AbstractSBasePlugin {
 
   /**
    * 
-   * @param model
+   * @param multiModel
    */
   public MultiModel(MultiModel multiModel) {
     super(multiModel);
@@ -170,10 +170,11 @@ public class MultiModel extends AbstractSBasePlugin {
   /**
    * Adds a {@link SpeciesType}.
    * 
-   * @param speciesTypes the speciesType to add
+   * @param speciesType the speciesType to add
+   * @return
    */
-  public void addSpeciesType(SpeciesType speciesType) {
-    getListOfSpeciesTypes().add(speciesType);
+  public boolean addSpeciesType(SpeciesType speciesType) {
+    return getListOfSpeciesTypes().add(speciesType);
   }
 
   /**

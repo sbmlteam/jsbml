@@ -240,17 +240,17 @@ public class SBMLDocument extends AbstractSBase {
     addDeclaredNamespace("xmlns:" + packageName, packageURI);
     getSBMLDocumentAttributes().put(packageName + ":required", Boolean.toString(required));
   }
-  
+
   /**
    * Removes the package namespace declaration in this {@link SBMLDocument}, removes as well
    * the required attribute for this package.
    * 
    * @param packageName the name or short label of the package, for example: layout, comp, qual, ...
    */
-  private void removePackageDeclaration(String packageName) 
+  private void removePackageDeclaration(String packageName)
   {
     getDeclaredNamespaces().remove("xmlns:" + packageName);
-    getSBMLDocumentAttributes().remove(packageName + ":required");    
+    getSBMLDocumentAttributes().remove(packageName + ":required");
   }
 
 
@@ -477,7 +477,7 @@ public class SBMLDocument extends AbstractSBase {
         checkMetaId(sbase.getMetaId());
       }
       metaIds.put(sbase.getMetaId(), sbase);
-      
+
       if (logger.isDebugEnabled()) {
         logger.debug("SBMLDocument - #collectMetaIds - node = '" + sbase + "'");
       }
@@ -486,7 +486,7 @@ public class SBMLDocument extends AbstractSBase {
       Enumeration<TreeNode> children = sbase.children();
       while (children.hasMoreElements()) {
         TreeNode node = children.nextElement();
-        
+
         if (node instanceof SBase) {
           collectMetaIds(metaIds, (SBase) node, recursively, delete);
         }
@@ -927,7 +927,7 @@ public class SBMLDocument extends AbstractSBase {
   /**
    * Returns {@code true} if the given SBML Level 3 package is enabled within the {@link SBMLDocument}, {@code false}
    * if the package was disabled using the method {@link #disablePackage(String)} or {@code null} if this package
-   * was neither enabled or disabled on this {@link SBMLDocument}. 
+   * was neither enabled or disabled on this {@link SBMLDocument}.
    * 
    * <p>This method can be used, for example, by the {@link SBMLWriter} to know if a package was really disabled
    * or if the user forgot to enable it.
@@ -935,7 +935,7 @@ public class SBMLDocument extends AbstractSBase {
    * @param packageURIOrName the name or URI of the package extension.
    * @return {@code true} if the given SBML Level 3 package is enabled within the {@link SBMLDocument}, {@code false}
    * if the package was disabled using the method {@link #disablePackage(String)} or {@code null} if this package
-   * was neither enabled or disabled on this {@link SBMLDocument}. 
+   * was neither enabled or disabled on this {@link SBMLDocument}.
    */
   public Boolean isPackageEnabledOrDisabled(String packageURIOrName) {
 
@@ -957,7 +957,7 @@ public class SBMLDocument extends AbstractSBase {
       if (enabledPackageMap == null) {
         enabledPackageMap = new HashMap<String, Boolean>();
       }
-      
+
       for (String packageURI : packageURIs) {
         if (enabledPackageMap.containsKey(packageURI)) {
           return enabledPackageMap.get(packageURI);
@@ -1182,43 +1182,43 @@ public class SBMLDocument extends AbstractSBase {
    * (value of {@code true}) or off (value of {@code false}).
    * <p>
    * The possible categories (values to the argument {@code category}) are the
-   * set of values from the {@link SBMLValidator.CHECK_CATEGORY} enumeration.
+   * set of values from the {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY} enumeration.
    * The following are the possible choices:
    * <p>
    * <ul>
-   * <li> {@link SBMLValidator.CHECK_CATEGORY#GENERAL_CONSISTENCY}:
+   * <li> {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#GENERAL_CONSISTENCY}:
    * Correctness and consistency of specific SBML language constructs.
    * Performing this set of checks is highly recommended.  With respect to
    * the SBML specification, these concern failures in applying the
    * validation rules numbered 2xxxx in the Level&nbsp;2 Versions&nbsp;2, 3
    * and&nbsp;4 specifications.
-   * <li> {@link SBMLValidator.CHECK_CATEGORY#IDENTIFIER_CONSISTENCY}:
+   * <li> {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#IDENTIFIER_CONSISTENCY}:
    * Correctness and consistency of identifiers used for model entities.
    * An example of inconsistency would be using a species identifier in a
    * reaction rate formula without first having declared the species.  With
    * respect to the SBML specification, these concern failures in applying
    * the validation rules numbered 103xx in the Level&nbsp;2
    * Versions&nbsp;2, 3 and&nbsp;4 specifications.
-   * <li> {@link SBMLValidator.CHECK_CATEGORY#UNITS_CONSISTENCY}:
+   * <li> {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#UNITS_CONSISTENCY}:
    * Consistency of measurement units associated with quantities in a
    * model.  With respect to the SBML specification, these concern failures
    * in applying the validation rules numbered 105xx in the Level&nbsp;2
    * Versions&nbsp;2, 3 and&nbsp;4 specifications.
-   * <li> {@link SBMLValidator.CHECK_CATEGORY#MATHML_CONSISTENCY}:
+   * <li> {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#MATHML_CONSISTENCY}:
    * Syntax of MathML constructs.  With respect to the SBML specification,
    * these concern failures in applying the validation rules numbered 102xx
    * in the Level&nbsp;2 Versions&nbsp;2, 3 and&nbsp;4 specifications.
-   * <li> {@link SBMLValidator.CHECK_CATEGORY#SBO_CONSISTENCY}:
+   * <li> {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#SBO_CONSISTENCY}:
    * Consistency and validity of SBO identifiers (if any) used in the
    * model.  With respect to the SBML specification, these concern failures
    * in applying the validation rules numbered 107xx in the Level&nbsp;2
    * Versions&nbsp;2, 3 and&nbsp;4 specifications.
-   * <li> {@link SBMLValidator.CHECK_CATEGORY#OVERDETERMINED_MODEL}:
+   * <li> {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#OVERDETERMINED_MODEL}:
    * Static analysis of whether the system of equations implied by a model
-   * is mathematically overdetermined.  With respect to the SBML
+   * is mathematically over-determined.  With respect to the SBML
    * specification, this is validation rule #10601 in the SBML Level&nbsp;2
    * Versions&nbsp;2, 3 and&nbsp;4 specifications.
-   * <li> {@link SBMLValidator.CHECK_CATEGORY#MODELING_PRACTICE}:
+   * <li> {@link org.sbml.jsbml.validator.SBMLValidator.CHECK_CATEGORY#MODELING_PRACTICE}:
    * Additional checks for recommended good modeling practice. (These are
    * tests performed by libSBML and do not have equivalent SBML validation
    * rules.)

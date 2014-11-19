@@ -33,11 +33,11 @@ import org.sbml.jsbml.util.StringTools;
 
 /**
  * This is a convenient wrapper class for the corresponding implementation
- * of {@link org.sbml.jsbml.ontology.biojava.ontology.Term} in BioJava as it provides
+ * of {@link org.biojava3.ontology.Term} in BioJava as it provides
  * specialized methods to obtain the information from the SBO OBO file
  * directly and under the same name as the keys are given in that file.
  * 
- * @see org.sbml.jsbml.ontology.biojava.ontology.Term
+ * @see org.biojava3.ontology.Term
  */
 public class Term implements Cloneable, Comparable<Term>, Serializable {
 
@@ -85,14 +85,14 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
   private String id, name, def;
 
   /**
-   * The underlying BioJava {@link org.sbml.jsbml.ontology.biojava.ontology.Term}.
+   * The underlying BioJava {@link org.biojava3.ontology.Term}.
    */
   private org.biojava3.ontology.Term term;
 
   /**
    * Creates a new Term instance.
    * 
-   * @param term a {@link org.sbml.jsbml.ontology.biojava.ontology.Term} object
+   * @param term a {@link org.biojava3.ontology.Term} object
    */
   public Term(org.biojava3.ontology.Term term) {
     if (term == null) {
@@ -213,7 +213,7 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
     {
       parents.add(new Term(triple.getObject()));
     }
-    
+
     return parents;
   }
 
@@ -238,10 +238,10 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
 
   /**
    * Grants access to the underlying BioJava
-   * {@link org.sbml.jsbml.ontology.biojava.ontology.Term}.
+   * {@link org.biojava3.ontology.Term}.
    * 
    * @return the underlying BioJava
-   * {@link org.sbml.jsbml.ontology.biojava.ontology.Term}.
+   * {@link org.biojava3.ontology.Term}.
    */
   public org.biojava3.ontology.Term getTerm() {
     return term;

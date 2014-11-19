@@ -61,9 +61,8 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
     super();
   }
 
-
   /**
-   * @param node
+   * @param cm
    */
   public CompartmentMapping(CompartmentMapping cm) {
     super(cm);
@@ -80,7 +79,6 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
 
   }
 
-
   /**
    * @param level
    * @param version
@@ -88,7 +86,6 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
   public CompartmentMapping(int level, int version) {
     super(level, version);
   }
-
 
   /**
    * 
@@ -100,13 +97,17 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
     super(id, level, version);
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
   @Override
   public CompartmentMapping clone() {
     return new CompartmentMapping(this);
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(Object object) {
     boolean equal = super.equals(object);
@@ -129,7 +130,6 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
     return equal;
   }
 
-
   /**
    * Returns the value of compartment
    *
@@ -142,7 +142,6 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
     // This is necessary if we cannot return null here.
     throw new PropertyUndefinedError(SpatialConstants.compartment, this);
   }
-
 
   /**
    * Returns whether compartment is set
@@ -163,7 +162,6 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
     firePropertyChange(SpatialConstants.compartment, oldCompartment, this.compartment);
   }
 
-
   /**
    * Unsets the variable compartment
    *
@@ -180,7 +178,6 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
     return false;
   }
 
-
   /**
    * Returns the value of domainType
    *
@@ -194,7 +191,6 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
     throw new PropertyUndefinedError(SpatialConstants.domainType, this);
   }
 
-
   /**
    * Returns whether domainType is set
    *
@@ -204,7 +200,6 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
     return domainType != null;
   }
 
-
   /**
    * Sets the value of domainType
    */
@@ -213,7 +208,6 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
     this.domainType = domainType;
     firePropertyChange(SpatialConstants.domainType, oldDomainType, this.domainType);
   }
-
 
   /**
    * Unsets the variable domainType
@@ -381,7 +375,5 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
     builder.append("]");
     return builder.toString();
   }
-
-
 
 }

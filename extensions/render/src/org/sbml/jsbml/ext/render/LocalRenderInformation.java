@@ -105,9 +105,9 @@ public class LocalRenderInformation extends RenderInformationBase {
    */
   public LocalRenderInformation(LocalRenderInformation obj) {
     super(obj);
-    
+
     if (obj.isSetListOfLocalStyles()) {
-    setListOfLocalStyles(obj.listOfLocalStyles.clone());
+      setListOfLocalStyles(obj.listOfLocalStyles.clone());
     }
   }
 
@@ -128,8 +128,8 @@ public class LocalRenderInformation extends RenderInformationBase {
     listOfLocalStyles = null;
   }
 
-  
-  
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -138,7 +138,7 @@ public class LocalRenderInformation extends RenderInformationBase {
     final int prime = 3229;
     int result = super.hashCode();
     result = prime * result
-      + ((listOfLocalStyles == null) ? 0 : listOfLocalStyles.hashCode());
+        + ((listOfLocalStyles == null) ? 0 : listOfLocalStyles.hashCode());
     return result;
   }
 
@@ -232,7 +232,7 @@ public class LocalRenderInformation extends RenderInformationBase {
   }
 
   /**
-   * @param index
+   * @param i
    */
   public void removeLocalStyle(int i) {
     if (!isSetListOfLocalStyles()) {

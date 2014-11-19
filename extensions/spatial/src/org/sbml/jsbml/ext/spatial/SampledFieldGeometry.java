@@ -23,6 +23,7 @@ package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -224,7 +225,7 @@ public class SampledFieldGeometry extends GeometryDefinition {
    * <p>The listOfSampledVolumes is initialized if necessary.
    *
    * @param sampledVolume the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return true (as specified by {@link Collection#add})
    */
   public boolean addSampledVolume(SampledVolume sampledVolume) {
     return getListOfSampledVolumes().add(sampledVolume);

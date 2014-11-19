@@ -49,7 +49,7 @@ public class CSGTranslation extends CSGTransformation {
 
 
   /**
-   * @param node
+   * @param csgt
    */
   public CSGTranslation(CSGTranslation csgt) {
     super(csgt);

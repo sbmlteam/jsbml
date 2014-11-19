@@ -49,14 +49,15 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
    */
   private static final long serialVersionUID = -8093810090391511545L;
 
-
+  /**
+   * 
+   */
   public ParametricObject() {
     super();
   }
 
-
   /**
-   * @param node
+   * @param po
    */
   public ParametricObject(ParametricObject po) {
     super(po);
@@ -212,9 +213,9 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
    * Sets the value of domain
    */
   public void setDomainType(String domain) {
-    String oldDomain = this.domainType;
-    this.domainType = domain;
-    firePropertyChange(SpatialConstants.domain, oldDomain, this.domainType);
+    String oldDomain = domainType;
+    domainType = domain;
+    firePropertyChange(SpatialConstants.domain, oldDomain, domainType);
   }
 
 

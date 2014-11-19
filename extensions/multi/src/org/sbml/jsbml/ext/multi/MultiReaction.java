@@ -118,7 +118,7 @@ public class MultiReaction extends AbstractSBasePlugin {
   }
 
   /**
-   * @param listOfReactionRules the listOfReactionRules to set
+   * @param reactionRule the listOfReactionRules to set
    */
   public void addReactionRule(ReactionRule reactionRule) {
     getListOfReactionRules().add(reactionRule);

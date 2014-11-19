@@ -25,21 +25,26 @@ import java.util.Map;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.ext.layout.Curve;
 
 /**
  * Implements the {@link Curve} concept from the SBML render extension.
  * <p>
- * The curve concept in the SBML render extension is similar to the curves in the SBML layout.
- * Each curve consists of a number of either straight line segments or cubic bezier elements.
- * The two element types can also by mixed in a single curve object.
+ * The curve concept in the SBML render extension is similar to the curves in
+ * the SBML layout. Each curve consists of a number of either straight line
+ * segments or cubic B&eacute;zier elements. The two element types can also by
+ * mixed in a single curve object.
  * <p>
- * In contrast to layout curves, render curves can not have gaps and the individual coordinates of the
- * curve elements can be specified as a combination of absolute and relative values.
+ * In contrast to layout curves, render curves can not have gaps and the
+ * individual coordinates of the curve elements can be specified as a
+ * combination of absolute and relative values.
  * <p>
- * Another difference to layout curves is the fact that render curves can specify decorations to be applied
- * to the start and/or the end of the curve (@see LineEnding).
+ * Another difference to layout curves is the fact that render curves can
+ * specify decorations to be applied to the start and/or the end of the curve
+ * (@see LineEnding).
  * <p>
- * Since {@link RenderCurve} is derived from {@link GraphicalPrimitive1D}, it inherits all its attributes and methods.
+ * Since {@link RenderCurve} is derived from {@link GraphicalPrimitive1D}, it
+ * inherits all its attributes and methods.
  *
  * @author Eugen Netz
  * @author Alexander Diamantikos
@@ -56,10 +61,10 @@ public class RenderCurve extends GraphicalPrimitive1D {
   private static final long serialVersionUID = -1941713884972334826L;
   protected String startHead;
   protected String endHead;
-  
+
   // TODO - check the naming of this listOf and the associated methods compared with libsbml. Might need to extends ListOfWithName
   protected ListOf<RenderPoint> listOfElements;
-  
+
   // TODO - implements the TreeNode methods
 
   /**
@@ -77,7 +82,7 @@ public class RenderCurve extends GraphicalPrimitive1D {
     super();
     startHead = obj.startHead;
     endHead = obj.endHead;
-    
+
     if (obj.isSetListOfElements()) {
       setListOfElements(obj.getListOfElements().clone());
     }
@@ -99,8 +104,8 @@ public class RenderCurve extends GraphicalPrimitive1D {
     setNamespace(RenderConstants.namespaceURI);
   }
 
-  
-  
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -110,7 +115,7 @@ public class RenderCurve extends GraphicalPrimitive1D {
     int result = super.hashCode();
     result = prime * result + ((endHead == null) ? 0 : endHead.hashCode());
     result = prime * result
-      + ((listOfElements == null) ? 0 : listOfElements.hashCode());
+        + ((listOfElements == null) ? 0 : listOfElements.hashCode());
     result = prime * result + ((startHead == null) ? 0 : startHead.hashCode());
     return result;
   }
