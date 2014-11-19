@@ -129,7 +129,7 @@ public class Log
    * Turns on debug-level logging, which prints normally hidden messages
    * to the console as well as the file log.
    *
-   * @see turnOffDebugLogging()
+   * @see #turnOffDebugLogging()
    */
   public static void turnOnDebugLogging()
   {
@@ -143,7 +143,7 @@ public class Log
   /**
    * Turns off debug-level logging.
    *
-   * @see turnOnDebugLogging()
+   * @see #turnOnDebugLogging()
    */
   public static void turnOffDebugLogging()
   {

@@ -22,6 +22,7 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBMLException;
@@ -48,7 +49,7 @@ public class CSGeometry extends GeometryDefinition {
 
 
   /**
-   * @param node
+   * @param csg
    */
   public CSGeometry(CSGeometry csg) {
     super(csg);
@@ -165,7 +166,7 @@ public class CSGeometry extends GeometryDefinition {
    * <p>The listOfCSGObjects is initialized if necessary.
    *
    * @param csgo the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return true (as specified by {@link Collection#add})
    */
   public boolean addCSGObject(CSGObject csgo) {
     return getListOfCSGObjects().add(csgo);

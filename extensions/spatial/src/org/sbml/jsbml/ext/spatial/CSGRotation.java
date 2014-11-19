@@ -49,9 +49,8 @@ public class CSGRotation extends CSGTransformation {
     super();
   }
 
-
   /**
-   * @param node
+   * @param csgt
    */
   public CSGRotation(CSGRotation csgt) {
     super(csgt);

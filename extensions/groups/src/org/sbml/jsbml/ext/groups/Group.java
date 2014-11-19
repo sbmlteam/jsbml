@@ -131,7 +131,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Creates a new instance of {@link Member} and add it to this {@link Group}.
    * 
-   * @param idRef the identifier of an object elsewhere in the Model. 
+   * @param idRef the identifier of an object elsewhere in the Model.
    * An example value of idRef might be the identifier of a species in the model, or the identifier of another group.
    * 
    * @return the new {@link Member} instance.
@@ -156,12 +156,12 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
     return m;
   }
 
-  
+
   /**
    * Creates a new instance of {@link Member} and add it to this {@link Group}.
    *
    * @param id the id to be set to the new {@link Member}.
-   * @param idRef the identifier of an object elsewhere in the Model. 
+   * @param idRef the identifier of an object elsewhere in the Model.
    * An example value of idRef might be the identifier of a species in the model, or the identifier of another group.
    * @return the new {@link Member} instance.
    */
@@ -413,8 +413,8 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
    * Adds a new {@link MemberConstraint} to the listOfMemberConstraints.
    * <p>The listOfMemberConstraints is initialized if necessary.
    *
-   * @param MemberConstraint the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @param memberConstraint the element to add to the list
+   * @return true (as specified by {@link Collection#add})
    */
   public boolean addMemberConstraint(MemberConstraint memberConstraint) {
     return getListOfMemberConstraints().add(memberConstraint);
@@ -423,7 +423,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Removes an element from the listOfMemberConstraints.
    *
-   * @param MemberConstraint the element to be removed from the list
+   * @param memberConstraint the element to be removed from the list
    * @return true if the list contained the specified element
    * @see List#remove(Object)
    */
@@ -566,11 +566,11 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
     int result = super.hashCode();
     result = prime * result + ((kind == null) ? 0 : kind.hashCode());
     result = prime
-      * result
-      + ((listOfMemberConstraints == null) ? 0
-        : listOfMemberConstraints.hashCode());
+        * result
+        + ((listOfMemberConstraints == null) ? 0
+          : listOfMemberConstraints.hashCode());
     result = prime * result
-      + ((listOfMembers == null) ? 0 : listOfMembers.hashCode());
+        + ((listOfMembers == null) ? 0 : listOfMembers.hashCode());
     return result;
   }
 
@@ -609,5 +609,5 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
     return true;
   }
 
-  
+
 }

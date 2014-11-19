@@ -339,8 +339,6 @@ public class Selector extends AbstractNamedSBase implements UniqueNamedSBase {
    * Creates a new {@link BindingSiteReference} inside this {@link Selector} list
    * of unbound binding site and returns it.
    * 
-   * @param id
-   *        the id of the new element to create
    * @return the {@link BindingSiteReference} object created
    */
   public BindingSiteReference createUnboundBindingSite() {

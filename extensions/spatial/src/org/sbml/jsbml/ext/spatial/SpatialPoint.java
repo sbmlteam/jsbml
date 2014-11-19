@@ -43,20 +43,20 @@ public class SpatialPoint extends AbstractSpatialNamedSBase {
   private Double coord2;
   private Double coord3;
 
-
   /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = -1171421071571874086L;
 
-
+  /**
+   * 
+   */
   public SpatialPoint() {
     super();
   }
 
-
   /**
-   * @param node
+   * @param sp
    */
   public SpatialPoint(SpatialPoint sp) {
     super(sp);

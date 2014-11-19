@@ -88,10 +88,7 @@ public class SBaseRef extends AbstractSBase {
 
 
   /**
-   * Creates a SBaseRef instance.
-   * 
-   * @param level
-   * @param version
+   * Creates a {@link SBaseRef} instance.
    */
   public SBaseRef() {
     super();

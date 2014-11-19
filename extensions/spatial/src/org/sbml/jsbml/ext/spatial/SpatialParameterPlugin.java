@@ -46,9 +46,9 @@ public class SpatialParameterPlugin extends AbstractSpatialSBasePlugin {
 
   // TODO - even firing are missing
   // TODO - create, unset methods missing
-  
+
   // TODO - from the 0.85 spatial specs, there are more children defined and the parameter type was dropped
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.ext.AbstractSBasePlugin#getExtendedSBase()
@@ -58,7 +58,7 @@ public class SpatialParameterPlugin extends AbstractSpatialSBasePlugin {
     if (isSetExtendedSBase()) {
       return (Parameter) super.getExtendedSBase();
     }
-    
+
     return null;
   }
 
@@ -74,36 +74,44 @@ public class SpatialParameterPlugin extends AbstractSpatialSBasePlugin {
    */
   public SpatialParameterPlugin(SpatialParameterPlugin sb) {
     super(sb);
-    
+
     if (sb.isSetParamType()) {
       setParamType(sb.getParamType().clone());
     }
   }
 
   /**
-   * @param model
+   * @param parameter
    */
   public SpatialParameterPlugin(Parameter parameter) {
     super(parameter);
   }
 
+  /**
+   * 
+   * @return
+   */
   public ParameterType getParamType() {
     return isSetParamType() ? param : null;
   }
 
+  /**
+   * 
+   * @return
+   */
   public boolean isSetParamType() {
     return param != null ? true : false;
   }
 
   /**
-   * @param qualifier the qualifier to set
+   * @param param the qualifier to set
    */
   public void setParamType(ParameterType param) {
     this.param = param;
-    
+
     if (isSetExtendedSBase()) {
       extendedSBase.registerChild(param);
-    }    
+    }
   }
 
   /* (non-Javadoc)
@@ -114,9 +122,7 @@ public class SpatialParameterPlugin extends AbstractSpatialSBasePlugin {
     return new SpatialParameterPlugin(this);
   }
 
-
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * This will force people to cast to the different forms of parameter types
    * @see javax.swing.tree.TreeNode#getChildAt(int)
    */
@@ -155,6 +161,5 @@ public class SpatialParameterPlugin extends AbstractSpatialSBasePlugin {
   public boolean getAllowsChildren() {
     return true;
   }
-
 
 }

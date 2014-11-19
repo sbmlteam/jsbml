@@ -99,7 +99,7 @@ public class LayoutConverter {
 
   /**
    * Extracts Species Layout data from CellDesigner.
-   * @param pSpecies the PluginSpeciesAlias
+   * @param pSpeciesAlias the PluginSpeciesAlias
    * @param layout The Layout object
    * @return a Set of SBases which are related to the CellDesigner Species.
    */

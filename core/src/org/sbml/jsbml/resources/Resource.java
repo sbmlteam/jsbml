@@ -107,7 +107,7 @@ public final class Resource {
   /**
    * Gets the byte data from a file.
    * 
-   * @param fileName
+   * @param stream
    *            Description of the Parameter
    * @return the byte array of the file.
    */

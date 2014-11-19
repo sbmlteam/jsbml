@@ -43,20 +43,19 @@ public class ImageData extends AbstractSBase {
    */
   private static final long serialVersionUID = 1872012239027099782L;
 
-  private Integer samplesLength;
+  private Integer samplesLength, samples[];
 
   private String dataType;
 
-  private Integer[] samples;
-
-
+  /**
+   * 
+   */
   public ImageData() {
     super();
   }
 
-
   /**
-   * @param node
+   * @param im
    */
   public ImageData(ImageData im) {
     super(im);
@@ -69,7 +68,6 @@ public class ImageData extends AbstractSBase {
     }
   }
 
-
   /**
    * @param level
    * @param version
@@ -78,13 +76,17 @@ public class ImageData extends AbstractSBase {
     super(level, version);
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
   @Override
   public ImageData clone() {
     return new ImageData(this);
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(Object object) {
     boolean equal = super.equals(object);
@@ -234,7 +236,9 @@ public class ImageData extends AbstractSBase {
     return false;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 983;//Change this prime number
@@ -249,7 +253,9 @@ public class ImageData extends AbstractSBase {
     return hashCode;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -272,7 +278,9 @@ public class ImageData extends AbstractSBase {
     return attributes;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
@@ -312,7 +320,6 @@ public class ImageData extends AbstractSBase {
     return isAttributeRead;
   }
 
-
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
@@ -328,7 +335,5 @@ public class ImageData extends AbstractSBase {
     builder.append("]");
     return builder.toString();
   }
-
-
 
 }

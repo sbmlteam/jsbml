@@ -146,7 +146,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    * <p>The listOfFluxBounds is initialized if necessary.
    *
    * @param fluxBound the element to add to the list
-   * @return {@code true} (as specified by {@link Collection.add})
+   * @return {@code true} (as specified by {@link Collection#add})
    */
   public boolean addFluxBound(FluxBound fluxBound) {
     return getListOfFluxBounds().add(fluxBound);
@@ -157,7 +157,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    * <p>The listOfObjectives is initialized if necessary.
    *
    * @param objective the element to add to the list
-   * @return {@code true} (as specified by {@link Collection.add})
+   * @return {@code true} (as specified by {@link Collection#add})
    */
   public boolean addObjective(Objective objective) {
     return getListOfObjectives().add(objective);

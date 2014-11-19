@@ -50,7 +50,7 @@ public class AdvectionCoefficient extends ParameterType {
 
 
   /**
-   * @param node
+   * @param advCoeff
    */
   public AdvectionCoefficient(AdvectionCoefficient advCoeff) {
     super(advCoeff);
@@ -120,7 +120,7 @@ public class AdvectionCoefficient extends ParameterType {
    * @return whether coordinate is set
    */
   public boolean isSetCoordinate() {
-    return this.coordinate != null;
+    return coordinate != null;
   }
 
 
@@ -142,9 +142,9 @@ public class AdvectionCoefficient extends ParameterType {
    */
   public boolean unsetCoordinate() {
     if (isSetCoordinate()) {
-      CoordinateKind oldCoordinate = this.coordinate;
-      this.coordinate = null;
-      firePropertyChange(SpatialConstants.coordinate, oldCoordinate, this.coordinate);
+      CoordinateKind oldCoordinate = coordinate;
+      coordinate = null;
+      firePropertyChange(SpatialConstants.coordinate, oldCoordinate, coordinate);
       return true;
     }
     return false;

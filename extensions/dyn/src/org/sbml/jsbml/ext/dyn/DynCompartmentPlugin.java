@@ -59,7 +59,7 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
   /**
    * Constructor
    * 
-   * @param model
+   * @param compartment
    */
   public DynCompartmentPlugin(Compartment compartment) {
     super(compartment);
@@ -184,7 +184,7 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
    *
    * @param spatialComponent
    *            the element to add to the list
-   * @return {@code true} (as specified by {@link Collection.add})
+   * @return {@code true} (as specified by {@link Collection#add})
    */
   public boolean addSpatialComponent(SpatialComponent spatialComponent) {
     return getListOfSpatialComponents().add(spatialComponent);

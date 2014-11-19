@@ -27,7 +27,6 @@ import java.util.Map;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
 
-
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
@@ -47,9 +46,8 @@ public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
     super();
   }
 
-
   /**
-   * @param node
+   * @param gd
    */
   public GeometryDefinition(GeometryDefinition gd) {
     super(gd);
@@ -78,7 +76,9 @@ public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
     super(id, level, version);
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(Object object) {
     boolean equal = super.equals(object);
@@ -92,7 +92,6 @@ public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
     return equal;
   }
 
-
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
@@ -104,7 +103,6 @@ public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
     builder.append("]");
     return builder.toString();
   }
-
 
   /**
    * Returns the value of isActive
@@ -123,16 +121,14 @@ public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
     return getIsActive();
   }
 
-
   /**
    * Returns whether isActive is set
    *
    * @return whether isActive is set
    */
   public boolean isSetIsActive() {
-    return this.isActive != null;
+    return isActive != null;
   }
-
 
   /**
    * Sets the value of isActive
@@ -143,7 +139,6 @@ public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
     firePropertyChange(SpatialConstants.isActive, oldIsActive, this.isActive);
   }
 
-
   /**
    * Unsets the variable isActive
    *
@@ -152,15 +147,17 @@ public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
    */
   public boolean unsetIsActive() {
     if (isSetIsActive()) {
-      boolean oldIsActive = this.isActive;
-      this.isActive = null;
-      firePropertyChange(SpatialConstants.isActive, oldIsActive, this.isActive);
+      boolean oldIsActive = isActive;
+      isActive = null;
+      firePropertyChange(SpatialConstants.isActive, oldIsActive, isActive);
       return true;
     }
     return false;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 983;//Change this prime number
@@ -171,7 +168,9 @@ public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
     return hashCode;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -182,7 +181,9 @@ public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
     return attributes;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))

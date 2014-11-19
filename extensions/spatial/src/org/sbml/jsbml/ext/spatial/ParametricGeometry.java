@@ -23,6 +23,7 @@ package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
@@ -51,7 +52,7 @@ public class ParametricGeometry extends GeometryDefinition {
 
 
   /**
-   * @param node
+   * @param pg
    */
   public ParametricGeometry(ParametricGeometry pg) {
     super(pg);
@@ -181,7 +182,7 @@ public class ParametricGeometry extends GeometryDefinition {
    * <p>The listOfParametricObjects is initialized if necessary.
    *
    * @param parametricObject the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return true (as specified by {@link Collection#add})
    */
   public boolean addParametricObject(ParametricObject parametricObject) {
     return getListOfParametricObjects().add(parametricObject);
@@ -319,7 +320,7 @@ public class ParametricGeometry extends GeometryDefinition {
    * <p>The listOfSpatialPoints is initialized if necessary.
    *
    * @param spatialPoint the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return true (as specified by {@link Collection#add})
    */
   public boolean addSpatialPoint(SpatialPoint spatialPoint) {
     return getListOfSpatialPoints().add(spatialPoint);

@@ -68,7 +68,7 @@ public class TreeNodeRemovedEvent extends EventObject {
    * 
    * @param source
    *        the node that has just been removed from the tree.
-   * @param previousParent
+   * @param prevParent
    *        the node that was the parent node of the removed element, may be
    *        {@code null} if the node didn't have a parent.
    */

@@ -162,16 +162,14 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * Adds a new {@link CompartmentGlyph} to the listOfCompartmentGlyphs.
-   * <p>The listOfCompartmentGlyphs is initialized if necessary.
+   * Adds a new {@link CompartmentGlyph} to the {@link #listOfCompartmentGlyphs}.
+   * <p>The {@link #listOfCompartmentGlyphs} is initialized if necessary.
    *
    * @param compartmentGlyph the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return {@code true} (as specified by {@link Collection#add})
    */
-  public void addCompartmentGlyph(CompartmentGlyph compartmentGlyph) {
-    if (compartmentGlyph != null) {
-      getListOfCompartmentGlyphs().add(compartmentGlyph);
-    }
+  public boolean addCompartmentGlyph(CompartmentGlyph compartmentGlyph) {
+    return getListOfCompartmentGlyphs().add(compartmentGlyph);
   }
 
   /**
@@ -1039,8 +1037,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Removes an element from the listOfCompartmentGlyphs.
    *
-   * @param id the id of the element to be removed from the list.
-   * @return the removed element, if it was successfully found and removed or null.
+   * @param compartmentGlyphId the id of the element to be removed from the list.
+   * @return the removed element, if it was successfully found and removed or {@code null}.
    */
   public CompartmentGlyph removeCompartmentGlyph(String compartmentGlyphId) {
     if (isSetListOfCompartmentGlyphs()) {
@@ -1131,8 +1129,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Removes an element from the listOfReactionGlyphs.
    *
-   * @param id the id of the element to be removed from the list.
-   * @return the removed element, if it was successfully found and removed or null.
+   * @param reactionGlyphId the id of the element to be removed from the list.
+   * @return the removed element, if it was successfully found and removed or {@code null}.
    */
   public ReactionGlyph removeReactionGlyph(String reactionGlyphId) {
     if (isSetListOfReactionGlyphs()) {
@@ -1212,8 +1210,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Removes an element from the listOfSpeciesGlyphs.
    *
-   * @param id the id of the element to be removed from the list.
-   * @return the removed element, if it was successfully found and removed or null.
+   * @param speciesGlyphId the id of the element to be removed from the list.
+   * @return the removed element, if it was successfully found and removed or {@code null}.
    */
   public SpeciesGlyph removeSpeciesGlyph(String speciesGlyphId) {
     if (isSetListOfSpeciesGlyphs()) {
@@ -1240,8 +1238,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Removes an element from the listOfTextGlyphs.
    *
-   * @param id the id of the element to be removed from the list.
-   * @return the removed element, if it was successfully found and removed or null.
+   * @param textGlyphId the id of the element to be removed from the list.
+   * @return the removed element, if it was successfully found and removed or {@code null}.
    */
   public TextGlyph removeTextGlyph(String textGlyphId) {
     if (isSetListOfTextGlyphs()) {
@@ -1268,7 +1266,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * This element is optional. If set, this list cannot be empty.
    * 
-   * @param listOfAdditionalGraphicalObjects
+   * @param addGraphicalObjects
    */
   public void setAddGraphicalObjects(ListOf<GraphicalObject> addGraphicalObjects) {
     if (listOfAdditionalGraphicalObjects != null) {
@@ -1312,7 +1310,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * For additional relationships such as SBML events or rules, the {@link GeneralGlyph} can
    * be used.
    * 
-   * @param AdditionalGraphicalObjects
+   * @param additionalGraphicalObjects
    */
   public void setListOfAdditionalGraphicalObjects(ListOf<GraphicalObject> additionalGraphicalObjects)
   {
@@ -1322,9 +1320,9 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
       boolean registerDone = false;
 
       // in case, the ListOf was created by hand by a user without the proper class, we need to make a copy of the list
-      if ((! (additionalGraphicalObjects instanceof ListOfWithName<?>)) 
-          || (! additionalGraphicalObjects.getElementName().equals(LayoutConstants.listOfAdditionalGraphicalObjects))) 
-      {      
+      if ((! (additionalGraphicalObjects instanceof ListOfWithName<?>))
+          || (! additionalGraphicalObjects.getElementName().equals(LayoutConstants.listOfAdditionalGraphicalObjects)))
+      {
         listOfAdditionalGraphicalObjects = getListOfAdditionalGraphicalObjects(); // initializing a new ListOfWithName with the proper settings
         registerDone = true;
 
@@ -1332,20 +1330,20 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
         for (GraphicalObject go : additionalGraphicalObjects) {
           go.setParent(null);
         }
-      
+
         // now adding all the cloned GraphicalObject to the real new list
         listOfAdditionalGraphicalObjects.addAll(additionalGraphicalObjects);
-      }  
-      
+      }
+
       if (!registerDone) {
         listOfAdditionalGraphicalObjects = additionalGraphicalObjects;
         registerChild(listOfAdditionalGraphicalObjects);
       }
-      
+
       if ((listOfAdditionalGraphicalObjects != null) && (listOfAdditionalGraphicalObjects.getSBaseListType() != ListOf.Type.other)) {
         listOfAdditionalGraphicalObjects.setSBaseListType(ListOf.Type.other);
       }
-      
+
     }
   }
 

@@ -722,7 +722,7 @@ public class PluginUtils {
    * Copies all properties from the JSBML object to the CellDesigner object.
    * 
    * @param mathContainer
-   * @param p
+   * @param sbase
    * @throws XMLStreamException
    */
   public static void transferMathContainerProperties(MathContainer mathContainer, PluginSBase sbase) throws XMLStreamException {
@@ -836,8 +836,8 @@ public class PluginUtils {
    * Transfers all properties from the JSBML object to the corresponding CellDesigner
    * plugin object.
    * 
-   * @param c
-   * @param pc
+   * @param sbase
+   * @param pluginSBase
    * @throws XMLStreamException
    */
   public static void transferNamedSBaseProperties(NamedSBase sbase, PluginSBase pluginSBase) throws XMLStreamException {

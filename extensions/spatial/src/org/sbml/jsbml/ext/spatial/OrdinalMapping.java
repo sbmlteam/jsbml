@@ -30,7 +30,6 @@ import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
 
-
 /**
  * 
  * @author Alex Thomas
@@ -47,16 +46,15 @@ public class OrdinalMapping extends AbstractSBase {
   String geometryDefinition;
   Integer ordinal;
 
-
-
-
+  /**
+   * 
+   */
   public OrdinalMapping() {
     super();
   }
 
-
   /**
-   * @param node
+   * @param om
    */
   public OrdinalMapping(OrdinalMapping om) {
     super(om);
@@ -67,10 +65,7 @@ public class OrdinalMapping extends AbstractSBase {
     if (om.isSetOrdinal()) {
       setOrdinal(om.getOrdinal());
     }
-
-
   }
-
 
   /**
    * 
@@ -81,13 +76,17 @@ public class OrdinalMapping extends AbstractSBase {
     super(level, version);
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
   @Override
   public OrdinalMapping clone() {
     return new OrdinalMapping(this);
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(Object object) {
     boolean equal = super.equals(object);
@@ -127,7 +126,7 @@ public class OrdinalMapping extends AbstractSBase {
    * @return whether ordinal is set
    */
   public boolean isSetOrdinal() {
-    return this.ordinal != null;
+    return ordinal != null;
   }
 
 
@@ -149,9 +148,9 @@ public class OrdinalMapping extends AbstractSBase {
    */
   public boolean unsetOrdinal() {
     if (isSetOrdinal()) {
-      int oldOrdinal = this.ordinal;
-      this.ordinal = null;
-      firePropertyChange(SpatialConstants.ordinal, oldOrdinal, this.ordinal);
+      int oldOrdinal = ordinal;
+      ordinal = null;
+      firePropertyChange(SpatialConstants.ordinal, oldOrdinal, ordinal);
       return true;
     }
     return false;
@@ -170,16 +169,14 @@ public class OrdinalMapping extends AbstractSBase {
     throw new PropertyUndefinedError(SpatialConstants.geometryDefinition, this);
   }
 
-
   /**
    * Returns whether geometryDefinition is set
    *
    * @return whether geometryDefinition is set
    */
   public boolean isSetGeometryDefinition() {
-    return this.geometryDefinition != null;
+    return geometryDefinition != null;
   }
-
 
   /**
    * Sets the value of geometryDefinition
@@ -190,7 +187,6 @@ public class OrdinalMapping extends AbstractSBase {
     firePropertyChange(SpatialConstants.geometryDefinition, oldGeometryDefinition, this.geometryDefinition);
   }
 
-
   /**
    * Unsets the variable geometryDefinition
    *
@@ -199,14 +195,17 @@ public class OrdinalMapping extends AbstractSBase {
    */
   public boolean unsetGeometryDefinition() {
     if (isSetGeometryDefinition()) {
-      String oldGeometryDefinition = this.geometryDefinition;
-      this.geometryDefinition = null;
-      firePropertyChange(SpatialConstants.geometryDefinition, oldGeometryDefinition, this.geometryDefinition);
+      String oldGeometryDefinition = geometryDefinition;
+      geometryDefinition = null;
+      firePropertyChange(SpatialConstants.geometryDefinition, oldGeometryDefinition, geometryDefinition);
       return true;
     }
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 983;//Change this prime number
@@ -220,7 +219,9 @@ public class OrdinalMapping extends AbstractSBase {
     return hashCode;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -236,7 +237,9 @@ public class OrdinalMapping extends AbstractSBase {
     return attributes;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
@@ -266,24 +269,29 @@ public class OrdinalMapping extends AbstractSBase {
     return isAttributeRead;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+   */
   @Override
   public TreeNode getChildAt(int childIndex) {
     return null;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+   */
   @Override
   public int getChildCount() {
     return 0;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return false;
   }
-
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

@@ -23,6 +23,7 @@ package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
@@ -53,7 +54,7 @@ public class MixedGeometry extends GeometryDefinition {
 
 
   /**
-   * @param node
+   * @param mg
    */
   public MixedGeometry(MixedGeometry mg) {
     super(mg);
@@ -166,8 +167,8 @@ public class MixedGeometry extends GeometryDefinition {
    */
   public boolean unsetListOfGeometryDefinitions() {
     if (isSetListOfGeometryDefinitions()) {
-      ListOf<GeometryDefinition> oldGeometryDefinitions = this.listOfGeometryDefinitions;
-      this.listOfGeometryDefinitions = null;
+      ListOf<GeometryDefinition> oldGeometryDefinitions = listOfGeometryDefinitions;
+      listOfGeometryDefinitions = null;
       oldGeometryDefinitions.fireNodeRemovedEvent();
       return true;
     }
@@ -180,7 +181,7 @@ public class MixedGeometry extends GeometryDefinition {
    * <p>The listOfGeometryDefinitions is initialized if necessary.
    *
    * @param listOfGeometryDefinitions the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return true (as specified by {@link Collection#add})
    */
   public boolean addGeometryDefinition(GeometryDefinition listOfGeometryDefinitions) {
     return getListOfGeometryDefinitions().add(listOfGeometryDefinitions);
@@ -335,8 +336,8 @@ public class MixedGeometry extends GeometryDefinition {
    */
   public boolean unsetListOfOrdinalMappings() {
     if (isSetListOfOrdinalMappings()) {
-      ListOf<OrdinalMapping> oldOrdinalMappings = this.listOfOrdinalMappings;
-      this.listOfOrdinalMappings = null;
+      ListOf<OrdinalMapping> oldOrdinalMappings = listOfOrdinalMappings;
+      listOfOrdinalMappings = null;
       oldOrdinalMappings.fireNodeRemovedEvent();
       return true;
     }
@@ -349,7 +350,7 @@ public class MixedGeometry extends GeometryDefinition {
    * <p>The listOfOrdinalMappings is initialized if necessary.
    *
    * @param ordinalMapping the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return true (as specified by {@link Collection#add})
    */
   public boolean addOrdinalMapping(OrdinalMapping ordinalMapping) {
     return getListOfOrdinalMappings().add(ordinalMapping);

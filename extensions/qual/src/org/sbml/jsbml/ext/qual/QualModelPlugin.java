@@ -385,9 +385,9 @@ public class QualModelPlugin extends AbstractSBasePlugin {
   }
 
   /**
-   * @param QualitativeSpecies
+   * @param qualitativeSpecies
    *        to remove from the listOfQualitativeSpecies
-   * @return {@code TRUE} if the operation was successful
+   * @return {@code true} if the operation was successful
    */
   public boolean removeQualitativeSpecies(QualitativeSpecies qualitativeSpecies) {
     if (isSetListOfQualitativeSpecies()) {

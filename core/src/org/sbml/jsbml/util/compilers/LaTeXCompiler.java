@@ -46,7 +46,7 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
 
   /**
    * Requires LaTeX package booktabs. Produces a fancy line at the bottom of a
-   * table. This variable also includes the {@code end{longtable}}
+   * table. This variable also includes the <pre>\end{longtable}</pre>
    * command and a new line.
    */
   public static final String bottomrule = "\\bottomrule\\end{longtable}"
@@ -462,7 +462,7 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
   /**
    * Creates brackets if needed.
    * 
-   * @param nodes
+   * @param node
    * @return
    * @throws SBMLException
    */
@@ -827,7 +827,7 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
   @Override
   public ASTNodeValue function(String functionDefinitionName,
     List<ASTNode> args) throws SBMLException
-    {
+  {
     StringBuffer value = new StringBuffer();
     int length = args.size();
 
@@ -847,7 +847,7 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
     }
 
     return new ASTNodeValue(value.toString(), this);
-    }
+  }
 
 
   /**
@@ -940,11 +940,6 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
    * 
    * @param sbase
    *            the SBase, whose name or id is to be returned.
-   * @param mathMode
-   *            if true this method returns the name typesetted in mathmode,
-   *            i.e., mathrm for names and mathtt for ids, otherwise texttt
-   *            will be used for ids and normalfont (nothing) will be used for
-   *            names.
    * @return The name or the ID of the SBase (according to the field
    *         printNameIfAvailable), whose LaTeX special symbols are masked and
    *         which is type set in typewriter font if it is an id. The mathmode

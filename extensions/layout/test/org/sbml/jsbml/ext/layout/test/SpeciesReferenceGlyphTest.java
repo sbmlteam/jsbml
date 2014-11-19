@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ext.layout.Curve;
@@ -49,7 +50,7 @@ import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
 public class SpeciesReferenceGlyphTest {
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph#getChildAt()}.
+   * Test method for {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph#getChildAt(int)}.
    */
   @Test
   public void testGetChildAt() {
@@ -76,9 +77,9 @@ public class SpeciesReferenceGlyphTest {
     assertTrue(glyph.getChildCount() == 0);
   }
 
-/**
- * Test method for {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph#getCurve()}.
- */
+  /**
+   * Test method for {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph#getCurve()}.
+   */
   @Test
   public void testGetCurve() {
     SpeciesReferenceGlyph glyph = new SpeciesReferenceGlyph("glyph",3,1);
@@ -97,7 +98,7 @@ public class SpeciesReferenceGlyphTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph#GetSpeciesRefereceInstance()}.
+   * Test method for {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph#getSpeciesReferenceInstance()}.
    */
   @Test
   public void testGetSpeciesReferenceInstance()  {
@@ -218,7 +219,7 @@ public class SpeciesReferenceGlyphTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph#testSetRole()}.
+   * Test method for {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph#setRole(SpeciesReferenceRole)}.
    */
   @Test
   public void testSetRole() {
@@ -230,7 +231,7 @@ public class SpeciesReferenceGlyphTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph#testSetSpeciesGlyph()}.
+   * Test method for {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph#setSpeciesGlyph(String)}.
    */
   @Test
   public void testSetSpeciesGlyph() {
@@ -241,7 +242,7 @@ public class SpeciesReferenceGlyphTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph#testSetSpeciesReference(SimpleSpeciesReference)}.
+   * Test method for {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph#setSpeciesReference(SimpleSpeciesReference)}.
    */
   @Test
   public void testSetSpeciesReferenceSimpleSpeciesReference() {
@@ -252,7 +253,7 @@ public class SpeciesReferenceGlyphTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph#setSpeciesReferenceString()}.
+   * Test method for {@link org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph#setSpeciesReference(String)}.
    */
   @Test
   public void testSetSpeciesReferenceString() {

@@ -42,10 +42,10 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  * <p>
  * The {@link RenderGroup} class is derived from {@link GraphicalPrimitive2D} and inherits all its methods and attributes.
  * In addition to those, the class defines attributes to specify text render properties (@see Text),
- * curve decorations (@see RenderCurve), an id and a list of child elements which can be any 
+ * curve decorations (@see RenderCurve), an id and a list of child elements which can be any
  * graphical primitive or other groups.
  * <p>
- * The attributes of a group are inherited by all children of the group unless they specify 
+ * The attributes of a group are inherited by all children of the group unless they specify
  * the attribute themselves.
  * 
  * @author Eugen Netz
@@ -75,7 +75,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
    * 
    */
   private ListOf<Transformation2D> listOfElements;
-  
+
   /**
    * Creates an Group instance
    */
@@ -133,7 +133,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
     //      Integer.valueOf(RenderConstants.MIN_SBML_VERSION)) < 0) {
     //      throw new LevelVersionError(getElementName(), level, version);
     //    }
-    
+
     initDefaults();
   }
 
@@ -142,7 +142,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
    */
   public RenderGroup(RenderGroup obj) {
     super(obj);
-    
+
     if (obj.isSetId()) {
       setId(obj.getId());
     }
@@ -188,8 +188,8 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
     setNamespace(RenderConstants.namespaceURI);
   }
 
-  
-  
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -199,21 +199,21 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
     int result = super.hashCode();
     result = prime * result + ((endHead == null) ? 0 : endHead.hashCode());
     result = prime * result
-      + ((fontFamily == null) ? 0 : fontFamily.hashCode());
+        + ((fontFamily == null) ? 0 : fontFamily.hashCode());
     result = prime * result + ((fontSize == null) ? 0 : fontSize.hashCode());
     result = prime * result
-      + ((fontStyleItalic == null) ? 0 : fontStyleItalic.hashCode());
+        + ((fontStyleItalic == null) ? 0 : fontStyleItalic.hashCode());
     result = prime * result
-      + ((fontWeightBold == null) ? 0 : fontWeightBold.hashCode());
+        + ((fontWeightBold == null) ? 0 : fontWeightBold.hashCode());
     result = prime * result + ((id == null) ? 0 : id.hashCode());
     result = prime * result + ((startHead == null) ? 0 : startHead.hashCode());
     result = prime * result
-      + ((textAnchor == null) ? 0 : textAnchor.hashCode());
+        + ((textAnchor == null) ? 0 : textAnchor.hashCode());
     result = prime * result
-      + ((vTextAnchor == null) ? 0 : vTextAnchor.hashCode());
+        + ((vTextAnchor == null) ? 0 : vTextAnchor.hashCode());
     result = prime * result
         + ((listOfElements == null) ? 0 : listOfElements.hashCode());
-    
+
     return result;
   }
 
@@ -283,7 +283,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
     if (vTextAnchor != other.vTextAnchor) {
       return false;
     }
-    
+
     if (listOfElements == null) {
       if (other.listOfElements != null) {
         return false;
@@ -301,9 +301,9 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   @Override
   public String toString() {
     return "Group [id=" + id + ", fontFamily=" + fontFamily + ", fontSize="
-      + fontSize + ", fontWeightBold=" + fontWeightBold + ", fontStyleItalic="
-      + fontStyleItalic + ", textAnchor=" + textAnchor + ", vTextAnchor="
-      + vTextAnchor + ", startHead=" + startHead + ", endHead=" + endHead + ", listOfElements=" + listOfElements + "]";
+        + fontSize + ", fontWeightBold=" + fontWeightBold + ", fontStyleItalic="
+        + fontStyleItalic + ", textAnchor=" + textAnchor + ", vTextAnchor="
+        + vTextAnchor + ", startHead=" + startHead + ", endHead=" + endHead + ", listOfElements=" + listOfElements + "]";
   }
 
   /* (non-Javadoc)
@@ -320,7 +320,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   @Override
   public int getChildCount() {
     int count = super.getChildCount();
-    
+
     if (isSetListOfElements()) {
       count += getListOfElements().size();
     }
@@ -337,28 +337,28 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
     }
 
     int count = super.getChildCount(), pos = 0;
-    
+
     if (index < count) {
       return super.getChildAt(index);
     } else {
       index -= count;
     }
 
-     if (isSetListOfElements()) {
-       
-       for (Transformation2D drawable : getListOfElements()) {
-         if (pos == index) {
-           return drawable;
-         }
-         pos++;
-       }
-     }
+    if (isSetListOfElements()) {
+
+      for (Transformation2D drawable : getListOfElements()) {
+        if (pos == index) {
+          return drawable;
+        }
+        pos++;
+      }
+    }
 
     throw new IndexOutOfBoundsException(MessageFormat.format(
       "Index {0,number,integer} >= {1,number,integer}", index,
-      +((int) Math.min(pos, 0))));
+      +Math.min(pos, 0)));
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#getElementName()
    */
@@ -370,6 +370,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   /**
    * @return the value of id
    */
+  @Override
   public String getId() {
     if (isSetId()) {
       return id;
@@ -381,11 +382,13 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   /**
    * @return whether id is set
    */
+  @Override
   public boolean isSetId() {
     return id != null;
   }
 
 
+  @Override
   public void setId(String id) {
     String property = getLevel() == 1 ? TreeNodeChangeEvent.name : TreeNodeChangeEvent.id;
     String oldId = this.id;
@@ -410,13 +413,12 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
 
     firePropertyChange(property, oldId, this.id);
   }
-  
+
 
   /**
    * Unsets the variable id
-   * @return {@code true}, if id was set before,
-   *         otherwise {@code false}
    */
+  @Override
   public void unsetId() {
     if (isSetId()) {
       String oldId = id;
@@ -517,7 +519,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   public boolean getFontWeightBold() {
     return isFontWeightBold();
   }
-  
+
   /**
    * Returns the value of fontWeightBold
    * 
@@ -568,9 +570,9 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
    * @return the value of fontStyleItalic
    */
   public boolean getFontStyleItalic() {
-    return isFontStyleItalic();    
+    return isFontStyleItalic();
   }
-  
+
   /**
    * Returns the value of fontStyleItalic
    * 
@@ -785,11 +787,11 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
     return false;
   }
 
-  
+
   /**
    * Returns {@code true}, if listOfElements contains at least one element.
    *
-   * @return {@code true}, if listOfElements contains at least one element, 
+   * @return {@code true}, if listOfElements contains at least one element,
    *         otherwise {@code false}.
    */
   public boolean isSetListOfElements() {
@@ -821,28 +823,28 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
    * Sets the given {@code ListOf<Transformation2D>}. If listOfElements
    * was defined before and contains some elements, they are all unset.
    *
-   * @param listOfElements.
+   * @param listOfElements
    */
   public void setListOfElements(ListOf<Transformation2D> listOfElements) {
     unsetListOfElements();
     this.listOfElements = listOfElements;
     this.listOfElements.setSBaseListType(ListOf.Type.other);
 
-    registerChild(listOfElements);  
+    registerChild(listOfElements);
   }
 
 
   /**
-   * Returns {@code true}, if listOfElements contain at least one element, 
+   * Returns {@code true}, if listOfElements contain at least one element,
    *         otherwise {@code false}.
    *
-   * @return {@code true}, if listOfElements contain at least one element, 
+   * @return {@code true}, if listOfElements contain at least one element,
    *         otherwise {@code false}.
    */
   public boolean unsetListOfElements() {
     if (isSetListOfElements()) {
-      ListOf<Transformation2D> oldElements = this.listOfElements;
-      this.listOfElements = null;
+      ListOf<Transformation2D> oldElements = listOfElements;
+      listOfElements = null;
       oldElements.fireNodeRemovedEvent();
       return true;
     }
@@ -855,7 +857,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
    * <p>The listOfElements is initialized if necessary.
    *
    * @param field the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return true (as specified by {@link Collection#add})
    */
   public boolean addElement(Transformation2D field) {
     return getListOfElements().add(field);
@@ -880,8 +882,8 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   /**
    * Removes an element from the listOfElements.
    *
-   * @param id the id of the element to be removed from the list.
-   * @return the removed element, if it was successfully found and removed or null.
+   * @param fieldId the id of the element to be removed from the list.
+   * @return the removed element, if it was successfully found and removed or {@code null}.
    */
   public Transformation2D removeElement(String fieldId) {
     if (isSetListOfElements()) {
@@ -912,7 +914,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   public RenderCurve createCurve() {
     RenderCurve curve = new RenderCurve();
     addElement(curve);
-    
+
     return curve;
   }
 
@@ -922,7 +924,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   public Ellipse createEllipse() {
     Ellipse ellipse = new Ellipse();
     addElement(ellipse);
-    
+
     return ellipse;
   }
 
@@ -932,7 +934,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   public Image createImage() {
     Image image = new Image();
     addElement(image);
-    
+
     return image;
   }
 
@@ -942,7 +944,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   public Polygon createPolygon() {
     Polygon polygon = new Polygon();
     addElement(polygon);
-    
+
     return polygon;
   }
 
@@ -952,7 +954,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   public Rectangle createRectangle() {
     Rectangle rectangle = new Rectangle();
     addElement(rectangle);
-    
+
     return rectangle;
   }
 
@@ -962,17 +964,17 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   public RenderGroup createRenderGroup() {
     RenderGroup group = new RenderGroup();
     addElement(group);
-    
+
     return group;
   }
-  
+
   /**
    * Creates a new {@link Text} element, adds it to the ListOfElements list and returns it.
    */
   public Text createText() {
     Text rectangle = new Text();
     addElement(rectangle);
-    
+
     return rectangle;
   }
 
@@ -996,8 +998,8 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   /**
    * Gets an element from the listOfElements, with the given id.
    *
-   * @param id the id of the {@link Transformation2D} element to get.
-   * @return an element from the listOfElements with the given id or null.
+   * @param fieldId the id of the {@link Transformation2D} element to get.
+   * @return an element from the listOfElements with the given id or {@code null}.
    */
   public Transformation2D getElement(String fieldId) {
     if (isSetListOfElements()) {
@@ -1040,9 +1042,9 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
    * @see #createImage()
    */
   public void addChildElement(Transformation2D pChild) {
-    
+
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
    */
@@ -1134,7 +1136,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
   }
 
   // TODO - May be the UniqueNamedSBase interface should not extends NamedSBase ???
-  
+
   @Override
   public String getName() {
     // does nothing, the RenderGroup class has no attribute 'name'

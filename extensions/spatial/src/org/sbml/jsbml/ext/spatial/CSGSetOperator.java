@@ -23,6 +23,7 @@ package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -66,7 +67,7 @@ public class CSGSetOperator extends CSGNode {
 
 
   /**
-   * @param node
+   * @param csgso
    */
   public CSGSetOperator(CSGSetOperator csgso) {
     super(csgso);
@@ -164,7 +165,7 @@ public class CSGSetOperator extends CSGNode {
    * @return whether complementA is set
    */
   public boolean isSetComplementA() {
-    return this.complementA != null;
+    return complementA != null;
   }
 
 
@@ -186,9 +187,9 @@ public class CSGSetOperator extends CSGNode {
    */
   public boolean unsetComplementA() {
     if (isSetComplementA()) {
-      String oldComplementA = this.complementA;
-      this.complementA = null;
-      firePropertyChange(SpatialConstants.complementA, oldComplementA, this.complementA);
+      String oldComplementA = complementA;
+      complementA = null;
+      firePropertyChange(SpatialConstants.complementA, oldComplementA, complementA);
       return true;
     }
     return false;
@@ -215,7 +216,7 @@ public class CSGSetOperator extends CSGNode {
    * @return whether complementB is set
    */
   public boolean isSetComplementB() {
-    return this.complementB != null;
+    return complementB != null;
   }
 
 
@@ -237,9 +238,9 @@ public class CSGSetOperator extends CSGNode {
    */
   public boolean unsetComplementB() {
     if (isSetComplementB()) {
-      String oldComplementB = this.complementB;
-      this.complementB = null;
-      firePropertyChange(SpatialConstants.complementB, oldComplementB, this.complementB);
+      String oldComplementB = complementB;
+      complementB = null;
+      firePropertyChange(SpatialConstants.complementB, oldComplementB, complementB);
       return true;
     }
     return false;
@@ -364,7 +365,7 @@ public class CSGSetOperator extends CSGNode {
    * <p>The listOfCSGNodes is initialized if necessary.
    *
    * @param csgNode the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return true (as specified by {@link Collection#add})
    */
   public boolean addCSGNode(CSGNode csgNode) {
     return getListOfCSGNodes().add(csgNode);
@@ -512,14 +513,17 @@ public class CSGSetOperator extends CSGNode {
     return csgNode;
   }
 
-
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return true;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getChildCount()
+   */
   @Override
   public int getChildCount() {
     int count = super.getChildCount();
@@ -529,7 +533,9 @@ public class CSGSetOperator extends CSGNode {
     return count;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getChildAt(int)
+   */
   @Override
   public TreeNode getChildAt(int index) {
     if (index < 0) {
@@ -552,7 +558,9 @@ public class CSGSetOperator extends CSGNode {
       +Math.min(pos, 0)));
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 983;//Change this prime number
@@ -563,7 +571,9 @@ public class CSGSetOperator extends CSGNode {
     return hashCode;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -586,7 +596,9 @@ public class CSGSetOperator extends CSGNode {
     return attributes;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
@@ -621,7 +633,6 @@ public class CSGSetOperator extends CSGNode {
     }
     return isAttributeRead;
   }
-
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

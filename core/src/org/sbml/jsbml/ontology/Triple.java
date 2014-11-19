@@ -27,10 +27,10 @@ import java.io.Serializable;
 
 /**
  * This is a wrapper class for the corresponding BioJava class
- * {@link org.sbml.jsbml.ontology.biojava.ontology.Triple}, to allow for simplified access to
+ * {@link org.biojava3.ontology.Triple}, to allow for simplified access to
  * the properties of a subject-predicate-object triple in this ontology.
  * 
- * @see org.sbml.jsbml.ontology.biojava.ontology.Triple
+ * @see org.biojava3.ontology.Triple
  */
 public class Triple implements Cloneable, Comparable<Triple>, Serializable {
 
@@ -40,7 +40,7 @@ public class Triple implements Cloneable, Comparable<Triple>, Serializable {
   private static final long serialVersionUID = 7289048361260650338L;
 
   /**
-   * The BioJava {@link org.sbml.jsbml.ontology.biojava.ontology.Triple}.
+   * The BioJava {@link org.biojava3.ontology.Triple}.
    */
   private org.biojava3.ontology.Triple triple;
 
@@ -132,10 +132,10 @@ public class Triple implements Cloneable, Comparable<Triple>, Serializable {
 
   /**
    * Grants access to the original BioJava
-   * {@link org.sbml.jsbml.ontology.biojava.ontology.Triple}.
+   * {@link org.biojava3.ontology.Triple}.
    * 
    * @return the original BioJava
-   * {@link org.sbml.jsbml.ontology.biojava.ontology.Triple}.
+   * {@link org.biojava3.ontology.Triple}.
    */
   public org.biojava3.ontology.Triple getTriple() {
     return triple;

@@ -246,7 +246,7 @@ SBaseWithUnit {
    * @return whether type is set
    */
   public boolean isSetType() {
-    return this.type != null;
+    return type != null;
   }
 
 
@@ -268,9 +268,9 @@ SBaseWithUnit {
    */
   public boolean unsetType() {
     if (isSetType()) {
-      CoordinateKind oldType = this.type;
-      this.type = null;
-      firePropertyChange(SpatialConstants.type, oldType, this.type);
+      CoordinateKind oldType = type;
+      type = null;
+      firePropertyChange(SpatialConstants.type, oldType, type);
       return true;
     }
     return false;
@@ -395,9 +395,6 @@ SBaseWithUnit {
 
   /**
    * Unsets the variable unit
-   *
-   * @return {@code true}, if unit was set before,
-   *         otherwise {@code false}
    */
   @Override
   public void unsetUnits() {

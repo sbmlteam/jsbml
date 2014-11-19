@@ -64,7 +64,7 @@ public abstract class AbstractReferenceGlyph extends GraphicalObject {
 
   /**
    * 
-   * @param glyp
+   * @param glyph
    */
   public AbstractReferenceGlyph(AbstractReferenceGlyph glyph) {
     super(glyph);

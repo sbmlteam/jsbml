@@ -58,7 +58,7 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
   }
 
   /**
-   * @param node
+   * @param sv
    */
   public SampledVolume(SampledVolume sv) {
     super(sv);

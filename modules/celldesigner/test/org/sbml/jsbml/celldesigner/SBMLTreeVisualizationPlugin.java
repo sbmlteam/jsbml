@@ -33,11 +33,13 @@ import jp.sbi.celldesigner.plugin.PluginSBase;
 
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 
-
 /**
- * A simple plugin for CellDesigner that displays the SBML Layout Extension portion
- * of a SBML file as a {@link #DefaultTreeModel}. When the Layout Extension internals
- * are changed by CellDesigner, the tree will refresh itself and all nodes will become unexpanded.
+ * A simple plug-in for CellDesigner that displays the SBML Layout Extension
+ * portion
+ * of a SBML file as a {@link DefaultTreeModel}. When the Layout Extension
+ * internals
+ * are changed by CellDesigner, the tree will refresh itself and all nodes will
+ * become unexpanded.
  *
  * @author Ibrahim Vazirabad
  * @version $Rev$

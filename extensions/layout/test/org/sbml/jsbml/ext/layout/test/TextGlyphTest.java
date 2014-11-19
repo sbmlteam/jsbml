@@ -168,7 +168,7 @@ public class TextGlyphTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.layout.TextGlyph#setGraphicalObject()}.
+   * Test method for {@link org.sbml.jsbml.ext.layout.TextGlyph#setGraphicalObject(String)}.
    */
   @Test
   public void testSetGraphicalObject() {
@@ -204,7 +204,7 @@ public class TextGlyphTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.layout.TextGlyph#setText()}.
+   * Test method for {@link org.sbml.jsbml.ext.layout.TextGlyph#setText(String)}.
    */
   @Test
   public void testSetText() {

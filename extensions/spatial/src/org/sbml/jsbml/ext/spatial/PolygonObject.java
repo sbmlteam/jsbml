@@ -50,9 +50,8 @@ public class PolygonObject extends AbstractSBase {
     super();
   }
 
-
   /**
-   * @param node
+   * @param po
    */
   public PolygonObject(PolygonObject po) {
     super(po);

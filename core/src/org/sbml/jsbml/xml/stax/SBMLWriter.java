@@ -712,23 +712,22 @@ public class SBMLWriter {
    *          the matching {@link SMOutputElement}
    * @param writer
    *          the {@link XMLStreamWriter} to write to.
-   * @param sbmlNamespace
-   *          the SBML namespace.
    * @param indent
    *            the number of indent white spaces of this annotation.
+   * @param xmlFragment
    * @throws XMLStreamException if any error occur while creating the XML document.
    */
   private void writeAnnotation(SBase sbase, SMOutputContainer element,
     XMLStreamWriter writer, int indent, boolean xmlFragment)
         throws XMLStreamException
-        {
+  {
     XMLNode fullAnnotationXMLNode = sbase.getAnnotation().getFullAnnotation();
 
     writer.writeCharacters("\n");
     XMLNodeWriter xmlNodeWriter = new XMLNodeWriter(writer, indent, indentCount, indentChar);
     xmlNodeWriter.write(fullAnnotationXMLNode);
 
-        }
+  }
 
 
   /**
@@ -746,7 +745,7 @@ public class SBMLWriter {
    */
   private void writeMathML(MathContainer m, SMOutputElement element,
     XMLStreamWriter writer, int indent) throws XMLStreamException
-    {
+  {
     if (m.isSetMath()) {
 
       String whitespaces = createIndentationString(indent);
@@ -792,7 +791,7 @@ public class SBMLWriter {
 
       writer.writeCharacters(whitespaces);
     }
-    }
+  }
 
   /**
    * Writes the message of a {@link Constraint} to the given {@link XMLStreamWriter}.
@@ -811,7 +810,7 @@ public class SBMLWriter {
   private void writeMessage(Constraint sbase, SMOutputElement element,
     XMLStreamWriter writer, String sbmlNamespace, int indent)
         throws XMLStreamException
-        {
+  {
 
     String whitespaces = createIndentationString(indent);
     element.addCharacters("\n");
@@ -831,7 +830,7 @@ public class SBMLWriter {
     xmlNodeWriter.write(sbase.getMessage());
 
     writer.writeCharacters(whitespaces);
-        }
+  }
 
   /**
    * Writes the notes of this {@link SBase} element to the given {@link XMLStreamWriter}.
@@ -850,12 +849,12 @@ public class SBMLWriter {
   private void writeNotes(SBase sbase, SMOutputElement element,
     XMLStreamWriter writer, String sbmlNamespace, int indent)
         throws XMLStreamException
-        {
+  {
     writer.writeCharacters("\n");
     XMLNodeWriter xmlNodeWriter = new XMLNodeWriter(writer, indent,
       indentCount, indentChar);
     xmlNodeWriter.write(sbase.getNotes());
-        }
+  }
 
 
   /**
@@ -877,7 +876,7 @@ public class SBMLWriter {
     SMOutputElement smOutputParentElement,
     XMLStreamWriter streamWriter, Object parentObject, int indent)
         throws XMLStreamException, SBMLException
-        {
+  {
     String whiteSpaces = createIndentationString(indent);
 
     // Get the list of parsers to use.
@@ -1057,7 +1056,7 @@ public class SBMLWriter {
       // write the indent before closing the element
       streamWriter.writeCharacters(whiteSpaces.substring(0, indent - indentCount));
     }
-        }
+  }
 
 
   /**

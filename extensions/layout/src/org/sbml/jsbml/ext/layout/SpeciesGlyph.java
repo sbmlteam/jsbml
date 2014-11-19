@@ -115,7 +115,8 @@ public class SpeciesGlyph extends AbstractReferenceGlyph {
   }
 
   /**
-   * @return the {@link #speciesId}
+   * @return the {@code true} if a species id is set, {@code false} otherwise.
+   * @see #isSetReference()
    */
   public boolean isSetSpecies() {
     return isSetReference();

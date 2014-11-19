@@ -2,10 +2,13 @@ package org.sbml.jsbml.celldesigner;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+
 import javax.swing.tree.DefaultTreeModel;
+
 import jp.sbi.celldesigner.plugin.PluginMenu;
 import jp.sbi.celldesigner.plugin.PluginMenuItem;
 import jp.sbi.celldesigner.plugin.PluginSBase;
+
 import org.sbml.jsbml.gui.JSBMLvisualizer;
 
 /**

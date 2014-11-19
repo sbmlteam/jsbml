@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Utah, Salt Lake City, UT, USA
  *
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.ext.arrays.util;
 
@@ -111,7 +111,7 @@ public class ArraysMath {
     ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) parent.getExtension(ArraysConstants.shortLabel);
 
     ArraysSBasePlugin parentArraysSBasePlugin = getParentPlugin(index, parent);
-    
+
     if(index.isSetReferencedAttribute()) {
       String refValue = parent.writeXMLAttributes().get(index.getReferencedAttribute());
 
@@ -145,14 +145,15 @@ public class ArraysMath {
   }
 
   /**
-   * This method checks if adding an {@link Index} object to a parent {@link SBase} object
-   * for referencing another {@link SBase} object does not cause out-of-bounds issues. 
+   * This method checks if adding an {@link Index} object to a parent
+   * {@link SBase} object for referencing another {@link SBase} object does not
+   * cause out-of-bounds issues.
    * 
    * @param model
-   * @param parent
    * @param reference
-   * @param math
    * @param arrayDim
+   * @param math
+   * @param dimSizes
    * @return
    */
   public static boolean evaluateIndexBounds(Model model, SBase reference, int arrayDim, ASTNode math, Map<String, Double> dimSizes) {
@@ -178,14 +179,14 @@ public class ArraysMath {
 
   }
 
-
   /**
-   * This method checks if adding an {@link Index} object to a parent {@link SBase} object
-   * for referencing another {@link SBase} object does not cause out-of-bounds issues. 
+   * This method checks if adding an {@link Index} object to a parent
+   * {@link SBase} object for referencing another {@link SBase} object does not
+   * cause out-of-bounds issues.
    * 
    * @param model
    * @param parent
-   * @param reference
+   * @param refAttribute
    * @param math
    * @param arrayDim
    * @return
@@ -236,14 +237,14 @@ public class ArraysMath {
     ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) mathContainer.getExtension(ArraysConstants.shortLabel);
 
     ArraysSBasePlugin parentArraysSBasePlugin = getParentPlugin(mathContainer, mathContainer.getParentSBMLObject());
-    
+
     Map<String, Double> dimensionSizes = getDimensionSizes(model, arraysSBasePlugin);
 
     if(parentArraysSBasePlugin != null)
     {
       dimensionSizes.putAll(getDimensionSizes(model, parentArraysSBasePlugin));
     }
-    
+
     if(math.getType() != ASTNode.Type.FUNCTION_SELECTOR) {
       return true;
     }
@@ -348,7 +349,7 @@ public class ArraysMath {
   }
 
   /**
-   * This method is used to get the lower bound index from a collection of Dimension objects. 
+   * This method is used to get the lower bound index from a collection of Dimension objects.
    * 
    * @param dimSizes
    * @return
@@ -364,7 +365,7 @@ public class ArraysMath {
   }
 
   /**
-   * This method is used to get the upper bound index from a collection of Dimension objects. 
+   * This method is used to get the upper bound index from a collection of Dimension objects.
    * 
    * @param dimSizes
    * @return
@@ -398,7 +399,7 @@ public class ArraysMath {
       return (ArraysSBasePlugin) parent.getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
     }
   }
-  
+
   public static ArraysSBasePlugin getParentPlugin(MathContainer math, SBase parent)
   {
     if(math instanceof SpeciesReference)
@@ -420,10 +421,11 @@ public class ArraysMath {
   }
 
   /**
-   * This method is used to determine whether a {@link MathContainer} object is statically computable.
+   * This method is used to determine whether a {@link MathContainer} object is
+   * statically computable.
    * 
    * @param model
-   * @param mathContainer
+   * @param index
    * @return
    */
   public static boolean isStaticallyComputable(Model model, Index index) {
@@ -478,7 +480,7 @@ public class ArraysMath {
         }
       }
     }
-    
+
     if(mathContainer instanceof KineticLaw)
     {
       KineticLaw law = (KineticLaw) mathContainer;
@@ -507,7 +509,7 @@ public class ArraysMath {
 
     if(constantIds != null) {
       for(String id : constantIds) {
-        compiler.addConstantId(id);  
+        compiler.addConstantId(id);
       }
     }
     ASTNode math = mathContainer.getMath();
@@ -519,11 +521,12 @@ public class ArraysMath {
   }
 
   /**
-   * This method is used to determine whether a {@link MathContainer} object is statically computable given
-   * a list of ids that can appear in the math.
+   * This method is used to determine whether a {@link MathContainer} object is
+   * statically computable given a list of ids that can appear in the math.
    * 
    * @param model
-   * @param mathContainer
+   * @param math
+   * @param constantIds
    * @return
    */
   public static boolean isStaticallyComputable(Model model, ASTNode math, String...constantIds) {
@@ -531,7 +534,7 @@ public class ArraysMath {
 
     if(constantIds != null) {
       for(String id : constantIds) {
-        compiler.addConstantId(id);  
+        compiler.addConstantId(id);
       }
     }
 
@@ -567,7 +570,7 @@ public class ArraysMath {
 
       boolean hasVector = isVectorOperation(math);
 
-      if(hasVector) 
+      if(hasVector)
       {
         math.compile(compiler);
 
@@ -602,7 +605,7 @@ public class ArraysMath {
 
         boolean hasVector = isVectorOperation(math);
 
-        if(hasVector) 
+        if(hasVector)
         {
           math.compile(compiler);
 

@@ -90,7 +90,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   /**
    * Returns the n-th {@link ExternalModelDefinition} object in this {@link CompSBMLDocumentPlugin}.
    * 
-   * @param n an index
+   * @param index an index
    * @return the {@link ExternalModelDefinition} with the given index if it exists.
    * @throws IndexOutOfBoundsException
    */
@@ -157,8 +157,8 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   public CompSBMLDocumentPlugin clone() {
     return new CompSBMLDocumentPlugin(this);
   }
-  
-  
+
+
 
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
@@ -168,13 +168,13 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
     final int prime = 3343;
     int result = super.hashCode();
     result = prime
-      * result
-      + ((listOfExternalModelDefinitions == null) ? 0
-        : listOfExternalModelDefinitions.hashCode());
+        * result
+        + ((listOfExternalModelDefinitions == null) ? 0
+          : listOfExternalModelDefinitions.hashCode());
     result = prime
-      * result
-      + ((listOfModelDefinitions == null) ? 0
-        : listOfModelDefinitions.hashCode());
+        * result
+        + ((listOfModelDefinitions == null) ? 0
+          : listOfModelDefinitions.hashCode());
     return result;
   }
 
@@ -263,7 +263,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    * <p>The listOfExternalModelDefinitions is initialized if necessary.
    *
    * @param externalModelDefinition the element to add to the list
-   * @return {@code true} (as specified by {@link Collection.add})
+   * @return {@code true} (as specified by {@link Collection#add})
    */
   public boolean addExternalModelDefinition(ExternalModelDefinition externalModelDefinition) {
 
@@ -312,7 +312,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
   /**
    * Returns the n-th {@link ModelDefinition} object in this {@link CompSBMLDocumentPlugin}.
    * 
-   * @param n an index
+   * @param index an index
    * @return the {@link ModelDefinition} with the given index if it exists.
    * @throws IndexOutOfBoundsException
    */
@@ -462,7 +462,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
    * <p>The listOfModelDefinitions is initialized if necessary.
    *
    * @param modelDefinition the element to add to the list
-   * @return {@code true} (as specified by {@link Collection.add})
+   * @return {@code true} (as specified by {@link Collection#add})
    */
   public boolean addModelDefinition(ModelDefinition modelDefinition) {
 

@@ -60,7 +60,7 @@ public class CSGObject extends AbstractSpatialNamedSBase {
 
 
   /**
-   * @param node
+   * @param csgo
    */
   public CSGObject(CSGObject csgo) {
     super(csgo);

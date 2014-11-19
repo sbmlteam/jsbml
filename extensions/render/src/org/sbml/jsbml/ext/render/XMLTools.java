@@ -149,7 +149,7 @@ public class XMLTools {
   }
 
   /**
-   * @param roleList
+   * @param list
    * @return
    */
   public static String arrayToWhitespaceSeparatedString(String[] list) {

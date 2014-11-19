@@ -23,6 +23,7 @@ package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -297,8 +298,8 @@ public class Geometry extends AbstractSpatialNamedSBase {
    */
   public boolean unsetListOfSampledFields() {
     if (isSetListOfSampledFields()) {
-      ListOf<SampledField> oldSampledFields = this.listOfSampledFields;
-      this.listOfSampledFields = null;
+      ListOf<SampledField> oldSampledFields = listOfSampledFields;
+      listOfSampledFields = null;
       oldSampledFields.fireNodeRemovedEvent();
       return true;
     }
@@ -311,7 +312,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    * <p>The listOfSampledFields is initialized if necessary.
    *
    * @param sampledField the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return true (as specified by {@link Collection#add})
    */
   public boolean addSampledField(SampledField sampledField) {
     return getListOfSampledFields().add(sampledField);
@@ -437,7 +438,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    * <p>The listOfGeometryDefinitions is initialized if necessary.
    *
    * @param geometryDefinition the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return true (as specified by {@link Collection#add})
    */
   public boolean addGeometryDefinition(GeometryDefinition geometryDefinition) {
     return getListOfGeometryDefinitions().add(geometryDefinition);
@@ -602,11 +603,11 @@ public class Geometry extends AbstractSpatialNamedSBase {
 
 
   /**
-   * Adds a new {@link AdjacentDomain} to the listOfAdjacentDomains.
-   * <p>The listOfAdjacentDomains is initialized if necessary.
+   * Adds a new {@link AdjacentDomains} to the {@link #listOfAdjacentDomains}.
+   * <p>The {@link #listOfAdjacentDomains} is initialized if necessary.
    *
    * @param adjacentDomains the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return true (as specified by {@link Collection#add})
    */
   public boolean addAdjacentDomain(AdjacentDomains adjacentDomains) {
     return getListOfAdjacentDomains().add(adjacentDomains);
@@ -631,7 +632,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
   /**
    * Removes an element from the listOfAdjacentDomains at the given index.
    *
-   * @param i the index where to remove the {@link AdjacentDomain}
+   * @param i the index where to remove the {@link AdjacentDomains}
    * @throws IndexOutOfBoundsException if the listOf is not set or
    * if the index is out of bound (index < 0 || index > list.size)
    */
@@ -645,6 +646,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
   public void removeAdjacentDomain(String id) {
     getListOfAdjacentDomains().removeFirst(new NameFilter(id));
   }
+
   /**
    * Creates a new AdjacentDomain element and adds it to the ListOfAdjacentDomains list
    */
@@ -652,11 +654,11 @@ public class Geometry extends AbstractSpatialNamedSBase {
     return createAdjacentDomain(null);
   }
 
-
   /**
-   * Creates a new {@link AdjacentDomain} element and adds it to the ListOfAdjacentDomains list
+   * Creates a new {@link AdjacentDomains} element and adds it to the
+   * {@link #listOfAdjacentDomains} list
    *
-   * @return a new {@link AdjacentDomain} element
+   * @return a new {@link AdjacentDomains} element
    */
   public AdjacentDomains createAdjacentDomain(String id) {
     AdjacentDomains adjacentDomains = new AdjacentDomains(id, getLevel(), getVersion());
@@ -731,7 +733,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    * <p>The listOfDomainTypes is initialized if necessary.
    *
    * @param domainType the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return true (as specified by {@link Collection#add})
    */
   public boolean addDomainType(DomainType domainType) {
     return getListOfDomainTypes().add(domainType);
@@ -857,7 +859,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    * <p>The listOfDomains is initialized if necessary.
    *
    * @param domain the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return true (as specified by {@link Collection#add})
    */
   public boolean addDomain(Domain domain) {
     return getListOfDomains().add(domain);
@@ -982,7 +984,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
    * <p>The listOfCoordinateComponents is initialized if necessary.
    *
    * @param coordinateComponents the element to add to the list
-   * @return true (as specified by {@link Collection.add})
+   * @return true (as specified by {@link Collection#add})
    */
   public boolean addCoordinateComponent(CoordinateComponent coordinateComponents) {
     return getListOfCoordinateComponents().add(coordinateComponents);
@@ -1028,7 +1030,6 @@ public class Geometry extends AbstractSpatialNamedSBase {
     return createCoordinateComponent(null);
   }
 
-
   /**
    * Creates a new {@link CoordinateComponent} element and adds it to the ListOfCoordinateComponents list
    *
@@ -1040,8 +1041,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
     return coordinateComponents;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#toString()
    */
   @Override
@@ -1109,14 +1109,17 @@ public class Geometry extends AbstractSpatialNamedSBase {
     return hashCode;
   }
 
-
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return true;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getChildCount()
+   */
   @Override
   public int getChildCount() {
     int count = super.getChildCount();
@@ -1141,7 +1144,9 @@ public class Geometry extends AbstractSpatialNamedSBase {
     return count;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getChildAt(int)
+   */
   @Override
   public TreeNode getChildAt(int index) {
     if (index < 0) {
@@ -1192,4 +1197,5 @@ public class Geometry extends AbstractSpatialNamedSBase {
       "Index {0,number,integer} >= {1,number,integer}", index,
       +Math.min(pos, 0)));
   }
+
 }

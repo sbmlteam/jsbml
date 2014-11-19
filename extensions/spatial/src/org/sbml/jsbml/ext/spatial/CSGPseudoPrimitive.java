@@ -50,13 +50,11 @@ public class CSGPseudoPrimitive extends CSGNode{
     super();
   }
 
-
   /**
-   * @param node
+   * @param csgp
    */
   public CSGPseudoPrimitive(CSGPseudoPrimitive csgp) {
     super(csgp);
-
 
     if (csgp.isSetCsgObjectRef()) {
       csgObjectRef = new String(csgp.getCsgObjectRef());

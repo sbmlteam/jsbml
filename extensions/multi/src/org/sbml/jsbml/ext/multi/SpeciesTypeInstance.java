@@ -101,7 +101,7 @@ public class SpeciesTypeInstance extends AbstractNamedSBase implements UniqueNam
   }
 
   /**
-   * @param listOfSelectorReferences the listOfSelectorReferences to set
+   * @param selectorReference the listOfSelectorReferences to set
    */
   public void addSelectorReference(SelectorReference selectorReference) {
     getListOfSelectorReferences().add(selectorReference);

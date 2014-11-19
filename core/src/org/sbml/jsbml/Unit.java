@@ -660,7 +660,7 @@ public class Unit extends AbstractSBase {
    *            the second Unit object to compare
    * @return {@code true} if all the attributes of unit1 are identical to the
    *         attributes of unit2, {@code false} otherwise.
-   * @see areEquivalent
+   * @see #areEquivalent
    */
   public static boolean areIdentical(Unit unit1, Unit unit2) {
     boolean identical = areEquivalent(unit1, unit2);

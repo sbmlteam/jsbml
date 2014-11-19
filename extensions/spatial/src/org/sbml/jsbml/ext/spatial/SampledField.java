@@ -65,14 +65,15 @@ public class SampledField extends AbstractSpatialNamedSBase {
   private CompressionKind compression;
   private XMLNode data;
 
-
+  /**
+   * 
+   */
   public SampledField() {
     super();
   }
 
-
   /**
-   * @param node
+   * @param sf
    */
   public SampledField(SampledField sf) {
     super(sf);
@@ -96,7 +97,6 @@ public class SampledField extends AbstractSpatialNamedSBase {
     }
 
   }
-
 
   /**
    * @param level
@@ -179,7 +179,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
    * @return whether numSamples1 is set
    */
   public boolean isSetNumSamples1() {
-    return this.numSamples1 != null;
+    return numSamples1 != null;
   }
 
 
@@ -201,9 +201,9 @@ public class SampledField extends AbstractSpatialNamedSBase {
    */
   public boolean unsetNumSamples1() {
     if (isSetNumSamples1()) {
-      int oldNumSamples1 = this.numSamples1;
-      this.numSamples1 = null;
-      firePropertyChange(SpatialConstants.numSamples1, oldNumSamples1, this.numSamples1);
+      int oldNumSamples1 = numSamples1;
+      numSamples1 = null;
+      firePropertyChange(SpatialConstants.numSamples1, oldNumSamples1, numSamples1);
       return true;
     }
     return false;
@@ -230,7 +230,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
    * @return whether numSamples2 is set
    */
   public boolean isSetNumSamples2() {
-    return this.numSamples2 != null;
+    return numSamples2 != null;
   }
 
 
@@ -252,9 +252,9 @@ public class SampledField extends AbstractSpatialNamedSBase {
    */
   public boolean unsetNumSamples2() {
     if (isSetNumSamples2()) {
-      int oldNumSamples2 = this.numSamples2;
-      this.numSamples2 = null;
-      firePropertyChange(SpatialConstants.numSamples2, oldNumSamples2, this.numSamples2);
+      int oldNumSamples2 = numSamples2;
+      numSamples2 = null;
+      firePropertyChange(SpatialConstants.numSamples2, oldNumSamples2, numSamples2);
       return true;
     }
     return false;
@@ -282,7 +282,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
    * @return whether numSamples3 is set
    */
   public boolean isSetNumSamples3() {
-    return this.numSamples3 != null;
+    return numSamples3 != null;
   }
 
 
@@ -304,9 +304,9 @@ public class SampledField extends AbstractSpatialNamedSBase {
    */
   public boolean unsetNumSamples3() {
     if (isSetNumSamples3()) {
-      int oldNumSamples3 = this.numSamples3;
-      this.numSamples3 = null;
-      firePropertyChange(SpatialConstants.numSamples3, oldNumSamples3, this.numSamples3);
+      int oldNumSamples3 = numSamples3;
+      numSamples3 = null;
+      firePropertyChange(SpatialConstants.numSamples3, oldNumSamples3, numSamples3);
       return true;
     }
     return false;
@@ -331,7 +331,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
    * @return whether dataType is set
    */
   public boolean isSetDataType() {
-    return this.dataType != null;
+    return dataType != null;
   }
 
 
@@ -353,9 +353,9 @@ public class SampledField extends AbstractSpatialNamedSBase {
    */
   public boolean unsetDataType() {
     if (isSetDataType()) {
-      DataKind oldDataType = this.dataType;
-      this.dataType = null;
-      firePropertyChange(SpatialConstants.dataType, oldDataType, this.dataType);
+      DataKind oldDataType = dataType;
+      dataType = null;
+      firePropertyChange(SpatialConstants.dataType, oldDataType, dataType);
       return true;
     }
     return false;
@@ -382,7 +382,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
    * @return whether compression is set
    */
   public boolean isSetCompression() {
-    return this.compression != null;
+    return compression != null;
   }
 
 
@@ -404,9 +404,9 @@ public class SampledField extends AbstractSpatialNamedSBase {
    */
   public boolean unsetCompression() {
     if (isSetCompression()) {
-      CompressionKind oldCompression = this.compression;
-      this.compression = null;
-      firePropertyChange(SpatialConstants.compression, oldCompression, this.compression);
+      CompressionKind oldCompression = compression;
+      compression = null;
+      firePropertyChange(SpatialConstants.compression, oldCompression, compression);
       return true;
     }
     return false;
@@ -433,7 +433,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
    * @return whether interpolation is set
    */
   public boolean isSetInterpolation() {
-    return this.interpolation != null;
+    return interpolation != null;
   }
 
 
@@ -455,9 +455,9 @@ public class SampledField extends AbstractSpatialNamedSBase {
    */
   public boolean unsetInterpolation() {
     if (isSetInterpolation()) {
-      InterpolationKind oldInterpolation = this.interpolation;
-      this.interpolation = null;
-      firePropertyChange(SpatialConstants.interpolation, oldInterpolation, this.interpolation);
+      InterpolationKind oldInterpolation = interpolation;
+      interpolation = null;
+      firePropertyChange(SpatialConstants.interpolation, oldInterpolation, interpolation);
       return true;
     }
     return false;
@@ -497,7 +497,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
    * @return whether data is set
    */
   public boolean isSetData() {
-    return this.data != null;
+    return data != null;
   }
 
 
@@ -526,9 +526,9 @@ public class SampledField extends AbstractSpatialNamedSBase {
    */
   public boolean unsetData() {
     if (isSetData()) {
-      XMLNode oldData = this.data;
-      this.data = null;
-      firePropertyChange(SpatialConstants.data, oldData, this.data);
+      XMLNode oldData = data;
+      data = null;
+      firePropertyChange(SpatialConstants.data, oldData, data);
       return true;
     }
     return false;

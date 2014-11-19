@@ -115,7 +115,7 @@ public class XMLNodeWriter {
 
   /**
    * @param xmlNode
-   * @param length
+   * @param depth
    * @throws XMLStreamException
    */
   private void write(XMLNode xmlNode, int depth) throws XMLStreamException

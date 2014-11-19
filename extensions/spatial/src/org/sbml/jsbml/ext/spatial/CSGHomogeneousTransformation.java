@@ -50,7 +50,7 @@ public class CSGHomogeneousTransformation extends CSGTransformation {
 
 
   /**
-   * @param node
+   * @param csght
    */
   public CSGHomogeneousTransformation(CSGHomogeneousTransformation csght) {
     super(csght);

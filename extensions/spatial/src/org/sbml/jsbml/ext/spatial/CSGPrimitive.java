@@ -84,7 +84,7 @@ public class CSGPrimitive extends CSGNode{
 
 
   /**
-   * @param node
+   * @param csgp
    */
   public CSGPrimitive(CSGPrimitive csgp) {
     super(csgp);

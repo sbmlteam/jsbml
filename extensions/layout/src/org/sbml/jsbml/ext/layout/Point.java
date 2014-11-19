@@ -94,7 +94,6 @@ public class Point extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param x the x coordinate
    * @param y the y coordinate
-   * @param z the z coordinate
    */
   public Point(double x, double y) {
     this();

@@ -199,10 +199,10 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
    * <p>The listOfFluxObjectives is initialized if necessary.
    *
    * @param fluxObjective the element to add to the list
-   * @return {@code true} (as specified by {@link Collection.add})
+   * @return {@code true} (as specified by {@link Collection#add})
    */
-  public void addFluxObjective(FluxObjective fluxObjective) {
-    getListOfFluxObjectives().add(fluxObjective);
+  public boolean addFluxObjective(FluxObjective fluxObjective) {
+    return getListOfFluxObjectives().add(fluxObjective);
   }
 
   /* (non-Javadoc)
@@ -244,8 +244,8 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
     return fluxObjective;
   }
 
-  
-  
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -254,7 +254,7 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
     final int prime = 2383;
     int result = super.hashCode();
     result = prime * result
-      + ((listOfFluxObjectives == null) ? 0 : listOfFluxObjectives.hashCode());
+        + ((listOfFluxObjectives == null) ? 0 : listOfFluxObjectives.hashCode());
     result = prime * result + ((type == null) ? 0 : type.hashCode());
     return result;
   }

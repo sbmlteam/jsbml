@@ -100,7 +100,7 @@ public class Dialog
    * will need to click the button to make the dialog go away.
    *
    * @param parent The parent window JFrame object.
-   * @param question The message to put in the body of the dialog.
+   * @param message The message to put in the body of the dialog.
    * @param title A string to use as the title of the dialog window.
    */
   public static void error(JFrame parent, String message, String title)

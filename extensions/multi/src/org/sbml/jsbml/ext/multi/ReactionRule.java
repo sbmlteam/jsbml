@@ -81,10 +81,11 @@ public class ReactionRule extends AbstractNamedSBase {
   /**
    * Adds a result.
    * 
-   * @param results the result to add
+   * @param result the result to add
+   * @return
    */
-  public void addResult(SpeciesTypeRestrictionReference result) {
-    getListOfResults().add(result);
+  public boolean addResult(SpeciesTypeRestrictionReference result) {
+    return getListOfResults().add(result);
   }
 
   /**

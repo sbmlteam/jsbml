@@ -65,19 +65,16 @@ public class SpatialSpeciesPlugin extends AbstractSpatialSBasePlugin {
     super();
   }
 
-
   /**
    * 
-   * @param Species sp
+   * @param sp
    */
   public SpatialSpeciesPlugin(Species sp) {
     super(sp);
   }
 
-
-
   /**
-   * @param SpatialSpeciesPlugin sb
+   * @param sb
    */
   public SpatialSpeciesPlugin(SpatialSpeciesPlugin sb) {
     super(sb);
@@ -153,7 +150,7 @@ public class SpatialSpeciesPlugin extends AbstractSpatialSBasePlugin {
   /**
    * 
    * @return
-   * @see #getIsSpatial()
+   * @see #getSpatial
    */
   public boolean isSpatial() {
     return getSpatial();

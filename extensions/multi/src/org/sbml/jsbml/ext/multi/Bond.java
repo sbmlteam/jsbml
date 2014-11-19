@@ -77,7 +77,7 @@ public class Bond extends AbstractSBase {
   /**
    * Sets the occurrence.
    * 
-   * @param occurrence the occurrence to set
+   * @param occurence the occurrence to set
    */
   public void setOccurence(BOND_OCCURRENCE_TYPE occurence) {
     this.occurence = occurence;
@@ -104,7 +104,7 @@ public class Bond extends AbstractSBase {
   /**
    * Sets the first {@link BindingSiteReference}.
    * 
-   * @param bindingSiteReference1 the {@link BindingSiteReference} to set
+   * @param bindingSite1 the {@link BindingSiteReference} to set
    */
   public void setBindingSiteReference1(BindingSiteReference bindingSite1) {
     bindingSiteReference1 = bindingSite1;

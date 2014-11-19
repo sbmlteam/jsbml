@@ -334,7 +334,7 @@ public abstract class CurveSegment extends AbstractSBase {
   /**
    * Sets the {@code End} {@link Point} of this {@link CurveSegment}.
    * 
-   * @param start the {@code End} {@link Point} to set
+   * @param end the {@code End} {@link Point} to set
    */
   abstract public void setEnd(Point end);
 
