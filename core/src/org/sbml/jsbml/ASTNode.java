@@ -528,13 +528,13 @@ public class ASTNode extends AbstractTreeNode {
       // for cn, we pass the type attribute to this function to determine the
       // proper astNode type
       // for csymbol, we pass the definitionURL
-      else if (type.equalsIgnoreCase("real")) {
+      else if (type.equalsIgnoreCase("real") || type.equalsIgnoreCase("cn")) {
         // we put the type by default to real in case the type attribute is
         // not define on the cn element.
         return REAL;
       } else if (type.equalsIgnoreCase("e-notation")) {
         return REAL_E;
-      } else if (type.equalsIgnoreCase("integer") || type.equalsIgnoreCase("cn")) {
+      } else if (type.equalsIgnoreCase("integer")) {
         return INTEGER;
       } else if (type.equalsIgnoreCase("rational")) {
         return RATIONAL;
