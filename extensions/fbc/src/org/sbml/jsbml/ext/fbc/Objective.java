@@ -22,8 +22,6 @@
 package org.sbml.jsbml.ext.fbc;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -94,9 +92,9 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
         throw new IllegalArgumentException();
       }
 
-      for(Type v : values())
+      for (Type v : values())
       {
-        if(value.equalsIgnoreCase(v.sbmlName))
+        if (value.equalsIgnoreCase(v.sbmlName))
         {
           return v;
         }

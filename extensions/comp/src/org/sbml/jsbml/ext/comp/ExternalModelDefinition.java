@@ -25,23 +25,20 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
-import org.sbml.jsbml.Model;
-import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.UniqueNamedSBase;
-import org.sbml.jsbml.util.SubModel;
 
 /**
- * The {@link ExternalModelDefinition} objects are model definitions - in and of themselves,
- * they are definitions of the models but not uses of those models. The class provides a way
- * to declare and identify them so that {@link Model} objects in the present {@link SBMLDocument}
- * can use them in {@link SubModel} objects.
+ * The {@link ExternalModelDefinition} objects are model definitions - in and of
+ * themselves, they are definitions of the models but not uses of those models.
+ * The class provides a way to declare and identify them so that {@link Model}
+ * objects in the present {@link SBMLDocument} can use them in {@link SubModel}
+ * objects.
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$
  * @since 1.0
  */
-public class ExternalModelDefinition extends AbstractNamedSBase implements UniqueNamedSBase
-{
+public class ExternalModelDefinition extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Generated serial version identifier.

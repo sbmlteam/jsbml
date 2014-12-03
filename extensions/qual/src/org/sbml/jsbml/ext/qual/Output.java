@@ -26,21 +26,20 @@ import java.util.Map;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.LevelVersionError;
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.StringTools;
 
 /**
- * Each {@link Output} refers to a {@link QualitativeSpecies} that participates in (is affected by)
- * the corresponding {@link Transition}. In Petri net models these are the output places of the
- * transition. In a logical model, a {@link QualitativeSpecies} should be referenced in at most
- * one ListOfOutputs, (that of the {@link Transition} defining the evolution of this species).
- * When a {@link Transition} has several outputs, it is because the referenced species share the
- * same regulators and the same logical rules.
+ * Each {@link Output} refers to a {@link QualitativeSpecies} that participates
+ * in (is affected by) the corresponding {@link Transition}. In Petri net models
+ * these are the output places of the transition. In a logical model, a
+ * {@link QualitativeSpecies} should be referenced in at most one listOfOutputs,
+ * (that of the {@link Transition} defining the evolution of this species). When
+ * a {@link Transition} has several outputs, it is because the referenced
+ * species share the same regulators and the same logical rules.
  * 
  * @author Nicolas Rodriguez
  * @author Finja B&uuml;chel

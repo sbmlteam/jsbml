@@ -579,7 +579,7 @@ public abstract class XMLToken extends AbstractTreeNode {
     ArrayList<XMLTriple> oldNames = attributes.attributeNames;
     ArrayList<String> oldValues = attributes.attributeValues;
 
-    for(int i=0; i < attributes.getLength(); i++) {
+    for (int i=0; i < attributes.getLength(); i++) {
       firePropertyChange(oldNames.get(i).getName(), oldValues.get(i), null);
     }
     return attributes.clear();
@@ -606,7 +606,7 @@ public abstract class XMLToken extends AbstractTreeNode {
     }
     XMLNamespaces oldValues = namespaces;
 
-    for(int i=0; i < namespaces.getLength(); i++) {
+    for (int i=0; i < namespaces.getLength(); i++) {
       firePropertyChange(TreeNodeChangeEvent.namespace, oldValues.getURI(i), null);
     }
 
@@ -1499,7 +1499,7 @@ public abstract class XMLToken extends AbstractTreeNode {
 
     ArrayList<XMLTriple> names = this.attributes.attributeNames;
     ArrayList<String> values = this.attributes.attributeValues;
-    for(int i=0; i < this.attributes.getLength(); i++) {
+    for (int i=0; i < this.attributes.getLength(); i++) {
       firePropertyChange(names.get(i).getName(), values.get(i), null);
     }
     this.attributes = attributes;
@@ -1507,7 +1507,7 @@ public abstract class XMLToken extends AbstractTreeNode {
     names = attributes.attributeNames;
     values = attributes.attributeValues;
 
-    for(int i=0; i < attributes.getLength(); i++) {
+    for (int i=0; i < attributes.getLength(); i++) {
       firePropertyChange(names.get(i).getName(), null, values.get(i));
     }
     return JSBML.OPERATION_SUCCESS;
@@ -1589,14 +1589,14 @@ public abstract class XMLToken extends AbstractTreeNode {
     }
 
     XMLNamespaces values = this.namespaces;
-    for(int i=0; i < attributes.getLength(); i++) {
+    for (int i=0; i < attributes.getLength(); i++) {
       firePropertyChange(TreeNodeChangeEvent.namespace, values.getURI(i), null);
     }
 
     this.namespaces = namespaces;
 
     values = this.namespaces;
-    for(int i=0; i < attributes.getLength(); i++) {
+    for (int i=0; i < attributes.getLength(); i++) {
       firePropertyChange(TreeNodeChangeEvent.namespace, null, values.getURI(i));
     }
     return JSBML.OPERATION_SUCCESS;

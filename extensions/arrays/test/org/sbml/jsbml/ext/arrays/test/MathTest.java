@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Utah, Salt Lake City, UT, USA
  *
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.ext.arrays.test;
 
@@ -44,7 +44,7 @@ import org.sbml.jsbml.text.parser.ParseException;
  * @date May 27, 2014
  */
 public class MathTest {
- 
+
   /**
    * Test if vector function is working as expected.
    */
@@ -86,7 +86,7 @@ public class MathTest {
       assertTrue(false);
     }
   }
-  
+
   /**
    * Test if we can construct 1D vectors using the infix syntax.
    */
@@ -132,7 +132,7 @@ public class MathTest {
       assertTrue(false);
     }
   }
-  
+
   /**
    * Test if we can construct selector function using the infix syntax.
    */
@@ -153,7 +153,7 @@ public class MathTest {
       assertTrue(false);
     }
   }
-  
+
   /**
    * Test if we can construct selector function using the infix syntax
    * for selecting an element from a 2D array.
@@ -176,37 +176,33 @@ public class MathTest {
       assertTrue(false);
     }
   }
-  
+
   /**
    * Test if the compiler prevents the user from constructing
    * the selector function without math.
    */
   @Test
   public void testInfixSelectorWithoutMath() {
-
-    ASTNode n = null;
     String formula = "y[]";
     FormulaParser parser = new FormulaParser(new StringReader(formula));
     try {
-      n = parser.parse();
+      parser.parse();
       assertTrue(false);
     } catch (ParseException e) {
       assertTrue(true);
     }
   }
-  
+
   /**
    * Test if the compiler prevents the user from constructing
    * the selector function without an identifier.
    */
   @Test
   public void testInfixSelectorWithoutArrayedObj() {
-
-    ASTNode n = null;
     String formula = "[i]";
     FormulaParser parser = new FormulaParser(new StringReader(formula));
     try {
-      n = parser.parse();
+      parser.parse();
       assertTrue(false);
     } catch (ParseException e) {
       assertTrue(true);
@@ -232,7 +228,7 @@ public class MathTest {
       assertTrue(false);
     }
   }
-  
+
   /**
    * Test if we can construct 1D vectors using the infix syntax using
    * the LL3 compiler.
@@ -277,7 +273,7 @@ public class MathTest {
       assertTrue(false);
     }
   }
-  
+
   /**
    * Test if we can construct selector function using the infix syntax
    * using the LL3 compiler.
@@ -297,7 +293,7 @@ public class MathTest {
       assertTrue(false);
     }
   }
-  
+
   /**
    * Test if we can construct selector function using the infix syntax
    * for selecting an element from a 2D array using the LL3 compiler.
@@ -317,43 +313,39 @@ public class MathTest {
       assertTrue(false);
     }
   }
-  
+
   /**
    * Test if the LL3 compiler prevents the user from constructing
    * the selector function without math.
    */
   @Test
   public void testInfixSelectorWithoutMathLL3() {
-
-    ASTNode n = null;
     String formula = "y[]";
     FormulaParserLL3 parser = new FormulaParserLL3(new StringReader(formula));
     try {
-      n = parser.parse();
+      parser.parse();
       assertTrue(false);
     } catch (ParseException e) {
       assertTrue(true);
     }
   }
-  
+
   /**
    * Test if the LL3 compiler prevents the user from constructing
    * the selector function without an identifier.
    */
   @Test
   public void testInfixSelectorWithoutArrayedObjLL3() {
-
-    ASTNode n = null;
     String formula = "[i]";
     FormulaParserLL3 parser = new FormulaParserLL3(new StringReader(formula));
     try {
-      n = parser.parse();
+      parser.parse();
       assertTrue(false);
     } catch (ParseException e) {
       assertTrue(true);
     }
   }
-  
+
   /**
    * Test if the infix notation works where the math is
    * an equation.
@@ -373,7 +365,7 @@ public class MathTest {
       assertTrue(false);
     }
   }
-  
+
   /**
    * Test if the infix notation using the LL3 compiler works where the math is
    * an equation.
@@ -393,7 +385,7 @@ public class MathTest {
       assertTrue(false);
     }
   }
-  
+
   /**
    * Test if you can make a vector of anything using the infix notation.
    */
@@ -412,8 +404,8 @@ public class MathTest {
       assertTrue(false);
     }
   }
-  
-  
+
+
   /**
    * Test if you can make a vector of anything using the LL3 parser.
    */
@@ -432,7 +424,7 @@ public class MathTest {
       assertTrue(false);
     }
   }
-  
+
   @Test
   public void testInfixVectorSelector() {
 
@@ -449,7 +441,7 @@ public class MathTest {
       assertTrue(false);
     }
   }
-  
+
   @Test
   public void testInfixVectorSelectorLL3() {
 
@@ -466,5 +458,5 @@ public class MathTest {
       assertTrue(false);
     }
   }
-  
+
 }

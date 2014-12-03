@@ -72,8 +72,8 @@ public class ArraysMath {
 
     ASTNodeValue mathValue = math.compile(compiler);
 
-    if(mathValue.isNumber()) {
-      if(mathValue.toDouble() < 0 || mathValue.toDouble() >= size) {
+    if (mathValue.isNumber()) {
+      if (mathValue.toDouble() < 0 || mathValue.toDouble() >= size) {
         return false;
       }
     }
@@ -85,8 +85,8 @@ public class ArraysMath {
 
     mathValue = math.compile(compiler);
 
-    if(mathValue.isNumber()) {
-      if(mathValue.toDouble() < 0 || mathValue.toDouble() >= size) {
+    if (mathValue.isNumber()) {
+      if (mathValue.toDouble() < 0 || mathValue.toDouble() >= size) {
         return false;
       }
     }
@@ -112,26 +112,26 @@ public class ArraysMath {
 
     ArraysSBasePlugin parentArraysSBasePlugin = getParentPlugin(index, parent);
 
-    if(index.isSetReferencedAttribute()) {
+    if (index.isSetReferencedAttribute()) {
       String refValue = parent.writeXMLAttributes().get(index.getReferencedAttribute());
 
       SBase refSBase = model.findNamedSBase(refValue);
 
       ArraysSBasePlugin refSbasePlugin = (ArraysSBasePlugin) refSBase.getExtension(ArraysConstants.shortLabel);
 
-      if(refSbasePlugin == null) {
+      if (refSbasePlugin == null) {
         return false;
       }
 
       Dimension dimByArrayDim = refSbasePlugin.getDimensionByArrayDimension(index.getArrayDimension());
 
-      if(dimByArrayDim == null) {
+      if (dimByArrayDim == null) {
         return false;
       }
 
       Map<String, Double> dimensionSizes = getDimensionSizes(model, arraysSBasePlugin);
 
-      if(parentArraysSBasePlugin != null) {
+      if (parentArraysSBasePlugin != null) {
         dimensionSizes.putAll(getDimensionSizes(model, parentArraysSBasePlugin));
       }
 
@@ -163,13 +163,13 @@ public class ArraysMath {
 
     Dimension dim = refSbasePlugin.getDimensionByArrayDimension(arrayDim);
 
-    if(dim == null) {
+    if (dim == null) {
       return false;
     }
 
     Parameter paramSize = model.getParameter(dim.getSize());
 
-    if(paramSize == null) {
+    if (paramSize == null) {
       return false;
     }
 
@@ -206,13 +206,13 @@ public class ArraysMath {
 
     Dimension dimByArrayDim = refSbasePlugin.getDimensionByArrayDimension(arrayDim);
 
-    if(dimByArrayDim == null) {
+    if (dimByArrayDim == null) {
       return false;
     }
 
     Map<String, Double> dimensionSizes = getDimensionSizes(model, arraysSBasePlugin);
 
-    if(parentArraysSBasePlugin != null) {
+    if (parentArraysSBasePlugin != null) {
       dimensionSizes.putAll(getDimensionSizes(model,parentArraysSBasePlugin));
     }
 
@@ -240,52 +240,47 @@ public class ArraysMath {
 
     Map<String, Double> dimensionSizes = getDimensionSizes(model, arraysSBasePlugin);
 
-    if(parentArraysSBasePlugin != null)
+    if (parentArraysSBasePlugin != null)
     {
       dimensionSizes.putAll(getDimensionSizes(model, parentArraysSBasePlugin));
     }
 
-    if(math.getType() != ASTNode.Type.FUNCTION_SELECTOR) {
+    if (math.getType() != ASTNode.Type.FUNCTION_SELECTOR) {
       return true;
     }
 
     ASTNode obj = math.getChild(0);
 
-    if(obj.isString())
+    if (obj.isString())
     {
       boolean result = true;
 
       SBase sbase = model.findNamedSBase(obj.toString());
 
       ArraysSBasePlugin plugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
-
-      for(int i = 1; i < math.getChildCount(); ++i) {
+      int i = 1;
+      while (i < math.getChildCount()) {
         ASTNode index = math.getChild(i);
-
         Dimension dim = plugin.getDimensionByArrayDimension(i-1);
-
         Parameter param = model.getParameter(dim.getSize());
 
-        if(param != null) {
+        if (param != null) {
           double size = param.getValue();
           result &= evaluateBounds(dimensionSizes, index, size);
-        }
-        else {
+        } else {
           return false;
         }
-
         return result;
-
       }
 
     }
-    else if(obj.isVector())
+    else if (obj.isVector())
     {
       boolean result = true;
 
       Map<Integer, Integer> vectorSizes = getVectorDimensionSizes(model, obj);
 
-      for(int i = 1; i < math.getChildCount(); ++i) {
+      for (int i = 1; i < math.getChildCount(); ++i) {
         ASTNode index = math.getChild(i);
         double size = vectorSizes.get(i);
         result &= evaluateBounds(dimensionSizes, index, size);
@@ -307,7 +302,7 @@ public class ArraysMath {
    * @return
    */
   public static int getSize(Model model, Dimension dimension) {
-    if(dimension == null) {
+    if (dimension == null) {
       return 0;
     }
 
@@ -315,7 +310,7 @@ public class ArraysMath {
 
     Parameter param = model.getParameter(sizeRef);
 
-    if(param == null || !param.isSetValue()) {
+    if (param == null || !param.isSetValue()) {
       throw new SBMLException();
     }
 
@@ -333,14 +328,14 @@ public class ArraysMath {
   public static Map<String, Double> getDimensionSizes(Model model, ArraysSBasePlugin arraysSBasePlugin) {
     Map<String, Double> dimensionValue = new HashMap<String, Double>();
 
-    if(arraysSBasePlugin == null) {
+    if (arraysSBasePlugin == null) {
       return dimensionValue;
     }
 
-    for(Dimension dim : arraysSBasePlugin.getListOfDimensions()) {
-      if(dim.isSetId()) {
+    for (Dimension dim : arraysSBasePlugin.getListOfDimensions()) {
+      if (dim.isSetId()) {
         Parameter size = model.getParameter(dim.getSize());
-        if(size != null) {
+        if (size != null) {
           dimensionValue.put(dim.getId(), size.getValue());
         }
       }
@@ -357,7 +352,7 @@ public class ArraysMath {
   public static Map<String, Double> getLowerBound(Map<String, Double> dimSizes) {
     Map<String, Double> lowerBound = new HashMap<String, Double>();
 
-    for(String id : dimSizes.keySet()) {
+    for (String id : dimSizes.keySet()) {
       lowerBound.put(id, 0.0);
     }
 
@@ -373,7 +368,7 @@ public class ArraysMath {
   public static Map<String, Double> getUpperBound(Map<String, Double> dimSizes) {
     Map<String, Double> upperBound = new HashMap<String, Double>();
 
-    for(String id : dimSizes.keySet()) {
+    for (String id : dimSizes.keySet()) {
       upperBound.put(id, dimSizes.get(id) - 1);
     }
 
@@ -382,15 +377,15 @@ public class ArraysMath {
 
   public static ArraysSBasePlugin getParentPlugin(Index index, SBase parent)
   {
-    if(parent instanceof SpeciesReference)
+    if (parent instanceof SpeciesReference)
     {
       return (ArraysSBasePlugin) parent.getParentSBMLObject().getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
     }
-    else if(parent instanceof ModifierSpeciesReference)
+    else if (parent instanceof ModifierSpeciesReference)
     {
       return (ArraysSBasePlugin) parent.getParentSBMLObject().getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
     }
-    else if(parent instanceof EventAssignment)
+    else if (parent instanceof EventAssignment)
     {
       return (ArraysSBasePlugin) parent.getParentSBMLObject().getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
     }
@@ -402,15 +397,15 @@ public class ArraysMath {
 
   public static ArraysSBasePlugin getParentPlugin(MathContainer math, SBase parent)
   {
-    if(math instanceof SpeciesReference)
+    if (math instanceof SpeciesReference)
     {
       return (ArraysSBasePlugin) parent.getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
     }
-    else if(math instanceof ModifierSpeciesReference)
+    else if (math instanceof ModifierSpeciesReference)
     {
       return (ArraysSBasePlugin) parent.getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
     }
-    else if(math instanceof EventAssignment)
+    else if (math instanceof EventAssignment)
     {
       return (ArraysSBasePlugin) parent.getParentSBMLObject().getExtension(ArraysConstants.shortLabel);
     }
@@ -434,17 +429,17 @@ public class ArraysMath {
     ArraysSBasePlugin parentArraysSBasePlugin = getParentPlugin(index, parent);
 
     List<String> dimensionIds = new ArrayList<String>();
-    if(plugin != null) {
-      for(Dimension dim : plugin.getListOfDimensions()) {
-        if(dim.isSetId()) {
+    if (plugin != null) {
+      for (Dimension dim : plugin.getListOfDimensions()) {
+        if (dim.isSetId()) {
           dimensionIds.add(dim.getId());
         }
       }
     }
 
-    if(parentArraysSBasePlugin != null) {
-      for(Dimension dim : parentArraysSBasePlugin.getListOfDimensions()) {
-        if(dim.isSetId()) {
+    if (parentArraysSBasePlugin != null) {
+      for (Dimension dim : parentArraysSBasePlugin.getListOfDimensions()) {
+        if (dim.isSetId()) {
           dimensionIds.add(dim.getId());
         }
       }
@@ -465,28 +460,28 @@ public class ArraysMath {
     ArraysSBasePlugin plugin = (ArraysSBasePlugin) mathContainer.getExtension(ArraysConstants.shortLabel);
     ArraysSBasePlugin parentArraysSBasePlugin = getParentPlugin(mathContainer, mathContainer.getParentSBMLObject());
     List<String> dimensionIds = new ArrayList<String>();
-    if(plugin != null) {
-      for(Dimension dim : plugin.getListOfDimensions()) {
-        if(dim.isSetId()) {
+    if (plugin != null) {
+      for (Dimension dim : plugin.getListOfDimensions()) {
+        if (dim.isSetId()) {
           dimensionIds.add(dim.getId());
         }
       }
     }
 
-    if(parentArraysSBasePlugin != null) {
-      for(Dimension dim : parentArraysSBasePlugin.getListOfDimensions()) {
-        if(dim.isSetId()) {
+    if (parentArraysSBasePlugin != null) {
+      for (Dimension dim : parentArraysSBasePlugin.getListOfDimensions()) {
+        if (dim.isSetId()) {
           dimensionIds.add(dim.getId());
         }
       }
     }
 
-    if(mathContainer instanceof KineticLaw)
+    if (mathContainer instanceof KineticLaw)
     {
       KineticLaw law = (KineticLaw) mathContainer;
-      for(LocalParameter local : law.getListOfLocalParameters())
+      for (LocalParameter local : law.getListOfLocalParameters())
       {
-        if(local.isSetId()) {
+        if (local.isSetId()) {
           dimensionIds.add(local.getId());
         }
       }
@@ -507,8 +502,8 @@ public class ArraysMath {
   public static boolean isStaticallyComputable(Model model, MathContainer mathContainer, String...constantIds) {
     StaticallyComputableCompiler compiler = new StaticallyComputableCompiler(model);
 
-    if(constantIds != null) {
-      for(String id : constantIds) {
+    if (constantIds != null) {
+      for (String id : constantIds) {
         compiler.addConstantId(id);
       }
     }
@@ -532,8 +527,8 @@ public class ArraysMath {
   public static boolean isStaticallyComputable(Model model, ASTNode math, String...constantIds) {
     StaticallyComputableCompiler compiler = new StaticallyComputableCompiler(model);
 
-    if(constantIds != null) {
-      for(String id : constantIds) {
+    if (constantIds != null) {
+      for (String id : constantIds) {
         compiler.addConstantId(id);
       }
     }
@@ -546,8 +541,8 @@ public class ArraysMath {
   public static boolean isVectorOperation(ASTNode math) {
     boolean hasVector = false;
 
-    for(int i = 0; i < math.getChildCount(); ++i) {
-      if(math.getChild(i).isVector()) {
+    for (int i = 0; i < math.getChildCount(); ++i) {
+      if (math.getChild(i).isVector()) {
         hasVector = true;
         break;
       }
@@ -565,18 +560,18 @@ public class ArraysMath {
   public static boolean checkVectorMath(Model model, MathContainer mathContainer) {
     VectorCompiler compiler = new VectorCompiler(model);
 
-    if(mathContainer.isSetMath()) {
+    if (mathContainer.isSetMath()) {
       ASTNode math = mathContainer.getMath();
 
       boolean hasVector = isVectorOperation(math);
 
-      if(hasVector)
+      if (hasVector)
       {
         math.compile(compiler);
 
         ASTNode nodeCompiled = compiler.getNode();
 
-        if(nodeCompiled.isVector()) {
+        if (nodeCompiled.isVector()) {
           return true;
         }
         else {
@@ -597,34 +592,34 @@ public class ArraysMath {
   public static boolean checkVectorAssignment(Model model, MathContainer mathContainer) {
     VectorCompiler compiler = new VectorCompiler(model);
 
-    if(mathContainer instanceof Assignment) {
+    if (mathContainer instanceof Assignment) {
       Assignment assignment = (Assignment) mathContainer;
 
-      if(assignment.isSetMath()) {
+      if (assignment.isSetMath()) {
         ASTNode math = assignment.getMath();
 
         boolean hasVector = isVectorOperation(math);
 
-        if(hasVector)
+        if (hasVector)
         {
           math.compile(compiler);
 
           ASTNode nodeCompiled = compiler.getNode();
 
-          if(assignment.isSetVariable()){
+          if (assignment.isSetVariable()){
             SBase variable = model.findNamedSBase(assignment.getVariable());
-            if(variable == null) {
+            if (variable == null) {
               return false;
             }
             Map<Integer, Integer> sizeOfRHS = getVectorDimensionSizes(model, nodeCompiled);
             Map<Integer, Integer> sizeOfLHS = getVectorDimensionSizes(model, new ASTNode(assignment.getVariable()));
 
-            if(sizeOfRHS.size() != sizeOfLHS.size()) {
+            if (sizeOfRHS.size() != sizeOfLHS.size()) {
               return false;
             }
 
-            for(int i = 0; i < sizeOfRHS.size(); ++i) {
-              if(sizeOfRHS.get(i) != sizeOfLHS.get(i)) {
+            for (int i = 0; i < sizeOfRHS.size(); ++i) {
+              if (sizeOfRHS.get(i) != sizeOfLHS.get(i)) {
                 return false;
               }
             }
@@ -658,27 +653,27 @@ public class ArraysMath {
    * @param level
    */
   private static void getSizeRecursive(Map<Integer, Integer> sizeByLevel, Model model, ASTNode node, int level) {
-    if(node.isVector()) {
+    if (node.isVector()) {
       sizeByLevel.put(level, node.getChildCount());
-      if(node.getChildCount() > 0) {
+      if (node.getChildCount() > 0) {
         ASTNode child = node.getChild(0);
         getSizeRecursive(sizeByLevel, model, child, level+1);
       }
     }
-    else if(node.isString()) {
+    else if (node.isString()) {
       String id = node.toString();
       SBase sbase = model.findNamedSBase(id);
-      if(sbase == null) {
+      if (sbase == null) {
         return;
       }
       ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
-      if(arraysSBasePlugin == null || !arraysSBasePlugin.isSetListOfDimensions()) {
+      if (arraysSBasePlugin == null || !arraysSBasePlugin.isSetListOfDimensions()) {
         return;
       }
       int maxDim = arraysSBasePlugin.getDimensionCount() - 1;
-      for(Dimension dim : arraysSBasePlugin.getListOfDimensions()) {
+      for (Dimension dim : arraysSBasePlugin.getListOfDimensions()) {
         String size = dim.getSize();
-        if(size == null) {
+        if (size == null) {
           continue;
         }
         Parameter p = model.getParameter(size);
@@ -691,11 +686,11 @@ public class ArraysMath {
   }
 
   public static boolean isVectorBalanced(Model model, MathContainer mathContainer) {
-    if(model == null || mathContainer == null) {
+    if (model == null || mathContainer == null) {
       return false;
     }
     ASTNode math = mathContainer.getMath();
-    if(math.isVector()) {
+    if (math.isVector()) {
       Map<Integer, Integer> sizeByLevel = ArraysMath.getVectorDimensionSizes(model, math);
       return checkSizeRecursive(model, sizeByLevel, math, 0);
     }
@@ -712,24 +707,24 @@ public class ArraysMath {
    */
   private static boolean checkSizeRecursive(Model model, Map<Integer, Integer> sizeByLevel, ASTNode node, int level) {
 
-    if(!sizeByLevel.containsKey(level)) {
+    if (!sizeByLevel.containsKey(level)) {
       return false;
     }
     int expected = sizeByLevel.get(level);
 
-    if(!node.isVector()) {
-      if(node.isString()) {
+    if (!node.isVector()) {
+      if (node.isString()) {
         String id = node.toString();
         SBase sbase = model.findNamedSBase(id);
         ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
-        for(Dimension dim : arraysSBasePlugin.getListOfDimensions()) {
+        for (Dimension dim : arraysSBasePlugin.getListOfDimensions()) {
           String size = dim.getSize();
           Parameter p = model.getParameter(size);
-          if(p == null) {
+          if (p == null) {
             return false;
           }
           int actual =  (int) p.getValue();
-          if(expected != actual) {
+          if (expected != actual) {
             return false;
           }
 
@@ -740,12 +735,12 @@ public class ArraysMath {
         return false;
       }
     }
-    if(expected != node.getChildCount()) {
+    if (expected != node.getChildCount()) {
       return false;
     }
-    for(int i = 0; i < node.getChildCount(); i++) {
+    for (int i = 0; i < node.getChildCount(); i++) {
       ASTNode child = node.getChild(i);
-      if(!checkSizeRecursive(model, sizeByLevel, child, level+1)) {
+      if (!checkSizeRecursive(model, sizeByLevel, child, level+1)) {
         return false;
       }
     }

@@ -72,15 +72,15 @@ public class TestSBase {
   {
     CVTerm cv = new  CVTerm(CVTerm.Qualifier.BQB_IS); // DIFF - the jsbml enum is different from the libsbml int value and placed in different classes.
 
-    cv.addResource( "foo");
-    assertTrue( sbase.getNumCVTerms() == 0 );
-    assertTrue( sbase.getCVTerms().size() == 0 );
+    cv.addResource("foo");
+    assertTrue(sbase.getNumCVTerms() == 0);
+    assertTrue(sbase.getCVTerms().size() == 0);
     
-    sbase.setMetaId( "_id");
+    sbase.setMetaId("_id");
     sbase.addCVTerm(cv);
-    assertTrue( sbase.getNumCVTerms() == 1 );
-    assertTrue( sbase.getCVTerms() != null );
-    assertTrue( sbase.getCVTerm(0).equals(cv) );
+    assertTrue(sbase.getNumCVTerms() == 1);
+    assertTrue(sbase.getCVTerms() != null);
+    assertTrue(sbase.getCVTerm(0).equals(cv));
     cv = null;
   }
 
@@ -88,48 +88,48 @@ public class TestSBase {
   {
     CVTerm cv = new  CVTerm(CVTerm.Qualifier.BQB_ENCODES);
 
-    cv.addResource( "foo");
-    sbase.setMetaId( "sbase1");
+    cv.addResource("foo");
+    sbase.setMetaId("sbase1");
     sbase.addCVTerm(cv);
-    assertTrue( sbase.getNumCVTerms() == 1 );
-    assertTrue( sbase.getCVTerms() != null );
+    assertTrue(sbase.getNumCVTerms() == 1);
+    assertTrue(sbase.getCVTerms() != null);
 
     List<String> uriList = sbase.getCVTerm(0).getResources();
-    assertTrue(uriList.get(0).equals( "foo"));
+    assertTrue(uriList.get(0).equals("foo"));
     CVTerm cv1 = new  CVTerm(CVTerm.Qualifier.BQB_IS);
 
-    cv1.addResource( "bar");
+    cv1.addResource("bar");
     sbase.addCVTerm(cv1);
-    assertTrue( sbase.getNumCVTerms() == 2 );
+    assertTrue(sbase.getNumCVTerms() == 2);
 
     CVTerm cv2 = new  CVTerm(CVTerm.Qualifier.BQB_IS);
 
-    cv2.addResource( "bar1");
+    cv2.addResource("bar1");
     sbase.addCVTerm(cv2);
-    assertTrue( sbase.getNumCVTerms() == 3 ); // DIFF - why 2 here ?!? Is libsbml doing some merging of the CVTerms base on the qualifier !!!!
+    assertTrue(sbase.getNumCVTerms() == 3); // DIFF - why 2 here ?!? Is libsbml doing some merging of the CVTerms base on the qualifier !!!!
 
     uriList = sbase.getCVTerm(1).getResources();
-    assertTrue( uriList.size() == 1 );
-    assertTrue(uriList.get(0).equals( "bar"));
+    assertTrue(uriList.size() == 1);
+    assertTrue(uriList.get(0).equals("bar"));
 
     CVTerm cv4 = new  CVTerm(CVTerm.Qualifier.BQB_IS);
 
-    cv4.addResource( "bar1");
+    cv4.addResource("bar1");
     sbase.addCVTerm(cv4);
-    assertTrue( sbase.getNumCVTerms() == 4 );
+    assertTrue(sbase.getNumCVTerms() == 4);
 
     uriList = sbase.getCVTerm(3).getResources();
-    assertTrue( uriList.size() == 1 );
-    assertTrue(uriList.get(0).equals( "bar1"));
+    assertTrue(uriList.size() == 1);
+    assertTrue(uriList.get(0).equals("bar1"));
 
     CVTerm cv5 = new  CVTerm(CVTerm.Qualifier.BQB_HAS_PART);
 
-    cv5.addResource( "bar1"); // DIFF - Does libsbml not allow to have twice the same URI in one hasPart CVTerm ???!?
+    cv5.addResource("bar1"); // DIFF - Does libsbml not allow to have twice the same URI in one hasPart CVTerm ???!?
     sbase.addCVTerm(cv5);
-    assertTrue( sbase.getNumCVTerms() == 5 );
+    assertTrue(sbase.getNumCVTerms() == 5);
     uriList = sbase.getCVTerm(4).getResources();
-    assertTrue( uriList.size() == 1 );
-    assertTrue(uriList.get(0).equals( "bar1"));
+    assertTrue(uriList.size() == 1);
+    assertTrue(uriList.get(0).equals("bar1"));
     cv = null;
     cv2 = null;
     cv1 = null;
@@ -146,7 +146,7 @@ public class TestSBase {
     XMLTriple triple = new  XMLTriple("p", "", "");
     XMLAttributes att = new  XMLAttributes();
     XMLNamespaces ns = new  XMLNamespaces();
-    ns.add( "http://www.w3.org/1999/xhtml", "");
+    ns.add("http://www.w3.org/1999/xhtml", "");
     XMLToken token4 = new  XMLNode("This is my text"); // DIFF - we cannot instantiate XMLToken in jsbml
     XMLNode node4 = new XMLNode(token4);
     XMLToken token5 = new  XMLNode("This is additional text");
@@ -160,7 +160,7 @@ public class TestSBase {
     node.addChild(node4);
     sbase.setNotes(node); // TODO - add the notes XMLNode around if not present !
     
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     token1 = new  XMLNode(triple,att,ns);
     node1 = new XMLNode(token1);
@@ -174,23 +174,23 @@ public class TestSBase {
     System.out.println("Token name = " + token1.getName());
     System.out.println("Node name = " + node1.getName());
     
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     node2 = sbase.getNotes();
     
-    assertTrue( node2.getNumChildren() == 2 );
+    assertTrue(node2.getNumChildren() == 2);
 
     System.out.println("Node name = " + node2.getChild(0).getName());
     System.out.println("Node name = " + node.getChild(0).getName());
     System.out.println("Notes:" + node2.toXMLString());
     
-    assertTrue(node2.getChild(0).getName().equals( "p"));
-    assertTrue( node2.getChild(0).getNumChildren() == 1 );
-    assertTrue(node2.getChild(1).getName().equals( "p"));
-    assertTrue( node2.getChild(1).getNumChildren() == 1 );
+    assertTrue(node2.getChild(0).getName().equals("p"));
+    assertTrue(node2.getChild(0).getNumChildren() == 1);
+    assertTrue(node2.getChild(1).getName().equals("p"));
+    assertTrue(node2.getChild(1).getNumChildren() == 1);
     String chars1 = node2.getChild(0).getChild(0).getCharacters();
     String chars2 = node2.getChild(1).getChild(0).getCharacters();
-    assertTrue(chars1.equals( "This is my text"));
-    assertTrue(chars2.equals( "This is additional text"));
+    assertTrue(chars1.equals("This is my text"));
+    assertTrue(chars2.equals("This is additional text"));
     node = null;
     node1 = null;
   }
@@ -199,7 +199,7 @@ public class TestSBase {
   {
     XMLAttributes att = new  XMLAttributes();
     XMLNamespaces ns = new  XMLNamespaces();
-    ns.add( "http://www.w3.org/1999/xhtml", "");
+    ns.add("http://www.w3.org/1999/xhtml", "");
     XMLTriple html_triple = new  XMLTriple("html", "", "");
     XMLTriple head_triple = new  XMLTriple("head", "", "");
     XMLTriple title_triple = new  XMLTriple("title", "", "");
@@ -239,26 +239,26 @@ public class TestSBase {
     sbase.setNotes(html_node);
     sbase.appendNotes(html_node1);
     notes = sbase.getNotes();
-    assertTrue(notes.getName().equals( "notes"));
-    assertTrue( notes.getNumChildren() == 1 );
+    assertTrue(notes.getName().equals("notes"));
+    assertTrue(notes.getNumChildren() == 1);
     child = notes.getChild(0);
-    assertTrue(child.getName().equals( "html"));
-    assertTrue( child.getNumChildren() == 2 );
+    assertTrue(child.getName().equals("html"));
+    assertTrue(child.getNumChildren() == 2);
     child = child.getChild(1);
-    assertTrue(child.getName().equals( "body"));
-    assertTrue( child.getNumChildren() == 2 );
+    assertTrue(child.getName().equals("body"));
+    assertTrue(child.getNumChildren() == 2);
     child1 = child.getChild(0);
-    assertTrue(child1.getName().equals( "p"));
-    assertTrue( child1.getNumChildren() == 1 );
+    assertTrue(child1.getName().equals("p"));
+    assertTrue(child1.getNumChildren() == 1);
     child1 = child1.getChild(0);
-    assertTrue(child1.getCharacters().equals( "This is my text"));
-    assertTrue( child1.getNumChildren() == 0 );
+    assertTrue(child1.getCharacters().equals("This is my text"));
+    assertTrue(child1.getNumChildren() == 0);
     child1 = child.getChild(1);
-    assertTrue(child1.getName().equals( "p"));
-    assertTrue( child1.getNumChildren() == 1 );
+    assertTrue(child1.getName().equals("p"));
+    assertTrue(child1.getNumChildren() == 1);
     child1 = child1.getChild(0);
-    assertTrue(child1.getCharacters().equals( "This is more text"));
-    assertTrue( child1.getNumChildren() == 0 );
+    assertTrue(child1.getCharacters().equals("This is more text"));
+    assertTrue(child1.getNumChildren() == 0);
     att = null;
     ns = null;
     html_triple = null;
@@ -287,7 +287,7 @@ public class TestSBase {
   {
     XMLAttributes att = new  XMLAttributes();
     XMLNamespaces ns = new  XMLNamespaces();
-    ns.add( "http://www.w3.org/1999/xhtml", "");
+    ns.add("http://www.w3.org/1999/xhtml", "");
     XMLTriple html_triple = new  XMLTriple("html", "", "");
     XMLTriple head_triple = new  XMLTriple("head", "", "");
     XMLTriple title_triple = new  XMLTriple("title", "", "");
@@ -322,26 +322,26 @@ public class TestSBase {
     sbase.setNotes(html_node);
     sbase.appendNotes(body_node1);
     notes = sbase.getNotes();
-    assertTrue(notes.getName().equals( "notes"));
-    assertTrue( notes.getNumChildren() == 1 );
+    assertTrue(notes.getName().equals("notes"));
+    assertTrue(notes.getNumChildren() == 1);
     child = notes.getChild(0);
-    assertTrue(child.getName().equals( "html"));
-    assertTrue( child.getNumChildren() == 2 );
+    assertTrue(child.getName().equals("html"));
+    assertTrue(child.getNumChildren() == 2);
     child = child.getChild(1);
-    assertTrue(child.getName().equals( "body"));
-    assertTrue( child.getNumChildren() == 2 );
+    assertTrue(child.getName().equals("body"));
+    assertTrue(child.getNumChildren() == 2);
     child1 = child.getChild(0);
-    assertTrue(child1.getName().equals( "p"));
-    assertTrue( child1.getNumChildren() == 1 );
+    assertTrue(child1.getName().equals("p"));
+    assertTrue(child1.getNumChildren() == 1);
     child1 = child1.getChild(0);
-    assertTrue(child1.getCharacters().equals( "This is my text"));
-    assertTrue( child1.getNumChildren() == 0 );
+    assertTrue(child1.getCharacters().equals("This is my text"));
+    assertTrue(child1.getNumChildren() == 0);
     child1 = child.getChild(1);
-    assertTrue(child1.getName().equals( "p"));
-    assertTrue( child1.getNumChildren() == 1 );
+    assertTrue(child1.getName().equals("p"));
+    assertTrue(child1.getNumChildren() == 1);
     child1 = child1.getChild(0);
-    assertTrue(child1.getCharacters().equals( "This is more text"));
-    assertTrue( child1.getNumChildren() == 0 );
+    assertTrue(child1.getCharacters().equals("This is more text"));
+    assertTrue(child1.getNumChildren() == 0);
     att = null;
     ns = null;
     html_triple = null;
@@ -369,7 +369,7 @@ public class TestSBase {
   {
     XMLAttributes att = new  XMLAttributes();
     XMLNamespaces ns = new  XMLNamespaces();
-    ns.add( "http://www.w3.org/1999/xhtml", "");
+    ns.add("http://www.w3.org/1999/xhtml", "");
     XMLTriple html_triple = new  XMLTriple("html", "", "");
     XMLTriple head_triple = new  XMLTriple("head", "", "");
     XMLTriple title_triple = new  XMLTriple("title", "", "");
@@ -402,26 +402,26 @@ public class TestSBase {
     sbase.setNotes(html_node);
     sbase.appendNotes(p_node1);
     notes = sbase.getNotes();
-    assertTrue(notes.getName().equals( "notes"));
-    assertTrue( notes.getNumChildren() == 1 );
+    assertTrue(notes.getName().equals("notes"));
+    assertTrue(notes.getNumChildren() == 1);
     child = notes.getChild(0);
-    assertTrue(child.getName().equals( "html"));
-    assertTrue( child.getNumChildren() == 2 );
+    assertTrue(child.getName().equals("html"));
+    assertTrue(child.getNumChildren() == 2);
     child = child.getChild(1);
-    assertTrue(child.getName().equals( "body"));
-    assertTrue( child.getNumChildren() == 2 );
+    assertTrue(child.getName().equals("body"));
+    assertTrue(child.getNumChildren() == 2);
     child1 = child.getChild(0);
-    assertTrue(child1.getName().equals( "p"));
-    assertTrue( child1.getNumChildren() == 1 );
+    assertTrue(child1.getName().equals("p"));
+    assertTrue(child1.getNumChildren() == 1);
     child1 = child1.getChild(0);
-    assertTrue(child1.getCharacters().equals( "This is my text"));
-    assertTrue( child1.getNumChildren() == 0 );
+    assertTrue(child1.getCharacters().equals("This is my text"));
+    assertTrue(child1.getNumChildren() == 0);
     child1 = child.getChild(1);
-    assertTrue(child1.getName().equals( "p"));
-    assertTrue( child1.getNumChildren() == 1 );
+    assertTrue(child1.getName().equals("p"));
+    assertTrue(child1.getNumChildren() == 1);
     child1 = child1.getChild(0);
-    assertTrue(child1.getCharacters().equals( "This is more text"));
-    assertTrue( child1.getNumChildren() == 0 );
+    assertTrue(child1.getCharacters().equals("This is more text"));
+    assertTrue(child1.getNumChildren() == 0);
     att = null;
     ns = null;
     html_triple = null;
@@ -448,7 +448,7 @@ public class TestSBase {
   {
     XMLAttributes att = new  XMLAttributes();
     XMLNamespaces ns = new  XMLNamespaces();
-    ns.add( "http://www.w3.org/1999/xhtml", "");
+    ns.add("http://www.w3.org/1999/xhtml", "");
     XMLTriple html_triple = new  XMLTriple("html", "", "");
     XMLTriple head_triple = new  XMLTriple("head", "", "");
     XMLTriple title_triple = new  XMLTriple("title", "", "");
@@ -483,26 +483,26 @@ public class TestSBase {
     sbase.setNotes(body_node);
     sbase.appendNotes(html_node1);
     notes = sbase.getNotes();
-    assertTrue(notes.getName().equals( "notes"));
-    assertTrue( notes.getNumChildren() == 1 );
+    assertTrue(notes.getName().equals("notes"));
+    assertTrue(notes.getNumChildren() == 1);
     child = notes.getChild(0);
-    assertTrue(child.getName().equals( "html"));
-    assertTrue( child.getNumChildren() == 2 );
+    assertTrue(child.getName().equals("html"));
+    assertTrue(child.getNumChildren() == 2);
     child = child.getChild(1);
-    assertTrue(child.getName().equals( "body"));
-    assertTrue( child.getNumChildren() == 2 );
+    assertTrue(child.getName().equals("body"));
+    assertTrue(child.getNumChildren() == 2);
     child1 = child.getChild(0);
-    assertTrue(child1.getName().equals( "p"));
-    assertTrue( child1.getNumChildren() == 1 );
+    assertTrue(child1.getName().equals("p"));
+    assertTrue(child1.getNumChildren() == 1);
     child1 = child1.getChild(0);
-    assertTrue(child1.getCharacters().equals( "This is my text"));
-    assertTrue( child1.getNumChildren() == 0 );
+    assertTrue(child1.getCharacters().equals("This is my text"));
+    assertTrue(child1.getNumChildren() == 0);
     child1 = child.getChild(1);
-    assertTrue(child1.getName().equals( "p"));
-    assertTrue( child1.getNumChildren() == 1 );
+    assertTrue(child1.getName().equals("p"));
+    assertTrue(child1.getNumChildren() == 1);
     child1 = child1.getChild(0);
-    assertTrue(child1.getCharacters().equals( "This is more text"));
-    assertTrue( child1.getNumChildren() == 0 );
+    assertTrue(child1.getCharacters().equals("This is more text"));
+    assertTrue(child1.getNumChildren() == 0);
     att = null;
     ns = null;
     html_triple = null;
@@ -528,7 +528,7 @@ public class TestSBase {
   {
     XMLAttributes att = new  XMLAttributes();
     XMLNamespaces ns = new  XMLNamespaces();
-    ns.add( "http://www.w3.org/1999/xhtml", "");
+    ns.add("http://www.w3.org/1999/xhtml", "");
     XMLTriple html_triple = new  XMLTriple("html", "", "");
     XMLTriple head_triple = new  XMLTriple("head", "", "");
     XMLTriple title_triple = new  XMLTriple("title", "", "");
@@ -561,26 +561,26 @@ public class TestSBase {
     sbase.setNotes(p_node);
     sbase.appendNotes(html_node1);
     notes = sbase.getNotes();
-    assertTrue(notes.getName().equals( "notes"));
-    assertTrue( notes.getNumChildren() == 1 );
+    assertTrue(notes.getName().equals("notes"));
+    assertTrue(notes.getNumChildren() == 1);
     child = notes.getChild(0);
-    assertTrue(child.getName().equals( "html"));
-    assertTrue( child.getNumChildren() == 2 );
+    assertTrue(child.getName().equals("html"));
+    assertTrue(child.getNumChildren() == 2);
     child = child.getChild(1);
-    assertTrue(child.getName().equals( "body"));
-    assertTrue( child.getNumChildren() == 2 );
+    assertTrue(child.getName().equals("body"));
+    assertTrue(child.getNumChildren() == 2);
     child1 = child.getChild(0);
-    assertTrue(child1.getName().equals( "p"));
-    assertTrue( child1.getNumChildren() == 1 );
+    assertTrue(child1.getName().equals("p"));
+    assertTrue(child1.getNumChildren() == 1);
     child1 = child1.getChild(0);
-    assertTrue(child1.getCharacters().equals( "This is my text"));
-    assertTrue( child1.getNumChildren() == 0 );
+    assertTrue(child1.getCharacters().equals("This is my text"));
+    assertTrue(child1.getNumChildren() == 0);
     child1 = child.getChild(1);
-    assertTrue(child1.getName().equals( "p"));
-    assertTrue( child1.getNumChildren() == 1 );
+    assertTrue(child1.getName().equals("p"));
+    assertTrue(child1.getNumChildren() == 1);
     child1 = child1.getChild(0);
-    assertTrue(child1.getCharacters().equals( "This is more text"));
-    assertTrue( child1.getNumChildren() == 0 );
+    assertTrue(child1.getCharacters().equals("This is more text"));
+    assertTrue(child1.getNumChildren() == 0);
     att = null;
     ns = null;
     html_triple = null;
@@ -605,7 +605,7 @@ public class TestSBase {
   {
     XMLAttributes att = new  XMLAttributes();
     XMLNamespaces ns = new  XMLNamespaces();
-    ns.add( "http://www.w3.org/1999/xhtml", "");
+    ns.add("http://www.w3.org/1999/xhtml", "");
     XMLTriple body_triple = new  XMLTriple("body", "", "");
     XMLTriple p_triple = new  XMLTriple("p", "", "");
     XMLToken body_token = new  XMLNode(body_triple,att,ns);
@@ -627,23 +627,23 @@ public class TestSBase {
     sbase.setNotes(body_node);
     sbase.appendNotes(body_node1);
     notes = sbase.getNotes();
-    assertTrue(notes.getName().equals( "notes"));
-    assertTrue( notes.getNumChildren() == 1 );
+    assertTrue(notes.getName().equals("notes"));
+    assertTrue(notes.getNumChildren() == 1);
     child = notes.getChild(0);
-    assertTrue(child.getName().equals( "body"));
-    assertTrue( child.getNumChildren() == 2 );
+    assertTrue(child.getName().equals("body"));
+    assertTrue(child.getNumChildren() == 2);
     child1 = child.getChild(0);
-    assertTrue(child1.getName().equals( "p"));
-    assertTrue( child1.getNumChildren() == 1 );
+    assertTrue(child1.getName().equals("p"));
+    assertTrue(child1.getNumChildren() == 1);
     child1 = child1.getChild(0);
-    assertTrue(child1.getCharacters().equals( "This is my text"));
-    assertTrue( child1.getNumChildren() == 0 );
+    assertTrue(child1.getCharacters().equals("This is my text"));
+    assertTrue(child1.getNumChildren() == 0);
     child1 = child.getChild(1);
-    assertTrue(child1.getName().equals( "p"));
-    assertTrue( child1.getNumChildren() == 1 );
+    assertTrue(child1.getName().equals("p"));
+    assertTrue(child1.getNumChildren() == 1);
     child1 = child1.getChild(0);
-    assertTrue(child1.getCharacters().equals( "This is more text"));
-    assertTrue( child1.getNumChildren() == 0 );
+    assertTrue(child1.getCharacters().equals("This is more text"));
+    assertTrue(child1.getNumChildren() == 0);
     att = null;
     ns = null;
     body_triple = null;
@@ -664,7 +664,7 @@ public class TestSBase {
   {
     XMLAttributes att = new  XMLAttributes();
     XMLNamespaces ns = new  XMLNamespaces();
-    ns.add( "http://www.w3.org/1999/xhtml", "");
+    ns.add("http://www.w3.org/1999/xhtml", "");
     XMLTriple body_triple = new  XMLTriple("body", "", "");
     XMLTriple p_triple = new  XMLTriple("p", "", "");
     XMLToken body_token = new  XMLNode(body_triple,att,ns);
@@ -685,23 +685,23 @@ public class TestSBase {
     sbase.setNotes(p_node);
     sbase.appendNotes(body_node1);
     notes = sbase.getNotes();
-    assertTrue(notes.getName().equals( "notes"));
-    assertTrue( notes.getNumChildren() == 1 );
+    assertTrue(notes.getName().equals("notes"));
+    assertTrue(notes.getNumChildren() == 1);
     child = notes.getChild(0);
-    assertTrue(child.getName().equals( "body"));
-    assertTrue( child.getNumChildren() == 2 );
+    assertTrue(child.getName().equals("body"));
+    assertTrue(child.getNumChildren() == 2);
     child1 = child.getChild(0);
-    assertTrue(child1.getName().equals( "p"));
-    assertTrue( child1.getNumChildren() == 1 );
+    assertTrue(child1.getName().equals("p"));
+    assertTrue(child1.getNumChildren() == 1);
     child1 = child1.getChild(0);
-    assertTrue(child1.getCharacters().equals( "This is my text"));
-    assertTrue( child1.getNumChildren() == 0 );
+    assertTrue(child1.getCharacters().equals("This is my text"));
+    assertTrue(child1.getNumChildren() == 0);
     child1 = child.getChild(1);
-    assertTrue(child1.getName().equals( "p"));
-    assertTrue( child1.getNumChildren() == 1 );
+    assertTrue(child1.getName().equals("p"));
+    assertTrue(child1.getNumChildren() == 1);
     child1 = child1.getChild(0);
-    assertTrue(child1.getCharacters().equals( "This is more text"));
-    assertTrue( child1.getNumChildren() == 0 );
+    assertTrue(child1.getCharacters().equals("This is more text"));
+    assertTrue(child1.getNumChildren() == 0);
     att = null;
     ns = null;
     body_triple = null;
@@ -722,7 +722,7 @@ public class TestSBase {
   {
     XMLAttributes att = new  XMLAttributes();
     XMLNamespaces ns = new  XMLNamespaces();
-    ns.add( "http://www.w3.org/1999/xhtml", "");
+    ns.add("http://www.w3.org/1999/xhtml", "");
     XMLTriple body_triple = new  XMLTriple("body", "", "");
     XMLTriple p_triple = new  XMLTriple("p", "", "");
     XMLToken body_token = new  XMLNode(body_triple,att,ns);
@@ -743,23 +743,23 @@ public class TestSBase {
     sbase.setNotes(body_node);
     sbase.appendNotes(p_node1);
     notes = sbase.getNotes();
-    assertTrue(notes.getName().equals( "notes"));
-    assertTrue( notes.getNumChildren() == 1 );
+    assertTrue(notes.getName().equals("notes"));
+    assertTrue(notes.getNumChildren() == 1);
     child = notes.getChild(0);
-    assertTrue(child.getName().equals( "body"));
-    assertTrue( child.getNumChildren() == 2 );
+    assertTrue(child.getName().equals("body"));
+    assertTrue(child.getNumChildren() == 2);
     child1 = child.getChild(0);
-    assertTrue(child1.getName().equals( "p"));
-    assertTrue( child1.getNumChildren() == 1 );
+    assertTrue(child1.getName().equals("p"));
+    assertTrue(child1.getNumChildren() == 1);
     child1 = child1.getChild(0);
-    assertTrue(child1.getCharacters().equals( "This is my text"));
-    assertTrue( child1.getNumChildren() == 0 );
+    assertTrue(child1.getCharacters().equals("This is my text"));
+    assertTrue(child1.getNumChildren() == 0);
     child1 = child.getChild(1);
-    assertTrue(child1.getName().equals( "p"));
-    assertTrue( child1.getNumChildren() == 1 );
+    assertTrue(child1.getName().equals("p"));
+    assertTrue(child1.getNumChildren() == 1);
     child1 = child1.getChild(0);
-    assertTrue(child1.getCharacters().equals( "This is more text"));
-    assertTrue( child1.getNumChildren() == 0 );
+    assertTrue(child1.getCharacters().equals("This is more text"));
+    assertTrue(child1.getNumChildren() == 0);
     att = null;
     ns = null;
     body_triple = null;
@@ -794,31 +794,31 @@ public class TestSBase {
     "</notes>";
     
     sbase.setNotes(notes);
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     sbase.appendNotes(newnotes);
     String notes1 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(stripIndentation(taggednewnotes).equals(notes1));
 
     sbase.setNotes(notes);
     sbase.appendNotes(newnotes2);
     String notes2 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(stripIndentation(taggednewnotes2).equals(notes2));
     
     sbase.setNotes(notes);
     sbase.appendNotes(newnotes3);
     String notes3 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
 
     assertTrue(stripIndentation(taggednewnotes).equals(notes3));
     
     sbase.setNotes(notes);
     sbase.appendNotes(newnotes4);
     String notes4 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(stripIndentation(taggednewnotes2).equals(notes4));
   }
@@ -883,14 +883,14 @@ public class TestSBase {
     sbase.appendNotes(addnotes);
     
     String notes1 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(stripIndentation(taggednewnotes).equals(notes1));
     
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes2);
     String notes2 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
 
     assertTrue(stripIndentation(taggednewnotes).equals(notes2));
     
@@ -960,14 +960,14 @@ public class TestSBase {
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes);
     String notes1 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
 
     assertTrue(stripIndentation(taggednewnotes).equals(notes1));
     
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes2);
     String notes2 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(stripIndentation(taggednewnotes).equals(notes2));
   }
@@ -1018,28 +1018,28 @@ public class TestSBase {
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes);
     String notes1 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(stripIndentation(taggednewnotes).equals(notes1));
 
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes2);
     String notes2 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(stripIndentation(taggednewnotes2).equals(notes2));
 
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes3);
     String notes3 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(stripIndentation(taggednewnotes).equals(notes3));
     
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes4);
     String notes4 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(stripIndentation(taggednewnotes2).equals(notes4));
   }
@@ -1085,14 +1085,14 @@ public class TestSBase {
     
     sbase.appendNotes(addnotes);
     String notes1 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(stripIndentation(taggednewnotes).equals(notes1));
     
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes2);
     String notes2 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(stripIndentation(taggednewnotes).equals(notes2));
   }
@@ -1137,14 +1137,14 @@ public class TestSBase {
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes);
     String notes1 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
 
     assertTrue(stripIndentation(taggednewnotes).equals(notes1));
     
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes2);
     String notes2 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(stripIndentation(taggednewnotes).equals(notes2));
   }
@@ -1173,14 +1173,14 @@ public class TestSBase {
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes);
     String notes1 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(stripIndentation(taggednewnotes).equals(notes1));
     
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes2);
     String notes2 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(stripIndentation(taggednewnotes).equals(notes2));
   }
@@ -1209,14 +1209,14 @@ public class TestSBase {
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes);
     String notes1 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
 
     assertTrue(stripIndentation(taggednewnotes).equals(notes1));
     
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes2);
     String notes2 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(stripIndentation(taggednewnotes).equals(notes2));
   }
@@ -1258,28 +1258,28 @@ public class TestSBase {
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes);
     String notes1 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(taggednewnotes.equals(notes1));
 
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes2);
     String notes2 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(taggednewnotes2.equals(notes2));
     
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes3);
     String notes3 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(taggednewnotes.equals(notes3));
     
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes4);
     String notes4 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(taggednewnotes2.equals(notes4));
   }
@@ -1329,21 +1329,21 @@ public class TestSBase {
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes);
     String notes1 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(taggednewnotes.equals(notes1));
 
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes2);
     String notes2 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(taggednewnotes2.equals(notes2));
     
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes3);
     String notes3 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
 //    System.out.println("Notes1:" + notes3);
 //    System.out.println("Notes2:" + taggednewnotes3);
@@ -1353,7 +1353,7 @@ public class TestSBase {
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes4);
     String notes4 = stripIndentation(sbase.getNotesString());
-    assertTrue( sbase.isSetNotes() == true );
+    assertTrue(sbase.isSetNotes() == true);
     
     assertTrue(taggednewnotes2.equals(notes4));
   }
@@ -1363,16 +1363,16 @@ public class TestSBase {
   {
     CVTerm cv = new  CVTerm(CVTerm.Qualifier.BQB_ENCODES);
 
-    cv.addResource( "foo");
-    sbase.setMetaId( "sbase1");
+    cv.addResource("foo");
+    sbase.setMetaId("sbase1");
     sbase.addCVTerm(cv);
-    assertTrue( sbase.getResourceBiologicalQualifier( "foo") == CVTerm.Qualifier.BQB_ENCODES );
+    assertTrue(sbase.getResourceBiologicalQualifier("foo") == CVTerm.Qualifier.BQB_ENCODES);
     
     CVTerm cv1 = new  CVTerm(libsbml.MODEL_QUALIFIER);
     cv1.setModelQualifierType(libsbml.BQM_IS);
-    cv1.addResource( "bar");
+    cv1.addResource("bar");
     sbase.addCVTerm(cv1);
-    assertTrue( sbase.getResourceModelQualifier( "bar") == libsbml.BQM_IS );
+    assertTrue(sbase.getResourceModelQualifier("bar") == libsbml.BQM_IS);
     cv = null;
     cv1 = null;
   }
@@ -1387,29 +1387,29 @@ public class TestSBase {
     token = new  XMLNode("This is a test note");
     node = new XMLNode(token);
     sbase.setAnnotation(node);
-    assertTrue( sbase.isSetAnnotation() == true );
+    assertTrue(sbase.isSetAnnotation() == true);
     XMLNode t1 = sbase.getAnnotation();
-    assertTrue( t1.getNumChildren() == 1 );
-    assertTrue(t1.getChild(0).getCharacters().equals( "This is a test note"));
+    assertTrue(t1.getNumChildren() == 1);
+    assertTrue(t1.getChild(0).getCharacters().equals("This is a test note"));
     if (sbase.getAnnotation() == node);
     {
     }
     sbase.setAnnotation(sbase.getAnnotation());
-    assertTrue(sbase.getAnnotation().getChild(0).getCharacters().equals( "This is a test note"));
+    assertTrue(sbase.getAnnotation().getChild(0).getCharacters().equals("This is a test note"));
     sbase.setAnnotation((XMLNode)null);
-    assertTrue( sbase.isSetAnnotation() == false );
+    assertTrue(sbase.isSetAnnotation() == false);
     if (sbase.getAnnotation() != null);
     {
     }
     sbase.setAnnotation(node);
-    assertTrue( sbase.isSetAnnotation() == true );
+    assertTrue(sbase.isSetAnnotation() == true);
     sbase.unsetAnnotation();
-    assertTrue( sbase.isSetAnnotation() == false );
+    assertTrue(sbase.isSetAnnotation() == false);
     token = new  XMLNode("(CR) &#0168; &#x00a8; &#x00A8; (NOT CR) &#; &#x; &#00a8; &#0168 &#x00a8");
     node = new XMLNode(token);
     sbase.setAnnotation(node);
     t1 = sbase.getAnnotation();
-    assertTrue( t1.getNumChildren() == 1 );
+    assertTrue(t1.getNumChildren() == 1);
     String s = t1.getChild(0).toXMLString();
     String expected =  "(CR) &#0168; &#x00a8; &#x00A8; (NOT CR) &amp;#; &amp;#x; &amp;#00a8; &amp;#0168 &amp;#x00a8";
     assertTrue(s.equals(expected));
@@ -1417,7 +1417,7 @@ public class TestSBase {
     node = new XMLNode(token);
     sbase.setAnnotation(node);
     t1 = sbase.getAnnotation();
-    assertTrue( t1.getNumChildren() == 1 );
+    assertTrue(t1.getNumChildren() == 1);
     String s2 = t1.getChild(0).toXMLString();
     String expected2 =  "&amp; &apos; &gt; &lt; &quot; &amp; &apos; &gt; &lt; &quot;";
     assertTrue(s2.equals(expected2));
@@ -1430,32 +1430,32 @@ public class TestSBase {
     String annotation =  "This is a test note";
     String taggedannotation =  "<annotation>This is a test note</annotation>";
     sbase.setAnnotation(annotation);
-    assertTrue( sbase.isSetAnnotation() == true );
+    assertTrue(sbase.isSetAnnotation() == true);
     if (!sbase.getAnnotationString().equals(taggedannotation));
     {
     }
     XMLNode t1 = sbase.getAnnotation();
-    assertTrue( t1.getNumChildren() == 1 );
-    assertTrue(t1.getChild(0).getCharacters().equals( "This is a test note"));
+    assertTrue(t1.getNumChildren() == 1);
+    assertTrue(t1.getChild(0).getCharacters().equals("This is a test note"));
     sbase.setAnnotation(sbase.getAnnotationString());
     t1 = sbase.getAnnotation();
-    assertTrue( t1.getNumChildren() == 1 );
+    assertTrue(t1.getNumChildren() == 1);
     String chars = sbase.getAnnotationString();
     assertTrue(chars.equals(taggedannotation));
-    sbase.setAnnotation( "");
-    assertTrue( sbase.isSetAnnotation() == false );
+    sbase.setAnnotation("");
+    assertTrue(sbase.isSetAnnotation() == false);
     if (sbase.getAnnotationString() != null);
     {
     }
     sbase.setAnnotation(taggedannotation);
-    assertTrue( sbase.isSetAnnotation() == true );
+    assertTrue(sbase.isSetAnnotation() == true);
     if (!sbase.getAnnotationString().equals(taggedannotation));
     {
     }
     t1 = sbase.getAnnotation();
-    assertTrue( t1.getNumChildren() == 1 );
+    assertTrue(t1.getNumChildren() == 1);
     XMLNode t2 = t1.getChild(0);
-    assertTrue(t2.getCharacters().equals( "This is a test note"));
+    assertTrue(t2.getCharacters().equals("This is a test note"));
   }
   */
   
@@ -1464,14 +1464,14 @@ public class TestSBase {
     String metaid =  "x12345";
     sbase.setMetaId(metaid);
     assertTrue(sbase.getMetaId().equals(metaid));
-    assertEquals( true, sbase.isSetMetaId() );
+    assertEquals(true, sbase.isSetMetaId());
     if (sbase.getMetaId() == metaid);
     {
     }
     sbase.setMetaId(sbase.getMetaId());
     assertTrue(sbase.getMetaId().equals(metaid));
     sbase.unsetMetaId(); // DIFF - SBase.setMetaId("") does not unset the metaid
-    assertEquals( false, sbase.isSetMetaId() );
+    assertEquals(false, sbase.isSetMetaId());
     if (sbase.getMetaId() != null);
     {
     }
@@ -1485,30 +1485,30 @@ public class TestSBase {
     token = new  XMLNode("This is a test note");
     node = new XMLNode(token);
     c.setNotes(node);
-    assertTrue( c.isSetNotes() == true );
+    assertTrue(c.isSetNotes() == true);
     if (c.getNotes() == node);
     {
     }
     XMLNode t1 = c.getNotes();
-    assertTrue( t1.getNumChildren() == 1 );
-    assertTrue(t1.getChild(0).getCharacters().equals( "This is a test note"));
+    assertTrue(t1.getNumChildren() == 1);
+    assertTrue(t1.getChild(0).getCharacters().equals("This is a test note"));
     c.setNotes(c.getNotes());
     t1 = c.getNotes();
-    assertTrue( t1.getNumChildren() == 1 );
+    assertTrue(t1.getNumChildren() == 1);
     String chars = t1.getChild(0).getCharacters();
-    assertTrue(chars.equals( "This is a test note"));
+    assertTrue(chars.equals("This is a test note"));
     c.setNotes((XMLNode)null);
-    assertTrue( c.isSetNotes() == false );
+    assertTrue(c.isSetNotes() == false);
     if (c.getNotes() != null);
     {
     }
     c.setNotes(node);
-    assertTrue( c.isSetNotes() == true );
+    assertTrue(c.isSetNotes() == true);
     token = new  XMLNode("(CR) &#0168; &#x00a8; &#x00A8; (NOT CR) &#; &#x; &#00a8; &#0168 &#x00a8");
     node = new XMLNode(token);
     c.setNotes(node);
     t1 = c.getNotes();
-    assertTrue( t1.getNumChildren() == 1 );
+    assertTrue(t1.getNumChildren() == 1);
     String s = t1.getChild(0).toXMLString();
     String expected =  "(CR) &#0168; &#x00a8; &#x00A8; (NOT CR) &amp;#; &amp;#x; &amp;#00a8; &amp;#0168 &amp;#x00a8";
     assertTrue(s.equals(expected));
@@ -1516,7 +1516,7 @@ public class TestSBase {
     node = new XMLNode(token);
     c.setNotes(node);
     t1 = c.getNotes();
-    assertTrue( t1.getNumChildren() == 1 );
+    assertTrue(t1.getNumChildren() == 1);
     String s2 = t1.getChild(0).toXMLString();
     String expected2 =  "&amp; &apos; &gt; &lt; &quot; &amp; &apos; &gt; &lt; &quot;";
     assertTrue(s2.equals(expected2));
@@ -1530,33 +1530,33 @@ public class TestSBase {
     String notes =  "This is a test note";
     String taggednotes =  "<notes>This is a test note</notes>";
     c.setNotes(notes);
-    assertTrue( c.isSetNotes() == true );
+    assertTrue(c.isSetNotes() == true);
     if (!c.getNotesString().equals(taggednotes));
     {
     }
     XMLNode t1 = c.getNotes();
-    assertTrue( t1.getNumChildren() == 1 );
+    assertTrue(t1.getNumChildren() == 1);
     XMLNode t2 = t1.getChild(0);
-    assertTrue(t2.getCharacters().equals( "This is a test note"));
+    assertTrue(t2.getCharacters().equals("This is a test note"));
     c.setNotes(c.getNotesString());
     t1 = c.getNotes();
-    assertTrue( t1.getNumChildren() == 1 );
+    assertTrue(t1.getNumChildren() == 1);
     String chars = c.getNotesString();
     assertTrue(chars.equals(taggednotes));
     c.setNotes("");
-    assertTrue( c.isSetNotes() == false );
+    assertTrue(c.isSetNotes() == false);
     if (c.getNotesString() != null);
     {
     }
     c.setNotes(taggednotes);
-    assertTrue( c.isSetNotes() == true );
+    assertTrue(c.isSetNotes() == true);
     if (!c.getNotesString().equals(taggednotes));
     {
     }
     t1 = c.getNotes();
-    assertTrue( t1.getNumChildren() == 1 );
+    assertTrue(t1.getNumChildren() == 1);
     t2 = t1.getChild(0);
-    assertTrue(t2.getCharacters().equals( "This is a test note"));
+    assertTrue(t2.getCharacters().equals("This is a test note"));
   }
 
   @Test public void test_SBase_setNotesString_l3() throws XMLStreamException
@@ -1565,7 +1565,7 @@ public class TestSBase {
     String notes =  "This is a test note";
     String taggednotes = "<notes>\n" + "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is a test note</p>\n" + "</notes>";
     c.setNotes(notes);
-    assertTrue( c.isSetNotes() == false );
+    assertTrue(c.isSetNotes() == false);
   }
 
   @Test public void test_SBase_setNotesString_l3_addMarkup() throws XMLStreamException
@@ -1574,37 +1574,37 @@ public class TestSBase {
     String notes =  "This is a test note";
     String taggednotes = "<notes>\n" + "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is a test note</p>\n" + "</notes>";
     c.setNotes(notes); // DIFF - we don't have the method SBase.setNotes(String, boolean) 
-    assertTrue( c.isSetNotes() == true );
+    assertTrue(c.isSetNotes() == true);
     if (!c.getNotesString().equals(taggednotes));
     {
     }
     XMLNode t1 = c.getNotes();
-    assertTrue( t1.getNumChildren() == 1 );
+    assertTrue(t1.getNumChildren() == 1);
     XMLNode t2 = t1.getChild(0);
-    assertTrue( t2.getNumChildren() == 1 );
+    assertTrue(t2.getNumChildren() == 1);
     XMLNode t3 = t2.getChild(0);
-    assertTrue(t3.getCharacters().equals( "This is a test note"));
+    assertTrue(t3.getCharacters().equals("This is a test note"));
     c.setNotes(c.getNotesString());
     t1 = c.getNotes();
-    assertTrue( t1.getNumChildren() == 1 );
+    assertTrue(t1.getNumChildren() == 1);
     String chars = c.getNotesString();
     assertTrue(chars.equals(taggednotes));
     c.setNotes("");
-    assertTrue( c.isSetNotes() == false );
+    assertTrue(c.isSetNotes() == false);
     if (c.getNotesString() != null);
     {
     }
     c.setNotes(taggednotes);
-    assertTrue( c.isSetNotes() == true );
+    assertTrue(c.isSetNotes() == true);
     if (!c.getNotesString().equals(taggednotes));
     {
     }
     t1 = c.getNotes();
-    assertTrue( t1.getNumChildren() == 1 );
+    assertTrue(t1.getNumChildren() == 1);
     t2 = t1.getChild(0);
-    assertTrue( t2.getNumChildren() == 1 );
+    assertTrue(t2.getNumChildren() == 1);
     t3 = t2.getChild(0);
-    assertTrue(t3.getCharacters().equals( "This is a test note"));
+    assertTrue(t3.getCharacters().equals("This is a test note"));
   }
   
   /*
@@ -1633,22 +1633,22 @@ public class TestSBase {
     "  </rdf:RDF>\n" + 
     "</annotation>";
     sbase.setAnnotation(annt);
-    assertTrue( sbase.isSetAnnotation() == true );
+    assertTrue(sbase.isSetAnnotation() == true);
     assertTrue(sbase.getAnnotationString().equals(annt));
     sbase.unsetAnnotation();
-    assertTrue( sbase.isSetAnnotation() == false );
-    assertTrue( sbase.getAnnotation() == null );
+    assertTrue(sbase.isSetAnnotation() == false);
+    assertTrue(sbase.getAnnotation() == null);
     sbase.setAnnotation(annt);
-    sbase.setMetaId( "_000001");
+    sbase.setMetaId("_000001");
     cv = new  CVTerm(libsbml.BIOLOGICAL_QUALIFIER);
     cv.setBiologicalQualifierType(libsbml.BQB_IS);
-    cv.addResource( "http://www.geneontology.org/#GO:0005895");
+    cv.addResource("http://www.geneontology.org/#GO:0005895");
     sbase.addCVTerm(cv);
-    assertTrue( sbase.isSetAnnotation() == true );
+    assertTrue(sbase.isSetAnnotation() == true);
     assertTrue(sbase.getAnnotationString().equals(annt_with_cvterm));
     sbase.unsetAnnotation();
-    assertTrue( sbase.isSetAnnotation() == false );
-    assertTrue( sbase.getAnnotation() == null );
+    assertTrue(sbase.isSetAnnotation() == false);
+    assertTrue(sbase.getAnnotation() == null);
     cv = null;
   }
   */
@@ -1694,13 +1694,13 @@ public class TestSBase {
     "  </rdf:RDF>\n" + 
     "</annotation>";
     sbase.setAnnotation(annt);
-    assertTrue( sbase.isSetAnnotation() == true );
+    assertTrue(sbase.isSetAnnotation() == true);
     assertTrue(sbase.getAnnotationString().equals(annt));
     sbase.unsetAnnotation();
-    assertTrue( sbase.isSetAnnotation() == false );
-    assertTrue( sbase.getAnnotation() == null );
+    assertTrue(sbase.isSetAnnotation() == false);
+    assertTrue(sbase.getAnnotation() == null);
     sbase.setAnnotation(annt);
-    sbase.setMetaId( "_000001");
+    sbase.setMetaId("_000001");
     c.setFamilyName("Keating");
     c.setGivenName("Sarah");
     c.setEmail("sbml-team@caltech.edu");
@@ -1710,11 +1710,11 @@ public class TestSBase {
     dm = new  Date(2005,12,30,12,15,45,1,2,0);
     h.setModifiedDate(dm);
     sbase.setModelHistory(h);
-    assertTrue( sbase.isSetAnnotation() == true );
+    assertTrue(sbase.isSetAnnotation() == true);
     assertTrue(sbase.getAnnotationString().equals(annt_with_modelhistory));
     sbase.unsetAnnotation();
-    assertTrue( sbase.isSetAnnotation() == false );
-    assertTrue( sbase.getAnnotation() == null );
+    assertTrue(sbase.isSetAnnotation() == false);
+    assertTrue(sbase.getAnnotation() == null);
     c = null;
     h = null;
   }
@@ -1724,26 +1724,26 @@ public class TestSBase {
   {
     CVTerm cv = new  CVTerm(CVTerm.Qualifier.BQB_ENCODES);
 
-    cv.addResource( "foo");
-    sbase.setMetaId( "sbase1");
+    cv.addResource("foo");
+    sbase.setMetaId("sbase1");
     sbase.addCVTerm(cv);
 
     CVTerm cv1 = new  CVTerm(CVTerm.Qualifier.BQB_IS);
-    cv1.addResource( "bar");
+    cv1.addResource("bar");
     sbase.addCVTerm(cv1);
     
     CVTerm cv2 = new  CVTerm(CVTerm.Qualifier.BQB_IS);
-    cv2.addResource( "bar1");
+    cv2.addResource("bar1");
     sbase.addCVTerm(cv2);
     
     CVTerm cv4 = new  CVTerm(CVTerm.Qualifier.BQB_IS);
-    cv4.addResource( "bar1");
+    cv4.addResource("bar1");
     sbase.addCVTerm(cv4);
     
-    assertTrue( sbase.getNumCVTerms() == 4 );
+    assertTrue(sbase.getNumCVTerms() == 4);
     sbase.unsetCVTerms();
-    assertTrue( sbase.getNumCVTerms() == 0 );
-    assertTrue( sbase.getCVTerms().size() == 0 ); // DIFF - SBase.getCVTerms() never return null 
+    assertTrue(sbase.getNumCVTerms() == 0);
+    assertTrue(sbase.getCVTerms().size() == 0); // DIFF - SBase.getCVTerms() never return null 
     cv = null;
     cv2 = null;
     cv1 = null;

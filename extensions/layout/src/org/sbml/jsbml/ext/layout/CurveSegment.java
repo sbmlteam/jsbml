@@ -57,9 +57,9 @@ public abstract class CurveSegment extends AbstractSBase {
         throw new IllegalArgumentException();
       }
 
-      for(Type v : values())
+      for (Type v : values())
       {
-        if(value.equalsIgnoreCase(v.getXmlString()))
+        if (value.equalsIgnoreCase(v.getXmlString()))
         {
           return v;
         }

@@ -25,7 +25,6 @@ import java.util.Map;
 
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.ext.layout.Curve;
 
 /**
  * Implements the {@link Curve} concept from the SBML render extension.

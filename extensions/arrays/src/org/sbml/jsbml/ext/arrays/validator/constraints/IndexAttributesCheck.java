@@ -62,13 +62,13 @@ public class IndexAttributesCheck extends ArraysConstraint {
   public void check() {
     boolean isComp = false;
     
-    if(model == null || index == null) {
+    if (model == null || index == null) {
       return;
     }
 
     String refAttribute = index.getReferencedAttribute();
 
-    if(index.getParentSBMLObject() == null || index.getParentSBMLObject().getParentSBMLObject() == null)
+    if (index.getParentSBMLObject() == null || index.getParentSBMLObject().getParentSBMLObject() == null)
     {
       logger.debug(MessageFormat.format(
         "WARNING: Index objects must be associated with a parent but {0} does not have a parent."
@@ -79,7 +79,7 @@ public class IndexAttributesCheck extends ArraysConstraint {
 
     SBase parent = index.getParentSBMLObject().getParentSBMLObject();
 
-    if(refAttribute == null) {
+    if (refAttribute == null) {
       String msg = "Index objects should have a value for attribute arrays:referencedAttribute. However, the referenced attribute"
         + "of Index" + index.toString() + " for object " + parent.toString() + " doesn't have a value.";
       logIndexMissingAttribute(msg);
@@ -88,7 +88,7 @@ public class IndexAttributesCheck extends ArraysConstraint {
 
     String[] parse = refAttribute.split(":");
 
-    if(parse.length == 2 && parse[0].equals("comp"))
+    if (parse.length == 2 && parse[0].equals("comp"))
     {
       isComp = true;
     }
@@ -96,8 +96,8 @@ public class IndexAttributesCheck extends ArraysConstraint {
     String refValue = parent.writeXMLAttributes().get(refAttribute);
 
     // TODO: split at ':'
-    if(refValue == null) {
-      if(isComp)
+    if (refValue == null) {
+      if (isComp)
       {
         String shortMsg ="Array validation has encountered indices for references to variables defined outside this SBML document,"
             + "so it currently cannot validate whether these indices are valid.";
@@ -115,8 +115,8 @@ public class IndexAttributesCheck extends ArraysConstraint {
 
     SBase refSBase = model.findNamedSBase(refValue);
 
-    if(refSBase == null) {
-      if(isComp)
+    if (refSBase == null) {
+      if (isComp)
       {
         String shortMsg ="Array validation has encountered indices for references to variables defined outside this SBML document,"
             + "so it currently cannot validate whether these indices are valid.";
@@ -133,7 +133,7 @@ public class IndexAttributesCheck extends ArraysConstraint {
     }
 
     ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) refSBase.getExtension(ArraysConstants.shortLabel);
-    if(!index.isSetArrayDimension()) {
+    if (!index.isSetArrayDimension()) {
       String msg = "Index objects should have a value for attribute arrays:arrayDimension but SBase "
           + parent.toString() + " has index "
           + index.toString() + " without a value for arrays:arrayDimension.";
@@ -143,7 +143,7 @@ public class IndexAttributesCheck extends ArraysConstraint {
     int arrayDimension = index.getArrayDimension();
     Dimension dim = arraysSBasePlugin.getDimensionByArrayDimension(arrayDimension);
 
-    if(dim == null) {
+    if (dim == null) {
       String msg = "The SIdRef of an Index object should have arrays:arrayDimension of same value of the Index object."
         + "Index " + index.toString() + " is referring to arrays:arrayDimension " + arrayDimension + " but "
           + refSBase.toString() + " doesn't have a Dimension object with arrays:arrayDimension " + arrayDimension + ".";
@@ -152,7 +152,7 @@ public class IndexAttributesCheck extends ArraysConstraint {
 
     boolean isStaticComp = ArraysMath.isStaticallyComputable(model, index);
 
-    if(!isStaticComp) {
+    if (!isStaticComp) {
       String msg = "Index math should be statically computable, meaning that it should only contain dimension ids or constant values but index "
           + index.toString() + " of object " + parent.toString() + " is not statically computable.";
       logNotStaticComp(msg);
@@ -161,8 +161,8 @@ public class IndexAttributesCheck extends ArraysConstraint {
     //TODO: needs to check all bounds
     boolean isBounded = ArraysMath.evaluateIndexBounds(model, index);
 
-    if(!isBounded) {
-      if(isComp)
+    if (!isBounded) {
+      if (isComp)
       {
         String shortMsg ="Array validation has encountered indices for references to variables defined outside this SBML document,"
             + "so it currently cannot validate whether these indices are valid.";

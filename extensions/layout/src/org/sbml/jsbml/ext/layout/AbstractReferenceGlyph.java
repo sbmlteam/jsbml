@@ -23,7 +23,6 @@ package org.sbml.jsbml.ext.layout;
 
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
-import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
 /**
  * Abstract super class for all kinds of glyphs that graphically represent an

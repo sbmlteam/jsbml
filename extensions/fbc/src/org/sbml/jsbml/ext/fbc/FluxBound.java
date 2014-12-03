@@ -92,9 +92,9 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
         throw new IllegalArgumentException();
       }
 
-      for(Operation v : values())
+      for (Operation v : values())
       {
-        if(value.equalsIgnoreCase(v.id))
+        if (value.equalsIgnoreCase(v.id))
         {
           return v;
         }

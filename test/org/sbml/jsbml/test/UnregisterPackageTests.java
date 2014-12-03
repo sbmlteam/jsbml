@@ -21,7 +21,6 @@
  */
 package org.sbml.jsbml.test;
 
-
 import static org.junit.Assert.assertTrue;
 
 import javax.xml.stream.XMLStreamException;
@@ -43,7 +42,6 @@ import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
-import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.Dimension;
@@ -387,7 +385,7 @@ public class UnregisterPackageTests {
 
   }
 
-  
+
   /**
    * The Port 'id' is registered a first time in the CompSBasePlugin
    * when it is created. And a second time when the plugin is added
@@ -395,66 +393,66 @@ public class UnregisterPackageTests {
    * 
    */
   @Test public void testCompRegisteringTwice() {
-      Reaction r2 = model.createReaction("R2");
-      SpeciesReference ref = new SpeciesReference(3,1);
-      ref.setId("SP3");
-      ref.setSpecies("S1");
-      CompSBasePlugin sBasePlugin = (CompSBasePlugin) ref.getPlugin(CompConstants.shortLabel);
-      ReplacedBy replacedBy = sBasePlugin.createReplacedBy();
-      replacedBy.setIdRef("S1");
-      replacedBy.setMetaId("CMeta1");
-      r2.addReactant(ref);
-      
-      assertTrue(doc.findSBase("CMeta1").equals(replacedBy));  
-      ref.unsetPlugin(CompConstants.shortLabel);
-      assertTrue(doc.findSBase("CMeta1") == null);
-      
-      CompModelPlugin comp = new CompModelPlugin(model);
+    Reaction r2 = model.createReaction("R2");
+    SpeciesReference ref = new SpeciesReference(3,1);
+    ref.setId("SP3");
+    ref.setSpecies("S1");
+    CompSBasePlugin sBasePlugin = (CompSBasePlugin) ref.getPlugin(CompConstants.shortLabel);
+    ReplacedBy replacedBy = sBasePlugin.createReplacedBy();
+    replacedBy.setIdRef("S1");
+    replacedBy.setMetaId("CMeta1");
+    r2.addReactant(ref);
 
-      Port port = comp.createPort();
-      port.setId("c");
-      port.setIdRef("s");
-      port.setMetaId("CPortMeta1");
-      SBaseRef sbaseRef = port.createSBaseRef();
-      sbaseRef.setPortRef("S1");
-      sbaseRef.setMetaId("CMeta1");
-      SBaseRef sbaseRefRecursive = sbaseRef.createSBaseRef();
-      sbaseRefRecursive.setMetaId("CMeta2");
-      
-      model.addExtension(CompConstants.namespaceURI, comp);
+    assertTrue(doc.findSBase("CMeta1").equals(replacedBy));
+    ref.unsetPlugin(CompConstants.shortLabel);
+    assertTrue(doc.findSBase("CMeta1") == null);
 
-      assertTrue(doc.findSBase("CPortMeta1").equals(port));  
-      assertTrue(doc.findSBase("CMeta2").equals(sbaseRefRecursive));
-      assertTrue(doc.findSBase("CMeta1").equals(sbaseRef));
+    CompModelPlugin comp = new CompModelPlugin(model);
 
-      String docString = null;
-      
-      try {
-        docString = new SBMLWriter().writeSBMLToString(doc);
-        
-        SBMLDocument docReadFromStr = new SBMLReader().readSBMLFromString(docString);
-        
-        assertTrue(docReadFromStr.findSBase("CMeta1").equals(sbaseRef));  
-        assertTrue(docReadFromStr.findSBase("CMeta2").equals(sbaseRefRecursive));
-        assertTrue(docReadFromStr.findSBase("CPortMeta1").equals(port));  
-        
-      } catch (SBMLException e) {
-        e.printStackTrace();
-        assertTrue(false);
-      } catch (XMLStreamException e) {
-        e.printStackTrace();
-        assertTrue(false);
-      }
-      
-      SBMLDocument clonedDoc = doc.clone();
-      
-      assertTrue(clonedDoc.findSBase("CPortMeta1") != null);  
-      assertTrue(clonedDoc.findSBase("CMeta1").equals(sbaseRef));  
-      assertTrue(clonedDoc.findSBase("CMeta2").equals(sbaseRefRecursive));
-      
+    Port port = comp.createPort();
+    port.setId("c");
+    port.setIdRef("s");
+    port.setMetaId("CPortMeta1");
+    SBaseRef sbaseRef = port.createSBaseRef();
+    sbaseRef.setPortRef("S1");
+    sbaseRef.setMetaId("CMeta1");
+    SBaseRef sbaseRefRecursive = sbaseRef.createSBaseRef();
+    sbaseRefRecursive.setMetaId("CMeta2");
+
+    model.addExtension(CompConstants.namespaceURI, comp);
+
+    assertTrue(doc.findSBase("CPortMeta1").equals(port));
+    assertTrue(doc.findSBase("CMeta2").equals(sbaseRefRecursive));
+    assertTrue(doc.findSBase("CMeta1").equals(sbaseRef));
+
+    String docString = null;
+
+    try {
+      docString = new SBMLWriter().writeSBMLToString(doc);
+
+      SBMLDocument docReadFromStr = new SBMLReader().readSBMLFromString(docString);
+
+      assertTrue(docReadFromStr.findSBase("CMeta1").equals(sbaseRef));
+      assertTrue(docReadFromStr.findSBase("CMeta2").equals(sbaseRefRecursive));
+      assertTrue(docReadFromStr.findSBase("CPortMeta1").equals(port));
+
+    } catch (SBMLException e) {
+      e.printStackTrace();
+      assertTrue(false);
+    } catch (XMLStreamException e) {
+      e.printStackTrace();
+      assertTrue(false);
+    }
+
+    SBMLDocument clonedDoc = doc.clone();
+
+    assertTrue(clonedDoc.findSBase("CPortMeta1") != null);
+    assertTrue(clonedDoc.findSBase("CMeta1").equals(sbaseRef));
+    assertTrue(clonedDoc.findSBase("CMeta2").equals(sbaseRefRecursive));
+
   }
-  
-  
+
+
   @Test public void testFbc() {
 
     FBCModelPlugin fbcModel = (FBCModelPlugin) model.getPlugin(FBCConstants.namespaceURI_L3V1V1);
@@ -928,13 +926,13 @@ public class UnregisterPackageTests {
     dimX.setArrayDimension(0);
     dimX.setMetaId("ADMeta1");
     r2.addReactant(ref);
-    
+
     assertTrue(doc.findSBase("ADMeta1").equals(dimX));
   }
-  
+
   @Test public void testArraysUnsetListOfDimensions() {
 
-    SpeciesReference sp1 = (SpeciesReference) model.findNamedSBase("SP1");    
+    SpeciesReference sp1 = (SpeciesReference) model.findNamedSBase("SP1");
     ArraysSBasePlugin arraysTestPlugin = (ArraysSBasePlugin) sp1.getPlugin(ArraysConstants.shortLabel);
 
     Dimension d1 = arraysTestPlugin.createDimension("AD1");

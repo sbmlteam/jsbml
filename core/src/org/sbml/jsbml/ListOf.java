@@ -853,7 +853,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
   public boolean removeAll(Collection<?> c) {
     boolean success = listOf.removeAll(c);
     if (success) { // TODO: a success does not mean that all elements from c have been removed from the listOf
-      for(Iterator<?> i = c.iterator(); i.hasNext();) {
+      for (Iterator<?> i = c.iterator(); i.hasNext();) {
         SBase element = (SBase) i.next();
         element.fireNodeRemovedEvent();
       }
@@ -893,7 +893,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
   @Override
   public boolean retainAll(Collection<?> c) {
     boolean modified = false;
-    for(T element : listOf) {
+    for (T element : listOf) {
       if (!c.contains(element)) {
         listOf.remove(element);
         ((TreeNodeWithChangeSupport) element).fireNodeRemovedEvent();

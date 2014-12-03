@@ -87,7 +87,7 @@ public class ParserManager {
       try {
         ReadingParser readingParser = readingParserList.next();
 
-        if( readingParser != null) {
+        if (readingParser != null) {
 
           String packageName = "core";
 
@@ -113,12 +113,12 @@ public class ParserManager {
     }
 
     // loading the WritingParsers
-    Iterator<WritingParser> service_list2 = ServiceLoader.load( WritingParser.class).iterator();
+    Iterator<WritingParser> service_list2 = ServiceLoader.load(WritingParser.class).iterator();
     while (service_list2.hasNext()) {
       try {
         WritingParser writingParser = service_list2.next();
 
-        if( writingParser != null) {
+        if (writingParser != null) {
 
           String packageName = "core";
 
@@ -220,7 +220,7 @@ public class ParserManager {
       try {
         ReadingParser readingParser = readingParserList.next();
 
-        if( readingParser != null) {
+        if (readingParser != null) {
 
           for (String namespaceURI : readingParser.getNamespaces()) {
             clonedMap.put(namespaceURI, readingParser);
@@ -250,7 +250,7 @@ public class ParserManager {
       try {
         ReadingParser readingParser = readingParserList.next();
 
-        if( readingParser != null && readingParser instanceof WritingParser) {
+        if (readingParser != null && readingParser instanceof WritingParser) {
 
           for (String namespaceURI : readingParser.getNamespaces()) {
             clonedMap.put(namespaceURI, (WritingParser) readingParser);
@@ -262,13 +262,13 @@ public class ParserManager {
       }
     }
 
-    Iterator<WritingParser> service_list2 = ServiceLoader.load( WritingParser.class).iterator();
+    Iterator<WritingParser> service_list2 = ServiceLoader.load(WritingParser.class).iterator();
 
     while (service_list2.hasNext()) {
       try {
         WritingParser writingParser = service_list2.next();
 
-        if( writingParser != null) {
+        if (writingParser != null) {
 
           for (String namespaceURI : writingParser.getNamespaces()) {
             clonedMap.put(namespaceURI, writingParser);

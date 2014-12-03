@@ -26,16 +26,15 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.Model;
-
 /**
- * The {@link ReferenceGlyph} element describes the graphical connection between an arbitrary
- * {@link GraphicalObject} (or derived element) and a {@link GeneralGlyph} (which would be an
- * arrow or some curve in most cases). A {@link ReferenceGlyph} inherits from
- * {@link GraphicalObject}. Additionally it has a mandatory attribute 'glyph' and two optional
- * attributes 'reference' and 'role'. Optionally, the ReferenceGlyph also has an element 'curve'.
- * The ReferenceGlyph should either contain a bounding box or a curve specification. If both
- * are given, the bounding box should be ignored.
+ * The {@link ReferenceGlyph} element describes the graphical connection between
+ * an arbitrary {@link GraphicalObject} (or derived element) and a
+ * {@link GeneralGlyph} (which would be an  arrow or some curve in most cases).
+ * A {@link ReferenceGlyph} inherits from {@link GraphicalObject}. Additionally,
+ * it has a mandatory attribute 'glyph' and two optional attributes 'reference'
+ * and 'role'. Optionally, the ReferenceGlyph also has an element 'curve'.
+ * The {@link ReferenceGlyph} should either contain a bounding box or a curve
+ * specification. If both are given, the bounding box should be ignored.
  *
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich

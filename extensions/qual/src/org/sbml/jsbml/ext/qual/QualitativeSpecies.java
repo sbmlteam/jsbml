@@ -26,7 +26,6 @@ import java.util.Map;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.LevelVersionError;
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.UniqueNamedSBase;

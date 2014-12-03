@@ -166,7 +166,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   public ASTNodeValue abs(ASTNode value) throws SBMLException {
 
     ASTNodeValue result = value.compile(this);
-    if(result.isNumber()) {
+    if (result.isNumber()) {
       return new ASTNodeValue(Math.abs(result.toDouble()), this);
     } else {
       return unknownValue();
@@ -179,9 +179,9 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue and(List<ASTNode> values) throws SBMLException {
     boolean result;
-    if(values.size() > 0) {
+    if (values.size() > 0) {
       result = values.get(0).compile(this).toBoolean();
-      for(int i = 1; i < values.size(); ++i) {
+      for (int i = 1; i < values.size(); ++i) {
         result &= values.get(i).compile(this).toBoolean();
       }
 
@@ -197,7 +197,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue arccos(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(Math.acos(nodeValue.toDouble()), this);
     }
     return unknownValue();
@@ -209,7 +209,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue arccosh(ASTNode value) throws SBMLException {
     ASTNodeValue result = value.compile(this);
-    if(result.isNumber()) {
+    if (result.isNumber()) {
       return new ASTNodeValue(Maths.arccosh(result.toDouble()), this);
     } else {
       return unknownValue();
@@ -222,7 +222,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue arccot(ASTNode value) throws SBMLException {
     ASTNodeValue result = value.compile(this);
-    if(result.isNumber()) {
+    if (result.isNumber()) {
       return new ASTNodeValue(Maths.arccot(result.toDouble()), this);
     } else {
       return unknownValue();
@@ -235,7 +235,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue arccoth(ASTNode value) throws SBMLException {
     ASTNodeValue result = value.compile(this);
-    if(result.isNumber()) {
+    if (result.isNumber()) {
       return new ASTNodeValue(Maths.arccoth(result.toDouble()), this);
     } else {
       return unknownValue();
@@ -248,7 +248,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue arccsc(ASTNode value) throws SBMLException {
     ASTNodeValue result = value.compile(this);
-    if(result.isNumber()) {
+    if (result.isNumber()) {
       return new ASTNodeValue(Maths.arccsc(result.toDouble()), this);
     } else {
       return unknownValue();
@@ -261,7 +261,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue arccsch(ASTNode value) throws SBMLException {
     ASTNodeValue result = value.compile(this);
-    if(result.isNumber()) {
+    if (result.isNumber()) {
       return new ASTNodeValue(Maths.arccsch(result.toDouble()), this);
     } else {
       return unknownValue();
@@ -274,7 +274,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue arcsec(ASTNode value) throws SBMLException {
     ASTNodeValue result = value.compile(this);
-    if(result.isNumber()) {
+    if (result.isNumber()) {
       return new ASTNodeValue(Maths.arcsec(result.toDouble()), this);
     } else {
       return unknownValue();
@@ -287,7 +287,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue arcsech(ASTNode value) throws SBMLException {
     ASTNodeValue result = value.compile(this);
-    if(result.isNumber()) {
+    if (result.isNumber()) {
       return new ASTNodeValue(Maths.arcsech(result.toDouble()), this);
     } else {
       return unknownValue();
@@ -300,7 +300,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue arcsin(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(Math.asin(nodeValue.toDouble()), this);
     }
     return unknownValue();
@@ -312,7 +312,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue arcsinh(ASTNode value) throws SBMLException {
     ASTNodeValue result = value.compile(this);
-    if(result.isNumber()) {
+    if (result.isNumber()) {
       return new ASTNodeValue(Maths.arcsinh(result.toDouble()), this);
     } else {
       return unknownValue();
@@ -325,7 +325,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue arctan(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(Math.atan(nodeValue.toDouble()), this);
     }
     return unknownValue();
@@ -337,7 +337,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue arctanh(ASTNode value) throws SBMLException {
     ASTNodeValue result = value.compile(this);
-    if(result.isNumber()) {
+    if (result.isNumber()) {
       return new ASTNodeValue(Maths.arctanh(result.toDouble()), this);
     } else {
       return unknownValue();
@@ -350,7 +350,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue ceiling(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(Math.ceil(nodeValue.toDouble()), this);
     }
     return unknownValue();
@@ -395,7 +395,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
    */
   @Override
   public ASTNodeValue compile(CallableSBase variable) throws SBMLException {
-    if(variable instanceof Quantity) {
+    if (variable instanceof Quantity) {
       Quantity quantity = (Quantity) variable;
       return new ASTNodeValue(quantity.getValue(), this);
     }
@@ -408,7 +408,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
    */
   @Override
   public ASTNodeValue compile(String name) {
-    if(idToValue.containsKey(name)) {
+    if (idToValue.containsKey(name)) {
       return new ASTNodeValue(idToValue.get(name), this);
     }
     return unknownValue();
@@ -420,7 +420,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue cos(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(Math.cos(nodeValue.toDouble()), this);
     }
     return unknownValue();
@@ -432,7 +432,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue cosh(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(Math.cosh(nodeValue.toDouble()), this);
     }
     return unknownValue();
@@ -444,7 +444,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue cot(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(Maths.cot(nodeValue.toDouble()), this);
     }
     return unknownValue();
@@ -456,7 +456,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue coth(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(Maths.coth(nodeValue.toDouble()), this);
     }
     return unknownValue();
@@ -468,7 +468,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue csc(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(Maths.csc(nodeValue.toDouble()), this);
     }
     return unknownValue();
@@ -480,7 +480,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue csch(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(Maths.csch(nodeValue.toDouble()), this);
     }
     return unknownValue();
@@ -503,7 +503,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   public ASTNodeValue eq(ASTNode left, ASTNode right) throws SBMLException {
     ASTNodeValue leftValue = left.compile(this);
     ASTNodeValue rightValue = right.compile(this);
-    if(leftValue.isNumber() && rightValue.isNumber()) {
+    if (leftValue.isNumber() && rightValue.isNumber()) {
       return new ASTNodeValue(leftValue.toDouble() == rightValue.toDouble(), this);
     }
     return unknownValue();
@@ -515,7 +515,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue exp(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(Math.exp(nodeValue.toDouble()), this);
     }
     return unknownValue();
@@ -527,7 +527,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue factorial(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(Maths.factorial(nodeValue.toInteger()), this);
     }
     return unknownValue();
@@ -539,7 +539,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue floor(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(Math.floor(nodeValue.toDouble()), this);
     }
     return unknownValue();
@@ -553,7 +553,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
       throws SBMLException {
     ASTNodeValue numValue = numerator.compile(this);
     ASTNodeValue demValue = denominator.compile(this);
-    if(numerator.isNumber() && denominator.isNumber()) {
+    if (numerator.isNumber() && denominator.isNumber()) {
       return new ASTNodeValue(numValue.toDouble() / demValue.toDouble(), this);
     }
     return unknownValue();
@@ -593,7 +593,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   public ASTNodeValue geq(ASTNode left, ASTNode right) throws SBMLException {
     ASTNodeValue leftValue = left.compile(this);
     ASTNodeValue rightValue = right.compile(this);
-    if(leftValue.isNumber() && rightValue.isNumber()) {
+    if (leftValue.isNumber() && rightValue.isNumber()) {
       return new ASTNodeValue(leftValue.toDouble() >= rightValue.toDouble(), this);
     }
     return unknownValue();
@@ -663,7 +663,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   public ASTNodeValue gt(ASTNode left, ASTNode right) throws SBMLException {
     ASTNodeValue leftValue = left.compile(this);
     ASTNodeValue rightValue = right.compile(this);
-    if(leftValue.isNumber() && rightValue.isNumber()) {
+    if (leftValue.isNumber() && rightValue.isNumber()) {
       return new ASTNodeValue(leftValue.toDouble() > rightValue.toDouble(), this);
     }
     return unknownValue();
@@ -685,7 +685,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   public ASTNodeValue leq(ASTNode left, ASTNode right) throws SBMLException {
     ASTNodeValue leftValue = left.compile(this);
     ASTNodeValue rightValue = right.compile(this);
-    if(leftValue.isNumber() && rightValue.isNumber()) {
+    if (leftValue.isNumber() && rightValue.isNumber()) {
       return new ASTNodeValue(leftValue.toDouble() <= rightValue.toDouble(), this);
     }
     return unknownValue();
@@ -697,7 +697,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue ln(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(Math.log(nodeValue.toDouble()), this);
     }
     return unknownValue();
@@ -709,7 +709,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue log(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(Math.log10(nodeValue.toDouble()), this);
     }
     return unknownValue();
@@ -722,7 +722,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   public ASTNodeValue log(ASTNode base, ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
     ASTNodeValue nodeBase = base.compile(this);
-    if(nodeValue.isNumber() && nodeBase.isNumber()) {
+    if (nodeValue.isNumber() && nodeBase.isNumber()) {
       return new ASTNodeValue(Maths.log(nodeValue.toDouble(), nodeBase.toDouble()), this);
     }
     return unknownValue();
@@ -735,7 +735,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   public ASTNodeValue lt(ASTNode left, ASTNode right) throws SBMLException {
     ASTNodeValue leftValue = left.compile(this);
     ASTNodeValue rightValue = right.compile(this);
-    if(leftValue.isNumber() && rightValue.isNumber()) {
+    if (leftValue.isNumber() && rightValue.isNumber()) {
       return new ASTNodeValue(leftValue.toDouble() < rightValue.toDouble(), this);
     }
     return unknownValue();
@@ -747,11 +747,11 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue minus(List<ASTNode> values) throws SBMLException {
     double result = 0;
-    if(values.size() > 0) {
+    if (values.size() > 0) {
       ASTNodeValue astNodeValue = values.get(0).compile(this);
       result = astNodeValue.toDouble();
     }
-    for(int i = 1; i < values.size(); ++i) {
+    for (int i = 1; i < values.size(); ++i) {
       ASTNodeValue astNodeValue = values.get(i).compile(this);
       result -= astNodeValue.toDouble();
     }
@@ -765,7 +765,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   public ASTNodeValue neq(ASTNode left, ASTNode right) throws SBMLException {
     ASTNodeValue leftValue = left.compile(this);
     ASTNodeValue rightValue = right.compile(this);
-    if(leftValue.isNumber() && rightValue.isNumber()) {
+    if (leftValue.isNumber() && rightValue.isNumber()) {
       return new ASTNodeValue(leftValue.toDouble() != rightValue.toDouble(), this);
     }
     return unknownValue();
@@ -786,9 +786,9 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue or(List<ASTNode> values) throws SBMLException {
     boolean result;
-    if(values.size() > 0) {
+    if (values.size() > 0) {
       result = values.get(0).compile(this).toBoolean();
-      for(int i = 1; i < values.size(); ++i) {
+      for (int i = 1; i < values.size(); ++i) {
         result |= values.get(i).compile(this).toBoolean();
       }
 
@@ -813,9 +813,9 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue plus(List<ASTNode> values) throws SBMLException {
     double result = 0;
-    for(ASTNode value : values) {
+    for (ASTNode value : values) {
       ASTNodeValue astNodeValue = value.compile(this);
-      if(astNodeValue.isNumber()) {
+      if (astNodeValue.isNumber()) {
         result += astNodeValue.toDouble();
       } else {
         return unknownValue();
@@ -832,7 +832,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   public ASTNodeValue pow(ASTNode base, ASTNode exponent) throws SBMLException {
     ASTNodeValue astNodeBase = base.compile(this);
     ASTNodeValue astNodeExp = exponent.compile(this);
-    if(astNodeBase.isNumber() && astNodeExp.isNumber()) {
+    if (astNodeBase.isNumber() && astNodeExp.isNumber()) {
       double result = Math.pow(astNodeBase.toDouble(), astNodeExp.toDouble());
       return new ASTNodeValue(result, this);
     }
@@ -847,7 +847,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
       throws SBMLException {
     ASTNodeValue astNodeRad = radiant.compile(this);
     ASTNodeValue astNodeExp = rootExponent.compile(this);
-    if(astNodeRad.isNumber() && astNodeExp.isNumber()) {
+    if (astNodeRad.isNumber() && astNodeExp.isNumber()) {
       double result = Maths.root(astNodeRad.toDouble(), astNodeExp.toDouble());
       return new ASTNodeValue(result, this);
     }
@@ -869,7 +869,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue sec(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(Maths.sec(nodeValue.toDouble()), this);
     }
     return unknownValue();
@@ -881,7 +881,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue sech(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(Maths.sech(nodeValue.toDouble()), this);
     }
     return unknownValue();
@@ -894,18 +894,18 @@ public class ArraysCompiler implements ASTNodeCompiler{
   public ASTNodeValue selector(List<ASTNode> nodes) throws SBMLException {
     ASTNode object = nodes.get(0);
     ASTNode result;
-    if(object.isVector()) {
+    if (object.isVector()) {
       result = object;
-      for(int i = 1; i < nodes.size(); ++i) {
+      for (int i = 1; i < nodes.size(); ++i) {
         int index = (int) nodes.get(i).compile(this).toDouble();
         result = result.getChild(index);
 
       }
       return result.compile(this);
-    } else if(object.isVariable()) {
+    } else if (object.isVariable()) {
       compile(object.getVariable());
     }
-    else if(object.isString()) {
+    else if (object.isString()) {
       compile(object.getName());
     }
     return unknownValue();
@@ -917,7 +917,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue sin(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(Math.sin(nodeValue.toDouble()), this);
     }
     return unknownValue();
@@ -929,7 +929,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue sinh(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(Math.sinh(nodeValue.toDouble()), this);
     }
     return unknownValue();
@@ -941,7 +941,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue sqrt(ASTNode radiant) throws SBMLException {
     ASTNodeValue nodeRad = radiant.compile(this);
-    if(nodeRad.isNumber()) {
+    if (nodeRad.isNumber()) {
       return new ASTNodeValue(Math.sqrt(nodeRad.toDouble()), this);
     }
     return unknownValue();
@@ -952,7 +952,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
    */
   @Override
   public ASTNodeValue symbolTime(String time) {
-    if(idToValue.containsKey(time)) {
+    if (idToValue.containsKey(time)) {
       return new ASTNodeValue(idToValue.get(time), this);
     }
     return unknownValue();
@@ -964,7 +964,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue tan(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(Math.tan(nodeValue.toDouble()), this);
     }
     return unknownValue();
@@ -976,7 +976,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue tanh(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(Math.tanh(nodeValue.toDouble()), this);
     }
     return unknownValue();
@@ -988,11 +988,11 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue times(List<ASTNode> values) throws SBMLException {
     double result = 0;
-    if(values.size() > 0) {
+    if (values.size() > 0) {
       ASTNodeValue astNodeValue = values.get(0).compile(this);
       result = astNodeValue.toDouble();
     }
-    for(int i = 1; i < values.size(); ++i) {
+    for (int i = 1; i < values.size(); ++i) {
       ASTNodeValue astNodeValue = values.get(i).compile(this);
       result *= astNodeValue.toDouble();
     }
@@ -1005,7 +1005,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue uMinus(ASTNode value) throws SBMLException {
     ASTNodeValue nodeValue = value.compile(this);
-    if(nodeValue.isNumber()) {
+    if (nodeValue.isNumber()) {
       return new ASTNodeValue(-nodeValue.toDouble(), this);
     } else {
       return unknownValue();
@@ -1035,9 +1035,9 @@ public class ArraysCompiler implements ASTNodeCompiler{
   @Override
   public ASTNodeValue xor(List<ASTNode> values) throws SBMLException {
     boolean result;
-    if(values.size() > 0) {
+    if (values.size() > 0) {
       result = values.get(0).compile(this).toBoolean();
-      for(int i = 1; i < values.size(); ++i) {
+      for (int i = 1; i < values.size(); ++i) {
         result ^= values.get(i).compile(this).toBoolean();
       }
 

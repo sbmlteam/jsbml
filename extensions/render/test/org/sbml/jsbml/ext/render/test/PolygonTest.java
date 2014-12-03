@@ -140,17 +140,17 @@ public class PolygonTest {
     assertTrue(polygon.getListOfElements().getChildCount() == 0);
     RenderPoint rP=new RenderPoint();
     assertTrue(rP != null);
-    assertTrue( polygon.addElement(rP));
-    assertTrue( polygon.getListOfElements().getChildCount() == 1);
-    assertTrue( polygon.getListOfElements().get(0).equals(rP));
+    assertTrue(polygon.addElement(rP));
+    assertTrue(polygon.getListOfElements().getChildCount() == 1);
+    assertTrue(polygon.getListOfElements().get(0).equals(rP));
     RenderPoint rP2 = new RenderPoint();
     assertTrue (rP2 != null);
-    assertTrue( polygon.addElement(rP2));
-    assertTrue( polygon.getListOfElements().getChildCount() == 2);
+    assertTrue(polygon.addElement(rP2));
+    assertTrue(polygon.getListOfElements().getChildCount() == 2);
     RenderCubicBezier pCB = new RenderCubicBezier();
-    assertTrue( pCB != null);
-    assertTrue( polygon.addElement(pCB));
-    assertTrue( polygon.getListOfElements().getChildCount() == 3);
-    assertTrue( polygon.getListOfElements().get(1).equals(rP));
+    assertTrue(pCB != null);
+    assertTrue(polygon.addElement(pCB));
+    assertTrue(polygon.getListOfElements().getChildCount() == 3);
+    assertTrue(polygon.getListOfElements().get(1).equals(rP));
   }
 }

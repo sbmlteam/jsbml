@@ -281,7 +281,7 @@ public class XMLAttributes {
 
   /**
    * Removes an attribute with the given index from this {@link XMLAttributes} set.
-   * (This function is an alias of XMLAttributes.removeResource() ).
+   * (This function is an alias of XMLAttributes.removeResource()).
    * <p>
    * @param n an integer the index of the resource to be deleted
    * <p>

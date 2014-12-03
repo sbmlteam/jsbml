@@ -22,8 +22,6 @@
 package org.sbml.jsbml.ext.fbc;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -46,7 +44,6 @@ import org.sbml.jsbml.xml.XMLNode;
  */
 public class FBCModelPlugin extends AbstractSBasePlugin {
 
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
    */
@@ -54,7 +51,6 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
   public String getElementNamespace() {
     return FBCConstants.getNamespaceURI(getLevel(), getVersion());
   }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
@@ -608,7 +604,6 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
     }
 
     return null;
-
   }
 
 }

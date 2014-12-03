@@ -23,9 +23,6 @@ package org.sbml.jsbml.ext.comp;
 
 import java.util.Map;
 
-import org.omg.Dynamic.Parameter;
-import org.sbml.jsbml.Model;
-
 /**
  * 
  * A {@link ReplacedElement} object is essentially  a pointer to a  submodel
@@ -112,10 +109,10 @@ public class ReplacedElement extends SBaseRef {
     final int prime = 3167;
     int result = super.hashCode();
     result = prime * result
-      + ((conversionFactor == null) ? 0 : conversionFactor.hashCode());
+        + ((conversionFactor == null) ? 0 : conversionFactor.hashCode());
     result = prime * result + ((deletion == null) ? 0 : deletion.hashCode());
     result = prime * result
-      + ((submodelRef == null) ? 0 : submodelRef.hashCode());
+        + ((submodelRef == null) ? 0 : submodelRef.hashCode());
     return result;
   }
 

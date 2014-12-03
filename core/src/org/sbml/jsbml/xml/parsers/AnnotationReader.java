@@ -21,7 +21,6 @@
 package org.sbml.jsbml.xml.parsers;
 
 import org.sbml.jsbml.SBase;
-import org.sbml.jsbml.xml.XMLNode;
 
 /**
  * The interface to implement for the SBML parsers reading SBML annotations.

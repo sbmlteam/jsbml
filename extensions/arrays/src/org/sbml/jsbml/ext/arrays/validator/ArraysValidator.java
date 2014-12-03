@@ -82,14 +82,14 @@ public class ArraysValidator {
   public static List<SBMLError> validate(SBMLDocument document, boolean filter) {
     List<SBMLError> listOfErrors = validate(document);
     boolean hasAdded = false;
-    if(filter) {
-      for(int i = listOfErrors.size() - 1; i >= 0; i--)
+    if (filter) {
+      for (int i = listOfErrors.size() - 1; i >= 0; i--)
       {
         SBMLError error = listOfErrors.get(i);
 
-        if(error.getCode() == -1)
+        if (error.getCode() == -1)
         {
-          if(!hasAdded){
+          if (!hasAdded){
             hasAdded = true;
           }
           else
@@ -115,15 +115,15 @@ public class ArraysValidator {
 
     @SuppressWarnings("unchecked")
     Enumeration<TreeNode> children = node.children();
-    if(node instanceof SBase) {
+    if (node instanceof SBase) {
       listOfErrors.addAll(ExtendedSBaseValidator.validate(model, (SBase) node));
-      if(node instanceof Dimension) {
+      if (node instanceof Dimension) {
         listOfErrors.addAll(DimensionValidator.validate(model, (Dimension) node));
       }
-      if(node instanceof Index) {
+      if (node instanceof Index) {
         listOfErrors.addAll(IndexValidator.validate(model, (Index) node));
       }
-      if(node instanceof MathContainer) {
+      if (node instanceof MathContainer) {
         listOfErrors.addAll(ArraysMathValidator.validate(model, (MathContainer) node));
       }
     } 

@@ -58,9 +58,9 @@ public class SBaseWithDimensionCheck extends ArraysConstraint {
   public void check() {
     ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
 
-    if(arraysSBasePlugin != null)
+    if (arraysSBasePlugin != null)
     {
-      if(arraysSBasePlugin.isSetListOfDimensions()) {
+      if (arraysSBasePlugin.isSetListOfDimensions()) {
         String shortMsg = "The object " + sbase.toString() + " cannot have a listOfDimensions.";
         logDimensionError(shortMsg);
       }

@@ -130,7 +130,7 @@ public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin impl
    * Visualizes underlying HashMap which stores all
    * PluginSBases and their associated JSBML objects.
    */
-  private void printMap()
+  protected void printMap()
   {
     reader.printMap();
   }

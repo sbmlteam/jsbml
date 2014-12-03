@@ -22,8 +22,6 @@
 package org.sbml.jsbml.ext.render;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;

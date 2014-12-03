@@ -278,7 +278,7 @@ public class XMLTriple {
    */
   @Deprecated
   public boolean isEmpty() {
-    return ( getName().length() == 0
+    return (getName().length() == 0
         && getURI().length() == 0
         && getPrefix().length() == 0);
   }

@@ -25,12 +25,10 @@ package org.sbml.jsbml.util;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.util.filters.Filter;
 
 /**

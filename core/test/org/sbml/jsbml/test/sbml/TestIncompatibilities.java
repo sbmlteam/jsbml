@@ -62,7 +62,7 @@ public class TestIncompatibilities {
   @Test public void test_Compartment_get_type()
   {
     assertTrue(false);
-    //	    assertTrue( C.getTypeCode() == libsbml.SBML_COMPARTMENT ); // we need to implement the getTypeCode function in jsbml
+    //	    assertTrue(C.getTypeCode() == libsbml.SBML_COMPARTMENT); // we need to implement the getTypeCode function in jsbml
   }
 
   @Test public void test_Compartment_createWithNS()
@@ -71,34 +71,34 @@ public class TestIncompatibilities {
 
     /*
 	    XMLNamespaces xmlns = new  XMLNamespaces();
-	    xmlns.add( "http://www.sbml.org", "testsbml");
+	    xmlns.add("http://www.sbml.org", "testsbml");
 	    SBMLNamespaces sbmlns = new  SBMLNamespaces(2,1);
 	    sbmlns.addNamespaces(xmlns); */
 
     Compartment c = new  Compartment(2,1); // new  Compartment(sbmlns);
-    //	    assertTrue( c.getTypeCode() == libsbml.SBML_COMPARTMENT );
-    assertTrue( c.getMetaId().equals("") == true );
-    //	    assertTrue( c.getNotes() == null );
-    assertTrue( c.getAnnotation() == null );
-    assertTrue( c.getLevel() == 2 );
-    assertTrue( c.getVersion() == 1 );
-    assertTrue( c.getNamespace() != null );
-    //	    assertTrue( c.getNamespaces().getLength() == 2 );
-    assertTrue( c.getName().equals("") == true );
-    assertTrue( c.getSpatialDimensions() == 3d );
-    assertTrue( c.getConstant() == true );
+    //	    assertTrue(c.getTypeCode() == libsbml.SBML_COMPARTMENT);
+    assertTrue(c.getMetaId().equals("") == true);
+    //	    assertTrue(c.getNotes() == null);
+    assertTrue(c.getAnnotation() == null);
+    assertTrue(c.getLevel() == 2);
+    assertTrue(c.getVersion() == 1);
+    assertTrue(c.getNamespace() != null);
+    //	    assertTrue(c.getNamespaces().getLength() == 2);
+    assertTrue(c.getName().equals("") == true);
+    assertTrue(c.getSpatialDimensions() == 3d);
+    assertTrue(c.getConstant() == true);
     c = null;
   }
 
   @Test public void test_Compartment_getAnnotation()
   {
-    assertTrue( C.getAnnotation() == null ); // If not annotation are defined, we create an empty one
+    assertTrue(C.getAnnotation() == null); // If not annotation are defined, we create an empty one
   }
 
   @Test public void test_Compartment_getUnits()
   {
     C.setUnits("");
-    assertEquals( false, C.isSetUnits() );
+    assertEquals(false, C.isSetUnits());
     assertTrue(C.getUnits() == null); // we return ""
   }
 
@@ -107,11 +107,11 @@ public class TestIncompatibilities {
     assertTrue(false); // TODO: we need to implement the method sbase.hasRequiredAttributes() for all element
 
     Parameter p = new  Parameter(3,1);
-    //	    assertEquals( false, p.hasRequiredAttributes() );
-    p.setId( "id");
-    //	    assertEquals( false, p.hasRequiredAttributes() );
+    //	    assertEquals(false, p.hasRequiredAttributes());
+    p.setId("id");
+    //	    assertEquals(false, p.hasRequiredAttributes());
     p.setConstant(false);
-    //	    assertEquals( true, p.hasRequiredAttributes() );
+    //	    assertEquals(true, p.hasRequiredAttributes());
     p = null;
   }
 
@@ -123,7 +123,7 @@ public class TestIncompatibilities {
     o2 = E.createEventAssignment();
     o3 = E.createEventAssignment();
     o3.setVariable("test");
-    assertTrue( E.getEventAssignmentCount() == 3 );
+    assertTrue(E.getEventAssignmentCount() == 3);
 
   }
 
@@ -139,7 +139,7 @@ public class TestIncompatibilities {
     delay.setMath(math1);
     E.setDelay(delay);
     assertTrue(E.getDelay() != null);
-    assertEquals( true, E.isSetDelay() );
+    assertEquals(true, E.isSetDelay());
     if (E.getDelay() == delay) {
       ;
     }
@@ -148,7 +148,7 @@ public class TestIncompatibilities {
     E.setDelay(E.getDelay());
     assertTrue(E.getDelay() != delay); // We are not doing a copy of the object, so it is the same
     E.setDelay(null);
-    assertEquals( false, E.isSetDelay() );
+    assertEquals(false, E.isSetDelay());
     if (E.getDelay() != null) {
       ;
     }
@@ -168,7 +168,7 @@ public class TestIncompatibilities {
     trigger.setMath(math1);
     E.setTrigger(trigger);
     assertTrue(E.getTrigger() != null);
-    assertEquals( true, E.isSetTrigger() );
+    assertEquals(true, E.isSetTrigger());
     if (E.getTrigger() == trigger) {
       ;
     }
@@ -177,7 +177,7 @@ public class TestIncompatibilities {
     E.setTrigger(E.getTrigger());
     assertTrue(E.getTrigger() != trigger); // We are not doing a copy of the object, so it is the same
     E.setTrigger(null);
-    assertEquals( false, E.isSetTrigger() );
+    assertEquals(false, E.isSetTrigger());
     if (E.getTrigger() != null) {
       ;
     }
@@ -217,9 +217,9 @@ public class TestIncompatibilities {
     C.setLevel(1);
     C.setVersion(2);
     C.setVolume(1d); // Volume is not an SBML level 2 attribute, so we throw an exception to tell the user
-    assertTrue( C.getVolume() == 1d );
+    assertTrue(C.getVolume() == 1d);
     C.unsetVolume();
-    assertEquals( false, C.isSetVolume() );
+    assertEquals(false, C.isSetVolume());
   }
 
 }

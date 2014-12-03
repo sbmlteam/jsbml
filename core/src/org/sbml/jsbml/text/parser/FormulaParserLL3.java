@@ -59,8 +59,8 @@ import org.sbml.jsbml.resources.Resource;
      <th align="left">Associates</th>
  </tr>
 <tr><td><em>name</em></td><td>symbol reference</td><td>operand</td><td align="center">8</td><td>n/a</td></tr>
-<tr><td>{@code (}<em>expression</em>{@code )}</td><td>expression grouping</td><td>operand</td><td align="center">8</td><td>n/a</td></tr>
-<tr><td>{@code f(}<em>...</em>{@code )}</td><td>function call</td><td>prefix</td><td align="center">8</td><td>left</td></tr>
+<tr><td>{@code (}<em>expression</em>{@code)}</td><td>expression grouping</td><td>operand</td><td align="center">8</td><td>n/a</td></tr>
+<tr><td>{@code f(}<em>...</em>{@code)}</td><td>function call</td><td>prefix</td><td align="center">8</td><td>left</td></tr>
 <tr><td>{@code ^}</td><td>power</td><td>binary</td><td align="center">7</td><td>left</td></tr>
 <tr><td>{@code -, !}</td><td>negation and boolean 'not'</td><td>unary</td><td align="center">6</td><td>right</td></tr>
 <tr><td>{@code *, /, %}</td><td>multiplication, division, and modulo</td><td>binary</td><td align="center">5</td><td>left</td></tr>

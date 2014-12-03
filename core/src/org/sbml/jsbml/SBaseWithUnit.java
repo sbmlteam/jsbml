@@ -21,8 +21,6 @@
  */
 package org.sbml.jsbml;
 
-import org.sbml.jsbml.Unit.Kind;
-
 /**
  * Defines a kind of {@link SBase} that is equipped with a defined unit. This
  * means, instances of this interface have a derived unit and a defined unit and

@@ -50,7 +50,7 @@ public class AddNamespace {
     // but it is not working. In the output file written with:
 
     SBMLWriter ttt = new SBMLWriter();
-    System.out.println( ttt.writeSBMLToString(sbmlDoc) );
+    System.out.println(ttt.writeSBMLToString(sbmlDoc));
 
     // the "html" namespace is missing (no line with xmlns:html="http://www.w3.org/1999/xhtml")
     // Could you please tell me if it is a bug or if I am doing something wrong?

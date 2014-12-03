@@ -63,13 +63,13 @@ public class TestCVTerms {
     CVTerm term = new  CVTerm(); // TODO: difference to document => CVTerm term = new  CVTerm(CVTerm.Type.MODEL_QUALIFIER); constructor does not exist
     term.setQualifierType(CVTerm.Type.MODEL_QUALIFIER);
     String resource =  "GO6666";
-    assertTrue( term != null );
-    assertTrue( term.getQualifierType() == CVTerm.Type.MODEL_QUALIFIER ); // TODO: difference to document ==> CVTerm.Type.MODEL_QUALIFIER
+    assertTrue(term != null);
+    assertTrue(term.getQualifierType() == CVTerm.Type.MODEL_QUALIFIER); // TODO: difference to document ==> CVTerm.Type.MODEL_QUALIFIER
     term.addResource(resource);
     List<String> xa = term.getResources(); // TODO: difference to document ==> term.getResources(); does not return XMLAttributes but a List<String>
-    assertTrue( xa.size() == 1 );
-    // assertTrue(xa.getName(0).equals( "rdf:resource"));
-    assertTrue(xa.get(0).equals( "GO6666"));
+    assertTrue(xa.size() == 1);
+    // assertTrue(xa.getName(0).equals("rdf:resource"));
+    assertTrue(xa.get(0).equals("GO6666"));
     term = null;
   }
 
@@ -77,8 +77,8 @@ public class TestCVTerms {
   {
     CVTerm term = new  CVTerm();
     term.setQualifierType(CVTerm.Type.MODEL_QUALIFIER);
-    assertTrue( term != null );
-    assertTrue( term.getQualifierType() == CVTerm.Type.MODEL_QUALIFIER );
+    assertTrue(term != null);
+    assertTrue(term.getQualifierType() == CVTerm.Type.MODEL_QUALIFIER);
     term = null;
   }
 
@@ -93,7 +93,7 @@ public class TestCVTerms {
     XMLTriple bag_triple = new  XMLTriple();
     XMLTriple li_triple = new  XMLTriple();
     XMLAttributes att = new  XMLAttributes();
-    att.add( "", "This is my resource");
+    att.add("", "This is my resource");
     XMLAttributes att1 = new  XMLAttributes();
     XMLToken li_token = new  XMLToken(li_triple,att);
     XMLToken bag_token = new  XMLToken(bag_triple,att1);
@@ -104,13 +104,13 @@ public class TestCVTerms {
     bag.addChild(li);
     node.addChild(bag);
     CVTerm term = new  CVTerm(node);
-    assertTrue( term != null );
-    assertTrue( term.getQualifierType() == CVTerm.Type.BIOLOGICAL_QUALIFIER );
-    assertTrue( term.getBiologicalQualifierType() == libsbml.BQB_IS );
+    assertTrue(term != null);
+    assertTrue(term.getQualifierType() == CVTerm.Type.BIOLOGICAL_QUALIFIER);
+    assertTrue(term.getBiologicalQualifierType() == libsbml.BQB_IS);
     xa = term.getResources();
-    assertTrue( xa.getLength() == 1 );
-    assertTrue(xa.getName(0).equals( "rdf:resource"));
-    assertTrue(xa.getValue(0).equals( "This is my resource"));
+    assertTrue(xa.getLength() == 1);
+    assertTrue(xa.getName(0).equals("rdf:resource"));
+    assertTrue(xa.getValue(0).equals("This is my resource"));
     qual_triple = null;
     bag_triple = null;
     li_triple = null;
@@ -129,9 +129,9 @@ public class TestCVTerms {
   @Test public void test_CVTerm_getResources()
   {
     long number = term.getResourceCount();
-    assertTrue( number == 2 );
-    assertTrue(term.getResourceURI(0).equals( "GO6666"));
-    assertTrue(term.getResourceURI(1).equals( "OtherURI"));
+    assertTrue(number == 2);
+    assertTrue(term.getResourceURI(0).equals("GO6666"));
+    assertTrue(term.getResourceURI(1).equals("OtherURI"));
     term = null;
   }
 
@@ -139,28 +139,28 @@ public class TestCVTerms {
   {
     CVTerm term = new  CVTerm();
     term.setQualifierType(CVTerm.Type.MODEL_QUALIFIER);
-    assertTrue( term != null );
-    assertTrue( term.getQualifierType() == CVTerm.Type.MODEL_QUALIFIER );
+    assertTrue(term != null);
+    assertTrue(term.getQualifierType() == CVTerm.Type.MODEL_QUALIFIER);
     term.setModelQualifierType(CVTerm.Qualifier.BQM_IS); // TODO: difference to document ==> libsbml.BQM_IS become
-    assertTrue( term != null );
-    assertTrue( term.getQualifierType() == CVTerm.Type.MODEL_QUALIFIER );
-    assertTrue( term.getModelQualifierType() == CVTerm.Qualifier.BQM_IS );
+    assertTrue(term != null);
+    assertTrue(term.getQualifierType() == CVTerm.Type.MODEL_QUALIFIER);
+    assertTrue(term.getModelQualifierType() == CVTerm.Qualifier.BQM_IS);
     term.setQualifierType(CVTerm.Type.BIOLOGICAL_QUALIFIER);
     term.setBiologicalQualifierType(CVTerm.Qualifier.BQB_IS);
-    assertTrue( term.getQualifierType() == CVTerm.Type.BIOLOGICAL_QUALIFIER );
-    assertTrue( term.getBiologicalQualifierType() == CVTerm.Qualifier.BQB_IS );
+    assertTrue(term.getQualifierType() == CVTerm.Type.BIOLOGICAL_QUALIFIER);
+    assertTrue(term.getBiologicalQualifierType() == CVTerm.Qualifier.BQB_IS);
     term = null;
   }
   
   @Test public void test_CVTerm_removeResources()
   {
     long number = term.getResourceCount();
-    assertTrue( number == 2 );
+    assertTrue(number == 2);
 
     term.removeResource(resource1);
-    assertTrue( term.getResourceCount() == 1 );
+    assertTrue(term.getResourceCount() == 1);
     
-    assertTrue(term.getResourceURI(0).equals( "GO6666"));
+    assertTrue(term.getResourceURI(0).equals("GO6666"));
     term = null;
   }
   

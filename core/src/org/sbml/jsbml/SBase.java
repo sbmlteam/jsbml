@@ -23,7 +23,6 @@ package org.sbml.jsbml;
 
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import javax.xml.stream.XMLStreamException;
 

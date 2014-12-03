@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Utah, Salt Lake City, UT, USA
  *
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.xml.parsers;
 
@@ -35,7 +35,6 @@ import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.ext.arrays.Index;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
-
 /**
  * @author Leandro Watanabe
  * @version $Rev$
@@ -45,8 +44,11 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 @ProviderFor(ReadingParser.class)
 public class ArraysParser extends AbstractReaderWriter implements PackageParser {
 
+  /**
+   * A {@link Logger} for this class.
+   */
   private final Logger logger = Logger.getLogger(ArraysParser.class);
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.ReadingParser#getNamespaces()
    */
@@ -60,9 +62,9 @@ public class ArraysParser extends AbstractReaderWriter implements PackageParser 
    */
   @Override
   public SBasePlugin createPluginFor(SBase sbase) {
-    if(sbase != null) {
-      //if(sbase instanceof Model) {
-        return new ArraysSBasePlugin(sbase);
+    if (sbase != null) {
+      //if (sbase instanceof Model) {
+      return new ArraysSBasePlugin(sbase);
       //}
     }
     return null;
@@ -73,7 +75,7 @@ public class ArraysParser extends AbstractReaderWriter implements PackageParser 
    */
   @Override
   public String getNamespaceFor(int level, int version, int packageVersion) {
-    if(level == 3 && version == 1 && packageVersion == 1) {
+    if (level == 3 && version == 1 && packageVersion == 1) {
       return ArraysConstants.namespaceURI_L3V1V1;
     }
     return null;
@@ -111,36 +113,36 @@ public class ArraysParser extends AbstractReaderWriter implements PackageParser 
     String prefix, boolean hasAttributes, boolean hasNamespaces,
     Object contextObject) {
 
-    if(contextObject instanceof ListOf<?>)
+    if (contextObject instanceof ListOf<?>)
     {
       @SuppressWarnings("unchecked")
       ListOf<SBase> listOf = (ListOf<SBase>) contextObject;
       SBase sBase = listOf.getParent();
       ArraysSBasePlugin arraysPlugin = (ArraysSBasePlugin) sBase.getPlugin(ArraysConstants.shortLabel);
-      
-      if(elementName.equals("dimension")) {
+
+      if (elementName.equals("dimension")) {
         Dimension dimension = new Dimension();
         arraysPlugin.addDimension(dimension);
         return dimension;
-      } 
+      }
       else if (elementName.equals("index")) {
         Index index = new Index();
         arraysPlugin.addIndex(index);
         return index;
       }
     }
-    
-    else if(contextObject instanceof SBase)
+
+    else if (contextObject instanceof SBase)
     {
       SBase sBase = (SBase) contextObject;
-      
-      if(elementName.equals("listOfDimensions")) {
-        
+
+      if (elementName.equals("listOfDimensions")) {
+
         ArraysSBasePlugin arraysPlugin = (ArraysSBasePlugin) sBase.getPlugin(ArraysConstants.shortLabel);
 
         return arraysPlugin.getListOfDimensions();
       }
-      else if(elementName.equals("listOfIndices")) {
+      else if (elementName.equals("listOfIndices")) {
         ArraysSBasePlugin arraysPlugin = (ArraysSBasePlugin) sBase.getPlugin(ArraysConstants.shortLabel);
 
         return arraysPlugin.getListOfIndices();
@@ -170,15 +172,14 @@ public class ArraysParser extends AbstractReaderWriter implements PackageParser 
    */
   @Override
   public void writeElement(SBMLObjectForXML xmlObject, Object sbmlElementToWrite) {
-    
+
     super.writeElement(xmlObject, sbmlElementToWrite);
-    
+
     String name = xmlObject.getName();
 
     if (name.equals("listOfIndexs")) {
       xmlObject.setName(ArraysConstants.listOfIndices);
     }
   }
-  
- 
+
 }

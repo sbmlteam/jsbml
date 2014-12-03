@@ -21,12 +21,8 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBMLException;
-
 
 /**
  * @author Alex Thomas

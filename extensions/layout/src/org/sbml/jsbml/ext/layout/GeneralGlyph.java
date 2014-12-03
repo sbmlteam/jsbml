@@ -21,22 +21,12 @@
  */
 package org.sbml.jsbml.ext.layout;
 
-import java.awt.Event;
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.junit.Rule;
-import org.sbml.jsbml.Compartment;
-import org.sbml.jsbml.EventAssignment;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.Model;
-import org.sbml.jsbml.Reaction;
-import org.sbml.jsbml.Species;
-import org.sbml.jsbml.Trigger;
 import org.sbml.jsbml.util.ListOfWithName;
 
 /**

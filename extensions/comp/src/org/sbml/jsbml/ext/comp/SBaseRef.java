@@ -27,16 +27,14 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractSBase;
-import org.sbml.jsbml.UnitDefinition;
-
 
 /**
- * Contains the machinery for constructing references to specific components within enclosed models
- * or even within external models located in other files.
- * 
+ * Contains the machinery for constructing references to specific components
+ * within enclosed models or even within external models located in other files.
  * <p>
- * The four different attributes on SBaseRef are mutually exclusive: only one of the attributes can have a value at any
- * given time, and exactly one must have a value in a given SBaseRef object instance.
+ * The four different attributes on SBaseRef are mutually exclusive: only one of
+ * the attributes can have a value at any given time, and exactly one must have
+ * a value in a given SBaseRef object instance.
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$

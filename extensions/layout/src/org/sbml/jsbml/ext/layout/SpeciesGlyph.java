@@ -23,7 +23,6 @@ package org.sbml.jsbml.ext.layout;
 
 import java.util.Map;
 
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;

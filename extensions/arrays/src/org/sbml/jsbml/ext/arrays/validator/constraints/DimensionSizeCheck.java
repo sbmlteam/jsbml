@@ -55,11 +55,11 @@ public class DimensionSizeCheck extends ArraysConstraint{
   @Override
   public void check()
   {
-    if(model == null || dim == null) {
+    if (model == null || dim == null) {
       return;
     }
     
-    if(!dim.isSetSize()) {
+    if (!dim.isSetSize()) {
       String shortMsg = "Dimension objects shoud have a value for the attribute arrays:size but "
           + dim.toString() + "does not have one.";
       logMissingDimensionAttribute(shortMsg);
@@ -80,14 +80,14 @@ public class DimensionSizeCheck extends ArraysConstraint{
   {
     Parameter param = model.getParameter(id);
 
-    if(param == null) {
+    if (param == null) {
       String shortMsg = "The attribute arrays:size of a Dimension object should point to an existing parameter "
         + "but " + dim.toString() + "points to a non-existing parameter";
       logDimensionSizeInvalid(shortMsg);
       return;
     }
 
-    if(!param.isConstant()) {
+    if (!param.isConstant()) {
       String shortMsg = "The attribute arrays:size of a Dimension object should point to a constant parameter but "
           + dim.toString() + "has a non-constant value.";
       
@@ -95,13 +95,13 @@ public class DimensionSizeCheck extends ArraysConstraint{
     }
 
     // Test if it is an integer
-    if(param.getValue() % 1 != 0) {
+    if (param.getValue() % 1 != 0) {
       String shortMsg = "The attribute arrays:size of a Dimension object should point to a parameter containing"
         + "an integer value.";
       logDimensionSizeValueInconsistency(shortMsg);
     }
 
-    if(param.getValue()  < 0) {
+    if (param.getValue()  < 0) {
       String shortMsg = "The attribute arrays:size of a Dimension object should point to a parameter that has a non-negative"
         + "integer value but " + dim.toString() + "has a negative value.";
       logDimensionSizeValueInconsistency(shortMsg);
@@ -109,8 +109,8 @@ public class DimensionSizeCheck extends ArraysConstraint{
 
     ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) param.getExtension(ArraysConstants.shortLabel);
 
-    if(arraysSBasePlugin != null) {
-      if(arraysSBasePlugin.getDimensionCount() > 0) {
+    if (arraysSBasePlugin != null) {
+      if (arraysSBasePlugin.getDimensionCount() > 0) {
         String shortMsg = "The attribute arrays:size of a Dimension object should point to a scalar parameter but "
           + dim.toString() + "has a non-scalar value.";
         logDimensionSizeInvalid(shortMsg);

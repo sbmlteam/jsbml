@@ -211,7 +211,7 @@ public class LayoutConverter {
         ListOf<SpeciesReferenceGlyph> list = layout.getReactionGlyph("rGlyph_"+pReaction.getId()).getListOfSpeciesReferenceGlyphs();
         if (inputInfo.getPointsInLine().size()==1)
         {
-          Vector mainReactionAxis = (Vector)inputInfo.getPointsInLine().get(0);
+          Vector<Point2D> mainReactionAxis = (Vector<Point2D>) inputInfo.getPointsInLine().get(0);
           mainReactionAxis.set(0, new Point2D.Double(3d, 4d));
           inputInfo.setPointsInLine(mainReactionAxis);
 
@@ -226,7 +226,7 @@ public class LayoutConverter {
             Point2D.Double firstPoint = (Point2D.Double) mainReactionAxis.get(i);
             Point2D.Double nextPoint = (Point2D.Double) mainReactionAxis.get(i+1);
 
-            if(isPointOnLineSegment(firstPoint, nextPoint, pReaction))
+            if (isPointOnLineSegment(firstPoint, nextPoint, pReaction))
             {
               rGlyphSegment.setStart(new Point(pReaction.getConnectionPointX(), pReaction.getConnectionPointY(),z));
               rGlyphSegment.setEnd(new Point(pReaction.getConnectionPointX(), pReaction.getConnectionPointY(),z));
@@ -267,9 +267,9 @@ public class LayoutConverter {
         else if (inputInfo.getPointsInLine().size()>1)
         {
           List<Point2D.Double> allReactionPoints = new Vector<Point2D.Double>();
-          for (int i=0; i<inputInfo.getPointsInLine().size(); i++)
+          for (int i = 0; i<inputInfo.getPointsInLine().size(); i++)
           {
-            Vector vector = (Vector)inputInfo.getPointsInLine().get(i);
+            Vector<?> vector = (Vector<?>) inputInfo.getPointsInLine().get(i);
             for (Object pointDouble: vector)
             {
               if (pointDouble instanceof Point2D.Double) {
@@ -281,7 +281,7 @@ public class LayoutConverter {
 
           if (pReaction.getNumReactants()>pReaction.getNumProducts())
           {
-            if (((Vector)inputInfo.getPointsInLine().get(0)).size()==2)
+            if (((Vector<?>) inputInfo.getPointsInLine().get(0)).size()==2)
             {
               LineSegment reactantSegment = new LineSegment();
               LineSegment productSegment = new LineSegment();
@@ -329,7 +329,7 @@ public class LayoutConverter {
           PluginRealLineInformationDataObjOfReactionLink rtnLinesInfo =
               (PluginRealLineInformationDataObjOfReactionLink)inputInfo.getReactionLinkMembers().get(i);
           if (rtnLinesInfo.getPointsInLine().size()>0) {
-            Vector reactionLinkMembers = (Vector) rtnLinesInfo.getPointsInLine().get(0);
+            Vector<?> reactionLinkMembers = (Vector<?>) rtnLinesInfo.getPointsInLine().get(0);
             //if there is more than one reactant and we have not set a reactant, we know we are working with the reactants.
             if (pReaction.getNumReactants()>1 && !list.get("srGlyphReactant_"+pReaction.getId()+"_"
                 +pReaction.getReactant(pReaction.getNumReactants()-1).getSpeciesInstance().getId()).isSetCurve())
@@ -553,12 +553,12 @@ public class LayoutConverter {
    */
   private static boolean isPointOnLineSegment(Point2D.Double firstPoint, Point2D.Double nextPoint, PluginReaction pReaction)
   {
-    if (!( (firstPoint.x <= pReaction.getConnectionPointX() && pReaction.getConnectionPointX() <= nextPoint.x) || (nextPoint.x <= pReaction.getConnectionPointX() && pReaction.getConnectionPointX() <= firstPoint.x) ))
+    if (!((firstPoint.x <= pReaction.getConnectionPointX() && pReaction.getConnectionPointX() <= nextPoint.x) || (nextPoint.x <= pReaction.getConnectionPointX() && pReaction.getConnectionPointX() <= firstPoint.x)))
     {
       // test point not in x-range
       return false;
     }
-    if (!( (firstPoint.y <= pReaction.getConnectionPointY() && pReaction.getConnectionPointY() <= nextPoint.y) || (nextPoint.y <= pReaction.getConnectionPointY() && pReaction.getConnectionPointY() <= firstPoint.y) ))
+    if (!((firstPoint.y <= pReaction.getConnectionPointY() && pReaction.getConnectionPointY() <= nextPoint.y) || (nextPoint.y <= pReaction.getConnectionPointY() && pReaction.getConnectionPointY() <= firstPoint.y)))
     {
       // test point not in y-range
       return false;

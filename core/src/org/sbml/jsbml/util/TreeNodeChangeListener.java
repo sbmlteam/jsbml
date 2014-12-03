@@ -25,8 +25,6 @@ import java.beans.PropertyChangeListener;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.SBMLDocument;
-
 /**
  * A listener interface that allows applications to get notified if the state of
  * any {@link TreeNode} object changes.

@@ -18,10 +18,7 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.test;
-
-import junit.framework.TestSuite;
 
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -34,7 +31,6 @@ import org.sbml.jsbml.ext.render.test.RenderJUnitTests;
 import org.sbml.jsbml.xml.test.LibsbmlCompatibilityTests;
 import org.sbml.jsbml.xml.test.Tests;
 
-
 /**
  * Junit {@link TestSuite} to regroup all the tests done for jsbml-core and the L3 packages.
  *
@@ -46,10 +42,9 @@ import org.sbml.jsbml.xml.test.Tests;
 @SuiteClasses(value={Tests.class, LibsbmlCompatibilityTests.class, LayoutJUnitTests.class, RenderJUnitTests.class,
   UnregisterPackageTests.class, ArraysJUnitTests.class, DisablePackageTests.class, TestL3Dyn.class})
 public class AllTests {
-  
+
   /**
    * Sets the environment
-   * 
    */
   @BeforeClass public static void setUp() {}
 }

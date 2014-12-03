@@ -196,7 +196,7 @@ public class SBMLReader {
 
     System.out.println("Number of namespaces: " + testDocument.getDeclaredNamespaces().size());
 
-    for(String prefix : testDocument.getDeclaredNamespaces().keySet()) {
+    for (String prefix : testDocument.getDeclaredNamespaces().keySet()) {
       System.out.println("PREFIX = "+prefix);
       String uri = testDocument.getDeclaredNamespaces().get(prefix);
       System.out.println("URI = "+uri);
