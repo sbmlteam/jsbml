@@ -29,7 +29,6 @@ import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.PropertyUndefinedError;
-import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.StringTools;
 
@@ -44,7 +43,6 @@ import org.sbml.jsbml.util.StringTools;
  * @date May 11, 2014
  */
 public class Dimension extends AbstractNamedSBase implements CallableSBase {
-
 
   /**
    * 
@@ -132,10 +130,10 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
    */
   public Dimension(Dimension obj) {
     super(obj);
-    if(obj.isSetSize()) {
+    if (obj.isSetSize()) {
       setSize(obj.size);
     }
-    if(obj.isSetArrayDimension()) {
+    if (obj.isSetArrayDimension()) {
       setArrayDimension(obj.arrayDimension);
     }
   }
@@ -279,15 +277,15 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
   {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
 
-    if(!isAttributeRead) {
+    if (!isAttributeRead) {
       isAttributeRead = true;
 
 
-      if(attributeName.equals(ArraysConstants.arrayDimension)) {
+      if (attributeName.equals(ArraysConstants.arrayDimension)) {
         setArrayDimension(StringTools.parseSBMLInt(value));
       }
 
-      else if(attributeName.equals(ArraysConstants.size)) {
+      else if (attributeName.equals(ArraysConstants.size)) {
         setSize(value);
       }
 
@@ -313,12 +311,12 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
       attributes.put(ArraysConstants.shortLabel + ":name", getName());
     }
 
-    if(isSetArrayDimension()) {
+    if (isSetArrayDimension()) {
       attributes.remove("arrayDimension");
       attributes.put(ArraysConstants.shortLabel + ":arrayDimension", ""+getArrayDimension());
     }
 
-    if(isSetSize()) {
+    if (isSetSize()) {
       attributes.remove("size");
       attributes.put(ArraysConstants.shortLabel + ":size", getSize());
     }
@@ -383,7 +381,7 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
    */
   @Override
   public boolean containsUndeclaredUnits() {
-    if(isSetSize()) {
+    if (isSetSize()) {
       Parameter param = getModel().getParameter(size);
       return param != null ? param.containsUndeclaredUnits() : false;
     }
@@ -396,7 +394,7 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
    */
   @Override
   public UnitDefinition getDerivedUnitDefinition() {
-    if(isSetSize()) {
+    if (isSetSize()) {
       Parameter param = getModel().getParameter(size);
       return param != null ? param.getDerivedUnitDefinition() : null;
     }
@@ -409,7 +407,7 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
    */
   @Override
   public String getDerivedUnits() {
-    if(isSetSize()) {
+    if (isSetSize()) {
       Parameter param = getModel().getParameter(size);
       return param != null ? param.getDerivedUnits() : null;
     }

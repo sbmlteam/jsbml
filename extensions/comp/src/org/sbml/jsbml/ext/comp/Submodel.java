@@ -22,17 +22,13 @@
 package org.sbml.jsbml.ext.comp;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
-import org.omg.Dynamic.Parameter;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.filters.NameFilter;

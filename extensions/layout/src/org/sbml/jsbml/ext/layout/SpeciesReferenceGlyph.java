@@ -30,7 +30,6 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SimpleSpeciesReference;
-import org.sbml.jsbml.SpeciesReference;
 
 /**
  * The {@link SpeciesReferenceGlyph} class describes the graphical connection

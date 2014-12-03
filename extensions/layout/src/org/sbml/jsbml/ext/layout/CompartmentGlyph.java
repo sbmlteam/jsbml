@@ -25,7 +25,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.sbml.jsbml.Compartment;
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;

@@ -62,7 +62,7 @@ public class IndexArrayDimCheck extends ArraysConstraint {
   @Override
   public void check() {
     
-    if(model == null || sbase == null) {
+    if (model == null || sbase == null) {
       return;
     }
     
@@ -70,36 +70,36 @@ public class IndexArrayDimCheck extends ArraysConstraint {
 
     Map<String, Integer> attributeToMaxDim = new HashMap<String, Integer>();
     
-    if(arraysSBasePlugin == null || arraysSBasePlugin.getIndexCount() == 0) {
+    if (arraysSBasePlugin == null || arraysSBasePlugin.getIndexCount() == 0) {
       return;
     }
 
     
-    for(Index index : arraysSBasePlugin.getListOfIndices())
+    for (Index index : arraysSBasePlugin.getListOfIndices())
     {
-      if(!attributeToMaxDim.containsKey(index.getReferencedAttribute())
+      if (!attributeToMaxDim.containsKey(index.getReferencedAttribute())
           || index.getArrayDimension() > attributeToMaxDim.get(index.getReferencedAttribute())) {
         attributeToMaxDim.put(index.getReferencedAttribute(), index.getArrayDimension());
       }
     }
     
-    for(String attribute : attributeToMaxDim.keySet())
+    for (String attribute : attributeToMaxDim.keySet())
     {
       int max = attributeToMaxDim.get(attribute);
       
       boolean[] isSetArrayDimAt = new boolean[max+1];
       
-      for(Index index : arraysSBasePlugin.getListOfIndices())
+      for (Index index : arraysSBasePlugin.getListOfIndices())
       {
         
-        if(!index.getReferencedAttribute().equals(attribute))
+        if (!index.getReferencedAttribute().equals(attribute))
         {
           continue;
         }
         
         int arrayDim = index.getArrayDimension();
 
-        if(!isSetArrayDimAt[arrayDim]) {
+        if (!isSetArrayDimAt[arrayDim]) {
           isSetArrayDimAt[arrayDim] = true;
         }
         else 
@@ -111,8 +111,8 @@ public class IndexArrayDimCheck extends ArraysConstraint {
         }
       }
 
-      for(int i = 0; i <= max; i++) {
-        if(!isSetArrayDimAt[i]) {
+      for (int i = 0; i <= max; i++) {
+        if (!isSetArrayDimAt[i]) {
           String shortMsg = "A listOfIndices should have an Index with arrays:arrayDimension " 
               + i + " before adding an Index object with arrays:arrayDimension " + max;
           logArrayDimensionMissing(shortMsg);

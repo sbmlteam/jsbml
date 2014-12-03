@@ -55,45 +55,45 @@ public class ArraysMathCheck extends ArraysConstraint{
    */
   @Override
   public void check() {
-    if(model == null || mathContainer == null || !mathContainer.isSetMath()) {
+    if (model == null || mathContainer == null || !mathContainer.isSetMath()) {
       return;
     }
-    if(!ArraysMath.isVectorBalanced(model, mathContainer)) {
+    if (!ArraysMath.isVectorBalanced(model, mathContainer)) {
       String shortMsg = "Vectors should not be ragged.";
       logVectorInconsistency(shortMsg);
       return;
     }
-    if(!ArraysMath.checkVectorMath(model, mathContainer)) {
+    if (!ArraysMath.checkVectorMath(model, mathContainer)) {
       String shortMsg = "If vectors appears in mathematical operations, then the vector dimensions should match in"
           + " size unless it is a scalar." +  mathContainer.toString() + " has invalid vector operation.";
       logMathVectorIrregular(shortMsg);
     }
-    if(!ArraysMath.checkVectorAssignment(model, mathContainer)) {
+    if (!ArraysMath.checkVectorAssignment(model, mathContainer)) {
       String shortMsg = "When there is an assignment, then it must the the case that the left-hand matches the"
           + " right-hand size in dimension sizes but " + mathContainer.toString() + " doesn't.";
       logMathVectorIrregular(shortMsg);
     }
 
     List<ASTNode> selectorNodes = getSelectorNodes(mathContainer);
-    for(ASTNode selectorNode : selectorNodes) {
+    for (ASTNode selectorNode : selectorNodes) {
       checkSelector(selectorNode);
     }
   }
 
   private void checkSelector(ASTNode math) {
 
-    if(math.getChildCount() == 0) {
+    if (math.getChildCount() == 0) {
       String shortMsg = "Selector MathML needs more than 1 argument.";
       logSelectorInconsistency(shortMsg);
     }
 
     ASTNode obj = math.getChild(0);
 
-    if(obj.isString())
+    if (obj.isString())
     {
       SBase sbase = model.findNamedSBase(obj.toString());
 
-      if(sbase == null)
+      if (sbase == null)
       {
         String shortMsg = "The first argument of " +
             math.toString() + " does not have a valid SIdRef.";
@@ -103,7 +103,7 @@ public class ArraysMathCheck extends ArraysConstraint{
 
       ArraysSBasePlugin arraysSBasePlugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
 
-      if(arraysSBasePlugin.getDimensionCount() < math.getChildCount()-1)
+      if (arraysSBasePlugin.getDimensionCount() < math.getChildCount()-1)
       {
         String shortMsg = "Selector number of arguments of " +
             math.toString() + " is inconsistency .";
@@ -113,7 +113,7 @@ public class ArraysMathCheck extends ArraysConstraint{
 
 
     }
-    else if(!obj.isVector())
+    else if (!obj.isVector())
     {
       String shortMsg = "The first argument of a selector object should be a vector or an arrayed object and " +
           math.toString() + " violates this condition.";
@@ -122,7 +122,7 @@ public class ArraysMathCheck extends ArraysConstraint{
 
     boolean isStaticComp = ArraysMath.isStaticallyComputable(model, mathContainer);
 
-    if(!isStaticComp) {
+    if (!isStaticComp) {
       String shortMsg = "Selector arguments other than first should either be dimensions id or constant but " +
           math.toString() + " violates this condition.";
       logSelectorInconsistency(shortMsg);
@@ -131,7 +131,7 @@ public class ArraysMathCheck extends ArraysConstraint{
 
     boolean isBounded = ArraysMath.evaluateSelectorBounds(model, mathContainer);
 
-    if(!isBounded) {
+    if (!isBounded) {
       String shortMsg = "Selector arguments other than first should not go out of bounds but " +
           math.toString() + " violates this condition.";
       logSelectorInconsistency(shortMsg);
@@ -160,10 +160,10 @@ public class ArraysMathCheck extends ArraysConstraint{
    * @param listOfNodes
    */
   private void getSelectorNodes(ASTNode math, List<ASTNode> listOfNodes) {
-    if(math.getType() == ASTNode.Type.FUNCTION_SELECTOR) {
+    if (math.getType() == ASTNode.Type.FUNCTION_SELECTOR) {
       listOfNodes.add(math);
     }
-    for(int i = 0; i < math.getChildCount(); ++i) {
+    for (int i = 0; i < math.getChildCount(); ++i) {
       getSelectorNodes(math.getChild(i), listOfNodes);
     }
   }

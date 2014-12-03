@@ -31,7 +31,6 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
-import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
  * Represents the kineticLaw XML element of a SBML file.

@@ -61,7 +61,6 @@ public class LayoutPluginChangeListener {
         for (SpeciesReferenceGlyph sr: list)
         {
           SpeciesReferenceRole role = sr.getSpeciesReferenceRole();
-
         }
       }
     }

@@ -33,7 +33,6 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.Compartment;
-import org.sbml.jsbml.CompartmentType;
 import org.sbml.jsbml.Event;
 import org.sbml.jsbml.EventAssignment;
 import org.sbml.jsbml.ExplicitRule;
@@ -48,10 +47,8 @@ import org.sbml.jsbml.Rule;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
-import org.sbml.jsbml.SpeciesType;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
-
 
 /**
  * Generates a sub-{@link Model} containing the elements passed as argument and all

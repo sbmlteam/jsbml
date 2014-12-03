@@ -67,7 +67,6 @@ import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.ext.layout.Layout;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 
-
 /**
  * @author Ibrahim Vazirabad
  * @version $Rev$

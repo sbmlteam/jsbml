@@ -107,7 +107,7 @@ public class MathMLStaxParser implements ReadingParser {
     // the sbml:units attribute is handle by the SBMLCoreParser.
 
     if (! (contextObject instanceof ASTNode)) {
-      logger.debug("processAttribute : !!!!!!!!! context is not an ASTNode ( " +
+      logger.debug("processAttribute : !!!!!!!!! context is not an ASTNode (" +
           contextObject.getClass());
       return;
     }
@@ -156,8 +156,8 @@ public class MathMLStaxParser implements ReadingParser {
 
     // Depending of the type of ASTNode, we need to do different things
     if (! (contextObject instanceof ASTNode)) {
-      logger.debug("processCharactersOf : !!!!!!!!! context is not an ASTNode ( " +
-          contextObject.getClass() + " )!!!!!!!!!!");
+      logger.debug("processCharactersOf : !!!!!!!!! context is not an ASTNode (" +
+          contextObject.getClass() + ")!!!!!!!!!!");
       return;
     }
 

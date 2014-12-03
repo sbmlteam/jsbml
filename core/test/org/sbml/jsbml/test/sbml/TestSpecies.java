@@ -64,31 +64,31 @@ public class TestSpecies {
   @SuppressWarnings("deprecation")
   @Test public void test_Species_create()
   {
-    //    assertTrue( S.getTypeCode() == libsbml.SBML_SPECIES );
-    assertTrue( S.getMetaId().equals("") == true );
-    assertTrue( S.getNotes() == null );
-    // assertTrue( S.getAnnotation() == null );
-    assertTrue( S.getId().equals("") == true );
-    assertTrue( S.getName().equals("") == true );
-    assertTrue( S.getCompartment().equals("") == true );
-    assertTrue( Double.isNaN(S.getInitialAmount()) ); // TODO: difference to add
-    assertTrue( Double.isNaN(S.getInitialConcentration()) );
-    // assertTrue( S.getInitialConcentration() == 0.0 ); // test from libsbml
-    assertTrue( S.getSubstanceUnits().equals("") == true );
-    assertTrue( S.getSpatialSizeUnits().equals("") == true );
-    assertTrue( S.getHasOnlySubstanceUnits() == false );
-    assertTrue( S.getBoundaryCondition() == false );
-    assertTrue( S.getCharge() == 0 );
-    assertTrue( S.getConstant() == false );
-    assertEquals( false, S.isSetId() );
-    assertEquals( false, S.isSetName() );
-    assertEquals( false, S.isSetCompartmentInstance() );
-    assertEquals( false, S.isSetInitialAmount() );
-    assertEquals( false, S.isSetInitialConcentration() );
-    assertEquals( false, S.isSetSubstanceUnits() );
-    assertEquals( false, S.isSetSpatialSizeUnits() );
-    assertEquals( false, S.isSetUnits() );
-    assertEquals( false, S.isSetCharge() );
+    //    assertTrue(S.getTypeCode() == libsbml.SBML_SPECIES);
+    assertTrue(S.getMetaId().equals("") == true);
+    assertTrue(S.getNotes() == null);
+    // assertTrue(S.getAnnotation() == null);
+    assertTrue(S.getId().equals("") == true);
+    assertTrue(S.getName().equals("") == true);
+    assertTrue(S.getCompartment().equals("") == true);
+    assertTrue(Double.isNaN(S.getInitialAmount())); // TODO: difference to add
+    assertTrue(Double.isNaN(S.getInitialConcentration()));
+    // assertTrue(S.getInitialConcentration() == 0.0); // test from libsbml
+    assertTrue(S.getSubstanceUnits().equals("") == true);
+    assertTrue(S.getSpatialSizeUnits().equals("") == true);
+    assertTrue(S.getHasOnlySubstanceUnits() == false);
+    assertTrue(S.getBoundaryCondition() == false);
+    assertTrue(S.getCharge() == 0);
+    assertTrue(S.getConstant() == false);
+    assertEquals(false, S.isSetId());
+    assertEquals(false, S.isSetName());
+    assertEquals(false, S.isSetCompartmentInstance());
+    assertEquals(false, S.isSetInitialAmount());
+    assertEquals(false, S.isSetInitialConcentration());
+    assertEquals(false, S.isSetSubstanceUnits());
+    assertEquals(false, S.isSetSpatialSizeUnits());
+    assertEquals(false, S.isSetUnits());
+    assertEquals(false, S.isSetCharge());
   }
 
   /*
@@ -97,19 +97,19 @@ public class TestSpecies {
   {
 
     XMLNamespaces xmlns = new  XMLNamespaces();
-    xmlns.add( "http://www.sbml.org", "testsbml");
+    xmlns.add("http://www.sbml.org", "testsbml");
     SBMLNamespaces sbmlns = new  SBMLNamespaces(2,1);
     sbmlns.addNamespaces(xmlns);
     Species object = new  Species(sbmlns);
 
-    assertTrue( object.getTypeCode() == libsbml.SBML_SPECIES );
-    assertTrue( object.getMetaId().equals("") == true );
-    assertTrue( object.getNotes() == null );
-    assertTrue( object.getAnnotation() == null );
-    assertTrue( object.getLevel() == 2 );
-    assertTrue( object.getVersion() == 1 );
-    assertTrue( object.getNamespaces() != null );
-    assertTrue( object.getNamespaces().getLength() == 2 );
+    assertTrue(object.getTypeCode() == libsbml.SBML_SPECIES);
+    assertTrue(object.getMetaId().equals("") == true);
+    assertTrue(object.getNotes() == null);
+    assertTrue(object.getAnnotation() == null);
+    assertTrue(object.getLevel() == 2);
+    assertTrue(object.getVersion() == 1);
+    assertTrue(object.getNamespaces() != null);
+    assertTrue(object.getNamespaces().getLength() == 2);
     object = null;
   }
    */
@@ -120,7 +120,7 @@ public class TestSpecies {
     String compartment =  "cell";;
     S.setCompartment(compartment);
     assertTrue(S.getCompartment().equals(compartment));
-    assertEquals( true, S.isSetCompartment() );
+    assertEquals(true, S.isSetCompartment());
     if (S.getCompartment() == compartment) {
       ;
     }
@@ -129,7 +129,7 @@ public class TestSpecies {
     S.setCompartment(S.getCompartment());
     assertTrue(S.getCompartment().equals(compartment));
     S.setCompartment("");
-    assertEquals( false, S.isSetCompartment() );
+    assertEquals(false, S.isSetCompartment());
     S.setCompartment((String) null);
     if (S.getCompartment() != null) {
       ;
@@ -143,7 +143,7 @@ public class TestSpecies {
     String id =  "Glucose";;
     S.setId(id);
     assertTrue(S.getId().equals(id));
-    assertEquals( true, S.isSetId() );
+    assertEquals(true, S.isSetId());
     if (S.getId() == id) {
       ;
     }
@@ -152,7 +152,7 @@ public class TestSpecies {
     S.setId(S.getId());
     assertTrue(S.getId().equals(id));
     S.setId("");
-    assertEquals( false, S.isSetId() );
+    assertEquals(false, S.isSetId());
     if (S.getId() != null) {
       ;
     }
@@ -162,22 +162,22 @@ public class TestSpecies {
 
   @Test public void test_Species_setInitialAmount()
   {
-    assertEquals( false, S.isSetInitialAmount() );
-    assertEquals( false, S.isSetInitialConcentration() );
+    assertEquals(false, S.isSetInitialAmount());
+    assertEquals(false, S.isSetInitialConcentration());
     S.setInitialAmount(1.2);
-    assertEquals( true, S.isSetInitialAmount() );
-    assertEquals( false, S.isSetInitialConcentration() );
-    assertTrue( S.getInitialAmount() == 1.2 );
+    assertEquals(true, S.isSetInitialAmount());
+    assertEquals(false, S.isSetInitialConcentration());
+    assertTrue(S.getInitialAmount() == 1.2);
   }
 
   @Test public void test_Species_setInitialConcentration()
   {
-    assertEquals( false, S.isSetInitialAmount() );
-    assertEquals( false, S.isSetInitialConcentration() );
+    assertEquals(false, S.isSetInitialAmount());
+    assertEquals(false, S.isSetInitialConcentration());
     S.setInitialConcentration(3.4);
-    assertEquals( false, S.isSetInitialAmount() );
-    assertEquals( true, S.isSetInitialConcentration() );
-    assertTrue( S.getInitialConcentration() == 3.4 );
+    assertEquals(false, S.isSetInitialAmount());
+    assertEquals(true, S.isSetInitialConcentration());
+    assertTrue(S.getInitialConcentration() == 3.4);
   }
 
   @Test public void test_Species_setName()
@@ -185,7 +185,7 @@ public class TestSpecies {
     String name =  "So_Sweet";;
     S.setName(name);
     assertTrue(S.getName().equals(name));
-    assertEquals( true, S.isSetName() );
+    assertEquals(true, S.isSetName());
     if (S.getName() == name) {
       ;
     }
@@ -194,7 +194,7 @@ public class TestSpecies {
     S.setName(S.getName());
     assertTrue(S.getName().equals(name));
     S.setName("");
-    assertEquals( false, S.isSetName() );
+    assertEquals(false, S.isSetName());
     if (S.getName() != null) {
       ;
     }
@@ -210,7 +210,7 @@ public class TestSpecies {
     String units =  "volume";;
     s.setSpatialSizeUnits(units);
     assertTrue(s.getSpatialSizeUnits().equals(units));
-    assertEquals( true, s.isSetSpatialSizeUnits() );
+    assertEquals(true, s.isSetSpatialSizeUnits());
     if (s.getSpatialSizeUnits() == units) {
       ;
     }
@@ -219,7 +219,7 @@ public class TestSpecies {
     s.setSpatialSizeUnits(s.getSpatialSizeUnits());
     assertTrue(s.getSpatialSizeUnits().equals(units));
     s.setSpatialSizeUnits("");
-    assertEquals( false, s.isSetSpatialSizeUnits() );
+    assertEquals(false, s.isSetSpatialSizeUnits());
     if (s.getSpatialSizeUnits() != null) {
       ;
     }
@@ -234,7 +234,7 @@ public class TestSpecies {
     String units =  "item";;
     S.setSubstanceUnits(units);
     assertTrue(S.getSubstanceUnits().equals(units));
-    assertEquals( true, S.isSetSubstanceUnits() );
+    assertEquals(true, S.isSetSubstanceUnits());
     if (S.getSubstanceUnits() == units) {
       ;
     }
@@ -243,7 +243,7 @@ public class TestSpecies {
     S.setSubstanceUnits(S.getSubstanceUnits());
     assertTrue(S.getSubstanceUnits().equals(units));
     S.setSubstanceUnits("");
-    assertEquals( false, S.isSetSubstanceUnits() );
+    assertEquals(false, S.isSetSubstanceUnits());
     if (S.getSubstanceUnits() != null) {
       ;
     }
@@ -256,7 +256,7 @@ public class TestSpecies {
     String units =  "mole";;
     S.setUnits(units);
     assertTrue(S.getUnits().equals(units));
-    assertEquals( true, S.isSetUnits() );
+    assertEquals(true, S.isSetUnits());
     if (S.getSubstanceUnits() == units) {
       ;
     }
@@ -265,7 +265,7 @@ public class TestSpecies {
     S.setUnits(S.getSubstanceUnits());
     assertTrue(S.getUnits().equals(units));
     S.setUnits("");
-    assertEquals( false, S.isSetUnits() );
+    assertEquals(false, S.isSetUnits());
     if (S.getSubstanceUnits() != null) {
       ;
     }

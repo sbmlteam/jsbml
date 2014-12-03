@@ -27,11 +27,9 @@ import java.util.List;
 
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLError;
-import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.ext.arrays.validator.constraints.ArraysConstraint;
 import org.sbml.jsbml.ext.arrays.validator.constraints.DimensionSizeCheck;
-
 
 /**
  * This validates a given {@link Dimension} object in the context of a given model and makes sure that

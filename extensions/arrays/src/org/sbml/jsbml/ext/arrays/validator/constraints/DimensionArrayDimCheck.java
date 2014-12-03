@@ -58,7 +58,7 @@ public class DimensionArrayDimCheck extends ArraysConstraint {
   @Override
   public void check() {
     
-    if(model == null || sbase == null) {
+    if (model == null || sbase == null) {
       return;
     }
     
@@ -66,25 +66,25 @@ public class DimensionArrayDimCheck extends ArraysConstraint {
 
     int max = -1;
     
-    if(arraysSBasePlugin == null) {
+    if (arraysSBasePlugin == null) {
       return;
     }
 
     
-    for(Dimension dim : arraysSBasePlugin.getListOfDimensions())
+    for (Dimension dim : arraysSBasePlugin.getListOfDimensions())
     {
-      if(dim.getArrayDimension() > max) {
+      if (dim.getArrayDimension() > max) {
         max = dim.getArrayDimension();
       }
     }
     
     boolean[] isSetArrayDimAt = new boolean[max+1];
     
-    for(Dimension dim : arraysSBasePlugin.getListOfDimensions())
+    for (Dimension dim : arraysSBasePlugin.getListOfDimensions())
     {
       int arrayDim = dim.getArrayDimension();
 
-      if(!isSetArrayDimAt[arrayDim]) {
+      if (!isSetArrayDimAt[arrayDim]) {
         isSetArrayDimAt[arrayDim] = true;
       }
       else 
@@ -96,8 +96,8 @@ public class DimensionArrayDimCheck extends ArraysConstraint {
       }
     }
 
-    for(int i = 0; i <= max; i++) {
-      if(!isSetArrayDimAt[i]) {
+    for (int i = 0; i <= max; i++) {
+      if (!isSetArrayDimAt[i]) {
         String shortMsg = "A listOfDimensions should have a Dimension with arrays:arrayDimension " 
             + i + "before adding a Dimension object with arrays:arrayDimension " + max;
         logArrayDimensionMissing(shortMsg);

@@ -22,8 +22,6 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
@@ -45,8 +43,6 @@ public class MixedGeometry extends GeometryDefinition {
 
   ListOf<GeometryDefinition> listOfGeometryDefinitions;
   ListOf<OrdinalMapping> listOfOrdinalMappings;
-
-
 
   public MixedGeometry() {
     super();

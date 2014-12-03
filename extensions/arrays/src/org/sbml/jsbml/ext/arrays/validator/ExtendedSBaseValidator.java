@@ -87,7 +87,7 @@ public class ExtendedSBaseValidator{
    * @param listOfConstraints
    */
   private static void addConstraints(Model model, SBase sbase, List<ArraysConstraint> listOfConstraints) {
-    if(canHaveDimension(sbase)) {      
+    if (canHaveDimension(sbase)) {      
       DimensionArrayDimCheck arrayDimCheck = new DimensionArrayDimCheck(model,sbase);
       listOfConstraints.add(arrayDimCheck);
     }
@@ -107,37 +107,37 @@ public class ExtendedSBaseValidator{
    */
   private static boolean canHaveDimension(SBase sbase) {
     
-    if(sbase instanceof Model) {
+    if (sbase instanceof Model) {
       return false;
     }
-    if(sbase instanceof FunctionDefinition) {
+    if (sbase instanceof FunctionDefinition) {
       return false;
     }
-    if(sbase instanceof Unit) {
+    if (sbase instanceof Unit) {
       return false;
     }
-    if(sbase instanceof UnitDefinition) {
+    if (sbase instanceof UnitDefinition) {
       return false;
     }
-    if(sbase instanceof KineticLaw) {
+    if (sbase instanceof KineticLaw) {
       return false;
     }
-    if(sbase instanceof Trigger) {
+    if (sbase instanceof Trigger) {
       return false;
     }
-    if(sbase instanceof Priority) {
+    if (sbase instanceof Priority) {
       return false;
     }  
-    if(sbase instanceof Delay) {
+    if (sbase instanceof Delay) {
       return false;
     }
-    if(sbase instanceof ListOf) {
+    if (sbase instanceof ListOf) {
       return false;
     }
-    if(sbase instanceof Dimension) {
+    if (sbase instanceof Dimension) {
       return false;
     }
-    if(sbase instanceof Index) {
+    if (sbase instanceof Index) {
       return false;
     }
     return true;

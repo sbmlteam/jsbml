@@ -77,11 +77,11 @@ public class TestReadFromFile5 {
    */
   static void assertEquals(Object a, Object b) throws AssertionError
   {
-    if ( (a == null) && (b == null) )
+    if ((a == null) && (b == null))
     {
       return;
     }
-    else if ( (a == null) || (b == null) )
+    else if ((a == null) || (b == null))
     {
       throw new AssertionError();
     }
@@ -101,11 +101,11 @@ public class TestReadFromFile5 {
    */
   static void assertNotEquals(Object a, Object b) throws AssertionError
   {
-    if ( (a == null) && (b == null) )
+    if ((a == null) && (b == null))
     {
       throw new AssertionError();
     }
-    else if ( (a == null) || (b == null) )
+    else if ((a == null) || (b == null))
     {
       return;
     }
@@ -123,7 +123,7 @@ public class TestReadFromFile5 {
    */
   static void assertEquals(boolean a, boolean b) throws AssertionError
   {
-    if ( a == b )
+    if (a == b)
     {
       return;
     }
@@ -138,7 +138,7 @@ public class TestReadFromFile5 {
    */
   static void assertNotEquals(boolean a, boolean b) throws AssertionError
   {
-    if ( a != b )
+    if (a != b)
     {
       return;
     }
@@ -153,7 +153,7 @@ public class TestReadFromFile5 {
    */
   static void assertEquals(int a, int b) throws AssertionError
   {
-    if ( a == b )
+    if (a == b)
     {
       return;
     }
@@ -168,7 +168,7 @@ public class TestReadFromFile5 {
    */
   static void assertNotEquals(int a, int b) throws AssertionError
   {
-    if ( a != b )
+    if (a != b)
     {
       return;
     }
@@ -211,139 +211,139 @@ public class TestReadFromFile5 {
       assert(false);
     }
 
-    assertTrue( d.getLevel() == 2 );
-    assertTrue( d.getVersion() == 1 );
+    assertTrue(d.getLevel() == 2);
+    assertTrue(d.getVersion() == 1);
     m = d.getModel();
-    assertTrue( m != null );
-    assertTrue( m.getCompartmentCount() == 1 );
+    assertTrue(m != null);
+    assertTrue(m.getCompartmentCount() == 1);
     c = m.getCompartment(0);
-    assertTrue( c != null );
-    assertTrue( c.getId().equals( "cell") );
+    assertTrue(c != null);
+    assertTrue(c.getId().equals("cell"));
     /*    ud = c.getDerivedUnitDefinition();
-    assertTrue( ud.getUnitCount() == 1 );
-    assertTrue( ud.getUnit(0).getKind() == Kind.LITRE );
+    assertTrue(ud.getUnitCount() == 1);
+    assertTrue(ud.getUnit(0).getKind() == Kind.LITRE);
      */
     loc = m.getListOfCompartments();
     c1 = loc.get(0);
-    assertTrue( c1.equals(c) );
+    assertTrue(c1.equals(c));
     c1 = loc.get("cell");
-    assertTrue( c1.equals(c) );
-    assertTrue( m.getSpeciesCount() == 5 );
+    assertTrue(c1.equals(c));
+    assertTrue(m.getSpeciesCount() == 5);
     s = m.getSpecies(0);
-    assertTrue( s != null );
-    assertTrue( s.getId().equals( "X0"  ) );
-    assertTrue( s.getCompartment().equals( "cell") );
-    assertTrue( s.getInitialConcentration() == 1.0 );
+    assertTrue(s != null);
+    assertTrue(s.getId().equals("X0" ));
+    assertTrue(s.getCompartment().equals("cell"));
+    assertTrue(s.getInitialConcentration() == 1.0);
     los = m.getListOfSpecies();
     s1 = los.get(0);
-    assertTrue( s1.equals(s) );
+    assertTrue(s1.equals(s));
     s1 = los.get("X0");
-    assertTrue( s1.equals(s) );
+    assertTrue(s1.equals(s));
     s = m.getSpecies(1);
-    assertTrue( s != null );
-    assertTrue( s.getId().equals( "X1"  ) );
-    assertTrue( s.getCompartment().equals( "cell") );
-    assertTrue( s.getInitialConcentration() == 0.0 );
+    assertTrue(s != null);
+    assertTrue(s.getId().equals("X1" ));
+    assertTrue(s.getCompartment().equals("cell"));
+    assertTrue(s.getInitialConcentration() == 0.0);
     s = m.getSpecies(2);
-    assertTrue( s != null );
-    assertTrue( s.getId().equals( "T"   ) );
-    assertTrue( s.getCompartment().equals( "cell") );
-    assertTrue( s.getInitialConcentration() == 0.0 );
+    assertTrue(s != null);
+    assertTrue(s.getId().equals("T"  ));
+    assertTrue(s.getCompartment().equals("cell"));
+    assertTrue(s.getInitialConcentration() == 0.0);
     s = m.getSpecies(3);
-    assertTrue( s != null );
-    assertTrue( s.getId().equals( "S1"  ) );
-    assertTrue( s.getCompartment().equals( "cell") );
-    assertTrue( s.getInitialConcentration() == 0.0 );
+    assertTrue(s != null);
+    assertTrue(s.getId().equals("S1" ));
+    assertTrue(s.getCompartment().equals("cell"));
+    assertTrue(s.getInitialConcentration() == 0.0);
     s = m.getSpecies(4);
-    assertTrue( s != null );
-    assertTrue( s.getId().equals( "S2"  ) );
-    assertTrue( s.getCompartment().equals( "cell") );
-    assertTrue( s.getInitialConcentration() == 0.0 );
-    assertTrue( m.getParameterCount() == 1 );
+    assertTrue(s != null);
+    assertTrue(s.getId().equals("S2" ));
+    assertTrue(s.getCompartment().equals("cell"));
+    assertTrue(s.getInitialConcentration() == 0.0);
+    assertTrue(m.getParameterCount() == 1);
     gp = m.getParameter(0);
-    assertTrue( gp != null );
-    assertTrue( gp.getId().equals( "Keq") );
-    assertTrue( gp.getValue() == 2.5 );
+    assertTrue(gp != null);
+    assertTrue(gp.getId().equals("Keq"));
+    assertTrue(gp.getValue() == 2.5);
     lop = m.getListOfParameters();
     p1 = lop.get(0);
-    assertTrue( p1.equals(gp) );
+    assertTrue(p1.equals(gp));
     p1 = lop.get("Keq");
-    assertTrue( p1.equals(gp) );
+    assertTrue(p1.equals(gp));
     /*
     ud = gp.getDerivedUnitDefinition();
-    assertTrue( ud.getUnitCount() == 0 );
-    assertTrue( m.getRuleCount() == 2 );
+    assertTrue(ud.getUnitCount() == 0);
+    assertTrue(m.getRuleCount() == 2);
      */
     ar = (AssignmentRule)  m.getRule(0);
-    assertTrue( ar != null );
-    assertTrue( ar.getVariable().equals( "S1"           ) );
-    assertTrue( ar.getFormula().equals( "T/(1+Keq)") );
+    assertTrue(ar != null);
+    assertTrue(ar.getVariable().equals("S1"          ));
+    assertTrue(ar.getFormula().equals("T/(1+Keq)"));
     /*
     ud = ar.getDerivedUnitDefinition();
-    assertTrue( ud.getUnitCount() == 2 );
-    assertTrue( ud.getUnit(0).getKind() == Kind.MOLE );
-    assertTrue( ud.getUnit(0).getExponent() == 1 );
-    assertTrue( ud.getUnit(1).getKind() == Kind.LITRE );
-    assertTrue( ud.getUnit(1).getExponent() == -1 );
+    assertTrue(ud.getUnitCount() == 2);
+    assertTrue(ud.getUnit(0).getKind() == Kind.MOLE);
+    assertTrue(ud.getUnit(0).getExponent() == 1);
+    assertTrue(ud.getUnit(1).getKind() == Kind.LITRE);
+    assertTrue(ud.getUnit(1).getExponent() == -1);
      */
-    assertTrue( ar.containsUndeclaredUnits() == true );
+    assertTrue(ar.containsUndeclaredUnits() == true);
     lor = m.getListOfRules();
     ar1 = (AssignmentRule) lor.get(0);
-    assertTrue( ar1.equals(ar) );
+    assertTrue(ar1.equals(ar));
     ar1 = (AssignmentRule) lor.get("S1");
-    assertTrue( ar1.equals(ar) );
+    assertTrue(ar1.equals(ar));
     ar = (AssignmentRule)  m.getRule(1);
-    assertTrue( ar != null );
-    assertTrue( ar.getVariable().equals( "S2"      ) );
-    assertTrue( ar.getFormula().equals( "Keq*S1") );
-    assertTrue( m.getReactionCount() == 2 );
+    assertTrue(ar != null);
+    assertTrue(ar.getVariable().equals("S2"     ));
+    assertTrue(ar.getFormula().equals("Keq*S1"));
+    assertTrue(m.getReactionCount() == 2);
     r = m.getReaction(0);
-    assertTrue( r != null );
-    assertTrue( r.getId().equals( "in") );
-    assertTrue( r.getReactantCount() == 1 );
-    assertTrue( r.getProductCount() == 1 );
+    assertTrue(r != null);
+    assertTrue(r.getId().equals("in"));
+    assertTrue(r.getReactantCount() == 1);
+    assertTrue(r.getProductCount() == 1);
     sr = r.getReactant(0);
-    assertTrue( sr != null );
-    assertTrue( sr.getSpecies().equals( "X0") );
+    assertTrue(sr != null);
+    assertTrue(sr.getSpecies().equals("X0"));
     sr = r.getProduct(0);
-    assertTrue( sr != null );
-    assertTrue( sr.getSpecies().equals( "T" ) );
+    assertTrue(sr != null);
+    assertTrue(sr.getSpecies().equals("T"));
     kl = r.getKineticLaw();
-    assertTrue( kl != null );
-    assertTrue( kl.getFormula().equals( "k1*X0") );
-    assertTrue( kl.getLocalParameterCount() == 1 );
+    assertTrue(kl != null);
+    assertTrue(kl.getFormula().equals("k1*X0"));
+    assertTrue(kl.getLocalParameterCount() == 1);
     r1 = kl.getParentSBMLObject();
-    assertTrue( r1 != null );
-    assertTrue( r1.getId().equals( "in") );
-    assertTrue( r1.getReactantCount() == 1 );
-    assertTrue( r1.getProductCount() == 1 );
+    assertTrue(r1 != null);
+    assertTrue(r1.getId().equals("in"));
+    assertTrue(r1.getReactantCount() == 1);
+    assertTrue(r1.getProductCount() == 1);
     lp = kl.getLocalParameter(0);
-    assertTrue( lp != null );
-    assertTrue( lp.getId().equals( "k1") );
-    assertTrue( lp.getValue() == 0.1 );
+    assertTrue(lp != null);
+    assertTrue(lp.getId().equals("k1"));
+    assertTrue(lp.getValue() == 0.1);
     kl = (KineticLaw) lp.getParentSBMLObject().getParentSBMLObject();
-    assertTrue( kl != null );
-    assertTrue( kl.getFormula().equals( "k1*X0") );
-    assertTrue( kl.getLocalParameterCount() == 1 );
+    assertTrue(kl != null);
+    assertTrue(kl.getFormula().equals("k1*X0"));
+    assertTrue(kl.getLocalParameterCount() == 1);
     r = m.getReaction(1);
-    assertTrue( r != null );
-    assertTrue( r.getId().equals( "out") );
-    assertTrue( r.getReactantCount() == 1 );
-    assertTrue( r.getProductCount() == 1 );
+    assertTrue(r != null);
+    assertTrue(r.getId().equals("out"));
+    assertTrue(r.getReactantCount() == 1);
+    assertTrue(r.getProductCount() == 1);
     sr = r.getReactant(0);
-    assertTrue( sr != null );
-    assertTrue( sr.getSpecies().equals( "T" ) );
+    assertTrue(sr != null);
+    assertTrue(sr.getSpecies().equals("T"));
     sr = r.getProduct(0);
-    assertTrue( sr != null );
-    assertTrue( sr.getSpecies().equals( "X1") );
+    assertTrue(sr != null);
+    assertTrue(sr.getSpecies().equals("X1"));
     kl = r.getKineticLaw();
-    assertTrue( kl != null );
-    assertTrue( kl.getFormula().equals( "k2*T") );
-    assertTrue( kl.getLocalParameterCount() == 1 );
+    assertTrue(kl != null);
+    assertTrue(kl.getFormula().equals("k2*T"));
+    assertTrue(kl.getLocalParameterCount() == 1);
     lp = kl.getLocalParameter(0);
-    assertTrue( lp != null );
-    assertTrue( lp.getId().equals( "k2") );
-    assertTrue( lp.getValue() == 0.15 );
+    assertTrue(lp != null);
+    assertTrue(lp.getId().equals("k2"));
+    assertTrue(lp.getValue() == 0.15);
     d = null;
   }
 

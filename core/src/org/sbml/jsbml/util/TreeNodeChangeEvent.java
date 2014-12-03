@@ -25,8 +25,6 @@ import java.beans.PropertyChangeEvent;
 
 import javax.swing.tree.TreeNode;
 
-import org.sbml.jsbml.SBase;
-
 /**
  * This event tells an {@link TreeNodeChangeListener} which values have been
  * changed in an {@link SBase} and also provides the old and the new value.

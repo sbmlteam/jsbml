@@ -23,12 +23,10 @@ package org.sbml.jsbml.util.compilers;
 
 import java.io.IOException;
 
-import org.sbml.jsbml.ASTNode;
+import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.CallableSBase;
-import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.UnitDefinition;
-import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.xml.parsers.MathMLParser;
 import org.w3c.dom.Node;
 

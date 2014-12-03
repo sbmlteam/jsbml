@@ -22,7 +22,6 @@
 package org.sbml.jsbml;
 
 import java.text.MessageFormat;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -30,7 +29,6 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
-import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
  * Represents the event XML element of a SBML file. Since {@link Event}s were

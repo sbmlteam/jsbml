@@ -22,8 +22,6 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
@@ -45,11 +43,12 @@ public class ParametricGeometry extends GeometryDefinition {
    */
   private static final long serialVersionUID = 5947368889263003716L;
 
-
+  /**
+   * 
+   */
   public ParametricGeometry() {
     super();
   }
-
 
   /**
    * @param pg

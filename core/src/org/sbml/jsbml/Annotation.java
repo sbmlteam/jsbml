@@ -24,7 +24,6 @@ package org.sbml.jsbml;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
@@ -325,10 +324,11 @@ public class Annotation extends AnnotationElement {
    * @return the {@link XMLNode} representing non RDF annotations.
    * @deprecated
    */
+  @Deprecated
   public XMLNode getAnnotationBuilder() {
     return nonRDFannotation;
   }
-  
+
 
   /**
    * 
@@ -337,23 +337,23 @@ public class Annotation extends AnnotationElement {
    */
   public XMLNode getFullAnnotation() {
 
-	  XMLNode nonRdfAnnotationClone = null;
-	  
-	  if (isSetNonRDFannotation()) {
-		  nonRdfAnnotationClone = nonRDFannotation.clone();
-	  }
-	  
-	  // TODO - get the list of AnnotationWriter from the manager
-	  List<AnnotationWriter> annotationParsers = new ArrayList<AnnotationWriter>();
-	  // hack to delete
-	  annotationParsers.add(new SBMLRDFAnnotationParser());
-	  
-	  // calling the annotation parsers so that they update the XMLNode before returning it to the user
-	  for (AnnotationWriter annoWriter : annotationParsers) {
-		  nonRdfAnnotationClone = annoWriter.writeAnnotation((SBase) getParent(), nonRdfAnnotationClone);
-	  }
+    XMLNode nonRdfAnnotationClone = null;
 
-	  return nonRdfAnnotationClone;
+    if (isSetNonRDFannotation()) {
+      nonRdfAnnotationClone = nonRDFannotation.clone();
+    }
+
+    // TODO - get the list of AnnotationWriter from the manager
+    List<AnnotationWriter> annotationParsers = new ArrayList<AnnotationWriter>();
+    // hack to delete
+    annotationParsers.add(new SBMLRDFAnnotationParser());
+
+    // calling the annotation parsers so that they update the XMLNode before returning it to the user
+    for (AnnotationWriter annoWriter : annotationParsers) {
+      nonRdfAnnotationClone = annoWriter.writeAnnotation((SBase) getParent(), nonRdfAnnotationClone);
+    }
+
+    return nonRdfAnnotationClone;
   }
 
   /**
@@ -363,24 +363,24 @@ public class Annotation extends AnnotationElement {
    */
   public String getFullAnnotationString() {
 
-	  XMLNode fullAnnotation = getFullAnnotation();
+    XMLNode fullAnnotation = getFullAnnotation();
 
-	  // System.out.println("getFullAnnotationString - " + fullAnnotation);
-	  
-	  if (fullAnnotation != null) {
-		  try {
-			  return fullAnnotation.toXMLString();
-		  } catch (XMLStreamException e) {
-			  Logger logger = Logger.getLogger(Annotation.class);
-			  if (logger.isDebugEnabled()) {
-				  e.printStackTrace();
-			  }
-		  }
-	  }
+    // System.out.println("getFullAnnotationString - " + fullAnnotation);
 
-	  return "";
+    if (fullAnnotation != null) {
+      try {
+        return fullAnnotation.toXMLString();
+      } catch (XMLStreamException e) {
+        Logger logger = Logger.getLogger(Annotation.class);
+        if (logger.isDebugEnabled()) {
+          e.printStackTrace();
+        }
+      }
+    }
+
+    return "";
   }
-  
+
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildAt(int)
    */
@@ -490,14 +490,14 @@ public class Annotation extends AnnotationElement {
    *         annotation. Return null if there are none.
    */
   public String getNonRDFannotationAsString() {
-	  if (nonRDFannotation != null) {
-		  try {
-			  return nonRDFannotation.toXMLString();
-		  } catch (XMLStreamException e) {
-			  // nothing to do here ??
-		  }
-	  }
-	  return null;
+    if (nonRDFannotation != null) {
+      try {
+        return nonRDFannotation.toXMLString();
+      } catch (XMLStreamException e) {
+        // nothing to do here ??
+      }
+    }
+    return null;
   }
 
   /**
@@ -697,9 +697,9 @@ public class Annotation extends AnnotationElement {
     return false;
   }
 
-  
+
   /**
-   * Removes the given {@link CVTerm}. 
+   * Removes the given {@link CVTerm}.
    * 
    * @param cvTerm the {@link CVTerm} to remove
    * @return true if the {@link CVTerm} was successfully removed.
@@ -712,10 +712,10 @@ public class Annotation extends AnnotationElement {
     cvTerm.parent = null;
     boolean success = listOfCVTerms.remove(cvTerm);
     firePropertyChange(TreeNodeChangeEvent.removeCVTerm, cvTerm, null);
-    
+
     return success;
   }
-  
+
   /**
    * Removes the {@link CVTerm} at the given index.
    * 
@@ -731,10 +731,10 @@ public class Annotation extends AnnotationElement {
     CVTerm deletedCVTerm = listOfCVTerms.remove(index);
     deletedCVTerm.parent = null;
     firePropertyChange(TreeNodeChangeEvent.removeCVTerm, deletedCVTerm, null);
-    
+
     return deletedCVTerm;
   }
-    
+
   /**
    * Sets the value of the about String of this object.
    * 

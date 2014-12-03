@@ -23,7 +23,6 @@ package org.sbml.jsbml.ext.comp;
 
 import java.util.Map;
 
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 
 /**
@@ -97,7 +96,7 @@ public class ReplacedBy extends SBaseRef {
     final int prime = 3181;
     int result = super.hashCode();
     result = prime * result
-      + ((submodelRef == null) ? 0 : submodelRef.hashCode());
+        + ((submodelRef == null) ? 0 : submodelRef.hashCode());
     return result;
   }
 
@@ -241,5 +240,5 @@ public class ReplacedBy extends SBaseRef {
 
     return false;
   }
-  
+
 }

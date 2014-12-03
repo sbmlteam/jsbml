@@ -490,7 +490,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     else // name != "notes"
     {
 
-      if (!notes.isStart() && !notes.isEnd() && !notes.isText() )
+      if (!notes.isStart() && !notes.isEnd() && !notes.isText())
       {
         if (notes.getChildCount() > 0)
         {
@@ -564,7 +564,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     // We do not have a Syntax checker working on XMLNode !!
     // check whether notes is valid xhtml ?? (libsbml is doing that)
 
-    if ( notesXMLNode != null )
+    if (notesXMLNode != null)
     {
       //------------------------------------------------------------
       //
@@ -625,7 +625,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
           for (i=0; i < addedBody.getChildCount(); i++)
           {
-            if (curBody.addChild(addedBody.getChildAt(i)) < 0 ) {
+            if (curBody.addChild(addedBody.getChildAt(i)) < 0) {
               logger.warn("There was a problem adding the given XMLNode: '" + SBMLtools.toXML(addedBody.getChildAt(i)) + "' to the 'body' XMLNode.");
               return;
             }
@@ -639,7 +639,7 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
 
           for (i=0; i < addedNotes.getChildCount(); i++)
           {
-            if (curBody.addChild(addedNotes.getChildAt(i)) < 0 ) {
+            if (curBody.addChild(addedNotes.getChildAt(i)) < 0) {
               logger.warn("There was a problem adding the given XMLNode: '" + SBMLtools.toXML(addedNotes.getChildAt(i)) + "' to the 'body' XMLNode.");
               return;
             }

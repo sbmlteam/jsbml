@@ -87,10 +87,10 @@ public class Index extends AbstractMathContainer {
    */
   public Index(Index obj) {
     super(obj);
-    if(obj.isSetArrayDimension()) {
+    if (obj.isSetArrayDimension()) {
       setArrayDimension(obj.arrayDimension);
     }
-    if(obj.isSetReferencedAttribute()) {
+    if (obj.isSetReferencedAttribute()) {
       setReferencedAttribute(obj.referencedAttribute);
     }
    
@@ -237,14 +237,14 @@ public class Index extends AbstractMathContainer {
   {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
     
-    if(!isAttributeRead) {
+    if (!isAttributeRead) {
       isAttributeRead = true;
       
-      if(attributeName.equals(ArraysConstants.arrayDimension)) {
+      if (attributeName.equals(ArraysConstants.arrayDimension)) {
         setArrayDimension(StringTools.parseSBMLInt(value));
       }
       
-      else if(attributeName.equals(ArraysConstants.referencedAttribute)) {
+      else if (attributeName.equals(ArraysConstants.referencedAttribute)) {
         setReferencedAttribute(value);
       }
       
@@ -262,12 +262,12 @@ public class Index extends AbstractMathContainer {
   {
   Map<String, String> attributes = super.writeXMLAttributes();
     
-    if(isSetArrayDimension()) {
+    if (isSetArrayDimension()) {
       attributes.remove("arrayDimension");
       attributes.put(ArraysConstants.shortLabel + ":arrayDimension", ""+getArrayDimension());
     }
     
-    if(isSetReferencedAttribute()) {
+    if (isSetReferencedAttribute()) {
       attributes.remove("referencedAttribute");
       attributes.put(ArraysConstants.shortLabel + ":referencedAttribute", getReferencedAttribute());
     }

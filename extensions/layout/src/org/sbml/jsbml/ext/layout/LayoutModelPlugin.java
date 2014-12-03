@@ -29,7 +29,6 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.AbstractSBasePlugin;
-import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
  * The {@link Layout} package extends the {@link Model} class with the
@@ -46,7 +45,7 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
 public class LayoutModelPlugin extends AbstractSBasePlugin {
 
   /**
-   * 
+   * Generated serial version identifier.
    */
   private static final long serialVersionUID = 4507170457817702658L;
 
@@ -58,12 +57,12 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
 
   /**
    * Creates a new instance {@link LayoutModelPlugin} cloned from the given {@link LayoutModelPlugin}.
-   *  
+   * 
    * @param elm the {@link LayoutModelPlugin} we want to clone.
    */
   public LayoutModelPlugin(LayoutModelPlugin elm) {
     super(elm);
-    
+
     if (elm.isSetListOfLayouts()) {
       setListOfLayouts(elm.listOfLayouts.clone());
     }
@@ -138,7 +137,7 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
     listOfLayouts = new ListOf<Layout>();
     listOfLayouts.setNamespace(LayoutConstants.namespaceURI);
     listOfLayouts.setSBaseListType(ListOf.Type.other);
-    
+
     if (isSetExtendedSBase()) {
       getExtendedSBase().registerChild(listOfLayouts);
     }
@@ -154,7 +153,7 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
     final int prime = 2887;
     int result = super.hashCode();
     result = prime * result
-      + ((listOfLayouts == null) ? 0 : listOfLayouts.hashCode());
+        + ((listOfLayouts == null) ? 0 : listOfLayouts.hashCode());
     return result;
   }
 
@@ -262,7 +261,7 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
     if (isSetExtendedSBase()) {
       return (Model) extendedSBase;
     }
-    
+
     return null;
   }
 
@@ -284,7 +283,7 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
     if (isSetExtendedSBase()) {
       return (SBMLDocument) getExtendedSBase().getParent();
     }
-    
+
     return null;
   }
 
@@ -328,7 +327,7 @@ public class LayoutModelPlugin extends AbstractSBasePlugin {
     if ((this.listOfLayouts != null) && (this.listOfLayouts.getSBaseListType() != ListOf.Type.other)) {
       this.listOfLayouts.setSBaseListType(ListOf.Type.other);
     }
-    
+
     if (isSetExtendedSBase()) {
       getExtendedSBase().registerChild(listOfLayouts);
     }

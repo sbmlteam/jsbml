@@ -71,16 +71,16 @@ public class TestEvent {
   @SuppressWarnings("deprecation")
   @Test public void test_Event_create()
   {
-    //    assertTrue( E.getTypeCode() == libsbml.SBML_EVENT );
-    assertTrue( E.getMetaId().equals("") == true );
-    assertTrue( E.getNotes() == null );
-    //    assertTrue( E.getAnnotation() == null );
-    assertTrue( E.getId().equals("") == true );
-    assertTrue( E.getName().equals("") == true );
+    //    assertTrue(E.getTypeCode() == libsbml.SBML_EVENT);
+    assertTrue(E.getMetaId().equals("") == true);
+    assertTrue(E.getNotes() == null);
+    //    assertTrue(E.getAnnotation() == null);
+    assertTrue(E.getId().equals("") == true);
+    assertTrue(E.getName().equals("") == true);
     assertEquals(E.getTrigger(),null);
     assertEquals(E.getDelay(),null);
-    assertTrue( E.getTimeUnits().equals("") == true );
-    assertTrue( E.getEventAssignmentCount() == 0 );
+    assertTrue(E.getTimeUnits().equals("") == true);
+    assertTrue(E.getEventAssignmentCount() == 0);
   }
 
   /*
@@ -88,18 +88,18 @@ public class TestEvent {
   @Test public void test_Event_createWithNS()
   {
     XMLNamespaces xmlns = new  XMLNamespaces();
-    xmlns.add( "http://www.sbml.org", "testsbml");
+    xmlns.add("http://www.sbml.org", "testsbml");
     SBMLNamespaces sbmlns = new  SBMLNamespaces(2,4);
     sbmlns.addNamespaces(xmlns);
     Event object = new  Event(sbmlns);
-    assertTrue( object.getTypeCode() == libsbml.SBML_EVENT );
-    assertTrue( object.getMetaId().equals("") == true );
-    assertTrue( object.getNotes() == null );
-    assertTrue( object.getAnnotation() == null );
-    assertTrue( object.getLevel() == 2 );
-    assertTrue( object.getVersion() == 4 );
-    assertTrue( object.getNamespaces() != null );
-    assertTrue( object.getNamespaces().getLength() == 2 );
+    assertTrue(object.getTypeCode() == libsbml.SBML_EVENT);
+    assertTrue(object.getMetaId().equals("") == true);
+    assertTrue(object.getNotes() == null);
+    assertTrue(object.getAnnotation() == null);
+    assertTrue(object.getLevel() == 2);
+    assertTrue(object.getVersion() == 4);
+    assertTrue(object.getNamespaces() != null);
+    assertTrue(object.getNamespaces().getLength() == 2);
     object = null;
   }
    */
@@ -111,14 +111,14 @@ public class TestEvent {
     ASTNode math = ASTNode.parseFormula("0");
     Event e = new  Event(2,4);
     EventAssignment ea = new  EventAssignment(2,4);
-    ea.setVariable( "k");
+    ea.setVariable("k");
     ea.setMath(math);
     trigger.setMath(math1);
     e.setTrigger(trigger);
-    e.setId( "e1");
-    e.setName( "Set k2 to zero when P1 <= t");
+    e.setId("e1");
+    e.setName("Set k2 to zero when P1 <= t");
     e.addEventAssignment(ea);
-    assertTrue( e.getEventAssignmentCount() == 1 );
+    assertTrue(e.getEventAssignmentCount() == 1);
     assertTrue(e.getEventAssignment(0) == ea);
     math = null;
     e = null;
@@ -137,12 +137,12 @@ public class TestEvent {
     o2 = E.createEventAssignment("t2", math);
     o3 = E.createEventAssignment("t3", math);
     o3.setVariable("test");
-    assertTrue( E.removeEventAssignment(0).equals(o1) );
-    assertTrue( E.getEventAssignmentCount() == 2 );
-    assertTrue( E.removeEventAssignment(0).equals(o2) );
-    assertTrue( E.getEventAssignmentCount() == 1 );
-    assertTrue( E.removeEventAssignment("test").equals(o3) );
-    assertTrue( E.getEventAssignmentCount() == 0 );
+    assertTrue(E.removeEventAssignment(0).equals(o1));
+    assertTrue(E.getEventAssignmentCount() == 2);
+    assertTrue(E.removeEventAssignment(0).equals(o2));
+    assertTrue(E.getEventAssignmentCount() == 1);
+    assertTrue(E.removeEventAssignment("test").equals(o3));
+    assertTrue(E.getEventAssignmentCount() == 0);
     o1 = null;
     o2 = null;
     o3 = null;
@@ -155,7 +155,7 @@ public class TestEvent {
     delay.setMath(math1);
     E.setDelay(delay);
     assertTrue(E.getDelay() != null);
-    assertEquals( true, E.isSetDelay() );
+    assertEquals(true, E.isSetDelay());
     if (E.getDelay() == delay) {
       ;
     }
@@ -164,7 +164,7 @@ public class TestEvent {
     E.setDelay(E.getDelay());
     // assertTrue(E.getDelay() != delay); // We are not doing a copy of the object, so it is the same
     E.setDelay(null);
-    assertEquals( false, E.isSetDelay() );
+    assertEquals(false, E.isSetDelay());
     if (E.getDelay() != null) {
       ;
     }
@@ -177,7 +177,7 @@ public class TestEvent {
     String id =  "e1";;
     E.setId(id);
     assertTrue(E.getId().equals(id));
-    assertEquals( true, E.isSetId() );
+    assertEquals(true, E.isSetId());
     if (E.getId() == id) {
       ;
     }
@@ -186,7 +186,7 @@ public class TestEvent {
     E.setId(E.getId());
     assertTrue(E.getId().equals(id));
     E.setId("");
-    assertEquals( false, E.isSetId() );
+    assertEquals(false, E.isSetId());
     if (E.getId() != null) {
       ;
     }
@@ -199,7 +199,7 @@ public class TestEvent {
     String name =  "Set_k2";;
     E.setName(name);
     assertTrue(E.getName().equals(name));
-    assertEquals( true, E.isSetName() );
+    assertEquals(true, E.isSetName());
     if (E.getName() == name) {
       ;
     }
@@ -208,7 +208,7 @@ public class TestEvent {
     E.setName(E.getName());
     assertTrue(E.getName().equals(name));
     E.setName("");
-    assertEquals( false, E.isSetName() );
+    assertEquals(false, E.isSetName());
     if (E.getName() != null) {
       ;
     }
@@ -223,7 +223,7 @@ public class TestEvent {
     String units =  "second";;
     E1.setTimeUnits(units);
     assertTrue(E1.getTimeUnits().equals(units));
-    assertEquals( true, E1.isSetTimeUnits() );
+    assertEquals(true, E1.isSetTimeUnits());
     if (E1.getTimeUnits() == units) {
       ;
     }
@@ -232,7 +232,7 @@ public class TestEvent {
     E1.setTimeUnits(E1.getTimeUnits());
     assertTrue(E1.getTimeUnits().equals(units));
     E1.setTimeUnits("");
-    assertEquals( false, E1.isSetTimeUnits() );
+    assertEquals(false, E1.isSetTimeUnits());
     if (E1.getTimeUnits() != null) {
       ;
     }
@@ -248,7 +248,7 @@ public class TestEvent {
     trigger.setMath(math1);
     E.setTrigger(trigger);
     assertTrue(E.getTrigger() != null);
-    assertEquals( true, E.isSetTrigger() );
+    assertEquals(true, E.isSetTrigger());
     if (E.getTrigger() == trigger) {
       ;
     }
@@ -257,7 +257,7 @@ public class TestEvent {
     E.setTrigger(E.getTrigger());
     // assertTrue(E.getTrigger() != trigger); // We are not doing a copy of the object, so it is the same
     E.setTrigger(null);
-    assertEquals( false, E.isSetTrigger() );
+    assertEquals(false, E.isSetTrigger());
     if (E.getTrigger() != null) {
       ;
     }
@@ -269,9 +269,9 @@ public class TestEvent {
   {
     Event object = new  Event(2,4);
     object.setUseValuesFromTriggerTime(false);
-    assertTrue( object.getUseValuesFromTriggerTime() == false );
+    assertTrue(object.getUseValuesFromTriggerTime() == false);
     object.setUseValuesFromTriggerTime(true);
-    assertTrue( object.getUseValuesFromTriggerTime() == true );
+    assertTrue(object.getUseValuesFromTriggerTime() == true);
     object = null;
   }
 

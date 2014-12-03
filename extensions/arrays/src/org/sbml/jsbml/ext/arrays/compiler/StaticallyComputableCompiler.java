@@ -34,7 +34,6 @@ import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.Quantity;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Variable;
-import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
@@ -79,7 +78,7 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
    * @param id
    */
   public void addConstantId(String id) {
-    if(!isSetConstantIds) {
+    if (!isSetConstantIds) {
       constantIds = new ArrayList<String>();
     }
     constantIds.add(id);
@@ -94,9 +93,9 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
    * @return
    */
   public boolean removeConstantId(String id) {
-    if(isSetConstantIds) {
+    if (isSetConstantIds) {
       boolean success = constantIds.remove(id);
-      if(constantIds.isEmpty()) {
+      if (constantIds.isEmpty()) {
         isSetConstantIds = false;
       }
       return success;
@@ -117,9 +116,9 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue and(List<ASTNode> values) throws SBMLException {
-    for(ASTNode value : values) {
+    for (ASTNode value : values) {
       ASTNodeValue result = value.compile(this);
-      if(!result.toBoolean()) {
+      if (!result.toBoolean()) {
         return new ASTNodeValue(false, this);
       }
     }
@@ -267,11 +266,11 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue compile(CallableSBase variable) throws SBMLException {
-    if(variable instanceof Variable) {
+    if (variable instanceof Variable) {
       Variable var = (Variable) variable;
       return new ASTNodeValue(var.isConstant(), this);
     }
-    else if(variable instanceof Quantity) {
+    else if (variable instanceof Quantity) {
       return new ASTNodeValue(true, this);
     }
     return unknownValue();
@@ -283,16 +282,16 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
   @Override
   public ASTNodeValue compile(String name) {
     NamedSBase sbase = model.findNamedSBase(name);
-    if(sbase != null) {
-      if(sbase instanceof Variable) {
+    if (sbase != null) {
+      if (sbase instanceof Variable) {
         Variable var = (Variable) sbase;
         return new ASTNodeValue(var.getConstant(), this);
       }
       return new ASTNodeValue(false, this);
     }
 
-    if(isSetConstantIds) {
-      if(constantIds.contains(name)) {
+    if (isSetConstantIds) {
+      if (constantIds.contains(name)) {
         return new ASTNodeValue(true, this);
       }
     }
@@ -417,9 +416,9 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
   @Override
   public ASTNodeValue function(FunctionDefinition functionDefinition,
     List<ASTNode> args) throws SBMLException {
-    for(ASTNode value : args) {
+    for (ASTNode value : args) {
       ASTNodeValue result = value.compile(this);
-      if(!result.toBoolean()) {
+      if (!result.toBoolean()) {
         return new ASTNodeValue(false, this);
       }
     }
@@ -432,9 +431,9 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
   @Override
   public ASTNodeValue function(String functionDefinitionName, List<ASTNode> args)
       throws SBMLException {
-    for(ASTNode value : args) {
+    for (ASTNode value : args) {
       ASTNodeValue result = value.compile(this);
-      if(!result.toBoolean()) {
+      if (!result.toBoolean()) {
         return new ASTNodeValue(false, this);
       }
     }
@@ -522,9 +521,9 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue lambda(List<ASTNode> values) throws SBMLException {
-    for(ASTNode value : values) {
+    for (ASTNode value : values) {
       ASTNodeValue result = value.compile(this);
-      if(!result.toBoolean()) {
+      if (!result.toBoolean()) {
         return new ASTNodeValue(false, this);
       }
     }
@@ -582,9 +581,9 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue minus(List<ASTNode> values) throws SBMLException {
-    for(ASTNode value : values) {
+    for (ASTNode value : values) {
       ASTNodeValue result = value.compile(this);
-      if(!result.toBoolean()) {
+      if (!result.toBoolean()) {
         return new ASTNodeValue(false, this);
       }
     }
@@ -614,9 +613,9 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue or(List<ASTNode> values) throws SBMLException {
-    for(ASTNode value : values) {
+    for (ASTNode value : values) {
       ASTNodeValue result = value.compile(this);
-      if(!result.toBoolean()) {
+      if (!result.toBoolean()) {
         return new ASTNodeValue(false, this);
       }
     }
@@ -628,9 +627,9 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue piecewise(List<ASTNode> values) throws SBMLException {
-    for(ASTNode value : values) {
+    for (ASTNode value : values) {
       ASTNodeValue result = value.compile(this);
-      if(!result.toBoolean()) {
+      if (!result.toBoolean()) {
         return new ASTNodeValue(false, this);
       }
     }
@@ -642,9 +641,9 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue plus(List<ASTNode> values) throws SBMLException {
-    for(ASTNode value : values) {
+    for (ASTNode value : values) {
       ASTNodeValue result = value.compile(this);
-      if(!result.toBoolean()) {
+      if (!result.toBoolean()) {
         return new ASTNodeValue(false, this);
       }
     }
@@ -704,10 +703,10 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
   @Override
   public ASTNodeValue selector(List<ASTNode> nodes) throws SBMLException {
 
-    for(int i = 1; i < nodes.size(); ++i){
+    for (int i = 1; i < nodes.size(); ++i){
       ASTNode value = nodes.get(i);
       ASTNodeValue result = value.compile(this);
-      if(!result.toBoolean()) {
+      if (!result.toBoolean()) {
         return new ASTNodeValue(false, this);
       }
     }
@@ -767,9 +766,9 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue times(List<ASTNode> values) throws SBMLException {
-    for(ASTNode value : values) {
+    for (ASTNode value : values) {
       ASTNodeValue result = value.compile(this);
-      if(!result.toBoolean()) {
+      if (!result.toBoolean()) {
         return new ASTNodeValue(false, this);
       }
     }
@@ -797,9 +796,9 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue vector(List<ASTNode> nodes) throws SBMLException {
-    for(ASTNode value : nodes) {
+    for (ASTNode value : nodes) {
       ASTNodeValue result = value.compile(this);
-      if(!result.toBoolean()) {
+      if (!result.toBoolean()) {
         return new ASTNodeValue(false, this);
       }
     }
@@ -811,9 +810,9 @@ public class StaticallyComputableCompiler implements ASTNodeCompiler {
    */
   @Override
   public ASTNodeValue xor(List<ASTNode> values) throws SBMLException {
-    for(ASTNode value : values) {
+    for (ASTNode value : values) {
       ASTNodeValue result = value.compile(this);
-      if(!result.toBoolean()) {
+      if (!result.toBoolean()) {
         return new ASTNodeValue(false, this);
       }
     }

@@ -38,7 +38,6 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
-import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.filters.AssignmentVariableFilter;
 import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
 import org.sbml.jsbml.util.filters.IdenticalUnitDefinitionFilter;
@@ -46,13 +45,11 @@ import org.sbml.jsbml.util.filters.IdenticalUnitDefinitionFilter;
 /**
  * <p>
  * JSBML implementation of SBML's {@link Model} construct.
- * </p>
  * <p>
  * In an SBML model definition, a single object of class {@link Model} serves as
  * the overall container for the lists of the various model components. All of
  * the lists are optional, but if a given list container is present within the
  * model, the list must not be empty; that is, it must have length one or more.
- * </p>
  * 
  * @author Andreas Dr&auml;ger
  * @author Marine Dumousseau

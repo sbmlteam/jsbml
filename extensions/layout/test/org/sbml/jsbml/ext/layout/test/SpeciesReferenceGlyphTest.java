@@ -20,7 +20,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.ext.layout.test;
 
 import static org.junit.Assert.assertEquals;
@@ -29,7 +28,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ext.layout.Curve;

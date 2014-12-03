@@ -233,9 +233,9 @@ public class TestModel {
 
   @Test
   public void test_Model_create() {
-    // assertTrue( M.getTypeCode() == libsbml.SBML_MODEL );
+    // assertTrue(M.getTypeCode() == libsbml.SBML_MODEL);
     assertTrue(M.getMetaId().equals("") == true);
-    assertTrue( M.getNotes() == null );
+    assertTrue(M.getNotes() == null);
     //assertTrue(M.getAnnotation() == null);
     assertTrue(M.getId().equals("") == true);
     assertTrue(M.getName().equals("") == true);
@@ -526,15 +526,15 @@ public class TestModel {
 
   /*
    * @Test public void test_Model_createWithNS() { XMLNamespaces xmlns = new
-   * XMLNamespaces(); xmlns.add( "http://www.sbml.org", "testsbml");
+   * XMLNamespaces(); xmlns.add("http://www.sbml.org", "testsbml");
    * SBMLNamespaces sbmlns = new SBMLNamespaces(2,1);
    * sbmlns.addNamespaces(xmlns); Model object = new Model(sbmlns);
-   * assertTrue( object.getTypeCode() == libsbml.SBML_MODEL ); assertTrue(
-   * object.getMetaId().equals("") == true ); assertTrue( object.getNotes() ==
-   * null ); assertTrue( object.getAnnotation() == null ); assertTrue(
-   * object.getLevel() == 2 ); assertTrue( object.getVersion() == 1 );
-   * assertTrue( object.getNamespaces() != null ); assertTrue(
-   * object.getNamespaces().getLength() == 2 ); object = null; }
+   * assertTrue(object.getTypeCode() == libsbml.SBML_MODEL); assertTrue(
+   * object.getMetaId().equals("") == true); assertTrue(object.getNotes() ==
+   * null); assertTrue(object.getAnnotation() == null); assertTrue(
+   * object.getLevel() == 2); assertTrue(object.getVersion() == 1);
+   * assertTrue(object.getNamespaces() != null); assertTrue(
+   * object.getNamespaces().getLength() == 2); object = null; }
    */
 
   @Test
@@ -946,7 +946,7 @@ public class TestModel {
     assertTrue(M.getRuleCount() == 2);
     assertTrue(M.removeRule(0).equals(o2));
     assertTrue(M.getRuleCount() == 1);
-    assertTrue( M.removeRule("test").equals(o3) );
+    assertTrue(M.removeRule("test").equals(o3));
     assertTrue(M.getRuleCount() == 0);
     o1 = null;
     o2 = null;

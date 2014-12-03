@@ -32,13 +32,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.resources.Resource;
-import org.sbml.jsbml.text.parser.FormulaParser;
-import org.sbml.jsbml.text.parser.FormulaParserLL3;
-import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
-import org.sbml.jsbml.util.compilers.FormulaCompiler;
-import org.sbml.jsbml.util.compilers.FormulaCompilerLibSBML;
-import org.sbml.jsbml.util.compilers.FormulaCompilerNoPiecewise;
 
 /**
  * Wrapper class for global methods and constants defined by JSBML.

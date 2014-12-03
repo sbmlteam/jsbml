@@ -23,7 +23,6 @@ package org.sbml.jsbml.ext.layout;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -35,13 +34,11 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.ListOfWithName;
-import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**

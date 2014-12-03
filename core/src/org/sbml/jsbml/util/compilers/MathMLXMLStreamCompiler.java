@@ -639,7 +639,7 @@ public class MathMLXMLStreamCompiler {
       int nbChildren = astNode.getChildCount();
 
       if (nbChildren > 1) {
-        for (int i = 0; i < nbChildren - 1; i++ ) {
+        for (int i = 0; i < nbChildren - 1; i++) {
           ASTNode arg = astNode.getChild(i);
           compileBvar(arg);
         }

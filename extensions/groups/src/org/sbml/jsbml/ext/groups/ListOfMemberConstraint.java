@@ -24,7 +24,6 @@ package org.sbml.jsbml.ext.groups;
 import java.text.MessageFormat;
 import java.util.Map;
 
-import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.IdentifierException;
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.NamedSBase;
@@ -33,6 +32,7 @@ import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.validator.SyntaxChecker;
 
 /**
  * 
@@ -86,7 +86,7 @@ public class ListOfMemberConstraint extends ListOf<MemberConstraint> implements 
     }
   }
 
-  
+
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ListOf#clone()
@@ -194,7 +194,7 @@ public class ListOfMemberConstraint extends ListOf<MemberConstraint> implements 
    *             if the given id is not valid in this model.
    */
   boolean checkIdentifier(String sID) {
-    if ((sID == null) || !AbstractNamedSBase.isValidId(sID, getLevel(), getVersion())) {
+    if ((sID == null) || !SyntaxChecker.isValidId(sID, getLevel(), getVersion())) {
       throw new IllegalArgumentException(MessageFormat.format(
         "\"{0}\" is not a valid identifier for this {1}.", sID, getElementName()));
     }
@@ -229,10 +229,10 @@ public class ListOfMemberConstraint extends ListOf<MemberConstraint> implements 
       this.id = oldId; // restore the previous setting!
       throw new IllegalArgumentException(exc);
     }
-    
+
     firePropertyChange(property, oldId, this.id);
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.NamedSBase#setName(java.lang.String)
    */

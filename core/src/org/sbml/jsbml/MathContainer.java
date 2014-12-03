@@ -22,7 +22,6 @@
 package org.sbml.jsbml;
 
 import org.sbml.jsbml.text.parser.ParseException;
-import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
  * Base interface for all the SBML components which contain MathML nodes.

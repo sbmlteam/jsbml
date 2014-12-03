@@ -22,8 +22,6 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -32,7 +30,6 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.util.filters.NameFilter;
-
 
 /**
  * @author Alex Thomas

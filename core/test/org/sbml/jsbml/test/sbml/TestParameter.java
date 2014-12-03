@@ -67,18 +67,18 @@ public class TestParameter {
 
   @Test public void test_Parameter_create()
   {
-    //    assertTrue( P.getTypeCode() == libsbml.SBML_PARAMETER );
-    assertTrue( P.getMetaId().equals("") == true );
-    assertTrue( P.getNotes() == null );
-    //    assertTrue( P.getAnnotation() == null );
-    assertTrue( P.getId().equals("") == true );
-    assertTrue( P.getName().equals("") == true );
-    assertTrue( P.getUnits().equals("") == true );
-    assertTrue( P.getConstant() == true );
-    assertEquals( false, P.isSetId() );
-    assertEquals( false, P.isSetName() );
-    assertEquals( false, P.isSetValue() );
-    assertEquals( false, P.isSetUnits() );
+    //    assertTrue(P.getTypeCode() == libsbml.SBML_PARAMETER);
+    assertTrue(P.getMetaId().equals("") == true);
+    assertTrue(P.getNotes() == null);
+    //    assertTrue(P.getAnnotation() == null);
+    assertTrue(P.getId().equals("") == true);
+    assertTrue(P.getName().equals("") == true);
+    assertTrue(P.getUnits().equals("") == true);
+    assertTrue(P.getConstant() == true);
+    assertEquals(false, P.isSetId());
+    assertEquals(false, P.isSetName());
+    assertEquals(false, P.isSetValue());
+    assertEquals(false, P.isSetUnits());
   }
 
   /*
@@ -86,18 +86,18 @@ public class TestParameter {
   public void test_Parameter_createWithNS()
   {
     XMLNamespaces xmlns = new  XMLNamespaces();
-    xmlns.add( "http://www.sbml.org", "testsbml");
+    xmlns.add("http://www.sbml.org", "testsbml");
     SBMLNamespaces sbmlns = new  SBMLNamespaces(2,1);
     sbmlns.addNamespaces(xmlns);
     Parameter object = new  Parameter(sbmlns);
-    assertTrue( object.getTypeCode() == libsbml.SBML_PARAMETER );
-    assertTrue( object.getMetaId().equals("") == true );
-    assertTrue( object.getNotes() == null );
-    assertTrue( object.getAnnotation() == null );
-    assertTrue( object.getLevel() == 2 );
-    assertTrue( object.getVersion() == 1 );
-    assertTrue( object.getNamespaces() != null );
-    assertTrue( object.getNamespaces().getLength() == 2 );
+    assertTrue(object.getTypeCode() == libsbml.SBML_PARAMETER);
+    assertTrue(object.getMetaId().equals("") == true);
+    assertTrue(object.getNotes() == null);
+    assertTrue(object.getAnnotation() == null);
+    assertTrue(object.getLevel() == 2);
+    assertTrue(object.getVersion() == 1);
+    assertTrue(object.getNamespaces() != null);
+    assertTrue(object.getNamespaces().getLength() == 2);
     object = null;
   }
    */
@@ -107,7 +107,7 @@ public class TestParameter {
     String id =  "Km1";;
     P.setId(id);
     assertTrue(P.getId().equals(id));
-    assertEquals( true, P.isSetId() );
+    assertEquals(true, P.isSetId());
     if (P.getId() == id) {
       ;
     }
@@ -116,7 +116,7 @@ public class TestParameter {
     P.setId(P.getId());
     assertTrue(P.getId().equals(id));
     P.setId("");
-    assertEquals( false, P.isSetId() );
+    assertEquals(false, P.isSetId());
     if (P.getId() != null) {
       ;
     }
@@ -129,7 +129,7 @@ public class TestParameter {
     String name =  "Forward_Michaelis_Menten_Constant";;
     P.setName(name);
     assertTrue(P.getName().equals(name));
-    assertEquals( true, P.isSetName() );
+    assertEquals(true, P.isSetName());
     if (P.getName() == name) {
       ;
     }
@@ -138,7 +138,7 @@ public class TestParameter {
     P.setName(P.getName());
     assertTrue(P.getName().equals(name));
     P.setName("");
-    assertEquals( false, P.isSetName() );
+    assertEquals(false, P.isSetName());
     if (P.getName() != null) {
       ;
     }
@@ -151,7 +151,7 @@ public class TestParameter {
     String units =  "second";;
     P.setUnits(units);
     assertTrue(P.getUnits().equals(units));
-    assertEquals( true, P.isSetUnits() );
+    assertEquals(true, P.isSetUnits());
     if (P.getUnits() == units) {
       ;
     }
@@ -160,7 +160,7 @@ public class TestParameter {
     P.setUnits(P.getUnits());
     assertTrue(P.getUnits().equals(units));
     P.setUnits("");
-    assertEquals( false, P.isSetUnits() );
+    assertEquals(false, P.isSetUnits());
     if (P.getUnits() != null) {
       ;
     }

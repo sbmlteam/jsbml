@@ -29,7 +29,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractTreeNode;
@@ -43,7 +42,6 @@ import org.sbml.jsbml.ListOf;
  * compatible with the remaining tree data structure. In analogy to
  * {@link MutableTreeNode} we call this {@link Object} {@code userObject}
  * (see {@link #getUserObject()} and {@link #setUserObject(Object)}).
- * </p>
  * <p>
  * This wrapper distinguishes the following special cases depending on the type
  * of {@code userObject} when accessing the i-th child of this
@@ -55,7 +53,6 @@ import org.sbml.jsbml.ListOf;
  * <li>{@link Map}: the key set is sorted (only possible if the keys implement
  * the {@link Comparable} interface) and recursion continues at the i-th key.</li>
  * </ul>
- * </p>
  * 
  * @author Andreas Dr&auml;ger
  * @version $Rev$

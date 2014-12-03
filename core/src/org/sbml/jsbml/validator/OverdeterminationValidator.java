@@ -814,7 +814,7 @@ public class OverdeterminationValidator {
           SBase variable=node.getVariable();
           if (level==1) {
             int insertingPosition = 0;
-            for(SBase element:variables) {
+            for (SBase element:variables) {
               if (!(element instanceof Parameter) || (!((Parameter)element).isSetValue())) {
                 insertingPosition++;
               }
@@ -829,7 +829,7 @@ public class OverdeterminationValidator {
             SBase variable=node.getVariable();
             if (level==1) {
               int insertingPosition=0;
-              for(SBase element:variables) {
+              for (SBase element:variables) {
                 if (!(element instanceof Parameter) ||
                     (!((Parameter) element).isSetValue())) {
                   insertingPosition++;

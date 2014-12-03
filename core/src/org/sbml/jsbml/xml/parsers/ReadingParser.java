@@ -21,12 +21,9 @@
  */
 package org.sbml.jsbml.xml.parsers;
 
-import java.awt.Event;
 import java.util.List;
 
-import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
-import org.sbml.jsbml.Trigger;
 
 /**
  * The interface to implement for the SBML parsers reading SBML files.

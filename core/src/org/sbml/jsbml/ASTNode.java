@@ -32,8 +32,6 @@ import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
-import org.sbml.jsbml.Unit.Kind;
-import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
@@ -42,7 +40,6 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
-import org.sbml.jsbml.util.compilers.FormulaCompilerLibSBML;
 import org.sbml.jsbml.util.compilers.LaTeXCompiler;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.util.compilers.UnitsCompiler;

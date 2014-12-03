@@ -126,7 +126,7 @@ public class PluginUtils {
   public static PluginCompartment convertCompartment(Compartment compartment) throws XMLStreamException {
     PluginCompartment pluginCompartment = (PluginCompartment) compartment.getUserObject(LINK_TO_CELLDESIGNER);
     if (pluginCompartment == null) {
-      pluginCompartment = new PluginCompartment(DEFAULT_COMPARTMENT_SYMBOL_TYPE );
+      pluginCompartment = new PluginCompartment(DEFAULT_COMPARTMENT_SYMBOL_TYPE);
       compartment.putUserObject(LINK_TO_CELLDESIGNER, pluginCompartment);
     }
     transferNamedSBaseProperties(compartment, pluginCompartment);

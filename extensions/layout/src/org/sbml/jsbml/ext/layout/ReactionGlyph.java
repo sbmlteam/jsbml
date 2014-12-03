@@ -22,24 +22,23 @@
 package org.sbml.jsbml.ext.layout;
 
 import java.text.MessageFormat;
-import java.util.Collection;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.Reaction;
-import org.sbml.jsbml.Species;
 
 /**
- * Analogous to how a {@link Reaction} object has to at least have one reactant or product,
- * the {@link ReactionGlyph} has to at least have one {@link SpeciesReferenceGlyph} stored in
- * the ListOfSpeciesReferenceGlyphs. The {@link ReactionGlyph} inherits from GraphicalObject.
- * In addition to the attributes inherited from {@link GraphicalObject}, the {@link ReactionGlyph}
- * is described by an attribute reaction, a {@link Curve} element and a listOfSpeciesReferenceGlyphs
- * element.
+ * Analogous to how a {@link Reaction} object has to at least have one reactant
+ * or product, the {@link ReactionGlyph} has to at least have one
+ * {@link SpeciesReferenceGlyph} stored in the
+ * {@link #listOfSpeciesReferencesGlyphs}. The {@link ReactionGlyph} inherits
+ * from {@link GraphicalObject}.
+ * In addition to the attributes inherited from {@link GraphicalObject}, the
+ * {@link ReactionGlyph} is described by an attribute reaction, a {@link Curve}
+ * element and a {@link #listOfSpeciesReferencesGlyphs} element.
  * 
  * @author Nicolas Rodriguez
  * @author Sebastian Fr&ouml;lich

@@ -22,18 +22,14 @@
 package org.sbml.jsbml.ext.groups;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.UniqueNamedSBase;
-import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
