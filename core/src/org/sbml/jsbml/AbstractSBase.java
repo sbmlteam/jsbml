@@ -103,9 +103,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     case 1:
       return ((1 <= version) && (version <= 2));
     case 2:
-      return ((1 <= version) && (version <= 4));
+      return ((1 <= version) && (version <= 5));
     case 3:
-      return ((1 <= version) && (version <= 1));
+      return ((1 <= version) && (version <= 2));
     case -1:
       return (version == -1);
     default:
