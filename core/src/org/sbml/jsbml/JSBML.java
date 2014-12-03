@@ -408,8 +408,13 @@ public class JSBML {
       if (version == 1) {
         return SBMLDocument.URI_NAMESPACE_L3V1Core;
       }
+      else if (version == 2) {
+        return SBMLDocument.URI_NAMESPACE_L3V2Core;
+      }
     } else if (level == 2) {
-      if (version == 4) {
+      if (version == 5) {
+        return SBMLDocument.URI_NAMESPACE_L2V5;
+      } else if (version == 4) {
         return SBMLDocument.URI_NAMESPACE_L2V4;
       } else if (version == 3) {
         return SBMLDocument.URI_NAMESPACE_L2V3;

@@ -272,6 +272,7 @@ public class Unit extends AbstractSBase {
         case 2:
         case 3:
         case 4:
+        case 5:  
           // Like Level 2 Version 1 without CELSIUS
           kinds = new Kind[] { AMPERE, BECQUEREL, CANDELA, COULOMB,
             DIMENSIONLESS, FARAD, GRAM, GRAY, HENRY, HERTZ,
@@ -287,6 +288,7 @@ public class Unit extends AbstractSBase {
       case 3:
         switch (version) {
         case 1:
+        case 2:  
           // like Level 2 Version 4 with additional AVOGADRO
           kinds = new Kind[] { AMPERE, AVOGADRO, BECQUEREL, CANDELA,
             COULOMB, DIMENSIONLESS, FARAD, GRAM, GRAY, HENRY,

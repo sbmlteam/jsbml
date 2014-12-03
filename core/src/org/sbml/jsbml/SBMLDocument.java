@@ -89,9 +89,19 @@ public class SBMLDocument extends AbstractSBase {
   public static final transient String URI_NAMESPACE_L2V4 = "http://www.sbml.org/sbml/level2/version4";
 
   /**
+   * The namespace URI of SBML Level 2 Version 5.
+   */
+  public static final transient String URI_NAMESPACE_L2V5 = "http://www.sbml.org/sbml/level2/version5";
+
+  /**
    * The namespace URI of SBML Level 3 Version 1.
    */
   public static final transient String URI_NAMESPACE_L3V1Core = "http://www.sbml.org/sbml/level3/version1/core";
+
+  /**
+   * The namespace URI of SBML Level 3 Version 2.
+   */
+  public static final transient String URI_NAMESPACE_L3V2Core = "http://www.sbml.org/sbml/level3/version2/core";
 
   /**
    * Contains all the parameter to validate the SBML document

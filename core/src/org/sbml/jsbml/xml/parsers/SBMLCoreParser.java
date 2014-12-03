@@ -1150,13 +1150,14 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
   private static final List<String> namespaces = new ArrayList<String>();
 
   static {
-    namespaces.add("http://www.sbml.org/sbml/level3/version2/core");
-    namespaces.add("http://www.sbml.org/sbml/level3/version1/core");
-    namespaces.add("http://www.sbml.org/sbml/level2/version4");
-    namespaces.add("http://www.sbml.org/sbml/level2/version3");
-    namespaces.add("http://www.sbml.org/sbml/level2/version2");
-    namespaces.add("http://www.sbml.org/sbml/level2");
-    namespaces.add("http://www.sbml.org/sbml/level1");
+    namespaces.add(SBMLDocument.URI_NAMESPACE_L3V2Core);
+    namespaces.add(SBMLDocument.URI_NAMESPACE_L3V1Core);
+    namespaces.add(SBMLDocument.URI_NAMESPACE_L2V5);
+    namespaces.add(SBMLDocument.URI_NAMESPACE_L2V4);
+    namespaces.add(SBMLDocument.URI_NAMESPACE_L2V3);
+    namespaces.add(SBMLDocument.URI_NAMESPACE_L2V2);
+    namespaces.add(SBMLDocument.URI_NAMESPACE_L2V1);
+    namespaces.add(SBMLDocument.URI_NAMESPACE_L1);
   }
 
 }
