@@ -242,6 +242,8 @@ public class ASTCnRealNode extends ASTCnNumberNode<Double> {
     builder.append(strict);
     builder.append(", type=");
     builder.append(isSetType() ? type : "null");
+    builder.append(", real=");
+    builder.append(isSetReal() ? number : "null");
     builder.append(", id=");
     builder.append(isSetId() ? id : "null");
     builder.append(", style=");

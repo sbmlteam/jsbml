@@ -321,6 +321,12 @@ ASTCSymbolNode {
     builder.append(strict);
     builder.append(", type=");
     builder.append(isSetType() ? type : "null");
+    builder.append(", name=");
+    builder.append(isSetName() ? name : "null");
+    builder.append(", definitionURL=");
+    builder.append(isSetDefinitionURL() ? definitionURL : "null");
+    builder.append(", encoding=");
+    builder.append(isSetEncoding() ? encoding : "null");
     builder.append(", id=");
     builder.append(isSetId() ? id : "null");
     builder.append(", style=");

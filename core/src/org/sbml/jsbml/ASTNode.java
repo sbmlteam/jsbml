@@ -1331,7 +1331,6 @@ public class ASTNode extends AbstractTreeNode {
    * type minus, i.e., this negates what is encoded in ast.
    * 
    * @param container
-   * @param sbase
    * @return a new {@link ASTNode} that has exactly one child and which is of
    *         type minus, i.e., this negates what is encoded in ast.
    */

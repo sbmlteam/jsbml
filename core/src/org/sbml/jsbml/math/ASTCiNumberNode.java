@@ -33,7 +33,6 @@ import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.QuantityWithUnit;
 import org.sbml.jsbml.SBMLException;
-import org.sbml.jsbml.Variable;
 import org.sbml.jsbml.math.compiler.ASTNode2Compiler;
 import org.sbml.jsbml.math.compiler.ASTNode2Value;
 import org.sbml.jsbml.math.compiler.FormulaCompiler;

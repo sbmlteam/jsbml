@@ -1136,7 +1136,8 @@ private ASTNode termLevel8() throws NumberFormatException :
     }
     else if (s.equals("cos"))
     {
-      node = new ASTNode(Type.FUNCTION_COS);
+      node = new ASTNode();
+      node.setType(s);
       node.addChild(child);
     }
     else

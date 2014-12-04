@@ -33,6 +33,10 @@ import static org.junit.Assert.assertTrue;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -700,6 +704,8 @@ public class TestModel {
     cvr.setVariable("r3");
     pr.setVariable("r4");
     ar.setFormula("x + 1");
+    // TODO: parser automatically creates the most compact
+    // ast but this might not alwasy be desirable. fix. 
     scr.setFormula("k * t/(1 + k)");
     cvr.setFormula("0.10 * t");
     pr.setFormula("k3/k2");

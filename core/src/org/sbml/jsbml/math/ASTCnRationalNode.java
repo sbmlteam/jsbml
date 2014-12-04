@@ -224,6 +224,10 @@ public class ASTCnRationalNode extends ASTCnNumberNode<ValuePair<Integer,Integer
     builder.append(strict);
     builder.append(", type=");
     builder.append(isSetType() ? type : "null");
+    builder.append(", numerator=");
+    builder.append(isSetNumerator() ? number.getL() : "null");
+    builder.append(", denominator=");
+    builder.append(isSetDenominator() ? number.getV() : "null");
     builder.append(", id=");
     builder.append(isSetId() ? id : "null");
     builder.append(", style=");
