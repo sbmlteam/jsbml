@@ -569,7 +569,7 @@ public class Unit extends AbstractSBase {
      * Creates a MIRIAM resource pointing to the entry in the unit ontology
      * corresponding to this {@link Kind}. If such an entry exists, this
      * method will return the {@link String}
-     * {@code http://identifiers.org/obo.unit/UO:} plus the number of the
+     * {@code http://identifiers.org/unit/UO:} plus the number of the
      * resource filled to a seven-digit number by inserting leading zeros.
      * 
      * @return null if no corresponding entry exists in the unit ontology,
@@ -578,8 +578,8 @@ public class Unit extends AbstractSBase {
     public String getUnitOntologyResource() {
       String uo = getUnitOntologyIdentifier();
       if (uo != null) {
-        return "http://identifiers.org/obo.unit/" + uo;
-        //return "urn:miriam:obo.unit:" + uo.replace(":", "%3A");
+        return "http://identifiers.org/unit/" + uo;
+        //return "urn:miriam:unit:" + uo.replace(":", "%3A");
       }
       return null;
     }

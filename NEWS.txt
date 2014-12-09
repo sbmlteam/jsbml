@@ -10,6 +10,16 @@ Version 1.0 (09-12-2014)
     library to correct the formatting of the XML file before writing it
     out.
 
+  - Created a new class SyntaxChecker that corresponds to the class in
+    libSBML and moved pattern matching for id comparisons and e-mail
+    addresses into this class.
+
+  - Updated JSBML to create identifiers.org URIs instead of URNs for units.
+
+ * Support for SBML Level 3 'Dynamic Structures (dyn)' package:
+
+  - First draft of JSBML implementation done (experimental).
+
 * Bug Fixes:
 
   - Solved error #82 in Unit.removeMultiplier. Thanks to Christian Thöns
@@ -20,7 +30,24 @@ Version 1.0 (09-12-2014)
     duplicates to ListOf objects.
 
   - Improvements made to the java API documentation (javadoc).
-  
+ 
+  - Added a check to write only the necessary namespaces when writting
+    CVTerm to XML.
+ 
+ * Support for SBML Level 3 'Hierarchical Model Composition (comp)'
+   package:
+
+  - Registering SBaseRef correctly in the document. Corrected the clone
+    constructor of SBaseRef that did not copy the recursive SBaseRef.
+
+  - Added all the missing equals and hashCode methods in the comp package.
+
+ * Support for SBML Level 3 'Arrays' package:
+
+  - Several fixes and improvments in the validation code and the flattening
+    code.
+
+
 ===========================================================================
 Version 1.0-rc1 (24-09-2014)
 ===========================================================================
