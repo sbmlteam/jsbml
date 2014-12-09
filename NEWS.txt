@@ -1,8 +1,14 @@
 	       JSBML NEWS -- History of user-visible changes
 
 ===========================================================================
-Version 1.0-rc2 (??-??-2014)
+Version 1.0 (09-12-2014)
 ===========================================================================
+
+* New Features:
+
+  - Added a new module that contain a tidy SBMLWriter that use the jtidy
+    library to correct the formatting of the XML file before writing it
+    out.
 
 * Bug Fixes:
 
@@ -13,6 +19,8 @@ Version 1.0-rc2 (??-??-2014)
     operation was successfully completed. This prevents users from adding
     duplicates to ListOf objects.
 
+  - Improvements made to the java API documentation (javadoc).
+  
 ===========================================================================
 Version 1.0-rc1 (24-09-2014)
 ===========================================================================
