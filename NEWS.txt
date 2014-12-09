@@ -14,7 +14,8 @@ Version 1.0 (09-12-2014)
     libSBML and moved pattern matching for id comparisons and e-mail
     addresses into this class.
 
-  - Updated JSBML to create identifiers.org URIs instead of URNs for units.
+  - Updated JSBML to create identifiers.org URIs instead of URNs for
+    units.
 
  * Support for SBML Level 3 'Dynamic Structures (dyn)' package:
 
@@ -25,9 +26,9 @@ Version 1.0 (09-12-2014)
   - Solved error #82 in Unit.removeMultiplier. Thanks to Christian Thöns
     for pointing this out.
     
-  - The registerChild method now returns a boolean value to indicate if the
-    operation was successfully completed. This prevents users from adding
-    duplicates to ListOf objects.
+  - The registerChild method now returns a boolean value to indicate if
+    the operation was successfully completed. This prevents users from
+    adding duplicates to ListOf objects.
 
   - Improvements made to the java API documentation (javadoc).
  
@@ -40,12 +41,13 @@ Version 1.0 (09-12-2014)
   - Registering SBaseRef correctly in the document. Corrected the clone
     constructor of SBaseRef that did not copy the recursive SBaseRef.
 
-  - Added all the missing equals and hashCode methods in the comp package.
+  - Added all the missing equals and hashCode methods in the comp
+    package.
 
  * Support for SBML Level 3 'Arrays' package:
 
-  - Several fixes and improvments in the validation code and the flattening
-    code.
+  - Several fixes and improvments in the validation code and the
+    flattening code.
 
 
 ===========================================================================
