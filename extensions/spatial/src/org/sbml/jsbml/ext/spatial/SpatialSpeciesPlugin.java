@@ -268,7 +268,7 @@ public class SpatialSpeciesPlugin extends AbstractSpatialSBasePlugin {
   //
   //    for (Parameter p: params) {
   //      SpatialParameterPlugin paramPlugin =
-  //          (SpatialParameterPlugin) p.getExtension(SpatialConstants.packageName);
+  //          (SpatialParameterPlugin) p.getExtension(SpatialConstants.shortLabel);
   //
   //      if (paramPlugin != null) {
   //        ParameterType paramType = paramPlugin.getParamType();
