@@ -113,7 +113,7 @@ public class ParameterType extends AbstractSBase {
 
     Model model = getModel();
 
-    SpatialModelPlugin m = (SpatialModelPlugin) model.getExtension(SpatialConstants.packageName);
+    SpatialModelPlugin m = (SpatialModelPlugin) model.getExtension(SpatialConstants.shortLabel);
     //TODO: Get the correct element in geometry using the spid
     return m.getGeometry();
   }
