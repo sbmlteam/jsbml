@@ -44,18 +44,27 @@ import org.sbml.jsbml.util.compilers.FormulaCompiler;
  */
 public class TestInfixOperatorPrecedence {
 
+  /**
+   * @throws Exception
+   */
   @Before public void setUp() throws Exception
   {
   }
 
+  /**
+   * @throws Exception
+   */
   @After public void tearDown() throws Exception
   {
   }
 
 
+  /**
+   * 
+   */
   @Test public void testParseLogicalOperator() {
-    
-    
+
+
     ASTNode n = null;
     try {
       n = ASTNode.parseFormula("x + 1 && 2 || y * 2 ");
@@ -63,27 +72,30 @@ public class TestInfixOperatorPrecedence {
       e.printStackTrace();
       assertTrue(false);
     }
-     
+
     System.out.println(n.toMathML());
     System.out.println(n.toFormula());
     assertTrue(n.toFormula().equals("((x+1) && 2) || (y*2)"));
-    
+
     try {
       n = ASTNode.parseFormula("V0 > 3 && V1 > 3");
     } catch (ParseException e) {
       e.printStackTrace();
       assertTrue(false);
     }
-     
+
     System.out.println(n.toMathML());
-    System.out.println(n.toFormula());    
-    
+    System.out.println(n.toFormula());
+
     assertTrue(n.toFormula().equals("(V0 > 3) && (V1 > 3)"));
   }
-  
+
+  /**
+   * 
+   */
   @Test public void testPlus() {
-    
-    
+
+
     ASTNode n = null;
     try {
       n = ASTNode.parseFormula("5 + 2 * 4 + 4 * 8 ");
@@ -91,15 +103,18 @@ public class TestInfixOperatorPrecedence {
       e.printStackTrace();
       assertTrue(false);
     }
-     
+
     System.out.println(n.toMathML());
     System.out.println(n.toFormula());
     assertTrue(n.toFormula().equals("5+2*4+4*8"));
-  }  
+  }
 
+  /**
+   * 
+   */
   @Test public void testPower() {
-    
-    
+
+
     ASTNode n = null;
     try {
       n = ASTNode.parseFormula("5+1^(-1)");
@@ -107,7 +122,7 @@ public class TestInfixOperatorPrecedence {
       e.printStackTrace();
       assertTrue(false);
     }
-     
+
     System.out.println(n.toMathML());
     System.out.println(n.toFormula());
 
@@ -117,37 +132,40 @@ public class TestInfixOperatorPrecedence {
       e.printStackTrace();
       assertTrue(false);
     }
-     
+
     System.out.println(n.toMathML());
     System.out.println(n.toFormula());
-    
+
     try {
       n = ASTNode.parseFormula("32 / 2 ^ 4 * 1e2");
     } catch (ParseException e) {
       e.printStackTrace();
       assertTrue(false);
     }
-     
+
     System.out.println(n.toMathML());
     System.out.println(n.toFormula());
     assertTrue(n.toFormula().equals("32/2^4*1E2"));
-    
+
     try {
       n = ASTNode.parseFormula("x^8%3");
     } catch (ParseException e) {
       e.printStackTrace();
       assertTrue(false);
     }
-     
+
     System.out.println(n.toMathML());
     System.out.println(n.toFormula());
 
     assertTrue(n.toFormula().equals("piecewise(floor(x^8/3), x^8/3 > 0, ceil(x^8/3))"));
-  }  
+  }
 
+  /**
+   * 
+   */
   @Test public void testModulo() {
-    
-    
+
+
     ASTNode n = null;
     try {
       n = ASTNode.parseFormula("5 + 1 + 8 % 3 + 2");
@@ -155,10 +173,10 @@ public class TestInfixOperatorPrecedence {
       e.printStackTrace();
       assertTrue(false);
     }
-     
+
     System.out.println(n.toMathML());
     System.out.println(n.toFormula());
-    
+
     assertTrue(n.toFormula().equals("5+1+piecewise(floor(8/3), 8/3 > 0, ceil(8/3))+2"));
   }
 }

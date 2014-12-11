@@ -38,7 +38,7 @@ import org.sbml.jsbml.ext.render.Rectangle;
 public class RectangleTest {
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#getChildCount()}.
+   * Test method for {@link Rectangle#getChildCount()}.
    */
   @Test
   public void testGetChildCount() {
@@ -47,7 +47,7 @@ public class RectangleTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#getRx()}.
+   * Test method for {@link Rectangle#getRx()}.
    */
   @Test
   public void testGetRx() {
@@ -59,7 +59,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#isSetRx()}.
+   * Test method for {@link Rectangle#isSetRx()}.
    */
   public void testIsSetRx() {
     Rectangle rectangle=new Rectangle();
@@ -70,7 +70,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#setRx(java.lang.Double)}.
+   * Test method for {@link Rectangle#setRx(double)}.
    */
   @Test
   public void testSetRx() {
@@ -82,7 +82,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#getRy()}.
+   * Test method for {@link Rectangle#getRy()}.
    */
   @Test
   public void testGetRy() {
@@ -94,7 +94,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#isSetRy()}.
+   * Test method for {@link Rectangle#isSetRy()}.
    */
   @Test
   public void testIsSetRy() {
@@ -106,7 +106,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#setRy(java.lang.Double)}.
+   * Test method for {@link Rectangle#setRy(double)}.
    */
   @Test
   public void testSetRy() {
@@ -118,7 +118,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#isSetAbsoluteX()}.
+   * Test method for {@link Rectangle#isSetAbsoluteX()}.
    */
   @Test
   public void testIsSetAbsoluteX() {
@@ -129,7 +129,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#setAbsoluteX(java.lang.Boolean)}.
+   * Test method for {@link Rectangle#setAbsoluteX(boolean)}.
    */
   @Test
   public void testSetAbsoluteX() {
@@ -140,7 +140,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#isAbsoluteY()}.
+   * Test method for {@link Rectangle#isAbsoluteY()}.
    */
   @Test
   public void testIsAbsoluteY() {
@@ -151,7 +151,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#isSetAbsoluteY()}.
+   * Test method for {@link Rectangle#isSetAbsoluteY()}.
    */
   @Test
   public void testIsSetAbsoluteY() {
@@ -162,7 +162,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#setAbsoluteY(java.lang.Boolean)}.
+   * Test method for {@link Rectangle#setAbsoluteY(boolean)}.
    */
   @Test
   public void testSetAbsoluteY() {
@@ -173,7 +173,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#isAbsoluteZ()}.
+   * Test method for {@link Rectangle#isAbsoluteZ()}.
    */
   @Test
   public void testIsAbsoluteZ() {
@@ -184,7 +184,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#isSetAbsoluteZ()}.
+   * Test method for {@link Rectangle#isSetAbsoluteZ()}.
    */
   @Test
   public void testIsSetAbsoluteZ() {
@@ -195,7 +195,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#setAbsoluteZ(java.lang.Boolean)}.
+   * Test method for {@link Rectangle#setAbsoluteZ(boolean)}.
    */
   @Test
   public void testSetAbsoluteZ() {
@@ -206,7 +206,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#isAbsoluteRx()}.
+   * Test method for {@link Rectangle#isAbsoluteRx()}.
    */
   @Test
   public void testIsAbsoluteRx() {
@@ -217,7 +217,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#isSetAbsoluteRx()}.
+   * Test method for {@link Rectangle#isSetAbsoluteRx()}.
    */
   @Test
   public void testIsSetAbsoluteRx() {
@@ -228,7 +228,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#setAbsoluteRx(java.lang.Boolean)}.
+   * Test method for {@link Rectangle#setAbsoluteRx(boolean)}.
    */
   @Test
   public void testSetAbsoluteRx() {
@@ -239,7 +239,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#isAbsoluteRy()}.
+   * Test method for {@link Rectangle#isAbsoluteRy()}.
    */
   @Test
   public void testIsAbsoluteRy() {
@@ -250,7 +250,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#isSetAbsoluteRy()}.
+   * Test method for {@link Rectangle#isSetAbsoluteRy()}.
    */
   @Test
   public void testIsSetAbsoluteRy() {
@@ -261,7 +261,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#setAbsoluteRy(java.lang.Boolean)}.
+   * Test method for {@link Rectangle#setAbsoluteRy(boolean)}.
    */
   @Test
   public void testSetAbsoluteRy() {
@@ -272,7 +272,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#isSetAbsoluteHeight()}.
+   * Test method for {@link Rectangle#isSetAbsoluteHeight()}.
    */
   @Test
   public void testIsSetAbsoluteHeight() {
@@ -283,7 +283,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#setAbsoluteHeight(java.lang.Boolean)}.
+   * Test method for {@link Rectangle#setAbsoluteHeight(boolean)}.
    */
   @Test
   public void testSetAbsoluteHeight() {
@@ -294,7 +294,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#isAbsoluteWidth()}.
+   * Test method for {@link Rectangle#isAbsoluteWidth()}.
    */
   @Test
   public void testIsAbsoluteWidth() {
@@ -305,7 +305,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#isSetAbsoluteWidth()}.
+   * Test method for {@link Rectangle#isSetAbsoluteWidth()}.
    */
   @Test
   public void testIsSetAbsoluteWidth() {
@@ -316,7 +316,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#setAbsoluteWidth(java.lang.Boolean)}.
+   * Test method for {@link Rectangle#setAbsoluteWidth(boolean)}.
    */
   @Test
   public void testSetAbsoluteWidth() {
@@ -327,7 +327,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#getX()}.
+   * Test method for {@link Rectangle#getX()}.
    */
   @Test
   public void testGetX() {
@@ -338,7 +338,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#isSetX()}.
+   * Test method for {@link Rectangle#isSetX()}.
    */
   @Test
   public void testIsSetX() {
@@ -349,7 +349,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#setX(java.lang.Double)}.
+   * Test method for {@link Rectangle#setX(double)}.
    */
   @Test
   public void testSetX() {
@@ -360,7 +360,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#getY()}.
+   * Test method for {@link Rectangle#getY()}.
    */
   @Test
   public void testGetY() {
@@ -371,7 +371,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#isSetY()}.
+   * Test method for {@link Rectangle#isSetY()}.
    */
   @Test
   public void testIsSetY() {
@@ -382,7 +382,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#setY(java.lang.Double)}.
+   * Test method for {@link Rectangle#setY(double)}.
    */
   @Test
   public void testSetY() {
@@ -393,7 +393,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#getZ()}.
+   * Test method for {@link Rectangle#getZ()}.
    */
   @Test
   public void testGetZ() {
@@ -404,7 +404,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#isSetZ()}.
+   * Test method for {@link Rectangle#isSetZ()}.
    */
   @Test
   public void testIsSetZ() {
@@ -415,7 +415,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#setZ(java.lang.Double)}.
+   * Test method for {@link Rectangle#setZ(double)}.
    */
   @Test
   public void testSetZ() {
@@ -426,7 +426,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#getHeight()}.
+   * Test method for {@link Rectangle#getHeight()}.
    */
   @Test
   public void testGetHeight() {
@@ -438,7 +438,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#isSetHeight()}.
+   * Test method for {@link Rectangle#isSetHeight()}.
    */
   @Test
   public void testIsSetHeight() {
@@ -450,7 +450,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#setHeight(java.lang.Double)}.
+   * Test method for {@link Rectangle#setHeight(double)}.
    */
   @Test
   public void testSetHeight() {
@@ -462,7 +462,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#getWidth()}.
+   * Test method for {@link Rectangle#getWidth()}.
    */
   @Test
   public void testGetWidth() {
@@ -474,7 +474,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#isSetWidth()}.
+   * Test method for {@link Rectangle#isSetWidth()}.
    */
   @Test
   public void testIsSetWidth() {
@@ -486,7 +486,7 @@ public class RectangleTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Rectangle#setWidth(java.lang.Double)}.
+   * Test method for {@link Rectangle#setWidth(double)}.
    */
   @Test
   public void testSetWidth() {

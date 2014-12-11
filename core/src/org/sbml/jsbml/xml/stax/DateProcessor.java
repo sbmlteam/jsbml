@@ -60,15 +60,27 @@ public class DateProcessor {
   public final static SimpleDateFormat ISO_8601_DATE_FORMAT = new SimpleDateFormat(
       "yyyy-MM-dd'T'HH:mm:ssZ");
 
-  private Pattern datePattern = Pattern
-      .compile("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,})?)?(\\+|-)\\d{2}(:\\d{2})?");
+  /**
+   * 
+   */
+  private Pattern datePattern = Pattern.compile(
+      "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,})?)?(\\+|-)\\d{2}(:\\d{2})?");
 
-  private Pattern datePatternWithoutTimezoneInfo = Pattern
-      .compile("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{1,2}(\\.\\d{1,})?)?");
+  /**
+   * 
+   */
+  private Pattern datePatternWithoutTimezoneInfo = Pattern.compile(
+      "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{1,2}(\\.\\d{1,})?)?");
 
-  private Pattern datePatternWithMilitaryTimezone = Pattern
-      .compile("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{1,2}(\\.\\d{1,})?)[A-Z]");
+  /**
+   * 
+   */
+  private Pattern datePatternWithMilitaryTimezone = Pattern.compile(
+      "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{1,2}(\\.\\d{1,})?)[A-Z]");
 
+  /**
+   * 
+   */
   private String[][] militaryTimezones = { { "A", "+01:00" },
     { "B", "+02:00" }, { "C", "+03:00" }, { "D", "+04:00" },
     { "E", "+05:00" }, { "F", "+06:00" }, { "G", "+07:00" },
@@ -90,9 +102,7 @@ public class DateProcessor {
    * 
    */
   public final String convertToGMT(Date datetime) {
-
     return convertToGMT(formatToW3CDTF(datetime));
-
   }
 
   /**

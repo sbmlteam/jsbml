@@ -40,16 +40,67 @@ import org.sbml.jsbml.xml.XMLNode;
  */
 public class SampledField extends AbstractSpatialNamedSBase {
 
+  /**
+   * @author Alex Thomas
+   * @author Andreas Dr&auml;ger
+   * @version $Rev$
+   * @since 1.0
+   */
   public enum DataKind {
-    DOUBLE, FLOAT, UINT8, UINT16, UINT32
+    /**
+     * 
+     */
+    DOUBLE,
+    /**
+     * 
+     */
+    FLOAT,
+    /**
+     * 
+     */
+    UINT8,
+    /**
+     * 
+     */
+    UINT16,
+    /**
+     * 
+     */
+    UINT32;
   }
 
+  /**
+   * @author Alex Thomas
+   * @author Andreas Dr&auml;ger
+   * @version $Rev$
+   * @since 1.0
+   */
   public enum CompressionKind {
-    UNCOMPRESSED, DEFLATED
+    /**
+     * 
+     */
+    UNCOMPRESSED,
+    /**
+     * 
+     */
+    DEFLATED;
   }
 
+  /**
+   * @author Alex Thomas
+   * @author Andreas Dr&auml;ger
+   * @version $Rev$
+   * @since 1.0
+   */
   public enum InterpolationKind {
-    NEARESTNEIGHBOR, LINEAR
+    /**
+     * 
+     */
+    NEARESTNEIGHBOR,
+    /**
+     * 
+     */
+    LINEAR;
   }
 
   /**
@@ -57,12 +108,33 @@ public class SampledField extends AbstractSpatialNamedSBase {
    */
   private static final long serialVersionUID = 4345673559248715940L;
 
+  /**
+   * 
+   */
   private DataKind dataType;
+  /**
+   * 
+   */
   private Integer numSamples1;
+  /**
+   * 
+   */
   private Integer numSamples2;
+  /**
+   * 
+   */
   private Integer numSamples3;
+  /**
+   * 
+   */
   private InterpolationKind interpolation;
+  /**
+   * 
+   */
   private CompressionKind compression;
+  /**
+   * 
+   */
   private XMLNode data;
 
   /**
@@ -185,6 +257,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of numSamples1
+   * @param numSamples1
    */
   public void setNumSamples1(int numSamples1) {
     int oldNumSamples1 = this.numSamples1;
@@ -236,6 +309,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of numSamples2
+   * @param numSamples2
    */
   public void setNumSamples2(int numSamples2) {
     int oldNumSamples2 = this.numSamples2;
@@ -288,6 +362,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of numSamples3
+   * @param numSamples3
    */
   public void setNumSamples3(int numSamples3) {
     int oldNumSamples3 = this.numSamples3;
@@ -337,6 +412,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of dataType
+   * @param dataType
    */
   public void setDataType(DataKind dataType) {
     DataKind oldDataType = this.dataType;
@@ -388,6 +464,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of compression
+   * @param compression
    */
   public void setCompression(CompressionKind compression) {
     CompressionKind oldCompression = this.compression;
@@ -439,6 +516,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of interpolation
+   * @param interpolation
    */
   public void setInterpolation(InterpolationKind interpolation) {
     InterpolationKind oldInterpolation = this.interpolation;
@@ -503,6 +581,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of data
+   * @param data
    * @throws XMLStreamException
    */
   public void setData(String data) throws XMLStreamException {
@@ -511,6 +590,7 @@ public class SampledField extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of data
+   * @param data
    */
   public void setData(XMLNode data) {
     XMLNode oldData = this.data;

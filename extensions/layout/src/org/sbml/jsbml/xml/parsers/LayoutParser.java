@@ -77,20 +77,47 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 @ProviderFor(ReadingParser.class)
 public class LayoutParser implements ReadingParser, WritingParser, PackageParser {
 
+  /**
+   * A {@link Logger} for this class.
+   */
   private Logger logger = Logger.getLogger(LayoutParser.class);
 
   /**
    * 
    */
   enum LayoutList {
+    /**
+     * 
+     */
     listOfLayouts,
+    /**
+     * 
+     */
     listOfSpeciesGlyphs,
+    /**
+     * 
+     */
     listOfReactionGlyphs,
+    /**
+     * 
+     */
     listOfTextGlyphs,
+    /**
+     * 
+     */
     listOfCompartmentGlyphs,
+    /**
+     * 
+     */
     none,
+    /**
+     * 
+     */
     listOfCurveSegments,
-    listOfSpeciesReferenceGlyphs
+    /**
+     * 
+     */
+    listOfSpeciesReferenceGlyphs;
   }
 
   /**

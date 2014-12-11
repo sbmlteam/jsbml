@@ -213,6 +213,7 @@ public class FormulaCompiler extends StringTools implements ASTNodeCompiler {
    * @param exponent
    * @param basis
    * @return
+   * @throws NumberFormatException
    * @throws IllegalFormatException
    *             If the given exponent represents a zero.
    */

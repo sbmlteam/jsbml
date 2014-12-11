@@ -22,6 +22,8 @@
  */
 package org.sbml.jsbml;
 
+import org.sbml.jsbml.util.TreeNodeChangeListener;
+
 /**
  * A common super class for all those elements that can be part of an {@link Annotation}.
  * 

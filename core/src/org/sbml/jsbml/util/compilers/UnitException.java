@@ -21,6 +21,7 @@
  */
 package org.sbml.jsbml.util.compilers;
 
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.SBMLException;
 
 /**

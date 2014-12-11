@@ -41,10 +41,22 @@ public class CSGScale extends CSGTransformation {
    */
   private static final long serialVersionUID = 7021488698800177528L;
 
+  /**
+   * 
+   */
   private Double scaleX;
+  /**
+   * 
+   */
   private Double scaleY;
+  /**
+   * 
+   */
   private Double scaleZ;
 
+  /**
+   * 
+   */
   public CSGScale() {
     super();
   }
@@ -144,6 +156,7 @@ public class CSGScale extends CSGTransformation {
 
   /**
    * Sets the value of scaleX
+   * @param scaleX
    */
   public void setScaleX(double scaleX) {
     double oldScaleX = this.scaleX;
@@ -195,6 +208,7 @@ public class CSGScale extends CSGTransformation {
 
   /**
    * Sets the value of scaleY
+   * @param scaleY
    */
   public void setScaleY(double scaleY) {
     double oldScaleY = this.scaleY;
@@ -246,6 +260,7 @@ public class CSGScale extends CSGTransformation {
 
   /**
    * Sets the value of scaleZ
+   * @param scaleZ
    */
   public void setScaleZ(double scaleZ) {
     double oldScaleZ = this.scaleZ;

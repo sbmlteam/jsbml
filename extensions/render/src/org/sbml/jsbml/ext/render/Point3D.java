@@ -94,33 +94,39 @@ public interface Point3D {
 
   /**
    * Set the value of absoluteX
+   * @param absoluteX
    */
-  public abstract void setAbsoluteX(Boolean absoluteX);
+  public abstract void setAbsoluteX(boolean absoluteX);
 
   /**
    * Set the value of absoluteY
+   * @param absoluteY
    */
-  public abstract void setAbsoluteY(Boolean absoluteY);
+  public abstract void setAbsoluteY(boolean absoluteY);
 
   /**
    * Set the value of absoluteZ
+   * @param absoluteZ
    */
-  public abstract void setAbsoluteZ(Boolean absoluteZ);
+  public abstract void setAbsoluteZ(boolean absoluteZ);
 
   /**
    * Set the value of x
+   * @param x
    */
-  public abstract void setX(Double x);
+  public abstract void setX(double x);
 
   /**
    * Set the value of y
+   * @param y
    */
-  public abstract void setY(Double y);
+  public abstract void setY(double y);
 
   /**
    * Set the value of z
+   * @param z
    */
-  public abstract void setZ(Double z);
+  public abstract void setZ(double z);
 
   /**
    * Unsets the variable absoluteX

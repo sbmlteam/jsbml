@@ -45,7 +45,6 @@ import org.sbml.jsbml.Species;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.filters.Filter;
 import org.sbml.jsbml.xml.stax.SBMLReader;
-import org.sbml.jsbml.xml.stax.SBMLWriter;
 import org.xml.sax.SAXException;
 
 /**
@@ -56,6 +55,9 @@ import org.xml.sax.SAXException;
  */
 public class SBML_L2V1Test {
 
+  /**
+   * 
+   */
   @BeforeClass public static void initialSetUp() {}
 
   /**
@@ -64,6 +66,10 @@ public class SBML_L2V1Test {
   @Before public void setUp() {}
 
   /**
+   * @throws XMLStreamException
+   * @throws InvalidPropertiesFormatException
+   * @throws IOException
+   * @throws ClassNotFoundException
    * 
    */
   @SuppressWarnings("deprecation")
@@ -149,16 +155,25 @@ public class SBML_L2V1Test {
   }
 
   /**
+   * @throws XMLStreamException
+   * @throws InvalidPropertiesFormatException
+   * @throws IOException
+   * @throws ClassNotFoundException
    * 
    */
   @Test public void read2() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
     InputStream fileStream = SBML_L2V1Test.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v1/BIOMD0000000227.xml");
+    @SuppressWarnings("unused")
     SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
 
     // TODO - do some tests on this model !!
   }
 
   /**
+   * @throws XMLStreamException
+   * @throws InvalidPropertiesFormatException
+   * @throws IOException
+   * @throws ClassNotFoundException
    * 
    */
   @Test public void read3() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
@@ -218,6 +233,10 @@ public class SBML_L2V1Test {
   }
 
   /**
+   * @throws XMLStreamException
+   * @throws InvalidPropertiesFormatException
+   * @throws IOException
+   * @throws ClassNotFoundException
    * 
    */
   @Test public void read4() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
@@ -254,6 +273,10 @@ public class SBML_L2V1Test {
 
 
   /**
+   * @throws XMLStreamException
+   * @throws InvalidPropertiesFormatException
+   * @throws IOException
+   * @throws ClassNotFoundException
    * 
    */
   @Test public void read5() throws XMLStreamException, InvalidPropertiesFormatException, IOException, ClassNotFoundException {
@@ -302,13 +325,22 @@ public class SBML_L2V1Test {
   }
 
   /**
+   * @throws XMLStreamException
+   * @throws InstantiationException
+   * @throws IllegalAccessException
+   * @throws InvalidPropertiesFormatException
+   * @throws IOException
+   * @throws ClassNotFoundException
+   * @throws SBMLException
+   * @throws SAXException
    * 
    */
   @Test public void write1() throws XMLStreamException, InstantiationException, IllegalAccessException, InvalidPropertiesFormatException, IOException, ClassNotFoundException, SBMLException, SAXException{
     InputStream fileStream = SBML_L2V1Test.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v1/BIOMD0000000025.xml");
+    @SuppressWarnings("unused")
     SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
 
-    String resultFile = new SBMLWriter().writeSBMLToString(doc);
+    //String resultFile = new SBMLWriter().writeSBMLToString(doc);
 
     // TODO - re-read the file and do some test on it
   }

@@ -145,11 +145,9 @@ public class JAXPFacade implements DocumentFactory, SAX2Parser, NodeWriter {
     }
   }
 
-  //
-  //
-  // Prevents the generation of the default constructor.
-  //
-  //
+  /**
+   * Prevents the generation of the default constructor (singleton pattern).
+   */
   private JAXPFacade() {
   }
 

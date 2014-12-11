@@ -91,8 +91,11 @@ public class MultiInitialAssignment extends AbstractSBasePlugin {
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 6089211452281417062L;
-  // TODO: should probably be a listOf here
-  private SpeciesTypeInstanceChange speciesTypeInstanceChange;
+
+  /**
+   * 
+   */
+  private SpeciesTypeInstanceChange speciesTypeInstanceChange; // TODO: should probably be a listOf here
 
   /**
    * @param multiInitialAssignment

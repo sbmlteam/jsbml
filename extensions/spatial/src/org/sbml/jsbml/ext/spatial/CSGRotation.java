@@ -39,12 +39,27 @@ public class CSGRotation extends CSGTransformation {
    * 
    */
   private static final long serialVersionUID = -4799604235135248586L;
+  /**
+   * 
+   */
   private Double rotateAxisX;
+  /**
+   * 
+   */
   private Double rotateAxisY;
+  /**
+   * 
+   */
   private Double rotateAxisZ;
 
+  /**
+   * 
+   */
   private Double rotateAngleInRadians;
 
+  /**
+   * 
+   */
   public CSGRotation() {
     super();
   }
@@ -147,6 +162,7 @@ public class CSGRotation extends CSGTransformation {
 
   /**
    * Sets the value of rotateAxisX
+   * @param rotateAxisX
    */
   public void setRotateAxisX(double rotateAxisX) {
     double oldRotateAxisX = this.rotateAxisX;
@@ -198,6 +214,7 @@ public class CSGRotation extends CSGTransformation {
 
   /**
    * Sets the value of rotateAxisY
+   * @param rotateAxisY
    */
   public void setRotateAxisY(double rotateAxisY) {
     double oldRotateAxisY = this.rotateAxisY;
@@ -249,6 +266,7 @@ public class CSGRotation extends CSGTransformation {
 
   /**
    * Sets the value of rotateAxisZ
+   * @param rotateAxisZ
    */
   public void setRotateAxisZ(double rotateAxisZ) {
     double oldRotateAxisZ = this.rotateAxisZ;
@@ -300,6 +318,7 @@ public class CSGRotation extends CSGTransformation {
 
   /**
    * Sets the value of rotateAngleInRadians
+   * @param rotateAngleInRadians
    */
   public void setRotateAngleInRadians(double rotateAngleInRadians) {
     double oldRotateAngleInRadians = this.rotateAngleInRadians;

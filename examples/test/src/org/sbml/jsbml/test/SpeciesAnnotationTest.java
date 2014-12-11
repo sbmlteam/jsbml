@@ -39,6 +39,10 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
  */
 public class SpeciesAnnotationTest extends SimpleTreeNodeChangeListener {
 
+  /**
+   * @throws XMLStreamException
+   * @throws SBMLException
+   */
   public SpeciesAnnotationTest() throws XMLStreamException, SBMLException {
     SBMLDocument doc = new SBMLDocument(2, 4);
     doc.addTreeNodeChangeListener(this);

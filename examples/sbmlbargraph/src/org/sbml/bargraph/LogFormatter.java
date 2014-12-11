@@ -40,16 +40,25 @@ extends java.util.logging.Formatter
   // --------------------------- Public methods -----------------------------
   //
 
+  /**
+   * @param msgPrefix
+   */
   public LogFormatter(String msgPrefix)
   {
     this.msgPrefix = msgPrefix;
   }
 
+  /**
+   * 
+   */
   public LogFormatter()
   {
     // Default has no prefix string.
   }
 
+  /* (non-Javadoc)
+   * @see java.util.logging.Formatter#format(java.util.logging.LogRecord)
+   */
   @Override
   public String format(LogRecord rec)
   {

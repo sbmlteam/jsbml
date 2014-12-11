@@ -29,6 +29,7 @@ import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.sbml.jsbml.JSBML;
 import org.sbml.jsbml.xml.parsers.XMLNodeWriter;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 

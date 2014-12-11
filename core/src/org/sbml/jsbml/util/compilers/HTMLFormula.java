@@ -39,6 +39,7 @@ import org.sbml.jsbml.util.StringTools;
  * @since 0.8
  * @version $Rev$
  */
+@SuppressWarnings("deprecation")
 public class HTMLFormula extends MathMLCompiler {
 
   /**
@@ -151,9 +152,9 @@ public class HTMLFormula extends MathMLCompiler {
 
   /**
    * 
+   * @param u
    * @return
    */
-  @SuppressWarnings("deprecation")
   public static String toHTML(Unit u) {
     StringBuffer times = new StringBuffer();
     if (u.getMultiplier() != 0) {
@@ -181,6 +182,7 @@ public class HTMLFormula extends MathMLCompiler {
 
   /**
    * Creates an HTML string representation of this UnitDefinition.
+   * @param ud
    * 
    * @return
    */
@@ -212,7 +214,6 @@ public class HTMLFormula extends MathMLCompiler {
    * @return
    * @throws SBMLException
    */
-  @SuppressWarnings("deprecation")
   public String reactionEquation(Reaction reaction) throws SBMLException {
     StringBuilder reactionEqn = new StringBuilder();
     int count = 0;

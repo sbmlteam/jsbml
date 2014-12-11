@@ -36,15 +36,54 @@ import org.sbml.jsbml.SBase;
  * @since 1.0
  * @date 08.05.2012
  */
-public class Image extends Transformation2D { // TODO - need to extends UniqueNamedSBase, NamedSBase 
+public class Image extends Transformation2D { // TODO - need to extends UniqueNamedSBase, NamedSBase
   /**
    * Generated serial version identifier
    */
   private static final long serialVersionUID = 6031110715160806863L;
-  private Double x, y, z;
-  private Double width, height;
-  private Boolean absoluteX, absoluteY, absoluteZ;
-  private Boolean absoluteWidth, absoluteHeight;
+  /**
+   * 
+   */
+  private Double x;
+  /**
+   * 
+   */
+  private Double y;
+  /**
+   * 
+   */
+  private Double z;
+  /**
+   * 
+   */
+  private Double width;
+  /**
+   * 
+   */
+  private Double height;
+  /**
+   * 
+   */
+  private Boolean absoluteX;
+  /**
+   * 
+   */
+  private Boolean absoluteY;
+  /**
+   * 
+   */
+  private Boolean absoluteZ;
+  /**
+   * 
+   */
+  private Boolean absoluteWidth;
+  /**
+   * 
+   */
+  private Boolean absoluteHeight;
+  /**
+   * 
+   */
   private String href;
 
   /**
@@ -67,6 +106,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
 
   /**
    * Clone constructor
+   * @param obj
    */
   public Image(Image obj) {
     super();
@@ -100,7 +140,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
     z = 0d;
   }
 
-  
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -109,9 +149,9 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
     final int prime = 31;
     int result = super.hashCode();
     result = prime * result
-      + ((absoluteHeight == null) ? 0 : absoluteHeight.hashCode());
+        + ((absoluteHeight == null) ? 0 : absoluteHeight.hashCode());
     result = prime * result
-      + ((absoluteWidth == null) ? 0 : absoluteWidth.hashCode());
+        + ((absoluteWidth == null) ? 0 : absoluteWidth.hashCode());
     result = prime * result + ((absoluteX == null) ? 0 : absoluteX.hashCode());
     result = prime * result + ((absoluteY == null) ? 0 : absoluteY.hashCode());
     result = prime * result + ((absoluteZ == null) ? 0 : absoluteZ.hashCode());
@@ -270,8 +310,9 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
 
   /**
    * Set the value of absoluteHeight
+   * @param absoluteHeight
    */
-  public void setAbsoluteHeight(Boolean absoluteHeight) {
+  public void setAbsoluteHeight(boolean absoluteHeight) {
     Boolean oldAbsoluteHeight = this.absoluteHeight;
     this.absoluteHeight = absoluteHeight;
     firePropertyChange(RenderConstants.absoluteHeight, oldAbsoluteHeight, this.absoluteHeight);
@@ -312,8 +353,9 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
 
   /**
    * Set the value of absoluteWidth
+   * @param absoluteWidth
    */
-  public void setAbsoluteWidth(Boolean absoluteWidth) {
+  public void setAbsoluteWidth(boolean absoluteWidth) {
     Boolean oldAbsoluteWidth = this.absoluteWidth;
     this.absoluteWidth = absoluteWidth;
     firePropertyChange(RenderConstants.absoluteWidth, oldAbsoluteWidth, this.absoluteWidth);
@@ -354,8 +396,9 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
 
   /**
    * Set the value of absoluteX
+   * @param absoluteX
    */
-  public void setAbsoluteX(Boolean absoluteX) {
+  public void setAbsoluteX(boolean absoluteX) {
     Boolean oldAbsoluteX = this.absoluteX;
     this.absoluteX = absoluteX;
     firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, this.absoluteX);
@@ -396,8 +439,9 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
 
   /**
    * Set the value of absoluteY
+   * @param absoluteY
    */
-  public void setAbsoluteY(Boolean absoluteY) {
+  public void setAbsoluteY(boolean absoluteY) {
     Boolean oldAbsoluteY = this.absoluteY;
     this.absoluteY = absoluteY;
     firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, this.absoluteY);
@@ -438,8 +482,9 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
 
   /**
    * Set the value of absoluteZ
+   * @param absoluteZ
    */
-  public void setAbsoluteZ(Boolean absoluteZ) {
+  public void setAbsoluteZ(boolean absoluteZ) {
     Boolean oldAbsoluteZ = this.absoluteZ;
     this.absoluteZ = absoluteZ;
     firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, this.absoluteZ);
@@ -480,8 +525,9 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
 
   /**
    * Set the value of height
+   * @param height
    */
-  public void setHeight(Double height) {
+  public void setHeight(double height) {
     Double oldHeight = this.height;
     this.height = height;
     firePropertyChange(RenderConstants.height, oldHeight, this.height);
@@ -522,6 +568,7 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
 
   /**
    * Set the value of href
+   * @param href
    */
   public void setHref(String href) {
     String oldHref = this.href;
@@ -564,8 +611,9 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
 
   /**
    * Set the value of width
+   * @param width
    */
-  public void setWidth(Double width) {
+  public void setWidth(double width) {
     Double oldWidth = this.width;
     this.width = width;
     firePropertyChange(RenderConstants.width, oldWidth, this.width);
@@ -606,8 +654,9 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
 
   /**
    * Set the value of x
+   * @param x
    */
-  public void setX(Double x) {
+  public void setX(double x) {
     Double oldX = this.x;
     this.x = x;
     firePropertyChange(RenderConstants.x, oldX, this.x);
@@ -648,8 +697,9 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
 
   /**
    * Set the value of y
+   * @param y
    */
-  public void setY(Double y) {
+  public void setY(double y) {
     Double oldY = this.y;
     this.y = y;
     firePropertyChange(RenderConstants.y, oldY, this.y);
@@ -690,8 +740,9 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
 
   /**
    * Set the value of z
+   * @param z
    */
-  public void setZ(Double z) {
+  public void setZ(double z) {
     Double oldZ = this.z;
     this.z = z;
     firePropertyChange(RenderConstants.z, oldZ, this.z);
@@ -751,7 +802,6 @@ public class Image extends Transformation2D { // TODO - need to extends UniqueNa
     }
     return attributes;
   }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)

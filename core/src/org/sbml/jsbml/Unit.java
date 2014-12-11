@@ -272,7 +272,7 @@ public class Unit extends AbstractSBase {
         case 2:
         case 3:
         case 4:
-        case 5:  
+        case 5:
           // Like Level 2 Version 1 without CELSIUS
           kinds = new Kind[] { AMPERE, BECQUEREL, CANDELA, COULOMB,
             DIMENSIONLESS, FARAD, GRAM, GRAY, HENRY, HERTZ,
@@ -288,7 +288,7 @@ public class Unit extends AbstractSBase {
       case 3:
         switch (version) {
         case 1:
-        case 2:  
+        case 2:
           // like Level 2 Version 4 with additional AVOGADRO
           kinds = new Kind[] { AMPERE, AVOGADRO, BECQUEREL, CANDELA,
             COULOMB, DIMENSIONLESS, FARAD, GRAM, GRAY, HENRY,
@@ -1371,6 +1371,8 @@ public class Unit extends AbstractSBase {
    * exponent are {@code null}.
    * 
    * @param kind
+   * @param level
+   * @param version
    */
   public Unit(Kind kind, int level, int version) {
     super(level, version);
@@ -1670,6 +1672,9 @@ public class Unit extends AbstractSBase {
    * <li>multiplier = 1.0</li>
    * </ul>
    * The 'kind' attribute is left unchanged.
+   * 
+   * @param level
+   * @param version
    */
   public void initDefaults(int level, int version) {
     initDefaults(level, version, false);
@@ -2246,6 +2251,8 @@ public class Unit extends AbstractSBase {
    * For example, 1 millimetre can be expressed as a Unit with kind= 'metre'
    * multiplier='1' scale='-3' exponent='1'. It can also be expressed as a
    * Unit with kind='metre' multiplier='0.001' scale='0' exponent='1'.
+   * 
+   * @return
    */
   public Unit removeScale() {
     if (isSetScale() && (getScale() != 0)) {

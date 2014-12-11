@@ -41,7 +41,13 @@ import org.sbml.jsbml.ext.render.RenderConstants;
  */
 public class SBMLDocumentWorker extends SwingWorker<SBMLDocument, Throwable> {
 
+  /**
+   * 
+   */
   private final PluginSBMLReader sbmlReader;
+  /**
+   * 
+   */
   private final PluginModel pluginModel;
 
 
@@ -64,6 +70,7 @@ public class SBMLDocumentWorker extends SwingWorker<SBMLDocument, Throwable> {
   /**
    * Receives the Model from the PluginSBMLReader and creates a SBMLDocument with Level 3 Extensions.
    */
+  @SuppressWarnings("deprecation")
   @Override
   protected SBMLDocument doInBackground() throws Exception {
     try{

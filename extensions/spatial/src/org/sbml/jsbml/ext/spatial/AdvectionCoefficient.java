@@ -41,9 +41,15 @@ public class AdvectionCoefficient extends ParameterType {
    */
   private static final long serialVersionUID = 8982184068116596444L;
 
+  /**
+   * 
+   */
   private CoordinateKind coordinate;
 
 
+  /**
+   * 
+   */
   public AdvectionCoefficient() {
     super();
   }
@@ -126,6 +132,7 @@ public class AdvectionCoefficient extends ParameterType {
 
   /**
    * Sets the value of coordinate
+   * @param coordinate
    */
   public void setCoordinate(CoordinateKind coordinate) {
     CoordinateKind oldCoordinate = this.coordinate;

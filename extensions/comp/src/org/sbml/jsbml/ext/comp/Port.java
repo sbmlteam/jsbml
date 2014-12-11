@@ -98,6 +98,7 @@ public class Port extends AbstractNamedSBaseRef {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public Port(Port obj) {
     super(obj);

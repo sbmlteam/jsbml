@@ -21,8 +21,13 @@
  */
 package org.sbml.bargraph;
 
-import java.io.*;
-import java.util.logging.*;
+import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -186,6 +191,9 @@ public class Log
   // -------------------------- Private methods ----------------------------
   //
 
+  /**
+   * 
+   */
   private static void initLog()
   {
     if (logger != null)
@@ -215,6 +223,7 @@ public class Log
   /**
    * Set up a handler that sends output to the console for log messages
    * of level "warning".
+   * @param lg
    */
   private static void configConsoleLogger(Logger lg)
   {
@@ -229,6 +238,7 @@ public class Log
    * Set up a handler that sends output to the log file for status
    * messages.  We log most things -- you never know what's going to be
    * useful in the field.
+   * @param lg
    */
   private static void configFileLogger(Logger lg)
   {
@@ -275,6 +285,9 @@ public class Log
   }
 
 
+  /**
+   * @return
+   */
   private static VerifiableFile logDir()
   {
     String userHome = System.getProperty("user.home");
@@ -384,6 +397,9 @@ public class Log
   }
 
 
+  /**
+   * @return
+   */
   private static StackTraceElement deduceCaller()
   {
     final Throwable tmpThrowable    = new Throwable();
@@ -395,6 +411,7 @@ public class Log
 
   /**
    * Short name for System.err.println(msg)
+   * @param msg
    */
   private static void e(String msg)
   {

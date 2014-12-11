@@ -26,6 +26,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.biojava3.ontology.Ontology;
@@ -194,7 +195,11 @@ public class CBO {
     return triples;
   }
 
-  // Test main class
+  /**
+   * Test main class
+   * 
+   * @param args
+   */
   public static void main(String[] args) {
     int i = 0;
     for (Term term : getTerms()) {
@@ -205,6 +210,6 @@ public class CBO {
 
     System.out.println("Get CellDeath by name = " + Term.printTerm(getTerm("CellDeath")));
     System.out.println("Get CellDeath by id (url) = " + Term.printTerm(getTerm("http://cbo.biocomplexity.indiana.edu/svn/cbo/trunk/CBO_1_0.owl#CellDeath")));
-
   }
+
 }

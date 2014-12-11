@@ -38,19 +38,34 @@ public class StateFeatureValue extends AbstractSBase {
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 3920699098046832296L;
+  /**
+   * 
+   */
   private String possibleValue;
 
+  /**
+   * 
+   */
   public StateFeatureValue() {
     super();
     initDefaults();
   }
 
-  @Override
-  public AbstractSBase clone() {
-    // TODO
-    return null;
+  /**
+   * @param stateFeatureValue
+   */
+  public StateFeatureValue(StateFeatureValue stateFeatureValue) {
+    this();
+    // TODO Auto-generated constructor stub
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
+  @Override
+  public StateFeatureValue clone() {
+    return new StateFeatureValue(this);
+  }
 
   /**
    * Returns the possibleValue
@@ -60,7 +75,6 @@ public class StateFeatureValue extends AbstractSBase {
   public String getPossibleValue() {
     return possibleValue;
   }
-
 
   /**
    * Sets the possibleValue
@@ -80,12 +94,14 @@ public class StateFeatureValue extends AbstractSBase {
     return possibleValue != null;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#toString()
+   */
   @Override
   public String toString() {
     // TODO
     return null;
   }
-
 
   /**
    * 
@@ -93,7 +109,6 @@ public class StateFeatureValue extends AbstractSBase {
   public void initDefaults() {
     setNamespace(MultiConstants.namespaceURI);
   }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
@@ -130,6 +145,5 @@ public class StateFeatureValue extends AbstractSBase {
 
     return attributes;
   }
-
 
 }

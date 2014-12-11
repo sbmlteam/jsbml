@@ -43,6 +43,9 @@ public class FBCConstants {
    */
   public static final String namespaceURI = namespaceURI_L3V1V1;
 
+  /**
+   * 
+   */
   public static final List<String> namespaces;
 
   static {
@@ -75,13 +78,37 @@ public class FBCConstants {
    */
   public static final int MIN_SBML_VERSION = 1;
 
+  /**
+   * 
+   */
   public static final String operation = "operation";
+  /**
+   * 
+   */
   public static final String reaction = "reaction";
+  /**
+   * 
+   */
   public static final String value = "value";
+  /**
+   * 
+   */
   public static final String type = "type";
+  /**
+   * 
+   */
   public static final String coefficient = "coefficient";
+  /**
+   * 
+   */
   public static final String listOfObjectives = "listOfObjectives";
+  /**
+   * 
+   */
   public static final String packageName = "Flux Balance Constraints";
+  /**
+   * 
+   */
   public static final String activeObjective = "activeObjective";
 
   /**

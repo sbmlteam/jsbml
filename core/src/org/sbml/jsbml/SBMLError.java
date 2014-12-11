@@ -86,7 +86,10 @@ public class SBMLError extends XMLException {
    * 
    */
   private int column;
-  
+
+  /**
+   * 
+   */
   private int line;
 
   /**
@@ -107,7 +110,7 @@ public class SBMLError extends XMLException {
    * 
    */
   private String severity;
-  
+
   /**
    * 
    */
@@ -317,18 +320,34 @@ public class SBMLError extends XMLException {
     this.severity = severity;
   }
 
+  /**
+   * 
+   * @return
+   */
   public Message getShortMessage() {
     return shortmessage;
   }
 
+  /**
+   * 
+   * @param shortmessage
+   */
   public void setShortMessage(Message shortmessage) {
     this.shortmessage = shortmessage;
   }
 
+  /**
+   * 
+   * @return
+   */
   public Detail getDetail() {
     return detail;
   }
 
+  /**
+   * 
+   * @param detail
+   */
   public void setDetail(Detail detail) {
     this.detail = detail;
   }
@@ -338,25 +357,41 @@ public class SBMLError extends XMLException {
    */
   @Override
   public String toString() {
-    return StringTools.concat("SBMLError ", code, " [", severity, "] [", category, "] ","\n  excerpt = ", excerpt, 
-        "\n  Line = ", line, ",  Column = ", column,
-        "\n  package = ", packageName,
-        "\n  short message = ", shortmessage.getMessage(), " (lang='" , shortmessage.getLang(), "')",
-        "\n  message = ", message.getMessage() , "\n").toString();
+    return StringTools.concat("SBMLError ", code, " [", severity, "] [", category, "] ","\n  excerpt = ", excerpt,
+      "\n  Line = ", line, ",  Column = ", column,
+      "\n  package = ", packageName,
+      "\n  short message = ", shortmessage.getMessage(), " (lang='" , shortmessage.getLang(), "')",
+      "\n  message = ", message.getMessage() , "\n").toString();
   }
 
+  /**
+   * 
+   * @param column
+   */
   public void setColumn(int column) {
     this.column = column;
   }
 
+  /**
+   * 
+   * @param line
+   */
   public void setLine(int line) {
     this.line = line;
   }
 
+  /**
+   * 
+   * @param packageName
+   */
   public void setPackage(String packageName) {
-    this.packageName = packageName;    
+    this.packageName = packageName;
   }
-  
+
+  /**
+   * 
+   * @return
+   */
   public String getPackage() {
     return packageName;
   }

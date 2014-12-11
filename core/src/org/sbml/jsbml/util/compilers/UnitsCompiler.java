@@ -959,6 +959,7 @@ public class UnitsCompiler implements ASTNodeCompiler {
    * 
    * @param left
    * @param right
+   * @throws SBMLException
    */
   private void unifyUnits(ASTNodeValue left, ASTNodeValue right)
       throws SBMLException {

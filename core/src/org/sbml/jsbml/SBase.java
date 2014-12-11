@@ -23,6 +23,7 @@ package org.sbml.jsbml;
 
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -931,6 +932,7 @@ public interface SBase extends TreeNodeWithChangeSupport {
    * 
    * @param sbase
    *        the child {@link SBase}
+   * @throws LevelVersionError
    * @deprecated use {@link #registerChild(SBase)}
    */
   @Deprecated

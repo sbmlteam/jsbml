@@ -88,6 +88,9 @@ public class FBCParser extends AbstractReaderWriter implements PackageParser {
    */
   private FBCList groupList = FBCList.none;
 
+  /**
+   * A {@link Logger} for this class.
+   */
   private Logger logger = Logger.getLogger(FBCParser.class);
 
   /* (non-Javadoc)

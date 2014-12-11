@@ -50,18 +50,46 @@ import org.sbml.jsbml.SBase;
  * @since 1.0
  * @version $Rev$
  */
+@SuppressWarnings("deprecation")
 public class CVTermTests {
 
+  /**
+   * 
+   */
   private static final String HTTP_IDENTIFIERS_ORG_TAXONOMY_9606 = "http://identifiers.org/taxonomy/9606";
+  /**
+   * 
+   */
   private static final String HTTP_IDENTIFIERS_ORG_GO_GO_1222222 = "http://identifiers.org/go/GO:1222222";
+  /**
+   * 
+   */
   private static final String HTTP_IDENTIFIERS_ORG_GO_GO_1234567 = "http://identifiers.org/go/GO:1234567";
+  /**
+   * 
+   */
   private static final String TEST_MODEL_NAME = "test_model";
+  /**
+   * 
+   */
   private SBMLDocument doc;
+  /**
+   * 
+   */
   private Model model;
+  /**
+   * 
+   */
   private Compartment compartment;
+  /**
+   * 
+   */
   private CVTerm cvterm;
-  
-  
+
+
+  /**
+   * 
+   */
   @BeforeClass public static void initialSetUp() {}
 
   /**
@@ -81,7 +109,7 @@ public class CVTermTests {
     compartment.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS_DESCRIBED_BY, "http://identifiers.org/pubmed/toDelete"));
     compartment.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS_PROPERTY_OF, "toDelete", "uri2", "uri3"));
     compartment.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_HAS_PART, HTTP_IDENTIFIERS_ORG_GO_GO_1222222));
-    
+
     cvterm = new CVTerm();
     // dummy resources to test pattern matching more easily
     cvterm.addResources("abc mno xyz", "mno xyz ddd", "abc yyy rrr");
@@ -98,19 +126,19 @@ public class CVTermTests {
     assertTrue(model.getId().equals(TEST_MODEL_NAME));
 
     assertTrue(model.getCVTermCount() == 1);
-    
+
     CVTerm cvTerm = model.getCVTerm(0);
-    
+
     assertTrue(cvTerm != null);
     assertTrue(cvTerm.getQualifier().equals(CVTerm.Qualifier.BQB_HAS_TAXON));
     assertTrue(cvTerm.getResourceCount() == 1);
     assertTrue(cvTerm.getResourceURI(0).equals(HTTP_IDENTIFIERS_ORG_TAXONOMY_9606));
-    
+
     boolean removed = cvTerm.removeFromParent();
-    
+
     assertTrue(removed == true);
     assertTrue(model.getCVTermCount() == 0);
-    
+
   }
 
   /**
@@ -127,33 +155,33 @@ public class CVTermTests {
     } catch (XMLStreamException e) {
       assertTrue(false);
     }
-    
+
     try {
       doc = new SBMLReader().readSBMLFromString(docString);
     } catch (XMLStreamException e) {
       assertTrue(false);
     }
     model = doc.getModel();
-    
+
     assertTrue(doc.getLevel() == 3 && doc.getVersion() == 1);
     assertTrue(model.getLevel() == 3 && model.getVersion() == 1);
 
     assertTrue(model.getId().equals(TEST_MODEL_NAME));
 
     assertTrue(model.getCVTermCount() == 1);
-    
+
     CVTerm cvTerm = model.getCVTerm(0);
-    
+
     assertTrue(cvTerm != null);
     assertTrue(cvTerm.getQualifier().equals(CVTerm.Qualifier.BQB_HAS_TAXON));
     assertTrue(cvTerm.getResourceCount() == 1);
     assertTrue(cvTerm.getResourceURI(0).equals(HTTP_IDENTIFIERS_ORG_TAXONOMY_9606));
-    
+
     boolean removed = cvTerm.removeFromParent();
-    
+
     assertTrue(removed == true);
     assertTrue(model.getCVTermCount() == 0);
-    
+
   }
 
   /**
@@ -163,20 +191,20 @@ public class CVTermTests {
   @Test public void removeCVTermByIndexTest() {
 
     assertTrue(compartment.getCVTermCount() == 4);
-    
+
     CVTerm cvTerm = compartment.getCVTerm(1);
-    
+
     assertTrue(cvTerm != null);
     assertTrue(cvTerm.getQualifier().equals(CVTerm.Qualifier.BQB_IS_DESCRIBED_BY));
     assertTrue(cvTerm.getResourceCount() == 1);
-    
+
     CVTerm removedCVTerm = compartment.removeCVTerm(1);
-    
+
     assertTrue(removedCVTerm != null);
     assertTrue(removedCVTerm.equals(cvTerm));
     assertTrue(removedCVTerm.hashCode() == cvTerm.hashCode());
     assertTrue(compartment.getCVTermCount() == 3);
-    
+
   }
 
   /**
@@ -186,21 +214,21 @@ public class CVTermTests {
   @Test public void removeCVTermByCVTermTest() {
 
     assertTrue(compartment.getCVTermCount() == 4);
-    
+
     CVTerm cvTerm = compartment.getCVTerm(2);
-    
+
     assertTrue(cvTerm != null);
     assertTrue(cvTerm.getQualifier().equals(CVTerm.Qualifier.BQB_IS_PROPERTY_OF));
     assertTrue(cvTerm.getResourceCount() == 3);
     assertTrue(cvTerm.getResourceURI(0).equals("toDelete"));
     cvTerm.removeResource(1);
-    
-    
+
+
     boolean removed = compartment.removeCVTerm(cvTerm);
-    
+
     assertTrue(removed == true);
     assertTrue(compartment.getCVTermCount() == 3);
-    
+
   }
 
   /**
@@ -213,21 +241,21 @@ public class CVTermTests {
   @Test public void indexOutOfBoundsExceptionTest() {
 
     assertTrue(compartment.getCVTermCount() == 4);
-    
+
     try {
       compartment.getCVTerm(-1);
       assertTrue(false);
     } catch (IndexOutOfBoundsException e) {
       assertTrue(true);
     }
-    
+
     try {
       compartment.getCVTerm(4);
       assertTrue(false);
     } catch (IndexOutOfBoundsException e) {
       assertTrue(true);
     }
-    
+
     try {
       compartment.removeCVTerm(-1);
       assertTrue(false);
@@ -243,43 +271,49 @@ public class CVTermTests {
     }
 
     assertTrue(compartment.getCVTermCount() == 4);
-    
+
   }
 
+  /**
+   * @throws Exception
+   */
   @Test
   public void testFilterResources() throws Exception {
-    
+
     // test that unmatched patterns should not return null list
     Assert.assertNotNull("Unmatched patterns should not return null", cvterm.filterResources("invalid"));
-    
+
     // test that matching patterns are appearing correctly
     List<String> expectedResult = new ArrayList<String>();
     expectedResult.add("abc mno xyz");
     expectedResult.add("abc yyy rrr");
-    
+
     Assert.assertEquals("Matching patterns are incorrect.", expectedResult, cvterm.filterResources("abc"));
-    
+
     // test that duplicate patterns are handled correctly.
     Assert.assertEquals("Matching patterns are incorrect for duplicate patterns.", expectedResult, cvterm.filterResources("abc", "abc", "abc","abc"));
-    
+
     List<String> matchesList = model.filterCVTerms(Qualifier.BQB_IS, true, "^http");
-    
+
     System.out.println("Recursive matches = " + matchesList);
-    
+
     assertTrue(matchesList.size() == 1);
     assertTrue(model.filterCVTerms(Qualifier.BQB_IS_PROPERTY_OF, true, "uri").size() == 2);
   }
-  
+
+  /**
+   * @throws Exception
+   */
   @Test
   public void testFilterResourcesDoesNotReturnDuplicates() throws Exception {
-    
+
     List<String> expectedResult = new ArrayList<String>();
     expectedResult.add("abc mno xyz");
     expectedResult.add("mno xyz ddd");
     expectedResult.add("abc yyy rrr");
-    
+
     // test that returned resources does not have duplicates and order is maintained
     Assert.assertEquals("Matching patterns are incorrect.", expectedResult, cvterm.filterResources("abc", "mno"));
   }
-  
+
 }

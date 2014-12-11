@@ -22,6 +22,8 @@
 package org.sbml.jsbml.ext.comp;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -29,6 +31,8 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.util.filters.NameFilter;
@@ -48,12 +52,24 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   private static final long serialVersionUID = -2588930216065448311L;
 
+  /**
+   * 
+   */
   private String modelRef;
 
+  /**
+   * 
+   */
   private String timeConversionFactor;
 
+  /**
+   * 
+   */
   private String extentConversionFactor;
 
+  /**
+   * 
+   */
   private ListOf<Deletion> listOfDeletions;
 
   /**
@@ -115,6 +131,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public Submodel(Submodel obj) {
     super(obj);
@@ -258,6 +275,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
    * model namespace of the document).
    * 
    * Sets the value of the required modelRef
+   * @param modelRef
    */
   public void setModelRef(String modelRef) {
     String oldModelRef = this.modelRef;
@@ -314,6 +332,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
    * being dimensionless, and the {@link Parameter} must be constant.
    * 
    * Sets the value of the optional timeConversionFactor
+   * @param timeConversionFactor
    */
   public void setTimeConversionFactor(String timeConversionFactor) {
     String oldTimeConversionFactor = this.timeConversionFactor;
@@ -371,6 +390,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
    * {@link Parameter} must be constant.
    * 
    * Sets the value of the optional extentConversionFactor
+   * @param extentConversionFactor
    */
   public void setExtentConversionFactor(String extentConversionFactor) {
     String oldExtentConversionFactor = this.extentConversionFactor;
@@ -520,6 +540,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Creates a new Deletion element and adds it to the ListOfDeletions list
+   * @return
    */
   public Deletion createDeletion() {
     return createDeletion(null);
@@ -527,6 +548,7 @@ public class Submodel extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Creates a new {@link Deletion} element and adds it to the ListOfDeletions list
+   * @param id
    *
    * @return a new {@link Deletion} element
    */

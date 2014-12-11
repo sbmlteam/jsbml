@@ -79,7 +79,7 @@ public class ListOfObjectives extends ListOf<Objective> {
     super(listOf);
   }
 
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ListOf#clone()
    */
@@ -141,6 +141,7 @@ public class ListOfObjectives extends ListOf<Objective> {
    * a single optimum.
    * 
    * Sets the value of activeObjective
+   * @param activeObjective
    */
   public void setActiveObjective(String activeObjective) {
     String oldActiveObjective = this.activeObjective;

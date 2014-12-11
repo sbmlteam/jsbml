@@ -46,10 +46,22 @@ import org.sbml.jsbml.CVTerm;
  */
 public class TestCVTerms {
 
+  /**
+   * 
+   */
   private CVTerm term;
+  /**
+   * 
+   */
   String resource =  "GO6666";
+  /**
+   * 
+   */
   String resource1 =  "OtherURI";
 
+  /**
+   * @throws Exception
+   */
   @Before public void setUp() throws Exception
   {
     term = new  CVTerm(CVTerm.Qualifier.BQM_IS);
@@ -57,6 +69,9 @@ public class TestCVTerms {
     term.addResource(resource1);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_CVTerm_addResource()
   {
@@ -73,6 +88,9 @@ public class TestCVTerms {
     term = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_CVTerm_create()
   {
     CVTerm term = new  CVTerm();
@@ -126,6 +144,9 @@ public class TestCVTerms {
   }
    */
 
+  /**
+   * 
+   */
   @Test public void test_CVTerm_getResources()
   {
     long number = term.getResourceCount();
@@ -135,6 +156,9 @@ public class TestCVTerms {
     term = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_CVTerm_set_get()
   {
     CVTerm term = new  CVTerm();
@@ -151,7 +175,10 @@ public class TestCVTerms {
     assertTrue(term.getBiologicalQualifierType() == CVTerm.Qualifier.BQB_IS);
     term = null;
   }
-  
+
+  /**
+   * 
+   */
   @Test public void test_CVTerm_removeResources()
   {
     long number = term.getResourceCount();
@@ -159,10 +186,10 @@ public class TestCVTerms {
 
     term.removeResource(resource1);
     assertTrue(term.getResourceCount() == 1);
-    
+
     assertTrue(term.getResourceURI(0).equals("GO6666"));
     term = null;
   }
-  
+
 
 }

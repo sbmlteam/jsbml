@@ -48,6 +48,10 @@ import org.sbml.jsbml.SpeciesReference;
  */
 public class TestReaction {
 
+  /**
+   * @param a
+   * @param b
+   */
   static void assertNotEquals(Object a, Object b)
   {
     if (a == null && b == null) {
@@ -59,8 +63,14 @@ public class TestReaction {
   }
 
 
+  /**
+   * 
+   */
   private Reaction R;
 
+  /**
+   * @throws Exception
+   */
   @Before public void setUp() throws Exception
   {
     R = new  Reaction(2,4);
@@ -71,11 +81,17 @@ public class TestReaction {
     }
   }
 
+  /**
+   * @throws Exception
+   */
   @After public void tearDown() throws Exception
   {
     R = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_Reaction_addModifier()
   {
     ModifierSpeciesReference msr = new  ModifierSpeciesReference(2,4);
@@ -86,6 +102,9 @@ public class TestReaction {
     assertTrue(R.getModifierCount() == 1);
   }
 
+  /**
+   * 
+   */
   @Test public void test_Reaction_addProduct()
   {
     SpeciesReference sr = new  SpeciesReference(2,4);
@@ -97,6 +116,9 @@ public class TestReaction {
     sr = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_Reaction_addReactant()
   {
     SpeciesReference sr = new  SpeciesReference(2,4);
@@ -108,6 +130,9 @@ public class TestReaction {
     sr = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_Reaction_create()
   {
     //assertTrue(R.getTypeCode() == libsbml.SBML_REACTION);
@@ -147,6 +172,9 @@ public class TestReaction {
   }
    */
 
+  /**
+   * 
+   */
   @Test public void test_Reaction_getModifier()
   {
     ModifierSpeciesReference msr1 = new  ModifierSpeciesReference(2,4);
@@ -166,6 +194,9 @@ public class TestReaction {
     assertTrue(msr2.getSpecies().equals("M2"));
   }
 
+  /**
+   * 
+   */
   @Test public void test_Reaction_getModifierById()
   {
     ModifierSpeciesReference msr1 = new  ModifierSpeciesReference(2,4);
@@ -184,6 +215,9 @@ public class TestReaction {
     msr2 = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_Reaction_getProduct()
   {
     SpeciesReference sr1 = new  SpeciesReference(2,4);
@@ -203,6 +237,9 @@ public class TestReaction {
     assertTrue(sr2.getSpecies().equals("P2"));
   }
 
+  /**
+   * 
+   */
   @Test public void test_Reaction_getProductById()
   {
     SpeciesReference sr1 = new  SpeciesReference(2,4);
@@ -221,6 +258,9 @@ public class TestReaction {
     sr2 = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_Reaction_getReactant()
   {
     SpeciesReference sr1 = new  SpeciesReference(2,4);
@@ -240,6 +280,9 @@ public class TestReaction {
     assertTrue(sr2.getSpecies().equals("R2"));
   }
 
+  /**
+   * 
+   */
   @Test public void test_Reaction_getReactantById()
   {
     SpeciesReference sr1 = new  SpeciesReference(2,4);
@@ -258,6 +301,9 @@ public class TestReaction {
     sr2 = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_Reaction_removeModifier()
   {
     ModifierSpeciesReference o1,o2,o3;
@@ -276,6 +322,9 @@ public class TestReaction {
     o3 = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_Reaction_removeProduct()
   {
     SpeciesReference o1,o2,o3;
@@ -294,6 +343,9 @@ public class TestReaction {
     o3 = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_Reaction_removeReactant()
   {
     SpeciesReference o1,o2,o3;
@@ -312,6 +364,9 @@ public class TestReaction {
     o3 = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_Reaction_setId()
   {
     String id =  "J1";;
@@ -334,6 +389,9 @@ public class TestReaction {
     }
   }
 
+  /**
+   * 
+   */
   @Test public void test_Reaction_setName()
   {
     String name =  "MapK_Cascade";;

@@ -1019,6 +1019,10 @@ public class LaTeXCompiler extends StringTools implements ASTNodeCompiler {
     return printNameIfAvailable;
   }
 
+  /**
+   * @param id
+   * @return
+   */
   public StringBuilder label(String id) {
     return command("label", new StringBuilder(id));
   }

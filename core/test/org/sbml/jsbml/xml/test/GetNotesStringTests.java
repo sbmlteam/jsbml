@@ -33,7 +33,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
-import org.sbml.jsbml.test.sbml.TestReadFromFile5;
 
 /**
  * 
@@ -50,6 +49,8 @@ public class GetNotesStringTests {
 
   /**
    * Tries to use getNotesString on a model without a notes element.
+   * @throws IOException
+   * @throws XMLStreamException
    */
   @Test public void getNotesStringOnModel() throws IOException, XMLStreamException {
     InputStream fileStream = GetNotesStringTests.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/libsbml-test-data/l1v1-minimal.xml");

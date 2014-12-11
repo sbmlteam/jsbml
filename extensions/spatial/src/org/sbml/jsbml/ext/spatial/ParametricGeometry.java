@@ -22,6 +22,8 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
@@ -35,7 +37,13 @@ import org.sbml.jsbml.ListOf;
  */
 public class ParametricGeometry extends GeometryDefinition {
 
+  /**
+   * 
+   */
   ListOf<SpatialPoint> listOfSpatialPoints;
+  /**
+   * 
+   */
   ListOf<ParametricObject> listOfParametricObjects;
 
   /**
@@ -230,6 +238,7 @@ public class ParametricGeometry extends GeometryDefinition {
   //}
   /**
    * Creates a new ParametricObject element and adds it to the ListOfParametricObjects list
+   * @return
    */
   public ParametricObject createParametricObject() {
     return createParametricObject(null);
@@ -238,6 +247,7 @@ public class ParametricGeometry extends GeometryDefinition {
 
   /**
    * Creates a new {@link ParametricObject} element and adds it to the ListOfParametricObjects list
+   * @param id
    *
    * @return a new {@link ParametricObject} element
    */
@@ -359,7 +369,7 @@ public class ParametricGeometry extends GeometryDefinition {
   }
 
 
-  /**
+  /*
    * TODO: if the ID is mandatory for SpatialPoint objects,
    * one should also add this methods
    */
@@ -368,6 +378,7 @@ public class ParametricGeometry extends GeometryDefinition {
   //}
   /**
    * Creates a new SpatialPoint element and adds it to the ListOfSpatialPoints list
+   * @return
    */
   public SpatialPoint createSpatialPoint() {
     return createSpatialPoint(null);
@@ -376,6 +387,7 @@ public class ParametricGeometry extends GeometryDefinition {
 
   /**
    * Creates a new {@link SpatialPoint} element and adds it to the ListOfSpatialPoints list
+   * @param id
    *
    * @return a new {@link SpatialPoint} element
    */
@@ -385,18 +397,17 @@ public class ParametricGeometry extends GeometryDefinition {
     return spatialPoint;
   }
 
-
-  /**
-   * 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getAllowsChildren()
    */
-
-
   @Override
   public boolean getAllowsChildren() {
     return true;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getChildCount()
+   */
   @Override
   public int getChildCount() {
     int count = super.getChildCount();
@@ -409,7 +420,9 @@ public class ParametricGeometry extends GeometryDefinition {
     return count;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getChildAt(int)
+   */
   @Override
   public TreeNode getChildAt(int index) {
     if (index < 0) {
@@ -437,6 +450,5 @@ public class ParametricGeometry extends GeometryDefinition {
       "Index {0,number,integer} >= {1,number,integer}", index,
       +Math.min(pos, 0)));
   }
-
 
 }

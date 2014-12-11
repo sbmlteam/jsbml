@@ -44,9 +44,31 @@ public class RenderPoint extends AbstractSBase implements Point3D {
    */
   private static final long serialVersionUID = 6792387139122188270L;
 
-  private Boolean absoluteX, absoluteY, absoluteZ;
+  /**
+   * 
+   */
+  private Boolean absoluteX;
+  /**
+   * 
+   */
+  private Boolean absoluteY;
+  /**
+   * 
+   */
+  private Boolean absoluteZ;
 
-  private Double x, y, z;
+  /**
+   * 
+   */
+  private Double x;
+  /**
+   * 
+   */
+  private Double y;
+  /**
+   * 
+   */
+  private Double z;
 
   /**
    * Creates an RenderPoint instance
@@ -58,6 +80,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public RenderPoint(RenderPoint obj) {
     super(obj);
@@ -239,7 +262,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
    * @see org.sbml.jsbml.ext.render.RenderPoint#setAbsoluteX(java.lang.Boolean)
    */
   @Override
-  public void setAbsoluteX(Boolean absoluteX) {
+  public void setAbsoluteX(boolean absoluteX) {
     Boolean oldAbsoluteX = this.absoluteX;
     this.absoluteX = absoluteX;
     firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, this.absoluteX);
@@ -249,7 +272,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
    * @see org.sbml.jsbml.ext.render.RenderPoint#setAbsoluteY(java.lang.Boolean)
    */
   @Override
-  public void setAbsoluteY(Boolean absoluteY) {
+  public void setAbsoluteY(boolean absoluteY) {
     Boolean oldAbsoluteY = this.absoluteY;
     this.absoluteY = absoluteY;
     firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, this.absoluteY);
@@ -259,7 +282,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
    * @see org.sbml.jsbml.ext.render.RenderPoint#setAbsoluteZ(java.lang.Boolean)
    */
   @Override
-  public void setAbsoluteZ(Boolean absoluteZ) {
+  public void setAbsoluteZ(boolean absoluteZ) {
     Boolean oldAbsoluteZ = this.absoluteZ;
     this.absoluteZ = absoluteZ;
     firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, this.absoluteZ);
@@ -269,7 +292,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
    * @see org.sbml.jsbml.ext.render.RenderPoint#setX(java.lang.Double)
    */
   @Override
-  public void setX(Double x) {
+  public void setX(double x) {
     Double oldX = this.x;
     this.x = x;
     firePropertyChange(RenderConstants.x, oldX, this.x);
@@ -279,7 +302,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
    * @see org.sbml.jsbml.ext.render.RenderPoint#setY(java.lang.Double)
    */
   @Override
-  public void setY(Double y) {
+  public void setY(double y) {
     Double oldY = this.y;
     this.y = y;
     firePropertyChange(RenderConstants.y, oldY, this.y);
@@ -289,7 +312,7 @@ public class RenderPoint extends AbstractSBase implements Point3D {
    * @see org.sbml.jsbml.ext.render.RenderPoint#setZ(java.lang.Double)
    */
   @Override
-  public void setZ(Double z) {
+  public void setZ(double z) {
     Double oldZ = this.z;
     this.z = z;
     firePropertyChange(RenderConstants.z, oldZ, this.z);

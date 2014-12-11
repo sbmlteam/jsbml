@@ -23,6 +23,7 @@ package org.sbml.jsbml.ext.layout;
 
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.util.filters.NameFilter;
+import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
 
 /**
  * This is a special {@link NameFilter} that allows users to search for a

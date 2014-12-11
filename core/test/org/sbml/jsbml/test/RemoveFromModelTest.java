@@ -50,8 +50,22 @@ import org.sbml.jsbml.UnitDefinition;
 @SuppressWarnings("deprecation")
 public class RemoveFromModelTest {
 
-  private SBMLDocument docL3, docL2V4;
-  private Model modelL3, modelL2V4;
+  /**
+   * 
+   */
+  private SBMLDocument docL3;
+  /**
+   * 
+   */
+  private SBMLDocument docL2V4;
+  /**
+   * 
+   */
+  private Model modelL3;
+  /**
+   * 
+   */
+  private Model modelL2V4;
 
   /**
    * @throws java.lang.Exception

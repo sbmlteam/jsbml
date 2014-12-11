@@ -179,9 +179,15 @@ public class SyntaxChecker {
   private Pattern emailPattern;
 
   /**
-   * Pattern to recognize valid meta-identifier strings for SBML elements.
+   * {@link Pattern} to recognize valid meta-identifier strings for SBML
+   * elements.
    */
-  private Pattern metaIdPattern, simpleMetaIdPattern;
+  private Pattern metaIdPattern;
+  /**
+   * Simplified {@link Pattern} to recognize valid meta-identifier strings for
+   * SBML elements.
+   */
+  private Pattern simpleMetaIdPattern;
 
   /**
    * Collection of reserved names that must not be used as identifiers (names)
@@ -201,9 +207,14 @@ public class SyntaxChecker {
   private Pattern SIdL2Pattern;
 
   /**
-   * Name patterns for SBML Level 1 versions 1 and 2.
+   * Name {@link Pattern} for SBML Level 1 version 1.
    */
-  private Pattern SNameL1V1, SNameL1V2;
+  private Pattern SNameL1V1;
+
+  /**
+   * Name {@link Pattern} for SBML Level 1 version 2.
+   */
+  private Pattern SNameL1V2;
 
   /**
    * This is a singleton class and should only be used through static methods.

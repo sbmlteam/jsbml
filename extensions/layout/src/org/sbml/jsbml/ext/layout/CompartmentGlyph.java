@@ -47,6 +47,9 @@ public class CompartmentGlyph extends AbstractReferenceGlyph {
    */
   private static final long serialVersionUID = -831178362695634919L;
 
+  /**
+   * 
+   */
   private Double order;
 
   /**
@@ -179,9 +182,9 @@ public class CompartmentGlyph extends AbstractReferenceGlyph {
 
   /**
    * The compartment attribute is used to add a reference to the id of
-   * the corresponding {@link Compartment} in the {@link Model}. Since
+   * the corresponding {@link Compartment} in the {@link org.sbml.jsbml.Model}. Since
    * the compartment is optional, the user can specify {@link Compartment}s
-   * in the {@link Layout} that are not part of the {@link Model}.
+   * in the {@link Layout} that are not part of the {@link org.sbml.jsbml.Model}.
    * 
    * This attribute is optional.
    * 

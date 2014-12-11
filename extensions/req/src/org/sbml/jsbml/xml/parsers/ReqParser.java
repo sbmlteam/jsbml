@@ -49,6 +49,9 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 @ProviderFor(ReadingParser.class)
 public class ReqParser extends AbstractReaderWriter implements PackageParser {
 
+  /**
+   * A {@link Logger} for this class.
+   */
   private Logger logger = Logger.getLogger(ReqParser.class);
 
   /* (non-Javadoc)
@@ -206,7 +209,7 @@ public class ReqParser extends AbstractReaderWriter implements PackageParser {
   public SBasePlugin createPluginFor(SBase sbase) {
 
     if (sbase != null) {
-        return new ReqSBasePlugin(sbase);
+      return new ReqSBasePlugin(sbase);
     }
 
     return null;

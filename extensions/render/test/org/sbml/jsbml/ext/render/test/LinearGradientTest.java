@@ -38,7 +38,7 @@ import org.sbml.jsbml.ext.render.LinearGradient;
 public class LinearGradientTest {
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.LinearGradient#getAllowsChildren()}.
+   * Test method for {@link LinearGradient#getAllowsChildren()}.
    */
   @Test
   public void testGetAllowsChildren() {
@@ -48,7 +48,7 @@ public class LinearGradientTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.LinearGradient#getChildCount()}.
+   * Test method for {@link LinearGradient#getChildCount()}.
    */
   @Test
   public void testGetChildCount() {
@@ -57,7 +57,7 @@ public class LinearGradientTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.LinearGradient#getX1()}.
+   * Test method for {@link LinearGradient#getX1()}.
    */
   @Test
   public void testGetX1() {
@@ -68,7 +68,7 @@ public class LinearGradientTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.LinearGradient#isSetX1()}.
+   * Test method for {@link LinearGradient#isSetX1()}.
    */
   @Test
   public void testIsSetX1() {
@@ -79,7 +79,7 @@ public class LinearGradientTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.LinearGradient#setX1(java.lang.Double)}.
+   * Test method for {@link LinearGradient#setX1(double)}.
    */
   @Test
   public void testSetX1() {
@@ -90,7 +90,7 @@ public class LinearGradientTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.LinearGradient#getX2()}.
+   * Test method for {@link LinearGradient#getX2()}.
    */
   @Test
   public void testGetX2() {
@@ -101,7 +101,7 @@ public class LinearGradientTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.LinearGradient#isSetX2()}.
+   * Test method for {@link LinearGradient#isSetX2()}.
    */
   @Test
   public void testIsSetX2() {
@@ -112,7 +112,7 @@ public class LinearGradientTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.LinearGradient#setX2(java.lang.Double)}.
+   * Test method for {@link LinearGradient#setX2(double)}.
    */
   @Test
   public void testSetX2() {
@@ -123,7 +123,7 @@ public class LinearGradientTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.LinearGradient#getY1()}.
+   * Test method for {@link LinearGradient#getY1()}.
    */
   @Test
   public void testGetY1() {
@@ -134,7 +134,7 @@ public class LinearGradientTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.LinearGradient#isSetY1()}.
+   * Test method for {@link LinearGradient#isSetY1()}.
    */
   @Test
   public void testIsSetY1() {
@@ -145,7 +145,7 @@ public class LinearGradientTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.LinearGradient#setY1(java.lang.Double)}.
+   * Test method for {@link LinearGradient#setY1(double)}.
    */
   @Test
   public void testSetY1() {
@@ -156,7 +156,7 @@ public class LinearGradientTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.LinearGradient#getY2()}.
+   * Test method for {@link LinearGradient#getY2()}.
    */
   @Test
   public void testGetY2() {
@@ -167,7 +167,7 @@ public class LinearGradientTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.LinearGradient#isSetY2()}.
+   * Test method for {@link LinearGradient#isSetY2()}.
    */
   @Test
   public void testIsSetY2() {
@@ -178,7 +178,7 @@ public class LinearGradientTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.LinearGradient#setY2(java.lang.Double)}.
+   * Test method for {@link LinearGradient#setY2(double)}.
    */
   @Test
   public void testSetY2() {
@@ -189,7 +189,7 @@ public class LinearGradientTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.LinearGradient#getZ1()}.
+   * Test method for {@link LinearGradient#getZ1()}.
    */
   @Test
   public void testGetZ1() {
@@ -200,7 +200,7 @@ public class LinearGradientTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.LinearGradient#isSetZ1()}.
+   * Test method for {@link LinearGradient#isSetZ1()}.
    */
   @Test
   public void testIsSetZ1() {
@@ -211,7 +211,7 @@ public class LinearGradientTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.LinearGradient#setZ1(java.lang.Double)}.
+   * Test method for {@link LinearGradient#setZ1(double)}.
    */
   @Test
   public void testSetZ1() {
@@ -222,7 +222,7 @@ public class LinearGradientTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.LinearGradient#getZ2()}.
+   * Test method for {@link LinearGradient#getZ2()}.
    */
   @Test
   public void testGetZ2() {
@@ -233,7 +233,7 @@ public class LinearGradientTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.LinearGradient#isSetZ2()}.
+   * Test method for {@link LinearGradient#isSetZ2()}.
    */
   @Test
   public void testIsSetZ2() {
@@ -244,7 +244,7 @@ public class LinearGradientTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.LinearGradient#setZ2(java.lang.Double)}.
+   * Test method for {@link LinearGradient#setZ2(double)}.
    */
   @Test
   public void testSetZ2() {

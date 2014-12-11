@@ -44,7 +44,6 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
-import org.sbml.jsbml.UnitDefinition;
 
 /**
  * 
@@ -192,7 +191,6 @@ public class TestReadFromFile5 {
     Reaction r;
     SpeciesReference sr;
     KineticLaw kl;
-    UnitDefinition ud;
     Reaction r1;
     ListOf<Compartment> loc;
     Compartment c1;

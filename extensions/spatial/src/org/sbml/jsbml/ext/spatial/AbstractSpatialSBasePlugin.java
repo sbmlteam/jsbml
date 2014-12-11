@@ -37,19 +37,28 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  */
 public abstract class AbstractSpatialSBasePlugin extends AbstractSBasePlugin {
 
-
-
+  /**
+   * Generated serial version identifier.
+   */
   private static final long serialVersionUID = -75143209163226722L;
 
-
+  /**
+   * 
+   */
   public AbstractSpatialSBasePlugin() {
     super();
   }
 
+  /**
+   * @param plugin
+   */
   public AbstractSpatialSBasePlugin(AbstractSBasePlugin plugin) {
     super(plugin);
   }
 
+  /**
+   * @param extendedSBase
+   */
   public AbstractSpatialSBasePlugin(SBase extendedSBase) {
     super(extendedSBase);
   }
@@ -82,7 +91,6 @@ public abstract class AbstractSpatialSBasePlugin extends AbstractSBasePlugin {
     return SpatialConstants.getNamespaceURI(getLevel(), getVersion());
   }
 
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
    */
@@ -91,7 +99,6 @@ public abstract class AbstractSpatialSBasePlugin extends AbstractSBasePlugin {
     return SpatialConstants.packageName;
   }
 
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPrefix()
    */
@@ -99,7 +106,6 @@ public abstract class AbstractSpatialSBasePlugin extends AbstractSBasePlugin {
   public String getPrefix() {
     return SpatialConstants.shortLabel;
   }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getURI()
@@ -125,14 +131,12 @@ public abstract class AbstractSpatialSBasePlugin extends AbstractSBasePlugin {
     return super.writeXMLAttributes();
   }
 
+  /**
+   * @return
+   */
   public Model getModel() {
     SBMLDocument doc = getSBMLDocument();
-
     return doc != null ? doc.getModel() : null;
   }
-
-
-
-
 
 }

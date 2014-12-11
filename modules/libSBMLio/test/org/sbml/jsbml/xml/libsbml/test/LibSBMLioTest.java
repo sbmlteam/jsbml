@@ -39,6 +39,9 @@ import org.sbml.jsbml.xml.libsbml.LibSBMLReader;
  */
 public class LibSBMLioTest {
 
+  /**
+   * 
+   */
   @BeforeClass
   public static void beforeTesting() {
     try {

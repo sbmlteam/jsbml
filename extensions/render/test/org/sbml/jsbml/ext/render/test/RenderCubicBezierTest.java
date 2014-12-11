@@ -38,7 +38,7 @@ import org.sbml.jsbml.ext.render.RenderCubicBezier;
 public class RenderCubicBezierTest {
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#getAllowsChildren()}.
+   * Test method for {@link RenderCubicBezier#getAllowsChildren()}.
    */
   @Test
   public void testGetAllowsChildren() {
@@ -48,7 +48,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#getChildCount()}.
+   * Test method for {@link RenderCubicBezier#getChildCount()}.
    */
   @Test
   public void testGetChildCount() {
@@ -57,7 +57,7 @@ public class RenderCubicBezierTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#getX1()}.
+   * Test method for {@link RenderCubicBezier#getX1()}.
    */
   @Test
   public void testGetX1() {
@@ -69,7 +69,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#getX2()}.
+   * Test method for {@link RenderCubicBezier#getX2()}.
    */
   @Test
   public void testGetX2() {
@@ -81,7 +81,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#getY1()}.
+   * Test method for {@link RenderCubicBezier#getY1()}.
    */
   @Test
   public void testGetY1() {
@@ -93,7 +93,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#getY2()}.
+   * Test method for {@link RenderCubicBezier#getY2()}.
    */
   @Test
   public void testGetY2() {
@@ -105,7 +105,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#getZ1()}.
+   * Test method for {@link RenderCubicBezier#getZ1()}.
    */
   @Test
   public void testGetZ1() {
@@ -117,7 +117,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#getZ2()}.
+   * Test method for {@link RenderCubicBezier#getZ2()}.
    */
   @Test
   public void testGetZ2() {
@@ -129,7 +129,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#isAbsoluteX1()}.
+   * Test method for {@link RenderCubicBezier#isAbsoluteX1()}.
    */
   @Test
   public void testIsAbsoluteX1() {
@@ -142,7 +142,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#isAbsoluteX2()}.
+   * Test method for {@link RenderCubicBezier#isAbsoluteX2()}.
    */
   @Test
   public void testIsAbsoluteX2() {
@@ -155,7 +155,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#isAbsoluteY1()}.
+   * Test method for {@link RenderCubicBezier#isAbsoluteY1()}.
    */
   @Test
   public void testIsAbsoluteY1() {
@@ -168,7 +168,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#isAbsoluteY2()}.
+   * Test method for {@link RenderCubicBezier#isAbsoluteY2()}.
    */
   @Test
   public void testIsAbsoluteY2() {
@@ -181,7 +181,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#isAbsoluteZ1()}.
+   * Test method for {@link RenderCubicBezier#isAbsoluteZ1()}.
    */
   @Test
   public void testIsAbsoluteZ1() {
@@ -194,7 +194,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#isAbsoluteZ2()}.
+   * Test method for {@link RenderCubicBezier#isAbsoluteZ2()}.
    */
   @Test
   public void testIsAbsoluteZ2() {
@@ -207,7 +207,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#isSetAbsoluteX1()}.
+   * Test method for {@link RenderCubicBezier#isSetAbsoluteX1()}.
    */
   @Test
   public void testIsSetAbsoluteX1() {
@@ -218,7 +218,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#isSetAbsoluteX2()}.
+   * Test method for {@link RenderCubicBezier#isSetAbsoluteX2()}.
    */
   @Test
   public void testIsSetAbsoluteX2() {
@@ -229,7 +229,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#isSetAbsoluteY1()}.
+   * Test method for {@link RenderCubicBezier#isSetAbsoluteY1()}.
    */
   @Test
   public void testIsSetAbsoluteY1() {
@@ -240,7 +240,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#isSetAbsoluteY2()}.
+   * Test method for {@link RenderCubicBezier#isSetAbsoluteY2()}.
    */
   @Test
   public void testIsSetAbsoluteY2() {
@@ -251,7 +251,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#isSetAbsoluteZ1()}.
+   * Test method for {@link RenderCubicBezier#isSetAbsoluteZ1()}.
    */
   @Test
   public void testIsSetAbsoluteZ1() {
@@ -262,7 +262,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#isSetAbsoluteZ2()}.
+   * Test method for {@link RenderCubicBezier#isSetAbsoluteZ2()}.
    */
   @Test
   public void testIsSetAbsoluteZ2() {
@@ -273,7 +273,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#isSetX1()}.
+   * Test method for {@link RenderCubicBezier#isSetX1()}.
    */
   @Test
   public void testIsSetX1() {
@@ -285,7 +285,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#isSetX2()}.
+   * Test method for {@link RenderCubicBezier#isSetX2()}.
    */
   @Test
   public void testIsSetX2() {
@@ -297,7 +297,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#isSetY1()}.
+   * Test method for {@link RenderCubicBezier#isSetY1()}.
    */
   @Test
   public void testIsSetY1() {
@@ -309,7 +309,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#isSetY2()}.
+   * Test method for {@link RenderCubicBezier#isSetY2()}.
    */
   @Test
   public void testIsSetY2() {
@@ -321,7 +321,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#isSetZ1()}.
+   * Test method for {@link RenderCubicBezier#isSetZ1()}.
    */
   @Test
   public void testIsSetZ1() {
@@ -333,7 +333,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#isSetZ2()}.
+   * Test method for {@link RenderCubicBezier#isSetZ2()}.
    */
   @Test
   public void testIsSetZ2() {
@@ -345,7 +345,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#setAbsoluteX1(boolean)}.
+   * Test method for {@link RenderCubicBezier#setAbsoluteX1(boolean)}.
    */
   @Test
   public void testSetAbsoluteX1() {
@@ -356,7 +356,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#setAbsoluteX2(boolean)}.
+   * Test method for {@link RenderCubicBezier#setAbsoluteX2(boolean)}.
    */
   @Test
   public void testSetAbsoluteX2() {
@@ -367,7 +367,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#setAbsoluteY1(boolean)}.
+   * Test method for {@link RenderCubicBezier#setAbsoluteY1(boolean)}.
    */
   @Test
   public void testSetAbsoluteY1() {
@@ -378,7 +378,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#setAbsoluteY2(boolean)}.
+   * Test method for {@link RenderCubicBezier#setAbsoluteY2(boolean)}.
    */
   @Test
   public void testSetAbsoluteY2() {
@@ -389,7 +389,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#setAbsoluteZ1(boolean)}.
+   * Test method for {@link RenderCubicBezier#setAbsoluteZ1(boolean)}.
    */
   @Test
   public void testSetAbsoluteZ1() {
@@ -400,7 +400,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#setAbsoluteZ2(boolean)}.
+   * Test method for {@link RenderCubicBezier#setAbsoluteZ2(boolean)}.
    */
   @Test
   public void testSetAbsoluteZ2() {
@@ -411,7 +411,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#setX1(java.lang.Double)}.
+   * Test method for {@link RenderCubicBezier#setX1(double)}.
    */
   @Test
   public void testSetX1() {
@@ -423,7 +423,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#setX2(java.lang.Double)}.
+   * Test method for {@link RenderCubicBezier#setX2(double)}.
    */
   @Test
   public void testSetX2() {
@@ -435,7 +435,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#setY1(java.lang.Double)}.
+   * Test method for {@link RenderCubicBezier#setY1(double)}.
    */
   @Test
   public void testSetY1() {
@@ -447,7 +447,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#setY2(java.lang.Double)}.
+   * Test method for {@link RenderCubicBezier#setY2(double)}.
    */
   @Test
   public void testSetY2() {
@@ -459,7 +459,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#setZ1(java.lang.Double)}.
+   * Test method for {@link RenderCubicBezier#setZ1(double)}.
    */
   @Test
   public void testSetZ1() {
@@ -471,7 +471,7 @@ public class RenderCubicBezierTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.RenderCubicBezier#setZ2(java.lang.Double)}.
+   * Test method for {@link RenderCubicBezier#setZ2(double)}.
    */
   @Test
   public void testSetZ2() {

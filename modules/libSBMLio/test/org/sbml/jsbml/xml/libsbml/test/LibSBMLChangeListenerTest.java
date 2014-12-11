@@ -48,10 +48,22 @@ import org.sbml.libsbml.libsbml;
  */
 public class LibSBMLChangeListenerTest {
 
+  /**
+   * 
+   */
   static SBMLDocument doc = null;
+  /**
+   * 
+   */
   static org.sbml.libsbml.SBMLDocument libDoc = null;
+  /**
+   * 
+   */
   final static double delta = 1E-24d;
 
+  /**
+   * 
+   */
   @BeforeClass
   public static void beforeTesting() {
     try {
@@ -76,7 +88,7 @@ public class LibSBMLChangeListenerTest {
     }
   }
 
-  /*
+  /**
    * test-method to check nodeAdded() in LibSBMLChangeListener
    */
   @SuppressWarnings("deprecation")
@@ -123,7 +135,7 @@ public class LibSBMLChangeListenerTest {
     //		assertNotNull(libDoc.getModel().getUnitDefinition("udef1").getListOfUnits());
   }
 
-  /*
+  /**
    * test-method to check propertyChanged() in LibSBMLChangeListener
    */
   @SuppressWarnings("deprecation")
@@ -166,7 +178,7 @@ public class LibSBMLChangeListenerTest {
     assertEquals(libEvent, event.getUserObject(LINK_TO_LIBSBML));
   }
 
-  /*
+  /**
    * test-method to check nodeRemoved() in LibSBMLChangeListener
    */
   @SuppressWarnings("deprecation")

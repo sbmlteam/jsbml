@@ -22,6 +22,8 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -94,6 +96,9 @@ public class Geometry extends AbstractSpatialNamedSBase {
    */
   private GeometryKind coordinateSystem;
 
+  /**
+   * 
+   */
   private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
   /**
@@ -128,6 +133,11 @@ public class Geometry extends AbstractSpatialNamedSBase {
     }
   }
 
+  /**
+   * @param id
+   * @param level
+   * @param version
+   */
   public Geometry (String id, int level, int version) {
     super(id, level, version);
   }
@@ -218,6 +228,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of coordinateSystem
+   * @param coordinateSystem
    */
   public void setCoordinateSystem(GeometryKind coordinateSystem) {
     GeometryKind oldCoordinateSystem = this.coordinateSystem;
@@ -346,12 +357,16 @@ public class Geometry extends AbstractSpatialNamedSBase {
     getListOfSampledFields().remove(i);
   }
 
+  /**
+   * @param id
+   */
   public void removeSampledField(String id) {
     getListOfSampledFields().removeFirst(new NameFilter(id));
   }
 
   /**
    * Creates a new SampledField element and adds it to the ListOfSampledFields list
+   * @return
    */
   public SampledField createSampledField() {
     return createSampledField(null);
@@ -360,6 +375,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
 
   /**
    * Creates a new {@link SampledField} element and adds it to the ListOfSampledFields list
+   * @param id
    *
    * @return a new {@link SampledField} element
    */
@@ -472,35 +488,52 @@ public class Geometry extends AbstractSpatialNamedSBase {
     getListOfGeometryDefinitions().remove(i);
   }
 
-
+  /**
+   * @param id
+   */
   public void removeGeometryDefinition(String id) {
     getListOfGeometryDefinitions().removeFirst(new NameFilter(id));
   }
+
   /**
    * Creates a new GeometryDefinition element and adds it to the ListOfGeometryDefinitions list
+   * @return
    */
   public SampledFieldGeometry createSampledFieldGeometryn() {
     return createSampledFieldGeometry(null);
   }
 
+  /**
+   * @return
+   */
   public AnalyticGeometry createAnalyticGeometry() {
     return createAnalyticGeometry(null);
   }
 
+  /**
+   * @return
+   */
   public CSGeometry createCSGeometry() {
     return createCSGeometry(null);
   }
 
+  /**
+   * @return
+   */
   public ParametricGeometry createParametricGeometry() {
     return createParametricGeometry(null);
   }
 
+  /**
+   * @return
+   */
   public MixedGeometry createMixedGeometry() {
     return createMixedGeometry(null);
   }
 
   /**
    * Creates a new {@link GeometryDefinition} element and adds it to the ListOfGeometryDefinitions list
+   * @param id
    *
    * @return a new {@link GeometryDefinition} element
    */
@@ -512,6 +545,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
 
   /**
    * Creates a new {@link GeometryDefinition} element and adds it to the ListOfGeometryDefinitions list
+   * @param id
    *
    * @return a new {@link GeometryDefinition} element
    */
@@ -521,18 +555,30 @@ public class Geometry extends AbstractSpatialNamedSBase {
     return def;
   }
 
+  /**
+   * @param id
+   * @return
+   */
   public AnalyticGeometry createAnalyticGeometry(String id) {
     AnalyticGeometry def = new AnalyticGeometry(id, getLevel(), getVersion());
     addGeometryDefinition(def);
     return def;
   }
 
+  /**
+   * @param id
+   * @return
+   */
   public CSGeometry createCSGeometry(String id) {
     CSGeometry def = new CSGeometry(id, getLevel(), getVersion());
     addGeometryDefinition(def);
     return def;
   }
 
+  /**
+   * @param id
+   * @return
+   */
   public ParametricGeometry createParametricGeometry(String id) {
     ParametricGeometry def = new ParametricGeometry(id, getLevel(), getVersion());
     addGeometryDefinition(def);
@@ -641,12 +687,16 @@ public class Geometry extends AbstractSpatialNamedSBase {
     getListOfAdjacentDomains().remove(i);
   }
 
+  /**
+   * @param id
+   */
   public void removeAdjacentDomain(String id) {
     getListOfAdjacentDomains().removeFirst(new NameFilter(id));
   }
 
   /**
    * Creates a new AdjacentDomain element and adds it to the ListOfAdjacentDomains list
+   * @return
    */
   public AdjacentDomains createAdjacentDomain() {
     return createAdjacentDomain(null);
@@ -655,6 +705,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
   /**
    * Creates a new {@link AdjacentDomains} element and adds it to the
    * {@link #listOfAdjacentDomains} list
+   * @param id
    *
    * @return a new {@link AdjacentDomains} element
    */
@@ -767,20 +818,24 @@ public class Geometry extends AbstractSpatialNamedSBase {
     getListOfDomainTypes().remove(i);
   }
 
-
+  /**
+   * @param id
+   */
   public void removeDomainType(String id) {
     getListOfDomainTypes().removeFirst(new NameFilter(id));
   }
+
   /**
    * Creates a new DomainType element and adds it to the ListOfDomainTypes list
+   * @return
    */
   public DomainType createDomainType() {
     return createDomainType(null);
   }
 
-
   /**
    * Creates a new {@link DomainType} element and adds it to the ListOfDomainTypes list
+   * @param id
    *
    * @return a new {@link DomainType} element
    */
@@ -893,19 +948,24 @@ public class Geometry extends AbstractSpatialNamedSBase {
     getListOfDomains().remove(i);
   }
 
+  /**
+   * @param id
+   */
   public void removeDomain(String id) {
     getListOfDomains().removeFirst(new NameFilter(id));
   }
+
   /**
    * Creates a new Domain element and adds it to the ListOfDomains list
+   * @return
    */
   public Domain createDomain() {
     return createDomain(null);
   }
 
-
   /**
    * Creates a new {@link Domain} element and adds it to the ListOfDomains list
+   * @param id
    *
    * @return a new {@link Domain} element
    */
@@ -1018,11 +1078,16 @@ public class Geometry extends AbstractSpatialNamedSBase {
     getListOfCoordinateComponents().remove(i);
   }
 
+  /**
+   * @param id
+   */
   public void removeCoordinateComponent(String id) {
     getListOfCoordinateComponents().removeFirst(new NameFilter(id));
   }
+
   /**
    * Creates a new CoordinateComponent element and adds it to the ListOfCoordinateComponents list
+   * @return
    */
   public CoordinateComponent createCoordinateComponent() {
     return createCoordinateComponent(null);
@@ -1030,6 +1095,7 @@ public class Geometry extends AbstractSpatialNamedSBase {
 
   /**
    * Creates a new {@link CoordinateComponent} element and adds it to the ListOfCoordinateComponents list
+   * @param id
    *
    * @return a new {@link CoordinateComponent} element
    */

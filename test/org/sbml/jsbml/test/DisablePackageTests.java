@@ -47,11 +47,26 @@ import org.sbml.jsbml.ext.layout.LayoutConstants;
 import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
 
 
+/**
+ * @author Nicolas Rodriguez
+ * @version $Rev$
+ * @since 1.0
+ * @date 2014-06-17
+ */
 public class DisablePackageTests {
-  
+
+  /**
+   * 
+   */
   SBMLDocument doc;
+  /**
+   * 
+   */
   Model model;
 
+  /**
+   * 
+   */
   @BeforeClass public static void initialSetUp() {}
   /**
    * 
@@ -65,7 +80,7 @@ public class DisablePackageTests {
     LayoutModelPlugin layoutModelPlugin =  (LayoutModelPlugin) model.getPlugin("layout");
     Layout layout = layoutModelPlugin.createLayout("layout1");
     layout.setMetaId("layout_metaid1");
-    
+
     Compartment comp = model.createCompartment("cell");
     comp.setMetaId("cell");
 
@@ -92,8 +107,11 @@ public class DisablePackageTests {
     Constraint c1 = model.createConstraint();
     c1.setMetaId("c0");
   }
-  
 
+
+  /**
+   * 
+   */
   @Test
   public void testDisablePackage() {
     try {
@@ -117,13 +135,13 @@ public class DisablePackageTests {
       assertTrue(doc.getSBMLDocumentAttributes().containsKey("layout:required") == false);
       assertTrue(doc.getDeclaredNamespaces().containsKey("xmlns:layout") == false);
       assertTrue(doc.getDeclaredNamespaces().containsKey("xmlns:comp") == false);
-      
+
       String docWithoutPakageString = new SBMLWriter().writeSBMLToString(doc);
-      
+
       // System.out.println("Document without package:\n" + docWithoutPakageString);
-      
+
       SBMLDocument docWithoutPackage = new SBMLReader().readSBMLFromString(docWithoutPakageString);
-      
+
       assertTrue(docWithoutPackage.isPackageEnabled("comp") == false);
       assertTrue(docWithoutPackage.isPackageEnabled("layout") == false);
       assertTrue(docWithoutPackage.isPackageURIEnabled("comp") == false);
@@ -136,9 +154,9 @@ public class DisablePackageTests {
       assertTrue(docWithoutPackage.getSBMLDocumentAttributes().containsKey("layout:required") == false);
       assertTrue(docWithoutPackage.getDeclaredNamespaces().containsKey("xmlns:layout") == false);
       assertTrue(docWithoutPackage.getDeclaredNamespaces().containsKey("xmlns:comp") == false);
-      
+
       assertTrue(docWithoutPackage.getModel().getExtensionCount() == 0);
-      
+
       // enabling back the layout package
       doc.enablePackage("layout");
 
@@ -149,11 +167,11 @@ public class DisablePackageTests {
       assertTrue(doc.isPackageURIEnabled("comp") == false);
 
       String docWitLayoutString = new SBMLWriter().writeSBMLToString(doc);
-      
+
       // System.out.println("Document with only layout package:\n" + docWitLayoutString);
-      
+
       SBMLDocument docWitLayout = new SBMLReader().readSBMLFromString(docWitLayoutString);
-      
+
       assertTrue(docWitLayout.isPackageEnabled("comp") == false);
       assertTrue(docWitLayout.isPackageEnabled("layout") == true);
       assertTrue(docWitLayout.isPackageURIEnabled("comp") == false);
@@ -165,52 +183,55 @@ public class DisablePackageTests {
       assertTrue(docWitLayout.getSBMLDocumentAttributes().containsKey("layout:required") == true);
       assertTrue(docWitLayout.getDeclaredNamespaces().containsKey("xmlns:layout") == true);
       assertTrue(docWitLayout.getDeclaredNamespaces().containsKey("xmlns:comp") == false);
-      
+
       assertTrue(docWitLayout.getModel().getExtensionCount() == 1);
       assertTrue(docWitLayout.getModel().isSetPlugin("layout"));
       assertTrue(docWitLayout.getModel().isSetPlugin(LayoutConstants.namespaceURI_L3V1V1));
       assertTrue(docWitLayout.getModel().getExtension("layout") != null);
-      
-      
+
+
     } catch (XMLStreamException e) {
       e.printStackTrace();
       assertTrue(false);
     }
   }
 
+  /**
+   * 
+   */
   @Test public void testCloning() {
-    
+
     SBMLDocument clonedDoc = new SBMLDocument(3, 1);
     clonedDoc.setModel(model.clone());
-    
+
     // package not enable after cloning something other than the SBMLDocument
     assertTrue(clonedDoc.isPackageEnabled("comp") == false);
     assertTrue(clonedDoc.isPackageEnabled("layout") == false);
-    
+
     String docString;
     try {
       docString = new SBMLWriter().writeSBMLToString(clonedDoc);
-      
+
       System.out.println("Document with only layout package:\n" + docString);
-      
+
       SBMLDocument docWithoutPackNamespace = new SBMLReader().readSBMLFromString(docString);
 
-      // package enabled automatically after reading a wrong sbml file      
+      // package enabled automatically after reading a wrong sbml file
       assertTrue(docWithoutPackNamespace.isPackageEnabled("comp") == true);
       assertTrue(docWithoutPackNamespace.isPackageEnabled("layout") == true);
-      
+
       assertTrue(docWithoutPackNamespace.getSBMLDocumentAttributes().containsKey("comp:required") == true);
       assertTrue(docWithoutPackNamespace.getSBMLDocumentAttributes().containsKey("layout:required") == true);
       assertTrue(docWithoutPackNamespace.getDeclaredNamespaces().containsKey("xmlns:layout") == true);
       assertTrue(docWithoutPackNamespace.getDeclaredNamespaces().containsKey("xmlns:comp") == true);
-      
+
       assertTrue(docWithoutPackNamespace.getModel().getExtensionCount() == 2);
       assertTrue(docWithoutPackNamespace.getModel().isSetPlugin("layout"));
       assertTrue(docWithoutPackNamespace.getModel().isSetPlugin(LayoutConstants.namespaceURI_L3V1V1));
       assertTrue(docWithoutPackNamespace.getModel().getExtension("layout") != null);
 
-//      docString = new SBMLWriter().writeSBMLToString(docWithoutPackNamespace);      
-//      System.out.println("Document with only layout package:\n" + docString);
+      //      docString = new SBMLWriter().writeSBMLToString(docWithoutPackNamespace);
+      //      System.out.println("Document with only layout package:\n" + docString);
 
     } catch (SBMLException e) {
       e.printStackTrace();
@@ -219,7 +240,7 @@ public class DisablePackageTests {
       e.printStackTrace();
       assertTrue(false);
     }
-    
+
   }
-  
+
 }

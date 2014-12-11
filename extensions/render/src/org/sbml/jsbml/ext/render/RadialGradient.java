@@ -39,11 +39,64 @@ public class RadialGradient extends GradientBase {
    * Generated serial version identifier
    */
   private static final long serialVersionUID = -6976786676644704255L;
-  private Boolean absoluteCx, absoluteCy, absoluteCz, absoluteR;
+  /**
+   * 
+   */
+  private Boolean absoluteCx;
+  /**
+   * 
+   */
+  private Boolean absoluteCy;
+  /**
+   * 
+   */
+  private Boolean absoluteCz;
+  /**
+   * 
+   */
+  private Boolean absoluteR;
 
-  private Boolean absoluteFx, absoluteFy, absoluteFz;
+  /**
+   * 
+   */
+  private Boolean absoluteFx;
+  /**
+   * 
+   */
+  private Boolean absoluteFy;
+  /**
+   * 
+   */
+  private Boolean absoluteFz;
 
-  private Double cx, cy, cz, r, fx, fy, fz;
+  /**
+   * 
+   */
+  private Double cx;
+  /**
+   * 
+   */
+  private Double cy;
+  /**
+   * 
+   */
+  private Double cz;
+  /**
+   * 
+   */
+  private Double r;
+  /**
+   * 
+   */
+  private Double fx;
+  /**
+   * 
+   */
+  private Double fy;
+  /**
+   * 
+   */
+  private Double fz;
 
 
   /**
@@ -56,6 +109,7 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public RadialGradient(RadialGradient obj) {
     super(obj);
@@ -359,8 +413,9 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Set the value of absoluteCx
+   * @param absoluteCx
    */
-  public void setAbsoluteCx(Boolean absoluteCx) {
+  public void setAbsoluteCx(boolean absoluteCx) {
     Boolean oldAbsoluteCx = this.absoluteCx;
     this.absoluteCx = absoluteCx;
     firePropertyChange(RenderConstants.absoluteCx, oldAbsoluteCx, this.absoluteCx);
@@ -368,8 +423,9 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Set the value of absoluteCy
+   * @param absoluteCy
    */
-  public void setAbsoluteCy(Boolean absoluteCy) {
+  public void setAbsoluteCy(boolean absoluteCy) {
     Boolean oldAbsoluteCy = this.absoluteCy;
     this.absoluteCy = absoluteCy;
     firePropertyChange(RenderConstants.absoluteCy, oldAbsoluteCy, this.absoluteCy);
@@ -377,8 +433,9 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Set the value of absoluteCz
+   * @param absoluteCz
    */
-  public void setAbsoluteCz(Boolean absoluteCz) {
+  public void setAbsoluteCz(boolean absoluteCz) {
     Boolean oldAbsoluteCz = this.absoluteCz;
     this.absoluteCz = absoluteCz;
     firePropertyChange(RenderConstants.absoluteCz, oldAbsoluteCz, this.absoluteCz);
@@ -386,8 +443,9 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Set the value of absoluteFx
+   * @param absoluteFx
    */
-  public void setAbsoluteFx(Boolean absoluteFx) {
+  public void setAbsoluteFx(boolean absoluteFx) {
     Boolean oldAbsoluteFx = this.absoluteFx;
     this.absoluteFx = absoluteFx;
     firePropertyChange(RenderConstants.absoluteFx, oldAbsoluteFx, this.absoluteFx);
@@ -395,8 +453,9 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Set the value of absoluteFy
+   * @param absoluteFy
    */
-  public void setAbsoluteFy(Boolean absoluteFy) {
+  public void setAbsoluteFy(boolean absoluteFy) {
     Boolean oldAbsoluteFy = this.absoluteFy;
     this.absoluteFy = absoluteFy;
     firePropertyChange(RenderConstants.absoluteFy, oldAbsoluteFy, this.absoluteFy);
@@ -404,8 +463,9 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Set the value of absoluteFz
+   * @param absoluteFz
    */
-  public void setAbsoluteFz(Boolean absoluteFz) {
+  public void setAbsoluteFz(boolean absoluteFz) {
     Boolean oldAbsoluteFz = this.absoluteFz;
     this.absoluteFz = absoluteFz;
     firePropertyChange(RenderConstants.absoluteFz, oldAbsoluteFz, this.absoluteFz);
@@ -413,8 +473,9 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Set the value of absoluteR
+   * @param absoluteR
    */
-  public void setAbsoluteR(Boolean absoluteR) {
+  public void setAbsoluteR(boolean absoluteR) {
     Boolean oldAbsoluteR = this.absoluteR;
     this.absoluteR = absoluteR;
     firePropertyChange(RenderConstants.absoluteR, oldAbsoluteR, this.absoluteR);
@@ -422,8 +483,9 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Set the value of cx
+   * @param cx
    */
-  public void setCx(Double cx) {
+  public void setCx(double cx) {
     Double oldCx = this.cx;
     this.cx = cx;
     firePropertyChange(RenderConstants.cx, oldCx, this.cx);
@@ -431,8 +493,9 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Set the value of cy
+   * @param cy
    */
-  public void setCy(Double cy) {
+  public void setCy(double cy) {
     Double oldCy = this.cy;
     this.cy = cy;
     firePropertyChange(RenderConstants.cy, oldCy, this.cy);
@@ -440,8 +503,9 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Set the value of cz
+   * @param cz
    */
-  public void setCz(Double cz) {
+  public void setCz(double cz) {
     Double oldCz = this.cz;
     this.cz = cz;
     firePropertyChange(RenderConstants.cz, oldCz, this.cz);
@@ -449,8 +513,9 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Set the value of fx
+   * @param fx
    */
-  public void setFx(Double fx) {
+  public void setFx(double fx) {
     Double oldFx = this.fx;
     this.fx = fx;
     firePropertyChange(RenderConstants.fx, oldFx, this.fx);
@@ -458,8 +523,9 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Set the value of fy
+   * @param fy
    */
-  public void setFy(Double fy) {
+  public void setFy(double fy) {
     Double oldFy = this.fy;
     this.fy = fy;
     firePropertyChange(RenderConstants.fy, oldFy, this.fy);
@@ -467,8 +533,9 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Set the value of fz
+   * @param fz
    */
-  public void setFz(Double fz) {
+  public void setFz(double fz) {
     Double oldFz = this.fz;
     this.fz = fz;
     firePropertyChange(RenderConstants.fz, oldFz, this.fz);
@@ -476,8 +543,9 @@ public class RadialGradient extends GradientBase {
 
   /**
    * Set the value of r
+   * @param r
    */
-  public void setR(Double r) {
+  public void setR(double r) {
     Double oldR = this.r;
     this.r = r;
     firePropertyChange(RenderConstants.r, oldR, this.r);

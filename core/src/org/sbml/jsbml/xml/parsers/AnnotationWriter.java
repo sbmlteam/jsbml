@@ -39,6 +39,8 @@ public interface AnnotationWriter {
    * removing or adding nodes.
    * 
    * @param contextObject
+   * @param xmlNode
+   * @return
    */
   public XMLNode writeAnnotation(SBase contextObject, XMLNode xmlNode);
 

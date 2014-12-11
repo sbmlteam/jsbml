@@ -39,8 +39,14 @@ public abstract class CSGTransformation extends CSGNode {
    * 
    */
   private static final long serialVersionUID = 5388780141573233538L;
+  /**
+   * 
+   */
   private CSGNode csgNode;
 
+  /**
+   * 
+   */
   public CSGTransformation() {
     super();
   }
@@ -120,6 +126,7 @@ public abstract class CSGTransformation extends CSGNode {
 
   /**
    * Sets the value of csgNode
+   * @param csgNode
    */
   public void setCSGNode(CSGNode csgNode) {
     CSGNode oldCSGNode = this.csgNode;

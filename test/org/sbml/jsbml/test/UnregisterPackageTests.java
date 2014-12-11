@@ -42,6 +42,7 @@ import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
+import org.sbml.jsbml.ext.AbstractSBasePlugin;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.Dimension;
@@ -92,10 +93,22 @@ import org.sbml.jsbml.ext.spatial.SpatialModelPlugin;
  */
 public class UnregisterPackageTests {
 
+  /**
+   * 
+   */
   SBMLDocument doc;
+  /**
+   * 
+   */
   Model model;
+  /**
+   * 
+   */
   CompModelPlugin compMainModel;
 
+  /**
+   * 
+   */
   @BeforeClass public static void initialSetUp() {}
   /**
    * 
@@ -139,6 +152,9 @@ public class UnregisterPackageTests {
 
 
 
+  /**
+   * 
+   */
   @Test public void testCompPort() {
 
     Species s3 = new Species();
@@ -328,6 +344,9 @@ public class UnregisterPackageTests {
     assertTrue(doc.findSBase("CRE2") == null);
   }
 
+  /**
+   * 
+   */
   @Test public void testKineticLaw() {
 
     Reaction r1 = model.getReaction(0);
@@ -344,6 +363,9 @@ public class UnregisterPackageTests {
     assertTrue(doc.findSBase("KL1") == null);
   }
 
+  /**
+   * 
+   */
   @Test public void testCompCloning() {
 
     assertTrue(model.findUniqueNamedSBase("layout1") != null);
@@ -453,6 +475,9 @@ public class UnregisterPackageTests {
   }
 
 
+  /**
+   * 
+   */
   @Test public void testFbc() {
 
     FBCModelPlugin fbcModel = (FBCModelPlugin) model.getPlugin(FBCConstants.namespaceURI_L3V1V1);
@@ -628,6 +653,9 @@ public class UnregisterPackageTests {
     assertTrue(qs1.hashCode() != clonedQs1.hashCode());
   }
 
+  /**
+   * 
+   */
   @Test public void testGroups() {
 
     GroupsModelPlugin groupsModel = (GroupsModelPlugin) model.getPlugin(GroupsConstants.shortLabel);
@@ -699,6 +727,9 @@ public class UnregisterPackageTests {
 
   }
 
+  /**
+   * 
+   */
   @Test public void testLayout() {
 
     LayoutModelPlugin layoutModel = (LayoutModelPlugin) model.getPlugin(LayoutConstants.shortLabel);
@@ -744,6 +775,9 @@ public class UnregisterPackageTests {
 
   }
 
+  /**
+   * 
+   */
   @Test public void testRender() {
 
     LayoutModelPlugin layoutModel = (LayoutModelPlugin) model.getPlugin(LayoutConstants.shortLabel);
@@ -804,6 +838,9 @@ public class UnregisterPackageTests {
 
   }
 
+  /**
+   * 
+   */
   @Test public void testSpatial() {
     SpatialModelPlugin spatialModel  = (SpatialModelPlugin) model.getPlugin(SpatialConstants.shortLabel);
 
@@ -843,10 +880,16 @@ public class UnregisterPackageTests {
   }
 
 
+  /**
+   * 
+   */
   @Test public void testMulti() {
     // TODO - when the package code is updated
   }
 
+  /**
+   * 
+   */
   @Test public void testArrays() {
 
     ArraysSBasePlugin arraysTestPlugin = (ArraysSBasePlugin) model.getPlugin(ArraysConstants.shortLabel);
@@ -930,6 +973,9 @@ public class UnregisterPackageTests {
     assertTrue(doc.findSBase("ADMeta1").equals(dimX));
   }
 
+  /**
+   * 
+   */
   @Test public void testArraysUnsetListOfDimensions() {
 
     SpeciesReference sp1 = (SpeciesReference) model.findNamedSBase("SP1");
@@ -967,6 +1013,9 @@ public class UnregisterPackageTests {
 
   }
 
+  /**
+   * 
+   */
   @Test
   public void testSetId() {
     try {

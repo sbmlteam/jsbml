@@ -26,8 +26,10 @@ import java.util.Map;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.StringTools;
@@ -54,8 +56,17 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
    * Generated serial version identifier.
    */
   private static final long      serialVersionUID = -6392002023918667156L;
+  /**
+   * 
+   */
   private String                 qualitativeSpecies;
+  /**
+   * 
+   */
   private OutputTransitionEffect transitionEffect;
+  /**
+   * 
+   */
   private Integer                outputLevel;
 
   /**
@@ -76,6 +87,7 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
 
   /**
    * @param qualitativeSpecies
+   * @param transitionEffect
    */
   public Output(QualitativeSpecies qualitativeSpecies, OutputTransitionEffect transitionEffect) {
     this(null, qualitativeSpecies, transitionEffect);
@@ -127,6 +139,9 @@ public class Output extends AbstractNamedSBase implements UniqueNamedSBase, Call
     initDefaults();
   }
 
+  /**
+   * @param out
+   */
   public Output(Output out) {
     super(out);
 

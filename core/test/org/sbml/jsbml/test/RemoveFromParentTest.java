@@ -49,11 +49,26 @@ public class RemoveFromParentTest {
    */
 
   private SBMLDocument doc;
+  /**
+   * 
+   */
   private Model model;
+  /**
+   * 
+   */
   private Compartment compartment;
+  /**
+   * 
+   */
   private Compartment compartment2;
+  /**
+   * 
+   */
   private KineticLaw k;
 
+  /**
+   * @throws Exception
+   */
   @Before public void setUp() throws Exception
   {
     doc = new SBMLDocument(3, 1);
@@ -77,12 +92,18 @@ public class RemoveFromParentTest {
 
   }
 
+  /**
+   * 
+   */
   @Test
   public void testRemoveFromParentRoot() {
     // Check if method fails if it tries to delete object with no parent (SBMLDocument)
     assertTrue(!doc.removeFromParent());
   }
 
+  /**
+   * 
+   */
   @Test
   public void testRemoveFromParentList() {
 
@@ -96,6 +117,9 @@ public class RemoveFromParentTest {
     assertTrue(model.findCallableSBase("cytoplasm") == null);
   }
 
+  /**
+   * 
+   */
   @Test
   public void testRemoveFromParentNoList() {
     // Check if method can delete model from SBMLDocument
@@ -114,6 +138,9 @@ public class RemoveFromParentTest {
     m.createParameter("LP1");
   }
 
+  /**
+   * 
+   */
   @Test
   public void testRemoveFromParentKineticLaw() {
 
@@ -132,6 +159,9 @@ public class RemoveFromParentTest {
 
   }
 
+  /**
+   * 
+   */
   @Test
   public void testRemoveFromParentLocalParameter() {
 
@@ -147,6 +177,9 @@ public class RemoveFromParentTest {
     k.createLocalParameter("LP1");
   }
 
+  /**
+   * 
+   */
   @Test
   public void testRemoveFromParentXMLNode() {
     XMLNode notes = doc.getNotes().getChildAt(0);
@@ -163,6 +196,12 @@ public class RemoveFromParentTest {
 
   }
 
+  /**
+   * @throws ParseException
+   */
+  /**
+   * @throws ParseException
+   */
   @Test
   public void testRemoveFromParentASTNode() throws ParseException {
     Constraint constr = model.createConstraint();

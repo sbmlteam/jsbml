@@ -23,6 +23,7 @@ package org.sbml.jsbml;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,11 +49,11 @@ public class CVTerm extends AnnotationElement {
   /**
    * The Uniform Resource Identifier pointing to <a href="http://biomodels.net/model-qualifiers/">http://biomodels.net/model-qualifiers/</a>
    */
-  public static final String URI_BIOMODELS_NET_MODEL_QUALIFIERS = "http://biomodels.net/model-qualifiers/";
+  public static final String URI_BIOMODELS_NET_MODEL_QUALIFIERS = "http://biomodels.net/model-qualifiers/"; //$NON-NLS-1$
   /**
    * The Uniform Resource Identifier pointing to <a href="http://biomodels.net/biology-qualifiers/">http://biomodels.net/biology-qualifiers/</a>
    */
-  public static final String URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS = "http://biomodels.net/biology-qualifiers/";
+  public static final String URI_BIOMODELS_NET_BIOLOGY_QUALIFIERS = "http://biomodels.net/biology-qualifiers/"; //$NON-NLS-1$
 
 
   // TODO: it would be probably safer to try to load the list a qualifier
@@ -215,22 +216,70 @@ public class CVTerm extends AnnotationElement {
      */
     BQM_UNKNOWN;
 
-    private static final String HAS_INSTANCE = "hasInstance";
-    private static final String IS_INSTANCE_OF = "isInstanceOf";
-    private static final String IS_DERIVED_FROM = "isDerivedFrom";
-    private static final String OCCURS_IN = "occursIn";
-    private static final String IS_VERSION_OF = "isVersionOf";
-    private static final String IS_PART_OF = "isPartOf";
-    private static final String IS_HOMOLOG_TO = "isHomologTo";
-    private static final String IS_ENCODED_BY = "isEncodedBy";
-    private static final String IS_DESCRIBED_BY = "isDescribedBy";
-    private static final String IS = "is";
-    private static final String IS_PROPERTY_OF = "isPropertyOf";
-    private static final String HAS_TAXON = "hasTaxon";
-    private static final String HAS_PROPERTY = "hasProperty";
-    private static final String HAS_VERSION = "hasVersion";
-    private static final String HAS_PART = "hasPart";
-    private static final String ENCODES = "encodes";
+    /**
+     * 
+     */
+    private static final String HAS_INSTANCE = "hasInstance"; //$NON-NLS-1$
+    /**
+     * 
+     */
+    private static final String IS_INSTANCE_OF = "isInstanceOf"; //$NON-NLS-1$
+    /**
+     * 
+     */
+    private static final String IS_DERIVED_FROM = "isDerivedFrom"; //$NON-NLS-1$
+    /**
+     * 
+     */
+    private static final String OCCURS_IN = "occursIn"; //$NON-NLS-1$
+    /**
+     * 
+     */
+    private static final String IS_VERSION_OF = "isVersionOf"; //$NON-NLS-1$
+    /**
+     * 
+     */
+    private static final String IS_PART_OF = "isPartOf"; //$NON-NLS-1$
+    /**
+     * 
+     */
+    private static final String IS_HOMOLOG_TO = "isHomologTo"; //$NON-NLS-1$
+    /**
+     * 
+     */
+    private static final String IS_ENCODED_BY = "isEncodedBy"; //$NON-NLS-1$
+    /**
+     * 
+     */
+    private static final String IS_DESCRIBED_BY = "isDescribedBy"; //$NON-NLS-1$
+    /**
+     * 
+     */
+    private static final String IS = "is"; //$NON-NLS-1$
+    /**
+     * 
+     */
+    private static final String IS_PROPERTY_OF = "isPropertyOf"; //$NON-NLS-1$
+    /**
+     * 
+     */
+    private static final String HAS_TAXON = "hasTaxon"; //$NON-NLS-1$
+    /**
+     * 
+     */
+    private static final String HAS_PROPERTY = "hasProperty"; //$NON-NLS-1$
+    /**
+     * 
+     */
+    private static final String HAS_VERSION = "hasVersion"; //$NON-NLS-1$
+    /**
+     * 
+     */
+    private static final String HAS_PART = "hasPart"; //$NON-NLS-1$
+    /**
+     * 
+     */
+    private static final String ENCODES = "encodes"; //$NON-NLS-1$
 
     /**
      * Returns a name corresponding to this Qualifier Object.
@@ -282,6 +331,11 @@ public class CVTerm extends AnnotationElement {
       }
     }
 
+    /**
+     * 
+     * @param elementNameEquivalent
+     * @return
+     */
     public static Qualifier getBiologicalQualifierFor(String elementNameEquivalent) {
 
       if (elementNameEquivalent.equals(ENCODES)) {
@@ -315,6 +369,11 @@ public class CVTerm extends AnnotationElement {
       return BQB_UNKNOWN;
     }
 
+    /**
+     * 
+     * @param elementNameEquivalent
+     * @return
+     */
     public static Qualifier getModelQualifierFor(String elementNameEquivalent) {
 
       if (elementNameEquivalent.equals(IS)) {
@@ -872,8 +931,13 @@ public class CVTerm extends AnnotationElement {
         && (!qualifier.equals(Qualifier.BQB_UNKNOWN));
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.element.SBase#readAttribute(String elementName, String attributeName, String prefix, String value)
+  /**
+   * 
+   * @param elementName
+   * @param attributeName
+   * @param prefix
+   * @param value
+   * @return
    */
   public boolean readAttribute(String elementName, String attributeName,
     String prefix, String value) {
@@ -889,6 +953,9 @@ public class CVTerm extends AnnotationElement {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractTreeNode#removeFromParent()
+   */
   @Override
   public boolean removeFromParent() {
 

@@ -63,8 +63,17 @@ import java.text.MessageFormat;
  */
 public class XMLTriple {
 
+  /**
+   * 
+   */
   private String name = "";
+  /**
+   * 
+   */
   private String prefix = "";
+  /**
+   * 
+   */
   private String namespaceURI = "";
 
   /**
@@ -207,6 +216,7 @@ public class XMLTriple {
 
   /**
    * Creates a copy of this {@link XMLTriple} set.
+   * @param orig
    */
   public XMLTriple(XMLTriple orig) {
 

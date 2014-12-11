@@ -33,7 +33,6 @@ import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.ParseException;
 
-
 /**
  * Test all sorts of cases involving MathML selector and vector.
  * Also, test if infix parsing is working properly for these MathML constructs.
@@ -425,6 +424,9 @@ public class MathTest {
     }
   }
 
+  /**
+   * 
+   */
   @Test
   public void testInfixVectorSelector() {
 
@@ -442,6 +444,9 @@ public class MathTest {
     }
   }
 
+  /**
+   * 
+   */
   @Test
   public void testInfixVectorSelectorLL3() {
 

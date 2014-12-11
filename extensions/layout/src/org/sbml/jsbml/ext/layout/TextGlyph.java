@@ -146,6 +146,7 @@ public class TextGlyph extends AbstractReferenceGlyph {
   /**
    * Direct access to the {@link GraphicalObject} linked to this
    * {@link TextGlyph}.
+   * @return
    */
   public GraphicalObject getGraphicalObjectInstance() {
     Model model = getModel();
@@ -203,6 +204,7 @@ public class TextGlyph extends AbstractReferenceGlyph {
   /**
    * Method to test if an instance of a {@link GraphicalObject} with the id
    * given by {@link #getGraphicalObject()} can be found in the {@link Model}.
+   * @return
    */
   public boolean isSetGraphicalObjectInstance() {
     Model model = getModel();

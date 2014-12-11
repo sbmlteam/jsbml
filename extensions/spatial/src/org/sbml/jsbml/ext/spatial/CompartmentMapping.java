@@ -57,6 +57,9 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
   private Double unitSize;
 
 
+  /**
+   * 
+   */
   public CompartmentMapping() {
     super();
   }
@@ -155,6 +158,7 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of compartment
+   * @param compartment
    */
   public void setCompartment(String compartment) {
     String oldCompartment = this.compartment;
@@ -202,6 +206,7 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of domainType
+   * @param domainType
    */
   public void setDomainType(String domainType) {
     String oldDomainType = this.domainType;
@@ -252,6 +257,7 @@ public class CompartmentMapping extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of unitSize
+   * @param unitSize
    */
   public void setUnitSize(double unitSize) {
     Double oldUnitSize = this.unitSize;

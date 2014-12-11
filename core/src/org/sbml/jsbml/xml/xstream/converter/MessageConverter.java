@@ -30,13 +30,20 @@ import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 /**
+ * @author Nicolas Rodriguez
  * @since 0.8
  * @version $Rev$
  */
 public class MessageConverter implements Converter {
 
+  /**
+   * 
+   */
   String elementName = "message";
 
+  /**
+   * @param elementName
+   */
   public MessageConverter(String elementName) {
     super();
     this.elementName = elementName;

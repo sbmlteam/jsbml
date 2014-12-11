@@ -22,6 +22,7 @@
 package org.sbml.jsbml;
 
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -29,6 +30,7 @@ import javax.swing.tree.TreeNode;
 import org.sbml.jsbml.Unit.Kind;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 
 /**
  * Represents the event XML element of a SBML file. Since {@link Event}s were
@@ -51,6 +53,9 @@ UniqueNamedSBase {
    * Represents the delay sub-element of an event element.
    */
   private Delay delay;
+  /**
+   * 
+   */
   private boolean isSetUseValuesFromTriggerTime;
 
   /**
@@ -471,7 +476,7 @@ UniqueNamedSBase {
   /**
    * Returns the listOfEventAssignments. Creates it if it is not already existing.
    *
-s   * @return the list of eventAssignments of this Event.
+   * @return the list of eventAssignments of this Event.
    */
   public ListOf<EventAssignment> getListOfEventAssignments() {
     if (listOfEventAssignments == null) {
@@ -617,6 +622,8 @@ s   * @return the list of eventAssignments of this Event.
 
   /**
    * Initializes the default values of this {@link Event}.
+   * @param level
+   * @param version
    */
   public void initDefaults(int level, int version) {
     trigger = null;
@@ -974,6 +981,7 @@ s   * @return the list of eventAssignments of this Event.
 
   /**
    * Sets the delay of this {@link Event} to {@code null}.
+   * @return
    */
   public boolean unsetDelay() {
     if (delay != null) {
@@ -1005,6 +1013,7 @@ s   * @return the list of eventAssignments of this Event.
   /**
    * Sets the {@link Priority} of this {@link Event} to null and notifies
    * {@link TreeNodeChangeListener}s.
+   * @return
    */
   public boolean unsetPriority() {
     if (priority != null) {
@@ -1026,6 +1035,7 @@ s   * @return the list of eventAssignments of this Event.
   /**
    * Sets the trigger of this {@link Event} to null and notifies
    * {@link TreeNodeChangeListener}s.
+   * @return
    */
   public boolean unsetTrigger() {
     if (trigger != null) {

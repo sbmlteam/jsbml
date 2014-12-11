@@ -119,6 +119,7 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
 
   /**
    * Clone constructor
+   * @param obj
    */
   public FluxObjective(FluxObjective obj) {
     super(obj);
@@ -139,8 +140,8 @@ public class FluxObjective extends AbstractNamedSBase implements UniqueNamedSBas
     return new FluxObjective(this);
   }
 
-  
-  
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */

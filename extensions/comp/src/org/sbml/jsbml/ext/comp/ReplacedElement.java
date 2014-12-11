@@ -23,6 +23,9 @@ package org.sbml.jsbml.ext.comp;
 
 import java.util.Map;
 
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.Parameter;
+
 /**
  * 
  * A {@link ReplacedElement} object is essentially  a pointer to a  submodel
@@ -41,10 +44,19 @@ public class ReplacedElement extends SBaseRef {
    */
   private static final long serialVersionUID = -1222530387127803035L;
 
+  /**
+   * 
+   */
   private String submodelRef;
 
+  /**
+   * 
+   */
   private String deletion;
 
+  /**
+   * 
+   */
   private String conversionFactor;
 
   /**
@@ -69,6 +81,7 @@ public class ReplacedElement extends SBaseRef {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public ReplacedElement(ReplacedElement obj) {
     super(obj);
@@ -197,6 +210,7 @@ public class ReplacedElement extends SBaseRef {
    * object may be referenced by those attributes.
    * 
    * Sets the value of the required submodelRef attribute.
+   * @param submodelRef
    */
   public void setSubmodelRef(String submodelRef) {
     String oldSubmodelRef = this.submodelRef;
@@ -256,6 +270,7 @@ public class ReplacedElement extends SBaseRef {
    * instance sets deletion to the identifier of the {@link Deletion} object. In addition,
    * the referenced {@link Deletion} must be a child of the {@link Submodel} referenced by
    * the submodelRef attribute.
+   * @param deletion
    */
   public void setDeletion(String deletion) {
     String oldDeletion = this.deletion;
@@ -312,6 +327,7 @@ public class ReplacedElement extends SBaseRef {
    * object appears. This attribute takes a value that must refer to a
    * {@link Parameter} object instance defined in the model. This parameter
    * then acts as a conversion factor.
+   * @param conversionFactor
    * 
    */
   public void setConversionFactor(String conversionFactor) {

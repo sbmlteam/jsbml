@@ -162,6 +162,7 @@ extends JFrame
 
   /**
    * Creates an empty bar graph.
+   * @return
    */
   public JFreeChart createModelBarGraph()
   {
@@ -263,7 +264,7 @@ extends JFrame
       if (stats.getSBMLVersion() >= 2)
       {
         chartData.addValue(stats.getNumConstraints(), row,
-          "Constraints");
+            "Constraints");
         chartData.addValue(stats.getNumInitialAssignments(), row,
             "Initial assignments");
       }
@@ -271,7 +272,7 @@ extends JFrame
       if (stats.getSBMLVersion() >= 2 && stats.getSBMLLevel() < 3)
       {
         chartData.addValue(stats.getNumSpeciesTypes(), row,
-          "Species types");
+            "Species types");
         chartData.addValue(stats.getNumCompartmentTypes(), row,
             "Compartment types");
       }
@@ -317,10 +318,11 @@ extends JFrame
 
   /**
    * Performs misc. initializations and makes the main window visible.
+   * @throws Exception
    */
   public void initAndShow()
       throws Exception
-      {
+  {
     pack();
     setLocationRelativeTo(null);
 
@@ -337,7 +339,7 @@ extends JFrame
 
     Log.note("Making main application window visible.");
     setVisible(true);
-      }
+  }
 
 
   /**
@@ -411,6 +413,7 @@ extends JFrame
 
   /**
    * Handles the "Open" menu item in the File menu.
+   * @param evt
    */
   public void openFileHandler(java.awt.event.ActionEvent evt)
   {
@@ -483,6 +486,7 @@ extends JFrame
 
   /**
    * Testing harness.
+   * @param args
    */
   public static void main(String[] args)
   {
@@ -508,16 +512,47 @@ extends JFrame
   // ---------------------- Private data members ----------------------------
   //
 
+  /**
+   * 
+   */
   private JPanel contentPane;
+  /**
+   * 
+   */
   private JPanel fileNamePanel;
+  /**
+   * 
+   */
   private JTextField fileNameField;
+  /**
+   * 
+   */
   private JMenuBar menuBar;
+  /**
+   * 
+   */
   private JMenu fileMenu;
+  /**
+   * 
+   */
   private JMenuItem openFileMenuItem;
+  /**
+   * 
+   */
   private ChartPanel chartPanel;
+  /**
+   * 
+   */
   private DefaultCategoryDataset chartData;
+  /**
+   * 
+   */
   private static int shortcutKeyMask
   = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
 
+  /**
+   * 
+   */
   private static final long serialVersionUID = 1L;
+
 }

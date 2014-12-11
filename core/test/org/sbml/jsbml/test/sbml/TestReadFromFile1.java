@@ -44,7 +44,6 @@ import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
-import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.xml.stax.SBMLReader;
 
 /**
@@ -75,10 +74,8 @@ public class TestReadFromFile1 {
     Reaction r;
     Species s;
     SpeciesReference sr;
-    UnitDefinition ud;
-
     InputStream fileStream = TestReadFromFile1.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/libsbml-test-data/l1v1-branch.xml");
-    
+
     d = new SBMLReader().readSBMLFromStream(fileStream);
     if (d == null) {
       ;
@@ -93,9 +90,6 @@ public class TestReadFromFile1 {
     c = m.getCompartment(0);
     assertTrue(c.getName().equals("compartmentOne"));
     assertTrue(c.getVolume() == 1);
-    ud = c.getDerivedUnitDefinition();
-
-    
     // assertTrue(ud.getUnitCount() == 1); // getDerivedUnitDefinition not working properly
     // assertTrue(ud.getUnit(0).getKind() == Unit.Kind.LITRE);
     assertTrue(m.getSpeciesCount() == 4);
@@ -132,7 +126,7 @@ public class TestReadFromFile1 {
     assertTrue(r.getName().equals("reaction_1"));
     assertTrue(r.getReversible() == false);
     assertTrue(r.getFast() == false);
-    ud = r.getKineticLaw().getDerivedUnitDefinition();
+
 
     //		assertTrue(ud.getUnitCount() == 2);
     //		assertTrue(ud.getUnit(0).getKind() == Unit.Kind.MOLE);

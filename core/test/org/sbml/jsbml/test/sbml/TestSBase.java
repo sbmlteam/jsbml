@@ -57,17 +57,29 @@ import org.sbml.jsbml.xml.XMLTriple;
  */
 public class TestSBase {
 
+  /**
+   * 
+   */
   private SBase sbase;
 
+  /**
+   * @throws Exception
+   */
   @Before public void setUp() throws Exception
   {
     sbase = new Model(2,4);
   }
 
+  /**
+   * @throws Exception
+   */
   @After public void tearDown() throws Exception
   {
   }
 
+  /**
+   * 
+   */
   @Test public void test_SBase_CVTerms()
   {
     CVTerm cv = new  CVTerm(CVTerm.Qualifier.BQB_IS); // DIFF - the jsbml enum is different from the libsbml int value and placed in different classes.
@@ -75,7 +87,7 @@ public class TestSBase {
     cv.addResource("foo");
     assertTrue(sbase.getNumCVTerms() == 0);
     assertTrue(sbase.getCVTerms().size() == 0);
-    
+
     sbase.setMetaId("_id");
     sbase.addCVTerm(cv);
     assertTrue(sbase.getNumCVTerms() == 1);
@@ -84,6 +96,9 @@ public class TestSBase {
     cv = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_SBase_addCVTerms()
   {
     CVTerm cv = new  CVTerm(CVTerm.Qualifier.BQB_ENCODES);
@@ -136,6 +151,9 @@ public class TestSBase {
     cv4 = null;
   }
 
+  /**
+   * @throws XMLStreamException
+   */
   @Test public void test_SBase_appendNotes() throws XMLStreamException
   {
     XMLToken token;
@@ -151,38 +169,38 @@ public class TestSBase {
     XMLNode node4 = new XMLNode(token4);
     XMLToken token5 = new  XMLNode("This is additional text");
     XMLNode node5 = new XMLNode(token5);
-    
+
     System.out.println("Triple name = " + triple.getName());
-    
+
     token = new  XMLNode(triple,att,ns);
     node = new XMLNode(token);
-    
+
     node.addChild(node4);
     sbase.setNotes(node); // TODO - add the notes XMLNode around if not present !
-    
+
     assertTrue(sbase.isSetNotes() == true);
-    
+
     token1 = new  XMLNode(triple,att,ns);
     node1 = new XMLNode(token1);
     node1.addChild(node5);
-    
+
     sbase.appendNotes(node1);
-    
+
     System.out.println("Token name = " + token.getName());
     System.out.println("Node name = " + node.getName());
-    
+
     System.out.println("Token name = " + token1.getName());
     System.out.println("Node name = " + node1.getName());
-    
+
     assertTrue(sbase.isSetNotes() == true);
     node2 = sbase.getNotes();
-    
+
     assertTrue(node2.getNumChildren() == 2);
 
     System.out.println("Node name = " + node2.getChild(0).getName());
     System.out.println("Node name = " + node.getChild(0).getName());
     System.out.println("Notes:" + node2.toXMLString());
-    
+
     assertTrue(node2.getChild(0).getName().equals("p"));
     assertTrue(node2.getChild(0).getNumChildren() == 1);
     assertTrue(node2.getChild(1).getName().equals("p"));
@@ -195,6 +213,9 @@ public class TestSBase {
     node1 = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_SBase_appendNotes1()
   {
     XMLAttributes att = new  XMLAttributes();
@@ -283,6 +304,9 @@ public class TestSBase {
     text_node1 = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_SBase_appendNotes2()
   {
     XMLAttributes att = new  XMLAttributes();
@@ -365,6 +389,9 @@ public class TestSBase {
     text_node1 = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_SBase_appendNotes3()
   {
     XMLAttributes att = new  XMLAttributes();
@@ -444,6 +471,9 @@ public class TestSBase {
     text_node1 = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_SBase_appendNotes4()
   {
     XMLAttributes att = new  XMLAttributes();
@@ -524,6 +554,9 @@ public class TestSBase {
     text_node1 = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_SBase_appendNotes5()
   {
     XMLAttributes att = new  XMLAttributes();
@@ -601,6 +634,9 @@ public class TestSBase {
     text_node1 = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_SBase_appendNotes6()
   {
     XMLAttributes att = new  XMLAttributes();
@@ -660,6 +696,9 @@ public class TestSBase {
     text_node1 = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_SBase_appendNotes7()
   {
     XMLAttributes att = new  XMLAttributes();
@@ -718,6 +757,9 @@ public class TestSBase {
     text_node1 = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_SBase_appendNotes8()
   {
     XMLAttributes att = new  XMLAttributes();
@@ -776,50 +818,53 @@ public class TestSBase {
     text_node1 = null;
   }
 
+  /**
+   * @throws XMLStreamException
+   */
   @Test public void test_SBase_appendNotesString() throws XMLStreamException
   {
     String notes =  "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is a test note </p>";
-    String taggednewnotes = "<notes>\n" + "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is a test note </p>" + 
-    "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes </p>\n" + 
-    "</notes>";
-    String taggednewnotes2 = "<notes>\n" + "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is a test note </p>" + 
-    "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 1</p>" + 
-    "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 2</p>\n" + 
-    "</notes>";
+    String taggednewnotes = "<notes>\n" + "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is a test note </p>" +
+        "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes </p>\n" +
+        "</notes>";
+    String taggednewnotes2 = "<notes>\n" + "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is a test note </p>" +
+        "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 1</p>" +
+        "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 2</p>\n" +
+        "</notes>";
     String newnotes =  "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes </p>";
     String newnotes2 = "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 1</p>\n" + "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 2</p>";
     String newnotes3 = "<notes>\n" + "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes </p>\n" + "</notes>";
-    String newnotes4 = "<notes>\n" + "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 1</p>\n" + 
-    "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 2</p>\n" + 
-    "</notes>";
-    
+    String newnotes4 = "<notes>\n" + "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 1</p>\n" +
+        "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 2</p>\n" +
+        "</notes>";
+
     sbase.setNotes(notes);
     assertTrue(sbase.isSetNotes() == true);
     sbase.appendNotes(newnotes);
     String notes1 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(stripIndentation(taggednewnotes).equals(notes1));
 
     sbase.setNotes(notes);
     sbase.appendNotes(newnotes2);
     String notes2 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(stripIndentation(taggednewnotes2).equals(notes2));
-    
+
     sbase.setNotes(notes);
     sbase.appendNotes(newnotes3);
     String notes3 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
 
     assertTrue(stripIndentation(taggednewnotes).equals(notes3));
-    
+
     sbase.setNotes(notes);
     sbase.appendNotes(newnotes4);
     String notes4 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(stripIndentation(taggednewnotes2).equals(notes4));
   }
 
@@ -830,70 +875,70 @@ public class TestSBase {
    */
   @Test public void test_SBase_appendNotesString1() throws XMLStreamException
   {
-    String notes = "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + "  <head>\n" + 
-    "    <title/>\n" + 
-    "  </head>\n" + 
-    "  <body>\n" + 
-    "    <p>This is a test note </p>\n" + 
-    "  </body>\n" + 
-    "</html>";
+    String notes = "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + "  <head>\n" +
+        "    <title/>\n" +
+        "  </head>\n" +
+        "  <body>\n" +
+        "    <p>This is a test note </p>\n" +
+        "  </body>\n" +
+        "</html>";
     @SuppressWarnings("unused")
     String taggednewnotesCorrectIndentation = "<notes>\n" + // ideal resulting notes
-    "  <html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
-    "    <head>\n" + 
-    "      <title/>\n" + 
-    "    </head>\n" + 
-    "    <body>\n" + 
-    "      <p>This is a test note </p>\n" +
-    "      <p>This is more test notes </p>\n" + 
-    "    </body>\n" + 
-    "  </html>\n" + 
-    "</notes>";
+        "  <html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+        "    <head>\n" +
+        "      <title/>\n" +
+        "    </head>\n" +
+        "    <body>\n" +
+        "      <p>This is a test note </p>\n" +
+        "      <p>This is more test notes </p>\n" +
+        "    </body>\n" +
+        "  </html>\n" +
+        "</notes>";
     String taggednewnotes = "<notes>\n" + // no indentation to avoid problem when comparing String
-    "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
-    "<head>\n" + 
-    "<title/>\n" + 
-    "</head>\n" + 
-    "<body>\n" + 
-    "<p>This is a test note </p>\n\n" +  // TODO - jsbml add an empty line at the moment at the insertion point
-    "<p>This is more test notes </p>\n" + 
-    "</body>\n" + 
-    "</html>\n" + 
-    "</notes>";
-    String addnotes = "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + "  <head>\n" + 
-    "    <title/>\n" + 
-    "  </head>\n" + 
-    "  <body>\n" + 
-    "    <p>This is more test notes </p>\n" + 
-    "  </body>\n" + 
-    "</html>";
-    String addnotes2 = "<notes>\n" + 
-    "  <html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
-    "    <head>\n" + 
-    "      <title/>\n" + 
-    "    </head>\n" + 
-    "    <body>\n" + 
-    "    <p>This is more test notes </p>\n" + 
-    "  </body>\n" + 
-    "  </html>\n" + 
-    "</notes>";
-    
+        "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+        "<head>\n" +
+        "<title/>\n" +
+        "</head>\n" +
+        "<body>\n" +
+        "<p>This is a test note </p>\n\n" +  // TODO - jsbml add an empty line at the moment at the insertion point
+        "<p>This is more test notes </p>\n" +
+        "</body>\n" +
+        "</html>\n" +
+        "</notes>";
+    String addnotes = "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + "  <head>\n" +
+        "    <title/>\n" +
+        "  </head>\n" +
+        "  <body>\n" +
+        "    <p>This is more test notes </p>\n" +
+        "  </body>\n" +
+        "</html>";
+    String addnotes2 = "<notes>\n" +
+        "  <html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+        "    <head>\n" +
+        "      <title/>\n" +
+        "    </head>\n" +
+        "    <body>\n" +
+        "    <p>This is more test notes </p>\n" +
+        "  </body>\n" +
+        "  </html>\n" +
+        "</notes>";
+
     sbase.setNotes(notes);
-    
+
     sbase.appendNotes(addnotes);
-    
+
     String notes1 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(stripIndentation(taggednewnotes).equals(notes1));
-    
+
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes2);
     String notes2 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
 
     assertTrue(stripIndentation(taggednewnotes).equals(notes2));
-    
+
     // TODO - test that we have top level notes element and two 'p' element inside the body ?
   }
 
@@ -907,21 +952,21 @@ public class TestSBase {
   private String stripIndentation(String notesString) {
     String[] lineTokens = notesString.split("\n");
     String notesWithoutIndentation = "";
-    
+
     // int i = 0;
     for (String line : lineTokens) {
-      
+
       if (line.trim().length() > 0) {
         notesWithoutIndentation += line.trim();
       }
 
       // we remove the line return as well
-//      if (i < lineTokens.length - 1) {
-//        notesWithoutIndentation += "\n";
-//      }
-//      i++;
+      //      if (i < lineTokens.length - 1) {
+      //        notesWithoutIndentation += "\n";
+      //      }
+      //      i++;
     }
-    
+
     return notesWithoutIndentation;
   }
 
@@ -932,30 +977,30 @@ public class TestSBase {
    */
   @Test public void test_SBase_appendNotesString2() throws XMLStreamException
   {
-    String notes = "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + "  <head>\n" + 
-    "    <title/>\n" + 
-    "  </head>\n" + 
-    "  <body>\n" + 
-    "    <p>This is a test note </p>\n" + 
-    "  </body>\n" + 
-    "</html>";
-    String taggednewnotes = "<notes>\n" + 
-    "  <html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
-    "    <head>\n" + 
-    "      <title/>\n" + 
-    "    </head>\n" + 
-    "    <body>\n" + 
-    "      <p>This is a test note </p>\n\n" + 
-    "      <p>This is more test notes </p>\n" + 
-    "    </body>\n" + 
-    "  </html>\n" + 
-    "</notes>";
+    String notes = "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + "  <head>\n" +
+        "    <title/>\n" +
+        "  </head>\n" +
+        "  <body>\n" +
+        "    <p>This is a test note </p>\n" +
+        "  </body>\n" +
+        "</html>";
+    String taggednewnotes = "<notes>\n" +
+        "  <html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+        "    <head>\n" +
+        "      <title/>\n" +
+        "    </head>\n" +
+        "    <body>\n" +
+        "      <p>This is a test note </p>\n\n" +
+        "      <p>This is more test notes </p>\n" +
+        "    </body>\n" +
+        "  </html>\n" +
+        "</notes>";
     String addnotes = "<body xmlns=\"http://www.w3.org/1999/xhtml\">\n" + "  <p>This is more test notes </p>\n" + "</body>\n";
-    String addnotes2 = "<notes>\n" + 
-    "  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
-    "    <p>This is more test notes </p>\n" + 
-    "  </body>\n" + 
-    "</notes>";
+    String addnotes2 = "<notes>\n" +
+        "  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+        "    <p>This is more test notes </p>\n" +
+        "  </body>\n" +
+        "</notes>";
 
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes);
@@ -963,12 +1008,12 @@ public class TestSBase {
     assertTrue(sbase.isSetNotes() == true);
 
     assertTrue(stripIndentation(taggednewnotes).equals(notes1));
-    
+
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes2);
     String notes2 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(stripIndentation(taggednewnotes).equals(notes2));
   }
 
@@ -979,68 +1024,68 @@ public class TestSBase {
    */
   @Test public void test_SBase_appendNotesString3() throws XMLStreamException
   {
-    String notes = "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + "  <head>\n" + 
-    "    <title/>\n" + 
-    "  </head>\n" + 
-    "  <body>\n" + 
-    "    <p>This is a test note </p>\n" + 
-    "  </body>\n" + 
-    "</html>";
-    String taggednewnotes = "<notes>\n" + 
-    "  <html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
-    "    <head>\n" + 
-    "      <title/>\n" + 
-    "    </head>\n" + 
-    "    <body>\n" + 
-    "      <p>This is a test note </p>\n" + 
-    "      <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes </p>" + 
-    "</body>\n" + 
-    "  </html>\n" + 
-    "</notes>";
-    String taggednewnotes2 = "<notes>\n" + 
-    "  <html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
-    "    <head>\n" + 
-    "      <title/>\n" + 
-    "    </head>\n" + 
-    "    <body>\n" + 
-    "      <p>This is a test note </p>\n" + 
-    "      <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 1</p>" + 
-    "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 2</p>" + 
-    "</body>\n" + 
-    "  </html>\n" + 
-    "</notes>";
+    String notes = "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + "  <head>\n" +
+        "    <title/>\n" +
+        "  </head>\n" +
+        "  <body>\n" +
+        "    <p>This is a test note </p>\n" +
+        "  </body>\n" +
+        "</html>";
+    String taggednewnotes = "<notes>\n" +
+        "  <html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+        "    <head>\n" +
+        "      <title/>\n" +
+        "    </head>\n" +
+        "    <body>\n" +
+        "      <p>This is a test note </p>\n" +
+        "      <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes </p>" +
+        "</body>\n" +
+        "  </html>\n" +
+        "</notes>";
+    String taggednewnotes2 = "<notes>\n" +
+        "  <html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+        "    <head>\n" +
+        "      <title/>\n" +
+        "    </head>\n" +
+        "    <body>\n" +
+        "      <p>This is a test note </p>\n" +
+        "      <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 1</p>" +
+        "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 2</p>" +
+        "</body>\n" +
+        "  </html>\n" +
+        "</notes>";
     String addnotes =  "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes </p>\n";
     String addnotes2 = "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 1</p>\n" + "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 2</p>";
     String addnotes3 = "<notes>\n" + "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes </p>\n" + "</notes>";
-    String addnotes4 = "<notes>\n" + "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 1</p>\n" + 
-    "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 2</p>\n" + 
-    "</notes>";
+    String addnotes4 = "<notes>\n" + "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 1</p>\n" +
+        "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 2</p>\n" +
+        "</notes>";
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes);
     String notes1 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(stripIndentation(taggednewnotes).equals(notes1));
 
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes2);
     String notes2 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(stripIndentation(taggednewnotes2).equals(notes2));
 
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes3);
     String notes3 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(stripIndentation(taggednewnotes).equals(notes3));
-    
+
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes4);
     String notes4 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(stripIndentation(taggednewnotes2).equals(notes4));
   }
 
@@ -1052,48 +1097,48 @@ public class TestSBase {
   @Test public void test_SBase_appendNotesString4() throws XMLStreamException
   {
     String notes = "<body xmlns=\"http://www.w3.org/1999/xhtml\">\n" + "  <p>This is a test note </p>\n" + "</body>";
-    String taggednewnotes = "<notes>\n" + 
-    "  <html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
-    "    <head>\n" + 
-    "      <title/>\n" + 
-    "    </head>\n" + 
-    "    <body>\n" + 
-    "      <p>This is a test note </p>\n\n" + 
-    "      <p>This is more test notes </p>\n" + 
-    "    </body>\n" + 
-    "  </html>\n" + 
-    "</notes>";
-    String addnotes = "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + "  <head>\n" + 
-    "    <title/>\n" + 
-    "  </head>\n" + 
-    "  <body>\n" + 
-    "    <p>This is more test notes </p>\n" + 
-    "  </body>\n" + 
-    "</html>";
-    String addnotes2 = "<notes>\n" + 
-    "  <html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
-    "    <head>\n" + 
-    "      <title/>\n" + 
-    "    </head>\n" + 
-    "    <body>\n" + 
-    "      <p>This is more test notes </p>\n" + 
-    "    </body>\n" + 
-    "  </html>\n" + 
-    "</notes>";
-    
+    String taggednewnotes = "<notes>\n" +
+        "  <html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+        "    <head>\n" +
+        "      <title/>\n" +
+        "    </head>\n" +
+        "    <body>\n" +
+        "      <p>This is a test note </p>\n\n" +
+        "      <p>This is more test notes </p>\n" +
+        "    </body>\n" +
+        "  </html>\n" +
+        "</notes>";
+    String addnotes = "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + "  <head>\n" +
+        "    <title/>\n" +
+        "  </head>\n" +
+        "  <body>\n" +
+        "    <p>This is more test notes </p>\n" +
+        "  </body>\n" +
+        "</html>";
+    String addnotes2 = "<notes>\n" +
+        "  <html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+        "    <head>\n" +
+        "      <title/>\n" +
+        "    </head>\n" +
+        "    <body>\n" +
+        "      <p>This is more test notes </p>\n" +
+        "    </body>\n" +
+        "  </html>\n" +
+        "</notes>";
+
     sbase.setNotes(notes);
-    
+
     sbase.appendNotes(addnotes);
     String notes1 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(stripIndentation(taggednewnotes).equals(notes1));
-    
+
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes2);
     String notes2 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(stripIndentation(taggednewnotes).equals(notes2));
   }
 
@@ -1105,47 +1150,47 @@ public class TestSBase {
   @Test public void test_SBase_appendNotesString5() throws XMLStreamException
   {
     String notes =  "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is a test note </p>";
-    String taggednewnotes = "<notes>\n" + 
-    "  <html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
-    "    <head>\n" + 
-    "      <title/>\n" + 
-    "    </head>\n" + 
-    "    <body>\n" + 
-    "      <p>This is more test notes </p>\n" + 
-    "      <p xmlns=\"http://www.w3.org/1999/xhtml\">This is a test note </p>\n" + 
-    "    </body>\n" + 
-    "  </html>\n" + 
-    "</notes>";
-    String addnotes = "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + "  <head>\n" + 
-    "    <title/>\n" + 
-    "  </head>\n" + 
-    "  <body>\n" + 
-    "    <p>This is more test notes </p>\n" + 
-    "  </body>\n" + 
-    "</html>";
-    String addnotes2 = "<notes>\n" + 
-    "  <html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
-    "    <head>\n" + 
-    "      <title/>\n" + 
-    "    </head>\n" + 
-    "    <body>\n" + 
-    "      <p>This is more test notes </p>\n" + 
-    "    </body>\n" + 
-    "  </html>\n" + 
-    "</notes>";
-    
+    String taggednewnotes = "<notes>\n" +
+        "  <html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+        "    <head>\n" +
+        "      <title/>\n" +
+        "    </head>\n" +
+        "    <body>\n" +
+        "      <p>This is more test notes </p>\n" +
+        "      <p xmlns=\"http://www.w3.org/1999/xhtml\">This is a test note </p>\n" +
+        "    </body>\n" +
+        "  </html>\n" +
+        "</notes>";
+    String addnotes = "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n" + "  <head>\n" +
+        "    <title/>\n" +
+        "  </head>\n" +
+        "  <body>\n" +
+        "    <p>This is more test notes </p>\n" +
+        "  </body>\n" +
+        "</html>";
+    String addnotes2 = "<notes>\n" +
+        "  <html xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+        "    <head>\n" +
+        "      <title/>\n" +
+        "    </head>\n" +
+        "    <body>\n" +
+        "      <p>This is more test notes </p>\n" +
+        "    </body>\n" +
+        "  </html>\n" +
+        "</notes>";
+
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes);
     String notes1 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
 
     assertTrue(stripIndentation(taggednewnotes).equals(notes1));
-    
+
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes2);
     String notes2 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(stripIndentation(taggednewnotes).equals(notes2));
   }
 
@@ -1157,31 +1202,31 @@ public class TestSBase {
   @Test public void test_SBase_appendNotesString6() throws XMLStreamException
   {
     String notes = "<body xmlns=\"http://www.w3.org/1999/xhtml\">\n" + "  <p>This is a test note </p>\n" + "</body>";
-    String taggednewnotes = "<notes>\n" + 
-    "  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
-    "    <p>This is a test note </p>\n" + 
-    "    <p>This is more test notes </p>\n" + 
-    "  </body>\n" + 
-    "</notes>";
+    String taggednewnotes = "<notes>\n" +
+        "  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+        "    <p>This is a test note </p>\n" +
+        "    <p>This is more test notes </p>\n" +
+        "  </body>\n" +
+        "</notes>";
     String addnotes = "<body xmlns=\"http://www.w3.org/1999/xhtml\">\n" + "  <p>This is more test notes </p>\n" + "</body>";
-    String addnotes2 = "<notes>\n" + 
-    "  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
-    "    <p>This is more test notes </p>\n" + 
-    "  </body>\n" + 
-    "</notes>";
-    
+    String addnotes2 = "<notes>\n" +
+        "  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+        "    <p>This is more test notes </p>\n" +
+        "  </body>\n" +
+        "</notes>";
+
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes);
     String notes1 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(stripIndentation(taggednewnotes).equals(notes1));
-    
+
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes2);
     String notes2 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(stripIndentation(taggednewnotes).equals(notes2));
   }
 
@@ -1193,31 +1238,31 @@ public class TestSBase {
   @Test public void test_SBase_appendNotesString7() throws XMLStreamException
   {
     String notes =  "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is a test note </p>";
-    String taggednewnotes = "<notes>\n" + 
-    "  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
-    "    <p>This is more test notes </p>\n" + 
-    "    <p xmlns=\"http://www.w3.org/1999/xhtml\">This is a test note </p>\n" + 
-    "  </body>\n" + 
-    "</notes>";
+    String taggednewnotes = "<notes>\n" +
+        "  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+        "    <p>This is more test notes </p>\n" +
+        "    <p xmlns=\"http://www.w3.org/1999/xhtml\">This is a test note </p>\n" +
+        "  </body>\n" +
+        "</notes>";
     String addnotes = "<body xmlns=\"http://www.w3.org/1999/xhtml\">\n" + "  <p>This is more test notes </p>\n" + "</body>";
-    String addnotes2 = "<notes>\n" + 
-    "  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
-    "    <p>This is more test notes </p>\n" + 
-    "  </body>\n" + 
-    "</notes>";
-    
+    String addnotes2 = "<notes>\n" +
+        "  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+        "    <p>This is more test notes </p>\n" +
+        "  </body>\n" +
+        "</notes>";
+
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes);
     String notes1 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
 
     assertTrue(stripIndentation(taggednewnotes).equals(notes1));
-    
+
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes2);
     String notes2 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(stripIndentation(taggednewnotes).equals(notes2));
   }
 
@@ -1229,62 +1274,62 @@ public class TestSBase {
   @Test public void test_SBase_appendNotesString8() throws XMLStreamException
   {
     String notes = "<body xmlns=\"http://www.w3.org/1999/xhtml\">\n" + "  <p>This is a test note </p>\n" + "</body>";
-    String taggednewnotes = "<notes>\n" + 
-    "  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
-    "    <p>This is a test note </p>\n" + 
-    "    <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes </p>\n" + 
-    "  </body>\n" + 
-    "</notes>";
-    String taggednewnotes2 = "<notes>\n" + 
-    "  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
-    "    <p>This is a test note </p>\n" + 
-    "    <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 1</p>\n" + 
-    "    <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 2</p>\n" + 
-    "  </body>\n" + 
-    "</notes>";
+    String taggednewnotes = "<notes>\n" +
+        "  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+        "    <p>This is a test note </p>\n" +
+        "    <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes </p>\n" +
+        "  </body>\n" +
+        "</notes>";
+    String taggednewnotes2 = "<notes>\n" +
+        "  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+        "    <p>This is a test note </p>\n" +
+        "    <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 1</p>\n" +
+        "    <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 2</p>\n" +
+        "  </body>\n" +
+        "</notes>";
     String addnotes =  "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes </p>";
     String addnotes2 = "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 1</p>\n" + "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 2</p>";
-    String addnotes3 = "<notes>\n" + 
-    "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes </p>\n" + 
-    "</notes>";
-    String addnotes4 = "<notes>\n" + 
-    "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 1</p>\n" + 
-    "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 2</p>\n" + 
-    "</notes>";
+    String addnotes3 = "<notes>\n" +
+        "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes </p>\n" +
+        "</notes>";
+    String addnotes4 = "<notes>\n" +
+        "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 1</p>\n" +
+        "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 2</p>\n" +
+        "</notes>";
 
     taggednewnotes = stripIndentation(taggednewnotes);
     taggednewnotes2 = stripIndentation(taggednewnotes2);
-    
+
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes);
     String notes1 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(taggednewnotes.equals(notes1));
 
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes2);
     String notes2 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(taggednewnotes2.equals(notes2));
-    
+
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes3);
     String notes3 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(taggednewnotes.equals(notes3));
-    
+
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes4);
     String notes4 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(taggednewnotes2.equals(notes4));
   }
 
-  
+
   /**
    * Appends some 'notes' with only text on a 'notes' with only text.
    * 
@@ -1293,68 +1338,68 @@ public class TestSBase {
   @Test public void test_SBase_appendNotesString9() throws XMLStreamException
   {
     String notes = "This is a test note";
-    String taggednewnotes = "<notes>\n" + 
-    "  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
-    "    <p>This is a test note</p>\n" + 
-    "    <p>This is more test notes</p>\n" + 
-    "  </body>\n" + 
-    "</notes>";
-    String taggednewnotes3 = "<notes>\n" + 
-    "  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
-    "    <p>This is a test note</p>\n" + 
-    "    <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes</p>\n" + 
-    "  </body>\n" + 
-    "</notes>";
-    String taggednewnotes2 = "<notes>\n" + 
-    "  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" + 
-    "    <p>This is a test note</p>\n" + 
-    "    <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 1</p>\n" + 
-    "    <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 2</p>\n" + 
-    "  </body>\n" + 
-    "</notes>";
+    String taggednewnotes = "<notes>\n" +
+        "  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+        "    <p>This is a test note</p>\n" +
+        "    <p>This is more test notes</p>\n" +
+        "  </body>\n" +
+        "</notes>";
+    String taggednewnotes3 = "<notes>\n" +
+        "  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+        "    <p>This is a test note</p>\n" +
+        "    <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes</p>\n" +
+        "  </body>\n" +
+        "</notes>";
+    String taggednewnotes2 = "<notes>\n" +
+        "  <body xmlns=\"http://www.w3.org/1999/xhtml\">\n" +
+        "    <p>This is a test note</p>\n" +
+        "    <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 1</p>\n" +
+        "    <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 2</p>\n" +
+        "  </body>\n" +
+        "</notes>";
     String addnotes =  "This is more test notes";
     String addnotes2 = "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 1</p>\n" + "<p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 2</p>";
-    String addnotes3 = "<notes>\n" + 
-    "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes</p>\n" + 
-    "</notes>";
-    String addnotes4 = "<notes>\n" + 
-    "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 1</p>\n" + 
-    "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 2</p>\n" + 
-    "</notes>";
+    String addnotes3 = "<notes>\n" +
+        "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes</p>\n" +
+        "</notes>";
+    String addnotes4 = "<notes>\n" +
+        "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 1</p>\n" +
+        "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is more test notes 2</p>\n" +
+        "</notes>";
 
     taggednewnotes = stripIndentation(taggednewnotes);
     taggednewnotes2 = stripIndentation(taggednewnotes2);
     taggednewnotes3 = stripIndentation(taggednewnotes3);
-    
+
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes);
     String notes1 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(taggednewnotes.equals(notes1));
 
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes2);
     String notes2 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(taggednewnotes2.equals(notes2));
-    
+
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes3);
     String notes3 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
-//    System.out.println("Notes1:" + notes3);
-//    System.out.println("Notes2:" + taggednewnotes3);
-//    
+
+    //    System.out.println("Notes1:" + notes3);
+    //    System.out.println("Notes2:" + taggednewnotes3);
+    //
     assertTrue(taggednewnotes3.equals(notes3));
-    
+
     sbase.setNotes(notes);
     sbase.appendNotes(addnotes4);
     String notes4 = stripIndentation(sbase.getNotesString());
     assertTrue(sbase.isSetNotes() == true);
-    
+
     assertTrue(taggednewnotes2.equals(notes4));
   }
 
@@ -1367,7 +1412,7 @@ public class TestSBase {
     sbase.setMetaId("sbase1");
     sbase.addCVTerm(cv);
     assertTrue(sbase.getResourceBiologicalQualifier("foo") == CVTerm.Qualifier.BQB_ENCODES);
-    
+
     CVTerm cv1 = new  CVTerm(libsbml.MODEL_QUALIFIER);
     cv1.setModelQualifierType(libsbml.BQM_IS);
     cv1.addResource("bar");
@@ -1377,9 +1422,9 @@ public class TestSBase {
     cv1 = null;
   }
    */
-  
+
   /*
-  // TODO - adapt later  
+  // TODO - adapt later
   @Test public void test_SBase_setAnnotation()
   {
     XMLToken token;
@@ -1457,26 +1502,36 @@ public class TestSBase {
     XMLNode t2 = t1.getChild(0);
     assertTrue(t2.getCharacters().equals("This is a test note"));
   }
-  */
-  
+   */
+
+  /**
+   * 
+   */
   @Test public void test_SBase_setMetaId()
   {
     String metaid =  "x12345";
     sbase.setMetaId(metaid);
     assertTrue(sbase.getMetaId().equals(metaid));
     assertEquals(true, sbase.isSetMetaId());
-    if (sbase.getMetaId() == metaid);
+    if (sbase.getMetaId() == metaid) {
+      ;
+    }
     {
     }
     sbase.setMetaId(sbase.getMetaId());
     assertTrue(sbase.getMetaId().equals(metaid));
     sbase.unsetMetaId(); // DIFF - SBase.setMetaId("") does not unset the metaid
     assertEquals(false, sbase.isSetMetaId());
-    if (sbase.getMetaId() != null);
+    if (sbase.getMetaId() != null) {
+      ;
+    }
     {
     }
   }
 
+  /**
+   * @throws XMLStreamException
+   */
   @Test public void test_SBase_setNotes() throws XMLStreamException
   {
     SBase c = new Model(1,2);
@@ -1486,7 +1541,9 @@ public class TestSBase {
     node = new XMLNode(token);
     c.setNotes(node);
     assertTrue(c.isSetNotes() == true);
-    if (c.getNotes() == node);
+    if (c.getNotes() == node) {
+      ;
+    }
     {
     }
     XMLNode t1 = c.getNotes();
@@ -1499,7 +1556,9 @@ public class TestSBase {
     assertTrue(chars.equals("This is a test note"));
     c.setNotes((XMLNode)null);
     assertTrue(c.isSetNotes() == false);
-    if (c.getNotes() != null);
+    if (c.getNotes() != null) {
+      ;
+    }
     {
     }
     c.setNotes(node);
@@ -1524,6 +1583,9 @@ public class TestSBase {
     node = null;
   }
 
+  /**
+   * @throws XMLStreamException
+   */
   @Test public void test_SBase_setNotesString() throws XMLStreamException
   {
     SBase c = new Model(1,2);
@@ -1531,7 +1593,9 @@ public class TestSBase {
     String taggednotes =  "<notes>This is a test note</notes>";
     c.setNotes(notes);
     assertTrue(c.isSetNotes() == true);
-    if (!c.getNotesString().equals(taggednotes));
+    if (!c.getNotesString().equals(taggednotes)) {
+      ;
+    }
     {
     }
     XMLNode t1 = c.getNotes();
@@ -1545,12 +1609,16 @@ public class TestSBase {
     assertTrue(chars.equals(taggednotes));
     c.setNotes("");
     assertTrue(c.isSetNotes() == false);
-    if (c.getNotesString() != null);
+    if (c.getNotesString() != null) {
+      ;
+    }
     {
     }
     c.setNotes(taggednotes);
     assertTrue(c.isSetNotes() == true);
-    if (!c.getNotesString().equals(taggednotes));
+    if (!c.getNotesString().equals(taggednotes)) {
+      ;
+    }
     {
     }
     t1 = c.getNotes();
@@ -1559,23 +1627,31 @@ public class TestSBase {
     assertTrue(t2.getCharacters().equals("This is a test note"));
   }
 
+  /**
+   * @throws XMLStreamException
+   */
   @Test public void test_SBase_setNotesString_l3() throws XMLStreamException
   {
     SBase c = new Model(3,1);
     String notes =  "This is a test note";
-    String taggednotes = "<notes>\n" + "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is a test note</p>\n" + "</notes>";
+    //    String taggednotes = "<notes>\n" + "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is a test note</p>\n" + "</notes>";
     c.setNotes(notes);
     assertTrue(c.isSetNotes() == false);
   }
 
+  /**
+   * @throws XMLStreamException
+   */
   @Test public void test_SBase_setNotesString_l3_addMarkup() throws XMLStreamException
   {
     SBase c = new Model(3,1);
     String notes =  "This is a test note";
     String taggednotes = "<notes>\n" + "  <p xmlns=\"http://www.w3.org/1999/xhtml\">This is a test note</p>\n" + "</notes>";
-    c.setNotes(notes); // DIFF - we don't have the method SBase.setNotes(String, boolean) 
+    c.setNotes(notes); // DIFF - we don't have the method SBase.setNotes(String, boolean)
     assertTrue(c.isSetNotes() == true);
-    if (!c.getNotesString().equals(taggednotes));
+    if (!c.getNotesString().equals(taggednotes)) {
+      ;
+    }
     {
     }
     XMLNode t1 = c.getNotes();
@@ -1591,12 +1667,16 @@ public class TestSBase {
     assertTrue(chars.equals(taggednotes));
     c.setNotes("");
     assertTrue(c.isSetNotes() == false);
-    if (c.getNotesString() != null);
+    if (c.getNotesString() != null) {
+      ;
+    }
     {
     }
     c.setNotes(taggednotes);
     assertTrue(c.isSetNotes() == true);
-    if (!c.getNotesString().equals(taggednotes));
+    if (!c.getNotesString().equals(taggednotes)) {
+      ;
+    }
     {
     }
     t1 = c.getNotes();
@@ -1606,31 +1686,31 @@ public class TestSBase {
     t3 = t2.getChild(0);
     assertTrue(t3.getCharacters().equals("This is a test note"));
   }
-  
+
   /*
-  // TODO - adapt later  
+  // TODO - adapt later
   @Test public void test_SBase_unsetAnnotationWithCVTerms()
   {
     CVTerm cv;
-    String annt = "<annotation>\n" + 
-    "  <test:test xmlns:test=\"http://test.org/test\">this is a test node</test:test>\n" + 
+    String annt = "<annotation>\n" +
+    "  <test:test xmlns:test=\"http://test.org/test\">this is a test node</test:test>\n" +
     "</annotation>";
-    String annt_with_cvterm = "<annotation>\n" + 
-    "  <test:test xmlns:test=\"http://test.org/test\">this is a test node</test:test>\n" + 
-    "  <rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" " + 
-    "xmlns:dc=\"http://purl.org/dc/elements/1.1/\" " + 
-    "xmlns:dcterms=\"http://purl.org/dc/terms/\" " + 
-    "xmlns:vCard=\"http://www.w3.org/2001/vcard-rdf/3.0#\" " + 
-    "xmlns:bqbiol=\"http://biomodels.net/biology-qualifiers/\" " + 
-    "xmlns:bqmodel=\"http://biomodels.net/model-qualifiers/\">\n" + 
-    "    <rdf:Description rdf:about=\"#_000001\">\n" + 
-    "      <bqbiol:is>\n" + 
-    "        <rdf:Bag>\n" + 
-    "          <rdf:li rdf:resource=\"http://www.geneontology.org/#GO:0005895\"/>\n" + 
-    "        </rdf:Bag>\n" + 
-    "      </bqbiol:is>\n" + 
-    "    </rdf:Description>\n" + 
-    "  </rdf:RDF>\n" + 
+    String annt_with_cvterm = "<annotation>\n" +
+    "  <test:test xmlns:test=\"http://test.org/test\">this is a test node</test:test>\n" +
+    "  <rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" " +
+    "xmlns:dc=\"http://purl.org/dc/elements/1.1/\" " +
+    "xmlns:dcterms=\"http://purl.org/dc/terms/\" " +
+    "xmlns:vCard=\"http://www.w3.org/2001/vcard-rdf/3.0#\" " +
+    "xmlns:bqbiol=\"http://biomodels.net/biology-qualifiers/\" " +
+    "xmlns:bqmodel=\"http://biomodels.net/model-qualifiers/\">\n" +
+    "    <rdf:Description rdf:about=\"#_000001\">\n" +
+    "      <bqbiol:is>\n" +
+    "        <rdf:Bag>\n" +
+    "          <rdf:li rdf:resource=\"http://www.geneontology.org/#GO:0005895\"/>\n" +
+    "        </rdf:Bag>\n" +
+    "      </bqbiol:is>\n" +
+    "    </rdf:Description>\n" +
+    "  </rdf:RDF>\n" +
     "</annotation>";
     sbase.setAnnotation(annt);
     assertTrue(sbase.isSetAnnotation() == true);
@@ -1651,47 +1731,47 @@ public class TestSBase {
     assertTrue(sbase.getAnnotation() == null);
     cv = null;
   }
-  */
-  
+   */
+
   /*
-  // TODO - adapt later  
+  // TODO - adapt later
   @Test public void test_SBase_unsetAnnotationWithModelHistory()
   {
     ModelHistory h = new  ModelHistory();
     ModelCreator c = new  ModelCreator();
     Date dc;
     Date dm;
-    String annt = "<annotation>\n" + 
-    "  <test:test xmlns:test=\"http://test.org/test\">this is a test node</test:test>\n" + 
+    String annt = "<annotation>\n" +
+    "  <test:test xmlns:test=\"http://test.org/test\">this is a test node</test:test>\n" +
     "</annotation>";
-    String annt_with_modelhistory = "<annotation>\n" + 
-    "  <test:test xmlns:test=\"http://test.org/test\">this is a test node</test:test>\n" + 
-    "  <rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" " + 
-    "xmlns:dc=\"http://purl.org/dc/elements/1.1/\" " + 
-    "xmlns:dcterms=\"http://purl.org/dc/terms/\" " + 
-    "xmlns:vCard=\"http://www.w3.org/2001/vcard-rdf/3.0#\" " + 
-    "xmlns:bqbiol=\"http://biomodels.net/biology-qualifiers/\" " + 
-    "xmlns:bqmodel=\"http://biomodels.net/model-qualifiers/\">\n" + 
-    "    <rdf:Description rdf:about=\"#_000001\">\n" + 
-    "      <dc:creator>\n" + 
-    "        <rdf:Bag>\n" + 
-    "          <rdf:li rdf:parseType=\"Resource\">\n" + 
-    "            <vCard:N rdf:parseType=\"Resource\">\n" + 
-    "              <vCard:Family>Keating</vCard:Family>\n" + 
-    "              <vCard:Given>Sarah</vCard:Given>\n" + 
-    "            </vCard:N>\n" + 
-    "            <vCard:EMAIL>sbml-team@caltech.edu</vCard:EMAIL>\n" + 
-    "          </rdf:li>\n" + 
-    "        </rdf:Bag>\n" + 
-    "      </dc:creator>\n" + 
-    "      <dcterms:created rdf:parseType=\"Resource\">\n" + 
-    "        <dcterms:W3CDTF>2005-12-29T12:15:45+02:00</dcterms:W3CDTF>\n" + 
-    "      </dcterms:created>\n" + 
-    "      <dcterms:modified rdf:parseType=\"Resource\">\n" + 
-    "        <dcterms:W3CDTF>2005-12-30T12:15:45+02:00</dcterms:W3CDTF>\n" + 
-    "      </dcterms:modified>\n" + 
-    "    </rdf:Description>\n" + 
-    "  </rdf:RDF>\n" + 
+    String annt_with_modelhistory = "<annotation>\n" +
+    "  <test:test xmlns:test=\"http://test.org/test\">this is a test node</test:test>\n" +
+    "  <rdf:RDF xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\" " +
+    "xmlns:dc=\"http://purl.org/dc/elements/1.1/\" " +
+    "xmlns:dcterms=\"http://purl.org/dc/terms/\" " +
+    "xmlns:vCard=\"http://www.w3.org/2001/vcard-rdf/3.0#\" " +
+    "xmlns:bqbiol=\"http://biomodels.net/biology-qualifiers/\" " +
+    "xmlns:bqmodel=\"http://biomodels.net/model-qualifiers/\">\n" +
+    "    <rdf:Description rdf:about=\"#_000001\">\n" +
+    "      <dc:creator>\n" +
+    "        <rdf:Bag>\n" +
+    "          <rdf:li rdf:parseType=\"Resource\">\n" +
+    "            <vCard:N rdf:parseType=\"Resource\">\n" +
+    "              <vCard:Family>Keating</vCard:Family>\n" +
+    "              <vCard:Given>Sarah</vCard:Given>\n" +
+    "            </vCard:N>\n" +
+    "            <vCard:EMAIL>sbml-team@caltech.edu</vCard:EMAIL>\n" +
+    "          </rdf:li>\n" +
+    "        </rdf:Bag>\n" +
+    "      </dc:creator>\n" +
+    "      <dcterms:created rdf:parseType=\"Resource\">\n" +
+    "        <dcterms:W3CDTF>2005-12-29T12:15:45+02:00</dcterms:W3CDTF>\n" +
+    "      </dcterms:created>\n" +
+    "      <dcterms:modified rdf:parseType=\"Resource\">\n" +
+    "        <dcterms:W3CDTF>2005-12-30T12:15:45+02:00</dcterms:W3CDTF>\n" +
+    "      </dcterms:modified>\n" +
+    "    </rdf:Description>\n" +
+    "  </rdf:RDF>\n" +
     "</annotation>";
     sbase.setAnnotation(annt);
     assertTrue(sbase.isSetAnnotation() == true);
@@ -1718,8 +1798,11 @@ public class TestSBase {
     c = null;
     h = null;
   }
-  */
-  
+   */
+
+  /**
+   * 
+   */
   @Test public void test_SBase_unsetCVTerms()
   {
     CVTerm cv = new  CVTerm(CVTerm.Qualifier.BQB_ENCODES);
@@ -1731,19 +1814,19 @@ public class TestSBase {
     CVTerm cv1 = new  CVTerm(CVTerm.Qualifier.BQB_IS);
     cv1.addResource("bar");
     sbase.addCVTerm(cv1);
-    
+
     CVTerm cv2 = new  CVTerm(CVTerm.Qualifier.BQB_IS);
     cv2.addResource("bar1");
     sbase.addCVTerm(cv2);
-    
+
     CVTerm cv4 = new  CVTerm(CVTerm.Qualifier.BQB_IS);
     cv4.addResource("bar1");
     sbase.addCVTerm(cv4);
-    
+
     assertTrue(sbase.getNumCVTerms() == 4);
     sbase.unsetCVTerms();
     assertTrue(sbase.getNumCVTerms() == 0);
-    assertTrue(sbase.getCVTerms().size() == 0); // DIFF - SBase.getCVTerms() never return null 
+    assertTrue(sbase.getCVTerms().size() == 0); // DIFF - SBase.getCVTerms() never return null
     cv = null;
     cv2 = null;
     cv1 = null;

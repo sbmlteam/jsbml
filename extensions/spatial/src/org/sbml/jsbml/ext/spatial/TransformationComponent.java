@@ -44,7 +44,13 @@ public class TransformationComponent extends AbstractSBase {
    */
   private static final long serialVersionUID = -2905551100912455549L;
 
+  /**
+   * 
+   */
   private Double[] components;
+  /**
+   * 
+   */
   private Integer componentsLength;
 
   /**
@@ -65,7 +71,6 @@ public class TransformationComponent extends AbstractSBase {
     }
 
   }
-
 
   /**
    * @param level
@@ -122,11 +127,11 @@ public class TransformationComponent extends AbstractSBase {
     return components != null;
   }
 
-
   /**
    * Sets the value of components
+   * @param components
    */
-  public void setComponents(Double[] components) {
+  public void setComponents(Double... components) {
     Double[] oldComponents = this.components;
     this.components = components;
     componentsLength = components.length;

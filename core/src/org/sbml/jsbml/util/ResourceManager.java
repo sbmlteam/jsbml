@@ -26,6 +26,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.prefs.Preferences;
 
 /**
  * A {@link ResourceManager} avoids loading instances of {@link ResourceBundle}

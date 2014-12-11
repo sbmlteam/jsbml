@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Utah, Salt Lake City, UT, USA
  *
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.ext.arrays.validator.constraints;
 
@@ -27,7 +27,6 @@ import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.Dimension;
-
 
 /**
  * Checks if the given {@link Dimension} object has size that is both
@@ -39,16 +38,23 @@ import org.sbml.jsbml.ext.arrays.Dimension;
  * @date Jun 10, 2014
  */
 public class DimensionSizeCheck extends ArraysConstraint{
-  
+
+  /**
+   * 
+   */
   private final Dimension dim;
 
+  /**
+   * @param model
+   * @param dim
+   */
   public DimensionSizeCheck(Model model, Dimension dim)
   {
     super(model);
     this.dim = dim;
-    
+
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.arrays.constraints.ArraysConstraint#check()
    */
@@ -58,7 +64,7 @@ public class DimensionSizeCheck extends ArraysConstraint{
     if (model == null || dim == null) {
       return;
     }
-    
+
     if (!dim.isSetSize()) {
       String shortMsg = "Dimension objects shoud have a value for the attribute arrays:size but "
           + dim.toString() + "does not have one.";
@@ -82,7 +88,7 @@ public class DimensionSizeCheck extends ArraysConstraint{
 
     if (param == null) {
       String shortMsg = "The attribute arrays:size of a Dimension object should point to an existing parameter "
-        + "but " + dim.toString() + "points to a non-existing parameter";
+          + "but " + dim.toString() + "points to a non-existing parameter";
       logDimensionSizeInvalid(shortMsg);
       return;
     }
@@ -90,20 +96,20 @@ public class DimensionSizeCheck extends ArraysConstraint{
     if (!param.isConstant()) {
       String shortMsg = "The attribute arrays:size of a Dimension object should point to a constant parameter but "
           + dim.toString() + "has a non-constant value.";
-      
+
       logDimensionSizeValueInconsistency(shortMsg);
     }
 
     // Test if it is an integer
     if (param.getValue() % 1 != 0) {
       String shortMsg = "The attribute arrays:size of a Dimension object should point to a parameter containing"
-        + "an integer value.";
+          + "an integer value.";
       logDimensionSizeValueInconsistency(shortMsg);
     }
 
     if (param.getValue()  < 0) {
       String shortMsg = "The attribute arrays:size of a Dimension object should point to a parameter that has a non-negative"
-        + "integer value but " + dim.toString() + "has a negative value.";
+          + "integer value but " + dim.toString() + "has a negative value.";
       logDimensionSizeValueInconsistency(shortMsg);
     }
 
@@ -112,7 +118,7 @@ public class DimensionSizeCheck extends ArraysConstraint{
     if (arraysSBasePlugin != null) {
       if (arraysSBasePlugin.getDimensionCount() > 0) {
         String shortMsg = "The attribute arrays:size of a Dimension object should point to a scalar parameter but "
-          + dim.toString() + "has a non-scalar value.";
+            + dim.toString() + "has a non-scalar value.";
         logDimensionSizeInvalid(shortMsg);
       }
     }

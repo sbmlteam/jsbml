@@ -410,7 +410,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
    * <p>The listOfMemberConstraints is initialized if necessary.
    *
    * @param memberConstraint the element to add to the list
-   * @return true (as specified by {@link Collection#add})
+   * @return true (as specified by {@link java.util.Collection#add})
    */
   public boolean addMemberConstraint(MemberConstraint memberConstraint) {
     return getListOfMemberConstraints().add(memberConstraint);
@@ -421,7 +421,7 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
    *
    * @param memberConstraint the element to be removed from the list
    * @return true if the list contained the specified element
-   * @see List#remove(Object)
+   * @see java.util.List#remove(Object)
    */
   public boolean removeMemberConstraint(MemberConstraint memberConstraint) {
     if (isSetListOfMemberConstraints()) {
@@ -506,8 +506,8 @@ public class Group extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * Removes the {@link #listOfMembers} from this {@link Model} and notifies
-   * all registered instances of {@link TreeNodeChangeListener}.
+   * Removes the {@link #listOfMembers} from this {@link org.sbml.jsbml.Model} and notifies
+   * all registered instances of {@link org.sbml.jsbml.util.TreeNodeChangeListener}.
    * 
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.

@@ -44,6 +44,9 @@ public class ColorDefinition extends AbstractNamedSBase {
    */
   private static final long serialVersionUID = 8904459123022343452L;
 
+  /**
+   * 
+   */
   private Color value;
 
   /**
@@ -68,6 +71,7 @@ public class ColorDefinition extends AbstractNamedSBase {
    * Creates a ColorDefinition instance with an id.
    * 
    * @param id
+   * @param value
    */
   public ColorDefinition(String id, Color value) {
     super(id);
@@ -115,6 +119,7 @@ public class ColorDefinition extends AbstractNamedSBase {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public ColorDefinition(ColorDefinition obj) {
     super(obj);
@@ -136,8 +141,8 @@ public class ColorDefinition extends AbstractNamedSBase {
     setNamespace(RenderConstants.namespaceURI);
   }
 
-  
-  
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -202,6 +207,7 @@ public class ColorDefinition extends AbstractNamedSBase {
 
   /**
    * Set the value of value
+   * @param value
    */
   public void setValue(Color value) {
     Color oldValue = this.value;

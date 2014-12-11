@@ -23,7 +23,10 @@ package org.sbml.jsbml.xml.parsers;
 
 import java.util.List;
 
+import org.sbml.jsbml.Event;
+import org.sbml.jsbml.Reaction;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.Trigger;
 
 /**
  * The interface to implement for the SBML parsers reading SBML files.
@@ -48,6 +51,7 @@ public interface ReadingParser {
    *        the attribute localName of the XML element.
    * @param value
    *        the value of the XML attribute.
+   * @param URI
    * @param prefix
    *        the attribute prefix
    * @param isLastAttribute
@@ -146,6 +150,7 @@ public interface ReadingParser {
    * 
    * @param elementName
    *        the localName of the XML element to process
+   * @param URI
    * @param prefix
    *        the prefix of the XML element to process
    * @param hasAttributes

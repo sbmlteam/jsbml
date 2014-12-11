@@ -39,6 +39,9 @@ public class Transformation2D extends Transformation {
   private static final long serialVersionUID = -1737694519381619398L;
 
 
+  /**
+   * 
+   */
   protected Double[] transform = new Double[6];
 
   /**
@@ -48,18 +51,21 @@ public class Transformation2D extends Transformation {
     super();
     initDefaults();
   }
-  
-  
 
+
+
+  /**
+   * @param level
+   * @param version
+   */
   public Transformation2D(int level, int version) {
     super(level, version);
     initDefaults();
   }
 
-
-
   /**
    * Clone constructor
+   * @param obj
    */
   public Transformation2D(Transformation2D obj) {
     super(obj);
@@ -102,6 +108,7 @@ public class Transformation2D extends Transformation {
 
   /**
    * Set the value of transform
+   * @param transform
    */
   public void setTransform(Double[] transform) {
     Double[] oldTransform = this.transform;

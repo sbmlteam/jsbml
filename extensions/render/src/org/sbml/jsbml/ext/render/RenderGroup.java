@@ -22,6 +22,8 @@
 package org.sbml.jsbml.ext.render;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -60,13 +62,41 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
    * Generated serial version identifier
    */
   private static final long serialVersionUID = 2302368129571619877L;
+  /**
+   * 
+   */
   private String id;
+  /**
+   * 
+   */
   private FontFamily fontFamily;
+  /**
+   * 
+   */
   private Short fontSize;
-  private Boolean fontWeightBold, fontStyleItalic;
+  /**
+   * 
+   */
+  private Boolean fontWeightBold;
+  /**
+   * 
+   */
+  private Boolean fontStyleItalic;
+  /**
+   * 
+   */
   private TextAnchor textAnchor;
+  /**
+   * 
+   */
   private VTextAnchor vTextAnchor;
+  /**
+   * 
+   */
   private String startHead;
+  /**
+   * 
+   */
   private String endHead;
 
   /**
@@ -137,6 +167,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
 
   /**
    * Clone constructor
+   * @param obj
    */
   public RenderGroup(RenderGroup obj) {
     super(obj);
@@ -445,6 +476,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
 
   /**
    * Set the value of fontFamily
+   * @param fontFamily
    */
   public void setFontFamily(FontFamily fontFamily) {
     FontFamily oldFontFamily = this.fontFamily;
@@ -487,6 +519,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
 
   /**
    * Set the value of fontSize
+   * @param fontSize
    */
   public void setFontSize(Short fontSize) {
     Short oldFontSize = this.fontSize;
@@ -540,6 +573,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
 
   /**
    * Set the value of fontWeightBold
+   * @param fontWeightBold
    */
   public void setFontWeightBold(Boolean fontWeightBold) {
     Boolean oldFontWeightBold = this.fontWeightBold;
@@ -595,6 +629,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
 
   /**
    * Set the value of fontStyleItalic
+   * @param fontStyleItalic
    */
   public void setFontStyleItalic(Boolean fontStyleItalic) {
     Boolean oldFontStyleItalic = this.fontStyleItalic;
@@ -637,6 +672,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
 
   /**
    * Set the value of startHead
+   * @param startHead
    */
   public void setStartHead(String startHead) {
     String oldStartHead = this.startHead;
@@ -679,6 +715,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
 
   /**
    * Set the value of endHead
+   * @param endHead
    */
   public void setEndHead(String endHead) {
     String oldEndHead = this.endHead;
@@ -721,6 +758,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
 
   /**
    * Set the value of textAnchor
+   * @param textAnchor
    */
   public void setTextAnchor(TextAnchor textAnchor) {
     TextAnchor oldTextAnchor = this.textAnchor;
@@ -763,6 +801,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
 
   /**
    * Set the value of vTextAnchor
+   * @param vTextAnchor
    */
   public void setVTextAnchor(VTextAnchor vTextAnchor) {
     VTextAnchor oldVTextAnchor = this.vTextAnchor;
@@ -908,6 +947,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
 
   /**
    * Creates a new {@link RenderCurve} element, adds it to the ListOfElements list and returns it.
+   * @return
    */
   public RenderCurve createCurve() {
     RenderCurve curve = new RenderCurve();
@@ -918,6 +958,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
 
   /**
    * Creates a new {@link Ellipse} element, adds it to the ListOfElements list and returns it.
+   * @return
    */
   public Ellipse createEllipse() {
     Ellipse ellipse = new Ellipse();
@@ -928,6 +969,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
 
   /**
    * Creates a new {@link Image} element, adds it to the ListOfElements list and returns it.
+   * @return
    */
   public Image createImage() {
     Image image = new Image();
@@ -938,6 +980,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
 
   /**
    * Creates a new {@link Polygon} element, adds it to the ListOfElements list and returns it.
+   * @return
    */
   public Polygon createPolygon() {
     Polygon polygon = new Polygon();
@@ -948,6 +991,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
 
   /**
    * Creates a new {@link Rectangle} element, adds it to the ListOfElements list and returns it.
+   * @return
    */
   public Rectangle createRectangle() {
     Rectangle rectangle = new Rectangle();
@@ -958,6 +1002,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
 
   /**
    * Creates a new {@link RenderGroup} element, adds it to the ListOfElements list and returns it.
+   * @return
    */
   public RenderGroup createRenderGroup() {
     RenderGroup group = new RenderGroup();
@@ -968,6 +1013,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
 
   /**
    * Creates a new {@link Text} element, adds it to the ListOfElements list and returns it.
+   * @return
    */
   public Text createText() {
     Text rectangle = new Text();
@@ -1029,6 +1075,7 @@ public class RenderGroup extends GraphicalPrimitive2D implements UniqueNamedSBas
 
   /**
    * Adds the given element to the end of the list of children elements.
+   * @param pChild
    * 
    *
    * @see #createEllipse()

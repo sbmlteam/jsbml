@@ -339,6 +339,10 @@ public class Creator extends AnnotationElement {
 
   /**
    * Returns {@code true} if the XML attribute is known by this {@link Creator}.
+   * @param elementName
+   * @param attributeName
+   * @param prefix
+   * @param value
    * 
    * @return {@code true} if the XML attribute is known by this {@link Creator}.
    */

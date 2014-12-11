@@ -57,10 +57,11 @@ public class GlobalRenderInformation extends RenderInformationBase {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public GlobalRenderInformation(GlobalRenderInformation obj) {
     super(obj);
-    
+
     if (obj.isSetListOfStyles()) {
       setListOfStyles(obj.getListOfStyles().clone());
     }
@@ -139,7 +140,7 @@ public class GlobalRenderInformation extends RenderInformationBase {
     final int prime = 3067;
     int result = super.hashCode();
     result = prime * result
-      + ((listOfStyles == null) ? 0 : listOfStyles.hashCode());
+        + ((listOfStyles == null) ? 0 : listOfStyles.hashCode());
     return result;
   }
 
@@ -167,7 +168,7 @@ public class GlobalRenderInformation extends RenderInformationBase {
     }
     return true;
   }
-  
+
 
   /**
    * @return {@code true}, if listOfStyles contains at least one element,
@@ -222,6 +223,7 @@ public class GlobalRenderInformation extends RenderInformationBase {
 
   /**
    * @param style
+   * @return
    */
   public boolean addStyle(Style style) {
     return getListOfStyles().add(style);
@@ -230,6 +232,7 @@ public class GlobalRenderInformation extends RenderInformationBase {
 
   /**
    * @param style
+   * @return
    */
   public boolean removeStyle(Style style) {
     if (isSetListOfStyles()) {
@@ -237,7 +240,6 @@ public class GlobalRenderInformation extends RenderInformationBase {
     }
     return false;
   }
-
 
   /**
    * @param i
@@ -249,7 +251,9 @@ public class GlobalRenderInformation extends RenderInformationBase {
     getListOfStyles().remove(i);
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.RenderInformationBase#getChildCount()
+   */
   @Override
   public int getChildCount() {
     int count = super.getChildCount();
@@ -259,7 +263,9 @@ public class GlobalRenderInformation extends RenderInformationBase {
     return count;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.RenderInformationBase#getChildAt(int)
+   */
   @Override
   public SBase getChildAt(int childIndex) {
     if (childIndex < 0) {

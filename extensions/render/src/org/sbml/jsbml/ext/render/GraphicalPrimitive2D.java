@@ -39,11 +39,33 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
    * Generated serial version identifier
    */
   private static final long serialVersionUID = -5666416071124784541L;
+  /**
+   * 
+   */
   protected String fill;
+  /**
+   * @author Eugen Netz
+   * @author Alexander Diamantikos
+   * @author Jakob Matthes
+   * @author Jan Rudolph
+   * @version $Rev$
+   * @since 1.0
+   * @date 08.05.2012
+   */
   public enum FillRule {
+    /**
+     * 
+     */
     NONZERO,
+    /**
+     * 
+     */
     EVENODD,
   }
+
+  /**
+   * 
+   */
   protected FillRule fillRule;
 
   /**
@@ -53,7 +75,7 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
     super();
     initDefaults();
   }
-  
+
   /**
    * Creates an {@link GraphicalPrimitive2D} instance
    * 
@@ -67,6 +89,7 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public GraphicalPrimitive2D(GraphicalPrimitive2D obj) {
     super(obj);
@@ -152,6 +175,7 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
 
   /**
    * Set the value of fill
+   * @param fill
    */
   public void setFill(String fill) {
     String oldFill = this.fill;
@@ -194,6 +218,7 @@ public class GraphicalPrimitive2D extends GraphicalPrimitive1D {
 
   /**
    * Set the value of fillRule
+   * @param fillRule
    */
   public void setFillRule(FillRule fillRule) {
     FillRule oldFillRule = this.fillRule;

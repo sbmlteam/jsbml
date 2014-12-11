@@ -59,8 +59,14 @@ public abstract class AbstractTreeNode implements TreeNodeWithChangeSupport {
    */
   private static final long serialVersionUID = 8629109724566600238L;
 
-  public static final String UNKNOWN_ATTRIBUTES = "unknown.attributes";
-  public static final String UNKNOWN_ELEMENTS = "unknown.elements";
+  /**
+   * 
+   */
+  public static final String UNKNOWN_ATTRIBUTES = "unknown.attributes"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String UNKNOWN_ELEMENTS = "unknown.elements"; //$NON-NLS-1$
 
 
   /**

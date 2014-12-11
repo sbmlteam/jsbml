@@ -25,13 +25,12 @@ import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.UniqueNamedSBase;
 
 /**
- * The {@link Deletion} object class is used to define a deletion
- * operation to be applied when a submodel instantiates a model
- * definition. Deletions may be useful in hierarchical model
- * composition scenarios for various reasons. For example, some
- * components in a submodel may be redundant in the composed model,
- * perhaps because the same features are implemented in a different
- * way in the new model.
+ * The {@link Deletion} object class is used to define a deletion operation to
+ * be applied when a submodel instantiates a model definition. Deletions may be
+ * useful in hierarchical model composition scenarios for various reasons. For
+ * example, some components in a submodel may be redundant in the composed
+ * model, perhaps because the same features are implemented in a different way
+ * in the new model.
  * 
  * @author Nicolas Rodriguez
  * @version $Rev$
@@ -103,6 +102,7 @@ public class Deletion extends AbstractNamedSBaseRef implements UniqueNamedSBase 
 
   /**
    * Clone constructor
+   * @param obj
    */
   public Deletion(Deletion obj) {
     super(obj);

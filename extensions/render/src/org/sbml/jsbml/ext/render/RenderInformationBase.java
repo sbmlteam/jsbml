@@ -49,12 +49,33 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
    */
   private static final long serialVersionUID = -9096154126197866584L;
 
+  /**
+   * 
+   */
   protected String programName;
+  /**
+   * 
+   */
   protected String programVersion;
+  /**
+   * 
+   */
   protected String referenceRenderInformation;
+  /**
+   * 
+   */
   protected Color backgroundColor;
+  /**
+   * 
+   */
   protected ListOf<ColorDefinition> listOfColorDefinitions;
+  /**
+   * 
+   */
   protected ListOf<GradientBase> listOfGradientDefintions;
+  /**
+   * 
+   */
   protected ListOf<LineEnding> listOfLineEndings;
 
   /**
@@ -115,6 +136,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 
   /**
    * Clone constructor
+   * @param obj
    */
   public RenderInformationBase(RenderInformationBase obj) {
     super(obj);
@@ -122,7 +144,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
     programVersion = obj.programVersion;
     referenceRenderInformation = obj.referenceRenderInformation;
     backgroundColor = obj.backgroundColor;
-    
+
     if (obj.isSetListOfColorDefinitions()) {
       setListOfColorDefinitions(obj.getListOfColorDefinitions().clone());
     }
@@ -156,9 +178,9 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
     listOfLineEndings = null;
   }
 
-  
-  
-  
+
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -167,25 +189,25 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
     final int prime = 3041;
     int result = super.hashCode();
     result = prime * result
-      + ((backgroundColor == null) ? 0 : backgroundColor.hashCode());
+        + ((backgroundColor == null) ? 0 : backgroundColor.hashCode());
     result = prime
-      * result
-      + ((listOfColorDefinitions == null) ? 0
-        : listOfColorDefinitions.hashCode());
+        * result
+        + ((listOfColorDefinitions == null) ? 0
+          : listOfColorDefinitions.hashCode());
     result = prime
-      * result
-      + ((listOfGradientDefintions == null) ? 0
-        : listOfGradientDefintions.hashCode());
+        * result
+        + ((listOfGradientDefintions == null) ? 0
+          : listOfGradientDefintions.hashCode());
     result = prime * result
-      + ((listOfLineEndings == null) ? 0 : listOfLineEndings.hashCode());
+        + ((listOfLineEndings == null) ? 0 : listOfLineEndings.hashCode());
     result = prime * result
-      + ((programName == null) ? 0 : programName.hashCode());
+        + ((programName == null) ? 0 : programName.hashCode());
     result = prime * result
-      + ((programVersion == null) ? 0 : programVersion.hashCode());
+        + ((programVersion == null) ? 0 : programVersion.hashCode());
     result = prime
-      * result
-      + ((referenceRenderInformation == null) ? 0
-        : referenceRenderInformation.hashCode());
+        * result
+        + ((referenceRenderInformation == null) ? 0
+          : referenceRenderInformation.hashCode());
     return result;
   }
 
@@ -276,6 +298,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 
   /**
    * Set the value of programmName
+   * @param programName
    */
   public void setProgramName(String programName) {
     String oldProgramName = this.programName;
@@ -318,6 +341,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 
   /**
    * Set the value of programVersion
+   * @param programVersion
    */
   public void setProgramVersion(String programVersion) {
     String oldProgramVersion = this.programVersion;
@@ -360,6 +384,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 
   /**
    * Set the value of referenceRenderInformation
+   * @param referenceRenderInformation
    */
   public void setReferenceRenderInformation(String referenceRenderInformation) {
     String oldReferenceRenderInformation = this.referenceRenderInformation;
@@ -402,6 +427,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 
   /**
    * Set the value of backgroundColor
+   * @param backgroundColor
    */
   public void setBackgroundColor(Color backgroundColor) {
     Color oldBackgroundColor = this.backgroundColor;
@@ -473,6 +499,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 
   /**
    * @param field
+   * @return
    */
   public boolean addColorDefinition(ColorDefinition field) {
     return getListOfColorDefinitions().add(field);
@@ -480,6 +507,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 
   /**
    * @param field
+   * @return
    */
   public boolean removeColorDefinition(ColorDefinition field) {
     if (isSetListOfColorDefinitions()) {
@@ -556,6 +584,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 
   /**
    * @param field
+   * @return
    */
   public boolean addGradientBase(GradientBase field) {
     return getListOfGradientDefintions().add(field);
@@ -563,6 +592,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 
   /**
    * @param field
+   * @return
    */
   public boolean removeGradientBase(GradientBase field) {
     if (isSetListOfGradientDefintions()) {
@@ -695,6 +725,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 
   /**
    * @param lineEnding
+   * @return
    */
   public boolean addLineEnding(LineEnding lineEnding) {
     return getListOfLineEndings().add(lineEnding);
@@ -703,6 +734,7 @@ public class RenderInformationBase extends AbstractNamedSBase implements UniqueN
 
   /**
    * @param lineEnding
+   * @return
    */
   public boolean removeLineEnding(LineEnding lineEnding) {
     if (isSetListOfLineEndings()) {

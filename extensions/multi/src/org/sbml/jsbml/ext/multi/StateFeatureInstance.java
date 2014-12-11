@@ -45,8 +45,14 @@ public class StateFeatureInstance extends AbstractNamedSBase {
    */
   private static final long serialVersionUID = 3961860838884568696L;
 
+  /**
+   * 
+   */
   private String stateFeature;
 
+  /**
+   * 
+   */
   private ListOf<StateFeatureValue> listOfStateFeatureValues;
 
   /**

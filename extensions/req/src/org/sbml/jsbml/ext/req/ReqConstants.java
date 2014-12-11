@@ -26,11 +26,12 @@ import java.util.List;
 
 /**
  * Contains some constants related to the req package.
- * 
- * <p>The SBML Level 3 Required Elements package is a small package that allows models to declare exactly which
- * components of a model have the meaning of their mathematical semantics changed by another package. It does this
- * simply by defining optional children of SBase which can be attached to any component of a model with associated
- * mathematics.
+ * <p>
+ * The SBML Level 3 Required Elements package is a small package that allows
+ * models to declare exactly which components of a model have the meaning of
+ * their mathematical semantics changed by another package. It does this simply
+ * by defining optional children of SBase which can be attached to any component
+ * of a model with associated mathematics.
  *
  * @author Nicolas Rodriguez
  * @version $Rev$
@@ -48,12 +49,24 @@ public class ReqConstants {
    */
   public static final String namespaceURI = namespaceURI_L3V1V1;
 
-  
+
+  /**
+   * 
+   */
   public static final String shortLabel = "req";
 
+  /**
+   * 
+   */
   public static final int MIN_SBML_LEVEL = 3;
+  /**
+   * 
+   */
   public static final int MIN_SBML_VERSION = 1;
 
+  /**
+   * 
+   */
   public static final List<String> namespaces;
 
   static {
@@ -61,13 +74,25 @@ public class ReqConstants {
     namespaces.add(namespaceURI_L3V1V1);
   }
 
-  
+
+  /**
+   * 
+   */
   public static final String listOfChangedMaths = "listOfChangedMaths";
+  /**
+   * 
+   */
   public static final String changedMath = "changedMath";
 
+  /**
+   * 
+   */
   public static final String changedBy = "changedBy";
+  /**
+   * 
+   */
   public static final String viableWithoutChange = "viableWithoutChange";
-  
+
   /**
    * Gets the namespace for this package that correspond to the given SBML level, version
    * and the package version.

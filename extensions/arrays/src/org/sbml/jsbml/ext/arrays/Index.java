@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Utah, Salt Lake City, UT, USA
  *
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.ext.arrays;
 
@@ -27,7 +27,6 @@ import java.util.Map;
 import org.sbml.jsbml.AbstractMathContainer;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
-
 
 /**
  * The {@link Index} is used to referenced an arrayed element specified in
@@ -40,7 +39,7 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class Index extends AbstractMathContainer {
 
-  
+
   /**
    * 
    */
@@ -50,20 +49,20 @@ public class Index extends AbstractMathContainer {
    * 
    */
   private String referencedAttribute;
-  
+
   /**
    * 
    */
   private int arrayDimension;
-  
+
   /**
    * 
    */
   private boolean isSetArrayDimension;
-  
-  
+
+
   /**
-   * Creates an Index instance 
+   * Creates an Index instance
    */
   public Index() {
     super();
@@ -72,7 +71,7 @@ public class Index extends AbstractMathContainer {
 
 
   /**
-   * Creates a Index instance with a level and version. 
+   * Creates a Index instance with a level and version.
    * 
    * @param level
    * @param version
@@ -84,6 +83,7 @@ public class Index extends AbstractMathContainer {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public Index(Index obj) {
     super(obj);
@@ -93,7 +93,7 @@ public class Index extends AbstractMathContainer {
     if (obj.isSetReferencedAttribute()) {
       setReferencedAttribute(obj.referencedAttribute);
     }
-   
+
   }
 
 
@@ -111,7 +111,7 @@ public class Index extends AbstractMathContainer {
    */
   public void initDefaults() {
     setNamespace(ArraysConstants.namespaceURI);
-    
+
     referencedAttribute = null;
     isSetArrayDimension = false;
     arrayDimension = -1;
@@ -124,10 +124,10 @@ public class Index extends AbstractMathContainer {
   @Override
   public String toString() {
     return "Index [referencedAttribute=" + referencedAttribute
-      + ", arrayDimension=" + arrayDimension + "]";
+        + ", arrayDimension=" + arrayDimension + "]";
   }
-  
-  
+
+
   /**
    * Returns the value of referencedAttribute
    *
@@ -143,9 +143,9 @@ public class Index extends AbstractMathContainer {
 
 
   /**
-   * Returns whether referencedAttribute is set 
+   * Returns whether referencedAttribute is set
    *
-   * @return whether referencedAttribute is set 
+   * @return whether referencedAttribute is set
    */
   public boolean isSetReferencedAttribute() {
     return referencedAttribute != null;
@@ -154,6 +154,7 @@ public class Index extends AbstractMathContainer {
 
   /**
    * Sets the value of referencedAttribute
+   * @param referencedAttribute
    */
   public void setReferencedAttribute(String referencedAttribute) {
     String oldReferencedAttribute = this.referencedAttribute;
@@ -163,9 +164,9 @@ public class Index extends AbstractMathContainer {
 
 
   /**
-   * Unsets the variable referencedAttribute 
+   * Unsets the variable referencedAttribute
    *
-   * @return {@code true}, if referencedAttribute was set before, 
+   * @return {@code true}, if referencedAttribute was set before,
    *         otherwise {@code false}
    */
   public boolean unsetReferencedAttribute() {
@@ -179,7 +180,7 @@ public class Index extends AbstractMathContainer {
   }
 
 
-  
+
   /**
    * Returns the value of arrayDimension
    *
@@ -195,9 +196,9 @@ public class Index extends AbstractMathContainer {
 
 
   /**
-   * Returns whether arrayDimension is set 
+   * Returns whether arrayDimension is set
    *
-   * @return whether arrayDimension is set 
+   * @return whether arrayDimension is set
    */
   public boolean isSetArrayDimension() {
     return isSetArrayDimension;
@@ -206,6 +207,7 @@ public class Index extends AbstractMathContainer {
 
   /**
    * Sets the value of arrayDimension
+   * @param arrayDimension
    */
   public void setArrayDimension(int arrayDimension) {
     int oldArrayDimension = this.arrayDimension;
@@ -216,9 +218,9 @@ public class Index extends AbstractMathContainer {
 
 
   /**
-   * Unsets the variable arrayDimension 
+   * Unsets the variable arrayDimension
    *
-   * @return {@code true}, if arrayDimension was set before, 
+   * @return {@code true}, if arrayDimension was set before,
    *         otherwise {@code false}
    */
   public boolean unsetArrayDimension() {
@@ -231,47 +233,47 @@ public class Index extends AbstractMathContainer {
     }
     return false;
   }
-  
+
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value)
   {
     boolean isAttributeRead = super.readAttribute(attributeName, prefix, value);
-    
+
     if (!isAttributeRead) {
       isAttributeRead = true;
-      
+
       if (attributeName.equals(ArraysConstants.arrayDimension)) {
         setArrayDimension(StringTools.parseSBMLInt(value));
       }
-      
+
       else if (attributeName.equals(ArraysConstants.referencedAttribute)) {
         setReferencedAttribute(value);
       }
-      
+
       else {
         isAttributeRead = false;
       }
-      
+
     }
-    
+
     return isAttributeRead;
   }
-  
+
   @Override
   public Map<String, String> writeXMLAttributes()
   {
-  Map<String, String> attributes = super.writeXMLAttributes();
-    
+    Map<String, String> attributes = super.writeXMLAttributes();
+
     if (isSetArrayDimension()) {
       attributes.remove("arrayDimension");
       attributes.put(ArraysConstants.shortLabel + ":arrayDimension", ""+getArrayDimension());
     }
-    
+
     if (isSetReferencedAttribute()) {
       attributes.remove("referencedAttribute");
       attributes.put(ArraysConstants.shortLabel + ":referencedAttribute", getReferencedAttribute());
     }
-    
+
     return attributes;
   }
 
@@ -285,7 +287,7 @@ public class Index extends AbstractMathContainer {
     int result = super.hashCode();
     result = prime * result + arrayDimension;
     result = prime * result
-      + ((referencedAttribute == null) ? 0 : referencedAttribute.hashCode());
+        + ((referencedAttribute == null) ? 0 : referencedAttribute.hashCode());
     return result;
   }
 
@@ -317,5 +319,5 @@ public class Index extends AbstractMathContainer {
     }
     return true;
   }
-  
+
 }

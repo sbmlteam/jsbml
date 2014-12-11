@@ -334,6 +334,11 @@ public class PluginUtils {
     return pp;
   }
 
+  /**
+   * @param model
+   * @return
+   * @throws XMLStreamException
+   */
   public static PluginModel convertModel(Model model) throws XMLStreamException {
     PluginModel pm = (PluginModel) model.getUserObject(LINK_TO_CELLDESIGNER);
     if (pm == null) {

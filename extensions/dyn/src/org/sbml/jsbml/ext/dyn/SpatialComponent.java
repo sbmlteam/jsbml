@@ -82,6 +82,8 @@ UniqueNamedSBase {
   /**
    * Constructor
    * 
+   * @param id
+   * @param name
    * @param level
    * @param version
    */
@@ -194,7 +196,8 @@ UniqueNamedSBase {
   }
 
   /**
-   * Sets the value of variable
+   * Sets the value of {@link #variable}
+   * @param variable
    */
   public void setVariable(String variable) {
     String oldVariable = this.variable;

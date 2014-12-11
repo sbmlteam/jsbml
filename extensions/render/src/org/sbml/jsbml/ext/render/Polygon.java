@@ -58,6 +58,7 @@ public class Polygon extends GraphicalPrimitive2D {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public Polygon(Polygon obj) {
     super(obj);
@@ -66,6 +67,7 @@ public class Polygon extends GraphicalPrimitive2D {
 
   /**
    * @param element
+   * @return
    */
   public boolean addElement(RenderPoint element) {
     return getListOfElements().add(element);
@@ -147,6 +149,7 @@ public class Polygon extends GraphicalPrimitive2D {
 
   /**
    * Set the value of listOfElements
+   * @param listOfElements
    */
   public void setListOfElements(ListOf<RenderPoint> listOfElements) {
     ListOf<RenderPoint> oldListOfElements = this.listOfElements;

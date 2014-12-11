@@ -24,7 +24,8 @@ package org.sbml.jsbml.gui;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeModel;
+
+import org.sbml.jsbml.SBase;
 
 /** Displays the content of an SBML file in a {@link JTree} */
 public class JSBMLvisualizer extends JFrame {
@@ -32,15 +33,12 @@ public class JSBMLvisualizer extends JFrame {
   /** Generated serial version identifier */
   private static final long serialVersionUID = -6800051247041441688L;
 
-  /** @param tree The sbml root node of an SBML file */
-  public JSBMLvisualizer(DefaultTreeModel tree) {
+  /** @param sbase An SBML node as the root of a tree */
+  public JSBMLvisualizer(SBase sbase) {
     super("SBML Structure Visualization");
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-    DefaultTreeModel treeModel = tree;
-    JTree jTree = new JTree(treeModel);
-    getContentPane().add(new JScrollPane(jTree));
+    getContentPane().add(new JScrollPane(new JTree(sbase)));
     pack();
-    setAlwaysOnTop(true);
     setLocationRelativeTo(null);
     setVisible(true);
   }

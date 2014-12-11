@@ -83,17 +83,25 @@ public class SpeciesTypeState extends AbstractNamedSBase implements UniqueNamedS
    */
   private ListOf<ContainedSpeciesType> listOfContainedSpeciesTypes;
 
-
+  /**
+   * 
+   */
   public SpeciesTypeState() {
     super();
     initDefaults();
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
   @Override
   public boolean isIdMandatory() {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
   @Override
   public AbstractSBase clone() {
     // TODO

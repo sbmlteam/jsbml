@@ -34,14 +34,20 @@ import org.sbml.jsbml.util.StringTools;
  * @version $Rev$
  */
 public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
+
   /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 211166389798247646L;
 
+  /**
+   * 
+   */
   private Boolean isActive;
 
-
+  /**
+   * 
+   */
   public GeometryDefinition() {
     super();
   }
@@ -117,6 +123,9 @@ public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
     throw new PropertyUndefinedError(SpatialConstants.isActive, this);
   }
 
+  /**
+   * @return
+   */
   public boolean isActive() {
     return getIsActive();
   }
@@ -132,6 +141,7 @@ public abstract class GeometryDefinition extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of isActive
+   * @param isActive
    */
   public void setIsActive(boolean isActive) {
     boolean oldIsActive = this.isActive;

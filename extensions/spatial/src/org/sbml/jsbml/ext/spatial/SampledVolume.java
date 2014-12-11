@@ -42,11 +42,26 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
    */
   private static final long serialVersionUID = -8253664900275697978L;
 
+  /**
+   * 
+   */
   private String domainType;
+  /**
+   * 
+   */
   private Double sampledValue;
+  /**
+   * 
+   */
   private Double minValue;
+  /**
+   * 
+   */
   private Double maxValue;
 
+  /**
+   * 
+   */
   private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
 
@@ -76,6 +91,11 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
     }
   }
 
+  /**
+   * @param id
+   * @param level
+   * @param version
+   */
   public SampledVolume(String id, int level, int version) {
     super(id,level,version);
   }
@@ -140,6 +160,7 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of domainType
+   * @param domainType
    */
   public void setDomainType(String domainType) {
     String oldDomainType = this.domainType;
@@ -178,7 +199,6 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
     throw new PropertyUndefinedError(SpatialConstants.sampledValue, this);
   }
 
-
   /**
    * Returns whether sampledValue is set
    *
@@ -188,9 +208,9 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
     return sampledValue != null;
   }
 
-
   /**
    * Sets the value of sampledValue
+   * @param sampledValue
    */
   public void setSampledValue(double sampledValue) {
     double oldSampledValue = this.sampledValue;
@@ -221,12 +241,12 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
    *
    * @return the value of minValue
    */
-  public Double getMinValue() {
+  public double getMinValue() {
     if (isSetMinValue()) {
       return minValue;
     }
     // This is necessary if we cannot return null here.
-    return null;
+    throw new PropertyUndefinedError(SpatialConstants.minValue, this);
   }
 
 
@@ -239,16 +259,15 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
     return minValue != null;
   }
 
-
   /**
    * Sets the value of minValue
+   * @param minValue
    */
-  public void setMinValue(Double minValue) {
+  public void setMinValue(double minValue) {
     Double oldMinValue = this.minValue;
     this.minValue = minValue;
     firePropertyChange(SpatialConstants.minValue, oldMinValue, this.minValue);
   }
-
 
   /**
    * Unsets the variable minValue
@@ -272,12 +291,11 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
    *
    * @return the value of maxValue
    */
-  public Double getMaxValue() {
+  public double getMaxValue() {
     if (isSetMaxValue()) {
       return maxValue;
     }
-    // This is necessary if we cannot return null here.
-    return null;
+    throw new PropertyUndefinedError(SpatialConstants.maxValue, this);
   }
 
 
@@ -293,8 +311,9 @@ public class SampledVolume extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of maxValue
+   * @param maxValue
    */
-  public void setMaxValue(Double maxValue) {
+  public void setMaxValue(double maxValue) {
     Double oldMaxValue = this.maxValue;
     this.maxValue = maxValue;
     firePropertyChange(SpatialConstants.maxValue, oldMaxValue, this.maxValue);

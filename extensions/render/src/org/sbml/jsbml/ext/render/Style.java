@@ -46,8 +46,17 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    * Generated serial version identifier
    */
   private static final long serialVersionUID = -4660813321564690910L;
+  /**
+   * 
+   */
   protected RenderGroup group;
+  /**
+   * 
+   */
   protected String[] roleList;
+  /**
+   * 
+   */
   protected String[] typeList;
 
   /**
@@ -75,6 +84,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
    * 
    * @param level
    * @param version
+   * @param group
    */
   public Style(int level, int version, RenderGroup group) {
     this(null, level, version, group);
@@ -105,6 +115,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public Style(Style obj) {
     super(obj);
@@ -223,6 +234,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Set the value of group
+   * @param group
    */
   public void setGroup(RenderGroup group) {
     unsetGroup();
@@ -325,6 +337,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Set the value of roleList
+   * @param roleList
    */
   public void setRoleList(String[] roleList) {
     String[] oldRoleList = this.roleList;
@@ -355,6 +368,7 @@ public class Style extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Set the value of typeList
+   * @param typeList
    */
   public void setTypeList(String[] typeList) {
     String[] oldTypeList = this.typeList;

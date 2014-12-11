@@ -91,6 +91,10 @@ public class UnitDefinition extends AbstractNamedSBase {
 
   /**
    * Predefined unit for area.
+   * 
+   * @param level
+   * @param version
+   * @return
    */
   public static final UnitDefinition area(int level, int version) {
     return getPredefinedUnit(AREA, level, version);
@@ -308,6 +312,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    * Test if the given unit is a predefined unit.
    * 
    * @param ud
+   * @return
    * @deprecated use {@link #isPredefined()}
    */
   @Deprecated
@@ -348,6 +353,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 
   /**
    * Predefined unit for length.
+   * @param level
+   * @param version
+   * @return
    */
   public static final UnitDefinition length(int level, int version) {
     return getPredefinedUnit(LENGTH, level, version);
@@ -442,6 +450,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 
   /**
    * Predefined unit for substance.
+   * @param level
+   * @param version
+   * @return
    */
   public static final UnitDefinition substance(int level, int version) {
     return getPredefinedUnit(SUBSTANCE, level, version);
@@ -449,6 +460,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 
   /**
    * Predefined unit for time.
+   * @param level
+   * @param version
+   * @return
    */
   public static final UnitDefinition time(int level, int version) {
     return getPredefinedUnit(TIME, level, version);
@@ -456,6 +470,9 @@ public class UnitDefinition extends AbstractNamedSBase {
 
   /**
    * Predefined unit for volume.
+   * @param level
+   * @param version
+   * @return
    */
   public static final UnitDefinition volume(int level, int version) {
     return getPredefinedUnit(VOLUME, level, version);
@@ -612,6 +629,7 @@ public class UnitDefinition extends AbstractNamedSBase {
    * Divides this unit definition by the second unit definition.
    * 
    * @param definition
+   * @return
    */
   public UnitDefinition divideBy(UnitDefinition definition) {
     // Avoid creation of not needed empty list:

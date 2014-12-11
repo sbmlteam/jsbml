@@ -41,11 +41,20 @@ public class CSGPseudoPrimitive extends CSGNode{
    */
   private static final long serialVersionUID = 303742063326104808L;
 
+  /**
+   * 
+   */
   private String csgObjectRef;
 
+  /**
+   * 
+   */
   private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
 
+  /**
+   * 
+   */
   public CSGPseudoPrimitive() {
     super();
   }
@@ -129,6 +138,7 @@ public class CSGPseudoPrimitive extends CSGNode{
 
   /**
    * Sets the value of csgObjectRef
+   * @param csgObjectRef
    */
   public void setCsgObjectRef(String csgObjectRef) {
     String oldCsgObjectRef = this.csgObjectRef;

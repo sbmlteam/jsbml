@@ -43,8 +43,18 @@ public class ImageData extends AbstractSBase {
    */
   private static final long serialVersionUID = 1872012239027099782L;
 
-  private Integer samplesLength, samples[];
+  /**
+   * 
+   */
+  private Integer samplesLength;
+  /**
+   * 
+   */
+  private Integer samples[];
 
+  /**
+   * 
+   */
   private String dataType;
 
   /**
@@ -131,18 +141,17 @@ public class ImageData extends AbstractSBase {
     return samples != null;
   }
 
-
   /**
    * Sets the value of samples
+   * @param samples
    */
-  public void setSamples(Integer[] samples) {
+  public void setSamples(Integer... samples) {
     Integer[] oldSamples = this.samples;
     this.samples = samples;
     samplesLength = samples.length;
     firePropertyChange(SpatialConstants.samples, oldSamples, this.samples);
     firePropertyChange(SpatialConstants.samples, oldSamples.length, samplesLength);
   }
-
 
   /**
    * Unsets the variable samples
@@ -209,16 +218,15 @@ public class ImageData extends AbstractSBase {
     return dataType != null;
   }
 
-
   /**
    * Sets the value of dataType
+   * @param dataType
    */
   public void setDataType(String dataType) {
     String oldDataType = this.dataType;
     this.dataType = dataType;
     firePropertyChange(SpatialConstants.dataType, oldDataType, this.dataType);
   }
-
 
   /**
    * Unsets the variable dataType

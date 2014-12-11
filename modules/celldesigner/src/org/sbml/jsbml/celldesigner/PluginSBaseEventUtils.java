@@ -73,6 +73,7 @@ import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
  * @since 1.0
  * @date Aug 3, 2014
  */
+@SuppressWarnings("deprecation")
 public class PluginSBaseEventUtils {
 
   /**

@@ -40,6 +40,9 @@ public class Transformation extends AbstractSBase {
    * Generated serial version identifier
    */
   private static final long serialVersionUID = 1845276761656867150L;
+  /**
+   * 
+   */
   protected Double[] transform; // TODO - why using the Double class instance of the double primitive !?
 
   /**
@@ -63,6 +66,7 @@ public class Transformation extends AbstractSBase {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public Transformation(Transformation obj) {
     super(obj);
@@ -84,8 +88,8 @@ public class Transformation extends AbstractSBase {
     setNamespace(RenderConstants.namespaceURI);
   }
 
-  
-  
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -140,6 +144,9 @@ public class Transformation extends AbstractSBase {
     return attributes;
   }
 
+  /**
+   * @return
+   */
   private boolean isSetTransform() {
     return transform != null;
   }
@@ -160,6 +167,9 @@ public class Transformation extends AbstractSBase {
     return isAttributeRead;
   }
 
+  /**
+   * @param transform
+   */
   private void setTransform(Double[] transform) {
     Double[] oldTransform = this.transform;
     this.transform = transform;

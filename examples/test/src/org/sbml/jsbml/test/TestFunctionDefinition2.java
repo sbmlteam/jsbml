@@ -38,6 +38,10 @@ import org.sbml.jsbml.text.parser.ParseException;
  */
 public class TestFunctionDefinition2 {
 
+  /**
+   * @param args
+   * @throws ParseException
+   */
   public static void main(String[] args) throws ParseException {
 
     SBMLDocument doc = new SBMLDocument(2, 4);

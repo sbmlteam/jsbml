@@ -42,6 +42,9 @@ public class LocalRenderInformation extends RenderInformationBase {
    */
   private static final long serialVersionUID = -8056565578647428405L;
 
+  /**
+   * 
+   */
   private ListOf<LocalStyle> listOfLocalStyles;
 
   /**
@@ -102,6 +105,7 @@ public class LocalRenderInformation extends RenderInformationBase {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public LocalRenderInformation(LocalRenderInformation obj) {
     super(obj);
@@ -216,6 +220,7 @@ public class LocalRenderInformation extends RenderInformationBase {
 
   /**
    * @param localStyle
+   * @return
    */
   public boolean addLocalStyle(LocalStyle localStyle) {
     return getListOfLocalStyles().add(localStyle);
@@ -223,6 +228,7 @@ public class LocalRenderInformation extends RenderInformationBase {
 
   /**
    * @param localStyle
+   * @return
    */
   public boolean removeLocalStyle(LocalStyle localStyle) {
     if (isSetListOfLocalStyles()) {

@@ -44,19 +44,53 @@ public class Bond extends AbstractSBase {
    */
   private static final long serialVersionUID = -8781651881389720582L;
 
-  public enum BOND_OCCURRENCE_TYPE {prohibited, allowed, required};
+  /**
+   * @author Andreas Dr&auml;ger
+   * @version $Rev$
+   * @since 1.0
+   * @date 10.12.2014
+   */
+  public enum BOND_OCCURRENCE_TYPE {
+    /**
+     * 
+     */
+    prohibited,
+    /**
+     * 
+     */
+    allowed,
+    /**
+     * 
+     */
+    required
+  };
 
+  /**
+   * 
+   */
   private BOND_OCCURRENCE_TYPE occurence;
 
+  /**
+   * 
+   */
   private BindingSiteReference bindingSiteReference1;
 
+  /**
+   * 
+   */
   private BindingSiteReference bindingSiteReference2;
 
+  /**
+   * 
+   */
   public Bond() {
     super();
     initDefaults();
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
   @Override
   public AbstractSBase clone() {
     // TODO
@@ -72,7 +106,6 @@ public class Bond extends AbstractSBase {
   public BOND_OCCURRENCE_TYPE getOccurence() {
     return occurence;
   }
-
 
   /**
    * Sets the occurrence.
@@ -237,7 +270,6 @@ public class Bond extends AbstractSBase {
 
     return count;
   }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)

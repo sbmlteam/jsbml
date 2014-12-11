@@ -88,11 +88,11 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
   @SuppressWarnings("unchecked")
   @Override
   public ListOf<Species> getParent() {
-    
+
     if (isSetExtendedSBase()) {
       return (ListOf<Species>) getExtendedSBase().getParent();
     }
-    
+
     return null;
   }
 
@@ -126,6 +126,7 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public FBCSpeciesPlugin(FBCSpeciesPlugin obj) {
     super(obj);
@@ -142,6 +143,7 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
 
   /**
    * Creates an FBCSpeciesPlugin instance
+   * @param species
    */
   public FBCSpeciesPlugin(Species species) {
     super(species);
@@ -259,6 +261,7 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
    * Sets the value of charge. The optional field charge takes an integer indicating
    * the charge on the species (in terms of electrons, not the SI unit coulombs).
    * This attribute can be used for charge balancing.
+   * @param charge
    */
   public void setCharge(int charge) {
     int oldCharge = this.charge;
@@ -275,6 +278,7 @@ public class FBCSpeciesPlugin extends AbstractSBasePlugin {
    * by zero or more lower-case letters. Where there is more than a single atom  present,
    * this is indicated with an integer. With regards to order (and enhance inter-operability)
    * it is recommended to use the Hill system order (Hill 1900, 2012).
+   * @param chemicalFormula
    */
   public void setChemicalFormula(String chemicalFormula) {
     String oldChemicalFormula = this.chemicalFormula;

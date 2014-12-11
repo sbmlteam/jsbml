@@ -41,12 +41,19 @@ import java.util.Properties;
  */
 public final class Resource {
 
+  /**
+   * The singleton element.
+   */
   private static Resource resource;
 
   static {
     resource = new Resource();
   }
 
+  /**
+   * 
+   * @return
+   */
   public static Resource getInstance() {
     return resource;
   }
@@ -86,6 +93,9 @@ public final class Resource {
     return userProps;
   }
 
+  /**
+   * Since this is a singleton class, nobody should be able to instanciate it.
+   */
   private Resource() {
   }
 

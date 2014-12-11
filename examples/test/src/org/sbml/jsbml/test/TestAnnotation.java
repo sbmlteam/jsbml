@@ -40,6 +40,10 @@ import org.sbml.jsbml.Species;
  */
 public class TestAnnotation {
 
+  /**
+   * @param args
+   * @throws XMLStreamException
+   */
   public static void main(String[] args) throws XMLStreamException {
 
     // TODO: transform this file into a proper junit test class that is included in the jsbml standard tests.

@@ -44,8 +44,14 @@ import org.sbml.jsbml.Species;
  */
 public class TestSpecies {
 
+  /**
+   * 
+   */
   private Species S;
 
+  /**
+   * @throws Exception
+   */
   @Before public void setUp() throws Exception
   {
     S = new  Species(2,4);
@@ -56,11 +62,17 @@ public class TestSpecies {
     }
   }
 
+  /**
+   * @throws Exception
+   */
   @After public void tearDown() throws Exception
   {
     S = null;
   }
 
+  /**
+   * 
+   */
   @SuppressWarnings("deprecation")
   @Test public void test_Species_create()
   {
@@ -115,6 +127,9 @@ public class TestSpecies {
    */
 
 
+  /**
+   * 
+   */
   @Test public void test_Species_setCompartment()
   {
     String compartment =  "cell";;
@@ -138,6 +153,9 @@ public class TestSpecies {
     }
   }
 
+  /**
+   * 
+   */
   @Test public void test_Species_setId()
   {
     String id =  "Glucose";;
@@ -160,6 +178,9 @@ public class TestSpecies {
     }
   }
 
+  /**
+   * 
+   */
   @Test public void test_Species_setInitialAmount()
   {
     assertEquals(false, S.isSetInitialAmount());
@@ -170,6 +191,9 @@ public class TestSpecies {
     assertTrue(S.getInitialAmount() == 1.2);
   }
 
+  /**
+   * 
+   */
   @Test public void test_Species_setInitialConcentration()
   {
     assertEquals(false, S.isSetInitialAmount());
@@ -180,6 +204,9 @@ public class TestSpecies {
     assertTrue(S.getInitialConcentration() == 3.4);
   }
 
+  /**
+   * 
+   */
   @Test public void test_Species_setName()
   {
     String name =  "So_Sweet";;
@@ -203,6 +230,9 @@ public class TestSpecies {
   }
 
 
+  /**
+   * 
+   */
   @SuppressWarnings("deprecation")
   @Test public void test_Species_setSpatialSizeUnits()
   {
@@ -228,7 +258,9 @@ public class TestSpecies {
     s = null;
   }
 
-
+  /**
+   * 
+   */
   @Test public void test_Species_setSubstanceUnits()
   {
     String units =  "item";;
@@ -251,6 +283,9 @@ public class TestSpecies {
     }
   }
 
+  /**
+   * 
+   */
   @Test public void test_Species_setUnits()
   {
     String units =  "mole";;

@@ -27,8 +27,10 @@ import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.AbstractSBase;
 import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.UniqueNamedSBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.StringTools;
@@ -133,6 +135,9 @@ public class Input extends AbstractNamedSBase implements UniqueNamedSBase, Calla
     initDefaults();
   }
 
+  /**
+   * @param in
+   */
   public Input(Input in) {
     super(in);
 

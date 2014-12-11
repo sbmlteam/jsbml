@@ -27,8 +27,6 @@ import java.util.Map;
 import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
 
-
-
 /**
  * @author Alex Thomas
  * @author Andreas Dr&auml;ger
@@ -37,10 +35,22 @@ import org.sbml.jsbml.util.StringTools;
  */
 public class SpatialPoint extends AbstractSpatialNamedSBase {
 
+  /**
+   * 
+   */
   private String domain;
 
+  /**
+   * 
+   */
   private Double coord1;
+  /**
+   * 
+   */
   private Double coord2;
+  /**
+   * 
+   */
   private Double coord3;
 
   /**
@@ -159,9 +169,9 @@ public class SpatialPoint extends AbstractSpatialNamedSBase {
     return coord1 != null;
   }
 
-
   /**
    * Sets the value of coord1
+   * @param coord1
    */
   public void setCoord1(double coord1) {
     double oldCoord1 = this.coord1;
@@ -209,9 +219,9 @@ public class SpatialPoint extends AbstractSpatialNamedSBase {
     return coord2 != null;
   }
 
-
   /**
    * Sets the value of coord2
+   * @param coord2
    */
   public void setCoord2(double coord2) {
     double oldCoord2 = this.coord2;
@@ -259,9 +269,9 @@ public class SpatialPoint extends AbstractSpatialNamedSBase {
     return coord3 != null;
   }
 
-
   /**
    * Sets the value of coord3
+   * @param coord3
    */
   public void setCoord3(double coord3) {
     double oldCoord3 = this.coord3;
@@ -309,16 +319,15 @@ public class SpatialPoint extends AbstractSpatialNamedSBase {
     return domain != null;
   }
 
-
   /**
    * Sets the value of domain
+   * @param domain
    */
   public void setDomain(String domain) {
     String oldDomain = this.domain;
     this.domain = domain;
     firePropertyChange(SpatialConstants.domain, oldDomain, this.domain);
   }
-
 
   /**
    * Unsets the variable domain
@@ -336,7 +345,9 @@ public class SpatialPoint extends AbstractSpatialNamedSBase {
     return false;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 983;//Change this prime number

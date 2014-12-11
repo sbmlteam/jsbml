@@ -112,6 +112,9 @@ public class L3LayoutParser extends AbstractReaderWriter implements PackageParse
     return LayoutConstants.shortLabel;
   }
 
+  /**
+   * A {@link Logger} for this class.
+   */
   private Logger logger = Logger.getLogger(L3LayoutParser.class);
 
   /* (non-Javadoc)

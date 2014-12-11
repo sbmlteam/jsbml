@@ -41,7 +41,30 @@ public class LinearGradient extends GradientBase {
    * Generated serial version identifier
    */
   private static final long serialVersionUID = 825789189989621388L;
-  private Double x1, y1, z1, x2, y2, z2;
+  /**
+   * 
+   */
+  private Double x1;
+  /**
+   * 
+   */
+  private Double y1;
+  /**
+   * 
+   */
+  private Double z1;
+  /**
+   * 
+   */
+  private Double x2;
+  /**
+   * 
+   */
+  private Double y2;
+  /**
+   * 
+   */
+  private Double z2;
 
   /**
    * Creates an LinearGradient instance
@@ -53,6 +76,7 @@ public class LinearGradient extends GradientBase {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public LinearGradient(LinearGradient obj) {
     super(obj);
@@ -86,7 +110,7 @@ public class LinearGradient extends GradientBase {
     z2 = 1d;
   }
 
-  
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -214,8 +238,9 @@ public class LinearGradient extends GradientBase {
 
   /**
    * Set the value of x1
+   * @param x1
    */
-  public void setX1(Double x1) {
+  public void setX1(double x1) {
     Double oldX1 = this.x1;
     this.x1 = x1;
     firePropertyChange(RenderConstants.x1, oldX1, this.x1);
@@ -256,8 +281,9 @@ public class LinearGradient extends GradientBase {
 
   /**
    * Set the value of x2
+   * @param x2
    */
-  public void setX2(Double x2) {
+  public void setX2(double x2) {
     Double oldX2 = this.x2;
     this.x2 = x2;
     firePropertyChange(RenderConstants.x2, oldX2, this.x2);
@@ -298,8 +324,9 @@ public class LinearGradient extends GradientBase {
 
   /**
    * Set the value of y1
+   * @param y1
    */
-  public void setY1(Double y1) {
+  public void setY1(double y1) {
     Double oldY1 = this.y1;
     this.y1 = y1;
     firePropertyChange(RenderConstants.y1, oldY1, this.y1);
@@ -340,8 +367,9 @@ public class LinearGradient extends GradientBase {
 
   /**
    * Set the value of y2
+   * @param y2
    */
-  public void setY2(Double y2) {
+  public void setY2(double y2) {
     Double oldY2 = this.y2;
     this.y2 = y2;
     firePropertyChange(RenderConstants.y2, oldY2, this.y2);
@@ -382,8 +410,9 @@ public class LinearGradient extends GradientBase {
 
   /**
    * Set the value of z1
+   * @param z1
    */
-  public void setZ1(Double z1) {
+  public void setZ1(double z1) {
     Double oldZ1 = this.z1;
     this.z1 = z1;
     firePropertyChange(RenderConstants.z1, oldZ1, this.z1);
@@ -424,8 +453,9 @@ public class LinearGradient extends GradientBase {
 
   /**
    * Set the value of z2
+   * @param z2
    */
-  public void setZ2(Double z2) {
+  public void setZ2(double z2) {
     Double oldZ2 = this.z2;
     this.z2 = z2;
     firePropertyChange(RenderConstants.z2, oldZ2, this.z2);

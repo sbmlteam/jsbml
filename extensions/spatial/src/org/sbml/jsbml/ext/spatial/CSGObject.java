@@ -45,15 +45,30 @@ public class CSGObject extends AbstractSpatialNamedSBase {
    */
   private static final long serialVersionUID = 1385748485171648666L;
 
+  /**
+   * 
+   */
   private String domainType;
 
+  /**
+   * 
+   */
   private Integer ordinal;
 
+  /**
+   * 
+   */
   private CSGNode csgNode;
 
+  /**
+   * 
+   */
   private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
 
+  /**
+   * 
+   */
   public CSGObject() {
     super();
   }
@@ -158,6 +173,7 @@ public class CSGObject extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of domainType
+   * @param domainType
    */
   public void setDomainType(String domainType) {
     String oldDomainType = this.domainType;
@@ -209,6 +225,7 @@ public class CSGObject extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of ordinal
+   * @param ordinal
    */
   public void setOrdinal(int ordinal) {
     int oldOrdinal = this.ordinal;
@@ -258,6 +275,7 @@ public class CSGObject extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of csgNode
+   * @param csgNode
    */
   public void setCSGNode(CSGNode csgNode) {
     CSGNode oldCSGNode = this.csgNode;

@@ -43,6 +43,12 @@ import org.sbml.jsbml.util.SubModel;
  */
 public class SubModelTest {
 
+  /**
+   * @param args
+   * @throws XMLStreamException
+   * @throws SBMLException
+   * @throws IOException
+   */
   public static void main(String[] args) throws XMLStreamException, SBMLException, IOException {
 
     if (args.length < 2) {

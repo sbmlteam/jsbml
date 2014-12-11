@@ -22,6 +22,8 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -44,7 +46,13 @@ public class SampledFieldGeometry extends GeometryDefinition {
    */
   private static final long serialVersionUID = -1541677165317653439L;
 
+  /**
+   * 
+   */
   private ListOf<SampledVolume> listOfSampledVolumes;
+  /**
+   * 
+   */
   private String sampledField;
 
   /**
@@ -70,6 +78,11 @@ public class SampledFieldGeometry extends GeometryDefinition {
     }
   }
 
+  /**
+   * @param id
+   * @param level
+   * @param version
+   */
   public SampledFieldGeometry(String id, int level, int version) {
     super(id,level,version);
   }
@@ -130,6 +143,7 @@ public class SampledFieldGeometry extends GeometryDefinition {
 
   /**
    * Sets the value of sampledField
+   * @param sampledField
    */
   public void setSampledField(String sampledField) {
     String oldSampledField = this.sampledField;
@@ -265,20 +279,24 @@ public class SampledFieldGeometry extends GeometryDefinition {
     getListOfSampledVolumes().remove(i);
   }
 
-
+  /**
+   * @param id
+   */
   public void removeSampledVolume(String id) {
     getListOfSampledVolumes().removeFirst(new NameFilter(id));
   }
+
   /**
    * Creates a new SampledVolume element and adds it to the ListOfSampledVolumes list
+   * @return
    */
   public SampledVolume createSampledVolume() {
     return createSampledVolume(null);
   }
 
-
   /**
    * Creates a new {@link SampledVolume} element and adds it to the ListOfSampledVolumes list
+   * @param id
    *
    * @return a new {@link SampledVolume} element
    */
@@ -288,14 +306,17 @@ public class SampledFieldGeometry extends GeometryDefinition {
     return sampledVolume;
   }
 
-
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return true;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getChildCount()
+   */
   @Override
   public int getChildCount() {
     int count = super.getChildCount();
@@ -305,7 +326,9 @@ public class SampledFieldGeometry extends GeometryDefinition {
     return count;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getChildAt(int)
+   */
   @Override
   public TreeNode getChildAt(int index) {
     if (index < 0) {
@@ -328,7 +351,9 @@ public class SampledFieldGeometry extends GeometryDefinition {
       +Math.min(pos, 0)));
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.GeometryDefinition#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 983;//Change this prime number
@@ -339,7 +364,9 @@ public class SampledFieldGeometry extends GeometryDefinition {
     return hashCode;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.GeometryDefinition#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -349,7 +376,9 @@ public class SampledFieldGeometry extends GeometryDefinition {
     return attributes;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.GeometryDefinition#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))

@@ -71,6 +71,9 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
 public class ArraysFlattening {
 
   //TODO: metaid event has implicit dimension
+  /**
+   * 
+   */
   private static final ASTNode unknown = new ASTNode("unknown");
 
   /**
@@ -110,6 +113,10 @@ public class ArraysFlattening {
     }
   }
 
+  /**
+   * @param sbase
+   * @param ids
+   */
   private static void getVectors(SBase sbase, Map<String, ASTNode> ids) {
     for (int i = sbase.getChildCount() - 1; i >= 0; i--) {
       TreeNode node = sbase.getChildAt(i);
@@ -153,6 +160,7 @@ public class ArraysFlattening {
    * @param model
    * @param event
    * @param itemsToDelete
+   * @param idToVector
    * @throws SBMLException
    */
   private static void convertEvent (Model model, Event event, List<SBase> itemsToDelete, Map<String, ASTNode> idToVector) throws SBMLException {
@@ -218,6 +226,7 @@ public class ArraysFlattening {
    * @param arraysPlugin
    * @param parent
    * @param event
+   * @param vector
    * @param dim
    */
   private static void expandEvent (Model model, ArraysSBasePlugin arraysPlugin, SBase parent, Event event, ASTNode vector, int dim) {
@@ -320,6 +329,7 @@ public class ArraysFlattening {
    * @param model
    * @param reaction
    * @param itemsToDelete
+   * @param idToVector
    * @throws SBMLException
    */
   private static void convertReaction (Model model, Reaction reaction, List<SBase> itemsToDelete, Map<String, ASTNode> idToVector) throws SBMLException {
@@ -349,8 +359,10 @@ public class ArraysFlattening {
 
   /**
    * 
+   * @param model
    * @param arraysPlugin
    * @param reaction
+   * @param idToVector
    * @param index
    */
   private static void updateSpecRefId(Model model, ArraysSBasePlugin arraysPlugin, Reaction reaction, Map<String, ASTNode> idToVector, int index) {
@@ -404,6 +416,7 @@ public class ArraysFlattening {
 
   /**
    * 
+   * @param model
    * @param arraysPlugin
    * @param reaction
    * @param index
@@ -453,6 +466,8 @@ public class ArraysFlattening {
    * @param arraysPlugin
    * @param parent
    * @param reaction
+   * @param idToVector
+   * @param vector
    * @param dim
    */
   private static void expandReaction (Model model, ArraysSBasePlugin arraysPlugin, SBase parent, Reaction reaction, Map<String, ASTNode> idToVector,ASTNode vector, int dim) {
@@ -562,7 +577,9 @@ public class ArraysFlattening {
    * 
    * @param model
    * @param node
+   * @param compiler
    * @param sbases
+   * @param idToVector
    */
   private static void convert(Model model, TreeNode node,
     ArraysCompiler compiler, List<SBase> sbases, Map<String, ASTNode> idToVector) {
@@ -635,7 +652,9 @@ public class ArraysFlattening {
    * 
    * @param model
    * @param child
+   * @param compiler
    * @param sbases
+   * @param idToVector
    */
   private static void expandDim(Model model, TreeNode child, ArraysCompiler compiler, List<SBase> sbases, Map<String, ASTNode> idToVector) {
     if (child instanceof SBase) {
@@ -674,7 +693,10 @@ public class ArraysFlattening {
    * @param parent
    * @param arraysPlugin
    * @param compiler
+   * @param sbases
+   * @param vector
    * @param dim
+   * @param idToVector
    */
   private static void expandDim(Model model, NamedSBase sbase, SBase parent, ArraysSBasePlugin arraysPlugin,ArraysCompiler compiler,
     List<SBase> sbases, ASTNode vector, int dim, Map<String, ASTNode> idToVector) {
@@ -726,7 +748,9 @@ public class ArraysFlattening {
    * @param parent
    * @param arraysPlugin
    * @param compiler
+   * @param sbases
    * @param dim
+   * @param idToVector
    */
   private static void expandDim(Model model, SBase sbase, SBase parent, ArraysSBasePlugin arraysPlugin,ArraysCompiler compiler, List<SBase> sbases, int dim, Map<String, ASTNode> idToVector) {
 
@@ -761,8 +785,9 @@ public class ArraysFlattening {
   }
 
   /**
-   * Add the new SBase to the corresponding ListOf object.
+   * Add the new {@link SBase} to the corresponding ListOf object.
    * 
+   * @param model
    * @param parent
    * @param child
    */
@@ -802,6 +827,7 @@ public class ArraysFlattening {
    * @param arraysPlugin
    * @param sbase
    * @param compiler
+   * @param idToVector
    */
   private static void convertIndex(Model model, ArraysSBasePlugin arraysPlugin, SBase sbase, ArraysCompiler compiler, Map<String, ASTNode> idToVector) {
     if (arraysPlugin.getIndexCount() < 1) {
@@ -832,6 +858,15 @@ public class ArraysFlattening {
   }
 
 
+  /**
+   * @param arraysPlugin
+   * @param sbase
+   * @param attribute
+   * @param maxIndex
+   * @param compiler
+   * @param idToVector
+   * @return
+   */
   public static String getIndexedId(ArraysSBasePlugin arraysPlugin, SBase sbase, String attribute, int maxIndex, ArraysCompiler compiler, Map<String, ASTNode> idToVector)
   {
     String temp = sbase.writeXMLAttributes().get(attribute);
@@ -897,6 +932,7 @@ public class ArraysFlattening {
 
   /**
    * This updates the metaid of an SBase.
+   * @param doc
    * @param arraysPlugin
    * @param sbase
    * @param index
@@ -914,12 +950,23 @@ public class ArraysFlattening {
     }
   }
 
+  /**
+   * @param math
+   * @param id
+   * @param index
+   * @return
+   */
   private static ASTNode replaceDimensionId(ASTNode math, String id, int index) {
     ASTNode clone = math.clone();
     recursiveReplaceDimensionId(clone, id, index);
     return clone;
   }
 
+  /**
+   * @param math
+   * @param id
+   * @param index
+   */
   private static void recursiveReplaceDimensionId(ASTNode math, String id, int index) {
     if (math.getChildCount() == 0) {
       if (math.isString() && math.getName().equals(id)) {
@@ -932,5 +979,6 @@ public class ArraysFlattening {
       recursiveReplaceDimensionId(math.getChild(i), id, index);
     }
   }
+
 }
 

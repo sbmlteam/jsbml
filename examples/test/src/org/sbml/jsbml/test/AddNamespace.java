@@ -28,6 +28,12 @@ import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLWriter;
 
+/**
+ * @author Nicolas Rodriguez
+ * @version $Rev$
+ * @since 1.0
+ * @date 2012-09-19
+ */
 public class AddNamespace {
 
   /**

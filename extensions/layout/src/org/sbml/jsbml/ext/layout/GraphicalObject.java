@@ -40,7 +40,7 @@ import org.sbml.jsbml.util.ResourceManager;
  * base class for most elements in the {@link Layout} package, it is not an abstract class.
  * It can be instantiated when used in the listOfAdditionalGraphicalObjects to describe
  * additional elements and relationships. Since it only describes a {@link BoundingBox},
- * programs are encouraged to add {@link Annotation} objects that describe program-specific
+ * programs are encouraged to add {@link org.sbml.jsbml.Annotation} objects that describe program-specific
  * graphical information.
  * 
  * @author Nicolas Rodriguez
@@ -67,6 +67,9 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
    */
   private BoundingBox boundingBox;
 
+  /**
+   * 
+   */
   private String metaidRef;
 
   /**
@@ -283,7 +286,7 @@ public class GraphicalObject extends AbstractNamedSBase implements UniqueNamedSB
 
   /**
    * This is the only required element (besides the SId) of the {@link GraphicalObject}. Because
-   * this class is not an abstract class and can be instantiated, {@link Annotation} objects are
+   * this class is not an abstract class and can be instantiated, {@link org.sbml.jsbml.Annotation} objects are
    * encouraged to be added.
    * 
    * @param boundingBox

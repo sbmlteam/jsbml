@@ -23,6 +23,8 @@
 package org.sbml.jsbml.ext.dyn;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -130,6 +132,7 @@ public class DynEventPlugin extends DynSBasePlugin {
 
   /**
    * Sets the value of applyToAll
+   * @param applyToAll
    */
   public void setApplyToAll(boolean applyToAll) {
     boolean oldApplyToAll = this.applyToAll;
@@ -184,6 +187,7 @@ public class DynEventPlugin extends DynSBasePlugin {
 
   /**
    * Sets the value of listOfDynElements
+   * @param listOfDynElements
    */
   public void setListOfDynElements(ListOf<DynElement> listOfDynElements) {
     unsetListOfDynElements();
@@ -221,6 +225,7 @@ public class DynEventPlugin extends DynSBasePlugin {
   /**
    * Creates a new DynElement element and adds it to the listOfDynElements
    * list
+   * @return
    */
   public DynElement createDynElement() {
     return createDynElement(null);
@@ -228,8 +233,9 @@ public class DynEventPlugin extends DynSBasePlugin {
 
   /**
    * Creates a new {@link DynElement} element and adds it to the
-   * ListOfDynElements list
-   *
+   * {@link #getListOfDynElements()}.
+   * 
+   * @param id
    * @return a new {@link DynElement} element
    */
   public DynElement createDynElement(String id) {

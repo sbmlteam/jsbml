@@ -50,19 +50,46 @@ public abstract class XMLToken extends AbstractTreeNode {
    */
   private static final long serialVersionUID = -3501521107595952650L;
 
+  /**
+   * 
+   */
   protected XMLAttributes attributes = new XMLAttributes();
 
+  /**
+   * 
+   */
   protected StringBuilder characters = null;
 
+  /**
+   * 
+   */
   protected long column = 0;
 
+  /**
+   * 
+   */
   protected boolean isEndElement = false;
 
+  /**
+   * 
+   */
   protected boolean isEOF = false;
+  /**
+   * 
+   */
   protected boolean isStartElement = false;
 
+  /**
+   * 
+   */
   protected boolean isText = false;
+  /**
+   * 
+   */
   protected long line = 0;
+  /**
+   * 
+   */
   protected XMLNamespaces namespaces = new XMLNamespaces();
 
 
@@ -119,6 +146,7 @@ public abstract class XMLToken extends AbstractTreeNode {
 
   /**
    * Copy constructor; creates a copy of this {@link XMLToken}.
+   * @param orig
    */
   public XMLToken(XMLToken orig) {
     this();
@@ -517,7 +545,7 @@ public abstract class XMLToken extends AbstractTreeNode {
     if (uri == null || prefix == null) {
       throw new IllegalArgumentException("Neither a namespace prefix or uri can be null.");
     }
-    
+
     // XMLToken expect the namespace without the xmlns:
     if (prefix.startsWith("xmlns:")) {
       prefix = prefix.substring(6);
@@ -546,6 +574,7 @@ public abstract class XMLToken extends AbstractTreeNode {
 
   /**
    * Appends characters to this XML text content.
+   * @param chars
    */
   public void append(String chars) {
     StringBuilder oldValue = characters;

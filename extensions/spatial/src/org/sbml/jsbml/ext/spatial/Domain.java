@@ -22,6 +22,8 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -46,10 +48,19 @@ public class Domain extends AbstractSpatialNamedSBase {
    */
   private static final long serialVersionUID = 7959434109047369076L;
 
+  /**
+   * 
+   */
   private String domainType;
 
+  /**
+   * 
+   */
   private ListOf<InteriorPoint> listOfInteriorPoints;
 
+  /**
+   * 
+   */
   private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
   /**
@@ -67,6 +78,11 @@ public class Domain extends AbstractSpatialNamedSBase {
     super(level, version);
   }
 
+  /**
+   * @param id
+   * @param level
+   * @param version
+   */
   public Domain(String id,int level, int version) {
     super(id,level,version);
   }
@@ -122,6 +138,7 @@ public class Domain extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of domainType
+   * @param domainType
    */
   public void setDomainType(String domainType) {
     String oldDomainType = this.domainType;
@@ -214,7 +231,7 @@ public class Domain extends AbstractSpatialNamedSBase {
    * <p>The listOfInteriorPoints is initialized if necessary.
    *
    * @param interiorPoint the element to add to the list
-   * @return true (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link Collection#add})
    */
   public boolean addInteriorPoint(InteriorPoint interiorPoint) {
     return getListOfInteriorPoints().add(interiorPoint);

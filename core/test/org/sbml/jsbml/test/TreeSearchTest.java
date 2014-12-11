@@ -47,9 +47,21 @@ import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
  * @author Andreas Dr&auml;ger
  * @version $Rev$
  */
+/**
+ * @author Andreas Dr&auml;ger
+ * @version $Rev$
+ * @since 1.0
+ * @date 10.12.2014
+ */
 public class TreeSearchTest {
 
+  /**
+   * 
+   */
   private static SBMLDocument doc;
+  /**
+   * 
+   */
   private static Filter filter;
 
   /**

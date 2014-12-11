@@ -44,10 +44,16 @@ import org.sbml.jsbml.util.filters.CVTermFilter;
  */
 public class QualExample {
 
+  /**
+   * @param args
+   */
   public static void main(String args[]) {
     new QualExample();
   }
-    
+
+  /**
+   * 
+   */
   public QualExample() {
     int level = 3, version = 1;
     SBMLDocument doc = new SBMLDocument(level, version);
@@ -100,13 +106,13 @@ public class QualExample {
     Species species = model.createSpecies("species", comp1);
     species.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS,
       "http://identifiers.org/go/GO:0006915",
-      "http://identifiers.org/kegg.genes/hsa:321"));
+        "http://identifiers.org/kegg.genes/hsa:321"));
     species.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS_DESCRIBED_BY,
-      "http://identifiers.org/pubmed/16333295"));
+        "http://identifiers.org/pubmed/16333295"));
     species.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_IS_ENCODED_BY,
-      "http://identifiers.org/ensembl/ENSG00000085662"));
+        "http://identifiers.org/ensembl/ENSG00000085662"));
     species.addCVTerm(new CVTerm(CVTerm.Qualifier.BQB_OCCURS_IN,
-      "http://identifiers.org/kegg.reaction/R01787"));
+        "http://identifiers.org/kegg.reaction/R01787"));
 
     /* This method call will return a List of Species that are annotated with
      * the Qualifier 'occursIn' and a resource attached to this qualifier that

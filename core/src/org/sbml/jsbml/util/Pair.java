@@ -29,6 +29,8 @@ import java.util.Map.Entry;
  * 
  * @author Andreas Dr&auml;ger
  * @version $Rev$
+ * @param <L>
+ * @param <V>
  * @since 1.0
  * @date 07.03.2014
  */
@@ -147,6 +149,11 @@ public class Pair<L, V> implements Cloneable, Entry<L, V>, Serializable {
     v = pair.getValue();
   }
 
+  /**
+   * 
+   * @param l
+   * @return
+   */
   public L setKey(L l) {
     L key = getKey();
     this.l = l;

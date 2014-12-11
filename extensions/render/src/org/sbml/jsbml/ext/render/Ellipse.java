@@ -40,8 +40,46 @@ public class Ellipse extends GraphicalPrimitive2D {
    * Generated serial version identifier
    */
   private static final long serialVersionUID = -7679215241987476130L;
-  protected Double cx, cy, cz, rx, ry;
-  protected Boolean absoluteCx, absoluteCy, absoluteCz, absoluteRx, absoluteRy;
+  /**
+   * 
+   */
+  protected Double cx;
+  /**
+   * 
+   */
+  protected Double cy;
+  /**
+   * 
+   */
+  protected Double cz;
+  /**
+   * 
+   */
+  protected Double rx;
+  /**
+   * 
+   */
+  protected Double ry;
+  /**
+   * 
+   */
+  protected Boolean absoluteCx;
+  /**
+   * 
+   */
+  protected Boolean absoluteCy;
+  /**
+   * 
+   */
+  protected Boolean absoluteCz;
+  /**
+   * 
+   */
+  protected Boolean absoluteRx;
+  /**
+   * 
+   */
+  protected Boolean absoluteRy;
 
   // TODO - constructors missing + clone
 
@@ -181,6 +219,7 @@ public class Ellipse extends GraphicalPrimitive2D {
 
   /**
    * Set the value of cx
+   * @param cx
    */
   public void setCx(double cx) {
     Double oldCx = this.cx;
@@ -223,6 +262,7 @@ public class Ellipse extends GraphicalPrimitive2D {
 
   /**
    * Set the value of cy
+   * @param cy
    */
   public void setCy(Double cy) {
     Double oldCy = this.cy;
@@ -265,6 +305,7 @@ public class Ellipse extends GraphicalPrimitive2D {
 
   /**
    * Set the value of cz
+   * @param cz
    */
   public void setCz(Double cz) {
     Double oldCz = this.cz;
@@ -307,6 +348,7 @@ public class Ellipse extends GraphicalPrimitive2D {
 
   /**
    * Set the value of rx
+   * @param rx
    */
   public void setRx(Double rx) {
     Double oldRx = this.rx;
@@ -349,6 +391,7 @@ public class Ellipse extends GraphicalPrimitive2D {
 
   /**
    * Set the value of ry
+   * @param ry
    */
   public void setRy(Double ry) {
     Double oldRy = this.ry;
@@ -391,6 +434,7 @@ public class Ellipse extends GraphicalPrimitive2D {
 
   /**
    * Set the value of absoluteCx
+   * @param absoluteCx
    */
   public void setAbsoluteCx(boolean absoluteCx) {
     Boolean oldAbsoluteCx = this.absoluteCx;
@@ -433,6 +477,7 @@ public class Ellipse extends GraphicalPrimitive2D {
 
   /**
    * Set the value of absoluteCy
+   * @param absoluteCy
    */
   public void setAbsoluteCy(boolean absoluteCy) {
     Boolean oldAbsoluteCy = this.absoluteCy;
@@ -475,6 +520,7 @@ public class Ellipse extends GraphicalPrimitive2D {
 
   /**
    * Set the value of absoluteCz
+   * @param absoluteCz
    */
   public void setAbsoluteCz(boolean absoluteCz) {
     Boolean oldAbsoluteCz = this.absoluteCz;
@@ -518,6 +564,7 @@ public class Ellipse extends GraphicalPrimitive2D {
 
   /**
    * Set the value of absoluteRx
+   * @param absoluteRx
    */
   public void setAbsoluteRx(boolean absoluteRx) {
     Boolean oldAbsoluteRx = this.absoluteRx;
@@ -561,6 +608,7 @@ public class Ellipse extends GraphicalPrimitive2D {
 
   /**
    * Set the value of absoluteRy
+   * @param absoluteRy
    */
   public void setAbsoluteRy(boolean absoluteRy) {
     Boolean oldAbsoluteRy = this.absoluteRy;

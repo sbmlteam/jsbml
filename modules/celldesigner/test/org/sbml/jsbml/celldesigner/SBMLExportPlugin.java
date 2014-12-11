@@ -39,7 +39,13 @@ import jp.sbi.celldesigner.plugin.PluginMenuItem;
  */
 public class SBMLExportPlugin extends AbstractCellDesignerPlugin  {
 
+  /**
+   * 
+   */
   public static final String ACTION = "Display SBML Representation";
+  /**
+   * 
+   */
   public static final String APPLICATION_NAME = "SBML Export";
 
   /**

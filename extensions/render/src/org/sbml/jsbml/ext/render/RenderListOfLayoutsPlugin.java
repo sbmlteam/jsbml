@@ -49,6 +49,7 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
 
   /**
    * Creates an RenderModelPlugin instance
+   * @param listOfLayouts
    */
   public RenderListOfLayoutsPlugin(ListOf<Layout> listOfLayouts) {
     super(listOfLayouts);
@@ -57,10 +58,11 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public RenderListOfLayoutsPlugin(RenderListOfLayoutsPlugin obj) {
     super(obj);
-    
+
     if (obj.isSetListOfGlobalRenderInformation()) {
       setListOfGlobalRenderInformation(obj.getListOfGlobalRenderInformation().clone());
     }
@@ -68,6 +70,7 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
 
   /**
    * @param field
+   * @return
    */
   public boolean addGlobalRenderInformation(GlobalRenderInformation field) {
     return getListOfGlobalRenderInformation().add(field);
@@ -86,6 +89,7 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
    * <p><b>NOTE:</b>
    * only use this method, if ID is not mandatory in GlobalRenderInformation
    * otherwise use @see createGlobalRenderInformation(String id)!</p>
+   * @return
    */
   public GlobalRenderInformation createGlobalRenderInformation() {
     return createGlobalRenderInformation(null);
@@ -93,6 +97,8 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
 
   /**
    * create a new GlobalRenderInformation element and adds it to the ListOfGlobalRenderInformation list
+   * @param id
+   * @return
    */
   public GlobalRenderInformation createGlobalRenderInformation(String id) {
     GlobalRenderInformation field = new GlobalRenderInformation(id);
@@ -148,7 +154,7 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
       listOfGlobalRenderInformation = new ListOf<GlobalRenderInformation>();
       listOfGlobalRenderInformation.setNamespace(RenderConstants.namespaceURI);
       listOfGlobalRenderInformation.setSBaseListType(ListOf.Type.other);
-      
+
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfGlobalRenderInformation);
       }
@@ -177,6 +183,7 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
 
   /**
    * @param field
+   * @return
    */
   public boolean removeGlobalRenderInformation(GlobalRenderInformation field) {
     if (isSetListOfGlobalRenderInformation()) {
@@ -210,7 +217,7 @@ public class RenderListOfLayoutsPlugin extends AbstractRenderPlugin {
   public void setListOfGlobalRenderInformation(ListOf<GlobalRenderInformation> listOfGlobalRenderInformation) {
     unsetListOfGlobalRenderInformation();
     this.listOfGlobalRenderInformation = listOfGlobalRenderInformation;
-    
+
     if (isSetExtendedSBase()) {
       extendedSBase.registerChild(this.listOfGlobalRenderInformation);
     }

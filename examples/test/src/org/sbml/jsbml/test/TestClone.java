@@ -37,6 +37,10 @@ import org.sbml.jsbml.SpeciesReference;
  */
 public class TestClone {
 
+  /**
+   * @param args
+   * @throws SBMLException
+   */
   public static void main(String[] args) throws SBMLException {
 
     // TODO: transform this file into a proper junit test class that is included in the jsbml standard tests.

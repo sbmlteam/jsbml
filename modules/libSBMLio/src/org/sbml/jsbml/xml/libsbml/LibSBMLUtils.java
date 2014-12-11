@@ -837,7 +837,6 @@ public class LibSBMLUtils {
   /**
    * 
    * @param eventAssignment
-   * @param args
    * @return
    * @throws XMLStreamException
    */
@@ -961,7 +960,7 @@ public class LibSBMLUtils {
 
   /**
    * 
-   * @param kinteicLaw
+   * @param kinteticLaw
    * @return
    * @throws XMLStreamException
    */
@@ -1980,7 +1979,7 @@ public class LibSBMLUtils {
   }
 
   /**
-   * Sets metaId, {@link SBOTerm}, notes, and {@link Annotation} in the libSBML
+   * Sets metaId, SBO term, notes, and {@link Annotation} in the libSBML
    * object, if it's set in the JSBML object.
    * 
    * @param sbase

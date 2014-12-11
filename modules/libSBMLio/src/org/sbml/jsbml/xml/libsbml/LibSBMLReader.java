@@ -730,6 +730,9 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
    */
   private ProgressListener listener;
 
+  /**
+   * 
+   */
   private Set<org.sbml.libsbml.SBMLDocument> setOfDocuments;
 
   /**
@@ -918,7 +921,7 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
 
   /**
    * 
-   * @param doc
+   * @param libDoc
    * @return
    * @throws Exception
    */
@@ -1011,7 +1014,7 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
 
   /**
    * 
-   * @param compartmenttype
+   * @param compartmentType
    * @return
    */
   private CompartmentType readCompartmentType(org.sbml.libsbml.CompartmentType compartmentType) {

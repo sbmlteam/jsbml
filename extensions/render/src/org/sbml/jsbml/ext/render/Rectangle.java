@@ -42,12 +42,62 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
    * Generated serial version identifier
    */
   private static final long serialVersionUID = -4314411828208615411L;
-  private Double x, y, z;
-  private Double width, height;
-  private Boolean absoluteX, absoluteY, absoluteZ;
-  private Boolean absoluteWidth, absoluteHeight;
-  private Double rx, ry;
-  private Boolean absoluteRx, absoluteRy;
+  /**
+   * 
+   */
+  private Double x;
+  /**
+   * 
+   */
+  private Double y;
+  /**
+   * 
+   */
+  private Double z;
+  /**
+   * 
+   */
+  private Double width;
+  /**
+   * 
+   */
+  private Double height;
+  /**
+   * 
+   */
+  private Boolean absoluteX;
+  /**
+   * 
+   */
+  private Boolean absoluteY;
+  /**
+   * 
+   */
+  private Boolean absoluteZ;
+  /**
+   * 
+   */
+  private Boolean absoluteWidth;
+  /**
+   * 
+   */
+  private Boolean absoluteHeight;
+  /**
+   * 
+   */
+  private Double rx;
+  /**
+   * 
+   */
+  private Double ry;
+  /**
+   * 
+   */
+  private Boolean absoluteRx;
+  /**
+   * 
+   */
+  private Boolean absoluteRy;
 
   /**
    * @return the value of rx
@@ -69,8 +119,9 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Set the value of rx
+   * @param rx
    */
-  public void setRx(Double rx) {
+  public void setRx(double rx) {
     Double oldRx = this.rx;
     this.rx = rx;
     firePropertyChange(RenderConstants.rx, oldRx, this.rx);
@@ -111,8 +162,9 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Set the value of ry
+   * @param ry
    */
-  public void setRy(Double ry) {
+  public void setRy(double ry) {
     Double oldRy = this.ry;
     this.ry = ry;
     firePropertyChange(RenderConstants.ry, oldRy, this.ry);
@@ -138,11 +190,11 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     return absoluteX != null;
   }
 
-  /**
-   * Set the value of absoluteX
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Point3D#setAbsoluteX(boolean)
    */
   @Override
-  public void setAbsoluteX(Boolean absoluteX) {
+  public void setAbsoluteX(boolean absoluteX) {
     Boolean oldAbsoluteX = this.absoluteX;
     this.absoluteX = absoluteX;
     firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, this.absoluteX);
@@ -184,11 +236,11 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     return absoluteY != null;
   }
 
-  /**
-   * Set the value of absoluteY
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Point3D#setAbsoluteY(boolean)
    */
   @Override
-  public void setAbsoluteY(Boolean absoluteY) {
+  public void setAbsoluteY(boolean absoluteY) {
     Boolean oldAbsoluteY = this.absoluteY;
     this.absoluteY = absoluteY;
     firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, this.absoluteY);
@@ -230,11 +282,11 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     return absoluteZ != null;
   }
 
-  /**
-   * Set the value of absoluteZ
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Point3D#setAbsoluteZ(boolean)
    */
   @Override
-  public void setAbsoluteZ(Boolean absoluteZ) {
+  public void setAbsoluteZ(boolean absoluteZ) {
     Boolean oldAbsoluteZ = this.absoluteZ;
     this.absoluteZ = absoluteZ;
     firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, this.absoluteZ);
@@ -276,8 +328,9 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Set the value of absoluteRx
+   * @param absoluteRx
    */
-  public void setAbsoluteRx(Boolean absoluteRx) {
+  public void setAbsoluteRx(boolean absoluteRx) {
     Boolean oldAbsoluteRx = this.absoluteRx;
     this.absoluteRx = absoluteRx;
     firePropertyChange(RenderConstants.absoluteRx, oldAbsoluteRx, this.absoluteRx);
@@ -318,8 +371,9 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Set the value of absoluteRy
+   * @param absoluteRy
    */
-  public void setAbsoluteRy(Boolean absoluteRy) {
+  public void setAbsoluteRy(boolean absoluteRy) {
     Boolean oldAbsoluteRy = this.absoluteRy;
     this.absoluteRy = absoluteRy;
     firePropertyChange(RenderConstants.absoluteRy, oldAbsoluteRy, this.absoluteRy);
@@ -360,8 +414,9 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Set the value of absoluteHeight
+   * @param absoluteHeight
    */
-  public void setAbsoluteHeight(Boolean absoluteHeight) {
+  public void setAbsoluteHeight(boolean absoluteHeight) {
     Boolean oldAbsoluteHeight = this.absoluteHeight;
     this.absoluteHeight = absoluteHeight;
     firePropertyChange(RenderConstants.absoluteHeight, oldAbsoluteHeight, this.absoluteHeight);
@@ -402,8 +457,9 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Set the value of absoluteWidth
+   * @param absoluteWidth
    */
-  public void setAbsoluteWidth(Boolean absoluteWidth) {
+  public void setAbsoluteWidth(boolean absoluteWidth) {
     Boolean oldAbsoluteWidth = this.absoluteWidth;
     this.absoluteWidth = absoluteWidth;
     firePropertyChange(RenderConstants.absoluteWidth, oldAbsoluteWidth, this.absoluteWidth);
@@ -459,11 +515,11 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     return x != null;
   }
 
-  /**
-   * Set the value of x
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Point3D#setX(double)
    */
   @Override
-  public void setX(Double x) {
+  public void setX(double x) {
     Double oldX = this.x;
     this.x = x;
     firePropertyChange(RenderConstants.x, oldX, this.x);
@@ -505,11 +561,11 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     return y != null;
   }
 
-  /**
-   * Set the value of y
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Point3D#setY(double)
    */
   @Override
-  public void setY(Double y) {
+  public void setY(double y) {
     Double oldY = this.y;
     this.y = y;
     firePropertyChange(RenderConstants.y, oldY, this.y);
@@ -551,11 +607,11 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
     return z != null;
   }
 
-  /**
-   * Set the value of z
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.render.Point3D#setZ(double)
    */
   @Override
-  public void setZ(Double z) {
+  public void setZ(double z) {
     Double oldZ = this.z;
     this.z = z;
     firePropertyChange(RenderConstants.z, oldZ, this.z);
@@ -597,8 +653,9 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Set the value of height
+   * @param height
    */
-  public void setHeight(Double height) {
+  public void setHeight(double height) {
     Double oldHeight = this.height;
     this.height = height;
     firePropertyChange(RenderConstants.height, oldHeight, this.height);
@@ -639,8 +696,9 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Set the value of width
+   * @param width
    */
-  public void setWidth(Double width) {
+  public void setWidth(double width) {
     Double oldWidth = this.width;
     this.width = width;
     firePropertyChange(RenderConstants.width, oldWidth, this.width);
@@ -671,6 +729,7 @@ public class Rectangle extends GraphicalPrimitive2D implements Point3D {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public Rectangle(Rectangle obj) {
     super(obj);

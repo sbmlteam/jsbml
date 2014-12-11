@@ -85,6 +85,11 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
       return sbmlName;
     }
 
+    /**
+     * 
+     * @param value
+     * @return
+     */
     public static Type fromString(String value)
     {
       if (value == null)
@@ -141,6 +146,7 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public Objective(Objective obj) {
     super(obj);
@@ -197,7 +203,7 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
    * <p>The listOfFluxObjectives is initialized if necessary.
    *
    * @param fluxObjective the element to add to the list
-   * @return {@code true} (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addFluxObjective(FluxObjective fluxObjective) {
     return getListOfFluxObjectives().add(fluxObjective);
@@ -406,6 +412,7 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Sets the value of type
+   * @param type
    * 
    */
   public void setType(Type type) {
@@ -504,7 +511,7 @@ public class Objective extends AbstractNamedSBase implements UniqueNamedSBase {
    *
    * @param fluxObjective the element to be removed from the list
    * @return {@code true} if the list contained the specified element
-   * @see List#remove(Object)
+   * @see java.util.List#remove(Object)
    */
   public boolean removeFluxObjective(FluxObjective fluxObjective) {
     if (isSetListOfFluxObjectives()) {

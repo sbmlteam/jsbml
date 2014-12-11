@@ -49,10 +49,16 @@ public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
   private Boolean isLocal;
 
 
+  /**
+   * 
+   */
   public SpatialReactionPlugin() {
     super();
   }
 
+  /**
+   * @param rxn
+   */
   public SpatialReactionPlugin(Reaction rxn) {
     super(rxn);
   }
@@ -124,13 +130,16 @@ public class SpatialReactionPlugin extends AbstractSpatialSBasePlugin {
     return isLocal != null;
   }
 
+  /**
+   * @return
+   */
   public boolean isLocal() {
     return getIsLocal();
   }
 
-
   /**
    * Sets the value of isLocal
+   * @param isLocal
    */
   public void setIsLocal(boolean isLocal) {
     boolean oldIsLocal = this.isLocal;

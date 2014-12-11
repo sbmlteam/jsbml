@@ -34,6 +34,7 @@ import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.Quantity;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.Variable;
+import org.sbml.jsbml.ext.arrays.Dimension;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 

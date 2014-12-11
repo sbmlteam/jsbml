@@ -45,6 +45,9 @@ public class TestAbstractNamedSBaseWithUnits {
    * The element to be tested.
    */
   private AbstractNamedSBaseWithUnit sbase;
+  /**
+   * 
+   */
   private Unit.Kind kind;
 
   /**

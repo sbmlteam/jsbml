@@ -22,6 +22,8 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
@@ -41,9 +43,18 @@ public class MixedGeometry extends GeometryDefinition {
    */
   private static final long serialVersionUID = -7544034155315224945L;
 
+  /**
+   * 
+   */
   ListOf<GeometryDefinition> listOfGeometryDefinitions;
+  /**
+   * 
+   */
   ListOf<OrdinalMapping> listOfOrdinalMappings;
 
+  /**
+   * 
+   */
   public MixedGeometry() {
     super();
   }
@@ -218,29 +229,43 @@ public class MixedGeometry extends GeometryDefinition {
 
   /**
    * Creates a new GeometryDefinition element and adds it to the ListOfGeometryDefinitions list
+   * @return
    */
   public SampledFieldGeometry createSampledFieldGeometryn() {
     return createSampledFieldGeometry(null);
   }
 
+  /**
+   * @return
+   */
   public AnalyticGeometry createAnalyticGeometry() {
     return createAnalyticGeometry(null);
   }
 
+  /**
+   * @return
+   */
   public CSGeometry createCSGeometry() {
     return createCSGeometry(null);
   }
 
+  /**
+   * @return
+   */
   public ParametricGeometry createParametricGeometry() {
     return createParametricGeometry(null);
   }
 
+  /**
+   * @return
+   */
   public MixedGeometry createMixedGeometry() {
     return createMixedGeometry(null);
   }
 
   /**
    * Creates a new {@link GeometryDefinition} element and adds it to the ListOfGeometryDefinitions list
+   * @param id
    *
    * @return a new {@link GeometryDefinition} element
    */
@@ -252,6 +277,7 @@ public class MixedGeometry extends GeometryDefinition {
 
   /**
    * Creates a new {@link GeometryDefinition} element and adds it to the ListOfGeometryDefinitions list
+   * @param id
    *
    * @return a new {@link GeometryDefinition} element
    */
@@ -261,18 +287,30 @@ public class MixedGeometry extends GeometryDefinition {
     return def;
   }
 
+  /**
+   * @param id
+   * @return
+   */
   public AnalyticGeometry createAnalyticGeometry(String id) {
     AnalyticGeometry def = new AnalyticGeometry(id, getLevel(), getVersion());
     addGeometryDefinition(def);
     return def;
   }
 
+  /**
+   * @param id
+   * @return
+   */
   public CSGeometry createCSGeometry(String id) {
     CSGeometry def = new CSGeometry(id, getLevel(), getVersion());
     addGeometryDefinition(def);
     return def;
   }
 
+  /**
+   * @param id
+   * @return
+   */
   public ParametricGeometry createParametricGeometry(String id) {
     ParametricGeometry def = new ParametricGeometry(id, getLevel(), getVersion());
     addGeometryDefinition(def);
@@ -382,7 +420,6 @@ public class MixedGeometry extends GeometryDefinition {
     getListOfOrdinalMappings().remove(i);
   }
 
-
   /**
    * Creates a new {@link OrdinalMapping} element and adds it to the ListOfOrdinalMappings list
    *
@@ -394,13 +431,17 @@ public class MixedGeometry extends GeometryDefinition {
     return ordinalMapping;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return true;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getChildCount()
+   */
   @Override
   public int getChildCount() {
     int count = super.getChildCount();
@@ -413,7 +454,9 @@ public class MixedGeometry extends GeometryDefinition {
     return count;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getChildAt(int)
+   */
   @Override
   public TreeNode getChildAt(int index) {
     if (index < 0) {

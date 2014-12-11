@@ -74,6 +74,9 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 @ProviderFor(ReadingParser.class)
 public class MultiParser extends AbstractReaderWriter implements PackageParser {
 
+  /**
+   * A {@link Logger} for this class.
+   */
   private Logger logger = Logger.getLogger(MultiParser.class);
 
   /**
@@ -85,6 +88,9 @@ public class MultiParser extends AbstractReaderWriter implements PackageParser {
     return namespaceURI;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getShortLabel()
+   */
   @Override
   public String getShortLabel() {
     return shortLabel;

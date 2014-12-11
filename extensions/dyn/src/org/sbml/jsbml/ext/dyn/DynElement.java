@@ -79,6 +79,8 @@ public class DynElement extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * Constructor
+   * @param id
+   * @param name
    * 
    * @param level
    * @param version

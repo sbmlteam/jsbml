@@ -48,7 +48,6 @@ import org.sbml.jsbml.ext.arrays.compiler.StaticallyComputableCompiler;
 import org.sbml.jsbml.ext.arrays.compiler.VectorCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
-
 /**
  * @author Leandro Watanabe
  * @version $Rev$
@@ -375,6 +374,11 @@ public class ArraysMath {
     return upperBound;
   }
 
+  /**
+   * @param index
+   * @param parent
+   * @return
+   */
   public static ArraysSBasePlugin getParentPlugin(Index index, SBase parent)
   {
     if (parent instanceof SpeciesReference)
@@ -395,6 +399,11 @@ public class ArraysMath {
     }
   }
 
+  /**
+   * @param math
+   * @param parent
+   * @return
+   */
   public static ArraysSBasePlugin getParentPlugin(MathContainer math, SBase parent)
   {
     if (math instanceof SpeciesReference)
@@ -497,6 +506,7 @@ public class ArraysMath {
    * 
    * @param model
    * @param mathContainer
+   * @param constantIds
    * @return
    */
   public static boolean isStaticallyComputable(Model model, MathContainer mathContainer, String...constantIds) {
@@ -538,6 +548,10 @@ public class ArraysMath {
     return value.toBoolean();
 
   }
+  /**
+   * @param math
+   * @return
+   */
   public static boolean isVectorOperation(ASTNode math) {
     boolean hasVector = false;
 
@@ -634,6 +648,7 @@ public class ArraysMath {
 
   /**
    * This is used to obtain a map containing a pair of array depth level and its size.
+   * @param model
    * 
    * @param math
    * @return
@@ -649,6 +664,7 @@ public class ArraysMath {
    * size of each level.
    * 
    * @param sizeByLevel
+   * @param model
    * @param node
    * @param level
    */
@@ -685,6 +701,11 @@ public class ArraysMath {
     }
   }
 
+  /**
+   * @param model
+   * @param mathContainer
+   * @return
+   */
   public static boolean isVectorBalanced(Model model, MathContainer mathContainer) {
     if (model == null || mathContainer == null) {
       return false;
@@ -700,6 +721,7 @@ public class ArraysMath {
   /**
    * This is used to check if the array is regular.
    * 
+   * @param model
    * @param sizeByLevel
    * @param node
    * @param level

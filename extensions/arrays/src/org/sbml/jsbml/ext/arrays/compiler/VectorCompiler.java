@@ -46,29 +46,50 @@ import org.sbml.jsbml.util.Maths;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 
-
 /**
  * @author Leandro Watanabe
  * @version $Rev$
  * @since 1.0
  * @date Jun 30, 2014
  */
-
-
 //TODO: need to check for errors
 //TODO: need to check if its name
 //TODO: SBMLException error id
 //TODO: need to test functions. might have warnings
 public class VectorCompiler implements ASTNodeCompiler {
 
+  /**
+   * 
+   */
   private final ASTNodeValue dummy = new ASTNodeValue("dummy", null);
+  /**
+   * 
+   */
   private final Model model;
+  /**
+   * 
+   */
   private ASTNode node;
+  /**
+   * 
+   */
   private Map<String, ASTNode> idToVector;
+  /**
+   * 
+   */
   private boolean isSetIdToVector;
+  /**
+   * 
+   */
   private final boolean useId;
+  /**
+   * 
+   */
   private NamedSBase sbase;
 
+  /**
+   * @param model
+   */
   public VectorCompiler(Model model) {
     this.model = model;
     node = new ASTNode();
@@ -76,6 +97,10 @@ public class VectorCompiler implements ASTNodeCompiler {
     isSetIdToVector = false;
   }
 
+  /**
+   * @param model
+   * @param useId
+   */
   public VectorCompiler(Model model, boolean useId) {
     this.model = model;
     node = new ASTNode();
@@ -84,6 +109,11 @@ public class VectorCompiler implements ASTNodeCompiler {
 
   }
 
+  /**
+   * @param model
+   * @param sbase
+   * @param useId
+   */
   public VectorCompiler(Model model, NamedSBase sbase, boolean useId) {
     this.model = model;
     node = new ASTNode();
@@ -94,6 +124,11 @@ public class VectorCompiler implements ASTNodeCompiler {
 
 
 
+  /**
+   * @param model
+   * @param useId
+   * @param idToVector
+   */
   public VectorCompiler(Model model, boolean useId, Map<String, ASTNode> idToVector) {
     this.model = model;
     node = new ASTNode();
@@ -106,14 +141,23 @@ public class VectorCompiler implements ASTNodeCompiler {
     }
   }
 
+  /**
+   * @return
+   */
   public ASTNode getNode() {
     return node;
   }
 
+  /**
+   * @param node
+   */
   public void setNode(ASTNode node) {
     this.node = node;
   }
 
+  /**
+   * @param idToVector
+   */
   public void setIdToVector(Map<String, ASTNode> idToVector) {
     this.idToVector = idToVector;
     if (idToVector == null) {
@@ -123,11 +167,17 @@ public class VectorCompiler implements ASTNodeCompiler {
     }
   }
 
+  /**
+   * 
+   */
   public void clearIdToVector() {
     idToVector.clear();
     isSetIdToVector = false;
   }
 
+  /**
+   * @return
+   */
   public boolean isSetIdToVector() {
     if (idToVector != null && isSetIdToVector) {
       return true;
@@ -268,6 +318,7 @@ public class VectorCompiler implements ASTNodeCompiler {
    * 
    * @param values
    * @param node
+   * @throws IndexOutOfBoundsException
    */
   private void andRecursive(List<ASTNode> values, ASTNode node) throws IndexOutOfBoundsException{
     if (!node.isVector()) {
@@ -436,6 +487,10 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   * @throws SBMLException
+   */
   private void arccoshRecursive(ASTNode value) throws SBMLException {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -489,6 +544,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void arccotRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -544,6 +602,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void arccothRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -599,6 +660,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void arccscRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -654,6 +718,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void arccschRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -706,6 +773,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void arcsecRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -762,6 +832,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void arcsechRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -818,6 +891,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void arcsinRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -867,6 +943,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void arcsinhRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -922,6 +1001,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void arctanRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -977,6 +1059,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void arctanhRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -1032,6 +1117,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void ceilingRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -1147,6 +1235,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param sbase
+   */
   private void transformNamedSBase(SBase sbase) {
     ArraysSBasePlugin arraysPlugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
     if (arraysPlugin == null || arraysPlugin.getDimensionCount() == 0) {
@@ -1174,6 +1265,11 @@ public class VectorCompiler implements ASTNodeCompiler {
     }
   }
 
+  /**
+   * @param arraysPlugin
+   * @param sbase
+   * @return
+   */
   private ASTNode constructVector(ArraysSBasePlugin arraysPlugin, NamedSBase sbase) {
     String id = sbase.getId();
     Dimension dim = arraysPlugin.getDimensionByArrayDimension(0);
@@ -1201,6 +1297,11 @@ public class VectorCompiler implements ASTNodeCompiler {
     return vectorNode;
   }
 
+  /**
+   * @param arraysPlugin
+   * @param quantity
+   * @return
+   */
   private ASTNode constructVector(ArraysSBasePlugin arraysPlugin, Quantity quantity) {
     double value = quantity.getValue();
     Dimension dim = arraysPlugin.getDimensionByArrayDimension(0);
@@ -1227,6 +1328,11 @@ public class VectorCompiler implements ASTNodeCompiler {
     return vectorNode;
   }
 
+  /**
+   * @param arraysPlugin
+   * @param node
+   * @return
+   */
   private ASTNode constructVector(ArraysSBasePlugin arraysPlugin, ASTNode node) {
 
     Dimension dim = arraysPlugin.getDimensionByArrayDimension(0);
@@ -1291,6 +1397,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void cosRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -1346,6 +1455,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void coshRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -1401,6 +1513,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void cotRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -1456,6 +1571,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void cothRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -1511,6 +1629,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void cscRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -1567,6 +1688,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void cschRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -1672,6 +1796,8 @@ public class VectorCompiler implements ASTNodeCompiler {
    * @param right
    * @param left
    * @param node
+   * @throws IndexOutOfBoundsException
+   * @throws SBMLException
    */
   private void eqRecursive(ASTNode right, ASTNode left, ASTNode node) throws IndexOutOfBoundsException, SBMLException{
     if (node.getChildCount() == 0) {
@@ -1764,6 +1890,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void expRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -1823,6 +1952,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void factorialRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -1877,6 +2009,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void floorRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -1972,6 +2107,7 @@ public class VectorCompiler implements ASTNodeCompiler {
    * @param left
    * @param right
    * @param node
+   * @throws IndexOutOfBoundsException
    */
   private void fracRecursive(ASTNode left, ASTNode right, ASTNode node) throws IndexOutOfBoundsException{
 
@@ -2009,6 +2145,10 @@ public class VectorCompiler implements ASTNodeCompiler {
 
   }
 
+  /**
+   * @param vector
+   * @param scalar
+   */
   private void vectorScalarFrac(ASTNode vector, ASTNode scalar) {
     for (int i = 0; i < vector.getChildCount(); ++i) {
       ASTNode child = vector.getChild(i);
@@ -2027,6 +2167,10 @@ public class VectorCompiler implements ASTNodeCompiler {
     }
   }
 
+  /**
+   * @param scalar
+   * @param vector
+   */
   private void scalarVectorFrac(ASTNode scalar, ASTNode vector) {
     for (int i = 0; i < vector.getChildCount(); ++i) {
       ASTNode child = vector.getChild(i);
@@ -2201,6 +2345,13 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param values
+   * @param vectors
+   * @param scalars
+   * @param ids
+   * @return
+   */
   private boolean getScalarsAndVectors(List<ASTNode> values, List<ASTNode> vectors, List<ASTNode> scalars, List<ASTNode> ids) {
     for (ASTNode node : values) {
       node.compile(this);
@@ -2444,6 +2595,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void lnRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -2499,6 +2653,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void logRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -2878,6 +3035,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void notRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -2967,6 +3127,7 @@ public class VectorCompiler implements ASTNodeCompiler {
    * 
    * @param values
    * @param node
+   * @throws IndexOutOfBoundsException
    */
   private void orRecursive(List<ASTNode> values, ASTNode node) throws IndexOutOfBoundsException{
     if (node.isVector()) {
@@ -3087,6 +3248,11 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param values
+   * @param vector
+   * @throws SBMLException
+   */
   private void piecewiseRecursive(List<ASTNode> values, ASTNode vector) throws SBMLException{
     if (!vector.isVector()) {
       vector.setType(ASTNode.Type.FUNCTION_PIECEWISE);
@@ -3188,6 +3354,8 @@ public class VectorCompiler implements ASTNodeCompiler {
    * 
    * @param values
    * @param node
+   * @throws IndexOutOfBoundsException
+   * @throws SBMLException
    */
   private void plusRecursive(List<ASTNode> values, ASTNode node) throws IndexOutOfBoundsException, SBMLException{
     if (!node.isVector()) {
@@ -3406,6 +3574,12 @@ public class VectorCompiler implements ASTNodeCompiler {
     }
   }
 
+  /**
+   * @param math
+   * @param bvar
+   * @param value
+   * @return
+   */
   private ASTNode replaceMath(ASTNode math, String bvar, ASTNode value) {
     ASTNode clone = math.clone();
     if (math.isString() && math.toString().equals(bvar)) {
@@ -3416,6 +3590,11 @@ public class VectorCompiler implements ASTNodeCompiler {
     }
   }
 
+  /**
+   * @param math
+   * @param bvar
+   * @param value
+   */
   private void recursiveReplaceDimensionId(ASTNode math, String bvar, ASTNode value) {
     for (int i = 0; i < math.getChildCount(); ++i) {
       if (math.getChild(i).isString() && math.getChild(i).getName().equals(bvar)) {
@@ -3484,6 +3663,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void secRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -3538,6 +3720,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void sechRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -3635,6 +3820,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void sinRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -3690,6 +3878,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void sinhRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -3746,6 +3937,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void sqrtRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -3811,6 +4005,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void tanRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -3868,6 +4065,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void tanhRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -3958,6 +4158,7 @@ public class VectorCompiler implements ASTNodeCompiler {
    * 
    * @param values
    * @param node
+   * @throws IndexOutOfBoundsException
    */
   private void timesRecursive(List<ASTNode> values, ASTNode node) throws IndexOutOfBoundsException{
     if (node.getChildCount() == 0) {
@@ -4021,6 +4222,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     }
   }
 
+  /**
+   * @param sbase
+   */
   private void transformSBase(SBase sbase) {
     ArraysSBasePlugin arraysPlugin = (ArraysSBasePlugin) sbase.getExtension(ArraysConstants.shortLabel);
     if (arraysPlugin == null || arraysPlugin.getDimensionCount() == 0) {
@@ -4059,6 +4263,11 @@ public class VectorCompiler implements ASTNodeCompiler {
     }
   }
 
+  /**
+   * @param arraysPlugin
+   * @param sbase
+   * @return
+   */
   private ASTNode constructVector(ArraysSBasePlugin arraysPlugin, SpeciesReference sbase) {
     SBase parent = sbase.getParentSBMLObject();
     if (parent != null) {
@@ -4115,6 +4324,10 @@ public class VectorCompiler implements ASTNodeCompiler {
 
 
 
+  /**
+   * @param node
+   * @param value
+   */
   private void updateASTNodeName(ASTNode node, int value) {
     if (node.isVector()) {
       for (int i = 0; i < node.getChildCount(); ++i) {
@@ -4128,6 +4341,10 @@ public class VectorCompiler implements ASTNodeCompiler {
     }
   }
 
+  /**
+   * @param node
+   * @param value
+   */
   private void updateASTNodeName(ASTNode node, String value) {
     if (node.isVector()) {
       for (int i = 0; i < node.getChildCount(); ++i) {
@@ -4186,6 +4403,9 @@ public class VectorCompiler implements ASTNodeCompiler {
     return dummy;
   }
 
+  /**
+   * @param value
+   */
   private void uMinusRecursive(ASTNode value) {
     for (int i = 0; i < value.getChildCount(); i++) {
       value.getChild(i).compile(this);
@@ -4307,6 +4527,7 @@ public class VectorCompiler implements ASTNodeCompiler {
    * 
    * @param values
    * @param node
+   * @throws IndexOutOfBoundsException
    */
   private void xorRecursive(List<ASTNode> values, ASTNode node) throws IndexOutOfBoundsException{
     if (!node.isVector()) {

@@ -76,22 +76,38 @@ import org.sbml.jsbml.text.parser.ParseException;
 @SuppressWarnings("deprecation")
 public class TestModel {
 
+  /**
+   * @param a
+   * @param b
+   */
   static void assertNotEquals(Object a, Object b) {
     assertTrue(!a.equals(b));
   }
 
+  /**
+   * 
+   */
   private Model M;
 
+  /**
+   * @throws Exception
+   */
   @Before
   public void setUp() throws Exception {
     M = new Model(2, 4);
   }
 
+  /**
+   * @throws Exception
+   */
   @After
   public void tearDown() throws Exception {
     M = null;
   }
 
+  /**
+   * @throws ParseException
+   */
   @Test
   public void test_KineticLaw_getParameterById() throws ParseException {
     Parameter k1 = new Parameter(2, 4);
@@ -123,6 +139,9 @@ public class TestModel {
     assertEquals(kl1.getParameter("k3"), null);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_addCompartment() {
     Compartment c = new Compartment(2, 4);
@@ -131,6 +150,9 @@ public class TestModel {
     assertTrue(M.getCompartmentCount() == 1);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_addParameter() {
     Parameter p = new Parameter(2, 4);
@@ -139,6 +161,9 @@ public class TestModel {
     assertTrue(M.getParameterCount() == 1);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_addReaction() {
     Reaction r = new Reaction(2, 4);
@@ -147,6 +172,9 @@ public class TestModel {
     assertTrue(M.getReactionCount() == 1);
   }
 
+  /**
+   * @throws ParseException
+   */
   @Test
   public void test_Model_addRules() throws ParseException {
     Rule r1 = new AlgebraicRule(2, 4);
@@ -163,6 +191,9 @@ public class TestModel {
     assertTrue(M.getRuleCount() == 3);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_addSpecies() {
     Species s = new Species(2, 4);
@@ -172,6 +203,9 @@ public class TestModel {
     assertTrue(M.getSpeciesCount() == 1);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_add_get_Event() {
     ASTNode math = null;
@@ -197,6 +231,9 @@ public class TestModel {
     assertEquals(M.getEvent(-2), null);
   }
 
+  /**
+   * @throws ParseException
+   */
   @Test
   public void test_Model_add_get_FunctionDefinitions() throws ParseException {
     FunctionDefinition fd1 = new FunctionDefinition(2, 4);
@@ -214,6 +251,9 @@ public class TestModel {
     assertEquals(M.getFunctionDefinition(-2), null);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_add_get_UnitDefinitions() {
     UnitDefinition ud1 = new UnitDefinition(2, 4);
@@ -231,6 +271,9 @@ public class TestModel {
     assertEquals(M.getUnitDefinition(-2), null);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_create() {
     // assertTrue(M.getTypeCode() == libsbml.SBML_MODEL);
@@ -248,6 +291,9 @@ public class TestModel {
     assertTrue(M.getReactionCount() == 0);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createAlgebraicRule() {
     Rule ar = M.createAlgebraicRule();
@@ -256,6 +302,9 @@ public class TestModel {
     assertEquals(M.getRule(0), ar);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createAssignmentRule() {
     Rule ar = M.createAssignmentRule();
@@ -264,6 +313,9 @@ public class TestModel {
     assertEquals(M.getRule(0), ar);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createCompartment() {
     Compartment c = M.createCompartment();
@@ -273,6 +325,9 @@ public class TestModel {
     assertTrue(M.getCompartment(0).equals(c)); // TODO: check why this is failing
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createCompartmentType() {
     CompartmentType c = M.createCompartmentType();
@@ -281,6 +336,9 @@ public class TestModel {
     assertEquals(M.getCompartmentType(0), c);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createConstraint() {
     Constraint c = M.createConstraint();
@@ -289,6 +347,9 @@ public class TestModel {
     assertEquals(M.getConstraint(0), c);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createEvent() {
     Event e = M.createEvent();
@@ -297,6 +358,9 @@ public class TestModel {
     assertEquals(M.getEvent(0), e);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createEventAssignment() {
     Event e;
@@ -311,12 +375,18 @@ public class TestModel {
     assertEquals(e.getEventAssignment(0), ea);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createEventAssignment_noEvent() {
     assertTrue(M.getEventCount() == 0);
     assertTrue(M.createEventAssignment() == null);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createFunctionDefinition() {
     FunctionDefinition fd = M.createFunctionDefinition();
@@ -325,6 +395,9 @@ public class TestModel {
     assertEquals(M.getFunctionDefinition(0), fd);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createInitialAssignment() {
     InitialAssignment c = M.createInitialAssignment();
@@ -333,6 +406,9 @@ public class TestModel {
     assertEquals(M.getInitialAssignment(0), c);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createKineticLaw() {
     Reaction r;
@@ -348,6 +424,9 @@ public class TestModel {
     assertEquals(r.getKineticLaw(), kl);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createKineticLawParameter() {
     Reaction r;
@@ -367,6 +446,9 @@ public class TestModel {
     assertEquals(kl.getLocalParameter(0), p);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createKineticLawParameter_noKineticLaw() {
     Reaction r;
@@ -375,12 +457,18 @@ public class TestModel {
     assertTrue(M.createKineticLawParameter() == null);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createKineticLawParameter_noReaction() {
     assertTrue(M.getReactionCount() == 0);
     assertTrue(M.createKineticLawParameter() == null);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createKineticLaw_alreadyExists() {
     Reaction r;
@@ -390,12 +478,18 @@ public class TestModel {
     assertEquals(r.getKineticLaw(), kl);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createKineticLaw_noReaction() {
     assertTrue(M.getReactionCount() == 0);
     assertTrue(M.createKineticLaw() == null);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createModifier() {
     Reaction r;
@@ -410,12 +504,18 @@ public class TestModel {
     assertEquals(r.getModifier(0), msr);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createModifier_noReaction() {
     assertTrue(M.getReactionCount() == 0);
     assertTrue(M.createModifier() == null);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createParameter() {
     Parameter p = M.createParameter();
@@ -424,6 +524,9 @@ public class TestModel {
     assertEquals(M.getParameter(0), p); // TODO: check why this failing
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createProduct() {
     Reaction r;
@@ -438,12 +541,18 @@ public class TestModel {
     assertEquals(r.getProduct(0), sr);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createProduct_noReaction() {
     assertTrue(M.getReactionCount() == 0);
     assertTrue(M.createProduct() == null);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createRateRule() {
     Rule rr = M.createRateRule();
@@ -452,6 +561,9 @@ public class TestModel {
     assertEquals(M.getRule(0), rr);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createReactant() {
     Reaction r;
@@ -466,12 +578,18 @@ public class TestModel {
     assertEquals(r.getReactant(0), sr);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createReactant_noReaction() {
     assertTrue(M.getReactionCount() == 0);
     assertTrue(M.createReactant() == null);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createReaction() {
     Reaction r = M.createReaction();
@@ -480,6 +598,9 @@ public class TestModel {
     assertEquals(M.getReaction(0), r);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createSpecies() {
     Species s = M.createSpecies();
@@ -488,6 +609,9 @@ public class TestModel {
     assertTrue(M.getSpecies(0).equals(s) == true);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createSpeciesType() {
     SpeciesType c = M.createSpeciesType();
@@ -496,6 +620,9 @@ public class TestModel {
     assertEquals(M.getSpeciesType(0), c);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createUnit() {
     UnitDefinition ud;
@@ -510,6 +637,9 @@ public class TestModel {
     assertEquals(ud.getUnit(0), u);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createUnitDefinition() {
     UnitDefinition ud = M.createUnitDefinition();
@@ -518,6 +648,9 @@ public class TestModel {
     assertEquals(M.getUnitDefinition(0), ud);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_createUnit_noUnitDefinition() {
     assertTrue(M.getUnitDefinitionCount() == 0);
@@ -537,6 +670,9 @@ public class TestModel {
    * object.getNamespaces().getLength() == 2); object = null; }
    */
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_getCompartment() {
     Compartment c1 = new Compartment(2, 4);
@@ -552,6 +688,9 @@ public class TestModel {
     assertTrue(c2.getId().equals("B"));
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_getCompartmentById() {
     Compartment c1 = new Compartment(2, 4);
@@ -567,6 +706,9 @@ public class TestModel {
     assertTrue(M.getCompartment("C") == null);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_getEventById() {
     Event e1 = new Event(2, 4);
@@ -586,6 +728,9 @@ public class TestModel {
     assertEquals(M.getEvent("e3"), null);
   }
 
+  /**
+   * @throws ParseException
+   */
   @Test
   public void test_Model_getFunctionDefinitionById() throws ParseException {
     FunctionDefinition fd1 = new FunctionDefinition(2, 4);
@@ -602,6 +747,9 @@ public class TestModel {
     assertEquals(M.getFunctionDefinition("tan"), null);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_getSpeciesWithBoundaryCondition() {
     Species s1 = new Species(2, 4);
@@ -629,6 +777,9 @@ public class TestModel {
     assertTrue(M.getSpeciesWithBoundaryConditionCount() == 2);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_getParameter() {
     Parameter p1 = new Parameter(2, 4);
@@ -644,6 +795,9 @@ public class TestModel {
     assertTrue(p2.getId().equals("Km2"));
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_getParameterById() {
     Parameter p1 = new Parameter(2, 4);
@@ -658,6 +812,9 @@ public class TestModel {
     assertEquals(M.getParameter("Km3"), null);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_getReaction() {
     Reaction r1 = new Reaction(2, 4);
@@ -673,6 +830,9 @@ public class TestModel {
     assertTrue(r2.getId().equals("reaction_2"));
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_getReactionById() {
     Reaction r1 = new Reaction(2, 4);
@@ -690,6 +850,9 @@ public class TestModel {
 
   // TODO: API changes, setVariable function is not in the Rule Class.
 
+  /**
+   * @throws ParseException
+   */
   @Test
   public void test_Model_getRules() throws ParseException {
     Rule ar = new AlgebraicRule(2, 4);
@@ -718,6 +881,9 @@ public class TestModel {
     assertTrue(pr.getFormula().equals("k3/k2"));
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_getSpecies() {
     Species s1 = new Species(2, 4);
@@ -735,6 +901,9 @@ public class TestModel {
     assertTrue(s2.getId().equals("Glucose_6_P"));
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_getSpeciesById() {
     Species s1 = new Species(2, 4);
@@ -752,6 +921,9 @@ public class TestModel {
     assertTrue(M.getSpecies("Glucose2") == null);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_getUnitDefinition() {
     UnitDefinition ud1 = new UnitDefinition(2, 4);
@@ -769,6 +941,9 @@ public class TestModel {
     assertTrue(ud2.getId().equals("volume"));
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_getUnitDefinitionById() {
     UnitDefinition ud1 = new UnitDefinition(2, 4);
@@ -785,6 +960,9 @@ public class TestModel {
     assertEquals(M.getUnitDefinition("rototillers"), null);
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_removeCompartment() {
     Compartment o1, o2, o3;
@@ -803,6 +981,9 @@ public class TestModel {
     o3 = null;
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_removeCompartmentType() {
     CompartmentType o1, o2, o3;
@@ -821,6 +1002,9 @@ public class TestModel {
     o3 = null;
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_removeConstraint() {
     Constraint o1, o2, o3;
@@ -841,6 +1025,9 @@ public class TestModel {
     o3 = null;
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_removeEvent() {
     Event o1, o2, o3;
@@ -859,6 +1046,9 @@ public class TestModel {
     o3 = null;
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_removeFunctionDefinition() {
     FunctionDefinition o1, o2, o3;
@@ -877,6 +1067,9 @@ public class TestModel {
     o3 = null;
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_removeInitialAssignment() {
     InitialAssignment o1, o2, o3;
@@ -898,6 +1091,9 @@ public class TestModel {
     o3 = null;
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_removeParameter() {
     Parameter o1, o2, o3;
@@ -916,6 +1112,9 @@ public class TestModel {
     o3 = null;
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_removeReaction() {
     Reaction o1, o2, o3;
@@ -934,6 +1133,9 @@ public class TestModel {
     o3 = null;
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_removeRule() {
     Rule o1, o2;
@@ -953,6 +1155,9 @@ public class TestModel {
     o3 = null;
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_removeSpecies() {
     Species o1, o2, o3;
@@ -971,6 +1176,9 @@ public class TestModel {
     o3 = null;
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_removeSpeciesType() {
     SpeciesType o1, o2, o3;
@@ -989,6 +1197,9 @@ public class TestModel {
     o3 = null;
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_removeUnitDefinition() {
     UnitDefinition o1, o2, o3;
@@ -1007,6 +1218,9 @@ public class TestModel {
     o3 = null;
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_setId() {
     String id = "Branch";
@@ -1033,6 +1247,9 @@ public class TestModel {
     assertEquals(false, M.isSetId());
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_setName() {
     String name = "My_Branch_Model";
@@ -1056,6 +1273,9 @@ public class TestModel {
     }
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_Model_setgetModelHistory() {
     History history = new History();

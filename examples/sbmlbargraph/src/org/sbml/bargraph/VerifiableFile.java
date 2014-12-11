@@ -260,5 +260,8 @@ extends File
   // ---------------------- Private data members ----------------------------
   //
 
+  /**
+   * 
+   */
   private static final long serialVersionUID = 1L;
 }

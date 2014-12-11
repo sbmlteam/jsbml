@@ -46,6 +46,7 @@ import org.sbml.jsbml.util.filters.Filter;
  * @author Andreas Dr&auml;ger
  * @since 0.8
  * @version $Rev$
+ * @param <T>
  */
 public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
 
@@ -265,8 +266,11 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
   /**
    * Helper method to initialize newly created lists.
    * 
+   * @param parent
    * @param list
    * @param type
+   * 
+   * @return
    */
   public static <T extends SBase> ListOf<T> initListOf(SBase parent,
     ListOf<T> list, ListOf.Type type) {
@@ -350,8 +354,11 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
   }
 
   /**
-   * Creates a ListOf instance from a level and version. By default, the list
-   * containing the SBase elements is empty.
+   * Creates a {@link ListOf} instance from a level and version. By default, the
+   * list containing the SBase elements is empty.
+   * 
+   * @param level
+   * @param version
    */
   public ListOf(int level, int version) {
     super(level, version);
@@ -465,6 +472,7 @@ public class ListOf<T extends SBase> extends AbstractSBase implements List<T> {
    * @param element
    *            the item to be added to the list.
    * @return {@code true} if this could be successfully appended.
+   * @throws LevelVersionError
    * @see #add(SBase)
    */
   @SuppressWarnings("unchecked")

@@ -45,8 +45,14 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin implements Id
    */
   private static final long serialVersionUID = 8449591192464040411L;
 
+  /**
+   * 
+   */
   private Geometry geometry;
 
+  /**
+   * 
+   */
   private HashMap<String, SpatialNamedSBase> spatialIdMap;
 
   /**
@@ -93,6 +99,7 @@ public class SpatialModelPlugin extends AbstractSpatialSBasePlugin implements Id
 
   /**
    * Sets the value of geometry
+   * @param geometry
    */
   public void setGeometry(Geometry geometry) {
     Geometry oldGeometry = this.geometry;
