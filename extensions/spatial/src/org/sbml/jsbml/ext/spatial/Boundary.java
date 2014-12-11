@@ -47,6 +47,9 @@ public class Boundary extends AbstractSpatialNamedSBase {
    */
   private Double value;
 
+  /**
+   * 
+   */
   private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
 
@@ -120,6 +123,7 @@ public class Boundary extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of value
+   * @param value
    */
   public void setValue(double value) {
     double oldValue = this.value;
@@ -144,8 +148,7 @@ public class Boundary extends AbstractSpatialNamedSBase {
     return false;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.spatial.NamedSpatialElement#hashCode()
    */
   @Override

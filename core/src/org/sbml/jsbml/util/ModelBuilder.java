@@ -159,6 +159,15 @@ public class ModelBuilder {
     }
   }
 
+  /**
+   * 
+   * @param parent
+   * @param multiplier
+   * @param scale
+   * @param kind
+   * @param exponent
+   * @return
+   */
   public static Unit buildUnit(UnitDefinition parent, double multiplier, int scale, Kind kind, double exponent) {
     Unit unit = parent.createUnit(kind);
     unit.setMultiplier(multiplier);
@@ -167,9 +176,14 @@ public class ModelBuilder {
     return unit;
   }
 
+  /**
+   * 
+   */
   private SBMLDocument doc;
 
   /**
+   * @param level
+   * @param version
    * 
    */
   public ModelBuilder(int level, int version) {

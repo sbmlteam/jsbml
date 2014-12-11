@@ -29,14 +29,15 @@ package org.sbml.jsbml.ext.spatial;
  */
 public abstract class CSGNode extends AbstractSpatialNamedSBase {
 
-
-
   /**
    * 
    */
   private static final long serialVersionUID = 5499821335582691196L;
 
 
+  /**
+   * 
+   */
   public CSGNode() {
     super();
   }

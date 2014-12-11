@@ -102,7 +102,6 @@ public class LibSBMLChangeListener implements TreeNodeChangeListener {
 
   /**
    * 
-   * @param doc
    * @param libDoc
    */
   public LibSBMLChangeListener(org.sbml.libsbml.SBMLDocument libDoc) {

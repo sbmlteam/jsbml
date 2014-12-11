@@ -58,13 +58,22 @@ import org.sbml.jsbml.ext.dyn.SpatialComponent;
 @ProviderFor(ReadingParser.class)
 public class DynParser extends AbstractReaderWriter implements PackageParser {
 
+  /**
+   * A {@link Logger} for this class.
+   */
   private Logger logger = Logger.getLogger(DynParser.class);
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.ReadingParser#getNamespaces()
+   */
   @Override
   public List<String> getNamespaces() {
     return DynConstants.namespaces;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#createPluginFor(org.sbml.jsbml.SBase)
+   */
   @Override
   public SBasePlugin createPluginFor(SBase sbase) {
     if (sbase != null) {
@@ -79,6 +88,9 @@ public class DynParser extends AbstractReaderWriter implements PackageParser {
     return null;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#getNamespaceFor(int, int, int)
+   */
   @Override
   public String getNamespaceFor(int level, int version, int packageVersion) {
     if (level == DynConstants.MIN_SBML_LEVEL
@@ -89,21 +101,33 @@ public class DynParser extends AbstractReaderWriter implements PackageParser {
     return null;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#getPackageNamespaces()
+   */
   @Override
   public List<String> getPackageNamespaces() {
     return getNamespaces();
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#getPackageName()
+   */
   @Override
   public String getPackageName() {
     return DynConstants.shortLabel;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#isRequired()
+   */
   @Override
   public boolean isRequired() {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processStartElement(java.lang.String, java.lang.String, java.lang.String, boolean, boolean, java.lang.Object)
+   */
   @Override
   public Object processStartElement(String elementName, String uri,
     String prefix, boolean hasAttributes, boolean hasNamespaces,
@@ -158,6 +182,9 @@ public class DynParser extends AbstractReaderWriter implements PackageParser {
     return contextObject;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processAttribute(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, java.lang.Object)
+   */
   @Override
   public void processAttribute(String elementName, String attributeName,
     String value, String uri, String prefix, boolean isLastAttribute,
@@ -191,16 +218,25 @@ public class DynParser extends AbstractReaderWriter implements PackageParser {
       isLastAttribute, contextObject);
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getShortLabel()
+   */
   @Override
   public String getShortLabel() {
     return DynConstants.shortLabel;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
+   */
   @Override
   public String getNamespaceURI() {
     return DynConstants.namespaceURI;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getListOfSBMLElementsToWrite(java.lang.Object)
+   */
   @Override
   public List<Object> getListOfSBMLElementsToWrite(Object treeNode) {
     if (logger.isDebugEnabled()) {
@@ -229,6 +265,9 @@ public class DynParser extends AbstractReaderWriter implements PackageParser {
     return listOfElementsToWrite;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#createListOfChild(org.sbml.jsbml.ListOf, java.lang.String)
+   */
   @Override
   protected Object createListOfChild(ListOf<?> listOf, String elementName) {
 

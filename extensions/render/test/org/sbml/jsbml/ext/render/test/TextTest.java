@@ -41,7 +41,7 @@ import org.sbml.jsbml.ext.render.VTextAnchor;
 public class TextTest {
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#getFontFamily()}.
+   * Test method for {@link Text#getFontFamily()}.
    */
   @Test
   public void testGetFontFamily() {
@@ -54,20 +54,20 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#getFontSize()}.
+   * Test method for {@link Text#getFontSize()}.
    */
   @Test
   public void testGetFontSize() {
-  short fontSize=18;
-  Text textType=new Text();
-  assertTrue(!textType.isSetFontSize());
-  textType.setFontSize(fontSize);
-  assertEquals("getFontSizeError",fontSize,textType.getFontSize());
+    short fontSize=18;
+    Text textType=new Text();
+    assertTrue(!textType.isSetFontSize());
+    textType.setFontSize(fontSize);
+    assertEquals("getFontSizeError",fontSize,textType.getFontSize());
   }
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#getTextAnchor()}.
+   * Test method for {@link Text#getTextAnchor()}.
    */
   @Test
   public void testGetTextAnchor() {
@@ -80,7 +80,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#getVTextAnchor()}.
+   * Test method for {@link Text#getVTextAnchor()}.
    */
   @Test
   public void testGetVTextAnchor() {
@@ -92,7 +92,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#getX()}.
+   * Test method for {@link Text#getX()}.
    */
   @Test
   public void testGetX() {
@@ -104,7 +104,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#getY()}.
+   * Test method for {@link Text#getY()}.
    */
   @Test
   public void testGetY() {
@@ -116,7 +116,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#getZ()}.
+   * Test method for {@link Text#getZ()}.
    */
   @Test
   public void testGetZ() {
@@ -128,7 +128,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#isSetAbsoluteX()}.
+   * Test method for {@link Text#isSetAbsoluteX()}.
    */
   @Test
   public void testIsSetAbsoluteX() {
@@ -140,7 +140,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#isSetAbsoluteY()}.
+   * Test method for {@link Text#isSetAbsoluteY()}.
    */
   @Test
   public void testIsSetAbsoluteY() {
@@ -152,7 +152,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#isSetAbsoluteZ()}.
+   * Test method for {@link Text#isSetAbsoluteZ()}.
    */
   @Test
   public void testIsSetAbsoluteZ() {
@@ -164,7 +164,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#isSetFontFamily()}.
+   * Test method for {@link Text#isSetFontFamily()}.
    */
   @Test
   public void testIsSetFontFamily() {
@@ -177,7 +177,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#isSetFontSize()}.
+   * Test method for {@link Text#isSetFontSize()}.
    */
   @Test
   public void testIsSetFontSize() {
@@ -190,7 +190,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#isSetFontStyleItalic()}.
+   * Test method for {@link Text#isSetFontStyleItalic()}.
    */
   @Test
   public void testIsSetFontStyleItalic() {
@@ -202,7 +202,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#isSetFontWeightBold()}.
+   * Test method for {@link Text#isSetFontWeightBold()}.
    */
   @Test
   public void testIsSetFontWeightBold() {
@@ -214,7 +214,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#isSetTextAnchor()}.
+   * Test method for {@link Text#isSetTextAnchor()}.
    */
   @Test
   public void testIsSetTextAnchor() {
@@ -227,7 +227,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#isSetVTextAnchor()}.
+   * Test method for {@link Text#isSetVTextAnchor()}.
    */
   @Test
   public void testIsSetVTextAnchor() {
@@ -240,7 +240,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#isSetX()}.
+   * Test method for {@link Text#isSetX()}.
    */
   @Test
   public void testIsSetX() {
@@ -251,7 +251,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#isSetY()}.
+   * Test method for {@link Text#isSetY()}.
    */
   @Test
   public void testIsSetY() {
@@ -262,7 +262,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#isSetZ()}.
+   * Test method for {@link Text#isSetZ()}.
    */
   @Test
   public void testIsSetZ() {
@@ -273,7 +273,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#setAbsoluteX(java.lang.Boolean)}.
+   * Test method for {@link Text#setAbsoluteX(boolean)}.
    */
   @Test
   public void testSetAbsoluteX() {
@@ -284,7 +284,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#setAbsoluteY(java.lang.Boolean)}.
+   * Test method for {@link Text#setAbsoluteY(boolean)}.
    */
   @Test
   public void testSetAbsoluteY() {
@@ -295,7 +295,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#setAbsoluteZ(java.lang.Boolean)}.
+   * Test method for {@link Text#setAbsoluteZ(boolean)}.
    */
   @Test
   public void testSetAbsoluteZ() {
@@ -306,7 +306,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#setFontFamily(org.sbml.jsbml.ext.render.FontFamily)}.
+   * Test method for {@link Text#setFontFamily(FontFamily)}.
    */
   @Test
   public void testSetFontFamily() {
@@ -319,7 +319,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#setFontSize(short)}.
+   * Test method for {@link Text#setFontSize(short)}.
    */
   @Test
   public void testSetFontSize() {
@@ -332,7 +332,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#setFontStyleItalic(boolean)}.
+   * Test method for {@link Text#setFontStyleItalic(boolean)}.
    */
   @Test
   public void testSetFontStyleItalic() {
@@ -344,7 +344,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#setFontWeightBold(boolean)}.
+   * Test method for {@link Text#setFontWeightBold(boolean)}.
    */
   @Test
   public void testSetFontWeightBold() {
@@ -355,7 +355,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#setTextAnchor(org.sbml.jsbml.ext.render.TextAnchor)}.
+   * Test method for {@link Text#setTextAnchor(TextAnchor)}.
    */
   @Test
   public void testSetTextAnchor() {
@@ -373,7 +373,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#setVTextAnchor(org.sbml.jsbml.ext.render.VTextAnchor)}.
+   * Test method for {@link Text#setVTextAnchor(VTextAnchor)}.
    */
   @Test
   public void testSetVTextAnchor() {
@@ -391,7 +391,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#setX(java.lang.Double)}.
+   * Test method for {@link Text#setX(double)}.
    */
   @Test
   public void testSetX() {
@@ -403,7 +403,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#setY(java.lang.Double)}.
+   * Test method for {@link Text#setY(double)}.
    */
   @Test
   public void testSetY() {
@@ -415,7 +415,7 @@ public class TextTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Text#setZ(java.lang.Double)}.
+   * Test method for {@link Text#setZ(double)}.
    */
   @Test
   public void testSetZ() {

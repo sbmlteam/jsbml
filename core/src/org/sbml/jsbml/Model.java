@@ -38,6 +38,7 @@ import org.apache.log4j.Logger;
 import org.sbml.jsbml.ext.SBasePlugin;
 import org.sbml.jsbml.util.IdManager;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.filters.AssignmentVariableFilter;
 import org.sbml.jsbml.util.filters.BoundaryConditionFilter;
 import org.sbml.jsbml.util.filters.IdenticalUnitDefinitionFilter;
@@ -2194,6 +2195,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
   /**
    * Returns the last element added in the given list.
    * 
+   * @param listOf
+   * 
    * @return the last element added in the model, corresponding to the last
    *         element of the list of these elements, or {@code null} is no element exist
    *         for this type.
@@ -2534,6 +2537,10 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
         + getModifierSpeciesReferenceCount();
   }
 
+  /**
+   * 
+   * @return
+   */
   public int getNamedSBaseWithDerivedUnitCount() {
     return getQuantityCount() + getFunctionDefinitionCount() + getReactionCount();
   }
@@ -3414,6 +3421,9 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
 
   /**
    * Initializes the default values of the attributes of the {@link Model}
+   * 
+   * @param level
+   * @param version
    */
   public void initDefaults(int level, int version) {
     listOfCompartments = null;
@@ -3835,6 +3845,8 @@ public class Model extends AbstractNamedSBase implements UniqueNamedSBase, IdMan
    * @param lp
    *        the {@link LocalParameter} whose identifier is to be registered.
    * @param delete
+   * @param alreadyRegisteredInKL
+   * 
    * @return {@code true} in case of success, otherwise {@code false}.
    */
   private boolean registerId(KineticLaw kl, LocalParameter lp, boolean delete, boolean alreadyRegisteredInKL) {

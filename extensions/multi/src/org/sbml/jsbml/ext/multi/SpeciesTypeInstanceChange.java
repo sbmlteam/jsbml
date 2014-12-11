@@ -32,13 +32,18 @@ import org.sbml.jsbml.AbstractMathContainer;
  */
 public class SpeciesTypeInstanceChange extends AbstractMathContainer {
 
-
   /**
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 6354095852211081835L;
+  /**
+   * 
+   */
   private String speciesTypeInstance;
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractMathContainer#clone()
+   */
   @Override
   public AbstractMathContainer clone() {
     // TODO

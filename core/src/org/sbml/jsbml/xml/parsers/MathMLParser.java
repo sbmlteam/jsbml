@@ -199,6 +199,7 @@ public class MathMLParser implements ReadingParser, WritingParser {
   /**
    * Write output as {@link String}.
    * 
+   * @param doc
    * @param omitXMLDeclaration
    * @param indenting
    * @param indent
@@ -228,7 +229,7 @@ public class MathMLParser implements ReadingParser, WritingParser {
   public static void toMathML(Writer out, Document doc,
     boolean omitXMLDeclaration, boolean indenting, int indent)
         throws IOException, SBMLException
-        {
+  {
     TransformerFactory tfactory = TransformerFactory.newInstance();
     Transformer serializer;
     try {
@@ -244,7 +245,7 @@ public class MathMLParser implements ReadingParser, WritingParser {
 
       throw new RuntimeException(e);
     }
-        }
+  }
 
   /**
    * The number of white spaces for the indent if this is to be used.

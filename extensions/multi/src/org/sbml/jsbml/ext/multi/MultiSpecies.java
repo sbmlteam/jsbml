@@ -23,8 +23,6 @@ package org.sbml.jsbml.ext.multi;
 
 import java.util.Map;
 
-import javax.swing.tree.TreeNode;
-
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
@@ -104,7 +102,10 @@ public class MultiSpecies extends AbstractSBasePlugin {
    */
   private ListOf<SpeciesTypeInstance> listOfSpeciesTypeInstances;
 
-  private Species species; // Do we need this anymore ?
+  /**
+   * 
+   */
+  private Species species; // TODO: Do we need this anymore ?
 
   /**
    * 
@@ -249,7 +250,10 @@ public class MultiSpecies extends AbstractSBasePlugin {
     return null;
   }
 
-
+  /**
+   * @param id
+   * @return
+   */
   public SpeciesTypeInstance createSpeciesTypeInstance(String id) {
     SpeciesTypeInstance sti = new SpeciesTypeInstance();
     sti.setId(id);

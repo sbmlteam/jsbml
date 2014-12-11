@@ -37,12 +37,35 @@ import org.sbml.jsbml.PropertyUndefinedError;
  */
 public class ParametricObject extends AbstractSpatialNamedSBase {
 
+  /**
+   * @author Alex Thomas
+   * @author Andreas Dr&auml;ger
+   * @version $Rev$
+   * @since 1.0
+   */
   public enum PolygonKind {
-    TRIANGLE, QUADRILATERAL;
+    /**
+     * 
+     */
+    TRIANGLE,
+
+    /**
+     * 
+     */
+    QUADRILATERAL;
   }
 
+  /**
+   * 
+   */
   private PolygonKind polygonType;
+  /**
+   * 
+   */
   private String domainType;
+  /**
+   * 
+   */
   private PolygonObject polygonObject;
   /**
    * Generated serial version identifier.
@@ -154,6 +177,7 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of polygonType
+   * @param polygonType
    */
   public void setPolygonType(String polygonType) {
     setPolygonType(PolygonKind.valueOf(polygonType));
@@ -161,6 +185,7 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of polygonType
+   * @param polygonType
    */
   public void setPolygonType(PolygonKind polygonType) {
     PolygonKind oldPolygonType = this.polygonType;
@@ -211,6 +236,7 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of domain
+   * @param domain
    */
   public void setDomainType(String domain) {
     String oldDomain = domainType;
@@ -261,6 +287,7 @@ public class ParametricObject extends AbstractSpatialNamedSBase {
 
   /**
    * Sets the value of polygonObject
+   * @param polygonObject
    */
   public void setPolygonObject(PolygonObject polygonObject) {
     PolygonObject oldPolygonObject = this.polygonObject;

@@ -22,7 +22,9 @@
 package org.sbml.jsbml.ext.comp;
 
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -183,6 +185,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
 
   /**
    * Creates a new Port element and adds it to the ListOfPorts list
+   * @return
    */
   public Port createPort() {
     return createPort(null);
@@ -190,6 +193,7 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
 
   /**
    * Creates a new {@link Port} element and adds it to the ListOfPorts list
+   * @param id
    *
    * @return a new {@link Port} element
    */
@@ -201,14 +205,17 @@ public class CompModelPlugin extends CompSBasePlugin implements IdManager {
 
   /**
    * Creates a new Submodel element and adds it to the ListOfSubmodels list
+   * @return
    */
   public Submodel createSubmodel() {
     return createSubmodel(null);
   }
 
   /**
-   * Creates a new {@link Submodel} element and adds it to the ListOfSubmodels list
-   *
+   * Creates a new {@link Submodel} element and adds it to the ListOfSubmodels
+   * list
+   * 
+   * @param id
    * @return a new {@link Submodel} element
    */
   public Submodel createSubmodel(String id) {

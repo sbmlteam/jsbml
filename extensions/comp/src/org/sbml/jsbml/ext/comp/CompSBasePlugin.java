@@ -22,6 +22,8 @@
 package org.sbml.jsbml.ext.comp;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -116,8 +118,14 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
    */
   private static final long serialVersionUID = 3364911411091523856L;
 
+  /**
+   * 
+   */
   ListOf<ReplacedElement> listOfReplacedElements;
 
+  /**
+   * 
+   */
   ReplacedBy replacedBy;
 
   /**
@@ -139,6 +147,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public CompSBasePlugin(CompSBasePlugin obj) {
     super(obj);
@@ -241,6 +250,7 @@ public class CompSBasePlugin extends AbstractSBasePlugin {
 
   /**
    * Sets the value of the optional replacedBy element.
+   * @param replacedBy
    *
    */
   public void setReplacedBy(ReplacedBy replacedBy) {

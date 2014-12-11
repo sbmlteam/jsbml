@@ -45,26 +45,44 @@ import org.sbml.jsbml.text.parser.ParseException;
  */
 public class TestIncompatibilities {
 
+  /**
+   * 
+   */
   private Compartment C;
+  /**
+   * 
+   */
   private Event E;
 
+  /**
+   * @throws Exception
+   */
   @Before public void setUp() throws Exception
   {
     C = new  Compartment(2,4);
     E = new  Event(2,4);
   }
 
+  /**
+   * @throws Exception
+   */
   @After public void tearDown() throws Exception
   {
     C = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_Compartment_get_type()
   {
     assertTrue(false);
     //	    assertTrue(C.getTypeCode() == libsbml.SBML_COMPARTMENT); // we need to implement the getTypeCode function in jsbml
   }
 
+  /**
+   * 
+   */
   @Test public void test_Compartment_createWithNS()
   {
     assertTrue(false); // We have no constructor with namespaces yet.
@@ -90,11 +108,17 @@ public class TestIncompatibilities {
     c = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_Compartment_getAnnotation()
   {
     assertTrue(C.getAnnotation() == null); // If not annotation are defined, we create an empty one
   }
 
+  /**
+   * 
+   */
   @Test public void test_Compartment_getUnits()
   {
     C.setUnits("");
@@ -102,6 +126,9 @@ public class TestIncompatibilities {
     assertTrue(C.getUnits() == null); // we return ""
   }
 
+  /**
+   * 
+   */
   @Test public void test_L3_Parameter_hasRequiredAttributes()
   {
     assertTrue(false); // TODO: we need to implement the method sbase.hasRequiredAttributes() for all element
@@ -115,6 +142,9 @@ public class TestIncompatibilities {
     p = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_Event_addIdenticalObjectToAListOf()
   {
     @SuppressWarnings("unused")
@@ -127,6 +157,9 @@ public class TestIncompatibilities {
 
   }
 
+  /**
+   * 
+   */
   @Test public void test_Event_setDelayCopy()
   {
     ASTNode math1 = null;
@@ -156,6 +189,9 @@ public class TestIncompatibilities {
     }
   }
 
+  /**
+   * 
+   */
   @Test public void test_Event_setTriggerCopy()
   {
     ASTNode math1 = null;
@@ -185,6 +221,9 @@ public class TestIncompatibilities {
     }
   }
 
+  /**
+   * 
+   */
   @Test public void test_FormulaOutput()
   {
     ASTNode math = null;
@@ -203,6 +242,9 @@ public class TestIncompatibilities {
 
   }
 
+  /**
+   * 
+   */
   @Test public void testKindAPI() {
 
     assertTrue(false);
@@ -211,6 +253,9 @@ public class TestIncompatibilities {
 
   }
 
+  /**
+   * 
+   */
   @SuppressWarnings("deprecation")
   @Test public void test_Compartment_unsetVolume()
   {

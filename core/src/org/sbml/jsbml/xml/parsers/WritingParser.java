@@ -23,6 +23,7 @@ package org.sbml.jsbml.xml.parsers;
 
 import java.util.List;
 
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 
 /**

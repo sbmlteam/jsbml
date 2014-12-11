@@ -28,6 +28,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SimpleSpeciesReference;
 import org.sbml.jsbml.Species;
 import org.sbml.jsbml.SpeciesReference;
 import org.sbml.jsbml.ext.layout.Curve;

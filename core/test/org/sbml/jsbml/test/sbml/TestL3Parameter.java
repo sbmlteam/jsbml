@@ -42,23 +42,39 @@ import org.sbml.jsbml.Parameter;
  */
 public class TestL3Parameter {
 
+  /**
+   * 
+   */
   private Parameter P;
 
+  /**
+   * @param x
+   * @return
+   */
   public boolean isNaN(double x)
   {
     return Double.isNaN(x);
   }
 
+  /**
+   * @throws Exception
+   */
   @Before public void setUp() throws Exception
   {
     P = new  Parameter(3,1);
   }
 
+  /**
+   * @throws Exception
+   */
   @After public void tearDown() throws Exception
   {
     P = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_L3_Parameter_constant()
   {
     assertTrue(P.isSetConstant() == false);
@@ -70,6 +86,9 @@ public class TestL3Parameter {
     assertTrue(P.isSetConstant() == true);
   }
 
+  /**
+   * 
+   */
   @Test public void test_L3_Parameter_create()
   {
     //    assertTrue(P.getTypeCode() == libsbml.SBML_PARAMETER);
@@ -120,6 +139,9 @@ public class TestL3Parameter {
    */
 
 
+  /**
+   * 
+   */
   @Test public void test_L3_Parameter_id()
   {
     String id =  "mitochondria";;
@@ -134,6 +156,9 @@ public class TestL3Parameter {
     }
   }
 
+  /**
+   * 
+   */
   @Test public void test_L3_Parameter_name()
   {
     String name =  "My_Favorite_Factory";;
@@ -155,6 +180,9 @@ public class TestL3Parameter {
     }
   }
 
+  /**
+   * 
+   */
   @Test public void test_L3_Parameter_units()
   {
     String units =  "volume";;
@@ -176,6 +204,9 @@ public class TestL3Parameter {
     }
   }
 
+  /**
+   * 
+   */
   @Test public void test_L3_Parameter_value()
   {
     assertEquals(false, P.isSetValue());

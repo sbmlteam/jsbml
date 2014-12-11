@@ -48,22 +48,33 @@ public class PossibleValue extends AbstractNamedSBase  implements UniqueNamedSBa
   private static final long serialVersionUID = -8059031235221209834L;
 
 
+  /**
+   * 
+   */
   public PossibleValue() {
     super();
     initDefaults();
   }
 
+  /**
+   * @param possibleValue
+   */
   public PossibleValue(PossibleValue possibleValue) {
     super(possibleValue);
     initDefaults();
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
   @Override
   public AbstractSBase clone() {
     return new PossibleValue(this);
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
   @Override
   public boolean isIdMandatory() {
     return false;
@@ -94,6 +105,5 @@ public class PossibleValue extends AbstractNamedSBase  implements UniqueNamedSBa
 
     return attributes;
   }
-
 
 }

@@ -35,14 +35,14 @@ import org.sbml.jsbml.UniqueNamedSBase;
 /**
  * A {@link Transition} defines the changes in level associated with the {@link QualitativeSpecies}
  * that occur when a {@link Transition} is enabled.
- * 
+ * <p>
  * In logical models a {@link Transition} is used to specify the logical rule associated with a
  * {@link QualitativeSpecies} (that appears as an {@link Output} of this {@link Transition}).
  * For example, the rule if A > 1 : B = 2 would be encapsulated as a {@link Transition} with
  * {@link QualitativeSpecies} "A" as an {@link Input} and "B" as an {@link Output}; the
  * if A > 1 rule being encoded by the math element of a {@link FunctionTerm} with the resultLevel
  * attribute having a value "2".
- * 
+ * <p>
  * In Petri net models a {@link Transition} is interpreted, using the common Petri net semantics, as events
  * that might occur within the system causing tokens to be moved. See the package specification for an
  * example.
@@ -124,6 +124,9 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
     initDefaults();
   }
 
+  /**
+   * @param t
+   */
   public Transition(Transition t) {
     super(t);
 
@@ -143,6 +146,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
    *            {@code true} if the {@link FunctionTerm} was added to the
    *            list or {@code false} if adding the new
    *            {@link FunctionTerm} was not successful.
+   * @return
    */
   public boolean addFunctionTerm(FunctionTerm functionTerm) {
     if (getListOfFunctionTerms().add(functionTerm)) {
@@ -154,6 +158,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * @param input
    *        the input to add
+   * @return
    */
   public boolean addInput(Input input) {
     return getListOfInputs().add(input);
@@ -163,6 +168,7 @@ public class Transition extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * @param output
    *        the output to add
+   * @return
    */
   public boolean addOutput(Output output) {
     return getListOfOutputs().add(output);

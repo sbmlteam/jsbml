@@ -42,10 +42,54 @@ public class RenderCubicBezier extends RenderPoint {
    * Generated serial version identifier
    */
   private static final long serialVersionUID = -2426257418589249467L;
-  private Boolean absoluteX1, absoluteY1, absoluteZ1;
-  private Boolean absoluteX2, absoluteY2, absoluteZ2;
-  private Double x1, y1, z1;
-  private Double x2, y2, z2;
+  /**
+   * 
+   */
+  private Boolean absoluteX1;
+  /**
+   * 
+   */
+  private Boolean absoluteY1;
+  /**
+   * 
+   */
+  private Boolean absoluteZ1;
+  /**
+   * 
+   */
+  private Boolean absoluteX2;
+  /**
+   * 
+   */
+  private Boolean absoluteY2;
+  /**
+   * 
+   */
+  private Boolean absoluteZ2;
+  /**
+   * 
+   */
+  private Double x1;
+  /**
+   * 
+   */
+  private Double y1;
+  /**
+   * 
+   */
+  private Double z1;
+  /**
+   * 
+   */
+  private Double x2;
+  /**
+   * 
+   */
+  private Double y2;
+  /**
+   * 
+   */
+  private Double z2;
 
   /**
    * Creates an RenderCubicBezier instance
@@ -57,6 +101,7 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public RenderCubicBezier(RenderCubicBezier obj) {
     super(obj);
@@ -340,6 +385,7 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Set the value of absoluteX1
+   * @param absoluteX1
    */
   public void setAbsoluteX1(boolean absoluteX1) {
     Boolean oldAbsoluteX1 = this.absoluteX1;
@@ -349,6 +395,7 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Set the value of absoluteX2
+   * @param absoluteX2
    */
   public void setAbsoluteX2(boolean absoluteX2) {
     Boolean oldAbsoluteX2 = this.absoluteX2;
@@ -358,6 +405,7 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Set the value of absoluteY1
+   * @param absoluteY1
    */
   public void setAbsoluteY1(boolean absoluteY1) {
     Boolean oldAbsoluteY1 = this.absoluteY1;
@@ -367,6 +415,7 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Set the value of absoluteY2
+   * @param absoluteY2
    */
   public void setAbsoluteY2(boolean absoluteY2) {
     Boolean oldAbsoluteY2 = this.absoluteY2;
@@ -376,6 +425,7 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Set the value of absoluteZ1
+   * @param absoluteZ1
    */
   public void setAbsoluteZ1(boolean absoluteZ1) {
     Boolean oldAbsoluteZ1 = this.absoluteZ1;
@@ -385,6 +435,7 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Set the value of absoluteZ2
+   * @param absoluteZ2
    */
   public void setAbsoluteZ2(boolean absoluteZ2) {
     Boolean oldAbsoluteZ2 = this.absoluteZ2;
@@ -394,8 +445,9 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Set the value of x1
+   * @param x1
    */
-  public void setX1(Double x1) {
+  public void setX1(double x1) {
     Double oldX1 = this.x1;
     this.x1 = x1;
     firePropertyChange(RenderConstants.x1, oldX1, this.x1);
@@ -403,8 +455,9 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Set the value of x2
+   * @param x2
    */
-  public void setX2(Double x2) {
+  public void setX2(double x2) {
     Double oldX2 = this.x2;
     this.x2 = x2;
     firePropertyChange(RenderConstants.x2, oldX2, this.x2);
@@ -412,8 +465,9 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Set the value of y1
+   * @param y1
    */
-  public void setY1(Double y1) {
+  public void setY1(double y1) {
     Double oldY1 = this.y1;
     this.y1 = y1;
     firePropertyChange(RenderConstants.y1, oldY1, this.y1);
@@ -421,8 +475,9 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Set the value of y2
+   * @param y2
    */
-  public void setY2(Double y2) {
+  public void setY2(double y2) {
     Double oldY2 = this.y2;
     this.y2 = y2;
     firePropertyChange(RenderConstants.y2, oldY2, this.y2);
@@ -430,8 +485,9 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Set the value of z1
+   * @param z1
    */
-  public void setZ1(Double z1) {
+  public void setZ1(double z1) {
     Double oldZ1 = this.z1;
     this.z1 = z1;
     firePropertyChange(RenderConstants.z1, oldZ1, this.z1);
@@ -439,8 +495,9 @@ public class RenderCubicBezier extends RenderPoint {
 
   /**
    * Set the value of z2
+   * @param z2
    */
-  public void setZ2(Double z2) {
+  public void setZ2(double z2) {
     Double oldZ2 = this.z2;
     this.z2 = z2;
     firePropertyChange(RenderConstants.z2, oldZ2, this.z2);

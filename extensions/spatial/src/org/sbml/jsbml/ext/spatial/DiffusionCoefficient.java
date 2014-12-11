@@ -56,8 +56,17 @@ public class DiffusionCoefficient extends ParameterType {
     ANISOTROPIC;
   }
 
+  /**
+   * 
+   */
   private DiffusionKind diffusionKind;
+  /**
+   * 
+   */
   private CoordinateKind coordinateReference1;
+  /**
+   * 
+   */
   private CoordinateKind coordinateReference2;
 
 
@@ -68,6 +77,9 @@ public class DiffusionCoefficient extends ParameterType {
 
 
 
+  /**
+   * 
+   */
   public DiffusionCoefficient() {
     super();
   }
@@ -170,6 +182,7 @@ public class DiffusionCoefficient extends ParameterType {
 
   /**
    * Sets the value of coordinateReference1
+   * @param coordinateReference1
    */
   public void setCoordinateReference1(CoordinateKind coordinateReference1) {
     CoordinateKind oldCoordinateReference1 = this.coordinateReference1;
@@ -221,6 +234,7 @@ public class DiffusionCoefficient extends ParameterType {
 
   /**
    * Sets the value of coordinateReference2
+   * @param coordinateReference2
    */
   public void setCoordinateReference2(CoordinateKind coordinateReference2) {
     CoordinateKind oldCoordinateReference2 = this.coordinateReference2;
@@ -272,6 +286,7 @@ public class DiffusionCoefficient extends ParameterType {
 
   /**
    * Sets the value of diffusionKind
+   * @param diffusionKind
    */
   public void setDiffusionKind(DiffusionKind diffusionKind) {
     DiffusionKind oldDiffusionKind = this.diffusionKind;

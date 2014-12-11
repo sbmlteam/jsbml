@@ -45,6 +45,9 @@ import org.sbml.jsbml.text.parser.ParseException;
  */
 public class FormulaParserTest {
 
+  /**
+   * 
+   */
   private static String[] testCases = {
     // "23 + 52^2 - 3",
     // "a - log10(5)^11",

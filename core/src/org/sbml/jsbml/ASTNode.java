@@ -32,6 +32,7 @@ import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
+import org.sbml.jsbml.text.parser.FormulaParser;
 import org.sbml.jsbml.text.parser.FormulaParserLL3;
 import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
@@ -40,6 +41,7 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
 import org.sbml.jsbml.util.compilers.ASTNodeCompiler;
 import org.sbml.jsbml.util.compilers.ASTNodeValue;
 import org.sbml.jsbml.util.compilers.FormulaCompiler;
+import org.sbml.jsbml.util.compilers.FormulaCompilerLibSBML;
 import org.sbml.jsbml.util.compilers.LaTeXCompiler;
 import org.sbml.jsbml.util.compilers.MathMLXMLStreamCompiler;
 import org.sbml.jsbml.util.compilers.UnitsCompiler;
@@ -960,7 +962,7 @@ public class ASTNode extends AbstractTreeNode {
    ASTNode n = ASTNode.parseFormula("x and y", oldParser);
 </pre></blockquote></p>
    * 
-   * <p> If you are not satisfied with the behaviour of the existing parsers, you can create
+   * <p> If you are not satisfied with the behavior of the existing parsers, you can create
    * your own, you just need to implement the {@link IFormulaParser} interface.
    * 
    * @param formula
@@ -1321,7 +1323,19 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Possible attributes for a MathML element
    */
-  private String id, style, className, encoding;
+  private String id;
+  /**
+   * 
+   */
+  private String style;
+  /**
+   * 
+   */
+  private String className;
+  /**
+   * 
+   */
+  private String encoding;
 
   /**
    * Tells if the type attribute of the cn element was set and we need to
@@ -2595,8 +2609,8 @@ public class ASTNode extends AbstractTreeNode {
    * Creates or obtains a {@link UnitDefinition} corresponding to the unit
    * that has been set for this {@link ASTNode} and returns a pointer to it.
    * Note that in case that this {@link ASTNode} is associated with a
-   * {@link Kind}, the created {@link UnitDefinition} will not be part of the
-   * model, it is just a container for the {@link Kind}.
+   * {@link Unit.Kind}, the created {@link UnitDefinition} will not be part of
+   * the model, it is just a container for the {@link Unit.Kind}.
    * 
    * @return A {@link UnitDefinition} or {@code null}.
    */
@@ -4045,6 +4059,7 @@ public class ASTNode extends AbstractTreeNode {
   /**
    * Converts this {@link ASTNode} to a text string using a specific {@link FormulaCompiler}.
    * 
+   * @param compiler
    * @return the formula representing this {@link ASTNode}. {@code null} is
    *         returned if the given compiler is {@code null}.
    * @throws SBMLException

@@ -40,10 +40,14 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
    * Generated serial version identifier
    */
   private static final long serialVersionUID = 6636572993878851570L;
+  /**
+   * 
+   */
   private ListOf<LocalRenderInformation> listOfLocalRenderInformation;
 
   /**
    * Creates an RenderLayoutPlugin instance
+   * @param layout
    */
   public RenderLayoutPlugin(Layout layout) {
     super(layout);
@@ -53,10 +57,11 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public RenderLayoutPlugin(RenderLayoutPlugin obj) {
     super(obj);
-    
+
     if (obj.isSetListOfLocalRenderInformation()) {
       setListOfLocalRenderInformation(obj.getListOfLocalRenderInformation().clone());
     }
@@ -137,7 +142,7 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
       listOfLocalRenderInformation = new ListOf<LocalRenderInformation>();
       listOfLocalRenderInformation.setNamespace(RenderConstants.namespaceURI);
       listOfLocalRenderInformation.setSBaseListType(ListOf.Type.other);
-      
+
       if (isSetExtendedSBase()) {
         extendedSBase.registerChild(listOfLocalRenderInformation);
       }
@@ -160,7 +165,7 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
   public void setListOfLocalRenderInformation(ListOf<LocalRenderInformation> listOfLocalRenderInformation) {
     unsetListOfLocalRenderInformation();
     this.listOfLocalRenderInformation = listOfLocalRenderInformation;
-    
+
     if (isSetExtendedSBase()) {
       extendedSBase.registerChild(this.listOfLocalRenderInformation);
     }
@@ -182,6 +187,7 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
 
   /**
    * @param field
+   * @return
    */
   public boolean addLocalRenderInformation(LocalRenderInformation field) {
     return getListOfLocalRenderInformation().add(field);
@@ -189,6 +195,7 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
 
   /**
    * @param field
+   * @return
    */
   public boolean removeLocalRenderInformation(LocalRenderInformation field) {
     if (isSetListOfLocalRenderInformation()) {
@@ -220,6 +227,7 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
    * <p><b>NOTE:</b>
    * only use this method, if ID is not mandatory in LocalRenderInformation
    * otherwise use @see createLocalRenderInformation(String id)!</p>
+   * @return
    */
   public LocalRenderInformation createLocalRenderInformation() {
     return createLocalRenderInformation(null);
@@ -227,6 +235,8 @@ public class RenderLayoutPlugin extends AbstractRenderPlugin {
 
   /**
    * create a new LocalRenderInformation element and adds it to the ListOfLocalRenderInformation list
+   * @param id
+   * @return
    */
   public LocalRenderInformation createLocalRenderInformation(String id) {
     LocalRenderInformation field = new LocalRenderInformation(id);

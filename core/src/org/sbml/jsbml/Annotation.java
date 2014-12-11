@@ -24,6 +24,7 @@ package org.sbml.jsbml;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 import javax.xml.stream.XMLStreamException;
@@ -458,8 +459,9 @@ public class Annotation extends AnnotationElement {
     return history;
   }
 
-  /* (non-Javadoc)
+  /**
    * @see org.sbml.jsbml.SBase#getHistory()
+   * @return
    */
   private History createHistory() {
     history = new History();

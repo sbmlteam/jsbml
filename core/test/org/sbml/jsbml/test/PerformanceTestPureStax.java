@@ -53,8 +53,17 @@ import com.ctc.wstx.stax.WstxInputFactory;
  */
 public class PerformanceTestPureStax {
 
+  /**
+   * A {@link Logger} for this class.
+   */
   private static Logger logger = Logger.getLogger(PerformanceTestPureStax.class);
 
+  /**
+   * @param xmlEventReader
+   * @param listener
+   * @return
+   * @throws XMLStreamException
+   */
   @SuppressWarnings("unchecked")
   private static StringBuilder readXMLFromXMLEventReader(XMLEventReader xmlEventReader, TreeNodeChangeListener listener)  throws XMLStreamException
   {

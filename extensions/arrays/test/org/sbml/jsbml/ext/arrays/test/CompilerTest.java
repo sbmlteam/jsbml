@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Utah, Salt Lake City, UT, USA
  *
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.ext.arrays.test;
 
@@ -53,6 +53,9 @@ import org.sbml.jsbml.util.compilers.ASTNodeValue;
  */
 public class CompilerTest {
 
+  /**
+   * 
+   */
   @Test
   public void arithTest() {
     try {
@@ -84,6 +87,9 @@ public class CompilerTest {
     }
   }
 
+  /**
+   * 
+   */
   @Test
   public void inequalityTest() {
     try {
@@ -105,6 +111,9 @@ public class CompilerTest {
     }
   }
 
+  /**
+   * 
+   */
   @Test
   public void opsWithIdTest() {
     try {
@@ -122,6 +131,9 @@ public class CompilerTest {
     }
   }
 
+  /**
+   * 
+   */
   @Test
   public void callableSBaseTest() {
     try {
@@ -145,6 +157,9 @@ public class CompilerTest {
     }
   }
 
+  /**
+   * 
+   */
   @Test
   public void testVectorMath() {
     try {
@@ -154,12 +169,16 @@ public class CompilerTest {
       VectorCompiler compiler = new VectorCompiler(model);
       vector.compile(compiler);
       assertTrue(compiler.getNode().toFormula().equals("{{{20,22},{24,26}},{{28,30},{32,34}}}"));
-      
+
     } catch (ParseException e) {
       assertTrue(false);
       e.printStackTrace();
     }
   }
+
+  /**
+   * 
+   */
   @Test
   public void testVectorAbs() {
     try {
@@ -169,13 +188,17 @@ public class CompilerTest {
       vector.compile(compiler);
 
       assertTrue(compiler.getNode().toFormula().equals("{{{{1}}}}"));
-      
+
 
     } catch (ParseException e) {
       assertTrue(false);
       e.printStackTrace();
     }
   }
+
+  /**
+   * 
+   */
   @Test
   public void testVectorDiffDims() {
     try {
@@ -193,7 +216,10 @@ public class CompilerTest {
       e.printStackTrace();
     }
   }
-  
+
+  /**
+   * 
+   */
   @Test
   public void testVectorUMinus() {
     try {
@@ -211,7 +237,10 @@ public class CompilerTest {
       e.printStackTrace();
     }
   }
-  
+
+  /**
+   * 
+   */
   @Test
   public void testVectorMinus() {
     try {
@@ -220,7 +249,7 @@ public class CompilerTest {
       VectorCompiler compiler = new VectorCompiler(model);
       vector.compile(compiler);
       assertTrue(compiler.getNode().toFormula().equals("{{0,1,2}}"));
-      
+
       vector = ASTNode.parseFormula("6 - {{2, 3}}");
       compiler = new VectorCompiler(model);
       vector.compile(compiler);
@@ -230,7 +259,10 @@ public class CompilerTest {
       e.printStackTrace();
     }
   }
-  
+
+  /**
+   * 
+   */
   @Test
   public void testSBaseToVector() {
     try {
@@ -260,7 +292,10 @@ public class CompilerTest {
       e.printStackTrace();
     }
   }
-  
+
+  /**
+   * 
+   */
   @Test
   public void testFactorial() {
     try {
@@ -272,13 +307,16 @@ public class CompilerTest {
       vector = ASTNode.parseFormula("{{factorial(5),factorial(5),factorial(5)}}");
       vector.compile(compiler);
       assertTrue(compiler.getNode().toFormula().equals("{{120,120,120}}"));
-      
+
     } catch (ParseException e) {
       assertTrue(false);
       e.printStackTrace();
     }
   }
-  
+
+  /**
+   * 
+   */
   @Test
   public void testBinaryOp() {
     try {
@@ -307,7 +345,10 @@ public class CompilerTest {
       e.printStackTrace();
     }
   }
-  
+
+  /**
+   * 
+   */
   @Test
   public void testSpecRefToVector() {
     try {
@@ -320,30 +361,33 @@ public class CompilerTest {
       Reaction r = model.createReaction("r");
       SpeciesReference ref = r.createReactant(s);
       ref.setId("S");
-      
+
       ArraysSBasePlugin arraysPlugin = new ArraysSBasePlugin(r);
       r.addPlugin(ArraysConstants.shortLabel, arraysPlugin);
       Dimension x = arraysPlugin.createDimension("x");
       x.setArrayDimension(0);
       x.setSize("p");
-      
+
       arraysPlugin = new ArraysSBasePlugin(ref);
       ref.addPlugin(ArraysConstants.shortLabel, arraysPlugin);
       x = arraysPlugin.createDimension("x");
       x.setArrayDimension(0);
       x.setSize("p");
-      
+
       ASTNode vector = ASTNode.parseFormula("S");
       VectorCompiler compiler = new VectorCompiler(model, true);
       vector.compile(compiler);
-      
+
       assertTrue(compiler.getNode().toFormula().equals("{{S_0_0,S_0_1},{S_1_0,S_1_1}}"));
     } catch (ParseException e) {
       assertTrue(false);
       e.printStackTrace();
     }
   }
-  
+
+  /**
+   * 
+   */
   @Test
   public void testInequalityOp() {
     try {
@@ -373,8 +417,11 @@ public class CompilerTest {
       e.printStackTrace();
     }
   }
-  
-  
+
+
+  /**
+   * 
+   */
   @Test
   public void testUMinusOp() {
     try {
@@ -392,8 +439,10 @@ public class CompilerTest {
       e.printStackTrace();
     }
   }
-  
-  
+
+  /**
+   * 
+   */
   @Test
   public void testAbsOp() {
     try {
@@ -417,25 +466,31 @@ public class CompilerTest {
       e.printStackTrace();
     }
   }
-  
+
+  /**
+   * 
+   */
   @Test
   public void testBooleanOp() {
-//    try {
-//      Model model = new Model();
-//      ASTNode vector = ASTNode.parseFormula("1 && {0,1}");
-//      VectorCompiler compiler = new VectorCompiler(model);
-//      vector.compile(compiler);
-//      assertTrue(compiler.getNode().toFormula().equals("{0,1}"));
-//      compiler = new VectorCompiler(model, true);
-//      vector = ASTNode.parseFormula("{a,b,c} && {d,e,f} ");
-//      vector.compile(compiler);
-//      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("{a&&d,b&&e,c&&f}"));
-//    } catch (ParseException e) {
-//      assertTrue(false);
-//      e.printStackTrace();
-//    }
+    //    try {
+    //      Model model = new Model();
+    //      ASTNode vector = ASTNode.parseFormula("1 && {0,1}");
+    //      VectorCompiler compiler = new VectorCompiler(model);
+    //      vector.compile(compiler);
+    //      assertTrue(compiler.getNode().toFormula().equals("{0,1}"));
+    //      compiler = new VectorCompiler(model, true);
+    //      vector = ASTNode.parseFormula("{a,b,c} && {d,e,f} ");
+    //      vector.compile(compiler);
+    //      assertTrue(compiler.getNode().toFormula().replaceAll(" ", "").equals("{a&&d,b&&e,c&&f}"));
+    //    } catch (ParseException e) {
+    //      assertTrue(false);
+    //      e.printStackTrace();
+    //    }
   }
-  
+
+  /**
+   * 
+   */
   @Test
   public void testFunctDef() {
     try {
@@ -481,7 +536,10 @@ public class CompilerTest {
       e.printStackTrace();
     }
   }
-  
+
+  /**
+   * 
+   */
   @Test
   public void testPiecewise() {
     try {
@@ -502,4 +560,5 @@ public class CompilerTest {
       e.printStackTrace();
     }
   }
+
 }

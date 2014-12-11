@@ -116,6 +116,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public FBCModelPlugin(FBCModelPlugin obj) {
     super(obj);
@@ -142,7 +143,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    * <p>The listOfFluxBounds is initialized if necessary.
    *
    * @param fluxBound the element to add to the list
-   * @return {@code true} (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addFluxBound(FluxBound fluxBound) {
     return getListOfFluxBounds().add(fluxBound);
@@ -153,7 +154,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    * <p>The listOfObjectives is initialized if necessary.
    *
    * @param objective the element to add to the list
-   * @return {@code true} (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addObjective(Objective objective) {
     return getListOfObjectives().add(objective);
@@ -169,6 +170,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
 
   /**
    * Creates a new FluxBound element and adds it to the ListOfFluxBounds list
+   * @return
    */
   public FluxBound createFluxBound() {
     return createFluxBound(null);
@@ -176,6 +178,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
 
   /**
    * Creates a new {@link FluxBound} element and adds it to the ListOfFluxBounds list
+   * @param id
    *
    * @return a new {@link FluxBound} element
    */
@@ -187,14 +190,17 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
 
   /**
    * Creates a new Objective element and adds it to the ListOfObjectives list
+   * @return
    */
   public Objective createObjective() {
     return createObjective(null);
   }
 
   /**
-   * Creates a new {@link Objective} element and adds it to the ListOfObjectives list
-   *
+   * Creates a new {@link Objective} element and adds it to the ListOfObjectives
+   * list
+   * 
+   * @param id
    * @return a new {@link Objective} element
    */
   public Objective createObjective(String id) {
@@ -410,7 +416,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    *
    * @param fluxBound the element to be removed from the list
    * @return {@code true} if the list contained the specified element
-   * @see List#remove(Object)
+   * @see java.util.List#remove(Object)
    */
   public boolean removeFluxBound(FluxBound fluxBound) {
     if (isSetListOfFluxBounds()) {
@@ -452,7 +458,7 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
    *
    * @param objective the element to be removed from the list
    * @return {@code true} if the list contained the specified element
-   * @see List#remove(Object)
+   * @see java.util.List#remove(Object)
    */
   public boolean removeObjective(Objective objective) {
     if (isSetListOfObjectives()) {
@@ -573,6 +579,9 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
     return null;
   }
 
+  /**
+   * @param key
+   */
   public void setNotesKeyToUserObject(String key) {
     Model model = getParent();
     ListOf<Reaction> rxns = model.getListOfReactions();
@@ -586,6 +595,11 @@ public class FBCModelPlugin extends AbstractSBasePlugin {
 
   }
 
+  /**
+   * @param xmlNode
+   * @param key
+   * @return
+   */
   private String recurseAndFind(XMLNode xmlNode, String key) {
 
     if (xmlNode.getChildCount() == 0) {

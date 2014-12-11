@@ -39,10 +39,22 @@ public class CSGTranslation extends CSGTransformation {
    * 
    */
   private static final long serialVersionUID = 7030963917812170311L;
+  /**
+   * 
+   */
   private Double translateX;
+  /**
+   * 
+   */
   private Double translateY;
+  /**
+   * 
+   */
   private Double translateZ;
 
+  /**
+   * 
+   */
   public CSGTranslation() {
     super();
   }
@@ -142,6 +154,7 @@ public class CSGTranslation extends CSGTransformation {
 
   /**
    * Sets the value of translateX
+   * @param translateX
    */
   public void setTranslateX(double translateX) {
     double oldTranslateX = this.translateX;
@@ -193,6 +206,7 @@ public class CSGTranslation extends CSGTransformation {
 
   /**
    * Sets the value of translateY
+   * @param translateY
    */
   public void setTranslateY(double translateY) {
     double oldTranslateY = this.translateY;
@@ -244,6 +258,7 @@ public class CSGTranslation extends CSGTransformation {
 
   /**
    * Sets the value of translateZ
+   * @param translateZ
    */
   public void setTranslateZ(double translateZ) {
     double oldTranslateZ = this.translateZ;

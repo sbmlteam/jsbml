@@ -44,9 +44,9 @@ public class TestNotes
    */
   public static void main(String[] args) throws SBMLException, XMLStreamException
   {
-    String chebiURL="http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&chebiId=15511&dimensions=300";
-    String chebiURLXML=	"http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage&#61;true&#38;chebiId&#61;15511&#38;dimensions=300";
-    String chebiURLHTML = "http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&amp;chebiId=15511&amp;dimensions=300";
+    //    String chebiURL = "http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&chebiId=15511&dimensions=300";
+    String chebiURLXML =	"http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage&#61;true&#38;chebiId&#61;15511&#38;dimensions=300";
+    //    String chebiURLHTML = "http://www.ebi.ac.uk/chebi/displayImage.do?defaultImage=true&amp;chebiId=15511&amp;dimensions=300";
 
 
     SBMLDocument doc = new SBMLDocument(2, 4);

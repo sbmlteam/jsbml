@@ -48,22 +48,33 @@ import org.sbml.jsbml.xml.stax.SBMLWriter;
  * @since 1.0
  * @version $Rev$
  */
+@SuppressWarnings("deprecation")
 public class TestL3Dyn {
 
   // TODO - replace the println by assertion to be able to do the test automatically
-  
+
+  /**
+   * 
+   */
   public static String DYN_NAMESPACE = "http://www.sbml.org/sbml/level3/version1/dyn/version1";
 
+  /**
+   * @throws Exception
+   */
   @Before
   public void setUp() throws Exception {
   }
 
+  /**
+   * @throws Exception
+   */
   @After
   public void tearDown() throws Exception {
   }
 
   /**
    * Tests whether extended models can be read properly
+   * @throws XMLStreamException
    */
   @Test
   public void test_L3_dyn_read() throws XMLStreamException {
@@ -128,6 +139,7 @@ public class TestL3Dyn {
 
   /**
    * Tests whether extended model components can be written out properly
+   * @throws XMLStreamException
    */
   @Test
   public void test_L3_dyn_write() throws XMLStreamException {
@@ -139,15 +151,19 @@ public class TestL3Dyn {
     String docString = new SBMLWriter().writeSBMLToString(doc);
 
     // System.out.println(docString);
-    
+
     SBMLDocument docReRead = new SBMLReader().readSBMLFromString(docString);
-    
+
     Assert.assertTrue(docReRead.isPackageEnabled(DYN_NAMESPACE));
-    
+
     // Add more tests for writing different elements when CBO support is
     // available
   }
 
+  /**
+   * @param args
+   * @throws XMLStreamException
+   */
   public static void main(String[] args) throws XMLStreamException {
     TestL3Dyn tests= new TestL3Dyn();
     tests.test_L3_dyn_read();

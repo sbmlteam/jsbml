@@ -28,6 +28,10 @@ import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.Compartment;
 import org.sbml.jsbml.FunctionDefinition;
 import org.sbml.jsbml.SBMLException;
+import org.sbml.jsbml.Species;
+import org.sbml.jsbml.Unit;
+import org.sbml.jsbml.Unit.Kind;
+import org.sbml.jsbml.UnitDefinition;
 
 /**
  * A compiler for abstract syntax trees. This compiler evaluates the values
@@ -356,6 +360,7 @@ public interface ASTNodeCompiler {
    * @param numerator
    * @param denominator
    * @return
+   * @throws SBMLException
    */
   public ASTNodeValue frac(int numerator, int denominator)
       throws SBMLException;
@@ -696,6 +701,7 @@ public interface ASTNodeCompiler {
 
   /**
    * Dealing with a vector.
+   * @param nodes
    * 
    * @return
    * @throws SBMLException

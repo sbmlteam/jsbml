@@ -57,12 +57,27 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
    * @date 08.05.2012
    */
   protected enum Spread {
+    /**
+     * 
+     */
     PAD,
+    /**
+     * 
+     */
     REFLECT,
-    REPEAT,
+    /**
+     * 
+     */
+    REPEAT;
   }
 
+  /**
+   * 
+   */
   protected Spread spreadMethod;
+  /**
+   * 
+   */
   protected ListOf<GradientStop> listOfGradientStops;
 
 
@@ -78,6 +93,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
    * Creates a GradientBase instance with an id.
    * 
    * @param id
+   * @param stop
    */
   public GradientBase(String id, GradientStop stop) {
     initDefaults();
@@ -144,6 +160,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
 
   /**
    * Clone constructor
+   * @param obj
    */
   public GradientBase(GradientBase obj) {
     super(obj);
@@ -235,6 +252,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
 
   /**
    * Set the value of spreadMethod
+   * @param spreadMethod
    */
   public void setSpreadMethod(Spread spreadMethod) {
     Spread oldSpreadMethod = this.spreadMethod;
@@ -315,6 +333,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
 
   /**
    * @param field
+   * @return
    */
   public boolean addGradientStop(GradientStop field) {
     return getListOfGradientStops().add(field);
@@ -322,6 +341,7 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
 
   /**
    * @param field
+   * @return
    */
   public boolean removeGradientStop(GradientStop field) {
     if (isSetListOfGradientStops()) {
@@ -342,6 +362,9 @@ public class GradientBase extends AbstractNamedSBase implements UniqueNamedSBase
 
   /**
    * create a new GradientStop element and adds it to the ListOfGradientStops list
+   * @param offset
+   * @param stopColor
+   * @return
    */
   public GradientStop createGradientStop(double offset, String stopColor) {
     GradientStop field = new GradientStop(offset, stopColor, getLevel(), getVersion());

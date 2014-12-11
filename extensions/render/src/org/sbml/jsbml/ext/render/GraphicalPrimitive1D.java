@@ -41,8 +41,17 @@ public class GraphicalPrimitive1D extends Transformation2D {
    * Generated serial version identifier
    */
   private static final long serialVersionUID = 3705246334810811216L;
+  /**
+   * 
+   */
   protected String stroke;
+  /**
+   * 
+   */
   protected Short[] strokeDashArray;
+  /**
+   * 
+   */
   protected Double strokeWidth;
 
 
@@ -68,6 +77,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
 
   /**
    * Set the value of strokeDashArray
+   * @param strokeDashArray
    */
   public void setStrokeDashArray(Short[] strokeDashArray) {
     Short[] oldStrokeDashArray = this.strokeDashArray;
@@ -98,7 +108,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
     super();
     initDefaults();
   }
-    
+
   /**
    * Creates an GraphicalPrimitive1D instance
    * 
@@ -113,6 +123,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public GraphicalPrimitive1D(GraphicalPrimitive1D obj) {
     super();
@@ -144,7 +155,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
     result = prime * result + ((stroke == null) ? 0 : stroke.hashCode());
     result = prime * result + Arrays.hashCode(strokeDashArray);
     result = prime * result
-      + ((strokeWidth == null) ? 0 : strokeWidth.hashCode());
+        + ((strokeWidth == null) ? 0 : strokeWidth.hashCode());
     return result;
   }
 
@@ -229,6 +240,7 @@ public class GraphicalPrimitive1D extends Transformation2D {
   }
   /**
    * Set the value of stroke
+   * @param stroke
    */
   public void setStroke(String stroke) {
     String oldStroke = this.stroke;
@@ -238,8 +250,9 @@ public class GraphicalPrimitive1D extends Transformation2D {
 
   /**
    * Set the value of strokeWidth
+   * @param strokeWidth
    */
-  public void setStrokeWidth(Double strokeWidth) {
+  public void setStrokeWidth(double strokeWidth) {
     Double oldStrokeWidth = this.strokeWidth;
     this.strokeWidth = strokeWidth;
     firePropertyChange(RenderConstants.strokeWidth, oldStrokeWidth, this.strokeWidth);

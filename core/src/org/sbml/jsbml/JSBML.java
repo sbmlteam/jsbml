@@ -32,7 +32,13 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.log4j.Logger;
 import org.sbml.jsbml.resources.Resource;
+import org.sbml.jsbml.text.parser.FormulaParser;
+import org.sbml.jsbml.text.parser.FormulaParserLL3;
+import org.sbml.jsbml.text.parser.IFormulaParser;
 import org.sbml.jsbml.text.parser.ParseException;
+import org.sbml.jsbml.util.compilers.FormulaCompiler;
+import org.sbml.jsbml.util.compilers.FormulaCompilerLibSBML;
+import org.sbml.jsbml.util.compilers.FormulaCompilerNoPiecewise;
 
 /**
  * Wrapper class for global methods and constants defined by JSBML.
@@ -44,6 +50,9 @@ import org.sbml.jsbml.text.parser.ParseException;
  */
 public class JSBML {
 
+  /**
+   * 
+   */
   public static final int DUPLICATE_OBJECT_ID = -6;
 
   /**
@@ -51,17 +60,37 @@ public class JSBML {
    * to this object.
    */
   public static final String ILLEGAL_UNIT_EXCEPTION_MSG = "Cannot identify unit {0} in the model. Only a valid unit kind or the identifier of an existing unit definition are allowed.";
+  /**
+   * 
+   */
   public static final int INDEX_EXCEEDS_SIZE = -1;
+  /**
+   * 
+   */
   public static final int INVALID_ATTRIBUTE_VALUE = -4;
+  /**
+   * 
+   */
   public static final int INVALID_OBJECT = -5;
+  /**
+   * 
+   */
   public static final int INVALID_XML_OPERATION = -9;
   /**
    * The current version number of JSBML.
    */
   private static final String jsbmlVersion = "1.0-rc1"; // TODO: replace automatically this version number with [BUILD.NUMBER]
-
+  /**
+   * 
+   */
   public static final int LEVEL_MISMATCH = -7;
+  /**
+   * 
+   */
   public static final int OPERATION_FAILED = -3;
+  /**
+   * 
+   */
   public static final int OPERATION_SUCCESS = 0;
   /**
    * This indicates that the {@link Model} has not been set properly or that
@@ -79,8 +108,13 @@ public class JSBML {
    * cannot give any more precise information about the reasons.
    */
   public static final String UNDEFINED_PARSING_ERROR_MSG = "An error occur while parsing the file: %s.";
+  /**
+   * 
+   */
   public static final int UNEXPECTED_ATTRIBUTE = -2;
-
+  /**
+   * 
+   */
   public static final int VERSION_MISMATCH = -8;
 
   /**

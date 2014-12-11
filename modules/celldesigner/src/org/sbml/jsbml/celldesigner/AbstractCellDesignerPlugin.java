@@ -68,7 +68,13 @@ import org.sbml.jsbml.util.TreeNodeChangeListener;
  */
 public abstract class AbstractCellDesignerPlugin extends CellDesignerPlugin implements Runnable {
 
+  /**
+   * 
+   */
   public static final String ACTION = "Abstract CellDesigner Plugin";
+  /**
+   * 
+   */
   public static final String APPLICATION_NAME = "Abstraction";
 
   /**

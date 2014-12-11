@@ -43,17 +43,28 @@ import org.sbml.jsbml.ASTNode.Type;
  */
 public class TestASTNode {
 
+  /**
+   * @throws Exception
+   */
   @Before public void setUp() throws Exception
   {
   }
 
+  /**
+   * @throws Exception
+   */
   @After public void tearDown() throws Exception
   {
   }
 
+  /**
+   * 
+   */
   public static final double DBL_EPSILON =  2.2204460492503131e-016;
 
-  @SuppressWarnings("deprecation")
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_addChild1()
   {
@@ -129,7 +140,9 @@ public class TestASTNode {
   }
    */
 
-  @SuppressWarnings("deprecation")
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_children()
   {
@@ -180,7 +193,9 @@ public class TestASTNode {
   }
 
   // The ASTNode.getXXX methods will throw exception in JSBML if not called with the right Type
-  @SuppressWarnings("deprecation")
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_create()
   {
@@ -218,7 +233,9 @@ public class TestASTNode {
   }
 
   // libsbml deepCopy() == JSBML clone()
-  @SuppressWarnings("deprecation")
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_deepCopy_1()
   {
@@ -259,7 +276,9 @@ public class TestASTNode {
     copy = null;
   }
 
-  @SuppressWarnings("deprecation")
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_deepCopy_2()
   {
@@ -278,7 +297,9 @@ public class TestASTNode {
     copy = null;
   }
 
-  @SuppressWarnings("deprecation")
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_deepCopy_3()
   {
@@ -297,7 +318,9 @@ public class TestASTNode {
     copy = null;
   }
 
-  @SuppressWarnings("deprecation")
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_deepCopy_4()
   {
@@ -316,7 +339,9 @@ public class TestASTNode {
     copy = null;
   }
 
-  // freeName does not exist in jsbml
+  /**
+   * freeName does not exist in jsbml
+   */
   @Test
   public void test_ASTNode_freeName()
   {
@@ -337,6 +362,9 @@ public class TestASTNode {
   }
    */
 
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_getName()
   {
@@ -419,6 +447,10 @@ public class TestASTNode {
     n = null;
   }
    */
+
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_getReal()
   {
@@ -435,7 +467,9 @@ public class TestASTNode {
     n = null;
   }
 
-  @SuppressWarnings("deprecation")
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_insertChild()
   {
@@ -475,6 +509,9 @@ public class TestASTNode {
     node = null;
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_isLog10()
   {
@@ -495,6 +532,9 @@ public class TestASTNode {
     n = null;
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_isSqrt()
   {
@@ -515,6 +555,9 @@ public class TestASTNode {
     n = null;
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_isUMinus()
   {
@@ -526,7 +569,9 @@ public class TestASTNode {
     n = null;
   }
 
-  @SuppressWarnings("deprecation")
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_no_children()
   {
@@ -554,7 +599,9 @@ public class TestASTNode {
     node = null;
   }
 
-  @SuppressWarnings("deprecation")
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_one_child()
   {
@@ -577,7 +624,9 @@ public class TestASTNode {
     node = null;
   }
 
-  @SuppressWarnings("deprecation")
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_prependChild1()
   {
@@ -603,7 +652,9 @@ public class TestASTNode {
     node = null;
   }
 
-  @SuppressWarnings("deprecation")
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_removeChild()
   {
@@ -627,7 +678,9 @@ public class TestASTNode {
     node = null;
   }
 
-  @SuppressWarnings("deprecation")
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_replaceChild()
   {
@@ -666,6 +719,9 @@ public class TestASTNode {
     node = null;
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_setCharacter()
   {
@@ -711,6 +767,9 @@ public class TestASTNode {
     node = null;
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_setInteger()
   {
@@ -746,6 +805,9 @@ public class TestASTNode {
     node = null;
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_setName()
   {
@@ -786,6 +848,9 @@ public class TestASTNode {
     node = null;
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_setName_override()
   {
@@ -801,6 +866,9 @@ public class TestASTNode {
     node = null;
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_setReal()
   {
@@ -841,6 +909,9 @@ public class TestASTNode {
     node = null;
   }
 
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_setType()
   {
@@ -877,7 +948,9 @@ public class TestASTNode {
     node = null;
   }
 
-  @SuppressWarnings("deprecation")
+  /**
+   * 
+   */
   @Test
   public void test_ASTNode_swapChildren()
   {

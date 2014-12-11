@@ -147,6 +147,7 @@ public class Config
   /**
    * Return a string containing details about the run-time configuration
    * of the system where this instance of SBML Bar Graph is running.
+   * @return
    */
   public static final String systemInfo()
   {
@@ -196,7 +197,7 @@ public class Config
 
 
   /**
-   * Return an integer code indicating the operating system in use.
+   * @return an integer code indicating the operating system in use
    */
   public static final int operatingSystem()
   {

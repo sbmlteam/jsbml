@@ -126,6 +126,9 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
     }
   }
 
+  /**
+   * 
+   */
   private void initDefaults() {
     listOfGroups.setNamespace(GroupsConstants.namespaceURI);
     listOfGroups.setSBaseListType(ListOf.Type.other);
@@ -216,7 +219,7 @@ public class GroupsModelPlugin extends AbstractSBasePlugin {
 
   /**
    * Removes the {@link #listOfGroups} from this {@link Model} and notifies
-   * all registered instances of {@link TreeNodeChangeListener}.
+   * all registered instances of {@link org.sbml.jsbml.util.TreeNodeChangeListener}.
    * 
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.

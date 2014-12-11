@@ -167,6 +167,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
    * format and stores it
    *
    * @param model
+   * @param possibleEnzymes
    * @throws XMLStreamException
    */
   public PluginSBMLReader(PluginModel model, Set<Integer> possibleEnzymes) throws XMLStreamException {
@@ -180,7 +181,7 @@ public class PluginSBMLReader implements SBMLInputConverter<PluginModel> {
   }
 
   /**
-   *
+   * @param possibleEnzymes
    */
   public PluginSBMLReader(Set<Integer> possibleEnzymes) {
     super();

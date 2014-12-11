@@ -38,8 +38,14 @@ public class BindingSiteReference extends AbstractSBase {
    */
   private static final long serialVersionUID = -744301449365477023L;
 
+  /**
+   * 
+   */
   private String speciesTypeState;
 
+  /**
+   * 
+   */
   public BindingSiteReference() {
     super();
     initDefaults();

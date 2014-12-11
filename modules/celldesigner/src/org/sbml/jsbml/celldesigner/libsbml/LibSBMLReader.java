@@ -50,6 +50,11 @@ import org.sbml.jsbml.util.ProgressListener;
 @SuppressWarnings("deprecation")
 public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model> {
 
+  /**
+   * @param trigger
+   * @return
+   * @throws XMLStreamException
+   */
   public static Trigger readTrigger(org.sbml.libsbml.Trigger trigger) throws XMLStreamException {
     Trigger trig = new Trigger();
     LibSBMLUtils.transferSBaseProperties(trig, trigger);
@@ -65,6 +70,10 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
     return trig;
   }
 
+  /**
+   * @param delay
+   * @return
+   */
   public static Delay readDelay(org.sbml.libsbml.Delay delay) {
     Delay de = new Delay();
     LibSBMLUtils.transferSBaseProperties(delay, de);
@@ -74,6 +83,11 @@ public class LibSBMLReader implements SBMLInputConverter<org.sbml.libsbml.Model>
     return de;
   }
 
+  /**
+   * @param stoichiometryMath
+   * @return
+   * @throws XMLStreamException
+   */
   public static StoichiometryMath readStoichiometricMath(org.sbml.libsbml.StoichiometryMath stoichiometryMath) throws XMLStreamException {
     StoichiometryMath sm = new StoichiometryMath();
     LibSBMLUtils.transferSBaseProperties(sm, stoichiometryMath);

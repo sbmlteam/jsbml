@@ -1091,6 +1091,8 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
 
     /**
      * @param contextObject
+     * @param annotationXMLNode
+     * @return
      */
     private XMLNode writeSBMLRDF(SBase contextObject, XMLNode annotationXMLNode)
     {
@@ -1321,6 +1323,7 @@ public class SBMLRDFAnnotationParser implements AnnotationReader, AnnotationWrit
      * 
      * 
      * @param parent
+     * @param index
      * @param elementName
      * @param elementNamespaceURI
      * @param prefix

@@ -47,6 +47,10 @@ import org.sbml.jsbml.ext.layout.TextGlyph;
  */
 public class LayoutPluginChangeListener {
 
+  /**
+   * @param glyph
+   * @param plugModel
+   */
   public static void addOrChangeGlyphInfoToCellDesigner(GraphicalObject glyph, PluginModel plugModel)
   {
     if (glyph instanceof ReactionGlyph)
@@ -100,6 +104,10 @@ public class LayoutPluginChangeListener {
     }
   }
 
+  /**
+   * @param glyph
+   * @param plugModel
+   */
   public static void removeGlyphInfoFromCellDesigner(GraphicalObject glyph, PluginModel plugModel)
   {
     Layout layout = (Layout) glyph.getModel().getExtension("layout");
@@ -107,7 +115,7 @@ public class LayoutPluginChangeListener {
     {
       String cellDesignerID = glyph.getId().substring(glyph.getId().indexOf("_")+1);
       PluginReaction pReaction = plugModel.getReaction(cellDesignerID);
-      ReactionGlyph rGlyph = (ReactionGlyph)glyph;
+      ReactionGlyph rGlyph = (ReactionGlyph) glyph;
       if (pReaction != null)
       {
 

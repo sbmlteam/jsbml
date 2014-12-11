@@ -89,6 +89,9 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
    */
   Boolean bindingSite;
 
+  /**
+   * 
+   */
   public SpeciesType() {
     super();
     initDefaults();
@@ -219,7 +222,7 @@ public class SpeciesType extends org.sbml.jsbml.SpeciesType  implements UniqueNa
   }
 
   /**
-   * 
+   * @return
    */
   public boolean isSetBindingSite() {
     return bindingSite != null;

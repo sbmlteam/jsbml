@@ -31,7 +31,6 @@ import org.sbml.jsbml.PropertyUndefinedError;
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
 
-
 /**
  * @author Alex Thomas
  * @version $Rev$
@@ -44,8 +43,14 @@ public class PolygonObject extends AbstractSBase {
    * 
    */
   private static final long serialVersionUID = -4878021358939009394L;
+  /**
+   * 
+   */
   private Integer[] pointIndex;
 
+  /**
+   * 
+   */
   public PolygonObject() {
     super();
   }
@@ -114,16 +119,15 @@ public class PolygonObject extends AbstractSBase {
     return pointIndex != null;
   }
 
-
   /**
    * Sets the value of pointIndex
+   * @param pointIndex
    */
-  public void setPointIndex(Integer[] pointIndex) {
+  public void setPointIndex(Integer... pointIndex) {
     Integer[] oldPointIndex = this.pointIndex;
     this.pointIndex = pointIndex;
     firePropertyChange(SpatialConstants.pointIndex, oldPointIndex, this.pointIndex);
   }
-
 
   /**
    * Unsets the variable pointIndex
@@ -141,7 +145,9 @@ public class PolygonObject extends AbstractSBase {
     return false;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 983;//Change this prime number
@@ -152,7 +158,9 @@ public class PolygonObject extends AbstractSBase {
     return hashCode;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -171,7 +179,9 @@ public class PolygonObject extends AbstractSBase {
     return attributes;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
@@ -203,7 +213,6 @@ public class PolygonObject extends AbstractSBase {
     }
     return isAttributeRead;
   }
-
 
   /* (non-Javadoc)
    * @see java.lang.Object#toString()

@@ -47,9 +47,19 @@ public abstract class CurveSegment extends AbstractSBase {
    */
   public enum Type
   {
+    /**
+     * 
+     */
     CUBIC_BEZIER("CubicBezier"),
+    /**
+     * 
+     */
     LINE_SEGMENT("LineSegment");
 
+    /**
+     * @param value
+     * @return
+     */
     public static Type fromString(String value)
     {
       if (value == null)
@@ -68,10 +78,15 @@ public abstract class CurveSegment extends AbstractSBase {
 
     }
 
+    /**
+     * 
+     */
     private final String xmlString;
 
-    private Type(String xmlString)
-    {
+    /**
+     * @param xmlString
+     */
+    private Type(String xmlString) {
       this.xmlString = xmlString;
     }
 

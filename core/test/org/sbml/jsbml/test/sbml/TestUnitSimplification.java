@@ -41,7 +41,14 @@ import org.sbml.jsbml.UnitDefinition;
  */
 public class TestUnitSimplification {
 
-  private static final int level = 3, version = 1;
+  /**
+   * 
+   */
+  private static final int level = 3;
+  /**
+   * 
+   */
+  private static final int version = 1;
   /**
    * mole per litre
    */

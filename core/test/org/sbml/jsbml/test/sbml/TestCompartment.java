@@ -45,8 +45,14 @@ import org.sbml.jsbml.util.SBMLtools;
  * @version $Rev$
  */
 public class TestCompartment {
+  /**
+   * 
+   */
   private Compartment C;
 
+  /**
+   * @throws Exception
+   */
   @Before public void setUp() throws Exception
   {
     C = new  Compartment(2,4);
@@ -57,17 +63,26 @@ public class TestCompartment {
     }
   }
 
+  /**
+   * @throws Exception
+   */
   @After public void tearDown() throws Exception
   {
     C = null;
   }
 
 
+  /**
+   * 
+   */
   @Test public void test_Compartment_get_notes_xml_node()
   {
     assertTrue(C.getNotes() == null);
   }
 
+  /**
+   * 
+   */
   @SuppressWarnings("deprecation")
   @Test public void test_Compartment_create()
   {
@@ -91,6 +106,9 @@ public class TestCompartment {
     assertEquals(false, C.isSetOutside());
   }
 
+  /**
+   * 
+   */
   @Test public void test_Compartment_createWith()
   {
     Compartment c = new  Compartment(2,4);
@@ -109,18 +127,27 @@ public class TestCompartment {
   }
 
 
+  /**
+   * 
+   */
   @Test public void test_Compartment_getSpatialDimensions()
   {
     C.setSpatialDimensions(1);
     assertTrue(C.getSpatialDimensions() == 1d);
   }
 
+  /**
+   * 
+   */
   @Test public void test_Compartment_getsetConstant()
   {
     C.setConstant(true);
     assertTrue(C.getConstant() == true);
   }
 
+  /**
+   * 
+   */
   @SuppressWarnings("deprecation")
   @Test public void test_Compartment_getsetType()
   {
@@ -131,6 +158,9 @@ public class TestCompartment {
     assertEquals(false, C.isSetCompartmentType());
   }
 
+  /**
+   * 
+   */
   @SuppressWarnings("deprecation")
   @Test public void test_Compartment_initDefaults()
   {
@@ -154,6 +184,9 @@ public class TestCompartment {
     c = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_Compartment_setId()
   {
     String id =  "mitochondria";
@@ -176,6 +209,9 @@ public class TestCompartment {
     }
   }
 
+  /**
+   * 
+   */
   @Test public void test_Compartment_setName()
   {
     String name =  "My_Favorite_Factory";
@@ -198,6 +234,9 @@ public class TestCompartment {
     }
   }
 
+  /**
+   * 
+   */
   @SuppressWarnings("deprecation")
   @Test public void test_Compartment_setOutside()
   {
@@ -221,6 +260,9 @@ public class TestCompartment {
     }
   }
 
+  /**
+   * 
+   */
   @Test public void test_Compartment_setUnits()
   {
     String units =  "volume";
@@ -234,6 +276,9 @@ public class TestCompartment {
     assertTrue(C.getUnits() == ""); // in libsbml it returns null
   }
 
+  /**
+   * 
+   */
   @Test public void test_Compartment_unsetSize()
   {
     C.setSize(0.2);

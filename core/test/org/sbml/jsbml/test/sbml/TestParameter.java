@@ -48,8 +48,14 @@ import org.sbml.jsbml.Parameter;
  */
 public class TestParameter {
 
+  /**
+   * 
+   */
   private Parameter P;
 
+  /**
+   * @throws Exception
+   */
   @Before public void setUp() throws Exception
   {
     P = new  Parameter(2,4);
@@ -60,11 +66,17 @@ public class TestParameter {
     }
   }
 
+  /**
+   * @throws Exception
+   */
   @After public void tearDown() throws Exception
   {
     P = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_Parameter_create()
   {
     //    assertTrue(P.getTypeCode() == libsbml.SBML_PARAMETER);
@@ -102,6 +114,9 @@ public class TestParameter {
   }
    */
 
+  /**
+   * 
+   */
   @Test public void test_Parameter_setId()
   {
     String id =  "Km1";;
@@ -124,6 +139,9 @@ public class TestParameter {
     }
   }
 
+  /**
+   * 
+   */
   @Test public void test_Parameter_setName()
   {
     String name =  "Forward_Michaelis_Menten_Constant";;
@@ -146,6 +164,9 @@ public class TestParameter {
     }
   }
 
+  /**
+   * 
+   */
   @Test public void test_Parameter_setUnits()
   {
     String units =  "second";;

@@ -44,8 +44,14 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
  */
 public class SBMLErrorConverter implements Converter {
 
+  /**
+   * 
+   */
   String elementName = "package";
 
+  /**
+   * 
+   */
   public SBMLErrorConverter() {
     super();
   }
@@ -64,15 +70,15 @@ public class SBMLErrorConverter implements Converter {
   @Override
   public void marshal(Object currentObject, HierarchicalStreamWriter writer,
     MarshallingContext context) {
-    
+
     // Implement ?? not really needed at the moment
-/*    Message message = (Message) currentObject;
+    /*    Message message = (Message) currentObject;
 
     writer.startNode(elementName);
     writer.setValue(message.getMessage());
     writer.addAttribute("lang", message.getLang());
     writer.endNode();
-    */
+     */
   }
 
   /* (non-Javadoc)
@@ -87,23 +93,23 @@ public class SBMLErrorConverter implements Converter {
     sbmlError.setCategory(reader.getAttribute("category"));
     sbmlError.setSeverity(reader.getAttribute("severity"));
     sbmlError.setCode(Integer.parseInt(reader.getAttribute("code")));
-    
+
     reader.moveDown(); // location element
     sbmlError.setLine(Integer.parseInt(reader.getAttribute("line")));
     sbmlError.setColumn(Integer.parseInt(reader.getAttribute("column")));
-    
+
     reader.moveUp();
     reader.moveDown(); // message element
-    
+
     Message message = new Message();
     message.setLang(reader.getAttribute("lang"));
     String messageContent = reader.getValue().trim();
     message.setMessage(messageContent);
     sbmlError.setMessage(message);
-    
+
     reader.moveUp();
     reader.moveDown(); // package element
-    
+
     if (reader.getNodeName().equals("package")) {
       // TODO - we could make the code in this class more robust by testing each element name before extracting the infos
       // not really necessary at this point as the XML sent from sbml.org is always complete.
@@ -116,20 +122,20 @@ public class SBMLErrorConverter implements Converter {
     shortmessage.setLang(reader.getAttribute("lang"));
     shortmessage.setMessage(reader.getValue());
     sbmlError.setShortMessage(shortmessage);
-    
+
     reader.moveUp();
     reader.moveDown(); // detail
     Detail details = new Detail();
     details.setSeverity(Integer.parseInt(reader.getAttribute("severity")));
     details.setCategory(Integer.parseInt(reader.getAttribute("category")));
     sbmlError.setDetail(details);
-    
+
     reader.moveUp();
     reader.moveDown(); // excerpt
     sbmlError.setExcerpt(reader.getValue());
 
     reader.moveUp();
-    
+
     return sbmlError;
   }
 

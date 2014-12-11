@@ -42,13 +42,25 @@ import org.sbml.jsbml.text.parser.ParseException;
  */
 public class ASTNodeInfixParsingTest {
 
+  /**
+   * 
+   */
   final static FormulaParserLL3 caseSensitiveParser = new FormulaParserLL3(new StringReader(""));
+  /**
+   * 
+   */
   final static FormulaParserLL3 caseInsensitiveParser = new FormulaParserLL3(new StringReader(""));
 
+  /**
+   * 
+   */
   @BeforeClass public static void init() {
     caseInsensitiveParser.setCaseSensitive(false);
   }
 
+  /**
+   * 
+   */
   @Test public void caseSensitivityTests() {
 
     try {
@@ -72,6 +84,9 @@ public class ASTNodeInfixParsingTest {
     }
   }
 
+  /**
+   * 
+   */
   @Test public void caseInsensitivityTests() {
 
     try {

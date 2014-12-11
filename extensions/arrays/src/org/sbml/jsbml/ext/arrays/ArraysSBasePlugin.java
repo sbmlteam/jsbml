@@ -23,7 +23,9 @@
 package org.sbml.jsbml.ext.arrays;
 
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -102,6 +104,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
 
   /**
    * Clone constructor
+   * @param obj
    */
   public ArraysSBasePlugin(ArraysSBasePlugin obj) {
     super(obj);
@@ -259,6 +262,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
 
   /**
    * Creates a new Index element and adds it to the listOfIndices list.
+   * @return
    */
   public Index createIndex() {
     Index field = new Index();
@@ -462,6 +466,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
 
   /**
    * Creates a new Dimension element and adds it to the ListOfDimensions list.
+   * @return
    */
   public Dimension createDimension() {
     return createDimension(null);
@@ -469,6 +474,7 @@ public class ArraysSBasePlugin extends AbstractSBasePlugin implements IdManager{
 
   /**
    * Creates a new {@link Dimension} element and adds it to the ListOfDimensions list.
+   * @param id
    *
    * @return a new {@link Dimension} element.
    */

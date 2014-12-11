@@ -28,6 +28,7 @@ import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.util.StringTools;
 import org.sbml.jsbml.util.TreeNodeChangeEvent;
+import org.sbml.jsbml.util.TreeNodeChangeListener;
 import org.sbml.jsbml.util.filters.NameFilter;
 import org.sbml.jsbml.util.filters.SpeciesReferenceFilter;
 
@@ -251,6 +252,7 @@ UniqueNamedSBase {
    * 
    * @param species
    *            the {@link Species} to which this modifier should point.
+   * @return
    * @see #createModifier(String, Species)
    */
   public ModifierSpeciesReference createModifier(Species species) {
@@ -883,6 +885,8 @@ UniqueNamedSBase {
 
   /**
    * Initializes the default variables of this Reaction.
+   * @param level
+   * @param version
    */
   public void initDefaults(int level, int version) {
     if ((0 < level) && (0 < version)) {
@@ -1080,6 +1084,7 @@ UniqueNamedSBase {
    * Removes the ModifierSpeciesReference 'modspecref' from this Reaction.
    * 
    * @param modspecref
+   * @return
    */
   public boolean removeModifier(ModifierSpeciesReference modspecref) {
     return getListOfModifiers().remove(modspecref);
@@ -1154,6 +1159,7 @@ UniqueNamedSBase {
    * this Reaction.
    * 
    * @param specref
+   * @return
    */
   public boolean removeReactant(SpeciesReference specref) {
     return getListOfReactants().remove(specref);

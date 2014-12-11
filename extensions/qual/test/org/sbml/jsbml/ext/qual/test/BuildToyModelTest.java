@@ -51,8 +51,14 @@ import org.sbml.jsbml.text.parser.ParseException;
  */
 public class BuildToyModelTest {
 
+  /**
+   * 
+   */
   public static final String QUAL_NS = QualConstants.namespaceURI_L3V1V1;
 
+  /**
+   * 
+   */
   public static final String QUAL_NS_PREFIX = QualConstants.shortLabel;
 
   /**
@@ -110,12 +116,12 @@ public class BuildToyModelTest {
     //// ListOfInputs
     Input in0 = tr_g1.createInput("in0", g0, InputTransitionEffect.consumption);
     in0.setSign(Sign.dual);
-    Input in2 = tr_g1.createInput("in2", g2, InputTransitionEffect.none);
-    Input in3 = tr_g1.createInput("in3", g3, InputTransitionEffect.none);
+    //    Input in2 = tr_g1.createInput("in2", g2, InputTransitionEffect.none);
+    //    Input in3 = tr_g1.createInput("in3", g3, InputTransitionEffect.none);
 
 
     //// ListOfOutputs
-    Output out1 = tr_g1.createOutput("o1", g1, OutputTransitionEffect.assignmentLevel);
+    //    Output out1 = tr_g1.createOutput("o1", g1, OutputTransitionEffect.assignmentLevel);
 
     //// ListOfFunctionTerms
     FunctionTerm defTerm = new FunctionTerm();

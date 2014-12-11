@@ -43,7 +43,13 @@ import org.sbml.jsbml.ext.render.Rectangle;
  */
 public class RenderConverter {
 
+  /**
+   * 
+   */
   final static double depth  =  1d;
+  /**
+   * 
+   */
   final static double z  =  0d;
 
   /**

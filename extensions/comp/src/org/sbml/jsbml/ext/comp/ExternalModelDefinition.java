@@ -25,7 +25,10 @@ import java.util.Map;
 
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
+import org.sbml.jsbml.Model;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.UniqueNamedSBase;
+import org.sbml.jsbml.util.SubModel;
 
 /**
  * The {@link ExternalModelDefinition} objects are model definitions - in and of
@@ -45,8 +48,17 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
    */
   private static final long serialVersionUID = 2005205309846284624L;
 
+  /**
+   * 
+   */
   private String source;
+  /**
+   * 
+   */
   private String modelRef;
+  /**
+   * 
+   */
   private String md5;
 
   /**
@@ -99,6 +111,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
 
   /**
    * Clone constructor
+   * @param obj
    */
   public ExternalModelDefinition(ExternalModelDefinition obj) {
     super(obj);
@@ -215,6 +228,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
    * The source attribute must refer specifically to an SBML Level 3 Version 1
    * document. The entire file at the given location is referenced. The source
    * attribute must have a value for every {@link ExternalModelDefinition}.
+   * @param source
    * 
    */
   public void setSource(String source) {
@@ -279,6 +293,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
    * main model (i.e., the model element within the sbml element) in the referenced
    * file is interpreted as being the model referenced by this {@link ExternalModelDefinition}
    * instance.
+   * @param modelRef
    */
   public void setModelRef(String modelRef) {
     String oldModelRef = this.modelRef;
@@ -337,6 +352,7 @@ public class ExternalModelDefinition extends AbstractNamedSBase implements Uniqu
    * data integrity check over the contents of the source. Applications may use this
    * to verify that the contents have not changed since the time that the
    * {@link ExternalModelDefinition} reference was constructed.
+   * @param md5
    * 
    */
   public void setMd5(String md5) {

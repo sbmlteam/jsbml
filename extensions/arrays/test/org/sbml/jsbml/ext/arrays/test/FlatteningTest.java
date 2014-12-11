@@ -1,24 +1,24 @@
 /*
  * $Id$
  * $URL$
- * ---------------------------------------------------------------------------- 
- * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML> 
- * for the latest version of JSBML and more information about SBML. 
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
  * 
- * Copyright (C) 2009-2014  jointly by the following organizations: 
- * 1. The University of Tuebingen, Germany 
- * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK 
- * 3. The California Institute of Technology, Pasadena, CA, USA 
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
  * 4. The University of California, San Diego, La Jolla, CA, USA
  * 5. The Babraham Institute, Cambridge, UK
  * 6. The University of Utah, Salt Lake City, UT, USA
  *
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Lesser General Public License as published by 
- * the Free Software Foundation. A copy of the license agreement is provided 
- * in the file named "LICENSE.txt" included with this software distribution 
- * and also available online as <http://sbml.org/Software/JSBML/License>. 
- * ---------------------------------------------------------------------------- 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
  */
 package org.sbml.jsbml.ext.arrays.test;
 
@@ -60,6 +60,9 @@ import org.sbml.jsbml.text.parser.ParseException;
  */
 public class FlatteningTest {
 
+  /**
+   * 
+   */
   @Test
   public void simpleTest() {
     try {
@@ -104,6 +107,9 @@ public class FlatteningTest {
     }
   }
 
+  /**
+   * 
+   */
   @Test
   public void testFlatteningRule() {
     try {
@@ -130,7 +136,7 @@ public class FlatteningTest {
       indX.setArrayDimension(0);
       indX.setReferencedAttribute("symbol");
       indX.setMath(new ASTNode("i"));
-      
+
       Parameter Y = new Parameter("Y");
       ArraysSBasePlugin arraysSBasePluginX = new ArraysSBasePlugin(X);
       X.addExtension(ArraysConstants.shortLabel, arraysSBasePluginX);
@@ -139,7 +145,7 @@ public class FlatteningTest {
       dimX.setSize(n.getId());
       dimX.setArrayDimension(0);
       arraysSBasePluginX.addDimension(dimX);
-  
+
 
       model.addParameter(Y);
       Y.setValue(2);
@@ -192,6 +198,9 @@ public class FlatteningTest {
     }
   }
 
+  /**
+   * 
+   */
   @Test
   public void testReaction() {
     try {
@@ -210,18 +219,18 @@ public class FlatteningTest {
       dimX.setSize(n.getId());
       dimX.setArrayDimension(0);
       X.setValue(1);
-      
+
       InitialAssignment ia = model.createInitialAssignment();
       ia.setVariable("X");
       ia.setMath(ASTNode.parseFormula("2"));
-      
+
       ArraysSBasePlugin arraysSBasePluginAssignment = new ArraysSBasePlugin(ia);
       ia.addExtension(ArraysConstants.shortLabel, arraysSBasePluginAssignment);
       Index indX = arraysSBasePluginAssignment.createIndex();
       indX.setMath(ASTNode.parseFormula("1"));
       indX.setReferencedAttribute("symbol");
       indX.setArrayDimension(0);
-      
+
       Species A = model.createSpecies("A");
       A.setValue(5);
       Species B = model.createSpecies("B");
@@ -255,6 +264,9 @@ public class FlatteningTest {
     }
   }
 
+  /**
+   * 
+   */
   @Test
   public void testEvent() {
     try {
@@ -316,7 +328,10 @@ public class FlatteningTest {
       e.printStackTrace();
     }
   }
-  
+
+  /**
+   * 
+   */
   @Test
   public void testEventAssignmentWithParentDimension() {
     try {
@@ -343,13 +358,13 @@ public class FlatteningTest {
       e.setDelay(delay);
       Trigger trigger = e.createTrigger();
       trigger.setMath(ASTNode.parseFormula("{true, true, true}"));
-      
+
       ArraysSBasePlugin eventPlugin = new ArraysSBasePlugin(e);
       e.addExtension(ArraysConstants.shortLabel, eventPlugin);
       Dimension dim = eventPlugin.createDimension("i");
       dim.setSize(n.getId());
       dim.setArrayDimension(0);
-      
+
       EventAssignment assign = e.createEventAssignment();
       assign.setMath(ASTNode.parseFormula("{1, 10, 100}[i]"));
       assign.setVariable("X");
@@ -359,7 +374,7 @@ public class FlatteningTest {
       ind.setReferencedAttribute("variable");
       ind.setArrayDimension(0);
       ind.setMath(ASTNode.parseFormula("i"));
-     
+
 
 
       SBMLWriter.write(doc, System.out, ' ', (short) 2);
@@ -377,7 +392,10 @@ public class FlatteningTest {
       e.printStackTrace();
     }
   }
-  
+
+  /**
+   * 
+   */
   @Test
   public void testBioModelFlattening() {
     SBMLDocument doc;
@@ -386,7 +404,7 @@ public class FlatteningTest {
       SBMLDocument flattened = ArraysFlattening.convert(doc);
 
       SBMLWriter.write(flattened, System.out, ' ', (short) 2);
-      
+
       assertTrue(doc.getModel().getCompartmentCount() == flattened.getModel().getCompartmentCount());
       assertTrue(doc.getModel().getSpeciesCount() == flattened.getModel().getSpeciesCount());
       assertTrue(doc.getModel().getParameterCount() == flattened.getModel().getParameterCount());
@@ -397,9 +415,12 @@ public class FlatteningTest {
     } catch (XMLStreamException e) {
       assertTrue(false);
     }
-   
+
   }
-  
+
+  /**
+   * 
+   */
   @Test
   public void testSpeciesReference() {
     try {
@@ -464,7 +485,10 @@ public class FlatteningTest {
       e.printStackTrace();
     }
   }
-  
+
+  /**
+   * 
+   */
   @Test
   public void testSpeciesReferenceImplicitDim() {
     try {
@@ -502,7 +526,7 @@ public class FlatteningTest {
       r.setId("reaction");
       KineticLaw k = r.createKineticLaw();
       k.setMath(ASTNode.parseFormula("B - X*A"));
-      
+
       SpeciesReference a = r.createReactant(A);
       a.setId("a");
       ArraysSBasePlugin arraysSBasePlugina = new ArraysSBasePlugin(a);
@@ -530,12 +554,12 @@ public class FlatteningTest {
       SBMLDocument flattened = ArraysFlattening.convert(doc);
       SBMLWriter.write(flattened, System.out, ' ', (short) 2);
       System.out.println("\n-------------------------------------------");
-      
+
       assertTrue(flattened.getModel().findNamedSBase(flattened.getModel().getReaction(0).getReactant(0).getSpecies()) != null);
       assertTrue(flattened.getModel().findNamedSBase(flattened.getModel().getReaction(0).getReactant(1).getSpecies()) != null);
       assertTrue(flattened.getModel().findNamedSBase(flattened.getModel().getReaction(0).getProduct(0).getSpecies())  != null);
       assertTrue(flattened.getModel().findNamedSBase(flattened.getModel().getReaction(0).getProduct(1).getSpecies())  != null);
-      
+
     } catch (SBMLException e) {
       e.printStackTrace();
     } catch (XMLStreamException e) {
@@ -544,7 +568,10 @@ public class FlatteningTest {
       e.printStackTrace();
     }
   }
-  
+
+  /**
+   * 
+   */
   @Test
   public void testUniqueID() {
     try {
@@ -574,7 +601,7 @@ public class FlatteningTest {
       indX.setArrayDimension(0);
       indX.setReferencedAttribute("symbol");
       indX.setMath(new ASTNode("i"));
-      
+
       Parameter Y = new Parameter("Y");
       ArraysSBasePlugin arraysSBasePluginX = new ArraysSBasePlugin(X);
       X.addExtension(ArraysConstants.shortLabel, arraysSBasePluginX);
@@ -583,7 +610,7 @@ public class FlatteningTest {
       dimX.setSize(n.getId());
       dimX.setArrayDimension(0);
       arraysSBasePluginX.addDimension(dimX);
-  
+
 
       model.addParameter(Y);
       Y.setValue(2);
@@ -625,7 +652,7 @@ public class FlatteningTest {
       SBMLDocument flattened = ArraysFlattening.convert(doc);
       SBMLWriter.write(flattened, System.out, ' ', (short) 2);
       System.out.println("\n-------------------------------------------");
-      
+
       assertTrue(flattened.getModel().findNamedSBase("X_0") != null);
       assertTrue(flattened.getModel().findNamedSBase("X__0") != null);
       assertTrue(flattened.getModel().findNamedSBase("X___0") != null);
@@ -639,9 +666,12 @@ public class FlatteningTest {
       e.printStackTrace();
     }
   }
-  
- 
 
+
+
+  /**
+   * 
+   */
   @Test
   public void testCompModel() {
     SBMLDocument doc;
@@ -657,13 +687,16 @@ public class FlatteningTest {
       flattened = ArraysFlattening.convert(doc);
       System.out.println("\n-------------------------------------------");
       SBMLWriter.write(flattened, System.out, ' ', (short) 2);
-      
+
     } catch (XMLStreamException e) {
       assertTrue(false);
     }
-   
+
   }
-  
+
+  /**
+   * 
+   */
   @Test
   public void testFunctionDef() {
     SBMLDocument doc;
@@ -673,13 +706,16 @@ public class FlatteningTest {
       SBMLDocument flattened = ArraysFlattening.convert(doc);
 
       SBMLWriter.write(flattened, System.out, ' ', (short) 2);
-      
+
     } catch (XMLStreamException e) {
       assertTrue(false);
     }
-   
+
   }
-  
+
+  /**
+   * 
+   */
   @Test
   public void testFBC() {
     SBMLDocument doc;
@@ -687,15 +723,15 @@ public class FlatteningTest {
       doc = SBMLReader.read(ArraysWriteTest.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/arrays/NEWFBC.xml"));
       SBMLWriter.write(doc, System.out, ' ', (short) 2);
       SBMLDocument flattened = ArraysFlattening.convert(doc);
-      
+
       SBMLWriter.write(flattened, System.out, ' ', (short) 2);
 
     } catch (XMLStreamException e) {
       assertTrue(false);
     }
-   
+
   }
-  
-  
+
+
 }
 

@@ -22,6 +22,8 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
@@ -37,6 +39,9 @@ import org.sbml.jsbml.util.filters.NameFilter;
  */
 public class AnalyticGeometry extends GeometryDefinition {
 
+  /**
+   * 
+   */
   private ListOf<AnalyticVolume> listOfAnalyticVolumes;
 
   /**
@@ -51,8 +56,8 @@ public class AnalyticGeometry extends GeometryDefinition {
     super();
   }
 
-  /*
-   * 
+  /**
+   * @param analyticGeometry
    */
   public AnalyticGeometry(AnalyticGeometry analyticGeometry) {
     super(analyticGeometry);
@@ -61,6 +66,11 @@ public class AnalyticGeometry extends GeometryDefinition {
     }
   }
 
+  /**
+   * @param id
+   * @param level
+   * @param version
+   */
   public AnalyticGeometry(String id, int level, int version) {
     super(id,level,version);
   }
@@ -148,7 +158,6 @@ public class AnalyticGeometry extends GeometryDefinition {
     return getListOfAnalyticVolumes().add(analyticVolume);
   }
 
-
   /**
    * Removes an element from the listOfAnalyticVolumes.
    *
@@ -185,20 +194,26 @@ public class AnalyticGeometry extends GeometryDefinition {
     getListOfAnalyticVolumes().remove(i);
   }
 
+  /**
+   * 
+   * @param id
+   */
   public void removeAnalyticVolume(String id) {
     getListOfAnalyticVolumes().removeFirst(new NameFilter(id));
   }
+
   /**
    * Creates a new AnalyticVolume element and adds it to the ListOfAnalyticVolumes list
+   * @return
    */
   public AnalyticVolume createAnalyticVolume() {
     return createAnalyticVolume(null);
   }
 
-
   /**
    * Creates a new {@link AnalyticVolume} element and adds it to the ListOfAnalyticVolumes list
-   *
+   * 
+   * @param id
    * @return a new {@link AnalyticVolume} element
    */
   public AnalyticVolume createAnalyticVolume(String id) {
@@ -207,13 +222,17 @@ public class AnalyticGeometry extends GeometryDefinition {
     return analyticVolume;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return true;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getChildCount()
+   */
   @Override
   public int getChildCount() {
     int count = super.getChildCount();
@@ -223,7 +242,9 @@ public class AnalyticGeometry extends GeometryDefinition {
     return count;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#getChildAt(int)
+   */
   @Override
   public TreeNode getChildAt(int index) {
     if (index < 0) {
@@ -246,6 +267,9 @@ public class AnalyticGeometry extends GeometryDefinition {
       +Math.min(pos, 0)));
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.GeometryDefinition#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(Object object) {
     boolean equal =  super.equals(object);
@@ -259,7 +283,5 @@ public class AnalyticGeometry extends GeometryDefinition {
     }
     return equal;
   }
-
-
 
 }

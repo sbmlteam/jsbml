@@ -35,6 +35,10 @@ import org.sbml.jsbml.text.parser.ParseException;
  */
 public class FormulaTest {
 
+  /**
+   * @throws ParseException
+   * @throws SBMLException
+   */
   public FormulaTest() throws ParseException, SBMLException {
     String formulae[] = {
       "lambda(2)",

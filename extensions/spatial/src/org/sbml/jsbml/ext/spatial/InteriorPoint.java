@@ -61,6 +61,9 @@ public class InteriorPoint extends AbstractSBase {
    */
   private Double coord3;
 
+  /**
+   * 
+   */
   private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
 
@@ -79,12 +82,15 @@ public class InteriorPoint extends AbstractSBase {
     super(interiorPoint);
   }
 
+  /**
+   * @param level
+   * @param version
+   */
   public InteriorPoint(int level, int version) {
     super(level,version);
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#clone()
    */
   @Override
@@ -92,6 +98,9 @@ public class InteriorPoint extends AbstractSBase {
     return new InteriorPoint(this);
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#equals(java.lang.Object)
+   */
   @Override
   public boolean equals(Object object) {
     boolean equal =  super.equals(object);
@@ -115,22 +124,29 @@ public class InteriorPoint extends AbstractSBase {
     return equal;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildAt(int)
+   */
   @Override
   public TreeNode getChildAt(int childIndex) {
     return null;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#getChildCount()
+   */
   @Override
   public int getChildCount() {
     return 0;
   }
-
 
   /**
    * Returns the value of coord1
@@ -155,9 +171,9 @@ public class InteriorPoint extends AbstractSBase {
     return coord1 != null;
   }
 
-
   /**
    * Sets the value of coord1
+   * @param coord1
    */
   public void setCoord1(double coord1) {
     Double oldCoord1;
@@ -193,13 +209,12 @@ public class InteriorPoint extends AbstractSBase {
    *
    * @return the value of coord2
    */
-  public Double getCoord2() {
+  public double getCoord2() {
     if (isSetCoord2()) {
       return coord2;
     }
-    return null;
+    throw new PropertyUndefinedError(SpatialConstants.coord2, this);
   }
-
 
   /**
    * Returns whether coord2 is set
@@ -213,6 +228,7 @@ public class InteriorPoint extends AbstractSBase {
 
   /**
    * Sets the value of coord2
+   * @param coord2
    */
   public void setCoord2(double coord2) {
     Double oldCoord2;
@@ -248,11 +264,11 @@ public class InteriorPoint extends AbstractSBase {
    *
    * @return the value of coord3
    */
-  public Double getCoord3() {
+  public double getCoord3() {
     if (isSetCoord3()) {
       return coord3;
     }
-    return null;
+    throw new PropertyUndefinedError(SpatialConstants.coord3, this);
   }
 
 
@@ -268,11 +284,12 @@ public class InteriorPoint extends AbstractSBase {
 
   /**
    * Sets the value of coord3
+   * @param coord3
    */
-  public void setCoord3(Double coord3) {
+  public void setCoord3(double coord3) {
     Double oldCoord3;
     if (isSetCoord3()) {
-      oldCoord3 = this.coord1;
+      oldCoord3 = coord1;
     } else {
       oldCoord3 = null;
     }

@@ -25,7 +25,6 @@ import java.io.File;
 
 import org.sbml.jsbml.*;
 
-
 /**
  * Class encapsulating reading and analyzing the statistics of a single
  * SBML file.
@@ -55,7 +54,7 @@ public class SBMLStats
   @SuppressWarnings("deprecation")
   public SBMLStats(File file)
       throws javax.xml.stream.XMLStreamException, java.io.IOException
-      {
+  {
     this.file = file;
 
     // Parse the SBML and store the results.  Exceptions are bubbled up
@@ -97,7 +96,7 @@ public class SBMLStats
         numCompartmentTypes = model.getListOfCompartmentTypes().getChildCount();
       }
     }
-      }
+  }
 
   /**
    * Empty constructor.
@@ -106,22 +105,70 @@ public class SBMLStats
   {
   }
 
+  /**
+   * @return
+   */
   public File getFile()                   { return file; }
+  /**
+   * @return
+   */
   public int  getSBMLLevel()              { return level; }
+  /**
+   * @return
+   */
   public int  getSBMLVersion()            { return version; }
+  /**
+   * @return
+   */
   public int  getNumSpecies()             { return numSpecies; }
+  /**
+   * @return
+   */
   public int  getNumCompartments()        { return numCompartments; }
+  /**
+   * @return
+   */
   public int  getNumReactions()           { return numReactions; }
+  /**
+   * @return
+   */
   public int  getNumParameters()          { return numParameters; }
+  /**
+   * @return
+   */
   public int  getNumRules()               { return numRules; }
+  /**
+   * @return
+   */
   public int  getNumUnitDefinitions()     { return numUnitDefinitions; }
+  /**
+   * @return
+   */
   public int  getNumFunctionDefinitions() { return numFunctionDefinitions; }
+  /**
+   * @return
+   */
   public int  getNumEvents()              { return numEvents; }
+  /**
+   * @return
+   */
   public int  getNumConstraints()         { return numConstraints; }
+  /**
+   * @return
+   */
   public int  getNumInitialAssignments()  { return numInitialAssignments; }
+  /**
+   * @return
+   */
   public int  getNumSpeciesTypes()        { return numSpeciesTypes; }
+  /**
+   * @return
+   */
   public int  getNumCompartmentTypes()    { return numSpeciesTypes; }
 
+  /**
+   * @return
+   */
   public String asString()
   {
     return "file = '" + file.getPath() + "'"
@@ -143,20 +190,69 @@ public class SBMLStats
   // ---------------------- Private data members ----------------------------
   //
 
+  /**
+   * 
+   */
   private File file;
+  /**
+   * 
+   */
   private SBMLDocument sbmlDoc;
+  /**
+   * 
+   */
   private int level                  = 0;
+  /**
+   * 
+   */
   private int version                = 0;
+  /**
+   * 
+   */
   private int numSpecies             = 0;
+  /**
+   * 
+   */
   private int numCompartments        = 0;
+  /**
+   * 
+   */
   private int numReactions           = 0;
+  /**
+   * 
+   */
   private int numParameters          = 0;
+  /**
+   * 
+   */
   private int numRules               = 0;
+  /**
+   * 
+   */
   private int numUnitDefinitions     = 0;
+  /**
+   * 
+   */
   private int numFunctionDefinitions = 0;
+  /**
+   * 
+   */
   private int numEvents              = 0;
+  /**
+   * 
+   */
   private int numInitialAssignments  = 0;
+  /**
+   * 
+   */
   private int numConstraints         = 0;
+  /**
+   * 
+   */
   private int numCompartmentTypes    = 0;
+  /**
+   * 
+   */
   private int numSpeciesTypes        = 0;
+
 }

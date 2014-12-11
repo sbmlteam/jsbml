@@ -41,8 +41,17 @@ public class LineEnding extends GraphicalPrimitive2D {
    * Generated serial version identifier
    */
   private static final long serialVersionUID = 938880502591638386L;
+  /**
+   * 
+   */
   private Boolean enableRotationMapping;
+  /**
+   * 
+   */
   private BoundingBox boundingBox;
+  /**
+   * 
+   */
   private RenderGroup group;
 
   /**
@@ -55,6 +64,7 @@ public class LineEnding extends GraphicalPrimitive2D {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public LineEnding(LineEnding obj) {
     super(obj);
@@ -131,6 +141,7 @@ public class LineEnding extends GraphicalPrimitive2D {
 
   /**
    * Set the value of boundingBox
+   * @param boundingBox
    */
   public void setBoundingBox(BoundingBox boundingBox) {
     BoundingBox oldBoundingBox = this.boundingBox;
@@ -173,6 +184,7 @@ public class LineEnding extends GraphicalPrimitive2D {
 
   /**
    * Set the value of group
+   * @param group
    */
   public void setGroup(RenderGroup group) {
     RenderGroup oldGroup = this.group;
@@ -215,6 +227,7 @@ public class LineEnding extends GraphicalPrimitive2D {
 
   /**
    * Set the value of enableRotationMapping
+   * @param enableRotationMapping
    */
   public void setEnableRotationMapping(Boolean enableRotationMapping) {
     Boolean oldEnableRotationMapping = this.enableRotationMapping;

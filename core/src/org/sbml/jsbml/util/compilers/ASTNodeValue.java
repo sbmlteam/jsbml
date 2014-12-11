@@ -23,8 +23,10 @@ package org.sbml.jsbml.util.compilers;
 
 import java.io.IOException;
 
+import org.sbml.jsbml.ASTNode;
 import org.sbml.jsbml.ASTNode.Type;
 import org.sbml.jsbml.CallableSBase;
+import org.sbml.jsbml.SBMLDocument;
 import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.xml.parsers.MathMLParser;
@@ -86,6 +88,7 @@ public class ASTNodeValue {
   private int version;
 
   /**
+   * @param compiler
    * 
    */
   public ASTNodeValue(ASTNodeCompiler compiler) {
@@ -99,6 +102,7 @@ public class ASTNodeValue {
   /**
    * 
    * @param value
+   * @param compiler
    */
   public ASTNodeValue(boolean value, ASTNodeCompiler compiler) {
     this(compiler);
@@ -108,6 +112,7 @@ public class ASTNodeValue {
   /**
    * 
    * @param value
+   * @param compiler
    */
   public ASTNodeValue(double value, ASTNodeCompiler compiler) {
     this(compiler);
@@ -117,6 +122,7 @@ public class ASTNodeValue {
   /**
    * 
    * @param value
+   * @param compiler
    */
   public ASTNodeValue(float value, ASTNodeCompiler compiler) {
     this(compiler);
@@ -136,6 +142,7 @@ public class ASTNodeValue {
   /**
    * 
    * @param value
+   * @param compiler
    */
   public ASTNodeValue(int value, ASTNodeCompiler compiler) {
     this(compiler);
@@ -145,6 +152,7 @@ public class ASTNodeValue {
   /**
    * 
    * @param value
+   * @param compiler
    */
   public ASTNodeValue(CallableSBase value,
     ASTNodeCompiler compiler) {
@@ -165,6 +173,7 @@ public class ASTNodeValue {
   /**
    * 
    * @param value
+   * @param compiler
    */
   public ASTNodeValue(Number value, ASTNodeCompiler compiler) {
     this(compiler);
@@ -174,6 +183,7 @@ public class ASTNodeValue {
   /**
    * 
    * @param value
+   * @param compiler
    */
   public ASTNodeValue(String value, ASTNodeCompiler compiler) {
     this(compiler);
@@ -183,6 +193,7 @@ public class ASTNodeValue {
   /**
    * 
    * @param type
+   * @param compiler
    */
   ASTNodeValue(Type type, ASTNodeCompiler compiler) {
     this(compiler);
@@ -192,6 +203,7 @@ public class ASTNodeValue {
   /**
    * 
    * @param unit
+   * @param compiler
    */
   public ASTNodeValue(UnitDefinition unit, ASTNodeCompiler compiler) {
     this(compiler);

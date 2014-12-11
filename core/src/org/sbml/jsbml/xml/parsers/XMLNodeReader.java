@@ -51,10 +51,14 @@ import org.sbml.jsbml.xml.XMLTriple;
 public class XMLNodeReader implements ReadingParser {
 
   /**
-   * String to be able to detect what type of String this parser is parsing. It can be 'notes', 'message' or 'annotation'.
+   * String to be able to detect what type of String this parser is parsing. It
+   * can be 'notes', 'message' or 'annotation'.
    */
   private String typeOfNotes = "";
 
+  /**
+   * A {@link Logger} for this class.
+   */
   private Logger logger = Logger.getLogger(XMLNodeReader.class);
 
   /**

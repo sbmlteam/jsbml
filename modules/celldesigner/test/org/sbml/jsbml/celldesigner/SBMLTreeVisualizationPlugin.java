@@ -48,9 +48,21 @@ import org.sbml.jsbml.ext.layout.LayoutModelPlugin;
  */
 public class SBMLTreeVisualizationPlugin extends AbstractCellDesignerPlugin {
 
+  /**
+   * 
+   */
   public static final String ACTION = "Display JSBML JTree";
+  /**
+   * 
+   */
   public static final String APPLICATION_NAME = "SBML Structure Visualization";
+  /**
+   * 
+   */
   protected DefaultTreeModel modelTree = null;
+  /**
+   * 
+   */
   private LayoutModelPlugin plugin;
 
   /**

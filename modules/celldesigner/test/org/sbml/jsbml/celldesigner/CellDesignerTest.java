@@ -46,7 +46,6 @@ import jp.sbi.celldesigner.plugin.PluginSpeciesAlias;
 import jp.sbi.celldesigner.plugin.PluginSpeciesType;
 import jp.sbi.celldesigner.plugin.PluginUnitDefinition;
 
-
 /**
  * @author Ibrahim Vazirabad
  * @version $Rev$
@@ -55,9 +54,18 @@ import jp.sbi.celldesigner.plugin.PluginUnitDefinition;
  */
 public class CellDesignerTest extends AbstractCellDesignerPlugin {
 
+  /**
+   * 
+   */
   public static final String ACTION = "Test CD Listeners";
+  /**
+   * 
+   */
   public static final String APPLICATION_NAME = "Test the Listeners";
 
+  /**
+   * 
+   */
   private final CDPropertyChangeVis propertyChangeVis;
 
   /**

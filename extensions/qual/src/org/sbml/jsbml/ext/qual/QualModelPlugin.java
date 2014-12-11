@@ -285,6 +285,8 @@ public class QualModelPlugin extends AbstractSBasePlugin {
    * 
    * @param id
    *        the id of the new element to create
+   * @param compartment
+   * @param constant
    * @return the {@link QualitativeSpecies} object created
    */
   public QualitativeSpecies createQualitativeSpecies(String id, String compartment, boolean constant) {
@@ -295,6 +297,12 @@ public class QualModelPlugin extends AbstractSBasePlugin {
     return species;
   }
 
+  /**
+   * @param id
+   * @param compartment
+   * @param constant
+   * @return
+   */
   public QualitativeSpecies createQualitativeSpecies(String id, Compartment compartment, boolean constant) {
     return createQualitativeSpecies(id, compartment.getId(), constant);
   }

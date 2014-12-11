@@ -27,7 +27,7 @@ import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.PropertyUndefinedError;
 
 /**
- * Implements the {@link Curve} concept from the SBML render extension.
+ * Implements the curve concept from the SBML render extension.
  * <p>
  * The curve concept in the SBML render extension is similar to the curves in
  * the SBML layout. Each curve consists of a number of either straight line
@@ -58,11 +58,19 @@ public class RenderCurve extends GraphicalPrimitive1D {
    * 
    */
   private static final long serialVersionUID = -1941713884972334826L;
+  /**
+   * 
+   */
   protected String startHead;
+  /**
+   * 
+   */
   protected String endHead;
 
-  // TODO - check the naming of this listOf and the associated methods compared with libsbml. Might need to extends ListOfWithName
-  protected ListOf<RenderPoint> listOfElements;
+  /**
+   * 
+   */
+  protected ListOf<RenderPoint> listOfElements; // TODO - check the naming of this listOf and the associated methods compared with libsbml. Might need to extends ListOfWithName
 
   // TODO - implements the TreeNode methods
 
@@ -76,6 +84,7 @@ public class RenderCurve extends GraphicalPrimitive1D {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public RenderCurve(RenderCurve obj) {
     super();
@@ -178,6 +187,7 @@ public class RenderCurve extends GraphicalPrimitive1D {
 
   /**
    * Set the value of startHead
+   * @param startHead
    */
   public void setStartHead(String startHead) {
     String oldStartHead = this.startHead;
@@ -221,6 +231,7 @@ public class RenderCurve extends GraphicalPrimitive1D {
 
   /**
    * Set the value of endHead
+   * @param endHead
    */
   public void setEndHead(String endHead) {
     String oldEndHead = this.endHead;
@@ -293,6 +304,7 @@ public class RenderCurve extends GraphicalPrimitive1D {
 
   /**
    * @param element
+   * @return
    */
   public boolean addElement(RenderPoint element) {
     return getListOfElements().add(element);
@@ -300,6 +312,7 @@ public class RenderCurve extends GraphicalPrimitive1D {
 
   /**
    * @param element
+   * @return
    */
   public boolean removeElement(RenderPoint element) {
     if (isSetListOfElements()) {
@@ -323,6 +336,7 @@ public class RenderCurve extends GraphicalPrimitive1D {
    * <p><b>NOTE:</b>
    * only use this method, if ID is not mandatory in Element
    * otherwise use @see createElement(String id)!</p>
+   * @return
    */
   public RenderPoint createElement() {
     return createElement(null);
@@ -330,6 +344,8 @@ public class RenderCurve extends GraphicalPrimitive1D {
 
   /**
    * create a new Element element and adds it to the ListOfElements list
+   * @param id
+   * @return
    */
   public RenderPoint createElement(String id) {
     RenderPoint element = new RenderPoint();

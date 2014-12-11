@@ -21,7 +21,6 @@
  */
 package org.sbml.bargraph;
 
-
 /**
  * Class storing this application's version number.
  * @file    Version.java
@@ -31,10 +30,14 @@ package org.sbml.bargraph;
  */
 public class Version
 {
+  /**
+   * 
+   */
   static final String VERSION = "1.0";
 
   /**
    * Returns the application version number as a string.
+   * @return
    */
   public static final String asString()
   {

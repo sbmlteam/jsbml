@@ -51,8 +51,14 @@ import org.sbml.jsbml.text.parser.ParseException;
  */
 public class TestEvent {
 
+  /**
+   * 
+   */
   private Event E;
 
+  /**
+   * @throws Exception
+   */
   @Before public void setUp() throws Exception
   {
     E = new  Event(2,4);
@@ -63,11 +69,17 @@ public class TestEvent {
     }
   }
 
+  /**
+   * @throws Exception
+   */
   @After public void tearDown() throws Exception
   {
     E = null;
   }
 
+  /**
+   * 
+   */
   @SuppressWarnings("deprecation")
   @Test public void test_Event_create()
   {
@@ -104,6 +116,9 @@ public class TestEvent {
   }
    */
 
+  /**
+   * @throws ParseException
+   */
   @Test public void test_Event_full() throws ParseException
   {
     ASTNode math1 = ASTNode.parseFormula("0");
@@ -124,6 +139,9 @@ public class TestEvent {
     e = null;
   }
 
+  /**
+   * 
+   */
   @Test public void test_Event_removeEventAssignment()
   {
     EventAssignment o1,o2,o3;
@@ -148,6 +166,9 @@ public class TestEvent {
     o3 = null;
   }
 
+  /**
+   * @throws ParseException
+   */
   @Test public void test_Event_setDelay() throws ParseException
   {
     ASTNode math1 = ASTNode.parseFormula("0");
@@ -172,6 +193,9 @@ public class TestEvent {
     }
   }
 
+  /**
+   * 
+   */
   @Test public void test_Event_setId()
   {
     String id =  "e1";;
@@ -194,6 +218,9 @@ public class TestEvent {
     }
   }
 
+  /**
+   * 
+   */
   @Test public void test_Event_setName()
   {
     String name =  "Set_k2";;
@@ -216,6 +243,9 @@ public class TestEvent {
     }
   }
 
+  /**
+   * 
+   */
   @SuppressWarnings("deprecation")
   @Test public void test_Event_setTimeUnits()
   {
@@ -241,6 +271,9 @@ public class TestEvent {
     E1 = null;
   }
 
+  /**
+   * @throws ParseException
+   */
   @Test public void test_Event_setTrigger() throws ParseException
   {
     ASTNode math1 =  ASTNode.parseFormula("0");
@@ -265,6 +298,9 @@ public class TestEvent {
     }
   }
 
+  /**
+   * 
+   */
   @Test public void test_Event_setUseValuesFromTriggerTime()
   {
     Event object = new  Event(2,4);

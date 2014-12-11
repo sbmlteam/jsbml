@@ -22,6 +22,8 @@
 package org.sbml.jsbml.ext.spatial;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -40,10 +42,24 @@ import org.sbml.jsbml.util.filters.NameFilter;
  */
 public class CSGSetOperator extends CSGNode {
 
+  /**
+   * @author Alex Thomas
+   * @version $Rev$
+   * @since 1.0
+   * @date 10.12.2014
+   */
   public static enum SetOperation {
-
+    /**
+     * 
+     */
     UNION,
+    /**
+     * 
+     */
     INTERSECTION,
+    /**
+     * 
+     */
     RELATIVECOMPONENT;
   }
 
@@ -52,13 +68,28 @@ public class CSGSetOperator extends CSGNode {
    */
   private static final long serialVersionUID = 3448308755493169761L;
 
+  /**
+   * 
+   */
   private SetOperation operationType;
 
+  /**
+   * 
+   */
   private String complementA;
+  /**
+   * 
+   */
   private String complementB;
 
+  /**
+   * 
+   */
   private ListOf<CSGNode> listOfCSGNodes;
 
+  /**
+   * 
+   */
   public CSGSetOperator() {
     super();
   }
@@ -169,6 +200,7 @@ public class CSGSetOperator extends CSGNode {
 
   /**
    * Sets the value of complementA
+   * @param complementA
    */
   public void setComplementA(String complementA) {
     String oldComplementA = this.complementA;
@@ -220,6 +252,7 @@ public class CSGSetOperator extends CSGNode {
 
   /**
    * Sets the value of complementB
+   * @param complementB
    */
   public void setComplementB(String complementB) {
     String oldComplementB = this.complementB;
@@ -271,6 +304,7 @@ public class CSGSetOperator extends CSGNode {
 
   /**
    * Sets the value of operationType
+   * @param operationType
    */
   public void setOperationType(SetOperation operationType) {
     SetOperation oldOperationType = this.operationType;
@@ -399,36 +433,58 @@ public class CSGSetOperator extends CSGNode {
     getListOfCSGNodes().remove(i);
   }
 
+  /**
+   * @param id
+   */
   public void removeCSGNode(String id) {
     getListOfCSGNodes().removeFirst(new NameFilter(id));
   }
   /**
    * Creates a new CSGNode element and adds it to the ListOfCSGNodes list
+   * @return
    */
   public CSGPrimitive createCSGPrimitive() {
     return createCSGPrimitive(null);
   }
 
+  /**
+   * @return
+   */
   public CSGPseudoPrimitive createCSGPseudoPrimitive() {
     return createCSGPseudoPrimitive(null);
   }
 
+  /**
+   * @return
+   */
   public CSGSetOperator createCSGSetOperator() {
     return createCSGSetOperator(null);
   }
 
+  /**
+   * @return
+   */
   public CSGTranslation createCSGTranslation() {
     return createCSGTranslation(null);
   }
 
+  /**
+   * @return
+   */
   public CSGRotation createCSGRotation() {
     return createCSGRotation(null);
   }
 
+  /**
+   * @return
+   */
   public CSGScale createCSGScale() {
     return createCSGScale(null);
   }
 
+  /**
+   * @return
+   */
   public CSGHomogeneousTransformation createCSGHomogeneousTransformation() {
     return createCSGHomogeneousTransformation(null);
   }
@@ -436,6 +492,7 @@ public class CSGSetOperator extends CSGNode {
 
   /**
    * Creates a new {@link CSGHomogeneousTransformation} element and adds it to the ListOfCSGNodes list
+   * @param id
    *
    * @return a new {@link CSGHomogeneousTransformation} element
    */
@@ -447,6 +504,7 @@ public class CSGSetOperator extends CSGNode {
 
   /**
    * Creates a new {@link CSGScale} element and adds it to the ListOfCSGNodes list
+   * @param id
    *
    * @return a new {@link CSGScale} element
    */
@@ -458,6 +516,7 @@ public class CSGSetOperator extends CSGNode {
 
   /**
    * Creates a new {@link CSGRotation} element and adds it to the ListOfCSGNodes list
+   * @param id
    *
    * @return a new {@link CSGRotation} element
    */
@@ -469,6 +528,7 @@ public class CSGSetOperator extends CSGNode {
 
   /**
    * Creates a new {@link CSGTranslation} element and adds it to the ListOfCSGNodes list
+   * @param id
    *
    * @return a new {@link CSGTranslation} element
    */
@@ -480,6 +540,7 @@ public class CSGSetOperator extends CSGNode {
 
   /**
    * Creates a new {@link CSGSetOperator} element and adds it to the ListOfCSGNodes list
+   * @param id
    *
    * @return a new {@link CSGSetOperator} element
    */
@@ -491,6 +552,7 @@ public class CSGSetOperator extends CSGNode {
 
   /**
    * Creates a new {@link CSGPseudoPrimitive} element and adds it to the ListOfCSGNodes list
+   * @param id
    *
    * @return a new {@link CSGPseudoPrimitive} element
    */
@@ -502,6 +564,7 @@ public class CSGSetOperator extends CSGNode {
 
   /**
    * Creates a new {@link CSGPrimitive} element and adds it to the ListOfCSGNodes list
+   * @param id
    *
    * @return a new {@link CSGPrimitive} element
    */

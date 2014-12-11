@@ -42,12 +42,40 @@ import org.sbml.jsbml.util.compilers.FormulaCompilerLibSBML;
  * @since 1.0
  */
 public class ASTNodeFormulaToStringTest {
-  
+
+  /**
+   * 
+   */
   final static FormulaCompiler defaultFormulaCompiler = new FormulaCompiler();
+  /**
+   * 
+   */
   final static FormulaCompiler formulaCompilerLibsbml = new FormulaCompilerLibSBML();
-  
-  static ASTNode relationalAnd, relationalAnd2, relationalAnd3, logicalEq, simplePlus;
-  
+
+  /**
+   * 
+   */
+  static ASTNode relationalAnd;
+  /**
+   * 
+   */
+  static ASTNode relationalAnd2;
+  /**
+   * 
+   */
+  static ASTNode relationalAnd3;
+  /**
+   * 
+   */
+  static ASTNode logicalEq;
+  /**
+   * 
+   */
+  static ASTNode simplePlus;
+
+  /**
+   * 
+   */
   @BeforeClass public static void init() {
     try {
       relationalAnd = ASTNode.parseFormula("x and y");
@@ -55,88 +83,103 @@ public class ASTNodeFormulaToStringTest {
       relationalAnd3 = ASTNode.parseFormula("and(x, y)", new FormulaParserLL3(new StringReader("")));
       logicalEq = ASTNode.parseFormula("x == y");
       simplePlus = ASTNode.parseFormula("x + y");
-      
+
     } catch (ParseException e) {
       e.printStackTrace();
       assertTrue(false);
     }
   }
-  
+
+  /**
+   * 
+   */
   @Test public void relationalOperatorTests() {
 
     String formula = relationalAnd.toFormula();
-    
+
     assertTrue(formula.equals("x and y"));
-    
+
     formula = relationalAnd.toFormula(formulaCompilerLibsbml);
-    
+
     assertTrue(formula.equals("x && y"));
-    
+
     formula = relationalAnd.toFormula(defaultFormulaCompiler);
-    
+
     assertTrue(formula.equals("x and y"));
   }
 
+  /**
+   * 
+   */
   @Test public void relationalOperator2Tests() {
 
     String formula = relationalAnd2.toFormula();
-    
+
     assertTrue(formula.equals("x and y"));
-    
+
     formula = relationalAnd2.toFormula(formulaCompilerLibsbml);
-    
+
     assertTrue(formula.equals("x && y"));
-    
+
     formula = relationalAnd2.toFormula(defaultFormulaCompiler);
-    
+
     assertTrue(formula.equals("x and y"));
   }
 
+  /**
+   * 
+   */
   @Test public void relationalOperator3Tests() {
 
     String formula = relationalAnd3.toFormula();
-    
+
     assertTrue(formula.equals("x and y"));
-    
+
     formula = relationalAnd3.toFormula(formulaCompilerLibsbml);
-    
+
     assertTrue(formula.equals("x && y"));
-    
+
     formula = relationalAnd3.toFormula(defaultFormulaCompiler);
-    
+
     assertTrue(formula.equals("x and y"));
   }
 
-  
+
+  /**
+   * 
+   */
   @Test public void logicalOperatorTests() {
 
     String formula = logicalEq.toFormula();
-    
+
     assertTrue(formula.equals("x == y"));
-    
+
     formula = logicalEq.toFormula(formulaCompilerLibsbml);
-    
+
     assertTrue(formula.equals("eq(x, y)"));
-    
+
     formula = logicalEq.toFormula(defaultFormulaCompiler);
-    
+
     assertTrue(formula.equals("x == y"));
   }
 
+  /**
+   * 
+   */
   @Test public void simplePlusTests() {
 
     String formula = simplePlus.toFormula();
 
     assertTrue(formula.equals("x+y"));
-    
+
     formula = simplePlus.toFormula(formulaCompilerLibsbml);
-    
+
     assertTrue(formula.equals("x+y")); // TODO - add a space for this compiler ??!
-    
+
     formula = simplePlus.toFormula(defaultFormulaCompiler);
-    
+
     assertTrue(formula.equals("x+y"));
   }
 
-  
+
 }

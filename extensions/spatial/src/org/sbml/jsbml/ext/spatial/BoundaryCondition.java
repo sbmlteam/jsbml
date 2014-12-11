@@ -189,6 +189,7 @@ public class BoundaryCondition extends ParameterType {
 
   /**
    * Sets the value of type
+   * @param type
    */
   public void setType(BoundaryKind type) {
     BoundaryKind oldType = this.type;
@@ -196,6 +197,9 @@ public class BoundaryCondition extends ParameterType {
     firePropertyChange(SpatialConstants.type, oldType, this.type);
   }
 
+  /**
+   * @param type
+   */
   public void setType(String type) {
     if (!Pattern.matches("[a-z]*", type)) {
       throw new SBMLException("The value is not all lower-case.");
@@ -246,6 +250,7 @@ public class BoundaryCondition extends ParameterType {
 
   /**
    * Sets the value of coordinateBoundary
+   * @param coordinateBoundary
    */
   public void setCoordinateBoundary(String coordinateBoundary) {
     String oldCoordinateBoundary = this.coordinateBoundary;
@@ -297,6 +302,7 @@ public class BoundaryCondition extends ParameterType {
 
   /**
    * Sets the value of boundaryDomainType
+   * @param boundaryDomainType
    */
   public void setBoundaryDomainType(String boundaryDomainType) {
     String oldBoundaryDomainType = this.boundaryDomainType;

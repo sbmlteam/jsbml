@@ -85,6 +85,10 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
       return id;
     }
 
+    /**
+     * @param value
+     * @return
+     */
     public static Operation fromString(String value)
     {
       if (value == null)
@@ -109,9 +113,21 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = -8885319163985464653L;
+  /**
+   * 
+   */
   private boolean isSetValue = false;
+  /**
+   * 
+   */
   private Operation operation;
+  /**
+   * 
+   */
   private String reaction;
+  /**
+   * 
+   */
   private Double value;
 
 
@@ -129,7 +145,7 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
    */
   public FluxBound(FluxBound fb) {
     super(fb);
-    
+
     if (fb.isSetOperation()) {
       setOperation(fb.getOperation());
     }
@@ -198,8 +214,8 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
     return new FluxBound(this);
   }
 
-  
-  
+
+
   /* (non-Javadoc)
    * @see java.lang.Object#hashCode()
    */
@@ -227,7 +243,7 @@ public class FluxBound extends AbstractNamedSBase implements UniqueNamedSBase {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    
+
     FluxBound other = (FluxBound) obj;
     if (operation != other.operation) {
       return false;

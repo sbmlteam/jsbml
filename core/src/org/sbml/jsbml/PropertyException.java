@@ -47,8 +47,10 @@ public abstract class PropertyException extends SBMLError {
    * Creates an error message pointing out that the property of the given name is not defined
    * in the Level/Version combination of the given {@link SBase}.
    * 
+   * @param baseMessage
    * @param property
    * @param sbase
+   * 
    * @return
    */
   static String createMessage(String baseMessage, String property, SBase sbase) {
@@ -70,9 +72,11 @@ public abstract class PropertyException extends SBMLError {
   }
 
   /**
-   * Creates an error message pointing out that the property of the given name is not defined
-   * in the Level/Version combination of the given {@link TreeNode}.
+   * Creates an error message pointing out that the property of the given name
+   * is not defined in the Level/Version combination of the given
+   * {@link TreeNode}.
    * 
+   * @param baseMessage
    * @param property
    * @param node
    * @return

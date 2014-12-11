@@ -38,8 +38,14 @@ public class ContainedSpeciesType extends AbstractSBase {
    */
   private static final long serialVersionUID = 6818715002582655076L;
 
+  /**
+   * 
+   */
   private String speciesTypeState;
 
+  /**
+   * 
+   */
   public ContainedSpeciesType() {
     super();
     initDefaults();

@@ -39,6 +39,9 @@ public class SpeciesTypeRestrictionReference extends AbstractSBase {
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = -8803949492166466113L;
+  /**
+   * 
+   */
   private String speciesTypeRestriction;
 
 
@@ -62,6 +65,7 @@ public class SpeciesTypeRestrictionReference extends AbstractSBase {
 
   /**
    * Set the value of speciesTypeRestriction
+   * @param speciesTypeRestriction
    */
   public void setSpeciesTypeRestriction(String speciesTypeRestriction) {
     String oldSpeciesTypeRestriction = this.speciesTypeRestriction;
@@ -148,6 +152,7 @@ public class SpeciesTypeRestrictionReference extends AbstractSBase {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public SpeciesTypeRestrictionReference(SpeciesTypeRestrictionReference obj) {
     super(obj);
@@ -171,6 +176,12 @@ public class SpeciesTypeRestrictionReference extends AbstractSBase {
     setNamespace(MultiConstants.namespaceURI);
   }
 
+  /**
+   * 
+   */
   public static final int MIN_SBML_LEVEL = 3;
+  /**
+   * 
+   */
   public static final int MIN_SBML_VERSION = 1;
 }

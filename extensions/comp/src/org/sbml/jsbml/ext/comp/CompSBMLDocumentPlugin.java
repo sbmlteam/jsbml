@@ -22,6 +22,8 @@
 package org.sbml.jsbml.ext.comp;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -369,6 +371,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
 
   /**
    * Creates a new ExternalModelDefinition element and adds it to the ListOfExternalModelDefinitions list
+   * @return
    */
   public ExternalModelDefinition createExternalModelDefinition() {
     return createExternalModelDefinition(null);
@@ -376,6 +379,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
 
   /**
    * Creates a new {@link ExternalModelDefinition} element and adds it to the ListOfExternalModelDefinitions list
+   * @param id
    *
    * @return a new {@link ExternalModelDefinition} element
    */
@@ -508,6 +512,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
 
   /**
    * Creates a new ModelDefinition element and adds it to the ListOfModelDefinitions list
+   * @return
    */
   public Model createModelDefinition() {
     return createModelDefinition(null);
@@ -515,6 +520,7 @@ public class CompSBMLDocumentPlugin extends CompSBasePlugin {
 
   /**
    * Creates a new {@link ModelDefinition} element and adds it to the ListOfModelDefinitions list
+   * @param id
    *
    * @return a new {@link ModelDefinition} element
    */

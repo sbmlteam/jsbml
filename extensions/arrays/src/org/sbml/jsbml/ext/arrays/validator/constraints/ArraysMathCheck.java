@@ -33,7 +33,6 @@ import org.sbml.jsbml.ext.arrays.ArraysConstants;
 import org.sbml.jsbml.ext.arrays.ArraysSBasePlugin;
 import org.sbml.jsbml.ext.arrays.util.ArraysMath;
 
-
 /**
  * @author Leandro Watanabe
  * @version $Rev$
@@ -43,8 +42,15 @@ import org.sbml.jsbml.ext.arrays.util.ArraysMath;
 public class ArraysMathCheck extends ArraysConstraint{
 
   //TODO: get right messages
+  /**
+   * 
+   */
   private final MathContainer mathContainer;
 
+  /**
+   * @param model
+   * @param mathContainer
+   */
   public ArraysMathCheck(Model model, MathContainer mathContainer) {
     super(model);
     this.mathContainer = mathContainer;
@@ -80,6 +86,9 @@ public class ArraysMathCheck extends ArraysConstraint{
     }
   }
 
+  /**
+   * @param math
+   */
   private void checkSelector(ASTNode math) {
 
     if (math.getChildCount() == 0) {

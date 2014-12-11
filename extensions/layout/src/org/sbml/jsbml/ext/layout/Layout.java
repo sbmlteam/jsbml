@@ -43,7 +43,7 @@ import org.sbml.jsbml.util.filters.NameFilter;
 
 /**
  * The {@link Layout} class stores layout information for some or all elements of the
- * {@link Model} as well as additional objects that need not be connected to the {@link Model}.
+ * {@link org.sbml.jsbml.Model} as well as additional objects that need not be connected to the {@link org.sbml.jsbml.Model}.
  * The {@link Layout} has two attributes: id and name. Additionally, a {@link Dimensions}
  * element specifies the size of the {@link Layout}. The actual layout elements are contained
  * in several lists, namely: a ListOf{@link CompartmentGlyph}s, a ListOf{@link SpeciesGlyph}s,
@@ -163,7 +163,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
    * <p>The {@link #listOfCompartmentGlyphs} is initialized if necessary.
    *
    * @param compartmentGlyph the element to add to the list
-   * @return {@code true} (as specified by {@link Collection#add})
+   * @return {@code true} (as specified by {@link java.util.Collection#add})
    */
   public boolean addCompartmentGlyph(CompartmentGlyph compartmentGlyph) {
     return getListOfCompartmentGlyphs().add(compartmentGlyph);
@@ -1139,6 +1139,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * Removes all singleton {@link SpeciesGlyph}s (no {@link SpeciesReferenceGlyph}
    * in {@link ReactionGlyph}) and also removes their associated {@link TextGlyph}s
+   * @return
    */
   public boolean removeSingletons() {
     // Collect species glyphs that are used first
@@ -1294,7 +1295,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   /**
    * This element is optional. If set, this list cannot be empty. Most objects for
    * which layout information is to be included in an SBML file have a corresponding
-   * object in {@link Model}. As there might be cases where the user wants to
+   * object in {@link org.sbml.jsbml.Model}. As there might be cases where the user wants to
    * include object types in the layout that do fall in any of the other categories
    * described below, we include a listOfAdditionalGraphicalObjects in each {@link Layout}
    * object. This list holds an arbitrary number of {@link GraphicalObject} elements.
@@ -1347,7 +1348,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * This element is optional. If set, this list cannot be empty. Also, not all
-   * {@link Compartment}s of a {@link Model} will need a corresponding {@link CompartmentGlyph}.
+   * {@link Compartment}s of a {@link org.sbml.jsbml.Model} will need a corresponding {@link CompartmentGlyph}.
    * 
    * @param compartmentGlyphs
    */
@@ -1362,7 +1363,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * This element is optional. If set, this list cannot be empty. Also, not all {@link Reaction}s
-   * of a {@link Model} need a corresponding {@link ReactionGlyph}.
+   * of a {@link org.sbml.jsbml.Model} need a corresponding {@link ReactionGlyph}.
    * 
    * @param reactionGlyphs
    */
@@ -1378,7 +1379,7 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
 
   /**
    * This element is optional. If set, this list cannot be empty. Also, not all {@link Species}
-   * of a {@link Model} need a corresponding {@link SpeciesGlyph}.
+   * of a {@link org.sbml.jsbml.Model} need a corresponding {@link SpeciesGlyph}.
    * 
    * @param speciesGlyphs
    */
@@ -1419,8 +1420,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * Removes the {@link #listOfAdditionalGraphicalObjects} from this {@link Model} and notifies
-   * all registered instances of {@link TreeNodeChangeListener}.
+   * Removes the {@link #listOfAdditionalGraphicalObjects} from this {@link org.sbml.jsbml.Model} and notifies
+   * all registered instances of {@link org.sbml.jsbml.util.TreeNodeChangeListener}.
    * 
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.
@@ -1436,8 +1437,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * Removes the {@link #listOfCompartmentGlyphs} from this {@link Model} and notifies
-   * all registered instances of {@link TreeNodeChangeListener}.
+   * Removes the {@link #listOfCompartmentGlyphs} from this {@link org.sbml.jsbml.Model} and notifies
+   * all registered instances of {@link org.sbml.jsbml.util.TreeNodeChangeListener}.
    * 
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.
@@ -1453,8 +1454,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * Removes the {@link #listOfReactionGlyphs} from this {@link Model} and notifies
-   * all registered instances of {@link TreeNodeChangeListener}.
+   * Removes the {@link #listOfReactionGlyphs} from this {@link org.sbml.jsbml.Model} and notifies
+   * all registered instances of {@link org.sbml.jsbml.util.TreeNodeChangeListener}.
    * 
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.
@@ -1470,8 +1471,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * Removes the {@link #listOfSpeciesGlyphs} from this {@link Model} and notifies
-   * all registered instances of {@link TreeNodeChangeListener}.
+   * Removes the {@link #listOfSpeciesGlyphs} from this {@link org.sbml.jsbml.Model} and notifies
+   * all registered instances of {@link org.sbml.jsbml.util.TreeNodeChangeListener}.
    * 
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.
@@ -1487,8 +1488,8 @@ public class Layout extends AbstractNamedSBase implements UniqueNamedSBase {
   }
 
   /**
-   * Removes the {@link #listOfTextGlyphs} from this {@link Model} and notifies
-   * all registered instances of {@link TreeNodeChangeListener}.
+   * Removes the {@link #listOfTextGlyphs} from this {@link org.sbml.jsbml.Model} and notifies
+   * all registered instances of {@link org.sbml.jsbml.util.TreeNodeChangeListener}.
    * 
    * @return {@code true} if calling this method lead to a change in this
    *         data structure.

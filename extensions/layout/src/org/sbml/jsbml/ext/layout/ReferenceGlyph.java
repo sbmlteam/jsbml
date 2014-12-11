@@ -26,6 +26,8 @@ import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.Model;
+
 /**
  * The {@link ReferenceGlyph} element describes the graphical connection between
  * an arbitrary {@link GraphicalObject} (or derived element) and a

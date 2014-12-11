@@ -128,8 +128,11 @@ public class Parameter extends Symbol {
   }
 
   /**
-   * Initializes the default values of this {@link Parameter}, i.e., sets it to a
-   * constant variable with a NaN value.
+   * Initializes the default values of this {@link Parameter}, i.e., sets it to
+   * a constant variable with a {@link Double#NaN} value.
+   * 
+   * @param level
+   * @param version
    */
   public void initDefaults(int level, int version) {
     value = Double.NaN;

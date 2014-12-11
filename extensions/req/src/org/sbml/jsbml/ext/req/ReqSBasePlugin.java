@@ -21,6 +21,8 @@
 package org.sbml.jsbml.ext.req;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
@@ -64,6 +66,7 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
 
   /**
    * Creates a {@link ReqSBasePlugin} instance with a level and version.
+   * @param sbase
    */
   public ReqSBasePlugin(SBase sbase) {
     super(sbase);
@@ -72,6 +75,7 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public ReqSBasePlugin(ReqSBasePlugin obj) {
     super(obj);
@@ -264,6 +268,7 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
 
   /**
    * Creates a new ChangedMath element and adds it to the ListOfMathChangeds list
+   * @return
    */
   public ChangedMath createChangedMath() {
     return createChangedMath(null);
@@ -271,7 +276,8 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
 
   /**
    * Creates a new {@link ChangedMath} element and adds it to the ListOfMathChangeds list
-   *
+   * 
+   * @param id
    * @return a new {@link ChangedMath} element
    */
   public ChangedMath createChangedMath(String id) {
@@ -280,13 +286,10 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
     return changedMath;
   }
 
-
   /**
    * 
    */
   private ListOf<ChangedMath> listOfChangedMaths;
-
-
 
   /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildCount()
@@ -302,6 +305,9 @@ public class ReqSBasePlugin extends AbstractSBasePlugin {
     return count;
   }
 
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildAt(int)
+   */
   @Override
   public TreeNode getChildAt(int index) {
     if (index < 0) {

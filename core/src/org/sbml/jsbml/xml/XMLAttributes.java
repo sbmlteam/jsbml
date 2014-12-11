@@ -41,7 +41,13 @@ import org.sbml.jsbml.JSBML;
  */
 public class XMLAttributes {
 
+  /**
+   * 
+   */
   ArrayList<XMLTriple> attributeNames = new ArrayList<XMLTriple>();
+  /**
+   * 
+   */
   ArrayList<String> attributeValues = new ArrayList<String>();
 
   // XMLErrorLog errorLog;

@@ -25,6 +25,7 @@ import java.util.Map;
 import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBase;
 
 /**
  * Declares which package has modified the value or the mathematical meaning of
@@ -153,6 +154,7 @@ public class ChangedMath extends AbstractNamedSBase {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public ChangedMath(ChangedMath obj) {
     super(obj);
@@ -214,6 +216,7 @@ public class ChangedMath extends AbstractNamedSBase {
 
   /**
    * Sets the value of changedBy
+   * @param changedBy
    */
   public void setChangedBy(String changedBy) {
     String oldChangedBy = this.changedBy;
@@ -275,6 +278,7 @@ public class ChangedMath extends AbstractNamedSBase {
 
   /**
    * Sets the value of viableWithoutChange
+   * @param viableWithoutChange
    */
   public void setViableWithoutChange(boolean viableWithoutChange) {
     Boolean oldViableWithoutChange = this.viableWithoutChange;

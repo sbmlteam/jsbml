@@ -100,6 +100,8 @@ public class DynSBasePlugin extends AbstractSBasePlugin {
 
   /**
    * Sets the value of CBO
+   * 
+   * @param cboTerm
    */
   public void setCBOTerm(Term cboTerm) {
     Term oldCboTerm = this.cboTerm;
@@ -188,11 +190,11 @@ public class DynSBasePlugin extends AbstractSBasePlugin {
   public boolean readAttribute(String attributeName, String prefix,
     String value) {
     boolean isAttributeRead = false;
-    
+
     if (attributeName.equals(DynConstants.cboTerm)) {
       try {
         if (value.startsWith("http://")) {
-          value = value.substring(value.lastIndexOf("#") + 1); 
+          value = value.substring(value.lastIndexOf("#") + 1);
         }
         setCBOTerm(CBO.getTerm(value));
         isAttributeRead = true;
@@ -220,11 +222,11 @@ public class DynSBasePlugin extends AbstractSBasePlugin {
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
-    
+
     if (isSetCBOTerm()) {
       attributes.put(DynConstants.shortLabel + ":cboTerm", cboTerm.getId());
     }
-    
+
     return attributes;
   }
 

@@ -1,3 +1,25 @@
+/*
+ * $Id$
+ * $URL$
+ * ----------------------------------------------------------------------------
+ * This file is part of JSBML. Please visit <http://sbml.org/Software/JSBML>
+ * for the latest version of JSBML and more information about SBML.
+ *
+ * Copyright (C) 2009-2014  jointly by the following organizations:
+ * 1. The University of Tuebingen, Germany
+ * 2. EMBL European Bioinformatics Institute (EBML-EBI), Hinxton, UK
+ * 3. The California Institute of Technology, Pasadena, CA, USA
+ * 4. The University of California, San Diego, La Jolla, CA, USA
+ * 5. The Babraham Institute, Cambridge, UK
+ * 6. Marquette University, Milwaukee, WI, USA
+ *
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation. A copy of the license agreement is provided
+ * in the file named "LICENSE.txt" included with this software distribution
+ * and also available online as <http://sbml.org/Software/JSBML/License>.
+ * ----------------------------------------------------------------------------
+ */
 package org.sbml.jsbml.celldesigner;
 
 import java.awt.event.WindowAdapter;
@@ -13,13 +35,22 @@ import org.sbml.jsbml.gui.JSBMLvisualizer;
 
 /**
  * A simple plugin for CellDesigner that displays the SBML data structure as a
- * {@link #DefaultTreeModel}. When the underlying SBMLDocument is changed by CellDesigner,
+ * tree. When the underlying SBMLDocument is changed by CellDesigner,
  * the tree will refresh itself and all nodes will become unexpanded.
  */
 public class SimpleCellDesignerPlugin extends AbstractCellDesignerPlugin {
 
+  /**
+   * 
+   */
   public static final String ACTION = "Display full model tree";
+  /**
+   * 
+   */
   public static final String APPLICATION_NAME = "Simple Plugin";
+  /**
+   * 
+   */
   protected DefaultTreeModel modelTree = null;
 
   /**
@@ -91,8 +122,7 @@ public class SimpleCellDesignerPlugin extends AbstractCellDesignerPlugin {
    */
   @Override
   public void run() {
-    modelTree = new DefaultTreeModel(getSBMLDocument());
-    JSBMLvisualizer visualizer = new JSBMLvisualizer(modelTree);
+    JSBMLvisualizer visualizer = new JSBMLvisualizer(getSBMLDocument());
     visualizer.addWindowListener(new WindowAdapter() {
       @Override
       public void windowClosed(WindowEvent e) {

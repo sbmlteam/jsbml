@@ -40,6 +40,7 @@ public class Dialog
    * @param parent The parent window JFrame object.
    * @param question The question to ask in the body of the dialog.
    * @param title A string to use as the title of the dialog window.
+   * @return
    */
   public static boolean yesNo(JFrame parent, String question, String title)
   {

@@ -57,7 +57,6 @@ import org.sbml.jsbml.ext.layout.SpeciesReferenceGlyph;
 import org.sbml.jsbml.ext.layout.SpeciesReferenceRole;
 import org.sbml.jsbml.ext.layout.TextGlyph;
 
-
 /**
  * @author Ibrahim Vazirabad
  * @version $Rev$
@@ -66,7 +65,13 @@ import org.sbml.jsbml.ext.layout.TextGlyph;
  */
 public class LayoutConverter {
 
+  /**
+   * 
+   */
   final static double depth  =  1d;
+  /**
+   * 
+   */
   final static double z  =  0d;
 
   /**
@@ -211,6 +216,7 @@ public class LayoutConverter {
         ListOf<SpeciesReferenceGlyph> list = layout.getReactionGlyph("rGlyph_"+pReaction.getId()).getListOfSpeciesReferenceGlyphs();
         if (inputInfo.getPointsInLine().size()==1)
         {
+          @SuppressWarnings("unchecked")
           Vector<Point2D> mainReactionAxis = (Vector<Point2D>) inputInfo.getPointsInLine().get(0);
           mainReactionAxis.set(0, new Point2D.Double(3d, 4d));
           inputInfo.setPointsInLine(mainReactionAxis);
@@ -550,6 +556,10 @@ public class LayoutConverter {
   /**
    * Check if the point is on the line segment.
    * Thanks to: http://www.sunshine2k.de/coding/java/PointOnLine/PointOnLine.html and http://www.sunshine2k.de/
+   * @param firstPoint
+   * @param nextPoint
+   * @param pReaction
+   * @return
    */
   private static boolean isPointOnLineSegment(Point2D.Double firstPoint, Point2D.Double nextPoint, PluginReaction pReaction)
   {

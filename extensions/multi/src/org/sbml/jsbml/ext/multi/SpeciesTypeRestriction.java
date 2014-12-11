@@ -22,7 +22,6 @@
 package org.sbml.jsbml.ext.multi;
 
 import org.sbml.jsbml.AbstractNamedSBase;
-import org.sbml.jsbml.AbstractSBase;
 
 /**
  * 
@@ -37,7 +36,25 @@ public class SpeciesTypeRestriction extends AbstractNamedSBase {
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = -6703552149441215128L;
+  /**
+   * 
+   */
   private String speciesTypeInstance;
+
+  /**
+   * @param speciesTypeRestriction
+   */
+  public SpeciesTypeRestriction(SpeciesTypeRestriction speciesTypeRestriction) {
+    this();
+    // TODO
+  }
+
+  /**
+   * 
+   */
+  public SpeciesTypeRestriction() {
+    // TODO Auto-generated constructor stub
+  }
 
   /**
    * Returns the speciesTypeInstance.
@@ -69,9 +86,8 @@ public class SpeciesTypeRestriction extends AbstractNamedSBase {
    * @see org.sbml.jsbml.AbstractSBase#clone()
    */
   @Override
-  public AbstractSBase clone() {
-    // TODO
-    return null;
+  public SpeciesTypeRestriction clone() {
+    return new SpeciesTypeRestriction(this);
   }
 
 }

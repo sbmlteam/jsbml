@@ -1892,8 +1892,9 @@ public abstract class AbstractSBase extends AbstractTreeNode implements SBase {
     firePropertyChange(TreeNodeChangeEvent.notes, oldNotes, notesXMLNode);
   }
 
-  /* (non-Javadoc)
-   * @see org.sbml.jsbml.SBase#setParentSBML(org.sbml.jsbml.SBase)
+  /**
+   * 
+   * @param parent
    */
   protected void setParentSBML(SBase parent) {
     SBase oldParent = getParent();

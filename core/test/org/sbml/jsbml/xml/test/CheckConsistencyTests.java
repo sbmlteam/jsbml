@@ -53,11 +53,13 @@ public class CheckConsistencyTests {
 
   /**
    * Tries to validate biomodels file with id BIOMD0000000228.
+   * @throws IOException
+   * @throws XMLStreamException
    */
   @Test public void checkConsistency() throws IOException, XMLStreamException {
     InputStream fileStream = TestReadFromFile5.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v4/BIOMD0000000228.xml");
     SBMLDocument doc = new SBMLReader().readSBMLFromStream(fileStream);
-    
+
     int nbErrors = doc.checkConsistency();
 
     if (nbErrors > 0) {
@@ -71,6 +73,8 @@ public class CheckConsistencyTests {
 
   /**
    * Tries to validate biomodels file with id BIOMD0000000025, with all checks on.
+   * @throws IOException
+   * @throws XMLStreamException
    */
   @Test public void checkConsistencyAllChecks() throws IOException, XMLStreamException {
     InputStream fileStream = TestReadFromFile5.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v1/BIOMD0000000025.xml");
@@ -102,6 +106,8 @@ public class CheckConsistencyTests {
 
   /**
    * Tries to validate biomodels file with id BIOMD0000000228.
+   * @throws IOException
+   * @throws XMLStreamException
    */
   @Test public void checkConsistency228() throws IOException, XMLStreamException {
     InputStream fileStream = TestReadFromFile5.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v4/BIOMD0000000228.xml");
@@ -120,6 +126,8 @@ public class CheckConsistencyTests {
 
   /**
    * Tries to validate biomodels file with id BIOMD0000000025.
+   * @throws IOException
+   * @throws XMLStreamException
    */
   @Test public void checkConsistency025() throws IOException, XMLStreamException {
     InputStream fileStream = TestReadFromFile5.class.getResourceAsStream("/org/sbml/jsbml/xml/test/data/l2v1/BIOMD0000000025.xml");

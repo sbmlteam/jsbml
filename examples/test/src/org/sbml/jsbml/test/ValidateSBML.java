@@ -37,6 +37,11 @@ import org.sbml.jsbml.SBMLReader;
  */
 public class ValidateSBML {
 
+  /**
+   * @param args
+   * @throws XMLStreamException
+   * @throws IOException
+   */
   public static void main (String[] args) throws XMLStreamException, IOException
   {
     if (args.length < 1)

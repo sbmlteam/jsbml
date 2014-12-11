@@ -25,10 +25,12 @@ package org.sbml.jsbml.util;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.AbstractTreeNode;
 import org.sbml.jsbml.util.filters.Filter;
 
 /**
@@ -212,6 +214,7 @@ Serializable {
   public abstract int getTreeNodeChangeListenerCount();
 
   /**
+   * @param key
    * @return the userObject
    */
   public abstract Object getUserObject(Object key);
@@ -260,6 +263,7 @@ Serializable {
 
   /**
    * Removes all tree node change listeners recursively from this element.
+   * @param recursive
    */
   public void removeAllTreeNodeChangeListeners(boolean recursive);
 

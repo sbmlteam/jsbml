@@ -25,6 +25,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.Set;
 
@@ -985,11 +986,11 @@ public class SBO {
    * 
    * <p> The id need to be of the form 'SBO:XXXXXXX' where X is a digit number.
    * 
-   * @jsbml.warning The methods will throw NoSuchElementException if the id is not found or null.
+   * @jsbml.warning The methods will throw {@link NoSuchElementException} if the id is not found or {@code null}.
    * 
    * @param sboTerm the id of the SBO term to search for.
    * @return the SBO term with the id 'sboTerm'.
-   * @throws NoSuchElementException if the id is not found or null.
+   * @throws NoSuchElementException if the id is not found or {@code null}.
    */
   public static Term getTerm(String sboTerm) {
     return new Term(sbo.getTerm(sboTerm));
@@ -1971,6 +1972,11 @@ public class SBO {
     return checkTerm(sboTerm) ? Integer.parseInt(sboTerm.substring(4)) : -1;
   }
 
+  /**
+   * For testing purposes.
+   * 
+   * @param args
+   */
   public static void main(String[] args) {
     int i = 0;
     for (Term term : getTerms()) {

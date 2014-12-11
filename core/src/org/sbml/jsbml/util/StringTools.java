@@ -575,6 +575,7 @@ public class StringTools {
    * 
    * @param notes
    *            the {@link String} to be checked and possibly modified.
+   * @param surroundingTagName
    * @return A {@link String} that will be surrounded by the XML definition of
    *         a notes {@link String} in SBML, i.e.,
    * 

@@ -49,6 +49,9 @@ public abstract class AbstractSpatialNamedSBase extends AbstractSBase implements
    */
   String spatialId;
 
+  /**
+   * 
+   */
   private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
   /**

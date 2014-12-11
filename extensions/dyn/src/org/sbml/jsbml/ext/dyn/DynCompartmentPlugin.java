@@ -23,6 +23,8 @@
 package org.sbml.jsbml.ext.dyn;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
 
 import javax.swing.tree.TreeNode;
 
@@ -120,6 +122,7 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
 
   /**
    * Sets the value of listOfSpatialComponents
+   * @param listOfSpatialComponents
    */
   public void setListOfSpatialComponents(
     ListOf<SpatialComponent> listOfSpatialComponents) {
@@ -158,6 +161,7 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
   /**
    * Creates a new SpatialComponent element and adds it to the
    * listOfSpatialComponents list
+   * @return
    */
   public SpatialComponent createSpatialComponent() {
     return createSpatialComponent(null);
@@ -165,8 +169,9 @@ public class DynCompartmentPlugin extends DynSBasePlugin {
 
   /**
    * Creates a new {@link SpatialComponent} element and adds it to the
-   * ListOfSpatialComponents list
-   *
+   * {@link #getListOfSpatialComponents()}
+   * 
+   * @param id
    * @return a new {@link SpatialComponent} element
    */
   public SpatialComponent createSpatialComponent(String id) {

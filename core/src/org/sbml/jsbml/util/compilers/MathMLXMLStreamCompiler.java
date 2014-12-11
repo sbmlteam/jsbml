@@ -49,12 +49,42 @@ import org.sbml.jsbml.util.StringTools;
  * @version $Rev$
  */
 // TODO: Let this implement the regular ASTNodeCompiler interface.
+/**
+ * @author Andreas Dr&auml;ger
+ * @version $Rev$
+ * @since 1.0
+ * @date 10.12.2014
+ */
+/**
+ * @author Andreas Dr&auml;ger
+ * @version $Rev$
+ * @since 1.0
+ * @date 10.12.2014
+ */
+/**
+ * @author Andreas Dr&auml;ger
+ * @version $Rev$
+ * @since 1.0
+ * @date 10.12.2014
+ */
 public class MathMLXMLStreamCompiler {
 
+  /**
+   * 
+   */
   private String indent;
+  /**
+   * 
+   */
   private final XMLStreamWriter writer;
+  /**
+   * A {@link Logger} for this class.
+   */
   private final Logger logger = Logger.getLogger(MathMLXMLStreamCompiler.class);
 
+  /**
+   * 
+   */
   private final FindUnitsCompiler findUnitsCompiler = new FindUnitsCompiler();
 
   /**
@@ -140,6 +170,10 @@ public class MathMLXMLStreamCompiler {
   }
 
 
+  /**
+   * @param astNode
+   * @return
+   */
   public boolean isSBMLNamespaceNeeded(ASTNode astNode) {
 
     SBase sbase = astNode.getParentSBMLObject();
@@ -163,6 +197,7 @@ public class MathMLXMLStreamCompiler {
 
   /**
    * Compiles this {@link ASTNode} and produce an XMLStreamWriter representing this node in mathML.
+   * @param astNode
    * 
    *
    * @throws SBMLException if any problems occur while checking the ASTNode tree.
@@ -321,9 +356,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
-
-
-
+  /**
+   * @param astNode
+   */
   private void compileNegativeInfinity(ASTNode astNode) {
 
     try {
@@ -343,7 +378,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
-
+  /**
+   * @param astNode
+   */
   private void compilePositiveInfinity(ASTNode astNode) {
 
     try {
@@ -357,6 +394,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
+  /**
+   * @param astNode
+   */
   private void compileNotANumber(ASTNode astNode) {
 
     try {
@@ -371,6 +411,9 @@ public class MathMLXMLStreamCompiler {
 
   }
 
+  /**
+   * @param astNode
+   */
   private void compilePi(ASTNode astNode) {
 
     try {
@@ -385,6 +428,9 @@ public class MathMLXMLStreamCompiler {
 
   }
 
+  /**
+   * @param astNode
+   */
   private void compileExponentiale(ASTNode astNode) {
 
     try {
@@ -399,8 +445,9 @@ public class MathMLXMLStreamCompiler {
 
   }
 
-
-
+  /**
+   * @param astNode
+   */
   private void compileCSymbol(ASTNode astNode) {
 
     try {
@@ -438,7 +485,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
-
+  /**
+   * @param astNode
+   */
   private void compileInteger(ASTNode astNode) {
 
     try {
@@ -460,8 +509,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
-
-
+  /**
+   * @param astNode
+   */
   private void compileReal(ASTNode astNode) {
 
     try {
@@ -505,7 +555,9 @@ public class MathMLXMLStreamCompiler {
 
   }
 
-
+  /**
+   * @param astNode
+   */
   private void compileReal_e(ASTNode astNode) {
 
     try {
@@ -530,7 +582,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
-
+  /**
+   * @param astNode
+   */
   private void compileRational(ASTNode astNode) {
 
     try {
@@ -555,7 +609,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
-
+  /**
+   * @param astNode
+   */
   private void compileCi(ASTNode astNode) {
 
     try {
@@ -574,19 +630,26 @@ public class MathMLXMLStreamCompiler {
 
   }
 
-
-
+  /**
+   * @param astNode
+   */
   private void compileElement(ASTNode astNode) {
 
     compileElement(astNode.getType().toString().toLowerCase(), astNode);
   }
 
+  /**
+   * @param astNode
+   */
   private void compileFunctionElement(ASTNode astNode) {
     String functionName = astNode.getType().toString().substring(9).toLowerCase();
 
     compileElement(functionName, astNode);
   }
 
+  /**
+   * @param astNode
+   */
   private void compileRootElement(ASTNode astNode) {
 
     if (astNode.getChildCount() == 1) {
@@ -628,6 +691,9 @@ public class MathMLXMLStreamCompiler {
 
   }
 
+  /**
+   * @param astNode
+   */
   private void compileLambda(ASTNode astNode) {
     try {
 
@@ -655,7 +721,9 @@ public class MathMLXMLStreamCompiler {
 
   }
 
-
+  /**
+   * @param arg
+   */
   private void compileBvar(ASTNode arg) {
 
     try {
@@ -677,7 +745,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
-
+  /**
+   * @param astNode
+   */
   private void compilePiecewise(ASTNode astNode) {
 
     int nbChildren = astNode.getChildCount();
@@ -728,7 +798,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
-
+  /**
+   * @param astNode
+   */
   private void compileLog(ASTNode astNode) {
 
     if (astNode.getChildCount() == 1) {
@@ -769,7 +841,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
-
+  /**
+   * @param astNode
+   */
   private void compileConstantElement(ASTNode astNode) {
     String constantName = astNode.getType().toString().substring(9).toLowerCase();
 
@@ -801,7 +875,9 @@ public class MathMLXMLStreamCompiler {
 
   }
 
-
+  /**
+   * @param astNode
+   */
   private void compileRelationalOperator(ASTNode astNode) {
     String functionName = astNode.getType().toString().substring(11).toLowerCase();
 
@@ -809,13 +885,17 @@ public class MathMLXMLStreamCompiler {
 
   }
 
+  /**
+   * @param astNode
+   */
   private void compileLogicalOperator(ASTNode astNode) {
     String functionName = astNode.getType().toString().substring(8).toLowerCase();
-
     compileElement(functionName, astNode);
-
   }
 
+  /**
+   * @param astNode
+   */
   private void compileVector(ASTNode astNode) {
     String functionName = astNode.getType().toString().toLowerCase();
     List<ASTNode> args = astNode.getListOfNodes();
@@ -838,11 +918,18 @@ public class MathMLXMLStreamCompiler {
 
   }
 
+  /**
+   * @param functionName
+   * @param args
+   */
   private void function(String functionName, List<ASTNode> args) {
-
     function(functionName, args.toArray(new ASTNode[args.size()]));
   }
 
+  /**
+   * @param functionName
+   * @param args
+   */
   private void function(String functionName, ASTNode... args) {
     try {
 
@@ -866,6 +953,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
+  /**
+   * @param astNode
+   */
   private void compileUserFunction(ASTNode  astNode) {
     try {
 
@@ -888,6 +978,9 @@ public class MathMLXMLStreamCompiler {
 
   }
 
+  /**
+   * 
+   */
   private void writeEndElement() {
     try {
 
@@ -901,6 +994,9 @@ public class MathMLXMLStreamCompiler {
     }
   }
 
+  /**
+   * @param args
+   */
   public static void main(String[] args) {
 
     ASTNode formula_base = new ASTNode(Double.NaN);

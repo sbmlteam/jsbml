@@ -29,6 +29,8 @@ package org.sbml.jsbml.util;
  * @date 2010-09-01
  * @since 0.8
  * @version $Rev$
+ * @param <L>
+ * @param <V>
  */
 public class ValuePair<L extends Comparable<? super L>, V extends Comparable<? super V>> extends Pair<L, V>
 implements Comparable<ValuePair<L, V>> {

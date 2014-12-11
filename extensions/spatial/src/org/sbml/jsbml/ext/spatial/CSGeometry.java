@@ -21,6 +21,9 @@
  */
 package org.sbml.jsbml.ext.spatial;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.sbml.jsbml.ListOf;
 import org.sbml.jsbml.SBMLException;
 
@@ -37,8 +40,14 @@ public class CSGeometry extends GeometryDefinition {
    */
   private static final long serialVersionUID = -3162376343741365280L;
 
+  /**
+   * 
+   */
   private ListOf<CSGObject> listOfCSGObjects;
 
+  /**
+   * 
+   */
   public CSGeometry() {
     super();
   }
@@ -206,7 +215,7 @@ public class CSGeometry extends GeometryDefinition {
   }
 
 
-  /**
+  /*
    * TODO: if the ID is mandatory for CSGObject objects,
    * one should also add this methods
    */
@@ -215,6 +224,7 @@ public class CSGeometry extends GeometryDefinition {
   //}
   /**
    * Creates a new CSGObject element and adds it to the ListOfCSGObjects list
+   * @return
    */
   public CSGObject createCSGObject() {
     return createCSGObject(null);
@@ -223,6 +233,7 @@ public class CSGeometry extends GeometryDefinition {
 
   /**
    * Creates a new {@link CSGObject} element and adds it to the ListOfCSGObjects list
+   * @param id
    *
    * @return a new {@link CSGObject} element
    */

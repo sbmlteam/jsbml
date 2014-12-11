@@ -43,7 +43,13 @@ public class OrdinalMapping extends AbstractSBase {
    */
   private static final long serialVersionUID = -7174553771288567408L;
 
+  /**
+   * 
+   */
   String geometryDefinition;
+  /**
+   * 
+   */
   Integer ordinal;
 
   /**
@@ -132,6 +138,7 @@ public class OrdinalMapping extends AbstractSBase {
 
   /**
    * Sets the value of ordinal
+   * @param ordinal
    */
   public void setOrdinal(int ordinal) {
     int oldOrdinal = this.ordinal;
@@ -180,6 +187,7 @@ public class OrdinalMapping extends AbstractSBase {
 
   /**
    * Sets the value of geometryDefinition
+   * @param geometryDefinition
    */
   public void setGeometryDefinition(String geometryDefinition) {
     String oldGeometryDefinition = this.geometryDefinition;

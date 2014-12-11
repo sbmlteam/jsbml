@@ -39,13 +39,54 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    * Generated serial version identifier
    */
   private static final long serialVersionUID = -7468181076596795203L;
-  private Boolean absoluteX, absoluteY, absoluteZ;
+  /**
+   * 
+   */
+  private Boolean absoluteX;
+  /**
+   * 
+   */
+  private Boolean absoluteY;
+  /**
+   * 
+   */
+  private Boolean absoluteZ;
+  /**
+   * 
+   */
   private FontFamily fontFamily;
+  /**
+   * 
+   */
   private Short fontSize;
-  private Boolean fontWeightBold, fontStyleItalic;
+  /**
+   * 
+   */
+  private Boolean fontWeightBold;
+  /**
+   * 
+   */
+  private Boolean fontStyleItalic;
+  /**
+   * 
+   */
   private TextAnchor textAnchor;
+  /**
+   * 
+   */
   private VTextAnchor vTextAnchor;
-  private Double x, y, z;
+  /**
+   * 
+   */
+  private Double x;
+  /**
+   * 
+   */
+  private Double y;
+  /**
+   * 
+   */
+  private Double z;
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.FontRenderStyle#getFontFamily()
@@ -291,7 +332,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    * @see org.sbml.jsbml.ext.render.Point3D#setAbsoluteX(java.lang.Boolean)
    */
   @Override
-  public void setAbsoluteX(Boolean absoluteX) {
+  public void setAbsoluteX(boolean absoluteX) {
     Boolean oldAbsoluteX = this.absoluteX;
     this.absoluteX = absoluteX;
     firePropertyChange(RenderConstants.absoluteX, oldAbsoluteX, this.absoluteX);
@@ -301,7 +342,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    * @see org.sbml.jsbml.ext.render.Point3D#setAbsoluteY(java.lang.Boolean)
    */
   @Override
-  public void setAbsoluteY(Boolean absoluteY) {
+  public void setAbsoluteY(boolean absoluteY) {
     Boolean oldAbsoluteY = this.absoluteY;
     this.absoluteY = absoluteY;
     firePropertyChange(RenderConstants.absoluteY, oldAbsoluteY, this.absoluteY);
@@ -311,7 +352,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    * @see org.sbml.jsbml.ext.render.Point3D#setAbsoluteZ(java.lang.Boolean)
    */
   @Override
-  public void setAbsoluteZ(Boolean absoluteZ) {
+  public void setAbsoluteZ(boolean absoluteZ) {
     Boolean oldAbsoluteZ = this.absoluteZ;
     this.absoluteZ = absoluteZ;
     firePropertyChange(RenderConstants.absoluteZ, oldAbsoluteZ, this.absoluteZ);
@@ -381,7 +422,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    * @see org.sbml.jsbml.ext.render.Point3D#setX(java.lang.Double)
    */
   @Override
-  public void setX(Double x) {
+  public void setX(double x) {
     Double oldX = this.x;
     this.x = x;
     firePropertyChange(RenderConstants.x, oldX, this.x);
@@ -391,7 +432,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    * @see org.sbml.jsbml.ext.render.Point3D#setY(java.lang.Double)
    */
   @Override
-  public void setY(Double y) {
+  public void setY(double y) {
     Double oldY = this.y;
     this.y = y;
     firePropertyChange(RenderConstants.y, oldY, this.y);
@@ -401,7 +442,7 @@ public class Text extends GraphicalPrimitive1D implements FontRenderStyle, Point
    * @see org.sbml.jsbml.ext.render.Point3D#setZ(java.lang.Double)
    */
   @Override
-  public void setZ(Double z) {
+  public void setZ(double z) {
     Double oldZ = this.z;
     this.z = z;
     firePropertyChange(RenderConstants.z, oldZ, this.z);

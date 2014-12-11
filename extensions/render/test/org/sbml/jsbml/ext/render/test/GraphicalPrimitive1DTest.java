@@ -39,7 +39,7 @@ import org.sbml.jsbml.ext.render.GraphicalPrimitive1D;
 public class GraphicalPrimitive1DTest {
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.GraphicalPrimitive1D#isSetStrokeDashArray()}.
+   * Test method for {@link GraphicalPrimitive1D#isSetStrokeDashArray()}.
    */
   @Test
   public void testIsSetStrokeDashArray() {
@@ -60,7 +60,7 @@ public class GraphicalPrimitive1DTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.GraphicalPrimitive1D#setStrokeDashArray(java.lang.Short[])}.
+   * Test method for {@link GraphicalPrimitive1D#setStrokeDashArray(java.lang.Short[])}.
    */
   @Test
   public void testSetStrokeDashArray() {
@@ -76,7 +76,7 @@ public class GraphicalPrimitive1DTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getStroke()}.
+   * Test method for {@link GraphicalPrimitive1D#getStroke()}.
    */
   @Test
   public void testGetStroke() {
@@ -89,7 +89,7 @@ public class GraphicalPrimitive1DTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.GraphicalPrimitive1D#getStrokeWidth()}.
+   * Test method for {@link GraphicalPrimitive1D#getStrokeWidth()}.
    */
   @Test
   public void testGetStrokeWidth() {
@@ -101,7 +101,7 @@ public class GraphicalPrimitive1DTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.GraphicalPrimitive1D#isSetStroke()}.
+   * Test method for {@link GraphicalPrimitive1D#isSetStroke()}.
    */
   @Test
   public void testIsSetStroke() {
@@ -114,7 +114,7 @@ public class GraphicalPrimitive1DTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.GraphicalPrimitive1D#isSetStrokeWidth()}.
+   * Test method for {@link GraphicalPrimitive1D#isSetStrokeWidth()}.
    */
   @Test
   public void testIsSetStrokeWidth() {
@@ -127,7 +127,7 @@ public class GraphicalPrimitive1DTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.GraphicalPrimitive1D#setStroke(java.lang.String)}.
+   * Test method for {@link GraphicalPrimitive1D#setStroke(java.lang.String)}.
    */
   @Test
   public void testSetStroke() {
@@ -139,7 +139,7 @@ public class GraphicalPrimitive1DTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.GraphicalPrimitive1D#setStrokeWidth(java.lang.Double)}.
+   * Test method for {@link GraphicalPrimitive1D#setStrokeWidth(double)}.
    */
   @Test
   public void testSetStrokeWidth() {

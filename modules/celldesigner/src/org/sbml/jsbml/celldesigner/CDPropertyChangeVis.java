@@ -36,7 +36,6 @@ import javax.swing.JTextArea;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
-
 /**
  * @author Ibrahim Vazirabad
  * @version $Rev$
@@ -46,7 +45,13 @@ import javax.swing.SwingConstants;
 public class CDPropertyChangeVis extends JFrame implements ActionListener {
   /** Generated serial version identifier */
   private static final long serialVersionUID = -6800051247041441688L;
+  /**
+   * 
+   */
   Container contentPane = getContentPane();
+  /**
+   * 
+   */
   private final JTextArea viewerArea = new JTextArea(30,75);
 
   /**
@@ -75,36 +80,54 @@ public class CDPropertyChangeVis extends JFrame implements ActionListener {
     setVisible(true);
   }
 
+  /**
+   * @param sbase
+   */
   public void addSBase(String sbase)
   {
     String sbaseAdded = "\nSBase_Added:\t"+sbase;
     viewerArea.append(sbaseAdded);
   }
 
+  /**
+   * @param sbase
+   */
   public void modelSelectChanged(String sbase)
   {
     String sbaseAdded = "\nModel_SelectChanged:\t"+sbase;
     viewerArea.append(sbaseAdded);
   }
 
+  /**
+   * @param sbase
+   */
   public void modelOpened(String sbase)
   {
     String modelOpened = "\nmodel_Opened:\t"+sbase;
     viewerArea.append(modelOpened);
   }
 
+  /**
+   * @param sbase
+   */
   public void modelClosed(String sbase)
   {
     String modelClosed = "\nmodel_Closed:\t"+sbase;
     viewerArea.append(modelClosed);
   }
 
+  /**
+   * @param sbase
+   */
   public void deleteSBase(String sbase)
   {
     String deleteSBase="\nSBase_Deleted:\t"+sbase;
     viewerArea.append(deleteSBase);
   }
 
+  /**
+   * @param sbase
+   */
   public void changeSBase(String sbase)
   {
     String changeSBase="\nSBase_Changed:\t"+sbase;

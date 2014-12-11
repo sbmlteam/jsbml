@@ -23,7 +23,6 @@ package org.sbml.jsbml.ext.spatial;
 
 import org.sbml.jsbml.SBase;
 
-
 /**
  * @author Alex Thomas
  * @version $Rev$
@@ -32,34 +31,32 @@ import org.sbml.jsbml.SBase;
  */
 public interface SpatialNamedSBase extends SBase {
 
-
   /**
    * Unsets the variable spatialId
    *
    * @return {@code true}, if spatialId was set before,
    *         otherwise {@code false}
    */
-  public abstract boolean unsetSpatialId();
+  public boolean unsetSpatialId();
 
   /**
    * Sets the value of spatialId
+   * @param spatialId
    */
-  public abstract void setSpatialId(String spatialId);
+  public void setSpatialId(String spatialId);
 
   /**
    * Returns whether spatialId is set
    *
    * @return whether spatialId is set
    */
-  public abstract boolean isSetSpatialId();
+  public boolean isSetSpatialId();
 
   /**
    * Returns the value of spatialId
    *
    * @return the value of spatialId
    */
-  public abstract String getSpatialId();
-
-
+  public String getSpatialId();
 
 }

@@ -24,6 +24,7 @@ package org.sbml.jsbml.ext.comp;
 import java.text.MessageFormat;
 import java.util.Map;
 
+import org.sbml.jsbml.AbstractNamedSBase;
 import org.sbml.jsbml.IdentifierException;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.util.IdManager;

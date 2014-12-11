@@ -41,6 +41,7 @@ import javax.swing.UIManager;
 import javax.xml.stream.XMLStreamException;
 
 import org.sbml.jsbml.SBMLDocument;
+import org.sbml.jsbml.SBMLException;
 import org.sbml.jsbml.SBMLReader;
 import org.sbml.jsbml.SBMLWriter;
 import org.sbml.jsbml.gui.SBMLFileFilter;
@@ -54,11 +55,17 @@ import org.sbml.jsbml.gui.SBMLFileFilter;
 public class SBMLLayoutVisualizer extends JFrame implements ActionListener {
   /** Generated serial version identifier */
   private static final long serialVersionUID = -6800051247041441688L;
+  /**
+   * 
+   */
   private final SBMLDocument sbmlDocument;
 
-  /** @param document The sbml root node of an SBML file
+  /**
+   * @param document
+   *        The sbml root node of an SBML file
    * @throws XMLStreamException
-   * @throws SBMLException */
+   * @throws SBMLException
+   */
   public SBMLLayoutVisualizer(SBMLDocument document) throws XMLStreamException {
     super("Textual SBML Visualization");
     sbmlDocument=document;
@@ -90,14 +97,17 @@ public class SBMLLayoutVisualizer extends JFrame implements ActionListener {
     setVisible(true);
   }
 
-  /** @param args Expects a valid path to an SBML file. */
+  /**
+   * @param args
+   *        Expects a valid path to an SBML file.
+   * @throws Exception
+   */
   public static void main(String[] args) throws Exception {
     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
     new SBMLLayoutVisualizer(SBMLReader.read(new File(args[0])));
   }
 
-  /* (non-Javadoc)
-   * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+  /**
    * Saves SMBL Layout to File
    */
   @Override

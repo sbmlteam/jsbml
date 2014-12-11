@@ -65,10 +65,19 @@ public class MathMLStaxParser implements ReadingParser {
    */
   private boolean omitXMLDeclaration;
 
+  /**
+   * A {@link Logger} for this class.
+   */
   private transient Logger logger = Logger.getLogger(MathMLStaxParser.class);
 
+  /**
+   * 
+   */
   private boolean lastElementWasApply;
 
+  /**
+   * 
+   */
   private boolean isFunctionDefinition;
 
   /**
@@ -403,6 +412,9 @@ public class MathMLStaxParser implements ReadingParser {
     return namespaces;
   }
 
+  /**
+   * 
+   */
   private static final List<String> namespaces = new ArrayList<String>();
 
   static {

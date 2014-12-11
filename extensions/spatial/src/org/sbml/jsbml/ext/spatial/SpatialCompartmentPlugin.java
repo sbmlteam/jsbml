@@ -49,7 +49,7 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
     if (isSetExtendedSBase()) {
       return (ListOf<Compartment>) getExtendedSBase().getParent();
     }
-    
+
     return null;
   }
 
@@ -88,7 +88,7 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
     if (isSetExtendedSBase()) {
       return (Compartment) super.getExtendedSBase();
     }
-    
+
     return null;
   }
 
@@ -98,7 +98,7 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
   public SpatialCompartmentPlugin(
     SpatialCompartmentPlugin spatialCompartmentPlugin) {
     super(spatialCompartmentPlugin);
-    
+
     if (spatialCompartmentPlugin.isSetCompartmentMapping()) {
       setCompartmentMapping(spatialCompartmentPlugin.getCompartmentMapping().clone());
     }
@@ -136,6 +136,7 @@ public class SpatialCompartmentPlugin extends AbstractSpatialSBasePlugin {
 
   /**
    * Sets the value of compartmentMapping
+   * @param compartmentMapping
    */
   public void setCompartmentMapping(CompartmentMapping compartmentMapping) {
     CompartmentMapping oldCompartmentMapping = this.compartmentMapping;

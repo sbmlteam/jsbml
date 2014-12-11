@@ -22,6 +22,8 @@
 package org.sbml.jsbml.ext.layout;
 
 import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
@@ -31,8 +33,10 @@ import org.sbml.jsbml.util.ListOfWithName;
 
 /**
  * The {@link GeneralGlyph} is used to facilitate the representation of elements
- * other than {@link Compartment}, {@link Species} and {@link Reaction} and thus
- * can be used for the display of relationships of {@link Rule} or
+ * other than {@link org.sbml.jsbml.Compartment}, {@link org.sbml.jsbml.Species}
+ * and {@link org.sbml.jsbml.Reaction} and thus
+ * can be used for the display of relationships of {@link org.sbml.jsbml.Rule}
+ * or
  * elements defined by other SBML packages. It closely follows the structure of
  * the {@link ReactionGlyph}. {@link GeneralGlyph} is defined to have an
  * optional attribute reference as well as the elements curve,
@@ -61,6 +65,9 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
    */
   private ListOf<ReferenceGlyph> listOfReferenceGlyphs;
 
+  /**
+   * 
+   */
   private ListOf<GraphicalObject> listOfSubGlyphs;
 
   /**
@@ -147,8 +154,8 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
   /**
    * The listOfSubGlyphs is an optional list that can contain sub-glyphs of the {@link GeneralGlyph}.
    * One example of its use could be a sub-module containing {@link SpeciesGlyph}s and {@link ReactionGlyph}s
-   * that are not necessarily part of the enclosing {@link Model}. Another example is an {@link Event}, visualized
-   * with its {@link Trigger} and additional {@link GeneralGlyph}s for its {@link EventAssignment}. The
+   * that are not necessarily part of the enclosing {@link org.sbml.jsbml.Model}. Another example is an {@link org.sbml.jsbml.Event}, visualized
+   * with its {@link org.sbml.jsbml.Trigger} and additional {@link GeneralGlyph}s for its {@link org.sbml.jsbml.EventAssignment}. The
    * listOfSubGlyphs consists of {@link GraphicalObject}s or derived classes. Thus, unlike
    * the listOfAdditionalGraphicalObjects (which may only contain {@link GraphicalObject} or {@link GeneralGlyph}s),
    * the listOfSubGlyphs may contain any derived class, such as for example {@link TextGlyph} elements.
@@ -226,10 +233,16 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
     getListOfSubGlyphs().remove(i);
   }
 
+  /**
+   * @param i
+   */
   public void removeGeneralGlyph(int i) {
     removeSubGlyph(i);
   }
 
+  /**
+   * @param subGlyph
+   */
   public void removeGeneralGlyph(GraphicalObject subGlyph) {
     removeSubGlyph(subGlyph);
   }
@@ -237,6 +250,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 
   /**
    * Creates a new {@link ReferenceGlyph} element and adds it to the ListOfSubGlyphs list
+   * @return
    */
   public ReferenceGlyph createReferenceGlyph() {
     return createReferenceGlyph(null);
@@ -244,6 +258,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 
   /**
    * Creates a new {@link TextGlyph} element and adds it to the ListOfSubGlyphs list
+   * @return
    */
   public TextGlyph createTextGlyph() {
     return createTextGlyph(null);
@@ -251,7 +266,8 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 
   /**
    * Creates a new {@link TextGlyph} element and adds it to the ListOfSubGlyphs list
-   *
+   * 
+   * @param id
    * @return a new {@link TextGlyph} element
    */
   public TextGlyph createTextGlyph(String id) {
@@ -262,6 +278,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 
   /**
    * Creates a new {@link ReferenceGlyph} element and adds it to the ListOfSubGlyphs list
+   * @return
    */
   public ReferenceGlyph createReferenceGlyphForList() {
     return createReferenceGlyphForList(null);
@@ -269,7 +286,8 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 
   /**
    * Creates a new {@link ReferenceGlyph} element and adds it to the ListOfSubGlyphs list
-   *
+   * 
+   * @param id
    * @return a new {@link ReferenceGlyph} element
    */
   public ReferenceGlyph createReferenceGlyphForList(String id) {
@@ -281,6 +299,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 
   /**
    * Creates a new {@link SpeciesGlyph} element and adds it to the ListOfSubGlyphs list
+   * @return
    */
   public SpeciesGlyph createSpeciesGlyph() {
     return createSpeciesGlyph(null);
@@ -288,6 +307,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 
   /**
    * Creates a new {@link SpeciesGlyph} element and adds it to the ListOfSubGlyphs list
+   * @param id
    *
    * @return a new {@link SpeciesGlyph} element
    */
@@ -299,6 +319,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 
   /**
    * Creates a new {@link SpeciesReferenceGlyph} element and adds it to the ListOfSubGlyphs list
+   * @return
    */
   public SpeciesReferenceGlyph createSpeciesReferenceGlyph() {
     return createSpeciesReferenceGlyph(null);
@@ -306,6 +327,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 
   /**
    * Creates a new {@link SpeciesReferenceGlyph} element and adds it to the ListOfSubGlyphs list
+   * @param id
    *
    * @return a new {@link SpeciesReferenceGlyph} element
    */
@@ -316,6 +338,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
   }
   /**
    * Creates a new {@link CompartmentGlyph} element and adds it to the ListOfSubGlyphs list
+   * @return
    */
   public CompartmentGlyph createCompartmentGlyph() {
     return createCompartmentGlyph(null);
@@ -323,6 +346,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 
   /**
    * Creates a new {@link CompartmentGlyph} element and adds it to the ListOfSubGlyphs list
+   * @param id
    *
    * @return a new {@link CompartmentGlyph} element
    */
@@ -334,6 +358,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 
   /**
    * Creates a new {@link GeneralGlyph} element and adds it to the ListOfSubGlyphs list
+   * @return
    */
   public GeneralGlyph createGeneralGlyph() {
     return createGeneralGlyph(null);
@@ -341,6 +366,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 
   /**
    * Creates a new {@link GeneralGlyph} element and adds it to the ListOfSubGlyphs list
+   * @param id
    *
    * @return a new {@link GeneralGlyph} element
    */
@@ -352,6 +378,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 
   /**
    * Creates a new {@link ReactionGlyph} element and adds it to the ListOfSubGlyphs list
+   * @return
    */
   public ReactionGlyph createReactionGlyph() {
     return createReactionGlyph(null);
@@ -359,6 +386,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 
   /**
    * Creates a new {@link ReactionGlyph} element and adds it to the ListOfSubGlyphs list
+   * @param id
    *
    * @return a new {@link ReactionGlyph} element
    */
@@ -370,6 +398,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 
   /**
    * Creates a new {@link GraphicalObject} element and adds it to the ListOfSubGlyphs list
+   * @return
    */
   public GraphicalObject createGraphicalObject() {
     return createGraphicalObject(null);
@@ -377,6 +406,7 @@ public class GeneralGlyph extends AbstractReferenceGlyph {
 
   /**
    * Creates a new {@link GraphicalObject} element and adds it to the ListOfSubGlyphs list
+   * @param id
    *
    * @return a new {@link GraphicalObject} element
    */

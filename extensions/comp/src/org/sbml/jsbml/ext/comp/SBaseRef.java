@@ -27,6 +27,7 @@ import java.util.Map;
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.AbstractSBase;
+import org.sbml.jsbml.UnitDefinition;
 
 /**
  * Contains the machinery for constructing references to specific components
@@ -106,6 +107,7 @@ public class SBaseRef extends AbstractSBase {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public SBaseRef(SBaseRef obj) {
     super(obj);
@@ -163,6 +165,7 @@ public class SBaseRef extends AbstractSBase {
    * to a port identifier, in the case when the reference
    * being constructed with the {@link SBaseRef} is
    * intended to refer to a port on a submodel.
+   * @param portRef
    * 
    */
   public void setPortRef(String portRef) {
@@ -219,6 +222,7 @@ public class SBaseRef extends AbstractSBase {
    * when the reference being constructed with the
    * {@link SBaseRef} is intended to refer to an object
    * that does not have a port identifier.
+   * @param idRef
    * 
    */
   public void setIdRef(String idRef) {
@@ -279,6 +283,7 @@ public class SBaseRef extends AbstractSBase {
    * the reserved unit identifiers that are defined by SBML Level 3
    * are not permitted as values of unitRef. Reserved unit
    * identifiers may not be replaced or deleted.
+   * @param unitRef
    * 
    */
   public void setUnitRef(String unitRef) {
@@ -337,6 +342,7 @@ public class SBaseRef extends AbstractSBase {
    * to a subelement of the referenced model. Since meta identifiers are
    * optional attributes of SBase, all SBML objects have the potential to
    * have a meta identifier value.
+   * @param metaIdRef
    */
   public void setMetaIdRef(String metaIdRef) {
     String oldIdRef = this.metaIdRef;
@@ -401,6 +407,7 @@ public class SBaseRef extends AbstractSBase {
    * An {@link SBaseRef} object may have up to one subcomponent named
    * sBaseRef, of type {@link SBaseRef}. This permits recursive structures
    * to be constructed so that objects inside submodels can be referenced.
+   * @param sBaseRef
    * 
    */
   public void setSBaseRef(SBaseRef sBaseRef) {

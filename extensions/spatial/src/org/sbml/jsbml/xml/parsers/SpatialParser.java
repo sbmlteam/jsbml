@@ -84,7 +84,10 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 public class SpatialParser extends AbstractReaderWriter implements PackageParser {
 
   // TODO - check that it is properly updated to the 0.88 draft specs
-  
+
+  /**
+   * A {@link Logger} for this class.
+   */
   private Logger logger = Logger.getLogger(SpatialParser.class);
 
   /**
@@ -92,13 +95,17 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
    */
   public static final String namespaceURIrequired = "http://www.sbml.org/sbml/level3/version1/req/version1";
 
-
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getShortLabel()
+   */
   @Override
   public String getShortLabel() {
     return "spatial";
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#getNamespaceURI()
+   */
   @Override
   public String getNamespaceURI() {
     return SpatialConstants.namespaceURI;
@@ -140,7 +147,6 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
     return listOfElementsToWrite;
   }
 
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.xml.parsers.WritingParser#writeElement(org.sbml.jsbml.xml.stax.SBMLObjectForXML, java.lang.Object)
    */
@@ -155,7 +161,9 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
     }
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processAttribute(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, boolean, java.lang.Object)
+   */
   @Override
   public void processAttribute(String elementName, String attributeName,
     String value, String uri, String prefix, boolean isLastAttribute,
@@ -187,6 +195,9 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
       isLastAttribute, contextObject);
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.AbstractReaderWriter#processStartElement(java.lang.String, java.lang.String, java.lang.String, boolean, boolean, java.lang.Object)
+   */
   @SuppressWarnings("unchecked")
   @Override
   public Object processStartElement(String elementName, String uri,
@@ -297,19 +308,19 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
       if (elementName.equals(SpatialConstants.listOfSampledVolumes)){
         ListOf<SampledVolume> listOfSampledVolumes = sfg.getListOfSampledVolumes();
         return listOfSampledVolumes;
-//      } else if (elementName.equals(SpatialConstants.sampledField)){
-//        SampledField sf = new SampledField(); // SampleField is not a child anymore in 0.88 but just a SIdRef
-//        sfg.setSampledField(sf);
-//        return sf;
+        //      } else if (elementName.equals(SpatialConstants.sampledField)){
+        //        SampledField sf = new SampledField(); // SampleField is not a child anymore in 0.88 but just a SIdRef
+        //        sfg.setSampledField(sf);
+        //        return sf;
       }
     } else if (contextObject instanceof SampledField) {
-//      SampledField sf = (SampledField) contextObject; // No more child in 0.88
-//      if (elementName.equals(SpatialConstants.imageData)){
-//        ImageData im = new ImageData();
-//        sf.setImageData(im);
-//        // sf.set
-//        return im;
-//      }
+      //      SampledField sf = (SampledField) contextObject; // No more child in 0.88
+      //      if (elementName.equals(SpatialConstants.imageData)){
+      //        ImageData im = new ImageData();
+      //        sf.setImageData(im);
+      //        // sf.set
+      //        return im;
+      //      }
     } else if (contextObject instanceof CSGeometry) {
       CSGeometry csg = (CSGeometry) contextObject;
       if (elementName.equals(SpatialConstants.listOfCSGObjects)){
@@ -496,7 +507,9 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
     return contextObject;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#getNamespaceFor(int, int, int)
+   */
   @Override
   public String getNamespaceFor(int level, int version,	int packageVersion) {
 
@@ -507,26 +520,41 @@ public class SpatialParser extends AbstractReaderWriter implements PackageParser
     return null;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.ReadingParser#getNamespaces()
+   */
   @Override
   public List<String> getNamespaces() {
     return SpatialConstants.namespaces;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#getPackageNamespaces()
+   */
   @Override
   public List<String> getPackageNamespaces() {
     return getNamespaces();
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#getPackageName()
+   */
   @Override
   public String getPackageName() {
     return SpatialConstants.shortLabel;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#isRequired()
+   */
   @Override
   public boolean isRequired() {
     return true;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.xml.parsers.PackageParser#createPluginFor(org.sbml.jsbml.SBase)
+   */
   @Override
   public SBasePlugin createPluginFor(SBase sbase) {
 

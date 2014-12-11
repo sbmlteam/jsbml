@@ -43,9 +43,11 @@ public class Delay extends AbstractMathContainer {
   }
 
   /**
-   * Creates a Delay instance from an ASTNode, level and version.
+   * Creates a {@link Delay} instance from an {@link ASTNode}, level and version.
    * 
    * @param math
+   * @param level
+   * @param version
    */
   public Delay(ASTNode math, int level, int version) {
     super(math, level, version);

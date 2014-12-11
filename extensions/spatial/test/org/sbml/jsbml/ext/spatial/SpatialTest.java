@@ -41,6 +41,11 @@ import org.sbml.jsbml.SpeciesReference;
  */
 public class SpatialTest {
 
+  /**
+   * @param args
+   * @throws SBMLException
+   * @throws XMLStreamException
+   */
   public static void main(String[] args) throws SBMLException, XMLStreamException {
     int level = 3, version = 1;
     Species spec1,spec2,spec3;

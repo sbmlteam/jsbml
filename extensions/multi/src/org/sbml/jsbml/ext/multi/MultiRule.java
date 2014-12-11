@@ -38,7 +38,6 @@ import org.sbml.jsbml.ext.AbstractSBasePlugin;
  */
 public class MultiRule extends AbstractSBasePlugin  {
 
-
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getElementNamespace()
    */
@@ -46,7 +45,6 @@ public class MultiRule extends AbstractSBasePlugin  {
   public String getElementNamespace() {
     return MultiConstants.getNamespaceURI(getLevel(), getVersion());
   }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getPackageName()
@@ -99,9 +97,11 @@ public class MultiRule extends AbstractSBasePlugin  {
    * Generated serial version identifier.
    */
   private static final long serialVersionUID = 4526455581462978178L;
-  // TODO: should probably be a listOf here
-  private SpeciesTypeInstanceChange speciesTypeInstanceChange;
 
+  /**
+   * 
+   */
+  private SpeciesTypeInstanceChange speciesTypeInstanceChange; // TODO: should probably be a listOf here
 
   /**
    * @param multiRule
@@ -110,6 +110,9 @@ public class MultiRule extends AbstractSBasePlugin  {
     super(multiRule);
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.SBasePlugin#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix,
     String value) {
@@ -117,34 +120,48 @@ public class MultiRule extends AbstractSBasePlugin  {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildAt(int)
+   */
   @Override
   public TreeNode getChildAt(int childIndex) {
     // TODO Auto-generated method stub
     return null;
   }
 
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getChildCount()
+   */
   @Override
   public int getChildCount() {
     // TODO Auto-generated method stub
     return 0;
   }
 
+  /* (non-Javadoc)
+   * @see javax.swing.tree.TreeNode#getAllowsChildren()
+   */
   @Override
   public boolean getAllowsChildren() {
     // TODO Auto-generated method stub
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     // TODO Auto-generated method stub
     return null;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.AbstractSBasePlugin#clone()
+   */
   @Override
   public MultiRule clone() {
     return new MultiRule(this);
   }
-
 
 }

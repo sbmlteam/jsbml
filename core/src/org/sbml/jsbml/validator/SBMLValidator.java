@@ -26,8 +26,6 @@ package org.sbml.jsbml.validator;
  * \brief   Validates an SBML document using the SBML.org Online Validator
  * \author  Ben Bornstein <sbml-team@caltech.edu>
  * \author  Akiya Jouraku <sbml-team@caltech.edu>
- * 
- * 
  */
 import java.io.File;
 import java.io.FileInputStream;
@@ -73,6 +71,9 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  */
 class Validator {
 
+  /**
+   * 
+   */
   public static String validatorURL = "http://sbml.org/validator/";
   // public static String validatorURL = "http://sbml-validator.caltech.edu:8888/validator_servlet/ValidatorServlet";
 
@@ -81,12 +82,15 @@ class Validator {
    * SBML.org online validator. The results are returned as an InputStream
    * whose format may be controlled by setting parameters.put("output", ...)
    * to one of: "xml", "xhtml", "json", "text" (default: xml).
+   * @param filename
+   * @param parameters
    * 
    * @return an InputStream containing the validation results.
+   * @throws IOException
    */
   public static InputStream validateSBML(String filename,
     Map<String, String> parameters) throws IOException
-    {
+  {
     Logger logger = Logger.getLogger(SBMLValidator.class);
 
     if (parameters.get("output") == null) {
@@ -117,7 +121,7 @@ class Validator {
     }
 
     return post.done();
-    }
+  }
 }
 
 /**
@@ -132,6 +136,10 @@ class Validator {
  * text/xml.
  */
 class MultipartPost {
+  /**
+   * @param url
+   * @throws IOException
+   */
   public MultipartPost(String url) throws IOException {
     Random random = new Random();
 
@@ -145,6 +153,10 @@ class MultipartPost {
     stream = connection.getOutputStream();
   }
 
+  /**
+   * @return
+   * @throws IOException
+   */
   public InputStream done() throws IOException {
     writeln("--" + boundary + "--");
     writeln();
@@ -154,6 +166,11 @@ class MultipartPost {
     return connection.getInputStream();
   }
 
+  /**
+   * @param name
+   * @param value
+   * @throws IOException
+   */
   public void writeParameter(String name, String value) throws IOException {
     writeln("--" + boundary);
     writeln("Content-Disposition: form-data; name=\"" + name + "\"");
@@ -161,6 +178,11 @@ class MultipartPost {
     writeln(value);
   }
 
+  /**
+   * @param name
+   * @param file
+   * @throws IOException
+   */
   public void writeParameter(String name, File file) throws IOException {
     String prefix = "Content-Disposition: form-data; name=\"file\"; filename=";
 
@@ -181,6 +203,11 @@ class MultipartPost {
     source.close();
   }
 
+  /**
+   * @param source
+   * @param destination
+   * @throws IOException
+   */
   void copy(InputStream source, OutputStream destination) throws IOException {
     byte[] buffer = new byte[8192];
     int nbytes = 0;
@@ -190,27 +217,52 @@ class MultipartPost {
     }
   }
 
+  /**
+   * @param s
+   * @throws IOException
+   */
   void writeln(String s) throws IOException {
     write(s);
     writeln();
   }
 
+  /**
+   * @throws IOException
+   */
   void writeln() throws IOException {
     write('\r');
     write('\n');
   }
 
+  /**
+   * @param c
+   * @throws IOException
+   */
   void write(char c) throws IOException {
     stream.write(c);
   }
 
+  /**
+   * @param s
+   * @throws IOException
+   */
   void write(String s) throws IOException {
     stream.write(s.getBytes());
   }
 
+  /**
+   * 
+   */
   URLConnection connection;
+  /**
+   * 
+   */
   OutputStream stream;
+  /**
+   * 
+   */
   String boundary;
+
 }
 
 /**
@@ -226,6 +278,9 @@ class MultipartPost {
  */
 public class SBMLValidator {
 
+  /**
+   * 
+   */
   static void usage() {
     String usage = "usage: java org.sbml.jsbml.validator.SBMLValidator [-h] [-d opt1[,opt2,...]] filename.xml\n"
         + "usage: java org.sbml.jsbml.validator.SBMLValidator [-h] [-d opt1[,opt2,...]] http://..."
@@ -329,6 +384,11 @@ public class SBMLValidator {
     }
   }
 
+  /**
+   * @param source
+   * @param destination
+   * @throws IOException
+   */
   static void print(InputStream source, OutputStream destination)
       throws IOException {
     byte[] buffer = new byte[8192];
@@ -342,9 +402,14 @@ public class SBMLValidator {
     source.reset();
   }
 
+  /**
+   * @param source
+   * @param destination
+   * @throws IOException
+   */
   static void print(Reader source, Writer destination)
       throws IOException
-      {
+  {
     char[] buffer = new char[8192];
     int nbChar = 0;
 
@@ -353,7 +418,7 @@ public class SBMLValidator {
     }
 
     destination.flush();
-      }
+  }
 
 
   /**

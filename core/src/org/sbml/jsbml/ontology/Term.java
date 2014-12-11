@@ -82,7 +82,15 @@ public class Term implements Cloneable, Comparable<Term>, Serializable {
   /**
    * The base properties of this {@link Term}.
    */
-  private String id, name, def;
+  private String id;
+  /**
+   * The base properties of this {@link Term}.
+   */
+  private String name;
+  /**
+   * The base properties of this {@link Term}.
+   */
+  private String def;
 
   /**
    * The underlying BioJava {@link org.biojava3.ontology.Term}.

@@ -70,6 +70,9 @@ SBaseWithUnit {
    */
   private String unit;
 
+  /**
+   * 
+   */
   private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
   /**
@@ -150,6 +153,7 @@ SBaseWithUnit {
 
   /**
    * Sets the value of boundaryMinimum
+   * @param boundaryMinimum
    */
   public void setBoundaryMinimum(Boundary boundaryMinimum) {
     Boundary oldMinimum = this.boundaryMinimum;
@@ -200,6 +204,7 @@ SBaseWithUnit {
 
   /**
    * Sets the value of boundaryMaximum
+   * @param boundaryMaximum
    */
   public void setBoundaryMaximum(Boundary boundaryMaximum) {
     Boundary oldMaximum = boundaryMaximum;
@@ -252,6 +257,7 @@ SBaseWithUnit {
 
   /**
    * Sets the value of type
+   * @param type
    */
   public void setType(CoordinateKind type) {
     CoordinateKind oldType = this.type;

@@ -38,7 +38,7 @@ import org.sbml.jsbml.ext.render.Image;
 public class ImageTest {
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#getAllowsChildren()}.
+   * Test method for {@link Image#getAllowsChildren()}.
    */
   @Test
   public void testGetAllowsChildren() {
@@ -47,7 +47,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#getChildCount()}.
+   * Test method for {@link Image#getChildCount()}.
    */
   @Test
   public void testGetChildCount() {
@@ -56,7 +56,7 @@ public class ImageTest {
   }
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#isAbsoluteHeight()}.
+   * Test method for {@link Image#isAbsoluteHeight()}.
    */
   @Test
   public void testIsAbsoluteHeight() {
@@ -67,7 +67,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#isSetAbsoluteHeight()}.
+   * Test method for {@link Image#isSetAbsoluteHeight()}.
    */
   @Test
   public void testIsSetAbsoluteHeight() {
@@ -79,7 +79,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#setAbsoluteHeight(java.lang.Boolean)}.
+   * Test method for {@link Image#setAbsoluteHeight(boolean)}.
    */
   @Test
   public void testSetAbsoluteHeight() {
@@ -90,7 +90,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#isAbsoluteWidth()}.
+   * Test method for {@link Image#isAbsoluteWidth()}.
    */
   @Test
   public void testIsAbsoluteWidth() {
@@ -101,7 +101,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#isSetAbsoluteWidth()}.
+   * Test method for {@link Image#isSetAbsoluteWidth()}.
    */
   @Test
   public void testIsSetAbsoluteWidth() {
@@ -113,7 +113,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#setAbsoluteWidth(java.lang.Boolean)}.
+   * Test method for {@link Image#setAbsoluteWidth(boolean)}.
    */
   @Test
   public void testSetAbsoluteWidth() {
@@ -124,7 +124,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#isAbsoluteX()}.
+   * Test method for {@link Image#isAbsoluteX()}.
    */
   @Test
   public void testIsAbsoluteX() {
@@ -135,7 +135,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#isSetAbsoluteX()}.
+   * Test method for {@link Image#isSetAbsoluteX()}.
    */
   @Test
   public void testIsSetAbsoluteX() {
@@ -146,7 +146,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#setAbsoluteX(java.lang.Boolean)}.
+   * Test method for {@link Image#setAbsoluteX(boolean)}.
    */
   @Test
   public void testSetAbsoluteX() {
@@ -157,7 +157,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#isAbsoluteY()}.
+   * Test method for {@link Image#isAbsoluteY()}.
    */
   @Test
   public void testIsAbsoluteY() {
@@ -168,7 +168,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#isSetAbsoluteY()}.
+   * Test method for {@link Image#isSetAbsoluteY()}.
    */
   @Test
   public void testIsSetAbsoluteY() {
@@ -179,7 +179,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#setAbsoluteY(java.lang.Boolean)}.
+   * Test method for {@link Image#setAbsoluteY(boolean)}.
    */
   @Test
   public void testSetAbsoluteY() {
@@ -190,7 +190,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#isAbsoluteZ()}.
+   * Test method for {@link Image#isAbsoluteZ()}.
    */
   @Test
   public void testIsAbsoluteZ() {
@@ -201,7 +201,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#isSetAbsoluteZ()}.
+   * Test method for {@link Image#isSetAbsoluteZ()}.
    */
   @Test
   public void testIsSetAbsoluteZ() {
@@ -212,7 +212,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#setAbsoluteZ(java.lang.Boolean)}.
+   * Test method for {@link Image#setAbsoluteZ(boolean)}.
    */
   @Test
   public void testSetAbsoluteZ() {
@@ -223,7 +223,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#getHeight()}.
+   * Test method for {@link Image#getHeight()}.
    */
   @Test
   public void testGetHeight() {
@@ -235,7 +235,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#isSetHeight()}.
+   * Test method for {@link Image#isSetHeight()}.
    */
   @Test
   public void testIsSetHeight() {
@@ -247,7 +247,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#setHeight(java.lang.Double)}.
+   * Test method for {@link Image#setHeight(double)}.
    */
   @Test
   public void testSetHeight() {
@@ -259,7 +259,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#getHref()}.
+   * Test method for {@link Image#getHref()}.
    */
   @Test
   public void testGetHref() {
@@ -271,7 +271,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#isSetHref()}.
+   * Test method for {@link Image#isSetHref()}.
    */
   @Test
   public void testIsSetHref() {
@@ -283,7 +283,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#setHref(java.lang.String)}.
+   * Test method for {@link Image#setHref(java.lang.String)}.
    */
   @Test
   public void testSetHref() {
@@ -295,7 +295,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#getWidth()}.
+   * Test method for {@link Image#getWidth()}.
    */
   @Test
   public void testGetWidth() {
@@ -307,7 +307,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#isSetWidth()}.
+   * Test method for {@link Image#isSetWidth()}.
    */
   @Test
   public void testIsSetWidth() {
@@ -319,7 +319,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#setWidth(java.lang.Double)}.
+   * Test method for {@link Image#setWidth(double)}.
    */
   @Test
   public void testSetWidth() {
@@ -331,7 +331,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#getX()}.
+   * Test method for {@link Image#getX()}.
    */
   @Test
   public void testGetX() {
@@ -342,7 +342,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#isSetX()}.
+   * Test method for {@link Image#isSetX()}.
    */
   @Test
   public void testIsSetX() {
@@ -353,7 +353,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#setX(java.lang.Double)}.
+   * Test method for {@link Image#setX(double)}.
    */
   @Test
   public void testSetX() {
@@ -364,7 +364,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#getY()}.
+   * Test method for {@link Image#getY()}.
    */
   @Test
   public void testGetY() {
@@ -375,7 +375,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#isSetY()}.
+   * Test method for {@link Image#isSetY()}.
    */
   @Test
   public void testIsSetY() {
@@ -386,7 +386,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#setY(java.lang.Double)}.
+   * Test method for {@link Image#setY(double)}.
    */
   @Test
   public void testSetY() {
@@ -397,7 +397,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#getZ()}.
+   * Test method for {@link Image#getZ()}.
    */
   @Test
   public void testGetZ() {
@@ -408,7 +408,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#isSetZ()}.
+   * Test method for {@link Image#isSetZ()}.
    */
   @Test
   public void testIsSetZ() {
@@ -419,7 +419,7 @@ public class ImageTest {
 
 
   /**
-   * Test method for {@link org.sbml.jsbml.ext.render.Image#setZ(java.lang.Double)}.
+   * Test method for {@link Image#setZ(double)}.
    */
   @Test
   public void testSetZ() {

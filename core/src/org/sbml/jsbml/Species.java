@@ -582,6 +582,9 @@ public class Species extends Symbol {
 
   /**
    * Initializes the default values of this Species.
+   * 
+   * @param level
+   * @param version
    */
   public void initDefaults(int level, int version) {
     amount = true;

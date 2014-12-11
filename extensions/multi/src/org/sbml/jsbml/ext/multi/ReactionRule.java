@@ -41,11 +41,19 @@ public class ReactionRule extends AbstractNamedSBase {
    */
   private static final long serialVersionUID = 7757296070294814156L;
 
+  /**
+   * 
+   */
   ListOf<SpeciesTypeRestrictionReference> listOfConditions;
+  /**
+   * 
+   */
   ListOf<SpeciesTypeRestrictionReference> listOfResults;
 
-  // TODO: add a kineticLaw
-  private KineticLaw kineticLaw;
+  /**
+   * 
+   */
+  private KineticLaw kineticLaw; // TODO: add a kineticLaw
 
   /**
    * Returns the list of conditions ({@link SpeciesTypeRestrictionReference}).

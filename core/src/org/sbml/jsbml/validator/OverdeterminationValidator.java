@@ -64,7 +64,8 @@ public class OverdeterminationValidator {
    * varibale or an reaction
    * 
    * @author Alexander D&ouml;rr
-   * @since 1.4
+   * @param <T>
+   * @since 0.8
    */
   private class InnerNode<T extends SBase> implements Node<T> {
     /**
@@ -185,6 +186,7 @@ public class OverdeterminationValidator {
 
     /**
      * Returns the i-th node in the list of nodes
+     * @param i
      * 
      * @return
      */
@@ -328,6 +330,7 @@ public class OverdeterminationValidator {
    * This class represents the end node in the bipartite graph
    * 
    * @author Alexander D&ouml;rr
+   * @param <T>
    * @since 0.8
    */
   private class TerminalNode<T extends SBase> implements Node<T> {
@@ -802,6 +805,7 @@ public class OverdeterminationValidator {
    * @param param
    * @param node
    * @param variables
+   * @param level
    */
   private void getVariables(ListOf<LocalParameter> param, ASTNode node,
     List<SBase> variables, int level) {

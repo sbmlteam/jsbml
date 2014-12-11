@@ -23,6 +23,7 @@ package org.sbml.jsbml.ext.comp;
 
 import java.util.Map;
 
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBase;
 
 /**
@@ -40,6 +41,9 @@ public class ReplacedBy extends SBaseRef {
    */
   private static final long serialVersionUID = -7067666288732978615L;
 
+  /**
+   * 
+   */
   private String submodelRef;
 
   /**
@@ -62,6 +66,7 @@ public class ReplacedBy extends SBaseRef {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public ReplacedBy(ReplacedBy obj) {
     super(obj);
@@ -158,6 +163,7 @@ public class ReplacedBy extends SBaseRef {
    * {@link Submodel} object establishes the object namespaces for the portRef,
    * idRef, unitRef and metaIdRef attributes: only objects within the {@link Model}
    * object may be referenced by those attributes.
+   * @param submodelRef
    * 
    */
   public void setSubmodelRef(String submodelRef) {

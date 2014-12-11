@@ -36,8 +36,17 @@ import org.sbml.jsbml.util.ResourceManager;
  */
 public class AdjacentDomains extends AbstractSpatialNamedSBase {
 
+  /**
+   * 
+   */
   private String domain1;
+  /**
+   * 
+   */
   private String domain2;
+  /**
+   * 
+   */
   private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
 
@@ -63,6 +72,11 @@ public class AdjacentDomains extends AbstractSpatialNamedSBase {
     super(level, version);
   }
 
+  /**
+   * @param id
+   * @param level
+   * @param version
+   */
   public AdjacentDomains(String id, int level, int version) {
     super(id,level,version);
   }
@@ -136,6 +150,9 @@ public class AdjacentDomains extends AbstractSpatialNamedSBase {
   /**
    * Sets the value of domain1
    */
+  /**
+   * @param domain1
+   */
   public void setDomain1(String domain1) {
     String oldDomain1 = this.domain1;
     this.domain1 = domain1;
@@ -173,7 +190,6 @@ public class AdjacentDomains extends AbstractSpatialNamedSBase {
     throw new PropertyUndefinedError(SpatialConstants.domain2, this);
   }
 
-
   /**
    * Returns whether domain2 is set
    *
@@ -183,16 +199,15 @@ public class AdjacentDomains extends AbstractSpatialNamedSBase {
     return domain2 != null;
   }
 
-
   /**
    * Sets the value of domain2
+   * @param domain2
    */
   public void setDomain2(String domain2) {
     String oldDomain2 = this.domain2;
     this.domain2 = domain2;
     firePropertyChange(SpatialConstants.domain2, oldDomain2, this.domain2);
   }
-
 
   /**
    * Unsets the variable domain2
@@ -210,7 +225,9 @@ public class AdjacentDomains extends AbstractSpatialNamedSBase {
     return false;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 293;
@@ -224,7 +241,9 @@ public class AdjacentDomains extends AbstractSpatialNamedSBase {
     return hashCode;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -239,7 +258,9 @@ public class AdjacentDomains extends AbstractSpatialNamedSBase {
     return attributes;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.AbstractSpatialNamedSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
@@ -282,7 +303,5 @@ public class AdjacentDomains extends AbstractSpatialNamedSBase {
     builder.append("]");
     return builder.toString();
   }
-
-
 
 }

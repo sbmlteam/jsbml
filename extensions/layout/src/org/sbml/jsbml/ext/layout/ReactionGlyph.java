@@ -22,13 +22,16 @@
 package org.sbml.jsbml.ext.layout;
 
 import java.text.MessageFormat;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.swing.tree.TreeNode;
 
 import org.sbml.jsbml.ListOf;
+import org.sbml.jsbml.Model;
 import org.sbml.jsbml.NamedSBase;
 import org.sbml.jsbml.Reaction;
+import org.sbml.jsbml.Species;
 
 /**
  * Analogous to how a {@link Reaction} object has to at least have one reactant

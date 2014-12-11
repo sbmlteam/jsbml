@@ -41,16 +41,26 @@ public class ModelDefinition extends Model {
    */
   private static final long serialVersionUID = 11908580298395050L;
 
+  /**
+   * 
+   */
   public ModelDefinition() {
     super();
     init();
   }
 
+  /**
+   * @param level
+   * @param version
+   */
   public ModelDefinition(int level, int version) {
     super(level, version);
     init();
   }
 
+  /**
+   * @param model
+   */
   public ModelDefinition(Model model) {
     super(model);
 
@@ -59,11 +69,19 @@ public class ModelDefinition extends Model {
     init();
   }
 
+  /**
+   * @param id
+   */
   public ModelDefinition(String id) {
     super(id);
     init();
   }
 
+  /**
+   * @param id
+   * @param level
+   * @param version
+   */
   public ModelDefinition(String id, int level, int version) {
     super(id, level, version);
     init();
@@ -77,6 +95,9 @@ public class ModelDefinition extends Model {
     return new ModelDefinition(this);
   }
 
+  /**
+   * 
+   */
   public void init()
   {
     setNamespace(CompConstants.namespaceURI);

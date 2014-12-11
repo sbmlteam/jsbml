@@ -390,6 +390,9 @@ Variable {
 
   /**
    * Initializes the default values of this SpeciesReference.
+   * 
+   * @param level
+   * @param version
    */
   public void initDefaults(int level, int version) {
     // See

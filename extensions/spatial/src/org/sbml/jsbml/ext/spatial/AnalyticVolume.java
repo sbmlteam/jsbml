@@ -41,6 +41,13 @@ import org.sbml.jsbml.util.TreeNodeChangeEvent;
  */
 public class AnalyticVolume extends AbstractMathContainer implements SpatialNamedSBase{
 
+  /**
+   * @author Alex Thomas
+   * @author Andreas Dr&auml;ger
+   * @version $Rev$
+   * @since 1.0
+   * @date 10.12.2014
+   */
   public static enum FunctionKind {
     /**
      * Math child element contains an inequality
@@ -53,9 +60,21 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
     //    R_FUNCTION;
   }
 
+  /**
+   * 
+   */
   String spatialId;
+  /**
+   * 
+   */
   private String domainType;
+  /**
+   * 
+   */
   private FunctionKind functionType;
+  /**
+   * 
+   */
   private Integer ordinal;
 
   /**
@@ -63,6 +82,9 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
    */
   private static final long serialVersionUID = 1757917501241390228L;
 
+  /**
+   * 
+   */
   private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
 
@@ -89,6 +111,11 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
     }
   }
 
+  /**
+   * @param id
+   * @param level
+   * @param version
+   */
   public AnalyticVolume(String id, int level, int version)
   {
     super(level,version);
@@ -159,6 +186,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
 
   /**
    * Sets the value of functionType
+   * @param functionType
    */
   public void setFunctionType(FunctionKind functionType) {
     FunctionKind oldFunctionType = this.functionType;
@@ -210,6 +238,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
 
   /**
    * Sets the value of domainType
+   * @param domainType
    */
   public void setDomainType(String domainType) {
     String oldDomainType = this.domainType;
@@ -247,7 +276,6 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
     return null;
   }
 
-
   /**
    * Returns whether ordinal is set
    *
@@ -257,16 +285,15 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
     return ordinal != null;
   }
 
-
   /**
    * Sets the value of ordinal
+   * @param ordinal
    */
   public void setOrdinal(int ordinal) {
     int oldOrdinal = this.ordinal;
     this.ordinal = ordinal;
     firePropertyChange(SpatialConstants.ordinal, oldOrdinal, this.ordinal);
   }
-
 
   /**
    * Unsets the variable ordinal
@@ -284,6 +311,9 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.SpatialNamedSBase#unsetSpatialId()
+   */
   @Override
   public boolean unsetSpatialId() {
     if (isSetSpatialId()) {
@@ -295,6 +325,9 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.ext.spatial.SpatialNamedSBase#setSpatialId(java.lang.String)
+   */
   @Override
   public void setSpatialId(String spatialId) {
     String oldSpatialId = this.spatialId;
@@ -302,8 +335,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
     firePropertyChange(SpatialConstants.spatialId, oldSpatialId, this.spatialId);
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.spatial.SpatialNamedSBase#isSetSpatialId()
    */
   @Override
@@ -311,8 +343,7 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
     return spatialId != null;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.spatial.SpatialNamedSBase#getSpatialId()
    */
   @Override
@@ -324,7 +355,9 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
     throw new PropertyUndefinedError(SpatialConstants.spatialId, this);
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 431;//Change this prime number
@@ -344,7 +377,9 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
     return hashCode;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractMathContainer#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -375,7 +410,9 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
     return attributes;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractMathContainer#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
@@ -436,6 +473,5 @@ public class AnalyticVolume extends AbstractMathContainer implements SpatialName
     builder.append("]");
     return builder.toString();
   }
-
 
 }

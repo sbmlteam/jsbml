@@ -40,10 +40,19 @@ public class CSGHomogeneousTransformation extends CSGTransformation {
    */
   private static final long serialVersionUID = 1247170964151052926L;
 
+  /**
+   * 
+   */
   private TransformationComponent forwardTransformation;
+  /**
+   * 
+   */
   private TransformationComponent reverseTransformation;
 
 
+  /**
+   * 
+   */
   public CSGHomogeneousTransformation() {
     super();
   }
@@ -137,6 +146,7 @@ public class CSGHomogeneousTransformation extends CSGTransformation {
 
   /**
    * Sets the value of forwardTransformation
+   * @param forwardTransformation
    */
   public void setForwardTransformation(TransformationComponent forwardTransformation) {
     TransformationComponent oldForwardTransformation = this.forwardTransformation;
@@ -188,6 +198,7 @@ public class CSGHomogeneousTransformation extends CSGTransformation {
 
   /**
    * Sets the value of reverseTransformation
+   * @param reverseTransformation
    */
   public void setReverseTransformation(TransformationComponent reverseTransformation) {
     TransformationComponent oldReverseTransformation = this.reverseTransformation;

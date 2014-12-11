@@ -30,7 +30,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.sbml.jsbml.util.ResourceManager;
 
-
 /**
  * @author Ibrahim Vazirabad
  * @version $Rev$
@@ -39,10 +38,16 @@ import org.sbml.jsbml.util.ResourceManager;
  * File filter that permits GUI-based classes to display only .sbml and .xml files.
  */
 public class SBMLFileFilter extends javax.swing.filechooser.FileFilter implements
-  FileFilter {
+FileFilter {
 
+  /**
+   * 
+   */
   private final FileNameExtensionFilter filter;
-  private static final ResourceBundle bundle=ResourceManager.getBundle("org.sbml.jsbml.gui.UserMessages");
+  /**
+   * 
+   */
+  private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.gui.UserMessages");
 
   /**
    *
@@ -50,7 +55,7 @@ public class SBMLFileFilter extends javax.swing.filechooser.FileFilter implement
   public SBMLFileFilter() {
     super();
     filter= new FileNameExtensionFilter(
-       bundle.getString("sbmlFileFilter.EveryDescription"),"xml", "sbml");
+      bundle.getString("sbmlFileFilter.EveryDescription"),"xml", "sbml");
   }
 
   /* (non-Javadoc)
@@ -68,4 +73,5 @@ public class SBMLFileFilter extends javax.swing.filechooser.FileFilter implement
   public String getDescription() {
     return filter.getDescription();
   }
+
 }

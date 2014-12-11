@@ -40,17 +40,32 @@ public class SpeciesTypeInstance extends AbstractNamedSBase implements UniqueNam
    */
   private static final long serialVersionUID = 1775590492963078468L;
 
+  /**
+   * 
+   */
   private double initialAmount;
 
+  /**
+   * 
+   */
   private double initialConcentration;
 
+  /**
+   * 
+   */
   private ListOf<SelectorReference> listOfSelectorReferences;
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
   @Override
   public boolean isIdMandatory() {
     return true;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
   @Override
   public AbstractSBase clone() {
     // TODO
@@ -106,4 +121,5 @@ public class SpeciesTypeInstance extends AbstractNamedSBase implements UniqueNam
   public void addSelectorReference(SelectorReference selectorReference) {
     getListOfSelectorReferences().add(selectorReference);
   }
+
 }

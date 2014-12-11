@@ -1147,6 +1147,9 @@ public class SBMLCoreParser implements ReadingParser, WritingParser {
     return namespaces;
   }
 
+  /**
+   * 
+   */
   private static final List<String> namespaces = new ArrayList<String>();
 
   static {

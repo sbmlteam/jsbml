@@ -22,6 +22,7 @@
 package org.sbml.jsbml.util.filters;
 
 import org.sbml.jsbml.xml.XMLNode;
+import org.w3c.dom.Element;
 
 /**
  * Search recursively an {@link XMLNode} tree to find any {@link XMLNode} with a

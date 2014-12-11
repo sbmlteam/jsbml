@@ -25,6 +25,8 @@ import java.beans.PropertyChangeEvent;
 
 import javax.swing.tree.TreeNode;
 
+import org.sbml.jsbml.SBase;
+
 /**
  * This event tells an {@link TreeNodeChangeListener} which values have been
  * changed in an {@link SBase} and also provides the old and the new value.
@@ -44,112 +46,391 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
   /*
    * Property names that can change in the life time of an SBML document.
    */
-  public static final String addExtension="addExtension";
-  public static final String extension="sbasePlugin";
-  //public static final String addNamespace="addNamespace";
-  public static final String addDeclaredNamespace="addDeclaredNamespace";
-  public static final String namespace = "namespace";
-  public static final String notes="notes";
-  public static final String setAnnotation="setAnnotation";
-  public static final String level = "level";
-  public static final String version="version";
-  public static final String metaId = "metaId";
-  public static final String parentSBMLObject = "parentSBMLObject";
-  public static final String sboTerm = "sboTerm";
-  public static final String annotation = "annotation";
-  public static final String unsetCVTerms = "unsetCVTerms";
-  public static final String symbol = "symbol";
-  public static final String math = "math";
-  public static final String name = "name";
-  public static final String id = "id";
-  public static final String compartmentType = "compartmentType";
-  public static final String outside = "outside";
-  public static final String message = "message";
-  public static final String timeUnits = "timeUnits";
-  public static final String useValuesFromTriggerTime = "useValuesFromTriggerTime";
-  public static final String variable = "variable";
-  public static final String units = "units";
-  public static final String baseListType = "baseListType";
-  public static final String areaUnits = "areaUnits";
-  public static final String conversionFactor = "conversionFactor";
-  public static final String extentUnits = "extentUnits";
-  public static final String lengthUnits = "lengthUnits";
-  public static final String substanceUnits = "substanceUnits";
-  public static final String volumeUnits = "volumeUnits";
-  public static final String value = "value";
-  public static final String compartment = "compartment";
-  public static final String fast = "fast";
-  public static final String reversible = "reversible";
-  public static final String species = "species";
-  public static final String boundaryCondition = "boundaryCondition";
-  public static final String charge = "charge";
-  public static final String hasOnlySubstanceUnits = "hasOnlySubstanceUnits";
-  public static final String initialAmount = "initialAmount";
-  public static final String spatialSizeUnits = "spatialSizeUnits";
-  public static final String speciesType = "speciesType";
-  public static final String denominator = "denominator";
-  public static final String stoichiometry = "stoichiometry";
-  public static final String constant = "constant";
-  public static final String exponent = "exponent";
-  public static final String kind = "kind";
-  public static final String multiplier = "multiplier";
-  public static final String offset = "offset";
-  public static final String scale = "scale";
-  public static final String listOfUnits = "listOfUnits";
-  public static final String priority = "priority";
-  public static final String initialValue = "initialValue";
-  public static final String persistent = "persistent";
-  public static final String SBMLDocumentAttributes = "SBMLDocumentAttributes";
-  public static final String model = "model";
-  public static final String kineticLaw = "kineticLaw";
-  public static final String spatialDimensions = "spatialDimensions";
-  public static final String formula = "formula";
-  public static final String size = "size";
-  public static final String volume = "volume";
-  public static final String className = "className";
-  public static final String definitionURL = "definitionURL";
-  public static final String childNode = "childNode";
-  public static final String numerator = "numerator";
-  public static final String mantissa = "mantissa";
-  public static final String type = "type";
-  public static final String style = "style";
-  public static final String isSetNumberType = "isSetNumberType";
-  public static final String encoding = "encoding";
-  public static final String xmlTriple = "xmlTriple";
-  public static final String isEOF = "isEOF";
-  public static final String qualifier = "qualifier";
-  public static final String modifiedDate = "modifiedDate";
-  public static final String createdDate = "createdDate";
-  public static final String creator = "creator";
-  public static final String isExplicitlySetConstant = "isExplicitlySetConstant";
-  public static final String numBvars = "numBvars";
-  public static final String base = "base";
-  public static String numPiece = "numPiece";
 
-  /*
+  /**
+   * 
+   */
+  public static final String addExtension="addExtension"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String extension="sbasePlugin"; //$NON-NLS-1$
+  //public static final String addNamespace="addNamespace"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String addDeclaredNamespace="addDeclaredNamespace"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String namespace = "namespace"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String notes="notes"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String setAnnotation="setAnnotation"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String level = "level"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String version="version"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String metaId = "metaId"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String parentSBMLObject = "parentSBMLObject"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String sboTerm = "sboTerm"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String annotation = "annotation"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String unsetCVTerms = "unsetCVTerms"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String symbol = "symbol"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String math = "math"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String name = "name"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String id = "id"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String compartmentType = "compartmentType"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String outside = "outside"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String message = "message"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String timeUnits = "timeUnits"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String useValuesFromTriggerTime = "useValuesFromTriggerTime"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String variable = "variable"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String units = "units"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String baseListType = "baseListType"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String areaUnits = "areaUnits"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String conversionFactor = "conversionFactor"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String extentUnits = "extentUnits"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String lengthUnits = "lengthUnits"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String substanceUnits = "substanceUnits"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String volumeUnits = "volumeUnits"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String value = "value"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String compartment = "compartment"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String fast = "fast"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String reversible = "reversible"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String species = "species"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String boundaryCondition = "boundaryCondition"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String charge = "charge"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String hasOnlySubstanceUnits = "hasOnlySubstanceUnits"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String initialAmount = "initialAmount"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String spatialSizeUnits = "spatialSizeUnits"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String speciesType = "speciesType"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String denominator = "denominator"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String stoichiometry = "stoichiometry"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String constant = "constant"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String exponent = "exponent"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String kind = "kind"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String multiplier = "multiplier"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String offset = "offset"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String scale = "scale"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String listOfUnits = "listOfUnits"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String priority = "priority"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String initialValue = "initialValue"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String persistent = "persistent"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String SBMLDocumentAttributes = "SBMLDocumentAttributes"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String model = "model"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String kineticLaw = "kineticLaw"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String spatialDimensions = "spatialDimensions"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String formula = "formula"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String size = "size"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String volume = "volume"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String className = "className"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String definitionURL = "definitionURL"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String childNode = "childNode"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String numerator = "numerator"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String mantissa = "mantissa"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String type = "type"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String style = "style"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String isSetNumberType = "isSetNumberType"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String encoding = "encoding"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String xmlTriple = "xmlTriple"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String isEOF = "isEOF"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String qualifier = "qualifier"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String modifiedDate = "modifiedDate"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String createdDate = "createdDate"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String creator = "creator"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String isExplicitlySetConstant = "isExplicitlySetConstant"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String numBvars = "numBvars"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String base = "base"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static String numPiece = "numPiece"; //$NON-NLS-1$
+
+  /* ==========================================================================
    * Annotation
+   * =========================================================================*/
+
+  /**
+   * 
    */
-  public static final String about = "about";
-  public static final String nonRDFAnnotation = "nonRDFAnnotation";
-  public static final String annotationNameSpaces = "annotationNameSpaces";
-  public static final String history = "history";
-  public static final String addCVTerm = "addCVTerm";
-  public static final String removeCVTerm = "removeCVTerm";
+  public static final String about = "about"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String nonRDFAnnotation = "nonRDFAnnotation"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String annotationNameSpaces = "annotationNameSpaces"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String history = "history"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String addCVTerm = "addCVTerm"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String removeCVTerm = "removeCVTerm"; //$NON-NLS-1$
 
 
-  /*
+  /* ==========================================================================
    * ASTNode
+   * =========================================================================*/
+
+  /**
+   * 
    */
-  public static final String userObject = "userObject";
+  public static final String userObject = "userObject"; //$NON-NLS-1$
 
-  public static final String email = "email";
-  public static final String familyName = "familyName";
-  public static final String givenName = "givenName";
-  public static final String organization = "organization";
+  /**
+   * 
+   */
+  public static final String email = "email"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String familyName = "familyName"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String givenName = "givenName"; //$NON-NLS-1$
+  /**
+   * 
+   */
+  public static final String organization = "organization"; //$NON-NLS-1$
 
-  public static final String text = "text";
+  /**
+   * 
+   */
+  public static final String text = "text"; //$NON-NLS-1$
 
-  // public static final String removeNamespace = "removeNamespace";
+  // public static final String removeNamespace = "removeNamespace"; //$NON-NLS-1$
 
   /**
    * @param source
@@ -172,9 +453,7 @@ public class TreeNodeChangeEvent extends PropertyChangeEvent {
       treeNodeChangeEvent.getNewValue());
   }
 
-  /*
-   * (non-Javadoc)
-   * 
+  /* (non-Javadoc)
    * @see java.lang.Object#clone()
    */
   @Override

@@ -36,6 +36,12 @@ import org.sbml.jsbml.util.ResourceManager;
  */
 public class CSGPrimitive extends CSGNode{
 
+  /**
+   * @author Alex Thomas
+   * @version $Rev$
+   * @since 1.0
+   * @date 10.12.2014
+   */
   public enum PrimitiveKind {
     /**
      * sphere
@@ -73,11 +79,20 @@ public class CSGPrimitive extends CSGNode{
    */
   private static final long serialVersionUID = -6783804853380306509L;
 
+  /**
+   * 
+   */
   private PrimitiveKind primitiveType;
 
+  /**
+   * 
+   */
   private static final ResourceBundle bundle = ResourceManager.getBundle("org.sbml.jsbml.ext.spatial.Messages");
 
 
+  /**
+   * 
+   */
   public CSGPrimitive() {
     super();
   }
@@ -163,6 +178,7 @@ public class CSGPrimitive extends CSGNode{
 
   /**
    * Sets the value of primitiveType
+   * @param primitiveType
    */
   public void setPrimitiveType(String primitiveType) {
     setPrimitiveType(PrimitiveKind.valueOf(primitiveType));
@@ -170,6 +186,7 @@ public class CSGPrimitive extends CSGNode{
 
   /**
    * Sets the value of primitiveType
+   * @param primitiveType
    */
   public void setPrimitiveType(PrimitiveKind primitiveType) {
     PrimitiveKind oldPrimitiveType = this.primitiveType;

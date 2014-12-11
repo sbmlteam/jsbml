@@ -92,7 +92,7 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
     // then the ids of is children will be registered in the correct maps.
     extendedSBase = null;
   }
-  
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#getExtendedSBase()
    */
@@ -106,7 +106,7 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
    */
   @Override
   public abstract AbstractSBasePlugin clone();
-  
+
   /* (non-Javadoc)
    * @see java.lang.Object#equals(java.lang.Object)
    */
@@ -139,6 +139,9 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
     return hashCode;
   }
 
+  /**
+   * 
+   */
   protected int packageVersion;
 
   /* (non-Javadoc)
@@ -165,8 +168,8 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
     return isSetExtendedSBase() ? getExtendedSBase().getSBMLDocument() : null;
   }
 
-  
-  
+
+
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractTreeNode#fireNodeAddedEvent()
    */
@@ -194,16 +197,16 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
     // TODO - this method is used to add or remove SBase or SBasePlugin, we should make sure to handle the registration/un-registration
     // in those cases.
     // the parent need to be set or unset as well (would be done, if we call the registerChild method)
-    
+
     if (oldValue != null && oldValue instanceof SBase && isSetExtendedSBase()) {
       extendedSBase.unregisterChild((SBase) oldValue);
     }
-    
-    // This case is generally handled properly in the setters 
+
+    // This case is generally handled properly in the setters
     // but it would be better and more consistent to handle it there
-//    if (newValue != null && newValue instanceof SBase && isSetExtendedSBase()) {
-//      extendedSBase.registerChild((SBase) newValue);
-//    }
+    //    if (newValue != null && newValue instanceof SBase && isSetExtendedSBase()) {
+    //      extendedSBase.registerChild((SBase) newValue);
+    //    }
 
     super.firePropertyChange(propertyName, oldValue, newValue);
   }
@@ -219,12 +222,12 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
    * @param extendedSBase
    */
   public void setExtendedSBase(SBase extendedSBase) {
-    
+
     // TODO - unregister children if extendedSBase was not null !!??
     // Or do we throw an exception asking to clone the object instead ??
     SBase oldExtendedSBase = this.extendedSBase;
     this.extendedSBase = extendedSBase;
-    
+
     // changes in AbstractSBase#firePropertyChange might make this code unnecessary but we would need to update all the code
     // to remove calls to registerChild that won't be necessary anymore and that would print a warning message
     if (getChildCount() > 0) {
@@ -232,7 +235,7 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
         TreeNode child = getChildAt(i);
 
         if (child instanceof SBase) {
-          this.extendedSBase.registerChild((SBase) child); 
+          this.extendedSBase.registerChild((SBase) child);
           // TODO - if an error occur, we might have to unregister the first children, from i - 1 down to 0 ?
         }
       }
@@ -246,20 +249,20 @@ public abstract class AbstractSBasePlugin extends AbstractTreeNode implements SB
    */
   @Override
   public boolean removeFromParent() {
-    
+
     if (getParentSBMLObject() != null) {
       SBase parentSBase = getParentSBMLObject();
       int n = parentSBase.getExtensionCount();
       parentSBase.unsetExtension(getPackageName());
 
-      return n > parentSBase.getExtensionCount(); 
+      return n > parentSBase.getExtensionCount();
     }
-    
+
     return super.removeFromParent();
   }
 
 
-  
+
   /*
    * (non-Javadoc)
    * @see org.sbml.jsbml.ext.SBasePlugin#writeXMLAttributes()

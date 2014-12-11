@@ -67,7 +67,7 @@ public interface SBaseWithUnit extends SBaseWithDerivedUnit {
    * Checks whether the element referenced by the {@code unitsID}
    * attribute of this {@link SBaseWithUnit} is either an existing base
    * {@link Unit}, i.e., a simple {@link Unit} that can directly be addressed
-   * via its {@link Kind} element, or the identifier of an existing
+   * via its {@link Unit.Kind} element, or the identifier of an existing
    * {@link UnitDefinition} in the {@link Model} to which this
    * {@link SBaseWithUnit} belongs.
    * 

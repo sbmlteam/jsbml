@@ -45,7 +45,13 @@ public class GradientStop extends AbstractSBase {
   private static final long serialVersionUID = 7400974339251884133L;
 
 
+  /**
+   * 
+   */
   private Double offset;
+  /**
+   * 
+   */
   private String stopColor;
 
 
@@ -80,6 +86,7 @@ public class GradientStop extends AbstractSBase {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public GradientStop(GradientStop obj) {
     super(obj);
@@ -87,6 +94,9 @@ public class GradientStop extends AbstractSBase {
     stopColor = obj.stopColor;
   }
 
+  /**
+   * 
+   */
   public GradientStop() {
     super();
   }
@@ -213,8 +223,9 @@ public class GradientStop extends AbstractSBase {
 
   /**
    * Set the value of offset
+   * @param offset
    */
-  public void setOffset(Double offset) {
+  public void setOffset(double offset) {
     Double oldOffset = this.offset;
     this.offset = offset;
     firePropertyChange(RenderConstants.offset, oldOffset, this.offset);
@@ -222,6 +233,7 @@ public class GradientStop extends AbstractSBase {
 
   /**
    * Set the value of stopColor
+   * @param stopColor
    */
   public void setStopColor(String stopColor) {
     String oldStopColor = this.stopColor;

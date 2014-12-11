@@ -44,6 +44,7 @@ public interface FontRenderStyle {
 
   /**
    * Set the value of fontFamily
+   * @param fontFamily
    */
   public abstract void setFontFamily(FontFamily fontFamily);
 
@@ -66,6 +67,7 @@ public interface FontRenderStyle {
 
   /**
    * Set the value of fontSize
+   * @param fontSize
    */
   public abstract void setFontSize(short fontSize);
 
@@ -88,6 +90,7 @@ public interface FontRenderStyle {
 
   /**
    * Set the value of fontWeightBold
+   * @param fontWeightBold
    */
   public abstract void setFontWeightBold(boolean fontWeightBold);
 
@@ -110,6 +113,7 @@ public interface FontRenderStyle {
 
   /**
    * Set the value of fontStyleItalic
+   * @param fontStyleItalic
    */
   public abstract void setFontStyleItalic(boolean fontStyleItalic);
 
@@ -132,6 +136,7 @@ public interface FontRenderStyle {
 
   /**
    * Set the value of textAnchor
+   * @param textAnchor
    */
   public abstract void setTextAnchor(TextAnchor textAnchor);
 
@@ -154,6 +159,7 @@ public interface FontRenderStyle {
 
   /**
    * Set the value of VTextAnchor
+   * @param vTextAnchor
    */
   public abstract void setVTextAnchor(VTextAnchor vTextAnchor);
 

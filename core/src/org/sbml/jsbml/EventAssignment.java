@@ -69,6 +69,8 @@ public class EventAssignment extends AbstractMathContainer implements Assignment
   /**
    * Creates an EventAssignment instance from a level and version. By default,
    * the variableID is {@code null}.
+   * @param level
+   * @param version
    */
   public EventAssignment(int level, int version) {
     super(level, version);

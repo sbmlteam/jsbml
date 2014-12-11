@@ -37,16 +37,38 @@ public class SelectorReference extends AbstractSBase {
    */
   private static final long serialVersionUID = 8313057744716585955L;
 
+  /**
+   * 
+   */
   private boolean negation;
 
+  /**
+   * 
+   */
   private String selector;
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
   @Override
   public AbstractSBase clone() {
-    // TODO
-    return null;
+    return new SelectorReference(this);
   }
 
+  /**
+   * 
+   */
+  public SelectorReference() {
+    super();
+  }
+
+  /**
+   * @param selectorRef
+   */
+  public SelectorReference(SelectorReference selectorRef) {
+    this();
+    //TODO: clone!
+  }
 
   /**
    * Returns the negation.

@@ -91,8 +91,10 @@ public class MultiEventAssignment extends AbstractSBasePlugin {
    */
   private static final long serialVersionUID = -5524105017747151889L;
 
-  // TODO: should probably be a listOf here
-  private SpeciesTypeInstanceChange speciesTypeInstanceChange;
+  /**
+   * 
+   */
+  private SpeciesTypeInstanceChange speciesTypeInstanceChange;   // TODO: should probably be a listOf here
 
   /**
    * @param multiEventAssignment

@@ -49,7 +49,7 @@ public abstract class AbstractCellDesignerPluginAction extends PluginAction {
   private final AbstractCellDesignerPlugin plugin;
 
   /**
-   * 
+   * @param plugin
    */
   public AbstractCellDesignerPluginAction(AbstractCellDesignerPlugin plugin)
   {

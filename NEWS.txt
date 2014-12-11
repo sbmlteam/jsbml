@@ -1,10 +1,24 @@
 	       JSBML NEWS -- History of user-visible changes
 
 ===========================================================================
+Version 1.1 (xx-xx-2015)
+===========================================================================
+
+ * New Features:
+
+
+ * Bug Fixes:
+
+  - Methods that accepted Double/Integer/Boolean values or returned those
+    where updated to double/integer/boolean in the spatial and render package.
+    Instead of null values PropertyUndefinedExceptions are now thrown when
+    necessary. 
+
+===========================================================================
 Version 1.0 (09-12-2014)
 ===========================================================================
 
-* New Features:
+ * New Features:
 
   - Added a new module that contain a tidy SBMLWriter that use the jtidy
     library to correct the formatting of the XML file before writing it
@@ -21,7 +35,7 @@ Version 1.0 (09-12-2014)
 
   - First draft of JSBML implementation done (experimental).
 
-* Bug Fixes:
+ * Bug Fixes:
 
   - Solved error #82 in Unit.removeMultiplier. Thanks to Christian Thöns
     for pointing this out.

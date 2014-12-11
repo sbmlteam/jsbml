@@ -60,6 +60,9 @@ import org.sbml.jsbml.xml.stax.SBMLObjectForXML;
 @ProviderFor(ReadingParser.class)
 public class CompParser extends AbstractReaderWriter implements PackageParser {
 
+  /**
+   * A {@link Logger} for this class.
+   */
   private Logger logger = Logger.getLogger(CompParser.class);
 
   /* (non-Javadoc)
@@ -67,7 +70,7 @@ public class CompParser extends AbstractReaderWriter implements PackageParser {
    */
   @Override
   public String getNamespaceURI() {
-	  // TODO - use the SBMLDocument to know which namespace to return !!!
+    // TODO - use the SBMLDocument to know which namespace to return !!!
     return namespaceURI;
   }
 

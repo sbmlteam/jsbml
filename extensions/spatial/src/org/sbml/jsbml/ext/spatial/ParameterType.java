@@ -109,6 +109,9 @@ public class ParameterType extends AbstractSBase {
     return getSpeciesInstance();
   }
 
+  /**
+   * @return
+   */
   public Geometry getGeometryInstance() {
 
     Model model = getModel();
@@ -125,18 +128,30 @@ public class ParameterType extends AbstractSBase {
     return isSetSpId() ? spId : "";
   }
 
+  /**
+   * @return
+   */
   public String getSpeciesReference() {
     return isSetSpeciesReference() ? speciesRef : "";
   }
 
+  /**
+   * @return
+   */
   public String getVariable() {
     return getSpeciesReference();
   }
 
+  /**
+   * @return
+   */
   public boolean isSetSpeciesReference() {
     return speciesRef == null ? false : true;
   }
 
+  /**
+   * @return
+   */
   public boolean isSetVariable() {
     return isSetSpeciesReference();
   }
@@ -149,6 +164,9 @@ public class ParameterType extends AbstractSBase {
     return spId != null;
   }
 
+  /**
+   * @return
+   */
   public boolean isSetSpatialRef() {
     return spId != null;
   }
@@ -161,11 +179,17 @@ public class ParameterType extends AbstractSBase {
     speciesRef = null;
   }
 
+  /**
+   * @param speciesRef
+   */
   public void setSpeciesReference(String speciesRef) {
     this.speciesRef = speciesRef;
 
   }
 
+  /**
+   * @param speciesRef
+   */
   public void setVariable(String speciesRef) {
     setSpeciesReference(speciesRef);
   }
@@ -179,8 +203,7 @@ public class ParameterType extends AbstractSBase {
     return new ParameterType(this);
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getAllowsChildren()
    */
   @Override
@@ -188,8 +211,7 @@ public class ParameterType extends AbstractSBase {
     return false;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildAt(int)
    */
   @Override
@@ -197,8 +219,7 @@ public class ParameterType extends AbstractSBase {
     return null;
   }
 
-  /*
-   * (non-Javadoc)
+  /* (non-Javadoc)
    * @see javax.swing.tree.TreeNode#getChildCount()
    */
   @Override
@@ -242,7 +263,9 @@ public class ParameterType extends AbstractSBase {
     return builder.toString();
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#hashCode()
+   */
   @Override
   public int hashCode() {
     final int prime = 983;//Change this prime number
@@ -256,7 +279,9 @@ public class ParameterType extends AbstractSBase {
     return hashCode;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#writeXMLAttributes()
+   */
   @Override
   public Map<String, String> writeXMLAttributes() {
     Map<String, String> attributes = super.writeXMLAttributes();
@@ -272,7 +297,9 @@ public class ParameterType extends AbstractSBase {
     return attributes;
   }
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#readAttribute(java.lang.String, java.lang.String, java.lang.String)
+   */
   @Override
   public boolean readAttribute(String attributeName, String prefix, String value) {
     boolean isAttributeRead = (super.readAttribute(attributeName, prefix, value))
@@ -301,7 +328,5 @@ public class ParameterType extends AbstractSBase {
     }
     return isAttributeRead;
   }
-
-
 
 }

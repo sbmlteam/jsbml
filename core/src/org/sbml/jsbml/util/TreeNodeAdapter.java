@@ -40,7 +40,7 @@ import org.sbml.jsbml.ListOf;
  * into a tree data structure as represented by {@link AbstractTreeNode}, but
  * that might by itself not be an instance of {@link TreeNode}, i.e., not
  * compatible with the remaining tree data structure. In analogy to
- * {@link MutableTreeNode} we call this {@link Object} {@code userObject}
+ * {@link javax.swing.tree.MutableTreeNode} we call this {@link Object} {@code userObject}
  * (see {@link #getUserObject()} and {@link #setUserObject(Object)}).
  * <p>
  * This wrapper distinguishes the following special cases depending on the type

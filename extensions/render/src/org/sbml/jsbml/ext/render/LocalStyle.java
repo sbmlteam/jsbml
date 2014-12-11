@@ -41,6 +41,9 @@ public class LocalStyle extends Style {
    */
   private static final long serialVersionUID = 4976081641247006722L;
 
+  /**
+   * 
+   */
   private String[] idList;
 
   /**
@@ -57,6 +60,7 @@ public class LocalStyle extends Style {
    *
    * @param level
    * @param version
+   * @param group
    */
   public LocalStyle(int level, int version, RenderGroup group) {
     super(null, level, version, group);
@@ -105,7 +109,7 @@ public class LocalStyle extends Style {
     }
     return true;
   }
-  
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
@@ -125,7 +129,6 @@ public class LocalStyle extends Style {
     throw new PropertyUndefinedError(RenderConstants.idList, this);
   }
 
-
   /**
    * @return whether idList is set
    */
@@ -133,16 +136,15 @@ public class LocalStyle extends Style {
     return idList != null;
   }
 
-
   /**
    * Set the value of idList
+   * @param idList
    */
   public void setIDList(String[] idList) {
     String[] oldIDList = this.idList;
     this.idList = idList;
     firePropertyChange(RenderConstants.idList, oldIDList, this.idList);
   }
-
 
   /**
    * Unsets the variable idList
@@ -158,7 +160,6 @@ public class LocalStyle extends Style {
     }
     return false;
   }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.ext.render.Style#writeXMLAttributes()

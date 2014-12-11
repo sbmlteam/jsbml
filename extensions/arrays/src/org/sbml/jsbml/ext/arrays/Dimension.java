@@ -29,6 +29,7 @@ import org.sbml.jsbml.CallableSBase;
 import org.sbml.jsbml.LevelVersionError;
 import org.sbml.jsbml.Parameter;
 import org.sbml.jsbml.PropertyUndefinedError;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.UnitDefinition;
 import org.sbml.jsbml.util.StringTools;
 
@@ -127,6 +128,7 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public Dimension(Dimension obj) {
     super(obj);
@@ -194,6 +196,7 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
 
   /**
    * Sets the value of size
+   * @param size
    */
   public void setSize(String size) {
     String oldSize = this.size;
@@ -246,6 +249,7 @@ public class Dimension extends AbstractNamedSBase implements CallableSBase {
 
   /**
    * Sets the value of arrayDimension
+   * @param arrayDimension
    */
   public void setArrayDimension(int arrayDimension) {
     int oldArrayDimension = this.arrayDimension;

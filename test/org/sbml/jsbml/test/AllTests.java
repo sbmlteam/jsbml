@@ -20,6 +20,8 @@
  */
 package org.sbml.jsbml.test;
 
+import junit.framework.TestSuite;
+
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -32,7 +34,7 @@ import org.sbml.jsbml.xml.test.LibsbmlCompatibilityTests;
 import org.sbml.jsbml.xml.test.Tests;
 
 /**
- * Junit {@link TestSuite} to regroup all the tests done for jsbml-core and the L3 packages.
+ * JUnit {@link TestSuite} to regroup all the tests done for jsbml-core and the L3 packages.
  *
  * @author Nicolas Rodriguez
  * @version $Rev$
@@ -47,4 +49,5 @@ public class AllTests {
    * Sets the environment
    */
   @BeforeClass public static void setUp() {}
+
 }

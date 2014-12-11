@@ -266,6 +266,9 @@ extends JFrame
   }
 
 
+  /**
+   * @param panel
+   */
   private void addKeyHandlers(JPanel panel) {
     KeyStroke closeKey = KeyStroke.getKeyStroke(
       KeyEvent.VK_W, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
@@ -326,23 +329,62 @@ extends JFrame
   // -------------------------- Private variables ---------------------------
   //
 
+  /**
+   * 
+   */
   private JTextArea authorsText;
+  /**
+   * 
+   */
   private JTextArea descriptionText;
+  /**
+   * 
+   */
   private JPanel jPanel1;
+  /**
+   * 
+   */
   private JTextArea moreInfoText;
+  /**
+   * 
+   */
   private JLabel nameHeader;
+  /**
+   * 
+   */
   private JLabel sbmlIcon;
+  /**
+   * 
+   */
   private JLabel appIcon;
+  /**
+   * 
+   */
   private JButton urlButton;
+  /**
+   * 
+   */
   private JLabel versionLabel;
+  /**
+   * 
+   */
   private JLabel versionNum;
 
   //
   // -------------------------- Private constants ---------------------------
   //
 
-  final static int panelHeight = 290;        // in pixels.
-  final static int panelWidth  = 325;        // in pixels.
+  /**
+   * in pixels
+   */
+  final static int panelHeight = 290;
+  /**
+   * in pixels.
+   */
+  final static int panelWidth  = 325;
 
+  /**
+   * 
+   */
   private static final long serialVersionUID = 1L;
 }

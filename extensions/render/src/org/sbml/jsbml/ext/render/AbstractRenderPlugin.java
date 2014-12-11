@@ -70,13 +70,23 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
    *
    */
   private static final long serialVersionUID = -4225426173177528441L;
+  /**
+   * 
+   */
   private Short versionMajor;
+  /**
+   * 
+   */
   private Short versionMinor;
+  /**
+   * 
+   */
   private GlobalRenderInformation renderInformation;
 
 
   /**
    * Creates an AbstractRenderPlugin instance
+   * @param extendedElement
    */
   public AbstractRenderPlugin(SBase extendedElement) {
     super(extendedElement);
@@ -124,6 +134,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
 
   /**
    * Clone constructor
+   * @param obj
    */
   public AbstractRenderPlugin(AbstractRenderPlugin obj) {
     super(obj);
@@ -168,6 +179,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
 
   /**
    * Set the value of versionMinor
+   * @param versionMinor
    */
   public void setVersionMinor(Short versionMinor) {
     Short oldVersionMinor = this.versionMinor;
@@ -212,6 +224,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
 
   /**
    * Set the value of versionMajor
+   * @param versionMajor
    */
   public void setVersionMajor(short versionMajor) {
     Short oldVersionMajor = this.versionMajor;
@@ -255,6 +268,7 @@ public abstract class AbstractRenderPlugin extends AbstractSBasePlugin {
 
   /**
    * Set the value of renderInformation
+   * @param renderInformation
    */
   public void setRenderInformation(GlobalRenderInformation renderInformation) {
     GlobalRenderInformation oldRenderInformation = this.renderInformation;

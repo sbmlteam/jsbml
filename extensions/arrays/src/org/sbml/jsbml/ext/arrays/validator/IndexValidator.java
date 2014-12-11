@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBMLError;
+import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.arrays.Index;
 import org.sbml.jsbml.ext.arrays.validator.constraints.ArraysConstraint;
 import org.sbml.jsbml.ext.arrays.validator.constraints.IndexAttributesCheck;

@@ -42,13 +42,25 @@ import org.sbml.jsbml.SBMLException;
  */
 public class FindUnitsCompiler implements ASTNodeCompiler {
 
+  /**
+   * 
+   */
   private boolean isUnitsDefined = false;
+  /**
+   * 
+   */
   private final ASTNodeValue dummyValue = new ASTNodeValue("dummy", null);
 
+  /**
+   * @return
+   */
   public boolean isUnitsDefined() {
     return isUnitsDefined;
   }
 
+  /**
+   * 
+   */
   public void reset() {
     isUnitsDefined = false;
   }

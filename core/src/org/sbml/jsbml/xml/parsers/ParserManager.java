@@ -38,10 +38,22 @@ import org.apache.log4j.Logger;
  */
 public class ParserManager {
 
+  /**
+   * 
+   */
   private static ParserManager manager;
 
+  /**
+   * 
+   */
   public Map<String, ReadingParser> readingParsers = new HashMap<String, ReadingParser>();
+  /**
+   * 
+   */
   private Map<String, WritingParser> writingParsers = new HashMap<String, WritingParser>();
+  /**
+   * 
+   */
   private Map<String, PackageParser> packageParsers = new HashMap<String, PackageParser>();
 
   /**

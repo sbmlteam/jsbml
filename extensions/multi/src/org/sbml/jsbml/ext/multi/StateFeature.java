@@ -57,18 +57,26 @@ public class StateFeature extends AbstractNamedSBase implements UniqueNamedSBase
    */
   ListOf<PossibleValue> listOfPossibleValues;
 
-
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.NamedSBase#isIdMandatory()
+   */
   @Override
   public boolean isIdMandatory() {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.sbml.jsbml.AbstractSBase#clone()
+   */
   @Override
   public AbstractSBase clone() {
     // TODO
     return null;
   }
 
+  /**
+   * 
+   */
   public StateFeature() {
     super();
     initDefaults();
@@ -228,7 +236,6 @@ public class StateFeature extends AbstractNamedSBase implements UniqueNamedSBase
 
     return count;
   }
-
 
   /* (non-Javadoc)
    * @see org.sbml.jsbml.AbstractNamedSBase#writeXMLAttributes()

@@ -48,9 +48,18 @@ import org.sbml.jsbml.SpeciesReference;
  */
 public class UnregisterTests {
 
+  /**
+   * 
+   */
   SBMLDocument doc;
+  /**
+   * 
+   */
   Model model;
 
+  /**
+   * 
+   */
   @BeforeClass public static void initialSetUp() {}
   /**
    * 
@@ -302,7 +311,9 @@ public class UnregisterTests {
     assertTrue(model.findReactionsForLocalParameter("LP1") == null);
   }
 
-
+  /**
+   * 
+   */
   @Test public void testRegister3_2() {
 
     // Using a List instead of a Set to store the Reaction associated with a local Parameter as
@@ -581,8 +592,8 @@ public class UnregisterTests {
     }
 
     assertTrue(kl.getLocalParameterCount() == 3);
-    
-    assertTrue(model.findLocalParameters("LP1").size() == 2);    
+
+    assertTrue(model.findLocalParameters("LP1").size() == 2);
     assertTrue(model.findLocalParameters("LP2").size() == 1);
 
     kl.removeLocalParameter("LP2");

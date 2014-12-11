@@ -19,7 +19,6 @@
  * and also available online as <http://sbml.org/Software/JSBML/License>.
  * ----------------------------------------------------------------------------
  */
-
 package org.sbml.jsbml.gui;
 
 import java.awt.Color;
@@ -68,6 +67,9 @@ public class JTreeOfSBML extends JDialog {
     }
   }
 
+  /**
+   * @return
+   */
   private SBMLDocument createDefaultDocument() {
     SBMLDocument doc = new SBMLDocument(2, 4);
     Model m = doc.createModel("untitled");

@@ -34,6 +34,9 @@ import org.sbml.jsbml.text.parser.ParseException;
  */
 public class MathMLSpecialTest {
 
+  /**
+   * @param args
+   */
   public static void main(String[] args) {
 
     ASTNode formula_base = new ASTNode(Double.NaN);

@@ -154,6 +154,7 @@ public class ArraysCompiler implements ASTNodeCompiler{
 
   /**
    * Returns the number of values in this {@link ArraysCompiler}.
+   * @return
    */
   public int getFieldCount() {
     return isSetidToValue() ? getMapIdToValue().size() : 0;

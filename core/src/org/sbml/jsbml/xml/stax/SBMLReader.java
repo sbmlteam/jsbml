@@ -94,6 +94,9 @@ public class SBMLReader {
    */
   private MathContainer astNodeParent;
 
+  /**
+   * 
+   */
   private List<AnnotationReader> annotationParsers = new ArrayList<AnnotationReader>();
 
   /**
@@ -101,6 +104,9 @@ public class SBMLReader {
    */
   private static SBMLCoreParser sbmlCoreParser = new SBMLCoreParser();
 
+  /**
+   * A {@link Logger} for this class.
+   */
   private transient Logger logger = Logger.getLogger(SBMLReader.class);
 
 
@@ -128,6 +134,7 @@ public class SBMLReader {
 
   /**
    * Associates any unknown namespaces with the {@link AnnotationReader}.
+   * @param startElement
    */
   private void addAnnotationParsers(StartElement startElement)
   {
@@ -264,6 +271,7 @@ public class SBMLReader {
    * 
    * @param file
    *            A file containing SBML content.
+   * @param listener
    * @return the matching SBMLDocument instance.
    * @throws IOException
    * @throws XMLStreamException
@@ -794,6 +802,7 @@ public class SBMLReader {
    * @param xml
    * @param listener
    * @return
+   * @throws XMLStreamException
    */
   public SBMLDocument readSBMLFromString(String xml, TreeNodeChangeListener listener) throws XMLStreamException {
     Object readObject = readXMLFromStream(new ByteArrayInputStream(xml.getBytes()), listener);
@@ -819,6 +828,7 @@ public class SBMLReader {
    * @param xml
    * @param listener
    * @return
+   * @throws XMLStreamException
    */
   private Object readXMLFromString(String xml, TreeNodeChangeListener listener)
       throws XMLStreamException {
