@@ -28,7 +28,7 @@ Creating a JDiff report between JSBML 0.8 and 1.0
     </old>
     <new name="jsbml-1.0">
       <!-- This is the location of your new source files -->
-      <dirset dir="../../core/src/" includes="org/**" />
+      <dirset dir="../../../tags/jsbml-1.0/core/src/" includes="org/**" />
     </new>
   </jdiff>
 </target>
