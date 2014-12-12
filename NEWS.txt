@@ -14,6 +14,10 @@ Version 1.1 (xx-xx-2015)
     Instead of null values PropertyUndefinedExceptions are now thrown when
     necessary. 
 
+  - Tracker item #83: the equals method from StringBuilder is
+    not implemented so we have to compare the content of the StringBuilder
+    or use other utility method to compare properly the StringBuilders.
+  
 ===========================================================================
 Version 1.0 (09-12-2014)
 ===========================================================================
