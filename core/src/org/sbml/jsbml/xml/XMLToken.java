@@ -670,7 +670,7 @@ public abstract class XMLToken extends AbstractTreeNode {
       if (other.characters != null) {
         return false;
       }
-    } else if (!characters.equals(other.characters)) {
+    } else if (!getCharacters().equals(other.getCharacters())) {
       return false;
     }
     if (column != other.column) {
