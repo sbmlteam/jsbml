@@ -15,15 +15,14 @@ Creating a JDiff report between JSBML 1.0-beta1 and 1.0-rc1
 
   <property name="JDIFF_HOME" value="${env.JDIFF_HOME}" />
 
-  <!-- need to have run the build ant script in the beta1 and trunk folder in order
-       to generate this report --> 
+  <!-- need to have run the build ant scripts --> 
 
   <ant dir="../../../tags/jsbml-1.0-beta1" inheritAll="false" inheritRefs="false">
     <target name="clean" />
     <target name="bigjar" />
   </ant>
 
-  <ant dir="../../" inheritAll="false" inheritRefs="false">
+  <ant dir="../../../tags/jsbml-1.0-rc1" inheritAll="false" inheritRefs="false">
     <target name="clean" />
     <target name="bigjar" />
   </ant>
@@ -32,6 +31,7 @@ Creating a JDiff report between JSBML 1.0-beta1 and 1.0-rc1
   <taskdef name="jdiff" 
            classname="jdiff.JDiffAntTask" 
            classpath="${JDIFF_HOME}/antjdiff.jar" />
+
   <jdiff destdir="JSBML_API_fullchanges_1.0-b1_to_1.0-rc1" 
          verbose="off"
          stats="on"
@@ -42,7 +42,7 @@ Creating a JDiff report between JSBML 1.0-beta1 and 1.0-rc1
     </old>
     <new name="jsbml-1.0-rc1">
       <!-- This is the location of your new source files -->
-      <dirset dir="../../build/src" includes="org/**" />
+      <dirset dir="../../../tags/jsbml-1.0-rc1/build/src" includes="org/**" />
     </new>
   </jdiff>
 </target>
