@@ -24,7 +24,6 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import org.sbml.jsbml.ListOf;
-import org.sbml.jsbml.Model;
 import org.sbml.jsbml.SBO;
 import org.sbml.jsbml.SBase;
 import org.sbml.jsbml.ext.layout.AbstractReferenceGlyph;
@@ -524,7 +523,7 @@ public abstract class SimpleLayoutAlgorithm implements LayoutAlgorithm {
   
   /**
    * Normalize a given rotation angle, i.e., express the angle in the range from
-   * 0° to 90° (excluding 90°).
+   * 0&deg; to 90&deg; (excluding 90&deg;).
    * 
    * @param rotationAngle in degrees
    * @return the normalized rotation angle in degrees
