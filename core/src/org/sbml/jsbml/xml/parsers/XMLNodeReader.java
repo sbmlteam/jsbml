@@ -140,8 +140,10 @@ public class XMLNodeReader implements ReadingParser {
       }
       else
       {
-        logger.warn("The type of String " + typeOfNotes + " on the element " +
-            parentSBMLElement.getElementName() + " is unknown !! Some data might be lost");
+        if (characters != null && characters.trim().length() > 0) {
+          logger.warn("The type of String '" + typeOfNotes + "' on the element " +
+              parentSBMLElement.getElementName() + " is unknown !! Some data might be lost: '" + characters + "'");
+        }
         return;
       }
 
@@ -247,8 +249,8 @@ public class XMLNodeReader implements ReadingParser {
       } else if (typeOfNotes.equals("message") && parentSBMLElement instanceof Constraint) {
         ((Constraint) parentSBMLElement).getMessage().addChild(xmlNode);
       } else {
-        logger.warn("The type of String '" + typeOfNotes + "' on the element " +
-            parentSBMLElement.getElementName() + " is unknown !! Some data might be lost");
+          logger.warn("The type of String '" + typeOfNotes + "' on the element " +
+              parentSBMLElement.getElementName() + "( " + parentSBMLElement.getClass().getSimpleName() + ") is unknown !! Some data might be lost");
       }
     }
     else if (contextObject instanceof Annotation)
